@@ -1,0 +1,16 @@
+<project name="Auxiliary build file for the Engine Admin BPR build" default="main">
+
+   <!-- =========================================================================== -->
+   <!-- Build the bpr which must be deployed in the enginet for our services to run -->
+   <!-- =========================================================================== -->
+   <target name="main" if="project">
+      <echo message="Creating engine administration wsr..."/>
+      <delete file="${ae.dist}/AeEngineAdmin.wsr" quiet="true"/>
+      <jar jarfile="${ae.dist}/AeEngineAdmin.wsr">
+         <fileset dir="${projectsroot}/${project}/support">
+           <include name="*.wsdl"/>
+           <include name="**/META-INF/*"/>
+         </fileset>
+      </jar>
+   </target>
+</project>

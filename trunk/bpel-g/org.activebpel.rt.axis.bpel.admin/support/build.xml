@@ -1,0 +1,19 @@
+<project name="Auxiliary build file for the Axis Bpel Admin project" default="main">
+
+   <!-- ========================================================================= -->
+   <!-- Build support API jar which is used by the WS4EE EJB deployments          -->
+   <!-- ========================================================================= -->
+   <target name="main" if="project">
+      <echo message="Creating archive library ae_adminapi.jar ..."/>
+
+      <!-- Remove the server side servlet support jar and recreate it -->
+      <delete file="${ae.dist}/ae_adminapi.jar" quiet="true"/>
+      <jar jarfile="${ae.dist}/ae_adminapi.jar">
+         <fileset dir="${ae.classes}">
+            <include name="**/org/activebpel/rt/axis/bpel/admin/I*.class"/>
+            <include name="**/org/activebpel/rt/axis/bpel/admin/types/*.class"/>
+            <exclude name="**/org/activebpel/rt/axis/bpel/admin/types/*_Helper.class"/>
+         </fileset>
+      </jar>
+   </target>
+</project>

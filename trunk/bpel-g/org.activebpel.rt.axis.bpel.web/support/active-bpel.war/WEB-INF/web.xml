@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE web-app PUBLIC
+   "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
+   "http://java.sun.com/dtd/web-app_2_3.dtd">
+
+<!-- A web application that installs the Active BPEL startup and basic Axis servlets -->
+<web-app>
+
+    <display-name>ActiveBPEL (tm) Business Process Server</display-name>
+
+    <listener>
+        <listener-class>org.apache.axis.transport.http.AxisHTTPSessionListener</listener-class>
+    </listener>
+
+   <!-- This is the servlet to startup, configure and accept service requests for the engine -->
+   <servlet>
+      <servlet-name>AeProcessEngineServlet</servlet-name>
+      <display-name>Active BPEL Engine Startup Servlet</display-name>
+      <servlet-class>
+        org.activebpel.rt.axis.bpel.web.AeProcessEngineServlet
+      </servlet-class>
+
+      <!-- *********************************************
+           This property serves as the root application
+           dir for ActiveBPEL.  If the staging.directory
+           or  bpr.directory are not absolute, they will be
+           created relative to this directory.  If none
+           is specified, the default value is "${catalina.home}".
+           Supports environment property substitution.
+           ********************************************* -->
+      <init-param>
+         <param-name>servlet.home</param-name>
+         <param-value>${catalina.home}</param-value>
+      </init-param>
+
+
+      <!-- *********************************************
+           The directory from which BPEL and WS bpr
+           files will be deployed from.  If the value
+           for this param is not absolute it will be
+           resolved relative to the "servlet.home" init
+           parm.  Supports environment property
+           substitution.
+           ********************************************* -->
+      <init-param>
+         <param-name>deployment.directory</param-name>
+         <param-value>bpr</param-value>
+      </init-param>
+
+
+      <!-- *********************************************
+           The directory to which BPEL and WS bpr
+           files will be unpacked to.  This directory
+           is the "working" directory for the accessing
+           deployment resources.  If the value for this
+           param is not absolute it will be resolved
+           relative to the "servlet.home" init param.
+           Supports environment property substitution.
+           ********************************************* -->
+      <init-param>
+         <param-name>staging.directory</param-name>
+         <param-value>bpr/work</param-value>
+      </init-param>
+
+
+      <!-- *********************************************
+           The filename for the engine config file.
+           This file will be loaded from the deployment
+           directory.
+           ********************************************* -->
+      <init-param>
+         <param-name>engine.config</param-name>
+         <param-value>aeEngineConfig.xml</param-value>
+      </init-param>
+
+
+      <!-- *********************************************
+           The time interval (in millis) that the
+           deployment directory will be scanned (to
+           look for new or deleted deployments).
+           ********************************************* -->
+      <init-param>
+         <param-name>scan.interval</param-name>
+         <param-value>20000</param-value>
+      </init-param>
+
+      <!-- *********************************************
+           The initial time delay (in millis) that the
+           scanner will wait before starting its scan
+           routine.  This is used to let other apps
+           (ie schemas deployed in other wars) time to
+           initialize.
+           ********************************************* -->
+      <init-param>
+         <param-name>scan.delay</param-name>
+         <param-value>15000</param-value>
+      </init-param>
+
+      <!-- *********************************************
+            Passed to AxisServlet so its security provider
+            will use servlet layer for authentication
+           ********************************************* -->
+      <init-param>
+         <param-name>use-servlet-security</param-name>
+         <param-value>true</param-value>
+      </init-param>
+
+      <!-- *********************************************
+            Axis servlet removes stacktraces from SOAP Faults
+            unless it is in development mode.
+           ********************************************* -->
+      <!--
+      <init-param>
+         <param-name>axis.development.system</param-name>
+         <param-value>true</param-value>
+      </init-param>
+      -->
+
+      <load-on-startup>2</load-on-startup>
+   </servlet>
+
+  <servlet>
+    <servlet-name>AeCatalogServlet</servlet-name>
+    <display-name>Catalog Servlet</display-name>
+    <servlet-class>
+        org.activebpel.rt.axis.AeCatalogServlet
+    </servlet-class>
+    <load-on-startup>100</load-on-startup>
+  </servlet>
+
+  <servlet>
+    <servlet-name>AdminServlet</servlet-name>
+    <display-name>Axis Admin Servlet</display-name>
+    <servlet-class>
+        org.apache.axis.transport.http.AdminServlet
+    </servlet-class>
+    <load-on-startup>100</load-on-startup>
+  </servlet>
+
+  <servlet>
+    <servlet-name>SOAPMonitorService</servlet-name>
+    <display-name>SOAPMonitorService</display-name>
+    <servlet-class>
+        org.apache.axis.monitor.SOAPMonitorService
+    </servlet-class>
+    <init-param>
+      <param-name>SOAPMonitorPort</param-name>
+      <param-value>5001</param-value>
+    </init-param>
+    <load-on-startup>100</load-on-startup>
+  </servlet>
+
+   <!-- This is the url mapping for "normal" service calls -->
+   <servlet-mapping>
+     <servlet-name>AeProcessEngineServlet</servlet-name>
+     <url-pattern>/services/*</url-pattern>
+   </servlet-mapping>
+
+  <servlet-mapping>
+    <servlet-name>AeProcessEngineServlet</servlet-name>
+    <url-pattern>/servlet/AxisServlet</url-pattern>
+  </servlet-mapping>
+
+  <servlet-mapping>
+    <servlet-name>AeProcessEngineServlet</servlet-name>
+    <url-pattern>*.jws</url-pattern>
+  </servlet-mapping>
+
+  <servlet-mapping>
+    <servlet-name>AeCatalogServlet</servlet-name>
+    <url-pattern>/catalog/*</url-pattern>
+  </servlet-mapping>
+  
+  <servlet-mapping>
+    <servlet-name>AeCatalogServlet</servlet-name>
+    <url-pattern>/taskxsl/*</url-pattern>
+  </servlet-mapping>
+  
+
+  <servlet-mapping>
+    <servlet-name>SOAPMonitorService</servlet-name>
+    <url-pattern>/SOAPMonitor</url-pattern>
+  </servlet-mapping>
+
+  <!-- uncomment this if you want the Axis Soap admin servlet -->
+  <servlet-mapping>
+    <servlet-name>AdminServlet</servlet-name>
+    <url-pattern>/servlet/AdminServlet</url-pattern>
+  </servlet-mapping>
+
+    <session-config>
+        <!-- Default to 5 minute session timeouts -->
+        <session-timeout>5</session-timeout>
+    </session-config>
+
+    <!-- currently the W3C havent settled on a media type for WSDL;
+    http://www.w3.org/TR/2003/WD-wsdl12-20030303/#ietf-draft
+    for now we go with the basic 'it's XML' response -->
+  <mime-mapping>
+    <extension>wsdl</extension>
+     <mime-type>text/xml</mime-type>
+  </mime-mapping>
+
+
+  <mime-mapping>
+    <extension>xsd</extension>
+    <mime-type>text/xml</mime-type>
+  </mime-mapping>
+
+  <welcome-file-list id="WelcomeFileList">
+    <welcome-file>home.jsp</welcome-file>
+    <welcome-file>index.html</welcome-file>
+    <welcome-file>index.jsp</welcome-file>
+    <welcome-file>index.jws</welcome-file>
+  </welcome-file-list>
+
+   <!-- we add a security constraint -->
+   <security-constraint>
+      <!-- for every exposed service -->
+      <web-resource-collection>
+         <web-resource-name>Secured</web-resource-name>
+         <description>Authenticate every call</description>
+         <url-pattern>/services/*</url-pattern>
+      </web-resource-collection>
+
+      <!-- we let through every user, authenticated or not, in basic config. -->
+      <!--
+       <auth-constraint>
+          <role-name>registeredUser</role-name>
+        </auth-constraint>
+        -->
+      <!-- no user data constraint here, this should be done for the individual services -->
+   </security-constraint>
+   
+   <!-- we do BASIC authentication for now -->
+   <login-config>
+      <auth-method>BASIC</auth-method>
+      <realm-name>ActiveBPEL security realm</realm-name>
+   </login-config>
+
+</web-app>

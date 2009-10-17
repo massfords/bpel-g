@@ -1,0 +1,380 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+   <entry name="Description" value="ActiveBPEL Configuration"/>
+   <entry name="ValidateServiceMessages" value="true"/>
+   <entry name="AllowEmptyQuerySelection" value="false"/>
+   <entry name="AllowCreateXPath" value="false"/>
+   <entry name="Logging" value="urn:ae:none"/>
+   <entry name="UnmatchedReceiveTimeout" value="300"/>
+   <entry name="FunctionContexts"/>
+   <entry name="SharedSecret" value="terces"/>
+
+   <!-- WorkManager configuration -->
+   <entry name="WorkManager">
+      <!-- You may specify a JNDI location to load a work manager.  -->
+      <!-- If not specified, the default work manager will be used. -->
+      <!--
+      <entry name="JNDILocation" value="java:comp/env/wm/ActiveBPEL"/>
+      -->
+      <entry name="DefaultWorkManager.ThreadPool.Min" value="10"/>
+      <entry name="DefaultWorkManager.ThreadPool.Max" value="50"/>
+
+      <entry name="ChildWorkManagers">
+         <entry name="Alarm">
+            <entry name="MaxWorkCount" value="5"/>
+         </entry>
+      </entry>
+   </entry>
+
+   <!-- Persistent Store -->
+   <entry name="PersistentStore"/>
+
+   <!-- Transaction Manager -->
+   <entry name="TransactionManagerFactory">
+      <entry name="Class" value="org.activebpel.rt.bpel.server.engine.transaction.AeNoopTransactionManagerFactory"/>
+   </entry>
+
+   <!-- Process Manager -->
+   <entry name="ProcessManager">
+      <entry name="Class" value="org.activebpel.rt.bpel.impl.AeInMemoryProcessManager"/>
+   </entry>
+
+   <!-- SecurityProvider configuration -->
+   <entry name="SecurityProvider">
+      <entry name="Class" value="org.activebpel.rt.bpel.server.security.AeSecurityProvider"/>
+      <!-- Uncomment to use an installed JAAS provider
+      <entry name="LoginProvider">
+         <entry name="Class" value="org.activebpel.rt.bpel.server.security.AeJAASLoginProvider"/>
+         <entry name="ApplicationConfigName" value="ActiveBPEL"/>
+         <entry name="CallbackHandler">
+            <entry name="Class" value="org.activebpel.rt.bpel.server.security.AeCallbackHandler"/>
+         </entry>
+      </entry>
+      -->
+      <entry name="AuthorizationProvider">
+         <entry name="Class" value="org.activebpel.rt.bpel.server.security.AePrincipalAuthProvider"/>
+      </entry>
+   </entry>
+
+   <!-- Queue Manager -->
+   <entry name="QueueManager">
+      <entry name="Class" value="org.activebpel.rt.bpel.server.engine.AeInMemoryQueueManager"/>
+      <entry name="ReceiveHandlerFactory">
+         <entry name="Class" value="org.activebpel.rt.bpel.server.engine.receive.AeDelegatingReceiveHandlerFactory"/>
+         <entry name="Protocols">
+            <entry name="default" value="org.activebpel.rt.bpel.server.engine.receive.AeBPELReceiveHandlerFactory"/>
+            <entry name="soap" value="org.activebpel.rt.axis.bpel.receivers.AeAxisReceiveHandlerFactory"/>
+         </entry>
+      </entry>
+      <entry name="InvokeHandlerFactory">
+         <entry name="Class" value="org.activebpel.rt.bpel.server.engine.invoke.AeDelegatingInvokeHandlerFactory"/>
+         <entry name="Protocols">
+            <entry name="default" value="org.activebpel.rt.axis.bpel.AeAxisInvokeHandlerFactory"/>
+            <entry name="java" value="org.activebpel.rt.bpel.server.engine.invoke.AePojoHandlerFactory"/>
+            <entry name="process" value="org.activebpel.rt.bpel.server.engine.invoke.AeProcessHandlerFactory"/>
+            <entry name="policy" value="org.activebpel.rt.axis.bpel.AePolicyInvokeHandlerFactory"/>
+            <entry name="identity" value="org.activebpel.rt.identity.invoke.AeIdentityServiceInvokeHandlerFactory" />
+         </entry>
+      </entry>
+      <entry name="UnmatchedReceivesCount" value="50" />
+   </entry>
+
+   <!-- Lock Manager -->
+   <entry name="LockManager">
+      <entry name="Class" value="org.activebpel.rt.bpel.impl.AeInMemoryLockManager"/>
+   </entry>
+
+   <!-- Attachment manager -->
+   <entry name="AttachmentManager">
+      <entry name="Class" value="org.activebpel.rt.bpel.impl.AeFileAttachmentManager"/>
+      <entry name="Debug" value="false"/>
+   </entry>
+
+   <!-- Coordination Manager -->
+   <entry name="CoordinationManager">
+      <entry name="Class" value="org.activebpel.rt.bpel.server.coord.AeInMemoryCoordinationManager"/>
+   </entry>
+
+   <!-- TransmissionTracker -->
+   <entry name="TransmissionTracker">
+      <entry name="Class" value="org.activebpel.rt.bpel.server.transreceive.AeNoopTransmissionTracker"/>
+      <entry name="ReplyFactories">
+         <!-- list of reply receiver factories -->
+         <entry name="DurableQueuedInvoke">
+            <entry name="Class" value="org.activebpel.rt.bpel.server.engine.reply.AeDurableQueuingReplyReceiverFactory"/>
+         </entry>
+         <entry name="ExtensionActivityDurableInfo">
+            <entry name="Class" value="org.activebpel.rt.bpel.server.engine.reply.AeDurableExtensionReplyReceiverFactory"/>
+         </entry>
+      </entry>
+   </entry>
+
+   <!-- URN Resolver -->
+   <entry name="URNResolver">
+      <entry name="Class" value="org.activebpel.rt.bpel.server.addressing.AeStorageBackedURNResolver"/>
+      <entry name="Storage">
+           <entry name="Class" value="org.activebpel.rt.bpel.server.engine.invoke.AeFileBasedURNStorage"/>
+            <!-- The file path is relative to the bpr directory -->
+           <entry name="File" value="urn.properties"/>
+      </entry>
+   </entry>
+
+   <!-- Engine Administration Impl -->
+   <entry name="EngineAdminImpl" value="org.activebpel.rt.axis.bpel.web.AeWebEngineAdministration" />
+
+   <!-- Process Logger -->
+   <entry name="ProcessLogger">
+      <entry name="Class" value="org.activebpel.rt.bpel.server.logging.AeFileLogger"/>
+   </entry>
+
+   <!-- Catalog Impl -->
+   <entry name="Catalog">
+      <entry name="Class" value="org.activebpel.rt.bpel.server.catalog.AeCatalog"/>
+      <entry name="cache.max" value="100" />
+      <entry name="replace.existing" value="false" />
+   </entry>
+
+   <!-- Deployment Log -->
+   <entry name="DeploymentLog">
+      <entry name="Class" value="org.activebpel.rt.bpel.server.logging.AeFileDeploymentLoggerFactory"/>
+   </entry>
+
+   <!-- Deployment Handler -->
+   <entry name="DeploymentHandler">
+      <entry name="Class" value="org.activebpel.rt.bpel.server.deploy.AeDeploymentHandlerFactory"/>
+      <!-- deployment factory and deployer impls -->
+      <entry name="DeploymentFactory" >
+         <entry name="Class" value="org.activebpel.rt.bpel.server.deploy.AeDeploymentFactoryImpl" />
+
+         <entry name="BpelDeployer" >
+            <entry name="Class" value="org.activebpel.rt.bpel.server.deploy.AeBpelDeployer" />
+         </entry>
+
+         <entry name="CatalogDeployer" >
+            <entry name="Class" value="org.activebpel.rt.bpel.server.deploy.AeCatalogDeployer" />
+         </entry>
+
+         <entry name="PdefDeployer" >
+            <entry name="Class" value="org.activebpel.rt.bpel.server.deploy.AePdefDeployer" />
+         </entry>
+
+         <entry name="WebServicesDeployer" >
+            <entry name="Class" value="org.activebpel.rt.bpel.server.deploy.AeDelegatingWebServiceDeployer" />
+            <entry name="Protocols">
+               <entry name="default" value="org.activebpel.rt.axis.bpel.web.deploy.AeAxisWebServicesDeployer"/>
+               <entry name="bpel" value="org.activebpel.rt.axis.bpel.web.deploy.AeAxisWebServicesDeployer"/>
+               <entry name="wsdd" value="org.activebpel.rt.axis.bpel.web.deploy.AeAxisWebServicesDeployer"/>
+            </entry>
+         </entry>
+
+         <entry name="ValidationHandler">
+            <entry name="Class" value="org.activebpel.rt.bpel.server.deploy.validate.AeDefaultValidationHandler" />
+         </entry>
+
+      </entry>
+   </entry>
+
+   <!-- Deployment Provider -->
+   <entry name="DeploymentProvider">
+      <entry name="Class" value="org.activebpel.rt.bpel.server.deploy.AeDeploymentProvider" />
+   </entry>
+
+   <!-- Policy Mapper -->
+   <entry name="PolicyMapper">
+      <entry name="Class" value="org.activebpel.rt.bpel.server.deploy.AeMasterPolicyMapper" />
+      <entry name="AXIS_CRED" value="org.activebpel.rt.axis.bpel.deploy.AeCredentialPolicyMapper" />
+      <entry name="AXIS_XPATH" value="org.activebpel.rt.axis.bpel.deploy.AeAxisXPathPolicyMapper" /> 
+      <entry name="WSIO" value="org.activebpel.rt.bpel.server.deploy.AeWsioPolicyMapper" />
+   </entry>
+
+   <!-- The expression language factory. -->
+   <entry name="ExpressionLanguageFactory">
+      <entry name="Class" value="org.activebpel.rt.bpel.AeExpressionLanguageFactory"/>
+      <entry name="Factories">
+         <!-- BPEL4WS Factory -->
+         <entry name="http://schemas.xmlsoap.org/ws/2003/03/business-process/">
+            <entry name="Class" value="org.activebpel.rt.bpel.expr.AeBPWSExpressionLanguageFactory"/>
+            <entry name="DefaultLanguage" value="http://www.w3.org/TR/1999/REC-xpath-19991116"/>
+            <entry name="Languages">
+               <entry name="XPath1.0">
+                  <entry name="Uri" value="http://www.w3.org/TR/1999/REC-xpath-19991116" />
+                  <entry name="Validator" value="org.activebpel.rt.bpel.def.validation.expr.xpath.AeBPWSXPathExpressionValidator" />
+                  <entry name="Runner" value="org.activebpel.rt.bpel.impl.expr.xpath.AeBPWSXPathExpressionRunner" />
+                  <entry name="Analyzer" value="org.activebpel.rt.bpel.def.expr.xpath.AeBPWSXPathExpressionAnalyzer" />
+               </entry>
+               <entry name="XQuery1.0">
+                  <entry name="Uri" value="urn:active-endpoints:expression-language:xquery1.0" />
+                  <entry name="Validator" value="org.activebpel.rt.bpel.ext.expr.def.validation.xquery.AeBPWSXQueryExpressionValidator" />
+                  <entry name="Runner" value="org.activebpel.rt.bpel.ext.expr.impl.xquery.AeBPWSXQueryExpressionRunner" />
+                  <entry name="Analyzer" value="org.activebpel.rt.bpel.ext.expr.def.xquery.AeBPWSXQueryExpressionAnalyzer" />
+               </entry>
+               <entry name="JavaScript1.5">
+                  <entry name="Uri" value="urn:active-endpoints:expression-language:javascript1.5" />
+                  <entry name="Validator" value="org.activebpel.rt.bpel.ext.expr.def.validation.javascript.AeBPWSJavaScriptExpressionValidator" />
+                  <entry name="Runner" value="org.activebpel.rt.bpel.ext.expr.impl.javascript.AeBPWSJavaScriptExpressionRunner" />
+                  <entry name="Analyzer" value="org.activebpel.rt.bpel.ext.expr.def.javascript.AeBPWSJavaScriptExpressionAnalyzer" />
+               </entry>
+            </entry>
+         </entry>
+         <!-- WSBPEL2.0 Factory -->
+         <entry name="http://docs.oasis-open.org/wsbpel/2.0/process/executable">
+            <entry name="Class" value="org.activebpel.rt.bpel.expr.AeWSBPELExpressionLanguageFactory"/>
+            <entry name="DefaultLanguage" value="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0" />
+            <entry name="Languages">
+               <entry name="XPath1.0">
+                  <entry name="Uri" value="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0" />
+                  <entry name="Validator" value="org.activebpel.rt.bpel.def.validation.expr.xpath.AeWSBPELXPathExpressionValidator" />
+                  <entry name="Runner" value="org.activebpel.rt.bpel.impl.expr.xpath.AeWSBPELXPathExpressionRunner" />
+                  <entry name="Analyzer" value="org.activebpel.rt.bpel.def.expr.xpath.AeWSBPELXPathExpressionAnalyzer" />
+               </entry>
+               <entry name="XQuery1.0">
+                  <entry name="Uri" value="urn:active-endpoints:expression-language:xquery1.0" />
+                  <entry name="Validator" value="org.activebpel.rt.bpel.ext.expr.def.validation.xquery.AeWSBPELXQueryExpressionValidator" />
+                  <entry name="Runner" value="org.activebpel.rt.bpel.ext.expr.impl.xquery.AeWSBPELXQueryExpressionRunner" />
+                  <entry name="Analyzer" value="org.activebpel.rt.bpel.ext.expr.def.xquery.AeWSBPELXQueryExpressionAnalyzer" />
+               </entry>
+               <entry name="JavaScript1.5">
+                  <entry name="Uri" value="urn:active-endpoints:expression-language:javascript1.5" />
+                  <entry name="Validator" value="org.activebpel.rt.bpel.ext.expr.def.validation.javascript.AeWSBPELJavaScriptExpressionValidator" />
+                  <entry name="Runner" value="org.activebpel.rt.bpel.ext.expr.impl.javascript.AeWSBPELJavaScriptExpressionRunner" />
+                  <entry name="Analyzer" value="org.activebpel.rt.bpel.ext.expr.def.javascript.AeWSBPELJavaScriptExpressionAnalyzer" />
+               </entry>
+            </entry>
+         </entry>
+      </entry>
+   </entry>
+
+   <!-- Process Work Manager -->
+   <entry name="ProcessWorkManager">
+      <entry name="Class" value="org.activebpel.work.AeProcessWorkManager" />
+
+      <!--
+         ProcessWorkCount is the maximum number of work manager requests to
+         schedule for a single process. The default value is 10. A value of 0
+         allows an unlimited number of work manager requests.
+      -->
+      <entry name="ProcessWorkCount" value="10" />
+   </entry>
+
+   <entry name="CustomManagers">
+      
+      <!-- == B4P Manager == -->
+      <entry name="BPEL4PeopleManager">
+         <entry name="Class" value="org.activebpel.rt.b4p.server.AeServerB4PManager"/>
+         <entry name="TaskService" value="AeB4PTaskLifecycle"/>
+         <entry name="NotificationService" value="AeB4PNotificationLifecycle"/>
+         <entry name="FinalizationDuration" value="P1D"/>
+      </entry>      
+      
+       <!-- == Http Service Manager == -->
+       <entry name="HttpServiceManager">
+          <entry name="Class" value="org.activebpel.rt.http.AeHttpServiceManager"/>
+          
+          <!-- see: http://jakarta.apache.org/httpcomponents/httpclient-3.x/preference-api.html -->
+          <entry name="ContentCharset" value="UTF-8"/>
+          <entry name="Linger" value="-1"/>          
+       </entry>
+      
+      <!-- == Identity Service Manager == -->
+      <entry name="IdentityServiceManager">
+         <entry name="Class" value="org.activebpel.rt.identity.AeServerIdentityServiceManager"/>
+         <entry name="enabled" value="false" />
+         <entry name="IdentitySearch">
+            <entry name="Class" value ="org.activebpel.rt.identity.search.AeIdentitySearch" />
+				<!-- xml file based provider -->
+				<entry name="Provider">
+					<entry name="Class" value ="org.activebpel.rt.identity.provider.tomcat.AeTomcatUsersIdentityProvider" />
+					<entry name="filename" value ="" />
+				</entry>	
+         </entry> <!-- end identity search -->
+      </entry> <!-- end IdentityServiceManager  -->
+   </entry> <!-- end custom managers -->
+
+   <!-- Extension activity mappings -->
+	<entry name="ExtensionRegistry">
+		<entry name="B4PHumanInteractionsExtension">
+		    <entry name="Namespace" value="http://www.example.org/BPEL4People"/>
+			<entry name="LocalName" value="humanInteractions"/>
+		   <entry name="ClassName" value="org.activebpel.rt.b4p.def.ext.AeB4PHumanInteractionsExtensionObject"/>
+			<entry name="JarName" value="nojarfornow"/>			
+		</entry>
+	   <entry name="B4PPeopleAssigmentsExtension">
+	      <entry name="Namespace" value="http://www.example.org/BPEL4People"/>
+	      <entry name="LocalName" value="peopleAssignments"/>
+	      <entry name="ClassName" value="org.activebpel.rt.b4p.def.ext.AeB4PPeopleAssignmentsExtensionObject"/>
+	      <entry name="JarName" value="nojarfornow"/>			
+	   </entry>
+       <entry name="B4PPeopleActivityExtension">
+         <entry name="Namespace" value="http://www.example.org/BPEL4People"/>
+         <entry name="LocalName" value="peopleActivity"/>
+         <entry name="ClassName" value="org.activebpel.rt.b4p.impl.AePeopleActivityExtensionObject"/>
+         <entry name="JarName" value="nojarfornow"/>        
+      </entry>
+		<entry name="B4PLogicalPeopleGroupExtension">
+         <entry name="Namespace" value="http://www.example.org/BPEL4People"/>
+         <entry name="LocalName" value="logicalPeopleGroup"/>
+         <entry name="ClassName" value="org.activebpel.rt.b4p.def.ext.AeLogicalPeopleGroupExtensionObject"/>
+         <entry name="JarName" value="nojarfornow"/>        
+      </entry>
+      
+	</entry>
+   
+   <!-- Register function validators for HT/B4P functions in BPEL -->
+   <entry name="FunctionValidators">
+      <!-- function validators for all BPEL versions -->
+      <entry>
+         <entry name="http://www.example.org/WS-HT">
+            <entry name="getPotentialOwners">
+               <entry name="Class" value="org.activebpel.rt.b4p.validators.AeHtFunctionValidator" />
+            </entry>
+            <entry name="getActualOwner"> 
+               <entry name="Class" value="org.activebpel.rt.b4p.validators.AeHtFunctionValidator"/>
+            </entry>   
+            <entry name="getTaskInitiator"> 
+               <entry name="Class" value="org.activebpel.rt.b4p.validators.AeHtFunctionValidator"/>
+            </entry>
+            <entry name="getTaskStakeholders"> 
+               <entry name="Class" value="org.activebpel.rt.b4p.validators.AeHtFunctionValidator"/>
+            </entry>
+            <entry name="getBusinessAdministrators"> 
+               <entry name="Class" value="org.activebpel.rt.b4p.validators.AeHtFunctionValidator"/>
+            </entry>
+            <entry name="getExcludedOwners"> 
+               <entry name="Class" value="org.activebpel.rt.b4p.validators.AeHtFunctionValidator"/>
+            </entry>
+            <entry name="getTaskPriority"> 
+               <entry name="Class" value="org.activebpel.rt.b4p.validators.AeHtFunctionValidator"/>
+            </entry>
+            <entry name="getInput"> 
+               <entry name="Class" value="org.activebpel.rt.b4p.validators.AeHtFunctionValidator"/>
+            </entry>
+            <entry name="getLogicalPeopleGroup"> 
+               <entry name="Class" value="org.activebpel.rt.b4p.validators.AeHtFunctionValidator"/>
+            </entry>
+         </entry>
+         <entry name="http://www.example.org/BPEL4People">
+            <entry name="getLogicalPeopleGroup"> 
+               <entry name="Class" value="org.activebpel.rt.b4p.validators.AeB4PLogicalPeopleGroupFunctionValidator"/>
+            </entry>
+            <entry name="getActualOwner"> 
+               <entry name="Class" value="org.activebpel.rt.b4p.validators.AeB4PActualOwnerFunctionValidator"/>
+            </entry>
+            <entry name="getTaskInitiator"> 
+               <entry name="Class" value="org.activebpel.rt.b4p.validators.AeB4PTaskInitiatorFunctionValidator"/>
+            </entry>
+            <entry name="getTaskStakeholders"> 
+               <entry name="Class" value="org.activebpel.rt.b4p.validators.AeB4PTaskStakeholdersFunctionValidator"/>
+            </entry>
+            <entry name="getPotentialOwners"> 
+               <entry name="Class" value="org.activebpel.rt.b4p.validators.AeB4PPotentialOwnersFunctionValidator"/>
+            </entry>
+            <entry name="getAdministrators"> 
+               <entry name="Class" value="org.activebpel.rt.b4p.validators.AeB4PAdministratorsFunctionValidator"/>
+            </entry>
+            <entry name="getTaskPriority"> 
+               <entry name="Class" value="org.activebpel.rt.b4p.validators.AeB4PTaskPriorityFunctionValidator"/>
+            </entry>
+         </entry>
+      </entry>
+   </entry>
+</config>
