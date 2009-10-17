@@ -1,0 +1,134 @@
+<?xml version="1.0"?>
+<!DOCTYPE web-app PUBLIC
+   "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
+   "http://java.sun.com/dtd/web-app_2_3.dtd">
+
+<web-app>
+   <description>ActiveBPEL Administration Console</description>
+
+   <context-param>
+      <param-name>resource-bundle-class</param-name>
+      <param-value>org.activebpel.rt.bpeladmin.war.AeActiveBpelWarBundle</param-value>
+   </context-param>
+   
+   <context-param>
+   	<param-name>bundle-prefix</param-name>
+   	<param-value>/BpelAdmin</param-value>
+   </context-param>
+   
+   <servlet>
+     <servlet-name>AeProcessLogDump</servlet-name>
+     <display-name>Servlet for doing a dump of a process log.</display-name>
+     <servlet-class>
+         org.activebpel.rt.bpeladmin.war.AeProcessLogDumpServlet
+     </servlet-class>
+     <load-on-startup>100</load-on-startup>
+   </servlet>
+   
+   <servlet>
+        <servlet-name>AeAttachmentDownload</servlet-name>
+        <display-name>Servlet for downloading an attachment.</display-name>
+        <servlet-class>
+            org.activebpel.rt.bpeladmin.war.AeAttachmentDownloadServlet
+        </servlet-class>
+      <init-param>
+         <param-name>handler.class</param-name>
+         <param-value>org.activebpel.rt.bpeladmin.war.AeAttachmentDownloadHandler</param-value>
+      </init-param>
+        <load-on-startup>100</load-on-startup>
+    </servlet>
+   
+   <servlet>
+	<servlet-name>AeProcessGraphImage</servlet-name>
+     <display-name>Servlet generating BPEL graph jpeg image content.</display-name>
+     <servlet-class>
+         org.activebpel.rt.bpeladmin.war.web.graph.AeGraphImageServlet
+     </servlet-class>
+     
+     <!-- Enable or Disable graphing module -->
+     <init-param>
+         <param-name>org.activebpel.rt.bpeladmin.war.graph.enable</param-name>
+         <param-value>true</param-value>
+     </init-param>
+     
+     <!-- Graph module buffered image color depth: 8 or 16 (bits). 
+          16-bit depth uses more memory. (make sure JVM max heap size is large enough) -->
+ 	  <init-param>
+			<param-name>org.activebpel.rt.bpeladmin.war.graph.image.colordepth</param-name>
+			<param-value>16</param-value>
+	  </init-param>
+
+     <!-- Use large icons  -->
+     <init-param>
+         <param-name>org.activebpel.rt.bpeladmin.war.graph.icons.large</param-name>
+         <param-value>true</param-value>
+     </init-param>
+
+     <!-- Show activity state adornment icons  -->
+     <init-param>
+         <param-name>org.activebpel.rt.bpeladmin.war.graph.adorments</param-name>
+         <param-value>true</param-value>
+     </init-param>
+
+     <!-- Limit Memory to be used for a process image  -->
+     <init-param>
+        <param-name>org.activebpel.rt.bpeladmin.war.graph.image.maxmemory</param-name>
+        <param-value>0</param-value>
+     </init-param>
+
+     <!-- Graph image tile size, in pixels. Default is 1000.  -->
+     <init-param>
+        <param-name>org.activebpel.rt.bpeladmin.war.graph.image.tilesize</param-name>
+        <param-value>1000</param-value>
+     </init-param>
+     
+     <load-on-startup>100</load-on-startup>     
+	</servlet>
+  
+   <servlet-mapping>
+     <servlet-name>AeProcessLogDump</servlet-name>
+     <url-pattern>/getLog</url-pattern>
+   </servlet-mapping>
+   
+    <servlet-mapping>
+        <servlet-name>AeAttachmentDownload</servlet-name>
+        <url-pattern>/getAttachment</url-pattern>
+    </servlet-mapping>
+    
+   
+   <servlet-mapping>
+     <servlet-name>AeProcessGraphImage</servlet-name>
+     <url-pattern>/processview/graphimage</url-pattern>
+   </servlet-mapping>
+
+   <welcome-file-list>
+       <welcome-file>home.jsp</welcome-file>
+   </welcome-file-list>
+
+  <!-- === Error pages === -->
+   <error-page>
+       <error-code>400</error-code>
+       <location>/errors/error.jsp</location>
+   </error-page>
+   <error-page>
+       <error-code>404</error-code>
+       <location>/errors/error.jsp</location>
+   </error-page>
+   <error-page>
+       <error-code>500</error-code>
+       <location>/errors/error.jsp</location>
+   </error-page>
+   <error-page>
+       <exception-type>java.lang.Throwable</exception-type>
+       <location>/errors/error.jsp</location>
+   </error-page>
+
+	<taglib>
+		<taglib-uri>
+		   http://activebpel.org/aetaglib
+		</taglib-uri>
+		<taglib-location>
+		   /META-INF/aetags.tld
+		</taglib-location>
+	</taglib>
+</web-app>
