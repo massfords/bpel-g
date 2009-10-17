@@ -34,6 +34,6 @@
         <module>org.activebpel.rt.axis.bpel.web</module>
         <module>org.activebpel.rt.war</module>
         <module>org.activebpel.rt.bpeladmin.war</module>
-        <module>com.bpelpeople.war</module>
+        <module>bpel-g.war</module>
   </modules>
 </project>
