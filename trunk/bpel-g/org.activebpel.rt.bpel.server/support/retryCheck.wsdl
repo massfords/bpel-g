@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions targetNamespace="http://www.activebpel.org/services" xmlns:bpws="http://schemas.xmlsoap.org/ws/2003/03/business-process/" xmlns:tns="http://www.activebpel.org/services" xmlns:plnk="http://schemas.xmlsoap.org/ws/2003/05/partner-link/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:sr="http://www.activebpel.org/services/retry" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <schema elementFormDefault="qualified" targetNamespace="http://www.activebpel.org/services/retry" xmlns="http://www.w3.org/2001/XMLSchema">
+         <element name="retryCheckInput">
+            <complexType>
+               <sequence>
+                  <element name="faultName" type="xsd:string"/>
+                  <element name="processId" type="xsd:long"/>
+                  <element name="processName" type="xsd:string"/>
+                  <element name="invokePath" type="xsd:string"/>
+                  <element name="attempts" type="xsd:int"/>
+                  <element name="partnerLinkName" type="xsd:string"/>
+                  <element name="partnerLink">
+                     <complexType>
+                        <sequence>
+                           <any maxOccurs="unbounded" minOccurs="0" namespace="##any" processContents="lax"/>
+                         </sequence>
+                     </complexType>
+                  </element>
+                  <any maxOccurs="unbounded" minOccurs="0" namespace="##any" processContents="lax"/>
+               </sequence>
+            </complexType>
+         </element>
+         <element name="retryCheckOutput">
+            <complexType>
+               <sequence>
+                  <element name="retry" type="xsd:string"/>
+                  <element name="interval" type="xsd:int"/>
+                  <any maxOccurs="unbounded" minOccurs="0" namespace="##any" processContents="lax"/>
+               </sequence>
+            </complexType>
+         </element>
+      </schema>
+  </wsdl:types>
+  
+  <wsdl:message name="retryCheckRequest">
+    <wsdl:part name="input" element="sr:retryCheckInput"/>
+  </wsdl:message>
+  <wsdl:message name="retryCheckResponse">
+    <wsdl:part name="output" element="sr:retryCheckOutput"/>
+  </wsdl:message>
+  
+  <wsdl:portType name="retryHandler">
+    <wsdl:operation name="retryCheck">
+      <wsdl:input name="retryCheckRequest" message="tns:retryCheckRequest"/>
+      <wsdl:output name="retryCheckResponse" message="tns:retryCheckResponse"/>
+    </wsdl:operation>
+  </wsdl:portType>
+  
+  <plnk:partnerLinkType name="retryChecker">
+     <plnk:role name="checker">
+        <plnk:portType name="tns:retryHandler"/>
+     </plnk:role>
+  </plnk:partnerLinkType>
+
+</wsdl:definitions>

@@ -1,0 +1,317 @@
+<?xml version="1.0"?>
+<xs:schema xmlns:tns="http://schemas.active-endpoints.com/ws/2005/12/policy" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://schemas.active-endpoints.com/ws/2005/12/policy" elementFormDefault="qualified">
+<!-- ///////////////////////////////////////////////////////// 
+	  Common types & enumerations 
+     //////////////////////////////////////////////////////// --> 
+   <!-- 
+      Simple enumeration type for the direction value for policies that can be applied to both incoming and outgoing messages.
+      The direction value indicates if a policy applies only to incoming, only to outgoing messages, or both. 
+      By default, policies are assumed to apply to both incoming and outgoing messages. 
+   -->
+	<xs:simpleType name="directionType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="in"/>
+			<xs:enumeration value="out"/>
+			<xs:enumeration value="both"/>
+			<xs:enumeration value="default"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="bindingType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="RPC"/>
+			<xs:enumeration value="RPC-LIT"/>
+			<xs:enumeration value="MSG"/>
+		</xs:restriction>
+	</xs:simpleType>
+	
+	<!--Assertion specifying the binding type when using a policy-driven service deployment-->
+	<xs:element name="binding" type="tns:bindingType"/>
+	
+	<!--Assertion specifying an asynchronous Acknowledgement callback address-->	
+	<xs:element name="AcksTo" type="xs:anyURI"/>
+
+<!-- ///////////////////////////////////////////////////////// 
+	  WSIO Policy Assertions
+     //////////////////////////////////////////////////////// --> 
+
+	<!--
+	      Assertion to set Message Validation level. 
+         The direction attribute controls whether validation is performed on incoming messages only, outgoing only, or both
+    -->
+	<xs:element name="Validation">
+		<xs:complexType>
+			<xs:attribute name="direction" type="tns:directionType" use="optional"/>
+		</xs:complexType>
+	</xs:element>
+	
+	<!-- Simple enumeration type for the suspend process attribute. -->
+	<xs:simpleType name="suspendProcessType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="true"/>
+			<xs:enumeration value="false"/>
+			<xs:enumeration value="default"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<!--
+	     Controls suspend behavior on recovery
+    -->
+	<xs:element name="InvokeRecovery">
+		<xs:complexType>
+			<xs:attribute name="suspendProcess" type="xs:string" use="optional"/>
+		</xs:complexType>
+	</xs:element>
+	
+	<!--Web Service Invoke Timeout -->
+	<xs:element name="Timeout">
+		<xs:complexType>
+			<xs:attribute name="seconds" type="xs:int" use="required"/>
+		</xs:complexType>
+	</xs:element>
+	
+<!-- ///////////////////////////////////////////////////////// 
+	  Authentication Policy Assertions
+     //////////////////////////////////////////////////////// --> 
+	
+	<!-- Send HTTP credentials preemptively Assertion -->
+	<xs:element name="HTTPPreemptive"/>
+	<!-- 
+	    WSSE UsernameToken Assertion (Enterprise Only)
+	    If present, when sending messages, the wsse:UsernameToken security header is added to the SOAP message
+	    When receiving messages, this assertion means that the token is required.
+	-->
+	<xs:element name="UsernameToken" />
+	<!-- Authentication Assertion -->
+	<xs:element name="Authentication">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="User" type="xs:string" minOccurs="0"/>
+				<xs:choice minOccurs="0">
+					<xs:element name="Password" type="xs:string"/>
+					<xs:element name="CleartextPassword" type="xs:string"/>
+				</xs:choice>
+				<xs:element ref="tns:UsernameToken" minOccurs="0"/>
+				<xs:element ref="tns:HTTPPreemptive" minOccurs="0"/>
+			</xs:sequence>
+			<xs:attribute name="direction" type="tns:directionType" use="optional"/>
+		</xs:complexType>
+	</xs:element>
+	
+<!-- ///////////////////////////////////////////////////////// 
+	  SAML Policy Assertions
+     //////////////////////////////////////////////////////// --> 
+	
+	<!-- Send or Require SAML Token Assertions (Enterprise Only)-->
+	<xs:simpleType name="samlConfirmationMethodType">
+		<xs:restriction base="xs:anyURI">
+			<xs:enumeration value="urn:oasis:names:tc:SAML:1.0:cm:sender-vouches"/>
+			<xs:enumeration value="urn:oasis:names:tc:SAML:1.0:cm:holder-of-key"/>
+		</xs:restriction>
+	</xs:simpleType>
+	
+	<xs:element name="SAMLToken">
+		<xs:complexType>
+			<xs:attribute name="direction" type="tns:directionType" use="optional"/>
+			<xs:attribute name="alias" type="xs:string" use="optional"/>
+         <xs:attribute name="confirmationMethod" type="tns:samlConfirmationMethodType" use="optional"/>			
+			<xs:attribute name="authenticationMethod" type="xs:anyURI" use="optional"/>
+			<xs:attribute name="subjectName" type="xs:string" use="optional"/>
+		</xs:complexType>
+   </xs:element>
+   	
+	<!-- ///////////////////////////////////////////////////////// 
+	  Retry Policy Assertions
+     //////////////////////////////////////////////////////// -->
+
+	<!-- 
+	   Enumeration of options for retry behavior after all attempts are exhausted
+	     fault = invoke activity completes with a fault (default behavior)
+	     suspend = process is placed into suspended state 
+	-->
+	<xs:simpleType name="onFailureType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="fault"/>
+			<xs:enumeration value="suspend"/>
+		</xs:restriction>
+	</xs:simpleType>
+      
+	<xs:element name="retry">
+		<xs:complexType>
+			<xs:attribute name="attempts" type="xs:int" use="optional"/>
+			<xs:attribute name="interval" type="xs:int" use="optional"/>
+			<xs:attribute name="service" type="xs:string" use="optional"/>
+			<xs:attribute name="faultList" type="xs:string" use="optional"/>
+			<xs:attribute name="faultExclusionList" type="xs:string" use="optional"/>
+			<xs:attribute name="onFailure" type="tns:onFailureType" use="optional"/>
+		</xs:complexType>
+	</xs:element>
+	
+<!-- ///////////////////////////////////////////////////////// 
+	  Engine Managed Correlation Policy Assertions
+     //////////////////////////////////////////////////////// --> 
+	<xs:element name="engineManagedCorrelationPolicy">
+		<xs:complexType/>
+	</xs:element>
+
+<!-- ///////////////////////////////////////////////////////// 
+	  SOAP Header Mapping Policy Assertions
+     //////////////////////////////////////////////////////// --> 
+	<!--Assertion to map arbitrary SOAP headers into myRole element for access within the process-->
+	<xs:element name="ReceiverXPathMap">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="parameter" maxOccurs="unbounded">
+					<xs:complexType>
+						<xs:attribute name="name"/>
+						<xs:attribute name="value"/>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+<!-- ///////////////////////////////////////////////////////// 
+	  REST Policy Assertions
+     //////////////////////////////////////////////////////// --> 
+	<!-- REST Service Enabled Assertion -->
+	<xs:element name="RESTenabled">
+	    <xs:complexType>
+	        <xs:sequence>
+	            <xs:element name="usage" type="xs:string" minOccurs="0" />
+	          </xs:sequence>
+	        <xs:attribute name="description" type="xs:string" use="optional"/>
+	    </xs:complexType>
+	</xs:element>
+    
+    <!-- ///////////////////////////////////////////////////////// 
+        HTTP Policy Assertions
+        //////////////////////////////////////////////////////// --> 
+    
+    <!--HTTP Service Enabled Assertion -->
+    <xs:element name="HTTPTransportOptions">
+        <xs:complexType>
+            <xs:sequence>
+               <xs:element name="XmlTypes"  minOccurs="0" maxOccurs="1">
+                 <xs:complexType>
+                    <xs:sequence>
+                       <xs:element name="MimeType" type="xs:string" minOccurs="1"/>
+                    </xs:sequence>
+                 </xs:complexType>
+               </xs:element>
+            </xs:sequence>
+            <xs:attribute name="httpSocketTimeout" type="xs:string" use="optional"/>
+            <xs:attribute name="httpTcpNoDelay" type="xs:string" use="optional"/>
+            <xs:attribute name="redirectWithGET" type="xs:string" use="optional"/>
+            <xs:attribute name="httpClientConnectionTimeout" type="xs:string" use="optional"/>
+            <xs:attribute name="httpConnectionManagerTimeout" type="xs:string" use="optional"/>
+        </xs:complexType>
+    </xs:element>
+	
+<!-- ///////////////////////////////////////////////////////// 
+	  XML Signature & Encryption Policy Assertions
+     //////////////////////////////////////////////////////// --> 
+	<!-- Inbound Signature Assertion (Enterprise Only)-->
+	<xs:element name="Signature">
+		<xs:complexType>
+			<xs:attribute name="alias" type="xs:string" use="optional"/>
+		</xs:complexType>
+	</xs:element>
+	<!-- Inbound Encryption Assertion (Enterprise Only)-->
+	<xs:element name="Encrypt">
+		<xs:complexType>
+			<xs:attribute name="alias" type="xs:string" use="optional"/>
+		</xs:complexType>
+	</xs:element>
+	<!-- Signature or Encryption parts type (Enterprise Only)-->
+	<xs:complexType name="signatureEncryptionPartType">
+		<xs:choice minOccurs="0">
+			<xs:element name="Content">
+				<xs:complexType>
+					<xs:attribute name="namespace"/>
+					<xs:attribute name="name"/>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="Element">
+				<xs:complexType>
+					<xs:attribute name="namespace"/>
+					<xs:attribute name="name"/>
+				</xs:complexType>
+			</xs:element>
+		</xs:choice>
+	</xs:complexType>
+	<!--Parts to sign on an outbound message (Enterprise Only)-->
+	<xs:element name="SignatureParts">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="tns:signatureEncryptionPartType">
+					<xs:attribute name="alias" type="xs:string" use="optional"/>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<!--Parts to encrypt on an outbound message (Enterprise Only)-->
+	<xs:element name="EncryptionParts">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="tns:signatureEncryptionPartType">
+					<xs:attribute name="alias" type="xs:string" use="optional"/>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	
+<!-- ///////////////////////////////////////////////////////// 
+	  WSS Timestamp Policy Assertions
+     //////////////////////////////////////////////////////// --> 
+	<xs:element name="Timestamp">
+		<xs:complexType>
+			<xs:attribute name="direction" type="tns:directionType" use="optional"/>
+			<xs:attribute name="timeToLive" type="xs:int" use="optional"/>
+		</xs:complexType>
+	</xs:element>
+	
+<!-- ///////////////////////////////////////////////////////// 
+	  JMS Transport Policy Assertions
+     //////////////////////////////////////////////////////// --> 
+	<!-- 
+	     Simple enumeration type for the jms message type attribute.
+	     Default is 'text'. 
+	-->
+	<xs:simpleType name="jmsMessageTypeEnum">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="text"/>
+			<xs:enumeration value="bytes"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<!-- 
+	     Simple enumeration type for the jms message format attribute.
+	     Default is 'soap'. 
+	-->
+	<xs:simpleType name="jmsMessageFormatType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="soap"/>
+			<xs:enumeration value="xml"/>
+		</xs:restriction>
+	</xs:simpleType>
+     
+	<xs:element name="JMSDeliveryOptions">
+		<xs:complexType>
+		   <xs:attribute name="jmsMessageType" type="tns:jmsMessageTypeEnum" use="optional"/>
+		   <xs:attribute name="jmsMessageFormat" type="tns:jmsMessageFormatType" use="optional"/>
+			<xs:attribute name="jmsExpiration" type="xs:long" use="optional"/>
+			<xs:attribute name="jmsPriority" type="xs:int" use="optional"/>
+			<xs:attribute name="jmsCorrelationID" type="xs:string" use="optional"/>
+			<xs:attribute name="jmsManagerID" type="xs:string" use="optional"/>
+		</xs:complexType>
+	</xs:element>
+	
+	<!--
+	    Policy that instructs the invoke to map the task intitator principal as a reference property on outbound requests
+	 -->
+	<xs:element name="MapProcessInitiatorAsHeader">
+     <xs:complexType/>
+	</xs:element>
+	
+</xs:schema>
