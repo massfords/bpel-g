@@ -1,0 +1,22 @@
+<html><body>
+This package contains the registry classes for accessing 
+readers and writers for BPEL and extension elements.
+<br />
+The IAeBpelRegistry provides access to all of the readers and
+writers associated with standard BPEL (1.1) elements.  Readers
+are accessed by providing the class of the parent AeBaseDef object
+and the QName of the current element.  This allows different 
+readers to mapped to elements with the same QName but different
+parent classes.  Writers follow the same pattern.
+<br />
+NOTE: In the current impl, the writer parent class is ignored as
+there are no custom writers based on parent class differences.
+Also, the interfaces do not expose any way to register custom
+readers/writers at runtime - custom registry classes should be
+provided.
+<br />
+The IAeExtensionRegistry provides programmatic access for 
+registering custom extension readers/writers.  By default,
+the registry has a default reader/writer installed to handle
+all extension elements in a generic fashion.
+</body></html>
