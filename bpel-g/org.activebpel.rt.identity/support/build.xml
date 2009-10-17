@@ -1,0 +1,18 @@
+<project name="Auxiliary build file for the Identity Service" default="main">
+
+   <!-- =========================================================================== -->
+   <!-- Build the bpr which contains the identity query                             -->
+   <!-- =========================================================================== -->
+   <target name="main" if="project">
+      <echo message="Creating aeidentitysvc.bpr..."/>
+        
+      <delete file="aeidentitysvc.bpr" quiet="true"/>
+      <ant antfile="aeidentitysvc.bprd"/>
+      <echo message="Jarring: ${projectsroot}/${project}/support/aeidentitysvc.bpr"/>
+      <jar update="true" destfile="${ae.dist}/ae_rtidentity.jar" basedir="${projectsroot}/${project}/support/">
+          <include name="aeidentitysvc.bpr"/>
+      </jar>
+
+      <echo message="done Jarring aeidentitysvc.bpr"/>   	
+   </target>
+</project>
