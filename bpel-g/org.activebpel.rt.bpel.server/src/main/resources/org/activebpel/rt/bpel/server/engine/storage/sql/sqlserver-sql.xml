@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+   This is the SQL configuration file for the SQL Server implementation
+   of the Active BPEL engine.  This file contains only those SQL
+   statements that differ from the common SQL found in common-sql.xml.
+-->
+<sql-config>
+   <sql-statements>
+
+      <constants>
+         <constant name="TABLE_PREFIX"></constant>
+      </constants>
+
+      <!--
+         Note: Overrides SequentialClobStream.GetProcessLogStream in
+         common-sql.xml to limit the result set to 1 row.
+      -->
+      <sql-statement>
+         <name>SequentialClobStream.GetProcessLogStream</name>
+         <sql>
+                SELECT TOP 1 ProcessLog, Counter FROM %TABLE_PREFIX%AeProcessLog WHERE ProcessId = ? AND Counter &gt; ? ORDER BY Counter ASC
+         </sql>
+      </sql-statement>
+
+   </sql-statements>
+</sql-config>

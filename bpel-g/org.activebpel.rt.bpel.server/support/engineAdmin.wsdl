@@ -1,0 +1,924 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- ********************************************************** -->
+<!-- This WSDL definition is being deprecated.                  -->
+<!-- The RPC/ENC style will not be supported in future releases -->
+<!-- Please use DOC/LITERAL style from ActiveBpelAdmin.wsdl     -->
+<!-- ********************************************************** -->
+<wsdl:definitions targetNamespace="urn:AeAdminServices" 
+                  xmlns:apachesoap="http://xml.apache.org/xml-soap" 
+                  xmlns:impl="urn:AeAdminServices" 
+                  xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" 
+                  xmlns:tns1="http://rt.activebpel.org" 
+                  xmlns:tns2="http://bpel.rt.activebpel.org" 
+                  xmlns:tns3="http://list.impl.bpel.rt.activebpel.org" 
+                  xmlns:tns4="http://server.rdebug.admin.server.bpel.rt.activebpel.org"
+                  xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" 
+                  xmlns:wsdlsoap="http://schemas.xmlsoap.org/wsdl/soap/" 
+                  xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+                  
+   <wsdl:types>
+
+      <schema targetNamespace="http://rt.activebpel.org" xmlns="http://www.w3.org/2001/XMLSchema">
+         <import namespace="http://schemas.xmlsoap.org/soap/encoding/"/>
+         <complexType name="AeException">
+            <sequence>
+               <element name="info" nillable="true" type="xsd:string"/>
+            </sequence>
+         </complexType>
+      </schema>
+
+      <schema targetNamespace="http://bpel.rt.activebpel.org" xmlns="http://www.w3.org/2001/XMLSchema">
+         <import namespace="http://schemas.xmlsoap.org/soap/encoding/"/>
+         <import namespace="http://rt.activebpel.org"/>
+         <complexType name="AeBusinessProcessException">
+            <complexContent>
+               <extension base="tns1:AeException">
+                  <sequence/>
+               </extension>
+            </complexContent>
+         </complexType>
+      </schema>
+
+      <schema targetNamespace="http://list.impl.bpel.rt.activebpel.org" xmlns="http://www.w3.org/2001/XMLSchema"
+            xmlns:tns="http://list.impl.bpel.rt.activebpel.org">
+         <import namespace="http://schemas.xmlsoap.org/soap/encoding/"/>
+         <import namespace="http://bpel.rt.activebpel.org"/>
+
+       <complexType name="AeListingFilter">
+         <sequence>
+            <element name="listStart" type="xsd:int"/>
+            <element name="maxReturn" type="xsd:int"/>
+         </sequence>
+       </complexType>         
+
+         <complexType name="AeProcessFilter">
+            <complexContent>
+               <extension base="tns:AeListingFilter">
+                  <sequence>
+                     <element name="processCompleteEnd" nillable="true" type="xsd:dateTime"/>
+                     <element name="processCompleteStart" nillable="true" type="xsd:dateTime"/>
+                     <element name="processCreateEnd" nillable="true" type="xsd:dateTime"/>
+                     <element name="processCreateStart" nillable="true" type="xsd:dateTime"/>
+                     <element name="processName" nillable="true" type="xsd:QName"/>
+                     <element name="processState" type="xsd:int"/>
+                     <element name="advancedQuery" type="xsd:string"/>
+                  </sequence>
+               </extension>
+            </complexContent>         
+         </complexType>
+         <complexType name="AeProcessInstanceDetail">
+            <sequence>
+               <element name="ended" nillable="true" type="xsd:dateTime"/>
+               <element name="name" nillable="true" type="xsd:QName"/>
+               <element name="processId" type="xsd:long"/>
+               <element name="started" nillable="true" type="xsd:dateTime"/>
+               <element name="state" type="xsd:int"/>
+               <element name="stateReason" type="xsd:int"/>
+            </sequence>
+         </complexType>
+         <complexType name="AeProcessListResult">
+           <annotation>
+               <documentation>
+                  The "empty" element is a side affect of the JavaBean which contains a read only property that indicates if the result is empty. 
+               </documentation>               
+           </annotation>
+            <sequence>
+               <element name="totalRowCount" type="xsd:int"/>
+               <element name="completeRowCount" type="xsd:boolean"/>
+               <element name="rowDetails" nillable="true" type="tns3:AeProcessInstanceDetailArray"/>
+               <element name="empty" type="xsd:boolean"/>
+            </sequence>
+         </complexType>
+         <complexType name="AeProcessInstanceDetailArray">
+            <complexContent>
+               <restriction base="soapenc:Array">
+                   <attribute ref="soapenc:arrayType" wsdl:arrayType="tns3:AeProcessInstanceDetail[]"/>
+               </restriction>
+            </complexContent>
+         </complexType>
+      </schema>
+
+      <schema targetNamespace="http://server.rdebug.admin.server.bpel.rt.activebpel.org" xmlns="http://www.w3.org/2001/XMLSchema">
+         <import namespace="http://schemas.xmlsoap.org/soap/encoding/"/>
+         <import namespace="http://list.impl.bpel.rt.activebpel.org"/>
+         <complexType name="AeBreakpointInstanceDetail">
+            <sequence>
+               <element name="processName" nillable="true" type="xsd:QName"/>
+               <element name="nodePath" nillable="true" type="xsd:string"/>
+            </sequence>
+         </complexType>
+         <complexType name="AeBreakpointList">
+            <sequence>
+               <element name="rowDetails" nillable="true" type="tns4:AeBreakpointInstanceDetailArray"/>
+               <element name="totalRowCount" type="xsd:int"/>
+            </sequence>
+         </complexType>
+         <complexType name="AeBreakpointInstanceDetailArray">
+            <complexContent>
+               <restriction base="soapenc:Array">
+                  <attribute ref="soapenc:arrayType" wsdl:arrayType="tns4:AeBreakpointInstanceDetail[]"/>
+               </restriction>
+            </complexContent>
+         </complexType>
+      </schema>
+
+   </wsdl:types>
+
+   <wsdl:message name="getConfigurationRequest"/>
+   <wsdl:message name="getConfigurationResponse">
+      <wsdl:part name="aXmlString" type="xsd:string"/>
+   </wsdl:message>
+
+   <wsdl:message name="setConfigurationRequest">
+      <wsdl:part name="aXmlString" type="xsd:string"/>
+   </wsdl:message>
+   <wsdl:message name="setConfigurationResponse"/>
+
+   <wsdl:message name="addEngineListenerRequest">
+      <wsdl:part name="aCid" type="xsd:long"/>
+      <wsdl:part name="aEndpointURL" type="xsd:string"/>
+   </wsdl:message>
+   <wsdl:message name="addEngineListenerResponse"/>
+
+   <wsdl:message name="addBreakpointListenerRequest">
+      <wsdl:part name="aCid" type="xsd:long"/>
+      <wsdl:part name="aEndpointURL" type="xsd:string"/>
+      <wsdl:part name="aBreakpointList" type="tns4:AeBreakpointList"/>
+   </wsdl:message>
+   <wsdl:message name="addBreakpointListenerResponse"/>
+
+   <wsdl:message name="updateBreakpointListRequest">
+      <wsdl:part name="aCid" type="xsd:long"/>
+      <wsdl:part name="aEndpointURL" type="xsd:string"/>
+      <wsdl:part name="aBreakpointList" type="tns4:AeBreakpointList"/>
+   </wsdl:message>
+   <wsdl:message name="updateBreakpointListResponse"/>
+
+   <wsdl:message name="addProcessListenerRequest">
+      <wsdl:part name="aCid" type="xsd:long"/>
+      <wsdl:part name="aPid" type="xsd:long"/>
+      <wsdl:part name="aEndpointURL" type="xsd:string"/>
+   </wsdl:message>
+   <wsdl:message name="addProcessListenerResponse"/>
+
+   <wsdl:message name="removeProcessListenerRequest">
+      <wsdl:part name="aCid" type="xsd:long"/>
+      <wsdl:part name="aPid" type="xsd:long"/>
+      <wsdl:part name="aEndpointURL" type="xsd:string"/>
+   </wsdl:message>
+   <wsdl:message name="removeProcessListenerResponse"/>
+
+   <wsdl:message name="resumeProcessRequest">
+      <wsdl:part name="aPid" type="xsd:long"/>
+   </wsdl:message>
+   <wsdl:message name="resumeProcessResponse"/>
+
+   <wsdl:message name="resumeProcessObjectRequest">
+      <wsdl:part name="aPid" type="xsd:long"/>
+      <wsdl:part name="aLocation" type="xsd:string"/>
+   </wsdl:message>
+   <wsdl:message name="resumeProcessObjectResponse"/>
+
+   <wsdl:message name="restartProcessRequest">
+      <wsdl:part name="aPid" type="xsd:long"/>
+   </wsdl:message>
+   <wsdl:message name="restartProcessResponse"/>
+
+   <wsdl:message name="suspendProcessRequest">
+      <wsdl:part name="aPid" type="xsd:long"/>
+   </wsdl:message>
+   <wsdl:message name="suspendProcessResponse"/>
+
+   <wsdl:message name="terminateProcessRequest">
+      <wsdl:part name="aPid" type="xsd:long"/>
+   </wsdl:message>
+   <wsdl:message name="terminateProcessResponse"/>
+
+   <wsdl:message name="getProcessStateRequest">
+      <wsdl:part name="aPid" type="xsd:long"/>
+   </wsdl:message>
+   <wsdl:message name="getProcessStateResponse">
+      <wsdl:part name="getProcessStateReturn" type="xsd:string"/>
+   </wsdl:message>
+
+   <wsdl:message name="getProcessDigestRequest">
+      <wsdl:part name="aProcessId" type="xsd:long"/>
+   </wsdl:message>
+   <wsdl:message name="getProcessDigestResponse">
+      <wsdl:part name="getProcessDigestReturn" type="xsd:base64Binary"/>
+   </wsdl:message>
+
+   <wsdl:message name="getProcessDefRequest">
+      <wsdl:part name="aProcessId" type="xsd:long"/>
+   </wsdl:message>
+   <wsdl:message name="getProcessDefResponse">
+      <wsdl:part name="getProcessDefReturn" type="xsd:string"/>
+   </wsdl:message>
+
+   <wsdl:message name="getProcessLogRequest">
+      <wsdl:part name="aPid" type="xsd:long"/>
+   </wsdl:message>
+   <wsdl:message name="getProcessLogResponse">
+      <wsdl:part name="getProcessLogReturn" type="xsd:string"/>
+   </wsdl:message>
+
+   <wsdl:message name="getVariableDataRequest">
+      <wsdl:part name="aPid" type="xsd:long"/>
+      <wsdl:part name="aVariablePath" type="xsd:string"/>
+   </wsdl:message>
+   <wsdl:message name="getVariableDataResponse">
+      <wsdl:part name="getVariableDataReturn" type="xsd:string"/>
+   </wsdl:message>
+
+   <wsdl:message name="setVariableDataRequest">
+      <wsdl:part name="aPid"          type="xsd:long"/>
+      <wsdl:part name="aVariablePath" type="xsd:string"/>
+      <wsdl:part name="aVariableData" type="xsd:string"/>
+   </wsdl:message>
+   <wsdl:message name="setVariableDataResponse">
+      <wsdl:part name="setVariableDataSuccessReturn" type="xsd:string"/>
+   </wsdl:message>
+   
+   <wsdl:message name="addVariableAttachmentRequest">
+      <wsdl:part name="aPid"             type="xsd:long"/>
+      <wsdl:part name="aVariablePath"    type="xsd:string"/>
+      <wsdl:part name="aMimeType"        type="xsd:string"/>
+      <wsdl:part name="aAttachmentData"  type="xsd:base64Binary"/>
+   </wsdl:message>
+   <wsdl:message name="addVariableAttachmentResponse">
+      <wsdl:part name="addVariableAttachmentSuccessReturn" type="xsd:string"/>
+   </wsdl:message>
+
+   <wsdl:message name="removeEngineListenerRequest">
+      <wsdl:part name="aCid" type="xsd:long"/>
+      <wsdl:part name="aEndpointURL" type="xsd:string"/>
+   </wsdl:message>
+   <wsdl:message name="removeEngineListenerResponse"/>
+
+   <wsdl:message name="removeBreakpointListenerRequest">
+      <wsdl:part name="aCid" type="xsd:long"/>
+      <wsdl:part name="aEndpointURL" type="xsd:string"/>
+   </wsdl:message>
+   <wsdl:message name="removeBreakpointListenerResponse"/>
+
+   <wsdl:message name="getProcessListRequest">
+      <wsdl:part name="aFilter" type="tns3:AeProcessFilter"/>
+   </wsdl:message>
+   <wsdl:message name="getProcessListResponse">
+      <wsdl:part name="getProcessListReturn" type="tns3:AeProcessListResult"/>
+   </wsdl:message>
+
+   <wsdl:message name="getProcessDetailRequest">
+      <wsdl:part name="aPid" type="xsd:long"/>
+   </wsdl:message>
+   <wsdl:message name="getProcessDetailResponse">
+      <wsdl:part name="getProcessDetailReturn" type="tns3:AeProcessInstanceDetail"/>
+   </wsdl:message>
+
+   <wsdl:message name="getAPIVersionRequest"/>
+   <wsdl:message name="getAPIVersionResponse">
+      <wsdl:part name="aVersionId" type="xsd:string"/>
+   </wsdl:message>
+
+   <wsdl:message name="deployBprRequest">
+      <wsdl:part name="aBprFilename" type="xsd:string"/>
+      <wsdl:part name="aBase64File" type="xsd:string"/>
+   </wsdl:message>
+   <wsdl:message name="deployBprResponse">
+      <wsdl:part name="deployBprReturn" type="xsd:string"/>
+   </wsdl:message>   
+
+   <wsdl:message name="setPartnerLinkDataRequest">
+      <wsdl:part name="aPid" type="xsd:long"/>
+      <wsdl:part name="aIsPartnerRole" type="xsd:boolean"/>
+      <wsdl:part name="aLocationPath" type="xsd:string"/>
+      <wsdl:part name="aData" type="xsd:string"/>
+   </wsdl:message>
+   <wsdl:message name="setPartnerLinkDataResponse"/>
+
+   <wsdl:message name="setCorrelationSetDataRequest">
+      <wsdl:part name="aPid" type="xsd:long"/>
+      <wsdl:part name="aLocationPath" type="xsd:string"/>
+      <wsdl:part name="aData" type="xsd:string"/>
+   </wsdl:message>
+   <wsdl:message name="setCorrelationSetDataResponse"/>
+
+   <wsdl:message name="retryActivityRequest">
+      <wsdl:part name="aPid" type="xsd:long"/>
+      <wsdl:part name="aLocationPath" type="xsd:string"/>
+      <wsdl:part name="aAtScope" type="xsd:boolean"/>
+   </wsdl:message>
+   <wsdl:message name="retryActivityResponse"/>
+
+   <wsdl:message name="completeActivityRequest">
+      <wsdl:part name="aPid" type="xsd:long"/>
+      <wsdl:part name="aLocationPath" type="xsd:string"/>
+   </wsdl:message>
+   <wsdl:message name="completeActivityResponse"/>
+
+   <wsdl:message name="isInternalWorkManagerRequest"/>
+   <wsdl:message name="isInternalWorkManagerResponse">
+      <wsdl:part name="aResponse" type="xsd:boolean"/>
+   </wsdl:message>
+
+   <wsdl:message name="AeBusinessProcessException">
+      <wsdl:part name="fault" type="tns2:AeBusinessProcessException"/>
+   </wsdl:message>
+
+   <wsdl:message name="AeException">
+      <wsdl:part name="fault" type="tns1:AeException"/>
+   </wsdl:message>
+
+   <wsdl:portType name="IAeBpelAdmin">
+      <wsdl:operation name="getConfiguration">
+         <wsdl:input  message="impl:getConfigurationRequest"      name="getConfigurationRequest"/>
+         <wsdl:output message="impl:getConfigurationResponse"     name="getConfigurationResponse"/>
+         <wsdl:fault  message="impl:AeException" name="AeException"/>
+      </wsdl:operation>
+
+      <wsdl:operation name="setConfiguration" parameterOrder="aXmlString">
+         <wsdl:input  message="impl:setConfigurationRequest"      name="setConfigurationRequest"/>
+         <wsdl:output message="impl:setConfigurationResponse"     name="setConfigurationResponse"/>
+         <wsdl:fault  message="impl:AeException" name="AeException"/>
+      </wsdl:operation>
+
+      <wsdl:operation name="suspendProcess" parameterOrder="aPid">
+         <wsdl:input  message="impl:suspendProcessRequest"      name="suspendProcessRequest"/>
+         <wsdl:output message="impl:suspendProcessResponse"     name="suspendProcessResponse"/>
+         <wsdl:fault  message="impl:AeBusinessProcessException" name="AeBusinessProcessException"/>
+      </wsdl:operation>
+
+      <wsdl:operation name="resumeProcess" parameterOrder="aPid">
+         <wsdl:input  message="impl:resumeProcessRequest"       name="resumeProcessRequest"/>
+         <wsdl:output message="impl:resumeProcessResponse"      name="resumeProcessResponse"/>
+         <wsdl:fault  message="impl:AeBusinessProcessException" name="AeBusinessProcessException"/>
+      </wsdl:operation>
+
+      <wsdl:operation name="resumeProcessObject" parameterOrder="aPid aLocation">
+         <wsdl:input  message="impl:resumeProcessObjectRequest"  name="resumeProcessObjectRequest"/>
+         <wsdl:output message="impl:resumeProcessObjectResponse" name="resumeProcessObjectResponse"/>
+         <wsdl:fault  message="impl:AeBusinessProcessException"  name="AeBusinessProcessException"/>
+      </wsdl:operation>
+
+      <wsdl:operation name="restartProcess" parameterOrder="aPid">
+         <wsdl:input  message="impl:restartProcessRequest"      name="restartProcessRequest"/>
+         <wsdl:output message="impl:restartProcessResponse"     name="restartProcessResponse"/>
+         <wsdl:fault  message="impl:AeBusinessProcessException" name="AeBusinessProcessException"/>
+      </wsdl:operation>
+
+      <wsdl:operation name="terminateProcess" parameterOrder="aPid">
+         <wsdl:input  message="impl:terminateProcessRequest"    name="terminateProcessRequest"/>
+         <wsdl:output message="impl:terminateProcessResponse"   name="terminateProcessResponse"/>
+         <wsdl:fault  message="impl:AeBusinessProcessException" name="AeBusinessProcessException"/>
+      </wsdl:operation>
+
+      <wsdl:operation name="addEngineListener" parameterOrder="aCid aEndpointURL">
+         <wsdl:input  message="impl:addEngineListenerRequest"  name="addEngineListenerRequest"/>
+         <wsdl:output message="impl:addEngineListenerResponse" name="addEngineListenerResponse"/>
+      </wsdl:operation>
+
+      <wsdl:operation name="addBreakpointListener" parameterOrder="aCid aEndpointURL aBreakpointList">
+         <wsdl:input  message="impl:addBreakpointListenerRequest"  name="addBreakpointListenerRequest"/>
+         <wsdl:output message="impl:addBreakpointListenerResponse" name="addBreakpointListenerResponse"/>
+      </wsdl:operation>
+
+      <wsdl:operation name="updateBreakpointList" parameterOrder="aCid aEndpointURL aBreakpointList">
+         <wsdl:input  message="impl:updateBreakpointListRequest"  name="updateBreakpointListRequest"/>
+         <wsdl:output message="impl:updateBreakpointListResponse" name="updateBreakpointListResponse"/>
+      </wsdl:operation>
+
+      <wsdl:operation name="removeEngineListener" parameterOrder="aCid aEndpointURL">
+         <wsdl:input  message="impl:removeEngineListenerRequest"  name="removeEngineListenerRequest"/>
+         <wsdl:output message="impl:removeEngineListenerResponse" name="removeEngineListenerResponse"/>
+      </wsdl:operation>
+
+      <wsdl:operation name="removeBreakpointListener" parameterOrder="aCid aEndpointURL">
+         <wsdl:input  message="impl:removeBreakpointListenerRequest"  name="removeBreakpointListenerRequest"/>
+         <wsdl:output message="impl:removeBreakpointListenerResponse" name="removeBreakpointListenerResponse"/>
+      </wsdl:operation>
+
+      <wsdl:operation name="addProcessListener" parameterOrder="aCid aPid aEndpointURL">
+         <wsdl:input  message="impl:addProcessListenerRequest"  name="addProcessListenerRequest"/>
+         <wsdl:output message="impl:addProcessListenerResponse" name="addProcessListenerResponse"/>
+      </wsdl:operation>
+
+      <wsdl:operation name="removeProcessListener" parameterOrder="aCid aPid aEndpointURL">
+         <wsdl:input  message="impl:removeProcessListenerRequest"  name="removeProcessListenerRequest"/>
+         <wsdl:output message="impl:removeProcessListenerResponse" name="removeProcessListenerResponse"/>
+      </wsdl:operation>
+
+      <wsdl:operation name="getVariable" parameterOrder="aPid aVariablePath">
+         <wsdl:input  message="impl:getVariableDataRequest"  name="getVariableDataRequest"/>
+         <wsdl:output message="impl:getVariableDataResponse" name="getVariableDataResponse"/>
+      </wsdl:operation>
+
+      <!-- Deprecated operation for compat with older clients, should use getVariable instead. -->
+      <wsdl:operation name="getVariableStr" parameterOrder="aPid aVariablePath">
+         <wsdl:input  message="impl:getVariableDataRequest"  name="getVariableDataStrRequest"/>
+         <wsdl:output message="impl:getVariableDataResponse" name="getVariableDataStrResponse"/>
+      </wsdl:operation>
+
+      <wsdl:operation name="setVariable" parameterOrder="aPid aVariablePath aVariableData">
+         <wsdl:input  message="impl:setVariableDataRequest"  name="setVariableDataRequest"/>
+         <wsdl:output message="impl:setVariableDataResponse" name="setVariableDataResponse"/>
+      </wsdl:operation>
+      
+       <wsdl:operation name="addAttachment" parameterOrder="aPid aVariablePath aMimeType,aAttachmentData">
+         <wsdl:input  message="impl:addVariableAttachmentRequest"  name="addVariableAttachmentRequest"/>
+         <wsdl:output message="impl:addVariableAttachmentResponse" name="addVariableAttachmentResponse"/>
+      </wsdl:operation>
+
+      <wsdl:operation name="getProcessList" parameterOrder="aFilter">
+         <wsdl:input  message="impl:getProcessListRequest"  name="getProcessListRequest"/>
+         <wsdl:output message="impl:getProcessListResponse" name="getProcessListResponse"/>
+      </wsdl:operation>
+
+      <wsdl:operation name="getProcessDetail" parameterOrder="aPid">
+         <wsdl:input  message="impl:getProcessDetailRequest"  name="getProcessDetailRequest"/>
+         <wsdl:output message="impl:getProcessDetailResponse" name="getProcessDetailResponse"/>
+      </wsdl:operation>
+
+      <wsdl:operation name="getProcessState" parameterOrder="aPid">
+         <wsdl:input  message="impl:getProcessStateRequest"  name="getProcessStateRequest"/>
+         <wsdl:output message="impl:getProcessStateResponse" name="getProcessStateResponse"/>
+      </wsdl:operation>
+
+      <!-- Deprecated operation for compat with older clients, should use getProcessState instead. -->
+      <wsdl:operation name="getProcessStateStr" parameterOrder="aPid">
+         <wsdl:input  message="impl:getProcessStateRequest"  name="getProcessStateStrRequest"/>
+         <wsdl:output message="impl:getProcessStateResponse" name="getProcessStateStrResponse"/>
+      </wsdl:operation>
+      
+      <wsdl:operation name="getProcessDigest" parameterOrder="aProcessId">
+         <wsdl:input  message="impl:getProcessDigestRequest" name="getProcessDigestRequest"/>
+         <wsdl:output message="impl:getProcessDigestResponse" name="getProcessDigestResponse"/>
+      </wsdl:operation>
+
+      <wsdl:operation name="getProcessDef" parameterOrder="aProcessId">
+         <wsdl:input  message="impl:getProcessDefRequest" name="getProcessDefRequest"/>
+         <wsdl:output message="impl:getProcessDefResponse" name="getProcessDefResponse"/>
+      </wsdl:operation>
+
+      <wsdl:operation name="getProcessLog" parameterOrder="aPid">
+         <wsdl:input  message="impl:getProcessLogRequest" name="getProcessLogRequest"/>
+         <wsdl:output message="impl:getProcessLogResponse" name="getProcessLogResponse"/>
+      </wsdl:operation>
+
+      <wsdl:operation name="deployBpr" parameterOrder="aBprFilename aBase64File">
+         <wsdl:input  message="impl:deployBprRequest"  name="deployBprRequest"/>
+         <wsdl:output message="impl:deployBprResponse" name="deployBprResponse"/>
+      </wsdl:operation>
+      
+      <wsdl:operation name="setPartnerLinkData" parameterOrder="aPid aIsPartnerRole aLocationPath aData">
+         <wsdl:input  message="impl:setPartnerLinkDataRequest"  name="setPartnerLinkDataRequest"/>
+         <wsdl:output message="impl:setPartnerLinkDataResponse" name="setPartnerLinkDataResponse"/>
+      </wsdl:operation>
+      
+      <wsdl:operation name="setCorrelationSetData" parameterOrder="aPid aLocationPath aData">
+         <wsdl:input  message="impl:setCorrelationSetDataRequest"  name="setCorrelationSetDataRequest"/>
+         <wsdl:output message="impl:setCorrelationSetDataResponse" name="setCorrelationSetDataResponse"/>
+      </wsdl:operation>
+
+      <wsdl:operation name="retryActivity" parameterOrder="aPid aLocationPath aAtScope">
+         <wsdl:input  message="impl:retryActivityRequest"  name="retryActivityRequest"/>
+         <wsdl:output message="impl:retryActivityResponse" name="retryActivityResponse"/>
+      </wsdl:operation>
+      
+      <wsdl:operation name="completeActivity" parameterOrder="aPid aLocationPath">
+         <wsdl:input  message="impl:completeActivityRequest"  name="completeActivityRequest"/>
+         <wsdl:output message="impl:completeActivityResponse" name="completeActivityResponse"/>
+      </wsdl:operation>
+
+      <wsdl:operation name="isInternalWorkManager">
+         <wsdl:input  message="impl:isInternalWorkManagerRequest"  name="isInternalWorkManagerRequest"/>
+         <wsdl:output message="impl:isInternalWorkManagerResponse" name="isInternalWorkManagerResponse"/>
+      </wsdl:operation>
+      
+      <wsdl:operation name="getAPIVersion">
+         <wsdl:input  message="impl:getAPIVersionRequest"  name="getAPIVersionRequest"/>
+         <wsdl:output message="impl:getAPIVersionResponse" name="getAPIVersionResponse"/>
+      </wsdl:operation>
+   </wsdl:portType>
+
+   <wsdl:binding name="RemoteDebugSoapBinding" type="impl:IAeBpelAdmin">
+      <wsdlsoap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http"/>
+
+      <wsdl:operation name="getConfiguration">
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="getConfigurationRequest">
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="urn:AeAdminServices" use="encoded"/>
+         </wsdl:input>
+
+         <wsdl:output name="getConfigurationResponse">
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="urn:AeAdminServices" use="encoded"/>
+         </wsdl:output>
+
+         <wsdl:fault name="AeException">
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="AeException" namespace="urn:AeAdminServices" use="encoded"/>
+         </wsdl:fault>
+      </wsdl:operation>
+
+      <wsdl:operation name="setConfiguration">
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="setConfigurationRequest">
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="urn:AeAdminServices" use="encoded"/>
+         </wsdl:input>
+
+         <wsdl:output name="setConfigurationResponse">
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="urn:AeAdminServices" use="encoded"/>
+         </wsdl:output>
+
+         <wsdl:fault name="AeException">
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="AeException" namespace="urn:AeAdminServices" use="encoded"/>
+         </wsdl:fault>
+      </wsdl:operation>
+
+      <wsdl:operation name="suspendProcess">
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="suspendProcessRequest">
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="urn:AeAdminServices" use="encoded"/>
+         </wsdl:input>
+
+         <wsdl:output name="suspendProcessResponse">
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="urn:AeAdminServices" use="encoded"/>
+         </wsdl:output>
+
+         <wsdl:fault name="AeBusinessProcessException">
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="AeBusinessProcessException" namespace="urn:AeAdminServices" use="encoded"/>
+         </wsdl:fault>
+      </wsdl:operation>
+
+      <wsdl:operation name="resumeProcess">
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="resumeProcessRequest">
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="urn:AeAdminServices" use="encoded"/>
+         </wsdl:input>
+
+         <wsdl:output name="resumeProcessResponse">
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="urn:AeAdminServices" use="encoded"/>
+         </wsdl:output>
+
+         <wsdl:fault name="AeBusinessProcessException">
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="AeBusinessProcessException" namespace="urn:AeAdminServices" use="encoded"/>
+         </wsdl:fault>
+      </wsdl:operation>
+
+      <wsdl:operation name="resumeProcessObject">
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="resumeProcessObjectRequest">
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="urn:AeAdminServices" use="encoded"/>
+         </wsdl:input>
+
+         <wsdl:output name="resumeProcessObjectResponse">
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="urn:AeAdminServices" use="encoded"/>
+         </wsdl:output>
+
+         <wsdl:fault name="AeBusinessProcessException">
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="AeBusinessProcessException" namespace="urn:AeAdminServices" use="encoded"/>
+         </wsdl:fault>
+      </wsdl:operation>
+
+      <wsdl:operation name="restartProcess">
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="restartProcessRequest">
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="urn:AeAdminServices" use="encoded"/>
+         </wsdl:input>
+
+         <wsdl:output name="restartProcessResponse">
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="urn:AeAdminServices" use="encoded"/>
+         </wsdl:output>
+
+         <wsdl:fault name="AeBusinessProcessException">
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="AeBusinessProcessException" namespace="urn:AeAdminServices" use="encoded"/>
+         </wsdl:fault>
+      </wsdl:operation>
+
+      <wsdl:operation name="terminateProcess">
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="terminateProcessRequest">
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="urn:AeAdminServices" use="encoded"/>
+         </wsdl:input>
+
+         <wsdl:output name="terminateProcessResponse">
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="urn:AeAdminServices" use="encoded"/>
+         </wsdl:output>
+
+         <wsdl:fault name="AeBusinessProcessException">
+            <wsdlsoap:fault encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" name="AeBusinessProcessException" namespace="urn:AeAdminServices" use="encoded"/>
+         </wsdl:fault>
+      </wsdl:operation>
+
+      <wsdl:operation name="addEngineListener">
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="addEngineListenerRequest">
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="urn:AeAdminServices" use="encoded"/>
+         </wsdl:input>
+
+         <wsdl:output name="addEngineListenerResponse">
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="urn:AeAdminServices" use="encoded"/>
+         </wsdl:output>
+      </wsdl:operation>
+
+      <wsdl:operation name="addBreakpointListener">
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="addBreakpointListenerRequest">
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="urn:AeAdminServices" use="encoded"/>
+         </wsdl:input>
+
+         <wsdl:output name="addBreakpointListenerResponse">
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="urn:AeAdminServices" use="encoded"/>
+         </wsdl:output>
+      </wsdl:operation>
+
+      <wsdl:operation name="updateBreakpointList">
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="updateBreakpointListRequest">
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="urn:AeAdminServices" use="encoded"/>
+         </wsdl:input>
+
+         <wsdl:output name="updateBreakpointListResponse">
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="urn:AeAdminServices" use="encoded"/>
+         </wsdl:output>
+      </wsdl:operation>
+
+      <wsdl:operation name="removeEngineListener">
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="removeEngineListenerRequest">
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="urn:AeAdminServices" use="encoded"/>
+         </wsdl:input>
+
+         <wsdl:output name="removeEngineListenerResponse">
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="urn:AeAdminServices" use="encoded"/>
+         </wsdl:output>
+      </wsdl:operation>
+
+      <wsdl:operation name="removeBreakpointListener">
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="removeBreakpointListenerRequest">
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="urn:AeAdminServices" use="encoded"/>
+         </wsdl:input>
+
+         <wsdl:output name="removeBreakpointListenerResponse">
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="urn:AeAdminServices" use="encoded"/>
+         </wsdl:output>
+      </wsdl:operation>
+
+      <wsdl:operation name="addProcessListener">
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="addProcessListenerRequest">
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="urn:AeAdminServices" use="encoded"/>
+         </wsdl:input>
+
+         <wsdl:output name="addProcessListenerResponse">
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="urn:AeAdminServices" use="encoded"/>
+         </wsdl:output>
+      </wsdl:operation>
+
+      <wsdl:operation name="removeProcessListener">
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="removeProcessListenerRequest">
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="urn:AeAdminServices" use="encoded"/>
+         </wsdl:input>
+
+         <wsdl:output name="removeProcessListenerResponse">
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="urn:AeAdminServices" use="encoded"/>
+         </wsdl:output>
+      </wsdl:operation>
+
+      <wsdl:operation name="getVariable">
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="getVariableDataRequest">
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="urn:AeAdminServices" use="encoded"/>
+         </wsdl:input>
+
+         <wsdl:output name="getVariableDataResponse">
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="urn:AeAdminServices" use="encoded"/>
+         </wsdl:output>
+      </wsdl:operation>
+
+      <wsdl:operation name="setVariable">
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="setVariableDataRequest">
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="urn:AeAdminServices" use="encoded"/>
+         </wsdl:input>
+
+         <wsdl:output name="setVariableDataResponse">
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="urn:AeAdminServices" use="encoded"/>
+         </wsdl:output>
+      </wsdl:operation>
+      
+       <wsdl:operation name="addAttachment">
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="addVariableAttachmentRequest">
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="urn:AeAdminServices" use="encoded"/>
+         </wsdl:input>
+
+         <wsdl:output name="addVariableAttachmentResponse">
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="urn:AeAdminServices" use="encoded"/>
+         </wsdl:output>
+      </wsdl:operation>
+
+      <wsdl:operation name="getVariableStr">
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="getVariableDataStrRequest">
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="urn:AeAdminServices" use="encoded"/>
+         </wsdl:input>
+
+         <wsdl:output name="getVariableDataStrResponse">
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="urn:AeAdminServices" use="encoded"/>
+         </wsdl:output>
+      </wsdl:operation>
+
+      <wsdl:operation name="getProcessList">
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="getProcessListRequest">
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="urn:AeAdminServices" use="encoded"/>
+         </wsdl:input>
+
+         <wsdl:output name="getProcessListResponse">
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="urn:AeAdminServices" use="encoded"/>
+         </wsdl:output>
+      </wsdl:operation>
+
+      <wsdl:operation name="getProcessDetail">
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="getProcessDetailRequest">
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="urn:AeAdminServices" use="encoded"/>
+         </wsdl:input>
+
+         <wsdl:output name="getProcessDetailResponse">
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="urn:AeAdminServices" use="encoded"/>
+         </wsdl:output>
+      </wsdl:operation>
+
+      <wsdl:operation name="getProcessState">
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="getProcessStateRequest">
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="urn:AeAdminServices" use="encoded"/>
+         </wsdl:input>
+
+         <wsdl:output name="getProcessStateResponse">
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="urn:AeAdminServices" use="encoded"/>
+         </wsdl:output>
+      </wsdl:operation>
+
+      <wsdl:operation name="getProcessStateStr">
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="getProcessStateStrRequest">
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="urn:AeAdminServices" use="encoded"/>
+         </wsdl:input>
+
+         <wsdl:output name="getProcessStateStrResponse">
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="urn:AeAdminServices" use="encoded"/>
+         </wsdl:output>
+      </wsdl:operation>
+
+      <wsdl:operation name="getProcessDigest">
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="getProcessDigestRequest">
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="urn:AeAdminServices" use="encoded"/>
+         </wsdl:input>
+
+         <wsdl:output name="getProcessDigestResponse">
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="urn:AeAdminServices" use="encoded"/>
+         </wsdl:output>
+      </wsdl:operation>
+
+      <wsdl:operation name="getProcessDef">
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="getProcessDefRequest">
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="urn:AeAdminServices" use="encoded"/>
+         </wsdl:input>
+
+         <wsdl:output name="getProcessDefResponse">
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="urn:AeAdminServices" use="encoded"/>
+         </wsdl:output>
+      </wsdl:operation>
+
+      <wsdl:operation name="getProcessLog">
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="getProcessLogRequest">
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="urn:AeAdminServices" use="encoded"/>
+         </wsdl:input>
+
+         <wsdl:output name="getProcessLogResponse">
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="urn:AeAdminServices" use="encoded"/>
+         </wsdl:output>
+      </wsdl:operation>
+
+      <wsdl:operation name="isInternalWorkManager">
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="isInternalWorkManagerRequest">
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="urn:AeAdminServices" use="encoded"/>
+         </wsdl:input>
+
+         <wsdl:output name="isInternalWorkManagerResponse">
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="urn:AeAdminServices" use="encoded"/>
+         </wsdl:output>
+      </wsdl:operation>
+
+      <wsdl:operation name="getAPIVersion">
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="getAPIVersionRequest">
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="urn:AeAdminServices" use="encoded"/>
+         </wsdl:input>
+
+         <wsdl:output name="getAPIVersionResponse">
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="urn:AeAdminServices" use="encoded"/>
+         </wsdl:output>
+      </wsdl:operation>
+
+      <wsdl:operation name="deployBpr">
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="deployBprRequest">
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="urn:AeAdminServices" use="encoded"/>
+         </wsdl:input>
+
+         <wsdl:output name="deployBprResponse">
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="urn:AeAdminServices" use="encoded"/>
+         </wsdl:output>
+      </wsdl:operation>
+
+      <wsdl:operation name="setPartnerLinkData">
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="setPartnerLinkDataRequest">
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="urn:AeAdminServices" use="encoded"/>
+         </wsdl:input>
+
+         <wsdl:output name="setPartnerLinkDataResponse">
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="urn:AeAdminServices" use="encoded"/>
+         </wsdl:output>
+      </wsdl:operation>
+
+      <wsdl:operation name="setCorrelationSetData">
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="setCorrelationSetDataRequest">
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="urn:AeAdminServices" use="encoded"/>
+         </wsdl:input>
+
+         <wsdl:output name="setCorrelationSetDataResponse">
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="urn:AeAdminServices" use="encoded"/>
+         </wsdl:output>
+      </wsdl:operation>
+
+      <wsdl:operation name="retryActivity">
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="retryActivityRequest">
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="urn:AeAdminServices" use="encoded"/>
+         </wsdl:input>
+
+         <wsdl:output name="retryActivityResponse">
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="urn:AeAdminServices" use="encoded"/>
+         </wsdl:output>
+      </wsdl:operation>
+
+      <wsdl:operation name="completeActivity">
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="completeActivityRequest">
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="urn:AeAdminServices" use="encoded"/>
+         </wsdl:input>
+
+         <wsdl:output name="completeActivityResponse">
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="urn:AeAdminServices" use="encoded"/>
+         </wsdl:output>
+      </wsdl:operation>
+   </wsdl:binding>
+
+   <wsdl:service name="BpelEngineAdmin">
+      <wsdl:port binding="impl:RemoteDebugSoapBinding" name="BPELAdminPort">
+         <wsdlsoap:address location="http://127.0.0.1:8080/rdebug/RemoteDebug"/>
+      </wsdl:port>
+   </wsdl:service>
+</wsdl:definitions>

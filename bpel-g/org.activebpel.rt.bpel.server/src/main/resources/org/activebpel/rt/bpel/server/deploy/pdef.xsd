@@ -1,0 +1,47 @@
+<?xml version="1.0"?>
+<xs:schema targetNamespace="http://schemas.active-endpoints.com/pdef/2004/10/pdef.xsd" 
+   xmlns:tns="http://schemas.active-endpoints.com/pdef/2004/10/pdef.xsd" 
+   xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+
+   <!-- =================================================== -->
+   <!-- Define some complex types to be used by the schema. -->
+   <!-- =================================================== -->
+
+   <!-- Role -->
+   <xs:complexType name="role">
+      <xs:sequence>
+         <!-- The content of this must be a wsa:EndpointReference. -->
+         <xs:any minOccurs="0" maxOccurs="unbounded" processContents="skip" namespace="##any" />
+      </xs:sequence>
+      <xs:attribute name="name" type="xs:string" use="required" />
+   </xs:complexType>
+
+   <!-- =================================================== -->
+   <!-- The definition (uses the above declared types).     -->
+   <!-- =================================================== -->
+   <xs:element name="partnerDefinition">
+      <xs:complexType>
+         <xs:sequence>
+            <!-- Must have at least one "partnerLinkType" element. -->
+            <xs:sequence minOccurs="1" maxOccurs="unbounded">
+               <xs:element name="partnerLinkType">
+                  <xs:complexType>
+                     <!-- 
+                        In most cases, only one role will be defined.  However, it is possible
+                        to create a situation where two roles are needed.  This would not be
+                        considered a good practice, however.  Still, it should pass schema
+                        validation.
+                       -->
+                     <xs:sequence minOccurs="1" maxOccurs="2" >
+                        <xs:element name="role" type="tns:role" />
+                     </xs:sequence>
+                     <xs:attribute name="name" type="xs:QName" use="required" />
+                  </xs:complexType>
+               </xs:element>
+            </xs:sequence>
+         </xs:sequence>
+         <xs:attribute name="principal" type="xs:string" use="required" />
+      </xs:complexType>
+   </xs:element>
+
+</xs:schema>

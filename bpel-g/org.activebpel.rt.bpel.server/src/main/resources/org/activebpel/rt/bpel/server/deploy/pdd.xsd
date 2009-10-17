@@ -1,0 +1,265 @@
+<?xml version="1.0"?>
+<xs:schema targetNamespace="http://schemas.active-endpoints.com/pdd/2006/08/pdd.xsd"
+    xmlns:tns="http://schemas.active-endpoints.com/pdd/2006/08/pdd.xsd"
+    xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+
+   <!-- =================================================== -->
+   <!-- Define some simple types to be used by the schema.  -->
+   <!-- =================================================== -->
+
+   <!-- Simple enumeration type for the Partner Role endpoint reference. -->
+   <xs:simpleType name="partnerRoleEndpointReferenceType">
+      <xs:restriction base="xs:string">
+         <xs:enumeration value="static" />
+         <xs:enumeration value="dynamic" />
+         <xs:enumeration value="invoker" />
+         <xs:enumeration value="principal" />
+      </xs:restriction>
+   </xs:simpleType>
+
+   <!-- Simple enumeration type for the My Role binding. -->
+   <xs:simpleType name="myRoleBindingType">
+      <xs:restriction base="xs:string">
+         <xs:enumeration value="RPC" />
+         <xs:enumeration value="RPC-LIT" />
+         <xs:enumeration value="MSG" />
+         <xs:enumeration value="EXTERNAL" />
+         <xs:enumeration value="POLICY" />         
+      </xs:restriction>
+   </xs:simpleType>
+   
+   <!-- Simple enumeration type for runningProcessDisposition value. -->
+   <xs:simpleType name="dispositionType">
+      <xs:restriction base="xs:string">
+         <xs:enumeration value="terminate" />
+         <xs:enumeration value="maintain" />
+         <xs:enumeration value="migrate" />
+      </xs:restriction>
+   </xs:simpleType>
+
+   <!-- Simple type for deployment-action value. -->
+   <xs:simpleType name="versionAttributeType">
+      <xs:restriction base="xs:float">
+      <xs:pattern value="[0-9]+(\.[0-9]{1,2})?" />
+      </xs:restriction>
+   </xs:simpleType>
+   <!-- Simple type for customInvokeHandler value. -->
+   <!-- @deprecated -->
+   <xs:simpleType name="customInvokerUriType">
+      <xs:restriction base="xs:anyURI" />
+   </xs:simpleType>
+
+   <!-- Simple type for invokeHandler value. -->
+   <xs:simpleType name="invokeHandlerType">
+      <xs:restriction base="xs:anyURI">
+         <xs:pattern value="[a-zA-Z0-9]+(:.+)?" />
+      </xs:restriction>
+   </xs:simpleType>
+
+   <!-- Simple enumeration type for process persistenceType value. -->
+   <xs:simpleType name="persistenceType">
+      <xs:restriction base="xs:string">
+         <xs:enumeration value="full" />
+         <xs:enumeration value="none" />
+      </xs:restriction>
+   </xs:simpleType>
+
+   <!-- Simple enumeration type for process transactionType value. -->
+   <xs:simpleType name="transactionType">
+      <xs:restriction base="xs:string">
+         <xs:enumeration value="bean" />
+         <xs:enumeration value="container" />
+      </xs:restriction>
+   </xs:simpleType>
+
+   <!-- Simple boolean enumeration type for suspend process flag  -->
+   <!--  use this simple type so that '1' and '0' are not allowed -->
+   <xs:simpleType name="suspendFlag">
+      <xs:restriction base="xs:string">
+         <xs:enumeration value="true" />
+         <xs:enumeration value="false" />
+      </xs:restriction>
+   </xs:simpleType>
+
+   <xs:simpleType name="platformType">
+        <xs:annotation>
+        	<xs:documentation>
+        		Simple string enumeration type for deployment platform
+        	</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+         <xs:enumeration value="opensource"></xs:enumeration>
+         <xs:enumeration value="enterprise"></xs:enumeration>
+      </xs:restriction>
+   </xs:simpleType>
+
+   <!-- =================================================== -->
+   <!-- Define some complex types to be used by the schema. -->
+   <!-- =================================================== -->
+
+   <!-- Partner Role -->
+   <xs:complexType name="partnerRoleType">
+      <xs:sequence>
+         <xs:any minOccurs="0" maxOccurs="unbounded" processContents="skip" namespace="##any" />
+      </xs:sequence>
+      <xs:attribute name="endpointReference" type="tns:partnerRoleEndpointReferenceType" use="required" />
+      <xs:attribute name="invokeHandler" type="tns:invokeHandlerType" use="optional"/>
+
+      <!-- @deprecated -->
+      <xs:attribute name="customInvokerUri" type="tns:customInvokerUriType" use="optional" />
+
+   </xs:complexType>
+
+   <!-- My Role -->
+   <xs:complexType name="myRoleType">
+      <xs:sequence>
+         <xs:any namespace="##any" processContents="skip" minOccurs="0" maxOccurs="unbounded"/>
+      </xs:sequence>
+      <xs:attribute name="service" type="xs:string" use="required" />
+      <xs:attribute name="allowedRoles" type="xs:string" use="optional" />
+      <xs:attribute name="binding" type="tns:myRoleBindingType" use="required" />
+   </xs:complexType>
+
+   <!-- Partner Link -->
+   <xs:complexType name="partnerLinkType">
+      <xs:sequence minOccurs="1" maxOccurs="1">
+         <xs:sequence minOccurs="0" maxOccurs="1">
+            <xs:element name="partnerRole" type="tns:partnerRoleType" />
+         </xs:sequence>
+         <xs:sequence minOccurs="0" maxOccurs="1">
+            <xs:element name="myRole" type="tns:myRoleType" />
+         </xs:sequence>
+      </xs:sequence>
+      <xs:attribute name="name" type="xs:string" use="required" />
+      <xs:attribute name="location" type="xs:string" use="optional" />
+   </xs:complexType>
+
+   <!-- Reference -->
+   <xs:complexType name="referenceType">
+      <xs:attribute name="namespace" type="xs:string" use="required" />
+      <xs:attribute name="location" type="xs:string" use="required" />
+      <xs:attribute name="typeURI" type="xs:string" use="optional" />
+   </xs:complexType>
+
+   <!-- indexedProperty -->
+   <xs:complexType name="indexedPropertyType">
+      <xs:sequence minOccurs="0" maxOccurs="unbounded">
+         <xs:element name="variable">
+         <xs:complexType>
+           <xs:attribute name="path" type="xs:string" use="required" />
+           <xs:attribute name="part" type="xs:string" use="optional" />
+           <xs:attribute name="query" type="xs:string" use="optional" />
+         </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+      <xs:attribute name="name" type="xs:string" use="required" />
+      <xs:attribute name="type" type="xs:string" use="required" />
+   </xs:complexType>
+   
+   <!-- Variable -->
+   <xs:complexType name="variableType">
+      <xs:attribute name="path" type="xs:string" use="required" />
+      <xs:attribute name="part" type="xs:string" use="optional" />
+      <xs:attribute name="query" type="xs:string" use="optional" />
+   </xs:complexType>
+   
+   <!-- =================================================== -->
+   <!-- The definition (uses the above declared types).     -->
+   <!-- =================================================== -->
+
+   <xs:element name="process">
+      <xs:complexType>
+      	<xs:sequence>
+      		<!-- optional versioning information -->
+      		<xs:element name="version" minOccurs="0" maxOccurs="1">
+      			<xs:complexType>
+      				<xs:attribute name="id"
+      					type="tns:versionAttributeType" use="optional" />
+      				<xs:attribute name="effectiveDate"
+      					type="xs:dateTime" use="optional" />
+      				<xs:attribute name="expirationDate"
+      					type="xs:dateTime" use="optional" />
+      				<xs:attribute name="runningProcessDisposition"
+      					type="tns:dispositionType" use="optional" />
+      			</xs:complexType>
+      		</xs:element>
+      		<!-- Must have one "partnerLinks" element. -->
+      		<xs:element name="partnerLinks">
+      			<xs:complexType>
+      				<!-- Must have at least one "partnerLink" element. -->
+      				<xs:sequence minOccurs="1"
+      					maxOccurs="unbounded">
+      					<xs:element name="partnerLink"
+      						type="tns:partnerLinkType" />
+      				</xs:sequence>
+      			</xs:complexType>
+      		</xs:element>
+      		<!-- Optional "indexedProperties" element for optional feature of data indexing. -->
+      		<xs:element name="indexedProperties" minOccurs="0">
+      			<xs:complexType>
+      				<xs:sequence minOccurs="0"
+      					maxOccurs="unbounded">
+      					<xs:element name="indexedProperty"
+      						type="tns:indexedPropertyType" />
+      				</xs:sequence>
+      			</xs:complexType>
+      		</xs:element>
+      		<!-- Must have at most one "references" element. -->
+      		<xs:sequence minOccurs="0" maxOccurs="1">
+      			<xs:choice>
+      				<xs:element name="references">
+      					<xs:complexType>
+      						<!-- Must have at least one "referenceType" element. -->
+      						<xs:sequence minOccurs="1"
+      							maxOccurs="unbounded">
+      							<xs:choice>
+      								<xs:element name="wsdl"
+      									type="tns:referenceType" />
+      								<xs:element name="schema"
+      									type="tns:referenceType" />
+      								<xs:element name="other"
+      									type="tns:referenceType" />
+      							</xs:choice>
+      						</xs:sequence>
+      					</xs:complexType>
+      				</xs:element>
+      				<!-- This is deprecated should use references. -->
+      				<xs:element name="wsdlReferences">
+      					<xs:complexType>
+      						<!-- Must have at least one "wsdl" element. -->
+      						<xs:sequence minOccurs="1"
+      							maxOccurs="unbounded">
+      							<xs:element name="wsdl"
+      								type="tns:referenceType" />
+      						</xs:sequence>
+      					</xs:complexType>
+      				</xs:element>
+      			</xs:choice>
+      		</xs:sequence>
+      		<xs:element name="extensions" minOccurs="0">
+      			<xs:complexType>
+      				<xs:sequence>
+      					<xs:any maxOccurs="unbounded"
+      						namespace="##other" processContents="skip" />
+      				</xs:sequence>
+      			</xs:complexType>
+      		</xs:element>
+      	</xs:sequence>
+      	<xs:attribute name="name" type="xs:QName" use="required" />
+      	<xs:attribute name="processRetentionDays" type="xs:integer"
+      		use="optional" />
+      	<xs:attribute name="processGroup" type="xs:string"
+      		use="optional" />
+      	<xs:attribute name="location" type="xs:string" use="required" />
+      	<xs:attribute name="persistenceType"
+      		type="tns:persistenceType" use="optional" />
+      	<xs:attribute name="transactionType"
+      		type="tns:transactionType" use="optional" />
+      	<xs:attribute name="suspendProcessOnUncaughtFault"
+      		type="tns:suspendFlag" use="optional" />
+      	<xs:attribute name="suspendProcessOnInvokeRecovery"
+      		type="tns:suspendFlag" use="optional" />
+      	<xs:attribute name="platform" type="tns:platformType" use="optional" />
+      </xs:complexType>
+   </xs:element>
+</xs:schema>
