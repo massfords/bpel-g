@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema targetNamespace="http://www.w3.org/2001/XMLSchema" blockDefault="#all" 
+   elementFormDefault="qualified"
+   version="1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" xml:lang="EN"
+   xmlns:hfp="http://www.w3.org/2001/XMLSchema-hasFacetAndProperty">
+
+   <xs:import namespace="http://www.w3.org/XML/1998/namespace" schemaLocation="http://www.w3.org/2001/xml.xsd"/>
+
+   <xs:element name="schema" id="schema">
+      <xs:complexType mixed="true">
+         <xs:sequence>
+            <xs:any minOccurs="0" maxOccurs="unbounded" processContents="skip"/>
+         </xs:sequence>
+         <xs:attribute name="targetNamespace" type="xs:anyURI"/>
+         <xs:attribute name="version" type="xs:string"/>
+         <xs:attribute name="finalDefault" type="xs:string" use="optional" default=""/>
+         <xs:attribute name="blockDefault" type="xs:string" use="optional" default=""/>
+         <xs:attribute name="attributeFormDefault" type="xs:string" use="optional" default="unqualified"/>
+         <xs:attribute name="elementFormDefault" type="xs:string" use="optional" default="unqualified"/>
+         <xs:attribute name="id" type="xs:string"/>
+         <xs:attribute ref="xml:lang"/>
+      </xs:complexType>
+   </xs:element>
+
+ <xs:element name="documentation" id="documentation">
+   <xs:annotation>
+     <xs:documentation source="http://www.w3.org/TR/xmlschema-1/#element-documentation"/>
+   </xs:annotation>
+   <xs:complexType mixed="true">
+    <xs:sequence minOccurs="0" maxOccurs="unbounded">
+
+     <xs:any processContents="lax"/>
+    </xs:sequence>
+    <xs:attribute name="source" type="xs:anyURI"/>
+    <xs:attribute ref="xml:lang"/>
+    <xs:anyAttribute namespace="##other" processContents="lax"/>
+   </xs:complexType>
+ </xs:element>
+</xs:schema>
