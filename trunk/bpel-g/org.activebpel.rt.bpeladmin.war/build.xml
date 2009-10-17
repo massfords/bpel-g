@@ -1,0 +1,26 @@
+<project name="Auxiliary build file for the BpelAdmin WAR project" default="package">
+
+   <target name="package" description="Package the BpelAdmin WAR file.">
+      <echo message="Unpacking ${base.war} file in staging directory..."/>
+      <mkdir dir="tmp" />
+      <unwar src="${output.jardir}/${base.war}" dest="tmp" />
+
+      <echo message="Copying BpelAdmin WAR files to staging directory..."/>
+      <copy todir="tmp" overwrite="true">
+         <fileset dir="war" excludes="CVS/*,*.jar" />
+      </copy>
+      <copy todir="tmp/WEB-INF/classes">
+         <fileset dir="classes" excludes="CVS/*,*.jar" />
+      </copy>
+
+      <echo message="Creating the BpelAdmin.war file..."/>
+      <delete file="${output.jardir}/${output.jarfile}" quiet="true" failonerror="false"/>
+      <jar destfile="${output.jardir}/${output.jarfile}">
+         <fileset dir="tmp" excludes="CVS/*,*.jar" />
+      </jar>
+      
+      <echo message="Removing staging directory..."/>
+      <delete dir="tmp" />
+   </target>
+
+</project>
