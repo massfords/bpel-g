@@ -1,0 +1,11 @@
+<project name="Auxiliary build file for creating a jar lib for the ae tags" default="main">
+   <!-- ========================================================================= -->
+   <!-- Build ae base war tag classes as a JAR file -->
+   <!-- ========================================================================= -->
+   <target name="main" if="project" >
+      <echo message="Creating JAR library for ae base war tags..."/>
+      <jar destfile="${ae.dist}/ae_wartags.jar" 
+            includes="org/activebpel/rt/war/tags/**,org/activebpel/rt/war/AeActiveBpelWarBundle.class, org/activebpel/rt/war/AeMessages.class, org/activebpel/rt/war/messages.properties"
+            basedir="${projectsroot}/${project}/classes" /> 
+   </target>
+</project>
