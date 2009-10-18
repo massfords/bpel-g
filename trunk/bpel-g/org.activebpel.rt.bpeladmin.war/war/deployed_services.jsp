@@ -43,7 +43,7 @@
                           <td align="left">&nbsp;<jsp:getProperty name="rowDetail" property="serviceName" /></td>
                        </ae:IfPropertyMatches>
                        <ae:IfPropertyNotMatches name="rowDetail" property="binding" value="EXTERNAL" classType="java.lang.String">
-                          <td align="left">&nbsp;<a href='/active-bpel/services/<jsp:getProperty name="rowDetail" property="serviceName" />?wsdl'><jsp:getProperty name="rowDetail" property="serviceName" /></a></td>
+                          <td align="left">&nbsp;<a href='services/<jsp:getProperty name="rowDetail" property="serviceName" />?wsdl'><jsp:getProperty name="rowDetail" property="serviceName" /></a></td>
                        </ae:IfPropertyNotMatches>
                        <%
                          String procDetail = response.encodeURL("deployed_process_detail.jsp?planQname=" + rowDetail.getProcessQName().getNamespaceURI() + ":" + rowDetail.getProcessQName().getLocalPart() + "&tab=0");
