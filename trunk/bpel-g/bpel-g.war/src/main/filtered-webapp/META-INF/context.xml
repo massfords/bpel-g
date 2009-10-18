@@ -1,0 +1,18 @@
+<?xml version='1.0' encoding='utf-8'?>
+<Context reloadable="false" displayName="ActiveBPEL Business Process Server - Web Services" path="/active-bpel">
+
+  <Parameter name="db.url" value="jdbc:h2:${h2.database.path}" override="false"/>
+  <Parameter name="db.user" value="${h2.database.user}" override="false"/>
+  <Parameter name="db.password" value="${h2.database.password}" override="false"/>
+  <Parameter name="db.tcpServer" value="-tcpAllowOthers" override="false"/>
+
+ <Resource name="jdbc/ActiveBPELDB" auth="Container"
+            type="javax.sql.DataSource" 
+            username="${h2.database.user}" 
+            password="${h2.database.password}"
+            driverClassName="org.h2.Driver"
+            url="jdbc:h2:${h2.database.path}"
+            maxActive="10"
+            maxIdle="4"/>
+  </Context>
+
