@@ -13,7 +13,7 @@
 	</parent>
     <repositories>
         <repository>
-            <id>ae-repo</id>
+            <id>bpel-g-repo</id>
             <url>file://${basedir}/../maven-repository</url> 
         </repository>
     </repositories>
@@ -43,6 +43,7 @@
 			</configuration>
 		</plugin>
 	</plugins>
+	<finalName>bpel-g</finalName>
 	</build>
 	<dependencies>
 		<dependency>
