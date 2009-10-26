@@ -12,8 +12,6 @@ package org.activebpel.rt.axis.bpel.web;
 import java.io.File;
 import java.io.PrintWriter;
 import java.text.MessageFormat;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -37,6 +35,8 @@ import org.apache.axis.AxisFault;
 import org.apache.axis.ConfigurationException;
 import org.apache.axis.server.AxisServer;
 import org.apache.axis.transport.http.AxisServlet;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 /**
  * The process engine servlet starts up the bpel server, as well as the axis 
@@ -85,7 +85,7 @@ public class AeProcessEngineServlet extends AxisServlet implements IAeCatalogLis
    // Member data
    /////////////////////////////////////////////////////////////////////////////
    /** for deployment logging purposes */
-   protected static final Logger log = Logger.getLogger("ActiveBPEL"); //$NON-NLS-1$
+   protected static final Log log = LogFactory.getLog(AeProcessEngineServlet.class);
 
    /** AeLoggerWrapper impl for deployment logging. */
    protected static final AeTomcatLogger sLogger = new AeTomcatLogger();
@@ -127,7 +127,7 @@ public class AeProcessEngineServlet extends AxisServlet implements IAeCatalogLis
       }
       catch (Exception e)
       {
-         log.log(Level.SEVERE, AeMessages.getString("AeProcessEngineServlet.13"), e); //$NON-NLS-1$
+         log.error(AeMessages.getString("AeProcessEngineServlet.13"), e); //$NON-NLS-1$
          throw new ServletException(e);
       }
       
@@ -178,7 +178,6 @@ public class AeProcessEngineServlet extends AxisServlet implements IAeCatalogLis
       long initialDelay = getLongValue( aConfig, SCAN_DELAY_PARAM, DEFAULT_DELAY );
       IAeDeploymentFileHandler fileHandler = createFileHandler( aConfig );
       AeEngineLifecycleWrapper handler = new AeEngineLifecycleWrapper(sLogger, fileHandler, initialDelay);
-      AeEngineLifecycleWrapper.setServletContext(getServletContextPath(aConfig));
       
       return handler;
    }
@@ -243,7 +242,7 @@ public class AeProcessEngineServlet extends AxisServlet implements IAeCatalogLis
          servletHomePath = AeUtil.replaceAntStyleParams( servletHomePath, System.getProperties() );
       }
       File servletHome = new File(servletHomePath);
-      log.fine("servlet.home="+servletHomePath); //$NON-NLS-1$
+      log.trace("servlet.home="+servletHomePath); //$NON-NLS-1$
       return servletHome;
    }
       
@@ -287,7 +286,7 @@ public class AeProcessEngineServlet extends AxisServlet implements IAeCatalogLis
       {
          engineConfigFileName = AeDefaultEngineConfiguration.DEFAULT_CONFIG_FILE;
       }
-      log.fine("engine.config="+engineConfigFileName); //$NON-NLS-1$
+      log.trace("engine.config="+engineConfigFileName); //$NON-NLS-1$
       return engineConfigFileName;
    }
    
@@ -303,6 +302,14 @@ public class AeProcessEngineServlet extends AxisServlet implements IAeCatalogLis
       try
       {
          mEngineHandler.stop();
+      }
+      catch( AeException ae )
+      {
+         ae.logError();
+      }
+      try
+      {
+         mEngineHandler.shutdown();
       }
       catch( AeException ae )
       {
@@ -362,7 +369,7 @@ public class AeProcessEngineServlet extends AxisServlet implements IAeCatalogLis
     */
    public void onDeployment(AeCatalogEvent aEvent)
    {
-      log.fine(AeMessages.getString("AeProcessEngineServlet.19") + aEvent.getLocationHint() ); //$NON-NLS-1$
+      log.debug(AeMessages.getString("AeProcessEngineServlet.19") + aEvent.getLocationHint() ); //$NON-NLS-1$
    }
 
    /**
@@ -370,7 +377,7 @@ public class AeProcessEngineServlet extends AxisServlet implements IAeCatalogLis
     */
    public void onDuplicateDeployment(AeCatalogEvent aEvent)
    {
-      log.warning(MessageFormat.format(AeMessages.getString("AeProcessEngineServlet.0"), //$NON-NLS-1$
+      log.warn(MessageFormat.format(AeMessages.getString("AeProcessEngineServlet.0"), //$NON-NLS-1$
                                        new Object[] {aEvent.getLocationHint()}));
    }
 
@@ -379,7 +386,7 @@ public class AeProcessEngineServlet extends AxisServlet implements IAeCatalogLis
     */
    public void onRemoval(AeCatalogEvent aEvent)
    {
-      log.fine( AeMessages.getString("AeProcessEngineServlet.22") + aEvent.getLocationHint() ); //$NON-NLS-1$
+      log.trace( AeMessages.getString("AeProcessEngineServlet.22") + aEvent.getLocationHint() ); //$NON-NLS-1$
    }
    
    /**
@@ -392,7 +399,7 @@ public class AeProcessEngineServlet extends AxisServlet implements IAeCatalogLis
        */
       public void logDebug(String aMessage)
       {
-         log.fine( aMessage );
+         log.debug( aMessage );
       }
 
       /**
@@ -400,7 +407,7 @@ public class AeProcessEngineServlet extends AxisServlet implements IAeCatalogLis
        */
       public void logError(String aMessage, Throwable aProblem)
       {
-         log.severe( aMessage );
+         log.error( aMessage );
       }
 
       /**
