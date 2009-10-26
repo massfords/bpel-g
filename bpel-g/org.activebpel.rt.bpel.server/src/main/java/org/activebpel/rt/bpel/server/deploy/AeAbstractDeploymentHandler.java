@@ -19,7 +19,7 @@ import org.activebpel.rt.bpel.server.logging.IAeLogWrapper;
 abstract public class AeAbstractDeploymentHandler implements IAeDeploymentHandler
 {
    /** Platform specific logging. */
-   private IAeLogWrapper mLogger = IAeLogWrapper.NULL_LOG;
+   private IAeLogWrapper mLogger;
    /** logger that we're currently writing to */
    protected IAeDeploymentLogger mDeploymentLogger;
    /** name of the container currently being deployed */
