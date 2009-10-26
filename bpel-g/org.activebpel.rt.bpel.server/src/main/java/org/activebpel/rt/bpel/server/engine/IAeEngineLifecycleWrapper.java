@@ -31,10 +31,17 @@ public interface IAeEngineLifecycleWrapper
     */
    public void start() throws AeException;
    
+   
+    /**
+     * Stops the engine and file scanning. May be resumed by a call to start.
+     * @throws AeException
+     */
+    public void stop() throws AeException;
+   
    /**
     * Stop the engine and release any associated resources.
     * @throws AeException
     */
-   public void stop() throws AeException;
+   public void shutdown() throws AeException;
 
 }
