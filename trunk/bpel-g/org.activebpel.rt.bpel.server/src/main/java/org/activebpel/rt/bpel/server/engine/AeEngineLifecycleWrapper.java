@@ -9,8 +9,6 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpel.server.engine;
 
-import commonj.timers.TimerListener;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
@@ -18,9 +16,9 @@ import java.net.URL;
 import java.text.MessageFormat;
 
 import org.activebpel.rt.AeException;
-import org.activebpel.rt.bpel.server.AeMessages;
 import org.activebpel.rt.bpel.config.AeDefaultEngineConfiguration;
 import org.activebpel.rt.bpel.config.IAeEngineConfiguration;
+import org.activebpel.rt.bpel.server.AeMessages;
 import org.activebpel.rt.bpel.server.deploy.scanner.AeDeploymentFileInfo;
 import org.activebpel.rt.bpel.server.deploy.scanner.IAeDeploymentFileHandler;
 import org.activebpel.rt.bpel.server.engine.config.AeFileBasedEngineConfig;
@@ -28,6 +26,8 @@ import org.activebpel.rt.bpel.server.logging.IAeLogWrapper;
 import org.activebpel.rt.util.AeCloser;
 import org.activebpel.rt.util.AeUtil;
 import org.activebpel.timer.AeAbstractTimerWork;
+
+import commonj.timers.TimerListener;
 
 /**
  * ActiveBPEL <code>IAeEngineHandler</code> impl.
@@ -40,8 +40,6 @@ public class AeEngineLifecycleWrapper implements IAeEngineLifecycleWrapper
    protected IAeLogWrapper mLog;
    /** The file handler. */
    protected IAeDeploymentFileHandler mFileHandler;
-   /** The directory of the servlet context dir where we are running */
-   protected static File mContextPath;
    
    /**
     * Constructor.
@@ -53,23 +51,6 @@ public class AeEngineLifecycleWrapper implements IAeEngineLifecycleWrapper
       mLog = aLog;
       mFileHandler = aFileHandler;
       mInitialDelay = aInitialDelay;
-   }
-   
-   /**
-    * Returns the constext path wher the servlet is executing
-    */
-   public static File getServletContext()
-   {
-      return mContextPath;
-   }
-
-   /**
-    * Sets the context path where the servlet is executing
-    * @param aContextPath
-    */
-   public static void setServletContext(File aContextPath)
-   {
-      mContextPath = aContextPath;
    }
    
    /**
@@ -257,17 +238,21 @@ public class AeEngineLifecycleWrapper implements IAeEngineLifecycleWrapper
       }
    }
    
+   public void stop() throws AeException {
+       mFileHandler.stopScanning();
+       AeEngineFactory.getEngine().stop();
+   }
+   
    /**
     * Stop the engine and release any associated resources.
     */
-   public void stop()
+   public void shutdown()
    {
       String description = getConfigDescription();
       logInfo( description + AeMessages.getString("AeEngineLifecycleWrapper.10")); //$NON-NLS-1$
 
       try
       {
-         mFileHandler.stopScanning();
          AeEngineFactory.getEngine().shutDown();
          logInfo( description + AeMessages.getString("AeEngineLifecycleWrapper.11")); //$NON-NLS-1$
       }
