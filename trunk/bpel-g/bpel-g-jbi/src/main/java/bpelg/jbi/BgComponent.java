@@ -11,10 +11,15 @@ import org.w3c.dom.DocumentFragment;
 
 public class BgComponent implements Component {
 
+    private ComponentLifeCycle mLifecycle;
+    
+    public BgComponent() {
+        mLifecycle = new BgComponentLifeCycle();
+    }
+    
 	@Override
 	public ComponentLifeCycle getLifeCycle() {
-		// FIXME Need a lifecycle object that starts/stops the engine
-		return null;
+	    return mLifecycle;
 	}
 
 	@Override
