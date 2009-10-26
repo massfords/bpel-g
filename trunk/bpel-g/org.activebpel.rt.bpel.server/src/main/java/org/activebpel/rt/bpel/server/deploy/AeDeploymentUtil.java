@@ -72,7 +72,7 @@ public class AeDeploymentUtil
     */
    protected static URL copyWsrToStagingDir( URL aWsr, String aDestName ) throws IOException
    {
-      File stagingDir = new File( AeDeploymentFileInfo.getStagingDirectory() );
+      File stagingDir = AeDeploymentFileInfo.getStagingDirectory();
       File copyDest = new File( stagingDir, aDestName );
       InputStream in = null;
       OutputStream out = null;
