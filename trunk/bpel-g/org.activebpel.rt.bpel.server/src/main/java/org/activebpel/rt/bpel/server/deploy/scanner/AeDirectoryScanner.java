@@ -36,7 +36,7 @@ import org.activebpel.rt.util.AeFileUtil;
 public class AeDirectoryScanner
 {
    /** The directory to watch. */
-   private String mScanDir;
+   private File mScanDir;
    /** The scan interval. */
    private long mScanInterval;
    /** Indicates if the scan should continue. */
@@ -62,11 +62,11 @@ public class AeDirectoryScanner
     * @param aScanInterval The scan interval.  Set to -1 for single scan only.
     * @param aFilter A FilenameFilter to select a subset of files.  Pass in null to include all files.
     */
-   public AeDirectoryScanner( String aScanDir, long aScanInterval, 
+   public AeDirectoryScanner( File aScanDir, long aScanInterval, 
       FilenameFilter aFilter, Comparator aComparator )
    {
       mScanDir = aScanDir;
-      if( !new File(mScanDir).isDirectory() )
+      if( !mScanDir.isDirectory() )
       {
          throw new IllegalArgumentException( aScanDir + AeMessages.getString("AeDirectoryScanner.ERROR_0") ); //$NON-NLS-1$
       }
@@ -307,7 +307,7 @@ public class AeDirectoryScanner
     */
    protected File getScanDir()
    {
-      return new File( mScanDir );
+      return mScanDir;
    }
 
    /**
