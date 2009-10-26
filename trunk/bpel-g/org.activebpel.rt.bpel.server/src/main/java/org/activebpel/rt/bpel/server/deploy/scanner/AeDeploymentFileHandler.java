@@ -49,7 +49,7 @@ public class AeDeploymentFileHandler implements IAeDeploymentFileHandler, IAeSca
    {
       mLog = aLog;
       mScanInterval = aScanInterval;
-      AeUnpackedDeploymentStager.init( new File(AeDeploymentFileInfo.getStagingDirectory()), aLog );
+      AeUnpackedDeploymentStager.init( AeDeploymentFileInfo.getStagingDirectory(), aLog );
    }
    
    /**
@@ -143,7 +143,7 @@ public class AeDeploymentFileHandler implements IAeDeploymentFileHandler, IAeSca
     */
    protected void createScanner()
    {
-      String deploymentDir = AeDeploymentFileInfo.getDeploymentDirectory();
+      File deploymentDir = AeDeploymentFileInfo.getDeploymentDirectory();
       AeDirectoryScanner scanner = new AeDirectoryScanner( deploymentDir, mScanInterval, getDeploymentFileFilter(), null);
       scanner.addListener( this );
       setScanner(scanner);
