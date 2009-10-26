@@ -27,6 +27,11 @@ public class AeDeploymentFileInfo
    private static String mDeployDirectory;
    /** The staging directory. */
    private static String mStagingDirectory;
+   private static File mInstallDir;
+   
+   public static void setInstallDir(File aInstallDir) {
+       mInstallDir = aInstallDir;
+   }
    
    /**
     * Accessor for engine config file name.
@@ -57,9 +62,12 @@ public class AeDeploymentFileInfo
    /**
     * Getter for the staging directory.
     */
-   public static String getStagingDirectory()
+   public static File getStagingDirectory()
    {
-      return mStagingDirectory;
+       if (mInstallDir == null)
+           return new File(mStagingDirectory);
+       else
+           return new File(mInstallDir, mStagingDirectory);
    }
 
    /**
@@ -74,9 +82,12 @@ public class AeDeploymentFileInfo
    /**
     * Getter for the deployment directory.
     */
-   public static String getDeploymentDirectory()
+   public static File getDeploymentDirectory()
    {
-      return mDeployDirectory;
+       if (mInstallDir == null)
+           return new File(mDeployDirectory);
+       else 
+           return new File(mInstallDir, mDeployDirectory);
    }
    
    /**
@@ -84,7 +95,7 @@ public class AeDeploymentFileInfo
     */
    public static File getEngineConfigFile()
    {
-      File deploymentDir = new File( getDeploymentDirectory() );
+      File deploymentDir = getDeploymentDirectory();
       return new File( deploymentDir, getConfigFileName() );
    }
    
