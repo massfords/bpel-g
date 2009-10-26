@@ -228,11 +228,11 @@ public class AeConfigurationUtil
          }
          return null;
       }
-      catch (Throwable e)
+      catch (Throwable t)
       {
          String message = AeMessages.format("AeConfigurationUtil.ErrorInstantiating", className); //$NON-NLS-1$
-         AeException.logError(e, message);
-         throw new AeException(message);
+         AeException.logError(t, message);
+         throw new AeException(message, t);
       }
    }
 
