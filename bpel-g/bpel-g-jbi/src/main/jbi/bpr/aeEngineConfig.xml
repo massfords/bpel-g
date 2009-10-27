@@ -75,15 +75,6 @@
    <!-- SecurityProvider configuration -->
    <entry name="SecurityProvider">
       <entry name="Class" value="org.activebpel.rt.bpel.server.security.AeSecurityProvider"/>
-      <!-- Uncomment to use an installed JAAS provider
-      <entry name="LoginProvider">
-         <entry name="Class" value="org.activebpel.rt.bpel.server.security.AeJAASLoginProvider"/>
-         <entry name="ApplicationConfigName" value="ActiveBPEL"/>
-         <entry name="CallbackHandler">
-            <entry name="Class" value="org.activebpel.rt.bpel.server.security.AeCallbackHandler"/>
-         </entry>
-      </entry>
-      -->
       <entry name="AuthorizationProvider">
          <entry name="Class" value="org.activebpel.rt.bpel.server.security.AePrincipalAuthProvider"/>
       </entry>
@@ -105,9 +96,6 @@
             <entry name="default" value="org.activebpel.rt.bpel.server.engine.invoke.AePojoHandlerFactory"/>
             <entry name="java" value="org.activebpel.rt.bpel.server.engine.invoke.AePojoHandlerFactory"/>
             <entry name="process" value="org.activebpel.rt.bpel.server.engine.invoke.AeProcessHandlerFactory"/>
-            <!--
-            <entry name="identity" value="org.activebpel.rt.identity.invoke.AeIdentityServiceInvokeHandlerFactory" />
-         -->
          </entry>
       </entry>
       <entry name="UnmatchedReceivesCount" value="50" />
