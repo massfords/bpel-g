@@ -2,19 +2,22 @@ package bpelg.jbi;
 
 import javax.jbi.component.Component;
 import javax.jbi.component.ComponentLifeCycle;
-import javax.jbi.component.ServiceUnitManager;
 import javax.jbi.messaging.MessageExchange;
 import javax.jbi.servicedesc.ServiceEndpoint;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.DocumentFragment;
 
+import bpelg.jbi.su.BgServiceUnitManager;
+
 public class BgComponent implements Component {
 
     private ComponentLifeCycle mLifecycle;
+    private BgServiceUnitManager mServiceUnitManager;
     
     public BgComponent() {
         mLifecycle = new BgComponentLifeCycle();
+        mServiceUnitManager = new BgServiceUnitManager();
     }
     
 	@Override
@@ -31,11 +34,8 @@ public class BgComponent implements Component {
 	}
 
 	@Override
-	public ServiceUnitManager getServiceUnitManager() {
-		// FIXME Need a class that can adapt su packaging to what's needed by IAeDeploymentHandler
-		// Not sure there's a comparable notion of start or stop for AE deployments. The process is
-		// active as soon as it is deployed
-		return null;
+	public BgServiceUnitManager getServiceUnitManager() {
+		return mServiceUnitManager;
 	}
 
 	@Override
