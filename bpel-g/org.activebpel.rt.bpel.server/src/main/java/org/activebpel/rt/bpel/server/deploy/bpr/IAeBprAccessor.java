@@ -49,7 +49,7 @@ public interface IAeBprAccessor
    /**
     * Return the collection of pdd resource names.
     */
-   public Collection getPddResources();
+   public Collection<String> getPddResources();
    
    /**
     * Return the catalog xml file <code>Document</code>.
