@@ -2,8 +2,6 @@ package bpelg.jbi;
 
 import javax.jbi.component.ComponentContext;
 
-import org.activebpel.rt.bpel.server.engine.AeEngineFactory;
-
 /**
  * Singleton context for all things JBI and bpel-g
  * 
