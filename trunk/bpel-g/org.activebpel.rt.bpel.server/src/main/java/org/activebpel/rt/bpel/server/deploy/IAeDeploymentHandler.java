@@ -29,8 +29,8 @@ public interface IAeDeploymentHandler
    /**
     * Undeploy container resources from the system.
     * 
-    * @param aContainerS
+    * @param aContainer
     * @throws AeException
     */
-   public void undeploy( IAeDeploymentContainer aContainerS ) throws AeException;
+   public void undeploy( IAeDeploymentContainer aContainer ) throws AeException;
 }
