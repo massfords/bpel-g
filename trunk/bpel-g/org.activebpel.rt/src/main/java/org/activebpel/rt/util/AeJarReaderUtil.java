@@ -74,7 +74,7 @@ public class AeJarReaderUtil
     * @param aFilter select entries based on filename
     * @return matching jar entry file names
     */
-   public Collection getEntryNames( FilenameFilter aFilter )
+   public Collection<String> getEntryNames( FilenameFilter aFilter )
    {
       List matches = new ArrayList();
       for( Enumeration e = mJarFile.entries(); e.hasMoreElements(); )
