@@ -28,7 +28,7 @@ public abstract class AeAbstractBprStrategy implements IAeBprAccessor
    /** The wsdd resource for Axis deployments. */
    private String mWsddResource;
    /** The pdd resource names. */
-   private Collection mPddResources;
+   private Collection<String> mPddResources;
    /** The pdef resource names. */
    private Collection mPdefResources;
    /** XML parser. */

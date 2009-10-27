@@ -44,7 +44,7 @@ public interface IAeBpr
     * method returns true, there should be at least one name in
     * this collection.
     */
-   public Collection getPddResources();
+   public Collection<String> getPddResources();
    
    /**
     * Return the name of the wsdd resource (for straight Axis deployment) or
