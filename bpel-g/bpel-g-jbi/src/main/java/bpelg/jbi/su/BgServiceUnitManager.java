@@ -24,6 +24,11 @@ import org.activebpel.rt.bpel.server.logging.AeCommonsLoggingImpl;
 import org.activebpel.rt.bpel.server.logging.IAeDeploymentLogger;
 import org.activebpel.rt.bpel.server.logging.IAeLogWrapper;
 
+/**
+ * Handles the deployment and undeployment of service units
+ * 
+ * @author mford
+ */
 public class BgServiceUnitManager implements ServiceUnitManager {
 
     private static final String DEPLOY_XML = 
@@ -31,21 +36,22 @@ public class BgServiceUnitManager implements ServiceUnitManager {
     		"           <component-name>bpel-g</component-name>" + 
     		"           <component-task-result-details>" + 
     		"              <task-result-details>" + 
-    		"                   <task-id>deploy</task-id> " + 
-    		"                   <task-result>{0}</task-result>" + 
+    		"                   <task-id>{0}</task-id> " + 
+    		"                   <task-result>{1}</task-result>" + 
     		"              </task-result-details> " + 
     		"           </component-task-result-details>" + 
     		"          </component-task-result>"; 
     
-    private IAeLogWrapper mLog = new AeCommonsLoggingImpl(BgServiceUnitManager.class);
+    private static final IAeLogWrapper mLog = new AeCommonsLoggingImpl(BgServiceUnitManager.class);
 
     @Override
     public String deploy(String aServiceUnitName, String aServiceUnitRootPath)
             throws DeploymentException {
         String message = null;
         try {
-            URL url = new File(aServiceUnitRootPath).toURI().toURL();
             IAeDeploymentLogger logger = new BgDeploymentLogger();
+
+            URL url = new File(aServiceUnitRootPath).toURI().toURL();
 
             IAeDeploymentContainer deployContainer = createDeploymentContainer(url);
 
@@ -67,17 +73,53 @@ public class BgServiceUnitManager implements ServiceUnitManager {
             mLog.logError(
                     MessageFormat.format(
                             AeMessages.getString("AeDeploymentFileHandler.ERROR_2"), new Object[] { aServiceUnitName }), t); //$NON-NLS-1$
-            StringWriter sw = new StringWriter();
-            PrintWriter pw = new PrintWriter(sw);
-            t.printStackTrace(pw);
-            pw.flush();
-            pw.close();
-            message = sw.toString();
+            message = stacktraceToString(t);
         }
-        return MessageFormat.format(DEPLOY_XML, message);
+        return MessageFormat.format(DEPLOY_XML, "deploy", message);
     }
     
-    public IAeDeploymentContainer createDeploymentContainer( URL aFileURL )
+    @Override
+    public String undeploy(String aServiceUnitName, String aServiceUnitRootPath)
+            throws DeploymentException {
+        
+        String message = null;
+        
+        try {
+            URL url = new File(aServiceUnitRootPath).toURI().toURL();
+    
+            IAeDeploymentContainer deployContainer = createDeploymentContainer(url);
+            IAeDeploymentHandler handler = AeEngineFactory.getDeploymentHandlerFactory().newInstance(mLog);
+            handler.undeploy(deployContainer);
+            message = "SUCCESS";
+        } catch(Throwable t) {
+            message = stacktraceToString(t);
+        }
+        
+        return MessageFormat.format(DEPLOY_XML, "undeploy", message);
+    }
+
+    @Override
+    public void init(String aServiceUnitName, String aServiceUnitRootPath)
+            throws DeploymentException {
+        // FIXME the open source engine doesn't have hooks for init'ing, starting, stopping, or shutting down processes. 
+    }
+
+    @Override
+    public void shutDown(String aServiceUnitName) throws DeploymentException {
+        // FIXME the open source engine doesn't have hooks for init'ing, starting, stopping, or shutting down processes. 
+    }
+
+    @Override
+    public void start(String aServiceUnitName) throws DeploymentException {
+        // FIXME the open source engine doesn't have hooks for init'ing, starting, stopping, or shutting down processes. 
+    }
+
+    @Override
+    public void stop(String aServiceUnitName) throws DeploymentException {
+        // FIXME the open source engine doesn't have hooks for init'ing, starting, stopping, or shutting down processes. 
+    }
+
+    protected IAeDeploymentContainer createDeploymentContainer( URL aFileURL )
     throws AeException
     {
        ClassLoader current = Thread.currentThread().getContextClassLoader();
@@ -89,37 +131,14 @@ public class BgServiceUnitManager implements ServiceUnitManager {
        IAeBpr file = AeBpr.createUnpackedBpr( context );
        return new AeDeploymentContainer( context, file, aFileURL );
     }
+
+    private String stacktraceToString(Throwable t) {
+        StringWriter sw = new StringWriter();
+        PrintWriter pw = new PrintWriter(sw);
+        t.printStackTrace(pw);
+        pw.flush();
+        pw.close();
+        return sw.toString();
+    }
     
-
-    @Override
-    public void init(String aServiceUnitName, String aServiceUnitRootPath)
-            throws DeploymentException {
-        // TODO Auto-generated method stub
-
-    }
-
-    @Override
-    public void shutDown(String aServiceUnitName) throws DeploymentException {
-        // TODO Auto-generated method stub
-
-    }
-
-    @Override
-    public void start(String aServiceUnitName) throws DeploymentException {
-        // TODO Auto-generated method stub
-
-    }
-
-    @Override
-    public void stop(String aServiceUnitName) throws DeploymentException {
-        // TODO Auto-generated method stub
-
-    }
-
-    @Override
-    public String undeploy(String aServiceUnitName, String aServiceUnitRootPath)
-            throws DeploymentException {
-        // TODO Auto-generated method stub
-        return null;
-    }
 }
