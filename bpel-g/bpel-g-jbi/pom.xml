@@ -33,10 +33,10 @@
 				<configuration>
 					<type>binding-component</type>
 					<bootstrap>bpelg.jbi.BgBootstrap</bootstrap>
-					<component>bpelg.jbi.BgComponent</component>
+					<component>bpelg.jbi.BgComponent</component><!--
 			        <componentClassLoaderDelegation>self-first</componentClassLoaderDelegation>
 			        <bootstrapClassLoaderDelegation>self-first</bootstrapClassLoaderDelegation>
-				</configuration>
+				--></configuration>
 			</plugin>
 		</plugins>
 	</build>
