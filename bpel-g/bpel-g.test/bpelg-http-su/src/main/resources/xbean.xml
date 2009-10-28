@@ -1,0 +1,14 @@
+<beans  
+    xmlns:http="http://servicemix.apache.org/http/1.0"
+    xmlns:test="http://www.example.org/test/">
+    
+    <http:endpoint service="test:test"
+        endpoint="test"
+        role="consumer" 
+        locationURI="http://0.0.0.0:8192/bpelG-TestService/"
+        defaultMep="http://www.w3.org/2004/08/wsdl/in-out"
+        soap="true"
+        soapVersion="1.1"
+        wsdlResource="classpath:test.wsdl"
+    />
+</beans>
