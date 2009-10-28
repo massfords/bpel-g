@@ -2,6 +2,8 @@ package bpelg.jbi;
 
 import javax.jbi.component.ComponentContext;
 
+import bpelg.jbi.exchange.IBgMessageExchangeProcessor;
+
 /**
  * Singleton context for all things JBI and bpel-g
  * 
@@ -9,9 +11,10 @@ import javax.jbi.component.ComponentContext;
  */
 public class BgContext {
 	private static final BgContext sInstance = new BgContext();
-//	private 
 
 	private ComponentContext mComponentContext;
+	// FIXME initialize this
+	private IBgMessageExchangeProcessor mMessageExchangeProcessor;
 	
 	private BgContext() {
 		
@@ -21,11 +24,19 @@ public class BgContext {
 		return sInstance;
 	}
 	
-	protected ComponentContext getComponentContext() {
+	public ComponentContext getComponentContext() {
 		return mComponentContext;
 	}
 
 	protected void setComponentContext(ComponentContext aComponentContext) {
 		mComponentContext = aComponentContext;
 	}
+
+    public IBgMessageExchangeProcessor getMessageExchangeProcessor() {
+        return mMessageExchangeProcessor;
+    }
+
+    protected void setMessageExchangeProcessor(IBgMessageExchangeProcessor aMessageExchangeProcessor) {
+        mMessageExchangeProcessor = aMessageExchangeProcessor;
+    }
 }
