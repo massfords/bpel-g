@@ -2,6 +2,7 @@ package bpelg.jbi;
 
 import javax.jbi.component.ComponentContext;
 
+import bpelg.jbi.exchange.BgMessageExchangeProcessor;
 import bpelg.jbi.exchange.IBgMessageExchangeProcessor;
 
 /**
@@ -13,11 +14,10 @@ public class BgContext {
 	private static final BgContext sInstance = new BgContext();
 
 	private ComponentContext mComponentContext;
-	// FIXME initialize this
 	private IBgMessageExchangeProcessor mMessageExchangeProcessor;
 	
 	private BgContext() {
-		
+	    setMessageExchangeProcessor(new BgMessageExchangeProcessor());
 	}
 	
 	public static synchronized BgContext getInstance() {
