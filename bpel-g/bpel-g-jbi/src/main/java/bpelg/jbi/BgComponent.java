@@ -27,10 +27,7 @@ public class BgComponent implements Component {
 
 	@Override
 	public Document getServiceDescription(ServiceEndpoint aEndpoint) {
-		// FIXME - return WSDL doc for the given service endpoint
-		// - use IAeDeploymentProvider to get IAeProcessDeployment
-		// - walk the context WSDL looking for the WSDL def that provides the port type for this endpoint
-		return null;
+	    return BgContext.getInstance().getServiceDescription(aEndpoint.getServiceName());
 	}
 
 	@Override
