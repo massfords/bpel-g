@@ -32,8 +32,6 @@ public class BgReceiver implements Runnable {
     // default number of threads in the thread pool
     private static final int THREADPOOL_SIZE = 8;
 
-    private BgContext mContext = null;
-
     /** Receiver-Running Flag. */
     private AtomicBoolean mRunning = new AtomicBoolean(false);
 
@@ -51,8 +49,7 @@ public class BgReceiver implements Runnable {
      * @param context
      *            for receiving environment parameters.
      */
-    public BgReceiver(BgContext context) {
-        mContext = context;
+    public BgReceiver() {
         mThread = new Thread(this);
         mExecutorService = Executors.newFixedThreadPool(THREADPOOL_SIZE);
     }
@@ -120,7 +117,6 @@ public class BgReceiver implements Runnable {
 
             mExecutorService = null;
             mThread = null;
-            mContext = null;
         }
     }
 
@@ -134,7 +130,7 @@ public class BgReceiver implements Runnable {
         DeliveryChannel channel = null;
         
         try {
-            channel = mContext.getComponentContext().getDeliveryChannel();
+            channel = BgContext.getInstance().getComponentContext().getDeliveryChannel();
             if (channel == null) {
                 sLog.fatal("No Channel!");
                 return;
@@ -162,7 +158,7 @@ public class BgReceiver implements Runnable {
                         mExecutorService.submit(new Runnable() {
                             public void run() {
                                 try {
-                                    mContext.getMessageExchangeProcessor().onJbiMessageExchange(messageExchange);
+                                    BgContext.getInstance().getMessageExchangeProcessor().onJbiMessageExchange(messageExchange);
                                 } catch (Throwable t) {
                                     sLog.error("Error processing JBI message.", t);
                                 }
