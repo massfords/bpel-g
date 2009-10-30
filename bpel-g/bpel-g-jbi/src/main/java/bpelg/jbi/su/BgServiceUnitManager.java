@@ -55,8 +55,6 @@ public class BgServiceUnitManager implements ServiceUnitManager {
 
             IAeDeploymentContainer deployContainer = createDeploymentContainer(url);
 
-            // If the logger is null, used the factory to create a new one.
-
             AeDeploymentFileValidator.validateFileType(deployContainer, true, logger);
 
             // If the file type is valid, then use the deployment handler to
