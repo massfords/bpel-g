@@ -283,7 +283,7 @@ public interface IAeBusinessProcessEngine
     * @throws AeTimeoutException
     * @throws AeBusinessProcessException
     */
-   public IAeWebServiceResponse queueReceiveData(IAeMessageContext aContext, Document[] aDataArray) throws AeBusinessProcessException;
+   public IAeWebServiceResponse queueReceiveData(IAeMessageContext aContext, Document...aDataArray) throws AeBusinessProcessException;
    
    /**
     * Allows an externally invoked operation data to dispatch to a queued invoke.
