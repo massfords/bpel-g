@@ -1,5 +1,7 @@
 package bpelg.jbi;
 
+import java.util.Collection;
+
 import javax.jbi.JBIException;
 import javax.jbi.component.ComponentContext;
 import javax.jbi.servicedesc.ServiceEndpoint;
@@ -7,17 +9,32 @@ import javax.xml.namespace.QName;
 
 import org.activebpel.rt.AeException;
 import org.activebpel.rt.bpel.def.AePartnerLinkDef;
+import org.activebpel.rt.bpel.def.AePartnerLinkDefKey;
 import org.activebpel.rt.bpel.def.AeProcessDef;
 import org.activebpel.rt.bpel.server.IAeProcessDeployment;
 import org.activebpel.rt.bpel.server.deploy.IAeDeploymentContainer;
+import org.activebpel.rt.bpel.server.deploy.IAeDeploymentSource;
 import org.activebpel.rt.bpel.server.deploy.IAeServiceDeploymentInfo;
 import org.activebpel.rt.bpel.server.deploy.IAeWebServicesDeployer;
 import org.activebpel.rt.bpel.server.engine.AeEngineFactory;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
+/**
+ * This class activates JBI endpoints for each of the myrole partnerlink services
+ * that are exposed by a process. 
+ * 
+ * @author markford
+ */
 public class BgServiceDeployer implements IAeWebServicesDeployer {
+    
+    private static final Log sLog = LogFactory.getLog(BgServiceDeployer.class);
 
     @Override
     public void deployToWebServiceContainer(IAeDeploymentContainer aContainer, ClassLoader aLoader) throws AeException {
+        
+        sLog.debug("deployToWebServiceContainer " + aContainer.getBprFileName());
+        
         /*
          * Need to activate an endpoint with the JBI context for each BPEL
          * that's deployed
@@ -30,10 +47,13 @@ public class BgServiceDeployer implements IAeWebServicesDeployer {
 
                 QName processName = serviceInfo.getProcessQName();
 
+                sLog.debug("deploying process: " + processName);
+
                 IAeProcessDeployment deployment = AeEngineFactory.getDeploymentProvider().findCurrentDeployment(processName);
                 AeProcessDef processDef = deployment.getProcessDef();
 
-                AePartnerLinkDef plinkDef = processDef.findPartnerLink(serviceInfo.getPartnerLinkDefKey());
+                AePartnerLinkDefKey partnerLinkDefKey = serviceInfo.getPartnerLinkDefKey();
+                AePartnerLinkDef plinkDef = processDef.findPartnerLink(partnerLinkDefKey);
 
                 QName service = plinkDef.getMyRolePortType();
                 String endpoint = serviceInfo.getServiceName();
@@ -44,20 +64,37 @@ public class BgServiceDeployer implements IAeWebServicesDeployer {
                 // options are:
                 // - use process qname for service
                 // - use wsdl port type for service
-                @SuppressWarnings("unused")
+                sLog.debug("activating endpoint: " + service + " " + endpoint);
                 ServiceEndpoint serviceEndpoint = context.activateEndpoint(service, endpoint);
                 
-                // FIXME need to store this service endpoint so I can undeploy it later
+                BgBpelService bpelService = new BgBpelService(processName, partnerLinkDefKey, serviceEndpoint);
+                BgContext.getInstance().addService(deployment, bpelService);
             }
 
-        } catch (JBIException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+        } catch (Exception e) {
+            throw new AeException(e);
         }
     }
 
     @Override
     public void undeployFromWebServiceContainer(IAeDeploymentContainer aContainer) throws AeException {
+        sLog.debug("undeploying container: " + aContainer.getBprFileName());
+        ComponentContext context = BgContext.getInstance().getComponentContext();
+        Collection<String> pdds = aContainer.getPddResources();
+        for(String pdd : pdds) {
+            IAeDeploymentSource source = aContainer.getDeploymentSource(pdd);
+            QName processName = source.getProcessName();
+            sLog.debug("undeploying process: " + processName);
+            Collection<BgBpelService> services = BgContext.getInstance().removeServicesByProcessName(processName);
+            
+            for(BgBpelService service : services) {
+                try {
+                    context.deactivateEndpoint(service.getServiceEndpoint());
+                } catch (JBIException e) {
+                    sLog.error("Exception during deactivation of the endpoint", e);
+                }
+            }
+        }
     }
 
     @Override
