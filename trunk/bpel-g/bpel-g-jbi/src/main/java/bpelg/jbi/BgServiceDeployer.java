@@ -65,10 +65,13 @@ public class BgServiceDeployer implements IAeWebServicesDeployer {
                 // - use process qname for service
                 // - use wsdl port type for service
                 sLog.debug("activating endpoint: " + service + " " + endpoint);
+                BgBpelService bpelService = new BgBpelService(processName, partnerLinkDefKey, service, endpoint);
+                BgContext.getInstance().addService(deployment, bpelService);
+
                 ServiceEndpoint serviceEndpoint = context.activateEndpoint(service, endpoint);
                 
-                BgBpelService bpelService = new BgBpelService(processName, partnerLinkDefKey, serviceEndpoint);
-                BgContext.getInstance().addService(deployment, bpelService);
+                bpelService.setServiceEndpoint(serviceEndpoint);
+                
             }
 
         } catch (Exception e) {
