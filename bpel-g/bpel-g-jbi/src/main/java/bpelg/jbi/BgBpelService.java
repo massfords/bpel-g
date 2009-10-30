@@ -5,15 +5,29 @@ import javax.xml.namespace.QName;
 
 import org.activebpel.rt.bpel.def.AePartnerLinkDefKey;
 
+/**
+ * Simple struct that bridges the deployment info between JBI and bpel-g
+ * 
+ * @author markford
+ */
 public class BgBpelService {
+    
+    /** the process qname is necessary to route the message in bpel-g */
     private QName mProcessName;
+    /** uniquely identifies the plink within the process (a string isn't sufficient since plink names aren't unique with scoped plinks) */
     private AePartnerLinkDefKey mPartnerLinkDefKey;
+    /** QName of the JBI service */
+    private QName mServiceName;
+    /** name of the JBI endpoint */
+    private String mEndpoint;
+    /** artifact from JBI once the endpoint has been activated in the container. Needed for undeployment */
     private ServiceEndpoint mServiceEndpoint;
     
-    public BgBpelService(QName aProcesName, AePartnerLinkDefKey aPlinkKey, ServiceEndpoint aServiceEndpoint) {
+    public BgBpelService(QName aProcesName, AePartnerLinkDefKey aPlinkKey, QName aServiceName, String aEndpoint) {
         setProcessName(aProcesName);
+        setServiceName(aServiceName);
         setPartnerLinkDefKey(aPlinkKey);
-        setServiceEndpoint(aServiceEndpoint);
+        setEndpoint(aEndpoint);
     }
 
     public QName getProcessName() {
@@ -36,7 +50,23 @@ public class BgBpelService {
         return mServiceEndpoint;
     }
 
-    protected void setServiceEndpoint(ServiceEndpoint aServiceEndpoint) {
+    public void setServiceEndpoint(ServiceEndpoint aServiceEndpoint) {
         mServiceEndpoint = aServiceEndpoint;
+    }
+
+    public QName getServiceName() {
+        return mServiceName;
+    }
+
+    protected void setServiceName(QName aServiceName) {
+        mServiceName = aServiceName;
+    }
+
+    public String getEndpoint() {
+        return mEndpoint;
+    }
+
+    protected void setEndpoint(String aEndpoint) {
+        mEndpoint = aEndpoint;
     }
 }
