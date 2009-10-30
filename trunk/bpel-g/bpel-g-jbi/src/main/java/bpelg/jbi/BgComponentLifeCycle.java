@@ -14,11 +14,20 @@ import org.activebpel.rt.bpel.server.engine.AeEngineLifecycleWrapper;
 import org.activebpel.rt.bpel.server.engine.IAeEngineLifecycleWrapper;
 import org.activebpel.rt.bpel.server.logging.AeCommonsLoggingImpl;
 
+import bpelg.jbi.exchange.BgReceiver;
+
+/**
+ * Receives the lifecycle events from the JBI container. These events are translated
+ * into the corresponding events for the bpel-g engine.
+ * 
+ * @author markford
+ */
 public class BgComponentLifeCycle implements ComponentLifeCycle {
 	
 	private static final long DEFAULT_SCAN_DELAY_MILLIS = 15000;
 	private static final long DEFAULT_SCAN_INTERVAL_MILLIS = 10000;
 	private IAeEngineLifecycleWrapper mEngineLifecycle;
+	private BgReceiver mReceiver;
 	
 	public BgComponentLifeCycle() {
 	}
@@ -44,6 +53,8 @@ public class BgComponentLifeCycle implements ComponentLifeCycle {
 					fileDeployer, DEFAULT_SCAN_DELAY_MILLIS);
 			
 			mEngineLifecycle.init();
+			
+			mReceiver = new BgReceiver();
 		} catch (Exception e) {
 			throw new JBIException("Excepton initializing component", e);
 		}
@@ -53,11 +64,10 @@ public class BgComponentLifeCycle implements ComponentLifeCycle {
     public void start() throws JBIException {
         try {
             mEngineLifecycle.start();
-            // FIXME start polling the delivery channel looking for messages
-            // Need class that reads the exchange and routes messages into the engine
-            // FIXME need instance of I`DurableReplyInfo that can route the reply back onto the bus
         } catch (AeException e) {
             throw new JBIException("Exception during start of engine", e);
+        } finally {
+            mReceiver.start();
         }
     }
 
@@ -67,8 +77,9 @@ public class BgComponentLifeCycle implements ComponentLifeCycle {
             mEngineLifecycle.stop();
         } catch (AeException e) {
             throw new JBIException("Exception during start of engine", e);
+        } finally {
+            mReceiver.cease();
         }
-        // FIXME stop polling
     }
 
 	@Override
@@ -77,6 +88,8 @@ public class BgComponentLifeCycle implements ComponentLifeCycle {
             mEngineLifecycle.shutdown();
         } catch (AeException e) {
             throw new JBIException("Exception during start of engine", e);
+        } finally {
+            mReceiver = null;
         }
 	}
 
