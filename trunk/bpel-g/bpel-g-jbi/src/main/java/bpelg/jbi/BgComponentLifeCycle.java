@@ -65,23 +65,16 @@ public class BgComponentLifeCycle implements ComponentLifeCycle {
     public void stop() throws JBIException {
         try {
             mEngineLifecycle.stop();
-            // FIXME start polling the delivery channel looking for messages
-            // Need class that reads the exchange and routes messages into the engine
-            // FIXME need instance of IAeDurableReplyInfo that can route the reply back onto the bus
         } catch (AeException e) {
             throw new JBIException("Exception during start of engine", e);
         }
         // FIXME stop polling
-        // FIXME stop engine
     }
 
 	@Override
 	public void shutDown() throws JBIException {
         try {
             mEngineLifecycle.shutdown();
-            // FIXME start polling the delivery channel looking for messages
-            // Need class that reads the exchange and routes messages into the engine
-            // FIXME need instance of IAeDurableReplyInfo that can route the reply back onto the bus
         } catch (AeException e) {
             throw new JBIException("Exception during start of engine", e);
         }
