@@ -2,16 +2,11 @@ package bpelg.jbi.exchange;
 
 import javax.jbi.messaging.ExchangeStatus;
 import javax.jbi.messaging.Fault;
-import javax.jbi.messaging.InOnly;
 import javax.jbi.messaging.InOut;
 import javax.jbi.messaging.MessageExchange;
 import javax.jbi.messaging.MessagingException;
 import javax.jbi.messaging.NormalizedMessage;
 import javax.jbi.servicedesc.ServiceEndpoint;
-import javax.xml.transform.Source;
-import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.dom.DOMResult;
 import javax.xml.transform.dom.DOMSource;
 
 import org.activebpel.rt.bpel.server.engine.AeEngineFactory;
@@ -22,7 +17,7 @@ import org.w3c.dom.Node;
 
 import bpelg.jbi.BgBpelService;
 import bpelg.jbi.BgContext;
-import bpelg.jbi.BgMessageExchangePattern;
+import bpelg.jbi.util.BgJbiUtil;
 
 public class BgMessageExchangeProcessor implements IBgMessageExchangeProcessor {
 
@@ -42,14 +37,14 @@ public class BgMessageExchangeProcessor implements IBgMessageExchangeProcessor {
             try {
                 ServiceEndpoint serviceEndpoint = aMex.getEndpoint();
                 BgBpelService bpelService = BgContext.getInstance().getBpelService(serviceEndpoint);
-                Document data = getData(aMex);
+                Document data = BgJbiUtil.getData(aMex, "in");
                 AeMessageContext context = new AeMessageContext();
                 context.setProcessName(bpelService.getProcessName());
                 context.setPartnerLink(bpelService.getPartnerLinkDefKey().getPartnerLinkName());
                 
                 // no durable replies for the moment
                 IAeWebServiceResponse response = AeEngineFactory.getEngine().queueReceiveData(context, data);
-                if (isTwoWay(aMex)) {
+                if (BgJbiUtil.isTwoWay(aMex)) {
                     InOut exchange = (InOut) aMex;
                     DOMSource responseData = new DOMSource((Node) response.getMessageData().getMessageData().values().iterator().next());
                     if (response.isFaultResponse()) {
@@ -81,32 +76,5 @@ public class BgMessageExchangeProcessor implements IBgMessageExchangeProcessor {
         }
     }
     
-    protected Document getData(MessageExchange aMex) throws Exception {
-        Source source = null;
-        if (isOneWay(aMex)) {
-            InOnly inOnly = (InOnly) aMex;
-            source = inOnly.getInMessage().getContent();
-        } else {
-            InOut inOut = (InOut) aMex;
-            source = inOut.getInMessage().getContent();
-        }
-        return toDocument(source);
-    }
-
-    protected boolean isOneWay(MessageExchange aMex) {
-        return aMex.getPattern().equals(BgMessageExchangePattern.IN_ONLY);
-    }
-    
-    protected boolean isTwoWay(MessageExchange aMex) {
-        return aMex.getPattern().equals(BgMessageExchangePattern.IN_OUT);
-    }
-
-    protected Document toDocument(Source aSource) throws Exception {
-        TransformerFactory tf = TransformerFactory.newInstance();
-        Transformer t = tf.newTransformer();
-        DOMResult result = new DOMResult();
-        t.transform(aSource, result);
-        return (Document) result.getNode();
-    }
 
 }
