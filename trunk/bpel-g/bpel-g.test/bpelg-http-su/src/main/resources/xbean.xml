@@ -5,10 +5,22 @@
     <http:endpoint service="test:test"
         endpoint="test"
         role="consumer" 
-        locationURI="http://0.0.0.0:8192/bpelG-TestService/"
+        locationURI="http://0.0.0.0:8192/bpelg-TestSimpleReceiveReply/"
         defaultMep="http://www.w3.org/2004/08/wsdl/in-out"
         soap="true"
         soapVersion="1.1"
         wsdlResource="classpath:test.wsdl"
+        interfaceName="test:test"
+    />
+
+    <http:endpoint service="test:test"
+        endpoint="testInvoke"
+        role="consumer" 
+        locationURI="http://0.0.0.0:8192/bpelg-TestTwoWayInvoke/"
+        defaultMep="http://www.w3.org/2004/08/wsdl/in-out"
+        soap="true"
+        soapVersion="1.1"
+        wsdlResource="classpath:test.wsdl"
+        interfaceName="test:test"
     />
 </beans>

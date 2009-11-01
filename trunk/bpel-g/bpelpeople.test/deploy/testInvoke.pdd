@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pdd:process xmlns:bpelns="testInvoke" xmlns:pdd="http://schemas.active-endpoints.com/pdd/2006/08/pdd.xsd" location="bpel/bpelpeople.test/bpel/testInvoke.bpel" name="bpelns:testInvoke" platform="opensource">
+  <pdd:partnerLinks>
+    <pdd:partnerLink name="testPartnerLinkType">
+      <pdd:myRole allowedRoles="" binding="MSG" service="testInvoke"/>
+    </pdd:partnerLink>
+    <pdd:partnerLink name="testPartnerLinkType2">
+      <pdd:partnerRole endpointReference="static" invokeHandler="default:Service">
+        <wsa:EndpointReference xmlns:wsa="http://www.w3.org/2005/08/addressing" xmlns:ns5="http://www.example.org/test/" xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/">
+   <wsa:Address>none</wsa:Address>
+   <wsa:Metadata>
+      <wsa:ServiceName PortName="testInvokeBpelReceiver">ns5:test2</wsa:ServiceName>
+   </wsa:Metadata>
+</wsa:EndpointReference>
+      </pdd:partnerRole>
+    </pdd:partnerLink>
+  </pdd:partnerLinks>
+  <pdd:references>
+    <pdd:wsdl location="project:/bpelpeople.test/wsdl/test.wsdl" namespace="http://www.example.org/test/"/>
+  </pdd:references>
+</pdd:process>
