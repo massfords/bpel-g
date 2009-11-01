@@ -93,7 +93,7 @@
          <entry name="Class" value="org.activebpel.rt.bpel.server.engine.invoke.AeDelegatingInvokeHandlerFactory"/>
          <entry name="Protocols">
             <!-- Need to create a jbi invoker for the default -->
-            <entry name="default" value="org.activebpel.rt.bpel.server.engine.invoke.AePojoHandlerFactory"/>
+            <entry name="default" value="bpelg.jbi.invoke.BgInvokeHandlerFactory"/>
             <entry name="java" value="org.activebpel.rt.bpel.server.engine.invoke.AePojoHandlerFactory"/>
             <entry name="process" value="org.activebpel.rt.bpel.server.engine.invoke.AeProcessHandlerFactory"/>
          </entry>
