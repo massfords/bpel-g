@@ -18,7 +18,6 @@ import org.activebpel.rt.AeException;
 import org.activebpel.rt.bpel.AeBusinessProcessException;
 import org.activebpel.rt.bpel.AeMessages;
 import org.activebpel.rt.bpel.IAeEndpointReference;
-import org.activebpel.rt.bpel.IAeFault;
 import org.activebpel.rt.bpel.IAeInvokeActivity;
 import org.activebpel.rt.bpel.IAePartnerLink;
 import org.activebpel.rt.bpel.impl.AeDataConverter;
@@ -42,10 +41,6 @@ public class AeInvoke extends AeAbstractQueuedObject implements IAeInvokeInterna
    private boolean mOneWay;
    /** Input message data for invoke. */
    private IAeWebServiceMessageData mInputMessageData;
-   /** Output message data for invoke. */
-   private IAeMessageData mOutputMessageData;
-   /** Fault for invoke. */
-   private IAeFault mFault;
    /** Message receiver location path */
    private String mMessageReceiverPath;
    /**
@@ -179,40 +174,6 @@ public class AeInvoke extends AeAbstractQueuedObject implements IAeInvokeInterna
    public void setInputMessageData(IAeMessageData aInputMessageData) throws AeBusinessProcessException
    {
       mInputMessageData = AeDataConverter.convert(aInputMessageData);
-   }
-
-   /**
-    * @return The fault associated with the invokes response, null if none.
-    */
-   public IAeFault getFault()
-   {
-      return mFault;
-   }
-
-   /**
-    * @return The output message data associated with invokes response,
-    *         null if none.
-    */
-   public IAeMessageData getOutputMessageData()
-   {
-      return mOutputMessageData;
-   }
-
-   /**
-    * @param aFault The fault to be associated with the invokes response.
-    */
-   public void setFault(IAeFault aFault)
-   {
-      mFault = aFault;
-   }
-
-   /**
-    * @param aData The output message to be associated with the invokes
-    *        response.
-    */
-   public void setOutputMessageData(IAeMessageData aData)
-   {
-      mOutputMessageData = aData;
    }
 
    /**
