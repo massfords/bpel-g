@@ -1,12 +1,39 @@
 #labels Featured
-<div>
 == Introduction ==
 This project provies a fully compliant BPEL4WS 1.1 and WS-BPEL 2.0 engine. 
 The code here is based on the final release of ActiveBPEL 5.0.2. The goal of 
 bpel-g is to provide a viable BPEL engine for the open source community, particularly
-those in the public sector. The main focus is spec compliance. 
+those in the public sector. The main focus is spec compliance.
 
-== Caveats ==
-The packaging here is still very much a work in progress. There is a script for an H2 database which you'll need to run in order to setup the persistence layer. A future checkin will include a profile for running in persistence mode versus in-memory. 
+== Database ==
+The default configuration of bpel-g requires a database (a future release will have an in-memory only profile). The database of choice for this release is the [http://www.h2database.com/ H2 java database]. At the moment, the easiest way to create the required db instance is to run the build for the war packaging:
 
-</div>
+{{{
+bpel-g/bpel-g.war> mvn clean install -Dcreate-db 
+}}}
+
+This will create a database in the user's home directory named bpelg-h2-db. You can configure the location and name of the db that gets created by modifying the filter.properties file in this project. 
+
+=== Configuring WAR ===
+The WAR project has a context that is already configured to reference the database created during the build. Be sure to put the H2 jar within the $CATALINA_HOME/lib directory.
+
+=== Configuring ServiceMix ===
+$SERVICEMIX_HOME/conf/jndi.xml needs to have an entry for the DataSource. The following xml snippet should be pasted within the util:map block:
+
+{{{
+
+  <util:map id="jndiEntries">
+
+    <!-- existing entries -->
+
+    <entry key="java:comp/env/jdbc/ActiveBPELDB">
+            <bean class="org.h2.jdbcx.JdbcDataSource">
+                <property name="URL" value="jdbc:h2:~/bpelg-h2-db"/>
+                <property name="user" value="sa"/>
+                <property name="password" value="sa"/>
+            </bean>
+        </entry>
+  </util:map>
+}}}
+
+Also ned to put the H2 jar in $SERVICEMIX_HOME/lib
