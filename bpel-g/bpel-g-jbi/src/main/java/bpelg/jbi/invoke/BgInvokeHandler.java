@@ -97,7 +97,7 @@ public class BgInvokeHandler implements IAeInvokeHandler {
                     String opName = mInvokeContext.getOperation();
                     Operation operation = portType.getOperation(opName, null, null);
                     Message message = operation.getOutput().getMessage();
-                    String partName = (String) message.getParts().values().iterator().next();
+                    String partName = (String) message.getParts().keySet().iterator().next();
 
                     Document data = BgJbiUtil.getData(jbiMex, "out");
                     AeWebServiceMessageData msgData = new AeWebServiceMessageData(message.getQName());
