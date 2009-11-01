@@ -55,7 +55,6 @@ public class BgMessageExchangeProcessor implements IBgMessageExchangeProcessor {
                         responseMessage.setContent(responseData);
                         exchange.setOutMessage(responseMessage);
                     }
-                    BgContext.getInstance().getComponentContext().getDeliveryChannel().send(aMex);
                 } else {
                     // nothing to do with one-way
                 }
@@ -66,9 +65,7 @@ public class BgMessageExchangeProcessor implements IBgMessageExchangeProcessor {
                 if (error != null) {
                     aMex.setError(error);
                     aMex.setStatus(ExchangeStatus.ERROR);
-                } else if (aMex.getStatus() == ExchangeStatus.ACTIVE)
-                    aMex.setStatus(ExchangeStatus.DONE);
-                
+                }                
                 BgContext.getInstance().getComponentContext().getDeliveryChannel().send(aMex);
             }
         } else {
