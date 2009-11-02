@@ -565,7 +565,7 @@ public class AeBusinessProcessEngine implements IAeBusinessProcessEngineInternal
    /**
     * @see org.activebpel.rt.bpel.IAeBusinessProcessEngine#queueReceiveData(org.activebpel.wsio.receive.IAeMessageContext, org.w3c.dom.Document[])
     */
-   public IAeWebServiceResponse queueReceiveData(IAeMessageContext aContext, Document[] aDataArray)
+   public IAeWebServiceResponse queueReceiveData(IAeMessageContext aContext, Document...aDataArray)
       throws AeBusinessProcessException
    {
       IAeReceiveHandler handler = getQueueManager().getReceiveHandler(aContext.getReceiveHandler());
