@@ -3,9 +3,9 @@
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>bpelg-test</groupId>
-    <artifactId>bpelg-test-sa</artifactId>
+    <artifactId>bpelg-bpel-su</artifactId>
     <version>0.8-SNAPSHOT</version>
-    <packaging>jbi-service-assembly</packaging>
+    <packaging>jbi-service-unit</packaging>
 
     <build>
         <plugins>
@@ -18,16 +18,8 @@
         </plugins>
     </build>
 
-    <dependencies>
-        <dependency>
-            <groupId>bpelg-test</groupId>
-            <artifactId>bpelg-http-su</artifactId>
-            <version>0.8-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>bpelg-test</groupId>
-            <artifactId>bpelg-bpel-su</artifactId>
-            <version>0.8-SNAPSHOT</version>
-        </dependency>
-    </dependencies>
+    <properties>
+        <componentName>bpel-g-jbi</componentName>
+    </properties>
+
 </project>
