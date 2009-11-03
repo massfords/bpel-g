@@ -9,21 +9,33 @@ import java.util.Map;
 
 import javax.xml.namespace.QName;
 
+import org.activebpel.rt.util.AeXmlUtil;
+import org.junit.Before;
 import org.junit.Test;
+import org.w3c.dom.Document;
 
 import bpelg.jbi.su.ode.BgPddInfo.BgPlink;
 
 public class BgPddBuilderTest {
     
-    @Test
-    public void testBuild() throws Exception {
+    private BgPddBuilder mBuilder;
+    private BgCatalogBuilder mCatalogBuilder;
+    
+    @Before
+    public void setUp() throws Exception {
         File file = new File("src/test/resources/example-su");
         assertTrue(file.isDirectory());
         
-        BgPddBuilder builder = new BgPddBuilder(file);
-        builder.build();
+        mBuilder = new BgPddBuilder(file);
+        mBuilder.build();
         
-        Map<QName,BgPddInfo> deployments = builder.getDeployments();
+        mCatalogBuilder = new BgCatalogBuilder(file);
+        mCatalogBuilder.build();
+    }
+    
+    @Test
+    public void testBuild() throws Exception {
+        Map<QName,BgPddInfo> deployments = mBuilder.getDeployments();
         
         assertEquals(3, deployments.size());
 
@@ -50,5 +62,61 @@ public class BgPddBuilderTest {
         bgPlink = testInvokeBpelReceiver.getBgPlink("testPartnerLinkType2");
         assertEquals(new QName("http://www.example.org/test/", "test2"), bgPlink.myService);
         assertEquals("testInvokeBpelReceiver", bgPlink.myEndpoint);
+    }
+    
+    @Test
+    public void testGetPdd_testBpel() throws Exception {
+        
+        Document testPdd = mBuilder.getPdd("test.bpel", mCatalogBuilder.getItems());
+        
+        String expectedXml = 
+            "<pdd:process xmlns:bpelns='test' xmlns:pdd='http://schemas.active-endpoints.com/pdd/2006/08/pdd.xsd' location='test.bpel.pdd' name='bpelns:test' platform='opensource'>" + 
+        		"<pdd:partnerLinks>" + 
+        		    "<pdd:partnerLink name='testPartnerLinkType'>" + 
+        		        "<pdd:myRole allowedRoles='' binding='MSG' service='mysvc:test test'/>" + 
+        		    "</pdd:partnerLink>" + 
+        		"</pdd:partnerLinks>" + 
+        		"<pdd:references>" + 
+        		    "<pdd:other location='project:/example-su/path/to/xsl/example.xsl' namespace=''/>" + 
+        		    "<pdd:wsdl location='project:/example-su/wsdl/example.wsdl' namespace='http://www.example.org/test/'/>" + 
+                    "<pdd:schema location='project:/example-su/xsd/example.xsd' namespace='http://www.example.org/test/'/>" + 
+        	   "</pdd:references>" + 
+    		"</pdd:process>";
+        Document expected = AeXmlUtil.toDoc(expectedXml);
+        
+        BgXmlAssert.assertXml(expected, testPdd);
+    }
+
+    @Test
+    public void testGetPdd_testInvokeBpel() throws Exception {
+        
+        Document testPdd = mBuilder.getPdd("testInvoke.bpel", mCatalogBuilder.getItems());
+        
+        String expectedXml = 
+            "<pdd:process xmlns:bpelns='test' xmlns:pdd='http://schemas.active-endpoints.com/pdd/2006/08/pdd.xsd' location='testInvoke.bpel.pdd' name='bpelns:testInvoke' platform='opensource'>" + 
+                "<pdd:partnerLinks>" + 
+                    "<pdd:partnerLink name='testPartnerLinkType'>" + 
+                        "<pdd:myRole allowedRoles='' binding='MSG' service='mysvc:test testInvoke'/>" + 
+                    "</pdd:partnerLink>" + 
+                    "<pdd:partnerLink name='testPartnerLinkType2'>" + 
+                        "<pdd:partnerRole endpointReference='static' invokeHandler='default:Service'>" + 
+                            "<wsa:EndpointReference xmlns:wsa='http://www.w3.org/2005/08/addressing' xmlns:psvc='http://www.example.org/test/'>" + 
+                                "<wsa:Address>None</wsa:Address>" + 
+                                "<wsa:Metadata>" + 
+                                    "<wsa:ServiceName PortName='testInvokeBpelReceiver'>psvc:test2</wsa:ServiceName>" + 
+                                "</wsa:Metadata>" + 
+                           "</wsa:EndpointReference>" + 
+                        "</pdd:partnerRole>" + 
+                    "</pdd:partnerLink>" + 
+                "</pdd:partnerLinks>" + 
+                "<pdd:references>" + 
+                    "<pdd:other location='project:/example-su/path/to/xsl/example.xsl' namespace=''/>" + 
+                    "<pdd:wsdl location='project:/example-su/wsdl/example.wsdl' namespace='http://www.example.org/test/'/>" + 
+                    "<pdd:schema location='project:/example-su/xsd/example.xsd' namespace='http://www.example.org/test/'/>" + 
+                "</pdd:references>" + 
+            "</pdd:process>"; 
+        Document expected = AeXmlUtil.toDoc(expectedXml);
+        
+        BgXmlAssert.assertXml(expected, testPdd);
     }
 }

@@ -1,56 +1,68 @@
 package bpelg.jbi.su.ode;
 
 import java.io.File;
-import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.xml.namespace.QName;
 
 import org.activebpel.rt.AeException;
 import org.activebpel.rt.bpel.server.addressing.pdef.IAePartnerDefInfo;
+import org.activebpel.rt.bpel.server.deploy.AeDeploymentException;
 import org.activebpel.rt.bpel.server.deploy.AeDeploymentId;
 import org.activebpel.rt.bpel.server.deploy.IAeDeploymentContainer;
 import org.activebpel.rt.bpel.server.deploy.IAeDeploymentContext;
 import org.activebpel.rt.bpel.server.deploy.IAeDeploymentId;
 import org.activebpel.rt.bpel.server.deploy.IAeDeploymentSource;
 import org.activebpel.rt.bpel.server.deploy.IAeServiceDeploymentInfo;
+import org.activebpel.rt.bpel.server.deploy.bpr.AeBprDeploymentSource;
+import org.activebpel.rt.util.AeCloser;
+import org.activebpel.rt.xml.AeXMLParserBase;
 import org.w3c.dom.Document;
+
+import bpelg.jbi.su.ode.BgPddInfo.BgPlink;
 
 public class BgDeploymentContainer implements IAeDeploymentContainer {
     
     private File mServiceUnitRoot;
     private IAeServiceDeploymentInfo[] mServiceDeploymentInfos;
     private ClassLoader mClassLoader;
+    private BgCatalogBuilder mCatalogBuilder;
+    private BgPddBuilder mPddBuilder;
+    private Map<String,IAeDeploymentSource> mDeploymentSources = new HashMap();
     
-    public BgDeploymentContainer(File aServiceUnitRoot) throws IOException {
+    public BgDeploymentContainer(File aServiceUnitRoot) throws Exception {
         mServiceUnitRoot = aServiceUnitRoot;
         mClassLoader = URLClassLoader.newInstance(new URL[] {aServiceUnitRoot.toURI().toURL()});
+        mCatalogBuilder = new BgCatalogBuilder(mServiceUnitRoot);
+        mCatalogBuilder.build();
+        mPddBuilder = new BgPddBuilder(mServiceUnitRoot);
+        mPddBuilder.build();
     }
-
-    @Override
-    public Document getCatalogDocument() throws AeException {
-        // FIXME impl with BgCatalogBuilder
-        return null;
+    
+    public BgPlink getPlink(QName aProcessName, String aPlinkName) {
+     return mPddBuilder.getDeployments().get(aProcessName).getBgPlink(aPlinkName);   
     }
 
     @Override
     public IAeDeploymentSource getDeploymentSource(String aPddName) throws AeException {
-        // FIXME impl
-        return null;
+        IAeDeploymentSource source = mDeploymentSources.get(aPddName);
+        if (source == null) {
+            source = buildSource(aPddName);
+            mDeploymentSources.put(aPddName, source);
+        }
+        return source;
     }
-
-    @Override
-    public Collection<String> getPddResources() {
-        // FIXME get from BgPddBuilder
-        return null;
-    }
-
-    @Override
-    public Document getResourceAsDocument(String aResourceName) throws AeException {
-        // FIXME simple util method
-        return null;
+    
+    protected IAeDeploymentSource buildSource(String aPddName) throws AeDeploymentException {
+        Document pdd = mPddBuilder.getPdd(aPddName, mCatalogBuilder.getItems());
+        IAeDeploymentSource source = new AeBprDeploymentSource(aPddName, pdd, this);
+        return source;
     }
 
     @Override
@@ -161,5 +173,27 @@ public class BgDeploymentContainer implements IAeDeploymentContainer {
     @Override
     public URL getTempDeploymentLocation() {
         return null;
+    }
+
+    @Override
+    public Document getCatalogDocument() throws AeException {
+        return mCatalogBuilder.getCatalog();
+    }
+
+    @Override
+    public Collection<String> getPddResources() {
+        return mPddBuilder.getPddNames();
+    }
+
+    @Override
+    public Document getResourceAsDocument(String aResourceName) throws AeException {
+        InputStream in = getResourceAsStream(aResourceName);
+        AeXMLParserBase parser = new AeXMLParserBase(true, false);
+        try {
+            in = getResourceAsStream(aResourceName);
+            return parser.loadDocument(in, null);
+        } finally {
+            AeCloser.close(in);
+        }
     }
 }

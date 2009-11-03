@@ -1,5 +1,6 @@
 package bpelg.jbi.su.ode;
 
+import org.activebpel.rt.IAeConstants;
 import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.builder.ToStringBuilder;
 
@@ -14,6 +15,18 @@ public class BgCatalogTuple {
         physicalLocation = aPhysicalLocation;
         namespace = aNamespace;
         type = aType;
+    }
+    
+    public boolean isWsdl() {
+        return IAeConstants.WSDL_NAMESPACE.equals(type);
+    }
+    
+    public boolean isXsd() {
+        return IAeConstants.W3C_XML_SCHEMA.equals(type);
+    }
+    
+    public boolean isOther() {
+        return !isWsdl() && !isXsd();
     }
     
     public boolean equals(Object aOther) {

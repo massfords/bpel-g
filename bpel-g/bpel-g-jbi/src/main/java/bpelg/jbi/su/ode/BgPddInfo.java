@@ -1,5 +1,6 @@
 package bpelg.jbi.su.ode;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -13,6 +14,14 @@ public class BgPddInfo {
     public BgPddInfo(QName aProcessName, String aLocation) { 
         mProcessName = aProcessName;
         mLocation = aLocation;
+    }
+    
+    public QName getProcessName() {
+        return mProcessName;
+    }
+    
+    public String getLocation() {
+        return mLocation;
     }
     
     public void addProvide(String aPlinkName, QName aService, String aEndpoint) {
@@ -31,21 +40,34 @@ public class BgPddInfo {
         return mPartnerLinks.get(aName);
     }
     
+    public Collection<BgPlink> getBgPlinks() {
+        return mPartnerLinks.values();
+    }
+    
     protected BgPlink getOrCreate(String aName) {
         BgPlink plink = getBgPlink(aName);
         if (plink == null) {
             plink = new BgPlink();
+            plink.name = aName;
             mPartnerLinks.put(aName, plink);
         }
         return plink;
         
     }
     
-    protected static class BgPlink {
-        protected String name;
-        protected QName myService;
-        protected String myEndpoint;
-        protected QName partnerService;
-        protected String partnerEndpoint;
+    public static class BgPlink {
+        public String name;
+        public QName myService;
+        public String myEndpoint;
+        public QName partnerService;
+        public String partnerEndpoint;
+        
+        public boolean hasMyRole() {
+            return myService != null;
+        }
+        
+        public boolean hasPartnerRole() {
+            return partnerService != null;
+        }
     }
 }

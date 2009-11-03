@@ -3,26 +3,21 @@ package bpelg.jbi.su;
 import java.io.File;
 import java.io.PrintWriter;
 import java.io.StringWriter;
-import java.net.URL;
-import java.net.URLClassLoader;
 import java.text.MessageFormat;
 
 import javax.jbi.component.ServiceUnitManager;
 import javax.jbi.management.DeploymentException;
 
-import org.activebpel.rt.AeException;
 import org.activebpel.rt.bpel.server.AeMessages;
-import org.activebpel.rt.bpel.server.deploy.AeDeploymentContainer;
 import org.activebpel.rt.bpel.server.deploy.IAeDeploymentContainer;
 import org.activebpel.rt.bpel.server.deploy.IAeDeploymentHandler;
-import org.activebpel.rt.bpel.server.deploy.bpr.AeBpr;
-import org.activebpel.rt.bpel.server.deploy.bpr.AeUnpackedBprContext;
-import org.activebpel.rt.bpel.server.deploy.bpr.IAeBpr;
 import org.activebpel.rt.bpel.server.deploy.validate.AeDeploymentFileValidator;
 import org.activebpel.rt.bpel.server.engine.AeEngineFactory;
 import org.activebpel.rt.bpel.server.logging.AeCommonsLoggingImpl;
 import org.activebpel.rt.bpel.server.logging.IAeDeploymentLogger;
 import org.activebpel.rt.bpel.server.logging.IAeLogWrapper;
+
+import bpelg.jbi.su.ode.BgDeploymentContainer;
 
 /**
  * Handles the deployment and undeployment of service units
@@ -51,9 +46,7 @@ public class BgServiceUnitManager implements ServiceUnitManager {
         try {
             IAeDeploymentLogger logger = new BgDeploymentLogger();
 
-            URL url = new File(aServiceUnitRootPath).toURI().toURL();
-
-            IAeDeploymentContainer deployContainer = createDeploymentContainer(url);
+            IAeDeploymentContainer deployContainer = createDeploymentContainer(new File(aServiceUnitRootPath));
 
             AeDeploymentFileValidator.validateFileType(deployContainer, true, logger);
 
@@ -62,10 +55,11 @@ public class BgServiceUnitManager implements ServiceUnitManager {
             if (!logger.hasErrors()) {
                 IAeDeploymentHandler handler = AeEngineFactory.getDeploymentHandlerFactory().newInstance(mLog);
                 handler.deploy(deployContainer, logger);
+                message = "SUCCESS";
             } else { 
                 mLog.logInfo(MessageFormat.format(AeMessages.getString("AeDeploymentFileHandler.1"), //$NON-NLS-1$
                         new Object[] { deployContainer.getShortName() }));
-                message = "SUCCESS";
+                message = "ERROR";
             }
         } catch (Throwable t) {
             mLog.logError(
@@ -83,9 +77,8 @@ public class BgServiceUnitManager implements ServiceUnitManager {
         String message = null;
         
         try {
-            URL url = new File(aServiceUnitRootPath).toURI().toURL();
     
-            IAeDeploymentContainer deployContainer = createDeploymentContainer(url);
+            IAeDeploymentContainer deployContainer = createDeploymentContainer(new File(aServiceUnitRootPath));
             IAeDeploymentHandler handler = AeEngineFactory.getDeploymentHandlerFactory().newInstance(mLog);
             handler.undeploy(deployContainer);
             message = "SUCCESS";
@@ -117,17 +110,10 @@ public class BgServiceUnitManager implements ServiceUnitManager {
         // FIXME the open source engine doesn't have hooks for init'ing, starting, stopping, or shutting down processes. 
     }
 
-    protected IAeDeploymentContainer createDeploymentContainer( URL aFileURL )
-    throws AeException
+    protected IAeDeploymentContainer createDeploymentContainer( File aFile )
+    throws Exception
     {
-       ClassLoader current = Thread.currentThread().getContextClassLoader();
-       ClassLoader bprResourceClassLoader = URLClassLoader.newInstance( new URL[]{ aFileURL }, current ); 
-
-       String urlString = aFileURL.toString();
-       String shortName = urlString.substring( urlString.lastIndexOf('/')+1 );
-       AeUnpackedBprContext context = new AeUnpackedBprContext(aFileURL, bprResourceClassLoader, shortName );
-       IAeBpr file = AeBpr.createUnpackedBpr( context );
-       return new AeDeploymentContainer( context, file, aFileURL );
+        return new BgDeploymentContainer(aFile);
     }
 
     private String stacktraceToString(Throwable t) {
