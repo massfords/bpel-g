@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<deploy xmlns="http://www.apache.org/ode/schemas/dd/2007/03"
+    xmlns:test="urn:bpelg:test"
+    xmlns:example="http://www.example.org/test/">
+    
+    <process name="test:test">
+        <provide partnerLink="testPartnerLinkType">
+            <service name="example:test" port="test"/>
+        </provide>
+    </process>
+
+    <process name="test:testInvoke">
+        <provide partnerLink="testPartnerLinkType">
+            <service name="example:test" port="testInvoke"/>
+        </provide>
+        <invoke partnerLink="testPartnerLinkType2">
+            <service name="example:test2" port="testInvokeBpelReceiver"/>
+        </invoke>
+    </process>
+
+    <process name="test:testInvokeBpelReceiver">
+        <provide partnerLink="testPartnerLinkType2">
+            <service name="example:test2" port="testInvokeBpelReceiver"/>
+        </provide>
+    </process>
+</deploy>
