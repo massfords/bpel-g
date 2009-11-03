@@ -47,7 +47,7 @@ public class BgPddBuilder {
             // add provides
             List<Element> providesService = AeXPathUtil.selectNodes(process, "ode:provide/ode:service", NAMESPACES);
             for(Element provideService : providesService) {
-                String plinkName = (String) AeXPathUtil.selectSingleObject(provideService, "string(../ode:provide/@partnerLink)", NAMESPACES);
+                String plinkName = (String) AeXPathUtil.selectSingleObject(provideService, "string(../@partnerLink)", NAMESPACES);
                 QName myService = AeXmlUtil.getAttributeQName(provideService, "name");
                 String myEndpoint = provideService.getAttribute("port");
                 pddInfo.addProvide(plinkName, myService, myEndpoint);
@@ -56,7 +56,7 @@ public class BgPddBuilder {
             // add invokes
             List<Element> invokesService = AeXPathUtil.selectNodes(process, "ode:invoke/ode:service", NAMESPACES);
             for(Element invokeService : invokesService) {
-                String plinkName = (String) AeXPathUtil.selectSingleObject(invokeService, "string(../ode:invoke/@partnerLink)", NAMESPACES);
+                String plinkName = (String) AeXPathUtil.selectSingleObject(invokeService, "string(../@partnerLink)", NAMESPACES);
                 QName partnerService = AeXmlUtil.getAttributeQName(invokeService, "name");
                 String partnerEndpoint = invokeService.getAttribute("port");
                 pddInfo.addInvoke(plinkName, partnerService, partnerEndpoint);
