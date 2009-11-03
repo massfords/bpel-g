@@ -67,10 +67,10 @@ public class BgPddBuilderTest {
     @Test
     public void testGetPdd_testBpel() throws Exception {
         
-        Document testPdd = mBuilder.getPdd("test.bpel", mCatalogBuilder.getItems());
+        Document testPdd = mBuilder.createPddDocument("test.bpel.pdd", mCatalogBuilder.getItems());
         
         String expectedXml = 
-            "<pdd:process xmlns:bpelns='test' xmlns:pdd='http://schemas.active-endpoints.com/pdd/2006/08/pdd.xsd' location='test.bpel.pdd' name='bpelns:test' platform='opensource'>" + 
+            "<pdd:process xmlns:bpelns='test' xmlns:pdd='http://schemas.active-endpoints.com/pdd/2006/08/pdd.xsd' location='test.bpel' name='bpelns:test' platform='opensource'>" + 
         		"<pdd:partnerLinks>" + 
         		    "<pdd:partnerLink name='testPartnerLinkType'>" + 
         		        "<pdd:myRole allowedRoles='' binding='MSG' service='mysvc:test test'/>" + 
@@ -90,10 +90,10 @@ public class BgPddBuilderTest {
     @Test
     public void testGetPdd_testInvokeBpel() throws Exception {
         
-        Document testPdd = mBuilder.getPdd("testInvoke.bpel", mCatalogBuilder.getItems());
+        Document testPdd = mBuilder.createPddDocument("testInvoke.bpel.pdd", mCatalogBuilder.getItems());
         
         String expectedXml = 
-            "<pdd:process xmlns:bpelns='test' xmlns:pdd='http://schemas.active-endpoints.com/pdd/2006/08/pdd.xsd' location='testInvoke.bpel.pdd' name='bpelns:testInvoke' platform='opensource'>" + 
+            "<pdd:process xmlns:bpelns='test' xmlns:pdd='http://schemas.active-endpoints.com/pdd/2006/08/pdd.xsd' location='testInvoke.bpel' name='bpelns:testInvoke' platform='opensource'>" + 
                 "<pdd:partnerLinks>" + 
                     "<pdd:partnerLink name='testPartnerLinkType'>" + 
                         "<pdd:myRole allowedRoles='' binding='MSG' service='mysvc:test testInvoke'/>" + 

@@ -2,6 +2,8 @@ package bpelg.jbi.su.ode;
 
 import java.io.File;
 import java.io.FileFilter;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
@@ -12,9 +14,11 @@ import javax.xml.namespace.QName;
 
 import org.activebpel.rt.AeException;
 import org.activebpel.rt.IAeConstants;
+import org.activebpel.rt.util.AeCloser;
 import org.activebpel.rt.util.AeUtil;
 import org.activebpel.rt.util.AeXPathUtil;
 import org.activebpel.rt.util.AeXmlUtil;
+import org.activebpel.rt.xml.AeXMLParserBase;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
@@ -30,7 +34,7 @@ public class BgPddBuilder {
     private File mServiceUnitRoot;
     
     private Map<QName, BgPddInfo> mDeployments = new HashMap();
-    private Map<String,BgPddInfo> mFileToPddMap = new HashMap();
+    private Map<String,BgPddInfo> mPddFileNameToPddInfo = new HashMap();
     
     public BgPddBuilder(File aServiceUnitRoot) {
         assert aServiceUnitRoot.isDirectory();
@@ -40,18 +44,29 @@ public class BgPddBuilder {
     }
     
     public Collection<String> getPddNames() {
-        return mFileToPddMap.keySet();
+        return mPddFileNameToPddInfo.keySet();
     }
     
-    public Document getPdd(String aName, Collection<BgCatalogTuple> aCatalog) {
-        BgPddInfo info = mFileToPddMap.get(aName);
+    public void writePddDocument(String aName, Collection<BgCatalogTuple> aCatalog) throws IOException {
+        Document doc = createPddDocument(aName, aCatalog);
+        String pdd = AeXMLParserBase.documentToString(doc, true);
+        FileWriter fw = new FileWriter(new File(mServiceUnitRoot, aName));
+        try {
+            fw.write(pdd);
+        } finally {
+            AeCloser.close(fw);
+        }
+    }
+    
+    protected Document createPddDocument(String aName, Collection<BgCatalogTuple> aCatalog) {
+        BgPddInfo info = mPddFileNameToPddInfo.get(aName);
         Document doc = AeXmlUtil.newDocument();
         Element pdd = AeXmlUtil.addElementNS(doc, PDD, "pdd:process");
         pdd.setAttributeNS(IAeConstants.W3C_XMLNS, "xmlns:pdd", PDD);
         pdd.setAttributeNS(IAeConstants.W3C_XMLNS, "xmlns:bpelns", info.getProcessName().getNamespaceURI());
         pdd.setAttribute("name", "bpelns:" + info.getProcessName().getLocalPart());
         pdd.setAttribute("platform", "opensource");
-        pdd.setAttribute("location", aName + ".pdd");
+        pdd.setAttribute("location", aName.substring(0, aName.lastIndexOf('.')));
         
         Element plinks = AeXmlUtil.addElementNS(pdd, PDD, "pdd:partnerLinks");
 
@@ -110,7 +125,7 @@ public class BgPddBuilder {
             
             BgPddInfo pddInfo = new BgPddInfo(processName, location);
             mDeployments.put(pddInfo.getProcessName(), pddInfo);
-            mFileToPddMap.put(pddInfo.getLocation(), pddInfo);
+            mPddFileNameToPddInfo.put(pddInfo.getLocation() + ".pdd", pddInfo);
             
             // add provides
             List<Element> providesService = AeXPathUtil.selectNodes(process, "ode:provide/ode:service", NAMESPACES);
