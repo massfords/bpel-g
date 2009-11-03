@@ -26,11 +26,29 @@ public class BgPddBuilderTest {
         Map<QName,BgPddInfo> deployments = builder.getDeployments();
         
         assertEquals(3, deployments.size());
-        
+
+        // test
         BgPddInfo testProc = deployments.get(new QName("urn:bpelg:test", "test"));
         assertNotNull(testProc);
-        
         BgPlink bgPlink = testProc.getBgPlink("testPartnerLinkType");
-//        assertEquals(new QName(), bgPlink.);
+        assertEquals(new QName("http://www.example.org/test/", "test"), bgPlink.myService);
+        assertEquals("test", bgPlink.myEndpoint);
+
+        // testInvoke
+        BgPddInfo testInvoke = deployments.get(new QName("urn:bpelg:test", "testInvoke"));
+        assertNotNull(testInvoke);
+        bgPlink = testInvoke.getBgPlink("testPartnerLinkType");
+        assertEquals(new QName("http://www.example.org/test/", "test"), bgPlink.myService);
+        assertEquals("testInvoke", bgPlink.myEndpoint);
+        bgPlink = testInvoke.getBgPlink("testPartnerLinkType2");
+        assertEquals(new QName("http://www.example.org/test/", "test2"), bgPlink.partnerService);
+        assertEquals("testInvokeBpelReceiver", bgPlink.partnerEndpoint);
+
+        // testInvokeBpelReceiver
+        BgPddInfo testInvokeBpelReceiver = deployments.get(new QName("urn:bpelg:test", "testInvokeBpelReceiver"));
+        assertNotNull(testProc);
+        bgPlink = testInvokeBpelReceiver.getBgPlink("testPartnerLinkType2");
+        assertEquals(new QName("http://www.example.org/test/", "test2"), bgPlink.myService);
+        assertEquals("testInvokeBpelReceiver", bgPlink.myEndpoint);
     }
 }
