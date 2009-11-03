@@ -15,7 +15,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import javax.xml.namespace.QName;
@@ -66,7 +65,7 @@ public class AeBprDeploymentSource implements IAeDeploymentSource, IAePddXmlCons
    /** pdd resource name */
    private String mPddResource;
    /** partner link data */
-   private List mPartnerLinkData;
+   private Collection<AePartnerLinkDescriptor> mPartnerLinkData;
    /** resource key data */
    private Set mContextKeys = new HashSet();
    /** extension elements */
@@ -309,7 +308,7 @@ public class AeBprDeploymentSource implements IAeDeploymentSource, IAePddXmlCons
    /**
     * @see org.activebpel.rt.bpel.server.deploy.IAeDeploymentSource#getPartnerLinkDescriptors()
     */
-   public Collection getPartnerLinkDescriptors()
+   public Collection<AePartnerLinkDescriptor> getPartnerLinkDescriptors()
    {
       return mPartnerLinkData;
    }
