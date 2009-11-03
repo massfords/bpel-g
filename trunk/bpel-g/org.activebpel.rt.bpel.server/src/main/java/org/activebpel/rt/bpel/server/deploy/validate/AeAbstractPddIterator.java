@@ -31,6 +31,7 @@ public abstract class AeAbstractPddIterator implements IAePredeploymentValidator
       for( Iterator iter = aBprFile.getPddResources().iterator(); iter.hasNext(); )
       {
          String pddName = (String) iter.next();
+         // FIXME don't assume that the dom exists on the filesystem
          Document pddDom = aBprFile.getResourceAsDocument( pddName );
          AePddInfo pddInfo = new AePddInfo( pddName, pddDom );
          
