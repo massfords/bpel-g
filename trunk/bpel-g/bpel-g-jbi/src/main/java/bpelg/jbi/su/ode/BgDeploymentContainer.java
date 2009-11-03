@@ -13,7 +13,6 @@ import javax.xml.namespace.QName;
 
 import org.activebpel.rt.AeException;
 import org.activebpel.rt.bpel.server.addressing.pdef.IAePartnerDefInfo;
-import org.activebpel.rt.bpel.server.deploy.AeDeploymentException;
 import org.activebpel.rt.bpel.server.deploy.AeDeploymentId;
 import org.activebpel.rt.bpel.server.deploy.IAeDeploymentContainer;
 import org.activebpel.rt.bpel.server.deploy.IAeDeploymentContext;
@@ -43,6 +42,11 @@ public class BgDeploymentContainer implements IAeDeploymentContainer {
         mCatalogBuilder.build();
         mPddBuilder = new BgPddBuilder(mServiceUnitRoot);
         mPddBuilder.build();
+        
+        // create each of the pdd files within the service unit root
+        for(String pddName : mPddBuilder.getPddNames()) {
+            mPddBuilder.writePddDocument(pddName, mCatalogBuilder.getItems());
+        }
     }
     
     public BgPlink getPlink(QName aProcessName, String aPlinkName) {
@@ -59,9 +63,9 @@ public class BgDeploymentContainer implements IAeDeploymentContainer {
         return source;
     }
     
-    protected IAeDeploymentSource buildSource(String aPddName) throws AeDeploymentException {
-        Document pdd = mPddBuilder.getPdd(aPddName, mCatalogBuilder.getItems());
-        IAeDeploymentSource source = new AeBprDeploymentSource(aPddName, pdd, this);
+    protected IAeDeploymentSource buildSource(String aPddName) throws AeException {
+        AeXMLParserBase parser = new AeXMLParserBase(true,false);
+        IAeDeploymentSource source = new AeBprDeploymentSource(aPddName, parser.loadDocument(aPddName, null), this);
         return source;
     }
 
