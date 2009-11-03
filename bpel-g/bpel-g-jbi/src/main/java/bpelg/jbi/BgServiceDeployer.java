@@ -20,6 +20,9 @@ import org.activebpel.rt.bpel.server.engine.AeEngineFactory;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import bpelg.jbi.su.ode.BgDeploymentContainer;
+import bpelg.jbi.su.ode.BgPddInfo.BgPlink;
+
 /**
  * This class activates JBI endpoints for each of the myrole partnerlink services
  * that are exposed by a process. 
@@ -54,9 +57,16 @@ public class BgServiceDeployer implements IAeWebServicesDeployer {
 
                 AePartnerLinkDefKey partnerLinkDefKey = serviceInfo.getPartnerLinkDefKey();
                 AePartnerLinkDef plinkDef = processDef.findPartnerLink(partnerLinkDefKey);
+                
+                BgDeploymentContainer container = (BgDeploymentContainer) aContainer;
+                BgPlink plink = container.getPlink(processName, serviceInfo.getPartnerLinkName());
+                
+                QName service = plink.myService;
+                String endpoint = plink.myEndpoint;
+                
 
-                QName service = plinkDef.getMyRolePortType();
-                String endpoint = serviceInfo.getServiceName();
+//                QName service = plinkDef.getMyRolePortType();
+//                String endpoint = serviceInfo.getServiceName();
                 // ODE has a simple deploy file where the user specifies the
                 // service qname and port name for each endpoint
                 // AE has a PDD with the equivalent of a port name (called
@@ -65,7 +75,7 @@ public class BgServiceDeployer implements IAeWebServicesDeployer {
                 // - use process qname for service
                 // - use wsdl port type for service
                 sLog.debug("activating endpoint: " + service + " " + endpoint);
-                BgBpelService bpelService = new BgBpelService(processName, partnerLinkDefKey, service, endpoint);
+                BgBpelService bpelService = new BgBpelService(processName, partnerLinkDefKey, service, endpoint, plinkDef.getMyRolePortType());
                 BgContext.getInstance().addService(deployment, bpelService);
 
                 ServiceEndpoint serviceEndpoint = context.activateEndpoint(service, endpoint);
