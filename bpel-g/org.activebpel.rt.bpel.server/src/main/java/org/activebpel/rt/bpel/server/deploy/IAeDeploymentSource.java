@@ -15,6 +15,7 @@ import java.util.Set;
 import javax.xml.namespace.QName;
 
 import org.activebpel.rt.bpel.def.AeProcessDef;
+import org.activebpel.rt.bpel.server.deploy.pdd.AePartnerLinkDescriptor;
 import org.w3c.dom.Element;
 
 /**
@@ -65,7 +66,7 @@ public interface IAeDeploymentSource
    /**
     * Return the collection of partner link descriptors.
     */
-   public Collection getPartnerLinkDescriptors();
+   public Collection<AePartnerLinkDescriptor> getPartnerLinkDescriptors();
 
    /**
     * Returns persistence type.
