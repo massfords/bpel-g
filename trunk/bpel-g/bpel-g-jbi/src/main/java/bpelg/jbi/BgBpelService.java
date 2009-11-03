@@ -22,12 +22,14 @@ public class BgBpelService {
     private String mEndpoint;
     /** artifact from JBI once the endpoint has been activated in the container. Needed for undeployment */
     private ServiceEndpoint mServiceEndpoint;
+    private QName mPortType;
     
-    public BgBpelService(QName aProcesName, AePartnerLinkDefKey aPlinkKey, QName aServiceName, String aEndpoint) {
+    public BgBpelService(QName aProcesName, AePartnerLinkDefKey aPlinkKey, QName aServiceName, String aEndpoint, QName aPortType) {
         setProcessName(aProcesName);
         setServiceName(aServiceName);
         setPartnerLinkDefKey(aPlinkKey);
         setEndpoint(aEndpoint);
+        setPortType(aPortType);
     }
 
     public QName getProcessName() {
@@ -68,5 +70,12 @@ public class BgBpelService {
 
     protected void setEndpoint(String aEndpoint) {
         mEndpoint = aEndpoint;
+    }
+    
+    protected void setPortType(QName aPortType) {
+        mPortType = aPortType;
+    }
+    public QName getPortType() {
+        return mPortType;
     }
 }
