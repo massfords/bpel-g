@@ -37,5 +37,7 @@
         <module>org.activebpel.rt.war</module>
         <module>org.activebpel.rt.bpeladmin.war</module>
         <module>bpel-g.war</module>
+        <module>bpel-g-jbi</module>
+        <module>bpel-g.test</module>
   </modules>
 </project>
