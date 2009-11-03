@@ -76,7 +76,7 @@ public class BgContext {
             coll = c2 != null ? c2 : coll;
         }
         coll.add(aService);
-        mDescriptorCache.add(aDeployment, aService.getServiceName());
+        mDescriptorCache.add(aDeployment, aService.getPortType());
         mEndpointToBpelServiceMap.put(createKey(aService.getServiceName(), aService.getEndpoint()), aService);
     }
 
