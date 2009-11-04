@@ -10,6 +10,11 @@ import org.w3c.dom.Document;
 
 import bpelg.jbi.BgMessageExchangePattern;
 
+/**
+ * Some utils for converting stuff to and from JBI objects
+ * 
+ * @author markford
+ */
 public class BgJbiUtil {
     public static Document getData(MessageExchange aMex, String aMessageName) throws Exception {
         Source source = aMex.getMessage(aMessageName).getContent();
