@@ -1,12 +1,18 @@
 package bpelg.jbi.su.ode;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.xml.namespace.QName;
@@ -29,7 +35,7 @@ import bpelg.jbi.su.ode.BgPddInfo.BgPlink;
 public class BgDeploymentContainer implements IAeDeploymentContainer {
     
     private File mServiceUnitRoot;
-    private IAeServiceDeploymentInfo[] mServiceDeploymentInfos;
+    private List<IAeServiceDeploymentInfo> mServiceDeploymentInfos = new ArrayList();
     private ClassLoader mClassLoader;
     private BgCatalogBuilder mCatalogBuilder;
     private BgPddBuilder mPddBuilder;
@@ -65,7 +71,13 @@ public class BgDeploymentContainer implements IAeDeploymentContainer {
     
     protected IAeDeploymentSource buildSource(String aPddName) throws AeException {
         AeXMLParserBase parser = new AeXMLParserBase(true,false);
-        IAeDeploymentSource source = new AeBprDeploymentSource(aPddName, parser.loadDocument(aPddName, null), this);
+        Document doc;
+        try {
+            doc = parser.loadDocument(new FileReader(new File(mServiceUnitRoot, aPddName)), null);
+        } catch (FileNotFoundException e) {
+            throw new AeException(e);
+        }
+        IAeDeploymentSource source = new AeBprDeploymentSource(aPddName, doc, this);
         return source;
     }
 
@@ -82,12 +94,12 @@ public class BgDeploymentContainer implements IAeDeploymentContainer {
 
     @Override
     public void addServiceDeploymentInfo(IAeServiceDeploymentInfo[] aServiceInfo) {
-        mServiceDeploymentInfos = aServiceInfo;
+        mServiceDeploymentInfos.addAll(Arrays.asList(aServiceInfo));
     }
 
     @Override
     public IAeServiceDeploymentInfo[] getServiceDeploymentInfo() {
-        return mServiceDeploymentInfos;
+        return mServiceDeploymentInfos.toArray(new IAeServiceDeploymentInfo[mServiceDeploymentInfos.size()]);
     }
 
     @Override
@@ -132,7 +144,7 @@ public class BgDeploymentContainer implements IAeDeploymentContainer {
 
     @Override
     public Collection getPdefResources() {
-        throw new UnsupportedOperationException("not implemented");
+        return Collections.EMPTY_LIST; 
     }
 
     @Override
