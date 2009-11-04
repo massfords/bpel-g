@@ -15,6 +15,8 @@ import javax.xml.namespace.QName;
 import org.activebpel.rt.bpel.AeWSDLDefHelper;
 import org.activebpel.rt.bpel.server.IAeProcessDeployment;
 import org.activebpel.rt.wsdl.def.AeBPELExtendedWSDLDef;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.w3c.dom.Document;
 
 import bpelg.jbi.exchange.BgMessageExchangeProcessor;
@@ -29,6 +31,7 @@ import bpelg.jbi.util.BgWSDLFlattener;
 public class BgContext {
 	/** our singleton instance */
 	private static final BgContext sInstance = new BgContext();
+	private static final Log sLog = LogFactory.getLog(BgContext.class);
 
 	/** context from the JBI container */
 	private ComponentContext mComponentContext;
@@ -37,7 +40,7 @@ public class BgContext {
 	/** maps process qname to all of the services exposed by that process. Used to undeploy all of the services when the process is undeployed */
 	private ConcurrentHashMap<QName,Collection<BgBpelService>> mProcessToServicesMap = new ConcurrentHashMap();
 	/** maps endpoint key to the bpel service */
-	private ConcurrentHashMap<String,BgBpelService> mEndpointToBpelServiceMap = new ConcurrentHashMap();
+	private ConcurrentHashMap<BgServiceTupleKey,BgBpelService> mEndpointToBpelServiceMap = new ConcurrentHashMap();
 	/** cache of WSDL documents for a given port type. */
 	private BgDescriptorCache mDescriptorCache = new BgDescriptorCache();
 	
@@ -69,6 +72,8 @@ public class BgContext {
      * @throws Exception 
      */
     public void addService(IAeProcessDeployment aDeployment, BgBpelService aService) throws Exception {
+        if (sLog.isDebugEnabled())
+            sLog.debug("adding service to descriptor cache: " + aService );
         Collection<BgBpelService> coll = mProcessToServicesMap.get(aService.getProcessName());
         if (coll == null) {
             coll = new LinkedList();
@@ -77,14 +82,19 @@ public class BgContext {
         }
         coll.add(aService);
         mDescriptorCache.add(aDeployment, aService.getPortType());
-        mEndpointToBpelServiceMap.put(createKey(aService.getServiceName(), aService.getEndpoint()), aService);
+        BgServiceTupleKey key = createKey(aService.getServiceName(), aService.getEndpoint());
+        mEndpointToBpelServiceMap.put(key, aService);
     }
 
     public Collection<BgBpelService> removeServicesByProcessName(QName aProcessName) {
         Collection<BgBpelService> coll = mProcessToServicesMap.remove(aProcessName);
+        if (sLog.isDebugEnabled()) {
+            sLog.debug("removing cached deployment info for bpel services: " + aProcessName + " count=" + coll.size());
+        }
         for(BgBpelService service : coll) {
             mDescriptorCache.remove(service.getServiceName());
-            mEndpointToBpelServiceMap.remove(createKey(service.getServiceName(), service.getEndpoint()));
+            BgServiceTupleKey key = createKey(service.getServiceName(), service.getEndpoint());
+            mEndpointToBpelServiceMap.remove(key);
         }
         return coll;
     }
@@ -94,7 +104,8 @@ public class BgContext {
     }
     
     public BgBpelService getBpelService(ServiceEndpoint aServiceEndpoint) {
-        return mEndpointToBpelServiceMap.get(createKey(aServiceEndpoint.getServiceName(), aServiceEndpoint.getEndpointName()));
+        BgServiceTupleKey key = createKey(aServiceEndpoint.getServiceName(), aServiceEndpoint.getEndpointName());
+        return mEndpointToBpelServiceMap.get(key);
     }
 
     protected void setMessageExchangeProcessor(IBgMessageExchangeProcessor aMessageExchangeProcessor) {
@@ -128,8 +139,10 @@ public class BgContext {
         public synchronized void remove(QName aPortType) {
             BgDocumentRef docRef = mMap.get(aPortType);
             docRef.referenceCount--;
-            if (docRef.referenceCount == 0)
+            if (docRef.referenceCount == 0) {
+                sLog.debug("reference count has reached zero, removing wsdl from cache");
                 mMap.remove(aPortType);
+            }
         }
         
         private static class BgDocumentRef {
@@ -142,8 +155,29 @@ public class BgContext {
         }
     }
 
-// FIXME use real key object for this instead of a string
-    private String createKey(QName aServiceName, String aEndpoint) {
-        return aServiceName + "/" + aEndpoint;
+    private BgServiceTupleKey createKey(QName aServiceName, String aEndpoint) {
+        return new BgServiceTupleKey(aServiceName, aEndpoint);
+    }
+    
+    private static class BgServiceTupleKey {
+        protected QName mServiceName;
+        protected String mEndpoint;
+        private int mHashCode;
+        public BgServiceTupleKey(QName aServiceName, String aEndpoint) {
+            mServiceName = aServiceName;
+            mEndpoint = aEndpoint;
+            mHashCode = (mServiceName + mEndpoint).hashCode();
+        }
+        public int hashCode() {
+            return mHashCode; 
+        }
+        public boolean equals(Object aObject) {
+            if (aObject instanceof BgServiceTupleKey) {
+                BgServiceTupleKey other = (BgServiceTupleKey) aObject;
+                return other.mServiceName.equals(mServiceName) &&
+                    other.mEndpoint.equals(mEndpoint);
+            }
+            return false;
+        }
     }
 }
