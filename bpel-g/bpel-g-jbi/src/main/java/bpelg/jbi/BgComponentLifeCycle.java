@@ -8,11 +8,14 @@ import javax.jbi.component.ComponentLifeCycle;
 import javax.management.ObjectName;
 
 import org.activebpel.rt.AeException;
-import org.activebpel.rt.bpel.server.deploy.scanner.AeDeploymentFileHandler;
 import org.activebpel.rt.bpel.server.deploy.scanner.AeDeploymentFileInfo;
+import org.activebpel.rt.bpel.server.deploy.scanner.IAeDeploymentFileHandler;
 import org.activebpel.rt.bpel.server.engine.AeEngineLifecycleWrapper;
 import org.activebpel.rt.bpel.server.engine.IAeEngineLifecycleWrapper;
 import org.activebpel.rt.bpel.server.logging.AeCommonsLoggingImpl;
+import org.activebpel.rt.bpel.server.logging.IAeDeploymentLogger;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 import bpelg.jbi.exchange.BgReceiver;
 
@@ -24,33 +27,52 @@ import bpelg.jbi.exchange.BgReceiver;
  */
 public class BgComponentLifeCycle implements ComponentLifeCycle {
 	
-	private static final long DEFAULT_SCAN_DELAY_MILLIS = 15000;
-	private static final long DEFAULT_SCAN_INTERVAL_MILLIS = 10000;
 	private IAeEngineLifecycleWrapper mEngineLifecycle;
 	private BgReceiver mReceiver;
+	
+	private static final Log sLog = LogFactory.getLog(BgComponentLifeCycle.class);
 	
 	public BgComponentLifeCycle() {
 	}
 
 	@Override
 	public void init(ComponentContext aContext) throws JBIException {
+	    sLog.trace("initializing bpelg component");
 		try {
 			BgContext context = BgContext.getInstance();
 			context.setComponentContext(aContext);
+			
+			// we don't need a file handler since deployments should be managed by the JBI container
+			IAeDeploymentFileHandler noop = new IAeDeploymentFileHandler() {
 
-			// ugly, but need to init some nested class for file paths
+                @Override
+                public void handleDeployment(File aFile, String aBprName, IAeDeploymentLogger aLogger)
+                        throws AeException {
+                }
+
+                @Override
+                public void handleInitialDeployments() {
+                }
+
+                @Override
+                public void startScanning() {
+                }
+
+                @Override
+                public void stopScanning() {
+                }
+			    
+			};
+			
 			AeDeploymentFileInfo.setInstallDir(new File(aContext.getInstallRoot()));
             AeDeploymentFileInfo.setConfigFileName("aeEngineConfig.xml");
             AeDeploymentFileInfo.setDeploymentDirectory("bpr");
             AeDeploymentFileInfo.setStagingDirectory("bpr/work");
-            
-			AeDeploymentFileHandler fileDeployer = new AeDeploymentFileHandler(
-					new AeCommonsLoggingImpl(AeDeploymentFileHandler.class),
-					DEFAULT_SCAN_INTERVAL_MILLIS);
 			
+
 			mEngineLifecycle = new AeEngineLifecycleWrapper(
 					new AeCommonsLoggingImpl(BgComponentLifeCycle.class), 
-					fileDeployer, DEFAULT_SCAN_DELAY_MILLIS);
+					noop, 0);
 			
 			mEngineLifecycle.init();
 			
@@ -62,6 +84,7 @@ public class BgComponentLifeCycle implements ComponentLifeCycle {
 
     @Override
     public void start() throws JBIException {
+        sLog.trace("starting bpelg component");
         try {
             mEngineLifecycle.start();
         } catch (AeException e) {
@@ -73,6 +96,7 @@ public class BgComponentLifeCycle implements ComponentLifeCycle {
 
     @Override
     public void stop() throws JBIException {
+        sLog.trace("stopping bpelg component");
         try {
             mEngineLifecycle.stop();
         } catch (AeException e) {
@@ -84,6 +108,7 @@ public class BgComponentLifeCycle implements ComponentLifeCycle {
 
 	@Override
 	public void shutDown() throws JBIException {
+        sLog.trace("shutting down bpelg component");
         try {
             mEngineLifecycle.shutdown();
         } catch (AeException e) {
@@ -95,7 +120,6 @@ public class BgComponentLifeCycle implements ComponentLifeCycle {
 
 	@Override
     public ObjectName getExtensionMBeanName() {
-        // FIXME not sure I need this
         return null;
     }
 }
