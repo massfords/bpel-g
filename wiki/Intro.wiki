@@ -36,7 +36,7 @@ $SERVICEMIX_HOME/conf/jndi.xml needs to have an entry for the DataSource. The fo
 
     <entry key="java:comp/env/jdbc/ActiveBPELDB">
             <bean class="org.h2.jdbcx.JdbcDataSource">
-                <property name="URL" value="jdbc:h2:~/bpelg-h2-db"/>
+                <property name="URL" value="jdbc:h2:~/bpelg-h2-db;MVCC=TRUE"/>
                 <property name="user" value="sa"/>
                 <property name="password" value="sa"/>
             </bean>
