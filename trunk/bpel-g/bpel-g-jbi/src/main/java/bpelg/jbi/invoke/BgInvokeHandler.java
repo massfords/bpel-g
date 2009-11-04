@@ -37,6 +37,11 @@ import bpelg.jbi.BgContext;
 import bpelg.jbi.BgMessageExchangePattern;
 import bpelg.jbi.util.BgJbiUtil;
 
+/**
+ * The default JBI invoke handler. Converts the payload for a bpel:invoke into a normalized message and delivers that message to the intended service.
+ * 
+ * @author markford
+ */
 public class BgInvokeHandler implements IAeInvokeHandler {
     
     private static final Log sLog = LogFactory.getLog(BgInvokeHandler.class);
@@ -53,6 +58,8 @@ public class BgInvokeHandler implements IAeInvokeHandler {
         QName serviceName = epr.getServiceName();
         String endpoint = epr.getServicePort();
         
+        sLog.debug("invoking service/endpoint:" + serviceName + " " + endpoint);
+
         ComponentContext componentContext = BgContext.getInstance().getComponentContext();
         ServiceEndpoint serviceEndpoint = componentContext.getEndpoint(serviceName, endpoint);
 
@@ -72,6 +79,7 @@ public class BgInvokeHandler implements IAeInvokeHandler {
             nmsg.setContent(new DOMSource(doc));
             jbiMex.setMessage(nmsg, "in");
             
+            sLog.debug("Sending exchange on channel synchronously");
             componentContext.getDeliveryChannel().sendSync(jbiMex);
             onJbiMessageExchange(jbiMex);
 
@@ -82,7 +90,7 @@ public class BgInvokeHandler implements IAeInvokeHandler {
         return mResponse;
     }
     
-    public void onJbiMessageExchange(MessageExchange jbiMex) throws MessagingException {
+    private void onJbiMessageExchange(MessageExchange jbiMex) throws MessagingException {
         
         if (!jbiMex.getPattern().equals(BgMessageExchangePattern.IN_ONLY) &&
             !jbiMex.getPattern().equals(BgMessageExchangePattern.IN_OUT)) {
@@ -91,7 +99,7 @@ public class BgInvokeHandler implements IAeInvokeHandler {
         }
         if (jbiMex.getStatus() == ExchangeStatus.ACTIVE) {
             if (jbiMex.getPattern().equals(BgMessageExchangePattern.IN_OUT)) {
-
+                sLog.debug("Extracting standard response from synchronous invoke");
                 try {
                     PortType portType = getPortType();
                     String opName = mInvokeContext.getOperation();
@@ -109,8 +117,10 @@ public class BgInvokeHandler implements IAeInvokeHandler {
                     jbiMex.setStatus(ExchangeStatus.ERROR);
                 }
             }
+            sLog.debug("Signalling exchange as complete");
             BgContext.getInstance().getComponentContext().getDeliveryChannel().send(jbiMex);
         } else if (jbiMex.getStatus() == ExchangeStatus.ERROR) {
+            sLog.debug("Extracting error from exchange");
             try {
                 PortType portType = getPortType();
                 String opName = mInvokeContext.getOperation();
@@ -125,12 +135,17 @@ public class BgInvokeHandler implements IAeInvokeHandler {
             }
         } else if (jbiMex.getStatus() == ExchangeStatus.DONE) {
             // no op
+            sLog.debug("exchange marked as done, ignoring");
         } else {
             sLog.error("Unexpected status " + jbiMex.getStatus() + " for JBI message exchange: "
                     + jbiMex.getExchangeId());
         }
     }
 
+    /**
+     * Extracts the wsdl PortType for the invoke we're supporting
+     * @throws AeBusinessProcessException
+     */
     private PortType getPortType() throws AeBusinessProcessException {
         IAeContextWSDLProvider wsdlProvider = AeEngineFactory.getDeploymentProvider().findDeploymentPlan(
                 -1, mInvokeContext.getProcessName());
@@ -140,7 +155,14 @@ public class BgInvokeHandler implements IAeInvokeHandler {
         return portType;
     }
     
-    public void setFaultOnResponse(QName aPortType, Operation aOper, Element firstDetailElement) {
+    /**
+     * Maps a wsdl fault to the invoke response 
+     * 
+     * @param aPortType
+     * @param aOper
+     * @param firstDetailElement
+     */
+    private void setFaultOnResponse(QName aPortType, Operation aOper, Element firstDetailElement) {
         AeFaultMatcher faultMatcher = new AeFaultMatcher(aPortType, aOper, null, firstDetailElement);
         Fault wsdlFault = faultMatcher.getWsdlFault();
         QName faultName = faultMatcher.getFaultName();
