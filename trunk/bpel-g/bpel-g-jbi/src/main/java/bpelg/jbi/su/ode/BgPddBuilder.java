@@ -9,6 +9,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import javax.xml.namespace.QName;
 
@@ -79,7 +80,7 @@ public class BgPddBuilder {
                 myRole.setAttribute("binding", "MSG");
                 String encodedService = AeXmlUtil.encodeQName(plink.myService, myRole, "mysvc");
                 // space delimited value of Service QName + endpoint
-                myRole.setAttribute("service", encodedService + " " + plink.myEndpoint);
+                myRole.setAttribute("service", encodedService + " " + plink.myEndpoint + " " + UUID.randomUUID().toString());
             }
             if (plink.hasPartnerRole()) {
                 Element partnerRole = AeXmlUtil.addElementNS(plinkEl, PDD, "pdd:partnerRole");
