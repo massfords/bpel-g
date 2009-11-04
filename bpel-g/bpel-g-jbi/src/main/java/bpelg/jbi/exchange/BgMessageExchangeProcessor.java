@@ -12,6 +12,8 @@ import javax.xml.transform.dom.DOMSource;
 import org.activebpel.rt.bpel.server.engine.AeEngineFactory;
 import org.activebpel.wsio.IAeWebServiceResponse;
 import org.activebpel.wsio.receive.AeMessageContext;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 
@@ -20,15 +22,19 @@ import bpelg.jbi.BgContext;
 import bpelg.jbi.util.BgJbiUtil;
 
 public class BgMessageExchangeProcessor implements IBgMessageExchangeProcessor {
+    
+    private static final Log sLog = LogFactory.getLog(BgMessageExchangeProcessor.class);
 
     @Override
     public void onJbiMessageExchange(MessageExchange aMex) throws MessagingException {
         if (aMex.getRole().equals(javax.jbi.messaging.MessageExchange.Role.CONSUMER)) {
             // FIXME call queueInvokeData / queueInvokeFault
+            sLog.debug("onJbiMessageExchange - consumer role not implemented due to synchronous style invokes");
         } else if (aMex.getRole().equals(javax.jbi.messaging.MessageExchange.Role.PROVIDER)) {
             
             if (aMex.getStatus() != ExchangeStatus.ACTIVE) {
                 // We can forget about the exchange.
+                sLog.debug("onJbiMessageExchange - provider role not active, ignore");
                 return;
             }
 
@@ -42,21 +48,27 @@ public class BgMessageExchangeProcessor implements IBgMessageExchangeProcessor {
                 context.setProcessName(bpelService.getProcessName());
                 context.setPartnerLink(bpelService.getPartnerLinkDefKey().getPartnerLinkName());
                 
+                if (sLog.isDebugEnabled())
+                    sLog.debug("onJbiMessageExchange - making synchronous call into bpel service: " + bpelService);
+
                 // no durable replies for the moment
                 IAeWebServiceResponse response = AeEngineFactory.getEngine().queueReceiveData(context, data);
                 if (BgJbiUtil.isTwoWay(aMex)) {
                     InOut exchange = (InOut) aMex;
                     DOMSource responseData = new DOMSource((Node) response.getMessageData().getMessageData().values().iterator().next());
                     if (response.isFaultResponse()) {
+                        sLog.debug("onJbiMessageExchange - received fault response");
                         Fault fault = exchange.createFault();
                         fault.setContent(responseData);
                     } else {
+                        sLog.debug("onJbiMessageExchange - received standard response");
                         NormalizedMessage responseMessage = exchange.createMessage();
                         responseMessage.setContent(responseData);
                         exchange.setOutMessage(responseMessage);
                     }
                 } else {
                     // nothing to do with one-way
+                    sLog.debug("onJbiMessageExchange - one way dispatch completed");
                 }
             } catch (Exception e) {
                 error = e;
@@ -66,12 +78,12 @@ public class BgMessageExchangeProcessor implements IBgMessageExchangeProcessor {
                     aMex.setError(error);
                     aMex.setStatus(ExchangeStatus.ERROR);
                 }                
+                sLog.trace("onJbiMessageExchange - sending exchange back on delivery channel");
                 BgContext.getInstance().getComponentContext().getDeliveryChannel().send(aMex);
             }
         } else {
             // unexpected role, fault
+            sLog.error("onJbiMessageExchange - unexpected role:" + aMex.getRole());
         }
     }
-    
-
 }
