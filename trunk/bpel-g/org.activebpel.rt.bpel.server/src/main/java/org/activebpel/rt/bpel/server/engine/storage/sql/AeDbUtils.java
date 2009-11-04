@@ -16,6 +16,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.Date;
+import java.util.Random;
 
 import org.activebpel.rt.AeException;
 import org.activebpel.rt.bpel.server.AeMessages;
@@ -162,4 +163,26 @@ public class AeDbUtils
       }
       return new Date(millis);
    }
+   
+   /**
+    * Ethernet style backoff wait 
+    * 
+    * @param aAttempt
+    * @param aProcessId
+    * @param aMessage
+    */
+   public static void backOffWait(int aAttempt, long aProcessId, String aMessage) {
+       long waitInMillis = Math.max(50, AeDbUtils.getBackoffWaitInMillis(aAttempt));
+       AeException.logWarning(AeMessages.format(aMessage, new Object[] {aProcessId, waitInMillis}));
+       try {
+         Thread.sleep(waitInMillis);
+     } catch (InterruptedException e) {}
+   }
+
+   public static long getBackoffWaitInMillis(int aAttempt) {
+        int maxWait = (int) Math.pow(2, aAttempt);
+        Random r = new Random();
+        long waitInMillis = r.nextInt(maxWait);
+        return waitInMillis;
+    }
 }

@@ -52,6 +52,7 @@ import org.activebpel.rt.bpel.server.engine.recovery.journal.IAeJournalEntry;
 import org.activebpel.rt.bpel.server.engine.storage.AePersistentStoreFactory;
 import org.activebpel.rt.bpel.server.engine.storage.AeStorageException;
 import org.activebpel.rt.bpel.server.engine.storage.IAeProcessStateStorage;
+import org.activebpel.rt.bpel.server.engine.storage.sql.AeDbUtils;
 import org.activebpel.rt.bpel.server.logging.IAePersistentLogger;
 import org.activebpel.rt.bpel.server.logging.IAeProcessLogEntry;
 import org.activebpel.rt.message.IAeMessageData;
@@ -676,7 +677,9 @@ public class AePersistentProcessManager extends AeAbstractProcessManager impleme
                   firstException = e;
                }
 
-               AeException.logError(null, AeMessages.getString("AePersistentProcessManager.ERROR_GetProcessesRetry")); //$NON-NLS-1$
+               // backoff wait time
+               // skew the max wait time by 5 so our range will be 0-128ms up to 0-2048ms
+               AeDbUtils.backOffWait(tries + 6, -1, "AePersistentProcessManager.ERROR_GetProcessesRetry"); //$NON-NLS-1$
             }
             // Otherwise, we're done.
             else
