@@ -10,9 +10,16 @@ import org.w3c.dom.DocumentFragment;
 
 import bpelg.jbi.su.BgServiceUnitManager;
 
+/**
+ * Core JBI component
+ * 
+ * @author markford
+ */
 public class BgComponent implements Component {
 
+    /** provides hooks for the lifecycle methods */
     private ComponentLifeCycle mLifecycle;
+    /** handles deployments of service units */
     private BgServiceUnitManager mServiceUnitManager;
     
     public BgComponent() {
