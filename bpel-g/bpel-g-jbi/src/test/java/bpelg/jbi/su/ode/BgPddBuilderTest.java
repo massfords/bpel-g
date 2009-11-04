@@ -84,7 +84,7 @@ public class BgPddBuilderTest {
     		"</pdd:process>";
         Document expected = AeXmlUtil.toDoc(expectedXml);
         
-        BgXmlAssert.assertXml(expected, testPdd);
+        BgXmlAssert.assertXml(expected, testPdd, "/process[1]/partnerLinks[1]/partnerLink[1]/myRole[1]/@service");
     }
 
     @Test
@@ -117,6 +117,6 @@ public class BgPddBuilderTest {
             "</pdd:process>"; 
         Document expected = AeXmlUtil.toDoc(expectedXml);
         
-        BgXmlAssert.assertXml(expected, testPdd);
+        BgXmlAssert.assertXml(expected, testPdd, "/process[1]/partnerLinks[1]/partnerLink[1]/myRole[1]/@service");
     }
 }
