@@ -116,7 +116,7 @@ public class AeSQLCounterStore extends AeSQLObject implements IAeCounterStore
                   firstException = e;
                }
 
-               AeException.logError(null, AeMessages.format("AeSQLCounterStore.ERROR_RetryGetNextValues", aCounterName)); //$NON-NLS-1$
+               AeDbUtils.backOffWait(tries + 6, -1, "AeSQLCounterStore.ERROR_RetryGetNextValues");
             }
             // Otherwise, we're done.
             else

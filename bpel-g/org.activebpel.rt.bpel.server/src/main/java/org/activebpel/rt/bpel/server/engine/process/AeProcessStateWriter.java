@@ -56,6 +56,7 @@ import org.activebpel.rt.bpel.server.engine.storage.AeStorageException;
 import org.activebpel.rt.bpel.server.engine.storage.IAeLocationVersionSet;
 import org.activebpel.rt.bpel.server.engine.storage.IAeProcessStateConnection;
 import org.activebpel.rt.bpel.server.engine.storage.IAeProcessStateStorage;
+import org.activebpel.rt.bpel.server.engine.storage.sql.AeDbUtils;
 import org.activebpel.rt.bpel.server.engine.transaction.AeTransactionException;
 import org.activebpel.rt.bpel.server.engine.transaction.AeTransactionManager;
 import org.activebpel.rt.bpel.server.logging.IAePersistentLogger;
@@ -412,7 +413,7 @@ public class AeProcessStateWriter implements IAeProcessStateWriter
       {
          int tryCount = getProcessManager().getDeadlockTryCount();
          AeStorageException firstException = null;
-
+         
          for (int tries = 0; true; )
          {
             // begin transaction.
@@ -443,7 +444,9 @@ public class AeProcessStateWriter implements IAeProcessStateWriter
                      firstException = e;
                   }
 
-                  AeException.logError(null, AeMessages.format("AeProcessStateWriter.ERROR_0", processId)); //$NON-NLS-1$
+                  // backoff wait time
+                  // skew the max wait time by 5 so our range will be 0-128ms up to 0-2048ms
+                  AeDbUtils.backOffWait(tries + 6, processId, "AeProcessStateWriter.ERROR_0"); //$NON-NLS-1$
                }
                // Otherwise, we're done.
                else
@@ -505,7 +508,7 @@ public class AeProcessStateWriter implements IAeProcessStateWriter
                      firstException = e;
                   }
 
-                  AeException.logError(null, AeMessages.format("AeProcessStateWriter.ERROR_3", aProcessId)); //$NON-NLS-1$
+                  AeDbUtils.backOffWait(tries + 6, aProcessId, "AeProcessStateWriter.ERROR_3");
                }
                // Otherwise, we're done.
                else
