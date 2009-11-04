@@ -58,18 +58,18 @@ An example directory layout is below:
 
 {{{
 example-su
- |_src
-   |_main
-     |_resources
-       |_example.bpel
-       |_wsdl
-         |_example.wsdl
-         |_other.wsdl
-       |_xsd
-         |_myschema.xsd
-       |_example.xsl
-       |_deploy.xml
-  |_pom.xml
+ |- src
+ |   \- main
+ |       \- resources
+ |          |- example.bpel
+ |          |- example.xsl
+ |          |- deploy.xml
+ |          \- wsdl
+ |             |- example.wsdl
+ |             |- other.wsdl
+ |          \- xsd
+ |             |- myschema.xsd
+ |- pom.xml
 }}}
 
 What's going on:
