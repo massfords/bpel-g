@@ -4,6 +4,7 @@ import javax.jbi.servicedesc.ServiceEndpoint;
 import javax.xml.namespace.QName;
 
 import org.activebpel.rt.bpel.def.AePartnerLinkDefKey;
+import org.apache.commons.lang.builder.ToStringBuilder;
 
 /**
  * Simple struct that bridges the deployment info between JBI and bpel-g
@@ -77,5 +78,14 @@ public class BgBpelService {
     }
     public QName getPortType() {
         return mPortType;
+    }
+    
+    public String toString() {
+        return new ToStringBuilder(this).
+          append("processName", mProcessName).
+          append("partnerLink", mPartnerLinkDefKey.getPartnerLinkName()).
+          append("serviceName", mServiceName).
+          append("endpoint", mEndpoint).
+          toString();
     }
 }
