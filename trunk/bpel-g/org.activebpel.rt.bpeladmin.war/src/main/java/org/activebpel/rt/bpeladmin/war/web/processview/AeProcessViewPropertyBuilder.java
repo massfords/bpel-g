@@ -225,7 +225,7 @@ public class AeProcessViewPropertyBuilder extends AeProcessWebPropertyBuilder
     */
    protected void buildCoordinationDetail(AeCoordinationDetail aCd, StringBuffer aBuffer, boolean aLinkPath)
    {
-      aBuffer.append("<a href=\"processview_detail" + getLinkFileExtension() + "?pid=" + aCd.getProcessId()); //$NON-NLS-1$ //$NON-NLS-2$
+      aBuffer.append("<a href=\"processview_detail.jsp?pid=" + aCd.getProcessId()); //$NON-NLS-1$ //$NON-NLS-2$
       if (aLinkPath)
       {
          aBuffer.append("&xpath=" + AeWebUtil.escapeSingleQuotes( aCd.getLocationPath() )); //$NON-NLS-1$
@@ -320,7 +320,8 @@ public class AeProcessViewPropertyBuilder extends AeProcessWebPropertyBuilder
       StringBuffer xml = new StringBuffer();
       try
       {
-         Document varDoc = AeEngineFactory.getEngineAdministration().getVariable(aProcessId, aLocationPath);
+         String varStr = AeEngineFactory.getEngineAdministration().getVariable(aProcessId, aLocationPath);
+         Document varDoc = new AeXMLParserBase(true,false).loadDocumentFromString(varStr, null);
 
          Node node = varDoc.getFirstChild();
 
@@ -410,18 +411,6 @@ public class AeProcessViewPropertyBuilder extends AeProcessWebPropertyBuilder
       }
 
       return aView;
-   }
-
-   /**
-    * File extension to use for page links.
-    */
-   public String getLinkFileExtension()
-   {
-      // TODO cck - more elegant solution preferred
-      String ext = ".jsp"; //$NON-NLS-1$
-      if(AeEngineFactory.getEngineAdministration().getEngineConfig().getMapEntry("Dotnet") != null) //$NON-NLS-1$
-         ext = ".aspx"; //$NON-NLS-1$
-      return ext;
    }
 
    /**
