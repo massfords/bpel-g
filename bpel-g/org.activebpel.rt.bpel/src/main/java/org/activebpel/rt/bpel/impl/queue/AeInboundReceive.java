@@ -55,7 +55,7 @@ public class AeInboundReceive extends AeCorrelatedReceive
     * @param aData
     * @param aContext
     */
-   public AeInboundReceive(AePartnerLinkOpKey aPlinkOpKey, Map aCorrelation, IAeProcessPlan aProcPlan, IAeMessageData aData,
+   public AeInboundReceive(AePartnerLinkOpKey aPlinkOpKey, Map<QName,Object> aCorrelation, IAeProcessPlan aProcPlan, IAeMessageData aData,
          IAeMessageContext aContext)
    {
       this(aPlinkOpKey, aCorrelation, aProcPlan, aData, aContext, null);
@@ -71,7 +71,7 @@ public class AeInboundReceive extends AeCorrelatedReceive
     * @param aContext
     * @param aReplyReceiver
     */
-   public AeInboundReceive(AePartnerLinkOpKey aPlinkOpKey, Map aCorrelation, IAeProcessPlan aProcPlan, IAeMessageData aData,
+   public AeInboundReceive(AePartnerLinkOpKey aPlinkOpKey, Map<QName,Object> aCorrelation, IAeProcessPlan aProcPlan, IAeMessageData aData,
          IAeMessageContext aContext, IAeReplyReceiver aReplyReceiver)
    {
       super(aPlinkOpKey, aProcPlan.getProcessDef().getQName(), aCorrelation);
