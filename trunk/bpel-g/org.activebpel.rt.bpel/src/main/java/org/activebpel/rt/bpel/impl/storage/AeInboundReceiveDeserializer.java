@@ -78,7 +78,7 @@ public class AeInboundReceiveDeserializer implements IAeImplStateNames
     * @param aData
     * @param aContext
     */
-   private Map createCorrelationMap(AePartnerLinkOpKey aPartnerLinkOpKey, IAeProcessPlan aPlan,
+   private Map<QName,Object> createCorrelationMap(AePartnerLinkOpKey aPartnerLinkOpKey, IAeProcessPlan aPlan,
          IAeMessageData aData, IAeMessageContext aContext) throws AeBusinessProcessException
    {
       Collection names = aPlan.getCorrelatedPropertyNames(aPartnerLinkOpKey);

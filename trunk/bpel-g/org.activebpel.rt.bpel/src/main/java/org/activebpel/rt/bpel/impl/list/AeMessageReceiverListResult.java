@@ -26,7 +26,7 @@ public class AeMessageReceiverListResult implements Serializable
    /** The matching message receivers. */
    protected AeMessageReceiver[] mResults;
    /** Mapping of process ids to location paths. */
-   protected Map mLocationIdtoLocationPathMap;
+   protected Map<Integer,String> mLocationIdtoLocationPathMap = new HashMap();
    
    /**
     * Constructor.
@@ -37,7 +37,6 @@ public class AeMessageReceiverListResult implements Serializable
    {
       mTotalRows = aTotalRows;
       mResults = (AeMessageReceiver[])aReceivers.toArray( new AeMessageReceiver[aReceivers.size()]);
-      mLocationIdtoLocationPathMap = new HashMap();
    }
    
    /**
@@ -63,7 +62,7 @@ public class AeMessageReceiverListResult implements Serializable
     */
    public void addPathMapping( int aLocationId, String aLocation )
    {
-      mLocationIdtoLocationPathMap.put( new Integer( aLocationId ), aLocation );
+      mLocationIdtoLocationPathMap.put( aLocationId, aLocation );
    }
    
    /**
@@ -72,7 +71,7 @@ public class AeMessageReceiverListResult implements Serializable
     */
    public String getLocationPath( int aLocationId )
    {
-      return (String)mLocationIdtoLocationPathMap.get( new Integer(aLocationId) );
+      return (String)mLocationIdtoLocationPathMap.get( aLocationId );
    }
    
    /**

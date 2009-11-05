@@ -20,17 +20,16 @@ import java.util.Map;
 public class AeAlarmListResult extends AeListResult implements Serializable
 {
    /** Mapping of process ids to location paths. */
-   protected Map mLocationIdtoLocationPathMap;
+   protected Map<Integer,String> mLocationIdtoLocationPathMap = new HashMap();
    
    /**
     * Constructor.
     * @param aTotalRows Total rows that matched selection criteria.  This number may be greater than the number of results in this listing.
     * @param aAlarms The matching alarms.
     */
-   public AeAlarmListResult( int aTotalRows, List aAlarms )
+   public AeAlarmListResult( int aTotalRows, List<AeAlarmExt> aAlarms )
    {
       super( aTotalRows, aAlarms, true );
-      mLocationIdtoLocationPathMap = new HashMap();
    }
    
    /**
