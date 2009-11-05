@@ -1115,7 +1115,7 @@ public class AeEngineFactory
     * the default for the server is used.
     * @throws AeBusinessProcessException
     */
-   private static MessageFactory createSOAPMessageFactory() throws AeBusinessProcessException
+   private static MessageFactory createSOAPMessageFactory() //throws AeBusinessProcessException
    {
       Map config = getEngineConfig().getMapEntry(IAeEngineConfiguration.SOAP_MESSAGE_FACTORY);
 
@@ -1143,7 +1143,9 @@ public class AeEngineFactory
       }
       catch (Throwable ae)
       {
-         throw new AeBusinessProcessException(ae.getMessage(), ae);
+         // FIXME this should really be loaded through a manager and not through the engine. Move it!
+         //throw new AeBusinessProcessException(ae.getMessage(), ae);
+          return null;
       }
    }
 
