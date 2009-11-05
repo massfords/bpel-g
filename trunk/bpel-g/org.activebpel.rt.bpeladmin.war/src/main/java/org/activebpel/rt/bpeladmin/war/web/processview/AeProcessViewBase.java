@@ -32,6 +32,7 @@ import org.activebpel.rt.bpeladmin.war.graph.AeGraphProperties;
 import org.activebpel.rt.bpeladmin.war.graph.bpel.AeBpelActivityCoordinates;
 import org.activebpel.rt.bpeladmin.war.web.AeWebUtil;
 import org.activebpel.rt.util.AeUtil;
+import org.activebpel.rt.xml.AeXMLParserBase;
 import org.activebpel.rt.xml.def.AeBaseXmlDef;
 import org.activebpel.rt.xml.def.IAePathSegmentBuilder;
 import org.w3c.dom.Document;
@@ -387,7 +388,9 @@ public class AeProcessViewBase
       Document stateDoc = null;
       try
       {
-         stateDoc = AeEngineFactory.getEngineAdministration().getProcessState(mProcessId);
+          String state = AeEngineFactory.getEngineAdministration().getProcessState(mProcessId);
+          stateDoc = new AeXMLParserBase(true, false).loadDocumentFromString(state, null);
+//         stateDoc = AeEngineFactory.getEngineAdministration().getProcessState(mProcessId);
       }
       catch (Throwable t)
       {
