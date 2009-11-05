@@ -119,7 +119,7 @@ public class AeCatalogListingBean extends AeAbstractListingBean
     */
    public int getCacheSize()
    {
-      return getAdmin().getEngineConfig().getUpdatableEngineConfig().getResourceCacheMax();
+      return getAdmin().getEngineConfig().getResourceCacheMax();
    }
    
    /**
