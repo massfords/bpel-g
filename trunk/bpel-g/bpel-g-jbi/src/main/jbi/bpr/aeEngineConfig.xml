@@ -36,7 +36,7 @@
                <entry value="5.0.2" name="Version"/>
    
                <entry name="DataSource">
-                  <entry value="org.activebpel.rt.bpel.server.engine.storage.sql.AeJNDIDataSource" name="Class"/>
+                  <entry value="bpelg.jbi.db.BgFallbackDataSource" name="Class"/>
                   <entry value="java:comp/env/jdbc/ActiveBPELDB" name="JNDILocation"/>
                </entry>
             </entry>
