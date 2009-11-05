@@ -436,9 +436,10 @@ public class AeEngineAdministration implements IAeEngineAdministration
    /**
     * @see org.activebpel.rt.bpel.server.admin.IAeEngineAdministration#getProcessState(long)
     */
-   public Document getProcessState(long aPid) throws AeBusinessProcessException
+   public String getProcessState(long aPid) throws AeBusinessProcessException
    {
-      return getBpelEngine().getProcessState(aPid); 
+      Document processState = getBpelEngine().getProcessState(aPid);
+      return AeXMLParserBase.documentToString(processState, true); 
    }
 
    /**
@@ -448,9 +449,10 @@ public class AeEngineAdministration implements IAeEngineAdministration
     * @param aVariablePath location path of the variable
     * @throws AeBusinessProcessException
     */
-   public Document getVariable(long aPid, String aVariablePath) throws AeBusinessProcessException
+   public String getVariable(long aPid, String aVariablePath) throws AeBusinessProcessException
    {
-      return getBpelEngine().getProcessVariable(aPid, aVariablePath);
+      Document doc = getBpelEngine().getProcessVariable(aPid, aVariablePath);
+      return AeXMLParserBase.documentToString(doc, true); 
    }
    
    /** 

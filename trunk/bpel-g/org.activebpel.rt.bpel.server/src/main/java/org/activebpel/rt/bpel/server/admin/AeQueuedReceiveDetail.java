@@ -14,6 +14,8 @@ import java.util.Map;
 
 import javax.xml.namespace.QName;
 
+import org.activebpel.rt.util.AeUtil;
+
 /**
  * Light weight JavaBean impl of the queued receive object. Omits the receive
  * data and message receiver in favor of the receiver's xpath location.  
@@ -31,9 +33,9 @@ public class AeQueuedReceiveDetail //extends AeAbstractQueueObject
    /** process id */   
    private long mProcessId;
    /** correlation data */
-   private Map mCorrelatedData;
+   private String mCorrelatedData;
    /** message data */
-   private AeQueuedReceiveMessageData mData;
+   private String mData;
    
    
    /**
@@ -51,7 +53,7 @@ public class AeQueuedReceiveDetail //extends AeAbstractQueueObject
     */
    public AeQueuedReceiveDetail(long aProcessId, String aPartnerLinkName,
       QName aPortType, String aOperation, String aLocation, 
-         Map aCorrelations, AeQueuedReceiveMessageData aData)
+         Map<QName,Object> aCorrelations, AeQueuedReceiveMessageData aData)
    {
       //super(aProcessId, aPartnerLink, aPortType, aOperation);
       mLocation = aLocation;
@@ -60,8 +62,13 @@ public class AeQueuedReceiveDetail //extends AeAbstractQueueObject
       mPortType = aPortType;
       mOperation = aOperation;
       
-      mCorrelatedData = aCorrelations;
-      mData = aData;
+      if (AeUtil.notNullOrEmpty(aCorrelations)) {
+          mCorrelatedData = extractMapData(aCorrelations);
+      }
+      if( aData != null )
+      {
+         mData = extractMapData( aData.getPartData() );
+      }
    }
    
    /**
@@ -122,19 +129,11 @@ public class AeQueuedReceiveDetail //extends AeAbstractQueueObject
    }
 
    /**
-    * Accessor for the correlated data.
-    */
-   public Map getCorrelatedData()
-   {
-      return mCorrelatedData;
-   }
-   
-   /**
     * Returns true if the detail contains correlation data. 
     */
    public boolean isCorrelated()
    {
-      return mCorrelatedData != null && !mCorrelatedData.isEmpty();
+      return mCorrelatedData != null;
    }
    
    /*
@@ -142,24 +141,9 @@ public class AeQueuedReceiveDetail //extends AeAbstractQueueObject
     */
    public String getCorrelatedDataAsString()
    {
-      if( isCorrelated() )
-      {
-         return extractMapData( getCorrelatedData() );
-      }
-      else
-      {
-         return ""; //$NON-NLS-1$
-      }
+       return mCorrelatedData;
    }
 
-   /**
-    * Accessor for the message data.
-    */
-   public AeQueuedReceiveMessageData getMessageData()
-   {
-      return mData;
-   }
-   
    /**
     * Returns true if the detail contains message data. 
     */
@@ -170,14 +154,7 @@ public class AeQueuedReceiveDetail //extends AeAbstractQueueObject
    
    public String getMessageDataAsString()
    {
-      if( getMessageData() != null )
-      {
-         return extractMapData( getMessageData().getPartData() );
-      }
-      else
-      {
-         return ""; //$NON-NLS-1$
-      }
+       return mData;
    }
    
    /**
