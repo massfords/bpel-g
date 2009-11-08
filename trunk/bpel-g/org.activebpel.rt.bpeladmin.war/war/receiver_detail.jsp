@@ -8,7 +8,7 @@
    <%-- Use UTF-8 to decode request parameters. --%>
    <ae:RequestEncoding value="UTF-8" />
 
-   <jsp:useBean id="recDetailBean" class="org.activebpel.rt.bpeladmin.war.web.AeMessageReceiverDetailBean" >
+   <jsp:useBean id="recDetailBean" class="org.activebpel.rt.bpeladmin.war.web.AeMessageReceiverDetailWrapper" >
       <jsp:setProperty name="recDetailBean" property="identifier" param="id" />      
    </jsp:useBean>
 
