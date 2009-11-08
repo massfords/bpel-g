@@ -99,7 +99,7 @@ function editMapping(offset)
                <th colspan="3"  class="columnHeaders" align="left" nowrap="true">&nbsp;Add new config</th>
             </tr>
             <tr height="1">
-               <td height="1" colspan="3"</td>
+               <td height="1" colspan="3"></td>
             </tr>
             <tr>
                <td colspan="1" align="left" nowrap="true">&nbsp;<b><ae:GetResource name="urn-header"/></b></td>
@@ -113,7 +113,7 @@ function editMapping(offset)
                <td colspan="2" align="left" nowrap="true">&nbsp;<input type="text" name="URL_input" size="80" value=""/></td>
             </tr>
          <tr height="1">
-            <td height="1" colspan="3"</td>
+            <td height="1" colspan="3"></td>
          </tr>
          <tr height="1">
            <td height="1" colspan="3" class="gridLines"></td>
