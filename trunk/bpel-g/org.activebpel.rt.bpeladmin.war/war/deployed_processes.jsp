@@ -27,7 +27,9 @@
 
             <td valign="top">
                <table border="0" cellpadding="0" cellspacing="0" width="100%" align="left">
+               <tr>
                   <th colspan="3" class="pageHeaders" align="left" nowrap="true"><ae:GetResource name="deployed_processes" /></th>
+                  </tr>
                   <tr height="1">
                     <td height="1" colspan="3" class="gridLines"></td>
                   </tr>

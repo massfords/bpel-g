@@ -844,7 +844,7 @@
              </tr>
              <tr style="text-align:center" id="aecalendarnavcontrol2">
                <td><button name="aebtnprevyear" onclick="onDeltaYear(-1);">&lt;&lt;</button></td>
-               <td><button name="aebtnprevmonth" onclick="onDeltaMonth(-1);">&nbsp;&lt&nbsp;</button></td>
+               <td><button name="aebtnprevmonth" onclick="onDeltaMonth(-1);">&nbsp;&lt;&nbsp;</button></td>
                <td><button name="aebtntoday" onclick="onToday();"><ae:GetResource name="today" /></button></td>
                <td><button name="aebtnnextmonth"onclick="onDeltaMonth(1);">&nbsp;&gt;&nbsp;</button></td>
                <td><button name="aebtnnextyear" onclick="onDeltaYear(1);">&gt;&gt;</button></td>

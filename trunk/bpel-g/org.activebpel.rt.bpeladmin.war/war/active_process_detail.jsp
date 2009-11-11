@@ -100,8 +100,8 @@
                        <td colspan="4" height="1"></td>
                      </tr>
 		             <!-- Process dispoisition form -->
-			         <form name="ec_form" method="post" action="active_process_detail.jsp">
 	                   <tr><td colspan="2" align="right">
+                     <form name="ec_form" method="post" action="active_process_detail.jsp">
 			             <!-- Suspend process button  -->
 		                 <ae:IfTrue name="processBean" property="suspendable" >
 		                    <input type="submit" name="suspend" value=<ae:GetResource name="suspend" /> onClick='document.ec_form.ProcessAction.value="Suspend"' />
@@ -115,10 +115,10 @@
 		                    <input type="submit" name="terminate" value=<ae:GetResource name="terminate" /> onClick='document.ec_form.ProcessAction.value="Terminate"' />
 		                 </ae:IfTrue>
  	  	                 <input type="hidden" name="pid" value='<%=request.getParameter("pid")%>'/>
-                       </td></tr>
                        
-	                      <input type="hidden" name="ProcessAction" value="" />                       
-   		             </form>
+                          <input type="hidden" name="ProcessAction" value="" />                       
+                     </form>
+                       </td></tr>
                      <tr><td colspan="2"></td></tr>
                      <tr>
                         <th colspan="2" class="titleHeaders" align="left" nowrap="true"><ae:GetResource name="log" /></th>
