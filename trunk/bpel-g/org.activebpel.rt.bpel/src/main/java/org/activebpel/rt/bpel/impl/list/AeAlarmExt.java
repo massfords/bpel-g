@@ -25,6 +25,10 @@ public class AeAlarmExt extends AeAlarm
    /** Location translation for xpath if provided. */
    protected String mLocation;
    
+   public AeAlarmExt() {
+       
+   }
+   
    /**
     * Extended alarm info for list returns.
     * @param aPID The process id
@@ -54,6 +58,10 @@ public class AeAlarmExt extends AeAlarm
    public QName getProcessQName()
    {
       return mProcessQName;
+   }
+   
+   public void setProcessQName(QName aQName) {
+       mProcessQName = aQName;
    }
 
    /**
