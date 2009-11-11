@@ -26,6 +26,10 @@ public class AeAlarm
    private int mGroupId;
    /** Alarm execution reference id. */
    private int mAlarmId;
+   
+   public AeAlarm() {
+       
+   }
 
    /** 
     * Create entry for alarm queue. 

@@ -26,6 +26,10 @@ public class AeCorrelatedReceive extends AeAbstractQueuedObject
    protected Map<QName,Object> mCorrelation;
    /** Identifies the process QName that this queued object belongs to */
    protected QName mProcessName;
+   
+   public AeCorrelatedReceive() {
+       
+   }
 
    /**
     * Accepts the common data required for a correlated exchange.
