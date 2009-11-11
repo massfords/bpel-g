@@ -9,6 +9,7 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpel.impl.list;
 
+import java.util.Arrays;
 import java.util.Collection;
 
 /**
@@ -16,6 +17,10 @@ import java.util.Collection;
  */
 public class AeCatalogListResult extends AeListResult
 {
+    public AeCatalogListResult() {
+        
+    }
+    
     /**
      * Constructor.
      * @param aTotalRowCount
@@ -34,5 +39,9 @@ public class AeCatalogListResult extends AeListResult
     public AeCatalogItem[] getDetails()
     {
         return (AeCatalogItem[])getResultsInternal().toArray( new AeCatalogItem[getResultsInternal().size()]);
+    }
+    
+    public void setDetails(AeCatalogItem[] aDetails) {
+        getResultsInternal().addAll(Arrays.asList(aDetails));
     }
 }
