@@ -42,6 +42,10 @@ public class AeMessageReceiver extends AeCorrelatedReceive
    private QName mPortType;
    /** flag for receivers that allow concurrent messages (ws-bpel 2.0 onEvent) */
    private boolean mConcurrent;
+   
+   public AeMessageReceiver() {
+       
+   }
 
    /**
     * Constructor for the receiver, accepts all of the data necessary to init the object.
