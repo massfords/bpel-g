@@ -22,6 +22,10 @@ public class AeCoordinationDetail
    private String mState;
    /** Location path of activity. */
    private String mLocationPath;
+   
+   public AeCoordinationDetail() {
+       
+   }
 
    /**
     * Default ctor.

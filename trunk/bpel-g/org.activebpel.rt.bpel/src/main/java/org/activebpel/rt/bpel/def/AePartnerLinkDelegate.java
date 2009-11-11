@@ -9,6 +9,7 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpel.def;
 
+import java.io.Serializable;
 import java.util.Collections;
 import java.util.Iterator;
 
@@ -20,7 +21,7 @@ import org.activebpel.rt.message.AeMessagePartsMap;
 /**
  * Class to hold partner link related information.
  */
-public class AePartnerLinkDelegate implements IAeCorrelationsParentDef
+public class AePartnerLinkDelegate implements IAeCorrelationsParentDef, Serializable
 {
    /** partner link */
    private String mPartnerLink;

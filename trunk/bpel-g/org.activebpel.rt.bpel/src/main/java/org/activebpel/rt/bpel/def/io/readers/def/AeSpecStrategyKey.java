@@ -10,11 +10,13 @@
 
 package org.activebpel.rt.bpel.def.io.readers.def;
 
+import java.io.Serializable;
+
 /**
  * A simple key that is used to indicate the strategy to use for the From/To portion of a 
  * copy operation.
  */
-public class AeSpecStrategyKey
+public class AeSpecStrategyKey implements Serializable
 {
    /** The name of the strategy. */
    private String mStrategyName;

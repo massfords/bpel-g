@@ -1,5 +1,6 @@
 package org.activebpel.rt.bpel.def;
 
+import java.io.Serializable;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
@@ -16,7 +17,7 @@ import org.activebpel.rt.util.AeCombinations;
  * Maintains a collection of the different correlation set combinations that exists for a single partnerlink
  * and operation. 
  */
-public class AeCorrelationCombinations
+public class AeCorrelationCombinations implements Serializable
 {
    /** the different correlationSets that are used by activities with this plink and operation */
    private Collection mCorrelationSetCombinations = new HashSet();
@@ -330,7 +331,7 @@ public class AeCorrelationCombinations
    /**
     * Wrapper object for the sets of properties that should be used to match an inbound receive. 
     */
-   public class AeCorrelatedProperties
+   public class AeCorrelatedProperties implements Serializable
    {
       /** All of the correlationSets used by this plink and operation are already initiated at the time of the IMA's execution */
       public static final int INITIATED                                            = 0;
