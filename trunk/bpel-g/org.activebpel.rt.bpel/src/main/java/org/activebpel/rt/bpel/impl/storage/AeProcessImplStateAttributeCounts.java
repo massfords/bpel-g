@@ -25,14 +25,14 @@ public abstract class AeProcessImplStateAttributeCounts
    private static final Integer ONE = new Integer(1);
 
    /** <code>true</code> to enable counts. */
-   private static final boolean ENABLED = false;
+//   private static final boolean ENABLED = false;
 
    /** Maximum number of distinct values to track. */
    private static final int MAX_VALUES = 4;
 
    /** Singleton instance. */
-   private static final AeProcessImplStateAttributeCounts sCounts =
-      ENABLED ? (AeProcessImplStateAttributeCounts) new AeRealCounts() : new AeFakeCounts();
+   private static final AeProcessImplStateAttributeCounts sCounts = /*
+      ENABLED ? (AeProcessImplStateAttributeCounts) new AeRealCounts() :*/ new AeFakeCounts();
 
    /**
     * Private base constructor for singleton instance.
