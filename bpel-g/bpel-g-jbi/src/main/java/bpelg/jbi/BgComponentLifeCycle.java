@@ -5,11 +5,15 @@ import java.io.File;
 import javax.jbi.JBIException;
 import javax.jbi.component.ComponentContext;
 import javax.jbi.component.ComponentLifeCycle;
+import javax.management.MBeanServer;
 import javax.management.ObjectName;
 
 import org.activebpel.rt.AeException;
+import org.activebpel.rt.bpel.server.admin.jmx.AeEngineManagementAdapter;
+import org.activebpel.rt.bpel.server.admin.jmx.IAeEngineManagementMXBean;
 import org.activebpel.rt.bpel.server.deploy.scanner.AeDeploymentFileInfo;
 import org.activebpel.rt.bpel.server.deploy.scanner.IAeDeploymentFileHandler;
+import org.activebpel.rt.bpel.server.engine.AeEngineFactory;
 import org.activebpel.rt.bpel.server.engine.AeEngineLifecycleWrapper;
 import org.activebpel.rt.bpel.server.engine.IAeEngineLifecycleWrapper;
 import org.activebpel.rt.bpel.server.logging.AeCommonsLoggingImpl;
@@ -29,6 +33,7 @@ public class BgComponentLifeCycle implements ComponentLifeCycle {
 	
 	private IAeEngineLifecycleWrapper mEngineLifecycle;
 	private BgReceiver mReceiver;
+	private ObjectName mAdminBeanName;
 	
 	private static final Log sLog = LogFactory.getLog(BgComponentLifeCycle.class);
 	
@@ -77,6 +82,8 @@ public class BgComponentLifeCycle implements ComponentLifeCycle {
 			mEngineLifecycle.init();
 			
 			mReceiver = new BgReceiver();
+			
+			registerMBean();
 		} catch (Exception e) {
 			throw new JBIException("Excepton initializing component", e);
 		}
@@ -115,11 +122,43 @@ public class BgComponentLifeCycle implements ComponentLifeCycle {
             throw new JBIException("Exception during start of engine", e);
         } finally {
             mReceiver = null;
+            unregisterMBean();
         }
 	}
 
 	@Override
     public ObjectName getExtensionMBeanName() {
         return null;
+    }
+
+    private void registerMBean() throws JBIException {
+        IAeEngineManagementMXBean bean = new AeEngineManagementAdapter(AeEngineFactory.getEngineAdministration());
+        ComponentContext context = BgContext.getInstance().getComponentContext();
+        MBeanServer server = context.getMBeanServer();
+        try {
+            if (server != null) {
+                mAdminBeanName = context.getMBeanNames().createCustomComponentMBeanName("Management");
+                if (server.isRegistered(mAdminBeanName)) {
+                    server.unregisterMBean(mAdminBeanName);
+                }
+                server.registerMBean(bean, mAdminBeanName);
+            }
+        } catch (Exception e) {
+            throw new JBIException(e);
+        }
+    }
+
+    private void unregisterMBean() throws JBIException {
+        try {
+            if (mAdminBeanName != null) {
+                MBeanServer server = BgContext.getInstance().getComponentContext().getMBeanServer();
+                assert server != null;
+                if (server.isRegistered(mAdminBeanName)) {
+                    server.unregisterMBean(mAdminBeanName);
+                }
+            }
+        } catch (Exception e) {
+            throw new JBIException(e);
+        }
     }
 }
