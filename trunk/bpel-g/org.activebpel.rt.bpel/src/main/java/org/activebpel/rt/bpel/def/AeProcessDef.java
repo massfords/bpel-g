@@ -75,11 +75,11 @@ public class AeProcessDef extends AeScopeDef
    /** Partners container. */
    private AePartnersDef mPartners;
    /** List of create instance activities. */
-   private Collection mCreateInstances;
+   private Collection<AePartnerLinkOpKey> mCreateInstances;
    /** Maps the partnerLinkOpKey to the collection of properties. */
-   private Map mCorrelatedReceivesProperties = new HashMap();
+   private Map<AePartnerLinkOpKey,Collection<QName>> mCorrelatedReceivesProperties = new HashMap();
    /** Maps the partnerLinkOpKey to the message parts */
-   private Map mCorrelatedReceivesMessagePartsMap = new HashMap();
+   private Map<AePartnerLinkOpKey,AeMessagePartsMap> mCorrelatedReceivesMessagePartsMap = new HashMap();
    /** Process fully qualified name. */
    private QName mProcessName;
    /** indicates that this process has multiple start activities */
@@ -88,30 +88,30 @@ public class AeProcessDef extends AeScopeDef
    private boolean mContainsSerializableScopes;
    /** cache of property names and message types to property aliases */
    // TODO revisit: do we really need this map?
-   private Map mPropertyAliasMap = new HashMap();
+   private Map<String,IAePropertyAlias> mPropertyAliasMap = new HashMap();
    /** cache of property names to property types. */
-   private Map mPropertyTypeMap = new HashMap();
+   private Map<QName,QName> mPropertyTypeMap = new HashMap();
    /** Maps location paths to location ids */
-   private final Map mLocationPathsToIds = new HashMap();
+   private final Map<String,Integer> mLocationPathsToIds = new HashMap();
    /** Maps location ids to location paths */
    private final AeIntMap mLocationIdsToPaths = new AeIntMap();
    /** Collection of port types plus operations that are one-way receives. */
    // TODO revisit: do we really need this map?
-   private Set mOneWayReceives = new HashSet();
+   private Set<String> mOneWayReceives = new HashSet();
    /** maps partner link name and operation to a list of property sets that can be in the request */
    // TODO revisit: do we really need this map?
-   private Map mCorrelationPropertiesMap = new HashMap();
+   private Map<AePartnerLinkOpKey,AeCorrelationCombinations> mCorrelationPropertiesMap = new HashMap();
    /** map of create instance activities and their message exchange values (if they're not-null) */
    // TODO revisit: do we really need this map?
-   private Map mMessageExchangeMap = new HashMap();
+   private Map<AePartnerLinkOpKey,String> mMessageExchangeMap = new HashMap();
    /** List of the process's imports. */
-   private List mImports = new LinkedList();
+   private List<AeImportDef> mImports = new LinkedList();
    /** The 'extensions' child. */
    private AeExtensionsDef mExtensionsDef;
    /** A map of partner link locations to partner link defs. */
-   private Map mPartnerLinkMap = new HashMap();
+   private Map<String,AePartnerLinkDef> mPartnerLinkMap = new HashMap();
    /** A map of partner link names to fully qualified partner link locations. */
-   private Map mPartnerLinkNameMap = new HashMap();
+   private Map<String,String> mPartnerLinkNameMap = new HashMap();
    /** set to true if no IMA apart from the lone createInstance IMA uses the createInstance IMA's plink/operation  */
    private boolean mCreateInstanceOnlyOperation;
    /** WSBPEL Abstract process profile URI. */
@@ -159,7 +159,7 @@ public class AeProcessDef extends AeScopeDef
     * @param aPartnerLinkType
     * @param aOperation
     */
-   protected Object makeOneWayReceiveKey(QName aPartnerLinkType, String aOperation)
+   protected String makeOneWayReceiveKey(QName aPartnerLinkType, String aOperation)
    {
       // TODO (EPW) Create an actual key object for this.
       return aPartnerLinkType + aOperation;
@@ -253,7 +253,7 @@ public class AeProcessDef extends AeScopeDef
     * Makes a key for the property alias so it can be stored in our map.
     * @param aPropAlias
     */
-   private Object makeKey(IAePropertyAlias aPropAlias)
+   private String makeKey(IAePropertyAlias aPropAlias)
    {
       return makeKey(aPropAlias.getType(), aPropAlias.getQName(), aPropAlias.getPropertyName());
    }
@@ -264,7 +264,7 @@ public class AeProcessDef extends AeScopeDef
     * @param aTypeQName
     * @param aPropName
     */
-   private Object makeKey(int aAliasType, QName aTypeQName, QName aPropName)
+   private String makeKey(int aAliasType, QName aTypeQName, QName aPropName)
    {
       return aAliasType + "." + aTypeQName + "." + aPropName; //$NON-NLS-1$ //$NON-NLS-2$
    }
