@@ -59,7 +59,7 @@ public class BgServiceDeployer implements IAeWebServicesDeployer {
                 AePartnerLinkDef plinkDef = processDef.findPartnerLink(partnerLinkDefKey);
                 
                 BgDeploymentContainer container = (BgDeploymentContainer) aContainer;
-                BgPlink plink = container.getPlink(processName, serviceInfo.getPartnerLinkName());
+                BgPlink plink = container.getPlink(processName, serviceInfo.getPartnerLinkDefKey().getPartnerLinkName());
                 
                 QName service = plink.myService;
                 String endpoint = plink.myEndpoint;
