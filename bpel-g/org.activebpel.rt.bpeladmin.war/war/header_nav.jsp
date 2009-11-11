@@ -104,13 +104,13 @@
    <tr>
      <td class="navHeaders" align="left" nowrap="true" width="20%">&nbsp;<ae:GetResource name="process_id" /></td>
    </tr>
-   <form name="process_status_form" onsubmit="return openProcessView()">
       <tr>
          <td class="navItem" align="left" nowrap="true" width="20%">
+   <form name="process_status_form" onsubmit="return openProcessView()">
             &nbsp;<input type="text" cols="5" name="pid"/>&nbsp;<input class="smallButton" type="submit" name="<ae:GetResource name="go" />" value="<ae:GetResource name="go" />" />
+   </form>
          </td>
       </tr>
-   </form>
 
    <tr height="10">
      <td class="navItem" align="left" height="10" nowrap="true" width="20%"><img src="images/clear.gif" alt="" height="10" width="1" border="0"></td>

@@ -179,11 +179,9 @@ if (throwable != null)
             %>
                <div class="errorpart">
                 <h3>Exception:</h3>
-                  <p>
                    <pre>
 <%= stackTrace %>
                    </pre>
-                   </p>
                </div>
             <%
                }

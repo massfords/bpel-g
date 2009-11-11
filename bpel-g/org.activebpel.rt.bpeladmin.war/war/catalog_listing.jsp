@@ -73,7 +73,7 @@
                    <td>
                     <table border="0" cellpadding="0" cellspacing="0" width="100%" align="left">
                       <tr>
-                         <td colspan="2" class="pageHeaders" align="left" nowrap="true"><ae:GetResource name="resource_catalog" /></th>
+                         <th colspan="2" class="pageHeaders" align="left" nowrap="true"><ae:GetResource name="resource_catalog" /></th>
                       <tr>
                       <tr height="1">
                         <td colspan="2" height="1" class="gridLines"></td>

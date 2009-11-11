@@ -31,9 +31,9 @@
                  <td class="pageHeaders" align="left" nowrap="true" colspan="3"><ae:GetResource name="version_detail" /></td>
                </tr>
                <tr>
-                  <td class="columnHeaders" align="left" nowrap="true">&nbsp;<ae:GetResource name="library_name" />&nbsp;</th>
-                  <td class="columnHeaders" align="left" nowrap="true">&nbsp;<ae:GetResource name="version_number" />&nbsp;</th>
-                  <td class="columnHeaders" align="left" nowrap="true">&nbsp;<ae:GetResource name="build_date" />&nbsp;</th>
+                  <th class="columnHeaders" align="left" nowrap="true">&nbsp;<ae:GetResource name="library_name" />&nbsp;</th>
+                  <th class="columnHeaders" align="left" nowrap="true">&nbsp;<ae:GetResource name="version_number" />&nbsp;</th>
+                  <th class="columnHeaders" align="left" nowrap="true">&nbsp;<ae:GetResource name="build_date" />&nbsp;</th>
                </tr>
                
                <ae:IndexedProperty name="configBean" id="buildInfoRow" property="buildInfo" indexedClassName="org.activebpel.rt.bpel.server.admin.AeBuildInfo" >
