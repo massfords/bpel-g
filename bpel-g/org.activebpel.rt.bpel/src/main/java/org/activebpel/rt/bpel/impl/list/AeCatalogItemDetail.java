@@ -23,6 +23,9 @@ public class AeCatalogItemDetail extends AeCatalogItem
    private String mText;
    /** Array of plans that point to this resource. */
    private AeCatalogItemPlanReference[] mPlanReferences;
+   
+   public AeCatalogItemDetail() {
+   }
 
    /**
     * Constructor.
