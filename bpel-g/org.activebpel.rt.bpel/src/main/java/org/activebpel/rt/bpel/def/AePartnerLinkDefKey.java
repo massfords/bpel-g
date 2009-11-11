@@ -10,16 +10,22 @@
 
 package org.activebpel.rt.bpel.def;
 
+import java.io.Serializable;
+
 
 /**
  * This key identifies a single partner link in the Def layer.
  */
-public class AePartnerLinkDefKey implements Comparable
+public class AePartnerLinkDefKey implements Comparable, Serializable
 {
    /** The partner link name. */
    private String mPartnerLinkName;
    /** The partner link id. */
    private int mPartnerLinkId;
+   
+   public AePartnerLinkDefKey() {
+       
+   }
 
    /**
     * Constructs a key with all of the component parts.
