@@ -67,17 +67,17 @@ public class AePddValidator extends AeAbstractPddIterator
          mReporter.addError(AeMessages.getString("AePddValidator.REPORT_ERROR_FORMAT_SANS_LINENUMBER"), params, null); //$NON-NLS-1$
       }
 
-      /**
-       * Reports an error to the error reporter (includes the error's line number).
-       * 
-       * @param aMessage
-       * @param aLineNumber
-       */
-      protected void reportError(String aMessage, int aLineNumber)
-      {
-         Object [] params = { mPddInfo.getName(), aMessage, new Integer(aLineNumber) };
-         mReporter.addError(AeMessages.getString("AePddValidator.REPORT_ERROR_FORMAT_WITH_LINENUMBER"), params, null); //$NON-NLS-1$
-      }
+//      /**
+//       * Reports an error to the error reporter (includes the error's line number).
+//       * 
+//       * @param aMessage
+//       * @param aLineNumber
+//       */
+//      protected void reportError(String aMessage, int aLineNumber)
+//      {
+//         Object [] params = { mPddInfo.getName(), aMessage, new Integer(aLineNumber) };
+//         mReporter.addError(AeMessages.getString("AePddValidator.REPORT_ERROR_FORMAT_WITH_LINENUMBER"), params, null); //$NON-NLS-1$
+//      }
 
       /**
        * @see org.activebpel.rt.bpel.server.deploy.validate.IAeResourceValidationErrorHandler#fatalError(java.lang.String)
