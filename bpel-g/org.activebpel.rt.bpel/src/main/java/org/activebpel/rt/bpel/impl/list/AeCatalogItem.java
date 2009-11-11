@@ -27,6 +27,9 @@ public class AeCatalogItem
     private String mNamespace;
     /** The catalog item type. */
     private String mTypeURI;
+    
+    public AeCatalogItem() {
+    }
 
     /**
      * Default constructor.
