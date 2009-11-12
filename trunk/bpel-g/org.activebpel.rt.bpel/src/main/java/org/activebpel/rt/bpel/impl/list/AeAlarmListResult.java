@@ -9,6 +9,7 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpel.impl.list;
 
+import java.beans.ConstructorProperties;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.List;
@@ -27,6 +28,7 @@ public class AeAlarmListResult extends AeListResult implements Serializable
     * @param aTotalRows Total rows that matched selection criteria.  This number may be greater than the number of results in this listing.
     * @param aAlarms The matching alarms.
     */
+   @ConstructorProperties({"totalRowCount", "results"})
    public AeAlarmListResult( int aTotalRows, List<AeAlarmExt> aAlarms )
    {
       super( aTotalRows, aAlarms, true );

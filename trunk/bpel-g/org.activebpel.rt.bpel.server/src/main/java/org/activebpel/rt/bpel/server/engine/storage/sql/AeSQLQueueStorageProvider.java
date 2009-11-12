@@ -407,7 +407,8 @@ public class AeSQLQueueStorageProvider extends AeAbstractSQLStorageProvider impl
       {
          AeMessageReceiverListHandler handler = new AeMessageReceiverListHandler(aFilter);
          List matches = (List) getQueryRunner().query(connection, aSQLQuery, aParams, handler);
-         return new AeMessageReceiverListResult(handler.getRowCount(), matches);
+         AeMessageReceiver[] receivers = (AeMessageReceiver[]) matches.toArray(new AeMessageReceiver[matches.size()]);
+         return new AeMessageReceiverListResult(handler.getRowCount(), receivers);
       }
       catch (SQLException ex)
       {

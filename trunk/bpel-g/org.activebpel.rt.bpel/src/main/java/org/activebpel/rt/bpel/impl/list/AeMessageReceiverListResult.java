@@ -9,9 +9,9 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpel.impl.list;
 
+import java.beans.ConstructorProperties;
 import java.io.Serializable;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.activebpel.rt.bpel.impl.queue.AeMessageReceiver;
@@ -33,10 +33,11 @@ public class AeMessageReceiverListResult implements Serializable
     * @param aTotalRows Total rows that matched selection criteria.  This number may be greater than the number of results in this listing.
     * @param aReceivers The matching message receivers.
     */
-   public AeMessageReceiverListResult( int aTotalRows, List aReceivers )
+   @ConstructorProperties({"totalRow", "receivers"})
+   public AeMessageReceiverListResult( int aTotalRows, AeMessageReceiver[] aReceivers )
    {
       mTotalRows = aTotalRows;
-      mResults = (AeMessageReceiver[])aReceivers.toArray( new AeMessageReceiver[aReceivers.size()]);
+      mResults = aReceivers;
    }
    
    /**

@@ -68,7 +68,7 @@ public class AeMessageReceiverFilterManager
          sort( matches );
       }
       
-      return new AeMessageReceiverListResult(totalRows,matches);
+      return new AeMessageReceiverListResult(totalRows,(AeMessageReceiver[]) matches.toArray(new AeMessageReceiver[matches.size()]));
    }
    
    /**

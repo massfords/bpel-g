@@ -48,7 +48,7 @@ public class AeInMemoryCatalogListing
       for( Iterator iter = aLocationHintsToMapping.values().iterator(); iter.hasNext(); )
       {
          IAeCatalogMapping mapping = (IAeCatalogMapping)iter.next();
-         AeCatalogItem item = new AeCatalogItem(mapping.getLocationHint(), mapping.getTargetNamespace(), mapping.getTypeURI());
+         AeCatalogItem item = new AeCatalogItem(mapping.getLocationHint(), mapping.getTargetNamespace(), mapping.getTypeURI(), AeUtil.getShortNameForLocation(mapping.getLocationHint()));
          if(isMatch(aFilter, item))
             results.add(item);
       }

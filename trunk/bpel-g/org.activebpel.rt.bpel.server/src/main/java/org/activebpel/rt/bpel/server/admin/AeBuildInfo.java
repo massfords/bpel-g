@@ -9,6 +9,7 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpel.server.admin;
 
+import java.beans.ConstructorProperties;
 import java.lang.reflect.Method;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -42,6 +43,7 @@ public class AeBuildInfo
    {
    }
    
+   @ConstructorProperties({"projectName", "buildNumber", "buildDate"})
    public AeBuildInfo(String aProjectName, String aBuildNumber, String aBuildDate)
    {
       setProjectName(aProjectName);

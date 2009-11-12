@@ -9,6 +9,7 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpel.impl.queue;
 
+import java.beans.ConstructorProperties;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -38,6 +39,7 @@ public class AeCorrelatedReceive extends AeAbstractQueuedObject
     * @param aProcessQName
     * @param aCorrelation
     */
+   @ConstructorProperties({"partnerLinkOpKey", "processQName", "correlation"})
    public AeCorrelatedReceive(AePartnerLinkOpKey aPartnerLinkOpKey, QName aProcessQName, Map aCorrelation)
    {
       super(aPartnerLinkOpKey);

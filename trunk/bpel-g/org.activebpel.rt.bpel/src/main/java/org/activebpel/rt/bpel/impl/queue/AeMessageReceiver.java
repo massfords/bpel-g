@@ -9,6 +9,7 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpel.impl.queue;
 
+import java.beans.ConstructorProperties;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -55,7 +56,9 @@ public class AeMessageReceiver extends AeCorrelatedReceive
     * @param aPortType name of the port type
     * @param aCorrelation correlated properties, can be empty
     * @param aGroupId The group id of the message receiver.
+    * @param aConcurrent
     */
+   @ConstructorProperties({"processId", "processName", "partnerLinkOpKey", "portType", "correlation", "messageReceiverPathId", "groupId", "concurrent"})
    public AeMessageReceiver(long aProcessId, QName aProcessName,
          AePartnerLinkOpKey aPartnerLinkOpKey, QName aPortType,
          Map aCorrelation, int aMessageReceiverPathId, int aGroupId, boolean aConcurrent)
@@ -65,7 +68,7 @@ public class AeMessageReceiver extends AeCorrelatedReceive
       setProcessId(aProcessId);
       setGroupId(aGroupId);
       mHashCode = getNextHashCode();
-      mPortType = aPortType;
+      setPortType(aPortType);
       setConcurrent(aConcurrent);
    }
 
@@ -198,7 +201,7 @@ public class AeMessageReceiver extends AeCorrelatedReceive
    /**
     * @param aGroupId The group id to set.
     */
-   protected void setGroupId(int aGroupId)
+   public void setGroupId(int aGroupId)
    {
       mGroupId = aGroupId;
    }
@@ -242,4 +245,8 @@ public class AeMessageReceiver extends AeCorrelatedReceive
    {
       mConcurrent = aConcurrent;
    }
+
+public void setPortType(QName portType) {
+    mPortType = portType;
+}
 }

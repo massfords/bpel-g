@@ -9,6 +9,8 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpel.impl.list;
 
+import org.activebpel.rt.util.AeUtil;
+
 
 /**
  * Essentially a struct that wraps the detail information
@@ -38,7 +40,7 @@ public class AeCatalogItemDetail extends AeCatalogItem
     */
    public AeCatalogItemDetail(String aLocation, String aTypeURI, String aTargetNamespace, String aText, AeCatalogItemPlanReference[] aPlanListing)
    {
-      super(aLocation, aTargetNamespace, aTypeURI);
+      super(aLocation, aTargetNamespace, aTypeURI, AeUtil.getShortNameForLocation(aLocation));
       mText = aText;
       mPlanReferences = aPlanListing;
    }

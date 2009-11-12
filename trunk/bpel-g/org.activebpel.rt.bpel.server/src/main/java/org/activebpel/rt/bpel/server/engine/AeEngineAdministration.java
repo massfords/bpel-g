@@ -61,6 +61,7 @@ import org.activebpel.rt.bpel.server.logging.IAeDeploymentLogger;
 import org.activebpel.rt.bpel.urn.IAeURNResolver;
 import org.activebpel.rt.message.IAeMessageData;
 import org.activebpel.rt.util.AeLongMap;
+import org.activebpel.rt.util.AeUtil;
 import org.activebpel.rt.xml.AeXMLParserBase;
 import org.activebpel.wsio.AeWebServiceAttachment;
 import org.w3c.dom.Document;
@@ -310,6 +311,16 @@ public class AeEngineAdministration implements IAeEngineAdministration
          }
 
          // TODO (EPW) returns only the partner link name, probably should return the path/id too
+         String corrData = null;
+         if (AeUtil.notNullOrEmpty(qObj.getCorrelation())) {
+             corrData = AeQueuedReceiveDetail.extractMapData(qObj.getCorrelation());
+         }
+         String data = null;
+         if( mData != null )
+         {
+            data = AeQueuedReceiveDetail.extractMapData( mData.getPartData() );
+         }
+
          AeQueuedReceiveDetail detail = 
             new AeQueuedReceiveDetail(
                0, 
@@ -317,8 +328,8 @@ public class AeEngineAdministration implements IAeEngineAdministration
                qObj.getPortType(), 
                qObj.getOperation(), 
                messageReceiverPath,
-               qObj.getCorrelation(),
-               mData );
+               corrData,
+               data );
          details[i] = detail;
       }
       return details;

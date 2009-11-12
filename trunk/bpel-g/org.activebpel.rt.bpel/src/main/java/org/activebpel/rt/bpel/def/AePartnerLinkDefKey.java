@@ -10,6 +10,7 @@
 
 package org.activebpel.rt.bpel.def;
 
+import java.beans.ConstructorProperties;
 import java.io.Serializable;
 
 
@@ -33,6 +34,7 @@ public class AePartnerLinkDefKey implements Comparable, Serializable
     * @param aPartnerLinkName
     * @param aPartnerLinkId
     */
+   @ConstructorProperties({"partnerLinkName", "partnerLinkId"})
    public AePartnerLinkDefKey(String aPartnerLinkName, int aPartnerLinkId)
    {
       super();

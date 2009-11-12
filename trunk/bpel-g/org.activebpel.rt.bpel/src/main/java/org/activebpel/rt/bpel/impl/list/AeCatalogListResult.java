@@ -9,6 +9,7 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpel.impl.list;
 
+import java.beans.ConstructorProperties;
 import java.util.Arrays;
 import java.util.Collection;
 
@@ -27,6 +28,7 @@ public class AeCatalogListResult extends AeListResult
      * @param aResults
      * @param aCompleteRowCount
      */
+    @ConstructorProperties({"totalRowCount", "results", "completeRowCount"})
     public AeCatalogListResult(int aTotalRowCount, Collection aResults,
             boolean aCompleteRowCount)
     {

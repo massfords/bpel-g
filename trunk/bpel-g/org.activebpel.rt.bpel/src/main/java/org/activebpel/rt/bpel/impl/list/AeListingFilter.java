@@ -24,6 +24,10 @@ public class AeListingFilter implements IAeListingFilter, Serializable
    /** The row number to start fetching results if a max return size is specified. */
    private int mListStart;
    
+   public AeListingFilter() {
+       
+   }
+   
    /**
     * Convenience method that returns true if the value passed in is within the
     * range of rows that we're looking.  
