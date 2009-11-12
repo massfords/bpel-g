@@ -9,6 +9,7 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpel.impl.list;
 
+import java.beans.ConstructorProperties;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -37,6 +38,16 @@ public class AeProcessInstanceDetail implements Serializable
     */
    public AeProcessInstanceDetail()
    {
+   }
+   
+   @ConstructorProperties({"name", "processId", "started", "ended", "state", "stateReason"})
+   public AeProcessInstanceDetail(QName aName, long aProcessId, Date aStarted, Date aEnded, int aState, int aStateReason) {
+       setName(aName);
+       setProcessId(aProcessId);
+       setStarted(aStarted);
+       setEnded(aEnded);
+       setState(aState);
+       setStateReason(aStateReason);
    }
    
    /**
