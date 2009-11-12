@@ -9,6 +9,8 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpel.server.admin;
 
+import java.beans.ConstructorProperties;
+
 import javax.xml.namespace.QName;
 
 /**
@@ -29,6 +31,13 @@ public class AeProcessDeploymentDetail
     */
    public AeProcessDeploymentDetail()
    {
+   }
+
+   @ConstructorProperties({"name", "sourceXml", "bpelSourceXml"})
+   public AeProcessDeploymentDetail(QName aProcessName, String aSourceXml, String aBpelXml) {
+       setName(aProcessName);
+       setSourceXml(aSourceXml);
+       setBpelSourceXml(aBpelXml);
    }
 
    /**
