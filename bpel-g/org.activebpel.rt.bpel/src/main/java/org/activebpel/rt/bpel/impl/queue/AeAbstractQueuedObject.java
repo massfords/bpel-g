@@ -9,6 +9,8 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpel.impl.queue;
 
+import java.beans.ConstructorProperties;
+
 import org.activebpel.rt.bpel.def.AePartnerLinkOpKey;
 import org.activebpel.rt.util.AeUtil;
 
@@ -25,6 +27,7 @@ abstract public class AeAbstractQueuedObject
     * 
     * @param aPartnerLinkOpKey
     */
+   @ConstructorProperties({"partnerLinkOpKey"})
    public AeAbstractQueuedObject(AePartnerLinkOpKey aPartnerLinkOpKey)
    {
       setPartnerLinkOperationKey(aPartnerLinkOpKey);
@@ -99,7 +102,7 @@ abstract public class AeAbstractQueuedObject
    /**
     * @param aPartnerLinkOperationKey The partnerLinkOperationKey to set.
     */
-   protected void setPartnerLinkOperationKey(AePartnerLinkOpKey aPartnerLinkOperationKey)
+   public void setPartnerLinkOperationKey(AePartnerLinkOpKey aPartnerLinkOperationKey)
    {
       mPartnerLinkOperationKey = aPartnerLinkOperationKey;
    }

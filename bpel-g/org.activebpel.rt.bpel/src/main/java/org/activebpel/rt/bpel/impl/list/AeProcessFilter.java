@@ -9,6 +9,7 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpel.impl.list;
 
+import java.beans.ConstructorProperties;
 import java.util.Date;
 
 import javax.xml.namespace.QName;
@@ -74,6 +75,27 @@ public class AeProcessFilter extends AeListingFilter
     */
    public AeProcessFilter()
    {
+   }
+   
+   @ConstructorProperties({"processName", "processGroup", "hideSystemProcessGroup", "processState", "processCreateStart", 
+                           "processCreateEnd", "processCompleteStart", "processCompleteEnd", "advancedQuery", "planId", "deletableDate",
+                           "processIdRange", "maxReturn", "listStart"})
+   public AeProcessFilter(QName aProcessName, String aProcessGroup, boolean aHideSystemProcessGroup, int aProcessState, Date aProcessCreateStart, Date aProcessCreateEnd, 
+           Date aProcessCompleteStart, Date aProcessCompleteEnd, String aAdvancedQuery, int aPlanId, Date aDeletableDate, long[] aProcessIdRange, int aMaxReturn, int aListStart) {
+       setProcessName(aProcessName);
+       setProcessGroup(aProcessGroup);
+       setHideSystemProcessGroup(aHideSystemProcessGroup);
+       setProcessState(aProcessState);
+       setProcessCreateStart(aProcessCreateStart);
+       setProcessCreateEnd(aProcessCreateEnd);
+       setProcessCompleteStart(aProcessCompleteStart);
+       setProcessCompleteEnd(aProcessCompleteEnd);
+       setAdvancedQuery(aAdvancedQuery);
+       setPlanId(aPlanId);
+       setDeletableDate(aDeletableDate);
+       setProcessIdRange(aProcessIdRange);
+       setMaxReturn(aMaxReturn);
+       setListStart(aListStart);
    }
 
    /**

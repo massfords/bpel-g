@@ -9,6 +9,7 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpel.impl.list;
 
+import java.beans.ConstructorProperties;
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Collection;
@@ -48,6 +49,7 @@ public class AeProcessListResult extends AeListResult implements Serializable
     * @param aRowDetails array of process instance details from our search request.
     * @param aCompleteRowCount <code>true</code> if and only if <code>aTotalRows</code> is the true total row count
     */
+   @ConstructorProperties({"totalRowCount", "rowDetails", "completeRowCount"})
    public AeProcessListResult(int aTotalRows, AeProcessInstanceDetail[] aRowDetails, boolean aCompleteRowCount)
    {
       this( aTotalRows, Arrays.asList(aRowDetails), aCompleteRowCount );

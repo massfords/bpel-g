@@ -109,7 +109,6 @@ public class AeDuplicateServiceNameValidator implements IAePredeploymentValidato
       /**
        * @return Returns the service.
        */
-      @SuppressWarnings("unused")
       public String getService()
       {
          return mService;

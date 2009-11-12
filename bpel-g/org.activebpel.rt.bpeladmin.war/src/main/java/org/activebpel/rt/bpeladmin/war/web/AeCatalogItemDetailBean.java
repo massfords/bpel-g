@@ -9,9 +9,11 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpeladmin.war.web;
 
+import org.activebpel.rt.IAeConstants;
 import org.activebpel.rt.bpel.impl.list.AeCatalogItemDetail;
 import org.activebpel.rt.bpel.impl.list.AeCatalogItemPlanReference;
 import org.activebpel.rt.bpeladmin.war.AeMessages;
+import org.activebpel.rt.wsdl.def.IAeBPELExtendedWSDLConst;
 
 /**
  * Bean for displaying the details of a wsdl deployment.
@@ -51,7 +53,17 @@ public class AeCatalogItemDetailBean extends AeAbstractAdminBean
     */
    public String getTypeDisplay()
    {
-       return AeMessages.format("AeCatalogItemDetail.TYPE_DISPLAY", new Object[] { getDetail().getTypeDisplay(), getDetail().getTypeURI()}); //$NON-NLS-1$
+       String type = null;
+      if(IAeBPELExtendedWSDLConst.WSDL_NAMESPACE.equals(getDetail().getTypeURI()))
+         type = "WSDL";
+      else if(IAeConstants.W3C_XML_SCHEMA.equals(getDetail().getTypeURI()))
+          type = "Schema";
+      else if(IAeConstants.XSL_NAMESPACE.equals(getDetail().getTypeURI()))
+          type = "XSL";
+      else
+          type = "Other";
+
+       return AeMessages.format("AeCatalogItemDetail.TYPE_DISPLAY", new Object[] { type, getDetail().getTypeURI()}); //$NON-NLS-1$
    }
    
    /**

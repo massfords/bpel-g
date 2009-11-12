@@ -50,7 +50,7 @@
                        <td height="1" colspan="3" class="gridLines"></td>
                      </tr>
                      <tr>
-                        <td>&nbsp;<jsp:getProperty name="recDetailBean" property="partnerLinkName" /></a></td>
+                        <td>&nbsp;<jsp:getProperty name="recDetailBean" property="partnerLinkName" /></td>
                         <td>&nbsp;<jsp:getProperty name="recDetailBean" property="portTypeAsString" /></td>
                         <td>&nbsp;<jsp:getProperty name="recDetailBean" property="operation" /></td>
                      </tr>
@@ -79,7 +79,7 @@
                         <tr>
                            <td align="center">
                               <ae:IfTrue name="recRow" property="correlated">
-                                 &nbsp;<a href="javascript:alert('<jsp:getProperty name="recRow" property="correlatedDataAsString" />')"><ae:GetResource name="view" /></a>
+                                 &nbsp;<a href="javascript:alert('<jsp:getProperty name="recRow" property="correlatedData" />')"><ae:GetResource name="view" /></a>
                               </ae:IfTrue>
                               <ae:IfFalse name="recRow" property="correlated">
                                  &nbsp;None
@@ -87,7 +87,7 @@
                            </td>
                            <td align="center">
                               <ae:IfTrue name="recRow" property="messageDataAvailable">
-                                 &nbsp;<a href="javascript:alert('<jsp:getProperty name="recRow" property="messageDataAsString" />')"><ae:GetResource name="view" /></a>
+                                 &nbsp;<a href="javascript:alert('<jsp:getProperty name="recRow" property="messageData" />')"><ae:GetResource name="view" /></a>
                               </ae:IfTrue>
                               <ae:IfFalse name="recRow" property="messageDataAvailable">
                                  &nbsp;<ae:GetResource name="none" />

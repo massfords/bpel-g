@@ -196,7 +196,8 @@ public class AeXMLDBQueueStorageProvider extends AeAbstractXMLDBStorageProvider 
       AeXMLDBQueryBuilder queryBuilder = new AeXMLDBFilteredMessageReceiverListQueryBuilder(aFilter, getXMLDBConfig(), getStorageImpl());
       AeFilteredMessageReceiverListResponseHandler handler = FILTERED_MESSAGE_RECEIVER_LIST_RESPONSE_HANDLER;
       List receives = (List) query(queryBuilder, handler);
-      return new AeMessageReceiverListResult(handler.getRowCount(), receives);
+      AeMessageReceiver[] recArray = (AeMessageReceiver[]) receives.toArray(new AeMessageReceiver[receives.size()]);
+      return new AeMessageReceiverListResult(handler.getRowCount(), recArray);
    }
 
    /**

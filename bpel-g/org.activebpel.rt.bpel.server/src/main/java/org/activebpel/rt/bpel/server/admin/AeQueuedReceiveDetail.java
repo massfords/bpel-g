@@ -9,18 +9,17 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpel.server.admin;
 
+import java.beans.ConstructorProperties;
 import java.util.Iterator;
 import java.util.Map;
 
 import javax.xml.namespace.QName;
 
-import org.activebpel.rt.util.AeUtil;
-
 /**
  * Light weight JavaBean impl of the queued receive object. Omits the receive
  * data and message receiver in favor of the receiver's xpath location.  
  */
-public class AeQueuedReceiveDetail //extends AeAbstractQueueObject
+public class AeQueuedReceiveDetail
 {
    /** xpath location for the message receiver */
    private String mLocation;
@@ -51,24 +50,18 @@ public class AeQueuedReceiveDetail //extends AeAbstractQueueObject
     * @param aPortType
     * @param aOperation
     */
+   @ConstructorProperties({"processId", "partnerLinkName", "portType", "operation", "location", "correlationData", "data"})
    public AeQueuedReceiveDetail(long aProcessId, String aPartnerLinkName,
       QName aPortType, String aOperation, String aLocation, 
-         Map<QName,Object> aCorrelations, AeQueuedReceiveMessageData aData)
+         String aCorrelationData, String aData)
    {
-      //super(aProcessId, aPartnerLink, aPortType, aOperation);
       mLocation = aLocation;
       mProcessId = aProcessId;
       mPartnerLinkName = aPartnerLinkName;
       mPortType = aPortType;
       mOperation = aOperation;
-      
-      if (AeUtil.notNullOrEmpty(aCorrelations)) {
-          mCorrelatedData = extractMapData(aCorrelations);
-      }
-      if( aData != null )
-      {
-         mData = extractMapData( aData.getPartData() );
-      }
+      setCorrelatedData(aCorrelationData);
+      setData(aData);
    }
    
    /**
@@ -77,6 +70,10 @@ public class AeQueuedReceiveDetail //extends AeAbstractQueueObject
    public String getPartnerLinkName()
    {
       return mPartnerLinkName;
+   }
+   
+   public void setPartnerLinkName(String aPlink) {
+       mPartnerLinkName = aPlink;
    }
 
    /**
@@ -112,14 +109,10 @@ public class AeQueuedReceiveDetail //extends AeAbstractQueueObject
       return mPortType;
    }
    
-   /**
-    * Accessor for the port type name.
-    */
-   public String getPortTypeAsString()
-   {
-      return getPortType().getNamespaceURI()+":"+getPortType().getLocalPart(); //$NON-NLS-1$
+   public void setPortType(QName aPortType) {
+       mPortType = aPortType;
    }
-
+   
    /**
     * Accessor for the process id.
     */
@@ -127,41 +120,32 @@ public class AeQueuedReceiveDetail //extends AeAbstractQueueObject
    {
       return mProcessId;
    }
+   
+   public void setProcessId(long aProcessId) {
+       mProcessId = aProcessId;
+   }
 
    /**
     * Returns true if the detail contains correlation data. 
     */
    public boolean isCorrelated()
    {
-      return mCorrelatedData != null;
+      return getCorrelatedData() != null;
    }
    
-   /*
-    * Format the correlated data as a string.
-    */
-   public String getCorrelatedDataAsString()
-   {
-       return mCorrelatedData;
-   }
-
    /**
     * Returns true if the detail contains message data. 
     */
    public boolean isMessageDataAvailable()
    {
-      return mData != null;
-   }
-   
-   public String getMessageDataAsString()
-   {
-       return mData;
+      return getData() != null;
    }
    
    /**
     * Extract string data from map.
     * @param aMap
     */
-   protected String extractMapData( Map aMap )
+   public static String extractMapData( Map aMap )
    {
       // @todo - put this in for the ui - may want to revisit this with something
       // that allows more control over th display
@@ -178,4 +162,20 @@ public class AeQueuedReceiveDetail //extends AeAbstractQueueObject
       }
       return sb.toString();
    }
+
+public void setCorrelatedData(String correlatedData) {
+    mCorrelatedData = correlatedData;
+}
+
+public String getCorrelatedData() {
+    return mCorrelatedData;
+}
+
+public void setData(String data) {
+    mData = data;
+}
+
+public String getData() {
+    return mData;
+}
 }

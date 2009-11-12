@@ -10,6 +10,8 @@
 
 package org.activebpel.rt.bpel.def;
 
+import java.beans.ConstructorProperties;
+
 import org.activebpel.rt.bpel.impl.AePartnerLinkOpImplKey;
 
 
@@ -29,6 +31,7 @@ public class AePartnerLinkOpKey extends AePartnerLinkDefKey
     * @param aPartnerLinkId
     * @param aOperation
     */
+   @ConstructorProperties({"partnerLinkName", "partnerLinkId", "operation"})
    public AePartnerLinkOpKey(String aPartnerLinkName, int aPartnerLinkId, String aOperation)
    {
       super(aPartnerLinkName, aPartnerLinkId);

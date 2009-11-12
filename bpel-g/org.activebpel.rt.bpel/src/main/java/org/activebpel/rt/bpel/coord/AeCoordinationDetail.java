@@ -9,6 +9,8 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpel.coord;
 
+import java.beans.ConstructorProperties;
+
 /**
  * Contains instance information about a coordination.
  */
@@ -34,6 +36,7 @@ public class AeCoordinationDetail
     * @param aState
     * @param aLocationPath
     */
+   @ConstructorProperties({"processId", "coordinationId", "state", "locationPath"})
    public AeCoordinationDetail(long aProcessId, String aCoordinationId, String aState, String aLocationPath)
    {
       setProcessId(aProcessId);

@@ -9,10 +9,7 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpel.impl.list;
 
-import org.activebpel.rt.IAeConstants;
-import org.activebpel.rt.bpel.AeMessages;
-import org.activebpel.rt.util.AeUtil;
-import org.activebpel.rt.wsdl.def.IAeBPELExtendedWSDLConst;
+import java.beans.ConstructorProperties;
 
 /**
  * Item for display in listing of the catalog.
@@ -34,11 +31,14 @@ public class AeCatalogItem
     /**
      * Default constructor.
      */
-    public AeCatalogItem(String aLocation, String aNamespace, String aTypeURI)
+    @ConstructorProperties({"location", "namespace", "typeURI", "formattedName"})
+    public AeCatalogItem(String aLocation, String aNamespace, String aTypeURI, String aFormattedName)
     {
        mLocation = aLocation;
        mNamespace = aNamespace;
        mTypeURI = aTypeURI;
+       mFormattedName = aFormattedName;
+
     }
 
     /**
@@ -71,24 +71,10 @@ public class AeCatalogItem
      */
     public String getFormattedName()
     {
-       if(mFormattedName == null)
-          mFormattedName = AeUtil.getShortNameForLocation(getLocation());
        return mFormattedName;
     }
     
-    /**
-     * Return the short name of the file.
-     * Strips off any preceeding path information from the location.
-     */
-    public String getTypeDisplay()
-    {
-       // TODO (cck) this is mostly for console display, so we should have localization there
-       if(IAeBPELExtendedWSDLConst.WSDL_NAMESPACE.equals(getTypeURI()))
-          return AeMessages.getString("AeCatalogItem.WSDL"); //$NON-NLS-1$
-       else if(IAeConstants.W3C_XML_SCHEMA.equals(getTypeURI()))
-          return AeMessages.getString("AeCatalogItem.SCHEMA"); //$NON-NLS-1$
-       else if(IAeConstants.XSL_NAMESPACE.equals(getTypeURI()))
-          return AeMessages.getString("AeCatalogItem.XSL"); //$NON-NLS-1$
-       return AeMessages.getString("AeCatalogItem.OTHER"); //$NON-NLS-1$
+    public void setFormattedName(String aFormattedName) {
+        mFormattedName = aFormattedName;
     }
 }

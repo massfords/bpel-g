@@ -70,7 +70,7 @@ public class AeInboundReceiveDetailBean extends AeAbstractAdminBean
     */
    public String getPortTypeAsString()
    {
-      return getDetail(0).getPortTypeAsString();
+      return getDetail(0).getPortType().toString();
    }
    
    /**

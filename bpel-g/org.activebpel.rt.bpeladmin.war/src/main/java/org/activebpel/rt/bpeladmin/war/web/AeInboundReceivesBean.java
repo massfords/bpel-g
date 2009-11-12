@@ -85,7 +85,7 @@ public class AeInboundReceivesBean
     */
    public static String makeKey( AeQueuedReceiveDetail aDetail )
    {
-      return aDetail.getPartnerLinkName()+":"+aDetail.getPortTypeAsString()+ //$NON-NLS-1$
+      return aDetail.getPartnerLinkName()+":"+aDetail.getPortType()+ //$NON-NLS-1$
             ":"+aDetail.getOperation(); //$NON-NLS-1$
    }
    

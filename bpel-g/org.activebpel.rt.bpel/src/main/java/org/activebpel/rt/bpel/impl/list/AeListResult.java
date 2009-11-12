@@ -9,6 +9,7 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpel.impl.list;
 
+import java.beans.ConstructorProperties;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -42,7 +43,8 @@ public class AeListResult implements Serializable
     * @param aResults
     * @param aCompleteRowCount
     */
-   protected AeListResult(int aTotalRowCount, Collection aResults, boolean aCompleteRowCount)
+   @ConstructorProperties({"totalRowCount", "results", "completeRowCount"})
+   public AeListResult(int aTotalRowCount, Collection aResults, boolean aCompleteRowCount)
    {
       setTotalRowCount(aTotalRowCount);
       getResultsInternal().addAll(aResults);
