@@ -10,7 +10,7 @@
 package org.activebpel.rt.bpeladmin.war.web; 
 
 import org.activebpel.rt.AeException;
-import org.activebpel.rt.bpel.server.engine.AeEngineFactory;
+import org.activebpel.rt.bpeladmin.war.AeEngineManagementFactory;
 import org.activebpel.rt.bpeladmin.war.AeMessages;
 import org.activebpel.rt.util.AeUtil;
 
@@ -41,7 +41,7 @@ public abstract class AePruningBean extends AeAbstractAdminBean
     */
    public AePruningBean()
    {
-      setStorageAvailable(AeEngineFactory.isPersistentStoreReadyForUse());
+      setStorageAvailable(AeEngineManagementFactory.getBean().isEngineStorageReady());
    }
    
    /**

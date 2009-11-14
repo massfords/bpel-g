@@ -39,8 +39,8 @@ public class AeInboundReceiveDetailBean extends AeAbstractAdminBean
    public void setKey( String aKey )
    {
       mKey = aKey;
-      AeQueuedReceiveDetail[] details = null;
-      details = getAdmin().getUnmatchedQueuedReceives();
+      List<AeQueuedReceiveDetail> unmatchedQueuedReceives = getAdmin().getUnmatchedQueuedReceives();
+      AeQueuedReceiveDetail[] details = unmatchedQueuedReceives.toArray(new AeQueuedReceiveDetail[unmatchedQueuedReceives.size()]);
             
       if( details != null )
       {

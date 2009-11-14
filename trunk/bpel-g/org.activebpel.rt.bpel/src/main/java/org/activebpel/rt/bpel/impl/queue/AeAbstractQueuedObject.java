@@ -27,7 +27,7 @@ abstract public class AeAbstractQueuedObject
     * 
     * @param aPartnerLinkOpKey
     */
-   @ConstructorProperties({"partnerLinkOpKey"})
+   @ConstructorProperties({"partnerLinkOperationKey"})
    public AeAbstractQueuedObject(AePartnerLinkOpKey aPartnerLinkOpKey)
    {
       setPartnerLinkOperationKey(aPartnerLinkOpKey);

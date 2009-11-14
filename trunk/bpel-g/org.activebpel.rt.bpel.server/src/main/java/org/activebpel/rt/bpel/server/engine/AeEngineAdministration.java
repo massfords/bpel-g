@@ -35,8 +35,10 @@ import org.activebpel.rt.bpel.impl.AeUnmatchedReceive;
 import org.activebpel.rt.bpel.impl.IAeProcessPlan;
 import org.activebpel.rt.bpel.impl.IAeQueueManager;
 import org.activebpel.rt.bpel.impl.activity.support.AeCorrelationSet;
+import org.activebpel.rt.bpel.impl.list.AeAlarmExt;
 import org.activebpel.rt.bpel.impl.list.AeAlarmFilter;
 import org.activebpel.rt.bpel.impl.list.AeAlarmListResult;
+import org.activebpel.rt.bpel.impl.list.AeListResult;
 import org.activebpel.rt.bpel.impl.list.AeMessageReceiverFilter;
 import org.activebpel.rt.bpel.impl.list.AeMessageReceiverListResult;
 import org.activebpel.rt.bpel.impl.list.AeProcessFilter;
@@ -62,6 +64,7 @@ import org.activebpel.rt.bpel.urn.IAeURNResolver;
 import org.activebpel.rt.message.IAeMessageData;
 import org.activebpel.rt.util.AeLongMap;
 import org.activebpel.rt.util.AeUtil;
+import org.activebpel.rt.xml.AeQName;
 import org.activebpel.rt.xml.AeXMLParserBase;
 import org.activebpel.wsio.AeWebServiceAttachment;
 import org.w3c.dom.Document;
@@ -146,7 +149,7 @@ public class AeEngineAdministration implements IAeEngineAdministration
    protected AeProcessDeploymentDetail createProcessDetail( IAeProcessDeployment aDeployment )
    {
        AeProcessDeploymentDetail detail = new AeProcessDeploymentDetail();
-       detail.setName(aDeployment.getProcessDef().getQName());
+       detail.setName(new AeQName(aDeployment.getProcessDef().getQName()));
        detail.setSourceXml(AeXMLParserBase.documentToString(aDeployment.getSourceElement()));
        detail.setBpelSourceXml(aDeployment.getBpelSource());
        return detail;
@@ -231,21 +234,27 @@ public class AeEngineAdministration implements IAeEngineAdministration
       {
          AeLongMap processDefMap = new AeLongMap();
          
-         AeAlarmListResult results = getBpelEngine().getQueueManager().getAlarms( aFilter );
-         for( int i = 0; i < results.getResults().length; i++  )
+         AeListResult<AeAlarm> results = getBpelEngine().getQueueManager().getAlarms( aFilter );
+         List<AeAlarmExt> extList = new ArrayList<AeAlarmExt>();
+         for( int i = 0; i < results.getResults().size(); i++  )
          {
-            AeAlarm alarm = results.getResults()[i];
-            
+            AeAlarm alarm = results.getResults().get(i);
+
             long pid = alarm.getProcessId();
             AeProcessDef processDef = getProcessDef(pid, processDefMap);
+            QName name = null;
+            String path = null;
             if (processDef != null)
             {
-               // processDef will only be null if there was an error finding it
-               String path = processDef.getLocationPath(alarm.getPathId());
-               results.addPathMapping(alarm.getPathId(), path);
+               path = processDef.getLocationPath(alarm.getPathId());
+               name = processDef.getQName();
             }
+            AeAlarmExt aeAlarmExt = new AeAlarmExt(alarm.getProcessId(), alarm.getPathId(), alarm.getGroupId(), alarm.getAlarmId(), alarm.getDeadline(), name);
+            aeAlarmExt.setLocation(path);
+            extList.add(aeAlarmExt);
          }
-         return results;
+         AeAlarmListResult result = new AeAlarmListResult(extList.size(), extList);
+         return result;
       }
       catch (AeBusinessProcessException ex)
       {

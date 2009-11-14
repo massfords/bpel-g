@@ -9,8 +9,6 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpeladmin.war.web.processview.attachment;
 
-import org.activebpel.rt.AeException;
-import org.activebpel.rt.util.AeUtil;
 
 /**
  * Bean responsible for deleteing a process variable attachment from the engine by request from the BpelAdmin
@@ -24,17 +22,18 @@ public class AeDeleteAttachmentBean extends AeAttachmentBeanBase
     */
    public void setDeleteItem(String aItemNumber)
    {
-      try
-      {
-         int[] itemNumber = new int[1];
-         // Adjust to internal offset
-         itemNumber[0] = AeUtil.getNumeric(aItemNumber) - 1;
-
-         getAdmin().removeVariableAttachments(getPidAsLong(), getPath(), itemNumber);
-      }
-      catch (AeException ex)
-      {
-         setError(ex);
-      }
+       // FIXME attachments
+//      try
+//      {
+//         int[] itemNumber = new int[1];
+//         // Adjust to internal offset
+//         itemNumber[0] = AeUtil.getNumeric(aItemNumber) - 1;
+//
+//         getAdmin().removeVariableAttachments(getPidAsLong(), getPath(), itemNumber);
+//      }
+//      catch (AeException ex)
+//      {
+//         setError(ex);
+//      }
    }
 }

@@ -12,13 +12,12 @@ package org.activebpel.rt.bpel.impl.list;
 import java.beans.ConstructorProperties;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 /**
  * Base class for list results.
  */
-public class AeListResult implements Serializable
+public class AeListResult<T> implements Serializable
 {
    /** The total number of rows which match the process list request. */
    protected int mTotalRowCount;
@@ -27,7 +26,7 @@ public class AeListResult implements Serializable
    protected boolean mCompleteRowCount = true;
 
    /** Container for the results. */
-   protected List mResults = new ArrayList();
+   protected List<T> mResults = new ArrayList<T>();
 
    /**
     * Default constructor for WebLogic bean serializer.
@@ -44,10 +43,10 @@ public class AeListResult implements Serializable
     * @param aCompleteRowCount
     */
    @ConstructorProperties({"totalRowCount", "results", "completeRowCount"})
-   public AeListResult(int aTotalRowCount, Collection aResults, boolean aCompleteRowCount)
+   public AeListResult(int aTotalRowCount, List<T> aResults, boolean aCompleteRowCount)
    {
       setTotalRowCount(aTotalRowCount);
-      getResultsInternal().addAll(aResults);
+      setResults(aResults);
       setCompleteRowCount(aCompleteRowCount);
    }
 
@@ -92,14 +91,18 @@ public class AeListResult implements Serializable
     */
    public boolean isEmpty()
    {
-      return getResultsInternal().isEmpty();
+      return getResults().isEmpty();
    }
 
    /**
     * Accessor for results container.
     */
-   protected List getResultsInternal()
+   public List<T> getResults()
    {
       return mResults;
+   }
+   
+   public void setResults(List<T> aResults) {
+       mResults = aResults;
    }
 }

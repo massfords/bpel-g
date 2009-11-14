@@ -58,7 +58,7 @@ public class AeListMappingsBean extends AeAbstractAdminBean
     */
    protected List loadValues()
    {
-      Map map = getAdmin().getURNAddressResolver().getMappings();
+      Map map = getAdmin().getURNMappings();
       List list = new ArrayList();
       list.addAll(map.keySet());
       Collections.sort(list);

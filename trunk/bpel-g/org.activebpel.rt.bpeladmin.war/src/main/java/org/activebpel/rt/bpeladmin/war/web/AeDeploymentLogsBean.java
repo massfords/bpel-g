@@ -9,7 +9,7 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpeladmin.war.web;
 
-import org.activebpel.rt.bpel.server.engine.AeEngineFactory;
+import org.activebpel.rt.bpeladmin.war.AeEngineManagementFactory;
 
 /**
  * Wraps the deployment logs listing and allows access to
@@ -28,9 +28,9 @@ public class AeDeploymentLogsBean
    public AeDeploymentLogsBean()
    {
       mLogFiles = AeJavaTypesWrapper.wrap(
-         AeEngineFactory.getEngineAdministration().getDeploymentLogListing() );
+         AeEngineManagementFactory.getBean().getDeploymentLogListing() );
          
-      mLogFile = AeEngineFactory.getEngineAdministration().getDeploymentLog();         
+      mLogFile = AeEngineManagementFactory.getBean().getDeploymentLog();         
    }
      
    /**

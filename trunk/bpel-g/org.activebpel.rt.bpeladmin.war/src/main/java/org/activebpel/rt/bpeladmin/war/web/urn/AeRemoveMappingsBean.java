@@ -65,7 +65,7 @@ public class AeRemoveMappingsBean extends AeAbstractAdminBean
          }
          
          
-         getAdmin().getURNAddressResolver().removeMappings(values);
+         getAdmin().removeURNMappings(values);
          setStatusDetail(AeMessages.getString("AeRemoveMappingsBean.MAPPING_REMOVED")); //$NON-NLS-1$
       }
       else

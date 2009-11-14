@@ -58,10 +58,10 @@ public class AeMessageReceiver extends AeCorrelatedReceive
     * @param aGroupId The group id of the message receiver.
     * @param aConcurrent
     */
-   @ConstructorProperties({"processId", "processName", "partnerLinkOpKey", "portType", "correlation", "messageReceiverPathId", "groupId", "concurrent"})
+   @ConstructorProperties({"processId", "processName", "partnerLinkOperationKey", "portType", "correlation", "messageReceiverPathId", "groupId", "concurrent"})
    public AeMessageReceiver(long aProcessId, QName aProcessName,
          AePartnerLinkOpKey aPartnerLinkOpKey, QName aPortType,
-         Map aCorrelation, int aMessageReceiverPathId, int aGroupId, boolean aConcurrent)
+         Map<QName,String> aCorrelation, int aMessageReceiverPathId, int aGroupId, boolean aConcurrent)
    {
       super(aPartnerLinkOpKey, aProcessName, aCorrelation);
       setMessageReceiverPathId(aMessageReceiverPathId);

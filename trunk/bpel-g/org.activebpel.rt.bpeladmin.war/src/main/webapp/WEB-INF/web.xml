@@ -16,7 +16,11 @@
    	<param-value>/BpelAdmin</param-value>
    </context-param>
    
-   <servlet>
+<!--    <listener>
+        <listener-class>org.activebpel.rt.bpeladmin.war.AeContextListener</listener-class>
+    </listener>
+-->
+    <servlet>
      <servlet-name>AeProcessLogDump</servlet-name>
      <display-name>Servlet for doing a dump of a process log.</display-name>
      <servlet-class>

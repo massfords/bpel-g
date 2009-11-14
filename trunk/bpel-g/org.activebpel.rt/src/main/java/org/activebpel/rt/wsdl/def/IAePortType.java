@@ -9,13 +9,15 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.wsdl.def;
 
+import java.io.Serializable;
+
 import javax.xml.namespace.QName;
 
 /**
  * This interface represents a Role's PortType element.  This PortType
  * element references a WSDL PortType.
  */
-public interface IAePortType
+public interface IAePortType extends Serializable
 {
    /**
     * Get the name of this PortType.

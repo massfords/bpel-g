@@ -1137,6 +1137,7 @@ public class AeActivityScopeImpl extends AeActivityImpl implements IAeActivityPa
    {
       if ( isNormalCompletion() )
       {
+          // FIXME should only do this if the scope has a compensation handler directly or nested within it.
          // find the enclosing scope and add notify it that we've completed.
          AeActivityScopeImpl enclosingScope = findEnclosingScope();
          if (enclosingScope != null)

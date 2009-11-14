@@ -1,22 +1,30 @@
 package org.activebpel.rt.bpel.server.admin.jmx;
 
+import java.io.IOException;
+import java.io.StringReader;
+import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 
 import javax.xml.namespace.QName;
 
 import org.activebpel.rt.AeException;
+import org.activebpel.rt.base64.Base64;
 import org.activebpel.rt.bpel.AeBusinessProcessException;
+import org.activebpel.rt.bpel.config.AeDefaultEngineConfiguration;
 import org.activebpel.rt.bpel.config.IAeEngineConfiguration;
 import org.activebpel.rt.bpel.config.IAeUpdatableEngineConfig;
 import org.activebpel.rt.bpel.coord.AeCoordinationDetail;
+import org.activebpel.rt.bpel.def.AeProcessDef;
+import org.activebpel.rt.bpel.impl.list.AeAlarmExt;
 import org.activebpel.rt.bpel.impl.list.AeAlarmFilter;
-import org.activebpel.rt.bpel.impl.list.AeAlarmListResult;
+import org.activebpel.rt.bpel.impl.list.AeCatalogItem;
 import org.activebpel.rt.bpel.impl.list.AeCatalogItemDetail;
-import org.activebpel.rt.bpel.impl.list.AeCatalogListResult;
 import org.activebpel.rt.bpel.impl.list.AeCatalogListingFilter;
 import org.activebpel.rt.bpel.impl.list.AeMessageReceiverFilter;
 import org.activebpel.rt.bpel.impl.list.AeMessageReceiverListResult;
@@ -28,7 +36,10 @@ import org.activebpel.rt.bpel.server.admin.AeProcessDeploymentDetail;
 import org.activebpel.rt.bpel.server.admin.AeQueuedReceiveDetail;
 import org.activebpel.rt.bpel.server.admin.IAeEngineAdministration;
 import org.activebpel.rt.bpel.server.deploy.IAeServiceDeploymentInfo;
+import org.activebpel.rt.bpel.server.engine.AeEngineFactory;
+import org.activebpel.rt.bpel.server.engine.storage.AeStorageException;
 import org.activebpel.rt.util.AeUtil;
+import org.activebpel.rt.xml.AeQName;
 import org.activebpel.rt.xml.schema.AeSchemaDuration;
 
 public class AeEngineManagementAdapter implements IAeEngineManagementMXBean {
@@ -51,7 +62,7 @@ public class AeEngineManagementAdapter implements IAeEngineManagementMXBean {
     public List<AeServiceDeploymentBean> getDeployedServices() {
         List<AeServiceDeploymentBean> result = new ArrayList();
         for (IAeServiceDeploymentInfo info : mAdmin.getDeployedServices()) {
-            result.add(new AeServiceDeploymentBean(info.getServiceName(), info.getProcessQName(), info.getPartnerLinkName(), info.getBinding()));
+            result.add(new AeServiceDeploymentBean(info.getServiceName(), new AeQName(info.getProcessQName()), info.getPartnerLinkName(), info.getBinding()));
         }
         return result;
     }
@@ -85,7 +96,7 @@ public class AeEngineManagementAdapter implements IAeEngineManagementMXBean {
     }
 
     @Override
-    public AeAlarmListResult getAlarms(long aProcessId, Date aAlarmFilterStart, Date aAlarmFilterEnd,
+    public List<AeAlarmExt> getAlarms(long aProcessId, Date aAlarmFilterStart, Date aAlarmFilterEnd,
             String aProcessNamespace, String aProcessLocalPart, int aMaxReturn, int aListStart) {
         AeAlarmFilter filter = new AeAlarmFilter();
         filter.setProcessId(aProcessId);
@@ -95,7 +106,7 @@ public class AeEngineManagementAdapter implements IAeEngineManagementMXBean {
         filter.setMaxReturn(aMaxReturn);
         filter.setListStart(aListStart);
         
-        return mAdmin.getAlarms(filter);
+        return mAdmin.getAlarms(filter).getResults();
     }
 
     @Override
@@ -129,7 +140,7 @@ public class AeEngineManagementAdapter implements IAeEngineManagementMXBean {
     }
 
     @Override
-    public AeProcessListResult getProcessList(String aProcessNamespace, String aProcessName, String aProcessGroup, boolean aHidSystemProcessGroup,
+    public AeProcessListResultBean getProcessList(String aProcessNamespace, String aProcessName, String aProcessGroup, boolean aHidSystemProcessGroup,
             int aProcessState, Date aProcessCreateStart, Date aProcessCreateEnd, Date aProcessCompleteStart, Date aProcessCompleteEnd,
             String aAdvancedQuery, int aPlanId, Date aDeletableDate, long[] aProcessIdRange, int aMaxReturn, int aListStart) throws AeBusinessProcessException {
         AeProcessFilter filter = new AeProcessFilter();
@@ -149,7 +160,9 @@ public class AeEngineManagementAdapter implements IAeEngineManagementMXBean {
         filter.setMaxReturn(aMaxReturn);
         filter.setListStart(aListStart);
         
-        return mAdmin.getProcessList(filter);
+        AeProcessListResult processList = mAdmin.getProcessList(filter);
+        
+        return new AeProcessListResultBean(processList.getTotalRowCount(), processList.getResults(), processList.isCompleteRowCount());
     }
 
     @Override
@@ -261,12 +274,14 @@ public class AeEngineManagementAdapter implements IAeEngineManagementMXBean {
     }
 
     @Override
-    public AeCatalogListResult getCatalogListing(String aTypeURI, String aResource, String aNamespace) {
+    public List<AeCatalogItem> getCatalogListing(String aTypeURI, String aResource, String aNamespace, int aMaxReturn, int aListStart) {
         AeCatalogListingFilter filter = new AeCatalogListingFilter();
         filter.setTypeURI(aTypeURI);
         filter.setResource(aResource);
         filter.setNamespace(aNamespace);
-        return mAdmin.getCatalogAdmin().getCatalogListing(filter);
+        filter.setMaxReturn(aMaxReturn);
+        filter.setListStart(aListStart);
+        return mAdmin.getCatalogAdmin().getCatalogListing(filter).getResults();
     }
 
     @Override
@@ -468,5 +483,130 @@ public class AeEngineManagementAdapter implements IAeEngineManagementMXBean {
     private IAeUpdatableEngineConfig getMutableConfig() {
         IAeUpdatableEngineConfig config =  (IAeUpdatableEngineConfig) mAdmin.getEngineConfig();
         return config;
+    }
+
+    @Override
+    public AeProcessDeploymentDetail getDeployedProcessDetail(String aNamespace, String aName) {
+        return mAdmin.getDeployedProcessDetail(new QName(aNamespace, aName));
+    }
+
+    @Override
+    public int getProcessCount(String aProcessNamespace, String aProcessName, String aProcessGroup,
+            boolean aHidSystemProcessGroup, int aProcessState, Date aProcessCreateStart, Date aProcessCreateEnd,
+            Date aProcessCompleteStart, Date aProcessCompleteEnd, String aAdvancedQuery, int aPlanId,
+            Date aDeletableDate, long[] aProcessIdRange, int aMaxReturn, int aListStart)
+            throws AeBusinessProcessException {
+        AeProcessFilter filter = new AeProcessFilter();
+        if (aProcessNamespace != null && aProcessName != null) {
+            filter.setProcessName(new QName(aProcessNamespace, aProcessName));
+        }
+        filter.setProcessGroup(aProcessGroup);
+        filter.setHideSystemProcessGroup(aHidSystemProcessGroup);
+        filter.setProcessCreateStart(aProcessCreateStart);
+        filter.setProcessCreateEnd(aProcessCreateEnd);
+        filter.setProcessCompleteStart(aProcessCompleteStart);
+        filter.setProcessCompleteEnd(aProcessCompleteEnd);
+        filter.setAdvancedQuery(aAdvancedQuery);
+        filter.setPlanId(aPlanId);
+        filter.setDeletableDate(aDeletableDate);
+        filter.setProcessIdRange(aProcessIdRange);
+        filter.setMaxReturn(aMaxReturn);
+        filter.setListStart(aListStart);
+        
+        return mAdmin.getProcessCount(filter);
+    }
+
+    @Override
+    public AeProcessListResultBean getProcessList(AeProcessFilter aFilter) throws AeBusinessProcessException {
+        AeProcessListResult processList = mAdmin.getProcessList(aFilter);
+        return new AeProcessListResultBean(processList.getTotalRowCount(), processList.getResults(), processList.isCompleteRowCount());
+    }
+
+    @Override
+    public String getRawConfig() {
+        AeDefaultEngineConfiguration engineConfig = (AeDefaultEngineConfiguration) mAdmin.getEngineConfig();
+        Map map = engineConfig.getEntries();
+        Properties props = new Properties();
+        props.putAll(map);
+        StringWriter sw = new StringWriter();
+        try {
+            props.store(sw, "raw dump");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return sw.toString();
+    }
+
+    @Override
+    public void setRawConfig(String aRaw) {
+        Properties props = new Properties();
+        try {
+            props.load(new StringReader(aRaw));
+            Map map = new HashMap();
+            map.putAll(props);
+            AeDefaultEngineConfiguration engineConfig = (AeDefaultEngineConfiguration) mAdmin.getEngineConfig();
+            engineConfig.setEntries(map);
+            engineConfig.update();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void resumeProcess(long aPid) throws AeBusinessProcessException {
+        AeEngineFactory.getEngine().resumeProcess(aPid);
+    }
+
+    @Override
+    public void suspendProcess(long aPid) throws AeBusinessProcessException {
+        AeEngineFactory.getEngine().suspendProcess(aPid);
+    }
+
+    @Override
+    public void terminateProcess(long aPid) throws AeBusinessProcessException {
+        AeEngineFactory.getEngine().terminateProcess(aPid);
+    }
+
+    @Override
+    public void restartProcess(long aPid) throws AeBusinessProcessException {
+        AeEngineFactory.getEngine().restartProcess(aPid);
+    }
+
+    @Override
+    public String getCompiledProcessDef(long aProcessId, AeQName aName) throws AeBusinessProcessException {
+        AeProcessDef def = null;
+        if (aProcessId <= 0) {
+            def = AeEngineFactory.getDeploymentProvider().findCurrentDeployment(aName.toQName()).getProcessDef();
+        } else {
+            def = AeEngineFactory.getDeploymentProvider().findDeploymentPlan(aProcessId, aName.toQName()).getProcessDef();
+        }
+        byte[] b = AeUtil.serializeObject(def);
+        String s = Base64.encodeBytes(b);
+        return s;
+    }
+
+    @Override
+    public String getStorageError() {
+        return AeEngineFactory.getPersistentStoreError();
+    }
+
+    @Override
+    public void initializeStorage() throws AeStorageException {
+        AeEngineFactory.initializePersistentStoreFactory();
+    }
+
+    @Override
+    public boolean isEngineStorageReady() {
+        return AeEngineFactory.isEngineStorageReady();
+    }
+
+    @Override
+    public boolean isRestartable(long aPid) {
+        try {
+            return AeEngineFactory.getEngine().isRestartable(aPid);
+        } catch (AeBusinessProcessException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 }

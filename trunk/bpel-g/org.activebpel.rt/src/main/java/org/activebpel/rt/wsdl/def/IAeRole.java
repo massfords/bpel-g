@@ -9,12 +9,14 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.wsdl.def;
 
+import java.io.Serializable;
+
 
 /**
  * This interface represents a Partner Link Type's Role element.  Roles
  * contain Port Types elements.
  */
-public interface IAeRole
+public interface IAeRole extends Serializable
 {
    /**
     * Get the name attribute value of this Role

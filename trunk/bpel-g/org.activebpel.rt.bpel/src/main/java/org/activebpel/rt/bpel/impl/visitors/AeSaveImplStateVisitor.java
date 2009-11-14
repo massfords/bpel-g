@@ -964,6 +964,9 @@ public class AeSaveImplStateVisitor extends AeImplTraversingVisitor implements I
     */
    public void visit(AeActivityOnEventScopeImpl aImpl) throws AeBusinessProcessException
    {
+       // FIXME (onevent-leak) consider not saving the onEvent scope instance. 
+       // - prune oldest completed/non-compensatable scopes when onEvent.size() > x
+       // - watch out for the subprocess coord id markers. don't recall how these manifest in compensation.
       super.visit(aImpl);
       
       if (aImpl.getMessageContext() != null)

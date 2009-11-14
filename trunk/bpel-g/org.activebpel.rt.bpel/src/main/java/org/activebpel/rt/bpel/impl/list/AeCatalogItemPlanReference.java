@@ -9,6 +9,8 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpel.impl.list;
 
+import java.beans.ConstructorProperties;
+
 import javax.xml.namespace.QName;
 
 /**
@@ -24,6 +26,7 @@ public class AeCatalogItemPlanReference
      * Constructor.
      * @param aQName
      */
+    @ConstructorProperties({"planQName"})
     public AeCatalogItemPlanReference( QName aQName )
     {
         mPlanQName = aQName;

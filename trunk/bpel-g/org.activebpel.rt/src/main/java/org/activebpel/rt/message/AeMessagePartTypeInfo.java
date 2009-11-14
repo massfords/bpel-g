@@ -9,6 +9,8 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.message; 
 
+import java.io.Serializable;
+
 import javax.wsdl.Part;
 import javax.xml.namespace.QName;
 
@@ -19,7 +21,7 @@ import org.exolab.castor.xml.schema.XMLType;
  * information from a javax.wsdl.Part and allows it to be cached without
  * the overhead of keeping the entire WSDL in memory.
  */
-public class AeMessagePartTypeInfo
+public class AeMessagePartTypeInfo implements Serializable
 {
    /** name of the part */
    private String mName;
@@ -28,7 +30,7 @@ public class AeMessagePartTypeInfo
    /** QName of the type (mutually exclusive w/ type)*/
    private QName mTypeName;
    /** XMLType for the part */
-   private XMLType mXMLType;
+   private transient XMLType mXMLType;
    
    /**
     * Simple copy constructor

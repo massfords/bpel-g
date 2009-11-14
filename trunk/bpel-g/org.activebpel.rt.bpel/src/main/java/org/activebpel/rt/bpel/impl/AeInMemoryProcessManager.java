@@ -36,6 +36,7 @@ import org.activebpel.rt.bpel.impl.list.AeProcessListResult;
 import org.activebpel.rt.bpel.impl.queue.AeInboundReceive;
 import org.activebpel.rt.bpel.impl.queue.AeReply;
 import org.activebpel.rt.message.IAeMessageData;
+import org.activebpel.rt.xml.AeQName;
 
 /**
  * Implements a simple in-memory process manager.
@@ -159,7 +160,7 @@ public class AeInMemoryProcessManager extends AeAbstractProcessManager implement
    private AeProcessInstanceDetail createProcessInstanceDetail(IAeBusinessProcess aProcess)
    {
       AeProcessInstanceDetail detail = new AeProcessInstanceDetail();
-      detail.setName(aProcess.getName());
+      detail.setName(new AeQName(aProcess.getName()));
       detail.setProcessId(aProcess.getProcessId());
       detail.setState(aProcess.getProcessState());
       detail.setStateReason(aProcess.getProcessStateReason());

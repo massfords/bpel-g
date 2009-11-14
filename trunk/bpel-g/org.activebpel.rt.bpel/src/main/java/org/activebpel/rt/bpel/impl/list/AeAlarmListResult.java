@@ -11,18 +11,13 @@ package org.activebpel.rt.bpel.impl.list;
 
 import java.beans.ConstructorProperties;
 import java.io.Serializable;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Wraps a listing of alarm objects.
  */
 public class AeAlarmListResult extends AeListResult implements Serializable
 {
-   /** Mapping of process ids to location paths. */
-   protected Map<Integer,String> mLocationIdtoLocationPathMap = new HashMap();
-   
    /**
     * Constructor.
     * @param aTotalRows Total rows that matched selection criteria.  This number may be greater than the number of results in this listing.
@@ -32,32 +27,5 @@ public class AeAlarmListResult extends AeListResult implements Serializable
    public AeAlarmListResult( int aTotalRows, List<AeAlarmExt> aAlarms )
    {
       super( aTotalRows, aAlarms, true );
-   }
-   
-   /**
-    * Accessor for alarms.
-    */
-   public AeAlarmExt[] getResults()
-   {
-      return (AeAlarmExt[])getResultsInternal().toArray( new AeAlarmExt[getResultsInternal().size()]);
-   }
-   
-   /**
-    * Add a location id to location path mapping.
-    * @param aLocationId The location path id.
-    * @param aLocation The location xpath.
-    */
-   public void addPathMapping( int aLocationId, String aLocation )
-   {
-      mLocationIdtoLocationPathMap.put( new Integer( aLocationId ), aLocation );
-   }
-   
-   /**
-    * Returns the matching location path for this process id.
-    * @param aLocationId
-    */
-   public String getLocationPath( int aLocationId )
-   {
-      return (String)mLocationIdtoLocationPathMap.get( new Integer(aLocationId) );
    }
 }

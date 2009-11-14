@@ -59,6 +59,7 @@ import org.activebpel.rt.message.IAeMessageData;
 import org.activebpel.rt.util.AeLongMap;
 import org.activebpel.rt.util.AeLongSet;
 import org.activebpel.rt.util.AeMutex;
+import org.activebpel.rt.xml.AeQName;
 import org.activebpel.work.AeAbstractWork;
 
 import commonj.timers.Timer;
@@ -498,7 +499,7 @@ public class AePersistentProcessManager extends AeAbstractProcessManager impleme
       try
       {
          detail = new AeProcessInstanceDetail();
-         detail.setName(aProcess.getName());
+         detail.setName(new AeQName(aProcess.getName()));
          detail.setProcessId(aProcess.getProcessId());
          detail.setState(aProcess.getProcessState());
          detail.setStateReason(aProcess.getProcessStateReason());
@@ -560,7 +561,7 @@ public class AePersistentProcessManager extends AeAbstractProcessManager impleme
       // its process id) but we don't want to lock the process
       // this method provides direct db access with no
       // locking penalties
-      return getProcessInstanceDetails(aProcessId).getName();
+      return getProcessInstanceDetails(aProcessId).getName().toQName();
    }
 
    /**

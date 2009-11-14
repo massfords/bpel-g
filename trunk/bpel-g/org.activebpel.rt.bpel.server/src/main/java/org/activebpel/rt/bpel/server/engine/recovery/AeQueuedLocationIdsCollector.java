@@ -93,13 +93,12 @@ public class AeQueuedLocationIdsCollector
       filter.setProcessId(getProcess().getProcessId());
 
       AeAlarmListResult list = getProcess().getEngine().getQueueManager().getAlarms(filter);
-      AeAlarm[] alarms = list.getResults();
-
-      for (int i = 0; i < alarms.length; ++i)
-      {
-         getQueuedLocationIds().add(alarms[i].getPathId());
-         addAlarm(alarms[i]);
-      }
+      
+        for (Object o : list.getResults()) {
+            AeAlarm alarm = (AeAlarm) o;
+            getQueuedLocationIds().add(alarm.getPathId());
+            addAlarm(alarm);
+        }
    }
    
    /**

@@ -10,15 +10,6 @@
 package org.activebpel.rt.bpeladmin.war.web;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-
-import javax.xml.namespace.QName;
-
-import org.activebpel.rt.bpel.server.addressing.pdef.IAePartnerDefInfo;
-import org.activebpel.rt.bpel.server.deploy.IAeDeploymentContext;
-import org.activebpel.rt.bpel.server.engine.AeEngineFactory;
 
 /**
  *  Wraps the info for a specific pdef.
@@ -61,22 +52,23 @@ public class AePartnerDetailBean implements Serializable
     */
    protected void initDetails()
    {
-      IAePartnerDefInfo info = 
-         AeEngineFactory.getEngineAdministration().getPartnerAddressingAdmin().getPartnerInfo( getPrincipal() );
-
-      List details = new ArrayList();
-      
-      for (Iterator iter = info.getPartnerLinkTypes(); iter.hasNext();)
-      {
-         QName partnerLinkType = (QName) iter.next();
-         String role = info.getRoleName( partnerLinkType );
-         QName endpoint = info.getEndpointReference( partnerLinkType ).getServiceName();
-
-         // TODO Z! - this needs to change to something other than a deployment context
-         IAeDeploymentContext[] contexts = new IAeDeploymentContext[0]; 
-         details.add( new AePartnerDetailWrapper(partnerLinkType,role,endpoint,contexts) );
-         mDetails = (AePartnerDetailWrapper[])details.toArray( new AePartnerDetailWrapper[details.size()]); 
-      }
+       // FIXME clean this up or remove it
+//      IAePartnerDefInfo info = 
+//         AeEngineFactory.getEngineAdministration().getPartnerAddressingAdmin().getPartnerInfo( getPrincipal() );
+//
+//      List details = new ArrayList();
+//      
+//      for (Iterator iter = info.getPartnerLinkTypes(); iter.hasNext();)
+//      {
+//         QName partnerLinkType = (QName) iter.next();
+//         String role = info.getRoleName( partnerLinkType );
+//         QName endpoint = info.getEndpointReference( partnerLinkType ).getServiceName();
+//
+//         // TODO Z! - this needs to change to something other than a deployment context
+//         IAeDeploymentContext[] contexts = new IAeDeploymentContext[0]; 
+//         details.add( new AePartnerDetailWrapper(partnerLinkType,role,endpoint,contexts) );
+//         mDetails = (AePartnerDetailWrapper[])details.toArray( new AePartnerDetailWrapper[details.size()]); 
+//      }
    }
    
    /**

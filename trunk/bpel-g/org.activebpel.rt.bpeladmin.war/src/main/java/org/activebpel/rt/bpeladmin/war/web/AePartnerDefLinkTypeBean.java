@@ -11,10 +11,6 @@ package org.activebpel.rt.bpeladmin.war.web;
 
 import javax.xml.namespace.QName;
 
-import org.activebpel.rt.bpel.server.addressing.pdef.IAePartnerDefInfo;
-import org.activebpel.rt.xml.AeXMLParserBase;
-import org.w3c.dom.Document;
-
 /**
  * This bean is used by the admin console when the popup info window is shown
  * for a single partner def's partner link type.
@@ -67,12 +63,13 @@ public class AePartnerDefLinkTypeBean extends AeAbstractAdminBean
    {
       if (aBool)
       {
-         IAePartnerDefInfo info = getAdmin().getPartnerAddressingAdmin().getPartnerInfo( getPrincipal() );
-         // Set the role
-         setRole(info.getRoleName(getPartnerLinkType()));
-         // Set the endpoint reference
-         Document doc = info.getEndpointReference(getPartnerLinkType()).toDocument();
-         setEndpointReference(AeXMLParserBase.documentToString(doc, true));
+          // FIXME impl
+//         IAePartnerDefInfo info = getAdmin().getPartnerAddressingAdmin().getPartnerInfo( getPrincipal() );
+//         // Set the role
+//         setRole(info.getRoleName(getPartnerLinkType()));
+//         // Set the endpoint reference
+//         Document doc = info.getEndpointReference(getPartnerLinkType()).toDocument();
+//         setEndpointReference(AeXMLParserBase.documentToString(doc, true));
       }
    }
 

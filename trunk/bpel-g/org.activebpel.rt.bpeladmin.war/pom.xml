@@ -3,6 +3,7 @@
   <name>ActiveBPEL Admin Web Archive</name>
   <groupId>org.activebpel</groupId>
   <artifactId>ae-bpelwar</artifactId>
+  <packaging>war</packaging>
   <version>5.0.2</version>
   <parent>
       <groupId>bpel-g</groupId>
@@ -20,7 +21,7 @@
   		<artifactId>ae-bpelsrvr</artifactId>
   		<version>5.0.2</version>
   	</dependency>
-  	<dependency>
+      <dependency>
   		<groupId>org.activebpel</groupId>
   		<artifactId>ae-identity</artifactId>
   		<version>5.0.2</version>

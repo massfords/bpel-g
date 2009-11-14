@@ -167,7 +167,7 @@ public class AeXPathHelper
     * @param aType
     * @throws AeBusinessProcessException
     */
-   public Object extractCorrelationPropertyValue(
+   public String extractCorrelationPropertyValue(
       IAePropertyAlias aPropAlias,
       IAeMessageData aMsgData,
       AeTypeMapping aTypeMapping,
@@ -324,7 +324,7 @@ public class AeXPathHelper
     * text from the element and return that as our value.  
     * @param aObject - if you pass null, you'll get an exception
     */
-   private Object convertPropertyResultToSimpleType(Object aObject, AeTypeMapping aTypeMapping, QName aType)
+   private String convertPropertyResultToSimpleType(Object aObject, AeTypeMapping aTypeMapping, QName aType)
       throws AeBusinessProcessException
    {
       // a null signals a problem

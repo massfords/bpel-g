@@ -9,6 +9,7 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpel.impl.list;
 
+import java.beans.ConstructorProperties;
 import java.util.Date;
 
 import javax.xml.namespace.QName;
@@ -38,6 +39,7 @@ public class AeAlarmExt extends AeAlarm
     * @param aDeadline the deadline for alarm
     * @param aProcessQName the name of owning process
     */
+   @ConstructorProperties({"processId", "pathId", "groupId", "alarmId", "deadline", "processQName"})
    public AeAlarmExt(long aPID, int aPathId, int aGroupId, int aAlarmId, Date aDeadline, QName aProcessQName)
    {
       super(aPID, aPathId, aGroupId, aAlarmId, aDeadline);

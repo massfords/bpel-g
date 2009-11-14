@@ -37,7 +37,7 @@ public class AeCatalogItemDetailBean extends AeAbstractAdminBean
     */
    public void setLocation( String aHint )
    {
-      setDetail(getAdmin().getCatalogAdmin().getCatalogItemDetail( aHint ));
+      setDetail(getAdmin().getCatalogItemDetail( aHint ));
    }
    
    /**

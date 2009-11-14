@@ -9,13 +9,17 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpeladmin.war.web;
 
+import java.io.IOException;
+import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 
-import org.activebpel.rt.bpel.server.admin.IAeEngineAdministration;
-import org.activebpel.rt.bpel.server.engine.AeEngineFactory;
+import org.activebpel.rt.bpel.config.AeDefaultEngineConfiguration;
+import org.activebpel.rt.bpel.server.admin.jmx.IAeEngineManagementMXBean;
+import org.activebpel.rt.bpeladmin.war.AeEngineManagementFactory;
 import org.activebpel.rt.util.AeUtil;
 import org.activebpel.rt.war.tags.IAeErrorAwareBean;
 
@@ -129,12 +133,9 @@ public class AeAbstractAdminBean implements IAeErrorAwareBean
       return mErrorDetail;
    }
 
-   /**
-    * Accessor for <code>IAeEngineAdministration</code>.
-    */
-   protected IAeEngineAdministration getAdmin()
+   protected IAeEngineManagementMXBean getAdmin()
    {
-      return AeEngineFactory.getEngineAdministration();
+      return AeEngineManagementFactory.getBean();
    }
 
    /**
@@ -187,4 +188,17 @@ public class AeAbstractAdminBean implements IAeErrorAwareBean
    {
       mPropertyErrors = aPropertyErrors;
    }
+
+    protected AeDefaultEngineConfiguration getRawConfig() {
+        AeDefaultEngineConfiguration config = new AeDefaultEngineConfiguration();
+        String raw = getAdmin().getRawConfig();
+        Properties props = new Properties();
+        try {
+            props.load(new StringReader(raw));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        config.setEntries(props);
+        return config;
+    }
 }

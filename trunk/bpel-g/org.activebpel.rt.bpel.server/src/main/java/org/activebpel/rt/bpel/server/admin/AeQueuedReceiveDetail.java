@@ -50,7 +50,7 @@ public class AeQueuedReceiveDetail
     * @param aPortType
     * @param aOperation
     */
-   @ConstructorProperties({"processId", "partnerLinkName", "portType", "operation", "location", "correlationData", "data"})
+   @ConstructorProperties({"processId", "partnerLinkName", "portType", "operation", "location", "correlatedData", "data"})
    public AeQueuedReceiveDetail(long aProcessId, String aPartnerLinkName,
       QName aPortType, String aOperation, String aLocation, 
          String aCorrelationData, String aData)

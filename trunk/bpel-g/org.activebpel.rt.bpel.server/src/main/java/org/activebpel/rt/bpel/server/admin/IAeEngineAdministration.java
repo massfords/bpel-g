@@ -52,7 +52,6 @@ public interface IAeEngineAdministration
    /**
     * Gets the details for all of the deployed services.
     */
-   // FIXME (admin) only need service, process QName, binding, plink name 
    public IAeServiceDeploymentInfo[] getDeployedServices();
 
    /**
@@ -161,19 +160,16 @@ public interface IAeEngineAdministration
    /**
     * Returns the current engine configuration.
     */
-   // FIXME (admin) replace all of these calls with a get/set of config as string
    public IAeEngineConfiguration getEngineConfig();
 
    /**
     * Returns interface into partner addressing admin.
     */
-   // FIXME (admin) this is a problem - can probably just remove the link to this functionality from the web app
    public IAePartnerAddressingAdmin getPartnerAddressingAdmin();
 
    /**
     * Returns the interface into catalog administration.
     */
-   // FIXME (admin) getInputSource is a problem but not used in web app
    public IAeCatalogAdmin getCatalogAdmin();
 
    /**
@@ -218,13 +214,11 @@ public interface IAeEngineAdministration
     * @param aBprFilename The name of the BPR file (could be different than aBprFile if it is a temp file).
     * @param aLogger A logger to use.
     */
-   // FIXME (admin) this is a problem
    public void deployNewBpr(File aBprFile, String aBprFilename, IAeDeploymentLogger aLogger) throws AeException;
 
    /**
     * Getter for the urn resolver.
     */
-   // FIXME (admin) this is a problem
    public IAeURNResolver getURNAddressResolver();
 
    /**
@@ -234,7 +228,6 @@ public interface IAeEngineAdministration
     * @return correlation set as a string
     * @throws AeBusinessProcessException
     */
-   // FIXME (admin) not used
    public String getCorrelationSetData(long aProcessId, String aLocationPath) throws AeBusinessProcessException;
 
    /**
@@ -244,7 +237,6 @@ public interface IAeEngineAdministration
     * @return partner role data as a string
     * @throws AeBusinessProcessException
     */
-   // FIXME (admin) not used
    public String getPartnerRoleData(long aProcessId, String aLocationPath) throws AeBusinessProcessException;
 
    /**
@@ -274,7 +266,6 @@ public interface IAeEngineAdministration
     * @param aWsioAttachment
     * @throws AeException
     */
-   // FIXME (admin) return type not used in web app
    public IAeAttachmentItem addVariableAttachment(long aProcessId,String aLocationPath, AeWebServiceAttachment aWsioAttachment) throws AeException;
    
    /**

@@ -12,7 +12,7 @@ package org.activebpel.rt.bpel.impl.list;
 import java.beans.ConstructorProperties;
 import java.io.Serializable;
 import java.util.Arrays;
-import java.util.Collection;
+import java.util.List;
 
 /**
  * Wrapper for the result set returned from the engine administration function
@@ -55,16 +55,6 @@ public class AeProcessListResult extends AeListResult implements Serializable
       this( aTotalRows, Arrays.asList(aRowDetails), aCompleteRowCount );
    }
 
-   /**
-    * Constructor.
-    *
-    * @param aTotalRows total rows which matched our search request
-    * @param aCollection A <code>Collection</code> of <code>AeProcessInstanceDetail</code> instances.
-    */
-   public AeProcessListResult(int aTotalRows, Collection aCollection)
-   {
-      this(aTotalRows, aCollection, true);
-   }
 
    /**
     * Constructor.
@@ -73,7 +63,7 @@ public class AeProcessListResult extends AeListResult implements Serializable
     * @param aCollection A <code>Collection</code> of <code>AeProcessInstanceDetail</code> instances.
     * @param aCompleteRowCount <code>true</code> if and only if <code>aTotalRows</code> is the true total row count
     */
-   public AeProcessListResult(int aTotalRows, Collection aCollection, boolean aCompleteRowCount)
+   public AeProcessListResult(int aTotalRows, List<AeProcessInstanceDetail> aCollection, boolean aCompleteRowCount)
    {
       super(aTotalRows, aCollection, aCompleteRowCount);
    }
@@ -83,16 +73,16 @@ public class AeProcessListResult extends AeListResult implements Serializable
     */
    public AeProcessInstanceDetail[] getRowDetails()
    {
-      return (AeProcessInstanceDetail[]) getResultsInternal().toArray( new AeProcessInstanceDetail[getResultsInternal().size()] );
+      return (AeProcessInstanceDetail[]) super.getResults().toArray( new AeProcessInstanceDetail[super.getResults().size()] );
    }
    
-   /**
-    * WS Workaround, dummy entry for bean serializer.
-    */
-   public void setRowDetails(AeProcessInstanceDetail[] aDetails)
-   {
-      getResultsInternal().addAll(Arrays.asList(aDetails));
-   }
+    /**
+     * WS Workaround, dummy entry for bean serializer.
+     */
+    public void setRowDetails(AeProcessInstanceDetail[] aDetails) {
+        getResults().clear();
+        getResults().addAll(Arrays.asList(aDetails));
+    }
 
    /**
     * WS Workaround, entry point for bean serializer.

@@ -9,6 +9,8 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpeladmin.war.web;
 
+import java.util.List;
+
 import javax.xml.namespace.QName;
 
 import org.activebpel.rt.bpel.server.admin.AeProcessDeploymentDetail;
@@ -40,7 +42,8 @@ public class AeProcessDeploymentSelectorBean extends AeAbstractAdminBean
     */
    public void setSelection( int aOffset )
    {
-      AeProcessDeploymentDetail details[] = getAdmin().getDeployedProcesses();
+      List<AeProcessDeploymentDetail> deployedProcesses = getAdmin().getDeployedProcesses();
+      AeProcessDeploymentDetail details[] = deployedProcesses.toArray(new AeProcessDeploymentDetail[deployedProcesses.size()]);
       if (details.length > 0 && aOffset >=0 && aOffset < details.length )
       {
          mDetail = details[aOffset];
@@ -71,13 +74,13 @@ public class AeProcessDeploymentSelectorBean extends AeAbstractAdminBean
            }
            
            QName qname = new QName( ns, localPart );
-           AeProcessDeploymentDetail[] details = getAdmin().getDeployedProcesses();
-           for(int i=0; i < details.length; ++i)
+           List<AeProcessDeploymentDetail> details = getAdmin().getDeployedProcesses();
+           for(int i=0; i < details.size(); ++i)
            {
-              if(qname.equals(details[i].getName()))
+              if(qname.equals(details.get(i).getName()))
               {
                  setProcessDeploymentId(i);
-                 mDetail = details[i];
+                 mDetail = details.get(i);
                  break;
               }
            }

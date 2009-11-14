@@ -13,12 +13,11 @@ import java.io.CharArrayWriter;
 import java.io.PrintWriter;
 import java.util.Date;
 
-import org.activebpel.rt.AeException;
 import org.activebpel.rt.bpel.AeBusinessProcessException;
 import org.activebpel.rt.bpel.IAeBusinessProcess;
 import org.activebpel.rt.bpel.impl.AeSuspendReason;
 import org.activebpel.rt.bpel.impl.list.AeProcessInstanceDetail;
-import org.activebpel.rt.bpel.server.engine.AeEngineFactory;
+import org.activebpel.rt.bpeladmin.war.AeEngineManagementFactory;
 import org.activebpel.rt.bpeladmin.war.AeMessages;
 import org.activebpel.rt.util.AeUtil;
 
@@ -64,8 +63,8 @@ public class AeProcessInstanceDetailWrapper
       {
          try
          {
-            AeEngineFactory.getEngine().terminateProcess(mPid);
-            mDelegate = AeEngineFactory.getEngineAdministration().getProcessDetail( mPid );
+            AeEngineManagementFactory.getBean().terminateProcess(mPid);
+            mDelegate = AeEngineManagementFactory.getBean().getProcessDetail( mPid );
          }
          catch (AeBusinessProcessException e)
          {
@@ -88,8 +87,8 @@ public class AeProcessInstanceDetailWrapper
       {
          try
          {
-            AeEngineFactory.getEngine().suspendProcess(mPid);
-            mDelegate = AeEngineFactory.getEngineAdministration().getProcessDetail( mPid );
+            AeEngineManagementFactory.getBean().suspendProcess(mPid);
+            mDelegate = AeEngineManagementFactory.getBean().getProcessDetail( mPid );
          }
          catch (AeBusinessProcessException e)
          {
@@ -112,8 +111,8 @@ public class AeProcessInstanceDetailWrapper
       {
          try
          {
-            AeEngineFactory.getEngine().resumeProcess(mPid);
-            mDelegate = AeEngineFactory.getEngineAdministration().getProcessDetail( mPid );
+            AeEngineManagementFactory.getBean().resumeProcess(mPid);
+            mDelegate = AeEngineManagementFactory.getBean().getProcessDetail( mPid );
          }
          catch (AeBusinessProcessException e)
          {
@@ -136,10 +135,10 @@ public class AeProcessInstanceDetailWrapper
       {
          try
          {
-            AeEngineFactory.getEngine().restartProcess(mPid);
-            mDelegate = AeEngineFactory.getEngineAdministration().getProcessDetail(mPid);
+            AeEngineManagementFactory.getBean().restartProcess(mPid);
+            mDelegate = AeEngineManagementFactory.getBean().getProcessDetail(mPid);
          }
-         catch (AeBusinessProcessException e)
+         catch (Exception e)
          {
             String error = AeMessages.getString("AeProcessInstanceDetailWrapper.4"); //$NON-NLS-1$
             CharArrayWriter writer = new CharArrayWriter();
@@ -178,7 +177,7 @@ public class AeProcessInstanceDetailWrapper
    public void setProcessId( long aPid )
    {
       mPid = aPid;
-      mDelegate = AeEngineFactory.getEngineAdministration().getProcessDetail( aPid );
+      mDelegate = AeEngineManagementFactory.getBean().getProcessDetail( aPid );
    }
    
    /**
@@ -344,15 +343,7 @@ public class AeProcessInstanceDetailWrapper
     */
    public boolean isRestartable()
    {
-      try
-      {
-         return AeEngineFactory.getEngine().isRestartable(getDelegate().getProcessId());
-      }
-      catch (AeBusinessProcessException e)
-      {
-         AeException.logError(e);
-         return false;
-      }
+     return AeEngineManagementFactory.getBean().isRestartable(getDelegate().getProcessId());
    }
    
    /**
@@ -378,7 +369,7 @@ public class AeProcessInstanceDetailWrapper
    private void fetchLog()
    {
       if (mLog == null)
-         mLog = AeEngineFactory.getEngineAdministration().getProcessLog( getProcessId() ); 
+         mLog = AeEngineManagementFactory.getBean().getProcessLog( getProcessId() ); 
    }
    
    /**

@@ -517,13 +517,13 @@ public class AeCatalog implements IAeCatalog, IAeCatalogAdmin
             // TODO (cck) all catalog items are considered XML documents this may not be the case at some point 
             String text = AeXMLParserBase.documentToString(mapping.getDocument(), true);
             AeCatalogItemPlanReference[] plansThatUseThisWsdl = getPlanReferencesForLocation(aLocationHint);
-            AeCatalogItemDetail detail = new AeCatalogItemDetail(aLocationHint, mapping.getTypeURI(), mapping.getTargetNamespace(), text, plansThatUseThisWsdl);
+            AeCatalogItemDetail detail = new AeCatalogItemDetail(aLocationHint, mapping.getTypeURI(), mapping.getTargetNamespace(), text, plansThatUseThisWsdl, AeUtil.getShortNameForLocation(aLocationHint));
             return detail;
          }
          catch( Throwable ex )
          {
             AeException.logError(ex);
-            return new AeCatalogItemDetail(aLocationHint, mapping.getTypeURI(), mapping.getTargetNamespace(), AeMessages.getString("AeCatalog.ERROR_CREATING_ITEM_DETAIL"), new AeCatalogItemPlanReference[0]); //$NON-NLS-1$
+            return new AeCatalogItemDetail(aLocationHint, mapping.getTypeURI(), mapping.getTargetNamespace(), AeMessages.getString("AeCatalog.ERROR_CREATING_ITEM_DETAIL"), new AeCatalogItemPlanReference[0], AeUtil.getShortNameForLocation(aLocationHint)); //$NON-NLS-1$
          }
       }
       else

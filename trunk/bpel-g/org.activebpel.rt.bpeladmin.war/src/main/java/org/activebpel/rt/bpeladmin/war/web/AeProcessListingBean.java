@@ -16,7 +16,7 @@ import javax.xml.namespace.QName;
 import org.activebpel.rt.AeException;
 import org.activebpel.rt.bpel.impl.list.AeProcessFilter;
 import org.activebpel.rt.bpel.impl.list.AeProcessInstanceDetail;
-import org.activebpel.rt.bpel.impl.list.AeProcessListResult;
+import org.activebpel.rt.bpel.server.admin.jmx.AeProcessListResultBean;
 import org.activebpel.rt.bpeladmin.war.AeMessages;
 
 /**
@@ -216,8 +216,8 @@ public class AeProcessListingBean extends AeAbstractListingBean
          try
          {
 
-            AeProcessListResult results = getAdmin().getProcessList(filter);
-            AeProcessInstanceDetail[] details = results.getRowDetails();
+            AeProcessListResultBean resultz = getAdmin().getProcessList(filter);
+            AeProcessInstanceDetail[] details = resultz.getResults().toArray(new AeProcessInstanceDetail[resultz.getResults().size()]);
 
             if( details != null && details.length > 0 )
             {
@@ -230,12 +230,12 @@ public class AeProcessListingBean extends AeAbstractListingBean
                }
 
                mDetails = wrappers;
-               setTotalRowCount( results.getTotalRowCount() );
+               setTotalRowCount( resultz.getTotalCount() );
                updateNextPageStatus();
                setRowsDisplayed( mDetails.length );
 
                // Display "+" after row count if the row count wasn't completed.
-               setTotalRowCountSuffix(results.isCompleteRowCount() ? "" : "+"); //$NON-NLS-1$ //$NON-NLS-2$
+               setTotalRowCountSuffix(resultz.isCompleteCount() ? "" : "+"); //$NON-NLS-1$ //$NON-NLS-2$
             }
             else
             {

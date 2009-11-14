@@ -9,6 +9,7 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.util;
 
+import java.io.Serializable;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
@@ -18,7 +19,7 @@ import java.util.Set;
  * Wraps a <code>Map</code> with convenience methods to simplify using
  * <code>long</code> values for map keys.
  */
-public class AeLongMap implements Map
+public class AeLongMap implements Map, Serializable
 {
    /** The underlying physical representation. */
    private final Map mMap;
