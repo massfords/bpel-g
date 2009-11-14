@@ -10,8 +10,7 @@
 package org.activebpel.rt.bpel.impl.list;
 
 import java.beans.ConstructorProperties;
-import java.util.Arrays;
-import java.util.Collection;
+import java.util.List;
 
 /**
  * Wraps the catalog listing results.
@@ -29,21 +28,9 @@ public class AeCatalogListResult extends AeListResult
      * @param aCompleteRowCount
      */
     @ConstructorProperties({"totalRowCount", "results", "completeRowCount"})
-    public AeCatalogListResult(int aTotalRowCount, Collection aResults,
+    public AeCatalogListResult(int aTotalRowCount, List<AeCatalogItem> aResults,
             boolean aCompleteRowCount)
     {
         super(aTotalRowCount, aResults, aCompleteRowCount);
-    }
-    
-    /**
-     * Accessor for catalog listing detail array.
-     */
-    public AeCatalogItem[] getDetails()
-    {
-        return (AeCatalogItem[])getResultsInternal().toArray( new AeCatalogItem[getResultsInternal().size()]);
-    }
-    
-    public void setDetails(AeCatalogItem[] aDetails) {
-        getResultsInternal().addAll(Arrays.asList(aDetails));
     }
 }

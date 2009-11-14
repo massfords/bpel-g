@@ -9,16 +9,20 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpeladmin.war.web;
 
+import java.io.IOException;
+import java.io.StringWriter;
 import java.util.Map;
+import java.util.Properties;
 
+import org.activebpel.rt.bpel.config.AeDefaultEngineConfiguration;
 import org.activebpel.rt.bpel.config.IAeEngineConfiguration;
 import org.activebpel.rt.bpel.server.admin.IAeEngineAdministration;
 import org.activebpel.rt.bpel.server.engine.AeEngineFactory;
-import org.activebpel.rt.bpel.server.engine.config.AeFileBasedEngineConfig;
 import org.activebpel.rt.bpel.server.engine.storage.AePersistentStoreFactory;
 import org.activebpel.rt.bpel.server.engine.storage.AeStorageException;
 import org.activebpel.rt.bpel.server.engine.storage.sql.AeDataSource;
 import org.activebpel.rt.bpel.server.engine.storage.sql.AeSQLStorageProviderFactory;
+import org.activebpel.rt.bpeladmin.war.AeEngineManagementFactory;
 import org.activebpel.rt.bpeladmin.war.AeMessages;
 import org.activebpel.rt.util.AeUtil;
 
@@ -74,7 +78,8 @@ public class AeStorageBean extends AeAbstractAdminBean
       setPersistent(false);
 
       // if we have all the info then persistence is on
-      Map storeConfigMap = getConfig().getMapEntry(IAeEngineConfiguration.PERSISTENT_STORE_ENTRY);
+      AeDefaultEngineConfiguration config = getRawConfig();
+      Map storeConfigMap = config.getMapEntry(IAeEngineConfiguration.PERSISTENT_STORE_ENTRY);
       if (!AeUtil.isNullOrEmpty(storeConfigMap))
       {
          // order: PersistentStore/Factory
@@ -103,7 +108,7 @@ public class AeStorageBean extends AeAbstractAdminBean
                } // end dsMap
                if(AeDataSource.MAIN != null /**|| AeTaminoDataSource.MAIN != null**/)
                   setConnected(true);
-               if(AeEngineFactory.isPersistentStoreReadyForUse())
+               if(AeEngineManagementFactory.getBean().isEngineStorageReady())
                   setAvailable(true);
             } // end providerMap
          } // end factoryMap 
@@ -138,7 +143,8 @@ public class AeStorageBean extends AeAbstractAdminBean
       }
 
       // if we have all the info then persistence is on
-      Map storeConfigMap = getConfig().getMapEntry(IAeEngineConfiguration.PERSISTENT_STORE_ENTRY);
+      AeDefaultEngineConfiguration config = getRawConfig();
+      Map storeConfigMap = config.getMapEntry(IAeEngineConfiguration.PERSISTENT_STORE_ENTRY);
       if (!AeUtil.isNullOrEmpty(storeConfigMap))
       {
          // order: PersistentStore/Factory
@@ -178,17 +184,29 @@ public class AeStorageBean extends AeAbstractAdminBean
                } // end dsMap
             } // end providerMap
 
-            // write the new configuration out
-            if( getAdmin().getEngineConfig() instanceof AeFileBasedEngineConfig )
-            {
-               ((AeFileBasedEngineConfig)getAdmin().getEngineConfig()).update();
-               // tell users they must restart
-               setStatusDetail(AeMessages.getString("AeStorageBean.2")); //$NON-NLS-1$
+            Map entries = config.getEntries();
+            Properties props = new Properties();
+            props.putAll(entries);
+            StringWriter sw = new StringWriter();
+            try {
+                props.store(sw, "raw dump");
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
             }
-            else
-            {
+            getAdmin().setRawConfig(sw.toString());
+            
+//            // write the new configuration out
+//            if( getAdmin().getEngineConfig() instanceof AeFileBasedEngineConfig )
+//            {
+//               ((AeFileBasedEngineConfig)getAdmin().getEngineConfig()).update();
+//               // tell users they must restart
+//               setStatusDetail(AeMessages.getString("AeStorageBean.2")); //$NON-NLS-1$
+//            }
+//            else
+//            {
                setStatusDetail( AeMessages.getString("AeStorageBean.3") ); //$NON-NLS-1$
-            }
+//            }
          } // end factory map
       } // end config map
    }
@@ -207,7 +225,7 @@ public class AeStorageBean extends AeAbstractAdminBean
       try
       {
          // reinit the storage
-         AeEngineFactory.initializePersistentStoreFactory();
+         AeEngineManagementFactory.getBean().initializeStorage();
       }
       catch (AeStorageException ex)
       {
@@ -225,14 +243,6 @@ public class AeStorageBean extends AeAbstractAdminBean
 
       if (AeEngineFactory.isPersistentStoreReadyForUse())
          setAvailable(true);
-   }
-
-   /**
-    * Accessor for default engine configuration.
-    */
-   protected IAeEngineConfiguration getConfig()
-   {
-      return AeEngineFactory.getEngineConfig();
    }
 
    /**
@@ -444,7 +454,7 @@ public class AeStorageBean extends AeAbstractAdminBean
    {
       if(getStatusDetail() != null)
          return getStatusDetail();
-      return AeEngineFactory.getPersistentStoreError();
+      return AeEngineManagementFactory.getBean().getStorageError();
    }
 
    /**

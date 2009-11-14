@@ -13,25 +13,22 @@ import java.text.MessageFormat;
 import java.util.Date;
 import java.util.List;
 
-import javax.xml.namespace.QName;
-
 import org.activebpel.rt.AeException;
-import org.activebpel.rt.bpel.AeBusinessProcessException;
-import org.activebpel.rt.bpel.IAeExpressionLanguageFactory;
+import org.activebpel.rt.base64.BASE64Decoder;
+import org.activebpel.rt.bpel.def.AeProcessDef;
 import org.activebpel.rt.bpel.def.IAeBPELConstants;
 import org.activebpel.rt.bpel.def.io.readers.AeBpelLocationPathVisitor;
 import org.activebpel.rt.bpel.def.visitors.AeBPWSMessageExchangeDefPathSegmentVisitor;
-import org.activebpel.rt.bpel.impl.IAeProcessPlan;
 import org.activebpel.rt.bpel.impl.list.AeProcessInstanceDetail;
-import org.activebpel.rt.bpel.server.IAeDeploymentProvider;
 import org.activebpel.rt.bpel.server.admin.AeProcessDeploymentDetail;
-import org.activebpel.rt.bpel.server.engine.AeEngineFactory;
+import org.activebpel.rt.bpeladmin.war.AeEngineManagementFactory;
 import org.activebpel.rt.bpeladmin.war.AeMessages;
 import org.activebpel.rt.bpeladmin.war.graph.AeBpelGraph;
 import org.activebpel.rt.bpeladmin.war.graph.AeGraphProperties;
 import org.activebpel.rt.bpeladmin.war.graph.bpel.AeBpelActivityCoordinates;
 import org.activebpel.rt.bpeladmin.war.web.AeWebUtil;
 import org.activebpel.rt.util.AeUtil;
+import org.activebpel.rt.xml.AeQName;
 import org.activebpel.rt.xml.AeXMLParserBase;
 import org.activebpel.rt.xml.def.AeBaseXmlDef;
 import org.activebpel.rt.xml.def.IAePathSegmentBuilder;
@@ -243,32 +240,6 @@ public class AeProcessViewBase
    }
 
    /**
-    * Returns the plan for the deployed process view.
-    * @param aProcessName
-    * @throws AeBusinessProcessException
-    */
-   protected IAeProcessPlan getDeployedProcessPlan(QName aProcessName) throws AeException
-   {
-      IAeDeploymentProvider pvd = AeEngineFactory.getDeploymentProvider();
-      IAeProcessPlan wsdlPvd = pvd.findCurrentPlan(aProcessName);
-      return wsdlPvd;
-   }
-
-   /**
-    * Returns the process plan wsdl provider to an active process given process id and QName.
-    * @param aProcessId
-    * @param aProcessName
-    * @return process plan
-    * @throws AeBusinessProcessException
-    */
-   protected IAeProcessPlan getActiveProcessPlan(long aProcessId, QName aProcessName) throws AeException
-   {
-      IAeDeploymentProvider pvd = AeEngineFactory.getDeploymentProvider();
-      IAeProcessPlan wsdlPvd = pvd.findDeploymentPlan(aProcessId , aProcessName );
-      return wsdlPvd;
-   }
-
-   /**
     * Builds the process model.
     * @param aBpelDoc BPEL process def document
     * @param aStateDoc process state document.
@@ -278,18 +249,11 @@ public class AeProcessViewBase
       try
       {
          AeWebBpelProcessLoader pl = new AeWebBpelProcessLoader(aBpelDoc, aStateDoc);
-         // pre-process process def.
-         IAeProcessPlan wsdlPvd = null;
-         if (getMode() == ACTIVE_PROCESS_DETAIL)
-         {
-            wsdlPvd = getActiveProcessPlan(getProcessId() , pl.getProcessDef().getQName());
-         }
-         else
-         {
-            wsdlPvd = getDeployedProcessPlan(pl.getProcessDef().getQName());
-         }
-         IAeExpressionLanguageFactory expressionLanguageFactory = AeEngineFactory.getExpressionLanguageFactory();
-         pl.getProcessDef().preProcessForValidation(wsdlPvd, expressionLanguageFactory);
+         AeQName aeQName = new AeQName(pl.getProcessDef().getQName());
+         String compiledProcessDef = AeEngineManagementFactory.getBean().getCompiledProcessDef(mProcessId, aeQName);
+         byte[] b = new BASE64Decoder().decodeBuffer(compiledProcessDef);
+         AeProcessDef processDef = (AeProcessDef) AeUtil.deserializeObject(b);
+         pl.setProcessDef(processDef);
 
          if (IAeBPELConstants.BPWS_NAMESPACE_URI.equals( pl.getProcessDef().getNamespace() ) )
          {
@@ -388,7 +352,7 @@ public class AeProcessViewBase
       Document stateDoc = null;
       try
       {
-          String state = AeEngineFactory.getEngineAdministration().getProcessState(mProcessId);
+          String state = AeEngineManagementFactory.getBean().getProcessState(mProcessId);
           stateDoc = new AeXMLParserBase(true, false).loadDocumentFromString(state, null);
 //         stateDoc = AeEngineFactory.getEngineAdministration().getProcessState(mProcessId);
       }
@@ -419,14 +383,15 @@ public class AeProcessViewBase
          // Get the def deployment details.
          if (getProcessDetails() != null)
          {
-            deployDetails = AeEngineFactory.getEngineAdministration().getDeployedProcessDetail(getProcessDetails().getName());
+            deployDetails = AeEngineManagementFactory.getBean().getDeployedProcessDetail(getProcessDetails().getName().getNamespaceURI(), getProcessDetails().getName().getLocalPart()); 
          }
       }
       else
       {
          // get deployed process def given pdid.
          int pdidOffset = getProcessDeploymentId();
-         AeProcessDeploymentDetail details[] = AeEngineFactory.getEngineAdministration().getDeployedProcesses();
+         List<AeProcessDeploymentDetail> deployedProcList = AeEngineManagementFactory.getBean().getDeployedProcesses();
+         AeProcessDeploymentDetail details[] = deployedProcList.toArray(new AeProcessDeploymentDetail[deployedProcList.size()]);
          if (pdidOffset >= 0 && pdidOffset < details.length)
          {
             deployDetails = details[pdidOffset];
@@ -478,7 +443,7 @@ public class AeProcessViewBase
    protected void loadProcessInstanceDetails()
    {
       AeProcessInstanceDetail processInstanceDetails = null;
-      processInstanceDetails = AeEngineFactory.getEngineAdministration().getProcessDetail(mProcessId);
+      processInstanceDetails = AeEngineManagementFactory.getBean().getProcessDetail(mProcessId);
 
       if ( processInstanceDetails == null )
       {

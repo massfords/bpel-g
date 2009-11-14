@@ -120,6 +120,7 @@ abstract public class AeAbstractBeanPropertyTag extends AeAbstractResourceTag
          }
          catch(Exception e)
          {
+             e.printStackTrace();
             throw new JspException(AeMessages.getString("AeAbstractBeanPropertyTag.ERROR_0") + e.getMessage() ); //$NON-NLS-1$
          }
       }

@@ -11,7 +11,6 @@ package org.activebpel.rt.bpeladmin.war.web;
 
 import javax.xml.namespace.QName;
 
-import org.activebpel.rt.bpel.impl.list.AeMessageReceiverFilter;
 import org.activebpel.rt.bpel.impl.list.AeMessageReceiverListResult;
 
 /**
@@ -22,7 +21,7 @@ public class AeMessageReceiversListingBean extends AeAbstractListingBean
    /** AeMessageReceives to display. */   
    protected AeMessageReceiverDetailWrapper[] mMessageReceivers;
    /** Process id. */
-   protected long mProcessId = AeMessageReceiverFilter.NULL_ID;
+   protected long mProcessId = -1;
    /** The current row being processed. */
    protected int mCurrentIndex;
    /** Partner link type name. */
@@ -50,15 +49,12 @@ public class AeMessageReceiversListingBean extends AeAbstractListingBean
    {
       if( aUpdateFlag )
       {
-         AeMessageReceiverFilter filter = new AeMessageReceiverFilter();
-         filter.setPartnerLinkName( getPartnerLinkTypeName() );
-         filter.setPortType( AeWebUtil.toQName( getPortType() ) );
-         filter.setOperation( getOperation() );
-         filter.setProcessId( mProcessId );
-         filter.setListStart( getRowStart() );
-         filter.setMaxReturn( getRowCount() );
+         QName qname = AeWebUtil.toQName( getPortType() );
          
-         AeMessageReceiverListResult results = getAdmin().getMessageReceivers( filter );
+         String namespace = qname != null? qname.getNamespaceURI() : null;
+         String name = qname != null? qname.getLocalPart() : null;
+         
+         AeMessageReceiverListResult results = getAdmin().getMessageReceivers(mProcessId, getPartnerLinkTypeName(), namespace, name, getOperation(), getRowCount(), getRowStart() );
             
          if( !results.isEmpty() )
          { 
@@ -124,7 +120,7 @@ public class AeMessageReceiversListingBean extends AeAbstractListingBean
     */
    public String getProcessId()
    {
-      if( mProcessId == AeMessageReceiverFilter.NULL_ID )
+      if( mProcessId < 0 )
       {
          return ""; //$NON-NLS-1$
       }

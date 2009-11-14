@@ -9,7 +9,6 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpeladmin.war.web;
 
-import org.activebpel.rt.bpel.server.engine.AeEngineFactory;
 
 /**
  * Wraps the partner definitions listing.
@@ -24,13 +23,13 @@ public class AePartnerDefsBean
     */
    public AePartnerDefsBean()
    {
-      String[] partners = 
-            AeEngineFactory.getEngineAdministration().getPartnerAddressingAdmin().getPrincipals();
-
-      if( partners != null )
-      {
-         mPartners = AeJavaTypesWrapper.wrap( partners );            
-      }
+////      String[] partners = 
+////            AeEngineManagementFactory.getBean().getPartnerAddressingAdmin().getPrincipals();
+//
+//      if( partners != null )
+//      {
+//         mPartners = AeJavaTypesWrapper.wrap( partners );            
+//      }
    }
    
    /**

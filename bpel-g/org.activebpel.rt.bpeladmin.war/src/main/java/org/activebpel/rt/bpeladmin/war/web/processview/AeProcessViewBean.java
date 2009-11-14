@@ -18,7 +18,7 @@ import java.util.Map;
 
 import org.activebpel.rt.bpel.AeBusinessProcessException;
 import org.activebpel.rt.bpel.impl.IAeImplStateNames;
-import org.activebpel.rt.bpel.server.engine.AeEngineFactory;
+import org.activebpel.rt.bpeladmin.war.AeEngineManagementFactory;
 import org.activebpel.rt.bpeladmin.war.AeMessages;
 import org.activebpel.rt.bpeladmin.war.graph.AeGraphProperties;
 import org.activebpel.rt.bpeladmin.war.web.AeWebUtil;
@@ -216,7 +216,7 @@ public class AeProcessViewBean extends AeProcessViewBase
             // (applies mostly to run time paths such as ForEach parallel).
             if (AeUtil.isNullOrEmpty(path))
             {
-               path = AeEngineFactory.getEngineAdministration().getLocationPathById(getProcessId(), pathId);
+               path = AeEngineManagementFactory.getBean().getLocationPathById(getProcessId(), pathId);
             }
             if (AeUtil.notNullOrEmpty(path))
             {
@@ -523,7 +523,7 @@ public class AeProcessViewBean extends AeProcessViewBase
    {
       try
       {
-         AeEngineFactory.getEngine().terminateProcess( getProcessId());
+         AeEngineManagementFactory.getBean().terminateProcess( getProcessId());
          setStateChanged(true);
       }
       catch (AeBusinessProcessException e)
@@ -553,7 +553,7 @@ public class AeProcessViewBean extends AeProcessViewBase
    {
       try
       {
-         AeEngineFactory.getEngine().suspendProcess( getProcessId());
+         AeEngineManagementFactory.getBean().suspendProcess( getProcessId());
          setStateChanged(true);
       }
       catch (AeBusinessProcessException e)
@@ -582,7 +582,7 @@ public class AeProcessViewBean extends AeProcessViewBase
    {
       try
       {
-         AeEngineFactory.getEngine().resumeProcess( getProcessId() );
+         AeEngineManagementFactory.getBean().resumeProcess( getProcessId() );
          setStateChanged(true);
       }
       catch (AeBusinessProcessException e)
@@ -612,7 +612,7 @@ public class AeProcessViewBean extends AeProcessViewBase
    {
       try
       {
-         AeEngineFactory.getEngine().restartProcess(getProcessId());
+         AeEngineManagementFactory.getBean().restartProcess(getProcessId());
          setStateChanged(true);
       }
       catch (AeBusinessProcessException e)
@@ -654,7 +654,7 @@ public class AeProcessViewBean extends AeProcessViewBase
     */
    public boolean isRestartEnabled()
    {
-      return AeEngineFactory.getEngineAdministration().getEngineConfig().isProcessRestartEnabled(); 
+      return AeEngineManagementFactory.getBean().isProcessRestartEnabled(); 
    }
 
    /**

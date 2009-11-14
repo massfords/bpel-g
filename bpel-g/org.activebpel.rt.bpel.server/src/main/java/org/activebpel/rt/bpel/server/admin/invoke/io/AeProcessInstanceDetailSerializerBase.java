@@ -31,7 +31,7 @@ public abstract class AeProcessInstanceDetailSerializerBase extends AeEngineAdmi
    protected void serialize(Element aParentElement, AeProcessInstanceDetail aDetail)
    {
       AeXmlUtil.addElementNSDate(aParentElement, ENGINE_ADMIN_SCHEMA_NS, "aeadmin", "ended", aDetail.getEnded(), true); //$NON-NLS-1$ //$NON-NLS-2$
-      AeXmlUtil.addElementNSQName(aParentElement, ENGINE_ADMIN_SCHEMA_NS, "aeadmin", "name", aDetail.getName(), true); //$NON-NLS-1$ //$NON-NLS-2$
+      AeXmlUtil.addElementNSQName(aParentElement, ENGINE_ADMIN_SCHEMA_NS, "aeadmin", "name", aDetail.getName().toQName(), true); //$NON-NLS-1$ //$NON-NLS-2$
       createElementWithText(aParentElement, ENGINE_ADMIN_SCHEMA_NS, "aeadmin", "processId", String.valueOf(aDetail.getProcessId())); //$NON-NLS-1$ //$NON-NLS-2$
       AeXmlUtil.addElementNSDate(aParentElement, ENGINE_ADMIN_SCHEMA_NS, "aeadmin", "started", aDetail.getStarted(), true); //$NON-NLS-1$ //$NON-NLS-2$
       createElementWithText(aParentElement, ENGINE_ADMIN_SCHEMA_NS, "aeadmin", "state", String.valueOf(aDetail.getState())); //$NON-NLS-1$ //$NON-NLS-2$

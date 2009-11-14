@@ -9,7 +9,7 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpel.impl.list;
 
-import org.activebpel.rt.util.AeUtil;
+import java.beans.ConstructorProperties;
 
 
 /**
@@ -38,9 +38,10 @@ public class AeCatalogItemDetail extends AeCatalogItem
     * @param aText
     * @param aPlanListing
     */
-   public AeCatalogItemDetail(String aLocation, String aTypeURI, String aTargetNamespace, String aText, AeCatalogItemPlanReference[] aPlanListing)
+   @ConstructorProperties({"location", "typeURI", "namespace", "text", "planReferences", "formattedName"})
+   public AeCatalogItemDetail(String aLocation, String aTypeURI, String aTargetNamespace, String aText, AeCatalogItemPlanReference[] aPlanListing, String aFormattedName)
    {
-      super(aLocation, aTargetNamespace, aTypeURI, AeUtil.getShortNameForLocation(aLocation));
+      super(aLocation, aTargetNamespace, aTypeURI, aFormattedName);
       mText = aText;
       mPlanReferences = aPlanListing;
    }

@@ -11,7 +11,7 @@ package org.activebpel.rt.bpeladmin.war.web;
 
 import org.activebpel.rt.bpel.AeBusinessProcessException;
 import org.activebpel.rt.bpel.impl.queue.AeMessageReceiver;
-import org.activebpel.rt.bpel.server.engine.AeEngineFactory;
+import org.activebpel.rt.bpeladmin.war.AeEngineManagementFactory;
 
 /**
  * Wraps single AeMessageReceiver for bean access.
@@ -96,7 +96,7 @@ public class AeMessageReceiverDetailWrapper
       try
       {
          // NOTE: May acquire process lock, not to be used on listing pages
-         String path = AeEngineFactory.getEngineAdministration().getLocationPathById(getProcessId(), getLocationPathId()); 
+         String path = AeEngineManagementFactory.getBean().getLocationPathById(getProcessId(), getLocationPathId()); 
          return path.replace('\'',' ');
       }
       catch (AeBusinessProcessException e)

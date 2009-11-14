@@ -120,7 +120,7 @@ public abstract class AeDiffEngineConfiguration extends AeDefaultEngineConfigura
    /**
     * @see org.activebpel.rt.config.AeConfiguration#setEntries(java.util.Map)
     */
-   protected void setEntries(Map aEntries)
+   public void setEntries(Map aEntries)
    {
       super.setEntries(aEntries);
 

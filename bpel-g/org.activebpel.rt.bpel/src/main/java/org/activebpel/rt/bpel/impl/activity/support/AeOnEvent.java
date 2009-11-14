@@ -109,6 +109,7 @@ public class AeOnEvent extends AeOnMessage implements IAeDynamicScopeParent
          for (Iterator iter = getChildren().iterator(); iter.hasNext();)
          {
             AeActivityOnEventScopeImpl scope = (AeActivityOnEventScopeImpl) iter.next();
+            // FIXME (onevent-leak) only save scopes if they are compensatable.
             if (scope.isNormalCompletion())
             {
                getCompensatableChildren().add(scope);
@@ -226,6 +227,7 @@ public class AeOnEvent extends AeOnMessage implements IAeDynamicScopeParent
    {
       if (isConcurrent())
       {
+          // FIXME (onevent-leak) may want to remove the scope from the onEvent if it is not compensatable.
          for (Iterator iter = getChildrenForStateChange(); iter.hasNext();)
          {
             AeActivityOnEventScopeImpl scope = (AeActivityOnEventScopeImpl) iter.next();

@@ -81,7 +81,8 @@ public class AeProcessPruningBean extends AePruningBean
       {
          try
          {
-            int n = getAdmin().removeProcesses(getPruneProcessFilter());
+            AeProcessFilter pruneProcessFilter = getPruneProcessFilter();
+            int n = getAdmin().removeProcesses(null, null, null, false, pruneProcessFilter.getProcessState(), null, null, null, pruneProcessFilter.getProcessCompleteEnd(), null, -1, null, null);
 
             String pattern = AeMessages.getString("AeProcessPruningBean.0"); //$NON-NLS-1$
             Object[] args = {new Integer(n)};
@@ -112,7 +113,8 @@ public class AeProcessPruningBean extends AePruningBean
 
          try
          {
-            int numProcesses = getAdmin().getProcessCount(getPruneProcessFilter());
+            AeProcessFilter pruneProcessFilter = getPruneProcessFilter();
+            int numProcesses = getAdmin().getProcessCount(null, null, null, false, pruneProcessFilter.getProcessState(), null, null, null, pruneProcessFilter.getProcessCompleteEnd(), null, -1, null, null, 1, 1);
 
             String pattern = AeMessages.getString("AeProcessPruningBean.3"); //$NON-NLS-1$
             Object[] args = {new Integer(numProcesses)};

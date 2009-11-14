@@ -33,7 +33,7 @@ public class AeMessageReceiverListResult implements Serializable
     * @param aTotalRows Total rows that matched selection criteria.  This number may be greater than the number of results in this listing.
     * @param aReceivers The matching message receivers.
     */
-   @ConstructorProperties({"totalRow", "receivers"})
+   @ConstructorProperties({"totalRows", "results"})
    public AeMessageReceiverListResult( int aTotalRows, AeMessageReceiver[] aReceivers )
    {
       mTotalRows = aTotalRows;

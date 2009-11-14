@@ -313,7 +313,7 @@ public abstract class AeConfiguration
     * 
     * @param aEntries
     */
-   protected void setEntries(Map aEntries)
+   public void setEntries(Map aEntries)
    {
       mEntries = aEntries;
    }
@@ -321,7 +321,7 @@ public abstract class AeConfiguration
    /**
     * Accessor for entries map.
     */
-   protected Map getEntries()
+   public Map getEntries()
    {
       return mEntries;
    }

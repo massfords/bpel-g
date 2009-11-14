@@ -10,11 +10,11 @@
 package org.activebpel.rt.bpeladmin.war.web;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.xml.namespace.QName;
 
 import org.activebpel.rt.bpel.impl.list.AeAlarmExt;
-import org.activebpel.rt.bpel.impl.list.AeAlarmFilter;
 import org.activebpel.rt.bpel.impl.list.AeAlarmListResult;
 
 /**
@@ -23,9 +23,9 @@ import org.activebpel.rt.bpel.impl.list.AeAlarmListResult;
 public class AeAlarmListingBean extends AeAbstractListingBean
 {
    /** Alarms to display. */   
-   protected AeAlarmExt[] mAlarms;
+   protected List<AeAlarmExt> mAlarms;
    /** Process id. */
-   protected long mProcessId = AeAlarmFilter.NULL_ID;
+   protected long mProcessId = -1;
    /** Select process QName. */
    protected QName mQName;
    /** The current row being processed. */
@@ -63,28 +63,18 @@ public class AeAlarmListingBean extends AeAbstractListingBean
    {
       if( aUpdateFlag )
       {
-         AeAlarmFilter filter = new AeAlarmFilter();
-         filter.setProcessId( mProcessId );
-         filter.setProcessName( mQName );
-         filter.setListStart( getRowStart() );
-         filter.setMaxReturn( getRowCount() );
-         updateStartDate( filter );
-         updateEndDate( filter );
+         String namespace = mQName != null ? mQName.getNamespaceURI() : null;
+         String name = mQName != null ? mQName.getLocalPart() : null;
          
-         AeAlarmListResult results = getAdmin().getAlarms( filter );
+         List<AeAlarmExt> resultz = getAdmin().getAlarms(mProcessId, getStartDate(), getEndDate(), namespace, name, getRowCount(), getRowStart() );
+         AeAlarmListResult results = new AeAlarmListResult(resultz.size(), resultz);
             
          if( !results.isEmpty() )
          { 
             setTotalRowCount( results.getTotalRowCount() );
             updateNextPageStatus();
             mAlarms = results.getResults();
-            for( int i = 0 ; i < results.getResults().length; i++ )
-            {
-               AeAlarmExt alarm = results.getResults()[i];
-               String location = results.getLocationPath( alarm.getPathId() );
-               alarm.setLocation(location);
-            }
-            setRowsDisplayed( mAlarms.length );
+            setRowsDisplayed( mAlarms.size() );
          }
          else
          {
@@ -94,31 +84,13 @@ public class AeAlarmListingBean extends AeAbstractListingBean
    }
    
    /**
-    * Update the filter start date.
-    * @param filter
-    */
-   protected void updateStartDate( AeAlarmFilter filter )
-   {
-      filter.setAlarmFilterStart( getStartDate() );  
-   }
-   
-   /**
-    * Update the filter end date.
-    * @param filter
-    */
-   protected void updateEndDate( AeAlarmFilter filter )
-   {
-      filter.setAlarmFilterEnd( getEndDate() );  
-   }
-   
-   /**
     * Indexed accessor for an alarm.
     * @param aIndex
     * @return The AeAlarmExt mapped to the index.
     */
    public AeAlarmExt getAlarmInstance( int aIndex )
    {
-      return mAlarms[ aIndex ];          
+      return mAlarms.get(aIndex);          
    }
    
    /**
@@ -132,7 +104,7 @@ public class AeAlarmListingBean extends AeAbstractListingBean
       }
       else
       {
-         return mAlarms.length;
+         return mAlarms.size();
       }
    }
 
@@ -157,7 +129,7 @@ public class AeAlarmListingBean extends AeAbstractListingBean
     */
    public String getProcessId()
    {
-      if( mProcessId == AeAlarmFilter.NULL_ID )
+      if( mProcessId == -1 )
       {
          return ""; //$NON-NLS-1$
       }
@@ -226,7 +198,7 @@ public class AeAlarmListingBean extends AeAbstractListingBean
     */
    public boolean isPopulated()
    {
-      return mAlarms != null && mAlarms.length > 0;
+      return mAlarms != null && mAlarms.size() > 0;
    }
    
    /**

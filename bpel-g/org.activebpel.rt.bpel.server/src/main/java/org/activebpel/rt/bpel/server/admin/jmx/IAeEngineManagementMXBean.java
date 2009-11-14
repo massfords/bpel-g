@@ -7,15 +7,17 @@ import java.util.Map;
 import org.activebpel.rt.AeException;
 import org.activebpel.rt.bpel.AeBusinessProcessException;
 import org.activebpel.rt.bpel.coord.AeCoordinationDetail;
-import org.activebpel.rt.bpel.impl.list.AeAlarmListResult;
+import org.activebpel.rt.bpel.impl.list.AeAlarmExt;
+import org.activebpel.rt.bpel.impl.list.AeCatalogItem;
 import org.activebpel.rt.bpel.impl.list.AeCatalogItemDetail;
-import org.activebpel.rt.bpel.impl.list.AeCatalogListResult;
 import org.activebpel.rt.bpel.impl.list.AeMessageReceiverListResult;
+import org.activebpel.rt.bpel.impl.list.AeProcessFilter;
 import org.activebpel.rt.bpel.impl.list.AeProcessInstanceDetail;
-import org.activebpel.rt.bpel.impl.list.AeProcessListResult;
 import org.activebpel.rt.bpel.server.admin.AeBuildInfo;
 import org.activebpel.rt.bpel.server.admin.AeProcessDeploymentDetail;
 import org.activebpel.rt.bpel.server.admin.AeQueuedReceiveDetail;
+import org.activebpel.rt.bpel.server.engine.storage.AeStorageException;
+import org.activebpel.rt.xml.AeQName;
 
 public interface IAeEngineManagementMXBean {
 
@@ -28,6 +30,8 @@ public interface IAeEngineManagementMXBean {
      * Gets the details for all of the deployed processes
      */
     public List<AeProcessDeploymentDetail> getDeployedProcesses();
+    
+    public AeProcessDeploymentDetail getDeployedProcessDetail(String aNamespace, String aName);
 
     /**
      * Gets the details for a single process id
@@ -50,7 +54,7 @@ public interface IAeEngineManagementMXBean {
     /**
      * Gets a listing of alarms matching the passed filter.
      */
-    public AeAlarmListResult getAlarms(long aProcessId, Date aAlarmFilterStart, Date aAlarmFilterEnd, String aProcessNamespace, String aProcessLocalPart, int aMaxReturn, int aListStart);
+    public List<AeAlarmExt> getAlarms(long aProcessId, Date aAlarmFilterStart, Date aAlarmFilterEnd, String aProcessNamespace, String aProcessLocalPart, int aMaxReturn, int aListStart);
 
     /**
      * Gets the build info for the libraries currently in use.
@@ -86,7 +90,12 @@ public interface IAeEngineManagementMXBean {
     /**
      * Returns a list of processes currently running on the BPEL engine. 
      */
-    public AeProcessListResult getProcessList(String aProcessNamespace, String aProcessName, String aProcessGroup,
+    public AeProcessListResultBean getProcessList(String aProcessNamespace, String aProcessName, String aProcessGroup,
+            boolean aHidSystemProcessGroup, int aProcessState, Date aProcessCreateStart, Date aProcessCreateEnd,
+            Date aProcessCompleteStart, Date aProcessCompleteEnd, String aAdvancedQuery, int aPlanId,
+            Date aDeletableDate, long[] aProcessIdRange, int aMaxReturn, int aListStart) throws AeBusinessProcessException;;
+
+    public int getProcessCount(String aProcessNamespace, String aProcessName, String aProcessGroup,
             boolean aHidSystemProcessGroup, int aProcessState, Date aProcessCreateStart, Date aProcessCreateEnd,
             Date aProcessCompleteStart, Date aProcessCompleteEnd, String aAdvancedQuery, int aPlanId,
             Date aDeletableDate, long[] aProcessIdRange, int aMaxReturn, int aListStart) throws AeBusinessProcessException;;
@@ -114,17 +123,11 @@ public interface IAeEngineManagementMXBean {
      * @throws AeBusinessProcessException
      */
     public String getLocationPathById(long aProcessId, int aLocationId) throws AeBusinessProcessException;
-//
-//    /**
-//     * Returns the current engine configuration.
-//     */
-//    // FIXME (admin) replace all of these calls with a get/set of config as string
-//    public IAeEngineConfiguration getEngineConfig();
     
     public AeCatalogItemDetail getCatalogItemDetail(String aLocationHint);
     public int getCatalogCacheDiskReads();
     public int getCatalogCacheTotalReads();
-    public AeCatalogListResult getCatalogListing(String aTypeURI, String aResource, String aNamespace);
+    public List<AeCatalogItem> getCatalogListing(String aTypeURI, String aResource, String aNamespace, int aMaxReturn, int aListStart);
     public int getCatalogCacheSize();
     public void setCatalogCacheSize(int aSize);
 
@@ -221,4 +224,23 @@ public interface IAeEngineManagementMXBean {
     public int getProcessWorkCount();
     public int getAlarmMaxWorkCount();
     public int getTaskFinalizationDuration();
+
+    public AeProcessListResultBean getProcessList(AeProcessFilter aFilter) throws AeBusinessProcessException;
+    
+    public String getRawConfig();
+    public void setRawConfig(String aList);
+
+    public void resumeProcess(long aPid) throws AeBusinessProcessException;
+
+    public void suspendProcess(long aPid) throws AeBusinessProcessException;
+
+    public void terminateProcess(long aPid) throws AeBusinessProcessException;
+
+    public void restartProcess(long aPid) throws AeBusinessProcessException;
+    
+    public boolean isEngineStorageReady();
+    public boolean isRestartable(long aPid);
+    public String getStorageError();
+    public void initializeStorage() throws AeStorageException;
+    public String getCompiledProcessDef(long aProcessId, AeQName aName) throws AeBusinessProcessException;
 }

@@ -9,8 +9,11 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpeladmin.war.web;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.activebpel.rt.bpel.server.admin.AeProcessDeploymentDetail;
-import org.activebpel.rt.bpel.server.engine.AeEngineFactory;
+import org.activebpel.rt.bpeladmin.war.AeEngineManagementFactory;
 
 /**
  * Wraps the AeProcessDeploymentDetail array for the 
@@ -19,7 +22,7 @@ import org.activebpel.rt.bpel.server.engine.AeEngineFactory;
 public class AeDeployedProcessesBean
 {
    /** Deployed process details. */   
-   protected AeProcessDeploymentDetail[] mDetails;
+   protected List<AeProcessDeploymentDetail> mDetails;
    /** Pointer to current index. */
    protected int mCurrentIndex;
    
@@ -29,7 +32,7 @@ public class AeDeployedProcessesBean
     */
    public AeDeployedProcessesBean()
    {
-      mDetails = AeEngineFactory.getEngineAdministration().getDeployedProcesses();      
+      mDetails = new ArrayList(AeEngineManagementFactory.getBean().getDeployedProcesses());      
    }
    
    /**
@@ -42,7 +45,7 @@ public class AeDeployedProcessesBean
       {
          return 0;
       }
-      return mDetails.length;
+      return mDetails.size();
    }
    
    /**
@@ -52,7 +55,7 @@ public class AeDeployedProcessesBean
    public AeProcessDeploymentDetail getDetail( int aIndex )
    {
       setCurrentIndex( aIndex );
-      return mDetails[aIndex];
+      return mDetails.get(aIndex);
    }
    
    /**

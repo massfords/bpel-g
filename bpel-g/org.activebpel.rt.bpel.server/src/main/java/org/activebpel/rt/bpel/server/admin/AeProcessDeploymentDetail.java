@@ -11,7 +11,7 @@ package org.activebpel.rt.bpel.server.admin;
 
 import java.beans.ConstructorProperties;
 
-import javax.xml.namespace.QName;
+import org.activebpel.rt.xml.AeQName;
 
 /**
  * JavaBean for holding some data for a deployed process. It includes the
@@ -20,7 +20,7 @@ import javax.xml.namespace.QName;
 public class AeProcessDeploymentDetail
 {
    /** Name of the deployed process */
-   private QName mName;
+   private AeQName mName;
    /** Deployment xml for this process */
    private String mSourceXml;
    /** The src bpel for the deployed process */
@@ -34,7 +34,7 @@ public class AeProcessDeploymentDetail
    }
 
    @ConstructorProperties({"name", "sourceXml", "bpelSourceXml"})
-   public AeProcessDeploymentDetail(QName aProcessName, String aSourceXml, String aBpelXml) {
+   public AeProcessDeploymentDetail(AeQName aProcessName, String aSourceXml, String aBpelXml) {
        setName(aProcessName);
        setSourceXml(aSourceXml);
        setBpelSourceXml(aBpelXml);
@@ -43,7 +43,7 @@ public class AeProcessDeploymentDetail
    /**
     * Getter for the process name
     */
-   public QName getName()
+   public AeQName getName()
    {
       return mName;
    }
@@ -60,7 +60,7 @@ public class AeProcessDeploymentDetail
     * Sets the name of the deployed process
     * @param aName
     */
-   public void setName(QName aName)
+   public void setName(AeQName aName)
    {
       mName = aName;
    }

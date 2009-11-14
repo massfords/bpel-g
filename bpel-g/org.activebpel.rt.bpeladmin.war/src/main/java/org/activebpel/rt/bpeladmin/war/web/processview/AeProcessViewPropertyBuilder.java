@@ -23,7 +23,7 @@ import org.activebpel.rt.bpel.def.AeCorrelationSetDef;
 import org.activebpel.rt.bpel.def.AeProcessDef;
 import org.activebpel.rt.bpel.def.AeVariableDef;
 import org.activebpel.rt.bpel.impl.IAeImplStateNames;
-import org.activebpel.rt.bpel.server.engine.AeEngineFactory;
+import org.activebpel.rt.bpeladmin.war.AeEngineManagementFactory;
 import org.activebpel.rt.bpeladmin.war.AeMessages;
 import org.activebpel.rt.bpeladmin.war.web.AeWebUtil;
 import org.activebpel.rt.util.AeUtil;
@@ -152,7 +152,7 @@ public class AeProcessViewPropertyBuilder extends AeProcessWebPropertyBuilder
       long processId = getPropertyViewBean().getProcessId();
       if (getPropertyViewBean().isRetrieveLogData())
       {
-         String log = AeEngineFactory.getEngineAdministration().getProcessLog(processId);
+         String log = AeEngineManagementFactory.getBean().getProcessLog(processId);
          if ( AeUtil.isNullOrEmpty(log) )
          {
             // get "Log file not available for Process ID " message.
@@ -176,7 +176,7 @@ public class AeProcessViewPropertyBuilder extends AeProcessWebPropertyBuilder
          try
          {
             // get list of parent process (if coordinated)
-            AeCoordinationDetail cd = AeEngineFactory.getEngineAdministration().getCoordinatorForProcessId(processId);
+            AeCoordinationDetail cd = AeEngineManagementFactory.getBean().getCoordinatorForProcessId(processId);
             if (cd != null)
             {
                buildCoordinationDetail(cd, sb, true);
@@ -196,7 +196,7 @@ public class AeProcessViewPropertyBuilder extends AeProcessWebPropertyBuilder
          try
          {
             // sub processes (if coordinated)
-            List list = AeEngineFactory.getEngineAdministration().getParticipantForProcessId(processId);
+            List list = AeEngineManagementFactory.getBean().getParticipantForProcessId(processId);
             if (list.size() > 0)
             {
                for (int i = 0; i < list.size(); i++)
@@ -320,7 +320,7 @@ public class AeProcessViewPropertyBuilder extends AeProcessWebPropertyBuilder
       StringBuffer xml = new StringBuffer();
       try
       {
-         String varStr = AeEngineFactory.getEngineAdministration().getVariable(aProcessId, aLocationPath);
+         String varStr = AeEngineManagementFactory.getBean().getVariable(aProcessId, aLocationPath);
          Document varDoc = new AeXMLParserBase(true,false).loadDocumentFromString(varStr, null);
 
          Node node = varDoc.getFirstChild();

@@ -41,7 +41,7 @@ public class AesTypeConversionHelper
          return null;
       
       AesProcessInstanceDetail tgtDetail = new AesProcessInstanceDetail();
-      tgtDetail.setName(aDetail.getName());
+      tgtDetail.setName(aDetail.getName().toQName());
       tgtDetail.setProcessId(aDetail.getProcessId());
       tgtDetail.setState(aDetail.getState());
       tgtDetail.setStateReason(aDetail.getStateReason());

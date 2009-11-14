@@ -9,6 +9,7 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.message; 
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -26,10 +27,10 @@ import org.exolab.castor.xml.schema.XMLType;
 /**
  * Container for the part info for a specific WSDL message.
  */
-public class AeMessagePartsMap
+public class AeMessagePartsMap implements Serializable
 {
    /** map of part names to AeMessagePartTypeInfo objects */
-   private Map mParts = new HashMap();
+   private Map<String,AeMessagePartTypeInfo> mParts = new HashMap();
    /** name of the message */
    private QName mMessageType;
    
@@ -116,7 +117,7 @@ public class AeMessagePartsMap
     */
    public AeMessagePartTypeInfo getPartInfo(String aName)
    {
-      return (AeMessagePartTypeInfo) getPartsMap().get(aName);
+      return getPartsMap().get(aName);
    }
    
    /**
@@ -148,7 +149,7 @@ public class AeMessagePartsMap
    /**
     * @return Returns the parts map.
     */
-   protected Map getPartsMap()
+   protected Map<String,AeMessagePartTypeInfo> getPartsMap()
    {
       return mParts;
    }

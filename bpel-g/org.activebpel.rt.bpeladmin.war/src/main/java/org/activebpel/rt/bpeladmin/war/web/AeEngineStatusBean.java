@@ -11,12 +11,15 @@ package org.activebpel.rt.bpeladmin.war.web;
 
 import java.text.MessageFormat;
 import java.util.Date;
+import java.util.List;
 
 import org.activebpel.rt.AeException;
 import org.activebpel.rt.bpel.IAeBusinessProcessEngine;
+import org.activebpel.rt.bpel.server.admin.AeProcessDeploymentDetail;
 import org.activebpel.rt.bpel.server.admin.IAeEngineAdministration;
 import org.activebpel.rt.bpel.server.engine.AeEngineFactory;
 import org.activebpel.rt.bpeladmin.war.AeBuildNumber;
+import org.activebpel.rt.bpeladmin.war.AeEngineManagementFactory;
 import org.activebpel.rt.bpeladmin.war.AeMessages;
 
 /**
@@ -79,11 +82,12 @@ public class AeEngineStatusBean extends AeAbstractAdminBean
    {
       try
       {
-         if( getAdmin().getDeployedProcesses() == null )
+         List<AeProcessDeploymentDetail> deployedProcesses = getAdmin().getDeployedProcesses();
+         if( deployedProcesses == null )
          {
             return 0;
          }
-         return getAdmin().getDeployedProcesses().length;
+         return deployedProcesses.size();
       }
       catch(Exception ex)
       {
@@ -110,8 +114,7 @@ public class AeEngineStatusBean extends AeAbstractAdminBean
     */
    public String getEngineDescription()
    {
-      IAeEngineAdministration admin = getAdmin();
-      return admin.getEngineConfig().getDescription();
+      return getAdmin().getEngineDescription();
    }
    
    /**
@@ -153,7 +156,7 @@ public class AeEngineStatusBean extends AeAbstractAdminBean
       // TODO (RN) These strings should be localized to the browser context not the engine
       String status = AeMessages.getString("AeEngineStatusBean.0"); //$NON-NLS-1$
       // if the factory says engine storage is not ready then display that message
-      if(! AeEngineFactory.isEngineStorageReady())
+      if(! AeEngineManagementFactory.getBean().isEngineStorageReady())
       {
          status = AeMessages.getString("AeEngineStatusBean.1"); //$NON-NLS-1$
       }

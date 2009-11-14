@@ -24,7 +24,7 @@ import org.activebpel.rt.bpel.def.AePartnerLinkOpKey;
 public class AeCorrelatedReceive extends AeAbstractQueuedObject
 {
    /** Correlation data of message queue entry */
-   protected Map<QName,Object> mCorrelation;
+   protected Map<QName,String> mCorrelation;
    /** Identifies the process QName that this queued object belongs to */
    protected QName mProcessName;
    
@@ -39,8 +39,8 @@ public class AeCorrelatedReceive extends AeAbstractQueuedObject
     * @param aProcessQName
     * @param aCorrelation
     */
-   @ConstructorProperties({"partnerLinkOpKey", "processQName", "correlation"})
-   public AeCorrelatedReceive(AePartnerLinkOpKey aPartnerLinkOpKey, QName aProcessQName, Map aCorrelation)
+   @ConstructorProperties({"partnerLinkOperationKey", "processName", "correlation"})
+   public AeCorrelatedReceive(AePartnerLinkOpKey aPartnerLinkOpKey, QName aProcessQName, Map<QName,String> aCorrelation)
    {
       super(aPartnerLinkOpKey);
       setCorrelation(aCorrelation);

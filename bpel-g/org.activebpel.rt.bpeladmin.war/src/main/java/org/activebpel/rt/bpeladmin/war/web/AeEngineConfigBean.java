@@ -14,27 +14,15 @@ import java.util.Date;
 import java.util.List;
 
 import org.activebpel.rt.AeException;
-import org.activebpel.rt.bpel.config.IAeEngineConfiguration;
-import org.activebpel.rt.bpel.config.IAeUpdatableEngineConfig;
 import org.activebpel.rt.bpel.server.admin.AeBuildInfo;
 import org.activebpel.rt.bpeladmin.war.AeBuildNumber;
 import org.activebpel.rt.bpeladmin.war.AeMessages;
-import org.activebpel.rt.util.AeUtil;
-import org.activebpel.rt.xml.schema.AeSchemaDuration;
 
 /**
  *  Bean for driving display of home page.
  */
 public class AeEngineConfigBean extends AeAbstractAdminBean
 {
-   private static final String CONFIG_ALARM_MAX_WORK_COUNT_PATH = IAeEngineConfiguration.WORK_MANAGER_ENTRY
-      + "/" + IAeEngineConfiguration.CHILD_WORK_MANAGERS_ENTRY //$NON-NLS-1$
-      + "/" + IAeEngineConfiguration.ALARM_CHILD_WORK_MANAGER_ENTRY //$NON-NLS-1$
-      + "/" + IAeEngineConfiguration.MAX_WORK_COUNT_ENTRY; //$NON-NLS-1$
-   
-   private static final String CONFIG_B4P_MANAGER_FINALIZATION_DURATION = "CustomManagers/BPEL4PeopleManager/FinalizationDuration"; //$NON-NLS-1$
-   private static final String CONFIG_B4P_MANAGER_FINALIZATION_CLASS = "CustomManagers/BPEL4PeopleManager/Class"; //$NON-NLS-1$
-
    /** Build info information. */
    protected AeBuildInfo[] mBuildInfos;
 
@@ -98,7 +86,7 @@ public class AeEngineConfigBean extends AeAbstractAdminBean
     */
    public boolean isAllowCreateXPath()
    {
-      return getUpdatableConfig().allowCreateXPath();
+      return getAdmin().isAllowCreateXPath();
    }
 
    /**
@@ -115,7 +103,7 @@ public class AeEngineConfigBean extends AeAbstractAdminBean
     */
    public boolean isAllowEmptyQuery()
    {
-      return getUpdatableConfig().allowEmptyQuerySelection();
+      return getAdmin().isAllowEmptyQuerySelection();
    }
 
    /**
@@ -132,7 +120,7 @@ public class AeEngineConfigBean extends AeAbstractAdminBean
     */
    public boolean isValidateServiceMessages()
    {
-      return getUpdatableConfig().validateServiceMessages();
+      return getAdmin().isValidateServiceMessages();
    }
 
    /**
@@ -149,7 +137,7 @@ public class AeEngineConfigBean extends AeAbstractAdminBean
     */
    public String getLoggingFilter()
    {
-      return getUpdatableConfig().getLoggingFilter();
+      return getAdmin().getLoggingFilter();
    }
 
    /**
@@ -158,7 +146,7 @@ public class AeEngineConfigBean extends AeAbstractAdminBean
     */
    public void setUnmatchedCorrelatedReceiveTimeout( int aTimeout )
    {
-      getUpdatableConfig().setUnmatchedCorrelatedReceiveTimeout( aTimeout );
+      getAdmin().setUnmatchedCorrelatedReceiveTimeout( aTimeout );
    }
 
    /**
@@ -167,7 +155,7 @@ public class AeEngineConfigBean extends AeAbstractAdminBean
     */
    public void setWebServiceInvokeTimeout(int aTimeout)
    {
-      getUpdatableConfig().setWebServiceInvokeTimeout(aTimeout);
+      getAdmin().setWebServiceInvokeTimeout(aTimeout);
    }
 
    /**
@@ -176,7 +164,7 @@ public class AeEngineConfigBean extends AeAbstractAdminBean
     */
    public void setWebServiceReceiveTimeout(int aTimeout)
    {
-      getUpdatableConfig().setWebServiceReceiveTimeout(aTimeout);
+      getAdmin().setWebServiceReceiveTimeout(aTimeout);
    }
 
    /**
@@ -184,7 +172,7 @@ public class AeEngineConfigBean extends AeAbstractAdminBean
     */
    public int getUnmatchedCorrelatedReceiveTimeout()
    {
-      return getUpdatableConfig().getUnmatchedCorrelatedReceiveTimeout();
+      return getAdmin().getUnmatchedCorrelatedReceiveTimeout();
    }
 
    /**
@@ -192,7 +180,7 @@ public class AeEngineConfigBean extends AeAbstractAdminBean
     */
    public int getWebServiceInvokeTimeout()
    {
-      return getUpdatableConfig().getWebServiceInvokeTimeout();
+      return getAdmin().getWebServiceInvokeTimeout();
    }
 
    /**
@@ -200,7 +188,7 @@ public class AeEngineConfigBean extends AeAbstractAdminBean
     */
    public int getWebServiceReceiveTimeout()
    {
-      return getUpdatableConfig().getWebServiceReceiveTimeout();
+      return getAdmin().getWebServiceReceiveTimeout();
    }
 
    /**
@@ -211,7 +199,7 @@ public class AeEngineConfigBean extends AeAbstractAdminBean
    {
       // Only try to set this value if we are using internal WrokManager
       if (isInternalWorkManager())
-         getUpdatableConfig().setWorkManagerThreadPoolMin( aValue );
+         getAdmin().setThreadPoolMin( aValue );
    }
 
    /**
@@ -219,7 +207,7 @@ public class AeEngineConfigBean extends AeAbstractAdminBean
     */
    public int getThreadPoolMin()
    {
-      return getUpdatableConfig().getWorkManagerThreadPoolMin();
+      return getAdmin().getThreadPoolMin();
    }
 
    /**
@@ -230,7 +218,7 @@ public class AeEngineConfigBean extends AeAbstractAdminBean
    {
       // Only try to set this value if we are using internal WrokManager
       if (isInternalWorkManager())
-         getUpdatableConfig().setWorkManagerThreadPoolMax( aValue );
+         getAdmin().setThreadPoolMax( aValue );
    }
 
    /**
@@ -238,7 +226,7 @@ public class AeEngineConfigBean extends AeAbstractAdminBean
     */
    public int getThreadPoolMax()
    {
-      return getUpdatableConfig().getWorkManagerThreadPoolMax();
+      return getAdmin().getThreadPoolMax();
    }
 
    /**
@@ -247,7 +235,7 @@ public class AeEngineConfigBean extends AeAbstractAdminBean
     */
    public void setProcessWorkCount( int aValue )
    {
-      getUpdatableConfig().setProcessWorkCount( aValue );
+      getAdmin().setProcessWorkCount( aValue );
    }
 
    /**
@@ -255,7 +243,7 @@ public class AeEngineConfigBean extends AeAbstractAdminBean
     */
    public int getProcessWorkCount()
    {
-      return getUpdatableConfig().getProcessWorkCount();
+      return getAdmin().getProcessWorkCount();
    }
 
    /**
@@ -268,7 +256,7 @@ public class AeEngineConfigBean extends AeAbstractAdminBean
       // Anything less than 0 is the same as 0.
       int maxWorkCount = (aValue < 0) ? 0 : aValue;
 
-      getUpdatableConfig().addEntryByPath(CONFIG_ALARM_MAX_WORK_COUNT_PATH, String.valueOf(maxWorkCount));
+      getAdmin().setAlarmMaxWorkCount(maxWorkCount);
    }
 
    /**
@@ -279,21 +267,7 @@ public class AeEngineConfigBean extends AeAbstractAdminBean
     */
    public int getAlarmMaxWorkCount()
    {
-      int result;
-
-      try
-      {
-         String entry = (String) getUpdatableConfig().getEntryByPath(CONFIG_ALARM_MAX_WORK_COUNT_PATH);
-         result = Integer.parseInt(entry);
-      }
-      catch (Exception e)
-      {
-         AeException.logError(e);
-
-         result = IAeEngineConfiguration.DEFAULT_CHILD_MAX_WORK_COUNT;
-      }
-
-      return result;
+      return getAdmin().getAlarmMaxWorkCount();
    }
 
    /**
@@ -305,21 +279,12 @@ public class AeEngineConfigBean extends AeAbstractAdminBean
    {
       if( aValue )
       {
-         getUpdatableConfig().setAllowCreateXPath( mCreateXPath );
-         getUpdatableConfig().setLoggingFilter( mLoggingFilter );
-         getUpdatableConfig().setAllowEmptyQuerySelection( mAllowEmptyQuery );
-         getUpdatableConfig().setValidateServiceMessages( mValidateMessages );
-         getUpdatableConfig().setResourceReplaceEnabled( mReplaceResources );
-         getUpdatableConfig().update();
+         getAdmin().setAllowCreateXPath( mCreateXPath );
+         getAdmin().setLoggingFilter( mLoggingFilter );
+         getAdmin().setAllowEmptyQuerySelection( mAllowEmptyQuery );
+         getAdmin().setValidateServiceMessages( mValidateMessages );
+         getAdmin().setResourceReplaceEnabled( mReplaceResources );
       }
-   }
-
-   /**
-    * Accessor for updatable engine settings.
-    */
-   protected IAeUpdatableEngineConfig getUpdatableConfig()
-   {
-      return getAdmin().getEngineConfig().getUpdatableEngineConfig();
    }
 
    /**
@@ -331,7 +296,7 @@ public class AeEngineConfigBean extends AeAbstractAdminBean
       {
          return 0;
       }
-      return getAdmin().getDeployedProcesses().length;
+      return getAdmin().getDeployedProcesses().size();
    }
 
    /**
@@ -370,7 +335,7 @@ public class AeEngineConfigBean extends AeAbstractAdminBean
     */
    public void setResourceCacheMax( int aMax )
    {
-      getUpdatableConfig().setResourceCacheMax( aMax );
+      getAdmin().setCatalogCacheSize( aMax );
    }
 
    /**
@@ -378,7 +343,7 @@ public class AeEngineConfigBean extends AeAbstractAdminBean
     */
    public int getResourceCacheMax()
    {
-      return getUpdatableConfig().getResourceCacheMax();
+      return getAdmin().getCatalogCacheSize();
    }
 
    /**
@@ -386,7 +351,7 @@ public class AeEngineConfigBean extends AeAbstractAdminBean
     */
    public boolean isResourceReplaceEnabled()
    {
-      return getUpdatableConfig().isResourceReplaceEnabled();
+      return getAdmin().isResourceReplaceEnabled();
    }
 
    /**
@@ -412,20 +377,7 @@ public class AeEngineConfigBean extends AeAbstractAdminBean
     */
    public int getTaskFinalizationDuration()
    {
-      //get duration from entry: CustomManagers/BPEL4PeopleManager/FinalizationDuration
-      String durationStr = (String) getUpdatableConfig().getEntryByPath(CONFIG_B4P_MANAGER_FINALIZATION_DURATION);
-      if (AeUtil.isNullOrEmpty(durationStr))
-      {
-         return 1;
-      }
-      try
-      {
-         return new AeSchemaDuration(durationStr).getDays();
-      }
-      catch (Exception e)
-      {
-         return 1;
-      }
+       return getAdmin().getTaskFinalizationDuration();
    }
 
    /**
@@ -435,14 +387,6 @@ public class AeEngineConfigBean extends AeAbstractAdminBean
     */
    public void setTaskFinalizationDuration(int aDays)
    {
-      if (aDays > 0)
-      {
-    	  if (getUpdatableConfig().getEntryByPath(CONFIG_B4P_MANAGER_FINALIZATION_CLASS) != null) {
-	         AeSchemaDuration duration = new AeSchemaDuration();
-	         duration.setDays(aDays);
-	         String durationStr = duration.toString();
-	         getUpdatableConfig().addEntryByPath(CONFIG_B4P_MANAGER_FINALIZATION_DURATION, durationStr);
-    	  }
-      }
+       getAdmin().setTaskFinalizationDuration(aDays);
    }
 }

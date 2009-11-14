@@ -9,10 +9,7 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpeladmin.war.web;
 
-import org.activebpel.rt.bpel.config.IAeUpdatableEngineConfig;
 import org.activebpel.rt.bpeladmin.war.AeMessages;
-import org.activebpel.rt.util.AeUtil;
-import org.activebpel.rt.xml.schema.AeSchemaDuration;
 
 /**
  * Provides support for configuring task manager properties
@@ -40,23 +37,25 @@ public class AeTaskManagerBean extends AeAbstractAdminBean
     */
    public AeTaskManagerBean()
    {
-      IAeUpdatableEngineConfig config = (IAeUpdatableEngineConfig) getAdmin().getEngineConfig().getUpdatableEngineConfig();
+//      IAeUpdatableEngineConfig config = (IAeUpdatableEngineConfig) getAdmin().getEngineConfig().getUpdatableEngineConfig();
+       
+        // FIXME need to impl
+        setCacheSize(500);
+        setCacheDuration(10);
+        setFinalizationDuration(1);
 
-      setCacheSize( AeUtil.parseInt((String)config.getEntryByPath(CACHE_SIZE), 500) );
-      setCacheDuration( AeUtil.parseInt((String)config.getEntryByPath(CACHE_DURATION), 10) );
-
-      String finalizationDuration = (String) config.getEntryByPath(CUSTOM_MANAGERS_TASK_MANAGER_FINALIZATION_DURATION);
-      if (AeUtil.notNullOrEmpty(finalizationDuration))
-      {
-         try
-         {
-            AeSchemaDuration duration = new AeSchemaDuration(finalizationDuration);
-            setFinalizationDuration(Math.max(1, duration.getDays()));
-         }
-         catch (Exception e)
-         {
-         }
-      }
+//      String finalizationDuration = (String) config.getEntryByPath(CUSTOM_MANAGERS_TASK_MANAGER_FINALIZATION_DURATION);
+//      if (AeUtil.notNullOrEmpty(finalizationDuration))
+//      {
+//         try
+//         {
+//            AeSchemaDuration duration = new AeSchemaDuration(finalizationDuration);
+//            setFinalizationDuration(Math.max(1, duration.getDays()));
+//         }
+//         catch (Exception e)
+//         {
+//         }
+//      }
    }
 
    /**
@@ -98,25 +97,18 @@ public class AeTaskManagerBean extends AeAbstractAdminBean
    }
 
    /**
-    * Convenience method to get the updatable config.
-    */
-   protected IAeUpdatableEngineConfig getUpdatableConfig()
-   {
-      return getAdmin().getEngineConfig().getUpdatableEngineConfig();
-   }
-
-   /**
     * Saves the current config settings to the database.
     */
    protected void saveChanges()
    {
-      String duration = "P" + getFinalizationDuration() + "D"; //$NON-NLS-1$ //$NON-NLS-2$
-
-      IAeUpdatableEngineConfig config = getUpdatableConfig();
-      config.addEntryByPath(CUSTOM_MANAGERS_TASK_MANAGER_FINALIZATION_DURATION, duration);
-      config.addEntryByPath( CACHE_SIZE, String.valueOf( getCacheSize()) );
-      config.addEntryByPath( CACHE_DURATION, String.valueOf( getCacheDuration()) );
-      config.update();
+       // FIXME need to impl
+//      String duration = "P" + getFinalizationDuration() + "D"; //$NON-NLS-1$ //$NON-NLS-2$
+//
+//      IAeUpdatableEngineConfig config = getUpdatableConfig();
+//      config.addEntryByPath(CUSTOM_MANAGERS_TASK_MANAGER_FINALIZATION_DURATION, duration);
+//      config.addEntryByPath( CACHE_SIZE, String.valueOf( getCacheSize()) );
+//      config.addEntryByPath( CACHE_DURATION, String.valueOf( getCacheDuration()) );
+//      config.update();
    }
 
    /**

@@ -51,7 +51,7 @@ public class AePropertyAliasImpl
    private String mQueryLanguage;
    
    // Table of namespaces defined
-   private Map mNamespaces = new HashMap();
+   private Map<String,String> mNamespaces = new HashMap();
 
    /**
     * Constructor.  This contructor is generally used for modeling a new
@@ -272,7 +272,7 @@ public class AePropertyAliasImpl
    /**
     * Returns a hashtable of namespaces in use by this property alias.
     */
-   public Map getNamespaces()
+   public Map<String,String> getNamespaces()
    {
       return mNamespaces;
    }
@@ -280,7 +280,7 @@ public class AePropertyAliasImpl
    /**
     * Sets the namespaces in use by this property alias.
     */
-   public void setNamespaces(Map aNamespaces)
+   public void setNamespaces(Map<String,String> aNamespaces)
    {
       mNamespaces = aNamespaces;
    }

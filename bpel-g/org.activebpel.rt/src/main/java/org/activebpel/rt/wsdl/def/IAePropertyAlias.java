@@ -9,6 +9,7 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.wsdl.def;
 
+import java.io.Serializable;
 import java.util.Map;
 
 import javax.xml.namespace.QName;
@@ -18,7 +19,7 @@ import javax.xml.namespace.QName;
  * contains information about operations associated with this Property
  * Alias element.
  */
-public interface IAePropertyAlias
+public interface IAePropertyAlias extends Serializable
 {
    /** constant indicates that this property alias is for a wsdl message */
    public static final int MESSAGE_TYPE = 0;
@@ -139,5 +140,5 @@ public interface IAePropertyAlias
    /**
     * Sets the namespaces in use by this property alias.
     */
-   public void setNamespaces(Map aNamespaces);
+   public void setNamespaces(Map<String,String> aNamespaces);
 }

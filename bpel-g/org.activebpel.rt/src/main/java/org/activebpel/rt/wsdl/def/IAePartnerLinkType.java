@@ -9,6 +9,7 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.wsdl.def;
 
+import java.io.Serializable;
 import java.util.Iterator;
 
 
@@ -16,7 +17,7 @@ import java.util.Iterator;
  * This interface represents a Partner Link Type element.  It contains
  * information about operations associated with this Partner Link Type.
  */
-public interface IAePartnerLinkType
+public interface IAePartnerLinkType extends Serializable
 {
    /**
     * Add a Role element to this Partner Link Type.
@@ -35,7 +36,7 @@ public interface IAePartnerLinkType
     * Get all the Roles defined for this Partner Link Type.
     * @return Iterator
     */
-   public Iterator getRoleList();
+   public Iterator<IAeRole> getRoleList();
    
    /**
     * Remove a Role that is associated with this Partner Link Type. 

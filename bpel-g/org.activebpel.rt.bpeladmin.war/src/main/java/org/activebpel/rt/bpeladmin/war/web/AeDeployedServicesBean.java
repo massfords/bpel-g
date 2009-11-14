@@ -9,8 +9,11 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpeladmin.war.web;
 
-import org.activebpel.rt.bpel.server.deploy.IAeServiceDeploymentInfo;
-import org.activebpel.rt.bpel.server.engine.AeEngineFactory;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.activebpel.rt.bpel.server.admin.jmx.AeServiceDeploymentBean;
+import org.activebpel.rt.bpeladmin.war.AeEngineManagementFactory;
 
 /**
  * Wraps the AeServiceDeploymentInfo array for the deployed services listing.
@@ -18,7 +21,7 @@ import org.activebpel.rt.bpel.server.engine.AeEngineFactory;
 public class AeDeployedServicesBean
 {
    /** Deployed service details. */   
-   protected IAeServiceDeploymentInfo[] mDetails;
+   protected List<AeServiceDeploymentBean> mDetails;
    /** Pointer to current index. */
    protected int mCurrentIndex;
    
@@ -27,7 +30,8 @@ public class AeDeployedServicesBean
     */
    public AeDeployedServicesBean()
    {
-      mDetails = AeEngineFactory.getEngineAdministration().getDeployedServices();      
+      List<AeServiceDeploymentBean> deployedServices = AeEngineManagementFactory.getBean().getDeployedServices();
+      mDetails = new ArrayList(deployedServices);      
    }
    
    /**
@@ -39,17 +43,17 @@ public class AeDeployedServicesBean
       if (mDetails == null)
          return 0;
       
-      return mDetails.length;
+      return mDetails.size();
    }
    
    /**
     * Indexed accessor.
     * @param aIndex
     */
-   public IAeServiceDeploymentInfo getDetail(int aIndex)
+   public AeServiceDeploymentBean getDetail(int aIndex)
    {
       setCurrentIndex(aIndex);
-      return mDetails[aIndex];
+      return mDetails.get(aIndex);
    }
    
    /**

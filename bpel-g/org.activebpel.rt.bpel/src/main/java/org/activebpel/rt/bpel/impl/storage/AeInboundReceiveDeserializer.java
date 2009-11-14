@@ -78,7 +78,7 @@ public class AeInboundReceiveDeserializer implements IAeImplStateNames
     * @param aData
     * @param aContext
     */
-   private Map<QName,Object> createCorrelationMap(AePartnerLinkOpKey aPartnerLinkOpKey, IAeProcessPlan aPlan,
+   private Map<QName,String> createCorrelationMap(AePartnerLinkOpKey aPartnerLinkOpKey, IAeProcessPlan aPlan,
          IAeMessageData aData, IAeMessageContext aContext) throws AeBusinessProcessException
    {
       Collection names = aPlan.getCorrelatedPropertyNames(aPartnerLinkOpKey);
@@ -95,7 +95,7 @@ public class AeInboundReceiveDeserializer implements IAeImplStateNames
             AeMessagePartsMap messagePartsMap = aPlan.getProcessDef().getMessageForCorrelation(aPartnerLinkOpKey);
             IAePropertyAlias alias = aPlan.getProcessDef().getPropertyAliasForCorrelation(messagePartsMap, name);
             QName type = AeWSDLDefHelper.getProperty(aPlan, name).getTypeName();
-            Object value = AeXPathHelper.getInstance(aPlan.getProcessDef().getNamespace()).extractCorrelationPropertyValue(alias, aData, getTypeMapping(), type);
+            String value = AeXPathHelper.getInstance(aPlan.getProcessDef().getNamespace()).extractCorrelationPropertyValue(alias, aData, getTypeMapping(), type);
    
             map.put(name, value);
          }

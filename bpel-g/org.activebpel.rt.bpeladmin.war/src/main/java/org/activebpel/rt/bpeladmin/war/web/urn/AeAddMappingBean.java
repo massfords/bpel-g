@@ -33,7 +33,7 @@ public class AeAddMappingBean extends AeAbstractAdminBean
       {
          if (isValid())
          {
-            getAdmin().getURNAddressResolver().addMapping(getURN(), getURL());
+            getAdmin().addURNMapping(getURN(), getURL());
             setStatusDetail(AeMessages.getString("AeAddMappingBean.MAPPING_ADDED")); //$NON-NLS-1$
          }
       }

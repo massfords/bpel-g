@@ -10,10 +10,11 @@
 package org.activebpel.rt.bpeladmin.war.web;
 
 import java.text.NumberFormat;
+import java.util.List;
 
 import org.activebpel.rt.bpel.impl.list.AeCatalogItem;
 import org.activebpel.rt.bpel.impl.list.AeCatalogListResult;
-import org.activebpel.rt.bpel.impl.list.AeCatalogListingFilter;
+import org.activebpel.rt.bpel.impl.list.AeListResult;
 import org.activebpel.rt.bpeladmin.war.AeMessages;
 
 /**
@@ -22,7 +23,7 @@ import org.activebpel.rt.bpeladmin.war.AeMessages;
 public class AeCatalogListingBean extends AeAbstractListingBean
 {
    /** Listing results. */
-   private AeCatalogListResult mResults;
+   private AeListResult<AeCatalogItem> mResults;
    
    /** Filter type selection. */
    private int mFilterType;
@@ -53,19 +54,14 @@ public class AeCatalogListingBean extends AeAbstractListingBean
    {
        if( aValue )
        {
-           AeCatalogListingFilter filter = new AeCatalogListingFilter();
-           filter.setTypeURI(getItemType(getFilterType()).getTypeURI());
-           filter.setResource(getFilterResource());
-           filter.setNamespace(getFilterNamespace());
-           filter.setListStart( getRowStart() );
-           filter.setMaxReturn( getRowCount() );
-           mResults = getAdmin().getCatalogAdmin().getCatalogListing( filter );
+           List resultz = getAdmin().getCatalogListing(getItemType(getFilterType()).getTypeURI(), getFilterResource(), getFilterNamespace(), getRowCount(), getRowStart() ); 
+           mResults = new AeCatalogListResult(resultz.size(), resultz, true);
            
            if( mResults != null )
            {
                setTotalRowCount( mResults.getTotalRowCount() );
                updateNextPageStatus();
-               setRowsDisplayed( mResults.getDetails().length );
+               setRowsDisplayed( mResults.getResults().size() );
                
                // Display "+" after row count if the row count wasn't completed.
                // setTotalRowCountSuffix(mResults.isCompleteRowCount() ? "" : "+");
@@ -80,7 +76,7 @@ public class AeCatalogListingBean extends AeAbstractListingBean
    {
        if( mResults != null )
        {
-           return mResults.getDetails().length;
+           return mResults.getResults().size();
        }
        else
        {
@@ -94,7 +90,7 @@ public class AeCatalogListingBean extends AeAbstractListingBean
     */
    public AeCatalogItem getDetail( int aIndex )
    {
-       return mResults.getDetails()[ aIndex ];
+       return (AeCatalogItem) mResults.getResults().get(aIndex);
    }
    
    /**
@@ -119,7 +115,7 @@ public class AeCatalogListingBean extends AeAbstractListingBean
     */
    public int getCacheSize()
    {
-      return getAdmin().getEngineConfig().getResourceCacheMax();
+      return getAdmin().getCatalogCacheSize();
    }
    
    /**
@@ -127,7 +123,7 @@ public class AeCatalogListingBean extends AeAbstractListingBean
     */
    public int getTotalReads()
    {
-      return getAdmin().getCatalogAdmin().getResourceStats().getTotalReads();
+      return getAdmin().getCatalogCacheTotalReads();
    }
    
    /**
@@ -135,7 +131,7 @@ public class AeCatalogListingBean extends AeAbstractListingBean
     */
    public int getDiskReads()
    {
-      return getAdmin().getCatalogAdmin().getResourceStats().getDiskReads();
+      return getAdmin().getCatalogCacheDiskReads();
    }
    
    /**
@@ -156,7 +152,7 @@ public class AeCatalogListingBean extends AeAbstractListingBean
     */
    public boolean isEmpty()
    {
-       return mResults == null || mResults.getDetails().length == 0;
+       return mResults == null || mResults.getResults().size() == 0;
    }
 
    /**

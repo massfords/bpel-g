@@ -21,7 +21,6 @@ import org.activebpel.rt.bpeladmin.war.AeMessages;
 import org.activebpel.rt.bpeladmin.war.web.upload.AeNewAttachmentUploader;
 import org.activebpel.rt.util.AeMimeUtil;
 import org.activebpel.rt.util.AeXmlUtil;
-import org.activebpel.wsio.AeWebServiceAttachment;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -54,14 +53,15 @@ public class AeAddAttachmentBean extends AeNewAttachmentUploader
     */
    public void addAttachment(Map aAttributes)
    {
-      try
-      {
-         getAdmin().addVariableAttachment(getPidAsLong(), getPath(), new AeWebServiceAttachment(getContent(), aAttributes));
-      }
-      catch (AeException ex)
-      {
-         setError(ex);
-      }
+       // FIXME attachements
+//      try
+//      {
+//         getAdmin().addVariableAttachment(getPidAsLong(), getPath(), new AeWebServiceAttachment(getContent(), aAttributes));
+//      }
+//      catch (AeException ex)
+//      {
+//         setError(ex);
+//      }
    }
    
    /**

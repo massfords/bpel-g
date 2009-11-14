@@ -13,7 +13,7 @@ import java.beans.ConstructorProperties;
 import java.io.Serializable;
 import java.util.Date;
 
-import javax.xml.namespace.QName;
+import org.activebpel.rt.xml.AeQName;
 
 /**
  * JavaBean for holding some data for a single process instance
@@ -21,7 +21,7 @@ import javax.xml.namespace.QName;
 public class AeProcessInstanceDetail implements Serializable
 {
    /** name of the process */
-   private QName mName;
+   private AeQName mName;
    /** id of the process */
    private long mProcessId;
    /** date/time the process was started */
@@ -41,7 +41,7 @@ public class AeProcessInstanceDetail implements Serializable
    }
    
    @ConstructorProperties({"name", "processId", "started", "ended", "state", "stateReason"})
-   public AeProcessInstanceDetail(QName aName, long aProcessId, Date aStarted, Date aEnded, int aState, int aStateReason) {
+   public AeProcessInstanceDetail(AeQName aName, long aProcessId, Date aStarted, Date aEnded, int aState, int aStateReason) {
        setName(aName);
        setProcessId(aProcessId);
        setStarted(aStarted);
@@ -53,7 +53,7 @@ public class AeProcessInstanceDetail implements Serializable
    /**
     * Getter for the process name
     */
-   public QName getName()
+   public AeQName getName()
    {
       return mName;
    }
@@ -78,7 +78,7 @@ public class AeProcessInstanceDetail implements Serializable
     * Setter for the name
     * @param aName
     */
-   public void setName(QName aName)
+   public void setName(AeQName aName)
    {
       mName = aName;
    }

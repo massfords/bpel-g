@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.activebpel.rt.bpel.server.admin.AeQueuedReceiveDetail;
-import org.activebpel.rt.bpel.server.engine.AeEngineFactory;
+import org.activebpel.rt.bpeladmin.war.AeEngineManagementFactory;
 
 /**
  * Top level listing of unmatched inbound queued receives. 
@@ -33,7 +33,8 @@ public class AeInboundReceivesBean
     */
    public AeInboundReceivesBean()
    {
-      AeQueuedReceiveDetail[] details = AeEngineFactory.getEngineAdministration().getUnmatchedQueuedReceives();
+      List<AeQueuedReceiveDetail> detailList = AeEngineManagementFactory.getBean().getUnmatchedQueuedReceives();
+      AeQueuedReceiveDetail[] details = detailList.toArray(new AeQueuedReceiveDetail[detailList.size()]);
       Map detailsMap = parse(details);
       mDetails = new ArrayList( detailsMap.values() );
    }

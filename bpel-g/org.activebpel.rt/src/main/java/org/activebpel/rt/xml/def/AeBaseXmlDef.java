@@ -9,6 +9,7 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.xml.def;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -34,10 +35,10 @@ import org.w3c.dom.Element;
 /**
  * Base definition object for xml definitions
  */
-public abstract class AeBaseXmlDef implements Cloneable
+public abstract class AeBaseXmlDef implements Cloneable, Serializable
 {
    /** A map of all referenced namespaces referenced at the current node level */
-   protected Map mNamespaceMap;
+   protected Map<String,String> mNamespaceMap;
    /** Default namespace or null if not set */
    private String mDefaultNamespace;
    /** Path that uniquely identifies this element in the model hierarchy. */
@@ -47,13 +48,13 @@ public abstract class AeBaseXmlDef implements Cloneable
    /** Optional comment from the xml source */
    private String mComment;
    /** List of documentation children of any construct. */
-   private List mDocumentationDefs;
+   private List<AeDocumentationDef> mDocumentationDefs;
    /** Parent def, if any. */
    private AeBaseXmlDef mParent;
    /** A list of extension elements */
-   private List mExtensionElementDefs;
+   private transient List<AeExtensionElementDef> mExtensionElementDefs;
    /** The extension attributes for the element. */
-   private List mExtensionAttributeDefs;
+   private transient List<AeExtensionAttributeDef> mExtensionAttributeDefs;
 
    /**
     * Default constructor

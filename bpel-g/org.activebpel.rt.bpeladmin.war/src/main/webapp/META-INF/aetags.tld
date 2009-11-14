@@ -1,0 +1,841 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE taglib
+        PUBLIC "-//Sun Microsystems, Inc.//DTD JSP Tag Library 1.2//EN"
+   "http://java.sun.com/dtd/web-jsptaglibrary_1_2.dtd">
+
+<taglib>
+
+  <tlib-version>1.0</tlib-version>
+  <jsp-version>1.2</jsp-version>
+  <short-name>AeTags</short-name>
+  <uri>http://activebpel.org/aetaglib</uri>
+  <description>
+   Custom tags for BPEL Engine Admin Console
+  </description>
+
+  <tag>
+    <name>IndexedProperty</name>
+    <tag-class>org.activebpel.rt.war.tags.AeIndexedPropertyTag</tag-class>
+    <tei-class>org.activebpel.rt.war.tags.AeIndexedPropertyTEI</tei-class>
+    <body-content>JSP</body-content>
+    <description> Loop over indexed properties </description>
+    <attribute>
+       <name>id</name>
+       <required>true</required>
+       <rtexprvalue>true</rtexprvalue>
+    </attribute>
+    <attribute>
+       <name>name</name>
+       <required>true</required>
+       <rtexprvalue>true</rtexprvalue>
+    </attribute>
+    <attribute>
+       <name>property</name>
+       <required>true</required>
+       <rtexprvalue>true</rtexprvalue>
+    </attribute>
+    <attribute>
+       <name>indexedClassName</name>
+       <required>true</required>
+       <rtexprvalue>true</rtexprvalue>
+    </attribute>
+  </tag>
+
+  <tag>
+    <name>IfParamMatches</name>
+    <tag-class>org.activebpel.rt.war.tags.AeIfParamMatchesTag</tag-class>
+    <body-content>JSP</body-content>
+    <description> Process body if the param value matches the expected value </description>
+    <attribute>
+       <name>property</name>
+       <required>true</required>
+       <rtexprvalue>true</rtexprvalue>
+    </attribute>
+    <attribute>
+       <name>value</name>
+       <required>true</required>
+       <rtexprvalue>true</rtexprvalue>
+    </attribute>
+  </tag>
+
+  <tag>
+    <name>IfParamNotMatches</name>
+    <tag-class>org.activebpel.rt.war.tags.AeIfParamNotMatchesTag</tag-class>
+    <body-content>JSP</body-content>
+    <description> Process body if the param value does not the expected value </description>
+    <attribute>
+       <name>property</name>
+       <required>true</required>
+       <rtexprvalue>true</rtexprvalue>
+    </attribute>
+    <attribute>
+       <name>value</name>
+       <required>true</required>
+       <rtexprvalue>true</rtexprvalue>
+    </attribute>
+  </tag>
+
+  <tag>
+    <name>IfParamInList</name>
+    <tag-class>org.activebpel.rt.war.tags.AeIfParamInListTag</tag-class>
+    <body-content>JSP</body-content>
+    <description> Process body if the param value matches is in the given comma separated list of values. </description>
+    <attribute>
+       <name>property</name>
+       <required>true</required>
+       <rtexprvalue>true</rtexprvalue>
+    </attribute>
+    <attribute>
+       <name>value</name>
+       <required>true</required>
+       <rtexprvalue>true</rtexprvalue>
+    </attribute>
+  </tag>
+
+  <tag>
+    <name>IfParamNotInList</name>
+    <tag-class>org.activebpel.rt.war.tags.AeIfParamNotInListTag</tag-class>
+    <body-content>JSP</body-content>
+    <description> Process body if the param value matches is not in the given comma separated list of values. </description>
+    <attribute>
+       <name>property</name>
+       <required>true</required>
+       <rtexprvalue>true</rtexprvalue>
+    </attribute>
+    <attribute>
+       <name>value</name>
+       <required>true</required>
+       <rtexprvalue>true</rtexprvalue>
+    </attribute>
+  </tag>
+
+
+  <tag>
+    <name>IfPropertyMatches</name>
+    <tag-class>org.activebpel.rt.war.tags.AeIfPropertyMatchesTag</tag-class>
+    <body-content>JSP</body-content>
+    <description> Process body if the property value matches the expected value </description>
+    <attribute>
+       <name>name</name>
+       <required>true</required>
+       <rtexprvalue>true</rtexprvalue>
+    </attribute>
+    <attribute>
+       <name>property</name>
+       <required>true</required>
+       <rtexprvalue>true</rtexprvalue>
+    </attribute>
+    <attribute>
+       <name>value</name>
+       <required>true</required>
+       <rtexprvalue>true</rtexprvalue>
+    </attribute>
+    <attribute>
+       <name>classType</name>
+       <required>true</required>
+       <rtexprvalue>true</rtexprvalue>
+    </attribute>
+    <attribute>
+       <name>fromName</name>
+       <required>false</required>
+       <rtexprvalue>true</rtexprvalue>
+    </attribute>
+    <attribute>
+       <name>fromProperty</name>
+       <required>false</required>
+       <rtexprvalue>true</rtexprvalue>
+    </attribute>    
+  </tag>
+
+  <tag>
+    <name>IfPropertyNotMatches</name>
+    <tag-class>org.activebpel.rt.war.tags.AeIfPropertyNotMatchesTag</tag-class>
+    <body-content>JSP</body-content>
+    <description> Process body if the property value does not match the expected value </description>
+    <attribute>
+       <name>name</name>
+       <required>true</required>
+       <rtexprvalue>true</rtexprvalue>
+    </attribute>
+    <attribute>
+       <name>property</name>
+       <required>true</required>
+       <rtexprvalue>true</rtexprvalue>
+    </attribute>
+    <attribute>
+       <name>value</name>
+       <required>true</required>
+       <rtexprvalue>true</rtexprvalue>
+    </attribute>
+    <attribute>
+       <name>classType</name>
+       <required>true</required>
+       <rtexprvalue>true</rtexprvalue>
+    </attribute>
+    <attribute>
+       <name>fromName</name>
+       <required>false</required>
+       <rtexprvalue>true</rtexprvalue>
+    </attribute>
+    <attribute>
+       <name>fromProperty</name>
+       <required>false</required>
+       <rtexprvalue>true</rtexprvalue>
+    </attribute>    
+  </tag>
+
+  <tag>
+    <name>IfPropertyInList</name>
+    <tag-class>org.activebpel.rt.war.tags.AeIfPropertyInListTag</tag-class>
+    <body-content>JSP</body-content>
+    <description> Process body if the string representation of property value is in the given
+    	 list of comma  separated values.
+    </description>
+    <attribute>
+       <name>name</name>
+       <required>true</required>
+       <rtexprvalue>true</rtexprvalue>
+    </attribute>
+    <attribute>
+       <name>property</name>
+       <required>true</required>
+       <rtexprvalue>true</rtexprvalue>
+    </attribute>
+    <attribute>
+       <name>value</name>
+       <required>true</required>
+       <rtexprvalue>true</rtexprvalue>
+    </attribute>
+    <attribute>
+       <name>classType</name>
+       <required>true</required>
+       <rtexprvalue>true</rtexprvalue>
+    </attribute>
+  </tag>
+
+  <tag>
+    <name>IfPropertyNotInList</name>
+    <tag-class>org.activebpel.rt.war.tags.AeIfPropertyNotInListTag</tag-class>
+    <body-content>JSP</body-content>
+    <description> Process body if the string representation of property value is not in the given
+    	 list of comma  separated values.
+    </description>
+    <attribute>
+       <name>name</name>
+       <required>true</required>
+       <rtexprvalue>true</rtexprvalue>
+    </attribute>
+    <attribute>
+       <name>property</name>
+       <required>true</required>
+       <rtexprvalue>true</rtexprvalue>
+    </attribute>
+    <attribute>
+       <name>value</name>
+       <required>true</required>
+       <rtexprvalue>true</rtexprvalue>
+    </attribute>
+    <attribute>
+       <name>classType</name>
+       <required>true</required>
+       <rtexprvalue>true</rtexprvalue>
+    </attribute>
+  </tag>
+
+
+  <tag>
+    <name>IfTrue</name>
+    <tag-class>org.activebpel.rt.war.tags.AeIfTrueTag</tag-class>
+    <body-content>JSP</body-content>
+    <description> Process body if bean property evaluates to true </description>
+    <attribute>
+       <name>property</name>
+       <required>true</required>
+       <rtexprvalue>true</rtexprvalue>
+    </attribute>
+    <attribute>
+       <name>name</name>
+       <required>true</required>
+       <rtexprvalue>true</rtexprvalue>
+    </attribute>
+  </tag>
+
+  <tag>
+    <name>IfFalse</name>
+    <tag-class>org.activebpel.rt.war.tags.AeIfFalseTag</tag-class>
+    <body-content>JSP</body-content>
+    <description> Process body if bean property evaluates to false </description>
+    <attribute>
+       <name>property</name>
+       <required>true</required>
+       <rtexprvalue>true</rtexprvalue>
+    </attribute>
+    <attribute>
+       <name>name</name>
+       <required>true</required>
+       <rtexprvalue>true</rtexprvalue>
+    </attribute>
+  </tag>
+
+  <tag>
+    <name>RequestParam</name>
+    <tag-class>org.activebpel.rt.war.tags.AeRequestParamTag</tag-class>
+    <body-content>empty</body-content>
+    <description> Write the value of the request parameter </description>
+    <attribute>
+       <name>parameterName</name>
+       <required>true</required>
+       <rtexprvalue>true</rtexprvalue>
+    </attribute>
+  </tag>
+
+  <tag>
+    <name>QName</name>
+    <tag-class>org.activebpel.rt.war.tags.AeQNamePropertyTag</tag-class>
+    <body-content>empty</body-content>
+    <description> Write the local part or the namespaceuri of the qname property</description>
+    <attribute>
+       <name>property</name>
+       <required>true</required>
+       <rtexprvalue>true</rtexprvalue>
+    </attribute>
+    <attribute>
+       <name>name</name>
+       <required>true</required>
+       <rtexprvalue>true</rtexprvalue>
+    </attribute>
+    <attribute>
+       <name>part</name>
+       <required>true</required>
+       <rtexprvalue>true</rtexprvalue>
+    </attribute>
+  </tag>
+
+  <tag>
+    <name>GetProperty</name>
+    <tag-class>org.activebpel.rt.war.tags.AeGetPropertyTag</tag-class>
+    <body-content>empty</body-content>
+    <description> Retrieves the value of the named property. </description>
+    <attribute>
+       <name>name</name>
+       <required>true</required>
+       <rtexprvalue>true</rtexprvalue>
+    </attribute>
+    <attribute>
+       <name>property</name>
+       <required>false</required>
+       <rtexprvalue>true</rtexprvalue>
+    </attribute>
+  </tag>
+
+  <tag>
+    <name>SetProperty</name>
+    <tag-class>org.activebpel.rt.war.tags.AeSetPropertyTag</tag-class>
+    <body-content>empty</body-content>
+    <description> Sets the value of the named property. </description>
+    <attribute>
+       <name>name</name>
+       <required>true</required>
+       <rtexprvalue>true</rtexprvalue>
+    </attribute>
+    <attribute>
+       <name>property</name>
+       <required>false</required>
+       <rtexprvalue>true</rtexprvalue>
+    </attribute>
+    <attribute>
+       <name>param</name>
+       <required>false</required>
+       <rtexprvalue>true</rtexprvalue>
+    </attribute>
+    <attribute>
+       <name>value</name>
+       <required>false</required>
+       <rtexprvalue>true</rtexprvalue>
+    </attribute>
+    <attribute>
+       <name>fromName</name>
+       <required>false</required>
+       <rtexprvalue>true</rtexprvalue>
+    </attribute>
+    <attribute>
+       <name>fromProperty</name>
+       <required>false</required>
+       <rtexprvalue>true</rtexprvalue>
+    </attribute>
+  </tag>
+
+  <tag>
+    <name>GetResource</name>
+    <tag-class>org.activebpel.rt.war.tags.AeGetResourceTag</tag-class>
+    <body-content>empty</body-content>
+    <description> Write the value of the resource </description>
+    <attribute>
+       <name>name</name>
+       <required>true</required>
+       <rtexprvalue>true</rtexprvalue>
+    </attribute>
+    <attribute>
+       <name>property</name>
+       <required>false</required>
+       <rtexprvalue>true</rtexprvalue>
+    </attribute>
+    <attribute>
+       <name>attributeName</name>
+       <required>false</required>
+       <rtexprvalue>true</rtexprvalue>
+    </attribute>
+  </tag>
+
+  <tag>
+    <name>SetResource</name>
+    <tag-class>org.activebpel.rt.war.tags.AeSetResourceTag</tag-class>
+    <body-content>empty</body-content>
+    <description> Sets the value of the resource to a bean property</description>
+    <attribute>
+       <name>name</name>
+       <required>true</required>
+       <rtexprvalue>true</rtexprvalue>
+    </attribute>
+    <attribute>
+       <name>property</name>
+       <required>false</required>
+       <rtexprvalue>true</rtexprvalue>
+    </attribute>
+    <attribute>
+       <name>key</name>
+       <required>true</required>
+       <rtexprvalue>true</rtexprvalue>
+    </attribute>
+  </tag>
+
+  <tag>
+    <name>XMLStringFormatter</name>
+    <tag-class>org.activebpel.rt.war.tags.AeXMLStringFormatterTag</tag-class>
+    <body-content>empty</body-content>
+    <description>
+      Converts an XML string into an HTML compatible string.
+    </description>
+    <attribute>
+       <name>name</name>
+       <required>true</required>
+       <rtexprvalue>true</rtexprvalue>
+    </attribute>
+    <attribute>
+       <name>property</name>
+       <required>true</required>
+       <rtexprvalue>true</rtexprvalue>
+    </attribute>
+  </tag>
+
+  <tag>
+    <name>JSStringFormatter</name>
+    <tag-class>org.activebpel.rt.war.tags.AeJSStringFormatterTag</tag-class>
+    <body-content>empty</body-content>
+    <description>
+      Converts a Java multi-line string into a JavaScript compatible composite string.
+    </description>
+    <attribute>
+       <name>name</name>
+       <required>true</required>
+       <rtexprvalue>true</rtexprvalue>
+    </attribute>
+    <attribute>
+       <name>property</name>
+       <required>true</required>
+       <rtexprvalue>true</rtexprvalue>
+    </attribute>
+  </tag>
+
+  <tag>
+    <name>DateFormatter</name>
+    <tag-class>org.activebpel.rt.war.tags.AePropertyDateFormatterTag</tag-class>
+    <body-content>empty</body-content>
+    <description>
+      Formats the date of a property using the pattern provided.
+      Will cache the SimpleDateFormat on the pagecontext's request scope.
+    </description>
+    <attribute>
+       <name>property</name>
+       <required>true</required>
+       <rtexprvalue>true</rtexprvalue>
+    </attribute>
+    <attribute>
+       <name>name</name>
+       <required>true</required>
+       <rtexprvalue>true</rtexprvalue>
+    </attribute>
+    <attribute>
+       <name>pattern</name>
+       <required>false</required>
+       <rtexprvalue>true</rtexprvalue>
+    </attribute>
+    <attribute>
+       <name>patternKey</name>
+       <required>false</required>
+       <rtexprvalue>true</rtexprvalue>
+    </attribute>
+  </tag>
+
+  <tag>
+    <name>SetDate</name>
+    <tag-class>org.activebpel.rt.war.tags.AeDateSetterTag</tag-class>
+    <body-content>empty</body-content>
+    <description>
+      Parses a date from the specified request param and sets it as a bean property.
+    </description>
+    <attribute>
+       <name>property</name>
+       <required>true</required>
+       <rtexprvalue>true</rtexprvalue>
+    </attribute>
+    <attribute>
+       <name>name</name>
+       <required>true</required>
+       <rtexprvalue>true</rtexprvalue>
+    </attribute>
+    <attribute>
+       <name>pattern</name>
+       <required>false</required>
+       <rtexprvalue>true</rtexprvalue>
+    </attribute>
+    <attribute>
+       <name>patternKey</name>
+       <required>false</required>
+       <rtexprvalue>true</rtexprvalue>
+    </attribute>
+    <attribute>
+       <name>param</name>
+       <required>true</required>
+       <rtexprvalue>true</rtexprvalue>
+    </attribute>
+  </tag>
+
+  <tag>
+    <name>RequestEncoding</name>
+    <tag-class>org.activebpel.rt.war.tags.AeRequestEncodingTag</tag-class>
+    <body-content>empty</body-content>
+    <description>
+      Sets character encoding for request parameters.
+    </description>
+    <attribute>
+       <name>value</name>
+       <required>true</required>
+       <rtexprvalue>true</rtexprvalue>
+    </attribute>
+  </tag>
+
+  <tag>
+    <name>IfUserInRole</name>
+    <tag-class>org.activebpel.rt.war.tags.AeIfUserInRoleTag</tag-class>
+    <body-content>JSP</body-content>
+    <description>
+         Returns true if user is in the role or if authentication is off.
+         Useful for hiding UI elements that the user doesn't have access to.
+    </description>
+    <attribute>
+       <name>role</name>
+       <required>true</required>
+       <rtexprvalue>true</rtexprvalue>
+    </attribute>
+  </tag>
+
+   <tag>
+      <name>NumberFormatter</name>
+      <tag-class>org.activebpel.rt.war.tags.AePropertyNumberFormatterTag</tag-class>
+      <body-content>empty</body-content>
+      <description>
+         Formats the number of a property using the pattern provided.
+         Will cache the DecimalFormat on the pagecontext's request scope.
+      </description>
+      <attribute>
+         <name>property</name>
+         <required>true</required>
+         <rtexprvalue>true</rtexprvalue>
+      </attribute>
+      <attribute>
+         <name>name</name>
+         <required>true</required>
+         <rtexprvalue>true</rtexprvalue>
+      </attribute>
+    <attribute>
+       <name>pattern</name>
+       <required>false</required>
+       <rtexprvalue>true</rtexprvalue>
+    </attribute>
+    <attribute>
+       <name>patternKey</name>
+       <required>false</required>
+       <rtexprvalue>true</rtexprvalue>
+    </attribute>
+   </tag>
+   <tag>
+      <name>TabTag</name>
+      <tag-class>org.activebpel.rt.war.web.tabs.AeTabTag</tag-class>
+      <body-content>empty</body-content>
+      <description>
+         Builds the tabs for a JSP
+      </description>
+      <attribute>
+         <name>name</name>
+         <required>true</required>
+         <rtexprvalue>true</rtexprvalue>
+      </attribute>
+      <attribute>
+         <name>beanName</name>
+         <required>true</required>
+         <rtexprvalue>true</rtexprvalue>
+      </attribute>
+   </tag>
+
+  <tag>
+    <name>SetCheckboxProperty</name>
+    <tag-class>org.activebpel.rt.war.tags.AeCheckboxPropertySetterTag</tag-class>
+    <body-content>empty</body-content>
+    <description>
+      Sets the html form checkbox boolean property value.
+    </description>
+    <attribute>
+       <name>property</name>
+       <required>true</required>
+       <rtexprvalue>true</rtexprvalue>
+    </attribute>
+    <attribute>
+       <name>name</name>
+       <required>true</required>
+       <rtexprvalue>true</rtexprvalue>
+    </attribute>
+    <attribute>
+       <name>param</name>
+       <required>true</required>
+       <rtexprvalue>true</rtexprvalue>
+    </attribute>
+  </tag>
+  <tag>
+    <name>SetIntProperty</name>
+    <tag-class>org.activebpel.rt.war.tags.AeIntegerPropertySetterTag</tag-class>
+    <body-content>empty</body-content>
+    <description>
+      Sets the html form text field property value as a integer.
+    </description>
+    <attribute>
+       <name>property</name>
+       <required>true</required>
+       <rtexprvalue>true</rtexprvalue>
+    </attribute>
+    <attribute>
+       <name>name</name>
+       <required>true</required>
+       <rtexprvalue>true</rtexprvalue>
+    </attribute>
+    <attribute>
+       <name>param</name>
+       <required>true</required>
+       <rtexprvalue>true</rtexprvalue>
+    </attribute>
+    <attribute>
+       <name>default</name>
+       <required>false</required>
+       <rtexprvalue>true</rtexprvalue>
+    </attribute>
+    <attribute>
+       <name>min</name>
+       <required>false</required>
+       <rtexprvalue>true</rtexprvalue>
+    </attribute>
+    <attribute>
+       <name>max</name>
+       <required>false</required>
+       <rtexprvalue>true</rtexprvalue>
+    </attribute>
+  </tag>
+
+  <tag>
+    <name>SetStringProperty</name>
+    <tag-class>org.activebpel.rt.war.tags.AeStringPropertySetterTag</tag-class>
+    <body-content>empty</body-content>
+    <description>
+      Sets the html form text field property value as a string, including empty strings.
+    </description>
+    <attribute>
+       <name>property</name>
+       <required>true</required>
+       <rtexprvalue>true</rtexprvalue>
+    </attribute>
+    <attribute>
+       <name>name</name>
+       <required>true</required>
+       <rtexprvalue>true</rtexprvalue>
+    </attribute>
+    <attribute>
+       <name>param</name>
+       <required>true</required>
+       <rtexprvalue>true</rtexprvalue>
+    </attribute>
+  </tag>
+
+  <tag>
+    <name>CollectionIterator</name>
+    <tag-class>org.activebpel.rt.war.tags.AeCollectionIteratorTag</tag-class>
+    <body-content>JSP</body-content>
+    <description> Processes the body for each iteration in the named collection property.</description>
+    <attribute>
+       <name>property</name>
+       <required>true</required>
+       <rtexprvalue>true</rtexprvalue>
+    </attribute>
+    <attribute>
+       <name>name</name>
+       <required>true</required>
+       <rtexprvalue>true</rtexprvalue>
+    </attribute>
+    <attribute>
+       <name>id</name>
+       <required>true</required>
+       <rtexprvalue>true</rtexprvalue>
+    </attribute>
+  </tag>
+  
+  <tag>
+    <name>SetNamespaceMapping</name>
+    <tag-class>org.activebpel.rt.war.tags.AeSetNamespaceMappingTag</tag-class>
+    <body-content>empty</body-content>
+    <description>Sets a xpath namespace and prefix mapping in the request context</description>
+    <attribute>
+       <name>prefix</name>
+       <required>true</required>
+       <rtexprvalue>true</rtexprvalue>
+    </attribute>    
+    <attribute>
+       <name>uri</name>
+       <required>true</required>
+       <rtexprvalue>true</rtexprvalue>
+    </attribute>
+  </tag>   
+  
+  <tag>
+    <name>XPathSelectNodeText</name>
+    <tag-class>org.activebpel.rt.war.tags.AeXpathSelectNodeTextTag</tag-class>
+    <body-content>empty</body-content>
+    <description>Emits the node text on the xml element</description>
+    <attribute>
+       <name>name</name>
+       <required>true</required>
+       <rtexprvalue>true</rtexprvalue>
+    </attribute>    
+    <attribute>
+       <name>property</name>
+       <required>false</required>
+       <rtexprvalue>true</rtexprvalue>
+    </attribute>
+    <attribute>
+       <name>query</name>
+       <required>false</required>
+       <rtexprvalue>true</rtexprvalue>
+    </attribute>
+  </tag>
+  
+  <tag>
+    <name>XpathNodeIterator</name>
+    <tag-class>org.activebpel.rt.war.tags.AeXpathNodeIteratorTag</tag-class>
+    <body-content>JSP</body-content>
+    <description> Processes the body for each iteration in the xpath node list selection.</description>
+    <attribute>
+       <name>name</name>
+       <required>true</required>
+       <rtexprvalue>true</rtexprvalue>
+    </attribute>    
+    <attribute>
+       <name>property</name>
+       <required>false</required>
+       <rtexprvalue>true</rtexprvalue>
+    </attribute>
+    <attribute>
+       <name>query</name>
+       <required>false</required>
+       <rtexprvalue>true</rtexprvalue>
+    </attribute>
+    <attribute>
+       <name>id</name>
+       <required>true</required>
+       <rtexprvalue>true</rtexprvalue>
+    </attribute>    
+  </tag>
+  
+  <tag>
+    <name>XpathExist</name>
+    <tag-class>org.activebpel.rt.war.tags.AeXpathExistTag</tag-class>
+    <body-content>JSP</body-content>
+    <description> Processes the body if the xpath selection exists</description>
+    <attribute>
+       <name>name</name>
+       <required>true</required>
+       <rtexprvalue>true</rtexprvalue>
+    </attribute>    
+    <attribute>
+       <name>property</name>
+       <required>false</required>
+       <rtexprvalue>true</rtexprvalue>
+    </attribute>
+    <attribute>
+       <name>query</name>
+       <required>false</required>
+       <rtexprvalue>true</rtexprvalue>
+    </attribute>
+  </tag>       
+
+  <tag>
+    <name>XpathNotExist</name>
+    <tag-class>org.activebpel.rt.war.tags.AeXpathNotExistTag</tag-class>
+    <body-content>JSP</body-content>
+    <description> Processes the body if the xpath selection does not exists</description>
+    <attribute>
+       <name>name</name>
+       <required>true</required>
+       <rtexprvalue>true</rtexprvalue>
+    </attribute>    
+    <attribute>
+       <name>property</name>
+       <required>false</required>
+       <rtexprvalue>true</rtexprvalue>
+    </attribute>
+    <attribute>
+       <name>query</name>
+       <required>false</required>
+       <rtexprvalue>true</rtexprvalue>
+    </attribute>
+  </tag>
+  
+    <tag>
+    <name>XpathSelectNodeDate</name>
+    <tag-class>org.activebpel.rt.war.tags.AeXpathSelectNodeDateTag</tag-class>
+    <body-content>JSP</body-content>
+    <description> Formats the node text data given the date pattern key in resource bundle or direct pattern.</description>
+    <attribute>
+       <name>name</name>
+       <required>true</required>
+       <rtexprvalue>true</rtexprvalue>
+    </attribute>    
+    <attribute>
+       <name>property</name>
+       <required>false</required>
+       <rtexprvalue>true</rtexprvalue>
+    </attribute>
+    <attribute>
+       <name>query</name>
+       <required>false</required>
+       <rtexprvalue>true</rtexprvalue>
+    </attribute>
+    <attribute>
+       <name>pattern</name>
+       <required>false</required>
+       <rtexprvalue>true</rtexprvalue>
+    </attribute>
+    <attribute>
+       <name>patternKey</name>
+       <required>false</required>
+       <rtexprvalue>true</rtexprvalue>
+    </attribute>    
+  </tag>    
+      
+</taglib>

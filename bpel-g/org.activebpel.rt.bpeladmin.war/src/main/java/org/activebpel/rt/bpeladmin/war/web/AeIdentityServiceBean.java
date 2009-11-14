@@ -10,11 +10,14 @@
 package org.activebpel.rt.bpeladmin.war.web;
 
 import java.io.File;
+import java.io.IOException;
+import java.io.StringWriter;
+import java.util.Map;
+import java.util.Properties;
 
 import org.activebpel.rt.AeException;
-import org.activebpel.rt.bpel.config.IAeUpdatableEngineConfig;
+import org.activebpel.rt.bpel.config.AeDefaultEngineConfiguration;
 import org.activebpel.rt.bpeladmin.war.AeMessages;
-import org.activebpel.rt.bpeladmin.war.web.AeAbstractAdminBean;
 import org.activebpel.rt.identity.AeIdentityConfig;
 import org.activebpel.rt.identity.provider.AeIdentityFileConfig;
 import org.activebpel.rt.util.AeUtil;
@@ -36,21 +39,14 @@ public class AeIdentityServiceBean extends AeAbstractAdminBean
 
 
    /**
-    * Convenience method to get theupdatable versioned config.
-    */
-   protected IAeUpdatableEngineConfig getUpdatableConfig()
-   {
-      return getAdmin().getEngineConfig().getUpdatableEngineConfig();
-   }
-
-   /**
     * @return Config wrapper for identity service File settings.
     */
    protected AeIdentityFileConfig getFileConfig()
    {
       if (mFileConfig == null)
       {
-         mFileConfig = AeIdentityFileConfig.getFileConfigFromConfig( getUpdatableConfig() );
+          AeDefaultEngineConfiguration config = getRawConfig();
+          mFileConfig = AeIdentityFileConfig.getFileConfigFromConfig( config );
       }
       return mFileConfig;
    }
@@ -58,11 +54,21 @@ public class AeIdentityServiceBean extends AeAbstractAdminBean
    /**
     * Saves the current config settings to the database.
     */
-   protected void saveChanges()
-   {
-      AeIdentityConfig.setOnConfig( getFileConfig(), getUpdatableConfig() );
-      getUpdatableConfig().update();
-   }
+    protected void saveChanges() {
+        AeDefaultEngineConfiguration config = getRawConfig();
+        AeIdentityConfig.setOnConfig(getFileConfig(), config);
+        Map map = config.getEntries();
+        Properties props = new Properties();
+        props.putAll(map);
+        StringWriter sw = new StringWriter();
+        try {
+            props.store(sw, "raw dump");
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        getAdmin().setRawConfig(sw.toString());
+    }
 
    /**
     * Tests the current configuration.

@@ -18,6 +18,7 @@ import org.activebpel.rt.bpel.impl.list.AeProcessInstanceDetail;
 import org.activebpel.rt.bpel.server.engine.storage.xmldb.AeXMLDBException;
 import org.activebpel.rt.bpel.server.engine.storage.xmldb.handlers.AeXMLDBSingleObjectResponseHandler;
 import org.activebpel.rt.bpel.server.engine.storage.xmldb.process.IAeProcessElements;
+import org.activebpel.rt.xml.AeQName;
 import org.w3c.dom.Element;
 
 /**
@@ -57,7 +58,7 @@ public class AeProcessInstanceDetailResponseHandler extends AeXMLDBSingleObjectR
       }
 
       aDetail.setProcessId(processId);
-      aDetail.setName(processName);
+      aDetail.setName(new AeQName(processName));
       aDetail.setState(processState.intValue());
       aDetail.setStateReason(processStateReason.intValue());
       aDetail.setStarted(startDate);

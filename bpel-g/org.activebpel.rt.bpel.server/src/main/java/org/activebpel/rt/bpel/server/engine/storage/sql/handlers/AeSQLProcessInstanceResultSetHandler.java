@@ -19,6 +19,7 @@ import org.activebpel.rt.bpel.IAeBusinessProcess;
 import org.activebpel.rt.bpel.impl.list.AeProcessInstanceDetail;
 import org.activebpel.rt.bpel.server.engine.storage.sql.AeDbUtils;
 import org.activebpel.rt.bpel.server.engine.storage.sql.IAeProcessColumns;
+import org.activebpel.rt.xml.AeQName;
 import org.apache.commons.dbutils.ResultSetHandler;
 
 
@@ -80,7 +81,7 @@ public class AeSQLProcessInstanceResultSetHandler implements ResultSetHandler
       }
 
       aProcessInstanceDetail.setProcessId(processId);
-      aProcessInstanceDetail.setName(processName);
+      aProcessInstanceDetail.setName(new AeQName(processName));
       aProcessInstanceDetail.setState(processState);
       aProcessInstanceDetail.setStateReason(processStateReason);
       aProcessInstanceDetail.setStarted(startDate);
