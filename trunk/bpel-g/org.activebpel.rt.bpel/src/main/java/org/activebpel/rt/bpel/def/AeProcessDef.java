@@ -9,6 +9,7 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpel.def;
 
+import java.io.Serializable;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
@@ -50,7 +51,7 @@ import org.activebpel.rt.wsdl.def.IAePropertyAlias;
 /**
  * Definition for bpel process
  */
-public class AeProcessDef extends AeScopeDef
+public class AeProcessDef extends AeScopeDef implements Serializable
 {
    /** The namespace of the process (may be bpel 1.1 or 2.0). */
    private String mNamespace;
@@ -100,14 +101,14 @@ public class AeProcessDef extends AeScopeDef
    private Set<String> mOneWayReceives = new HashSet();
    /** maps partner link name and operation to a list of property sets that can be in the request */
    // TODO revisit: do we really need this map?
-   private Map<AePartnerLinkOpKey,AeCorrelationCombinations> mCorrelationPropertiesMap = new HashMap();
+   private transient Map<AePartnerLinkOpKey,AeCorrelationCombinations> mCorrelationPropertiesMap = new HashMap();
    /** map of create instance activities and their message exchange values (if they're not-null) */
    // TODO revisit: do we really need this map?
    private Map<AePartnerLinkOpKey,String> mMessageExchangeMap = new HashMap();
    /** List of the process's imports. */
    private List<AeImportDef> mImports = new LinkedList();
    /** The 'extensions' child. */
-   private AeExtensionsDef mExtensionsDef;
+   private transient AeExtensionsDef mExtensionsDef;
    /** A map of partner link locations to partner link defs. */
    private Map<String,AePartnerLinkDef> mPartnerLinkMap = new HashMap();
    /** A map of partner link names to fully qualified partner link locations. */
