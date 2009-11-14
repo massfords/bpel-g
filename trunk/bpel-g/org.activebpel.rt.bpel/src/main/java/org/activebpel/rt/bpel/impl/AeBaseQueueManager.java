@@ -9,9 +9,6 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpel.impl;
 
-import commonj.timers.Timer;
-import commonj.timers.TimerListener;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -44,6 +41,9 @@ import org.activebpel.rt.bpel.impl.reply.IAeReplyReceiver;
 import org.activebpel.rt.message.IAeMessageData;
 import org.activebpel.rt.util.AeUtil;
 import org.activebpel.wsio.IAeMessageAcknowledgeCallback;
+
+import commonj.timers.Timer;
+import commonj.timers.TimerListener;
 
 /**
  * An in-memory implementation of the queue manager. All of the queues are implemented
