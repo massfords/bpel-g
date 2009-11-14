@@ -43,7 +43,7 @@ public class AeVariableDef extends AeNamedDef implements IAeFromParentDef
    /** The variable's 'from' child. */
    private AeFromDef mFrom;
    /** The schema type of the variable, only set when the variable is a type variable */
-   private XMLType mXMLType;
+   private transient XMLType mXMLType;
 
    /**
     * Default constructor
