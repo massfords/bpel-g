@@ -26,9 +26,9 @@ public class AeEventHandlersDef extends AeBaseDef
       implements IAeEventContainerDef, IAeUncrossableLinkBoundary
 {
    /** The list of on message definitions, may be null */
-   private List mOnEventList = new ArrayList();
+   private List<AeOnEventDef> mOnEventList = new ArrayList();
    /** The list of on alaram definitions, may be null */
-   private List mOnAlarmList = new ArrayList();
+   private List<AeOnAlarmDef> mOnAlarmList = new ArrayList();
 
    /**
     * Default constructor
