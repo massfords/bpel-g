@@ -138,6 +138,8 @@ public class BgComponentLifeCycle implements ComponentLifeCycle {
         try {
             if (server != null) {
                 mAdminBeanName = context.getMBeanNames().createCustomComponentMBeanName("Management");
+                sLog.debug("MBean domain=" + mAdminBeanName.getDomain());
+                sLog.debug("MBean canocialName=" + mAdminBeanName.getCanonicalName());
                 if (server.isRegistered(mAdminBeanName)) {
                     server.unregisterMBean(mAdminBeanName);
                 }
