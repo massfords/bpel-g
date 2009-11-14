@@ -9,10 +9,8 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpel.def;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
-import java.util.List;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
@@ -22,10 +20,7 @@ import java.util.Map;
 abstract public class AeBaseContainer extends AeBaseDef
 {
    /** HashMap used for associating names to objects */
-   private Map mMap;
-
-   /** List maintains the order of the objects added to this collection */
-   private List mList = new ArrayList();
+   private LinkedHashMap mMap;
 
    /**
     * Private getter forces subclasses to use the collection mutator methods below.
@@ -34,17 +29,9 @@ abstract public class AeBaseContainer extends AeBaseDef
    {
       if (mMap == null)
       {
-         mMap = new HashMap();
+         mMap = new LinkedHashMap();
       }
       return mMap;
-   }
-
-   /**
-    * Private getter forces subclasses to use the collection mutator methods below.
-    */
-   private List getList()
-   {
-      return mList;
    }
 
    /**
@@ -61,7 +48,6 @@ abstract public class AeBaseContainer extends AeBaseDef
    protected void add(String aKey, Object aValue)
    {
       getMap().put(aKey, aValue);
-      getList().add(aValue);
    }
    
    /**
@@ -70,7 +56,7 @@ abstract public class AeBaseContainer extends AeBaseDef
     */
    protected void add(Object aValue)
    {
-      getList().add(aValue);
+      getMap().put(aValue, aValue);
    }
 
    /**
@@ -82,7 +68,6 @@ abstract public class AeBaseContainer extends AeBaseDef
    protected void remove(String aKey, Object aValue)
    {
       getMap().remove(aKey);
-      getList().remove(aValue);
    }
    
    /**
@@ -92,7 +77,7 @@ abstract public class AeBaseContainer extends AeBaseDef
     */
    protected void remove(Object aValue)
    {
-      getList().remove(aValue);
+      getMap().remove(aValue);
    }
 
    /**
@@ -100,7 +85,7 @@ abstract public class AeBaseContainer extends AeBaseDef
     */
    public int getSize()
    {
-      return getList().size();
+      return getMap().size();
    }
 
    /**
@@ -108,7 +93,7 @@ abstract public class AeBaseContainer extends AeBaseDef
     */
    public Iterator getValues()
    {
-      return getList().iterator();
+      return getMap().values().iterator();
    }
    
    /**
