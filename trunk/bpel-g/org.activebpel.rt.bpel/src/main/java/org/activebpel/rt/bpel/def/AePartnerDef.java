@@ -21,7 +21,7 @@ import org.activebpel.rt.bpel.def.visitors.IAeDefVisitor;
 public class AePartnerDef extends AeNamedDef implements IAePartnerLinkParentDef
 {
    /** List of strings which are the names of the associated partner links. */
-   private List mPartnerLinks = new ArrayList();
+   private List<String> mPartnerLinks = new ArrayList();
 
    /**
     * Default constructor
@@ -35,7 +35,7 @@ public class AePartnerDef extends AeNamedDef implements IAePartnerLinkParentDef
     * Returns an iterator for the list of partnerLink names (String) associated
     * with this partner.
     */
-   public Iterator getPartnerLinks()
+   public Iterator<String> getPartnerLinks()
    {
       return mPartnerLinks.iterator();
    }
