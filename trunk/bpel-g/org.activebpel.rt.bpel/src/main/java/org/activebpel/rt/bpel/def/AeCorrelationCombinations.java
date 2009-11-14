@@ -54,7 +54,7 @@ public class AeCorrelationCombinations implements Serializable
     * activity with an uninitialized correlationSet.
     * @param aSetOfCorrelationSetDefs
     */
-   public void add(Set aSetOfCorrelationSetDefs)
+   public void add(Set<AeCorrelationSetDef> aSetOfCorrelationSetDefs)
    {
       boolean added = getCorrelationSetsColl().add(aSetOfCorrelationSetDefs);
       if (added)
