@@ -73,7 +73,7 @@ public class BgPddBuilderTest {
             "<pdd:process xmlns:bpelns='test' xmlns:pdd='http://schemas.active-endpoints.com/pdd/2006/08/pdd.xsd' location='test.bpel' name='bpelns:test' platform='opensource'>" + 
         		"<pdd:partnerLinks>" + 
         		    "<pdd:partnerLink name='testPartnerLinkType'>" + 
-        		        "<pdd:myRole allowedRoles='' binding='MSG' service='mysvc:test test'/>" + 
+        		        "<pdd:myRole allowedRoles='' binding='EXTERNAL' service='mysvc:test test'/>" + 
         		    "</pdd:partnerLink>" + 
         		"</pdd:partnerLinks>" + 
         		"<pdd:references>" + 
@@ -96,7 +96,7 @@ public class BgPddBuilderTest {
             "<pdd:process xmlns:bpelns='test' xmlns:pdd='http://schemas.active-endpoints.com/pdd/2006/08/pdd.xsd' location='testInvoke.bpel' name='bpelns:testInvoke' platform='opensource'>" + 
                 "<pdd:partnerLinks>" + 
                     "<pdd:partnerLink name='testPartnerLinkType'>" + 
-                        "<pdd:myRole allowedRoles='' binding='MSG' service='mysvc:test testInvoke'/>" + 
+                        "<pdd:myRole allowedRoles='' binding='EXTERNAL' service='mysvc:test testInvoke'/>" + 
                     "</pdd:partnerLink>" + 
                     "<pdd:partnerLink name='testPartnerLinkType2'>" + 
                         "<pdd:partnerRole endpointReference='static' invokeHandler='default:Service'>" + 

@@ -11,11 +11,10 @@ package org.activebpel.rt.bpeladmin.war.web;
 
 import java.util.List;
 
-import javax.xml.namespace.QName;
-
 import org.activebpel.rt.bpel.server.admin.AeProcessDeploymentDetail;
 import org.activebpel.rt.bpeladmin.war.AeMessages;
 import org.activebpel.rt.util.AeUtil;
+import org.activebpel.rt.xml.AeQName;
 
 /**
  * Bean for selecting the info on a specific process deployment.
@@ -73,7 +72,7 @@ public class AeProcessDeploymentSelectorBean extends AeAbstractAdminBean
                localPart = aQName.substring(colonIndex+1);
            }
            
-           QName qname = new QName( ns, localPart );
+           AeQName qname = new AeQName( ns, localPart ); 
            List<AeProcessDeploymentDetail> details = getAdmin().getDeployedProcesses();
            for(int i=0; i < details.size(); ++i)
            {

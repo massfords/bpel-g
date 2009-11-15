@@ -39,4 +39,12 @@ public class AeQName {
     public QName toQName() {
         return mQName;
     }
+    
+    public int hashCode(){
+        return mQName.hashCode();
+    }
+    
+    public boolean equals(Object aOther) {
+        return aOther instanceof AeQName && ((AeQName) aOther).toQName().equals(mQName);
+    }
 }
