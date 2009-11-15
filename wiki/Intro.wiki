@@ -13,6 +13,13 @@ bpel-g uses maven. A couple of the projects require artifacts which aren't avail
 === Eclipse ===
 The easiest way to get these projects into eclipse is to install the [http://m2eclipse.sonatype.org/ m2eclipse plugin]. Once installed, select File / Import / Existing Maven Projects. The m2eclipse plugin can be a little flakey when importing nested projects so I typically deselect the root project and then manually select each of the child projects. This way there won't be a duplicate copy of files in search results and your workspace will be smaller.
 
+=== Mylyn ===
+If you're a mylyn user, then you can connect to the issues list in google code by following the instructions [http://eclipse.dzone.com/articles/using-mylyn-with-google-code-u here]. I'm using the following config:
+
+||server url|| {{{http://code.google.com/p/bpel-g/issues}}} ||
+||query url|| {{{${serverUrl}/csv?can=2&colspec=ID%20Status%20Type%20Owner%20Summary&status=Accepted,Started&sort=priority}}} ||
+|| query pattern || {{{ "({Id}[0-9]+?)","({Status}.+?)","({Type}.+?)","({Owner}.+?)","({Description}.+?)"\s}}} ||
+
 == Database ==
 The default configuration of bpel-g requires a database (a future release will have an in-memory only profile). The database of choice for this release is the [http://www.h2database.com/ H2 java database]. At the moment, the easiest way to create the required db instance is to run the build for the war packaging:
 
