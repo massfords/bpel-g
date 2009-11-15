@@ -67,6 +67,9 @@ public class AeProcessViewBase
 
    /** Error message */
    private String mMessage;
+   
+   private String mBpelSrc = null;
+   private String mStateDocSrc = null;
 
    /** Active process's BPEL xml document. */
    private Document mBpelDoc = null;
@@ -353,6 +356,7 @@ public class AeProcessViewBase
       try
       {
           String state = AeEngineManagementFactory.getBean().getProcessState(mProcessId);
+          mStateDocSrc = state;
           stateDoc = new AeXMLParserBase(true, false).loadDocumentFromString(state, null);
 //         stateDoc = AeEngineFactory.getEngineAdministration().getProcessState(mProcessId);
       }
@@ -404,6 +408,7 @@ public class AeProcessViewBase
       }
       else
       {
+          mBpelSrc = deployDetails.getBpelSourceXml();
          try
          {
             bpelDoc = AeProcessViewUtil.domFromString(deployDetails.getBpelSourceXml());
@@ -656,7 +661,7 @@ public class AeProcessViewBase
     */
    public String getBpelXmlSource()
    {
-      return getXmlSource( getBpelDocument() );
+       return mBpelSrc;
    }
 
    /**
@@ -664,26 +669,7 @@ public class AeProcessViewBase
     */
    public String getStateXmlSource()
    {
-      return getXmlSource( getStateDocument() );
-   }
-
-   /**
-    * Returns the Document xml as a string.
-    * @param aDocument BPEL process or state document.
-    * @return xml as a string.
-    */
-   protected String getXmlSource(Document aDocument)
-   {
-      String xml = null;
-      if (aDocument != null)
-      {
-         xml = AeProcessViewUtil.stringFromDom(aDocument, true);
-      }
-      if (AeUtil.isNullOrEmpty(xml))
-      {
-         xml = "Process xml source not available for ID: " + getProcessId(); //$NON-NLS-1$
-      }
-      return xml;
+       return mStateDocSrc;
    }
 
    /**
