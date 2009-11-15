@@ -77,7 +77,7 @@ public class BgPddBuilder {
             if (plink.hasMyRole()) {
                 Element myRole = AeXmlUtil.addElementNS(plinkEl, PDD, "pdd:myRole");
                 myRole.setAttribute("allowedRoles", "");
-                myRole.setAttribute("binding", "MSG");
+                myRole.setAttribute("binding", "EXTERNAL");
                 String encodedService = AeXmlUtil.encodeQName(plink.myService, myRole, "mysvc");
                 // space delimited value of Service QName + endpoint
                 myRole.setAttribute("service", encodedService + " " + plink.myEndpoint + " " + UUID.randomUUID().toString());

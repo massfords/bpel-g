@@ -37,7 +37,7 @@
                      <th class="columnHeaders" align="left" nowrap="true">&nbsp;<ae:GetResource name="partner_link_header" /></th>
                   </tr>
 
-                  <ae:IndexedProperty name="serviceBean" id="rowDetail" property="detail" indexedClassName="org.activebpel.rt.bpel.server.deploy.AeServiceDeploymentInfo" >
+                  <ae:IndexedProperty name="serviceBean" id="rowDetail" property="detail" indexedClassName="org.activebpel.rt.bpel.server.admin.jmx.AeServiceDeploymentBean" >
                      <tr>
                        <ae:IfPropertyMatches name="rowDetail" property="binding" value="EXTERNAL" classType="java.lang.String">
                           <td align="left">&nbsp;<jsp:getProperty name="rowDetail" property="serviceName" /></td>
@@ -46,11 +46,12 @@
                           <td align="left">&nbsp;<a href='services/<jsp:getProperty name="rowDetail" property="serviceName" />?wsdl'><jsp:getProperty name="rowDetail" property="serviceName" /></a></td>
                        </ae:IfPropertyNotMatches>
                        <%
-                         String procDetail = response.encodeURL("deployed_process_detail.jsp?planQname=" + rowDetail.getProcessQName().getNamespaceURI() + ":" + rowDetail.getProcessQName().getLocalPart() + "&tab=0");
+                         String procDetail = response.encodeURL("deployed_process_detail.jsp?planQname=" + rowDetail.getProcessName().getNamespaceURI() + ":" + rowDetail.getProcessName().getLocalPart() + "&tab=0");
+                         String procName = rowDetail.getProcessName().getLocalPart();
                        %>
-                       <td align="left">&nbsp;<a href="<%= procDetail %>"><jsp:getProperty name="rowDetail" property="processName" /></a></td>
-                       <td align="left">&nbsp;<jsp:getProperty name="rowDetail" property="binding" /></a></td>
-                       <td align="left">&nbsp;<jsp:getProperty name="rowDetail" property="partnerLinkName" /></a></td>
+                       <td align="left">&nbsp;<a href="<%= procDetail %>"><%= procName %></a></td>
+                       <td align="left">&nbsp;<jsp:getProperty name="rowDetail" property="binding" /></td>
+                       <td align="left">&nbsp;<jsp:getProperty name="rowDetail" property="partnerLinkName" /></td>
                      </tr>
                      <tr height="1">
                        <td colspan="4" height="1" class="tabular"></td>
