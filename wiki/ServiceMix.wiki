@@ -4,6 +4,8 @@
 
 bpel-g has a JBI packaging which can be deployed to [http://servicemix.apache.org/home.html Apache ServiceMix 3.3.1]. In this packaging, bpel-g provides a service engine component for BPEL orchestrations. 
 
+[http://bpel-g.googlecode.com/svn/trunk/bpel-g/docs/ServiceMix3.png]
+
 = Service Unit packaging =
 
 == pom.xml ==
