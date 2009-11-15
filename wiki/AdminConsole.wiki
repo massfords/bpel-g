@@ -1,5 +1,7 @@
 Saga of the admin console. From static refs to JMX.
 
+[http://bpel-g.googlecode.com/svn/trunk/bpel-g/docs/process-viewer.png]
+
 = Goals for Admin Console =
 
   * process defnition listing
@@ -8,7 +10,6 @@ Saga of the admin console. From static refs to JMX.
   * process instance rendering
   * view WSDL and other deployed resources
   * view and configure engine settings
-
 
 The original ActiveBPEL 5.0.2 BpelAdmin console does all of the above and more. However, the JBI packaging in ServiceMix isn't amenable to deploying a web app. While it appears that ServiceMix 4 offers support for a WAR, I'd like to get things working with 3 first since it's more stable. 
 
