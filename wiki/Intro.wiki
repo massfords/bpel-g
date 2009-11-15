@@ -53,6 +53,9 @@ $SERVICEMIX_HOME/conf/jndi.xml needs to have an entry for the DataSource. The fo
 
 Also need to put the H2 jar in $SERVICEMIX_HOME/lib
 
+=== Embedded Database ===
+If you don't map a DataSource to bpel-g's JNDI context as shown above, then it will create an embedded database in the component's install directory. Keep in mind that this database will be rebuilt if you install new versions of the component so it's not a good solution for keeping your process instances across updates.
+
 == BPEL Deployments in WAR ==
 The Business Process Archive (or BPR) is the only supported packaging structure at the moment for the web application. Check the [http://activevos.com ActiveVOS] web site for information on how to construct a BPR or simply use their BPEL designer to create one. Support for a simpler packaging structure will be added in the future.
 
