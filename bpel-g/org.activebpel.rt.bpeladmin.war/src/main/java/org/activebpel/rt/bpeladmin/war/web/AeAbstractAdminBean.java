@@ -9,17 +9,17 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpeladmin.war.web;
 
-import java.io.IOException;
 import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Properties;
 
+import org.activebpel.rt.AeException;
 import org.activebpel.rt.bpel.config.AeDefaultEngineConfiguration;
 import org.activebpel.rt.bpel.server.admin.jmx.IAeEngineManagementMXBean;
 import org.activebpel.rt.bpeladmin.war.AeEngineManagementFactory;
+import org.activebpel.rt.config.AeConfigurationUtil;
 import org.activebpel.rt.util.AeUtil;
 import org.activebpel.rt.war.tags.IAeErrorAwareBean;
 
@@ -192,13 +192,14 @@ public class AeAbstractAdminBean implements IAeErrorAwareBean
     protected AeDefaultEngineConfiguration getRawConfig() {
         AeDefaultEngineConfiguration config = new AeDefaultEngineConfiguration();
         String raw = getAdmin().getRawConfig();
-        Properties props = new Properties();
+        Map entries = null;
         try {
-            props.load(new StringReader(raw));
-        } catch (IOException e) {
+            entries = AeConfigurationUtil.loadConfig(new StringReader(raw));
+        } catch (AeException e) {
+            // TODO Auto-generated catch block
             e.printStackTrace();
         }
-        config.setEntries(props);
+        config.setEntries(entries);
         return config;
     }
 }

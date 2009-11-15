@@ -27,6 +27,7 @@ public class AeEngineManagementFactory {
                 sBean = new AeEngineManagementAdapter(AeEngineFactory.getEngineAdministration());
             } else {
                 try {
+                    // FIXME don't hard code this
                     JMXServiceURL url = new JMXServiceURL("service:jmx:rmi:///jndi/rmi://localhost:1099/jmxrmi");
                     String[] creds = {"smx", "smx"};
                     Map map = Collections.singletonMap(JMXConnector.CREDENTIALS, creds);

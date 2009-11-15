@@ -1,15 +1,12 @@
 package org.activebpel.rt.bpel.server.admin.jmx;
 
-import java.io.IOException;
 import java.io.StringReader;
 import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Properties;
 
 import javax.xml.namespace.QName;
 
@@ -38,6 +35,7 @@ import org.activebpel.rt.bpel.server.admin.IAeEngineAdministration;
 import org.activebpel.rt.bpel.server.deploy.IAeServiceDeploymentInfo;
 import org.activebpel.rt.bpel.server.engine.AeEngineFactory;
 import org.activebpel.rt.bpel.server.engine.storage.AeStorageException;
+import org.activebpel.rt.config.AeConfigurationUtil;
 import org.activebpel.rt.util.AeUtil;
 import org.activebpel.rt.xml.AeQName;
 import org.activebpel.rt.xml.schema.AeSchemaDuration;
@@ -525,13 +523,11 @@ public class AeEngineManagementAdapter implements IAeEngineManagementMXBean {
     @Override
     public String getRawConfig() {
         AeDefaultEngineConfiguration engineConfig = (AeDefaultEngineConfiguration) mAdmin.getEngineConfig();
-        Map map = engineConfig.getEntries();
-        Properties props = new Properties();
-        props.putAll(map);
         StringWriter sw = new StringWriter();
         try {
-            props.store(sw, "raw dump");
-        } catch (IOException e) {
+            engineConfig.save(sw);
+        } catch (AeException e) {
+            // FIXME handle exception
             e.printStackTrace();
         }
         return sw.toString();
@@ -539,15 +535,13 @@ public class AeEngineManagementAdapter implements IAeEngineManagementMXBean {
 
     @Override
     public void setRawConfig(String aRaw) {
-        Properties props = new Properties();
         try {
-            props.load(new StringReader(aRaw));
-            Map map = new HashMap();
-            map.putAll(props);
             AeDefaultEngineConfiguration engineConfig = (AeDefaultEngineConfiguration) mAdmin.getEngineConfig();
-            engineConfig.setEntries(map);
+            Map entries = AeConfigurationUtil.loadConfig(new StringReader(aRaw));
+            engineConfig.setEntries(entries);
             engineConfig.update();
-        } catch (IOException e) {
+        } catch (AeException e) {
+            // FIXME handle exception
             e.printStackTrace();
         }
     }
