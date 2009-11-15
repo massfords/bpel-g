@@ -9,11 +9,10 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpeladmin.war.web;
 
-import java.io.IOException;
 import java.io.StringWriter;
 import java.util.Map;
-import java.util.Properties;
 
+import org.activebpel.rt.AeException;
 import org.activebpel.rt.bpel.config.AeDefaultEngineConfiguration;
 import org.activebpel.rt.bpel.config.IAeEngineConfiguration;
 import org.activebpel.rt.bpel.server.admin.IAeEngineAdministration;
@@ -184,17 +183,14 @@ public class AeStorageBean extends AeAbstractAdminBean
                } // end dsMap
             } // end providerMap
 
-            Map entries = config.getEntries();
-            Properties props = new Properties();
-            props.putAll(entries);
             StringWriter sw = new StringWriter();
             try {
-                props.store(sw, "raw dump");
-            } catch (IOException e) {
-                // TODO Auto-generated catch block
+                config.save(sw);
+                getAdmin().setRawConfig(sw.toString());
+            } catch (AeException e) {
+                // FIXME handle exception
                 e.printStackTrace();
             }
-            getAdmin().setRawConfig(sw.toString());
             
 //            // write the new configuration out
 //            if( getAdmin().getEngineConfig() instanceof AeFileBasedEngineConfig )

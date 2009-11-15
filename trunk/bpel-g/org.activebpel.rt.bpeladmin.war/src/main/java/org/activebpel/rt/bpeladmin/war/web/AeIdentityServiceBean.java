@@ -10,10 +10,7 @@
 package org.activebpel.rt.bpeladmin.war.web;
 
 import java.io.File;
-import java.io.IOException;
 import java.io.StringWriter;
-import java.util.Map;
-import java.util.Properties;
 
 import org.activebpel.rt.AeException;
 import org.activebpel.rt.bpel.config.AeDefaultEngineConfiguration;
@@ -57,17 +54,14 @@ public class AeIdentityServiceBean extends AeAbstractAdminBean
     protected void saveChanges() {
         AeDefaultEngineConfiguration config = getRawConfig();
         AeIdentityConfig.setOnConfig(getFileConfig(), config);
-        Map map = config.getEntries();
-        Properties props = new Properties();
-        props.putAll(map);
         StringWriter sw = new StringWriter();
         try {
-            props.store(sw, "raw dump");
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
+            config.save(sw);
+            getAdmin().setRawConfig(sw.toString());
+        } catch (AeException e) {
+            // FIXME Auto-generated catch block
             e.printStackTrace();
         }
-        getAdmin().setRawConfig(sw.toString());
     }
 
    /**
