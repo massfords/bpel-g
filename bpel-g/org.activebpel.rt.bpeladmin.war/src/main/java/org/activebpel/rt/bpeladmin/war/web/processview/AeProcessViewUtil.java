@@ -60,18 +60,11 @@ public class AeProcessViewUtil
     */
    public static Document domFromString(String aXmlSource) throws AeException
    {
-      try
-      {
-         AeXMLParserBase parser = new AeXMLParserBase();
-         parser.setNamespaceAware(true);
-         parser.setValidating(false);
-         Document dom = parser.loadDocumentFromString(aXmlSource, null);
-         return dom;
-      }
-      catch(AeException e)
-      {
-         throw e;
-      }
+        AeXMLParserBase parser = new AeXMLParserBase();
+        parser.setNamespaceAware(true);
+        parser.setValidating(false);
+        Document dom = parser.loadDocumentFromString(aXmlSource, null);
+        return dom;
    }
 
    /**
@@ -88,6 +81,7 @@ public class AeProcessViewUtil
       catch(Throwable t)
       {
          // ignore
+          t.printStackTrace();
          return null;
       }
    }
