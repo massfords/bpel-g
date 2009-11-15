@@ -1,0 +1,38 @@
+Saga of the admin console. From static refs to JMX.
+
+= Goals for Admin Console =
+
+  * process defnition listing
+  * process instance listing and filtering
+  * process definition rendering
+  * process instance rendering
+  * view WSDL and other deployed resources
+  * view and configure engine settings
+
+
+The original ActiveBPEL 5.0.2 BpelAdmin console does all of the above and more. However, the JBI packaging in ServiceMix isn't amenable to deploying a web app. While it appears that ServiceMix 4 offers support for a WAR, I'd like to get things working with 3 first since it's more stable. 
+
+That said, how to convert a standard web app that is essentially making direct calls via a singleton into a remote web app. And thus began my crazy journey into the world of Java-first/JAXB/java2ws
+
+= WS-Attempt =
+
+My first thought at an architecture was as follows:
+
+  # java2ws to create a WSDL
+  # servicemix-http to create an assembly that provided the external SOAP/HTTP endpoint
+  # activate an internal endpoint in my component to receive the admin service requests
+  # JAXB to unmarshal the request messages, reflection to invoke the admin, and JAXB to marshal the response.
+
+It took a few hours to make all of the args and return types in the admin interface JAXB compliant (no-arg ctor, getter and setter, removing interfaces, etc).  It took another couple of hours to create the annotations to control the serialization on every method, arg, and return type. This was a mix of JAXB and jaxws annotations and the latter really end up making the interface look unreadable. The final straw though was not being able to get the java2ws plugin to generate a schema that I was happy with. In particular, I like everything to be qualified but when I'm serializing Maps with jaxb I recall having to create an adapter to ensure that the map would marshal with qualified elements. The final straw was having to create a bunch of java classes for the sole purpose of getting the Map's to serialize the way I wanted. In hindsight, I suppose I could modified the java2ws output during the build to toggle the form attribute on the map's definition but by that point I had enough.
+
+= JMX =
+
+JMX ended up being an easier path with some very quick rewards, although it ultimately ended up being a lot of work to get the admin interface cleaned up to be JMX friendly (I had reverted most of my JAXB changes in disgust). The only thing I wanted to watch out for here was to not require the JMX client to modify its classpath to include my jars. One thing I hate about using jconsole to manage some of the tools in ServiceMix is that it barks at me when I don't have the classes on the classpath and the vm doesn't download them automatically. 
+
+(note on MXBean here)
+
+= ActiveBPEL 5.0.2 BpelAdmin Packaging  =
+
+The original open source version of ActiveBPEL was packaged as a customized version of tomcat. This was done initially as a matter of convenience since there were separate web applications for the engine and for the admin and they needed to share classes. The result was that the two wars themselves were tiny, comprised merely of jsp files and the associated web app artifacts. The actual code to drive the engine and the console was housed in the shared/lib directory of tomcat. The various web beans that comprised the web app would make requests for data from the engine through an interface (IAeEngineAdministration) and this was done with the hope of putting a barrier between the two layers such that we could eventually remote the web app or at least not assume that we were running in the same classloader as the engine. 
+
+Unfortunately, the interface that provided this admin layer was never really tested as a remote service and as such over time evolved to have non bean like args and return types. Furthermore, additional static access to elements in the engine crept into the web app due since remoting was never really a priority. Keep in mind that this was really only an issue for the Tomcat packaging and the real enterprise sales would have been on a real app server and using the EAR packaging which was a lot more sane.
