@@ -16,14 +16,21 @@ That said, how to convert a standard web app that is essentially making direct c
 
 = WS-Attempt =
 
-My first thought at an architecture was as follows:
+My first thought at an implementation was as follows:
 
   # java2ws to create a WSDL
   # servicemix-http to create an assembly that provided the external SOAP/HTTP endpoint
   # activate an internal endpoint in my component to receive the admin service requests
   # JAXB to unmarshal the request messages, reflection to invoke the admin, and JAXB to marshal the response.
 
-It took a few hours to make all of the args and return types in the admin interface JAXB compliant (no-arg ctor, getter and setter, removing interfaces, etc).  It took another couple of hours to create the annotations to control the serialization on every method, arg, and return type. This was a mix of JAXB and jaxws annotations and the latter really end up making the interface look unreadable. The final straw though was not being able to get the java2ws plugin to generate a schema that I was happy with. In particular, I like everything to be qualified but when I'm serializing Maps with jaxb I recall having to create an adapter to ensure that the map would marshal with qualified elements. The final straw was having to create a bunch of java classes for the sole purpose of getting the Map's to serialize the way I wanted. In hindsight, I suppose I could modified the java2ws output during the build to toggle the form attribute on the map's definition but by that point I had enough.
+== java2ws ==
+The CXF plugin was easy to configure and resulted in a doc literal wrapped style schema. Initially this seemed good since the wrapper would be useful when it came time to use reflection to invoke the admin. The root element name matched the operation/method name. This would allow me to easily find the method and then use JAXB to deserialize the child element(s). However, it took some additional config in the form of annotations and package-info.jar files to get the generated schema to be structured with a single wrapper around a single element ref. It was critical for the success of the JAXB relection invocation strategy for the payload to be structured with a simple wrapper and a JAXB unmarhsallable and marshallable payload. 
+
+== JAXB requirements ==
+The admin interface needed to be refactored considerably to ensure that all of the args and return types were JAXB compatible. This meant no interfaces and basically simple beans for all of the types. This isn't unreasonable and should have been how the admin was constructed initially.
+
+== Annotations everywhere ==
+It took a couple of hours to create the annotations to control the serialization on every method, arg, and return type. This was a mix of JAXB and jaxws annotations and the latter really end up making the interface look unreadable. The final straw though was not being able to get the java2ws plugin to generate a schema that I was happy with. In particular, I like everything to be qualified but when I'm serializing Maps with jaxb I recall having to create an adapter to ensure that the map would marshal with qualified elements. The final straw was having to create a bunch of java classes for the sole purpose of getting the Map's to serialize the way I wanted. In hindsight, I suppose I could modified the java2ws output during the build to toggle the form attribute on the map's definition but by that point I had enough.
 
 = JMX =
 
