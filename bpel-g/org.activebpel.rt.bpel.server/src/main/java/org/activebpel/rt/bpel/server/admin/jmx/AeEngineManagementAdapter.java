@@ -86,7 +86,8 @@ public class AeEngineManagementAdapter implements IAeEngineManagementMXBean {
         AeMessageReceiverFilter filter = new AeMessageReceiverFilter();
         filter.setProcessId(aProcessId);
         filter.setPartnerLinkName(aPartnerLinkName);
-        filter.setPortType(new QName(aPortTypeNamespace, aPortTypeLocalPart));
+        if (AeUtil.notNullOrEmpty(aPortTypeNamespace) && AeUtil.notNullOrEmpty(aPortTypeLocalPart))
+            filter.setPortType(new QName(aPortTypeNamespace, aPortTypeLocalPart));
         filter.setOperation(aOperation);
         filter.setMaxReturn(aMaxReturn);
         filter.setListStart(aListStart);
@@ -100,7 +101,8 @@ public class AeEngineManagementAdapter implements IAeEngineManagementMXBean {
         filter.setProcessId(aProcessId);
         filter.setAlarmFilterStart(aAlarmFilterStart);
         filter.setAlarmFilterEnd(aAlarmFilterEnd);
-        filter.setProcessName(new QName(aProcessNamespace, aProcessLocalPart));
+        if (AeUtil.notNullOrEmpty(aProcessNamespace) &&  AeUtil.notNullOrEmpty(aProcessLocalPart))
+            filter.setProcessName(new QName(aProcessNamespace, aProcessLocalPart));
         filter.setMaxReturn(aMaxReturn);
         filter.setListStart(aListStart);
         
