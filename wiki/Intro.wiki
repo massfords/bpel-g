@@ -33,28 +33,7 @@ This will create a database in the user's home directory named bpelg-h2-db. You 
 The WAR project has a context that is already configured to reference the database created during the build. Be sure to put the H2 jar within the $CATALINA_HOME/lib directory.
 
 === Configuring ServiceMix ===
-$SERVICEMIX_HOME/conf/jndi.xml needs to have an entry for the DataSource. The following xml snippet should be pasted within the util:map block:
-
-{{{
-
-  <util:map id="jndiEntries">
-
-    <!-- existing entries -->
-
-    <entry key="java:comp/env/jdbc/ActiveBPELDB">
-            <bean class="org.h2.jdbcx.JdbcDataSource">
-                <property name="URL" value="jdbc:h2:~/bpelg-h2-db;MVCC=TRUE"/>
-                <property name="user" value="sa"/>
-                <property name="password" value="sa"/>
-            </bean>
-        </entry>
-  </util:map>
-}}}
-
-Also need to put the H2 jar in $SERVICEMIX_HOME/lib
-
-=== Embedded Database ===
-If you don't map a DataSource to bpel-g's JNDI context as shown above, then it will create an embedded database in the component's install directory. Keep in mind that this database will be rebuilt if you install new versions of the component so it's not a good solution for keeping your process instances across updates.
+See the [ServiceMix] page
 
 == BPEL Deployments in WAR ==
 The Business Process Archive (or BPR) is the only supported packaging structure at the moment for the web application. Check the [http://activevos.com ActiveVOS] web site for information on how to construct a BPR or simply use their BPEL designer to create one. Support for a simpler packaging structure will be added in the future.
@@ -62,29 +41,4 @@ The Business Process Archive (or BPR) is the only supported packaging structure 
 It is also possible to deploy a BPR via a web service call.
 
 == BPEL Deployments in ServiceMix ==
-The first step is to construct a service unit. Your service unit project should consist of your BPEL, WSDL, XSD, and XSL files. An additional deployment file named "deploy.xml" will need to be present. This file must contain one entry for each of the BPEL files you are deploying along with bindings for the myRole and partnerRole services. If a partnerRole service is left unbound then it is assumed to be a dynamically assigned endpoint reference and will not be initialized with any value. 
-
-An example directory layout is below:
-
-{{{
-example-su
- |- src
- |   \- main
- |       \- resources
- |          |- example.bpel
- |          |- example.xsl
- |          |- deploy.xml
- |          \- wsdl
- |             |- example.wsdl
- |             |- other.wsdl
- |          \- xsd
- |             |- myschema.xsd
- |- pom.xml
-}}}
-
-What's going on:
-  * maven will assemble the above structure into the proper format expected for the service unit (i.e. a zip) and include the necessary jbi.xml to identify the component that handles the deployment.
-  * imports from the wsdl's to the xsd's MUST be relative. 
-  * imports from the bpel's to the wsdl's or xsd's SHOULD be relative
-  * upon deployment, a catalog is constructed with all of the wsdl, xsd, and xsl's in the service unit. These files form the context for the bpel's execution.
-  * references to xsl files via bpel:doXSLTransform() need to be prefixed with "project:/" + $ServiceUnitName. In the example above, a reference to example.xsl would be done as follows: bpel:doXSLTransform( 'project:/example-su/example.xsl', ...)
+See the [ServiceMix] page
