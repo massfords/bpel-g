@@ -1,4 +1,5 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<name>bpel-g Web Archive</name>
@@ -11,15 +12,15 @@
 		<artifactId>bpel-g</artifactId>
 		<version>0.8</version>
 	</parent>
-    <repositories>
-        <repository>
-            <id>bpel-g-repo</id>
-            <url>file://${basedir}/../maven-repository</url> 
-        </repository>
-    </repositories>
+	<repositories>
+		<repository>
+			<id>bpel-g-repo</id>
+			<url>file://${basedir}/../maven-repository</url>
+		</repository>
+	</repositories>
 	<build>
 		<filters>
-		    <filter>${basedir}/src/main/filters/filter.properties</filter>
+			<filter>${basedir}/src/main/filters/filter.properties</filter>
 		</filters>
 		<resources>
 			<resource>
@@ -27,23 +28,63 @@
 				<filtering>true</filtering>
 			</resource>
 		</resources>
-	<plugins>
-		<plugin>
-			<groupId>org.apache.maven.plugins</groupId>
-			<artifactId>maven-war-plugin</artifactId>
-			<version>2.0</version>
-			<configuration>
-				<webResources>
-					<resource>
-						<!-- this is relative to the pom.xml directory -->
-						<directory>${basedir}/src/main/filtered-webapp</directory>
-                        <filtering>true</filtering>
-					</resource>
-				</webResources>
-			</configuration>
-		</plugin>
-	</plugins>
-	<finalName>bpel-g</finalName>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-war-plugin</artifactId>
+				<version>2.0</version>
+				<configuration>
+					<webResources>
+						<resource>
+							<!-- this is relative to the pom.xml directory -->
+							<directory>${basedir}/src/main/filtered-webapp</directory>
+							<filtering>true</filtering>
+						</resource>
+						<resource>
+							<directory>${basedir}/../org.activebpel.rt.war/src/main/webapp</directory>
+							<excludes>
+								<exclude>web.xml</exclude>
+							</excludes>
+							<filtering>false</filtering>
+						</resource>
+						<resource>
+							<directory>${basedir}/../org.activebpel.rt.bpeladmin.war/src/main/webapp</directory>
+							<excludes>
+								<exclude>WEB-INF/web.xml</exclude>
+							</excludes>
+							<filtering>false</filtering>
+						</resource>
+					</webResources>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-antrun-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>merge-web-xml</id>
+						<phase>process-classes</phase>
+						<configuration>
+							<tasks>
+								<xslt in="${basedir}/src/main/web.xml" out="${basedir}/target/bpel-g/WEB-INF/web.xml"
+									style="${basedir}/src/main/web.xsl"/>
+							</tasks>
+						</configuration>
+						<goals>
+							<goal>run</goal>
+						</goals>
+					</execution>
+				</executions>
+				<dependencies>
+					<dependency>
+						<groupId>ant</groupId>
+						<artifactId>ant-trax</artifactId>
+						<version>1.6.5</version>
+					</dependency>
+				</dependencies>
+			</plugin>
+		</plugins>
+		<finalName>bpel-g</finalName>
 	</build>
 	<dependencies>
 		<dependency>
@@ -90,36 +131,38 @@
 					<plugin>
 						<groupId>org.apache.maven.plugins</groupId>
 						<artifactId>maven-antrun-plugin</artifactId>
-                        <dependencies>
-					        <dependency>
-					            <groupId>com.h2database</groupId>
-					            <artifactId>h2</artifactId>
-					            <version>1.1.119</version>
-					        </dependency>
-                        </dependencies>
+						<dependencies>
+							<dependency>
+								<groupId>com.h2database</groupId>
+								<artifactId>h2</artifactId>
+								<version>1.1.119</version>
+							</dependency>
+						</dependencies>
 						<executions>
 							<execution>
 								<id>create-db</id>
 								<phase>install</phase>
 								<configuration>
 									<tasks>
-                                       <property file="${basedir}/src/main/filters/filter.properties"/>									
-                                       <property name="plugin_classpath" refid="maven.plugin.classpath"/>
-						
-								       <java classname="org.h2.tools.RunScript">
-								         <arg value="-url"/>
-                                         <arg value="${h2.database.url}"/>
-                                         <arg value="-user"/>
-                                         <arg value="${h2.database.user}"/>
-                                         <arg value="-password"/>
-                                         <arg value="${h2.database.password}"/>
-                                         <arg value="-script"/>
-                                         <arg value="${h2.script}"/>
-                                         <arg value="-showResults"/>
-								         <classpath>
-								           <pathelement path="${plugin_classpath}"/>
-								         </classpath>
-								       </java>
+										<property
+											file="${basedir}/src/main/filters/filter.properties"/>
+										<property name="plugin_classpath"
+											refid="maven.plugin.classpath"/>
+
+										<java classname="org.h2.tools.RunScript">
+											<arg value="-url"/>
+											<arg value="${h2.database.url}"/>
+											<arg value="-user"/>
+											<arg value="${h2.database.user}"/>
+											<arg value="-password"/>
+											<arg value="${h2.database.password}"/>
+											<arg value="-script"/>
+											<arg value="${h2.script}"/>
+											<arg value="-showResults"/>
+											<classpath>
+												<pathelement path="${plugin_classpath}"/>
+											</classpath>
+										</java>
 									</tasks>
 								</configuration>
 								<goals>
@@ -127,7 +170,7 @@
 								</goals>
 							</execution>
 						</executions>
-						
+
 					</plugin>
 				</plugins>
 			</build>

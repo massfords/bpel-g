@@ -1,1 +1,0 @@
-<title><ae:GetResource name="page_title_active_bpel" /> - <ae:GetResource name="active_process_detail_view" /></title>
