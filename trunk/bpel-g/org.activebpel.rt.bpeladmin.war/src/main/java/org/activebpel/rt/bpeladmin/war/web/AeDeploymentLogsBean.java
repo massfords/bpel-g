@@ -9,7 +9,6 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpeladmin.war.web;
 
-import org.activebpel.rt.bpeladmin.war.AeEngineManagementFactory;
 
 /**
  * Wraps the deployment logs listing and allows access to
@@ -27,10 +26,9 @@ public class AeDeploymentLogsBean
     */
    public AeDeploymentLogsBean()
    {
-      mLogFiles = AeJavaTypesWrapper.wrap(
-         AeEngineManagementFactory.getBean().getDeploymentLogListing() );
+      mLogFiles = AeJavaTypesWrapper.wrap(new String[]{"Not Used"});
          
-      mLogFile = AeEngineManagementFactory.getBean().getDeploymentLog();         
+      mLogFile = "Logging not implemented";         
    }
      
    /**
