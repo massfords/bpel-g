@@ -41,6 +41,7 @@ import org.activebpel.rt.bpel.server.deploy.IAeDeploymentId;
 import org.activebpel.rt.bpel.server.engine.AeEngineFactory;
 import org.activebpel.rt.util.AeUtil;
 import org.activebpel.rt.wsdl.def.AeBPELExtendedWSDLDef;
+import org.activebpel.rt.xml.AeQName;
 import org.activebpel.rt.xml.AeXMLParserBase;
 import org.xml.sax.InputSource;
 
@@ -547,7 +548,7 @@ public class AeCatalog implements IAeCatalog, IAeCatalogAdmin
          for(Iterator resKeys = deployment.getResourceKeys().iterator(); resKeys.hasNext(); )
          {
             if(AeUtil.compareObjects(aLocationHint, ((AeResourceKey)resKeys.next()).getLocation()))
-               details.add(new AeCatalogItemPlanReference(deployment.getProcessDef().getQName()));
+               details.add(new AeCatalogItemPlanReference(new AeQName(deployment.getProcessDef().getQName())));
          }
       }
 

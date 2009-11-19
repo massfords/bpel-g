@@ -11,7 +11,7 @@ package org.activebpel.rt.bpel.impl.list;
 
 import java.beans.ConstructorProperties;
 
-import javax.xml.namespace.QName;
+import org.activebpel.rt.xml.AeQName;
 
 /**
  * Wraps the plan detail information (QName) for plans
@@ -20,14 +20,14 @@ import javax.xml.namespace.QName;
 public class AeCatalogItemPlanReference
 {
     /** Plan QName. */
-    protected QName mPlanQName;
+    protected AeQName mPlanQName;
     
     /**
      * Constructor.
      * @param aQName
      */
     @ConstructorProperties({"planQName"})
-    public AeCatalogItemPlanReference( QName aQName )
+    public AeCatalogItemPlanReference( AeQName aQName )
     {
         mPlanQName = aQName;
     }
@@ -35,7 +35,7 @@ public class AeCatalogItemPlanReference
     /**
      * Accessor for the plan QName.
      */
-    public QName getPlanQName()
+    public AeQName getPlanQName()
     {
         return mPlanQName;
     }
