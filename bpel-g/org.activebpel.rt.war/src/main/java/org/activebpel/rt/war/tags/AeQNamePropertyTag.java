@@ -12,6 +12,8 @@ package org.activebpel.rt.war.tags;
 import javax.servlet.jsp.JspException;
 import javax.xml.namespace.QName;
 
+import org.activebpel.rt.xml.AeQName;
+
 /**
  * Extracts the local name or the namespace uri from a property that is a qname.
  */
@@ -25,7 +27,12 @@ public class AeQNamePropertyTag extends AeAbstractBeanPropertyTag
     */
    public int doStartTag() throws JspException
    {
-      QName qname = (QName) getPropertyFromBean();
+       QName qname = null;
+      Object propertyFromBean = getPropertyFromBean();
+      if (propertyFromBean instanceof AeQName) 
+          qname = ((AeQName) propertyFromBean).toQName();
+      else 
+          qname = (QName) propertyFromBean;
       if (qname != null)
       {
          if ("local".equalsIgnoreCase(getPart())) //$NON-NLS-1$

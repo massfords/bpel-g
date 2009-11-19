@@ -140,7 +140,7 @@
                           </tr>
                           <ae:IndexedProperty name="catalogItemBean" id="resourceRow" property="detail" indexedClassName="org.activebpel.rt.bpel.impl.list.AeCatalogItem" >
                              <tr>
-                                <td width="15%">&nbsp;<a title="<jsp:getProperty name='resourceRow' property='location' />" href='catalog_detail.jsp?locationHint=<jsp:getProperty name="resourceRow" property="location" />'><jsp:getProperty name="resourceRow" property="typeDisplay" /></a></td>
+                                <td width="15%">&nbsp;<a title="<jsp:getProperty name='resourceRow' property='location' />" href='catalog_detail.jsp?locationHint=<jsp:getProperty name="resourceRow" property="location" />'><ae:GetResource name="resourceRow" property='typeURI' /></a></td>
                                 <td width="30%">&nbsp;<a title="<jsp:getProperty name='resourceRow' property='location' />" href='catalog_detail.jsp?locationHint=<jsp:getProperty name="resourceRow" property="location" />'><jsp:getProperty name="resourceRow" property="formattedName" /></a></td>
                                 <td width="55%">&nbsp;<a href='catalog_detail.jsp?locationHint=<jsp:getProperty name="resourceRow" property="location" />'><jsp:getProperty name="resourceRow" property="namespace" /></a></td>
                              </tr>
