@@ -60,18 +60,22 @@
    <tr>
      <td class="navHeaders" align="left" nowrap="true" width="20%">&nbsp;<ae:GetResource name="deployment_status" /></td>
    </tr>
+   <!-- 
    <tr>
      <td class="navItem" align="left" nowrap="true" width="20%">&nbsp;<a href="deployment_log_detail.jsp"><ae:GetResource name="deployment_log" />&nbsp;</a></td>
    </tr>
+    -->
    <tr>
      <td class="navItem" align="left" nowrap="true" width="20%">&nbsp;<a href="deployed_processes.jsp"><ae:GetResource name="deployed_processes" />&nbsp;</a></td>
    </tr>
    <tr>
      <td class="navItem" align="left" nowrap="true" width="20%">&nbsp;<a href="deployed_services.jsp"><ae:GetResource name="deployed_services" />&nbsp;</a></td>
    </tr>
+   <!-- 
    <tr>
      <td class="navItem" align="left" nowrap="true" width="20%">&nbsp;<a href="partner_principals.jsp"><ae:GetResource name="partner_definitions" /></a>&nbsp;</td>
    </tr>
+    -->
    <tr>
      <td class="navItem" align="left" nowrap="true" width="20%">&nbsp;<a href="catalog_listing.jsp"><ae:GetResource name="resource_catalog" /></a>&nbsp;</td>
    </tr>
@@ -111,7 +115,7 @@
    </form>
          </td>
       </tr>
-
+<!-- 
    <tr height="10">
      <td class="navItem" align="left" height="10" nowrap="true" width="20%"><img src="images/clear.gif" alt="" height="10" width="1" border="0"></td>
    </tr>
@@ -121,6 +125,7 @@
    <tr>
      <td class="navItem" align="left" nowrap="true" width="20%">&nbsp;<a href="../BpelAdminHelp/" target="aeAdminHelp"><ae:GetResource name="help" /></a></td>
    </tr>
+    -->
    <tr height="1">
      <td height="1" colspan="2" class="gridLines"><img src="images/clear.gif" alt="" height="1" width="1" border="0"></td>
    </tr>
