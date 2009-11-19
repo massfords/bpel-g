@@ -173,17 +173,6 @@ public interface IAeEngineAdministration
    public IAeCatalogAdmin getCatalogAdmin();
 
    /**
-    * Returns a listing of any deployment log file names or null if none are
-    * found.
-    */
-   public String[] getDeploymentLogListing();
-
-   /**
-    * Return the log file contents.
-    */
-   public String getDeploymentLog();
-
-   /**
     * Starts the engine.
     * @throws AeBusinessProcessException
     */

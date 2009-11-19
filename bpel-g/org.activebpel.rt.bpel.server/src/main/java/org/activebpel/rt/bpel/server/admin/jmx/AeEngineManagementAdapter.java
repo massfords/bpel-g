@@ -171,16 +171,6 @@ public class AeEngineManagementAdapter implements IAeEngineManagementMXBean {
     }
 
     @Override
-    public String getDeploymentLog() {
-        return mAdmin.getDeploymentLog();
-    }
-
-    @Override
-    public String[] getDeploymentLogListing() {
-        return mAdmin.getDeploymentLogListing();
-    }
-
-    @Override
     public String getLocationPathById(long aProcessId, int aLocationId) throws AeBusinessProcessException {
         return mAdmin.getLocationPathById(aProcessId, aLocationId);
     }

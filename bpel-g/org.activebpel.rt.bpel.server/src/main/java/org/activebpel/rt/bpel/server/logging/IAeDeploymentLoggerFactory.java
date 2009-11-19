@@ -22,6 +22,7 @@ public interface IAeDeploymentLoggerFactory
    /**
     * Returns all of the log statements written by logger instances.
     */
+   // FIXME need to replace this with a decent framework for logging
    public String[] getDeploymentLog();
 }
  

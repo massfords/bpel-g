@@ -510,37 +510,6 @@ public class AeEngineAdministration implements IAeEngineAdministration
    
    
    /**
-    * @see org.activebpel.rt.bpel.server.admin.IAeEngineAdministration#getDeploymentLogListing()
-    */
-   public String[] getDeploymentLogListing()
-   {
-      return new String[] {"Deployment Log"}; //$NON-NLS-1$
-   }
-
-   /**
-    * @see org.activebpel.rt.bpel.server.admin.IAeEngineAdministration#getDeploymentLog()
-    */   
-   public String getDeploymentLog()
-   {
-      String[] lines = AeEngineFactory.getDeploymentLoggerFactory().getDeploymentLog();
-      if( lines != null )
-      {
-         String lineSep = System.getProperty("line.separator"); //$NON-NLS-1$
-         StringBuffer sb = new StringBuffer();
-         for( int i = 0; i < lines.length; i++ )
-         {
-            sb.append( lines[i] );
-            sb.append( lineSep );                             
-         }
-         return sb.toString();
-      }
-      else
-      {
-         return ""; //$NON-NLS-1$
-      }
-   }
-
-   /**
     * @see org.activebpel.rt.bpel.server.admin.IAeEngineAdministration#start()
     */
    public void start() throws AeBusinessProcessException
