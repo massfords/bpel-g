@@ -69,6 +69,7 @@ public class BgMessageExchangeProcessor implements IBgMessageExchangeProcessor {
                 } else {
                     // nothing to do with one-way
                     sLog.debug("onJbiMessageExchange - one way dispatch completed");
+                    aMex.setStatus(ExchangeStatus.DONE);
                 }
             } catch (Exception e) {
                 error = e;
