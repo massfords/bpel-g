@@ -9,11 +9,17 @@
       <artifactId>bpel-g</artifactId>
       <version>0.8</version>
   </parent>  
-  <dependencies>
+	<repositories>
+		<repository>
+			<id>bpel-g-repo</id>
+			<url>file://${basedir}/../maven-repository</url> 
+		</repository>
+	</repositories>
+	<dependencies>
   	<dependency>
   		<groupId>castor</groupId>
-  		<artifactId>castor</artifactId>
-  		<version>1.0M1</version>
+  		<artifactId>castor</artifactId> 
+  		<version>1.0ae</version>
   		<exclusions>
   			<exclusion>
   				<groupId>xerces</groupId>
@@ -58,5 +64,5 @@
   		<artifactId>wsdl4j</artifactId>
   		<version>1.6.2</version>
   	</dependency>
- </dependencies>
+  </dependencies>
 </project>
