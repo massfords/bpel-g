@@ -373,7 +373,12 @@ public class AeProcessDeployment implements IAeProcessDeployment
    {
       AePartnerLinkDef plDef = getProcessDef().findPartnerLink(aPartnerLink);
       AePartnerLinkDefKey key = new AePartnerLinkDefKey(plDef);
-      return (AePartnerLinkDescriptor)mPartnerLinkDescriptors.get( key );
+      AePartnerLinkDescriptor descriptor = (AePartnerLinkDescriptor)mPartnerLinkDescriptors.get( key );
+      if (descriptor == null) {
+          descriptor = new AePartnerLinkDescriptor(aPartnerLink, plDef.getLocationId(), "", null, null);
+          addPartnerLinkDescriptor(descriptor);
+      }
+      return descriptor;
    }
 
    /**
