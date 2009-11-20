@@ -45,11 +45,9 @@ public class AePartnerLinkDescriptor implements IAePddXmlConstants
     * @param aInvokeHandler
     * @param aType
     * @param aEndpointReference
-    * @throws AeBusinessProcessException
     */
    public AePartnerLinkDescriptor(String aPartnerLinkName, int aPartnerLinkId,
          String aInvokeHandler, AeEndpointReferenceSourceType aType, IAeEndpointReference aEndpointReference)
-         throws AeBusinessProcessException
    {
       mPartnerLinkName = aPartnerLinkName;
       mPartnerLinkId = aPartnerLinkId;
