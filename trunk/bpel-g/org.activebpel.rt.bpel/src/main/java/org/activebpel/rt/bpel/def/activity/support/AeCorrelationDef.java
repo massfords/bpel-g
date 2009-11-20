@@ -9,6 +9,8 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpel.def.activity.support;
 
+import java.io.Serializable;
+
 import org.activebpel.rt.bpel.def.AeBaseDef;
 import org.activebpel.rt.bpel.def.visitors.IAeDefVisitor;
 
@@ -148,7 +150,7 @@ public class AeCorrelationDef extends AeBaseDef
    /**
     * Type for the correlation pattern.
     */
-   public static class AeCorrelationPatternType
+   public static class AeCorrelationPatternType implements Serializable
    {
       /** value of the pattern */
       private String mValue;
