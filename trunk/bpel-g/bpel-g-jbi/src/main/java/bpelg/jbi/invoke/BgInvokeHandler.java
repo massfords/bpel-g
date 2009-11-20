@@ -19,6 +19,7 @@ import org.activebpel.rt.bpel.AeWSDLDefHelper;
 import org.activebpel.rt.bpel.IAeEndpointReference;
 import org.activebpel.rt.bpel.impl.queue.AeInvoke;
 import org.activebpel.rt.bpel.server.engine.AeEngineFactory;
+import org.activebpel.rt.util.AeUtil;
 import org.activebpel.rt.util.AeXmlUtil;
 import org.activebpel.rt.wsdl.IAeContextWSDLProvider;
 import org.activebpel.rt.wsdl.def.AeBPELExtendedWSDLDef;
@@ -31,6 +32,7 @@ import org.activebpel.wsio.invoke.IAeInvokeHandler;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.w3c.dom.Document;
+import org.w3c.dom.DocumentFragment;
 import org.w3c.dom.Element;
 
 import bpelg.jbi.BgContext;
@@ -58,16 +60,45 @@ public class BgInvokeHandler implements IAeInvokeHandler {
         QName serviceName = epr.getServiceName();
         String endpoint = epr.getServicePort();
         
-        sLog.debug("invoking service/endpoint:" + serviceName + " " + endpoint);
-
+        ServiceEndpoint serviceEndpoint = null;
         ComponentContext componentContext = BgContext.getInstance().getComponentContext();
-        ServiceEndpoint serviceEndpoint = componentContext.getEndpoint(serviceName, endpoint);
+
+        if (serviceName != null && endpoint != null) {
+            sLog.debug("loading service/endpoint:" + serviceName + " " + endpoint);
+    
+            serviceEndpoint = componentContext.getEndpoint(serviceName, endpoint);
+        }
+        
+        if (serviceEndpoint == null) {
+            
+            // attempt to find a servicemix-http endpoint
+
+            String address = epr.getAddress();
+            if (address.startsWith("http") && !address.contains("http.soap=true")) {
+                StringBuilder newAddress = new StringBuilder(address);
+                if (!address.contains("?")) {
+                    newAddress.append('?'); 
+                }
+                newAddress.append("&http.soap=true&http.soapVersion=1.1");
+                epr.setAddress(newAddress.toString());
+                
+            }
+            // convert epr to document fragment
+            DocumentFragment frag = toDocumentFragment(epr);
+            serviceEndpoint = componentContext.resolveEndpointReference(frag);
+        }
+        
+        if (serviceEndpoint == null) {
+            // couldn't find one, notify invoke and get out
+            mResponse.setFaultData(new QName("urn:bpel-g", "UnknownEndpoint"), null);
+            return mResponse;
+        }
 
         MessageExchange jbiMex;
         try {
             MessageExchangeFactory mexf = componentContext.getDeliveryChannel().createExchangeFactory(serviceEndpoint);
 
-            QName opname = new QName(serviceName.getNamespaceURI(), aInvoke.getOperation());
+            QName opname = new QName(serviceEndpoint.getServiceName().getNamespaceURI(), aInvoke.getOperation());
 
             jbiMex = mexf.createExchange(aInvoke.isOneWay() ? BgMessageExchangePattern.IN_ONLY : BgMessageExchangePattern.IN_OUT);
             jbiMex.setEndpoint(serviceEndpoint);
@@ -85,9 +116,20 @@ public class BgInvokeHandler implements IAeInvokeHandler {
 
         } catch (MessagingException e) {
             sLog.error(e);
+            mResponse.setFaultData(new QName("urn:bpel-g", "MessagingException"), null);
+            mResponse.setErrorString(e.getMessage());
+            String stacktrace = AeUtil.getStacktrace(e);
+            mResponse.setErrorDetail(stacktrace);
         }
         
         return mResponse;
+    }
+
+    private DocumentFragment toDocumentFragment(IAeEndpointReference epr) {
+        Document doc = epr.toDocument();
+        DocumentFragment frag = doc.createDocumentFragment();
+        frag.appendChild(doc.getDocumentElement());
+        return frag;
     }
     
     private void onJbiMessageExchange(MessageExchange jbiMex) throws MessagingException {
@@ -127,7 +169,7 @@ public class BgInvokeHandler implements IAeInvokeHandler {
                 Operation operation = portType.getOperation(opName, null, null);
                 
                 Document data = BgJbiUtil.getData(jbiMex, "out");
-                setFaultOnResponse(mInvokeContext.getPortType(), operation, data.getDocumentElement());
+                setFaultOnResponse(operation, data.getDocumentElement());
                 jbiMex.setStatus(ExchangeStatus.DONE);
             } catch (Exception e) {
                 sLog.error("Exception handling invoke response", e);
@@ -158,12 +200,11 @@ public class BgInvokeHandler implements IAeInvokeHandler {
     /**
      * Maps a wsdl fault to the invoke response 
      * 
-     * @param aPortType
      * @param aOper
      * @param firstDetailElement
      */
-    private void setFaultOnResponse(QName aPortType, Operation aOper, Element firstDetailElement) {
-        AeFaultMatcher faultMatcher = new AeFaultMatcher(aPortType, aOper, null, firstDetailElement);
+    private void setFaultOnResponse(Operation aOper, Element firstDetailElement) {
+        AeFaultMatcher faultMatcher = new AeFaultMatcher(mInvokeContext.getPortType(), aOper, null, firstDetailElement);
         Fault wsdlFault = faultMatcher.getWsdlFault();
         QName faultName = faultMatcher.getFaultName();
         if (faultName == null) {
