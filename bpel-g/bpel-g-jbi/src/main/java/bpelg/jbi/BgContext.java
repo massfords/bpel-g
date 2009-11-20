@@ -99,8 +99,10 @@ public class BgContext {
         return coll;
     }
     
-    public Document getServiceDescription(QName aPortType) {
-        return mDescriptorCache.get(aPortType);
+    public Document getServiceDescription(ServiceEndpoint aServiceEndpoint) {
+        BgBpelService service = mEndpointToBpelServiceMap.get(createKey(aServiceEndpoint.getServiceName(), aServiceEndpoint.getEndpointName()));
+        QName portType = service.getPortType();
+        return mDescriptorCache.get(portType);
     }
     
     public BgBpelService getBpelService(ServiceEndpoint aServiceEndpoint) {
