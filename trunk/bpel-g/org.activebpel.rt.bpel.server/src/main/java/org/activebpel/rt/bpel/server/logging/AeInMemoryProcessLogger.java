@@ -25,6 +25,8 @@ import org.activebpel.rt.bpel.server.engine.AeEngineFactory;
 import org.activebpel.rt.bpel.server.engine.IAeProcessLogger;
 import org.activebpel.rt.util.AeLongMap;
 import org.activebpel.rt.util.AeUtil;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 /**
  * Maintains a StringBuffer of formatted process events for each process created
@@ -33,6 +35,8 @@ import org.activebpel.rt.util.AeUtil;
  */
 public class AeInMemoryProcessLogger implements IAeProcessLogger, IAeConfigChangeListener
 {
+    private static final Log sLog = LogFactory.getLog(AeInMemoryProcessLogger.class);
+    
    /** Reference to the engine that we're listening to. */
    private IAeBusinessProcessEngineInternal mEngine;
 
@@ -118,6 +122,7 @@ public class AeInMemoryProcessLogger implements IAeProcessLogger, IAeConfigChang
    {
       if (AeUtil.notNullOrEmpty(aLine))
       {
+         sLog.debug(aLine);
          StringBuffer buffer = getBuffer(aPid, true);
          synchronized(buffer)
          {
