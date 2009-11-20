@@ -34,7 +34,7 @@ public class BgComponent implements Component {
 
 	@Override
 	public Document getServiceDescription(ServiceEndpoint aEndpoint) {
-	    return BgContext.getInstance().getServiceDescription(aEndpoint.getServiceName());
+	    return BgContext.getInstance().getServiceDescription(aEndpoint);
 	}
 
 	@Override
