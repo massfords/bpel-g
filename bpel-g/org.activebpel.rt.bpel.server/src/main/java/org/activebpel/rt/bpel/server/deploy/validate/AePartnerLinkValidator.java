@@ -84,19 +84,21 @@ public class AePartnerLinkValidator extends AeAbstractPddIterator
             String[] args = {pLinkName, aPddInfo.getBpelLocation(), aPddInfo.getName() };
             aReporter.addWarning( MISSING_PARTNER_LINK, args, null );
          }
+         
+         // FIXME the validation here is too restrictive. It should consider the initializePartnerRole attribute as opposed to its usage.
 
          // If we have a partner role with no PDD reference, determine if it should be a warning or error
          if( partnerLinkElement.hasAttribute(IAeBPELConstants.TAG_PARTNER_ROLE) && ! partnerRoleLinks.contains(pLinkName) )
          {
             // Use visitor to determine if the partner role is actually referenced in an invoke
-            AePartnerLinkValidationVisitor visitor = new AePartnerLinkValidationVisitor(pLinkName);
-            visitor.visit(def);
-            
-            // Error if reference was found otherwise just a warning
+//            AePartnerLinkValidationVisitor visitor = new AePartnerLinkValidationVisitor(pLinkName);
+//            visitor.visit(def);
+//            
+//            // Error if reference was found otherwise just a warning
             String[] args = {pLinkName, aPddInfo.getBpelLocation(), aPddInfo.getName() };
-            if (visitor.isFound())
-               aReporter.addError(MISSING_PARTNER_LINK, args, null);
-            else
+//            if (visitor.isFound())
+//               aReporter.addError(MISSING_PARTNER_LINK, args, null);
+//            else
                aReporter.addWarning(MISSING_PARTNER_LINK, args, null);
          }
       }
