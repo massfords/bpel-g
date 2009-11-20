@@ -4,7 +4,7 @@
    <entry name="ValidateServiceMessages" value="true"/>
    <entry name="AllowEmptyQuerySelection" value="false"/>
    <entry name="AllowCreateXPath" value="false"/>
-   <entry name="Logging" value="urn:ae:none"/>
+   <entry name="Logging" value="urn:ae:execution"/>
    <entry name="UnmatchedReceiveTimeout" value="300"/>
    <entry name="FunctionContexts"/>
    <entry name="SharedSecret" value="terces"/>
@@ -218,6 +218,12 @@
                   <entry name="Runner" value="org.activebpel.rt.bpel.ext.expr.impl.xquery.AeBPWSXQueryExpressionRunner" />
                   <entry name="Analyzer" value="org.activebpel.rt.bpel.ext.expr.def.xquery.AeBPWSXQueryExpressionAnalyzer" />
                </entry>
+               <entry name="XQuery1.0-ODE">
+                  <entry name="Uri" value="urn:oasis:names:tc:wsbpel:2.0:sublang:xquery1.0" />
+                  <entry name="Validator" value="org.activebpel.rt.bpel.ext.expr.def.validation.xquery.AeBPWSXQueryExpressionValidator" />
+                  <entry name="Runner" value="org.activebpel.rt.bpel.ext.expr.impl.xquery.AeBPWSXQueryExpressionRunner" />
+                  <entry name="Analyzer" value="org.activebpel.rt.bpel.ext.expr.def.xquery.AeBPWSXQueryExpressionAnalyzer" />
+               </entry>
                <entry name="JavaScript1.5">
                   <entry name="Uri" value="urn:active-endpoints:expression-language:javascript1.5" />
                   <entry name="Validator" value="org.activebpel.rt.bpel.ext.expr.def.validation.javascript.AeBPWSJavaScriptExpressionValidator" />
@@ -239,6 +245,12 @@
                </entry>
                <entry name="XQuery1.0">
                   <entry name="Uri" value="urn:active-endpoints:expression-language:xquery1.0" />
+                  <entry name="Validator" value="org.activebpel.rt.bpel.ext.expr.def.validation.xquery.AeWSBPELXQueryExpressionValidator" />
+                  <entry name="Runner" value="org.activebpel.rt.bpel.ext.expr.impl.xquery.AeWSBPELXQueryExpressionRunner" />
+                  <entry name="Analyzer" value="org.activebpel.rt.bpel.ext.expr.def.xquery.AeWSBPELXQueryExpressionAnalyzer" />
+               </entry>
+               <entry name="XQuery1.0-ODE">
+                  <entry name="Uri" value="urn:oasis:names:tc:wsbpel:2.0:sublang:xquery1.0" />
                   <entry name="Validator" value="org.activebpel.rt.bpel.ext.expr.def.validation.xquery.AeWSBPELXQueryExpressionValidator" />
                   <entry name="Runner" value="org.activebpel.rt.bpel.ext.expr.impl.xquery.AeWSBPELXQueryExpressionRunner" />
                   <entry name="Analyzer" value="org.activebpel.rt.bpel.ext.expr.def.xquery.AeWSBPELXQueryExpressionAnalyzer" />
