@@ -1635,7 +1635,7 @@ public class AeBPELExtendedWSDLDef implements IAeBPELExtendedWSDLConst, IAeMutab
    {
       Schema schema = getSchemaForNamespace(aType.getNamespaceURI());
       if (schema != null)
-         return schema.getElementDecl(aType.getLocalPart());
+         return schema.getElementDecl(aType.getLocalPart(), aType.getNamespaceURI());
       return null;
    }
 
