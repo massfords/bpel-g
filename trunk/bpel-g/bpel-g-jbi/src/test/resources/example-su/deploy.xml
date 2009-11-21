@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <deploy xmlns="http://www.apache.org/ode/schemas/dd/2007/03"
     xmlns:test="urn:bpelg:test"
-    xmlns:example="http://www.example.org/test/">
+    xmlns:example="http://www.example.org/test/" replace.existing="true">
     
     <process name="test:test">
         <provide partnerLink="testPartnerLinkType">

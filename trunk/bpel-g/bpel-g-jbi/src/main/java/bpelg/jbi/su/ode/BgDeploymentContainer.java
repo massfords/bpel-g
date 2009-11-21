@@ -44,11 +44,13 @@ public class BgDeploymentContainer implements IAeDeploymentContainer {
     public BgDeploymentContainer(File aServiceUnitRoot) throws Exception {
         mServiceUnitRoot = aServiceUnitRoot;
         mClassLoader = URLClassLoader.newInstance(new URL[] {aServiceUnitRoot.toURI().toURL()});
-        mCatalogBuilder = new BgCatalogBuilder(mServiceUnitRoot);
-        mCatalogBuilder.build();
         mPddBuilder = new BgPddBuilder(mServiceUnitRoot);
         mPddBuilder.build();
         
+        mCatalogBuilder = new BgCatalogBuilder(mServiceUnitRoot);
+        mCatalogBuilder.setReplaceExisting(mPddBuilder.isReplaceExisting());
+        mCatalogBuilder.build();
+
         // create each of the pdd files within the service unit root
         for(String pddName : mPddBuilder.getPddNames()) {
             mPddBuilder.writePddDocument(pddName, mCatalogBuilder.getItems());
