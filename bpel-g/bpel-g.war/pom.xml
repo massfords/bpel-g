@@ -5,12 +5,12 @@
 	<name>bpel-g Web Archive</name>
 	<groupId>bpel-g</groupId>
 	<artifactId>bpel-g-web</artifactId>
-	<version>0.8-SNAPSHOT</version>
+	<version>0.9-SNAPSHOT</version>
 	<packaging>war</packaging>
 	<parent>
 		<groupId>bpel-g</groupId>
 		<artifactId>bpel-g</artifactId>
-		<version>0.8</version>
+		<version>1.x</version>
 	</parent>
 	<repositories>
 		<repository>

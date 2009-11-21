@@ -5,11 +5,11 @@
 	<groupId>bpel-g</groupId>
 	<artifactId>bpel-g-jbi</artifactId>
 	<packaging>jbi-component</packaging>
-	<version>0.8-SNAPSHOT</version>
+	<version>0.9-SNAPSHOT</version>
 	<parent>
 		<groupId>bpel-g</groupId>
 		<artifactId>bpel-g</artifactId>
-		<version>0.8</version>
+		<version>1.x</version>
 	</parent>
 	<pluginRepositories>
 		<pluginRepository>
