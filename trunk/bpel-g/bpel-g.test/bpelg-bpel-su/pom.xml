@@ -16,6 +16,14 @@
                 <extensions>true</extensions>
             </plugin> 
         </plugins>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+            </resource>
+            <resource>
+                <directory>../shared-resources</directory>
+            </resource>
+        </resources>
     </build>
 
     <properties>
