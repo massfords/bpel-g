@@ -36,12 +36,20 @@ public class BgPddBuilder {
     
     private Map<QName, BgPddInfo> mDeployments = new HashMap();
     private Map<String,BgPddInfo> mPddFileNameToPddInfo = new HashMap();
+    private Document mDeployXml;
+    private boolean mReplaceExisting;
     
-    public BgPddBuilder(File aServiceUnitRoot) {
+    public BgPddBuilder(File aServiceUnitRoot) throws AeException {
         assert aServiceUnitRoot.isDirectory();
         assert new File(aServiceUnitRoot, "deploy.xml").isFile();
         
         mServiceUnitRoot = aServiceUnitRoot;
+        mDeployXml = AeXmlUtil.toDoc(new File(mServiceUnitRoot, "deploy.xml"), null);
+        mReplaceExisting = AeXmlUtil.getAttributeBoolean(mDeployXml.getDocumentElement(), "replace.existing");
+    }
+    
+    public boolean isReplaceExisting() {
+        return mReplaceExisting;
     }
     
     public Collection<String> getPddNames() {
@@ -116,9 +124,7 @@ public class BgPddBuilder {
     public void build() throws Exception {
         Map<QName,String> processNameToLoc = buildLocationMap();
 
-        Document deploy = AeXmlUtil.toDoc(new File(mServiceUnitRoot, "deploy.xml"), null);
-        
-        List<Element> processes = AeXPathUtil.selectNodes(deploy, "/ode:deploy/ode:process", NAMESPACES);
+        List<Element> processes = AeXPathUtil.selectNodes(mDeployXml, "/ode:deploy/ode:process", NAMESPACES);
         for(Element process : processes) {
             
             QName processName = AeXmlUtil.getAttributeQName(process, "name");

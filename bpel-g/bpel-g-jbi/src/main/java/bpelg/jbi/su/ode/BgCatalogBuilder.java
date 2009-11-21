@@ -20,6 +20,7 @@ public class BgCatalogBuilder {
     private Collection<BgCatalogTuple> mCollection = new ArrayList();
     private String mLogicalPathPrefix;
     private Document mCatalog;
+    private boolean mReplaceExisting;
     
     public BgCatalogBuilder(File aRoot) {
         assert aRoot.isDirectory();
@@ -37,6 +38,8 @@ public class BgCatalogBuilder {
         String catalogNS = "http://schemas.active-endpoints.com/catalog/2006/07/catalog.xsd";
         Element catalog = AeXmlUtil.addElementNS(doc, catalogNS, "catalog", null);
         catalog.setAttributeNS(IAeConstants.W3C_XMLNS, "xmlns", catalogNS);
+        if (isReplaceExisting())
+            catalog.setAttribute("replace.existing", "true");
         for(BgCatalogTuple tuple : mCollection) {
             Element entry = null;
             if (tuple.isWsdl()) {
@@ -90,5 +93,13 @@ public class BgCatalogBuilder {
     
     public Collection<BgCatalogTuple> getItems() {
         return mCollection;
+    }
+
+    public boolean isReplaceExisting() {
+        return mReplaceExisting;
+    }
+
+    public void setReplaceExisting(boolean aReplaceExisting) {
+        mReplaceExisting = aReplaceExisting;
     }
 }
