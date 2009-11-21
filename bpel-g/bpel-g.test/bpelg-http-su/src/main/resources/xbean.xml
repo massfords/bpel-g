@@ -9,7 +9,7 @@
         defaultMep="http://www.w3.org/2004/08/wsdl/in-out"
         soap="true"
         soapVersion="1.1"
-        wsdlResource="classpath:test.wsdl"
+        wsdlResource="classpath:wsdl/example.wsdl"
         interfaceName="test:test"
     />
 
@@ -20,7 +20,29 @@
         defaultMep="http://www.w3.org/2004/08/wsdl/in-out"
         soap="true"
         soapVersion="1.1"
-        wsdlResource="classpath:test.wsdl"
+        wsdlResource="classpath:wsdl/example.wsdl"
         interfaceName="test:test"
+    />
+
+    <http:endpoint service="test:testMessageReceiver"
+        endpoint="test"
+        role="consumer" 
+        locationURI="http://0.0.0.0:8192/bpelg-TestMessageReceiver/"
+        defaultMep="http://www.w3.org/2004/08/wsdl/in-out"
+        soap="true"
+        soapVersion="1.1"
+        wsdlResource="classpath:wsdl/example.wsdl"
+        interfaceName="test:test"
+    />
+
+    <http:endpoint service="test:testMessageReceiver"
+        endpoint="callMeBack"
+        role="consumer" 
+        locationURI="http://0.0.0.0:8192/bpelg-TestMessageReceiverCallback/"
+        defaultMep="http://www.w3.org/2004/08/wsdl/in-out"
+        soap="true"
+        soapVersion="1.1"
+        wsdlResource="classpath:wsdl/example.wsdl"
+        interfaceName="test:test3"
     />
 </beans>
