@@ -5,6 +5,7 @@ import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -28,6 +29,7 @@ import org.activebpel.rt.bpel.impl.list.AeMessageReceiverListResult;
 import org.activebpel.rt.bpel.impl.list.AeProcessFilter;
 import org.activebpel.rt.bpel.impl.list.AeProcessInstanceDetail;
 import org.activebpel.rt.bpel.impl.list.AeProcessListResult;
+import org.activebpel.rt.bpel.impl.queue.AeMessageReceiver;
 import org.activebpel.rt.bpel.server.admin.AeBuildInfo;
 import org.activebpel.rt.bpel.server.admin.AeProcessDeploymentDetail;
 import org.activebpel.rt.bpel.server.admin.AeQueuedReceiveDetail;
@@ -81,7 +83,7 @@ public class AeEngineManagementAdapter implements IAeEngineManagementMXBean {
     }
 
     @Override
-    public AeMessageReceiverListResult getMessageReceivers(long aProcessId, String aPartnerLinkName, String aPortTypeNamespace, String aPortTypeLocalPart,
+    public List<AeMessageReceiverBean> getMessageReceivers(long aProcessId, String aPartnerLinkName, String aPortTypeNamespace, String aPortTypeLocalPart,
             String aOperation, int aMaxReturn, int aListStart) {
         AeMessageReceiverFilter filter = new AeMessageReceiverFilter();
         filter.setProcessId(aProcessId);
@@ -91,7 +93,24 @@ public class AeEngineManagementAdapter implements IAeEngineManagementMXBean {
         filter.setOperation(aOperation);
         filter.setMaxReturn(aMaxReturn);
         filter.setListStart(aListStart);
-        return mAdmin.getMessageReceivers(filter);
+        AeMessageReceiverListResult messageReceivers = mAdmin.getMessageReceivers(filter);
+        List<AeMessageReceiverBean> receivers = new ArrayList<AeMessageReceiverBean>();
+        for(AeMessageReceiver receiver : messageReceivers.getResults()) {
+            Map<AeQName,String> correlation = null;
+            if (receiver.isCorrelated()) {
+                correlation = new HashMap<AeQName,String>();
+                for(Map.Entry<QName,String> entry : receiver.getCorrelation().entrySet()) {
+                    correlation.put(new AeQName(entry.getKey()), entry.getValue());
+                }
+            }
+            receivers.add(new AeMessageReceiverBean(receiver.getProcessId(), 
+                    receiver.getPartnerLinkName(),
+                    new AeQName(receiver.getPortType()),
+                    receiver.getOperation(),
+                    correlation,
+                    receiver.getMessageReceiverPathId()));
+        }
+        return receivers;
     }
 
     @Override

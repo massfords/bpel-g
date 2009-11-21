@@ -9,9 +9,12 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpeladmin.war.web;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.xml.namespace.QName;
 
-import org.activebpel.rt.bpel.impl.list.AeMessageReceiverListResult;
+import org.activebpel.rt.bpel.server.admin.jmx.AeMessageReceiverBean;
 
 /**
  *  Wraps the details for the Message Receivers Queue listing.
@@ -19,7 +22,7 @@ import org.activebpel.rt.bpel.impl.list.AeMessageReceiverListResult;
 public class AeMessageReceiversListingBean extends AeAbstractListingBean
 {
    /** AeMessageReceives to display. */   
-   protected AeMessageReceiverDetailWrapper[] mMessageReceivers;
+   protected List<AeMessageReceiverDetailWrapper> mMessageReceivers;
    /** Process id. */
    protected long mProcessId = -1;
    /** The current row being processed. */
@@ -54,18 +57,18 @@ public class AeMessageReceiversListingBean extends AeAbstractListingBean
          String namespace = qname != null? qname.getNamespaceURI() : null;
          String name = qname != null? qname.getLocalPart() : null;
          
-         AeMessageReceiverListResult results = getAdmin().getMessageReceivers(mProcessId, getPartnerLinkTypeName(), namespace, name, getOperation(), getRowCount(), getRowStart() );
+         List<AeMessageReceiverBean> results = getAdmin().getMessageReceivers(mProcessId, getPartnerLinkTypeName(), namespace, name, getOperation(), getRowCount(), getRowStart() );
             
          if( !results.isEmpty() )
          { 
-            setTotalRowCount( results.getTotalRows() );
+            setTotalRowCount( results.size() );
             updateNextPageStatus();
-            mMessageReceivers = new AeMessageReceiverDetailWrapper[ results.getResults().length ];
+            mMessageReceivers = new ArrayList<AeMessageReceiverDetailWrapper>();
 
-            for(int i=0, len=results.getResults().length; i < len; i++)
-               mMessageReceivers[i] = new AeMessageReceiverDetailWrapper(results.getResults()[i]);                 
+            for(AeMessageReceiverBean bean : results)
+               mMessageReceivers.add( new AeMessageReceiverDetailWrapper(bean));                 
 
-            setRowsDisplayed( mMessageReceivers.length );
+            setRowsDisplayed( mMessageReceivers.size() );
          }
          else
          {
@@ -81,7 +84,7 @@ public class AeMessageReceiversListingBean extends AeAbstractListingBean
     */
    public AeMessageReceiverDetailWrapper getMessageReceiver( int aIndex )
    {
-      return mMessageReceivers[ aIndex ];          
+      return mMessageReceivers.get(aIndex);          
    }
    
    /**
@@ -95,7 +98,7 @@ public class AeMessageReceiversListingBean extends AeAbstractListingBean
       }
       else
       {
-         return mMessageReceivers.length;
+         return mMessageReceivers.size();
       }
    }
 
@@ -194,6 +197,6 @@ public class AeMessageReceiversListingBean extends AeAbstractListingBean
     */
    public boolean isEmpty()
    {
-      return mMessageReceivers == null || mMessageReceivers.length == 0;
+      return mMessageReceivers == null || mMessageReceivers.size() == 0;
    }
 }

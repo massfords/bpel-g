@@ -10,7 +10,7 @@
 package org.activebpel.rt.bpeladmin.war.web;
 
 import org.activebpel.rt.bpel.AeBusinessProcessException;
-import org.activebpel.rt.bpel.impl.queue.AeMessageReceiver;
+import org.activebpel.rt.bpel.server.admin.jmx.AeMessageReceiverBean;
 import org.activebpel.rt.bpeladmin.war.AeEngineManagementFactory;
 
 /**
@@ -19,13 +19,13 @@ import org.activebpel.rt.bpeladmin.war.AeEngineManagementFactory;
 public class AeMessageReceiverDetailWrapper
 {
    /** AeMessageReceiver detail object. */
-   protected AeMessageReceiver mDetail;
+   protected AeMessageReceiverBean mDetail;
    
    /**
     * Constructor.
     * @param aReceiver The delegate AeMessageReceiver.
     */
-   public AeMessageReceiverDetailWrapper(AeMessageReceiver aReceiver)
+   public AeMessageReceiverDetailWrapper(AeMessageReceiverBean aReceiver)
    {
       mDetail = aReceiver;
    }
@@ -35,7 +35,7 @@ public class AeMessageReceiverDetailWrapper
     */
    public String getPartnerLinkTypeName()
    {
-      return mDetail.getPartnerLinkOperationKey().getPartnerLinkName();
+      return mDetail.getPartnerLinkName();
    }
    
    /**
@@ -43,7 +43,7 @@ public class AeMessageReceiverDetailWrapper
     */
    public String getPortType()
    {
-      return AeWebUtil.toString( mDetail.getPortType() );
+      return AeWebUtil.toString( mDetail.getPortType().toQName() );
    }
    
    /**
@@ -75,8 +75,8 @@ public class AeMessageReceiverDetailWrapper
     */
    public boolean isCorrelated()
    {
-      return mDetail.getCorrelation() != null && 
-         !mDetail.getCorrelation().isEmpty();
+      return mDetail.getCorrelationData() != null && 
+         !mDetail.getCorrelationData().isEmpty();
    }
    
    /**
@@ -84,7 +84,7 @@ public class AeMessageReceiverDetailWrapper
     */
    public String getCorrelationData()
    {
-      String data = AeWebUtil.escapeSingleQuotes( AeWebUtil.toString(mDetail.getCorrelation()) ); 
+      String data = AeWebUtil.escapeSingleQuotes( AeWebUtil.toString(mDetail.getCorrelationData()) ); 
       return data;
    }
    
@@ -111,6 +111,6 @@ public class AeMessageReceiverDetailWrapper
     */
    public int getLocationPathId()
    {
-      return mDetail.getMessageReceiverPathId();
+      return mDetail.getLocationPathId();
    }
 }
