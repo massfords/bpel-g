@@ -10,7 +10,6 @@ import org.activebpel.rt.bpel.coord.AeCoordinationDetail;
 import org.activebpel.rt.bpel.impl.list.AeAlarmExt;
 import org.activebpel.rt.bpel.impl.list.AeCatalogItem;
 import org.activebpel.rt.bpel.impl.list.AeCatalogItemDetail;
-import org.activebpel.rt.bpel.impl.list.AeMessageReceiverListResult;
 import org.activebpel.rt.bpel.impl.list.AeProcessFilter;
 import org.activebpel.rt.bpel.impl.list.AeProcessInstanceDetail;
 import org.activebpel.rt.bpel.server.admin.AeBuildInfo;
@@ -48,7 +47,7 @@ public interface IAeEngineManagementMXBean {
     /**
      * Gets a listing of the queued message receivers from the engine's queue.
      */
-    public AeMessageReceiverListResult getMessageReceivers(long aProcessId, String aPartnerLinkName,
+    public List<AeMessageReceiverBean> getMessageReceivers(long aProcessId, String aPartnerLinkName,
             String aPortTypeNamespace, String aPortTypeLocalPart, String aOperation, int aMaxReturn, int aListStart);
 
     /**
