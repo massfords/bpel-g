@@ -11,6 +11,7 @@
       <version>1.x</version>
   </parent>
     <build>
+        <finalName>bpelg-console</finalName>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
