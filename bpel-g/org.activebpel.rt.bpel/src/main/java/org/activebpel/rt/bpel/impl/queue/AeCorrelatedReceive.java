@@ -68,7 +68,7 @@ public class AeCorrelatedReceive extends AeAbstractQueuedObject
    /**
     * @return Map The correlation map for this entry.
     */
-   public Map getCorrelation()
+   public Map<QName,String> getCorrelation()
    {
       if (mCorrelation == null)
          setCorrelation(new HashMap());
@@ -79,7 +79,7 @@ public class AeCorrelatedReceive extends AeAbstractQueuedObject
     * Setter for the correlation map
     * @param aMap
     */
-   public void setCorrelation(Map aMap)
+   public void setCorrelation(Map<QName,String> aMap)
    {
       mCorrelation = aMap;
    }
