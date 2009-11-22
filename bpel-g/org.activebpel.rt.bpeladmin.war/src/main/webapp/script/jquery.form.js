@@ -441,7 +441,7 @@ jQuery.fn.ajaxForm = function(options) {
             setTimeout(function() {
                 $form.clk = $form.clk_x = $form.clk_y = null;
                 }, 10);
-        })
+        });
     }).submit(function(e) {
         jQuery(this).ajaxSubmit(options);
         return false;

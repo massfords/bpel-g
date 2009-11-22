@@ -52,7 +52,7 @@ function AeProperty()
         AeProperty.prototype.isEdit = function()
         {
             return this.mEdit;
-        }
+        };
         
         // sets the selected property index
         AeProperty.prototype.setSelection = function(aIndex)
@@ -238,7 +238,7 @@ function AeController()
             this.propertyView.disable();
             this.location.disable();
             $('#busywait').show();
-    	}
+    	};
     	
     	// dump 
         AeController.prototype.toString = function()
@@ -446,7 +446,7 @@ function AePropertyEdit()
             $('#editName').val(aProperty.getName());
             $('#editValue').val(aProperty.getValue());
             $('#editPropertyForm :input')[0].focus();
-        } 
+        }; 
     }
 }
 
@@ -530,7 +530,7 @@ AeHandler.acceptLocation = function()
       mControl.property.clear();
       mControl.property.setName("Content-Location");
      
-      var re = mControl.location.getFilePath().match(/(.*)[\/\\]([^\/\\]+)$/)
+      var re = mControl.location.getFilePath().match(/(.*)[\/\\]([^\/\\]+)$/);
       mControl.property.setValue(re[2]);
       mControl.propertyView.accept(mControl.property);
     }
@@ -539,7 +539,7 @@ AeHandler.acceptLocation = function()
       mControl.openLocation();
     }
    return false;
-}
+};
 
 // Register property check box selections
 AeHandler.checkBoxRegister = function()
@@ -559,7 +559,7 @@ AeHandler.newProperty = function()
    {
        mControl.openLocation();
    }
-}
+};
 
  // Prepare and submit an attribute for edit
 AeHandler.editProperty = function()
@@ -574,7 +574,7 @@ AeHandler.editProperty = function()
     mControl.property.setValue($(thisProperty).siblings('.propertyvalue').text());
    
     mControl.openEdit();
-}
+};
 
 // Delete property handler
 AeHandler.deleteProperty = function()
