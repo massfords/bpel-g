@@ -16,14 +16,14 @@ import org.activebpel.rt.bpeladmin.war.AeMessages;
  */
 public class AeTaskManagerBean extends AeAbstractAdminBean
 {
-   private static final String CUSTOM_MANAGERS_TASK_MANAGER_FINALIZATION_DURATION =
-            "CustomManagers/BPEL4PeopleManager/FinalizationDuration"; //$NON-NLS-1$
-
-   private static final String CACHE_SIZE =
-      "CustomManagers/BPEL4PeopleManager/TaskClientProperties/cache-size"; //$NON-NLS-1$
-
-   private static final String CACHE_DURATION =
-      "CustomManagers/BPEL4PeopleManager/TaskClientProperties/cache-duration-mins"; //$NON-NLS-1$
+//   private static final String CUSTOM_MANAGERS_TASK_MANAGER_FINALIZATION_DURATION =
+//            "CustomManagers/BPEL4PeopleManager/FinalizationDuration"; //$NON-NLS-1$
+//
+//   private static final String CACHE_SIZE =
+//      "CustomManagers/BPEL4PeopleManager/TaskClientProperties/cache-size"; //$NON-NLS-1$
+//
+//   private static final String CACHE_DURATION =
+//      "CustomManagers/BPEL4PeopleManager/TaskClientProperties/cache-duration-mins"; //$NON-NLS-1$
 
    /** duration to keep the in the inbox once it's reached a final state */
    private int mFinalizationDuration = 1;
