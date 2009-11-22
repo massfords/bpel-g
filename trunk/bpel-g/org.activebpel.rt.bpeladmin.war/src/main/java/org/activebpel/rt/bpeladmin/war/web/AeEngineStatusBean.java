@@ -17,7 +17,6 @@ import org.activebpel.rt.AeException;
 import org.activebpel.rt.bpel.IAeBusinessProcessEngine;
 import org.activebpel.rt.bpel.server.admin.AeProcessDeploymentDetail;
 import org.activebpel.rt.bpel.server.admin.IAeEngineAdministration;
-import org.activebpel.rt.bpel.server.engine.AeEngineFactory;
 import org.activebpel.rt.bpeladmin.war.AeBuildNumber;
 import org.activebpel.rt.bpeladmin.war.AeEngineManagementFactory;
 import org.activebpel.rt.bpeladmin.war.AeMessages;
