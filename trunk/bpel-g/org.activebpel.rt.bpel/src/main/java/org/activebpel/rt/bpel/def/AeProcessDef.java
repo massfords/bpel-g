@@ -815,7 +815,7 @@ public class AeProcessDef extends AeScopeDef implements Serializable
    /**
     * @return Returns the imports.
     */
-   public Iterator getImportDefs()
+   public Iterator<AeImportDef> getImportDefs()
    {
       return mImports.iterator();
    }
