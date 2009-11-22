@@ -91,6 +91,7 @@ public class AeDuplicateServiceNameValidator implements IAePredeploymentValidato
    private static class AeDeploymentTuple
    {
       /** service name */
+      @SuppressWarnings("unused")
       private String mService;
       /** pdd name */
       private String mPddName;
@@ -106,13 +107,13 @@ public class AeDuplicateServiceNameValidator implements IAePredeploymentValidato
          mService = aService;
       }
 
-      /**
-       * @return Returns the service.
-       */
-      public String getService()
-      {
-         return mService;
-      }
+//      /**
+//       * @return Returns the service.
+//       */
+//      public String getService()
+//      {
+//         return mService;
+//      }
 
       /**
        * @return Returns the pddName.
