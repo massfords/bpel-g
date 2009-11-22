@@ -60,4 +60,4 @@ AeUtil.showErrorMessage = function(aMessage)
 AeUtil.showFailureMessage = function(aMessage)
 {
     alert("FAILURE:\n" + aMessage);
-}
+};
