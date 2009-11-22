@@ -14,11 +14,8 @@ import java.util.Collection;
 import java.util.Iterator;
 
 import org.activebpel.rt.AeException;
-import org.activebpel.rt.bpel.def.AeProcessDef;
 import org.activebpel.rt.bpel.def.IAeBPELConstants;
-import org.activebpel.rt.bpel.def.io.AeBpelIO;
 import org.activebpel.rt.bpel.def.validation.IAeBaseErrorReporter;
-import org.activebpel.rt.bpel.def.visitors.AePartnerLinkValidationVisitor;
 import org.activebpel.rt.bpel.server.AeMessages;
 import org.activebpel.rt.bpel.server.deploy.bpr.IAeBpr;
 import org.activebpel.rt.util.AeUtil;
@@ -72,7 +69,7 @@ public class AePartnerLinkValidator extends AeAbstractPddIterator
       Collection partnerRoleLinks = aPddInfo.getPartnerRolePartnerLinkNames();
       
       // Create instance of the process from DOM
-      AeProcessDef def = AeBpelIO.deserialize(aBpelDOM);
+//      AeProcessDef def = AeBpelIO.deserialize(aBpelDOM);
 
       for( int i = 0; i < aBpelPartnerLinks.getLength(); i++ )
       {
