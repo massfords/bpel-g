@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://www.example.org/test/" xmlns:pt="http://www.example.org/test/port-types" xmlns:msg="http://www.example.org/test/messages" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="test" targetNamespace="http://www.example.org/test/" xmlns:plnk="http://docs.oasis-open.org/wsbpel/2.0/plnktype">
+  <plnk:partnerLinkType name="testPartnerLinkType">
+    <plnk:role name="proces" portType="pt:test" />
+  </plnk:partnerLinkType>
+  <plnk:partnerLinkType name="testPartnerLinkType2">
+    <plnk:role name="proces" portType="pt:test2" />
+  </plnk:partnerLinkType>
+  <wsdl:import location="messages.wsdl" namespace="http://www.example.org/test/messages"/>
+  <wsdl:import location="port-types.wsdl" namespace="http://www.example.org/test/port-types"/>
+</wsdl:definitions>
