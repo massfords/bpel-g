@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://www.example.org/test/port-types" xmlns:msg="http://www.example.org/test/messages" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="test" targetNamespace="http://www.example.org/test/port-types" xmlns:plnk="http://docs.oasis-open.org/wsbpel/2.0/plnktype">
+  <wsdl:import location="messages.wsdl" namespace="http://www.example.org/test/messages"/>
+  <wsdl:portType name="test">
+    <wsdl:operation name="NewOperation">
+      <wsdl:input message="msg:NewOperationRequest"/>
+      <wsdl:output message="msg:NewOperationResponse"/>
+      <wsdl:fault name="simpleFault" message="msg:SimpleFaultMessage"/>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:portType name="test2">
+    <wsdl:operation name="NewOperation2">
+      <wsdl:input message="msg:NewOperationRequest2"/>
+      <wsdl:output message="msg:NewOperationResponse2"/>
+      <wsdl:fault name="simpleFault" message="msg:SimpleFaultMessage"/>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:portType name="testOneway">
+    <wsdl:operation name="oneway">
+      <wsdl:input message="msg:OneWay"/>
+    </wsdl:operation>
+  </wsdl:portType>
+</wsdl:definitions>

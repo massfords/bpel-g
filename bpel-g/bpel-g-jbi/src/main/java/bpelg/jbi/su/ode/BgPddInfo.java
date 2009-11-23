@@ -6,18 +6,28 @@ import java.util.Map;
 
 import javax.xml.namespace.QName;
 
+import org.activebpel.rt.bpel.def.AeProcessDef;
+
 public class BgPddInfo {
-    private QName mProcessName;
+    private AeProcessDef mProcessDef;
     private String mLocation;
     private Map<String,BgPlink> mPartnerLinks = new HashMap();
     
-    public BgPddInfo(QName aProcessName, String aLocation) { 
-        mProcessName = aProcessName;
+    public BgPddInfo(AeProcessDef aProcessDef, String aLocation) { 
+        mProcessDef = aProcessDef;
+        setLocation(aLocation);
+    }
+    
+    public void setLocation(String aLocation) {
         mLocation = aLocation;
     }
     
+    public AeProcessDef getProcessDef() {
+        return mProcessDef;
+    }
+    
     public QName getProcessName() {
-        return mProcessName;
+        return mProcessDef.getQName();
     }
     
     public String getLocation() {

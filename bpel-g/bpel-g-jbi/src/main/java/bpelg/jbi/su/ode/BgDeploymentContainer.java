@@ -14,6 +14,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.xml.namespace.QName;
 
@@ -55,6 +56,12 @@ public class BgDeploymentContainer implements IAeDeploymentContainer {
         for(String pddName : mPddBuilder.getPddNames()) {
             mPddBuilder.writePddDocument(pddName, mCatalogBuilder.getItems());
         }
+        
+        // now that we've written all of the pdd's, we know what each bpel is importing
+        // we're now able to build a collection of just those tuples that are referenced
+        Set<BgCatalogTuple> referenced = mPddBuilder.getReferenced();
+        mCatalogBuilder.setReferenced(referenced);
+        
     }
     
     public BgPlink getPlink(QName aProcessName, String aPlinkName) {
@@ -195,7 +202,11 @@ public class BgDeploymentContainer implements IAeDeploymentContainer {
 
     @Override
     public Document getCatalogDocument() throws AeException {
-        return mCatalogBuilder.getCatalog();
+        try {
+            return mCatalogBuilder.getCatalog();
+        } catch (Exception e) {
+            throw new AeException(e);
+        }
     }
 
     @Override

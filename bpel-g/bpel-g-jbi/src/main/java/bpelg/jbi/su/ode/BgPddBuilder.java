@@ -7,14 +7,22 @@ import java.io.IOException;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.LinkedHashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
 
 import javax.xml.namespace.QName;
 
 import org.activebpel.rt.AeException;
 import org.activebpel.rt.IAeConstants;
+import org.activebpel.rt.bpel.def.AeImportDef;
+import org.activebpel.rt.bpel.def.AeProcessDef;
+import org.activebpel.rt.bpel.def.io.AeBpelIO;
 import org.activebpel.rt.util.AeCloser;
 import org.activebpel.rt.util.AeUtil;
 import org.activebpel.rt.util.AeXPathUtil;
@@ -38,6 +46,7 @@ public class BgPddBuilder {
     private Map<String,BgPddInfo> mPddFileNameToPddInfo = new HashMap();
     private Document mDeployXml;
     private boolean mReplaceExisting;
+    private Set<BgCatalogTuple> mReferenced = new HashSet();
     
     public BgPddBuilder(File aServiceUnitRoot) throws AeException {
         assert aServiceUnitRoot.isDirectory();
@@ -46,6 +55,10 @@ public class BgPddBuilder {
         mServiceUnitRoot = aServiceUnitRoot;
         mDeployXml = AeXmlUtil.toDoc(new File(mServiceUnitRoot, "deploy.xml"), null);
         mReplaceExisting = AeXmlUtil.getAttributeBoolean(mDeployXml.getDocumentElement(), "replace.existing");
+    }
+    
+    public Set<BgCatalogTuple> getReferenced() {
+        return mReferenced;
     }
     
     public boolean isReplaceExisting() {
@@ -104,8 +117,11 @@ public class BgPddBuilder {
             }
         }
         
+        Collection<BgCatalogTuple> referenced = getReferenced(info, aCatalog);
+        mReferenced.addAll(referenced);
+        
         Element refs = AeXmlUtil.addElementNS(pdd, PDD, "pdd:references");
-        for(BgCatalogTuple catalogEntry : aCatalog) {
+        for(BgCatalogTuple catalogEntry : referenced) {
             Element entry = null;
             if (catalogEntry.isWsdl()) {
                 entry = AeXmlUtil.addElementNS(refs, PDD, "pdd:wsdl");
@@ -121,16 +137,43 @@ public class BgPddBuilder {
         return doc;
     }
     
+    /**
+     * Gets a collection of catalog tuples that are imported directly into this BPEL
+     * 
+     * @param aInfo
+     * @param aCatalog
+     */
+    protected Collection<BgCatalogTuple> getReferenced(BgPddInfo aInfo,
+            Collection<BgCatalogTuple> aCatalog) {
+        Collection<BgCatalogTuple> referenced = new LinkedList();
+        Set<String> referencedPaths = getReferencedPaths(aInfo.getProcessDef());
+        for(BgCatalogTuple tuple : aCatalog) {
+            if (referencedPaths.contains(tuple.physicalLocation))
+                referenced.add(tuple);
+        }
+        return referenced;
+    }
+
+    protected Set<String> getReferencedPaths(AeProcessDef aProcessDef) {
+        LinkedHashSet paths = new LinkedHashSet();
+        
+        for(Iterator<AeImportDef> iter = aProcessDef.getImportDefs(); iter.hasNext();) {
+            AeImportDef def = iter.next();
+            paths.add(def.getLocation());
+        }
+        
+        return paths;
+    }
+
     public void build() throws Exception {
-        Map<QName,String> processNameToLoc = buildLocationMap();
+        buildDeploymentMap();
 
         List<Element> processes = AeXPathUtil.selectNodes(mDeployXml, "/ode:deploy/ode:process", NAMESPACES);
         for(Element process : processes) {
             
             QName processName = AeXmlUtil.getAttributeQName(process, "name");
-            String location = processNameToLoc.get(processName);
             
-            BgPddInfo pddInfo = new BgPddInfo(processName, location);
+            BgPddInfo pddInfo = mDeployments.get(processName);
             mDeployments.put(pddInfo.getProcessName(), pddInfo);
             mPddFileNameToPddInfo.put(pddInfo.getLocation() + ".pdd", pddInfo);
             
@@ -154,19 +197,24 @@ public class BgPddBuilder {
         }
     }
     
-    protected Map<QName,String> buildLocationMap() throws AeException {
-        
-        Map<QName,String> locationMap = new HashMap();
+    /**
+     * Loads all of the bpel files found into a map by their 
+     * QName to a BgPddInfo object
+     * 
+     * @throws AeException
+     */
+    protected void buildDeploymentMap() throws AeException {
         
         File[] files = getBpelFiles();
         
         for(File file : files) {
             Document doc = AeXmlUtil.toDoc(file, null);
-            QName processName = new QName(doc.getDocumentElement().getAttribute("targetNamespace"), doc.getDocumentElement().getAttribute("name"));
+            AeProcessDef processDef = AeBpelIO.deserialize(doc);
+            QName processName = processDef.getQName();
             String location = file.getName();
-            locationMap.put(processName, location);
+            BgPddInfo pddInfo = new BgPddInfo(processDef, location);
+            mDeployments.put(processName, pddInfo);
         }
-        return locationMap;
     }
 
     private File[] getBpelFiles() {

@@ -80,9 +80,7 @@ public class BgPddBuilderTest {
         		    "</pdd:partnerLink>" + 
         		"</pdd:partnerLinks>" + 
         		"<pdd:references>" + 
-        		    "<pdd:other location='project:/example-su/path/to/xsl/example.xsl' namespace=''/>" + 
         		    "<pdd:wsdl location='project:/example-su/wsdl/example.wsdl' namespace='http://www.example.org/test/'/>" + 
-                    "<pdd:schema location='project:/example-su/xsd/example.xsd' namespace='http://www.example.org/test/'/>" + 
         	   "</pdd:references>" + 
     		"</pdd:process>";
         Document expected = AeXmlUtil.toDoc(expectedXml);
@@ -113,9 +111,7 @@ public class BgPddBuilderTest {
                     "</pdd:partnerLink>" + 
                 "</pdd:partnerLinks>" + 
                 "<pdd:references>" + 
-                    "<pdd:other location='project:/example-su/path/to/xsl/example.xsl' namespace=''/>" + 
                     "<pdd:wsdl location='project:/example-su/wsdl/example.wsdl' namespace='http://www.example.org/test/'/>" + 
-                    "<pdd:schema location='project:/example-su/xsd/example.xsd' namespace='http://www.example.org/test/'/>" + 
                 "</pdd:references>" + 
             "</pdd:process>"; 
         Document expected = AeXmlUtil.toDoc(expectedXml);
