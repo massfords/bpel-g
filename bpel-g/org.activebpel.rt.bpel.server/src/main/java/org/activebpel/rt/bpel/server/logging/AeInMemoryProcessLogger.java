@@ -12,7 +12,8 @@ package org.activebpel.rt.bpel.server.logging;
 import java.io.IOException;
 import java.io.Reader;
 import java.io.StringReader;
-import java.util.Hashtable;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.Map;
 
 import org.activebpel.rt.bpel.IAeProcessEvent;
@@ -23,7 +24,6 @@ import org.activebpel.rt.bpel.impl.IAeBusinessProcessEngineInternal;
 import org.activebpel.rt.bpel.server.engine.AeBPELProcessEventFormatter;
 import org.activebpel.rt.bpel.server.engine.AeEngineFactory;
 import org.activebpel.rt.bpel.server.engine.IAeProcessLogger;
-import org.activebpel.rt.util.AeLongMap;
 import org.activebpel.rt.util.AeUtil;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -41,7 +41,7 @@ public class AeInMemoryProcessLogger implements IAeProcessLogger, IAeConfigChang
    private IAeBusinessProcessEngineInternal mEngine;
 
    /** maps the process id to the string buffer */
-   protected AeLongMap mPidToBuffer = new AeLongMap(new Hashtable());
+   protected Map<Long,StringBuffer> mPidToBuffer = Collections.synchronizedMap(new HashMap());
   
    /** used to filter out some log events */
    protected IAeLoggingFilter mFilter = null;
@@ -167,7 +167,7 @@ public class AeInMemoryProcessLogger implements IAeProcessLogger, IAeConfigChang
    /**
     * Getter for the buffer map.
     */
-   protected AeLongMap getBufferMap()
+   protected Map<Long,StringBuffer> getBufferMap()
    {
       return mPidToBuffer;
    }

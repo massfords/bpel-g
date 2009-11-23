@@ -11,6 +11,7 @@ package org.activebpel.rt.bpel.server.engine.storage;
 
 import java.io.Reader;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import javax.xml.namespace.QName;
@@ -20,7 +21,6 @@ import org.activebpel.rt.bpel.impl.list.AeProcessInstanceDetail;
 import org.activebpel.rt.bpel.impl.list.AeProcessListResult;
 import org.activebpel.rt.bpel.server.engine.recovery.journal.AeRestartProcessJournalEntry;
 import org.activebpel.rt.bpel.server.engine.recovery.journal.IAeJournalEntry;
-import org.activebpel.rt.util.AeLongMap;
 
 /**
  * Defines interface for managing process state and variables in storage.
@@ -67,7 +67,7 @@ public interface IAeProcessStateStorage extends IAeStorage
     * @return AeLongMap
     * @throws AeStorageException
     */
-   public AeLongMap getJournalEntriesLocationIdsMap(long aProcessId) throws AeStorageException;
+   public Map<Long,Integer> getJournalEntriesLocationIdsMap(long aProcessId) throws AeStorageException;
 
    /**
     * Returns the journal entry with the given journal id.

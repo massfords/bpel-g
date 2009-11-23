@@ -10,12 +10,12 @@
 package org.activebpel.rt.bpel.server.engine.storage;
 
 import java.util.Date;
+import java.util.Set;
 
 import org.activebpel.rt.bpel.IAeBusinessProcess;
 import org.activebpel.rt.bpel.IAeVariable;
 import org.activebpel.rt.bpel.impl.fastdom.AeFastDocument;
 import org.activebpel.rt.bpel.server.logging.IAeProcessLogEntry;
-import org.activebpel.rt.util.AeLongSet;
 import org.w3c.dom.Document;
 
 /**
@@ -73,7 +73,7 @@ public interface IAeProcessStateConnection
     *
     * @throws AeStorageException
     */
-   public void removeJournalEntries(AeLongSet aJournalIds) throws AeStorageException;
+   public void removeJournalEntries(Set<Long> aJournalIds) throws AeStorageException;
 
    /**
     * Undoes all changes made in the current transaction and releases any

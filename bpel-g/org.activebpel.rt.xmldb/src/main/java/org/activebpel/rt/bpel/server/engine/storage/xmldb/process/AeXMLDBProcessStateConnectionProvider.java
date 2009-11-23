@@ -12,6 +12,7 @@ package org.activebpel.rt.bpel.server.engine.storage.xmldb.process;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
+import java.util.Set;
 
 import org.activebpel.rt.bpel.impl.fastdom.AeFastDocument;
 import org.activebpel.rt.bpel.server.engine.storage.AeStorageException;
@@ -24,7 +25,6 @@ import org.activebpel.rt.bpel.server.engine.storage.xmldb.IAeXMLDBStorage;
 import org.activebpel.rt.bpel.server.engine.storage.xmldb.IAeXMLDBStorageImpl;
 import org.activebpel.rt.bpel.server.engine.storage.xmldb.handlers.AeXMLDBResponseHandler;
 import org.activebpel.rt.bpel.server.engine.storage.xmldb.process.handlers.AeLocationVersionSetResponseHandler;
-import org.activebpel.rt.util.AeLongSet;
 import org.activebpel.rt.xml.schema.AeSchemaDateTime;
 import org.w3c.dom.Document;
 
@@ -111,7 +111,7 @@ public class AeXMLDBProcessStateConnectionProvider extends AeAbstractXMLDBStorag
    /**
     * @see org.activebpel.rt.bpel.server.engine.storage.providers.IAeProcessStateConnectionProvider#removeJournalEntries(org.activebpel.rt.util.AeLongSet)
     */
-   public void removeJournalEntries(AeLongSet aJournalIds) throws AeStorageException
+   public void removeJournalEntries(Set<Long> aJournalIds) throws AeStorageException
    {
       deleteLongIdSetDocuments(aJournalIds, IAeProcessConfigKeys.DELETE_JOURNAL_ENTRIES, "$journalid"); //$NON-NLS-1$
    }
@@ -123,7 +123,7 @@ public class AeXMLDBProcessStateConnectionProvider extends AeAbstractXMLDBStorag
     * @param aParamName
     * @throws AeStorageException
     */
-   protected void deleteLongIdSetDocuments(AeLongSet aLongIds, String aQueryKey, String aParamName) throws AeStorageException
+   protected void deleteLongIdSetDocuments(Set<Long> aLongIds, String aQueryKey, String aParamName) throws AeStorageException
    {
       if (aLongIds.size() == 0)
       {
@@ -141,7 +141,7 @@ public class AeXMLDBProcessStateConnectionProvider extends AeAbstractXMLDBStorag
     * 
     * @param aLongIds
     */
-   protected String buildLongIdSetWhereClause(AeLongSet aLongIds, String aParamName)
+   protected String buildLongIdSetWhereClause(Set<Long> aLongIds, String aParamName)
    {
       StringBuffer buff = new StringBuffer();
       synchronized (buff)

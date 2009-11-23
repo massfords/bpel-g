@@ -11,6 +11,7 @@ package org.activebpel.rt.bpel.server.engine.storage;
 
 import java.util.Date;
 import java.util.Iterator;
+import java.util.Set;
 
 import org.activebpel.rt.bpel.IAeBusinessProcess;
 import org.activebpel.rt.bpel.IAeVariable;
@@ -18,7 +19,6 @@ import org.activebpel.rt.bpel.impl.fastdom.AeFastDocument;
 import org.activebpel.rt.bpel.server.AeMessages;
 import org.activebpel.rt.bpel.server.engine.storage.providers.IAeProcessStateConnectionProvider;
 import org.activebpel.rt.bpel.server.logging.IAeProcessLogEntry;
-import org.activebpel.rt.util.AeLongSet;
 import org.activebpel.rt.util.AeUtil;
 import org.w3c.dom.Document;
 
@@ -108,7 +108,7 @@ public class AeProcessStateConnection extends AeAbstractStorage implements IAePr
    /**
     * @see org.activebpel.rt.bpel.server.engine.storage.IAeProcessStateConnection#removeJournalEntries(org.activebpel.rt.util.AeLongSet)
     */
-   public void removeJournalEntries(AeLongSet aJournalIds) throws AeStorageException
+   public void removeJournalEntries(Set<Long> aJournalIds) throws AeStorageException
    {
       getProcessStateConnectionProvider().removeJournalEntries(aJournalIds);
    }

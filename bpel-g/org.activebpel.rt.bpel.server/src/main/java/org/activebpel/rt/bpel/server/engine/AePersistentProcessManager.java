@@ -11,9 +11,11 @@ package org.activebpel.rt.bpel.server.engine;
 
 import java.io.Reader;
 import java.sql.SQLException;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Set;
 
 import javax.xml.namespace.QName;
 
@@ -56,8 +58,6 @@ import org.activebpel.rt.bpel.server.engine.storage.sql.AeDbUtils;
 import org.activebpel.rt.bpel.server.logging.IAePersistentLogger;
 import org.activebpel.rt.bpel.server.logging.IAeProcessLogEntry;
 import org.activebpel.rt.message.IAeMessageData;
-import org.activebpel.rt.util.AeLongMap;
-import org.activebpel.rt.util.AeLongSet;
 import org.activebpel.rt.util.AeMutex;
 import org.activebpel.rt.xml.AeQName;
 import org.activebpel.work.AeAbstractWork;
@@ -123,7 +123,7 @@ public class AePersistentProcessManager extends AeAbstractProcessManager impleme
     * {@link java.util.LinkedHashMap} to allow us to remove processes from the
     * map in LRU order.
     */
-   private final AeLongMap mProcessTimerMap = new AeLongMap(new LinkedHashMap());
+   private final Map<Long,Object> mProcessTimerMap = new LinkedHashMap<Long,Object>();
 
    /** Process state reader for this process manager. */
    private IAeProcessStateReader mProcessStateReader;
@@ -597,7 +597,7 @@ public class AePersistentProcessManager extends AeAbstractProcessManager impleme
    /**
     * Returns map from process ids to process release timers.
     */
-   protected AeLongMap getProcessTimerMap()
+   protected Map<Long,Object> getProcessTimerMap()
    {
       return mProcessTimerMap;
    }
@@ -819,10 +819,7 @@ public class AePersistentProcessManager extends AeAbstractProcessManager impleme
       }
    }
 
-   /**
-    * @see org.activebpel.rt.bpel.server.engine.IAeRecoverableProcessManager#journalEntriesDone(long, org.activebpel.rt.util.AeLongSet)
-    */
-   public void journalEntriesDone(long aProcessId, AeLongSet aJournalIds)
+   public void journalEntriesDone(long aProcessId, Set<Long> aJournalIds)
    {
       AeProcessWrapper wrapper = getProcessWrapperWithMutex(aProcessId);
 
@@ -1199,9 +1196,9 @@ public class AePersistentProcessManager extends AeAbstractProcessManager impleme
       long millis = System.currentTimeMillis();
 
       // Get ids of journal entries that are done.
-      AeLongSet completedJournalIds = aWrapper.getCompletedJournalIds();
+      Set<Long> completedJournalIds = aWrapper.getCompletedJournalIds();
       // List of transmission ids that needs to be deleted.
-      AeLongSet completedTransmissionIds = aWrapper.getCompletedTransmissionIds();
+      Set<Long> completedTransmissionIds = aWrapper.getCompletedTransmissionIds();
       // Journal id to set aside for restart.
       long journalIdForRestart = aWrapper.getJournalIdForRestart();
 
@@ -1518,8 +1515,8 @@ public class AePersistentProcessManager extends AeAbstractProcessManager impleme
     */
    public void journalAllEntriesDone(long aProcessId) throws AeBusinessProcessException
    {
-      AeLongMap map = getStorage().getJournalEntriesLocationIdsMap(aProcessId);
-      AeLongSet journalIds = new AeLongSet(map.keySet());
+      Map<Long,Integer> map = getStorage().getJournalEntriesLocationIdsMap(aProcessId);
+      Set<Long> journalIds = new HashSet(map.keySet());
       journalEntriesDone(aProcessId, journalIds);
    }
    

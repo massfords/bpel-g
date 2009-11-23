@@ -9,8 +9,9 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpel.server.engine.storage;
 
+import java.util.Set;
+
 import org.activebpel.rt.bpel.server.transreceive.AeTransmissionTrackerEntry;
-import org.activebpel.rt.util.AeLongSet;
 
 /**
  * Interface for the transmission, receive manager storage layer.
@@ -58,5 +59,5 @@ public interface IAeTransmissionTrackerStorage extends IAeStorage
     * @param aTransmissionIds
     * @throws AeStorageException
     */
-   public void remove(AeLongSet aTransmissionIds) throws AeStorageException;
+   public void remove(Set<Long> aTransmissionIds) throws AeStorageException;
 }

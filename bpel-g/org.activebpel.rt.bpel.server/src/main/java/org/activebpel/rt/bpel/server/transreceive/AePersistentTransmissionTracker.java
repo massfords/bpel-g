@@ -10,13 +10,13 @@
 package org.activebpel.rt.bpel.server.transreceive;
 
 import java.util.Map;
+import java.util.Set;
 
 import org.activebpel.rt.AeException;
 import org.activebpel.rt.bpel.impl.reply.IAeTransmissionTracker;
 import org.activebpel.rt.bpel.server.engine.storage.AePersistentStoreFactory;
 import org.activebpel.rt.bpel.server.engine.storage.AeStorageException;
 import org.activebpel.rt.bpel.server.engine.storage.IAeTransmissionTrackerStorage;
-import org.activebpel.rt.util.AeLongSet;
 
 /**
  * Implements the persistent version of a transmission manager which is 
@@ -109,7 +109,7 @@ public class AePersistentTransmissionTracker extends AeInMemoryTransmissionTrack
     /**
      * @see org.activebpel.rt.bpel.impl.reply.IAeTransmissionTracker#remove(org.activebpel.rt.util.AeLongSet)
      */
-    public void remove(AeLongSet aTransmissionIds) throws AeException
+    public void remove(Set<Long> aTransmissionIds) throws AeException
     {
        getStorage().remove(aTransmissionIds);
     }    

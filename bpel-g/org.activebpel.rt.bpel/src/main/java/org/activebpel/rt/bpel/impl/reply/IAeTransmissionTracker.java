@@ -9,8 +9,9 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpel.impl.reply;
 
+import java.util.Set;
+
 import org.activebpel.rt.AeException;
-import org.activebpel.rt.util.AeLongSet;
 import org.activebpel.wsio.invoke.IAeTransmission;
 
 /**
@@ -101,7 +102,7 @@ public interface IAeTransmissionTracker
     * @param aTransmissionIds
     * @throws AeException
     */
-   public void remove(AeLongSet aTransmissionIds) throws AeException;
+   public void remove(Set<Long> aTransmissionIds) throws AeException;
    
    /**
     * Convenience method that returns true if the id was already reliably transmitted based on

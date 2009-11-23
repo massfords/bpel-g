@@ -9,6 +9,9 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpel.server.engine.recovery;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import org.activebpel.rt.bpel.AeBusinessProcessException;
 import org.activebpel.rt.bpel.IAeBusinessProcess;
 import org.activebpel.rt.bpel.impl.AeAbstractBpelObject;
@@ -17,7 +20,6 @@ import org.activebpel.rt.bpel.impl.AeBusinessProcess;
 import org.activebpel.rt.bpel.impl.IAeAlarmReceiver;
 import org.activebpel.rt.bpel.impl.activity.IAeMessageReceiverActivity;
 import org.activebpel.rt.bpel.impl.visitors.AeImplTraversingVisitor;
-import org.activebpel.rt.util.AeLongSet;
 
 /**
  * Determines the location ids for activities that are currently executing by
@@ -26,12 +28,12 @@ import org.activebpel.rt.util.AeLongSet;
 public class AeQueuedExecutingLocationIdsCollector extends AeImplTraversingVisitor
 {
    /** The executing location ids set. */
-   private AeLongSet mExecutingLocationIds;
+   private Set<Integer> mExecutingLocationIds;
 
    /**
     * Returns the executing location ids set.
     */
-   protected AeLongSet getExecutingLocationIds()
+   protected Set<Integer> getExecutingLocationIds()
    {
       return mExecutingLocationIds;
    }
@@ -42,9 +44,9 @@ public class AeQueuedExecutingLocationIdsCollector extends AeImplTraversingVisit
     *
     * @param aProcess
     */
-   public AeLongSet getExecutingLocationIds(IAeBusinessProcess aProcess) throws AeBusinessProcessException
+   public Set<Integer> getExecutingLocationIds(IAeBusinessProcess aProcess) throws AeBusinessProcessException
    {
-      setExecutingLocationIds(new AeLongSet());
+      setExecutingLocationIds(new HashSet());
       
       if (aProcess instanceof AeBusinessProcess)
       {
@@ -57,7 +59,7 @@ public class AeQueuedExecutingLocationIdsCollector extends AeImplTraversingVisit
    /**
     * Sets the executing location ids set.
     */
-   protected void setExecutingLocationIds(AeLongSet aExecutingLocationIds)
+   protected void setExecutingLocationIds(Set<Integer> aExecutingLocationIds)
    {
       mExecutingLocationIds = aExecutingLocationIds;
    }

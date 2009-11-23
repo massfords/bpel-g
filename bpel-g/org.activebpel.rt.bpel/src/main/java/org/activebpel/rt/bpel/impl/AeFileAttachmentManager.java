@@ -10,8 +10,10 @@
 package org.activebpel.rt.bpel.impl;
 
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 import org.activebpel.rt.AeException;
 import org.activebpel.rt.bpel.AeBusinessProcessException;
@@ -19,8 +21,6 @@ import org.activebpel.rt.bpel.AeMessages;
 import org.activebpel.rt.bpel.IAeBusinessProcess;
 import org.activebpel.rt.bpel.impl.attachment.AeFileAttachmentStorage;
 import org.activebpel.rt.bpel.impl.attachment.IAeAttachmentStorage;
-import org.activebpel.rt.util.AeLongMap;
-import org.activebpel.rt.util.AeLongSet;
 
 /**
  * This class implements a file-based attachment manager.
@@ -31,7 +31,7 @@ public class AeFileAttachmentManager extends AeAbstractAttachmentManager impleme
    private AeFileAttachmentStorage mFileStorage;
 
    /** The set of process ids that are waiting to be purged. */
-   private AeLongSet mDeferredPurges;
+   private Set<Long> mDeferredPurges;
 
    /** Maps process ids to the number of pending responses for each process. */
    private AeCounterMap mPendingResponses;
@@ -62,11 +62,11 @@ public class AeFileAttachmentManager extends AeAbstractAttachmentManager impleme
    /**
     * Returns the set of process ids that are waiting to be purged.
     */
-   protected AeLongSet getDeferredPurges()
+   protected Set<Long> getDeferredPurges()
    {
       if (mDeferredPurges == null)
       {
-         mDeferredPurges = new AeLongSet(Collections.synchronizedSet(new HashSet()));
+         mDeferredPurges = Collections.synchronizedSet(new HashSet<Long>());
       }
 
       return mDeferredPurges;
@@ -176,7 +176,7 @@ public class AeFileAttachmentManager extends AeAbstractAttachmentManager impleme
    protected static class AeCounterMap
    {
       /** The underlying map from <code>long</code> keys to counter objects. */
-      private AeLongMap mLongMap = new AeLongMap();
+      private Map<Long,AeIntCounter> mLongMap = new HashMap();
 
       /**
        * Decrements the count associated with the given key and returns the new
@@ -188,7 +188,7 @@ public class AeFileAttachmentManager extends AeAbstractAttachmentManager impleme
        */
       public synchronized int decrement(long aKey)
       {
-         AeIntCounter counter = (AeIntCounter) getLongMap().get(aKey);
+         AeIntCounter counter = getLongMap().get(aKey);
          int count = (counter == null) ? -1 : --counter.mCount;
 
          if (count <= 0)
@@ -207,14 +207,14 @@ public class AeFileAttachmentManager extends AeAbstractAttachmentManager impleme
        */
       public synchronized int getCount(long aKey)
       {
-         AeIntCounter counter = (AeIntCounter) getLongMap().get(aKey);
+         AeIntCounter counter = getLongMap().get(aKey);
          return (counter == null) ? 0 : counter.mCount;
       }
 
       /**
        * Returns the underlying map from <code>long</code> keys to counters.
        */
-      protected AeLongMap getLongMap()
+      protected Map<Long,AeIntCounter> getLongMap()
       {
          return mLongMap;
       }

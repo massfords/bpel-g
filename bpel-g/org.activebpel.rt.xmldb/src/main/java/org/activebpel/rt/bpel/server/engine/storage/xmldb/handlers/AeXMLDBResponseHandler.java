@@ -10,7 +10,9 @@
 package org.activebpel.rt.bpel.server.engine.storage.xmldb.handlers;
 
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.xml.namespace.QName;
 
@@ -18,8 +20,6 @@ import org.activebpel.rt.bpel.server.engine.storage.xmldb.AeXMLDBException;
 import org.activebpel.rt.bpel.server.engine.storage.xmldb.IAeCommonElements;
 import org.activebpel.rt.bpel.server.engine.storage.xmldb.IAeXMLDBResponseHandler;
 import org.activebpel.rt.bpel.server.engine.storage.xmldb.IAeXMLDBXQueryResponse;
-import org.activebpel.rt.util.AeIntSet;
-import org.activebpel.rt.util.AeLongSet;
 import org.activebpel.rt.util.AeUtil;
 import org.activebpel.rt.util.AeXmlUtil;
 import org.activebpel.rt.xml.schema.AeSchemaDateTime;
@@ -190,7 +190,7 @@ public abstract class AeXMLDBResponseHandler implements IAeXMLDBResponseHandler
          public Object handleResponse(IAeXMLDBXQueryResponse aResponse) throws AeXMLDBException
          {
             List list = (List) super.handleResponse(aResponse);
-            AeLongSet set = new AeLongSet();
+            Set<Long> set = new HashSet();
             set.addAll(list);
             return set;
          }
@@ -218,7 +218,7 @@ public abstract class AeXMLDBResponseHandler implements IAeXMLDBResponseHandler
          public Object handleResponse(IAeXMLDBXQueryResponse aResponse) throws AeXMLDBException
          {
             List list = (List) super.handleResponse(aResponse);
-            AeIntSet set = new AeIntSet();
+            Set<Integer> set = new HashSet();
             set.addAll(list);
             return set;
          }

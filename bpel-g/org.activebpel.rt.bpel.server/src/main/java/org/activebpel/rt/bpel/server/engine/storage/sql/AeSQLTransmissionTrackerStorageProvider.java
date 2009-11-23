@@ -11,6 +11,7 @@ package org.activebpel.rt.bpel.server.engine.storage.sql;
 
 import java.sql.Connection;
 import java.util.Iterator;
+import java.util.Set;
 
 import org.activebpel.rt.AeException;
 import org.activebpel.rt.bpel.server.engine.storage.AeCounter;
@@ -19,7 +20,6 @@ import org.activebpel.rt.bpel.server.engine.storage.providers.IAeTransmissionTra
 import org.activebpel.rt.bpel.server.engine.storage.sql.handlers.AeTransmissionTrackerResultSetHandler;
 import org.activebpel.rt.bpel.server.transreceive.AeTransmissionTrackerEntry;
 import org.activebpel.rt.util.AeCloser;
-import org.activebpel.rt.util.AeLongSet;
 
 /**
  * SQL implementation of the storage provider for the transmission - receive manager.
@@ -112,7 +112,7 @@ public class AeSQLTransmissionTrackerStorageProvider extends AeAbstractSQLStorag
    /**
     * @see org.activebpel.rt.bpel.server.engine.storage.providers.IAeTransmissionTrackerStorageProvider#remove(org.activebpel.rt.util.AeLongSet)
     */
-   public void remove(AeLongSet aTransmissionIds) throws AeStorageException
+   public void remove(Set<Long> aTransmissionIds) throws AeStorageException
    {     
       if (!aTransmissionIds.isEmpty())
       {                  

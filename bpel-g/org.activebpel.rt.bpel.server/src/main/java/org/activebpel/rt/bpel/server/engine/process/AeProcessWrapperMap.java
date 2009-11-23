@@ -10,6 +10,8 @@
 package org.activebpel.rt.bpel.server.engine.process;
 
 import java.text.MessageFormat;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.activebpel.rt.AeException;
 import org.activebpel.rt.bpel.IAeBusinessProcess;
@@ -17,7 +19,6 @@ import org.activebpel.rt.bpel.server.AeMessages;
 import org.activebpel.rt.bpel.server.engine.AeEngineFactory;
 import org.activebpel.rt.bpel.server.engine.AePersistentProcessManager;
 import org.activebpel.rt.bpel.server.engine.IAePersistentProcessManager;
-import org.activebpel.rt.util.AeLongMap;
 import org.activebpel.work.AeAbstractWork;
 
 import commonj.work.Work;
@@ -31,7 +32,7 @@ public class AeProcessWrapperMap implements IAeProcessWrapperMap
    private final IAePersistentProcessManager mProcessManager;
 
    /** Maps process ids to instances of {@link org.activebpel.rt.bpel.server.engine.process.AeProcessWrapper}. */
-   private final AeLongMap mInMemoryMap = new AeLongMap();
+   private final Map<Long,AeProcessWrapper> mInMemoryMap = new HashMap();
 
    /** Callback interface to the map owner. */
    private IAeProcessWrapperMapCallback mCallback;
@@ -137,7 +138,7 @@ public class AeProcessWrapperMap implements IAeProcessWrapperMap
    /**
     * Accessor for in-memory map of process instances.
     */
-   protected AeLongMap getInMemoryMap()
+   protected Map<Long,AeProcessWrapper> getInMemoryMap()
    {
       return mInMemoryMap;
    }

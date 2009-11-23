@@ -9,12 +9,12 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpel.server.engine.storage.xmldb.process.handlers;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import org.activebpel.rt.bpel.server.engine.storage.xmldb.AeXMLDBException;
 import org.activebpel.rt.bpel.server.engine.storage.xmldb.handlers.AeXMLDBMapResponseHandler;
 import org.activebpel.rt.bpel.server.engine.storage.xmldb.journal.IAeJournalElements;
-import org.activebpel.rt.util.AeLongMap;
 import org.w3c.dom.Element;
 
 /**
@@ -52,6 +52,6 @@ public class AeJournalEntriesLocationIdsResponseHandler extends AeXMLDBMapRespon
     */
    protected Map createMap()
    {
-      return new AeLongMap();
+      return new HashMap();
    }
 }

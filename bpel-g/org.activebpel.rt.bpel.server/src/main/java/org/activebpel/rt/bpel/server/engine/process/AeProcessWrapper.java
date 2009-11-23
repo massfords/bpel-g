@@ -9,6 +9,9 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpel.server.engine.process;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import org.activebpel.rt.bpel.IAeBusinessProcess;
 import org.activebpel.rt.bpel.impl.IAeProcessManager;
 import org.activebpel.rt.bpel.server.AeMessages;
@@ -16,7 +19,6 @@ import org.activebpel.rt.bpel.server.IAeProcessDeployment;
 import org.activebpel.rt.bpel.server.deploy.AeProcessPersistenceType;
 import org.activebpel.rt.bpel.server.deploy.AeProcessTransactionType;
 import org.activebpel.rt.bpel.server.engine.AePersistentProcessManager;
-import org.activebpel.rt.util.AeLongSet;
 import org.activebpel.rt.util.AeMutex;
 
 /**
@@ -31,7 +33,7 @@ public class AeProcessWrapper
    private final AeMutex mMutex = new AeMutex();
 
    /** Journal entry ids to delete when process state is next saved. */
-   private final AeLongSet mCompletedJournalIds = new AeLongSet();
+   private final Set<Long> mCompletedJournalIds = new HashSet();
 
    /** The process. */
    private IAeBusinessProcess mProcess;
@@ -52,7 +54,7 @@ public class AeProcessWrapper
    private AeProcessTransactionType mTransactionType;
    
    /** Invoke transmission ids to delete when process state is next saved. */
-   private final AeLongSet mCompletedTransmissionIds = new AeLongSet();
+   private final Set<Long> mCompletedTransmissionIds = new HashSet();
 
    /** Journal entry id to set aside for restart when process state is next saved. */
    private long mJournalIdForRestart = IAeProcessManager.NULL_JOURNAL_ID;
@@ -122,7 +124,7 @@ public class AeProcessWrapper
    /**
     * Returns journal entry ids to delete when process state is next saved.
     */
-   public AeLongSet getCompletedJournalIds()
+   public Set<Long> getCompletedJournalIds()
    {
       return mCompletedJournalIds;
    }
@@ -130,7 +132,7 @@ public class AeProcessWrapper
    /** 
     * @return set of durable/persistent invoke transmission ids to be deleted when the process state is next saved.
     */
-   public AeLongSet getCompletedTransmissionIds()
+   public Set<Long> getCompletedTransmissionIds()
    {
       return mCompletedTransmissionIds;
    }

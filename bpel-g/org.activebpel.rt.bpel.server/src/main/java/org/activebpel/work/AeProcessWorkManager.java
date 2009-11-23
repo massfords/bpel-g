@@ -9,8 +9,7 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.work;
 
-import commonj.work.Work;
-
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
@@ -21,7 +20,8 @@ import org.activebpel.rt.bpel.config.IAeConfigChangeListener;
 import org.activebpel.rt.bpel.config.IAeUpdatableEngineConfig;
 import org.activebpel.rt.bpel.server.AeMessages;
 import org.activebpel.rt.bpel.server.engine.AeEngineFactory;
-import org.activebpel.rt.util.AeLongMap;
+
+import commonj.work.Work;
 
 /**
  * Limits the amount of work scheduled per process.
@@ -32,7 +32,7 @@ public class AeProcessWorkManager implements IAeProcessWorkManager, IAeConfigCha
    private int mProcessWorkCount = AeDefaultEngineConfiguration.PROCESS_WORK_COUNT_DEFAULT;
 
    /** Maps process id to an instance of {@link AeProcessWorkQueue} for the process. */
-   private AeLongMap mProcessWorkMap = new AeLongMap();
+   private Map<Long,AeProcessWorkQueue> mProcessWorkMap = new HashMap();
 
    /**
     * Constructor.
@@ -55,7 +55,7 @@ public class AeProcessWorkManager implements IAeProcessWorkManager, IAeConfigCha
    /**
     * Returns the map from process ids to instances of {@link AeProcessWorkQueue}.
     */
-   protected AeLongMap getProcessWorkQueueMap()
+   protected Map<Long,AeProcessWorkQueue> getProcessWorkQueueMap()
    {
       return mProcessWorkMap;
    }
@@ -79,7 +79,7 @@ public class AeProcessWorkManager implements IAeProcessWorkManager, IAeConfigCha
 
       synchronized (getProcessWorkQueueMap())
       {
-         queue = (AeProcessWorkQueue) getProcessWorkQueueMap().get(aProcessId);
+         queue = getProcessWorkQueueMap().get(aProcessId);
          if (queue == null)
          {
             queue = new AeProcessWorkQueue(aProcessId);

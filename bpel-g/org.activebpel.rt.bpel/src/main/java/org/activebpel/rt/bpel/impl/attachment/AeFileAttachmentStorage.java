@@ -26,7 +26,6 @@ import org.activebpel.rt.AeException;
 import org.activebpel.rt.bpel.AeBusinessProcessException;
 import org.activebpel.rt.bpel.AeMessages;
 import org.activebpel.rt.bpel.impl.IAeProcessPlan;
-import org.activebpel.rt.util.AeLongMap;
 import org.activebpel.rt.util.AeUtil;
 
 /**
@@ -39,16 +38,16 @@ public class AeFileAttachmentStorage implements IAeAttachmentStorage
    private AeLongCounter mAttachmentIdCounter = new AeLongCounter();
 
    /** Maps attachment ids to {@link AeAttachmentInfo} instances. */
-   private AeLongMap mAttachmentInfoMap = new AeLongMap(Collections.synchronizedMap(new HashMap()));
+   private Map<Long,AeAttachmentInfo> mAttachmentInfoMap = Collections.synchronizedMap(new HashMap());
 
    /** Counter for attachment group ids. */
    private AeLongCounter mGroupIdCounter = new AeLongCounter();
 
    /** Maps attachment group ids to lists of {@link AeAttachmentInfo} instances. */
-   private AeLongMap mGroupInfosMap = new AeLongMap(Collections.synchronizedMap(new HashMap()));
+   private Map<Long,List<AeAttachmentInfo>> mGroupInfosMap = Collections.synchronizedMap(new HashMap());
 
    /** Maps process ids to lists of {@link AeAttachmentInfo} instances. */
-   private AeLongMap mProcessInfosMap = new AeLongMap(Collections.synchronizedMap(new HashMap()));
+   private Map<Long,List<AeAttachmentInfo>> mProcessInfosMap = Collections.synchronizedMap(new HashMap());
 
    /**
     * Overrides method to move the {@link AeAttachmentInfo} instances associated
@@ -160,7 +159,7 @@ public class AeFileAttachmentStorage implements IAeAttachmentStorage
       if (processInfos != null)
       {
          // Remove the attachments from the attachment map.
-         synchronized (getAttachmentInfoMap().synchObject())
+         synchronized (getAttachmentInfoMap())
          {
             for (Iterator i = processInfos.iterator(); i.hasNext(); )
             {
@@ -239,7 +238,7 @@ public class AeFileAttachmentStorage implements IAeAttachmentStorage
    /**
     * Returns the map from attachment ids to {@link AeAttachmentInfo} instances.
     */
-   protected AeLongMap getAttachmentInfoMap()
+   protected Map<Long,AeAttachmentInfo> getAttachmentInfoMap()
    {
       return mAttachmentInfoMap;
    }
@@ -248,7 +247,7 @@ public class AeFileAttachmentStorage implements IAeAttachmentStorage
     * Returns the map from group ids to lists of {@link AeAttachmentInfo}
     * instances.
     */
-   protected AeLongMap getGroupInfosMap()
+   protected Map<Long,List<AeAttachmentInfo>> getGroupInfosMap()
    {
       return mGroupInfosMap;
    }
@@ -273,7 +272,7 @@ public class AeFileAttachmentStorage implements IAeAttachmentStorage
     * Returns the map from process ids to lists of {@link AeAttachmentInfo}
     * instances.
     */
-   protected AeLongMap getProcessInfosMap()
+   protected Map<Long,List<AeAttachmentInfo>> getProcessInfosMap()
    {
       return mProcessInfosMap;
    }
@@ -286,7 +285,7 @@ public class AeFileAttachmentStorage implements IAeAttachmentStorage
     */
    protected List getProcessInfos(long aProcessId)
    {
-      synchronized (getProcessInfosMap().synchObject())
+      synchronized (getProcessInfosMap())
       {
          List processInfos = (List) getProcessInfosMap().get(aProcessId);
          if (processInfos == null)

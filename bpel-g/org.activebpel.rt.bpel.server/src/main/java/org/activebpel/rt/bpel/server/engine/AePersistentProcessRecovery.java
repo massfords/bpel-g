@@ -11,6 +11,7 @@ package org.activebpel.rt.bpel.server.engine;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
@@ -32,7 +33,6 @@ import org.activebpel.rt.bpel.server.engine.recovery.journal.AeRestartProcessJou
 import org.activebpel.rt.bpel.server.engine.recovery.journal.IAeJournalEntry;
 import org.activebpel.rt.bpel.server.engine.storage.AeStorageException;
 import org.activebpel.rt.bpel.server.engine.storage.IAeProcessStateStorage;
-import org.activebpel.rt.util.AeLongSet;
 import org.activebpel.rt.util.AeUtil;
 
 /**
@@ -50,7 +50,7 @@ public class AePersistentProcessRecovery implements IAeProcessRecovery
    private boolean mPrepared;
 
    /** The set of ids of processes that have been prepared for recovery. */
-   private AeLongSet mPreparedProcessIds;
+   private Set<Long> mPreparedProcessIds;
 
    /** The recovery engine. */
    private IAeRecoveryEngine mRecoveryEngine;
@@ -109,9 +109,9 @@ public class AePersistentProcessRecovery implements IAeProcessRecovery
     *
     * @param aJournalEntries
     */
-   protected AeLongSet getDoneJournalIds(List aJournalEntries)
+   protected Set<Long> getDoneJournalIds(List aJournalEntries)
    {
-      AeLongSet result = new AeLongSet();
+       Set<Long> result = new HashSet();
       boolean restartEnabled = getEngine().getEngineConfiguration().isProcessRestartEnabled();
       for (Iterator i = aJournalEntries.iterator(); i.hasNext(); )
       {
@@ -143,11 +143,11 @@ public class AePersistentProcessRecovery implements IAeProcessRecovery
    /**
     * Returns the set of ids of processes that have been prepared for recovery.
     */
-   protected AeLongSet getPreparedProcessIds()
+   protected Set<Long> getPreparedProcessIds()
    {
       if (mPreparedProcessIds == null)
       {
-         mPreparedProcessIds = new AeLongSet(new TreeSet());
+         mPreparedProcessIds = new TreeSet();
       }
 
       return mPreparedProcessIds;
@@ -323,7 +323,7 @@ public class AePersistentProcessRecovery implements IAeProcessRecovery
          prepareToRecover();
       }
 
-      AeLongSet ids = getPreparedProcessIds();
+      Set<Long> ids = getPreparedProcessIds();
       long millis = System.currentTimeMillis();
 
       int n = ids.size();
@@ -419,7 +419,7 @@ public class AePersistentProcessRecovery implements IAeProcessRecovery
       // Recover the process state and queue recovered requests.
       getRecoveryEngine().recover(aProcess, journalEntries, true);
       
-      AeLongSet doneJournalIds = getDoneJournalIds(journalEntries);
+      Set<Long> doneJournalIds = getDoneJournalIds(journalEntries);
 
       // TODO (KR) Administrator should have a way to purge process and its journal entries if recovery fails.
       getProcessManager().journalEntriesDone(processId, doneJournalIds);

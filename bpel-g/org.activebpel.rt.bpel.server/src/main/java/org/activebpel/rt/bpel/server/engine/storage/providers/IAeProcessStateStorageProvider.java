@@ -11,6 +11,7 @@ package org.activebpel.rt.bpel.server.engine.storage.providers;
 
 import java.io.Reader;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import javax.xml.namespace.QName;
@@ -22,7 +23,6 @@ import org.activebpel.rt.bpel.server.engine.recovery.journal.AeRestartProcessJou
 import org.activebpel.rt.bpel.server.engine.recovery.journal.IAeJournalEntry;
 import org.activebpel.rt.bpel.server.engine.storage.AeStorageException;
 import org.activebpel.rt.bpel.server.engine.storage.IAeProcessStateConnection;
-import org.activebpel.rt.util.AeLongMap;
 
 /**
  * A process storage delegate. This interface defines methods that the
@@ -93,7 +93,7 @@ public interface IAeProcessStateStorageProvider extends IAeStorageProvider
    /**
     * @see org.activebpel.rt.bpel.server.engine.storage.IAeProcessStateStorage#getJournalEntriesLocationIdsMap(long)
     */
-   public AeLongMap getJournalEntriesLocationIdsMap(long aProcessId) throws AeStorageException;
+   public Map<Long, Integer> getJournalEntriesLocationIdsMap(long aProcessId) throws AeStorageException;
 
    /**
     * @see org.activebpel.rt.bpel.server.engine.storage.IAeProcessStateStorage#getJournalEntry(long)

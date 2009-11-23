@@ -17,6 +17,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -62,7 +63,6 @@ import org.activebpel.rt.bpel.server.deploy.IAeServiceDeploymentInfo;
 import org.activebpel.rt.bpel.server.logging.IAeDeploymentLogger;
 import org.activebpel.rt.bpel.urn.IAeURNResolver;
 import org.activebpel.rt.message.IAeMessageData;
-import org.activebpel.rt.util.AeLongMap;
 import org.activebpel.rt.util.AeUtil;
 import org.activebpel.rt.xml.AeQName;
 import org.activebpel.rt.xml.AeXMLParserBase;
@@ -203,7 +203,7 @@ public class AeEngineAdministration implements IAeEngineAdministration
    {
       try
       {
-         AeLongMap processDefMap = new AeLongMap();
+         Map<Long,AeProcessDef> processDefMap = new HashMap();
 
          AeMessageReceiverListResult results = getBpelEngine().getQueueManager().getMessageReceivers( aFilter );
          for( int i = 0; i < results.getResults().length; i++  )
@@ -232,7 +232,7 @@ public class AeEngineAdministration implements IAeEngineAdministration
    {
       try
       {
-         AeLongMap processDefMap = new AeLongMap();
+         Map<Long,AeProcessDef> processDefMap = new HashMap();
          
          AeListResult<AeAlarm> results = getBpelEngine().getQueueManager().getAlarms( aFilter );
          List<AeAlarmExt> extList = new ArrayList<AeAlarmExt>();
@@ -268,7 +268,7 @@ public class AeEngineAdministration implements IAeEngineAdministration
     * @param aProcessId
     * @param aProcessDefMap
     */
-   private AeProcessDef getProcessDef(long aProcessId, AeLongMap aProcessDefMap)
+   private AeProcessDef getProcessDef(long aProcessId, Map<Long,AeProcessDef> aProcessDefMap)
    {
       AeProcessDef processDef = (AeProcessDef) aProcessDefMap.get(aProcessId);
       if (processDef == null)
