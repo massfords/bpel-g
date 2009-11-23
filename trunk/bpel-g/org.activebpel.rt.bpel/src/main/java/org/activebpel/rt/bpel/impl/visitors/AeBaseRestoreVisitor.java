@@ -31,7 +31,6 @@ import org.activebpel.rt.bpel.impl.activity.AeDynamicScopeCreator;
 import org.activebpel.rt.bpel.impl.activity.support.AeCorrelationSet;
 import org.activebpel.rt.bpel.impl.storage.AeProcessImplStateAttributeDefaults;
 import org.activebpel.rt.bpel.impl.storage.AeRestoreImplState;
-import org.activebpel.rt.util.AeIntMap;
 import org.activebpel.rt.util.AeUtil;
 import org.jaxen.JaxenException;
 import org.jaxen.XPath;
@@ -49,7 +48,7 @@ public class AeBaseRestoreVisitor extends AeImplTraversingVisitor implements IAe
    private final AeRestoreImplState mImplState;
 
    /** Maps object ids to objects. */
-   private final AeIntMap mIdObjectMap = new AeIntMap();
+   private final Map<Integer,Object> mIdObjectMap = new HashMap();
    
    /**
     * Constructor.
@@ -166,7 +165,7 @@ public class AeBaseRestoreVisitor extends AeImplTraversingVisitor implements IAe
    /**
     * Returns map from object ids to objects.
     */
-   protected AeIntMap getIdObjectMap()
+   protected Map<Integer,Object> getIdObjectMap()
    {
       return mIdObjectMap;
    }

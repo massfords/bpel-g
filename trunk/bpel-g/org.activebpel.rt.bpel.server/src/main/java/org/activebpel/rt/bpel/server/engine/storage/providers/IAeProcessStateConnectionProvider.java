@@ -10,11 +10,11 @@
 package org.activebpel.rt.bpel.server.engine.storage.providers;
 
 import java.util.Date;
+import java.util.Set;
 
 import org.activebpel.rt.bpel.impl.fastdom.AeFastDocument;
 import org.activebpel.rt.bpel.server.engine.storage.AeStorageException;
 import org.activebpel.rt.bpel.server.engine.storage.IAeLocationVersionSet;
-import org.activebpel.rt.util.AeLongSet;
 import org.w3c.dom.Document;
 
 /**
@@ -50,10 +50,7 @@ public interface IAeProcessStateConnectionProvider extends IAeStorageProvider
     */
    public Document getVariableDocument(long aLocationId, int aVersionNumber) throws AeStorageException;
 
-   /**
-    * @see org.activebpel.rt.bpel.server.engine.storage.IAeProcessStateConnection#removeJournalEntries(org.activebpel.rt.util.AeLongSet)
-    */
-   public void removeJournalEntries(AeLongSet aJournalIds) throws AeStorageException;
+   public void removeJournalEntries(Set<Long> aJournalIds) throws AeStorageException;
 
    /**
     * @see org.activebpel.rt.bpel.server.engine.storage.IAeProcessStateConnection#rollback()

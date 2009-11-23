@@ -15,15 +15,15 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.xml.namespace.QName;
 
 import org.activebpel.rt.bpel.server.AeMessages;
 import org.activebpel.rt.util.AeBlobInputStream;
-import org.activebpel.rt.util.AeIntSet;
-import org.activebpel.rt.util.AeLongSet;
 import org.activebpel.rt.util.AeUtil;
 import org.apache.commons.dbutils.ResultSetHandler;
 import org.w3c.dom.Document;
@@ -269,7 +269,7 @@ public class AeResultSetHandlers
    {
       public Object handle(ResultSet rs) throws SQLException
       {
-         AeLongSet set = new AeLongSet();
+         Set<Long> set = new HashSet();
 
          while (rs.next())
          {
@@ -293,7 +293,7 @@ public class AeResultSetHandlers
    {
       public Object handle(ResultSet rs) throws SQLException
       {
-         AeIntSet set = new AeIntSet();
+         Set<Integer> set = new HashSet();
 
          while (rs.next())
          {

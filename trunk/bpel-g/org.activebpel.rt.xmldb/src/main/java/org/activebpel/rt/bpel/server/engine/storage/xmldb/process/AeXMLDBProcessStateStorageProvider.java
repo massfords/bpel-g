@@ -13,6 +13,7 @@ import java.io.Reader;
 import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import javax.xml.namespace.QName;
@@ -42,7 +43,6 @@ import org.activebpel.rt.bpel.server.engine.storage.xmldb.process.handlers.AeJou
 import org.activebpel.rt.bpel.server.engine.storage.xmldb.process.handlers.AeProcessIDFilteredListResponseHandler;
 import org.activebpel.rt.bpel.server.engine.storage.xmldb.process.handlers.AeProcessInstanceDetailFilteredListResponseHandler;
 import org.activebpel.rt.bpel.server.engine.storage.xmldb.process.handlers.AeProcessInstanceDetailResponseHandler;
-import org.activebpel.rt.util.AeLongMap;
 import org.activebpel.rt.xml.schema.AeSchemaDateTime;
 import org.activebpel.rt.xmldb.AeMessages;
 
@@ -268,10 +268,10 @@ public class AeXMLDBProcessStateStorageProvider extends AeAbstractXMLDBStoragePr
    /**
     * @see org.activebpel.rt.bpel.server.engine.storage.providers.IAeProcessStateStorageProvider#getJournalEntriesLocationIdsMap(long)
     */
-   public AeLongMap getJournalEntriesLocationIdsMap(long aProcessId) throws AeStorageException
+   public Map<Long,Integer> getJournalEntriesLocationIdsMap(long aProcessId) throws AeStorageException
    {
       Object[] params = { new Long(aProcessId) };
-      return (AeLongMap) query(IAeProcessConfigKeys.GET_JOURNAL_ENTRIES_LOCATION_IDS, params,
+      return (Map<Long,Integer>) query(IAeProcessConfigKeys.GET_JOURNAL_ENTRIES_LOCATION_IDS, params,
             JOURNAL_ENTRIES_LOCATION_IDS_HANDLER);
    }
 

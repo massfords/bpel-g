@@ -43,7 +43,6 @@ import org.activebpel.rt.bpel.def.visitors.IAeDefMessagePartsMapVisitor;
 import org.activebpel.rt.bpel.def.visitors.IAeDefVisitor;
 import org.activebpel.rt.bpel.def.visitors.preprocess.AeValidationPreprocessingVisitor;
 import org.activebpel.rt.message.AeMessagePartsMap;
-import org.activebpel.rt.util.AeIntMap;
 import org.activebpel.rt.util.AeUtil;
 import org.activebpel.rt.wsdl.IAeContextWSDLProvider;
 import org.activebpel.rt.wsdl.def.IAePropertyAlias;
@@ -95,7 +94,7 @@ public class AeProcessDef extends AeScopeDef implements Serializable
    /** Maps location paths to location ids */
    private final Map<String,Integer> mLocationPathsToIds = new HashMap();
    /** Maps location ids to location paths */
-   private final AeIntMap mLocationIdsToPaths = new AeIntMap();
+   private final Map<Integer,String> mLocationIdsToPaths = new HashMap();
    /** Collection of port types plus operations that are one-way receives. */
    // TODO revisit: do we really need this map?
    private Set<String> mOneWayReceives = new HashSet();
@@ -1038,7 +1037,7 @@ public class AeProcessDef extends AeScopeDef implements Serializable
     * Sets the map of location paths/ids in place and builds an inverse lookup map
     * @param aLocationPathsToIds
     */
-   public void setLocationPathsToIds(Map aLocationPathsToIds)
+   public void setLocationPathsToIds(Map<String,Integer> aLocationPathsToIds)
    {
       mLocationPathsToIds.clear();
       mLocationPathsToIds.putAll(aLocationPathsToIds);
@@ -1046,7 +1045,7 @@ public class AeProcessDef extends AeScopeDef implements Serializable
       mLocationIdsToPaths.clear();
       for (Iterator iter = aLocationPathsToIds.entrySet().iterator(); iter.hasNext();)
       {
-         Map.Entry entry = (Map.Entry) iter.next();
+         Map.Entry<String,Integer> entry = (Map.Entry) iter.next();
          mLocationIdsToPaths.put(entry.getValue(), entry.getKey());
       }
    }

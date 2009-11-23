@@ -56,7 +56,6 @@ import org.activebpel.rt.bpel.urn.IAeURNResolver;
 import org.activebpel.rt.bpel.xpath.AeXPathHelper;
 import org.activebpel.rt.message.AeMessagePartsMap;
 import org.activebpel.rt.message.IAeMessageData;
-import org.activebpel.rt.util.AeLongMap;
 import org.activebpel.rt.util.AeSafelyViewableCollection;
 import org.activebpel.rt.util.AeUtil;
 import org.activebpel.rt.wsdl.def.IAeProperty;
@@ -138,7 +137,7 @@ public class AeBusinessProcessEngine implements IAeBusinessProcessEngineInternal
    /**
     * Map containing process journal ids keyed by the process id.
     */
-   protected AeLongMap mProcessJournalIdMap;
+   protected Map<Long,Long> mProcessJournalIdMap;
 
    /** Map from custom manager name to IAeManager. */
    private Map mCustomManagers = new HashMap();
@@ -174,7 +173,7 @@ public class AeBusinessProcessEngine implements IAeBusinessProcessEngineInternal
       if (mAttachmentManager != null)
          mAttachmentManager.setEngine(this);
       mStarted = new Date();
-      mProcessJournalIdMap = new AeLongMap( Collections.synchronizedMap( new HashMap() ) );
+      mProcessJournalIdMap = Collections.synchronizedMap( new HashMap<Long,Long>() );
    }
 
    /**

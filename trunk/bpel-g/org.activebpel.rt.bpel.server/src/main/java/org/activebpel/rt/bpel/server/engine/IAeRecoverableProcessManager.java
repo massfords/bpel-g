@@ -9,10 +9,11 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpel.server.engine;
 
+import java.util.Set;
+
 import org.activebpel.rt.bpel.AeBusinessProcessException;
 import org.activebpel.rt.bpel.impl.IAeProcessManager;
 import org.activebpel.rt.bpel.server.engine.storage.IAeProcessStateStorage;
-import org.activebpel.rt.util.AeLongSet;
 
 /**
  * Recoverable version of the process manager.
@@ -41,7 +42,7 @@ public interface IAeRecoverableProcessManager extends IAeProcessManager
     * Adds the given journal entry ids to the set of journal entries to delete
     * when the process state is next saved.
     */
-   public void journalEntriesDone(long aProcessId, AeLongSet aJournalIds);
+   public void journalEntriesDone(long aProcessId, Set<Long> aJournalIds);
 
    /**
     * Creates journal entry to recover an engine failure in the event that the

@@ -12,11 +12,11 @@ package org.activebpel.rt.bpel.server.transreceive;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Set;
 
 import org.activebpel.rt.AeException;
 import org.activebpel.rt.bpel.impl.reply.IAeTransmissionTracker;
 import org.activebpel.rt.bpel.server.engine.AeEngineFactory;
-import org.activebpel.rt.util.AeLongSet;
 import org.activebpel.wsio.invoke.IAeTransmission;
 
 /**
@@ -171,7 +171,7 @@ public class AeInMemoryTransmissionTracker extends AeNoopTransmissionTracker
    /**
     * @see org.activebpel.rt.bpel.impl.reply.IAeTransmissionTracker#remove(org.activebpel.rt.util.AeLongSet)
     */
-   public void remove(AeLongSet aTransmissionIds) throws AeException
+   public void remove(Set<Long> aTransmissionIds) throws AeException
    {
       Iterator it = aTransmissionIds.iterator();
       while ( it.hasNext() )

@@ -85,7 +85,6 @@ import org.activebpel.rt.bpel.impl.storage.IAeProcessSnapshot;
 import org.activebpel.rt.bpel.impl.visitors.IAeImplVisitor;
 import org.activebpel.rt.bpel.impl.visitors.IAeVisitable;
 import org.activebpel.rt.message.IAeMessageData;
-import org.activebpel.rt.util.AeIntMap;
 import org.activebpel.rt.util.AeMimeUtil;
 import org.activebpel.rt.util.AeUtil;
 import org.activebpel.wsio.AeWebServiceAttachment;
@@ -139,7 +138,7 @@ public class AeBusinessProcess extends AeActivityScopeImpl implements IAeBusines
    /** location paths for any activities that are in the faulting state */
    private List mFaultingActivityLocationPaths;
    /** maps location id to location path */
-   private AeIntMap mLocationIdToPath = new AeIntMap();
+   private Map<Integer,String> mLocationIdToPath = new HashMap<Integer,String>();
    /** maps location path to location id */
    private Map mLocationPathToId = new HashMap();
    /**

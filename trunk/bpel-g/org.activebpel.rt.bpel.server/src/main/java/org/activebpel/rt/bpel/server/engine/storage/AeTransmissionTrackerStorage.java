@@ -9,10 +9,12 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpel.server.engine.storage;
 
+import java.util.Collections;
+import java.util.Set;
+
 import org.activebpel.rt.bpel.server.engine.storage.providers.IAeStorageProvider;
 import org.activebpel.rt.bpel.server.engine.storage.providers.IAeTransmissionTrackerStorageProvider;
 import org.activebpel.rt.bpel.server.transreceive.AeTransmissionTrackerEntry;
-import org.activebpel.rt.util.AeLongSet;
 
 /**
  * A delegating implementation of a transmission/receive storage. 
@@ -73,15 +75,13 @@ public class AeTransmissionTrackerStorage extends AeAbstractStorage implements I
     */
    public void remove(long aTransmissionId) throws AeStorageException
    {
-      AeLongSet set = new AeLongSet();
-      set.add(aTransmissionId);
-      remove(set);
+      remove(Collections.singleton(aTransmissionId));
    }
    
    /**
     * @see org.activebpel.rt.bpel.server.engine.storage.IAeTransmissionTrackerStorage#remove(org.activebpel.rt.util.AeLongSet)
     */
-   public void remove(AeLongSet aTransmissionIds) throws AeStorageException
+   public void remove(Set<Long> aTransmissionIds) throws AeStorageException
    {
       getTransmissionTrackerStorageProvider().remove(aTransmissionIds);
    }

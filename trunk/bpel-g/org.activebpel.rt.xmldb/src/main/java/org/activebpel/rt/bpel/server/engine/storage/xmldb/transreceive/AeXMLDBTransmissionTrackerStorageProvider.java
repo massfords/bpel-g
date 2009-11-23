@@ -11,6 +11,7 @@ package org.activebpel.rt.bpel.server.engine.storage.xmldb.transreceive;
 
 import java.util.Iterator;
 import java.util.LinkedHashMap;
+import java.util.Set;
 
 import org.activebpel.rt.bpel.server.engine.storage.AeStorageException;
 import org.activebpel.rt.bpel.server.engine.storage.providers.IAeTransmissionTrackerStorageProvider;
@@ -22,7 +23,6 @@ import org.activebpel.rt.bpel.server.engine.storage.xmldb.IAeXMLDBResponseHandle
 import org.activebpel.rt.bpel.server.engine.storage.xmldb.IAeXMLDBStorageImpl;
 import org.activebpel.rt.bpel.server.engine.storage.xmldb.transreceive.handlers.AeTransmissionTrackerResponseHandler;
 import org.activebpel.rt.bpel.server.transreceive.AeTransmissionTrackerEntry;
-import org.activebpel.rt.util.AeLongSet;
 
 /**
  * TransmissionTracker storage provider implementation for the XMLDB.
@@ -130,7 +130,7 @@ public class AeXMLDBTransmissionTrackerStorageProvider extends AeAbstractXMLDBSt
    /**
     * @see org.activebpel.rt.bpel.server.engine.storage.providers.IAeTransmissionTrackerStorageProvider#remove(org.activebpel.rt.util.AeLongSet)
     */
-   public void remove(AeLongSet aTransmissionIds) throws AeStorageException
+   public void remove(Set<Long> aTransmissionIds) throws AeStorageException
    {
       if (!aTransmissionIds.isEmpty())
       {

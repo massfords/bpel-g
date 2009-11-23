@@ -14,6 +14,7 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import javax.xml.namespace.QName;
@@ -40,7 +41,6 @@ import org.activebpel.rt.bpel.server.engine.storage.sql.handlers.AeSQLProcessLis
 import org.activebpel.rt.bpel.server.logging.AeLogReader;
 import org.activebpel.rt.bpel.server.logging.AeSequentialClobStream;
 import org.activebpel.rt.util.AeCloser;
-import org.activebpel.rt.util.AeLongMap;
 import org.apache.commons.dbutils.ResultSetHandler;
 
 /**
@@ -279,10 +279,10 @@ public class AeSQLProcessStateStorageProvider extends AeAbstractSQLStorageProvid
    /**
     * @see org.activebpel.rt.bpel.server.engine.storage.providers.IAeProcessStateStorageProvider#getJournalEntriesLocationIdsMap(long)
     */
-   public AeLongMap getJournalEntriesLocationIdsMap(long aProcessId) throws AeStorageException
+   public Map<Long,Integer> getJournalEntriesLocationIdsMap(long aProcessId) throws AeStorageException
    {
       Object param = new Long(aProcessId);
-      return (AeLongMap) query(IAeProcessSQLKeys.GET_JOURNAL_ENTRIES_LOCATION_IDS, param, JOURNAL_ENTRIES_LOCATION_IDS_RESULT_SET_HANDLER);
+      return (Map<Long,Integer>) query(IAeProcessSQLKeys.GET_JOURNAL_ENTRIES_LOCATION_IDS, param, JOURNAL_ENTRIES_LOCATION_IDS_RESULT_SET_HANDLER);
    }
 
    /**

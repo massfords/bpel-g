@@ -16,6 +16,7 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import org.activebpel.rt.bpel.impl.fastdom.AeFastDocument;
 import org.activebpel.rt.bpel.server.AeMessages;
@@ -24,7 +25,6 @@ import org.activebpel.rt.bpel.server.engine.storage.AeStorageException;
 import org.activebpel.rt.bpel.server.engine.storage.IAeLocationVersionSet;
 import org.activebpel.rt.bpel.server.engine.storage.providers.IAeProcessStateConnectionProvider;
 import org.activebpel.rt.bpel.server.engine.storage.sql.handlers.AeLocationVersionResultSetHandler;
-import org.activebpel.rt.util.AeLongSet;
 import org.apache.commons.dbutils.ResultSetHandler;
 import org.w3c.dom.Document;
 
@@ -151,7 +151,7 @@ public class AeSQLProcessStateConnectionProvider extends AeAbstractSQLStoragePro
    /**
     * @see org.activebpel.rt.bpel.server.engine.storage.providers.IAeProcessStateConnectionProvider#removeJournalEntries(org.activebpel.rt.util.AeLongSet)
     */
-   public void removeJournalEntries(AeLongSet aJournalIds) throws AeStorageException
+   public void removeJournalEntries(Set<Long> aJournalIds) throws AeStorageException
    {
       removeLongSet(aJournalIds, IAeProcessSQLKeys.DELETE_JOURNAL_ENTRY, IAeProcessSQLKeys.DELETE_JOURNAL_ENTRIES);
    }
@@ -163,7 +163,7 @@ public class AeSQLProcessStateConnectionProvider extends AeAbstractSQLStoragePro
     * @param aBatchParamQueryKey
     * @throws AeStorageException
     */
-   protected void removeLongSet(AeLongSet aLongIds, String aSingleParamQueryKey, String aBatchParamQueryKey) throws AeStorageException
+   protected void removeLongSet(Set<Long> aLongIds, String aSingleParamQueryKey, String aBatchParamQueryKey) throws AeStorageException
    {
       // Sort the ids to delete journal (or transmissiond id) entries in a consistent order. This
       // prevents deadlocks on DB2 between transactions that are deleting

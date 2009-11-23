@@ -10,13 +10,13 @@
 package org.activebpel.rt.bpel.server.transreceive;
 
 import java.util.Map;
+import java.util.Set;
 
 import org.activebpel.rt.AeException;
 import org.activebpel.rt.bpel.config.IAeEngineConfiguration;
 import org.activebpel.rt.bpel.impl.reply.IAeDurableReplyFactory;
 import org.activebpel.rt.bpel.impl.reply.IAeTransmissionTracker;
 import org.activebpel.rt.bpel.server.engine.reply.AeDurableReplyFactory;
-import org.activebpel.rt.util.AeLongSet;
 import org.activebpel.wsio.invoke.IAeTransmission;
 
 /**
@@ -124,10 +124,7 @@ public class AeNoopTransmissionTracker implements IAeTransmissionTracker
    {
    }
 
-   /** 
-    * @see org.activebpel.rt.bpel.impl.reply.IAeTransmissionTracker#remove(org.activebpel.rt.util.AeLongSet)
-    */
-   public void remove(AeLongSet aTransmissionIds) throws AeException
+   public void remove(Set<Long> aTransmissionIds) throws AeException
    {      
    }
    

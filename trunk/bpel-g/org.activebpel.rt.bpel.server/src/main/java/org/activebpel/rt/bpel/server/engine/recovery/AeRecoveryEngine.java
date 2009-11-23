@@ -42,7 +42,6 @@ import org.activebpel.rt.bpel.server.engine.recovery.recovered.AeRecoveredRemove
 import org.activebpel.rt.bpel.server.engine.recovery.recovered.AeRecoveredRemoveReceiverItem;
 import org.activebpel.rt.bpel.server.engine.recovery.recovered.AeRecoveredScheduleAlarmItem;
 import org.activebpel.rt.bpel.server.engine.recovery.recovered.IAeRecoveredItem;
-import org.activebpel.rt.util.AeLongSet;
 import org.activebpel.rt.util.AeUtil;
 
 /**
@@ -228,7 +227,7 @@ public class AeRecoveryEngine extends AeAbstractServerEngine implements IAeRecov
     * Returns the location ids for activities that are currently executing in
     * the given process.
     */
-   protected AeLongSet getExecutingLocationIds(IAeBusinessProcess aProcess) throws AeBusinessProcessException
+   protected Set<Integer> getExecutingLocationIds(IAeBusinessProcess aProcess) throws AeBusinessProcessException
    {
       AeQueuedExecutingLocationIdsCollector collector = new AeQueuedExecutingLocationIdsCollector();
       return collector.getExecutingLocationIds(aProcess);
@@ -320,7 +319,7 @@ public class AeRecoveryEngine extends AeAbstractServerEngine implements IAeRecov
       removeQueuedItems(recoveredItems, collector);
 
       // Get location ids for executing activities.
-      AeLongSet executingLocationIds = getExecutingLocationIds(aProcess);
+      Set<Integer> executingLocationIds = getExecutingLocationIds(aProcess);
 
       // Get location ids for queued requests that should be removed.
       Set staleLocationIds = getStaleLocationIds(collector.getQueuedLocationIds(), executingLocationIds);
@@ -420,7 +419,7 @@ public class AeRecoveryEngine extends AeAbstractServerEngine implements IAeRecov
     */
    protected void removeQueuedItems(List aRecoveredItems, AeQueuedLocationIdsCollector aCollector)
    {
-      AeLongSet queuedLocationIds = aCollector.getQueuedLocationIds();
+      Set<Integer> queuedLocationIds = aCollector.getQueuedLocationIds();
       
       // loop over all of the recovered items and see which ones we should
       // remove because they've already been queued.

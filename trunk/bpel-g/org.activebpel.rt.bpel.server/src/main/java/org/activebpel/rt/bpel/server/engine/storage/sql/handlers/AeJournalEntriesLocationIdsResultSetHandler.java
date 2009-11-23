@@ -11,8 +11,9 @@ package org.activebpel.rt.bpel.server.engine.storage.sql.handlers;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.Map;
 
-import org.activebpel.rt.util.AeLongMap;
 import org.apache.commons.dbutils.ResultSetHandler;
 
 
@@ -36,7 +37,7 @@ public class AeJournalEntriesLocationIdsResultSetHandler implements ResultSetHan
     */
    public Object handle(ResultSet rs) throws SQLException
    {
-      AeLongMap result = new AeLongMap();
+      Map<Long,Integer> result = new HashMap();
 
       while (rs.next())
       {
@@ -54,7 +55,7 @@ public class AeJournalEntriesLocationIdsResultSetHandler implements ResultSetHan
             continue;
          }
 
-         result.put(journalId, new Integer(locationId));
+         result.put(journalId, locationId);
       }
 
       return result;

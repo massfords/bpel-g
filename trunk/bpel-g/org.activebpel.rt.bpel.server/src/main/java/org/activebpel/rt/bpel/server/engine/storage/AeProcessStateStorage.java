@@ -12,6 +12,7 @@ package org.activebpel.rt.bpel.server.engine.storage;
 import java.io.Reader;
 import java.text.MessageFormat;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import javax.xml.namespace.QName;
@@ -25,7 +26,6 @@ import org.activebpel.rt.bpel.server.engine.recovery.journal.IAeJournalEntry;
 import org.activebpel.rt.bpel.server.engine.storage.providers.IAeProcessStateConnectionProvider;
 import org.activebpel.rt.bpel.server.engine.storage.providers.IAeProcessStateStorageProvider;
 import org.activebpel.rt.bpel.server.engine.storage.providers.IAeStorageConnection;
-import org.activebpel.rt.util.AeLongMap;
 
 /**
  * A delegating implementation of a process state storage. This class delegates all of the database calls to
@@ -150,7 +150,7 @@ public class AeProcessStateStorage extends AeAbstractStorage implements IAeProce
    /**
     * @see org.activebpel.rt.bpel.server.engine.storage.IAeProcessStateStorage#getJournalEntriesLocationIdsMap(long)
     */
-   public AeLongMap getJournalEntriesLocationIdsMap(long aProcessId) throws AeStorageException
+   public Map<Long,Integer> getJournalEntriesLocationIdsMap(long aProcessId) throws AeStorageException
    {
       return getProcessStateStorageProvider().getJournalEntriesLocationIdsMap(aProcessId);
    }

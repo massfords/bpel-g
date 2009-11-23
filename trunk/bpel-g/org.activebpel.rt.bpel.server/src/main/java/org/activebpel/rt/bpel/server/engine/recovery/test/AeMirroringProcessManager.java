@@ -33,7 +33,6 @@ import org.activebpel.rt.bpel.server.engine.recovery.IAeRecoveryEngine;
 import org.activebpel.rt.bpel.server.engine.recovery.journal.AeSentReplyJournalEntry;
 import org.activebpel.rt.bpel.server.engine.recovery.journal.IAeJournalEntry;
 import org.activebpel.rt.bpel.server.engine.storage.AeStorageException;
-import org.activebpel.rt.util.AeLongMap;
 import org.activebpel.work.AeAbstractWork;
 
 import commonj.work.Work;
@@ -45,7 +44,7 @@ import commonj.work.Work;
 public class AeMirroringProcessManager extends AeDelegatingPersistentProcessManager implements IAePersistentProcessManager
 {
    /** Maps process ids to maps of captured journal entries. */
-   private final AeLongMap mCapturedItemsMapsMap = new AeLongMap(Collections.synchronizedMap(new HashMap()));
+   private final Map<Long,Object> mCapturedItemsMapsMap = Collections.synchronizedMap(new HashMap());
 
    /** The recovery engine. */
    private IAeRecoveryEngine mRecoveryEngine;
@@ -71,7 +70,7 @@ public class AeMirroringProcessManager extends AeDelegatingPersistentProcessMana
     */
    protected void captureJournalEntries(long aProcessId) throws AeStorageException
    {
-      AeLongMap capturedEntriesMap = (AeLongMap) getCapturedEntriesMapsMap().get(aProcessId);
+      Map<Long,Object> capturedEntriesMap = (Map<Long, Object>) getCapturedEntriesMapsMap().get(aProcessId);
       if (capturedEntriesMap != null)
       {
          List latestEntries = getStorage().getJournalEntries(aProcessId);
@@ -102,7 +101,7 @@ public class AeMirroringProcessManager extends AeDelegatingPersistentProcessMana
          // Map the process id to an empty journal entries map. This marks the
          // process for mirroring. Note that the journal entries map is based
          // on a LinkedHashMap to preserve order of insertions.
-         getCapturedEntriesMapsMap().put(processId, new AeLongMap(new LinkedHashMap()));
+         getCapturedEntriesMapsMap().put(processId, new LinkedHashMap());
       }
 
       return process;
@@ -111,7 +110,7 @@ public class AeMirroringProcessManager extends AeDelegatingPersistentProcessMana
    /**
     * Returns map from process ids to maps of journal entries.
     */
-   protected AeLongMap getCapturedEntriesMapsMap()
+   protected Map<Long,Object> getCapturedEntriesMapsMap()
    {
       return mCapturedItemsMapsMap;
    }
@@ -139,7 +138,7 @@ public class AeMirroringProcessManager extends AeDelegatingPersistentProcessMana
       // The whole method is synchronized, because we can only recover one
       // process at a time, and we don't want to fill up the process table with
       // processes waiting to be replayed.
-      AeLongMap capturedEntriesMap = (AeLongMap) getCapturedEntriesMapsMap().remove(aProcessId);
+      Map<Long,Object> capturedEntriesMap = (Map<Long, Object>) getCapturedEntriesMapsMap().remove(aProcessId);
       if (capturedEntriesMap != null)
       {
          // Call super.createBusinessProcess() and not createBusinessProcess(),

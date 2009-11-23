@@ -23,7 +23,6 @@ import org.activebpel.rt.bpel.impl.AeVariableDeserializer;
 import org.activebpel.rt.bpel.impl.activity.support.AeCorrelationSet;
 import org.activebpel.rt.bpel.impl.fastdom.AeFastDocument;
 import org.activebpel.rt.bpel.impl.visitors.AeProcessSnapshotVisitor;
-import org.activebpel.rt.util.AeIntMap;
 import org.w3c.dom.Document;
 
 /**
@@ -72,14 +71,14 @@ public class AeProcessSnapshot implements IAeProcessSnapshot
     */
    protected AeCorrelationSet getCorrelationSet(String aLocationPath, int aVersionNumber)
    {
-      AeIntMap versionNumbersMap = (AeIntMap) getCorrelationSetLocationPathsMap().get(aLocationPath);
+      Map<Integer,AeCorrelationSet> versionNumbersMap = getCorrelationSetLocationPathsMap().get(aLocationPath);
       return (versionNumbersMap == null) ? null : (AeCorrelationSet) versionNumbersMap.get(aVersionNumber);
    }
 
    /**
     * @see org.activebpel.rt.bpel.impl.storage.IAeProcessSnapshot#getCorrelationSetLocationPaths()
     */
-   public Set getCorrelationSetLocationPaths()
+   public Set<String> getCorrelationSetLocationPaths()
    {
       return getCorrelationSetLocationPathsMap().keySet();
    }
@@ -88,11 +87,11 @@ public class AeProcessSnapshot implements IAeProcessSnapshot
     * Returns a <code>Map</code> from location paths to 2nd-level maps that map
     * version numbers to correlation sets.
     */
-   protected Map getCorrelationSetLocationPathsMap()
+   protected Map<String,Map<Integer,AeCorrelationSet>> getCorrelationSetLocationPathsMap()
    {
       if (mCorrelationSetLocationPathsMap == null)
       {
-         Map locationPathsMap = new HashMap();
+         Map<String,Map<Integer,AeCorrelationSet>> locationPathsMap = new HashMap();
 
          // Iterate through all correlation sets in the snapshot.
          for (Iterator i = getCorrelationSets().iterator(); i.hasNext(); )
@@ -102,10 +101,10 @@ public class AeProcessSnapshot implements IAeProcessSnapshot
 
             // If the location path is not yet in the location path map, then
             // add a new 2nd-level map for the location path.
-            AeIntMap versionNumbersMap = (AeIntMap) locationPathsMap.get(locationPath);
+            Map<Integer,AeCorrelationSet> versionNumbersMap = locationPathsMap.get(locationPath);
             if (versionNumbersMap == null)
             {
-               versionNumbersMap = new AeIntMap();
+               versionNumbersMap = new HashMap();
                locationPathsMap.put(locationPath, versionNumbersMap);
             }
 
@@ -123,9 +122,9 @@ public class AeProcessSnapshot implements IAeProcessSnapshot
    /**
     * @see org.activebpel.rt.bpel.impl.storage.IAeProcessSnapshot#getCorrelationSetVersionNumbers(java.lang.String)
     */
-   public Set getCorrelationSetVersionNumbers(String aLocationPath)
+   public Set<Integer> getCorrelationSetVersionNumbers(String aLocationPath)
    {
-      AeIntMap versionNumbersMap = (AeIntMap) getCorrelationSetLocationPathsMap().get(aLocationPath);
+      Map<Integer,AeCorrelationSet> versionNumbersMap = getCorrelationSetLocationPathsMap().get(aLocationPath);
       return (versionNumbersMap == null) ? Collections.EMPTY_SET : versionNumbersMap.keySet();
    }
 
@@ -160,7 +159,7 @@ public class AeProcessSnapshot implements IAeProcessSnapshot
     */
    public IAeVariable getVariable(String aLocationPath, int aVersionNumber) throws AeBusinessProcessException
    {
-      AeIntMap versionNumbersMap = (AeIntMap) getVariableLocationPathsMap().get(aLocationPath);
+      Map<Integer,IAeVariable> versionNumbersMap = getVariableLocationPathsMap().get(aLocationPath);
       if (versionNumbersMap == null)
       {
          throw new AeBusinessProcessException(AeMessages.getString("AeProcessSnapshot.ERROR_0") + getProcess().getProcessId() + ": " + aLocationPath); //$NON-NLS-1$ //$NON-NLS-2$
@@ -187,11 +186,11 @@ public class AeProcessSnapshot implements IAeProcessSnapshot
     * Returns a <code>Map</code> from location paths to 2nd-level maps that map
     * version numbers to variables.
     */
-   protected Map getVariableLocationPathsMap()
+   protected Map<String,Map<Integer,IAeVariable>> getVariableLocationPathsMap()
    {
       if (mVariableLocationPathsMap == null)
       {
-         Map locationPathsMap = new HashMap();
+         Map<String,Map<Integer,IAeVariable>> locationPathsMap = new HashMap();
 
          // Iterate through all variables in the snapshot.
          for (Iterator i = getVariables().iterator(); i.hasNext(); )
@@ -201,10 +200,10 @@ public class AeProcessSnapshot implements IAeProcessSnapshot
 
             // If the location path is not yet in the location path map, then
             // add a new 2nd-level map for the location path.
-            AeIntMap versionNumbersMap = (AeIntMap) locationPathsMap.get(locationPath);
+            Map<Integer,IAeVariable> versionNumbersMap = locationPathsMap.get(locationPath);
             if (versionNumbersMap == null)
             {
-               versionNumbersMap = new AeIntMap();
+               versionNumbersMap = new HashMap();
                locationPathsMap.put(locationPath, versionNumbersMap);
             }
 
@@ -222,9 +221,9 @@ public class AeProcessSnapshot implements IAeProcessSnapshot
    /**
     * @see org.activebpel.rt.bpel.impl.storage.IAeProcessSnapshot#getVariableVersionNumbers(java.lang.String)
     */
-   public Set getVariableVersionNumbers(String aLocationPath)
+   public Set<Integer> getVariableVersionNumbers(String aLocationPath)
    {
-      AeIntMap versionNumbersMap = (AeIntMap) getVariableLocationPathsMap().get(aLocationPath);
+      Map<Integer,IAeVariable> versionNumbersMap = getVariableLocationPathsMap().get(aLocationPath);
       return (versionNumbersMap == null) ? Collections.EMPTY_SET : versionNumbersMap.keySet();
    }
 

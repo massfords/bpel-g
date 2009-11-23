@@ -10,8 +10,12 @@
 package org.activebpel.rt.bpel.server.engine.recovery;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import org.activebpel.rt.bpel.AeBusinessProcessException;
 import org.activebpel.rt.bpel.IAeBusinessProcess;
@@ -25,9 +29,6 @@ import org.activebpel.rt.bpel.impl.queue.AeMessageReceiver;
 import org.activebpel.rt.bpel.server.engine.IAePersistentProcessManager;
 import org.activebpel.rt.bpel.server.engine.recovery.journal.IAeJournalEntry;
 import org.activebpel.rt.bpel.server.engine.storage.IAeProcessStateStorage;
-import org.activebpel.rt.util.AeIntMap;
-import org.activebpel.rt.util.AeLongMap;
-import org.activebpel.rt.util.AeLongSet;
 import org.activebpel.rt.util.AeUtil;
 
 /**
@@ -42,9 +43,9 @@ public class AeQueuedLocationIdsCollector
    /** The known journal entries that we are processing for recovery. */
    private List mKnownJournalEntries;
    /** The set of location ids for queued activities. */
-   private AeLongSet mQueuedLocationIds;
+   private Set<Integer> mQueuedLocationIds;
    /** Maps location ids to the alarm object. Supports a one to many mapping. */
-   private AeIntMap mAlarms = new AeIntMap();
+   private Map<Integer,List<AeAlarm>> mAlarms = new HashMap();
 
    /**
     * Default constructor.
@@ -67,7 +68,7 @@ public class AeQueuedLocationIdsCollector
       {
          IAeProcessStateStorage storage = ((IAePersistentProcessManager) processManager).getStorage();
          long processId = getProcess().getProcessId();
-         AeLongMap locationIdsMap = storage.getJournalEntriesLocationIdsMap(processId);
+         Map<Long,Integer> locationIdsMap = storage.getJournalEntriesLocationIdsMap(processId);
 
          // Remove map entries corresponding to journal entries that we already
          // have in our list of journal entries.
@@ -182,7 +183,7 @@ public class AeQueuedLocationIdsCollector
    /**
     * Returns the queued location ids set.
     */
-   public AeLongSet getQueuedLocationIds()
+   public Set<Integer> getQueuedLocationIds()
    {
       return mQueuedLocationIds;
    }
@@ -195,13 +196,13 @@ public class AeQueuedLocationIdsCollector
     * @param aProcess
     * @param aKnownJournalEntries
     */
-   public AeLongSet getQueuedLocationIds(IAeBusinessProcess aProcess, List aKnownJournalEntries) throws AeBusinessProcessException
+   public Set<Integer> getQueuedLocationIds(IAeBusinessProcess aProcess, List aKnownJournalEntries) throws AeBusinessProcessException
    {
       if (getQueuedLocationIds() == null)
       {
          setProcess(aProcess);
          setKnownJournalEntries(aKnownJournalEntries);
-         setQueuedLocationIds(new AeLongSet());
+         setQueuedLocationIds(new HashSet());
          
          // We don't need to wrap the following steps in a database transaction,
          // because if we happen to receive an alarm or message during this
@@ -236,7 +237,7 @@ public class AeQueuedLocationIdsCollector
    /**
     * Sets the queued location ids set.
     */
-   protected void setQueuedLocationIds(AeLongSet aQueuedLocationIds)
+   protected void setQueuedLocationIds(Set<Integer> aQueuedLocationIds)
    {
       mQueuedLocationIds = aQueuedLocationIds;
    }
@@ -244,7 +245,7 @@ public class AeQueuedLocationIdsCollector
    /**
     * @return the alarms
     */
-   protected AeIntMap getAlarms()
+   protected Map<Integer,List<AeAlarm>> getAlarms()
    {
       return mAlarms;
    }
