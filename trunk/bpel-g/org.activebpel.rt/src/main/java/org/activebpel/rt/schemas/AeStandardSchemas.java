@@ -11,12 +11,11 @@ package org.activebpel.rt.schemas;
 
 import java.io.InputStream;
 import java.net.URL;
-import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 import org.activebpel.rt.AeException;
 import org.activebpel.rt.AeMessages;
-import org.activebpel.rt.util.AeSafelyViewableMap;
 import org.activebpel.rt.xml.AeXMLParserBase;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -30,7 +29,7 @@ import org.w3c.dom.NodeList;
 public class AeStandardSchemas
 {
    /** The static map of "well known" schemas (namespace -> resource name). */
-   static private Map sSchemaMap;
+   static private Map<String,String> sSchemaMap;
 
    /*
     * Static initializer for loading the contents of the above schema map.
@@ -42,7 +41,7 @@ public class AeStandardSchemas
       {
          try
          {
-            Map map = new HashMap();
+            sSchemaMap = new ConcurrentHashMap<String,String>();
             AeXMLParserBase parser = new AeXMLParserBase();
             parser.setValidating(false);
             parser.setNamespaceAware(false);
@@ -55,10 +54,9 @@ public class AeStandardSchemas
                   Element schemaRef = (Element) nl.item(i);
                   String ns = schemaRef.getAttribute("namespace"); //$NON-NLS-1$
                   String loc = schemaRef.getAttribute("location"); //$NON-NLS-1$
-                  map.put(ns, loc);
+                  sSchemaMap.put(ns, loc);
                }
             }
-            sSchemaMap = new AeSafelyViewableMap(map);
          }
          catch (Throwable t)
          {
@@ -96,7 +94,7 @@ public class AeStandardSchemas
    {
       try
       {
-         String location = (String) sSchemaMap.get(aNamespace);
+         String location = sSchemaMap.get(aNamespace);
          if (location != null)
          {
             return AeStandardSchemas.class.getResourceAsStream(location);

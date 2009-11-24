@@ -10,14 +10,13 @@
 package org.activebpel.rt.bpel.impl;
 
 import java.text.MessageFormat;
-import java.util.Collection;
 import java.util.Iterator;
-import java.util.LinkedHashSet;
 import java.util.Map;
+import java.util.Set;
+import java.util.concurrent.CopyOnWriteArraySet;
 
 import org.activebpel.rt.AeException;
 import org.activebpel.rt.bpel.AeMessages;
-import org.activebpel.rt.util.AeSafelyViewableCollection;
 import org.activebpel.rt.util.AeUtil;
 
 /**
@@ -34,7 +33,7 @@ public abstract class AeAbstractProcessManager extends AeManagerAdapter implemen
    private Map mConfig;
 
    /** Process purged listeners */
-   private Collection mProcessPurgedListeners = new AeSafelyViewableCollection(new LinkedHashSet());
+   private Set<IAeProcessPurgedListener> mProcessPurgedListeners = new CopyOnWriteArraySet<IAeProcessPurgedListener>();
 
    /**
     * Constructs an in-memory process manager.
@@ -151,7 +150,7 @@ public abstract class AeAbstractProcessManager extends AeManagerAdapter implemen
    /**
     * Returns the process purged listeners for this process manager.
     */
-   protected Collection getProcessPurgedListeners()
+   protected Set<IAeProcessPurgedListener> getProcessPurgedListeners()
    {
       return mProcessPurgedListeners;
    }
