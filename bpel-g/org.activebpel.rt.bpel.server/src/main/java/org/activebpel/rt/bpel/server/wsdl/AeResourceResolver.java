@@ -10,13 +10,12 @@
 package org.activebpel.rt.bpel.server.wsdl;
 
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 import org.activebpel.rt.AeWSDLException;
 import org.activebpel.rt.bpel.server.catalog.AeCatalogMappings;
 import org.activebpel.rt.bpel.server.catalog.IAeCatalogMapping;
-import org.activebpel.rt.util.AeSafelyViewableMap;
 import org.activebpel.rt.wsdl.def.AeBPELExtendedWSDLDef;
 import org.activebpel.rt.wsdl.def.AeStandardSchemaResolver;
 import org.xml.sax.InputSource;
@@ -28,15 +27,7 @@ import org.xml.sax.InputSource;
 public class AeResourceResolver implements IAeResourceResolver
 {
    /** Location hint key to catalog mapping resource location resolution. */
-   private Map mMap;
-   
-   /**
-    * Constructor.
-    */
-   public AeResourceResolver()
-   {
-      setMap(new AeSafelyViewableMap(new HashMap()));
-   }
+   private Map<String, IAeCatalogMapping> mMap = new ConcurrentHashMap<String, IAeCatalogMapping>();
    
    /**
     * Add an array of entries into the resolver.

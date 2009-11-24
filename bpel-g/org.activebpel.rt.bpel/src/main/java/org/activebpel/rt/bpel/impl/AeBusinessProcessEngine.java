@@ -16,8 +16,9 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.LinkedHashSet;
 import java.util.Map;
+import java.util.Set;
+import java.util.concurrent.CopyOnWriteArraySet;
 
 import javax.xml.namespace.QName;
 
@@ -56,7 +57,6 @@ import org.activebpel.rt.bpel.urn.IAeURNResolver;
 import org.activebpel.rt.bpel.xpath.AeXPathHelper;
 import org.activebpel.rt.message.AeMessagePartsMap;
 import org.activebpel.rt.message.IAeMessageData;
-import org.activebpel.rt.util.AeSafelyViewableCollection;
 import org.activebpel.rt.util.AeUtil;
 import org.activebpel.rt.wsdl.def.IAeProperty;
 import org.activebpel.rt.wsdl.def.IAePropertyAlias;
@@ -85,16 +85,16 @@ public class AeBusinessProcessEngine implements IAeBusinessProcessEngineInternal
    protected int mMonitorStatus = IAeBusinessProcessEngine.MONITOR_NORMAL;
 
    /** Engine listeners */
-   protected Collection mEngineListeners = new AeSafelyViewableCollection(new LinkedHashSet());
+   protected Set<IAeEngineListener> mEngineListeners = new CopyOnWriteArraySet<IAeEngineListener>();
 
    /** Monitor listeners */
-   protected Collection mMonitorListeners = new AeSafelyViewableCollection(new LinkedHashSet());
+   protected Set<IAeMonitorListener> mMonitorListeners = new CopyOnWriteArraySet<IAeMonitorListener>();
 
    /** Global process listeners */
-   protected Collection mGlobalProcessListeners = new AeSafelyViewableCollection(new LinkedHashSet());
+   protected Set<IAeProcessListener> mGlobalProcessListeners = new CopyOnWriteArraySet<IAeProcessListener>();
 
    /** Map of listeners, keyed by the process ID */
-   protected HashMap mProcessListeners = new HashMap();
+   protected Map<Long,CopyOnWriteArraySet<IAeProcessListener>> mProcessListeners = new HashMap();
 
    /** The queue for incoming data that gets dispatched to processes */
    protected IAeQueueManager mQueueManager;
@@ -1757,16 +1757,15 @@ public class AeBusinessProcessEngine implements IAeBusinessProcessEngineInternal
     */
    public void addProcessListener(IAeProcessListener aListener, long aPid)
    {
-      String key = Long.toString(aPid);
+       // FIXME replace this sync with a self cleaning ConcurrentHashMap<Long,List>
+        synchronized (mProcessListeners) {
+            CopyOnWriteArraySet<IAeProcessListener> listeners = mProcessListeners.get(aPid);
+            if (listeners == null)
+                mProcessListeners.put(aPid,
+                        (listeners = new CopyOnWriteArraySet<IAeProcessListener>()));
 
-      synchronized (mProcessListeners)
-      {
-         Collection listeners = (Collection) mProcessListeners.get(key);
-         if (listeners == null)
-            mProcessListeners.put(key, (listeners = new AeSafelyViewableCollection(new LinkedHashSet())));
-
-         listeners.add(aListener);
-      }
+            listeners.add(aListener);
+        }
    }
 
    /**
@@ -1774,16 +1773,15 @@ public class AeBusinessProcessEngine implements IAeBusinessProcessEngineInternal
     */
    public void removeProcessListener(IAeProcessListener aListener, long aPid)
    {
-      String key = Long.toString(aPid);
-
+       // FIXME replace this sync with a self cleaning ConcurrentHashMap<Long,List>
       synchronized (mProcessListeners)
       {
-         Collection listeners = (Collection) mProcessListeners.get(key);
+         Collection listeners = (Collection) mProcessListeners.get(aPid);
          if (listeners != null)
          {
             listeners.remove(aListener);
             if (listeners.size() == 0)
-               mProcessListeners.put(key, null);
+               mProcessListeners.remove(aPid);
          }
       }
    }
@@ -1794,12 +1792,11 @@ public class AeBusinessProcessEngine implements IAeBusinessProcessEngineInternal
    public void fireInfoEvent(IAeProcessInfoEvent aInfoEvent)
    {
       Collection listeners;
-      String key = Long.toString(aInfoEvent.getPID());
 
       synchronized(mProcessListeners)
       {
          // Get listeners for the specified process
-         listeners = (Collection) mProcessListeners.get(key);
+         listeners = (Collection) mProcessListeners.get(aInfoEvent.getPID());
       }
 
       // If we have listeners for this process, fire the notifications
@@ -1854,13 +1851,12 @@ public class AeBusinessProcessEngine implements IAeBusinessProcessEngineInternal
    public void fireEvent(IAeProcessEvent aEvent)
    {
       Collection listeners;
-      String key = Long.toString(aEvent.getPID());
       boolean suspend = false;
 
       synchronized(mProcessListeners)
       {
          // Get listeners for the specified process
-         listeners = (Collection) mProcessListeners.get(key);
+         listeners = (Collection) mProcessListeners.get(aEvent.getPID());
       }
 
       // If we have listeners for this process, fire the notifications
