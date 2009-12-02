@@ -5,6 +5,11 @@
   <artifactId>bpel-g</artifactId>
   <version>1.x</version>
   <packaging>pom</packaging>
+  <scm>
+    <connection>scm:svn:http://bpel-g.googlecode.com/svn/trunk/bpel-g/</connection>
+    <developerConnection>scm:svn:https://bpel-g.googlecode.com/svn/trunk/bpel-g/</developerConnection>
+    <url>http://bpel-g.googlecode.com/svn/trunk/bpel-g/</url>
+  </scm>
   <build>
     <plugins>
       <plugin>
