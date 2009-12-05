@@ -3,6 +3,7 @@
 "http://www.w3.org/TR/html4/loose.dtd">
 <%
 
+String context = "";
 String code = "";
 String message = "";
 String type = "";
@@ -14,6 +15,7 @@ Object typeObj;
 Throwable throwable;
 
 // Retrieve the three possible error attributes, some may be null
+context = request.getContextPath();
 codeObj = request.getAttribute("javax.servlet.error.status_code");
 messageObj = request.getAttribute("javax.servlet.error.message");
 typeObj = request.getAttribute("javax.servlet.error.exception_type");
@@ -51,9 +53,9 @@ if (throwable != null)
    <ae:RequestEncoding value="UTF-8" />
    <head>
       <title><ae:GetResource name="page_title_active_bpel" /></title>
-      <link rel="shortcut icon" href="/BpelAdmin/images/favicon.ico" type="image/x-icon" />
-      <link rel="STYLESHEET" type="text/css" href="/BpelAdmin/css/ae_processView.css">
-      <link rel="STYLESHEET" type="text/css" href="/BpelAdmin/css/ae.css">
+      <link rel="shortcut icon" href="<%=context%>/images/favicon.ico" type="image/x-icon" />
+      <link rel="STYLESHEET" type="text/css" href="<%=context%>/css/ae_processView.css">
+      <link rel="STYLESHEET" type="text/css" href="<%=context%>/css/ae.css">
 
       <style type="text/css">
          a
@@ -116,15 +118,15 @@ if (throwable != null)
    </head>
    <body>
       <div id="header">
-         <img  id="logo" src="/BpelAdmin/images/logo.gif">
+         <img  id="logo" src="<%=context%>/images/logo.gif">
          <div id="headertitle">
             <h1>
             Server Error
             </h1>
             <p>
-               <a  href="/BpelAdmin" target="_top">Admin Console</a>
+               <a  href="<%=context%>/" target="_top">Admin Console</a>
                &nbsp;|&nbsp;
-               <a  href="../BpelAdminHelp" target="aeAdminHelp"><ae:GetResource name="help" /></a>
+               <a  href="/BpelAdminHelp" target="aeAdminHelp"><ae:GetResource name="help" /></a>
             </p>
          </div>
       </div>
@@ -135,7 +137,7 @@ if (throwable != null)
              %>
              <p>
              HTTP 404 - The requested resource was not found.
-               Click <a  href="/BpelAdmin" target="_top">here</a> to go the Admin Console.
+               Click <a  href="<%=context%>/" target="_top">here</a> to go the Admin Console.
              </p>
              <%
                }

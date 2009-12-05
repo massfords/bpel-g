@@ -4,11 +4,10 @@
   <groupId>org.activebpel</groupId>
   <artifactId>ae-bpelwar</artifactId>
   <packaging>war</packaging>
-  <version>5.0.2</version>
   <parent>
       <groupId>bpel-g</groupId>
       <artifactId>bpel-g</artifactId>
-      <version>1.x</version>
+      <version>5.1-SNAPSHOT</version>
   </parent>
     <build>
         <finalName>bpelg-console</finalName>
@@ -32,37 +31,10 @@
         </plugins>
     </build>
   <dependencies>
-  	<dependency>
-  		<groupId>org.activebpel</groupId>
-  		<artifactId>ae-war</artifactId>
-  		<version>5.0.2</version>
-  	</dependency>
-  	<dependency>
-  		<groupId>org.activebpel</groupId>
-  		<artifactId>ae-bpelsrvr</artifactId>
-  		<version>5.0.2</version>
-  	</dependency>
       <dependency>
-  		<groupId>org.activebpel</groupId>
-  		<artifactId>ae-identity</artifactId>
-  		<version>5.0.2</version>
-  	</dependency>
-  	<dependency>
-  		<groupId>commons-fileupload</groupId>
-  		<artifactId>commons-fileupload</artifactId>
-  		<version>1.2.1</version>
-  	</dependency>
-    <dependency>
-        <groupId>servletapi</groupId>
-        <artifactId>servletapi</artifactId>
-        <version>2.4</version>
-        <scope>provided</scope>
-    </dependency>
-    <dependency>
-        <groupId>javax.servlet.jsp</groupId>
-        <artifactId>jsp-api</artifactId>
-        <version>2.1</version>
-        <scope>provided</scope>
-    </dependency>
+          <groupId>org.activebpel</groupId>
+          <artifactId>ae-bpeladmin</artifactId>
+          <version>${pom.version}</version>
+      </dependency>
   </dependencies>
 </project>
