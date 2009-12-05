@@ -20,26 +20,28 @@ public class AeEngineManagementFactory {
     private static IAeEngineManagementMXBean sBean; 
     private static JMXConnector sConnector;
     
-    
     public static IAeEngineManagementMXBean getBean() {
-        if (sBean == null) {
-            if (AeEngineFactory.getEngineAdministration() != null) {
-                sBean = new AeEngineManagementAdapter(AeEngineFactory.getEngineAdministration());
-            } else {
-                try {
-                    // FIXME don't hard code this
-                    JMXServiceURL url = new JMXServiceURL("service:jmx:rmi:///jndi/rmi://localhost:1099/jmxrmi");
-                    String[] creds = {"smx", "smx"};
-                    Map map = Collections.singletonMap(JMXConnector.CREDENTIALS, creds);
-                    JMXConnector connector = JMXConnectorFactory.connect(url, map);
-                    MBeanServerConnection mbs = connector.getMBeanServerConnection();
-                    ObjectName objectName = ObjectName.getInstance("org.apache.servicemix:ContainerName=ServiceMix,Name=bpel-g-jbi,SubType=Management,Type=Component");
+        if (sBean == null)
+            throw new IllegalStateException("Bean not initialized");
+        return sBean;
+    }
     
-                    sBean = JMX.newMXBeanProxy(mbs, objectName, IAeEngineManagementMXBean.class);
-                } catch (Exception e) {
-                    throw new RuntimeException(e);
-                }
-            }
+    
+    public static IAeEngineManagementMXBean initBean(String aServiceURL, String aObjectName, String aUser, String aPassword) throws Exception {
+        if (sBean != null) {
+            close();
+        }
+        if (AeEngineFactory.getEngineAdministration() != null) {
+            sBean = new AeEngineManagementAdapter(AeEngineFactory.getEngineAdministration());
+        } else {
+            JMXServiceURL url = new JMXServiceURL(aServiceURL);
+            String[] creds = {aUser, aPassword};
+            Map map = Collections.singletonMap(JMXConnector.CREDENTIALS, creds);
+            JMXConnector connector = JMXConnectorFactory.connect(url, map);
+            MBeanServerConnection mbs = connector.getMBeanServerConnection();
+            ObjectName objectName = ObjectName.getInstance(aObjectName);
+
+            sBean = JMX.newMXBeanProxy(mbs, objectName, IAeEngineManagementMXBean.class);
         }
         return sBean;
     }
@@ -52,5 +54,6 @@ public class AeEngineManagementFactory {
                 e.printStackTrace();
             }
         }
+        sBean = null;
     }
 }
