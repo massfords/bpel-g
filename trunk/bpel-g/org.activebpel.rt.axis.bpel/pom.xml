@@ -3,17 +3,16 @@
   <name>Apache Axis BPEL Endpoint Integration</name>
   <groupId>org.activebpel</groupId>
   <artifactId>ae-axisbpel</artifactId>
-  <version>5.0.2</version>
-  <parent>
-      <groupId>bpel-g</groupId>
-      <artifactId>bpel-g</artifactId>
-  	<version>1.x</version>
-  </parent>  
-  <dependencies>
+	<parent>
+		<groupId>bpel-g</groupId>
+		<artifactId>bpel-g</artifactId>
+		<version>5.1-SNAPSHOT</version>
+	</parent>
+	<dependencies>
   	<dependency>
   		<groupId>org.activebpel</groupId>
   		<artifactId>ae-axisbpeladmin</artifactId>
-  		<version>5.0.2</version>
+  		<version>${pom.version}</version>
   	</dependency>
   	<dependency>
   		<groupId>wsdl4j</groupId>
@@ -33,17 +32,17 @@
   	<dependency>
   		<groupId>org.activebpel</groupId>
   		<artifactId>ae-wsio</artifactId>
-  		<version>5.0.2</version>
+  		<version>${pom.version}</version>
   	</dependency>
   	<dependency>
   		<groupId>org.activebpel</groupId>
   		<artifactId>ae-bpelsrvr</artifactId>
-  		<version>5.0.2</version>
+  		<version>${pom.version}</version>
   	</dependency>
   	<dependency>
   		<groupId>org.activebpel</groupId>
   		<artifactId>ae-axis</artifactId>
-  		<version>5.0.2</version>
+  		<version>${pom.version}</version>
   	</dependency>
   </dependencies>
 </project>
