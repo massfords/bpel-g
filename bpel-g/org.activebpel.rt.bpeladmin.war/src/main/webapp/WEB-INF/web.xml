@@ -3,7 +3,8 @@
    "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
    "http://java.sun.com/dtd/web-app_2_3.dtd">
 
-<web-app>
+<web-app id="WebApp_ID">
+	<display-name>ae-bpelwar</display-name>
    <description>ActiveBPEL Administration Console</description>
 
    <context-param>
@@ -16,10 +17,27 @@
    	<param-value>/BpelAdmin</param-value>
    </context-param>
    
-<!--    <listener>
+    <context-param>
+        <param-name>jmx.serviceURL</param-name>
+        <param-value>service:jmx:rmi:///jndi/rmi://localhost:1099/jmxrmi</param-value>
+    </context-param>
+    <context-param>
+        <param-name>jmx.objectName</param-name>
+        <param-value>org.apache.servicemix:ContainerName=ServiceMix,Name=bpel-g-jbi,SubType=Management,Type=Component</param-value>
+    </context-param>
+    <context-param>
+        <param-name>jmx.user</param-name>
+        <param-value>smx</param-value>
+    </context-param>
+    <context-param>
+        <param-name>jmx.password</param-name>
+        <param-value>smx</param-value>
+    </context-param>
+    
+    <listener>
         <listener-class>org.activebpel.rt.bpeladmin.war.AeContextListener</listener-class>
     </listener>
--->
+
     <servlet>
      <servlet-name>AeProcessLogDump</servlet-name>
      <display-name>Servlet for doing a dump of a process log.</display-name>
