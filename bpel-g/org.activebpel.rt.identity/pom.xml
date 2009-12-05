@@ -3,22 +3,21 @@
   <name>ActiveBPEL Identity Manager</name>
   <groupId>org.activebpel</groupId>
   <artifactId>ae-identity</artifactId>
-  <version>5.0.2</version>
   <parent>
       <groupId>bpel-g</groupId>
       <artifactId>bpel-g</artifactId>
-      <version>1.x</version>
+      <version>5.1-SNAPSHOT</version>
   </parent>  
   <dependencies>
   	<dependency>
   		<groupId>org.activebpel</groupId>
   		<artifactId>ae-bpelsrvr</artifactId>
-  		<version>5.0.2</version>
+  	    <version>${pom.version}</version>
   	</dependency>
   	<dependency>
   		<groupId>org.activebpel</groupId>
   		<artifactId>ae-wsio</artifactId>
-  		<version>5.0.2</version>
+  	    <version>${pom.version}</version>
   	</dependency>
   </dependencies>
 </project>

@@ -3,10 +3,9 @@
   <name>ActiveBPEL DDL Scripts</name>
   <groupId>org.activebpel</groupId>
   <artifactId>ddl</artifactId>
-  <version>5.0.2</version>
   <parent>
       <groupId>bpel-g</groupId>
       <artifactId>bpel-g</artifactId>
-      <version>1.x</version>
+      <version>5.1-SNAPSHOT</version>
   </parent>  
 </project>

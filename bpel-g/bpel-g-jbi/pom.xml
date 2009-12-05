@@ -5,11 +5,10 @@
 	<groupId>bpel-g</groupId>
 	<artifactId>bpel-g-jbi</artifactId>
 	<packaging>jbi-component</packaging>
-	<version>0.9-SNAPSHOT</version>
 	<parent>
 		<groupId>bpel-g</groupId>
 		<artifactId>bpel-g</artifactId>
-		<version>1.x</version>
+		<version>5.1-SNAPSHOT</version>
 	</parent>
 	<pluginRepositories>
 		<pluginRepository>
@@ -50,7 +49,7 @@
 		<dependency>
 			<groupId>org.activebpel</groupId>
 			<artifactId>ae-bpelsrvr</artifactId>
-			<version>5.0.2</version>
+			<version>${pom.version}</version>
 			<exclusions>
 			     <exclusion>
 			         <groupId>xml-apis</groupId>
@@ -65,12 +64,12 @@
 		<dependency>
 			<groupId>org.activebpel</groupId>
 			<artifactId>ae-bpelexpr</artifactId>
-			<version>5.0.2</version>
+			<version>${pom.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.activebpel</groupId>
 			<artifactId>ae-bpelexprbsf</artifactId>
-			<version>5.0.2</version>
+			<version>${pom.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>junit</groupId>
