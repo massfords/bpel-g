@@ -5,12 +5,11 @@
 	<name>bpel-g Web Archive</name>
 	<groupId>bpel-g</groupId>
 	<artifactId>bpel-g-web</artifactId>
-	<version>0.9-SNAPSHOT</version>
 	<packaging>war</packaging>
 	<parent>
 		<groupId>bpel-g</groupId>
 		<artifactId>bpel-g</artifactId>
-		<version>1.x</version>
+		<version>5.1-SNAPSHOT</version>
 	</parent>
 	<repositories>
 		<repository>
@@ -43,7 +42,7 @@
 						<resource>
 							<directory>${basedir}/../org.activebpel.rt.war/src/main/webapp</directory>
 							<excludes>
-								<exclude>web.xml</exclude>
+								<exclude>WEB-INF/web.xml</exclude>
 							</excludes>
 							<filtering>false</filtering>
 						</resource>
@@ -66,7 +65,7 @@
 						<phase>process-classes</phase>
 						<configuration>
 							<tasks>
-								<xslt in="${basedir}/src/main/web.xml" out="${basedir}/target/bpel-g/WEB-INF/web.xml"
+								<xslt in="${basedir}/src/main/webapp/WEB-INF/web.xml" out="${basedir}/target/bpel-g/WEB-INF/web.xml"
 									style="${basedir}/src/main/web.xsl"/>
 							</tasks>
 						</configuration>
@@ -90,32 +89,32 @@
 		<dependency>
 			<groupId>org.activebpel</groupId>
 			<artifactId>ae-war</artifactId>
-			<version>5.0.2</version>
+			<version>${pom.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.activebpel</groupId>
 			<artifactId>ae-axisbpelweb</artifactId>
-			<version>5.0.2</version>
+			<version>${pom.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.activebpel</groupId>
-			<artifactId>ae-bpelwar</artifactId>
-			<version>5.0.2</version>
+			<artifactId>ae-bpeladmin</artifactId>
+			<version>${pom.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.activebpel</groupId>
 			<artifactId>ae-bpelexpr</artifactId>
-			<version>5.0.2</version>
+			<version>${pom.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.activebpel</groupId>
 			<artifactId>ae-bpelexprbsf</artifactId>
-			<version>5.0.2</version>
+			<version>${pom.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.activebpel</groupId>
 			<artifactId>ae-http</artifactId>
-			<version>5.0.2</version>
+			<version>${pom.version}</version>
 		</dependency>
 	</dependencies>
 	<profiles>
