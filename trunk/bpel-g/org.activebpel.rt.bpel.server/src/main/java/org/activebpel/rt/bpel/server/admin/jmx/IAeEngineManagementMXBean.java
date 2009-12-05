@@ -86,6 +86,8 @@ public interface IAeEngineManagementMXBean {
      */
     public String getProcessLog(long aProcessId);
     
+    public AeProcessLogPart getProcessLogPart(long aProcessId, int aPart) throws Exception;
+    
     /**
      * Returns a list of processes currently running on the BPEL engine. 
      */
