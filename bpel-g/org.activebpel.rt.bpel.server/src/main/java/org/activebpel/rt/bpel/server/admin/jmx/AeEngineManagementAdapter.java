@@ -1,5 +1,7 @@
 package org.activebpel.rt.bpel.server.admin.jmx;
 
+import java.io.IOException;
+import java.io.Reader;
 import java.io.StringReader;
 import java.io.StringWriter;
 import java.util.ArrayList;
@@ -38,6 +40,7 @@ import org.activebpel.rt.bpel.server.deploy.IAeServiceDeploymentInfo;
 import org.activebpel.rt.bpel.server.engine.AeEngineFactory;
 import org.activebpel.rt.bpel.server.engine.storage.AeStorageException;
 import org.activebpel.rt.config.AeConfigurationUtil;
+import org.activebpel.rt.util.AeCloser;
 import org.activebpel.rt.util.AeUtil;
 import org.activebpel.rt.xml.AeQName;
 import org.activebpel.rt.xml.schema.AeSchemaDuration;
@@ -151,6 +154,54 @@ public class AeEngineManagementAdapter implements IAeEngineManagementMXBean {
     @Override
     public String getProcessLog(long aProcessId) {
         return mAdmin.getProcessLog(aProcessId);
+    }
+    
+    @Override
+    public AeProcessLogPart getProcessLogPart(long aProcessId, int aPart) throws Exception {
+
+        AeProcessLogPart part = new AeProcessLogPart();
+        part.setPart(aPart);
+        
+        // get a reader onto the log
+        Reader reader = AeEngineFactory.getLogger().getFullLog(aProcessId);
+        
+        skipAndRead(part, reader, AeProcessLogPart.PART_SIZE);
+        return part;
+    }
+
+    /**
+     * Skips to where we want to be in the reader and starts reading til the buffer is filled.
+     * @param aPart
+     * @param aReader
+     * @param aPartSize
+     * @throws IOException
+     */
+    protected static void skipAndRead(AeProcessLogPart aPart, Reader aReader, int aPartSize)
+            throws IOException {
+        aPart.setLog(null);
+        try {
+            // skip to where we want to be in the log
+            int skipCount = aPart.getPart() * aPartSize;
+            long skipped = aReader.skip(skipCount);
+            
+            // if we don't skip to that point, then there's nothing to read here
+            if (skipped != skipCount) {
+                aPart.setMoreAvailable(false);
+            } else {
+                // fill the buffer for the part
+                char[] buffer = new char[aPartSize];
+                int read = aReader.read(buffer);
+                if (read > 0) {
+                    aPart.setLog(new String(buffer, 0, read));
+                    // signal that there's more to read if we didn't fill the buffer
+                    aPart.setMoreAvailable(read == buffer.length);
+                } else {
+                    aPart.setMoreAvailable(false);
+                }
+            }
+        } finally {
+            AeCloser.close(aReader);
+        }
     }
 
     @Override
