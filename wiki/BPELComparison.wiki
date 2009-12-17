@@ -260,17 +260,17 @@ The following is a quick comparison between bpel-g and other BPEL engines. I'll 
     </tr>
     <tr>
         <td> WS-Security</td>
-        <td> no</td>
+        <td> yes (w/in SMX)</td>
         <td> no</td>
         <td> yes</td>
         <td> yes</td>
     </tr>
     <tr>
         <td> WS-RM</td>
+        <td> yes (w/in SMX)</td>
         <td> no</td>
-        <td> no</td>
-        <td> no</td>
-        <td> no</td>
+        <td> yes (w/in SMX)</td>
+        <td> ?</td>
     </tr>
     <tr>
         <td> WS-Addressing ReplyTo</td>
