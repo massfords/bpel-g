@@ -145,7 +145,7 @@
                  <tr height="1">
                    <td height="1" colspan="5" class="gridLines"></td>
                  </tr>
-                 <tr height="1">
+                 <tr height="1"/>
                  <tr>
                    <td height="10" colspan="5"></td>
                  </tr>
@@ -156,7 +156,7 @@
                    <table width="65%">
                       <tr>
                         <th colspan="2" class="titleHeaders" align="left" nowrap="true">&nbsp;<ae:GetResource name="selection_filter" />&nbsp;</th>
-                      <tr>
+                      </tr>
                       <tr height="1">
                         <td height="1" colspan="2" class="gridLines"></td>
                       </tr>

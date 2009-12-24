@@ -115,7 +115,7 @@
                   <tr><td>
                     <table border="0" cellpadding="0" cellspacing="0" width="100%" align="left">
                       <tr>
-                         <td colspan="3" class="titleHeaders" align="left" nowrap="true">&nbsp;<ae:GetResource name="deployed_resources" />&nbsp;</th>
+                         <th colspan="3" class="titleHeaders" align="left" nowrap="true">&nbsp;<ae:GetResource name="deployed_resources" />&nbsp;</th> 
                       <tr>
                       <tr height="1">
                          <td height="1" colspan="3" class="gridLines"></td>
@@ -124,7 +124,7 @@
                       <!-- ONLY APPEARS IF THERE ARE NO RESULTS -->
                       <ae:IfTrue name="catalogItemBean" property="empty" >
                           <tr>
-                              <td colspan="3" align="left" nowrap="true">&nbsp;<b><ae:GetResource name="no_resources_matching" /></b>&nbsp;</th>
+                              <td colspan="3" align="left" nowrap="true">&nbsp;<b><ae:GetResource name="no_resources_matching" /></b>&nbsp;</td>
                           <tr>
                       </ae:IfTrue>
                       
