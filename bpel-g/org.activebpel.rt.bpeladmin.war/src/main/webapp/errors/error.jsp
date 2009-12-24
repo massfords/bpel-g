@@ -202,11 +202,9 @@ if (throwable != null)
             %>
             <div class="errorpart">
              <h3>Root Cause # <%= causeCount %>:</h3>
-               <p>
                 <pre>
 <%= stackTrace %>
                 </pre>
-                </p>
             </div>
             <% }  %>
          </div>

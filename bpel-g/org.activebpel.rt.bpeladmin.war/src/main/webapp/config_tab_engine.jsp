@@ -24,9 +24,9 @@
    </ae:IfParamMatches>
 
    <!-- engine info table -->
-   <table border="0" cellpadding="0" cellspacing="0" width="100%">
    <form name="ec_form" method="post" action="config.jsp">
       <input type="hidden" name="tab" value="<jsp:getProperty name="tabBean" property="selectedOffset"/>"/>
+   <table border="0" cellpadding="0" cellspacing="0" width="100%">
       <tr>
         <th class="columnHeaders" align="left" nowrap="true">&nbsp;<ae:GetResource name="property" />&nbsp;</th>
         <th class="columnHeaders" align="left" nowrap="true" colspan="2">&nbsp;<ae:GetResource name="value" />&nbsp;</th>
@@ -148,6 +148,7 @@
         <td colspan="3" align="left"><input type="submit" tabIndex="24" value=<ae:GetResource name="update" /> /></td>
       </tr>
 
+   </table>
       <input type="hidden" name="isSubmit" value="true" />
       </form>
-   </table>
+   
