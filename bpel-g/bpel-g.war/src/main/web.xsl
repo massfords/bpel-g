@@ -2,7 +2,7 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
 	version="1.0">
 
-	<xsl:output method="xml" encoding="UTF-8" indent="yes" />
+	<xsl:output method="xml" encoding="UTF-8" indent="yes" doctype-public="-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN" doctype-system="http://java.sun.com/dtd/web-app_2_3.dtd"/>
 
 	<xsl:variable name="bpeladmin"
 		select="document('../../../org.activebpel.rt.bpeladmin.war/src/main/webapp/WEB-INF/web.xml')" />
