@@ -26,12 +26,12 @@
         <dependency>
             <groupId>bpelg-test</groupId>
             <artifactId>bpelg-http-su</artifactId>
-            <version>0.8-SNAPSHOT</version>
+            <version>${pom.version}</version>
         </dependency>
         <dependency>
             <groupId>bpelg-test</groupId>
             <artifactId>bpelg-bpel-su</artifactId>
-            <version>0.8-SNAPSHOT</version>
+            <version>${pom.version}</version>
         </dependency>
     </dependencies>
 </project>
