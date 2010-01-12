@@ -81,8 +81,20 @@ public class AeProcessPruningBean extends AePruningBean
       {
          try
          {
-            AeProcessFilter pruneProcessFilter = getPruneProcessFilter();
-            int n = getAdmin().removeProcesses(null, null, null, false, pruneProcessFilter.getProcessState(), null, null, null, pruneProcessFilter.getProcessCompleteEnd(), null, -1, null, null);
+            AeProcessFilter filter = getPruneProcessFilter();
+            int n = getAdmin().removeProcesses(filter.getProcessName() == null ? null : filter.getProcessName().getNamespaceURI(), 
+                    filter.getProcessName() == null ? null : filter.getProcessName().getLocalPart(), 
+                            filter.getProcessGroup(), 
+                            filter.isHideSystemProcessGroup(), 
+                            filter.getProcessState(), 
+                            filter.getProcessCreateStart(), 
+                            filter.getProcessCreateEnd(), 
+                            filter.getProcessCompleteStart(), 
+                            filter.getProcessCompleteEnd(), 
+                            filter.getAdvancedQuery(), 
+                            filter.getPlanId(), 
+                            filter.getDeletableDate(), 
+                            filter.getProcessIdRange());
 
             String pattern = AeMessages.getString("AeProcessPruningBean.0"); //$NON-NLS-1$
             Object[] args = {new Integer(n)};
@@ -113,8 +125,22 @@ public class AeProcessPruningBean extends AePruningBean
 
          try
          {
-            AeProcessFilter pruneProcessFilter = getPruneProcessFilter();
-            int numProcesses = getAdmin().getProcessCount(null, null, null, false, pruneProcessFilter.getProcessState(), null, null, null, pruneProcessFilter.getProcessCompleteEnd(), null, -1, null, null, 1, 1);
+            AeProcessFilter filter = getPruneProcessFilter();
+            int numProcesses = getAdmin().getProcessCount(filter.getProcessName() == null ? null : filter.getProcessName().getNamespaceURI(), 
+                        filter.getProcessName() == null ? null : filter.getProcessName().getLocalPart(), 
+                        filter.getProcessGroup(), 
+                        filter.isHideSystemProcessGroup(), 
+                        filter.getProcessState(), 
+                        filter.getProcessCreateStart(), 
+                        filter.getProcessCreateEnd(), 
+                        filter.getProcessCompleteStart(), 
+                        filter.getProcessCompleteEnd(), 
+                        filter.getAdvancedQuery(), 
+                        filter.getPlanId(), 
+                        filter.getDeletableDate(), 
+                        filter.getProcessIdRange(), 
+                        filter.getMaxReturn(), 
+                        filter.getListStart());
 
             String pattern = AeMessages.getString("AeProcessPruningBean.3"); //$NON-NLS-1$
             Object[] args = {new Integer(numProcesses)};
