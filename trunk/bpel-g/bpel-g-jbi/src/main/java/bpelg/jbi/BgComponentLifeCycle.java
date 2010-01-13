@@ -119,7 +119,7 @@ public class BgComponentLifeCycle implements ComponentLifeCycle {
         try {
             mEngineLifecycle.shutdown();
         } catch (AeException e) {
-            throw new JBIException("Exception during start of engine", e);
+            throw new JBIException("Exception during stop of engine", e);
         } finally {
             mReceiver = null;
             unregisterMBean();
