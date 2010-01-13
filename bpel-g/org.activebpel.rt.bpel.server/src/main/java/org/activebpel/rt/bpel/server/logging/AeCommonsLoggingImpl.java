@@ -10,6 +10,10 @@ public class AeCommonsLoggingImpl implements IAeLogWrapper {
 	public AeCommonsLoggingImpl(Class aClass) {
 		mLog = LogFactory.getLog(aClass);
 	}
+	
+	public AeCommonsLoggingImpl(Log aLog) {
+	    mLog = aLog;
+	}
 
 	@Override
 	public void logDebug(String aMessage) {
