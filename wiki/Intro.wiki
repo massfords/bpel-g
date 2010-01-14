@@ -1,17 +1,28 @@
 #labels Featured
-== Introduction ==
+<wiki:toc max_depth="3" />
+= Introduction =
 This project provies a fully compliant BPEL4WS 1.1 and WS-BPEL 2.0 engine. 
 The code here is based on the final release of ActiveBPEL 5.0.2. The goal of 
 bpel-g is to provide a viable BPEL engine for the open source community, particularly
 those in the public sector. The main focus is spec compliance.
 
-== Building ==
+= Building =
+
+== Maven ==
+bpel-g uses maven. You should be using maven 2.0.9 or later.
 
 === Local Repo ===
-bpel-g uses maven. A couple of the projects require artifacts which aren't available on public repositories. A local maven repository is included as part of the trunk and is referenced by a some of the projects. If you're using a local proxy to mirror remote maven repositories, make sure that you have the mirrorOf rule configured to allow local reops (i.e. {{{ <mirrorOf>external:*</mirrorOf>}}} )
+A couple of the projects require artifacts which aren't available on public repositories. A local maven repository is included as part of the trunk and is referenced by a some of the projects. If you're using a local proxy to mirror remote maven repositories, make sure that you have the mirrorOf rule configured to allow local reops (i.e. {{{ <mirrorOf>external:*</mirrorOf>}}} )
 
-=== Eclipse ===
-The easiest way to get these projects into eclipse is to install the [http://m2eclipse.sonatype.org/ m2eclipse plugin]. Once installed, select File / Import / Existing Maven Projects. The m2eclipse plugin can be a little flakey when importing nested projects so I typically deselect the root project and then manually select each of the child projects. This way there won't be a duplicate copy of files in search results and your workspace will be smaller.
+== Eclipse ==
+Here are the steps for using eclipse:
+* Install the [http://m2eclipse.sonatype.org/ m2eclipse plugin]
+* File / Import / Existing Maven Projects
+* Browse to the bpel-g root folder
+* Select all of the leaf projects*
+* Click import
+
+Note: The m2eclipse plugin can be a little flaky when importing nested projects so I typically deselect the root project and then manually select each of the child projects. This way there won't be a duplicate copy of files in search results and your workspace will be smaller.
 
 === Mylyn ===
 If you're a mylyn user, then you can connect to the issues list in google code by following the instructions [http://eclipse.dzone.com/articles/using-mylyn-with-google-code-u here]. I'm using the following config:
@@ -20,25 +31,24 @@ If you're a mylyn user, then you can connect to the issues list in google code b
 ||query url|| {{{${serverUrl}/csv?can=2&colspec=ID%20Status%20Type%20Owner%20Summary&status=Accepted,Started&sort=priority}}} ||
 || query pattern || {{{ "({Id}[0-9]+?)","({Status}.+?)","({Type}.+?)","({Owner}.+?)","({Description}.+?)"\s}}} ||
 
-== Database ==
-The default configuration of bpel-g requires a database (a future release will have an in-memory only profile). The database of choice for this release is the [http://www.h2database.com/ H2 java database]. At the moment, the easiest way to create the required db instance is to run the build for the war packaging:
+= Database =
+The ddl project in bpel-g contains scripts for Oracle, DB2, MySQL, SQL Server and H2. The server will create an embedded H2 database if none is configured at startup. This is the easiest way to get started and provides decent performance. 
 
-{{{
-bpel-g/bpel-g.war> mvn clean install -Dcreate-db 
-}}}
-
-This will create a database in the user's home directory named bpelg-h2-db. You can configure the location and name of the db that gets created by modifying the filter.properties file in this project. 
-
-=== Configuring WAR ===
+== Configuring WAR ==
 The WAR project has a context that is already configured to reference the database created during the build. Be sure to put the H2 jar within the $CATALINA_HOME/lib directory.
 
-=== Configuring ServiceMix ===
+== Configuring ServiceMix ==
 See the [ServiceMix] page
 
-== BPEL Deployments in WAR ==
+= Deployments =
+
+== WAR ==
 The Business Process Archive (or BPR) is the only supported packaging structure at the moment for the web application. Check the [http://activevos.com ActiveVOS] web site for information on how to construct a BPR or simply use their BPEL designer to create one. Support for a simpler packaging structure will be added in the future.
 
 It is also possible to deploy a BPR via a web service call.
 
-== BPEL Deployments in ServiceMix ==
+== Service Mix ==
 See the [ServiceMix] page
+
+== Validation ==
+The default behavior during deployment is to validate the bpel, deployment artifacts, and WSDL. It is possible to disable this validation (although not recommended) by including a file named "skip.validation" inside the BPR or service unit. If present, none of the resources within the deployment unit will be validated. This was added to address a situation where deployment speed was essential and the bpel and associated artifacts were all known to be valid. 
