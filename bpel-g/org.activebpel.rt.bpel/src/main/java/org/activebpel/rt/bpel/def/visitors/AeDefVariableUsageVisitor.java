@@ -9,9 +9,6 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpel.def.visitors;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
@@ -62,8 +59,6 @@ public class AeDefVariableUsageVisitor extends AeAbstractDefVisitor
 {
    /** Def objects are pushed and popped from the stack as we traverse the tree */
    private Stack mStack = new Stack();
-   /** Collection of visited activities, useful in case we don't find a serializable scope and want to reset all of the used variable sets*/
-   private Collection mVisitedActivities = new ArrayList();
    /** Set to true if come across a serializable scope which requires us to do resource locking */
    private boolean mResourceLockingRequired = false;
    /** The current compensation handler or <code>null</code> */
@@ -80,14 +75,6 @@ public class AeDefVariableUsageVisitor extends AeAbstractDefVisitor
       setTraversalVisitor(new AeTraversalVisitor(new AeDefTraverser(), this));
    }
    
-   /**
-    * Gets the visited activities.
-    */
-   protected Collection getVisitedActivities()
-   {
-      return mVisitedActivities;
-   }
-
    /** 
     * Returns true variable locking is required, meaning we've discovered a 
     * serializable scope within the process 
@@ -145,12 +132,6 @@ public class AeDefVariableUsageVisitor extends AeAbstractDefVisitor
     */
    protected void traverse(AeBaseXmlDef aDef)
    {
-      // keep track of the activities since we'll revisit them in the event
-      // that we don't discover a serializable scope so we can set their 
-      // used variable set to Collections.EMPTY_SET
-      if (aDef instanceof AeActivityDef)
-         getVisitedActivities().add(aDef);
-
       // normal traverse code      
       getStack().push(aDef);
       aDef.accept(getTraversalVisitor());
@@ -419,18 +400,9 @@ public class AeDefVariableUsageVisitor extends AeAbstractDefVisitor
     */
    public void visit(AeProcessDef aDef)
    {
-      super.visit(aDef);
-
-      aDef.setContainsSerializableScopes(isResourceLockingRequired());
-      
-      if (!isResourceLockingRequired())
-      {
-         for (Iterator iter = getVisitedActivities().iterator(); iter.hasNext();)
-         {
-            AeActivityDef def = (AeActivityDef) iter.next();
-            def.setResourcesUsed(Collections.EMPTY_SET);
-         }
-      }
+       if (aDef.containsSerializableScopes()) {
+           super.visit(aDef);
+       }
    }
    
    /**

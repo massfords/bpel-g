@@ -11,6 +11,7 @@ package org.activebpel.rt.bpel.def.visitors;
 
 import org.activebpel.rt.bpel.def.AeActivityDef;
 import org.activebpel.rt.bpel.def.activity.AeActivityScopeDef;
+import org.activebpel.rt.bpel.def.util.AeDefUtil;
 import org.activebpel.rt.xml.def.AeBaseXmlDef;
 
 /**
@@ -74,6 +75,8 @@ public class AeIsolatedScopeVisitor extends AeAbstractDefVisitor
    {
       if (aDef.isIsolated())
       {
+         AeDefUtil.getProcessDef(aDef).setContainsSerializableScopes(true);
+          
          // Save (and restore) the current isolated scope in case we have an
          // nested isolated scope (which should never happen).
          AeActivityScopeDef oldIsolatedScope = getIsolatedScope();

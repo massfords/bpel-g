@@ -374,6 +374,7 @@ public class AeProcessDef extends AeScopeDef implements Serializable
       accept(new AeScopeSnapshotOptimizationVisitor());
 
       // assign variable usages for definitions
+      // Note: AeIsolatedScopeVisitor must be run before this visitor. 
       IAeDefVisitor resourceLocker = AeDefVisitorFactory.getInstance(getNamespace()).createResourceLockingVisitor(aExpressionLanguageFactory);
       resourceLocker.visit(this);
 
