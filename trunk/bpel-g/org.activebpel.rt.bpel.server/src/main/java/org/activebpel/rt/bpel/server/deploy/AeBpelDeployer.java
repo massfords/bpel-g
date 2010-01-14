@@ -19,16 +19,15 @@ import org.activebpel.rt.bpel.server.engine.AeEngineFactory;
  */
 public class AeBpelDeployer implements IAeBpelDeployer
 {
-   /**
-    * @see org.activebpel.rt.bpel.server.deploy.IAeBpelDeployer#deployBpel(org.activebpel.rt.bpel.server.deploy.IAeDeploymentSource, org.activebpel.rt.bpel.def.validation.IAeBaseErrorReporter)
-    */
-   public void deployBpel(IAeDeploymentSource aSource, IAeBaseErrorReporter aReporter ) throws AeException
+   public void deployBpel(IAeDeploymentSource aSource, IAeBaseErrorReporter aReporter, boolean aSkipValidation ) throws AeException
    {
       IAeProcessDeployment deployment = create(aSource);
-      AeDeploymentHandlerFactory handlerFactory = (AeDeploymentHandlerFactory)AeEngineFactory.getDeploymentHandlerFactory();
-      handlerFactory.getDeploymentFactory().getValidationHandler().doDeploymentValidation(
-            aSource.getPddLocation(), deployment, aReporter);
-      if( !aReporter.hasErrors() )
+      if (!aSkipValidation) {
+          AeDeploymentHandlerFactory handlerFactory = (AeDeploymentHandlerFactory)AeEngineFactory.getDeploymentHandlerFactory();
+          handlerFactory.getDeploymentFactory().getValidationHandler().doDeploymentValidation(
+                aSource.getPddLocation(), deployment, aReporter);
+      }
+      if( aSkipValidation || !aReporter.hasErrors() )
       {
          AeEngineFactory.getDeploymentProvider().addDeploymentPlan( deployment );
       }

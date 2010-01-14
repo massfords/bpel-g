@@ -23,9 +23,10 @@ public interface IAeBpelDeployer
     * Deploy all BPEL processes to the ActiveBPEL engine.
     * @param aDeployment 
     * @param aReporter Reports any validation issues.
+    * @param aSkipValidation 
     * @throws AeException
     */
-   public void deployBpel( IAeDeploymentSource aDeployment, IAeBaseErrorReporter aReporter )
+   public void deployBpel( IAeDeploymentSource aDeployment, IAeBaseErrorReporter aReporter, boolean aSkipValidation )
    throws AeException;
    
    /**
