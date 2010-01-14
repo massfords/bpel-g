@@ -132,6 +132,9 @@ public class AeDeploymentHandler extends AeAbstractDeploymentHandler
    protected boolean isValid( IAeDeploymentContainer aContainer )
    throws AeException
    {
+      boolean skipValidation = aContainer.exists("skip.validation");
+      if (skipValidation)
+          return true;
       getDeploymentLogger().resetWarningAndErrorFlags();
       getFactory().getValidationHandler().doPredeploymentValidation( aContainer, getDeploymentLogger() );
       return !getDeploymentLogger().hasErrors();      
@@ -175,11 +178,12 @@ public class AeDeploymentHandler extends AeAbstractDeploymentHandler
          String pddName = (String)iter.next();
          String shortName = AeUtil.getFilename(pddName);
          getDeploymentLogger().setPddName(shortName);
+         boolean skipValidation = aContainer.exists("skip.validation");
          try
          {
             IAeDeploymentSource source = aContainer.getDeploymentSource( pddName );
             logDebug( "Deploying BPEL for " + source.getProcessName() + " from " + pddName ); //$NON-NLS-1$ //$NON-NLS-2$
-            getFactory().getBpelDeployer().deployBpel(source, getDeploymentLogger());
+            getFactory().getBpelDeployer().deployBpel(source, getDeploymentLogger(), skipValidation);
 
             if( !getDeploymentLogger().hasErrors() )
             {
