@@ -25,6 +25,13 @@ import org.w3c.dom.Node;
 /**
  * Walks the service unit root and constructs the catalog.xml file that is needed to deploy the set of processes.
  * 
+ * Contains two collections that model the wsdl, xsd, xsl, and other resources found in the service unit.
+ * The main collection contains tuples for all of the the catalog entries found.
+ * 
+ * The locations tuple contains a set of all of the locations of top level resources imported into a bpel.
+ * This secondary collection is used to filter out wsdl's or xsd's that are not directly or transitively imported
+ * into a bpel. This is done in an effort to limit what's deployed to only what's needed. 
+ * 
  * @author markford
  */
 public class BgCatalogBuilder {
@@ -85,10 +92,10 @@ public class BgCatalogBuilder {
         for(BgCatalogTuple tuple : mCollection) {
             Element entry = null;
             if (tuple.isWsdl()) {
-                if (mLocations.contains(tuple.physicalLocation))
+                if (isReferenced(tuple))
                     entry = AeXmlUtil.addElementNS(catalog, catalogNS, "wsdlEntry");
             } else if (tuple.isXsd()) {
-                if (mLocations.contains(tuple.physicalLocation))
+                if (isReferenced(tuple))
                     entry = AeXmlUtil.addElementNS(catalog, catalogNS, "schemaEntry");
             } else {
                 entry = AeXmlUtil.addElementNS(catalog, catalogNS, "otherEntry");
@@ -103,6 +110,13 @@ public class BgCatalogBuilder {
             }
         }
         mCatalog = doc;
+    }
+
+    /**
+     * @param aTuple
+     */
+    protected boolean isReferenced(BgCatalogTuple aTuple) {
+        return mLocations.isEmpty() || mLocations.contains(aTuple.physicalLocation);
     }
     
     protected Document getCatalog() throws Exception {
