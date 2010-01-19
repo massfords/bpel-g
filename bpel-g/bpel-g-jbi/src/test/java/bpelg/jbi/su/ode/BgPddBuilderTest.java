@@ -29,10 +29,7 @@ public class BgPddBuilderTest {
         mBuilder = new BgPddBuilder(file);
         mBuilder.build();
         
-        assertTrue(mBuilder.isReplaceExisting());
-        
         mCatalogBuilder = new BgCatalogBuilder(file);
-        mCatalogBuilder.setReplaceExisting(mBuilder.isReplaceExisting());
         mCatalogBuilder.build();
     }
     

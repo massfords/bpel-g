@@ -43,7 +43,6 @@ public class BgPddBuilder {
     private Map<QName, BgPddInfo> mDeployments = new HashMap();
     private Map<String,BgPddInfo> mPddFileNameToPddInfo = new HashMap();
     private Document mDeployXml;
-    private boolean mReplaceExisting;
     private Set<BgCatalogTuple> mReferenced = new HashSet();
     
     public BgPddBuilder(File aServiceUnitRoot) throws AeException {
@@ -53,16 +52,11 @@ public class BgPddBuilder {
         File deployFile = new File(mServiceUnitRoot, "deploy.xml");
         if (deployFile.isFile()) {
             mDeployXml = AeXmlUtil.toDoc(deployFile, null);
-            mReplaceExisting = AeXmlUtil.getAttributeBoolean(mDeployXml.getDocumentElement(), "replace.existing");
         }
     }
     
     public Set<BgCatalogTuple> getReferenced() {
         return mReferenced;
-    }
-    
-    public boolean isReplaceExisting() {
-        return mReplaceExisting;
     }
     
     public Collection<String> getPddNames() {
