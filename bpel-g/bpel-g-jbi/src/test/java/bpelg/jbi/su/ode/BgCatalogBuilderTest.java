@@ -66,4 +66,12 @@ public class BgCatalogBuilderTest {
         BgXmlAssert.assertXml(expectedCatalog, catalog);
     }
     
+    @Test
+    public void testGetCatalog_nothingReferenced() throws Exception {
+        Document catalog = builder.getCatalog();
+        assertNotNull(catalog);
+        
+        assertEquals(4, catalog.getDocumentElement().getChildNodes().getLength());
+    }
+    
 }

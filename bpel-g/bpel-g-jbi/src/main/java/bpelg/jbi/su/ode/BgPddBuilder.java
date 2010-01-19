@@ -9,8 +9,6 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.LinkedHashSet;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -50,11 +48,13 @@ public class BgPddBuilder {
     
     public BgPddBuilder(File aServiceUnitRoot) throws AeException {
         assert aServiceUnitRoot.isDirectory();
-        assert new File(aServiceUnitRoot, "deploy.xml").isFile();
         
         mServiceUnitRoot = aServiceUnitRoot;
-        mDeployXml = AeXmlUtil.toDoc(new File(mServiceUnitRoot, "deploy.xml"), null);
-        mReplaceExisting = AeXmlUtil.getAttributeBoolean(mDeployXml.getDocumentElement(), "replace.existing");
+        File deployFile = new File(mServiceUnitRoot, "deploy.xml");
+        if (deployFile.isFile()) {
+            mDeployXml = AeXmlUtil.toDoc(deployFile, null);
+            mReplaceExisting = AeXmlUtil.getAttributeBoolean(mDeployXml.getDocumentElement(), "replace.existing");
+        }
     }
     
     public Set<BgCatalogTuple> getReferenced() {
@@ -69,7 +69,14 @@ public class BgPddBuilder {
         return mPddFileNameToPddInfo.keySet();
     }
     
-    public void writePddDocument(String aName, Collection<BgCatalogTuple> aCatalog) throws IOException {
+    public void writeDocuments(BgCatalogBuilder aCatalogBuilder) throws IOException {
+        // create each of the pdd files within the service unit root
+        for(String pddName : getPddNames()) {
+            writePddDocument(pddName, aCatalogBuilder.getItems());
+        }
+    }
+
+    protected void writePddDocument(String aName, Collection<BgCatalogTuple> aCatalog) throws IOException {
         Document doc = createPddDocument(aName, aCatalog);
         String pdd = AeXMLParserBase.documentToString(doc, true);
         FileWriter fw = new FileWriter(new File(mServiceUnitRoot, aName));
@@ -117,58 +124,43 @@ public class BgPddBuilder {
             }
         }
         
-        Collection<BgCatalogTuple> referenced = getReferenced(info, aCatalog);
-        mReferenced.addAll(referenced);
-        
+        // build the referenced wsdl's
         Element refs = AeXmlUtil.addElementNS(pdd, PDD, "pdd:references");
-        for(BgCatalogTuple catalogEntry : referenced) {
+        for (Iterator<AeImportDef> iter = info.getProcessDef().getImportDefs(); iter.hasNext();) {
+            AeImportDef def = iter.next();
+            // each wsdl or xsd that is in the bpel file needs to be in the
+            // pdd:references
             Element entry = null;
-            if (catalogEntry.isWsdl()) {
+            if (def.isWSDL()) {
                 entry = AeXmlUtil.addElementNS(refs, PDD, "pdd:wsdl");
-            } else if (catalogEntry.isXsd()) {
+            } else if (def.isSchema()) {
                 entry = AeXmlUtil.addElementNS(refs, PDD, "pdd:schema");
             } else {
                 entry = AeXmlUtil.addElementNS(refs, PDD, "pdd:other");
             }
-            
-            entry.setAttribute("location", catalogEntry.logicalLocation);
-            entry.setAttribute("namespace", AeUtil.getSafeString(catalogEntry.namespace));
+
+            // the location should come from the catalog if present
+            entry.setAttribute("location", getLogicalLocation(def, aCatalog));
+            entry.setAttribute("namespace", AeUtil.getSafeString(def.getNamespace()));
         }
+        
         return doc;
     }
     
-    /**
-     * Gets a collection of catalog tuples that are imported directly into this BPEL
-     * 
-     * @param aInfo
-     * @param aCatalog
-     */
-    protected Collection<BgCatalogTuple> getReferenced(BgPddInfo aInfo,
-            Collection<BgCatalogTuple> aCatalog) {
-        Collection<BgCatalogTuple> referenced = new LinkedList();
-        Set<String> referencedPaths = getReferencedPaths(aInfo.getProcessDef());
-        for(BgCatalogTuple tuple : aCatalog) {
-            if (referencedPaths.contains(tuple.physicalLocation))
-                referenced.add(tuple);
+    private String getLogicalLocation(AeImportDef aImportDef, Collection<BgCatalogTuple> aTupleColl) {
+        for(BgCatalogTuple tuple : aTupleColl) {
+            if (tuple.physicalLocation.equals(aImportDef.getLocation())) {
+                mReferenced.add(tuple);
+                return tuple.logicalLocation;
+            }
         }
-        return referenced;
+        return aImportDef.getLocation();
     }
-
-    protected Set<String> getReferencedPaths(AeProcessDef aProcessDef) {
-        LinkedHashSet paths = new LinkedHashSet();
-        
-        for(Iterator<AeImportDef> iter = aProcessDef.getImportDefs(); iter.hasNext();) {
-            AeImportDef def = iter.next();
-            paths.add(def.getLocation());
-        }
-        
-        return paths;
-    }
-
+    
     public void build() throws Exception {
         buildDeploymentMap();
 
-        List<Element> processes = AeXPathUtil.selectNodes(mDeployXml, "/ode:deploy/ode:process", NAMESPACES);
+        List<Element> processes = getProcesses();
         for(Element process : processes) {
             
             QName processName = AeXmlUtil.getAttributeQName(process, "name");
@@ -195,6 +187,13 @@ public class BgPddBuilder {
                 pddInfo.addInvoke(plinkName, partnerService, partnerEndpoint);
             }
         }
+    }
+
+    private List<Element> getProcesses() throws AeException {
+        if (mDeployXml == null)
+            return Collections.EMPTY_LIST;
+        List<Element> processes = AeXPathUtil.selectNodes(mDeployXml, "/ode:deploy/ode:process", NAMESPACES);
+        return processes;
     }
     
     /**

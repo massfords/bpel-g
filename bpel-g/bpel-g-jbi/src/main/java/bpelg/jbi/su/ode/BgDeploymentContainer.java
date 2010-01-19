@@ -45,17 +45,13 @@ public class BgDeploymentContainer implements IAeDeploymentContainer {
     public BgDeploymentContainer(File aServiceUnitRoot) throws Exception {
         mServiceUnitRoot = aServiceUnitRoot;
         mClassLoader = URLClassLoader.newInstance(new URL[] {aServiceUnitRoot.toURI().toURL()});
-        mPddBuilder = new BgPddBuilder(mServiceUnitRoot);
-        mPddBuilder.build();
         
         mCatalogBuilder = new BgCatalogBuilder(mServiceUnitRoot);
-        mCatalogBuilder.setReplaceExisting(mPddBuilder.isReplaceExisting());
         mCatalogBuilder.build();
 
-        // create each of the pdd files within the service unit root
-        for(String pddName : mPddBuilder.getPddNames()) {
-            mPddBuilder.writePddDocument(pddName, mCatalogBuilder.getItems());
-        }
+        mPddBuilder = new BgPddBuilder(mServiceUnitRoot);
+        mPddBuilder.build();
+        mPddBuilder.writeDocuments(mCatalogBuilder);
         
         // now that we've written all of the pdd's, we know what each bpel is importing
         // we're now able to build a collection of just those tuples that are referenced

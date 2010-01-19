@@ -55,6 +55,7 @@ public class BgCatalogBuilder {
     public BgCatalogBuilder(File aRoot) {
         assert aRoot.isDirectory();
         mServiceUnitRoot = aRoot;
+        setReplaceExisting( new File(aRoot, "replace.existing").isFile() );
         mLogicalPathPrefix = "project:/" + mServiceUnitRoot.getName() + "/";
     }
 
