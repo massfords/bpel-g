@@ -91,20 +91,21 @@ public class AeEngineManagementFactory {
     
     public static void close() {
         if (sConnector != null) {
+            JMXConnector connector = sConnector;
+            sBean = null;
+            sConnector = null;
             // remove listener
             try {
-                sConnector.removeConnectionNotificationListener(sNotificationlistener);
+                connector.removeConnectionNotificationListener(sNotificationlistener);
             } catch (ListenerNotFoundException e) {
             }
             // close connection
             try {
-                sConnector.close();
+                connector.close();
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
-        sConnector = null;
-        sBean = null;
     }
     
     private static class DisconnectedListener implements NotificationListener {
