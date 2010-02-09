@@ -35,8 +35,13 @@ public class BgPddBuilder {
     
     private static final String PDD = "http://schemas.active-endpoints.com/pdd/2006/08/pdd.xsd";
     private static final String WSA = "http://www.w3.org/2005/08/addressing";
+    private static final String WSP = "http://schemas.xmlsoap.org/ws/2004/09/policy";
     
-    private static final Map NAMESPACES = Collections.singletonMap("ode", "http://www.apache.org/ode/schemas/dd/2007/03");
+    private static final Map NAMESPACES = new HashMap<String,String>();
+    static {
+        NAMESPACES.put("ode", "http://www.apache.org/ode/schemas/dd/2007/03");
+        NAMESPACES.put("wsp", WSP);
+    }
     
     private File mServiceUnitRoot;
     
@@ -103,6 +108,7 @@ public class BgPddBuilder {
                 String encodedService = AeXmlUtil.encodeQName(plink.myService, myRole, "mysvc");
                 // space delimited value of Service QName + endpoint
                 myRole.setAttribute("service", encodedService + " " + plink.myEndpoint + " " + UUID.randomUUID().toString());
+                addPolicies(myRole, plink.myPolicies);
             }
             if (plink.hasPartnerRole()) {
                 Element partnerRole = AeXmlUtil.addElementNS(plinkEl, PDD, "pdd:partnerRole");
@@ -115,6 +121,7 @@ public class BgPddBuilder {
                 String encodedService = AeXmlUtil.encodeQName(plink.partnerService, metadata, "psvc");
                 Element serviceName = AeXmlUtil.addElementNS(metadata, WSA, "wsa:ServiceName", encodedService);
                 serviceName.setAttribute("PortName", plink.partnerEndpoint);
+                addPolicies(metadata, plink.partnerPolicies);
             }
         }
         
@@ -139,6 +146,16 @@ public class BgPddBuilder {
         }
         
         return doc;
+    }
+
+    private void addPolicies(Element aPolicyParentElement, List<Element> aPolicies) {
+        if (AeUtil.notNullOrEmpty(aPolicies)) {
+            // add the policies
+            for(Element policy : aPolicies) {
+                Element cloned = AeXmlUtil.cloneElement(policy, aPolicyParentElement.getOwnerDocument());
+                aPolicyParentElement.appendChild(cloned);
+            }
+        }
     }
     
     private String getLogicalLocation(AeImportDef aImportDef, Collection<BgCatalogTuple> aTupleColl) {
@@ -169,7 +186,8 @@ public class BgPddBuilder {
                 String plinkName = (String) AeXPathUtil.selectSingleObject(provideService, "string(../@partnerLink)", NAMESPACES);
                 QName myService = AeXmlUtil.getAttributeQName(provideService, "name");
                 String myEndpoint = provideService.getAttribute("port");
-                pddInfo.addProvide(plinkName, myService, myEndpoint);
+                List<Element> policies = getPolicies(provideService);
+                pddInfo.addProvide(plinkName, myService, myEndpoint, policies);
             }
 
             // add invokes
@@ -178,9 +196,15 @@ public class BgPddBuilder {
                 String plinkName = (String) AeXPathUtil.selectSingleObject(invokeService, "string(../@partnerLink)", NAMESPACES);
                 QName partnerService = AeXmlUtil.getAttributeQName(invokeService, "name");
                 String partnerEndpoint = invokeService.getAttribute("port");
-                pddInfo.addInvoke(plinkName, partnerService, partnerEndpoint);
+                List<Element> policies = getPolicies(invokeService);
+                pddInfo.addInvoke(plinkName, partnerService, partnerEndpoint, policies);
             }
         }
+    }
+
+    private List<Element> getPolicies(Element aService) throws AeException {
+        List<Element> policies = AeXPathUtil.selectNodes(aService, "wsp:Policy", NAMESPACES);
+        return policies;
     }
 
     private List<Element> getProcesses() throws AeException {

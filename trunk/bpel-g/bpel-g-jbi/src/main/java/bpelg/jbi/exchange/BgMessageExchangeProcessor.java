@@ -10,11 +10,14 @@ import javax.jbi.servicedesc.ServiceEndpoint;
 import javax.xml.transform.dom.DOMSource;
 
 import org.activebpel.rt.bpel.server.engine.AeEngineFactory;
+import org.activebpel.rt.util.AeXmlUtil;
+import org.activebpel.wsio.IAeWebServiceMessageData;
 import org.activebpel.wsio.IAeWebServiceResponse;
 import org.activebpel.wsio.receive.AeMessageContext;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
 import bpelg.jbi.BgBpelService;
@@ -55,11 +58,21 @@ public class BgMessageExchangeProcessor implements IBgMessageExchangeProcessor {
                 IAeWebServiceResponse response = AeEngineFactory.getEngine().queueReceiveData(context, data);
                 if (BgJbiUtil.isTwoWay(aMex)) {
                     InOut exchange = (InOut) aMex;
-                    DOMSource responseData = new DOMSource((Node) response.getMessageData().getMessageData().values().iterator().next());
+                    IAeWebServiceMessageData messageData = response.getMessageData();
+                    DOMSource responseData = messageData != null ? new DOMSource((Node) messageData.getMessageData().values().iterator().next()) : null;
                     if (response.isFaultResponse()) {
                         sLog.debug("onJbiMessageExchange - received fault response");
+                        if (responseData == null) {
+                            Document faultDoc = AeXmlUtil.newDocument();
+                            Element root = AeXmlUtil.addElementNS(faultDoc, "urn:bpel-g:faults", "bpelFault");
+                            AeXmlUtil.addElementNSQName(root, root.getNamespaceURI(), "bg", "errorCode", response.getErrorCode(), false);
+                            AeXmlUtil.addElementNS(root, root.getNamespaceURI(), "errorString", response.getErrorString());
+                            AeXmlUtil.addElementNS(root, root.getNamespaceURI(), "errorDetail", response.getErrorDetail());
+                            responseData = new DOMSource(root);
+                        }
                         Fault fault = exchange.createFault();
                         fault.setContent(responseData);
+                        exchange.setFault(fault);
                     } else {
                         sLog.debug("onJbiMessageExchange - received standard response");
                         NormalizedMessage responseMessage = exchange.createMessage();
