@@ -11,10 +11,18 @@
 
     <process name="test:testInvoke">
         <provide partnerLink="testPartnerLinkType">
-            <service name="example:test" port="testInvoke"/>
+            <service name="example:test" port="testInvoke">
+                <wsp:Policy xmlns:abp="http://schemas.active-endpoints.com/ws/2005/12/policy" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy">
+                    <abp:Validation direction="none"/>
+                </wsp:Policy>
+            </service>
         </provide>
         <invoke partnerLink="testPartnerLinkType2">
-            <service name="example:test2" port="testInvokeBpelReceiver"/>
+            <service name="example:test2" port="testInvokeBpelReceiver">
+                <wsp:Policy xmlns:abp="http://schemas.active-endpoints.com/ws/2005/12/policy" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy">
+                    <abp:Validation direction="both"/>
+                </wsp:Policy>
+            </service>
         </invoke>
     </process>
 

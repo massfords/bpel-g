@@ -15,6 +15,7 @@ public class BgXmlAssert {
     
     public static void assertXml(Document aExpected, Document aActual, String...aIgnorePaths) {
         
+        XMLUnit.setIgnoreWhitespace(true);
         Diff diff = XMLUnit.compareXML(aExpected, aActual);
         DetailedDiff detailedDiff = new DetailedDiff(diff);
         BgDiffListener bgDiffListener = new BgDiffListener();

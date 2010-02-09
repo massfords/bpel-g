@@ -2,11 +2,13 @@ package bpelg.jbi.su.ode;
 
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.xml.namespace.QName;
 
 import org.activebpel.rt.bpel.def.AeProcessDef;
+import org.w3c.dom.Element;
 
 public class BgPddInfo {
     private AeProcessDef mProcessDef;
@@ -34,16 +36,18 @@ public class BgPddInfo {
         return mLocation;
     }
     
-    public void addProvide(String aPlinkName, QName aService, String aEndpoint) {
+    public void addProvide(String aPlinkName, QName aService, String aEndpoint, List<Element> aPolicies) {
         BgPlink plink = getOrCreate(aPlinkName);
         plink.myService = aService;
         plink.myEndpoint = aEndpoint;
+        plink.myPolicies = aPolicies;
     }
     
-    public void addInvoke(String aPlinkName, QName aService, String aEndpoint) {
+    public void addInvoke(String aPlinkName, QName aService, String aEndpoint, List<Element> aPolicies) {
         BgPlink plink = getOrCreate(aPlinkName);
         plink.partnerService = aService;
         plink.partnerEndpoint = aEndpoint;
+        plink.partnerPolicies = aPolicies;
     }
     
     public BgPlink getBgPlink(String aName) {
@@ -71,6 +75,8 @@ public class BgPddInfo {
         public String myEndpoint;
         public QName partnerService;
         public String partnerEndpoint;
+        public List<Element> myPolicies;
+        public List<Element> partnerPolicies;
         
         public boolean hasMyRole() {
             return myService != null;

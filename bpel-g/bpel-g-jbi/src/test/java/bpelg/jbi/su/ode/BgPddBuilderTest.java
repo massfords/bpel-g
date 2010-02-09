@@ -94,7 +94,11 @@ public class BgPddBuilderTest {
             "<pdd:process xmlns:bpelns='test' xmlns:pdd='http://schemas.active-endpoints.com/pdd/2006/08/pdd.xsd' location='testInvoke.bpel' name='bpelns:testInvoke' platform='opensource'>" + 
                 "<pdd:partnerLinks>" + 
                     "<pdd:partnerLink name='testPartnerLinkType'>" + 
-                        "<pdd:myRole allowedRoles='' binding='EXTERNAL' service='mysvc:test testInvoke'/>" + 
+                        "<pdd:myRole allowedRoles='' binding='EXTERNAL' service='mysvc:test testInvoke'>" +
+                            "<wsp:Policy xmlns:abp='http://schemas.active-endpoints.com/ws/2005/12/policy' xmlns:wsp='http://schemas.xmlsoap.org/ws/2004/09/policy'>" + 
+                                "<abp:Validation direction='none'/>" + 
+                            "</wsp:Policy>" + 
+                        "</pdd:myRole>" + 
                     "</pdd:partnerLink>" + 
                     "<pdd:partnerLink name='testPartnerLinkType2'>" + 
                         "<pdd:partnerRole endpointReference='static' invokeHandler='default:Service'>" + 
@@ -102,6 +106,9 @@ public class BgPddBuilderTest {
                                 "<wsa:Address>None</wsa:Address>" + 
                                 "<wsa:Metadata>" + 
                                     "<wsa:ServiceName PortName='testInvokeBpelReceiver'>psvc:test2</wsa:ServiceName>" + 
+                                    "<wsp:Policy xmlns:abp='http://schemas.active-endpoints.com/ws/2005/12/policy' xmlns:wsp='http://schemas.xmlsoap.org/ws/2004/09/policy'>" + 
+                                        "<abp:Validation direction='both'/>" + 
+                                    "</wsp:Policy>" + 
                                 "</wsa:Metadata>" + 
                            "</wsa:EndpointReference>" + 
                         "</pdd:partnerRole>" + 
