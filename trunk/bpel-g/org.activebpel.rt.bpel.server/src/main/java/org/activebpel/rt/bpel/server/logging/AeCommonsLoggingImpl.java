@@ -15,17 +15,14 @@ public class AeCommonsLoggingImpl implements IAeLogWrapper {
 	    mLog = aLog;
 	}
 
-	@Override
 	public void logDebug(String aMessage) {
 		mLog.debug(aMessage);
 	}
 
-	@Override
 	public void logError(String aMessage, Throwable aProblem) {
 		mLog.error(aMessage, aProblem);
 	}
 
-	@Override
 	public void logInfo(String aMessage) {
 		mLog.info(aMessage);
 	}

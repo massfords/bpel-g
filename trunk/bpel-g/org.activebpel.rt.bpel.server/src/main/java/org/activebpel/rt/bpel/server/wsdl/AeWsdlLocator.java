@@ -195,7 +195,6 @@ public class AeWsdlLocator implements WSDLLocator
       return mResolver;
    }
 
-	@Override
 	public void close() {
 	}
 }

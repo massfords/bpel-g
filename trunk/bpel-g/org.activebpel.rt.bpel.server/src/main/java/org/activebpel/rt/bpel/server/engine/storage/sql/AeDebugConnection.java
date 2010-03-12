@@ -244,73 +244,59 @@ public class AeDebugConnection implements Connection
       }
    }
 
-	@Override
 	public Array createArrayOf(String aArg0, Object[] aArg1) throws SQLException {
 		return mDelegate.createArrayOf(aArg0, aArg1);
 	}
 	
-	@Override
 	public Blob createBlob() throws SQLException {
 		return mDelegate.createBlob();
 	}
 	
-	@Override
 	public Clob createClob() throws SQLException {
 		return mDelegate.createClob();
 	}
 	
-	@Override
 	public NClob createNClob() throws SQLException {
 		return mDelegate.createNClob();
 	}
 	
-	@Override
 	public SQLXML createSQLXML() throws SQLException {
 		return mDelegate.createSQLXML();
 	}
 	
-	@Override
 	public Struct createStruct(String aArg0, Object[] aArg1) throws SQLException {
 		return mDelegate.createStruct(aArg0, aArg1);
 	}
 	
-	@Override
 	public Properties getClientInfo() throws SQLException {
 		return mDelegate.getClientInfo();
 	}
 	
-	@Override
 	public String getClientInfo(String aArg0) throws SQLException {
 		return mDelegate.getClientInfo(aArg0);
 	}
 	
-	@Override
 	public boolean isValid(int aArg0) throws SQLException {
 		return mDelegate.isValid(aArg0);
 	}
 	
-	@Override
 	public void setClientInfo(Properties aArg0) throws SQLClientInfoException {
 		mDelegate.setClientInfo(aArg0);
 	}
 	
-	@Override
 	public void setClientInfo(String aArg0, String aArg1)
 			throws SQLClientInfoException {
 		mDelegate.setClientInfo(aArg0, aArg1);
 	}
 	
-	@Override
 	public void setTypeMap(Map<String, Class<?>> aMap) throws SQLException {
 		mDelegate.setTypeMap(aMap);
 	}
 	
-	@Override
 	public boolean isWrapperFor(Class<?> aArg0) throws SQLException {
 		return mDelegate.isWrapperFor(aArg0);
 	}
 	
-	@Override
 	public <T> T unwrap(Class<T> aArg0) throws SQLException {
 		return mDelegate.unwrap(aArg0);
 	}
