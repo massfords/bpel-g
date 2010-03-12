@@ -61,7 +61,6 @@ public class AeEngineManagementAdapter implements IAeEngineManagementMXBean {
         mAdmin = aAdmin;
     }
 
-    @Override
     public List<AeServiceDeploymentBean> getDeployedServices() {
         List<AeServiceDeploymentBean> result = new ArrayList();
         for (IAeServiceDeploymentInfo info : mAdmin.getDeployedServices()) {
@@ -70,22 +69,18 @@ public class AeEngineManagementAdapter implements IAeEngineManagementMXBean {
         return result;
     }
 
-    @Override
     public List<AeProcessDeploymentDetail> getDeployedProcesses() {
         return Arrays.asList(mAdmin.getDeployedProcesses());
     }
 
-    @Override
     public AeProcessInstanceDetail getProcessDetail(long aId) {
         return mAdmin.getProcessDetail(aId);
     }
 
-    @Override
     public List<AeQueuedReceiveDetail> getUnmatchedQueuedReceives() {
         return Arrays.asList(mAdmin.getUnmatchedQueuedReceives());
     }
 
-    @Override
     public List<AeMessageReceiverBean> getMessageReceivers(long aProcessId, String aPartnerLinkName, String aPortTypeNamespace, String aPortTypeLocalPart,
             String aOperation, int aMaxReturn, int aListStart) {
         AeMessageReceiverFilter filter = new AeMessageReceiverFilter();
@@ -116,7 +111,6 @@ public class AeEngineManagementAdapter implements IAeEngineManagementMXBean {
         return receivers;
     }
 
-    @Override
     public List<AeAlarmExt> getAlarms(long aProcessId, Date aAlarmFilterStart, Date aAlarmFilterEnd,
             String aProcessNamespace, String aProcessLocalPart, int aMaxReturn, int aListStart) {
         AeAlarmFilter filter = new AeAlarmFilter();
@@ -131,32 +125,26 @@ public class AeEngineManagementAdapter implements IAeEngineManagementMXBean {
         return mAdmin.getAlarms(filter).getResults();
     }
 
-    @Override
     public AeBuildInfo[] getBuildInfo() {
         return mAdmin.getBuildInfo();
     }
 
-    @Override
     public String getEngineErrorInfo() {
         return mAdmin.getEngineErrorInfo();
     }
 
-    @Override
     public int getEngineState() {
         return mAdmin.getEngineState();
     }
 
-    @Override
     public int getMonitorStatus() {
         return mAdmin.getMonitorStatus();
     }
 
-    @Override
     public String getProcessLog(long aProcessId) {
         return mAdmin.getProcessLog(aProcessId);
     }
     
-    @Override
     public AeProcessLogPart getProcessLogPart(long aProcessId, int aPart) throws Exception {
 
         AeProcessLogPart part = new AeProcessLogPart();
@@ -204,12 +192,10 @@ public class AeEngineManagementAdapter implements IAeEngineManagementMXBean {
         }
     }
 
-    @Override
     public Date getStartDate() {
         return mAdmin.getStartDate();
     }
 
-    @Override
     public AeProcessListResultBean getProcessList(String aProcessNamespace, String aProcessName, String aProcessGroup, boolean aHidSystemProcessGroup,
             int aProcessState, Date aProcessCreateStart, Date aProcessCreateEnd, Date aProcessCompleteStart, Date aProcessCompleteEnd,
             String aAdvancedQuery, int aPlanId, Date aDeletableDate, long[] aProcessIdRange, int aMaxReturn, int aListStart) throws AeBusinessProcessException {
@@ -235,32 +221,26 @@ public class AeEngineManagementAdapter implements IAeEngineManagementMXBean {
         return new AeProcessListResultBean(processList.getTotalRowCount(), processList.getResults(), processList.isCompleteRowCount());
     }
 
-    @Override
     public String getProcessState(long aPid) throws AeBusinessProcessException {
         return mAdmin.getProcessState(aPid);
     }
 
-    @Override
     public String getLocationPathById(long aProcessId, int aLocationId) throws AeBusinessProcessException {
         return mAdmin.getLocationPathById(aProcessId, aLocationId);
     }
 
-    @Override
     public String getVariable(long aPid, String aVariablePath) throws AeBusinessProcessException {
         return mAdmin.getVariable(aPid, aVariablePath);
     }
 
-    @Override
     public boolean isInternalWorkManager() {
         return mAdmin.isInternalWorkManager();
     }
 
-    @Override
     public boolean isRunning() {
         return mAdmin.isRunning();
     }
 
-    @Override
     public int removeProcesses(String aProcessNamespace, String aProcessName, String aProcessGroup,
             boolean aHidSystemProcessGroup, int aProcessState, Date aProcessCreateStart, Date aProcessCreateEnd,
             Date aProcessCompleteStart, Date aProcessCompleteEnd, String aAdvancedQuery, int aPlanId,
@@ -283,57 +263,46 @@ public class AeEngineManagementAdapter implements IAeEngineManagementMXBean {
         return mAdmin.removeProcesses(filter);
     }
 
-    @Override
     public void start() throws AeBusinessProcessException {
         mAdmin.start();
     }
 
-    @Override
     public void stop() throws AeBusinessProcessException {
         mAdmin.stop();
     }
 
-    @Override
     public void addURNMapping(String aURN, String aURL) {
         mAdmin.getURNAddressResolver().addMapping(aURN, aURL);
     }
 
-    @Override
     public Map<String, String> getURNMappings() {
         return mAdmin.getURNAddressResolver().getMappings();
     }
 
-    @Override
     public void removeURNMappings(String[] aURN) {
         mAdmin.getURNAddressResolver().removeMappings(aURN);
     }
 
-    @Override
     public AeCoordinationDetail getCoordinatorForProcessId(long aChildProcessId) throws AeException {
         return mAdmin.getCoordinatorForProcessId(aChildProcessId);
     }
 
-    @Override
     public List<AeCoordinationDetail> getParticipantForProcessId(long aParentProcessId) throws AeException {
         return mAdmin.getParticipantForProcessId(aParentProcessId);
     }
 
-    @Override
     public int getCatalogCacheDiskReads() {
         return mAdmin.getCatalogAdmin().getResourceStats().getDiskReads();
     }
 
-    @Override
     public int getCatalogCacheTotalReads() {
         return mAdmin.getCatalogAdmin().getResourceStats().getTotalReads();
     }
 
-    @Override
     public AeCatalogItemDetail getCatalogItemDetail(String aLocationHint) {
         return mAdmin.getCatalogAdmin().getCatalogItemDetail(aLocationHint);
     }
 
-    @Override
     public List<AeCatalogItem> getCatalogListing(String aTypeURI, String aResource, String aNamespace, int aMaxReturn, int aListStart) {
         AeCatalogListingFilter filter = new AeCatalogListingFilter();
         filter.setTypeURI(aTypeURI);
@@ -344,22 +313,18 @@ public class AeEngineManagementAdapter implements IAeEngineManagementMXBean {
         return mAdmin.getCatalogAdmin().getCatalogListing(filter).getResults();
     }
 
-    @Override
     public int getCatalogCacheSize() {
         return mAdmin.getEngineConfig().getResourceCacheMax();
     }
 
-    @Override
     public String getEngineDescription() {
         return mAdmin.getEngineConfig().getDescription();
     }
 
-    @Override
     public boolean isProcessRestartEnabled() {
         return mAdmin.getEngineConfig().isProcessRestartEnabled();
     }
 
-    @Override
     public int getAlarmMaxWorkCount() {
         int result;
         try
@@ -376,12 +341,10 @@ public class AeEngineManagementAdapter implements IAeEngineManagementMXBean {
         return result;
     }
 
-    @Override
     public int getProcessWorkCount() {
         return mAdmin.getEngineConfig().getProcessWorkCount();
     }
 
-    @Override
     public int getTaskFinalizationDuration() {
         //get duration from entry: CustomManagers/BPEL4PeopleManager/FinalizationDuration
         String durationStr = (String) mAdmin.getEngineConfig().getEntryByPath(CONFIG_B4P_MANAGER_FINALIZATION_DURATION);
@@ -399,98 +362,80 @@ public class AeEngineManagementAdapter implements IAeEngineManagementMXBean {
         }
     }
 
-    @Override
     public int getThreadPoolMax() {
         return mAdmin.getEngineConfig().getWorkManagerThreadPoolMax();
     }
 
-    @Override
     public int getThreadPoolMin() {
         return mAdmin.getEngineConfig().getWorkManagerThreadPoolMin();
     }
 
-    @Override
     public int getUnmatchedCorrelatedReceiveTimeout() {
         return mAdmin.getEngineConfig().getUnmatchedCorrelatedReceiveTimeout();
     }
 
-    @Override
     public int getWebServiceInvokeTimeout() {
         return mAdmin.getEngineConfig().getWebServiceInvokeTimeout();
     }
 
-    @Override
     public int getWebServiceReceiveTimeout() {
         return mAdmin.getEngineConfig().getWebServiceReceiveTimeout();
     }
 
-    @Override
     public boolean isAllowCreateXPath() {
         return mAdmin.getEngineConfig().allowCreateXPath();
     }
 
-    @Override
     public boolean isAllowEmptyQuerySelection() {
         return mAdmin.getEngineConfig().allowEmptyQuerySelection();
     }
 
-    @Override
     public boolean isResourceReplaceEnabled() {
         return mAdmin.getEngineConfig().isResourceReplaceEnabled();
     }
 
-    @Override
     public boolean isValidateServiceMessages() {
         return mAdmin.getEngineConfig().validateServiceMessages();
     }
 
-    @Override
     public void setAlarmMaxWorkCount(int aValue) {
         mAdmin.getEngineConfig().getEntryByPath(CONFIG_ALARM_MAX_WORK_COUNT_PATH);
     }
 
-    @Override
     public void setAllowCreateXPath(boolean aAllowedCreateXPath) {
         getMutableConfig().setAllowCreateXPath(aAllowedCreateXPath);
         getMutableConfig().update();
     }
 
-    @Override
     public void setAllowEmptyQuerySelection(boolean aAllowedEmptyQuerySelection) {
         getMutableConfig().setAllowEmptyQuerySelection(aAllowedEmptyQuerySelection);
         getMutableConfig().update();
     }
 
-    @Override
     public void setCatalogCacheSize(int aSize) {
         getMutableConfig().setResourceCacheMax(aSize);
         getMutableConfig().update();
     }
 
-    @Override
     public void setLoggingFilter(String aFilter) {
         getMutableConfig().setLoggingFilter(aFilter);
         getMutableConfig().update();
     }
 
-    @Override
     public String getLoggingFilter() {
         return mAdmin.getEngineConfig().getLoggingFilter();
     }
 
-    @Override
     public void setProcessWorkCount(int aValue) {
         getMutableConfig().setProcessWorkCount(aValue);
         getMutableConfig().update();
     }
 
-    @Override
     public void setResourceReplaceEnabled(boolean aEnabled) {
         getMutableConfig().setResourceReplaceEnabled(aEnabled);
         getMutableConfig().update();
     }
 
-    @Override
     public void setTaskFinalizationDuration(int aDays) {
         if (aDays > 0)
         {
@@ -504,37 +449,31 @@ public class AeEngineManagementAdapter implements IAeEngineManagementMXBean {
         }
     }
 
-    @Override
     public void setThreadPoolMax(int aValue) {
         getMutableConfig().setWorkManagerThreadPoolMax(aValue);
         getMutableConfig().update();
     }
 
-    @Override
     public void setThreadPoolMin(int aValue) {
         getMutableConfig().setWorkManagerThreadPoolMin(aValue);
         getMutableConfig().update();
     }
 
-    @Override
     public void setUnmatchedCorrelatedReceiveTimeout(int aTimeout) {
         getMutableConfig().setUnmatchedCorrelatedReceiveTimeout(aTimeout);
         getMutableConfig().update();
     }
 
-    @Override
     public void setValidateServiceMessages(boolean aValidateServiceMessages) {
         getMutableConfig().setValidateServiceMessages(aValidateServiceMessages);
         getMutableConfig().update();
     }
 
-    @Override
     public void setWebServiceInvokeTimeout(int aTimeout) {
         getMutableConfig().setWebServiceInvokeTimeout(aTimeout);
         getMutableConfig().update();
     }
 
-    @Override
     public void setWebServiceReceiveTimeout(int aTimeout) {
         getMutableConfig().setWebServiceReceiveTimeout(aTimeout);
         getMutableConfig().update();
@@ -545,12 +484,10 @@ public class AeEngineManagementAdapter implements IAeEngineManagementMXBean {
         return config;
     }
 
-    @Override
     public AeProcessDeploymentDetail getDeployedProcessDetail(String aNamespace, String aName) {
         return mAdmin.getDeployedProcessDetail(new QName(aNamespace, aName));
     }
 
-    @Override
     public int getProcessCount(String aProcessNamespace, String aProcessName, String aProcessGroup,
             boolean aHidSystemProcessGroup, int aProcessState, Date aProcessCreateStart, Date aProcessCreateEnd,
             Date aProcessCompleteStart, Date aProcessCompleteEnd, String aAdvancedQuery, int aPlanId,
@@ -576,13 +513,11 @@ public class AeEngineManagementAdapter implements IAeEngineManagementMXBean {
         return mAdmin.getProcessCount(filter);
     }
 
-    @Override
     public AeProcessListResultBean getProcessList(AeProcessFilter aFilter) throws AeBusinessProcessException {
         AeProcessListResult processList = mAdmin.getProcessList(aFilter);
         return new AeProcessListResultBean(processList.getTotalRowCount(), processList.getResults(), processList.isCompleteRowCount());
     }
 
-    @Override
     public String getRawConfig() {
         AeDefaultEngineConfiguration engineConfig = (AeDefaultEngineConfiguration) mAdmin.getEngineConfig();
         StringWriter sw = new StringWriter();
@@ -595,7 +530,6 @@ public class AeEngineManagementAdapter implements IAeEngineManagementMXBean {
         return sw.toString();
     }
 
-    @Override
     public void setRawConfig(String aRaw) {
         try {
             AeDefaultEngineConfiguration engineConfig = (AeDefaultEngineConfiguration) mAdmin.getEngineConfig();
@@ -608,27 +542,22 @@ public class AeEngineManagementAdapter implements IAeEngineManagementMXBean {
         }
     }
 
-    @Override
     public void resumeProcess(long aPid) throws AeBusinessProcessException {
         AeEngineFactory.getEngine().resumeProcess(aPid);
     }
 
-    @Override
     public void suspendProcess(long aPid) throws AeBusinessProcessException {
         AeEngineFactory.getEngine().suspendProcess(aPid);
     }
 
-    @Override
     public void terminateProcess(long aPid) throws AeBusinessProcessException {
         AeEngineFactory.getEngine().terminateProcess(aPid);
     }
 
-    @Override
     public void restartProcess(long aPid) throws AeBusinessProcessException {
         AeEngineFactory.getEngine().restartProcess(aPid);
     }
 
-    @Override
     public String getCompiledProcessDef(long aProcessId, AeQName aName) throws AeBusinessProcessException {
         AeProcessDef def = null;
         if (aProcessId <= 0) {
@@ -641,22 +570,18 @@ public class AeEngineManagementAdapter implements IAeEngineManagementMXBean {
         return s;
     }
 
-    @Override
     public String getStorageError() {
         return AeEngineFactory.getPersistentStoreError();
     }
 
-    @Override
     public void initializeStorage() throws AeStorageException {
         AeEngineFactory.initializePersistentStoreFactory();
     }
 
-    @Override
     public boolean isEngineStorageReady() {
         return AeEngineFactory.isEngineStorageReady();
     }
 
-    @Override
     public boolean isRestartable(long aPid) {
         try {
             return AeEngineFactory.getEngine().isRestartable(aPid);

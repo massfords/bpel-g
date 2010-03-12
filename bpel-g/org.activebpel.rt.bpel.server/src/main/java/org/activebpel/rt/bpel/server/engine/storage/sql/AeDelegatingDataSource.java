@@ -97,12 +97,10 @@ public class AeDelegatingDataSource implements DataSource
       mDelegate = aDelegate;
    }
 
-	@Override
 	public boolean isWrapperFor(Class<?> aIface) throws SQLException {
 		return getDelegate().isWrapperFor(aIface);
 	}
 	
-	@Override
 	public <T> T unwrap(Class<T> aIface) throws SQLException {
 		return getDelegate().unwrap(aIface);
 	}

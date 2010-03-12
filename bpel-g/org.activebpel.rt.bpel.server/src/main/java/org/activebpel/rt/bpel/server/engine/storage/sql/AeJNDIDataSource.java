@@ -149,12 +149,10 @@ public class AeJNDIDataSource extends AeDataSource
       return mPassword;
    }
 
-	@Override
 	public boolean isWrapperFor(Class<?> aIface) throws SQLException {
 		return getDelegate().isWrapperFor(aIface);
 	}
 	
-	@Override
 	public <T> T unwrap(Class<T> aIface) throws SQLException {
 		return getDelegate().unwrap(aIface);
 	}
