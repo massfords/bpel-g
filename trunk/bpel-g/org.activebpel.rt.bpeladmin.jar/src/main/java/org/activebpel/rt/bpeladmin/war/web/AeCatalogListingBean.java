@@ -9,7 +9,6 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpeladmin.war.web;
 
-import java.text.NumberFormat;
 import java.util.List;
 
 import org.activebpel.rt.bpel.impl.list.AeCatalogItem;
@@ -121,30 +120,17 @@ public class AeCatalogListingBean extends AeAbstractListingBean
    /**
     * Accessor for raw total cache reads.
     */
-   public int getTotalReads()
+   public long getCacheHits()
    {
-      return getAdmin().getCatalogCacheTotalReads();
+      return getAdmin().getCacheHits();
    }
    
    /**
     * Accessor for raw disk reads.
     */
-   public int getDiskReads()
+   public long getCacheMisses()
    {
-      return getAdmin().getCatalogCacheDiskReads();
-   }
-   
-   /**
-    * Accessor for percentage of reads from disk.
-    */
-   public String getDiskReadsPercent()
-   {
-      double value = 0;
-      if( getTotalReads() != 0 )
-      {
-         value = ((double)getDiskReads()/(double)getTotalReads());
-      }
-      return NumberFormat.getPercentInstance().format( value );
+      return getAdmin().getCacheMisses();
    }
    
    /**

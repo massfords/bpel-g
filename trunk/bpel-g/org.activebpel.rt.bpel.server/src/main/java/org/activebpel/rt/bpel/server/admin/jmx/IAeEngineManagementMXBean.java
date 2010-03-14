@@ -126,8 +126,8 @@ public interface IAeEngineManagementMXBean {
     public String getLocationPathById(long aProcessId, int aLocationId) throws AeBusinessProcessException;
     
     public AeCatalogItemDetail getCatalogItemDetail(String aLocationHint);
-    public int getCatalogCacheDiskReads();
-    public int getCatalogCacheTotalReads();
+    public long getCacheMisses();
+    public long getCacheHits();
     public List<AeCatalogItem> getCatalogListing(String aTypeURI, String aResource, String aNamespace, int aMaxReturn, int aListStart);
     public int getCatalogCacheSize();
     public void setCatalogCacheSize(int aSize);

@@ -15,6 +15,9 @@ import java.io.Reader;
 import java.net.URL;
 
 import net.sf.ehcache.Cache;
+import net.sf.ehcache.CacheManager;
+import net.sf.ehcache.Element;
+import net.sf.ehcache.Statistics;
 
 import org.activebpel.rt.AeWSDLException;
 import org.activebpel.rt.bpel.config.IAeConfigChangeListener;
@@ -24,7 +27,6 @@ import org.activebpel.rt.bpel.server.engine.AeEngineFactory;
 import org.activebpel.rt.bpel.server.wsdl.AeCatalogResourceResolver;
 import org.activebpel.rt.bpel.server.wsdl.AeWsdlLocator;
 import org.activebpel.rt.util.AeCloser;
-import org.activebpel.rt.util.AeLRUObjectCache;
 import org.activebpel.rt.wsdl.def.AeBPELExtendedWSDLDef;
 import org.activebpel.rt.wsdl.def.AeStandardSchemaResolver;
 import org.activebpel.rt.wsdl.def.castor.AeURIResolver;
@@ -39,17 +41,16 @@ import org.xml.sax.InputSource;
 public class AeResourceCache implements IAeResourceCache, IAeConfigChangeListener {
     /** Default max value. Default value is 50. */
     public static final int DEFAULT_MAX_VALUE = 50;
-    /** LRU cache impl. */
-    protected AeLRUObjectCache mLru;
     protected Cache mCache;
-    /** Resource stats impl. */
-    protected IAeResourceStats mResourceStats;
 
     /**
      * Default contructor.
      */
-    public AeResourceCache() {
-        mLru = new AeLRUObjectCache(DEFAULT_MAX_VALUE);
+    public AeResourceCache(String aName) {
+        CacheManager singletonManager = CacheManager.create();
+        mCache = new Cache(aName, DEFAULT_MAX_VALUE, false, true, 5, 2);
+        singletonManager.addCache(mCache);
+
         updateConfig(AeEngineFactory.getEngineConfig().getUpdatableEngineConfig());
         AeEngineFactory.getEngineConfig().getUpdatableEngineConfig().addConfigChangeListener(this);
     }
@@ -60,7 +61,7 @@ public class AeResourceCache implements IAeResourceCache, IAeConfigChangeListene
      */
     public void updateResource(IAeResourceKey aKey, Object aObj) {
         removeResource(aKey);
-        mLru.cache(aKey, aObj);
+        mCache.put(new Element(aKey, aObj));
     }
 
     /**
@@ -70,9 +71,6 @@ public class AeResourceCache implements IAeResourceCache, IAeConfigChangeListene
      * @see org.activebpel.rt.bpel.server.catalog.resource.IAeResourceCache#getResource(org.activebpel.rt.bpel.server.catalog.resource.IAeResourceKey)
      */
     public Object getResource(IAeResourceKey aKey) throws AeResourceException {
-        // update stats
-        if (getResourceStats() != null)
-            getResourceStats().logTotalRead();
 
         if (aKey.isWsdlEntry())
             return getDefFromCache(aKey);
@@ -93,14 +91,14 @@ public class AeResourceCache implements IAeResourceCache, IAeConfigChangeListene
      * @param aKey
      */
     protected AeBPELExtendedWSDLDef getDefFromCache(IAeResourceKey aKey) throws AeResourceException {
-        AeBPELExtendedWSDLDef def = (AeBPELExtendedWSDLDef) mLru.get(aKey);
+        AeBPELExtendedWSDLDef def = null;
+        Element e = mCache.get(aKey);
+        if (e != null)
+            def = (AeBPELExtendedWSDLDef) e.getObjectValue();
+
         if (def == null) {
             def = getDefForLocation(aKey);
-            mLru.cache(aKey, def);
-
-            // update stats
-            if (getResourceStats() != null)
-                getResourceStats().logDiskRead();
+            mCache.put(new Element(aKey, def));
         }
 
         return def;
@@ -114,14 +112,13 @@ public class AeResourceCache implements IAeResourceCache, IAeConfigChangeListene
      * @param aKey
      */
     protected Schema getSchemaDefFromCache(IAeResourceKey aKey) throws AeResourceException {
-        Schema def = (Schema) mLru.get(aKey);
+        Schema def = null;
+        Element e = mCache.get(aKey);
+        if (e != null)
+            def = (Schema) e.getObjectValue();
         if (def == null) {
             def = getSchemaDefForLocation(aKey);
-            mLru.cache(aKey, def);
-
-            // update stats
-            if (getResourceStats() != null)
-                getResourceStats().logDiskRead();
+            mCache.put(new Element(aKey, def));
         }
 
         return def;
@@ -185,7 +182,10 @@ public class AeResourceCache implements IAeResourceCache, IAeConfigChangeListene
         InputStream stream = null;
         Reader reader = null;
         try {
-            byte[] bytes = (byte[]) mLru.get(aKey);
+            byte[] bytes = null;
+            Element e = mCache.get(aKey);
+            if (e != null)
+                bytes = (byte[]) e.getObjectValue();
             if (bytes == null) {
                 InputSource source = getInputSource(aKey.getLocation());
                 stream = source.getByteStream();
@@ -243,11 +243,7 @@ public class AeResourceCache implements IAeResourceCache, IAeConfigChangeListene
                     bytes = (new String(chars)).getBytes(encoding);
                 }
 
-                mLru.cache(aKey, bytes);
-
-                // update stats
-                if (getResourceStats() != null)
-                    getResourceStats().logDiskRead();
+                mCache.put(new Element(aKey, bytes));
             }
             return new ByteArrayInputStream(bytes);
         } catch (Exception ex) {
@@ -283,41 +279,23 @@ public class AeResourceCache implements IAeResourceCache, IAeConfigChangeListene
     /**
      * @see org.activebpel.rt.bpel.server.catalog.resource.IAeResourceCache#removeResource(org.activebpel.rt.bpel.server.catalog.resource.IAeResourceKey)
      */
-    public Object removeResource(IAeResourceKey aKey) {
+    public boolean removeResource(IAeResourceKey aKey) {
         // remove the object from the cache (it may not be in memory)
-        Object obj = mLru.remove(aKey);
-
-        return obj;
+        return mCache.remove(aKey);
     }
 
     /**
      * @see org.activebpel.rt.bpel.server.catalog.resource.IAeResourceCache#setMaxCacheSize(int)
      */
     public void setMaxCacheSize(int aMaxValue) {
-        mLru.setMaxSize(aMaxValue);
+        mCache.getCacheConfiguration().setMaxElementsInMemory(aMaxValue);
     }
 
     /**
      * @see org.activebpel.rt.bpel.server.catalog.resource.IAeResourceCache#getMaxCacheSize()
      */
     public int getMaxCacheSize() {
-        return mLru.getMaxSize();
-    }
-
-    /**
-     * @see org.activebpel.rt.bpel.server.catalog.resource.IAeResourceCache#getResourceStats()
-     */
-    public IAeResourceStats getResourceStats() {
-        return mResourceStats;
-    }
-
-    /**
-     * Setter for wsdl stats impl.
-     * 
-     * @param aStats
-     */
-    public void setResourceStats(IAeResourceStats aStats) {
-        mResourceStats = aStats;
+        return mCache.getCacheConfiguration().getMaxElementsInMemory();
     }
 
     /**
@@ -331,6 +309,11 @@ public class AeResourceCache implements IAeResourceCache, IAeConfigChangeListene
      * Clear entries out of the cache.
      */
     public void clear() {
-        mLru.clear();
+        mCache.removeAll();
+    }
+
+    @Override
+    public Statistics getStatistics() {
+        return mCache.getStatistics();
     }
 }

@@ -9,6 +9,8 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpel.server.catalog.resource;
 
+import net.sf.ehcache.Statistics;
+
 
 /**
  *  Resource cache interface.
@@ -25,7 +27,7 @@ public interface IAeResourceCache
     * Remove the resource from the cache.
     * @param aKey
     */
-   public Object removeResource( IAeResourceKey aKey );
+   public boolean removeResource( IAeResourceKey aKey );
    
    /**
     * Replace any existing entries mapped to the given key with the new object.
@@ -50,8 +52,5 @@ public interface IAeResourceCache
     */
    public void clear();
    
-   /**
-    * Return stat data on resource access.
-    */
-   public IAeResourceStats getResourceStats();
+   public Statistics getStatistics();
 }
