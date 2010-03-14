@@ -291,12 +291,12 @@ public class AeEngineManagementAdapter implements IAeEngineManagementMXBean {
         return mAdmin.getParticipantForProcessId(aParentProcessId);
     }
 
-    public int getCatalogCacheDiskReads() {
-        return mAdmin.getCatalogAdmin().getResourceStats().getDiskReads();
+    public long getCacheMisses() {
+        return mAdmin.getCatalogAdmin().getCacheStatistics().getCacheMisses();
     }
 
-    public int getCatalogCacheTotalReads() {
-        return mAdmin.getCatalogAdmin().getResourceStats().getTotalReads();
+    public long getCacheHits() {
+        return mAdmin.getCatalogAdmin().getCacheStatistics().getCacheHits();
     }
 
     public AeCatalogItemDetail getCatalogItemDetail(String aLocationHint) {

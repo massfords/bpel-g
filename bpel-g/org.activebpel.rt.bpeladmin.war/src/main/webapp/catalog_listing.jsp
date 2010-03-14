@@ -74,20 +74,20 @@
                     <table border="0" cellpadding="0" cellspacing="0" width="100%" align="left">
                       <tr>
                          <th colspan="2" class="pageHeaders" align="left" nowrap="true"><ae:GetResource name="resource_catalog" /></th>
-                      <tr>
+                      </tr>
                       <tr height="1">
                         <td colspan="2" height="1" class="gridLines"></td>
                       </tr>
                       <tr>
-                         <td width="20%" class="labelHeaders">&nbsp;<ae:GetResource name="total_reads" /></td>
-                         <td width="80%" >&nbsp;<jsp:getProperty name="catalogItemBean" property="totalReads" /></td>
+                         <td width="20%" class="labelHeaders">&nbsp;<ae:GetResource name="cache_hits" /></td>
+                         <td width="80%" >&nbsp;<jsp:getProperty name="catalogItemBean" property="cacheHits" /></td>
                       </tr>
                       <tr height="1">
                         <td height="1" colspan="2" class="tabular"></td>
                       </tr>
                       <tr>
-                         <td width="20%" class="labelHeaders">&nbsp;<ae:GetResource name="disk_reads" /></td>
-                         <td width="80%" >&nbsp;<jsp:getProperty name="catalogItemBean" property="diskReads" />&nbsp;&nbsp;(<jsp:getProperty name="catalogItemBean" property="diskReadsPercent" />)</td>
+                         <td width="20%" class="labelHeaders">&nbsp;<ae:GetResource name="cache_misses" /></td>
+                         <td width="80%" >&nbsp;<jsp:getProperty name="catalogItemBean" property="cacheMisses" />&nbsp;&nbsp;</td>
                       </tr>
                       <tr height="1">
                          <td height="1" colspan="2" class="tabular"></td>
@@ -116,7 +116,7 @@
                     <table border="0" cellpadding="0" cellspacing="0" width="100%" align="left">
                       <tr>
                          <th colspan="3" class="titleHeaders" align="left" nowrap="true">&nbsp;<ae:GetResource name="deployed_resources" />&nbsp;</th> 
-                      <tr>
+                      </tr>
                       <tr height="1">
                          <td height="1" colspan="3" class="gridLines"></td>
                       </tr>
@@ -125,7 +125,7 @@
                       <ae:IfTrue name="catalogItemBean" property="empty" >
                           <tr>
                               <td colspan="3" align="left" nowrap="true">&nbsp;<b><ae:GetResource name="no_resources_matching" /></b>&nbsp;</td>
-                          <tr>
+                          </tr>
                       </ae:IfTrue>
                       
                       <!-- ONLY APPEARS IF THERE ARE RESULTS -->
@@ -210,7 +210,7 @@
                           <table width="65%">
                             <tr>
                               <td colspan="2" class="titleHeaders" align="left" nowrap="true">&nbsp;<ae:GetResource name="selection_filter" />&nbsp;</td>
-                            <tr>
+                            </tr>
                             <tr height="1">
                               <td height="1" colspan="2" class="gridLines"></td>
                             </tr>

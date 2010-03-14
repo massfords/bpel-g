@@ -9,10 +9,11 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpel.server.catalog.report;
 
-import org.activebpel.rt.bpel.impl.list.AeCatalogListingFilter;
+import net.sf.ehcache.Statistics;
+
 import org.activebpel.rt.bpel.impl.list.AeCatalogItemDetail;
 import org.activebpel.rt.bpel.impl.list.AeCatalogListResult;
-import org.activebpel.rt.bpel.server.catalog.resource.IAeResourceStats;
+import org.activebpel.rt.bpel.impl.list.AeCatalogListingFilter;
 import org.xml.sax.InputSource;
 
 /**
@@ -40,8 +41,5 @@ public interface IAeCatalogAdmin
     */
    public InputSource getCatalogInputSource(String aLocationHint);
    
-   /**
-    * Accessor for the resource stats.
-    */
-   public IAeResourceStats getResourceStats();  
+   public Statistics getCacheStatistics();
 }

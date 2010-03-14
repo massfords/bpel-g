@@ -21,6 +21,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import net.sf.ehcache.Statistics;
+
 import org.activebpel.rt.AeException;
 import org.activebpel.rt.AeWSDLException;
 import org.activebpel.rt.bpel.impl.list.AeCatalogItemDetail;
@@ -31,12 +33,10 @@ import org.activebpel.rt.bpel.server.AeMessages;
 import org.activebpel.rt.bpel.server.IAeProcessDeployment;
 import org.activebpel.rt.bpel.server.catalog.report.AeInMemoryCatalogListing;
 import org.activebpel.rt.bpel.server.catalog.report.IAeCatalogAdmin;
-import org.activebpel.rt.bpel.server.catalog.resource.AeInMemoryResourceStats;
 import org.activebpel.rt.bpel.server.catalog.resource.AeResourceCache;
 import org.activebpel.rt.bpel.server.catalog.resource.AeResourceException;
 import org.activebpel.rt.bpel.server.catalog.resource.AeResourceKey;
 import org.activebpel.rt.bpel.server.catalog.resource.IAeResourceCache;
-import org.activebpel.rt.bpel.server.catalog.resource.IAeResourceStats;
 import org.activebpel.rt.bpel.server.deploy.IAeDeploymentId;
 import org.activebpel.rt.bpel.server.engine.AeEngineFactory;
 import org.activebpel.rt.util.AeUtil;
@@ -89,8 +89,7 @@ public class AeCatalog implements IAeCatalog, IAeCatalogAdmin
     */
    protected void initResourceCache()
    {
-      AeResourceCache cache = new AeResourceCache();
-      cache.setResourceStats( new AeInMemoryResourceStats() );
+      AeResourceCache cache = new AeResourceCache("ae-resource-cache");
       mCache = cache;
    }
 
@@ -461,14 +460,6 @@ public class AeCatalog implements IAeCatalog, IAeCatalogAdmin
    }
 
    /**
-    * @see org.activebpel.rt.bpel.server.catalog.report.IAeCatalogAdmin#getResourceStats()
-    */
-   public IAeResourceStats getResourceStats()
-   {
-      return getResourceCache().getResourceStats();
-   }
-
-   /**
     * @see org.activebpel.rt.bpel.server.catalog.report.IAeCatalogAdmin#getCatalogListing(org.activebpel.rt.bpel.impl.list.AeCatalogListingFilter)
     */
    public synchronized AeCatalogListResult getCatalogListing(AeCatalogListingFilter aFilter)
@@ -603,4 +594,8 @@ public class AeCatalog implements IAeCatalog, IAeCatalogAdmin
    {
       mDeploymentMapping = aDeploymentMapping;
    }
+
+    public Statistics getCacheStatistics() {
+        return mCache.getStatistics();
+    }
 }
