@@ -11,17 +11,17 @@
       <link rel="STYLESHEET" type="text/css" href="../css/ae_processView.css">
    </head>
    <frameset rows="50px,*,30px" frameborder="yes" framespacing="1" border="1">
-      <frame src="processview_header.jsp?<jsp:getProperty name="processViewBean" property="pidParamName" />=<jsp:getProperty name="processViewBean" property="pidParamValue" />" name="pvheader" id="pvheader" scrolling="no">
+      <frame src="processview_header.jsp?<ae:GetProperty name="processViewBean" property="pidParamName" />=<ae:GetProperty name="processViewBean" property="pidParamValue" />" name="pvheader" id="pvheader" scrolling="no">
       <frameset cols="25%,*" frameborder="yes" framespacing="2" border="2">
-         <frame src="processview_outline.jsp?<jsp:getProperty name="processViewBean" property="pidParamName" />=<jsp:getProperty name="processViewBean" property="pidParamValue" />&xpath=<%= request.getParameter("xpath") %>&pathid=<%= request.getParameter("pathid") %>" name="pvoutline" id="pvoutline" />
+         <frame src="processview_outline.jsp?<ae:GetProperty name="processViewBean" property="pidParamName" />=<ae:GetProperty name="processViewBean" property="pidParamValue" />&xpath=<%= request.getParameter("xpath") %>&pathid=<%= request.getParameter("pathid") %>" name="pvoutline" id="pvoutline" />
          <ae:IfTrue name="processViewBean" property="graphingEnabled" >
             <frameset rows="65%,*" frameborder="yes" framespacing="2" border="2">
-               <frame src="processview_graph.jsp?<jsp:getProperty name="processViewBean" property="pidParamName" />=<jsp:getProperty name="processViewBean" property="pidParamValue" />&part=0&t=<%= System.currentTimeMillis() %>&path=<%= request.getParameter("xpath") %>&pathid=<%= request.getParameter("pathid") %>" name="pvgraph" id="pvgraph" />
-               <frame src="processview_properties.jsp?<jsp:getProperty name="processViewBean" property="pidParamName" />=<jsp:getProperty name="processViewBean" property="pidParamValue" />" name="pvproperties" id="pvproperties" />
+               <frame src="processview_graph.jsp?<ae:GetProperty name="processViewBean" property="pidParamName" />=<ae:GetProperty name="processViewBean" property="pidParamValue" />&part=0&t=<%= System.currentTimeMillis() %>&path=<%= request.getParameter("xpath") %>&pathid=<%= request.getParameter("pathid") %>" name="pvgraph" id="pvgraph" />
+               <frame src="processview_properties.jsp?<ae:GetProperty name="processViewBean" property="pidParamName" />=<ae:GetProperty name="processViewBean" property="pidParamValue" />" name="pvproperties" id="pvproperties" />
             </frameset>
          </ae:IfTrue>
          <ae:IfFalse name="processViewBean" property="graphingEnabled" >
-            <frame src="processview_properties.jsp?<jsp:getProperty name="processViewBean" property="pidParamName" />=<jsp:getProperty name="processViewBean" property="pidParamValue" />" name="pvproperties" id="pvproperties" />
+            <frame src="processview_properties.jsp?<ae:GetProperty name="processViewBean" property="pidParamName" />=<ae:GetProperty name="processViewBean" property="pidParamValue" />" name="pvproperties" id="pvproperties" />
          </ae:IfFalse>
       </frameset>
       <frame src="processview_footer.jsp" name="pvfooter" id="pvfooter" scrolling="no">

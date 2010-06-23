@@ -18,10 +18,10 @@
             <h1>
             <ae:IfTrue name="propertyBean" property="valid" >
                <ae:GetResource name="deployed_process_colon" /> &nbsp;
-               <span><jsp:getProperty name="propertyBean" property="processName" /> &nbsp; (ID <jsp:getProperty name="propertyBean" property="pidParamValue" />)</span>
+               <span><ae:GetProperty name="propertyBean" property="processName" /> &nbsp; (ID <ae:GetProperty name="propertyBean" property="pidParamValue" />)</span>
             </ae:IfTrue>
             <ae:IfFalse name="propertyBean" property="valid" >
-               <ae:GetResource name="deployed_process_colon" /> <jsp:getProperty name="propertyBean" property="pidParamValue" />
+               <ae:GetResource name="deployed_process_colon" /> <ae:GetProperty name="propertyBean" property="pidParamValue" />
             </ae:IfFalse>
             </h1>
             <p>

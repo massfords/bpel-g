@@ -38,9 +38,9 @@
                
                <ae:IndexedProperty name="configBean" id="buildInfoRow" property="buildInfo" indexedClassName="org.activebpel.rt.bpel.server.admin.AeBuildInfo" >
                   <tr>
-                     <td align="left">&nbsp;<jsp:getProperty name="buildInfoRow" property="projectName" /></td>
-                     <td align="left">&nbsp;<jsp:getProperty name="statusBean" property="engineVersion" />.<jsp:getProperty name="buildInfoRow" property="buildNumber" /></td>
-                     <td align="left">&nbsp;<jsp:getProperty name="buildInfoRow" property="buildDate" /></td>
+                     <td align="left">&nbsp;<ae:GetProperty name="buildInfoRow" property="projectName" /></td>
+                     <td align="left">&nbsp;<ae:GetProperty name="statusBean" property="engineVersion" />.<ae:GetProperty name="buildInfoRow" property="buildNumber" /></td>
+                     <td align="left">&nbsp;<ae:GetProperty name="buildInfoRow" property="buildDate" /></td>
                   </tr>
                   <tr height="1">
                     <td colspan="3" height="1" class="tabular"></td>

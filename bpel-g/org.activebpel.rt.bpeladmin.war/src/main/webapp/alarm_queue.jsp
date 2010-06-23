@@ -85,8 +85,8 @@
 
                    <ae:IndexedProperty name="alarmBean" id="rowDetail" property="alarmInstance" indexedClassName="org.activebpel.rt.bpel.impl.list.AeAlarmExt" >
                      <tr>
-                       <td>&nbsp;<a target="aeprocessview" href='processview/processview_detail.jsp?pid=<jsp:getProperty name="rowDetail" property="processId" />&pathid=<jsp:getProperty name="rowDetail" property="pathId" />'><jsp:getProperty name="rowDetail" property="processId" /></a></td>
-                       <td>&nbsp;<a target="aeprocessview" href='processview/processview_detail.jsp?pid=<jsp:getProperty name="rowDetail" property="processId" />&pathid=<jsp:getProperty name="rowDetail" property="pathId" />'><jsp:getProperty name="rowDetail" property="processName" /></a></td>
+                       <td>&nbsp;<a target="aeprocessview" href='processview/processview_detail.jsp?pid=<ae:GetProperty name="rowDetail" property="processId" />&pathid=<ae:GetProperty name="rowDetail" property="pathId" />'><ae:GetProperty name="rowDetail" property="processId" /></a></td>
+                       <td>&nbsp;<a target="aeprocessview" href='processview/processview_detail.jsp?pid=<ae:GetProperty name="rowDetail" property="processId" />&pathid=<ae:GetProperty name="rowDetail" property="pathId" />'><ae:GetProperty name="rowDetail" property="processName" /></a></td>
                        <td>&nbsp;<ae:DateFormatter name="rowDetail" property="deadline" patternKey="date_time_pattern4" /></td>
                      </tr>
                      <tr height="1">
@@ -111,13 +111,13 @@
                         </tr>
                       </table>
                      </td>
-                     <td colspan="1" align="center" nowrap="true" class="iconText"><ae:GetResource name="results" />&nbsp;<jsp:getProperty name="alarmBean" property="displayStart" />&nbsp;-&nbsp;<jsp:getProperty name="alarmBean" property="displayEnd" />&nbsp;<ae:GetResource name="of" />&nbsp;<jsp:getProperty name="alarmBean" property="totalRowCount" /></td>
+                     <td colspan="1" align="center" nowrap="true" class="iconText"><ae:GetResource name="results" />&nbsp;<ae:GetProperty name="alarmBean" property="displayStart" />&nbsp;-&nbsp;<ae:GetProperty name="alarmBean" property="displayEnd" />&nbsp;<ae:GetResource name="of" />&nbsp;<ae:GetProperty name="alarmBean" property="totalRowCount" /></td>
                      <td align="right" nowrap="true" class="iconText">
                         &nbsp;
                         <ae:IfTrue name="alarmBean" property="previousPage" >
                           <span style="font-size:10pt" >
                             <a href='javascript:document.forms["filterForm"].rowOffset.value=0;document.forms["filterForm"].submit()' title='<ae:GetResource name="first_page" />'>&laquo;&laquo;&nbsp;</a>
-                            <a href='javascript:document.forms["filterForm"].rowOffset.value=<jsp:getProperty name="alarmBean" property="previousPageOffset" />;document.forms["filterForm"].submit()' title='<ae:GetResource name="previous_page" />'>&laquo;&nbsp;</a>
+                            <a href='javascript:document.forms["filterForm"].rowOffset.value=<ae:GetProperty name="alarmBean" property="previousPageOffset" />;document.forms["filterForm"].submit()' title='<ae:GetResource name="previous_page" />'>&laquo;&nbsp;</a>
                           </span>
                         </ae:IfTrue>
                      </td>
@@ -125,8 +125,8 @@
                         &nbsp;
                         <ae:IfTrue name="alarmBean" property="nextPage" >
                           <span style="font-size:10pt" >
-                            <a href='javascript:document.forms["filterForm"].rowOffset.value=<jsp:getProperty name="alarmBean" property="nextPageOffset" />;document.forms["filterForm"].submit()' title='<ae:GetResource name="next_page" />'>&raquo;</a>&nbsp;
-                            <a href='javascript:gotoLast(<jsp:getProperty name="alarmBean" property="totalRowCount" />,<jsp:getProperty name="alarmBean" property="rowCount" />);' title='<ae:GetResource name="last_page" />'>&nbsp;&raquo;&raquo;</a>
+                            <a href='javascript:document.forms["filterForm"].rowOffset.value=<ae:GetProperty name="alarmBean" property="nextPageOffset" />;document.forms["filterForm"].submit()' title='<ae:GetResource name="next_page" />'>&raquo;</a>&nbsp;
+                            <a href='javascript:gotoLast(<ae:GetProperty name="alarmBean" property="totalRowCount" />,<ae:GetProperty name="alarmBean" property="rowCount" />);' title='<ae:GetResource name="last_page" />'>&nbsp;&raquo;&raquo;</a>
                           </span>
                         </ae:IfTrue>
                      </td>
@@ -166,14 +166,14 @@
                       </tr>
                        <tr>
                          <td class="labelHeaders" align="left" nowrap="true" width="20%">&nbsp;<ae:GetResource name="process_id_colon" />&nbsp;</td>
-                         <td align="left" colspan="3"><input type="text" name="processId" size="20" value='<jsp:getProperty name="alarmBean" property="processId" />'/></td>
+                         <td align="left" colspan="3"><input type="text" name="processId" size="20" value='<ae:GetProperty name="alarmBean" property="processId" />'/></td>
                        </tr>
                       <tr height="1">
                         <td colspan="2" height="1" class="tabular"></td>
                       </tr>
                       <tr>
                         <td class="labelHeaders" align="left" nowrap>&nbsp;<ae:GetResource name="process_name_colon" />&nbsp;</td>
-                        <td align="left"><input type="text" name="processQName" value='<jsp:getProperty name="alarmBean" property="qname" />' size="30"/></td>
+                        <td align="left"><input type="text" name="processQName" value='<ae:GetProperty name="alarmBean" property="qname" />' size="30"/></td>
                       </tr>
                       <tr height="1">
                         <td colspan="2" height="1" class="tabular"></td>
@@ -183,7 +183,7 @@
                       </tr>
                       <ae:IfTrue name="alarmBean" property="statusDetailAvailable">
                       <tr>
-                        <td align="left" colspan="2"><jsp:getProperty name="alarmBean" property="statusDetail"/></td>
+                        <td align="left" colspan="2"><ae:GetProperty name="alarmBean" property="statusDetail"/></td>
                       </tr>
                       <tr height="1">
                         <td height="1" colspan="2" class="tabular"></td>

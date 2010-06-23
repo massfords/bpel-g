@@ -41,7 +41,7 @@
 						<tr>
 							<td class="labelHeaders" align="left" nowrap="true" width="40%">&nbsp;<ae:GetResource name="finalizationDuration" />&nbsp;</td>
 				         <td align="left">
-								<input type="text" name="finalizationDuration" value='<jsp:getProperty name="configBean" property="finalizationDuration" />' size="10"/>&nbsp;  								
+								<input type="text" name="finalizationDuration" value='<ae:GetProperty name="configBean" property="finalizationDuration" />' size="10"/>&nbsp;  								
 				         </td>
 						</tr>
 						<tr height="1">
@@ -53,7 +53,7 @@
 							<td class="labelHeaders" align="left" nowrap="true" width="40%">&nbsp;<ae:GetResource name="inbox_cache_size" />&nbsp;
 							</td>
 				         <td align="left">
-								<input type="text" name="cacheSize" value='<jsp:getProperty name="configBean" property="cacheSize" />' size="10"/>&nbsp;  								
+								<input type="text" name="cacheSize" value='<ae:GetProperty name="configBean" property="cacheSize" />' size="10"/>&nbsp;  								
 								&nbsp;<ae:GetResource name="inbox_cache_size_hint" />
 				         </td>
 						</tr>
@@ -65,7 +65,7 @@
 						<tr>
 							<td class="labelHeaders" align="left" nowrap="true" width="40%">&nbsp;<ae:GetResource name="inbox_cache_duration" />&nbsp;</td>
 				         <td align="left">
-								<input type="text" name="cacheDuration" value='<jsp:getProperty name="configBean" property="cacheDuration" />' size="10"/>&nbsp;  	
+								<input type="text" name="cacheDuration" value='<ae:GetProperty name="configBean" property="cacheDuration" />' size="10"/>&nbsp;  	
 								&nbsp;<ae:GetResource name="inbox_cache_duration_hint" />															
 				         </td>
 						</tr>

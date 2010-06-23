@@ -49,7 +49,7 @@
                </tr>                                            
                <tr>
                  <td class="labelHeaders" align="left" nowrap="true" width="20%">&nbsp;<ae:GetResource name="role_colon" />&nbsp;</td>
-                 <td align="left" colspan="2"><jsp:getProperty name="pdefBean" property="role" /></td>
+                 <td align="left" colspan="2"><ae:GetProperty name="pdefBean" property="role" /></td>
                </tr>
                <tr height="1">
                  <td height="1" colspan="3" class="gridLines"></td>

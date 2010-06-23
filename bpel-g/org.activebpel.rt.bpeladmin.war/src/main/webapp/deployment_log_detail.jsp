@@ -30,7 +30,7 @@
                      <th class="pageHeaders" align="left" nowrap="true">&nbsp;<ae:GetResource name="deployment_log" /></th>
                   </tr>
                   <tr>
-                    <td><textarea name="textarea" style="width:99%; height:100%" rows="25" wrap="OFF" readonly><jsp:getProperty name="logBean" property="logFile" /></textarea></td>
+                    <td><textarea name="textarea" style="width:99%; height:100%" rows="25" wrap="OFF" readonly><ae:GetProperty name="logBean" property="logFile" /></textarea></td>
                   </tr>
                </table>
             </td>

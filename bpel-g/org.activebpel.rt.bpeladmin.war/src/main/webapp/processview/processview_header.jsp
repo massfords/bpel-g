@@ -17,7 +17,7 @@
             <h1>
             <ae:IfTrue name="propertyBean" property="valid" >
                <ae:GetResource name="active_process_colon" /> &nbsp;
-               <span><jsp:getProperty name="propertyBean" property="processName" /> &nbsp; (ID <%= request.getParameter("pid") %>)</span>
+               <span><ae:GetProperty name="propertyBean" property="processName" /> &nbsp; (ID <%= request.getParameter("pid") %>)</span>
             </ae:IfTrue>
             <ae:IfFalse name="propertyBean" property="valid" >
                <ae:GetResource name="active_process_colon" /> <%= request.getParameter("pid") %>

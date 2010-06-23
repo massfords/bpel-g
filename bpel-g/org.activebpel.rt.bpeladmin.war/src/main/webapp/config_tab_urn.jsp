@@ -42,7 +42,7 @@ function editMapping(offset)
       </ae:IfTrue>
       <ae:IfFalse name="listingBean" property="empty">
          <form name="deletesForm" method="POST" action="config.jsp">
-         <input type="hidden" name="tab" value="<jsp:getProperty name="tabBean" property="selectedOffset"/>"/>
+         <input type="hidden" name="tab" value="<ae:GetProperty name="tabBean" property="selectedOffset"/>"/>
          <tr>
             <th class="columnHeaders" align="left" nowrap="true"><ae:GetResource name="delete" /></th>
             <th class="columnHeaders" align="left" nowrap="true">&nbsp;<ae:GetResource name="urn-header" />&nbsp;</th>
@@ -51,15 +51,15 @@ function editMapping(offset)
          <ae:IndexedProperty name="listingBean" id="pair" property="URNMapping" indexedClassName="org.activebpel.rt.bpeladmin.war.web.urn.AeURNMapping" >
             <tr>
                <td align="left">&nbsp;
-                  <input type="checkbox" name="delete" value="<jsp:getProperty name="pair" property="encodedURN" />"/> 
+                  <input type="checkbox" name="delete" value="<ae:GetProperty name="pair" property="encodedURN" />"/> 
                </td>
                <td align="left">&nbsp;
-                  <a href="javascript:editMapping(<jsp:getProperty name="pairIndex" property="index" />)"><jsp:getProperty name="pair" property="displayURN" /></a>
+                  <a href="javascript:editMapping(<ae:GetProperty name="pairIndex" property="index" />)"><ae:GetProperty name="pair" property="displayURN" /></a>
                </td>
                <td align="left">&nbsp;
-                  <jsp:getProperty name="pair" property="displayURL" />
-                  <input type="hidden" name="urn_<jsp:getProperty name="pairIndex" property="index" />" value="<jsp:getProperty name="pair" property="displayURN" />"/>
-                  <input type="hidden" name="url_<jsp:getProperty name="pairIndex" property="index" />" value="<jsp:getProperty name="pair" property="displayURL" />"/>                  
+                  <ae:GetProperty name="pair" property="displayURL" />
+                  <input type="hidden" name="urn_<ae:GetProperty name="pairIndex" property="index" />" value="<ae:GetProperty name="pair" property="displayURN" />"/>
+                  <input type="hidden" name="url_<ae:GetProperty name="pairIndex" property="index" />" value="<ae:GetProperty name="pair" property="displayURL" />"/>                  
                </td>
             </tr>
             <tr height="1">
@@ -87,14 +87,14 @@ function editMapping(offset)
             <!-- "Additional space with message text if needed" -->
             <ae:IfTrue name="addMappingBean" property="statusDetailAvailable" >
                <tr>
-                 <td colspan="5"><em><jsp:getProperty name="addMappingBean" property="statusDetail"/></em></td>
+                 <td colspan="5"><em><ae:GetProperty name="addMappingBean" property="statusDetail"/></em></td>
                </tr>
             </ae:IfTrue>
             
             
             <!-- Add Mapping Form -->
             <form name="addForm" action="config.jsp" method="POST">
-            <input type="hidden" name="tab" value="<jsp:getProperty name="tabBean" property="selectedOffset"/>"/>
+            <input type="hidden" name="tab" value="<ae:GetProperty name="tabBean" property="selectedOffset"/>"/>
             <tr>
                <th colspan="3"  class="columnHeaders" align="left" nowrap="true">&nbsp;Add new config</th>
             </tr>

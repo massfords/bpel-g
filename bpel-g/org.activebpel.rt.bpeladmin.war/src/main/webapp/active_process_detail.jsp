@@ -53,21 +53,21 @@
                   <ae:IfFalse name="processBean" property="empty" >
                      <tr>
                         <td class="labelHeaders" align="left" nowrap="true" width="20%">&nbsp;<ae:GetResource name="id" />&nbsp;</td>
-                        <td align="left">&nbsp;<jsp:getProperty name="processBean" property="processId" /></td>
+                        <td align="left">&nbsp;<ae:GetProperty name="processBean" property="processId" /></td>
                      </tr>
                      <tr height="1">
                         <td colspan="2" height="1" class="tabular"></td>
                      </tr>
                      <tr>
                         <td class="labelHeaders" align="left" nowrap="true" width="20%">&nbsp;<ae:GetResource name="name_colon" />&nbsp;</td>
-                        <td align="left">&nbsp;<jsp:getProperty name="processBean" property="localPart" /></td>
+                        <td align="left">&nbsp;<ae:GetProperty name="processBean" property="localPart" /></td>
                      </tr>
                      <tr height="1">
                         <td colspan="2" height="1" class="tabular"></td>
                      </tr>
                      <tr>
                        <td class="labelHeaders" align="left" nowrap="true" width="20%">&nbsp;<ae:GetResource name="namespace_colon" />&nbsp;</td>
-                       <td align="left">&nbsp;<jsp:getProperty name="processBean" property="namespaceURI" /></td>
+                       <td align="left">&nbsp;<ae:GetProperty name="processBean" property="namespaceURI" /></td>
                      </tr>
                      <tr height="1">
                        <td colspan="2" height="1" class="tabular"></td>
@@ -88,7 +88,7 @@
                      </tr>
                      <tr>
                        <td class="labelHeaders" align="left" nowrap="true" width="20%">&nbsp;<ae:GetResource name="state_colon" />&nbsp;</td>
-                       <td align="left">&nbsp;<jsp:getProperty name="processBean" property="stateString" /></td>
+                       <td align="left">&nbsp;<ae:GetProperty name="processBean" property="stateString" /></td>
                      </tr>
                      <tr height="1">
                        <td colspan="2" height="1" class="tabular"></td>
@@ -124,7 +124,7 @@
                         <th colspan="2" class="titleHeaders" align="left" nowrap="true"><ae:GetResource name="log" /></th>
                      </tr>
                      <tr>
-                        <td scope="col" colspan="2"><textarea name="textarea" style="width:99%" rows="15" wrap="OFF" readonly><jsp:getProperty name="processBean" property="log" /></textarea></td>
+                        <td scope="col" colspan="2"><textarea name="textarea" style="width:99%" rows="15" wrap="OFF" readonly><ae:GetProperty name="processBean" property="log" /></textarea></td>
                      </tr>
                      <tr>
 						<th colspan="2" align="left" nowrap="true"><ae:IfTrue name="processBean" property="logAvailable"><a href="getLog?pid=<%=request.getParameter("pid")%>"><ae:GetResource name="download_entire_log" /></a></ae:IfTrue></th>

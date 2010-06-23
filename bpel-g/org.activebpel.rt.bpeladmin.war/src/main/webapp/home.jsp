@@ -49,28 +49,28 @@
                </tr>
                <tr>
                  <td class="labelHeaders" align="left" nowrap="true" width="20%">&nbsp;<ae:GetResource name="deployed_processes_colon" />&nbsp;</td>
-                 <td align="left" colspan="2"><jsp:getProperty name="statusBean" property="deployedProcessesSize" /></td>
+                 <td align="left" colspan="2"><ae:GetProperty name="statusBean" property="deployedProcessesSize" /></td>
                </tr>
                <tr height="1">
                  <td colspan="3" height="1" class="tabular"></td>
                </tr>
                <tr>
                  <td class="labelHeaders" align="left" nowrap="true" width="20%">&nbsp;<ae:GetResource name="description" />&nbsp;</td>
-                 <td align="left" colspan="2"><jsp:getProperty name="statusBean" property="engineDescription" /></td>
+                 <td align="left" colspan="2"><ae:GetProperty name="statusBean" property="engineDescription" /></td>
                </tr>
                <tr height="1">
                  <td colspan="3" height="1" class="tabular"></td>
                </tr>
                <tr>
                  <td class="labelHeaders" align="left" nowrap="true" width="20%">&nbsp;<ae:GetResource name="status_colon" />&nbsp;</td>
-                 <td align="left" colspan="2"><jsp:getProperty name="statusBean" property="engineStatus" /></td>
+                 <td align="left" colspan="2"><ae:GetProperty name="statusBean" property="engineStatus" /></td>
                </tr>
                <tr height="1">
                  <td colspan="3" height="1" class="tabular"></td>
                </tr>
                <tr>
                  <td class="labelHeaders" align="left" nowrap="true" width="20%">&nbsp;<ae:GetResource name="version_colon" />&nbsp;</td>
-                 <td align="left" colspan="2"><jsp:getProperty name="statusBean" property="engineVersion" /></td>
+                 <td align="left" colspan="2"><ae:GetProperty name="statusBean" property="engineVersion" /></td>
                </tr>
                <tr height="1">
                  <td height="1" colspan="3" class="gridLines"></td>

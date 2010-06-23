@@ -2,6 +2,7 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
+	<name>bpel-g Test Project - service assembly</name>
     <groupId>bpelg-test</groupId>
     <artifactId>bpelg-test-sa</artifactId>
     <packaging>jbi-service-assembly</packaging>
@@ -16,7 +17,6 @@
             <plugin>
                 <groupId>org.apache.servicemix.tooling</groupId>
                 <artifactId>jbi-maven-plugin</artifactId>
-                <version>4.0</version>
                 <extensions>true</extensions>
             </plugin> 
         </plugins>

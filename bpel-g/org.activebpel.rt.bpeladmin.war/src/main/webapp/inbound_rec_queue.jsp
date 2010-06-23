@@ -48,10 +48,10 @@
                      </tr>
                      <ae:IndexedProperty name="recsBean" id="recRow" property="detail" indexedClassName="org.activebpel.rt.bpel.server.admin.AeQueuedReceiveDetail" >
                         <tr>
-                           <td>&nbsp;<a href='inbound_detail.jsp?id=<jsp:getProperty name="recsBean" property="identifier" />'><jsp:getProperty name="recRow" property="partnerLinkName" /></a></td>
-                           <td>&nbsp;<jsp:getProperty name="recRow" property="portType" /></td>
-                           <td>&nbsp;<jsp:getProperty name="recRow" property="operation" /></td>
-                           <td>&nbsp;<jsp:getProperty name="recsBean" property="queuedReceiveCount" /></td>
+                           <td>&nbsp;<a href='inbound_detail.jsp?id=<ae:GetProperty name="recsBean" property="identifier" />'><ae:GetProperty name="recRow" property="partnerLinkName" /></a></td>
+                           <td>&nbsp;<ae:GetProperty name="recRow" property="portType" /></td>
+                           <td>&nbsp;<ae:GetProperty name="recRow" property="operation" /></td>
+                           <td>&nbsp;<ae:GetProperty name="recsBean" property="queuedReceiveCount" /></td>
                         </tr>
                         <tr height="1">
                           <td colspan="4" height="1" class="tabular"></td>

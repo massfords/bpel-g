@@ -31,15 +31,15 @@
 		<%@ include file="incl_processview_attachment_update.jsp" %>
 
 		<script type="text/javascript" language="JavaScript">
-	      var mPid  = "<jsp:getProperty name='propertyBean' property='pidParamValue' />";
-	      var mPath = "<jsp:getProperty name='propertyBean' property='path' />";
+	      var mPid  = "<ae:GetProperty name='propertyBean' property='pidParamValue' />";
+	      var mPath = "<ae:GetProperty name='propertyBean' property='path' />";
 	      <ae:IfParamMatches property="isAddAttachment" value="true">
-		      var mPid  = "<jsp:getProperty name='addAttachmentBean' property='pid' />";
-		      var mPath = "<jsp:getProperty name='addAttachmentBean' property='path' />";
+		      var mPid  = "<ae:GetProperty name='addAttachmentBean' property='pid' />";
+		      var mPath = "<ae:GetProperty name='addAttachmentBean' property='path' />";
 	       </ae:IfParamMatches>
-	      var mQs   = "<jsp:getProperty name='propertyBean' property='pidParamName' />=" + mPid + "&path=" + encodeURI(mPath);
-	      var mBeanStatus = "<jsp:getProperty name='addAttachmentBean' property='statusCode' />";
-	      var mBeanStatusDetail = "<jsp:getProperty name='addAttachmentBean' property='statusDetail' />";
+	      var mQs   = "<ae:GetProperty name='propertyBean' property='pidParamName' />=" + mPid + "&path=" + encodeURI(mPath);
+	      var mBeanStatus = "<ae:GetProperty name='addAttachmentBean' property='statusCode' />";
+	      var mBeanStatusDetail = "<ae:GetProperty name='addAttachmentBean' property='statusDetail' />";
 	      var mInvalidFileMsg = "<ae:GetResource name='attachment_invalid_file_location' />"
 	      var mAttributeConfirmDelete = "<ae:GetResource name='attachment_attribute_confirm_delete' />"
 		</script>
@@ -49,7 +49,7 @@
 		   <!-- display object name, icon and xpath -->
 			<div id="propTitleSection" style="border-bottom:1px solid #000;">
 			   <h1 class="titleHeaders" >
-			   	<img id="bpelIcon" src="<jsp:getProperty name="propertyBean" property="bpelImagePath" />"> <ae:GetResource name="attachment_add_caption" />
+			   	<img id="bpelIcon" src="<ae:GetProperty name="propertyBean" property="bpelImagePath" />"> <ae:GetResource name="attachment_add_caption" />
 			   </h1>
 			   <br/>
 			   <span id="titleLocation"></span>

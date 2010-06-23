@@ -75,7 +75,7 @@
                      <tr>
                         <td class="labelHeaders" align="left" nowrap="true" width="40%">&nbsp;<ae:GetResource name="file_colon" />&nbsp;</td>
                         <td align="left">
-                           <input type="text" name="fileName" value='<jsp:getProperty name="configBean" property="fileName" />' size="40"/>&nbsp;                          
+                           <input type="text" name="fileName" value='<ae:GetProperty name="configBean" property="fileName" />' size="40"/>&nbsp;                          
                         </td>
                      </tr>
                   </table></div></td></tr>
@@ -89,7 +89,7 @@
                   <tr>
                      <td class="labelHeaders" align="left" nowrap="true" width="40%">&nbsp;<ae:GetResource name="test_identity_service_principal" />&nbsp;</td>
                      <td align="left">
-                       <input type="text" name="testconfig.principal" value='<jsp:getProperty name="configBean" property="testPrincipalName" />' size="20"/>&nbsp;
+                       <input type="text" name="testconfig.principal" value='<ae:GetProperty name="configBean" property="testPrincipalName" />' size="20"/>&nbsp;
                        <input type="submit" name="testConfiguration" value="<ae:GetResource name="test_settings" />" />
                      </td>
                   </tr>

@@ -22,7 +22,7 @@
          useCookieState = false;
          ignoreTreeEvent = false;
          var firstTime = true;
-         var initialPath = "<jsp:getProperty name="treeViewBean" property="path" />";
+         var initialPath = "<ae:GetProperty name="treeViewBean" property="path" />";
 
          /*
           * Initialize and show the tree.
@@ -34,7 +34,7 @@
                showTree('');
             </ae:IfTrue>
             <ae:IfFalse name="treeViewBean" property="valid" >
-               container.innerHTML = '<jsp:getProperty name="treeViewBean" property="message" />';
+               container.innerHTML = '<ae:GetProperty name="treeViewBean" property="message" />';
             </ae:IfFalse>
             <ae:IfTrue name="treeViewBean" property="stateChanged" >
                // update the graph if the process state was changed by the user. e.g. suspend -> resume.
@@ -113,7 +113,7 @@
             var propWindow = parent.pvproperties;
             if (xPath && propWindow)
             {
-               url = "processview_properties.jsp?<jsp:getProperty name="treeViewBean" property="pidParamName" />=<jsp:getProperty name="treeViewBean" property="pidParamValue" />&path=" + encodeURI(xPath);
+               url = "processview_properties.jsp?<ae:GetProperty name="treeViewBean" property="pidParamName" />=<ae:GetProperty name="treeViewBean" property="pidParamValue" />&path=" + encodeURI(xPath);
                propWindow.location = url;
             }
          }
@@ -170,7 +170,7 @@
          }
 
          <ae:IfTrue name="treeViewBean" property="valid" >
-            <jsp:getProperty name="treeViewBean" property="javaScript" />
+            <ae:GetProperty name="treeViewBean" property="javaScript" />
          </ae:IfTrue>
       </script>
 
@@ -180,7 +180,7 @@
 				<%@ include file="incl_processview_outline_toolbar.jsp" %> 
          </ae:IfTrue>
       <div id="outlinediv">
-        Loading BPEL process id <jsp:getProperty name="treeViewBean" property="pidParamValue" /> ...
+        Loading BPEL process id <ae:GetProperty name="treeViewBean" property="pidParamValue" /> ...
       </div>
    </body>
 </html>

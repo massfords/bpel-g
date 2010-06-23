@@ -77,10 +77,10 @@
                     <td class="labelHeaders" align="left" nowrap="true" width="20%">&nbsp;<ae:GetResource name="jndi_location" />&nbsp;</td>
                     <td align="left" colspan="2">
                       <ae:IfTrue name="storageBean" property="engineRunning" >
-                        &nbsp;<jsp:getProperty name="storageBean" property="jndiLocation" />
+                        &nbsp;<ae:GetProperty name="storageBean" property="jndiLocation" />
                       </ae:IfTrue>
                       <ae:IfFalse name="storageBean" property="engineRunning" >
-                        &nbsp;<input type="text" size="50" name="jndi_location" value='<jsp:getProperty name="storageBean" property="jndiLocation" />'/>
+                        &nbsp;<input type="text" size="50" name="jndi_location" value='<ae:GetProperty name="storageBean" property="jndiLocation" />'/>
                       </ae:IfFalse>
                     </td>
                   </tr>
@@ -93,10 +93,10 @@
                     <td class="labelHeaders" align="left" nowrap="true" width="20%">&nbsp;<ae:GetResource name="database_type" />&nbsp;</td>
                     <td align="left" colspan="2">
                       <ae:IfTrue name="storageBean" property="engineRunning" >
-                        &nbsp;<jsp:getProperty name="storageBean" property="databaseType" />
+                        &nbsp;<ae:GetProperty name="storageBean" property="databaseType" />
                       </ae:IfTrue>
                       <ae:IfFalse name="storageBean" property="engineRunning" >
-                        &nbsp;<input type="text" cols="50" name="database_type" value='<jsp:getProperty name="storageBean" property="databaseType" />'/>
+                        &nbsp;<input type="text" cols="50" name="database_type" value='<ae:GetProperty name="storageBean" property="databaseType" />'/>
                       </ae:IfFalse>
                     </td>
                   </tr>
@@ -109,10 +109,10 @@
 	                    <td class="labelHeaders" align="left" nowrap="true" width="20%">&nbsp;<ae:GetResource name="url" />&nbsp;</td>
 	                    <td align="left" colspan="2">
 	                      <ae:IfTrue name="storageBean" property="engineRunning" >
-	                        &nbsp;<jsp:getProperty name="storageBean" property="taminoUrl" />
+	                        &nbsp;<ae:GetProperty name="storageBean" property="taminoUrl" />
 	                      </ae:IfTrue>
 	                      <ae:IfFalse name="storageBean" property="engineRunning" >
-	                        &nbsp;<input type="text" size="40" name="tamino_url" value='<jsp:getProperty name="storageBean" property="taminoUrl" />'/>
+	                        &nbsp;<input type="text" size="40" name="tamino_url" value='<ae:GetProperty name="storageBean" property="taminoUrl" />'/>
 	                      </ae:IfFalse>
 	                    </td>
 	                  </tr>
@@ -126,10 +126,10 @@
 	                    <td class="labelHeaders" align="left" nowrap="true" width="20%">&nbsp;<ae:GetResource name="database_name" />&nbsp;</td>
 	                    <td align="left" colspan="2">
 	                      <ae:IfTrue name="storageBean" property="engineRunning" >
-	                        &nbsp;<jsp:getProperty name="storageBean" property="taminoDatabaseName" />
+	                        &nbsp;<ae:GetProperty name="storageBean" property="taminoDatabaseName" />
 	                      </ae:IfTrue>
 	                      <ae:IfFalse name="storageBean" property="engineRunning" >
-	                        &nbsp;<input type="text" size="25" name="tamino_database" value='<jsp:getProperty name="storageBean" property="taminoDatabaseName" />'/>
+	                        &nbsp;<input type="text" size="25" name="tamino_database" value='<ae:GetProperty name="storageBean" property="taminoDatabaseName" />'/>
 	                      </ae:IfFalse>
 	                    </td>
 	                  </tr>
@@ -143,10 +143,10 @@
 	                    <td class="labelHeaders" align="left" nowrap="true" width="20%">&nbsp;<ae:GetResource name="collection" />&nbsp;</td>
 	                    <td align="left" colspan="2">
 	                      <ae:IfTrue name="storageBean" property="engineRunning" >
-	                        &nbsp;<jsp:getProperty name="storageBean" property="taminoCollection" />
+	                        &nbsp;<ae:GetProperty name="storageBean" property="taminoCollection" />
 	                      </ae:IfTrue>
 	                      <ae:IfFalse name="storageBean" property="engineRunning" >
-	                        &nbsp;<input type="text" size="25" name="tamino_collection" value='<jsp:getProperty name="storageBean" property="taminoCollection" />'/>
+	                        &nbsp;<input type="text" size="25" name="tamino_collection" value='<ae:GetProperty name="storageBean" property="taminoCollection" />'/>
 	                      </ae:IfFalse>
 	                    </td>
 	                  </tr>
@@ -160,10 +160,10 @@
 	                    <td class="labelHeaders" align="left" nowrap="true" width="20%">&nbsp;<ae:GetResource name="connection_pool_size" />&nbsp;</td>
 	                    <td align="left" colspan="2">
 	                      <ae:IfTrue name="storageBean" property="engineRunning" >
-	                        &nbsp;<jsp:getProperty name="storageBean" property="taminoPoolsize" />
+	                        &nbsp;<ae:GetProperty name="storageBean" property="taminoPoolsize" />
 	                      </ae:IfTrue>
 	                      <ae:IfFalse name="storageBean" property="engineRunning" >
-	                        &nbsp;<input type="text" size="5" name="tamino_poolsize" value='<jsp:getProperty name="storageBean" property="taminoPoolsize" />'/>
+	                        &nbsp;<input type="text" size="5" name="tamino_poolsize" value='<ae:GetProperty name="storageBean" property="taminoPoolsize" />'/>
 	                      </ae:IfFalse>
 	                    </td>
 	                  </tr>
@@ -177,10 +177,10 @@
 	                    <td class="labelHeaders" align="left" nowrap="true" width="20%">&nbsp;<ae:GetResource name="domain" />&nbsp;</td>
 	                    <td align="left" colspan="2">
 	                      <ae:IfTrue name="storageBean" property="engineRunning" >
-	                        &nbsp;<jsp:getProperty name="storageBean" property="taminoDomain" />
+	                        &nbsp;<ae:GetProperty name="storageBean" property="taminoDomain" />
 	                      </ae:IfTrue>
 	                      <ae:IfFalse name="storageBean" property="engineRunning" >
-	                        &nbsp;<input type="text" size="16" name="tamino_domain" value='<jsp:getProperty name="storageBean" property="taminoDomain" />'/>
+	                        &nbsp;<input type="text" size="16" name="tamino_domain" value='<ae:GetProperty name="storageBean" property="taminoDomain" />'/>
 	                      </ae:IfFalse>
 	                    </td>
 	                  </tr>
@@ -193,7 +193,7 @@
 	                  <tr>
 	                    <td class="labelHeaders" align="left" nowrap="true" width="20%">&nbsp;<ae:GetResource name="username" />&nbsp;</td>
 	                    <td align="left" colspan="2">
-	                        &nbsp;<input type="text" size="16" name="username" value='<jsp:getProperty name="storageBean" property="username" />'/>
+	                        &nbsp;<input type="text" size="16" name="username" value='<ae:GetProperty name="storageBean" property="username" />'/>
 	                    </td>
 	                  </tr>
 	               </ae:IfFalse>
@@ -205,7 +205,7 @@
 		                  <tr>
 		                    <td class="labelHeaders" align="left" nowrap="true" width="20%">&nbsp;<ae:GetResource name="username" />&nbsp;</td>
 		                    <td align="left" colspan="2">
-		                        &nbsp;<jsp:getProperty name="storageBean" property="username" />
+		                        &nbsp;<ae:GetProperty name="storageBean" property="username" />
 		                    </td>
 		                  </tr>
 		               </ae:IfTrue>
@@ -218,14 +218,14 @@
                     </tr>
                     <tr>
                       <td class="labelHeaders" align="left" nowrap="true" width="20%">&nbsp;<ae:GetResource name="password_optional" />&nbsp;</td>
-                      <td align="left" colspan="2">&nbsp;<input type="password" cols="50" name="password" value='<jsp:getProperty name="storageBean" property="password" />'/></td>
+                      <td align="left" colspan="2">&nbsp;<input type="password" cols="50" name="password" value='<ae:GetProperty name="storageBean" property="password" />'/></td>
                     </tr>
                     <tr height="1">
                       <td colspan="3" height="1" class="tabular"></td>
                     </tr>
                     <tr>
                       <td class="labelHeaders" align="left" nowrap="true" width="20%">&nbsp;<ae:GetResource name="confirm_password" />&nbsp;</td>
-                      <td align="left" colspan="2">&nbsp;<input type="password" cols="50" name="password_confirm" value='<jsp:getProperty name="storageBean" property="password" />'/></td>
+                      <td align="left" colspan="2">&nbsp;<input type="password" cols="50" name="password_confirm" value='<ae:GetProperty name="storageBean" property="password" />'/></td>
                     </tr>
                   </ae:IfFalse>
 
@@ -236,7 +236,7 @@
                     </tr>
                     <tr>
                       <td class="labelHeaders" align="left" nowrap="true" width="20%">&nbsp;<ae:GetResource name="error_message" />&nbsp;</td>
-                      <td align="left" colspan="2">&nbsp;<jsp:getProperty name="storageBean" property="errorMessage"/></td>
+                      <td align="left" colspan="2">&nbsp;<ae:GetProperty name="storageBean" property="errorMessage"/></td>
                     </tr>
                   </ae:IfFalse>
                   <tr height="1">
@@ -303,7 +303,7 @@
                     </tr>
                     <ae:IfTrue name="pruningBean" property="statusDetailAvailable">
                       <tr>
-                        <td align="left" colspan="2">&nbsp;<jsp:getProperty name="pruningBean" property="statusDetail"/></td>
+                        <td align="left" colspan="2">&nbsp;<ae:GetProperty name="pruningBean" property="statusDetail"/></td>
                       </tr>
                       <tr height="1">
                         <td height="1" colspan="2" class="tabular"></td>

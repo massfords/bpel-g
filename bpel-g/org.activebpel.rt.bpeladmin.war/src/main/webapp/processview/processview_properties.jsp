@@ -51,7 +51,7 @@
                {
                   graphWindow.onOutlineSelect(xpath);
                }            
-               url = "processview_properties.jsp?<jsp:getProperty name="propertyBean" property="pidParamName" />=<jsp:getProperty name="propertyBean" property="pidParamValue" />&path=" + encodeURI(xpath);
+               url = "processview_properties.jsp?<ae:GetProperty name="propertyBean" property="pidParamName" />=<ae:GetProperty name="propertyBean" property="pidParamValue" />&path=" + encodeURI(xpath);
                window.location = url;
             }
          }         
@@ -64,7 +64,7 @@
             <!-- display object name, icon and xpath -->
             <div id="propTitleSection">
                <h1 class="titleHeaders" >
-                  <img id="bpelIcon" src="<jsp:getProperty name="propertyBean" property="bpelImagePath" />"> <jsp:getProperty name="propertyBean" property="tagName" />
+                  <img id="bpelIcon" src="<ae:GetProperty name="propertyBean" property="bpelImagePath" />"> <ae:GetProperty name="propertyBean" property="tagName" />
                </h1>
             </div>
             <table border="0" cellpadding="0" cellspacing="0" width="100%" >
@@ -82,17 +82,17 @@
                   </tr>
                   <ae:IndexedProperty name="propertyBean" id="nvPair" property="properties" indexedClassName="org.activebpel.rt.bpeladmin.war.web.processview.AePropertyNameValue" >
                      <tr>
-                       <td class="labelHeaders" align="left" nowrap="true" width="20%">&nbsp;<jsp:getProperty name="nvPair" property="displayName" />&nbsp;</td>
+                       <td class="labelHeaders" align="left" nowrap="true" width="20%">&nbsp;<ae:GetProperty name="nvPair" property="displayName" />&nbsp;</td>
                        <td align="left">&nbsp;
                            <ae:IfTrue name="nvPair" property="dateValue" >
                            <ae:DateFormatter name="nvPair" property="date" patternKey="date_time_pattern2" />
                            </ae:IfTrue>
                             <ae:IfFalse name="nvPair" property="dateValue" >
                               <ae:IfTrue name="nvPair" property="hasLocationPath" >
-                                <a href="#" onClick="showPath('<jsp:getProperty name="nvPair" property="escapedLocationPath" />')"><span class="pathlink"><jsp:getProperty name="nvPair" property="value" /></span></a>
+                                <a href="#" onClick="showPath('<ae:GetProperty name="nvPair" property="escapedLocationPath" />')"><span class="pathlink"><ae:GetProperty name="nvPair" property="value" /></span></a>
                               </ae:IfTrue>
                               <ae:IfFalse name="nvPair" property="hasLocationPath" >
-                                <jsp:getProperty name="nvPair" property="value" />
+                                <ae:GetProperty name="nvPair" property="value" />
                               </ae:IfFalse>
                            </ae:IfFalse>
                        </td>
@@ -112,8 +112,8 @@
             <!-- begin additional property details -->
             <ae:IndexedProperty name="propertyBean" id="nvPair" property="details" indexedClassName="org.activebpel.rt.bpeladmin.war.web.processview.AePropertyNameValue" >
             <div class="propertydetails">
-               <h1 class="titleHeaders" ><jsp:getProperty name="nvPair" property="displayName" /></h1>
-               <textarea rows="<jsp:getProperty name="nvPair" property="rowCount" />" wrap="off" readonly="readonly"><ae:XMLStringFormatter name="nvPair" property="value" /></textarea>
+               <h1 class="titleHeaders" ><ae:GetProperty name="nvPair" property="displayName" /></h1>
+               <textarea rows="<ae:GetProperty name="nvPair" property="rowCount" />" wrap="off" readonly="readonly"><ae:XMLStringFormatter name="nvPair" property="value" /></textarea>
                <!-- begin attachments -->
                <ae:IfPropertyMatches name="propertyBean" property="tagName" value="Variable" classType="java.lang.String">
                   <%@ include file="processview_attachments.jsp" %>
@@ -125,7 +125,7 @@
             <!-- end additional property details -->
          </ae:IfTrue>
          <ae:IfFalse name="propertyBean" property="valid" >
-            <jsp:getProperty name="propertyBean" property="message" />
+            <ae:GetProperty name="propertyBean" property="message" />
          </ae:IfFalse>
       </div>
    </body>
