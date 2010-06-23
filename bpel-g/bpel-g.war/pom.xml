@@ -1,6 +1,4 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<name>bpel-g Web Archive</name>
 	<groupId>bpel-g</groupId>
@@ -9,7 +7,7 @@
 	<parent>
 		<groupId>bpel-g</groupId>
 		<artifactId>bpel-g</artifactId>
-		<version>5.1-SNAPSHOT</version>
+		<version>5.1</version>
 	</parent>
 	<repositories>
 		<repository>
@@ -65,8 +63,7 @@
 						<phase>process-classes</phase>
 						<configuration>
 							<tasks>
-								<xslt in="${basedir}/src/main/webapp/WEB-INF/web.xml" out="${basedir}/target/bpel-g/WEB-INF/web.xml"
-									style="${basedir}/src/main/web.xsl"/>
+								<xslt in="${basedir}/src/main/webapp/WEB-INF/web.xml" out="${basedir}/target/bpel-g/WEB-INF/web.xml" style="${basedir}/src/main/web.xsl" />
 							</tasks>
 						</configuration>
 						<goals>
@@ -143,23 +140,21 @@
 								<phase>install</phase>
 								<configuration>
 									<tasks>
-										<property
-											file="${basedir}/src/main/filters/filter.properties"/>
-										<property name="plugin_classpath"
-											refid="maven.plugin.classpath"/>
+										<property file="${basedir}/src/main/filters/filter.properties" />
+										<property name="plugin_classpath" refid="maven.plugin.classpath" />
 
 										<java classname="org.h2.tools.RunScript">
-											<arg value="-url"/>
-											<arg value="${h2.database.url}"/>
-											<arg value="-user"/>
-											<arg value="${h2.database.user}"/>
-											<arg value="-password"/>
-											<arg value="${h2.database.password}"/>
-											<arg value="-script"/>
-											<arg value="${h2.script}"/>
-											<arg value="-showResults"/>
+											<arg value="-url" />
+											<arg value="${h2.database.url}" />
+											<arg value="-user" />
+											<arg value="${h2.database.user}" />
+											<arg value="-password" />
+											<arg value="${h2.database.password}" />
+											<arg value="-script" />
+											<arg value="${h2.script}" />
+											<arg value="-showResults" />
 											<classpath>
-												<pathelement path="${plugin_classpath}"/>
+												<pathelement path="${plugin_classpath}" />
 											</classpath>
 										</java>
 									</tasks>
