@@ -1,0 +1,140 @@
+<?xml version="1.0"?>
+<xs:schema
+   targetNamespace="http://schemas.active-endpoints.com/identity/2007/01/identity.xsd"
+   xmlns:tns="http://schemas.active-endpoints.com/identity/2007/01/identity.xsd"
+   xmlns:xs="http://www.w3.org/2001/XMLSchema"
+   elementFormDefault="qualified">
+   
+   <!-- =================================================== -->
+   <!-- Define some complex types to be used by the schema. -->
+   <!-- =================================================== -->
+
+   <xs:complexType name="tIdentityQueryValues">
+      <xs:annotation>
+         <xs:documentation>
+            This service supports finding people by a role or principal
+         </xs:documentation>
+      </xs:annotation>   
+      <xs:sequence>
+         <xs:element name="group" type="xs:string" minOccurs="0" maxOccurs="unbounded" />
+         <xs:element name="user" type="xs:string" minOccurs="0" maxOccurs="unbounded" />
+      </xs:sequence>
+   </xs:complexType>
+
+   <xs:complexType name="tIdentityQuery">
+      <xs:annotation>
+         <xs:documentation>
+            The query is comprised of include and exclude statements. The roles
+            or principals listed under the include element will be included in
+            the result set while the ones listed under the excluded element will
+            be excluded.
+         </xs:documentation>
+      </xs:annotation>   
+      <xs:sequence>
+         <xs:element name="include" type="tns:tIdentityQueryValues" minOccurs="0"/>
+         <xs:element name="exclude" type="tns:tIdentityQueryValues" minOccurs="0"/>
+      </xs:sequence>
+      <xs:attribute name="id" type="xs:ID" use="optional" form="qualified"/>
+      <xs:attribute name="ref" type="xs:IDREF" use="optional" form="qualified"/>
+   </xs:complexType>
+   
+   <xs:complexType name="tProperty">
+      <xs:annotation>
+         <xs:documentation>
+            Models a String property with a 'name' attribute.
+         </xs:documentation>
+      </xs:annotation>  
+      <xs:simpleContent>
+			<xs:extension base="xs:string">
+			   <xs:attribute name="name" type="xs:string"/>
+		    </xs:extension>	       
+		</xs:simpleContent>
+   </xs:complexType> 
+      
+   <xs:complexType name="tIdentity">
+      <xs:annotation>
+         <xs:documentation>
+            Models a single user with their properties and roles. Note that the
+            properties are mixed types. This allows for simple string values
+            or structured data for the property types. 
+         </xs:documentation>
+      </xs:annotation>
+      <xs:sequence>
+         <xs:element name="id" type="xs:string"/>
+         <xs:element name="properties">
+				<xs:complexType>
+					<xs:sequence>
+      	   		<xs:element name="property" type="tns:tProperty"  minOccurs="0" maxOccurs="unbounded"/>
+					</xs:sequence>
+				</xs:complexType>
+         </xs:element>
+         <xs:element name="roles">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element name="role" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+      </xs:sequence>
+   </xs:complexType>
+   
+   <xs:complexType name="tIdentityResultSet">
+      <xs:annotation>
+         <xs:documentation>
+            A result set from an identity search. This may not be the complete
+            result set. The service will return a maximum number of identities
+            per request. The caller can resubmit the query with a starting row
+            to page through the results.
+         </xs:documentation>
+      </xs:annotation>   
+      <xs:sequence>
+         <xs:element name="totalRowCount" type="xs:int"/>
+         <xs:element name="completeRowCount" type="xs:boolean"/>
+         <xs:element ref="tns:identities"/>
+      </xs:sequence>
+   </xs:complexType>
+   
+   <xs:element name="identities" nillable="true">
+      <xs:complexType>
+         <xs:sequence>
+            <xs:element ref="tns:identity" minOccurs="0" maxOccurs="unbounded"/>
+         </xs:sequence>
+      </xs:complexType>
+   </xs:element>
+
+   <xs:complexType name="tIdentityListingFilter">
+      <xs:annotation>
+         <xs:documentation>
+            A filter for finding identities. Callers can specify the start 
+            number as well as the maximum number of rows to return. The query
+            is comprised of an identity query which specifies which roles and
+            principals to include/exclude from the results. 
+            
+            The advanced query provides the ability to include properties in
+            the search.
+         </xs:documentation>
+      </xs:annotation>   
+      <xs:sequence>
+         <xs:element name="listStart" type="xs:int"/>
+         <xs:element name="maxReturn" type="xs:int"/>
+         <xs:element name="query" type="tns:tIdentityQuery"/>
+         <xs:element name="advancedQuery" type="xs:string" minOccurs="0"/>
+      </xs:sequence>
+   </xs:complexType>
+
+   <!-- =================================================== -->
+   <!-- The definition (uses the above declared types).     -->
+   <!-- =================================================== -->
+   <xs:element name="identityQuery" type="tns:tIdentityQuery"/>
+   <xs:element name="identity" type="tns:tIdentity"/>
+   <xs:element name="identityListingFilter" type="tns:tIdentityListingFilter"/>
+   <xs:element name="identityResultSet" type="tns:tIdentityResultSet"/>
+
+   <xs:element name="countIdentitiesRequest">
+   	<xs:complexType>
+   		<xs:sequence>
+   			<xs:element ref="tns:identityQuery" minOccurs="1" maxOccurs="unbounded"></xs:element>
+   		</xs:sequence>
+   	</xs:complexType>
+   </xs:element>
+</xs:schema>

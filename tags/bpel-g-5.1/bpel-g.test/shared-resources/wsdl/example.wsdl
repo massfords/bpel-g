@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+  xmlns:tns="http://www.example.org/test/" 
+  xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+  xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+  name="test"
+  targetNamespace="http://www.example.org/test/"
+  xmlns:plnk="http://docs.oasis-open.org/wsbpel/2.0/plnktype"
+  xmlns:vprop="http://docs.oasis-open.org/wsbpel/2.0/varprop">
+  
+  <vprop:property name="id" type="xs:string"/>
+  <vprop:propertyAlias propertyName="tns:id" element="tns:request">
+    <vprop:query>string(tns:value)</vprop:query>
+  </vprop:propertyAlias>
+  <vprop:propertyAlias propertyName="tns:id" element="tns:response">
+    <vprop:query>string(tns:value)</vprop:query>
+  </vprop:propertyAlias>
+  <vprop:propertyAlias propertyName="tns:id" element="tns:OneWay">
+    <vprop:query>string(tns:value)</vprop:query>
+  </vprop:propertyAlias>
+  <vprop:propertyAlias propertyName="tns:id" element="tns:CreateProcessResponse">
+    <vprop:query>string(tns:value)</vprop:query>
+  </vprop:propertyAlias>
+  
+  <plnk:partnerLinkType name="testPartnerLinkType">
+    <plnk:role name="proces" portType="tns:test"/>
+  </plnk:partnerLinkType>
+  <plnk:partnerLinkType name="testPartnerLinkType2">
+    <plnk:role name="proces" portType="tns:test2"/>
+  </plnk:partnerLinkType>
+  <plnk:partnerLinkType name="testPartnerLinkType3">
+    <plnk:role name="proces" portType="tns:test3"/>
+  </plnk:partnerLinkType>
+  
+  <wsdl:types>
+    <xs:schema targetNamespace="http://www.example.org/test/" elementFormDefault="qualified">
+      <xs:complexType name="testMessage">
+        <xs:sequence>
+          <xs:element name="value" type="xs:string"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:element name="SimpleFault" type="xs:string"/>
+      <xs:element name="OneWay" type="tns:testMessage"/>
+      <xs:element name="CreateProcessRequest" type="tns:testMessage"/>
+      <xs:element name="CreateProcessResponse" type="tns:testMessage"/>
+      <xs:element name="CreateProcessRequest2" type="tns:testMessage"/>
+      <xs:element name="CreateProcessResponse2" type="tns:testMessage"/>
+      <xs:element name="request" type="tns:testMessage"/>
+      <xs:element name="response" type="tns:testMessage"/>
+    </xs:schema>
+  </wsdl:types>
+  <wsdl:message name="SimpleFaultMessage">
+    <wsdl:part element="tns:SimpleFault" name="parameters"/>
+  </wsdl:message>
+  <wsdl:message name="OneWay">
+    <wsdl:part element="tns:OneWay" name="parameters"/>
+  </wsdl:message>
+
+  <wsdl:message name="CreateProcessRequest">
+    <wsdl:part element="tns:CreateProcessRequest" name="parameters"/>
+  </wsdl:message>
+  <wsdl:message name="CreateProcessResponse">
+    <wsdl:part element="tns:CreateProcessResponse" name="parameters"/>
+  </wsdl:message>
+  <wsdl:message name="CreateProcessRequest2">
+    <wsdl:part element="tns:CreateProcessRequest2" name="parameters"/>
+  </wsdl:message>
+  <wsdl:message name="CreateProcessResponse2">
+    <wsdl:part element="tns:CreateProcessResponse2" name="parameters"/>
+  </wsdl:message>
+
+  <wsdl:message name="request">
+    <wsdl:part element="tns:request" name="parameters"/>
+  </wsdl:message>
+  <wsdl:message name="response">
+    <wsdl:part element="tns:response" name="parameters"/>
+  </wsdl:message>
+
+  <wsdl:portType name="test">
+    <wsdl:operation name="createProcess">
+      <wsdl:input message="tns:CreateProcessRequest"/>
+      <wsdl:output message="tns:CreateProcessResponse"/>
+      <wsdl:fault name="simpleFault" message="tns:SimpleFaultMessage"/>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:portType name="test2">
+    <wsdl:operation name="createProcess2">
+      <wsdl:input message="tns:CreateProcessRequest2"/>
+      <wsdl:output message="tns:CreateProcessResponse2"/>
+      <wsdl:fault name="simpleFault" message="tns:SimpleFaultMessage"/>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:portType name="test3">
+    <wsdl:operation name="twoWay">
+      <wsdl:input message="tns:request"/>
+      <wsdl:output message="tns:response"/>
+      <wsdl:fault name="simpleFault" message="tns:SimpleFaultMessage"/>
+    </wsdl:operation>
+    <wsdl:operation name="oneway">
+      <wsdl:input message="tns:OneWay"/>
+    </wsdl:operation>
+  </wsdl:portType>
+</wsdl:definitions>

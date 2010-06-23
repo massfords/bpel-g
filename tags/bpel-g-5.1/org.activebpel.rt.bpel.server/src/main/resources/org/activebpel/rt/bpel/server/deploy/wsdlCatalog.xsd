@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<xs:schema xmlns:tns="http://schemas.active-endpoints.com/wsdl-catalog/2005/09/wsdlCatalog.xml" xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+   targetNamespace="http://schemas.active-endpoints.com/wsdl-catalog/2005/09/wsdlCatalog.xml" elementFormDefault="qualified">
+   <xs:element name="wsdlCatalog" type="tns:WsdlCatalogType"/>
+   <xs:complexType name="WsdlCatalogType">
+      <xs:sequence>
+	      <xs:choice minOccurs="0" maxOccurs="unbounded">
+	         <xs:element name="schemaEntry" type="tns:WsdlEntryType"/>
+	         <xs:element name="wsdlEntry" type="tns:WsdlEntryType"/>
+	      </xs:choice>
+      </xs:sequence>
+      <xs:attribute name="replace.existing" type="xs:boolean" use="optional"/>
+   </xs:complexType>
+   <xs:complexType name="WsdlEntryType">
+      <xs:attribute name="location" type="xs:string" use="required"/>
+      <xs:attribute name="classpath" type="xs:string" use="required"/>
+   </xs:complexType>
+</xs:schema>

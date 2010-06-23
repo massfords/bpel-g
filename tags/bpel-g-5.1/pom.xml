@@ -1,0 +1,54 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <name>bpel-g project</name>
+  <groupId>bpel-g</groupId>
+  <artifactId>bpel-g</artifactId>
+  <version>5.1</version>
+  <packaging>pom</packaging>
+  <scm>
+    <connection>scm:svn:http://bpel-g.googlecode.com/svn/tags/bpel-g-5.1</connection>
+    <developerConnection>scm:svn:https://bpel-g.googlecode.com/svn/tags/bpel-g-5.1</developerConnection>
+    <url>http://bpel-g.googlecode.com/svn/tags/bpel-g-5.1</url>
+  </scm>
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <configuration>
+          <source>1.6</source>
+          <target>1.6</target>
+        </configuration>
+      </plugin>
+      <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-release-plugin</artifactId>
+          <version>2.0</version>
+      </plugin>
+    </plugins>
+  </build>
+  <modules>
+        <module>ddl.org.activebpel</module>
+        <module>org.activebpel.wsio</module>
+        <module>org.activebpel.rt</module>
+        <module>org.activebpel.rt.bpel</module>
+        <module>org.activebpel.rt.bpel.ext.expr</module>
+        <module>org.activebpel.rt.bpel.ext.expr.bsf</module>
+        <module>org.activebpel.rt.bpel.server</module>
+        <module>org.activebpel.rt.xmldb</module>
+        <module>org.activebpel.rt.exist</module>
+        <module>org.activebpel.rt.axis</module>
+        <module>org.activebpel.rt.wsresource</module>
+        <module>org.activebpel.rt.identity</module>
+        <module>org.activebpel.rt.http</module>
+        <module>org.activebpel.rt.axis.bpel.admin</module>
+        <module>org.activebpel.rt.axis.bpel</module>
+        <module>org.activebpel.rt.axis.bpel.web</module>
+        <module>org.activebpel.rt.war</module>
+        <module>org.activebpel.rt.bpeladmin.jar</module>
+        <module>org.activebpel.rt.bpeladmin.war</module>
+        <module>bpel-g.war</module>
+        <module>bpel-g-jbi</module>
+        <!-- <module>bpel-g.test</module> -->
+  </modules>
+</project>

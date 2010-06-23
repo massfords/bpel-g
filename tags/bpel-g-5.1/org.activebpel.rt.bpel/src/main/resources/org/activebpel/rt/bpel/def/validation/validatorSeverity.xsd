@@ -1,0 +1,31 @@
+<xsd:schema elementFormDefault="qualified"
+   targetNamespace="urn:activebpel:validator:severity"
+   xmlns:aeSeverity="urn:activebpel:validator:severity"
+   xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+   
+   <xsd:simpleType name="tSeverity">
+     <xsd:restriction base="xsd:string">
+        <xsd:enumeration value="ERROR"/>
+        <xsd:enumeration value="WARNING"/>
+        <xsd:enumeration value="INFO"/>
+        <xsd:enumeration value="SKIP"/>
+     </xsd:restriction>
+   </xsd:simpleType>
+   
+   <xsd:element name="codes">
+      <xsd:complexType>
+         <xsd:sequence>
+            <xsd:element name="code" maxOccurs="unbounded">
+               <xsd:complexType>
+                  <xsd:sequence>
+               	   <xsd:element name="id" type="xsd:string" maxOccurs="unbounded"></xsd:element>
+                     <xsd:element name="severity" type="aeSeverity:tSeverity" maxOccurs="unbounded"></xsd:element>
+                  </xsd:sequence>
+               </xsd:complexType>
+            </xsd:element>
+         </xsd:sequence>
+         <xsd:attribute name="targetNamespace" type="xsd:anyURI" use="required" />
+      </xsd:complexType>
+   </xsd:element>
+   
+</xsd:schema>

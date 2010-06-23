@@ -1,0 +1,13 @@
+<html><body>
+This package provides the impl classes for the 
+IAeBpelWriter interface.
+<br />
+The writer class uses a AeDefTraverser to traverse the AeProcess
+object model.  A custom depth first traverser (AeInvokeWithScopeTraverser) is
+used to provide special case behavior for traversing an invoke
+activity with an implicit scope.
+<br />
+The traverser is used by a AeAbstractDefVisitor subclass that
+is responsible for looking up each writer and processing accordingly.
+</body>
+</html>

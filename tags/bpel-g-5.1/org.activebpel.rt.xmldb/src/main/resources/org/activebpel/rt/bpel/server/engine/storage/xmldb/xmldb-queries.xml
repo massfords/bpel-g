@@ -1,0 +1,581 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+   This is the xmldb XQuery configuration file for the Active BPEL
+   engine.  This file contains XQuery statements used by the Active
+   BPEL XMLDB based persistence layer.
+   
+   Note that many of the statements below use CDATA segments.  This
+   is because they often have embedded XML markup and for readability
+   we don't want to escape them.
+   
+   Note that many of the statements in this file have no value for 
+   the <xquery /> child element.  That indicates an abstract entry
+   which must be overridden by specific xml-db implementations, such
+   as Tamino.
+-->
+<xmldb-config>
+   <xquery-statements>
+
+      <!-- =========================== -->
+      <!-- XMLDB Validator Statements -->
+      <!-- =========================== -->
+      <xquery-statement>
+         <name>Validator.GetVersion</name>
+         <comment>
+            Returns the databse version number.  The version number is stored as an instance
+            of the AeMetaInfo doc type.  The @name of the doc instance is "Version" and the
+            value is the version number.
+         </comment>
+         <xquery />
+      </xquery-statement>
+
+      <!-- ========================= -->
+      <!-- JournalStorage Statements -->
+      <!-- ========================= -->
+      <xquery-statement>
+         <name>JournalStorage.InsertJournalEntry</name>
+         <comment>
+            Inserts a journal entry into the AeProcessJournal doc type.
+         </comment>
+         <xquery>AeProcessJournal</xquery>
+      </xquery-statement>
+      <xquery-statement>
+         <name>JournalStorage.DeleteJournalEntry</name>
+         <comment>
+            Deletes a single journal entry given its id (ino:id).
+         </comment>
+         <xquery />
+      </xquery-statement>
+
+      <!-- ======================= -->
+      <!-- QueueStorage Statements -->
+      <!-- ======================= -->
+      <xquery-statement>
+         <name>QueueStorage.InsertAlarm</name>
+         <comment>
+            Inserts an alarm in the database.  An alarm is stored as an instance of the 
+            AeAlarm doc type.
+         </comment>
+         <xquery />
+      </xquery-statement>
+      <xquery-statement>
+         <name>QueueStorage.DeleteAlarm</name>
+         <comment>
+            Deletes an alarm from the database.  This is done by removing the doc instance
+            of type AeAlarm that has a given ProcessID, LocationPathID and AlarmID.
+         </comment>
+         <xquery />
+      </xquery-statement>
+      <xquery-statement>
+         <name>QueueStorage.DeleteAlarmsByGroupId</name>
+         <comment>
+            Deletes alarms from the database that are associated with a particular group id.
+            This is done by removing the doc instance(s) of type AeAlarm that have the given
+            ProcessID and GroupID.
+         </comment>
+         <xquery />
+      </xquery-statement>
+      <xquery-statement>
+         <name>QueueStorage.GetAlarms</name>
+         <comment>
+            Gets all instances of the AeAlarm doc type.  This is typically used for recovery
+            purposes when the engine starts.
+         </comment>
+         <xquery />
+      </xquery-statement>
+      <xquery-statement>
+         <name>QueueStorage.GetAlarmsFiltered.decl</name>
+         <xquery />
+      </xquery-statement>
+      <xquery-statement>
+         <name>QueueStorage.GetAlarmsFiltered.for</name>
+         <comment>
+            Gets a list of instances of the virtual AeAlarmExt doc type.  The 'where' 
+            clause of this FLWOR statement will be generated in Java code based on a 
+            query filter.
+         </comment>
+         <xquery />
+      </xquery-statement>
+      <xquery-statement>
+         <name>QueueStorage.GetAlarmsFiltered.return</name>
+         <comment>
+            The return value for the above GetAlarmsFiltered query.
+         </comment>
+         <xquery />
+      </xquery-statement>
+      <xquery-statement>
+         <name>QueueStorage.InsertQueuedReceive</name>
+         <comment>
+            Simply defines the doc type for inserted Queued Receives.  The actual XML that
+            is inserted into the database will be generated dynamically in Java code.  The
+            value below simply indicates the name of the root element.
+         </comment>
+         <xquery>AeQueuedReceive</xquery>
+      </xquery-statement>
+      <xquery-statement>
+         <name>QueueStorage.GetCorrelatedReceives</name>
+         <comment>
+            Gets all of the correlated recieve instances given a match hash value and
+            correlation hash value.  The return value is a queued receive, which 
+            additionally includes the queued receive ID (ino:id) and associated process 
+            name.
+         </comment>
+         <xquery />
+      </xquery-statement>
+      <xquery-statement>
+         <name>QueueStorage.GetConflictingReceives</name>
+         <comment>
+            Gets a list of conflicting receive instances for a given process id.  The 
+            conflicting receives are any receive with the same process id and match 
+            hash.  The return value is a queued receive, which additionally includes 
+            the queued receive ID (ino:id) and associated process name.
+         </comment>
+         <xquery />
+      </xquery-statement>
+      <xquery-statement>
+         <name>QueueStorage.DeleteQueuedReceiveById</name>
+         <comment>
+            Deletes an AeQueuedReceive doc instances by its ino:id.
+         </comment>
+         <xquery />
+      </xquery-statement>
+      <xquery-statement>
+         <name>QueueStorage.DeleteQueuedReceivesByGroup</name>
+         <comment>
+            Deletes queued receives in a given process by their group ID.
+         </comment>
+         <xquery />
+      </xquery-statement>
+      <xquery-statement>
+         <name>QueueStorage.GetQueuedReceive</name>
+         <comment>
+            Gets a single queued receive instance given the process id and location path id.
+            The return value additionally includes the queued receive id (ino:id) and the
+            process name.
+         </comment>
+         <xquery />
+      </xquery-statement>
+      <xquery-statement>
+         <name>QueueStorage.GetQueuedReceivesFiltered.decl</name>
+         <xquery />
+      </xquery-statement>
+      <xquery-statement>
+         <name>QueueStorage.GetQueuedReceivesFiltered.for</name>
+         <comment>
+            Gets a filtered list of queued receive instances.  The return value additionally 
+            includes the queued receive id (ino:id) and the process name.  The 'where' clause
+            for this FLWOR expression will be generated in Java code based on a filter.
+         </comment>
+         <xquery />
+      </xquery-statement>
+      <xquery-statement>
+         <name>QueueStorage.GetQueuedReceivesFiltered.return</name>
+         <comment>
+            The return portion of the above GetQueuedReceivesFiltered FLWOR expression.
+         </comment>
+         <xquery />
+      </xquery-statement>
+
+      <!-- ========================= -->
+      <!-- ProcessStorage Statements -->
+      <!-- ========================= -->
+      <xquery-statement>
+         <name>ProcessStorage.GetJournalEntries</name>
+         <comment>This query returns a list of Journal Entries for the given ProcessID.</comment>
+         <xquery />
+      </xquery-statement>
+      <xquery-statement>
+         <name>ProcessStorage.GetJournalEntriesLocationIds</name>
+         <comment>This query returns a list of Journal Entry location IDs.</comment>
+         <xquery />
+      </xquery-statement>
+      <xquery-statement>
+         <name>ProcessStorage.GetJournalEntry</name>
+         <comment>This query returns a single Journal Entry by its JournalID.</comment>
+         <xquery />
+      </xquery-statement>
+      <xquery-statement>
+         <name>ProcessStorage.GetMaxProcessID</name>
+         <comment>This query returns the max process ID.</comment>
+         <xquery />
+      </xquery-statement>
+      <xquery-statement>
+         <name>ProcessStorage.GetMinProcessID</name>
+         <comment>This query gets the min process ID.</comment>
+         <xquery />
+      </xquery-statement>
+      <xquery-statement>
+         <name>ProcessStorage.GetProcessList.decl</name>
+         <xquery />
+      </xquery-statement>
+      <xquery-statement>
+         <name>ProcessStorage.GetProcessList.for</name>
+         <comment>
+            Gets a filtered list of (virtual) process detail instances.  The return value includes
+            some elements from the AeProcess doc type as well as the process id (ino:id). The 
+            'where' clause for this FLWOR expression will be generated in Java code based on a 
+            filter.
+         </comment>
+         <xquery />
+      </xquery-statement>
+      <xquery-statement>
+         <name>ProcessStorage.GetProcessList.return</name>
+         <comment>
+            The return portion of the above GetProcessList FLWOR expression.
+         </comment>
+         <xquery />
+      </xquery-statement>
+      <xquery-statement>
+         <name>ProcessStorage.GetProcessList.update</name>
+         <comment>
+            This is the update portion of a XMLDB XQuery update query.  The update query will be 
+            used to select all of the document instances that will be deleted.  The where clause,
+            once again, will be generated in code.
+         </comment>
+         <xquery />
+      </xquery-statement>
+      <xquery-statement>
+         <name>ProcessStorage.GetProcessList.do</name>
+         <comment>
+            This is the 'do' portion of a XMLDB XQuery update query.  This portion of the query
+            will specify in what way to update the selected doc instances.  In this case, it 
+            specifies which ones to delete.
+         </comment>
+         <xquery />
+      </xquery-statement>
+
+      <xquery-statement>
+         <name>ProcessStorage.GetProcessIds.decl</name>
+         <xquery />
+      </xquery-statement>
+      <xquery-statement>
+         <name>ProcessStorage.GetProcessIds.for</name>
+         <comment>
+            Gets a filtered list of (virtual) process detail instances.  The return value includes
+            some elements from the AeProcess doc type as well as the process id (ino:id). The 
+            'where' clause for this FLWOR expression will be generated in Java code based on a 
+            filter.
+         </comment>
+         <xquery />
+      </xquery-statement>
+      <xquery-statement>
+         <name>ProcessStorage.GetProcessIds.return</name>
+         <comment>
+            The return portion of the above GetProcessIds FLWOR expression.
+         </comment>
+         <xquery />
+      </xquery-statement>
+
+      <xquery-statement>
+         <name>ProcessStorage.InsertProcess</name>
+         <comment>
+            Inserts an initial instance of the AeProcess doc type that only includes the 
+            plan id and the process name.
+         </comment>
+         <xquery>AeProcess</xquery>
+      </xquery-statement>
+      <xquery-statement>
+         <name>ProcessStorage.GetProcessInstanceDetail</name>
+         <comment>
+            Gets a single instance of the (virtual) doc type AeProcessInstanceDetail.  The 
+            instance is selected by its process id (ino:id).
+         </comment>
+         <xquery />
+      </xquery-statement>
+      <xquery-statement>
+         <name>ProcessStorage.GetProcessName</name>
+         <comment>
+            Gets the process name of a single instance of the AeProcess type.  The instance
+            is selected by its process id (ino:id).
+         </comment>
+         <xquery />
+      </xquery-statement>
+      <xquery-statement>
+         <name>ProcessStorage.DeleteProcess</name>
+         <comment>
+            Deletes a single AeProcess instance by its process id (ino:id).
+         </comment>
+         <xquery />
+      </xquery-statement>
+      <xquery-statement>
+         <name>ProcessStorage.DeleteProcessLog</name>
+         <comment>
+            Deletes all process log instances for a given process (by ProcessID).
+         </comment>
+         <xquery />
+      </xquery-statement>
+      <xquery-statement>
+         <name>ProcessStorage.GetRecoveryProcessIds</name>
+         <comment>
+            Gets a list of all recovery process ids.  This includes the process id for any 
+            AeProcess instance with pending invokes as well as the process id for any 
+            instance of AeProcessJournal.
+         </comment>
+         <xquery />
+      </xquery-statement>
+      <xquery-statement>
+         <name>ProcessStorage.GetLogEntries</name>
+         <comment>
+            Gets all instances of the (virtual) doc type LogItem for a given process id.  The
+            LogItem doc type is created from the LineCount of an AeProcessLog instance and the
+            ino:id of that instance.
+         </comment>
+         <xquery />
+      </xquery-statement>
+      <xquery-statement>
+         <name>ProcessStorage.GetSmallLog</name>
+         <comment>
+            Returns all LogItem instances for a given process id.  This is used when there are a
+            'small' number of instances of AeProcessLog for a given process.
+         </comment>
+         <xquery />
+      </xquery-statement>
+      <xquery-statement>
+         <name>ProcessStorage.GetLogHead</name>
+         <comment>
+            Gets a list of LogItem instances for a given process id with an ino:id less than
+            a given value.  This is used when there are a lot of instances of AeProcessLog for
+            a given process.  In that case, only the HEAD and the TAIL of the log are returned.
+         </comment>
+         <xquery />
+      </xquery-statement>
+      <xquery-statement>
+         <name>ProcessStorage.GetLogTail</name>
+         <comment>
+            Gets a list of LogItem instances for a given process id with an ino:id less than
+            a given value.  This is used when there are a lot of instances of AeProcessLog for
+            a given process.  In that case, only the HEAD and the TAIL of the log are returned.
+         </comment>
+         <xquery />
+      </xquery-statement>
+      <xquery-statement>
+         <name>ProcessStorage.GetLogIDs</name>
+         <comment>
+            Gets a list of log ids for the instances of AeProcessLog for a given process.  This
+            list of IDs is then used to determine the parameters for the above HEAD/TAIL query
+            of the log (for large logs).
+         </comment>
+         <xquery />
+      </xquery-statement>
+      <xquery-statement>
+         <name>ProcessStorage.GetLog</name>
+         <comment>
+            Gets a single instance of AeProcessLog (only the ProcessLog element) by the log id (ino:id).
+         </comment>
+         <xquery />
+      </xquery-statement>
+
+      <!-- ================================= -->
+      <!-- ProcessStateConnection Statements -->
+      <!-- ================================= -->
+      <xquery-statement>
+         <name>ProcessStateConnection.DeleteJournalEntries</name>
+         <comment>
+            Deletes a number of journal entries from the process journal.
+         </comment>
+         <xquery />
+      </xquery-statement>
+      <xquery-statement>
+         <name>ProcessStateConnection.GetProcessDocument</name>
+         <comment>
+            Returns only the process document for a specific process.  This process is selected
+            by its ProcessID.
+         </comment>
+         <xquery />
+      </xquery-statement>
+      <xquery-statement>
+         <name>ProcessStateConnection.GetVariableDocument</name>
+         <comment>
+            Returns a single variable document.  The variable document to be returned is selected
+            by the ProcessID of the process it belongs to, the LocationPathID of the variable, 
+            and the VersionNumber of the variable.
+         </comment>
+         <xquery />
+      </xquery-statement>
+      <xquery-statement>
+         <name>ProcessStateConnection.GetProcessVariables</name>
+         <comment>
+            Gets all of the process variables for a given process (selected by the ProcessID of
+            the process).  The LocationPathID and VersionNumber of each process variable is
+            returned, but not the ProcessDocument.
+         </comment>
+         <xquery />
+      </xquery-statement>
+      <xquery-statement>
+         <name>ProcessStateConnection.InsertVariable</name>
+         <comment>
+            Inserts a variable into the database.  This is done by inserting an instance of the
+            AeVariable doc type.
+         </comment>
+         <xquery>AeVariable</xquery>
+      </xquery-statement>
+      <xquery-statement>
+         <name>ProcessStateConnection.DeleteVariable</name>
+         <comment>
+            Deletes a single variable from the database.  The variable is reference by its
+            ProcessID, LocationPathID, and VersionNumber (which is the AeVariable doc type's
+            unique key).
+         </comment>
+         <xquery />
+      </xquery-statement>
+      <xquery-statement>
+         <name>ProcessStateConnection.InsertProcessLog</name>
+         <comment>
+            Inserts a process log into the database.  This is done by inserting an instance of the
+            AeProcessLog doc type.
+         </comment>
+         <xquery>AeProcessLog</xquery>
+      </xquery-statement>
+      <xquery-statement>
+         <name>ProcessStateConnection.UpdateProcess</name>
+         <comment>
+            Updates an existing process in the database.  The process to update is selected by
+            its id.
+         </comment>
+         <xquery />
+      </xquery-statement>
+      <xquery-statement>
+         <name>ProcessStateConnection.UpdateProcessEndDate</name>
+         <comment>
+            Updates an existing process's end date in the database.
+         </comment>
+         <xquery />
+      </xquery-statement>
+
+      <!-- ====================== -->
+      <!-- URN Storage Statements -->
+      <!-- ====================== -->
+      <xquery-statement>
+         <name>URNStorage.GetMappings</name>
+         <xquery />
+      </xquery-statement>
+      <xquery-statement>
+         <name>URNStorage.InsertMapping</name>
+         <xquery>AeURNValues</xquery>
+      </xquery-statement>
+      <xquery-statement>
+         <name>URNStorage.UpdateMapping</name>
+         <xquery />
+      </xquery-statement>
+      <xquery-statement>
+         <name>URNStorage.DeleteMapping</name>
+         <xquery />
+      </xquery-statement>
+
+      <!-- =============================== -->
+      <!-- Coordination Storage Statements -->
+      <!-- =============================== -->
+      <xquery-statement>
+         <name>CoordinationStorage.InsertContext</name>
+         <comment>Inserts a context.</comment>
+         <xquery>AeCoordination</xquery>
+      </xquery-statement>
+      <xquery-statement>
+         <name>CoordinationStorage.UpdateState</name>
+         <comment>Updates the state and modified date elements of a single AeCoordination instance.</comment>
+         <xquery />
+      </xquery-statement>
+      <xquery-statement>
+         <name>CoordinationStorage.UpdateContext</name>
+         <comment>Updates the coordination document element of a single AeCoordination instance.</comment>
+         <xquery />
+      </xquery-statement>
+      <xquery-statement>
+         <name>CoordinationStorage.ListByCoordinationId</name>
+         <comment>
+            Gets a list of all instances of the AeCoordination doc type that have the 
+            given coordination id.
+         </comment>
+         <xquery />
+      </xquery-statement>
+      <xquery-statement>
+         <name>CoordinationStorage.ListByProcessId</name>
+         <comment>
+            Gets a list of all instances of the AeCoordination doc type that have the 
+            given process id.
+         </comment>
+         <xquery />
+      </xquery-statement>
+      <xquery-statement>
+         <name>CoordinationStorage.LookupCoordination</name>
+         <comment>
+            Gets a single coordination instance document identified by its coordination 
+            id and process id.
+         </comment>
+         <xquery />
+      </xquery-statement>
+      <xquery-statement>
+         <name>CoordinationStorage.DeleteCoordination</name>
+         <xquery />
+      </xquery-statement>
+      <xquery-statement>
+         <name>CoordinationStorage.DeleteByProcessId</name>
+         <xquery />
+      </xquery-statement>
+      <xquery-statement>
+         <name>CoordinationStorage.DeleteByCoordinationId</name>
+         <xquery />
+      </xquery-statement>
+      <xquery-statement>
+         <name>CoordinationStorage.ListCoordinatorsForProcessId</name>
+         <xquery />
+      </xquery-statement>
+      <xquery-statement>
+         <name>CoordinationStorage.ListParticipantsForProcessId</name>
+         <xquery />
+      </xquery-statement>
+
+      <!-- ====================================== -->
+      <!-- TransmissionTracker Storage Statements -->
+      <!-- ====================================== -->
+      <xquery-statement>
+         <name>TransmissionTrackerStorage.InsertEntry</name>
+         <comment>Inserts a new entry</comment>
+         <xquery>AeTransmissionTracker</xquery>
+      </xquery-statement>
+      <xquery-statement>
+         <name>TransmissionTrackerStorage.GetEntry</name>
+         <comment>Retrieves an entry given transmission id</comment>
+         <xquery />
+      </xquery-statement>
+      <xquery-statement>
+         <name>TransmissionTrackerStorage.UpdateEntry</name>
+         <comment>Updates entry state and message id given transmission id</comment>
+         <xquery />
+      </xquery-statement>
+      <xquery-statement>
+         <name>TransmissionTrackerStorage.DeleteEntry</name>
+         <comment>Deletes entry given transmission id</comment>
+         <xquery />
+      </xquery-statement>
+
+      <!-- ============================== -->
+      <!-- Attachment Storage Statements -->
+      <!-- ============================== -->
+      <xquery-statement>
+         <name>AttachmentStorage.InsertAttachmentGroup</name>
+         <xquery>AeProcessAttachment</xquery>
+      </xquery-statement>
+      <xquery-statement>
+         <name>AttachmentStorage.InsertAttachment</name>
+         <xquery>AeAttachment</xquery>
+      </xquery-statement>
+      <xquery-statement>
+         <name>AttachmentStorage.AttachProcess</name>
+         <xquery />
+      </xquery-statement>
+      <xquery-statement>
+         <name>AttachmentStorage.QueryAttachmentHeaders</name>
+         <xquery />
+      </xquery-statement>
+      <xquery-statement>
+         <name>AttachmentStorage.QueryAttachmentContentId</name>
+         <xquery />
+      </xquery-statement>
+      <xquery-statement>
+         <name>AttachmentStorage.CleanupAttachments</name>
+         <xquery />
+      </xquery-statement>
+
+   </xquery-statements>
+</xmldb-config>

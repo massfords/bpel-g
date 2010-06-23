@@ -1,0 +1,1004 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions targetNamespace="http://docs.active-endpoints/wsdl/activebpeladmin/2007/01/activebpeladmin.wsdl" 
+                  xmlns:tns="http://docs.active-endpoints/wsdl/activebpeladmin/2007/01/activebpeladmin.wsdl" 
+                  xmlns:aetypes="http://schemas.active-endpoints.com/activebpeladmin/2007/01/activebpeladmin.xsd" 
+                  xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" 
+                  xmlns:wsdlsoap="http://schemas.xmlsoap.org/wsdl/soap/"
+                  xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/"
+                  xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+              
+   <wsdl:types>
+      <schema elementFormDefault="qualified" targetNamespace="http://schemas.active-endpoints.com/activebpeladmin/2007/01/activebpeladmin.xsd" xmlns="http://www.w3.org/2001/XMLSchema">
+         <complexType name="AdminFault">
+            <sequence>
+               <element name="info" nillable="true" type="xsd:string"/>
+               <element name="details" nillable="true" type="xsd:string"/>
+            </sequence>
+         </complexType>
+         
+         <complexType name="AesListingFilter">
+            <sequence>
+               <element name="listStart" type="xsd:int"/>
+               <element name="maxReturn" type="xsd:int"/>
+            </sequence>
+         </complexType>         
+
+         <complexType name="AesProcessFilter">
+            <complexContent>
+               <extension base="aetypes:AesListingFilter">
+                  <sequence>
+                     <element name="processCompleteEnd" nillable="true" type="xsd:dateTime"/>
+                     <element name="processCompleteStart" nillable="true" type="xsd:dateTime"/>
+                     <element name="processCreateEnd" nillable="true" type="xsd:dateTime"/>
+                     <element name="processCreateStart" nillable="true" type="xsd:dateTime"/>
+                     <element name="processName" nillable="true" type="xsd:QName"/>
+                     <element name="processState" type="xsd:int"/>
+                     <element name="advancedQuery" nillable="true" type="xsd:string"/>
+                  </sequence>
+               </extension>
+            </complexContent>         
+         </complexType>
+         
+         <complexType name="AesProcessInstanceDetail">
+            <sequence>
+               <element name="ended" nillable="true" type="xsd:dateTime"/>
+               <element name="name" nillable="true" type="xsd:QName"/>
+               <element name="processId" type="xsd:long"/>
+               <element name="started" nillable="true" type="xsd:dateTime"/>
+               <element name="state" type="xsd:int"/>
+               <element name="stateReason" type="xsd:int"/>
+            </sequence>
+         </complexType>
+
+         <complexType name="AesProcessListResultRowDetails">
+            <sequence>
+                <element name="item" type="aetypes:AesProcessInstanceDetail" minOccurs="0" maxOccurs="unbounded"/>
+            </sequence>
+         </complexType>
+         
+         <complexType name="AesProcessListResult">
+            <annotation>
+               <documentation>The "empty" element is a side affect of the JavaBean which contains a read only property that indicates if the result is empty.</documentation>               
+            </annotation>
+            <sequence>
+               <element name="totalRowCount" type="xsd:int"/>
+               <element name="completeRowCount" type="xsd:boolean"/>
+               <element name="rowDetails" nillable="true" type="aetypes:AesProcessListResultRowDetails"/>
+               <element name="empty" type="xsd:boolean"/>
+            </sequence>
+         </complexType>
+         
+         <complexType name="AesBreakpointInstanceDetail">
+            <sequence>
+               <element name="processName" nillable="true" type="xsd:QName"/>
+               <element name="nodePath" nillable="true" type="xsd:string"/>
+            </sequence>
+         </complexType>
+         
+         <complexType name="AesBreakpointListRowDetails">
+            <sequence>
+                <element name="item" type="aetypes:AesBreakpointInstanceDetail" minOccurs="0" maxOccurs="unbounded"/>
+            </sequence>
+         </complexType>
+         
+         <complexType name="AesBreakpointList">
+            <sequence>
+               <element name="rowDetails" nillable="true" type="aetypes:AesBreakpointListRowDetails"/>
+               <element name="totalRowCount" type="xsd:int"/>
+            </sequence>
+         </complexType>
+
+         <complexType name="AesVoidType"/>
+
+         <complexType name="AesConfigurationType">
+            <sequence>
+               <element name="xmlString" type="xsd:string"/>
+            </sequence>
+         </complexType>
+
+         <complexType name="AesProcessType">
+            <sequence>
+               <element name="pid" type="xsd:long"/>
+            </sequence>
+         </complexType>
+         
+         <complexType name="AesStringResponseType">
+            <sequence>
+               <element name="response" type="xsd:string"/>
+            </sequence>
+         </complexType>
+         
+         <complexType name="AesBreakpointRequestType">
+            <sequence>
+               <element name="cid" type="xsd:long"/>
+               <element name="endpointURL" type="xsd:string"/>
+               <element name="breakpointList" type="aetypes:AesBreakpointList" nillable="true"/>
+            </sequence>
+         </complexType>
+
+         <complexType name="AesProcessRequestType">
+            <sequence>
+               <element name="cid" type="xsd:long"/>
+               <element name="pid" type="xsd:long"/>
+               <element name="endpointURL" type="xsd:string"/>
+            </sequence>
+         </complexType>
+         
+         <complexType name="AesEngineRequestType">
+            <sequence>
+               <element name="cid" type="xsd:long"/>
+               <element name="endpointURL" type="xsd:string"/>
+            </sequence>
+         </complexType>
+         
+         <complexType name="AesRemoveBreakpointRequestType">
+            <sequence>
+               <element name="cid" type="xsd:long"/>
+               <element name="endpointURL" type="xsd:string"/>
+            </sequence>
+         </complexType>
+         
+         <complexType name="AesProcessObjectType">
+            <sequence>
+               <element name="pid" type="xsd:long"/>
+               <element name="location" type="xsd:string"/>
+            </sequence>
+         </complexType>
+
+         <complexType name="AesDigestType">
+            <sequence>
+               <element name="digest" type="xsd:base64Binary"/>
+            </sequence>
+         </complexType>
+
+         <complexType name="AesGetVariableDataType">
+            <sequence>
+               <element name="pid" type="xsd:long"/>
+               <element name="variablePath" type="xsd:string"/>
+            </sequence>
+         </complexType>
+
+         <complexType name="AesSetVariableDataType">
+            <sequence>
+               <element name="pid" type="xsd:long"/>
+               <element name="variablePath" type="xsd:string"/>
+               <element name="variableData" type="xsd:string" nillable="true"/>
+            </sequence>
+         </complexType>
+         
+         
+         <complexType name="AesAttachmentAttribute">
+            <sequence>
+               <element name="attributeName" type="xsd:string"/>
+               <element name="attributeValue" nillable="true" type="xsd:string"/>
+            </sequence>
+         </complexType>
+         
+         <complexType name="AesAttachmentAttributeList">
+            <sequence>
+               <element name="attribute" type="aetypes:AesAttachmentAttribute" minOccurs="0" maxOccurs="unbounded"/>
+            </sequence>
+         </complexType>
+        
+         <complexType name="AesAddAttachmentResponseType">
+            <sequence>
+               <element name="attachmentId" type="xsd:long"/>
+               <element name="attachmentAttributes" type="aetypes:AesAttachmentAttributeList"  minOccurs="0" maxOccurs="1" />
+            </sequence>
+         </complexType>
+         
+         <complexType name="AesAddAttachmentDataType">
+            <sequence>
+               <element name="pid" type="xsd:long"/>
+               <element name="variablePath" type="xsd:string"/>
+            </sequence>
+         </complexType>
+         
+         <complexType name="AesAttachmentItemNumberList">
+            <sequence>
+               <element name="itemNumber" nillable="true" type="xsd:int" minOccurs="0" maxOccurs="unbounded"/>
+            </sequence>
+         </complexType>
+         
+         <complexType name="AesRemoveAttachmentDataType">
+            <sequence>
+               <element name="pid" type="xsd:long"/>
+               <element name="variablePath" type="xsd:string"/>
+               <element name="itemNumbers" nillable="true" type="aetypes:AesAttachmentItemNumberList"/>
+            </sequence>
+         </complexType>
+
+         <complexType name="AesProcessFilterType">
+            <sequence>
+               <element name="filter" type="aetypes:AesProcessFilter"/>
+            </sequence>
+         </complexType>
+
+         <complexType name="AesProcessListType">
+            <sequence>
+               <element name="response" type="aetypes:AesProcessListResult"/>
+            </sequence>
+         </complexType>
+
+         <complexType name="AesProcessDetailType">
+            <sequence>
+               <element name="response" type="aetypes:AesProcessInstanceDetail"/>
+            </sequence>
+         </complexType>
+
+         <complexType name="AesDeployBprType">
+            <sequence>
+               <element name="bprFilename" type="xsd:string"/>
+               <element name="base64File" type="xsd:string"/>
+            </sequence>
+         </complexType>
+
+         <complexType name="AesSetPartnerLinkType">
+            <sequence>
+               <element name="pid" type="xsd:long"/>
+               <element name="partnerRole" type="xsd:boolean"/>
+               <element name="locationPath" type="xsd:string"/>
+               <element name="data" type="xsd:string" nillable="true"/>
+            </sequence>
+         </complexType>
+
+         <complexType name="AesSetCorrelationType">
+            <sequence>
+               <element name="pid" type="xsd:long"/>
+               <element name="locationPath" type="xsd:string"/>
+               <element name="data" type="xsd:string" nillable="true"/>
+            </sequence>
+         </complexType>
+
+         <complexType name="AesRetryActivityType">
+            <sequence>
+               <element name="pid" type="xsd:long"/>
+               <element name="locationPath" type="xsd:string"/>
+               <element name="atScope" type="xsd:boolean"/>
+            </sequence>
+         </complexType>
+
+         <complexType name="AesCompleteActivityType">
+            <sequence>
+               <element name="pid" type="xsd:long"/>
+               <element name="locationPath" type="xsd:string"/>
+            </sequence>
+         </complexType>
+         
+         <element name="adminFaultElement" type="aetypes:AdminFault"/>
+         
+         <element name="getConfigurationInput"  type="aetypes:AesVoidType"/>
+         <element name="getConfigurationOutput" type="aetypes:AesConfigurationType"/>         
+         <element name="setConfigurationInput" type="aetypes:AesConfigurationType"/>
+         
+         <element name="addEngineListenerInput" type="aetypes:AesEngineRequestType"/>
+         <element name="removeEngineListenerInput" type="aetypes:AesEngineRequestType"/>
+
+         <element name="addBreakpointListenerInput" type="aetypes:AesBreakpointRequestType"/>
+         <element name="updateBreakpointListenerInput" type="aetypes:AesBreakpointRequestType"/>
+         <element name="removeBreakpointListenerInput" type="aetypes:AesRemoveBreakpointRequestType"/>
+         
+         <element name="addProcessListenerInput" type="aetypes:AesProcessRequestType"/>
+         <element name="removeProcessListenerInput" type="aetypes:AesProcessRequestType"/>
+         
+         <element name="resumeProcessObjectInput" type="aetypes:AesProcessObjectType"/>
+         <element name="resumeProcessInput" type="aetypes:AesProcessType"/>
+         <element name="restartProcessInput" type="aetypes:AesProcessType"/>
+         <element name="suspendProcessInput" type="aetypes:AesProcessType"/>
+         <element name="terminateProcessInput" type="aetypes:AesProcessType"/>
+         
+         <element name="getProcessStateInput" type="aetypes:AesProcessType"/>
+         <element name="getProcessStateOutput" type="aetypes:AesStringResponseType"/>
+         
+         <element name="getProcessDigestInput" type="aetypes:AesProcessType"/>
+         <element name="getProcessDigestOutput" type="aetypes:AesDigestType"/>
+         
+         <element name="getProcessDefInput" type="aetypes:AesProcessType"/>
+         <element name="getProcessDefOutput" type="aetypes:AesStringResponseType"/>
+         
+         <element name="getProcessLogInput" type="aetypes:AesProcessType"/>
+         <element name="getProcessLogOutput" type="aetypes:AesStringResponseType"/>
+
+         <element name="getVariableDataInput" type="aetypes:AesGetVariableDataType"/>
+         <element name="getVariableDataOutput" type="aetypes:AesStringResponseType"/>
+
+         <element name="setVariableDataInput" type="aetypes:AesSetVariableDataType"/>
+         <element name="setVariableDataOutput" type="aetypes:AesStringResponseType"/>
+
+         <element name="addAttachmentDataInput" type="aetypes:AesAddAttachmentDataType"/>
+         <element name="addAttachmentDataOutput" type="aetypes:AesAddAttachmentResponseType"/>
+         
+         <element name="removeAttachmentDataInput" type="aetypes:AesRemoveAttachmentDataType"/>
+         <element name="removeAttachmentDataOutput" type="aetypes:AesStringResponseType"/>
+         
+         <element name="getProcessListInput" type="aetypes:AesProcessFilterType"/>
+         <element name="getProcessListOutput" type="aetypes:AesProcessListType"/>
+
+         <element name="getProcessDetailInput" type="aetypes:AesProcessType"/>
+         <element name="getProcessDetailOutput" type="aetypes:AesProcessDetailType"/>
+
+         <element name="getAPIVersionInput" type="aetypes:AesVoidType"/>
+         <element name="getAPIVersionOutput" type="aetypes:AesStringResponseType"/>
+         
+         <element name="deployBprInput" type="aetypes:AesDeployBprType"/>
+         <element name="deployBprOutput" type="aetypes:AesStringResponseType"/>
+
+         <element name="setPartnerLinkDataInput" type="aetypes:AesSetPartnerLinkType"/>
+         <element name="setCorrelationDataInput" type="aetypes:AesSetCorrelationType"/>
+      
+         <element name="retryActivityInput" type="aetypes:AesRetryActivityType"/>
+         <element name="completeActivityInput" type="aetypes:AesCompleteActivityType"/>
+      </schema>
+   </wsdl:types>
+   
+   <wsdl:message name="voidResponse"/>
+
+   <wsdl:message name="getConfigurationRequest">
+      <wsdl:part name="input" element="aetypes:getConfigurationInput"/>
+   </wsdl:message>
+   <wsdl:message name="getConfigurationResponse">
+      <wsdl:part name="output" element="aetypes:getConfigurationOutput"/>
+   </wsdl:message>
+
+   <wsdl:message name="setConfigurationRequest">
+      <wsdl:part name="input" element="aetypes:setConfigurationInput"/>
+   </wsdl:message>
+
+   <wsdl:message name="addEngineListenerRequest">
+      <wsdl:part name="input" element="aetypes:addEngineListenerInput"/>
+   </wsdl:message>
+
+   <wsdl:message name="addBreakpointListenerRequest">
+      <wsdl:part name="input" element="aetypes:addBreakpointListenerInput"/>
+   </wsdl:message>
+
+   <wsdl:message name="updateBreakpointListRequest">
+      <wsdl:part name="input" element="aetypes:updateBreakpointListenerInput"/>
+   </wsdl:message>
+
+   <wsdl:message name="addProcessListenerRequest">
+      <wsdl:part name="input" element="aetypes:addProcessListenerInput"/>
+   </wsdl:message>
+
+   <wsdl:message name="removeProcessListenerRequest">
+      <wsdl:part name="input" element="aetypes:removeProcessListenerInput"/>
+   </wsdl:message>
+
+   <wsdl:message name="resumeProcessRequest">
+      <wsdl:part name="input" element="aetypes:resumeProcessInput"/>
+   </wsdl:message>
+
+   <wsdl:message name="resumeProcessObjectRequest">
+      <wsdl:part name="input" element="aetypes:resumeProcessObjectInput"/>
+   </wsdl:message>
+
+   <wsdl:message name="restartProcessRequest">
+      <wsdl:part name="input" element="aetypes:restartProcessInput"/>
+   </wsdl:message>
+
+   <wsdl:message name="suspendProcessRequest">
+      <wsdl:part name="input" element="aetypes:suspendProcessInput"/>
+   </wsdl:message>
+
+   <wsdl:message name="terminateProcessRequest">
+      <wsdl:part name="input" element="aetypes:terminateProcessInput"/>
+   </wsdl:message>
+
+   <wsdl:message name="getProcessStateRequest">
+      <wsdl:part name="input" element="aetypes:getProcessStateInput"/>
+   </wsdl:message>
+   <wsdl:message name="getProcessStateResponse">
+      <wsdl:part name="output" element="aetypes:getProcessStateOutput"/>
+   </wsdl:message>
+
+   <wsdl:message name="getProcessDigestRequest">
+      <wsdl:part name="input" element="aetypes:getProcessDigestInput"/>
+   </wsdl:message>
+   <wsdl:message name="getProcessDigestResponse">
+      <wsdl:part name="output" element="aetypes:getProcessDigestOutput"/>
+   </wsdl:message>
+
+   <wsdl:message name="getProcessDefRequest">
+      <wsdl:part name="input" element="aetypes:getProcessDefInput"/>
+   </wsdl:message>
+   <wsdl:message name="getProcessDefResponse">
+      <wsdl:part name="output" element="aetypes:getProcessDefOutput"/>
+   </wsdl:message>
+
+   <wsdl:message name="getProcessLogRequest">
+      <wsdl:part name="input" element="aetypes:getProcessLogInput"/>
+   </wsdl:message>
+   <wsdl:message name="getProcessLogResponse">
+      <wsdl:part name="output" element="aetypes:getProcessLogOutput"/>
+   </wsdl:message>
+
+   <wsdl:message name="getVariableDataRequest">
+      <wsdl:part name="input" element="aetypes:getVariableDataInput"/>
+   </wsdl:message>
+   <wsdl:message name="getVariableDataResponse">
+      <wsdl:part name="output" element="aetypes:getVariableDataOutput"/>
+   </wsdl:message>
+
+   <wsdl:message name="setVariableDataRequest">
+      <wsdl:part name="input" element="aetypes:setVariableDataInput"/>
+   </wsdl:message>
+   <wsdl:message name="setVariableDataResponse">
+      <wsdl:part name="output" element="aetypes:setVariableDataOutput"/>
+   </wsdl:message>
+   
+   <wsdl:message name="addAttachmentDataRequest">
+      <wsdl:part name="input" element="aetypes:addAttachmentDataInput"/>
+      <wsdl:part name="attachment" type="xsd:base64Binary"/>
+   </wsdl:message>
+   <wsdl:message name="addAttachmentDataResponse">
+      <wsdl:part name="output" element="aetypes:addAttachmentDataOutput"/>
+   </wsdl:message>
+   
+   <wsdl:message name="removeAttachmentsDataRequest">
+      <wsdl:part name="input" element="aetypes:removeAttachmentDataInput"/>
+   </wsdl:message>
+   <wsdl:message name="removeAttachmentsDataResponse">
+      <wsdl:part name="output" element="aetypes:removeAttachmentDataOutput"/>
+   </wsdl:message>
+
+   <wsdl:message name="removeEngineListenerRequest">
+      <wsdl:part name="input" element="aetypes:removeEngineListenerInput"/>
+   </wsdl:message>
+
+   <wsdl:message name="removeBreakpointListenerRequest">
+      <wsdl:part name="input" element="aetypes:removeBreakpointListenerInput"/>
+   </wsdl:message>
+
+   <wsdl:message name="getProcessListRequest">
+      <wsdl:part name="input" element="aetypes:getProcessListInput"/>
+   </wsdl:message>
+   <wsdl:message name="getProcessListResponse">
+      <wsdl:part name="output" element="aetypes:getProcessListOutput"/>
+   </wsdl:message>
+
+   <wsdl:message name="getProcessDetailRequest">
+      <wsdl:part name="input" element="aetypes:getProcessDetailInput"/>
+   </wsdl:message>
+   <wsdl:message name="getProcessDetailResponse">
+      <wsdl:part name="output" element="aetypes:getProcessDetailOutput"/>
+   </wsdl:message>
+
+   <wsdl:message name="getAPIVersionRequest">
+      <wsdl:part name="input" element="aetypes:getAPIVersionInput"/>
+   </wsdl:message>
+   <wsdl:message name="getAPIVersionResponse">
+      <wsdl:part name="output" element="aetypes:getAPIVersionOutput"/>
+   </wsdl:message>
+
+   <wsdl:message name="deployBprRequest">
+      <wsdl:part name="input" element="aetypes:deployBprInput"/>
+   </wsdl:message>
+   <wsdl:message name="deployBprResponse">
+      <wsdl:part name="output" element="aetypes:deployBprOutput"/>
+   </wsdl:message>   
+
+   <wsdl:message name="setPartnerLinkDataRequest">
+      <wsdl:part name="input" element="aetypes:setPartnerLinkDataInput"/>
+   </wsdl:message>
+
+   <wsdl:message name="setCorrelationSetDataRequest">
+      <wsdl:part name="input" element="aetypes:setCorrelationDataInput"/>
+   </wsdl:message>
+
+   <wsdl:message name="retryActivityRequest">
+      <wsdl:part name="input" element="aetypes:retryActivityInput"/>
+   </wsdl:message>
+
+   <wsdl:message name="completeActivityRequest">
+      <wsdl:part name="input" element="aetypes:completeActivityInput"/>
+   </wsdl:message>
+
+   <wsdl:message name="AdminFaultMsg">
+      <wsdl:part name="fault" element="aetypes:adminFaultElement"/>
+   </wsdl:message>
+
+   <wsdl:portType name="IAeAxisActiveBpelAdmin">
+      <wsdl:operation name="GetConfiguration">
+         <wsdl:input  message="tns:getConfigurationRequest"/>
+         <wsdl:output message="tns:getConfigurationResponse"/>
+         <wsdl:fault  message="tns:AdminFaultMsg" name="AdminFault"/>
+      </wsdl:operation>
+
+      <wsdl:operation name="SetConfiguration">
+         <wsdl:input  message="tns:setConfigurationRequest"/>
+         <wsdl:output message="tns:voidResponse"/>
+         <wsdl:fault  message="tns:AdminFaultMsg" name="AdminFault"/>
+      </wsdl:operation>
+
+      <wsdl:operation name="SuspendProcess">
+         <wsdl:input  message="tns:suspendProcessRequest"/>
+         <wsdl:output message="tns:voidResponse"/>
+         <wsdl:fault  message="tns:AdminFaultMsg" name="AdminFault"/>
+      </wsdl:operation>
+
+      <wsdl:operation name="ResumeProcess">
+         <wsdl:input  message="tns:resumeProcessRequest"/>
+         <wsdl:output message="tns:voidResponse"/>
+         <wsdl:fault  message="tns:AdminFaultMsg" name="AdminFault"/>
+      </wsdl:operation>
+
+      <wsdl:operation name="ResumeProcessObject">
+         <wsdl:input  message="tns:resumeProcessObjectRequest"/>
+         <wsdl:output message="tns:voidResponse"/>
+         <wsdl:fault  message="tns:AdminFaultMsg" name="AdminFault"/>
+      </wsdl:operation>
+
+      <wsdl:operation name="RestartProcess">
+         <wsdl:input  message="tns:restartProcessRequest"/>
+         <wsdl:output message="tns:voidResponse"/>
+         <wsdl:fault  message="tns:AdminFaultMsg" name="AdminFault"/>
+      </wsdl:operation>
+
+      <wsdl:operation name="TerminateProcess">
+         <wsdl:input  message="tns:terminateProcessRequest"/>
+         <wsdl:output message="tns:voidResponse"/>
+         <wsdl:fault  message="tns:AdminFaultMsg" name="AdminFault"/>
+      </wsdl:operation>
+
+      <wsdl:operation name="AddEngineListener">
+         <wsdl:input  message="tns:addEngineListenerRequest"/>
+         <wsdl:output message="tns:voidResponse"/>
+      </wsdl:operation>
+
+      <wsdl:operation name="AddBreakpointListener">
+         <wsdl:input  message="tns:addBreakpointListenerRequest"/>
+         <wsdl:output message="tns:voidResponse"/>
+      </wsdl:operation>
+
+      <wsdl:operation name="UpdateBreakpointList">
+         <wsdl:input  message="tns:updateBreakpointListRequest"/>
+         <wsdl:output message="tns:voidResponse"/>
+      </wsdl:operation>
+
+      <wsdl:operation name="RemoveEngineListener">
+         <wsdl:input  message="tns:removeEngineListenerRequest"/>
+         <wsdl:output message="tns:voidResponse"/>
+      </wsdl:operation>
+
+      <wsdl:operation name="RemoveBreakpointListener">
+         <wsdl:input  message="tns:removeBreakpointListenerRequest"/>
+         <wsdl:output message="tns:voidResponse"/>
+      </wsdl:operation>
+
+      <wsdl:operation name="AddProcessListener">
+         <wsdl:input  message="tns:addProcessListenerRequest"/>
+         <wsdl:output message="tns:voidResponse"/>
+      </wsdl:operation>
+
+      <wsdl:operation name="RemoveProcessListener">
+         <wsdl:input  message="tns:removeProcessListenerRequest"/>
+         <wsdl:output message="tns:voidResponse"/>
+      </wsdl:operation>
+
+      <wsdl:operation name="GetVariable">
+         <wsdl:input  message="tns:getVariableDataRequest"/>
+         <wsdl:output message="tns:getVariableDataResponse"/>
+      </wsdl:operation>
+
+      <wsdl:operation name="SetVariable">
+         <wsdl:input  message="tns:setVariableDataRequest"/>
+         <wsdl:output message="tns:setVariableDataResponse"/>
+      </wsdl:operation>
+      
+       <wsdl:operation name="AddAttachment">
+         <wsdl:input  message="tns:addAttachmentDataRequest"/>
+         <wsdl:output message="tns:addAttachmentDataResponse"/>
+      </wsdl:operation>
+      
+      <wsdl:operation name="RemoveAttachments">
+         <wsdl:input  message="tns:removeAttachmentsDataRequest"/>
+         <wsdl:output message="tns:removeAttachmentsDataResponse"/>
+      </wsdl:operation>
+      
+
+      <wsdl:operation name="GetProcessList">
+         <wsdl:input  message="tns:getProcessListRequest"/>
+         <wsdl:output message="tns:getProcessListResponse"/>
+      </wsdl:operation>
+
+      <wsdl:operation name="GetProcessDetail">
+         <wsdl:input  message="tns:getProcessDetailRequest"/>
+         <wsdl:output message="tns:getProcessDetailResponse"/>
+      </wsdl:operation>
+
+      <wsdl:operation name="GetProcessState">
+         <wsdl:input  message="tns:getProcessStateRequest"/>
+         <wsdl:output message="tns:getProcessStateResponse"/>
+      </wsdl:operation>
+
+      <wsdl:operation name="GetProcessDigest">
+         <wsdl:input  message="tns:getProcessDigestRequest"/>
+         <wsdl:output message="tns:getProcessDigestResponse"/>
+      </wsdl:operation>
+
+      <wsdl:operation name="GetProcessDef">
+         <wsdl:input  message="tns:getProcessDefRequest"/>
+         <wsdl:output message="tns:getProcessDefResponse"/>
+      </wsdl:operation>
+
+      <wsdl:operation name="GetProcessLog">
+         <wsdl:input  message="tns:getProcessLogRequest"/>
+         <wsdl:output message="tns:getProcessLogResponse"/>
+      </wsdl:operation>
+
+      <wsdl:operation name="DeployBpr">
+         <wsdl:input  message="tns:deployBprRequest"/>
+         <wsdl:output message="tns:deployBprResponse"/>
+      </wsdl:operation>
+      
+      <wsdl:operation name="SetPartnerLinkData">
+         <wsdl:input  message="tns:setPartnerLinkDataRequest"/>
+         <wsdl:output message="tns:voidResponse"/>
+      </wsdl:operation>
+      
+      <wsdl:operation name="SetCorrelationSetData">
+         <wsdl:input  message="tns:setCorrelationSetDataRequest"/>
+         <wsdl:output message="tns:voidResponse"/>
+      </wsdl:operation>
+
+      <wsdl:operation name="RetryActivity">
+         <wsdl:input  message="tns:retryActivityRequest"/>
+         <wsdl:output message="tns:voidResponse"/>
+      </wsdl:operation>
+      
+      <wsdl:operation name="CompleteActivity">
+         <wsdl:input  message="tns:completeActivityRequest"/>
+         <wsdl:output message="tns:voidResponse"/>
+      </wsdl:operation>
+
+      <wsdl:operation name="GetAPIVersion">
+         <wsdl:input  message="tns:getAPIVersionRequest"/>
+         <wsdl:output message="tns:getAPIVersionResponse"/>
+      </wsdl:operation>
+   </wsdl:portType>
+
+   <wsdl:binding name="AeActiveBpelAdmin" type="tns:IAeAxisActiveBpelAdmin">
+      <wsdlsoap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+
+      <wsdl:operation name="GetConfiguration">
+         <wsdlsoap:operation soapAction=""/>
+         <wsdl:input>
+            <wsdlsoap:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output>
+            <wsdlsoap:body use="literal"/>
+         </wsdl:output>
+
+         <wsdl:fault name="AdminFault">
+            <wsdlsoap:fault name="AdminFault" use="literal"/>
+         </wsdl:fault>
+      </wsdl:operation>
+
+      <wsdl:operation name="SetConfiguration">
+         <wsdlsoap:operation soapAction=""/>
+         <wsdl:input>
+            <wsdlsoap:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output>
+            <wsdlsoap:body use="literal"/>
+         </wsdl:output>
+
+         <wsdl:fault name="AdminFault">
+            <wsdlsoap:fault name="AdminFault" use="literal"/>
+         </wsdl:fault>
+      </wsdl:operation>
+
+      <wsdl:operation name="SuspendProcess">
+         <wsdlsoap:operation soapAction=""/>
+         <wsdl:input>
+            <wsdlsoap:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output>
+            <wsdlsoap:body use="literal"/>
+         </wsdl:output>
+
+         <wsdl:fault name="AdminFault">
+            <wsdlsoap:fault name="AdminFault" use="literal"/>
+         </wsdl:fault>
+      </wsdl:operation>
+
+      <wsdl:operation name="ResumeProcess">
+         <wsdlsoap:operation soapAction=""/>
+         <wsdl:input>
+            <wsdlsoap:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output>
+            <wsdlsoap:body use="literal"/>
+         </wsdl:output>
+
+         <wsdl:fault name="AdminFault">
+            <wsdlsoap:fault name="AdminFault" use="literal"/>
+         </wsdl:fault>
+      </wsdl:operation>
+
+      <wsdl:operation name="ResumeProcessObject">
+         <wsdlsoap:operation soapAction=""/>
+         <wsdl:input>
+            <wsdlsoap:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output>
+            <wsdlsoap:body use="literal"/>
+         </wsdl:output>
+
+         <wsdl:fault name="AdminFault">
+            <wsdlsoap:fault name="AdminFault" use="literal"/>
+         </wsdl:fault>
+      </wsdl:operation>
+
+      <wsdl:operation name="RestartProcess">
+         <wsdlsoap:operation soapAction=""/>
+         <wsdl:input>
+            <wsdlsoap:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output>
+            <wsdlsoap:body use="literal"/>
+         </wsdl:output>
+
+         <wsdl:fault name="AdminFault">
+            <wsdlsoap:fault name="AdminFault" use="literal"/>
+         </wsdl:fault>
+      </wsdl:operation>
+
+      <wsdl:operation name="TerminateProcess">
+         <wsdlsoap:operation soapAction=""/>
+         <wsdl:input>
+            <wsdlsoap:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output>
+            <wsdlsoap:body use="literal"/>
+         </wsdl:output>
+
+         <wsdl:fault name="AdminFault">
+            <wsdlsoap:fault name="AdminFault" use="literal"/>
+         </wsdl:fault>
+      </wsdl:operation>
+
+      <wsdl:operation name="AddEngineListener">
+         <wsdlsoap:operation soapAction=""/>
+         <wsdl:input>
+            <wsdlsoap:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output>
+            <wsdlsoap:body use="literal"/>
+         </wsdl:output>
+      </wsdl:operation>
+
+      <wsdl:operation name="AddBreakpointListener">
+         <wsdlsoap:operation soapAction=""/>
+         <wsdl:input>
+            <wsdlsoap:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output>
+            <wsdlsoap:body use="literal"/>
+         </wsdl:output>
+      </wsdl:operation>
+
+      <wsdl:operation name="UpdateBreakpointList">
+         <wsdlsoap:operation soapAction=""/>
+         <wsdl:input>
+            <wsdlsoap:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output>
+            <wsdlsoap:body use="literal"/>
+         </wsdl:output>
+      </wsdl:operation>
+
+      <wsdl:operation name="RemoveEngineListener">
+         <wsdlsoap:operation soapAction=""/>
+         <wsdl:input>
+            <wsdlsoap:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output>
+            <wsdlsoap:body use="literal"/>
+         </wsdl:output>
+      </wsdl:operation>
+
+      <wsdl:operation name="RemoveBreakpointListener">
+         <wsdlsoap:operation soapAction=""/>
+         <wsdl:input>
+            <wsdlsoap:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output>
+            <wsdlsoap:body use="literal"/>
+         </wsdl:output>
+      </wsdl:operation>
+
+      <wsdl:operation name="AddProcessListener">
+         <wsdlsoap:operation soapAction=""/>
+         <wsdl:input>
+            <wsdlsoap:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output>
+            <wsdlsoap:body use="literal"/>
+         </wsdl:output>
+      </wsdl:operation>
+
+      <wsdl:operation name="RemoveProcessListener">
+         <wsdlsoap:operation soapAction=""/>
+         <wsdl:input>
+            <wsdlsoap:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output>
+            <wsdlsoap:body use="literal"/>
+         </wsdl:output>
+      </wsdl:operation>
+
+      <wsdl:operation name="GetVariable">
+         <wsdlsoap:operation soapAction=""/>
+         <wsdl:input>
+            <wsdlsoap:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output>
+            <wsdlsoap:body use="literal"/>
+         </wsdl:output>
+      </wsdl:operation>
+
+      <wsdl:operation name="SetVariable">
+         <wsdlsoap:operation soapAction=""/>
+         <wsdl:input>
+            <wsdlsoap:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output>
+            <wsdlsoap:body use="literal"/>
+         </wsdl:output>
+      </wsdl:operation>
+      
+      <wsdl:operation name="AddAttachment">
+         <wsdlsoap:operation soapAction=""/>
+         <wsdl:input>
+            <mime:multipartRelated>
+               <mime:part>
+                  <wsdlsoap:body parts="input" use="literal"/>
+               </mime:part>
+               <mime:part>
+                   <mime:content part="attachment" type="application/octetstream"/>
+               </mime:part>
+            </mime:multipartRelated>
+         </wsdl:input>
+         <wsdl:output>
+            <wsdlsoap:body use="literal"/>
+         </wsdl:output>
+      </wsdl:operation>
+      
+      <wsdl:operation name="RemoveAttachments">
+         <wsdlsoap:operation soapAction=""/>
+         <wsdl:input>
+            <wsdlsoap:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output>
+            <wsdlsoap:body use="literal"/>
+         </wsdl:output>
+      </wsdl:operation>
+
+      <wsdl:operation name="GetProcessList">
+         <wsdlsoap:operation soapAction=""/>
+         <wsdl:input>
+             <wsdlsoap:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output>
+            <wsdlsoap:body use="literal"/>
+         </wsdl:output>
+      </wsdl:operation>
+
+      <wsdl:operation name="GetProcessDetail">
+         <wsdlsoap:operation soapAction=""/>
+         <wsdl:input>
+            <wsdlsoap:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output>
+            <wsdlsoap:body use="literal"/>
+         </wsdl:output>
+      </wsdl:operation>
+
+      <wsdl:operation name="GetProcessState">
+         <wsdlsoap:operation soapAction=""/>
+         <wsdl:input>
+            <wsdlsoap:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output>
+            <wsdlsoap:body use="literal"/>
+         </wsdl:output>
+      </wsdl:operation>
+
+      <wsdl:operation name="GetProcessDigest">
+         <wsdlsoap:operation soapAction=""/>
+         <wsdl:input>
+            <wsdlsoap:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output>
+            <wsdlsoap:body use="literal"/>
+         </wsdl:output>
+      </wsdl:operation>
+
+      <wsdl:operation name="GetProcessDef">
+         <wsdlsoap:operation soapAction=""/>
+         <wsdl:input>
+            <wsdlsoap:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output>
+            <wsdlsoap:body use="literal"/>
+         </wsdl:output>
+      </wsdl:operation>
+
+      <wsdl:operation name="GetProcessLog">
+         <wsdlsoap:operation soapAction=""/>
+         <wsdl:input>
+            <wsdlsoap:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output>
+            <wsdlsoap:body use="literal"/>
+         </wsdl:output>
+      </wsdl:operation>
+
+      <wsdl:operation name="GetAPIVersion">
+         <wsdlsoap:operation soapAction=""/>
+         <wsdl:input>
+            <wsdlsoap:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output>
+            <wsdlsoap:body use="literal"/>
+         </wsdl:output>
+      </wsdl:operation>
+
+      <wsdl:operation name="DeployBpr">
+         <wsdlsoap:operation soapAction=""/>
+         <wsdl:input>
+            <wsdlsoap:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output>
+            <wsdlsoap:body use="literal"/>
+         </wsdl:output>
+      </wsdl:operation>
+
+      <wsdl:operation name="SetPartnerLinkData">
+         <wsdlsoap:operation soapAction=""/>
+         <wsdl:input>
+            <wsdlsoap:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output>
+            <wsdlsoap:body use="literal"/>
+         </wsdl:output>
+      </wsdl:operation>
+
+      <wsdl:operation name="SetCorrelationSetData">
+         <wsdlsoap:operation soapAction=""/>
+         <wsdl:input>
+            <wsdlsoap:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output>
+            <wsdlsoap:body use="literal"/>
+         </wsdl:output>
+      </wsdl:operation>
+
+      <wsdl:operation name="RetryActivity">
+         <wsdlsoap:operation soapAction=""/>
+         <wsdl:input>
+            <wsdlsoap:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output>
+            <wsdlsoap:body use="literal"/>
+         </wsdl:output>
+      </wsdl:operation>
+
+      <wsdl:operation name="CompleteActivity">
+         <wsdlsoap:operation soapAction=""/>
+         <wsdl:input>
+            <wsdlsoap:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output>
+            <wsdlsoap:body use="literal"/>
+         </wsdl:output>
+      </wsdl:operation>
+   </wsdl:binding>
+
+   <wsdl:service name="ActiveBpelAdmin">
+      <wsdl:port binding="tns:AeActiveBpelAdmin" name="ActiveBpelAdmin">
+         <wsdlsoap:address location="http://127.0.0.1:8080/active-bpel/services/ActiveBpelAdmin"/>
+      </wsdl:port>
+   </wsdl:service>
+</wsdl:definitions>
