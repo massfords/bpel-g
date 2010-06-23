@@ -49,7 +49,7 @@
          doc.write('  <td valign="center" align="center"><b><ae:GetResource name="loading" /></b></td>\n');
          doc.write('</tr>\n');
          doc.write('<form id="popupForm" name="popupForm" method="post" action="partner_details_popup.jsp">\n');
-         doc.write('<input type="hidden" name="principal" value="<jsp:getProperty name="pdefBean" property="principal" />" />\n');
+         doc.write('<input type="hidden" name="principal" value="<ae:GetProperty name="pdefBean" property="principal" />" />\n');
          doc.write('<input type="hidden" name="ns" value="' + plNamespace + '" />\n');
          doc.write('<input type="hidden" name="lp" value="' + plLocalPart + '" />\n');
          doc.write('</form>\n');
@@ -84,7 +84,7 @@
             <td valign="top">
                <table border="0" cellpadding="0" cellspacing="0" width="100%" align="left">
                   <tr>
-                     <th colspan="4" class="pageHeaders" align="left" nowrap="true"><ae:GetResource name="partner_definition_detail_for" />&nbsp;<jsp:getProperty name="pdefBean" property="principal" /></th>
+                     <th colspan="4" class="pageHeaders" align="left" nowrap="true"><ae:GetResource name="partner_definition_detail_for" />&nbsp;<ae:GetProperty name="pdefBean" property="principal" /></th>
                   </tr>
                   <tr height="1">
                     <td height="1" colspan="4" class="gridLines"></td>
@@ -99,8 +99,8 @@
                   
                   <ae:IndexedProperty name="pdefBean" id="pdefRow" property="detail" indexedClassName="org.activebpel.rt.bpeladmin.war.web.AePartnerDetailWrapper" >
                      <tr>
-                        <td nowrap="true">&nbsp;<a href="javascript:openDetailWindow('<jsp:getProperty name="pdefRow" property="partnerLinkLocalPart" />', '<jsp:getProperty name="pdefRow" property="partnerLinkNamespace" />')"><jsp:getProperty name="pdefRow" property="partnerLinkLocalPart" /></a></td>
-                        <td nowrap="true">&nbsp;<a href="javascript:openDetailWindow('<jsp:getProperty name="pdefRow" property="partnerLinkLocalPart" />', '<jsp:getProperty name="pdefRow" property="partnerLinkNamespace" />')"><jsp:getProperty name="pdefRow" property="role" /></a>&nbsp;</td>
+                        <td nowrap="true">&nbsp;<a href="javascript:openDetailWindow('<ae:GetProperty name="pdefRow" property="partnerLinkLocalPart" />', '<ae:GetProperty name="pdefRow" property="partnerLinkNamespace" />')"><ae:GetProperty name="pdefRow" property="partnerLinkLocalPart" /></a></td>
+                        <td nowrap="true">&nbsp;<a href="javascript:openDetailWindow('<ae:GetProperty name="pdefRow" property="partnerLinkLocalPart" />', '<ae:GetProperty name="pdefRow" property="partnerLinkNamespace" />')"><ae:GetProperty name="pdefRow" property="role" /></a>&nbsp;</td>
                      </tr>
                      <tr height="1">
                        <td colspan="4" height="1" class="tabular"></td>

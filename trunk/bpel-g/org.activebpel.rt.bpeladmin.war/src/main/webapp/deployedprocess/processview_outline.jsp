@@ -33,7 +33,7 @@
                showTree('');
             </ae:IfTrue>
             <ae:IfFalse name="treeViewBean" property="valid" >
-               container.innerHTML = '<jsp:getProperty name="treeViewBean" property="message" />';
+               container.innerHTML = '<ae:GetProperty name="treeViewBean" property="message" />';
             </ae:IfFalse>
          }
 
@@ -76,7 +76,7 @@
             var propWindow = parent.pvproperties;
             if (xPath && propWindow)
             {
-               url = "processview_properties.jsp?<jsp:getProperty name="treeViewBean" property="pidParamName" />=<jsp:getProperty name="treeViewBean" property="pidParamValue" />&path=" + encodeURI(xPath);
+               url = "processview_properties.jsp?<ae:GetProperty name="treeViewBean" property="pidParamName" />=<ae:GetProperty name="treeViewBean" property="pidParamValue" />&path=" + encodeURI(xPath);
                propWindow.location = url;
             }
          }
@@ -119,14 +119,14 @@
          }
 
          <ae:IfTrue name="treeViewBean" property="valid" >
-            <jsp:getProperty name="treeViewBean" property="javaScript" />
+            <ae:GetProperty name="treeViewBean" property="javaScript" />
          </ae:IfTrue>
       </script>
 
    </head>
    <body OnLoad="init();">
       <div id="outlinediv">
-        Loading BPEL process id <jsp:getProperty name="treeViewBean" property="pidParamValue" /> ...
+        Loading BPEL process id <ae:GetProperty name="treeViewBean" property="pidParamValue" /> ...
       </div>
    </body>
 </html>

@@ -54,9 +54,9 @@
                        <td height="1" colspan="3" class="gridLines"><img src="images/clear.gif" alt="" height="1" width="1" border="0"></td>
                      </tr>
                      <tr>
-                        <td>&nbsp;<jsp:getProperty name="recDetailBean" property="partnerLinkTypeName" /></a></td>
-                        <td>&nbsp;<jsp:getProperty name="recDetailBean" property="portType" /></td>
-                        <td>&nbsp;<jsp:getProperty name="recDetailBean" property="operation" /></td>
+                        <td>&nbsp;<ae:GetProperty name="recDetailBean" property="partnerLinkTypeName" /></a></td>
+                        <td>&nbsp;<ae:GetProperty name="recDetailBean" property="portType" /></td>
+                        <td>&nbsp;<ae:GetProperty name="recDetailBean" property="operation" /></td>
                      </tr>
                      <tr height="1">
                        <td height="1" colspan="3" class="gridLines"><img src="images/clear.gif" alt="" height="1" width="1" border="0"></td>
@@ -81,11 +81,11 @@
 
                      <ae:IndexedProperty name="recDetailBean" id="recRow" property="receiver" indexedClassName="org.activebpel.rt.bpeladmin.war.web.AeMessageReceiverDetailWrapper" >
                         <tr>
-                           <td>&nbsp;<jsp:getProperty name="recRow" property="processId" /></a></td>
-                           <td>&nbsp;<jsp:getProperty name="recRow" property="locationPath" /></td>
+                           <td>&nbsp;<ae:GetProperty name="recRow" property="processId" /></a></td>
+                           <td>&nbsp;<ae:GetProperty name="recRow" property="locationPath" /></td>
                            <td align="center">
                               <ae:IfTrue name="recRow" property="correlated">
-                                 &nbsp;<a href="javascript:alert('<jsp:getProperty name="recRow" property="correlationData" />')"><ae:GetResource name="view" /></a>
+                                 &nbsp;<a href="javascript:alert('<ae:GetProperty name="recRow" property="correlationData" />')"><ae:GetResource name="view" /></a>
                               </ae:IfTrue>
                               <ae:IfFalse name="recRow" property="correlated">
                                  &nbsp;None

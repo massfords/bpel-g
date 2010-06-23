@@ -173,10 +173,10 @@
                         </tr>
                         <ae:IndexedProperty name="recsBean" id="recRow" property="messageReceiver" indexedClassName="org.activebpel.rt.bpeladmin.war.web.AeMessageReceiverDetailWrapper" >
                            <tr>
-                              <td>&nbsp;<a target="aeprocessview" href='processview/processview_detail.jsp?pid=<jsp:getProperty name="recRow" property="processId" />&pathid=<jsp:getProperty name="recRow" property="locationPathId" />'><jsp:getProperty name="recRow" property="processId" /></a></td>
-                              <td>&nbsp;<a href="javascript:openDetailWindow('<jsp:getProperty name="recRow" property="partnerLinkTypeName" />','<jsp:getProperty name="recRow" property="portType" />','<jsp:getProperty name="recRow" property="operation" />','<jsp:getProperty name="recRow" property="processId" />','<jsp:getProperty name="recRow" property="correlationData" />')"><jsp:getProperty name="recRow" property="partnerLinkTypeName" /></a></td>
-                              <td>&nbsp;<jsp:getProperty name="recRow" property="portTypeLocal" /></td>
-                              <td>&nbsp;<jsp:getProperty name="recRow" property="operation" /></td>
+                              <td>&nbsp;<a target="aeprocessview" href='processview/processview_detail.jsp?pid=<ae:GetProperty name="recRow" property="processId" />&pathid=<ae:GetProperty name="recRow" property="locationPathId" />'><ae:GetProperty name="recRow" property="processId" /></a></td>
+                              <td>&nbsp;<a href="javascript:openDetailWindow('<ae:GetProperty name="recRow" property="partnerLinkTypeName" />','<ae:GetProperty name="recRow" property="portType" />','<ae:GetProperty name="recRow" property="operation" />','<ae:GetProperty name="recRow" property="processId" />','<ae:GetProperty name="recRow" property="correlationData" />')"><ae:GetProperty name="recRow" property="partnerLinkTypeName" /></a></td>
+                              <td>&nbsp;<ae:GetProperty name="recRow" property="portTypeLocal" /></td>
+                              <td>&nbsp;<ae:GetProperty name="recRow" property="operation" /></td>
                            </tr>
                            <tr height="1">
                              <td colspan="4" height="1" class="tabular"></td>
@@ -199,13 +199,13 @@
                               </tr>
                             </table>
                           </td>
-                          <td colspan="1" align="center" nowrap="true" class="iconText"><ae:GetResource name="results" />&nbsp;<jsp:getProperty name="recsBean" property="displayStart" />&nbsp;-&nbsp;<jsp:getProperty name="recsBean" property="displayEnd" />&nbsp;<ae:GetResource name="of" />&nbsp; <jsp:getProperty name="recsBean" property="totalRowCount" /></td>
+                          <td colspan="1" align="center" nowrap="true" class="iconText"><ae:GetResource name="results" />&nbsp;<ae:GetProperty name="recsBean" property="displayStart" />&nbsp;-&nbsp;<ae:GetProperty name="recsBean" property="displayEnd" />&nbsp;<ae:GetResource name="of" />&nbsp; <ae:GetProperty name="recsBean" property="totalRowCount" /></td>
                           <td align="right" nowrap="true" class="iconText">
                               &nbsp;
                               <ae:IfTrue name="recsBean" property="previousPage" >
                                  <span style="font-size:10pt" >
                                     <a href='javascript:document.forms["filterForm"].rowOffset.value=0;document.forms["filterForm"].submit()' title='<ae:GetResource name="first_page" />'>&laquo;&laquo;&nbsp;</a>
-                                    <a href='javascript:document.forms["filterForm"].rowOffset.value=<jsp:getProperty name="recsBean" property="previousPageOffset" />;document.forms["filterForm"].submit()' title='<ae:GetResource name="previous_page" />'>&laquo;&nbsp;</a>
+                                    <a href='javascript:document.forms["filterForm"].rowOffset.value=<ae:GetProperty name="recsBean" property="previousPageOffset" />;document.forms["filterForm"].submit()' title='<ae:GetResource name="previous_page" />'>&laquo;&nbsp;</a>
                                  </span>
                               </ae:IfTrue>
                           </td>
@@ -213,8 +213,8 @@
                               &nbsp;
                               <ae:IfTrue name="recsBean" property="nextPage" >
                                  <span style="font-size:10pt" >
-                                    <a href='javascript:document.forms["filterForm"].rowOffset.value=<jsp:getProperty name="recsBean" property="nextPageOffset" />;document.forms["filterForm"].submit()' title='<ae:GetResource name="next_page" />'>&raquo;</a>&nbsp;
-                                    <a href='javascript:gotoLast(<jsp:getProperty name="recsBean" property="totalRowCount" />,<jsp:getProperty name="recsBean" property="rowCount" />);' title='<ae:GetResource name="last_page" />'>&nbsp;&raquo;&raquo;</a>
+                                    <a href='javascript:document.forms["filterForm"].rowOffset.value=<ae:GetProperty name="recsBean" property="nextPageOffset" />;document.forms["filterForm"].submit()' title='<ae:GetResource name="next_page" />'>&raquo;</a>&nbsp;
+                                    <a href='javascript:gotoLast(<ae:GetProperty name="recsBean" property="totalRowCount" />,<ae:GetProperty name="recsBean" property="rowCount" />);' title='<ae:GetResource name="last_page" />'>&nbsp;&raquo;&raquo;</a>
                                  </span>
 
                               </ae:IfTrue>
@@ -238,28 +238,28 @@
                        </tr>
                        <tr>
                          <td class="labelHeaders" align="left" nowrap="true" width="20%">&nbsp;<ae:GetResource name="partner_link" />&nbsp;</td>
-                         <td align="left" colspan="3"><input type="text" name="partnerLinkTypeName" size="20" value='<jsp:getProperty name="recsBean" property="partnerLinkTypeName" />'/></td>
+                         <td align="left" colspan="3"><input type="text" name="partnerLinkTypeName" size="20" value='<ae:GetProperty name="recsBean" property="partnerLinkTypeName" />'/></td>
                        </tr>
                        <tr height="1">
                          <td colspan="4" height="1" class="tabular"></td>
                        </tr>
                        <tr>
                          <td class="labelHeaders" align="left" nowrap="true" width="20%">&nbsp;<ae:GetResource name="port_type" />&nbsp;</td>
-                         <td align="left" colspan="3"><input type="text" name="portType" size="20" value='<jsp:getProperty name="recsBean" property="portType" />'/></td>
+                         <td align="left" colspan="3"><input type="text" name="portType" size="20" value='<ae:GetProperty name="recsBean" property="portType" />'/></td>
                        </tr>
                        <tr height="1">
                          <td colspan="4" height="1" class="tabular"></td>
                        </tr>
                        <tr>
                          <td class="labelHeaders" align="left" nowrap="true" width="20%">&nbsp;<ae:GetResource name="operation" />&nbsp;</td>
-                         <td align="left" colspan="3"><input type="text" name="operation" size="20" value='<jsp:getProperty name="recsBean" property="operation" />'/></td>
+                         <td align="left" colspan="3"><input type="text" name="operation" size="20" value='<ae:GetProperty name="recsBean" property="operation" />'/></td>
                        </tr>
                        <tr height="1">
                          <td colspan="4" height="1" class="tabular"></td>
                        </tr>
                        <tr>
                          <td class="labelHeaders" align="left" nowrap="true" width="20%">&nbsp;<ae:GetResource name="process_id_colon" />&nbsp;</td>
-                         <td align="left" colspan="3"><input type="text" name="processId" size="20" value='<jsp:getProperty name="recsBean" property="processId" />'/></td>
+                         <td align="left" colspan="3"><input type="text" name="processId" size="20" value='<ae:GetProperty name="recsBean" property="processId" />'/></td>
                        </tr>
                        <tr height="1">
                          <td colspan="4" height="1" class="tabular"></td>

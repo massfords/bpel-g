@@ -19,7 +19,7 @@
          // the location path of the most recent 'mouse over' activity.
          lastPath = "";
          // current active or deployed process id
-         currId = "<jsp:getProperty name="graphBean" property="pidParamValue" />";
+         currId = "<ae:GetProperty name="graphBean" property="pidParamValue" />";
          // part or tab
          currPart = "<%= request.getParameter("part") %>";
          // activity location xpath
@@ -27,19 +27,19 @@
 			// pivot path
 			currPivotPath = "<%= request.getParameter("pivot") %>";
 			// init path - passed via pathid.
-			initialPath = "<jsp:getProperty name="graphBean" property="path" />";
+			initialPath = "<ae:GetProperty name="graphBean" property="path" />";
 
-         tileWidth = <jsp:getProperty name="graphBean" property="tileWidth" />;
-         tileHeight = <jsp:getProperty name="graphBean" property="tileHeight" />;
-         imageWidth = <jsp:getProperty name="graphBean" property="width" />;
-         imageHeight = <jsp:getProperty name="graphBean" property="height" />;
+         tileWidth = <ae:GetProperty name="graphBean" property="tileWidth" />;
+         tileHeight = <ae:GetProperty name="graphBean" property="tileHeight" />;
+         imageWidth = <ae:GetProperty name="graphBean" property="width" />;
+         imageHeight = <ae:GetProperty name="graphBean" property="height" />;
          nCols = 0;
          nRows = 0;
-         processImageUriBase = "<%-- ASP_Conversion_Start:Substitute graphimage.aspx?--%>graphimage?<%-- ASP_Conversion_Stop --%><jsp:getProperty name="graphBean" property="pidParamName" />=<jsp:getProperty name="graphBean" property="pidParamValue" />&part=<jsp:getProperty name="graphBean" property="partId" />";
+         processImageUriBase = "<%-- ASP_Conversion_Start:Substitute graphimage.aspx?--%>graphimage?<%-- ASP_Conversion_Stop --%><ae:GetProperty name="graphBean" property="pidParamName" />=<ae:GetProperty name="graphBean" property="pidParamValue" />&part=<ae:GetProperty name="graphBean" property="partId" />";
          processImageSid ="<%= System.currentTimeMillis() %>";
-         processImagePivot = "<jsp:getProperty name="graphBean" property="pivotPath" />";
-         reloadUriBase = "processview_graph.jsp?<jsp:getProperty name="graphBean" property="pidParamName" />=" + currId;
-         propertiesUriBase = "processview_properties.jsp?<jsp:getProperty name="graphBean" property="pidParamName" />=<jsp:getProperty name="graphBean" property="pidParamValue" />";
+         processImagePivot = "<ae:GetProperty name="graphBean" property="pivotPath" />";
+         reloadUriBase = "processview_graph.jsp?<ae:GetProperty name="graphBean" property="pidParamName" />=" + currId;
+         propertiesUriBase = "processview_properties.jsp?<ae:GetProperty name="graphBean" property="pidParamName" />=<ae:GetProperty name="graphBean" property="pidParamValue" />";
 
          function initGraphview()
          {

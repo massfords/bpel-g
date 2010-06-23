@@ -39,7 +39,7 @@
 
                   <ae:IndexedProperty name="processBean" id="rowDetail" property="detail" indexedClassName="org.activebpel.rt.bpel.server.admin.AeProcessDeploymentDetail" >
                      <tr>
-                       <td align="left">&nbsp;<a href='deployed_process_detail.jsp?pdid=<jsp:getProperty name="processBean" property="currentIndex" />&tab=0'><jsp:getProperty name="rowDetail" property="localName" /></a></td>
+                       <td align="left">&nbsp;<a href='deployed_process_detail.jsp?pdid=<ae:GetProperty name="processBean" property="currentIndex" />&tab=0'><ae:GetProperty name="rowDetail" property="localName" /></a></td>
                      </tr>
                      <tr height="1">
                        <td colspan="3" height="1" class="tabular"></td>

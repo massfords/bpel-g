@@ -80,21 +80,21 @@
                       </tr>
                       <tr>
                          <td width="20%" class="labelHeaders">&nbsp;<ae:GetResource name="cache_hits" /></td>
-                         <td width="80%" >&nbsp;<jsp:getProperty name="catalogItemBean" property="cacheHits" /></td>
+                         <td width="80%" >&nbsp;<ae:GetProperty name="catalogItemBean" property="cacheHits" /></td>
                       </tr>
                       <tr height="1">
                         <td height="1" colspan="2" class="tabular"></td>
                       </tr>
                       <tr>
                          <td width="20%" class="labelHeaders">&nbsp;<ae:GetResource name="cache_misses" /></td>
-                         <td width="80%" >&nbsp;<jsp:getProperty name="catalogItemBean" property="cacheMisses" />&nbsp;&nbsp;</td>
+                         <td width="80%" >&nbsp;<ae:GetProperty name="catalogItemBean" property="cacheMisses" />&nbsp;&nbsp;</td>
                       </tr>
                       <tr height="1">
                          <td height="1" colspan="2" class="tabular"></td>
                       </tr>
                       <tr>
                          <td width="20%" class="labelHeaders">&nbsp;<ae:GetResource name="cache_size" /></td>
-                         <td width="80%" ><jsp:getProperty name="catalogItemBean" property="cacheSize" /></td>
+                         <td width="80%" ><ae:GetProperty name="catalogItemBean" property="cacheSize" /></td>
                       </tr>
                       <tr height="1">
                          <td colspan="2" height="1" class="gridLines"></td>
@@ -140,9 +140,9 @@
                           </tr>
                           <ae:IndexedProperty name="catalogItemBean" id="resourceRow" property="detail" indexedClassName="org.activebpel.rt.bpel.impl.list.AeCatalogItem" >
                              <tr>
-                                <td width="15%">&nbsp;<a title="<jsp:getProperty name='resourceRow' property='location' />" href='catalog_detail.jsp?locationHint=<jsp:getProperty name="resourceRow" property="location" />'><ae:GetResource name="resourceRow" property='typeURI' /></a></td>
-                                <td width="30%">&nbsp;<a title="<jsp:getProperty name='resourceRow' property='location' />" href='catalog_detail.jsp?locationHint=<jsp:getProperty name="resourceRow" property="location" />'><jsp:getProperty name="resourceRow" property="formattedName" /></a></td>
-                                <td width="55%">&nbsp;<a href='catalog_detail.jsp?locationHint=<jsp:getProperty name="resourceRow" property="location" />'><jsp:getProperty name="resourceRow" property="namespace" /></a></td>
+                                <td width="15%">&nbsp;<a title="<ae:GetProperty name='resourceRow' property='location' />" href='catalog_detail.jsp?locationHint=<ae:GetProperty name="resourceRow" property="location" />'><ae:GetResource name="resourceRow" property='typeURI' /></a></td>
+                                <td width="30%">&nbsp;<a title="<ae:GetProperty name='resourceRow' property='location' />" href='catalog_detail.jsp?locationHint=<ae:GetProperty name="resourceRow" property="location" />'><ae:GetProperty name="resourceRow" property="formattedName" /></a></td>
+                                <td width="55%">&nbsp;<a href='catalog_detail.jsp?locationHint=<ae:GetProperty name="resourceRow" property="location" />'><ae:GetProperty name="resourceRow" property="namespace" /></a></td>
                              </tr>
                              <tr height="1">
                                <td height="1" colspan="3" class="tabular"></td>
@@ -171,13 +171,13 @@
                                          </tr>
                                      </table>
                                   </td>
-                                  <td colspan="1" align="left" nowrap="true" class="iconText"><ae:GetResource name="results" />&nbsp;<jsp:getProperty name="catalogItemBean" property="displayStart" />&nbsp;-&nbsp;<jsp:getProperty name="catalogItemBean" property="displayEnd" />&nbsp;<ae:GetResource name="of" />&nbsp;<jsp:getProperty name="catalogItemBean" property="totalRowCount" /></td>
+                                  <td colspan="1" align="left" nowrap="true" class="iconText"><ae:GetResource name="results" />&nbsp;<ae:GetProperty name="catalogItemBean" property="displayStart" />&nbsp;-&nbsp;<ae:GetProperty name="catalogItemBean" property="displayEnd" />&nbsp;<ae:GetResource name="of" />&nbsp;<ae:GetProperty name="catalogItemBean" property="totalRowCount" /></td>
                                   <td align="right" nowrap="true" class="iconText">
                                      &nbsp;
                                      <ae:IfTrue name="catalogItemBean" property="previousPage" >
                                        <span style="font-size:10pt" >
                                          <a href='javascript:document.forms["filterForm"].rowOffset.value=0;document.forms["filterForm"].submit()' title='<ae:GetResource name="first_page" />'>&laquo;&laquo;&nbsp;</a>
-                                         <a href='javascript:document.forms["filterForm"].rowOffset.value=<jsp:getProperty name="catalogItemBean" property="previousPageOffset" />;document.forms["filterForm"].submit()' title='<ae:GetResource name="previous_page" />'>&laquo;&nbsp;</a>
+                                         <a href='javascript:document.forms["filterForm"].rowOffset.value=<ae:GetProperty name="catalogItemBean" property="previousPageOffset" />;document.forms["filterForm"].submit()' title='<ae:GetResource name="previous_page" />'>&laquo;&nbsp;</a>
                                        </span>
                                      </ae:IfTrue>
                                   </td>
@@ -185,8 +185,8 @@
                                       &nbsp;
                                      <ae:IfTrue name="catalogItemBean" property="nextPage" >
                                        <span style="font-size:10pt" >
-                                         <a href='javascript:document.forms["filterForm"].rowOffset.value=<jsp:getProperty name="catalogItemBean" property="nextPageOffset" />;document.forms["filterForm"].submit()' title='<ae:GetResource name="next_page" />'>&raquo;</a>&nbsp;
-                                         <a href='javascript:gotoLast(<jsp:getProperty name="catalogItemBean" property="totalRowCount" />,<jsp:getProperty name="catalogItemBean" property="rowCount" />);' title='<ae:GetResource name="last_page" />'>&nbsp;&raquo;&raquo;</a>
+                                         <a href='javascript:document.forms["filterForm"].rowOffset.value=<ae:GetProperty name="catalogItemBean" property="nextPageOffset" />;document.forms["filterForm"].submit()' title='<ae:GetResource name="next_page" />'>&raquo;</a>&nbsp;
+                                         <a href='javascript:gotoLast(<ae:GetProperty name="catalogItemBean" property="totalRowCount" />,<ae:GetProperty name="catalogItemBean" property="rowCount" />);' title='<ae:GetResource name="last_page" />'>&nbsp;&raquo;&raquo;</a>
                                        </span>
                                      </ae:IfTrue>
                                   </td>
@@ -219,7 +219,7 @@
                               <td align="left">
                                 <select name="filterType" class="filterFields">
                                    <ae:IndexedProperty name="catalogItemBean" id="typeRow" property="itemType" indexedClassName="org.activebpel.rt.bpeladmin.war.web.AeCatalogItemType" >
-                                      <option value="<jsp:getProperty name='typeRow' property='typeNumber' />" <ae:IfTrue name="typeRow" property="selected" >selected="true"</ae:IfTrue>><jsp:getProperty name='typeRow' property='typeDisplay' /></option>
+                                      <option value="<ae:GetProperty name='typeRow' property='typeNumber' />" <ae:IfTrue name="typeRow" property="selected" >selected="true"</ae:IfTrue>><ae:GetProperty name='typeRow' property='typeDisplay' /></option>
                                    </ae:IndexedProperty>
                                 </select>                        
                               </td>
@@ -229,14 +229,14 @@
                             </tr>
                             <tr>
                               <td class="labelHeaders" align="left">&nbsp;<ae:GetResource name="resource_colon" />&nbsp;</td>
-                              <td align="left"><input type="text" name="filterResource" value='<jsp:getProperty name="catalogItemBean" property="filterResource" />' size="50" maxlength="255"/></td>
+                              <td align="left"><input type="text" name="filterResource" value='<ae:GetProperty name="catalogItemBean" property="filterResource" />' size="50" maxlength="255"/></td>
                             </tr>
                             <tr height="1">
                               <td colspan="2" height="1" class="tabular"></td>
                             </tr>
                             <tr>
                               <td class="labelHeaders" align="left">&nbsp;<ae:GetResource name="namespace_colon" />&nbsp;</td>
-                              <td align="left"><input type="text" name="filterNamespace" value='<jsp:getProperty name="catalogItemBean" property="filterNamespace" />' size="50" maxlength="255"/></td>
+                              <td align="left"><input type="text" name="filterNamespace" value='<ae:GetProperty name="catalogItemBean" property="filterNamespace" />' size="50" maxlength="255"/></td>
                             </tr>
                             <tr height="1">
                               <td colspan="2" height="1" class="tabular"></td>

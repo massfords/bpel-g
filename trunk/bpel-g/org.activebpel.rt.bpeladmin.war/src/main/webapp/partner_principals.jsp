@@ -47,7 +47,7 @@
 	                  </tr>
 	                  <ae:IndexedProperty name="pdefsBean" id="principalRow" property="principal" indexedClassName="org.activebpel.rt.bpeladmin.war.web.AeJavaTypesWrapper" >
 	                     <tr>
-	                        <td>&nbsp;<a href='partner_details.jsp?principal=<jsp:getProperty name="principalRow" property="string" />'><jsp:getProperty name="principalRow" property="string" /></a></td>
+	                        <td>&nbsp;<a href='partner_details.jsp?principal=<ae:GetProperty name="principalRow" property="string" />'><ae:GetProperty name="principalRow" property="string" /></a></td>
 	                     </tr>
 	                     <tr height="1">
 	                       <td height="1" class="tabular"></td>

@@ -25,7 +25,7 @@
 
    <!-- engine info table -->
    <form name="ec_form" method="post" action="config.jsp">
-      <input type="hidden" name="tab" value="<jsp:getProperty name="tabBean" property="selectedOffset"/>"/>
+      <input type="hidden" name="tab" value="<ae:GetProperty name="tabBean" property="selectedOffset"/>"/>
    <table border="0" cellpadding="0" cellspacing="0" width="100%">
       <tr>
         <th class="columnHeaders" align="left" nowrap="true">&nbsp;<ae:GetResource name="property" />&nbsp;</th>
@@ -74,28 +74,28 @@
       </tr>
       <tr>
          <td class="labelHeaders" align="left" nowrap="true" width="20%">&nbsp;<ae:GetResource name="resource_cache_max" />&nbsp;</td>
-         <td align="left" colspan="2"><input type="text" cols="5" tabIndex="11" name="ec_resource_cache_max" value='<jsp:getProperty name="configBean" property="resourceCacheMax" />'/></td>
+         <td align="left" colspan="2"><input type="text" cols="5" tabIndex="11" name="ec_resource_cache_max" value='<ae:GetProperty name="configBean" property="resourceCacheMax" />'/></td>
        </tr>
       <tr height="1">
         <td colspan="3" height="1" class="tabular"></td>
       </tr>
       <tr>
         <td class="labelHeaders" align="left" nowrap="true" width="20%">&nbsp;<ae:GetResource name="unmatched_correlated_receive_timeout" />&nbsp;</td>
-        <td align="left" colspan="2"><input type="text" cols="5" tabIndex="14" name="ec_unmatch_timeout" value='<jsp:getProperty name="configBean" property="unmatchedCorrelatedReceiveTimeout" />'/></td>
+        <td align="left" colspan="2"><input type="text" cols="5" tabIndex="14" name="ec_unmatch_timeout" value='<ae:GetProperty name="configBean" property="unmatchedCorrelatedReceiveTimeout" />'/></td>
       </tr>
       <tr height="1">
          <td colspan="3" height="1" class="tabular"></td>
       </tr>
       <tr>
          <td class="labelHeaders" align="left" nowrap="true" width="20%">&nbsp;<ae:GetResource name="web_service_invoke_timeout" />&nbsp;</td>
-         <td align="left" colspan="2"><input type="text" cols="5" tabIndex="16" name="ec_web_service_invoke_timeout" value='<jsp:getProperty name="configBean" property="webServiceInvokeTimeout" />'/></td>
+         <td align="left" colspan="2"><input type="text" cols="5" tabIndex="16" name="ec_web_service_invoke_timeout" value='<ae:GetProperty name="configBean" property="webServiceInvokeTimeout" />'/></td>
       </tr>
       <tr height="1">
         <td colspan="3" height="1" class="tabular"></td>
       </tr>
       <tr>
          <td class="labelHeaders" align="left" nowrap="true" width="20%">&nbsp;<ae:GetResource name="web_service_receive_timeout" />&nbsp;</td>
-         <td align="left" colspan="2"><input type="text" cols="5" tabIndex="16" name="ec_web_service_receive_timeout" value='<jsp:getProperty name="configBean" property="webServiceReceiveTimeout" />'/></td>
+         <td align="left" colspan="2"><input type="text" cols="5" tabIndex="16" name="ec_web_service_receive_timeout" value='<ae:GetProperty name="configBean" property="webServiceReceiveTimeout" />'/></td>
       </tr>
       <tr height="1">
         <td colspan="3" height="1" class="tabular"></td>
@@ -104,14 +104,14 @@
       <ae:IfTrue name="configBean" property="internalWorkManager">
          <tr>
            <td class="labelHeaders" align="left" nowrap="true" width="20%">&nbsp;<ae:GetResource name="thread_pool_min" />&nbsp;</td>
-           <td align="left" colspan="2"><input type="text" cols="5" tabIndex="18" name="ec_thread_min" value='<jsp:getProperty name="configBean" property="threadPoolMin" />'/></td>
+           <td align="left" colspan="2"><input type="text" cols="5" tabIndex="18" name="ec_thread_min" value='<ae:GetProperty name="configBean" property="threadPoolMin" />'/></td>
          </tr>
          <tr height="1">
            <td colspan="3" height="1" class="tabular"></td>
          </tr>
          <tr>
            <td class="labelHeaders" align="left" nowrap="true" width="20%">&nbsp;<ae:GetResource name="thread_pool_max" />&nbsp;</td>
-           <td align="left" colspan="2"><input type="text" cols="5" tabIndex="20" name="ec_thread_max" value='<jsp:getProperty name="configBean" property="threadPoolMax" />'/></td>
+           <td align="left" colspan="2"><input type="text" cols="5" tabIndex="20" name="ec_thread_max" value='<ae:GetProperty name="configBean" property="threadPoolMax" />'/></td>
          </tr>
          <tr height="1">
             <td colspan="3" height="1" class="tabular"></td>
@@ -120,15 +120,15 @@
       
       <tr>
          <td class="labelHeaders" align="left" nowrap="true" width="20%">&nbsp;<ae:GetResource name="alarm_max_work_count" />&nbsp;</td>
-         <td align="left" colspan="2"><input type="text" cols="5" tabIndex="21" name="ec_alarm_max_work_count" value='<jsp:getProperty name="configBean" property="alarmMaxWorkCount" />'/></td>
+         <td align="left" colspan="2"><input type="text" cols="5" tabIndex="21" name="ec_alarm_max_work_count" value='<ae:GetProperty name="configBean" property="alarmMaxWorkCount" />'/></td>
       </tr>
       <tr>
          <td class="labelHeaders" align="left" nowrap="true" width="20%">&nbsp;<ae:GetResource name="process_work_count" />&nbsp;</td>
-         <td align="left" colspan="2"><input type="text" cols="5" tabIndex="22" name="ec_process_work_count" value='<jsp:getProperty name="configBean" property="processWorkCount" />'/></td>
+         <td align="left" colspan="2"><input type="text" cols="5" tabIndex="22" name="ec_process_work_count" value='<ae:GetProperty name="configBean" property="processWorkCount" />'/></td>
       </tr>
       <tr>
          <td class="labelHeaders" align="left" nowrap="true" width="20%">&nbsp;<ae:GetResource name="task_finalization_duration" />&nbsp;</td>
-         <td align="left" colspan="2"><input type="text" cols="5" tabIndex="23" name="ec_task_finalization_duration" value='<jsp:getProperty name="configBean" property="taskFinalizationDuration" />'/></td>
+         <td align="left" colspan="2"><input type="text" cols="5" tabIndex="23" name="ec_task_finalization_duration" value='<ae:GetProperty name="configBean" property="taskFinalizationDuration" />'/></td>
       </tr>
       
       <tr height="1">

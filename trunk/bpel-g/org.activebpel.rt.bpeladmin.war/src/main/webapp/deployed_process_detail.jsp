@@ -39,14 +39,14 @@
                </tr>
                <tr>
                  <td class="labelHeaders" align="left" nowrap="true" width="20%">&nbsp;<ae:GetResource name="name_colon" />&nbsp;</td>
-                 <td align="left" colspan="2">&nbsp;<jsp:getProperty name="detailBean" property="localName" /></td>
+                 <td align="left" colspan="2">&nbsp;<ae:GetProperty name="detailBean" property="localName" /></td>
                </tr>
                <tr height="1">
                  <td height="1" colspan="2" class="tabular"></td>
                </tr>
                <tr>
                  <td class="labelHeaders" align="left" nowrap="true" width="20%">&nbsp;<ae:GetResource name="namespace_colon" />&nbsp;</td>
-                 <td align="left" colspan="2">&nbsp;<jsp:getProperty name="detailBean" property="namespaceURI" /></td>
+                 <td align="left" colspan="2">&nbsp;<ae:GetProperty name="detailBean" property="namespaceURI" /></td>
                </tr>
                <tr height="1">
                  <td height="1" colspan="2" class="tabular"></td>
@@ -59,7 +59,7 @@
                </tr>
                <tr>
                   <td colspan="2">
-							<a target="ae_dpid" href="deployedprocess/processview_detail.jsp?pdid=<jsp:getProperty name="detailBean" property="processDeploymentId" />"><ae:GetResource name="view_process_graph" /></a>
+							<a target="ae_dpid" href="deployedprocess/processview_detail.jsp?pdid=<ae:GetProperty name="detailBean" property="processDeploymentId" />"><ae:GetResource name="view_process_graph" /></a>
 							<br/>
 							<br/> 
                      <!-- begin tab ui -->
@@ -67,10 +67,10 @@
                         <ul class="tabnav">
 			                  <ae:IndexedProperty name="tabBean" id="tab" property="tab" indexedClassName="org.activebpel.rt.war.web.tabs.AeTab" >
 			                     <ae:IfTrue name="tab" property="selected" >
-			                        <li class="seltab"><span> &nbsp;<jsp:getProperty name="tab" property="name" />&nbsp;</span></li>
+			                        <li class="seltab"><span> &nbsp;<ae:GetProperty name="tab" property="name" />&nbsp;</span></li>
 			                     </ae:IfTrue>
 			                     <ae:IfFalse name="tab" property="selected" >
-			                        <li><a href="deployed_process_detail.jsp?pdid=<jsp:getProperty name="detailBean" property="processDeploymentId" />&tab=<jsp:getProperty name="tab" property="offset" />"> &nbsp; <jsp:getProperty name="tab" property="name" /> &nbsp;</a></li>
+			                        <li><a href="deployed_process_detail.jsp?pdid=<ae:GetProperty name="detailBean" property="processDeploymentId" />&tab=<ae:GetProperty name="tab" property="offset" />"> &nbsp; <ae:GetProperty name="tab" property="name" /> &nbsp;</a></li>
 			                     </ae:IfFalse>
 			                  </ae:IndexedProperty>
                         </ul>

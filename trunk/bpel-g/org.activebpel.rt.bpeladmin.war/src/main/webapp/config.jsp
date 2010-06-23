@@ -44,11 +44,11 @@
                   <ae:IndexedProperty name="tabBean" id="tab" property="tab" indexedClassName="org.activebpel.rt.war.web.tabs.AeTab" >
                      <ae:IfTrue name="tab" property="selected" >
                         <%-- "selected tabs get the seltab property on id and no hyperlink around their name" --%>
-                        <li class="seltab"><span><jsp:getProperty name="tab" property="name" /></span></li>
+                        <li class="seltab"><span><ae:GetProperty name="tab" property="name" /></span></li>
                      </ae:IfTrue>
                      <ae:IfFalse name="tab" property="selected" >
                         <%-- "otherwise tab gets hyperlink around its name" --%>
-                        <li><a href="javascript:showTab('<jsp:getProperty name="tab" property="offset" />')">&nbsp;<jsp:getProperty name="tab" property="name" />&nbsp;</a></li>
+                        <li><a href="javascript:showTab('<ae:GetProperty name="tab" property="offset" />')">&nbsp;<ae:GetProperty name="tab" property="name" />&nbsp;</a></li>
                      </ae:IfFalse>
                   </ae:IndexedProperty>
                </ul>

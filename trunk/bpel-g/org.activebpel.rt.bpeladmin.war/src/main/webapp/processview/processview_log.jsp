@@ -18,7 +18,7 @@
             <h1>
             <ae:IfTrue name="propertyBean" property="valid" >
                <ae:GetResource name="process_details_colon" /> &nbsp;
-               <span><jsp:getProperty name="propertyBean" property="processName" />(ID <%= request.getParameter("pid") %>)</span>
+               <span><ae:GetProperty name="propertyBean" property="processName" />(ID <%= request.getParameter("pid") %>)</span>
             </ae:IfTrue>
             <ae:IfFalse name="propertyBean" property="valid" >
                <ae:GetResource name="process_details_colon" /> <%= request.getParameter("pid") %>
@@ -39,13 +39,13 @@
 	          </ae:IfTrue>         
             <ae:IndexedProperty name="propertyBean" id="nvPair" property="details" indexedClassName="org.activebpel.rt.bpeladmin.war.web.processview.AePropertyNameValue" >
                <div class="propertydetails">
-                  <h1 class="titleHeaders" ><jsp:getProperty name="nvPair" property="displayName" /></h1>
-                  <textarea rows="<jsp:getProperty name="nvPair" property="rowCount" />" wrap="off" readonly="readonly"><ae:XMLStringFormatter name="nvPair" property="value" /></textarea>
+                  <h1 class="titleHeaders" ><ae:GetProperty name="nvPair" property="displayName" /></h1>
+                  <textarea rows="<ae:GetProperty name="nvPair" property="rowCount" />" wrap="off" readonly="readonly"><ae:XMLStringFormatter name="nvPair" property="value" /></textarea>
                </div>
             </ae:IndexedProperty>
          </ae:IfTrue>
          <ae:IfFalse name="propertyBean" property="valid" >
-                  <jsp:getProperty name="propertyBean" property="message" />
+                  <ae:GetProperty name="propertyBean" property="message" />
          </ae:IfFalse>
       </div>
       <!-- begin footer -->

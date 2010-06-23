@@ -93,7 +93,7 @@
 				<ae:IfParamMatches property="part" value="5">
 					<div style="padding:5px;margin:5px 0 0 0;">
 			          <br/>
-			          <textarea  style="width:100%; height=100%" rows="20" wrap="off" readonly="readonly"><jsp:getProperty name="graphBean" property="bpelXmlSource" /></textarea>
+			          <textarea  style="width:100%; height=100%" rows="20" wrap="off" readonly="readonly"><ae:GetProperty name="graphBean" property="bpelXmlSource" /></textarea>
 					</div>
 				</ae:IfParamMatches>
 				<ae:IfParamNotMatches property="part" value="5">
@@ -101,7 +101,7 @@
 	               <div id="aeprocessdiv">
 		               <img class="aeimageoverlay" id="aeimgoverlay" src="../images/processview/trans10x10.gif" usemap="#bpelgraph-image-map" />
 		               <map id="bpelgraph-image-map" name="bpelgraph-image-map">
-	                  <jsp:getProperty name="graphBean" property="graphImageMapArea" />
+	                  <ae:GetProperty name="graphBean" property="graphImageMapArea" />
 	   	            </map>
 	      	         <span id="graphselection" class="gsoff" onClick="onSelectionClick();"></span>
 	         	      <span id="currselection" class="gsoff"></span>

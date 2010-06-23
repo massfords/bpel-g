@@ -38,21 +38,21 @@
                         </tr>
                         <tr>
                            <td class="labelHeaders" align="left" nowrap="true" width="20%">&nbsp;<ae:GetResource name="type_colon" />&nbsp;</td>
-                           <td align="left">&nbsp;<jsp:getProperty name="detailBean" property="typeDisplay" /></td>
+                           <td align="left">&nbsp;<ae:GetProperty name="detailBean" property="typeDisplay" /></td>
                         </tr>
                         <tr height="1">
                            <td colspan="2" height="1" class="tabular"></td>
                         </tr>
                         <tr>
                            <td class="labelHeaders" align="left" nowrap="true">&nbsp;<ae:GetResource name="location_colon" />&nbsp;</td>
-                           <td align="left">&nbsp;<jsp:getProperty name="detailBean" property="location" /></td>
+                           <td align="left">&nbsp;<ae:GetProperty name="detailBean" property="location" /></td>
                         </tr>
                         <tr height="1">
                            <td colspan="2" height="1" class="tabular"></td>
                         </tr>
                         <tr>
                            <td class="labelHeaders" align="left" nowrap="true">&nbsp;<ae:GetResource name="namespace_colon" />&nbsp;</td>
-                           <td align="left">&nbsp;<jsp:getProperty name="detailBean" property="namespace" /></td>
+                           <td align="left">&nbsp;<ae:GetProperty name="detailBean" property="namespace" /></td>
                         </tr>
                         <tr height="1">
                            <td colspan="2" height="1" class="tabular"></td>
