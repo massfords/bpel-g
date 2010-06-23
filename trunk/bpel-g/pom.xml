@@ -3,12 +3,12 @@
   <name>bpel-g project</name>
   <groupId>bpel-g</groupId>
   <artifactId>bpel-g</artifactId>
-  <version>5.1</version>
+  <version>5.2-SNAPSHOT</version>
   <packaging>pom</packaging>
   <scm>
-    <connection>scm:svn:http://bpel-g.googlecode.com/svn/tags/bpel-g-5.1</connection>
-    <developerConnection>scm:svn:https://bpel-g.googlecode.com/svn/tags/bpel-g-5.1</developerConnection>
-    <url>http://bpel-g.googlecode.com/svn/tags/bpel-g-5.1</url>
+    <connection>scm:svn:http://bpel-g.googlecode.com/svn/trunk/bpel-g/</connection>
+    <developerConnection>scm:svn:https://bpel-g.googlecode.com/svn/trunk/bpel-g/</developerConnection>
+    <url>http://bpel-g.googlecode.com/svn/trunk/bpel-g/</url>
   </scm>
   <build>
     <plugins>
