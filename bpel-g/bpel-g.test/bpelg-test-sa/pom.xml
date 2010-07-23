@@ -17,6 +17,7 @@
             <plugin>
                 <groupId>org.apache.servicemix.tooling</groupId>
                 <artifactId>jbi-maven-plugin</artifactId>
+                <version>4.3</version>
                 <extensions>true</extensions>
             </plugin> 
         </plugins>

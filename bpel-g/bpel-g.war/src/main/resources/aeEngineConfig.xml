@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <config>
-   <entry name="Description" value="ActiveBPEL Persistent Configuration"/>
+   <entry name="Description" value="ActiveBPEL Configuration"/>
    <entry name="ValidateServiceMessages" value="true"/>
    <entry name="AllowEmptyQuerySelection" value="false"/>
    <entry name="AllowCreateXPath" value="false"/>
@@ -27,49 +27,16 @@
    </entry>
 
    <!-- Persistent Store -->
-      <entry name="PersistentStore">
-         <entry name="Factory">
-            <entry value="org.activebpel.rt.bpel.server.engine.storage.AeStorageFactory" name="Class"/>
-            <entry name="StorageProviderFactory">
-               <entry value="org.activebpel.rt.bpel.server.engine.storage.sql.AeSQLStorageProviderFactory" name="Class"/>
-               <entry value="h2" name="DatabaseType"/>
-               <entry value="5.0.2" name="Version"/>
-   
-               <entry name="DataSource">
-                  <entry value="org.activebpel.rt.bpel.server.engine.storage.sql.AeJNDIDataSource" name="Class"/>
-                  <entry value="java:comp/env/jdbc/ActiveBPELDB" name="JNDILocation"/>
-               </entry>
-            </entry>
-            <entry value="true" name="LogHashCollisions"/>
-            <entry name="CounterStore">
-               <entry value="org.activebpel.rt.bpel.server.engine.storage.sql.AeSQLCounterStore" name="Class"/>
-            </entry>
-         </entry>
-      </entry>
+   <entry name="PersistentStore"/>
 
    <!-- Transaction Manager -->
    <entry name="TransactionManagerFactory">
-      <entry value="org.activebpel.rt.bpel.server.engine.transaction.sql.AeSQLTransactionManagerFactory" name="Class"/>
+      <entry name="Class" value="org.activebpel.rt.bpel.server.engine.transaction.AeNoopTransactionManagerFactory"/>
    </entry>
 
    <!-- Process Manager -->
    <entry name="ProcessManager">
-      <entry value="org.activebpel.rt.bpel.server.engine.AePersistentProcessManager" name="Class"/>
-      <!-- 
-         ProcessCount is the maximum number of processes allowed in memory.
-         The default value is 50. A value of 0 allows an unlimited number of processes.
-      -->
-      <entry value="50" name="ProcessCount"/>
-
-      <!-- 
-         ReleaseLag is the number of seconds to wait after process goes
-         quiescent before releasing the process from memory. The default value
-         is 10. The utility of this setting is that a non-zero value gives a
-         chance for invokes and other asynchronous events to complete before
-         persisting a process.
-      -->
-      <entry value="10" name="ReleaseLag"/>
-      <entry value="false" name="Debug"/>
+      <entry name="Class" value="org.activebpel.rt.bpel.impl.AeInMemoryProcessManager"/>
    </entry>
 
    <!-- SecurityProvider configuration -->
@@ -91,7 +58,7 @@
 
    <!-- Queue Manager -->
    <entry name="QueueManager">
-      <entry value="org.activebpel.rt.bpel.server.engine.storage.AePersistentQueueManager" name="Class"/>
+      <entry name="Class" value="org.activebpel.rt.bpel.server.engine.AeInMemoryQueueManager"/>
       <entry name="ReceiveHandlerFactory">
          <entry name="Class" value="org.activebpel.rt.bpel.server.engine.receive.AeDelegatingReceiveHandlerFactory"/>
          <entry name="Protocols">
@@ -119,18 +86,18 @@
 
    <!-- Attachment manager -->
    <entry name="AttachmentManager">
-      <entry value="org.activebpel.rt.bpel.server.engine.storage.AePersistentAttachmentManager" name="Class"/>
+      <entry name="Class" value="org.activebpel.rt.bpel.impl.AeFileAttachmentManager"/>
       <entry name="Debug" value="false"/>
    </entry>
 
    <!-- Coordination Manager -->
    <entry name="CoordinationManager">
-      <entry value="org.activebpel.rt.bpel.server.coord.AePersistentCoordinationManager" name="Class"/>
+      <entry name="Class" value="org.activebpel.rt.bpel.server.coord.AeInMemoryCoordinationManager"/>
    </entry>
 
    <!-- TransmissionTracker -->
    <entry name="TransmissionTracker">
-      <entry value="org.activebpel.rt.bpel.server.transreceive.AePersistentTransmissionTracker" name="Class"/>
+      <entry name="Class" value="org.activebpel.rt.bpel.server.transreceive.AeNoopTransmissionTracker"/>
       <entry name="ReplyFactories">
          <!-- list of reply receiver factories -->
          <entry name="DurableQueuedInvoke">
@@ -145,6 +112,11 @@
    <!-- URN Resolver -->
    <entry name="URNResolver">
       <entry name="Class" value="org.activebpel.rt.bpel.server.addressing.AeStorageBackedURNResolver"/>
+      <entry name="Storage">
+           <entry name="Class" value="org.activebpel.rt.bpel.server.engine.invoke.AeFileBasedURNStorage"/>
+            <!-- The file path is relative to the bpr directory -->
+           <entry name="File" value="urn.properties"/>
+      </entry>
    </entry>
 
    <!-- Engine Administration Impl -->
@@ -152,7 +124,7 @@
 
    <!-- Process Logger -->
    <entry name="ProcessLogger">
-      <entry value="org.activebpel.rt.bpel.server.logging.AePersistentLogger" name="Class"/>
+      <entry name="Class" value="org.activebpel.rt.bpel.server.logging.AeFileLogger"/>
    </entry>
 
    <!-- Catalog Impl -->
@@ -309,35 +281,35 @@
          <entry name="enabled" value="false" />
          <entry name="IdentitySearch">
             <entry name="Class" value ="org.activebpel.rt.identity.search.AeIdentitySearch" />
-				<entry name="Provider">
-					<entry name="Class" value ="org.activebpel.rt.identity.provider.tomcat.AeTomcatUsersIdentityProvider" />
-					<entry name="filename" value ="" />
-				</entry>	
+                <entry name="Provider">
+                    <entry name="Class" value ="org.activebpel.rt.identity.provider.tomcat.AeTomcatUsersIdentityProvider" />
+                    <entry name="filename" value ="" />
+                </entry>    
          </entry>
       </entry>
    --></entry> <!-- end custom managers -->
 
    <!-- Extension activity mappings -->
 	<entry name="ExtensionRegistry"><!--
-		<entry name="B4PHumanInteractionsExtension">
-		    <entry name="Namespace" value="http://www.example.org/BPEL4People"/>
-			<entry name="LocalName" value="humanInteractions"/>
-		   <entry name="ClassName" value="org.activebpel.rt.b4p.def.ext.AeB4PHumanInteractionsExtensionObject"/>
-			<entry name="JarName" value="nojarfornow"/>			
-		</entry>
-	   <entry name="B4PPeopleAssigmentsExtension">
-	      <entry name="Namespace" value="http://www.example.org/BPEL4People"/>
-	      <entry name="LocalName" value="peopleAssignments"/>
-	      <entry name="ClassName" value="org.activebpel.rt.b4p.def.ext.AeB4PPeopleAssignmentsExtensionObject"/>
-	      <entry name="JarName" value="nojarfornow"/>			
-	   </entry>
+        <entry name="B4PHumanInteractionsExtension">
+            <entry name="Namespace" value="http://www.example.org/BPEL4People"/>
+            <entry name="LocalName" value="humanInteractions"/>
+           <entry name="ClassName" value="org.activebpel.rt.b4p.def.ext.AeB4PHumanInteractionsExtensionObject"/>
+            <entry name="JarName" value="nojarfornow"/>         
+        </entry>
+       <entry name="B4PPeopleAssigmentsExtension">
+          <entry name="Namespace" value="http://www.example.org/BPEL4People"/>
+          <entry name="LocalName" value="peopleAssignments"/>
+          <entry name="ClassName" value="org.activebpel.rt.b4p.def.ext.AeB4PPeopleAssignmentsExtensionObject"/>
+          <entry name="JarName" value="nojarfornow"/>           
+       </entry>
        <entry name="B4PPeopleActivityExtension">
          <entry name="Namespace" value="http://www.example.org/BPEL4People"/>
          <entry name="LocalName" value="peopleActivity"/>
          <entry name="ClassName" value="org.activebpel.rt.b4p.impl.AePeopleActivityExtensionObject"/>
          <entry name="JarName" value="nojarfornow"/>        
       </entry>
-		<entry name="B4PLogicalPeopleGroupExtension">
+        <entry name="B4PLogicalPeopleGroupExtension">
          <entry name="Namespace" value="http://www.example.org/BPEL4People"/>
          <entry name="LocalName" value="logicalPeopleGroup"/>
          <entry name="ClassName" value="org.activebpel.rt.b4p.def.ext.AeLogicalPeopleGroupExtensionObject"/>
