@@ -13,6 +13,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.net.URL;
+import java.net.URLDecoder;
 import java.text.MessageFormat;
 
 import org.activebpel.rt.AeException;
@@ -116,7 +117,7 @@ public class AeEngineLifecycleWrapper implements IAeEngineLifecycleWrapper
             throw new AeException(MessageFormat.format(AeMessages.getString("AeEngineLifecycleWrapper.ERROR_2"), //$NON-NLS-1$
                                                        new Object[] {AeDefaultEngineConfiguration.DEFAULT_CONFIG_FILE}));
          }
-         configFile = new File(configResource.getFile());
+         configFile = new File(URLDecoder.decode(configResource.getFile()));
       }
       logInfo(MessageFormat.format(AeMessages.getString("AeEngineLifecycleWrapper.3"), new Object[] {configFile.getPath()})); //$NON-NLS-1$
       return configFile; 

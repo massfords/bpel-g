@@ -22,7 +22,8 @@ public class AeContextListener implements ServletContextListener{
         try {
             AeEngineManagementFactory.initBean(serviceURL, objectName, user, password);
         } catch (Exception e) {
-            throw new RuntimeException(e);
+//            throw new RuntimeException(e);
+            System.out.println("ignoring exceptions");
         }
     }
 
