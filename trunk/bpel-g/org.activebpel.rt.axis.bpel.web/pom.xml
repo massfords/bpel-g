@@ -8,6 +8,7 @@
   <artifactId>bpel-g</artifactId>
   <version>5.2-SNAPSHOT</version>
  </parent>
+ <description>Provides the servlet bindings for Axis. </description>
  <dependencies>
   <dependency>
    <groupId>servletapi</groupId>
@@ -18,7 +19,7 @@
   <dependency>
    <groupId>org.activebpel</groupId>
    <artifactId>ae-axisbpel</artifactId>
-   <version>${pom.version}</version>
+   <version>${project.version}</version>
   </dependency>
  </dependencies>
 </project>

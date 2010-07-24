@@ -12,7 +12,7 @@
 		<dependency>
 			<groupId>org.activebpel</groupId>
 			<artifactId>ae-rt</artifactId>
-			<version>${pom.version}</version>
+			<version>${project.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>servletapi</groupId>

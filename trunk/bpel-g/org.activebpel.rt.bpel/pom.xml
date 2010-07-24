@@ -8,16 +8,17 @@
       <artifactId>bpel-g</artifactId>
       <version>5.2-SNAPSHOT</version>
   </parent>  
+  <description>The core code for the BPEL engine. </description>
   <dependencies>
   	<dependency>
   		<groupId>org.activebpel</groupId>
   		<artifactId>ae-rt</artifactId>
-  	    <version>${pom.version}</version>
+  	    <version>${project.version}</version>
   	</dependency>
   	<dependency>
   		<groupId>org.activebpel</groupId>
   		<artifactId>ae-wsio</artifactId>
-  	    <version>${pom.version}</version>
+  	    <version>${project.version}</version>
   	</dependency>
   </dependencies>
 </project>

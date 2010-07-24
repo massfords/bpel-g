@@ -8,11 +8,12 @@
 		<artifactId>bpel-g</artifactId>
 		<version>5.2-SNAPSHOT</version>
 	</parent>
+	<description>Contains the BPEL endpoint integration components for Axis. This includes the Java provider class that routes messages into the BPEL engine and an invoke handler that enables the Invoke activity to invoke web services via Axis.</description>
 	<dependencies>
   	<dependency>
   		<groupId>org.activebpel</groupId>
   		<artifactId>ae-axisbpeladmin</artifactId>
-  		<version>${pom.version}</version>
+  		<version>${project.version}</version>
   	</dependency>
   	<dependency>
   		<groupId>wsdl4j</groupId>
@@ -32,17 +33,17 @@
   	<dependency>
   		<groupId>org.activebpel</groupId>
   		<artifactId>ae-wsio</artifactId>
-  		<version>${pom.version}</version>
+  		<version>${project.version}</version>
   	</dependency>
   	<dependency>
   		<groupId>org.activebpel</groupId>
   		<artifactId>ae-bpelsrvr</artifactId>
-  		<version>${pom.version}</version>
+  		<version>${project.version}</version>
   	</dependency>
   	<dependency>
   		<groupId>org.activebpel</groupId>
   		<artifactId>ae-axis</artifactId>
-  		<version>${pom.version}</version>
+  		<version>${project.version}</version>
   	</dependency>
   </dependencies>
 </project>

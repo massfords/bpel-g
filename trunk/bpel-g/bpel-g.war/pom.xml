@@ -80,32 +80,32 @@
 		<dependency>
 			<groupId>org.activebpel</groupId>
 			<artifactId>ae-war</artifactId>
-			<version>${pom.version}</version>
+			<version>${project.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.activebpel</groupId>
 			<artifactId>ae-axisbpelweb</artifactId>
-			<version>${pom.version}</version>
+			<version>${project.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.activebpel</groupId>
 			<artifactId>ae-bpeladmin</artifactId>
-			<version>${pom.version}</version>
+			<version>${project.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.activebpel</groupId>
 			<artifactId>ae-bpelexpr</artifactId>
-			<version>${pom.version}</version>
+			<version>${project.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.activebpel</groupId>
 			<artifactId>ae-bpelexprbsf</artifactId>
-			<version>${pom.version}</version>
+			<version>${project.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.activebpel</groupId>
 			<artifactId>ae-http</artifactId>
-			<version>${pom.version}</version>
+			<version>${project.version}</version>
 		</dependency>
 	</dependencies>
 	<profiles>

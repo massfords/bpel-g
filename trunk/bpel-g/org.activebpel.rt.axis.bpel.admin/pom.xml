@@ -8,6 +8,7 @@
 		<artifactId>bpel-g</artifactId>
 		<version>5.2-SNAPSHOT</version>
 	</parent>
+	<description>These classes were generated from the engine's administration WSDL and were checked in. At some point the code here should get deleted in favor of generating during the build process. </description>
 	<dependencies>
   	<dependency>
   		<groupId>org.apache.axis</groupId>

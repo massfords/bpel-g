@@ -27,12 +27,12 @@
         <dependency>
             <groupId>bpelg-test</groupId>
             <artifactId>bpelg-http-su</artifactId>
-            <version>${pom.version}</version>
+            <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>bpelg-test</groupId>
             <artifactId>bpelg-bpel-su</artifactId>
-            <version>${pom.version}</version>
+            <version>${project.version}</version>
         </dependency>
     </dependencies>
 </project>
