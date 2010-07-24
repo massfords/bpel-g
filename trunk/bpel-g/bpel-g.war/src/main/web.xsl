@@ -16,7 +16,8 @@
 
             <xsl:copy-of select="/web-app/description"/>
 
-	        <xsl:copy-of select="$bpeladmin//context-param" />
+            <!-- skip over jmx context-params -->
+	        <xsl:copy-of select="$bpeladmin//context-param[not(starts-with(param-name, 'jmx.'))]" />
 
 	        <xsl:copy-of select="$bpeladmin//listener" />
 
