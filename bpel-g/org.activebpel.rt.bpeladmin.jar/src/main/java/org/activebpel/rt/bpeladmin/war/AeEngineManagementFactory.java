@@ -18,6 +18,7 @@ import javax.management.remote.JMXServiceURL;
 import org.activebpel.rt.bpel.server.admin.jmx.AeEngineManagementAdapter;
 import org.activebpel.rt.bpel.server.admin.jmx.IAeEngineManagementMXBean;
 import org.activebpel.rt.bpel.server.engine.AeEngineFactory;
+import org.activebpel.rt.util.AeUtil;
 
 public class AeEngineManagementFactory {
     
@@ -69,7 +70,7 @@ public class AeEngineManagementFactory {
     }
     
     private static void connect() {
-        if (AeEngineFactory.getEngineAdministration() != null) {
+        if ( AeUtil.isNullOrEmpty(sServiceURL) ) {
             sBean = new AeEngineManagementAdapter(AeEngineFactory.getEngineAdministration());
         } else {
             try {
