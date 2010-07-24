@@ -12,17 +12,17 @@
   	<dependency>
   		<groupId>org.activebpel</groupId>
   		<artifactId>ae-war</artifactId>
-  	    <version>${pom.version}</version>
+  	    <version>${project.version}</version>
   	</dependency>
   	<dependency>
   		<groupId>org.activebpel</groupId>
   		<artifactId>ae-bpelsrvr</artifactId>
-  	    <version>${pom.version}</version>
+  	    <version>${project.version}</version>
   	</dependency>
       <dependency>
   		<groupId>org.activebpel</groupId>
   		<artifactId>ae-identity</artifactId>
-          <version>${pom.version}</version>
+          <version>${project.version}</version>
       </dependency>
   	<dependency>
   		<groupId>commons-fileupload</groupId>

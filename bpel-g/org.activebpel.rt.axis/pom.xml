@@ -10,11 +10,12 @@
 		<version>5.2-SNAPSHOT</version>
 	</parent>
 
+	<description>Some supporting classes for modeling services and deployments within Axis. </description>
 	<dependencies>
 		<dependency>
 			<groupId>org.activebpel</groupId>
 			<artifactId>ae-bpelsrvr</artifactId>
-			<version>${pom.version}</version>
+			<version>${project.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.axis</groupId>

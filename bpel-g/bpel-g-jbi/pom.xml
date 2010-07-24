@@ -44,7 +44,7 @@
 		<dependency>
 			<groupId>org.activebpel</groupId>
 			<artifactId>ae-bpelsrvr</artifactId>
-			<version>${pom.version}</version>
+			<version>${project.version}</version>
 			<exclusions>
 			     <exclusion>
 			         <groupId>xml-apis</groupId>
@@ -59,12 +59,12 @@
 		<dependency>
 			<groupId>org.activebpel</groupId>
 			<artifactId>ae-bpelexpr</artifactId>
-			<version>${pom.version}</version>
+			<version>${project.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.activebpel</groupId>
 			<artifactId>ae-bpelexprbsf</artifactId>
-			<version>${pom.version}</version>
+			<version>${project.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>junit</groupId>

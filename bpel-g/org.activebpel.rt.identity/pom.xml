@@ -12,12 +12,12 @@
   	<dependency>
   		<groupId>org.activebpel</groupId>
   		<artifactId>ae-bpelsrvr</artifactId>
-  	    <version>${pom.version}</version>
+  	    <version>${project.version}</version>
   	</dependency>
   	<dependency>
   		<groupId>org.activebpel</groupId>
   		<artifactId>ae-wsio</artifactId>
-  	    <version>${pom.version}</version>
+  	    <version>${project.version}</version>
   	</dependency>
   </dependencies>
 </project>
