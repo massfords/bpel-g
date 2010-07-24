@@ -9,12 +9,6 @@
 		<artifactId>bpel-g</artifactId>
 		<version>5.2-SNAPSHOT</version>
 	</parent>
-	<repositories>
-		<repository>
-			<id>bpel-g-repo</id>
-			<url>file://${basedir}/../maven-repository</url>
-		</repository>
-	</repositories>
 	<build>
 		<filters>
 			<filter>${basedir}/src/main/filters/filter.properties</filter>

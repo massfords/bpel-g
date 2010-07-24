@@ -6,10 +6,22 @@
   <version>5.2-SNAPSHOT</version>
   <packaging>pom</packaging>
   <scm>
-    <connection>scm:svn:http://bpel-g.googlecode.com/svn/trunk/bpel-g/</connection>
-    <developerConnection>scm:svn:https://bpel-g.googlecode.com/svn/trunk/bpel-g/</developerConnection>
+    <connection>scm:svn:http://bpel-g.googlecode.com/svn/trunk/bpel-g</connection>
+    <developerConnection>scm:svn:https://bpel-g.googlecode.com/svn/trunk/bpel-g</developerConnection>
     <url>http://bpel-g.googlecode.com/svn/trunk/bpel-g/</url>
   </scm>
+  <repositories>
+    <repository>
+      <releases>
+        <enabled>true</enabled>
+      </releases>
+      <snapshots>
+        <enabled>true</enabled>
+      </snapshots>
+      <id>bpel-g-repo</id>
+      <url>http://bpel-g.googlecode.com/svn/trunk/maven-repository</url> 
+    </repository>
+  </repositories>
   <build>
     <plugins>
       <plugin>
@@ -51,4 +63,12 @@
         <module>bpel-g-jbi</module>
         <!-- <module>bpel-g.test</module> -->
   </modules>
+  <dependencies>
+    <dependency>
+    	<groupId>junit</groupId>
+    	<artifactId>junit</artifactId>
+    	<version>4.7</version>
+        <scope>test</scope>
+    </dependency>
+  </dependencies>
 </project>
