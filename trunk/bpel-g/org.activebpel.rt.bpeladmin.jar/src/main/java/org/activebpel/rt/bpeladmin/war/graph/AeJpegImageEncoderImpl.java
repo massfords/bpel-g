@@ -50,7 +50,9 @@ public class AeJpegImageEncoderImpl implements IAeImageEncoder
    {
       try
       {
-          ImageIO.write(aImage, getContentType(), aOutputStream);
+          ImageIO.write(aImage, "jpg", aOutputStream);
+          aOutputStream.flush();
+          aOutputStream.close();
       }
       catch(IOException io)
       {
