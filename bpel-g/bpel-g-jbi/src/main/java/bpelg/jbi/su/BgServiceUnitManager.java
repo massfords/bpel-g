@@ -29,7 +29,7 @@ import org.activebpel.rt.bpel.server.logging.IAeDeploymentLogger;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import bpelg.jbi.su.ode.BgDeploymentContainer;
+import bpelg.packaging.ode.BgDeploymentContainer;
 
 /**
  * Handles the deployment and undeployment of service units

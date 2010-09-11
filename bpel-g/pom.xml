@@ -5,6 +5,16 @@
   <artifactId>bpel-g</artifactId>
   <version>5.2-SNAPSHOT</version>
   <packaging>pom</packaging>
+  <developers>
+  	<developer>
+  		<id>markford</id>
+  		<name>Mark Ford</name>
+  		<email>mark@bpelpeople.com</email>
+  		<url>code.massfords.com</url>
+  		<roles>
+  		</roles>
+  	</developer>
+  </developers>
   <scm>
     <connection>scm:svn:http://bpel-g.googlecode.com/svn/trunk/bpel-g</connection>
     <developerConnection>scm:svn:https://bpel-g.googlecode.com/svn/trunk/bpel-g</developerConnection>
@@ -59,6 +69,7 @@
         <module>org.activebpel.rt.war</module>
         <module>org.activebpel.rt.bpeladmin.jar</module>
         <module>org.activebpel.rt.bpeladmin.war</module>
+        <module>ode-packaging</module>
         <module>bpel-g.war</module>
         <module>bpel-g-jbi</module>
         <module>bpel-g.test</module>
@@ -71,4 +82,13 @@
         <scope>test</scope>
     </dependency>
   </dependencies>
+  <reporting>
+    <plugins>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>findbugs-maven-plugin</artifactId>
+        <version>2.3.1</version>
+      </plugin>
+    </plugins>
+  </reporting>
 </project>
