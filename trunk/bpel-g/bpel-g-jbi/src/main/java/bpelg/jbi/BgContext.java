@@ -21,7 +21,7 @@ import org.w3c.dom.Document;
 
 import bpelg.jbi.exchange.BgMessageExchangeProcessor;
 import bpelg.jbi.exchange.IBgMessageExchangeProcessor;
-import bpelg.jbi.util.BgWSDLFlattener;
+import bpelg.packaging.ode.util.BgWSDLFlattener;
 
 /**
  * Singleton context for all things JBI and bpel-g

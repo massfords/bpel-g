@@ -20,8 +20,8 @@ import org.activebpel.rt.bpel.server.engine.AeEngineFactory;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import bpelg.jbi.su.ode.BgDeploymentContainer;
-import bpelg.jbi.su.ode.BgPddInfo.BgPlink;
+import bpelg.packaging.ode.BgDeploymentContainer;
+import bpelg.packaging.ode.BgPddInfo.BgPlink;
 
 /**
  * This class activates JBI endpoints for each of the myrole partnerlink services
