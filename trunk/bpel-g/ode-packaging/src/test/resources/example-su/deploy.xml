@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<deploy xmlns="http://www.apache.org/ode/schemas/dd/2007/03"
+    xmlns:test="urn:bpelg:test"
+    xmlns:example="http://www.example.org/test/" replace.existing="true">
+    
+    <process name="test:test">
+        <provide partnerLink="testPartnerLinkType">
+            <service name="example:test" port="test"/>
+        </provide>
+    </process>
+
+    <process name="test:testInvoke">
+        <provide partnerLink="testPartnerLinkType">
+            <service name="example:test" port="testInvoke">
+                <wsp:Policy xmlns:abp="http://schemas.active-endpoints.com/ws/2005/12/policy" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy">
+                    <abp:Validation direction="none"/>
+                </wsp:Policy>
+            </service>
+        </provide>
+        <invoke partnerLink="testPartnerLinkType2">
+            <service name="example:test2" port="testInvokeBpelReceiver">
+                <wsp:Policy xmlns:abp="http://schemas.active-endpoints.com/ws/2005/12/policy" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy">
+                    <abp:Validation direction="both"/>
+                </wsp:Policy>
+            </service>
+        </invoke>
+    </process>
+
+    <process name="test:testInvokeBpelReceiver">
+        <provide partnerLink="testPartnerLinkType2">
+            <service name="example:test2" port="testInvokeBpelReceiver"/>
+        </provide>
+    </process>
+</deploy>
