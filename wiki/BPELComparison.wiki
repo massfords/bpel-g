@@ -7,7 +7,7 @@ The following is a quick comparison between bpel-g and other BPEL engines. I'll 
     <tr border="1"><th colspan="5" align="center" style="background:#ffdead;">Project Details</th></tr>
     <tr>
         <th>Feature</th>
-        <th>bpel-g 1.0</th>
+        <th>bpel-g 5.1</th>
         <th>ActiveBPEL 5.0.2</th>
         <th>Apache ODE 1.x</th>
         <th>Apache ODE 2.0</th>
@@ -59,7 +59,7 @@ The following is a quick comparison between bpel-g and other BPEL engines. I'll 
     </tr>
     <tr>
         <th>Feature</th>
-        <th>bpel-g 1.0</th>
+        <th>bpel-g 5.1</th>
         <th>ActiveBPEL 5.0.2</th>
         <th>Apache ODE 1.x</th>
         <th>Apache ODE 2.0</th>
@@ -139,7 +139,7 @@ The following is a quick comparison between bpel-g and other BPEL engines. I'll 
     </tr>
     <tr>
         <th>Feature</th>
-        <th>bpel-g 1.0</th>
+        <th>bpel-g 5.1</th>
         <th>ActiveBPEL 5.0.2</th>
         <th>Apache ODE 1.x</th>
         <th>Apache ODE 2.0</th>
@@ -198,7 +198,7 @@ The following is a quick comparison between bpel-g and other BPEL engines. I'll 
     </tr>
     <tr>
         <th>Feature</th>
-        <th>bpel-g 1.0</th>
+        <th>bpel-g 5.1</th>
         <th>ActiveBPEL 5.0.2</th>
         <th>Apache ODE 1.x</th>
         <th>Apache ODE 2.0</th>
@@ -229,7 +229,7 @@ The following is a quick comparison between bpel-g and other BPEL engines. I'll 
     </tr>
     <tr>
         <th>Feature</th>
-        <th>bpel-g 1.0</th>
+        <th>bpel-g 5.1</th>
         <th>ActiveBPEL 5.0.2</th>
         <th>Apache ODE 1.x</th>
         <th>Apache ODE 2.0</th>
@@ -253,7 +253,7 @@ The following is a quick comparison between bpel-g and other BPEL engines. I'll 
     </tr>
     <tr>
         <th>Feature</th>
-        <th>bpel-g 1.0</th>
+        <th>bpel-g 5.1</th>
         <th>ActiveBPEL 5.0.2</th>
         <th>Apache ODE 1.x</th>
         <th>Apache ODE 2.0</th>
