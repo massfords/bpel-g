@@ -49,7 +49,7 @@ The following is a quick comparison between bpel-g and other BPEL engines. I'll 
     </tr>
     <tr>
         <td> JBI Packaging</td>
-        <td> planned</td>
+        <td> yes</td>
         <td> no</td>
         <td> yes</td>
         <td> yes</td>
