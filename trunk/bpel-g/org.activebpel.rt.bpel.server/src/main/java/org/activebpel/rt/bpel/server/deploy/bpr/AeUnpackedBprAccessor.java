@@ -24,7 +24,7 @@ import org.activebpel.rt.util.AeUtil;
  * A <code>IAeBprFileStrategy</code> impl where bpr resources are pulled from
  * an unpacked copy of the original bpr file.
  */
-public class AeUnpackedBprAccessor extends AeJarFileBprAccessor
+public class AeUnpackedBprAccessor extends AeAbstractBprStrategy
 {
    /**
     * Constructor.

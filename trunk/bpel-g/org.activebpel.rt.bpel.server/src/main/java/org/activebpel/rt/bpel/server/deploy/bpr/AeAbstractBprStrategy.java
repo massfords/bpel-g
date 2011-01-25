@@ -10,10 +10,14 @@
 package org.activebpel.rt.bpel.server.deploy.bpr;
 
 import java.io.InputStream;
+import java.net.URL;
 import java.util.Collection;
 
 import org.activebpel.rt.AeException;
+import org.activebpel.rt.bpel.server.AeMessages;
+import org.activebpel.rt.bpel.server.deploy.AeDeploymentException;
 import org.activebpel.rt.bpel.server.deploy.IAeDeploymentContext;
+import org.activebpel.rt.util.AeCloser;
 import org.activebpel.rt.xml.AeXMLParserBase;
 import org.w3c.dom.Document;
 
@@ -138,5 +142,49 @@ public abstract class AeAbstractBprStrategy implements IAeBprAccessor
          mParser.setNamespaceAware(true);
       }
       return mParser;
+   }
+   
+   /**
+    * @see org.activebpel.rt.bpel.server.deploy.bpr.IAeBprAccessor#getResourceAsDocument(java.lang.String)
+    */
+   public Document getResourceAsDocument(String aResourceName) throws AeException
+   {
+      InputStream in = null;
+      try
+      {
+         URL url = getDeploymentContext().getResourceURL( aResourceName );
+         if( url == null )
+         {
+            return null;
+         }
+         else
+         {
+            in = url.openStream();
+            return getParser().loadDocument(in,null);
+         }
+      }
+      catch( Throwable t)
+      {
+         String detailReason;
+         if (t.getCause() == null)
+            detailReason = AeMessages.getString("AeJarFileBprAccessor.UNKNOWN"); //$NON-NLS-1$
+         else
+            detailReason = t.getCause().getLocalizedMessage();
+         
+         Object args[] = new Object[] {aResourceName, getDeploymentContext().getDeploymentLocation(), detailReason};
+         throw new AeDeploymentException(AeMessages.format("AeJarFileBprAccessor.ERROR_1", args), t); //$NON-NLS-1$
+      }
+      finally
+      {
+         AeCloser.close(in);
+      }
+   }
+   
+   /**
+    * @see org.activebpel.rt.bpel.server.deploy.bpr.IAeBprAccessor#hasResource(java.lang.String)
+    */
+   public boolean hasResource(String aResourceName)
+   {
+      return getDeploymentContext().getResourceURL( aResourceName ) != null;
    }
 }
