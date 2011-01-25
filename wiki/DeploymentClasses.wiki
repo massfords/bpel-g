@@ -1,0 +1,7 @@
+#summary Overview of the deployment class hierarchy
+
+= Deployment Classes =
+
+The existing Business Process Archive (BPR) format is too complex to build without tools so I'm adopting the Apache ODE packaging format. The engine will continue to support the BPR format but my plan is to create all of my new process deployments in the ODE format. The ServiceMix packaging already supports this deployment packaging through a service unit. In order to get this to work for the WAR packaging, I need to review the deployment classes and find a good spot to insert the necessary code. I found it difficult to follow the associations between the classes so I've attempted to provide some clarity with a little UML.
+
+http://bpel-g.googlecode.com/svn/trunk/bpel-g/docs/DeploymentClasses.png
