@@ -239,6 +239,7 @@ public class AeDeploymentFileHandler implements IAeDeploymentFileHandler, IAeSca
          AeNewDeploymentInfo info = new AeNewDeploymentInfo();
          info.setURL( aFileUrl );
          info.setTempURL( getUnpackedDeploymentStager().getTempURL(aFileUrl) );
+         // FIXME this behavior needs to be configurable in order to support multiple deployment types
          IAeDeploymentContainer deployContainer = AeDeploymentContainerFactory.createDeploymentContainer(info);
 
          // If the logger is null, used the factory to create a new one.

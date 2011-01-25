@@ -11,16 +11,11 @@ package org.activebpel.rt.bpel.server.deploy;
 
 import java.net.URL;
 
-import org.w3c.dom.Document;
-
 /**
  * Wrapper for deployment information, url, metadata, etc.
  */
 public class AeNewDeploymentInfo
 {
-   /** holds onto meta data document, which describes deployment. */
-   private Document mMetaData;
-   
    /** holds onto the deployment context url. */
    private URL mURL;
    
@@ -33,22 +28,6 @@ public class AeNewDeploymentInfo
    public URL getURL()
    {
       return mURL;
-   }
-
-   /**
-    * Accessor for wsdd document.
-    */
-   public Document getMetaData()
-   {
-      return mMetaData;
-   }
-
-   /**
-    * Setter for wsdd document.
-    */
-   public void setMetaData(Document aDocument)
-   {
-      mMetaData = aDocument;
    }
 
    /**

@@ -81,7 +81,7 @@ public class AeDirectoryScanner
     * Prime the watch list with any matching files and return an array of <code>File</code> 
     * objects that have been registered with the scanner.  
     */
-   public File[] prime()
+   protected File[] prime()
    {
       mDeployments = new HashMap(); 
       File scanDir = getScanDir();
@@ -319,7 +319,7 @@ public class AeDirectoryScanner
     * @param aUserData
     * @throws AeException
     */
-   public void addDeploymentFile(File aFile, String aFileName, Object aUserData) throws AeException
+   protected void addDeploymentFile(File aFile, String aFileName, Object aUserData) throws AeException
    {
       File destFile = new File(getScanDir(), aFileName);
       synchronized (mDeploymentMutex)

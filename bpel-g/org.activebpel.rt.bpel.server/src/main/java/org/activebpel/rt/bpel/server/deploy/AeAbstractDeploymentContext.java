@@ -20,7 +20,8 @@ abstract public class AeAbstractDeploymentContext implements IAeDeploymentContex
    /** deployment location */
    private URL mLocation;
    /** deployment id */
-   private IAeDeploymentId mDeploymentId;   
+   private IAeDeploymentId mDeploymentId;
+   private String mShortName;
 
    /**
     * Constructor.
@@ -84,8 +85,14 @@ abstract public class AeAbstractDeploymentContext implements IAeDeploymentContex
     */
    public String getShortName()
    {
-      String urlString = getDeploymentLocation().toString();
-      return urlString.substring( urlString.lastIndexOf('/')+1 );
+	  if (mShortName == null) {
+	      String urlString = getDeploymentLocation().toString();
+		  mShortName = urlString.substring( urlString.lastIndexOf('/')+1 ); 
+	  }
+	  return mShortName;
    }
-
+   
+   public void setShortName(String aShortName) {
+	   mShortName = aShortName;
+   }
 }
