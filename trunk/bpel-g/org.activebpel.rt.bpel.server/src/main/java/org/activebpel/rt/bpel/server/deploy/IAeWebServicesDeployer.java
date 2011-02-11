@@ -36,6 +36,9 @@ public interface IAeWebServicesDeployer
    /**
     * Deploy one web service 
     * 
+    * FIXME should split out the single deployment methods from this interface. It's only called from one place
+    *       and is an implementation detail that complicates the interface.
+    * 
     * @param aService
     * @param aLoader
     * @throws AeException

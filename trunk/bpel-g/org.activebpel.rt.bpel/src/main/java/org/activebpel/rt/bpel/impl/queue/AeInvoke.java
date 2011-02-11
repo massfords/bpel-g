@@ -276,15 +276,6 @@ public class AeInvoke extends AeAbstractQueuedObject implements IAeInvokeInterna
    }
 
    /**
-    * @see org.activebpel.wsio.invoke.IAeInvoke#getCustomInvokerUri()
-    * @deprecated
-    */
-   public String getCustomInvokerUri()
-   {
-      return getInvokeHandler();
-   }
-
-   /**
     * @see org.activebpel.wsio.invoke.IAeInvoke#getInvokeHandler()
     */
    public String getInvokeHandler()

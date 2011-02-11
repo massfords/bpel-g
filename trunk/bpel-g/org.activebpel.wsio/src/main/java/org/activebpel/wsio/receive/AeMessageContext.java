@@ -19,7 +19,6 @@ import javax.xml.namespace.QName;
 
 import org.activebpel.wsio.AeMessages;
 import org.activebpel.wsio.AeWsAddressingHeaders;
-import org.activebpel.wsio.IAeWebServiceEndpointReference;
 import org.activebpel.wsio.IAeWsAddressingConstants;
 import org.activebpel.wsio.IAeWsAddressingHeaders;
 import org.w3c.dom.Element;
@@ -129,61 +128,6 @@ public class AeMessageContext implements IAeMessageContext
    public String getPrincipal()
    {
       return mPrincipal;
-   }
-
-   /**
-    * @deprecated Replaced with getPartnerEndpointReference() method.
-    * @see org.activebpel.wsio.receive.IAeMessageContext#getEmbeddedEndpointReference()
-    */
-   public IAeWebServiceEndpointReference getEmbeddedEndpointReference()
-   {
-      return getPartnerEndpointReference();
-   }
-
-   /**
-    * @deprecated Replaced with getWsAddressingHeaders.getReplyTo() method.    
-    * @see org.activebpel.wsio.receive.IAeMessageContext#getPartnerEndpointReference()
-   */ 
-   public IAeWebServiceEndpointReference getPartnerEndpointReference()
-   {
-      return getWsAddressingHeaders().getReplyTo();
-   }
-
-   /**
-    * @deprecated Replaced with getWsAddressingHeaders.getRecipient() method.    
-    * @see org.activebpel.wsio.receive.IAeMessageContext#getMyEndpointReference()
-   */ 
-   public IAeWebServiceEndpointReference getMyEndpointReference()
-   {
-      return getWsAddressingHeaders().getRecipient();
-   }
-  
-   /**
-    * @deprecated please use getWsAddressingHeaders().setRecipient() instead
-    * @param aRef The endpoint to set.
-   */
-   public void setMyEndpointReference(IAeWebServiceEndpointReference aRef)
-   {
-      getWsAddressingHeaders().setRecipient(aRef);
-   }
-  
-   /**
-    * @deprecated use getWsAddressingHeaders().setReplyTo() instead
-    * @param aEndpoint The endpoint to set.
-    */
-   public void setEmbeddedEndpointReference(IAeWebServiceEndpointReference aEndpoint)
-   {
-      setPartnerEndpointReference(aEndpoint);
-   }
-
-   /**
-    * @deprecated please use getWsAddressingHeaders().setReplyTo() instead
-    * Sets the partner (embedded) endpoint reference.
-    * @param aEndpoint
-    */
-   public void setPartnerEndpointReference(IAeWebServiceEndpointReference aEndpoint)
-   {
-      getWsAddressingHeaders().setReplyTo(aEndpoint);
    }
 
    /**

@@ -54,17 +54,6 @@ public interface IAeMessageQueue
     * Allows an externally invoked operation data to dispatch to a queued invoke.
     * @param aProcessId The id of the process expecting the response from the invoke
     * @param aLocationPath The path to the location awaiting the response
-    * @param aMessageData The data we have received from invoke.
-    * @param aProcessProperties Any string name/value pairs we received back from the invoke.
-    * @deprecated Use org.activebpel.wsio.receive.IAeMessageQueue#queueInvokeData(long, java.lang.String, long, org.activebpel.wsio.IAeWebServiceMessageData, java.util.Map)
-    */
-   public void queueInvokeData(long aProcessId, String aLocationPath, IAeWebServiceMessageData aMessageData, Map aProcessProperties )
-         throws RemoteException, AeRequestException;
-
-   /**
-    * Allows an externally invoked operation data to dispatch to a queued invoke.
-    * @param aProcessId The id of the process expecting the response from the invoke
-    * @param aLocationPath The path to the location awaiting the response
     * @param aTransmissionId The invoke's execution instance transmission id.
     * @param aMessageData The data we have received from invoke.
     * @param aProcessProperties Any string name/value pairs we received back from the invoke.
@@ -72,18 +61,6 @@ public interface IAeMessageQueue
    public void queueInvokeData(long aProcessId, String aLocationPath, long aTransmissionId, IAeWebServiceMessageData aMessageData, Map aProcessProperties )
          throws RemoteException, AeRequestException;
    
-   /**
-    * Allows an externally invoked operation fault to dispatch to a queued invoke.
-    * @param aProcessId The process that's expecting the invoke response
-    * @param aLocationPath The path to the location awaiting the response
-    * @param aFaultName The fault name we received from invoke or null if not available
-    * @param aFaultData The fault data we have received from invoke or null if not available
-    * @param aProcessProperties Any string name/value pairs we received back from the invoke.
-    * @deprecated Use org.activebpel.wsio.receive.IAeMessageQueue#queueInvokeFault(long, java.lang.String, long, javax.xml.namespace.QName, org.activebpel.wsio.IAeWebServiceMessageData, java.util.Map)
-    */
-   public void queueInvokeFault(long aProcessId, String aLocationPath, QName aFaultName, IAeWebServiceMessageData aFaultData, Map aProcessProperties)
-         throws RemoteException, AeRequestException;
-
    /**
     * Allows an externally invoked operation fault to dispatch to a queued invoke.
     * @param aProcessId The process that's expecting the invoke response
