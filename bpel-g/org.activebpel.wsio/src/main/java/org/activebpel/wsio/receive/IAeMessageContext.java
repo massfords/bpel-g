@@ -15,7 +15,6 @@ import java.util.Map;
 
 import javax.xml.namespace.QName;
 
-import org.activebpel.wsio.IAeWebServiceEndpointReference;
 import org.activebpel.wsio.IAeWsAddressingHeaders;
 
 /**
@@ -51,28 +50,6 @@ public interface IAeMessageContext extends Serializable
     * Gets the authenticated principal value or null if the request wasn't authenticated.
     */
    public String getPrincipal();
-
-   /**
-    * Gets the embedded endpoint reference that should be used for any asynchronous replies
-    * on this partner link. This is an optional value and is only used if the endpoint
-    * reference source for the partner link is declared as "invoker" in the PDD.
-    * @deprecated Deprecated. Use  getPartnerEndpointReference() instead.
-    */
-   public IAeWebServiceEndpointReference getEmbeddedEndpointReference();
-
-   /**
-    * Gets the embedded endpoint reference that should be used for any asynchronous replies
-    * on this partner link. This is an optional value and is only used if the endpoint
-    * reference source for the partner link is declared as "invoker" in the PDD.
-    * @deprecated Deprecated. Use  getWsAddressingHeaders().getReplyTo() instead.
-    */
-   public IAeWebServiceEndpointReference getPartnerEndpointReference();
-
-   /**
-    * Gets the endpoint reference that was invoked or null if not set.
-    * @deprecated Deprecated. Use  getWsAddressingHeaders().getRecipient() instead.
-    */
-   public IAeWebServiceEndpointReference getMyEndpointReference();
 
    /**
     * Gets the version of the process that the message is targeting. A null or

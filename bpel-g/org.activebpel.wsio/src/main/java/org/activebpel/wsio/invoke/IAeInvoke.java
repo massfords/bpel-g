@@ -72,12 +72,6 @@ public interface IAeInvoke extends Serializable, IAeTransmission
    public int getLocationId();
    
    /**
-    * Return the custom invoker uri string or null if none was specified.
-    * @deprecated use getInvokeHandler
-    */
-   public String getCustomInvokerUri();
-
-   /**
     * Setter for the invoke handler
     *
     * @param aHandler

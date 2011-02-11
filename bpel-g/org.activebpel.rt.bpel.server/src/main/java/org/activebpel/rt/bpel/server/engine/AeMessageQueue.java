@@ -49,17 +49,6 @@ public class AeMessageQueue implements IAeMessageQueue
    }
 
    /**
-    * @see org.activebpel.wsio.receive.IAeMessageQueue#queueInvokeData(long, java.lang.String, org.activebpel.wsio.IAeWebServiceMessageData, java.util.Map)
-    * @deprecated use org.activebpel.wsio.receive.IAeMessageQueue#queueInvokeData(long, java.lang.String, long, org.activebpel.wsio.IAeWebServiceMessageData, java.util.Map)
-    */
-   public void queueInvokeData(long aProcessId, String aLocationPath,
-         IAeWebServiceMessageData aMessageData, Map aProcessProperties)
-         throws RemoteException, AeRequestException
-   {
-      queueInvokeData(aProcessId, aLocationPath, 0, aMessageData, aProcessProperties);
-   }
-   
-   /**
     * @see org.activebpel.wsio.receive.IAeMessageQueue#queueInvokeData(long, java.lang.String, long, org.activebpel.wsio.IAeWebServiceMessageData, java.util.Map)
     */
    public void queueInvokeData(long aProcessId, String aLocationPath, long aTransmissionId,
@@ -75,17 +64,6 @@ public class AeMessageQueue implements IAeMessageQueue
       {
          throw new AeRequestException(e.getMessage());
       }
-   }
-   
-   /**
-    * @see org.activebpel.wsio.receive.IAeMessageQueue#queueInvokeFault(long, java.lang.String, javax.xml.namespace.QName, org.activebpel.wsio.IAeWebServiceMessageData, java.util.Map)
-    * @deprecated use org.activebpel.wsio.receive.IAeMessageQueue#queueInvokeFault(long, java.lang.String, long, javax.xml.namespace.QName, org.activebpel.wsio.IAeWebServiceMessageData, java.util.Map) 
-    */ 
-   public void queueInvokeFault(long aProcessId, String aLocationPath,
-         QName aFaultName, IAeWebServiceMessageData aFaultData,
-         Map aProcessProperties) throws RemoteException, AeRequestException
-   {
-      queueInvokeFault(aProcessId, aLocationPath, 0, aFaultName, aFaultData, aProcessProperties);
    }
    
    /**
