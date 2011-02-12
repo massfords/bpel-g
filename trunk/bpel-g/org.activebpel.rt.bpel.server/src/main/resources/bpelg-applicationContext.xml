@@ -82,4 +82,6 @@
     <bean id="LockManager" class="org.activebpel.rt.bpel.impl.AeInMemoryLockManager"/>
     <bean id="AttachmentManager" class="org.activebpel.rt.bpel.server.engine.storage.AePersistentAttachmentManager"/>
     <bean id="CoordinationManager" class="org.activebpel.rt.bpel.server.coord.AePersistentCoordinationManager"/>
+    <bean id="EngineAdminImpl" class="org.activebpel.rt.axis.bpel.web.AeWebEngineAdministration"/>
+    <bean id="DeploymentProvider" class="org.activebpel.rt.bpel.server.deploy.AeDeploymentProvider"/>
 </beans>

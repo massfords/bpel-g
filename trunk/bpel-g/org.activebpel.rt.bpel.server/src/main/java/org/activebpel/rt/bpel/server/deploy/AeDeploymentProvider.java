@@ -12,7 +12,6 @@ package org.activebpel.rt.bpel.server.deploy;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.Map;
 
 import javax.xml.namespace.QName;
 
@@ -28,13 +27,6 @@ public class AeDeploymentProvider extends AeAbstractDeploymentProvider
 {
    /** The deployment plans which are currently deployed */
    private HashMap mDeploymentPlans = new HashMap();
-
-   /**
-    * Constructor for the deployment provider.
-    */
-   public AeDeploymentProvider(Map aMap)
-   {
-   }
 
    /**
     * @see org.activebpel.rt.bpel.server.IAeDeploymentProvider#findCurrentDeployment(javax.xml.namespace.QName)
