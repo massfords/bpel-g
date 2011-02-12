@@ -224,7 +224,7 @@ public class AeEngineFactory
       IAeAttachmentManager attachmentManager = sContext.getBean(IAeAttachmentManager.class);
 
       // create the engine admin
-      sAdmin = createEngineAdmin();
+      sAdmin = sContext.getBean(IAeEngineAdministration.class);
 
       // Create the remote debug engine implementation instance.
       sRemoteDebugImpl = createRemoteDebugImpl( getEngineConfig().getMapEntry(IAeEngineConfiguration.REMOTE_DEBUG_ENTRY) );
@@ -262,7 +262,8 @@ public class AeEngineFactory
       sPartnerAddressing = addressLayer;
 
       // Create the deployment plan manager
-      IAeDeploymentProvider provider = (IAeDeploymentProvider) createConfigObject( IAeEngineConfiguration.DEPLOYMENT_PROVIDER );
+      IAeDeploymentProvider provider = sContext.getBean(IAeDeploymentProvider.class);
+      // FIXME spring : config these relationships in the spring config
       sDeploymentProvider = provider;
       sEngine.setPlanManager(sDeploymentProvider);
       processManager.setPlanManager(sDeploymentProvider);
@@ -357,29 +358,6 @@ public class AeEngineFactory
    {
       Map configMap = getEngineConfig().getMapEntry(IAeEngineConfiguration.PROCESS_LOGGER_ENTRY);
       return (IAeProcessLogger) createConfigSpecificClass(configMap);
-   }
-
-   /**
-    * Creates the new engine admin instance.
-    * @return A new engine admin instance.
-    * @throws AeException
-    */
-   protected static IAeEngineAdministration createEngineAdmin() throws AeException
-   {
-      String engineAdminClass = getEngineConfig().getEntry(
-            IAeEngineConfiguration.ENGINE_ADMIN_IMPL_ENTRY,
-            AeEngineAdministration.class.getName());
-
-      try
-      {
-         Class clazz = Class.forName(engineAdminClass);
-         return (IAeEngineAdministration) clazz.newInstance();
-      }
-      catch (Exception e)
-      {
-         throw new AeException(AeMessages.getString("AeEngineFactory.ERROR_2"), e); //$NON-NLS-1$
-      }
-
    }
 
    /**

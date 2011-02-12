@@ -122,7 +122,7 @@ public class AeStorageBackedURNResolver extends AeURNResolver implements IAeStor
    /**
     * Getter for the storage.
     */
-   protected IAeURNStorage getStorage()
+   public IAeURNStorage getStorage()
    {
       return mStorage;
    }
@@ -132,7 +132,7 @@ public class AeStorageBackedURNResolver extends AeURNResolver implements IAeStor
     * 
     * @param aStorage
     */
-   protected void setStorage(IAeURNStorage aStorage)
+   public void setStorage(IAeURNStorage aStorage)
    {
       mStorage = aStorage;
    }

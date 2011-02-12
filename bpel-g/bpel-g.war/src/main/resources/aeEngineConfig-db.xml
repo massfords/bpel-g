@@ -67,11 +67,6 @@
       <entry value="false" name="Debug"/>
    </entry>
 
-   <!-- Coordination Manager -->
-   <entry name="CoordinationManager">
-      <entry value="org.activebpel.rt.bpel.server.coord.AePersistentCoordinationManager" name="Class"/>
-   </entry>
-
    <!-- TransmissionTracker -->
    <entry name="TransmissionTracker">
       <entry value="org.activebpel.rt.bpel.server.transreceive.AePersistentTransmissionTracker" name="Class"/>
@@ -90,9 +85,6 @@
    <entry name="URNResolver">
       <entry name="Class" value="org.activebpel.rt.bpel.server.addressing.AeStorageBackedURNResolver"/>
    </entry>
-
-   <!-- Engine Administration Impl -->
-   <entry name="EngineAdminImpl" value="org.activebpel.rt.axis.bpel.web.AeWebEngineAdministration" />
 
    <!-- Process Logger -->
    <entry name="ProcessLogger">
@@ -144,11 +136,6 @@
          </entry>
 
       </entry>
-   </entry>
-
-   <!-- Deployment Provider -->
-   <entry name="DeploymentProvider">
-      <entry name="Class" value="org.activebpel.rt.bpel.server.deploy.AeDeploymentProvider" />
    </entry>
 
    <!-- Policy Mapper -->
