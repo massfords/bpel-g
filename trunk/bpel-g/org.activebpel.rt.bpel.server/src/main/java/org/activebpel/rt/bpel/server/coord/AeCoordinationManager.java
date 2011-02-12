@@ -9,13 +9,10 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpel.server.coord;
 
-import commonj.work.Work;
-
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 import org.activebpel.rt.AeException;
@@ -48,19 +45,13 @@ import org.activebpel.rt.bpel.server.engine.AeEngineFactory;
 import org.activebpel.rt.util.AeUtil;
 import org.activebpel.work.AeAbstractWork;
 
+import commonj.work.Work;
+
 /**
  * Base class of the coordination manager implementation.
  */
 public abstract class AeCoordinationManager extends AeManagerAdapter implements IAeCoordinationManagerInternal
 {
-   /**
-    * Default constructor.
-    */
-   public AeCoordinationManager(Map aConfig)
-   {
-      super();
-   }
-   
    /**
     * @see org.activebpel.rt.bpel.impl.IAeCoordinationManagerInternal#notifyCoordinatorsParticipantClosed(long, long)
     */

@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    ~ ===================================================================*
+    ~                                                                    *
+    ~    (c) Copyright, 2008-2011 Massachusetts Institute of Technology. *
+    ~        This material may be reproduced by or for the               *
+    ~        U.S. Government pursuant to the copyright license           *
+    ~        under the clause at DFARS 252.227-7013 (June, 1995).        *
+    ~                                                                    *
+    ~ ===================================================================*
+-->
+
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:util="http://www.springframework.org/schema/util"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+                        http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.0.xsd">
+    
+    <bean id="TransactionManagerFactory" class="org.activebpel.rt.bpel.server.engine.transaction.sql.AeSQLTransactionManagerFactory"/>
+    
+    <bean id="SecurityProvider" class="org.activebpel.rt.bpel.server.security.AeSecurityProvider">
+        <!-- Uncomment to use an installed JAAS provider
+            <property name="loginProvider">
+                <bean class="org.activebpel.rt.bpel.server.security.AeJAASLoginProvider" init-method="init">
+                <property name="ApplicationConfigName" value="ActiveBPEL"/>
+                <property name="JAASConfiguration">
+                    <bean class="org.activebpel.rt.bpel.server.security.AeJAASConfiguration" init-method="init">
+                        <property name="loginModule" value="your-class-name-here"/>
+                    </bean>
+                </property>
+                <property name="callbackHandlerFactory">
+                    <bean class="org.activebpel.rt.bpel.server.security.AeDefaultCallbackHandlerFactory"/>
+                </property>
+            </bean>
+        </property>
+        -->
+        <property name="AuthorizationProvider">
+            <bean class="org.activebpel.rt.bpel.server.security.AePrincipalAuthProvider"/>
+        </property>
+    </bean>
+    
+    <bean id="QueueManager" class="org.activebpel.rt.bpel.server.engine.storage.AePersistentQueueManager">
+        <property name="invokeHandlerFactory">
+            <bean class="org.activebpel.rt.bpel.server.engine.invoke.AeDelegatingInvokeHandlerFactory">
+                <property name="delegates">
+                    <util:map>
+                        <entry key="default">
+                            <bean class="org.activebpel.rt.axis.bpel.AeAxisInvokeHandlerFactory"/>
+                        </entry>
+                        <entry key="java">
+                            <bean class="org.activebpel.rt.bpel.server.engine.invoke.AePojoHandlerFactory"/>
+                        </entry>
+                        <entry key="process">
+                            <bean class="org.activebpel.rt.bpel.server.engine.invoke.AeProcessHandlerFactory"/>
+                        </entry>
+                        <entry key="policy">
+                            <bean class="org.activebpel.rt.axis.bpel.AePolicyInvokeHandlerFactory"/>
+                        </entry>
+                        <entry key="identity">
+                            <bean class="org.activebpel.rt.identity.invoke.AeIdentityServiceInvokeHandlerFactory"/>
+                        </entry>
+                    </util:map>
+                </property>
+            </bean>
+        </property>
+        <property name="receiveHandlerFactory">
+            <bean class="org.activebpel.rt.bpel.server.engine.receive.AeDelegatingReceiveHandlerFactory">
+                <property name="delegates">
+                    <util:map>
+                        <entry key="default">
+                            <bean class="org.activebpel.rt.bpel.server.engine.receive.AeBPELReceiveHandlerFactory"/>
+                        </entry>
+                        <entry key="soap">
+                            <bean class="org.activebpel.rt.axis.bpel.receivers.AeAxisReceiveHandlerFactory"/>
+                        </entry>
+                    </util:map>
+                </property>
+            </bean>
+        </property>
+        <property name="maxUnmatchedReceivesCount" value="50"/>
+    </bean>
+    
+    <bean id="LockManager" class="org.activebpel.rt.bpel.impl.AeInMemoryLockManager"/>
+    <bean id="AttachmentManager" class="org.activebpel.rt.bpel.server.engine.storage.AePersistentAttachmentManager"/>
+    <bean id="CoordinationManager" class="org.activebpel.rt.bpel.server.coord.AePersistentCoordinationManager"/>
+</beans>

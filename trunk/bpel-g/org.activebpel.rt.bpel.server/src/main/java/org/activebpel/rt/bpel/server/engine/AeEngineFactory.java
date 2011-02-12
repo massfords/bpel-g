@@ -57,7 +57,6 @@ import org.activebpel.rt.bpel.server.engine.storage.AeStorageException;
 import org.activebpel.rt.bpel.server.engine.storage.sql.AeDataSource;
 import org.activebpel.rt.bpel.server.engine.transaction.IAeTransactionManagerFactory;
 import org.activebpel.rt.bpel.server.logging.IAeDeploymentLoggerFactory;
-import org.activebpel.rt.bpel.server.security.AeSecurityProvider;
 import org.activebpel.rt.bpel.server.security.IAeSecurityProvider;
 import org.activebpel.rt.bpel.urn.IAeURNResolver;
 import org.activebpel.rt.config.AeConfigurationUtil;
@@ -73,6 +72,8 @@ import org.activebpel.work.factory.AeDefaultWorkManagerFactory;
 import org.activebpel.work.factory.IAeWorkManagerFactory;
 import org.activebpel.work.input.IAeInputMessageWork;
 import org.activebpel.work.input.IAeInputMessageWorkManager;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import commonj.timers.TimerManager;
 import commonj.work.Work;
@@ -158,6 +159,8 @@ public class AeEngineFactory
 
    /** Input message work manager. */
    private static IAeInputMessageWorkManager sInputMessageWorkManager;
+   
+   private static ApplicationContext sContext;
 
    /**
     * Pre-initialize the engine to set up storage work, policy mappers and timer managers.
@@ -187,9 +190,11 @@ public class AeEngineFactory
       }
 
       setEngineConfig(aConfig);
+      
+      sContext = new ClassPathXmlApplicationContext("bpelg-applicationContext.xml");
 
       // create tx manager factory first since the storage layer is dependent on it.
-      sTransactionManagerFactory = createTransactionManagerFactory();
+      sTransactionManagerFactory = sContext.getBean(IAeTransactionManagerFactory.class);
 
 
       // Initialize storage component.
@@ -214,9 +219,9 @@ public class AeEngineFactory
    {
       // create the managers
       IAeProcessManager processManager       = createProcessManager();
-      IAeQueueManager queueManager           = createQueueManager();
-      IAeLockManager lockManager             = createLockManager();
-      IAeAttachmentManager attachmentManager = createAttachmentManager();
+      IAeQueueManager queueManager           = sContext.getBean(IAeQueueManager.class);
+      IAeLockManager lockManager             = sContext.getBean(IAeLockManager.class);
+      IAeAttachmentManager attachmentManager = sContext.getBean(IAeAttachmentManager.class);
 
       // create the engine admin
       sAdmin = createEngineAdmin();
@@ -234,7 +239,7 @@ public class AeEngineFactory
          sEngine.addEngineListener(engineListener);
 
       // create coordination manager
-      sCoordinationManager = createCoordinationManager();
+      sCoordinationManager = sContext.getBean(IAeCoordinationManagerInternal.class);
 
       // set the coordination manager before calling the engine's create() (and hence initialization of all managers)
       sEngine.setCoordinationManager( sCoordinationManager);
@@ -281,7 +286,7 @@ public class AeEngineFactory
       AeSOAPMessageFactory.setSOAPMessageFactory(createSOAPMessageFactory());
       
       // create the Security provider
-      sSecurityProvider = createSecurityProvider();
+      sSecurityProvider = sContext.getBean(IAeSecurityProvider.class);
       
       // install extension registry
       try
@@ -423,17 +428,6 @@ public class AeEngineFactory
    }
 
    /**
-    * Creates the coordination manager instance.
-    *
-    * @throws AeException
-    */
-   protected static IAeCoordinationManagerInternal createCoordinationManager() throws AeException
-   {
-      Map configMap = getEngineConfig().getMapEntry(IAeEngineConfiguration.COORDINATION_MANAGER_ENTRY);
-      return (IAeCoordinationManagerInternal) createConfigSpecificClass(configMap);
-   }
-
-   /**
     * Creates the durable transmit/receive manager.
     *
     * @throws AeException
@@ -541,22 +535,6 @@ public class AeEngineFactory
             setPersistentStoreError(ex.getLocalizedMessage());
             sPersistentStoreReadyForUse = false;
          }
-      }
-   }
-
-   /**
-    * Creates the transaction manager factory.
-    * @throws AeStorageException
-    */
-   protected static IAeTransactionManagerFactory createTransactionManagerFactory() throws AeStorageException
-   {
-      try
-      {
-         Map configMap = getEngineConfig().getMapEntry(IAeEngineConfiguration.TRANSACTION_MANAGER_FACTORY_ENTRY);
-         return  (IAeTransactionManagerFactory) createConfigSpecificClass(configMap);
-      } catch(Throwable t)
-      {
-         throw new AeStorageException(t);
       }
    }
 
@@ -727,19 +705,6 @@ public class AeEngineFactory
    }
 
    /**
-    * Factory method for creating the queue manager for the engine.  The type
-    * of manager to use will be determined based on information found in the
-    * engine configuration.
-    *
-    * @return A queue manager.
-    */
-   protected static IAeQueueManager createQueueManager() throws AeException
-   {
-      Map configMap = getEngineConfig().getMapEntry(IAeEngineConfiguration.QUEUE_MANAGER_ENTRY);
-      return (IAeQueueManager) createConfigSpecificClass(configMap);
-   }
-
-   /**
     * Factory method for creating the process manager for the engine.  The type
     * of manager to use will be determined based on information found in the
     * engine configuration.
@@ -750,32 +715,6 @@ public class AeEngineFactory
    {
       Map configMap = getEngineConfig().getMapEntry(IAeEngineConfiguration.PROCESS_MANAGER_ENTRY);
       return (IAeProcessManager) createConfigSpecificClass(configMap);
-   }
-
-   /**
-    * Factory method for creating the lock manager for the engine.  The type
-    * of manager to use will be determined based on information found in the
-    * engine configuration.
-    *
-    * @return A lock manager.
-    */
-   private static IAeLockManager createLockManager() throws AeException
-   {
-      Map configMap = getEngineConfig().getMapEntry(IAeEngineConfiguration.LOCK_MANAGER_ENTRY);
-      return (IAeLockManager) createConfigSpecificClass(configMap);
-   }
-   
-   /**
-    * Factory method for creating the attachment manager for the engine.  The type
-    * of manager to use will be determined based on information found in the
-    * engine configuration.
-    *
-    * @return A lock manager.
-    */
-   private static IAeAttachmentManager createAttachmentManager() throws AeException
-   {
-      Map configMap = getEngineConfig().getMapEntry(IAeEngineConfiguration.ATTACHMENT_MANAGER_ENTRY);
-      return (IAeAttachmentManager) createConfigSpecificClass(configMap);
    }
 
    /**
@@ -1157,22 +1096,6 @@ public class AeEngineFactory
       return AeSOAPMessageFactory.getSOAPMessageFactory();
    }
    
-   /**
-    * Constructs the security manager. 
-    */
-   protected static IAeSecurityProvider createSecurityProvider() throws AeException
-   {
-      Map config = getEngineConfig().getMapEntry(IAeEngineConfiguration.SECURITY_PROVIDER_ENTRY);
-      if (!AeUtil.isNullOrEmpty(config))
-      {
-         String mgrName = (String) config.get(IAeEngineConfiguration.CLASS_ENTRY);
-         if (!AeUtil.isNullOrEmpty(mgrName))
-         return (IAeSecurityProvider) createConfigSpecificClass(config);
-      }
-      
-      return new AeSecurityProvider(null);
-   }
-
    /**
     * Returns the security provider.
     */

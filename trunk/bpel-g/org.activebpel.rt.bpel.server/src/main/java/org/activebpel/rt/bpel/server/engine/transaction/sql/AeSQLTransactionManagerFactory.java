@@ -9,8 +9,6 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpel.server.engine.transaction.sql;
 
-import java.util.Map;
-
 import org.activebpel.rt.bpel.server.engine.transaction.IAeTransactionManager;
 import org.activebpel.rt.bpel.server.engine.transaction.IAeTransactionManagerFactory;
 
@@ -20,16 +18,6 @@ import org.activebpel.rt.bpel.server.engine.transaction.IAeTransactionManagerFac
  */
 public class AeSQLTransactionManagerFactory implements IAeTransactionManagerFactory
 {
-   /**
-    * Constructs transaction manager factory with the specified configuration.
-    *
-    * @param aConfigMap
-    */
-   public AeSQLTransactionManagerFactory(Map aConfigMap)
-   {
-      // No configuration required.
-   }
-
    /**
     * Overrides method to return an instance of <code>AeSQLTransactionManager</code>.
     *

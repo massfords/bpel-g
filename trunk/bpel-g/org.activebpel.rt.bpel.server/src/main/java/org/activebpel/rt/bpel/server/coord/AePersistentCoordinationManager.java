@@ -11,7 +11,6 @@ package org.activebpel.rt.bpel.server.coord;
 
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
 import org.activebpel.rt.AeException;
 import org.activebpel.rt.bpel.coord.AeCoordinationDetail;
@@ -33,15 +32,6 @@ public class AePersistentCoordinationManager extends AeCoordinationManager
    /** reference to the storage. */
    private IAeCoordinationStorage mStorage;
 
-   /**
-    * Default constructor.
-    * @param aConfig
-    */
-   public AePersistentCoordinationManager(Map aConfig)
-   {
-      super(aConfig);      
-   }
-   
    /**
    * Gets called once after the manager has been instantiated. If the manager runs
    * into any kind of fatal error during create then it should throw an exception which will 

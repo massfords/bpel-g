@@ -26,28 +26,9 @@ import org.activebpel.wsio.receive.IAeMessageContext;
  */
 public class AeSecurityProvider implements IAeSecurityProvider
 {
-   private Map mConfig;
    private IAeLoginProvider mLoginProvider;
    private IAeAuthorizationProvider mAuthProvider;
    
-   /**
-    * Constructor that takes a map of configuration settings
-    * 
-    * @param aConfig
-    * @throws AeSecurityException
-    */
-   public AeSecurityProvider(Map aConfig) throws AeSecurityException
-   {
-      mConfig = aConfig;
-      if (aConfig != null)
-      {
-         Map loginConfig = (Map) aConfig.get(LOGIN_PROVIDER_ENTRY);
-         mLoginProvider = createLoginProvider(loginConfig);
-         Map authConfig = (Map) aConfig.get(AUTHORIZATION_PROVIDER_ENTRY);
-         mAuthProvider = createAuthorizationProvider(authConfig);
-      }
-   }
-  
    /**
     * @see org.activebpel.rt.bpel.server.security.IAeSecurityProvider#authenticate(java.lang.String, java.lang.String)
     */
@@ -155,7 +136,7 @@ public class AeSecurityProvider implements IAeSecurityProvider
    /**
     * @return the authentication provider
     */
-   protected IAeAuthorizationProvider getAuthorizationProvider()
+   public IAeAuthorizationProvider getAuthorizationProvider()
    {
       return mAuthProvider;
    }
@@ -163,7 +144,7 @@ public class AeSecurityProvider implements IAeSecurityProvider
    /**
     * @param aAuthModule the authentication provider to set
     */
-   protected void setAuthorizationProvider(IAeAuthorizationProvider aAuthModule)
+   public void setAuthorizationProvider(IAeAuthorizationProvider aAuthModule)
    {
       mAuthProvider = aAuthModule;
    }
@@ -171,7 +152,7 @@ public class AeSecurityProvider implements IAeSecurityProvider
    /**
     * @return the loginProvider
     */
-   protected IAeLoginProvider getLoginProvider()
+   public IAeLoginProvider getLoginProvider()
    {
       return mLoginProvider;
    }
@@ -179,17 +160,9 @@ public class AeSecurityProvider implements IAeSecurityProvider
    /**
     * @param aLoginProvider the login provider to set
     */
-   protected void setLoginProvider(IAeLoginProvider aLoginProvider)
+   public void setLoginProvider(IAeLoginProvider aLoginProvider)
    {
       mLoginProvider = aLoginProvider;
-   }
-
-   /**
-    * @return the config
-    */
-   protected Map getConfig()
-   {
-      return mConfig;
    }
 
    /**

@@ -43,14 +43,6 @@ public class AeInMemoryCoordinationManager extends AeCoordinationManager
    private Map mCoordinatingsPidMap = null;   
 
    /**
-    * @param aConfig
-    */
-   public AeInMemoryCoordinationManager(Map aConfig)
-   {
-      super(aConfig);
-   }
-   
-   /**
     * Creates and registers the given context given the context. The coordination id is normally null 
     * for Coordinators since this method will generate a new id.  
     * @param aCtxRequest

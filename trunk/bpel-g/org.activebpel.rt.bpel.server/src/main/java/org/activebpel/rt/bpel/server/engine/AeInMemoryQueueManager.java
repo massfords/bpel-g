@@ -9,15 +9,10 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpel.server.engine;
 
-import commonj.timers.Timer;
-import commonj.timers.TimerListener;
-
 import java.util.Date;
-import java.util.Map;
 
 import org.activebpel.rt.AeException;
 import org.activebpel.rt.bpel.AeBusinessProcessException;
-import org.activebpel.rt.bpel.config.IAeEngineConfiguration;
 import org.activebpel.rt.bpel.impl.AeBaseQueueManager;
 import org.activebpel.rt.bpel.impl.AeCorrelationViolationException;
 import org.activebpel.rt.bpel.impl.IAeInvokeInternal;
@@ -37,6 +32,9 @@ import org.activebpel.wsio.invoke.AeNullInvokeHandler;
 import org.activebpel.wsio.invoke.IAeInvoke;
 import org.activebpel.wsio.invoke.IAeInvokeHandler;
 
+import commonj.timers.Timer;
+import commonj.timers.TimerListener;
+
 /**
  * Queue Manager for server side operations.  Handles invokes through
  * an installed invoke handler.  This class can be used both as a concrete
@@ -50,30 +48,6 @@ public class AeInMemoryQueueManager extends AeBaseQueueManager
    /** factory for creating receive handlers */
    protected IAeReceiveHandlerFactory mReceiveHandlerFactory;
    
-   /**
-    * Constructs a queue manager from the given configuration map.
-    *
-    * @param aConfig The configuration map for this manager.
-    */
-   public AeInMemoryQueueManager(Map aConfig) throws AeException
-   {
-      super(aConfig);
-      init( aConfig );
-   }
-
-   /**
-    * Initialize the <code>IAeInvokeHandlerFactory</code> instance.
-    * @param aConfig
-    * @throws AeException
-    */
-   protected void init( Map aConfig ) throws AeException
-   {
-      Map invokeHandlerFactoryParams = (Map)aConfig.get( IAeEngineConfiguration.INVOKE_HANDLER_FACTORY );
-      mInvokeHandlerFactory = (IAeInvokeHandlerFactory) AeEngineFactory.createConfigSpecificClass(invokeHandlerFactoryParams);
-      Map receiveHandlerFactoryParams = (Map)aConfig.get( IAeEngineConfiguration.RECEIVE_HANDLER_FACTORY );
-      mReceiveHandlerFactory = (IAeReceiveHandlerFactory) AeEngineFactory.createConfigSpecificClass(receiveHandlerFactoryParams);
-   }
-
    /**
     * @see org.activebpel.rt.bpel.impl.IAeQueueManager#addInvoke(org.activebpel.rt.bpel.impl.IAeProcessPlan, org.activebpel.rt.bpel.impl.IAeInvokeInternal)
     */
@@ -161,7 +135,7 @@ public class AeInMemoryQueueManager extends AeBaseQueueManager
    /**
     * Accessor for invoke handler factory.
     */
-   protected IAeInvokeHandlerFactory getInvokeHandlerFactory()
+   public IAeInvokeHandlerFactory getInvokeHandlerFactory()
    {
       return mInvokeHandlerFactory;
    }
@@ -169,12 +143,22 @@ public class AeInMemoryQueueManager extends AeBaseQueueManager
    /**
     * @return the receive handler factory
     */
-   protected IAeReceiveHandlerFactory getReceiveHandlerFactory()
+   public IAeReceiveHandlerFactory getReceiveHandlerFactory()
    {
       return mReceiveHandlerFactory;
    }
    
-   /**
+   public void setInvokeHandlerFactory(
+		IAeInvokeHandlerFactory aInvokeHandlerFactory) {
+	mInvokeHandlerFactory = aInvokeHandlerFactory;
+}
+
+public void setReceiveHandlerFactory(
+		IAeReceiveHandlerFactory aReceiveHandlerFactory) {
+	mReceiveHandlerFactory = aReceiveHandlerFactory;
+}
+
+/**
     * @see org.activebpel.rt.bpel.impl.AeBaseQueueManager#addUnmatchedReceive(org.activebpel.rt.bpel.impl.queue.AeInboundReceive, org.activebpel.wsio.IAeMessageAcknowledgeCallback)
     */
    protected void addUnmatchedReceive(AeInboundReceive aInboundReceive, IAeMessageAcknowledgeCallback aAckCallback) throws AeCorrelationViolationException

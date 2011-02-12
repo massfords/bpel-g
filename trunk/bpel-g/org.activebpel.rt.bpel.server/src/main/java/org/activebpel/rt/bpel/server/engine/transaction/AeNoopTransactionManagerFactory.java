@@ -9,7 +9,6 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpel.server.engine.transaction;
 
-import java.util.Map;
 
 /**
  * Implements a factory for a do-nothing transaction manager for non-persistent
@@ -17,16 +16,6 @@ import java.util.Map;
  */
 public class AeNoopTransactionManagerFactory implements IAeTransactionManagerFactory
 {
-   /**
-    * Constructs transaction manager factory with the specified configuration.
-    *
-    * @param aConfigMap
-    */
-   public AeNoopTransactionManagerFactory(Map aConfigMap)
-   {
-      // No configuration required.
-   }
-
    /**
     * @see org.activebpel.rt.bpel.server.engine.transaction.IAeTransactionManagerFactory#createTransactionManager()
     */

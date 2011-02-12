@@ -9,8 +9,6 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpel.server.engine.storage;
 
-import java.util.Map;
-
 import org.activebpel.rt.bpel.impl.AeFileAttachmentManager;
 import org.activebpel.rt.bpel.impl.attachment.IAeAttachmentStorage;
 import org.activebpel.rt.bpel.server.AeMessages;
@@ -26,15 +24,6 @@ public class AePersistentAttachmentManager extends AeFileAttachmentManager
 
    /** The default persistent storage object. */
    private IAeAttachmentStorage mPersistentStorage;
-
-   /**
-    * Constructs the attachment manager with the given engine configuration.
-    * @param aConfig The engine configuration for this manager.
-    */
-   public AePersistentAttachmentManager(Map aConfig)
-   {
-      super(aConfig);
-   }
 
    /**
     * Returns the persistent (database) storage implementation.

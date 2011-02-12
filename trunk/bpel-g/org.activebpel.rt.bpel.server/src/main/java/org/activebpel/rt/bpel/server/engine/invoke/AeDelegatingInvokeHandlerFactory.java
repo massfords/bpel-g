@@ -9,9 +9,6 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpel.server.engine.invoke; 
 
-import java.util.Map;
-
-import org.activebpel.rt.AeException;
 import org.activebpel.rt.bpel.AeBusinessProcessException;
 import org.activebpel.rt.bpel.server.AeMessages;
 import org.activebpel.rt.bpel.server.engine.AeDelegatingHandlerFactory;
@@ -25,15 +22,6 @@ import org.activebpel.wsio.invoke.IAeInvokeHandler;
 public class AeDelegatingInvokeHandlerFactory extends AeDelegatingHandlerFactory implements IAeInvokeHandlerFactory
 {
    
-   /**
-    * Base Class constructor loads the delegate factories from the protocol map in the config.
-    * @param aConfig
-    */
-   public AeDelegatingInvokeHandlerFactory(Map aConfig) throws AeException
-   {
-      super(aConfig);
-   }
-
    /**
     * @see org.activebpel.rt.bpel.server.engine.IAeInvokeHandlerFactory#createInvokeHandler(org.activebpel.wsio.invoke.IAeInvoke)
     */

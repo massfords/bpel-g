@@ -13,7 +13,6 @@ import java.sql.SQLException;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
 import org.activebpel.rt.AeException;
 import org.activebpel.rt.bpel.AeBusinessProcessException;
@@ -39,16 +38,6 @@ public class AePersistentQueueManager extends AeInMemoryQueueManager
    /** The storage that this manager will use to store and retrieve queue objects. */
    protected IAeQueueStorage mStorage;
 
-   /** 
-    * Constructs a persistent queue manager using the given configuration map.
-    * 
-    * @param aConfig The configuration map for this manager.
-    */
-   public AePersistentQueueManager(Map aConfig) throws AeException
-   {
-      super(aConfig);
-   }
-   
    /**
     * @see org.activebpel.rt.bpel.impl.IAeManager#create()
     */

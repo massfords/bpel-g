@@ -37,16 +37,6 @@ public class AeFileAttachmentManager extends AeAbstractAttachmentManager impleme
    private AeCounterMap mPendingResponses;
 
    /**
-    * Constructs a new file-based attachment manager.
-    * 
-    * @param aConfig The configuration map for this manager.
-    */
-   public AeFileAttachmentManager(Map aConfig)
-   {
-      super(aConfig);
-   }
-
-   /**
     * Returns the file-based storage object.
     */
    protected AeFileAttachmentStorage getFileStorage()
