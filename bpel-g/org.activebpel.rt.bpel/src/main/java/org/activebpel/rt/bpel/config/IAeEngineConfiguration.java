@@ -86,10 +86,6 @@ public interface IAeEngineConfiguration
    public static final String CATALOG_ENTRY = "Catalog"; //$NON-NLS-1$
    /** Name of entry for the setting the replace wsdl flag */
    public static final String REPLACE_EXISTING_ENTRY = "replace.existing"; //$NON-NLS-1$
-   /** Name of entry for setting the Lock manager. */
-   public static final String LOCK_MANAGER_ENTRY = "LockManager"; //$NON-NLS-1$
-   /** Name of entry for setting the Attachment manager. */
-   public static final String ATTACHMENT_MANAGER_ENTRY = "AttachmentManager"; //$NON-NLS-1$
    /** Name of entry for setting the URN resolver */
    public static final String URN_RESOLVER_ENTRY = "URNResolver"; //$NON-NLS-1$
    /** Name of entry for setting the process manager. */
@@ -142,8 +138,6 @@ public interface IAeEngineConfiguration
    public static final String TIMER_MANAGER_ENTRY = "TimerManager"; //$NON-NLS-1$
    /** Name of entry for setting the timer manager jndi location */
    public static final String TM_JNDI_NAME_ENTRY = "JNDILocation"; //$NON-NLS-1$
-   /** Name of entry for transaction manager factory. */
-   public static final String TRANSACTION_MANAGER_FACTORY_ENTRY = "TransactionManagerFactory"; //$NON-NLS-1$
    /** Name of entry for persistent counter store. */
    public static final String COUNTER_STORE_ENTRY = "CounterStore"; //$NON-NLS-1$
    /** Name of entry for counter store JNDI location. */
@@ -158,8 +152,6 @@ public interface IAeEngineConfiguration
    public static final String SUSPEND_PROCESS_ON_INVOKE_RECOVERY_ENTRY = "SuspendProcessOnInvokeRecovery"; //$NON-NLS-1$
    /** Name of entry for enabling process restart */
    public static final String RESTART_SUSPENDED_PROCESS = "RestartSuspendedProcess"; //$NON-NLS-1$
-   /** Name of entry for setting the coordination manager. */
-   public static final String COORDINATION_MANAGER_ENTRY = "CoordinationManager"; //$NON-NLS-1$ 
    /** Name of entry for specifying logger handlers */
    public static final String LOG_HANDLER_ENTRY = "LogHandler"; //$NON-NLS-1$
    /** Name of entry for setting an engine listener */
@@ -184,8 +176,6 @@ public interface IAeEngineConfiguration
    public static final String SOAP_MESSAGE_FACTORY = "SOAPMessageFactory"; //$NON-NLS-1$
    /** Name of entry for scheduler manager. */
    public static final String SCHEDULE_MANAGER_ENTRY = "ScheduleManager"; //$NON-NLS-1$
-   /** Name of entry for security provider map. */
-   public static final String SECURITY_PROVIDER_ENTRY = "SecurityProvider"; //$NON-NLS-1$
    /** Name of entry for custom managers. */
    public static final String CUSTOM_MANAGERS_ENTRY = "CustomManagers"; //$NON-NLS-1$
    /** Name of entry for child work managers map. */

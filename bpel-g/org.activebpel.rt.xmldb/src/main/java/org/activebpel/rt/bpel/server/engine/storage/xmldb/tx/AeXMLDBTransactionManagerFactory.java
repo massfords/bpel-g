@@ -9,8 +9,6 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpel.server.engine.storage.xmldb.tx;
 
-import java.util.Map;
-
 import org.activebpel.rt.bpel.server.engine.transaction.IAeTransactionManagerFactory;
 
 /**
@@ -19,13 +17,4 @@ import org.activebpel.rt.bpel.server.engine.transaction.IAeTransactionManagerFac
  */
 public abstract class AeXMLDBTransactionManagerFactory implements IAeTransactionManagerFactory
 {
-   /**
-    * Constructs transaction manager factory with the specified configuration.
-    *
-    * @param aConfigMap
-    */
-   public AeXMLDBTransactionManagerFactory(Map aConfigMap)
-   {
-      // No configuration required.
-   }
 }

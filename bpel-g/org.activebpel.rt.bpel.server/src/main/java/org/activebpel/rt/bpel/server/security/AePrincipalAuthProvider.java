@@ -11,7 +11,6 @@ package org.activebpel.rt.bpel.server.security;
 
 import java.security.Principal;
 import java.util.Iterator;
-import java.util.Map;
 import java.util.Set;
 
 import javax.security.auth.Subject;
@@ -33,17 +32,6 @@ import org.activebpel.wsio.receive.IAeMessageContext;
  */
 public class AePrincipalAuthProvider implements IAeAuthorizationProvider
 {
-
-   /**
-    * Constructor with a configuration map
-    * 
-    * @param aConfig
-    */
-   public AePrincipalAuthProvider(Map aConfig)
-   {
-      
-   }
-   
    /**
     * @see org.activebpel.rt.bpel.server.security.IAeAuthorizationProvider#authorize(javax.security.auth.Subject, org.activebpel.wsio.receive.IAeMessageContext)
     */

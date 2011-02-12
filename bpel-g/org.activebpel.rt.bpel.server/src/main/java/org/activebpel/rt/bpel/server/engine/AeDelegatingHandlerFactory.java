@@ -33,6 +33,9 @@ public class AeDelegatingHandlerFactory
    /** map of protocol to factory */
    private Map mDelegates = new HashMap();
    
+   public AeDelegatingHandlerFactory() {
+   }
+   
    /**
     * Constructor loads the delegate factories from the protocol map in the config.
     * 
@@ -40,6 +43,7 @@ public class AeDelegatingHandlerFactory
     */
    public AeDelegatingHandlerFactory(Map aConfig) throws AeException
    {
+	   // FIXME spring - remove when web service deployer is cleaned up
       String clazz = null;
       try
       {
@@ -63,6 +67,10 @@ public class AeDelegatingHandlerFactory
    public Map getDelegates()
    {
       return mDelegates;
+   }
+   
+   public void setDelegates(Map aMap) {
+	   mDelegates = aMap;
    }
    
    /**

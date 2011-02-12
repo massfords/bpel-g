@@ -47,11 +47,6 @@
          </entry>
       </entry>
 
-   <!-- Transaction Manager -->
-   <entry name="TransactionManagerFactory">
-      <entry value="org.activebpel.rt.bpel.server.engine.transaction.sql.AeSQLTransactionManagerFactory" name="Class"/>
-   </entry>
-
    <!-- Process Manager -->
    <entry name="ProcessManager">
       <entry value="org.activebpel.rt.bpel.server.engine.AePersistentProcessManager" name="Class"/>
@@ -70,57 +65,6 @@
       -->
       <entry value="10" name="ReleaseLag"/>
       <entry value="false" name="Debug"/>
-   </entry>
-
-   <!-- SecurityProvider configuration -->
-   <entry name="SecurityProvider">
-      <entry name="Class" value="org.activebpel.rt.bpel.server.security.AeSecurityProvider"/>
-      <!-- Uncomment to use an installed JAAS provider
-      <entry name="LoginProvider">
-         <entry name="Class" value="org.activebpel.rt.bpel.server.security.AeJAASLoginProvider"/>
-         <entry name="ApplicationConfigName" value="ActiveBPEL"/>
-         <entry name="CallbackHandler">
-            <entry name="Class" value="org.activebpel.rt.bpel.server.security.AeCallbackHandler"/>
-         </entry>
-      </entry>
-      -->
-      <entry name="AuthorizationProvider">
-         <entry name="Class" value="org.activebpel.rt.bpel.server.security.AePrincipalAuthProvider"/>
-      </entry>
-   </entry>
-
-   <!-- Queue Manager -->
-   <entry name="QueueManager">
-      <entry value="org.activebpel.rt.bpel.server.engine.storage.AePersistentQueueManager" name="Class"/>
-      <entry name="ReceiveHandlerFactory">
-         <entry name="Class" value="org.activebpel.rt.bpel.server.engine.receive.AeDelegatingReceiveHandlerFactory"/>
-         <entry name="Protocols">
-            <entry name="default" value="org.activebpel.rt.bpel.server.engine.receive.AeBPELReceiveHandlerFactory"/>
-            <entry name="soap" value="org.activebpel.rt.axis.bpel.receivers.AeAxisReceiveHandlerFactory"/>
-         </entry>
-      </entry>
-      <entry name="InvokeHandlerFactory">
-         <entry name="Class" value="org.activebpel.rt.bpel.server.engine.invoke.AeDelegatingInvokeHandlerFactory"/>
-         <entry name="Protocols">
-            <entry name="default" value="org.activebpel.rt.axis.bpel.AeAxisInvokeHandlerFactory"/>
-            <entry name="java" value="org.activebpel.rt.bpel.server.engine.invoke.AePojoHandlerFactory"/>
-            <entry name="process" value="org.activebpel.rt.bpel.server.engine.invoke.AeProcessHandlerFactory"/>
-            <entry name="policy" value="org.activebpel.rt.axis.bpel.AePolicyInvokeHandlerFactory"/>
-            <entry name="identity" value="org.activebpel.rt.identity.invoke.AeIdentityServiceInvokeHandlerFactory" />
-         </entry>
-      </entry>
-      <entry name="UnmatchedReceivesCount" value="50" />
-   </entry>
-
-   <!-- Lock Manager -->
-   <entry name="LockManager">
-      <entry name="Class" value="org.activebpel.rt.bpel.impl.AeInMemoryLockManager"/>
-   </entry>
-
-   <!-- Attachment manager -->
-   <entry name="AttachmentManager">
-      <entry value="org.activebpel.rt.bpel.server.engine.storage.AePersistentAttachmentManager" name="Class"/>
-      <entry name="Debug" value="false"/>
    </entry>
 
    <!-- Coordination Manager -->

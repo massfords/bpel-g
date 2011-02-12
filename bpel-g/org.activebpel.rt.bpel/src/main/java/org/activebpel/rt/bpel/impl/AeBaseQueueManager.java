@@ -77,16 +77,6 @@ public abstract class AeBaseQueueManager extends AeManagerAdapter implements IAe
    private static long NONPERSISTENT_QUEUEMANAGER_NEXT_ID = IAeProcessManager.NULL_JOURNAL_ID + 1;
 
    /**
-    * Constructs an in-memory queue manager.
-    *
-    * @param aConfig The configuration map for this manager.
-    */
-   public AeBaseQueueManager(Map aConfig)
-   {
-      setConfig(aConfig);
-   }
-
-   /**
     * Gets the next journal id.
     */
    protected long getNextJournalId()
@@ -698,23 +688,15 @@ public abstract class AeBaseQueueManager extends AeManagerAdapter implements IAe
    /**
     * Returns maximum number of unmatched receives.
     */
-   protected int getMaxUnmatchedReceivesCount()
+   public int getMaxUnmatchedReceivesCount()
    {
       return mMaxUnmatchedReceivesCount;
    }
 
    /**
-    * Sets configuration.
-    */
-   protected void setConfig(Map aConfig)
-   {
-      setMaxUnmatchedReceivesCount(getConfigInt(aConfig, CONFIG_UNMATCHED_RECEIVES_COUNT, DEFAULT_UNMATCHED_RECEIVES_COUNT));
-   }
-
-   /**
     * Sets maximum number of unmatched receives.
     */
-   protected void setMaxUnmatchedReceivesCount(int aMaxUnmatchedReceivesCount)
+   public void setMaxUnmatchedReceivesCount(int aMaxUnmatchedReceivesCount)
    {
       if (aMaxUnmatchedReceivesCount > 0)
       {

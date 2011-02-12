@@ -16,11 +16,6 @@ import org.activebpel.wsio.receive.IAeMessageContext;
  */
 public interface IAeSecurityProvider extends IAeLoginProvider, IAeAuthorizationProvider
 {
-   /** Name of entry for login module. */
-   public static final String LOGIN_PROVIDER_ENTRY = "LoginProvider"; //$NON-NLS-1$
-   /** Name of entry for authorization module. */
-   public static final String AUTHORIZATION_PROVIDER_ENTRY = "AuthorizationProvider"; //$NON-NLS-1$
-   
    /**
     * Authenticates and authorizes a set of user credentials for a request described in 
     * the message context

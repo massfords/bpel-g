@@ -10,7 +10,6 @@
 package org.activebpel.rt.bpel.server.security;
 
 import java.io.IOException;
-import java.util.Map;
 
 import javax.security.auth.callback.Callback;
 import javax.security.auth.callback.CallbackHandler;
@@ -30,21 +29,6 @@ public class AeCallbackHandler implements CallbackHandler
    private String mUser;
    private String mPassword;
 
-   /**
-    * Constructs a callback instance using the Username and Password
-    * values from the map.
-    * 
-    * @param aConfig
-    */
-   public AeCallbackHandler(Map aConfig)
-   {
-      if (aConfig != null)
-      {
-         mUser = (String) aConfig.get(IAeLoginProvider.USERNAME_ENTRY);
-         mPassword = (String) aConfig.get(IAeLoginProvider.PASSWORD_ENTRY);
-      }
-   }
-   
    /**
     * @see javax.security.auth.callback.CallbackHandler#handle(javax.security.auth.callback.Callback[])
     */

@@ -9,9 +9,6 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpel.server.engine.receive; 
 
-import java.util.Map;
-
-import org.activebpel.rt.AeException;
 import org.activebpel.rt.bpel.AeBusinessProcessException;
 import org.activebpel.rt.bpel.impl.IAeReceiveHandler;
 import org.activebpel.rt.bpel.server.engine.AeDelegatingHandlerFactory;
@@ -23,15 +20,6 @@ import org.activebpel.wsio.receive.IAeMessageContext;
  */
 public class AeDelegatingReceiveHandlerFactory extends AeDelegatingHandlerFactory implements IAeReceiveHandlerFactory
 {
-   /**
-    * Base class Constructor loads the delegate factories from the protocol map in the config.
-    * @param aConfig
-    */
-   public AeDelegatingReceiveHandlerFactory(Map aConfig) throws AeException
-   {
-      super(aConfig);
-   }
-   
    /**
     * @see org.activebpel.rt.bpel.server.engine.IAeReceiveHandlerFactory#createReceiveHandler(java.lang.String)
     */

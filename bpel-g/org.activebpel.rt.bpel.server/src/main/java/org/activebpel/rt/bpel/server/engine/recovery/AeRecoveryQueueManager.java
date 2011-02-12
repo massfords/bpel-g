@@ -9,10 +9,6 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpel.server.engine.recovery;
 
-import commonj.timers.Timer;
-import commonj.timers.TimerListener;
-
-import java.util.Collections;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -51,6 +47,9 @@ import org.activebpel.rt.message.IAeMessageData;
 import org.activebpel.rt.util.AeUtil;
 import org.activebpel.wsio.IAeMessageAcknowledgeCallback;
 
+import commonj.timers.Timer;
+import commonj.timers.TimerListener;
+
 /**
  * Implements a queue manager for recovery. Extends {@link AeBaseQueueManager}
  * to leverage its functionality for matching inbound receives to message
@@ -75,14 +74,6 @@ public class AeRecoveryQueueManager extends AeBaseQueueManager implements IAeRec
     * location ids with transmission ids.
     */
    private List mInvokeTransmittedEntries;
-
-   /**
-    * Constructs a queue manager for recovery.
-    */
-   public AeRecoveryQueueManager()
-   {
-      super(Collections.EMPTY_MAP);
-   }
 
    /**
     * Verifies that the given process id matches the process id of the process

@@ -9,8 +9,6 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpel.server.engine.storage.exist.tx;
 
-import java.util.Map;
-
 import org.activebpel.rt.bpel.server.engine.storage.xmldb.tx.AeXMLDBTransactionManagerFactory;
 import org.activebpel.rt.bpel.server.engine.transaction.IAeTransactionManager;
 
@@ -19,16 +17,6 @@ import org.activebpel.rt.bpel.server.engine.transaction.IAeTransactionManager;
  */
 public class AeExistTransactionManagerFactory extends AeXMLDBTransactionManagerFactory
 {
-   /**
-    * Constructs transaction manager factory with the specified configuration.
-    *
-    * @param aConfigMap
-    */
-   public AeExistTransactionManagerFactory(Map aConfigMap)
-   {
-      super(aConfigMap);
-   }
-
    /**
     * Overrides method to return a <code>AeExistTransactionManager</code> instance.
     * @see org.activebpel.rt.bpel.server.engine.transaction.IAeTransactionManagerFactory#createTransactionManager()

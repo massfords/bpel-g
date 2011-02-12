@@ -43,10 +43,9 @@ public abstract class AeAbstractAttachmentManager extends AeManagerAdapter imple
     * Constructs the attachment manager with the given engine configuration.
     * @param aConfig The engine configuration for this manager.
     */
-   public AeAbstractAttachmentManager(Map aConfig)
+   public AeAbstractAttachmentManager()
    {
-      mDebug = Boolean.valueOf((String)aConfig.get("Debug")).booleanValue(); //$NON-NLS-1$
-
+      // FIXME attachments - what's up w/ this circular dependency?
       // Pass attachment conversion to the data converter
       AeDataConverter.setAttachmentManager(this);
    }
@@ -65,6 +64,7 @@ public abstract class AeAbstractAttachmentManager extends AeManagerAdapter imple
    {
       if ( mDebug )
       {
+    	  // FIXME attachments - nice logging jeff!
          System.out.println("[AttachmentManager] " + aMessage); //$NON-NLS-1$
       }
    }
