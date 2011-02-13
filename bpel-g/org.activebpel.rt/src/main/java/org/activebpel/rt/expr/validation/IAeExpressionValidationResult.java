@@ -24,19 +24,19 @@ public interface IAeExpressionValidationResult
     * Returns list of information (INFO) messages found during parsing. This method should never return
     * null.  In cases where there are no errors, an empty list should be returned.
     */
-   public List getInfoList();
+   public List<String> getInfoList();
    
    /**
     * Returns the list of errors found during parsing.  This method should never return
     * null.  In cases where there are no errors, an empty list should be returned.
     */
-   public List getErrors();
+   public List<String> getErrors();
 
    /**
     * Returns the list of warnings found during parsing.This method should never return
     * null.  In cases where there are no warnings, an empty list should be returned.
     */
-   public List getWarnings();
+   public List<String> getWarnings();
 
    /**
     * Gets the result from parsing the expression.

@@ -29,13 +29,6 @@ import org.apache.bsf.BSFManager;
 public abstract class AeBSFExpressionRunner extends AeAbstractExpressionRunner
 {
    /**
-    * Default constructor.
-    */
-   public AeBSFExpressionRunner()
-   {
-   }
-
-   /**
     * Must be implemented by subclasses.  This returns the BSF engine type, such as "jython" or "javascript".
     * 
     * @return Returns the engineType.

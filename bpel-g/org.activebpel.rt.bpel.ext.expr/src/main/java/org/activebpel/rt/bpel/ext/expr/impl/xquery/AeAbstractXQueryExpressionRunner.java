@@ -45,13 +45,6 @@ import org.w3c.dom.Node;
 public abstract class AeAbstractXQueryExpressionRunner extends AeAbstractExpressionRunner
 {
    /**
-    * Default constructor.
-    */
-   public AeAbstractXQueryExpressionRunner()
-   {
-   }
-   
-   /**
     * @see org.activebpel.rt.bpel.impl.expr.AeAbstractExpressionRunner#createExpressionTypeConverter(org.activebpel.rt.bpel.impl.expr.IAeExpressionRunnerContext)
     */
    protected IAeExpressionTypeConverter createExpressionTypeConverter(IAeExpressionRunnerContext aContext)

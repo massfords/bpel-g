@@ -64,8 +64,9 @@ public interface IAeExpressionLanguageFactory
     * 
     * @param aBpelNamespace
     * @param aLanguageUri
+    * @throws AeException 
     */
-   public boolean supportsLanguage(String aBpelNamespace, String aLanguageUri);
+   public boolean supportsLanguage(String aBpelNamespace, String aLanguageUri) throws AeException;
    
    /**
     * Returns true if the given language URI is the default language URI for the version of BPEL
@@ -73,13 +74,15 @@ public interface IAeExpressionLanguageFactory
     * 
     * @param aBpelNamespace
     * @param aLanguageUri
+    * @throws AeException 
     */
-   public boolean isBpelDefaultLanguage(String aBpelNamespace, String aLanguageUri);
+   public boolean isBpelDefaultLanguage(String aBpelNamespace, String aLanguageUri) throws AeException;
    
    /**
     * Returns the default language URI for the version of BPEL indicated by the given bpel namespace.
     * 
     * @param aBpelNamespace
+    * @throws AeException 
     */
-   public String getBpelDefaultLanguage(String aBpelNamespace);
+   public String getBpelDefaultLanguage(String aBpelNamespace) throws AeException;
 }

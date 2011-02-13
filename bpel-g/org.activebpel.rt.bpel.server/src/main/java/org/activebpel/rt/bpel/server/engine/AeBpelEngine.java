@@ -24,6 +24,7 @@ import org.activebpel.rt.bpel.AeBusinessProcessException;
 import org.activebpel.rt.bpel.AeWSDLPolicyHelper;
 import org.activebpel.rt.bpel.IAeBusinessProcess;
 import org.activebpel.rt.bpel.IAeEndpointReference;
+import org.activebpel.rt.bpel.IAeExpressionLanguageFactory;
 import org.activebpel.rt.bpel.IAeFault;
 import org.activebpel.rt.bpel.config.IAeEngineConfiguration;
 import org.activebpel.rt.bpel.coord.AeCoordinationException;
@@ -100,9 +101,10 @@ public class AeBpelEngine extends AeAbstractServerEngine
       IAeQueueManager aQueueManager,
       IAeProcessManager aProcessManager,
       IAeLockManager aLockManager,
-      IAeAttachmentManager aAttachmentManager) throws Exception
+      IAeAttachmentManager aAttachmentManager,
+      IAeExpressionLanguageFactory aFactory) throws Exception
    {
-      super(aEngineConfiguration, aQueueManager, aProcessManager, aLockManager, aAttachmentManager);
+      super(aEngineConfiguration, aQueueManager, aProcessManager, aLockManager, aAttachmentManager, aFactory);
 
       getManagers().add(aQueueManager);
       getManagers().add(aProcessManager);

@@ -43,7 +43,6 @@ import org.activebpel.rt.bpel.IAePartnerLink;
 import org.activebpel.rt.bpel.IAeProcessEvent;
 import org.activebpel.rt.bpel.IAeProcessInfoEvent;
 import org.activebpel.rt.bpel.IAeVariable;
-import org.activebpel.rt.bpel.config.IAeEngineConfiguration;
 import org.activebpel.rt.bpel.coord.AeCoordinationException;
 import org.activebpel.rt.bpel.coord.IAeCoordinating;
 import org.activebpel.rt.bpel.coord.IAeCoordinator;
@@ -2303,8 +2302,7 @@ public class AeBusinessProcess extends AeActivityScopeImpl implements IAeBusines
     */
    public IAeExpressionLanguageFactory getExpressionLanguageFactory() throws AeException
    {
-      IAeEngineConfiguration engineConfig = getEngine().getEngineConfiguration();
-      return engineConfig.getExpressionLanguageFactory();
+      return getEngine().getExpressionLanguageFactory();
    }
 
    /**

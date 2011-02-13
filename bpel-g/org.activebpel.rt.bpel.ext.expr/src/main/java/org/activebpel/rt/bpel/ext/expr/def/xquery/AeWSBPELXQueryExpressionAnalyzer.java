@@ -24,14 +24,6 @@ import org.activebpel.rt.util.AeUtil;
 public class AeWSBPELXQueryExpressionAnalyzer extends AePrefixedExpressionAnalyzer
 {
    /**
-    * Default c'tor.
-    */
-   public AeWSBPELXQueryExpressionAnalyzer()
-   {
-      super();
-   }
-
-   /**
     * @see org.activebpel.rt.bpel.ext.expr.def.xquery.AeBPWSXQueryExpressionAnalyzer#createExpressionParser(org.activebpel.rt.expr.def.IAeExpressionParserContext)
     */
    protected IAeExpressionParser createExpressionParser(IAeExpressionParserContext aContext)

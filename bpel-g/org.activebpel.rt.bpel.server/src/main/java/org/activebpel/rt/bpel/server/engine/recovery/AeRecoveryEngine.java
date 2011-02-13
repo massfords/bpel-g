@@ -20,6 +20,7 @@ import java.util.Set;
 import org.activebpel.rt.AeException;
 import org.activebpel.rt.bpel.AeBusinessProcessException;
 import org.activebpel.rt.bpel.IAeBusinessProcess;
+import org.activebpel.rt.bpel.IAeExpressionLanguageFactory;
 import org.activebpel.rt.bpel.config.IAeEngineConfiguration;
 import org.activebpel.rt.bpel.impl.AeBpelState;
 import org.activebpel.rt.bpel.impl.IAeAlarmReceiver;
@@ -73,13 +74,14 @@ public class AeRecoveryEngine extends AeAbstractServerEngine implements IAeRecov
       IAeRecoveryProcessManager aRecoveryProcessManager,
       IAeLockManager aRecoveryLockManager,
       IAeAttachmentManager aRecoveryAttachmentManager,
+      IAeExpressionLanguageFactory aFactory,
       IAeEnginePartnerLinkStrategy aPartnerLinkStrategy,
       IAeRecoveryCoordinationManager aCoordinationManager,
       IAeTransmissionTracker aTransmissionTracker,
       Map aCustomManagersMap,
       int aEngineId)
    {
-      super(aEngineConfiguration, aRecoveryQueueManager, aRecoveryProcessManager, aRecoveryLockManager, aRecoveryAttachmentManager);
+      super(aEngineConfiguration, aRecoveryQueueManager, aRecoveryProcessManager, aRecoveryLockManager, aRecoveryAttachmentManager, aFactory);
 
       setPartnerLinkStrategy(aPartnerLinkStrategy);
       setCoordinationManager(aCoordinationManager);

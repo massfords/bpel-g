@@ -20,14 +20,6 @@ import org.activebpel.rt.expr.def.IAeExpressionParserContext;
 public class AeWSBPELXQueryExpressionValidator extends AeAbstractXQueryExpressionValidator
 {
    /**
-    * Default c'tor.
-    */
-   public AeWSBPELXQueryExpressionValidator()
-   {
-      super();
-   }
-
-   /**
     * @see org.activebpel.rt.bpel.ext.expr.def.validation.xquery.AeAbstractXQueryExpressionValidator#createExpressionParser(org.activebpel.rt.expr.def.IAeExpressionParserContext)
     */
    protected IAeExpressionParser createExpressionParser(IAeExpressionParserContext aContext)

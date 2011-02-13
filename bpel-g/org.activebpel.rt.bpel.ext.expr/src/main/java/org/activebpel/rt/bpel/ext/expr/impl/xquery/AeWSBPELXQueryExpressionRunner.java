@@ -21,14 +21,6 @@ import org.activebpel.rt.bpel.impl.expr.IAeExpressionRunnerVariableResolver;
 public class AeWSBPELXQueryExpressionRunner extends AeAbstractXQueryExpressionRunner
 {
    /**
-    * Default c'tor.
-    */
-   public AeWSBPELXQueryExpressionRunner()
-   {
-      super();
-   }
-   
-   /**
     * @see org.activebpel.rt.bpel.ext.expr.impl.xquery.AeAbstractXQueryExpressionRunner#createLinkVariableResolver(org.activebpel.rt.bpel.function.IAeFunctionExecutionContext, org.activebpel.rt.bpel.impl.expr.IAeExpressionRunnerVariableResolver)
     */
    protected VariableResolver createLinkVariableResolver(IAeFunctionExecutionContext aFunctionExecContext, IAeExpressionRunnerVariableResolver aVariableResolver)

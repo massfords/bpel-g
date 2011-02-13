@@ -28,14 +28,6 @@ public abstract class AeAbstractJavaScriptExpressionAnalyzer extends AeAbstractE
    protected static Pattern sGetNamespacesPattern = Pattern.compile("(" + AeXmlUtil.NCNAME_PATTERN + ")[:\\.]"); //$NON-NLS-1$ //$NON-NLS-2$
    
    /**
-    * Default c'tor.
-    */
-   public AeAbstractJavaScriptExpressionAnalyzer()
-   {
-      super();
-   }
-
-   /**
     * @see org.activebpel.rt.expr.def.IAeExpressionAnalyzer#getNamespaces(org.activebpel.rt.expr.def.IAeExpressionAnalyzerContext, java.lang.String)
     */
    public Set getNamespaces(IAeExpressionAnalyzerContext aContext, String aExpression)

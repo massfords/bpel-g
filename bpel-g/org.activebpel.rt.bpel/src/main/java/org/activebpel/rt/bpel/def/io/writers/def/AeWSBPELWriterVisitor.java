@@ -13,6 +13,7 @@ package org.activebpel.rt.bpel.def.io.writers.def;
 import java.util.Collections;
 import java.util.Map;
 
+import org.activebpel.rt.AeException;
 import org.activebpel.rt.bpel.AeExpressionLanguageFactory;
 import org.activebpel.rt.bpel.def.AeBaseDef;
 import org.activebpel.rt.bpel.def.AeCatchDef;
@@ -546,7 +547,11 @@ public class AeWSBPELWriterVisitor extends AeWriterVisitor
          {
             // No language specified at process level, so need to get BPEL default from expression factory
             AeExpressionLanguageFactory exprFactory = new AeExpressionLanguageFactory();
-            defaultLang = exprFactory.getBpelDefaultLanguage(IAeBPELConstants.WSBPEL_2_0_NAMESPACE_URI);
+            try {
+                defaultLang = exprFactory.getBpelDefaultLanguage(IAeBPELConstants.WSBPEL_2_0_NAMESPACE_URI);
+            } catch (AeException e) {
+                // previous behavior of getBpelDEfaultLanguage was to not throw and return null
+            }
          }
          
          // If expression lang is different than default, we will need to write it out

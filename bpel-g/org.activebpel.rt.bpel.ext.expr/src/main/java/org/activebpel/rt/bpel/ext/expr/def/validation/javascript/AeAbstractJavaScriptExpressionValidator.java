@@ -26,14 +26,6 @@ import org.mozilla.javascript.Token;
 public abstract class AeAbstractJavaScriptExpressionValidator extends AeAbstractExpressionValidator
 {
    /**
-    * Default c'tor.
-    */
-   public AeAbstractJavaScriptExpressionValidator()
-   {
-      super();
-   }
-   
-   /**
     * Overrides method to do additional validation on the javascript parse tree for join conditions.  This
     * method delegates to the superclass to do most of the validation, but then does a little bit extra.
     * 

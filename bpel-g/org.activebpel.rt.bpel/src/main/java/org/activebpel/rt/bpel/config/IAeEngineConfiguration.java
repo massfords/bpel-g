@@ -13,7 +13,6 @@ import java.util.Map;
 import java.util.Set;
 
 import org.activebpel.rt.AeException;
-import org.activebpel.rt.bpel.IAeExpressionLanguageFactory;
 import org.activebpel.rt.bpel.function.AeUnresolvableException;
 import org.activebpel.rt.bpel.function.IAeFunction;
 import org.activebpel.rt.expr.validation.functions.IAeFunctionValidatorFactory;
@@ -214,14 +213,6 @@ public interface IAeEngineConfiguration
     * Gets a list of namespaces for all configured function contexts.
     */
    public Set getFunctionContextNamespaceList();
-   
-   /**
-    * Gets the expression language factory configured in the engine config.  Defaults to the standard
-    * AeExpressionLanguageFactory which includes support for XPath 1.0 as required by the BPEL spec.
-    * 
-    * @throws AeException
-    */
-   public IAeExpressionLanguageFactory getExpressionLanguageFactory() throws AeException;
    
    /**
     * Gets the function validator factory with any configured extensions defined in the engine config.

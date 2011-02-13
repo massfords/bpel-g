@@ -61,13 +61,6 @@ public abstract class AeAbstractExpressionValidator implements IAeExpressionVali
    }
 
    /**
-    * Constructs an expression validator.
-    */
-   protected AeAbstractExpressionValidator()
-   {
-   }
-
-   /**
     * @see org.activebpel.rt.expr.validation.IAeExpressionValidator#validateExpression(org.activebpel.rt.expr.validation.IAeExpressionValidationContext, java.lang.String)
     */
    public IAeExpressionValidationResult validateExpression(IAeExpressionValidationContext aContext, String aExpression) throws AeException
