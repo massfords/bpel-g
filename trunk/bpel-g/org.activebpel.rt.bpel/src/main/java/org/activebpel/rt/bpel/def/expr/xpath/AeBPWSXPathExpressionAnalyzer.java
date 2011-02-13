@@ -22,14 +22,6 @@ import org.activebpel.rt.expr.def.IAeExpressionParserContext;
 public class AeBPWSXPathExpressionAnalyzer extends AePrefixedExpressionAnalyzer
 {
    /**
-    * Default c'tor.
-    */
-   public AeBPWSXPathExpressionAnalyzer()
-   {
-      super();
-   }
-
-   /**
     * Overrides method to supply an xpath impl for the expression parser.
     * 
     * @see org.activebpel.rt.expr.def.AeAbstractExpressionAnalyzer#createExpressionParser(org.activebpel.rt.expr.def.IAeExpressionParserContext)

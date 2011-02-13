@@ -34,6 +34,7 @@ import org.activebpel.rt.bpel.IAeEndpointReference;
 import org.activebpel.rt.bpel.IAeEngineAlert;
 import org.activebpel.rt.bpel.IAeEngineEvent;
 import org.activebpel.rt.bpel.IAeEngineListener;
+import org.activebpel.rt.bpel.IAeExpressionLanguageFactory;
 import org.activebpel.rt.bpel.IAeFault;
 import org.activebpel.rt.bpel.IAeInvokeActivity;
 import org.activebpel.rt.bpel.IAeMonitorListener;
@@ -141,6 +142,8 @@ public class AeBusinessProcessEngine implements IAeBusinessProcessEngineInternal
 
    /** Map from custom manager name to IAeManager. */
    private Map mCustomManagers = new HashMap();
+   
+   private IAeExpressionLanguageFactory mExpressionLanguageFactory;
 
    /**
     * Constructs a new engine with the passed configuration, queue manager,
@@ -157,13 +160,15 @@ public class AeBusinessProcessEngine implements IAeBusinessProcessEngineInternal
       IAeQueueManager aQueueManager,
       IAeProcessManager aProcessManager,
       IAeLockManager aLockManager,
-      IAeAttachmentManager aAttachmentManager)
+      IAeAttachmentManager aAttachmentManager,
+      IAeExpressionLanguageFactory aFactory)
    {
       mEngineConfiguration = aEngineConfiguration;
       mQueueManager = aQueueManager;
       mProcessManager = aProcessManager;
       mLockManager = aLockManager;
       mAttachmentManager = aAttachmentManager;
+      setExpressionLanguageFactory(aFactory);
       if (mQueueManager != null)
          mQueueManager.setEngine(this);
       if (mProcessManager != null)
@@ -2194,4 +2199,13 @@ public class AeBusinessProcessEngine implements IAeBusinessProcessEngineInternal
    {
       return true;
    }
+
+    @Override
+    public IAeExpressionLanguageFactory getExpressionLanguageFactory() {
+        return mExpressionLanguageFactory;
+    }
+    
+    public void setExpressionLanguageFactory(IAeExpressionLanguageFactory aFactory) {
+        mExpressionLanguageFactory = aFactory;
+    }
 }

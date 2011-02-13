@@ -31,13 +31,6 @@ import org.activebpel.rt.expr.validation.IAeExpressionValidationContext;
 public abstract class AeAbstractXPathExpressionValidator extends AeAbstractExpressionValidator
 {
    /**
-    * Constructs an xpath expression validator.
-    */
-   public AeAbstractXPathExpressionValidator()
-   {
-   }
-
-   /**
     * Overrides method to do additional validation on the xpath parse tree for join conditions.  This
     * method delegates to the superclass to do most of the validation, but then does a little bit extra.
     * 

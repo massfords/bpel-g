@@ -12,6 +12,7 @@ package org.activebpel.rt.bpel.server.engine;
 import org.activebpel.rt.AeException;
 import org.activebpel.rt.bpel.AeBusinessProcessException;
 import org.activebpel.rt.bpel.IAeBusinessProcess;
+import org.activebpel.rt.bpel.IAeExpressionLanguageFactory;
 import org.activebpel.rt.bpel.config.IAeEngineConfiguration;
 import org.activebpel.rt.bpel.coord.IAeCoordinating;
 import org.activebpel.rt.bpel.coord.IAeCoordinationContext;
@@ -39,10 +40,10 @@ public abstract class AeAbstractServerEngine extends AeBusinessProcessEngine
     * @param aLockManager
     * @param aAttachmentManager
     */
-   public AeAbstractServerEngine(IAeEngineConfiguration aEngineConfiguration, IAeQueueManager aQueueManager, IAeProcessManager aProcessManager, IAeLockManager aLockManager, IAeAttachmentManager aAttachmentManager)
+   public AeAbstractServerEngine(IAeEngineConfiguration aEngineConfiguration, IAeQueueManager aQueueManager, IAeProcessManager aProcessManager, IAeLockManager aLockManager, IAeAttachmentManager aAttachmentManager, IAeExpressionLanguageFactory aFactory)
    {
       super(aEngineConfiguration, aQueueManager, aProcessManager, aLockManager,
-            aAttachmentManager);
+            aAttachmentManager, aFactory);
    }
 
    /**

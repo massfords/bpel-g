@@ -232,7 +232,7 @@ public class AeEngineFactory
       // Use the managers to create the bpel engine.
       // The class name for the bpel engine can be supplied dynamically, but this
       // factory assumes that it's derived from AeBpelEngine
-      sEngine = createNewEngine(queueManager, processManager, lockManager, attachmentManager);
+      sEngine = createNewEngine(queueManager, processManager, lockManager, attachmentManager, sContext.getBean(IAeExpressionLanguageFactory.class));
 
       IAeEngineListener engineListener = createEngineListener();
       if (engineListener != null)
@@ -460,7 +460,8 @@ public class AeEngineFactory
          IAeQueueManager aQueueManager,
          IAeProcessManager aProcessManager,
          IAeLockManager aLockManager,
-         IAeAttachmentManager aAttachmentManager)
+         IAeAttachmentManager aAttachmentManager,
+         IAeExpressionLanguageFactory aFactory)
    throws AeException
    {
       String engineClass = getEngineConfig().getEntry(
@@ -476,8 +477,9 @@ public class AeEngineFactory
                         IAeQueueManager.class,
                         IAeProcessManager.class,
                         IAeLockManager.class,
-                        IAeAttachmentManager.class});
-         return (AeBpelEngine) cons.newInstance(new Object[] { getEngineConfig(), aQueueManager, aProcessManager, aLockManager, aAttachmentManager});
+                        IAeAttachmentManager.class,
+                        IAeExpressionLanguageFactory.class});
+         return (AeBpelEngine) cons.newInstance(new Object[] { getEngineConfig(), aQueueManager, aProcessManager, aLockManager, aAttachmentManager, aFactory});
       }
       catch (Exception e)
       {
@@ -835,14 +837,6 @@ public class AeEngineFactory
    }
 
    /**
-    * Convenience method for getting the expression language factory.
-    */
-   public static IAeExpressionLanguageFactory getExpressionLanguageFactory() throws AeException
-   {
-      return getEngineConfig().getExpressionLanguageFactory();
-   }
-   
-   /**
     * Convenience method for getting the function validator factory.
     * 
     *
@@ -1153,4 +1147,8 @@ public class AeEngineFactory
    {
       return sInputMessageWorkManager;
    }
+
+    public static IAeExpressionLanguageFactory getExpressionLanguageFactory() {
+        return sContext.getBean(IAeExpressionLanguageFactory.class);
+    }
 }

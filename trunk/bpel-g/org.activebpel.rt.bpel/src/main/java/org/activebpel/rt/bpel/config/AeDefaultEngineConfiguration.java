@@ -85,8 +85,6 @@ public class AeDefaultEngineConfiguration extends AeConfiguration implements IAe
    protected List mListeners = new ArrayList();
    /** Container for custom function contexts. */
    protected AeFunctionContextContainer mContextContainer;
-   /** A cached expression language factory. */
-   protected IAeExpressionLanguageFactory mExpressionLanguageFactory;
    /** A cached function validator factory. */
    protected IAeFunctionValidatorFactory mFunctionValidatorFactory;
    /** Storage listeners  */
@@ -174,14 +172,6 @@ public class AeDefaultEngineConfiguration extends AeConfiguration implements IAe
    }
 
    /**
-    * @see org.activebpel.rt.bpel.config.IAeEngineConfiguration#getExpressionLanguageFactory()
-    */
-   public IAeExpressionLanguageFactory getExpressionLanguageFactory() throws AeException
-   {
-      return mExpressionLanguageFactory;
-   }
-
-   /**
     * @see org.activebpel.rt.bpel.config.IAeEngineConfiguration#getFunctionValidatorFactory()
     */
    public IAeFunctionValidatorFactory getFunctionValidatorFactory() throws AeException
@@ -201,34 +191,6 @@ public class AeDefaultEngineConfiguration extends AeConfiguration implements IAe
       AeFunctionValidatorFactory factory = new AeFunctionValidatorFactory();
       registerFunctionValidators(getMapEntry(FUNCTION_VALIDATORS), factory);
       mFunctionValidatorFactory = factory;
-   }
-
-   /**
-    * Creates the expression language factory using the current configuration map.  Defaults to the
-    * standard AeExpressionLanguageFactory which includes support for XPath 1.0 as required by the
-    * BPEL spec.  This method is called on config load and the expression language factory is
-    * cached at that point.
-    *
-    * @throws AeException
-    */
-   protected void createExpressionLanguageFactory() throws AeException
-   {
-      try
-      {
-         IAeExpressionLanguageFactory factory = (IAeExpressionLanguageFactory) createConfigSpecificClass(EXPRESSION_FACTORY);
-         if (factory == null)
-         {
-            mExpressionLanguageFactory = createDefaultExpressionLanguageFactory();
-         }
-         else
-         {
-            mExpressionLanguageFactory = factory;
-         }
-      }
-      catch (Throwable t)
-      {
-         throw new AeException(AeMessages.getString("AeDefaultEngineConfiguration.FAILED_TO_CREATE_EXPR_LANG_FACTORY_ERROR"), t); //$NON-NLS-1$
-      }
    }
 
    /**
@@ -382,7 +344,6 @@ public class AeDefaultEngineConfiguration extends AeConfiguration implements IAe
       {
          Map entries = AeConfigurationUtil.loadConfig(new InputStreamReader(aConfigStream));
          aDefaultConfig.setEntries( entries );
-         aDefaultConfig.createExpressionLanguageFactory();
          aDefaultConfig.createFunctionValidatorFactory();
          aDefaultConfig.initFunctionContexts(aClassLoader);
       }

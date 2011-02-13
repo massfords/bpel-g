@@ -26,13 +26,6 @@ import org.activebpel.rt.expr.validation.IAeExpressionValidationContext;
 public class AeBPWSXPathExpressionValidator extends AeAbstractXPathExpressionValidator
 {
    /**
-    * Default c'tor.
-    */
-   public AeBPWSXPathExpressionValidator()
-   {
-   }
-   
-   /**
     * @see org.activebpel.rt.bpel.def.validation.expr.AeAbstractExpressionValidator#doCommonExpressionValidation(org.activebpel.rt.expr.def.IAeExpressionParseResult, org.activebpel.rt.expr.validation.AeExpressionValidationResult, org.activebpel.rt.expr.validation.IAeExpressionValidationContext)
     */
    protected void doCommonExpressionValidation(IAeExpressionParseResult aParseResult, AeExpressionValidationResult aValidationResult, IAeExpressionValidationContext aContext)

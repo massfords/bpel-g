@@ -32,14 +32,6 @@ import org.mozilla.javascript.Token;
 public class AeWSBPELJavaScriptExpressionAnalyzer extends AeAbstractJavaScriptExpressionAnalyzer
 {
    /**
-    * Default c'tor.
-    */
-   public AeWSBPELJavaScriptExpressionAnalyzer()
-   {
-      super();
-   }
-
-   /**
     * Overrides method to supply a javascript impl for the expression parser.
     * 
     * @see org.activebpel.rt.expr.def.AeAbstractExpressionAnalyzer#createExpressionParser(org.activebpel.rt.expr.def.IAeExpressionParserContext)

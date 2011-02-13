@@ -22,13 +22,6 @@ import org.jaxen.VariableContext;
 public class AeBPWSXPathExpressionRunner extends AeAbstractXPathExpressionRunner
 {
    /**
-    * Default constructor.
-    */
-   public AeBPWSXPathExpressionRunner()
-   {
-   }
-
-   /**
     * BPEL 1.1 processes don't support $varName syntax.
     * 
     * @see org.activebpel.rt.bpel.impl.expr.xpath.AeAbstractXPathExpressionRunner#createVariableContext(org.activebpel.rt.bpel.function.IAeFunctionExecutionContext, org.activebpel.rt.bpel.impl.expr.IAeExpressionRunnerVariableResolver)

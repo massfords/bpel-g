@@ -20,14 +20,6 @@ import org.activebpel.rt.expr.def.IAeExpressionParserContext;
 public class AeBPWSJavaScriptExpressionValidator extends AeAbstractJavaScriptExpressionValidator
 {
    /**
-    * Default c'tor.
-    */
-   public AeBPWSJavaScriptExpressionValidator()
-   {
-      super();
-   }
-
-   /**
     * @see org.activebpel.rt.bpel.ext.expr.def.validation.javascript.AeAbstractJavaScriptExpressionValidator#createExpressionParser(org.activebpel.rt.expr.def.IAeExpressionParserContext)
     */
    protected IAeExpressionParser createExpressionParser(IAeExpressionParserContext aContext)

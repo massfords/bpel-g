@@ -25,6 +25,7 @@ import org.activebpel.wsio.AeWebServiceAttachment;
 import org.activebpel.wsio.IAeMessageAcknowledgeCallback;
 import org.activebpel.wsio.IAeWebServiceMessageData;
 import org.activebpel.wsio.IAeWebServiceResponse;
+import org.activebpel.wsio.receive.AeTimeoutException;
 import org.activebpel.wsio.receive.IAeMessageContext;
 import org.w3c.dom.Document;
 
@@ -36,7 +37,13 @@ public interface IAeBusinessProcessEngine
    /** Monitor status indicating engine is running with one or more monitor warnings */
    public static final int MONITOR_WARNING = 1; 
    /** Monitor status indicating engine is running with one or more error warnings */
-   public static final int MONITOR_ERROR   = 2; 
+   public static final int MONITOR_ERROR   = 2;
+   
+   /**
+    * Gets the expression language factory configured in the engine config.  Defaults to the standard
+    * AeExpressionLanguageFactory which includes support for XPath 1.0 as required by the BPEL spec.
+    */
+   public IAeExpressionLanguageFactory getExpressionLanguageFactory();
    
    /**
     * Sets the monitor health status of the engine

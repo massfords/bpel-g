@@ -27,13 +27,6 @@ import org.activebpel.rt.util.AeUtil;
 public abstract class AeAbstractExpressionAnalyzer implements IAeExpressionAnalyzer
 {
    /**
-    * Simple constructor.
-    */
-   public AeAbstractExpressionAnalyzer()
-   {
-   }
-
-   /**
     * Creates an expression parser.
     * 
     * @param aContext

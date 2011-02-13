@@ -31,13 +31,13 @@ public interface IAeExpressionParseResult
    /**
     * Gets a list of errors found during parsing.
     */
-   public List getParseErrors();
+   public List<String> getParseErrors();
 
    /**
     * Gets a list of all the function calls made in the expression.  The return value is a set of
     * AeScriptFuncDef objects.
     */
-   public Set getFunctions();
+   public Set<AeScriptFuncDef> getFunctions();
 
    /**
     * Gets a list of all the expression variable (not necessarily BPEL variable) references.  Note that this
@@ -45,50 +45,52 @@ public interface IAeExpressionParseResult
     * the expression itself (xquery, javascript, etc) should not be returned.
     * @return Set of {@link AeScriptVarDef}
     */
-   public Set getVariableReferences();
+   public Set<AeScriptVarDef> getVariableReferences();
 
    /**
     * Gets a list of all the variables used in the expression.  This method returns a set of String
     * objects (the names of the variables).
     */
-   public Set getVarNames();
+   public Set<String> getVarNames();
 
    /**
     * Gets a list of all the bpws:getVariableData functions in the expression. 
     * @return List of {@link AeScriptFuncDef}
     */
-   public List getVarDataFunctionList();
+   public List<AeScriptFuncDef> getVarDataFunctionList();
 
    /**
     * Gets a list of all the bpws:getVariableProperty functions in the expression. 
     * @return List of {@link AeScriptFuncDef}
     */
-   public List getVarPropertyFunctionList();
+   public List<AeScriptFuncDef> getVarPropertyFunctionList();
    
    /**
     * Gets a list of all of the abx: attachment functions in the expression.
     * @return List of {@link AeScriptFuncDef}
     */
-   public List getAttachmentFunctionList();
+   public List<AeScriptFuncDef> getAttachmentFunctionList();
 
    /**
     * Gets a list of all the abx:getMyRoleProperty functions in the expression. 
     * @return List of {@link AeScriptFuncDef}
     */
-   public List getMyRolePropertyFunctionList();
+   public List<AeScriptFuncDef> getMyRolePropertyFunctionList();
 
    /**
     * Gets a list of all the bpws:getLinkStatus functions in the expression.
     * @return List of {@link AeScriptFuncDef}
     */
-   public List getLinkStatusFunctionList();
+   public List<AeScriptFuncDef> getLinkStatusFunctionList();
 
    /**
     * Gets a list of all the bpel:doXslTransform functions in the expression.  
     * @return List of {@link AeScriptFuncDef}
     */
-   public List getDoXslTransformFunctionList();
+   public List<AeScriptFuncDef> getDoXslTransformFunctionList();
 
+   // FIXME bpelg need to repackage this interface since it contains objects from rt.bpel package 
+   
    /**
     * Gets a list of all the variable data (AeVariableData) objects.
     */
@@ -109,5 +111,5 @@ public interface IAeExpressionParseResult
     * Gets the list of all stylesheet URIs found in the expression.  Stylesheet URIs are found
     * as the first param of the bpel:doXslTransform function.
     */
-   public List getStylesheetURIList();
+   public List<String> getStylesheetURIList();
 }

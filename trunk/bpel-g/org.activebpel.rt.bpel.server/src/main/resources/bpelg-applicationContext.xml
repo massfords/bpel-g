@@ -84,4 +84,107 @@
     <bean id="CoordinationManager" class="org.activebpel.rt.bpel.server.coord.AePersistentCoordinationManager"/>
     <bean id="EngineAdminImpl" class="org.activebpel.rt.axis.bpel.web.AeWebEngineAdministration"/>
     <bean id="DeploymentProvider" class="org.activebpel.rt.bpel.server.deploy.AeDeploymentProvider"/>
+    
+    <bean id="ExpressionLangFactory" class="org.activebpel.rt.bpel.AeExpressionLanguageFactory">
+        <property name="factoryMap">
+            <util:map>
+                <entry key="http://schemas.xmlsoap.org/ws/2003/03/business-process/">
+                    <bean class="org.activebpel.rt.bpel.expr.BpelExpressionLanguageFactory">
+                        <property name="bpelDefaultLanguage" value="http://www.w3.org/TR/1999/REC-xpath-19991116"/>
+                        <property name="bundles">
+                            <util:map>
+                                <entry key="http://www.w3.org/TR/1999/REC-xpath-19991116">
+                                    <bean class="org.activebpel.rt.bpel.expr.AeExpressionBundle">
+                                        <property name="validator">
+                                            <bean class="org.activebpel.rt.bpel.def.validation.expr.xpath.AeBPWSXPathExpressionValidator"/>
+                                        </property>
+                                        <property name="runner">
+                                            <bean class="org.activebpel.rt.bpel.impl.expr.xpath.AeBPWSXPathExpressionRunner"/>
+                                        </property>
+                                        <property name="analyzer">
+                                            <bean class="org.activebpel.rt.bpel.def.expr.xpath.AeBPWSXPathExpressionAnalyzer"/>
+                                        </property>
+                                    </bean>
+                                </entry>
+                                <entry key="urn:active-endpoints:expression-language:xquery1.0">
+                                    <bean class="org.activebpel.rt.bpel.expr.AeExpressionBundle">
+                                        <property name="validator">
+                                            <bean class="org.activebpel.rt.bpel.ext.expr.def.validation.xquery.AeBPWSXQueryExpressionValidator"/>
+                                        </property>
+                                        <property name="runner">
+                                            <bean class="org.activebpel.rt.bpel.ext.expr.impl.xquery.AeBPWSXQueryExpressionRunner"/>
+                                        </property>
+                                        <property name="analyzer">
+                                            <bean class="org.activebpel.rt.bpel.ext.expr.def.xquery.AeBPWSXQueryExpressionAnalyzer"/>
+                                        </property>
+                                    </bean>
+                                </entry>
+                                <entry key="urn:active-endpoints:expression-language:javascript1.5">
+                                    <bean class="org.activebpel.rt.bpel.expr.AeExpressionBundle">
+                                        <property name="validator">
+                                            <bean class="org.activebpel.rt.bpel.ext.expr.def.validation.javascript.AeBPWSJavaScriptExpressionValidator"/>
+                                        </property>
+                                        <property name="runner">
+                                            <bean class="org.activebpel.rt.bpel.ext.expr.impl.javascript.AeBPWSJavaScriptExpressionRunner"/>
+                                        </property>
+                                        <property name="analyzer">
+                                            <bean class="org.activebpel.rt.bpel.ext.expr.def.javascript.AeBPWSJavaScriptExpressionAnalyzer"/>
+                                        </property>
+                                    </bean>
+                                </entry>
+                            </util:map>
+                        </property>
+                    </bean>
+                </entry>
+                <entry key="http://docs.oasis-open.org/wsbpel/2.0/process/executable">
+                    <bean class="org.activebpel.rt.bpel.expr.BpelExpressionLanguageFactory">
+                        <property name="bpelDefaultLanguage" value="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0"/>
+                        <property name="bundles">
+                            <util:map>
+                                <entry key="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">
+                                    <bean class="org.activebpel.rt.bpel.expr.AeExpressionBundle">
+                                        <property name="validator">
+                                            <bean class="org.activebpel.rt.bpel.def.validation.expr.xpath.AeWSBPELXPathExpressionValidator"/>
+                                        </property>
+                                        <property name="runner">
+                                            <bean class="org.activebpel.rt.bpel.impl.expr.xpath.AeWSBPELXPathExpressionRunner"/>
+                                        </property>
+                                        <property name="analyzer">
+                                            <bean class="org.activebpel.rt.bpel.def.expr.xpath.AeWSBPELXPathExpressionAnalyzer"/>
+                                        </property>
+                                    </bean>
+                                </entry>
+                                <entry key="urn:active-endpoints:expression-language:xquery1.0">
+                                    <bean class="org.activebpel.rt.bpel.expr.AeExpressionBundle">
+                                        <property name="validator">
+                                            <bean class="org.activebpel.rt.bpel.ext.expr.def.validation.xquery.AeWSBPELXQueryExpressionValidator"/>
+                                        </property>
+                                        <property name="runner">
+                                            <bean class="org.activebpel.rt.bpel.ext.expr.impl.xquery.AeWSBPELXQueryExpressionRunner"/>
+                                        </property>
+                                        <property name="analyzer">
+                                            <bean class="org.activebpel.rt.bpel.ext.expr.def.xquery.AeWSBPELXQueryExpressionAnalyzer"/>
+                                        </property>
+                                    </bean>
+                                </entry>
+                                <entry key="urn:active-endpoints:expression-language:javascript1.5">
+                                    <bean class="org.activebpel.rt.bpel.expr.AeExpressionBundle">
+                                        <property name="validator">
+                                            <bean class="org.activebpel.rt.bpel.ext.expr.def.validation.javascript.AeWSBPELJavaScriptExpressionValidator"/>
+                                        </property>
+                                        <property name="runner">
+                                            <bean class="org.activebpel.rt.bpel.ext.expr.impl.javascript.AeWSBPELJavaScriptExpressionRunner"/>
+                                        </property>
+                                        <property name="analyzer">
+                                            <bean class="org.activebpel.rt.bpel.ext.expr.def.javascript.AeWSBPELJavaScriptExpressionAnalyzer"/>
+                                        </property>
+                                    </bean>
+                                </entry>
+                            </util:map>
+                        </property>
+                    </bean>
+                </entry>
+            </util:map>
+        </property>
+    </bean>
 </beans>

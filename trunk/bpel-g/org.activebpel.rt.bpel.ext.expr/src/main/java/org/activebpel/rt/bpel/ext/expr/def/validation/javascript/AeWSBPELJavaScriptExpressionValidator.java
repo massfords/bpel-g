@@ -30,14 +30,6 @@ public class AeWSBPELJavaScriptExpressionValidator extends AeAbstractJavaScriptE
    private static Set sAllowedJoinConditionFunctions;
 
    /**
-    * Default c'tor.
-    */
-   public AeWSBPELJavaScriptExpressionValidator()
-   {
-      super();
-   }
-   
-   /**
     * @see org.activebpel.rt.bpel.ext.expr.def.validation.javascript.AeAbstractJavaScriptExpressionValidator#createExpressionParser(org.activebpel.rt.expr.def.IAeExpressionParserContext)
     */
    protected IAeExpressionParser createExpressionParser(IAeExpressionParserContext aContext)

@@ -32,13 +32,6 @@ import org.activebpel.rt.expr.validation.IAeExpressionValidationContext;
 public abstract class AeAbstractXQueryExpressionValidator extends AeAbstractExpressionValidator
 {
    /**
-    * Constructs an xquery expression validator.
-    */
-   public AeAbstractXQueryExpressionValidator()
-   {
-   }
-
-   /**
     * Overrides method to do additional validation on the xquery parse tree for join conditions.  This
     * method delegates to the superclass to do most of the validation, but then does a little bit extra.
     * 

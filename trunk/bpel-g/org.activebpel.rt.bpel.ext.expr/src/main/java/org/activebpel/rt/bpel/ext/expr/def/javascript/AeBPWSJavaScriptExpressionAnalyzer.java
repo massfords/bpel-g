@@ -20,14 +20,6 @@ import org.activebpel.rt.expr.def.IAeExpressionParserContext;
 public class AeBPWSJavaScriptExpressionAnalyzer extends AeAbstractJavaScriptExpressionAnalyzer
 {
    /**
-    * Default c'tor.
-    */
-   public AeBPWSJavaScriptExpressionAnalyzer()
-   {
-      super();
-   }
-
-   /**
     * Overrides method to supply a javascript impl for the expression parser.
     * 
     * @see org.activebpel.rt.expr.def.AeAbstractExpressionAnalyzer#createExpressionParser(org.activebpel.rt.expr.def.IAeExpressionParserContext)

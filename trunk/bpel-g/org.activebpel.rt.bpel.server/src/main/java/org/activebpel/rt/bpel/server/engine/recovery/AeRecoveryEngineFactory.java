@@ -62,6 +62,7 @@ public class AeRecoveryEngineFactory
          new AeRecoveryProcessManager(),
          new AeRecoveryLockManager(),
          aBaseEngine.getAttachmentManager(),
+         aBaseEngine.getExpressionLanguageFactory(),
          aBaseEngine.getPartnerLinkStrategy(),
          new AeRecoveryCoordinationManager(aBaseEngine.getCoordinationManager()),
          aBaseEngine.getTransmissionTracker(),

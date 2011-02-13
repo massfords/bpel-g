@@ -29,13 +29,6 @@ import org.jaxen.VariableContext;
 public abstract class AeAbstractXPathExpressionRunner extends AeAbstractExpressionRunner
 {
    /**
-    * Default constructor.
-    */
-   public AeAbstractXPathExpressionRunner()
-   {
-   }
-
-   /**
     * @see org.activebpel.rt.bpel.impl.expr.AeAbstractExpressionRunner#doExecuteExpression(java.lang.String, org.activebpel.rt.bpel.impl.expr.IAeExpressionRunnerContext)
     */
    protected Object doExecuteExpression(String aExpression, IAeExpressionRunnerContext aContext)

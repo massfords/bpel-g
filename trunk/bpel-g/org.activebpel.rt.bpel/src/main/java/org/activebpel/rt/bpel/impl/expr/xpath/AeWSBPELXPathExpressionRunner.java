@@ -14,32 +14,25 @@ import org.activebpel.rt.bpel.impl.expr.IAeExpressionRunnerVariableResolver;
 import org.jaxen.VariableContext;
 
 /**
- * Implements an XPath 1.0 expression runner. This implementation is capable of executing 
- * expression that conform to the XPath 1.0 specification.  This implementation is specific to
- * BPEL 2.0.
+ * Implements an XPath 1.0 expression runner. This implementation is capable of
+ * executing expression that conform to the XPath 1.0 specification. This
+ * implementation is specific to BPEL 2.0.
  */
-public class AeWSBPELXPathExpressionRunner extends AeAbstractXPathExpressionRunner
-{
-   /**
-    * Default constructor.
-    */
-   public AeWSBPELXPathExpressionRunner()
-   {
-   }
+public class AeWSBPELXPathExpressionRunner extends AeAbstractXPathExpressionRunner {
+    /**
+     * @see org.activebpel.rt.bpel.impl.expr.xpath.AeAbstractXPathExpressionRunner#createVariableContext(org.activebpel.rt.bpel.function.IAeFunctionExecutionContext,
+     *      org.activebpel.rt.bpel.impl.expr.IAeExpressionRunnerVariableResolver)
+     */
+    protected VariableContext createVariableContext(IAeFunctionExecutionContext aContext,
+            IAeExpressionRunnerVariableResolver aVariableResolver) {
+        return new AeWSBPELXPathVariableContext(aContext, aVariableResolver);
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.impl.expr.xpath.AeAbstractXPathExpressionRunner#createVariableContext(org.activebpel.rt.bpel.function.IAeFunctionExecutionContext, org.activebpel.rt.bpel.impl.expr.IAeExpressionRunnerVariableResolver)
-    */
-   protected VariableContext createVariableContext(IAeFunctionExecutionContext aContext, IAeExpressionRunnerVariableResolver aVariableResolver)
-   {
-      return new AeWSBPELXPathVariableContext(aContext, aVariableResolver);
-   }
-
-   /**
-    * @see org.activebpel.rt.bpel.impl.expr.xpath.AeAbstractXPathExpressionRunner#createJoinConditionVariableContext(org.activebpel.rt.bpel.function.IAeFunctionExecutionContext)
-    */
-   protected VariableContext createJoinConditionVariableContext(IAeFunctionExecutionContext aContext)
-   {
-      return new AeWSBPELXPathLinkVariableContext(aContext);
-   }
+    /**
+     * @see org.activebpel.rt.bpel.impl.expr.xpath.AeAbstractXPathExpressionRunner#createJoinConditionVariableContext(org.activebpel.rt.bpel.function.IAeFunctionExecutionContext)
+     */
+    protected VariableContext createJoinConditionVariableContext(
+            IAeFunctionExecutionContext aContext) {
+        return new AeWSBPELXPathLinkVariableContext(aContext);
+    }
 }

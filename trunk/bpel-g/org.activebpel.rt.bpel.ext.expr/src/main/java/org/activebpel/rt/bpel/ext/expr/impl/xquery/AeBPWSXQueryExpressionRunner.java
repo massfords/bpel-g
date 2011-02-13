@@ -21,13 +21,6 @@ import org.activebpel.rt.bpel.impl.expr.IAeExpressionRunnerVariableResolver;
 public class AeBPWSXQueryExpressionRunner extends AeAbstractXQueryExpressionRunner
 {
    /**
-    * Default constructor.
-    */
-   public AeBPWSXQueryExpressionRunner()
-   {
-   }
-
-   /**
     * There is no $varName support in BPEL 1.1.
     * 
     * @see org.activebpel.rt.bpel.ext.expr.impl.xquery.AeAbstractXQueryExpressionRunner#createVariableResolver(org.activebpel.rt.bpel.function.IAeFunctionExecutionContext, org.activebpel.rt.bpel.impl.expr.IAeExpressionRunnerVariableResolver)
