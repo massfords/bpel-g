@@ -10,7 +10,6 @@
 package org.activebpel.rt.bpel.impl;
 
 import java.util.HashSet;
-import java.util.Map;
 import java.util.Set;
 
 import org.activebpel.rt.bpel.AeBusinessProcessException;
@@ -22,15 +21,6 @@ public class AeInMemoryLockManager extends AeAbstractLockManager
 {
    /** Contains all currently acquired locks. */
    private Set mLocks;
-
-   /**
-    * Constructs a new in-memory lock manager.
-    * 
-    * @param aConfig The configuration map for this manager.
-    */
-   public AeInMemoryLockManager(Map aConfig)
-   {
-   }
 
    /**
     * @see org.activebpel.rt.bpel.impl.IAeManager#create()
