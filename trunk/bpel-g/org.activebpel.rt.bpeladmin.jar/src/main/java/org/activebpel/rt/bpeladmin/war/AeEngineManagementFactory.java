@@ -42,6 +42,7 @@ public class AeEngineManagementFactory {
          * of a broken pipe. Another possible solution would be to create a proxy for the bean which resets the bean reference
          * here when a ConnectException (or whatever the appropriate Exception) is thrown. 
          */
+        // FIXME NOW this is retarded
         if (sBean == null) {
             connect();
         } else if (sConnector != null) {
