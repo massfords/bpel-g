@@ -11,15 +11,12 @@ package org.activebpel.rt.bpel.server.engine.storage.sql;
 
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.Map;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
 
-import org.activebpel.rt.AeException;
-import org.activebpel.rt.bpel.config.IAeEngineConfiguration;
 import org.activebpel.rt.bpel.server.AeMessages;
 import org.activebpel.rt.bpel.server.engine.storage.AeStorageException;
 
@@ -35,33 +32,6 @@ public class AeJNDIDataSource extends AeDataSource
    private String mUsername;
    /** The data source password; */
    private String mPassword;
-
-   /**
-    * Constructs a JNDI data source.  Uses information in the engine configuration map
-    * to initialize its state (JNDI name, username, password).
-    *
-    * @param aConfig The engine configuration map for this data source.
-    * @param aSQLConfig The SQL configuration.
-    */
-   public AeJNDIDataSource(Map aConfig, AeSQLConfig aSQLConfig) throws AeException
-   {
-      super("JNDI", aSQLConfig); //$NON-NLS-1$
-
-      try
-      {
-         String jndiName = (String) aConfig.get(IAeEngineConfiguration.DS_JNDI_NAME_ENTRY);
-         String username = (String) aConfig.get(IAeEngineConfiguration.DS_USERNAME_ENTRY);
-         String password = (String) aConfig.get(IAeEngineConfiguration.DS_PASSWORD_ENTRY);
-
-         setJNDIName(jndiName);
-         setUsername(username);
-         setPassword(password);
-      }
-      catch (Exception e)
-      {
-         throw new AeException(AeMessages.getString("AeJNDIDataSource.ERROR_1"), e); //$NON-NLS-1$
-      }
-   }
 
    /**
     * @see org.activebpel.rt.bpel.server.engine.storage.sql.AeDataSource#createDelegate()
@@ -114,37 +84,37 @@ public class AeJNDIDataSource extends AeDataSource
    }
 
    /** Sets the JNDI name for this data source. */
-   protected void setJNDIName(String jNDIName)
+   public void setJNDIName(String jNDIName)
    {
       mJNDIName = jNDIName;
    }
 
    /** Returns the JNDI name for this data source. */
-   protected String getJNDIName()
+   public String getJNDIName()
    {
       return mJNDIName;
    }
 
    /** Sets the username for this data source. */
-   protected void setUsername(String username)
+   public void setUsername(String username)
    {
       mUsername = username;
    }
 
    /** Returns the username for this data source. */
-   protected String getUsername()
+   public String getUsername()
    {
       return mUsername;
    }
 
    /** Sets the password for this data source. */
-   protected void setPassword(String password)
+   public void setPassword(String password)
    {
       mPassword = password;
    }
 
    /** Returns the password for this data source. */
-   protected String getPassword()
+   public String getPassword()
    {
       return mPassword;
    }

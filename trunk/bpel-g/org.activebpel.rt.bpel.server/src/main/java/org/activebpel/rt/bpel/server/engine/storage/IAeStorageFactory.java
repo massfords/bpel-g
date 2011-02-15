@@ -9,8 +9,6 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpel.server.engine.storage;
 
-import java.util.Map;
-
 import org.activebpel.rt.AeException;
 import org.activebpel.rt.bpel.impl.attachment.IAeAttachmentStorage;
 
@@ -20,17 +18,6 @@ import org.activebpel.rt.bpel.impl.attachment.IAeAttachmentStorage;
  */
 public interface IAeStorageFactory
 {
-   /**
-    * Sets the configuration information for this persistent store factory.
-    * This method is guaranteed to be called prior to any other method in the
-    * interface.  Implementers of this interface should save the passed-in
-    * configuration map if there is any configuration information needed to
-    * create the persistent stores.
-    *
-    * @param aConfig The engine configuration map.
-    */
-   public void setConfiguration(Map aConfig) throws AeException;
-
    /**
     * The init method is called after the store factory has been created.  The factory
     * should do any initialization of its internal values in the init method.
@@ -60,11 +47,6 @@ public interface IAeStorageFactory
    public IAeURNStorage getURNStorage();
 
    /**
-    * Returns persistent counter store.
-    */
-   public IAeCounterStore getCounterStore();
-
-   /**
     * Returns persistent transmission manager store.
     */
    public IAeTransmissionTrackerStorage getTransmissionTrackerStorage();
@@ -73,13 +55,6 @@ public interface IAeStorageFactory
     * Returns attachment storage. 
     */
    public IAeAttachmentStorage getAttachmentStorage();
-   
-   
-   /**
-    * Returns a custom storage object with the given name.
-    * 
-    * @param aStorageName
-    */
-   public IAeStorage getCustomStorage(String aStorageName);
 
+   public boolean isReady();
 }

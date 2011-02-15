@@ -26,10 +26,13 @@ import org.activebpel.rt.bpel.IAeEngineListener;
 import org.activebpel.rt.bpel.IAeExpressionLanguageFactory;
 import org.activebpel.rt.bpel.config.AeDefaultEngineConfiguration;
 import org.activebpel.rt.bpel.config.IAeEngineConfiguration;
-import org.activebpel.rt.bpel.coord.IAeCoordinationManager;
 import org.activebpel.rt.bpel.def.IAeBPELConstants;
 import org.activebpel.rt.bpel.def.io.registry.AeEngineConfigExtensionRegistry;
 import org.activebpel.rt.bpel.def.visitors.AeDefVisitorFactory;
+import org.activebpel.rt.bpel.function.AeFunctionContextContainer;
+import org.activebpel.rt.bpel.function.AeUnresolvableException;
+import org.activebpel.rt.bpel.function.IAeFunction;
+import org.activebpel.rt.bpel.function.IAeFunctionContext;
 import org.activebpel.rt.bpel.impl.AeSOAPMessageFactory;
 import org.activebpel.rt.bpel.impl.IAeAttachmentManager;
 import org.activebpel.rt.bpel.impl.IAeBusinessProcessEngineInternal;
@@ -41,10 +44,7 @@ import org.activebpel.rt.bpel.impl.IAeQueueManager;
 import org.activebpel.rt.bpel.impl.reply.IAeTransmissionTracker;
 import org.activebpel.rt.bpel.server.AeMessages;
 import org.activebpel.rt.bpel.server.IAeDeploymentProvider;
-import org.activebpel.rt.bpel.server.addressing.AePartnerAddressing;
 import org.activebpel.rt.bpel.server.addressing.IAePartnerAddressing;
-import org.activebpel.rt.bpel.server.addressing.pdef.AePartnerAddressingFactory;
-import org.activebpel.rt.bpel.server.addressing.pdef.IAePartnerAddressingFactory;
 import org.activebpel.rt.bpel.server.addressing.pdef.IAePartnerAddressingProvider;
 import org.activebpel.rt.bpel.server.admin.IAeEngineAdministration;
 import org.activebpel.rt.bpel.server.admin.rdebug.server.AeRemoteDebugImpl;
@@ -52,9 +52,9 @@ import org.activebpel.rt.bpel.server.admin.rdebug.server.IAeBpelAdmin;
 import org.activebpel.rt.bpel.server.catalog.IAeCatalog;
 import org.activebpel.rt.bpel.server.deploy.IAeDeploymentHandlerFactory;
 import org.activebpel.rt.bpel.server.deploy.IAePolicyMapper;
-import org.activebpel.rt.bpel.server.engine.storage.AePersistentStoreFactory;
 import org.activebpel.rt.bpel.server.engine.storage.AeStorageException;
-import org.activebpel.rt.bpel.server.engine.storage.sql.AeDataSource;
+import org.activebpel.rt.bpel.server.engine.storage.IAeStorageFactory;
+import org.activebpel.rt.bpel.server.engine.storage.IAeStorageProviderFactory;
 import org.activebpel.rt.bpel.server.engine.transaction.IAeTransactionManagerFactory;
 import org.activebpel.rt.bpel.server.logging.IAeDeploymentLoggerFactory;
 import org.activebpel.rt.bpel.server.security.IAeSecurityProvider;
@@ -84,20 +84,11 @@ import commonj.work.WorkManager;
  */
 public class AeEngineFactory
 {
-   /** The deployment provider which manages all process deployments */
-   private static IAeDeploymentProvider sDeploymentProvider;
-
    /** The singleton engine instance */
    private static AeBpelEngine sEngine;
 
-   /** The singleton admin instance */
-   private static IAeEngineAdministration sAdmin;
-
    /** The logger for creating process log files */
    private static IAeProcessLogger sProcessLogger;
-
-   /** The partner addressing layer */
-   private static IAePartnerAddressing sPartnerAddressing;
 
    /** WorkManager impl for asynchronous work */
    private static WorkManager sWorkManager;
@@ -107,9 +98,6 @@ public class AeEngineFactory
 
    /** The current configuration settings */
    private static IAeEngineConfiguration sConfig;
-
-   /** Provides mappings between principals and partners */
-   private static IAePartnerAddressingProvider sAddressProvider;
 
    /** Deployment handler factory. */
    private static IAeDeploymentHandlerFactory sDeploymentHandlerFactory;
@@ -124,17 +112,11 @@ public class AeEngineFactory
    /** Flag indicating the persistent store is available in the configuration. */
    private static boolean sPersistentStoreConfiguration;
 
-   /** Flag indicating the persistent store is ready for use. */
-   private static boolean sPersistentStoreReadyForUse;
-
    /** String indicating the error message from the persistent store if it is not ready for use. */
    private static String sPersistentStoreError;
 
    /** The singleton remote debug engine instance */
    private static IAeBpelAdmin sRemoteDebugImpl;
-
-   /** Coordination manager factory. */
-   private static IAeCoordinationManagerInternal sCoordinationManager;
 
    /** Policy Mapper to create handler chains from policy assertions. */
    private static IAePolicyMapper sPolicyMapper;
@@ -148,12 +130,6 @@ public class AeEngineFactory
    /** Transmission and receive/reply manager. */
    private static IAeTransmissionTracker sTransmissionTracker;
 
-   /** Transaction manager factory. */
-   private static IAeTransactionManagerFactory sTransactionManagerFactory;
-   
-   /** Security Provider */
-   private static IAeSecurityProvider sSecurityProvider;
-
    /** Child work managers indexed by name. */
    private static Map sChildWorkManagers = new HashMap();
 
@@ -161,7 +137,7 @@ public class AeEngineFactory
    private static IAeInputMessageWorkManager sInputMessageWorkManager;
    
    private static ApplicationContext sContext;
-
+   
    /**
     * Pre-initialize the engine to set up storage work, policy mappers and timer managers.
     * @param aConfig
@@ -193,13 +169,6 @@ public class AeEngineFactory
       
       sContext = new ClassPathXmlApplicationContext("bpelg-applicationContext.xml");
 
-      // create tx manager factory first since the storage layer is dependent on it.
-      sTransactionManagerFactory = sContext.getBean(IAeTransactionManagerFactory.class);
-
-
-      // Initialize storage component.
-      initializeStorage(aConfig);
-
       // Initialize the work manager
       initializeWorkManager();
 
@@ -223,9 +192,6 @@ public class AeEngineFactory
       IAeLockManager lockManager             = sContext.getBean(IAeLockManager.class);
       IAeAttachmentManager attachmentManager = sContext.getBean(IAeAttachmentManager.class);
 
-      // create the engine admin
-      sAdmin = sContext.getBean(IAeEngineAdministration.class);
-
       // Create the remote debug engine implementation instance.
       sRemoteDebugImpl = createRemoteDebugImpl( getEngineConfig().getMapEntry(IAeEngineConfiguration.REMOTE_DEBUG_ENTRY) );
 
@@ -233,16 +199,14 @@ public class AeEngineFactory
       // The class name for the bpel engine can be supplied dynamically, but this
       // factory assumes that it's derived from AeBpelEngine
       sEngine = createNewEngine(queueManager, processManager, lockManager, attachmentManager, sContext.getBean(IAeExpressionLanguageFactory.class));
+      sEngine.setFunctionValidatorFactory(sContext.getBean(IAeFunctionValidatorFactory.class));
 
       IAeEngineListener engineListener = createEngineListener();
       if (engineListener != null)
          sEngine.addEngineListener(engineListener);
 
-      // create coordination manager
-      sCoordinationManager = sContext.getBean(IAeCoordinationManagerInternal.class);
-
       // set the coordination manager before calling the engine's create() (and hence initialization of all managers)
-      sEngine.setCoordinationManager( sCoordinationManager);
+      sEngine.setCoordinationManager( getCoordinationManager());
 
       // create transmission/receive id tracker.
       sTransmissionTracker = createTransmissionTracker();
@@ -254,19 +218,8 @@ public class AeEngineFactory
       // create engine and init its managers.
       sEngine.create();
 
-      // Create the partner addressing layer
-      AePartnerAddressing addressLayer = new AePartnerAddressing();
-      IAePartnerAddressingFactory factory = AePartnerAddressingFactory.newInstance();
-      sAddressProvider = factory.getProvider();
-      addressLayer.setProvider(sAddressProvider);
-      sPartnerAddressing = addressLayer;
-
-      // Create the deployment plan manager
-      IAeDeploymentProvider provider = sContext.getBean(IAeDeploymentProvider.class);
-      // FIXME spring : config these relationships in the spring config
-      sDeploymentProvider = provider;
-      sEngine.setPlanManager(sDeploymentProvider);
-      processManager.setPlanManager(sDeploymentProvider);
+      sEngine.setPlanManager(getDeploymentProvider());
+      processManager.setPlanManager(getDeploymentProvider());
 
       // Create the process logger
       sProcessLogger = createProcessLogger();
@@ -286,9 +239,6 @@ public class AeEngineFactory
       // create SOAP Message factory
       AeSOAPMessageFactory.setSOAPMessageFactory(createSOAPMessageFactory());
       
-      // create the Security provider
-      sSecurityProvider = sContext.getBean(IAeSecurityProvider.class);
-      
       // install extension registry
       try
       {
@@ -299,20 +249,6 @@ public class AeEngineFactory
       {
          // DO Nothing if can not find or install an extension registry
       }
-   }
-
-   /**
-    * Publicly accessible method to initialize storage component of the engine
-    * from an engine configuration object.
-    *
-    * @throws AeStorageException
-    */
-   public static void initializeStorage(IAeEngineConfiguration aConfig) throws AeStorageException
-   {
-      setEngineConfig(aConfig);
-
-      // Initialize the persistent store factory
-      initializePersistentStoreFactory();
    }
 
    /**
@@ -335,9 +271,9 @@ public class AeEngineFactory
     * the expected deployments have been completed (as previously persisted
     * processes will assume their resources are available as soon as they
     * start up again).
-    * @throws AeBusinessProcessException
+    * @throws AeException 
     */
-   public static void start() throws AeBusinessProcessException
+   public static void start() throws AeException
    {
       if (isEngineStorageReadyRetest())
       {
@@ -486,36 +422,6 @@ public class AeEngineFactory
          throw new AeException(AeMessages.getString("AeEngineFactory.ERROR_6"), e); //$NON-NLS-1$
       }
 
-   }
-
-   /**
-    * This method initializes the persistent store factory.
-    */
-   public static void initializePersistentStoreFactory() throws AeStorageException
-   {
-      // Clear the datasource global
-      AeDataSource.MAIN = null;
-
-      Map storeConfigMap = getEngineConfig().getMapEntry(IAeEngineConfiguration.PERSISTENT_STORE_ENTRY);
-      if (!AeUtil.isNullOrEmpty(storeConfigMap))
-      {
-         sPersistentStoreConfiguration = true;
-
-         // Initialize the persistent store factory with the current config.
-         try
-         {
-            AePersistentStoreFactory.init(storeConfigMap);
-            sPersistentStoreReadyForUse = true;
-         }
-         catch(AeStorageException ex)
-         {
-            AeException.logWarning(""); //$NON-NLS-1$
-            ex.logError();
-            AeException.logWarning(""); //$NON-NLS-1$
-            setPersistentStoreError(ex.getLocalizedMessage());
-            sPersistentStoreReadyForUse = false;
-         }
-      }
    }
 
    /**
@@ -736,7 +642,7 @@ public class AeEngineFactory
     */
    public static IAePartnerAddressing getPartnerAddressing()
    {
-      return sPartnerAddressing;
+      return sContext.getBean(IAePartnerAddressing.class);
    }
 
    /**
@@ -752,7 +658,9 @@ public class AeEngineFactory
     */
    public static IAeEngineAdministration getEngineAdministration()
    {
-      return sAdmin;
+       if (sContext == null)
+           return null;
+      return sContext.getBean(IAeEngineAdministration.class);
    }
 
    /**
@@ -760,7 +668,7 @@ public class AeEngineFactory
     */
    public static IAeDeploymentProvider getDeploymentProvider()
    {
-      return sDeploymentProvider;
+      return sContext.getBean(IAeDeploymentProvider.class);
    }
 
    /**
@@ -844,7 +752,7 @@ public class AeEngineFactory
     */
    public static IAeFunctionValidatorFactory getFunctionValidatorFactory() throws AeException
    {
-      return getEngineConfig().getFunctionValidatorFactory();
+      return getEngine().getFunctionValidatorFactory();
    }
 
    /**
@@ -852,7 +760,7 @@ public class AeEngineFactory
     */
    public static IAePartnerAddressingProvider getPartnerAddressProvider()
    {
-      return sAddressProvider;
+      return sContext.getBean(IAePartnerAddressingProvider.class);
    }
 
    /**
@@ -882,9 +790,9 @@ public class AeEngineFactory
    /**
     * Returns the coordination manager instance.
     */
-   public static IAeCoordinationManager getCoordinationManager()
+   public static IAeCoordinationManagerInternal getCoordinationManager()
    {
-      return sCoordinationManager;
+      return sContext.getBean(IAeCoordinationManagerInternal.class);
    }
 
    /**
@@ -900,7 +808,7 @@ public class AeEngineFactory
     */
    public static IAeTransactionManagerFactory getTransactionManagerFactory()
    {
-      return sTransactionManagerFactory;
+      return sContext.getBean(IAeTransactionManagerFactory.class);
    }
 
    /**
@@ -916,19 +824,20 @@ public class AeEngineFactory
     */
    public static boolean isPersistentStoreReadyForUse()
    {
-      return sPersistentStoreReadyForUse;
+      return sContext.getBean(IAeStorageFactory.class).isReady();
    }
 
    /**
     * If engine storage is not already in ready state then we will
     * check it again before returning status.
     */
-   public static boolean isEngineStorageReadyRetest()
+   public static boolean isEngineStorageReadyRetest() throws AeException
    {
       try
       {
-         if(! isEngineStorageReady())
-            initializePersistentStoreFactory();
+         if(! isEngineStorageReady()) {
+             sContext.getBean(IAeStorageProviderFactory.class).init();
+         }
          return isEngineStorageReady();
       }
       catch (AeStorageException ex)
@@ -1073,7 +982,7 @@ public class AeEngineFactory
     */
    public static IAeSecurityProvider getSecurityProvider()
    {
-      return sSecurityProvider;
+      return sContext.getBean(IAeSecurityProvider.class);
    }
 
    /**
@@ -1150,5 +1059,28 @@ public class AeEngineFactory
 
     public static IAeExpressionLanguageFactory getExpressionLanguageFactory() {
         return sContext.getBean(IAeExpressionLanguageFactory.class);
+    }
+
+    public IAeFunction getFunction(String aFunctionName, String aNamespaceUri) throws AeUnresolvableException
+    {
+       IAeFunctionContext context = sContext.getBean(AeFunctionContextContainer.class).getFunctionContext(aNamespaceUri);
+       if (context == null)
+       {
+          return null;
+       }
+
+       try
+       {
+          return context.getFunction(aFunctionName);
+       }
+       catch( AeUnresolvableException ure )
+       {
+          AeException.logError(ure, ure.getLocalizedMessage());
+          throw new AeUnresolvableException(ure.getLocalizedMessage());
+       }
+    }
+    
+    public static IAeStorageFactory getStorageFactory() {
+        return sContext.getBean(IAeStorageFactory.class);
     }
 }

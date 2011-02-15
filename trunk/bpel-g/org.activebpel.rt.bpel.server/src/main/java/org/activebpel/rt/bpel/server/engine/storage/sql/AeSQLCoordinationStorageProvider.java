@@ -45,15 +45,14 @@ public class AeSQLCoordinationStorageProvider extends AeAbstractSQLStorageProvid
    private ResultSetHandler mCoordinatingResultSetHandler;
    /** The cached coordinating list response handler. */
    private ResultSetHandler mCoordinatingListResultSetHandler;
+   private AeCounter mCounter;
 
    /**
     * Constructs a sql coordination storage delegate with the given SQL config.
-    * 
-    * @param aSQLConfig
     */
-   public AeSQLCoordinationStorageProvider(AeSQLConfig aSQLConfig)
+   public AeSQLCoordinationStorageProvider()
    {
-      super(COORDINATION_STORAGE_PREFIX, aSQLConfig);
+      setPrefix(COORDINATION_STORAGE_PREFIX);
    }
 
    /**
@@ -64,7 +63,7 @@ public class AeSQLCoordinationStorageProvider extends AeAbstractSQLStorageProvid
    {
       Object contextClob = aContextDocument == null ? AeQueryRunner.NULL_CLOB : (Object) aContextDocument;
 
-      long pk = AeCounter.COORDINATION_PK_COUNTER.getNextValue();
+      long pk = getCounter().getNextValue();
       Object[] params = new Object[] {
             new Long(pk),
             aCoordinationType,
@@ -302,6 +301,14 @@ public class AeSQLCoordinationStorageProvider extends AeAbstractSQLStorageProvid
     */
    public String getNextCoordinationId() throws AeStorageException
    {
-      return Long.toString(AeCounter.COORDINATION_ID_COUNTER.getNextValue());
+      return Long.toString(getCounter().getNextValue());
    }
+
+    public AeCounter getCounter() {
+        return mCounter;
+    }
+    
+    public void setCounter(AeCounter aCounter) {
+        mCounter = aCounter;
+    }
 }

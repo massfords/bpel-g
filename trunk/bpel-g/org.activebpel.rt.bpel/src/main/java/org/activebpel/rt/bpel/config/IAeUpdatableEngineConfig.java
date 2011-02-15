@@ -9,36 +9,13 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpel.config;
 
-import java.util.Collection;
 import java.util.Map;
-
-import org.activebpel.rt.bpel.impl.function.AeInvalidFunctionContextException;
 
 /**
  * Interface for the runtime mutable engine settings.
  */
 public interface IAeUpdatableEngineConfig extends IAeEngineConfiguration
 {
-   /**
-    * Register a custom <code>FunctionContext</code> with the BPEL engine and persist it.
-    * Callers should ensure that the class specified is available on the 
-    * classpath for the engine.
-    * 
-    * @param aName Arbitrary (unique) name for the grouping.
-    * @param aNamespace
-    * @param aClassName Classname for a class that implements the <code>FunctionContext</code> interface.
-    * @param aLocation Location where the class can be found.
-    */
-   public void addNewFunctionContext(String aName, String aNamespace, String aClassName, String aLocation)
-         throws AeInvalidFunctionContextException, AeFunctionContextExistsException;
-   
-   /**
-    * Unregister the custom <code>FunctionContext</code> objects with
-    * the given names and remove them from storage.
-    * @param aContextNames
-    */
-   public void deleteFunctionContexts( Collection aContextNames );
-
    /**
     * Set the time the engine will hold onto unmatched correlated receives
     * before rejecting them. This is to address the race condition that is possible

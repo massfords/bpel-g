@@ -10,9 +10,7 @@
 package org.activebpel.rt.bpel.server.engine.storage.xmldb;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 
 import org.activebpel.rt.bpel.server.engine.storage.AeStorageConfig;
 
@@ -28,21 +26,12 @@ public class AeXMLDBConfig extends AeStorageConfig
    private static final String XQUERY_STATEMENT_NAME = "xquery-statement"; //$NON-NLS-1$
 
    /**
-    * Creates a XMLDB config object.
+    * Creates a XMLDB config object with the given map of constant overrides.
     */
    public AeXMLDBConfig()
    {
-      this(Collections.EMPTY_MAP);
-   }
-
-   /**
-    * Creates a XMLDB config object with the given map of constant overrides.
-    * 
-    * @param aConstantOverrides
-    */
-   public AeXMLDBConfig(Map aConstantOverrides)
-   {
-      super(XQUERY_STATEMENT_NAME, XQUERY_NAME, aConstantOverrides);
+      setStatementRootName(XQUERY_STATEMENT_NAME);
+      setStatementValueName(XQUERY_NAME);
    }
 
    /**

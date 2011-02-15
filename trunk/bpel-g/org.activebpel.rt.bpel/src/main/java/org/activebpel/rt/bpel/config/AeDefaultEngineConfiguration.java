@@ -13,37 +13,17 @@ import java.io.File;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
-import java.util.Map.Entry;
-
-import javax.xml.namespace.QName;
 
 import org.activebpel.rt.AeException;
 import org.activebpel.rt.bpel.AeExpressionLanguageFactory;
 import org.activebpel.rt.bpel.AeMessages;
 import org.activebpel.rt.bpel.IAeExpressionLanguageFactory;
-import org.activebpel.rt.bpel.def.validation.expr.functions.AeFunctionValidatorFactory;
-import org.activebpel.rt.bpel.function.AeFunctionContextContainer;
-import org.activebpel.rt.bpel.function.AeFunctionContextLocator;
-import org.activebpel.rt.bpel.function.AeUnresolvableException;
-import org.activebpel.rt.bpel.function.IAeFunction;
-import org.activebpel.rt.bpel.function.IAeFunctionContext;
-import org.activebpel.rt.bpel.function.IAeFunctionContextLocator;
-import org.activebpel.rt.bpel.impl.function.AeBPWSBpelFunctionContext;
-import org.activebpel.rt.bpel.impl.function.AeExtensionFunctionContext;
-import org.activebpel.rt.bpel.impl.function.AeInvalidFunctionContextException;
-import org.activebpel.rt.bpel.impl.function.AeWSBPELBpelFunctionContext;
 import org.activebpel.rt.config.AeConfiguration;
 import org.activebpel.rt.config.AeConfigurationUtil;
-import org.activebpel.rt.expr.validation.functions.IAeFunctionValidator;
-import org.activebpel.rt.expr.validation.functions.IAeFunctionValidatorFactory;
-import org.activebpel.rt.util.AeUtil;
 
 /**
  * Default engine configuration implementation.
@@ -51,9 +31,6 @@ import org.activebpel.rt.util.AeUtil;
 public class AeDefaultEngineConfiguration extends AeConfiguration implements IAeEngineConfiguration,
       IAeUpdatableEngineConfig, Cloneable
 {
-   private static final String ERROR_LOADING_FUNCTION_CONTEXT_LOCATOR = "AeDefaultEngineConfiguration.ERROR_17"; //$NON-NLS-1$
-   private static final String ERROR_LOADING_FUNCTION_CONTEXT_CLASS = "AeDefaultEngineConfiguration.ERROR_18"; //$NON-NLS-1$
-
    /** Default name for static engine config file. */
    public static final String DEFAULT_CONFIG_FILE = "aeEngineConfig.xml"; //$NON-NLS-1$
    //////////////////////////////////////////////////////
@@ -75,123 +52,12 @@ public class AeDefaultEngineConfiguration extends AeConfiguration implements IAe
    public static final int PROCESS_WORK_COUNT_DEFAULT = 10;
    /** default resource cache maximum value */
    private static final int DEFAULT_RESOURCE_CACHE_MAX = 100;
-   /** default partner defn address factory */
-   private static final String PDEF_FACTORY_DEFAULT = "org.activebpel.rt.bpel.server.addressing.pdef.AeDefaultPartnerAddressingFactory"; //$NON-NLS-1$
-   /** default process manager */
-   private static final String PROCESS_MANAGER_DEFAULT = "org.activebpel.rt.bpel.impl.AeInMemoryProcessManager"; //$NON-NLS-1$
    /** Default logging dir - defaults to {user.home}/AeBpelEngine*/
    private static final String LOGGING_DIR_DEFAULT = new File(System.getProperty("user.home"), "AeBpelEngine").getPath(); //$NON-NLS-1$ //$NON-NLS-2$
    /** Configuration change listeners. */
    protected List mListeners = new ArrayList();
-   /** Container for custom function contexts. */
-   protected AeFunctionContextContainer mContextContainer;
-   /** A cached function validator factory. */
-   protected IAeFunctionValidatorFactory mFunctionValidatorFactory;
    /** Storage listeners  */
    protected List mStorageListeners = new ArrayList();
-
-   /**
-    * @see org.activebpel.rt.bpel.config.IAeUpdatableEngineConfig#addNewFunctionContext(java.lang.String, java.lang.String, java.lang.String, java.lang.String)
-    */
-   public synchronized void addNewFunctionContext(String aName, String aNamespace, String aClassName,
-         String aLocation) throws AeFunctionContextExistsException, AeInvalidFunctionContextException
-   {
-      if (getFunctionContextContainer().getFunctionContext(aName) != null)
-      {
-         throw new AeFunctionContextExistsException(AeFunctionContextExistsException.DUPLICATE_NAME);
-      }
-
-      if (getFunctionContextContainer().getFunctionContext(aNamespace) != null)
-      {
-         throw new AeFunctionContextExistsException(AeFunctionContextExistsException.DUPLICATE_PREFIX_OR_NAMESPACE);
-      }
-
-      try
-      {
-         IAeFunctionContext functionContext = getFunctionContextContainer().loadFunctionContext(aNamespace, aLocation, aClassName);
-         addFunctionContext(aName, aNamespace, functionContext);
-         // update the map because this is what drives what will be persisted
-         updateEntriesMap(aName, aNamespace, aClassName, aLocation);
-      }
-      catch( AeInvalidFunctionContextException ae )
-      {
-         ae.logError();
-         throw ae;
-      }
-   }
-
-   /**
-    * Update the internal (in-memory) data storage.
-    * @param aName
-    * @param aNamespace
-    * @param aClassName
-    * @param aLocation
-    */
-   protected void updateEntriesMap( String aName, String aNamespace, String aClassName, String aLocation )
-   {
-      Map customFunctionsMap = getMapEntry( IAeEngineConfiguration.FUNCTION_CONTEXTS_ENTRY );
-      if( customFunctionsMap == null )
-      {
-         customFunctionsMap = new HashMap();
-         getEntries().put( IAeEngineConfiguration.FUNCTION_CONTEXTS_ENTRY, customFunctionsMap );
-      }
-
-      Map contextMap = new HashMap();
-      customFunctionsMap.put( aName, contextMap );
-      contextMap.put( IAeEngineConfiguration.CLASS_ENTRY, aClassName );
-
-      if( AeUtil.notNullOrEmpty(aNamespace) )
-      {
-         contextMap.put( IAeEngineConfiguration.FUNCTION_CONTEXT_NAMESPACE_ENTRY, aNamespace );
-      }
-
-      if( AeUtil.notNullOrEmpty(aLocation) )
-      {
-         contextMap.put( IAeEngineConfiguration.FUNCTION_CONTEXT_CLASSPATH_ENTRY, aLocation );
-      }
-   }
-
-   /**
-    * @see org.activebpel.rt.bpel.config.IAeUpdatableEngineConfig#deleteFunctionContexts(java.util.Collection)
-    */
-   public synchronized void deleteFunctionContexts( Collection aContextNames )
-   {
-      if( aContextNames != null )
-      {
-         for( Iterator iter = aContextNames.iterator(); iter.hasNext(); )
-         {
-            String name = (String)iter.next();
-            getFunctionContextContainer().remove( name );
-            Map contextMap = getMapEntry( IAeEngineConfiguration.FUNCTION_CONTEXTS_ENTRY );
-            if( contextMap != null )
-            {
-               contextMap.remove( name );
-            }
-         }
-      }
-   }
-
-   /**
-    * @see org.activebpel.rt.bpel.config.IAeEngineConfiguration#getFunctionValidatorFactory()
-    */
-   public IAeFunctionValidatorFactory getFunctionValidatorFactory() throws AeException
-   {
-      return mFunctionValidatorFactory;
-   }
-
-   /**
-    * Creates the function validator factory using the engine config to load additional
-    * custom validators.  This method is called on config load and the function validator
-    * factory is cached at that point.
-    *
-    * @throws AeException
-    */
-   public void createFunctionValidatorFactory() throws AeException
-   {
-      AeFunctionValidatorFactory factory = new AeFunctionValidatorFactory();
-      registerFunctionValidators(getMapEntry(FUNCTION_VALIDATORS), factory);
-      mFunctionValidatorFactory = factory;
-   }
 
    /**
     * Creates the default expression language factory when none is found in the configuration
@@ -200,110 +66,6 @@ public class AeDefaultEngineConfiguration extends AeConfiguration implements IAe
    protected IAeExpressionLanguageFactory createDefaultExpressionLanguageFactory()
    {
       return new AeExpressionLanguageFactory();
-   }
-
-   /**
-    * @see org.activebpel.rt.bpel.config.IAeEngineConfiguration#getFunction(java.lang.String, java.lang.String)
-    */
-   public IAeFunction getFunction(String aFunctionName, String aNamespaceUri) throws AeUnresolvableException
-   {
-      IAeFunctionContext context = getFunctionContextContainer().getFunctionContext(aNamespaceUri);
-      if (context == null)
-      {
-         return null;
-      }
-
-      try
-      {
-         return context.getFunction(aFunctionName);
-      }
-      catch( AeUnresolvableException ure )
-      {
-         AeException.logError(ure, ure.getLocalizedMessage());
-         throw new AeUnresolvableException(ure.getLocalizedMessage());
-      }
-   }
-
-   /**
-    * @see org.activebpel.rt.bpel.config.IAeEngineConfiguration#getFunctionContextNamespaceList()
-    */
-   public Set getFunctionContextNamespaceList()
-   {
-      return new LinkedHashSet(getFunctionContextContainer().getFunctionContextNamespaces());
-   }
-
-   /**
-    * Adds a new function context.
-    *
-    * @param aName Name of the context group.
-    * @param aNamespace namepsace for context, null if no default namespace for this context.
-    * @param aContext The function context for the passed prefix or namespace.
-    */
-   protected void addFunctionContext(String aName, String aNamespace, IAeFunctionContext aContext )
-   {
-      getFunctionContextContainer().addFunctionContext(aName, aNamespace, aContext);
-   }
-
-   /**
-    * Process all the function context entries in the passed map.  Note that this method is
-    * public for unit testing purposes (the engine unit test framework calls it - see
-    * AeEngineTestCase).
-    *
-    * @param aContextEntries The map of xpath function context entries.
-    */
-   public void processFunctionContexts(Map aContextEntries)
-   {
-      for(Iterator iter = aContextEntries.keySet().iterator(); iter.hasNext(); )
-      {
-         Object key = iter.next();
-         Object contextObj = aContextEntries.get(key);
-         if (contextObj instanceof Map)
-         {
-            Map context = (Map)contextObj;
-            String namespace = (String)context.get(FUNCTION_CONTEXT_NAMESPACE_ENTRY);
-            String contextClassName = (String)context.get(CLASS_ENTRY);
-            String location = (String)context.get(FUNCTION_CONTEXT_CLASSPATH_ENTRY);
-
-            try
-            {
-               IAeFunctionContext fc = getFunctionContextContainer().loadFunctionContext( namespace, location, contextClassName );
-               getFunctionContextContainer().addFunctionContext( (String)key, namespace, fc );
-            }
-            catch( AeException ae )
-            {
-               ae.logError();
-            }
-         }
-         else
-         {
-            AeException.logError( new AeException(AeMessages.getString("AeDefaultEngineConfiguration.11")), AeMessages.getString("AeDefaultEngineConfiguration.ERROR_14") + key); //$NON-NLS-1$ //$NON-NLS-2$
-         }
-      }
-   }
-
-   /**
-    * @see org.activebpel.rt.bpel.config.IAeEngineConfiguration#getPartnerAddressingFactoryClassName()
-    */
-   public String getPartnerAddressingFactoryClassName()
-   {
-      return getEntry(PDEF_FACTORY_ENTRY, PDEF_FACTORY_DEFAULT);
-   }
-
-   /**
-    * Setter for the partner addressing factory class name.
-    * @param aClassName
-    */
-   public void setPartnerAddressingFactoryClassName( String aClassName )
-   {
-      setEntry(PDEF_FACTORY_ENTRY, aClassName);
-   }
-
-   /**
-    * @see org.activebpel.rt.bpel.config.IAeEngineConfiguration#getProcessManagerClassName()
-    */
-   public String getProcessManagerClassName()
-   {
-      return getEntry(PROCESS_MANAGER_ENTRY, PROCESS_MANAGER_DEFAULT);
    }
 
    /**
@@ -344,8 +106,6 @@ public class AeDefaultEngineConfiguration extends AeConfiguration implements IAe
       {
          Map entries = AeConfigurationUtil.loadConfig(new InputStreamReader(aConfigStream));
          aDefaultConfig.setEntries( entries );
-         aDefaultConfig.createFunctionValidatorFactory();
-         aDefaultConfig.initFunctionContexts(aClassLoader);
       }
       catch(Throwable ex)
       {
@@ -353,161 +113,6 @@ public class AeDefaultEngineConfiguration extends AeConfiguration implements IAe
       }
 
       return;
-   }
-
-   /**
-    * Initialize the function context container, the standard function contexts
-    * and any custom function contexts.
-    * @param aClassLoader
-    */
-   protected void initFunctionContexts( ClassLoader aClassLoader )
-   {
-      if( getFunctionContextContainer() == null )
-      {
-         initFunctionContextContainer( aClassLoader );
-         initStandardFunctionContexts();
-      }
-      initCustomFunctionContexts();
-   }
-
-   /**
-    * Initialize the function context container.  If a custom  <code>IAeFunctionContextLocator</code>
-    * has been specified in the config, attempt to create it for the container.  If none has
-    * been specified or if the creation of the custom impl fails, use the default
-    * <code>AeFunctionContextLocator</code>.
-    * @param aClassLoader
-    */
-   protected void initFunctionContextContainer( ClassLoader aClassLoader )
-   {
-      IAeFunctionContextLocator locator = null;
-      String locatorClassName = getEntry( FUNCTION_CONTEXT_LOCATOR_ENTRY );
-      try
-      {
-         if( AeUtil.notNullOrEmpty(locatorClassName) )
-         {
-            locator = (IAeFunctionContextLocator)Class.forName(locatorClassName, true, aClassLoader).newInstance();
-         }
-      }
-      catch( Throwable t )
-      {
-         AeException.logError( t, AeMessages.format(ERROR_LOADING_FUNCTION_CONTEXT_LOCATOR, locatorClassName) );
-      }
-
-      if( locator == null )
-      {
-         locator = new AeFunctionContextLocator();
-      }
-
-      if( locator instanceof AeFunctionContextLocator )
-      {
-         ((AeFunctionContextLocator)locator).setDefaultClassLoader( aClassLoader );
-      }
-
-      mContextContainer = new AeFunctionContextContainer( locator );
-   }
-
-   /**
-    * Initialize the standard (default, BPEL and BPEL extension) <code>FunctionContext</code>.
-    */
-   protected void initStandardFunctionContexts()
-   {
-      initBpelFunctionContexts();
-      initBpelExtFunctionContext();
-   }
-
-   /**
-    * Initialize the BPEL function context.  Attempt to load the BPEL
-    * context from the engine config if one was specified, otherwise, use
-    * the default (which is <code>AeBpelFunctionContext</code>).
-    */
-   protected void initBpelFunctionContexts()
-   {
-      Map functionContexts = getMapEntry(STANDARD_FUNCTION_CONTEXTS_ENTRY);
-      IAeFunctionContext bpelFc = null;
-      IAeFunctionContext bpel20Fc = null;
-
-      if (functionContexts != null)
-      {
-         Map bpelContextMap = (Map) functionContexts.get(IAeEngineConfiguration.BPEL_FUNCTION_CONTEXT);
-         bpelFc = createStandardContext(bpelContextMap);
-         bpel20Fc = createStandardContext(bpelContextMap);
-      }
-
-      if (bpelFc == null)
-         bpelFc = new AeBPWSBpelFunctionContext();
-      if (bpel20Fc == null)
-         bpel20Fc = new AeWSBPELBpelFunctionContext();
-
-      getFunctionContextContainer().setBpelContext(bpelFc);
-      getFunctionContextContainer().setBpel20Context(bpel20Fc);
-   }
-
-   /**
-    * Initialize the BPEL extension function context.  Attempt to load the
-    * BPEL extension context from the engine config if one was specified,
-    * otherwise, use the default (which is <code>AeExtensionFunctionContext</code>).
-    */
-   protected void initBpelExtFunctionContext()
-   {
-      Map functionContexts = getMapEntry( STANDARD_FUNCTION_CONTEXTS_ENTRY );
-      IAeFunctionContext bpelExtFc = null;
-
-      if( functionContexts != null )
-      {
-         Map bpelExtContextMap = (Map)functionContexts.get(IAeEngineConfiguration.BPEL_EXT_FUNCTION_CONTEXT);
-         bpelExtFc = createStandardContext( bpelExtContextMap );
-      }
-
-      if( bpelExtFc == null )
-      {
-         bpelExtFc = new AeExtensionFunctionContext();
-      }
-      getFunctionContextContainer().setBpelExtContext( bpelExtFc );
-   }
-
-   /**
-    * Utility method for creating the function context from the class and
-    * location entries in the given map.  Null is returned if the map is null,
-    * empty, does not contain a class entry, or if there is a problem creating
-    * the function context class.
-    * @param aDefaultContextMap
-    */
-   protected IAeFunctionContext createStandardContext( Map aDefaultContextMap )
-   {
-      IAeFunctionContext retVal = null;
-
-      if( aDefaultContextMap != null )
-      {
-         String namespace = (String) aDefaultContextMap.get(IAeEngineConfiguration.FUNCTION_CONTEXT_NAMESPACE_ENTRY);
-         String className = (String) aDefaultContextMap.get(IAeEngineConfiguration.CLASS_ENTRY);
-         String location = (String) aDefaultContextMap.get(IAeEngineConfiguration.FUNCTION_CONTEXT_CLASSPATH_ENTRY);
-
-         try
-         {
-            if( AeUtil.notNullOrEmpty(className) )
-            {
-               retVal = getFunctionContextContainer().loadFunctionContext( namespace, location, className );
-            }
-         }
-         catch( AeException ae )
-         {
-            AeException.logError( ae.getCause(), AeMessages.format(ERROR_LOADING_FUNCTION_CONTEXT_CLASS, className) );
-         }
-      }
-      return retVal;
-   }
-
-   /**
-    * Initialize any custom <code>FunctionContext</code> impls specified in the config.
-    */
-   protected void initCustomFunctionContexts()
-   {
-      getFunctionContextContainer().clearCustomFunctions();
-      Map customContexts = getMapEntry(FUNCTION_CONTEXTS_ENTRY);
-      if(customContexts != null)
-      {
-         processFunctionContexts( customContexts );
-      }
    }
 
    /**
@@ -533,15 +138,6 @@ public class AeDefaultEngineConfiguration extends AeConfiguration implements IAe
    public boolean isAutoStart()
    {
       return getBooleanEntry(AUTO_START_ENTRY, true);
-   }
-
-   /**
-    * @see org.activebpel.rt.bpel.config.IAeEngineConfiguration#getCatalogFactoryClassName()
-    */
-   public String getCatalogFactoryClassName()
-   {
-      Map wsdlParams = getMapEntry( CATALOG_ENTRY );
-      return (String)getEntryInternal(wsdlParams, CLASS_ENTRY, String.class, null);
    }
 
    /**
@@ -858,14 +454,6 @@ public class AeDefaultEngineConfiguration extends AeConfiguration implements IAe
    }
 
    /**
-    * Accessor for <code>AeFunctionContextContainer</code>.
-    */
-   protected AeFunctionContextContainer getFunctionContextContainer()
-   {
-      return mContextContainer;
-   }
-
-   /**
     * This clone simply returns a config that contains the same map entries. It
     * does not include the listeners or the function context container.
     *
@@ -945,71 +533,6 @@ public class AeDefaultEngineConfiguration extends AeConfiguration implements IAe
    public Object createConfigSpecificClass(String aConfigName) throws AeException
    {
       return AeConfigurationUtil.createConfigSpecificClass(getMapEntry(aConfigName));
-   }
-
-   /**
-    * Register function validators where object is of the type IAeFunctionValidator.
-    *
-    * @param aConfigMap configuration map of function validator entries.
-    * @param aFactory
-    * @throws AeException
-    */
-   public void registerFunctionValidators(Map aConfigMap, AeFunctionValidatorFactory aFactory) throws AeException
-   {
-      try
-      {
-         if (aConfigMap != null)
-         {
-            // loop over the entries in the configMap that represent the BPEL versions
-            for (Iterator typeIter = aConfigMap.entrySet().iterator(); typeIter.hasNext();)
-            {
-               Entry type = (Entry) typeIter.next();
-               String bpelNamespace = String.valueOf(type.getKey());
-
-               // get the function contexts and loop over those for access to the functions within that context
-               Map functionContextsMap = (Map) type.getValue();
-               for (Iterator functionContextsIter = functionContextsMap.entrySet().iterator(); functionContextsIter.hasNext();)
-               {
-                  Entry functionContextEntry = (Entry) functionContextsIter.next();
-                  // get the function context namespace to be used when creating the QName
-                  String functionContextNamespace = (String) functionContextEntry.getKey();
-
-                  // get the functions within a context
-                  Map functionsMap = (Map) functionContextEntry.getValue();
-                  for(Iterator functionsMapIter = functionsMap.entrySet().iterator(); functionsMapIter.hasNext();)
-                  {
-                     Entry entry = (Entry) functionsMapIter.next();
-
-                     // get the function name and instance of the validator
-                     String functionLocalName = (String) entry.getKey();
-                     Object validatorInstance = AeConfigurationUtil.createConfigSpecificClass((Map) entry.getValue());
-
-                     // this validator instance will only be added if it is an instance of IAeFunctionValidator
-                     if (validatorInstance != null && (validatorInstance instanceof IAeFunctionValidator))
-                     {
-                        QName functionQName = new QName(functionContextNamespace, functionLocalName);
-
-                        // register the validator to the correct map in the factory.  If the bpelNamespace
-                        // is not present in the configMap, then register the function to all bpel namespaces
-                        // in the factory map.
-                        if(AeUtil.isNullOrEmpty(bpelNamespace))
-                        {
-                           aFactory.registerValidator(functionQName, (IAeFunctionValidator) validatorInstance);
-                        }
-                        else
-                        {
-                           aFactory.registerValidator(bpelNamespace, functionQName, (IAeFunctionValidator) validatorInstance);
-                        }
-                     }
-                  }
-               }
-            }
-         }
-      }
-      catch(Exception ex)
-      {
-         throw new AeException(ex.getMessage(), ex);
-      }
    }
 
    /**

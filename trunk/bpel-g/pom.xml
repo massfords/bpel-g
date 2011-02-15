@@ -57,8 +57,6 @@
         <module>org.activebpel.rt.bpel.ext.expr</module>
         <module>org.activebpel.rt.bpel.ext.expr.bsf</module>
         <module>org.activebpel.rt.bpel.server</module>
-        <module>org.activebpel.rt.xmldb</module>
-        <module>org.activebpel.rt.exist</module>
         <module>org.activebpel.rt.axis</module>
         <module>org.activebpel.rt.wsresource</module>
         <module>org.activebpel.rt.identity</module>

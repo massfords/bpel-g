@@ -27,16 +27,16 @@ import org.activebpel.rt.util.AeCloser;
 public class AeSQLTransmissionTrackerStorageProvider extends AeAbstractSQLStorageProvider implements
       IAeTransmissionTrackerStorageProvider
 {
+    private AeCounter mCounter;
    /** Config prefix. */
    protected static final String TRANSMISSION_TRACKER_STORAGE_PREFIX = "TransmissionTrackerStorage."; //$NON-NLS-1$
    
    /**
     * Default ctor.
-    * @param aConfig SQL configuration.
     */
-   public AeSQLTransmissionTrackerStorageProvider(AeSQLConfig aConfig)
+   public AeSQLTransmissionTrackerStorageProvider()
    {
-      super(TRANSMISSION_TRACKER_STORAGE_PREFIX, aConfig);
+      setPrefix(TRANSMISSION_TRACKER_STORAGE_PREFIX);
    }
 
    /**  
@@ -44,7 +44,7 @@ public class AeSQLTransmissionTrackerStorageProvider extends AeAbstractSQLStorag
     */
    public long getNextTransmissionId() throws AeStorageException
    {
-      return AeCounter.TRANSMISSION_ID_COUNTER.getNextValue();
+      return getCounter().getNextValue();
    }
 
    /**
@@ -134,4 +134,12 @@ public class AeSQLTransmissionTrackerStorageProvider extends AeAbstractSQLStorag
          }                     
       }
    }
+
+public AeCounter getCounter() {
+    return mCounter;
+}
+
+public void setCounter(AeCounter aCounter) {
+    mCounter = aCounter;
+}
 }

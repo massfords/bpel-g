@@ -54,18 +54,15 @@ public class AeSQLAttachmentStorageProvider extends AeAbstractSQLStorageProvider
    /** The SQL statement key for the 'removeAttachment' statement. */
    protected static final String SQL_REMOVE_ATTACHMENT = "RemoveAttachment"; //$NON-NLS-1$
 
+   private AeCounter mCounter;
+   
 
    /** Result set handler for attachment items. */
    protected static final ResultSetHandler sAttachmentItemHandler = new AeAttachmentItemResultSetHandler();
 
-   /**
-    * Constructor.
-    *
-    * @param aConfig
-    */
-   public AeSQLAttachmentStorageProvider(AeSQLConfig aConfig)
+   public AeSQLAttachmentStorageProvider()
    {
-      super(SQLSTATEMENT_PREFIX, aConfig);
+      setPrefix(SQLSTATEMENT_PREFIX);
    }
 
    /**
@@ -74,7 +71,7 @@ public class AeSQLAttachmentStorageProvider extends AeAbstractSQLStorageProvider
     */
    protected long getNextAttachmentGroupId() throws AeStorageException
    {
-      return AeCounter.ATTACHMENT_GROUP_ID_COUNTER.getNextValue();
+      return getCounter().getNextValue();
    }
 
    /**
@@ -83,7 +80,7 @@ public class AeSQLAttachmentStorageProvider extends AeAbstractSQLStorageProvider
     */
    protected long getNextAttachmentItemId() throws AeStorageException
    {
-      return AeCounter.ATTACHMENT_ITEM_ID_COUNTER.getNextValue();
+      return getCounter().getNextValue();
    }
 
    /**
@@ -208,4 +205,12 @@ public class AeSQLAttachmentStorageProvider extends AeAbstractSQLStorageProvider
       Object[] params = { new Long(aAttachmentId) };
       update(SQL_REMOVE_ATTACHMENT, params);
    }
+
+public AeCounter getCounter() {
+    return mCounter;
+}
+
+public void setCounter(AeCounter aCounter) {
+    mCounter = aCounter;
+}
 }

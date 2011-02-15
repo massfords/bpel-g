@@ -263,7 +263,7 @@ public class AeEngineManagementAdapter implements IAeEngineManagementMXBean {
         return mAdmin.removeProcesses(filter);
     }
 
-    public void start() throws AeBusinessProcessException {
+    public void start() throws AeException {
         mAdmin.start();
     }
 
@@ -575,7 +575,7 @@ public class AeEngineManagementAdapter implements IAeEngineManagementMXBean {
     }
 
     public void initializeStorage() throws AeStorageException {
-        AeEngineFactory.initializePersistentStoreFactory();
+        throw new UnsupportedOperationException("Need to restore");
     }
 
     public boolean isEngineStorageReady() {

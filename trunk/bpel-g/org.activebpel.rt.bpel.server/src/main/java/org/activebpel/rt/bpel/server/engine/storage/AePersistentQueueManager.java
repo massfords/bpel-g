@@ -44,7 +44,7 @@ public class AePersistentQueueManager extends AeInMemoryQueueManager
    public void create() throws Exception
    {
       super.create();
-      setStorage(AePersistentStoreFactory.getInstance().getQueueStorage());
+      setStorage(AeEngineFactory.getStorageFactory().getQueueStorage());
    }
 
    /**

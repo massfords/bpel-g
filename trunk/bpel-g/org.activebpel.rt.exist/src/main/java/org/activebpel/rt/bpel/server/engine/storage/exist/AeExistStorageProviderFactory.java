@@ -12,7 +12,6 @@ package org.activebpel.rt.bpel.server.engine.storage.exist;
 import java.util.Map;
 
 import org.activebpel.rt.AeException;
-import org.activebpel.rt.bpel.server.engine.storage.xmldb.AeXMLDBConfig;
 import org.activebpel.rt.bpel.server.engine.storage.xmldb.AeXMLDBStorageProviderFactory;
 import org.activebpel.rt.bpel.server.engine.storage.xmldb.IAeXMLDBDataSource;
 import org.activebpel.rt.bpel.server.engine.storage.xmldb.IAeXMLDBStorageImpl;
@@ -20,6 +19,7 @@ import org.activebpel.rt.bpel.server.engine.storage.xmldb.IAeXMLDBStorageImpl;
 
 /**
  * A storage factory that creates Exist versions of the store objects.
+ * @deprecated
  */
 public class AeExistStorageProviderFactory extends AeXMLDBStorageProviderFactory
 {
@@ -29,14 +29,6 @@ public class AeExistStorageProviderFactory extends AeXMLDBStorageProviderFactory
    public AeExistStorageProviderFactory(Map aConfig) throws AeException
    {
       super(aConfig);
-   }
-
-   /**
-    * @see org.activebpel.rt.bpel.server.engine.storage.xmldb.AeXMLDBStorageProviderFactory#createXMLDBConfig(java.util.Map)
-    */
-   protected AeXMLDBConfig createXMLDBConfig(Map aOverrideMap)
-   {
-      return new AeExistConfig(aOverrideMap);
    }
 
    /**

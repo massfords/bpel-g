@@ -32,16 +32,6 @@ import org.activebpel.rt.util.AeUtil;
 public class AeCoordinationStorage extends AeAbstractStorage implements IAeCoordinationStorage
 {
    /**
-    * Default constructor that takes the queue storage provider to use.
-    * 
-    * @param aProvider
-    */
-   public AeCoordinationStorage(IAeCoordinationStorageProvider aProvider)
-   {
-      super(aProvider);
-   }
-
-   /**
     * Convenience method to get the storage provider cast to a coordination storage provider.
     */
    protected IAeCoordinationStorageProvider getCoordinationStorageProvider()

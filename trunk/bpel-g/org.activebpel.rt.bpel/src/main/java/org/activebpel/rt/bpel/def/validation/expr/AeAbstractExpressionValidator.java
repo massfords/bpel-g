@@ -173,7 +173,7 @@ public abstract class AeAbstractExpressionValidator implements IAeExpressionVali
     */
    protected void validateFunction(AeScriptFuncDef aFunction, AeExpressionValidationResult aValidationResult, IAeExpressionValidationContext aContext)
    {
-      IAeFunctionValidator validator = aContext.getFunctionFactory().getValidator(aContext.getBpelNamespace(), aFunction.getQName());
+      IAeFunctionValidator validator = aContext.getFunctionFactory().getValidator(aFunction.getQName());
       if (validator != null)
       {
          validator.validate(aFunction, aValidationResult, aContext);

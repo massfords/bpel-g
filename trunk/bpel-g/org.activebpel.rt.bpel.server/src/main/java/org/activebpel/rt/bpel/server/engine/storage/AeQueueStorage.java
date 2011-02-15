@@ -51,16 +51,6 @@ public class AeQueueStorage extends AeAbstractStorage implements IAeQueueStorage
    private int mMaxCorrelationCombinations = AeEngineFactory.getEngineConfig().getMaxCorrelationCombinations();
 
    /**
-    * Default constructor that takes the queue storage provider to use.
-    *
-    * @param aProvider
-    */
-   public AeQueueStorage(IAeQueueStorageProvider aProvider)
-   {
-      super(aProvider);
-   }
-
-   /**
     * Convenience method to get the storage provider cast to a queue storage provider.
     */
    protected IAeQueueStorageProvider getQueueStorageProvider()

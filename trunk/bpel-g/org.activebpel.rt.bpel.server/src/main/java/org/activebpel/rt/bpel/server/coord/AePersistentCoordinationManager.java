@@ -21,7 +21,7 @@ import org.activebpel.rt.bpel.coord.IAeCreateContextRequest;
 import org.activebpel.rt.bpel.coord.IAeProtocolMessage;
 import org.activebpel.rt.bpel.coord.IAeProtocolState;
 import org.activebpel.rt.bpel.impl.IAeProcessManager;
-import org.activebpel.rt.bpel.server.engine.storage.AePersistentStoreFactory;
+import org.activebpel.rt.bpel.server.engine.AeEngineFactory;
 import org.activebpel.rt.bpel.server.engine.storage.IAeCoordinationStorage;
 
 /**
@@ -39,7 +39,7 @@ public class AePersistentCoordinationManager extends AeCoordinationManager
    */   
    public void create() throws Exception
    {
-      setStorage(AePersistentStoreFactory.getInstance().getCoordinationStorage());
+      setStorage(AeEngineFactory.getStorageFactory().getCoordinationStorage());
       getStorage().setCoordinationManager(this);
    }
 

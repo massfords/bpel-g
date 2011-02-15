@@ -1130,7 +1130,7 @@ abstract public class AeAbstractBpelObject implements IAeExecutableBpelObject, I
     */
    public IAeFunction getFunction(String aNamespaceURI, String aLocalName) throws AeUnresolvableException
    {
-      return getProcess().getEngine().getEngineConfiguration().getFunction(aLocalName, aNamespaceURI);
+      return getProcess().getEngine().getFunction(aLocalName, aNamespaceURI);
    }
 
    /**
@@ -1138,7 +1138,7 @@ abstract public class AeAbstractBpelObject implements IAeExecutableBpelObject, I
     */
    public Set getFunctionContextNamespaceList()
    {
-      return getProcess().getEngine().getEngineConfiguration().getFunctionContextNamespaceList();
+      return getProcess().getEngine().getFunctionContextNamespaceList();
    }
    
    /**

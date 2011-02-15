@@ -67,7 +67,8 @@ public class AeSQLProcessStateConnectionProvider extends AeAbstractSQLStoragePro
    protected AeSQLProcessStateConnectionProvider(long aProcessId, boolean aContainerManaged,
          AeSQLConfig aSQLConfig)
    {
-      super(AeSQLProcessStateStorageProvider.PROCESS_STORAGE_PREFIX, aSQLConfig);
+      setPrefix(AeSQLProcessStateStorageProvider.PROCESS_STORAGE_PREFIX);
+      setConfig(aSQLConfig);
 
       mProcessId = aProcessId;
       mContainerManaged = aContainerManaged;

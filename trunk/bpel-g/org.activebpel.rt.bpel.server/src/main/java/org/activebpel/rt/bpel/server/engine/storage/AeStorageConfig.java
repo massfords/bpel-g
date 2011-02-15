@@ -63,33 +63,6 @@ public abstract class AeStorageConfig
    private String mStatementRootName;
    /** The name of the xml element that contains the statement value. */
    private String mStatementValueName;
-   /** Flag indicating whether the config statements have been loaded. */
-   private boolean mLoaded = false;
-
-   /**
-    * Default constructor.
-    * 
-    * @param aStatementRootName
-    * @param aStatementValueName
-    */
-   public AeStorageConfig(String aStatementRootName, String aStatementValueName)
-   {
-      this(aStatementRootName, aStatementValueName, Collections.EMPTY_MAP);
-   }
-
-   /**
-    * Creates a DB resource config object with a map of constant overrides.
-    * 
-    * @param aStatementRootName
-    * @param aStatementValueName
-    * @param aConstantOverrides
-    */
-   public AeStorageConfig(String aStatementRootName, String aStatementValueName, Map aConstantOverrides)
-   {
-      setStatementRootName(aStatementRootName);
-      setStatementValueName(aStatementValueName);
-      getConstantOverrides().putAll(aConstantOverrides);
-   }
 
    /**
     * Reloads the config with the new overrides which will replace any previously
@@ -176,7 +149,7 @@ public abstract class AeStorageConfig
     * XML configuration files.  First it loads the common SQL configuration file,
     * followed by the database specific SQL configuration file.
     */
-   protected void loadStatements()
+   public void loadStatements()
    {
       List configFilenames = getStatementConfigFilenames();
       for (Iterator iter = configFilenames.iterator(); iter.hasNext(); )
@@ -402,16 +375,10 @@ public abstract class AeStorageConfig
    {
       return mConstantOverrides;
    }
-
-   /**
-    * Called when the data is loaded (lazily).
-    */
-   private synchronized void load()
-   {
-      loadStatements();
-      setLoaded(true);
+   public void setConstantOverrides(Properties aProps) {
+       mConstantOverrides =aProps;
    }
-   
+
    /**
     * @return Returns the constants.
     */
@@ -425,9 +392,6 @@ public abstract class AeStorageConfig
     */
    protected Map getStatementMap()
    {
-      if (!isLoaded())
-         load();
-
       return mStatementMap;
    }
 
@@ -486,25 +450,9 @@ public abstract class AeStorageConfig
    }
 
    /**
-    * @return Returns the loaded.
-    */
-   protected boolean isLoaded()
-   {
-      return mLoaded;
-   }
-
-   /**
-    * @param aLoaded The loaded to set.
-    */
-   protected void setLoaded(boolean aLoaded)
-   {
-      mLoaded = aLoaded;
-   }
-
-   /**
     * @return Returns the statementRootName.
     */
-   protected String getStatementRootName()
+   public String getStatementRootName()
    {
       return mStatementRootName;
    }
@@ -512,7 +460,7 @@ public abstract class AeStorageConfig
    /**
     * @param aStatementRootName The statementRootName to set.
     */
-   protected void setStatementRootName(String aStatementRootName)
+   public void setStatementRootName(String aStatementRootName)
    {
       mStatementRootName = aStatementRootName;
    }
@@ -520,7 +468,7 @@ public abstract class AeStorageConfig
    /**
     * @return Returns the statementValueName.
     */
-   protected String getStatementValueName()
+   public String getStatementValueName()
    {
       return mStatementValueName;
    }
@@ -528,7 +476,7 @@ public abstract class AeStorageConfig
    /**
     * @param aStatementValueName The statementValueName to set.
     */
-   protected void setStatementValueName(String aStatementValueName)
+   public void setStatementValueName(String aStatementValueName)
    {
       mStatementValueName = aStatementValueName;
    }

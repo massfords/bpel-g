@@ -17,7 +17,6 @@ import org.activebpel.rt.bpel.config.AeDefaultEngineConfiguration;
 import org.activebpel.rt.bpel.config.IAeEngineConfiguration;
 import org.activebpel.rt.bpel.server.admin.IAeEngineAdministration;
 import org.activebpel.rt.bpel.server.engine.AeEngineFactory;
-import org.activebpel.rt.bpel.server.engine.storage.AePersistentStoreFactory;
 import org.activebpel.rt.bpel.server.engine.storage.AeStorageException;
 import org.activebpel.rt.bpel.server.engine.storage.sql.AeDataSource;
 import org.activebpel.rt.bpel.server.engine.storage.sql.AeSQLStorageProviderFactory;
@@ -78,7 +77,8 @@ public class AeStorageBean extends AeAbstractAdminBean
 
       // if we have all the info then persistence is on
       AeDefaultEngineConfiguration config = getRawConfig();
-      Map storeConfigMap = config.getMapEntry(IAeEngineConfiguration.PERSISTENT_STORE_ENTRY);
+      // FIXME storage -- restore this
+      Map storeConfigMap = null; // config.getMapEntry(IAeEngineConfiguration.PERSISTENT_STORE_ENTRY);
       if (!AeUtil.isNullOrEmpty(storeConfigMap))
       {
          // order: PersistentStore/Factory
@@ -143,7 +143,7 @@ public class AeStorageBean extends AeAbstractAdminBean
 
       // if we have all the info then persistence is on
       AeDefaultEngineConfiguration config = getRawConfig();
-      Map storeConfigMap = config.getMapEntry(IAeEngineConfiguration.PERSISTENT_STORE_ENTRY);
+      Map storeConfigMap = null; //config.getMapEntry(IAeEngineConfiguration.PERSISTENT_STORE_ENTRY);
       if (!AeUtil.isNullOrEmpty(storeConfigMap))
       {
          // order: PersistentStore/Factory
@@ -401,14 +401,7 @@ public class AeStorageBean extends AeAbstractAdminBean
     */
    public boolean isStandardDbms()
    {
-      try
-      {
-         return AePersistentStoreFactory.getInstance() instanceof AeSQLStorageProviderFactory;
-      }
-      catch (AeStorageException e)
-      {
-         return false;
-      }
+     return AeEngineFactory.getStorageFactory() instanceof AeSQLStorageProviderFactory;
    }
 
    /**
@@ -418,7 +411,7 @@ public class AeStorageBean extends AeAbstractAdminBean
    {
       try
       {
-         return (AeSQLStorageProviderFactory) AePersistentStoreFactory.getInstance();
+         return (AeSQLStorageProviderFactory) AeEngineFactory.getStorageFactory();
       }
       catch (Throwable e)
       {

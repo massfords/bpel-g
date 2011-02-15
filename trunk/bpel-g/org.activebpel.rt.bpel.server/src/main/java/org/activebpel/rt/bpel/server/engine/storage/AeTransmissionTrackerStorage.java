@@ -12,7 +12,6 @@ package org.activebpel.rt.bpel.server.engine.storage;
 import java.util.Collections;
 import java.util.Set;
 
-import org.activebpel.rt.bpel.server.engine.storage.providers.IAeStorageProvider;
 import org.activebpel.rt.bpel.server.engine.storage.providers.IAeTransmissionTrackerStorageProvider;
 import org.activebpel.rt.bpel.server.transreceive.AeTransmissionTrackerEntry;
 
@@ -21,15 +20,6 @@ import org.activebpel.rt.bpel.server.transreceive.AeTransmissionTrackerEntry;
  */
 public class AeTransmissionTrackerStorage extends AeAbstractStorage implements IAeTransmissionTrackerStorage
 {
-   /**
-    * Constructs the storage given the delegate provider.
-    * @param aDelegate storage provider delegate.
-    */
-   public AeTransmissionTrackerStorage(IAeStorageProvider aDelegate)
-   {
-      super(aDelegate);
-   }
-
    /**
     * Convenience method to get the storage provider cast to a TransmissionTracker storage provider.
     */

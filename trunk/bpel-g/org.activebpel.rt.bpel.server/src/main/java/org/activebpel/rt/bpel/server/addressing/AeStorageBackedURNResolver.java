@@ -14,7 +14,6 @@ import java.util.Map;
 
 import org.activebpel.rt.AeException;
 import org.activebpel.rt.bpel.server.engine.AeEngineFactory;
-import org.activebpel.rt.bpel.server.engine.storage.AePersistentStoreFactory;
 import org.activebpel.rt.bpel.server.engine.storage.AeStorageException;
 import org.activebpel.rt.bpel.server.engine.storage.IAeURNStorage;
 import org.activebpel.rt.bpel.urn.AeURNResolver;
@@ -45,7 +44,7 @@ public class AeStorageBackedURNResolver extends AeURNResolver implements IAeStor
       }
       else
       {
-         setStorage( AePersistentStoreFactory.getInstance().getURNStorage() );
+         setStorage( AeEngineFactory.getStorageFactory().getURNStorage() );
       }
       getMap().putAll(getStorage().getMappings());
    }

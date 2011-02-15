@@ -34,11 +34,6 @@
             <entry value="org.activebpel.rt.bpel.server.engine.storage.sql.AeSQLStorageProviderFactory" name="Class"/>
             <entry value="h2" name="DatabaseType"/>
             <entry value="5.0.2" name="Version"/>
-            
-            <entry name="DataSource">
-               <entry value="org.activebpel.rt.bpel.server.engine.storage.sql.AeFallbackDataSource" name="Class"/>
-               <entry value="java:comp/env/jdbc/ActiveBPELDB" name="JNDILocation"/>
-            </entry>
          </entry>
          <entry value="true" name="LogHashCollisions"/>
          <entry name="CounterStore">
@@ -219,63 +214,4 @@
       </entry>
       
    --></entry>
-   
-   <!-- Register function validators for HT/B4P functions in BPEL -->
-   <entry name="FunctionValidators">
-      <!-- function validators for all BPEL versions -->
-      <entry><!--
-         <entry name="http://www.example.org/WS-HT">
-         <entry name="getPotentialOwners">
-         <entry name="Class" value="org.activebpel.rt.b4p.validators.AeHtFunctionValidator" />
-         </entry>
-         <entry name="getActualOwner"> 
-         <entry name="Class" value="org.activebpel.rt.b4p.validators.AeHtFunctionValidator"/>
-         </entry>   
-         <entry name="getTaskInitiator"> 
-         <entry name="Class" value="org.activebpel.rt.b4p.validators.AeHtFunctionValidator"/>
-         </entry>
-         <entry name="getTaskStakeholders"> 
-         <entry name="Class" value="org.activebpel.rt.b4p.validators.AeHtFunctionValidator"/>
-         </entry>
-         <entry name="getBusinessAdministrators"> 
-         <entry name="Class" value="org.activebpel.rt.b4p.validators.AeHtFunctionValidator"/>
-         </entry>
-         <entry name="getExcludedOwners"> 
-         <entry name="Class" value="org.activebpel.rt.b4p.validators.AeHtFunctionValidator"/>
-         </entry>
-         <entry name="getTaskPriority"> 
-         <entry name="Class" value="org.activebpel.rt.b4p.validators.AeHtFunctionValidator"/>
-         </entry>
-         <entry name="getInput"> 
-         <entry name="Class" value="org.activebpel.rt.b4p.validators.AeHtFunctionValidator"/>
-         </entry>
-         <entry name="getLogicalPeopleGroup"> 
-         <entry name="Class" value="org.activebpel.rt.b4p.validators.AeHtFunctionValidator"/>
-         </entry>
-         </entry>
-         <entry name="http://www.example.org/BPEL4People">
-         <entry name="getLogicalPeopleGroup"> 
-         <entry name="Class" value="org.activebpel.rt.b4p.validators.AeB4PLogicalPeopleGroupFunctionValidator"/>
-         </entry>
-         <entry name="getActualOwner"> 
-         <entry name="Class" value="org.activebpel.rt.b4p.validators.AeB4PActualOwnerFunctionValidator"/>
-         </entry>
-         <entry name="getTaskInitiator"> 
-         <entry name="Class" value="org.activebpel.rt.b4p.validators.AeB4PTaskInitiatorFunctionValidator"/>
-         </entry>
-         <entry name="getTaskStakeholders"> 
-         <entry name="Class" value="org.activebpel.rt.b4p.validators.AeB4PTaskStakeholdersFunctionValidator"/>
-         </entry>
-         <entry name="getPotentialOwners"> 
-         <entry name="Class" value="org.activebpel.rt.b4p.validators.AeB4PPotentialOwnersFunctionValidator"/>
-         </entry>
-         <entry name="getAdministrators"> 
-         <entry name="Class" value="org.activebpel.rt.b4p.validators.AeB4PAdministratorsFunctionValidator"/>
-         </entry>
-         <entry name="getTaskPriority"> 
-         <entry name="Class" value="org.activebpel.rt.b4p.validators.AeB4PTaskPriorityFunctionValidator"/>
-         </entry>
-         </entry>
-      --></entry>
-   </entry>
 </config>
