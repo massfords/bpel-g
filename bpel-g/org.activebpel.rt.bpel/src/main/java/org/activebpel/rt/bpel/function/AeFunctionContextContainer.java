@@ -11,10 +11,10 @@ package org.activebpel.rt.bpel.function;
 
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.activebpel.rt.AeException;
 import org.activebpel.rt.bpel.AeMessages;
@@ -40,11 +40,9 @@ public class AeFunctionContextContainer
 
    /**
     * Constructor.
-    * @param aLocator
     */
-   public AeFunctionContextContainer( IAeFunctionContextLocator aLocator )
+   public AeFunctionContextContainer( )
    {
-      mLocator = aLocator;
       mNamespaceToFunctionContextMap = new HashMap();
    }
 
@@ -68,13 +66,13 @@ public class AeFunctionContextContainer
    /**
     * Gets a list of all the function context namespaces.
     */
-   public Collection getFunctionContextNamespaces()
+   public Set getFunctionContextNamespaces()
    {
-      List list = new LinkedList(getNamespaceToFunctionContextMap().keySet());
-      list.add(IAeBPELConstants.BPWS_NAMESPACE_URI);
-      list.add(IAeBPELConstants.WSBPEL_2_0_NAMESPACE_URI);
-      list.add(IAeBPELConstants.ABX_FUNCTIONS_NAMESPACE_URI);
-      return list;
+      HashSet set = new HashSet(getNamespaceToFunctionContextMap().keySet());
+      set.add(IAeBPELConstants.BPWS_NAMESPACE_URI);
+      set.add(IAeBPELConstants.WSBPEL_2_0_NAMESPACE_URI);
+      set.add(IAeBPELConstants.ABX_FUNCTIONS_NAMESPACE_URI);
+      return set;
    }
 
    /**
@@ -199,9 +197,13 @@ public class AeFunctionContextContainer
    /**
     * Accessor for <code>IAeFunctionContextLocator</code>.
     */
-   protected IAeFunctionContextLocator getLocator()
+   public IAeFunctionContextLocator getLocator()
    {
       return mLocator;
+   }
+   
+   public void setLocator(IAeFunctionContextLocator aLocator) {
+       mLocator = aLocator;
    }
 
    /**

@@ -9,9 +9,7 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpel.server.engine.storage.exist;
 
-import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 
 import org.activebpel.rt.bpel.server.engine.storage.xmldb.AeXMLDBConfig;
 
@@ -21,24 +19,6 @@ import org.activebpel.rt.bpel.server.engine.storage.xmldb.AeXMLDBConfig;
  */
 public class AeExistConfig extends AeXMLDBConfig
 {
-   /**
-    * Creates a Exist config object.
-    */
-   public AeExistConfig()
-   {
-      this(Collections.EMPTY_MAP);
-   }
-
-   /**
-    * Creates a Exist config object with the given map of constant overrides.
-    * 
-    * @param aConstantOverrides
-    */
-   public AeExistConfig(Map aConstantOverrides)
-   {
-      super(aConstantOverrides);
-   }
-
    /**
     * @see org.activebpel.rt.bpel.server.engine.storage.AeStorageConfig#getStatementConfigFilenames()
     */

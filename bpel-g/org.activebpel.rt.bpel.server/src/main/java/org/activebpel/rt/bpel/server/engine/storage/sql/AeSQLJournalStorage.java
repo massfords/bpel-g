@@ -29,15 +29,17 @@ public class AeSQLJournalStorage extends AeAbstractSQLStorage
 {
    /** The SQL statement prefix for all SQL statements used in this class. */
    public static final String SQLSTATEMENT_PREFIX = "JournalStorage."; //$NON-NLS-1$
+   
+   private AeCounter mCounter;
 
    /**
     * Constructs the journal storage given the SQL config to use to resolve SQL statements.
     * 
     * @param aConfig
     */
-   protected AeSQLJournalStorage(AeSQLConfig aConfig)
+   protected AeSQLJournalStorage()
    {
-      super(SQLSTATEMENT_PREFIX, aConfig);
+      setPrefix(SQLSTATEMENT_PREFIX);
    }
 
    /**
@@ -47,7 +49,7 @@ public class AeSQLJournalStorage extends AeAbstractSQLStorage
     */
    public long getNextJournalId() throws AeStorageException
    {
-      return AeCounter.JOURNAL_ID_COUNTER.getNextValue();
+      return getCounter().getNextValue();
    }
 
    /**
@@ -129,5 +131,13 @@ public class AeSQLJournalStorage extends AeAbstractSQLStorage
       update(aConnection, IAeJournalSQLKeys.INSERT_JOURNAL_ENTRY, params);
       return journalId;
    }
+
+public AeCounter getCounter() {
+    return mCounter;
+}
+
+public void setCounter(AeCounter aCounter) {
+    mCounter = aCounter;
+}
 
 }

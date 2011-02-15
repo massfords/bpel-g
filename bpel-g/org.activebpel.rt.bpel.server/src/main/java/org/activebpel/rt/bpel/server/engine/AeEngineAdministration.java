@@ -512,7 +512,7 @@ public class AeEngineAdministration implements IAeEngineAdministration
    /**
     * @see org.activebpel.rt.bpel.server.admin.IAeEngineAdministration#start()
     */
-   public void start() throws AeBusinessProcessException
+   public void start() throws AeException
    {
       AeEngineFactory.start();
    }

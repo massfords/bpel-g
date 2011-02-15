@@ -73,9 +73,11 @@ public class AeEngineManagementFactory {
     
     private static void connect() {
         if ( AeUtil.isNullOrEmpty(sServiceURL)) {
-            IAeEngineAdministration admin = AeEngineFactory.getEngineAdministration();
-            if (admin != null)
-            	sBean = new AeEngineManagementAdapter(admin);
+            if (sBean == null ) {
+                IAeEngineAdministration admin = AeEngineFactory.getEngineAdministration();
+                if (admin != null)
+                    sBean = new AeEngineManagementAdapter(admin);
+            }
         } else {
             try {
                 JMXServiceURL url = new JMXServiceURL(sServiceURL);

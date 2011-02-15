@@ -24,19 +24,9 @@ public abstract class AeAbstractStorage
    private IAeStorageProvider mProvider;
 
    /**
-    * Construct the delegating storage with the given delegate.
-    * 
-    * @param aProvider
-    */
-   protected AeAbstractStorage(IAeStorageProvider aProvider)
-   {
-      setProvider(aProvider);
-   }
-   
-   /**
     * @return Returns the provider.
     */
-   protected IAeStorageProvider getProvider()
+   public IAeStorageProvider getProvider()
    {
       return mProvider;
    }
@@ -44,7 +34,7 @@ public abstract class AeAbstractStorage
    /**
     * @param aProvider The provider to set.
     */
-   protected void setProvider(IAeStorageProvider aProvider)
+   public void setProvider(IAeStorageProvider aProvider)
    {
       mProvider = aProvider;
    }

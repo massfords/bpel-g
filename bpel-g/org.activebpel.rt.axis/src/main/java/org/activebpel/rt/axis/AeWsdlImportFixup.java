@@ -38,6 +38,7 @@ public class AeWsdlImportFixup
    public static final String SCHEMA_EXTENSION = "xsd"; //$NON-NLS-1$
    
    /** The <code>ACTIVE_BPEL</code> field contains the prefix for axis and the catalog servlet, normally active-bpel. */
+   // FIXME need to make this configurable. 
    private static final String ACTIVE_BPEL = AeMessages.getString("AeWsdlImportFixup.ACTIVE_BPEL_CONTEXT"); //$NON-NLS-1$
 
    /**
@@ -130,8 +131,8 @@ public class AeWsdlImportFixup
       public AeImportUrl( String aTransportUrl, String aParentLocation )
       {
          mTransportUrl = aTransportUrl;
-         int index = aTransportUrl.indexOf(ACTIVE_BPEL);
-         mImportUrl = aTransportUrl.substring(0, index+ACTIVE_BPEL.length()) + "/catalog/"; //$NON-NLS-1$
+         int index = aTransportUrl.indexOf("bpel-g");
+         mImportUrl = aTransportUrl.substring(0, index+"bpel-g".length()) + "/catalog/"; //$NON-NLS-1$
          mParentLocation = aParentLocation;
       }
 

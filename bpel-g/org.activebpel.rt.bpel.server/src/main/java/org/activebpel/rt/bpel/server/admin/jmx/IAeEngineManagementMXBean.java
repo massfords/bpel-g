@@ -135,9 +135,9 @@ public interface IAeEngineManagementMXBean {
     
     /**
      * Starts the engine.
-     * @throws AeBusinessProcessException
+     * @throws AeException 
      */
-    public void start() throws AeBusinessProcessException;
+    public void start() throws AeException;
 
     /**
      * Stops the engine.

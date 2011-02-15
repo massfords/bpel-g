@@ -60,17 +60,15 @@ public class AeSQLProcessStateStorageProvider extends AeAbstractSQLStorageProvid
 
    /** The journal storage. */
    private AeSQLJournalStorage mJournalStorage;
+   private AeCounter mCounter;
    
    /**
     * Constructs a SQL based process state storage delegate with the given SQL
     * config instance.
-    *
-    * @param aSQLConfig The SQL config object - gives access to the external SQL statements.
     */
-   public AeSQLProcessStateStorageProvider(AeSQLConfig aSQLConfig)
+   public AeSQLProcessStateStorageProvider()
    {
-      super(PROCESS_STORAGE_PREFIX, aSQLConfig);
-      setJournalStorage(createJournalStorage());
+      setPrefix(PROCESS_STORAGE_PREFIX);
    }
 
    /**
@@ -143,7 +141,7 @@ public class AeSQLProcessStateStorageProvider extends AeAbstractSQLStorageProvid
     */
    public long getNextProcessId() throws AeStorageException
    {
-      return AeCounter.PROCESS_ID_COUNTER.getNextValue();
+      return getCounter().getNextValue();
    }
 
    /**
@@ -387,17 +385,9 @@ public class AeSQLProcessStateStorageProvider extends AeAbstractSQLStorageProvid
    }
    
    /**
-    * Creates the journal storage.
-    */
-   protected AeSQLJournalStorage createJournalStorage()
-   {
-      return new AeSQLJournalStorage(getSQLConfig());
-   }
-
-   /**
     * @return Returns the journalStorage.
     */
-   protected AeSQLJournalStorage getJournalStorage()
+   public AeSQLJournalStorage getJournalStorage()
    {
       return mJournalStorage;
    }
@@ -405,7 +395,7 @@ public class AeSQLProcessStateStorageProvider extends AeAbstractSQLStorageProvid
    /**
     * @param aJournalStorage The journalStorage to set.
     */
-   protected void setJournalStorage(AeSQLJournalStorage aJournalStorage)
+   public void setJournalStorage(AeSQLJournalStorage aJournalStorage)
    {
       mJournalStorage = aJournalStorage;
    }
@@ -420,4 +410,12 @@ public class AeSQLProcessStateStorageProvider extends AeAbstractSQLStorageProvid
 
       return ((list != null) && (list.size() > 0)) ? (AeRestartProcessJournalEntry) list.get(0) : null;
    }
+
+public AeCounter getCounter() {
+    return mCounter;
+}
+
+public void setCounter(AeCounter aCounter) {
+    mCounter = aCounter;
+}
 }

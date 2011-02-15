@@ -46,6 +46,9 @@ import org.activebpel.rt.bpel.config.IAeEngineConfiguration;
 import org.activebpel.rt.bpel.coord.IAeCoordinationContext;
 import org.activebpel.rt.bpel.def.AePartnerLinkDef;
 import org.activebpel.rt.bpel.def.AePartnerLinkOpKey;
+import org.activebpel.rt.bpel.function.AeFunctionContextContainer;
+import org.activebpel.rt.bpel.function.AeUnresolvableException;
+import org.activebpel.rt.bpel.function.IAeFunction;
 import org.activebpel.rt.bpel.impl.list.AeProcessInstanceDetail;
 import org.activebpel.rt.bpel.impl.queue.AeInboundReceive;
 import org.activebpel.rt.bpel.impl.queue.AeMessageReceiver;
@@ -56,6 +59,7 @@ import org.activebpel.rt.bpel.impl.reply.IAeTransmissionTracker;
 import org.activebpel.rt.bpel.urn.AeURNResolver;
 import org.activebpel.rt.bpel.urn.IAeURNResolver;
 import org.activebpel.rt.bpel.xpath.AeXPathHelper;
+import org.activebpel.rt.expr.validation.functions.IAeFunctionValidatorFactory;
 import org.activebpel.rt.message.AeMessagePartsMap;
 import org.activebpel.rt.message.IAeMessageData;
 import org.activebpel.rt.util.AeUtil;
@@ -144,6 +148,9 @@ public class AeBusinessProcessEngine implements IAeBusinessProcessEngineInternal
    private Map mCustomManagers = new HashMap();
    
    private IAeExpressionLanguageFactory mExpressionLanguageFactory;
+   private AeFunctionContextContainer mFunctionContainer;
+   /** A cached function validator factory. */
+   protected IAeFunctionValidatorFactory mFunctionValidatorFactory;
 
    /**
     * Constructs a new engine with the passed configuration, queue manager,
@@ -2207,5 +2214,27 @@ public class AeBusinessProcessEngine implements IAeBusinessProcessEngineInternal
     
     public void setExpressionLanguageFactory(IAeExpressionLanguageFactory aFactory) {
         mExpressionLanguageFactory = aFactory;
+    }
+
+    @Override
+    public IAeFunction getFunction(String aLocalName, String aNamespaceURI) throws AeUnresolvableException {
+        return mFunctionContainer.getFunctionContext(aNamespaceURI).getFunction(aLocalName);
+    }
+
+    @Override
+    public Set getFunctionContextNamespaceList() {
+        return mFunctionContainer.getFunctionContextNamespaces();
+    }
+    
+    public void setFunctionContextContainer(AeFunctionContextContainer aContainer) {
+        mFunctionContainer = aContainer;
+    }
+
+    public IAeFunctionValidatorFactory getFunctionValidatorFactory() {
+        return mFunctionValidatorFactory;
+    }
+
+    public void setFunctionValidatorFactory(IAeFunctionValidatorFactory aFunctionValidatorFactory) {
+        mFunctionValidatorFactory = aFunctionValidatorFactory;
     }
 }

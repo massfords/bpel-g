@@ -35,16 +35,6 @@ import org.activebpel.rt.bpel.server.engine.storage.providers.IAeStorageConnecti
 public class AeProcessStateStorage extends AeAbstractStorage implements IAeProcessStateStorage
 {
    /**
-    * Default constructor that takes the process state storage provider to use.
-    * 
-    * @param aProvider
-    */
-   public AeProcessStateStorage(IAeProcessStateStorageProvider aProvider)
-   {
-      super(aProvider);
-   }
-
-   /**
     * Convenience method to get the storage provider cast to a process state storage provider.
     */
    protected IAeProcessStateStorageProvider getProcessStateStorageProvider()
@@ -66,7 +56,9 @@ public class AeProcessStateStorage extends AeAbstractStorage implements IAeProce
    public IAeProcessStateConnection getConnection(long aProcessId, boolean aContainerManaged) throws AeStorageException
    {
       IAeProcessStateConnectionProvider provider = getProcessStateStorageProvider().getConnectionProvider(aProcessId, aContainerManaged);
-      return new AeProcessStateConnection(provider);
+      AeProcessStateConnection store = new AeProcessStateConnection();
+      store.setProvider(provider);
+      return store;
    }
 
    /**

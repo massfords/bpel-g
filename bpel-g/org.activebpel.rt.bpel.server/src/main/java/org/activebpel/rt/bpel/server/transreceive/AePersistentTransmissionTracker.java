@@ -14,7 +14,7 @@ import java.util.Set;
 
 import org.activebpel.rt.AeException;
 import org.activebpel.rt.bpel.impl.reply.IAeTransmissionTracker;
-import org.activebpel.rt.bpel.server.engine.storage.AePersistentStoreFactory;
+import org.activebpel.rt.bpel.server.engine.AeEngineFactory;
 import org.activebpel.rt.bpel.server.engine.storage.AeStorageException;
 import org.activebpel.rt.bpel.server.engine.storage.IAeTransmissionTrackerStorage;
 
@@ -36,7 +36,7 @@ public class AePersistentTransmissionTracker extends AeInMemoryTransmissionTrack
    public AePersistentTransmissionTracker(Map aConfig) throws AeException
    {
       super(aConfig);
-      setStorage(AePersistentStoreFactory.getInstance().getTransmissionTrackerStorage());
+      setStorage(AeEngineFactory.getStorageFactory().getTransmissionTrackerStorage());
    }
    
     /**

@@ -18,22 +18,12 @@ import org.activebpel.rt.bpel.impl.attachment.IAeAttachmentStorage;
 import org.activebpel.rt.bpel.server.engine.storage.AeAbstractStorage;
 import org.activebpel.rt.bpel.server.engine.storage.AeStorageException;
 import org.activebpel.rt.bpel.server.engine.storage.providers.IAeAttachmentStorageProvider;
-import org.activebpel.rt.bpel.server.engine.storage.providers.IAeStorageProvider;
 
 /**
  * Generic attachment storage.
  */
 public class AePersistentAttachmentStorage extends AeAbstractStorage implements IAeAttachmentStorage
 {
-   /**
-    * Constructor
-    * @param aProvider
-    */
-   public AePersistentAttachmentStorage(IAeStorageProvider aProvider)
-   {
-      super(aProvider);
-   }
-
    /**
     * Convenience method to return the provider cast to a IAeAttachmentStorageProvider.
     */

@@ -33,16 +33,6 @@ public class AeProcessStateConnection extends AeAbstractStorage implements IAePr
    private IAeLocationVersionSet mStoredVariablesSet;
 
    /**
-    * Default constructor that takes the process state connection provider to use.
-    * 
-    * @param aProvider
-    */
-   public AeProcessStateConnection(IAeProcessStateConnectionProvider aProvider)
-   {
-      super(aProvider);
-   }
-
-   /**
     * Convenience method to get the storage provider cast to a process state connection provider.
     */
    protected IAeProcessStateConnectionProvider getProcessStateConnectionProvider()

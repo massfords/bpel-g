@@ -24,16 +24,6 @@ import org.activebpel.rt.bpel.server.engine.storage.providers.IAeURNStorageProvi
 public class AeURNStorage extends AeAbstractStorage implements IAeURNStorage
 {
    /**
-    * Default constructor that takes the queue storage provider to use.
-    * 
-    * @param aProvider
-    */
-   public AeURNStorage(IAeURNStorageProvider aProvider)
-   {
-      super(aProvider);
-   }
-
-   /**
     * Convenience method to get the storage provider cast to a URN storage provider.
     */
    protected IAeURNStorageProvider getURNStorageProvider()

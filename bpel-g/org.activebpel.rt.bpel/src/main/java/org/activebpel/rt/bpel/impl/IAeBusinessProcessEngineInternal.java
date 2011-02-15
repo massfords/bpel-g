@@ -12,6 +12,7 @@ package org.activebpel.rt.bpel.impl;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Set;
 
 import org.activebpel.rt.AeException;
 import org.activebpel.rt.bpel.AeBusinessProcessException;
@@ -23,12 +24,15 @@ import org.activebpel.rt.bpel.IAeFault;
 import org.activebpel.rt.bpel.IAePlanManager;
 import org.activebpel.rt.bpel.IAeProcessEvent;
 import org.activebpel.rt.bpel.IAeProcessInfoEvent;
+import org.activebpel.rt.bpel.function.AeUnresolvableException;
+import org.activebpel.rt.bpel.function.IAeFunction;
 import org.activebpel.rt.bpel.impl.queue.AeMessageReceiver;
 import org.activebpel.rt.bpel.impl.queue.AeReply;
 import org.activebpel.rt.bpel.impl.reply.AeMissingReplyReceiverException;
 import org.activebpel.rt.bpel.impl.reply.IAeReplyReceiver;
 import org.activebpel.rt.bpel.impl.reply.IAeTransmissionTracker;
 import org.activebpel.rt.bpel.urn.IAeURNResolver;
+import org.activebpel.rt.expr.validation.functions.IAeFunctionValidatorFactory;
 import org.activebpel.rt.message.IAeMessageData;
 import org.activebpel.wsio.IAeMessageAcknowledgeCallback;
 import org.activebpel.wsio.IAeWebServiceResponse;
@@ -355,4 +359,11 @@ public interface IAeBusinessProcessEngineInternal extends IAeBusinessProcessEngi
     * Returns true if the engine supports suspending processes.
     */
    public boolean isSuspendSupported();
+
+   public IAeFunction getFunction(String aLocalName, String aNamespaceURI) throws AeUnresolvableException;
+
+   public Set getFunctionContextNamespaceList();
+
+   public IAeFunctionValidatorFactory getFunctionValidatorFactory();
+
 }

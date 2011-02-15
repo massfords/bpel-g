@@ -22,17 +22,6 @@ import org.activebpel.rt.bpel.server.engine.storage.providers.IAeStorageProvider
 public abstract class AeAbstractSQLStorageProvider extends AeAbstractSQLStorage implements IAeStorageProvider
 {
    /**
-    * Constructs a SQL storage delegate with the given storage prefix and config.
-    * 
-    * @param aPrefix
-    * @param aConfig
-    */
-   public AeAbstractSQLStorageProvider(String aPrefix, AeSQLConfig aConfig)
-   {
-      super(aPrefix, aConfig);
-   }
-   
-   /**
     * @see org.activebpel.rt.bpel.server.engine.storage.providers.IAeStorageProvider#getDBConnection()
     */
    public IAeStorageConnection getDBConnection() throws AeStorageException

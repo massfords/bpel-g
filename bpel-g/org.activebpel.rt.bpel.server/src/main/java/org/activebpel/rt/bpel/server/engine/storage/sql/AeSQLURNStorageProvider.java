@@ -12,6 +12,7 @@ package org.activebpel.rt.bpel.server.engine.storage.sql;
 
 import java.util.Map;
 
+import org.activebpel.rt.bpel.server.engine.storage.AeCounter;
 import org.activebpel.rt.bpel.server.engine.storage.AeStorageException;
 import org.activebpel.rt.bpel.server.engine.storage.providers.IAeStorageConnection;
 import org.activebpel.rt.bpel.server.engine.storage.providers.IAeURNStorageProvider;
@@ -28,15 +29,15 @@ public class AeSQLURNStorageProvider extends AeAbstractSQLStorageProvider implem
 
    /** resultset handler used to read the urn mappings into a map */
    private static final ResultSetHandler URN_MAPPING_HANDLER = new AeURNMappingHandler();
+   
+   private AeCounter mCounter;
 
    /**
     * Creates the SQL URN storage delegate with the given sql config.
-    * 
-    * @param aConfig
     */
-   public AeSQLURNStorageProvider(AeSQLConfig aConfig)
+   public AeSQLURNStorageProvider()
    {
-      super(SQLSTATEMENT_PREFIX, aConfig);
+      setPrefix(SQLSTATEMENT_PREFIX);
    }
 
    /**
@@ -63,4 +64,12 @@ public class AeSQLURNStorageProvider extends AeAbstractSQLStorageProvider implem
    {
       update(getSQLConnection(aConnection), IAeURNSQLKeys.SQL_DELETE_MAPPING, new Object[] { aURN });
    }
+
+    public AeCounter getCounter() {
+        return mCounter;
+    }
+    
+    public void setCounter(AeCounter aCounter) {
+        mCounter = aCounter;
+    }
 }

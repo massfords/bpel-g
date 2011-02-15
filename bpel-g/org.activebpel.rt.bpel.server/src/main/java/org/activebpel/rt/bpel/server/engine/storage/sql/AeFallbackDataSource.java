@@ -5,11 +5,9 @@ import java.io.FileOutputStream;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
-import java.util.Map;
 
 import javax.sql.DataSource;
 
-import org.activebpel.rt.AeException;
 import org.activebpel.rt.bpel.server.deploy.scanner.AeDeploymentFileInfo;
 import org.activebpel.rt.bpel.server.engine.storage.AeStorageException;
 import org.apache.commons.logging.Log;
@@ -21,10 +19,6 @@ import org.h2.util.IOUtils;
 public class AeFallbackDataSource extends AeJNDIDataSource {
     
     private static final Log sLog = LogFactory.getLog(AeFallbackDataSource.class);
-
-    public AeFallbackDataSource(Map aConfig, AeSQLConfig aSQLConfig) throws AeException {
-        super(aConfig, aSQLConfig);
-    }
 
     /**
      * @see org.activebpel.rt.bpel.server.engine.storage.sql.AeDataSource#createDelegate()

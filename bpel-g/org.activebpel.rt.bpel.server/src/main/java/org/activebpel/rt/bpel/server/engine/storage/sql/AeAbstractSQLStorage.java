@@ -31,16 +31,6 @@ abstract public class AeAbstractSQLStorage extends AeSQLObject
    protected String mPrefix;
    
    /**
-    * Constructor.
-    * @param aConfig
-    */
-   protected AeAbstractSQLStorage( String aPrefix, AeSQLConfig aConfig )
-   {
-      mPrefix = aPrefix;
-      mConfig = aConfig;
-   }
-   
-   /**
     * Returns a SQL statement from the SQL configuration object. This
     * convenience method prepends the name of the statement with
     * "ProcessStorage.".
@@ -65,17 +55,25 @@ abstract public class AeAbstractSQLStorage extends AeSQLObject
    /**
     * Return sql key prefix.
     */
-   protected String getPrefix()
+   public String getPrefix()
    {
       return mPrefix;
+   }
+   
+   public void setPrefix(String aPrefix) {
+       mPrefix = aPrefix;
    }
    
    /**
     * Accessor for sql config.
     */
-   protected AeSQLConfig getSQLConfig()
+   public AeSQLConfig getSQLConfig()
    {
       return mConfig;
+   }
+   
+   public void setSQLConfig(AeSQLConfig aConfig) {
+       mConfig = aConfig;
    }
    
    /**
@@ -206,13 +204,5 @@ abstract public class AeAbstractSQLStorage extends AeSQLObject
    protected void setConfig(AeSQLConfig aConfig)
    {
       mConfig = aConfig;
-   }
-
-   /**
-    * @param aPrefix The prefix to set.
-    */
-   protected void setPrefix(String aPrefix)
-   {
-      mPrefix = aPrefix;
    }
 }

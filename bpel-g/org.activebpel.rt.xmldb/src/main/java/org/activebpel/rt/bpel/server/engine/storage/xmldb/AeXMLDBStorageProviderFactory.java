@@ -10,13 +10,12 @@
 package org.activebpel.rt.bpel.server.engine.storage.xmldb;
 
 import java.lang.reflect.Constructor;
-import java.util.Collections;
 import java.util.Map;
 
 import org.activebpel.rt.AeException;
 import org.activebpel.rt.bpel.config.IAeEngineConfiguration;
-import org.activebpel.rt.bpel.server.engine.storage.AeAbstractStorageProviderFactory;
 import org.activebpel.rt.bpel.server.engine.storage.AeStorageConfig;
+import org.activebpel.rt.bpel.server.engine.storage.IAeStorageProviderFactory;
 import org.activebpel.rt.bpel.server.engine.storage.providers.IAeAttachmentStorageProvider;
 import org.activebpel.rt.bpel.server.engine.storage.providers.IAeCoordinationStorageProvider;
 import org.activebpel.rt.bpel.server.engine.storage.providers.IAeProcessStateStorageProvider;
@@ -26,7 +25,6 @@ import org.activebpel.rt.bpel.server.engine.storage.providers.IAeTransmissionTra
 import org.activebpel.rt.bpel.server.engine.storage.providers.IAeURNStorageProvider;
 import org.activebpel.rt.bpel.server.engine.storage.xmldb.attachments.AeXMLDBAttachmentStorageProvider;
 import org.activebpel.rt.bpel.server.engine.storage.xmldb.coord.AeXMLDBCoordinationStorageProvider;
-import org.activebpel.rt.bpel.server.engine.storage.xmldb.log.AeXMLDBPerformanceLogger;
 import org.activebpel.rt.bpel.server.engine.storage.xmldb.process.AeXMLDBProcessStateStorageProvider;
 import org.activebpel.rt.bpel.server.engine.storage.xmldb.queue.AeXMLDBQueueStorageProvider;
 import org.activebpel.rt.bpel.server.engine.storage.xmldb.transreceive.AeXMLDBTransmissionTrackerStorageProvider;
@@ -37,8 +35,9 @@ import org.activebpel.rt.xmldb.AeMessages;
 
 /**
  * A storage factory that creates XMLDB versions of the store objects.
+ * @deprecated
  */
-public abstract class AeXMLDBStorageProviderFactory extends AeAbstractStorageProviderFactory
+public abstract class AeXMLDBStorageProviderFactory implements IAeStorageProviderFactory
 {
    /** The XMLDB config. */
    private AeXMLDBConfig mXMLDBConfig;
@@ -50,36 +49,6 @@ public abstract class AeXMLDBStorageProviderFactory extends AeAbstractStoragePro
     */
    public AeXMLDBStorageProviderFactory(Map aConfig) throws AeException
    {
-      super(aConfig);
-   }
-
-   /**
-    * @see org.activebpel.rt.bpel.server.engine.storage.AeAbstractStorageProviderFactory#setConfiguration(java.util.Map)
-    */
-   protected void setConfiguration(Map aConfig) throws AeException
-   {
-      super.setConfiguration(aConfig);
-
-      String logDir = (String) aConfig.get("PerformanceLogDirectory"); //$NON-NLS-1$
-      AeXMLDBPerformanceLogger.init(logDir);
-
-      Map constantOverrides = (Map) aConfig.get(IAeEngineConfiguration.SQL_CONSTANTS);
-      if (constantOverrides == null)
-      {
-         constantOverrides = Collections.EMPTY_MAP;
-      }
-
-      AeXMLDBConfig xmldbConfig = createXMLDBConfig(constantOverrides);
-      setXMLDBConfig(xmldbConfig);
-
-      Map dsConfig = (Map) aConfig.get(IAeEngineConfiguration.DATASOURCE_ENTRY);
-      IAeXMLDBDataSource dataSource = createXMLDBDataSource(dsConfig);
-      
-      setStorageImpl(createStorageImpl(dataSource));
-
-      validateDBVersion(aConfig);
-      
-      setDataSource(dataSource);
    }
 
    /**
@@ -141,17 +110,6 @@ public abstract class AeXMLDBStorageProviderFactory extends AeAbstractStoragePro
     * @param aDataSource
     */
    protected abstract void setDataSource(IAeXMLDBDataSource aDataSource);
-
-   /**
-    * Creates the XMLDB config object that the storage objects will use.
-    *
-    * @param aOverrideMap map of name value pairs to override the inlined constants
-    * @return The XMLDB config object.
-    */
-   protected AeXMLDBConfig createXMLDBConfig(Map aOverrideMap)
-   {
-      return new AeXMLDBConfig(aOverrideMap);
-   }
 
    /**
     * Creates a XMLDB data source from the engine configuration.
@@ -217,49 +175,31 @@ public abstract class AeXMLDBStorageProviderFactory extends AeAbstractStoragePro
       return getXMLDBConfig();
    }
 
-   /**
-    * @see org.activebpel.rt.bpel.server.engine.storage.IAeStorageProviderFactory#createQueueStorageProvider()
-    */
    public IAeQueueStorageProvider createQueueStorageProvider()
    {
       return new AeXMLDBQueueStorageProvider(getXMLDBConfig(), getStorageImpl());
    }
 
-   /**
-    * @see org.activebpel.rt.bpel.server.engine.storage.IAeStorageProviderFactory#createProcessStateStorageProvider()
-    */
    public IAeProcessStateStorageProvider createProcessStateStorageProvider()
    {
       return new AeXMLDBProcessStateStorageProvider(getXMLDBConfig(), getStorageImpl());
    }
 
-   /**
-    * @see org.activebpel.rt.bpel.server.engine.storage.IAeStorageProviderFactory#createCoordinationStorageProvider()
-    */
    public IAeCoordinationStorageProvider createCoordinationStorageProvider()
    {
       return new AeXMLDBCoordinationStorageProvider(getXMLDBConfig(), getStorageImpl());
    }
 
-   /**
-    * @see org.activebpel.rt.bpel.server.engine.storage.IAeStorageProviderFactory#createURNStorageProvider()
-    */
    public IAeURNStorageProvider createURNStorageProvider()
    {
       return new AeXMLDBURNStorageProvider(getXMLDBConfig(), getStorageImpl());
    }
 
-   /**
-    * @see org.activebpel.rt.bpel.server.engine.storage.IAeStorageProviderFactory#createTransmissionTrackerStorageProvider()
-    */
    public IAeTransmissionTrackerStorageProvider createTransmissionTrackerStorageProvider()
    {
       return new AeXMLDBTransmissionTrackerStorageProvider(getXMLDBConfig(), getStorageImpl());
    }
 
-   /**
-    * @see org.activebpel.rt.bpel.server.engine.storage.IAeStorageProviderFactory#createAttachmentStorageProvider()
-    */
    public IAeAttachmentStorageProvider createAttachmentStorageProvider()
    {
       return new AeXMLDBAttachmentStorageProvider(getXMLDBConfig(), getStorageImpl());

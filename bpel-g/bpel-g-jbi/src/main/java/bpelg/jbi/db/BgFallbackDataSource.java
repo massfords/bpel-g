@@ -1,14 +1,11 @@
 package bpelg.jbi.db;
 
 import java.io.File;
-import java.util.Map;
 
 import javax.sql.DataSource;
 
-import org.activebpel.rt.AeException;
 import org.activebpel.rt.bpel.server.engine.storage.AeStorageException;
 import org.activebpel.rt.bpel.server.engine.storage.sql.AeJNDIDataSource;
-import org.activebpel.rt.bpel.server.engine.storage.sql.AeSQLConfig;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.h2.jdbcx.JdbcDataSource;
@@ -19,10 +16,6 @@ import bpelg.jbi.BgContext;
 public class BgFallbackDataSource extends AeJNDIDataSource {
     
     private static final Log sLog = LogFactory.getLog(BgFallbackDataSource.class);
-
-    public BgFallbackDataSource(Map aConfig, AeSQLConfig aSQLConfig) throws AeException {
-        super(aConfig, aSQLConfig);
-    }
 
     /**
      * @see org.activebpel.rt.bpel.server.engine.storage.sql.AeDataSource#createDelegate()

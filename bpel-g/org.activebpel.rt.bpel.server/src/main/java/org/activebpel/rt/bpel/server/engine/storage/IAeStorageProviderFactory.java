@@ -15,7 +15,6 @@ import org.activebpel.rt.bpel.server.engine.storage.providers.IAeAttachmentStora
 import org.activebpel.rt.bpel.server.engine.storage.providers.IAeCoordinationStorageProvider;
 import org.activebpel.rt.bpel.server.engine.storage.providers.IAeProcessStateStorageProvider;
 import org.activebpel.rt.bpel.server.engine.storage.providers.IAeQueueStorageProvider;
-import org.activebpel.rt.bpel.server.engine.storage.providers.IAeStorageProvider;
 import org.activebpel.rt.bpel.server.engine.storage.providers.IAeTransmissionTrackerStorageProvider;
 import org.activebpel.rt.bpel.server.engine.storage.providers.IAeURNStorageProvider;
 
@@ -64,11 +63,4 @@ public interface IAeStorageProviderFactory
     * Creates and returns the storage provider for the attachment manager store.
     */
    public IAeAttachmentStorageProvider createAttachmentStorageProvider();
-   
-   /**
-    * Creates a custom storage provider with the given name.
-    * 
-    * @param aProviderName
-    */
-   public IAeStorageProvider createCustomStorageProvider(String aProviderName);
 }

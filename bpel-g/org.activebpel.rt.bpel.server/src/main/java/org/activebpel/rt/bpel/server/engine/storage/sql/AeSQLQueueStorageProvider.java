@@ -64,6 +64,9 @@ public class AeSQLQueueStorageProvider extends AeAbstractSQLStorageProvider impl
 
    /** The number of times to retry deadlocked transactions. */
    private static final int DEADLOCK_TRY_COUNT = 5;
+   
+   private AeCounter mCounter;
+   private AeCounter mHashCollisionCounter;
 
    /** The journal storage. */
    private AeSQLJournalStorage mJournalStorage;
@@ -73,10 +76,9 @@ public class AeSQLQueueStorageProvider extends AeAbstractSQLStorageProvider impl
     * 
     * @param aConfig
     */
-   public AeSQLQueueStorageProvider(AeSQLConfig aConfig)
+   public AeSQLQueueStorageProvider()
    {
-      super(SQLSTATEMENT_PREFIX, aConfig);
-      setJournalStorage(createJournalStorage());
+      setPrefix(SQLSTATEMENT_PREFIX);
    }
    
    /**
@@ -85,7 +87,7 @@ public class AeSQLQueueStorageProvider extends AeAbstractSQLStorageProvider impl
     */
    protected long getNextQueuedReceiveId() throws AeStorageException
    {
-      return AeCounter.QUEUED_RECEIVE_ID_COUNTER.getNextValue();
+      return getCounter().getNextValue();
    }
 
    /**
@@ -382,7 +384,7 @@ public class AeSQLQueueStorageProvider extends AeAbstractSQLStorageProvider impl
    {
       try
       {
-         AeCounter.HASH_COLLISION_COUNTER.getNextValue();
+         getHashCollisionCounter().getNextValue();
       }
       catch (Exception e) 
       {
@@ -421,17 +423,9 @@ public class AeSQLQueueStorageProvider extends AeAbstractSQLStorageProvider impl
    }
 
    /**
-    * Creates the journal storage.
-    */
-   protected AeSQLJournalStorage createJournalStorage()
-   {
-      return new AeSQLJournalStorage(getSQLConfig());
-   }
-
-   /**
     * @return Returns the journalStorage.
     */
-   protected AeSQLJournalStorage getJournalStorage()
+   public AeSQLJournalStorage getJournalStorage()
    {
       return mJournalStorage;
    }
@@ -439,7 +433,7 @@ public class AeSQLQueueStorageProvider extends AeAbstractSQLStorageProvider impl
    /**
     * @param aJournalStorage The journalStorage to set.
     */
-   protected void setJournalStorage(AeSQLJournalStorage aJournalStorage)
+   public void setJournalStorage(AeSQLJournalStorage aJournalStorage)
    {
       mJournalStorage = aJournalStorage;
    }
@@ -451,4 +445,20 @@ public class AeSQLQueueStorageProvider extends AeAbstractSQLStorageProvider impl
    {
       return DEADLOCK_TRY_COUNT;
    }
+
+public AeCounter getCounter() {
+    return mCounter;
+}
+
+public void setCounter(AeCounter aCounter) {
+    mCounter = aCounter;
+}
+
+public AeCounter getHashCollisionCounter() {
+    return mHashCollisionCounter;
+}
+
+public void setHashCollisionCounter(AeCounter aHashCollisionCounter) {
+    mHashCollisionCounter = aHashCollisionCounter;
+}
 }

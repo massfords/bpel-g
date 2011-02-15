@@ -51,7 +51,6 @@ import org.activebpel.rt.bpel.server.engine.process.IAeProcessWrapperMap;
 import org.activebpel.rt.bpel.server.engine.process.IAeProcessWrapperMapCallback;
 import org.activebpel.rt.bpel.server.engine.recovery.journal.AeInboundReceiveJournalEntry;
 import org.activebpel.rt.bpel.server.engine.recovery.journal.IAeJournalEntry;
-import org.activebpel.rt.bpel.server.engine.storage.AePersistentStoreFactory;
 import org.activebpel.rt.bpel.server.engine.storage.AeStorageException;
 import org.activebpel.rt.bpel.server.engine.storage.IAeProcessStateStorage;
 import org.activebpel.rt.bpel.server.engine.storage.sql.AeDbUtils;
@@ -220,7 +219,7 @@ public class AePersistentProcessManager extends AeAbstractProcessManager impleme
     */
    public void create() throws Exception
    {
-      setStorage(AePersistentStoreFactory.getInstance().getProcessStateStorage());
+      setStorage(AeEngineFactory.getStorageFactory().getProcessStateStorage());
    }
 
    /**

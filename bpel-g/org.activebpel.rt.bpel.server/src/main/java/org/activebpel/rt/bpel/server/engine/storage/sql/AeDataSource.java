@@ -16,7 +16,6 @@ import java.sql.SQLException;
 
 import javax.sql.DataSource;
 
-import org.activebpel.rt.AeException;
 import org.activebpel.rt.bpel.server.AeMessages;
 import org.activebpel.rt.bpel.server.engine.storage.AeStorageException;
 import org.activebpel.rt.bpel.server.engine.transaction.AeTransactionException;
@@ -35,50 +34,19 @@ public abstract class AeDataSource implements DataSource
    /** Delegates the main data source. */
    public static AeDataSource MAIN = null;
 
-   /** The name of this data source. */
-   private final String mName;
-
    /** The SQL configuration. */
-   private final AeSQLConfig mSQLConfig;
+   private AeSQLConfig mSQLConfig;
 
    /** The underlying delegate JDBC data source. */
    private DataSource mDelegate;
 
    /** Whether to set transaction isolation level on connections. */
    private boolean mSetTransactionIsolationLevel;
-
-   /**
-    * Constructor.
-    *
-    * @param aName
-    * @param aSQLConfig The SQL configuration.
-    */
-   protected AeDataSource(String aName, AeSQLConfig aSQLConfig)
-   {
-      mName = aName;
-      mSQLConfig = aSQLConfig;
-
-      // set derby home in case we want to use embedded driver
-      setupDerbySystemHomeProperty();
-
-      // Get the transaction isolation level parameter once when we initialize
-      // the data source instead of every time we get a connection.
-      try
-      {
-         mSetTransactionIsolationLevel = mSQLConfig.getParameterBoolean(
-            AeSQLConfig.PARAMETER_SET_TRANSACTION_ISOLATION_LEVEL
-         );
-      }
-      catch (AeStorageException e)
-      {
-         AeException.logError(e, AeMessages.getString("AeDataSource.ERROR_0")); //$NON-NLS-1$
-
-         // As of 2/14/2006, the default value is false, because we no longer
-         // need to override the default transaction isolation level to avoid
-         // deadlocks.
-         mSetTransactionIsolationLevel = false;
-      }
+   
+   public void init() throws AeStorageException {
+       MAIN = this;
    }
+
 
    /**
     * Configures the transaction isolation level (and possibly other settings)
@@ -269,14 +237,6 @@ public abstract class AeDataSource implements DataSource
    }
 
    /**
-    * Returns the name of this data source object.
-    */
-   public String getName()
-   {
-      return mName;
-   }
-
-   /**
     * Returns value of parameter that controls whether to set transaction
     * isolation level on connections. The default is <code>true</code>, which
     * is overridden for Oracle, because Oracle does not support the read
@@ -293,6 +253,14 @@ public abstract class AeDataSource implements DataSource
    public AeSQLConfig getSQLConfig()
    {
       return mSQLConfig;
+   }
+
+   public void setSQLConfig(AeSQLConfig aSQLConfig) {
+       mSQLConfig = aSQLConfig;
+   }
+
+   public void setSetTransactionIsolationLevel(boolean aSetTransactionIsolationLevel) {
+       mSetTransactionIsolationLevel = aSetTransactionIsolationLevel;
    }
 
    /*======================================================================
@@ -346,35 +314,6 @@ public abstract class AeDataSource implements DataSource
    public void setLogWriter(PrintWriter aWriter) throws SQLException
    {
       getDelegate().setLogWriter(aWriter);
-   }
-
-   /**
-    * This sets the derby.system.home system property if it has not been set.  This
-    * allows users to use relative database locations in their embedded derby connection url.
-    * Note this will be set to catalina.home if it is not already set and catalina.home
-    * is available. 
-    */
-   protected void setupDerbySystemHomeProperty()
-   {
-      // used for derby system home, for database locations
-      String DERBY = "derby"; //$NON-NLS-1$
-
-      // if we are using derby make sure that we set the derby system home if it isn't set already
-      if(DERBY.equals( getSQLConfig().getDatabaseType() ) )
-      {
-         // used for derby system home, for database locations
-         String DERBY_SYSTEM_HOME = "derby.system.home"; //$NON-NLS-1$
-         // We can use embedded derby with tomcat, so catalina.home will get us the installation directory
-         String CATALINA_HOME = "catalina.home"; //$NON-NLS-1$
-         
-         String derbyHome = System.getProperty(DERBY_SYSTEM_HOME);
-         if(derbyHome == null)
-         {
-            String catalinaHome = System.getProperty(CATALINA_HOME);
-            if(catalinaHome != null)
-               System.setProperty(DERBY_SYSTEM_HOME, catalinaHome);
-         }
-      }
    }
 
 }

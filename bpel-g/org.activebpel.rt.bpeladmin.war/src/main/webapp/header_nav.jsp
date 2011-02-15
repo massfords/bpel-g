@@ -31,9 +31,11 @@
    <tr>
      <td class="navItem" align="left" nowrap="true" width="20%">&nbsp;<a href="config.jsp"><ae:GetResource name="configuration" /></a>&nbsp;</td>
    </tr>
+   <!-- 
    <tr>
      <td class="navItem" align="left" nowrap="true" width="20%">&nbsp;<a href="storage.jsp"><ae:GetResource name="storage" /></a>&nbsp;</td>
    </tr>
+    -->
    <tr>
      <td class="navItem" align="left" nowrap="true" width="20%">&nbsp;<a href="version.jsp"><ae:GetResource name="version_detail" /></a>&nbsp;</td>
    </tr>

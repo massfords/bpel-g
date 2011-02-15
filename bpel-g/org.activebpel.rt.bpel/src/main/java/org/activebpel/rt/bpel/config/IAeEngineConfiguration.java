@@ -10,12 +10,6 @@
 package org.activebpel.rt.bpel.config;
 
 import java.util.Map;
-import java.util.Set;
-
-import org.activebpel.rt.AeException;
-import org.activebpel.rt.bpel.function.AeUnresolvableException;
-import org.activebpel.rt.bpel.function.IAeFunction;
-import org.activebpel.rt.expr.validation.functions.IAeFunctionValidatorFactory;
 
 /**
  * Interface representing the static configuration settings for the BPEL engine.
@@ -79,8 +73,6 @@ public interface IAeEngineConfiguration
    public static final String LOGGING_ENTRY = "Logging"; //$NON-NLS-1$
    /** Name of the entry for specifying a logging dir */
    public static final String LOGGING_DIR_ENTRY = "Logging.Dir"; //$NON-NLS-1$
-   /** Name of entry for the setting the partner definition factory */
-   public static final String PDEF_FACTORY_ENTRY = "PartnerDefinitionFactory"; //$NON-NLS-1$
    /** Name of entry for the setting the catalog factory */
    public static final String CATALOG_ENTRY = "Catalog"; //$NON-NLS-1$
    /** Name of entry for the setting the replace wsdl flag */
@@ -93,8 +85,6 @@ public interface IAeEngineConfiguration
    public static final String QUEUE_MANAGER_ENTRY = "QueueManager"; //$NON-NLS-1$
    /** Name of entry for setting the auto-start flag */
    public static final String AUTO_START_ENTRY = "AutoStart"; //$NON-NLS-1$
-   /** Name of entry for persistent store map. */
-   public static final String PERSISTENT_STORE_ENTRY = "PersistentStore"; //$NON-NLS-1$
    /** Name of entry for persistent store/database type. */
    public static final String DATABASE_TYPE_ENTRY = "DatabaseType"; //$NON-NLS-1$
    /** Name of entry for persistent store/version. */
@@ -143,8 +133,6 @@ public interface IAeEngineConfiguration
    public static final String CS_JNDI_NAME_ENTRY = "JNDILocation"; //$NON-NLS-1$
    /** Name of entry for the expression language factory. */
    public static final String EXPRESSION_FACTORY = "ExpressionLanguageFactory"; //$NON-NLS-1$
-   /** Name of entry for the function validator factory. */
-   public static final String FUNCTION_VALIDATORS = "FunctionValidators"; //$NON-NLS-1$
    /** Name of entry for suspending processes on uncaught faults. */
    public static final String SUSPEND_PROCESS_ON_UNCAUGHT_FAULT_ENTRY = "SuspendProcessOnUncaughtFault"; //$NON-NLS-1$
    /** Name of entry for suspending processes on invoke recovery. */
@@ -199,34 +187,6 @@ public interface IAeEngineConfiguration
    public String getDescription();
 
    /**
-    * Returns the function associated with the passed namespace.
-    * 
-    * @param aFunctionName
-    * @param aNamespace
-    * @return IAeExpressionFunction Returns the associated function.
-    * @throws AeUnresolvableException Thrown if no function is found.
-    */
-   public IAeFunction getFunction(String aFunctionName, String aNamespace)
-      throws AeUnresolvableException;
-
-   /**
-    * Gets a list of namespaces for all configured function contexts.
-    */
-   public Set getFunctionContextNamespaceList();
-   
-   /**
-    * Gets the function validator factory with any configured extensions defined in the engine config.
-    * 
-    * @throws AeException
-    */
-   public IAeFunctionValidatorFactory getFunctionValidatorFactory() throws AeException;
-
-   /**
-    * Return the class name of the IAePartnerAddressingFactory impl.
-    */
-   public String getPartnerAddressingFactoryClassName();
-
-   /**
     * Return the base directory for all application log files. 
     */
    public String getLoggingBaseDir();
@@ -269,16 +229,6 @@ public interface IAeEngineConfiguration
     */
    public int getIntegerEntry(String aName, int aDefault);
 
-   /**
-    * Returns the class name of the process manager.
-    */
-   public String getProcessManagerClassName();
-   
-   /**
-    * Accessor for catalog factory class name.
-    */
-   public String getCatalogFactoryClassName();
-   
    /**
     * Accessor for the mutable engine configuration settings.
     */
