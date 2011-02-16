@@ -11,13 +11,10 @@ package org.activebpel.rt.bpel.impl;
 
 import java.text.MessageFormat;
 import java.util.Iterator;
-import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArraySet;
 
 import org.activebpel.rt.AeException;
-import org.activebpel.rt.bpel.AeMessages;
-import org.activebpel.rt.util.AeUtil;
 
 /**
  * Implements a simple in-memory process manager.
@@ -29,21 +26,8 @@ public abstract class AeAbstractProcessManager extends AeManagerAdapter implemen
    /** <code>true</code> if and only if showing debug output. */
    private static boolean sDebug = false;
 
-   /** Configuration for this process manager. */
-   private Map mConfig;
-
    /** Process purged listeners */
    private Set<IAeProcessPurgedListener> mProcessPurgedListeners = new CopyOnWriteArraySet<IAeProcessPurgedListener>();
-
-   /**
-    * Constructs an in-memory process manager.
-    *
-    * @param aConfig The configuration map for this manager.
-    */
-   public AeAbstractProcessManager(Map aConfig)
-   {
-      setConfig(aConfig);
-   }
 
    /**
     * @see org.activebpel.rt.bpel.impl.IAeProcessManager#addProcessPurgedListener(org.activebpel.rt.bpel.impl.IAeProcessPurgedListener)
@@ -107,47 +91,6 @@ public abstract class AeAbstractProcessManager extends AeManagerAdapter implemen
    }
 
    /**
-    * Returns configuration <code>Map</code>.
-    */
-   protected Map getConfig()
-   {
-      return mConfig;
-   }
-
-   /**
-    * Returns value from configuration <code>Map</code>.
-    *
-    * @param aKey
-    */
-   protected String getConfig(String aKey)
-   {
-      return (String) getConfig().get(aKey);
-   }
-
-   /**
-    * Returns <code>int</code> value from configuration <code>Map</code>.
-    *
-    * @param aKey
-    */
-   protected int getConfigInt(String aKey, int aDefaultValue)
-   {
-      String value = getConfig(aKey);
-      if (!AeUtil.isNullOrEmpty(value))
-      {
-         try
-         {
-            return Integer.parseInt(value);
-         }
-         catch (NumberFormatException e)
-         {
-            AeException.logError(e, AeMessages.format("AeAbstractProcessManager.ERROR_InvalidConfigValue", new Object[] { value, aKey })); //$NON-NLS-1$
-         }
-      }
-
-      return aDefaultValue;
-   }
-
-   /**
     * Returns the process purged listeners for this process manager.
     */
    protected Set<IAeProcessPurgedListener> getProcessPurgedListeners()
@@ -170,16 +113,5 @@ public abstract class AeAbstractProcessManager extends AeManagerAdapter implemen
    public void removeProcessPurgedListener(IAeProcessPurgedListener aListener)
    {
       getProcessPurgedListeners().remove(aListener);
-   }
-
-   /**
-    * Sets configuration.
-    */
-   protected void setConfig(Map aConfig)
-   {
-      mConfig = aConfig;
-
-      // Set our debug flag.
-      sDebug = "true".equals(getConfig(CONFIG_DEBUG)); //$NON-NLS-1$
    }
 }

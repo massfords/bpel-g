@@ -9,7 +9,6 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpel.server.deploy;
 
-import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -32,55 +31,14 @@ public class AeMasterPolicyMapper implements IAePolicyMapper, IAeWsddConstants
 {
    private static final String WSA_HEADER_HANDLER = "proc:org.activebpel.rt.axis.bpel.handlers.AeWsaHeaderHandler"; //$NON-NLS-1$
    
-   private Map mConfig;
-   private List mMappers;
-
-   /**
-    * Constructor.
-    * @param aConfig
-    */
-   public AeMasterPolicyMapper(Map aConfig) throws AeException
-   {
-      init(aConfig);
-   }
-
-   private void init(Map aConfig) throws AeException
-   {
-
-      // Save the config info
-      mConfig = aConfig;
-
-      // Get the list of mappers from the configuration
-      mMappers = new ArrayList();
-      for (Iterator it = mConfig.keySet().iterator(); it.hasNext();)
-      {
-         String mapperName = (String)it.next();
-         if ( !mapperName.equals("Class") ) { //$NON-NLS-1$
-            try
-            {
-               // Create each policy mapper
-               String policyImpl = (String)mConfig.get(mapperName); 
-               Class policyImplClass = Class.forName(policyImpl);
-               Constructor xTor = policyImplClass.getConstructor(new Class[] { Map.class });
-               IAePolicyMapper policyMapper = (IAePolicyMapper)xTor.newInstance(new Object[] { mConfig });
-               mMappers.add(policyMapper);
-
-            }
-            catch (Exception e)
-            {
-               throw new AeException(AeMessages.getString("AePolicyMapper.Error_0") + mapperName, e); //$NON-NLS-1$
-            }
-         }
-      }
-
-   }
+   private List<IAePolicyMapper> mMappers;
 
    /**
     * @see org.activebpel.rt.bpel.server.deploy.IAePolicyMapper#getServerRequestHandlers(java.util.List)
     */
-   public List getServerRequestHandlers(List aPolicyList) throws AeException
+   public List<Element> getServerRequestHandlers(List<Element> aPolicyList) throws AeException
    {
-      List handlers = new ArrayList();
+      List<Element> handlers = new ArrayList();
 
       if (AeUtil.notNullOrEmpty(aPolicyList))
       {
@@ -111,9 +69,9 @@ public class AeMasterPolicyMapper implements IAePolicyMapper, IAeWsddConstants
    /**
     * @see org.activebpel.rt.bpel.server.deploy.IAePolicyMapper#getServerResponseHandlers(java.util.List)
     */
-   public List getServerResponseHandlers(List aPolicyList) throws AeException
+   public List<Element> getServerResponseHandlers(List<Element> aPolicyList) throws AeException
    {
-      List handlers = new ArrayList();
+      List<Element> handlers = new ArrayList();
 
       if (AeUtil.notNullOrEmpty(aPolicyList))
       {
@@ -138,7 +96,7 @@ public class AeMasterPolicyMapper implements IAePolicyMapper, IAeWsddConstants
    /**
     * @see org.activebpel.rt.bpel.server.deploy.IAePolicyMapper#getServerResponseHandlers(java.util.List)
     */
-   public List getClientRequestHandlers(List aPolicyList) throws AeException
+   public List<Element> getClientRequestHandlers(List<Element> aPolicyList) throws AeException
    {
       List handlers = new ArrayList();
 
@@ -165,9 +123,9 @@ public class AeMasterPolicyMapper implements IAePolicyMapper, IAeWsddConstants
    /**
     * @see org.activebpel.rt.bpel.server.deploy.IAePolicyMapper#getClientResponseHandlers(java.util.List)
     */
-   public List getClientResponseHandlers(List aPolicyList) throws AeException
+   public List<Element> getClientResponseHandlers(List<Element> aPolicyList) throws AeException
    {
-      List handlers = new ArrayList();
+      List<Element> handlers = new ArrayList();
 
       if (AeUtil.notNullOrEmpty(aPolicyList))
       {
@@ -193,9 +151,9 @@ public class AeMasterPolicyMapper implements IAePolicyMapper, IAeWsddConstants
     * Overrides method to get service parameters from policy 
     * @see org.activebpel.rt.bpel.server.deploy.IAePolicyMapper#getServiceParameters(java.util.List)
     */
-   public List getServiceParameters(List aPolicyList) throws AeException
+   public List<Element> getServiceParameters(List<Element> aPolicyList) throws AeException
    {
-      List handlers = new ArrayList();
+      List<Element> handlers = new ArrayList();
 
       if (AeUtil.notNullOrEmpty(aPolicyList))
       {
@@ -220,7 +178,7 @@ public class AeMasterPolicyMapper implements IAePolicyMapper, IAeWsddConstants
    /**
     * @see org.activebpel.rt.bpel.server.deploy.IAePolicyMapper#getCallProperties(java.util.List)
     */
-   public Map getCallProperties(List aPolicyList) throws AeException
+   public Map getCallProperties(List<Element> aPolicyList) throws AeException
    {
       HashMap map = new HashMap();
       
@@ -248,7 +206,7 @@ public class AeMasterPolicyMapper implements IAePolicyMapper, IAeWsddConstants
    /**
     * @see org.activebpel.rt.bpel.server.deploy.IAePolicyMapper#getDeploymentHandler(java.util.List)
     */
-   public String getDeploymentHandler(List aPolicyList) throws AeException
+   public String getDeploymentHandler(List<Element> aPolicyList) throws AeException
    {
       String handler = null;
       if (AeUtil.notNullOrEmpty(aPolicyList))
@@ -281,6 +239,10 @@ public class AeMasterPolicyMapper implements IAePolicyMapper, IAeWsddConstants
          }
       }
       return handler;
+   }
+   
+   public void setMappers(List<IAePolicyMapper> aMapper) {
+	   mMappers = aMapper;
    }
 
 }

@@ -9,6 +9,8 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.work;
 
+import org.activebpel.work.factory.IAeWorkManagerFactory;
+
 import commonj.work.Work;
 import commonj.work.WorkItem;
 import commonj.work.WorkListener;
@@ -25,9 +27,9 @@ public class AeExceptionReportingWorkManager extends AeDelegatingWorkManager imp
     *
     * @param aDelegateWorkManager
     */
-   public AeExceptionReportingWorkManager(WorkManager aDelegateWorkManager)
+   public AeExceptionReportingWorkManager(IAeWorkManagerFactory aWorkManagerFactory)
    {
-      super(aDelegateWorkManager);
+      super(aWorkManagerFactory.getWorkManager());
    }
 
    /**

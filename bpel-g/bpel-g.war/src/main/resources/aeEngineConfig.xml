@@ -9,93 +9,17 @@
    <entry name="FunctionContexts"/>
    <entry name="SharedSecret" value="terces"/>
    
+   <entry name="ChildWorkManagers">
+      <entry name="Alarm">
+         <entry name="MaxWorkCount" value="5"/>
+      </entry>
+   </entry>
+
    <!-- WorkManager configuration -->
    <entry name="WorkManager">
-      <!-- You may specify a JNDI location to load a work manager.  -->
-      <!-- If not specified, the default work manager will be used. -->
-      <!--
-         <entry name="JNDILocation" value="java:comp/env/wm/ActiveBPEL"/>
-      -->
       <entry name="DefaultWorkManager.ThreadPool.Min" value="10"/>
       <entry name="DefaultWorkManager.ThreadPool.Max" value="50"/>
       
-      <entry name="ChildWorkManagers">
-         <entry name="Alarm">
-            <entry name="MaxWorkCount" value="5"/>
-         </entry>
-      </entry>
-   </entry>
-   
-   <!-- Persistent Store -->
-   <entry name="PersistentStore">
-      <entry name="Factory">
-         <entry value="org.activebpel.rt.bpel.server.engine.storage.AeStorageFactory" name="Class"/>
-         <entry name="StorageProviderFactory">
-            <entry value="org.activebpel.rt.bpel.server.engine.storage.sql.AeSQLStorageProviderFactory" name="Class"/>
-            <entry value="h2" name="DatabaseType"/>
-            <entry value="5.0.2" name="Version"/>
-         </entry>
-         <entry value="true" name="LogHashCollisions"/>
-         <entry name="CounterStore">
-            <entry value="org.activebpel.rt.bpel.server.engine.storage.sql.AeSQLCounterStore" name="Class"/>
-         </entry>
-      </entry>
-   </entry>
-   
-   <!-- Process Manager -->
-   <entry name="ProcessManager">
-      <entry value="org.activebpel.rt.bpel.server.engine.AePersistentProcessManager" name="Class"/>
-      <!-- 
-         ProcessCount is the maximum number of processes allowed in memory.
-         The default value is 50. A value of 0 allows an unlimited number of processes.
-      -->
-      <entry value="50" name="ProcessCount"/>
-      
-      <!-- 
-         ReleaseLag is the number of seconds to wait after process goes
-         quiescent before releasing the process from memory. The default value
-         is 10. The utility of this setting is that a non-zero value gives a
-         chance for invokes and other asynchronous events to complete before
-         persisting a process.
-      -->
-      <entry value="10" name="ReleaseLag"/>
-      <entry value="false" name="Debug"/>
-   </entry>
-   
-   <!-- TransmissionTracker -->
-   <entry name="TransmissionTracker">
-      <entry value="org.activebpel.rt.bpel.server.transreceive.AePersistentTransmissionTracker" name="Class"/>
-      <entry name="ReplyFactories">
-         <!-- list of reply receiver factories -->
-         <entry name="DurableQueuedInvoke">
-            <entry name="Class" value="org.activebpel.rt.bpel.server.engine.reply.AeDurableQueuingReplyReceiverFactory"/>
-         </entry>
-         <entry name="ExtensionActivityDurableInfo">
-            <entry name="Class" value="org.activebpel.rt.bpel.server.engine.reply.AeDurableExtensionReplyReceiverFactory"/>
-         </entry>
-      </entry>
-   </entry>
-   
-   <!-- URN Resolver -->
-   <entry name="URNResolver">
-      <entry name="Class" value="org.activebpel.rt.bpel.server.addressing.AeStorageBackedURNResolver"/>
-   </entry>
-   
-   <!-- Process Logger -->
-   <entry name="ProcessLogger">
-      <entry value="org.activebpel.rt.bpel.server.logging.AePersistentLogger" name="Class"/>
-   </entry>
-   
-   <!-- Catalog Impl -->
-   <entry name="Catalog">
-      <entry name="Class" value="org.activebpel.rt.bpel.server.catalog.AeCatalog"/>
-      <entry name="cache.max" value="100" />
-      <entry name="replace.existing" value="false" />
-   </entry>
-   
-   <!-- Deployment Log -->
-   <entry name="DeploymentLog">
-      <entry name="Class" value="org.activebpel.rt.bpel.server.logging.AeFileDeploymentLoggerFactory"/>
    </entry>
    
    <!-- Deployment Handler -->
@@ -131,14 +55,6 @@
          </entry>
          
       </entry>
-   </entry>
-   
-   <!-- Policy Mapper -->
-   <entry name="PolicyMapper">
-      <entry name="Class" value="org.activebpel.rt.bpel.server.deploy.AeMasterPolicyMapper" />
-      <entry name="AXIS_CRED" value="org.activebpel.rt.axis.bpel.deploy.AeCredentialPolicyMapper" />
-      <entry name="AXIS_XPATH" value="org.activebpel.rt.axis.bpel.deploy.AeAxisXPathPolicyMapper" /> 
-      <entry name="WSIO" value="org.activebpel.rt.bpel.server.deploy.AeWsioPolicyMapper" />
    </entry>
    
    <!-- Process Work Manager -->

@@ -26,20 +26,10 @@ import org.w3c.dom.NodeList;
  */
 public class AeCredentialPolicyMapper extends AeAxisPolicyMapper 
 {
-   
-   /**
-    * Constructor.
-    * @param aConfig
-    */
-   public AeCredentialPolicyMapper(Map aConfig)
-   {
-            
-   }   
-   
    /**
     * @see org.activebpel.rt.bpel.server.deploy.IAePolicyMapper#getServerRequestHandlers(java.util.List)
     */
-   public List getServerRequestHandlers( List aPolicyList ) throws AeException
+   public List<Element> getServerRequestHandlers( List<Element> aPolicyList ) throws AeException
    {
       return Collections.EMPTY_LIST;
    }
@@ -47,7 +37,7 @@ public class AeCredentialPolicyMapper extends AeAxisPolicyMapper
    /**
     * @see org.activebpel.rt.bpel.server.deploy.IAePolicyMapper#getServerResponseHandlers(java.util.List)
     */
-   public List getServerResponseHandlers( List aPolicyList )
+   public List<Element> getServerResponseHandlers( List<Element> aPolicyList )
    throws AeException
    {
       return Collections.EMPTY_LIST;
@@ -57,7 +47,7 @@ public class AeCredentialPolicyMapper extends AeAxisPolicyMapper
    /**
     * @see org.activebpel.rt.bpel.server.deploy.IAePolicyMapper#getClientRequestHandlers(java.util.List)
     */
-   public List getClientRequestHandlers( List aPolicyList )
+   public List<Element> getClientRequestHandlers( List<Element> aPolicyList )
    throws AeException
    {
       return Collections.EMPTY_LIST;
@@ -66,7 +56,7 @@ public class AeCredentialPolicyMapper extends AeAxisPolicyMapper
    /**
     * @see org.activebpel.rt.bpel.server.deploy.IAePolicyMapper#getClientResponseHandlers(java.util.List)
     */
-   public List getClientResponseHandlers( List aPolicyList )
+   public List<Element> getClientResponseHandlers( List<Element> aPolicyList )
    throws AeException
    {
       return Collections.EMPTY_LIST;
@@ -75,7 +65,7 @@ public class AeCredentialPolicyMapper extends AeAxisPolicyMapper
    /**
     * @see org.activebpel.rt.bpel.server.deploy.IAePolicyMapper#getServiceParameters(java.util.List)
     */
-   public List getServiceParameters(List aPolicyList) throws AeException
+   public List<Element> getServiceParameters(List<Element> aPolicyList) throws AeException
    {
       return Collections.EMPTY_LIST;
    }
@@ -83,9 +73,9 @@ public class AeCredentialPolicyMapper extends AeAxisPolicyMapper
    /**
     * @see org.activebpel.rt.bpel.server.deploy.IAePolicyMapper#getCallProperties(java.util.List)
     */
-   public Map getCallProperties(List aPolicyList) throws AeException
+   public Map getCallProperties(List<Element> aPolicyList) throws AeException
    {
-      HashMap map = new HashMap();
+      Map map = new HashMap();
       
       for (Iterator it = aPolicyList.iterator(); it.hasNext();)
       {

@@ -57,7 +57,6 @@ import org.activebpel.rt.bpel.server.engine.storage.sql.AeDbUtils;
 import org.activebpel.rt.bpel.server.logging.IAePersistentLogger;
 import org.activebpel.rt.bpel.server.logging.IAeProcessLogEntry;
 import org.activebpel.rt.message.IAeMessageData;
-import org.activebpel.rt.util.AeMutex;
 import org.activebpel.rt.xml.AeQName;
 import org.activebpel.work.AeAbstractWork;
 
@@ -75,10 +74,8 @@ import commonj.work.Work;
  */
 public class AePersistentProcessManager extends AeAbstractProcessManager implements IAePersistentProcessManager, IAeProcessWrapperMapCallback, IAeRecoverableProcessManager
 {
-   public static final String CONFIG_PROCESS_COUNT = "ProcessCount"; //$NON-NLS-1$
-   public static final String CONFIG_RELEASE_LAG   = "ReleaseLag"; //$NON-NLS-1$
-
    public static final int DEFAULT_PROCESS_COUNT   = 50;
+   // FIXME (MF) should add the pm as a listener on the config to update the lag if it changes
    public static final int DEFAULT_RELEASE_LAG     = 10; // seconds
    public static final int DEADLOCK_TRY_COUNT      = 5;
 
@@ -142,9 +139,8 @@ public class AePersistentProcessManager extends AeAbstractProcessManager impleme
     *
     * @param aConfig The configuration map.
     */
-   public AePersistentProcessManager(Map aConfig) throws Exception
+   public AePersistentProcessManager() throws Exception
    {
-      super(aConfig);
       setProcessWrapperMap(new AeProcessWrapperMap(this));
       setProcessStateReader(new AeProcessStateReader(this));
       setProcessStateWriter(new AeProcessStateWriter(this));
@@ -1257,22 +1253,6 @@ public class AePersistentProcessManager extends AeAbstractProcessManager impleme
          Timer timer = AeEngineFactory.getTimerManager().schedule(listener, aDelayMillis);
          getProcessTimerMap().put(processId, timer);
       }
-   }
-
-   /**
-    * Sets configuration.
-    */
-   protected void setConfig(Map aConfig)
-   {
-      super.setConfig(aConfig);
-
-      setMaxProcessCount(getConfigInt(CONFIG_PROCESS_COUNT, DEFAULT_PROCESS_COUNT));
-
-      // TODO (MF) should add the pm as a listener on the config to update the lag if it changes
-      setConfigReleaseLagSeconds(getConfigInt(CONFIG_RELEASE_LAG, DEFAULT_RELEASE_LAG));
-
-      // Set the AeMutex debug flag.
-      AeMutex.setDebug(isDebug());
    }
 
    /**

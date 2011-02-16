@@ -10,7 +10,6 @@
 package org.activebpel.rt.bpel.impl;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.Hashtable;
 import java.util.Iterator;
@@ -55,31 +54,13 @@ public class AeInMemoryProcessManager extends AeAbstractProcessManager implement
    private Hashtable mProcesses = new Hashtable();
 
    /** The number of completed process to leave temporarily in {@link #mProcesses}. */
-   private int mCompletedProcessCount;
+   private int mCompletedProcessCount = DEFAULT_COMPLETED_PROCESS_COUNT;
 
    /** Process ids for completed processes temporarily left in {@link #mProcesses}. */
    private List mCompletedProcessIds = new LinkedList();
 
    /** The next journal ID to use for journaling methods. */
    private long mNextJournalId = 1;
-
-   /**
-    * Default constructor.
-    */
-   public AeInMemoryProcessManager()
-   {
-      this(Collections.EMPTY_MAP);
-   }
-
-   /**
-    * Constructs an in-memory process manager.
-    *
-    * @param aConfig The configuration map for this manager.
-    */
-   public AeInMemoryProcessManager(Map aConfig)
-   {
-      super(aConfig);
-   }
 
    /**
     * @see org.activebpel.rt.bpel.impl.IAeProcessManager#getNextJournalId()
@@ -449,16 +430,6 @@ public class AeInMemoryProcessManager extends AeAbstractProcessManager implement
    protected void setCompletedProcessCount(int aCompletedProcessCount)
    {
       mCompletedProcessCount = aCompletedProcessCount;
-   }
-
-   /**
-    * Sets configuration.
-    */
-   protected void setConfig(Map aConfig)
-   {
-      super.setConfig(aConfig);
-      
-      setCompletedProcessCount(getConfigInt(CONFIG_COMPLETED_PROCESS_COUNT, DEFAULT_COMPLETED_PROCESS_COUNT));
    }
 
    /**

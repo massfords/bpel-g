@@ -50,7 +50,7 @@ public class AeInMemoryProcessLogger implements IAeProcessLogger, IAeConfigChang
     * Constructor. There are no params read from the config map at this level.
     * @param aConfig
     */
-   public AeInMemoryProcessLogger(Map aConfig)
+   public AeInMemoryProcessLogger()
    {
       updateConfig( AeEngineFactory.getEngineConfig().getUpdatableEngineConfig() );
       AeEngineFactory.getEngineConfig().getUpdatableEngineConfig().addConfigChangeListener( this );
@@ -217,21 +217,22 @@ public class AeInMemoryProcessLogger implements IAeProcessLogger, IAeConfigChang
     */
    public void updateConfig(IAeUpdatableEngineConfig aConfig)
    {
-      setLoggingFilter(AeLoggingFilter.getLoggingFilter(aConfig.getLoggingFilter()));
+      String loggingFilter = aConfig.getLoggingFilter();
+      getLoggingFilter().setFilterAsString(loggingFilter);
       if (getLoggingFilter().isEnabled())
       {
-         AeEngineFactory.getEngine().addProcessListener( this );
+         getEngine().addProcessListener( this );
       }
       else
       {
-         AeEngineFactory.getEngine().removeProcessListener( this );
+         getEngine().removeProcessListener( this );
       }
    }
    
    /**
     * Getter for the logging filter.
     */
-   protected IAeLoggingFilter getLoggingFilter()
+   public IAeLoggingFilter getLoggingFilter()
    {
       return mFilter;
    }
@@ -240,7 +241,7 @@ public class AeInMemoryProcessLogger implements IAeProcessLogger, IAeConfigChang
     * Setter for the logging filter
     * @param aFilter
     */
-   protected void setLoggingFilter(IAeLoggingFilter aFilter)
+   public void setLoggingFilter(IAeLoggingFilter aFilter)
    {
       mFilter = aFilter;
    }

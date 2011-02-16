@@ -9,12 +9,10 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.work.factory;
 
-import commonj.work.WorkManager;
-
-import java.util.Map;
-
 import org.activebpel.rt.AeException;
 import org.activebpel.work.input.IAeInputMessageWorkManager;
+
+import commonj.work.WorkManager;
 
 /**
  * Defines the interface for the factory that provides the CommonJ
@@ -25,26 +23,24 @@ public interface IAeWorkManagerFactory
 {
    /**
     * Initializes the work manager factory from the engine configuration.
-    *
-    * @param aConfigMap
     */
-   public void init(Map aConfigMap) throws AeException;
+   public void init() throws AeException;
 
    /**
     * Returns the CommonJ <code>WorkManager</code> for scheduling CommonJ
     * <code>Work</code>.
     */
-   public WorkManager getWorkManager() throws AeException;
+   public WorkManager getWorkManager();
 
    /**
     * Returns <code>true</code> if and only if the work manager returned by
     * {@link #getWorkManager()} is our internal implementation.
     */
-   public boolean isInternalWorkManager() throws AeException;
+   public boolean isInternalWorkManager();
 
    /**
     * Returns the {@link IAeInputMessageWorkManager} for scheduling input
     * message work.
     */
-   public IAeInputMessageWorkManager getInputMessageWorkManager() throws AeException;
+   public IAeInputMessageWorkManager getInputMessageWorkManager();
 }

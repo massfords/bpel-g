@@ -14,7 +14,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 
 import org.activebpel.rt.bpel.server.AeMessages;
-import org.activebpel.rt.bpel.server.engine.AeEngineFactory;
+import org.activebpel.work.factory.IAeWorkManagerFactory;
 
 import commonj.work.Work;
 import commonj.work.WorkItem;
@@ -27,44 +27,19 @@ import commonj.work.WorkManager;
  */
 public class AeChildWorkManager implements WorkManager, IAeChildWorkCompletedListener
 {
-   /** Name that identifies this work manager in log messages. */
-   private final String mName;
-
-   /** The parent work manager. */
-   private final WorkManager mParentWorkManager;
-
    /** <code>WorkItem</code>s waiting to be scheduled to the parent work manager. */
    private final Collection mWaitingQueue = new LinkedList();
 
    /** The maximum number of work items to schedule from this work manager to its parent. */
-   private int mMaxWorkCount; // initialized by constructor
+   private int mMaxWorkCount = 5; 
 
    /** The number of work items currently scheduled in the parent work manager from this work manager. */
    private int mScheduledCount = 0;
-
-   /**
-    * Constructor.
-    *
-    * @param aName
-    */
-   public AeChildWorkManager(String aName, int aMaxWorkCount)
-   {
-      this(aName, aMaxWorkCount, AeEngineFactory.getWorkManager());
-   }
-
-   /**
-    * Constructor.
-    *
-    * @param aName
-    * @param aParentWorkManager
-    */
-   public AeChildWorkManager(String aName, int aMaxWorkCount, WorkManager aParentWorkManager)
-   {
-      mName = aName;
-      mMaxWorkCount = aMaxWorkCount;
-      mParentWorkManager = aParentWorkManager;
-   }
    
+   private IAeWorkManagerFactory mWorkManagerFactory;
+   
+   private String mName; 
+
    /**
     * Decrements the count of work items currently scheduled in the parent work
     * manager.
@@ -76,24 +51,16 @@ public class AeChildWorkManager implements WorkManager, IAeChildWorkCompletedLis
          // Reset it to a sane value.
          mScheduledCount = 0;
 
-         throw new IllegalStateException(AeMessages.format("AeChildWorkManager.ERROR_NegativeScheduledCount", getName())); //$NON-NLS-1$
+         throw new IllegalStateException(AeMessages.format("AeChildWorkManager.ERROR_NegativeScheduledCount", "child work manager")); //$NON-NLS-1$
       }
    }
 
    /**
     * @return the maximum number of work items to schedule from this work manager to its parent
     */
-   protected int getMaxWorkCount()
+   public int getMaxWorkCount()
    {
       return mMaxWorkCount;
-   }
-
-   /**
-    * @return the name of this work manager
-    */
-   protected String getName()
-   {
-      return mName;
    }
 
    /**
@@ -110,14 +77,6 @@ public class AeChildWorkManager implements WorkManager, IAeChildWorkCompletedLis
    protected Collection getWaitingQueue()
    {
       return mWaitingQueue;
-   }
-
-   /**
-    * @return this work manager's parent
-    */
-   protected WorkManager getParentWorkManager()
-   {
-      return mParentWorkManager;
    }
 
    /**
@@ -163,7 +122,7 @@ public class AeChildWorkManager implements WorkManager, IAeChildWorkCompletedLis
          AeChildWorkItem item = (AeChildWorkItem) i.next();
 
          // Schedule the work with its listener to the parent work manager.
-         WorkItem scheduledItem = getParentWorkManager().schedule(item.getWork(), item.getWorkListener());
+         WorkItem scheduledItem = mWorkManagerFactory.getWorkManager().schedule(item.getWork(), item.getWorkListener());
 
          // Save the actual WorkItem returned by the parent work manager.
          item.setScheduledWorkItem(scheduledItem);
@@ -190,7 +149,7 @@ public class AeChildWorkManager implements WorkManager, IAeChildWorkCompletedLis
     *
     * @param aMaxWorkCount
     */
-   protected void setMaxWorkCount(int aMaxWorkCount)
+   public void setMaxWorkCount(int aMaxWorkCount)
    {
       if (aMaxWorkCount > 0)
       {
@@ -231,4 +190,16 @@ public class AeChildWorkManager implements WorkManager, IAeChildWorkCompletedLis
 
       scheduleWaitingNoException();
    }
+   
+   public void setWorkManagerFactory(IAeWorkManagerFactory aFactory) {
+	   mWorkManagerFactory = aFactory;
+   }
+
+public String getName() {
+	return mName;
+}
+
+public void setName(String aName) {
+	mName = aName;
+}
 }

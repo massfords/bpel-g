@@ -11,10 +11,9 @@ package org.activebpel.rt.bpel.server.engine;
 
 import java.lang.reflect.Constructor;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.logging.Handler;
 
 import javax.naming.InitialContext;
@@ -67,8 +66,7 @@ import org.activebpel.timer.IAeStoppableTimerManager;
 import org.activebpel.work.AeExceptionReportingWorkManager;
 import org.activebpel.work.IAeProcessWorkManager;
 import org.activebpel.work.IAeStoppableWorkManager;
-import org.activebpel.work.child.AeConfigAwareChildWorkManager;
-import org.activebpel.work.factory.AeDefaultWorkManagerFactory;
+import org.activebpel.work.child.AeChildWorkManager;
 import org.activebpel.work.factory.IAeWorkManagerFactory;
 import org.activebpel.work.input.IAeInputMessageWork;
 import org.activebpel.work.input.IAeInputMessageWorkManager;
@@ -87,12 +85,6 @@ public class AeEngineFactory
    /** The singleton engine instance */
    private static AeBpelEngine sEngine;
 
-   /** The logger for creating process log files */
-   private static IAeProcessLogger sProcessLogger;
-
-   /** WorkManager impl for asynchronous work */
-   private static WorkManager sWorkManager;
-
    /** Timer Manager impl for scheduling alarms */
    private static TimerManager sTimerManager;
 
@@ -101,13 +93,6 @@ public class AeEngineFactory
 
    /** Deployment handler factory. */
    private static IAeDeploymentHandlerFactory sDeploymentHandlerFactory;
-  
-
-   /** Global catalog. */
-   private static IAeCatalog sCatalog;
-
-   /** Deployment logger factory. */
-   private static IAeDeploymentLoggerFactory sDeploymentLoggerFactory;
 
    /** Flag indicating the persistent store is available in the configuration. */
    private static boolean sPersistentStoreConfiguration;
@@ -118,24 +103,12 @@ public class AeEngineFactory
    /** The singleton remote debug engine instance */
    private static IAeBpelAdmin sRemoteDebugImpl;
 
-   /** Policy Mapper to create handler chains from policy assertions. */
-   private static IAePolicyMapper sPolicyMapper;
-
    /** Work manager for per-process work requests */
    private static IAeProcessWorkManager sProcessWorkManager;
-
-   /** Flag indicating if using internal WorkManager version */
-   private static boolean sInternalWorkManager;
-
-   /** Transmission and receive/reply manager. */
-   private static IAeTransmissionTracker sTransmissionTracker;
 
    /** Child work managers indexed by name. */
    private static Map sChildWorkManagers = new HashMap();
 
-   /** Input message work manager. */
-   private static IAeInputMessageWorkManager sInputMessageWorkManager;
-   
    private static ApplicationContext sContext;
    
    /**
@@ -174,9 +147,6 @@ public class AeEngineFactory
 
       // Initialize the timer manager
       initializeTimerManager();
-
-      // Initialize the policy mapper
-      initializePolicyMapper();
    }
 
    /**
@@ -187,7 +157,7 @@ public class AeEngineFactory
    public static void init() throws AeException
    {
       // create the managers
-      IAeProcessManager processManager       = createProcessManager();
+      IAeProcessManager processManager       = sContext.getBean(IAeProcessManager.class);
       IAeQueueManager queueManager           = sContext.getBean(IAeQueueManager.class);
       IAeLockManager lockManager             = sContext.getBean(IAeLockManager.class);
       IAeAttachmentManager attachmentManager = sContext.getBean(IAeAttachmentManager.class);
@@ -208,9 +178,7 @@ public class AeEngineFactory
       // set the coordination manager before calling the engine's create() (and hence initialization of all managers)
       sEngine.setCoordinationManager( getCoordinationManager());
 
-      // create transmission/receive id tracker.
-      sTransmissionTracker = createTransmissionTracker();
-      sEngine.setTransmissionTracker(sTransmissionTracker);
+      sEngine.setTransmissionTracker(getTransmissionTracker());
       
       // create any custom managers that are defined in the config
       createCustomManagers();
@@ -222,19 +190,15 @@ public class AeEngineFactory
       processManager.setPlanManager(getDeploymentProvider());
 
       // Create the process logger
-      sProcessLogger = createProcessLogger();
-      sProcessLogger.setEngine(getEngine());
+      sContext.getBean(IAeProcessLogger.class).setEngine(sEngine);
 
-      sCatalog = (IAeCatalog)createConfigObject( IAeEngineConfiguration.CATALOG_ENTRY );
-      sDeploymentLoggerFactory = (IAeDeploymentLoggerFactory)createConfigObject( IAeEngineConfiguration.DEPLOYMENT_LOG_ENTRY );
       sDeploymentHandlerFactory = (IAeDeploymentHandlerFactory)createConfigObject( IAeEngineConfiguration.DEPLOYMENT_HANDLER_ENTRY );
 
       // Create the work manager for per-process work requests.
       sProcessWorkManager = createProcessWorkManager();
 
       // create urn resolver
-      IAeURNResolver urnResolver = createURNResolver();
-      sEngine.setURNResolver(urnResolver);
+      sEngine.setURNResolver(sContext.getBean(IAeURNResolver.class));
 
       // create SOAP Message factory
       AeSOAPMessageFactory.setSOAPMessageFactory(createSOAPMessageFactory());
@@ -288,15 +252,6 @@ public class AeEngineFactory
    }
 
    /**
-    * Creates the class that listens for process events and logs them.
-    */
-   protected static IAeProcessLogger createProcessLogger() throws AeException
-   {
-      Map configMap = getEngineConfig().getMapEntry(IAeEngineConfiguration.PROCESS_LOGGER_ENTRY);
-      return (IAeProcessLogger) createConfigSpecificClass(configMap);
-   }
-
-   /**
     * Creates the new remote debug engine instance.
     * @param aMap
     * @return IAeBPelAdmin
@@ -339,17 +294,6 @@ public class AeEngineFactory
       {
          throw new AeException(AeMessages.getString("AeEngineFactory.ERROR_5"), e); //$NON-NLS-1$
       }
-   }
-
-   /**
-    * Creates the durable transmit/receive manager.
-    *
-    * @throws AeException
-    */
-   protected static IAeTransmissionTracker createTransmissionTracker() throws AeException
-   {
-      Map configMap = getEngineConfig().getMapEntry(IAeEngineConfiguration.TRANSMISSION_TRACKER_ENTRY);
-      return (IAeTransmissionTracker) createConfigSpecificClass(configMap);
    }
 
    /**
@@ -430,94 +374,11 @@ public class AeEngineFactory
     */
    protected static void initializeWorkManager() throws AeException
    {
-      IAeWorkManagerFactory factory = null;
-
-      // Try to construct the work manager factory specified in the work manager
-      // configuration.
-      Map workManagerMap = getEngineConfig().getMapEntry(IAeEngineConfiguration.WORK_MANAGER_ENTRY);
-      if (!AeUtil.isNullOrEmpty(workManagerMap))
-      {
-         Map factoryMap = (Map) workManagerMap.get(IAeEngineConfiguration.FACTORY_ENTRY);
-         if (!AeUtil.isNullOrEmpty(factoryMap))
-         {
-            String className = (String) factoryMap.get(IAeEngineConfiguration.CLASS_ENTRY);
-            if (!AeUtil.isNullOrEmpty(className))
-            {
-               try
-               {
-                  Class clazz = Class.forName(className);
-                  factory = (IAeWorkManagerFactory) clazz.newInstance();
-               }
-               catch (Exception e)
-               {
-                  AeException.logError(e, AeMessages.format("AeEngineFactory.ERROR_WorkManagerFactoryClass", className)); //$NON-NLS-1$
-               }
-            }
-         }
-      }
-
-      // If the work manager factory was not specified or was invalid, then use
-      // the default factory.
-      if (factory == null)
-      {
-         factory = new AeDefaultWorkManagerFactory();
-      }
-
-      factory.init(workManagerMap);
-
-      sWorkManager = factory.getWorkManager();
-      sInternalWorkManager = factory.isInternalWorkManager();
-      sInputMessageWorkManager = factory.getInputMessageWorkManager();
-
       // Wrap the chosen work manager with one that reports unhandled exceptions.
-      sWorkManager = new AeExceptionReportingWorkManager(sWorkManager);
-
-      // Initialize child work managers from WorkManager config map.
-      initializeChildWorkManagers(workManagerMap);
-   }
-
-   /**
-    * Initializes child work managers.
-    *
-    * @param aWorkManagerConfig
-    */
-   protected static void initializeChildWorkManagers(Map aWorkManagerConfig)
-   {
-      // Names of child work managers.
-      Set names = new HashSet();
-
-      // Make sure the set includes the Alarm child work manager.
-      names.add(IAeEngineConfiguration.ALARM_CHILD_WORK_MANAGER_ENTRY);
-
-      // Scan entries for child work managers.
-      if (!AeUtil.isNullOrEmpty(aWorkManagerConfig))
-      {
-         Map childWorkManagersConfig = (Map) aWorkManagerConfig.get(IAeEngineConfiguration.CHILD_WORK_MANAGERS_ENTRY);
-         if (!AeUtil.isNullOrEmpty(childWorkManagersConfig))
-         {
-            names.addAll(childWorkManagersConfig.keySet());
-         }
-      }
-
-      // Each instance of AeConfigAwareChildWorkManager will pick up its max
-      // work count from the engine configuration. However, if the child work
-      // manager is not mentioned in the engine configuration (like, possibly,
-      // the Alarm child work manager), then use the default max work count.
-      int childMaxWorkCount = IAeEngineConfiguration.DEFAULT_CHILD_MAX_WORK_COUNT;
-
-      // Create each defined child work manager.
-      for (Iterator i = names.iterator(); i.hasNext(); )
-      {
-         try
-         {
-            String name = (String) i.next();
-            
-            sChildWorkManagers.put(name, new AeConfigAwareChildWorkManager(name, childMaxWorkCount, getWorkManager()));
-         }
-         catch (Throwable t)
-         {
-            AeException.logError(t);
-         }
+      List<AeChildWorkManager> childWorkManagers = (List) sContext.getBean("ChildWorkManagers");
+      sChildWorkManagers = new HashMap();
+      for(AeChildWorkManager cwm : childWorkManagers) {
+    	  sChildWorkManagers.put(cwm.getName(), cwm);
       }
    }
 
@@ -579,40 +440,6 @@ public class AeEngineFactory
    }
 
    /**
-    * This method initializes the policy mapper used by the engine.
-    */
-   protected static void initializePolicyMapper() throws AeException
-   {
-      // Make sure we initialize to null, or may not behave properly during servlet hot deploy
-      sPolicyMapper = null;
-      // get the main policy mapper
-      IAeEngineConfiguration config = getEngineConfig();
-      sPolicyMapper = (IAePolicyMapper) createConfigSpecificClass(config.getMapEntry(IAeEngineConfiguration.POLICY_MAPPER));
-   }
-
-   /**
-    * Factory method for creating the process manager for the engine.  The type
-    * of manager to use will be determined based on information found in the
-    * engine configuration.
-    *
-    * @return A process manager.
-    */
-   protected static IAeProcessManager createProcessManager() throws AeException
-   {
-      Map configMap = getEngineConfig().getMapEntry(IAeEngineConfiguration.PROCESS_MANAGER_ENTRY);
-      return (IAeProcessManager) createConfigSpecificClass(configMap);
-   }
-
-   /**
-    * Factory method for creating the urn resolver.
-    */
-   private static IAeURNResolver createURNResolver() throws AeException
-   {
-      Map configMap = getEngineConfig().getMapEntry(IAeEngineConfiguration.URN_RESOLVER_ENTRY);
-      return (IAeURNResolver) createConfigSpecificClass(configMap);
-   }
-
-   /**
     * This method takes a configuration map for a manager and instantiates that
     * manager.  This involves some simple java reflection to find the proper
     * constructor and then calling that constructor.
@@ -634,7 +461,7 @@ public class AeEngineFactory
     */
    public static IAeProcessLogger getLogger()
    {
-      return sProcessLogger;
+      return sContext.getBean(IAeProcessLogger.class);
    }
 
    /**
@@ -650,7 +477,7 @@ public class AeEngineFactory
     */
    public static IAePolicyMapper getPolicyMapper()
    {
-      return sPolicyMapper;
+      return sContext.getBean(IAePolicyMapper.class);
    }
 
    /**
@@ -684,7 +511,7 @@ public class AeEngineFactory
     */
    public static WorkManager getWorkManager()
    {
-      return sWorkManager;
+      return sContext.getBean(AeExceptionReportingWorkManager.class);
    }
 
    /**
@@ -768,7 +595,7 @@ public class AeEngineFactory
     */
    public static IAeCatalog getCatalog()
    {
-      return sCatalog;
+      return sContext.getBean(IAeCatalog.class);
    }
 
    /**
@@ -776,7 +603,7 @@ public class AeEngineFactory
     */
    public static IAeDeploymentLoggerFactory getDeploymentLoggerFactory()
    {
-      return sDeploymentLoggerFactory;
+      return sContext.getBean(IAeDeploymentLoggerFactory.class);
    }
 
    /**
@@ -800,7 +627,7 @@ public class AeEngineFactory
     */
    public static IAeTransmissionTracker getTransmissionTracker()
    {
-      return sTransmissionTracker;
+      return sContext.getBean(IAeTransmissionTracker.class);
    }
 
    /**
@@ -926,7 +753,7 @@ public class AeEngineFactory
     */
    public static boolean isInternalWorkManager()
    {
-      return sInternalWorkManager;
+      return sContext.getBean(IAeWorkManagerFactory.class).isInternalWorkManager();
    }
 
    /**
@@ -1054,7 +881,7 @@ public class AeEngineFactory
     */
    public static IAeInputMessageWorkManager getInputMessageWorkManager()
    {
-      return sInputMessageWorkManager;
+      return sContext.getBean(IAeWorkManagerFactory.class).getInputMessageWorkManager();
    }
 
     public static IAeExpressionLanguageFactory getExpressionLanguageFactory() {

@@ -68,7 +68,7 @@ public class AeCatalog implements IAeCatalog, IAeCatalogAdmin
    /**
     * Constructor.
     */
-   public AeCatalog( Map aParams )
+   public AeCatalog()
    {
       init();
    }
@@ -81,18 +81,14 @@ public class AeCatalog implements IAeCatalog, IAeCatalogAdmin
       setLocationToMapping(new HashMap());
       setNamespaceMapping(new HashMap());
       setDeploymentMapping(new HashMap());
-      initResourceCache();
-   }
-
-   /**
-    * Create the <code>IAeResourceCache</code> impl.
-    */
-   protected void initResourceCache()
-   {
       AeResourceCache cache = new AeResourceCache("ae-resource-cache");
       mCache = cache;
    }
-
+   
+   public void setMaxCacheSize(int aMaxCache) {
+	   mCache.setMaxCacheSize(aMaxCache);
+   }
+   
    /**
     * @see org.activebpel.rt.bpel.server.catalog.IAeCatalog#addCatalogEntries(org.activebpel.rt.bpel.server.deploy.IAeDeploymentId, org.activebpel.rt.bpel.server.catalog.IAeCatalogMapping[], boolean)
     */
