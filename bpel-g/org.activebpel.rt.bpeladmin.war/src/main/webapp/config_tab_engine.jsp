@@ -48,7 +48,7 @@
       <tr>
         <td class="labelHeaders" align="left" nowrap="true" width="20%">&nbsp;<ae:GetResource name="logging_filter" />&nbsp;</td>
        <td align="left" colspan="2">
-       Enabled Event ID's <input type="text" name="ec_logging" value='<ae:GetProperty name="configBean" property="resourceCacheMax" />'/>
+       <input type="text" name="ec_logging" value='<ae:GetProperty name="configBean" property="loggingFilter" />'/>
        </td>
       </tr>
       <tr height="1">

@@ -38,6 +38,10 @@ public class AeDurableReplyFactory implements IAeDurableReplyFactory
       return replyFactoryMap;
    }
    
+   public void setReplyFactoryMap(Map<String,IAeReplyReceiverFactory> aMap) {
+       replyFactoryMap = aMap;
+   }
+   
    /**
     * Returns a <code>IAeReplyReceiverFactory</code> given the type.
     * @param aProtoType

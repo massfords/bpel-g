@@ -19,69 +19,61 @@ import org.activebpel.rt.bpel.server.engine.AeEngineFactory;
  * configuration whenever configuration changes.
  */
 public class AeConfigAwareChildWorkManager extends AeChildWorkManager implements
-		IAeConfigChangeListener {
-	/** Path to max. work count entry in engine configuration. */
-	private String mConfigMaxWorkCountPath;
+        IAeConfigChangeListener {
+    /** Path to max. work count entry in engine configuration. */
+    private String mConfigMaxWorkCountPath;
 
-	public AeConfigAwareChildWorkManager() {
+    /**
+     * Returns the configuration value for the maximum number of work items to
+     * schedule from this work manager to its parent.
+     * 
+     * @param aConfig
+     * @return a <code>Number</code> representing the configuration value or
+     *         <code>null</code> if the configuration value cannot be found or
+     *         parsed
+     */
+    protected Number getConfigMaxWorkCount(IAeUpdatableEngineConfig aConfig) {
+        Number result = null;
 
-		IAeUpdatableEngineConfig config = AeEngineFactory.getEngineConfig()
-				.getUpdatableEngineConfig();
-		config.addConfigChangeListener(this);
-		updateConfig(config);
-	}
+        // Get the config entry.
+        Object entry = aConfig.getEntryByPath(getConfigMaxWorkCountPath());
 
-	/**
-	 * Returns the configuration value for the maximum number of work items to
-	 * schedule from this work manager to its parent.
-	 * 
-	 * @param aConfig
-	 * @return a <code>Number</code> representing the configuration value or
-	 *         <code>null</code> if the configuration value cannot be found or
-	 *         parsed
-	 */
-	protected Number getConfigMaxWorkCount(IAeUpdatableEngineConfig aConfig) {
-		Number result = null;
+        if (entry instanceof String) {
+            try {
+                result = Integer.valueOf((String) entry);
+            } catch (Exception e) {
+                AeException.logError(e);
+            }
+        }
 
-		// Get the config entry.
-		Object entry = aConfig.getEntryByPath(getConfigMaxWorkCountPath());
+        return result;
+    }
 
-		if (entry instanceof String) {
-			try {
-				result = Integer.valueOf((String) entry);
-			} catch (Exception e) {
-				AeException.logError(e);
-			}
-		}
+    /**
+     * @return path to entry in engine configuration
+     */
+    public String getConfigMaxWorkCountPath() {
+        return mConfigMaxWorkCountPath;
+    }
 
-		return result;
-	}
+    public void setConfigMaxWorkCountPath(String aPath) {
+        mConfigMaxWorkCountPath = aPath;
+    }
 
-	/**
-	 * @return path to entry in engine configuration
-	 */
-	public String getConfigMaxWorkCountPath() {
-		return mConfigMaxWorkCountPath;
-	}
-	
-	public void setConfigMaxWorkCountPath(String aPath) {
-		mConfigMaxWorkCountPath = aPath;
-	}
+    public void init() {
+        IAeUpdatableEngineConfig config = AeEngineFactory.getEngineConfig().getUpdatableEngineConfig();
+        config.addConfigChangeListener(this);
+        updateConfig(config);
+    }
 
-	/**
-	 * Initializes configuration.
-	 */
-	protected void initConfig() {
-	}
-
-	/**
-	 * @see org.activebpel.rt.bpel.config.IAeConfigChangeListener#updateConfig(org.activebpel.rt.bpel.config.IAeUpdatableEngineConfig)
-	 */
-	public void updateConfig(IAeUpdatableEngineConfig aConfig) {
-		Number maxWorkCount = getConfigMaxWorkCount(aConfig);
-		if (maxWorkCount != null) {
-			// Set the new maximum work count.
-			setMaxWorkCount(maxWorkCount.intValue());
-		}
-	}
+    /**
+     * @see org.activebpel.rt.bpel.config.IAeConfigChangeListener#updateConfig(org.activebpel.rt.bpel.config.IAeUpdatableEngineConfig)
+     */
+    public void updateConfig(IAeUpdatableEngineConfig aConfig) {
+        Number maxWorkCount = getConfigMaxWorkCount(aConfig);
+        if (maxWorkCount != null) {
+            // Set the new maximum work count.
+            setMaxWorkCount(maxWorkCount.intValue());
+        }
+    }
 }

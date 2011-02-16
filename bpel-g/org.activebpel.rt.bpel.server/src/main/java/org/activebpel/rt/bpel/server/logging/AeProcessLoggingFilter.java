@@ -5,6 +5,7 @@ import java.util.Set;
 
 import org.activebpel.rt.bpel.IAeProcessEvent;
 import org.activebpel.rt.bpel.IAeProcessInfoEvent;
+import org.activebpel.rt.util.AeUtil;
 
 public class AeProcessLoggingFilter implements IAeLoggingFilter {
 
@@ -48,9 +49,12 @@ public class AeProcessLoggingFilter implements IAeLoggingFilter {
 	@Override
 	public void setFilterAsString(String aStr) {
 		mProcessEventIds.clear();
-		String[] events = aStr.split(" ");
+		String[] events = AeUtil.getSafeString(aStr).split(" ");
 		for(String e : events) {
-			mProcessEventIds.add(Integer.parseInt(e));
+			try {
+                mProcessEventIds.add(Integer.parseInt(e));
+            } catch (NumberFormatException e1) {
+            }
 		}
 	}
 }

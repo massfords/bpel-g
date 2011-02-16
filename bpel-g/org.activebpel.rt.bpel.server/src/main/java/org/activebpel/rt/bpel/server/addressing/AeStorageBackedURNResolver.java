@@ -11,7 +11,6 @@ package org.activebpel.rt.bpel.server.addressing;
 
 import java.util.HashMap;
 
-import org.activebpel.rt.AeException;
 import org.activebpel.rt.bpel.server.engine.storage.AeStorageException;
 import org.activebpel.rt.bpel.server.engine.storage.IAeStorageFactory;
 import org.activebpel.rt.bpel.server.engine.storage.IAeURNStorage;
@@ -25,15 +24,8 @@ public class AeStorageBackedURNResolver extends AeURNResolver implements
 		IAeStorageBackedURNResolver {
 	IAeStorageFactory mStorageFactory;
 
-	/**
-	 * Standard manager constructor takes a map with config options.
-	 * 
-	 * @param aConfigMap
-	 *            Map must contain entry for the storage class.
-	 * @throws AeException
-	 */
-	public AeStorageBackedURNResolver() throws AeException {
-		getMap().putAll(getStorage().getMappings());
+	public void init() throws AeStorageException {
+        getMap().putAll(getStorage().getMappings());
 	}
 
 	/**
