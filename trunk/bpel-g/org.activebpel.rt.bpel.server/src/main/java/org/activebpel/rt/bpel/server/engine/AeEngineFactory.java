@@ -169,6 +169,7 @@ public class AeEngineFactory
       // The class name for the bpel engine can be supplied dynamically, but this
       // factory assumes that it's derived from AeBpelEngine
       sEngine = createNewEngine(queueManager, processManager, lockManager, attachmentManager, sContext.getBean(IAeExpressionLanguageFactory.class));
+      
       sEngine.setFunctionValidatorFactory(sContext.getBean(IAeFunctionValidatorFactory.class));
 
       IAeEngineListener engineListener = createEngineListener();

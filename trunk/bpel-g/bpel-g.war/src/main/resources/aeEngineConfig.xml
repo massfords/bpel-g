@@ -4,7 +4,7 @@
    <entry name="ValidateServiceMessages" value="true"/>
    <entry name="AllowEmptyQuerySelection" value="false"/>
    <entry name="AllowCreateXPath" value="false"/>
-   <entry name="Logging" value="urn:ae:none"/>
+   <entry name="Logging" value="1 2 3 4 6"/>
    <entry name="UnmatchedReceiveTimeout" value="300"/>
    <entry name="FunctionContexts"/>
    <entry name="SharedSecret" value="terces"/>

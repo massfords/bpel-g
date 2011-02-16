@@ -16,6 +16,7 @@ import org.activebpel.rt.bpel.impl.reply.IAeDurableReplyFactory;
 import org.activebpel.rt.bpel.impl.reply.IAeTransmissionTracker;
 import org.activebpel.rt.bpel.server.engine.AeEngineFactory;
 import org.activebpel.rt.bpel.server.engine.storage.AeStorageException;
+import org.activebpel.rt.bpel.server.engine.storage.IAeStorageFactory;
 import org.activebpel.rt.bpel.server.engine.storage.IAeTransmissionTrackerStorage;
 import org.activebpel.wsio.invoke.IAeTransmission;
 
@@ -27,19 +28,7 @@ import org.activebpel.wsio.invoke.IAeTransmission;
 public class AePersistentTransmissionTracker implements IAeTransmissionTracker {
 	/** Durable reply factory. */
 	private IAeDurableReplyFactory mDurableReplyFactory;
-
-	/** reference to the storage. */
-	private IAeTransmissionTrackerStorage mStorage;
-
-	/**
-	 * Default ctor.
-	 * 
-	 * @param aConfig
-	 */
-	public AePersistentTransmissionTracker() throws AeException {
-		setStorage(AeEngineFactory.getStorageFactory()
-				.getTransmissionTrackerStorage());
-	}
+	private IAeStorageFactory mStorageFactory;
 
 	/**
 	 * @see org.activebpel.rt.bpel.impl.reply.IAeTransmissionTracker#getDurableReplyFactory()
@@ -61,15 +50,7 @@ public class AePersistentTransmissionTracker implements IAeTransmissionTracker {
 	 * @return Returns the storage.
 	 */
 	protected IAeTransmissionTrackerStorage getStorage() {
-		return mStorage;
-	}
-
-	/**
-	 * @param aStorage
-	 *            The storage to set.
-	 */
-	protected void setStorage(IAeTransmissionTrackerStorage aStorage) {
-		mStorage = aStorage;
+		return getStorageFactory().getTransmissionTrackerStorage();
 	}
 
 	/**
@@ -213,6 +194,14 @@ public class AePersistentTransmissionTracker implements IAeTransmissionTracker {
 			AeEngineFactory.getEngine().getProcessManager()
 					.journalInvokeTransmitted(aProcessId, aLocationId, txId);
 		}
+	}
+	
+	public void setStorageFactory(IAeStorageFactory aFactory) {
+	    mStorageFactory = aFactory;
+	}
+	
+	public IAeStorageFactory getStorageFactory() {
+	    return mStorageFactory;
 	}
 
 }

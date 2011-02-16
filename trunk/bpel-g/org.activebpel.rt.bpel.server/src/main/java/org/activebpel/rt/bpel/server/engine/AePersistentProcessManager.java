@@ -1276,7 +1276,7 @@ public class AePersistentProcessManager extends AeAbstractProcessManager impleme
     *
     * @param aMaxProcessCount
     */
-   protected void setMaxProcessCount(int aMaxProcessCount)
+   public void setMaxProcessCount(int aMaxProcessCount)
    {
       if (aMaxProcessCount > 0)
       {

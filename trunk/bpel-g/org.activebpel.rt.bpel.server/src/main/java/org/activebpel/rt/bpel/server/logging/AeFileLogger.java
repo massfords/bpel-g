@@ -10,14 +10,12 @@
 package org.activebpel.rt.bpel.server.logging;
 
 import java.io.File;
-import java.io.FileFilter;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.io.Reader;
 import java.io.Writer;
-import java.util.Map;
 
 import org.activebpel.rt.AeException;
 import org.activebpel.rt.bpel.server.AeMessages;
@@ -36,49 +34,6 @@ public class AeFileLogger extends AeInMemoryProcessLogger
    /** max size of a log permitted to be kept in memory before being written to disk. */
    private static final int MAX_LOG_SIZE = 1024*128;
    
-   /**
-    * Ctor takes a map of options of the config file.
-    */
-   public AeFileLogger( Map aConfig )
-   {
-      super(aConfig);
-      String value = (String) aConfig.get("DeleteFilesOnStartup"); //$NON-NLS-1$
-
-      boolean deleteFileOnStartup = true; 
-
-      if (!AeUtil.isNullOrEmpty(value))
-         deleteFileOnStartup = Boolean.valueOf(value).booleanValue();
-         
-      if (deleteFileOnStartup)
-      {
-         deleteLogFiles();
-      }
-   }
-
-   /**
-    * Deletes the existing log files on startup. This is only called during construction
-    * of the logger if the "DeleteFilesOnStartup" entry is set to "true" in the config
-    * or if not present at all.
-    */
-   protected void deleteLogFiles()
-   {
-      File dir = new File(AeEngineFactory.getEngineConfig().getLoggingBaseDir(), "process-logs/"); //$NON-NLS-1$
-      File[] files = dir.listFiles(new FileFilter()
-      {
-
-         public boolean accept(File aFile)
-         {
-            return aFile.isFile() && aFile.getName().endsWith(".log"); //$NON-NLS-1$
-         }
-      });
-      for (int i = 0; files != null && i < files.length; i++)
-      {
-         files[i].delete();
-      }
-   }
-   
-   
-
    /**
     * Reads the file into a String
     * @param raf

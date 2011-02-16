@@ -572,26 +572,28 @@
     <bean id="TransmissionTracker" class="org.activebpel.rt.bpel.server.transreceive.AePersistentTransmissionTracker">
         <property name="DurableReplyFactory">
             <bean class="org.activebpel.rt.bpel.server.engine.reply.AeDurableReplyFactory">
-                <util:map>
-                    <entry key="durablequeuedinvoke">
-                        <bean class="org.activebpel.rt.bpel.server.engine.reply.AeDurableQueuingReplyReceiverFactory"/>
-                    </entry>
-                    <entry key="extensionactivitydurableinfo">
-                        <bean class="org.activebpel.rt.bpel.server.engine.reply.AeDurableExtensionReplyReceiverFactory"/>
-                    </entry>
-                </util:map>
+                <property name="replyFactoryMap">
+                    <util:map>
+                        <entry key="durablequeuedinvoke">
+                            <bean class="org.activebpel.rt.bpel.server.engine.reply.AeDurableQueuingReplyReceiverFactory"/>
+                        </entry>
+                        <entry key="extensionactivitydurableinfo">
+                            <bean class="org.activebpel.rt.bpel.server.engine.reply.AeDurableExtensionReplyReceiverFactory"/>
+                        </entry>
+                    </util:map>
+                </property>
             </bean>
         </property>
-    </bean>
-
-    <bean id="URNResolver" class="org.activebpel.rt.bpel.server.addressing.AeStorageBackedURNResolver">
         <property name="storageFactory" ref="StorageFactory"/>
     </bean>
 
-    <bean class="org.activebpel.rt.bpel.server.logging.AePersistentLogger">
+    <bean id="URNResolver" class="org.activebpel.rt.bpel.server.addressing.AeStorageBackedURNResolver" init-method="init">
+        <property name="storageFactory" ref="StorageFactory"/>
+    </bean>
+
+    <bean class="org.activebpel.rt.bpel.server.logging.AePersistentLogger" init-method="init">
         <property name="loggingFilter">
-            <bean id="ProcessLoggingFilter" class="org.activebpel.rt.bpel.server.logging.AeProcessLoggingFilter"
-                init-method="init">
+            <bean id="ProcessLoggingFilter" class="org.activebpel.rt.bpel.server.logging.AeProcessLoggingFilter">
                 <property name="processEventIds">
                     <util:set value-type="java.lang.Integer">
                         <!-- executing -->
@@ -629,11 +631,11 @@
     </bean>
 
     <util:list id="ChildWorkManagers">
-        <bean class="org.activebpel.work.child.AeConfigAwareChildWorkManager">
+        <bean class="org.activebpel.work.child.AeConfigAwareChildWorkManager" init-method="init">
             <property name="name" value="Alarm"/>
             <property name="maxWorkCount" value="5"/>
             <property name="workManagerFactory" ref="WorkManagerFactory"/>
-            <property name="configPath" value="/ChildWorkManagers/Alarm/MaxWorkCount"/>
+            <property name="configMaxWorkCountPath" value="ChildWorkManagers/Alarm/MaxWorkCount"/>
         </bean>
     </util:list>
     

@@ -47,10 +47,7 @@ import org.activebpel.rt.xml.schema.AeSchemaDuration;
 
 public class AeEngineManagementAdapter implements IAeEngineManagementMXBean {
     
-    private static final String CONFIG_ALARM_MAX_WORK_COUNT_PATH = IAeEngineConfiguration.WORK_MANAGER_ENTRY
-    + "/" + IAeEngineConfiguration.CHILD_WORK_MANAGERS_ENTRY //$NON-NLS-1$
-    + "/" + IAeEngineConfiguration.ALARM_CHILD_WORK_MANAGER_ENTRY //$NON-NLS-1$
-    + "/" + IAeEngineConfiguration.MAX_WORK_COUNT_ENTRY; //$NON-NLS-1$
+    private static final String CONFIG_ALARM_MAX_WORK_COUNT_PATH = "ChildWorkManagers/Alarm/MaxWorkCount";
 
     private static final String CONFIG_B4P_MANAGER_FINALIZATION_DURATION = "CustomManagers/BPEL4PeopleManager/FinalizationDuration"; //$NON-NLS-1$
     private static final String CONFIG_B4P_MANAGER_FINALIZATION_CLASS = "CustomManagers/BPEL4PeopleManager/Class"; //$NON-NLS-1$

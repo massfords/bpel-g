@@ -23,13 +23,6 @@ import org.activebpel.rt.util.AeUtil;
  */
 public class AeDurableQueuingReplyReceiverFactory implements IAeReplyReceiverFactory
 {   
-   /**
-    * Default ctor.
-    */
-   public AeDurableQueuingReplyReceiverFactory(Map aConfig) throws AeException
-   {      
-   }
-      
    /** 
     * Overrides method to return a <code>AeDurableQueuingReplyReceiver</code>. 
     * @see org.activebpel.rt.bpel.impl.reply.IAeReplyReceiverFactory#createReplyReceiver(java.util.Map)
