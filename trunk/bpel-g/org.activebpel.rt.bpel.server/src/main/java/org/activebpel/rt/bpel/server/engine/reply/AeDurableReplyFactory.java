@@ -9,8 +9,6 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpel.server.engine.reply;
 
-import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 
 import org.activebpel.rt.AeException;
@@ -20,7 +18,6 @@ import org.activebpel.rt.bpel.impl.reply.IAeDurableReplyFactory;
 import org.activebpel.rt.bpel.impl.reply.IAeDurableReplyInfo;
 import org.activebpel.rt.bpel.impl.reply.IAeReplyReceiver;
 import org.activebpel.rt.bpel.impl.reply.IAeReplyReceiverFactory;
-import org.activebpel.rt.bpel.server.engine.AeEngineFactory;
 import org.activebpel.rt.util.AeUtil;
 
 /**
@@ -31,38 +28,12 @@ public class AeDurableReplyFactory implements IAeDurableReplyFactory
    /**
     * Map containing <code>IAeReplyReceiver</code> factories, keyed by the factory prototype.
     */
-   private Map replyFactoryMap;
+   private Map<String,IAeReplyReceiverFactory> replyFactoryMap;
    
-   public AeDurableReplyFactory(Map aConfig) throws AeException
-   {    
-      replyFactoryMap = new HashMap();
-      init(aConfig);
-   }
-   
-   /**
-    * Creates factory objects based on the configuration.
-    * @param aConfig
-    * @throws AeException
-    */
-   protected void init(Map aConfig) throws AeException
-   {
-      Iterator it = aConfig.keySet().iterator();
-      while (it.hasNext() )
-      {
-         String protoType = (String) it.next(); 
-         if (AeUtil.notNullOrEmpty(protoType))
-         {
-            Map factoryConfig = (Map) aConfig.get(protoType);
-            IAeReplyReceiverFactory factory = (IAeReplyReceiverFactory) AeEngineFactory.createConfigSpecificClass(factoryConfig);
-            getReplyFactoryMap().put( protoType.toLowerCase().trim(), factory) ;
-         }
-      }      
-   }
-     
    /**
     * @return Returns the replyFactoryMap.
     */
-   protected Map getReplyFactoryMap()
+   public Map<String,IAeReplyReceiverFactory> getReplyFactoryMap()
    {
       return replyFactoryMap;
    }
@@ -77,7 +48,7 @@ public class AeDurableReplyFactory implements IAeDurableReplyFactory
       IAeReplyReceiverFactory rVal = null;
       if ( AeUtil.notNullOrEmpty( aProtoType ) )
       {
-         rVal = (IAeReplyReceiverFactory) getReplyFactoryMap().get( aProtoType.toLowerCase().trim() );
+         rVal = getReplyFactoryMap().get( aProtoType.toLowerCase().trim() );
       }
       return rVal;
    }

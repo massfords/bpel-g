@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.activebpel.rt.AeException;
+import org.w3c.dom.Element;
 
 /**
  * Handle the platform specific details of deploying policy for a web service.
@@ -26,7 +27,7 @@ public interface IAePolicyMapper
     * @return List of parameter definitions
     * @throws AeException
     */
-   public List getServiceParameters( List aPolicyList )
+   public List<Element> getServiceParameters( List<Element> aPolicyList )
    throws AeException;
       
    /**
@@ -35,7 +36,7 @@ public interface IAePolicyMapper
     * @return List of handler definitions
     * @throws AeException
     */
-   public List getClientRequestHandlers( List aPolicyList )
+   public List<Element> getClientRequestHandlers( List<Element> aPolicyList )
    throws AeException;
 
    /**
@@ -44,7 +45,7 @@ public interface IAePolicyMapper
     * @return List of handler definitions
     * @throws AeException
     */
-   public List getClientResponseHandlers( List aPolicyList )
+   public List<Element> getClientResponseHandlers( List<Element> aPolicyList )
    throws AeException;
    
    
@@ -54,7 +55,7 @@ public interface IAePolicyMapper
     * @return List of handler definitions
     * @throws AeException
     */
-   public List getServerRequestHandlers( List aPolicyList )
+   public List<Element> getServerRequestHandlers( List<Element> aPolicyList )
    throws AeException;
 
    /**
@@ -63,7 +64,7 @@ public interface IAePolicyMapper
     * @return List of handler definitions
     * @throws AeException
     */
-   public List getServerResponseHandlers( List aPolicyList )
+   public List<Element> getServerResponseHandlers( List<Element> aPolicyList )
    throws AeException;
    
    /**
@@ -72,7 +73,7 @@ public interface IAePolicyMapper
     * @return Map of property name/value pairs
     * @throws AeException
     */
-   public Map getCallProperties( List aPolicyList )
+   public Map<String,String> getCallProperties( List<Element> aPolicyList )
    throws AeException;
    
    /**
@@ -84,6 +85,6 @@ public interface IAePolicyMapper
     * @return deployment handler key
     * @throws AeException
     */
-   public String getDeploymentHandler(List aPolicyList) throws AeException;
+   public String getDeploymentHandler(List<Element> aPolicyList) throws AeException;
    
 }

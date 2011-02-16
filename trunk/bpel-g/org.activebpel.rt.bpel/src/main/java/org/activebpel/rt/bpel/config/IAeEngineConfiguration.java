@@ -77,8 +77,6 @@ public interface IAeEngineConfiguration
    public static final String CATALOG_ENTRY = "Catalog"; //$NON-NLS-1$
    /** Name of entry for the setting the replace wsdl flag */
    public static final String REPLACE_EXISTING_ENTRY = "replace.existing"; //$NON-NLS-1$
-   /** Name of entry for setting the URN resolver */
-   public static final String URN_RESOLVER_ENTRY = "URNResolver"; //$NON-NLS-1$
    /** Name of entry for setting the process manager. */
    public static final String PROCESS_MANAGER_ENTRY = "ProcessManager"; //$NON-NLS-1$
    /** Name of entry for Queue Manager map. */
@@ -99,10 +97,6 @@ public interface IAeEngineConfiguration
    public static final String DS_PASSWORD_ENTRY = "Password"; //$NON-NLS-1$
    /** Name of entry for deployment factory. */
    public static final String DEPLOYMENT_FACTORY_ENTRY = "DeploymentFactory"; //$NON-NLS-1$
-   /** Name of entry for deployment log. */
-   public static final String DEPLOYMENT_LOG_ENTRY = "DeploymentLog"; //$NON-NLS-1$
-   /** Name of entry for process logger. */
-   public static final String PROCESS_LOGGER_ENTRY = "ProcessLogger"; //$NON-NLS-1$
    /** Name of entry for deployment handler. */
    public static final String DEPLOYMENT_HANDLER_ENTRY = "DeploymentHandler"; //$NON-NLS-1$
    /** Name of entry for deployment provider. */
@@ -143,18 +137,12 @@ public interface IAeEngineConfiguration
    public static final String LOG_HANDLER_ENTRY = "LogHandler"; //$NON-NLS-1$
    /** Name of entry for setting an engine listener */
    public static final String ENGINE_LISTENER = "EngineListener"; //$NON-NLS-1$
-   /** Name of entry for setting a policy mapper */
-   public static final String POLICY_MAPPER = "PolicyMapper"; //$NON-NLS-1$
    /** Name of entry for process work manager map. */
    public static final String PROCESS_WORK_MANAGER_ENTRY = "ProcessWorkManager"; //$NON-NLS-1$
    /** Name of entry for maximum number of work requests to schedule per-process. */
    public static final String PROCESS_WORK_COUNT_ENTRY = "ProcessWorkCount"; //$NON-NLS-1$
    /** Name of entry for the storage provider factory map. */
    public static final String STORAGE_PROVIDER_FACTORY = "StorageProviderFactory"; //$NON-NLS-1$
-   /** Name of entry for transmit, receive/reply tracker. */
-   public static final String TRANSMISSION_TRACKER_ENTRY = "TransmissionTracker"; //$NON-NLS-1$
-   /** Name of entry which contains list of durable reply receiver factories. */
-   public static final String DURABLE_REPLY_FACTORIES = "ReplyFactories"; //$NON-NLS-1$
    /** Name of entry for the web service timeouts for invokes, this remains for legacy reasons. */
    public static final String WEB_SERVICE_TIMEOUT = "WebServiceTimeout"; //$NON-NLS-1$
    /** Name of entry for the web service timeouts for receives */
@@ -165,8 +153,6 @@ public interface IAeEngineConfiguration
    public static final String SCHEDULE_MANAGER_ENTRY = "ScheduleManager"; //$NON-NLS-1$
    /** Name of entry for custom managers. */
    public static final String CUSTOM_MANAGERS_ENTRY = "CustomManagers"; //$NON-NLS-1$
-   /** Name of entry for child work managers map. */
-   public static final String CHILD_WORK_MANAGERS_ENTRY = "ChildWorkManagers"; //$NON-NLS-1$
    /** Name of entry for child work manager maximum work count. */
    public static final String MAX_WORK_COUNT_ENTRY = "MaxWorkCount"; //$NON-NLS-1$
    /** Name of the child work manager for alarm work. */

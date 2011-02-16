@@ -35,9 +35,7 @@ public interface IAeLoggingFilter
     */
    public boolean isEnabled();
    
-   /**
-    * Returns the name of the filter
-    */
-   public String getName();
+   public String getFilterAsString();
+   public void setFilterAsString(String aStr);
 }
  

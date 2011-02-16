@@ -36,18 +36,9 @@ import org.w3c.dom.NodeList;
 public class AeWsioPolicyMapper implements IAePolicyMapper 
 {
    /**
-    * Default Constructor.
-    * @param aConfig
-    */
-   public AeWsioPolicyMapper(Map aConfig)
-   {
-            
-   }   
-   
-   /**
     * @see org.activebpel.rt.bpel.server.deploy.IAePolicyMapper#getServerRequestHandlers(java.util.List)
     */
-   public List getServerRequestHandlers( List aPolicyList ) throws AeException
+   public List<Element> getServerRequestHandlers( List<Element> aPolicyList ) throws AeException
    {
       return Collections.EMPTY_LIST;
    }
@@ -55,7 +46,7 @@ public class AeWsioPolicyMapper implements IAePolicyMapper
    /**
     * @see org.activebpel.rt.bpel.server.deploy.IAePolicyMapper#getServerResponseHandlers(java.util.List)
     */
-   public List getServerResponseHandlers( List aPolicyList )
+   public List<Element> getServerResponseHandlers( List<Element> aPolicyList )
    throws AeException
    {
       return Collections.EMPTY_LIST;
@@ -65,7 +56,7 @@ public class AeWsioPolicyMapper implements IAePolicyMapper
    /**
     * @see org.activebpel.rt.bpel.server.deploy.IAePolicyMapper#getClientRequestHandlers(java.util.List)
     */
-   public List getClientRequestHandlers( List aPolicyList )
+   public List<Element> getClientRequestHandlers( List<Element> aPolicyList )
    throws AeException
    {
       return Collections.EMPTY_LIST;
@@ -74,7 +65,7 @@ public class AeWsioPolicyMapper implements IAePolicyMapper
    /**
     * @see org.activebpel.rt.bpel.server.deploy.IAePolicyMapper#getClientResponseHandlers(java.util.List)
     */
-   public List getClientResponseHandlers( List aPolicyList )
+   public List<Element> getClientResponseHandlers( List<Element> aPolicyList )
    throws AeException
    {
       return getServerRequestHandlers(aPolicyList);
@@ -83,7 +74,7 @@ public class AeWsioPolicyMapper implements IAePolicyMapper
    /**
     * @see org.activebpel.rt.bpel.server.deploy.IAePolicyMapper#getServiceParameters(java.util.List)
     */
-   public List getServiceParameters(List aPolicyList) throws AeException
+   public List<Element> getServiceParameters(List<Element> aPolicyList) throws AeException
    {
       return Collections.EMPTY_LIST;
    }
@@ -91,7 +82,7 @@ public class AeWsioPolicyMapper implements IAePolicyMapper
    /**
     * @see org.activebpel.rt.bpel.server.deploy.IAePolicyMapper#getCallProperties(java.util.List)
     */
-   public Map getCallProperties(List aPolicyList) throws AeException
+   public Map getCallProperties(List<Element> aPolicyList) throws AeException
    {
       Map map = new HashMap();
       if (AeUtil.notNullOrEmpty(aPolicyList))
@@ -130,7 +121,7 @@ public class AeWsioPolicyMapper implements IAePolicyMapper
    /**
     * @see org.activebpel.rt.bpel.server.deploy.IAePolicyMapper#getDeploymentHandler(java.util.List)
     */
-   public String getDeploymentHandler(List aPolicyList) throws AeException
+   public String getDeploymentHandler(List<Element> aPolicyList) throws AeException
    {
       return null;
    }

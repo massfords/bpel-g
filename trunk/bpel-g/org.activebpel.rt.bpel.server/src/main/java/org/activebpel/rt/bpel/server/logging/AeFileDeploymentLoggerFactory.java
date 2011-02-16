@@ -20,7 +20,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 import org.activebpel.rt.AeException;
 import org.activebpel.rt.bpel.server.AeMessages;
@@ -41,11 +40,10 @@ public class AeFileDeploymentLoggerFactory implements IAeDeploymentLoggerFactory
    
    /**
     * Creates a new factory with the init parameters from the map.
-    * @param aMap
     */
-   public AeFileDeploymentLoggerFactory(Map aMap)
+   public AeFileDeploymentLoggerFactory()
    {
-      initLogFile(aMap);
+      initLogFile();
    }
    
    /**
@@ -82,10 +80,10 @@ public class AeFileDeploymentLoggerFactory implements IAeDeploymentLoggerFactory
 
    /**
     * Create the log directory and the log file object.
-    * @param aParams
     */
-   protected void initLogFile( Map aParams )
+   protected void initLogFile()
    {
+	   // FIXME spring - clean this up
       File dir = new File( new File(AeEngineFactory.getEngineConfig().getLoggingBaseDir()), "deployment-logs" ); //$NON-NLS-1$
       dir.mkdirs();
       mFile = new File( dir, "aeDeployment.log" ); //$NON-NLS-1$

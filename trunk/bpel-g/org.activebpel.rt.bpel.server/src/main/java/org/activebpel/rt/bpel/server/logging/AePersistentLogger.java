@@ -11,7 +11,6 @@ package org.activebpel.rt.bpel.server.logging;
 
 import java.io.Reader;
 import java.io.StringReader;
-import java.util.Map;
 
 import org.activebpel.rt.bpel.IAeProcessEvent;
 import org.activebpel.rt.bpel.server.engine.IAePersistentProcessManager;
@@ -28,15 +27,6 @@ import org.activebpel.rt.util.AeUtil;
  */
 public class AePersistentLogger extends AeInMemoryProcessLogger implements IAePersistentLogger
 {
-   /**
-    * Constructor for the log.
-    * @param aConfig
-    */
-   public AePersistentLogger(Map aConfig)
-   {
-      super(aConfig);
-   }
-
    /**
     * @see org.activebpel.rt.bpel.server.logging.IAePersistentLogger#getLogEntry(long)
     */

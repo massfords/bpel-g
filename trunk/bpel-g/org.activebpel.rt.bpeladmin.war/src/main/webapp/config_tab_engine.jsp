@@ -48,11 +48,7 @@
       <tr>
         <td class="labelHeaders" align="left" nowrap="true" width="20%">&nbsp;<ae:GetResource name="logging_filter" />&nbsp;</td>
        <td align="left" colspan="2">
-       <select name="ec_logging" tabIndex="3">
-          <option value="urn:ae:full" <ae:IfPropertyMatches name="configBean" property="loggingFilter" value="urn:ae:full" classType="java.lang.String">selected="true"</ae:IfPropertyMatches>><ae:GetResource name="logging.filter.full" /></option>
-          <option value="urn:ae:execution" <ae:IfPropertyMatches name="configBean" property="loggingFilter" value="urn:ae:execution" classType="java.lang.String">selected="true"</ae:IfPropertyMatches>><ae:GetResource name="logging.filter.execution" /></option>
-          <option value="urn:ae:none" <ae:IfPropertyMatches name="configBean" property="loggingFilter" value="urn:ae:none" classType="java.lang.String">selected="true"</ae:IfPropertyMatches>><ae:GetResource name="logging.filter.none" /></option>
-       </select>
+       Enabled Event ID's <input type="text" name="ec_logging" value='<ae:GetProperty name="configBean" property="resourceCacheMax" />'/>
        </td>
       </tr>
       <tr height="1">
