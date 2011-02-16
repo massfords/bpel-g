@@ -14,10 +14,6 @@
     </xsd:documentation>
   </xsd:annotation>
   
-  <!-- other namespaces -->
-  <xsd:import namespace="http://www.w3.org/XML/1998/namespace"
-    schemaLocation="http://www.w3.org/2001/xml.xsd" />
-
   <!-- base types for extensible elements -->
   <xsd:complexType name="tExtensibleElements">
     <xsd:sequence>
@@ -31,7 +27,6 @@
     <xsd:sequence>
       <xsd:any namespace="##other" processContents="lax" minOccurs="0" maxOccurs="unbounded" />
     </xsd:sequence>
-    <xsd:attribute ref="xml:lang" />
   </xsd:complexType>
   
   <xsd:complexType name="tExtensibleMixedContentElements"
@@ -619,7 +614,6 @@
   <xsd:complexType name="tMessageDisplay" mixed="true">
     <xsd:complexContent>
       <xsd:extension base="tExtensibleMixedContentElements">
-        <xsd:attribute ref="xml:lang" />
       </xsd:extension>
     </xsd:complexContent>
   </xsd:complexType>
@@ -665,7 +659,6 @@
   <xsd:complexType name="tText" mixed="true">
     <xsd:complexContent>
       <xsd:extension base="tExtensibleMixedContentElements">
-        <xsd:attribute ref="xml:lang" />
       </xsd:extension>
     </xsd:complexContent>
   </xsd:complexType>
@@ -673,7 +666,6 @@
   <xsd:complexType name="tDescription" mixed="true">
     <xsd:complexContent>
       <xsd:extension base="tExtensibleMixedContentElements">
-        <xsd:attribute ref="xml:lang" />
         <xsd:attribute name="contentType" type="xsd:string" />
       </xsd:extension>
     </xsd:complexContent>
