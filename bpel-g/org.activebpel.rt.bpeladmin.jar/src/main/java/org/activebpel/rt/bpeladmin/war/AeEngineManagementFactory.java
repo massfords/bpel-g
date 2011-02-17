@@ -19,7 +19,6 @@ import org.activebpel.rt.bpel.server.admin.IAeEngineAdministration;
 import org.activebpel.rt.bpel.server.admin.jmx.AeEngineManagementAdapter;
 import org.activebpel.rt.bpel.server.admin.jmx.IAeEngineManagementMXBean;
 import org.activebpel.rt.bpel.server.engine.AeEngineFactory;
-import org.activebpel.rt.util.AeUtil;
 
 public class AeEngineManagementFactory {
     
@@ -30,6 +29,7 @@ public class AeEngineManagementFactory {
     private static String sUser;
     private static String sPassword;
     private static DisconnectedListener sNotificationlistener = new DisconnectedListener();
+    private static boolean sRemote;
     
     
     public synchronized static IAeEngineManagementMXBean getBean() {
@@ -42,7 +42,6 @@ public class AeEngineManagementFactory {
          * of a broken pipe. Another possible solution would be to create a proxy for the bean which resets the bean reference
          * here when a ConnectException (or whatever the appropriate Exception) is thrown. 
          */
-        // FIXME NOW this is retarded
         if (sBean == null) {
             connect();
         } else if (sConnector != null) {
@@ -52,7 +51,7 @@ public class AeEngineManagementFactory {
             } catch (IOException e) {
                 reconnect();
             }
-        } else {
+        } else if (isRemote()) {
             reconnect();
         }
         return sBean;
@@ -64,6 +63,7 @@ public class AeEngineManagementFactory {
     }
     
     public static void initBean(String aServiceURL, String aObjectName, String aUser, String aPassword) {
+    	sRemote = aServiceURL != null;
         sServiceURL = aServiceURL;
         sObjectName = aObjectName;
         sUser = aUser;
@@ -72,11 +72,10 @@ public class AeEngineManagementFactory {
     }
     
     private static void connect() {
-        if ( AeUtil.isNullOrEmpty(sServiceURL)) {
+        if ( isLocal()) {
             if (sBean == null ) {
                 IAeEngineAdministration admin = AeEngineFactory.getEngineAdministration();
-                if (admin != null)
-                    sBean = new AeEngineManagementAdapter(admin);
+                sBean = new AeEngineManagementAdapter(admin);
             }
         } else {
             try {
@@ -97,7 +96,7 @@ public class AeEngineManagementFactory {
     }
     
     public static void close() {
-        if (sConnector != null) {
+        if (isRemote() && sConnector != null) {
             JMXConnector connector = sConnector;
             sBean = null;
             sConnector = null;
@@ -131,5 +130,12 @@ public class AeEngineManagementFactory {
             return "jmx.remote.connection.closed".equals(aNotification.getType()) ||
                    "jmx.remote.connection.failed".equals(aNotification.getType());
         }
+    }
+    
+    private static boolean isRemote() {
+    	return sRemote;
+    }
+    private static boolean isLocal() {
+    	return !isRemote();
     }
 }

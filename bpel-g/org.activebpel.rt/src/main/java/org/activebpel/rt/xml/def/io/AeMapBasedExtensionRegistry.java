@@ -28,16 +28,6 @@ public class AeMapBasedExtensionRegistry implements IAeExtensionRegistry
    private Map mExtensionObjectMap;
    
    /**
-    * C'tor
-    * @param aExtensionObjectMap
-    */
-   public AeMapBasedExtensionRegistry(Map aExtensionObjectMap)
-   {
-      super();
-      setExtensionObjectMap(aExtensionObjectMap);
-   }
-
-   /**
     * @see org.activebpel.rt.xml.def.io.IAeExtensionRegistry#getExtensionObject(javax.xml.namespace.QName)
     */
    public IAeExtensionObject getExtensionObject(QName aQName)
@@ -64,7 +54,7 @@ public class AeMapBasedExtensionRegistry implements IAeExtensionRegistry
    /**
     * @return the extensionObjectMap
     */
-   protected Map getExtensionObjectMap()
+   public Map getExtensionObjectMap()
    {
       return mExtensionObjectMap;
    }
@@ -72,7 +62,7 @@ public class AeMapBasedExtensionRegistry implements IAeExtensionRegistry
    /**
     * @param aExtensionObjectMap the extensionObjectMap to set
     */
-   protected void setExtensionObjectMap(Map aExtensionObjectMap)
+   public void setExtensionObjectMap(Map aExtensionObjectMap)
    {
       mExtensionObjectMap = aExtensionObjectMap;
    }

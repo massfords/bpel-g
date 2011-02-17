@@ -16,10 +16,8 @@ import org.activebpel.rt.AeException;
 import org.activebpel.rt.bpel.config.AeDefaultEngineConfiguration;
 import org.activebpel.rt.bpel.config.IAeEngineConfiguration;
 import org.activebpel.rt.bpel.server.admin.IAeEngineAdministration;
-import org.activebpel.rt.bpel.server.engine.AeEngineFactory;
 import org.activebpel.rt.bpel.server.engine.storage.AeStorageException;
 import org.activebpel.rt.bpel.server.engine.storage.sql.AeDataSource;
-import org.activebpel.rt.bpel.server.engine.storage.sql.AeSQLStorageProviderFactory;
 import org.activebpel.rt.bpeladmin.war.AeEngineManagementFactory;
 import org.activebpel.rt.bpeladmin.war.AeMessages;
 import org.activebpel.rt.util.AeUtil;
@@ -237,8 +235,8 @@ public class AeStorageBean extends AeAbstractAdminBean
       if (AeDataSource.MAIN != null)
          setConnected(true);
 
-      if (AeEngineFactory.isPersistentStoreReadyForUse())
-         setAvailable(true);
+//      if (AeEngineFactory.isPersistentStoreReadyForUse())
+//         setAvailable(true);
    }
 
    /**

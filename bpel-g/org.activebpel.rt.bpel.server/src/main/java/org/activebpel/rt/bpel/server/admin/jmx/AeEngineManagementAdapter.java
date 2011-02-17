@@ -570,7 +570,8 @@ public class AeEngineManagementAdapter implements IAeEngineManagementMXBean {
     }
 
     public String getStorageError() {
-        return AeEngineFactory.getPersistentStoreError();
+    	// FIXME remove
+        return null;
     }
 
     public void initializeStorage() throws AeStorageException {
@@ -578,7 +579,9 @@ public class AeEngineManagementAdapter implements IAeEngineManagementMXBean {
     }
 
     public boolean isEngineStorageReady() {
-        return AeEngineFactory.isEngineStorageReady();
+    	// FIXME remove
+    	return true;
+//        return AeEngineFactory.isEngineStorageReady();
     }
 
     public boolean isRestartable(long aPid) {

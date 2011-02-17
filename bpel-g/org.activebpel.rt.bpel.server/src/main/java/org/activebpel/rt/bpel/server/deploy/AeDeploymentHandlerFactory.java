@@ -9,57 +9,40 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpel.server.deploy;
 
-import java.lang.reflect.Constructor;
-import java.util.Map;
-
 import org.activebpel.rt.bpel.server.logging.IAeLogWrapper;
 
 /**
- * Factory for creating new deployment handlers.
- * In this impl, the handlers ARE NOT thread safe and <code>newInstance</code>
- * should be called for each deployment.  
+ * Factory for creating new deployment handlers. In this impl, the handlers ARE
+ * NOT thread safe and <code>newInstance</code> should be called for each
+ * deployment.
  */
-public class AeDeploymentHandlerFactory implements IAeDeploymentHandlerFactory
-{
-   /**
-    * Deployment factory used by the handler impl.
-    */
-   protected IAeDeploymentFactory mDeploymentFactory;
-   
-   /**
-    * Constructor.
-    * @param aParams Any aeEngineConfig params.
-    */
-   public AeDeploymentHandlerFactory( Map aParams ) throws Exception
-   {
-      Map deployerParams = (Map)aParams.get("DeploymentFactory"); //$NON-NLS-1$
-      String deploymentFactoryImpl = (String)deployerParams.get("Class"); //$NON-NLS-1$
-      Class deployerFactoryImplClass = Class.forName(deploymentFactoryImpl);
-      Constructor xTor = deployerFactoryImplClass.getConstructor( new Class[]{Map.class} );
-      mDeploymentFactory = (IAeDeploymentFactory)xTor.newInstance( new Object[]{deployerParams} );
-   }
-   
-   /**
-    * Accessor for the deployment factory impl.
-    */
-   public IAeDeploymentFactory getDeploymentFactory()
-   {
-      return mDeploymentFactory;
-   }
+public class AeDeploymentHandlerFactory implements IAeDeploymentHandlerFactory {
+	/**
+	 * Deployment factory used by the handler impl.
+	 */
+	private IAeDeploymentFactory mDeploymentFactory;
 
-   /**
-    * @see org.activebpel.rt.bpel.server.deploy.IAeDeploymentHandlerFactory#getWebServicesDeployer()
-    */
-   public IAeWebServicesDeployer getWebServicesDeployer()
-   {
-      return getDeploymentFactory().getWebServicesDeployer();  
-   }
-   
-   /**
-    * @see org.activebpel.rt.bpel.server.deploy.IAeDeploymentHandlerFactory#newInstance(org.activebpel.rt.bpel.server.logging.IAeLogWrapper)
-    */
-   public IAeDeploymentHandler newInstance(IAeLogWrapper aLogWrapper)
-   {
-      return new AeDeploymentHandler( aLogWrapper, getDeploymentFactory() );
-   }
+	/**
+	 * Accessor for the deployment factory impl.
+	 */
+	public IAeDeploymentFactory getDeploymentFactory() {
+		return mDeploymentFactory;
+	}
+	public void setDeploymentFactory(IAeDeploymentFactory aFactory) {
+		mDeploymentFactory = aFactory;
+	}
+
+	/**
+	 * @see org.activebpel.rt.bpel.server.deploy.IAeDeploymentHandlerFactory#getWebServicesDeployer()
+	 */
+	public IAeWebServicesDeployer getWebServicesDeployer() {
+		return getDeploymentFactory().getWebServicesDeployer();
+	}
+
+	/**
+	 * @see org.activebpel.rt.bpel.server.deploy.IAeDeploymentHandlerFactory#newInstance(org.activebpel.rt.bpel.server.logging.IAeLogWrapper)
+	 */
+	public IAeDeploymentHandler newInstance(IAeLogWrapper aLogWrapper) {
+		return new AeDeploymentHandler(aLogWrapper, getDeploymentFactory());
+	}
 }

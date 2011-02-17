@@ -1909,7 +1909,7 @@ public class AeBusinessProcessEngine implements IAeBusinessProcessEngineInternal
    /**
     * Sets the strategy for managing partner link.
     */
-   protected void setPartnerLinkStrategy(IAeEnginePartnerLinkStrategy aPartnerLinkStrategy)
+   public void setPartnerLinkStrategy(IAeEnginePartnerLinkStrategy aPartnerLinkStrategy)
    {
       mPartnerLinkStrategy = aPartnerLinkStrategy;
    }

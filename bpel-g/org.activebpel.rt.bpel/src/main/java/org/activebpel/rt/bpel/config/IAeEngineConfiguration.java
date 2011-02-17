@@ -39,32 +39,8 @@ public interface IAeEngineConfiguration
    public static final String ALLOW_EMPTY_QUERY_SELECTION_ENTRY = "AllowEmptyQuerySelection"; //$NON-NLS-1$
    /** Name of entry for turning on/off AllowCreateXPath */
    public static final String ALLOW_CREATE_XPATH_ENTRY = "AllowCreateXPath"; //$NON-NLS-1$
-   /** Name of entry for map of overrides for sql config files */
-   public static final String SQL_CONSTANTS = "SQLConfigConstants"; //$NON-NLS-1$
    /** Name of entry for the setting the catalog cache size. */
    public static final String RESOURCE_FACTORY_CACHE_SIZE_ENTRY = "cache.max"; //$NON-NLS-1$
-   /** Name of entry which contains the engine admin implementation. */
-   public static final String ENGINE_ADMIN_IMPL_ENTRY = "EngineAdminImpl"; //$NON-NLS-1$
-   /** Name of entry which contains the engine implementation. */
-   public static final String ENGINE_IMPL_ENTRY = "EngineImpl"; //$NON-NLS-1$
-   /** Name of entry where custom function contexts are specified. */
-   public static final String FUNCTION_CONTEXT_LOCATOR_ENTRY = "FunctionContextLocator"; //$NON-NLS-1$ 
-   /** Name of entry where custom function contexts are specified. */
-   public static final String STANDARD_FUNCTION_CONTEXTS_ENTRY = "StandardFunctionContexts"; //$NON-NLS-1$ 
-   /** Name of entry for loading external xpath function contexts */
-   public static final String FUNCTION_CONTEXTS_ENTRY = "FunctionContexts"; //$NON-NLS-1$
-   /** Name of entry for loading external xpath function context namespace */
-   public static final String FUNCTION_CONTEXT_NAMESPACE_ENTRY = "Namespace"; //$NON-NLS-1$
-   /** Attribute for loading external xpath function context class path */
-   public static final String FUNCTION_CONTEXT_CLASSPATH_ENTRY = "Classpath"; //$NON-NLS-1$
-   /** Attribute indicating type of custom function */
-   public static final String FUNCTION_CONTEXT_TYPE = "FunctionType"; //$NON-NLS-1$
-   /** Name of entry for loading standard bpel function context. */
-   public static final String BPEL_FUNCTION_CONTEXT = "BpelFunctionContext"; //$NON-NLS-1$
-   /** Name of entry for loading standard bpel function context. */
-   public static final String BPEL20_FUNCTION_CONTEXT = "Bpel20FunctionContext"; //$NON-NLS-1$
-   /** Name of entry for loading bpel extension function context. */
-   public static final String BPEL_EXT_FUNCTION_CONTEXT = "BpelExtFunctionContext"; //$NON-NLS-1$
    /** Name of entry for loading class related entries*/
    public static final String CLASS_ENTRY = "Class"; //$NON-NLS-1$
    /** Name of entry for loading factory related entries*/
@@ -77,12 +53,6 @@ public interface IAeEngineConfiguration
    public static final String CATALOG_ENTRY = "Catalog"; //$NON-NLS-1$
    /** Name of entry for the setting the replace wsdl flag */
    public static final String REPLACE_EXISTING_ENTRY = "replace.existing"; //$NON-NLS-1$
-   /** Name of entry for setting the process manager. */
-   public static final String PROCESS_MANAGER_ENTRY = "ProcessManager"; //$NON-NLS-1$
-   /** Name of entry for Queue Manager map. */
-   public static final String QUEUE_MANAGER_ENTRY = "QueueManager"; //$NON-NLS-1$
-   /** Name of entry for setting the auto-start flag */
-   public static final String AUTO_START_ENTRY = "AutoStart"; //$NON-NLS-1$
    /** Name of entry for persistent store/database type. */
    public static final String DATABASE_TYPE_ENTRY = "DatabaseType"; //$NON-NLS-1$
    /** Name of entry for persistent store/version. */
@@ -101,20 +71,12 @@ public interface IAeEngineConfiguration
    public static final String TIMER_MANAGER_ENTRY = "TimerManager"; //$NON-NLS-1$
    /** Name of entry for setting the timer manager jndi location */
    public static final String TM_JNDI_NAME_ENTRY = "JNDILocation"; //$NON-NLS-1$
-   /** Name of entry for persistent counter store. */
-   public static final String COUNTER_STORE_ENTRY = "CounterStore"; //$NON-NLS-1$
-   /** Name of entry for counter store JNDI location. */
-   public static final String CS_JNDI_NAME_ENTRY = "JNDILocation"; //$NON-NLS-1$
-   /** Name of entry for the expression language factory. */
-   public static final String EXPRESSION_FACTORY = "ExpressionLanguageFactory"; //$NON-NLS-1$
    /** Name of entry for suspending processes on uncaught faults. */
    public static final String SUSPEND_PROCESS_ON_UNCAUGHT_FAULT_ENTRY = "SuspendProcessOnUncaughtFault"; //$NON-NLS-1$
    /** Name of entry for suspending processes on invoke recovery. */
    public static final String SUSPEND_PROCESS_ON_INVOKE_RECOVERY_ENTRY = "SuspendProcessOnInvokeRecovery"; //$NON-NLS-1$
    /** Name of entry for enabling process restart */
    public static final String RESTART_SUSPENDED_PROCESS = "RestartSuspendedProcess"; //$NON-NLS-1$
-   /** Name of entry for specifying logger handlers */
-   public static final String LOG_HANDLER_ENTRY = "LogHandler"; //$NON-NLS-1$
    /** Name of entry for maximum number of work requests to schedule per-process. */
    public static final String PROCESS_WORK_COUNT_ENTRY = "ProcessWorkCount"; //$NON-NLS-1$
    /** Name of entry for the storage provider factory map. */
@@ -133,12 +95,6 @@ public interface IAeEngineConfiguration
    public static final int DEFAULT_CHILD_MAX_WORK_COUNT = 5;
    
       
-   /**
-    * Returns true if the engine should start immediately after being created or
-    * if it should wait for someone to start it manually (ie through the admin page). 
-    */
-   public boolean isAutoStart();
-   
    /**
     * Returns a description for this engine configuration.
     */

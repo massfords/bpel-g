@@ -27,6 +27,7 @@ import org.activebpel.rt.bpel.server.deploy.IAeDeploymentHandlerFactory;
 import org.activebpel.rt.bpel.server.deploy.validate.AeDeploymentFileValidator;
 import org.activebpel.rt.bpel.server.engine.AeEngineFactory;
 import org.activebpel.rt.bpel.server.engine.config.AeFileBasedEngineConfig;
+import org.activebpel.rt.bpel.server.logging.AeCommonsLoggingImpl;
 import org.activebpel.rt.bpel.server.logging.IAeDeploymentLogger;
 import org.activebpel.rt.bpel.server.logging.IAeDeploymentLoggerFactory;
 import org.activebpel.rt.bpel.server.logging.IAeLogWrapper;
@@ -47,11 +48,10 @@ public class AeDeploymentFileHandler implements IAeDeploymentFileHandler, IAeSca
     * Constructor.
     * @param aLog
     */
-   public AeDeploymentFileHandler( IAeLogWrapper aLog, long aScanInterval )
+   public AeDeploymentFileHandler()
    {
-      mLog = aLog;
-      mScanInterval = aScanInterval;
-      AeUnpackedDeploymentStager.init( AeDeploymentFileInfo.getStagingDirectory(), aLog );
+      mLog = new AeCommonsLoggingImpl(AeDeploymentFileHandler.class);
+      AeUnpackedDeploymentStager.init( AeDeploymentFileInfo.getStagingDirectory(), mLog );
    }
    
    /**
@@ -411,4 +411,12 @@ public class AeDeploymentFileHandler implements IAeDeploymentFileHandler, IAeSca
    {
       return mScanner;
    }
+
+public long getScanInterval() {
+	return mScanInterval;
+}
+
+public void setScanInterval(long aScanInterval) {
+	mScanInterval = aScanInterval;
+}
 }

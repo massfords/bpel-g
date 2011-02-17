@@ -16,12 +16,14 @@
 
             <xsl:copy-of select="/web-app/description"/>
 
-            <!-- skip over jmx context-params -->
-	        <xsl:copy-of select="$bpeladmin//context-param[not(starts-with(param-name, 'jmx.'))]" />
-
+			<!-- skip over jmx context-params -->
+			<xsl:copy-of select="$bpeladmin//context-param[not(starts-with(param-name, 'jmx.'))]" />
+			<xsl:copy-of select="$axisbpel//context-param"/>
+			
+			<xsl:copy-of select="/web-app/context-param" />
+			<xsl:copy-of select="/web-app/listener" />
+			<xsl:copy-of select="$axisbpel//listener"/>
 	        <xsl:copy-of select="$bpeladmin//listener" />
-
-            <xsl:copy-of select="/web-app/listener" />
 
 	        <xsl:copy-of select="$bpeladmin//servlet"/>
 	        <xsl:copy-of select="$axisbpel//servlet"/>
@@ -44,9 +46,9 @@
 
 	        <xsl:copy-of select="$axisbpel//security-constraint"/>
 
-	        <xsl:copy-of select="$axisbpel//login-config"/>
+			<xsl:copy-of select="/web-app/resource-ref" />
 
-            <xsl:copy-of select="/web-app/resource-ref" />
+			<xsl:copy-of select="$axisbpel//login-config"/>
 		</web-app>
 	</xsl:template>
 </xsl:stylesheet>

@@ -10,53 +10,42 @@
 package org.activebpel.rt.bpel.def.io.registry;
 
 import java.util.HashMap;
-import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 import javax.xml.namespace.QName;
 
-import org.activebpel.rt.config.AeConfiguration;
+import org.activebpel.rt.bpel.def.IAeBPELConstants;
+import org.activebpel.rt.bpel.def.visitors.AeDefVisitorFactory;
 import org.activebpel.rt.xml.def.io.AeMapBasedExtensionRegistry;
 
 /**
- * An implementation of the extension Registry for WS-BPEL 2.0. This registry creates a map
- * of extension element, attribute and activity Qnames to their class names that implement
- * IAeExtensionObject interface from the EngineConfig instance and passes it onto it's parent
+ * An implementation of the extension Registry for WS-BPEL 2.0. This registry
+ * creates a map of extension element, attribute and activity Qnames to their
+ * class names that implement IAeExtensionObject interface from the EngineConfig
+ * instance and passes it onto it's parent
  */
-public class AeEngineConfigExtensionRegistry extends AeMapBasedExtensionRegistry
-{
+public class AeEngineConfigExtensionRegistry extends
+		AeMapBasedExtensionRegistry {
+	private List<AeExtensionEntry> mExtensions;
+	
+	public void init() {
+		Map map = new HashMap();
+		if (getExtensions() != null) {
+			for(AeExtensionEntry entry : getExtensions()) {
+				map.put(new QName(entry.getNamespace(), entry.getLocalPart()), entry.getClassName());
+			}
+		}
+		setExtensionObjectMap(map);
+		AeDefVisitorFactory.setExtensionRegistry(
+				IAeBPELConstants.WSBPEL_2_0_NAMESPACE_URI, this);
+	}
 
-   /**
-    * Constructor
-    * @param aEngineConfig
-    * @throws ClassNotFoundException 
-    */
-   public AeEngineConfigExtensionRegistry(AeConfiguration aEngineConfig) throws ClassNotFoundException
-   {
-      super(getExtensionsMap(aEngineConfig));
-   }
+	public List<AeExtensionEntry> getExtensions() {
+		return mExtensions;
+	}
 
-   /**
-    * Creates QName to Class Name map from the instance of engine config
-    * @param aEngineConfig
-    * @return
-    * @throws ClassNotFoundException 
-    */
-   private static Map getExtensionsMap(AeConfiguration aEngineConfig) throws ClassNotFoundException
-   {
-      Map extensionMap = new HashMap();
-      
-      Map extRegistry = aEngineConfig.getMapEntry("ExtensionRegistry"); //$NON-NLS-1$
-      if (extRegistry == null)
-         return extensionMap;
-      
-      for(Iterator iter = extRegistry.keySet().iterator(); iter.hasNext();)
-      {
-         Map extension = (Map) extRegistry.get((String) iter.next());
-         QName qName = new QName((String) extension.get("Namespace"), (String) extension.get("LocalName")); //$NON-NLS-1$ //$NON-NLS-2$
-         String className = (String) extension.get("ClassName"); //$NON-NLS-1$
-         extensionMap.put(qName, Class.forName(className));
-      }
-      return extensionMap;
-   }
+	public void setExtensions(List<AeExtensionEntry> aExtensions) {
+		mExtensions = aExtensions;
+	}
 }

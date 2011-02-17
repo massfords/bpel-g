@@ -20,35 +20,5 @@
    <entry name="WorkManager">
       <entry name="DefaultWorkManager.ThreadPool.Min" value="10"/>
       <entry name="DefaultWorkManager.ThreadPool.Max" value="50"/>
-      
    </entry>
-   
-   <!-- Extension activity mappings -->
-   <entry name="ExtensionRegistry"><!--
-      <entry name="B4PHumanInteractionsExtension">
-      <entry name="Namespace" value="http://www.example.org/BPEL4People"/>
-      <entry name="LocalName" value="humanInteractions"/>
-      <entry name="ClassName" value="org.activebpel.rt.b4p.def.ext.AeB4PHumanInteractionsExtensionObject"/>
-      <entry name="JarName" value="nojarfornow"/>         
-      </entry>
-      <entry name="B4PPeopleAssigmentsExtension">
-      <entry name="Namespace" value="http://www.example.org/BPEL4People"/>
-      <entry name="LocalName" value="peopleAssignments"/>
-      <entry name="ClassName" value="org.activebpel.rt.b4p.def.ext.AeB4PPeopleAssignmentsExtensionObject"/>
-      <entry name="JarName" value="nojarfornow"/>           
-      </entry>
-      <entry name="B4PPeopleActivityExtension">
-      <entry name="Namespace" value="http://www.example.org/BPEL4People"/>
-      <entry name="LocalName" value="peopleActivity"/>
-      <entry name="ClassName" value="org.activebpel.rt.b4p.impl.AePeopleActivityExtensionObject"/>
-      <entry name="JarName" value="nojarfornow"/>        
-      </entry>
-      <entry name="B4PLogicalPeopleGroupExtension">
-      <entry name="Namespace" value="http://www.example.org/BPEL4People"/>
-      <entry name="LocalName" value="logicalPeopleGroup"/>
-      <entry name="ClassName" value="org.activebpel.rt.b4p.def.ext.AeLogicalPeopleGroupExtensionObject"/>
-      <entry name="JarName" value="nojarfornow"/>        
-      </entry>
-      
-   --></entry>
 </config>

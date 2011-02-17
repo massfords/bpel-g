@@ -50,6 +50,7 @@
                             <bean class="org.activebpel.rt.axis.bpel.AeAxisInvokeHandlerFactory">
                                 <property name="handler">
                                     <bean class="org.activebpel.rt.axis.bpel.AeAxisInvokeHandler">
+                                        <property name="URNResolver" ref="URNResolver"/>
                                         <property name="styleMap">
                                             <util:map>
                                                 <entry key="rpc">
@@ -66,7 +67,6 @@
                                         </property>
                                     </bean>
                                 </property>
-                                <property name="URNResolver" ref="URNResolver"/>
                             </bean>
                         </entry>
                         <entry key="java">
@@ -96,8 +96,13 @@
                         </entry>
                         <entry key="soap">
                             <bean class="org.activebpel.rt.axis.bpel.receivers.AeAxisReceiveHandlerFactory">
-                                <property name="messageFactory" ref="SOAPMessageFactory"/>
-                                <property name="securityProvider" ref="SecurityProvider"/>
+                                <property name="receiveHandlers">
+                                    <util:map>
+                                        <entry key="RPC" value-ref="RPCReceiveHandler"/>
+                                        <entry key="RPC-LIT" value-ref="RPCReceiveHandler"/>
+                                        <entry key="MSG" value-ref="MSGReceiveHandler"/>
+                                    </util:map>
+                                </property>
                             </bean>
                         </entry>
                     </util:map>
@@ -117,6 +122,7 @@
     <bean id="EngineAdminImpl" class="org.activebpel.rt.axis.bpel.web.AeWebEngineAdministration">
         <property name="PartnerAddressingProvider" ref="PartnerAddressingProvider"/>
         <property name="URNResolver" ref="URNResolver"/>
+        <property name="DeploymentHandler" ref="DeploymentHandler"/>
     </bean>
     <bean id="DeploymentProvider" class="org.activebpel.rt.bpel.server.deploy.AeDeploymentProvider"/>
 
@@ -681,7 +687,7 @@
         </entry>
     </util:map>
     
-    <bean id="DeploymentHandler" class="org.activebpel.rt.bpel.server.deploy.AeDeploymentHandlerFactory">
+    <bean id="DeploymentHandlerFactory" class="org.activebpel.rt.bpel.server.deploy.AeDeploymentHandlerFactory">
         <property name="deploymentFactory">
             <bean class="org.activebpel.rt.bpel.server.deploy.AeDeploymentFactoryImpl">
                 <property name="BpelDeployer" >
@@ -774,4 +780,16 @@
     
     <bean id="ExtensionRegistry" class="org.activebpel.rt.bpel.def.io.registry.AeEngineConfigExtensionRegistry"/>
     
+    <bean id="DeploymentHandler" class="org.activebpel.rt.bpel.server.deploy.scanner.AeDeploymentFileHandler">
+        <property name="scanInterval" value="10000"/>
+    </bean>
+    
+    <bean id="RPCReceiveHandler" class="org.activebpel.rt.axis.bpel.receivers.AeRPCReceiveHandler">
+        <property name="messageFactory" ref="SOAPMessageFactory"/>
+        <property name="securityProvider" ref="SecurityProvider"/>
+    </bean>
+    <bean id="MSGReceiveHandler" class="org.activebpel.rt.axis.bpel.receivers.AeMSGReceiveHandler">
+        <property name="messageFactory" ref="SOAPMessageFactory"/>
+        <property name="securityProvider" ref="SecurityProvider"/>
+    </bean>
 </beans>
