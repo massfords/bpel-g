@@ -34,6 +34,7 @@ import org.activebpel.wsio.invoke.IAeInvokeHandler;
 
 import commonj.timers.Timer;
 import commonj.timers.TimerListener;
+import commonj.timers.TimerManager;
 
 /**
  * Queue Manager for server side operations.  Handles invokes through
@@ -47,6 +48,7 @@ public class AeInMemoryQueueManager extends AeBaseQueueManager
    protected IAeInvokeHandlerFactory mInvokeHandlerFactory;
    /** factory for creating receive handlers */
    protected IAeReceiveHandlerFactory mReceiveHandlerFactory;
+   private TimerManager mTimerManager;
    
    /**
     * @see org.activebpel.rt.bpel.impl.IAeQueueManager#addInvoke(org.activebpel.rt.bpel.impl.IAeProcessPlan, org.activebpel.rt.bpel.impl.IAeInvokeInternal)
@@ -190,7 +192,7 @@ public void setReceiveHandlerFactory(
       {
          timer.cancel();
       }
-      timer = AeEngineFactory.getTimerManager().schedule(new AeUnmatchedReceiveTimerHandler(aInboundReceive.getQueueId()), aTimeoutDate);
+      timer = getTimerManager().schedule(new AeUnmatchedReceiveTimerHandler(aInboundReceive.getQueueId()), aTimeoutDate);
       aInboundReceive.setTimeoutTimer(timer);
    }
    
@@ -237,7 +239,7 @@ public void setReceiveHandlerFactory(
       {
          try
          {
-            timer = AeEngineFactory.getTimerManager().schedule(aListener, aDeadline);
+            timer = getTimerManager().schedule(aListener, aDeadline);
          }
          catch (IllegalStateException e)
          {
@@ -329,4 +331,12 @@ public void setReceiveHandlerFactory(
          }
       }
    }
+
+public TimerManager getTimerManager() {
+	return mTimerManager;
+}
+
+public void setTimerManager(TimerManager aTimerManager) {
+	mTimerManager = aTimerManager;
+}
 }

@@ -63,6 +63,7 @@ import org.activebpel.work.AeAbstractWork;
 
 import commonj.timers.Timer;
 import commonj.timers.TimerListener;
+import commonj.timers.TimerManager;
 import commonj.work.Work;
 import commonj.work.WorkManager;
 
@@ -135,6 +136,7 @@ public class AePersistentProcessManager extends AeAbstractProcessManager impleme
     */ 
    private final Object mRecoveryAndStopMutex = new Object();
    private IAeStorageFactory mStorageFactory;
+   private TimerManager mTimerManager;
 
    /**
     * Creates a persistent process manager given the manager's engine
@@ -1253,7 +1255,7 @@ public class AePersistentProcessManager extends AeAbstractProcessManager impleme
 
       synchronized (getProcessTimerMap())
       {
-         Timer timer = AeEngineFactory.getTimerManager().schedule(listener, aDelayMillis);
+         Timer timer = getTimerManager().schedule(listener, aDelayMillis);
          getProcessTimerMap().put(processId, timer);
       }
    }
@@ -1667,5 +1669,13 @@ public IAeStorageFactory getStorageFactory() {
 
 public void setStorageFactory(IAeStorageFactory aStorageFactory) {
 	mStorageFactory = aStorageFactory;
+}
+
+public TimerManager getTimerManager() {
+	return mTimerManager;
+}
+
+public void setTimerManager(TimerManager aTimerManager) {
+	mTimerManager = aTimerManager;
 }
 }

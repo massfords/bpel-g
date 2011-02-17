@@ -7,7 +7,7 @@
 //Active Endpoints, Inc. Removal of this PROPRIETARY RIGHTS STATEMENT 
 //is strictly forbidden. Copyright (c) 2002-2004 All rights reserved. 
 /////////////////////////////////////////////////////////////////////////////
-package org.activebpel.rt.axis.bpel; 
+package org.activebpel.rt.axis.bpel;
 
 import org.activebpel.rt.bpel.AeBusinessProcessException;
 import org.activebpel.rt.bpel.server.engine.AeInvokeHandlerUri;
@@ -18,26 +18,29 @@ import org.activebpel.wsio.invoke.IAeInvokeHandler;
 /**
  * Factory for the default axis invoke handler.
  */
-public class AeAxisInvokeHandlerFactory implements IAeInvokeHandlerFactory
-{
-   /** The invoke handler used to delegate our requests to */
-   private static final IAeInvokeHandler HANDLER = new AeAxisInvokeHandler();
+public class AeAxisInvokeHandlerFactory implements IAeInvokeHandlerFactory {
+	private IAeInvokeHandler mHandler;
 
-   /**
-    * @see org.activebpel.rt.bpel.server.engine.IAeInvokeHandlerFactory#createInvokeHandler(org.activebpel.wsio.invoke.IAeInvoke)
-    */
-   public IAeInvokeHandler createInvokeHandler(IAeInvoke aInvoke)
-         throws AeBusinessProcessException
-   {
-      return HANDLER;
-   }
-   
-   /**
-    * @see org.activebpel.rt.bpel.server.engine.IAeInvokeHandlerFactory#getQueryData(org.activebpel.wsio.invoke.IAeInvoke)
-    */
-   public String getQueryData(IAeInvoke aInvoke)
-   {
-      return AeInvokeHandlerUri.getInvokerString(aInvoke.getInvokeHandler());
-   }
+	/**
+	 * @see org.activebpel.rt.bpel.server.engine.IAeInvokeHandlerFactory#createInvokeHandler(org.activebpel.wsio.invoke.IAeInvoke)
+	 */
+	public IAeInvokeHandler createInvokeHandler(IAeInvoke aInvoke)
+			throws AeBusinessProcessException {
+		return mHandler;
+	}
+
+	/**
+	 * @see org.activebpel.rt.bpel.server.engine.IAeInvokeHandlerFactory#getQueryData(org.activebpel.wsio.invoke.IAeInvoke)
+	 */
+	public String getQueryData(IAeInvoke aInvoke) {
+		return AeInvokeHandlerUri.getInvokerString(aInvoke.getInvokeHandler());
+	}
+
+	public IAeInvokeHandler getHandler() {
+		return mHandler;
+	}
+
+	public void setHandler(IAeInvokeHandler aHandler) {
+		mHandler = aHandler;
+	}
 }
- 

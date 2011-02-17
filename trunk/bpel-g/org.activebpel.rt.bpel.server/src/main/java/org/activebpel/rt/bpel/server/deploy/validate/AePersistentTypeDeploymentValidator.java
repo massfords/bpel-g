@@ -153,10 +153,9 @@ public class AePersistentTypeDeploymentValidator extends AeAbstractDefVisitor im
     */ 
    public void validate()
    {
-      if (!AeEngineFactory.isPersistentStoreConfiguration() || isPersistentType())
+      if (isPersistentType())
       {
-         // Short return if the process is either a persistent type deployment
-         // or uses an in-memory store.
+         // Short return if the process is a persistent type deployment
          // Non-persistent store uses the in-memory managers.
          // subprocess invoke is also supported via in-memory configuration.
          return;

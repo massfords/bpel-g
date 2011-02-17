@@ -57,6 +57,7 @@
 						<phase>process-classes</phase>
 						<configuration>
 							<tasks>
+              <copy file="${basedir}/../org.activebpel.rt.axis.bpel.web/src/main/webapp/WEB-INF/applicationContext.xml" todir="${basedir}/target/bpel-g/WEB-INF/"/>
 								<xslt in="${basedir}/src/main/webapp/WEB-INF/web.xml" out="${basedir}/target/bpel-g/WEB-INF/web.xml" style="${basedir}/src/main/web.xsl" />
 							</tasks>
 						</configuration>

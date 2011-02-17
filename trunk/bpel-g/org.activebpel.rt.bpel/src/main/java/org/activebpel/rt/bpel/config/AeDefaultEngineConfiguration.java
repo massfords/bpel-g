@@ -69,16 +69,6 @@ public class AeDefaultEngineConfiguration extends AeConfiguration implements IAe
    }
 
    /**
-    * Setter for the process manager class name.
-    *
-    * @param aClassName
-    */
-   public void setProcessManagerClassName(String aClassName)
-   {
-      setEntry(PROCESS_MANAGER_ENTRY, aClassName);
-   }
-
-   /**
     * Load the engine configuration from the xml in the passed stream.
     * @param aConfigStream a stream containing the configuration xml.
     * @param aClassLoader the classloader for function contexts.
@@ -133,14 +123,6 @@ public class AeDefaultEngineConfiguration extends AeConfiguration implements IAe
    }
 
    /**
-    * @see org.activebpel.rt.bpel.config.IAeEngineConfiguration#isAutoStart()
-    */
-   public boolean isAutoStart()
-   {
-      return getBooleanEntry(AUTO_START_ENTRY, true);
-   }
-
-   /**
     * Sets the description for this configuration.
     */
    public void setDescription(String aDescription)
@@ -161,8 +143,7 @@ public class AeDefaultEngineConfiguration extends AeConfiguration implements IAe
     */
    public int getMaxCorrelationCombinations()
    {
-      Map queueManagerMap = getMapEntry(IAeEngineConfiguration.QUEUE_MANAGER_ENTRY);
-      return getIntegerEntryInternal(queueManagerMap, "MaxCorrelationCombinations", DEFAULT_MAX_JOIN_COMBINATIONS); //$NON-NLS-1$
+      return getIntegerEntry("MaxCorrelationCombinations", DEFAULT_MAX_JOIN_COMBINATIONS); //$NON-NLS-1$
    }
 
    //----------[ MUTABLE CONFIGURATION SETTINGS ]-------------------------------

@@ -395,4 +395,5 @@ public Map<String, IAeInvoker> getStyleMap() {
 public void setStyleMap(Map<String, IAeInvoker> aStyleMap) {
 	mStyleMap = aStyleMap;
 }
+
 }
