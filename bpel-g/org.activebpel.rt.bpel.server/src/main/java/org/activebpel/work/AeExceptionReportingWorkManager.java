@@ -14,7 +14,6 @@ import org.activebpel.work.factory.IAeWorkManagerFactory;
 import commonj.work.Work;
 import commonj.work.WorkItem;
 import commonj.work.WorkListener;
-import commonj.work.WorkManager;
 
 /**
  * Extends {@link org.activebpel.work.AeDelegatingWorkManager} to wrap scheduled

@@ -55,7 +55,7 @@ public class AeActiveBpelAdminImpl implements IAeActiveBpelAdmin
     */
    public AeActiveBpelAdminImpl()
    {
-      mAdmin = AeEngineFactory.getRemoteDebugImpl();
+      mAdmin = AeEngineFactory.getBean(IAeBpelAdmin.class);
    }   
    
    /**

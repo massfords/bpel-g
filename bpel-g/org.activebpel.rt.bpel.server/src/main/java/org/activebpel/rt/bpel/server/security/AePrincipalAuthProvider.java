@@ -20,6 +20,7 @@ import org.activebpel.rt.bpel.AeBusinessProcessException;
 import org.activebpel.rt.bpel.def.AePartnerLinkDef;
 import org.activebpel.rt.bpel.impl.IAeProcessPlan;
 import org.activebpel.rt.bpel.server.AeMessages;
+import org.activebpel.rt.bpel.server.IAeDeploymentProvider;
 import org.activebpel.rt.bpel.server.IAeProcessDeployment;
 import org.activebpel.rt.bpel.server.deploy.IAeServiceDeploymentInfo;
 import org.activebpel.rt.bpel.server.engine.AeEngineFactory;
@@ -140,7 +141,7 @@ public class AePrincipalAuthProvider implements IAeAuthorizationProvider
     */
    protected IAeProcessDeployment getDeploymentPlan(QName aProcessName) throws AeBusinessProcessException
    {
-      IAeProcessDeployment deploymentPlan = AeEngineFactory.getDeploymentProvider().findCurrentDeployment(aProcessName);
+      IAeProcessDeployment deploymentPlan = AeEngineFactory.getBean(IAeDeploymentProvider.class).findCurrentDeployment(aProcessName);
       return deploymentPlan;
    }
    

@@ -22,6 +22,7 @@ import net.sf.ehcache.Statistics;
 import org.activebpel.rt.AeWSDLException;
 import org.activebpel.rt.bpel.config.IAeConfigChangeListener;
 import org.activebpel.rt.bpel.config.IAeUpdatableEngineConfig;
+import org.activebpel.rt.bpel.server.catalog.IAeCatalog;
 import org.activebpel.rt.bpel.server.catalog.IAeCatalogMapping;
 import org.activebpel.rt.bpel.server.engine.AeEngineFactory;
 import org.activebpel.rt.bpel.server.wsdl.AeCatalogResourceResolver;
@@ -262,7 +263,7 @@ public class AeResourceCache implements IAeResourceCache, IAeConfigChangeListene
     public InputSource getInputSource(String aLocationHint) throws Exception {
         InputSource source;
 
-        IAeCatalogMapping mapping = AeEngineFactory.getCatalog().getMappingForLocation(
+        IAeCatalogMapping mapping = AeEngineFactory.getBean(IAeCatalog.class).getMappingForLocation(
                 aLocationHint);
         if (mapping != null) {
             source = mapping.getInputSource();

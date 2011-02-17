@@ -13,6 +13,7 @@ import org.activebpel.rt.bpel.AeBusinessProcessException;
 import org.activebpel.rt.bpel.IAeEndpointReference;
 import org.activebpel.rt.bpel.def.AePartnerLinkDefKey;
 import org.activebpel.rt.bpel.server.addressing.AeEndpointReferenceSourceType;
+import org.activebpel.rt.bpel.server.addressing.IAePartnerAddressing;
 import org.activebpel.rt.bpel.server.deploy.IAePddXmlConstants;
 import org.activebpel.rt.bpel.server.engine.AeEngineFactory;
 import org.activebpel.rt.util.AeUtil;
@@ -117,7 +118,7 @@ public class AePartnerLinkDescriptor implements IAePddXmlConstants
       IAeEndpointReference ref = null;
       if( aType == AeEndpointReferenceSourceType.STATIC )
       {
-         ref = AeEngineFactory.getPartnerAddressing().readFromDeployment( aPartnerRoleElement );
+         ref = AeEngineFactory.getBean(IAePartnerAddressing.class).readFromDeployment( aPartnerRoleElement );
       }
       return ref;
    }

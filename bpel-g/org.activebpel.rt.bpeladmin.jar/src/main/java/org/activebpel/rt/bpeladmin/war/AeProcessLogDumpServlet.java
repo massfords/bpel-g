@@ -68,7 +68,7 @@ public class AeProcessLogDumpServlet extends HttpServlet {
     private void streamLog(HttpServletResponse aResponse, long aPid) throws IOException {
         PrintWriter out = null;
         try {
-            IAeProcessLogger logger = AeEngineFactory.getLogger();
+            IAeProcessLogger logger = AeEngineFactory.getBean(IAeProcessLogger.class);
             out = setupStream(aPid, aResponse);
             if (logger != null) {
                 Reader reader = logger.getFullLog(aPid);

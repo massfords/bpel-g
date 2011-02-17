@@ -11,6 +11,7 @@ package org.activebpel.rt.bpel.server.admin.rdebug.server;
 
 import commonj.work.Work;
 import commonj.work.WorkItem;
+import commonj.work.WorkManager;
 
 import java.io.ByteArrayInputStream;
 import java.io.StringReader;
@@ -43,6 +44,7 @@ import org.activebpel.rt.bpel.impl.list.AeProcessFilter;
 import org.activebpel.rt.bpel.impl.list.AeProcessInstanceDetail;
 import org.activebpel.rt.bpel.impl.list.AeProcessListResult;
 import org.activebpel.rt.bpel.server.AeMessages;
+import org.activebpel.rt.bpel.server.IAeDeploymentProvider;
 import org.activebpel.rt.bpel.server.IAeProcessDeployment;
 import org.activebpel.rt.bpel.server.admin.rdebug.client.IAeEventHandler;
 import org.activebpel.rt.bpel.server.admin.rdebug.client.IAeEventHandlerService;
@@ -76,14 +78,9 @@ public class AeRemoteDebugImpl implements IAeBpelAdmin
    /** Map of context Id to breakpoint listener used for dispatching remote debug events. */
    private static Hashtable sBreakpointListeners = new Hashtable();
 
-   /**
-    * Constructor for remote engine implementation.
-    *  
-    * @param aEventHandlerLocator class name of locator for the event handler service routine for BPEL engine events. 
-    */
-   public AeRemoteDebugImpl(String aEventHandlerLocator)
-   {
-      sEventHandlerLocator = aEventHandlerLocator;
+
+   public void setEventHandlerLocator(String aEventHandlerLocator) {
+	   sEventHandlerLocator = aEventHandlerLocator;
    }
    
    /**
@@ -118,11 +115,11 @@ public class AeRemoteDebugImpl implements IAeBpelAdmin
       try
       {
          Work work = new AeRemoteSuspendWork(aPid);
-         WorkItem workItem = AeEngineFactory.getWorkManager().schedule(work) ;
+         WorkItem workItem = AeEngineFactory.getBean(WorkManager.class).schedule(work) ;
          // wait for work to finish as suspend should be synchronous
          // but schedule it to avoid any potential deadlocks 30 seconds 
          // should be more than enough time to wait for completion
-         AeEngineFactory.getWorkManager().waitForAny(Collections.singleton(workItem), 30000);
+         AeEngineFactory.getBean(WorkManager.class).waitForAny(Collections.singleton(workItem), 30000);
       }
       catch (Exception e)
       {
@@ -139,7 +136,7 @@ public class AeRemoteDebugImpl implements IAeBpelAdmin
       try
       {
          Work work = new AeRemoteResumeWork(aPid);
-         AeEngineFactory.getWorkManager().schedule(work) ;
+         AeEngineFactory.getBean(WorkManager.class).schedule(work) ;
       }
       catch (Exception e)
       {
@@ -156,7 +153,7 @@ public class AeRemoteDebugImpl implements IAeBpelAdmin
       try
       {
          Work work = new AeRemoteResumeObjectWork(aPid, aLocation);
-         AeEngineFactory.getWorkManager().schedule(work) ;
+         AeEngineFactory.getBean(WorkManager.class).schedule(work) ;
       }
       catch (Exception e)
       {
@@ -177,7 +174,7 @@ public class AeRemoteDebugImpl implements IAeBpelAdmin
       try
       {
          Work work = new AeRemoteRestartWork(aPid);
-         AeEngineFactory.getWorkManager().schedule(work) ;
+         AeEngineFactory.getBean(WorkManager.class).schedule(work) ;
       }
       catch (Exception e)
       {
@@ -194,7 +191,7 @@ public class AeRemoteDebugImpl implements IAeBpelAdmin
       try
       {
          Work work = new AeRemoteTerminateWork(aPid);
-         AeEngineFactory.getWorkManager().schedule(work) ;
+         AeEngineFactory.getBean(WorkManager.class).schedule(work) ;
       }
       catch (Exception e)
       {
@@ -345,7 +342,7 @@ public class AeRemoteDebugImpl implements IAeBpelAdmin
    protected IAeProcessDeployment findDeploymentPlan(long aProcessId) throws AeBusinessProcessException
    {
       QName processName = AeEngineFactory.getEngine().getProcessManager().getProcessQName(aProcessId);
-      IAeProcessDeployment deployment = AeEngineFactory.getDeploymentProvider().findDeploymentPlan(aProcessId, processName);
+      IAeProcessDeployment deployment = AeEngineFactory.getBean(IAeDeploymentProvider.class).findDeploymentPlan(aProcessId, processName);
       return deployment;
    }
 
@@ -1184,7 +1181,7 @@ public class AeRemoteDebugImpl implements IAeBpelAdmin
                   
                   // Then dispatch a breakpoint event based on this RTE event.
                   final IAeProcessEvent event = aEvent; 
-                  AeEngineFactory.getWorkManager().schedule(new AeAbstractWork()
+                  AeEngineFactory.getBean(WorkManager.class).schedule(new AeAbstractWork()
                   {
                      public void run()
                      {

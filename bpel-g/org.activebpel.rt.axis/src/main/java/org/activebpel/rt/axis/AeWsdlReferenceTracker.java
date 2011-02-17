@@ -13,6 +13,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.activebpel.rt.axis.IAeWsdlReference;
+import org.activebpel.rt.bpel.server.catalog.IAeCatalog;
 import org.activebpel.rt.bpel.server.engine.AeEngineFactory;
 
 /**
@@ -38,7 +39,7 @@ public class AeWsdlReferenceTracker
    {
       unregisterReference( aServiceName );
       mReferences.put( aServiceName, aReference );
-      AeEngineFactory.getCatalog().addCatalogListener( aReference );
+      AeEngineFactory.getBean(IAeCatalog.class).addCatalogListener( aReference );
 
    }
    
@@ -52,7 +53,7 @@ public class AeWsdlReferenceTracker
       IAeWsdlReference wsdlRef = (IAeWsdlReference)mReferences.remove( aServiceName );
       if( wsdlRef != null )
       {
-         AeEngineFactory.getCatalog().removeCatalogListener( wsdlRef );
+         AeEngineFactory.getBean(IAeCatalog.class).removeCatalogListener( wsdlRef );
       }
    }
 }

@@ -18,9 +18,11 @@ import org.activebpel.rt.bpel.impl.list.AeProcessFilter;
 import org.activebpel.rt.bpel.impl.list.AeProcessInstanceDetail;
 import org.activebpel.rt.bpel.impl.list.AeProcessListResult;
 import org.activebpel.rt.bpel.server.AeMessages;
+import org.activebpel.rt.bpel.server.IAeDeploymentProvider;
 import org.activebpel.rt.bpel.server.admin.IAeEngineAdministration;
 import org.activebpel.rt.bpel.server.deploy.IAeDeploymentContainer;
 import org.activebpel.rt.bpel.server.deploy.IAeDeploymentHandler;
+import org.activebpel.rt.bpel.server.deploy.IAeDeploymentHandlerFactory;
 import org.activebpel.rt.bpel.server.deploy.IAeDeploymentSource;
 import org.activebpel.rt.bpel.server.deploy.validate.AeDeploymentFileValidator;
 import org.activebpel.rt.bpel.server.engine.AeEngineFactory;
@@ -95,7 +97,7 @@ public class BgServiceUnitManager implements ServiceUnitManager {
         try {
     
             IAeDeploymentContainer deployContainer = createDeploymentContainer(new File(aServiceUnitRootPath));
-            IAeDeploymentHandler handler = AeEngineFactory.getDeploymentHandlerFactory().newInstance(new AeCommonsLoggingImpl(sLog));
+            IAeDeploymentHandler handler = AeEngineFactory.getBean(IAeDeploymentHandlerFactory.class).newInstance(new AeCommonsLoggingImpl(sLog));
             handler.undeploy(deployContainer);
             terminateUndeployedInstances(deployContainer);
             purgeUndeployedInstances(deployContainer);
@@ -144,7 +146,7 @@ public class BgServiceUnitManager implements ServiceUnitManager {
                 AeProcessFilter filter = new AeProcessFilter();
                 filter.setProcessName(processName);
                 admin.removeProcesses(filter);
-                AeEngineFactory.getDeploymentProvider().removeDeploymentPlan(processName);
+                AeEngineFactory.getBean(IAeDeploymentProvider.class).removeDeploymentPlan(processName);
             } catch (AeException e) {
                 sLog.error("Error purging plan for undeployed processes", e); //$NON-NLS-1$
             }
@@ -213,7 +215,7 @@ public class BgServiceUnitManager implements ServiceUnitManager {
         // If the file type is valid, then use the deployment handler to
         // deploy the BPR.
         if (!logger.hasErrors()) {
-            IAeDeploymentHandler handler = AeEngineFactory.getDeploymentHandlerFactory().newInstance(new AeCommonsLoggingImpl(sLog));
+            IAeDeploymentHandler handler = AeEngineFactory.getBean(IAeDeploymentHandlerFactory.class).newInstance(new AeCommonsLoggingImpl(sLog));
             handler.deploy(deployContainer, logger);
             sDeployed.add(aServiceUnitRootPath);
             return true;

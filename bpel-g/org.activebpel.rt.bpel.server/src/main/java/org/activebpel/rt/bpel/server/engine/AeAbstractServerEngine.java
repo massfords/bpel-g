@@ -12,16 +12,11 @@ package org.activebpel.rt.bpel.server.engine;
 import org.activebpel.rt.AeException;
 import org.activebpel.rt.bpel.AeBusinessProcessException;
 import org.activebpel.rt.bpel.IAeBusinessProcess;
-import org.activebpel.rt.bpel.IAeExpressionLanguageFactory;
-import org.activebpel.rt.bpel.config.IAeEngineConfiguration;
 import org.activebpel.rt.bpel.coord.IAeCoordinating;
 import org.activebpel.rt.bpel.coord.IAeCoordinationContext;
 import org.activebpel.rt.bpel.impl.AeBusinessProcessEngine;
-import org.activebpel.rt.bpel.impl.IAeAttachmentManager;
-import org.activebpel.rt.bpel.impl.IAeLockManager;
 import org.activebpel.rt.bpel.impl.IAeProcessCoordination;
-import org.activebpel.rt.bpel.impl.IAeProcessManager;
-import org.activebpel.rt.bpel.impl.IAeQueueManager;
+import org.activebpel.rt.bpel.server.catalog.IAeCatalog;
 import org.activebpel.rt.bpel.server.catalog.resource.AeResourceKey;
 import org.activebpel.rt.bpel.server.coord.subprocess.AeServerProcessCoordination;
 import org.activebpel.rt.util.AeUtil;
@@ -32,20 +27,6 @@ import org.activebpel.wsio.receive.IAeMessageContext;
  */
 public abstract class AeAbstractServerEngine extends AeBusinessProcessEngine
 {
-   /**
-    * Ctor
-    * @param aEngineConfiguration
-    * @param aQueueManager
-    * @param aProcessManager
-    * @param aLockManager
-    * @param aAttachmentManager
-    */
-   public AeAbstractServerEngine(IAeEngineConfiguration aEngineConfiguration, IAeQueueManager aQueueManager, IAeProcessManager aProcessManager, IAeLockManager aLockManager, IAeAttachmentManager aAttachmentManager, IAeExpressionLanguageFactory aFactory)
-   {
-      super(aEngineConfiguration, aQueueManager, aProcessManager, aLockManager,
-            aAttachmentManager, aFactory);
-   }
-
    /**
     * Returns handler for responsible for process coordination operations.
     */
@@ -113,7 +94,7 @@ public abstract class AeAbstractServerEngine extends AeBusinessProcessEngine
     */
    protected final Object loadResourceInternal(String aLocation, String aTypeURI) throws AeException
    {
-      return AeEngineFactory.getCatalog().getResourceCache().getResource(new AeResourceKey(aLocation, aTypeURI));
+      return AeEngineFactory.getBean(IAeCatalog.class).getResourceCache().getResource(new AeResourceKey(aLocation, aTypeURI));
    }
 }
  

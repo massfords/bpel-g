@@ -107,14 +107,15 @@ public class AeHttpConfig
    public static String TEMP_FILE_POSTFIX = ".bin"; //$NON-NLS-1$
 
    /** Parent entry containing http service config entry settings. */
-   private Map mMap;
+   private Map mMap = new LinkedHashMap();
 
-   /**
-    * Constructor
-    */
    public AeHttpConfig(Map aHttpConfig)
    {
       setMap(aHttpConfig);
+   }
+
+   public AeHttpConfig()
+   {
    }
 
    /**

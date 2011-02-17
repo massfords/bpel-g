@@ -401,23 +401,7 @@ public class AeStorageBean extends AeAbstractAdminBean
     */
    public boolean isStandardDbms()
    {
-     return AeEngineFactory.getStorageFactory() instanceof AeSQLStorageProviderFactory;
-   }
-
-   /**
-    * Returns the standard dbms storage factory or null if error.
-    */
-   protected AeSQLStorageProviderFactory getStorageFactory()
-   {
-      try
-      {
-         return (AeSQLStorageProviderFactory) AeEngineFactory.getStorageFactory();
-      }
-      catch (Throwable e)
-      {
-         // shouldn't happen since we only call after checking for standard dbms.
-         return null;
-      }
+     return true; //AeEngineFactory.getStorageFactory() instanceof AeSQLStorageProviderFactory;
    }
 
    /**

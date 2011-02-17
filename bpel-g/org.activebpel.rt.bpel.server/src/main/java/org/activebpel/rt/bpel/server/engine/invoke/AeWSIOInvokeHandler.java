@@ -38,9 +38,12 @@ import org.activebpel.rt.bpel.impl.addressing.AeAddressingHeaders;
 import org.activebpel.rt.bpel.impl.addressing.IAeAddressingHeaders;
 import org.activebpel.rt.bpel.impl.queue.AeInvoke;
 import org.activebpel.rt.bpel.server.AeMessages;
+import org.activebpel.rt.bpel.server.IAeDeploymentProvider;
 import org.activebpel.rt.bpel.server.addressing.IAePartnerAddressing;
+import org.activebpel.rt.bpel.server.catalog.IAeCatalog;
 import org.activebpel.rt.bpel.server.deploy.IAePolicyMapper;
 import org.activebpel.rt.bpel.server.engine.AeEngineFactory;
+import org.activebpel.rt.bpel.urn.AeURNResolver;
 import org.activebpel.rt.util.AeUtil;
 import org.activebpel.rt.util.AeXmlUtil;
 import org.activebpel.rt.wsdl.IAeContextWSDLProvider;
@@ -62,6 +65,7 @@ public abstract class AeWSIOInvokeHandler implements IAeInvokeHandler, IAePolicy
 {
    public static final String STYLE_RPC = "rpc"; //$NON-NLS-1$
    public static final String STYLE_DOCUMENT = "document"; //$NON-NLS-1$
+   private AeURNResolver mURNResolver;
 
    /**
     * Sets up the context for an invoke, resolving WSDL definitions for the service and SOAP binding operation,
@@ -122,7 +126,7 @@ public abstract class AeWSIOInvokeHandler implements IAeInvokeHandler, IAePolicy
          wsaHeaders.setAction(soapAction);
          wsaHeaders.setTo(url);
          wsaHeaders.setReplyTo(aContext.getReplyTo());
-         IAePartnerAddressing pa = AeEngineFactory.getPartnerAddressing();
+         IAePartnerAddressing pa = AeEngineFactory.getBean(IAePartnerAddressing.class);
          IAeEndpointReference newEndpoint = pa.updateEndpointHeaders(wsaHeaders, endpointReference);
          aContext.setEndpoint(newEndpoint);
       }
@@ -266,7 +270,7 @@ public abstract class AeWSIOInvokeHandler implements IAeInvokeHandler, IAePolicy
 
       // in either case, send the url through the urn mapping facility to see if
       // it maps to another url.
-      return AeEngineFactory.getURNResolver().getURL(url);
+      return getURNResolver().getURL(url);
    }
 
    /**
@@ -415,7 +419,7 @@ public abstract class AeWSIOInvokeHandler implements IAeInvokeHandler, IAePolicy
       else
       {
          // TODO (RN) May want to revisit this to pass the IAeProcessDeployment instead of looking it up
-         IAeContextWSDLProvider wsdlProvider = AeEngineFactory.getDeploymentProvider().findDeploymentPlan(aInvoker.getProcessId(), aInvoker.getProcessName());
+         IAeContextWSDLProvider wsdlProvider = AeEngineFactory.getBean(IAeDeploymentProvider.class).findDeploymentPlan(aInvoker.getProcessId(), aInvoker.getProcessName());
          if (wsdlProvider != null)
          {
             AeBPELExtendedWSDLDef def = AeWSDLDefHelper.getWSDLDefinitionForPortType(wsdlProvider, aInvoker.getPortType());
@@ -493,7 +497,7 @@ public abstract class AeWSIOInvokeHandler implements IAeInvokeHandler, IAePolicy
          if (!AeUtil.isNullOrEmpty(aPolicyList)) 
          {
             // get the main policy mapper
-            IAePolicyMapper mapper = AeEngineFactory.getPolicyMapper();
+            IAePolicyMapper mapper = AeEngineFactory.getBean(IAePolicyMapper.class);
             // get Client Request properties
             return mapper.getCallProperties(aPolicyList);
          }
@@ -519,7 +523,7 @@ public abstract class AeWSIOInvokeHandler implements IAeInvokeHandler, IAePolicy
     */
    protected List getWsdlPolicies(AeBPELExtendedWSDLDef aDef, IAeInvoke aInvoke, IAeEndpointReference aEndpoint) throws AeBusinessProcessException
    {
-      IAeContextWSDLProvider wsdlProvider = AeEngineFactory.getDeploymentProvider().findDeploymentPlan(aInvoke.getProcessId(), aInvoke.getProcessName());
+      IAeContextWSDLProvider wsdlProvider = AeEngineFactory.getBean(IAeDeploymentProvider.class).findDeploymentPlan(aInvoke.getProcessId(), aInvoke.getProcessName());
       return AeWSDLPolicyHelper.getEffectiveOperationPolicies(wsdlProvider, aEndpoint, aInvoke.getPortType(), aInvoke.getOperation(), null);
    }
    
@@ -539,18 +543,18 @@ public abstract class AeWSIOInvokeHandler implements IAeInvokeHandler, IAePolicy
       if ( aEndpointRef.getServiceName() != null )
       {
          // they have a service name, see if we can find the wsdl for it
-         def = AeWSDLDefHelper.getWSDLDefinitionForService( AeEngineFactory.getCatalog(), aEndpointRef.getServiceName() );
+         def = AeWSDLDefHelper.getWSDLDefinitionForService( AeEngineFactory.getBean(IAeCatalog.class), aEndpointRef.getServiceName() );
          // if not global wsdl check the context wsdl for service
          if(def == null)
          {
-            IAeContextWSDLProvider wsdlProvider = AeEngineFactory.getDeploymentProvider().findDeploymentPlan(aInvoke.getProcessId(), aInvoke.getProcessName());
+            IAeContextWSDLProvider wsdlProvider = AeEngineFactory.getBean(IAeDeploymentProvider.class).findDeploymentPlan(aInvoke.getProcessId(), aInvoke.getProcessName());
             if (wsdlProvider != null)
                def = AeWSDLDefHelper.getWSDLDefinitionForService( wsdlProvider, aEndpointRef.getServiceName() );
          }
       }
       else 
       {
-         IAeContextWSDLProvider wsdlProvider = AeEngineFactory.getDeploymentProvider().findDeploymentPlan(aInvoke.getProcessId(), aInvoke.getProcessName());
+         IAeContextWSDLProvider wsdlProvider = AeEngineFactory.getBean(IAeDeploymentProvider.class).findDeploymentPlan(aInvoke.getProcessId(), aInvoke.getProcessName());
          if (wsdlProvider != null)
             def = AeWSDLDefHelper.getWSDLDefinitionForPortType(wsdlProvider, aInvoke.getPortType());
       }
@@ -601,4 +605,12 @@ public abstract class AeWSIOInvokeHandler implements IAeInvokeHandler, IAePolicy
          }
       }
    }
+
+public AeURNResolver getURNResolver() {
+	return mURNResolver;
+}
+
+public void setURNResolver(AeURNResolver aURNResolver) {
+	mURNResolver = aURNResolver;
+}
 }

@@ -10,43 +10,62 @@
 package org.activebpel.rt.bpel.server.deploy.validate;
 
 import org.activebpel.rt.AeException;
+import org.activebpel.rt.bpel.IAeExpressionLanguageFactory;
 import org.activebpel.rt.bpel.def.validation.IAeBaseErrorReporter;
 import org.activebpel.rt.bpel.server.IAeProcessDeployment;
 import org.activebpel.rt.bpel.server.deploy.bpr.IAeBpr;
+import org.activebpel.rt.expr.validation.functions.IAeFunctionValidatorFactory;
 
 /**
  * The default validation handler for the system.
  */
-public class AeDefaultValidationHandler implements IAeValidationHandler
-{
-   
-   /** The top level predeployment validator */
-   private static final IAePredeploymentValidator PREDEPLOY_VALIDATOR =
-      AePredeploymentValidator.createDefault();
+public class AeDefaultValidationHandler implements IAeValidationHandler {
+	private IAeFunctionValidatorFactory mFunctionValidatorFactory;
+	private IAeExpressionLanguageFactory mExpressionLanguageFactory;
 
-   /**
-    * @see org.activebpel.rt.bpel.server.deploy.validate.IAeValidationHandler#doPredeploymentValidation(org.activebpel.rt.bpel.server.deploy.bpr.IAeBpr, org.activebpel.rt.bpel.def.validation.IAeBaseErrorReporter)
-    */
-   public void doPredeploymentValidation(
-      IAeBpr aBpr,
-      IAeBaseErrorReporter aReporter)
-      throws AeException
-   {
-      PREDEPLOY_VALIDATOR.validate( aBpr, aReporter );
-   }
+	/** The top level predeployment validator */
+	private static final IAePredeploymentValidator PREDEPLOY_VALIDATOR = AePredeploymentValidator
+			.createDefault();
 
-   /**
-    * @see org.activebpel.rt.bpel.server.deploy.validate.IAeValidationHandler#doDeploymentValidation(java.lang.String, org.activebpel.rt.bpel.server.IAeProcessDeployment, org.activebpel.rt.bpel.def.validation.IAeBaseErrorReporter)
-    */
-   public void doDeploymentValidation(
-      String aPddLocation,
-      IAeProcessDeployment aDeployment,
-      IAeBaseErrorReporter aReporter)
-      throws AeException
-   {
-      AeDeploymentValidator deploymentValidator = 
-         new AeDeploymentValidator(aPddLocation,aDeployment,aReporter);
-      
-      deploymentValidator.validate();
-   }
+	/**
+	 * @see org.activebpel.rt.bpel.server.deploy.validate.IAeValidationHandler#doPredeploymentValidation(org.activebpel.rt.bpel.server.deploy.bpr.IAeBpr,
+	 *      org.activebpel.rt.bpel.def.validation.IAeBaseErrorReporter)
+	 */
+	public void doPredeploymentValidation(IAeBpr aBpr,
+			IAeBaseErrorReporter aReporter) throws AeException {
+		PREDEPLOY_VALIDATOR.validate(aBpr, aReporter);
+	}
+
+	/**
+	 * @see org.activebpel.rt.bpel.server.deploy.validate.IAeValidationHandler#doDeploymentValidation(java.lang.String,
+	 *      org.activebpel.rt.bpel.server.IAeProcessDeployment,
+	 *      org.activebpel.rt.bpel.def.validation.IAeBaseErrorReporter)
+	 */
+	public void doDeploymentValidation(String aPddLocation,
+			IAeProcessDeployment aDeployment, IAeBaseErrorReporter aReporter)
+			throws AeException {
+		AeDeploymentValidator deploymentValidator = new AeDeploymentValidator(
+				aPddLocation, aDeployment, aReporter);
+		deploymentValidator.setExpressionLanguageFactory(getExpressionLanguageFactory());
+		deploymentValidator.setFunctionValidatorFactory(getFunctionValidatorFactory());
+		deploymentValidator.validate();
+	}
+
+	public IAeFunctionValidatorFactory getFunctionValidatorFactory() {
+		return mFunctionValidatorFactory;
+	}
+
+	public void setFunctionValidatorFactory(
+			IAeFunctionValidatorFactory aFunctionValidatorFactory) {
+		mFunctionValidatorFactory = aFunctionValidatorFactory;
+	}
+
+	public IAeExpressionLanguageFactory getExpressionLanguageFactory() {
+		return mExpressionLanguageFactory;
+	}
+
+	public void setExpressionLanguageFactory(
+			IAeExpressionLanguageFactory aExpressionLanguageFactory) {
+		mExpressionLanguageFactory = aExpressionLanguageFactory;
+	}
 }

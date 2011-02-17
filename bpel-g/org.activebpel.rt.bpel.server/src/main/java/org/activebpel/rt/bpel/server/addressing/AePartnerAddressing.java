@@ -38,6 +38,7 @@ import org.activebpel.rt.bpel.server.AeMessages;
 import org.activebpel.rt.bpel.server.IAeProcessDeployment;
 import org.activebpel.rt.bpel.server.addressing.pdef.IAePartnerAddressBook;
 import org.activebpel.rt.bpel.server.addressing.pdef.IAePartnerAddressingProvider;
+import org.activebpel.rt.bpel.server.deploy.IAePolicyMapper;
 import org.activebpel.rt.bpel.server.deploy.IAeServiceDeploymentInfo;
 import org.activebpel.rt.bpel.server.engine.AeEngineFactory;
 import org.activebpel.rt.bpel.urn.IAeURNResolver;
@@ -63,6 +64,7 @@ public class AePartnerAddressing implements IAePartnerAddressing
 {
    
    private IAePartnerAddressingProvider mProvider;
+   private IAeURNResolver mURNResolver;
    
    /**
     * @see org.activebpel.rt.bpel.server.addressing.IAePartnerAddressing#getReplyAddressing(org.activebpel.wsio.IAeWsAddressingHeaders, java.lang.String)
@@ -272,7 +274,7 @@ public class AePartnerAddressing implements IAePartnerAddressing
       }
       
       // Resolve the URN for the address
-      IAeURNResolver resolver = AeEngineFactory.getURNResolver();
+      IAeURNResolver resolver = getURNResolver();
       String url = newReplyTo.getAddress();
       newReplyTo.setAddress(resolver.getURL(url));
       
@@ -288,7 +290,7 @@ public class AePartnerAddressing implements IAePartnerAddressing
       epr.setReferenceData(aEndpoint);
 
       // resolve URN mappings for To address
-      String toAddress = AeEngineFactory.getURNResolver().getURL(epr.getAddress());
+      String toAddress = getURNResolver().getURL(epr.getAddress());
       epr.setAddress(toAddress);      
       // Set To addressing with the endpoint
       aWsaHeaders.setRecipient(epr);
@@ -392,7 +394,7 @@ public class AePartnerAddressing implements IAePartnerAddressing
             if (aConversationId != null)
             {
                // get the correlationId property from the mapper
-               Map props = AeEngineFactory.getPolicyMapper().getCallProperties(policies);
+               Map props = AeEngineFactory.getBean(IAePolicyMapper.class).getCallProperties(policies);
                QName correlationProperty = (QName) props.get(IAePolicyConstants.TAG_ASSERT_MANAGED_CORRELATION);
                if (correlationProperty != null)
                {
@@ -413,4 +415,12 @@ public class AePartnerAddressing implements IAePartnerAddressing
       }
       return myRoleRef;
    }
+
+public IAeURNResolver getURNResolver() {
+	return mURNResolver;
+}
+
+public void setURNResolver(IAeURNResolver aURNResolver) {
+	mURNResolver = aURNResolver;
+}
 }

@@ -59,8 +59,6 @@
         <module>org.activebpel.rt.bpel.server</module>
         <module>org.activebpel.rt.axis</module>
         <module>org.activebpel.rt.wsresource</module>
-        <module>org.activebpel.rt.identity</module>
-        <module>org.activebpel.rt.http</module>
         <module>org.activebpel.rt.axis.bpel.admin</module>
         <module>org.activebpel.rt.axis.bpel</module>
         <module>org.activebpel.rt.axis.bpel.web</module>

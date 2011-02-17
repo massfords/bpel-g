@@ -16,6 +16,7 @@ import org.activebpel.rt.bpel.server.engine.AeEngineAdministration;
 import org.activebpel.rt.bpel.server.engine.AeEngineFactory;
 import org.activebpel.rt.bpel.server.logging.AeTeeDeploymentLogger;
 import org.activebpel.rt.bpel.server.logging.IAeDeploymentLogger;
+import org.activebpel.rt.bpel.server.logging.IAeDeploymentLoggerFactory;
 
 /**
  * This is an implementation of the ActiveBPEL engine administration interface.  It extends
@@ -34,7 +35,7 @@ public class AeWebEngineAdministration extends AeEngineAdministration
    public void deployNewBpr(File aBprFile, String aBprFilename, IAeDeploymentLogger aLogger) throws AeException
    {
       // Combine the passed-in logger with the engine factory logger using the Tee logger.
-      IAeDeploymentLogger logger = AeEngineFactory.getDeploymentLoggerFactory().createLogger();
+      IAeDeploymentLogger logger = AeEngineFactory.getBean(IAeDeploymentLoggerFactory.class).createLogger();
       IAeDeploymentLogger teeLogger = new AeTeeDeploymentLogger(logger, aLogger);
 
       AeProcessEngineServlet.getDeploymentHandler().handleDeployment(aBprFile, aBprFilename, teeLogger);

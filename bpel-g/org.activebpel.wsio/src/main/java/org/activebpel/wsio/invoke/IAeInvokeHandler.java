@@ -25,5 +25,4 @@ public interface IAeInvokeHandler
     * @param aQueryData
     */
    public IAeWebServiceResponse handleInvoke( IAeInvoke aInvoke, String aQueryData );
-   
 }

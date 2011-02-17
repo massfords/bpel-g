@@ -18,6 +18,7 @@ import org.activebpel.rt.bpel.AeBusinessProcessException;
 import org.activebpel.rt.bpel.AeWSDLDefHelper;
 import org.activebpel.rt.bpel.IAeEndpointReference;
 import org.activebpel.rt.bpel.impl.queue.AeInvoke;
+import org.activebpel.rt.bpel.server.IAeDeploymentProvider;
 import org.activebpel.rt.bpel.server.engine.AeEngineFactory;
 import org.activebpel.rt.util.AeUtil;
 import org.activebpel.rt.util.AeXmlUtil;
@@ -189,7 +190,7 @@ public class BgInvokeHandler implements IAeInvokeHandler {
      * @throws AeBusinessProcessException
      */
     private PortType getPortType() throws AeBusinessProcessException {
-        IAeContextWSDLProvider wsdlProvider = AeEngineFactory.getDeploymentProvider().findDeploymentPlan(
+        IAeContextWSDLProvider wsdlProvider = AeEngineFactory.getBean(IAeDeploymentProvider.class).findDeploymentPlan(
                 -1, mInvokeContext.getProcessName());
         AeBPELExtendedWSDLDef def = AeWSDLDefHelper.getWSDLDefinitionForPortType(
                 wsdlProvider, mInvokeContext.getPortType());

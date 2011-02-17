@@ -95,28 +95,8 @@ public interface IAeEngineConfiguration
    public static final String DS_USERNAME_ENTRY = "Username"; //$NON-NLS-1$
    /** Name of entry for setting the datasource/password for data source lookups */
    public static final String DS_PASSWORD_ENTRY = "Password"; //$NON-NLS-1$
-   /** Name of entry for deployment factory. */
-   public static final String DEPLOYMENT_FACTORY_ENTRY = "DeploymentFactory"; //$NON-NLS-1$
-   /** Name of entry for deployment handler. */
-   public static final String DEPLOYMENT_HANDLER_ENTRY = "DeploymentHandler"; //$NON-NLS-1$
-   /** Name of entry for deployment provider. */
-   public static final String DEPLOYMENT_PROVIDER = "DeploymentProvider"; //$NON-NLS-1$
-   /** Name of entry which contains the remote debug engine map. */
-   public static final String REMOTE_DEBUG_ENTRY = "RemoteDebug"; //$NON-NLS-1$
-   /** Name of entry which contains the remote debug engine implementation. */
-   public static final String REMOTE_DEBUG_IMPL_ENTRY = "RemoteDebugImpl"; //$NON-NLS-1$
-   /** Name of entry which contains the event handler locator. */
-   public static final String EVENT_HANDLER_LOCATOR_ENTRY = "EventHandlerLocator"; //$NON-NLS-1$
-   /** Name of entry which contains the breakpoint handler locator. */
-   public static final String BREAKPOINT_HANDLER_LOCATOR_ENTRY = "BreakpointHandlerLocator"; //$NON-NLS-1$
-   /** Name of entry for the invoke handler factory */
-   public static final String INVOKE_HANDLER_FACTORY = "InvokeHandlerFactory"; //$NON-NLS-1$
-   /** Name of entry for the receive handler factory */
-   public static final String RECEIVE_HANDLER_FACTORY = "ReceiveHandlerFactory"; //$NON-NLS-1$
    /** Name of entry for work manager map. */
    public static final String WORK_MANAGER_ENTRY = "WorkManager"; //$NON-NLS-1$
-   /** Name of entry for setting the work manager jndi location */
-   public static final String WM_JNDI_NAME_ENTRY = "JNDILocation"; //$NON-NLS-1$
    /** Name of entry for timer manager map. */
    public static final String TIMER_MANAGER_ENTRY = "TimerManager"; //$NON-NLS-1$
    /** Name of entry for setting the timer manager jndi location */
@@ -135,10 +115,6 @@ public interface IAeEngineConfiguration
    public static final String RESTART_SUSPENDED_PROCESS = "RestartSuspendedProcess"; //$NON-NLS-1$
    /** Name of entry for specifying logger handlers */
    public static final String LOG_HANDLER_ENTRY = "LogHandler"; //$NON-NLS-1$
-   /** Name of entry for setting an engine listener */
-   public static final String ENGINE_LISTENER = "EngineListener"; //$NON-NLS-1$
-   /** Name of entry for process work manager map. */
-   public static final String PROCESS_WORK_MANAGER_ENTRY = "ProcessWorkManager"; //$NON-NLS-1$
    /** Name of entry for maximum number of work requests to schedule per-process. */
    public static final String PROCESS_WORK_COUNT_ENTRY = "ProcessWorkCount"; //$NON-NLS-1$
    /** Name of entry for the storage provider factory map. */
@@ -147,12 +123,8 @@ public interface IAeEngineConfiguration
    public static final String WEB_SERVICE_TIMEOUT = "WebServiceTimeout"; //$NON-NLS-1$
    /** Name of entry for the web service timeouts for receives */
    public static final String WEB_SERVICE_RECEIVE_TIMEOUT = "WebServiceReceiveTimeout"; //$NON-NLS-1$
-   /** Name of entry for the SOAP Message factory */
-   public static final String SOAP_MESSAGE_FACTORY = "SOAPMessageFactory"; //$NON-NLS-1$
    /** Name of entry for scheduler manager. */
    public static final String SCHEDULE_MANAGER_ENTRY = "ScheduleManager"; //$NON-NLS-1$
-   /** Name of entry for custom managers. */
-   public static final String CUSTOM_MANAGERS_ENTRY = "CustomManagers"; //$NON-NLS-1$
    /** Name of entry for child work manager maximum work count. */
    public static final String MAX_WORK_COUNT_ENTRY = "MaxWorkCount"; //$NON-NLS-1$
    /** Name of the child work manager for alarm work. */

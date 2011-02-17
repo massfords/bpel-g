@@ -21,17 +21,17 @@ import org.activebpel.rt.bpel.coord.IAeCreateContextRequest;
 import org.activebpel.rt.bpel.coord.IAeProtocolMessage;
 import org.activebpel.rt.bpel.coord.IAeProtocolState;
 import org.activebpel.rt.bpel.impl.IAeProcessManager;
-import org.activebpel.rt.bpel.server.engine.AeEngineFactory;
 import org.activebpel.rt.bpel.server.engine.storage.IAeCoordinationStorage;
+import org.activebpel.rt.bpel.server.engine.storage.IAeStorageFactory;
 
 /**
  * Persistent Coordination manager implementation.
  */
 public class AePersistentCoordinationManager extends AeCoordinationManager
 {
-   /** reference to the storage. */
+   private IAeStorageFactory mStorageFactory;
    private IAeCoordinationStorage mStorage;
-
+   
    /**
    * Gets called once after the manager has been instantiated. If the manager runs
    * into any kind of fatal error during create then it should throw an exception which will 
@@ -39,7 +39,7 @@ public class AePersistentCoordinationManager extends AeCoordinationManager
    */   
    public void create() throws Exception
    {
-      setStorage(AeEngineFactory.getStorageFactory().getCoordinationStorage());
+      setStorage(getStorageFactory().getCoordinationStorage());
       getStorage().setCoordinationManager(this);
    }
 
@@ -239,4 +239,12 @@ public class AePersistentCoordinationManager extends AeCoordinationManager
    {
       mStorage = aStorage;
    }
+
+public IAeStorageFactory getStorageFactory() {
+	return mStorageFactory;
+}
+
+public void setStorageFactory(IAeStorageFactory aStorageFactory) {
+	mStorageFactory = aStorageFactory;
+}
 }

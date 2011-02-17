@@ -506,8 +506,7 @@ public class AeDefaultEngineConfiguration extends AeConfiguration implements IAe
     */
    public int getProcessWorkCount()
    {
-      Map map = getMapEntry(PROCESS_WORK_MANAGER_ENTRY);
-      return getIntegerEntryInternal(map, PROCESS_WORK_COUNT_ENTRY, PROCESS_WORK_COUNT_DEFAULT);
+	   return getIntegerEntry(PROCESS_WORK_COUNT_ENTRY, PROCESS_WORK_COUNT_DEFAULT);
    }
 
    /**
@@ -515,8 +514,7 @@ public class AeDefaultEngineConfiguration extends AeConfiguration implements IAe
     */
    public void setProcessWorkCount(int aProcessWorkCount)
    {
-      Map map = getMapEntry(PROCESS_WORK_MANAGER_ENTRY);
-      map.put(PROCESS_WORK_COUNT_ENTRY, String.valueOf(aProcessWorkCount));
+	   setIntegerEntry(PROCESS_WORK_COUNT_ENTRY, aProcessWorkCount);
    }
 
    /**

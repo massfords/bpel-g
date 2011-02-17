@@ -10,10 +10,10 @@
 package org.activebpel.rt.bpel.server.deploy;
 
 import java.util.List;
-import java.util.Map;
 
 import org.activebpel.rt.AeException;
 import org.activebpel.rt.bpel.AeWSDLPolicyHelper;
+import org.activebpel.rt.bpel.server.IAeDeploymentProvider;
 import org.activebpel.rt.bpel.server.engine.AeDelegatingHandlerFactory;
 import org.activebpel.rt.bpel.server.engine.AeEngineFactory;
 import org.activebpel.rt.util.AeUtil;
@@ -25,17 +25,6 @@ import org.activebpel.rt.wsdl.IAeContextWSDLProvider;
  */
 public class AeDelegatingWebServiceDeployer extends AeDelegatingHandlerFactory implements IAeWebServicesDeployer
 {
-   /**
-    * Constructor that takes a configuration map
-    * 
-    * @param aConfig
-    * @throws AeException
-    */
-   public AeDelegatingWebServiceDeployer(Map aConfig) throws AeException
-   {
-      super(aConfig);
-   }
-
    /**
     * @see org.activebpel.rt.bpel.server.deploy.IAeWebServicesDeployer#deployToWebServiceContainer(org.activebpel.rt.bpel.server.deploy.IAeDeploymentContainer, java.lang.ClassLoader)
     */
@@ -123,7 +112,7 @@ public class AeDelegatingWebServiceDeployer extends AeDelegatingHandlerFactory i
       if (AeUtil.isNullOrEmpty(aService.getPolicies()))
          return delegate;
       
-      String policytype = AeEngineFactory.getPolicyMapper().getDeploymentHandler(aService.getPolicies());
+      String policytype = AeEngineFactory.getBean(IAePolicyMapper.class).getDeploymentHandler(aService.getPolicies());
       if (!AeUtil.isNullOrEmpty(policytype))
       {
          delegate = (IAeWebServicesDeployer) getDelegate(policytype);
@@ -142,7 +131,7 @@ public class AeDelegatingWebServiceDeployer extends AeDelegatingHandlerFactory i
    {
       if (!AeUtil.isNullOrEmpty(aService.getPolicies()))
       {
-         IAeContextWSDLProvider wsdlProvider = AeEngineFactory.getDeploymentProvider().findCurrentDeployment(aService.getProcessQName());
+         IAeContextWSDLProvider wsdlProvider = AeEngineFactory.getBean(IAeDeploymentProvider.class).findCurrentDeployment(aService.getProcessQName());
          List policies = AeWSDLPolicyHelper.resolvePolicyReferences(wsdlProvider, aService.getPolicies());
          if (!AeUtil.isNullOrEmpty(policies))
          {

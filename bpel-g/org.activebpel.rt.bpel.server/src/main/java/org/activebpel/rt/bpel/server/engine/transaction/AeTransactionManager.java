@@ -63,18 +63,7 @@ public abstract class AeTransactionManager implements IAeTransactionManager
     */
    public static IAeTransactionManager getInstance()
    {
-      // fixme (double-check) remove in favor of inline init
-      if (sInstance == null)
-      {
-         synchronized(AeTransactionManager.class)
-         {
-            if (sInstance == null)
-            {
-               sInstance = getTransactionManagerFactory().createTransactionManager();
-            }
-         }
-      }
-      return sInstance;
+      return AeEngineFactory.getBean(IAeTransactionManager.class);
    }
 
    /**
@@ -103,14 +92,6 @@ public abstract class AeTransactionManager implements IAeTransactionManager
       }
 
       return transaction;
-   }
-
-   /**
-    * Returns the singleton transaction manager factory.
-    */
-   protected static IAeTransactionManagerFactory getTransactionManagerFactory()
-   {
-      return AeEngineFactory.getTransactionManagerFactory();
    }
 
    /**

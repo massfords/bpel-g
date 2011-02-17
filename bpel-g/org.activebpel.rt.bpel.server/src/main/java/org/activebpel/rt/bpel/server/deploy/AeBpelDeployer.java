@@ -10,45 +10,63 @@
 package org.activebpel.rt.bpel.server.deploy;
 
 import org.activebpel.rt.AeException;
+import org.activebpel.rt.bpel.IAeExpressionLanguageFactory;
 import org.activebpel.rt.bpel.def.validation.IAeBaseErrorReporter;
+import org.activebpel.rt.bpel.server.IAeDeploymentProvider;
 import org.activebpel.rt.bpel.server.IAeProcessDeployment;
 import org.activebpel.rt.bpel.server.engine.AeEngineFactory;
 
 /**
  * IAeBpelDeployer impl.
  */
-public class AeBpelDeployer implements IAeBpelDeployer
-{
-   public void deployBpel(IAeDeploymentSource aSource, IAeBaseErrorReporter aReporter, boolean aSkipValidation ) throws AeException
-   {
-      IAeProcessDeployment deployment = create(aSource);
-      if (!aSkipValidation) {
-          AeDeploymentHandlerFactory handlerFactory = (AeDeploymentHandlerFactory)AeEngineFactory.getDeploymentHandlerFactory();
-          handlerFactory.getDeploymentFactory().getValidationHandler().doDeploymentValidation(
-                aSource.getPddLocation(), deployment, aReporter);
-      }
-      if( aSkipValidation || !aReporter.hasErrors() )
-      {
-         AeEngineFactory.getDeploymentProvider().addDeploymentPlan( deployment );
-      }
-   }
-   
-   /**
-    * Create the process deployment.
-    * @param aSource
-    * @throws AeDeploymentException
-    */
-   public IAeProcessDeployment create( IAeDeploymentSource aSource )
-   throws AeDeploymentException
-   {
-      return AeProcessDeploymentFactory.getInstance().newInstance(aSource );
-   }
-   
-   /**
-    * @see org.activebpel.rt.bpel.server.deploy.IAeBpelDeployer#undeployBpel(org.activebpel.rt.bpel.server.deploy.IAeDeploymentSource)
-    */
-   public void undeployBpel(IAeDeploymentSource aDeployment) throws AeException
-   {
-      AeEngineFactory.getDeploymentProvider().removeDeploymentPlan( aDeployment.getProcessName() );
-   }
+public class AeBpelDeployer implements IAeBpelDeployer {
+	IAeExpressionLanguageFactory mExpressionLanguageFactory;
+
+	public void deployBpel(IAeDeploymentSource aSource,
+			IAeBaseErrorReporter aReporter, boolean aSkipValidation)
+			throws AeException {
+		IAeProcessDeployment deployment = create(aSource);
+		if (!aSkipValidation) {
+			AeDeploymentHandlerFactory handlerFactory = (AeDeploymentHandlerFactory) AeEngineFactory
+					.getBean(IAeDeploymentHandlerFactory.class);
+			handlerFactory
+					.getDeploymentFactory()
+					.getValidationHandler()
+					.doDeploymentValidation(aSource.getPddLocation(),
+							deployment, aReporter);
+		}
+		if (aSkipValidation || !aReporter.hasErrors()) {
+			AeEngineFactory.getBean(IAeDeploymentProvider.class)
+					.addDeploymentPlan(deployment);
+		}
+	}
+
+	/**
+	 * Create the process deployment.
+	 * 
+	 * @param aSource
+	 * @throws AeDeploymentException
+	 */
+	public IAeProcessDeployment create(IAeDeploymentSource aSource)
+			throws AeDeploymentException {
+		return AeProcessDeploymentFactory.getInstance().newInstance(aSource, getExpressionLanguageFactory());
+	}
+
+	/**
+	 * @see org.activebpel.rt.bpel.server.deploy.IAeBpelDeployer#undeployBpel(org.activebpel.rt.bpel.server.deploy.IAeDeploymentSource)
+	 */
+	public void undeployBpel(IAeDeploymentSource aDeployment)
+			throws AeException {
+		AeEngineFactory.getBean(IAeDeploymentProvider.class)
+				.removeDeploymentPlan(aDeployment.getProcessName());
+	}
+
+	public IAeExpressionLanguageFactory getExpressionLanguageFactory() {
+		return mExpressionLanguageFactory;
+	}
+
+	public void setExpressionLanguageFactory(
+			IAeExpressionLanguageFactory aExpressionLanguageFactory) {
+		mExpressionLanguageFactory = aExpressionLanguageFactory;
+	}
 }

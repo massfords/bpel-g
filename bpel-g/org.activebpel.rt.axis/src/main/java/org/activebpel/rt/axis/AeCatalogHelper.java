@@ -11,6 +11,7 @@ package org.activebpel.rt.axis;
 
 import org.activebpel.rt.AeException;
 import org.activebpel.rt.bpel.impl.list.AeCatalogItemDetail;
+import org.activebpel.rt.bpel.server.catalog.IAeCatalog;
 import org.activebpel.rt.bpel.server.catalog.resource.AeResourceKey;
 import org.activebpel.rt.bpel.server.catalog.resource.IAeResourceKey;
 import org.activebpel.rt.bpel.server.engine.AeEngineFactory;
@@ -34,7 +35,7 @@ public class AeCatalogHelper
       {
          // Get the WSDL and make a copy before modfiying to make this thread safe
          IAeResourceKey key = new AeResourceKey(aEntry, IAeBPELExtendedWSDLConst.WSDL_NAMESPACE);
-         AeBPELExtendedWSDLDef def = (AeBPELExtendedWSDLDef)AeEngineFactory.getCatalog().getResourceCache().getResource( key );
+         AeBPELExtendedWSDLDef def = (AeBPELExtendedWSDLDef)AeEngineFactory.getBean(IAeCatalog.class).getResourceCache().getResource( key );
          AeBPELExtendedWSDLDef defCopy = new AeBPELExtendedWSDLDef(def);
          AeWsdlImportFixup.fixupImportReferences(aRequestURL, defCopy);
          return defCopy.toString();

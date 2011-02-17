@@ -153,7 +153,7 @@ public class AeWsdlReference implements IAeWsdlReference, IAeCatalogListener
    protected void initWsdlDef() throws AeWSDLException, AxisFault, AeBusinessProcessException
    {
       AeBPELExtendedWSDLDef cachedDef = null;
-      IAeContextWSDLProvider wsdlProvider = AeEngineFactory.getDeploymentProvider().findCurrentDeployment(getProcessQName());
+      IAeContextWSDLProvider wsdlProvider = AeEngineFactory.getBean(IAeDeploymentProvider.class).findCurrentDeployment(getProcessQName());
       if (wsdlProvider != null)
          cachedDef = AeWSDLDefHelper.getWSDLDefinitionForPLT( wsdlProvider, getPartnerLinkType());
       
@@ -171,7 +171,7 @@ public class AeWsdlReference implements IAeWsdlReference, IAeCatalogListener
     */
    protected void initPartnerLinkDef() throws AxisFault, AeBusinessProcessException
    {
-      IAeDeploymentProvider provider = AeEngineFactory.getDeploymentProvider(); 
+      IAeDeploymentProvider provider = AeEngineFactory.getBean(IAeDeploymentProvider.class); 
       IAeProcessDeployment processDeployment = provider.findCurrentDeployment( getProcessQName() );
       if (processDeployment == null)
       {

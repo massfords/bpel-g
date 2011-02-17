@@ -32,12 +32,14 @@ import org.activebpel.rt.bpel.impl.list.AeProcessFilter;
 import org.activebpel.rt.bpel.impl.list.AeProcessInstanceDetail;
 import org.activebpel.rt.bpel.impl.list.AeProcessListResult;
 import org.activebpel.rt.bpel.impl.queue.AeMessageReceiver;
+import org.activebpel.rt.bpel.server.IAeDeploymentProvider;
 import org.activebpel.rt.bpel.server.admin.AeBuildInfo;
 import org.activebpel.rt.bpel.server.admin.AeProcessDeploymentDetail;
 import org.activebpel.rt.bpel.server.admin.AeQueuedReceiveDetail;
 import org.activebpel.rt.bpel.server.admin.IAeEngineAdministration;
 import org.activebpel.rt.bpel.server.deploy.IAeServiceDeploymentInfo;
 import org.activebpel.rt.bpel.server.engine.AeEngineFactory;
+import org.activebpel.rt.bpel.server.engine.IAeProcessLogger;
 import org.activebpel.rt.bpel.server.engine.storage.AeStorageException;
 import org.activebpel.rt.config.AeConfigurationUtil;
 import org.activebpel.rt.util.AeCloser;
@@ -148,7 +150,7 @@ public class AeEngineManagementAdapter implements IAeEngineManagementMXBean {
         part.setPart(aPart);
         
         // get a reader onto the log
-        Reader reader = AeEngineFactory.getLogger().getFullLog(aProcessId);
+        Reader reader = AeEngineFactory.getBean(IAeProcessLogger.class).getFullLog(aProcessId);
         
         skipAndRead(part, reader, AeProcessLogPart.PART_SIZE);
         return part;
@@ -558,9 +560,9 @@ public class AeEngineManagementAdapter implements IAeEngineManagementMXBean {
     public String getCompiledProcessDef(long aProcessId, AeQName aName) throws AeBusinessProcessException {
         AeProcessDef def = null;
         if (aProcessId <= 0) {
-            def = AeEngineFactory.getDeploymentProvider().findCurrentDeployment(aName.toQName()).getProcessDef();
+            def = AeEngineFactory.getBean(IAeDeploymentProvider.class).findCurrentDeployment(aName.toQName()).getProcessDef();
         } else {
-            def = AeEngineFactory.getDeploymentProvider().findDeploymentPlan(aProcessId, aName.toQName()).getProcessDef();
+            def = AeEngineFactory.getBean(IAeDeploymentProvider.class).findDeploymentPlan(aProcessId, aName.toQName()).getProcessDef();
         }
         byte[] b = AeUtil.serializeObject(def);
         String s = Base64.encodeBytes(b);

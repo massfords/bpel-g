@@ -9,8 +9,6 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.axis.bpel.deploy;
 
-import java.util.Map;
-
 import org.activebpel.rt.AeException;
 import org.activebpel.rt.axis.AeWsdlReferenceTracker;
 import org.activebpel.rt.axis.bpel.AeMessages;
@@ -32,14 +30,6 @@ import org.w3c.dom.NodeList;
  */
 public abstract class AeAxisWebServicesDeployerBase extends AeAxisBase implements IAeWebServicesDeployer
 {
-   /**
-    * Constructor.
-    * @param aConfig
-    */
-   public AeAxisWebServicesDeployerBase(Map aConfig)
-   {
-   }
-   
    /**
     * @see org.activebpel.rt.bpel.server.deploy.IAeWebServicesDeployer#deployToWebServiceContainer(org.activebpel.rt.bpel.server.deploy.IAeDeploymentContainer, java.lang.ClassLoader)
     */

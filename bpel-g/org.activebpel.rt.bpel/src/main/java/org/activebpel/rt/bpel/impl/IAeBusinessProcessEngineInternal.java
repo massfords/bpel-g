@@ -10,7 +10,6 @@
 package org.activebpel.rt.bpel.impl;
 
 import java.util.Date;
-import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
@@ -45,7 +44,13 @@ import org.activebpel.wsio.receive.IAeMessageContext;
  */
 public interface IAeBusinessProcessEngineInternal extends IAeBusinessProcessEngine, IAeBusinessProcessFactory
 {
-   /**
+	public static final String QUEUE_MANAGER_KEY = "QueueManager";
+	public static final String PROCESS_MANAGER_KEY = "ProcessManager";
+	public static final String LOCK_MANAGER_KEY = "LockManager";
+	public static final String ATTACHMENT_MANAGER_KEY = "AttachmentManager";
+	public static final String COORDINATION_MANAGER_KEY = "CoordinationManager";
+
+	/**
     * Unassigned engine id, normally 0.
     */
    public static final int NULL_ENGINE_ID = 0;
@@ -78,13 +83,9 @@ public interface IAeBusinessProcessEngineInternal extends IAeBusinessProcessEngi
     * 
     * @param aManagerName
     */
-   public IAeManager getCustomManager(String aManagerName);
+   public IAeManager getManager(String aManagerName);
+   public Map<String,IAeManager> getManagers();
    
-   /**
-    * Gets the names of all of the custom managers that were installed.
-    */
-   public Iterator getCustomManagerNames();
-
    /**
     * Gets the plan used to route the incoming message based on the information in the context.
     * @param aContext
@@ -355,11 +356,6 @@ public interface IAeBusinessProcessEngineInternal extends IAeBusinessProcessEngi
     */
    public IAeURNResolver getURNResolver();
    
-   /**
-    * Returns true if the engine supports suspending processes.
-    */
-   public boolean isSuspendSupported();
-
    public IAeFunction getFunction(String aLocalName, String aNamespaceURI) throws AeUnresolvableException;
 
    public Set getFunctionContextNamespaceList();

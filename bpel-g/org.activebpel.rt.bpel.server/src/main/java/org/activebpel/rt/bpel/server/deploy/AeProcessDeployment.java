@@ -37,6 +37,7 @@ import org.activebpel.rt.bpel.server.AeMessages;
 import org.activebpel.rt.bpel.server.IAeProcessDeployment;
 import org.activebpel.rt.bpel.server.addressing.AeEndpointReferenceSourceType;
 import org.activebpel.rt.bpel.server.addressing.IAePartnerAddressing;
+import org.activebpel.rt.bpel.server.catalog.IAeCatalog;
 import org.activebpel.rt.bpel.server.catalog.resource.IAeResourceKey;
 import org.activebpel.rt.bpel.server.deploy.pdd.AePartnerLinkDescriptor;
 import org.activebpel.rt.bpel.server.engine.AeEngineFactory;
@@ -90,6 +91,8 @@ public class AeProcessDeployment implements IAeProcessDeployment
    
    /** extension elements */
    private Element mExtensions;
+
+private IAeExpressionLanguageFactory mExpressionLanguageFactory;
 
    /**
     * Constructs the deployment under the passed context.
@@ -225,11 +228,11 @@ public class AeProcessDeployment implements IAeProcessDeployment
          {
             if(key.isWsdlEntry())
             {
-               return (AeBPELExtendedWSDLDef)AeEngineFactory.getCatalog().getResourceCache().getResource( key );
+               return (AeBPELExtendedWSDLDef)AeEngineFactory.getBean(IAeCatalog.class).getResourceCache().getResource( key );
          }
             else if(key.isSchemaEntry())
             {
-               Schema schema = (Schema)AeEngineFactory.getCatalog().getResourceCache().getResource( key );
+               Schema schema = (Schema)AeEngineFactory.getBean(IAeCatalog.class).getResourceCache().getResource( key );
                return new AeBPELExtendedWSDLDef(schema);
             }
             else
@@ -287,7 +290,7 @@ public class AeProcessDeployment implements IAeProcessDeployment
          IAeEndpointReference partnerEndpoint = aPartnerLink.getPartnerReference();      
          
          // Get the reply addressing headers
-         IAePartnerAddressing partnerAddressing = AeEngineFactory.getPartnerAddressing();
+         IAePartnerAddressing partnerAddressing = AeEngineFactory.getBean(IAePartnerAddressing.class);
          IAeAddressingHeaders replyHeaders = partnerAddressing.getReplyAddressing(wsAddressing, wsAddressing.getAction());
          // This is the epr that came in with the request
          IAeWebServiceEndpointReference invokerEndpoint = replyHeaders.getRecipient();
@@ -400,21 +403,12 @@ public class AeProcessDeployment implements IAeProcessDeployment
    {
       try
       {
-         getProcessDef().preProcessForExecution(this, getFactory());
+         getProcessDef().preProcessForExecution(this, getExpressionLanguageFactory());
       }
       catch (AeException ae)
       {
          throw new AeBusinessProcessException(ae.getLocalizedMessage(), ae);
       }
-   }
-
-   /**
-    * Gets the factory
-    * @throws AeException
-    */
-   protected IAeExpressionLanguageFactory getFactory() throws AeException
-   {
-      return AeEngineFactory.getExpressionLanguageFactory();
    }
 
    /**
@@ -531,4 +525,12 @@ public class AeProcessDeployment implements IAeProcessDeployment
       if (mExtensions != null)
          AeXmlUtil.touchXmlNodes(mExtensions);
    }
+
+public void setExpressionLanguageFactory(IAeExpressionLanguageFactory aFactory) {
+	mExpressionLanguageFactory = aFactory;
+}
+
+public IAeExpressionLanguageFactory getExpressionLanguageFactory() {
+	return mExpressionLanguageFactory;
+}
 }
