@@ -13,6 +13,7 @@ import java.io.InputStream;
 import java.util.Collection;
 
 import org.activebpel.rt.AeException;
+import org.activebpel.rt.bpel.server.addressing.IAePartnerAddressing;
 import org.activebpel.rt.bpel.server.addressing.pdef.AeXmlPartnerDefInfoReader;
 import org.activebpel.rt.bpel.server.addressing.pdef.IAePartnerDefInfo;
 import org.activebpel.rt.bpel.server.deploy.AeDeploymentException;
@@ -177,7 +178,7 @@ public class AeBpr implements IAeBpr
    throws AeException
    {
       Document pdefXml = getResourceAsDocument(aPdefResource);
-      return AeXmlPartnerDefInfoReader.read( pdefXml, AeEngineFactory.getPartnerAddressing() );
+      return AeXmlPartnerDefInfoReader.read( pdefXml, AeEngineFactory.getBean(IAePartnerAddressing.class) );
    }
 
    /**

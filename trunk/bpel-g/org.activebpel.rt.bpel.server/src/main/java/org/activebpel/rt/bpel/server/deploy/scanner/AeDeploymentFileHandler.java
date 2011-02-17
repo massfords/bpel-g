@@ -23,10 +23,12 @@ import org.activebpel.rt.bpel.server.deploy.AeNewDeploymentInfo;
 import org.activebpel.rt.bpel.server.deploy.AeUnpackedDeploymentStager;
 import org.activebpel.rt.bpel.server.deploy.IAeDeploymentContainer;
 import org.activebpel.rt.bpel.server.deploy.IAeDeploymentHandler;
+import org.activebpel.rt.bpel.server.deploy.IAeDeploymentHandlerFactory;
 import org.activebpel.rt.bpel.server.deploy.validate.AeDeploymentFileValidator;
 import org.activebpel.rt.bpel.server.engine.AeEngineFactory;
 import org.activebpel.rt.bpel.server.engine.config.AeFileBasedEngineConfig;
 import org.activebpel.rt.bpel.server.logging.IAeDeploymentLogger;
+import org.activebpel.rt.bpel.server.logging.IAeDeploymentLoggerFactory;
 import org.activebpel.rt.bpel.server.logging.IAeLogWrapper;
 
 /**
@@ -245,7 +247,7 @@ public class AeDeploymentFileHandler implements IAeDeploymentFileHandler, IAeSca
          // If the logger is null, used the factory to create a new one.
          if (logger == null)
          {
-            logger = AeEngineFactory.getDeploymentLoggerFactory().createLogger();
+            logger = AeEngineFactory.getBean(IAeDeploymentLoggerFactory.class).createLogger();
          }
          logger.setContainerName( deployContainer.getShortName() );
 
@@ -285,7 +287,7 @@ public class AeDeploymentFileHandler implements IAeDeploymentFileHandler, IAeSca
     */
    protected IAeDeploymentHandler getDeploymentHandler()
    {
-      return AeEngineFactory.getDeploymentHandlerFactory().newInstance( mLog );
+      return AeEngineFactory.getBean(IAeDeploymentHandlerFactory.class).newInstance( mLog );
    }
    
    /**

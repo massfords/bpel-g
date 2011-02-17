@@ -8,6 +8,7 @@
    <entry name="UnmatchedReceiveTimeout" value="300"/>
    <entry name="FunctionContexts"/>
    <entry name="SharedSecret" value="terces"/>
+   <entry name="ProcessWorkCount" value="10"/>
    
    <entry name="ChildWorkManagers">
       <entry name="Alarm">
@@ -21,86 +22,6 @@
       <entry name="DefaultWorkManager.ThreadPool.Max" value="50"/>
       
    </entry>
-   
-   <!-- Deployment Handler -->
-   <entry name="DeploymentHandler">
-      <entry name="Class" value="org.activebpel.rt.bpel.server.deploy.AeDeploymentHandlerFactory"/>
-      <!-- deployment factory and deployer impls -->
-      <entry name="DeploymentFactory" >
-         <entry name="Class" value="org.activebpel.rt.bpel.server.deploy.AeDeploymentFactoryImpl" />
-         
-         <entry name="BpelDeployer" >
-            <entry name="Class" value="org.activebpel.rt.bpel.server.deploy.AeBpelDeployer" />
-         </entry>
-         
-         <entry name="CatalogDeployer" >
-            <entry name="Class" value="org.activebpel.rt.bpel.server.deploy.AeCatalogDeployer" />
-         </entry>
-         
-         <entry name="PdefDeployer" >
-            <entry name="Class" value="org.activebpel.rt.bpel.server.deploy.AePdefDeployer" />
-         </entry>
-         
-         <entry name="WebServicesDeployer" >
-            <entry name="Class" value="org.activebpel.rt.bpel.server.deploy.AeDelegatingWebServiceDeployer" />
-            <entry name="Protocols">
-               <entry name="default" value="org.activebpel.rt.axis.bpel.web.deploy.AeAxisWebServicesDeployer"/>
-               <entry name="bpel" value="org.activebpel.rt.axis.bpel.web.deploy.AeAxisWebServicesDeployer"/>
-               <entry name="wsdd" value="org.activebpel.rt.axis.bpel.web.deploy.AeAxisWebServicesDeployer"/>
-            </entry>
-         </entry>
-         
-         <entry name="ValidationHandler">
-            <entry name="Class" value="org.activebpel.rt.bpel.server.deploy.validate.AeDefaultValidationHandler" />
-         </entry>
-         
-      </entry>
-   </entry>
-   
-   <!-- Process Work Manager -->
-   <entry name="ProcessWorkManager">
-      <entry name="Class" value="org.activebpel.work.AeProcessWorkManager" />
-      
-      <!--
-         ProcessWorkCount is the maximum number of work manager requests to
-         schedule for a single process. The default value is 10. A value of 0
-         allows an unlimited number of work manager requests.
-      -->
-      <entry name="ProcessWorkCount" value="10" />
-   </entry>
-   
-   <entry name="CustomManagers">
-      
-      <!-- == B4P Manager == --><!--
-         <entry name="BPEL4PeopleManager">
-         <entry name="Class" value="org.activebpel.rt.b4p.server.AeServerB4PManager"/>
-         <entry name="TaskService" value="AeB4PTaskLifecycle"/>
-         <entry name="NotificationService" value="AeB4PNotificationLifecycle"/>
-         <entry name="FinalizationDuration" value="P1D"/>
-         </entry>      
-         
-      --><!-- == Http Service Manager == -->
-      <entry name="HttpServiceManager">
-         <entry name="Class" value="org.activebpel.rt.http.AeHttpServiceManager"/>
-         
-         <!-- see: http://jakarta.apache.org/httpcomponents/httpclient-3.x/preference-api.html -->
-         <entry name="ContentCharset" value="UTF-8"/>
-         <entry name="Linger" value="-1"/>          
-      </entry>
-      
-      <!-- == Identity Service Manager == --><!--
-         <entry name="IdentityServiceManager">
-         <entry name="Class" value="org.activebpel.rt.identity.AeServerIdentityServiceManager"/>
-         <entry name="enabled" value="false" />
-         <entry name="IdentitySearch">
-         <entry name="Class" value ="org.activebpel.rt.identity.search.AeIdentitySearch" />
-         <entry name="Provider">
-         <entry name="Class" value ="org.activebpel.rt.identity.provider.tomcat.AeTomcatUsersIdentityProvider" />
-         <entry name="filename" value ="" />
-         </entry>    
-         </entry>
-         </entry>
-      --></entry> <!-- end custom managers -->
    
    <!-- Extension activity mappings -->
    <entry name="ExtensionRegistry"><!--

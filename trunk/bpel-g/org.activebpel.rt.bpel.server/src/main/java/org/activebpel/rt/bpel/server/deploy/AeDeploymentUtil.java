@@ -53,7 +53,7 @@ public class AeDeploymentUtil
          parser.setValidating( false );
          Document wsddDom = parser.loadDocument( serviceWsddUrl.openStream(), null );
          
-         IAeWebServicesDeployer deployer = AeEngineFactory.getDeploymentHandlerFactory().getWebServicesDeployer();
+         IAeWebServicesDeployer deployer = AeEngineFactory.getBean(IAeDeploymentHandlerFactory.class).getWebServicesDeployer();
          AeDeploymentContainer container = new AeDeploymentContainer(null, null, null);
          container.setWsddData(wsddDom);
          deployer.deployToWebServiceContainer( container, deploymentCL );

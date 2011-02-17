@@ -30,6 +30,7 @@ import org.activebpel.rt.bpel.impl.list.AeCatalogItemPlanReference;
 import org.activebpel.rt.bpel.impl.list.AeCatalogListResult;
 import org.activebpel.rt.bpel.impl.list.AeCatalogListingFilter;
 import org.activebpel.rt.bpel.server.AeMessages;
+import org.activebpel.rt.bpel.server.IAeDeploymentProvider;
 import org.activebpel.rt.bpel.server.IAeProcessDeployment;
 import org.activebpel.rt.bpel.server.catalog.report.AeInMemoryCatalogListing;
 import org.activebpel.rt.bpel.server.catalog.report.IAeCatalogAdmin;
@@ -529,7 +530,7 @@ public class AeCatalog implements IAeCatalog, IAeCatalogAdmin
    {
       // Loops through plans to cross reference the resource usage
       List details = new ArrayList();
-      for(Iterator iter=AeEngineFactory.getDeploymentProvider().getDeployedPlans(); iter.hasNext(); )
+      for(Iterator iter=AeEngineFactory.getBean(IAeDeploymentProvider.class).getDeployedPlans(); iter.hasNext(); )
       {
          IAeProcessDeployment deployment = (IAeProcessDeployment)iter.next();
          for(Iterator resKeys = deployment.getResourceKeys().iterator(); resKeys.hasNext(); )

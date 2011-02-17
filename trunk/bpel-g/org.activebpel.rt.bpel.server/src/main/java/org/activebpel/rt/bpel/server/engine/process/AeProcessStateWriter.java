@@ -119,7 +119,7 @@ public class AeProcessStateWriter implements IAeProcessStateWriter
    protected IAeProcessLogEntry getProcessLogEntry(long aProcessId)
    {
       IAeProcessLogEntry entry = null;
-      IAeProcessLogger logger = AeEngineFactory.getLogger();
+      IAeProcessLogger logger = AeEngineFactory.getBean(IAeProcessLogger.class);
 
       if (logger instanceof IAePersistentLogger)
       {
@@ -604,7 +604,7 @@ public class AeProcessStateWriter implements IAeProcessStateWriter
       // Remove completed transmission ids.      
       try
       {
-         AeEngineFactory.getTransmissionTracker().remove(aProcessWrapper.getCompletedTransmissionIds());
+         getProcessManager().getEngine().getTransmissionTracker().remove(aProcessWrapper.getCompletedTransmissionIds());
       }
       catch (Exception e)
       {

@@ -35,19 +35,9 @@ public class AeProcessWorkManager implements IAeProcessWorkManager, IAeConfigCha
    private Map<Long,AeProcessWorkQueue> mProcessWorkMap = new HashMap();
 
    /**
-    * Constructor.
-    *
-    * @param aConfig
-    */
-   public AeProcessWorkManager(Map aConfig)
-   {
-      initConfig();
-   }
-   
-   /**
     * Returns the maximum number of work requests to schedule per-process.
     */
-   protected int getProcessWorkCount()
+   public int getProcessWorkCount()
    {
       return mProcessWorkCount;
    }
@@ -63,7 +53,7 @@ public class AeProcessWorkManager implements IAeProcessWorkManager, IAeConfigCha
    /**
     * Initializes configuration.
     */
-   protected void initConfig()
+   public void init()
    {
       IAeUpdatableEngineConfig config = AeEngineFactory.getEngineConfig().getUpdatableEngineConfig();
       config.addConfigChangeListener(this);

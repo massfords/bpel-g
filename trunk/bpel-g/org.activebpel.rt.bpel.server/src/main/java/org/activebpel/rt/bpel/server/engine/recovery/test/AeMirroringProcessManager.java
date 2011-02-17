@@ -36,6 +36,7 @@ import org.activebpel.rt.bpel.server.engine.storage.AeStorageException;
 import org.activebpel.work.AeAbstractWork;
 
 import commonj.work.Work;
+import commonj.work.WorkManager;
 
 /**
  * Implements a process manager that mirrors the execution of each process to a
@@ -240,7 +241,7 @@ public class AeMirroringProcessManager extends AeDelegatingPersistentProcessMana
 
             try
             {
-               AeEngineFactory.getWorkManager().schedule(work);
+               AeEngineFactory.getBean(WorkManager.class).schedule(work);
             }
             catch (Exception e)
             {

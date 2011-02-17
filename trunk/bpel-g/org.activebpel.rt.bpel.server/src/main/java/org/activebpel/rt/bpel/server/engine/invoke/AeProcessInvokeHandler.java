@@ -32,9 +32,12 @@ import org.activebpel.rt.bpel.impl.queue.AeInvoke;
 import org.activebpel.rt.bpel.impl.reply.IAeReplyReceiver;
 import org.activebpel.rt.bpel.impl.reply.IAeTransmissionTracker;
 import org.activebpel.rt.bpel.server.AeMessages;
+import org.activebpel.rt.bpel.server.IAeDeploymentProvider;
 import org.activebpel.rt.bpel.server.IAeProcessDeployment;
+import org.activebpel.rt.bpel.server.addressing.IAePartnerAddressing;
 import org.activebpel.rt.bpel.server.deploy.AeProcessPersistenceType;
 import org.activebpel.rt.bpel.server.deploy.AeRoutingInfo;
+import org.activebpel.rt.bpel.server.deploy.IAePolicyMapper;
 import org.activebpel.rt.bpel.server.engine.AeEngineFactory;
 import org.activebpel.rt.bpel.server.engine.receive.AeExtendedMessageContext;
 import org.activebpel.rt.bpel.server.engine.reply.AeDurableQueuingReplyReceiver;
@@ -364,7 +367,7 @@ public class AeProcessInvokeHandler implements IAeTwoPhaseInvokeHandler, IAeMess
       
       wsa.setRecipient(partnerEndpointRef);
       wsa.setFrom(myEndpointRef);
-      IAeEndpointReference replyTo = AeEngineFactory.getPartnerAddressing().mergeReplyEndpoint(myEndpointRef,
+      IAeEndpointReference replyTo = AeEngineFactory.getBean(IAePartnerAddressing.class).mergeReplyEndpoint(myEndpointRef,
             wsa.getReplyTo());
       wsa.setReplyTo(replyTo);
 
@@ -472,10 +475,10 @@ public class AeProcessInvokeHandler implements IAeTwoPhaseInvokeHandler, IAeMess
          Element headers = null;
          
          // resolve policy references
-         IAeContextWSDLProvider wsdlProvider = AeEngineFactory.getDeploymentProvider().findDeploymentPlan(aInvoke.getProcessId(), aInvoke.getProcessName());
+         IAeContextWSDLProvider wsdlProvider = AeEngineFactory.getBean(IAeDeploymentProvider.class).findDeploymentPlan(aInvoke.getProcessId(), aInvoke.getProcessName());
          List resolvedPolicies = aEndpoint.getEffectivePolicies(wsdlProvider, aInvoke.getPortType(), aInvoke.getOperation());
          
-         Map callProperties = AeEngineFactory.getPolicyMapper().getCallProperties(resolvedPolicies);
+         Map callProperties = AeEngineFactory.getBean(IAePolicyMapper.class).getCallProperties(resolvedPolicies);
          // check for principal header policy 
          QName principalName = (QName) callProperties.get(IAePolicyConstants.TAG_ASSERT_MAP_PROCESS_INTIATOR);
          if (!AeUtil.isNullOrEmpty(principalName))
@@ -663,12 +666,12 @@ public class AeProcessInvokeHandler implements IAeTwoPhaseInvokeHandler, IAeMess
    protected void setPersistentType(IAeInvoke aInvoke, String aServiceName) throws AeBusinessProcessException
    {
       // check to see if the target process is persistent.
-      AeRoutingInfo routingInfo = AeEngineFactory.getDeploymentProvider().getRoutingInfoByServiceName(
+      AeRoutingInfo routingInfo = AeEngineFactory.getBean(IAeDeploymentProvider.class).getRoutingInfoByServiceName(
             aServiceName);
       boolean targetProcPersistent = routingInfo.getDeployment().getPersistenceType() != AeProcessPersistenceType.NONE;
 
       // check to see if the current (caller) process is persistent.
-      IAeProcessDeployment deployedPlan = AeEngineFactory.getDeploymentProvider().findDeploymentPlan(
+      IAeProcessDeployment deployedPlan = AeEngineFactory.getBean(IAeDeploymentProvider.class).findDeploymentPlan(
             aInvoke.getProcessId(), aInvoke.getProcessName());
       boolean callerProcPersistent = deployedPlan.getPersistenceType() != AeProcessPersistenceType.NONE;
 

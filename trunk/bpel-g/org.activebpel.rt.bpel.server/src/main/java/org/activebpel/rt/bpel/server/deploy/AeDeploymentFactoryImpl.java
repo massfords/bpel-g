@@ -9,105 +9,78 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpel.server.deploy;
 
-import java.util.Map;
-
-import org.activebpel.rt.AeException;
-import org.activebpel.rt.bpel.server.AeMessages;
 import org.activebpel.rt.bpel.server.deploy.validate.IAeValidationHandler;
-import org.activebpel.rt.util.AeUtil;
 
 /**
- * Default IAeDeploymentFactory impl.  Gets all of its deployer impls
- * from the config map.  None of its deployers should contain any
- * state info (as they are all treated like singletons).
+ * Default IAeDeploymentFactory impl. Gets all of its deployer impls from the
+ * config map. None of its deployers should contain any state info (as they are
+ * all treated like singletons).
  */
-public class AeDeploymentFactoryImpl implements IAeDeploymentFactory
-{
-   // deployer xml constants
-   private static final String PDEF_DEPLOYER         = "PdefDeployer"; //$NON-NLS-1$
-   private static final String CATALOG_DEPLOYER      = "CatalogDeployer"; //$NON-NLS-1$
-   private static final String WEB_SERVICES_DEPLOYER = "WebServicesDeployer"; //$NON-NLS-1$
-   private static final String BPEL_DEPLOYER         = "BpelDeployer"; //$NON-NLS-1$
-   private static final String VALIDATION_HANDLER    = "ValidationHandler"; //$NON-NLS-1$
-   
-   /** Validation handler. */
-   protected IAeValidationHandler mValidationHandler;
-   /** Partner definition deployer. */
-   protected IAePdefDeployer mPdefDeployer;
-   /** Wsdl catalog deployer. */
-   protected IAeCatalogDeployer mCatalogDeployer;
-   /** Web services deployer. */   
-   protected IAeWebServicesDeployer mWebServicesDeployer;
-   /** BPEL process deployer. */
-   protected IAeBpelDeployer mBpelDeployer;
+public class AeDeploymentFactoryImpl implements IAeDeploymentFactory {
 
-   /**
-    * Constructor.
-    * @param aConfig AeEngine config params map.
-    * @throws AeException
-    */
-   public AeDeploymentFactoryImpl( Map aConfig ) throws AeException
-   {
-      if (AeUtil.isNullOrEmpty(aConfig))
-      {
-         throw new AeException(AeMessages.getString("AeDeploymentFactoryImpl.ERROR_0")); //$NON-NLS-1$
-      }
+	/** Validation handler. */
+	private IAeValidationHandler mValidationHandler;
+	/** Partner definition deployer. */
+	private IAePdefDeployer mPdefDeployer;
+	/** Wsdl catalog deployer. */
+	private IAeCatalogDeployer mCatalogDeployer;
+	/** Web services deployer. */
+	private IAeWebServicesDeployer mWebServicesDeployer;
+	/** BPEL process deployer. */
+	private IAeBpelDeployer mBpelDeployer;
 
-      initializeDeployers( aConfig );
-   }
-   
-   /**
-    * Initialize the individual deployers.
-    * @param aConfig
-    * @throws AeException
-    */
-   protected void initializeDeployers( Map aConfig ) throws AeException
-   {
-      mPdefDeployer = (IAePdefDeployer)AeDeployerUtil.createDeployer(PDEF_DEPLOYER, aConfig);   
-      mCatalogDeployer = (IAeCatalogDeployer)AeDeployerUtil.createDeployer(CATALOG_DEPLOYER, aConfig);               
-      mWebServicesDeployer = (IAeWebServicesDeployer)AeDeployerUtil.createDeployer(WEB_SERVICES_DEPLOYER, aConfig);
-      mBpelDeployer = (IAeBpelDeployer)AeDeployerUtil.createDeployer(BPEL_DEPLOYER, aConfig );
-      
-      mValidationHandler = (IAeValidationHandler)AeDeployerUtil.createDeployer(VALIDATION_HANDLER, aConfig );
-   }
+	/**
+	 * @see org.activebpel.rt.bpel.server.deploy.IAeDeploymentFactory#getBpelDeployer()
+	 */
+	public IAeBpelDeployer getBpelDeployer() {
+		return mBpelDeployer;
+	}
 
-   /**
-    * @see org.activebpel.rt.bpel.server.deploy.IAeDeploymentFactory#getBpelDeployer()
-    */
-   public IAeBpelDeployer getBpelDeployer()
-   {
-      return mBpelDeployer;
-   }
+	public void setBpelDeployer(IAeBpelDeployer aDeployer) {
+		mBpelDeployer = aDeployer;
+	}
 
-   /**
-    * @see org.activebpel.rt.bpel.server.deploy.IAeDeploymentFactory#getPDefDeployer()
-    */
-   public IAePdefDeployer getPDefDeployer()
-   {
-      return mPdefDeployer;
-   }
+	/**
+	 * @see org.activebpel.rt.bpel.server.deploy.IAeDeploymentFactory#getPDefDeployer()
+	 */
+	public IAePdefDeployer getPDefDeployer() {
+		return mPdefDeployer;
+	}
 
-   /**
-    * @see org.activebpel.rt.bpel.server.deploy.IAeDeploymentFactory#getCatalogDeployer()
-    */
-   public IAeCatalogDeployer getCatalogDeployer()
-   {
-      return mCatalogDeployer;
-   }
+	public void setPdefDeployer(IAePdefDeployer aDeployer) {
+		mPdefDeployer = aDeployer;
+	}
 
-   /**
-    * @see org.activebpel.rt.bpel.server.deploy.IAeDeploymentFactory#getWebServicesDeployer()
-    */
-   public IAeWebServicesDeployer getWebServicesDeployer()
-   {
-      return mWebServicesDeployer;
-   }
-      
-   /**
-    * @see org.activebpel.rt.bpel.server.deploy.IAeDeploymentFactory#getValidationHandler()
-    */
-   public IAeValidationHandler getValidationHandler()
-   {
-      return mValidationHandler;
-   }
+	/**
+	 * @see org.activebpel.rt.bpel.server.deploy.IAeDeploymentFactory#getCatalogDeployer()
+	 */
+	public IAeCatalogDeployer getCatalogDeployer() {
+		return mCatalogDeployer;
+	}
+
+	public void setCatalogDeployer(IAeCatalogDeployer aDeployer) {
+		mCatalogDeployer = aDeployer;
+	}
+
+	/**
+	 * @see org.activebpel.rt.bpel.server.deploy.IAeDeploymentFactory#getWebServicesDeployer()
+	 */
+	public IAeWebServicesDeployer getWebServicesDeployer() {
+		return mWebServicesDeployer;
+	}
+
+	public void setWebServicesDeployer(IAeWebServicesDeployer aDeployer) {
+		mWebServicesDeployer = aDeployer;
+	}
+
+	/**
+	 * @see org.activebpel.rt.bpel.server.deploy.IAeDeploymentFactory#getValidationHandler()
+	 */
+	public IAeValidationHandler getValidationHandler() {
+		return mValidationHandler;
+	}
+	
+	public void setValidationHandler(IAeValidationHandler aHandler) {
+		mValidationHandler= aHandler;
+	}
 }

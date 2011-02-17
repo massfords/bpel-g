@@ -24,11 +24,9 @@ import org.activebpel.rt.bpel.IAeExpressionLanguageFactory;
 import org.activebpel.rt.bpel.config.IAeEngineConfiguration;
 import org.activebpel.rt.bpel.impl.AeBpelState;
 import org.activebpel.rt.bpel.impl.IAeAlarmReceiver;
-import org.activebpel.rt.bpel.impl.IAeAttachmentManager;
 import org.activebpel.rt.bpel.impl.IAeBpelObject;
 import org.activebpel.rt.bpel.impl.IAeBusinessProcessEngineInternal;
 import org.activebpel.rt.bpel.impl.IAeEnginePartnerLinkStrategy;
-import org.activebpel.rt.bpel.impl.IAeLockManager;
 import org.activebpel.rt.bpel.impl.IAeManager;
 import org.activebpel.rt.bpel.impl.activity.IAeMessageReceiverActivity;
 import org.activebpel.rt.bpel.impl.queue.AeReply;
@@ -59,35 +57,25 @@ public class AeRecoveryEngine extends AeAbstractServerEngine implements IAeRecov
     * Constructs a recovery engine.
     *
     * @param aEngineConfiguration
-    * @param aRecoveryQueueManager
-    * @param aRecoveryProcessManager
-    * @param aRecoveryLockManager
-    * @param aRecoveryAttachmentManager
     * @param aPartnerLinkStrategy
     * @param aTransmissionTracker
-    * @param aCustomManagersMap
+    * @param aManagersMap
     * @param aEngineId
     */
    public AeRecoveryEngine(
       IAeEngineConfiguration aEngineConfiguration,
-      IAeRecoveryQueueManager aRecoveryQueueManager,
-      IAeRecoveryProcessManager aRecoveryProcessManager,
-      IAeLockManager aRecoveryLockManager,
-      IAeAttachmentManager aRecoveryAttachmentManager,
       IAeExpressionLanguageFactory aFactory,
       IAeEnginePartnerLinkStrategy aPartnerLinkStrategy,
-      IAeRecoveryCoordinationManager aCoordinationManager,
       IAeTransmissionTracker aTransmissionTracker,
-      Map aCustomManagersMap,
+      Map<String,IAeManager> aManagersMap,
       int aEngineId)
    {
-      super(aEngineConfiguration, aRecoveryQueueManager, aRecoveryProcessManager, aRecoveryLockManager, aRecoveryAttachmentManager, aFactory);
-
+      setEngineConfiguration(aEngineConfiguration);
+      setExpressionLanguageFactory(aFactory);
       setPartnerLinkStrategy(aPartnerLinkStrategy);
-      setCoordinationManager(aCoordinationManager);
       setTransmissionTracker(aTransmissionTracker);
-      Map managersMap = createRecoveryVersionsOfCustomManagers(aCustomManagersMap);
-      setCustomManagers(managersMap);
+      Map managersMap = createRecoveryVersionsOfCustomManagers(aManagersMap);
+      setManagers(managersMap);
       // Since recovery engine extends BusiProcEngine, engine id will always be 1.
       // We need to get the engine id from the underlying engine.      
       mEngineId = aEngineId;
@@ -399,7 +387,7 @@ public class AeRecoveryEngine extends AeAbstractServerEngine implements IAeRecov
    {
       getRecoveryQueueManager().setRecoveredItemsSet(aRecoveredItemsSet);
       
-      for(Iterator it=AeUtil.join(getCustomManagers().values().iterator(), getCoordinationManager()); it.hasNext();)
+      for(Iterator it=getManagers().values().iterator(); it.hasNext();)
       {
          IAeManager manager = (IAeManager) it.next();
          if (manager instanceof IAeRecoveryAwareManager)

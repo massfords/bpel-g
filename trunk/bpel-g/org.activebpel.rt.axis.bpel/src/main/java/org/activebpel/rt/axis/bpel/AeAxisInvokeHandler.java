@@ -14,6 +14,7 @@ import java.io.StringWriter;
 import java.net.MalformedURLException;
 import java.net.SocketTimeoutException;
 import java.net.URL;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -27,7 +28,6 @@ import javax.xml.namespace.QName;
 import org.activebpel.rt.AeException;
 import org.activebpel.rt.IAeConstants;
 import org.activebpel.rt.axis.bpel.invokers.AeAxisInvokeContext;
-import org.activebpel.rt.axis.bpel.invokers.AeInvokerFactory;
 import org.activebpel.rt.axis.bpel.invokers.IAeInvoker;
 import org.activebpel.rt.bpel.AeBusinessProcessException;
 import org.activebpel.rt.bpel.AeWSDLPolicyHelper;
@@ -67,6 +67,8 @@ public class AeAxisInvokeHandler extends AeWSIOInvokeHandler
    private static final String ACTOR_ATTRIBUTE = "actor"; //$NON-NLS-1$
    /** namespace we're using for identifying the credentials embedded in the endpoint properties */
    private static final String CREDENTIALS_NAMESPACE = "http://active-endpoints/endpoint-credentials"; //$NON-NLS-1$
+   
+   Map<String,IAeInvoker> mStyleMap = Collections.EMPTY_MAP;
 
    /**
     * Invokes the partner operation. This is done by utlizing the endpoint
@@ -93,7 +95,11 @@ public class AeAxisInvokeHandler extends AeWSIOInvokeHandler
             call.getOperation().setMep(OperationType.ONE_WAY);
          invokeCtx.setCall(call);
 
-         IAeInvoker invoker = AeInvokerFactory.getInvoker(invokeCtx);
+         String style = (String)invokeCtx.getCall().getProperty( Call.OPERATION_STYLE_PROPERTY );
+         IAeInvoker invoker = getStyleMap().get(style);
+         if (invoker == null) {
+             throw new AxisFault( AeMessages.getString("AeInvokerFactory.ERROR_1") );
+         }
          invoker.invoke(invokeCtx);
          extractMappedProperties(aInvokeQueueObject, call.getMessageContext());
          response = invokeCtx.getResponse();
@@ -381,4 +387,12 @@ public class AeAxisInvokeHandler extends AeWSIOInvokeHandler
          throw new AeException(t.getLocalizedMessage(),t);  
       }
    }
+
+public Map<String, IAeInvoker> getStyleMap() {
+	return mStyleMap;
+}
+
+public void setStyleMap(Map<String, IAeInvoker> aStyleMap) {
+	mStyleMap = aStyleMap;
+}
 }

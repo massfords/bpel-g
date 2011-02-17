@@ -10,13 +10,10 @@
 package org.activebpel.rt.bpel.server.engine; 
 
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 
-import org.activebpel.rt.AeException;
 import org.activebpel.rt.bpel.AeBusinessProcessException;
 import org.activebpel.rt.bpel.server.AeMessages;
-import org.activebpel.rt.bpel.server.engine.AeInvokeHandlerUri;
 import org.activebpel.rt.util.AeUtil;
 
 /**
@@ -24,41 +21,10 @@ import org.activebpel.rt.util.AeUtil;
  */
 public class AeDelegatingHandlerFactory 
 {
-   /** key for the map of protocol to factory classes in the config file */
-   private static final String PROTOCOL_KEY = "Protocols"; //$NON-NLS-1$
-   
-   /** default protocol to use if none specified in the invokerHandler */
-   private static final String DEFAULT_PROTOCOL = "default"; //$NON-NLS-1$
-
    /** map of protocol to factory */
    private Map mDelegates = new HashMap();
    
    public AeDelegatingHandlerFactory() {
-   }
-   
-   /**
-    * Constructor loads the delegate factories from the protocol map in the config.
-    * 
-    * @param aConfig
-    */
-   public AeDelegatingHandlerFactory(Map aConfig) throws AeException
-   {
-	   // FIXME spring - remove when web service deployer is cleaned up
-      String clazz = null;
-      try
-      {
-         Map protocolMap = (Map) aConfig.get(PROTOCOL_KEY);
-         for (Iterator it = protocolMap.entrySet().iterator(); it.hasNext();)
-         {
-            Map.Entry entry = (Map.Entry) it.next();
-            clazz = (String) entry.getValue();
-            getDelegates().put(entry.getKey(), Class.forName(clazz).newInstance());
-         }
-      }
-      catch(Exception e)
-      {
-         throw new AeException(AeMessages.format("AeDelegatingHandlerFactory.InvocationError", new Object[] {clazz})); //$NON-NLS-1$
-      }
    }
    
    /**
@@ -81,7 +47,7 @@ public class AeDelegatingHandlerFactory
    {
       if (AeUtil.isNullOrEmpty(aURI))
       {
-         return DEFAULT_PROTOCOL;
+         return "default";
       }
       return AeInvokeHandlerUri.getProtocolString(aURI);
    }

@@ -12,6 +12,7 @@ package org.activebpel.rt.bpel.server.wsdl;
 import java.io.IOException;
 
 import org.activebpel.rt.bpel.server.catalog.AeCatalogMappings;
+import org.activebpel.rt.bpel.server.catalog.IAeCatalog;
 import org.activebpel.rt.bpel.server.catalog.IAeCatalogMapping;
 import org.activebpel.rt.bpel.server.engine.AeEngineFactory;
 import org.xml.sax.InputSource;
@@ -43,7 +44,7 @@ public class AeCatalogResourceResolver implements IAeResourceResolver
     */
    public InputSource getInputSource( String aLocationHint ) throws IOException
    {
-      IAeCatalogMapping mapping = AeEngineFactory.getCatalog().getMappingForLocation(aLocationHint); 
+      IAeCatalogMapping mapping = AeEngineFactory.getBean(IAeCatalog.class).getMappingForLocation(aLocationHint); 
       if(mapping != null)
          return mapping.getInputSource();
       return null;
@@ -55,7 +56,7 @@ public class AeCatalogResourceResolver implements IAeResourceResolver
     */
    public boolean hasMapping( String aLocationHint )
    {
-      IAeCatalogMapping mapping = AeEngineFactory.getCatalog().getMappingForLocation(aLocationHint); 
+      IAeCatalogMapping mapping = AeEngineFactory.getBean(IAeCatalog.class).getMappingForLocation(aLocationHint); 
       return mapping != null;
    }
 }

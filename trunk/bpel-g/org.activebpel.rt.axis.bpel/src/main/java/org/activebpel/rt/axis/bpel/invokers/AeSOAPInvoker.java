@@ -16,13 +16,13 @@ import java.util.Map;
 import javax.activation.DataHandler;
 import javax.wsdl.Part;
 import javax.xml.namespace.QName;
+import javax.xml.soap.MessageFactory;
 import javax.xml.soap.SOAPException;
 import javax.xml.soap.SOAPMessage;
 
 import org.activebpel.rt.AeException;
 import org.activebpel.rt.axis.bpel.AeMessages;
 import org.activebpel.rt.axis.bpel.handlers.AeAttachmentUtil;
-import org.activebpel.rt.bpel.impl.AeSOAPMessageFactory;
 import org.activebpel.rt.util.AeCloser;
 import org.activebpel.wsio.AeWebServiceMessageData;
 import org.activebpel.wsio.IAeWebServiceAttachment;
@@ -37,6 +37,7 @@ import org.w3c.dom.Document;
 public abstract class AeSOAPInvoker implements IAeInvoker
 {
 
+	private MessageFactory mMessageFactory;
    
    /**
     * Extracts message parts from the output message 
@@ -118,7 +119,7 @@ public abstract class AeSOAPInvoker implements IAeInvoker
          SOAPMessage msg;
          try
          {
-            msg = AeSOAPMessageFactory.getSOAPMessageFactory().createMessage();
+            msg = getMessageFactory().createMessage();
          }
          catch (SOAPException ex1)
          {
@@ -178,5 +179,13 @@ public abstract class AeSOAPInvoker implements IAeInvoker
         throw new AeException(ex1);
       }
    }
+
+public MessageFactory getMessageFactory() {
+	return mMessageFactory;
+}
+
+public void setMessageFactory(MessageFactory aMessageFactory) {
+	mMessageFactory = aMessageFactory;
+}
 }
  

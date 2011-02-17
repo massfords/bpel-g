@@ -534,7 +534,7 @@ public class AeRemoteDebugSkeleton implements IAeBpelAdmin, Skeleton
     */
    public AeRemoteDebugSkeleton()
    {
-      mAdmin = AeEngineFactory.getRemoteDebugImpl();
+      mAdmin = AeEngineFactory.getBean(IAeBpelAdmin.class);
    }
 
    /**

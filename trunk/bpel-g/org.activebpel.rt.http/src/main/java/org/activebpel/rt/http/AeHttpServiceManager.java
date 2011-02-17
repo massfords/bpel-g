@@ -45,7 +45,6 @@ public class AeHttpServiceManager extends AeManagerAdapter implements IAeHttpSer
     */
    public AeHttpServiceManager(Map aConfig)
    {
-      super();
       mHttpConfig = new AeHttpConfig(aConfig);
    }
 

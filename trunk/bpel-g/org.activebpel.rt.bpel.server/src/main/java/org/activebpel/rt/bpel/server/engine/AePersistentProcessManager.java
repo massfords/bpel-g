@@ -53,6 +53,7 @@ import org.activebpel.rt.bpel.server.engine.recovery.journal.AeInboundReceiveJou
 import org.activebpel.rt.bpel.server.engine.recovery.journal.IAeJournalEntry;
 import org.activebpel.rt.bpel.server.engine.storage.AeStorageException;
 import org.activebpel.rt.bpel.server.engine.storage.IAeProcessStateStorage;
+import org.activebpel.rt.bpel.server.engine.storage.IAeStorageFactory;
 import org.activebpel.rt.bpel.server.engine.storage.sql.AeDbUtils;
 import org.activebpel.rt.bpel.server.logging.IAePersistentLogger;
 import org.activebpel.rt.bpel.server.logging.IAeProcessLogEntry;
@@ -63,6 +64,7 @@ import org.activebpel.work.AeAbstractWork;
 import commonj.timers.Timer;
 import commonj.timers.TimerListener;
 import commonj.work.Work;
+import commonj.work.WorkManager;
 
 /**
  * Implements process manager that persists processes to an instance of
@@ -132,6 +134,7 @@ public class AePersistentProcessManager extends AeAbstractProcessManager impleme
     * recovery and the {@link #stop()} method.
     */ 
    private final Object mRecoveryAndStopMutex = new Object();
+   private IAeStorageFactory mStorageFactory;
 
    /**
     * Creates a persistent process manager given the manager's engine
@@ -215,7 +218,7 @@ public class AePersistentProcessManager extends AeAbstractProcessManager impleme
     */
    public void create() throws Exception
    {
-      setStorage(AeEngineFactory.getStorageFactory().getProcessStateStorage());
+      setStorage(getStorageFactory().getProcessStateStorage());
    }
 
    /**
@@ -991,7 +994,7 @@ public class AePersistentProcessManager extends AeAbstractProcessManager impleme
       }
       else
       {
-         IAeProcessLogger logger = AeEngineFactory.getLogger();
+         IAeProcessLogger logger = AeEngineFactory.getBean(IAeProcessLogger.class);
 
          if (logger instanceof IAePersistentLogger)
          {
@@ -1603,7 +1606,7 @@ public class AePersistentProcessManager extends AeAbstractProcessManager impleme
 
          try
          {
-            AeEngineFactory.getWorkManager().schedule(work);
+            AeEngineFactory.getBean(WorkManager.class).schedule(work);
          }
          catch (Exception e)
          {
@@ -1657,4 +1660,12 @@ public class AePersistentProcessManager extends AeAbstractProcessManager impleme
          }
       }
    }
+
+public IAeStorageFactory getStorageFactory() {
+	return mStorageFactory;
+}
+
+public void setStorageFactory(IAeStorageFactory aStorageFactory) {
+	mStorageFactory = aStorageFactory;
+}
 }

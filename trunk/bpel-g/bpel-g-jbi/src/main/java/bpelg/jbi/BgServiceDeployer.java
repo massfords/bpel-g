@@ -11,6 +11,7 @@ import org.activebpel.rt.AeException;
 import org.activebpel.rt.bpel.def.AePartnerLinkDef;
 import org.activebpel.rt.bpel.def.AePartnerLinkDefKey;
 import org.activebpel.rt.bpel.def.AeProcessDef;
+import org.activebpel.rt.bpel.server.IAeDeploymentProvider;
 import org.activebpel.rt.bpel.server.IAeProcessDeployment;
 import org.activebpel.rt.bpel.server.deploy.IAeDeploymentContainer;
 import org.activebpel.rt.bpel.server.deploy.IAeDeploymentSource;
@@ -52,7 +53,7 @@ public class BgServiceDeployer implements IAeWebServicesDeployer {
 
                 sLog.debug("deploying process: " + processName);
 
-                IAeProcessDeployment deployment = AeEngineFactory.getDeploymentProvider().findCurrentDeployment(processName);
+                IAeProcessDeployment deployment = AeEngineFactory.getBean(IAeDeploymentProvider.class).findCurrentDeployment(processName);
                 AeProcessDef processDef = deployment.getProcessDef();
 
                 AePartnerLinkDefKey partnerLinkDefKey = serviceInfo.getPartnerLinkDefKey();

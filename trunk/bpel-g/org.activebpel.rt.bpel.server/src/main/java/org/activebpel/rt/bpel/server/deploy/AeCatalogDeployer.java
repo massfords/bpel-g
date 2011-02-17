@@ -13,6 +13,7 @@ import org.activebpel.rt.AeException;
 import org.activebpel.rt.bpel.server.AeMessages;
 import org.activebpel.rt.bpel.server.catalog.AeCatalogEvent;
 import org.activebpel.rt.bpel.server.catalog.AeCatalogMappings;
+import org.activebpel.rt.bpel.server.catalog.IAeCatalog;
 import org.activebpel.rt.bpel.server.catalog.IAeCatalogListener;
 import org.activebpel.rt.bpel.server.catalog.IAeCatalogMapping;
 import org.activebpel.rt.bpel.server.engine.AeEngineFactory;
@@ -31,16 +32,16 @@ public class AeCatalogDeployer implements IAeCatalogDeployer
    throws AeException
    {
       AeCatalogDeploymentLogger logger = new AeCatalogDeploymentLogger(aLogger);
-      AeEngineFactory.getCatalog().addCatalogListener(logger);
+      AeEngineFactory.getBean(IAeCatalog.class).addCatalogListener(logger);
       try
       {
          AeCatalogMappings catalog = new AeCatalogMappings(aContainer);
          IAeCatalogMapping[] mappingEntries = createCatalogMappings( catalog, (IAeDeploymentContext)aContainer );
-         AeEngineFactory.getCatalog().addCatalogEntries( aContainer.getDeploymentId(), mappingEntries, catalog.replaceExistingResource() );
+         AeEngineFactory.getBean(IAeCatalog.class).addCatalogEntries( aContainer.getDeploymentId(), mappingEntries, catalog.replaceExistingResource() );
       }
       finally
       {
-         AeEngineFactory.getCatalog().removeCatalogListener(logger);
+         AeEngineFactory.getBean(IAeCatalog.class).removeCatalogListener(logger);
       }
    }
 
@@ -60,7 +61,7 @@ public class AeCatalogDeployer implements IAeCatalogDeployer
    public void undeployFromCatalog(IAeDeploymentContainer aContainer)
       throws AeException
    {
-      AeEngineFactory.getCatalog().remove( aContainer.getDeploymentId() );
+      AeEngineFactory.getBean(IAeCatalog.class).remove( aContainer.getDeploymentId() );
    }
 }
 

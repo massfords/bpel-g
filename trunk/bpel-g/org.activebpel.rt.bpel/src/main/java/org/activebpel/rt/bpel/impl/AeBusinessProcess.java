@@ -629,12 +629,6 @@ public class AeBusinessProcess extends AeActivityScopeImpl implements IAeBusines
     */
    public synchronized void suspend(AeSuspendReason aReason) throws AeBusinessProcessException
    {
-      // If the engine doesn't support suspending a process, return immediately.
-      if (!getEngine().isSuspendSupported())
-      {
-         return;
-      }
-      
       // Only suspend if the process is running
       if (!isRunning())
       {

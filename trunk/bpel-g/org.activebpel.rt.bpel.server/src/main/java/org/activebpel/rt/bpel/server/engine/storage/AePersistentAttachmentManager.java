@@ -18,44 +18,52 @@ import org.activebpel.rt.bpel.server.engine.storage.attachment.AeCompositeAttach
 /**
  * Implements a persistent attachment manager.
  */
-public class AePersistentAttachmentManager extends AeFileAttachmentManager
-{
-   /** The composite storage object. */
-   private IAeAttachmentStorage mCompositeStorage;
+public class AePersistentAttachmentManager extends AeFileAttachmentManager {
+	/** The composite storage object. */
+	private IAeAttachmentStorage mCompositeStorage;
 
-   /** The default persistent storage object. */
-   private IAeAttachmentStorage mPersistentStorage;
+	/** The default persistent storage object. */
+	private IAeAttachmentStorage mPersistentStorage;
 
-   /**
-    * Returns the persistent (database) storage implementation.
-    */
-   public IAeAttachmentStorage getPersistentStorage() throws AeStorageException
-   {
-      if (mPersistentStorage == null)
-      {
-         mPersistentStorage = AeEngineFactory.getStorageFactory().getAttachmentStorage();
+	private IAeStorageFactory mStorageFactory;
 
-         if (mPersistentStorage == null)
-         {
-            throw new AeStorageException(AeMessages.getString("AePersistentAttachmentManager.ERROR_GettingStorage")); //$NON-NLS-1$ 
-         }
-      }
+	/**
+	 * Returns the persistent (database) storage implementation.
+	 */
+	public IAeAttachmentStorage getPersistentStorage()
+			throws AeStorageException {
+		if (mPersistentStorage == null) {
+			mPersistentStorage = getStorageFactory().getAttachmentStorage();
 
-      return mPersistentStorage;
-   }
+			if (mPersistentStorage == null) {
+				throw new AeStorageException(
+						AeMessages
+								.getString("AePersistentAttachmentManager.ERROR_GettingStorage")); //$NON-NLS-1$ 
+			}
+		}
 
-   /**
-    * Overrides method to return the composite storage implementation.
-    * 
-    * @see org.activebpel.rt.bpel.impl.AeAbstractAttachmentManager#getStorage()
-    */
-   public IAeAttachmentStorage getStorage() throws AeStorageException
-   {
-      if (mCompositeStorage == null)
-      {
-         mCompositeStorage = new AeCompositeAttachmentStorage(getPersistentStorage(), getFileStorage());
-      }
-      
-      return mCompositeStorage;
-   }
+		return mPersistentStorage;
+	}
+
+	/**
+	 * Overrides method to return the composite storage implementation.
+	 * 
+	 * @see org.activebpel.rt.bpel.impl.AeAbstractAttachmentManager#getStorage()
+	 */
+	public IAeAttachmentStorage getStorage() throws AeStorageException {
+		if (mCompositeStorage == null) {
+			mCompositeStorage = new AeCompositeAttachmentStorage(
+					getPersistentStorage(), getFileStorage());
+		}
+
+		return mCompositeStorage;
+	}
+
+	public IAeStorageFactory getStorageFactory() {
+		return mStorageFactory;
+	}
+
+	public void setStorageFactory(IAeStorageFactory aStorageFactory) {
+		mStorageFactory = aStorageFactory;
+	}
 }

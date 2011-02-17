@@ -9,8 +9,6 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.axis.bpel.web.deploy;
 
-import java.util.Map;
-
 import org.activebpel.rt.axis.bpel.deploy.AeAxisWebServicesDeployerBase;
 import org.activebpel.rt.axis.bpel.web.AeProcessEngineServlet;
 import org.apache.axis.server.AxisServer;
@@ -21,24 +19,6 @@ import org.apache.axis.server.AxisServer;
  */
 public class AeAxisWebServicesDeployer extends AeAxisWebServicesDeployerBase
 {
-
-   /**
-    * Constructor.
-    */
-   public AeAxisWebServicesDeployer()
-   {
-      super(null);
-   }   
-   
-   /**
-    * Constructor.
-    * @param aConfig
-    */
-   public AeAxisWebServicesDeployer(Map aConfig)
-   {
-      super(aConfig);
-   }   
-   
    /**
     * Implements method by returning the axis server associated with the process engine servlet. 
     * @see org.activebpel.rt.axis.bpel.deploy.AeAxisWebServicesDeployerBase#getAxisServer()

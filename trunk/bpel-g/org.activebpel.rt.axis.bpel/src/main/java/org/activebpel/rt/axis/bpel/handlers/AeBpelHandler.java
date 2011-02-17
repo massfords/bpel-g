@@ -33,6 +33,7 @@ import org.activebpel.rt.bpel.def.AePartnerLinkDefKey;
 import org.activebpel.rt.bpel.impl.AeBpelException;
 import org.activebpel.rt.bpel.impl.addressing.IAeAddressingHeaders;
 import org.activebpel.rt.bpel.impl.reply.IAeDurableReplyInfo;
+import org.activebpel.rt.bpel.server.IAeDeploymentProvider;
 import org.activebpel.rt.bpel.server.IAeProcessDeployment;
 import org.activebpel.rt.bpel.server.deploy.IAeWsddConstants;
 import org.activebpel.rt.bpel.server.engine.AeEngineFactory;
@@ -283,7 +284,7 @@ public abstract class AeBpelHandler extends AeHandler implements IAePolicyConsta
     */
    protected IAeProcessDeployment getDeploymentPlan(ServiceDesc aServiceDesc) throws AeBusinessProcessException
    {
-      IAeProcessDeployment deploymentPlan = AeEngineFactory.getDeploymentProvider().findCurrentDeployment(getProcessName(aServiceDesc));
+      IAeProcessDeployment deploymentPlan = AeEngineFactory.getBean(IAeDeploymentProvider.class).findCurrentDeployment(getProcessName(aServiceDesc));
       return deploymentPlan;
    }
 

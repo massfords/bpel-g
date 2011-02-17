@@ -15,8 +15,8 @@
     xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
                         http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.0.xsd">
 
-    <bean id="TransactionManagerFactory"
-        class="org.activebpel.rt.bpel.server.engine.transaction.sql.AeSQLTransactionManagerFactory"/>
+    <bean id="TransactionManager"
+        class="org.activebpel.rt.bpel.server.engine.transaction.sql.AeSQLTransactionManager"/>
 
     <bean id="SecurityProvider" class="org.activebpel.rt.bpel.server.security.AeSecurityProvider">
         <!-- Uncomment to use an installed JAAS provider
@@ -40,18 +40,41 @@
     </bean>
 
     <bean id="QueueManager" class="org.activebpel.rt.bpel.server.engine.storage.AePersistentQueueManager">
+        <property name="StorageFactory" ref="StorageFactory"/>
         <property name="invokeHandlerFactory">
             <bean class="org.activebpel.rt.bpel.server.engine.invoke.AeDelegatingInvokeHandlerFactory">
                 <property name="delegates">
                     <util:map>
                         <entry key="default">
-                            <bean class="org.activebpel.rt.axis.bpel.AeAxisInvokeHandlerFactory"/>
+                            <bean class="org.activebpel.rt.axis.bpel.AeAxisInvokeHandlerFactory">
+                                <property name="handler">
+                                    <bean class="org.activebpel.rt.axis.bpel.AeAxisInvokeHandler">
+                                        <property name="styleMap">
+                                            <util:map>
+                                                <entry key="rpc">
+                                                    <bean class="org.activebpel.rt.axis.bpel.invokers.AeRpcStyleInvoker">
+                                                        <property name="messageFactory" ref="SOAPMessageFactory"/>
+                                                    </bean>
+                                                </entry>
+                                                <entry key="document">
+                                                    <bean class="org.activebpel.rt.axis.bpel.invokers.AeDocumentStyleInvoker">
+                                                        <property name="messageFactory" ref="SOAPMessageFactory"/>
+                                                    </bean>
+                                                </entry>
+                                            </util:map>
+                                        </property>
+                                    </bean>
+                                </property>
+                                <property name="URNResolver" ref="URNResolver"/>
+                            </bean>
                         </entry>
                         <entry key="java">
                             <bean class="org.activebpel.rt.bpel.server.engine.invoke.AePojoHandlerFactory"/>
                         </entry>
                         <entry key="process">
-                            <bean class="org.activebpel.rt.bpel.server.engine.invoke.AeProcessHandlerFactory"/>
+                            <bean class="org.activebpel.rt.bpel.server.engine.invoke.AeProcessHandlerFactory">
+                                <property name="CoordinationManager" ref="CoordinationManager"/>
+                            </bean>
                         </entry>
                         <entry key="policy">
                             <bean class="org.activebpel.rt.axis.bpel.AePolicyInvokeHandlerFactory"/>
@@ -71,7 +94,10 @@
                             <bean class="org.activebpel.rt.bpel.server.engine.receive.AeBPELReceiveHandlerFactory"/>
                         </entry>
                         <entry key="soap">
-                            <bean class="org.activebpel.rt.axis.bpel.receivers.AeAxisReceiveHandlerFactory"/>
+                            <bean class="org.activebpel.rt.axis.bpel.receivers.AeAxisReceiveHandlerFactory">
+                                <property name="messageFactory" ref="SOAPMessageFactory"/>
+                                <property name="securityProvider" ref="SecurityProvider"/>
+                            </bean>
                         </entry>
                     </util:map>
                 </property>
@@ -81,12 +107,19 @@
     </bean>
 
     <bean id="LockManager" class="org.activebpel.rt.bpel.impl.AeInMemoryLockManager"/>
-    <bean id="AttachmentManager" class="org.activebpel.rt.bpel.server.engine.storage.AePersistentAttachmentManager"/>
-    <bean id="CoordinationManager" class="org.activebpel.rt.bpel.server.coord.AePersistentCoordinationManager"/>
-    <bean id="EngineAdminImpl" class="org.activebpel.rt.axis.bpel.web.AeWebEngineAdministration"/>
+    <bean id="AttachmentManager" class="org.activebpel.rt.bpel.server.engine.storage.AePersistentAttachmentManager">
+        <property name="StorageFactory" ref="StorageFactory"/>
+    </bean>
+    <bean id="CoordinationManager" class="org.activebpel.rt.bpel.server.coord.AePersistentCoordinationManager">
+        <property name="StorageFactory" ref="StorageFactory"/>
+    </bean>
+    <bean id="EngineAdminImpl" class="org.activebpel.rt.axis.bpel.web.AeWebEngineAdministration">
+        <property name="PartnerAddressingProvider" ref="PartnerAddressingProvider"/>
+        <property name="URNResolver" ref="URNResolver"/>
+    </bean>
     <bean id="DeploymentProvider" class="org.activebpel.rt.bpel.server.deploy.AeDeploymentProvider"/>
 
-    <bean id="ExpressionLangFactory" class="org.activebpel.rt.bpel.AeExpressionLanguageFactory">
+    <bean id="ExpressionLanguageFactory" class="org.activebpel.rt.bpel.AeExpressionLanguageFactory">
         <property name="factoryMap">
             <util:map>
                 <entry key="http://schemas.xmlsoap.org/ws/2003/03/business-process/">
@@ -215,7 +248,7 @@
             </util:map>
         </property>
     </bean>
-    <bean id="AeFunctionContextContainer" class="org.activebpel.rt.bpel.function.AeFunctionContextContainer">
+    <bean id="FunctionContextContainer" class="org.activebpel.rt.bpel.function.AeFunctionContextContainer">
         <property name="locator">
             <bean class="org.activebpel.rt.bpel.function.AeFunctionContextLocator"/>
         </property>
@@ -285,7 +318,7 @@
             </bean>
         </property>
     </bean>
-    <bean id="AeFunctionValidatorFactory" class="org.activebpel.rt.bpel.def.validation.expr.functions.AeFunctionValidatorFactory"
+    <bean id="FunctionValidatorFactory" class="org.activebpel.rt.bpel.def.validation.expr.functions.AeFunctionValidatorFactory"
         init-method="init">
         <property name="entries">
             <util:list>
@@ -439,8 +472,10 @@
     </bean>
     <bean id="PartnerAddressing" class="org.activebpel.rt.bpel.server.addressing.AePartnerAddressing">
         <property name="provider" ref="PartnerAddressingProvider"/>
+        <property name="URNResolver" ref="URNResolver"/>
     </bean>
     <bean id="PartnerAddressingProvider" class="org.activebpel.rt.bpel.server.addressing.pdef.AeDefaultPartnerAddressingProvider"/>
+    
     <bean id="StorageFactory" class="org.activebpel.rt.bpel.server.engine.storage.AeStorageFactory" init-method="init">
         <property name="storageProviderFactory">
             <bean class="org.activebpel.rt.bpel.server.engine.storage.sql.AeSQLStorageProviderFactory">
@@ -567,6 +602,8 @@
             persisting a process.
         -->
         <property name="configReleaseLagSeconds" value="10"/>
+        <property name="planManager" ref="DeploymentProvider"/>
+        <property name="StorageFactory" ref="StorageFactory"/>
     </bean>
 
     <bean id="TransmissionTracker" class="org.activebpel.rt.bpel.server.transreceive.AePersistentTransmissionTracker">
@@ -591,7 +628,7 @@
         <property name="storageFactory" ref="StorageFactory"/>
     </bean>
 
-    <bean class="org.activebpel.rt.bpel.server.logging.AePersistentLogger" init-method="init">
+    <bean id="ProcessLogger" class="org.activebpel.rt.bpel.server.logging.AePersistentLogger" init-method="init">
         <property name="loggingFilter">
             <bean id="ProcessLoggingFilter" class="org.activebpel.rt.bpel.server.logging.AeProcessLoggingFilter">
                 <property name="processEventIds">
@@ -616,6 +653,7 @@
                 </property>
             </bean>
         </property>
+        <property name="Engine" ref="Engine"/>
     </bean>
 
     <bean id="DeploymentLog" class="org.activebpel.rt.bpel.server.logging.AeFileDeploymentLoggerFactory"/>
@@ -630,13 +668,103 @@
         <constructor-arg ref="WorkManagerFactory"/>
     </bean>
 
-    <util:list id="ChildWorkManagers">
-        <bean class="org.activebpel.work.child.AeConfigAwareChildWorkManager" init-method="init">
-            <property name="name" value="Alarm"/>
-            <property name="maxWorkCount" value="5"/>
-            <property name="workManagerFactory" ref="WorkManagerFactory"/>
-            <property name="configMaxWorkCountPath" value="ChildWorkManagers/Alarm/MaxWorkCount"/>
-        </bean>
-    </util:list>
+    <util:map id="ChildWorkManagers">
+        <entry key="Alarm">
+            <bean class="org.activebpel.work.child.AeConfigAwareChildWorkManager" init-method="init">
+                <property name="name" value="Alarm"/>
+                <property name="maxWorkCount" value="5"/>
+                <property name="workManagerFactory" ref="WorkManagerFactory"/>
+                <property name="configMaxWorkCountPath" value="ChildWorkManagers/Alarm/MaxWorkCount"/>
+            </bean>
+        </entry>
+    </util:map>
     
+    <bean id="DeploymentHandler" class="org.activebpel.rt.bpel.server.deploy.AeDeploymentHandlerFactory">
+        <property name="deploymentFactory">
+            <bean class="org.activebpel.rt.bpel.server.deploy.AeDeploymentFactoryImpl">
+                <property name="BpelDeployer" >
+                    <bean class="org.activebpel.rt.bpel.server.deploy.AeBpelDeployer">
+                        <property name="ExpressionLanguageFactory" ref="ExpressionLanguageFactory"/>
+                    </bean>
+                </property>
+                
+                <property name="CatalogDeployer" >
+                    <bean class="org.activebpel.rt.bpel.server.deploy.AeCatalogDeployer" />
+                </property>
+                
+                <property name="PdefDeployer" >
+                    <bean class="org.activebpel.rt.bpel.server.deploy.AePdefDeployer">
+                        <property name="PartnerAddressingProvider" ref="PartnerAddressingProvider"/>
+                    </bean>
+                </property>
+                
+                <property name="WebServicesDeployer" >
+                    <bean class="org.activebpel.rt.bpel.server.deploy.AeDelegatingWebServiceDeployer" >
+                        <property name="delegates">
+                            <util:map>
+                                <entry key="default" value-ref="WebServicesDeployer"/>
+                                <entry key="bpel" value-ref="WebServicesDeployer"/>
+                                <entry key="wsdd" value-ref="WebServicesDeployer"/>
+                            </util:map>
+                        </property>
+                    </bean>
+                </property>
+                
+                <property name="ValidationHandler">
+                    <bean class="org.activebpel.rt.bpel.server.deploy.validate.AeDefaultValidationHandler">
+                        <property name="expressionLanguageFactory" ref="ExpressionLanguageFactory"/>
+                        <property name="functionValidatorFactory" ref="FunctionValidatorFactory"/>
+                    </bean>
+                </property>
+                
+            </bean>
+        </property>
+    </bean>
+    
+    <bean id="WebServicesDeployer" class="org.activebpel.rt.axis.bpel.web.deploy.AeAxisWebServicesDeployer"/>
+    
+    <bean id="ProcessWorkManager" class="org.activebpel.work.AeProcessWorkManager" init-method="init">
+        <!--
+            ProcessWorkCount is the maximum number of work manager requests to
+            schedule for a single process. The default value is 10. A value of 0
+            allows an unlimited number of work manager requests.
+        -->
+        <property name="ProcessWorkCount" value="10"/>
+    </bean>
+    
+    <bean id="Engine" class="org.activebpel.rt.bpel.server.engine.AeBpelEngine">
+        <property name="URNResolver" ref="URNResolver"/>
+        <property name="PlanManager" ref="DeploymentProvider"/>   
+        <property name="TransmissionTracker" ref="TransmissionTracker"/>
+        <property name="ExpressionLanguageFactory" ref="ExpressionLanguageFactory"/>
+        <property name="FunctionContainer" ref="FunctionContextContainer"/>
+        <property name="FunctionValidatorFactory" ref="FunctionValidatorFactory"/>
+        <property name="PartnerLinkStrategy">
+            <bean class="org.activebpel.rt.bpel.server.engine.AeServerPartnerLinkStrategy"/>
+        </property>
+        <property name="Managers">
+            <util:map map-class="java.util.LinkedHashMap" value-type="org.activebpel.rt.bpel.impl.IAeManager">
+                <entry key="QueueManager" value-ref="QueueManager"/>
+                <entry key="ProcessManager" value-ref="ProcessManager"/>
+                <entry key="LockManager" value-ref="LockManager"/>
+                <entry key="AttachmentManager" value-ref="AttachmentManager"/>
+                <entry key="CoordinationManager" value-ref="CoordinationManager"/>
+            </util:map>
+        </property>
+    </bean>
+    
+    <bean id="EngineListenerFactory" class="org.activebpel.rt.bpel.server.engine.AeEngineListeners" init-method="init">
+        <property name="Engine" ref="Engine"/>
+        <property name="listeners">
+            <util:list>
+             <!--  <bean class="Your-Engine-Listener.class"/> --> 
+            </util:list>
+        </property>
+    </bean>
+    
+    <bean id="SOAPMessageFactory" class="javax.xml.soap.MessageFactory" factory-method="newInstance"/>
+    
+    <bean id="RemoteDebug" class="org.activebpel.rt.bpel.server.admin.rdebug.server.AeRemoteDebugImpl">
+        <property name="EventHandlerLocator" value="org.activebpel.rt.axis.bpel.rdebug.client.AeEventHandlerLocator"/>
+    </bean>
 </beans>

@@ -22,6 +22,7 @@ import org.activebpel.rt.bpel.server.engine.IAePersistentProcessManager;
 import org.activebpel.work.AeAbstractWork;
 
 import commonj.work.Work;
+import commonj.work.WorkManager;
 
 /**
  * Maps process ids to process wrappers.
@@ -86,7 +87,7 @@ public class AeProcessWrapperMap implements IAeProcessWrapperMap
             }
          };
 
-        AeEngineFactory.getWorkManager().schedule(work);
+        AeEngineFactory.getBean(WorkManager.class).schedule(work);
       }
    }
 

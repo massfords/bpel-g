@@ -30,6 +30,7 @@ import org.activebpel.rt.axis.ser.AeCallTypeMapper;
 import org.activebpel.rt.axis.ser.AeSimpleValueWrapper;
 import org.activebpel.rt.bpel.AeBusinessProcessException;
 import org.activebpel.rt.bpel.AeWSDLDefHelper;
+import org.activebpel.rt.bpel.server.IAeDeploymentProvider;
 import org.activebpel.rt.bpel.server.engine.AeEngineFactory;
 import org.activebpel.rt.util.AeUtil;
 import org.activebpel.rt.util.AeXmlUtil;
@@ -68,7 +69,7 @@ public class AeRpcStyleInvoker extends AeSOAPInvoker
       setupOperationQName(aContext);
 
       // Highly unlikely this will ever be null, only situation would be if process got deleted in time it took to perform invoke
-      IAeContextWSDLProvider wsdlProvider = AeEngineFactory.getDeploymentProvider().findDeploymentPlan(aContext.getInvoke().getProcessId(), aContext.getInvoke().getProcessName());
+      IAeContextWSDLProvider wsdlProvider = AeEngineFactory.getBean(IAeDeploymentProvider.class).findDeploymentPlan(aContext.getInvoke().getProcessId(), aContext.getInvoke().getProcessName());
       if (wsdlProvider == null)
          return;
 

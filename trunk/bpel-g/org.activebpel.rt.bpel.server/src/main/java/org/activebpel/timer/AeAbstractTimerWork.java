@@ -14,6 +14,7 @@ import org.activebpel.work.AeAbstractWork;
 
 import commonj.timers.Timer;
 import commonj.timers.TimerListener;
+import commonj.work.WorkManager;
 
 /**
  * This abstract class is an adapter used to facilitate scheduling work using the timer facility.
@@ -26,7 +27,7 @@ public abstract class AeAbstractTimerWork extends AeAbstractWork implements Time
     */
    public void timerExpired(Timer aTimer)
    {
-     AeEngineFactory.getWorkManager().schedule(this);
+     AeEngineFactory.getBean(WorkManager.class).schedule(this);
    }
    
    /** 

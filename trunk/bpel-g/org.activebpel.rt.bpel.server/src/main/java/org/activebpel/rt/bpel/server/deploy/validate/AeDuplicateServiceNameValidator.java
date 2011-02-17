@@ -19,6 +19,7 @@ import org.activebpel.rt.AeException;
 import org.activebpel.rt.bpel.AeBusinessProcessException;
 import org.activebpel.rt.bpel.def.validation.IAeBaseErrorReporter;
 import org.activebpel.rt.bpel.server.AeMessages;
+import org.activebpel.rt.bpel.server.IAeDeploymentProvider;
 import org.activebpel.rt.bpel.server.deploy.AeRoutingInfo;
 import org.activebpel.rt.bpel.server.deploy.bpr.IAeBpr;
 import org.activebpel.rt.bpel.server.engine.AeEngineFactory;
@@ -71,7 +72,7 @@ public class AeDuplicateServiceNameValidator implements IAePredeploymentValidato
                AeRoutingInfo routingInfo = null;
                try
                {
-                  routingInfo = AeEngineFactory.getDeploymentProvider().getRoutingInfoByServiceName(serviceName);
+                  routingInfo = AeEngineFactory.getBean(IAeDeploymentProvider.class).getRoutingInfoByServiceName(serviceName);
                   QName conflictingProcess = routingInfo.getServiceData().getProcessQName();
                   String[] args = { serviceName, pddName, aBprFile.getBprFileName(), conflictingProcess.getNamespaceURI(), conflictingProcess.getLocalPart() };
                   aReporter.addError( DUPLICATE_SERVICE_OTHER_BPR, args, null );

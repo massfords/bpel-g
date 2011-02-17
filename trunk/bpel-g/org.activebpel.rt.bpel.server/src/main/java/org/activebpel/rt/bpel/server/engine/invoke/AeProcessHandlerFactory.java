@@ -7,48 +7,57 @@
 //Active Endpoints, Inc. Removal of this PROPRIETARY RIGHTS STATEMENT 
 //is strictly forbidden. Copyright (c) 2002-2004 All rights reserved. 
 /////////////////////////////////////////////////////////////////////////////
-package org.activebpel.rt.bpel.server.engine.invoke; 
+package org.activebpel.rt.bpel.server.engine.invoke;
 
 import org.activebpel.rt.bpel.AeBusinessProcessException;
+import org.activebpel.rt.bpel.coord.IAeCoordinationManager;
 import org.activebpel.rt.bpel.server.engine.AeInvokeHandlerUri;
 import org.activebpel.rt.bpel.server.engine.IAeInvokeHandlerFactory;
 import org.activebpel.wsio.invoke.IAeInvoke;
 import org.activebpel.wsio.invoke.IAeInvokeHandler;
 
 /**
- * Handler factory to create Invoke handler for the 'process' protocol.   
+ * Handler factory to create Invoke handler for the 'process' protocol.
  */
-public class AeProcessHandlerFactory implements IAeInvokeHandlerFactory
-{
-   
-   /**
-    * @see org.activebpel.rt.bpel.server.engine.IAeInvokeHandlerFactory#createInvokeHandler(org.activebpel.wsio.invoke.IAeInvoke)
-    */
-   public IAeInvokeHandler createInvokeHandler(IAeInvoke aInvoke)
-         throws AeBusinessProcessException
-   {
-      IAeInvokeHandler rHandler = null;
-      String invokerType = AeInvokeHandlerUri.getInvokerString(aInvoke.getInvokeHandler());
-      // create new handler objects based on the invoke type.
-      // process/subprocess handlers are stateful (not re-entrant), hence new instances are created. 
-      if ("subprocess".equals(invokerType)) //$NON-NLS-1$
-      {
-         rHandler = new AeSubprocessInvokeHandler();
-      }
-      else
-      {
-         rHandler = new AeProcessInvokeHandler();
-      }
-      return rHandler;
-   }
-   
-   /**
-    * @see org.activebpel.rt.bpel.server.engine.IAeInvokeHandlerFactory#getQueryData(org.activebpel.wsio.invoke.IAeInvoke)
-    */
-   public String getQueryData(IAeInvoke aInvoke)
-   {
-      return AeInvokeHandlerUri.getQueryString(aInvoke.getInvokeHandler());
-   }
-      
+public class AeProcessHandlerFactory implements IAeInvokeHandlerFactory {
+	private IAeCoordinationManager mCoordinationManager;
+
+	/**
+	 * @see org.activebpel.rt.bpel.server.engine.IAeInvokeHandlerFactory#createInvokeHandler(org.activebpel.wsio.invoke.IAeInvoke)
+	 */
+	public IAeInvokeHandler createInvokeHandler(IAeInvoke aInvoke)
+			throws AeBusinessProcessException {
+		IAeInvokeHandler rHandler = null;
+		String invokerType = AeInvokeHandlerUri.getInvokerString(aInvoke
+				.getInvokeHandler());
+		// create new handler objects based on the invoke type.
+		// process/subprocess handlers are stateful (not re-entrant), hence new
+		// instances are created.
+		if ("subprocess".equals(invokerType)) //$NON-NLS-1$
+		{
+			AeSubprocessInvokeHandler sub = new AeSubprocessInvokeHandler();
+			sub.setCoordinationManager(getCoordinationManager());
+			rHandler = sub;
+		} else {
+			rHandler = new AeProcessInvokeHandler();
+		}
+		return rHandler;
+	}
+
+	/**
+	 * @see org.activebpel.rt.bpel.server.engine.IAeInvokeHandlerFactory#getQueryData(org.activebpel.wsio.invoke.IAeInvoke)
+	 */
+	public String getQueryData(IAeInvoke aInvoke) {
+		return AeInvokeHandlerUri.getQueryString(aInvoke.getInvokeHandler());
+	}
+
+	public IAeCoordinationManager getCoordinationManager() {
+		return mCoordinationManager;
+	}
+
+	public void setCoordinationManager(
+			IAeCoordinationManager aCoordinationManager) {
+		mCoordinationManager = aCoordinationManager;
+	}
+
 }
- 

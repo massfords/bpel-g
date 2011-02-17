@@ -11,7 +11,6 @@ package org.activebpel.rt.bpel.server.engine;
 
 import java.util.Comparator;
 import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.SortedSet;
@@ -23,34 +22,26 @@ import org.activebpel.rt.AeException;
 import org.activebpel.rt.bpel.AeBusinessProcessException;
 import org.activebpel.rt.bpel.AeWSDLPolicyHelper;
 import org.activebpel.rt.bpel.IAeBusinessProcess;
-import org.activebpel.rt.bpel.IAeEndpointReference;
-import org.activebpel.rt.bpel.IAeExpressionLanguageFactory;
 import org.activebpel.rt.bpel.IAeFault;
-import org.activebpel.rt.bpel.config.IAeEngineConfiguration;
 import org.activebpel.rt.bpel.coord.AeCoordinationException;
 import org.activebpel.rt.bpel.coord.IAeCoordinating;
 import org.activebpel.rt.bpel.coord.IAeCoordinationContext;
 import org.activebpel.rt.bpel.coord.IAeCoordinationManager;
 import org.activebpel.rt.bpel.impl.AeConflictingRequestException;
 import org.activebpel.rt.bpel.impl.AeCorrelationViolationException;
-import org.activebpel.rt.bpel.impl.AePartnerLink;
 import org.activebpel.rt.bpel.impl.AeTimeoutPolicy;
-import org.activebpel.rt.bpel.impl.IAeAttachmentManager;
-import org.activebpel.rt.bpel.impl.IAeCoordinationManagerInternal;
-import org.activebpel.rt.bpel.impl.IAeEnginePartnerLinkStrategy;
 import org.activebpel.rt.bpel.impl.IAeLockManager;
 import org.activebpel.rt.bpel.impl.IAeManager;
 import org.activebpel.rt.bpel.impl.IAeManagerVisitor;
 import org.activebpel.rt.bpel.impl.IAeProcessManager;
 import org.activebpel.rt.bpel.impl.IAeProcessPlan;
-import org.activebpel.rt.bpel.impl.IAeQueueManager;
 import org.activebpel.rt.bpel.impl.list.AeProcessFilter;
 import org.activebpel.rt.bpel.impl.list.AeProcessListResult;
 import org.activebpel.rt.bpel.impl.queue.AeInboundReceive;
 import org.activebpel.rt.bpel.impl.queue.AeMessageReceiver;
 import org.activebpel.rt.bpel.server.AeMessages;
+import org.activebpel.rt.bpel.server.IAeDeploymentProvider;
 import org.activebpel.rt.bpel.server.IAeProcessDeployment;
-import org.activebpel.rt.bpel.server.addressing.IAePartnerAddressing;
 import org.activebpel.rt.bpel.server.admin.AeEngineDetail;
 import org.activebpel.rt.bpel.server.admin.IAeEngineAdministration;
 import org.activebpel.rt.bpel.server.coord.AeRegistrationRequest;
@@ -82,51 +73,9 @@ public class AeBpelEngine extends AeAbstractServerEngine
 
    /** current state info */
    private String mErrorInfo;
-
-   /** A list of managers. */
-   private List mManagers = new LinkedList();
-
-   /**
-    * Creates a server based business process engine with the passed queue,
-    * process, and alarm managers.
-    *
-    * @param aEngineConfiguration The engine configuration to use for this engine.
-    * @param aQueueManager The queue manager to be associated with this engine.
-    * @param aProcessManager The process manager to be associated with this engine.
-    * @param aLockManager The lock manager to be associated with this engine.
-    * @param aAttachmentManager The lock manager to be associated with this engine.
-    */
-   public AeBpelEngine(
-      IAeEngineConfiguration aEngineConfiguration,
-      IAeQueueManager aQueueManager,
-      IAeProcessManager aProcessManager,
-      IAeLockManager aLockManager,
-      IAeAttachmentManager aAttachmentManager,
-      IAeExpressionLanguageFactory aFactory) throws Exception
-   {
-      super(aEngineConfiguration, aQueueManager, aProcessManager, aLockManager, aAttachmentManager, aFactory);
-
-      getManagers().add(aQueueManager);
-      getManagers().add(aProcessManager);
-      getManagers().add(aLockManager);
-
-      getManagers().add(aAttachmentManager);
-      setPartnerLinkStrategy(new AeServerPartnerLinkStrategy());
-   }
-
-   /**
-    * Sets the coordination manager.
-    * @param aCoordinationManager coordination manager.
-    */
-   public void setCoordinationManager(IAeCoordinationManagerInternal aCoordinationManager)
-   {
-      super.setCoordinationManager( aCoordinationManager );
-      if (aCoordinationManager != null)
-      {
-         getManagers().add(aCoordinationManager) ;
-      }
-   }
    
+   private List<IAeManager> mManagerSequence;
+
    /**
     * @see org.activebpel.rt.bpel.impl.IAeBusinessProcessEngineInternal#registerForCoordination(org.activebpel.wsio.receive.IAeMessageContext, org.activebpel.rt.bpel.IAeBusinessProcess)
     */
@@ -841,7 +790,7 @@ public class AeBpelEngine extends AeAbstractServerEngine
     */
    protected IAeProcessDeployment getDeploymentByProcessName(AeMessageContext aContext) throws AeException
    {
-      return AeEngineFactory.getDeploymentProvider().findCurrentDeployment(aContext.getProcessName());
+      return AeEngineFactory.getBean(IAeDeploymentProvider.class).findCurrentDeployment(aContext.getProcessName());
    }
 
    /**
@@ -852,7 +801,7 @@ public class AeBpelEngine extends AeAbstractServerEngine
     */
    protected AeRoutingInfo getRoutingInfo(AeMessageContext aContext) throws AeException
    {
-      return AeEngineFactory.getDeploymentProvider().getRoutingInfoByServiceName( aContext.getServiceName());
+      return AeEngineFactory.getBean(IAeDeploymentProvider.class).getRoutingInfoByServiceName( aContext.getServiceName());
    }
 
    /**
@@ -883,35 +832,18 @@ public class AeBpelEngine extends AeAbstractServerEngine
    }
 
    /**
-    * Getter for the managers list
-    */
-   protected List getManagers()
-   {
-      return mManagers;
-   }
-   
-   /**
-    * @see org.activebpel.rt.bpel.impl.AeBusinessProcessEngine#addCustomManager(java.lang.String, org.activebpel.rt.bpel.impl.IAeManager)
-    */
-   public void addCustomManager(String aManagerName, IAeManager aManager) throws AeException
-   {
-      super.addCustomManager(aManagerName, aManager);
-      getManagers().add(aManager);
-   }
-
-   /**
     * Visit the managers with the specified visitor.
     * @param aVisitor
     */
    protected void visitManagers(IAeManagerVisitor aVisitor) throws Exception
    {
-      for (Iterator it=getManagers().iterator(); it.hasNext();)
+      for (Iterator it=getManagerSequence().iterator(); it.hasNext();)
       {
          IAeManager mgr = (IAeManager) it.next();
          mgr.accept(aVisitor);
       }
    }
-
+   
    /**
     * Visit the managers with the specified visitor. A convenience method for when
     * the visitor is one that won't throw an exception.
@@ -962,42 +894,6 @@ public class AeBpelEngine extends AeAbstractServerEngine
    public int removeProcesses(AeProcessFilter aFilter) throws AeBusinessProcessException
    {
       return getProcessManager().removeProcesses(aFilter);
-   }
-
-   /**
-    * Implements the partner link strategy for the server business process
-    * engine.
-    */
-   protected static class AeServerPartnerLinkStrategy implements IAeEnginePartnerLinkStrategy
-   {
-      /**
-       * @see org.activebpel.rt.bpel.server.addressing.IAePartnerAddressing#getMyRoleEndpoint(org.activebpel.rt.bpel.server.IAeProcessDeployment, org.activebpel.rt.bpel.def.AePartnerLinkDef, javax.xml.namespace.QName, java.lang.String)
-       */
-      public void initPartnerLink(AePartnerLink aPartnerLink, IAeProcessPlan aPlan) throws AeBusinessProcessException
-      {
-         IAeProcessDeployment deployment = AeProcessDeploymentFactory.getDeploymentForPlan(aPlan);
-         IAeEndpointReference partnerRef = deployment.getPartnerEndpointRef(aPartnerLink.getDefinition().getLocationPath());
-         if (partnerRef != null)
-         {
-            aPartnerLink.getPartnerReference().setReferenceData(partnerRef);
-         }
-         // get the myRole endpoint
-         IAePartnerAddressing addr = AeEngineFactory.getPartnerAddressing();
-         IAeEndpointReference myRef = addr.getMyRoleEndpoint(deployment, aPartnerLink.getDefinition(), aPlan.getProcessDef().getQName(), aPartnerLink.getConversationId());
-         if (myRef != null)
-         {
-            aPartnerLink.getMyReference().setReferenceData(myRef);
-         }
-      }
-
-      /**
-       * @see org.activebpel.rt.bpel.impl.IAeEnginePartnerLinkStrategy#updatePartnerLink(org.activebpel.rt.bpel.impl.AePartnerLink, org.activebpel.rt.bpel.impl.IAeProcessPlan, org.activebpel.wsio.receive.IAeMessageContext)
-       */
-      public void updatePartnerLink(AePartnerLink aPartnerLink, IAeProcessPlan aProcessPlan, IAeMessageContext aMessageContext) throws AeBusinessProcessException
-      {
-         IAeProcessDeployment dd = AeProcessDeploymentFactory.getDeploymentForPlan(aProcessPlan);
-         dd.updatePartnerLink(aPartnerLink, aMessageContext);
-      }
    }
 
    /**
@@ -1153,4 +1049,12 @@ public class AeBpelEngine extends AeAbstractServerEngine
          releaseProcess(process);
       }
    }
+
+public List<IAeManager> getManagerSequence() {
+	return mManagerSequence;
+}
+
+public void setManagerSequence(List<IAeManager> aManagerSequence) {
+	mManagerSequence = aManagerSequence;
+}
 }

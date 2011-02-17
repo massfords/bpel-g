@@ -9,15 +9,11 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpel.server.security;
 
-import java.util.Map;
 import java.util.Set;
 
 import javax.security.auth.Subject;
 
-import org.activebpel.rt.AeException;
 import org.activebpel.rt.bpel.server.AeMessages;
-import org.activebpel.rt.bpel.server.engine.AeEngineFactory;
-import org.activebpel.rt.util.AeUtil;
 import org.activebpel.wsio.receive.IAeMessageContext;
 
 /**
@@ -83,54 +79,6 @@ public class AeSecurityProvider implements IAeSecurityProvider
       {
          return true;
       }
-   }
-   
-   /**
-    * Creates a login provider from the configuration
-    * 
-    * @param aConfig
-    * @return login provider
-    * @throws AeSecurityException
-    */
-   protected IAeLoginProvider createLoginProvider(Map aConfig) throws AeSecurityException
-   {
-      IAeLoginProvider provider = null;
-      if (!AeUtil.isNullOrEmpty(aConfig))
-      {
-         try
-         {
-            provider = (IAeLoginProvider) AeEngineFactory.createConfigSpecificClass(aConfig);
-         }
-         catch (AeException ae)
-         {
-            throw new AeSecurityException(ae.getLocalizedMessage(), ae);
-         }
-      }
-      return provider;
-   }
-
-   /**
-    * Creates a auth provider from the configuration
-    * 
-    * @param aConfig
-    * @return authorization provider
-    * @throws AeSecurityException
-    */
-   protected IAeAuthorizationProvider createAuthorizationProvider(Map aConfig) throws AeSecurityException
-   {
-      IAeAuthorizationProvider provider = null;
-      if (!AeUtil.isNullOrEmpty(aConfig))
-      {
-         try
-         {
-            provider = (IAeAuthorizationProvider) AeEngineFactory.createConfigSpecificClass(aConfig);
-         }
-         catch (AeException ae)
-         {
-            throw new AeSecurityException(ae.getLocalizedMessage(), ae);
-         }
-      }
-      return provider;
    }
    
    /**

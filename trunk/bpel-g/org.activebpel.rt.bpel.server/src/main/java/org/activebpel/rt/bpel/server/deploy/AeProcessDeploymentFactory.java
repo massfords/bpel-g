@@ -12,6 +12,7 @@ package org.activebpel.rt.bpel.server.deploy;
 import java.util.Iterator;
 
 import org.activebpel.rt.bpel.AeBusinessProcessException;
+import org.activebpel.rt.bpel.IAeExpressionLanguageFactory;
 import org.activebpel.rt.bpel.def.AeProcessDef;
 import org.activebpel.rt.bpel.impl.IAeProcessPlan;
 import org.activebpel.rt.bpel.server.AeMessages;
@@ -39,10 +40,11 @@ public class AeProcessDeploymentFactory
     * @param aSource
     * @throws AeDeploymentException
     */
-   public IAeProcessDeployment newInstance( IAeDeploymentSource aSource )
+   public IAeProcessDeployment newInstance( IAeDeploymentSource aSource, IAeExpressionLanguageFactory aFactory )
    throws AeDeploymentException
    {
       AeProcessDeployment deployment = new AeProcessDeployment(aSource);
+      deployment.setExpressionLanguageFactory(aFactory);
       initProcessDef(aSource, deployment);
       initPartnerLinks(aSource, deployment);
 

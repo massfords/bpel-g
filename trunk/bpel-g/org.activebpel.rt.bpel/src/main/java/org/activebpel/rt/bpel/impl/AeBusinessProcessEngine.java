@@ -14,7 +14,6 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
@@ -101,18 +100,6 @@ public class AeBusinessProcessEngine implements IAeBusinessProcessEngineInternal
    /** Map of listeners, keyed by the process ID */
    protected Map<Long,CopyOnWriteArraySet<IAeProcessListener>> mProcessListeners = new HashMap();
 
-   /** The queue for incoming data that gets dispatched to processes */
-   protected IAeQueueManager mQueueManager;
-
-   /** Process manager */
-   private IAeProcessManager mProcessManager;
-
-   /** The lock manager for handling acquiring and releasing locks. */
-   protected IAeLockManager mLockManager;
-
-   /** The attachment manager for handling attachments to messages and variables. */
-   protected IAeAttachmentManager mAttachmentManager;
-
    /** Maps process QName to its process plan */
    protected IAePlanManager mPlanManager;
 
@@ -128,9 +115,6 @@ public class AeBusinessProcessEngine implements IAeBusinessProcessEngineInternal
    /** Strategy for managing partner links. */
    private IAeEnginePartnerLinkStrategy mPartnerLinkStrategy;
 
-   /** Coordination manager */
-   private IAeCoordinationManagerInternal mCoordinationManager;
-
    /** Transmit and receive id manager. */
    private IAeTransmissionTracker  mTransmissionTracker;
 
@@ -142,51 +126,14 @@ public class AeBusinessProcessEngine implements IAeBusinessProcessEngineInternal
    /**
     * Map containing process journal ids keyed by the process id.
     */
-   protected Map<Long,Long> mProcessJournalIdMap;
+   protected Map<Long,Long> mProcessJournalIdMap = Collections.synchronizedMap( new HashMap<Long,Long>() );
 
-   /** Map from custom manager name to IAeManager. */
-   private Map mCustomManagers = new HashMap();
+   private Map<String,IAeManager> mManagers = new HashMap();
    
    private IAeExpressionLanguageFactory mExpressionLanguageFactory;
    private AeFunctionContextContainer mFunctionContainer;
    /** A cached function validator factory. */
    protected IAeFunctionValidatorFactory mFunctionValidatorFactory;
-
-   /**
-    * Constructs a new engine with the passed configuration, queue manager,
-    * process manager, and alarm manager.
-    *
-    * @param aEngineConfiguration The engine configuration to use for this engine.
-    * @param aQueueManager The queue manager to be associated with this engine.
-    * @param aProcessManager The process manager to be associated with this engine.
-    * @param aLockManager The lock manager to be associated with this engine.
-    * @param aAttachmentManager The attachment manager to be associated with this engine.
-    */
-   public AeBusinessProcessEngine(
-      IAeEngineConfiguration aEngineConfiguration,
-      IAeQueueManager aQueueManager,
-      IAeProcessManager aProcessManager,
-      IAeLockManager aLockManager,
-      IAeAttachmentManager aAttachmentManager,
-      IAeExpressionLanguageFactory aFactory)
-   {
-      mEngineConfiguration = aEngineConfiguration;
-      mQueueManager = aQueueManager;
-      mProcessManager = aProcessManager;
-      mLockManager = aLockManager;
-      mAttachmentManager = aAttachmentManager;
-      setExpressionLanguageFactory(aFactory);
-      if (mQueueManager != null)
-         mQueueManager.setEngine(this);
-      if (mProcessManager != null)
-         mProcessManager.setEngine(this);
-      if (mLockManager != null)
-         mLockManager.setEngine(this);
-      if (mAttachmentManager != null)
-         mAttachmentManager.setEngine(this);
-      mStarted = new Date();
-      mProcessJournalIdMap = Collections.synchronizedMap( new HashMap<Long,Long>() );
-   }
 
    /**
     * Adds the given process id and its journal id to an internal collection.
@@ -231,7 +178,7 @@ public class AeBusinessProcessEngine implements IAeBusinessProcessEngineInternal
     */
    public IAeProcessManager getProcessManager()
    {
-      return mProcessManager;
+      return (IAeProcessManager) getManagers().get(PROCESS_MANAGER_KEY);
    }
 
    /**
@@ -964,20 +911,7 @@ public class AeBusinessProcessEngine implements IAeBusinessProcessEngineInternal
     */
    public IAeCoordinationManagerInternal getCoordinationManager()
    {
-      return mCoordinationManager;
-   }
-
-   /**
-    * Sets the coordination manager.
-    * @param aCoordinationManager coordination manager.
-    */
-   public void setCoordinationManager(IAeCoordinationManagerInternal aCoordinationManager)
-   {
-      mCoordinationManager = aCoordinationManager;
-      if (mCoordinationManager != null)
-      {
-         mCoordinationManager.setEngine(this);
-      }
+      return (IAeCoordinationManagerInternal) getManagers().get(COORDINATION_MANAGER_KEY);
    }
 
    /**
@@ -1446,7 +1380,7 @@ public class AeBusinessProcessEngine implements IAeBusinessProcessEngineInternal
     */
    public IAeQueueManager getQueueManager()
    {
-      return mQueueManager;
+      return (IAeQueueManager) getManagers().get(QUEUE_MANAGER_KEY);
    }
 
    /**
@@ -1454,7 +1388,8 @@ public class AeBusinessProcessEngine implements IAeBusinessProcessEngineInternal
     */
    public IAeLockManager getLockManager()
    {
-      return mLockManager;
+	   // FIXME move down to AeBpelEngine
+      return (IAeLockManager) getManagers().get(LOCK_MANAGER_KEY);
    }
 
    /**
@@ -1462,7 +1397,7 @@ public class AeBusinessProcessEngine implements IAeBusinessProcessEngineInternal
     */
    public IAeAttachmentManager getAttachmentManager()
    {
-      return mAttachmentManager;
+      return (IAeAttachmentManager) getManagers().get(ATTACHMENT_MANAGER_KEY);
    }
 
    /**
@@ -2095,50 +2030,11 @@ public class AeBusinessProcessEngine implements IAeBusinessProcessEngineInternal
    }
 
    /**
-    * Adds a custom manager to the engine's manager list.
-    *
-    * @param aManagerName
-    * @param aManager
-    */
-   public void addCustomManager(String aManagerName, IAeManager aManager) throws AeException
-   {
-      if (getCustomManagers().containsKey(aManagerName))
-         throw new AeException(AeMessages.format("AeBusinessProcessEngine.DuplicateCustomManagerError", aManagerName)); //$NON-NLS-1$
-
-      getCustomManagers().put(aManagerName, aManager);
-      aManager.setEngine(this);
-   }
-
-   /**
     * @see org.activebpel.rt.bpel.impl.IAeBusinessProcessEngineInternal#getCustomManager(java.lang.String)
     */
-   public IAeManager getCustomManager(String aManagerName)
+   public IAeManager getManager(String aManagerName)
    {
-      return (IAeManager) getCustomManagers().get(aManagerName);
-   }
-
-   /**
-    * @see org.activebpel.rt.bpel.impl.IAeBusinessProcessEngineInternal#getCustomManagerNames()
-    */
-   public Iterator getCustomManagerNames()
-   {
-      return new HashSet(getCustomManagers().keySet()).iterator();
-   }
-
-   /**
-    * @return Returns the customManagerMap.
-    */
-   protected Map getCustomManagers()
-   {
-      return mCustomManagers;
-   }
-
-   /**
-    * @param aCustomManagerMap the customManagerMap to set
-    */
-   protected void setCustomManagers(Map aCustomManagerMap)
-   {
-      mCustomManagers = aCustomManagerMap;
+      return (IAeManager) getManagers().get(aManagerName);
    }
 
    /**
@@ -2199,14 +2095,6 @@ public class AeBusinessProcessEngine implements IAeBusinessProcessEngineInternal
       throw new UnsupportedOperationException(AeMessages.format("AeBusinessProcessEngine.ERROR_RestartProcessNotSupported", String.valueOf(aProcessId))); //$NON-NLS-1$
    }
 
-   /**
-    * @see org.activebpel.rt.bpel.impl.IAeBusinessProcessEngineInternal#isSuspendSupported()
-    */
-   public boolean isSuspendSupported()
-   {
-      return true;
-   }
-
     @Override
     public IAeExpressionLanguageFactory getExpressionLanguageFactory() {
         return mExpressionLanguageFactory;
@@ -2237,4 +2125,24 @@ public class AeBusinessProcessEngine implements IAeBusinessProcessEngineInternal
     public void setFunctionValidatorFactory(IAeFunctionValidatorFactory aFunctionValidatorFactory) {
         mFunctionValidatorFactory = aFunctionValidatorFactory;
     }
+
+	public AeFunctionContextContainer getFunctionContainer() {
+		return mFunctionContainer;
+	}
+
+	public void setFunctionContainer(AeFunctionContextContainer aFunctionContainer) {
+		mFunctionContainer = aFunctionContainer;
+	}
+	
+	public final Map<String,IAeManager> getManagers() {
+		return mManagers;
+	}
+	
+	public void setManagers(Map<String,IAeManager> aMap) {
+		for(IAeManager m : aMap.values()) {
+			m.setEngine(this);
+		}
+		mManagers = aMap;
+	}
+
 }

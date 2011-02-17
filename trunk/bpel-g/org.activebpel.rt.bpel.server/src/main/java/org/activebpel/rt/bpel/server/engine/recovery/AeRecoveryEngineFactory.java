@@ -9,11 +9,11 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpel.server.engine.recovery;
 
-import java.util.HashMap;
-import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 import org.activebpel.rt.bpel.impl.IAeBusinessProcessEngineInternal;
+import org.activebpel.rt.bpel.impl.IAeManager;
 import org.activebpel.rt.bpel.server.engine.AeEngineFactory;
 
 /**
@@ -54,35 +54,19 @@ public class AeRecoveryEngineFactory
     */
    public IAeRecoveryEngine newRecoveryEngine(IAeBusinessProcessEngineInternal aBaseEngine)
    {
-      Map customManagers = getCustomManagers(aBaseEngine);
+      Map<String,IAeManager> copy = new LinkedHashMap(aBaseEngine.getManagers());
+      copy.put(IAeBusinessProcessEngineInternal.QUEUE_MANAGER_KEY, new AeRecoveryQueueManager());
+      copy.put(IAeBusinessProcessEngineInternal.PROCESS_MANAGER_KEY, new AeRecoveryProcessManager());
+      copy.put(IAeBusinessProcessEngineInternal.LOCK_MANAGER_KEY, new AeRecoveryLockManager());
+      copy.put(IAeBusinessProcessEngineInternal.COORDINATION_MANAGER_KEY, new AeRecoveryCoordinationManager(aBaseEngine.getCoordinationManager()));
       
       return new AeRecoveryEngine(
          aBaseEngine.getEngineConfiguration(),
-         new AeRecoveryQueueManager(),
-         new AeRecoveryProcessManager(),
-         new AeRecoveryLockManager(),
-         aBaseEngine.getAttachmentManager(),
          aBaseEngine.getExpressionLanguageFactory(),
          aBaseEngine.getPartnerLinkStrategy(),
-         new AeRecoveryCoordinationManager(aBaseEngine.getCoordinationManager()),
          aBaseEngine.getTransmissionTracker(),
-         customManagers,
+         copy,
          aBaseEngine.getEngineId()
       );
-   }
-
-   /**
-    * Gets the custom managers from the engine.
-    * @param aBaseEngine
-    */
-   private Map getCustomManagers(IAeBusinessProcessEngineInternal aBaseEngine)
-   {
-      Map customManagers = new HashMap();
-      for (Iterator iter = aBaseEngine.getCustomManagerNames(); iter.hasNext();)
-      {
-         String mgrName = (String) iter.next();
-         customManagers.put(mgrName, aBaseEngine.getCustomManager(mgrName));
-      }
-      return customManagers;
    }
 }
