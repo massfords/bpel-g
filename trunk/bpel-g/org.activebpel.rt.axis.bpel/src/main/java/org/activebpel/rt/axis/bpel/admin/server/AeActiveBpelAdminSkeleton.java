@@ -252,31 +252,6 @@ public class AeActiveBpelAdminSkeleton implements org.activebpel.rt.axis.bpel.ad
       }
       ((java.util.List)_myOperations.get("setVariable")).add(_oper); //$NON-NLS-1$
       _params = new org.apache.axis.description.ParameterDesc [] {
-            new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("http://schemas.active-endpoints.com/activebpeladmin/2007/01/activebpeladmin.xsd", "addAttachmentDataInput"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName("http://schemas.active-endpoints.com/activebpeladmin/2007/01/activebpeladmin.xsd", "AesAddAttachmentDataType"), org.activebpel.rt.axis.bpel.admin.types.AesAddAttachmentDataType.class, false, false),    //$NON-NLS-1$//$NON-NLS-2$//$NON-NLS-3$ //$NON-NLS-4$
-            //  new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("", "attachment"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "base64Binary"), byte[].class, false, false),    //$NON-NLS-1$//$NON-NLS-2$//$NON-NLS-3$ //$NON-NLS-4$
-      };
-      _oper = new org.apache.axis.description.OperationDesc("addAttachment", _params, new javax.xml.namespace.QName("http://schemas.active-endpoints.com/activebpeladmin/2007/01/activebpeladmin.xsd", "addAttachmentDataOutput"));   //$NON-NLS-1$//$NON-NLS-2$//$NON-NLS-3$
-      _oper.setReturnType(new javax.xml.namespace.QName("http://schemas.active-endpoints.com/activebpeladmin/2007/01/activebpeladmin.xsd", "AesAddAttachmentResponseType"));  //$NON-NLS-1$//$NON-NLS-2$
-      _oper.setElementQName(new javax.xml.namespace.QName("", "AddAttachment"));  //$NON-NLS-1$//$NON-NLS-2$
-      _oper.setSoapAction(""); //$NON-NLS-1$
-      _myOperationsList.add(_oper);
-      if (_myOperations.get("addAttachment") == null) {//$NON-NLS-1$
-         _myOperations.put("addAttachment", new java.util.ArrayList());//$NON-NLS-1$
-      }
-      ((java.util.List)_myOperations.get("addAttachment")).add(_oper); //$NON-NLS-1$
-      _params = new org.apache.axis.description.ParameterDesc [] {
-            new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("http://schemas.active-endpoints.com/activebpeladmin/2007/01/activebpeladmin.xsd", "removeAttachmentDataInput"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName("http://schemas.active-endpoints.com/activebpeladmin/2007/01/activebpeladmin.xsd", "AesRemoveAttachmentDataType"), org.activebpel.rt.axis.bpel.admin.types.AesRemoveAttachmentDataType.class, false, false),    //$NON-NLS-1$//$NON-NLS-2$//$NON-NLS-3$ //$NON-NLS-4$
-      };
-      _oper = new org.apache.axis.description.OperationDesc("removeAttachments", _params, new javax.xml.namespace.QName("http://schemas.active-endpoints.com/activebpeladmin/2007/01/activebpeladmin.xsd", "removeAttachmentDataOutput"));   //$NON-NLS-1$//$NON-NLS-2$//$NON-NLS-3$
-      _oper.setReturnType(new javax.xml.namespace.QName("http://schemas.active-endpoints.com/activebpeladmin/2007/01/activebpeladmin.xsd", "AesStringResponseType"));  //$NON-NLS-1$//$NON-NLS-2$
-      _oper.setElementQName(new javax.xml.namespace.QName("", "RemoveAttachments"));  //$NON-NLS-1$ //$NON-NLS-2$
-      _oper.setSoapAction(""); //$NON-NLS-1$
-      _myOperationsList.add(_oper);
-      if (_myOperations.get("removeAttachments") == null) { //$NON-NLS-1$
-         _myOperations.put("removeAttachments", new java.util.ArrayList()); //$NON-NLS-1$
-      }
-      ((java.util.List)_myOperations.get("removeAttachments")).add(_oper); //$NON-NLS-1$
-      _params = new org.apache.axis.description.ParameterDesc [] {
             new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("http://schemas.active-endpoints.com/activebpeladmin/2007/01/activebpeladmin.xsd", "getProcessListInput"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName("http://schemas.active-endpoints.com/activebpeladmin/2007/01/activebpeladmin.xsd", "AesProcessFilterType"), org.activebpel.rt.axis.bpel.admin.types.AesProcessFilterType.class, false, false),    //$NON-NLS-1$//$NON-NLS-2$//$NON-NLS-3$ //$NON-NLS-4$
       };
       _oper = new org.apache.axis.description.OperationDesc("getProcessList", _params, new javax.xml.namespace.QName("http://schemas.active-endpoints.com/activebpeladmin/2007/01/activebpeladmin.xsd", "getProcessListOutput"));   //$NON-NLS-1$//$NON-NLS-2$//$NON-NLS-3$
@@ -505,31 +480,6 @@ public class AeActiveBpelAdminSkeleton implements org.activebpel.rt.axis.bpel.ad
    public org.activebpel.rt.axis.bpel.admin.types.AesStringResponseType setVariable(org.activebpel.rt.axis.bpel.admin.types.AesSetVariableDataType input) throws java.rmi.RemoteException
    {
       org.activebpel.rt.axis.bpel.admin.types.AesStringResponseType ret = impl.setVariable(input);
-      return ret;
-   }
-
-   public org.activebpel.rt.axis.bpel.admin.types.AesAddAttachmentResponseType addAttachment(org.activebpel.rt.axis.bpel.admin.types.AesAddAttachmentDataType input, byte[] attachment) throws java.rmi.RemoteException
-   {
-      org.activebpel.rt.axis.bpel.admin.types.AesAddAttachmentResponseType ret = impl.addAttachment(input, attachment);
-      return ret;
-   }
-
-   /**
-    * We are receiving attachments out of band. The attachment content will
-    * not be part of the message body so Axis requires a single argument method
-    * like this.
-    * @param input
-    * @throws java.rmi.RemoteException
-    */
-   public org.activebpel.rt.axis.bpel.admin.types.AesAddAttachmentResponseType addAttachment(org.activebpel.rt.axis.bpel.admin.types.AesAddAttachmentDataType input) throws java.rmi.RemoteException
-   {
-      org.activebpel.rt.axis.bpel.admin.types.AesAddAttachmentResponseType ret = impl.addAttachment(input, null);
-      return ret;
-   }
-
-   public org.activebpel.rt.axis.bpel.admin.types.AesStringResponseType removeAttachments(org.activebpel.rt.axis.bpel.admin.types.AesRemoveAttachmentDataType input) throws java.rmi.RemoteException
-   {
-      org.activebpel.rt.axis.bpel.admin.types.AesStringResponseType ret = impl.removeAttachments(input);
       return ret;
    }
 

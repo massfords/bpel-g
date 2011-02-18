@@ -24,8 +24,6 @@ public interface IAeActiveBpelAdmin extends java.rmi.Remote {
     public void removeProcessListener(org.activebpel.rt.axis.bpel.admin.types.AesProcessRequestType input) throws java.rmi.RemoteException;
     public org.activebpel.rt.axis.bpel.admin.types.AesStringResponseType getVariable(org.activebpel.rt.axis.bpel.admin.types.AesGetVariableDataType input) throws java.rmi.RemoteException;
     public org.activebpel.rt.axis.bpel.admin.types.AesStringResponseType setVariable(org.activebpel.rt.axis.bpel.admin.types.AesSetVariableDataType input) throws java.rmi.RemoteException;
-    public org.activebpel.rt.axis.bpel.admin.types.AesAddAttachmentResponseType addAttachment(org.activebpel.rt.axis.bpel.admin.types.AesAddAttachmentDataType input, byte[] attachment) throws java.rmi.RemoteException;
-    public org.activebpel.rt.axis.bpel.admin.types.AesStringResponseType removeAttachments(org.activebpel.rt.axis.bpel.admin.types.AesRemoveAttachmentDataType input) throws java.rmi.RemoteException;
     public org.activebpel.rt.axis.bpel.admin.types.AesProcessListType getProcessList(org.activebpel.rt.axis.bpel.admin.types.AesProcessFilterType input) throws java.rmi.RemoteException;
     public org.activebpel.rt.axis.bpel.admin.types.AesProcessDetailType getProcessDetail(org.activebpel.rt.axis.bpel.admin.types.AesProcessType input) throws java.rmi.RemoteException;
     public org.activebpel.rt.axis.bpel.admin.types.AesStringResponseType getProcessState(org.activebpel.rt.axis.bpel.admin.types.AesProcessType input) throws java.rmi.RemoteException;

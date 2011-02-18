@@ -401,15 +401,6 @@
       <parameter name="typeMappingVersion" value="1.2"/>
       <parameter name="allowedMethods" value="*"/>
 
-       <typeMapping
-        xmlns:ns="http://schemas.active-endpoints.com/activebpeladmin/2007/01/activebpeladmin.xsd"
-        qname="ns:AesRemoveAttachmentDataType"
-        type="java:org.activebpel.rt.axis.bpel.admin.types.AesRemoveAttachmentDataType"
-        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
-        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
-        encodingStyle=""
-      />
-      
       <typeMapping
         xmlns:ns="http://schemas.active-endpoints.com/activebpeladmin/2007/01/activebpeladmin.xsd"
         qname="ns:AesProcessFilterType"
@@ -422,38 +413,6 @@
         xmlns:ns="http://schemas.active-endpoints.com/activebpeladmin/2007/01/activebpeladmin.xsd"
         qname="ns:AesStringResponseType"
         type="java:org.activebpel.rt.axis.bpel.admin.types.AesStringResponseType"
-        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
-        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
-        encodingStyle=""
-      />
-      <typeMapping
-        xmlns:ns="http://schemas.active-endpoints.com/activebpeladmin/2007/01/activebpeladmin.xsd"
-        qname="ns:AesAttachmentAttributeList"
-        type="java:org.activebpel.rt.axis.bpel.admin.types.AesAttachmentAttributeList"
-        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
-        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
-        encodingStyle=""
-      />
-     <typeMapping
-        xmlns:ns="http://schemas.active-endpoints.com/activebpeladmin/2007/01/activebpeladmin.xsd"
-        qname="ns:AesAttachmentItemNumberList"
-        type="java:org.activebpel.rt.axis.bpel.admin.types.AesAttachmentItemNumberList"
-        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
-        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
-        encodingStyle=""
-      />
-      <typeMapping
-        xmlns:ns="http://schemas.active-endpoints.com/activebpeladmin/2007/01/activebpeladmin.xsd"
-        qname="ns:AesAddAttachmentDataType"
-        type="java:org.activebpel.rt.axis.bpel.admin.types.AesAddAttachmentDataType"
-        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
-        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
-        encodingStyle=""
-      />
-       <typeMapping
-        xmlns:ns="http://schemas.active-endpoints.com/activebpeladmin/2007/01/activebpeladmin.xsd"
-        qname="ns:AesAttachmentAttribute"
-        type="java:org.activebpel.rt.axis.bpel.admin.types.AesAttachmentAttribute"
         serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
         deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
         encodingStyle=""

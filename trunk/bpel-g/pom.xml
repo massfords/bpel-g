@@ -65,6 +65,8 @@
         <module>org.activebpel.rt.war</module>
         <module>org.activebpel.rt.bpeladmin.jar</module>
         <module>org.activebpel.rt.bpeladmin.war</module>
+        <module>org.activebpel.services</module>
+        <module>org.activebpel.services.jaxws</module>
         <module>ode-packaging</module>
         <module>bpel-g.war</module>
         <!--

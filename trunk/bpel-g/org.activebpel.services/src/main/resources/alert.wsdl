@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions 
+    targetNamespace="http://www.active-endpoints.com/services/alert" 
+    xmlns:tns="http://www.active-endpoints.com/services/alert" 
+    xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" 
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+
+   <wsdl:types>
+      <schema targetNamespace="http://www.active-endpoints.com/services/alert" 
+         xmlns="http://www.w3.org/2001/XMLSchema" 
+         xmlns:tns="http://www.active-endpoints.com/services/alert"
+         xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+         <simpleType name="AlertStatus">
+            <xsd:restriction base="xsd:string">
+               <xsd:enumeration value="suspended"/>
+               <xsd:enumeration value="faulting"/>
+               <xsd:enumeration value="invokeRecovery"/>
+            </xsd:restriction>
+         </simpleType>
+         <complexType name="AlertType">
+            <sequence minOccurs="0">
+               <any namespace="##any" processContents="skip"/>
+            </sequence>
+            <attribute name="processId" type="xsd:long"/>
+            <attribute name="processNamespace" type="xsd:string"/>
+            <attribute name="processName" type="xsd:string"/>
+            <attribute name="faultNamespace" type="xsd:string"/>
+            <attribute name="faultName" type="xsd:string"/>
+            <attribute name="locationPath" type="xsd:string"/>
+            <attribute name="status" type="tns:AlertStatus"/>
+         </complexType>
+         <element name="alert" type="tns:AlertType"/>
+      </schema>
+    </wsdl:types>
+    
+   <wsdl:message name="alertMessage">
+      <wsdl:part name="alert" element="tns:alert" />
+   </wsdl:message>
+
+   <wsdl:portType name="alertPT">
+      <wsdl:operation name="alert">
+         <wsdl:input message="tns:alertMessage"/>
+      </wsdl:operation>
+   </wsdl:portType>
+</wsdl:definitions>

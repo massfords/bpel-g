@@ -166,48 +166,6 @@
             </sequence>
          </complexType>
          
-         
-         <complexType name="AesAttachmentAttribute">
-            <sequence>
-               <element name="attributeName" type="xsd:string"/>
-               <element name="attributeValue" nillable="true" type="xsd:string"/>
-            </sequence>
-         </complexType>
-         
-         <complexType name="AesAttachmentAttributeList">
-            <sequence>
-               <element name="attribute" type="aetypes:AesAttachmentAttribute" minOccurs="0" maxOccurs="unbounded"/>
-            </sequence>
-         </complexType>
-        
-         <complexType name="AesAddAttachmentResponseType">
-            <sequence>
-               <element name="attachmentId" type="xsd:long"/>
-               <element name="attachmentAttributes" type="aetypes:AesAttachmentAttributeList"  minOccurs="0" maxOccurs="1" />
-            </sequence>
-         </complexType>
-         
-         <complexType name="AesAddAttachmentDataType">
-            <sequence>
-               <element name="pid" type="xsd:long"/>
-               <element name="variablePath" type="xsd:string"/>
-            </sequence>
-         </complexType>
-         
-         <complexType name="AesAttachmentItemNumberList">
-            <sequence>
-               <element name="itemNumber" nillable="true" type="xsd:int" minOccurs="0" maxOccurs="unbounded"/>
-            </sequence>
-         </complexType>
-         
-         <complexType name="AesRemoveAttachmentDataType">
-            <sequence>
-               <element name="pid" type="xsd:long"/>
-               <element name="variablePath" type="xsd:string"/>
-               <element name="itemNumbers" nillable="true" type="aetypes:AesAttachmentItemNumberList"/>
-            </sequence>
-         </complexType>
-
          <complexType name="AesProcessFilterType">
             <sequence>
                <element name="filter" type="aetypes:AesProcessFilter"/>
@@ -305,12 +263,6 @@
          <element name="setVariableDataInput" type="aetypes:AesSetVariableDataType"/>
          <element name="setVariableDataOutput" type="aetypes:AesStringResponseType"/>
 
-         <element name="addAttachmentDataInput" type="aetypes:AesAddAttachmentDataType"/>
-         <element name="addAttachmentDataOutput" type="aetypes:AesAddAttachmentResponseType"/>
-         
-         <element name="removeAttachmentDataInput" type="aetypes:AesRemoveAttachmentDataType"/>
-         <element name="removeAttachmentDataOutput" type="aetypes:AesStringResponseType"/>
-         
          <element name="getProcessListInput" type="aetypes:AesProcessFilterType"/>
          <element name="getProcessListOutput" type="aetypes:AesProcessListType"/>
 
@@ -426,21 +378,6 @@
       <wsdl:part name="output" element="aetypes:setVariableDataOutput"/>
    </wsdl:message>
    
-   <wsdl:message name="addAttachmentDataRequest">
-      <wsdl:part name="input" element="aetypes:addAttachmentDataInput"/>
-      <wsdl:part name="attachment" type="xsd:base64Binary"/>
-   </wsdl:message>
-   <wsdl:message name="addAttachmentDataResponse">
-      <wsdl:part name="output" element="aetypes:addAttachmentDataOutput"/>
-   </wsdl:message>
-   
-   <wsdl:message name="removeAttachmentsDataRequest">
-      <wsdl:part name="input" element="aetypes:removeAttachmentDataInput"/>
-   </wsdl:message>
-   <wsdl:message name="removeAttachmentsDataResponse">
-      <wsdl:part name="output" element="aetypes:removeAttachmentDataOutput"/>
-   </wsdl:message>
-
    <wsdl:message name="removeEngineListenerRequest">
       <wsdl:part name="input" element="aetypes:removeEngineListenerInput"/>
    </wsdl:message>
@@ -585,17 +522,6 @@
          <wsdl:output message="tns:setVariableDataResponse"/>
       </wsdl:operation>
       
-       <wsdl:operation name="AddAttachment">
-         <wsdl:input  message="tns:addAttachmentDataRequest"/>
-         <wsdl:output message="tns:addAttachmentDataResponse"/>
-      </wsdl:operation>
-      
-      <wsdl:operation name="RemoveAttachments">
-         <wsdl:input  message="tns:removeAttachmentsDataRequest"/>
-         <wsdl:output message="tns:removeAttachmentsDataResponse"/>
-      </wsdl:operation>
-      
-
       <wsdl:operation name="GetProcessList">
          <wsdl:input  message="tns:getProcessListRequest"/>
          <wsdl:output message="tns:getProcessListResponse"/>
@@ -848,33 +774,6 @@
          </wsdl:output>
       </wsdl:operation>
       
-      <wsdl:operation name="AddAttachment">
-         <wsdlsoap:operation soapAction=""/>
-         <wsdl:input>
-            <mime:multipartRelated>
-               <mime:part>
-                  <wsdlsoap:body parts="input" use="literal"/>
-               </mime:part>
-               <mime:part>
-                   <mime:content part="attachment" type="application/octetstream"/>
-               </mime:part>
-            </mime:multipartRelated>
-         </wsdl:input>
-         <wsdl:output>
-            <wsdlsoap:body use="literal"/>
-         </wsdl:output>
-      </wsdl:operation>
-      
-      <wsdl:operation name="RemoveAttachments">
-         <wsdlsoap:operation soapAction=""/>
-         <wsdl:input>
-            <wsdlsoap:body use="literal"/>
-         </wsdl:input>
-         <wsdl:output>
-            <wsdlsoap:body use="literal"/>
-         </wsdl:output>
-      </wsdl:operation>
-
       <wsdl:operation name="GetProcessList">
          <wsdlsoap:operation soapAction=""/>
          <wsdl:input>
@@ -997,7 +896,7 @@
    </wsdl:binding>
 
    <wsdl:service name="ActiveBpelAdmin">
-      <wsdl:port binding="tns:AeActiveBpelAdmin" name="ActiveBpelAdmin">
+      <wsdl:port binding="tns:AeActiveBpelAdmin" name="ActiveBpelAdminPort">
          <wsdlsoap:address location="http://127.0.0.1:8080/active-bpel/services/ActiveBpelAdmin"/>
       </wsdl:port>
    </wsdl:service>
