@@ -8,6 +8,7 @@ import javax.xml.ws.Service;
 
 import org.activebpel.rt.base64.BASE64Encoder;
 import org.apache.commons.io.IOUtils;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import active_endpoints.docs.wsdl.activebpeladmin._2007._01.activebpeladmin_wsdl.IAeAxisActiveBpelAdmin;
@@ -15,7 +16,7 @@ import active_endpoints.docs.wsdl.activebpeladmin._2007._01.activebpeladmin_wsdl
 import com.active_endpoints.schemas.activebpeladmin._2007._01.activebpeladmin.AesDeployBprType;
 import com.active_endpoints.schemas.activebpeladmin._2007._01.activebpeladmin.AesStringResponseType;
 
-
+@Ignore
 public class AeDeployBPRTest {
 
 	@Test
