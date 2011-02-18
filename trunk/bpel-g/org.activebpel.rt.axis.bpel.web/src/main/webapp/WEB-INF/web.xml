@@ -89,10 +89,6 @@
   </listener>
 
   <listener>
-    <listener-class>org.apache.axis.transport.http.AxisHTTPSessionListener</listener-class>
-  </listener>
-
-  <listener>
     <listener-class> org.activebpel.rt.axis.bpel.web.AeEngineFactoryStarter</listener-class>
   </listener>
 

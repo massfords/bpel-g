@@ -41,6 +41,7 @@ public class AeEngineFactoryStarter implements ServletContextListener {
 		ApplicationContext ac = WebApplicationContextUtils.getWebApplicationContext(aEvent.getServletContext());
 		mFileHandler = ac.getBean(IAeDeploymentFileHandler.class);
 		AeEngineFactory.setApplicationContext(ac);
+		AeEngineFactory.getEngine().setEngineConfiguration(AeEngineFactory.getEngineConfig());
 		
 		long delay = getLongValue(aEvent.getServletContext(), SCAN_DELAY_PARAM,
 				DEFAULT_DELAY);

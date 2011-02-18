@@ -348,6 +348,7 @@ public interface IAeBusinessProcessEngine
     * @return IAeEngineConfiguration The engine configuration for this engine instance.
     */
    public IAeEngineConfiguration getEngineConfiguration();
+   public void setEngineConfiguration(IAeEngineConfiguration aConfiguration);
    
    /**
     * Gets the date/time that the engine started.
