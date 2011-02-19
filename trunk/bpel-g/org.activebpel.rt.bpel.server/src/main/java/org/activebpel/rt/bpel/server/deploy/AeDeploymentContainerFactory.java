@@ -22,7 +22,7 @@ import org.activebpel.rt.bpel.server.deploy.bpr.IAeBpr;
  * Create and configure the <code>IAeDeploymentContainers</code>needed for
  * bpr deploys and undeploys.
  */
-public class AeDeploymentContainerFactory
+public class AeDeploymentContainerFactory implements IAeDeploymentContainerFactory
 {
    /**
     * Create and configure the <code>IAeDeploymentContainer</code>for
@@ -30,7 +30,7 @@ public class AeDeploymentContainerFactory
     * @param aInfo
     * @throws AeException
     */
-   public static IAeDeploymentContainer createDeploymentContainer( AeNewDeploymentInfo aInfo )
+   public IAeDeploymentContainer createDeploymentContainer( AeNewDeploymentInfo aInfo )
    throws AeException
    {
       ClassLoader current = Thread.currentThread().getContextClassLoader();
@@ -50,7 +50,7 @@ public class AeDeploymentContainerFactory
     * @param aInfo
     * @throws AeException
     */
-   public static IAeDeploymentContainer createUndeploymentContainer( 
+   public IAeDeploymentContainer createUndeploymentContainer( 
       AeNewDeploymentInfo aInfo ) throws AeException
    {
       ClassLoader current = Thread.currentThread().getContextClassLoader();
