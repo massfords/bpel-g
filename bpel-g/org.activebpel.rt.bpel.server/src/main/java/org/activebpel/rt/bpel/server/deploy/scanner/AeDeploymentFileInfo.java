@@ -123,6 +123,6 @@ public class AeDeploymentFileInfo
     */
    public static boolean isBprFile( URL aFileUrl )
    {
-      return aFileUrl.getFile().endsWith( BPR_SUFFIX );
+      return aFileUrl.getFile().endsWith( BPR_SUFFIX ) || aFileUrl.getFile().endsWith( ".zip" );
    }
 }

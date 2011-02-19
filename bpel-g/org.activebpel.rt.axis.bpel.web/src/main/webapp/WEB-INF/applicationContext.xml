@@ -782,6 +782,20 @@
     
     <bean id="DeploymentHandler" class="org.activebpel.rt.bpel.server.deploy.scanner.AeDeploymentFileHandler">
         <property name="scanInterval" value="10000"/>
+        <property name="deploymentContainerFactory">
+            <bean class="org.activebpel.rt.bpel.server.deploy.scanner.AeExtensionBasedDeploymentContainerFactory">
+                <property name="factoryMap">
+                    <util:map>
+                        <entry key="bpr">
+                            <bean class="org.activebpel.rt.bpel.server.deploy.AeDeploymentContainerFactory"/>
+                        </entry>
+                        <entry key="zip">
+                            <bean class="bpelg.packaging.ode.BgDeploymentContainerFactory"/>
+                        </entry>
+                    </util:map>
+                </property>                
+            </bean>
+        </property>
     </bean>
     
     <bean id="RPCReceiveHandler" class="org.activebpel.rt.axis.bpel.receivers.AeRPCReceiveHandler">
