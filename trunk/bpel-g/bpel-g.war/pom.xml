@@ -143,6 +143,12 @@
 			<artifactId>ode-packaging</artifactId>
 			<version>5.2-SNAPSHOT</version>
 		</dependency>
+    <dependency>
+      <groupId>com.h2database</groupId>
+      <artifactId>h2</artifactId>
+      <version>1.2.122</version>
+      <scope>test</scope>
+    </dependency>
 	</dependencies>
 	<profiles>
 		<profile>
