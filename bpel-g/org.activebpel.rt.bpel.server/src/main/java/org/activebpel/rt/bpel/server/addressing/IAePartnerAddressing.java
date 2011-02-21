@@ -14,7 +14,6 @@ import javax.xml.rpc.handler.soap.SOAPMessageContext;
 
 import org.activebpel.rt.bpel.AeBusinessProcessException;
 import org.activebpel.rt.bpel.IAeEndpointReference;
-import org.activebpel.rt.bpel.IAePartnerLink;
 import org.activebpel.rt.bpel.def.AePartnerLinkDef;
 import org.activebpel.rt.bpel.impl.addressing.IAeAddressingHeaders;
 import org.activebpel.rt.bpel.server.IAeProcessDeployment;
@@ -76,19 +75,6 @@ public interface IAePartnerAddressing
     */
    public IAeEndpointReference readFromContext(SOAPMessageContext aContext) throws AeBusinessProcessException;
    
-   /**
-    * If the endpoint source for the partner link was set to principal then the
-    * addressing layer obtains the endpoint reference data from the principal's
-    * provisioning data.
-    * 
-    * Called indirectly from the engine (through the deployment descriptor) during 
-    * the queueing of any receive data. 
-    * @param aLink
-    * @param aPrincipal
-    */
-   public void updateFromPrincipal(IAePartnerLink aLink, String aPrincipal) throws AeBusinessProcessException;
-   
-
    /**
     * Creates the required WS-Addressing headers for a response message, 
     *

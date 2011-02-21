@@ -687,50 +687,6 @@
         </entry>
     </util:map>
     
-    <bean id="DeploymentHandlerFactory" class="org.activebpel.rt.bpel.server.deploy.AeDeploymentHandlerFactory">
-        <property name="deploymentFactory">
-            <bean class="org.activebpel.rt.bpel.server.deploy.AeDeploymentFactoryImpl">
-                <property name="BpelDeployer" >
-                    <bean class="org.activebpel.rt.bpel.server.deploy.AeBpelDeployer">
-                        <property name="ExpressionLanguageFactory" ref="ExpressionLanguageFactory"/>
-                    </bean>
-                </property>
-                
-                <property name="CatalogDeployer" >
-                    <bean class="org.activebpel.rt.bpel.server.deploy.AeCatalogDeployer" />
-                </property>
-                
-                <property name="PdefDeployer" >
-                    <bean class="org.activebpel.rt.bpel.server.deploy.AePdefDeployer">
-                        <property name="PartnerAddressingProvider" ref="PartnerAddressingProvider"/>
-                    </bean>
-                </property>
-                
-                <property name="WebServicesDeployer" >
-                    <bean class="org.activebpel.rt.bpel.server.deploy.AeDelegatingWebServiceDeployer" >
-                        <property name="delegates">
-                            <util:map>
-                                <entry key="default" value-ref="WebServicesDeployer"/>
-                                <entry key="bpel" value-ref="WebServicesDeployer"/>
-                                <entry key="wsdd" value-ref="WebServicesDeployer"/>
-                            </util:map>
-                        </property>
-                    </bean>
-                </property>
-                
-                <property name="ValidationHandler">
-                    <bean class="org.activebpel.rt.bpel.server.deploy.validate.AeDefaultValidationHandler">
-                        <property name="expressionLanguageFactory" ref="ExpressionLanguageFactory"/>
-                        <property name="functionValidatorFactory" ref="FunctionValidatorFactory"/>
-                    </bean>
-                </property>
-                
-            </bean>
-        </property>
-    </bean>
-    
-    <bean id="WebServicesDeployer" class="org.activebpel.rt.axis.bpel.web.deploy.AeAxisWebServicesDeployer"/>
-    
     <bean id="ProcessWorkManager" class="org.activebpel.work.AeProcessWorkManager" init-method="init">
         <!--
             ProcessWorkCount is the maximum number of work manager requests to
@@ -757,6 +713,7 @@
                 <entry key="LockManager" value-ref="LockManager"/>
                 <entry key="AttachmentManager" value-ref="AttachmentManager"/>
                 <entry key="CoordinationManager" value-ref="CoordinationManager"/>
+                <entry key="SpringManager" value-ref="org.activebpel.rt.bpel.server.spring.AeSpringManager"/>
             </util:map>
         </property>
     </bean>
@@ -805,5 +762,22 @@
     <bean id="MSGReceiveHandler" class="org.activebpel.rt.axis.bpel.receivers.AeMSGReceiveHandler">
         <property name="messageFactory" ref="SOAPMessageFactory"/>
         <property name="securityProvider" ref="SecurityProvider"/>
+    </bean>
+    
+    <bean class="org.activebpel.rt.bpel.server.deploy.AeDelegatingDeploymentHandler">
+        <property name="handlers">
+            <util:list>
+                <bean class="org.activebpel.rt.bpel.server.deploy.validate.AePreDeploymentValidationHandler"/>
+
+                <bean class="org.activebpel.rt.bpel.server.deploy.AeCatalogDeployer" />
+
+                <bean class="org.activebpel.rt.bpel.server.deploy.AeBpelDeployer">
+                    <property name="ExpressionLanguageFactory" ref="ExpressionLanguageFactory"/>
+                    <property name="functionValidatorFactory" ref="FunctionValidatorFactory"/>
+                </bean>
+                <bean class="org.activebpel.rt.axis.bpel.web.deploy.AeAxisWebServicesDeployer"/>
+                
+            </util:list>
+        </property>
     </bean>
 </beans>

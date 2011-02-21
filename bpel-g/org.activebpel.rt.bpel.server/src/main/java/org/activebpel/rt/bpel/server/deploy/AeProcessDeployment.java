@@ -296,12 +296,7 @@ private IAeExpressionLanguageFactory mExpressionLanguageFactory;
          IAeWebServiceEndpointReference invokerEndpoint = replyHeaders.getRecipient();
          
          AeEndpointReferenceSourceType type = (AeEndpointReferenceSourceType) getEndpointSourceType(aPartnerLink.getLocationPath());
-         if (type == AeEndpointReferenceSourceType.PRINCIPAL)
-         {
-            partnerAddressing.updateFromPrincipal(aPartnerLink, aMessageContext.getPrincipal());
-            partnerEndpoint = aPartnerLink.getPartnerReference();
-         }
-         else if (type == AeEndpointReferenceSourceType.INVOKER)
+         if (type == AeEndpointReferenceSourceType.INVOKER)
          {
             if (invokerEndpoint == null)
             {

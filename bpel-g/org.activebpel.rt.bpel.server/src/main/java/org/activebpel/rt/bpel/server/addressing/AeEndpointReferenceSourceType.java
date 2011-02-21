@@ -16,12 +16,11 @@ import org.activebpel.rt.bpel.server.AeMessages;
  */
 public class AeEndpointReferenceSourceType
 {
+   // FIXME enum
    /** the deployment file contains the endpoint reference */
    public static final AeEndpointReferenceSourceType STATIC = new AeEndpointReferenceSourceType("static"); //$NON-NLS-1$
    /** the process will assign the endpoint information dynamically during its normal execution */
    public static final AeEndpointReferenceSourceType DYNAMIC = new AeEndpointReferenceSourceType("dynamic"); //$NON-NLS-1$
-   /** the partner provisioning layer will have the endpoint mapped to the authenticated principal */
-   public static final AeEndpointReferenceSourceType PRINCIPAL = new AeEndpointReferenceSourceType("principal"); //$NON-NLS-1$
    /** the metadata contained within the invocation request contains the endpoint information */
    public static final AeEndpointReferenceSourceType INVOKER = new AeEndpointReferenceSourceType("invoker"); //$NON-NLS-1$
    
@@ -55,8 +54,6 @@ public class AeEndpointReferenceSourceType
          return STATIC;
       if (DYNAMIC.getName().equals(aName))
          return DYNAMIC;
-      if (PRINCIPAL.getName().equals(aName))
-         return PRINCIPAL;
       if (INVOKER.getName().equals(aName))
          return INVOKER;
          

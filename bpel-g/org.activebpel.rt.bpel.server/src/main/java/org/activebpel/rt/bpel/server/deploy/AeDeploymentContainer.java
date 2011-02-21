@@ -16,7 +16,6 @@ import java.util.Collection;
 import java.util.Collections;
 
 import org.activebpel.rt.AeException;
-import org.activebpel.rt.bpel.server.addressing.pdef.IAePartnerDefInfo;
 import org.activebpel.rt.bpel.server.deploy.bpr.IAeBpr;
 import org.w3c.dom.Document;
 
@@ -139,18 +138,6 @@ public class AeDeploymentContainer implements IAeDeploymentContainer
    }
 
    /**
-    * @see org.activebpel.rt.bpel.server.deploy.bpr.IAeBpr#getPartnerDefInfo(java.lang.String)
-    */
-   public IAePartnerDefInfo getPartnerDefInfo(String aPdefResource)
-      throws AeException
-   {
-      if (mBprFile == null)
-         return null;
-      
-      return mBprFile.getPartnerDefInfo( aPdefResource );
-   }
-
-   /**
     * @see org.activebpel.rt.bpel.server.deploy.bpr.IAeBpr#getPddResources()
     */
    public Collection getPddResources()
@@ -159,17 +146,6 @@ public class AeDeploymentContainer implements IAeDeploymentContainer
          return Collections.EMPTY_SET;
       
       return mBprFile.getPddResources();
-   }
-
-   /**
-    * @see org.activebpel.rt.bpel.server.deploy.bpr.IAeBpr#getPdefResources()
-    */
-   public Collection getPdefResources()
-   {
-      if (mBprFile == null)
-         return Collections.EMPTY_SET;
-
-      return mBprFile.getPdefResources();
    }
 
    /**

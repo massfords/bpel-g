@@ -26,7 +26,6 @@ import org.activebpel.rt.IAePolicyConstants;
 import org.activebpel.rt.bpel.AeBusinessProcessException;
 import org.activebpel.rt.bpel.AeWSDLDefHelper;
 import org.activebpel.rt.bpel.IAeEndpointReference;
-import org.activebpel.rt.bpel.IAePartnerLink;
 import org.activebpel.rt.bpel.def.AePartnerLinkDef;
 import org.activebpel.rt.bpel.impl.AeEndpointReference;
 import org.activebpel.rt.bpel.impl.addressing.AeAddressingHeaders;
@@ -36,8 +35,6 @@ import org.activebpel.rt.bpel.impl.addressing.IAeAddressingHeaders;
 import org.activebpel.rt.bpel.impl.addressing.IAeAddressingSerializer;
 import org.activebpel.rt.bpel.server.AeMessages;
 import org.activebpel.rt.bpel.server.IAeProcessDeployment;
-import org.activebpel.rt.bpel.server.addressing.pdef.IAePartnerAddressBook;
-import org.activebpel.rt.bpel.server.addressing.pdef.IAePartnerAddressingProvider;
 import org.activebpel.rt.bpel.server.deploy.IAePolicyMapper;
 import org.activebpel.rt.bpel.server.deploy.IAeServiceDeploymentInfo;
 import org.activebpel.rt.bpel.server.engine.AeEngineFactory;
@@ -57,13 +54,11 @@ import org.w3c.dom.NodeList;
 /**
  * The partner addressing layer is responsible for providing endpoint references
  * for each of the partners that the business process interacts with. The 
- * endpoint data either exists as part of the deployment descriptor, as part of 
- * the message context, or from a partner definition object.  
+ * endpoint data either exists as part of the deployment descriptor, or as part of 
+ * the message context.  
  */
 public class AePartnerAddressing implements IAePartnerAddressing
 {
-   
-   private IAePartnerAddressingProvider mProvider;
    private IAeURNResolver mURNResolver;
    
    /**
@@ -189,47 +184,6 @@ public class AePartnerAddressing implements IAePartnerAddressing
       return ref;
    }
 
-   /**
-    * @see org.activebpel.rt.bpel.server.addressing.IAePartnerAddressing#updateFromPrincipal(org.activebpel.rt.bpel.IAePartnerLink, java.lang.String)
-    */
-   public void updateFromPrincipal(IAePartnerLink aLink, String aPrincipal) throws AeBusinessProcessException
-   {
-      IAePartnerAddressBook book = getProvider().getAddressBook( aPrincipal );
-      aLink.setPrincipal(aPrincipal);
-
-      if (book != null)
-      {
-         IAeEndpointReference partnerRef = book.getEndpointReference(aLink.getPartnerLinkType(), aLink.getPartnerRole());
-         if (partnerRef != null)
-         {
-            aLink.getPartnerReference().setReferenceData(partnerRef);
-         }
-      
-         IAeEndpointReference myRef = book.getEndpointReference(aLink.getPartnerLinkType(), aLink.getMyRole());
-         if (myRef!= null)
-         {
-            aLink.getMyReference().setReferenceData(myRef);
-         }
-      }
-   }
-
-   /**
-    * Getter for the provider
-    */
-   public IAePartnerAddressingProvider getProvider()
-   {
-      return mProvider;
-   }
-
-   /**
-    * Setter for the provider
-    * @param aProvider
-    */
-   public void setProvider(IAePartnerAddressingProvider aProvider)
-   {
-      mProvider = aProvider;
-   }
-   
    /**
     * Merges 2 endpoints to update the target with information from the source 
     * @param aSource endpoint to merge

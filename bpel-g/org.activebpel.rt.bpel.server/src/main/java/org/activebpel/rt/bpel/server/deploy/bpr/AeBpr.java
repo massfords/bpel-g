@@ -13,13 +13,9 @@ import java.io.InputStream;
 import java.util.Collection;
 
 import org.activebpel.rt.AeException;
-import org.activebpel.rt.bpel.server.addressing.IAePartnerAddressing;
-import org.activebpel.rt.bpel.server.addressing.pdef.AeXmlPartnerDefInfoReader;
-import org.activebpel.rt.bpel.server.addressing.pdef.IAePartnerDefInfo;
 import org.activebpel.rt.bpel.server.deploy.AeDeploymentException;
 import org.activebpel.rt.bpel.server.deploy.IAeDeploymentContext;
 import org.activebpel.rt.bpel.server.deploy.IAeDeploymentSource;
-import org.activebpel.rt.bpel.server.engine.AeEngineFactory;
 import org.w3c.dom.Document;
 
 /**
@@ -161,24 +157,6 @@ public class AeBpr implements IAeBpr
       Document pddDom = getResourceAsDocument( aPddName );
       AeBprDeploymentSource source = new AeBprDeploymentSource( aPddName, pddDom, getDeploymentContext() );
       return source;
-   }
-
-   /**
-    * @see org.activebpel.rt.bpel.server.deploy.bpr.IAeBpr#getPdefResources()
-    */
-   public Collection getPdefResources()
-   {
-      return getBprStrategy().getPdefResources();
-   }
-
-   /**
-    * @see org.activebpel.rt.bpel.server.deploy.bpr.IAeBpr#getPartnerDefInfo(java.lang.String)
-    */
-   public IAePartnerDefInfo getPartnerDefInfo(String aPdefResource)
-   throws AeException
-   {
-      Document pdefXml = getResourceAsDocument(aPdefResource);
-      return AeXmlPartnerDefInfoReader.read( pdefXml, AeEngineFactory.getBean(IAePartnerAddressing.class) );
    }
 
    /**

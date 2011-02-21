@@ -51,7 +51,6 @@ import org.activebpel.rt.bpel.impl.queue.AeMessageReceiver;
 import org.activebpel.rt.bpel.server.AeMessages;
 import org.activebpel.rt.bpel.server.IAeDeploymentProvider;
 import org.activebpel.rt.bpel.server.IAeProcessDeployment;
-import org.activebpel.rt.bpel.server.addressing.pdef.IAePartnerAddressingProvider;
 import org.activebpel.rt.bpel.server.admin.AeBuildInfo;
 import org.activebpel.rt.bpel.server.admin.AeProcessDeploymentDetail;
 import org.activebpel.rt.bpel.server.admin.AeQueuedReceiveDetail;
@@ -82,7 +81,6 @@ import org.w3c.dom.Document;
 public class AeEngineAdministration implements IAeEngineAdministration {
 	/** Holds build information. */
 	private AeBuildInfo[] mBuildInfo = null;
-	private IAePartnerAddressingProvider mPartnerAddressingProvider;
 	private IAeURNResolver mURNResolver;
 
 	/** comparator for sorting the deployment detail objects */
@@ -643,15 +641,6 @@ public class AeEngineAdministration implements IAeEngineAdministration {
 			int[] aAttachmentItemNumbers) throws AeException {
 		getBpelEngine().removeVariableAttachments(aPid, aLocationPath,
 				aAttachmentItemNumbers);
-	}
-
-	public IAePartnerAddressingProvider getPartnerAddressingProvider() {
-		return mPartnerAddressingProvider;
-	}
-
-	public void setPartnerAddressingProvider(
-			IAePartnerAddressingProvider aPartnerAddressingProvider) {
-		mPartnerAddressingProvider = aPartnerAddressingProvider;
 	}
 
 	public IAeURNResolver getURNResolver() {

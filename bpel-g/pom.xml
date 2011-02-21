@@ -32,6 +32,9 @@
       <url>http://bpel-g.googlecode.com/svn/trunk/maven-repository</url> 
     </repository>
   </repositories>
+   <properties>
+      <spring-version>3.0.4.RELEASE</spring-version>
+   </properties>
   <build>
     <plugins>
       <plugin>

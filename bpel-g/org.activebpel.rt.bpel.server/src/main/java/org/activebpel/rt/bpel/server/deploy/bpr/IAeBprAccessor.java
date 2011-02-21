@@ -42,11 +42,6 @@ public interface IAeBprAccessor
    public String getWsddResource();
    
    /**
-    * Return the collection of pdef resource names.
-    */
-   public Collection getPdefResources();
-   
-   /**
     * Return the collection of pdd resource names.
     */
    public Collection<String> getPddResources();

@@ -9,7 +9,6 @@ import org.activebpel.rt.bpel.AeBusinessProcessException;
 import org.activebpel.rt.bpel.server.AeMessages;
 import org.activebpel.rt.bpel.server.deploy.scanner.IAeDeploymentFileHandler;
 import org.activebpel.rt.bpel.server.engine.AeEngineFactory;
-import org.activebpel.rt.bpel.server.logging.IAeLogWrapper;
 import org.activebpel.rt.util.AeUtil;
 import org.activebpel.timer.AeAbstractTimerWork;
 import org.apache.commons.logging.Log;
@@ -29,8 +28,6 @@ public class AeEngineFactoryStarter implements ServletContextListener {
 	/** The default scan interval */
 
 	private IAeDeploymentFileHandler mFileHandler;
-	/** AeLoggerWrapper impl for deployment logging. */
-	private static final AeTomcatLogger sLogger = new AeTomcatLogger();
 	/** for deployment logging purposes */
 	protected static final Log log = LogFactory
 			.getLog(AeEngineFactoryStarter.class);
@@ -146,31 +143,4 @@ public class AeEngineFactoryStarter implements ServletContextListener {
 		}
 		return retVal;
 	}
-	/**
-	 * Logger wrapper impl for Tomcat.
-	 */
-	private static class AeTomcatLogger implements IAeLogWrapper {
-		/**
-		 * @see org.activebpel.rt.bpel.server.logging.IAeLogWrapper#logDebug(java.lang.String)
-		 */
-		public void logDebug(String aMessage) {
-			log.debug(aMessage);
-		}
-
-		/**
-		 * @see org.activebpel.rt.bpel.server.logging.IAeLogWrapper#logError(java.lang.String,
-		 *      java.lang.Throwable)
-		 */
-		public void logError(String aMessage, Throwable aProblem) {
-			log.error(aMessage);
-		}
-
-		/**
-		 * @see org.activebpel.rt.bpel.server.logging.IAeLogWrapper#logInfo(java.lang.String)
-		 */
-		public void logInfo(String aMessage) {
-			log.info(aMessage);
-		}
-	}
-
 }
