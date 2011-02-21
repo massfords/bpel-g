@@ -29,38 +29,34 @@ public class BgWebAppIntegrationTest {
 	 */
 	@Test
 	public void init() throws Exception {
-		try {
-			File wardir = new File("target/bpel-g").getAbsoluteFile();
-			System.setProperty("catalina.home", wardir.getParentFile().toString());
-			MockServletContext context = new MockServletContext(wardir.toURI().toString(), new DefaultResourceLoader(BgWebAppIntegrationTest.class.getClassLoader()));
-			DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-			dbf.setNamespaceAware(true);
-			dbf.setValidating(false);
-			DocumentBuilder db = dbf.newDocumentBuilder();
-			db.setEntityResolver(new EntityResolver() {
+		File wardir = new File("target/bpel-g").getAbsoluteFile();
+		System.setProperty("catalina.home", wardir.getParentFile().toString());
+		MockServletContext context = new MockServletContext(wardir.toURI().toString(), new DefaultResourceLoader(BgWebAppIntegrationTest.class.getClassLoader()));
+		DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+		dbf.setNamespaceAware(true);
+		dbf.setValidating(false);
+		DocumentBuilder db = dbf.newDocumentBuilder();
+		db.setEntityResolver(new EntityResolver() {
 
-				@Override
-				public InputSource resolveEntity(String aArg0, String aArg1)
-						throws SAXException, IOException {
-					return new InputSource(new FileInputStream("src/test/resources/web-app.dtd"));
-				}});
-			Document doc = db.parse(new File("target/bpel-g/WEB-INF/web.xml"));
-			List<Element> params = AeXPathUtil.selectNodes(doc, "//context-param");
-			for(Element param : params) {
-				context.addInitParameter(AeXPathUtil.selectText(param, "param-name", null), AeXPathUtil.selectText(param, "param-value", null));
-			}
-			List<Element> listeners = AeXPathUtil.selectNodes(doc, "//listener-class");
-			List<ServletContextListener> contextListeners = new ArrayList();
-			for(Element listener : listeners) {
-				contextListeners.add((ServletContextListener) Class.forName(AeXPathUtil.selectText(listener, ".", null)).newInstance());
-			}
-			
-			ServletContextEvent contextEvent = new ServletContextEvent(context);
-			for(ServletContextListener scl : contextListeners) {
-				scl.contextInitialized(contextEvent);
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
+			@Override
+			public InputSource resolveEntity(String aArg0, String aArg1)
+					throws SAXException, IOException {
+				return new InputSource(new FileInputStream("src/test/resources/web-app.dtd"));
+			}});
+		Document doc = db.parse(new File("target/bpel-g/WEB-INF/web.xml"));
+		List<Element> params = AeXPathUtil.selectNodes(doc, "//context-param");
+		for(Element param : params) {
+			context.addInitParameter(AeXPathUtil.selectText(param, "param-name", null), AeXPathUtil.selectText(param, "param-value", null));
+		}
+		List<Element> listeners = AeXPathUtil.selectNodes(doc, "//listener-class");
+		List<ServletContextListener> contextListeners = new ArrayList();
+		for(Element listener : listeners) {
+			contextListeners.add((ServletContextListener) Class.forName(AeXPathUtil.selectText(listener, ".", null)).newInstance());
+		}
+		
+		ServletContextEvent contextEvent = new ServletContextEvent(context);
+		for(ServletContextListener scl : contextListeners) {
+			scl.contextInitialized(contextEvent);
 		}
 	}
 	

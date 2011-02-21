@@ -120,7 +120,6 @@
         <property name="StorageFactory" ref="StorageFactory"/>
     </bean>
     <bean id="EngineAdminImpl" class="org.activebpel.rt.axis.bpel.web.AeWebEngineAdministration">
-        <property name="PartnerAddressingProvider" ref="PartnerAddressingProvider"/>
         <property name="URNResolver" ref="URNResolver"/>
         <property name="DeploymentHandler" ref="DeploymentHandler"/>
     </bean>
@@ -478,10 +477,8 @@
         </property>
     </bean>
     <bean id="PartnerAddressing" class="org.activebpel.rt.bpel.server.addressing.AePartnerAddressing">
-        <property name="provider" ref="PartnerAddressingProvider"/>
         <property name="URNResolver" ref="URNResolver"/>
     </bean>
-    <bean id="PartnerAddressingProvider" class="org.activebpel.rt.bpel.server.addressing.pdef.AeDefaultPartnerAddressingProvider"/>
     
     <bean id="StorageFactory" class="org.activebpel.rt.bpel.server.engine.storage.AeStorageFactory" init-method="init">
         <property name="storageProviderFactory">
@@ -713,7 +710,9 @@
                 <entry key="LockManager" value-ref="LockManager"/>
                 <entry key="AttachmentManager" value-ref="AttachmentManager"/>
                 <entry key="CoordinationManager" value-ref="CoordinationManager"/>
-                <entry key="SpringManager" value-ref="org.activebpel.rt.bpel.server.spring.AeSpringManager"/>
+                <entry key="SpringManager">
+                    <bean class="org.activebpel.rt.bpel.server.spring.AeSpringManager"/>
+                </entry>
             </util:map>
         </property>
     </bean>
