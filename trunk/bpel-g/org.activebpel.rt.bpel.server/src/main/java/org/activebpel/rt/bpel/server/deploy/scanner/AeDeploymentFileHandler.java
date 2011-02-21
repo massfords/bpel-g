@@ -18,27 +18,26 @@ import java.text.MessageFormat;
 
 import org.activebpel.rt.AeException;
 import org.activebpel.rt.bpel.server.AeMessages;
+import org.activebpel.rt.bpel.server.deploy.AeDelegatingDeploymentHandler;
 import org.activebpel.rt.bpel.server.deploy.AeNewDeploymentInfo;
 import org.activebpel.rt.bpel.server.deploy.AeUnpackedDeploymentStager;
 import org.activebpel.rt.bpel.server.deploy.IAeDeploymentContainer;
 import org.activebpel.rt.bpel.server.deploy.IAeDeploymentContainerFactory;
 import org.activebpel.rt.bpel.server.deploy.IAeDeploymentHandler;
-import org.activebpel.rt.bpel.server.deploy.IAeDeploymentHandlerFactory;
 import org.activebpel.rt.bpel.server.deploy.validate.AeDeploymentFileValidator;
 import org.activebpel.rt.bpel.server.engine.AeEngineFactory;
 import org.activebpel.rt.bpel.server.engine.config.AeFileBasedEngineConfig;
-import org.activebpel.rt.bpel.server.logging.AeCommonsLoggingImpl;
 import org.activebpel.rt.bpel.server.logging.IAeDeploymentLogger;
 import org.activebpel.rt.bpel.server.logging.IAeDeploymentLoggerFactory;
-import org.activebpel.rt.bpel.server.logging.IAeLogWrapper;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 /**
  * Active bprl impl of the <code>IAeDeploymentFileHandler</code>.
  */
 public class AeDeploymentFileHandler implements IAeDeploymentFileHandler, IAeScannerListener {
+    private Log sLog = LogFactory.getLog(AeDeploymentFileHandler.class);
     private IAeDeploymentContainerFactory mDeploymentContainerFactory;
-    /** Platform logging. */
-    protected IAeLogWrapper mLog;
     /** The directory scanner. */
     protected AeDirectoryScanner mScanner;
     /** The scan interval for the scanner. */
@@ -50,8 +49,7 @@ public class AeDeploymentFileHandler implements IAeDeploymentFileHandler, IAeSca
      * @param aLog
      */
     public AeDeploymentFileHandler() {
-        mLog = new AeCommonsLoggingImpl(AeDeploymentFileHandler.class);
-        AeUnpackedDeploymentStager.init(AeDeploymentFileInfo.getStagingDirectory(), mLog);
+        AeUnpackedDeploymentStager.init(AeDeploymentFileInfo.getStagingDirectory());
     }
 
     /**
@@ -238,11 +236,11 @@ public class AeDeploymentFileHandler implements IAeDeploymentFileHandler, IAeSca
                 IAeDeploymentHandler handler = getDeploymentHandler();
                 handler.deploy(deployContainer, logger);
             } else {
-                logInfo(MessageFormat.format(AeMessages.getString("AeDeploymentFileHandler.1"), //$NON-NLS-1$
+                sLog.info(MessageFormat.format(AeMessages.getString("AeDeploymentFileHandler.1"), //$NON-NLS-1$
                         new Object[] { deployContainer.getShortName() }));
             }
         } catch (Throwable t) {
-            logError(
+            sLog.error(
                     MessageFormat.format(
                             AeMessages.getString("AeDeploymentFileHandler.ERROR_2"), new Object[] { aFileUrl }), t); //$NON-NLS-1$
             if (logger != null) {
@@ -260,7 +258,7 @@ public class AeDeploymentFileHandler implements IAeDeploymentFileHandler, IAeSca
      * Convenience accessor for <code>IAeDeploymentHandler</code>.
      */
     protected IAeDeploymentHandler getDeploymentHandler() {
-        return AeEngineFactory.getBean(IAeDeploymentHandlerFactory.class).newInstance(mLog);
+        return AeEngineFactory.getBean(AeDelegatingDeploymentHandler.class);
     }
 
     /**
@@ -273,7 +271,7 @@ public class AeDeploymentFileHandler implements IAeDeploymentFileHandler, IAeSca
         try {
             return getUnpackedDeploymentStager().deploy(aFileUrl);
         } catch (IOException ae) {
-            logError(
+            sLog.error(
                     MessageFormat.format(
                             AeMessages.getString("AeDeploymentFileHandler.ERROR_3"), new Object[] { aFileUrl.getFile() }), ae); //$NON-NLS-1$
             return null;
@@ -288,7 +286,7 @@ public class AeDeploymentFileHandler implements IAeDeploymentFileHandler, IAeSca
     public void handleRemove(URL aURL) {
         if (!AeDeploymentFileInfo.isEngineConfig(aURL)) {
             if (AeDeploymentFileInfo.isWsrFile(aURL)) {
-                logInfo(AeMessages.getString("AeDeploymentFileHandler.4") + aURL); //$NON-NLS-1$
+                sLog.info(AeMessages.getString("AeDeploymentFileHandler.4") + aURL); //$NON-NLS-1$
                 handleRemoveWsr(aURL);
             } else if (AeDeploymentFileInfo.isBprFile(aURL)) {
                 handleRemoveBpr(aURL);
@@ -311,7 +309,7 @@ public class AeDeploymentFileHandler implements IAeDeploymentFileHandler, IAeSca
      * @param aFileUrl
      */
     protected void handleRemoveBpr(URL aFileUrl) {
-        logInfo(AeMessages.getString("AeDeploymentFileHandler.5") + aFileUrl); //$NON-NLS-1$
+        sLog.info(AeMessages.getString("AeDeploymentFileHandler.5") + aFileUrl); //$NON-NLS-1$
         handleRemoveInternal(aFileUrl);
     }
 
@@ -331,32 +329,8 @@ public class AeDeploymentFileHandler implements IAeDeploymentFileHandler, IAeSca
             handler.undeploy(getDeploymentContainerFactory().createUndeploymentContainer(info));
             getUnpackedDeploymentStager().removeTempDir(aFileUrl);
         } catch (Exception ex) {
-            logError(MessageFormat.format(AeMessages.getString("AeDeploymentFileHandler.ERROR_6"), //$NON-NLS-1$
+            sLog.error(MessageFormat.format(AeMessages.getString("AeDeploymentFileHandler.ERROR_6"), //$NON-NLS-1$
                     new Object[] { aFileUrl }), ex);
-        }
-    }
-
-    /**
-     * Convenience log for information messages.
-     * 
-     * @param aMessage
-     */
-    protected void logInfo(String aMessage) {
-        if (mLog != null) {
-            mLog.logInfo(aMessage);
-        }
-    }
-
-    /**
-     * Convenience log for error messages.
-     * 
-     * @param aMessage
-     * @param aProblem
-     */
-    protected void logError(String aMessage, Throwable aProblem) {
-        if (mLog != null) {
-            mLog.logError(aMessage, aProblem);
-            AeException.logError(aProblem, aMessage);
         }
     }
 

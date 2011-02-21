@@ -186,14 +186,6 @@ public class AePartnerLinkDescriptor implements IAePddXmlConstants
    }
 
    /**
-    * @return Returns true if the partner endpoint reference type was specified as principal.
-    */
-   public boolean isPartnerEndpointPrincipal()
-   {
-      return AeEndpointReferenceSourceType.PRINCIPAL == getPartnerEndpointReferenceType();
-   }
-
-   /**
     * @return Returns true if this descriptor models a partner role.
     */
    public boolean isPartnerRole()

@@ -21,103 +21,95 @@ import org.activebpel.rt.bpel.server.logging.IAeDeploymentLogger;
 import org.activebpel.rt.util.AeUtil;
 
 /**
- * IAeCatalogDeployer impl. 
+ * IAeCatalogDeployer impl.
  */
-public class AeCatalogDeployer implements IAeCatalogDeployer
-{
-   /**
-    * @see org.activebpel.rt.bpel.server.deploy.IAeCatalogDeployer#deployToCatalog(org.activebpel.rt.bpel.server.deploy.IAeDeploymentContainer, org.activebpel.rt.bpel.server.logging.IAeDeploymentLogger)
-    */
-   public void deployToCatalog(IAeDeploymentContainer aContainer, IAeDeploymentLogger aLogger)
-   throws AeException
-   {
-      AeCatalogDeploymentLogger logger = new AeCatalogDeploymentLogger(aLogger);
-      AeEngineFactory.getBean(IAeCatalog.class).addCatalogListener(logger);
-      try
-      {
-         AeCatalogMappings catalog = new AeCatalogMappings(aContainer);
-         IAeCatalogMapping[] mappingEntries = createCatalogMappings( catalog, (IAeDeploymentContext)aContainer );
-         AeEngineFactory.getBean(IAeCatalog.class).addCatalogEntries( aContainer.getDeploymentId(), mappingEntries, catalog.replaceExistingResource() );
-      }
-      finally
-      {
-         AeEngineFactory.getBean(IAeCatalog.class).removeCatalogListener(logger);
-      }
-   }
+public class AeCatalogDeployer implements IAeDeploymentHandler {
 
-   /**
-    * Create the <code>IAeCatalogMapping</code> impl. 
-    * @param aCatalog
-    * @param aContext
-    */
-   protected IAeCatalogMapping[] createCatalogMappings( AeCatalogMappings aCatalog, IAeDeploymentContext aContext )
-   {
-      return (IAeCatalogMapping[])aCatalog.getResources().values().toArray(new IAeCatalogMapping[aCatalog.getResources().values().size()]);
-   }
-   
-   /**
-    * @see org.activebpel.rt.bpel.server.deploy.IAeCatalogDeployer#undeployFromCatalog(org.activebpel.rt.bpel.server.deploy.IAeDeploymentContainer)
-    */
-   public void undeployFromCatalog(IAeDeploymentContainer aContainer)
-      throws AeException
-   {
-      AeEngineFactory.getBean(IAeCatalog.class).remove( aContainer.getDeploymentId() );
-   }
+    @Override
+    public void deploy(IAeDeploymentContainer aContainer, IAeDeploymentLogger aLogger)
+            throws AeException {
+        AeCatalogDeploymentLogger logger = new AeCatalogDeploymentLogger(aLogger);
+        AeEngineFactory.getBean(IAeCatalog.class).addCatalogListener(logger);
+        try {
+            AeCatalogMappings catalog = new AeCatalogMappings(aContainer);
+            IAeCatalogMapping[] mappingEntries = createCatalogMappings(catalog,
+                    (IAeDeploymentContext) aContainer);
+            AeEngineFactory.getBean(IAeCatalog.class).addCatalogEntries(
+                    aContainer.getDeploymentId(), mappingEntries, catalog.replaceExistingResource());
+        } finally {
+            AeEngineFactory.getBean(IAeCatalog.class).removeCatalogListener(logger);
+        }
+    }
+
+    @Override
+    public void undeploy(IAeDeploymentContainer aContainer) throws AeException {
+        AeEngineFactory.getBean(IAeCatalog.class).remove(aContainer.getDeploymentId());
+    }
+
+    /**
+     * Create the <code>IAeCatalogMapping</code> impl.
+     * 
+     * @param aCatalog
+     * @param aContext
+     */
+    protected IAeCatalogMapping[] createCatalogMappings(AeCatalogMappings aCatalog,
+            IAeDeploymentContext aContext) {
+        return (IAeCatalogMapping[]) aCatalog.getResources().values().toArray(
+                new IAeCatalogMapping[aCatalog.getResources().values().size()]);
+    }
 }
 
 /**
  * Listens for and logs catalog deploment entries.
  */
-class AeCatalogDeploymentLogger implements IAeCatalogListener
-{
-   /** The deployment logger to log to. */
-   private IAeDeploymentLogger mLogger;
-   
-   /** 
-    * Constructor.
-    * @param aLogger
-    */
-   AeCatalogDeploymentLogger(IAeDeploymentLogger aLogger)
-   {
-      mLogger = aLogger;
-   }
-   
-   /**
-    * @see org.activebpel.rt.bpel.server.catalog.IAeCatalogListener#onDeployment(org.activebpel.rt.bpel.server.catalog.AeCatalogEvent)
-    */
-   public void onDeployment(AeCatalogEvent aEvent)
-   {
-      Object[] objs = { AeUtil.getShortNameForLocation(aEvent.getLocationHint()), aEvent.getLocationHint()};
-      mLogger.addInfo(AeMessages.format("AeCatalogDeployer.ADDED_RESOURCE", objs)); //$NON-NLS-1$
-   }
+class AeCatalogDeploymentLogger implements IAeCatalogListener {
+    /** The deployment logger to log to. */
+    private IAeDeploymentLogger mLogger;
 
-   /**
-    * @see org.activebpel.rt.bpel.server.catalog.IAeCatalogListener#onDuplicateDeployment(org.activebpel.rt.bpel.server.catalog.AeCatalogEvent)
-    */
-   public void onDuplicateDeployment(AeCatalogEvent aEvent)
-   {
-      Object[] objs = { AeUtil.getShortNameForLocation(aEvent.getLocationHint()), aEvent.getLocationHint() };
-      if(aEvent.isReplacement())
-         mLogger.addInfo(AeMessages.format("AeCatalogDeployer.REPLACED_RESOURCE", objs)); //$NON-NLS-1$
-      else
-         mLogger.addInfo(AeMessages.format("AeCatalogDeployer.EXISTING_RESOURCE", objs)); //$NON-NLS-1$
-   }
+    /**
+     * Constructor.
+     * 
+     * @param aLogger
+     */
+    AeCatalogDeploymentLogger(IAeDeploymentLogger aLogger) {
+        mLogger = aLogger;
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.server.catalog.IAeCatalogListener#onRemoval(org.activebpel.rt.bpel.server.catalog.AeCatalogEvent)
-    */
-   public void onRemoval(AeCatalogEvent aEvent)
-   {
-      Object[] objs = { AeUtil.getShortNameForLocation(aEvent.getLocationHint()), aEvent.getLocationHint() };
-      mLogger.addInfo(AeMessages.format("AeCatalogDeployer.REMOVED_RESOURCE", objs)); //$NON-NLS-1$
-   }
+    /**
+     * @see org.activebpel.rt.bpel.server.catalog.IAeCatalogListener#onDeployment(org.activebpel.rt.bpel.server.catalog.AeCatalogEvent)
+     */
+    public void onDeployment(AeCatalogEvent aEvent) {
+        Object[] objs = { AeUtil.getShortNameForLocation(aEvent.getLocationHint()),
+                aEvent.getLocationHint() };
+        mLogger.addInfo(AeMessages.format("AeCatalogDeployer.ADDED_RESOURCE", objs)); //$NON-NLS-1$
+    }
 
-   /**
-    * @return Returns the logger.
-    */
-   protected IAeDeploymentLogger getLogger()
-   {
-      return mLogger;
-   }
-  
+    /**
+     * @see org.activebpel.rt.bpel.server.catalog.IAeCatalogListener#onDuplicateDeployment(org.activebpel.rt.bpel.server.catalog.AeCatalogEvent)
+     */
+    public void onDuplicateDeployment(AeCatalogEvent aEvent) {
+        Object[] objs = { AeUtil.getShortNameForLocation(aEvent.getLocationHint()),
+                aEvent.getLocationHint() };
+        if (aEvent.isReplacement())
+            mLogger.addInfo(AeMessages.format("AeCatalogDeployer.REPLACED_RESOURCE", objs)); //$NON-NLS-1$
+        else
+            mLogger.addInfo(AeMessages.format("AeCatalogDeployer.EXISTING_RESOURCE", objs)); //$NON-NLS-1$
+    }
+
+    /**
+     * @see org.activebpel.rt.bpel.server.catalog.IAeCatalogListener#onRemoval(org.activebpel.rt.bpel.server.catalog.AeCatalogEvent)
+     */
+    public void onRemoval(AeCatalogEvent aEvent) {
+        Object[] objs = { AeUtil.getShortNameForLocation(aEvent.getLocationHint()),
+                aEvent.getLocationHint() };
+        mLogger.addInfo(AeMessages.format("AeCatalogDeployer.REMOVED_RESOURCE", objs)); //$NON-NLS-1$
+    }
+
+    /**
+     * @return Returns the logger.
+     */
+    protected IAeDeploymentLogger getLogger() {
+        return mLogger;
+    }
+
 }

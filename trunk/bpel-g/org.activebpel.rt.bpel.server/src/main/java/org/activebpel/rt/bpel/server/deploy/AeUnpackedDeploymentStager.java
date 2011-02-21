@@ -20,9 +20,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.activebpel.rt.bpel.server.AeMessages;
-import org.activebpel.rt.bpel.server.logging.IAeLogWrapper;
 import org.activebpel.rt.util.AeCloser;
 import org.activebpel.rt.util.AeFileUtil;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 
 /**
@@ -42,15 +43,15 @@ public class AeUnpackedDeploymentStager
    /** Maps url to deployment dir. */
    private Map mTempResources;
    /** Logging object. */
-   private IAeLogWrapper mLog;
+   private static Log sLog = LogFactory.getLog(AeUnpackedDeploymentStager.class);
    
    /**
     * Static initialization of <code>AeUnpackedDeploymentStager</code> instance.
     * @param aWorkingDir
     */
-   public static void init( File aWorkingDir, IAeLogWrapper aLogger )
+   public static void init( File aWorkingDir)
    {
-      sInstance = new AeUnpackedDeploymentStager( aWorkingDir, aLogger );
+      sInstance = new AeUnpackedDeploymentStager(aWorkingDir);
    }
    
    /**
@@ -66,9 +67,8 @@ public class AeUnpackedDeploymentStager
     * are removed.
     * @param aWorkingDir
     */
-   protected AeUnpackedDeploymentStager( File aWorkingDir, IAeLogWrapper aLogger )
+   protected AeUnpackedDeploymentStager( File aWorkingDir )
    {
-      mLog = aLogger;
       mWorkingDir = aWorkingDir;
       deleteOldDeployments();
       mWorkingDir.mkdirs();
@@ -82,7 +82,7 @@ public class AeUnpackedDeploymentStager
    {
       if( getWorkingDir().isDirectory() )
       {
-         getLog().logDebug( AeMessages.format( DELETING_OLD_DEPLOYMENTS_MSG, new Object[] {getWorkingDir().getPath()} ) );
+         sLog.debug( AeMessages.format( DELETING_OLD_DEPLOYMENTS_MSG, new Object[] {getWorkingDir().getPath()} ) );
          AeFileUtil.recursivelyDelete( getWorkingDir() );
       }
    }
@@ -216,14 +216,6 @@ public class AeUnpackedDeploymentStager
    }
    
    /**
-    * @return Returns the log.
-    */
-   protected IAeLogWrapper getLog()
-   {
-      return mLog;
-   }
-
-   /**
     * Convenience class that wraps the temporary resources created during
     * a bpr or wsr deployment.
     */
@@ -266,7 +258,7 @@ public class AeUnpackedDeploymentStager
          AeFileUtil.recursivelyDelete( tempDir );
          if( tempDir.isDirectory() )
          {
-            getLog().logInfo( AeMessages.format(UNABLE_TO_DELETE_RESOURCE, new Object[]{mTempDir}) );
+            sLog.info( AeMessages.format(UNABLE_TO_DELETE_RESOURCE, new Object[]{mTempDir}) );
          }
       }
    }

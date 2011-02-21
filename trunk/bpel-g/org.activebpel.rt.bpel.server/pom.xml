@@ -9,9 +9,6 @@
       <artifactId>bpel-g</artifactId>
       <version>5.2-SNAPSHOT</version>
    </parent>
-   <properties>
-      <spring-version>3.0.4.RELEASE</spring-version>
-   </properties>
    <dependencies>
       <dependency>
          <groupId>org.activebpel</groupId>

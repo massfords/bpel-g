@@ -10,7 +10,6 @@ import java.net.URLClassLoader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -19,7 +18,6 @@ import java.util.Set;
 import javax.xml.namespace.QName;
 
 import org.activebpel.rt.AeException;
-import org.activebpel.rt.bpel.server.addressing.pdef.IAePartnerDefInfo;
 import org.activebpel.rt.bpel.server.deploy.AeDeploymentId;
 import org.activebpel.rt.bpel.server.deploy.IAeDeploymentContainer;
 import org.activebpel.rt.bpel.server.deploy.IAeDeploymentContext;
@@ -140,16 +138,6 @@ public class BgDeploymentContainer implements IAeDeploymentContainer {
     @Override
     public IAeDeploymentContext getDeploymentContext() {
         return this;
-    }
-
-    @Override
-    public IAePartnerDefInfo getPartnerDefInfo(String aPdefResource) throws AeException {
-        throw new UnsupportedOperationException("partner defs not implemented");
-    }
-
-    @Override
-    public Collection getPdefResources() {
-        return Collections.EMPTY_LIST; 
     }
 
     @Override

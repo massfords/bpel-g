@@ -27,7 +27,6 @@ import org.activebpel.rt.bpel.impl.list.AeMessageReceiverListResult;
 import org.activebpel.rt.bpel.impl.list.AeProcessFilter;
 import org.activebpel.rt.bpel.impl.list.AeProcessInstanceDetail;
 import org.activebpel.rt.bpel.impl.list.AeProcessListResult;
-import org.activebpel.rt.bpel.server.addressing.pdef.IAePartnerAddressingProvider;
 import org.activebpel.rt.bpel.server.catalog.report.IAeCatalogAdmin;
 import org.activebpel.rt.bpel.server.deploy.IAeServiceDeploymentInfo;
 import org.activebpel.rt.bpel.server.logging.IAeDeploymentLogger;
@@ -161,11 +160,6 @@ public interface IAeEngineAdministration
     * Returns the current engine configuration.
     */
    public IAeEngineConfiguration getEngineConfig();
-
-   /**
-    * Returns interface into partner addressing admin.
-    */
-   public IAePartnerAddressingProvider getPartnerAddressingProvider();
 
    /**
     * Returns the interface into catalog administration.

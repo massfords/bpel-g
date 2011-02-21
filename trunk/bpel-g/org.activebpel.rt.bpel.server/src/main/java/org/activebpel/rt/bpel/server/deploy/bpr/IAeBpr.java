@@ -13,7 +13,6 @@ import java.io.InputStream;
 import java.util.Collection;
 
 import org.activebpel.rt.AeException;
-import org.activebpel.rt.bpel.server.addressing.pdef.IAePartnerDefInfo;
 import org.activebpel.rt.bpel.server.deploy.IAeDeploymentContext;
 import org.activebpel.rt.bpel.server.deploy.IAeDeploymentSource;
 import org.w3c.dom.Document;
@@ -60,20 +59,6 @@ public interface IAeBpr
     */
    public IAeDeploymentSource getDeploymentSource(String aPddName) throws AeException;   
 
-   /**
-    * Returns a collection of partner definition resource names or an
-    * empty collection if none are found.
-    */
-   public Collection getPdefResources();
-   
-   /**
-    * Return the corresponding IAePartnerDefInfo object for the given
-    * pdef resource name.
-    * @param aPdefResource The partner definition resource name.
-    * @throws AeException
-    */
-   public IAePartnerDefInfo getPartnerDefInfo( String aPdefResource ) throws AeException;
-   
    /**
     * Return the catalog document for this BPR.
     * @throws AeException
