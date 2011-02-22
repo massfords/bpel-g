@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions 
+    targetNamespace="urn:bpel-g:services:urn-resolver" 
+    xmlns:tns="urn:bpel-g:services:urn-resolver" 
+    xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" 
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+
+   <wsdl:types>
+      <schema targetNamespace="urn:bpel-g:services:urn-resolver" 
+         xmlns="http://www.w3.org/2001/XMLSchema" 
+         xmlns:xs="http://www.w3.org/2001/XMLSchema">
+         
+         <element name="name" type="xs:string"/>
+         <element name="value" type="xs:string"/>
+         <element name="names">
+            <complexType>
+               <sequence>
+                  <element ref="tns:name" maxOccurs="unbounded"/>
+               </sequence>
+            </complexType>
+         </element>
+         <element name="addMappingRequest">
+            <complexType>
+               <sequence>
+                  <element ref="tns:name"/>
+                  <element ref="tns:value"/>
+               </sequence>
+            </complexType>
+         </element>
+         <element name="getMappingRequest"/>
+         <element name="mappings">
+            <complexType>
+               <sequence>
+                  <element name="mapping" maxOccurs="unbounded">
+                     <complexType>
+                        <sequence>
+                           <element ref="name"/>
+                           <element ref="value"/>
+                        </sequence>
+                     </complexType>
+                  </element>
+               </sequence>
+            </complexType>
+         </element>
+         
+      </schema>
+    </wsdl:types>
+    
+   <wsdl:message name="nameRequest">
+      <wsdl:part name="body" element="tns:name" />
+   </wsdl:message>
+   <wsdl:message name="valueResponse">
+      <wsdl:part name="body" element="tns:value" />
+   </wsdl:message>
+   <wsdl:message name="namesRequest">
+      <wsdl:part name="body" element="tns:names" />
+   </wsdl:message>
+   <wsdl:message name="voidMessage"/>
+   <wsdl:message name="addMappingsRequest">
+      <wsdl:part name="body" element="tns:addMappingRequest" />
+   </wsdl:message>
+   <wsdl:message name="getMappingsRequest">
+      <wsdl:part name="body" element="tns:getMappingsRequest" />
+   </wsdl:message>
+   <wsdl:message name="getMappingsResponse">
+      <wsdl:part name="body" element="tns:getMappingResponse" />
+   </wsdl:message>
+   
+   
+   <wsdl:portType name="AeURNResolver">
+      <wsdl:operation name="getURL">
+         <wsdl:input message="tns:nameRequest"/>
+         <wsdl:output message="tns:valueResponse"/>
+      </wsdl:operation>
+      <wsdl:operation name="removeMappings">
+         <wsdl:input message="tns:namesRequest"/>
+         <wsdl:output message="tns:voidMessage"/>
+      </wsdl:operation>
+      <wsdl:operation name="addMapping">
+         <wsdl:input message="tns:addMappingRequest"/>
+         <wsdl:output message="tns:voidMessage"/>
+      </wsdl:operation>
+      <wsdl:operation name="getMappings">
+         <wsdl:input message="tns:getMappingsRequest"/>
+         <wsdl:output message="tns:getMappingsResponse"/>
+      </wsdl:operation>
+   </wsdl:portType>
+</wsdl:definitions>

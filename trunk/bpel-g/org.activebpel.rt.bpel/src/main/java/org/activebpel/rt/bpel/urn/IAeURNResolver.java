@@ -50,6 +50,6 @@ public interface IAeURNResolver
    /**
     * Gets all of the mappings.
     */
-   public Map getMappings();
+   public Map<String,String> getMappings();
 }
  
