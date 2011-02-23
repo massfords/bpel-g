@@ -28,21 +28,26 @@ import org.custommonkey.xmlunit.DifferenceConstants;
 import org.custommonkey.xmlunit.DifferenceListener;
 import org.custommonkey.xmlunit.XMLAssert;
 import org.custommonkey.xmlunit.XMLUnit;
+import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
-import active_endpoints.docs.wsdl.activebpeladmin._2007._01.activebpeladmin_wsdl.IAeAxisActiveBpelAdmin;
-
-import com.active_endpoints.schemas.activebpeladmin._2007._01.activebpeladmin.AesDeployBprType;
-import com.active_endpoints.schemas.activebpeladmin._2007._01.activebpeladmin.AesStringResponseType;
+import bpelg.services.admin.IAeAxisActiveBpelAdmin;
+import bpelg.services.admin.types.AesDeployBprType;
+import bpelg.services.admin.types.AesStringResponseType;
 
 @Ignore
 public class AeDeployBPRTest {
 
 	AeXMLParserBase parser = new AeXMLParserBase();
+	
+	@Before
+	public void setUp() throws Exception {
+	    
+	}
 
 	@Test
 	public void deployBPR() throws Exception {

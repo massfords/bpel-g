@@ -12,9 +12,18 @@
 
 <beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:util="http://www.springframework.org/schema/util"
+    xmlns:jaxws="http://cxf.apache.org/jaxws"
     xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
-                        http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.0.xsd">
-
+                        http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.0.xsd
+                        http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd">
+<!--
+    <jaxws:endpoint 
+        implementor="org.apache.cxf.jaxws.service.Hello"
+        endpointName="s:URNResolver"
+        serviceName="s:URNResolver"
+        address="http://localhost:8080/cxf/URNResolver"
+        xmlns:s="urn:bpel-g:services:urn-resolver"/>
+-->
     <bean id="TransactionManager"
         class="org.activebpel.rt.bpel.server.engine.transaction.sql.AeSQLTransactionManager"/>
 
