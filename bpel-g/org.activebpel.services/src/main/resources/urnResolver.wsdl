@@ -27,15 +27,15 @@
                </sequence>
             </complexType>
          </element>
-         <element name="getMappingRequest"/>
+         <element name="getMappingsRequest"/>
          <element name="mappings">
             <complexType>
                <sequence>
                   <element name="mapping" maxOccurs="unbounded">
                      <complexType>
                         <sequence>
-                           <element ref="name"/>
-                           <element ref="value"/>
+                           <element ref="tns:name"/>
+                           <element ref="tns:value"/>
                         </sequence>
                      </complexType>
                   </element>
@@ -56,14 +56,14 @@
       <wsdl:part name="body" element="tns:names" />
    </wsdl:message>
    <wsdl:message name="voidMessage"/>
-   <wsdl:message name="addMappingsRequest">
+   <wsdl:message name="addMappingRequest">
       <wsdl:part name="body" element="tns:addMappingRequest" />
    </wsdl:message>
    <wsdl:message name="getMappingsRequest">
       <wsdl:part name="body" element="tns:getMappingsRequest" />
    </wsdl:message>
    <wsdl:message name="getMappingsResponse">
-      <wsdl:part name="body" element="tns:getMappingResponse" />
+      <wsdl:part name="body" element="tns:mappings" />
    </wsdl:message>
    
    
