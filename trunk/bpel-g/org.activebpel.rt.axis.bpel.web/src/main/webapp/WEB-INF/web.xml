@@ -91,7 +91,6 @@
   <listener>
     <listener-class> org.activebpel.rt.axis.bpel.web.AeEngineFactoryStarter</listener-class>
   </listener>
-<!--
   <servlet>
     <servlet-name>CXFServlet</servlet-name>
     <display-name>CXF Servlet</display-name>
@@ -100,7 +99,6 @@
     </servlet-class>
     <load-on-startup>1</load-on-startup>
   </servlet>
-  -->
   <!-- This is the servlet to startup, configure and accept service requests for the engine -->
   <servlet>
     <servlet-name>AeProcessEngineServlet</servlet-name>
@@ -157,8 +155,8 @@
   </servlet>
 
   <servlet-mapping>
-    <servlet-name>CXFServlet</servlet-name>
-    <url-pattern>/cxf</url-pattern>
+    <servlet-name>CXFServlet</servlet-name> 
+    <url-pattern>/cxf/*</url-pattern>
   </servlet-mapping>
 
   <!-- This is the url mapping for "normal" service calls -->

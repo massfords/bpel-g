@@ -35,9 +35,12 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
-import bpelg.services.admin.IAeAxisActiveBpelAdmin;
-import bpelg.services.admin.types.AesDeployBprType;
-import bpelg.services.admin.types.AesStringResponseType;
+import active_endpoints.docs.wsdl.activebpeladmin._2007._01.activebpeladmin_wsdl.IAeAxisActiveBpelAdmin;
+import bpelg.services.urnresolver.AeURNResolver;
+import bpelg.services.urnresolver.types.AddMappingRequest;
+
+import com.active_endpoints.schemas.activebpeladmin._2007._01.activebpeladmin.AesDeployBprType;
+import com.active_endpoints.schemas.activebpeladmin._2007._01.activebpeladmin.AesStringResponseType;
 
 @Ignore
 public class AeDeployBPRTest {
@@ -46,7 +49,9 @@ public class AeDeployBPRTest {
 	
 	@Before
 	public void setUp() throws Exception {
-	    
+	    Service svc = Service.create(new URL("http://localhost:8080/bpel-g/cxf/URNResolver?wsdl"), new QName("urn:bpel-g:services:urn-resolver", "URNResolver"));
+	    AeURNResolver resolver = svc.getPort(AeURNResolver.class);
+	    resolver.addMapping(new AddMappingRequest().withName("urn:x-vos:loancompany").withValue("http://localhost:8080/bpel-g/services/${urn.4}"));
 	}
 
 	@Test

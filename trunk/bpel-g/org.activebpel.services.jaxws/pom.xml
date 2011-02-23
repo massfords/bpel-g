@@ -74,10 +74,7 @@
                      </defaultOptions>
                      <wsdlOptions>
                         <wsdlOption>
-                           <bindingFiles>
-                              <bindingFile>${basedir}/src/main/bindings/bpelgAdmin-bindings.xml</bindingFile>
-                           </bindingFiles>
-                           <wsdl>${basedir}/target/dependency/bpelgAdmin.wsdl</wsdl>
+                           <wsdl>${basedir}/target/dependency/ActiveBpelAdmin.wsdl</wsdl>
                         </wsdlOption>
                         <wsdlOption>
                            <bindingFiles>
