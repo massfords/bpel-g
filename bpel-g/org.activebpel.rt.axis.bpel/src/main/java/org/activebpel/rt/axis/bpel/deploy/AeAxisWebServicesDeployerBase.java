@@ -58,7 +58,7 @@ public abstract class AeAxisWebServicesDeployerBase extends AeAxisBase implement
             }
         }
         if (wsddDoc != null)
-            deployToWebServiceContainer(wsddDoc, aContainer.getWebServicesClassLoader());
+            deployToWebServiceContainer(wsddDoc, aContainer.getResourceClassLoader());
     }
 
     @Override

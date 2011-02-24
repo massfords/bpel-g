@@ -43,8 +43,4 @@ public interface IAeDeploymentContainer extends IAeBpr, IAeDeploymentContext
     */
    public void addServiceDeploymentInfo(IAeServiceDeploymentInfo[] aServiceInfo);
    
-   /**
-    * Return any special classloaders needed for web services deployment.
-    */
-   public ClassLoader getWebServicesClassLoader();
 }

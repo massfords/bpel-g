@@ -9,6 +9,7 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpel.server.deploy;
 
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
 
@@ -17,52 +18,58 @@ import org.activebpel.rt.bpel.server.deploy.bpr.AeBpr;
 import org.activebpel.rt.bpel.server.deploy.bpr.AeBprContext;
 import org.activebpel.rt.bpel.server.deploy.bpr.IAeBpr;
 
-
 /**
- * Create and configure the <code>IAeDeploymentContainers</code>needed for
- * bpr deploys and undeploys.
+ * Create and configure the <code>IAeDeploymentContainers</code>needed for bpr
+ * deploys and undeploys.
  */
-public class AeDeploymentContainerFactory implements IAeDeploymentContainerFactory
-{
-   /**
-    * Create and configure the <code>IAeDeploymentContainer</code>for
-    * deployment.
-    * @param aInfo
-    * @throws AeException
-    */
-   public IAeDeploymentContainer createDeploymentContainer( AeNewDeploymentInfo aInfo )
-   throws AeException
-   {
-      ClassLoader current = Thread.currentThread().getContextClassLoader();
-      ClassLoader bprResourceClassLoader = URLClassLoader.newInstance( new URL[]{ aInfo.getTempURL() }, current ); 
+public class AeDeploymentContainerFactory implements
+		IAeDeploymentContainerFactory {
+	/**
+	 * Create and configure the <code>IAeDeploymentContainer</code>for
+	 * deployment.
+	 * 
+	 * @param aInfo
+	 * @throws AeException
+	 */
+	public IAeDeploymentContainer createDeploymentContainer(
+			AeNewDeploymentInfo aInfo) throws AeException {
+		ClassLoader bprResourceClassLoader = null;
+		try {
+			bprResourceClassLoader = AeBprClasspathBuilder.build(aInfo.getTempURL());
+		} catch (MalformedURLException e) {
+			throw new AeException("error creating deployment classloader", e);
+		}
 
-      String urlString = aInfo.getURL().toString();
-      String shortName = urlString.substring( urlString.lastIndexOf('/')+1 );
-      AeBprContext context = new AeBprContext(aInfo.getTempURL(), aInfo.getTempURL(), bprResourceClassLoader);
-      context.setShortName(shortName);
-      IAeBpr file = AeBpr.createUnpackedBpr( context );
-      return new AeDeploymentContainer( context, file, aInfo.getURL() );
-   }
-   
-   /**
-    * Create and configure the <code>IAeDeploymentContainer</code>for
-    * undeployment.
-    * @param aInfo
-    * @throws AeException
-    */
-   public IAeDeploymentContainer createUndeploymentContainer( 
-      AeNewDeploymentInfo aInfo ) throws AeException
-   {
-      ClassLoader current = Thread.currentThread().getContextClassLoader();
-      ClassLoader bprResourceClassLoader = URLClassLoader.newInstance( new URL[]{ aInfo.getTempURL() }, current ); 
+		String urlString = aInfo.getURL().toString();
+		String shortName = urlString.substring(urlString.lastIndexOf('/') + 1);
+		AeBprContext context = new AeBprContext(aInfo.getTempURL(),
+				aInfo.getTempURL(), bprResourceClassLoader);
+		context.setShortName(shortName);
+		IAeBpr file = AeBpr.createUnpackedBpr(context);
+		return new AeDeploymentContainer(context, file, aInfo.getURL());
+	}
 
-      String urlString = aInfo.getURL().toString();
-      String shortName = urlString.substring( urlString.lastIndexOf('/')+1 );
-      URL idUrl = aInfo.getURL();
-      aInfo.setURL( aInfo.getTempURL() );
-      AeBprContext context = new AeBprContext(aInfo.getTempURL(), aInfo.getTempURL(), bprResourceClassLoader);
-      context.setShortName(shortName);
-      IAeBpr file = AeBpr.createUnpackedBpr( context );
-      return new AeDeploymentContainer( context, file, idUrl );
-   }
+	/**
+	 * Create and configure the <code>IAeDeploymentContainer</code>for
+	 * undeployment.
+	 * 
+	 * @param aInfo
+	 * @throws AeException
+	 */
+	public IAeDeploymentContainer createUndeploymentContainer(
+			AeNewDeploymentInfo aInfo) throws AeException {
+		ClassLoader current = Thread.currentThread().getContextClassLoader();
+		ClassLoader bprResourceClassLoader = URLClassLoader.newInstance(
+				new URL[] { aInfo.getTempURL() }, current);
+
+		String urlString = aInfo.getURL().toString();
+		String shortName = urlString.substring(urlString.lastIndexOf('/') + 1);
+		URL idUrl = aInfo.getURL();
+		aInfo.setURL(aInfo.getTempURL());
+		AeBprContext context = new AeBprContext(aInfo.getTempURL(),
+				aInfo.getTempURL(), bprResourceClassLoader);
+		context.setShortName(shortName);
+		IAeBpr file = AeBpr.createUnpackedBpr(context);
+		return new AeDeploymentContainer(context, file, idUrl);
+	}
 }

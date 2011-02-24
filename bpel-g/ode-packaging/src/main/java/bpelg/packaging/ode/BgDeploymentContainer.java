@@ -6,7 +6,6 @@ import java.io.FileReader;
 import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.net.URLClassLoader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -18,6 +17,7 @@ import java.util.Set;
 import javax.xml.namespace.QName;
 
 import org.activebpel.rt.AeException;
+import org.activebpel.rt.bpel.server.deploy.AeBprClasspathBuilder;
 import org.activebpel.rt.bpel.server.deploy.AeDeploymentId;
 import org.activebpel.rt.bpel.server.deploy.IAeDeploymentContainer;
 import org.activebpel.rt.bpel.server.deploy.IAeDeploymentContext;
@@ -42,7 +42,7 @@ public class BgDeploymentContainer implements IAeDeploymentContainer {
     
     public BgDeploymentContainer(File aServiceUnitRoot) throws Exception {
         mServiceUnitRoot = aServiceUnitRoot;
-        mClassLoader = URLClassLoader.newInstance(new URL[] {aServiceUnitRoot.toURI().toURL()});
+        mClassLoader = AeBprClasspathBuilder.build(aServiceUnitRoot.toURI().toURL());
         
         mCatalogBuilder = new BgCatalogBuilder(mServiceUnitRoot);
         mCatalogBuilder.build();
@@ -97,11 +97,6 @@ public class BgDeploymentContainer implements IAeDeploymentContainer {
     @Override
     public IAeServiceDeploymentInfo[] getServiceDeploymentInfo() {
         return mServiceDeploymentInfos.toArray(new IAeServiceDeploymentInfo[mServiceDeploymentInfos.size()]);
-    }
-
-    @Override
-    public ClassLoader getWebServicesClassLoader() {
-        return mClassLoader;
     }
 
     @Override

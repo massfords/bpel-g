@@ -6,10 +6,20 @@ import java.util.Map;
 import org.activebpel.rt.bpel.impl.AeManagerAdapter;
 import org.springframework.context.support.GenericApplicationContext;
 
+/**
+ * Manager that keeps the references to Spring ApplicationContexts that have been deployed as part
+ * of a BPR or ODE packaging. 
+ * 
+ * @author mford
+ */
 public class AeSpringManager extends AeManagerAdapter {
 
+    /** map of contexts */
     private Map<String,GenericApplicationContext> mContextMap = new HashMap();
 
+    /* start all of the contexts upon manager start
+     * @see org.activebpel.rt.bpel.impl.AeManagerAdapter#start()
+     */
     @Override
     public void start() throws Exception {
         super.start();
@@ -18,6 +28,9 @@ public class AeSpringManager extends AeManagerAdapter {
         }
     }
 
+    /* stop all of the contexts upon manager stop
+     * @see org.activebpel.rt.bpel.impl.AeManagerAdapter#stop()
+     */
     @Override
     public void stop() {
         super.stop();
@@ -26,15 +39,19 @@ public class AeSpringManager extends AeManagerAdapter {
         }
     }
     
-    public void setContextMap(Map<String, GenericApplicationContext> aContextMap) {
-        mContextMap.putAll(aContextMap);
-    }
-    
+    /** Add a new context to our map
+     * @param aKey
+     * @param aContext
+     */
     public void add(String aKey, GenericApplicationContext aContext) {
         mContextMap.put(aKey, aContext);
         aContext.start();
     }
     
+    /**
+     * Remove a context from the map
+     * @param aKey
+     */
     public GenericApplicationContext remove(String aKey) {
     	GenericApplicationContext context = mContextMap.remove(aKey);
         if (context != null) {

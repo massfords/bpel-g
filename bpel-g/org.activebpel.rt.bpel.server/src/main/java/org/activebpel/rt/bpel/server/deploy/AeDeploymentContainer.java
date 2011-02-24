@@ -249,17 +249,6 @@ public class AeDeploymentContainer implements IAeDeploymentContainer
    }
    
    /**
-    * @see org.activebpel.rt.bpel.server.deploy.IAeDeploymentContainer#getWebServicesClassLoader()
-    */
-   public ClassLoader getWebServicesClassLoader()
-   {
-      if (mContext == null)
-         return null;
-
-      return mContext.getResourceClassLoader();
-   }
-   
-   /**
     * @see org.activebpel.rt.bpel.server.deploy.IAeDeploymentContext#getResourceClassLoader()
     */
    public ClassLoader getResourceClassLoader()
