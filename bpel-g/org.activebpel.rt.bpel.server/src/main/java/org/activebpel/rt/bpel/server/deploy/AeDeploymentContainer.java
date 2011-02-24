@@ -318,19 +318,4 @@ public class AeDeploymentContainer implements IAeDeploymentContainer
          mServiceInfo.add(aServiceInfo[i]);
       }
    }
-
-   /**
-    * @see org.activebpel.rt.bpel.server.deploy.IAeDeploymentContainer#getDeploymentType()
-    */
-   public String getDeploymentType()
-   {
-      if (isWsddDeployment())
-      {
-         return "wsdd"; //$NON-NLS-1$
-      }
-      else
-      {
-         return "bpel"; //$NON-NLS-1$
-      }
-   }
 }
