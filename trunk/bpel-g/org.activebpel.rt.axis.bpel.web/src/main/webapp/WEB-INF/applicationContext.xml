@@ -1,15 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!--
-    ~ ===================================================================*
-    ~                                                                    *
-    ~    (c) Copyright, 2008-2011 Massachusetts Institute of Technology. *
-    ~        This material may be reproduced by or for the               *
-    ~        U.S. Government pursuant to the copyright license           *
-    ~        under the clause at DFARS 252.227-7013 (June, 1995).        *
-    ~                                                                    *
-    ~ ===================================================================*
--->
-
 <beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:util="http://www.springframework.org/schema/util"
     xmlns:jaxws="http://cxf.apache.org/jaxws"
@@ -726,13 +715,14 @@
                 <entry key="LockManager" value-ref="LockManager"/>
                 <entry key="AttachmentManager" value-ref="AttachmentManager"/>
                 <entry key="CoordinationManager" value-ref="CoordinationManager"/>
-                <entry key="SpringManager">
-                    <bean class="org.activebpel.rt.bpel.server.spring.AeSpringManager"/>
+                <entry key="SpringManager" value-ref="SpringManager">
                 </entry>
             </util:map>
         </property>
     </bean>
     
+    <bean id="SpringManager" class="org.activebpel.rt.bpel.server.spring.AeSpringManager"/>
+
     <bean id="EngineListenerFactory" class="org.activebpel.rt.bpel.server.engine.AeEngineListeners" init-method="init">
         <property name="Engine" ref="Engine"/>
         <property name="listeners">
@@ -791,7 +781,9 @@
                     <property name="functionValidatorFactory" ref="FunctionValidatorFactory"/>
                 </bean>
                 <bean class="org.activebpel.rt.axis.bpel.web.deploy.AeAxisWebServicesDeployer"/>
-                
+                <bean id="SpringDeployer" class="org.activebpel.rt.bpel.server.spring.AeSpringDeploymentHandler">
+                    <property name="SpringManager" ref="SpringManager"/>
+                </bean>
             </util:list>
         </property>
     </bean>
