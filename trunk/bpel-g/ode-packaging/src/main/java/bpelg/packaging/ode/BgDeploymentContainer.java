@@ -89,12 +89,6 @@ public class BgDeploymentContainer implements IAeDeploymentContainer {
         return mServiceUnitRoot.getName();
     }
 
-
-    @Override
-    public String getDeploymentType() {
-        return "bpel";
-    }
-
     @Override
     public void addServiceDeploymentInfo(IAeServiceDeploymentInfo[] aServiceInfo) {
         mServiceDeploymentInfos.addAll(Arrays.asList(aServiceInfo));

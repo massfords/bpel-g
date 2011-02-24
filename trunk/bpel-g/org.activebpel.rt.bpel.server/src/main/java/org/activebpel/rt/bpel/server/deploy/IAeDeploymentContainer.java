@@ -47,9 +47,4 @@ public interface IAeDeploymentContainer extends IAeBpr, IAeDeploymentContext
     * Return any special classloaders needed for web services deployment.
     */
    public ClassLoader getWebServicesClassLoader();
-   
-   /**
-    * @return the type of deployment (wsdd, bpel, etc)
-    */
-   public String getDeploymentType();
 }
