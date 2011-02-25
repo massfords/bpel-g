@@ -3,7 +3,6 @@
    <modelVersion>4.0.0</modelVersion>
    <groupId>org.activebpel</groupId>
    <artifactId>ae-services-jaxws</artifactId>
-   <version>5.2-SNAPSHOT</version>
    <parent>
       <groupId>bpel-g</groupId>
       <artifactId>bpel-g</artifactId>
@@ -104,6 +103,11 @@
          <artifactId>junit</artifactId>
          <version>4.8.1</version>
          <scope>test</scope>
+      </dependency>
+      <dependency>
+         <groupId>org.activebpel</groupId>
+         <artifactId>ae-services</artifactId>
+         <version>${version}</version>
       </dependency>
    </dependencies>
 </project>
