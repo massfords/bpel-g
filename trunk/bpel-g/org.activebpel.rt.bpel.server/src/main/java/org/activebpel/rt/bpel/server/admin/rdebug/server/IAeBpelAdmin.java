@@ -271,18 +271,6 @@ public interface IAeBpelAdmin extends Remote
    public String getAPIVersion() throws RemoteException, AeBusinessProcessException;
    
    /**
-    * Deploys a BPR file.  The parameter to this method is the full contents of the BPR
-    * file base64 encoded.  This method returns a summary of the deployment as a serialized
-    * XML document.
-    * 
-    * @param aBprFilename
-    * @param aBase64File
-    * @throws RemoteException
-    * @throws AeBusinessProcessException
-    */
-   public String deployBpr(String aBprFilename, String aBase64File) throws RemoteException, AeBusinessProcessException;
-   
-   /**
     * Sets the partner link data for the given process id and location path. 
     * @param aPid the process id we are looking for
     * @param aIsPartnerRole true if partner role being set, false for myrole

@@ -1,9 +1,9 @@
 package org.activebpel.services.jaxws;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.net.MalformedURLException;
 import java.net.URL;
 
 import javax.xml.namespace.QName;
@@ -18,7 +18,6 @@ import javax.xml.ws.Dispatch;
 import javax.xml.ws.Service;
 import javax.xml.ws.soap.SOAPBinding;
 
-import org.activebpel.rt.base64.BASE64Encoder;
 import org.activebpel.rt.util.AeXmlUtil;
 import org.activebpel.rt.xml.AeXMLParserBase;
 import org.apache.commons.io.IOUtils;
@@ -29,36 +28,43 @@ import org.custommonkey.xmlunit.DifferenceListener;
 import org.custommonkey.xmlunit.XMLAssert;
 import org.custommonkey.xmlunit.XMLUnit;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
-import active_endpoints.docs.wsdl.activebpeladmin._2007._01.activebpeladmin_wsdl.IAeAxisActiveBpelAdmin;
+import bpelg.services.deploy.AeDeployer;
+import bpelg.services.deploy.DeploymentService;
+import bpelg.services.deploy.types.DeploymentResponse;
+import bpelg.services.deploy.types.DeploymentResponse.DeploymentInfo;
 import bpelg.services.urnresolver.AeURNResolver;
 import bpelg.services.urnresolver.types.AddMappingRequest;
 
-import com.active_endpoints.schemas.activebpeladmin._2007._01.activebpeladmin.AesDeployBprType;
-import com.active_endpoints.schemas.activebpeladmin._2007._01.activebpeladmin.AesStringResponseType;
-
-@Ignore
-public class AeDeployBPRTest {
+public class AeDeploymentServiceIntegrationTest {
 
 	AeXMLParserBase parser = new AeXMLParserBase();
-	
+	AeDeployer deployer;
+
 	@Before
 	public void setUp() throws Exception {
-	    Service svc = Service.create(new URL("http://localhost:8080/bpel-g/cxf/URNResolver?wsdl"), new QName("urn:bpel-g:services:urn-resolver", "URNResolver"));
-	    AeURNResolver resolver = svc.getPort(AeURNResolver.class);
-	    resolver.addMapping(new AddMappingRequest().withName("urn:x-vos:loancompany").withValue("http://localhost:8080/bpel-g/services/${urn.4}"));
+		Service svc = Service.create(new URL(
+				"http://localhost:8080/bpel-g/cxf/URNResolver?wsdl"),
+				new QName("urn:bpel-g:services:urn-resolver", "URNResolver"));
+		AeURNResolver resolver = svc.getPort(AeURNResolver.class);
+		resolver.addMapping(new AddMappingRequest().withName(
+				"urn:x-vos:loancompany").withValue(
+				"http://localhost:8080/bpel-g/services/${urn.4}"));
+
+		DeploymentService ds = new DeploymentService(new URL(
+				"http://localhost:8080/bpel-g/cxf/DeploymentService?wsdl"));
+		deployer = ds.getPort(AeDeployer.class);
 	}
 
 	@Test
 	public void deployBPR() throws Exception {
-		deploy("loanProcessCompleted.bpr");
-		deploy("loanApproval.bpr");
-		deploy("riskAssessment.bpr");
+		deploySingle("loanProcessCompleted.bpr");
+		deploySingle("loanApproval.bpr");
+		deploySingle("riskAssessment.bpr");
 
 		// run a simple test
 		String ns = "urn:bpel-g:generic";
@@ -76,41 +82,35 @@ public class AeDeployBPRTest {
 		Node expectedNode = toNode(new StreamSource(new FileInputStream(
 				"src/test/resources/expected-response.xml")));
 		Node actualNode = toNode(response);
-		
+
 		System.out.println(AeXMLParserBase.documentToString(actualNode));
 
 		assertXMLIgnorePrefix("failed to match", expectedNode, actualNode);
 	}
 
-	@Test
-	public void deployODE() throws Exception {
-		AesStringResponseType response = deploy("ode-project.zip");
-		System.out.println(response.getResponse());
+	protected void deploySingle(String name) throws Exception {
+		DeploymentResponse resp = deployAll(name);
+		assertEquals(1, resp.getDeploymentInfo().size());
 	}
 
-	protected AesStringResponseType deploy(String aName)
-			throws MalformedURLException, IOException, FileNotFoundException {
-		Service service = Service
-				.create(new URL(
-						"http://localhost:8080/bpel-g/services/ActiveBpelAdmin"),
-						new QName(
-								"http://docs.active-endpoints/wsdl/activebpeladmin/2007/01/activebpeladmin.wsdl",
-								"ActiveBpelAdmin"));
+	@Test
+	public void deployODE() throws Exception {
+		deployAll("ode-project.zip");
+	}
 
+	protected DeploymentResponse deployAll(String name) throws Exception {
+		DeploymentResponse response = deploy(name);
+		for(DeploymentInfo info : response.getDeploymentInfo()) {
+			assertTrue(info.isDeployed());
+			assertEquals(0, info.getNumberOfErrors());
+		}
+		return response;
+	}
+
+	protected DeploymentResponse deploy(String aName) throws Exception {
 		byte[] raw = IOUtils.toByteArray(new FileInputStream(
 				"src/test/resources/" + aName));
-		String filedata = new BASE64Encoder().encode(raw);
-
-		IAeAxisActiveBpelAdmin activeBpelAdmin = service
-				.getPort(
-						new QName(
-								"http://docs.active-endpoints/wsdl/activebpeladmin/2007/01/activebpeladmin.wsdl",
-								"ActiveBpelAdminPort"),
-						IAeAxisActiveBpelAdmin.class);
-		AesDeployBprType withBase64File = new AesDeployBprType()
-				.withBprFilename(aName).withBase64File(filedata);
-		AesStringResponseType response = activeBpelAdmin
-				.deployBpr(withBase64File);
+		DeploymentResponse response = deployer.deploy(aName, raw);
 		return response;
 	}
 
@@ -156,8 +156,7 @@ public class AeDeployBPRTest {
 	 * @param aDocOrElement
 	 * @throws ParserConfigurationException
 	 */
-	public static Document toDocument(Node aDocOrElement)
-			throws Exception {
+	public static Document toDocument(Node aDocOrElement) throws Exception {
 		Document doc = null;
 		if (aDocOrElement instanceof Element) {
 			doc = AeXmlUtil.newDocument();

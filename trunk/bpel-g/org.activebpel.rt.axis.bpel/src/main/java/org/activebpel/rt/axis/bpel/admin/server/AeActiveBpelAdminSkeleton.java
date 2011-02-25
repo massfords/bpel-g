@@ -336,18 +336,6 @@ public class AeActiveBpelAdminSkeleton implements org.activebpel.rt.axis.bpel.ad
       }
       ((java.util.List)_myOperations.get("getAPIVersion")).add(_oper); //$NON-NLS-1$
       _params = new org.apache.axis.description.ParameterDesc [] {
-            new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("http://schemas.active-endpoints.com/activebpeladmin/2007/01/activebpeladmin.xsd", "deployBprInput"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName("http://schemas.active-endpoints.com/activebpeladmin/2007/01/activebpeladmin.xsd", "AesDeployBprType"), org.activebpel.rt.axis.bpel.admin.types.AesDeployBprType.class, false, false),  //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-      };
-      _oper = new org.apache.axis.description.OperationDesc("deployBpr", _params, new javax.xml.namespace.QName("http://schemas.active-endpoints.com/activebpeladmin/2007/01/activebpeladmin.xsd", "deployBprOutput")); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-      _oper.setReturnType(new javax.xml.namespace.QName("http://schemas.active-endpoints.com/activebpeladmin/2007/01/activebpeladmin.xsd", "AesStringResponseType")); //$NON-NLS-1$ //$NON-NLS-2$
-      _oper.setElementQName(new javax.xml.namespace.QName("", "DeployBpr")); //$NON-NLS-1$ //$NON-NLS-2$
-      _oper.setSoapAction(""); //$NON-NLS-1$
-      _myOperationsList.add(_oper);
-      if (_myOperations.get("deployBpr") == null) { //$NON-NLS-1$
-         _myOperations.put("deployBpr", new java.util.ArrayList()); //$NON-NLS-1$
-      }
-      ((java.util.List)_myOperations.get("deployBpr")).add(_oper); //$NON-NLS-1$
-      _params = new org.apache.axis.description.ParameterDesc [] {
             new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("http://schemas.active-endpoints.com/activebpeladmin/2007/01/activebpeladmin.xsd", "setPartnerLinkDataInput"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName("http://schemas.active-endpoints.com/activebpeladmin/2007/01/activebpeladmin.xsd", "AesSetPartnerLinkType"), org.activebpel.rt.axis.bpel.admin.types.AesSetPartnerLinkType.class, false, false),     //$NON-NLS-1$//$NON-NLS-2$//$NON-NLS-3$//$NON-NLS-4$
       };
       _oper = new org.apache.axis.description.OperationDesc("setPartnerLinkData", _params, null); //$NON-NLS-1$
@@ -522,12 +510,6 @@ public class AeActiveBpelAdminSkeleton implements org.activebpel.rt.axis.bpel.ad
    public org.activebpel.rt.axis.bpel.admin.types.AesStringResponseType getAPIVersion(org.activebpel.rt.axis.bpel.admin.types.AesVoidType input) throws java.rmi.RemoteException
    {
       org.activebpel.rt.axis.bpel.admin.types.AesStringResponseType ret = impl.getAPIVersion(input);
-      return ret;
-   }
-
-   public org.activebpel.rt.axis.bpel.admin.types.AesStringResponseType deployBpr(org.activebpel.rt.axis.bpel.admin.types.AesDeployBprType input) throws java.rmi.RemoteException
-   {
-      org.activebpel.rt.axis.bpel.admin.types.AesStringResponseType ret = impl.deployBpr(input);
       return ret;
    }
 

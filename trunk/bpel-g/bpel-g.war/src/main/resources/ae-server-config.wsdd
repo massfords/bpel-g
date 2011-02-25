@@ -277,28 +277,6 @@
  </service>
  
  
-  <!-- Used for BPR deployment -->
-  <service name="DeployBPRService" provider="java:RPC">
-      <parameter name="className" value="org.activebpel.rt.axis.bpel.rdebug.server.AeDeployBPRSkeleton"/>
-      <parameter name="allowedMethods" value="deployBpr"/>
-
-      <typeMapping
-        xmlns:ns="http://bpel.rt.activebpel.org"
-        qname="ns:AeBusinessProcessException"
-        type="java:org.activebpel.rt.bpel.AeBusinessProcessException"
-        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
-        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
-        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
-
-      <typeMapping
-        xmlns:ns="http://rt.activebpel.org"
-        qname="ns:AeException"
-        type="java:org.activebpel.rt.AeException"
-        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
-        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
-        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
-  </service>
-
   <!-- Services from IAesEventHandlerService WSDL service -->
   <service name="BpelEngineAdmin" provider="java:RPC">
       <parameter name="className" value="org.activebpel.rt.axis.bpel.rdebug.server.AeRemoteDebugSkeleton"/>
@@ -369,27 +347,6 @@
         encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
   </service>
   
-  <!-- Used for BPR deployment -->
-  <service name="ActiveBpelDeployBPR" provider="java:RPC" style="document" use="literal">
-      <parameter name="wsdlTargetNamespace" value="http://docs.active-endpoints/wsdl/activebpeladmin/2007/01/activebpeladmin.wsdl"/>
-      <parameter name="wsdlServiceElement" value="ActiveBpelAdmin"/>
-      <parameter name="schemaQualified" value="http://schemas.active-endpoints.com/activebpeladmin/2007/01/activebpeladmin.xsd"/>
-      <parameter name="wsdlServicePort" value="ActiveBpelAdminPort"/>
-      <parameter name="className" value="org.activebpel.rt.axis.bpel.admin.server.AeActiveBpelDeployBPRSkeleton"/>
-      <parameter name="wsdlPortType" value="IAeActiveBpelAdmin"/>
-      <parameter name="typeMappingVersion" value="1.2"/>
-      <parameter name="allowedMethods" value="deployBpr"/>
-
-      <typeMapping
-        xmlns:ns="http://schemas.active-endpoints.com/activebpeladmin/2007/01/activebpeladmin.xsd"
-        qname="ns:AdminFault"
-        type="java:org.activebpel.rt.axis.bpel.admin.types.AdminFault"
-        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
-        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
-        encodingStyle=""
-      />
-  </service>
-
   <!-- Type mappings for ActiveBpelAdmin WSDL service -->
   <service name="ActiveBpelAdmin" provider="java:RPC" style="document" use="literal">
       <parameter name="wsdlTargetNamespace" value="http://docs.active-endpoints/wsdl/activebpeladmin/2007/01/activebpeladmin.wsdl"/>
@@ -565,14 +522,6 @@
         xmlns:ns="http://schemas.active-endpoints.com/activebpeladmin/2007/01/activebpeladmin.xsd"
         qname="ns:AesProcessType"
         type="java:org.activebpel.rt.axis.bpel.admin.types.AesProcessType"
-        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
-        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
-        encodingStyle=""
-      />
-      <typeMapping
-        xmlns:ns="http://schemas.active-endpoints.com/activebpeladmin/2007/01/activebpeladmin.xsd"
-        qname="ns:AesDeployBprType"
-        type="java:org.activebpel.rt.axis.bpel.admin.types.AesDeployBprType"
         serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
         deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
         encodingStyle=""

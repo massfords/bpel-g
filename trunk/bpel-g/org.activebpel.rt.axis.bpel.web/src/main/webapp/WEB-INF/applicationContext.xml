@@ -9,6 +9,13 @@
     <import resource="classpath:META-INF/cxf/cxf-extension-soap.xml"/>
     <import resource="classpath:META-INF/cxf/cxf-servlet.xml"/>
 
+   <jaxws:endpoint
+        implementor="#DeploymentService"
+        endpointName="s:DeploymentService"
+        serviceName="s:DeploymentService"
+        address="/DeploymentService"
+        xmlns:s="urn:bpel-g:services:deploy"/>
+
     <jaxws:endpoint
         implementor="#ResolverService"
         endpointName="s:URNResolver"
@@ -16,6 +23,9 @@
         address="/URNResolver"
         xmlns:s="urn:bpel-g:services:urn-resolver"/>
     
+    <bean id="DeploymentService" class="org.activebpel.rt.bpel.server.services.AeDeploymentService"/>
+    
+
     <bean id="ResolverService" class="org.activebpel.rt.bpel.server.services.AeURNResolverService">
         <property name="resolver" ref="URNResolver"/>
     </bean>

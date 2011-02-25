@@ -30,7 +30,6 @@ public interface IAeActiveBpelAdmin extends java.rmi.Remote {
     public org.activebpel.rt.axis.bpel.admin.types.AesDigestType getProcessDigest(org.activebpel.rt.axis.bpel.admin.types.AesProcessType input) throws java.rmi.RemoteException;
     public org.activebpel.rt.axis.bpel.admin.types.AesStringResponseType getProcessDef(org.activebpel.rt.axis.bpel.admin.types.AesProcessType input) throws java.rmi.RemoteException;
     public org.activebpel.rt.axis.bpel.admin.types.AesStringResponseType getProcessLog(org.activebpel.rt.axis.bpel.admin.types.AesProcessType input) throws java.rmi.RemoteException;
-    public org.activebpel.rt.axis.bpel.admin.types.AesStringResponseType deployBpr(org.activebpel.rt.axis.bpel.admin.types.AesDeployBprType input) throws java.rmi.RemoteException;
     public void setPartnerLinkData(org.activebpel.rt.axis.bpel.admin.types.AesSetPartnerLinkType input) throws java.rmi.RemoteException;
     public void setCorrelationSetData(org.activebpel.rt.axis.bpel.admin.types.AesSetCorrelationType input) throws java.rmi.RemoteException;
     public void retryActivity(org.activebpel.rt.axis.bpel.admin.types.AesRetryActivityType input) throws java.rmi.RemoteException;

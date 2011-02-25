@@ -795,16 +795,6 @@ public class AeRemoteDebugSkeleton implements IAeBpelAdmin, Skeleton
    }
 
    /**
-    * @throws RemoteException
-    * @throws AeBusinessProcessException
-    * @see org.activebpel.rt.bpel.server.admin.rdebug.server.IAeBpelAdmin#deployBpr(java.lang.String, java.lang.String)
-    */
-   public String deployBpr(String aBprFilename, String aBase64File) throws RemoteException, AeBusinessProcessException
-   {
-      return getAdmin().deployBpr(aBprFilename, aBase64File);
-   }
-
-   /**
     * @see org.activebpel.rt.bpel.server.admin.rdebug.server.IAeBpelAdmin#setPartnerLinkData(long, boolean, java.lang.String, java.lang.String)
     */
    public void setPartnerLinkData(long aPid, boolean aIsPartnerRole, String aLocationPath, String aData) throws RemoteException, AeBusinessProcessException

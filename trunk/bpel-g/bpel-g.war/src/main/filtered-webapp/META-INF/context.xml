@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<Context reloadable="false" displayName="ActiveBPEL Business Process Server - Web Services" path="/active-bpel">
+<Context reloadable="false" displayName="ActiveBPEL Business Process Server - Web Services" path="/bpel-g">
 
   <Parameter name="db.url" value="jdbc:h2:${h2.database.path}" override="false"/>
   <Parameter name="db.user" value="${h2.database.user}" override="false"/>

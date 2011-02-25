@@ -18,7 +18,6 @@ import org.activebpel.rt.axis.bpel.admin.types.AesAddAttachmentResponseType;
 import org.activebpel.rt.axis.bpel.admin.types.AesBreakpointRequestType;
 import org.activebpel.rt.axis.bpel.admin.types.AesCompleteActivityType;
 import org.activebpel.rt.axis.bpel.admin.types.AesConfigurationType;
-import org.activebpel.rt.axis.bpel.admin.types.AesDeployBprType;
 import org.activebpel.rt.axis.bpel.admin.types.AesDigestType;
 import org.activebpel.rt.axis.bpel.admin.types.AesEngineRequestType;
 import org.activebpel.rt.axis.bpel.admin.types.AesGetVariableDataType;
@@ -533,25 +532,6 @@ public class AeActiveBpelAdminImpl implements IAeActiveBpelAdmin
       try
       {
          return new AesStringResponseType(getAdmin().getAPIVersion());
-      }
-      catch (RemoteException e)
-      {
-         throw e;
-      }
-      catch(Throwable e)
-      {
-         throw new RemoteException(e.getLocalizedMessage(), e.getCause());
-      }
-   }
-
-   /**
-    * @see org.activebpel.rt.axis.bpel.admin.IAeActiveBpelAdmin#deployBpr(org.activebpel.rt.axis.bpel.admin.types.AesDeployBprType)
-    */
-   public AesStringResponseType deployBpr(AesDeployBprType aInput) throws RemoteException
-   {
-      try
-      {
-         return new AesStringResponseType(getAdmin().deployBpr(aInput.getBprFilename(), aInput.getBase64File()));
       }
       catch (RemoteException e)
       {
