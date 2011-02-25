@@ -31,7 +31,7 @@ public class AeURNResolverService implements AeURNResolver {
 	}
 
 	@Override
-	public Mappings getMappings(Object aBody) {
+	public Mappings getMappings(String aBody) {
 		Map<String,String> map = getResolver().getMappings();
 		List<Mapping> mappings = new LinkedList();
 		for(Map.Entry<String, String> entry : map.entrySet()) {

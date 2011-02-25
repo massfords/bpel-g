@@ -82,6 +82,12 @@
                            </bindingFiles>
                            <wsdl>${basedir}/target/dependency/urnResolver.wsdl</wsdl>
                         </wsdlOption>
+                        <wsdlOption>
+                           <bindingFiles>
+                              <bindingFile>${basedir}/src/main/bindings/deploy-bindings.xml</bindingFile>
+                           </bindingFiles>
+                           <wsdl>${basedir}/target/dependency/deploy.wsdl</wsdl>
+                        </wsdlOption>
                      </wsdlOptions>
                   </configuration>
                   <goals>
@@ -97,22 +103,6 @@
          <groupId>junit</groupId>
          <artifactId>junit</artifactId>
          <version>4.8.1</version>
-      </dependency>
-      <dependency>
-         <groupId>commons-io</groupId>
-         <artifactId>commons-io</artifactId>
-         <version>1.4</version>
-      </dependency>
-      <dependency>
-         <groupId>org.activebpel</groupId>
-         <artifactId>ae-rt</artifactId>
-         <version>5.2-SNAPSHOT</version>
-         <scope>test</scope>
-      </dependency>
-      <dependency>
-         <groupId>xmlunit</groupId>
-         <artifactId>xmlunit</artifactId>
-         <version>1.3</version>
          <scope>test</scope>
       </dependency>
    </dependencies>

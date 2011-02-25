@@ -21,11 +21,11 @@ import commonj.timers.TimerManager;
 
 public class AeEngineFactoryStarter implements ServletContextListener {
 
-	/** Initial scan delay init param config. */
-	private static final String SCAN_DELAY_PARAM = "scan.delay"; //$NON-NLS-1$
-	/** Default amount of time to wait before scanning starts. */
-	private static final long DEFAULT_DELAY = 15000;
-	/** The default scan interval */
+//	/** Initial scan delay init param config. */
+//	private static final String SCAN_DELAY_PARAM = "scan.delay"; //$NON-NLS-1$
+//	/** Default amount of time to wait before scanning starts. */
+//	private static final long DEFAULT_DELAY = 15000;
+//	/** The default scan interval */
 
 	private IAeDeploymentFileHandler mFileHandler;
 	/** for deployment logging purposes */
@@ -40,22 +40,24 @@ public class AeEngineFactoryStarter implements ServletContextListener {
 		AeEngineFactory.setApplicationContext(ac);
 		AeEngineFactory.getEngine().setEngineConfiguration(AeEngineFactory.getEngineConfig());
 		
-		long delay = getLongValue(aEvent.getServletContext(), SCAN_DELAY_PARAM,
-				DEFAULT_DELAY);
+//		long delay = getLongValue(aEvent.getServletContext(), SCAN_DELAY_PARAM,
+//				DEFAULT_DELAY);
 
 
-		if (delay <= 0) {
-			doStart();
-		} else {
-			// We need to schedule the start after the preset delay interval
-			TimerListener timerWork = new AeAbstractTimerWork() {
-				public void run() {
-					doStart();
-				}
-			};
+		doStart();
 
-			AeEngineFactory.getBean(TimerManager.class).schedule(timerWork,delay);
-		}
+//		if (delay <= 0) {
+//			doStart();
+//		} else {
+//			// We need to schedule the start after the preset delay interval
+//			TimerListener timerWork = new AeAbstractTimerWork() {
+//				public void run() {
+//					doStart();
+//				}
+//			};
+//
+//			AeEngineFactory.getBean(TimerManager.class).schedule(timerWork,delay);
+//		}
 	}
 
 	@Override
@@ -83,7 +85,7 @@ public class AeEngineFactoryStarter implements ServletContextListener {
 		// if the initial deployments fail then
 		// something is wrong with the bpr dir
 		try {
-			doInitialDeployments();
+			mFileHandler.handleInitialDeployments();
 		} catch (Throwable t) {
 			startScanning = false;
 			AeException.logError(t, AeMessages
@@ -94,15 +96,8 @@ public class AeEngineFactoryStarter implements ServletContextListener {
 
 		// don't scan if initial deployments failed
 		if (startScanning) {
-			startScanning();
+			mFileHandler.startScanning();
 		}
-	}
-
-	/**
-	 * Process any deployments necessary before starting the BPEL engine.
-	 */
-	protected void doInitialDeployments() {
-		mFileHandler.handleInitialDeployments();
 	}
 
 	/**
@@ -116,31 +111,24 @@ public class AeEngineFactoryStarter implements ServletContextListener {
 		}
 	}
 
-	/**
-	 * Start the directory scanner.
-	 */
-	protected void startScanning() {
-		mFileHandler.startScanning();
-	}
-
-	/**
-	 * Return the long value for an init param.
-	 * 
-	 * @param aConfig
-	 * @param aParamName
-	 * @param aDefaultValue
-	 */
-	protected long getLongValue(ServletContext aConfig, String aParamName,
-			long aDefaultValue) {
-		long retVal = aDefaultValue;
-		String longValue = aConfig.getInitParameter(aParamName);
-		if (!AeUtil.isNullOrEmpty(longValue)) {
-			try {
-				retVal = Long.parseLong(longValue);
-			} catch (NumberFormatException nfe) {
-
-			}
-		}
-		return retVal;
-	}
+//	/**
+//	 * Return the long value for an init param.
+//	 * 
+//	 * @param aConfig
+//	 * @param aParamName
+//	 * @param aDefaultValue
+//	 */
+//	protected long getLongValue(ServletContext aConfig, String aParamName,
+//			long aDefaultValue) {
+//		long retVal = aDefaultValue;
+//		String longValue = aConfig.getInitParameter(aParamName);
+//		if (!AeUtil.isNullOrEmpty(longValue)) {
+//			try {
+//				retVal = Long.parseLong(longValue);
+//			} catch (NumberFormatException nfe) {
+//
+//			}
+//		}
+//		return retVal;
+//	}
 }

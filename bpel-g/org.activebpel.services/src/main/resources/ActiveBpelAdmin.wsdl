@@ -226,13 +226,6 @@
             </sequence>
          </complexType>
 
-         <complexType name="AesDeployBprType">
-            <sequence>
-               <element name="bprFilename" type="xsd:string"/>
-               <element name="base64File" type="xsd:string"/>
-            </sequence>
-         </complexType>
-
          <complexType name="AesSetPartnerLinkType">
             <sequence>
                <element name="pid" type="xsd:long"/>
@@ -320,9 +313,6 @@
          <element name="getAPIVersionInput" type="aetypes:AesVoidType"/>
          <element name="getAPIVersionOutput" type="aetypes:AesStringResponseType"/>
          
-         <element name="deployBprInput" type="aetypes:AesDeployBprType"/>
-         <element name="deployBprOutput" type="aetypes:AesStringResponseType"/>
-
          <element name="setPartnerLinkDataInput" type="aetypes:AesSetPartnerLinkType"/>
          <element name="setCorrelationDataInput" type="aetypes:AesSetCorrelationType"/>
       
@@ -470,13 +460,6 @@
       <wsdl:part name="output" element="aetypes:getAPIVersionOutput"/>
    </wsdl:message>
 
-   <wsdl:message name="deployBprRequest">
-      <wsdl:part name="input" element="aetypes:deployBprInput"/>
-   </wsdl:message>
-   <wsdl:message name="deployBprResponse">
-      <wsdl:part name="output" element="aetypes:deployBprOutput"/>
-   </wsdl:message>   
-
    <wsdl:message name="setPartnerLinkDataRequest">
       <wsdl:part name="input" element="aetypes:setPartnerLinkDataInput"/>
    </wsdl:message>
@@ -615,11 +598,6 @@
          <wsdl:output message="tns:getProcessLogResponse"/>
       </wsdl:operation>
 
-      <wsdl:operation name="DeployBpr">
-         <wsdl:input  message="tns:deployBprRequest"/>
-         <wsdl:output message="tns:deployBprResponse"/>
-      </wsdl:operation>
-      
       <wsdl:operation name="SetPartnerLinkData">
          <wsdl:input  message="tns:setPartnerLinkDataRequest"/>
          <wsdl:output message="tns:voidResponse"/>
@@ -898,16 +876,6 @@
       </wsdl:operation>
 
       <wsdl:operation name="GetAPIVersion">
-         <wsdlsoap:operation soapAction=""/>
-         <wsdl:input>
-            <wsdlsoap:body use="literal"/>
-         </wsdl:input>
-         <wsdl:output>
-            <wsdlsoap:body use="literal"/>
-         </wsdl:output>
-      </wsdl:operation>
-
-      <wsdl:operation name="DeployBpr">
          <wsdlsoap:operation soapAction=""/>
          <wsdl:input>
             <wsdlsoap:body use="literal"/>

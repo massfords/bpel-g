@@ -27,7 +27,7 @@
                </sequence>
             </complexType>
          </element>
-         <element name="getMappingsRequest"/>
+         <element name="getMappingsRequest" type="xs:string"/>
          <element name="mappings">
             <complexType>
                <sequence>

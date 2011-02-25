@@ -13,7 +13,6 @@ import javax.xml.namespace.QName;
 import javax.xml.ws.Service;
 
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import bpelg.services.urnresolver.AeURNResolver;
@@ -22,7 +21,6 @@ import bpelg.services.urnresolver.types.Mappings;
 import bpelg.services.urnresolver.types.Mappings.Mapping;
 import bpelg.services.urnresolver.types.Names;
 
-@Ignore
 public class AeURNResolverIntegrationTest {
     
 	AeURNResolver resolver;
@@ -50,7 +48,7 @@ public class AeURNResolverIntegrationTest {
     }
 
 	protected Map<String, String> getMappings() {
-		Mappings mappings = resolver.getMappings(null);
+		Mappings mappings = resolver.getMappings("");
 	    Map<String,String> names = new HashMap();
 	    for(Mapping mapping : mappings.getMapping()) {
 	    	names.put(mapping.getName(), mapping.getValue());

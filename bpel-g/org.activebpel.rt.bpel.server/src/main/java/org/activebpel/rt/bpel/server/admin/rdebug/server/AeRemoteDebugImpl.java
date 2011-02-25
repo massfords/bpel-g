@@ -9,11 +9,6 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpel.server.admin.rdebug.server;
 
-import commonj.work.Work;
-import commonj.work.WorkItem;
-import commonj.work.WorkManager;
-
-import java.io.ByteArrayInputStream;
 import java.io.StringReader;
 import java.io.StringWriter;
 import java.lang.reflect.Constructor;
@@ -29,7 +24,6 @@ import javax.xml.namespace.QName;
 
 import org.activebpel.rt.AeException;
 import org.activebpel.rt.attachment.IAeAttachmentItem;
-import org.activebpel.rt.base64.BASE64Decoder;
 import org.activebpel.rt.bpel.AeBusinessProcessException;
 import org.activebpel.rt.bpel.IAeEngineAlert;
 import org.activebpel.rt.bpel.IAeEngineEvent;
@@ -48,8 +42,6 @@ import org.activebpel.rt.bpel.server.IAeDeploymentProvider;
 import org.activebpel.rt.bpel.server.IAeProcessDeployment;
 import org.activebpel.rt.bpel.server.admin.rdebug.client.IAeEventHandler;
 import org.activebpel.rt.bpel.server.admin.rdebug.client.IAeEventHandlerService;
-import org.activebpel.rt.bpel.server.deploy.IAeDeploymentSummary;
-import org.activebpel.rt.bpel.server.deploy.bpr.AeTempFileUploadHandler;
 import org.activebpel.rt.bpel.server.engine.AeEngineFactory;
 import org.activebpel.rt.bpel.server.logging.AeStructuredDeploymentLog;
 import org.activebpel.rt.util.AeUTF8Util;
@@ -60,6 +52,10 @@ import org.activebpel.work.AeAbstractWork;
 import org.activebpel.wsio.AeWebServiceAttachment;
 import org.w3c.dom.Document;
 import org.xml.sax.InputSource;
+
+import commonj.work.Work;
+import commonj.work.WorkItem;
+import commonj.work.WorkManager;
 
 /**
  * Remote implementation of the BPEL Engine used by Web Service invocation.
@@ -452,33 +448,6 @@ public class AeRemoteDebugImpl implements IAeBpelAdmin
    public String getAPIVersion() throws RemoteException
    { 
       return IAeBpelAdmin.CURRENT_API_VERSION;
-   }
-
-   /**
-    * @see org.activebpel.rt.bpel.server.admin.rdebug.server.IAeBpelAdmin#deployBpr(java.lang.String, java.lang.String)
-    */
-   public String deployBpr(String aBprFilename, String aBase64File) throws RemoteException
-   {
-      try
-      {
-         // Decode the base64 input
-         BASE64Decoder decoder = new BASE64Decoder();
-         byte [] buffer = decoder.decodeBuffer(aBase64File);
-         ByteArrayInputStream in = new ByteArrayInputStream( buffer );
-         AeStructuredDeploymentLog logger = createDeploymentLogger();
-         AeTempFileUploadHandler.handleUpload( aBprFilename, in, logger );
-         IAeDeploymentSummary summary = logger.getDeploymentSummary();
-         Document dom = summary.toDocument();
-         return AeXMLParserBase.documentToString(dom.getDocumentElement());
-      }
-      catch (RemoteException re)
-      {
-         throw re;
-      }
-      catch (Throwable t)
-      {
-         throw new RemoteException(t.getLocalizedMessage());
-      }
    }
 
    /**
