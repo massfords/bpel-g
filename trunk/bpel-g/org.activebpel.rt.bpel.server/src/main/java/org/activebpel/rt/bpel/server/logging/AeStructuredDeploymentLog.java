@@ -15,6 +15,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import bpelg.services.deploy.types.DeploymentResponse;
 import bpelg.services.deploy.types.DeploymentResponse.DeploymentInfo;
 
@@ -32,6 +35,7 @@ public class AeStructuredDeploymentLog extends AeDeploymentLog {
 	 * single PDD.
 	 */
 	private StringBuffer mGlobalBuffer = new StringBuffer();
+	private static Log sLog = LogFactory.getLog(AeStructuredDeploymentLog.class);
 
 	/**
 	 * Overrides method to create a new deployment info object each time a new
@@ -66,6 +70,7 @@ public class AeStructuredDeploymentLog extends AeDeploymentLog {
 	 * @see org.activebpel.rt.bpel.server.logging.AeDeploymentLog#writeMessage(java.lang.String)
 	 */
 	protected void writeMessage(String aMessage) {
+		sLog.error(aMessage);
 		StringBuffer buff = mBuffer;
 		if (mPddName == null) {
 			buff = mGlobalBuffer;

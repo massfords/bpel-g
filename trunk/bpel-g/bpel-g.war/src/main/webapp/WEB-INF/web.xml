@@ -3,6 +3,11 @@
     <display-name>bpel-g</display-name>
     <description>bpel-g Administration Console</description>
     
+    <context-param>
+        <param-name>webAppRootKey</param-name>
+        <param-value>bpel-g</param-value>
+    </context-param>
+
     <listener>
         <listener-class>org.h2.server.web.DbStarter</listener-class>
     </listener>

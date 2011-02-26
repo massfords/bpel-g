@@ -12,7 +12,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.UUID;
 
 import javax.xml.namespace.QName;
 
@@ -34,13 +33,14 @@ import bpelg.packaging.ode.BgPddInfo.BgPlink;
 public class BgPddBuilder {
     
     private static final String PDD = "http://schemas.active-endpoints.com/pdd/2006/08/pdd.xsd";
-    private static final String WSA = "http://www.w3.org/2005/08/addressing";
     private static final String WSP = "http://schemas.xmlsoap.org/ws/2004/09/policy";
     
     private static final Map NAMESPACES = new HashMap<String,String>();
     static {
         NAMESPACES.put("ode", "http://www.apache.org/ode/schemas/dd/2007/03");
         NAMESPACES.put("wsp", WSP);
+        NAMESPACES.put("wsa", "http://www.w3.org/2005/08/addressing");
+        NAMESPACES.put("ae", "urn:org.activebpel.deploy");
     }
     
     private File mServiceUnitRoot;
@@ -104,24 +104,26 @@ public class BgPddBuilder {
             if (plink.hasMyRole()) {
                 Element myRole = AeXmlUtil.addElementNS(plinkEl, PDD, "pdd:myRole");
                 myRole.setAttribute("allowedRoles", "");
-                myRole.setAttribute("binding", "EXTERNAL");
-                String encodedService = AeXmlUtil.encodeQName(plink.myService, myRole, "mysvc");
+                // FIXME revisit to allow this to be configurable
+                myRole.setAttribute("binding", "MSG");
+//                String encodedService = AeXmlUtil.encodeQName(plink.myService, myRole, "mysvc");
                 // space delimited value of Service QName + endpoint
-                myRole.setAttribute("service", encodedService + " " + plink.myEndpoint + " " + UUID.randomUUID().toString());
+                // FIXME was randomly generating a service name. 
+                myRole.setAttribute("service", plink.myService.getLocalPart());
                 addPolicies(myRole, plink.myPolicies);
             }
             if (plink.hasPartnerRole()) {
                 Element partnerRole = AeXmlUtil.addElementNS(plinkEl, PDD, "pdd:partnerRole");
-                partnerRole.setAttribute("endpointReference", "static");
-                partnerRole.setAttribute("invokeHandler", "default:Service");
-                Element epr = AeXmlUtil.addElementNS(partnerRole, WSA, "wsa:EndpointReference");
-                epr.setAttributeNS(IAeConstants.W3C_XMLNS, "xmlns:wsa", WSA);
-                AeXmlUtil.addElementNS(epr, WSA, "wsa:Address", "None");
-                Element metadata = AeXmlUtil.addElementNS(epr, WSA, "wsa:Metadata");
-                String encodedService = AeXmlUtil.encodeQName(plink.partnerService, metadata, "psvc");
-                Element serviceName = AeXmlUtil.addElementNS(metadata, WSA, "wsa:ServiceName", encodedService);
-                serviceName.setAttribute("PortName", plink.partnerEndpoint);
-                addPolicies(metadata, plink.partnerPolicies);
+                if (plink.epr != null) {
+                    partnerRole.setAttribute("endpointReference", "static");
+	                String invokeHandler = AeXPathUtil.selectText(plink.epr, "//ae:invokeHandler", NAMESPACES);
+	                partnerRole.setAttribute("invokeHandler", invokeHandler);
+	                partnerRole.appendChild(partnerRole.getOwnerDocument().importNode(plink.epr, true));
+                } else {
+                    partnerRole.setAttribute("endpointReference", "dynamic");
+	                partnerRole.setAttribute("invokeHandler", "default:Address");
+                }
+                // FIXME deploy - clean this up, need to rationalize the dropping of policies
             }
         }
         
@@ -197,12 +199,17 @@ public class BgPddBuilder {
                 QName partnerService = AeXmlUtil.getAttributeQName(invokeService, "name");
                 String partnerEndpoint = invokeService.getAttribute("port");
                 List<Element> policies = getPolicies(invokeService);
-                pddInfo.addInvoke(plinkName, partnerService, partnerEndpoint, policies);
+                Element epr = getEpr(invokeService);
+                pddInfo.addInvoke(plinkName, partnerService, partnerEndpoint, policies, epr);
             }
         }
     }
 
-    private List<Element> getPolicies(Element aService) throws AeException {
+    private Element getEpr(Element aInvokeService) throws AeException {
+		return (Element) AeXPathUtil.selectSingleNode(aInvokeService, "wsa:EndpointReference", NAMESPACES);
+	}
+
+	private List<Element> getPolicies(Element aService) throws AeException {
         List<Element> policies = AeXPathUtil.selectNodes(aService, "wsp:Policy", NAMESPACES);
         return policies;
     }

@@ -73,6 +73,7 @@
         <module>org.activebpel.services</module>
         <module>org.activebpel.services.jaxws</module>
         <module>ode-packaging</module>
+        <module>org.activebpel.camel</module>
         <module>bpel-g.war</module>
         <!--
         <module>bpel-g-jbi</module>
