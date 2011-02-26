@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:util="http://www.springframework.org/schema/util"
     xmlns:jaxws="http://cxf.apache.org/jaxws"
     xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
@@ -9,22 +10,16 @@
     <import resource="classpath:META-INF/cxf/cxf-extension-soap.xml"/>
     <import resource="classpath:META-INF/cxf/cxf-servlet.xml"/>
 
-   <jaxws:endpoint
-        implementor="#DeploymentService"
-        endpointName="s:DeploymentService"
-        serviceName="s:DeploymentService"
-        address="/DeploymentService"
+    <jaxws:endpoint implementor="#DeploymentService" endpointName="s:DeploymentService"
+        serviceName="s:DeploymentService" address="/DeploymentService"
         xmlns:s="urn:bpel-g:services:deploy"/>
 
-    <jaxws:endpoint
-        implementor="#ResolverService"
-        endpointName="s:URNResolver"
-        serviceName="s:URNResolver"
-        address="/URNResolver"
+    <jaxws:endpoint implementor="#ResolverService" endpointName="s:URNResolver"
+        serviceName="s:URNResolver" address="/URNResolver"
         xmlns:s="urn:bpel-g:services:urn-resolver"/>
-    
+
     <bean id="DeploymentService" class="org.activebpel.rt.bpel.server.services.AeDeploymentService"/>
-    
+
 
     <bean id="ResolverService" class="org.activebpel.rt.bpel.server.services.AeURNResolverService">
         <property name="resolver" ref="URNResolver"/>
@@ -54,11 +49,13 @@
         </property>
     </bean>
 
-    <bean id="QueueManager" class="org.activebpel.rt.bpel.server.engine.storage.AePersistentQueueManager">
+    <bean id="QueueManager"
+        class="org.activebpel.rt.bpel.server.engine.storage.AePersistentQueueManager">
         <property name="TimerManager" ref="TimerManager"/>
         <property name="StorageFactory" ref="StorageFactory"/>
         <property name="invokeHandlerFactory">
-            <bean class="org.activebpel.rt.bpel.server.engine.invoke.AeDelegatingInvokeHandlerFactory">
+            <bean
+                class="org.activebpel.rt.bpel.server.engine.invoke.AeDelegatingInvokeHandlerFactory">
                 <property name="delegates">
                     <util:map>
                         <entry key="default">
@@ -69,14 +66,18 @@
                                         <property name="styleMap">
                                             <util:map>
                                                 <entry key="rpc">
-                                                    <bean class="org.activebpel.rt.axis.bpel.invokers.AeRpcStyleInvoker">
-                                                        <property name="messageFactory" ref="SOAPMessageFactory"/>
-                                                    </bean>
+                                                  <bean
+                                                  class="org.activebpel.rt.axis.bpel.invokers.AeRpcStyleInvoker">
+                                                  <property name="messageFactory"
+                                                  ref="SOAPMessageFactory"/>
+                                                  </bean>
                                                 </entry>
                                                 <entry key="document">
-                                                    <bean class="org.activebpel.rt.axis.bpel.invokers.AeDocumentStyleInvoker">
-                                                        <property name="messageFactory" ref="SOAPMessageFactory"/>
-                                                    </bean>
+                                                  <bean
+                                                  class="org.activebpel.rt.axis.bpel.invokers.AeDocumentStyleInvoker">
+                                                  <property name="messageFactory"
+                                                  ref="SOAPMessageFactory"/>
+                                                  </bean>
                                                 </entry>
                                             </util:map>
                                         </property>
@@ -84,11 +85,17 @@
                                 </property>
                             </bean>
                         </entry>
+                        <entry key="camel">
+                            <bean class="org.activebpel.camel.AeCamelInvokeHandlerFactory"/>
+                        </entry>
                         <entry key="java">
-                            <bean class="org.activebpel.rt.bpel.server.engine.invoke.AePojoHandlerFactory"/>
+                            <bean
+                                class="org.activebpel.rt.bpel.server.engine.invoke.AePojoHandlerFactory"
+                            />
                         </entry>
                         <entry key="process">
-                            <bean class="org.activebpel.rt.bpel.server.engine.invoke.AeProcessHandlerFactory">
+                            <bean
+                                class="org.activebpel.rt.bpel.server.engine.invoke.AeProcessHandlerFactory">
                                 <property name="CoordinationManager" ref="CoordinationManager"/>
                             </bean>
                         </entry>
@@ -96,21 +103,27 @@
                             <bean class="org.activebpel.rt.axis.bpel.AePolicyInvokeHandlerFactory"/>
                         </entry>
                         <entry key="identity">
-                            <bean class="org.activebpel.rt.identity.invoke.AeIdentityServiceInvokeHandlerFactory"/>
+                            <bean
+                                class="org.activebpel.rt.identity.invoke.AeIdentityServiceInvokeHandlerFactory"
+                            />
                         </entry>
                     </util:map>
                 </property>
             </bean>
         </property>
         <property name="receiveHandlerFactory">
-            <bean class="org.activebpel.rt.bpel.server.engine.receive.AeDelegatingReceiveHandlerFactory">
+            <bean
+                class="org.activebpel.rt.bpel.server.engine.receive.AeDelegatingReceiveHandlerFactory">
                 <property name="delegates">
                     <util:map>
                         <entry key="default">
-                            <bean class="org.activebpel.rt.bpel.server.engine.receive.AeBPELReceiveHandlerFactory"/>
+                            <bean
+                                class="org.activebpel.rt.bpel.server.engine.receive.AeBPELReceiveHandlerFactory"
+                            />
                         </entry>
                         <entry key="soap">
-                            <bean class="org.activebpel.rt.axis.bpel.receivers.AeAxisReceiveHandlerFactory">
+                            <bean
+                                class="org.activebpel.rt.axis.bpel.receivers.AeAxisReceiveHandlerFactory">
                                 <property name="receiveHandlers">
                                     <util:map>
                                         <entry key="RPC" value-ref="RPCReceiveHandler"/>
@@ -128,10 +141,12 @@
     </bean>
 
     <bean id="LockManager" class="org.activebpel.rt.bpel.impl.AeInMemoryLockManager"/>
-    <bean id="AttachmentManager" class="org.activebpel.rt.bpel.server.engine.storage.AePersistentAttachmentManager">
+    <bean id="AttachmentManager"
+        class="org.activebpel.rt.bpel.server.engine.storage.AePersistentAttachmentManager">
         <property name="StorageFactory" ref="StorageFactory"/>
     </bean>
-    <bean id="CoordinationManager" class="org.activebpel.rt.bpel.server.coord.AePersistentCoordinationManager">
+    <bean id="CoordinationManager"
+        class="org.activebpel.rt.bpel.server.coord.AePersistentCoordinationManager">
         <property name="StorageFactory" ref="StorageFactory"/>
     </bean>
     <bean id="EngineAdminImpl" class="org.activebpel.rt.axis.bpel.web.AeWebEngineAdministration">
@@ -145,7 +160,8 @@
             <util:map>
                 <entry key="http://schemas.xmlsoap.org/ws/2003/03/business-process/">
                     <bean class="org.activebpel.rt.bpel.expr.BpelExpressionLanguageFactory">
-                        <property name="bpelDefaultLanguage" value="http://www.w3.org/TR/1999/REC-xpath-19991116"/>
+                        <property name="bpelDefaultLanguage"
+                            value="http://www.w3.org/TR/1999/REC-xpath-19991116"/>
                         <property name="bundles">
                             <util:map>
                                 <entry key="http://www.w3.org/TR/1999/REC-xpath-19991116">
@@ -156,10 +172,14 @@
                                             />
                                         </property>
                                         <property name="runner">
-                                            <bean class="org.activebpel.rt.bpel.impl.expr.xpath.AeBPWSXPathExpressionRunner"/>
+                                            <bean
+                                                class="org.activebpel.rt.bpel.impl.expr.xpath.AeBPWSXPathExpressionRunner"
+                                            />
                                         </property>
                                         <property name="analyzer">
-                                            <bean class="org.activebpel.rt.bpel.def.expr.xpath.AeBPWSXPathExpressionAnalyzer"/>
+                                            <bean
+                                                class="org.activebpel.rt.bpel.def.expr.xpath.AeBPWSXPathExpressionAnalyzer"
+                                            />
                                         </property>
                                     </bean>
                                 </entry>
@@ -171,7 +191,8 @@
                                             />
                                         </property>
                                         <property name="runner">
-                                            <bean class="org.activebpel.rt.bpel.ext.expr.impl.xquery.AeBPWSXQueryExpressionRunner"
+                                            <bean
+                                                class="org.activebpel.rt.bpel.ext.expr.impl.xquery.AeBPWSXQueryExpressionRunner"
                                             />
                                         </property>
                                         <property name="analyzer">
@@ -206,7 +227,8 @@
                 </entry>
                 <entry key="http://docs.oasis-open.org/wsbpel/2.0/process/executable">
                     <bean class="org.activebpel.rt.bpel.expr.BpelExpressionLanguageFactory">
-                        <property name="bpelDefaultLanguage" value="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0"/>
+                        <property name="bpelDefaultLanguage"
+                            value="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0"/>
                         <property name="bundles">
                             <util:map>
                                 <entry key="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">
@@ -217,30 +239,36 @@
                                             />
                                         </property>
                                         <property name="runner">
-                                            <bean class="org.activebpel.rt.bpel.impl.expr.xpath.AeWSBPELXPathExpressionRunner"/>
+                                            <bean
+                                                class="org.activebpel.rt.bpel.impl.expr.xpath.AeWSBPELXPathExpressionRunner"
+                                            />
                                         </property>
                                         <property name="analyzer">
-                                            <bean class="org.activebpel.rt.bpel.def.expr.xpath.AeWSBPELXPathExpressionAnalyzer"/>
+                                            <bean
+                                                class="org.activebpel.rt.bpel.def.expr.xpath.AeWSBPELXPathExpressionAnalyzer"
+                                            />
                                         </property>
                                     </bean>
                                 </entry>
                                 <entry key="urn:active-endpoints:expression-language:xquery1.0">
                                     <bean class="org.activebpel.rt.bpel.expr.AeExpressionBundle">
-                                        <property name="validator">
-                                            <bean
-                                                class="org.activebpel.rt.bpel.ext.expr.def.validation.xquery.AeWSBPELXQueryExpressionValidator"
-                                            />
-                                        </property>
-                                        <property name="runner">
-                                            <bean
-                                                class="org.activebpel.rt.bpel.ext.expr.impl.xquery.AeWSBPELXQueryExpressionRunner"
-                                            />
-                                        </property>
-                                        <property name="analyzer">
-                                            <bean
-                                                class="org.activebpel.rt.bpel.ext.expr.def.xquery.AeWSBPELXQueryExpressionAnalyzer"
-                                            />
-                                        </property>
+                                        <property name="validator" ref="xqValidator"/>
+                                        <property name="runner" ref="xqRunner"/>
+                                        <property name="analyzer" ref="xqAnalyzer"/>
+                                    </bean>
+                                </entry>
+                                <entry key="urn:oasis:names:tc:wsbpel:2.0:sublang:xquery1.0">
+                                    <bean class="org.activebpel.rt.bpel.expr.AeExpressionBundle">
+                                        <property name="validator" ref="xqValidator"/>
+                                        <property name="runner" ref="xqRunner"/>
+                                        <property name="analyzer" ref="xqAnalyzer"/>
+                                    </bean>
+                                </entry>
+                                <entry key="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath2.0">
+                                    <bean class="org.activebpel.rt.bpel.expr.AeExpressionBundle">
+                                        <property name="validator" ref="xqValidator"/>
+                                        <property name="runner" ref="xqRunner"/>
+                                        <property name="analyzer" ref="xqAnalyzer"/>
                                     </bean>
                                 </entry>
                                 <entry key="urn:active-endpoints:expression-language:javascript1.5">
@@ -269,7 +297,14 @@
             </util:map>
         </property>
     </bean>
-    <bean id="FunctionContextContainer" class="org.activebpel.rt.bpel.function.AeFunctionContextContainer">
+
+    <bean id="xqValidator" class="org.activebpel.rt.bpel.ext.expr.def.validation.xquery.AeWSBPELXQueryExpressionValidator"/>
+    <bean id="xqRunner" class="org.activebpel.rt.bpel.ext.expr.impl.xquery.AeWSBPELXQueryExpressionRunner"/>
+    <bean id="xqAnalyzer" class="org.activebpel.rt.bpel.ext.expr.def.xquery.AeWSBPELXQueryExpressionAnalyzer"/>
+    
+
+    <bean id="FunctionContextContainer"
+        class="org.activebpel.rt.bpel.function.AeFunctionContextContainer">
         <property name="locator">
             <bean class="org.activebpel.rt.bpel.function.AeFunctionContextLocator"/>
         </property>
@@ -284,52 +319,83 @@
                 <property name="functions">
                     <util:map>
                         <entry key="getProcessId">
-                            <bean class="org.activebpel.rt.bpel.impl.function.AeGetProcessIdFunction"/>
+                            <bean
+                                class="org.activebpel.rt.bpel.impl.function.AeGetProcessIdFunction"
+                            />
                         </entry>
                         <entry key="getProcessName">
-                            <bean class="org.activebpel.rt.bpel.impl.function.AeGetProcessNameFunction"/>
+                            <bean
+                                class="org.activebpel.rt.bpel.impl.function.AeGetProcessNameFunction"
+                            />
                         </entry>
                         <entry key="getProcessInitiator">
-                            <bean class="org.activebpel.rt.bpel.impl.function.AeGetProcessInitiatorFunction"/>
+                            <bean
+                                class="org.activebpel.rt.bpel.impl.function.AeGetProcessInitiatorFunction"
+                            />
                         </entry>
                         <entry key="getMyRoleProperty">
-                            <bean class="org.activebpel.rt.bpel.impl.function.AeGetMyRolePropertyFunction"/>
+                            <bean
+                                class="org.activebpel.rt.bpel.impl.function.AeGetMyRolePropertyFunction"
+                            />
                         </entry>
                         <entry key="getAttachmentCount">
-                            <bean class="org.activebpel.rt.bpel.impl.function.attachment.AeGetAttachmentCountFunction"/>
+                            <bean
+                                class="org.activebpel.rt.bpel.impl.function.attachment.AeGetAttachmentCountFunction"
+                            />
                         </entry>
                         <entry key="copyAttachment">
-                            <bean class="org.activebpel.rt.bpel.impl.function.attachment.AeCopyAttachmentFunction"/>
+                            <bean
+                                class="org.activebpel.rt.bpel.impl.function.attachment.AeCopyAttachmentFunction"
+                            />
                         </entry>
                         <entry key="copyAllAttachments">
-                            <bean class="org.activebpel.rt.bpel.impl.function.attachment.AeCopyAllAttachmentsFunction"/>
+                            <bean
+                                class="org.activebpel.rt.bpel.impl.function.attachment.AeCopyAllAttachmentsFunction"
+                            />
                         </entry>
                         <entry key="getAttachmentType">
-                            <bean class="org.activebpel.rt.bpel.impl.function.attachment.AeGetAttachmentTypeFunction"/>
+                            <bean
+                                class="org.activebpel.rt.bpel.impl.function.attachment.AeGetAttachmentTypeFunction"
+                            />
                         </entry>
                         <entry key="getAttachmentProperty">
-                            <bean class="org.activebpel.rt.bpel.impl.function.attachment.AeGetAttachmentPropertyFunction"/>
+                            <bean
+                                class="org.activebpel.rt.bpel.impl.function.attachment.AeGetAttachmentPropertyFunction"
+                            />
                         </entry>
                         <entry key="removeAllAttachments">
-                            <bean class="org.activebpel.rt.bpel.impl.function.attachment.AeRemoveAllAttachmentsFunction"/>
+                            <bean
+                                class="org.activebpel.rt.bpel.impl.function.attachment.AeRemoveAllAttachmentsFunction"
+                            />
                         </entry>
                         <entry key="removeAttachment">
-                            <bean class="org.activebpel.rt.bpel.impl.function.attachment.AeRemoveAttachmentFunction"/>
+                            <bean
+                                class="org.activebpel.rt.bpel.impl.function.attachment.AeRemoveAttachmentFunction"
+                            />
                         </entry>
                         <entry key="replaceAttachment">
-                            <bean class="org.activebpel.rt.bpel.impl.function.attachment.AeReplaceAttachmentFunction"/>
+                            <bean
+                                class="org.activebpel.rt.bpel.impl.function.attachment.AeReplaceAttachmentFunction"
+                            />
                         </entry>
                         <entry key="getAttachmentSize">
-                            <bean class="org.activebpel.rt.bpel.impl.function.attachment.AeGetAttachmentSizeFunction"/>
+                            <bean
+                                class="org.activebpel.rt.bpel.impl.function.attachment.AeGetAttachmentSizeFunction"
+                            />
                         </entry>
                         <entry key="createAttachment">
-                            <bean class="org.activebpel.rt.bpel.impl.function.attachment.AeCreateAttachmentFunction"/>
+                            <bean
+                                class="org.activebpel.rt.bpel.impl.function.attachment.AeCreateAttachmentFunction"
+                            />
                         </entry>
                         <entry key="resolveURN">
-                            <bean class="org.activebpel.rt.bpel.impl.function.AeResolveURNFunction"/>
+                            <bean class="org.activebpel.rt.bpel.impl.function.AeResolveURNFunction"
+                            />
                         </entry>
                         <entry key="base64Encode">
-                            <bean class="org.activebpel.rt.bpel.impl.function.AeBase64EncodeFunction"/>
+                            <bean
+                                class="org.activebpel.rt.bpel.impl.function.AeBase64EncodeFunction"
+                            />
                         </entry>
                         <entry key="getPlanExtensions">
                             <bean class="org.activebpel.rt.bpel.impl.function.AeGetPlanExtensions"/>
@@ -339,89 +405,123 @@
             </bean>
         </property>
     </bean>
-    <bean id="FunctionValidatorFactory" class="org.activebpel.rt.bpel.def.validation.expr.functions.AeFunctionValidatorFactory"
+    <bean id="FunctionValidatorFactory"
+        class="org.activebpel.rt.bpel.def.validation.expr.functions.AeFunctionValidatorFactory"
         init-method="init">
         <property name="entries">
             <util:list>
-                <bean class="org.activebpel.rt.bpel.def.validation.expr.functions.AeFunctionValidatorEntry">
+                <bean
+                    class="org.activebpel.rt.bpel.def.validation.expr.functions.AeFunctionValidatorEntry">
                     <property name="namespace" value="http://www.activebpel.org/bpel/extension"/>
                     <property name="localPart" value="getProcessId"/>
                     <property name="validator">
-                        <bean class="org.activebpel.rt.bpel.def.validation.expr.functions.AeGetProcessIdFunctionValidator"/>
-                    </property>
-                </bean>
-                <bean class="org.activebpel.rt.bpel.def.validation.expr.functions.AeFunctionValidatorEntry">
-                    <property name="namespace" value="http://www.activebpel.org/bpel/extension"/>
-                    <property name="localPart" value="getProcessName"/>
-                    <property name="validator">
-                        <bean class="org.activebpel.rt.bpel.def.validation.expr.functions.AeGetProcessNameFunctionValidator"/>
-                    </property>
-                </bean>
-                <bean class="org.activebpel.rt.bpel.def.validation.expr.functions.AeFunctionValidatorEntry">
-                    <property name="namespace" value="http://www.activebpel.org/bpel/extension"/>
-                    <property name="localPart" value="resolveURN"/>
-                    <property name="validator">
-                        <bean class="org.activebpel.rt.bpel.def.validation.expr.functions.AeResolveURNFunctionValidator"/>
-                    </property>
-                </bean>
-                <bean class="org.activebpel.rt.bpel.def.validation.expr.functions.AeFunctionValidatorEntry">
-                    <property name="namespace" value="http://www.activebpel.org/bpel/extension"/>
-                    <property name="localPart" value="getMyRoleProperty"/>
-                    <property name="validator">
-                        <bean class="org.activebpel.rt.bpel.def.validation.expr.functions.AeGetMyRolePropertyFunctionValidator"/>
-                    </property>
-                </bean>
-                <bean class="org.activebpel.rt.bpel.def.validation.expr.functions.AeFunctionValidatorEntry">
-                    <property name="namespace" value="http://www.activebpel.org/bpel/extension"/>
-                    <property name="localPart" value="getAttachmentCount"/>
-                    <property name="validator">
-                        <bean class="org.activebpel.rt.bpel.def.validation.expr.functions.AeGetAttachmentCountFunctionValidator"/>
-                    </property>
-                </bean>
-                <bean class="org.activebpel.rt.bpel.def.validation.expr.functions.AeFunctionValidatorEntry">
-                    <property name="namespace" value="http://www.activebpel.org/bpel/extension"/>
-                    <property name="localPart" value="copyAttachment"/>
-                    <property name="validator">
-                        <bean class="org.activebpel.rt.bpel.def.validation.expr.functions.AeCopyAttachmentFunctionValidator"/>
-                    </property>
-                </bean>
-                <bean class="org.activebpel.rt.bpel.def.validation.expr.functions.AeFunctionValidatorEntry">
-                    <property name="namespace" value="http://www.activebpel.org/bpel/extension"/>
-                    <property name="localPart" value="replaceAttachment"/>
-                    <property name="validator">
-                        <bean class="org.activebpel.rt.bpel.def.validation.expr.functions.AeReplaceAttachmentFunctionValidator"/>
-                    </property>
-                </bean>
-                <bean class="org.activebpel.rt.bpel.def.validation.expr.functions.AeFunctionValidatorEntry">
-                    <property name="namespace" value="http://www.activebpel.org/bpel/extension"/>
-                    <property name="localPart" value="removeAttachment"/>
-                    <property name="validator">
-                        <bean class="org.activebpel.rt.bpel.def.validation.expr.functions.AeRemoveAttachmentFunctionValidator"/>
-                    </property>
-                </bean>
-                <bean class="org.activebpel.rt.bpel.def.validation.expr.functions.AeFunctionValidatorEntry">
-                    <property name="namespace" value="http://www.activebpel.org/bpel/extension"/>
-                    <property name="localPart" value="copyAllAttachments"/>
-                    <property name="validator">
-                        <bean class="org.activebpel.rt.bpel.def.validation.expr.functions.AeCopyAllAttachmentsFunctionValidator"/>
-                    </property>
-                </bean>
-                <bean class="org.activebpel.rt.bpel.def.validation.expr.functions.AeFunctionValidatorEntry">
-                    <property name="namespace" value="http://www.activebpel.org/bpel/extension"/>
-                    <property name="localPart" value="removeAllAttachments"/>
-                    <property name="validator">
-                        <bean class="org.activebpel.rt.bpel.def.validation.expr.functions.AeRemoveAllAttachmentsFunctionValidator"
+                        <bean
+                            class="org.activebpel.rt.bpel.def.validation.expr.functions.AeGetProcessIdFunctionValidator"
                         />
                     </property>
                 </bean>
-                <bean class="org.activebpel.rt.bpel.def.validation.expr.functions.AeFunctionValidatorEntry">
+                <bean
+                    class="org.activebpel.rt.bpel.def.validation.expr.functions.AeFunctionValidatorEntry">
+                    <property name="namespace" value="http://www.activebpel.org/bpel/extension"/>
+                    <property name="localPart" value="getProcessName"/>
+                    <property name="validator">
+                        <bean
+                            class="org.activebpel.rt.bpel.def.validation.expr.functions.AeGetProcessNameFunctionValidator"
+                        />
+                    </property>
+                </bean>
+                <bean
+                    class="org.activebpel.rt.bpel.def.validation.expr.functions.AeFunctionValidatorEntry">
+                    <property name="namespace" value="http://www.activebpel.org/bpel/extension"/>
+                    <property name="localPart" value="resolveURN"/>
+                    <property name="validator">
+                        <bean
+                            class="org.activebpel.rt.bpel.def.validation.expr.functions.AeResolveURNFunctionValidator"
+                        />
+                    </property>
+                </bean>
+                <bean
+                    class="org.activebpel.rt.bpel.def.validation.expr.functions.AeFunctionValidatorEntry">
+                    <property name="namespace" value="http://www.activebpel.org/bpel/extension"/>
+                    <property name="localPart" value="getMyRoleProperty"/>
+                    <property name="validator">
+                        <bean
+                            class="org.activebpel.rt.bpel.def.validation.expr.functions.AeGetMyRolePropertyFunctionValidator"
+                        />
+                    </property>
+                </bean>
+                <bean
+                    class="org.activebpel.rt.bpel.def.validation.expr.functions.AeFunctionValidatorEntry">
+                    <property name="namespace" value="http://www.activebpel.org/bpel/extension"/>
+                    <property name="localPart" value="getAttachmentCount"/>
+                    <property name="validator">
+                        <bean
+                            class="org.activebpel.rt.bpel.def.validation.expr.functions.AeGetAttachmentCountFunctionValidator"
+                        />
+                    </property>
+                </bean>
+                <bean
+                    class="org.activebpel.rt.bpel.def.validation.expr.functions.AeFunctionValidatorEntry">
+                    <property name="namespace" value="http://www.activebpel.org/bpel/extension"/>
+                    <property name="localPart" value="copyAttachment"/>
+                    <property name="validator">
+                        <bean
+                            class="org.activebpel.rt.bpel.def.validation.expr.functions.AeCopyAttachmentFunctionValidator"
+                        />
+                    </property>
+                </bean>
+                <bean
+                    class="org.activebpel.rt.bpel.def.validation.expr.functions.AeFunctionValidatorEntry">
+                    <property name="namespace" value="http://www.activebpel.org/bpel/extension"/>
+                    <property name="localPart" value="replaceAttachment"/>
+                    <property name="validator">
+                        <bean
+                            class="org.activebpel.rt.bpel.def.validation.expr.functions.AeReplaceAttachmentFunctionValidator"
+                        />
+                    </property>
+                </bean>
+                <bean
+                    class="org.activebpel.rt.bpel.def.validation.expr.functions.AeFunctionValidatorEntry">
+                    <property name="namespace" value="http://www.activebpel.org/bpel/extension"/>
+                    <property name="localPart" value="removeAttachment"/>
+                    <property name="validator">
+                        <bean
+                            class="org.activebpel.rt.bpel.def.validation.expr.functions.AeRemoveAttachmentFunctionValidator"
+                        />
+                    </property>
+                </bean>
+                <bean
+                    class="org.activebpel.rt.bpel.def.validation.expr.functions.AeFunctionValidatorEntry">
+                    <property name="namespace" value="http://www.activebpel.org/bpel/extension"/>
+                    <property name="localPart" value="copyAllAttachments"/>
+                    <property name="validator">
+                        <bean
+                            class="org.activebpel.rt.bpel.def.validation.expr.functions.AeCopyAllAttachmentsFunctionValidator"
+                        />
+                    </property>
+                </bean>
+                <bean
+                    class="org.activebpel.rt.bpel.def.validation.expr.functions.AeFunctionValidatorEntry">
+                    <property name="namespace" value="http://www.activebpel.org/bpel/extension"/>
+                    <property name="localPart" value="removeAllAttachments"/>
+                    <property name="validator">
+                        <bean
+                            class="org.activebpel.rt.bpel.def.validation.expr.functions.AeRemoveAllAttachmentsFunctionValidator"
+                        />
+                    </property>
+                </bean>
+                <bean
+                    class="org.activebpel.rt.bpel.def.validation.expr.functions.AeFunctionValidatorEntry">
                     <property name="namespace" value="http://www.activebpel.org/bpel/extension"/>
                     <property name="localPart" value="getAttachmentType"/>
                     <property name="validator">
-                        <bean class="org.activebpel.rt.bpel.def.validation.expr.functions.AeGetAttachmentTypeFunctionValidator"/>
+                        <bean
+                            class="org.activebpel.rt.bpel.def.validation.expr.functions.AeGetAttachmentTypeFunctionValidator"
+                        />
                     </property>
                 </bean>
-                <bean class="org.activebpel.rt.bpel.def.validation.expr.functions.AeFunctionValidatorEntry">
+                <bean
+                    class="org.activebpel.rt.bpel.def.validation.expr.functions.AeFunctionValidatorEntry">
                     <property name="namespace" value="http://www.activebpel.org/bpel/extension"/>
                     <property name="localPart" value="getAttachmentProperty"/>
                     <property name="validator">
@@ -430,78 +530,110 @@
                         />
                     </property>
                 </bean>
-                <bean class="org.activebpel.rt.bpel.def.validation.expr.functions.AeFunctionValidatorEntry">
+                <bean
+                    class="org.activebpel.rt.bpel.def.validation.expr.functions.AeFunctionValidatorEntry">
                     <property name="namespace" value="http://www.activebpel.org/bpel/extension"/>
                     <property name="localPart" value="getAttachmentSize"/>
                     <property name="validator">
-                        <bean class="org.activebpel.rt.bpel.def.validation.expr.functions.AeGetAttachmentSizeFunctionValidator"/>
+                        <bean
+                            class="org.activebpel.rt.bpel.def.validation.expr.functions.AeGetAttachmentSizeFunctionValidator"
+                        />
                     </property>
                 </bean>
-                <bean class="org.activebpel.rt.bpel.def.validation.expr.functions.AeFunctionValidatorEntry">
+                <bean
+                    class="org.activebpel.rt.bpel.def.validation.expr.functions.AeFunctionValidatorEntry">
                     <property name="namespace" value="http://www.activebpel.org/bpel/extension"/>
                     <property name="localPart" value="createAttachment"/>
                     <property name="validator">
-                        <bean class="org.activebpel.rt.bpel.def.validation.expr.functions.AeCreateAttachmentFunctionValidator"/>
+                        <bean
+                            class="org.activebpel.rt.bpel.def.validation.expr.functions.AeCreateAttachmentFunctionValidator"
+                        />
                     </property>
                 </bean>
-                <bean class="org.activebpel.rt.bpel.def.validation.expr.functions.AeFunctionValidatorEntry">
+                <bean
+                    class="org.activebpel.rt.bpel.def.validation.expr.functions.AeFunctionValidatorEntry">
                     <property name="namespace" value="http://www.activebpel.org/bpel/extension"/>
                     <property name="localPart" value="base64Encode"/>
                     <property name="validator">
-                        <bean class="org.activebpel.rt.bpel.def.validation.expr.functions.AeBase64EncodeFunctionValidator"/>
-                    </property>
-                </bean>
-                <bean class="org.activebpel.rt.bpel.def.validation.expr.functions.AeFunctionValidatorEntry">
-                    <property name="namespace" value="http://docs.oasis-open.org/wsbpel/2.0/process/executable"/>
-                    <property name="localPart" value="getVariableProperty"/>
-                    <property name="validator">
-                        <bean class="org.activebpel.rt.bpel.def.validation.expr.functions.AeGetVariablePropertyFunctionValidator"
+                        <bean
+                            class="org.activebpel.rt.bpel.def.validation.expr.functions.AeBase64EncodeFunctionValidator"
                         />
                     </property>
                 </bean>
-                <bean class="org.activebpel.rt.bpel.def.validation.expr.functions.AeFunctionValidatorEntry">
-                    <property name="namespace" value="http://docs.oasis-open.org/wsbpel/2.0/process/executable"/>
+                <bean
+                    class="org.activebpel.rt.bpel.def.validation.expr.functions.AeFunctionValidatorEntry">
+                    <property name="namespace"
+                        value="http://docs.oasis-open.org/wsbpel/2.0/process/executable"/>
+                    <property name="localPart" value="getVariableProperty"/>
+                    <property name="validator">
+                        <bean
+                            class="org.activebpel.rt.bpel.def.validation.expr.functions.AeGetVariablePropertyFunctionValidator"
+                        />
+                    </property>
+                </bean>
+                <bean
+                    class="org.activebpel.rt.bpel.def.validation.expr.functions.AeFunctionValidatorEntry">
+                    <property name="namespace"
+                        value="http://docs.oasis-open.org/wsbpel/2.0/process/executable"/>
                     <property name="localPart" value="doXslTransform"/>
                     <property name="validator">
-                        <bean class="org.activebpel.rt.bpel.def.validation.expr.functions.AeDoXslTransformFunctionValidator"/>
-                    </property>
-                </bean>
-                <bean class="org.activebpel.rt.bpel.def.validation.expr.functions.AeFunctionValidatorEntry">
-                    <property name="namespace" value="http://docs.oasis-open.org/wsbpel/2.0/process/executable"/>
-                    <property name="localPart" value="getVariableData"/>
-                    <property name="validator">
-                        <bean class="org.activebpel.rt.bpel.def.validation.expr.functions.AeGetVariableDataFunctionValidator"/>
-                    </property>
-                </bean>
-                <bean class="org.activebpel.rt.bpel.def.validation.expr.functions.AeFunctionValidatorEntry">
-                    <property name="namespace" value="http://docs.oasis-open.org/wsbpel/2.0/process/executable"/>
-                    <property name="localPart" value="getVariableProperty"/>
-                    <property name="validator">
-                        <bean class="org.activebpel.rt.bpel.def.validation.expr.functions.AeGetVariablePropertyFunctionValidator"
+                        <bean
+                            class="org.activebpel.rt.bpel.def.validation.expr.functions.AeDoXslTransformFunctionValidator"
                         />
                     </property>
                 </bean>
-                <bean class="org.activebpel.rt.bpel.def.validation.expr.functions.AeFunctionValidatorEntry">
-                    <property name="namespace" value="http://docs.oasis-open.org/wsbpel/2.0/process/executable"/>
+                <bean
+                    class="org.activebpel.rt.bpel.def.validation.expr.functions.AeFunctionValidatorEntry">
+                    <property name="namespace"
+                        value="http://docs.oasis-open.org/wsbpel/2.0/process/executable"/>
+                    <property name="localPart" value="getVariableData"/>
+                    <property name="validator">
+                        <bean
+                            class="org.activebpel.rt.bpel.def.validation.expr.functions.AeGetVariableDataFunctionValidator"
+                        />
+                    </property>
+                </bean>
+                <bean
+                    class="org.activebpel.rt.bpel.def.validation.expr.functions.AeFunctionValidatorEntry">
+                    <property name="namespace"
+                        value="http://docs.oasis-open.org/wsbpel/2.0/process/executable"/>
+                    <property name="localPart" value="getVariableProperty"/>
+                    <property name="validator">
+                        <bean
+                            class="org.activebpel.rt.bpel.def.validation.expr.functions.AeGetVariablePropertyFunctionValidator"
+                        />
+                    </property>
+                </bean>
+                <bean
+                    class="org.activebpel.rt.bpel.def.validation.expr.functions.AeFunctionValidatorEntry">
+                    <property name="namespace"
+                        value="http://docs.oasis-open.org/wsbpel/2.0/process/executable"/>
                     <property name="localPart" value="getLinkStatus"/>
                     <property name="validator">
-                        <bean class="org.activebpel.rt.bpel.def.validation.expr.functions.AeGetLinkStatusFunctionValidator"/>
+                        <bean
+                            class="org.activebpel.rt.bpel.def.validation.expr.functions.AeGetLinkStatusFunctionValidator"
+                        />
                     </property>
                 </bean>
             </util:list>
         </property>
     </bean>
-    <bean id="PartnerAddressing" class="org.activebpel.rt.bpel.server.addressing.AePartnerAddressing">
+    <bean id="PartnerAddressing"
+        class="org.activebpel.rt.bpel.server.addressing.AePartnerAddressing">
         <property name="URNResolver" ref="URNResolver"/>
     </bean>
-    
-    <bean id="StorageFactory" class="org.activebpel.rt.bpel.server.engine.storage.AeStorageFactory" init-method="init">
+
+    <bean id="StorageFactory" class="org.activebpel.rt.bpel.server.engine.storage.AeStorageFactory"
+        init-method="init">
         <property name="storageProviderFactory">
-            <bean class="org.activebpel.rt.bpel.server.engine.storage.sql.AeSQLStorageProviderFactory">
+            <bean
+                class="org.activebpel.rt.bpel.server.engine.storage.sql.AeSQLStorageProviderFactory">
                 <property name="version" value="5.0.2"/>
                 <property name="SQLConfig" ref="SQLConfig"/>
                 <property name="dataSource">
-                    <bean class="org.activebpel.rt.bpel.server.engine.storage.sql.AeFallbackDataSource" init-method="init">
+                    <bean
+                        class="org.activebpel.rt.bpel.server.engine.storage.sql.AeFallbackDataSource"
+                        init-method="init">
                         <property name="JNDIName" value="java:comp/env/jdbc/ActiveBPELDB"/>
                         <!--
                         <property name="username" value=""/>
@@ -512,7 +644,8 @@
                     </bean>
                 </property>
                 <property name="queueStorageProvider">
-                    <bean class="org.activebpel.rt.bpel.server.engine.storage.sql.AeSQLQueueStorageProvider">
+                    <bean
+                        class="org.activebpel.rt.bpel.server.engine.storage.sql.AeSQLQueueStorageProvider">
                         <property name="SQLConfig" ref="SQLConfig"/>
                         <property name="journalStorage" ref="JournalStorage"/>
                         <property name="Counter">
@@ -524,7 +657,8 @@
                     </bean>
                 </property>
                 <property name="processStateStorageProvider">
-                    <bean class="org.activebpel.rt.bpel.server.engine.storage.sql.AeSQLProcessStateStorageProvider">
+                    <bean
+                        class="org.activebpel.rt.bpel.server.engine.storage.sql.AeSQLProcessStateStorageProvider">
                         <property name="SQLConfig" ref="SQLConfig"/>
                         <property name="journalStorage" ref="JournalStorage"/>
                         <property name="Counter">
@@ -536,7 +670,8 @@
                     </bean>
                 </property>
                 <property name="coordinationStorageProvider">
-                    <bean class="org.activebpel.rt.bpel.server.engine.storage.sql.AeSQLCoordinationStorageProvider">
+                    <bean
+                        class="org.activebpel.rt.bpel.server.engine.storage.sql.AeSQLCoordinationStorageProvider">
                         <property name="SQLConfig" ref="SQLConfig"/>
                         <property name="Counter">
                             <bean class="org.activebpel.rt.bpel.server.engine.storage.AeCounter">
@@ -547,7 +682,8 @@
                     </bean>
                 </property>
                 <property name="URNStorageProvider">
-                    <bean class="org.activebpel.rt.bpel.server.engine.storage.sql.AeSQLURNStorageProvider">
+                    <bean
+                        class="org.activebpel.rt.bpel.server.engine.storage.sql.AeSQLURNStorageProvider">
                         <property name="SQLConfig" ref="SQLConfig"/>
                         <property name="Counter">
                             <bean class="org.activebpel.rt.bpel.server.engine.storage.AeCounter">
@@ -558,7 +694,8 @@
                     </bean>
                 </property>
                 <property name="transmissionTrackerStorageProvider">
-                    <bean class="org.activebpel.rt.bpel.server.engine.storage.sql.AeSQLTransmissionTrackerStorageProvider">
+                    <bean
+                        class="org.activebpel.rt.bpel.server.engine.storage.sql.AeSQLTransmissionTrackerStorageProvider">
                         <property name="SQLConfig" ref="SQLConfig"/>
                         <property name="Counter">
                             <bean class="org.activebpel.rt.bpel.server.engine.storage.AeCounter">
@@ -569,7 +706,8 @@
                     </bean>
                 </property>
                 <property name="attachmentStorageProvider">
-                    <bean class="org.activebpel.rt.bpel.server.engine.storage.sql.AeSQLAttachmentStorageProvider">
+                    <bean
+                        class="org.activebpel.rt.bpel.server.engine.storage.sql.AeSQLAttachmentStorageProvider">
                         <property name="Counter">
                             <bean class="org.activebpel.rt.bpel.server.engine.storage.AeCounter">
                                 <property name="counterName" value="attachment"/>
@@ -582,10 +720,12 @@
             </bean>
         </property>
     </bean>
-    <bean id="SQLConfig" class="org.activebpel.rt.bpel.server.engine.storage.sql.AeSQLConfig" init-method="loadStatements">
+    <bean id="SQLConfig" class="org.activebpel.rt.bpel.server.engine.storage.sql.AeSQLConfig"
+        init-method="loadStatements">
         <property name="databaseType" value="h2"/>
     </bean>
-    <bean id="JournalStorage" class="org.activebpel.rt.bpel.server.engine.storage.sql.AeSQLJournalStorage">
+    <bean id="JournalStorage"
+        class="org.activebpel.rt.bpel.server.engine.storage.sql.AeSQLJournalStorage">
         <property name="SQLConfig" ref="SQLConfig"/>
         <property name="counter">
             <bean class="org.activebpel.rt.bpel.server.engine.storage.AeCounter">
@@ -594,7 +734,8 @@
             </bean>
         </property>
     </bean>
-    <bean id="CounterStore" class="org.activebpel.rt.bpel.server.engine.storage.sql.AeSQLCounterStore"/>
+    <bean id="CounterStore"
+        class="org.activebpel.rt.bpel.server.engine.storage.sql.AeSQLCounterStore"/>
     <bean id="Catalog" class="org.activebpel.rt.bpel.server.catalog.AeCatalog">
         <property name="maxCacheSize" value="50"/>
     </bean>
@@ -607,7 +748,8 @@
             </util:list>
         </property>
     </bean>
-    <bean id="ProcessManager" class="org.activebpel.rt.bpel.server.engine.AePersistentProcessManager">
+    <bean id="ProcessManager"
+        class="org.activebpel.rt.bpel.server.engine.AePersistentProcessManager">
         <property name="TimerManager" ref="TimerManager"/>
         <!-- 
             ProcessCount is the maximum number of processes allowed in memory.
@@ -626,16 +768,21 @@
         <property name="StorageFactory" ref="StorageFactory"/>
     </bean>
 
-    <bean id="TransmissionTracker" class="org.activebpel.rt.bpel.server.transreceive.AePersistentTransmissionTracker">
+    <bean id="TransmissionTracker"
+        class="org.activebpel.rt.bpel.server.transreceive.AePersistentTransmissionTracker">
         <property name="DurableReplyFactory">
             <bean class="org.activebpel.rt.bpel.server.engine.reply.AeDurableReplyFactory">
                 <property name="replyFactoryMap">
                     <util:map>
                         <entry key="durablequeuedinvoke">
-                            <bean class="org.activebpel.rt.bpel.server.engine.reply.AeDurableQueuingReplyReceiverFactory"/>
+                            <bean
+                                class="org.activebpel.rt.bpel.server.engine.reply.AeDurableQueuingReplyReceiverFactory"
+                            />
                         </entry>
                         <entry key="extensionactivitydurableinfo">
-                            <bean class="org.activebpel.rt.bpel.server.engine.reply.AeDurableExtensionReplyReceiverFactory"/>
+                            <bean
+                                class="org.activebpel.rt.bpel.server.engine.reply.AeDurableExtensionReplyReceiverFactory"
+                            />
                         </entry>
                     </util:map>
                 </property>
@@ -644,13 +791,17 @@
         <property name="storageFactory" ref="StorageFactory"/>
     </bean>
 
-    <bean id="URNResolver" class="org.activebpel.rt.bpel.server.addressing.AeStorageBackedURNResolver" init-method="init">
+    <bean id="URNResolver"
+        class="org.activebpel.rt.bpel.server.addressing.AeStorageBackedURNResolver"
+        init-method="init">
         <property name="storageFactory" ref="StorageFactory"/>
     </bean>
 
-    <bean id="ProcessLogger" class="org.activebpel.rt.bpel.server.logging.AePersistentLogger" init-method="init">
+    <bean id="ProcessLogger" class="org.activebpel.rt.bpel.server.logging.AePersistentLogger"
+        init-method="init">
         <property name="loggingFilter">
-            <bean id="ProcessLoggingFilter" class="org.activebpel.rt.bpel.server.logging.AeProcessLoggingFilter">
+            <bean id="ProcessLoggingFilter"
+                class="org.activebpel.rt.bpel.server.logging.AeProcessLoggingFilter">
                 <property name="processEventIds">
                     <util:set value-type="java.lang.Integer">
                         <!-- executing -->
@@ -676,15 +827,18 @@
         <property name="Engine" ref="Engine"/>
     </bean>
 
-    <bean id="DeploymentLog" class="org.activebpel.rt.bpel.server.logging.AeFileDeploymentLoggerFactory"/>
-    
-    <bean id="WorkManagerFactory" class="org.activebpel.work.factory.AeDefaultWorkManagerFactory" init-method="init">
+    <bean id="DeploymentLog"
+        class="org.activebpel.rt.bpel.server.logging.AeFileDeploymentLoggerFactory"/>
+
+    <bean id="WorkManagerFactory" class="org.activebpel.work.factory.AeDefaultWorkManagerFactory"
+        init-method="init">
         <!-- You may specify a JNDI location to load a work manager.  -->
         <!-- If not specified, the default work manager will be used. -->
         <!-- <property name="JNDILocation" value="java:comp/env/wm/ActiveBPEL"/> -->
     </bean>
-    
-    <bean id="ExceptionReportingWorkManager" class="org.activebpel.work.AeExceptionReportingWorkManager">
+
+    <bean id="ExceptionReportingWorkManager"
+        class="org.activebpel.work.AeExceptionReportingWorkManager">
         <constructor-arg ref="WorkManagerFactory"/>
     </bean>
 
@@ -694,12 +848,14 @@
                 <property name="name" value="Alarm"/>
                 <property name="maxWorkCount" value="5"/>
                 <property name="workManagerFactory" ref="WorkManagerFactory"/>
-                <property name="configMaxWorkCountPath" value="ChildWorkManagers/Alarm/MaxWorkCount"/>
+                <property name="configMaxWorkCountPath" value="ChildWorkManagers/Alarm/MaxWorkCount"
+                />
             </bean>
         </entry>
     </util:map>
-    
-    <bean id="ProcessWorkManager" class="org.activebpel.work.AeProcessWorkManager" init-method="init">
+
+    <bean id="ProcessWorkManager" class="org.activebpel.work.AeProcessWorkManager"
+        init-method="init">
         <!--
             ProcessWorkCount is the maximum number of work manager requests to
             schedule for a single process. The default value is 10. A value of 0
@@ -707,10 +863,10 @@
         -->
         <property name="ProcessWorkCount" value="10"/>
     </bean>
-    
+
     <bean id="Engine" class="org.activebpel.rt.bpel.server.engine.AeBpelEngine" init-method="create">
         <property name="URNResolver" ref="URNResolver"/>
-        <property name="PlanManager" ref="DeploymentProvider"/>   
+        <property name="PlanManager" ref="DeploymentProvider"/>
         <property name="TransmissionTracker" ref="TransmissionTracker"/>
         <property name="ExpressionLanguageFactory" ref="ExpressionLanguageFactory"/>
         <property name="FunctionContainer" ref="FunctionContextContainer"/>
@@ -719,57 +875,65 @@
             <bean class="org.activebpel.rt.bpel.server.engine.AeServerPartnerLinkStrategy"/>
         </property>
         <property name="Managers">
-            <util:map map-class="java.util.LinkedHashMap" value-type="org.activebpel.rt.bpel.impl.IAeManager">
+            <util:map map-class="java.util.LinkedHashMap"
+                value-type="org.activebpel.rt.bpel.impl.IAeManager">
                 <entry key="QueueManager" value-ref="QueueManager"/>
                 <entry key="ProcessManager" value-ref="ProcessManager"/>
                 <entry key="LockManager" value-ref="LockManager"/>
                 <entry key="AttachmentManager" value-ref="AttachmentManager"/>
                 <entry key="CoordinationManager" value-ref="CoordinationManager"/>
-                <entry key="SpringManager" value-ref="SpringManager">
-                </entry>
+                <entry key="SpringManager" value-ref="SpringManager"> </entry>
             </util:map>
         </property>
     </bean>
-    
+
     <bean id="SpringManager" class="org.activebpel.rt.bpel.server.spring.AeSpringManager"/>
 
-    <bean id="EngineListenerFactory" class="org.activebpel.rt.bpel.server.engine.AeEngineListeners" init-method="init">
+    <bean id="EngineListenerFactory" class="org.activebpel.rt.bpel.server.engine.AeEngineListeners"
+        init-method="init">
         <property name="Engine" ref="Engine"/>
         <property name="listeners">
             <util:list>
-             <!--  <bean class="Your-Engine-Listener.class"/> --> 
+                <!--  <bean class="Your-Engine-Listener.class"/> -->
             </util:list>
         </property>
     </bean>
-    
+
     <bean id="SOAPMessageFactory" class="javax.xml.soap.MessageFactory" factory-method="newInstance"/>
-    
-    <bean id="RemoteDebug" class="org.activebpel.rt.bpel.server.admin.rdebug.server.AeRemoteDebugImpl">
-        <property name="EventHandlerLocator" value="org.activebpel.rt.axis.bpel.rdebug.client.AeEventHandlerLocator"/>
+
+    <bean id="RemoteDebug"
+        class="org.activebpel.rt.bpel.server.admin.rdebug.server.AeRemoteDebugImpl">
+        <property name="EventHandlerLocator"
+            value="org.activebpel.rt.axis.bpel.rdebug.client.AeEventHandlerLocator"/>
     </bean>
-    
+
     <bean id="TimerManager" class="org.activebpel.timer.AeTimerManager"/>
-    
-    <bean id="ExtensionRegistry" class="org.activebpel.rt.bpel.def.io.registry.AeEngineConfigExtensionRegistry"/>
-    
-    <bean id="DeploymentHandler" class="org.activebpel.rt.bpel.server.deploy.scanner.AeDeploymentFileHandler">
+
+    <bean id="ExtensionRegistry"
+        class="org.activebpel.rt.bpel.def.io.registry.AeEngineConfigExtensionRegistry"/>
+
+    <bean id="DeploymentHandler"
+        class="org.activebpel.rt.bpel.server.deploy.scanner.AeDeploymentFileHandler">
         <property name="scanInterval" value="10000"/>
         <property name="deploymentContainerFactory">
-            <bean class="org.activebpel.rt.bpel.server.deploy.scanner.AeExtensionBasedDeploymentContainerFactory">
+            <bean
+                class="org.activebpel.rt.bpel.server.deploy.scanner.AeExtensionBasedDeploymentContainerFactory">
                 <property name="factoryMap">
                     <util:map>
                         <entry key="bpr">
-                            <bean class="org.activebpel.rt.bpel.server.deploy.AeDeploymentContainerFactory"/>
+                            <bean
+                                class="org.activebpel.rt.bpel.server.deploy.AeDeploymentContainerFactory"
+                            />
                         </entry>
                         <entry key="zip">
                             <bean class="bpelg.packaging.ode.BgDeploymentContainerFactory"/>
                         </entry>
                     </util:map>
-                </property>                
+                </property>
             </bean>
         </property>
     </bean>
-    
+
     <bean id="RPCReceiveHandler" class="org.activebpel.rt.axis.bpel.receivers.AeRPCReceiveHandler">
         <property name="messageFactory" ref="SOAPMessageFactory"/>
         <property name="securityProvider" ref="SecurityProvider"/>
@@ -778,20 +942,22 @@
         <property name="messageFactory" ref="SOAPMessageFactory"/>
         <property name="securityProvider" ref="SecurityProvider"/>
     </bean>
-    
+
     <bean class="org.activebpel.rt.bpel.server.deploy.AeDelegatingDeploymentHandler">
         <property name="handlers">
             <util:list>
-                <bean class="org.activebpel.rt.bpel.server.deploy.validate.AePreDeploymentValidationHandler"/>
+                <bean
+                    class="org.activebpel.rt.bpel.server.deploy.validate.AePreDeploymentValidationHandler"/>
 
-                <bean class="org.activebpel.rt.bpel.server.deploy.AeCatalogDeployer" />
+                <bean class="org.activebpel.rt.bpel.server.deploy.AeCatalogDeployer"/>
 
                 <bean class="org.activebpel.rt.bpel.server.deploy.AeBpelDeployer">
                     <property name="ExpressionLanguageFactory" ref="ExpressionLanguageFactory"/>
                     <property name="functionValidatorFactory" ref="FunctionValidatorFactory"/>
                 </bean>
                 <bean class="org.activebpel.rt.axis.bpel.web.deploy.AeAxisWebServicesDeployer"/>
-                <bean id="SpringDeployer" class="org.activebpel.rt.bpel.server.spring.AeSpringDeploymentHandler">
+                <bean id="SpringDeployer"
+                    class="org.activebpel.rt.bpel.server.spring.AeSpringDeploymentHandler">
                     <property name="SpringManager" ref="SpringManager"/>
                 </bean>
             </util:list>

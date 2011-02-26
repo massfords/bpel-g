@@ -66,12 +66,9 @@ public class AeAddressHandlingType implements Serializable
       return null;
    }
    
-   /**
-    * Gets the default type when none is specified for the partner link
-    */
    public static AeAddressHandlingType getDefault()
    {
-      return SERVICE;
+      return ADDRESS;
    }
    
    /**

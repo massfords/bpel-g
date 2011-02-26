@@ -290,6 +290,11 @@
          <version>1.4</version>
          <scope>test</scope>
       </dependency>
+      <dependency>
+      	<groupId>org.activebpel</groupId>
+      	<artifactId>ae-camel</artifactId>
+      	<version>5.2-SNAPSHOT</version>
+      </dependency>
    </dependencies>
    <profiles>
       <profile>

@@ -43,11 +43,12 @@ public class BgPddInfo {
         plink.myPolicies = aPolicies;
     }
     
-    public void addInvoke(String aPlinkName, QName aService, String aEndpoint, List<Element> aPolicies) {
+    public void addInvoke(String aPlinkName, QName aService, String aEndpoint, List<Element> aPolicies, Element aEpr) {
         BgPlink plink = getOrCreate(aPlinkName);
         plink.partnerService = aService;
         plink.partnerEndpoint = aEndpoint;
         plink.partnerPolicies = aPolicies;
+        plink.epr = aEpr;
     }
     
     public BgPlink getBgPlink(String aName) {
@@ -70,7 +71,8 @@ public class BgPddInfo {
     }
     
     public static class BgPlink {
-        public String name;
+        public Element epr;
+		public String name;
         public QName myService;
         public String myEndpoint;
         public QName partnerService;
