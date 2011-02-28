@@ -47,16 +47,17 @@ public class AeDeploymentServiceIntegrationTest {
 
 	@Before
 	public void setUp() throws Exception {
+    	String catalina_port = System.getProperty("CATALINA_PORT", "8080");
 		Service svc = Service.create(new URL(
-				"http://localhost:8080/bpel-g/cxf/URNResolver?wsdl"),
+				"http://localhost:" + catalina_port + "/bpel-g/cxf/URNResolver?wsdl"),
 				new QName("urn:bpel-g:services:urn-resolver", "URNResolver"));
 		AeURNResolver resolver = svc.getPort(AeURNResolver.class);
 		resolver.addMapping(new AddMappingRequest().withName(
 				"urn:x-vos:loancompany").withValue(
-				"http://localhost:8080/bpel-g/services/${urn.4}"));
+				"http://localhost:" + catalina_port + "/bpel-g/services/${urn.4}"));
 
 		DeploymentService ds = new DeploymentService(new URL(
-				"http://localhost:8080/bpel-g/cxf/DeploymentService?wsdl"));
+				"http://localhost:" + catalina_port + "/bpel-g/cxf/DeploymentService?wsdl"));
 		deployer = ds.getPort(AeDeployer.class);
 	}
 
