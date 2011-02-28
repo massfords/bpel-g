@@ -10,24 +10,12 @@
 package org.activebpel.rt.bpel.server.deploy;
 
 import org.activebpel.rt.bpel.server.deploy.bpr.IAeBpr;
-import org.w3c.dom.Document;
 
 /**
  * Top level interface for wrapping of the deployment details.
  */
 public interface IAeDeploymentContainer extends IAeBpr, IAeDeploymentContext
 {
-   /**
-    * Get the web services specific deployment/undeployment document.
-    */
-   public Document getWsddData();
-
-   /**
-    * Set the web services specific deployment/undeployment document.
-    * @param aDocument
-    */
-   public void setWsddData( Document aDocument );
-   
    /**
     * @return service deployment information
     */

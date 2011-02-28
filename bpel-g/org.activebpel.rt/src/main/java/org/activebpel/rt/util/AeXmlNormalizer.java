@@ -17,8 +17,9 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import javax.xml.XMLConstants;
+
 import org.activebpel.rt.AeException;
-import org.activebpel.rt.IAeConstants;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -100,7 +101,7 @@ public class AeXmlNormalizer
             Map.Entry entry = (Map.Entry) iter2.next();
             String prefix = (String) entry.getKey();
             String namespace = (String) entry.getValue();
-            newElement.setAttributeNS(IAeConstants.W3C_XMLNS, XMLNS_PREFIX + COLON + prefix, namespace);
+            newElement.setAttributeNS(XMLConstants.XMLNS_ATTRIBUTE_NS_URI, XMLNS_PREFIX + COLON + prefix, namespace);
          }
          newElements.add(newElement);
       }
@@ -155,7 +156,7 @@ public class AeXmlNormalizer
                   newElement.setAttribute(attribute.getNodeName(), attribute.getNodeValue());
                }
                // Case where the attribute is qualified (except namespace decls)
-               else if (!IAeConstants.W3C_XMLNS.equals(namespaceURI))
+               else if (!XMLConstants.XMLNS_ATTRIBUTE_NS_URI.equals(namespaceURI))
                {
                   String localPart = attribute.getLocalName();
                   String attrPrefix = getNamespaceManager().getPrefixForNamespace(namespaceURI);
@@ -239,7 +240,7 @@ public class AeXmlNormalizer
       public AeNamespaceManager()
       {
          // Add implicit mapping from "xml" prefix to the W3C namespace
-         mNamespaceToPrefixMap.put(IAeConstants.W3C_XML_NAMESPACE, "xml"); //$NON-NLS-1$
+         mNamespaceToPrefixMap.put(XMLConstants.XML_NS_URI, "xml"); //$NON-NLS-1$
       }
       
       /**
@@ -281,7 +282,7 @@ public class AeXmlNormalizer
             for (int i = 0, length = attrNodes.getLength(); i < length; i++)
             {
                Attr attr = (Attr) attrNodes.item(i);
-               if (IAeConstants.W3C_XMLNS.equals(attr.getNamespaceURI()))
+               if (XMLConstants.XMLNS_ATTRIBUTE_NS_URI.equals(attr.getNamespaceURI()))
                {
                   String prefix = attr.getLocalName();
                   String namespaceURI = attr.getNodeValue();

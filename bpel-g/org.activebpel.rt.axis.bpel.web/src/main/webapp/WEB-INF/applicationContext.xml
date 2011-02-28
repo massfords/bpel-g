@@ -12,13 +12,15 @@
 
     <jaxws:endpoint implementor="#DeploymentService" endpointName="s:DeploymentService"
         serviceName="s:DeploymentService" address="/DeploymentService"
-        xmlns:s="urn:bpel-g:services:deploy"/>
+        xmlns:s="urn:bpel-g:services:deploy"></jaxws:endpoint>
 
     <jaxws:endpoint implementor="#ResolverService" endpointName="s:URNResolver"
         serviceName="s:URNResolver" address="/URNResolver"
         xmlns:s="urn:bpel-g:services:urn-resolver"/>
 
-    <bean id="DeploymentService" class="org.activebpel.rt.bpel.server.services.AeDeploymentService"/>
+    <bean id="DeploymentService" class="org.activebpel.rt.bpel.server.services.AeDeploymentService">
+        <property name="DeploymentHandler" ref="DeploymentHandler"/>
+    </bean>
 
 
     <bean id="ResolverService" class="org.activebpel.rt.bpel.server.services.AeURNResolverService">

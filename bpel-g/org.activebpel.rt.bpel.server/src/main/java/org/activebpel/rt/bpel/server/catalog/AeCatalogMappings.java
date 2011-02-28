@@ -12,8 +12,9 @@ package org.activebpel.rt.bpel.server.catalog;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.xml.XMLConstants;
+
 import org.activebpel.rt.AeException;
-import org.activebpel.rt.IAeConstants;
 import org.activebpel.rt.bpel.config.IAeEngineConfiguration;
 import org.activebpel.rt.bpel.server.deploy.bpr.IAeBpr;
 import org.activebpel.rt.bpel.server.engine.AeEngineFactory;
@@ -85,7 +86,7 @@ public class AeCatalogMappings
       if( aCatalogDocument != null )
       {
          addEntries(aCatalogDocument, WSDL_ENTRY_TAG, IAeBPELExtendedWSDLConst.WSDL_NAMESPACE );
-         addEntries(aCatalogDocument, SCHEMA_ENTRY_TAG, IAeConstants.W3C_XML_SCHEMA);
+         addEntries(aCatalogDocument, SCHEMA_ENTRY_TAG, XMLConstants.W3C_XML_SCHEMA_NS_URI);
          addEntries(aCatalogDocument, OTHER_ENTRY_TAG, null);
          initReplaceResourceFlag( aCatalogDocument );
       }

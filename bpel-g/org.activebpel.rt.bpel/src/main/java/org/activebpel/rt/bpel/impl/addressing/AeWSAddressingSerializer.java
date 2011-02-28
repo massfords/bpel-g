@@ -12,6 +12,7 @@ package org.activebpel.rt.bpel.impl.addressing;
 import java.util.Iterator;
 import java.util.Map;
 
+import javax.xml.XMLConstants;
 import javax.xml.namespace.QName;
 import javax.xml.soap.SOAPElement;
 import javax.xml.soap.SOAPEnvelope;
@@ -135,9 +136,9 @@ public class AeWSAddressingSerializer implements IAeAddressingSerializer
    {
       Document doc = AeXmlUtil.newDocument();
       Element headers = doc.createElementNS(IAeConstants.SOAP_NAMESPACE_URI, "soap:Header"); //$NON-NLS-1$
-      headers.setAttributeNS(IAeConstants.W3C_XMLNS, "xmlns:soap", IAeConstants.SOAP_NAMESPACE_URI); //$NON-NLS-1$
-      headers.setAttributeNS(IAeConstants.W3C_XMLNS, "xmlns:wsa", mNamespace); //$NON-NLS-1$
-      headers.setAttributeNS(IAeConstants.W3C_XMLNS, "xmlns:abx", IAeConstants.ABX_NAMESPACE_URI); //$NON-NLS-1$
+      headers.setAttributeNS(XMLConstants.XMLNS_ATTRIBUTE_NS_URI, "xmlns:soap", IAeConstants.SOAP_NAMESPACE_URI); //$NON-NLS-1$
+      headers.setAttributeNS(XMLConstants.XMLNS_ATTRIBUTE_NS_URI, "xmlns:wsa", mNamespace); //$NON-NLS-1$
+      headers.setAttributeNS(XMLConstants.XMLNS_ATTRIBUTE_NS_URI, "xmlns:abx", IAeConstants.ABX_NAMESPACE_URI); //$NON-NLS-1$
       doc.appendChild(headers);
       
       if (aRef == null)

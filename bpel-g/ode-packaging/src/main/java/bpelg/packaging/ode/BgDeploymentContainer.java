@@ -100,18 +100,8 @@ public class BgDeploymentContainer implements IAeDeploymentContainer {
     }
 
     @Override
-    public Document getWsddData() {
-        return null;
-    }
-
-    @Override
     public void setServiceDeploymentInfo(IAeServiceDeploymentInfo[] aServiceInfo) {
         throw new UnsupportedOperationException("not implemented");
-    }
-
-    @Override
-    public void setWsddData(Document aDocument) {
-        throw new UnsupportedOperationException("only bpel deployments are imlpemented");
     }
 
     @Override
@@ -132,16 +122,6 @@ public class BgDeploymentContainer implements IAeDeploymentContainer {
     @Override
     public InputStream getResourceAsStream(String aResourceName) {
         return getResourceClassLoader().getResourceAsStream(aResourceName);
-    }
-
-    @Override
-    public String getWsddResource() {
-        return null;
-    }
-
-    @Override
-    public boolean isWsddDeployment() {
-        return false;
     }
 
     @Override

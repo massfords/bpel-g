@@ -14,6 +14,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.xml.XMLConstants;
 import javax.xml.namespace.QName;
 
 import org.activebpel.rt.IAeConstants;
@@ -68,11 +69,11 @@ public class AeSampleDataPreferences implements IAeSampleDataPreferences
    public AeSampleDataPreferences()
    {
       // prime the pump w/ some popular namespace prefix mappings.
-      setPreferredPrefix("xsi",     IAeConstants.W3C_XML_SCHEMA_INSTANCE); //$NON-NLS-1$
-      setPreferredPrefix("xsd",     IAeConstants.W3C_XML_SCHEMA);          //$NON-NLS-1$
+      setPreferredPrefix("xsi",     XMLConstants.W3C_XML_SCHEMA_INSTANCE_NS_URI); //$NON-NLS-1$
+      setPreferredPrefix("xsd",     XMLConstants.W3C_XML_SCHEMA_NS_URI);          //$NON-NLS-1$
       setPreferredPrefix("wsa",     IAeConstants.WSA_NAMESPACE_URI);       //$NON-NLS-1$
       setPreferredPrefix("soapenv", IAeConstants.SOAP_NAMESPACE_URI);      //$NON-NLS-1$
-      setPreferredPrefix("xml",     IAeConstants.W3C_XML_NAMESPACE);      //$NON-NLS-1$
+      setPreferredPrefix("xml",     XMLConstants.XML_NS_URI);      //$NON-NLS-1$
    }
    
    /**

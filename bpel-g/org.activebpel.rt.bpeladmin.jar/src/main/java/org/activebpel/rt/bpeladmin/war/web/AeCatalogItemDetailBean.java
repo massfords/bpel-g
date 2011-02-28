@@ -9,6 +9,8 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpeladmin.war.web;
 
+import javax.xml.XMLConstants;
+
 import org.activebpel.rt.IAeConstants;
 import org.activebpel.rt.bpel.impl.list.AeCatalogItemDetail;
 import org.activebpel.rt.bpel.impl.list.AeCatalogItemPlanReference;
@@ -56,7 +58,7 @@ public class AeCatalogItemDetailBean extends AeAbstractAdminBean
        String type = null;
       if(IAeBPELExtendedWSDLConst.WSDL_NAMESPACE.equals(getDetail().getTypeURI()))
          type = "WSDL";
-      else if(IAeConstants.W3C_XML_SCHEMA.equals(getDetail().getTypeURI()))
+      else if(XMLConstants.W3C_XML_SCHEMA_NS_URI.equals(getDetail().getTypeURI()))
           type = "Schema";
       else if(IAeConstants.XSL_NAMESPACE.equals(getDetail().getTypeURI()))
           type = "XSL";

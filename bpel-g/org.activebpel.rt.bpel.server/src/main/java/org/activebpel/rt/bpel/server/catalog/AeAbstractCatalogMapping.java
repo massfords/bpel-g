@@ -11,8 +11,9 @@ package org.activebpel.rt.bpel.server.catalog;
 
 import java.io.IOException;
 
+import javax.xml.XMLConstants;
+
 import org.activebpel.rt.AeException;
-import org.activebpel.rt.IAeConstants;
 import org.activebpel.rt.wsdl.def.IAeBPELExtendedWSDLConst;
 import org.activebpel.rt.xml.AeXMLParserBase;
 import org.w3c.dom.Document;
@@ -112,6 +113,6 @@ abstract public class AeAbstractCatalogMapping implements IAeCatalogMapping
     */
    public boolean isSchemaEntry()
    {
-      return IAeConstants.W3C_XML_SCHEMA.equals(getTypeURI());
+      return XMLConstants.W3C_XML_SCHEMA_NS_URI.equals(getTypeURI());
    }
 }

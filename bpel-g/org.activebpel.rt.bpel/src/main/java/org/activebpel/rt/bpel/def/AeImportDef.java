@@ -10,7 +10,8 @@
 
 package org.activebpel.rt.bpel.def;
 
-import org.activebpel.rt.IAeConstants;
+import javax.xml.XMLConstants;
+
 import org.activebpel.rt.bpel.def.visitors.IAeDefVisitor;
 import org.activebpel.rt.wsdl.def.IAeBPELExtendedWSDLConst;
 
@@ -103,6 +104,6 @@ public class AeImportDef extends AeBaseDef
     */
    public boolean isSchema()
    {
-      return IAeConstants.W3C_XML_SCHEMA.equals(getImportType());
+      return XMLConstants.W3C_XML_SCHEMA_NS_URI.equals(getImportType());
    }
 }

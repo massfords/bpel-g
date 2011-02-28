@@ -14,9 +14,9 @@ import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
 
+import javax.xml.XMLConstants;
 import javax.xml.namespace.QName;
 
-import org.activebpel.rt.IAeConstants;
 import org.activebpel.rt.util.AeUtil;
 import org.activebpel.rt.xml.schema.AeSchemaUtil;
 import org.activebpel.rt.xml.schema.AeTypeMapping;
@@ -298,7 +298,7 @@ public class AeCastorStructureFactory
       else if (type == null)
       {
          // If the type is null, then the type is xsd:anySimpleType
-         baseType = aAttrDecl.getSchema().getSimpleType("anySimpleType", IAeConstants.W3C_XML_SCHEMA); //$NON-NLS-1$
+         baseType = aAttrDecl.getSchema().getSimpleType("anySimpleType", XMLConstants.W3C_XML_SCHEMA_NS_URI); //$NON-NLS-1$
       }
       else
       {

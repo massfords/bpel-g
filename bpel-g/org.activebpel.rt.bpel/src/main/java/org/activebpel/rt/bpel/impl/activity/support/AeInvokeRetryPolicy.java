@@ -15,6 +15,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import javax.xml.XMLConstants;
 import javax.xml.namespace.QName;
 
 import org.activebpel.rt.AeException;
@@ -302,7 +303,7 @@ public class AeInvokeRetryPolicy
       Document doc = parser.createDocument();
       Element root = doc.createElementNS(IAePolicyConstants.ABPEL_RETRY_CHECK_NS, IAePolicyConstants.RETRY_CHECK_INPUT_TAG);
       doc.appendChild(root);
-      root.setAttributeNS(IAeConstants.W3C_XMLNS, "xmlns", IAePolicyConstants.ABPEL_RETRY_CHECK_NS); //$NON-NLS-1$
+      root.setAttributeNS(XMLConstants.XMLNS_ATTRIBUTE_NS_URI, "xmlns", IAePolicyConstants.ABPEL_RETRY_CHECK_NS); //$NON-NLS-1$
       AeXmlUtil.addElementNS(root, IAePolicyConstants.ABPEL_RETRY_CHECK_NS, "faultName", aFault.getFaultName().toString()); //$NON-NLS-1$
       AeXmlUtil.addElementNS(root, IAePolicyConstants.ABPEL_RETRY_CHECK_NS, "processId", "" + getInvoke().getProcess().getProcessId()); //$NON-NLS-1$ //$NON-NLS-2$
       AeXmlUtil.addElementNS(root, IAePolicyConstants.ABPEL_RETRY_CHECK_NS, "processName", getInvoke().getProcess().getName().toString()); //$NON-NLS-1$

@@ -11,8 +11,9 @@ package org.activebpel.rt.bpel.def.validation.activity.assign;
 
 import java.util.List;
 
+import javax.xml.XMLConstants;
+
 import org.activebpel.rt.AeException;
-import org.activebpel.rt.IAeConstants;
 import org.activebpel.rt.bpel.def.activity.support.AeLiteralDef;
 import org.activebpel.rt.bpel.def.validation.AeBaseValidator;
 import org.activebpel.rt.bpel.def.validation.IAeValidationDefs;
@@ -85,7 +86,7 @@ public class AeLiteralValidator extends AeBaseValidator
          {
             public String translateNamespacePrefixToUri(String aPrefix)
             {
-               return IAeConstants.W3C_XML_SCHEMA_INSTANCE;
+               return XMLConstants.W3C_XML_SCHEMA_INSTANCE_NS_URI;
             }
          });
          List nodes = (List) xpath.evaluate(node);

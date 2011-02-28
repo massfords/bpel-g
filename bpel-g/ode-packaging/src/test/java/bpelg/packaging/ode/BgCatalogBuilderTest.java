@@ -9,6 +9,8 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.xml.XMLConstants;
+
 import org.activebpel.rt.IAeConstants;
 import org.activebpel.rt.util.AeXmlUtil;
 import org.junit.Before;
@@ -37,8 +39,8 @@ public class BgCatalogBuilderTest {
         
         Set<BgCatalogTuple> expected = new HashSet();
         expected.add(new BgCatalogTuple("project:/example-su/wsdl/example.wsdl", "wsdl/example.wsdl", "http://www.example.org/test/", IAeConstants.WSDL_NAMESPACE));
-        expected.add(new BgCatalogTuple("project:/example-su/xsd/example.xsd", "xsd/example.xsd", "http://www.example.org/test/", IAeConstants.W3C_XML_SCHEMA));
-        expected.add(new BgCatalogTuple("project:/example-su/xsd/example-not-used.xsd", "xsd/example-not-used.xsd", "http://www.example.org/test/", IAeConstants.W3C_XML_SCHEMA));
+        expected.add(new BgCatalogTuple("project:/example-su/xsd/example.xsd", "xsd/example.xsd", "http://www.example.org/test/", XMLConstants.W3C_XML_SCHEMA_NS_URI));
+        expected.add(new BgCatalogTuple("project:/example-su/xsd/example-not-used.xsd", "xsd/example-not-used.xsd", "http://www.example.org/test/", XMLConstants.W3C_XML_SCHEMA_NS_URI));
         expected.add(new BgCatalogTuple("project:/example-su/path/to/xsl/example.xsl", "path/to/xsl/example.xsl", null, IAeConstants.XSL_NAMESPACE));
 
         assertTrue(expected.containsAll(actual));

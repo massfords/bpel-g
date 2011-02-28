@@ -25,6 +25,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.wsdl.xml.WSDLLocator;
+import javax.xml.XMLConstants;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.SAXParser;
@@ -205,7 +206,7 @@ public class AeXMLParserBase
             factory.setValidating(isValidating());
 
             // Instruct the factory which schema we will be validating against
-            factory.setAttribute(JAXP_SCHEMA_LANGUAGE, IAeConstants.W3C_XML_SCHEMA);
+            factory.setAttribute(JAXP_SCHEMA_LANGUAGE, XMLConstants.W3C_XML_SCHEMA_NS_URI);
             // Set the the schema list for the parser to use during validation.
             factory.setAttribute(JAXP_SCHEMA_SOURCE, schemaInputStreams.toArray());
          }
@@ -326,7 +327,7 @@ public class AeXMLParserBase
          // if we don't set the properties.
 
          // Instruct the factory which schema we will be validating against
-         parser.setProperty(JAXP_SCHEMA_LANGUAGE, IAeConstants.W3C_XML_SCHEMA);
+         parser.setProperty(JAXP_SCHEMA_LANGUAGE, XMLConstants.W3C_XML_SCHEMA_NS_URI);
          // Set the the schema list for the parser to use during validation.
          parser.setProperty(JAXP_SCHEMA_SOURCE, schemaInputStreams.toArray());
 
@@ -638,7 +639,7 @@ public class AeXMLParserBase
             // The workaround is to keep a copy of the full XMLSchema file in our
             // classpath and then return a stream to that file instead of
             // serializing the one we have loaded into Castor.
-            if (IAeConstants.W3C_XML_SCHEMA.equals(schema.getTargetNamespace()))
+            if (XMLConstants.W3C_XML_SCHEMA_NS_URI.equals(schema.getTargetNamespace()))
             {
                input = AeXMLParserBase.class.getResourceAsStream("XMLSchema-full.xsd"); //$NON-NLS-1$
             }
@@ -647,7 +648,7 @@ public class AeXMLParserBase
                // See if they're serializing one of our standard schemas and use
                // the one we have cached in its serialized form if possible.
                input = AeStandardSchemas.getStandardSchema(schema.getTargetNamespace());
-               if (input != null && IAeConstants.W3C_XML_NAMESPACE.equals(schema.getTargetNamespace()))
+               if (input != null && XMLConstants.XML_NS_URI.equals(schema.getTargetNamespace()))
                   index = 0;
             }
    

@@ -51,11 +51,11 @@ import java.util.StringTokenizer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import javax.xml.XMLConstants;
 import javax.xml.namespace.QName;
 
 import org.activebpel.rt.AeException;
 import org.activebpel.rt.AeMessages;
-import org.activebpel.rt.IAeConstants;
 import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
@@ -958,7 +958,7 @@ public class AeUtil
          {
             Node node = attrs.item(i);
             // skip over xmlns decls
-            if (!IAeConstants.W3C_XMLNS.equals(node.getNamespaceURI()))
+            if (!XMLConstants.XMLNS_ATTRIBUTE_NS_URI.equals(node.getNamespaceURI()))
             {
                String nodeValue = node.getNodeValue();
                String replaced = AeUtil.replaceXQueryStyleParamsInString(nodeValue, aProperties);

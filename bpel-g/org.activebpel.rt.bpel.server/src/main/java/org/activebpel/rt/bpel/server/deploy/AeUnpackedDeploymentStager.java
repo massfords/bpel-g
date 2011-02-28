@@ -217,7 +217,7 @@ public class AeUnpackedDeploymentStager
    
    /**
     * Convenience class that wraps the temporary resources created during
-    * a bpr or wsr deployment.
+    * a deployment.
     */
    class AeTempResource
    {

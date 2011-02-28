@@ -17,6 +17,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import javax.xml.XMLConstants;
 import javax.xml.namespace.QName;
 import javax.xml.soap.SOAPElement;
 
@@ -704,9 +705,9 @@ public class AeEndpointReference implements IAeEndpointReference
       {
          Document doc = AeXmlUtil.newDocument();
          mMetadata = AeXmlUtil.addElementNS(doc, getSourceNamespace(), "Metadata"); //$NON-NLS-1$
-         mMetadata.setAttributeNS(IAeConstants.W3C_XMLNS, "xmlns:wsa", getSourceNamespace()); //$NON-NLS-1$
-         mMetadata.setAttributeNS(IAeConstants.W3C_XMLNS, "xmlns:wsp", IAeConstants.WSP_NAMESPACE_URI); //$NON-NLS-1$
-         mMetadata.setAttributeNS(IAeConstants.W3C_XMLNS, "xmlns:abp", IAeConstants.ABP_NAMESPACE_URI); //$NON-NLS-1$
+         mMetadata.setAttributeNS(XMLConstants.XMLNS_ATTRIBUTE_NS_URI, "xmlns:wsa", getSourceNamespace()); //$NON-NLS-1$
+         mMetadata.setAttributeNS(XMLConstants.XMLNS_ATTRIBUTE_NS_URI, "xmlns:wsp", IAeConstants.WSP_NAMESPACE_URI); //$NON-NLS-1$
+         mMetadata.setAttributeNS(XMLConstants.XMLNS_ATTRIBUTE_NS_URI, "xmlns:abp", IAeConstants.ABP_NAMESPACE_URI); //$NON-NLS-1$
       }
       return mMetadata;
    }

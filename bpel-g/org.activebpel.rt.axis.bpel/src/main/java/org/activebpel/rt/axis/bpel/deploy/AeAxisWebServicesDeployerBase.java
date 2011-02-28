@@ -43,19 +43,14 @@ public abstract class AeAxisWebServicesDeployerBase extends AeAxisBase implement
     public void deploy(IAeDeploymentContainer aContainer, IAeDeploymentLogger aLogger)
             throws AeException {
         Document wsddDoc = null;
-        if (aContainer.isWsddDeployment()) {
-            wsddDoc = aContainer.getWsddData();
-        } else {
-
-            IAeServiceDeploymentInfo[] services = aContainer.getServiceDeploymentInfo();
-            if (services != null)
-            {
-               for (int i = 0; i < services.length; i++)
-               {
-                  resolveServicePolicies(services[i]);
-                  wsddDoc = createWsdd(aContainer.getServiceDeploymentInfo());
-               }
-            }
+        IAeServiceDeploymentInfo[] services = aContainer.getServiceDeploymentInfo();
+        if (services != null)
+        {
+           for (int i = 0; i < services.length; i++)
+           {
+              resolveServicePolicies(services[i]);
+              wsddDoc = createWsdd(aContainer.getServiceDeploymentInfo());
+           }
         }
         if (wsddDoc != null)
             deployToWebServiceContainer(wsddDoc, aContainer.getResourceClassLoader());
@@ -64,9 +59,7 @@ public abstract class AeAxisWebServicesDeployerBase extends AeAxisBase implement
     @Override
     public void undeploy(IAeDeploymentContainer aContainer) throws AeException {
         Document wsddDoc = null;
-        if (aContainer.isWsddDeployment()) {
-            wsddDoc = aContainer.getWsddData();
-        } else if (aContainer.getServiceDeploymentInfo() != null) {
+        if (aContainer.getServiceDeploymentInfo() != null) {
             wsddDoc = createWsddForUndeployment(aContainer.getServiceDeploymentInfo());
         }
         if (wsddDoc != null)

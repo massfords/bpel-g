@@ -13,11 +13,11 @@ import java.util.Collections;
 import java.util.Iterator;
 
 import javax.wsdl.xml.WSDLLocator;
+import javax.xml.XMLConstants;
 import javax.xml.namespace.QName;
 
 import org.activebpel.rt.AeException;
 import org.activebpel.rt.AeMessages;
-import org.activebpel.rt.IAeConstants;
 import org.activebpel.rt.util.AeXmlUtil;
 import org.activebpel.rt.wsdl.def.AeBPELExtendedWSDLDef;
 import org.activebpel.rt.xml.AeXMLParserBase;
@@ -186,11 +186,11 @@ public class AeXmlValidator
          doc.appendChild(docElement);
 
          // Set the schema and schema instance namespace
-         docElement.setAttributeNS(IAeConstants.W3C_XMLNS, "xmlns:ns", aTypeName.getNamespaceURI()); //$NON-NLS-1$
-         docElement.setAttributeNS(IAeConstants.W3C_XMLNS, "xmlns:xsi", IAeConstants.W3C_XML_SCHEMA_INSTANCE); //$NON-NLS-1$
+         docElement.setAttributeNS(XMLConstants.XMLNS_ATTRIBUTE_NS_URI, "xmlns:ns", aTypeName.getNamespaceURI()); //$NON-NLS-1$
+         docElement.setAttributeNS(XMLConstants.XMLNS_ATTRIBUTE_NS_URI, "xmlns:xsi", XMLConstants.W3C_XML_SCHEMA_INSTANCE_NS_URI); //$NON-NLS-1$
 
          // Set the xsi:type attribute
-         docElement.setAttributeNS(IAeConstants.W3C_XML_SCHEMA_INSTANCE, "xsi:type", "ns:" + aTypeName.getLocalPart()); //$NON-NLS-1$ //$NON-NLS-2$
+         docElement.setAttributeNS(XMLConstants.W3C_XML_SCHEMA_INSTANCE_NS_URI, "xsi:type", "ns:" + aTypeName.getLocalPart()); //$NON-NLS-1$ //$NON-NLS-2$
 
          docElement.appendChild(doc.createTextNode(aData));
       }

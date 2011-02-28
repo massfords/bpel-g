@@ -13,7 +13,8 @@ package org.activebpel.rt.bpel.server.engine.storage.xmldb;
 import java.util.Iterator;
 import java.util.List;
 
-import org.activebpel.rt.IAeConstants;
+import javax.xml.XMLConstants;
+
 import org.activebpel.rt.bpel.impl.fastdom.AeFastAttribute;
 import org.activebpel.rt.bpel.impl.fastdom.AeFastDocument;
 import org.activebpel.rt.bpel.impl.fastdom.AeFastElement;
@@ -103,8 +104,8 @@ public class AeXMLDBDefaultNSVisitor implements IAeVisitor
          String ns = elem.getNamespaceURI();
          
          // Remove any default NS attribute
-         if (elem.hasAttributeNS(IAeConstants.W3C_XMLNS, "xmlns")) //$NON-NLS-1$
-            elem.removeAttributeNS(IAeConstants.W3C_XMLNS, "xmlns"); //$NON-NLS-1$
+         if (elem.hasAttributeNS(XMLConstants.XMLNS_ATTRIBUTE_NS_URI, "xmlns")) //$NON-NLS-1$
+            elem.removeAttributeNS(XMLConstants.XMLNS_ATTRIBUTE_NS_URI, "xmlns"); //$NON-NLS-1$
          if (elem.hasAttribute("xmlns")) //$NON-NLS-1$
             elem.removeAttribute("xmlns"); //$NON-NLS-1$
 

@@ -10,7 +10,8 @@
 
 package org.activebpel.rt.bpel.impl.activity.assign;
 
-import org.activebpel.rt.bpel.def.IAeBPELConstants;
+import javax.xml.XMLConstants;
+
 import org.w3c.dom.Element;
 
 /**
@@ -29,7 +30,7 @@ public class AeWSBPELCopyStrategyFactoryImpl extends AeAbstractCopyStrategyFacto
       if (aIndex.getFromType() == ELEMENT_TYPE && (aIndex.getToType() == TEXT_TYPE || aIndex.getToType() == ATTR_TYPE))
       {
          Element elem = (Element) aIndex.getFromData();
-         if (elem.getAttributeNS(IAeBPELConstants.W3C_XML_SCHEMA_INSTANCE, "nil").equals("true")) //$NON-NLS-1$ //$NON-NLS-2$
+         if (elem.getAttributeNS(XMLConstants.W3C_XML_SCHEMA_INSTANCE_NS_URI, "nil").equals("true")) //$NON-NLS-1$ //$NON-NLS-2$
          {
             aIndex.setFromType(NULL);
          }

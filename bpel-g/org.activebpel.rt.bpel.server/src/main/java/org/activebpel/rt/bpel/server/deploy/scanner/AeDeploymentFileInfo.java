@@ -19,7 +19,6 @@ public class AeDeploymentFileInfo
 {
    // file extension constants
    public static final String BPR_SUFFIX = ".bpr"; //$NON-NLS-1$
-   public static final String WSR_SUFFIX = ".wsr"; //$NON-NLS-1$
 
    /** Engine config file name. */
    private static String mConfigFileName;
@@ -108,15 +107,6 @@ public class AeDeploymentFileInfo
       return aFileUrl.getFile().endsWith( getConfigFileName() );
    }
 
-   /**
-    * Return true if the URL is point to a web services file.
-    * @param aFileUrl
-    */
-   public static boolean isWsrFile( URL aFileUrl )
-   {
-      return aFileUrl.getFile().endsWith( WSR_SUFFIX );
-   }
-   
    /**
     * Return true if the URL is point to a BPEL deployment archive file.
     * @param aFileUrl

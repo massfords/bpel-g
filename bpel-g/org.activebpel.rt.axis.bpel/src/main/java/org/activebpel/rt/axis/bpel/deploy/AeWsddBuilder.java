@@ -13,6 +13,8 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
+import javax.xml.XMLConstants;
+
 import org.activebpel.rt.bpel.server.deploy.AeDeploymentException;
 import org.activebpel.rt.bpel.server.deploy.IAePolicyMapper;
 import org.activebpel.rt.bpel.server.deploy.IAeServiceDeploymentInfo;
@@ -69,7 +71,7 @@ public class AeWsddBuilder implements IAeWsddConstants
       mWsddDocument.appendChild( element );
 
       element.setAttribute( "xmlns",      WSDD_NAMESPACE_URI ); //$NON-NLS-1$
-      element.setAttribute( "xmlns:xsi",  W3C_XML_SCHEMA_INSTANCE ); //$NON-NLS-1$
+      element.setAttribute( "xmlns:xsi",  XMLConstants.W3C_XML_SCHEMA_INSTANCE_NS_URI ); //$NON-NLS-1$
       element.setAttribute( "xmlns:proc", PROVIDER_NAMESPACE_URI ); //$NON-NLS-1$
 
    }

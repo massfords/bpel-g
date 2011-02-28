@@ -33,11 +33,6 @@ public interface IAeBpr
    public String getBprFileName();
    
    /**
-    * Return true if this is a standard (non-BPEL) web services deployment.
-    */
-   public boolean isWsddDeployment();
-   
-   /**
     * Return a collection of names for the pdd resources or
     * an empty collection if none are found.  If the isBpelDeployment
     * method returns true, there should be at least one name in
@@ -45,13 +40,6 @@ public interface IAeBpr
     */
    public Collection<String> getPddResources();
    
-   /**
-    * Return the name of the wsdd resource (for straight Axis deployment) or
-    * null if none is found.  The isBpelDeployment method should return false
-    * if this method does not return null.
-    */
-   public String getWsddResource();
-
    /**
     * Return a deployment source for the given pdd resource name.
     * @param aPddName The name of the pdd resource.

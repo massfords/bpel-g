@@ -14,6 +14,8 @@ import java.io.File;
 import org.activebpel.rt.AeException;
 import org.activebpel.rt.bpel.server.logging.IAeDeploymentLogger;
 
+import bpelg.services.deploy.types.UndeploymentRequest;
+
 
 /**
  * Interface for interacting with file system deployments.
@@ -41,6 +43,8 @@ public interface IAeDeploymentFileHandler
     * @throws AeException
     */
    public void handleDeployment(File aFile, String aBprName, IAeDeploymentLogger aLogger)  throws AeException;
+   
+   public boolean undeploy(UndeploymentRequest aRequest);
 
    /**
     * Stop scanning and release any resources.

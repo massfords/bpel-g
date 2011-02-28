@@ -14,9 +14,9 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import javax.xml.XMLConstants;
 import javax.xml.namespace.QName;
 
-import org.activebpel.rt.IAeConstants;
 import org.activebpel.rt.util.AeUtil;
 import org.activebpel.rt.util.AeXmlUtil;
 import org.activebpel.rt.xml.def.AeBaseXmlDef;
@@ -115,7 +115,7 @@ public abstract class AeAbstractReportingDefReader implements IAeReportingDefRea
          for (int i = 0, length = attrNodes.getLength(); i < length; i++)
          {
             Attr attr = (Attr) attrNodes.item(i);
-            if (IAeConstants.W3C_XMLNS.equals(attr.getNamespaceURI()))
+            if (XMLConstants.XMLNS_ATTRIBUTE_NS_URI.equals(attr.getNamespaceURI()))
             {
                String prefix = attr.getLocalName();
                String namespaceURI = attr.getNodeValue();
@@ -212,7 +212,7 @@ public abstract class AeAbstractReportingDefReader implements IAeReportingDefRea
     */
    protected String getLanguage()
    {
-      Attr attr = getCurrentElement().getAttributeNodeNS(IAeConstants.W3C_XML_NAMESPACE, "lang"); //$NON-NLS-1$
+      Attr attr = getCurrentElement().getAttributeNodeNS(XMLConstants.XML_NS_URI, "lang"); //$NON-NLS-1$
       if (attr != null)
       {
          getConsumedAttributes().add(attr);

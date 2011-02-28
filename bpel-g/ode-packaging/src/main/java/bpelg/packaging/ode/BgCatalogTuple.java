@@ -1,5 +1,7 @@
 package bpelg.packaging.ode;
 
+import javax.xml.XMLConstants;
+
 import org.activebpel.rt.IAeConstants;
 import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.builder.ToStringBuilder;
@@ -22,7 +24,7 @@ public class BgCatalogTuple {
     }
     
     public boolean isXsd() {
-        return IAeConstants.W3C_XML_SCHEMA.equals(type);
+        return XMLConstants.W3C_XML_SCHEMA_NS_URI.equals(type);
     }
     
     public boolean isOther() {

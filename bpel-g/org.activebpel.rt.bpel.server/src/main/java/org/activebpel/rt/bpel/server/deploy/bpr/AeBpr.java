@@ -100,22 +100,6 @@ public class AeBpr implements IAeBpr
    }
 
    /**
-    * @see org.activebpel.rt.bpel.server.deploy.bpr.IAeBpr#getWsddResource()
-    */
-   public String getWsddResource()
-   {
-      return getBprStrategy().getWsddResource();
-   }
-
-   /**
-    * @see org.activebpel.rt.bpel.server.deploy.bpr.IAeBpr#isWsddDeployment()
-    */
-   public boolean isWsddDeployment()
-   {
-      return getBprStrategy().isWsddDeployment();
-   }
-
-   /**
     * Returns the deployment context associated with this bpr.
     * @see org.activebpel.rt.bpel.server.deploy.bpr.IAeBpr#getDeploymentContext()
     */

@@ -20,13 +20,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import javax.xml.XMLConstants;
 import javax.xml.namespace.QName;
 import javax.xml.soap.SOAPBody;
 import javax.xml.soap.SOAPException;
 import javax.xml.soap.Text;
 
 import org.activebpel.rt.AeException;
-import org.activebpel.rt.bpel.def.IAeBPELConstants;
 import org.activebpel.rt.util.AeUtil;
 import org.activebpel.rt.util.AeXmlUtil;
 import org.activebpel.rt.wsdl.def.AeBPELExtendedWSDLDef;
@@ -165,7 +165,7 @@ public class AeRPCEncodedDeserializer extends DeserializerImpl
 
          if (AeUtil.notNullOrEmpty(prefixWithColon))
          {
-            e.setAttributeNS(IAeBPELConstants.W3C_XMLNS, "xmlns:" + prefix, namespace); //$NON-NLS-1$
+            e.setAttributeNS(XMLConstants.XMLNS_ATTRIBUTE_NS_URI, "xmlns:" + prefix, namespace); //$NON-NLS-1$
          }
          
          // TODO add junit test for simple and mixed content roots 
@@ -214,7 +214,7 @@ public class AeRPCEncodedDeserializer extends DeserializerImpl
       {
          Map.Entry entry = (Entry) it.next();
          Mapping mapping = (Mapping) entry.getValue();
-         aElement.setAttributeNS(IAeBPELConstants.W3C_XMLNS, "xmlns:"+mapping.getPrefix(), mapping.getNamespaceURI()); //$NON-NLS-1$
+         aElement.setAttributeNS(XMLConstants.XMLNS_ATTRIBUTE_NS_URI, "xmlns:"+mapping.getPrefix(), mapping.getNamespaceURI()); //$NON-NLS-1$
       }
    }
 
@@ -264,9 +264,9 @@ public class AeRPCEncodedDeserializer extends DeserializerImpl
             if (shouldCopyAttribute(mapping.getNamespaceURI(), "") && !mapping.getPrefix().startsWith(AeRPCEncodedSerializer.TYPE_PREFIX) && !mapping.getPrefix().startsWith(PREFIX)) //$NON-NLS-1$
             {
                if(AeUtil.isNullOrEmpty(mapping.getPrefix()))
-                  aElement.setAttributeNS(IAeBPELConstants.W3C_XMLNS, "xmlns", mapping.getNamespaceURI()); //$NON-NLS-1$
+                  aElement.setAttributeNS(XMLConstants.XMLNS_ATTRIBUTE_NS_URI, "xmlns", mapping.getNamespaceURI()); //$NON-NLS-1$
                else
-                  aElement.setAttributeNS(IAeBPELConstants.W3C_XMLNS, "xmlns:"+mapping.getPrefix(), mapping.getNamespaceURI()); //$NON-NLS-1$
+                  aElement.setAttributeNS(XMLConstants.XMLNS_ATTRIBUTE_NS_URI, "xmlns:"+mapping.getPrefix(), mapping.getNamespaceURI()); //$NON-NLS-1$
             }
          }
       }
@@ -319,7 +319,7 @@ public class AeRPCEncodedDeserializer extends DeserializerImpl
             // The href and id attributes are from axis
             shouldCopy = !("href".equals(aLocalPart) || "id".equals(aLocalPart)); //$NON-NLS-1$ //$NON-NLS-2$
          }
-         else if (IAeBPELConstants.W3C_XML_SCHEMA_INSTANCE.equals(aNamespaceURI) && "type".equals(aLocalPart)) //$NON-NLS-1$
+         else if (XMLConstants.W3C_XML_SCHEMA_INSTANCE_NS_URI.equals(aNamespaceURI) && "type".equals(aLocalPart)) //$NON-NLS-1$
          {
             // don't want to copy xsi:type
          }
@@ -489,7 +489,7 @@ public class AeRPCEncodedDeserializer extends DeserializerImpl
       if (prefix == null)
       {
          prefix = getNextPrefix();
-         aElement.setAttributeNS(IAeBPELConstants.W3C_XMLNS, "xmlns:"+prefix, aNamespace); //$NON-NLS-1$
+         aElement.setAttributeNS(XMLConstants.XMLNS_ATTRIBUTE_NS_URI, "xmlns:"+prefix, aNamespace); //$NON-NLS-1$
       }
       return prefix;
    }

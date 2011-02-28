@@ -17,10 +17,10 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.xml.XMLConstants;
 import javax.xml.namespace.QName;
 
 import org.activebpel.rt.AeException;
-import org.activebpel.rt.IAeConstants;
 import org.activebpel.rt.bpel.AeBusinessProcessException;
 import org.activebpel.rt.bpel.def.AeProcessDef;
 import org.activebpel.rt.bpel.def.io.AeBpelIO;
@@ -125,7 +125,7 @@ public class AeBprDeploymentSource implements IAeDeploymentSource, IAePddXmlCons
          {
             Element schemaElement = (Element)refs.item(i);
             String location = schemaElement.getAttribute(IAePddXmlConstants.ATT_LOCATION);
-            IAeResourceKey key = new AeResourceKey(location, IAeConstants.W3C_XML_SCHEMA);
+            IAeResourceKey key = new AeResourceKey(location, XMLConstants.W3C_XML_SCHEMA_NS_URI);
             addContextKey( key );
          }
          
