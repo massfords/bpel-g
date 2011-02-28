@@ -34,7 +34,7 @@ public class AeDeploymentService implements AeDeployer {
 
 	@Override
 	public boolean undeploy(UndeploymentRequest aName) {
-		return false;
+		return getDeploymentHandler().undeploy(aName);
 	}
 
 	public IAeDeploymentFileHandler getDeploymentHandler() {

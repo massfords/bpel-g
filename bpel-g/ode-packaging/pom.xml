@@ -8,6 +8,11 @@
   <groupId>bpel-g</groupId>
   <artifactId>ode-packaging</artifactId>
   <version>5.2-SNAPSHOT</version>
+  <name>Apache ODE packaging</name>
+  <description>
+    Adds support or Apache ODE style packaging. A zip file with a single deploy.xml and a bunch of BPEL/WSDL/XSD/XSLT.
+    Much easier to generate this packaging then the AE BPR packaging.
+   </description>
   <dependencies>
   	<dependency>
   		<groupId>org.activebpel</groupId>
