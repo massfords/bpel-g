@@ -9,11 +9,11 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpel.def.visitors; 
 
+import javax.xml.XMLConstants;
 import javax.xml.namespace.QName;
 
 import org.activebpel.rt.bpel.def.AeVariableDef;
 import org.activebpel.rt.bpel.def.AeVariablesDef;
-import org.activebpel.rt.bpel.def.IAeBPELConstants;
 import org.activebpel.rt.bpel.def.IAeVariablesParentDef;
 import org.activebpel.rt.bpel.def.activity.AeActivityForEachDef;
 
@@ -73,7 +73,7 @@ public class AeImplicitVariableVisitor extends AeAbstractDefVisitor
          String varName = aDef.getCounterName();
          AeVariableDef varDef = addVariableToScope(varName, aDef.getChildScope().getScopeDef());
          if (varDef != null)
-            varDef.setType(new QName(IAeBPELConstants.W3C_XML_SCHEMA, "unsignedInt")); //$NON-NLS-1$
+            varDef.setType(new QName(XMLConstants.W3C_XML_SCHEMA_NS_URI, "unsignedInt")); //$NON-NLS-1$
       }
       
       super.visit(aDef);

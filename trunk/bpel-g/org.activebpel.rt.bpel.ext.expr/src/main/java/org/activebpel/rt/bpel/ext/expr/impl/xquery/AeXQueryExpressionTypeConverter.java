@@ -11,6 +11,8 @@ package org.activebpel.rt.bpel.ext.expr.impl.xquery;
 
 import java.util.List;
 
+import javax.xml.XMLConstants;
+
 import net.sf.saxon.dom.ElementOverNodeInfo;
 import net.sf.saxon.dom.NodeOverNodeInfo;
 import net.sf.saxon.dom.NodeWrapper;
@@ -25,7 +27,6 @@ import net.sf.saxon.value.AtomicValue;
 import net.sf.saxon.value.ObjectValue;
 import net.sf.saxon.value.Value;
 
-import org.activebpel.rt.IAeConstants;
 import org.activebpel.rt.bpel.ext.expr.AeMessages;
 import org.activebpel.rt.bpel.impl.expr.AeAbstractExpressionTypeConverter;
 import org.activebpel.rt.util.AeUtil;
@@ -224,12 +225,12 @@ public class AeXQueryExpressionTypeConverter extends AeAbstractExpressionTypeCon
          String nsURI = nsItem.getStringValue();
          
          // skip it if it's the xml ns or if the element already has the ns decl
-         if (!IAeConstants.W3C_XML_NAMESPACE.equals(nsURI) && !aDom.hasAttributeNS(IAeConstants.W3C_XMLNS, prefix))
+         if (!XMLConstants.XML_NS_URI.equals(nsURI) && !aDom.hasAttributeNS(XMLConstants.XMLNS_ATTRIBUTE_NS_URI, prefix))
          {
             if ("".equals(prefix)) //$NON-NLS-1$
-               aDom.setAttributeNS(IAeConstants.W3C_XMLNS, "xmlns", nsURI); //$NON-NLS-1$
+               aDom.setAttributeNS(XMLConstants.XMLNS_ATTRIBUTE_NS_URI, "xmlns", nsURI); //$NON-NLS-1$
             else
-               aDom.setAttributeNS(IAeConstants.W3C_XMLNS, "xmlns:"+prefix, nsURI); //$NON-NLS-1$
+               aDom.setAttributeNS(XMLConstants.XMLNS_ATTRIBUTE_NS_URI, "xmlns:"+prefix, nsURI); //$NON-NLS-1$
                
          }
       }

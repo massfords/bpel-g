@@ -17,11 +17,11 @@ import java.util.Map;
 import java.util.Vector;
 
 import javax.wsdl.Part;
+import javax.xml.XMLConstants;
 
 import org.activebpel.rt.AeException;
 import org.activebpel.rt.axis.bpel.AeMessages;
 import org.activebpel.rt.bpel.AeBusinessProcessException;
-import org.activebpel.rt.bpel.def.IAeBPELConstants;
 import org.activebpel.rt.util.AeUtil;
 import org.activebpel.rt.util.AeXmlUtil;
 import org.activebpel.wsio.AeWebServiceMessageData;
@@ -177,8 +177,8 @@ public class AeDocumentStyleInvoker extends AeSOAPInvoker
             for(int i=0; i < attrs.getLength(); ++i)
             {
                String nsURI = attrs.item(i).getNamespaceURI();
-               if(! IAeBPELConstants.W3C_XMLNS.equals(nsURI) &&
-                  ! IAeBPELConstants.W3C_XML_SCHEMA_INSTANCE.equals(nsURI))
+               if(! XMLConstants.XMLNS_ATTRIBUTE_NS_URI.equals(nsURI) &&
+                  ! XMLConstants.W3C_XML_SCHEMA_INSTANCE_NS_URI.equals(nsURI))
                {
                   simple = false;
                   break;

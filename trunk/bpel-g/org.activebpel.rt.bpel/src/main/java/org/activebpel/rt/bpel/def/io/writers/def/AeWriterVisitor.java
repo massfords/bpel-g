@@ -12,7 +12,8 @@ package org.activebpel.rt.bpel.def.io.writers.def;
 import java.util.Iterator;
 import java.util.Map;
 
-import org.activebpel.rt.IAeConstants;
+import javax.xml.XMLConstants;
+
 import org.activebpel.rt.bpel.def.AeActivityDef;
 import org.activebpel.rt.bpel.def.AeActivityPartnerLinkBaseDef;
 import org.activebpel.rt.bpel.def.AeCatchAllDef;
@@ -593,7 +594,7 @@ public abstract class AeWriterVisitor extends AeAbstractDefWriter implements IAe
       // write the default namespace out if it's present.
       if (AeUtil.notNullOrEmpty(aDef.getDefaultNamespace()))
       {
-         getElement().setAttributeNS(IAeConstants.W3C_XMLNS, "xmlns", aDef.getDefaultNamespace()); //$NON-NLS-1$
+         getElement().setAttributeNS(XMLConstants.XMLNS_ATTRIBUTE_NS_URI, "xmlns", aDef.getDefaultNamespace()); //$NON-NLS-1$
       }
 
       setAttribute(TAG_TARGET_NAMESPACE, aDef.getTargetNamespace());

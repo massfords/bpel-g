@@ -23,6 +23,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
 
+import javax.xml.XMLConstants;
 import javax.xml.namespace.QName;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -36,7 +37,6 @@ import javax.xml.transform.dom.DOMResult;
 
 import org.activebpel.rt.AeException;
 import org.activebpel.rt.AeMessages;
-import org.activebpel.rt.IAeConstants;
 import org.activebpel.rt.xml.AeElementBasedNamespaceContext;
 import org.activebpel.rt.xml.AeXMLParserBase;
 import org.activebpel.rt.xml.IAeMutableNamespaceContext;
@@ -331,7 +331,7 @@ public class AeXmlUtil
                      int counter = getUniquePrefix(prefixCounter, newNamespaceAttrs);
                      tgtElementPrefix = PREFIX + counter;
                      prefixCounter++;
-                     tgtElement.setAttributeNS(IAeConstants.W3C_XMLNS, "xmlns:" + tgtElementPrefix, tgtElement.getNamespaceURI()); //$NON-NLS-1$
+                     tgtElement.setAttributeNS(XMLConstants.XMLNS_ATTRIBUTE_NS_URI, "xmlns:" + tgtElementPrefix, tgtElement.getNamespaceURI()); //$NON-NLS-1$
                      tgtElement.setPrefix(tgtElementPrefix);
                   }
                }
@@ -344,7 +344,7 @@ public class AeXmlUtil
                   if (namespace.equals(tgtElement.getNamespaceURI()))
                   {
                      prefix = "xmlns"; //$NON-NLS-1$
-                     tgtElement.setAttributeNS(IAeConstants.W3C_XMLNS, prefix, namespace);
+                     tgtElement.setAttributeNS(XMLConstants.XMLNS_ATTRIBUTE_NS_URI, prefix, namespace);
                   }
                   else
                   {
@@ -354,7 +354,7 @@ public class AeXmlUtil
                else
                {
                   prefix = "xmlns:" + prefix;  //$NON-NLS-1$
-                  tgtElement.setAttributeNS(IAeConstants.W3C_XMLNS, prefix, namespace);
+                  tgtElement.setAttributeNS(XMLConstants.XMLNS_ATTRIBUTE_NS_URI, prefix, namespace);
                }
             }
          }
@@ -383,7 +383,7 @@ public class AeXmlUtil
                      // add a new namespace decl if one hasn't been locally defined
                      if (AeUtil.isNullOrEmpty(child.getAttribute(prefix)))
                      {
-                        child.setAttributeNS(IAeConstants.W3C_XMLNS, prefix, namespace);
+                        child.setAttributeNS(XMLConstants.XMLNS_ATTRIBUTE_NS_URI, prefix, namespace);
                      }
                   }
                }
@@ -407,9 +407,9 @@ public class AeXmlUtil
          {
             Element e = (Element) child;
 
-            if (!e.hasAttributeNS(IAeConstants.W3C_XMLNS, "xmlns")) //$NON-NLS-1$
+            if (!e.hasAttributeNS(XMLConstants.XMLNS_ATTRIBUTE_NS_URI, "xmlns")) //$NON-NLS-1$
             {
-               e.setAttributeNS(IAeConstants.W3C_XMLNS, "xmlns", aSource.getNamespaceURI()); //$NON-NLS-1$
+               e.setAttributeNS(XMLConstants.XMLNS_ATTRIBUTE_NS_URI, "xmlns", aSource.getNamespaceURI()); //$NON-NLS-1$
             }
          }
       }
@@ -421,7 +421,7 @@ public class AeXmlUtil
          for (int i=0, len=attrMap.getLength(); i < len; i++)
          {
             Attr attr = (Attr)attrMap.item(i);
-            if(! IAeConstants.W3C_XMLNS.equals(attr.getNamespaceURI()))
+            if(! XMLConstants.XMLNS_ATTRIBUTE_NS_URI.equals(attr.getNamespaceURI()))
             {
                if (AeUtil.isNullOrEmpty(attr.getNamespaceURI()))
                {
@@ -444,7 +444,7 @@ public class AeXmlUtil
    public static Element createElement(String aNameSpace, String aPrefix, String aName)
    {
       Element elem = AeXmlUtil.newDocument().createElementNS(aNameSpace, aPrefix+":"+aName); //$NON-NLS-1$
-      elem.setAttributeNS(IAeConstants.W3C_XMLNS, "xmlns:"+aPrefix, aNameSpace); //$NON-NLS-1$
+      elem.setAttributeNS(XMLConstants.XMLNS_ATTRIBUTE_NS_URI, "xmlns:"+aPrefix, aNameSpace); //$NON-NLS-1$
       return elem;
    }
 
@@ -490,7 +490,7 @@ public class AeXmlUtil
       copyNodeContents(aPartData, result);
 
       // Remove default namespace declaration.
-      String xmlns = result.getAttributeNS(IAeConstants.W3C_XMLNS, "xmlns"); //$NON-NLS-1$
+      String xmlns = result.getAttributeNS(XMLConstants.XMLNS_ATTRIBUTE_NS_URI, "xmlns"); //$NON-NLS-1$
       if (!AeUtil.isNullOrEmpty(xmlns))
       {
          for (Node node = result.getFirstChild(); node != null; node = node.getNextSibling())
@@ -501,14 +501,14 @@ public class AeXmlUtil
 
                // Copy default namespace declaration to this child unless child
                // already has its own default namespace declaration.
-               if (AeUtil.isNullOrEmpty(child.getAttributeNS(IAeConstants.W3C_XMLNS, "xmlns"))) //$NON-NLS-1$
+               if (AeUtil.isNullOrEmpty(child.getAttributeNS(XMLConstants.XMLNS_ATTRIBUTE_NS_URI, "xmlns"))) //$NON-NLS-1$
                {
-                  child.setAttributeNS(IAeConstants.W3C_XMLNS, "xmlns", xmlns); //$NON-NLS-1$
+                  child.setAttributeNS(XMLConstants.XMLNS_ATTRIBUTE_NS_URI, "xmlns", xmlns); //$NON-NLS-1$
                }
             }
          }
 
-         result.removeAttributeNS(IAeConstants.W3C_XMLNS, "xmlns"); //$NON-NLS-1$
+         result.removeAttributeNS(XMLConstants.XMLNS_ATTRIBUTE_NS_URI, "xmlns"); //$NON-NLS-1$
       }
 
       return result;
@@ -545,7 +545,7 @@ public class AeXmlUtil
       for (int i = 0, length = attrNodes.getLength(); i < length; i++)
       {
          Attr attr = (Attr) attrNodes.item(i);
-         if (IAeConstants.W3C_XMLNS.equals(attr.getNamespaceURI()))
+         if (XMLConstants.XMLNS_ATTRIBUTE_NS_URI.equals(attr.getNamespaceURI()))
          {
             String prefix = attr.getLocalName();
             String namespaceURI = attr.getNodeValue();
@@ -574,7 +574,7 @@ public class AeXmlUtil
       if (aElement == null)
          return null;
 
-      String namespace = aElement.getAttributeNS(IAeConstants.W3C_XMLNS, aPrefix);
+      String namespace = aElement.getAttributeNS(XMLConstants.XMLNS_ATTRIBUTE_NS_URI, aPrefix);
       // namespace shouldn't be null but a MessageElement in axis-SOAP is returning
       // a null when the attribute isn't declared so I'm handling that here.
       if (AeUtil.isNullOrEmpty(namespace))
@@ -666,11 +666,11 @@ public class AeXmlUtil
          Map.Entry entry = (Map.Entry) iter.next();
          if (AeUtil.notNullOrEmpty((String) entry.getKey()))
          {
-            aElement.setAttributeNS(IAeConstants.W3C_XMLNS, "xmlns:" + entry.getKey(), (String)entry.getValue()); //$NON-NLS-1$
+            aElement.setAttributeNS(XMLConstants.XMLNS_ATTRIBUTE_NS_URI, "xmlns:" + entry.getKey(), (String)entry.getValue()); //$NON-NLS-1$
          }
          else
          {
-            aElement.setAttributeNS(IAeConstants.W3C_XMLNS, "xmlns", (String)entry.getValue()); //$NON-NLS-1$
+            aElement.setAttributeNS(XMLConstants.XMLNS_ATTRIBUTE_NS_URI, "xmlns", (String)entry.getValue()); //$NON-NLS-1$
          }
       }
    }
@@ -948,7 +948,7 @@ public class AeXmlUtil
     */
    public static QName getXSIType(Element aElem)
    {
-      String complexType = aElem.getAttributeNS(IAeConstants.W3C_XML_SCHEMA_INSTANCE, "type"); //$NON-NLS-1$
+      String complexType = aElem.getAttributeNS(XMLConstants.W3C_XML_SCHEMA_INSTANCE_NS_URI, "type"); //$NON-NLS-1$
       if (AeUtil.notNullOrEmpty(complexType))
       {
          String sampleTypePrefix = extractPrefix(complexType);
@@ -993,32 +993,32 @@ public class AeXmlUtil
       String xsiPrefix = "xsi"; //$NON-NLS-1$
 
       // Set the schema instance namespace if not already set
-      Attr currentXsiNS = aElement.getAttributeNodeNS(IAeConstants.W3C_XMLNS, "xsi"); //$NON-NLS-1$
+      Attr currentXsiNS = aElement.getAttributeNodeNS(XMLConstants.XMLNS_ATTRIBUTE_NS_URI, "xsi"); //$NON-NLS-1$
       if (currentXsiNS == null)
       {
-         aElement.setAttributeNS(IAeConstants.W3C_XMLNS, "xmlns:xsi", IAeConstants.W3C_XML_SCHEMA_INSTANCE); //$NON-NLS-1$
+         aElement.setAttributeNS(XMLConstants.XMLNS_ATTRIBUTE_NS_URI, "xmlns:xsi", XMLConstants.W3C_XML_SCHEMA_INSTANCE_NS_URI); //$NON-NLS-1$
       }
-      else if (!IAeConstants.W3C_XML_SCHEMA_INSTANCE.equals(currentXsiNS.getValue()))
+      else if (!XMLConstants.W3C_XML_SCHEMA_INSTANCE_NS_URI.equals(currentXsiNS.getValue()))
       {
          // If they are using the xsi prefix for something else...
-         aElement.setAttributeNS(IAeConstants.W3C_XMLNS, "xmlns:aeXSI", IAeConstants.W3C_XML_SCHEMA_INSTANCE); //$NON-NLS-1$
+         aElement.setAttributeNS(XMLConstants.XMLNS_ATTRIBUTE_NS_URI, "xmlns:aeXSI", XMLConstants.W3C_XML_SCHEMA_INSTANCE_NS_URI); //$NON-NLS-1$
          xsiPrefix = "aeXSI"; //$NON-NLS-1$
       }
 
       // Remove the xsi:type attribute if it exists
-      aElement.removeAttributeNS(IAeConstants.W3C_XML_SCHEMA_INSTANCE, "type"); //$NON-NLS-1$
+      aElement.removeAttributeNS(XMLConstants.W3C_XML_SCHEMA_INSTANCE_NS_URI, "type"); //$NON-NLS-1$
 
       // If a prefix is declared for this namespace we should use it, otherwise declare our own
       String prefix = AeXmlUtil.getPrefixForNamespace(aElement, aTypeName.getNamespaceURI());
       if (AeUtil.isNullOrEmpty(prefix))
       {
          prefix = "aensTYPE"; //$NON-NLS-1$
-         aElement.setAttributeNS(IAeConstants.W3C_XMLNS, "xmlns:" + prefix, aTypeName.getNamespaceURI()); //$NON-NLS-1$
+         aElement.setAttributeNS(XMLConstants.XMLNS_ATTRIBUTE_NS_URI, "xmlns:" + prefix, aTypeName.getNamespaceURI()); //$NON-NLS-1$
       }
 
       // Set the xsi:type attribute
       String typeSpec = prefix + ":" + aTypeName.getLocalPart(); //$NON-NLS-1$
-      aElement.setAttributeNS(IAeConstants.W3C_XML_SCHEMA_INSTANCE, xsiPrefix + ":type", typeSpec); //$NON-NLS-1$
+      aElement.setAttributeNS(XMLConstants.W3C_XML_SCHEMA_INSTANCE_NS_URI, xsiPrefix + ":type", typeSpec); //$NON-NLS-1$
    }
 
    /**
@@ -1058,7 +1058,7 @@ public class AeXmlUtil
          
          String prefix = null;
          
-         if (IAeConstants.W3C_XML_NAMESPACE.equals( aQName.getNamespaceURI() ))
+         if (XMLConstants.XML_NS_URI.equals( aQName.getNamespaceURI() ))
          {
             prefix = "xml"; //$NON-NLS-1$
          }
@@ -1147,7 +1147,7 @@ public class AeXmlUtil
                root = (Element) root.getParentNode();
             }
          }
-         root.setAttributeNS(IAeConstants.W3C_XMLNS, "xmlns:" + prefix, aNamespace); //$NON-NLS-1$
+         root.setAttributeNS(XMLConstants.XMLNS_ATTRIBUTE_NS_URI, "xmlns:" + prefix, aNamespace); //$NON-NLS-1$
       }
       return prefix;
    }
@@ -1170,7 +1170,7 @@ public class AeXmlUtil
    {
       if (aElement != null)
       {
-         return "true".equals( aElement.getAttributeNS(IAeConstants.W3C_XML_SCHEMA_INSTANCE, "nil") );  //$NON-NLS-1$//$NON-NLS-2$
+         return "true".equals( aElement.getAttributeNS(XMLConstants.W3C_XML_SCHEMA_INSTANCE_NS_URI, "nil") );  //$NON-NLS-1$//$NON-NLS-2$
       }
       else
       {
@@ -1188,9 +1188,9 @@ public class AeXmlUtil
       {
          return;
       }
-      String prefix = getOrCreatePrefix(aElement, IAeConstants.W3C_XML_SCHEMA_INSTANCE, "xsi", false); //$NON-NLS-1$
-      aElement.setAttributeNS(IAeConstants.W3C_XMLNS, "xmlns:" + prefix, IAeConstants.W3C_XML_SCHEMA_INSTANCE); //$NON-NLS-1$
-      aElement.setAttributeNS(IAeConstants.W3C_XML_SCHEMA_INSTANCE, prefix + ":nil", "true" ); //$NON-NLS-1$ //$NON-NLS-2$
+      String prefix = getOrCreatePrefix(aElement, XMLConstants.W3C_XML_SCHEMA_INSTANCE_NS_URI, "xsi", false); //$NON-NLS-1$
+      aElement.setAttributeNS(XMLConstants.XMLNS_ATTRIBUTE_NS_URI, "xmlns:" + prefix, XMLConstants.W3C_XML_SCHEMA_INSTANCE_NS_URI); //$NON-NLS-1$
+      aElement.setAttributeNS(XMLConstants.W3C_XML_SCHEMA_INSTANCE_NS_URI, prefix + ":nil", "true" ); //$NON-NLS-1$ //$NON-NLS-2$
    }
 
    /**
@@ -1350,7 +1350,7 @@ public class AeXmlUtil
    {
       String data = aDate != null ? new AeSchemaDateTime( aDate ).toString() : null;
       Element ele = addNillableElementNS(aParentEle, aNamespace, aPrefix + ":" + aEleName, data, aNillable); //$NON-NLS-1$
-      ele.setAttributeNS(IAeConstants.W3C_XMLNS, "xmlns:" + aPrefix, aNamespace); //$NON-NLS-1$
+      ele.setAttributeNS(XMLConstants.XMLNS_ATTRIBUTE_NS_URI, "xmlns:" + aPrefix, aNamespace); //$NON-NLS-1$
       return ele;
    }
    
@@ -1372,7 +1372,7 @@ public class AeXmlUtil
          data = encodeQName(aQName, aParentEle, null);
       }
       Element ele = addNillableElementNS(aParentEle, aNamespace, aPrefix + ":" + aEleName, data, aNillable); //$NON-NLS-1$
-      ele.setAttributeNS(IAeConstants.W3C_XMLNS, "xmlns:" + aPrefix, aNamespace); //$NON-NLS-1$
+      ele.setAttributeNS(XMLConstants.XMLNS_ATTRIBUTE_NS_URI, "xmlns:" + aPrefix, aNamespace); //$NON-NLS-1$
       return ele;
    }   
 
@@ -1408,7 +1408,7 @@ public class AeXmlUtil
       Element elem = aElement;
       do
       {
-         defaultNS = elem.getAttributeNS(IAeConstants.W3C_XMLNS, "xmlns"); //$NON-NLS-1$
+         defaultNS = elem.getAttributeNS(XMLConstants.XMLNS_ATTRIBUTE_NS_URI, "xmlns"); //$NON-NLS-1$
          Node node = elem.getParentNode();
          if (node instanceof Element)
             elem = (Element) node;
@@ -1454,7 +1454,7 @@ public class AeXmlUtil
          for (int i = 0, length = attrNodes.getLength(); i < length; i++)
          {
             Attr attr = (Attr) attrNodes.item(i);
-            if (IAeConstants.W3C_XMLNS.equals(attr.getNamespaceURI()))
+            if (XMLConstants.XMLNS_ATTRIBUTE_NS_URI.equals(attr.getNamespaceURI()))
             {
                String prefix = attr.getLocalName();
                if ("xmlns".equals(prefix)) //$NON-NLS-1$

@@ -16,6 +16,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
+import javax.xml.XMLConstants;
+
 import org.activebpel.rt.IAeConstants;
 import org.activebpel.rt.bpel.def.IAeBPELConstants;
 import org.activebpel.rt.wsdl.def.IAeBPELExtendedWSDLConst;
@@ -45,7 +47,7 @@ public class AeWSResourceStandardNamespaces implements IAeWSResourceStandardName
       createMapping("wsdl", IAeConstants.WSDL_NAMESPACE); //$NON-NLS-1$
       createMapping(IAeBPELConstants.BPWS_PREFIX, IAeBPELConstants.BPWS_NAMESPACE_URI);
       createMapping(IAeBPELConstants.WSBPEL_2_0_PREFIX, IAeBPELConstants.WSBPEL_2_0_NAMESPACE_URI);
-      createMapping("xsd", IAeConstants.W3C_XML_SCHEMA); //$NON-NLS-1$
+      createMapping("xsd", XMLConstants.W3C_XML_SCHEMA_NS_URI); //$NON-NLS-1$
       createMapping(IAeBPELExtendedWSDLConst.PARTNER_LINK_PREFIX, IAeBPELExtendedWSDLConst.PARTNER_LINK_NAMESPACE);
       createMapping(IAeBPELExtendedWSDLConst.WSBPEL_PARTNER_LINK_PREFIX, IAeBPELExtendedWSDLConst.WSBPEL_PARTNER_LINK_NAMESPACE);
       createMapping(IAeBPELExtendedWSDLConst.PROPERTY_2_0_PREFIX, IAeBPELExtendedWSDLConst.PROPERTY_2_0_NAMESPACE);

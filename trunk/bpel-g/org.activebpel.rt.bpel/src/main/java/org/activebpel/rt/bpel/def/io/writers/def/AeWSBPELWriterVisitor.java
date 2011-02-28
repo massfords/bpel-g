@@ -13,6 +13,8 @@ package org.activebpel.rt.bpel.def.io.writers.def;
 import java.util.Collections;
 import java.util.Map;
 
+import javax.xml.XMLConstants;
+
 import org.activebpel.rt.AeException;
 import org.activebpel.rt.bpel.AeExpressionLanguageFactory;
 import org.activebpel.rt.bpel.def.AeBaseDef;
@@ -199,7 +201,7 @@ public class AeWSBPELWriterVisitor extends AeWriterVisitor
       writeStandardAttributes(aDef);
 
       setAttribute(ATTR_DOCUMENTATION_SOURCE, aDef.getSource());
-      getElement().setAttributeNS(W3C_XML_NAMESPACE, "xml:" +  ATTR_DOCUMENTATION_LANG, aDef.getLanguage()); //$NON-NLS-1$
+      getElement().setAttributeNS(XMLConstants.XML_NS_URI, "xml:" +  ATTR_DOCUMENTATION_LANG, aDef.getLanguage()); //$NON-NLS-1$
       if (AeUtil.notNullOrEmpty( aDef.getValue() ))
       {
          Text textNode = getElement().getOwnerDocument().createTextNode(aDef.getValue());

@@ -13,9 +13,9 @@ package org.activebpel.rt.xml.schema.sampledata;
 import java.util.Date;
 import java.util.Iterator;
 
+import javax.xml.XMLConstants;
 import javax.xml.namespace.QName;
 
-import org.activebpel.rt.IAeConstants;
 import org.activebpel.rt.util.AeUtil;
 import org.activebpel.rt.util.AeXmlUtil;
 import org.activebpel.rt.xml.AeXMLParserBase;
@@ -435,7 +435,7 @@ public class AeSampleDataVisitor implements IAeSampleDataVisitor
       String xsiType = getEncodedQName(aElement.getName());
 
       // add the xsi:type attr to the parent based on our selection
-      addAttribute(new QName(IAeConstants.W3C_XML_SCHEMA_INSTANCE, "type"), xsiType); //$NON-NLS-1$
+      addAttribute(new QName(XMLConstants.W3C_XML_SCHEMA_INSTANCE_NS_URI, "type"), xsiType); //$NON-NLS-1$
       if (aElement instanceof AeComplexElement)
       {
          // add any other attributes for this type
@@ -497,7 +497,7 @@ public class AeSampleDataVisitor implements IAeSampleDataVisitor
          {
             String prefix = getPreferences().getPreferredPrefix(namespace);
             elem = getDocument().createElementNS(namespace, prefix + ":" + name); //$NON-NLS-1$
-            elem.setAttributeNS(IAeConstants.W3C_XMLNS, "xmlns:" + prefix, namespace); //$NON-NLS-1$
+            elem.setAttributeNS(XMLConstants.XMLNS_ATTRIBUTE_NS_URI, "xmlns:" + prefix, namespace); //$NON-NLS-1$
          }
          else
          {
@@ -564,7 +564,7 @@ public class AeSampleDataVisitor implements IAeSampleDataVisitor
                if (complexElement.getXsiType() != null)
                {
                   String value = getEncodedQName(complexElement.getXsiType());
-                  addAttribute(new QName(IAeConstants.W3C_XML_SCHEMA_INSTANCE, "type"), value); //$NON-NLS-1$
+                  addAttribute(new QName(XMLConstants.W3C_XML_SCHEMA_INSTANCE_NS_URI, "type"), value); //$NON-NLS-1$
                }
 
                // visit attributes (regular and wildcard) defined by this element.
@@ -626,7 +626,7 @@ public class AeSampleDataVisitor implements IAeSampleDataVisitor
                }
                else
                {
-                  sampleData = getPreferences().getElementData(anyTypeElem.getName(), new QName(IAeConstants.W3C_XML_SCHEMA, "anyType")); //$NON-NLS-1$
+                  sampleData = getPreferences().getElementData(anyTypeElem.getName(), new QName(XMLConstants.W3C_XML_SCHEMA_NS_URI, "anyType")); //$NON-NLS-1$
                }
 
                Text text = getDocument().createTextNode(sampleData);
@@ -654,7 +654,7 @@ public class AeSampleDataVisitor implements IAeSampleDataVisitor
     */
    private void handleNillable(Node aNode)
    {
-      QName xsiNil = new QName(IAeConstants.W3C_XML_SCHEMA_INSTANCE, "nil"); //$NON-NLS-1$
+      QName xsiNil = new QName(XMLConstants.W3C_XML_SCHEMA_INSTANCE_NS_URI, "nil"); //$NON-NLS-1$
       String encodedValue = AeXmlUtil.encodeQName(xsiNil, mDoc.getDocumentElement(), "xsi"); //$NON-NLS-1$
       Attr attr = getDocument().createAttributeNS(xsiNil.getNamespaceURI(), encodedValue);
       attr.setValue("true"); //$NON-NLS-1$

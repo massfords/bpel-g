@@ -14,6 +14,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import javax.xml.XMLConstants;
 import javax.xml.namespace.QName;
 
 import org.activebpel.rt.IAeConstants;
@@ -98,9 +99,9 @@ public class AeWSAddressingEndpointSerializer implements IAeEndpointSerializer
       
       // prime the pump w/ some popular ns prefix mapping. it'll get added to the doc below
       qnameToPrefixMap.put(mNamespace, "wsa"); //$NON-NLS-1$
-      qnameToPrefixMap.put(IAeConstants.W3C_XML_SCHEMA_INSTANCE, "xsi"); //$NON-NLS-1$
+      qnameToPrefixMap.put(XMLConstants.W3C_XML_SCHEMA_INSTANCE_NS_URI, "xsi"); //$NON-NLS-1$
       qnameToPrefixMap.put(IAeConstants.SOAP_NAMESPACE_URI, "soapenv"); //$NON-NLS-1$
-      qnameToPrefixMap.put(IAeConstants.W3C_XML_SCHEMA, "xsd"); //$NON-NLS-1$
+      qnameToPrefixMap.put(XMLConstants.W3C_XML_SCHEMA_NS_URI, "xsd"); //$NON-NLS-1$
 
       // Add the address, which is mandatory
       AeXmlUtil.addElementNS(er, mNamespace, "wsa:Address", aRef.getAddress()); //$NON-NLS-1$
@@ -117,7 +118,7 @@ public class AeWSAddressingEndpointSerializer implements IAeEndpointSerializer
          Map.Entry entry = (Entry) iter.next();
          String namespace = (String) entry.getKey();
          String prefix = (String) entry.getValue();
-         er.setAttributeNS(IAeConstants.W3C_XMLNS, "xmlns:" + prefix, namespace); //$NON-NLS-1$
+         er.setAttributeNS(XMLConstants.XMLNS_ATTRIBUTE_NS_URI, "xmlns:" + prefix, namespace); //$NON-NLS-1$
       }
       
       return doc;

@@ -12,6 +12,8 @@ package org.activebpel.rt.axis.bpel.handlers;
 import java.util.HashMap;
 import java.util.Iterator;
 
+import javax.xml.XMLConstants;
+
 import org.activebpel.rt.IAeConstants;
 import org.activebpel.rt.axis.bpel.AeMessages;
 import org.activebpel.rt.util.AeUtil;
@@ -55,7 +57,7 @@ public class AeXPathReceiveHandler extends AeXPathHandler
          {
             Document headerDoc = AeXmlUtil.newDocument();
             headers = headerDoc.createElementNS(IAeConstants.ABX_NAMESPACE_URI, "abx:Headers"); //$NON-NLS-1$
-            headers.setAttributeNS(IAeConstants.W3C_XMLNS, "xmlns:abx", IAeConstants.ABX_NAMESPACE_URI ); //$NON-NLS-1$
+            headers.setAttributeNS(XMLConstants.XMLNS_ATTRIBUTE_NS_URI, "xmlns:abx", IAeConstants.ABX_NAMESPACE_URI ); //$NON-NLS-1$
             // get passthrough option
             headers.setAttribute("passthrough", (String) getOption("passthrough")); //$NON-NLS-1$ //$NON-NLS-2$
             headerDoc.appendChild(headers);

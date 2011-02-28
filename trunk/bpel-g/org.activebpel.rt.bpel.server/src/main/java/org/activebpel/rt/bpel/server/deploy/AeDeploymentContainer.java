@@ -28,8 +28,6 @@ public class AeDeploymentContainer implements IAeDeploymentContainer
    protected IAeDeploymentContext mContext;
    /** Bpr file. */
    protected IAeBpr mBprFile;
-   /** Wsdd data. */
-   protected Document mWsddData;
    /** File name string - used for logging. */
    protected String mFileName;
    /** Deployment id url. */
@@ -51,36 +49,6 @@ public class AeDeploymentContainer implements IAeDeploymentContainer
       mUrlForId = aUrl;
       if (aUrl != null)
          mFileName = aUrl.getFile().replace('\\', '/');
-   }
-
-   /**
-    * @see org.activebpel.rt.bpel.server.deploy.IAeDeploymentContainer#getWsddData()
-    */
-   public Document getWsddData()
-   {
-      if (mWsddData == null && isWsddDeployment())
-      {
-         String wsddXml = getWsddResource();
-         try
-         {
-            mWsddData = getResourceAsDocument( wsddXml );
-         }
-         catch (AeException ex)
-         {  
-            IllegalStateException is = new IllegalStateException(ex.getLocalizedMessage());
-            is.initCause(ex);
-            throw is;
-         }
-      }
-      return mWsddData;
-   }
-
-   /**
-    * @see org.activebpel.rt.bpel.server.deploy.IAeDeploymentContainer#setWsddData(org.w3c.dom.Document)
-    */
-   public void setWsddData(Document aDocument)
-   {
-      mWsddData = aDocument;
    }
 
    /**
@@ -149,17 +117,6 @@ public class AeDeploymentContainer implements IAeDeploymentContainer
    }
 
    /**
-    * @see org.activebpel.rt.bpel.server.deploy.bpr.IAeBpr#getWsddResource()
-    */
-   public String getWsddResource()
-   {
-      if (mBprFile == null)
-         return null;
-
-      return mBprFile.getWsddResource();
-   }
-
-   /**
     * @see org.activebpel.rt.bpel.server.deploy.bpr.IAeBpr#getCatalogDocument()
     */
    public Document getCatalogDocument() throws AeException
@@ -170,21 +127,6 @@ public class AeDeploymentContainer implements IAeDeploymentContainer
       return mBprFile.getCatalogDocument();
    }
 
-   /**
-    * @see org.activebpel.rt.bpel.server.deploy.bpr.IAeBpr#isWsddDeployment()
-    */
-   public boolean isWsddDeployment()
-   {
-      if (mBprFile != null)
-      {
-         return mBprFile.isWsddDeployment();
-      }
-      else
-      {
-         return (mWsddData != null);         
-      }
-   }
-   
    /**
     * @see org.activebpel.rt.bpel.server.deploy.IAeDeploymentContext#getDeploymentId()
     */

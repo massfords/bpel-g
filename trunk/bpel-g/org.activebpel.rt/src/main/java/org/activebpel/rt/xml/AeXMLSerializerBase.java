@@ -9,8 +9,9 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.xml;
 
+import javax.xml.XMLConstants;
+
 import org.activebpel.rt.AeException;
-import org.activebpel.rt.IAeConstants;
 import org.activebpel.rt.util.AeXmlUtil;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -48,7 +49,7 @@ public abstract class AeXMLSerializerBase
    {
       Document doc = AeXmlUtil.newDocument();
       Element docEle = doc.createElementNS(aNameSpace, aPrefix + ":" + aDocumentElementName); //$NON-NLS-1$
-      docEle.setAttributeNS(IAeConstants.W3C_XMLNS, "xmlns:" + aPrefix, aNameSpace); //$NON-NLS-1$
+      docEle.setAttributeNS(XMLConstants.XMLNS_ATTRIBUTE_NS_URI, "xmlns:" + aPrefix, aNameSpace); //$NON-NLS-1$
       doc.appendChild(docEle);
       return doc;
    }
@@ -82,7 +83,7 @@ public abstract class AeXMLSerializerBase
 
       Element ele = AeXmlUtil.addElementNS(aParentEle, aNameSpace,
             aPrefix + ":" + aElementName, aText); //$NON-NLS-1$
-      ele.setAttributeNS(IAeConstants.W3C_XMLNS, "xmlns:" + aPrefix, aNameSpace); //$NON-NLS-1$
+      ele.setAttributeNS(XMLConstants.XMLNS_ATTRIBUTE_NS_URI, "xmlns:" + aPrefix, aNameSpace); //$NON-NLS-1$
       return ele;
    }
 

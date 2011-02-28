@@ -10,9 +10,9 @@
 
 package org.activebpel.rt.bpel.def.io.readers.def;
 
+import javax.xml.XMLConstants;
 import javax.xml.namespace.QName;
 
-import org.activebpel.rt.IAeConstants;
 import org.activebpel.rt.bpel.def.AeActivityDef;
 import org.activebpel.rt.bpel.def.AeBaseDef;
 import org.activebpel.rt.bpel.def.AeCatchDef;
@@ -156,7 +156,7 @@ public class AeWSBPELReaderVisitor extends AeBpelReaderVisitor
       readAttributes(aDef);
 
       aDef.setSource(getAttribute(ATTR_DOCUMENTATION_SOURCE));
-      aDef.setLanguage(getAttributeNS(IAeConstants.W3C_XML_NAMESPACE, ATTR_DOCUMENTATION_LANG));
+      aDef.setLanguage(getAttributeNS(XMLConstants.XML_NS_URI, ATTR_DOCUMENTATION_LANG));
 
       aDef.setValue(AeXmlUtil.getText(getCurrentElement()));
       getParentDef().addDocumentationDef(aDef);

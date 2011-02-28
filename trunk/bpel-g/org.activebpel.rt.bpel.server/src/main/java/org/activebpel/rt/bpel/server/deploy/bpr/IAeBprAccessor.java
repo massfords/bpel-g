@@ -32,16 +32,6 @@ public interface IAeBprAccessor
    public void init() throws AeException;
    
    /**
-    * Return true if the underlying deployment is a wsr deployment.
-    */
-   public boolean isWsddDeployment();
-   
-   /**
-    * Return the name of the wsdd resource.
-    */
-   public String getWsddResource();
-   
-   /**
     * Return the collection of pdd resource names.
     */
    public Collection<String> getPddResources();

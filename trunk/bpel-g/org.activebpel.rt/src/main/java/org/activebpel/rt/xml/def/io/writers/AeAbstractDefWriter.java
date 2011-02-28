@@ -13,9 +13,9 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
+import javax.xml.XMLConstants;
 import javax.xml.namespace.QName;
 
-import org.activebpel.rt.IAeConstants;
 import org.activebpel.rt.util.AeUtil;
 import org.activebpel.rt.util.AeXmlUtil;
 import org.activebpel.rt.xml.IAeMutableNamespaceContext;
@@ -264,7 +264,7 @@ public abstract class AeAbstractDefWriter implements IAeDefWriter
    {
       if (AeUtil.notNullOrEmpty(aLanguage))
       {
-         getElement().setAttributeNS(IAeConstants.W3C_XML_NAMESPACE, "xml:lang", aLanguage); //$NON-NLS-1$
+         getElement().setAttributeNS(XMLConstants.XML_NS_URI, "xml:lang", aLanguage); //$NON-NLS-1$
       }
    }
 
@@ -324,7 +324,7 @@ public abstract class AeAbstractDefWriter implements IAeDefWriter
       for (Iterator iter = aBaseDef.getNamespacePrefixList().iterator(); iter.hasNext();)
       {
          String prefix   = (String)iter.next();
-         aElement.setAttributeNS(IAeConstants.W3C_XMLNS, "xmlns:" + prefix, aBaseDef.getNamespace(prefix)); //$NON-NLS-1$
+         aElement.setAttributeNS(XMLConstants.XMLNS_ATTRIBUTE_NS_URI, "xmlns:" + prefix, aBaseDef.getNamespace(prefix)); //$NON-NLS-1$
       }
    }
 

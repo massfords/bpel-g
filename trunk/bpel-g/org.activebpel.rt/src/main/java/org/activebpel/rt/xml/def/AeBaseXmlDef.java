@@ -21,10 +21,10 @@ import java.util.Map;
 import java.util.Set;
 import java.util.Stack;
 
+import javax.xml.XMLConstants;
 import javax.xml.namespace.QName;
 
 import org.activebpel.rt.AeException;
-import org.activebpel.rt.IAeConstants;
 import org.activebpel.rt.util.AeCloneUtil;
 import org.activebpel.rt.util.AeUtil;
 import org.activebpel.rt.util.AeXmlUtil;
@@ -447,7 +447,7 @@ public abstract class AeBaseXmlDef implements Cloneable, Serializable
          if (AeUtil.notNullOrEmpty(prefixes))
             prefix = (String) prefixes.iterator().next();
          element = doc.createElementNS(aQName.getNamespaceURI(), prefix + ":" + aQName.getLocalPart()); //$NON-NLS-1$
-         element.setAttributeNS(IAeConstants.W3C_XMLNS, "xmlns:" + prefix, aQName.getNamespaceURI()); //$NON-NLS-1$
+         element.setAttributeNS(XMLConstants.XMLNS_ATTRIBUTE_NS_URI, "xmlns:" + prefix, aQName.getNamespaceURI()); //$NON-NLS-1$
       }
       else
       {

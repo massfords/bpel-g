@@ -14,7 +14,8 @@ package org.activebpel.rt.bpel.def.io.readers.def;
 import java.util.Iterator;
 import java.util.List;
 
-import org.activebpel.rt.IAeConstants;
+import javax.xml.XMLConstants;
+
 import org.activebpel.rt.bpel.AeMessages;
 import org.activebpel.rt.bpel.def.AeActivityDef;
 import org.activebpel.rt.bpel.def.AeActivityPartnerLinkBaseDef;
@@ -1052,7 +1053,7 @@ public abstract class AeBpelReaderVisitor extends AeAbstractReportingDefReader i
          if (!AeUtil.isNullOrEmpty(prefix))
          {
             String ns = AeXmlUtil.getNamespaceForPrefix(aElem, prefix);
-            rootElem.setAttributeNS(IAeConstants.W3C_XMLNS, "xmlns:" + prefix, ns); //$NON-NLS-1$
+            rootElem.setAttributeNS(XMLConstants.XMLNS_ATTRIBUTE_NS_URI, "xmlns:" + prefix, ns); //$NON-NLS-1$
          }
          AeXmlUtil.copyNodeContents(aElem, rootElem);
          return rootElem;

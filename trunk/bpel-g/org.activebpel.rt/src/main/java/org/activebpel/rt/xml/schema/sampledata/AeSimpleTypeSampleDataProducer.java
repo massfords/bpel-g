@@ -16,9 +16,9 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.xml.XMLConstants;
 import javax.xml.namespace.QName;
 
-import org.activebpel.rt.IAeConstants;
 import org.activebpel.rt.base64.Base64;
 import org.activebpel.rt.xml.schema.AeSchemaAnyURI;
 import org.activebpel.rt.xml.schema.AeSchemaBase64Binary;
@@ -212,7 +212,7 @@ public class AeSimpleTypeSampleDataProducer
       
       Map map = getMap();
       map.put(AeTypeMapping.XSD_ANYURI, new AeSchemaAnyURI("anyURI")); //$NON-NLS-1$
-      map.put(new QName(IAeConstants.W3C_XML_SCHEMA, "anyType"), "anyType"); //$NON-NLS-1$ //$NON-NLS-2$
+      map.put(new QName(XMLConstants.W3C_XML_SCHEMA_NS_URI, "anyType"), "anyType"); //$NON-NLS-1$ //$NON-NLS-2$
       map.put(AeTypeMapping.XSD_BASE64_BINARY, new AeSchemaBase64Binary(Base64.encodeBytes("base64-string".getBytes()))); //$NON-NLS-1$
       map.put(AeTypeMapping.XSD_BOOLEAN, Boolean.TRUE);
       map.put(AeTypeMapping.XSD_BYTE, new Byte((byte)1));

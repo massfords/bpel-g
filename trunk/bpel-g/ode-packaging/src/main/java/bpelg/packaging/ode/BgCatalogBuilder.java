@@ -11,6 +11,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import javax.xml.XMLConstants;
+
 import org.activebpel.rt.IAeConstants;
 import org.activebpel.rt.util.AeUtil;
 import org.activebpel.rt.util.AeXPathUtil;
@@ -41,7 +43,7 @@ public class BgCatalogBuilder {
     private static final Map<String,String> NS = new HashMap();
     static {
         NS.put("wsdl", IAeConstants.WSDL_NAMESPACE);
-        NS.put("xs", IAeConstants.W3C_XML_SCHEMA);
+        NS.put("xs", XMLConstants.W3C_XML_SCHEMA_NS_URI);
     }
     
     private File mServiceUnitRoot;
@@ -87,7 +89,7 @@ public class BgCatalogBuilder {
         Document doc = AeXmlUtil.newDocument();
         String catalogNS = "http://schemas.active-endpoints.com/catalog/2006/07/catalog.xsd";
         Element catalog = AeXmlUtil.addElementNS(doc, catalogNS, "catalog", null);
-        catalog.setAttributeNS(IAeConstants.W3C_XMLNS, "xmlns", catalogNS);
+        catalog.setAttributeNS(XMLConstants.XMLNS_ATTRIBUTE_NS_URI, "xmlns", catalogNS);
         if (isReplaceExisting())
             catalog.setAttribute("replace.existing", "true");
         for(BgCatalogTuple tuple : mCollection) {
@@ -141,7 +143,7 @@ public class BgCatalogBuilder {
                     item = new BgCatalogTuple(mLogicalPathPrefix + path, path, namespace, IAeConstants.WSDL_NAMESPACE);
                 } else if (name.endsWith(".xsd")) {
                     String namespace = getTargetNamespace(file);
-                    item = new BgCatalogTuple(mLogicalPathPrefix + path, path, namespace, IAeConstants.W3C_XML_SCHEMA);
+                    item = new BgCatalogTuple(mLogicalPathPrefix + path, path, namespace, XMLConstants.W3C_XML_SCHEMA_NS_URI);
                 } else if (name.endsWith(".xsl")) {
                     item = new BgCatalogTuple(mLogicalPathPrefix + path, path, null, IAeConstants.XSL_NAMESPACE);
                 }
@@ -212,7 +214,7 @@ public class BgCatalogBuilder {
     }
     
     private boolean isSchema(Document aDoc) {
-        return aDoc.getDocumentElement().getNamespaceURI().equals(IAeConstants.W3C_XML_SCHEMA);
+        return aDoc.getDocumentElement().getNamespaceURI().equals(XMLConstants.W3C_XML_SCHEMA_NS_URI);
     }
 
     public Set<String> getLocations() {

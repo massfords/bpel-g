@@ -25,6 +25,7 @@ import javax.wsdl.Port;
 import javax.wsdl.PortType;
 import javax.wsdl.Service;
 import javax.wsdl.extensions.UnknownExtensibilityElement;
+import javax.xml.XMLConstants;
 import javax.xml.namespace.QName;
 
 import org.activebpel.rt.IAePolicyConstants;
@@ -32,7 +33,6 @@ import org.activebpel.rt.bpel.AeBusinessProcessException;
 import org.activebpel.rt.bpel.AeWSDLDefHelper;
 import org.activebpel.rt.bpel.AeWSDLPolicyHelper;
 import org.activebpel.rt.bpel.IAeEndpointReference;
-import org.activebpel.rt.bpel.def.IAeBPELConstants;
 import org.activebpel.rt.bpel.impl.AeEndpointReference;
 import org.activebpel.rt.bpel.impl.addressing.AeAddressingHeaders;
 import org.activebpel.rt.bpel.impl.addressing.IAeAddressingHeaders;
@@ -512,8 +512,8 @@ public abstract class AeWSIOInvokeHandler implements IAeInvokeHandler,
 				NamedNodeMap attrs = aElement.getAttributes();
 				for (int i = 0; i < attrs.getLength(); ++i) {
 					String nsURI = attrs.item(i).getNamespaceURI();
-					if (!IAeBPELConstants.W3C_XMLNS.equals(nsURI)
-							&& !IAeBPELConstants.W3C_XML_SCHEMA_INSTANCE
+					if (!XMLConstants.XMLNS_ATTRIBUTE_NS_URI.equals(nsURI)
+							&& !XMLConstants.W3C_XML_SCHEMA_INSTANCE_NS_URI
 									.equals(nsURI)) {
 						simple = false;
 						break;

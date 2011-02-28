@@ -18,9 +18,9 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
+import javax.xml.XMLConstants;
 import javax.xml.namespace.QName;
 
-import org.activebpel.rt.IAeConstants;
 import org.exolab.castor.xml.schema.XMLType;
 
 /**
@@ -59,49 +59,49 @@ public class AeTypeMapping
    /** supported simple type Set */
    private static Set sSimpleTypes;
 
-   public static final QName XSD_ANYURI = new QName(IAeConstants.W3C_XML_SCHEMA, "anyURI"); //$NON-NLS-1$
-   public static final QName XSD_BASE64_BINARY = new QName(IAeConstants.W3C_XML_SCHEMA, "base64Binary"); //$NON-NLS-1$
-   public static final QName XSD_BOOLEAN = new QName(IAeConstants.W3C_XML_SCHEMA, "boolean"); //$NON-NLS-1$
-   public static final QName XSD_BYTE = new QName(IAeConstants.W3C_XML_SCHEMA, "byte"); //$NON-NLS-1$
-   public static final QName XSD_DATE = new QName(IAeConstants.W3C_XML_SCHEMA, "date"); //$NON-NLS-1$
-   public static final QName XSD_DATETIME = new QName(IAeConstants.W3C_XML_SCHEMA, "dateTime"); //$NON-NLS-1$
-   public static final QName XSD_TIME = new QName(IAeConstants.W3C_XML_SCHEMA, "time"); //$NON-NLS-1$
-   public static final QName XSD_DURATION = new QName(IAeConstants.W3C_XML_SCHEMA, "duration"); //$NON-NLS-1$
-   public static final QName XSD_DECIMAL = new QName(IAeConstants.W3C_XML_SCHEMA, "decimal"); //$NON-NLS-1$
-   public static final QName XSD_DOUBLE = new QName(IAeConstants.W3C_XML_SCHEMA, "double"); //$NON-NLS-1$
-   public static final QName XSD_FLOAT = new QName(IAeConstants.W3C_XML_SCHEMA, "float"); //$NON-NLS-1$
-   public static final QName XSD_HEX_BINARY = new QName(IAeConstants.W3C_XML_SCHEMA, "hexBinary"); //$NON-NLS-1$
-   public static final QName XSD_INT = new QName(IAeConstants.W3C_XML_SCHEMA, "int"); //$NON-NLS-1$
-   public static final QName XSD_INTEGER = new QName(IAeConstants.W3C_XML_SCHEMA, "integer"); //$NON-NLS-1$
-   public static final QName XSD_LONG = new QName(IAeConstants.W3C_XML_SCHEMA, "long"); //$NON-NLS-1$
-   public static final QName XSD_QNAME = new QName(IAeConstants.W3C_XML_SCHEMA, "QName"); //$NON-NLS-1$
-   public static final QName XSD_SHORT = new QName(IAeConstants.W3C_XML_SCHEMA, "short"); //$NON-NLS-1$
-   public static final QName XSD_STRING = new QName(IAeConstants.W3C_XML_SCHEMA, "string"); //$NON-NLS-1$
-   public static final QName XSD_YEARMONTH = new QName(IAeConstants.W3C_XML_SCHEMA, "gYearMonth"); //$NON-NLS-1$
-   public static final QName XSD_YEAR = new QName(IAeConstants.W3C_XML_SCHEMA, "gYear"); //$NON-NLS-1$
-   public static final QName XSD_MONTHDAY = new QName(IAeConstants.W3C_XML_SCHEMA, "gMonthDay"); //$NON-NLS-1$
-   public static final QName XSD_DAY = new QName(IAeConstants.W3C_XML_SCHEMA, "gDay"); //$NON-NLS-1$
-   public static final QName XSD_MONTH = new QName(IAeConstants.W3C_XML_SCHEMA, "gMonth"); //$NON-NLS-1$
-   public static final QName XSD_NORMALIZED_STRING = new QName(IAeConstants.W3C_XML_SCHEMA, "normalizedString"); //$NON-NLS-1$
-   public static final QName XSD_TOKEN = new QName(IAeConstants.W3C_XML_SCHEMA, "token"); //$NON-NLS-1$
-   public static final QName XSD_UNSIGNED_BYTE = new QName(IAeConstants.W3C_XML_SCHEMA, "unsignedByte"); //$NON-NLS-1$
-   public static final QName XSD_POSITIVE_INTEGER = new QName(IAeConstants.W3C_XML_SCHEMA, "positiveInteger"); //$NON-NLS-1$
-   public static final QName XSD_NEGATIVE_INTEGER = new QName(IAeConstants.W3C_XML_SCHEMA, "negativeInteger"); //$NON-NLS-1$
-   public static final QName XSD_NON_NEGATIVE_INTEGER = new QName(IAeConstants.W3C_XML_SCHEMA, "nonNegativeInteger"); //$NON-NLS-1$
-   public static final QName XSD_NON_POSITIVE_INTEGER = new QName(IAeConstants.W3C_XML_SCHEMA, "nonPositiveInteger"); //$NON-NLS-1$
-   public static final QName XSD_UNSIGNED_INT = new QName(IAeConstants.W3C_XML_SCHEMA, "unsignedInt"); //$NON-NLS-1$
-   public static final QName XSD_UNSIGNED_LONG = new QName(IAeConstants.W3C_XML_SCHEMA, "unsignedLong"); //$NON-NLS-1$
-   public static final QName XSD_UNSIGNED_SHORT = new QName(IAeConstants.W3C_XML_SCHEMA, "unsignedShort"); //$NON-NLS-1$
-   public static final QName XSD_NAME = new QName(IAeConstants.W3C_XML_SCHEMA, "Name"); //$NON-NLS-1$
-   public static final QName XSD_NCNAME = new QName(IAeConstants.W3C_XML_SCHEMA, "NCName"); //$NON-NLS-1$
-   public static final QName XSD_LANGUAGE = new QName(IAeConstants.W3C_XML_SCHEMA, "language"); //$NON-NLS-1$
-   public static final QName XSD_ID = new QName(IAeConstants.W3C_XML_SCHEMA, "ID"); //$NON-NLS-1$
-   public static final QName XSD_IDREF = new QName(IAeConstants.W3C_XML_SCHEMA, "IDREF"); //$NON-NLS-1$
-   public static final QName XSD_IDREFS = new QName(IAeConstants.W3C_XML_SCHEMA, " IDREFS"); //$NON-NLS-1$
-   public static final QName XSD_ENTITY = new QName(IAeConstants.W3C_XML_SCHEMA, " ENTITY"); //$NON-NLS-1$
-   public static final QName XSD_ENTITIES = new QName(IAeConstants.W3C_XML_SCHEMA, "ENTITIES"); //$NON-NLS-1$
-   public static final QName XSD_NOTATION = new QName(IAeConstants.W3C_XML_SCHEMA, " NOTATION"); //$NON-NLS-1$
-   public static final QName XSD_NMTOKENS = new QName(IAeConstants.W3C_XML_SCHEMA, " NMTOKENS"); //$NON-NLS-1$
+   public static final QName XSD_ANYURI = new QName(XMLConstants.W3C_XML_SCHEMA_NS_URI, "anyURI"); //$NON-NLS-1$
+   public static final QName XSD_BASE64_BINARY = new QName(XMLConstants.W3C_XML_SCHEMA_NS_URI, "base64Binary"); //$NON-NLS-1$
+   public static final QName XSD_BOOLEAN = new QName(XMLConstants.W3C_XML_SCHEMA_NS_URI, "boolean"); //$NON-NLS-1$
+   public static final QName XSD_BYTE = new QName(XMLConstants.W3C_XML_SCHEMA_NS_URI, "byte"); //$NON-NLS-1$
+   public static final QName XSD_DATE = new QName(XMLConstants.W3C_XML_SCHEMA_NS_URI, "date"); //$NON-NLS-1$
+   public static final QName XSD_DATETIME = new QName(XMLConstants.W3C_XML_SCHEMA_NS_URI, "dateTime"); //$NON-NLS-1$
+   public static final QName XSD_TIME = new QName(XMLConstants.W3C_XML_SCHEMA_NS_URI, "time"); //$NON-NLS-1$
+   public static final QName XSD_DURATION = new QName(XMLConstants.W3C_XML_SCHEMA_NS_URI, "duration"); //$NON-NLS-1$
+   public static final QName XSD_DECIMAL = new QName(XMLConstants.W3C_XML_SCHEMA_NS_URI, "decimal"); //$NON-NLS-1$
+   public static final QName XSD_DOUBLE = new QName(XMLConstants.W3C_XML_SCHEMA_NS_URI, "double"); //$NON-NLS-1$
+   public static final QName XSD_FLOAT = new QName(XMLConstants.W3C_XML_SCHEMA_NS_URI, "float"); //$NON-NLS-1$
+   public static final QName XSD_HEX_BINARY = new QName(XMLConstants.W3C_XML_SCHEMA_NS_URI, "hexBinary"); //$NON-NLS-1$
+   public static final QName XSD_INT = new QName(XMLConstants.W3C_XML_SCHEMA_NS_URI, "int"); //$NON-NLS-1$
+   public static final QName XSD_INTEGER = new QName(XMLConstants.W3C_XML_SCHEMA_NS_URI, "integer"); //$NON-NLS-1$
+   public static final QName XSD_LONG = new QName(XMLConstants.W3C_XML_SCHEMA_NS_URI, "long"); //$NON-NLS-1$
+   public static final QName XSD_QNAME = new QName(XMLConstants.W3C_XML_SCHEMA_NS_URI, "QName"); //$NON-NLS-1$
+   public static final QName XSD_SHORT = new QName(XMLConstants.W3C_XML_SCHEMA_NS_URI, "short"); //$NON-NLS-1$
+   public static final QName XSD_STRING = new QName(XMLConstants.W3C_XML_SCHEMA_NS_URI, "string"); //$NON-NLS-1$
+   public static final QName XSD_YEARMONTH = new QName(XMLConstants.W3C_XML_SCHEMA_NS_URI, "gYearMonth"); //$NON-NLS-1$
+   public static final QName XSD_YEAR = new QName(XMLConstants.W3C_XML_SCHEMA_NS_URI, "gYear"); //$NON-NLS-1$
+   public static final QName XSD_MONTHDAY = new QName(XMLConstants.W3C_XML_SCHEMA_NS_URI, "gMonthDay"); //$NON-NLS-1$
+   public static final QName XSD_DAY = new QName(XMLConstants.W3C_XML_SCHEMA_NS_URI, "gDay"); //$NON-NLS-1$
+   public static final QName XSD_MONTH = new QName(XMLConstants.W3C_XML_SCHEMA_NS_URI, "gMonth"); //$NON-NLS-1$
+   public static final QName XSD_NORMALIZED_STRING = new QName(XMLConstants.W3C_XML_SCHEMA_NS_URI, "normalizedString"); //$NON-NLS-1$
+   public static final QName XSD_TOKEN = new QName(XMLConstants.W3C_XML_SCHEMA_NS_URI, "token"); //$NON-NLS-1$
+   public static final QName XSD_UNSIGNED_BYTE = new QName(XMLConstants.W3C_XML_SCHEMA_NS_URI, "unsignedByte"); //$NON-NLS-1$
+   public static final QName XSD_POSITIVE_INTEGER = new QName(XMLConstants.W3C_XML_SCHEMA_NS_URI, "positiveInteger"); //$NON-NLS-1$
+   public static final QName XSD_NEGATIVE_INTEGER = new QName(XMLConstants.W3C_XML_SCHEMA_NS_URI, "negativeInteger"); //$NON-NLS-1$
+   public static final QName XSD_NON_NEGATIVE_INTEGER = new QName(XMLConstants.W3C_XML_SCHEMA_NS_URI, "nonNegativeInteger"); //$NON-NLS-1$
+   public static final QName XSD_NON_POSITIVE_INTEGER = new QName(XMLConstants.W3C_XML_SCHEMA_NS_URI, "nonPositiveInteger"); //$NON-NLS-1$
+   public static final QName XSD_UNSIGNED_INT = new QName(XMLConstants.W3C_XML_SCHEMA_NS_URI, "unsignedInt"); //$NON-NLS-1$
+   public static final QName XSD_UNSIGNED_LONG = new QName(XMLConstants.W3C_XML_SCHEMA_NS_URI, "unsignedLong"); //$NON-NLS-1$
+   public static final QName XSD_UNSIGNED_SHORT = new QName(XMLConstants.W3C_XML_SCHEMA_NS_URI, "unsignedShort"); //$NON-NLS-1$
+   public static final QName XSD_NAME = new QName(XMLConstants.W3C_XML_SCHEMA_NS_URI, "Name"); //$NON-NLS-1$
+   public static final QName XSD_NCNAME = new QName(XMLConstants.W3C_XML_SCHEMA_NS_URI, "NCName"); //$NON-NLS-1$
+   public static final QName XSD_LANGUAGE = new QName(XMLConstants.W3C_XML_SCHEMA_NS_URI, "language"); //$NON-NLS-1$
+   public static final QName XSD_ID = new QName(XMLConstants.W3C_XML_SCHEMA_NS_URI, "ID"); //$NON-NLS-1$
+   public static final QName XSD_IDREF = new QName(XMLConstants.W3C_XML_SCHEMA_NS_URI, "IDREF"); //$NON-NLS-1$
+   public static final QName XSD_IDREFS = new QName(XMLConstants.W3C_XML_SCHEMA_NS_URI, " IDREFS"); //$NON-NLS-1$
+   public static final QName XSD_ENTITY = new QName(XMLConstants.W3C_XML_SCHEMA_NS_URI, " ENTITY"); //$NON-NLS-1$
+   public static final QName XSD_ENTITIES = new QName(XMLConstants.W3C_XML_SCHEMA_NS_URI, "ENTITIES"); //$NON-NLS-1$
+   public static final QName XSD_NOTATION = new QName(XMLConstants.W3C_XML_SCHEMA_NS_URI, " NOTATION"); //$NON-NLS-1$
+   public static final QName XSD_NMTOKENS = new QName(XMLConstants.W3C_XML_SCHEMA_NS_URI, " NMTOKENS"); //$NON-NLS-1$
 
    /**
     * Statically load the simple type Set.

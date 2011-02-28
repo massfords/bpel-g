@@ -12,7 +12,6 @@ package org.activebpel.rt.bpel.server.deploy.bpr;
 import java.io.File;
 import java.io.FilenameFilter;
 import java.io.IOException;
-import java.util.Collection;
 
 import org.activebpel.rt.bpel.server.AeMessages;
 import org.activebpel.rt.bpel.server.deploy.AeDeploymentException;
@@ -50,18 +49,6 @@ public class AeJarFileBprAccessor extends AeAbstractBprStrategy
       {
          jru = new AeJarReaderUtil( getDeploymentContext().getDeploymentLocation());
          setPddResources(  jru.getEntryNames( new AeNameFilter(".pdd") ) ); //$NON-NLS-1$
-         setPdefResources( jru.getEntryNames( new AeNameFilter(".pdef") ) ); //$NON-NLS-1$
-         
-         Collection wsdds = jru.getEntryNames( new AeNameFilter(".wsdd") ); //$NON-NLS-1$
-         if( !AeUtil.isNullOrEmpty(wsdds) )
-         {
-            if( !getPddResources().isEmpty() )
-            {
-               throw new AeDeploymentException(AeMessages.getString("AeJarFileBprAccessor.ERROR_0")); //$NON-NLS-1$
-            }
-
-            setWsddResource( (String)wsdds.iterator().next() );
-         }
       }
       catch (IOException e)
       {

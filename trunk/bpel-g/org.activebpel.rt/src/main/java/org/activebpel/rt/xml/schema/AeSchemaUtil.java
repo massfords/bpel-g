@@ -17,11 +17,11 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
+import javax.xml.XMLConstants;
 import javax.xml.namespace.QName;
 
 import org.activebpel.rt.AeException;
 import org.activebpel.rt.AeMessages;
-import org.activebpel.rt.IAeConstants;
 import org.activebpel.rt.util.AeUnsynchronizedCharArrayWriter;
 import org.activebpel.rt.util.AeUtil;
 import org.activebpel.rt.wsdl.def.AeBPELExtendedWSDLDef;
@@ -48,13 +48,13 @@ import org.xml.sax.InputSource;
 public class AeSchemaUtil
 {
    /* Some QName decls of schema simple types. */
-   public static final QName sInt = new QName(IAeConstants.W3C_XML_SCHEMA, "int"); //$NON-NLS-1$ 
-   public static final QName sLong = new QName(IAeConstants.W3C_XML_SCHEMA, "long"); //$NON-NLS-1$
-   public static final QName sBoolean = new QName(IAeConstants.W3C_XML_SCHEMA, "boolean"); //$NON-NLS-1$
-   public static final QName sString = new QName(IAeConstants.W3C_XML_SCHEMA, "string"); //$NON-NLS-1$
-   public static final QName sQName = new QName(IAeConstants.W3C_XML_SCHEMA, "QName"); //$NON-NLS-1$
-   public static final QName sDateTime = new QName(IAeConstants.W3C_XML_SCHEMA, "dateTime"); //$NON-NLS-1$
-   public static final QName sBase64Binary = new QName(IAeConstants.W3C_XML_SCHEMA, "base64Binary"); //$NON-NLS-1$
+   public static final QName sInt = new QName(XMLConstants.W3C_XML_SCHEMA_NS_URI, "int"); //$NON-NLS-1$ 
+   public static final QName sLong = new QName(XMLConstants.W3C_XML_SCHEMA_NS_URI, "long"); //$NON-NLS-1$
+   public static final QName sBoolean = new QName(XMLConstants.W3C_XML_SCHEMA_NS_URI, "boolean"); //$NON-NLS-1$
+   public static final QName sString = new QName(XMLConstants.W3C_XML_SCHEMA_NS_URI, "string"); //$NON-NLS-1$
+   public static final QName sQName = new QName(XMLConstants.W3C_XML_SCHEMA_NS_URI, "QName"); //$NON-NLS-1$
+   public static final QName sDateTime = new QName(XMLConstants.W3C_XML_SCHEMA_NS_URI, "dateTime"); //$NON-NLS-1$
+   public static final QName sBase64Binary = new QName(XMLConstants.W3C_XML_SCHEMA_NS_URI, "base64Binary"); //$NON-NLS-1$
 
    /** Available built-in XML schema simple types (localPart names). */
    public final static String[] BUILT_IN_SIMPLE_TYPES = new String[]

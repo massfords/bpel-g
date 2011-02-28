@@ -13,13 +13,13 @@ import java.io.IOException;
 import java.util.Collections;
 import java.util.Iterator;
 
+import javax.xml.XMLConstants;
 import javax.xml.namespace.QName;
 import javax.xml.rpc.encoding.Deserializer;
 import javax.xml.rpc.encoding.DeserializerFactory;
 import javax.xml.rpc.encoding.SerializerFactory;
 
 import org.activebpel.rt.AeException;
-import org.activebpel.rt.bpel.def.IAeBPELConstants;
 import org.activebpel.rt.util.AeUtil;
 import org.activebpel.rt.util.AeXmlUtil;
 import org.activebpel.rt.wsdl.def.AeBPELExtendedWSDLDef;
@@ -284,7 +284,7 @@ public class AeRPCEncodedSerializer extends ElementSerializer
                   // There is a separate issue where AnyType is created with the 
                   // wrong schema ref so we have to check for that as well.
                   if (childType.isAnyType() || (AeUtil.isNullOrEmpty(tns) && childType.isSimpleType()))
-                     tns = IAeBPELConstants.W3C_XML_SCHEMA;
+                     tns = XMLConstants.W3C_XML_SCHEMA_NS_URI;
                      
                   if (AeUtil.notNullOrEmpty(tns) && AeUtil.notNullOrEmpty(typeName))
                      type = new QName(tns, typeName);
@@ -454,7 +454,7 @@ public class AeRPCEncodedSerializer extends ElementSerializer
          return ((AeElementHolder)aValue).getType();
       String typeValue =
          aElement.getAttributeNS(
-            IAeBPELConstants.W3C_XML_SCHEMA_INSTANCE,
+            XMLConstants.W3C_XML_SCHEMA_INSTANCE_NS_URI,
             "type"); //$NON-NLS-1$
       String typeNamespace =
          AeXmlUtil.getNamespaceForPrefix(

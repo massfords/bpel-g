@@ -9,7 +9,8 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpel.server.catalog.resource;
 
-import org.activebpel.rt.IAeConstants;
+import javax.xml.XMLConstants;
+
 import org.activebpel.rt.bpel.def.IAeBPELConstants;
 import org.activebpel.rt.util.AeUtil;
 import org.activebpel.rt.wsdl.def.IAeBPELExtendedWSDLConst;
@@ -62,7 +63,7 @@ public class AeResourceKey implements IAeResourceKey
     */
    public boolean isSchemaEntry()
    {
-      return IAeConstants.W3C_XML_SCHEMA.equals(getTypeURI());
+      return XMLConstants.W3C_XML_SCHEMA_NS_URI.equals(getTypeURI());
    }
 
    /**

@@ -29,12 +29,8 @@ public abstract class AeAbstractBprStrategy implements IAeBprAccessor
 {
    /** The deployment context. */
    private IAeDeploymentContext mDeploymentContext;
-   /** The wsdd resource for Axis deployments. */
-   private String mWsddResource;
    /** The pdd resource names. */
    private Collection<String> mPddResources;
-   /** The pdef resource names. */
-   private Collection mPdefResources;
    /** XML parser. */
    private AeXMLParserBase mParser;
    
@@ -48,22 +44,6 @@ public abstract class AeAbstractBprStrategy implements IAeBprAccessor
    }
    
    /**
-    * @see org.activebpel.rt.bpel.server.deploy.bpr.IAeBprAccessor#getWsddResource()
-    */
-   public String getWsddResource()
-   {
-      return mWsddResource;
-   }
-   
-   /**
-    * @see org.activebpel.rt.bpel.server.deploy.bpr.IAeBprAccessor#isWsddDeployment()
-    */
-   public boolean isWsddDeployment()
-   {
-      return getWsddResource() != null;
-   }
-   
-   /**
     * @see org.activebpel.rt.bpel.server.deploy.bpr.IAeBprAccessor#getPddResources()
     */
    public Collection getPddResources()
@@ -71,14 +51,6 @@ public abstract class AeAbstractBprStrategy implements IAeBprAccessor
       return mPddResources;
    }
 
-   /**
-    * @see org.activebpel.rt.bpel.server.deploy.bpr.IAeBprAccessor#getPdefResources()
-    */
-   public Collection getPdefResources()
-   {
-      return mPdefResources;
-   }
-   
    /**
     * @see org.activebpel.rt.bpel.server.deploy.bpr.IAeBprAccessor#getResourceAsStream(java.lang.String)
     */
@@ -104,22 +76,6 @@ public abstract class AeAbstractBprStrategy implements IAeBprAccessor
    protected void setPddResources(Collection aPddResources)
    {
       mPddResources = aPddResources;
-   }
-
-   /**
-    * @param aPdefResources The pdefResources to set.
-    */
-   protected void setPdefResources(Collection aPdefResources)
-   {
-      mPdefResources = aPdefResources;
-   }
-
-   /**
-    * @param aWsddResource The wsddResource to set.
-    */
-   protected void setWsddResource(String aWsddResource)
-   {
-      mWsddResource = aWsddResource;
    }
 
    /**

@@ -13,10 +13,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import javax.xml.XMLConstants;
 import javax.xml.namespace.QName;
 
 import org.activebpel.rt.AeException;
-import org.activebpel.rt.IAeConstants;
 import org.activebpel.rt.bpel.def.AeImportDef;
 import org.activebpel.rt.bpel.def.AeProcessDef;
 import org.activebpel.rt.bpel.def.io.AeBpelIO;
@@ -90,8 +90,8 @@ public class BgPddBuilder {
         BgPddInfo info = mPddFileNameToPddInfo.get(aName);
         Document doc = AeXmlUtil.newDocument();
         Element pdd = AeXmlUtil.addElementNS(doc, PDD, "pdd:process");
-        pdd.setAttributeNS(IAeConstants.W3C_XMLNS, "xmlns:pdd", PDD);
-        pdd.setAttributeNS(IAeConstants.W3C_XMLNS, "xmlns:bpelns", info.getProcessName().getNamespaceURI());
+        pdd.setAttributeNS(XMLConstants.XMLNS_ATTRIBUTE_NS_URI, "xmlns:pdd", PDD);
+        pdd.setAttributeNS(XMLConstants.XMLNS_ATTRIBUTE_NS_URI, "xmlns:bpelns", info.getProcessName().getNamespaceURI());
         pdd.setAttribute("name", "bpelns:" + info.getProcessName().getLocalPart());
         pdd.setAttribute("platform", "opensource");
         pdd.setAttribute("location", aName.substring(0, aName.lastIndexOf('.')));

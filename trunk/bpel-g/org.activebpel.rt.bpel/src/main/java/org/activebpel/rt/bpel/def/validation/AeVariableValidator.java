@@ -17,13 +17,13 @@ import java.util.List;
 
 import javax.wsdl.Message;
 import javax.wsdl.Part;
+import javax.xml.XMLConstants;
 import javax.xml.namespace.QName;
 
 import org.activebpel.rt.AeException;
 import org.activebpel.rt.bpel.AeMessages;
 import org.activebpel.rt.bpel.AeWSDLDefHelper;
 import org.activebpel.rt.bpel.def.AeVariableDef;
-import org.activebpel.rt.bpel.def.IAeBPELConstants;
 import org.activebpel.rt.bpel.def.io.readers.def.IAeFromStrategyNames;
 import org.activebpel.rt.bpel.def.validation.variable.AeComplexTypeQueryUsage;
 import org.activebpel.rt.bpel.def.validation.variable.AeElementPropertyUsage;
@@ -244,7 +244,7 @@ public class AeVariableValidator extends AeBaseValidator
       // don't need to locate def for simple types
       // and potentially other well known types
       QName schemaQName = getDef().getType();
-      if( !IAeBPELConstants.DEFAULT_SCHEMA_NS.equals( schemaQName.getNamespaceURI() ) )
+      if( !XMLConstants.W3C_XML_SCHEMA_NS_URI.equals( schemaQName.getNamespaceURI() ) )
       {
          if ( getWsdlDef() == null )
          {

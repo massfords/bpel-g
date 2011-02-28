@@ -13,12 +13,9 @@ import java.io.File;
 import java.io.FileFilter;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 
-import org.activebpel.rt.bpel.server.AeMessages;
 import org.activebpel.rt.bpel.server.deploy.AeDeploymentException;
 import org.activebpel.rt.bpel.server.deploy.IAeDeploymentContext;
-import org.activebpel.rt.util.AeUtil;
 
 /**
  * A <code>IAeBprFileStrategy</code> impl where bpr resources are pulled from
@@ -44,22 +41,6 @@ public class AeUnpackedBprAccessor extends AeAbstractBprStrategy
       
       setPddResources(new ArrayList()); 
       listFiles( getPddResources(), rootDir, "", new AeSuffixFilter(".pdd") ); //$NON-NLS-1$ //$NON-NLS-2$
-
-      setPdefResources( new ArrayList() );
-      listFiles( getPdefResources(), rootDir, "", new AeSuffixFilter(".pdef") ); //$NON-NLS-1$ //$NON-NLS-2$
-
-      List wsddList = new ArrayList();
-      listFiles( wsddList, rootDir, "", new AeSuffixFilter(".wsdd") ); //$NON-NLS-1$ //$NON-NLS-2$
-      
-      if( !AeUtil.isNullOrEmpty(wsddList) )
-      {
-         if( !getPddResources().isEmpty() )
-         {
-            throw new AeDeploymentException(AeMessages.getString("AeUnpackedBprFile.ERROR_0"));  //$NON-NLS-1$
-         }
-
-         setWsddResource( (String)wsddList.iterator().next() );
-      }
    }
 
    /**

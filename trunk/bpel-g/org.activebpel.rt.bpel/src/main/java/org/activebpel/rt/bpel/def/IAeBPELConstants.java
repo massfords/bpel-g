@@ -59,9 +59,6 @@ public interface IAeBPELConstants extends IAeBaseXmlDefConstants
    /** Preferred prefix for wsbpel abstract process namespace. */
    public static final String ABSTRACT_PROC_PREFIX = "absbpel"; //$NON-NLS-1$
 
-   /** Default Schema NS */
-   public static final String DEFAULT_SCHEMA_NS = "http://www.w3.org/2001/XMLSchema"; //$NON-NLS-1$
-
    public static final String ATTR_NO  = "no"; //$NON-NLS-1$
    public static final String ATTR_YES = "yes"; //$NON-NLS-1$
 
@@ -247,8 +244,4 @@ public interface IAeBPELConstants extends IAeBaseXmlDefConstants
    public static final String BPWS_XPATH_EXPR_LANGUAGE_URI = "http://www.w3.org/TR/1999/REC-xpath-19991116"; //$NON-NLS-1$
    /** The value of "expressionLanguage" for XPath (also the default for BPEL 2.0). */
    public static final String WSBPEL_EXPR_LANGUAGE_URI = "urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0"; //$NON-NLS-1$
-   /** The value of "expressionLanguage" for XQuery (extension language by AEI). */
-   public static final String XQUERY_EXPR_LANGUAGE_URI = "urn:active-endpoints:expression-language:xquery1.0"; //$NON-NLS-1$
-   /** The value of "expressionLanguage" for JavaScript (extension language by AEI). */
-   public static final String JAVASCRIPT_EXPR_LANGUAGE_URI = "urn:active-endpoints:expression-language:javascript1.5"; //$NON-NLS-1$
 }

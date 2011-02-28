@@ -24,13 +24,14 @@ import org.activebpel.rt.bpel.server.deploy.AeUnpackedDeploymentStager;
 import org.activebpel.rt.bpel.server.deploy.IAeDeploymentContainer;
 import org.activebpel.rt.bpel.server.deploy.IAeDeploymentContainerFactory;
 import org.activebpel.rt.bpel.server.deploy.IAeDeploymentHandler;
-import org.activebpel.rt.bpel.server.deploy.validate.AeDeploymentFileValidator;
 import org.activebpel.rt.bpel.server.engine.AeEngineFactory;
 import org.activebpel.rt.bpel.server.engine.config.AeFileBasedEngineConfig;
 import org.activebpel.rt.bpel.server.logging.IAeDeploymentLogger;
 import org.activebpel.rt.bpel.server.logging.IAeDeploymentLoggerFactory;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+
+import bpelg.services.deploy.types.UndeploymentRequest;
 
 /**
  * Active bprl impl of the <code>IAeDeploymentFileHandler</code>.
@@ -58,8 +59,7 @@ public class AeDeploymentFileHandler implements IAeDeploymentFileHandler, IAeSca
     protected FilenameFilter getDeploymentFileFilter() {
         return new FilenameFilter() {
             public boolean accept(File aDir, String aFileName) {
-                return aFileName.endsWith(AeDeploymentFileInfo.WSR_SUFFIX)
-                        || aFileName.endsWith(AeDeploymentFileInfo.BPR_SUFFIX)
+                return aFileName.endsWith(AeDeploymentFileInfo.BPR_SUFFIX)
                         || aFileName.endsWith(".zip")
                         || aFileName.endsWith(AeDeploymentFileInfo.getConfigFileName());
             }
@@ -164,12 +164,8 @@ public class AeDeploymentFileHandler implements IAeDeploymentFileHandler, IAeSca
         } else {
             URL tempURL = unpackDeployment(aURL);
 
-            if (tempURL != null) {
-                if (AeDeploymentFileInfo.isWsrFile(aURL)) {
-                    handleAddWsr(aURL);
-                } else if (AeDeploymentFileInfo.isBprFile(aURL)) {
-                    handleAddBpr(aURL, aLogger);
-                }
+            if (tempURL != null && AeDeploymentFileInfo.isBprFile(aURL)) {
+                handleAddBpr(aURL, aLogger);
             }
         }
     }
@@ -180,16 +176,7 @@ public class AeDeploymentFileHandler implements IAeDeploymentFileHandler, IAeSca
      * @param aBprUrl
      */
     protected void handleAddBpr(URL aBprUrl, IAeDeploymentLogger aLogger) {
-        handleAddInternal(aBprUrl, true, aLogger);
-    }
-
-    /**
-     * Handle a new Web Service archive file.
-     * 
-     * @param aFileUrl
-     */
-    protected void handleAddWsr(URL aFileUrl) {
-        handleAddInternal(aFileUrl, false, null);
+        handleAddInternal(aBprUrl, aLogger);
     }
 
     /**
@@ -206,12 +193,10 @@ public class AeDeploymentFileHandler implements IAeDeploymentFileHandler, IAeSca
      * deployments and deploys them via the <code>IAeDeploymentHandler</code>.
      * 
      * @param aFileUrl
-     * @param aBprFlag
-     *            True indicates that this is a BPR deployment (bpr file).
      * @param aLogger
      *            The deployment logger to use, if null a new one is created.
      */
-    protected void handleAddInternal(URL aFileUrl, boolean aBprFlag, IAeDeploymentLogger aLogger) {
+    protected void handleAddInternal(URL aFileUrl, IAeDeploymentLogger aLogger) {
         IAeDeploymentLogger logger = aLogger;
         try {
             AeNewDeploymentInfo info = new AeNewDeploymentInfo();
@@ -225,8 +210,6 @@ public class AeDeploymentFileHandler implements IAeDeploymentFileHandler, IAeSca
                 logger = AeEngineFactory.getBean(IAeDeploymentLoggerFactory.class).createLogger();
             }
             logger.setContainerName(deployContainer.getShortName());
-
-            AeDeploymentFileValidator.validateFileType(deployContainer, aBprFlag, logger);
 
             // If the file type is valid, then use the deployment handler to
             // deploy the BPR.
@@ -283,32 +266,20 @@ public class AeDeploymentFileHandler implements IAeDeploymentFileHandler, IAeSca
      */
     public void handleRemove(URL aURL) {
         if (!AeDeploymentFileInfo.isEngineConfig(aURL)) {
-            if (AeDeploymentFileInfo.isWsrFile(aURL)) {
-                sLog.info(AeMessages.getString("AeDeploymentFileHandler.4") + aURL); //$NON-NLS-1$
-                handleRemoveWsr(aURL);
-            } else if (AeDeploymentFileInfo.isBprFile(aURL)) {
-                handleRemoveBpr(aURL);
+            if (AeDeploymentFileInfo.isBprFile(aURL)) {
+                sLog.info(AeMessages.getString("AeDeploymentFileHandler.5") + aURL); //$NON-NLS-1$
+				undeploy(aURL);
             }
         }
     }
 
-    /**
-     * Handle removal of a web services archive.
-     * 
-     * @param aFileUrl
-     */
-    protected void handleRemoveWsr(URL aFileUrl) {
-        handleRemoveInternal(aFileUrl);
-    }
-
-    /**
-     * Handle removal of a BPEL deployment archive.
-     * 
-     * @param aFileUrl
-     */
-    protected void handleRemoveBpr(URL aFileUrl) {
-        sLog.info(AeMessages.getString("AeDeploymentFileHandler.5") + aFileUrl); //$NON-NLS-1$
-        handleRemoveInternal(aFileUrl);
+    public boolean undeploy(UndeploymentRequest aRequest) {
+    	try {
+			return undeploy(new File(mScanner.getScanDir(), aRequest.getDeploymentContainerId()).toURI().toURL());
+		} catch (MalformedURLException e) {
+			sLog.error(e);
+			return false;
+		}
     }
 
     /**
@@ -317,7 +288,7 @@ public class AeDeploymentFileHandler implements IAeDeploymentFileHandler, IAeSca
      * 
      * @param aFileUrl
      */
-    protected void handleRemoveInternal(URL aFileUrl) {
+    public boolean undeploy(URL aFileUrl) {
         try {
             URL tempUrl = getUnpackedDeploymentStager().getTempURL(aFileUrl);
             AeNewDeploymentInfo info = new AeNewDeploymentInfo();
@@ -326,9 +297,11 @@ public class AeDeploymentFileHandler implements IAeDeploymentFileHandler, IAeSca
             IAeDeploymentHandler handler = getDeploymentHandler();
             handler.undeploy(getDeploymentContainerFactory().createUndeploymentContainer(info));
             getUnpackedDeploymentStager().removeTempDir(aFileUrl);
+            return true;
         } catch (Exception ex) {
             sLog.error(MessageFormat.format(AeMessages.getString("AeDeploymentFileHandler.ERROR_6"), //$NON-NLS-1$
                     new Object[] { aFileUrl }), ex);
+            return false;
         }
     }
 

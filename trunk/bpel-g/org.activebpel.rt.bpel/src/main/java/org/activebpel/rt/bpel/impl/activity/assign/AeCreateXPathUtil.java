@@ -11,7 +11,8 @@ package org.activebpel.rt.bpel.impl.activity.assign;
 
 import java.util.StringTokenizer;
 
-import org.activebpel.rt.IAeConstants;
+import javax.xml.XMLConstants;
+
 import org.activebpel.rt.bpel.AeBusinessProcessException;
 import org.activebpel.rt.bpel.AeMessages;
 import org.activebpel.rt.bpel.def.IAeBPELConstants;
@@ -145,7 +146,7 @@ public class AeCreateXPathUtil
             newElement = doc.createElementNS(namespaceURI, aToken);
             doc.appendChild(newElement);
             if (namespaceURI != null)
-               newElement.setAttributeNS(IAeConstants.W3C_XMLNS, "xmlns:" + prefix, namespaceURI); //$NON-NLS-1$
+               newElement.setAttributeNS(XMLConstants.XMLNS_ATTRIBUTE_NS_URI, "xmlns:" + prefix, namespaceURI); //$NON-NLS-1$
          }
          else
          {
@@ -180,7 +181,7 @@ public class AeCreateXPathUtil
                if(newPrefix == null)
                {
                   newElement = aCurrentNode.getOwnerDocument().createElementNS(namespaceURI, aToken);
-                  newElement.setAttributeNS(IAeConstants.W3C_XMLNS, "xmlns:" + prefix, namespaceURI); //$NON-NLS-1$
+                  newElement.setAttributeNS(XMLConstants.XMLNS_ATTRIBUTE_NS_URI, "xmlns:" + prefix, namespaceURI); //$NON-NLS-1$
                }
                else if(newPrefix.equals("")) //$NON-NLS-1$
                {
@@ -253,7 +254,7 @@ public class AeCreateXPathUtil
             if(AeUtil.isNullOrEmpty(newPrefix))
             {
                newAttribute = element.getOwnerDocument().createAttributeNS(namespaceURI, aToken);
-               element.setAttributeNS(IAeConstants.W3C_XMLNS, "xmlns:" + prefix, namespaceURI); //$NON-NLS-1$
+               element.setAttributeNS(XMLConstants.XMLNS_ATTRIBUTE_NS_URI, "xmlns:" + prefix, namespaceURI); //$NON-NLS-1$
             }
             else
             {
@@ -343,7 +344,7 @@ public class AeCreateXPathUtil
          {
             Element element = doc.createElementNS(namespaceURI, newName);
             if(newPrefix != null)
-               element.setAttributeNS(IAeConstants.W3C_XMLNS, "xmlns:" + newPrefix, namespaceURI); //$NON-NLS-1$
+               element.setAttributeNS(XMLConstants.XMLNS_ATTRIBUTE_NS_URI, "xmlns:" + newPrefix, namespaceURI); //$NON-NLS-1$
             aCurrentNode = parent.appendChild(element);
             count++;
          }

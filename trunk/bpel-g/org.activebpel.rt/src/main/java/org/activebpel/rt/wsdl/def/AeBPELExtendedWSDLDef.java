@@ -49,6 +49,7 @@ import javax.wsdl.factory.WSDLFactory;
 import javax.wsdl.xml.WSDLLocator;
 import javax.wsdl.xml.WSDLReader;
 import javax.wsdl.xml.WSDLWriter;
+import javax.xml.XMLConstants;
 import javax.xml.namespace.QName;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerFactory;
@@ -1288,13 +1289,13 @@ public class AeBPELExtendedWSDLDef implements IAeBPELExtendedWSDLConst, IAeMutab
          UnknownExtensibilityElement extElement = new UnknownExtensibilityElement();
          types.addExtensibilityElement(extElement);
          StringBuffer buff = new StringBuffer();
-         buff.append("<xs:schema xmlns:xs='").append(IAeConstants.W3C_XML_SCHEMA).append("'>\n"); //$NON-NLS-1$//$NON-NLS-2$
+         buff.append("<xs:schema xmlns:xs='").append(XMLConstants.W3C_XML_SCHEMA_NS_URI).append("'>\n"); //$NON-NLS-1$//$NON-NLS-2$
          buff.append("\t\t<xs:import namespace=\'").append(aNS).append("' schemaLocation='").append(aLoc).append("'/>\n"); //$NON-NLS-1$//$NON-NLS-2$ //$NON-NLS-3$
          buff.append("\t</xs:schema>"); //$NON-NLS-1$
          
          Document doc = AeXmlUtil.toDoc(buff.toString());
          extElement.setElement(doc.getDocumentElement());
-         extElement.setElementType(new QName(IAeConstants.W3C_XML_SCHEMA, "import")); //$NON-NLS-1$
+         extElement.setElementType(new QName(XMLConstants.W3C_XML_SCHEMA_NS_URI, "import")); //$NON-NLS-1$
       }
    }
 

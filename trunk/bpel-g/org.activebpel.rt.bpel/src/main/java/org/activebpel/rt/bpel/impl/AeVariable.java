@@ -11,6 +11,7 @@ package org.activebpel.rt.bpel.impl;
 
 import java.util.Collection;
 
+import javax.xml.XMLConstants;
 import javax.xml.namespace.QName;
 
 import org.activebpel.rt.attachment.AeAttachmentContainer;
@@ -20,7 +21,6 @@ import org.activebpel.rt.bpel.AeMessages;
 import org.activebpel.rt.bpel.AeWSDLDefHelper;
 import org.activebpel.rt.bpel.IAeVariable;
 import org.activebpel.rt.bpel.def.AeVariableDef;
-import org.activebpel.rt.bpel.def.IAeBPELConstants;
 import org.activebpel.rt.bpel.impl.activity.IAeCopyFromParent;
 import org.activebpel.rt.bpel.impl.activity.IAeVariableContainer;
 import org.activebpel.rt.bpel.impl.activity.assign.IAeFrom;
@@ -603,7 +603,7 @@ public class AeVariable implements IAeVariable, IAeCopyFromParent, Cloneable
             //       The other was copying element to element or string to element where it created the container element using aetgt as the prefix and setting the attribute in place
             //       I'm not convinced that we need to have support for both flavors
             Element element = doc.createElementNS(elementName.getNamespaceURI(), "aetgt:"+elementName.getLocalPart()); //$NON-NLS-1$
-            element.setAttributeNS(IAeBPELConstants.W3C_XMLNS, "xmlns:aetgt", elementName.getNamespaceURI()); //$NON-NLS-1$
+            element.setAttributeNS(XMLConstants.XMLNS_ATTRIBUTE_NS_URI, "xmlns:aetgt", elementName.getNamespaceURI()); //$NON-NLS-1$
             doc.appendChild(element);
             mElementData = doc;
          }
@@ -678,7 +678,7 @@ public class AeVariable implements IAeVariable, IAeCopyFromParent, Cloneable
       else
       {
          root = doc.createElementNS(aNamespaceURI, "aetgt:"+aLocalName); //$NON-NLS-1$
-         root.setAttributeNS(IAeBPELConstants.W3C_XMLNS, "xmlns:aetgt", aNamespaceURI); //$NON-NLS-1$
+         root.setAttributeNS(XMLConstants.XMLNS_ATTRIBUTE_NS_URI, "xmlns:aetgt", aNamespaceURI); //$NON-NLS-1$
       }
       doc.appendChild(root);
       return doc;

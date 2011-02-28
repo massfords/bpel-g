@@ -18,11 +18,11 @@ import javax.wsdl.Definition;
 import javax.wsdl.Types;
 import javax.wsdl.extensions.UnknownExtensibilityElement;
 import javax.wsdl.xml.WSDLLocator;
+import javax.xml.XMLConstants;
 import javax.xml.namespace.QName;
 
 import org.activebpel.rt.AeException;
 import org.activebpel.rt.AeMessages;
-import org.activebpel.rt.IAeConstants;
 import org.activebpel.rt.util.AeCloser;
 import org.activebpel.rt.util.AeUtil;
 import org.activebpel.rt.util.AeXmlUtil;
@@ -46,7 +46,7 @@ import org.xml.sax.InputSource;
 public class AeSchemaParserUtil
 {
    // constants for schema parsing
-   private static final QName SCHEMA_QNAME = new QName(IAeConstants.W3C_XML_SCHEMA, "schema");  //$NON-NLS-1$ 
+   private static final QName SCHEMA_QNAME = new QName(XMLConstants.W3C_XML_SCHEMA_NS_URI, "schema");  //$NON-NLS-1$ 
    private static final String IMPORT = "import"; //$NON-NLS-1$
    public static final String SCHEMA_LOCATION = "schemaLocation"; //$NON-NLS-1$
 
@@ -187,10 +187,10 @@ public class AeSchemaParserUtil
             for( int i = 0; i < attrs.getLength(); ++i )
             {
                Attr attr = (Attr) attrs.item(i);
-               if( IAeConstants.W3C_XMLNS.equals(attr.getNamespaceURI()) )
+               if( XMLConstants.XMLNS_ATTRIBUTE_NS_URI.equals(attr.getNamespaceURI()) )
                {
                   if( !element.hasAttribute(attr.getNodeName()) )
-                     element.setAttributeNS(IAeConstants.W3C_XMLNS, attr
+                     element.setAttributeNS(XMLConstants.XMLNS_ATTRIBUTE_NS_URI, attr
                            .getNodeName(), attr.getNodeValue());
                }
             }
@@ -216,7 +216,7 @@ public class AeSchemaParserUtil
                if( AeUtil.isNullOrEmpty(prefix) )
                {
                   prefix = "ae__temp_ns" + prefixCount++; //$NON-NLS-1$
-                  element.setAttributeNS(IAeConstants.W3C_XMLNS,
+                  element.setAttributeNS(XMLConstants.XMLNS_ATTRIBUTE_NS_URI,
                         "xmlns:" + prefix, namespace); //$NON-NLS-1$
                }
             }

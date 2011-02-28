@@ -4,14 +4,18 @@ import java.io.ByteArrayInputStream;
 
 import org.activebpel.rt.AeException;
 import org.activebpel.rt.bpel.server.deploy.bpr.AeTempFileUploadHandler;
+import org.activebpel.rt.bpel.server.deploy.scanner.IAeDeploymentFileHandler;
 import org.activebpel.rt.bpel.server.logging.AeStructuredDeploymentLog;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import bpelg.services.deploy.AeDeployer;
 import bpelg.services.deploy.types.DeploymentResponse;
+import bpelg.services.deploy.types.UndeploymentRequest;
 
 public class AeDeploymentService implements AeDeployer {
+	
+	private IAeDeploymentFileHandler mDeploymentHandler;
 	
 	private static Log sLog = LogFactory.getLog(AeDeploymentService.class);
 
@@ -24,11 +28,20 @@ public class AeDeploymentService implements AeDeployer {
 			sLog.error(e);
 		}
         DeploymentResponse response = logger.getDeploymentSummary();
+        response.setDeploymentContainerId(aName);
         return response;
 	}
 
 	@Override
-	public boolean undeploy(String aName) {
+	public boolean undeploy(UndeploymentRequest aName) {
 		return false;
+	}
+
+	public IAeDeploymentFileHandler getDeploymentHandler() {
+		return mDeploymentHandler;
+	}
+
+	public void setDeploymentHandler(IAeDeploymentFileHandler aDeploymentHandler) {
+		mDeploymentHandler = aDeploymentHandler;
 	}
 }

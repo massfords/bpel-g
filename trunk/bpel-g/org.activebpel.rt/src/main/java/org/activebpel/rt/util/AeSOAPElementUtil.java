@@ -13,10 +13,10 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
+import javax.xml.XMLConstants;
 import javax.xml.soap.SOAPElement;
 import javax.xml.soap.SOAPException;
 
-import org.activebpel.rt.IAeConstants;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
@@ -245,11 +245,11 @@ public class AeSOAPElementUtil
             {
                if (AeUtil.notNullOrEmpty(prefixToCheck))
                {
-                  aTarget.setAttributeNS(IAeConstants.W3C_XMLNS, "xmlns:" + prefixToCheck, sourceNamespace); //$NON-NLS-1$
+                  aTarget.setAttributeNS(XMLConstants.XMLNS_ATTRIBUTE_NS_URI, "xmlns:" + prefixToCheck, sourceNamespace); //$NON-NLS-1$
                }
                else
                {
-                  aTarget.setAttributeNS(IAeConstants.W3C_XMLNS, "xmlns", sourceNamespace); //$NON-NLS-1$
+                  aTarget.setAttributeNS(XMLConstants.XMLNS_ATTRIBUTE_NS_URI, "xmlns", sourceNamespace); //$NON-NLS-1$
                }
             }
          }
