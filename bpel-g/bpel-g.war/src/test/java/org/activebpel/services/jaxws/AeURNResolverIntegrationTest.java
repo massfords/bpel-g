@@ -27,7 +27,8 @@ public class AeURNResolverIntegrationTest {
 
     @Before
 	public void setUp() throws Exception {
-	    Service svc = Service.create(new URL("http://localhost:8080/bpel-g/cxf/URNResolver?wsdl"), new QName("urn:bpel-g:services:urn-resolver", "URNResolver"));
+    	String catalina_port = System.getProperty("CATALINA_PORT", "8080");
+	    Service svc = Service.create(new URL("http://localhost:" + catalina_port + "/bpel-g/cxf/URNResolver?wsdl"), new QName("urn:bpel-g:services:urn-resolver", "URNResolver"));
 	    resolver = svc.getPort(AeURNResolver.class);
 	}
     
