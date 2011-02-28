@@ -53,7 +53,7 @@ public class AeAddAttachmentBean extends AeNewAttachmentUploader
     */
    public void addAttachment(Map aAttributes)
    {
-       // FIXME attachements
+       // BPELG-64 attachments
 //      try
 //      {
 //         getAdmin().addVariableAttachment(getPidAsLong(), getPath(), new AeWebServiceAttachment(getContent(), aAttributes));

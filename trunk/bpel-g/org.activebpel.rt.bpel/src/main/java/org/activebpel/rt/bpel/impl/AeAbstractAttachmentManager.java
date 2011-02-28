@@ -45,7 +45,7 @@ public abstract class AeAbstractAttachmentManager extends AeManagerAdapter imple
     */
    public AeAbstractAttachmentManager()
    {
-      // FIXME attachments - what's up w/ this circular dependency?
+      // BPELG-64 attachments - what's up w/ this circular dependency?
       // Pass attachment conversion to the data converter
       AeDataConverter.setAttachmentManager(this);
    }
@@ -64,7 +64,7 @@ public abstract class AeAbstractAttachmentManager extends AeManagerAdapter imple
    {
       if ( mDebug )
       {
-    	  // FIXME attachments - nice logging jeff!
+    	  // BPELG-64 attachments - nice logging jeff!
          System.out.println("[AttachmentManager] " + aMessage); //$NON-NLS-1$
       }
    }
