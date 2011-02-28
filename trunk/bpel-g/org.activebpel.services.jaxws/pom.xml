@@ -8,6 +8,12 @@
       <artifactId>bpel-g</artifactId>
       <version>5.2-SNAPSHOT</version>
    </parent>
+  <name>ActiveBPEL Service Bindings</name>
+  <description>
+    Contains JAX-WS generated service implementations using JAXB data bindings for all of the 
+    WSDL's in the services project. This a standard Apache CXF project. The fluent-api XJC plugin
+    is used to provide easier interaction with the JAXB classes. It's a beautiful thing.
+   </description>
    <build>
       <plugins>
          <plugin>
