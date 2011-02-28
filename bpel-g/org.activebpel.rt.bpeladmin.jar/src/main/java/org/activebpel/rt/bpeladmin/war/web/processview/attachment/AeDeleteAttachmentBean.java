@@ -22,7 +22,7 @@ public class AeDeleteAttachmentBean extends AeAttachmentBeanBase
     */
    public void setDeleteItem(String aItemNumber)
    {
-       // FIXME attachments
+       // BPELG-64 attachments
 //      try
 //      {
 //         int[] itemNumber = new int[1];
