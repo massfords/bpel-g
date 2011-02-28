@@ -56,7 +56,7 @@ public class AeDeploymentFileHandler implements IAeDeploymentFileHandler, IAeSca
     /**
      * Return <code>FilenameFilter</code> for deployment files.
      */
-    protected FilenameFilter getDeploymentFileFilter() {
+    private FilenameFilter getDeploymentFileFilter() {
         return new FilenameFilter() {
             public boolean accept(File aDir, String aFileName) {
                 return aFileName.endsWith(AeDeploymentFileInfo.BPR_SUFFIX)
@@ -69,7 +69,7 @@ public class AeDeploymentFileHandler implements IAeDeploymentFileHandler, IAeSca
     /**
      * Returns the unpacked deployment stager instance to use.
      */
-    protected AeUnpackedDeploymentStager getUnpackedDeploymentStager() {
+    private AeUnpackedDeploymentStager getUnpackedDeploymentStager() {
         return AeUnpackedDeploymentStager.getInstance();
     }
 
@@ -115,6 +115,20 @@ public class AeDeploymentFileHandler implements IAeDeploymentFileHandler, IAeSca
      *      java.lang.String,
      *      org.activebpel.rt.bpel.server.logging.IAeDeploymentLogger)
      */
+    // FIXME deployment - the synchronization here is confusing. Clean it up
+    // steps for deployment from web service:
+    // 1. acquire lock here
+    // 2. add file to scanner
+    // 3. scanner acquires its lock
+    // 4. scanner fires remove event if needed 
+    // 5. --> remove event propagates here and undeploys existing version
+    // 6. scanner file is copied from temp dir to main dir 
+    // 7. scanner records file name as a deployment
+    // 8. scanner fires add event
+    // 9. --> add event propagates here and deploys resource
+    // 10. any errors are reported back to the caller via the deployment logger 
+    //     (which is passed in as java.lang.Object and propagated w/ the events)
+    // 11. blech :(
     public synchronized void handleDeployment(File aFile, String aFilename,
             IAeDeploymentLogger aLogger) throws AeException {
         try {
@@ -130,7 +144,7 @@ public class AeDeploymentFileHandler implements IAeDeploymentFileHandler, IAeSca
     /**
      * Create the directory scanner.
      */
-    protected void createScanner() {
+    private void createScanner() {
         File deploymentDir = AeDeploymentFileInfo.getDeploymentDirectory();
         AeDirectoryScanner scanner = new AeDirectoryScanner(deploymentDir, mScanInterval,
                 getDeploymentFileFilter(), null);
@@ -158,34 +172,51 @@ public class AeDeploymentFileHandler implements IAeDeploymentFileHandler, IAeSca
      * 
      * @param aURL
      */
-    public void handleAdd(URL aURL, IAeDeploymentLogger aLogger) {
+    private void handleAdd(URL aURL, IAeDeploymentLogger aLogger) {
         if (AeDeploymentFileInfo.isEngineConfig(aURL)) {
-            handleAddConfig(aURL);
+            ((AeFileBasedEngineConfig) AeEngineFactory.getEngineConfig()).updateBecauseFileChanged();
         } else {
             URL tempURL = unpackDeployment(aURL);
 
             if (tempURL != null && AeDeploymentFileInfo.isBprFile(aURL)) {
-                handleAddBpr(aURL, aLogger);
+                IAeDeploymentLogger logger = aLogger;
+				try {
+				    AeNewDeploymentInfo info = new AeNewDeploymentInfo();
+				    info.setURL(aURL);
+				    info.setTempURL(getUnpackedDeploymentStager().getTempURL(aURL));
+				    IAeDeploymentContainer deployContainer = getDeploymentContainerFactory().createDeploymentContainer(
+				            info);
+				
+				    // If the logger is null, used the factory to create a new one.
+				    if (logger == null) {
+				        logger = AeEngineFactory.getBean(IAeDeploymentLoggerFactory.class).createLogger();
+				    }
+				    logger.setContainerName(deployContainer.getShortName());
+				
+				    // If the file type is valid, then use the deployment handler to
+				    // deploy the BPR.
+				    if (!logger.hasErrors()) {
+				        IAeDeploymentHandler handler = getDeploymentHandler();
+				        handler.deploy(deployContainer, logger);
+				    } else {
+				        sLog.info(MessageFormat.format(AeMessages.getString("AeDeploymentFileHandler.1"), //$NON-NLS-1$
+				                new Object[] { deployContainer.getShortName() }));
+				    }
+				} catch (Throwable t) {
+				    sLog.error(
+				            MessageFormat.format(
+				                    AeMessages.getString("AeDeploymentFileHandler.ERROR_2"), new Object[] { aURL }), t); //$NON-NLS-1$
+				    if (logger != null) {
+				        logger.addInfo(
+				                AeMessages.getString("AeDeploymentFileHandler.ERROR_DEPLOYING_BPR"), new Object[] { aURL.toString(), t.getLocalizedMessage() }, null); //$NON-NLS-1$
+				    }
+				} finally {
+				    if (logger != null) {
+				        logger.close();
+				    }
+				}
             }
         }
-    }
-
-    /**
-     * Handle a new bpr archive file.
-     * 
-     * @param aBprUrl
-     */
-    protected void handleAddBpr(URL aBprUrl, IAeDeploymentLogger aLogger) {
-        handleAddInternal(aBprUrl, aLogger);
-    }
-
-    /**
-     * Handle a new engine config file.
-     * 
-     * @param aFileURL
-     */
-    protected void handleAddConfig(URL aFileURL) {
-        ((AeFileBasedEngineConfig) AeEngineFactory.getEngineConfig()).updateBecauseFileChanged();
     }
 
     /**
@@ -264,18 +295,21 @@ public class AeDeploymentFileHandler implements IAeDeploymentFileHandler, IAeSca
      * 
      * @param aURL
      */
-    public void handleRemove(URL aURL) {
-        if (!AeDeploymentFileInfo.isEngineConfig(aURL)) {
-            if (AeDeploymentFileInfo.isBprFile(aURL)) {
-                sLog.info(AeMessages.getString("AeDeploymentFileHandler.5") + aURL); //$NON-NLS-1$
-				undeploy(aURL);
-            }
+    private void handleRemove(URL aURL) {
+        if (AeDeploymentFileInfo.isBprFile(aURL)) {
+            sLog.info(AeMessages.getString("AeDeploymentFileHandler.5") + aURL); //$NON-NLS-1$
+			undeploy(aURL);
         }
     }
 
-    public boolean undeploy(UndeploymentRequest aRequest) {
+    // FIXME this is a temp fix until the deployment issue above is resolved. Need to clean up scanner/handler interaction
+    public synchronized boolean undeploy(UndeploymentRequest aRequest) {
     	try {
-			return undeploy(new File(mScanner.getScanDir(), aRequest.getDeploymentContainerId()).toURI().toURL());
+			File file = new File(mScanner.getScanDir(), aRequest.getDeploymentContainerId());
+			boolean result = undeploy(file.toURI().toURL());
+			if (result)
+				file.delete();
+			return result;
 		} catch (MalformedURLException e) {
 			sLog.error(e);
 			return false;
@@ -288,7 +322,7 @@ public class AeDeploymentFileHandler implements IAeDeploymentFileHandler, IAeSca
      * 
      * @param aFileUrl
      */
-    public boolean undeploy(URL aFileUrl) {
+    private boolean undeploy(URL aFileUrl) {
         try {
             URL tempUrl = getUnpackedDeploymentStager().getTempURL(aFileUrl);
             AeNewDeploymentInfo info = new AeNewDeploymentInfo();
@@ -309,14 +343,14 @@ public class AeDeploymentFileHandler implements IAeDeploymentFileHandler, IAeSca
      * @param scanner
      *            The scanner to set.
      */
-    protected void setScanner(AeDirectoryScanner scanner) {
+    private void setScanner(AeDirectoryScanner scanner) {
         mScanner = scanner;
     }
 
     /**
      * @return Returns the scanner.
      */
-    protected AeDirectoryScanner getScanner() {
+    private AeDirectoryScanner getScanner() {
         return mScanner;
     }
 
