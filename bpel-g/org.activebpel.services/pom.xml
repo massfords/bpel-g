@@ -7,4 +7,10 @@
       <artifactId>bpel-g</artifactId>
       <version>5.2-SNAPSHOT</version>
    </parent>
+  <name>ActiveBPEL Service Definitions</name>
+  <description>
+    Contains WSDL and XSD related to the administration of the platform. Contains a mix of old and
+   new service definitions. Not all of them are implemented as the migration from the old Apace Axis
+   SOAP stack to Apache CXF is an ongoing effort.
+   </description>
 </project>
