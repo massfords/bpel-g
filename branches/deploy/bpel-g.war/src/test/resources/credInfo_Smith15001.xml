@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<loan:loanProcessRequest xmlns:loan="http://schemas.active-endpoints.com/sample/LoanRequest/2008/02/loanRequest.xsd">
+   <loan:loanType>Auto</loan:loanType>
+   <loan:firstName>Sammy</loan:firstName>
+   <loan:lastName>Smith</loan:lastName>
+   <loan:dayPhone>561</loan:dayPhone>
+   <loan:nightPhone>999</loan:nightPhone>
+   <loan:socialSecurityNumber>054871884</loan:socialSecurityNumber>
+   <loan:amountRequested>15001</loan:amountRequested>
+   <loan:loanDescription></loan:loanDescription>
+   <loan:responseEmail></loan:responseEmail>
+</loan:loanProcessRequest>

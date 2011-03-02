@@ -1,0 +1,132 @@
+BODY { background-color: #FFFFFF; font-family: Arial,Helvetica,sans-serif; color: #000000; font-size: 0.9em;}
+A:active { text-decoration: underline }
+A:link { text-decoration: none; color: #0000ff}
+A:visited { text-decoration: none; color: #800080}
+A:hover { text-decoration: underline }
+
+h1, h2, h3, h4, h5, h6 { font-family: Arial,sans-serif;  margin: 0px; padding: 0px; }
+
+P { font-family: Arial,Helvetica,sans-serif; color: #000000}
+TD { font-family: Arial,Helvetica,sans-serif; color: #000000}
+TR { padding: 1px; font-family: Arial,Helvetica,sans-serif; color: #000000}
+TEXTAREA {font-family: Arial,Helvetica,sans-serif; color: #000000; font-size: 0.8em; }
+INPUT {font-family: Arial,Helvetica,sans-serif; color: #000000; font-size: 0.8em; }
+BUTTON {font-family: Arial,Helvetica,sans-serif; color: #000000; font-size: 0.8em; }
+
+.columnHeaders { font-weight: bold; color: #000000; border-top: 1px solid black; font-family: Arial,Helvetica,sans-serif; border-bottom: 1px solid black; background-color: #D3E4F5; }
+.columnHeaders A:active { text-decoration: underline; color: #ffffff}
+.columnHeaders A:link { text-decoration: underline; color: #ffffff}
+.columnHeaders A:visited { text-decoration: underline; color: #ffffff}
+
+.errorMessage { font-weight: bold; color: #ff0000; font-family: Arial,Helvetica,sans-serif; background-color: #ffffff; }
+
+.filterFields { font-family: Arial,Helvetica,sans-serif}
+.gridLines { background-color: #000000}
+.iconText { font-family: Arial,Helvetica,sans-serif; font-weight: normal}
+.labelHeaders { font-weight: bold; color: #000000; font-family: Arial,Helvetica,sans-serif; background-color: #D3E4F5; }
+
+.navItem { padding: 2px; font-weight: normal; color: #000000; font-family: Arial,Helvetica,sans-serif; background-color: #D3E4F5; border-right: 1px solid black; border-left: 1px solid black;}
+.navItem A:active { text-decoration: underline; color: #000000}
+.navItem A:link { text-decoration: underline; color: #000000}
+.navItem A:visited { text-decoration: underline; color: #000000}
+.navHeaders { font-weight: bold; color: #000000; border-top: 1px solid black; font-family: Arial,Helvetica,sans-serif; border-bottom: 1px solid black; background-color: #ffffff; font-size: 1.1em; border-right: 1px solid black; border-left: 1px solid black;}
+
+.pageHeaders { font-weight: bold; color: #000000; font-family: Arial,Helvetica,sans-serif; font-size: 1.8em; background-color: white;}
+
+.enableColor { background-color: #FFFFFF; }
+
+.disableColor { background-color: #CCCCCC; }
+
+.smallButton { font-weight: normal; font-family: Arial,Helvetica,sans-serif; }
+
+.subHeadings { background-color: #ffffd3; }
+
+.tabular { font-weight: normal; color: #000000; font-family: Arial, Helvetica, sans-serif; background-color: #ccc; }
+
+.titleHeaders { font-weight: bold; color: #000000; font-family: Arial,Helvetica,sans-serif; font-size: 1.1em; background-color: white;}
+
+.lic_error { color: #CC0000 }
+
+.monitorNormal { text-align: center; font-weight: normal; color: #000000; font-family: Arial,Helvetica,sans-serif; background-color: #ffffff; }
+.monitorError  { text-align: center; font-weight: bold;   color: #000000; font-family: Arial,Helvetica,sans-serif; background-color: #ff3333; }
+.monitorWarn   { text-align: center; font-weight: bold;   color: #000000; font-family: Arial,Helvetica,sans-serif; background-color: #ffff00; }
+
+/**
+   Modified version of the CSS tab work done by  Joshua Kaufman (http://www.unraveled.com/projects/css_tabs/)
+   CSS Tabs is licensed under Creative Commons Attribution 2.0 - http://creativecommons.org/licenses/by/2.0/
+**/
+
+ul.tabnav {
+   font: bold 0.9em verdana, arial, sans-serif;
+   list-style-type: none;
+   padding-bottom: 2.3em;
+   padding-left: 0px;
+   margin: 0;
+}
+
+ul.tabnav li {
+   float: left;
+   height: 2em;
+   background-color: #d3e4f5;
+   margin: 0.20em;
+   padding:0;
+   border: 1px solid #036;
+}
+
+ul.tabnav li.seltab {
+   border-bottom: 1px solid #fff;
+   background-color: #fff;
+}
+
+.seltab span{
+   float: left;
+   display: block;
+   color: #000;
+   text-decoration: none;
+   padding: 0.1em;
+}
+
+ul.tabnav a {
+   float: left;
+   display: block;
+   color: #000;
+   height: 1.5em;
+   text-decoration: none;
+   padding: 0.25em 0.2em 0.25em 0.2em;
+}
+
+ul.tabnav a:hover {
+   background: #fff;
+   text-decoration: none;
+}
+
+.tabcontainer
+{
+   padding:0;
+   margin: 0;
+   display:block;
+   border: 1px solid #036;
+   text-align:left;
+}
+
+.errormessage {
+   margin-top:5px;
+   padding:5px;
+   border: 1px solid #600;
+   color: #600;
+   background-color: #ffc;
+   overflow: auto;
+   font-style: italic;
+   width:95%;
+ }
+ 
+.okmessage {
+   margin-top:5px;
+   padding:5px;
+   border: 1px solid #060;
+   color: #060;
+   background-color: #fff;
+   overflow: auto;
+   width:95%;
+ }
+ 

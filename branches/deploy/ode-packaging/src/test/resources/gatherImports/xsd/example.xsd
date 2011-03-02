@@ -1,0 +1,12 @@
+<xs:schema xmlns:tns="http://www.example.org/test/" xmlns:imp="http://www.example.org/test/imported" targetNamespace="http://www.example.org/test/" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+    <xs:include schemaLocation="example-included.xsd"/>
+    <xs:import schemaLocation="example-imported.xsd" namespace="http://www.example.org/test/imported"/>
+    <xs:element name="SimpleFault" type="imp:faultMessage"/>
+    <xs:element name="OneWay" type="tns:testMessage"/>
+    <xs:element name="CreateProcessRequest" type="tns:testMessage"/>
+    <xs:element name="CreateProcessResponse" type="tns:testMessage"/>
+    <xs:element name="CreateProcessRequest2" type="tns:testMessage"/>
+    <xs:element name="CreateProcessResponse2" type="tns:testMessage"/>
+    <xs:element name="request" type="tns:testMessage"/>
+    <xs:element name="response" type="tns:testMessage"/>
+</xs:schema>

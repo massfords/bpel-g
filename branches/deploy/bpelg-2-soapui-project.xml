@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<con:soapui-project name="bpelg-messageReceiver" resourceRoot="" soapui-version="3.6" abortOnError="false" runType="SEQUENTIAL" xmlns:con="http://eviware.com/soapui/config"><con:settings/><con:interface xsi:type="con:WsdlInterface" wsaVersion="NONE" name="testBinding" type="wsdl" bindingName="{http://www.example.org/test/}testBinding" soapVersion="1_1" anonymous="optional" definition="http://localhost:8192/bpelg-TestMessageReceiver/main.wsdl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:settings/><con:definitionCache type="TEXT" rootPart="http://localhost:8192/bpelg-TestMessageReceiver/main.wsdl"><con:part><con:url>http://localhost:8192/bpelg-TestMessageReceiver/main.wsdl</con:url><con:content><![CDATA[<wsdl:definitions name="test" targetNamespace="http://www.example.org/test/" xmlns:plnk="http://docs.oasis-open.org/wsbpel/2.0/plnktype" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://www.example.org/test/" xmlns:vprop="http://docs.oasis-open.org/wsbpel/2.0/varprop" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:wsdlsoap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <wsdl:types>
+    <xs:schema elementFormDefault="qualified" targetNamespace="http://www.example.org/test/">
+      <xs:complexType name="testMessage">
+        <xs:sequence>
+          <xs:element name="value" type="xs:string"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:element name="SimpleFault" type="xs:string"/>
+      <xs:element name="OneWay" type="tns:testMessage"/>
+      <xs:element name="CreateProcessRequest" type="tns:testMessage"/>
+      <xs:element name="CreateProcessResponse" type="tns:testMessage"/>
+      <xs:element name="CreateProcessRequest2" type="tns:testMessage"/>
+      <xs:element name="CreateProcessResponse2" type="tns:testMessage"/>
+      <xs:element name="request" type="tns:testMessage"/>
+      <xs:element name="response" type="tns:testMessage"/>
+    </xs:schema>
+  </wsdl:types>
+  <wsdl:message name="CreateProcessRequest">
+    <wsdl:part element="tns:CreateProcessRequest" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="SimpleFaultMessage">
+    <wsdl:part element="tns:SimpleFault" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="request">
+    <wsdl:part element="tns:request" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="CreateProcessResponse2">
+    <wsdl:part element="tns:CreateProcessResponse2" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="response">
+    <wsdl:part element="tns:response" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="CreateProcessResponse">
+    <wsdl:part element="tns:CreateProcessResponse" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="OneWay">
+    <wsdl:part element="tns:OneWay" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="CreateProcessRequest2">
+    <wsdl:part element="tns:CreateProcessRequest2" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="test">
+    <wsdl:operation name="createProcess">
+      <wsdl:input message="tns:CreateProcessRequest"></wsdl:input>
+      <wsdl:output message="tns:CreateProcessResponse"></wsdl:output>
+      <wsdl:fault message="tns:SimpleFaultMessage" name="simpleFault"></wsdl:fault>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="testBinding" type="tns:test">
+    <wsdlsoap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="createProcess">
+      <wsdlsoap:operation soapAction=""/>
+      <wsdl:input>
+        <wsdlsoap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <wsdlsoap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="simpleFault">
+        <wsdlsoap:fault name="simpleFault" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="testMessageReceiver">
+    <wsdl:port binding="tns:testBinding" name="test">
+      <wsdlsoap:address location="http://0.0.0.0:8192/bpelg-TestMessageReceiver/"/>
+    </wsdl:port>
+  </wsdl:service>
+  <vprop:property name="id" type="xs:string"/>
+  <vprop:propertyAlias element="tns:OneWay" propertyName="tns:id">
+    <vprop:query>string(value)</vprop:query>
+  </vprop:propertyAlias>
+  <vprop:propertyAlias element="tns:CreateProcessResponse" propertyName="tns:id">
+    <vprop:query>string(value)</vprop:query>
+  </vprop:propertyAlias>
+  <plnk:partnerLinkType name="testPartnerLinkType">
+    <plnk:role name="proces" portType="tns:test"/>
+  </plnk:partnerLinkType>
+  <plnk:partnerLinkType name="testPartnerLinkType2">
+    <plnk:role name="proces" portType="tns:test2"/>
+  </plnk:partnerLinkType>
+  <plnk:partnerLinkType name="testPartnerLinkType3">
+    <plnk:role name="proces" portType="tns:test3"/>
+  </plnk:partnerLinkType>
+</wsdl:definitions>]]></con:content><con:type>http://schemas.xmlsoap.org/wsdl/</con:type></con:part></con:definitionCache><con:endpoints><con:endpoint>http://0.0.0.0:8192/bpelg-TestMessageReceiver/</con:endpoint></con:endpoints><con:operation isOneWay="false" action="" name="createProcess" bindingOperationName="createProcess" type="Request-Response" inputName="" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call name="Request 1"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://0.0.0.0:8192/bpelg-TestMessageReceiver/</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:test="http://www.example.org/test/">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <test:CreateProcessRequest>
+         <test:value>?</test:value>
+      </test:CreateProcessRequest>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://www.example.org/test/test/createProcessRequest"/><con:wsrmConfig version="1.2"/></con:call></con:operation></con:interface><con:interface xsi:type="con:WsdlInterface" wsaVersion="NONE" name="callMeBackBinding" type="wsdl" bindingName="{http://www.example.org/test/}callMeBackBinding" soapVersion="1_1" anonymous="optional" definition="http://localhost:8192/bpelg-TestMessageReceiverCallback/main.wsdl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:settings/><con:definitionCache type="TEXT" rootPart="http://localhost:8192/bpelg-TestMessageReceiverCallback/main.wsdl"><con:part><con:url>http://localhost:8192/bpelg-TestMessageReceiverCallback/main.wsdl</con:url><con:content><![CDATA[<wsdl:definitions name="test" targetNamespace="http://www.example.org/test/" xmlns:plnk="http://docs.oasis-open.org/wsbpel/2.0/plnktype" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://www.example.org/test/" xmlns:vprop="http://docs.oasis-open.org/wsbpel/2.0/varprop" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:wsdlsoap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <wsdl:types>
+    <xs:schema elementFormDefault="qualified" targetNamespace="http://www.example.org/test/">
+      <xs:complexType name="testMessage">
+        <xs:sequence>
+          <xs:element name="value" type="xs:string"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:element name="SimpleFault" type="xs:string"/>
+      <xs:element name="OneWay" type="tns:testMessage"/>
+      <xs:element name="CreateProcessRequest" type="tns:testMessage"/>
+      <xs:element name="CreateProcessResponse" type="tns:testMessage"/>
+      <xs:element name="CreateProcessRequest2" type="tns:testMessage"/>
+      <xs:element name="CreateProcessResponse2" type="tns:testMessage"/>
+      <xs:element name="request" type="tns:testMessage"/>
+      <xs:element name="response" type="tns:testMessage"/>
+    </xs:schema>
+  </wsdl:types>
+  <wsdl:message name="CreateProcessRequest">
+    <wsdl:part element="tns:CreateProcessRequest" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="SimpleFaultMessage">
+    <wsdl:part element="tns:SimpleFault" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="request">
+    <wsdl:part element="tns:request" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="CreateProcessResponse2">
+    <wsdl:part element="tns:CreateProcessResponse2" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="response">
+    <wsdl:part element="tns:response" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="CreateProcessResponse">
+    <wsdl:part element="tns:CreateProcessResponse" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="OneWay">
+    <wsdl:part element="tns:OneWay" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="CreateProcessRequest2">
+    <wsdl:part element="tns:CreateProcessRequest2" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="test3">
+    <wsdl:operation name="twoWay">
+      <wsdl:input message="tns:request"></wsdl:input>
+      <wsdl:output message="tns:response"></wsdl:output>
+      <wsdl:fault message="tns:SimpleFaultMessage" name="simpleFault"></wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="oneway">
+      <wsdl:input message="tns:OneWay"></wsdl:input>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="callMeBackBinding" type="tns:test3">
+    <wsdlsoap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="twoWay">
+      <wsdlsoap:operation soapAction=""/>
+      <wsdl:input>
+        <wsdlsoap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <wsdlsoap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="simpleFault">
+        <wsdlsoap:fault name="simpleFault" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="oneway">
+      <wsdlsoap:operation soapAction=""/>
+      <wsdl:input>
+        <wsdlsoap:body use="literal"/>
+      </wsdl:input>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="testMessageReceiver">
+    <wsdl:port binding="tns:callMeBackBinding" name="callMeBack">
+      <wsdlsoap:address location="http://0.0.0.0:8192/bpelg-TestMessageReceiverCallback/"/>
+    </wsdl:port>
+  </wsdl:service>
+  <vprop:property name="id" type="xs:string"/>
+  <vprop:propertyAlias element="tns:OneWay" propertyName="tns:id">
+    <vprop:query>string(value)</vprop:query>
+  </vprop:propertyAlias>
+  <vprop:propertyAlias element="tns:CreateProcessResponse" propertyName="tns:id">
+    <vprop:query>string(value)</vprop:query>
+  </vprop:propertyAlias>
+  <plnk:partnerLinkType name="testPartnerLinkType">
+    <plnk:role name="proces" portType="tns:test"/>
+  </plnk:partnerLinkType>
+  <plnk:partnerLinkType name="testPartnerLinkType2">
+    <plnk:role name="proces" portType="tns:test2"/>
+  </plnk:partnerLinkType>
+  <plnk:partnerLinkType name="testPartnerLinkType3">
+    <plnk:role name="proces" portType="tns:test3"/>
+  </plnk:partnerLinkType>
+</wsdl:definitions>]]></con:content><con:type>http://schemas.xmlsoap.org/wsdl/</con:type></con:part></con:definitionCache><con:endpoints><con:endpoint>http://0.0.0.0:8192/bpelg-TestMessageReceiverCallback/</con:endpoint></con:endpoints><con:operation isOneWay="false" action="" name="oneway" bindingOperationName="oneway" type="One-Way" inputName="" sendsAttachments="false" anonymous="optional"><con:settings/><con:call name="Request 1"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://0.0.0.0:8192/bpelg-TestMessageReceiverCallback/</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:test="http://www.example.org/test/">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <test:OneWay>
+         <test:value>?</test:value>
+      </test:OneWay>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://www.example.org/test/test3/onewayRequest"/></con:call></con:operation><con:operation isOneWay="false" action="" name="twoWay" bindingOperationName="twoWay" type="Request-Response" inputName="" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call name="Request 1"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://0.0.0.0:8192/bpelg-TestMessageReceiverCallback/</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:test="http://www.example.org/test/">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <test:request>
+         <test:value>call-me-back</test:value>
+      </test:request>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://www.example.org/test/test3/twoWayRequest"/><con:wsrmConfig version="1.2"/></con:call></con:operation></con:interface><con:properties/><con:wssContainer/></con:soapui-project>

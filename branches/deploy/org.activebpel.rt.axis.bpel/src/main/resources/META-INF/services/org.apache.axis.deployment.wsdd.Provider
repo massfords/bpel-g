@@ -1,0 +1,4 @@
+org.activebpel.rt.axis.bpel.providers.AeBpelRPCProvider
+org.activebpel.rt.axis.bpel.providers.AeBpelRPCLiteralProvider
+org.activebpel.rt.axis.bpel.providers.AeBpelMSGProvider
+org.activebpel.rt.axis.bpel.providers.AeBpelPolicyProvider

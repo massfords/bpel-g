@@ -1,0 +1,314 @@
+
+html,body {
+   margin: 0px;
+   padding:0px;
+   background-color: #fff;
+   color: #333;
+}
+
+
+
+#header {
+   padding:2px;
+   margin:0;
+   height:54px;
+   background-color:#fff;
+}
+
+#logo {
+   margin: 0;
+   padding: 0;
+   float:left;
+   height:40px;
+}
+
+
+#headertitle {
+   padding:5px 5px 0px 0px;
+   margin: 0;
+   margin-left:25%;
+}
+
+#headertitle h1 {
+   float:left;
+   margin: 0;
+   font-weight:bold;
+   color: #000;
+   font-family: Arial,Helvetica,sans-serif;
+   font-size: 16px;
+   clear:none;
+}
+
+#headertitle h1 span {
+   color: #4882B4;
+   padding:0;
+   margin:0;
+}
+
+#headertitle p {
+   float:right;
+   padding:0;
+   margin:0;
+}
+
+#headertitle p a {
+   padding:0 0 0px 0;
+   font-weight: normal;
+   color: #000;
+   font-family: Arial,Helvetica,sans-serif;
+   font-size: 12px;
+}
+
+#processops {
+   padding:2px;
+   margin:0;
+   clear:both;
+   border:1px solid #333;
+   background-color: #d3e4f5;
+}
+
+
+#processops form {
+   padding:0;
+   margin:0;
+   display: inline;
+}
+
+#tb a.button
+{
+   display: block;
+   background-color: none;
+   width: 16px;
+   height: 16px;
+   margin: 0;
+   padding: 0px;
+   text-align: center;
+   text-decoration:none;
+   border:1px solid #d3e4f5;
+}
+
+#tb a.button:hover, #tb a.button:active
+{
+   border:1px solid #003;
+   background-color: #ffc;
+}
+
+
+.icon
+{
+   background-repeat: no-repeat;
+   background-position:0px 0px;
+   padding: 0x;
+}
+
+#tb span.icon
+{
+   display:block;
+   width:16px;
+   height:16px;
+}
+
+
+#tb span.button_dis
+{
+   display: block;
+   background-color: none;
+   width: 16px;
+   height: 16px;
+   margin: 0;
+   padding: 0px;
+   border:1px solid #d3e4f5;
+}
+
+#tb20 a.button
+{
+   display: block;
+   background-color: none;
+   width: 20px;
+   height: 20px;
+   margin: 0;
+   padding: 0px;
+   text-align: center;
+   text-decoration:none;
+   border:1px solid #d3e4f5;
+}
+
+#tb20 span.icon
+{
+   display:block;
+   width:20px;
+   height:20px;
+}
+
+#tb20 span.tbsep
+{
+   width:50px;
+}
+
+#tb20 a.button:hover, #tb20 a.button:active
+{
+   border:1px solid #003;
+   background-color: #ffc;
+}
+
+
+#tb20 span.button_dis
+{
+   display: block;
+   background-color: none;
+   width: 20px;
+   height: 20px;
+   margin: 0;
+   padding: 0px;
+   border:1px solid #d3e4f5;
+}
+
+
+#btn_suspend0 .icon
+{
+   background-image: url("../images/processview/consoleSuspend_grayScale.gif");
+}
+
+#btn_suspend1 .icon
+{
+   background-image: url("../images/processview/consoleSuspend.gif");
+}
+
+#btn_resume0 .icon
+{
+   background-image: url("../images/processview/consoleResume_grayScale.gif");
+}
+
+#btn_resume1 .icon
+{
+   background-image: url("../images/processview/consoleResume.gif");
+}
+
+#btn_restart0 .icon
+{
+   background-image: url("../images/processview/consoleRestart_grayScale.gif");
+}
+#btn_restart1 .icon
+{
+   background-image: url("../images/processview/consoleRestart.gif");
+}
+
+#btn_term0 .icon
+{
+   background-image: url("../images/processview/consoleTerminate_grayScale.gif");
+}
+#btn_term1 .icon
+{
+   background-image: url("../images/processview/consoleTerminate.gif");
+}
+
+#btn_view0 .icon
+{
+   background-image: url("../images/processview/consoleViewLog_grayScale.gif");
+}
+#btn_view1 .icon
+{
+   background-image: url("../images/processview/consoleViewLog.gif");
+}
+
+#btn_resume20 .icon
+{
+   background-image: url("../images/processview/consoleResume2_grayScale.gif");
+}
+
+#btn_resume21 .icon
+{
+   background-image: url("../images/processview/consoleResume2.gif");
+}
+
+
+#btn_retry0 .icon
+{
+   background-image: url("../images/processview/consoleRetry_grayScale.gif");
+}
+#btn_retry1 .icon
+{
+   background-image: url("../images/processview/consoleRetry.gif");
+}
+
+#btn_complete0 .icon
+{
+   background-image: url("../images/processview/consoleComplete_grayScale.gif");
+}
+#btn_complete1 .icon
+{
+   background-image: url("../images/processview/consoleComplete.gif");
+}
+
+
+
+#footer {
+   background-color: #fff;
+   margin:0;
+   font-size: 11px;
+   text-align: center;
+   padding: 5px;
+}
+
+#outlinediv {
+   margin:0px;
+   padding:5px;
+}
+
+#propertiesdiv {
+   margin:0;
+   padding:5px 10px 5px 10px;
+   overflow:auto;
+}
+
+
+.propertydetails {
+   margin:0;
+   padding:15px 0 0 0;
+}
+
+.propertydetails h1 {
+   border-bottom: 1px solid #000;
+   margin:0;
+   padding:0;
+}
+
+.propertydetails textarea {
+   margin-top:5px;
+   padding:5px;
+   border: 1px solid #888;
+   background-color: #eee;
+   overflow: auto;
+   width:96%;
+ }
+
+#propTitleSection {
+   padding:0 5px 5px 5px;
+   margin:0 0 5px 0;
+}
+
+#propTitleSection h1 {
+   margin-bottom: 5px;
+   display:inline;
+}
+
+#propTitleSection span {
+   padding-left: 25px;
+}
+
+#bpelIcon {
+   position:relative;
+   top:5px;
+   margin: 0;
+   padding: 0px 5px 0px 0px;
+   height:20px;
+   width:20px
+}
+
+.spacer {
+   clear: both;
+}
+
+.pathlink {
+   color: #009;
+}

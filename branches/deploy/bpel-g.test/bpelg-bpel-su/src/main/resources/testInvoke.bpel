@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpel:process xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xsi:schemaLocation="http://docs.oasis-open.org/wsbpel/2.0/process/executable ../../../../ws-bpel_executable.xsd"
+ xmlns:ns1="http://www.example.org/test/"
+ xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+ xmlns:ext="http://www.activebpel.org/2006/09/bpel/extension/query_handling"
+ xmlns:bpel="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+ expressionLanguage="urn:active-endpoints:expression-language:xquery1.0"
+ name="testInvoke"
+ suppressJoinFailure="yes"
+ targetNamespace="urn:bpelg:test">
+   <bpel:extensions>
+      <bpel:extension namespace="http://www.w3.org/2001/XMLSchema-instance" mustUnderstand="no"/>
+   </bpel:extensions>
+   <bpel:import importType="http://schemas.xmlsoap.org/wsdl/" location="wsdl/example.wsdl"
+      namespace="http://www.example.org/test/"/>
+   <bpel:partnerLinks>
+      <bpel:partnerLink myRole="proces" name="testPartnerLinkType"
+         partnerLinkType="ns1:testPartnerLinkType"/>
+      <bpel:partnerLink name="testPartnerLinkType2" partnerLinkType="ns1:testPartnerLinkType2"
+         partnerRole="proces"/>
+   </bpel:partnerLinks>
+   <bpel:variables>
+      <bpel:variable element="ns1:CreateProcessRequest" name="CreateProcessRequest"/>
+      <bpel:variable element="ns1:CreateProcessResponse" name="CreateProcessResponse"/>
+      <bpel:variable element="ns1:CreateProcessRequest2" name="CreateProcessRequest2"/>
+      <bpel:variable element="ns1:CreateProcessResponse2" name="CreateProcessResponse2"/>
+   </bpel:variables>
+   <bpel:sequence>
+      <bpel:receive createInstance="yes" operation="createProcess"
+         partnerLink="testPartnerLinkType" variable="CreateProcessRequest"/>
+      <bpel:assign>
+         <bpel:copy>
+            <bpel:from>
+               <![CDATA[
+               <ns1:CreateProcessRequest2 xmlns:ns1="http://www.example.org/test/"> 
+                  { $CreateProcessRequest/ns1:value }
+               </ns1:CreateProcessRequest2>
+               ]]>
+            </bpel:from>
+            <bpel:to variable="CreateProcessRequest2"/>
+         </bpel:copy>
+      </bpel:assign>
+      <bpel:invoke inputVariable="CreateProcessRequest2" operation="createProcess2"
+         outputVariable="CreateProcessResponse2" partnerLink="testPartnerLinkType2"/>
+      <bpel:assign>
+         <bpel:copy>
+            <bpel:from>
+               <![CDATA[
+               <ns1:CreateProcessResponse2 xmlns:ns1="http://www.example.org/test/"> 
+                  { $CreateProcessResponse2/ns1:value}
+               </ns1:CreateProcessResponse2>               
+               ]]>
+            </bpel:from>
+            <bpel:to variable="CreateProcessResponse"/>
+         </bpel:copy>
+      </bpel:assign>
+      <bpel:reply operation="createProcess" partnerLink="testPartnerLinkType"
+         variable="CreateProcessResponse"/>
+   </bpel:sequence>
+</bpel:process>

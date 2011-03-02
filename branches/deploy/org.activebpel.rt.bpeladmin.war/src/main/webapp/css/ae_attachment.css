@@ -1,0 +1,66 @@
+#attachmentDialog {
+   margin:0;
+   padding: 10px;
+}
+
+legend {
+   color: #D2B48C; /* Tan */ 
+}
+
+.legend {
+  /* border: thin; */
+  color:  #D2B48C; /* Tan */
+}
+
+div.properties { 
+  width: 554px;
+  height: 200px; 
+}
+
+table.properties {
+ width: 480px;
+}
+
+.locations .propertyedit{ 
+  width:518px;
+  background-color: white;
+  margin-left: 4px;
+}
+
+.filebrowse { 
+  width:538px;
+  margin-left: 4px;
+}
+
+.propertyButtons {
+    position: relative;
+    left: 8px;
+    top:  42px;
+}
+
+.propertyvalue {
+    width: 200px;
+    overflow: hidden;
+}
+
+button.vertical
+{
+   float:left;
+   width: 60px;
+   clear:both;
+}
+
+div.aeAcceptButtons {
+  display:block;
+  float:right;
+  padding:5px 10px 0 0;
+}
+
+.footer {
+    background-color: #fff;
+    margin:0;
+    font-size: 11px;
+    text-align: center;
+    padding: 5px;
+    border-top:1px solid #333;
+ }
