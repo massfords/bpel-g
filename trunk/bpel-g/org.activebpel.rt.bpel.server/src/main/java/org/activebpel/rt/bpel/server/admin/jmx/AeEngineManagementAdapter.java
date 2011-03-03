@@ -63,7 +63,7 @@ public class AeEngineManagementAdapter implements IAeEngineManagementMXBean {
     public List<AeServiceDeploymentBean> getDeployedServices() {
         List<AeServiceDeploymentBean> result = new ArrayList();
         for (IAeServiceDeploymentInfo info : mAdmin.getDeployedServices()) {
-            result.add(new AeServiceDeploymentBean(info.getServiceName(), new AeQName(info.getProcessQName()), info.getPartnerLinkName(), info.getBinding()));
+            result.add(new AeServiceDeploymentBean(info.getServiceName(), new AeQName(info.getProcessQName()), info.getPartnerLinkName(), info.getBinding().toString()));
         }
         return result;
     }

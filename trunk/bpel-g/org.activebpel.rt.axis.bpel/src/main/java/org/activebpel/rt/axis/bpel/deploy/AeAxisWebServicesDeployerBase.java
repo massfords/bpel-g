@@ -33,6 +33,8 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
+import bpelg.services.deploy.types.pdd.MyRoleBindingType;
+
 /**
  * WebServicesDeployer impl that deploys web services to Axis.
  */
@@ -96,15 +98,16 @@ public abstract class AeAxisWebServicesDeployerBase extends AeAxisBase implement
         AeWsddBuilder builder = new AeWsddBuilder();
         for (int i = 0; i < aServices.length; i++) {
             IAeServiceDeploymentInfo serviceData = aServices[i];
-            if (serviceData.isRPCEncoded()) {
+            MyRoleBindingType binding = serviceData.getBinding();
+            if (binding == MyRoleBindingType.RPC) {
                 builder.addRpcService(serviceData);
-            } else if (serviceData.isRPCLiteral()) {
+            } else if (binding == MyRoleBindingType.RPC_LIT) {
                 builder.addRpcLiteralService(serviceData);
-            } else if (serviceData.isMessageService()) {
+            } else if (binding == MyRoleBindingType.MSG) {
                 builder.addMsgService(serviceData);
-            } else if (serviceData.isPolicyService()) {
+            } else if (binding == MyRoleBindingType.POLICY) {
                 builder.addPolicyService(serviceData);
-            } else if (!serviceData.isExternalService()) {
+            } else if (binding != MyRoleBindingType.EXTERNAL) {
                 AeException.logWarning(AeMessages.format(
                         "AeAxisWebServicesDeployerBase.UNKNOWN_ROLE_IN_WSDD", serviceData.getServiceName())); //$NON-NLS-1$
             }

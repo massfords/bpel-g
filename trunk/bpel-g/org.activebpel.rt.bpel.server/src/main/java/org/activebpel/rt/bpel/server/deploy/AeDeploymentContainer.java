@@ -16,8 +16,12 @@ import java.util.Collection;
 import java.util.Collections;
 
 import org.activebpel.rt.AeException;
+import org.activebpel.rt.bpel.server.deploy.bpr.AePddResource;
 import org.activebpel.rt.bpel.server.deploy.bpr.IAeBpr;
 import org.w3c.dom.Document;
+
+import bpelg.services.deploy.types.catalog.Catalog;
+import bpelg.services.deploy.types.pdd.Pdd;
 
 /**
  * Deployment container impl.
@@ -82,16 +86,13 @@ public class AeDeploymentContainer implements IAeDeploymentContainer
       mFileName = aBprFilename;
    }
 
-   /**
-    * @see org.activebpel.rt.bpel.server.deploy.bpr.IAeBpr#getDeploymentSource(java.lang.String)
-    */
-   public IAeDeploymentSource getDeploymentSource(String aPddName)
+   public IAeDeploymentSource getDeploymentSource(Pdd aPdd)
       throws AeException
    {
       if (mBprFile == null)
          return null;
       
-      return mBprFile.getDeploymentSource( aPddName );
+      return mBprFile.getDeploymentSource(aPdd);
    }
 
    /**
@@ -108,7 +109,7 @@ public class AeDeploymentContainer implements IAeDeploymentContainer
    /**
     * @see org.activebpel.rt.bpel.server.deploy.bpr.IAeBpr#getPddResources()
     */
-   public Collection getPddResources()
+   public Collection<AePddResource> getPddResources()
    {
       if (mBprFile == null)
          return Collections.EMPTY_SET;
@@ -119,7 +120,7 @@ public class AeDeploymentContainer implements IAeDeploymentContainer
    /**
     * @see org.activebpel.rt.bpel.server.deploy.bpr.IAeBpr#getCatalogDocument()
     */
-   public Document getCatalogDocument() throws AeException
+   public Catalog getCatalogDocument() throws AeException
    {
       if (mBprFile == null)
          return null;

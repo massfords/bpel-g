@@ -17,6 +17,9 @@ import org.activebpel.rt.bpel.server.deploy.IAeDeploymentContext;
 import org.activebpel.rt.bpel.server.deploy.IAeDeploymentSource;
 import org.w3c.dom.Document;
 
+import bpelg.services.deploy.types.catalog.Catalog;
+import bpelg.services.deploy.types.pdd.Pdd;
+
 /**
  * Interface for wrapping the deployment of a BPR. 
  */
@@ -34,24 +37,22 @@ public interface IAeBpr
    
    /**
     * Return a collection of names for the pdd resources or
-    * an empty collection if none are found.  If the isBpelDeployment
-    * method returns true, there should be at least one name in
-    * this collection.
+    * an empty collection if none are found.  
     */
-   public Collection<String> getPddResources();
+   public Collection<AePddResource> getPddResources();
    
    /**
     * Return a deployment source for the given pdd resource name.
-    * @param aPddName The name of the pdd resource.
+    * @param aPdd The pdd resource.
     * @throws AeException
     */
-   public IAeDeploymentSource getDeploymentSource(String aPddName) throws AeException;   
+   public IAeDeploymentSource getDeploymentSource(Pdd aPdd) throws AeException;   
 
    /**
-    * Return the catalog document for this BPR.
+    * Return the catalog for this BPR.
     * @throws AeException
     */
-   public Document getCatalogDocument() throws AeException;
+   public Catalog getCatalogDocument() throws AeException;
    
    /**
     * Returns true if the given resource exists within the BPR.

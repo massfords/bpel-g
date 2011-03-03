@@ -2,37 +2,43 @@ package bpelg.packaging.ode;
 
 import java.io.File;
 import java.io.FileFilter;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import javax.xml.XMLConstants;
 import javax.xml.namespace.QName;
 
 import org.activebpel.rt.AeException;
 import org.activebpel.rt.bpel.def.AeImportDef;
 import org.activebpel.rt.bpel.def.AeProcessDef;
 import org.activebpel.rt.bpel.def.io.AeBpelIO;
-import org.activebpel.rt.util.AeCloser;
+import org.activebpel.rt.bpel.server.deploy.bpr.AePddResource;
 import org.activebpel.rt.util.AeUtil;
 import org.activebpel.rt.util.AeXPathUtil;
 import org.activebpel.rt.util.AeXmlUtil;
-import org.activebpel.rt.xml.AeXMLParserBase;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 import bpelg.packaging.ode.BgPddInfo.BgPlink;
+import bpelg.services.deploy.types.pdd.MyRoleBindingType;
+import bpelg.services.deploy.types.pdd.MyRoleType;
+import bpelg.services.deploy.types.pdd.PartnerLinkType;
+import bpelg.services.deploy.types.pdd.PartnerRoleEndpointReferenceType;
+import bpelg.services.deploy.types.pdd.PartnerRoleType;
+import bpelg.services.deploy.types.pdd.Pdd;
+import bpelg.services.deploy.types.pdd.Pdd.PartnerLinks;
+import bpelg.services.deploy.types.pdd.Pdd.References;
+import bpelg.services.deploy.types.pdd.PlatformType;
+import bpelg.services.deploy.types.pdd.ReferenceType;
 
 public class BgPddBuilder {
     
-    private static final String PDD = "http://schemas.active-endpoints.com/pdd/2006/08/pdd.xsd";
     private static final String WSP = "http://schemas.xmlsoap.org/ws/2004/09/policy";
     
     private static final Map NAMESPACES = new HashMap<String,String>();
@@ -68,98 +74,75 @@ public class BgPddBuilder {
         return mPddFileNameToPddInfo.keySet();
     }
     
-    public void writeDocuments(BgCatalogBuilder aCatalogBuilder) throws IOException {
-        // create each of the pdd files within the service unit root
+    public Collection<AePddResource> getPdds(BgCatalogBuilder aCatalogBuilder) {
+    	Collection<AePddResource> list = new LinkedList();
         for(String pddName : getPddNames()) {
-            writePddDocument(pddName, aCatalogBuilder.getItems());
+        	Pdd pdd = createPddDocument(pddName, aCatalogBuilder.getItems());
+        	list.add(new AePddResource(pddName, pdd));
         }
+        return list;
     }
 
-    protected void writePddDocument(String aName, Collection<BgCatalogTuple> aCatalog) throws IOException {
-        Document doc = createPddDocument(aName, aCatalog);
-        String pdd = AeXMLParserBase.documentToString(doc, true);
-        FileWriter fw = new FileWriter(new File(mServiceUnitRoot, aName));
-        try {
-            fw.write(pdd);
-        } finally {
-            AeCloser.close(fw);
-        }
-    }
-    
-    protected Document createPddDocument(String aName, Collection<BgCatalogTuple> aCatalog) {
+    protected Pdd createPddDocument(String aName, Collection<BgCatalogTuple> aCatalog) {
         BgPddInfo info = mPddFileNameToPddInfo.get(aName);
-        Document doc = AeXmlUtil.newDocument();
-        Element pdd = AeXmlUtil.addElementNS(doc, PDD, "pdd:process");
-        pdd.setAttributeNS(XMLConstants.XMLNS_ATTRIBUTE_NS_URI, "xmlns:pdd", PDD);
-        pdd.setAttributeNS(XMLConstants.XMLNS_ATTRIBUTE_NS_URI, "xmlns:bpelns", info.getProcessName().getNamespaceURI());
-        pdd.setAttribute("name", "bpelns:" + info.getProcessName().getLocalPart());
-        pdd.setAttribute("platform", "opensource");
-        pdd.setAttribute("location", aName.substring(0, aName.lastIndexOf('.')));
+        Pdd pdd = new Pdd()
+        		.withName(info.getProcessName())
+        		.withPlatform(PlatformType.OPENSOURCE)
+        		.withLocation(aName.substring(0, aName.lastIndexOf('.')));
         
-        Element plinks = AeXmlUtil.addElementNS(pdd, PDD, "pdd:partnerLinks");
-
+        PartnerLinks plinks = new PartnerLinks();
+        pdd.setPartnerLinks(plinks);
+        
         for(BgPlink plink : info.getBgPlinks()) {
-            Element plinkEl = AeXmlUtil.addElementNS(plinks, PDD, "pdd:partnerLink");
-            plinkEl.setAttribute("name", plink.name);
+
+            PartnerLinkType partnerLink = new PartnerLinkType().withName(plink.name);
+			plinks.withPartnerLink(partnerLink);
             if (plink.hasMyRole()) {
-                Element myRole = AeXmlUtil.addElementNS(plinkEl, PDD, "pdd:myRole");
-                myRole.setAttribute("allowedRoles", "");
-                // FIXME revisit to allow this to be configurable
-                myRole.setAttribute("binding", "MSG");
-//                String encodedService = AeXmlUtil.encodeQName(plink.myService, myRole, "mysvc");
-                // space delimited value of Service QName + endpoint
-                // FIXME was randomly generating a service name. 
-                myRole.setAttribute("service", plink.myService.getLocalPart());
-                addPolicies(myRole, plink.myPolicies);
+            	partnerLink.withMyRole(
+            			new MyRoleType().withAllowedRoles("")
+            				// FIXME revisit to allow this to be configurable
+            				.withBinding(MyRoleBindingType.MSG)
+            				// FIXME was randomly generating a service name. 
+            				.withService(plink.myService.getLocalPart())
+            				.withAny(plink.myPolicies));
             }
             if (plink.hasPartnerRole()) {
-                Element partnerRole = AeXmlUtil.addElementNS(plinkEl, PDD, "pdd:partnerRole");
                 if (plink.epr != null) {
-                    partnerRole.setAttribute("endpointReference", "static");
-	                String invokeHandler = AeXPathUtil.selectText(plink.epr, "//ae:invokeHandler", NAMESPACES);
-	                partnerRole.setAttribute("invokeHandler", invokeHandler);
-	                partnerRole.appendChild(partnerRole.getOwnerDocument().importNode(plink.epr, true));
+                	partnerLink.withPartnerRole(new PartnerRoleType()
+					.withEndpointReference(PartnerRoleEndpointReferenceType.STATIC)
+					.withInvokeHandler(AeXPathUtil.selectText(plink.epr, "//ae:invokeHandler", NAMESPACES))
+	                .withAny(plink.epr));
                 } else {
-                    partnerRole.setAttribute("endpointReference", "dynamic");
-	                partnerRole.setAttribute("invokeHandler", "default:Address");
+                	partnerLink.withPartnerRole(new PartnerRoleType()
+					.withEndpointReference(PartnerRoleEndpointReferenceType.DYNAMIC)
+					.withInvokeHandler("default:Address"));
                 }
                 // FIXME deploy - clean this up, need to rationalize the dropping of policies
             }
         }
         
         // build the referenced wsdl's
-        Element refs = AeXmlUtil.addElementNS(pdd, PDD, "pdd:references");
+        References refs = new References();
+        pdd.setReferences(refs);
         for (Iterator<AeImportDef> iter = info.getProcessDef().getImportDefs(); iter.hasNext();) {
             AeImportDef def = iter.next();
             // each wsdl or xsd that is in the bpel file needs to be in the
             // pdd:references
-            Element entry = null;
+            ReferenceType entry = new ReferenceType()
+            							.withLocation(getLogicalLocation(def, aCatalog))
+            							.withNamespace(AeUtil.getSafeString(def.getNamespace()));
             if (def.isWSDL()) {
-                entry = AeXmlUtil.addElementNS(refs, PDD, "pdd:wsdl");
+            	refs.withWsdl(entry);
             } else if (def.isSchema()) {
-                entry = AeXmlUtil.addElementNS(refs, PDD, "pdd:schema");
+            	refs.withSchema(entry);
             } else {
-                entry = AeXmlUtil.addElementNS(refs, PDD, "pdd:other");
+            	refs.withOther(entry);
             }
-
-            // the location should come from the catalog if present
-            entry.setAttribute("location", getLogicalLocation(def, aCatalog));
-            entry.setAttribute("namespace", AeUtil.getSafeString(def.getNamespace()));
         }
         
-        return doc;
+        return pdd;
     }
 
-    private void addPolicies(Element aPolicyParentElement, List<Element> aPolicies) {
-        if (AeUtil.notNullOrEmpty(aPolicies)) {
-            // add the policies
-            for(Element policy : aPolicies) {
-                Element cloned = AeXmlUtil.cloneElement(policy, aPolicyParentElement.getOwnerDocument());
-                aPolicyParentElement.appendChild(cloned);
-            }
-        }
-    }
-    
     private String getLogicalLocation(AeImportDef aImportDef, Collection<BgCatalogTuple> aTupleColl) {
         for(BgCatalogTuple tuple : aTupleColl) {
             if (tuple.physicalLocation.equals(aImportDef.getLocation())) {

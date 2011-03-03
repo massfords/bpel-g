@@ -12,10 +12,10 @@ import java.util.Set;
 import javax.xml.XMLConstants;
 
 import org.activebpel.rt.IAeConstants;
-import org.activebpel.rt.util.AeXmlUtil;
 import org.junit.Before;
 import org.junit.Test;
-import org.w3c.dom.Document;
+
+import bpelg.services.deploy.types.catalog.Catalog;
 
 public class BgCatalogBuilderTest {
     
@@ -54,26 +54,29 @@ public class BgCatalogBuilderTest {
         referenced.add(new BgCatalogTuple("project:/example-su/wsdl/example.wsdl", "wsdl/example.wsdl", "http://www.example.org/test/", IAeConstants.WSDL_NAMESPACE));
         builder.setReferenced(referenced);
         
-        String expected = 
-            "<catalog xmlns='http://schemas.active-endpoints.com/catalog/2006/07/catalog.xsd'>" + 
-                "<otherEntry location='project:/example-su/path/to/xsl/example.xsl' classpath='path/to/xsl/example.xsl' type='http://www.w3.org/1999/XSL/Transform'/>" + 
-                "<wsdlEntry location='project:/example-su/wsdl/example.wsdl' classpath='wsdl/example.wsdl' />" +
-                "<schemaEntry location='project:/example-su/xsd/example.xsd' classpath='xsd/example.xsd' />" + 
-            "</catalog>";
-        Document expectedCatalog = AeXmlUtil.toDoc(expected);
-        
-        Document catalog = builder.getCatalog();
+        Catalog catalog = builder.getCatalog();
         assertNotNull(catalog);
+        assertEquals(1, catalog.getOtherEntry().size());
+        assertEquals("project:/example-su/path/to/xsl/example.xsl", catalog.getOtherEntry().get(0).getLocation());
+        assertEquals("path/to/xsl/example.xsl", catalog.getOtherEntry().get(0).getClasspath());
+        assertEquals("http://www.w3.org/1999/XSL/Transform", catalog.getOtherEntry().get(0).getTypeURI());
+        assertEquals(1, catalog.getWsdlEntry().size());
+        assertEquals("project:/example-su/wsdl/example.wsdl", catalog.getWsdlEntry().get(0).getLocation());
+        assertEquals("wsdl/example.wsdl", catalog.getWsdlEntry().get(0).getClasspath());
+        assertEquals(1, catalog.getSchemaEntry().size());
+        assertEquals("project:/example-su/xsd/example.xsd", catalog.getSchemaEntry().get(0).getLocation());
+        assertEquals("xsd/example.xsd", catalog.getSchemaEntry().get(0).getClasspath());
         
-        BgXmlAssert.assertXml(expectedCatalog, catalog);
     }
     
     @Test
     public void testGetCatalog_nothingReferenced() throws Exception {
-        Document catalog = builder.getCatalog();
+    	Catalog catalog = builder.getCatalog();
         assertNotNull(catalog);
         
-        assertEquals(4, catalog.getDocumentElement().getChildNodes().getLength());
+        // if nothing is referenced at all, deploy everything 
+        
+        assertEquals(4, catalog.getOtherEntry().size() + catalog.getWsdlEntry().size() + catalog.getSchemaEntry().size());
     }
     
 }

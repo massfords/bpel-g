@@ -22,6 +22,9 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Marshaller;
 import javax.xml.namespace.QName;
 
 import org.activebpel.rt.AeException;
@@ -67,7 +70,11 @@ import org.activebpel.rt.util.AeUtil;
 import org.activebpel.rt.xml.AeQName;
 import org.activebpel.rt.xml.AeXMLParserBase;
 import org.activebpel.wsio.AeWebServiceAttachment;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.w3c.dom.Document;
+
+import bpelg.services.deploy.types.pdd.Pdd;
 
 /**
  * Provides administration/console support for the engine. This class uses the
@@ -79,6 +86,7 @@ import org.w3c.dom.Document;
  * caller.
  */
 public class AeEngineAdministration implements IAeEngineAdministration {
+	private static Log sLog = LogFactory.getLog(AeEngineAdministration.class);
 	/** Holds build information. */
 	private AeBuildInfo[] mBuildInfo = null;
 	private IAeURNResolver mURNResolver;
@@ -151,8 +159,17 @@ public class AeEngineAdministration implements IAeEngineAdministration {
 			IAeProcessDeployment aDeployment) {
 		AeProcessDeploymentDetail detail = new AeProcessDeploymentDetail();
 		detail.setName(new AeQName(aDeployment.getProcessDef().getQName()));
-		detail.setSourceXml(AeXMLParserBase.documentToString(aDeployment
-				.getSourceElement()));
+		Pdd pdd = aDeployment.getPdd();
+		try {
+			JAXBContext context = JAXBContext.newInstance(Pdd.class);
+			Marshaller m = context.createMarshaller();
+			StringWriter sw = new StringWriter();
+			m.marshal(pdd, sw);
+			detail.setSourceXml(sw.toString());
+		} catch (JAXBException e) {
+			sLog.error(e);
+			detail.setSourceXml(e.getMessage());
+		}
 		detail.setBpelSourceXml(aDeployment.getBpelSource());
 		return detail;
 	}

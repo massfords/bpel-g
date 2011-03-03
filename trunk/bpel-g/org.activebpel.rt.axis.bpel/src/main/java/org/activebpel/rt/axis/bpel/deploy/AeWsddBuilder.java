@@ -25,6 +25,8 @@ import org.activebpel.rt.util.AeXmlUtil;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
+import bpelg.services.deploy.types.pdd.MyRoleBindingType;
+
 /**
  * Builder class for creating a wsdd deployment document.
  */
@@ -87,19 +89,20 @@ public class AeWsddBuilder implements IAeWsddConstants
       for (int i = 0; i < aServices.length; i++)
       {
          IAeServiceDeploymentInfo serviceData = aServices[i];
-         if( serviceData.isRPCEncoded() )
+         MyRoleBindingType binding = serviceData.getBinding();
+         if( binding == MyRoleBindingType.RPC )
          {
             addRpcService( serviceData );
          }
-         else if (serviceData.isRPCLiteral())
+         else if (binding == MyRoleBindingType.RPC_LIT)
          {
             addRpcLiteralService( serviceData );
          }
-         else if (serviceData.isMessageService())
+         else if (binding == MyRoleBindingType.MSG)
          {
             addMsgService( serviceData );
          }
-         else if (serviceData.isPolicyService())
+         else if (binding == MyRoleBindingType.POLICY)
          {
             addPolicyService( serviceData );
          }

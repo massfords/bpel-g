@@ -17,7 +17,8 @@ import org.activebpel.rt.bpel.impl.IAeProcessPlan;
 import org.activebpel.rt.bpel.impl.attachment.IAeAttachmentStorage;
 import org.activebpel.rt.bpel.server.IAeProcessDeployment;
 import org.activebpel.rt.bpel.server.deploy.AeProcessDeploymentFactory;
-import org.activebpel.rt.bpel.server.deploy.AeProcessPersistenceType;
+
+import bpelg.services.deploy.types.pdd.PersistenceType;
 
 /**
  * Implements a composite attachment storage that chooses between a local
@@ -74,7 +75,7 @@ public class AeCompositeAttachmentStorage implements IAeAttachmentStorage
       {
          IAeProcessDeployment deployment = AeProcessDeploymentFactory.getDeploymentForPlan(aPlan);
          
-         persistent = deployment.getPersistenceType() != AeProcessPersistenceType.NONE;
+         persistent = deployment.getPdd().getPersistenceType() != PersistenceType.NONE;
       }
       
       return persistent;

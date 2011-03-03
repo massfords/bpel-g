@@ -60,6 +60,7 @@ public interface IAePartnerAddressing
     * @param aElement
     * @return IAeEndpointReference or null if the source type wasn't static
     */
+	// FIXME deploy - remove
    public IAeEndpointReference readFromDeployment(Element aElement) throws AeBusinessProcessException;
    
    /**

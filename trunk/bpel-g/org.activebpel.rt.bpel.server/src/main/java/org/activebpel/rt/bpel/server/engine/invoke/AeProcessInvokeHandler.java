@@ -35,7 +35,6 @@ import org.activebpel.rt.bpel.server.AeMessages;
 import org.activebpel.rt.bpel.server.IAeDeploymentProvider;
 import org.activebpel.rt.bpel.server.IAeProcessDeployment;
 import org.activebpel.rt.bpel.server.addressing.IAePartnerAddressing;
-import org.activebpel.rt.bpel.server.deploy.AeProcessPersistenceType;
 import org.activebpel.rt.bpel.server.deploy.AeRoutingInfo;
 import org.activebpel.rt.bpel.server.deploy.IAePolicyMapper;
 import org.activebpel.rt.bpel.server.engine.AeEngineFactory;
@@ -61,6 +60,8 @@ import org.activebpel.wsio.invoke.IAeTwoPhaseInvokeHandler;
 import org.activebpel.wsio.receive.IAeMessageContext;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+
+import bpelg.services.deploy.types.pdd.PersistenceType;
 
 /**
  * Handler created by the AeProcessHandlerFactory. This handler is responsible for invokes based on the
@@ -668,12 +669,12 @@ public class AeProcessInvokeHandler implements IAeTwoPhaseInvokeHandler, IAeMess
       // check to see if the target process is persistent.
       AeRoutingInfo routingInfo = AeEngineFactory.getBean(IAeDeploymentProvider.class).getRoutingInfoByServiceName(
             aServiceName);
-      boolean targetProcPersistent = routingInfo.getDeployment().getPersistenceType() != AeProcessPersistenceType.NONE;
+      boolean targetProcPersistent = routingInfo.getDeployment().getPdd().getPersistenceType() != PersistenceType.NONE;
 
       // check to see if the current (caller) process is persistent.
       IAeProcessDeployment deployedPlan = AeEngineFactory.getBean(IAeDeploymentProvider.class).findDeploymentPlan(
             aInvoke.getProcessId(), aInvoke.getProcessName());
-      boolean callerProcPersistent = deployedPlan.getPersistenceType() != AeProcessPersistenceType.NONE;
+      boolean callerProcPersistent = deployedPlan.getPdd().getPersistenceType() != PersistenceType.NONE;
 
       // for process and subprocess invokes, "persistent" invoke means that both, calling and the target
       // processes must be persistent.

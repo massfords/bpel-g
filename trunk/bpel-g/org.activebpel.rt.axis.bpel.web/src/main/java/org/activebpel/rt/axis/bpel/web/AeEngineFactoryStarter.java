@@ -1,6 +1,5 @@
 package org.activebpel.rt.axis.bpel.web;
 
-import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 
@@ -9,15 +8,10 @@ import org.activebpel.rt.bpel.AeBusinessProcessException;
 import org.activebpel.rt.bpel.server.AeMessages;
 import org.activebpel.rt.bpel.server.deploy.scanner.IAeDeploymentFileHandler;
 import org.activebpel.rt.bpel.server.engine.AeEngineFactory;
-import org.activebpel.rt.util.AeUtil;
-import org.activebpel.timer.AeAbstractTimerWork;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
-
-import commonj.timers.TimerListener;
-import commonj.timers.TimerManager;
 
 public class AeEngineFactoryStarter implements ServletContextListener {
 

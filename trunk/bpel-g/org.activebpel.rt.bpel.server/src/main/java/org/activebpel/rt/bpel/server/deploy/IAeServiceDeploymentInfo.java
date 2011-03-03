@@ -17,6 +17,8 @@ import javax.xml.namespace.QName;
 import org.activebpel.rt.bpel.def.AePartnerLinkDefKey;
 import org.w3c.dom.Element;
 
+import bpelg.services.deploy.types.pdd.MyRoleBindingType;
+
 /**
  * Models service data for persistence.
  */
@@ -41,32 +43,7 @@ public interface IAeServiceDeploymentInfo
    /**
     * Accessor for binding string.
     */
-   public String getBinding();
-
-   /**
-    * Returns true if the binding is MSG.
-    */
-   public boolean isMessageService();
-
-   /**
-    * Returns true if the binding is RPC
-    */
-   public boolean isRPCEncoded();
-
-   /**
-    * Returns true if the binding is RPC literal
-    */
-   public boolean isRPCLiteral();
-
-   /**
-    * Returns true if the binding is EXTERNAL
-    */
-   public boolean isExternalService();
-
-   /**
-    * Returns true if the binding is policy driven
-    */
-   public boolean isPolicyService();
+   public MyRoleBindingType getBinding();
 
    /**
     * Add a role to the service data.
