@@ -35,6 +35,8 @@ import org.exolab.castor.xml.schema.Schema;
 import org.exolab.castor.xml.schema.reader.SchemaReader;
 import org.xml.sax.InputSource;
 
+import bpelg.services.deploy.types.pdd.ReferenceType;
+
 /**
  * In memory cache for resource objects with a max upper limit. Default value,
  * if not in config, is 50.
@@ -56,27 +58,17 @@ public class AeResourceCache implements IAeResourceCache, IAeConfigChangeListene
         AeEngineFactory.getEngineConfig().getUpdatableEngineConfig().addConfigChangeListener(this);
     }
 
-    /**
-     * @see org.activebpel.rt.bpel.server.catalog.resource.IAeResourceCache#updateResource(org.activebpel.rt.bpel.server.catalog.resource.IAeResourceKey,
-     *      java.lang.Object)
-     */
-    public void updateResource(IAeResourceKey aKey, Object aObj) {
+    public void updateResource(ReferenceType aKey, Object aObj) {
         removeResource(aKey);
         mCache.put(new Element(aKey, aObj));
     }
 
-    /**
-     * TODO (cck) This method should use a factory based on type to create the
-     * appropriate object.
-     * 
-     * @see org.activebpel.rt.bpel.server.catalog.resource.IAeResourceCache#getResource(org.activebpel.rt.bpel.server.catalog.resource.IAeResourceKey)
-     */
-    public Object getResource(IAeResourceKey aKey) throws AeResourceException {
+    public Object getResource(ReferenceType aKey) throws AeResourceException {
 
-        if (aKey.isWsdlEntry())
+        if (AeReferenceTypeUtil.isWsdlEntry(aKey))
             return getDefFromCache(aKey);
 
-        if (aKey.isSchemaEntry())
+        if (AeReferenceTypeUtil.isSchemaEntry(aKey))
             return getSchemaDefFromCache(aKey);
 
         // TODO (cck) is InputSource the best return type for non-wsdl cached
@@ -91,7 +83,7 @@ public class AeResourceCache implements IAeResourceCache, IAeConfigChangeListene
      * 
      * @param aKey
      */
-    protected AeBPELExtendedWSDLDef getDefFromCache(IAeResourceKey aKey) throws AeResourceException {
+    protected AeBPELExtendedWSDLDef getDefFromCache(ReferenceType aKey) throws AeResourceException {
         AeBPELExtendedWSDLDef def = null;
         Element e = mCache.get(aKey);
         if (e != null)
@@ -112,7 +104,7 @@ public class AeResourceCache implements IAeResourceCache, IAeConfigChangeListene
      * 
      * @param aKey
      */
-    protected Schema getSchemaDefFromCache(IAeResourceKey aKey) throws AeResourceException {
+    protected Schema getSchemaDefFromCache(ReferenceType aKey) throws AeResourceException {
         Schema def = null;
         Element e = mCache.get(aKey);
         if (e != null)
@@ -130,7 +122,7 @@ public class AeResourceCache implements IAeResourceCache, IAeConfigChangeListene
      * 
      * @param aKey
      */
-    protected Schema getSchemaDefForLocation(IAeResourceKey aKey) throws AeResourceException {
+    protected Schema getSchemaDefForLocation(ReferenceType aKey) throws AeResourceException {
         try {
             AeCatalogResourceResolver catalogResolver = new AeCatalogResourceResolver();
             AeWsdlLocator locator = new AeWsdlLocator(catalogResolver, aKey.getLocation());
@@ -152,7 +144,7 @@ public class AeResourceCache implements IAeResourceCache, IAeConfigChangeListene
      * 
      * @param aKey
      */
-    protected AeBPELExtendedWSDLDef getDefForLocation(IAeResourceKey aKey)
+    protected AeBPELExtendedWSDLDef getDefForLocation(ReferenceType aKey)
             throws AeResourceException {
         AeWsdlLocator locator = new AeWsdlLocator(new AeCatalogResourceResolver(),
                 aKey.getLocation());
@@ -170,7 +162,7 @@ public class AeResourceCache implements IAeResourceCache, IAeConfigChangeListene
      * 
      * @param aKey
      */
-    protected InputSource getInputSourceForLocation(IAeResourceKey aKey) throws AeResourceException {
+    protected InputSource getInputSourceForLocation(ReferenceType aKey) throws AeResourceException {
         InputSource source = new InputSource(getStreamForLocation(aKey));
         source.setSystemId(aKey.getLocation());
         return source;
@@ -179,7 +171,7 @@ public class AeResourceCache implements IAeResourceCache, IAeConfigChangeListene
     /**
      * @param aKey
      */
-    protected InputStream getStreamForLocation(IAeResourceKey aKey) throws AeResourceException {
+    protected InputStream getStreamForLocation(ReferenceType aKey) throws AeResourceException {
         InputStream stream = null;
         Reader reader = null;
         try {
@@ -280,7 +272,7 @@ public class AeResourceCache implements IAeResourceCache, IAeConfigChangeListene
     /**
      * @see org.activebpel.rt.bpel.server.catalog.resource.IAeResourceCache#removeResource(org.activebpel.rt.bpel.server.catalog.resource.IAeResourceKey)
      */
-    public boolean removeResource(IAeResourceKey aKey) {
+    public boolean removeResource(ReferenceType aKey) {
         // remove the object from the cache (it may not be in memory)
         return mCache.remove(aKey);
     }

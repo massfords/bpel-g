@@ -17,10 +17,11 @@ import org.activebpel.rt.bpel.coord.IAeCoordinationContext;
 import org.activebpel.rt.bpel.impl.AeBusinessProcessEngine;
 import org.activebpel.rt.bpel.impl.IAeProcessCoordination;
 import org.activebpel.rt.bpel.server.catalog.IAeCatalog;
-import org.activebpel.rt.bpel.server.catalog.resource.AeResourceKey;
 import org.activebpel.rt.bpel.server.coord.subprocess.AeServerProcessCoordination;
 import org.activebpel.rt.util.AeUtil;
 import org.activebpel.wsio.receive.IAeMessageContext;
+
+import bpelg.services.deploy.types.pdd.ReferenceType;
 
 /**
  * Base class for engines that run within a server environment. 
@@ -94,7 +95,7 @@ public abstract class AeAbstractServerEngine extends AeBusinessProcessEngine
     */
    protected final Object loadResourceInternal(String aLocation, String aTypeURI) throws AeException
    {
-      return AeEngineFactory.getBean(IAeCatalog.class).getResourceCache().getResource(new AeResourceKey(aLocation, aTypeURI));
+      return AeEngineFactory.getBean(IAeCatalog.class).getResourceCache().getResource(new ReferenceType().withLocation(aLocation).withTypeURI(aTypeURI));
    }
 }
  

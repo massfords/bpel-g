@@ -9,18 +9,18 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpel.server;
 
-import java.util.Set;
+import java.util.Collection;
 
 import org.activebpel.rt.bpel.AeBusinessProcessException;
 import org.activebpel.rt.bpel.IAeEndpointReference;
 import org.activebpel.rt.bpel.IAePartnerLink;
 import org.activebpel.rt.bpel.impl.IAeProcessPlan;
-import org.activebpel.rt.bpel.server.addressing.AeEndpointReferenceSourceType;
-import org.activebpel.rt.bpel.server.deploy.AeProcessPersistenceType;
-import org.activebpel.rt.bpel.server.deploy.AeProcessTransactionType;
 import org.activebpel.rt.bpel.server.deploy.IAeServiceDeploymentInfo;
 import org.activebpel.wsio.receive.IAeMessageContext;
-import org.w3c.dom.Element;
+
+import bpelg.services.deploy.types.pdd.PartnerRoleEndpointReferenceType;
+import bpelg.services.deploy.types.pdd.Pdd;
+import bpelg.services.deploy.types.pdd.ReferenceType;
 
 /**
  * Interface of process deployment descriptor.
@@ -31,20 +31,13 @@ public interface IAeProcessDeployment extends IAeProcessPlan
     * Returns an endpoint reference for the given partner link for partnerRole, or null if not found.
     * 
     * @param aPartnerLink the partner link we are looking for
+ * @throws AeBusinessProcessException 
     */
    public IAeEndpointReference getPartnerEndpointRef(String aPartnerLink);
 
-   /**
-    * Set of keys for resource imports associated with this deployment.
-    * @return Set of AeResourceKey objects.
-    */
-   public Set getResourceKeys();
+   public Pdd getPdd();
    
-   /**
-    * Gets the source element for this process deployment data
-    * todo changing activebpel admin console to display nicely formatted data would remove need for src element on interface
-    */
-   public Element getSourceElement();
+   public Collection<ReferenceType> getAllReferenceTypes();
 
    /**
     * Updates the partner link with any endpoint reference data available from the
@@ -64,7 +57,7 @@ public interface IAeProcessDeployment extends IAeProcessPlan
     *
     * @param aPartnerLink
     */
-   public AeEndpointReferenceSourceType getEndpointSourceType(String aPartnerLink);
+   public PartnerRoleEndpointReferenceType getEndpointSourceType(String aPartnerLink);
 
    /**
     * Gets the source xml for the bpel process.
@@ -81,16 +74,6 @@ public interface IAeProcessDeployment extends IAeProcessPlan
     * @throws AeBusinessProcessException
     */
    public void preProcessDefinition() throws AeBusinessProcessException;
-
-   /**
-    * Returns process persistence type.
-    */
-   public AeProcessPersistenceType getPersistenceType();
-
-   /**
-    * Returns process transaction type.
-    */
-   public AeProcessTransactionType getTransactionType();
 
    /**
     * Return the custom invoke handler uri string for this partner link or null if none is found.

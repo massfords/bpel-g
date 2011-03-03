@@ -40,7 +40,6 @@ import org.activebpel.rt.bpel.server.AeMessages;
 import org.activebpel.rt.bpel.server.IAeDeploymentProvider;
 import org.activebpel.rt.bpel.server.IAeProcessDeployment;
 import org.activebpel.rt.bpel.server.deploy.AeProcessDeploymentFactory;
-import org.activebpel.rt.bpel.server.deploy.AeProcessPersistenceType;
 import org.activebpel.rt.bpel.server.engine.process.AeProcessStateReader;
 import org.activebpel.rt.bpel.server.engine.process.AeProcessStateWriter;
 import org.activebpel.rt.bpel.server.engine.process.AeProcessWrapper;
@@ -60,6 +59,8 @@ import org.activebpel.rt.bpel.server.logging.IAeProcessLogEntry;
 import org.activebpel.rt.message.IAeMessageData;
 import org.activebpel.rt.xml.AeQName;
 import org.activebpel.work.AeAbstractWork;
+
+import bpelg.services.deploy.types.pdd.PersistenceType;
 
 import commonj.timers.Timer;
 import commonj.timers.TimerListener;
@@ -238,7 +239,7 @@ public class AePersistentProcessManager extends AeAbstractProcessManager impleme
       int planId = deployment.getPlanId();
       long processId;
 
-      if (deployment.getPersistenceType() != AeProcessPersistenceType.NONE)
+      if (deployment.getPdd().getPersistenceType() != PersistenceType.NONE)
       {
          processId = getStorage().createProcess(planId, processName);
       }
@@ -259,8 +260,8 @@ public class AePersistentProcessManager extends AeAbstractProcessManager impleme
             "Process {0,number,0}: {1}, persistenceType = {2}, transactionType = {3}", //$NON-NLS-1$
             new Object[] { new Long(processId),
                            processName.getLocalPart(),
-                           deployment.getPersistenceType(),
-                           deployment.getTransactionType() });
+                           deployment.getPdd().getPersistenceType(),
+                           deployment.getPdd().getTransactionType() });
 
       return process;
    }

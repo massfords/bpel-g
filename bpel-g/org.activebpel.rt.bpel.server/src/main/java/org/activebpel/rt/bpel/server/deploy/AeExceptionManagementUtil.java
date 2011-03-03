@@ -10,8 +10,9 @@
 package org.activebpel.rt.bpel.server.deploy;
 
 import org.activebpel.rt.bpel.server.engine.AeEngineFactory;
-import org.activebpel.rt.util.AeUtil;
-import org.w3c.dom.Document;
+
+import bpelg.services.deploy.types.pdd.PersistenceType;
+import bpelg.services.deploy.types.pdd.SuspendFlag;
 
 /**
  * Utility class for process exception management.
@@ -20,57 +21,29 @@ public class AeExceptionManagementUtil
 {
 
    /**
-    * Extract the <code>AeExceptionManagementType</code> from the process
-    * deployment descriptor (.pdd) document.
-    * @param aPddDoc
-    */
-   public static AeExceptionManagementType getExceptionManagementType( Document aPddDoc )
-   {
-      AeExceptionManagementType type = AeExceptionManagementType.ENGINE;
-
-      String processSpecificType = 
-         aPddDoc.getDocumentElement().getAttribute(
-               IAePddXmlConstants.ATT_SUSPEND_PROCESS_ON_UNCAUGHT_FAULT);
-
-      // if an override for process exception management was specified in 
-      // the process deployment descriptor create the appropriate type
-      if( AeUtil.notNullOrEmpty(processSpecificType) )
-      {
-         if( AeUtil.toBoolean(processSpecificType) )
-         {
-            type = AeExceptionManagementType.SUSPEND;
-         }
-         else
-         {
-            type = AeExceptionManagementType.NORMAL;
-         }
-      }
-      return type;
-   }
-   
-   /**
     * Return true if the process should be suspended if it encounters an
     * uncaught fault based on its persisten type and exception management
     * type.
-    * @param aExceptionManagementType
+    * @param aSuspendFlag
     * @param aPersistenceType
     */
+	// FIXME deploy - fix this in the schema, this looks weird
    public static boolean isSuspendOnUncaughtFaultEnabled( 
-         AeExceptionManagementType aExceptionManagementType, 
-         AeProcessPersistenceType aPersistenceType )
+         SuspendFlag aSuspendFlag, 
+         PersistenceType aPersistenceType )
    {
       boolean suspendMe = false;
       
       // if the process is a service flow, we will never suspend it
-      if( AeProcessPersistenceType.NONE != aPersistenceType )
+      if( PersistenceType.NONE != aPersistenceType )
       {
-         if( AeExceptionManagementType.ENGINE == aExceptionManagementType )
+         if( aSuspendFlag == null )
          {
             suspendMe = AeEngineFactory.getEngineConfig().isSuspendProcessOnUncaughtFault();
          }
          else
          {
-            suspendMe = AeExceptionManagementType.SUSPEND == aExceptionManagementType; 
+            suspendMe = aSuspendFlag == SuspendFlag.TRUE; 
          }
       }
       return suspendMe;

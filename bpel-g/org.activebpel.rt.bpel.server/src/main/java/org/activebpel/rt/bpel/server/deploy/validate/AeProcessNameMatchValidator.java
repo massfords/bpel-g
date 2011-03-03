@@ -14,6 +14,7 @@ import javax.xml.namespace.QName;
 import org.activebpel.rt.AeException;
 import org.activebpel.rt.bpel.def.validation.IAeBaseErrorReporter;
 import org.activebpel.rt.bpel.server.AeMessages;
+import org.activebpel.rt.bpel.server.deploy.bpr.AePddResource;
 import org.activebpel.rt.bpel.server.deploy.bpr.IAeBpr;
 import org.activebpel.rt.util.AeUtil;
 import org.w3c.dom.Document;
@@ -26,18 +27,15 @@ public class AeProcessNameMatchValidator extends AeAbstractPddIterator
    
    private static final String NO_MATCH = AeMessages.getString("AeProcessNameMatchValidator.0"); //$NON-NLS-1$
    
-   /**
-    * @see org.activebpel.rt.bpel.server.deploy.validate.AeAbstractPddIterator#validateImpl(org.activebpel.rt.bpel.server.deploy.validate.AePddInfo, org.activebpel.rt.bpel.server.deploy.bpr.IAeBpr, org.activebpel.rt.bpel.def.validation.IAeBaseErrorReporter)
-    */
-   protected void validateImpl(AePddInfo aPddInfo, IAeBpr aBprFile, IAeBaseErrorReporter aReporter) 
+   protected void validateImpl(AePddResource aPdd, IAeBpr aBprFile, IAeBaseErrorReporter aReporter) 
       throws AeException
    {
-      QName nameFromPdd = aPddInfo.getProcessQName();
-      QName nameFromBpel = extractFromBpel( aPddInfo.getBpelLocation(), aBprFile );
+      QName nameFromPdd = aPdd.getPdd().getName();
+      QName nameFromBpel = extractFromBpel( aPdd.getPdd().getLocation(), aBprFile );
       
       if( !AeUtil.compareObjects(nameFromPdd, nameFromBpel) )
       {
-         String[] args = { aPddInfo.getName(), aPddInfo.getBpelLocation() };
+         String[] args = { aPdd.getName(), aPdd.getPdd().getLocation() };
          aReporter.addError( NO_MATCH, args, null );
       }
    }

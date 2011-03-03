@@ -20,8 +20,11 @@ import org.activebpel.rt.util.AeXmlUtil;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.w3c.dom.Document;
-import org.w3c.dom.Element;
 import org.w3c.dom.Node;
+
+import bpelg.services.deploy.types.catalog.BaseCatalogEntryType;
+import bpelg.services.deploy.types.catalog.Catalog;
+import bpelg.services.deploy.types.catalog.OtherEntryType;
 
 
 /**
@@ -49,7 +52,7 @@ public class BgCatalogBuilder {
     private File mServiceUnitRoot;
     private Collection<BgCatalogTuple> mCollection = new ArrayList();
     private String mLogicalPathPrefix;
-    private Document mCatalog;
+    private Catalog mCatalog;
     private boolean mReplaceExisting;
     // location paths relative to the service unit root that are referenced directly or transitively by the bpel. These paths will be included in the deployment.
     private Set<String> mLocations = new HashSet();
@@ -86,28 +89,27 @@ public class BgCatalogBuilder {
      * that makes the catalog.
      */
     protected void buildCatalog() throws Exception {
-        Document doc = AeXmlUtil.newDocument();
-        String catalogNS = "http://schemas.active-endpoints.com/catalog/2006/07/catalog.xsd";
-        Element catalog = AeXmlUtil.addElementNS(doc, catalogNS, "catalog", null);
-        catalog.setAttributeNS(XMLConstants.XMLNS_ATTRIBUTE_NS_URI, "xmlns", catalogNS);
-        if (isReplaceExisting())
-            catalog.setAttribute("replace.existing", "true");
+    	Catalog doc = new Catalog().withReplaceExisting(isReplaceExisting());
         for(BgCatalogTuple tuple : mCollection) {
-            Element entry = null;
+        	BaseCatalogEntryType entry = null;
             if (tuple.isWsdl()) {
-                if (isReferenced(tuple))
-                    entry = AeXmlUtil.addElementNS(catalog, catalogNS, "wsdlEntry");
+                if (isReferenced(tuple)) {
+                    entry = new BaseCatalogEntryType();
+                    doc.withWsdlEntry(entry);
+                }
             } else if (tuple.isXsd()) {
-                if (isReferenced(tuple))
-                    entry = AeXmlUtil.addElementNS(catalog, catalogNS, "schemaEntry");
+                if (isReferenced(tuple)) {
+                    entry = new BaseCatalogEntryType();
+                    doc.withSchemaEntry(entry);
+                }
             } else {
-                entry = AeXmlUtil.addElementNS(catalog, catalogNS, "otherEntry");
-                entry.setAttribute("type", tuple.type);
+                entry = new OtherEntryType().withTypeURI(tuple.type);
+                doc.withOtherEntry((OtherEntryType)entry);
             }
 
             if (entry != null) {
-                entry.setAttribute("location", tuple.logicalLocation);
-                entry.setAttribute("classpath", tuple.physicalLocation);
+                entry.setLocation(tuple.logicalLocation);
+                entry.setClasspath(tuple.physicalLocation);
             } else {
                 sLog.warn("The following catalog item will not be deployed since it is not imported by any of the bpel's or their wsdl/xsd imports:" + tuple.physicalLocation);
             }
@@ -122,7 +124,7 @@ public class BgCatalogBuilder {
         return mLocations.isEmpty() || mLocations.contains(aTuple.physicalLocation);
     }
     
-    protected Document getCatalog() throws Exception {
+    protected Catalog getCatalog() throws Exception {
         if (mCatalog == null)
             buildCatalog();
         return mCatalog;

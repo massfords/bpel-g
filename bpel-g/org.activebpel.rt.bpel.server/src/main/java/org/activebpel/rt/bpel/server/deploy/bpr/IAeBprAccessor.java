@@ -15,13 +15,13 @@ import java.util.Collection;
 import org.activebpel.rt.AeException;
 import org.w3c.dom.Document;
 
+import bpelg.services.deploy.types.catalog.Catalog;
+
 /**
  * Represents the strategy for accessing resources within a bpr deployment.
  */
 public interface IAeBprAccessor
 {
-   /** wsdlCatalog xml file location - this file name has been deprecated and people should use catalog.xml instead */
-   public static final String WSDL_CATALOG = "META-INF/wsdlCatalog.xml"; //$NON-NLS-1$
    /** Catalog xml file location - the catalog file has resource names and locations in the bpr file which should be added to the global catalog */
    public static final String CATALOG = "META-INF/catalog.xml"; //$NON-NLS-1$
    
@@ -34,13 +34,13 @@ public interface IAeBprAccessor
    /**
     * Return the collection of pdd resource names.
     */
-   public Collection<String> getPddResources();
+   public Collection<AePddResource> getPddResources();
    
    /**
     * Return the catalog xml file <code>Document</code>.
     * @throws AeException
     */
-   public Document getCatalogDocument() throws AeException;
+   public Catalog getCatalogDocument() throws AeException;
    
    /**
     * Return true if the bpr has access to this resource.

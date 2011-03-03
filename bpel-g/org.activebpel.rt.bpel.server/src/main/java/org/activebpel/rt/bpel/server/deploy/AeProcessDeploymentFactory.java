@@ -48,7 +48,7 @@ public class AeProcessDeploymentFactory
       initProcessDef(aSource, deployment);
       initPartnerLinks(aSource, deployment);
 
-      preprocessProcessDef( aSource.getBpelSourceLocation(), deployment );      
+      preprocessProcessDef( aSource.getPdd().getLocation(), deployment );      
       return deployment;
    }
    
@@ -64,7 +64,7 @@ public class AeProcessDeploymentFactory
       AeProcessDef processDef = aSource.getProcessDef();
       if( processDef == null )
       {
-         throw new AeDeploymentException(AeMessages.getString("AeProcessDeploymentFactory.ERROR_0") + aSource.getPddLocation() ); //$NON-NLS-1$
+         throw new AeDeploymentException(AeMessages.getString("AeProcessDeploymentFactory.ERROR_0") + aSource.getPdd().getLocation() ); //$NON-NLS-1$
       }
       deployment.setProcess( processDef );
    }
