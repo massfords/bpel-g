@@ -14,8 +14,6 @@ import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import javax.xml.namespace.QName;
-
 import org.activebpel.rt.bpel.AeBusinessProcessException;
 import org.activebpel.rt.bpel.def.AeProcessDef;
 import org.activebpel.rt.bpel.def.io.AeBpelIO;
@@ -24,14 +22,10 @@ import org.activebpel.rt.bpel.server.deploy.AeDeploymentException;
 import org.activebpel.rt.bpel.server.deploy.AeServiceDeploymentUtil;
 import org.activebpel.rt.bpel.server.deploy.IAeDeploymentContext;
 import org.activebpel.rt.bpel.server.deploy.IAeDeploymentSource;
-import org.activebpel.rt.bpel.server.deploy.IAePddXmlConstants;
 import org.activebpel.rt.bpel.server.deploy.IAeServiceDeploymentInfo;
 import org.activebpel.rt.bpel.server.deploy.pdd.AePartnerLinkDescriptor;
 import org.activebpel.rt.bpel.server.deploy.pdd.AePartnerLinkDescriptorFactory;
 import org.activebpel.rt.util.AeCloser;
-import org.activebpel.rt.util.AeUtil;
-import org.activebpel.rt.util.AeXmlUtil;
-import org.w3c.dom.Element;
 import org.xml.sax.InputSource;
 
 import bpelg.services.deploy.types.pdd.PartnerLinkType;
@@ -40,8 +34,7 @@ import bpelg.services.deploy.types.pdd.Pdd;
 /**
  * Wraps the deployment of a single pdd from the BPR archive.
  */
-public class AeBprDeploymentSource implements IAeDeploymentSource,
-		IAePddXmlConstants {
+public class AeBprDeploymentSource implements IAeDeploymentSource {
 	private Pdd mPdd;
 	/** deserialized process def */
 	private AeProcessDef mProcessDef;
@@ -125,22 +118,6 @@ public class AeBprDeploymentSource implements IAeDeploymentSource,
 	 */
 	protected IAeDeploymentContext getContext() {
 		return mContext;
-	}
-
-	/**
-	 * Accessor for process qname.
-	 * 
-	 * @param aProcessElement
-	 */
-	public static QName getProcessName(Element aProcessElement) {
-		String processQName = aProcessElement.getAttribute(ATT_NAME);
-		// TODO - can this ever be null or empty?
-		// probably should have failed some sort of
-		// validation before it ever got here
-		if (AeUtil.isNullOrEmpty(processQName)) {
-			return null;
-		}
-		return AeXmlUtil.createQName(aProcessElement, processQName);
 	}
 
 	/**

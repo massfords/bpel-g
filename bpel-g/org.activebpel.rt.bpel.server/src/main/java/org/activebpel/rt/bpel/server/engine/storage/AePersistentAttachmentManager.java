@@ -12,7 +12,6 @@ package org.activebpel.rt.bpel.server.engine.storage;
 import org.activebpel.rt.bpel.impl.AeFileAttachmentManager;
 import org.activebpel.rt.bpel.impl.attachment.IAeAttachmentStorage;
 import org.activebpel.rt.bpel.server.AeMessages;
-import org.activebpel.rt.bpel.server.engine.AeEngineFactory;
 import org.activebpel.rt.bpel.server.engine.storage.attachment.AeCompositeAttachmentStorage;
 
 /**

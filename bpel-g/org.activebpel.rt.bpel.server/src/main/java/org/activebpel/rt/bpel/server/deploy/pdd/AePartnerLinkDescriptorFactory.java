@@ -14,10 +14,7 @@ import org.activebpel.rt.bpel.def.AePartnerLinkDef;
 import org.activebpel.rt.bpel.def.AeProcessDef;
 import org.activebpel.rt.bpel.server.AeMessages;
 import org.activebpel.rt.bpel.server.deploy.AeDeploymentException;
-import org.activebpel.rt.bpel.server.deploy.IAePddXmlConstants;
 import org.activebpel.rt.util.AeUtil;
-import org.activebpel.rt.util.AeXmlUtil;
-import org.w3c.dom.Element;
 
 import bpelg.services.deploy.types.pdd.PartnerLinkType;
 
