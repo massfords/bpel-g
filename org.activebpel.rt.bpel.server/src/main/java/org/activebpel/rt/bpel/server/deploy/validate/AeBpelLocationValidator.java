@@ -12,6 +12,7 @@ package org.activebpel.rt.bpel.server.deploy.validate;
 import org.activebpel.rt.AeException;
 import org.activebpel.rt.bpel.def.validation.IAeBaseErrorReporter;
 import org.activebpel.rt.bpel.server.AeMessages;
+import org.activebpel.rt.bpel.server.deploy.bpr.AePddResource;
 import org.activebpel.rt.bpel.server.deploy.bpr.IAeBpr;
 
 /**
@@ -26,14 +27,11 @@ public class AeBpelLocationValidator extends AeAbstractPddIterator
    /** Missing BPEL error message template */
    private static final String MISSING_BPEL = AeMessages.getString("AeBpelLocationValidator.0"); //$NON-NLS-1$
 
-   /**
-    * @see org.activebpel.rt.bpel.server.deploy.validate.AeAbstractPddIterator#validateImpl(org.activebpel.rt.bpel.server.deploy.validate.AePddInfo, org.activebpel.rt.bpel.server.deploy.bpr.IAeBpr, org.activebpel.rt.bpel.def.validation.IAeBaseErrorReporter)
-    */
-   protected void validateImpl(AePddInfo aPddInfo, IAeBpr aBprFile, IAeBaseErrorReporter aReporter) throws AeException
+   protected void validateImpl(AePddResource aPdd, IAeBpr aBprFile, IAeBaseErrorReporter aReporter) throws AeException
    {
-      if( !aBprFile.exists( aPddInfo.getBpelLocation() ) )
+      if( !aBprFile.exists( aPdd.getPdd().getLocation() ) )
       {
-         String[] args = {aPddInfo.getName(), aBprFile.getBprFileName(), aPddInfo.getBpelLocation()};
+         String[] args = {aPdd.getName(), aBprFile.getBprFileName(), aPdd.getPdd().getLocation()};
          aReporter.addError(MISSING_BPEL, args, null);
       }
    }

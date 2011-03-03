@@ -7,7 +7,11 @@ import static org.junit.Assert.assertTrue;
 import java.io.File;
 import java.util.Map;
 
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Marshaller;
 import javax.xml.namespace.QName;
+import javax.xml.transform.dom.DOMResult;
 
 import org.activebpel.rt.util.AeXmlUtil;
 import org.junit.Before;
@@ -16,6 +20,7 @@ import org.junit.Test;
 import org.w3c.dom.Document;
 
 import bpelg.packaging.ode.BgPddInfo.BgPlink;
+import bpelg.services.deploy.types.pdd.Pdd;
 
 public class BgPddBuilderTest {
     
@@ -68,10 +73,10 @@ public class BgPddBuilderTest {
     @Test
     public void testGetPdd_testBpel() throws Exception {
         
-        Document testPdd = mBuilder.createPddDocument("test.bpel.pdd", mCatalogBuilder.getItems());
+        Pdd testPdd = mBuilder.createPddDocument("test.bpel.pdd", mCatalogBuilder.getItems());
         
         String expectedXml = 
-            "<pdd:process xmlns:bpelns='test' xmlns:pdd='http://schemas.active-endpoints.com/pdd/2006/08/pdd.xsd' location='test.bpel' name='bpelns:test' platform='opensource'>" + 
+            "<pdd:process xmlns:bpelns='test' xmlns:pdd='http://schemas.active-endpoints.com/pdd/2006/08/pdd.xsd' location='test.bpel' name='ns2:test' platform='opensource'>" + 
         		"<pdd:partnerLinks>" + 
         		    "<pdd:partnerLink name='testPartnerLinkType'>" + 
         		        "<pdd:myRole allowedRoles='' binding='MSG' service='test'/>" + 
@@ -83,16 +88,18 @@ public class BgPddBuilderTest {
     		"</pdd:process>";
         Document expected = AeXmlUtil.toDoc(expectedXml);
         
-        BgXmlAssert.assertXml(expected, testPdd, "/process[1]/partnerLinks[1]/partnerLink[1]/myRole[1]/@service");
+        Document actual = serialize(testPdd);
+        BgXmlAssert.assertXml(expected, actual, "/process[1]/partnerLinks[1]/partnerLink[1]/myRole[1]/@service");
     }
 
+    // FIXME deploy restore this test
     @Ignore
     public void testGetPdd_testInvokeBpel() throws Exception {
         
-        Document testPdd = mBuilder.createPddDocument("testInvoke.bpel.pdd", mCatalogBuilder.getItems());
+        Pdd testPdd = mBuilder.createPddDocument("testInvoke.bpel.pdd", mCatalogBuilder.getItems());
         
         String expectedXml = 
-            "<pdd:process xmlns:bpelns='test' xmlns:pdd='http://schemas.active-endpoints.com/pdd/2006/08/pdd.xsd' location='testInvoke.bpel' name='bpelns:testInvoke' platform='opensource'>" + 
+            "<pdd:process xmlns:bpelns='test' xmlns:pdd='http://schemas.active-endpoints.com/pdd/2006/08/pdd.xsd' location='testInvoke.bpel' name='ns2:testInvoke' platform='opensource'>" + 
                 "<pdd:partnerLinks>" + 
                     "<pdd:partnerLink name='testPartnerLinkType'>" + 
                         "<pdd:myRole allowedRoles='' binding='MSG' service='testInvoke'>" +
@@ -121,6 +128,18 @@ public class BgPddBuilderTest {
             "</pdd:process>"; 
         Document expected = AeXmlUtil.toDoc(expectedXml);
         
-        BgXmlAssert.assertXml(expected, testPdd, "/process[1]/partnerLinks[1]/partnerLink[1]/myRole[1]/@service");
+        Document actual = serialize(testPdd);
+        
+        BgXmlAssert.assertXml(expected, actual, "/process[1]/partnerLinks[1]/partnerLink[1]/myRole[1]/@service");
     }
+
+	protected Document serialize(Pdd testPdd) throws JAXBException {
+		Document actual = null;
+        JAXBContext context = JAXBContext.newInstance(Pdd.class);
+        Marshaller m = context.createMarshaller();
+        DOMResult result = new DOMResult();
+        m.marshal(testPdd, result);
+        actual = (Document) result.getNode();
+		return actual;
+	}
 }

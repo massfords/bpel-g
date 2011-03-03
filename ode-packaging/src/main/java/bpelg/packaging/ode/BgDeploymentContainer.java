@@ -1,8 +1,6 @@
 package bpelg.packaging.ode;
 
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -25,11 +23,14 @@ import org.activebpel.rt.bpel.server.deploy.IAeDeploymentId;
 import org.activebpel.rt.bpel.server.deploy.IAeDeploymentSource;
 import org.activebpel.rt.bpel.server.deploy.IAeServiceDeploymentInfo;
 import org.activebpel.rt.bpel.server.deploy.bpr.AeBprDeploymentSource;
+import org.activebpel.rt.bpel.server.deploy.bpr.AePddResource;
 import org.activebpel.rt.util.AeCloser;
 import org.activebpel.rt.xml.AeXMLParserBase;
 import org.w3c.dom.Document;
 
 import bpelg.packaging.ode.BgPddInfo.BgPlink;
+import bpelg.services.deploy.types.catalog.Catalog;
+import bpelg.services.deploy.types.pdd.Pdd;
 
 public class BgDeploymentContainer implements IAeDeploymentContainer {
     
@@ -38,7 +39,8 @@ public class BgDeploymentContainer implements IAeDeploymentContainer {
     private ClassLoader mClassLoader;
     private BgCatalogBuilder mCatalogBuilder;
     private BgPddBuilder mPddBuilder;
-    private Map<String,IAeDeploymentSource> mDeploymentSources = new HashMap();
+    private Map<Pdd,IAeDeploymentSource> mDeploymentSources = new HashMap();
+    private Collection<AePddResource> mPdds;
     
     public BgDeploymentContainer(File aServiceUnitRoot) throws Exception {
         mServiceUnitRoot = aServiceUnitRoot;
@@ -49,7 +51,7 @@ public class BgDeploymentContainer implements IAeDeploymentContainer {
 
         mPddBuilder = new BgPddBuilder(mServiceUnitRoot);
         mPddBuilder.build();
-        mPddBuilder.writeDocuments(mCatalogBuilder);
+        mPdds = mPddBuilder.getPdds(mCatalogBuilder);
         
         // now that we've written all of the pdd's, we know what each bpel is importing
         // we're now able to build a collection of just those tuples that are referenced
@@ -63,27 +65,16 @@ public class BgDeploymentContainer implements IAeDeploymentContainer {
     }
 
     @Override
-    public IAeDeploymentSource getDeploymentSource(String aPddName) throws AeException {
-        IAeDeploymentSource source = mDeploymentSources.get(aPddName);
+    public IAeDeploymentSource getDeploymentSource(Pdd aPdd) throws AeException {
+    	// FIXME this looks wrong
+        IAeDeploymentSource source = mDeploymentSources.get(aPdd);
         if (source == null) {
-            source = buildSource(aPddName);
-            mDeploymentSources.put(aPddName, source);
+            source = new AeBprDeploymentSource(aPdd, this);
+            mDeploymentSources.put(aPdd, source);
         }
         return source;
     }
     
-    protected IAeDeploymentSource buildSource(String aPddName) throws AeException {
-        AeXMLParserBase parser = new AeXMLParserBase(true,false);
-        Document doc;
-        try {
-            doc = parser.loadDocument(new FileReader(new File(mServiceUnitRoot, aPddName)), null);
-        } catch (FileNotFoundException e) {
-            throw new AeException(e);
-        }
-        IAeDeploymentSource source = new AeBprDeploymentSource(aPddName, doc, this);
-        return source;
-    }
-
     @Override
     public String getShortName() {
         return mServiceUnitRoot.getName();
@@ -154,7 +145,7 @@ public class BgDeploymentContainer implements IAeDeploymentContainer {
     }
 
     @Override
-    public Document getCatalogDocument() throws AeException {
+    public Catalog getCatalogDocument() throws AeException {
         try {
             return mCatalogBuilder.getCatalog();
         } catch (Exception e) {
@@ -163,8 +154,8 @@ public class BgDeploymentContainer implements IAeDeploymentContainer {
     }
 
     @Override
-    public Collection<String> getPddResources() {
-        return mPddBuilder.getPddNames();
+    public Collection<AePddResource> getPddResources() {
+        return mPdds;
     }
 
     @Override
