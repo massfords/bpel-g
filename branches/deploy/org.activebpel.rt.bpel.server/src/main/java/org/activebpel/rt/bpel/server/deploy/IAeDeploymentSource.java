@@ -10,13 +10,11 @@
 package org.activebpel.rt.bpel.server.deploy;
 
 import java.util.Collection;
-import java.util.Set;
-
-import javax.xml.namespace.QName;
 
 import org.activebpel.rt.bpel.def.AeProcessDef;
 import org.activebpel.rt.bpel.server.deploy.pdd.AePartnerLinkDescriptor;
-import org.w3c.dom.Element;
+
+import bpelg.services.deploy.types.pdd.Pdd;
 
 /**
  * Interface for deploying bpel process to the engine.
@@ -29,39 +27,9 @@ public interface IAeDeploymentSource
    public int getPlanId();
 
    /**
-    * Get the name of the current pdd resource.
-    * @return name of pdd resource
-    */
-   public String getPddLocation();
-
-   /**
-    * Accessor for bpel dom resource location.
-    * @return bpel resource path
-    */
-   public String getBpelSourceLocation();
-   
-   /**
-    * QName for the bpel process
-    * @return bpel process QName
-    */
-   public QName getProcessName();
-   
-   /**
     * AeProcessDef for the bpel process.
     */
    public AeProcessDef getProcessDef();
-   
-   /**
-    * Accessor for the dom process element.
-    * @return dom process element
-    */
-   public Element getProcessSourceElement();
-   
-   /**
-    * Set of keys for resource imports associated with this deployment.
-    * @return Set of AeResourceKey objects.
-    */
-   public Set getResourceKeys();
    
    /**
     * Return the collection of partner link descriptors.
@@ -69,32 +37,9 @@ public interface IAeDeploymentSource
    public Collection<AePartnerLinkDescriptor> getPartnerLinkDescriptors();
 
    /**
-    * Returns persistence type.
-    */
-   public AeProcessPersistenceType getPersistenceType();
-
-   /**
-    * Returns transaction type.
-    */
-   public AeProcessTransactionType getTransactionType();
-   
-   /**
-    * Return the process exception management type.
-    */
-   public AeExceptionManagementType getExceptionManagementType();
-   
-   /**
     * Gets the services for the plan
     */
    public IAeServiceDeploymentInfo[] getServices() throws AeDeploymentException;
 
-   /**
-    * Returns the process-level {@link AeInvokeRecoveryType}.
-    */
-   public AeInvokeRecoveryType getInvokeRecoveryType();
-   
-   /**
-    * Map of extension element QName to extension
-    */
-   public Element getExtensions();
+   public Pdd getPdd();
 }

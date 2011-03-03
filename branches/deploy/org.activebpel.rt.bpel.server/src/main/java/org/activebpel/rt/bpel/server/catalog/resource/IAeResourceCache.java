@@ -10,6 +10,7 @@
 package org.activebpel.rt.bpel.server.catalog.resource;
 
 import net.sf.ehcache.Statistics;
+import bpelg.services.deploy.types.pdd.ReferenceType;
 
 
 /**
@@ -21,20 +22,20 @@ public interface IAeResourceCache
     * Locate a specific object via a key.
     * @param aKey
     */
-   public Object getResource( IAeResourceKey aKey ) throws AeResourceException;
+   public Object getResource( ReferenceType aKey ) throws AeResourceException;
    
    /**
     * Remove the resource from the cache.
     * @param aKey
     */
-   public boolean removeResource( IAeResourceKey aKey );
+   public boolean removeResource( ReferenceType aKey );
    
    /**
     * Replace any existing entries mapped to the given key with the new object.
     * @param aKey
     * @param aObject
     */
-   public void updateResource( IAeResourceKey aKey, Object aObject);
+   public void updateResource( ReferenceType aKey, Object aObject);
    
    /**
     * Setter for the max cache size.

@@ -10,7 +10,6 @@
 package org.activebpel.rt.bpel.server.deploy;
 
 import java.text.MessageFormat;
-import java.util.Iterator;
 
 import org.activebpel.rt.AeException;
 import org.activebpel.rt.bpel.IAeExpressionLanguageFactory;
@@ -19,6 +18,7 @@ import org.activebpel.rt.bpel.def.validation.IAeBaseErrorReporter;
 import org.activebpel.rt.bpel.server.AeMessages;
 import org.activebpel.rt.bpel.server.IAeDeploymentProvider;
 import org.activebpel.rt.bpel.server.IAeProcessDeployment;
+import org.activebpel.rt.bpel.server.deploy.bpr.AePddResource;
 import org.activebpel.rt.bpel.server.deploy.validate.AeDeploymentValidator;
 import org.activebpel.rt.bpel.server.engine.AeEngineFactory;
 import org.activebpel.rt.bpel.server.logging.IAeDeploymentLogger;
@@ -26,7 +26,6 @@ import org.activebpel.rt.expr.validation.functions.IAeFunctionValidatorFactory;
 import org.activebpel.rt.util.AeUtil;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.w3c.dom.Element;
 
 /**
  * IAeBpelDeployer impl.
@@ -41,15 +40,15 @@ public class AeBpelDeployer implements IAeDeploymentHandler {
     @Override
     public void deploy(IAeDeploymentContainer aContainer, IAeDeploymentLogger aLogger)
             throws AeException {
-        for (Iterator iter = aContainer.getPddResources().iterator(); iter.hasNext();) {
+        for (AePddResource pdd : aContainer.getPddResources()) {
             boolean success = false;
-            String pddName = (String) iter.next();
-            String shortName = AeUtil.getFilename(pddName);
+            String pddName = pdd.getName();
+            String shortName = AeUtil.getFilename(pdd.getName());
             aLogger.setPddName(shortName);
             boolean skipValidation = aContainer.exists("skip.validation");
             try {
-                IAeDeploymentSource source = aContainer.getDeploymentSource(pddName);
-                sLog.debug("Deploying BPEL for " + source.getProcessName() + " from " + pddName); //$NON-NLS-1$ //$NON-NLS-2$
+                IAeDeploymentSource source = aContainer.getDeploymentSource(pdd.getPdd());
+                sLog.debug("Deploying BPEL for " + source.getPdd().getName() + " from " + pddName); //$NON-NLS-1$ //$NON-NLS-2$
                 deployBpel(source, aLogger, skipValidation);
 
                 if (!aLogger.hasErrors()) {
@@ -83,17 +82,16 @@ public class AeBpelDeployer implements IAeDeploymentHandler {
 
     @Override
     public void undeploy(IAeDeploymentContainer aContainer) throws AeException {
-        for (Iterator iter = aContainer.getPddResources().iterator(); iter.hasNext();) {
-            String pddName = (String) iter.next();
+        for (AePddResource pdd : aContainer.getPddResources()) {
             try {
-                IAeDeploymentSource source = aContainer.getDeploymentSource(pddName);
-                sLog.debug("Undeploying bpel: " + source.getProcessName() + " from " + pddName); //$NON-NLS-1$ //$NON-NLS-2$
+                IAeDeploymentSource source = aContainer.getDeploymentSource(pdd.getPdd());
+                sLog.debug("Undeploying bpel: " + pdd.getName() + " from " + pdd.getPdd().getLocation()); //$NON-NLS-1$ //$NON-NLS-2$
                 AeEngineFactory.getBean(IAeDeploymentProvider.class).removeDeploymentPlan(
-                        source.getProcessName());
+                        source.getPdd().getName());
             } catch (AeException e) {
                 sLog.error(
                         MessageFormat.format(
-                                AeMessages.getString("AeDeploymentHandler.ERROR_9"), new Object[] { pddName }), e); //$NON-NLS-1$
+                                AeMessages.getString("AeDeploymentHandler.ERROR_9"), new Object[] { pdd.getName() }), e); //$NON-NLS-1$
             }
         }
 
@@ -104,7 +102,7 @@ public class AeBpelDeployer implements IAeDeploymentHandler {
         IAeProcessDeployment deployment = create(aSource);
         if (!aSkipValidation) {
             AeDeploymentValidator deploymentValidator = new AeDeploymentValidator(
-                    aSource.getPddLocation(), deployment, aReporter);
+                    aSource.getPdd().getLocation(), deployment, aReporter);
             deploymentValidator.setExpressionLanguageFactory(getExpressionLanguageFactory());
             deploymentValidator.setFunctionValidatorFactory(getFunctionValidatorFactory());
             deploymentValidator.validate();
@@ -123,9 +121,8 @@ public class AeBpelDeployer implements IAeDeploymentHandler {
     protected IAeServiceDeploymentInfo[] getServiceInfo(IAeDeploymentSource aSource)
             throws AeDeploymentException {
         // Get the service info
-        Element pddElement = aSource.getProcessSourceElement();
         AeProcessDef processDef = aSource.getProcessDef();
-        return AeServiceDeploymentUtil.getServices(processDef, pddElement);
+        return AeServiceDeploymentUtil.getServices(processDef, aSource.getPdd());
     }
 
     /**

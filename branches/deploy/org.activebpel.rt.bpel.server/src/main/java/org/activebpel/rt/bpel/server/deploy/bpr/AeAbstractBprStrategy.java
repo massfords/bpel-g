@@ -13,6 +13,11 @@ import java.io.InputStream;
 import java.net.URL;
 import java.util.Collection;
 
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Unmarshaller;
+import javax.xml.transform.dom.DOMSource;
+
 import org.activebpel.rt.AeException;
 import org.activebpel.rt.bpel.server.AeMessages;
 import org.activebpel.rt.bpel.server.deploy.AeDeploymentException;
@@ -21,126 +26,125 @@ import org.activebpel.rt.util.AeCloser;
 import org.activebpel.rt.xml.AeXMLParserBase;
 import org.w3c.dom.Document;
 
+import bpelg.services.deploy.types.catalog.Catalog;
+
 /**
- * Base class for <code>IAeBprStrategy</code> implementations.  Provides
- * common accessor methods for bpr file resources.
+ * Base class for <code>IAeBprStrategy</code> implementations. Provides common
+ * accessor methods for bpr file resources.
  */
-public abstract class AeAbstractBprStrategy implements IAeBprAccessor
-{
-   /** The deployment context. */
-   private IAeDeploymentContext mDeploymentContext;
-   /** The pdd resource names. */
-   private Collection<String> mPddResources;
-   /** XML parser. */
-   private AeXMLParserBase mParser;
-   
-   /**
-    * Constructor.
-    * @param aDeploymentContext
-    */
-   protected AeAbstractBprStrategy( IAeDeploymentContext aDeploymentContext )
-   {
-      mDeploymentContext = aDeploymentContext;
-   }
-   
-   /**
-    * @see org.activebpel.rt.bpel.server.deploy.bpr.IAeBprAccessor#getPddResources()
-    */
-   public Collection getPddResources()
-   {
-      return mPddResources;
-   }
+public abstract class AeAbstractBprStrategy implements IAeBprAccessor {
+	/** The deployment context. */
+	private IAeDeploymentContext mDeploymentContext;
+	/** The pdd resource names. */
+	private Collection<AePddResource> mPddResources;
+	/** XML parser. */
+	private AeXMLParserBase mParser;
+	private Catalog mCatalog;
 
-   /**
-    * @see org.activebpel.rt.bpel.server.deploy.bpr.IAeBprAccessor#getResourceAsStream(java.lang.String)
-    */
-   public InputStream getResourceAsStream(String aResourceName)
-   {
-      return getDeploymentContext().getResourceAsStream(aResourceName);
-   }
+	/**
+	 * Constructor.
+	 * 
+	 * @param aDeploymentContext
+	 */
+	protected AeAbstractBprStrategy(IAeDeploymentContext aDeploymentContext) {
+		mDeploymentContext = aDeploymentContext;
+	}
 
-   /**
-    * @see org.activebpel.rt.bpel.server.deploy.bpr.IAeBprAccessor#getCatalogDocument()
-    */
-   public Document getCatalogDocument() throws AeException
-   {
-      Document catalog = getResourceAsDocument(CATALOG);
-      if(catalog == null)
-         catalog = getResourceAsDocument( WSDL_CATALOG );
-      return catalog;
-   }
-   
-   /**
-    * @param aPddResources The pddResources to set.
-    */
-   protected void setPddResources(Collection aPddResources)
-   {
-      mPddResources = aPddResources;
-   }
+	/**
+	 * @see org.activebpel.rt.bpel.server.deploy.bpr.IAeBprAccessor#getPddResources()
+	 */
+	public Collection<AePddResource> getPddResources() {
+		return mPddResources;
+	}
 
-   /**
-    * @return Returns the deploymentContext.
-    */
-   protected IAeDeploymentContext getDeploymentContext()
-   {
-      return mDeploymentContext;
-   }
-   
-   /**
-    * Accessor for the XML parser.
-    */
-   protected AeXMLParserBase getParser()
-   {
-      if( mParser == null )
-      {
-         mParser = new AeXMLParserBase();
-         mParser.setValidating(false);
-         mParser.setNamespaceAware(true);
-      }
-      return mParser;
-   }
-   
-   /**
-    * @see org.activebpel.rt.bpel.server.deploy.bpr.IAeBprAccessor#getResourceAsDocument(java.lang.String)
-    */
-   public Document getResourceAsDocument(String aResourceName) throws AeException
-   {
-      InputStream in = null;
-      try
-      {
-         URL url = getDeploymentContext().getResourceURL( aResourceName );
-         if( url == null )
-         {
-            return null;
-         }
-         else
-         {
-            in = url.openStream();
-            return getParser().loadDocument(in,null);
-         }
-      }
-      catch( Throwable t)
-      {
-         String detailReason;
-         if (t.getCause() == null)
-            detailReason = AeMessages.getString("AeJarFileBprAccessor.UNKNOWN"); //$NON-NLS-1$
-         else
-            detailReason = t.getCause().getLocalizedMessage();
-         
-         Object args[] = new Object[] {aResourceName, getDeploymentContext().getDeploymentLocation(), detailReason};
-         throw new AeDeploymentException(AeMessages.format("AeJarFileBprAccessor.ERROR_1", args), t); //$NON-NLS-1$
-      }
-      finally
-      {
-         AeCloser.close(in);
-      }
-   }
-   
-   /**
-    * @see org.activebpel.rt.bpel.server.deploy.bpr.IAeBprAccessor#hasResource(java.lang.String)
-    */
-   public boolean hasResource(String aResourceName)
-   {
-      return getDeploymentContext().getResourceURL( aResourceName ) != null;
-   }
+	/**
+	 * @see org.activebpel.rt.bpel.server.deploy.bpr.IAeBprAccessor#getResourceAsStream(java.lang.String)
+	 */
+	public InputStream getResourceAsStream(String aResourceName) {
+		return getDeploymentContext().getResourceAsStream(aResourceName);
+	}
+
+	/**
+	 * @see org.activebpel.rt.bpel.server.deploy.bpr.IAeBprAccessor#getCatalogDocument()
+	 */
+	public Catalog getCatalogDocument() throws AeException {
+		if (mCatalog == null) {
+			Document catalogXml = getResourceAsDocument(CATALOG);
+			try {
+				JAXBContext context = JAXBContext.newInstance(Catalog.class);
+				Unmarshaller u = context.createUnmarshaller();
+				// FIXME deploy - need to add schema validation here
+				mCatalog = (Catalog) u.unmarshal(new DOMSource(catalogXml));
+			} catch (JAXBException e) {
+				throw new AeException(e);
+			}
+		}
+		return mCatalog;
+	}
+
+	/**
+	 * @param aPddResources
+	 *            The pddResources to set.
+	 */
+	protected void setPddResources(Collection<AePddResource> aPddResources) {
+		mPddResources = aPddResources;
+	}
+
+	/**
+	 * @return Returns the deploymentContext.
+	 */
+	protected IAeDeploymentContext getDeploymentContext() {
+		return mDeploymentContext;
+	}
+
+	/**
+	 * Accessor for the XML parser.
+	 */
+	protected AeXMLParserBase getParser() {
+		if (mParser == null) {
+			mParser = new AeXMLParserBase();
+			mParser.setValidating(false);
+			mParser.setNamespaceAware(true);
+		}
+		return mParser;
+	}
+
+	/**
+	 * @see org.activebpel.rt.bpel.server.deploy.bpr.IAeBprAccessor#getResourceAsDocument(java.lang.String)
+	 */
+	public Document getResourceAsDocument(String aResourceName)
+			throws AeException {
+		InputStream in = null;
+		try {
+			URL url = getDeploymentContext().getResourceURL(aResourceName);
+			if (url == null) {
+				return null;
+			} else {
+				in = url.openStream();
+				return getParser().loadDocument(in, null);
+			}
+		} catch (Throwable t) {
+			String detailReason;
+			if (t.getCause() == null)
+				detailReason = AeMessages
+						.getString("AeJarFileBprAccessor.UNKNOWN"); //$NON-NLS-1$
+			else
+				detailReason = t.getCause().getLocalizedMessage();
+
+			Object args[] = new Object[] { aResourceName,
+					getDeploymentContext().getDeploymentLocation(),
+					detailReason };
+			throw new AeDeploymentException(AeMessages.format(
+					"AeJarFileBprAccessor.ERROR_1", args), t); //$NON-NLS-1$
+		} finally {
+			AeCloser.close(in);
+		}
+	}
+
+	/**
+	 * @see org.activebpel.rt.bpel.server.deploy.bpr.IAeBprAccessor#hasResource(java.lang.String)
+	 */
+	public boolean hasResource(String aResourceName) {
+		return getDeploymentContext().getResourceURL(aResourceName) != null;
+	}
 }

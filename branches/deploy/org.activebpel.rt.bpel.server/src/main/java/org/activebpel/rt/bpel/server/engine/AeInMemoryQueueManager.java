@@ -23,7 +23,6 @@ import org.activebpel.rt.bpel.impl.queue.AeInboundReceive;
 import org.activebpel.rt.bpel.server.AeMessages;
 import org.activebpel.rt.bpel.server.IAeProcessDeployment;
 import org.activebpel.rt.bpel.server.deploy.AeProcessDeploymentFactory;
-import org.activebpel.rt.bpel.server.deploy.AeProcessTransactionType;
 import org.activebpel.rt.bpel.server.engine.invoke.AeInvoker;
 import org.activebpel.timer.AeAbstractTimerWork;
 import org.activebpel.work.AeAbstractWork;
@@ -31,6 +30,8 @@ import org.activebpel.wsio.IAeMessageAcknowledgeCallback;
 import org.activebpel.wsio.invoke.AeNullInvokeHandler;
 import org.activebpel.wsio.invoke.IAeInvoke;
 import org.activebpel.wsio.invoke.IAeInvokeHandler;
+
+import bpelg.services.deploy.types.pdd.TransactionType;
 
 import commonj.timers.Timer;
 import commonj.timers.TimerListener;
@@ -56,7 +57,7 @@ public class AeInMemoryQueueManager extends AeBaseQueueManager
    public void addInvoke(IAeProcessPlan aPlan, IAeInvokeInternal aInvokeQueueObject) throws AeBusinessProcessException
    {
       IAeProcessDeployment deployment = AeProcessDeploymentFactory.getDeploymentForPlan(aPlan);
-      boolean isSynchronous = deployment.getTransactionType() == AeProcessTransactionType.CONTAINER;
+      boolean isSynchronous = deployment.getPdd().getTransactionType() == TransactionType.CONTAINER;
       aInvokeQueueObject.setInvokeHandler(deployment.getInvokeHandler(aInvokeQueueObject.getPartnerLink()));       
       IAeInvokeHandler invokeHandler = getInvokeHandler( aInvokeQueueObject );
       String queryData = getInvokeHandlerFactory().getQueryData( aInvokeQueueObject );

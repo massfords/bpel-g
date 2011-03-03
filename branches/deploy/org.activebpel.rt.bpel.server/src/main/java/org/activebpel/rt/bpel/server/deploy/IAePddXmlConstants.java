@@ -14,6 +14,7 @@ package org.activebpel.rt.bpel.server.deploy;
  */
 public interface IAePddXmlConstants
 {
+	// FIXME deploy delete
    // PDD XML constants.
    public static final String ATT_PROCESS_LOCATION   = "location"; //$NON-NLS-1$
    public static final String ATT_MYROLE_SERVICE     = "service"; //$NON-NLS-1$

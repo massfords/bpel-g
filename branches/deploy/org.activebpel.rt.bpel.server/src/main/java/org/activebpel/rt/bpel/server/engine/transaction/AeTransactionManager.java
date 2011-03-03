@@ -15,106 +15,81 @@ import org.activebpel.rt.bpel.server.engine.AeEngineFactory;
  * Implements abstract base class for managing instances of
  * {@link org.activebpel.rt.bpel.server.engine.transaction.IAeTransaction}.
  */
-public abstract class AeTransactionManager implements IAeTransactionManager
-{
-   /** Singleton instance. */
-   private static IAeTransactionManager sInstance;
+public abstract class AeTransactionManager implements IAeTransactionManager {
+	/** Per-thread storage for transaction reference. */
+	private ThreadLocal mTransactionThreadLocal = new ThreadLocal();
 
-   /** Per-thread storage for transaction reference. */
-   private ThreadLocal mTransactionThreadLocal = new ThreadLocal();
+	/**
+	 * Protected constructor for singleton instance.
+	 */
+	protected AeTransactionManager() {
+	}
 
-   /**
-    * Protected constructor for singleton instance.
-    */
-   protected AeTransactionManager()
-   {
-   }
+	/**
+	 * @see org.activebpel.rt.bpel.server.engine.transaction.IAeTransactionManager#begin()
+	 */
+	public void begin() throws AeTransactionException {
+		getTransaction().begin();
+	}
 
-   /**
-    * @see org.activebpel.rt.bpel.server.engine.transaction.IAeTransactionManager#begin()
-    */
-   public void begin() throws AeTransactionException
-   {
-      getTransaction().begin();
-   }
+	/**
+	 * @see org.activebpel.rt.bpel.server.engine.transaction.IAeTransactionManager#commit()
+	 */
+	public void commit() throws AeTransactionException {
+		try {
+			getTransaction().commit();
+		} finally {
+			setTransaction(null);
+		}
+	}
 
-   /**
-    * @see org.activebpel.rt.bpel.server.engine.transaction.IAeTransactionManager#commit()
-    */
-   public void commit() throws AeTransactionException
-   {
-      try
-      {
-         getTransaction().commit();
-      }
-      finally
-      {
-         setTransaction(null);
-      }
-   }
+	/**
+	 * Returns a new transaction.
+	 */
+	protected abstract IAeTransaction createTransaction()
+			throws AeTransactionException;
 
-   /**
-    * Returns a new transaction.
-    */
-   protected abstract IAeTransaction createTransaction() throws AeTransactionException;
+	/**
+	 * Returns the singleton instance, constructing it if necessary.
+	 */
+	public static IAeTransactionManager getInstance() {
+		return AeEngineFactory.getBean(IAeTransactionManager.class);
+	}
 
-   /**
-    * Returns the singleton instance, constructing it if necessary.
-    */
-   public static IAeTransactionManager getInstance()
-   {
-      return AeEngineFactory.getBean(IAeTransactionManager.class);
-   }
+	/**
+	 * Overrides method to return transaction from thread local storage,
+	 * creating the transaction if necessary.
+	 * 
+	 * @see org.activebpel.rt.bpel.server.engine.transaction.IAeTransactionManager#getTransaction()
+	 */
+	public IAeTransaction getTransaction() throws AeTransactionException {
+		IAeTransaction transaction = (IAeTransaction) mTransactionThreadLocal
+				.get();
 
-   /**
-    * Shuts down the transaction manager.
-    */
-   public static void shutdown()
-   {
-      sInstance = null;
-   }
+		if (transaction == null) {
+			// Construct a new transaction.
+			transaction = createTransaction();
+			setTransaction(transaction);
+		}
 
-   /**
-    * Overrides method to return transaction from thread local storage,
-    * creating the transaction if necessary.
-    *
-    * @see org.activebpel.rt.bpel.server.engine.transaction.IAeTransactionManager#getTransaction()
-    */
-   public IAeTransaction getTransaction() throws AeTransactionException
-   {
-      IAeTransaction transaction = (IAeTransaction) mTransactionThreadLocal.get();
+		return transaction;
+	}
 
-      if (transaction == null)
-      {
-         // Construct a new transaction.
-         transaction = createTransaction();
-         setTransaction(transaction);
-      }
+	/**
+	 * @see org.activebpel.rt.bpel.server.engine.transaction.IAeTransactionManager#rollback()
+	 */
+	public void rollback() throws AeTransactionException {
+		try {
+			getTransaction().rollback();
+		} finally {
+			setTransaction(null);
+		}
+	}
 
-      return transaction;
-   }
-
-   /**
-    * @see org.activebpel.rt.bpel.server.engine.transaction.IAeTransactionManager#rollback()
-    */
-   public void rollback() throws AeTransactionException
-   {
-      try
-      {
-         getTransaction().rollback();
-      }
-      finally
-      {
-         setTransaction(null);
-      }
-
-   }
-
-   /**
-    * Sets the transaction for the current thread.
-    */
-   protected void setTransaction(IAeTransaction aTransaction)
-   {
-      mTransactionThreadLocal.set(aTransaction);
-   }
+	/**
+	 * Sets the transaction for the current thread.
+	 */
+	protected void setTransaction(IAeTransaction aTransaction) {
+		mTransactionThreadLocal.set(aTransaction);
+	}
 }

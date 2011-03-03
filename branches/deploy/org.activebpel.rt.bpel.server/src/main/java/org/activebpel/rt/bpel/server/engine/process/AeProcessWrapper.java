@@ -16,10 +16,11 @@ import org.activebpel.rt.bpel.IAeBusinessProcess;
 import org.activebpel.rt.bpel.impl.IAeProcessManager;
 import org.activebpel.rt.bpel.server.AeMessages;
 import org.activebpel.rt.bpel.server.IAeProcessDeployment;
-import org.activebpel.rt.bpel.server.deploy.AeProcessPersistenceType;
-import org.activebpel.rt.bpel.server.deploy.AeProcessTransactionType;
 import org.activebpel.rt.bpel.server.engine.AePersistentProcessManager;
 import org.activebpel.rt.util.AeMutex;
+
+import bpelg.services.deploy.types.pdd.PersistenceType;
+import bpelg.services.deploy.types.pdd.TransactionType;
 
 /**
  * Wraps a process with its reference count and state.
@@ -48,10 +49,10 @@ public class AeProcessWrapper
    private boolean mQuickRelease = false;
 
    /** Process persistence type. */
-   private AeProcessPersistenceType mPersistenceType;
+   private PersistenceType mPersistenceType;
 
    /** Process transaction type. */
-   private AeProcessTransactionType mTransactionType;
+   private TransactionType mTransactionType;
    
    /** Invoke transmission ids to delete when process state is next saved. */
    private final Set<Long> mCompletedTransmissionIds = new HashSet();
@@ -150,7 +151,7 @@ public class AeProcessWrapper
 
       // Keep the process in memory if we're not doing full persistence and
       // it is still running.
-      if (getPersistenceType() != AeProcessPersistenceType.FULL)
+      if (getPersistenceType() != PersistenceType.FULL)
       {
          IAeBusinessProcess process = getProcess();
 
@@ -175,7 +176,7 @@ public class AeProcessWrapper
    /**
     * Returns the process persistence type.
     */
-   protected AeProcessPersistenceType getPersistenceType()
+   protected PersistenceType getPersistenceType()
    {
       return mPersistenceType;
    }
@@ -199,7 +200,7 @@ public class AeProcessWrapper
    /**
     * Returns the process transaction type.
     */
-   protected AeProcessTransactionType getTransactionType()
+   protected TransactionType getTransactionType()
    {
       return mTransactionType;
    }
@@ -224,7 +225,7 @@ public class AeProcessWrapper
     */
    public boolean isContainerManaged()
    {
-      return getTransactionType() == AeProcessTransactionType.CONTAINER;
+      return getTransactionType() == TransactionType.CONTAINER;
    }
 
    /**
@@ -250,7 +251,7 @@ public class AeProcessWrapper
     */
    public boolean isPersistent()
    {
-      return getPersistenceType() != AeProcessPersistenceType.NONE;
+      return getPersistenceType() != PersistenceType.NONE;
    }
 
    /**
@@ -294,15 +295,15 @@ public class AeProcessWrapper
 
       if (aDeployment != null)
       {
-         mPersistenceType = aDeployment.getPersistenceType();
-         mTransactionType = aDeployment.getTransactionType();
+         mPersistenceType = aDeployment.getPdd().getPersistenceType();
+         mTransactionType = aDeployment.getPdd().getTransactionType();
       }
       else
       {
          // If we don't have the process deployment at this point, then the
          // process is being restored and can't be a service flow process.
-         mPersistenceType = AeProcessPersistenceType.FULL;
-         mTransactionType = AeProcessTransactionType.BEAN;
+         mPersistenceType = PersistenceType.FULL;
+         mTransactionType = TransactionType.BEAN;
       }
    }
 
