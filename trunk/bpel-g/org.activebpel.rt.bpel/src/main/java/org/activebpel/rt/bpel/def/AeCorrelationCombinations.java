@@ -263,10 +263,6 @@ public class AeCorrelationCombinations implements Serializable
             }
          }
          
-         // convert to array
-         AeCorrelationSetDef[] joinCorrSets = new AeCorrelationSetDef[joinList.size()];
-         joinList.toArray(joinCorrSets);
-         
          // get all of the initiated props since they'll be the same for each combination
          Set initiatedProps = new HashSet();
          for (Iterator iterator = initiatedList.iterator(); iterator.hasNext();)
@@ -282,7 +278,7 @@ public class AeCorrelationCombinations implements Serializable
          }
          
          // get all combinations of the array
-         for(Iterator combinationsIter = AeCombinations.createAllCombinations(joinCorrSets); combinationsIter.hasNext();)
+         for(Iterator combinationsIter = AeCombinations.createAllCombinations(joinList); combinationsIter.hasNext();)
          {
             HashSet set = new HashSet();
             set.addAll(initiatedProps);
