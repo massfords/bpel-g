@@ -15,8 +15,8 @@ import java.io.StringWriter;
 import org.activebpel.rt.AeException;
 import org.activebpel.rt.bpel.config.AeDefaultEngineConfiguration;
 import org.activebpel.rt.bpeladmin.war.AeMessages;
-import org.activebpel.rt.identity.AeIdentityConfig;
-import org.activebpel.rt.identity.provider.AeIdentityFileConfig;
+//import org.activebpel.rt.identity.AeIdentityConfig;
+//import org.activebpel.rt.identity.provider.AeIdentityFileConfig;
 import org.activebpel.rt.util.AeUtil;
 
 /**
@@ -30,7 +30,7 @@ public class AeIdentityServiceBean extends AeAbstractAdminBean
    /** xml file provider type. */
    public static final String TOMCAT_TYPE = "tomcat"; //$NON-NLS-1$
    /** file config map. */
-   protected AeIdentityFileConfig mFileConfig;
+    //   protected AeIdentityFileConfig mFileConfig;
    /** Username or principal name to test the configuration. */
    private String mTestPrincipalName = ""; //$NON-NLS-1$
 
@@ -38,7 +38,8 @@ public class AeIdentityServiceBean extends AeAbstractAdminBean
    /**
     * @return Config wrapper for identity service File settings.
     */
-   protected AeIdentityFileConfig getFileConfig()
+   /*
+    protected AeIdentityFileConfig getFileConfig()
    {
       if (mFileConfig == null)
       {
@@ -47,12 +48,13 @@ public class AeIdentityServiceBean extends AeAbstractAdminBean
       }
       return mFileConfig;
    }
-
+   */
    /**
     * Saves the current config settings to the database.
     */
     protected void saveChanges() {
-        AeDefaultEngineConfiguration config = getRawConfig();
+	/*
+    AeDefaultEngineConfiguration config = getRawConfig();
         AeIdentityConfig.setOnConfig(getFileConfig(), config);
         StringWriter sw = new StringWriter();
         try {
@@ -61,14 +63,14 @@ public class AeIdentityServiceBean extends AeAbstractAdminBean
         } catch (AeException e) {
             // FIXME Auto-generated catch block
             e.printStackTrace();
-        }
-    }
+	    }*/
+	}
 
    /**
     * Tests the current configuration.
     */
    protected void testConfiguration(String aPrincipalName)
-   {
+   {/*
       try
       {
          internalTestConfiguration(aPrincipalName);
@@ -79,7 +81,7 @@ public class AeIdentityServiceBean extends AeAbstractAdminBean
          addStatusDetail(AeMessages.getString("AeIdentityServiceBean.InvalidConfigSettings")); //$NON-NLS-1$
          addStatusDetail(aex.getInfo());
          setErrorDetail(true);
-      }
+	 }*/
    }
    
    /**
@@ -89,7 +91,7 @@ public class AeIdentityServiceBean extends AeAbstractAdminBean
     */
    protected void internalTestConfiguration(String aPrincipalName) throws AeException
    {
-      AeIdentityConfig.testConfiguration(getFileConfig(), aPrincipalName);
+       //AeIdentityConfig.testConfiguration(getFileConfig(), aPrincipalName);
    }   
    
    
@@ -98,7 +100,7 @@ public class AeIdentityServiceBean extends AeAbstractAdminBean
     */
    public boolean isEnabled()
    {
-      return getFileConfig().isEnabled();
+       return false; //getFileConfig().isEnabled();
    }
    
    /**
@@ -106,7 +108,7 @@ public class AeIdentityServiceBean extends AeAbstractAdminBean
     */
    public boolean isLdif()
    {
-      return getFileConfig().isLdif();
+       return false; //getFileConfig().isLdif();
    }
 
    /**
@@ -114,7 +116,7 @@ public class AeIdentityServiceBean extends AeAbstractAdminBean
     */
    public boolean isTomcat()
    {
-      return getFileConfig().isTomcat();
+       return true; //getFileConfig().isTomcat();
    }
 
    /**
@@ -123,7 +125,7 @@ public class AeIdentityServiceBean extends AeAbstractAdminBean
     */
    public void setEnabled(boolean aEnabled)
    {
-      getFileConfig().setEnabled(aEnabled);
+       //getFileConfig().setEnabled(aEnabled);
    }
 
    /**
@@ -132,7 +134,7 @@ public class AeIdentityServiceBean extends AeAbstractAdminBean
     */
    public String getFileName()
    {
-      return getFileConfig().getFileName();
+       return null; //getFileConfig().getFileName();
    }
 
    /**
@@ -141,7 +143,7 @@ public class AeIdentityServiceBean extends AeAbstractAdminBean
     */
    public void setFileName(String aFileName)
    {
-      getFileConfig().setFileName( AeUtil.getSafeString(aFileName).trim() );
+       //getFileConfig().setFileName( AeUtil.getSafeString(aFileName).trim() );
    }
 
 
@@ -151,6 +153,7 @@ public class AeIdentityServiceBean extends AeAbstractAdminBean
     */
    public void setProviderType( String aProviderType )
    {
+       /*
       String provider = null;
       if(LDIF_TYPE.equals(aProviderType))
          provider = AeIdentityFileConfig.LDIF_PROVIDER;
@@ -161,6 +164,7 @@ public class AeIdentityServiceBean extends AeAbstractAdminBean
       {
          getFileConfig().setProvider(provider);
       }
+       */
    }
 
 
@@ -178,7 +182,7 @@ public class AeIdentityServiceBean extends AeAbstractAdminBean
     */
    public void setTestPrincipalName(String aTestPrincipalName)
    {
-      mTestPrincipalName = aTestPrincipalName;
+       //mTestPrincipalName = aTestPrincipalName;
    }
 
    /**
@@ -188,6 +192,7 @@ public class AeIdentityServiceBean extends AeAbstractAdminBean
     */
    public void setUpdate( String aValue )
    {
+       /*
       if (AeUtil.isNullOrEmpty(aValue))
       {
          return;
@@ -197,6 +202,7 @@ public class AeIdentityServiceBean extends AeAbstractAdminBean
       {
          saveChanges();
       }
+       */
    }
 
    /**
@@ -205,6 +211,7 @@ public class AeIdentityServiceBean extends AeAbstractAdminBean
     */
    public void setTestConfiguration( String aValue )
    {
+       /*
       if (AeUtil.isNullOrEmpty(aValue))
       {
          return;
@@ -223,6 +230,7 @@ public class AeIdentityServiceBean extends AeAbstractAdminBean
       {
          testConfiguration(getTestPrincipalName());
       }
+       */
    }
 
    /**
@@ -231,6 +239,7 @@ public class AeIdentityServiceBean extends AeAbstractAdminBean
     */
    protected void processFormData(boolean aForTesting)
    {
+       /*
       if( isEnabled())
       {
          // LDIF/XML type.
@@ -244,6 +253,7 @@ public class AeIdentityServiceBean extends AeAbstractAdminBean
             addError("fileName", "", AeMessages.getString("AeIdentityServiceBean.Invalid_FileName")); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
          }
       }
+       */
    }
 
 
@@ -254,6 +264,8 @@ public class AeIdentityServiceBean extends AeAbstractAdminBean
     */
    protected boolean validateFileLocation(String aFileLocationPath)
    {
+       return false;
+       /*
       String fileLocationPath = AeUtil.replaceAntStyleParams(aFileLocationPath, null);
       
       try
@@ -266,5 +278,6 @@ public class AeIdentityServiceBean extends AeAbstractAdminBean
          AeException.logWarning(e.getMessage());
          return false;
       }
+       */
    }
 }

@@ -19,11 +19,12 @@
   		<artifactId>ae-bpelsrvr</artifactId>
   	    <version>${project.version}</version>
   	</dependency>
-      <dependency>
+     <!-- <dependency>
   		<groupId>org.activebpel</groupId>
   		<artifactId>ae-identity</artifactId>
           <version>${project.version}</version>
       </dependency>
+     -->
   	<dependency>
   		<groupId>commons-fileupload</groupId>
   		<artifactId>commons-fileupload</artifactId>

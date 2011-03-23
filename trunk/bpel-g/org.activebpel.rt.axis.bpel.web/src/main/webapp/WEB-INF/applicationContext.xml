@@ -104,11 +104,13 @@
                         <entry key="policy">
                             <bean class="org.activebpel.rt.axis.bpel.AePolicyInvokeHandlerFactory"/>
                         </entry>
-                        <entry key="identity">
+                        <!--
+                         <entry key="identity">
                             <bean
                                 class="org.activebpel.rt.identity.invoke.AeIdentityServiceInvokeHandlerFactory"
                             />
                         </entry>
+                       -->
                     </util:map>
                 </property>
             </bean>

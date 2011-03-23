@@ -35,7 +35,7 @@
    <properties>
       <spring-version>3.0.4.RELEASE</spring-version>
       <camel-version>2.5.0</camel-version>
-      <cxf-version>2.2.9</cxf-version>
+      <cxf-version>2.2.12</cxf-version>
    </properties>
   <build>
     <plugins>
