@@ -207,7 +207,10 @@ public class BgCatalogBuilder {
     }
 
     private String toPhysicalLocation(File file) throws URISyntaxException {
-        String physicalLocation = new URI(file.getPath().substring(mServiceUnitRoot.getPath().length()+1)).normalize().toString();
+    	String uriStr = file.getPath().substring(mServiceUnitRoot.getPath().length()+1);
+    	uriStr = uriStr.replaceAll("\\\\", "/");
+    	URI uri = URI.create(uriStr);
+    	String physicalLocation = uri.normalize().toString();
         return physicalLocation;
     }
     

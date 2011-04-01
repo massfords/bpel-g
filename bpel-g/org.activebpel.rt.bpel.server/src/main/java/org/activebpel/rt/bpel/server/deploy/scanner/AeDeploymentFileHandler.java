@@ -299,7 +299,7 @@ public class AeDeploymentFileHandler implements IAeDeploymentFileHandler, IAeSca
         if (AeDeploymentFileInfo.isBprFile(aURL)) {
             sLog.info(AeMessages.getString("AeDeploymentFileHandler.5") + aURL); //$NON-NLS-1$
 			undeploy(aURL);
-        }
+        } 
     }
 
     // FIXME this is a temp fix until the deployment issue above is resolved. Need to clean up scanner/handler interaction
@@ -309,6 +309,7 @@ public class AeDeploymentFileHandler implements IAeDeploymentFileHandler, IAeSca
 			boolean result = undeploy(file.toURI().toURL());
 			if (result)
 				file.delete();
+			mScanner.getDeployments().remove(file.getName());
 			return result;
 		} catch (MalformedURLException e) {
 			sLog.error(e);
