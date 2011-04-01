@@ -43,7 +43,7 @@ public class AeDirectoryScanner {
 	/** Thread that does the scanning */
 	private Thread mScannerThread;
 	/** Snapshot of the last scan. */
-	private Map mDeployments;
+	private Map<String,Long> mDeployments;
 	/** Filter for specifying file types */
 	private FilenameFilter mFilter;
 	/** Listeners for directory changes */
@@ -137,7 +137,7 @@ public class AeDirectoryScanner {
 					String[] fileNames = getFileList();
 
 					if (fileNames != null) {
-						Map currentDeployments = new HashMap();
+						Map<String,Long> currentDeployments = new HashMap();
 						for (int i = 0; i < fileNames.length; i++) {
 							boolean isNewDeployment = true;
 							File bprFile = new File(getScanDir(), fileNames[i]);
@@ -348,14 +348,14 @@ public class AeDirectoryScanner {
 	 * 
 	 * @param aMap
 	 */
-	protected void setDeployments(Map aMap) {
+	protected void setDeployments(Map<String,Long> aMap) {
 		mDeployments = aMap;
 	}
 
 	/**
 	 * Accessor for scan directory contents that are being watched.
 	 */
-	protected Map getDeployments() {
+	protected Map<String,Long> getDeployments() {
 		return mDeployments;
 	}
 

@@ -37,6 +37,7 @@ import bpelg.services.deploy.AeDeployer;
 import bpelg.services.deploy.DeploymentService;
 import bpelg.services.deploy.types.DeploymentResponse;
 import bpelg.services.deploy.types.DeploymentResponse.DeploymentInfo;
+import bpelg.services.deploy.types.UndeploymentRequest;
 import bpelg.services.urnresolver.AeURNResolver;
 import bpelg.services.urnresolver.types.AddMappingRequest;
 
@@ -48,9 +49,9 @@ public class AeDeploymentServiceIntegrationTest {
 	@Before
 	public void setUp() throws Exception {
     	String catalina_port = System.getProperty("CATALINA_PORT", "8080");
-		Service svc = Service.create(new URL(
-				"http://localhost:" + catalina_port + "/bpel-g/cxf/URNResolver?wsdl"),
-				new QName("urn:bpel-g:services:urn-resolver", "URNResolver"));
+    	URL url = new URL(
+				"http://localhost:" + catalina_port + "/bpel-g/cxf/URNResolver?wsdl");
+		Service svc = Service.create(url, new QName("urn:bpel-g:services:urn-resolver", "URNResolver"));
 		AeURNResolver resolver = svc.getPort(AeURNResolver.class);
 		resolver.addMapping(new AddMappingRequest().withName(
 				"urn:x-vos:loancompany").withValue(
@@ -87,6 +88,11 @@ public class AeDeploymentServiceIntegrationTest {
 		System.out.println(AeXMLParserBase.documentToString(actualNode));
 
 		assertXMLIgnorePrefix("failed to match", expectedNode, actualNode);
+		
+		// undeploy
+		deployer.undeploy(new UndeploymentRequest().withDeploymentContainerId("loanProcessCompleted.bpr"));
+		deployer.undeploy(new UndeploymentRequest().withDeploymentContainerId("loanApproval.bpr"));
+		deployer.undeploy(new UndeploymentRequest().withDeploymentContainerId("riskAssessment.bpr"));
 	}
 
 	protected void deploySingle(String name) throws Exception {
