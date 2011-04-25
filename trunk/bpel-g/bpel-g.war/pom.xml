@@ -138,6 +138,8 @@
                   <configuration>
                      <tasks>
                         <delete
+                           dir="${CATALINA_HOME}/bpr/db" quiet="false" />
+                        <delete
                            dir="${CATALINA_HOME}/webapps/${build.finalName}"
                            quiet="false" />
                         <delete
