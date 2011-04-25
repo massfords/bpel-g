@@ -13,9 +13,10 @@ import java.util.ArrayList;
 
 import org.activebpel.rt.bpel.def.visitors.AeCreateInstanceVisitor;
 import org.activebpel.rt.bpel.impl.AeBpelState;
-import org.activebpel.rt.bpel.impl.list.AeProcessInstanceDetail;
 import org.activebpel.rt.bpeladmin.war.web.AeProcessInstanceDetailWrapper;
 import org.activebpel.rt.xml.def.AeBaseXmlDef;
+
+import bpelg.services.processes.types.ProcessInstanceDetail;
 
 /**
  * Utility class for determining the button states for the various control
@@ -54,7 +55,7 @@ public class AeProcessViewButtonStates
     * Returns true if the process can be terminated.
     * @param aInstanceDetail process instance details.
     */
-   public static boolean isTerminatable( AeProcessInstanceDetail aInstanceDetail )
+   public static boolean isTerminatable( ProcessInstanceDetail aInstanceDetail )
    {
       boolean isTerminatable = false;
       if (aInstanceDetail != null)
@@ -68,7 +69,7 @@ public class AeProcessViewButtonStates
     * Returns true if the process can be suspended.
     * @param aInstanceDetail process instance details.
     */
-   public static boolean isSuspendable( AeProcessInstanceDetail aInstanceDetail )
+   public static boolean isSuspendable( ProcessInstanceDetail aInstanceDetail )
    {
       boolean isSuspendable = false;
       if (aInstanceDetail != null)
@@ -82,7 +83,7 @@ public class AeProcessViewButtonStates
     * Returns true if the process can be resumed.
     * @param aInstanceDetail process instance details.
     */
-   public static boolean isResumable( AeProcessInstanceDetail aInstanceDetail )
+   public static boolean isResumable( ProcessInstanceDetail aInstanceDetail )
    {
       boolean isResumable = false;
       if (aInstanceDetail != null)
@@ -97,7 +98,7 @@ public class AeProcessViewButtonStates
     *
     * @param aInstanceDetail process instance details.
     */
-   public static boolean isRestartable(AeProcessInstanceDetail aInstanceDetail)
+   public static boolean isRestartable(ProcessInstanceDetail aInstanceDetail)
    {
       boolean isRestartable = false;
       if (aInstanceDetail != null)
@@ -114,7 +115,7 @@ public class AeProcessViewButtonStates
     * @param aInstanceDetail
     * @param aBpelObj
     */
-   public static boolean isExecuteActivityEnabled( AeProcessInstanceDetail aInstanceDetail, AeBpelObjectBase aBpelObj )
+   public static boolean isExecuteActivityEnabled( ProcessInstanceDetail aInstanceDetail, AeBpelObjectBase aBpelObj )
    {
       boolean enabled = false;
       if( isResumable( aInstanceDetail ) && (isAnActivity( aBpelObj ) || isNestedEvent( aBpelObj ) || isCaseOrOtherwise( aBpelObj)) )
@@ -128,7 +129,7 @@ public class AeProcessViewButtonStates
     * Return true if the <code>AeBpelObjectBase</code> object can be retried.
     * @param aBpelObj
     */
-   public static boolean isRetryActivityEnabled( AeProcessInstanceDetail aInstanceDetail, AeBpelObjectBase aBpelObj )
+   public static boolean isRetryActivityEnabled( ProcessInstanceDetail aInstanceDetail, AeBpelObjectBase aBpelObj )
    {
       boolean enabled = false;
       if( isResumable( aInstanceDetail ) && isAnActivity( aBpelObj ) && isEligibleForRetry( aBpelObj) )
@@ -145,7 +146,7 @@ public class AeProcessViewButtonStates
     * Return true if this process view contains an activity bpel object with
     * a state of ready to execute, executing or faulting.
     */
-   public static boolean isCompleteActivityEnabled( AeProcessInstanceDetail aInstanceDetail, AeBpelObjectBase aBpelObj )
+   public static boolean isCompleteActivityEnabled( ProcessInstanceDetail aInstanceDetail, AeBpelObjectBase aBpelObj )
    {
       boolean enabled = false;
       if( isResumable( aInstanceDetail ) && isAnActivity( aBpelObj ) )

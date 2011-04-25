@@ -21,6 +21,8 @@ import org.activebpel.rt.bpel.impl.IAeProcessManager;
 import org.activebpel.rt.bpel.impl.reply.IAeReplyReceiver;
 import org.activebpel.rt.bpel.impl.reply.IAeTransmissionTracker;
 
+import bpelg.services.processes.types.ProcessStateValueType;
+
 /**
  * Maps persistence attribute names to default values for those attributes.
  */
@@ -64,7 +66,7 @@ public class AeProcessImplStateAttributeDefaults implements IAeImplStateNames
       defaults.put(STATE_NEXTVARIABLEID       , "-1"); //$NON-NLS-1$
       defaults.put(STATE_NEXTINDEX            , "0"); //$NON-NLS-1$
       defaults.put(STATE_NORMALCOMPLETION     , "true"); //$NON-NLS-1$
-      defaults.put(STATE_PROCESSSTATE         , "" + IAeBusinessProcess.PROCESS_RUNNING); //$NON-NLS-1$
+      defaults.put(STATE_PROCESSSTATE         , "" + ProcessStateValueType.Running.value()); //$NON-NLS-1$
       defaults.put(STATE_PROCESSSTATEREASON   , "0"); //$NON-NLS-1$
       defaults.put(STATE_PROCESSINITIATOR     , IAeBusinessProcess.DEFAULT_INITIATOR);
       defaults.put(STATE_QUEUED               , "false"); //$NON-NLS-1$

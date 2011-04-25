@@ -34,9 +34,6 @@ import org.activebpel.rt.bpel.IAeProcessListener;
 import org.activebpel.rt.bpel.config.AeDefaultEngineConfiguration;
 import org.activebpel.rt.bpel.def.util.AeLocationPathUtils;
 import org.activebpel.rt.bpel.impl.activity.support.AeCorrelationSet;
-import org.activebpel.rt.bpel.impl.list.AeProcessFilter;
-import org.activebpel.rt.bpel.impl.list.AeProcessInstanceDetail;
-import org.activebpel.rt.bpel.impl.list.AeProcessListResult;
 import org.activebpel.rt.bpel.server.AeMessages;
 import org.activebpel.rt.bpel.server.IAeDeploymentProvider;
 import org.activebpel.rt.bpel.server.IAeProcessDeployment;
@@ -52,6 +49,10 @@ import org.activebpel.work.AeAbstractWork;
 import org.activebpel.wsio.AeWebServiceAttachment;
 import org.w3c.dom.Document;
 import org.xml.sax.InputSource;
+
+import bpelg.services.processes.types.ProcessFilterType;
+import bpelg.services.processes.types.ProcessInstanceDetail;
+import bpelg.services.processes.types.ProcessList;
 
 import commonj.work.Work;
 import commonj.work.WorkItem;
@@ -252,10 +253,7 @@ public class AeRemoteDebugImpl implements IAeBpelAdmin
       doRemoveProcessListener(aContextId, aPid, aEndpointURL);   
    }
    
-   /**
-    * @see org.activebpel.rt.bpel.server.admin.rdebug.server.IAeBpelAdmin#getProcessList(org.activebpel.rt.bpel.impl.list.AeProcessFilter)
-    */
-   public AeProcessListResult getProcessList(AeProcessFilter aFilter) throws RemoteException
+   public ProcessList getProcessList(ProcessFilterType aFilter) throws RemoteException
    {
       try
       {
@@ -270,7 +268,7 @@ public class AeRemoteDebugImpl implements IAeBpelAdmin
    /**
     * @see org.activebpel.rt.bpel.server.admin.rdebug.server.IAeBpelAdmin#getProcessDetail(long)
     */
-   public AeProcessInstanceDetail getProcessDetail(long aPid) throws RemoteException
+   public ProcessInstanceDetail getProcessDetail(long aPid) throws RemoteException
    {
       return AeEngineFactory.getEngineAdministration().getProcessDetail(aPid);
    }

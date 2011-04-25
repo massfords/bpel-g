@@ -19,7 +19,6 @@ import org.activebpel.rt.bpel.def.AeProcessDef;
 import org.activebpel.rt.bpel.def.IAeBPELConstants;
 import org.activebpel.rt.bpel.def.io.readers.AeBpelLocationPathVisitor;
 import org.activebpel.rt.bpel.def.visitors.AeBPWSMessageExchangeDefPathSegmentVisitor;
-import org.activebpel.rt.bpel.impl.list.AeProcessInstanceDetail;
 import org.activebpel.rt.bpel.server.admin.AeProcessDeploymentDetail;
 import org.activebpel.rt.bpeladmin.war.AeEngineManagementFactory;
 import org.activebpel.rt.bpeladmin.war.AeMessages;
@@ -27,12 +26,15 @@ import org.activebpel.rt.bpeladmin.war.graph.AeBpelGraph;
 import org.activebpel.rt.bpeladmin.war.graph.AeGraphProperties;
 import org.activebpel.rt.bpeladmin.war.graph.bpel.AeBpelActivityCoordinates;
 import org.activebpel.rt.bpeladmin.war.web.AeWebUtil;
+import org.activebpel.rt.util.AeDate;
 import org.activebpel.rt.util.AeUtil;
 import org.activebpel.rt.xml.AeQName;
 import org.activebpel.rt.xml.AeXMLParserBase;
 import org.activebpel.rt.xml.def.AeBaseXmlDef;
 import org.activebpel.rt.xml.def.IAePathSegmentBuilder;
 import org.w3c.dom.Document;
+
+import bpelg.services.processes.types.ProcessInstanceDetail;
 
 /**
  * Base class for used by the presentation beans responsible for displaying process details.
@@ -81,7 +83,7 @@ public class AeProcessViewBase
    private AeProcessViewImageResources mImagePaths = new AeProcessViewImageResources();
 
    /** Current process instance details. */
-   private AeProcessInstanceDetail mProcessDetails = null;
+   private ProcessInstanceDetail mProcessDetails = null;
 
    /** Part which the graphing routine should render. */
    private int mPartId = 0;
@@ -447,7 +449,7 @@ public class AeProcessViewBase
     */
    protected void loadProcessInstanceDetails()
    {
-      AeProcessInstanceDetail processInstanceDetails = null;
+      ProcessInstanceDetail processInstanceDetails = null;
       processInstanceDetails = AeEngineManagementFactory.getBean().getProcessDetail(mProcessId);
 
       if ( processInstanceDetails == null )
@@ -462,7 +464,7 @@ public class AeProcessViewBase
    /**
     * @return Returns the processDetails.
     */
-   public AeProcessInstanceDetail getProcessDetails()
+   public ProcessInstanceDetail getProcessDetails()
    {
       return mProcessDetails;
    }
@@ -470,7 +472,7 @@ public class AeProcessViewBase
    /**
     * @param aProcessDetails The processDetails to set.
     */
-   public void setProcessDetails(AeProcessInstanceDetail aProcessDetails)
+   public void setProcessDetails(ProcessInstanceDetail aProcessDetails)
    {
       mProcessDetails = aProcessDetails;
    }
@@ -683,8 +685,8 @@ public class AeProcessViewBase
       if (getMode() == ACTIVE_PROCESS_DETAIL)
       {
          caption = getActiveProcessGraphCaption();
-         startDate = getProcessDetails().getStarted();
-         endDate = getProcessDetails().getEnded();
+         startDate = AeDate.toDate(getProcessDetails().getStarted());
+         endDate = AeDate.toDate(getProcessDetails().getEnded());
       }
       else
       {

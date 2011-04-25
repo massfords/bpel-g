@@ -21,13 +21,14 @@ import org.activebpel.rt.bpel.coord.IAeProtocolMessage;
 import org.activebpel.rt.bpel.impl.AeManagerAdapter;
 import org.activebpel.rt.bpel.impl.IAeProcessPlan;
 import org.activebpel.rt.bpel.impl.IAeProcessPurgedListener;
-import org.activebpel.rt.bpel.impl.list.AeProcessFilter;
-import org.activebpel.rt.bpel.impl.list.AeProcessInstanceDetail;
-import org.activebpel.rt.bpel.impl.list.AeProcessListResult;
 import org.activebpel.rt.bpel.impl.queue.AeInboundReceive;
 import org.activebpel.rt.bpel.impl.queue.AeReply;
 import org.activebpel.rt.bpel.server.AeMessages;
 import org.activebpel.rt.message.IAeMessageData;
+
+import bpelg.services.processes.types.ProcessFilterType;
+import bpelg.services.processes.types.ProcessInstanceDetail;
+import bpelg.services.processes.types.ProcessList;
 
 /**
  * Implements a process manager for recovery.
@@ -105,26 +106,17 @@ public class AeRecoveryProcessManager extends AeManagerAdapter implements IAeRec
       return getProcess(aProcessId);
    }
 
-   /**
-    * @see org.activebpel.rt.bpel.impl.IAeProcessManager#getProcesses(org.activebpel.rt.bpel.impl.list.AeProcessFilter)
-    */
-   public AeProcessListResult getProcesses(AeProcessFilter aFilter) throws AeBusinessProcessException
+   public ProcessList getProcesses(ProcessFilterType aFilter) throws AeBusinessProcessException
    {
       throw new UnsupportedOperationException();
    }
    
-   /**
-    * @see org.activebpel.rt.bpel.impl.IAeProcessManager#getProcessCount(org.activebpel.rt.bpel.impl.list.AeProcessFilter)
-    */
-   public int getProcessCount(AeProcessFilter aFilter) throws AeBusinessProcessException
+   public int getProcessCount(ProcessFilterType aFilter) throws AeBusinessProcessException
    {
       throw new UnsupportedOperationException();
    }
 
-   /**
-    * @see org.activebpel.rt.bpel.impl.IAeProcessManager#getProcessIds(org.activebpel.rt.bpel.impl.list.AeProcessFilter)
-    */
-   public long[] getProcessIds(AeProcessFilter aFilter) throws AeBusinessProcessException
+   public long[] getProcessIds(ProcessFilterType aFilter) throws AeBusinessProcessException
    {
       throw new UnsupportedOperationException();
    }
@@ -132,7 +124,7 @@ public class AeRecoveryProcessManager extends AeManagerAdapter implements IAeRec
    /**
     * @see org.activebpel.rt.bpel.impl.IAeProcessManager#getProcessInstanceDetails(long)
     */
-   public AeProcessInstanceDetail getProcessInstanceDetails(long aProcessId)
+   public ProcessInstanceDetail getProcessInstanceDetails(long aProcessId)
    {
       throw new UnsupportedOperationException();
    }
@@ -180,10 +172,7 @@ public class AeRecoveryProcessManager extends AeManagerAdapter implements IAeRec
       throw new UnsupportedOperationException();
    }
 
-   /**
-    * @see org.activebpel.rt.bpel.impl.IAeProcessManager#removeProcesses(org.activebpel.rt.bpel.impl.list.AeProcessFilter)
-    */
-   public int removeProcesses(AeProcessFilter aFilter) throws AeBusinessProcessException
+   public int removeProcesses(ProcessFilterType aFilter) throws AeBusinessProcessException
    {
       throw new UnsupportedOperationException();
    }

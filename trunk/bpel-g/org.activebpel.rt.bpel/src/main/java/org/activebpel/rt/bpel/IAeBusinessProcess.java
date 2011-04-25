@@ -28,25 +28,14 @@ import org.activebpel.rt.message.IAeMessageData;
 import org.activebpel.wsio.AeWebServiceAttachment;
 import org.w3c.dom.Document;
 
+import bpelg.services.processes.types.ProcessStateValueType;
+import bpelg.services.processes.types.SuspendReasonType;
+
 /** Describes the interface used for interacting with business processes */
 public interface IAeBusinessProcess
 {
    /** Value of an uninitialized process id. */
    public static long NULL_PROCESS_ID = 0;
-   /** State to indicate that the process has been created and ready for execution. */
-   public static final int PROCESS_LOADED = 0;
-   /** Indicates that the process is currently executing. */
-   public static final int PROCESS_RUNNING = 1;
-   /** Indicates that the process is currently suspended. */
-   public static final int PROCESS_SUSPENDED = 2;
-   /** Process has finished executing. */
-   public static final int PROCESS_COMPLETE = 3;
-   /** State to indicate that the process has faulted. */
-   public static final int PROCESS_FAULTED = 4;
-   /** The process has completed normally and is compensatable (process instance compensation). */
-   public static final int PROCESS_COMPENSATABLE = 5;
-   /** Reason code for processes without a specific state reason */
-   public static final int PROCESS_REASON_NONE = -1;
    
    /** Default process initiator value which is 'anonymous'. */
    public static final String DEFAULT_INITIATOR = "anonymous"; //$NON-NLS-1$
@@ -74,12 +63,12 @@ public interface IAeBusinessProcess
    /**
     * Get the state of the process
     */
-   public int getProcessState();
+   public ProcessStateValueType getProcessState();
 
    /**
     * Get the reason code of process state
     */
-   public int getProcessStateReason();
+   public SuspendReasonType getProcessStateReason();
 
    /**
     * Get the process id for this process.

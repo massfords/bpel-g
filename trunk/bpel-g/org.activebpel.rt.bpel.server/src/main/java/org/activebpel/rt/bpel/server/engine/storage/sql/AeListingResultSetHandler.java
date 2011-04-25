@@ -14,7 +14,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.activebpel.rt.bpel.impl.list.IAeListingFilter;
 import org.activebpel.rt.bpel.server.AeMessages;
 import org.apache.commons.dbutils.ResultSetHandler;
 
@@ -27,10 +26,10 @@ import org.apache.commons.dbutils.ResultSetHandler;
 abstract public class AeListingResultSetHandler implements ResultSetHandler
 {
    /** The row number where to start fetching results. */
-   private int mListStart;
+   private final int mListStart;
 
    /** The maximum number of results to return. */
-   private int mMaxReturn;
+   private final int mMaxReturn;
 
    /** The <code>ResultSet</code> to process. */
    private ResultSet mResultSet;
@@ -52,9 +51,16 @@ abstract public class AeListingResultSetHandler implements ResultSetHandler
     *
     * @param aFilter
     */
-   public AeListingResultSetHandler(IAeListingFilter aFilter)
+   public AeListingResultSetHandler(Integer aMax, Integer aStart)
    {
-      setFilter(aFilter);
+	   if (aMax == null || aMax == 0)
+		   mMaxReturn = Integer.MAX_VALUE;
+	   else 
+		   mMaxReturn = aMax;
+	   if (aStart != null)
+		   mListStart = aStart;
+	   else 
+		   mListStart = 0;
    }
 
    /**
@@ -196,29 +202,6 @@ abstract public class AeListingResultSetHandler implements ResultSetHandler
       }
 
       return mHasNext;
-   }
-
-   /**
-    * Sets the filter to use.
-    */
-   protected void setFilter(IAeListingFilter aFilter)
-   {
-      if (aFilter == null)
-      {
-         mListStart = 0;
-         mMaxReturn = Integer.MAX_VALUE;
-      }
-      else
-      {
-         mListStart = aFilter.getListStart();
-         mMaxReturn = aFilter.getMaxReturn();
-
-         // aFilter.getMaxReturn() is 0 for no limit.
-         if (mMaxReturn == 0)
-         {
-            mMaxReturn = Integer.MAX_VALUE;
-         }
-      }
    }
 
    /**

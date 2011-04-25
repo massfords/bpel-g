@@ -97,6 +97,9 @@ public class AeCatalog implements IAeCatalog, IAeCatalogAdmin {
 	 */
 	public synchronized void addCatalogEntries(IAeDeploymentId aDeploymentId,
 			IAeCatalogMapping[] aMappings, boolean aReplaceFlag) {
+		if (aMappings.length == 0) {
+			return;
+		}
 		getResourceCache().clear();
 
 		// create a list of booleans where true indicates a new entry based

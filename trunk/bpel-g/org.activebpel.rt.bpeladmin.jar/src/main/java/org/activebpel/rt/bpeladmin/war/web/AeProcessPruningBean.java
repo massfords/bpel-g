@@ -13,9 +13,11 @@ import java.text.MessageFormat;
 import java.util.Date;
 
 import org.activebpel.rt.AeException;
-import org.activebpel.rt.bpel.impl.list.AeProcessFilter;
 import org.activebpel.rt.bpeladmin.war.AeMessages;
 import org.activebpel.rt.util.AeDate;
+
+import bpelg.services.processes.types.ProcessFilterType;
+import bpelg.services.processes.types.ProcessStateFilterValueType;
 
 /**
  * Bean for driving display of process pruning portion of storage page.
@@ -44,13 +46,13 @@ public class AeProcessPruningBean extends AePruningBean
     * Returns a filter for processes that completed on or before the prune
     * date.
     */
-   protected AeProcessFilter getPruneProcessFilter() throws AeException
+   protected ProcessFilterType getPruneProcessFilter() throws AeException
    {
-      AeProcessFilter filter = new AeProcessFilter();
+      ProcessFilterType filter = new ProcessFilterType();
       filter.setMaxReturn(0); // just want a count without results
-      filter.setProcessState(AeProcessFilter.STATE_COMPLETED_OR_FAULTED);
+      filter.setProcessState(ProcessStateFilterValueType.CompletedOrFaulted);
       Date compensatedDate = compensateForFilterAdjustment( getPruneDate() );
-      filter.setProcessCompleteEnd( compensatedDate );
+      filter.setProcessCompleteEnd( AeDate.toCal(compensatedDate) );
       return filter;
    }
    
@@ -81,20 +83,8 @@ public class AeProcessPruningBean extends AePruningBean
       {
          try
          {
-            AeProcessFilter filter = getPruneProcessFilter();
-            int n = getAdmin().removeProcesses(filter.getProcessName() == null ? null : filter.getProcessName().getNamespaceURI(), 
-                    filter.getProcessName() == null ? null : filter.getProcessName().getLocalPart(), 
-                            filter.getProcessGroup(), 
-                            filter.isHideSystemProcessGroup(), 
-                            filter.getProcessState(), 
-                            filter.getProcessCreateStart(), 
-                            filter.getProcessCreateEnd(), 
-                            filter.getProcessCompleteStart(), 
-                            filter.getProcessCompleteEnd(), 
-                            filter.getAdvancedQuery(), 
-                            filter.getPlanId(), 
-                            filter.getDeletableDate(), 
-                            filter.getProcessIdRange());
+            ProcessFilterType filter = getPruneProcessFilter();
+            int n = getAdmin().removeProcesses(filter);
 
             String pattern = AeMessages.getString("AeProcessPruningBean.0"); //$NON-NLS-1$
             Object[] args = {new Integer(n)};
@@ -125,22 +115,8 @@ public class AeProcessPruningBean extends AePruningBean
 
          try
          {
-            AeProcessFilter filter = getPruneProcessFilter();
-            int numProcesses = getAdmin().getProcessCount(filter.getProcessName() == null ? null : filter.getProcessName().getNamespaceURI(), 
-                        filter.getProcessName() == null ? null : filter.getProcessName().getLocalPart(), 
-                        filter.getProcessGroup(), 
-                        filter.isHideSystemProcessGroup(), 
-                        filter.getProcessState(), 
-                        filter.getProcessCreateStart(), 
-                        filter.getProcessCreateEnd(), 
-                        filter.getProcessCompleteStart(), 
-                        filter.getProcessCompleteEnd(), 
-                        filter.getAdvancedQuery(), 
-                        filter.getPlanId(), 
-                        filter.getDeletableDate(), 
-                        filter.getProcessIdRange(), 
-                        filter.getMaxReturn(), 
-                        filter.getListStart());
+            ProcessFilterType filter = getPruneProcessFilter();
+            int numProcesses = getAdmin().getProcessCount(filter);
 
             String pattern = AeMessages.getString("AeProcessPruningBean.3"); //$NON-NLS-1$
             Object[] args = {new Integer(numProcesses)};

@@ -18,12 +18,13 @@ import org.activebpel.rt.bpel.IAeBusinessProcess;
 import org.activebpel.rt.bpel.IAeFault;
 import org.activebpel.rt.bpel.IAePlanManager;
 import org.activebpel.rt.bpel.coord.IAeProtocolMessage;
-import org.activebpel.rt.bpel.impl.list.AeProcessFilter;
-import org.activebpel.rt.bpel.impl.list.AeProcessInstanceDetail;
-import org.activebpel.rt.bpel.impl.list.AeProcessListResult;
 import org.activebpel.rt.bpel.impl.queue.AeInboundReceive;
 import org.activebpel.rt.bpel.impl.queue.AeReply;
 import org.activebpel.rt.message.IAeMessageData;
+
+import bpelg.services.processes.types.ProcessFilterType;
+import bpelg.services.processes.types.ProcessInstanceDetail;
+import bpelg.services.processes.types.ProcessList;
 
 /**
  * Defines the interface for process managers.
@@ -73,14 +74,14 @@ public interface IAeProcessManager extends IAeManager
     * @param aProcessId
     * @return AeProcessInstanceDetail
     */
-   public AeProcessInstanceDetail getProcessInstanceDetails(long aProcessId);
+   public ProcessInstanceDetail getProcessInstanceDetails(long aProcessId);
 
    /**
     * Returns a result set of processes based upon filter specification.
     *
     * @param aFilter the filter specification used to limit processes returned, may be null.
     */
-   public AeProcessListResult getProcesses(AeProcessFilter aFilter) throws AeBusinessProcessException;
+   public ProcessList getProcesses(ProcessFilterType aFilter) throws AeBusinessProcessException;
 
    /**
     * Returns process ids that match the given filter.
@@ -88,14 +89,14 @@ public interface IAeProcessManager extends IAeManager
     * @param aFilter
     * @throws AeBusinessProcessException
     */
-   public long[] getProcessIds(AeProcessFilter aFilter) throws AeBusinessProcessException;
+   public long[] getProcessIds(ProcessFilterType aFilter) throws AeBusinessProcessException;
 
    /**
     * Returns the number of processes that match the filter specification.
     *
     * @param aFilter the filter specification used to limit processes returned, may be null.
     */
-   public int getProcessCount(AeProcessFilter aFilter) throws AeBusinessProcessException;
+   public int getProcessCount(ProcessFilterType aFilter) throws AeBusinessProcessException;
 
    /**
     * Indicates that the engine has processed the given journal entry, so the
@@ -209,7 +210,7 @@ public interface IAeProcessManager extends IAeManager
     *
     * @param aFilter the filter specification
     */
-   public int removeProcesses(AeProcessFilter aFilter) throws AeBusinessProcessException;
+   public int removeProcesses(ProcessFilterType aFilter) throws AeBusinessProcessException;
 
    /**
     * Sets the plan manager that resolves a process <code>QName</code> to a

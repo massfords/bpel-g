@@ -28,7 +28,7 @@ public class AeMessageReceiverListHandler extends AeListingResultSetHandler
     */
    public AeMessageReceiverListHandler()
    {
-      super(AeMessageReceiverFilter.NULL_FILTER);
+      this(AeMessageReceiverFilter.NULL_FILTER);
    }
    
    /**
@@ -38,7 +38,7 @@ public class AeMessageReceiverListHandler extends AeListingResultSetHandler
     */
    public AeMessageReceiverListHandler(AeMessageReceiverFilter aFilter)
    {
-      super(aFilter);
+      super(aFilter.getMaxReturn(), aFilter.getListStart());
    }
 
    /**

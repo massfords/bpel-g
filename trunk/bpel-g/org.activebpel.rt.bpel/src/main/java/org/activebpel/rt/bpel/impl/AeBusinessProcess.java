@@ -92,6 +92,9 @@ import org.w3c.dom.Document;
 import org.w3c.dom.DocumentFragment;
 import org.w3c.dom.Node;
 
+import bpelg.services.processes.types.ProcessStateValueType;
+import bpelg.services.processes.types.SuspendReasonType;
+
 /**
  * Describes the interface used for interacting with business processes
  */
@@ -107,7 +110,7 @@ public class AeBusinessProcess extends AeActivityScopeImpl implements IAeBusines
    /** Our instances process id within the engine. */
    private long mProcessId;
    /** Our process state (running, suspended, etc.) */
-   private int mProcessState;
+   private ProcessStateValueType mProcessState;
    /** Map of source location for the Bpel implementation objects. */
    private Map mBpelObjects = new HashMap();
    /** Map of source locations to process variables. */
@@ -148,7 +151,7 @@ public class AeBusinessProcess extends AeActivityScopeImpl implements IAeBusines
    /** counter used to store the next version number to use for a variable */
    private int mNextVariableVersionNumber = 1;
    /** Reason code for process state, default to none */
-   private int mProcessStateReason = IAeBusinessProcess.PROCESS_REASON_NONE;
+   private SuspendReasonType mProcessStateReason = SuspendReasonType.None;
    /** List of open activity info objects. */
    private List mOpenMessageActivityInfoList;
    /** Indicates if the process is a parent in an coordinated  activity */
@@ -199,7 +202,7 @@ public class AeBusinessProcess extends AeActivityScopeImpl implements IAeBusines
          mVariableLocker = new AeNoopVariableLocker();
       setProcessId(aPid);
       setEngine(aEngine);
-      setProcessState(IAeBusinessProcess.PROCESS_LOADED);
+      setProcessState(ProcessStateValueType.Loaded);
       mProcessPlan = aPlan;
       mFaultingActivityLocationPaths = new ArrayList();
       mProcessAdministrator = new AeProcessSuspendResumeHandler( this );
@@ -315,7 +318,7 @@ public class AeBusinessProcess extends AeActivityScopeImpl implements IAeBusines
    /**
     * @see org.activebpel.rt.bpel.IAeBusinessProcess#getProcessState()
     */
-   public int getProcessState()
+   public ProcessStateValueType getProcessState()
    {
       return mProcessState;
    }
@@ -323,7 +326,7 @@ public class AeBusinessProcess extends AeActivityScopeImpl implements IAeBusines
    /**
     * Sets the process state reason.
     */
-   public void setProcessStateReason(int aProcessStateReason)
+   public void setProcessStateReason(SuspendReasonType aProcessStateReason)
    {
       // Note: This non-interface method is public for AeRestoreImplStateVisitor.
       mProcessStateReason = aProcessStateReason;
@@ -332,7 +335,7 @@ public class AeBusinessProcess extends AeActivityScopeImpl implements IAeBusines
    /**
     * @see org.activebpel.rt.bpel.IAeBusinessProcess#getProcessStateReason()
     */
-   public int getProcessStateReason()
+   public SuspendReasonType getProcessStateReason()
    {
       return mProcessStateReason;
    }
@@ -340,7 +343,7 @@ public class AeBusinessProcess extends AeActivityScopeImpl implements IAeBusines
    /**
     * @see org.activebpel.rt.bpel.impl.IAeBusinessProcessInternal#setProcessState(int)
     */
-   public void setProcessState(int aState)
+   public void setProcessState(ProcessStateValueType aState)
    {
       mProcessState = aState;
    }
@@ -350,7 +353,7 @@ public class AeBusinessProcess extends AeActivityScopeImpl implements IAeBusines
     */
    public boolean isSuspended()
    {
-      return getProcessState() == PROCESS_SUSPENDED;
+      return getProcessState() == ProcessStateValueType.Suspended;
    }
 
    /**
@@ -358,7 +361,7 @@ public class AeBusinessProcess extends AeActivityScopeImpl implements IAeBusines
     */
    protected boolean isRunning()
    {
-      return getProcessState() == PROCESS_RUNNING;
+      return getProcessState() == ProcessStateValueType.Running;
    }
 
    /**
@@ -451,7 +454,7 @@ public class AeBusinessProcess extends AeActivityScopeImpl implements IAeBusines
     */
    public void execute() throws AeBusinessProcessException
    {
-      setProcessState(PROCESS_RUNNING);
+      setProcessState(ProcessStateValueType.Running);
       getEngine().fireEngineEvent(new AeEngineEvent(getProcessId(), IAeEngineEvent.PROCESS_STARTED, getName()));
       // events will get started after the start message has been consumed.
       getProcess().queueObjectToExecute(getActivity());
@@ -647,38 +650,38 @@ public class AeBusinessProcess extends AeActivityScopeImpl implements IAeBusines
             // already supended
             if(! isSuspended())
             {
-               setProcessStateReason(AeSuspendReason.SUSPEND_CODE_MIGRATE);
+               setProcessStateReason(SuspendReasonType.Migrate);
                getProcessSuspendResumeHandler().suspend();
             }
          break;
 
          case AeSuspendReason.SUSPEND_CODE_MANUAL:
-            setProcessStateReason(AeSuspendReason.SUSPEND_CODE_MANUAL);
+            setProcessStateReason(SuspendReasonType.Manual);
             getProcessSuspendResumeHandler().suspend();
          break;
 
          case AeSuspendReason.SUSPEND_CODE_AUTOMATIC:
-            setProcessStateReason(AeSuspendReason.SUSPEND_CODE_AUTOMATIC);
+            setProcessStateReason(SuspendReasonType.Automatic);
             IAeFault uncaughtFault = ((AeAbstractBpelObject)findBpelObjectOrThrow(aReason.getLocationPath())).getFault();
             getProcessSuspendResumeHandler().suspendBecauseOfUncaughtFault(aReason.getLocationPath(), uncaughtFault );
             alertFaulting(aReason.getLocationPath(), uncaughtFault);
          break;
 
          case AeSuspendReason.SUSPEND_CODE_LOGICAL:
-            setProcessStateReason(AeSuspendReason.SUSPEND_CODE_LOGICAL);
+            setProcessStateReason(SuspendReasonType.Logical);
             getProcessSuspendResumeHandler().suspend();
             AeEngineAlert alert = createAlert(IAeEngineAlert.PROCESS_ALERT_SUSPENDED, aReason.getLocationPath(), aReason.getVariable());
             getEngine().fireEngineAlert(alert);
          break;
 
          case AeSuspendReason.SUSPEND_CODE_INVOKE_RECOVERY:
-            setProcessStateReason(AeSuspendReason.SUSPEND_CODE_INVOKE_RECOVERY);
+            setProcessStateReason(SuspendReasonType.InvokeRecovery);
             getProcessSuspendResumeHandler().suspendBecauseOfInvokeRecovery(aReason.getLocationPath());
             alertInvokeRecovery(aReason.getLocationPath());
             break;
 
          case AeSuspendReason.SUSPEND_CODE_INVOKE_RETRY:
-            setProcessStateReason(AeSuspendReason.SUSPEND_CODE_INVOKE_RETRY);
+            setProcessStateReason(SuspendReasonType.InvokeRetry);
             IAeFault retryFault = ((AeAbstractBpelObject)findBpelObjectOrThrow(aReason.getLocationPath())).getFault();
             getProcessSuspendResumeHandler().suspendBecauseOfInvokeRetry(aReason.getLocationPath(), retryFault);
             alertFaulting(aReason.getLocationPath(), retryFault);
@@ -820,12 +823,12 @@ public class AeBusinessProcess extends AeActivityScopeImpl implements IAeBusines
     */
    public synchronized void compensate(IAeCompensationCallback aCallback) throws AeBusinessProcessException
    {
-      if (getProcessState() != IAeBusinessProcess.PROCESS_COMPENSATABLE)
+      if (getProcessState() != ProcessStateValueType.Compensatable)
       {
          throw new AeBusinessProcessException(AeMessages.format("AeBusinessProcess.NotCompensatable", String.valueOf(getProcessId()))); //$NON-NLS-1$
       }
 
-      setProcessState(IAeBusinessProcess.PROCESS_RUNNING);
+      setProcessState(ProcessStateValueType.Running);
 
       getExecutionQueue().resume(true);
 
@@ -844,10 +847,10 @@ public class AeBusinessProcess extends AeActivityScopeImpl implements IAeBusines
     */
    public synchronized void releaseCompensationResources()
    {
-      if (getProcessState() == IAeBusinessProcess.PROCESS_COMPENSATABLE)
+      if (getProcessState() == ProcessStateValueType.Compensatable)
       {
          // TODO (MF) optimization here to trim any remaining comp info objects from state.
-         setProcessState(IAeBusinessProcess.PROCESS_COMPLETE);
+         setProcessState(ProcessStateValueType.Complete);
       }
    }
 
@@ -1421,7 +1424,7 @@ public class AeBusinessProcess extends AeActivityScopeImpl implements IAeBusines
 
       if (getFault() != null)
       {
-         setProcessState(IAeBusinessProcess.PROCESS_FAULTED);
+         setProcessState(ProcessStateValueType.Faulted);
 
          // Mark all open IMAs as orphaned.
          hasNewOrphanedIMAs(this);
@@ -1437,11 +1440,11 @@ public class AeBusinessProcess extends AeActivityScopeImpl implements IAeBusines
          // if it's a sub process and it is compensatable, then record that as
          // the process state. This process will remain compensatable until it
          // gets compensated or until the parent process completes normally.
-         setProcessState(IAeBusinessProcess.PROCESS_COMPENSATABLE);
+         setProcessState(ProcessStateValueType.Compensatable);
       }
       else
       {
-         setProcessState(IAeBusinessProcess.PROCESS_COMPLETE);
+         setProcessState(ProcessStateValueType.Complete);
       }
       getEngine().fireEngineEvent(new AeEngineEvent(getProcessId(), IAeEngineEvent.PROCESS_TERMINATED, getName()));
       getEngine().getEngineCallback().processEnded(this);
@@ -2896,16 +2899,9 @@ public class AeBusinessProcess extends AeActivityScopeImpl implements IAeBusines
     */
    public boolean isFinalState()
    {
-      switch (getProcessState())
-      {
-         case IAeBusinessProcess.PROCESS_COMPLETE:
-         case IAeBusinessProcess.PROCESS_COMPENSATABLE:
-         case IAeBusinessProcess.PROCESS_FAULTED:
-            return true;
-
-         default:
-            return false;
-      }
+	   return getProcessState() == ProcessStateValueType.Complete ||
+	   getProcessState() == ProcessStateValueType.Compensatable ||
+	   getProcessState() == ProcessStateValueType.Faulted;
    }
 
    /**

@@ -2,8 +2,10 @@ package org.activebpel.rt.bpel.server.engine.storage.sql;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 
 import javax.sql.DataSource;
@@ -12,7 +14,7 @@ import org.activebpel.rt.bpel.server.deploy.scanner.AeDeploymentFileInfo;
 import org.activebpel.rt.bpel.server.engine.storage.AeStorageException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.h2.jdbcx.JdbcDataSource;
+import org.h2.jdbcx.JdbcConnectionPool;
 import org.h2.tools.RunScript;
 import org.h2.util.IOUtils;
 
@@ -58,10 +60,10 @@ public class AeFallbackDataSource extends AeJNDIDataSource {
         
         IOUtils.copyAndClose(getClass().getResourceAsStream("/ActiveBPEL-H2.sql"), new FileOutputStream(scriptFile));
         
-        JdbcDataSource ds = new JdbcDataSource();
-        ds.setURL(url);
-        ds.setUser("sa");
-        ds.setPassword("sa");
+//        JdbcDataSource ds = new JdbcDataSource();
+//        ds.setURL(url);
+//        ds.setUser("sa");
+//        ds.setPassword("sa");
         
         if (!dbDir.isDirectory()) {
             
@@ -76,6 +78,55 @@ public class AeFallbackDataSource extends AeJNDIDataSource {
         } else {
             sLog.debug("Using embedded db at: " + dbDir.getAbsolutePath());
         }
+        
+        final JdbcConnectionPool cp = JdbcConnectionPool.create(url, "sa", "sa");
+        
+        DataSource ds = new DataSource() {
+
+        	private PrintWriter pw = null;
+        	private int loginTimeout;
+        	
+			@Override
+			public PrintWriter getLogWriter() throws SQLException {
+				return pw;
+			}
+
+			@Override
+			public void setLogWriter(PrintWriter aOut) throws SQLException {
+				this.pw = aOut;
+			}
+
+			@Override
+			public void setLoginTimeout(int aSeconds) throws SQLException {
+				this.loginTimeout = aSeconds;
+			}
+
+			@Override
+			public int getLoginTimeout() throws SQLException {
+				return loginTimeout;
+			}
+
+			@Override
+			public <T> T unwrap(Class<T> aIface) throws SQLException {
+				throw new SQLException("not a wrapper for anything");
+			}
+
+			@Override
+			public boolean isWrapperFor(Class<?> aIface) throws SQLException {
+				return false;
+			}
+
+			@Override
+			public Connection getConnection() throws SQLException {
+				return cp.getConnection();
+			}
+
+			@Override
+			public Connection getConnection(String aUsername, String aPassword)
+					throws SQLException {
+				return getConnection();
+			}
+        };
         return ds;
     }
 }

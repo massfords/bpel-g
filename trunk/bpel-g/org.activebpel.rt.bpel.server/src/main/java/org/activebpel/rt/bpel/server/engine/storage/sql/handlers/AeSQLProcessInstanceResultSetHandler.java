@@ -15,12 +15,14 @@ import java.util.Date;
 
 import javax.xml.namespace.QName;
 
-import org.activebpel.rt.bpel.IAeBusinessProcess;
-import org.activebpel.rt.bpel.impl.list.AeProcessInstanceDetail;
 import org.activebpel.rt.bpel.server.engine.storage.sql.AeDbUtils;
 import org.activebpel.rt.bpel.server.engine.storage.sql.IAeProcessColumns;
-import org.activebpel.rt.xml.AeQName;
+import org.activebpel.rt.util.AeDate;
 import org.apache.commons.dbutils.ResultSetHandler;
+
+import bpelg.services.processes.types.ProcessInstanceDetail;
+import bpelg.services.processes.types.ProcessStateValueType;
+import bpelg.services.processes.types.SuspendReasonType;
 
 
 /**
@@ -35,12 +37,12 @@ public class AeSQLProcessInstanceResultSetHandler implements ResultSetHandler
     *
     * @param aResultSet
     */
-   protected static AeProcessInstanceDetail createProcessInstanceDetail(ResultSet aResultSet) throws SQLException
+   protected static ProcessInstanceDetail createProcessInstanceDetail(ResultSet aResultSet) throws SQLException
    {
       // Remember to retrieve columns in left-to-right order for maximum
       // compatibility with JDBC drivers.
 
-      AeProcessInstanceDetail result = new AeProcessInstanceDetail();
+      ProcessInstanceDetail result = new ProcessInstanceDetail();
       
       populate(result, aResultSet);
 
@@ -55,7 +57,7 @@ public class AeSQLProcessInstanceResultSetHandler implements ResultSetHandler
     * @param aResultSet
     * @throws SQLException
     */
-   protected static void populate(AeProcessInstanceDetail aProcessInstanceDetail, ResultSet aResultSet) throws SQLException
+   protected static void populate(ProcessInstanceDetail aProcessInstanceDetail, ResultSet aResultSet) throws SQLException
    {
       long processId = aResultSet.getLong(IAeProcessColumns.PROCESS_ID);
       String namespaceURI = aResultSet.getString(IAeProcessColumns.PROCESS_NAMESPACE);
@@ -66,7 +68,7 @@ public class AeSQLProcessInstanceResultSetHandler implements ResultSetHandler
       if (aResultSet.wasNull())
       {
          // The process state may be null if the process hasn't been saved yet.
-         processState = IAeBusinessProcess.PROCESS_LOADED;
+         processState = ProcessStateValueType.Loaded.value();
       }
 
       int processStateReason = aResultSet.getInt(IAeProcessColumns.PROCESS_STATE_REASON);
@@ -81,11 +83,11 @@ public class AeSQLProcessInstanceResultSetHandler implements ResultSetHandler
       }
 
       aProcessInstanceDetail.setProcessId(processId);
-      aProcessInstanceDetail.setName(new AeQName(processName));
-      aProcessInstanceDetail.setState(processState);
-      aProcessInstanceDetail.setStateReason(processStateReason);
-      aProcessInstanceDetail.setStarted(startDate);
-      aProcessInstanceDetail.setEnded(endDate);
+      aProcessInstanceDetail.setName(processName);
+      aProcessInstanceDetail.setState( ProcessStateValueType.fromValue(processState));
+      aProcessInstanceDetail.setStateReason( SuspendReasonType.fromValue(processStateReason));
+      aProcessInstanceDetail.setStarted(AeDate.toCal(startDate));
+      aProcessInstanceDetail.setEnded(AeDate.toCal(endDate));
    }
 
    /**

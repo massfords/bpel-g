@@ -12,7 +12,6 @@ package org.activebpel.rt.bpel.server.engine.storage.sql;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.activebpel.rt.bpel.impl.list.IAeListingFilter;
 import org.activebpel.rt.bpel.server.AeMessages;
 import org.activebpel.rt.bpel.server.engine.storage.AeStorageException;
 import org.activebpel.rt.util.AeUtil;
@@ -27,9 +26,6 @@ abstract public class AeSQLFilter
 
    /** The values of the replacement parameters specified by the WHERE clause. */
    private final List mParams = new ArrayList();
-
-   /** The process filter specification. */
-   private IAeListingFilter mFilter;
 
    /** Config object used to load sql statements */
    private AeSQLConfig mConfig;
@@ -51,22 +47,17 @@ abstract public class AeSQLFilter
    
    /** order by clause of the sql statement */
    private String mOrderBy = ""; //$NON-NLS-1$
+   
+   private final Integer mMaxReturn;
+   private final Integer mListStart;
 
-   /**
-    * Constructor.
-    * 
-    * @param aFilter
-    * @param aConfig
-    * @param aPrefix
-    * @throws AeStorageException
-    */
-   public AeSQLFilter(IAeListingFilter aFilter, AeSQLConfig aConfig, String aPrefix)
+   public AeSQLFilter(Integer aMaxReturn, Integer aListStart, AeSQLConfig aConfig, String aPrefix)
    	throws AeStorageException
    {
       mConfig = aConfig;
       mConfigPrefix = aPrefix;
-      setFilter(aFilter);
-      processFilter();
+      this.mMaxReturn = aMaxReturn;
+      this.mListStart = aListStart;
    }
 
    /**
@@ -77,12 +68,6 @@ abstract public class AeSQLFilter
       getConditions().setLength(0);
       mParams.clear();
    }
-
-   /**
-    * Extracts all of the data from the filter in order to build the query.
-    * @throws AeStorageException
-    */
-   abstract protected void processFilter() throws AeStorageException;
 
    /**
     * Appends a filter condition w/o a value.
@@ -198,19 +183,11 @@ abstract public class AeSQLFilter
    }
    
    /**
-    * Returns the process filter specification.
-    */
-   protected IAeListingFilter getFilter()
-   {
-      return mFilter;
-   }
-
-   /**
     * Returns MySQL-style LIMIT clause, if applicable.
     */
    protected String getLimit() throws AeStorageException
    {
-      if (mFilter == null)
+      if (noLimit())
       {
          return ""; //$NON-NLS-1$
       }
@@ -219,15 +196,20 @@ abstract public class AeSQLFilter
       // plus the additional scanning that we perform in
       // AeSQLProcessListResultSetHandler#handle to count the total number
       // of rows.
-      int maxReturn = mFilter.getMaxReturn();
+      int maxReturn = mMaxReturn != null? mMaxReturn : 0;
       if (maxReturn == 0)
       {
          // if not set, use report scan limit, which is the default max return
          maxReturn = REPORT_SCAN_LIMIT;
       }
-      int rows = mFilter.getListStart() + maxReturn + REPORT_SCAN_LIMIT + 1;
+      int start = mListStart == null ? 0 : mListStart;
+      int rows = start + maxReturn + REPORT_SCAN_LIMIT + 1;
 
       return getSQLConfig().getLimitStatement(rows);
+   }
+   
+   protected boolean noLimit() {
+	   return mMaxReturn == null && mListStart == null;
    }
 
    /**
@@ -358,16 +340,6 @@ abstract public class AeSQLFilter
    protected StringBuffer getConditions()
    {
       return mConditions;
-   }
-
-   /**
-    * Sets the filter to use for generating the SQL statement.
-    * 
-    * @param aFilter
-    */
-   protected void setFilter(IAeListingFilter aFilter)
-   {
-      mFilter = aFilter;
    }
 
    /**

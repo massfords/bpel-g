@@ -3,15 +3,15 @@ package org.activebpel.rt.bpel.server.admin.jmx;
 import java.beans.ConstructorProperties;
 import java.util.List;
 
-import org.activebpel.rt.bpel.impl.list.AeProcessInstanceDetail;
+import bpelg.services.processes.types.ProcessInstanceDetail;
 
 public class AeProcessListResultBean {
     private int mTotalCount;
     private boolean mCompleteCount;
-    private List<AeProcessInstanceDetail> mResults;
+    private List<ProcessInstanceDetail> mResults;
 
     @ConstructorProperties({"totalCount", "results", "completeCount"})
-    public AeProcessListResultBean(int aTotalCount, List<AeProcessInstanceDetail> aResults,
+    public AeProcessListResultBean(int aTotalCount, List<ProcessInstanceDetail> aResults,
             boolean aCompleteCount) {
         super();
         mTotalCount = aTotalCount;
@@ -31,10 +31,10 @@ public class AeProcessListResultBean {
     public boolean isCompleteCount() {
         return mCompleteCount;
     }
-    public void setResults(List<AeProcessInstanceDetail> results) {
+    public void setResults(List<ProcessInstanceDetail> results) {
         mResults = results;
     }
-    public List<AeProcessInstanceDetail> getResults() {
+    public List<ProcessInstanceDetail> getResults() {
         return mResults;
     }
 }

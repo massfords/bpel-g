@@ -10,13 +10,14 @@ import org.activebpel.rt.bpel.coord.AeCoordinationDetail;
 import org.activebpel.rt.bpel.impl.list.AeAlarmExt;
 import org.activebpel.rt.bpel.impl.list.AeCatalogItem;
 import org.activebpel.rt.bpel.impl.list.AeCatalogItemDetail;
-import org.activebpel.rt.bpel.impl.list.AeProcessFilter;
-import org.activebpel.rt.bpel.impl.list.AeProcessInstanceDetail;
 import org.activebpel.rt.bpel.server.admin.AeBuildInfo;
 import org.activebpel.rt.bpel.server.admin.AeProcessDeploymentDetail;
 import org.activebpel.rt.bpel.server.admin.AeQueuedReceiveDetail;
 import org.activebpel.rt.bpel.server.engine.storage.AeStorageException;
 import org.activebpel.rt.xml.AeQName;
+
+import bpelg.services.processes.types.ProcessFilterType;
+import bpelg.services.processes.types.ProcessInstanceDetail;
 
 public interface IAeEngineManagementMXBean {
 
@@ -36,7 +37,7 @@ public interface IAeEngineManagementMXBean {
      * Gets the details for a single process id
      * @param aId
      */
-    public AeProcessInstanceDetail getProcessDetail(long aId);
+    public ProcessInstanceDetail getProcessDetail(long aId);
 
     /**
      * Gets a list of the unmatched inbound queued receives from the engine's
@@ -88,18 +89,7 @@ public interface IAeEngineManagementMXBean {
     
     public AeProcessLogPart getProcessLogPart(long aProcessId, int aPart) throws Exception;
     
-    /**
-     * Returns a list of processes currently running on the BPEL engine. 
-     */
-    public AeProcessListResultBean getProcessList(String aProcessNamespace, String aProcessName, String aProcessGroup,
-            boolean aHidSystemProcessGroup, int aProcessState, Date aProcessCreateStart, Date aProcessCreateEnd,
-            Date aProcessCompleteStart, Date aProcessCompleteEnd, String aAdvancedQuery, int aPlanId,
-            Date aDeletableDate, long[] aProcessIdRange, int aMaxReturn, int aListStart) throws AeBusinessProcessException;;
-
-    public int getProcessCount(String aProcessNamespace, String aProcessName, String aProcessGroup,
-            boolean aHidSystemProcessGroup, int aProcessState, Date aProcessCreateStart, Date aProcessCreateEnd,
-            Date aProcessCompleteStart, Date aProcessCompleteEnd, String aAdvancedQuery, int aPlanId,
-            Date aDeletableDate, long[] aProcessIdRange, int aMaxReturn, int aListStart) throws AeBusinessProcessException;;
+    public int getProcessCount(ProcessFilterType aFilter) throws AeBusinessProcessException;
 
     /**
      * Returns the state of the process specified by the given process ID.
@@ -154,10 +144,7 @@ public interface IAeEngineManagementMXBean {
      * Removes processes based upon filter specification and returns the number
      * of processes removed.
      */
-    public int removeProcesses(String aProcessNamespace, String aProcessName, String aProcessGroup,
-            boolean aHidSystemProcessGroup, int aProcessState, Date aProcessCreateStart, Date aProcessCreateEnd,
-            Date aProcessCompleteStart, Date aProcessCompleteEnd, String aAdvancedQuery, int aPlanId,
-            Date aDeletableDate, long[] aProcessIdRange) throws AeBusinessProcessException;;
+    public int removeProcesses(ProcessFilterType aFilterType) throws AeBusinessProcessException;
 
      public void addURNMapping(String aURN, String aURL);
      public Map<String,String> getURNMappings();
@@ -215,7 +202,7 @@ public interface IAeEngineManagementMXBean {
     public int getAlarmMaxWorkCount();
     public int getTaskFinalizationDuration();
 
-    public AeProcessListResultBean getProcessList(AeProcessFilter aFilter) throws AeBusinessProcessException;
+    public AeProcessListResultBean getProcessList(ProcessFilterType aFilter) throws AeBusinessProcessException;
     
     public String getRawConfig();
     public void setRawConfig(String aList);

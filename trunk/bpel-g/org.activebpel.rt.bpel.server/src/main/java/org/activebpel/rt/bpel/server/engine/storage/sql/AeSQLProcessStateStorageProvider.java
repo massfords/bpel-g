@@ -19,10 +19,6 @@ import java.util.Set;
 
 import javax.xml.namespace.QName;
 
-import org.activebpel.rt.bpel.IAeBusinessProcess;
-import org.activebpel.rt.bpel.impl.list.AeProcessFilter;
-import org.activebpel.rt.bpel.impl.list.AeProcessInstanceDetail;
-import org.activebpel.rt.bpel.impl.list.AeProcessListResult;
 import org.activebpel.rt.bpel.server.AeMessages;
 import org.activebpel.rt.bpel.server.engine.recovery.journal.AeRestartProcessJournalEntry;
 import org.activebpel.rt.bpel.server.engine.recovery.journal.IAeJournalEntry;
@@ -42,6 +38,12 @@ import org.activebpel.rt.bpel.server.logging.AeLogReader;
 import org.activebpel.rt.bpel.server.logging.AeSequentialClobStream;
 import org.activebpel.rt.util.AeCloser;
 import org.apache.commons.dbutils.ResultSetHandler;
+
+import bpelg.services.processes.types.ProcessFilterType;
+import bpelg.services.processes.types.ProcessInstanceDetail;
+import bpelg.services.processes.types.ProcessList;
+import bpelg.services.processes.types.ProcessStateValueType;
+import bpelg.services.processes.types.SuspendReasonType;
 
 /**
  * A SQL version of a process state storage delegate.
@@ -85,8 +87,8 @@ public class AeSQLProcessStateStorageProvider extends AeAbstractSQLStorageProvid
          new Integer(aPlanId),
          aProcessName.getNamespaceURI(),
          aProcessName.getLocalPart(),
-         new Integer(IAeBusinessProcess.PROCESS_RUNNING),
-         new Integer(IAeBusinessProcess.PROCESS_REASON_NONE), // StateReason is undefined unless dealing with a suspended state 
+         new Integer(ProcessStateValueType.Running.value()),
+         new Integer(SuspendReasonType.None.value()), // StateReason is undefined unless dealing with a suspended state 
          new Date() // specify StartDate, so that process will sort correctly in Active Processes list
       };
 
@@ -147,10 +149,10 @@ public class AeSQLProcessStateStorageProvider extends AeAbstractSQLStorageProvid
    /**
     * @see org.activebpel.rt.bpel.server.engine.storage.providers.IAeProcessStateStorageProvider#getProcessInstanceDetail(long)
     */
-   public AeProcessInstanceDetail getProcessInstanceDetail(long aProcessId) throws AeStorageException
+   public ProcessInstanceDetail getProcessInstanceDetail(long aProcessId) throws AeStorageException
    {
       Object param = new Long(aProcessId);
-      return (AeProcessInstanceDetail) query(IAeProcessSQLKeys.GET_PROCESS_INSTANCE_DETAIL, param,
+      return (ProcessInstanceDetail) query(IAeProcessSQLKeys.GET_PROCESS_INSTANCE_DETAIL, param,
             getProcessInstanceResultSetHandler());
    }
 
@@ -162,10 +164,7 @@ public class AeSQLProcessStateStorageProvider extends AeAbstractSQLStorageProvid
       return PROC_INSTANCE_HANDLER;
    }
 
-   /**
-    * @see org.activebpel.rt.bpel.server.engine.storage.IAeProcessStateStorage#getProcessList(org.activebpel.rt.bpel.impl.list.AeProcessFilter)
-    */
-   public AeProcessListResult getProcessList(AeProcessFilter aFilter) throws AeStorageException
+   public ProcessList getProcessList(ProcessFilterType aFilter) throws AeStorageException
    {
       try
       {
@@ -177,7 +176,7 @@ public class AeSQLProcessStateStorageProvider extends AeAbstractSQLStorageProvid
          ResultSetHandler handler = createProcessListResultSetHandler(aFilter);
 
          // Run the query.
-         return (AeProcessListResult) getQueryRunner().query(sql, params, handler);
+         return (ProcessList) getQueryRunner().query(sql, params, handler);
       }
       catch (SQLException ex)
       {
@@ -185,10 +184,7 @@ public class AeSQLProcessStateStorageProvider extends AeAbstractSQLStorageProvid
       }
    }
    
-   /**
-    * @see org.activebpel.rt.bpel.server.engine.storage.providers.IAeProcessStateStorageProvider#getProcessCount(org.activebpel.rt.bpel.impl.list.AeProcessFilter)
-    */
-   public int getProcessCount(AeProcessFilter aFilter) throws AeStorageException
+   public int getProcessCount(ProcessFilterType aFilter) throws AeStorageException
    {
       try
       {
@@ -207,9 +203,8 @@ public class AeSQLProcessStateStorageProvider extends AeAbstractSQLStorageProvid
 
    /**
     * Get processIds for for the specified filter. ProcessIds needs to be ordered when remove between processId ranges
-    * @see org.activebpel.rt.bpel.server.engine.storage.providers.IAeProcessStateStorageProvider#getProcessIds(org.activebpel.rt.bpel.impl.list.AeProcessFilter)
     */
-   public long[] getProcessIds(AeProcessFilter aFilter) throws AeStorageException
+   public long[] getProcessIds(ProcessFilterType aFilter) throws AeStorageException
    {
       try
       {
@@ -235,7 +230,7 @@ public class AeSQLProcessStateStorageProvider extends AeAbstractSQLStorageProvid
     * @return the class which will produce the sql which applies the filter.
     * @throws AeStorageException
     */
-   protected AeSQLProcessFilter createFilter(AeProcessFilter aFilter) throws AeStorageException
+   protected AeSQLProcessFilter createFilter(ProcessFilterType aFilter) throws AeStorageException
    {
       return new AeSQLProcessFilter(aFilter, getSQLConfig());
    }
@@ -243,7 +238,7 @@ public class AeSQLProcessStateStorageProvider extends AeAbstractSQLStorageProvid
    /**
     * Creates the result set handler used to extract the process list from the SQL result set.
     */
-   protected AeSQLProcessListResultSetHandler createProcessListResultSetHandler(AeProcessFilter aFilter)
+   protected AeSQLProcessListResultSetHandler createProcessListResultSetHandler(ProcessFilterType aFilter)
    {
       return new AeSQLProcessListResultSetHandler(aFilter);
    }
@@ -251,7 +246,7 @@ public class AeSQLProcessStateStorageProvider extends AeAbstractSQLStorageProvid
    /**
     * Creates the result set handler used to extract the process ids from the SQL result set.
     */
-   protected AeSQLProcessIdsResultSetHandler createProcessIdsResultSetHandler(AeProcessFilter aFilter)
+   protected AeSQLProcessIdsResultSetHandler createProcessIdsResultSetHandler(ProcessFilterType aFilter)
    {
       return new AeSQLProcessIdsResultSetHandler(aFilter);
    }
@@ -332,10 +327,7 @@ public class AeSQLProcessStateStorageProvider extends AeAbstractSQLStorageProvid
       update(connection, IAeProcessSQLKeys.DELETE_PROCESS, params);
    }
    
-   /**
-    * @see org.activebpel.rt.bpel.server.engine.storage.providers.IAeProcessStateStorageProvider#removeProcesses(org.activebpel.rt.bpel.impl.list.AeProcessFilter)
-    */
-   public int removeProcesses(AeProcessFilter aFilter) throws AeStorageException
+   public int removeProcesses(ProcessFilterType aFilter) throws AeStorageException
    {
       try
       {

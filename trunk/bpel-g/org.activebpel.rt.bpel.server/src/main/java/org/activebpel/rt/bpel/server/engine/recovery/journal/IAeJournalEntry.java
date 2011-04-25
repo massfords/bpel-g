@@ -14,6 +14,8 @@ import org.activebpel.rt.bpel.IAeBusinessProcess;
 import org.activebpel.rt.bpel.impl.fastdom.AeFastDocument;
 import org.activebpel.rt.xml.schema.AeTypeMapping;
 
+import bpelg.services.processes.types.ProcessStateValueType;
+
 /**
  * Defines interface for process journal entries.
  */
@@ -78,5 +80,5 @@ public interface IAeJournalEntry
     * process's current state.
     * @param aProcessState
     */
-   public boolean canDispatch(int aProcessState);
+   public boolean canDispatch(ProcessStateValueType aState);
 }

@@ -48,7 +48,6 @@ import org.activebpel.rt.bpel.def.AePartnerLinkOpKey;
 import org.activebpel.rt.bpel.function.AeFunctionContextContainer;
 import org.activebpel.rt.bpel.function.AeUnresolvableException;
 import org.activebpel.rt.bpel.function.IAeFunction;
-import org.activebpel.rt.bpel.impl.list.AeProcessInstanceDetail;
 import org.activebpel.rt.bpel.impl.queue.AeInboundReceive;
 import org.activebpel.rt.bpel.impl.queue.AeMessageReceiver;
 import org.activebpel.rt.bpel.impl.queue.AeReply;
@@ -1555,17 +1554,6 @@ public class AeBusinessProcessEngine implements IAeBusinessProcessEngineInternal
             releaseProcess(process);
          }
       }
-   }
-
-   /**
-    * Returns the process instance details for the process with the specified process id.
-    *
-    * @param aProcessId
-    * @return AeProcessInstanceDetail
-    */
-   public AeProcessInstanceDetail getProcessInstanceDetails(long aProcessId)
-   {
-      return getProcessManager().getProcessInstanceDetails(aProcessId);
    }
 
    /////////////////////////////////////////////////////////////////////////////////

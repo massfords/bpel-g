@@ -15,6 +15,7 @@ import org.activebpel.rt.AeException;
 import org.activebpel.rt.bpel.IAeExpressionLanguageFactory;
 import org.activebpel.rt.bpel.def.AeProcessDef;
 import org.activebpel.rt.bpel.def.validation.IAeBaseErrorReporter;
+import org.activebpel.rt.bpel.impl.IAeProcessManager;
 import org.activebpel.rt.bpel.server.AeMessages;
 import org.activebpel.rt.bpel.server.IAeDeploymentProvider;
 import org.activebpel.rt.bpel.server.IAeProcessDeployment;
@@ -26,6 +27,8 @@ import org.activebpel.rt.expr.validation.functions.IAeFunctionValidatorFactory;
 import org.activebpel.rt.util.AeUtil;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+
+import bpelg.services.processes.types.ProcessFilterType;
 
 /**
  * IAeBpelDeployer impl.
@@ -88,6 +91,9 @@ public class AeBpelDeployer implements IAeDeploymentHandler {
                 sLog.debug("Undeploying bpel: " + pdd.getName() + " from " + pdd.getPdd().getLocation()); //$NON-NLS-1$ //$NON-NLS-2$
                 AeEngineFactory.getBean(IAeDeploymentProvider.class).removeDeploymentPlan(
                         source.getPdd().getName());
+                IAeProcessManager pm = AeEngineFactory.getBean(IAeProcessManager.class);
+                ProcessFilterType filter = new ProcessFilterType().withProcessName(source.getPdd().getName());
+				pm.removeProcesses(filter);
             } catch (AeException e) {
                 sLog.error(
                         MessageFormat.format(
