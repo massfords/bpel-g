@@ -34,8 +34,6 @@ import org.activebpel.rt.bpel.impl.IAeManager;
 import org.activebpel.rt.bpel.impl.IAeManagerVisitor;
 import org.activebpel.rt.bpel.impl.IAeProcessManager;
 import org.activebpel.rt.bpel.impl.IAeProcessPlan;
-import org.activebpel.rt.bpel.impl.list.AeProcessFilter;
-import org.activebpel.rt.bpel.impl.list.AeProcessListResult;
 import org.activebpel.rt.bpel.impl.queue.AeInboundReceive;
 import org.activebpel.rt.bpel.impl.queue.AeMessageReceiver;
 import org.activebpel.rt.bpel.server.AeMessages;
@@ -699,28 +697,6 @@ public class AeBpelEngine extends AeAbstractServerEngine {
 	}
 
 	/**
-	 * Returns a list of processes based upon the filter specification.
-	 * 
-	 * @param aFilter
-	 *            the optional filter used to limit the result set.
-	 */
-	protected AeProcessListResult getProcesses(AeProcessFilter aFilter)
-			throws AeBusinessProcessException {
-		return getProcessManager().getProcesses(aFilter);
-	}
-
-	/**
-	 * Returns a count of the processes that match the filter.
-	 * 
-	 * @param aFilter
-	 *            the optional filter used to limit the result set.
-	 */
-	protected int getProcessCount(AeProcessFilter aFilter)
-			throws AeBusinessProcessException {
-		return getProcessManager().getProcessCount(aFilter);
-	}
-
-	/**
 	 * This method should never return a null since it is used for routing an
 	 * incoming request. We should throw an exception with some details if we
 	 * cannot find a plan for the given context.
@@ -859,18 +835,6 @@ public class AeBpelEngine extends AeAbstractServerEngine {
 	 */
 	protected void setErrorInfo(String aError) {
 		mErrorInfo = aError;
-	}
-
-	/**
-	 * Removes processes based upon filter specification and returns the number
-	 * of processes removed.
-	 * 
-	 * @param aFilter
-	 *            the filter specification
-	 */
-	public int removeProcesses(AeProcessFilter aFilter)
-			throws AeBusinessProcessException {
-		return getProcessManager().removeProcesses(aFilter);
 	}
 
 	/**

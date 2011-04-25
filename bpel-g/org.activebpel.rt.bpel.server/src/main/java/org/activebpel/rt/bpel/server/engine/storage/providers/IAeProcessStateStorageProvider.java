@@ -16,13 +16,14 @@ import java.util.Set;
 
 import javax.xml.namespace.QName;
 
-import org.activebpel.rt.bpel.impl.list.AeProcessFilter;
-import org.activebpel.rt.bpel.impl.list.AeProcessInstanceDetail;
-import org.activebpel.rt.bpel.impl.list.AeProcessListResult;
 import org.activebpel.rt.bpel.server.engine.recovery.journal.AeRestartProcessJournalEntry;
 import org.activebpel.rt.bpel.server.engine.recovery.journal.IAeJournalEntry;
 import org.activebpel.rt.bpel.server.engine.storage.AeStorageException;
 import org.activebpel.rt.bpel.server.engine.storage.IAeProcessStateConnection;
+
+import bpelg.services.processes.types.ProcessFilterType;
+import bpelg.services.processes.types.ProcessInstanceDetail;
+import bpelg.services.processes.types.ProcessList;
 
 /**
  * A process storage delegate. This interface defines methods that the
@@ -59,24 +60,18 @@ public interface IAeProcessStateStorageProvider extends IAeStorageProvider
    /**
     * @see org.activebpel.rt.bpel.server.engine.storage.IAeProcessStateStorage#getProcessInstanceDetail(long)
     */
-   public AeProcessInstanceDetail getProcessInstanceDetail(long aProcessId) throws AeStorageException;
+   public ProcessInstanceDetail getProcessInstanceDetail(long aProcessId) throws AeStorageException;
 
-   /**
-    * @see org.activebpel.rt.bpel.server.engine.storage.IAeProcessStateStorage#getProcessList(org.activebpel.rt.bpel.impl.list.AeProcessFilter)
-    */
-   public AeProcessListResult getProcessList(AeProcessFilter aFilter) throws AeStorageException;
+   public ProcessList getProcessList(ProcessFilterType aFilter) throws AeStorageException;
 
-   /**
-    * @see org.activebpel.rt.bpel.server.engine.storage.IAeProcessStateStorage#getProcessCount(org.activebpel.rt.bpel.impl.list.AeProcessFilter)
-    */
-   public int getProcessCount(AeProcessFilter aFilter) throws AeStorageException;
+   public int getProcessCount(ProcessFilterType aFilter) throws AeStorageException;
 
    /**
     * Returns the processId for a given filter.
     * @param aFilter
     * @throws AeStorageException
     */
-   public long[] getProcessIds(AeProcessFilter aFilter) throws AeStorageException;
+   public long[] getProcessIds(ProcessFilterType aFilter) throws AeStorageException;
 
    /**
     * Returns the process name for the given process ID or null if not found.
@@ -120,10 +115,7 @@ public interface IAeProcessStateStorageProvider extends IAeStorageProvider
     */
    public void removeProcess(long aProcessId, IAeStorageConnection aConnection) throws AeStorageException;
 
-   /**
-    * @see org.activebpel.rt.bpel.server.engine.storage.IAeProcessStateStorage#removeProcesses(org.activebpel.rt.bpel.impl.list.AeProcessFilter)
-    */
-   public int removeProcesses(AeProcessFilter aFilter) throws AeStorageException;
+   public int removeProcesses(ProcessFilterType aFilter) throws AeStorageException;
 
    /**
     * @see org.activebpel.rt.bpel.server.engine.storage.IAeProcessStateStorage#writeJournalEntry(long, org.activebpel.rt.bpel.server.engine.recovery.journal.IAeJournalEntry)

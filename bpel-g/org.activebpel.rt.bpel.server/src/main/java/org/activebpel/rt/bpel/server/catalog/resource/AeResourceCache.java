@@ -51,7 +51,8 @@ public class AeResourceCache implements IAeResourceCache, IAeConfigChangeListene
      */
     public AeResourceCache(String aName) {
         CacheManager singletonManager = CacheManager.create();
-        mCache = new Cache(aName, DEFAULT_MAX_VALUE, false, true, 5, 2);
+        // reload every hour by default
+        mCache = new Cache(aName, DEFAULT_MAX_VALUE, false, true, 60*60, 60*60);
         singletonManager.addCache(mCache);
 
         updateConfig(AeEngineFactory.getEngineConfig().getUpdatableEngineConfig());

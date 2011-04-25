@@ -10,6 +10,10 @@
     <import resource="classpath:META-INF/cxf/cxf-extension-soap.xml"/>
     <import resource="classpath:META-INF/cxf/cxf-servlet.xml"/>
 
+    <jaxws:endpoint implementor="#ProcessManagerService" endpointName="s:ProcessManagerService"
+        serviceName="s:ProcessManagerService" address="/ProcessManagerService"
+        xmlns:s="urn:bpel-g:services:processes"></jaxws:endpoint>
+
     <jaxws:endpoint implementor="#DeploymentService" endpointName="s:DeploymentService"
         serviceName="s:DeploymentService" address="/DeploymentService"
         xmlns:s="urn:bpel-g:services:deploy"></jaxws:endpoint>
@@ -22,7 +26,10 @@
         <property name="DeploymentHandler" ref="DeploymentHandler"/>
     </bean>
 
-
+    <bean id="ProcessManagerService" class="org.activebpel.rt.bpel.server.services.AeProcessManagerService">
+        <property name="ProcessManager" ref="ProcessManager"/>
+    </bean>
+    
     <bean id="ResolverService" class="org.activebpel.rt.bpel.server.services.AeURNResolverService">
         <property name="resolver" ref="URNResolver"/>
     </bean>

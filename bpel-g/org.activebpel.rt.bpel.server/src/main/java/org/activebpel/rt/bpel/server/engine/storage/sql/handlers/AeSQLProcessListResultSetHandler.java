@@ -13,9 +13,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
-import org.activebpel.rt.bpel.impl.list.AeProcessFilter;
-import org.activebpel.rt.bpel.impl.list.AeProcessListResult;
 import org.activebpel.rt.bpel.server.engine.storage.sql.AeListingResultSetHandler;
+
+import bpelg.services.processes.types.ProcessFilterType;
+import bpelg.services.processes.types.ProcessList;
 
 
 /**
@@ -29,9 +30,9 @@ public class AeSQLProcessListResultSetHandler extends AeListingResultSetHandler
     *
     * @param aFilter
     */
-   public AeSQLProcessListResultSetHandler(AeProcessFilter aFilter)
+   public AeSQLProcessListResultSetHandler(ProcessFilterType aFilter)
    {
-      super(aFilter);
+      super(aFilter.getMaxReturn(), aFilter.getListStart());
    }
 
    /**
@@ -47,6 +48,6 @@ public class AeSQLProcessListResultSetHandler extends AeListingResultSetHandler
     */
    protected Object convertToType(List aResults)
    {
-      return new AeProcessListResult(getRowCount(), aResults, !isTruncated());
+      return new ProcessList().withTotalRowCount(getRowCount()).withProcessInstanceDetail(aResults).withComplete(!isTruncated());
    }
 }

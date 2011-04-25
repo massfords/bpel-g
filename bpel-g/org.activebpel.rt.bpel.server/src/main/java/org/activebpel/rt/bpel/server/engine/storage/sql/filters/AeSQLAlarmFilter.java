@@ -38,53 +38,49 @@ public class AeSQLAlarmFilter extends AeSQLFilter
    private static final String SQL_PROCESS_NAMESPACE = "AeProcess.ProcessNamespace"; //$NON-NLS-1$
    /** Column constants. */
    private static final String SQL_DEADLINE_MILLIS = "AeAlarm.DeadlineMillis"; //$NON-NLS-1$
-
+   
    /**
     * Constructor.
     * @param aFilter The selection criteria.
     */
    public AeSQLAlarmFilter( AeAlarmFilter aFilter, AeSQLConfig aConfig ) throws AeStorageException
    {
-      super( aFilter, aConfig, AeSQLQueueStorageProvider.SQLSTATEMENT_PREFIX );
+      super( aFilter.getMaxReturn(), aFilter.getListStart(), aConfig, AeSQLQueueStorageProvider.SQLSTATEMENT_PREFIX );
       setSelectClause(getSQLStatement(SQL_GET_ALARMS));
       setOrderBy(getSQLStatement(SQL_ALARMS_ORDER_BY));
+      processFilter(aFilter);
    }
 
    /**
     * Builds the sql statement.
     */
-   protected void processFilter( )
+   private void processFilter(AeAlarmFilter filter)
    {
-      AeAlarmFilter filter = (AeAlarmFilter) getFilter();
-
       // the static where clause is included as part of the query if it's been
       // set in the sql config class
       appendCondition(getSQLStatement(SQL_GET_ALARMS_WHERE_CLAUSE));
 
-      if( filter != null )
-      {
-         if( !filter.isNullProcessId() )
-         {
-            appendCondition( SQL_PROCESS_ID + " = ?", new Long( filter.getProcessId() ) ); //$NON-NLS-1$
-         }
+     if( !filter.isNullProcessId() )
+     {
+        appendCondition( SQL_PROCESS_ID + " = ?", new Long( filter.getProcessId() ) ); //$NON-NLS-1$
+     }
 
-         if( filter.getProcessName() != null )
-         {
-            if( ! AeUtil.isNullOrEmpty(filter.getProcessName().getLocalPart()) )
-               appendCondition( SQL_PROCESS_NAME + " = ?", filter.getProcessName().getLocalPart() ); //$NON-NLS-1$
-            if( ! AeUtil.isNullOrEmpty(filter.getProcessName().getNamespaceURI()) )
-               appendCondition( SQL_PROCESS_NAMESPACE + " = ?", filter.getProcessName().getNamespaceURI() ); //$NON-NLS-1$
-         }
+     if( filter.getProcessName() != null )
+     {
+        if( ! AeUtil.isNullOrEmpty(filter.getProcessName().getLocalPart()) )
+           appendCondition( SQL_PROCESS_NAME + " = ?", filter.getProcessName().getLocalPart() ); //$NON-NLS-1$
+        if( ! AeUtil.isNullOrEmpty(filter.getProcessName().getNamespaceURI()) )
+           appendCondition( SQL_PROCESS_NAMESPACE + " = ?", filter.getProcessName().getNamespaceURI() ); //$NON-NLS-1$
+     }
 
-         if( filter.getAlarmFilterStart() != null )
-         {
-            appendCondition( SQL_DEADLINE_MILLIS + " >= ?", new Long(filter.getAlarmFilterStart().getTime()) ); //$NON-NLS-1$
-         }
+     if( filter.getAlarmFilterStart() != null )
+     {
+        appendCondition( SQL_DEADLINE_MILLIS + " >= ?", new Long(filter.getAlarmFilterStart().getTime()) ); //$NON-NLS-1$
+     }
 
-         if( filter.getAlarmFilterEnd() != null )
-         {
-            appendCondition( SQL_DEADLINE_MILLIS + " <= ?", new Long(filter.getAlarmFilterEnd().getTime()) ); //$NON-NLS-1$
-         }
-      }
+     if( filter.getAlarmFilterEnd() != null )
+     {
+        appendCondition( SQL_DEADLINE_MILLIS + " <= ?", new Long(filter.getAlarmFilterEnd().getTime()) ); //$NON-NLS-1$
+     }
    }
 }

@@ -10,11 +10,12 @@
 package org.activebpel.rt.bpel.impl.activity.support; 
 
 import org.activebpel.rt.bpel.AeBusinessProcessException;
-import org.activebpel.rt.bpel.IAeBusinessProcess;
 import org.activebpel.rt.bpel.IAeFault;
 import org.activebpel.rt.bpel.IAeProcessInfoEvent;
 import org.activebpel.rt.bpel.impl.AeProcessInfoEvent;
 import org.activebpel.rt.bpel.impl.IAeBusinessProcessInternal;
+
+import bpelg.services.processes.types.ProcessStateValueType;
 
 /**
  * wrapper used to ensure that the process transitions from running to completed
@@ -41,7 +42,7 @@ public class AeProcessCompensationCallbackWrapper implements
    public void compensationComplete(AeCompensationHandler aCompHandler) throws AeBusinessProcessException
    {
       getDelegate().compensationComplete(aCompHandler); 
-      setProcessState(aCompHandler, IAeBusinessProcess.PROCESS_COMPLETE, IAeProcessInfoEvent.INFO_PROCESS_COMPENSATION_FINISHED);
+      setProcessState(aCompHandler, ProcessStateValueType.Complete, IAeProcessInfoEvent.INFO_PROCESS_COMPENSATION_FINISHED);
    }
 
    /**
@@ -50,7 +51,7 @@ public class AeProcessCompensationCallbackWrapper implements
    public void compensationCompleteWithFault(AeCompensationHandler aCompHandler, IAeFault aFault) throws AeBusinessProcessException
    {
       getDelegate().compensationCompleteWithFault(aCompHandler, aFault);
-      setProcessState(aCompHandler, IAeBusinessProcess.PROCESS_FAULTED, IAeProcessInfoEvent.INFO_PROCESS_COMPENSATION_FAULTED);
+      setProcessState(aCompHandler, ProcessStateValueType.Faulted, IAeProcessInfoEvent.INFO_PROCESS_COMPENSATION_FAULTED);
    }
 
    /**
@@ -60,7 +61,7 @@ public class AeProcessCompensationCallbackWrapper implements
    {
       getDelegate().compensationTerminated(aCompHandler);
       // As per CK/Defect1558 - change state to Faulted instead of Completed.
-      setProcessState(aCompHandler, IAeBusinessProcess.PROCESS_FAULTED, IAeProcessInfoEvent.INFO_PROCESS_COMPENSATION_TERMINATED);
+      setProcessState(aCompHandler, ProcessStateValueType.Faulted, IAeProcessInfoEvent.INFO_PROCESS_COMPENSATION_TERMINATED);
    }
    
    /**
@@ -70,7 +71,7 @@ public class AeProcessCompensationCallbackWrapper implements
     * @param aProcessState
     * @param aProcessInfoState
     */
-   protected void setProcessState(AeCompensationHandler aCompHandler, int aProcessState, int aProcessInfoState)
+   protected void setProcessState(AeCompensationHandler aCompHandler, ProcessStateValueType aProcessState, int aProcessInfoState)
    {
       IAeBusinessProcessInternal process = aCompHandler.getProcess();
       AeProcessInfoEvent event = new AeProcessInfoEvent(process.getProcessId(), process.getLocationPath(), aProcessInfoState);

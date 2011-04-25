@@ -24,14 +24,15 @@ import org.activebpel.rt.bpel.impl.list.AeAlarmFilter;
 import org.activebpel.rt.bpel.impl.list.AeAlarmListResult;
 import org.activebpel.rt.bpel.impl.list.AeMessageReceiverFilter;
 import org.activebpel.rt.bpel.impl.list.AeMessageReceiverListResult;
-import org.activebpel.rt.bpel.impl.list.AeProcessFilter;
-import org.activebpel.rt.bpel.impl.list.AeProcessInstanceDetail;
-import org.activebpel.rt.bpel.impl.list.AeProcessListResult;
 import org.activebpel.rt.bpel.server.catalog.report.IAeCatalogAdmin;
 import org.activebpel.rt.bpel.server.deploy.IAeServiceDeploymentInfo;
 import org.activebpel.rt.bpel.server.logging.IAeDeploymentLogger;
 import org.activebpel.rt.bpel.urn.IAeURNResolver;
 import org.activebpel.wsio.AeWebServiceAttachment;
+
+import bpelg.services.processes.types.ProcessFilterType;
+import bpelg.services.processes.types.ProcessInstanceDetail;
+import bpelg.services.processes.types.ProcessList;
 
 /**
  * Interface for engine administration/console support
@@ -68,7 +69,7 @@ public interface IAeEngineAdministration
     * Gets the details for a single process id
     * @param aId
     */
-   public AeProcessInstanceDetail getProcessDetail(long aId);
+   public ProcessInstanceDetail getProcessDetail(long aId);
 
    /**
     * Gets a list of the unmatched inbound queued receives from the engine's
@@ -122,7 +123,7 @@ public interface IAeEngineAdministration
     * list may be optionally filtered by a process name.
     * @param aFilter the process filter to use when obtaining the result set.
     */
-   public AeProcessListResult getProcessList(AeProcessFilter aFilter) throws AeBusinessProcessException;
+   public ProcessList getProcessList(ProcessFilterType aFilter) throws AeBusinessProcessException;
 
    /**
     * Returns the count of processes that match the given process filter.
@@ -130,7 +131,7 @@ public interface IAeEngineAdministration
     * @param aFilter
     * @throws AeBusinessProcessException
     */
-   public int getProcessCount(AeProcessFilter aFilter) throws AeBusinessProcessException;
+   public int getProcessCount(ProcessFilterType aFilter) throws AeBusinessProcessException;
 
    /**
     * Returns the state of the process specified by the given process ID.
@@ -189,7 +190,7 @@ public interface IAeEngineAdministration
     * of processes removed.
     * @param aFilter the filter specification
     */
-   public int removeProcesses(AeProcessFilter aFilter) throws AeBusinessProcessException;
+   public int removeProcesses(ProcessFilterType aFilter) throws AeBusinessProcessException;
 
    /**
     * Deploys a BPR file to the engine.

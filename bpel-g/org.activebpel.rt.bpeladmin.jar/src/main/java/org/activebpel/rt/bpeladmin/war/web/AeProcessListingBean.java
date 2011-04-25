@@ -14,10 +14,13 @@ import java.util.Date;
 import javax.xml.namespace.QName;
 
 import org.activebpel.rt.AeException;
-import org.activebpel.rt.bpel.impl.list.AeProcessFilter;
-import org.activebpel.rt.bpel.impl.list.AeProcessInstanceDetail;
 import org.activebpel.rt.bpel.server.admin.jmx.AeProcessListResultBean;
 import org.activebpel.rt.bpeladmin.war.AeMessages;
+import org.activebpel.rt.util.AeDate;
+
+import bpelg.services.processes.types.ProcessFilterType;
+import bpelg.services.processes.types.ProcessInstanceDetail;
+import bpelg.services.processes.types.ProcessStateFilterValueType;
 
 /**
  * Controls the filtering/display of active process details.
@@ -25,7 +28,7 @@ import org.activebpel.rt.bpeladmin.war.AeMessages;
 public class AeProcessListingBean extends AeAbstractListingBean
 {
    /** Selected process state. */
-   protected int mState = AeProcessFilter.STATE_ANY;
+   protected ProcessStateFilterValueType mState = ProcessStateFilterValueType.Any;
 
    /** Selected process creation start date. */
    protected Date mCreateStartDate;
@@ -63,7 +66,7 @@ public class AeProcessListingBean extends AeAbstractListingBean
     */
    public boolean isActiveState()
    {
-      return mState == AeProcessFilter.STATE_ANY;
+      return mState == ProcessStateFilterValueType.Any;
    }
 
    /**
@@ -71,7 +74,7 @@ public class AeProcessListingBean extends AeAbstractListingBean
     */
    public boolean isRunningState()
    {
-      return mState == AeProcessFilter.STATE_RUNNING;
+      return mState == ProcessStateFilterValueType.Running;
    }
 
    /**
@@ -79,7 +82,7 @@ public class AeProcessListingBean extends AeAbstractListingBean
     */
    public boolean isCompleteState()
    {
-      return mState == AeProcessFilter.STATE_COMPLETED;
+      return mState == ProcessStateFilterValueType.Completed;
    }
    
    /**
@@ -87,7 +90,7 @@ public class AeProcessListingBean extends AeAbstractListingBean
     */
    public boolean isCompensatableState()
    {
-      return mState == AeProcessFilter.STATE_COMPENSATABLE;
+      return mState == ProcessStateFilterValueType.Compensatable;
    }
 
    /**
@@ -95,7 +98,7 @@ public class AeProcessListingBean extends AeAbstractListingBean
     */
    public boolean isFaultedState()
    {
-      return mState == AeProcessFilter.STATE_FAULTED;
+      return mState == ProcessStateFilterValueType.Faulted;
    }
    
    /**
@@ -103,7 +106,7 @@ public class AeProcessListingBean extends AeAbstractListingBean
     */
    public boolean isSuspendedState()
    {
-      return mState == AeProcessFilter.STATE_SUSPENDED;
+      return mState == ProcessStateFilterValueType.Suspended;
    }
    
    /**
@@ -111,7 +114,7 @@ public class AeProcessListingBean extends AeAbstractListingBean
     */
    public boolean isSuspendedFaultingState()
    {
-      return mState == AeProcessFilter.STATE_SUSPENDED_FAULTING;
+      return mState == ProcessStateFilterValueType.SuspendedFaulting;
    }
    
    /**
@@ -119,7 +122,7 @@ public class AeProcessListingBean extends AeAbstractListingBean
     */
    public boolean isSuspendedProgrammaticState()
    {
-      return mState == AeProcessFilter.STATE_SUSPENDED_PROGRAMMATIC;
+      return mState == ProcessStateFilterValueType.SuspendedProgrammatic;
    }
 
    /**
@@ -127,7 +130,7 @@ public class AeProcessListingBean extends AeAbstractListingBean
     */
    public boolean isSuspendedManualState()
    {
-      return mState == AeProcessFilter.STATE_SUSPENDED_MANUAL;
+      return mState == ProcessStateFilterValueType.SuspendedManual;
    }
 
    /**
@@ -136,7 +139,7 @@ public class AeProcessListingBean extends AeAbstractListingBean
     */
    public boolean isSuspendedInvokeRecoveryState()
    {
-      return mState == AeProcessFilter.STATE_SUSPENDED_INVOKE_RECOVERY;
+      return mState == ProcessStateFilterValueType.SuspendedInvokeRecovery;
    }
 
    /**
@@ -145,7 +148,7 @@ public class AeProcessListingBean extends AeAbstractListingBean
     */
    public void setState( int aState )
    {
-      mState = aState;
+      mState = ProcessStateFilterValueType.fromValue(aState);
    }
 
    /**
@@ -211,13 +214,13 @@ public class AeProcessListingBean extends AeAbstractListingBean
    {
       if( aValue )
       {
-         AeProcessFilter filter = createFilter();
+         ProcessFilterType filter = createFilter();
 
          try
          {
 
             AeProcessListResultBean resultz = getAdmin().getProcessList(filter);
-            AeProcessInstanceDetail[] details = resultz.getResults().toArray(new AeProcessInstanceDetail[resultz.getResults().size()]);
+            ProcessInstanceDetail[] details = resultz.getResults().toArray(new ProcessInstanceDetail[resultz.getResults().size()]);
 
             if( details != null && details.length > 0 )
             {
@@ -255,18 +258,18 @@ public class AeProcessListingBean extends AeAbstractListingBean
    /**
     * @return the filter to use for the listing.
     */
-   protected AeProcessFilter createFilter()
+   protected ProcessFilterType createFilter()
    {
-      AeProcessFilter filter = new AeProcessFilter();
+      ProcessFilterType filter = new ProcessFilterType();
       filter.setListStart( getRowStart() );
       filter.setMaxReturn( getRowCount() );
       filter.setProcessState( mState );
       filter.setProcessName( mQName );
-      filter.setAdvancedQuery( getAdvancedQuery() );
-      filter.setProcessCreateStart( getCreateStartDate() );
-      filter.setProcessCreateEnd( getCreateEndDate() );
-      filter.setProcessCompleteStart( getCompleteStartDate() );
-      filter.setProcessCompleteEnd( getCompleteEndDate() );
+//      filter.setAdvancedQuery( getAdvancedQuery() );
+      filter.setProcessCreateStart(AeDate.toCal(getCreateStartDate()) );
+      filter.setProcessCreateEnd( AeDate.toCal(getCreateEndDate()) );
+      filter.setProcessCompleteStart( AeDate.toCal(getCompleteStartDate()) );
+      filter.setProcessCompleteEnd( AeDate.toCal(getCompleteEndDate()) );
       return filter;
    }
 
@@ -275,7 +278,7 @@ public class AeProcessListingBean extends AeAbstractListingBean
     * 
     * @param aDetail
     */
-   protected AeProcessInstanceDetailWrapper wrapDetail(AeProcessInstanceDetail aDetail)
+   protected AeProcessInstanceDetailWrapper wrapDetail(ProcessInstanceDetail aDetail)
    {
       return new AeProcessInstanceDetailWrapper(aDetail);
    }

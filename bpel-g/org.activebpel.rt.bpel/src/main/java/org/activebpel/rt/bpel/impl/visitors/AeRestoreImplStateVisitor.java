@@ -19,7 +19,6 @@ import java.util.Map;
 import org.activebpel.rt.AeException;
 import org.activebpel.rt.bpel.AeBusinessProcessException;
 import org.activebpel.rt.bpel.AeMessages;
-import org.activebpel.rt.bpel.IAeBusinessProcess;
 import org.activebpel.rt.bpel.IAeFault;
 import org.activebpel.rt.bpel.IAeVariable;
 import org.activebpel.rt.bpel.coord.IAeCoordinating;
@@ -91,6 +90,9 @@ import org.activebpel.wsio.receive.IAeMessageContext;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
+
+import bpelg.services.processes.types.ProcessStateValueType;
+import bpelg.services.processes.types.SuspendReasonType;
 
 /**
  * Visits a tree of BPEL implementation objects to restore the state from an
@@ -953,8 +955,8 @@ public class AeRestoreImplStateVisitor extends AeBaseRestoreVisitor
       long invokeId = getAttributeLong(element, STATE_INVOKE_ID);      
       int alarmId = getAttributeInt(element, STATE_ALARM_ID);
       
-      aProcess.setProcessState(processState);
-      aProcess.setProcessStateReason(processStateReason);
+      aProcess.setProcessState(ProcessStateValueType.fromValue(processState));
+      aProcess.setProcessStateReason(SuspendReasonType.fromValue(processStateReason));
       aProcess.setEndDate(endDate);
       aProcess.setStartDate(startDate);
       aProcess.setMaxLocationId(maxLocationId);
@@ -1008,7 +1010,7 @@ public class AeRestoreImplStateVisitor extends AeBaseRestoreVisitor
     */
    protected boolean isSuspended( int aProcessState )
    {
-      return aProcessState == IAeBusinessProcess.PROCESS_SUSPENDED;
+      return aProcessState == ProcessStateValueType.Suspended.value();
    }
    
    /** 

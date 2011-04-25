@@ -14,12 +14,13 @@ import java.io.PrintWriter;
 import java.util.Date;
 
 import org.activebpel.rt.bpel.AeBusinessProcessException;
-import org.activebpel.rt.bpel.IAeBusinessProcess;
-import org.activebpel.rt.bpel.impl.AeSuspendReason;
-import org.activebpel.rt.bpel.impl.list.AeProcessInstanceDetail;
 import org.activebpel.rt.bpeladmin.war.AeEngineManagementFactory;
 import org.activebpel.rt.bpeladmin.war.AeMessages;
+import org.activebpel.rt.util.AeDate;
 import org.activebpel.rt.util.AeUtil;
+
+import bpelg.services.processes.types.ProcessInstanceDetail;
+import bpelg.services.processes.types.SuspendReasonType;
 
 /**
  * Wraps an <code>AeProcessInstanceDetail</code> object and provides
@@ -28,7 +29,7 @@ import org.activebpel.rt.util.AeUtil;
 public class AeProcessInstanceDetailWrapper
 {
    /** Process instance detail. */
-   protected AeProcessInstanceDetail mDelegate;
+   protected ProcessInstanceDetail mDelegate;
    /** PID */
    protected long mPid;
    /** Empty log message */
@@ -42,7 +43,7 @@ public class AeProcessInstanceDetailWrapper
     * Constructor.
     * @param aDetail The delegate process instance detail.
     */
-   public AeProcessInstanceDetailWrapper( AeProcessInstanceDetail aDetail )
+   public AeProcessInstanceDetailWrapper( ProcessInstanceDetail aDetail )
    {
       mDelegate = aDetail;
    }
@@ -200,7 +201,7 @@ public class AeProcessInstanceDetailWrapper
    /**
     * Accessor for the process instance detail delegate.
     */
-   protected AeProcessInstanceDetail getDelegate()
+   protected ProcessInstanceDetail getDelegate()
    {
       return mDelegate;
    }
@@ -234,7 +235,7 @@ public class AeProcessInstanceDetailWrapper
     */
    public Date getStarted()
    {
-      return getDelegate().getStarted();
+      return AeDate.toDate(getDelegate().getStarted());
    }
    
    /**
@@ -242,7 +243,7 @@ public class AeProcessInstanceDetailWrapper
     */
    public Date getEnded()
    {
-      return getDelegate().getEnded();
+      return AeDate.toDate(getDelegate().getEnded());
    }
 
    /**
@@ -253,28 +254,28 @@ public class AeProcessInstanceDetailWrapper
       // TODO (RN) - Move externalization to JSP layer
       switch (getDelegate().getState())
       {
-         case IAeBusinessProcess.PROCESS_LOADED :
+         case Loaded :
             return AeMessages.getString("AeProcessInstanceDetailWrapper.5"); //$NON-NLS-1$
-         case IAeBusinessProcess.PROCESS_RUNNING:
+         case Running:
             return AeMessages.getString("AeProcessInstanceDetailWrapper.6"); //$NON-NLS-1$
-         case IAeBusinessProcess.PROCESS_SUSPENDED:
+         case Suspended:
          {
-            if (getDelegate().getStateReason() == AeSuspendReason.SUSPEND_CODE_AUTOMATIC)
+            if (getDelegate().getStateReason() == SuspendReasonType.Automatic)
                return AeMessages.getString("AeProcessInstanceDetailWrapper.7"); //$NON-NLS-1$
-            else if (getDelegate().getStateReason() == AeSuspendReason.SUSPEND_CODE_LOGICAL)
+            else if (getDelegate().getStateReason() == SuspendReasonType.Logical)
                return AeMessages.getString("AeProcessInstanceDetailWrapper.8"); //$NON-NLS-1$
-            else if (getDelegate().getStateReason() == AeSuspendReason.SUSPEND_CODE_MANUAL)
+            else if (getDelegate().getStateReason() == SuspendReasonType.Manual)
                return AeMessages.getString("AeProcessInstanceDetailWrapper.9"); //$NON-NLS-1$
-            else if (getDelegate().getStateReason() == AeSuspendReason.SUSPEND_CODE_INVOKE_RECOVERY)
+            else if (getDelegate().getStateReason() == SuspendReasonType.InvokeRecovery)
                return AeMessages.getString("AeProcessInstanceDetailWrapper.SUSPENDED_INVOKE_RECOVERY"); //$NON-NLS-1$
             else
                return AeMessages.getString("AeProcessInstanceDetailWrapper.10"); //$NON-NLS-1$
          }
-         case IAeBusinessProcess.PROCESS_COMPLETE :
+         case Complete :
             return AeMessages.getString("AeProcessInstanceDetailWrapper.11"); //$NON-NLS-1$
-         case IAeBusinessProcess.PROCESS_FAULTED :
+         case Faulted :
             return AeMessages.getString("AeProcessInstanceDetailWrapper.12"); //$NON-NLS-1$
-         case IAeBusinessProcess.PROCESS_COMPENSATABLE:
+         case Compensatable:
             return AeMessages.getString("AeProcessInstanceDetailWrapper.compensatable"); //$NON-NLS-1$
          default:
             return AeMessages.getString("AeProcessInstanceDetailWrapper.13"); //$NON-NLS-1$
@@ -288,13 +289,10 @@ public class AeProcessInstanceDetailWrapper
    {
       switch (getDelegate().getState())
       {
-         case IAeBusinessProcess.PROCESS_LOADED :
-         case IAeBusinessProcess.PROCESS_RUNNING:
-         case IAeBusinessProcess.PROCESS_SUSPENDED:
+         case Loaded :
+         case Running:
+         case Suspended:
             return true;
-         case IAeBusinessProcess.PROCESS_COMPLETE :
-         case IAeBusinessProcess.PROCESS_COMPENSATABLE:
-         case IAeBusinessProcess.PROCESS_FAULTED :
          default:
             return false;
       }
@@ -307,13 +305,9 @@ public class AeProcessInstanceDetailWrapper
    {
       switch (getDelegate().getState())
       {
-         case IAeBusinessProcess.PROCESS_LOADED :
-         case IAeBusinessProcess.PROCESS_RUNNING:
+         case Loaded:
+         case Running:
             return true;
-         case IAeBusinessProcess.PROCESS_SUSPENDED:
-         case IAeBusinessProcess.PROCESS_COMPLETE :
-         case IAeBusinessProcess.PROCESS_COMPENSATABLE:
-         case IAeBusinessProcess.PROCESS_FAULTED :
          default:
             return false;
       }
@@ -326,13 +320,8 @@ public class AeProcessInstanceDetailWrapper
    {
       switch (getDelegate().getState())
       {
-         case IAeBusinessProcess.PROCESS_SUSPENDED:
+         case Suspended:
             return true;
-         case IAeBusinessProcess.PROCESS_LOADED :
-         case IAeBusinessProcess.PROCESS_RUNNING:
-         case IAeBusinessProcess.PROCESS_COMPLETE :
-         case IAeBusinessProcess.PROCESS_COMPENSATABLE:
-         case IAeBusinessProcess.PROCESS_FAULTED :
          default:
             return false;
       }

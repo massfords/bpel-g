@@ -17,15 +17,16 @@ import java.util.Set;
 
 import javax.xml.namespace.QName;
 
-import org.activebpel.rt.bpel.impl.list.AeProcessFilter;
-import org.activebpel.rt.bpel.impl.list.AeProcessInstanceDetail;
-import org.activebpel.rt.bpel.impl.list.AeProcessListResult;
 import org.activebpel.rt.bpel.server.AeMessages;
 import org.activebpel.rt.bpel.server.engine.recovery.journal.AeRestartProcessJournalEntry;
 import org.activebpel.rt.bpel.server.engine.recovery.journal.IAeJournalEntry;
 import org.activebpel.rt.bpel.server.engine.storage.providers.IAeProcessStateConnectionProvider;
 import org.activebpel.rt.bpel.server.engine.storage.providers.IAeProcessStateStorageProvider;
 import org.activebpel.rt.bpel.server.engine.storage.providers.IAeStorageConnection;
+
+import bpelg.services.processes.types.ProcessFilterType;
+import bpelg.services.processes.types.ProcessInstanceDetail;
+import bpelg.services.processes.types.ProcessList;
 
 /**
  * A delegating implementation of a process state storage. This class delegates all of the database calls to
@@ -88,31 +89,22 @@ public class AeProcessStateStorage extends AeAbstractStorage implements IAeProce
    /**
     * @see org.activebpel.rt.bpel.server.engine.storage.IAeProcessStateStorage#getProcessInstanceDetail(long)
     */
-   public AeProcessInstanceDetail getProcessInstanceDetail(long aProcessId) throws AeStorageException
+   public ProcessInstanceDetail getProcessInstanceDetail(long aProcessId) throws AeStorageException
    {
       return getProcessStateStorageProvider().getProcessInstanceDetail(aProcessId);
    }
 
-   /**
-    * @see org.activebpel.rt.bpel.server.engine.storage.IAeProcessStateStorage#getProcessList(org.activebpel.rt.bpel.impl.list.AeProcessFilter)
-    */
-   public AeProcessListResult getProcessList(AeProcessFilter aFilter) throws AeStorageException
+   public ProcessList getProcessList(ProcessFilterType aFilter) throws AeStorageException
    {
       return getProcessStateStorageProvider().getProcessList(aFilter);
    }
 
-   /**
-    * @see org.activebpel.rt.bpel.server.engine.storage.IAeProcessStateStorage#getProcessCount(org.activebpel.rt.bpel.impl.list.AeProcessFilter)
-    */
-   public int getProcessCount(AeProcessFilter aFilter) throws AeStorageException
+   public int getProcessCount(ProcessFilterType aFilter) throws AeStorageException
    {
       return getProcessStateStorageProvider().getProcessCount(aFilter);
    }
 
-   /**
-    * @see org.activebpel.rt.bpel.server.engine.storage.IAeProcessStateStorage#getProcessIds(org.activebpel.rt.bpel.impl.list.AeProcessFilter)
-    */
-   public long[] getProcessIds(AeProcessFilter aFilter) throws AeStorageException
+   public long[] getProcessIds(ProcessFilterType aFilter) throws AeStorageException
    {
       return getProcessStateStorageProvider().getProcessIds(aFilter);
    }   
@@ -201,10 +193,7 @@ public class AeProcessStateStorage extends AeAbstractStorage implements IAeProce
       getProcessStateStorageProvider().removeProcess(aProcessId, aConnection);
    }
 
-   /**
-    * @see org.activebpel.rt.bpel.server.engine.storage.IAeProcessStateStorage#removeProcesses(org.activebpel.rt.bpel.impl.list.AeProcessFilter)
-    */
-   public int removeProcesses(AeProcessFilter aFilter) throws AeStorageException
+   public int removeProcesses(ProcessFilterType aFilter) throws AeStorageException
    {
       return getProcessStateStorageProvider().removeProcesses(aFilter);
    }

@@ -45,9 +45,6 @@ import org.activebpel.rt.bpel.impl.list.AeAlarmListResult;
 import org.activebpel.rt.bpel.impl.list.AeListResult;
 import org.activebpel.rt.bpel.impl.list.AeMessageReceiverFilter;
 import org.activebpel.rt.bpel.impl.list.AeMessageReceiverListResult;
-import org.activebpel.rt.bpel.impl.list.AeProcessFilter;
-import org.activebpel.rt.bpel.impl.list.AeProcessInstanceDetail;
-import org.activebpel.rt.bpel.impl.list.AeProcessListResult;
 import org.activebpel.rt.bpel.impl.queue.AeAlarm;
 import org.activebpel.rt.bpel.impl.queue.AeInboundReceive;
 import org.activebpel.rt.bpel.impl.queue.AeMessageReceiver;
@@ -75,6 +72,9 @@ import org.apache.commons.logging.LogFactory;
 import org.w3c.dom.Document;
 
 import bpelg.services.deploy.types.pdd.Pdd;
+import bpelg.services.processes.types.ProcessFilterType;
+import bpelg.services.processes.types.ProcessInstanceDetail;
+import bpelg.services.processes.types.ProcessList;
 
 /**
  * Provides administration/console support for the engine. This class uses the
@@ -109,12 +109,6 @@ public class AeEngineAdministration implements IAeEngineAdministration {
 			return one.getServiceName().compareTo(two.getServiceName());
 		}
 	};
-
-	/**
-	 * Default constructor.
-	 */
-	public AeEngineAdministration() {
-	}
 
 	/**
 	 * @see org.activebpel.rt.bpel.server.admin.IAeEngineAdministration#getDeployedServices()
@@ -209,8 +203,8 @@ public class AeEngineAdministration implements IAeEngineAdministration {
 	/**
 	 * @see org.activebpel.rt.bpel.server.admin.IAeEngineAdministration#getProcessDetail(long)
 	 */
-	public AeProcessInstanceDetail getProcessDetail(long aId) {
-		return getBpelEngine().getProcessInstanceDetails(aId);
+	public ProcessInstanceDetail getProcessDetail(long aId) {
+		return getBpelEngine().getProcessManager().getProcessInstanceDetails(aId);
 	}
 
 	/**
@@ -446,20 +440,14 @@ public class AeEngineAdministration implements IAeEngineAdministration {
 		}
 	}
 
-	/**
-	 * @see org.activebpel.rt.bpel.server.admin.IAeEngineAdministration#getProcessList(org.activebpel.rt.bpel.impl.list.AeProcessFilter)
-	 */
-	public AeProcessListResult getProcessList(AeProcessFilter aFilter)
+	public ProcessList getProcessList(ProcessFilterType aFilter)
 			throws AeBusinessProcessException {
-		return getBpelEngine().getProcesses(aFilter);
+		return getBpelEngine().getProcessManager().getProcesses(aFilter);
 	}
 
-	/**
-	 * @see org.activebpel.rt.bpel.server.admin.IAeEngineAdministration#getProcessCount(org.activebpel.rt.bpel.impl.list.AeProcessFilter)
-	 */
-	public int getProcessCount(AeProcessFilter aFilter)
+	public int getProcessCount(ProcessFilterType aFilter)
 			throws AeBusinessProcessException {
-		return getBpelEngine().getProcessCount(aFilter);
+		return getBpelEngine().getProcessManager().getProcessCount(aFilter);
 	}
 
 	/**
@@ -533,14 +521,12 @@ public class AeEngineAdministration implements IAeEngineAdministration {
 		return getEngineState() == IAeEngineAdministration.RUNNING;
 	}
 
-	/**
-	 * @see org.activebpel.rt.bpel.server.admin.IAeEngineAdministration#removeProcesses(org.activebpel.rt.bpel.impl.list.AeProcessFilter)
-	 */
-	public int removeProcesses(AeProcessFilter aFilter)
+	public int removeProcesses(ProcessFilterType aFilter)
 			throws AeBusinessProcessException {
-		return getBpelEngine().removeProcesses(aFilter);
+		// FIXME need to clean up the engine admin interface. It's been a dumping ground for all kinds of functionality
+		return getBpelEngine().getProcessManager().removeProcesses(aFilter);
 	}
-
+	
 	/**
 	 * @see org.activebpel.rt.bpel.server.admin.IAeEngineAdministration#deployNewBpr(java.io.File,
 	 *      java.lang.String,

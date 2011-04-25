@@ -51,7 +51,7 @@ public class AeDefaultEngineConfiguration extends AeConfiguration implements IAe
    /** default maximum number of work requests to schedule per-process */
    public static final int PROCESS_WORK_COUNT_DEFAULT = 10;
    /** default resource cache maximum value */
-   private static final int DEFAULT_RESOURCE_CACHE_MAX = 100;
+   private static final int DEFAULT_RESOURCE_CACHE_MAX = 300;
    /** Default logging dir - defaults to {user.home}/AeBpelEngine*/
    private static final String LOGGING_DIR_DEFAULT = new File(System.getProperty("user.home"), "AeBpelEngine").getPath(); //$NON-NLS-1$ //$NON-NLS-2$
    /** Configuration change listeners. */

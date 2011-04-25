@@ -9,15 +9,7 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpeladmin.war.web;
 
-import java.io.File;
-import java.io.StringWriter;
-
 import org.activebpel.rt.AeException;
-import org.activebpel.rt.bpel.config.AeDefaultEngineConfiguration;
-import org.activebpel.rt.bpeladmin.war.AeMessages;
-//import org.activebpel.rt.identity.AeIdentityConfig;
-//import org.activebpel.rt.identity.provider.AeIdentityFileConfig;
-import org.activebpel.rt.util.AeUtil;
 
 /**
  * Bean for accessing and updating identity service

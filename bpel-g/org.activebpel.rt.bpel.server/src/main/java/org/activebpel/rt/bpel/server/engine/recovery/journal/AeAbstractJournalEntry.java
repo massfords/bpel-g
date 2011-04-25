@@ -14,7 +14,6 @@ import java.util.Iterator;
 import java.util.Map;
 
 import org.activebpel.rt.bpel.AeBusinessProcessException;
-import org.activebpel.rt.bpel.IAeBusinessProcess;
 import org.activebpel.rt.bpel.impl.AeBusinessProcessPropertyIO;
 import org.activebpel.rt.bpel.impl.IAeImplStateNames;
 import org.activebpel.rt.bpel.impl.fastdom.AeFastDocument;
@@ -25,6 +24,8 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+
+import bpelg.services.processes.types.ProcessStateValueType;
 
 /**
  * Implements abstract base class for journal entries.
@@ -181,11 +182,8 @@ public abstract class AeAbstractJournalEntry implements IAeJournalEntry, IAeImpl
       }
    }
 
-   /**
-    * @see org.activebpel.rt.bpel.server.engine.recovery.journal.IAeJournalEntry#canDispatch(int)
-    */
-   public boolean canDispatch(int aProcessState)
+   public boolean canDispatch(ProcessStateValueType aProcessState)
    {
-      return aProcessState != IAeBusinessProcess.PROCESS_COMPLETE && aProcessState != IAeBusinessProcess.PROCESS_FAULTED;
+      return aProcessState != ProcessStateValueType.Complete && aProcessState != ProcessStateValueType.Faulted;
    }
 }

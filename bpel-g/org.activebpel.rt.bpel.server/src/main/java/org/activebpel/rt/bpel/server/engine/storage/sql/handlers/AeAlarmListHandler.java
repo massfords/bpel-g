@@ -42,7 +42,7 @@ public class AeAlarmListHandler extends AeListingResultSetHandler
     */
    public AeAlarmListHandler( AeAlarmFilter aFilter )
    {
-      super(aFilter);
+      super(aFilter.getMaxReturn(), aFilter.getListStart());
    }
 
    /**

@@ -118,7 +118,10 @@
               </defaultOptions>
               <wsdlOptions>
                 <wsdlOption>
-                  <wsdl>${basedir}/target/dependency/ActiveBpelAdmin.wsdl</wsdl>
+                  <bindingFiles>
+                    <bindingFile>${basedir}/src/main/bindings/processes-bindings.xml</bindingFile>
+                  </bindingFiles>
+                  <wsdl>${basedir}/target/dependency/processes.wsdl</wsdl>
                 </wsdlOption>
                 <wsdlOption>
                   <bindingFiles>

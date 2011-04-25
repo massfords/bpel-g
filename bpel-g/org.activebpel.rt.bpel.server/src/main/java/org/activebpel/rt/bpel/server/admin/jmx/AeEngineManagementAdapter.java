@@ -28,9 +28,6 @@ import org.activebpel.rt.bpel.impl.list.AeCatalogItemDetail;
 import org.activebpel.rt.bpel.impl.list.AeCatalogListingFilter;
 import org.activebpel.rt.bpel.impl.list.AeMessageReceiverFilter;
 import org.activebpel.rt.bpel.impl.list.AeMessageReceiverListResult;
-import org.activebpel.rt.bpel.impl.list.AeProcessFilter;
-import org.activebpel.rt.bpel.impl.list.AeProcessInstanceDetail;
-import org.activebpel.rt.bpel.impl.list.AeProcessListResult;
 import org.activebpel.rt.bpel.impl.queue.AeMessageReceiver;
 import org.activebpel.rt.bpel.server.IAeDeploymentProvider;
 import org.activebpel.rt.bpel.server.admin.AeBuildInfo;
@@ -46,6 +43,10 @@ import org.activebpel.rt.util.AeCloser;
 import org.activebpel.rt.util.AeUtil;
 import org.activebpel.rt.xml.AeQName;
 import org.activebpel.rt.xml.schema.AeSchemaDuration;
+
+import bpelg.services.processes.types.ProcessFilterType;
+import bpelg.services.processes.types.ProcessInstanceDetail;
+import bpelg.services.processes.types.ProcessList;
 
 public class AeEngineManagementAdapter implements IAeEngineManagementMXBean {
     
@@ -72,7 +73,7 @@ public class AeEngineManagementAdapter implements IAeEngineManagementMXBean {
         return Arrays.asList(mAdmin.getDeployedProcesses());
     }
 
-    public AeProcessInstanceDetail getProcessDetail(long aId) {
+    public ProcessInstanceDetail getProcessDetail(long aId) {
         return mAdmin.getProcessDetail(aId);
     }
 
@@ -195,31 +196,6 @@ public class AeEngineManagementAdapter implements IAeEngineManagementMXBean {
         return mAdmin.getStartDate();
     }
 
-    public AeProcessListResultBean getProcessList(String aProcessNamespace, String aProcessName, String aProcessGroup, boolean aHidSystemProcessGroup,
-            int aProcessState, Date aProcessCreateStart, Date aProcessCreateEnd, Date aProcessCompleteStart, Date aProcessCompleteEnd,
-            String aAdvancedQuery, int aPlanId, Date aDeletableDate, long[] aProcessIdRange, int aMaxReturn, int aListStart) throws AeBusinessProcessException {
-        AeProcessFilter filter = new AeProcessFilter();
-        if (aProcessNamespace != null && aProcessName != null) {
-            filter.setProcessName(new QName(aProcessNamespace, aProcessName));
-        }
-        filter.setProcessGroup(aProcessGroup);
-        filter.setHideSystemProcessGroup(aHidSystemProcessGroup);
-        filter.setProcessCreateStart(aProcessCreateStart);
-        filter.setProcessCreateEnd(aProcessCreateEnd);
-        filter.setProcessCompleteStart(aProcessCompleteStart);
-        filter.setProcessCompleteEnd(aProcessCompleteEnd);
-        filter.setAdvancedQuery(aAdvancedQuery);
-        filter.setPlanId(aPlanId);
-        filter.setDeletableDate(aDeletableDate);
-        filter.setProcessIdRange(aProcessIdRange);
-        filter.setMaxReturn(aMaxReturn);
-        filter.setListStart(aListStart);
-        
-        AeProcessListResult processList = mAdmin.getProcessList(filter);
-        
-        return new AeProcessListResultBean(processList.getTotalRowCount(), processList.getResults(), processList.isCompleteRowCount());
-    }
-
     public String getProcessState(long aPid) throws AeBusinessProcessException {
         return mAdmin.getProcessState(aPid);
     }
@@ -238,28 +214,6 @@ public class AeEngineManagementAdapter implements IAeEngineManagementMXBean {
 
     public boolean isRunning() {
         return mAdmin.isRunning();
-    }
-
-    public int removeProcesses(String aProcessNamespace, String aProcessName, String aProcessGroup,
-            boolean aHidSystemProcessGroup, int aProcessState, Date aProcessCreateStart, Date aProcessCreateEnd,
-            Date aProcessCompleteStart, Date aProcessCompleteEnd, String aAdvancedQuery, int aPlanId,
-            Date aDeletableDate, long[] aProcessIdRange)
-            throws AeBusinessProcessException {
-        AeProcessFilter filter = new AeProcessFilter();
-        if (aProcessNamespace != null && aProcessName != null) {
-            filter.setProcessName(new QName(aProcessNamespace, aProcessName));
-        }
-        filter.setProcessGroup(aProcessGroup);
-        filter.setHideSystemProcessGroup(aHidSystemProcessGroup);
-        filter.setProcessCreateStart(aProcessCreateStart);
-        filter.setProcessCreateEnd(aProcessCreateEnd);
-        filter.setProcessCompleteStart(aProcessCompleteStart);
-        filter.setProcessCompleteEnd(aProcessCompleteEnd);
-        filter.setAdvancedQuery(aAdvancedQuery);
-        filter.setPlanId(aPlanId);
-        filter.setDeletableDate(aDeletableDate);
-        filter.setProcessIdRange(aProcessIdRange);
-        return mAdmin.removeProcesses(filter);
     }
 
     public void start() throws AeException {
@@ -487,34 +441,14 @@ public class AeEngineManagementAdapter implements IAeEngineManagementMXBean {
         return mAdmin.getDeployedProcessDetail(new QName(aNamespace, aName));
     }
 
-    public int getProcessCount(String aProcessNamespace, String aProcessName, String aProcessGroup,
-            boolean aHidSystemProcessGroup, int aProcessState, Date aProcessCreateStart, Date aProcessCreateEnd,
-            Date aProcessCompleteStart, Date aProcessCompleteEnd, String aAdvancedQuery, int aPlanId,
-            Date aDeletableDate, long[] aProcessIdRange, int aMaxReturn, int aListStart)
+    public int getProcessCount(ProcessFilterType aFilter)
             throws AeBusinessProcessException {
-        AeProcessFilter filter = new AeProcessFilter();
-        if (aProcessNamespace != null && aProcessName != null) {
-            filter.setProcessName(new QName(aProcessNamespace, aProcessName));
-        }
-        filter.setProcessGroup(aProcessGroup);
-        filter.setHideSystemProcessGroup(aHidSystemProcessGroup);
-        filter.setProcessCreateStart(aProcessCreateStart);
-        filter.setProcessCreateEnd(aProcessCreateEnd);
-        filter.setProcessCompleteStart(aProcessCompleteStart);
-        filter.setProcessCompleteEnd(aProcessCompleteEnd);
-        filter.setAdvancedQuery(aAdvancedQuery);
-        filter.setPlanId(aPlanId);
-        filter.setDeletableDate(aDeletableDate);
-        filter.setProcessIdRange(aProcessIdRange);
-        filter.setMaxReturn(aMaxReturn);
-        filter.setListStart(aListStart);
-        
-        return mAdmin.getProcessCount(filter);
+        return mAdmin.getProcessCount(aFilter);
     }
 
-    public AeProcessListResultBean getProcessList(AeProcessFilter aFilter) throws AeBusinessProcessException {
-        AeProcessListResult processList = mAdmin.getProcessList(aFilter);
-        return new AeProcessListResultBean(processList.getTotalRowCount(), processList.getResults(), processList.isCompleteRowCount());
+    public AeProcessListResultBean getProcessList(ProcessFilterType aFilter) throws AeBusinessProcessException {
+        ProcessList processList = mAdmin.getProcessList(aFilter);
+        return new AeProcessListResultBean(processList.getTotalRowCount(), processList.getProcessInstanceDetail(), processList.isComplete());
     }
 
     public String getRawConfig() {
@@ -592,4 +526,10 @@ public class AeEngineManagementAdapter implements IAeEngineManagementMXBean {
             return false;
         }
     }
+
+	@Override
+	public int removeProcesses(ProcessFilterType aFilterType)
+			throws AeBusinessProcessException {
+		return mAdmin.removeProcesses(aFilterType);
+	}
 }

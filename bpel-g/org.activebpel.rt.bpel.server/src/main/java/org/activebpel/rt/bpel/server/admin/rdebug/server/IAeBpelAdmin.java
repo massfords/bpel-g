@@ -14,10 +14,11 @@ import java.rmi.RemoteException;
 
 import org.activebpel.rt.AeException;
 import org.activebpel.rt.bpel.AeBusinessProcessException;
-import org.activebpel.rt.bpel.impl.list.AeProcessFilter;
-import org.activebpel.rt.bpel.impl.list.AeProcessInstanceDetail;
-import org.activebpel.rt.bpel.impl.list.AeProcessListResult;
 import org.activebpel.wsio.AeWebServiceAttachment;
+
+import bpelg.services.processes.types.ProcessFilterType;
+import bpelg.services.processes.types.ProcessInstanceDetail;
+import bpelg.services.processes.types.ProcessList;
 
 /** 
  * Describes the interface used for interacting with a business process engine 
@@ -170,7 +171,7 @@ public interface IAeBpelAdmin extends Remote
     * @throws RemoteException
     * @throws AeBusinessProcessException
     */
-   public AeProcessListResult getProcessList(AeProcessFilter aFilter) throws RemoteException, AeBusinessProcessException; 
+   public ProcessList getProcessList(ProcessFilterType aFilter) throws RemoteException, AeBusinessProcessException; 
 
    /**
     * Returns the process detail for the given process id or null if the process does
@@ -180,7 +181,7 @@ public interface IAeBpelAdmin extends Remote
     * @throws RemoteException
     * @throws AeBusinessProcessException
     */
-   public AeProcessInstanceDetail getProcessDetail(long aPid) throws RemoteException, AeBusinessProcessException; 
+   public ProcessInstanceDetail getProcessDetail(long aPid) throws RemoteException, AeBusinessProcessException; 
 
    /**
     * Returns the state of the process specified by the given process ID.

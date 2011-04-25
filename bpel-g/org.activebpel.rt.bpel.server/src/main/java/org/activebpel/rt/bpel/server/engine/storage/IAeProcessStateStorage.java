@@ -16,11 +16,12 @@ import java.util.Set;
 
 import javax.xml.namespace.QName;
 
-import org.activebpel.rt.bpel.impl.list.AeProcessFilter;
-import org.activebpel.rt.bpel.impl.list.AeProcessInstanceDetail;
-import org.activebpel.rt.bpel.impl.list.AeProcessListResult;
 import org.activebpel.rt.bpel.server.engine.recovery.journal.AeRestartProcessJournalEntry;
 import org.activebpel.rt.bpel.server.engine.recovery.journal.IAeJournalEntry;
+
+import bpelg.services.processes.types.ProcessFilterType;
+import bpelg.services.processes.types.ProcessInstanceDetail;
+import bpelg.services.processes.types.ProcessList;
 
 /**
  * Defines interface for managing process state and variables in storage.
@@ -95,7 +96,7 @@ public interface IAeProcessStateStorage extends IAeStorage
     * @return AeProcessInstanceDetail
     * @throws AeStorageException
     */
-   public AeProcessInstanceDetail getProcessInstanceDetail(long aProcessId) throws AeStorageException;
+   public ProcessInstanceDetail getProcessInstanceDetail(long aProcessId) throws AeStorageException;
 
    /**
     * Returns a list of processes based upon filter specification.
@@ -104,7 +105,7 @@ public interface IAeProcessStateStorage extends IAeStorage
     * @return AeProcessListResult
     * @throws AeStorageException
     */
-   public AeProcessListResult getProcessList(AeProcessFilter aFilter) throws AeStorageException;
+   public ProcessList getProcessList(ProcessFilterType aFilter) throws AeStorageException;
 
    /**
     * Returns the number of processes that match the filter specification.
@@ -113,7 +114,7 @@ public interface IAeProcessStateStorage extends IAeStorage
     * @return AeProcessListResult
     * @throws AeStorageException
     */
-   public int getProcessCount(AeProcessFilter aFilter) throws AeStorageException;
+   public int getProcessCount(ProcessFilterType aFilter) throws AeStorageException;
 
    /**
     * Returns the processIds that match the filter specification.
@@ -121,7 +122,7 @@ public interface IAeProcessStateStorage extends IAeStorage
     * @return long[]
     * @throws AeStorageException
     */   
-   public long[] getProcessIds(AeProcessFilter aFilter) throws AeStorageException;
+   public long[] getProcessIds(ProcessFilterType aFilter) throws AeStorageException;
 
    /**
     * Returns the <code>QName</code> for a process.
@@ -161,7 +162,7 @@ public interface IAeProcessStateStorage extends IAeStorage
     *
     * @param aFilter the filter specification
     */
-   public int removeProcesses(AeProcessFilter aFilter) throws AeStorageException;
+   public int removeProcesses(ProcessFilterType aFilter) throws AeStorageException;
 
    /**
     * Writes a journal entry for possible recovery in the event of engine failure.

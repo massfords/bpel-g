@@ -72,10 +72,5 @@
          <version>1.2.122</version>
          <scope>provided</scope>
       </dependency>
-      <dependency>
-      	<groupId>org.activebpel</groupId>
-      	<artifactId>ae-services-jaxws</artifactId>
-      	<version>5.2-SNAPSHOT</version>
-      </dependency>
    </dependencies>
 </project>

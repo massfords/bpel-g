@@ -14,8 +14,9 @@ import java.sql.SQLException;
 import java.util.Iterator;
 import java.util.List;
 
-import org.activebpel.rt.bpel.impl.list.AeProcessFilter;
 import org.activebpel.rt.bpel.server.engine.storage.sql.AeListingResultSetHandler;
+
+import bpelg.services.processes.types.ProcessFilterType;
 
 /**
  * Helper class to convert a <code>ResultSet</code> to a long[].
@@ -27,9 +28,9 @@ public class AeSQLProcessIdsResultSetHandler extends AeListingResultSetHandler
     *
     * @param aFilter
     */
-   public AeSQLProcessIdsResultSetHandler(AeProcessFilter aFilter)
+   public AeSQLProcessIdsResultSetHandler(ProcessFilterType aFilter)
    {
-      super(aFilter);
+      super(aFilter.getMaxReturn(), aFilter.getListStart());
    }
 
    /**

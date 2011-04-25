@@ -549,8 +549,8 @@ public class AeProcessStateWriter implements IAeProcessStateWriter
 
       // Save the process state.
       AeFastDocument processDocument = snapshot.serializeProcess(true);
-      int processState = process.getProcessState();
-      int processStateReason = process.getProcessStateReason();
+      int processState = process.getProcessState().value();
+      int processStateReason = process.getProcessStateReason().value();
       Date startDate = process.getStartDate();
       Date endDate = process.getEndDate();
       int pendingInvokesCount = snapshot.getPendingInvokes().size();

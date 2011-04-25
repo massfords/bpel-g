@@ -35,6 +35,8 @@ import org.activebpel.rt.bpel.impl.lock.IAeVariableLocker;
 import org.activebpel.rt.message.IAeMessageData;
 import org.activebpel.wsio.invoke.IAeTransmission;
 
+import bpelg.services.processes.types.ProcessStateValueType;
+
 /**
  * Internal extensions to business process allows classes within
  * the implemenation to use the process while still hiding the implementor.
@@ -310,7 +312,7 @@ public interface IAeBusinessProcessInternal extends IAeBusinessProcess, IAeActiv
    /**
     * Sets the state of the process.
     */
-   public void setProcessState(int aState);
+   public void setProcessState(ProcessStateValueType aState);
    
    /**
     * Getter for the variable locker

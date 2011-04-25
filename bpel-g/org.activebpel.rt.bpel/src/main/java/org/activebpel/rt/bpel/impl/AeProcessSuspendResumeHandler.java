@@ -16,7 +16,6 @@ import javax.xml.namespace.QName;
 
 import org.activebpel.rt.bpel.AeBusinessProcessException;
 import org.activebpel.rt.bpel.AeMessages;
-import org.activebpel.rt.bpel.IAeBusinessProcess;
 import org.activebpel.rt.bpel.IAeEngineEvent;
 import org.activebpel.rt.bpel.IAeFault;
 import org.activebpel.rt.bpel.IAeMonitorListener;
@@ -25,6 +24,8 @@ import org.activebpel.rt.bpel.def.AeBaseDef;
 import org.activebpel.rt.bpel.def.visitors.AeCreateInstanceVisitor;
 import org.activebpel.rt.bpel.impl.activity.AeActivityScopeImpl;
 import org.activebpel.rt.bpel.impl.activity.IAeMessageReceiverActivity;
+
+import bpelg.services.processes.types.ProcessStateValueType;
 
 /**
  * Handles the suspensd/resume and process exception management logic for the
@@ -54,7 +55,7 @@ public class AeProcessSuspendResumeHandler
       if( getProcess().isRunning() )
       {
          getExecutionQueue().suspend();
-         setProcessState( IAeBusinessProcess.PROCESS_SUSPENDED );
+         setProcessState( ProcessStateValueType.Suspended );
          fireEngineEvent(IAeEngineEvent.PROCESS_SUSPENDED);
          getProcess().fireEvent(getProcess().getLocationPath(), IAeProcessEvent.SUSPENDED, "");          //$NON-NLS-1$
       }
@@ -71,7 +72,7 @@ public class AeProcessSuspendResumeHandler
       getProcess().getFaultingActivityLocationPaths().add( aLocationPath );
 
       getExecutionQueue().suspend();
-      setProcessState(IAeBusinessProcess.PROCESS_SUSPENDED);
+      setProcessState(ProcessStateValueType.Suspended);
       fireEngineEvent(IAeEngineEvent.PROCESS_SUSPENDED);
       getProcess().getEngine().fireMonitorEvent(IAeMonitorListener.MONITOR_PROCESS_FAULT, IAeMonitorListener.EVENT_DATA_PROCESS_FAULTING);
       getProcess().fireEvent( aLocationPath, IAeProcessEvent.SUSPENDED, 
@@ -88,7 +89,7 @@ public class AeProcessSuspendResumeHandler
    public void suspendBecauseOfInvokeRecovery(String aLocationPath)
    {
       getExecutionQueue().suspend();
-      setProcessState(IAeBusinessProcess.PROCESS_SUSPENDED);
+      setProcessState(ProcessStateValueType.Suspended);
       fireEngineEvent(IAeEngineEvent.PROCESS_SUSPENDED);
       getProcess().fireEvent(aLocationPath, IAeProcessEvent.SUSPENDED, ""); //$NON-NLS-1$
    }
@@ -103,7 +104,7 @@ public class AeProcessSuspendResumeHandler
       getProcess().getFaultingActivityLocationPaths().add( aLocationPath );
 
       getExecutionQueue().suspend();
-      setProcessState(IAeBusinessProcess.PROCESS_SUSPENDED);
+      setProcessState(ProcessStateValueType.Suspended);
       fireEngineEvent(IAeEngineEvent.PROCESS_SUSPENDED);
       getProcess().getEngine().fireMonitorEvent(IAeMonitorListener.MONITOR_PROCESS_FAULT, IAeMonitorListener.EVENT_DATA_PROCESS_FAULTING);
       getProcess().fireEvent( aLocationPath, IAeProcessEvent.SUSPENDED, 
@@ -134,7 +135,7 @@ public class AeProcessSuspendResumeHandler
    {
       if( getProcess().isSuspended() )
       {
-         setProcessState( IAeBusinessProcess.PROCESS_RUNNING );
+         setProcessState( ProcessStateValueType.Running );
          if( !getProcess().getFaultingActivityLocationPaths().isEmpty())
          {
             resumeFaultingObject();
@@ -403,7 +404,7 @@ public class AeProcessSuspendResumeHandler
     * Set the process state.
     * @param aProcessState
     */
-   protected void setProcessState( int aProcessState )
+   protected void setProcessState( ProcessStateValueType aProcessState )
    {
       getProcess().setProcessState( aProcessState );
    }
