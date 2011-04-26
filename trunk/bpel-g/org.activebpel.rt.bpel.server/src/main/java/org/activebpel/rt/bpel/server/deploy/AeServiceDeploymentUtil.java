@@ -40,7 +40,7 @@ public class AeServiceDeploymentUtil implements IAeConstants {
 	 * @param aProcessElement
 	 * @throws AeDeploymentException
 	 */
-	public static IAeServiceDeploymentInfo[] getServices(
+	public static List<IAeServiceDeploymentInfo> getServices(
 			AeProcessDef aProcessDef, Pdd aPdd) throws AeDeploymentException {
 		try {
 			// data for creating the processNamespace and
@@ -84,10 +84,7 @@ public class AeServiceDeploymentUtil implements IAeConstants {
 				services.add(serviceData);
 			}
 
-			IAeServiceDeploymentInfo[] servicesAdded = new IAeServiceDeploymentInfo[services
-					.size()];
-			services.toArray(servicesAdded);
-			return servicesAdded;
+			return services;
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new AeDeploymentException(

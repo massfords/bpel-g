@@ -13,6 +13,7 @@ import java.io.InputStream;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import org.activebpel.rt.bpel.AeBusinessProcessException;
 import org.activebpel.rt.bpel.def.AeProcessDef;
@@ -145,7 +146,7 @@ public class AeBprDeploymentSource implements IAeDeploymentSource {
 	/**
 	 * @see org.activebpel.rt.bpel.server.deploy.IAeDeploymentSource#getServices()
 	 */
-	public IAeServiceDeploymentInfo[] getServices()
+	public List<IAeServiceDeploymentInfo> getServices()
 			throws AeDeploymentException {
 		return AeServiceDeploymentUtil.getServices(getProcessDef(),getPdd());
 	}

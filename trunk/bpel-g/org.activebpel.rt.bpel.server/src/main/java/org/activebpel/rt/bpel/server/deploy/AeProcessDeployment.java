@@ -90,13 +90,12 @@ public class AeProcessDeployment implements IAeProcessDeployment {
 			throws AeDeploymentException {
 		mPdd = aSource.getPdd();
 		mPlanId = aSource.getPlanId();
-		IAeServiceDeploymentInfo[] services = aSource.getServices();
-		for (int i = 0; i < services.length; i++) {
+		for (IAeServiceDeploymentInfo service : aSource.getServices()) {
 			// Touching all nodes to avoid issues when multiple threads examine
 			// the same element
-			AeXmlUtil.touchXmlNodes(services[i].getPolicies());
+			AeXmlUtil.touchXmlNodes(service.getPolicies());
 			getServiceMap()
-					.put(services[i].getPartnerLinkDefKey(), services[i]);
+					.put(service.getPartnerLinkDefKey(), service);
 		}
 	}
 

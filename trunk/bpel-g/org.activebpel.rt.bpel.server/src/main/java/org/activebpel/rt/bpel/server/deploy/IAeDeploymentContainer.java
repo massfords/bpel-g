@@ -9,26 +9,18 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpel.server.deploy;
 
+import java.util.List;
+
+import org.activebpel.rt.AeException;
 import org.activebpel.rt.bpel.server.deploy.bpr.IAeBpr;
 
 /**
  * Top level interface for wrapping of the deployment details.
  */
-public interface IAeDeploymentContainer extends IAeBpr, IAeDeploymentContext
-{
-   /**
-    * @return service deployment information
-    */
-   public IAeServiceDeploymentInfo[] getServiceDeploymentInfo();
-   
-   /**
-    * @param aServiceInfo service deployment information
-    */
-   public void setServiceDeploymentInfo(IAeServiceDeploymentInfo[] aServiceInfo);
-
-   /**
-    * @param aServiceInfo service deployment information
-    */
-   public void addServiceDeploymentInfo(IAeServiceDeploymentInfo[] aServiceInfo);
-   
+public interface IAeDeploymentContainer extends IAeBpr, IAeDeploymentContext {
+	/**
+	 * @return service deployment information
+	 * @throws AeException 
+	 */
+	public List<IAeServiceDeploymentInfo> getServiceDeploymentInfo() throws AeException;
 }

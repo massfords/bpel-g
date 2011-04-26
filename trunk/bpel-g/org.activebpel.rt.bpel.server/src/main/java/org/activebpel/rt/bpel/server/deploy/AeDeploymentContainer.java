@@ -14,8 +14,10 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
 
 import org.activebpel.rt.AeException;
+import org.activebpel.rt.bpel.def.AeProcessDef;
 import org.activebpel.rt.bpel.server.deploy.bpr.AePddResource;
 import org.activebpel.rt.bpel.server.deploy.bpr.IAeBpr;
 import org.w3c.dom.Document;
@@ -26,228 +28,162 @@ import bpelg.services.deploy.types.pdd.Pdd;
 /**
  * Deployment container impl.
  */
-public class AeDeploymentContainer implements IAeDeploymentContainer
-{
-   /** Deployment context. */
-   protected IAeDeploymentContext mContext;
-   /** Bpr file. */
-   protected IAeBpr mBprFile;
-   /** File name string - used for logging. */
-   protected String mFileName;
-   /** Deployment id url. */
-   protected URL mUrlForId;
-   /** Service deployment information */
-   protected ArrayList mServiceInfo;
+public class AeDeploymentContainer implements IAeDeploymentContainer {
+	/** Deployment context. */
+	protected final IAeDeploymentContext mContext;
+	/** Bpr file. */
+	protected final IAeBpr mBprFile;
+	/** File name string - used for logging. */
+	protected final String mFileName;
+	/** Deployment id url. */
+	protected final URL mUrlForId;
+	/** Service deployment information */
+	protected List<IAeServiceDeploymentInfo> mServiceInfo;
 
-   /**
-    * Constructor.
-    * @param aContext
-    * @param aBprFile
-    * @param aUrl
-    */
-   public AeDeploymentContainer( IAeDeploymentContext aContext, IAeBpr aBprFile, 
-      URL aUrl )
-   {
-      mContext = aContext;
-      mBprFile = aBprFile;      
-      mUrlForId = aUrl;
-      if (aUrl != null)
-         mFileName = aUrl.getFile().replace('\\', '/');
-   }
+	/**
+	 * Constructor.
+	 * 
+	 * @param aContext
+	 * @param aBprFile
+	 * @param aUrl
+	 */
+	public AeDeploymentContainer(IAeDeploymentContext aContext,
+			IAeBpr aBprFile, URL aUrl) {
+		mContext = aContext;
+		mBprFile = aBprFile;
+		mUrlForId = aUrl;
+		mFileName = aUrl.getFile().replace('\\', '/');
+	}
 
-   /**
-    * @see org.activebpel.rt.bpel.server.deploy.bpr.IAeBpr#exists(java.lang.String)
-    */
-   public boolean exists(String aResourceName)
-   {
-      if (mBprFile == null)
-         return false;
+	/**
+	 * @see org.activebpel.rt.bpel.server.deploy.bpr.IAeBpr#exists(java.lang.String)
+	 */
+	public boolean exists(String aResourceName) {
+		if (mBprFile == null)
+			return false;
 
-      return mBprFile.exists( aResourceName );
-   }
+		return mBprFile.exists(aResourceName);
+	}
 
-   /**
-    * @see org.activebpel.rt.bpel.server.deploy.bpr.IAeBpr#getBprFileName()
-    */
-   public String getBprFileName()
-   {
-      return mFileName;
-   }
-   
-   /**
-    * Sets the value of the bpr filename.  This is useful when uploading a bpr via the
-    * console - at that point we have the local name of the file, but the temp file on
-    * the server's disk will likely be different.
-    * 
-    * @param aBprFilename
-    */
-   public void setBprFilename(String aBprFilename)
-   {
-      mFileName = aBprFilename;
-   }
+	/**
+	 * @see org.activebpel.rt.bpel.server.deploy.bpr.IAeBpr#getBprFileName()
+	 */
+	public String getBprFileName() {
+		return mFileName;
+	}
 
-   public IAeDeploymentSource getDeploymentSource(Pdd aPdd)
-      throws AeException
-   {
-      if (mBprFile == null)
-         return null;
-      
-      return mBprFile.getDeploymentSource(aPdd);
-   }
+	public IAeDeploymentSource getDeploymentSource(Pdd aPdd) throws AeException {
+		return mBprFile.getDeploymentSource(aPdd);
+	}
 
-   /**
-    * @see org.activebpel.rt.bpel.server.deploy.bpr.IAeBpr#getResourceAsDocument(java.lang.String)
-    */
-   public Document getResourceAsDocument(String aResourceName) throws AeException
-   {
-      if (mBprFile == null)
-         return null;
-      
-      return mBprFile.getResourceAsDocument( aResourceName );
-   }
+	/**
+	 * @see org.activebpel.rt.bpel.server.deploy.bpr.IAeBpr#getResourceAsDocument(java.lang.String)
+	 */
+	public Document getResourceAsDocument(String aResourceName)
+			throws AeException {
+		return mBprFile.getResourceAsDocument(aResourceName);
+	}
 
-   /**
-    * @see org.activebpel.rt.bpel.server.deploy.bpr.IAeBpr#getPddResources()
-    */
-   public Collection<AePddResource> getPddResources()
-   {
-      if (mBprFile == null)
-         return Collections.EMPTY_SET;
-      
-      return mBprFile.getPddResources();
-   }
+	/**
+	 * @see org.activebpel.rt.bpel.server.deploy.bpr.IAeBpr#getPddResources()
+	 */
+	public Collection<AePddResource> getPddResources() {
+		return mBprFile.getPddResources();
+	}
 
-   /**
-    * @see org.activebpel.rt.bpel.server.deploy.bpr.IAeBpr#getCatalogDocument()
-    */
-   public Catalog getCatalogDocument() throws AeException
-   {
-      if (mBprFile == null)
-         return null;
-      
-      return mBprFile.getCatalogDocument();
-   }
+	/**
+	 * @see org.activebpel.rt.bpel.server.deploy.bpr.IAeBpr#getCatalogDocument()
+	 */
+	public Catalog getCatalogDocument() throws AeException {
+		return mBprFile.getCatalogDocument();
+	}
 
-   /**
-    * @see org.activebpel.rt.bpel.server.deploy.IAeDeploymentContext#getDeploymentId()
-    */
-   public IAeDeploymentId getDeploymentId()
-   {
-      return new AeDeploymentId(mUrlForId);
-   }
+	/**
+	 * @see org.activebpel.rt.bpel.server.deploy.IAeDeploymentContext#getDeploymentId()
+	 */
+	public IAeDeploymentId getDeploymentId() {
+		return new AeDeploymentId(mUrlForId);
+	}
 
-   /**
-    * @see org.activebpel.rt.bpel.server.deploy.IAeDeploymentContext#getDeploymentLocation()
-    */
-   public URL getDeploymentLocation()
-   {
-      if (mContext == null)
-         return null;
-      
-      return mContext.getDeploymentLocation();
-   }
+	/**
+	 * @see org.activebpel.rt.bpel.server.deploy.IAeDeploymentContext#getDeploymentLocation()
+	 */
+	public URL getDeploymentLocation() {
+		return mContext.getDeploymentLocation();
+	}
 
-   /**
-    * @see org.activebpel.rt.bpel.server.deploy.IAeDeploymentContext#getResourceAsStream(java.lang.String)
-    */
-   public InputStream getResourceAsStream(String aResourceName)
-   {
-      if (mContext == null)
-         return null;
+	/**
+	 * @see org.activebpel.rt.bpel.server.deploy.IAeDeploymentContext#getResourceAsStream(java.lang.String)
+	 */
+	public InputStream getResourceAsStream(String aResourceName) {
+		return mContext.getResourceAsStream(aResourceName);
+	}
 
-      return mContext.getResourceAsStream( aResourceName );
-   }
+	/**
+	 * @see org.activebpel.rt.bpel.server.deploy.IAeDeploymentContext#getResourceURL(java.lang.String)
+	 */
+	public URL getResourceURL(String aResourceName) {
+		return mContext.getResourceURL(aResourceName);
+	}
 
-   /**
-    * @see org.activebpel.rt.bpel.server.deploy.IAeDeploymentContext#getResourceURL(java.lang.String)
-    */
-   public URL getResourceURL(String aResourceName)
-   {
-      if (mContext == null)
-         return null;
-      
-      return mContext.getResourceURL( aResourceName );
-   }
+	/**
+	 * @see org.activebpel.rt.bpel.server.deploy.IAeDeploymentContext#getShortName()
+	 */
+	public String getShortName() {
+		return mFileName.substring(mFileName.lastIndexOf('/') + 1);
+	}
 
-   /**
-    * @see org.activebpel.rt.bpel.server.deploy.IAeDeploymentContext#getShortName()
-    */
-   public String getShortName()
-   {
-      if (mFileName == null)
-         return null;
+	/**
+	 * @see org.activebpel.rt.bpel.server.deploy.IAeDeploymentContext#getTempDeploymentLocation()
+	 */
+	public URL getTempDeploymentLocation() {
+		return mContext.getDeploymentLocation();
+	}
 
-      return mFileName.substring( mFileName.lastIndexOf('/')+1 );
-   }
+	/**
+	 * @see org.activebpel.rt.bpel.server.deploy.IAeDeploymentContext#getResourceClassLoader()
+	 */
+	public ClassLoader getResourceClassLoader() {
+		return mContext.getResourceClassLoader();
+	}
 
-   /**
-    * @see org.activebpel.rt.bpel.server.deploy.IAeDeploymentContext#getTempDeploymentLocation()
-    */
-   public URL getTempDeploymentLocation()
-   {
-      if (mContext == null)
-         return null;
+	/**
+	 * Implements method by returning this as it is itself the deployment
+	 * context.
+	 * 
+	 * @see org.activebpel.rt.bpel.server.deploy.bpr.IAeBpr#getDeploymentContext()
+	 */
+	public IAeDeploymentContext getDeploymentContext() {
+		return this;
+	}
 
-      return mContext.getDeploymentLocation();
-   }
-   
-   /**
-    * @see org.activebpel.rt.bpel.server.deploy.IAeDeploymentContext#getResourceClassLoader()
-    */
-   public ClassLoader getResourceClassLoader()
-   {  
-      if (mContext == null)
-         return null;
-      
-      return mContext.getResourceClassLoader();
-   }
+	/**
+	 * @throws AeException 
+	 * @see org.activebpel.rt.bpel.server.deploy.IAeDeploymentContainer#getServiceDeploymentInfo()
+	 */
+	public List<IAeServiceDeploymentInfo> getServiceDeploymentInfo() throws AeException {
+		if (mServiceInfo == null) {
+			mServiceInfo = new ArrayList();
 
-   /**
-    * Implements method by returning this as it is itself the deployment context.
-    * @see org.activebpel.rt.bpel.server.deploy.bpr.IAeBpr#getDeploymentContext()
-    */
-   public IAeDeploymentContext getDeploymentContext()
-   {
-      return this;
-   }
+			for (AePddResource pddr : mBprFile.getPddResources()) {
+				IAeDeploymentSource source = getDeploymentSource(pddr.getPdd());
+				mServiceInfo.addAll(getServiceInfo(source));
+			}
+		}
+		return Collections.unmodifiableList(mServiceInfo);
+	}
 
-   /**
-    * @see org.activebpel.rt.bpel.server.deploy.IAeDeploymentContainer#getServiceDeploymentInfo()
-    */
-   public IAeServiceDeploymentInfo[] getServiceDeploymentInfo()
-   {
-      if (mServiceInfo == null)
-         return null;
-      
-      IAeServiceDeploymentInfo[] info = new IAeServiceDeploymentInfo[mServiceInfo.size()];
-      return (IAeServiceDeploymentInfo[]) mServiceInfo.toArray(info);
-   }
-
-   /**
-    * @see org.activebpel.rt.bpel.server.deploy.IAeDeploymentContainer#setServiceDeploymentInfo(org.activebpel.rt.bpel.server.deploy.IAeServiceDeploymentInfo[])
-    */
-   public void setServiceDeploymentInfo(IAeServiceDeploymentInfo[] aServiceInfo)
-   {
-      mServiceInfo = new ArrayList();
-      for (int i = 0; i < aServiceInfo.length; i++)
-      {
-         mServiceInfo.add(aServiceInfo[i]);
-      }
-   }
-
-   /**
-    * @see org.activebpel.rt.bpel.server.deploy.IAeDeploymentContainer#addServiceDeploymentInfo(org.activebpel.rt.bpel.server.deploy.IAeServiceDeploymentInfo[])
-    */
-   public void addServiceDeploymentInfo(IAeServiceDeploymentInfo[] aServiceInfo)
-   {
-      if (mServiceInfo == null)
-      {
-         mServiceInfo = new ArrayList();
-      }
-      
-      for (int i = 0; i < aServiceInfo.length; i++)
-      {
-         mServiceInfo.add(aServiceInfo[i]);
-      }
-   }
+	/**
+	 * Gets the service deployment info from a source
+	 * 
+	 * @param aSource
+	 * @throws AeDeploymentException
+	 */
+	protected List<IAeServiceDeploymentInfo> getServiceInfo(
+			IAeDeploymentSource aSource) throws AeDeploymentException {
+		// Get the service info
+		AeProcessDef processDef = aSource.getProcessDef();
+		return AeServiceDeploymentUtil
+				.getServices(processDef, aSource.getPdd());
+	}
 }

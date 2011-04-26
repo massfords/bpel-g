@@ -38,171 +38,175 @@ import bpelg.services.deploy.types.pdd.MyRoleBindingType;
 /**
  * WebServicesDeployer impl that deploys web services to Axis.
  */
-public abstract class AeAxisWebServicesDeployerBase extends AeAxisBase implements
-        IAeDeploymentHandler {
+public abstract class AeAxisWebServicesDeployerBase extends AeAxisBase
+		implements IAeDeploymentHandler {
 
-    @Override
-    public void deploy(IAeDeploymentContainer aContainer, IAeDeploymentLogger aLogger)
-            throws AeException {
-        Document wsddDoc = null;
-        IAeServiceDeploymentInfo[] services = aContainer.getServiceDeploymentInfo();
-        if (services != null)
-        {
-           for (int i = 0; i < services.length; i++)
-           {
-              resolveServicePolicies(services[i]);
-              wsddDoc = createWsdd(aContainer.getServiceDeploymentInfo());
-           }
-        }
-        if (wsddDoc != null)
-            deployToWebServiceContainer(wsddDoc, aContainer.getResourceClassLoader());
-    }
+	@Override
+	public void deploy(IAeDeploymentContainer aContainer,
+			IAeDeploymentLogger aLogger) throws AeException {
+		List<IAeServiceDeploymentInfo> services = aContainer.getServiceDeploymentInfo();
+		for (IAeServiceDeploymentInfo service : services) {
+			resolveServicePolicies(service);
+		}
+		Document wsddDoc = createWsdd(aContainer.getServiceDeploymentInfo());
+		if (wsddDoc != null)
+			deployToWebServiceContainer(wsddDoc,
+					aContainer.getResourceClassLoader());
+	}
 
-    @Override
-    public void undeploy(IAeDeploymentContainer aContainer) throws AeException {
-        Document wsddDoc = null;
-        if (aContainer.getServiceDeploymentInfo() != null) {
-            wsddDoc = createWsddForUndeployment(aContainer.getServiceDeploymentInfo());
-        }
-        if (wsddDoc != null)
-            undeployFromWebServiceContainer(wsddDoc);
-    }
+	@Override
+	public void undeploy(IAeDeploymentContainer aContainer) throws AeException {
+		Document wsddDoc = null;
+		if (aContainer.getServiceDeploymentInfo() != null) {
+			wsddDoc = createWsddForUndeployment(aContainer
+					.getServiceDeploymentInfo());
+		}
+		if (wsddDoc != null)
+			undeployFromWebServiceContainer(wsddDoc);
+	}
 
-    /**
-     * Creates a wsdd service undeployment descriptor based on service names
-     * only.
-     * 
-     * @param aServices
-     * @return wsdd document
-     * @throws AeDeploymentException
-     */
-    protected Document createWsddForUndeployment(IAeServiceDeploymentInfo[] aServices)
-            throws AeDeploymentException {
-        AeWsddBuilder builder = new AeWsddBuilder();
-        for (int i = 0; i < aServices.length; i++) {
-            IAeServiceDeploymentInfo serviceData = aServices[i];
-            builder.addServiceElement(serviceData.getServiceName(), null);
-        }
-        return builder.getWsddDocument();
-    }
+	/**
+	 * Creates a wsdd service undeployment descriptor based on service names
+	 * only.
+	 * 
+	 * @param aServices
+	 * @return wsdd document
+	 * @throws AeDeploymentException
+	 */
+	protected Document createWsddForUndeployment(
+			List<IAeServiceDeploymentInfo> aServices) throws AeDeploymentException {
+		AeWsddBuilder builder = new AeWsddBuilder();
+		for (IAeServiceDeploymentInfo serviceData : aServices) {
+			builder.addServiceElement(serviceData.getServiceName(), null);
+		}
+		return builder.getWsddDocument();
+	}
 
-    /**
-     * Creates a wsdd service deployment descriptor
-     * 
-     * @param aServices
-     * @return wsdd document
-     * @throws AeDeploymentException
-     */
-    protected Document createWsdd(IAeServiceDeploymentInfo[] aServices)
-            throws AeDeploymentException {
-        AeWsddBuilder builder = new AeWsddBuilder();
-        for (int i = 0; i < aServices.length; i++) {
-            IAeServiceDeploymentInfo serviceData = aServices[i];
-            MyRoleBindingType binding = serviceData.getBinding();
-            if (binding == MyRoleBindingType.RPC) {
-                builder.addRpcService(serviceData);
-            } else if (binding == MyRoleBindingType.RPC_LIT) {
-                builder.addRpcLiteralService(serviceData);
-            } else if (binding == MyRoleBindingType.MSG) {
-                builder.addMsgService(serviceData);
-            } else if (binding == MyRoleBindingType.POLICY) {
-                builder.addPolicyService(serviceData);
-            } else if (binding != MyRoleBindingType.EXTERNAL) {
-                AeException.logWarning(AeMessages.format(
-                        "AeAxisWebServicesDeployerBase.UNKNOWN_ROLE_IN_WSDD", serviceData.getServiceName())); //$NON-NLS-1$
-            }
-        }
+	/**
+	 * Creates a wsdd service deployment descriptor
+	 * 
+	 * @param aServices
+	 * @return wsdd document
+	 * @throws AeDeploymentException
+	 */
+	protected Document createWsdd(List<IAeServiceDeploymentInfo> aServices)
+			throws AeDeploymentException {
+		AeWsddBuilder builder = new AeWsddBuilder();
+		for (IAeServiceDeploymentInfo serviceData : aServices) {
+			MyRoleBindingType binding = serviceData.getBinding();
+			if (binding == MyRoleBindingType.RPC) {
+				builder.addRpcService(serviceData);
+			} else if (binding == MyRoleBindingType.RPC_LIT) {
+				builder.addRpcLiteralService(serviceData);
+			} else if (binding == MyRoleBindingType.MSG) {
+				builder.addMsgService(serviceData);
+			} else if (binding == MyRoleBindingType.POLICY) {
+				builder.addPolicyService(serviceData);
+			} else if (binding != MyRoleBindingType.EXTERNAL) {
+				AeException
+						.logWarning(AeMessages
+								.format("AeAxisWebServicesDeployerBase.UNKNOWN_ROLE_IN_WSDD", serviceData.getServiceName())); //$NON-NLS-1$
+			}
+		}
 
-        return builder.getWsddDocument();
-    }
+		return builder.getWsddDocument();
+	}
 
-    /**
-     * @see org.activebpel.rt.axis.bpel.deploy.AeAxisBase#deployToAxis(java.lang.ClassLoader,
-     *      org.w3c.dom.Document, org.w3c.dom.Document)
-     */
-    protected void deployToAxis(ClassLoader aClassLoader, Document aAxisDoc, Document aAdminDoc)
-            throws Exception {
-        // remember old classloader
-        ClassLoader previous = Thread.currentThread().getContextClassLoader();
+	/**
+	 * @see org.activebpel.rt.axis.bpel.deploy.AeAxisBase#deployToAxis(java.lang.ClassLoader,
+	 *      org.w3c.dom.Document, org.w3c.dom.Document)
+	 */
+	protected void deployToAxis(ClassLoader aClassLoader, Document aAxisDoc,
+			Document aAdminDoc) throws Exception {
+		// remember old classloader
+		ClassLoader previous = Thread.currentThread().getContextClassLoader();
 
-        try {
-            Thread.currentThread().setContextClassLoader(aClassLoader);
-            EngineConfiguration config = getAxisServer().getConfig();
-            if (config instanceof WSDDEngineConfiguration) {
-                WSDDDeployment deployment = ((WSDDEngineConfiguration) config).getDeployment();
-                new AeBprDeployment(aAxisDoc.getDocumentElement()).deployToRegistry(deployment);
-                // TODO --- may need client deployment here
-            }
+		try {
+			Thread.currentThread().setContextClassLoader(aClassLoader);
+			EngineConfiguration config = getAxisServer().getConfig();
+			if (config instanceof WSDDEngineConfiguration) {
+				WSDDDeployment deployment = ((WSDDEngineConfiguration) config)
+						.getDeployment();
+				new AeBprDeployment(aAxisDoc.getDocumentElement())
+						.deployToRegistry(deployment);
+				// TODO --- may need client deployment here
+			}
 
-            refreshAndSave();
-        } finally {
-            Thread.currentThread().setContextClassLoader(previous);
-        }
-    }
+			refreshAndSave();
+		} finally {
+			Thread.currentThread().setContextClassLoader(previous);
+		}
+	}
 
-    /**
-     * Update global options and configuration.
-     * 
-     * @throws Exception
-     */
-    protected void refreshAndSave() throws Exception {
-        getAxisServer().refreshGlobalOptions();
-        getAxisServer().saveConfiguration();
-    }
+	/**
+	 * Update global options and configuration.
+	 * 
+	 * @throws Exception
+	 */
+	protected void refreshAndSave() throws Exception {
+		getAxisServer().refreshGlobalOptions();
+		getAxisServer().saveConfiguration();
+	}
 
-    /**
-     * @see org.activebpel.rt.axis.bpel.deploy.AeAxisBase#undeployFromAxis(org.w3c.dom.Document,
-     *      org.w3c.dom.Document)
-     */
-    protected void undeployFromAxis(Document aAxisDoc, Document aAdminDoc) throws Exception {
-        Element undeployEl = aAxisDoc.getDocumentElement();
+	/**
+	 * @see org.activebpel.rt.axis.bpel.deploy.AeAxisBase#undeployFromAxis(org.w3c.dom.Document,
+	 *      org.w3c.dom.Document)
+	 */
+	protected void undeployFromAxis(Document aAxisDoc, Document aAdminDoc)
+			throws Exception {
+		Element undeployEl = aAxisDoc.getDocumentElement();
 
-        EngineConfiguration config = getAxisServer().getConfig();
+		EngineConfiguration config = getAxisServer().getConfig();
 
-        if (config instanceof WSDDEngineConfiguration) {
-            new WSDDUndeployment(undeployEl).undeployFromRegistry(((WSDDEngineConfiguration) config).getDeployment());
+		if (config instanceof WSDDEngineConfiguration) {
+			new WSDDUndeployment(undeployEl)
+					.undeployFromRegistry(((WSDDEngineConfiguration) config)
+							.getDeployment());
 
-            removeWsdlReferences(aAxisDoc);
-        }
+			removeWsdlReferences(aAxisDoc);
+		}
 
-        refreshAndSave();
-    }
+		refreshAndSave();
+	}
 
-    /**
-     * Once the services have been removed, remove any
-     * <code>IAeWsdlRefereces</code> that were associated with those services.
-     * 
-     * @param aWsdd
-     */
-    protected void removeWsdlReferences(Document aWsdd) {
-        NodeList services = aWsdd.getElementsByTagName("service"); //$NON-NLS-1$
-        for (int i = 0; i < services.getLength(); i++) {
-            String serviceName = ((Element) services.item(i)).getAttribute("name"); //$NON-NLS-1$
-            AeWsdlReferenceTracker.unregisterReference(serviceName);
-        }
-    }
+	/**
+	 * Once the services have been removed, remove any
+	 * <code>IAeWsdlRefereces</code> that were associated with those services.
+	 * 
+	 * @param aWsdd
+	 */
+	protected void removeWsdlReferences(Document aWsdd) {
+		NodeList services = aWsdd.getElementsByTagName("service"); //$NON-NLS-1$
+		for (int i = 0; i < services.getLength(); i++) {
+			String serviceName = ((Element) services.item(i))
+					.getAttribute("name"); //$NON-NLS-1$
+			AeWsdlReferenceTracker.unregisterReference(serviceName);
+		}
+	}
 
-    /**
-     * Resolves policy references for service deployment
-     * 
-     * @param aService
-     * @throws AeException
-     */
-    protected void resolveServicePolicies(IAeServiceDeploymentInfo aService) throws AeException {
-        if (!AeUtil.isNullOrEmpty(aService.getPolicies())) {
-            IAeContextWSDLProvider wsdlProvider = AeEngineFactory.getBean(
-                    IAeDeploymentProvider.class).findCurrentDeployment(aService.getProcessQName());
-            List policies = AeWSDLPolicyHelper.resolvePolicyReferences(wsdlProvider,
-                    aService.getPolicies());
-            if (!AeUtil.isNullOrEmpty(policies)) {
-                aService.getPolicies().clear();
-                aService.getPolicies().addAll(policies);
-            }
-        }
-    }
+	/**
+	 * Resolves policy references for service deployment
+	 * 
+	 * @param aService
+	 * @throws AeException
+	 */
+	protected void resolveServicePolicies(IAeServiceDeploymentInfo aService)
+			throws AeException {
+		if (!AeUtil.isNullOrEmpty(aService.getPolicies())) {
+			IAeContextWSDLProvider wsdlProvider = AeEngineFactory.getBean(
+					IAeDeploymentProvider.class).findCurrentDeployment(
+					aService.getProcessQName());
+			List policies = AeWSDLPolicyHelper.resolvePolicyReferences(
+					wsdlProvider, aService.getPolicies());
+			if (!AeUtil.isNullOrEmpty(policies)) {
+				aService.getPolicies().clear();
+				aService.getPolicies().addAll(policies);
+			}
+		}
+	}
 
-    /**
-     * Accessor for Axis server.
-     */
-    abstract protected AxisServer getAxisServer();
+	/**
+	 * Accessor for Axis server.
+	 */
+	abstract protected AxisServer getAxisServer();
 }

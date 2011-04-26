@@ -5,8 +5,8 @@ import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -15,8 +15,11 @@ import java.util.Set;
 import javax.xml.namespace.QName;
 
 import org.activebpel.rt.AeException;
+import org.activebpel.rt.bpel.def.AeProcessDef;
 import org.activebpel.rt.bpel.server.deploy.AeBprClasspathBuilder;
+import org.activebpel.rt.bpel.server.deploy.AeDeploymentException;
 import org.activebpel.rt.bpel.server.deploy.AeDeploymentId;
+import org.activebpel.rt.bpel.server.deploy.AeServiceDeploymentUtil;
 import org.activebpel.rt.bpel.server.deploy.IAeDeploymentContainer;
 import org.activebpel.rt.bpel.server.deploy.IAeDeploymentContext;
 import org.activebpel.rt.bpel.server.deploy.IAeDeploymentId;
@@ -34,13 +37,13 @@ import bpelg.services.deploy.types.pdd.Pdd;
 
 public class BgDeploymentContainer implements IAeDeploymentContainer {
     
-    private File mServiceUnitRoot;
-    private List<IAeServiceDeploymentInfo> mServiceDeploymentInfos = new ArrayList();
-    private ClassLoader mClassLoader;
-    private BgCatalogBuilder mCatalogBuilder;
-    private BgPddBuilder mPddBuilder;
-    private Map<Pdd,IAeDeploymentSource> mDeploymentSources = new HashMap();
-    private Collection<AePddResource> mPdds;
+    private final File mServiceUnitRoot;
+    private List<IAeServiceDeploymentInfo> mServiceDeploymentInfos;
+    private final ClassLoader mClassLoader;
+    private final BgCatalogBuilder mCatalogBuilder;
+    private final BgPddBuilder mPddBuilder;
+    private final Map<Pdd,IAeDeploymentSource> mDeploymentSources = new HashMap();
+    private final Collection<AePddResource> mPdds;
     
     public BgDeploymentContainer(File aServiceUnitRoot) throws Exception {
         mServiceUnitRoot = aServiceUnitRoot;
@@ -81,19 +84,29 @@ public class BgDeploymentContainer implements IAeDeploymentContainer {
     }
 
     @Override
-    public void addServiceDeploymentInfo(IAeServiceDeploymentInfo[] aServiceInfo) {
-        mServiceDeploymentInfos.addAll(Arrays.asList(aServiceInfo));
+    public List<IAeServiceDeploymentInfo> getServiceDeploymentInfo() throws AeException {
+    	if (mServiceDeploymentInfos == null) {
+    		mServiceDeploymentInfos = new ArrayList();
+    		for(AePddResource pddr : mPdds) {
+    			IAeDeploymentSource source = getDeploymentSource(pddr.getPdd());
+				mServiceDeploymentInfos.addAll(getServiceInfo(source));
+    		}
+    	}
+        return Collections.unmodifiableList(mServiceDeploymentInfos);
     }
-
-    @Override
-    public IAeServiceDeploymentInfo[] getServiceDeploymentInfo() {
-        return mServiceDeploymentInfos.toArray(new IAeServiceDeploymentInfo[mServiceDeploymentInfos.size()]);
-    }
-
-    @Override
-    public void setServiceDeploymentInfo(IAeServiceDeploymentInfo[] aServiceInfo) {
-        throw new UnsupportedOperationException("not implemented");
-    }
+	/**
+	 * Gets the service deployment info from a source
+	 * 
+	 * @param aSource
+	 * @throws AeDeploymentException
+	 */
+	protected List<IAeServiceDeploymentInfo> getServiceInfo(
+			IAeDeploymentSource aSource) throws AeDeploymentException {
+		// Get the service info
+		AeProcessDef processDef = aSource.getProcessDef();
+		return AeServiceDeploymentUtil
+				.getServices(processDef, aSource.getPdd());
+	}
 
     @Override
     public boolean exists(String aResourceName) {

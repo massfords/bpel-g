@@ -11,6 +11,8 @@ package org.activebpel.rt.bpel.server.deploy.bpr;
 
 import java.io.InputStream;
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.activebpel.rt.AeException;
 import org.activebpel.rt.bpel.server.deploy.AeDeploymentException;
@@ -29,6 +31,7 @@ public class AeBpr implements IAeBpr {
 	private IAeBprAccessor mBprStrategy;
 	/** deployment context */
 	private IAeDeploymentContext mDeploymentContext;
+	private Map<Pdd,IAeDeploymentSource> mDeploymentSources = new HashMap();
 
 	// ----------[ Static creation methods
 	// ]--------------------------------------
@@ -144,8 +147,11 @@ public class AeBpr implements IAeBpr {
 	 * .services.deploy.types.pdd.Pdd)
 	 */
 	public IAeDeploymentSource getDeploymentSource(Pdd aPdd) throws AeException {
-		AeBprDeploymentSource source = new AeBprDeploymentSource(aPdd,
-				getDeploymentContext());
+		IAeDeploymentSource source = mDeploymentSources.get(aPdd);
+		if (source == null) {
+			source = new AeBprDeploymentSource(aPdd, getDeploymentContext());
+			mDeploymentSources.put(aPdd, source);
+		}
 		return source;
 	}
 
