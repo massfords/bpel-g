@@ -13,7 +13,6 @@ import java.text.MessageFormat;
 
 import org.activebpel.rt.AeException;
 import org.activebpel.rt.bpel.IAeExpressionLanguageFactory;
-import org.activebpel.rt.bpel.def.AeProcessDef;
 import org.activebpel.rt.bpel.def.validation.IAeBaseErrorReporter;
 import org.activebpel.rt.bpel.impl.IAeProcessManager;
 import org.activebpel.rt.bpel.server.AeMessages;
@@ -55,10 +54,6 @@ public class AeBpelDeployer implements IAeDeploymentHandler {
                 deployBpel(source, aLogger, skipValidation);
 
                 if (!aLogger.hasErrors()) {
-                    // Get the service info for undeployment
-                    IAeServiceDeploymentInfo[] services = getServiceInfo(source);
-                    aContainer.addServiceDeploymentInfo(services);
-
                     if (aLogger.hasWarnings()) {
                         sLog.warn(MessageFormat.format(
                                 AeMessages.getString("AeDeploymentHandler.4"), new Object[] { pddName })); //$NON-NLS-1$
@@ -116,19 +111,6 @@ public class AeBpelDeployer implements IAeDeploymentHandler {
         if (aSkipValidation || !aReporter.hasErrors()) {
             AeEngineFactory.getBean(IAeDeploymentProvider.class).addDeploymentPlan(deployment);
         }
-    }
-
-    /**
-     * Gets the service deployment info from a source
-     * 
-     * @param aSource
-     * @throws AeDeploymentException
-     */
-    protected IAeServiceDeploymentInfo[] getServiceInfo(IAeDeploymentSource aSource)
-            throws AeDeploymentException {
-        // Get the service info
-        AeProcessDef processDef = aSource.getProcessDef();
-        return AeServiceDeploymentUtil.getServices(processDef, aSource.getPdd());
     }
 
     /**

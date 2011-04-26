@@ -73,10 +73,9 @@ public class AePolicyReferenceValidator
       // check myRole services
       try
       {
-         IAeServiceDeploymentInfo[] services = aSource.getServices();
-         for (int i = 0; i < services.length; i++)
+         for (IAeServiceDeploymentInfo service : aSource.getServices())
          {
-            validateServiceReferences(aReporter, aProvider, services[i]);            
+            validateServiceReferences(aReporter, aProvider, service);            
          }
       }
       catch (AeDeploymentException ex)
