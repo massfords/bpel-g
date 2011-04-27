@@ -13,6 +13,7 @@ import java.util.Date;
 
 import javax.xml.namespace.QName;
 
+import org.activebpel.rt.bpel.AeEngineEventType;
 import org.activebpel.rt.bpel.IAeEngineEvent;
 
 /**
@@ -21,11 +22,11 @@ import org.activebpel.rt.bpel.IAeEngineEvent;
 public class AeEngineEvent extends AeEvent implements IAeEngineEvent
 {
    /** The process ID of the event being triggered. */
-   private long mProcessID; 
+   private final long mProcessID; 
    /** The ID of the event being triggered as defined in the interface. */
-   private int mEventID;   
+   private final AeEngineEventType mEventID;   
    /** The namespace qualified name of the process this event represents. */
-   private QName mProcessName;
+   private final QName mProcessName;
 
    /**
     * Constructor for BPEL engine event.
@@ -33,10 +34,8 @@ public class AeEngineEvent extends AeEvent implements IAeEngineEvent
     * @param aEventID The event id of the event.
     * @param aProcessName The name of the process
     */
-   public AeEngineEvent(long aProcessID, int aEventID, QName aProcessName)
+   public AeEngineEvent(long aProcessID, AeEngineEventType aEventID, QName aProcessName)
    {
-      super();
-      
       mProcessID   = aProcessID;
       mEventID     = aEventID;
       mProcessName = aProcessName;
@@ -50,7 +49,7 @@ public class AeEngineEvent extends AeEvent implements IAeEngineEvent
     * @param aProcessName The name of the process
     * @param aTimestamp The event timestamp
     */
-   public AeEngineEvent(long aProcessID, int aEventID, QName aProcessName, Date aTimestamp)
+   public AeEngineEvent(long aProcessID, AeEngineEventType aEventID, QName aProcessName, Date aTimestamp)
    {
       super(aTimestamp);
       
@@ -59,14 +58,6 @@ public class AeEngineEvent extends AeEvent implements IAeEngineEvent
       mProcessName = aProcessName;
    }
    
-   /**
-    * @see org.activebpel.rt.bpel.IAeEngineEvent#getEventID()
-    */
-   public int getEventID()
-   {
-      return mEventID;
-   }
-
    /**
     * @see org.activebpel.rt.bpel.IAeEngineEvent#getPID()
     */
@@ -82,4 +73,9 @@ public class AeEngineEvent extends AeEvent implements IAeEngineEvent
    {
       return mProcessName;
    }
+
+	@Override
+	public AeEngineEventType getEventType() {
+		return mEventID;
+	}
 }

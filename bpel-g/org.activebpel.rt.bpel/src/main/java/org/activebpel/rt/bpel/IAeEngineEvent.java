@@ -16,24 +16,6 @@ import javax.xml.namespace.QName;
  */
 public interface IAeEngineEvent extends IAeEvent
 {
-   /** Process was created. */
-   public static final int PROCESS_CREATED = 0 ;
-   /** Process has been terminated. */
-   public static final int PROCESS_TERMINATED = 1 ;
-   /** Process has been suspended. */
-   public static final int PROCESS_SUSPENDED = 2 ;
-   /** Process has been resumed. */
-   public static final int PROCESS_RESUMED = 3 ;
-   /** Process has started executing. */
-   public static final int PROCESS_STARTED = 4 ;
-   /** Process was recreated. */
-   public static final int PROCESS_RECREATED = 5 ;
-
-   /**
-    * Returns the event id for the engine event.
-    */
-   public int getEventID();
-   
    /**
     * Returns the process id for the engine event.
     */
@@ -43,4 +25,6 @@ public interface IAeEngineEvent extends IAeEvent
     * Returns the namespace qualified name of the process this event represents.
     */
    public QName getProcessName();
+   
+   public AeEngineEventType getEventType();
 }

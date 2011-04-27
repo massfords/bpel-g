@@ -16,13 +16,14 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import org.activebpel.rt.bpel.AeBusinessProcessException;
 import org.activebpel.rt.bpel.impl.IAeImplStateNames;
 import org.activebpel.rt.bpeladmin.war.AeEngineManagementFactory;
 import org.activebpel.rt.bpeladmin.war.AeMessages;
 import org.activebpel.rt.bpeladmin.war.graph.AeGraphProperties;
 import org.activebpel.rt.bpeladmin.war.web.AeWebUtil;
 import org.activebpel.rt.util.AeUtil;
+
+import bpelg.services.processes.StorageErrorMessage;
 
 /**
  * This bean is responsible for providing BPEL activity attribute data
@@ -523,10 +524,10 @@ public class AeProcessViewBean extends AeProcessViewBase
    {
       try
       {
-         AeEngineManagementFactory.getBean().terminateProcess( getProcessId());
+         AeEngineManagementFactory.getProcessManager().terminateProcess( getProcessId());
          setStateChanged(true);
       }
-      catch (AeBusinessProcessException e)
+      catch (Exception e)
       {
          String error = AeMessages.getString("AeProcessViewBean.1"); //$NON-NLS-1$
          error += AeUtil.getStacktrace(e);
@@ -553,10 +554,10 @@ public class AeProcessViewBean extends AeProcessViewBase
    {
       try
       {
-         AeEngineManagementFactory.getBean().suspendProcess( getProcessId());
+         AeEngineManagementFactory.getProcessManager().suspendProcess( getProcessId());
          setStateChanged(true);
       }
-      catch (AeBusinessProcessException e)
+      catch (Exception e)
       {
          String error = AeMessages.getString("AeProcessViewBean.2"); //$NON-NLS-1$
          error += AeUtil.getStacktrace(e);
@@ -582,10 +583,10 @@ public class AeProcessViewBean extends AeProcessViewBase
    {
       try
       {
-         AeEngineManagementFactory.getBean().resumeProcess( getProcessId() );
+         AeEngineManagementFactory.getProcessManager().resumeProcess( getProcessId() );
          setStateChanged(true);
       }
-      catch (AeBusinessProcessException e)
+      catch (Exception e)
       {
          String error = AeMessages.getString("AeProcessViewBean.3"); //$NON-NLS-1$
          String stacktrace = AeUtil.getStacktrace(e);
@@ -612,10 +613,10 @@ public class AeProcessViewBean extends AeProcessViewBase
    {
       try
       {
-         AeEngineManagementFactory.getBean().restartProcess(getProcessId());
+         AeEngineManagementFactory.getProcessManager().restartProcess(getProcessId());
          setStateChanged(true);
       }
-      catch (AeBusinessProcessException e)
+      catch (Exception e)
       {
          String error = AeMessages.getString("AeProcessViewBean.4"); //$NON-NLS-1$
          error += AeUtil.getStacktrace(e);
@@ -710,7 +711,12 @@ public class AeProcessViewBean extends AeProcessViewBase
    {
       if( getProcessDetails() == null )
       {
-         loadProcessInstanceDetails();
+         try {
+			loadProcessInstanceDetails();
+		} catch (StorageErrorMessage e) {
+			// FIXME lame
+			e.printStackTrace();
+		}
       }
    }
 

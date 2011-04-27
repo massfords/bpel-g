@@ -27,6 +27,7 @@ import org.activebpel.rt.attachment.IAeAttachmentItem;
 import org.activebpel.rt.bpel.AeBusinessProcessException;
 import org.activebpel.rt.bpel.AeMessages;
 import org.activebpel.rt.bpel.AeWSDLDefHelper;
+import org.activebpel.rt.bpel.AeEngineEventType;
 import org.activebpel.rt.bpel.IAeBusinessProcess;
 import org.activebpel.rt.bpel.IAeBusinessProcessEngine;
 import org.activebpel.rt.bpel.IAeEndpointReference;
@@ -41,6 +42,7 @@ import org.activebpel.rt.bpel.IAePlanManager;
 import org.activebpel.rt.bpel.IAeProcessEvent;
 import org.activebpel.rt.bpel.IAeProcessInfoEvent;
 import org.activebpel.rt.bpel.IAeProcessListener;
+import org.activebpel.rt.bpel.ProcessInfoEventType;
 import org.activebpel.rt.bpel.config.IAeEngineConfiguration;
 import org.activebpel.rt.bpel.coord.IAeCoordinationContext;
 import org.activebpel.rt.bpel.def.AePartnerLinkDef;
@@ -1065,7 +1067,7 @@ public class AeBusinessProcessEngine implements IAeBusinessProcessEngineInternal
          initializeCoordination(aInboundReceive, process);
 
          // Now it's okay to announce that the process has been created.
-         fireEngineEvent(new AeEngineEvent(processId, IAeEngineEvent.PROCESS_CREATED, aInboundReceive.getProcessName()));
+         fireEngineEvent(new AeEngineEvent(processId, AeEngineEventType.ProcessCreated, aInboundReceive.getProcessName()));
       }
       else
       {
@@ -1076,7 +1078,7 @@ public class AeBusinessProcessEngine implements IAeBusinessProcessEngineInternal
          }
 
          // Now it's okay to announce that the process has been recreated.
-         fireEngineEvent(new AeEngineEvent(processId, IAeEngineEvent.PROCESS_RECREATED, aInboundReceive.getProcessName()));
+         fireEngineEvent(new AeEngineEvent(processId, AeEngineEventType.ProcessRecreated, aInboundReceive.getProcessName()));
       }
 
       // reply receiver is not null for two-way receives (i.e. is waiting for a reply).
@@ -1765,10 +1767,7 @@ public class AeBusinessProcessEngine implements IAeBusinessProcessEngineInternal
       }
    }
 
-   /**
-    * @see org.activebpel.rt.bpel.impl.IAeBusinessProcessEngineInternal#fireEvaluationEvent(long, java.lang.String, int, java.lang.String, java.lang.String)
-    */
-   public void fireEvaluationEvent(long aPID, String aExpression, int aEventID, String aNodePath, String aResult)
+   public void fireEvaluationEvent(long aPID, String aExpression, ProcessInfoEventType aEventID, String aNodePath, String aResult)
    {
       // TODO (MF) we're not doing anything with the expression but we should be.
       // The designer code doesn't need it since it'll use the location path to
@@ -1777,7 +1776,7 @@ public class AeBusinessProcessEngine implements IAeBusinessProcessEngineInternal
       // adds unnecessary overhead during process logging. One solution would be
       // to put the expression on the AeProcessInfoEvent - all of the callers of
       // this method are already passing the expression in anyway.
-      fireInfoEvent(new AeProcessInfoEvent(aPID, aNodePath, aEventID, "", aResult)); //$NON-NLS-1$
+      fireInfoEvent(new AeProcessInfoEvent(aPID, aNodePath, aEventID, "", aResult)); //$NON-NLS-1$ 
    }
 
    /**

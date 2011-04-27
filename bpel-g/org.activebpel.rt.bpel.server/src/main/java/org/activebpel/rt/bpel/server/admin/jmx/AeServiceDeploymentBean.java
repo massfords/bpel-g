@@ -4,6 +4,7 @@ import java.beans.ConstructorProperties;
 
 import org.activebpel.rt.xml.AeQName;
 
+// FIXME delete
 public class AeServiceDeploymentBean {
     private String mServiceName;
     private AeQName mProcessName;

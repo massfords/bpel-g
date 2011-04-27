@@ -23,6 +23,7 @@ import org.activebpel.rt.bpel.IAeFault;
 import org.activebpel.rt.bpel.IAePlanManager;
 import org.activebpel.rt.bpel.IAeProcessEvent;
 import org.activebpel.rt.bpel.IAeProcessInfoEvent;
+import org.activebpel.rt.bpel.ProcessInfoEventType;
 import org.activebpel.rt.bpel.function.AeUnresolvableException;
 import org.activebpel.rt.bpel.function.IAeFunction;
 import org.activebpel.rt.bpel.impl.queue.AeMessageReceiver;
@@ -139,7 +140,7 @@ public interface IAeBusinessProcessEngineInternal extends IAeBusinessProcessEngi
     * @param aNodePath The node path for the object performing the evaluation.
     * @param aResult The result of the evaluation.
     */
-   public void fireEvaluationEvent(long aPID, String aExpression, int aEventID, String aNodePath, String aResult);
+   public void fireEvaluationEvent(long aPID, String aExpression, ProcessInfoEventType aEventID, String aNodePath, String aResult);
 
    /**
     * Fires the information event passed to all process listeners.

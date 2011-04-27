@@ -28,9 +28,7 @@ import javax.xml.bind.Marshaller;
 import javax.xml.namespace.QName;
 
 import org.activebpel.rt.AeException;
-import org.activebpel.rt.attachment.IAeAttachmentItem;
 import org.activebpel.rt.bpel.AeBusinessProcessException;
-import org.activebpel.rt.bpel.IAeEndpointReference;
 import org.activebpel.rt.bpel.config.IAeEngineConfiguration;
 import org.activebpel.rt.bpel.coord.AeCoordinationDetail;
 import org.activebpel.rt.bpel.coord.AeCoordinationNotFoundException;
@@ -38,7 +36,6 @@ import org.activebpel.rt.bpel.def.AeProcessDef;
 import org.activebpel.rt.bpel.impl.AeUnmatchedReceive;
 import org.activebpel.rt.bpel.impl.IAeProcessPlan;
 import org.activebpel.rt.bpel.impl.IAeQueueManager;
-import org.activebpel.rt.bpel.impl.activity.support.AeCorrelationSet;
 import org.activebpel.rt.bpel.impl.list.AeAlarmExt;
 import org.activebpel.rt.bpel.impl.list.AeAlarmFilter;
 import org.activebpel.rt.bpel.impl.list.AeAlarmListResult;
@@ -66,14 +63,12 @@ import org.activebpel.rt.message.IAeMessageData;
 import org.activebpel.rt.util.AeUtil;
 import org.activebpel.rt.xml.AeQName;
 import org.activebpel.rt.xml.AeXMLParserBase;
-import org.activebpel.wsio.AeWebServiceAttachment;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.w3c.dom.Document;
 
 import bpelg.services.deploy.types.pdd.Pdd;
 import bpelg.services.processes.types.ProcessFilterType;
-import bpelg.services.processes.types.ProcessInstanceDetail;
 import bpelg.services.processes.types.ProcessList;
 
 /**
@@ -198,13 +193,6 @@ public class AeEngineAdministration implements IAeEngineAdministration {
 	 */
 	protected AeBpelEngine getBpelEngine() {
 		return (AeBpelEngine) AeEngineFactory.getEngine();
-	}
-
-	/**
-	 * @see org.activebpel.rt.bpel.server.admin.IAeEngineAdministration#getProcessDetail(long)
-	 */
-	public ProcessInstanceDetail getProcessDetail(long aId) {
-		return getBpelEngine().getProcessManager().getProcessInstanceDetails(aId);
 	}
 
 	/**
@@ -521,12 +509,6 @@ public class AeEngineAdministration implements IAeEngineAdministration {
 		return getEngineState() == IAeEngineAdministration.RUNNING;
 	}
 
-	public int removeProcesses(ProcessFilterType aFilter)
-			throws AeBusinessProcessException {
-		// FIXME need to clean up the engine admin interface. It's been a dumping ground for all kinds of functionality
-		return getBpelEngine().getProcessManager().removeProcesses(aFilter);
-	}
-	
 	/**
 	 * @see org.activebpel.rt.bpel.server.admin.IAeEngineAdministration#deployNewBpr(java.io.File,
 	 *      java.lang.String,
@@ -542,45 +524,6 @@ public class AeEngineAdministration implements IAeEngineAdministration {
 	 */
 	public IAeURNResolver getURNAddressResolver() {
 		return getURNResolver();
-	}
-
-	/**
-	 * Returns the correlation set data
-	 * 
-	 * @param aProcessId
-	 *            process id
-	 * @param aLocationPath
-	 *            location path of the correlation set.
-	 * @return correlation set as a string
-	 * @throws AeBusinessProcessException
-	 */
-	public String getCorrelationSetData(long aProcessId, String aLocationPath)
-			throws AeBusinessProcessException {
-		Map correlationData = getBpelEngine().getCorrelationData(aProcessId,
-				aLocationPath);
-		return AeCorrelationSet.convertCorrSetDataToString(correlationData);
-	}
-
-	/**
-	 * Get the requested partner role endpoint reference for the given
-	 * partnerLink path.
-	 * 
-	 * @param aProcessId
-	 *            process id
-	 * @param aLocationPath
-	 *            location path of the correlation set.
-	 * @return partner role data as a string
-	 * @throws AeBusinessProcessException
-	 */
-	public String getPartnerRoleData(long aProcessId, String aLocationPath)
-			throws AeBusinessProcessException {
-		IAeEndpointReference epr = getBpelEngine()
-				.getPartnerRoleEndpointReference(aProcessId, aLocationPath);
-		String eprData = ""; //$NON-NLS-1$
-		if (epr != null) {
-			eprData = AeXMLParserBase.documentToString(epr.toDocument(), true);
-		}
-		return eprData;
 	}
 
 	/**
@@ -623,27 +566,6 @@ public class AeEngineAdministration implements IAeEngineAdministration {
 		} catch (AeCoordinationNotFoundException cnfe) {
 			return Collections.EMPTY_LIST;
 		}
-	}
-
-	/**
-	 * @see org.activebpel.rt.bpel.server.admin.IAeEngineAdministration#addVariableAttachment(long,
-	 *      java.lang.String, org.activebpel.wsio.AeWebServiceAttachment)
-	 */
-	public IAeAttachmentItem addVariableAttachment(long aPid,
-			String aLocationPath, AeWebServiceAttachment aWsioAttachment)
-			throws AeException {
-		return getBpelEngine().addVariableAttachment(aPid, aLocationPath,
-				aWsioAttachment);
-	}
-
-	/**
-	 * @see org.activebpel.rt.bpel.server.admin.IAeEngineAdministration#removeVariableAttachments(long,
-	 *      java.lang.String, int[])
-	 */
-	public void removeVariableAttachments(long aPid, String aLocationPath,
-			int[] aAttachmentItemNumbers) throws AeException {
-		getBpelEngine().removeVariableAttachments(aPid, aLocationPath,
-				aAttachmentItemNumbers);
 	}
 
 	public IAeURNResolver getURNResolver() {

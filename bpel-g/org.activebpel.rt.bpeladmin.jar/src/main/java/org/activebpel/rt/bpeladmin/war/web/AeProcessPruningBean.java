@@ -13,6 +13,7 @@ import java.text.MessageFormat;
 import java.util.Date;
 
 import org.activebpel.rt.AeException;
+import org.activebpel.rt.bpeladmin.war.AeEngineManagementFactory;
 import org.activebpel.rt.bpeladmin.war.AeMessages;
 import org.activebpel.rt.util.AeDate;
 
@@ -84,7 +85,7 @@ public class AeProcessPruningBean extends AePruningBean
          try
          {
             ProcessFilterType filter = getPruneProcessFilter();
-            int n = getAdmin().removeProcesses(filter);
+            int n = AeEngineManagementFactory.getProcessManager().removeProcessByQuery(filter);
 
             String pattern = AeMessages.getString("AeProcessPruningBean.0"); //$NON-NLS-1$
             Object[] args = {new Integer(n)};
@@ -92,14 +93,12 @@ public class AeProcessPruningBean extends AePruningBean
 
             // If the request succeeds, then clear the prune date.
             setPruneDate(null);
-         }
-         catch (AeException e)
-         {
-            AeException.logError(e, AeMessages.getString("AeProcessPruningBean.ERROR_1")); //$NON-NLS-1$
+         } catch (Exception e) {
+             AeException.logError(e, AeMessages.getString("AeProcessPruningBean.ERROR_1")); //$NON-NLS-1$
 
-            String message = e.getLocalizedMessage();
-            setStatusDetail((message != null) ? message : AeMessages.getString("AeProcessPruningBean.2")); //$NON-NLS-1$
-         }
+             String message = e.getLocalizedMessage();
+             setStatusDetail((message != null) ? message : AeMessages.getString("AeProcessPruningBean.2")); //$NON-NLS-1$
+		}
       }
    }
 

@@ -21,8 +21,8 @@ import org.activebpel.rt.bpel.AeMessages;
 import org.activebpel.rt.bpel.AeStaticAnalysisException;
 import org.activebpel.rt.bpel.IAeExpressionLanguageFactory;
 import org.activebpel.rt.bpel.IAeFault;
-import org.activebpel.rt.bpel.IAeProcessInfoEvent;
 import org.activebpel.rt.bpel.IAeVariable;
+import org.activebpel.rt.bpel.ProcessInfoEventType;
 import org.activebpel.rt.bpel.def.AeBaseDef;
 import org.activebpel.rt.bpel.def.IAeExpressionDef;
 import org.activebpel.rt.bpel.def.util.AeDefUtil;
@@ -660,7 +660,7 @@ abstract public class AeAbstractBpelObject implements IAeExecutableBpelObject, I
          {
             // fire info event if we're waiting for a variable lock
             getProcess().getEngine().fireInfoEvent(new AeProcessInfoEvent(getProcess().getProcessId(),
-                  getLocationPath(), IAeProcessInfoEvent.INFO_WAITING_FOR_LOCK));
+                  getLocationPath(), ProcessInfoEventType.InfoWaitingForLock));
          }
       }
       return ready;

@@ -4,8 +4,10 @@ import org.activebpel.rt.bpel.AeBusinessProcessException;
 import org.activebpel.rt.bpel.impl.IAeProcessManager;
 
 import bpelg.services.processes.AeProcessManager;
+import bpelg.services.processes.ProcessStateErrorMessage;
 import bpelg.services.processes.StorageErrorMessage;
 import bpelg.services.processes.types.ProcessFilterType;
+import bpelg.services.processes.types.ProcessInstanceDetail;
 import bpelg.services.processes.types.ProcessList;
 
 public class AeProcessManagerService implements AeProcessManager {
@@ -40,4 +42,45 @@ public class AeProcessManagerService implements AeProcessManager {
 		}
 	}
 
+	@Override
+	public void restartProcess(long aProcessId) throws ProcessStateErrorMessage {
+		try {
+			getProcessManager().getEngine().restartProcess(aProcessId);
+		} catch (AeBusinessProcessException e) {
+			throw new ProcessStateErrorMessage(e.getMessage(), e);
+		}
+	}
+
+	@Override
+	public void resumeProcess(long aProcessId) throws ProcessStateErrorMessage {
+		try {
+			getProcessManager().getEngine().resumeProcess(aProcessId);
+		} catch (AeBusinessProcessException e) {
+			throw new ProcessStateErrorMessage(e.getMessage(), e);
+		}
+	}
+
+	@Override
+	public void terminateProcess(long aProcessId) throws ProcessStateErrorMessage {
+		try {
+			getProcessManager().getEngine().terminateProcess(aProcessId);
+		} catch (AeBusinessProcessException e) {
+			throw new ProcessStateErrorMessage(e.getMessage(), e);
+		}
+	}
+
+	@Override
+	public void suspendProcess(long aProcessId) throws ProcessStateErrorMessage {
+		try {
+			getProcessManager().getEngine().suspendProcess(aProcessId);
+		} catch (AeBusinessProcessException e) {
+			throw new ProcessStateErrorMessage(e.getMessage(), e);
+		}
+	}
+
+	@Override
+	public ProcessInstanceDetail getProcessDetail(long aBody)
+			throws StorageErrorMessage {
+		return getProcessManager().getProcessInstanceDetails(aBody);
+	}
 }

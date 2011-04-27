@@ -15,6 +15,10 @@ import java.util.Date;
 
 import javax.xml.namespace.QName;
 
+import org.activebpel.rt.bpel.AeEngineAlertEventType;
+import org.activebpel.rt.bpel.AeEngineEventType;
+import org.activebpel.rt.bpel.ProcessEventType;
+import org.activebpel.rt.bpel.ProcessInfoEventType;
 import org.w3c.dom.Document;
 
 /**
@@ -35,7 +39,7 @@ public interface IAeEventHandler extends Remote
     * @param aTimestamp the event's timestamp
     * @throws RemoteException
     */
-   public void engineAlertHandler(long aContextId, long aProcessId, int aEventType, QName aProcessName,
+   public void engineAlertHandler(long aContextId, long aProcessId, AeEngineAlertEventType aEventType, QName aProcessName,
          String aLocationPath, QName aFaultName, Document aDetails, Date aTimestamp) throws RemoteException;
 
    /**
@@ -48,7 +52,7 @@ public interface IAeEventHandler extends Remote
     * @param aTimestamp the event's timestamp
     * @return true return indicates to suspend the associated process.
     */
-   public boolean engineEventHandler(long aContextId, long aProcessId, int aEventType, QName aProcessName,
+   public boolean engineEventHandler(long aContextId, long aProcessId, AeEngineEventType aEventType, QName aProcessName,
          Date aTimestamp) throws RemoteException;
 
    /**
@@ -64,7 +68,7 @@ public interface IAeEventHandler extends Remote
     * @param aTimestamp the event's timestamp
     * @return True if the process needs to be suspended, False otherwise
     */
-   public boolean processEventHandler(long aContextId, long aProcessId, String aPath, int aEventType,
+   public boolean processEventHandler(long aContextId, long aProcessId, String aPath, ProcessEventType aEventType,
          String aFaultName, String aText, QName aName, Date aTimestamp) throws RemoteException;
 
    /**
@@ -78,7 +82,7 @@ public interface IAeEventHandler extends Remote
     * @param aText optional text
     * @param aTimestamp the event's timestamp
     */
-   public void processInfoEventHandler(long aContextId, long aProcessId, String aPath, int aEventType,
+   public void processInfoEventHandler(long aContextId, long aProcessId, String aPath, ProcessInfoEventType aEventType,
          String aFaultName, String aText, Date aTimestamp) throws RemoteException;
 
    /**

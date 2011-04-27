@@ -12,7 +12,7 @@ package org.activebpel.rt.bpel.impl.activity;
 import org.activebpel.rt.AeException;
 import org.activebpel.rt.bpel.AeBusinessProcessException;
 import org.activebpel.rt.bpel.IAeFault;
-import org.activebpel.rt.bpel.IAeProcessInfoEvent;
+import org.activebpel.rt.bpel.ProcessInfoEventType;
 import org.activebpel.rt.bpel.def.activity.AeActivityScopeDef;
 import org.activebpel.rt.bpel.def.activity.support.AeOnEventDef;
 import org.activebpel.rt.bpel.impl.AeBpelException;
@@ -89,7 +89,7 @@ public class AeActivityOnEventScopeImpl extends AeActivityScopeImpl implements I
          catch(AeBpelException e)
          {
             AeProcessInfoEvent event = new AeProcessInfoEvent(getProcess().getProcessId(),
-                  getLocationPath(), IAeProcessInfoEvent.ERROR_ON_EVENT_VALIDATION,
+                  getLocationPath(), ProcessInfoEventType.ErrorOnEventValidation,
                   e.getFault().getFaultName().getLocalPart(), e.getMessage());
             getProcess().getEngine().fireInfoEvent(event);
             

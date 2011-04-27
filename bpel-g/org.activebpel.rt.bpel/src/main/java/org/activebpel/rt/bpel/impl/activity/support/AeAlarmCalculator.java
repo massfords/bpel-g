@@ -15,6 +15,7 @@ import org.activebpel.rt.AeException;
 import org.activebpel.rt.bpel.AeBusinessProcessException;
 import org.activebpel.rt.bpel.AeMessages;
 import org.activebpel.rt.bpel.IAeExpressionLanguageFactory;
+import org.activebpel.rt.bpel.ProcessInfoEventType;
 import org.activebpel.rt.bpel.def.AeBaseDef;
 import org.activebpel.rt.bpel.def.AeProcessDef;
 import org.activebpel.rt.bpel.def.IAeExpressionDef;
@@ -49,7 +50,7 @@ public abstract class AeAlarmCalculator
     * @param aEventId
     * @throws AeBusinessProcessException
     */
-   public static Date calculateDeadline(AeAbstractBpelObject aBpelObject, IAeTimedDef aTimedDef, int aEventId) throws AeBusinessProcessException
+   public static Date calculateDeadline(AeAbstractBpelObject aBpelObject, IAeTimedDef aTimedDef, ProcessInfoEventType aEventId) throws AeBusinessProcessException
    {
       if (aTimedDef.getForDef() != null)
       {
@@ -72,7 +73,7 @@ public abstract class AeAlarmCalculator
     * @param aEventId
     * @throws AeBusinessProcessException
     */
-   private static Date calculateDeadline(AeAbstractBpelObject aBpelObject, IAeExpressionDef aExpressionDef, int aEventId) throws AeBusinessProcessException
+   private static Date calculateDeadline(AeAbstractBpelObject aBpelObject, IAeExpressionDef aExpressionDef, ProcessInfoEventType aEventId) throws AeBusinessProcessException
    {
       StringBuffer alarmInfo = new StringBuffer();
       alarmInfo.append('\n');

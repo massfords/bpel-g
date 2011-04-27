@@ -371,22 +371,4 @@ public class AeEngineConfigBean extends AeAbstractAdminBean
       return getAdmin().isInternalWorkManager();
    }
 
-   /**
-    * Returns the amount of days to keep a task process running after the task
-    * has reached a final state.
-    */
-   public int getTaskFinalizationDuration()
-   {
-       return getAdmin().getTaskFinalizationDuration();
-   }
-
-   /**
-    * Sets the amount of days to keep a task process running after the task
-    * has reached a final state.
-    * @param aDays
-    */
-   public void setTaskFinalizationDuration(int aDays)
-   {
-       getAdmin().setTaskFinalizationDuration(aDays);
-   }
 }

@@ -31,8 +31,10 @@ import org.activebpel.rt.bpel.IAeEngineListener;
 import org.activebpel.rt.bpel.IAeProcessEvent;
 import org.activebpel.rt.bpel.IAeProcessInfoEvent;
 import org.activebpel.rt.bpel.IAeProcessListener;
+import org.activebpel.rt.bpel.ProcessEventType;
 import org.activebpel.rt.bpel.config.AeDefaultEngineConfiguration;
 import org.activebpel.rt.bpel.def.util.AeLocationPathUtils;
+import org.activebpel.rt.bpel.impl.IAeProcessManager;
 import org.activebpel.rt.bpel.impl.activity.support.AeCorrelationSet;
 import org.activebpel.rt.bpel.server.AeMessages;
 import org.activebpel.rt.bpel.server.IAeDeploymentProvider;
@@ -270,7 +272,7 @@ public class AeRemoteDebugImpl implements IAeBpelAdmin
     */
    public ProcessInstanceDetail getProcessDetail(long aPid) throws RemoteException
    {
-      return AeEngineFactory.getEngineAdministration().getProcessDetail(aPid);
+      return AeEngineFactory.getBean(IAeProcessManager.class).getProcessInstanceDetails(aPid);
    }
 
    /**
@@ -908,7 +910,7 @@ public class AeRemoteDebugImpl implements IAeBpelAdmin
             if (mHandler != null)
             {
                suspend = mHandler.processEventHandler(mContextId, aEvent.getPID(), aEvent.getNodePath(), 
-                     aEvent.getEventID(), aEvent.getFaultName(), aEvent.getAncillaryInfo(), aEvent.getQName(),
+                     aEvent.getEventType(), aEvent.getFaultName(), aEvent.getAncillaryInfo(), aEvent.getQName(),
                      aEvent.getTimestamp());
             }
          }
@@ -938,7 +940,7 @@ public class AeRemoteDebugImpl implements IAeBpelAdmin
             if (mHandler != null)
             {
                mHandler.processInfoEventHandler(mContextId, aEvent.getPID(), aEvent.getNodePath(), 
-                     aEvent.getEventID(), aEvent.getFaultName(), aEvent.getAncillaryInfo(),
+                     aEvent.getProcessInfoEventType(), aEvent.getFaultName(), aEvent.getAncillaryInfo(),
                      aEvent.getTimestamp());
             }
          }
@@ -1002,7 +1004,7 @@ public class AeRemoteDebugImpl implements IAeBpelAdmin
          {
             if (mHandler != null)
             {
-               mHandler.engineAlertHandler(mContextId, aEvent.getPID(), aEvent.getEventID(), 
+               mHandler.engineAlertHandler(mContextId, aEvent.getPID(), aEvent.getAlertType(), 
                      aEvent.getProcessName(), aEvent.getLocation(), aEvent.getFaultName(), aEvent.getDetails(), 
                      aEvent.getTimestamp());
             }
@@ -1031,7 +1033,7 @@ public class AeRemoteDebugImpl implements IAeBpelAdmin
          {
             if (mHandler != null)
             {
-               return mHandler.engineEventHandler(mContextId, aEvent.getPID(), aEvent.getEventID(), 
+               return mHandler.engineEventHandler(mContextId, aEvent.getPID(), aEvent.getEventType(), 
                      aEvent.getProcessName(), aEvent.getTimestamp());
             }
          }
@@ -1136,7 +1138,7 @@ public class AeRemoteDebugImpl implements IAeBpelAdmin
          try
          {
             // If applicable, fire off a breakpoint event.
-            if (mHandler != null && aEvent.getEventID() == IAeProcessEvent.READY_TO_EXECUTE )
+            if (mHandler != null && aEvent.getEventType() == ProcessEventType.ReadyToExecute )
             {
                // Getting ready to execute - see if there's a breakpoint set for this node path.
                if ( mBreakpointList != null && 

@@ -15,8 +15,8 @@ import java.util.Iterator;
 import org.activebpel.rt.bpel.AeBusinessProcessException;
 import org.activebpel.rt.bpel.AeMessages;
 import org.activebpel.rt.bpel.IAeActivity;
-import org.activebpel.rt.bpel.IAeProcessInfoEvent;
 import org.activebpel.rt.bpel.IAeVariable;
+import org.activebpel.rt.bpel.ProcessInfoEventType;
 import org.activebpel.rt.bpel.def.IAeExpressionDef;
 import org.activebpel.rt.bpel.def.activity.AeActivityForEachDef;
 import org.activebpel.rt.bpel.impl.AeBpelException;
@@ -82,7 +82,7 @@ public class AeActivityForEachImpl extends AeLoopActivity implements IAeActivity
 
       // report the start value evaluation
       getProcess().getEngine().fireEvaluationEvent(getProcess().getProcessId(),
-            getDef().getStartDef().getExpression(), IAeProcessInfoEvent.INFO_FOREACH_START_VALUE,
+            getDef().getStartDef().getExpression(), ProcessInfoEventType.InfoForEachStart,
             getLocationPath(), String.valueOf(getStartValue()));
 
       int finalValue = evaluateCounterExpression(getDef().getFinalDef());
@@ -90,7 +90,7 @@ public class AeActivityForEachImpl extends AeLoopActivity implements IAeActivity
 
       // report the final value evaluation
       getProcess().getEngine().fireEvaluationEvent(getProcess().getProcessId(),
-            getDef().getFinalDef().getExpression(), IAeProcessInfoEvent.INFO_FOREACH_FINAL_VALUE,
+            getDef().getFinalDef().getExpression(), ProcessInfoEventType.InfoForEachFinal,
             getLocationPath(), String.valueOf(getFinalValue()));
 
       if (getDef().hasCompletionCondition())
@@ -102,7 +102,7 @@ public class AeActivityForEachImpl extends AeLoopActivity implements IAeActivity
          // report the completion condition value evaluation
          getProcess().getEngine().fireEvaluationEvent(getProcess().getProcessId(),
                getDef().getCompletionCondition().getExpression(), 
-               IAeProcessInfoEvent.INFO_FOREACH_COMPLETION_CONDITION_VALUE, getLocationPath(),
+               ProcessInfoEventType.InfoForEachCompletionCondition, getLocationPath(),
                String.valueOf(getCompletionCondition()));
       }
 
@@ -291,7 +291,7 @@ public class AeActivityForEachImpl extends AeLoopActivity implements IAeActivity
       {
          // log that the forEach's completion condition has been met
          getProcess().getEngine().fireEvaluationEvent(
-            getProcess().getProcessId(), getDef().getCompletionCondition().getExpression(), IAeProcessInfoEvent.INFO_FOREACH_COMPLETION_CONDITION_MET, getLocationPath(), String.valueOf(getCompletionCount()));
+            getProcess().getProcessId(), getDef().getCompletionCondition().getExpression(), ProcessInfoEventType.InfoForEachCompletionConditionMet, getLocationPath(), String.valueOf(getCompletionCount()));
 
          completionConditionMet();
       }

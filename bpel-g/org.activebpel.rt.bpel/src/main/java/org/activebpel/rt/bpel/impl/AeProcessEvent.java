@@ -16,6 +16,7 @@ import java.util.Map;
 import javax.xml.namespace.QName;
 
 import org.activebpel.rt.bpel.IAeProcessEvent;
+import org.activebpel.rt.bpel.ProcessEventType;
 import org.activebpel.rt.util.AeStaticConstantsMap;
 import org.activebpel.rt.util.AeUtil;
 
@@ -28,7 +29,8 @@ public class AeProcessEvent extends AeBaseProcessEvent implements IAeProcessEven
    private static final AeStaticConstantsMap mIAeProcessEventConstantsMap = new AeStaticConstantsMap(IAeProcessEvent.class);
 
    /** The process' QName. */
-   private QName mName; 
+   private final QName mName; 
+   private final ProcessEventType mEventType;
 
    /**
     * Constructor with all members specified.
@@ -39,10 +41,11 @@ public class AeProcessEvent extends AeBaseProcessEvent implements IAeProcessEven
     * @param aInfo Extra info to register with the event.
     * @param aName The process' QName.
     */
-   public AeProcessEvent(long aPID, String aPath, int aEventID, String aFault, String aInfo, QName aName)
+   public AeProcessEvent(long aPID, String aPath, ProcessEventType aEventID, String aFault, String aInfo, QName aName)
    {
-      super(aPID, aPath, aEventID, aFault, aInfo);
+      super(aPID, aPath, aFault, aInfo);
       mName = aName;
+      mEventType = aEventID;
    }
    
    /**
@@ -56,10 +59,11 @@ public class AeProcessEvent extends AeBaseProcessEvent implements IAeProcessEven
     * @param aName
     * @param aTimestamp
     */
-   public AeProcessEvent(long aPID, String aPath, int aEventID, String aFault, String aInfo, QName aName, Date aTimestamp)
+   public AeProcessEvent(long aPID, String aPath, ProcessEventType aEventID, String aFault, String aInfo, QName aName, Date aTimestamp)
    {
-      super(aPID, aPath, aEventID, aFault, aInfo, aTimestamp);
+      super(aPID, aPath, aFault, aInfo, aTimestamp);
       mName = aName;
+      mEventType = aEventID;
    }
 
    /**
@@ -69,7 +73,7 @@ public class AeProcessEvent extends AeBaseProcessEvent implements IAeProcessEven
     * @param aEventID The event id of the event.
     * @param aName The process' QName.
     */
-   public AeProcessEvent(long aPID, String aPath, int aEventID, QName aName)
+   public AeProcessEvent(long aPID, String aPath, ProcessEventType aEventID, QName aName)
    {
       this( aPID, aPath, aEventID, "", "", aName ); //$NON-NLS-1$ //$NON-NLS-2$
    }
@@ -85,9 +89,9 @@ public class AeProcessEvent extends AeBaseProcessEvent implements IAeProcessEven
    /**
     * Returns the name of the specified event id.
     */
-   protected static String getEventIdName(int aEventId)
+   protected static String getEventIdName(ProcessEventType aEventId)
    {
-      String name = mIAeProcessEventConstantsMap.getName(new Integer(aEventId));
+      String name = mIAeProcessEventConstantsMap.getName(aEventId.code());
 
       // Use the name if we have it; otherwise, show the value itself.
       return (name != null) ? name : String.valueOf(aEventId);
@@ -101,7 +105,7 @@ public class AeProcessEvent extends AeBaseProcessEvent implements IAeProcessEven
       Map map = new LinkedHashMap(); // LinkedHashMap to preserve order of insertions for toString()
 
       map.put("pid", String.valueOf(getPID())); //$NON-NLS-1$
-      map.put("eventid", getEventIdName(getEventID())); //$NON-NLS-1$
+      map.put("eventid", getEventIdName(getEventType())); //$NON-NLS-1$
       map.put("path", getNodePath()); //$NON-NLS-1$
 
       if (!AeUtil.isNullOrEmpty(getFaultName()))
@@ -118,4 +122,9 @@ public class AeProcessEvent extends AeBaseProcessEvent implements IAeProcessEven
 
       return "AeProcessEvent" + map.toString(); //$NON-NLS-1$
    }
+
+	@Override
+	public ProcessEventType getEventType() {
+		return mEventType;
+	}
 }

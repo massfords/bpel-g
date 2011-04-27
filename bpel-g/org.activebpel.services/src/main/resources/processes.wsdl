@@ -5,8 +5,8 @@
 
    <wsdl:types>
       <xs:schema elementFormDefault="qualified" targetNamespace="urn:bpel-g:services:processes"
-         xmlns="http://www.w3.org/2001/XMLSchema" xmlns:jaxb="http://java.sun.com/xml/ns/jaxb" jaxb:version="2.0">
-
+         xmlns:jaxb="http://java.sun.com/xml/ns/jaxb" jaxb:version="2.0">
+         
          <xs:complexType name="listingFilter">
             <xs:sequence>
                <xs:element name="listStart" type="xs:int" minOccurs="0"/>
@@ -62,17 +62,19 @@
             </xs:restriction>
          </xs:simpleType>
 
-         <complexType name="processInstanceDetail">
-            <sequence>
-               <element name="ended" minOccurs="0" type="xs:dateTime"/>
-               <element name="name" type="xs:QName"/>
-               <element name="processId" type="xs:long"/>
-               <element name="started" minOccurs="0" type="xs:dateTime"/>
-               <element name="state" type="tns:processStateValueType"/>
-               <element name="stateReason" type="tns:suspendReasonType" minOccurs="0"/>
-            </sequence>
-         </complexType>
-
+         <xs:element name="processInstanceDetail">
+            <xs:complexType >
+               <xs:sequence>
+                  <xs:element name="ended" minOccurs="0" type="xs:dateTime"/>
+                  <xs:element name="name" type="xs:QName"/>
+                  <xs:element name="processId" type="xs:long"/>
+                  <xs:element name="started" minOccurs="0" type="xs:dateTime"/>
+                  <xs:element name="state" type="tns:processStateValueType"/>
+                  <xs:element name="stateReason" type="tns:suspendReasonType" minOccurs="0"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+         
          <xs:simpleType name="processStateFilterValueType">
             <xs:annotation>
                <xs:appinfo>
@@ -130,14 +132,22 @@
          <xs:element name="storageError" type="xs:string"/>
          <xs:element name="getProcesses" type="tns:processFilterType"/>
          <xs:element name="processList">
-            <complexType>
-               <sequence>
-                  <element name="processInstanceDetail" type="tns:processInstanceDetail" maxOccurs="unbounded" minOccurs="0"/>
-               </sequence>
-               <attribute name="complete" type="xs:boolean" use="required"/>
-               <attribute name="totalRowCount" type="xs:int" use="required"/>
-            </complexType>
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element ref="tns:processInstanceDetail" maxOccurs="unbounded" minOccurs="0"/>
+               </xs:sequence>
+               <xs:attribute name="complete" type="xs:boolean" use="required"/>
+               <xs:attribute name="totalRowCount" type="xs:int" use="required"/>
+            </xs:complexType>
          </xs:element>
+         <xs:simpleType name="processIdType">
+            <xs:restriction base="xs:long"/>
+         </xs:simpleType>
+         <xs:element name="resumeProcess" type="tns:processIdType"/>
+         <xs:element name="suspendProcess" type="tns:processIdType"/>
+         <xs:element name="terminateProcess" type="tns:processIdType"/>
+         <xs:element name="restartProcess" type="tns:processIdType"/>
+         <xs:element name="getProcessDetail" type="tns:processIdType"/>
       </xs:schema>
    </wsdl:types>
 
@@ -157,6 +167,29 @@
    <wsdl:message name="processList">
       <wsdl:part name="body" element="tns:processList"/>
    </wsdl:message>
+   <wsdl:message name="resumeProcess">
+      <wsdl:part name="body" element="tns:resumeProcess"/>
+   </wsdl:message>
+   <wsdl:message name="suspendProcess">
+      <wsdl:part name="body" element="tns:suspendProcess"/>
+   </wsdl:message>
+   <wsdl:message name="terminateProcess">
+      <wsdl:part name="body" element="tns:terminateProcess"/>
+   </wsdl:message>
+   <wsdl:message name="restartProcess">
+      <wsdl:part name="body" element="tns:restartProcess"/>
+   </wsdl:message>
+   <wsdl:message name="voidMessage"/>
+   <wsdl:message name="processStateErrorMessage">
+      <wsdl:part name="body" element="tns:storageError"/>
+   </wsdl:message>
+   <wsdl:message name="getProcessDetail">
+      <wsdl:part name="body" element="tns:getProcessDetail"/>
+   </wsdl:message>
+   <wsdl:message name="processInstanceDetail">
+      <wsdl:part name="body" element="tns:processInstanceDetail"/>
+   </wsdl:message>
+   
    
    <wsdl:portType name="AeProcessManager">
       <wsdl:operation name="removeProcessByQuery">
@@ -168,6 +201,31 @@
          <wsdl:input message="tns:getProcesses"/>
          <wsdl:output message="tns:processList"/>
          <wsdl:fault name="StorageError" message="tns:storageErrorMessage"/>
+      </wsdl:operation>
+      <wsdl:operation name="getProcessDetail">
+         <wsdl:input message="tns:getProcessDetail"/>
+         <wsdl:output message="tns:processInstanceDetail"/>
+         <wsdl:fault name="StorageError" message="tns:storageErrorMessage"/>
+      </wsdl:operation>
+      <wsdl:operation name="resumeProcess">
+         <wsdl:input message="tns:resumeProcess"/>
+         <wsdl:output message="tns:voidMessage"/>
+         <wsdl:fault name="ProcessStateError" message="tns:processStateErrorMessage"/>
+      </wsdl:operation>
+      <wsdl:operation name="suspendProcess">
+         <wsdl:input message="tns:suspendProcess"/>
+         <wsdl:output message="tns:voidMessage"/>
+         <wsdl:fault name="ProcessStateError" message="tns:processStateErrorMessage"/>
+      </wsdl:operation>
+      <wsdl:operation name="terminateProcess">
+         <wsdl:input message="tns:terminateProcess"/>
+         <wsdl:output message="tns:voidMessage"/>
+         <wsdl:fault name="ProcessStateError" message="tns:processStateErrorMessage"/>
+      </wsdl:operation>
+      <wsdl:operation name="restartProcess">
+         <wsdl:input message="tns:restartProcess"/>
+         <wsdl:output message="tns:voidMessage"/>
+         <wsdl:fault name="ProcessStateError" message="tns:processStateErrorMessage"/>
       </wsdl:operation>
    </wsdl:portType>
 
@@ -193,6 +251,61 @@
          </wsdl:output>
          <wsdl:fault name="StorageError">
             <soap:fault name="StorageError"/>
+         </wsdl:fault>
+      </wsdl:operation>
+      <wsdl:operation name="getProcessDetail">
+         <wsdl:input>
+            <soap:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output>
+            <soap:body use="literal"/>
+         </wsdl:output>
+         <wsdl:fault name="StorageError">
+            <soap:fault name="StorageError"/>
+         </wsdl:fault>
+      </wsdl:operation>
+      <wsdl:operation name="resumeProcess">
+         <wsdl:input>
+            <soap:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output>
+            <soap:body use="literal"/>
+         </wsdl:output>
+         <wsdl:fault name="ProcessStateError">
+            <soap:fault name="ProcessStateError"/>
+         </wsdl:fault>
+      </wsdl:operation>
+      <wsdl:operation name="suspendProcess">
+         <wsdl:input>
+            <soap:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output>
+            <soap:body use="literal"/>
+         </wsdl:output>
+         <wsdl:fault name="ProcessStateError">
+            <soap:fault name="ProcessStateError"/>
+         </wsdl:fault>
+      </wsdl:operation>
+      <wsdl:operation name="terminateProcess">
+         <wsdl:input>
+            <soap:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output>
+            <soap:body use="literal"/>
+         </wsdl:output>
+         <wsdl:fault name="ProcessStateError">
+            <soap:fault name="ProcessStateError"/>
+         </wsdl:fault>
+      </wsdl:operation>
+      <wsdl:operation name="restartProcess">
+         <wsdl:input>
+            <soap:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output>
+            <soap:body use="literal"/>
+         </wsdl:output>
+         <wsdl:fault name="ProcessStateError">
+            <soap:fault name="ProcessStateError"/>
          </wsdl:fault>
       </wsdl:operation>
    </wsdl:binding>
