@@ -12,7 +12,7 @@ package org.activebpel.rt.bpel.impl.activity;
 import java.util.Date;
 
 import org.activebpel.rt.bpel.AeBusinessProcessException;
-import org.activebpel.rt.bpel.IAeProcessInfoEvent;
+import org.activebpel.rt.bpel.ProcessInfoEventType;
 import org.activebpel.rt.bpel.def.activity.AeActivityWaitDef;
 import org.activebpel.rt.bpel.impl.AeBpelState;
 import org.activebpel.rt.bpel.impl.IAeActivityParent;
@@ -61,7 +61,7 @@ public class AeActivityWaitImpl extends AeActivityImpl implements IAeAlarmReceiv
    public void execute() throws AeBusinessProcessException
    {
       super.execute();
-      Date deadline = AeAlarmCalculator.calculateDeadline(this, getDef(), IAeProcessInfoEvent.INFO_WAIT);
+      Date deadline = AeAlarmCalculator.calculateDeadline(this, getDef(), ProcessInfoEventType.InfoWait);
       setQueued(true);
       getProcess().queueAlarm(this, deadline);
    }

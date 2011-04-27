@@ -24,8 +24,6 @@ public abstract class AeBaseProcessEvent extends AeEvent implements IAeBaseProce
    private long mProcessID;
    /** The path of the bpel object triggering the event (xpath) */
    private String mNodePath;
-   /** The ID of the event being triggered as defined in the interface. */
-   private int mEventID;
    /** The Fault associated with this event, if any. */
    private String mFaultName;
    /** Extra info registered wih the event by the triggerer. */
@@ -40,13 +38,12 @@ public abstract class AeBaseProcessEvent extends AeEvent implements IAeBaseProce
     * @param aFault
     * @param aInfo
     */
-   public AeBaseProcessEvent(long aPID, String aPath, int aEventID, String aFault, String aInfo)
+   public AeBaseProcessEvent(long aPID, String aPath, String aFault, String aInfo)
    {
       super();
       
       setProcessID(aPID);
       setNodePath(aPath);
-      setEventID(aEventID);
       setFaultName(aFault);
       setAncillaryInfo(AeUtil.getSafeString(aInfo));
    }
@@ -61,13 +58,12 @@ public abstract class AeBaseProcessEvent extends AeEvent implements IAeBaseProce
     * @param aInfo
     * @param aTimestamp
     */
-   public AeBaseProcessEvent(long aPID, String aPath, int aEventID, String aFault, String aInfo, Date aTimestamp)
+   public AeBaseProcessEvent(long aPID, String aPath, String aFault, String aInfo, Date aTimestamp)
    {
       super(aTimestamp);
       
       setProcessID(aPID);
       setNodePath(aPath);
-      setEventID(aEventID);
       setFaultName(aFault);
       setAncillaryInfo(AeUtil.getSafeString(aInfo));
    }
@@ -78,14 +74,6 @@ public abstract class AeBaseProcessEvent extends AeEvent implements IAeBaseProce
    public String getNodePath()
    {
       return mNodePath;
-   }
-
-   /**
-    * @see org.activebpel.rt.bpel.IAeBaseProcessEvent#getEventID()
-    */
-   public int getEventID()
-   {
-      return mEventID;
    }
 
    /**
@@ -126,14 +114,6 @@ public abstract class AeBaseProcessEvent extends AeEvent implements IAeBaseProce
    protected void setAncillaryInfo(String aAncillaryInfo)
    {
       mAncillaryInfo = aAncillaryInfo;
-   }
-
-   /**
-    * @param aEventID The eventID to set.
-    */
-   protected void setEventID(int aEventID)
-   {
-      mEventID = aEventID;
    }
 
    /**

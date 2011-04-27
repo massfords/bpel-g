@@ -34,6 +34,7 @@ import org.activebpel.rt.xml.def.AeBaseXmlDef;
 import org.activebpel.rt.xml.def.IAePathSegmentBuilder;
 import org.w3c.dom.Document;
 
+import bpelg.services.processes.StorageErrorMessage;
 import bpelg.services.processes.types.ProcessInstanceDetail;
 
 /**
@@ -328,7 +329,7 @@ public class AeProcessViewBase
     * building a simple model representing the Process and its current state. <p/>This method is called when
     * the presenation layer (JSP) sets process id via setProcessIdStr() method.
     */
-   protected void initialize()
+   protected void initialize() 
    {
       // set valid = true. Errors in getProcessBpelDocument will reset this to false.
       setValid(true);
@@ -375,52 +376,57 @@ public class AeProcessViewBase
 
    /**
     * Loads the process BPEL Document from the engine admin
+    * @throws StorageErrorMessage 
     */
-   protected Document getProcessBPELDocument()
+   protected Document getProcessBPELDocument() 
    {
-      // Get the BPEL def xml document
-      Document bpelDoc = null;
-      AeProcessDeploymentDetail deployDetails = null;
-      if (getMode() == ACTIVE_PROCESS_DETAIL)
-      {
-         // get active process def given PID.
-         // load the process instance details for the PID.
-         loadProcessInstanceDetails();
-         // Get the def deployment details.
-         if (getProcessDetails() != null)
-         {
-            deployDetails = AeEngineManagementFactory.getBean().getDeployedProcessDetail(getProcessDetails().getName().getNamespaceURI(), getProcessDetails().getName().getLocalPart()); 
-         }
-      }
-      else
-      {
-         // get deployed process def given pdid.
-         int pdidOffset = getProcessDeploymentId();
-         List<AeProcessDeploymentDetail> deployedProcList = AeEngineManagementFactory.getBean().getDeployedProcesses();
-         AeProcessDeploymentDetail details[] = deployedProcList.toArray(new AeProcessDeploymentDetail[deployedProcList.size()]);
-         if (pdidOffset >= 0 && pdidOffset < details.length)
-         {
-            deployDetails = details[pdidOffset];
-         }
-      }
-
-      if (deployDetails == null)
-      {
-         reportNoProcessDetail();
-      }
-      else
-      {
-          mBpelSrc = deployDetails.getBpelSourceXml();
-         try
-         {
-            bpelDoc = AeProcessViewUtil.domFromString(deployDetails.getBpelSourceXml());
-         }
-         catch (Exception e)
-         {
-            reportErrorLoadingBPEL();
-         }
-      }
-      return bpelDoc;
+	   try {
+	      // Get the BPEL def xml document
+	      Document bpelDoc = null;
+	      AeProcessDeploymentDetail deployDetails = null;
+	      if (getMode() == ACTIVE_PROCESS_DETAIL)
+	      {
+	         // get active process def given PID.
+	         // load the process instance details for the PID.
+	         loadProcessInstanceDetails();
+	         // Get the def deployment details.
+	         if (getProcessDetails() != null)
+	         {
+	            deployDetails = AeEngineManagementFactory.getBean().getDeployedProcessDetail(getProcessDetails().getName().getNamespaceURI(), getProcessDetails().getName().getLocalPart()); 
+	         }
+	      }
+	      else
+	      {
+	         // get deployed process def given pdid.
+	         int pdidOffset = getProcessDeploymentId();
+	         List<AeProcessDeploymentDetail> deployedProcList = AeEngineManagementFactory.getBean().getDeployedProcesses();
+	         AeProcessDeploymentDetail details[] = deployedProcList.toArray(new AeProcessDeploymentDetail[deployedProcList.size()]);
+	         if (pdidOffset >= 0 && pdidOffset < details.length)
+	         {
+	            deployDetails = details[pdidOffset];
+	         }
+	      }
+	
+	      if (deployDetails == null)
+	      {
+	         reportNoProcessDetail();
+	      }
+	      else
+	      {
+	          mBpelSrc = deployDetails.getBpelSourceXml();
+	         try
+	         {
+	            bpelDoc = AeProcessViewUtil.domFromString(deployDetails.getBpelSourceXml());
+	         }
+	         catch (Exception e)
+	         {
+	            reportErrorLoadingBPEL();
+	         }
+	      }
+	      return bpelDoc; 
+	   } catch (StorageErrorMessage e) {
+		   return null;
+	   }
    }
 
    /**
@@ -446,11 +452,12 @@ public class AeProcessViewBase
 
    /**
     * Loads the process instance details and sets them as member data.
+    * @throws StorageErrorMessage 
     */
-   protected void loadProcessInstanceDetails()
+   protected void loadProcessInstanceDetails() throws StorageErrorMessage
    {
       ProcessInstanceDetail processInstanceDetails = null;
-      processInstanceDetails = AeEngineManagementFactory.getBean().getProcessDetail(mProcessId);
+      processInstanceDetails = AeEngineManagementFactory.getProcessManager().getProcessDetail(mProcessId);
 
       if ( processInstanceDetails == null )
       {
@@ -518,7 +525,7 @@ public class AeProcessViewBase
     * Sets the process id.
     * @param aPid
     */
-   public void setProcessId(long aPid)
+   public void setProcessId(long aPid) 
    {
       mProcessId = aPid;
       setMode(ACTIVE_PROCESS_DETAIL);

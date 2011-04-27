@@ -14,7 +14,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import org.activebpel.rt.bpel.AeBusinessProcessException;
-import org.activebpel.rt.bpel.IAeProcessInfoEvent;
+import org.activebpel.rt.bpel.ProcessInfoEventType;
 import org.activebpel.rt.bpel.def.activity.AeActivityAssignDef;
 import org.activebpel.rt.bpel.impl.AeBpelException;
 import org.activebpel.rt.bpel.impl.AeFaultFactory;
@@ -124,7 +124,7 @@ public class AeActivityAssignImpl extends AeActivityImpl
          // Note we are sending the index of the copy operation which is translated in the msg formatter
          AeProcessInfoEvent evt = new AeProcessInfoEvent(getProcess().getProcessId(),
                                                  getLocationPath(),
-                                                 IAeProcessInfoEvent.ERROR_ASSIGN_ACTIVITY,
+                                                 ProcessInfoEventType.ErrorAssignActivity,
                                                  "", //$NON-NLS-1$
                                                  Integer.toString(index));
          getProcess().getEngine().fireInfoEvent(evt);

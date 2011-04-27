@@ -16,7 +16,6 @@ import java.util.List;
 import javax.xml.namespace.QName;
 
 import org.activebpel.rt.AeException;
-import org.activebpel.rt.attachment.IAeAttachmentItem;
 import org.activebpel.rt.bpel.AeBusinessProcessException;
 import org.activebpel.rt.bpel.config.IAeEngineConfiguration;
 import org.activebpel.rt.bpel.coord.AeCoordinationDetail;
@@ -28,10 +27,8 @@ import org.activebpel.rt.bpel.server.catalog.report.IAeCatalogAdmin;
 import org.activebpel.rt.bpel.server.deploy.IAeServiceDeploymentInfo;
 import org.activebpel.rt.bpel.server.logging.IAeDeploymentLogger;
 import org.activebpel.rt.bpel.urn.IAeURNResolver;
-import org.activebpel.wsio.AeWebServiceAttachment;
 
 import bpelg.services.processes.types.ProcessFilterType;
-import bpelg.services.processes.types.ProcessInstanceDetail;
 import bpelg.services.processes.types.ProcessList;
 
 /**
@@ -64,12 +61,6 @@ public interface IAeEngineAdministration
     * @param aQName
     */
    public AeProcessDeploymentDetail getDeployedProcessDetail(QName aQName);
-
-   /**
-    * Gets the details for a single process id
-    * @param aId
-    */
-   public ProcessInstanceDetail getProcessDetail(long aId);
 
    /**
     * Gets a list of the unmatched inbound queued receives from the engine's
@@ -186,13 +177,6 @@ public interface IAeEngineAdministration
    public boolean isRunning();
 
    /**
-    * Removes processes based upon filter specification and returns the number
-    * of processes removed.
-    * @param aFilter the filter specification
-    */
-   public int removeProcesses(ProcessFilterType aFilter) throws AeBusinessProcessException;
-
-   /**
     * Deploys a BPR file to the engine.
     *
     * @param aBprFile The BPR to deploy.
@@ -205,24 +189,6 @@ public interface IAeEngineAdministration
     * Getter for the urn resolver.
     */
    public IAeURNResolver getURNAddressResolver();
-
-   /**
-    * Returns the correlation set data
-    * @param aProcessId process id
-    * @param aLocationPath location path of the correlation set.
-    * @return correlation set as a string
-    * @throws AeBusinessProcessException
-    */
-   public String getCorrelationSetData(long aProcessId, String aLocationPath) throws AeBusinessProcessException;
-
-   /**
-    * Get the requested partner role endpoint reference for the given partnerLink path.
-    * @param aProcessId process id
-    * @param aLocationPath location path of the correlation set.
-    * @return partner role data as a string
-    * @throws AeBusinessProcessException
-    */
-   public String getPartnerRoleData(long aProcessId, String aLocationPath) throws AeBusinessProcessException;
 
    /**
     * Returns True if using internal WorkManager or False if using server implementation.
@@ -243,23 +209,5 @@ public interface IAeEngineAdministration
     * @throws AeException
     */
    public List getParticipantForProcessId(long aParentProcessId) throws AeException;
-   
-   /**
-    * Add an attachment to the variable.
-    * @param aProcessId
-    * @param aLocationPath
-    * @param aWsioAttachment
-    * @throws AeException
-    */
-   public IAeAttachmentItem addVariableAttachment(long aProcessId,String aLocationPath, AeWebServiceAttachment aWsioAttachment) throws AeException;
-   
-   /**
-    * Remove attachments from the variable.
-    * @param aProcessId
-    * @param aLocationPath
-    * @param aAttachmentItemNumbers
-    * @throws AeException
-    */
-   public void removeVariableAttachments(long aProcessId,String aLocationPath, int[] aAttachmentItemNumbers ) throws AeException;
 
 }

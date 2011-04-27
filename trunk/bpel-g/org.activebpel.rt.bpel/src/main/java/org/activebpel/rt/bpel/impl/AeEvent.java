@@ -20,14 +20,14 @@ import org.activebpel.rt.bpel.IAeEvent;
 public abstract class AeEvent implements IAeEvent
 {
    /** The event's timestamp. */
-   private Date mTimestamp;
+   private final Date mTimestamp;
    
    /**
     * Default c'tor.
     */
    public AeEvent()
    {
-      setTimestamp(new Date());
+      this(new Date());
    }
    
    /**
@@ -37,7 +37,7 @@ public abstract class AeEvent implements IAeEvent
     */
    public AeEvent(Date aTimestamp)
    {
-      setTimestamp(aTimestamp);
+      mTimestamp = aTimestamp;
    }
    
    /**
@@ -46,13 +46,5 @@ public abstract class AeEvent implements IAeEvent
    public Date getTimestamp()
    {
       return mTimestamp;
-   }
-   
-   /**
-    * @param aTimestamp The timestamp to set.
-    */
-   protected void setTimestamp(Date aTimestamp)
-   {
-      mTimestamp = aTimestamp;
    }
 }

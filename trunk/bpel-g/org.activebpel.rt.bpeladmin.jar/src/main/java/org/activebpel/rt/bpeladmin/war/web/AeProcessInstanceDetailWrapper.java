@@ -13,12 +13,12 @@ import java.io.CharArrayWriter;
 import java.io.PrintWriter;
 import java.util.Date;
 
-import org.activebpel.rt.bpel.AeBusinessProcessException;
 import org.activebpel.rt.bpeladmin.war.AeEngineManagementFactory;
 import org.activebpel.rt.bpeladmin.war.AeMessages;
 import org.activebpel.rt.util.AeDate;
 import org.activebpel.rt.util.AeUtil;
 
+import bpelg.services.processes.StorageErrorMessage;
 import bpelg.services.processes.types.ProcessInstanceDetail;
 import bpelg.services.processes.types.SuspendReasonType;
 
@@ -64,10 +64,10 @@ public class AeProcessInstanceDetailWrapper
       {
          try
          {
-            AeEngineManagementFactory.getBean().terminateProcess(mPid);
-            mDelegate = AeEngineManagementFactory.getBean().getProcessDetail( mPid );
+            AeEngineManagementFactory.getProcessManager().terminateProcess(mPid);
+            mDelegate = AeEngineManagementFactory.getProcessManager().getProcessDetail( mPid );
          }
-         catch (AeBusinessProcessException e)
+         catch (Exception e)
          {
             String error = AeMessages.getString("AeProcessInstanceDetailWrapper.2"); //$NON-NLS-1$
             CharArrayWriter writer = new CharArrayWriter();
@@ -88,10 +88,10 @@ public class AeProcessInstanceDetailWrapper
       {
          try
          {
-            AeEngineManagementFactory.getBean().suspendProcess(mPid);
-            mDelegate = AeEngineManagementFactory.getBean().getProcessDetail( mPid );
+            AeEngineManagementFactory.getProcessManager().suspendProcess(mPid);
+            mDelegate = AeEngineManagementFactory.getProcessManager().getProcessDetail( mPid );
          }
-         catch (AeBusinessProcessException e)
+         catch (Exception e)
          {
             String error = AeMessages.getString("AeProcessInstanceDetailWrapper.3"); //$NON-NLS-1$
             CharArrayWriter writer = new CharArrayWriter();
@@ -112,18 +112,16 @@ public class AeProcessInstanceDetailWrapper
       {
          try
          {
-            AeEngineManagementFactory.getBean().resumeProcess(mPid);
-            mDelegate = AeEngineManagementFactory.getBean().getProcessDetail( mPid );
-         }
-         catch (AeBusinessProcessException e)
-         {
-            String error = AeMessages.getString("AeProcessInstanceDetailWrapper.4"); //$NON-NLS-1$
-            CharArrayWriter writer = new CharArrayWriter();
-            e.printStackTrace(new PrintWriter(writer));
-            error += writer.toCharArray();
-            writer.close();
-            setErrorMessage(error);
-         }
+            AeEngineManagementFactory.getProcessManager().resumeProcess(mPid);
+            mDelegate = AeEngineManagementFactory.getProcessManager().getProcessDetail( mPid );
+         } catch (Exception e) {
+             String error = AeMessages.getString("AeProcessInstanceDetailWrapper.4"); //$NON-NLS-1$
+             CharArrayWriter writer = new CharArrayWriter();
+             e.printStackTrace(new PrintWriter(writer));
+             error += writer.toCharArray();
+             writer.close();
+             setErrorMessage(error);
+		}
       }
    }
 
@@ -136,8 +134,8 @@ public class AeProcessInstanceDetailWrapper
       {
          try
          {
-            AeEngineManagementFactory.getBean().restartProcess(mPid);
-            mDelegate = AeEngineManagementFactory.getBean().getProcessDetail(mPid);
+            AeEngineManagementFactory.getProcessManager().restartProcess(mPid);
+            mDelegate = AeEngineManagementFactory.getProcessManager().getProcessDetail(mPid);
          }
          catch (Exception e)
          {
@@ -155,8 +153,9 @@ public class AeProcessInstanceDetailWrapper
     * Setter for the process id property.
     * Loads the delegate.
     * @param aPid
+    * @throws StorageErrorMessage 
     */
-   public void setStrProcessId( String aPid )
+   public void setStrProcessId( String aPid ) throws StorageErrorMessage
    {
       long pid = -1;
       try
@@ -174,11 +173,12 @@ public class AeProcessInstanceDetailWrapper
     * Setter for the process id property.
     * Loads the delegate.
     * @param aPid
+    * @throws StorageErrorMessage 
     */
-   public void setProcessId( long aPid )
+   public void setProcessId( long aPid ) throws StorageErrorMessage
    {
       mPid = aPid;
-      mDelegate = AeEngineManagementFactory.getBean().getProcessDetail( aPid );
+      mDelegate = AeEngineManagementFactory.getProcessManager().getProcessDetail( aPid );
    }
    
    /**

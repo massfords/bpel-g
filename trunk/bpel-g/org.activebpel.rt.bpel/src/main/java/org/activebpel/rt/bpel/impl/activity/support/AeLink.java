@@ -14,7 +14,7 @@ import java.util.Iterator;
 
 import org.activebpel.rt.bpel.AeBusinessProcessException;
 import org.activebpel.rt.bpel.IAeActivity;
-import org.activebpel.rt.bpel.IAeProcessInfoEvent;
+import org.activebpel.rt.bpel.ProcessInfoEventType;
 import org.activebpel.rt.bpel.def.activity.support.AeLinkDef;
 import org.activebpel.rt.bpel.def.activity.support.AeTransitionConditionDef;
 import org.activebpel.rt.bpel.impl.AeAbstractBpelObject;
@@ -193,7 +193,7 @@ public class AeLink extends AeAbstractBpelObject implements IAeLink
       {
          boolean result = ((AeAbstractBpelObject) getSourceActivity()).executeBooleanExpression(getTransitionConditionDef());
          getProcess().getEngine().fireEvaluationEvent(getProcess().getProcessId(),
-               getTransitionConditionDef().getExpression(), IAeProcessInfoEvent.INFO_LINK_XTN,
+               getTransitionConditionDef().getExpression(), ProcessInfoEventType.InfoLinkTransition,
                getLocationPath(), Boolean.toString(result));
          setStatus( result );
       }

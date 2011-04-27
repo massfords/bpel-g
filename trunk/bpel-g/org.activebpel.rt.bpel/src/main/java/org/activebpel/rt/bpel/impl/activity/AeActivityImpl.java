@@ -21,7 +21,7 @@ import org.activebpel.rt.bpel.AeMessages;
 import org.activebpel.rt.bpel.IAeActivity;
 import org.activebpel.rt.bpel.IAeExpressionLanguageFactory;
 import org.activebpel.rt.bpel.IAeFault;
-import org.activebpel.rt.bpel.IAeProcessInfoEvent;
+import org.activebpel.rt.bpel.ProcessInfoEventType;
 import org.activebpel.rt.bpel.config.IAeEngineConfiguration;
 import org.activebpel.rt.bpel.def.AeActivityDef;
 import org.activebpel.rt.bpel.def.AeBaseDef;
@@ -115,7 +115,7 @@ abstract public class AeActivityImpl extends AeAbstractBpelObject implements IAe
          getProcess().getEngine().fireInfoEvent(
                new AeProcessInfoEvent(getProcess().getProcessId(),
                                       getLocationPath(),
-                                      IAeProcessInfoEvent.INFO_EARLY_TERMINATION));
+                                      ProcessInfoEventType.InfoEarlyTermination));
          IAeFault fault = getFaultFactory().getEarlyTerminationFault();
          triggerFaultHandling(fault);
       }
@@ -171,7 +171,7 @@ abstract public class AeActivityImpl extends AeAbstractBpelObject implements IAe
             // Generate engine info event for debug.
             //
             getProcess().getEngine().fireEvaluationEvent(getProcess().getProcessId(),
-                  joinCondDef.getExpression(), IAeProcessInfoEvent.INFO_JOIN, getLocationPath(),
+                  joinCondDef.getExpression(), ProcessInfoEventType.InfoJoin, getLocationPath(),
                   Boolean.toString(result));
          }
          else
@@ -401,7 +401,7 @@ abstract public class AeActivityImpl extends AeAbstractBpelObject implements IAe
             getProcess().getEngine().fireInfoEvent(
                   new AeProcessInfoEvent(getProcess().getProcessId(),
                                          getLocationPath(),
-                                         IAeProcessInfoEvent.INFO_LINK_XTN,
+                                         ProcessInfoEventType.InfoLinkTransition,
                                          fault.getFaultName().getLocalPart(),
                                          AeMessages.getString("AeActivityImpl.ERROR_IN_TRANSITION_CONDITION"))); //$NON-NLS-1$
          }

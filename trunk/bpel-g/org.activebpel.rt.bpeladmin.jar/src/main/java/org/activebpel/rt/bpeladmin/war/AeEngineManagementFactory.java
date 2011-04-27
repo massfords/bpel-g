@@ -20,6 +20,8 @@ import org.activebpel.rt.bpel.server.admin.jmx.AeEngineManagementAdapter;
 import org.activebpel.rt.bpel.server.admin.jmx.IAeEngineManagementMXBean;
 import org.activebpel.rt.bpel.server.engine.AeEngineFactory;
 
+import bpelg.services.processes.AeProcessManager;
+
 public class AeEngineManagementFactory {
     
     private static IAeEngineManagementMXBean sBean; 
@@ -30,6 +32,7 @@ public class AeEngineManagementFactory {
     private static String sPassword;
     private static DisconnectedListener sNotificationlistener = new DisconnectedListener();
     private static boolean sRemote;
+    private static AeProcessManager sProcessManager;
     
     
     public synchronized static IAeEngineManagementMXBean getBean() {
@@ -138,4 +141,15 @@ public class AeEngineManagementFactory {
     private static boolean isLocal() {
     	return !isRemote();
     }
+
+	public static AeProcessManager getProcessManager() {
+		if (sProcessManager == null) {
+			sProcessManager = AeEngineFactory.getBean(AeProcessManager.class);
+		}
+		return sProcessManager;
+	}
+
+	public static void setProcessManager(AeProcessManager aProcessManager) {
+		sProcessManager = aProcessManager;
+	}
 }

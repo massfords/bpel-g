@@ -18,6 +18,7 @@ import java.util.Map;
 
 import org.activebpel.rt.bpel.IAeProcessEvent;
 import org.activebpel.rt.bpel.IAeProcessInfoEvent;
+import org.activebpel.rt.bpel.ProcessEventType;
 import org.activebpel.rt.bpel.config.IAeConfigChangeListener;
 import org.activebpel.rt.bpel.config.IAeUpdatableEngineConfig;
 import org.activebpel.rt.bpel.impl.IAeBusinessProcessEngineInternal;
@@ -140,7 +141,7 @@ public class AeInMemoryProcessLogger implements IAeProcessLogger, IAeConfigChang
      * @param aEvent
      */
     protected boolean isCloseEvent(IAeProcessEvent aEvent) {
-        return "/process".equals(aEvent.getNodePath()) && (aEvent.getEventID() == IAeProcessEvent.EXECUTE_COMPLETE || aEvent.getEventID() == IAeProcessEvent.EXECUTE_FAULT); //$NON-NLS-1$
+        return "/process".equals(aEvent.getNodePath()) && (aEvent.getEventType() == ProcessEventType.ExecuteComplete || aEvent.getEventType() == ProcessEventType.ExecuteFault); //$NON-NLS-1$
     }
 
     /**

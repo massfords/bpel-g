@@ -16,7 +16,7 @@ import java.util.Map;
 import org.activebpel.rt.AeException;
 import org.activebpel.rt.bpel.AeBusinessProcessException;
 import org.activebpel.rt.bpel.AeMessages;
-import org.activebpel.rt.bpel.IAeProcessInfoEvent;
+import org.activebpel.rt.bpel.ProcessInfoEventType;
 
 
 /**
@@ -173,7 +173,7 @@ public class AeBpelState
       AeProcessInfoEvent infoEvent = new AeProcessInfoEvent(
             aObject.getProcess().getProcessId(),
             aObject.getLocationPath(),
-            IAeProcessInfoEvent.GENERIC_INFO_EVENT,
+            ProcessInfoEventType.GenericInfoEvent,
             null,
             message);
       aObject.getProcess().getEngine().fireInfoEvent(infoEvent);

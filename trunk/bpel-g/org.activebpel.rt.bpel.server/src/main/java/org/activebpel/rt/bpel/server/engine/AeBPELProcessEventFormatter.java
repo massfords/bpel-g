@@ -16,6 +16,7 @@ import org.activebpel.rt.bpel.AeEngineEventFormatter;
 import org.activebpel.rt.bpel.IAeBaseProcessEvent;
 import org.activebpel.rt.bpel.IAeProcessEvent;
 import org.activebpel.rt.bpel.IAeProcessInfoEvent;
+import org.activebpel.rt.bpel.ProcessEventType;
 import org.activebpel.rt.util.AER;
 import org.activebpel.rt.util.AeUtil;
 
@@ -62,7 +63,7 @@ public class AeBPELProcessEventFormatter extends AeEngineEventFormatter
     */
    public String formatEvent( IAeProcessEvent aEvent )
    {
-      return format( aEvent.getEventID(), convertToArray(aEvent));
+      return format( aEvent.getEventType(), convertToArray(aEvent, aEvent.getEventType().code()));
    }
 
    /**
@@ -74,29 +75,27 @@ public class AeBPELProcessEventFormatter extends AeEngineEventFormatter
     */
    public String formatEvent( IAeProcessInfoEvent aEvent )
    {
-      return format( aEvent.getEventID(), convertToArray(aEvent));
+	   // FIXME enum
+      return super.format( aEvent.getProcessInfoEventType().code(), convertToArray(aEvent, aEvent.getProcessInfoEventType().code()));
    }
 
-   /**
-    * @see org.activebpel.rt.util.AeMessageFormatter#format(int, java.lang.Object[])
-    */
-   public String format( int aEventType, Object[] aArguments )
+   public String format( ProcessEventType aEventType, Object[] aArguments )
    {
       // Format the event message, then check to see if we should add an
       //  error/fault indicator at the end.
       //
-      String text = super.format( aEventType, aArguments );
+      String text = super.format( aEventType.code(), aArguments );
       
       // check aEventType to see if we're logging an error or a 
       //  fault, and append the appropriate suffix, if so.
       //
       switch ( aEventType )
       {
-         case IAeProcessEvent.DEAD_PATH_STATUS:
+         case DeadPathStatus:
             text += " [d]" ; //$NON-NLS-1$
             break ;
             
-         case IAeProcessEvent.EXECUTE_FAULT:
+         case ExecuteFault:
             text += " [f]" ; //$NON-NLS-1$
             break ;
             
@@ -136,7 +135,7 @@ public class AeBPELProcessEventFormatter extends AeEngineEventFormatter
     * 
     * @param aEvent The info event to be formatted for output.
     */
-   protected Object[] convertToArray(IAeBaseProcessEvent aEvent)
+   protected Object[] convertToArray(IAeBaseProcessEvent aEvent, int aCode)
    {
       Object[] args = new Object[getMaxArgs()];
       Arrays.fill(args, ""); //$NON-NLS-1$
@@ -149,7 +148,7 @@ public class AeBPELProcessEventFormatter extends AeEngineEventFormatter
 
       args[AER.ARG_NODE_OR_LINK_XPATH] = aEvent.getNodePath();
       args[AER.ARG_PID] = String.valueOf(aEvent.getPID());
-      args[AER.ARG_EVENT_ID] = String.valueOf(aEvent.getEventID());
+      args[AER.ARG_EVENT_ID] = String.valueOf(aCode);
       args[AER.ARG_FAULT_NAME] = aEvent.getFaultName();
       args[AER.ARG_ANCILLARY_INFO] = ancillaryInfo;
       String pattern = getResourceString( AER.sTSFormatKey );

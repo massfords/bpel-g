@@ -42,18 +42,13 @@ import org.activebpel.rt.config.AeConfigurationUtil;
 import org.activebpel.rt.util.AeCloser;
 import org.activebpel.rt.util.AeUtil;
 import org.activebpel.rt.xml.AeQName;
-import org.activebpel.rt.xml.schema.AeSchemaDuration;
 
 import bpelg.services.processes.types.ProcessFilterType;
-import bpelg.services.processes.types.ProcessInstanceDetail;
 import bpelg.services.processes.types.ProcessList;
 
 public class AeEngineManagementAdapter implements IAeEngineManagementMXBean {
     
     private static final String CONFIG_ALARM_MAX_WORK_COUNT_PATH = "ChildWorkManagers/Alarm/MaxWorkCount";
-
-    private static final String CONFIG_B4P_MANAGER_FINALIZATION_DURATION = "CustomManagers/BPEL4PeopleManager/FinalizationDuration"; //$NON-NLS-1$
-    private static final String CONFIG_B4P_MANAGER_FINALIZATION_CLASS = "CustomManagers/BPEL4PeopleManager/Class"; //$NON-NLS-1$
 
     private IAeEngineAdministration mAdmin;
     
@@ -71,10 +66,6 @@ public class AeEngineManagementAdapter implements IAeEngineManagementMXBean {
 
     public List<AeProcessDeploymentDetail> getDeployedProcesses() {
         return Arrays.asList(mAdmin.getDeployedProcesses());
-    }
-
-    public ProcessInstanceDetail getProcessDetail(long aId) {
-        return mAdmin.getProcessDetail(aId);
     }
 
     public List<AeQueuedReceiveDetail> getUnmatchedQueuedReceives() {
@@ -298,23 +289,6 @@ public class AeEngineManagementAdapter implements IAeEngineManagementMXBean {
         return mAdmin.getEngineConfig().getProcessWorkCount();
     }
 
-    public int getTaskFinalizationDuration() {
-        //get duration from entry: CustomManagers/BPEL4PeopleManager/FinalizationDuration
-        String durationStr = (String) mAdmin.getEngineConfig().getEntryByPath(CONFIG_B4P_MANAGER_FINALIZATION_DURATION);
-        if (AeUtil.isNullOrEmpty(durationStr))
-        {
-           return 1;
-        }
-        try
-        {
-           return new AeSchemaDuration(durationStr).getDays();
-        }
-        catch (Exception e)
-        {
-           return 1;
-        }
-    }
-
     public int getThreadPoolMax() {
         return mAdmin.getEngineConfig().getWorkManagerThreadPoolMax();
     }
@@ -387,19 +361,6 @@ public class AeEngineManagementAdapter implements IAeEngineManagementMXBean {
     public void setResourceReplaceEnabled(boolean aEnabled) {
         getMutableConfig().setResourceReplaceEnabled(aEnabled);
         getMutableConfig().update();
-    }
-
-    public void setTaskFinalizationDuration(int aDays) {
-        if (aDays > 0)
-        {
-            if (getMutableConfig().getEntryByPath(CONFIG_B4P_MANAGER_FINALIZATION_CLASS) != null) {
-               AeSchemaDuration duration = new AeSchemaDuration();
-               duration.setDays(aDays);
-               String durationStr = duration.toString();
-               getMutableConfig().addEntryByPath(CONFIG_B4P_MANAGER_FINALIZATION_DURATION, durationStr);
-               getMutableConfig().update();
-            }
-        }
     }
 
     public void setThreadPoolMax(int aValue) {
@@ -475,22 +436,6 @@ public class AeEngineManagementAdapter implements IAeEngineManagementMXBean {
         }
     }
 
-    public void resumeProcess(long aPid) throws AeBusinessProcessException {
-        AeEngineFactory.getEngine().resumeProcess(aPid);
-    }
-
-    public void suspendProcess(long aPid) throws AeBusinessProcessException {
-        AeEngineFactory.getEngine().suspendProcess(aPid);
-    }
-
-    public void terminateProcess(long aPid) throws AeBusinessProcessException {
-        AeEngineFactory.getEngine().terminateProcess(aPid);
-    }
-
-    public void restartProcess(long aPid) throws AeBusinessProcessException {
-        AeEngineFactory.getEngine().restartProcess(aPid);
-    }
-
     public String getCompiledProcessDef(long aProcessId, AeQName aName) throws AeBusinessProcessException {
         AeProcessDef def = null;
         if (aProcessId <= 0) {
@@ -526,10 +471,4 @@ public class AeEngineManagementAdapter implements IAeEngineManagementMXBean {
             return false;
         }
     }
-
-	@Override
-	public int removeProcesses(ProcessFilterType aFilterType)
-			throws AeBusinessProcessException {
-		return mAdmin.removeProcesses(aFilterType);
-	}
 }

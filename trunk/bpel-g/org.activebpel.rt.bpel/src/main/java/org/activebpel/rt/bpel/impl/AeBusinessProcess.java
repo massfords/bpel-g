@@ -28,21 +28,21 @@ import org.activebpel.rt.IAePolicyConstants;
 import org.activebpel.rt.attachment.IAeAttachmentContainer;
 import org.activebpel.rt.attachment.IAeAttachmentItem;
 import org.activebpel.rt.bpel.AeBusinessProcessException;
+import org.activebpel.rt.bpel.AeEngineAlertEventType;
+import org.activebpel.rt.bpel.AeEngineEventType;
 import org.activebpel.rt.bpel.AeMessages;
 import org.activebpel.rt.bpel.IAeActivity;
 import org.activebpel.rt.bpel.IAeBusinessProcess;
 import org.activebpel.rt.bpel.IAeEndpointReference;
-import org.activebpel.rt.bpel.IAeEngineAlert;
-import org.activebpel.rt.bpel.IAeEngineEvent;
 import org.activebpel.rt.bpel.IAeExpressionLanguageFactory;
 import org.activebpel.rt.bpel.IAeFault;
 import org.activebpel.rt.bpel.IAeInvokeActivity;
 import org.activebpel.rt.bpel.IAeLocatableObject;
 import org.activebpel.rt.bpel.IAeMonitorListener;
 import org.activebpel.rt.bpel.IAePartnerLink;
-import org.activebpel.rt.bpel.IAeProcessEvent;
-import org.activebpel.rt.bpel.IAeProcessInfoEvent;
 import org.activebpel.rt.bpel.IAeVariable;
+import org.activebpel.rt.bpel.ProcessEventType;
+import org.activebpel.rt.bpel.ProcessInfoEventType;
 import org.activebpel.rt.bpel.coord.AeCoordinationException;
 import org.activebpel.rt.bpel.coord.IAeCoordinating;
 import org.activebpel.rt.bpel.coord.IAeCoordinator;
@@ -173,17 +173,17 @@ public class AeBusinessProcess extends AeActivityScopeImpl implements IAeBusines
    private Map mQueuedReceives = new HashMap();
 
    /** maps state change values to their engine event values.  */
-   private static final int[] STATE_TO_EVENT_MAPPING =
+   private static final  ProcessEventType[] STATE_TO_EVENT_MAPPING =
    {
-      /*  Inactive  */        IAeProcessEvent.INACTIVE,
-      /*  Ready     */        IAeProcessEvent.READY_TO_EXECUTE,
-      /*  Executing */        IAeProcessEvent.EXECUTING,
-      /*  Finished  */        IAeProcessEvent.EXECUTE_COMPLETE,
-      /*  Faulted   */        IAeProcessEvent.EXECUTE_FAULT,
-      /*  Dead Path */        IAeProcessEvent.DEAD_PATH_STATUS,
-      /*  Queued    */        IAeProcessEvent.INACTIVE, // we're skipping over this
-      /*  Terminated */       IAeProcessEvent.TERMINATED,
-      /*  Faulting   */       IAeProcessEvent.FAULTING
+      /*  Inactive  */        ProcessEventType.Inactive,
+      /*  Ready     */        ProcessEventType.ReadyToExecute,
+      /*  Executing */        ProcessEventType.Executing,
+      /*  Finished  */        ProcessEventType.ExecuteComplete,
+      /*  Faulted   */        ProcessEventType.ExecuteFault,
+      /*  Dead Path */        ProcessEventType.DeadPathStatus,
+      /*  Queued    */        ProcessEventType.Inactive, // we're skipping over this
+      /*  Terminated */       ProcessEventType.Terminated,
+      /*  Faulting   */       ProcessEventType.Faulting
    };
 
    /**
@@ -455,7 +455,7 @@ public class AeBusinessProcess extends AeActivityScopeImpl implements IAeBusines
    public void execute() throws AeBusinessProcessException
    {
       setProcessState(ProcessStateValueType.Running);
-      getEngine().fireEngineEvent(new AeEngineEvent(getProcessId(), IAeEngineEvent.PROCESS_STARTED, getName()));
+      getEngine().fireEngineEvent(new AeEngineEvent(getProcessId(), AeEngineEventType.ProcessStarted, getName()));
       // events will get started after the start message has been consumed.
       getProcess().queueObjectToExecute(getActivity());
    }
@@ -525,7 +525,7 @@ public class AeBusinessProcess extends AeActivityScopeImpl implements IAeBusines
    {
       // fire link status change event
       String linkPath = aLink.getLocationPath();
-      fireEvent(linkPath, IAeProcessEvent.LINK_STATUS, Boolean.toString(aLink.getStatus()));
+      fireEvent(linkPath, ProcessEventType.LinkStatus, Boolean.toString(aLink.getStatus()));
 
       // process target activity
       IAeActivity activity = aLink.getTargetActivity();
@@ -670,7 +670,7 @@ public class AeBusinessProcess extends AeActivityScopeImpl implements IAeBusines
          case AeSuspendReason.SUSPEND_CODE_LOGICAL:
             setProcessStateReason(SuspendReasonType.Logical);
             getProcessSuspendResumeHandler().suspend();
-            AeEngineAlert alert = createAlert(IAeEngineAlert.PROCESS_ALERT_SUSPENDED, aReason.getLocationPath(), aReason.getVariable());
+            AeEngineAlert alert = createAlert(AeEngineAlertEventType.ProcessSuspended, aReason.getLocationPath(), aReason.getVariable());
             getEngine().fireEngineAlert(alert);
          break;
 
@@ -837,7 +837,7 @@ public class AeBusinessProcess extends AeActivityScopeImpl implements IAeBusines
       compHandler.setCallback(new AeProcessCompensationCallbackWrapper(aCallback));
       compHandler.setCompInfo(getCompInfo());
 
-      AeProcessInfoEvent event = new AeProcessInfoEvent(getProcessId(), getLocationPath(), IAeProcessInfoEvent.INFO_PROCESS_COMPENSATION_STARTED);
+      AeProcessInfoEvent event = new AeProcessInfoEvent(getProcessId(), getLocationPath(), ProcessInfoEventType.InfoProcessCompensationStarted);
       getEngine().fireInfoEvent(event);
       queueObjectToExecute(compHandler);
    }
@@ -869,7 +869,7 @@ public class AeBusinessProcess extends AeActivityScopeImpl implements IAeBusines
    /**
     * Overload method for engine events with no fault to report.
     */
-   protected void fireEvent(String aPath, int aEventId, String aOtherInfo)
+   protected void fireEvent(String aPath, ProcessEventType aEventId, String aOtherInfo)
    {
       AeProcessEvent event = new AeProcessEvent(getProcessId(), aPath, aEventId, "", aOtherInfo, getName()); //$NON-NLS-1$
       getEngine().fireEvent(event);
@@ -893,7 +893,7 @@ public class AeBusinessProcess extends AeActivityScopeImpl implements IAeBusines
    /**
     * Report engine events - includes fault parameter.
     */
-   protected void fireEvent(String aPath, int aEventId, String aFault, String aOtherInfo)
+   protected void fireEvent(String aPath, ProcessEventType aEventId, String aFault, String aOtherInfo)
    {
       AeProcessEvent event = new AeProcessEvent(getProcessId(), aPath, aEventId, aFault, aOtherInfo, getName());
       getEngine().fireEvent(event);
@@ -1257,7 +1257,7 @@ public class AeBusinessProcess extends AeActivityScopeImpl implements IAeBusines
    {
       if (aObject.getState() != AeBpelState.QUEUED_BY_PARENT)
       {
-         int code = STATE_TO_EVENT_MAPPING[aObject.getState().getCode()];
+    	  ProcessEventType code = STATE_TO_EVENT_MAPPING[aObject.getState().getCode()];
          fireEvent(aObject.getLocationPath(), code, aDetailsObject.getFaultName(), aDetailsObject.getAdditionalInfo());
       }
 
@@ -1446,7 +1446,7 @@ public class AeBusinessProcess extends AeActivityScopeImpl implements IAeBusines
       {
          setProcessState(ProcessStateValueType.Complete);
       }
-      getEngine().fireEngineEvent(new AeEngineEvent(getProcessId(), IAeEngineEvent.PROCESS_TERMINATED, getName()));
+      getEngine().fireEngineEvent(new AeEngineEvent(getProcessId(), AeEngineEventType.ProcessTerminated, getName()));
       getEngine().getEngineCallback().processEnded(this);
    }
 
@@ -2189,7 +2189,7 @@ public class AeBusinessProcess extends AeActivityScopeImpl implements IAeBusines
       AeProcessInfoEvent infoEvent = new AeProcessInfoEvent(
             getProcessId(),
             aLocationPath,
-            IAeProcessInfoEvent.GENERIC_INFO_EVENT,
+            ProcessInfoEventType.GenericInfoEvent,
             null,
             AeMessages.format("AeBusinessProcess.UNMATCHED_REQUEST", new Object[] {aLocationPath})); //$NON-NLS-1$
       getEngine().fireInfoEvent(infoEvent);
@@ -2503,7 +2503,7 @@ public class AeBusinessProcess extends AeActivityScopeImpl implements IAeBusines
     */
    protected void alertFaulting(String aLocationPath, IAeFault aFault)
    {
-      AeEngineAlert alert = createAlert(IAeEngineAlert.PROCESS_ALERT_FAULTING, aLocationPath, aFault);
+      AeEngineAlert alert = createAlert(AeEngineAlertEventType.ProcessFaulting, aLocationPath, aFault);
       getEngine().fireEngineAlert(alert);
    }
 
@@ -2515,7 +2515,7 @@ public class AeBusinessProcess extends AeActivityScopeImpl implements IAeBusines
     */
    protected void alertInvokeRecovery(String aLocationPath)
    {
-      AeEngineAlert alert = createAlert(IAeEngineAlert.PROCESS_ALERT_INVOKE_RECOVERY, aLocationPath, null);
+      AeEngineAlert alert = createAlert(AeEngineAlertEventType.ProcessInvokeRecovery, aLocationPath, null);
       getEngine().fireEngineAlert(alert);
    }
 
@@ -2525,7 +2525,7 @@ public class AeBusinessProcess extends AeActivityScopeImpl implements IAeBusines
     * @param aLocationPath location of the activity causing the alert
     * @param aDetails optional details of the alert
     */
-   protected AeEngineAlert createAlert(int aReason, String aLocationPath, Object aDetails)
+   protected AeEngineAlert createAlert(AeEngineAlertEventType aReason, String aLocationPath, Object aDetails)
    {
       QName faultName = null;
       Document doc = null;
@@ -2714,7 +2714,7 @@ public class AeBusinessProcess extends AeActivityScopeImpl implements IAeBusines
          AeProcessInfoEvent infoEvent = new AeProcessInfoEvent(
                getProcessId(),
                getLocationPath(),
-               IAeProcessInfoEvent.GENERIC_INFO_EVENT,
+               ProcessInfoEventType.GenericInfoEvent,
                null,
                message);
          getEngine().fireInfoEvent(infoEvent);

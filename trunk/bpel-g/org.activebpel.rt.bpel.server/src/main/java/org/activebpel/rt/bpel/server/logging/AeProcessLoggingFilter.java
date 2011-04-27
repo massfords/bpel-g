@@ -13,7 +13,7 @@ public class AeProcessLoggingFilter implements IAeLoggingFilter {
 	
 	@Override
 	public boolean accept(IAeProcessEvent aEvent) {
-		return mProcessEventIds.contains(aEvent.getEventID());
+		return mProcessEventIds.contains(aEvent.getEventType().code());
 	}
 
 	@Override

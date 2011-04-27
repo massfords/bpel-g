@@ -16,6 +16,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 import org.activebpel.rt.AeException;
+import org.activebpel.rt.bpeladmin.war.AeEngineManagementFactory;
 import org.activebpel.rt.bpeladmin.war.AeMessages;
 import org.activebpel.rt.bpeladmin.war.web.upload.AeNewAttachmentUploader;
 import org.activebpel.rt.util.AeMimeUtil;
@@ -24,6 +25,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
+import bpelg.services.processes.StorageErrorMessage;
 import bpelg.services.processes.types.ProcessStateValueType;
 
 /**
@@ -67,9 +69,10 @@ public class AeAddAttachmentBean extends AeNewAttachmentUploader {
 
 	/**
 	 * @return true - when process is in a active state; otherwise returns false
+	 * @throws StorageErrorMessage 
 	 */
-	public boolean getEditable() {
-		ProcessStateValueType state = getAdmin().getProcessDetail(
+	public boolean getEditable() throws StorageErrorMessage {
+		ProcessStateValueType state = AeEngineManagementFactory.getProcessManager().getProcessDetail(
 				getPidAsLong()).getState();
 		return state == ProcessStateValueType.Loaded
 				|| state == ProcessStateValueType.Suspended

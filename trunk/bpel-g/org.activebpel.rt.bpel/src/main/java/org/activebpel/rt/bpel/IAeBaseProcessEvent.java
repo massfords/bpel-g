@@ -20,11 +20,6 @@ public interface IAeBaseProcessEvent extends IAeEvent
    public String getNodePath();
    
    /**
-    * Returns the ID of this event.
-    */
-   public int getEventID();
-   
-   /**
     * Returns the name of the Fault associated with this event, or empty string.
     */
    public String getFaultName();
