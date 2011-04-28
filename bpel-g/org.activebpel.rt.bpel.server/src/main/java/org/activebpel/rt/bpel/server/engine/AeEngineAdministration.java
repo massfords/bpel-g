@@ -29,7 +29,6 @@ import javax.xml.namespace.QName;
 
 import org.activebpel.rt.AeException;
 import org.activebpel.rt.bpel.AeBusinessProcessException;
-import org.activebpel.rt.bpel.config.IAeEngineConfiguration;
 import org.activebpel.rt.bpel.coord.AeCoordinationDetail;
 import org.activebpel.rt.bpel.coord.AeCoordinationNotFoundException;
 import org.activebpel.rt.bpel.def.AeProcessDef;
@@ -472,13 +471,6 @@ public class AeEngineAdministration implements IAeEngineAdministration {
 	public String getLocationPathById(long aProcessId, int aLocationId)
 			throws AeBusinessProcessException {
 		return getBpelEngine().getLocationPathById(aProcessId, aLocationId);
-	}
-
-	/**
-	 * @see org.activebpel.rt.bpel.server.admin.IAeEngineAdministration#getEngineConfig()
-	 */
-	public IAeEngineConfiguration getEngineConfig() {
-		return AeEngineFactory.getEngineConfig();
 	}
 
 	/**

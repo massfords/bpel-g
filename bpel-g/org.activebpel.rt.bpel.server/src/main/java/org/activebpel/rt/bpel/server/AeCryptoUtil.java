@@ -11,8 +11,7 @@
 package org.activebpel.rt.bpel.server;
 
 import org.activebpel.rt.AeException;
-import org.activebpel.rt.bpel.config.IAeEngineConfiguration;
-import org.activebpel.rt.bpel.server.engine.AeEngineFactory;
+import org.activebpel.rt.bpel.AePreferences;
 import org.activebpel.rt.util.AeJCEUtil;
 
 /**
@@ -61,13 +60,9 @@ public class AeCryptoUtil
       try
       {
          // Get the string from the engine config to use to generate the key
-         IAeEngineConfiguration config = AeEngineFactory.getEngineConfig();
-         // Don't try anything if we can't get the config. If we are running in the designer, we will set the
-         // key later
-         if ( config == null )
-            return;
+         // Don't try anything if we can't get the config. 
 
-         String password = config.getEntry("SharedSecret", "terces"); //$NON-NLS-1$ //$NON-NLS-2$
+         String password = AePreferences.getSharedSecret();
          loadKey(password);
       }
       catch (Exception e)

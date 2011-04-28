@@ -9,8 +9,11 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpel.server.logging; 
 
+import java.util.Set;
+
 import org.activebpel.rt.bpel.IAeProcessEvent;
 import org.activebpel.rt.bpel.IAeProcessInfoEvent;
+import org.activebpel.rt.bpel.AeProcessEventType;
 
 /**
  * Interface used to filter log events
@@ -35,7 +38,7 @@ public interface IAeLoggingFilter
     */
    public boolean isEnabled();
    
-   public String getFilterAsString();
-   public void setFilterAsString(String aStr);
+   public Set<AeProcessEventType> getEnabledEventTypes();
+   public void setEnabledEventTypes(Set<AeProcessEventType> aEnabledEvents);
 }
  

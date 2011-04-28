@@ -19,6 +19,7 @@ import java.util.TreeSet;
 
 import org.activebpel.rt.AeException;
 import org.activebpel.rt.bpel.AeBusinessProcessException;
+import org.activebpel.rt.bpel.AePreferences;
 import org.activebpel.rt.bpel.IAeBusinessProcess;
 import org.activebpel.rt.bpel.impl.AeSuspendReason;
 import org.activebpel.rt.bpel.impl.IAeBusinessProcessEngineInternal;
@@ -112,7 +113,7 @@ public class AePersistentProcessRecovery implements IAeProcessRecovery
    protected Set<Long> getDoneJournalIds(List aJournalEntries)
    {
        Set<Long> result = new HashSet();
-      boolean restartEnabled = getEngine().getEngineConfiguration().isProcessRestartEnabled();
+      boolean restartEnabled = AePreferences.isRestartEnabled();
       for (Iterator i = aJournalEntries.iterator(); i.hasNext(); )
       {
          IAeJournalEntry entry = (IAeJournalEntry) i.next();
@@ -427,7 +428,7 @@ public class AePersistentProcessRecovery implements IAeProcessRecovery
       // Need to handle the case where there was no restart journal but restart 
       // is enabled. In this case, we want to flip the type for the create 
       // instance journal id to be a restart.
-      if (getEngine().getEngineConfiguration().isProcessRestartEnabled())
+      if (AePreferences.isRestartEnabled())
       {
          long createInstanceJournalId = getCreateInstanceJournalId(journalEntries);
          if (createInstanceJournalId != IAeProcessManager.NULL_JOURNAL_ID)

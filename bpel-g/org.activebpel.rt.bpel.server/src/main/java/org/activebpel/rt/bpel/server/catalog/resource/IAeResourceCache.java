@@ -38,17 +38,6 @@ public interface IAeResourceCache
    public void updateResource( ReferenceType aKey, Object aObject);
    
    /**
-    * Setter for the max cache size.
-    * @param aSize The number of objects to cache. Set to -1 for unlimited size.
-    */
-   public void setMaxCacheSize( int aSize );
-   
-   /**
-    * Getter for the max cache size.
-    */
-   public int getMaxCacheSize();
-   
-   /**
     * Clear entries out of the cache.
     */
    public void clear();

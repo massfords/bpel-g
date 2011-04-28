@@ -9,7 +9,15 @@
       <jsp:setProperty name="configBean" property="allowCreateXPath" param="ec_allow_create_xpath" />
       <jsp:setProperty name="configBean" property="allowEmptyQuery" param="ec_allow_empty_query" />
       <jsp:setProperty name="configBean" property="validateServiceMessages" param="ec_validate_service_messages" />
-      <jsp:setProperty name="configBean" property="loggingFilter" param="ec_logging" />
+      <ae:SetCheckboxProperty name="configBean" property="logReadyToExecute" param="ec_logging_ready" />
+      <ae:SetCheckboxProperty name="configBean" property="logExecuting" param="ec_logging_executing" />
+      <ae:SetCheckboxProperty name="configBean" property="logExecuteComplete" param="ec_logging_executeComplete" />
+      <ae:SetCheckboxProperty name="configBean" property="logExecuteFault" param="ec_logging_executeFault" />
+      <ae:SetCheckboxProperty name="configBean" property="logLinkStatus" param="ec_logging_linkStatus" />
+      <ae:SetCheckboxProperty name="configBean" property="logDeadPathStatus" param="ec_logging_deadpath" />
+      <ae:SetCheckboxProperty name="configBean" property="logTerminated" param="ec_logging_terminated" />
+      <ae:SetCheckboxProperty name="configBean" property="logSuspended" param="ec_logging_suspended" />
+      <ae:SetCheckboxProperty name="configBean" property="logFaulting" param="ec_logging_faulting" />
       <jsp:setProperty name="configBean" property="unmatchedCorrelatedReceiveTimeout" param="ec_unmatch_timeout" />
       <jsp:setProperty name="configBean" property="webServiceInvokeTimeout" param="ec_web_service_invoke_timeout" />
       <jsp:setProperty name="configBean" property="webServiceReceiveTimeout" param="ec_web_service_receive_timeout" />
@@ -19,7 +27,6 @@
       <jsp:setProperty name="configBean" property="resourceReplaceEnabled" param="ec_resource_replace" />
       <jsp:setProperty name="configBean" property="alarmMaxWorkCount" param="ec_alarm_max_work_count" />
       <jsp:setProperty name="configBean" property="processWorkCount" param="ec_process_work_count" />
-      <ae:SetIntProperty name="configBean" property="taskFinalizationDuration" param="ec_task_finalization_duration" min="1" />
       <jsp:setProperty name="configBean" property="finished" value="true" />
    </ae:IfParamMatches>
 
@@ -48,7 +55,21 @@
       <tr>
         <td class="labelHeaders" align="left" nowrap="true" width="20%">&nbsp;<ae:GetResource name="logging_filter" />&nbsp;</td>
        <td align="left" colspan="2">
-       <input type="text" name="ec_logging" value='<ae:GetProperty name="configBean" property="loggingFilter" />'/>
+        <table>
+          <tr><td>Ready to execute:</td><td> <input type="checkbox" name="ec_logging_ready" value="true" <ae:IfTrue name="configBean" property="logReadyToExecute" >checked</ae:IfTrue> /></td>
+              <td>Dead path:</td><td> <input type="checkbox" name="ec_logging_deadpath" value="true" <ae:IfTrue name="configBean" property="logDeadPathStatus" >checked</ae:IfTrue> /></td>
+          </tr>
+          <tr><td>Executing:</td><td> <input type="checkbox" name="ec_logging_executing" value="true" <ae:IfTrue name="configBean" property="logExecuting" >checked</ae:IfTrue> /></td>
+              <td>Terminated:</td><td> <input type="checkbox" name="ec_logging_terminated" value="true" <ae:IfTrue name="configBean" property="logTerminated" >checked</ae:IfTrue> /></td>
+          </tr>
+          <tr><td>Completed:</td><td> <input type="checkbox" name="ec_logging_executeComplete" value="true" <ae:IfTrue name="configBean" property="logExecuteComplete" >checked</ae:IfTrue> /></td>
+              <td>Suspended: </td><td><input type="checkbox" name="ec_logging_suspended" value="true" <ae:IfTrue name="configBean" property="logSuspended" >checked</ae:IfTrue> /></td>
+          </tr>
+          <tr><td>Faulted:</td><td> <input type="checkbox" name="ec_logging_executeFault" value="true" <ae:IfTrue name="configBean" property="logExecuteFault" >checked</ae:IfTrue> /></td>
+              <td>Faulting:</td><td> <input type="checkbox" name="ec_logging_faulting" value="true" <ae:IfTrue name="configBean" property="logFaulting" >checked</ae:IfTrue> /></td>
+          </tr>
+          <tr><td>Link status:</td><td> <input type="checkbox" name="ec_logging_linkStatus" value="true" <ae:IfTrue name="configBean" property="logLinkStatus" >checked</ae:IfTrue> /></td><td>&nbsp;</td></tr>
+        </table>
        </td>
       </tr>
       <tr height="1">
@@ -121,10 +142,6 @@
       <tr>
          <td class="labelHeaders" align="left" nowrap="true" width="20%">&nbsp;<ae:GetResource name="process_work_count" />&nbsp;</td>
          <td align="left" colspan="2"><input type="text" cols="5" tabIndex="22" name="ec_process_work_count" value='<ae:GetProperty name="configBean" property="processWorkCount" />'/></td>
-      </tr>
-      <tr>
-         <td class="labelHeaders" align="left" nowrap="true" width="20%">&nbsp;<ae:GetResource name="task_finalization_duration" />&nbsp;</td>
-         <td align="left" colspan="2"><input type="text" cols="5" tabIndex="23" name="ec_task_finalization_duration" value='<ae:GetProperty name="configBean" property="taskFinalizationDuration" />'/></td>
       </tr>
       
       <tr height="1">

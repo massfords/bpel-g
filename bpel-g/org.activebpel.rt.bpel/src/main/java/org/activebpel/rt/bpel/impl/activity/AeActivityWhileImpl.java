@@ -14,6 +14,7 @@ import java.util.Date;
 import java.util.Iterator;
 
 import org.activebpel.rt.bpel.AeBusinessProcessException;
+import org.activebpel.rt.bpel.AePreferences;
 import org.activebpel.rt.bpel.IAeActivity;
 import org.activebpel.rt.bpel.ProcessInfoEventType;
 import org.activebpel.rt.bpel.def.activity.AeActivityWhileDef;
@@ -31,12 +32,6 @@ import org.activebpel.rt.bpel.impl.visitors.IAeImplVisitor;
 public class AeActivityWhileImpl extends AeLoopActivity
    implements IAeActivityParent, IAeAlarmReceiver, IAeLoopActivity
 {
-   private static final String CONFIG_WHILE_ALARM_DELAY      = "WhileAlarmDelay"; //$NON-NLS-1$
-   private static final String CONFIG_WHILE_ALARM_ITERATIONS = "WhileAlarmIterations"; //$NON-NLS-1$
-
-   private static final int DEFAULT_WHILE_ALARM_DELAY      = 100; // milliseconds
-   private static final int DEFAULT_WHILE_ALARM_ITERATIONS = 1000;
-
    /** <code>true</code> while this activity has an alarm queued. */
    private boolean mQueued = false;
 
@@ -184,9 +179,9 @@ public class AeActivityWhileImpl extends AeLoopActivity
    /**
     * Returns number of milliseconds to delay when queueing an alarm.
     */
-   protected int getAlarmDelay()
+   protected long getAlarmDelay()
    {
-      return getConfigInt(CONFIG_WHILE_ALARM_DELAY, DEFAULT_WHILE_ALARM_DELAY);
+      return AePreferences.getWhileLoopAlarmDelayMillis();
    }
 
    /**
@@ -194,17 +189,7 @@ public class AeActivityWhileImpl extends AeLoopActivity
     */
    protected int getAlarmIterations()
    {
-      return getConfigInt(CONFIG_WHILE_ALARM_ITERATIONS, DEFAULT_WHILE_ALARM_ITERATIONS);
-   }
-
-   /**
-    * Returns <code>int</code> value from configuration.
-    *
-    * @param aKey
-    */
-   protected int getConfigInt(String aKey, int aDefaultValue)
-   {
-      return getProcess().getEngine().getEngineConfiguration().getIntegerEntry(aKey, aDefaultValue);
+      return AePreferences.getWhileLoopIterations();
    }
 
    /**

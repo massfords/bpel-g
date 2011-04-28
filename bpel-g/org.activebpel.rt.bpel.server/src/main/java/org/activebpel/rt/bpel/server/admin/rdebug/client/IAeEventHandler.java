@@ -17,7 +17,7 @@ import javax.xml.namespace.QName;
 
 import org.activebpel.rt.bpel.AeEngineAlertEventType;
 import org.activebpel.rt.bpel.AeEngineEventType;
-import org.activebpel.rt.bpel.ProcessEventType;
+import org.activebpel.rt.bpel.AeProcessEventType;
 import org.activebpel.rt.bpel.ProcessInfoEventType;
 import org.w3c.dom.Document;
 
@@ -68,7 +68,7 @@ public interface IAeEventHandler extends Remote
     * @param aTimestamp the event's timestamp
     * @return True if the process needs to be suspended, False otherwise
     */
-   public boolean processEventHandler(long aContextId, long aProcessId, String aPath, ProcessEventType aEventType,
+   public boolean processEventHandler(long aContextId, long aProcessId, String aPath, AeProcessEventType aEventType,
          String aFaultName, String aText, QName aName, Date aTimestamp) throws RemoteException;
 
    /**

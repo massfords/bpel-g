@@ -19,6 +19,7 @@ import javax.xml.namespace.QName;
 
 import org.activebpel.rt.AeException;
 import org.activebpel.rt.bpel.AeBusinessProcessException;
+import org.activebpel.rt.bpel.AePreferences;
 import org.activebpel.rt.bpel.AeWSDLPolicyHelper;
 import org.activebpel.rt.bpel.IAeBusinessProcess;
 import org.activebpel.rt.bpel.IAeFault;
@@ -916,7 +917,7 @@ public class AeBpelEngine extends AeAbstractServerEngine {
 	 */
 	public boolean isRestartable(long aProcessId)
 			throws AeBusinessProcessException {
-		if (!getEngineConfiguration().isProcessRestartEnabled()) {
+		if (!AePreferences.isRestartEnabled()) {
 			return false;
 		}
 		IAeBusinessProcess process = getProcessById(aProcessId);

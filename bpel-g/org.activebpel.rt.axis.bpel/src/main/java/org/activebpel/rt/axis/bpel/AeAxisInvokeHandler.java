@@ -30,6 +30,7 @@ import org.activebpel.rt.IAeConstants;
 import org.activebpel.rt.axis.bpel.invokers.AeAxisInvokeContext;
 import org.activebpel.rt.axis.bpel.invokers.IAeInvoker;
 import org.activebpel.rt.bpel.AeBusinessProcessException;
+import org.activebpel.rt.bpel.AePreferences;
 import org.activebpel.rt.bpel.AeWSDLPolicyHelper;
 import org.activebpel.rt.bpel.IAeEndpointReference;
 import org.activebpel.rt.bpel.IAeFault;
@@ -37,7 +38,6 @@ import org.activebpel.rt.bpel.impl.AeFaultFactory;
 import org.activebpel.rt.bpel.impl.AeTimeoutPolicy;
 import org.activebpel.rt.bpel.impl.queue.AeInvoke;
 import org.activebpel.rt.bpel.server.AeCryptoUtil;
-import org.activebpel.rt.bpel.server.engine.AeEngineFactory;
 import org.activebpel.rt.bpel.server.engine.invoke.AeInvokeContext;
 import org.activebpel.rt.bpel.server.engine.invoke.AeWSIOInvokeHandler;
 import org.activebpel.rt.util.AeUtil;
@@ -165,7 +165,7 @@ public class AeAxisInvokeHandler extends AeWSIOInvokeHandler
       Style requestStyle = getAxisRequestStyle(wsdlService, operation.getName(), endpoint);
 
       // See if a timeout policy has been configured
-      int timeout = AeEngineFactory.getEngineConfig().getWebServiceInvokeTimeout();
+      int timeout = AePreferences.getSendTimeout();
       Element timeoutPolicy = AeWSDLPolicyHelper.getPolicyElement(aContext.getPolicyList(), AeTimeoutPolicy.TIMEOUT_ID);
       if (timeoutPolicy != null)
          timeout = AeTimeoutPolicy.getTimeoutValue(timeoutPolicy);

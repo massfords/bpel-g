@@ -18,10 +18,9 @@ import java.util.Map;
 import org.activebpel.rt.AeException;
 import org.activebpel.rt.IAeConstants;
 import org.activebpel.rt.IAePolicyConstants;
+import org.activebpel.rt.bpel.AePreferences;
 import org.activebpel.rt.bpel.AeWSDLPolicyHelper;
 import org.activebpel.rt.bpel.impl.AeTimeoutPolicy;
-import org.activebpel.rt.bpel.server.deploy.IAePolicyMapper;
-import org.activebpel.rt.bpel.server.engine.AeEngineFactory;
 import org.activebpel.rt.util.AeUtil;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -109,7 +108,7 @@ public class AeWsioPolicyMapper implements IAePolicyMapper
          }
          
          // See if a timeout policy has been configured, otherwise use the engine value
-         int timeout = AeEngineFactory.getEngineConfig().getWebServiceInvokeTimeout();
+         int timeout = AePreferences.getSendTimeout();
          Element timeoutPolicy = AeWSDLPolicyHelper.getPolicyElement(aPolicyList, AeTimeoutPolicy.TIMEOUT_ID);
          if (timeoutPolicy != null)
             timeout = AeTimeoutPolicy.getTimeoutValue(timeoutPolicy);

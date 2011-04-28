@@ -17,7 +17,6 @@ import javax.xml.namespace.QName;
 
 import org.activebpel.rt.AeException;
 import org.activebpel.rt.bpel.AeBusinessProcessException;
-import org.activebpel.rt.bpel.config.IAeEngineConfiguration;
 import org.activebpel.rt.bpel.coord.AeCoordinationDetail;
 import org.activebpel.rt.bpel.impl.list.AeAlarmFilter;
 import org.activebpel.rt.bpel.impl.list.AeAlarmListResult;
@@ -36,6 +35,7 @@ import bpelg.services.processes.types.ProcessList;
  */
 public interface IAeEngineAdministration
 {
+	// FIXME enum
    /** engine state constants */
    public static final int CREATED      = 0;
    public static final int STARTING     = 1;
@@ -147,11 +147,6 @@ public interface IAeEngineAdministration
     * @throws AeBusinessProcessException
     */
    public String getLocationPathById(long aProcessId, int aLocationId) throws AeBusinessProcessException;
-
-   /**
-    * Returns the current engine configuration.
-    */
-   public IAeEngineConfiguration getEngineConfig();
 
    /**
     * Returns the interface into catalog administration.

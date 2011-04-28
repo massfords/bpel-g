@@ -13,6 +13,8 @@ import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.io.Reader;
 import java.net.URL;
+import java.util.prefs.PreferenceChangeEvent;
+import java.util.prefs.PreferenceChangeListener;
 
 import net.sf.ehcache.Cache;
 import net.sf.ehcache.CacheManager;
@@ -20,8 +22,7 @@ import net.sf.ehcache.Element;
 import net.sf.ehcache.Statistics;
 
 import org.activebpel.rt.AeWSDLException;
-import org.activebpel.rt.bpel.config.IAeConfigChangeListener;
-import org.activebpel.rt.bpel.config.IAeUpdatableEngineConfig;
+import org.activebpel.rt.bpel.AePreferences;
 import org.activebpel.rt.bpel.server.catalog.IAeCatalog;
 import org.activebpel.rt.bpel.server.catalog.IAeCatalogMapping;
 import org.activebpel.rt.bpel.server.engine.AeEngineFactory;
@@ -41,7 +42,7 @@ import bpelg.services.deploy.types.pdd.ReferenceType;
  * In memory cache for resource objects with a max upper limit. Default value,
  * if not in config, is 50.
  */
-public class AeResourceCache implements IAeResourceCache, IAeConfigChangeListener {
+public class AeResourceCache implements IAeResourceCache, PreferenceChangeListener {
     /** Default max value. Default value is 50. */
     public static final int DEFAULT_MAX_VALUE = 50;
     protected Cache mCache;
@@ -50,13 +51,11 @@ public class AeResourceCache implements IAeResourceCache, IAeConfigChangeListene
      * Default contructor.
      */
     public AeResourceCache(String aName) {
+    	int cacheSize = AePreferences.getResourceCacheSize();
+    	AePreferences.catalog().addPreferenceChangeListener(this);
         CacheManager singletonManager = CacheManager.create();
-        // reload every hour by default
-        mCache = new Cache(aName, DEFAULT_MAX_VALUE, false, true, 60*60, 60*60);
+        mCache = new Cache(aName, cacheSize, false, true, 0, 0);
         singletonManager.addCache(mCache);
-
-        updateConfig(AeEngineFactory.getEngineConfig().getUpdatableEngineConfig());
-        AeEngineFactory.getEngineConfig().getUpdatableEngineConfig().addConfigChangeListener(this);
     }
 
     public void updateResource(ReferenceType aKey, Object aObj) {
@@ -278,25 +277,8 @@ public class AeResourceCache implements IAeResourceCache, IAeConfigChangeListene
         return mCache.remove(aKey);
     }
 
-    /**
-     * @see org.activebpel.rt.bpel.server.catalog.resource.IAeResourceCache#setMaxCacheSize(int)
-     */
-    public void setMaxCacheSize(int aMaxValue) {
+    private void setMaxCacheSize(int aMaxValue) {
         mCache.getCacheConfiguration().setMaxElementsInMemory(aMaxValue);
-    }
-
-    /**
-     * @see org.activebpel.rt.bpel.server.catalog.resource.IAeResourceCache#getMaxCacheSize()
-     */
-    public int getMaxCacheSize() {
-        return mCache.getCacheConfiguration().getMaxElementsInMemory();
-    }
-
-    /**
-     * @see org.activebpel.rt.bpel.config.IAeConfigChangeListener#updateConfig(org.activebpel.rt.bpel.config.IAeUpdatableEngineConfig)
-     */
-    public void updateConfig(IAeUpdatableEngineConfig aConfig) {
-        setMaxCacheSize(aConfig.getResourceCacheMax());
     }
 
     /**
@@ -310,4 +292,9 @@ public class AeResourceCache implements IAeResourceCache, IAeConfigChangeListene
     public Statistics getStatistics() {
         return mCache.getStatistics();
     }
+
+	@Override
+	public void preferenceChange(PreferenceChangeEvent aEvt) {
+		setMaxCacheSize(AePreferences.getResourceCacheSize());
+	}
 }

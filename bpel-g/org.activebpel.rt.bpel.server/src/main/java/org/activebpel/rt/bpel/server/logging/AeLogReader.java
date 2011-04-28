@@ -20,8 +20,8 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
+import org.activebpel.rt.bpel.AePreferences;
 import org.activebpel.rt.bpel.server.AeMessages;
-import org.activebpel.rt.bpel.server.engine.AeEngineFactory;
 import org.activebpel.rt.bpel.server.engine.IAeProcessLogger;
 import org.activebpel.rt.bpel.server.engine.storage.AeStorageException;
 import org.activebpel.rt.bpel.server.engine.storage.sql.AeSQLConfig;
@@ -72,8 +72,8 @@ public class AeLogReader extends AeSQLObject
       mProcessId = new Long(aProcessId);
       mSQLConfig = aConfig;
       
-      mHeadLimit = AeEngineFactory.getEngineConfig().getIntegerEntry("Logging.Head", IAeProcessLogger.DEFAULT_HEAD); //$NON-NLS-1$
-      mTailLimit = AeEngineFactory.getEngineConfig().getIntegerEntry("Logging.Tail", IAeProcessLogger.DEFAULT_TAIL); //$NON-NLS-1$
+      mHeadLimit = AePreferences.getLoggingLinesHead();
+      mTailLimit = AePreferences.getLoggingLinesTail();
    }
    
    /**

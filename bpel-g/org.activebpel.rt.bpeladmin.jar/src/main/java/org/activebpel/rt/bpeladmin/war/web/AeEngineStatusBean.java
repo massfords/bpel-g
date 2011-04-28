@@ -18,7 +18,6 @@ import org.activebpel.rt.bpel.IAeBusinessProcessEngine;
 import org.activebpel.rt.bpel.server.admin.AeProcessDeploymentDetail;
 import org.activebpel.rt.bpel.server.admin.IAeEngineAdministration;
 import org.activebpel.rt.bpeladmin.war.AeBuildNumber;
-import org.activebpel.rt.bpeladmin.war.AeEngineManagementFactory;
 import org.activebpel.rt.bpeladmin.war.AeMessages;
 
 /**
@@ -155,12 +154,12 @@ public class AeEngineStatusBean extends AeAbstractAdminBean
       // TODO (RN) These strings should be localized to the browser context not the engine
       String status = AeMessages.getString("AeEngineStatusBean.0"); //$NON-NLS-1$
       // if the factory says engine storage is not ready then display that message
-      if(! AeEngineManagementFactory.getBean().isEngineStorageReady())
-      {
-         status = AeMessages.getString("AeEngineStatusBean.1"); //$NON-NLS-1$
-      }
-      else
-      { 
+//      if(! AeEngineManagementFactory.getBean().isEngineStorageReady())
+//      {
+//         status = AeMessages.getString("AeEngineStatusBean.1"); //$NON-NLS-1$
+//      }
+//      else
+//      { 
          // check the state of the engine and get information to display to the user
          switch(getAdmin().getEngineState())
          {
@@ -196,7 +195,7 @@ public class AeEngineStatusBean extends AeAbstractAdminBean
                status = AeMessages.getString("AeEngineStatusBean.9") + getAdmin().getEngineErrorInfo(); //$NON-NLS-1$
             break;
          }
-      }
+//      }
       return status;
    }
 }

@@ -18,9 +18,8 @@ import java.io.Reader;
 import java.io.Writer;
 
 import org.activebpel.rt.AeException;
+import org.activebpel.rt.bpel.AePreferences;
 import org.activebpel.rt.bpel.server.AeMessages;
-import org.activebpel.rt.bpel.server.engine.AeEngineFactory;
-import org.activebpel.rt.bpel.server.engine.IAeProcessLogger;
 import org.activebpel.rt.util.AeCloser;
 import org.activebpel.rt.util.AeUnsynchronizedCharArrayWriter;
 import org.activebpel.rt.util.AeUtil;
@@ -69,7 +68,7 @@ public class AeFileLogger extends AeInMemoryProcessLogger
     */
    protected File getFile(long aPid) throws IOException
    {
-      File file = new File(AeEngineFactory.getEngineConfig().getLoggingBaseDir(), "process-logs/"+aPid+".log"); //$NON-NLS-1$ //$NON-NLS-2$
+      File file = new File(AePreferences.getLoggingDirectory(), "process-logs/"+aPid+".log"); //$NON-NLS-1$ //$NON-NLS-2$
       file.getParentFile().mkdirs();
       return file;
    }
@@ -104,8 +103,8 @@ public class AeFileLogger extends AeInMemoryProcessLogger
       try
       {
          raf = new RandomAccessFile(aFile, "r"); //$NON-NLS-1$
-         int headLimit = AeEngineFactory.getEngineConfig().getIntegerEntry("Logging.Head", IAeProcessLogger.DEFAULT_HEAD); //$NON-NLS-1$
-         int tailLimit = AeEngineFactory.getEngineConfig().getIntegerEntry("Logging.Tail", IAeProcessLogger.DEFAULT_TAIL); //$NON-NLS-1$
+         int headLimit = AePreferences.getLoggingLinesHead();
+         int tailLimit = AePreferences.getLoggingLinesTail();
          
          // read the head
          read(raf, writer, headLimit);

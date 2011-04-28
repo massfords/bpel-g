@@ -11,9 +11,14 @@ package org.activebpel.rt.bpeladmin.war.web;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.prefs.BackingStoreException;
 
 import org.activebpel.rt.AeException;
+import org.activebpel.rt.bpel.AePreferences;
+import org.activebpel.rt.bpel.AeProcessEventType;
 import org.activebpel.rt.bpel.server.admin.AeBuildInfo;
 import org.activebpel.rt.bpeladmin.war.AeBuildNumber;
 import org.activebpel.rt.bpeladmin.war.AeMessages;
@@ -27,7 +32,7 @@ public class AeEngineConfigBean extends AeAbstractAdminBean
    protected AeBuildInfo[] mBuildInfos;
 
    // internal state
-   private String mLoggingFilter;
+   private Set<AeProcessEventType> mNewFilter = new HashSet();
    private boolean mAllowEmptyQuery;
    private boolean mValidateMessages;
    private boolean mCreateXPath;
@@ -124,29 +129,12 @@ public class AeEngineConfigBean extends AeAbstractAdminBean
    }
 
    /**
-    * Setter for logging enabled property.
-    * @param aFilterName
-    */
-   public void setLoggingFilter( String aFilterName )
-   {
-      mLoggingFilter = aFilterName;
-   }
-
-   /**
-    * Getter for logging enabled property.
-    */
-   public String getLoggingFilter()
-   {
-      return getAdmin().getLoggingFilter();
-   }
-
-   /**
     * Setter for time out value.
     * @param aTimeout time in seconds
     */
-   public void setUnmatchedCorrelatedReceiveTimeout( int aTimeout )
+   public void setUnmatchedCorrelatedReceiveTimeout( long aTimeout )
    {
-      getAdmin().setUnmatchedCorrelatedReceiveTimeout( aTimeout );
+      getAdmin().setUnmatchedCorrelatedReceiveTimeoutMillis( aTimeout );
    }
 
    /**
@@ -170,9 +158,9 @@ public class AeEngineConfigBean extends AeAbstractAdminBean
    /**
     * Getter for time out value.
     */
-   public int getUnmatchedCorrelatedReceiveTimeout()
+   public long getUnmatchedCorrelatedReceiveTimeout()
    {
-      return getAdmin().getUnmatchedCorrelatedReceiveTimeout();
+      return getAdmin().getUnmatchedCorrelatedReceiveTimeoutMillis();
    }
 
    /**
@@ -280,11 +268,114 @@ public class AeEngineConfigBean extends AeAbstractAdminBean
       if( aValue )
       {
          getAdmin().setAllowCreateXPath( mCreateXPath );
-         getAdmin().setLoggingFilter( mLoggingFilter );
+         
+         for(AeProcessEventType event : mNewFilter) {
+        	 switch(event) {
+        	 case ReadyToExecute:
+        		 AePreferences.setLogReadyToExecute(true);
+        		 break;
+        	 case Executing:
+        		 AePreferences.setLogExecuting(true);
+        		 break;
+        	 case ExecuteComplete:
+        		 AePreferences.setLogExecuteComplete(true);
+        		 break;
+        	 case ExecuteFault:
+        		 AePreferences.setLogExecuteFault(true);
+        		 break;
+        	 case LinkStatus:
+        		 AePreferences.setLogLinkStatus(true);
+        		 break;
+        	 case DeadPathStatus:
+        		 AePreferences.setLogDeadPathStatus(true);
+        		 break;
+        	 case Terminated:
+        		 AePreferences.setLogTerminated(true);
+        		 break;
+        	 case Migrated:
+        		 AePreferences.setLogMigrated(true);
+        		 break;
+        	 case Suspended:
+        		 AePreferences.setLogSuspended(true);
+        		 break;
+        	 case Faulting:
+        		 AePreferences.setLogFaulting(true);
+        		 break;
+        	 }
+         }
          getAdmin().setAllowEmptyQuerySelection( mAllowEmptyQuery );
          getAdmin().setValidateServiceMessages( mValidateMessages );
          getAdmin().setResourceReplaceEnabled( mReplaceResources );
+         try {
+			AePreferences.root().flush();
+		} catch (BackingStoreException e) {
+		}
       }
+   }
+   
+   public boolean isLogReadyToExecute() {
+	   return AePreferences.isLogReadyToExecute();
+   }
+   public boolean isLogExecuting() {
+	   return AePreferences.isLogExecuting();
+   }
+   public boolean isLogExecuteComplete() {
+	   return AePreferences.isLogExecuteComplete();
+   }
+   public boolean isLogExecuteFault() {
+	   return AePreferences.isLogExecuteFault();
+   }
+   public boolean isLogLinkStatus() {
+	   return AePreferences.isLogLinkStatus();
+   }
+   public boolean isLogDeadPathStatus() {
+	   return AePreferences.isLogDeadPathStatus();
+   }
+   public boolean isLogTerminated() {
+	   return AePreferences.isLogTerminated();
+   }
+   public boolean isLogSuspended() {
+	   return AePreferences.isLogSuspended();
+   }
+   public boolean isLogFaulting() {
+	   return AePreferences.isLogFaulting();
+   }
+
+   public void setLogReadyToExecute(boolean aFlag) {
+	   if (aFlag)
+		   mNewFilter.add(AeProcessEventType.ReadyToExecute);
+   }
+   public void setLogExecuting(boolean aFlag) {
+	   if (aFlag)
+		   mNewFilter.add(AeProcessEventType.Executing);
+   }
+   public void setLogExecuteComplete(boolean aFlag) {
+	   if (aFlag)
+		   mNewFilter.add(AeProcessEventType.ExecuteComplete);
+   }
+   public void setLogExecuteFault(boolean aFlag) {
+	   if (aFlag)
+		   mNewFilter.add(AeProcessEventType.ExecuteFault);
+   }
+   public void setLogLinkStatus(boolean aFlag) {
+	   if (aFlag)
+		   mNewFilter.add(AeProcessEventType.LinkStatus);
+   }
+   public void setLogDeadPathStatus(boolean aFlag) {
+	   if (aFlag)
+		   mNewFilter.add(AeProcessEventType.DeadPathStatus);
+   }
+   public void setLogTerminated(boolean aFlag) {
+	   if (aFlag)
+		   mNewFilter.add(AeProcessEventType.Terminated);
+   }
+   public void setLogSuspended(boolean aFlag) {
+	   if (aFlag)
+		   mNewFilter.add(AeProcessEventType.Suspended);
+   }
+   public void setLogFaulting(boolean aFlag) {
+	   if (aFlag)
+		   mNewFilter.add(AeProcessEventType.Faulting);
    }
 
    /**

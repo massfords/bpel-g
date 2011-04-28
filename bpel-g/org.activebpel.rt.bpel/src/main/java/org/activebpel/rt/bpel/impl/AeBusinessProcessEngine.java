@@ -25,9 +25,10 @@ import org.activebpel.rt.AeException;
 import org.activebpel.rt.IAePolicyConstants;
 import org.activebpel.rt.attachment.IAeAttachmentItem;
 import org.activebpel.rt.bpel.AeBusinessProcessException;
-import org.activebpel.rt.bpel.AeMessages;
-import org.activebpel.rt.bpel.AeWSDLDefHelper;
 import org.activebpel.rt.bpel.AeEngineEventType;
+import org.activebpel.rt.bpel.AeMessages;
+import org.activebpel.rt.bpel.AePreferences;
+import org.activebpel.rt.bpel.AeWSDLDefHelper;
 import org.activebpel.rt.bpel.IAeBusinessProcess;
 import org.activebpel.rt.bpel.IAeBusinessProcessEngine;
 import org.activebpel.rt.bpel.IAeEndpointReference;
@@ -43,7 +44,6 @@ import org.activebpel.rt.bpel.IAeProcessEvent;
 import org.activebpel.rt.bpel.IAeProcessInfoEvent;
 import org.activebpel.rt.bpel.IAeProcessListener;
 import org.activebpel.rt.bpel.ProcessInfoEventType;
-import org.activebpel.rt.bpel.config.IAeEngineConfiguration;
 import org.activebpel.rt.bpel.coord.IAeCoordinationContext;
 import org.activebpel.rt.bpel.def.AePartnerLinkDef;
 import org.activebpel.rt.bpel.def.AePartnerLinkOpKey;
@@ -106,9 +106,6 @@ public class AeBusinessProcessEngine implements IAeBusinessProcessEngineInternal
 
    /** The type mapping to use when converting from schema to java and back. */
    private AeTypeMapping mTypeMapping = new AeTypeMapping();
-
-   /** The engine configuration supplied during engine construction. */
-   protected IAeEngineConfiguration mEngineConfiguration;
 
    /** The date the engine started */
    protected Date mStarted;
@@ -230,7 +227,8 @@ public class AeBusinessProcessEngine implements IAeBusinessProcessEngineInternal
          long journalId = removeProcessJournalId(aPid);
          if (journalId != IAeProcessManager.NULL_JOURNAL_ID)
          {
-            if (getEngineConfiguration().isProcessRestartEnabled())
+        	 // FIXME catalog - should this be cached?
+            if (AePreferences.isRestartEnabled())
             {
                getProcessManager().journalEntryForRestart(aPid, journalId);
             }
@@ -538,7 +536,7 @@ public class AeBusinessProcessEngine implements IAeBusinessProcessEngineInternal
     */
    protected int getWebServiceTimeout(IAeProcessPlan aPlan, String aPartnerLink)
    {
-      return getEngineConfiguration().getWebServiceReceiveTimeout();
+	   return AePreferences.getReceiveTimeout();
    }
 
    /**
@@ -1415,23 +1413,6 @@ public class AeBusinessProcessEngine implements IAeBusinessProcessEngineInternal
    public IAePlanManager getPlanManager()
    {
       return mPlanManager;
-   }
-
-   /**
-    * @see org.activebpel.rt.bpel.IAeBusinessProcessEngine#getEngineConfiguration()
-    */
-   public IAeEngineConfiguration getEngineConfiguration()
-   {
-      return mEngineConfiguration;
-   }
-
-   /**
-    * Sets the configuration to use for this engine, note this is usually set during construction.
-    * @param aConfiguration The configuration to use for this engine.
-    */
-   public void setEngineConfiguration(IAeEngineConfiguration aConfiguration)
-   {
-      mEngineConfiguration = aConfiguration;
    }
 
    /**

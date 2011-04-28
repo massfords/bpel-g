@@ -9,7 +9,7 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpel.server.deploy;
 
-import org.activebpel.rt.bpel.server.engine.AeEngineFactory;
+import org.activebpel.rt.bpel.AePreferences;
 
 import bpelg.services.deploy.types.pdd.PersistenceType;
 import bpelg.services.deploy.types.pdd.SuspendFlag;
@@ -39,7 +39,7 @@ public class AeExceptionManagementUtil
       {
          if( aSuspendFlag == null )
          {
-            suspendMe = AeEngineFactory.getEngineConfig().isSuspendProcessOnUncaughtFault();
+            suspendMe = AePreferences.isSuspendProcessOnUncaughtFault();
          }
          else
          {

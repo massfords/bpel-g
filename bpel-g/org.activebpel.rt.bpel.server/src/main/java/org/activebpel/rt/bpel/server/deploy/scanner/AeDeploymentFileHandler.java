@@ -25,7 +25,6 @@ import org.activebpel.rt.bpel.server.deploy.IAeDeploymentContainer;
 import org.activebpel.rt.bpel.server.deploy.IAeDeploymentContainerFactory;
 import org.activebpel.rt.bpel.server.deploy.IAeDeploymentHandler;
 import org.activebpel.rt.bpel.server.engine.AeEngineFactory;
-import org.activebpel.rt.bpel.server.engine.config.AeFileBasedEngineConfig;
 import org.activebpel.rt.bpel.server.logging.IAeDeploymentLogger;
 import org.activebpel.rt.bpel.server.logging.IAeDeploymentLoggerFactory;
 import org.apache.commons.logging.Log;
@@ -60,8 +59,7 @@ public class AeDeploymentFileHandler implements IAeDeploymentFileHandler, IAeSca
         return new FilenameFilter() {
             public boolean accept(File aDir, String aFileName) {
                 return aFileName.endsWith(AeDeploymentFileInfo.BPR_SUFFIX)
-                        || aFileName.endsWith(".zip")
-                        || aFileName.endsWith(AeDeploymentFileInfo.getConfigFileName());
+                        || aFileName.endsWith(".zip");
             }
         };
     }
@@ -173,49 +171,45 @@ public class AeDeploymentFileHandler implements IAeDeploymentFileHandler, IAeSca
      * @param aURL
      */
     private void handleAdd(URL aURL, IAeDeploymentLogger aLogger) {
-        if (AeDeploymentFileInfo.isEngineConfig(aURL)) {
-            ((AeFileBasedEngineConfig) AeEngineFactory.getEngineConfig()).updateBecauseFileChanged();
-        } else {
-            URL tempURL = unpackDeployment(aURL);
+        URL tempURL = unpackDeployment(aURL);
 
-            if (tempURL != null && AeDeploymentFileInfo.isBprFile(aURL)) {
-                IAeDeploymentLogger logger = aLogger;
-				try {
-				    AeNewDeploymentInfo info = new AeNewDeploymentInfo();
-				    info.setURL(aURL);
-				    info.setTempURL(getUnpackedDeploymentStager().getTempURL(aURL));
-				    IAeDeploymentContainer deployContainer = getDeploymentContainerFactory().createDeploymentContainer(
-				            info);
-				
-				    // If the logger is null, used the factory to create a new one.
-				    if (logger == null) {
-				        logger = AeEngineFactory.getBean(IAeDeploymentLoggerFactory.class).createLogger();
-				    }
-				    logger.setContainerName(deployContainer.getShortName());
-				
-				    // If the file type is valid, then use the deployment handler to
-				    // deploy the BPR.
-				    if (!logger.hasErrors()) {
-				        IAeDeploymentHandler handler = getDeploymentHandler();
-				        handler.deploy(deployContainer, logger);
-				    } else {
-				        sLog.info(MessageFormat.format(AeMessages.getString("AeDeploymentFileHandler.1"), //$NON-NLS-1$
-				                new Object[] { deployContainer.getShortName() }));
-				    }
-				} catch (Throwable t) {
-				    sLog.error(
-				            MessageFormat.format(
-				                    AeMessages.getString("AeDeploymentFileHandler.ERROR_2"), new Object[] { aURL }), t); //$NON-NLS-1$
-				    if (logger != null) {
-				        logger.addInfo(
-				                AeMessages.getString("AeDeploymentFileHandler.ERROR_DEPLOYING_BPR"), new Object[] { aURL.toString(), t.getLocalizedMessage() }, null); //$NON-NLS-1$
-				    }
-				} finally {
-				    if (logger != null) {
-				        logger.close();
-				    }
-				}
-            }
+        if (tempURL != null && AeDeploymentFileInfo.isBprFile(aURL)) {
+            IAeDeploymentLogger logger = aLogger;
+			try {
+			    AeNewDeploymentInfo info = new AeNewDeploymentInfo();
+			    info.setURL(aURL);
+			    info.setTempURL(getUnpackedDeploymentStager().getTempURL(aURL));
+			    IAeDeploymentContainer deployContainer = getDeploymentContainerFactory().createDeploymentContainer(
+			            info);
+			
+			    // If the logger is null, used the factory to create a new one.
+			    if (logger == null) {
+			        logger = AeEngineFactory.getBean(IAeDeploymentLoggerFactory.class).createLogger();
+			    }
+			    logger.setContainerName(deployContainer.getShortName());
+			
+			    // If the file type is valid, then use the deployment handler to
+			    // deploy the BPR.
+			    if (!logger.hasErrors()) {
+			        IAeDeploymentHandler handler = getDeploymentHandler();
+			        handler.deploy(deployContainer, logger);
+			    } else {
+			        sLog.info(MessageFormat.format(AeMessages.getString("AeDeploymentFileHandler.1"), //$NON-NLS-1$
+			                new Object[] { deployContainer.getShortName() }));
+			    }
+			} catch (Throwable t) {
+			    sLog.error(
+			            MessageFormat.format(
+			                    AeMessages.getString("AeDeploymentFileHandler.ERROR_2"), new Object[] { aURL }), t); //$NON-NLS-1$
+			    if (logger != null) {
+			        logger.addInfo(
+			                AeMessages.getString("AeDeploymentFileHandler.ERROR_DEPLOYING_BPR"), new Object[] { aURL.toString(), t.getLocalizedMessage() }, null); //$NON-NLS-1$
+			    }
+			} finally {
+			    if (logger != null) {
+			        logger.close();
+			    }
+			}
         }
     }
 

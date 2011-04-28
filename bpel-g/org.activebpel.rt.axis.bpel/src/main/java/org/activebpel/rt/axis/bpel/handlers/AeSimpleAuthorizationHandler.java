@@ -13,7 +13,7 @@ import java.text.MessageFormat;
 import java.util.StringTokenizer;
 
 import org.activebpel.rt.axis.bpel.AeMessages;
-import org.activebpel.rt.bpel.server.engine.AeEngineFactory;
+import org.activebpel.rt.bpel.AePreferences;
 import org.activebpel.rt.util.AeUtil;
 import org.apache.axis.AxisFault;
 import org.apache.axis.MessageContext;
@@ -69,7 +69,7 @@ public class AeSimpleAuthorizationHandler extends BasicHandler
             throw new SecurityException(MessageFormat.format("AeSimpleAuthorizationHandler.ERROR_0", //$NON-NLS-1$
                                                              new Object[] {user.getName(), msgContext.getService().getName()})); 
          }
-         else if (AeEngineFactory.getEngineConfig().isAllowedRolesEnforced())
+         else if (AePreferences.isAllowedRolesEnforced())
          {
             // there was no user and the allowed roles is being enforced so we need to throw.
             throw new SecurityException(AeMessages.format("AeSimpleAuthorizationHandler.ERROR_1", msgContext.getService().getName())); //$NON-NLS-1$

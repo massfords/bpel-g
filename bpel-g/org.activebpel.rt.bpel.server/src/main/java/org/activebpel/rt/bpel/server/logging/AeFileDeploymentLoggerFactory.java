@@ -22,8 +22,8 @@ import java.util.Date;
 import java.util.List;
 
 import org.activebpel.rt.AeException;
+import org.activebpel.rt.bpel.AePreferences;
 import org.activebpel.rt.bpel.server.AeMessages;
-import org.activebpel.rt.bpel.server.engine.AeEngineFactory;
 import org.activebpel.rt.util.AeCloser;
 import org.activebpel.rt.util.AeUtil;
 
@@ -84,7 +84,7 @@ public class AeFileDeploymentLoggerFactory implements IAeDeploymentLoggerFactory
    protected void initLogFile()
    {
 	   // FIXME spring - clean this up
-      File dir = new File( new File(AeEngineFactory.getEngineConfig().getLoggingBaseDir()), "deployment-logs" ); //$NON-NLS-1$
+      File dir = new File( new File(AePreferences.getLoggingDirectory()), "deployment-logs" ); //$NON-NLS-1$
       dir.mkdirs();
       mFile = new File( dir, "aeDeployment.log" ); //$NON-NLS-1$
       mFile.delete();

@@ -14,16 +14,18 @@ import java.io.Reader;
 import java.io.StringReader;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
+import java.util.prefs.PreferenceChangeEvent;
+import java.util.prefs.PreferenceChangeListener;
 
+import org.activebpel.rt.bpel.AePreferences;
+import org.activebpel.rt.bpel.AeProcessEventType;
 import org.activebpel.rt.bpel.IAeProcessEvent;
 import org.activebpel.rt.bpel.IAeProcessInfoEvent;
-import org.activebpel.rt.bpel.ProcessEventType;
-import org.activebpel.rt.bpel.config.IAeConfigChangeListener;
-import org.activebpel.rt.bpel.config.IAeUpdatableEngineConfig;
 import org.activebpel.rt.bpel.impl.IAeBusinessProcessEngineInternal;
 import org.activebpel.rt.bpel.server.engine.AeBPELProcessEventFormatter;
-import org.activebpel.rt.bpel.server.engine.AeEngineFactory;
 import org.activebpel.rt.bpel.server.engine.IAeProcessLogger;
 import org.activebpel.rt.util.AeUtil;
 import org.apache.commons.logging.Log;
@@ -34,7 +36,7 @@ import org.apache.commons.logging.LogFactory;
  * and executed by the engine. This class is intended to be a base class from
  * which to either persist the process log to a file or db.
  */
-public class AeInMemoryProcessLogger implements IAeProcessLogger, IAeConfigChangeListener {
+public class AeInMemoryProcessLogger implements IAeProcessLogger, PreferenceChangeListener {
     private static final Log sLog = LogFactory.getLog(AeInMemoryProcessLogger.class);
 
     /** Reference to the engine that we're listening to. */
@@ -45,10 +47,9 @@ public class AeInMemoryProcessLogger implements IAeProcessLogger, IAeConfigChang
 
     /** used to filter out some log events */
     protected IAeLoggingFilter mFilter = null;
-
-    public void init() {
-        updateConfig(AeEngineFactory.getEngineConfig().getUpdatableEngineConfig());
-        AeEngineFactory.getEngineConfig().getUpdatableEngineConfig().addConfigChangeListener(this);
+    
+    public AeInMemoryProcessLogger() {
+    	AePreferences.logging().addPreferenceChangeListener(this);
     }
 
     /**
@@ -141,7 +142,7 @@ public class AeInMemoryProcessLogger implements IAeProcessLogger, IAeConfigChang
      * @param aEvent
      */
     protected boolean isCloseEvent(IAeProcessEvent aEvent) {
-        return "/process".equals(aEvent.getNodePath()) && (aEvent.getEventType() == ProcessEventType.ExecuteComplete || aEvent.getEventType() == ProcessEventType.ExecuteFault); //$NON-NLS-1$
+        return "/process".equals(aEvent.getNodePath()) && (aEvent.getEventType() == AeProcessEventType.ExecuteComplete || aEvent.getEventType() == AeProcessEventType.ExecuteFault); //$NON-NLS-1$
     }
 
     /**
@@ -156,8 +157,6 @@ public class AeInMemoryProcessLogger implements IAeProcessLogger, IAeConfigChang
      */
     public void setEngine(IAeBusinessProcessEngineInternal aEngine) {
         mEngine = aEngine;
-        // FIXME spring - hack until engine is set through dependency injection
-        init();
     }
 
     /**
@@ -195,21 +194,6 @@ public class AeInMemoryProcessLogger implements IAeProcessLogger, IAeConfigChang
     }
 
     /**
-     * @see org.activebpel.rt.bpel.config.IAeConfigChangeListener#updateConfig(org.activebpel.rt.bpel.config.IAeUpdatableEngineConfig)
-     */
-    public void updateConfig(IAeUpdatableEngineConfig aConfig) {
-        String loggingFilter = aConfig.getLoggingFilter();
-        getLoggingFilter().setFilterAsString(loggingFilter);
-        if (getEngine() != null) {
-            if (getLoggingFilter().isEnabled()) {
-                getEngine().addProcessListener(this);
-            } else {
-                getEngine().removeProcessListener(this);
-            }
-        }
-    }
-
-    /**
      * Getter for the logging filter.
      */
     public IAeLoggingFilter getLoggingFilter() {
@@ -224,4 +208,20 @@ public class AeInMemoryProcessLogger implements IAeProcessLogger, IAeConfigChang
     public void setLoggingFilter(IAeLoggingFilter aFilter) {
         mFilter = aFilter;
     }
+
+	@Override
+	public void preferenceChange(PreferenceChangeEvent aEvt) {
+		init();
+	}
+
+	// FIXME config test
+	public void init() {
+		Set<AeProcessEventType> enabledEvents = AePreferences.getEnabledLogEvents();
+		getLoggingFilter().setEnabledEventTypes(enabledEvents);
+		if (getLoggingFilter().isEnabled()) {
+			getEngine().addProcessListener(this);
+		} else {
+			getEngine().removeProcessListener(this);
+		}
+	}
 }

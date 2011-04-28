@@ -2,8 +2,6 @@ package org.activebpel.rt.bpel.server.admin.jmx;
 
 import java.io.IOException;
 import java.io.Reader;
-import java.io.StringReader;
-import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -16,9 +14,7 @@ import javax.xml.namespace.QName;
 import org.activebpel.rt.AeException;
 import org.activebpel.rt.base64.Base64;
 import org.activebpel.rt.bpel.AeBusinessProcessException;
-import org.activebpel.rt.bpel.config.AeDefaultEngineConfiguration;
-import org.activebpel.rt.bpel.config.IAeEngineConfiguration;
-import org.activebpel.rt.bpel.config.IAeUpdatableEngineConfig;
+import org.activebpel.rt.bpel.AePreferences;
 import org.activebpel.rt.bpel.coord.AeCoordinationDetail;
 import org.activebpel.rt.bpel.def.AeProcessDef;
 import org.activebpel.rt.bpel.impl.list.AeAlarmExt;
@@ -37,8 +33,6 @@ import org.activebpel.rt.bpel.server.admin.IAeEngineAdministration;
 import org.activebpel.rt.bpel.server.deploy.IAeServiceDeploymentInfo;
 import org.activebpel.rt.bpel.server.engine.AeEngineFactory;
 import org.activebpel.rt.bpel.server.engine.IAeProcessLogger;
-import org.activebpel.rt.bpel.server.engine.storage.AeStorageException;
-import org.activebpel.rt.config.AeConfigurationUtil;
 import org.activebpel.rt.util.AeCloser;
 import org.activebpel.rt.util.AeUtil;
 import org.activebpel.rt.xml.AeQName;
@@ -48,8 +42,6 @@ import bpelg.services.processes.types.ProcessList;
 
 public class AeEngineManagementAdapter implements IAeEngineManagementMXBean {
     
-    private static final String CONFIG_ALARM_MAX_WORK_COUNT_PATH = "ChildWorkManagers/Alarm/MaxWorkCount";
-
     private IAeEngineAdministration mAdmin;
     
     public AeEngineManagementAdapter(IAeEngineAdministration aAdmin) {
@@ -258,144 +250,107 @@ public class AeEngineManagementAdapter implements IAeEngineManagementMXBean {
     }
 
     public int getCatalogCacheSize() {
-        return mAdmin.getEngineConfig().getResourceCacheMax();
+        return AePreferences.getResourceCacheSize();
     }
 
     public String getEngineDescription() {
-        return mAdmin.getEngineConfig().getDescription();
+        return "bpel-g";
     }
 
     public boolean isProcessRestartEnabled() {
-        return mAdmin.getEngineConfig().isProcessRestartEnabled();
+        return AePreferences.isRestartEnabled();
     }
 
     public int getAlarmMaxWorkCount() {
-        int result;
-        try
-        {
-           String entry = (String) mAdmin.getEngineConfig().getEntryByPath(CONFIG_ALARM_MAX_WORK_COUNT_PATH);
-           result = Integer.parseInt(entry);
-        }
-        catch (Exception e)
-        {
-           AeException.logError(e);
-
-           result = IAeEngineConfiguration.DEFAULT_CHILD_MAX_WORK_COUNT;
-        }
-        return result;
+    	return AePreferences.getAlarmMaxCount();
     }
 
     public int getProcessWorkCount() {
-        return mAdmin.getEngineConfig().getProcessWorkCount();
+        return AePreferences.getProcessWorkCount();
     }
 
     public int getThreadPoolMax() {
-        return mAdmin.getEngineConfig().getWorkManagerThreadPoolMax();
+        return AePreferences.getThreadPoolMax();
     }
 
     public int getThreadPoolMin() {
-        return mAdmin.getEngineConfig().getWorkManagerThreadPoolMin();
+        return AePreferences.getThreadPoolMin();
     }
 
-    public int getUnmatchedCorrelatedReceiveTimeout() {
-        return mAdmin.getEngineConfig().getUnmatchedCorrelatedReceiveTimeout();
+    public long getUnmatchedCorrelatedReceiveTimeoutMillis() {
+        return AePreferences.getUnmatchedCorrelatedReceiveTimeoutMillis();
     }
 
     public int getWebServiceInvokeTimeout() {
-        return mAdmin.getEngineConfig().getWebServiceInvokeTimeout();
+        return AePreferences.getSendTimeout();
     }
 
     public int getWebServiceReceiveTimeout() {
-        return mAdmin.getEngineConfig().getWebServiceReceiveTimeout();
+        return AePreferences.getReceiveTimeout();
     }
 
     public boolean isAllowCreateXPath() {
-        return mAdmin.getEngineConfig().allowCreateXPath();
+        return AePreferences.isAllowCreateXpath();
     }
 
     public boolean isAllowEmptyQuerySelection() {
-        return mAdmin.getEngineConfig().allowEmptyQuerySelection();
+        return AePreferences.isAllowEmptyQuerySelection();
     }
 
     public boolean isResourceReplaceEnabled() {
-        return mAdmin.getEngineConfig().isResourceReplaceEnabled();
+        return AePreferences.isResourceReplaceEnabled();
     }
 
     public boolean isValidateServiceMessages() {
-        return mAdmin.getEngineConfig().validateServiceMessages();
+        return AePreferences.isValidateServiceMessages();
     }
 
     public void setAlarmMaxWorkCount(int aValue) {
-        mAdmin.getEngineConfig().getEntryByPath(CONFIG_ALARM_MAX_WORK_COUNT_PATH);
+        AePreferences.setAlarmMaxCount(aValue);
     }
 
     public void setAllowCreateXPath(boolean aAllowedCreateXPath) {
-        getMutableConfig().setAllowCreateXPath(aAllowedCreateXPath);
-        getMutableConfig().update();
+    	AePreferences.setAllowCreateXpath(aAllowedCreateXPath);
     }
 
     public void setAllowEmptyQuerySelection(boolean aAllowedEmptyQuerySelection) {
-        getMutableConfig().setAllowEmptyQuerySelection(aAllowedEmptyQuerySelection);
-        getMutableConfig().update();
+    	AePreferences.setAllowEmptyQuerySelection(aAllowedEmptyQuerySelection);
     }
 
     public void setCatalogCacheSize(int aSize) {
-        getMutableConfig().setResourceCacheMax(aSize);
-        getMutableConfig().update();
-    }
-
-    public void setLoggingFilter(String aFilter) {
-        getMutableConfig().setLoggingFilter(aFilter);
-        getMutableConfig().update();
-    }
-
-    public String getLoggingFilter() {
-        return mAdmin.getEngineConfig().getLoggingFilter();
+    	AePreferences.setResourceCacheSize(aSize);
     }
 
     public void setProcessWorkCount(int aValue) {
-        getMutableConfig().setProcessWorkCount(aValue);
-        getMutableConfig().update();
+        AePreferences.setProcessWorkCount(aValue);
     }
 
     public void setResourceReplaceEnabled(boolean aEnabled) {
-        getMutableConfig().setResourceReplaceEnabled(aEnabled);
-        getMutableConfig().update();
+    	AePreferences.setResourceReplaceEnabled(aEnabled);
     }
 
     public void setThreadPoolMax(int aValue) {
-        getMutableConfig().setWorkManagerThreadPoolMax(aValue);
-        getMutableConfig().update();
+    	AePreferences.setThreadPoolMax(aValue);
     }
 
     public void setThreadPoolMin(int aValue) {
-        getMutableConfig().setWorkManagerThreadPoolMin(aValue);
-        getMutableConfig().update();
+    	AePreferences.setThreadPoolMin(aValue);
     }
 
-    public void setUnmatchedCorrelatedReceiveTimeout(int aTimeout) {
-        getMutableConfig().setUnmatchedCorrelatedReceiveTimeout(aTimeout);
-        getMutableConfig().update();
+    public void setUnmatchedCorrelatedReceiveTimeoutMillis(long aTimeout) {
+    	AePreferences.setUnmatchedCorrelatedReceiveTimeoutMillis(aTimeout);
     }
 
     public void setValidateServiceMessages(boolean aValidateServiceMessages) {
-        getMutableConfig().setValidateServiceMessages(aValidateServiceMessages);
-        getMutableConfig().update();
+    	AePreferences.setValidateServiceMessages(aValidateServiceMessages);
     }
 
     public void setWebServiceInvokeTimeout(int aTimeout) {
-        getMutableConfig().setWebServiceInvokeTimeout(aTimeout);
-        getMutableConfig().update();
+    	AePreferences.setSendTimeout(aTimeout);
     }
 
     public void setWebServiceReceiveTimeout(int aTimeout) {
-        getMutableConfig().setWebServiceReceiveTimeout(aTimeout);
-        getMutableConfig().update();
-    }
-
-    private IAeUpdatableEngineConfig getMutableConfig() {
-        IAeUpdatableEngineConfig config =  (IAeUpdatableEngineConfig) mAdmin.getEngineConfig();
-        return config;
+    	AePreferences.setReceiveTimeout(aTimeout);
     }
 
     public AeProcessDeploymentDetail getDeployedProcessDetail(String aNamespace, String aName) {
@@ -412,30 +367,6 @@ public class AeEngineManagementAdapter implements IAeEngineManagementMXBean {
         return new AeProcessListResultBean(processList.getTotalRowCount(), processList.getProcessInstanceDetail(), processList.isComplete());
     }
 
-    public String getRawConfig() {
-        AeDefaultEngineConfiguration engineConfig = (AeDefaultEngineConfiguration) mAdmin.getEngineConfig();
-        StringWriter sw = new StringWriter();
-        try {
-            engineConfig.save(sw);
-        } catch (AeException e) {
-            // FIXME handle exception
-            e.printStackTrace();
-        }
-        return sw.toString();
-    }
-
-    public void setRawConfig(String aRaw) {
-        try {
-            AeDefaultEngineConfiguration engineConfig = (AeDefaultEngineConfiguration) mAdmin.getEngineConfig();
-            Map entries = AeConfigurationUtil.loadConfig(new StringReader(aRaw));
-            engineConfig.setEntries(entries);
-            engineConfig.update();
-        } catch (AeException e) {
-            // FIXME handle exception
-            e.printStackTrace();
-        }
-    }
-
     public String getCompiledProcessDef(long aProcessId, AeQName aName) throws AeBusinessProcessException {
         AeProcessDef def = null;
         if (aProcessId <= 0) {
@@ -446,21 +377,6 @@ public class AeEngineManagementAdapter implements IAeEngineManagementMXBean {
         byte[] b = AeUtil.serializeObject(def);
         String s = Base64.encodeBytes(b);
         return s;
-    }
-
-    public String getStorageError() {
-    	// FIXME remove
-        return null;
-    }
-
-    public void initializeStorage() throws AeStorageException {
-        throw new UnsupportedOperationException("Need to restore");
-    }
-
-    public boolean isEngineStorageReady() {
-    	// FIXME remove
-    	return true;
-//        return AeEngineFactory.isEngineStorageReady();
     }
 
     public boolean isRestartable(long aPid) {

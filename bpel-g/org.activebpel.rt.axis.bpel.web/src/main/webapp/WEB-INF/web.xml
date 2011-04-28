@@ -55,16 +55,6 @@
   </context-param>
 
   <!-- *********************************************
-    The filename for the engine config file.
-    This file will be loaded from the deployment
-    directory.
-    ********************************************* -->
-  <context-param>
-    <param-name>engine.config</param-name>
-    <param-value>aeEngineConfig.xml</param-value>
-  </context-param>
-
-  <!-- *********************************************
     The initial time delay (in millis) that the
     scanner will wait before starting its scan
     routine.  This is used to let other apps

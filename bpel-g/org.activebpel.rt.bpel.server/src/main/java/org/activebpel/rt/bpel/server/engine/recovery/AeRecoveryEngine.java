@@ -21,7 +21,6 @@ import org.activebpel.rt.AeException;
 import org.activebpel.rt.bpel.AeBusinessProcessException;
 import org.activebpel.rt.bpel.IAeBusinessProcess;
 import org.activebpel.rt.bpel.IAeExpressionLanguageFactory;
-import org.activebpel.rt.bpel.config.IAeEngineConfiguration;
 import org.activebpel.rt.bpel.impl.AeBpelState;
 import org.activebpel.rt.bpel.impl.IAeAlarmReceiver;
 import org.activebpel.rt.bpel.impl.IAeBpelObject;
@@ -56,21 +55,18 @@ public class AeRecoveryEngine extends AeAbstractServerEngine implements IAeRecov
    /**
     * Constructs a recovery engine.
     *
-    * @param aEngineConfiguration
     * @param aPartnerLinkStrategy
     * @param aTransmissionTracker
     * @param aManagersMap
     * @param aEngineId
     */
    public AeRecoveryEngine(
-      IAeEngineConfiguration aEngineConfiguration,
       IAeExpressionLanguageFactory aFactory,
       IAeEnginePartnerLinkStrategy aPartnerLinkStrategy,
       IAeTransmissionTracker aTransmissionTracker,
       Map<String,IAeManager> aManagersMap,
       int aEngineId)
    {
-      setEngineConfiguration(aEngineConfiguration);
       setExpressionLanguageFactory(aFactory);
       setPartnerLinkStrategy(aPartnerLinkStrategy);
       setTransmissionTracker(aTransmissionTracker);

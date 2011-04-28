@@ -25,6 +25,7 @@ import org.activebpel.rt.AeException;
 import org.activebpel.rt.IAeConstants;
 import org.activebpel.rt.bpel.AeBusinessProcessException;
 import org.activebpel.rt.bpel.AeNamespaceFilteredWSDLIterator;
+import org.activebpel.rt.bpel.AePreferences;
 import org.activebpel.rt.bpel.IAeEndpointReference;
 import org.activebpel.rt.bpel.IAeExpressionLanguageFactory;
 import org.activebpel.rt.bpel.IAePartnerLink;
@@ -427,7 +428,7 @@ public class AeProcessDeployment implements IAeProcessDeployment {
 		if (getPdd().getSuspendProcessOnInvokeRecovery() != null) {
 			return getPdd().getSuspendProcessOnInvokeRecovery() == SuspendFlag.TRUE;
 		} else {
-			return AeEngineFactory.getEngineConfig().isSuspendProcessOnInvokeRecovery();
+			return AePreferences.isSuspendProcessOnInvokeRecovery();
 		}
 	}
 

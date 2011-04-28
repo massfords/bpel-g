@@ -747,9 +747,7 @@
     </bean>
     <bean id="CounterStore"
         class="org.activebpel.rt.bpel.server.engine.storage.sql.AeSQLCounterStore"/>
-    <bean id="Catalog" class="org.activebpel.rt.bpel.server.catalog.AeCatalog">
-        <property name="maxCacheSize" value="50"/>
-    </bean>
+    <bean id="Catalog" class="org.activebpel.rt.bpel.server.catalog.AeCatalog"/>
     <bean id="PolicyMapper" class="org.activebpel.rt.bpel.server.deploy.AeMasterPolicyMapper">
         <property name="mappers">
             <util:list>
@@ -762,19 +760,6 @@
     <bean id="ProcessManager"
         class="org.activebpel.rt.bpel.server.engine.AePersistentProcessManager">
         <property name="TimerManager" ref="TimerManager"/>
-        <!-- 
-            ProcessCount is the maximum number of processes allowed in memory.
-            The default value is 50. A value of 0 allows an unlimited number of processes.
-        -->
-        <property name="maxProcessCount" value="50"/>
-        <!-- 
-            ReleaseLag is the number of seconds to wait after process goes
-            quiescent before releasing the process from memory. The default value
-            is 10. The utility of this setting is that a non-zero value gives a
-            chance for invokes and other asynchronous events to complete before
-            persisting a process.
-        -->
-        <property name="configReleaseLagSeconds" value="10"/>
         <property name="planManager" ref="DeploymentProvider"/>
         <property name="StorageFactory" ref="StorageFactory"/>
     </bean>
@@ -808,32 +793,10 @@
         <property name="storageFactory" ref="StorageFactory"/>
     </bean>
 
-    <bean id="ProcessLogger" class="org.activebpel.rt.bpel.server.logging.AePersistentLogger"
-        init-method="init">
+    <bean id="ProcessLogger" class="org.activebpel.rt.bpel.server.logging.AePersistentLogger" init-method="init">
         <property name="loggingFilter">
             <bean id="ProcessLoggingFilter"
-                class="org.activebpel.rt.bpel.server.logging.AeProcessLoggingFilter">
-                <property name="processEventIds">
-                    <util:set value-type="java.lang.Integer">
-                        <!-- executing -->
-                        <value>1</value>
-                        <!-- complete -->
-                        <value>2</value>
-                        <!-- fault -->
-                        <value>3</value>
-                        <!-- link status -->
-                        <value>4</value>
-                        <!-- terminated -->
-                        <value>6</value>
-                        <!-- migrated -->
-                        <value>12</value>
-                        <!-- suspended -->
-                        <value>13</value>
-                        <!-- faulting -->
-                        <value>14</value>
-                    </util:set>
-                </property>
-            </bean>
+                class="org.activebpel.rt.bpel.server.logging.AeProcessLoggingFilter"/>
         </property>
         <property name="Engine" ref="Engine"/>
     </bean>
@@ -857,23 +820,12 @@
         <entry key="Alarm">
             <bean class="org.activebpel.work.child.AeConfigAwareChildWorkManager" init-method="init">
                 <property name="name" value="Alarm"/>
-                <property name="maxWorkCount" value="5"/>
                 <property name="workManagerFactory" ref="WorkManagerFactory"/>
-                <property name="configMaxWorkCountPath" value="ChildWorkManagers/Alarm/MaxWorkCount"
-                />
             </bean>
         </entry>
     </util:map>
 
-    <bean id="ProcessWorkManager" class="org.activebpel.work.AeProcessWorkManager"
-        init-method="init">
-        <!--
-            ProcessWorkCount is the maximum number of work manager requests to
-            schedule for a single process. The default value is 10. A value of 0
-            allows an unlimited number of work manager requests.
-        -->
-        <property name="ProcessWorkCount" value="10"/>
-    </bean>
+    <bean id="ProcessWorkManager" class="org.activebpel.work.AeProcessWorkManager"/>
 
     <bean id="Engine" class="org.activebpel.rt.bpel.server.engine.AeBpelEngine" init-method="create">
         <property name="URNResolver" ref="URNResolver"/>

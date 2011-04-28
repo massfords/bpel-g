@@ -2,23 +2,24 @@ package org.activebpel.rt.bpel.server.logging;
 
 import java.util.Collections;
 import java.util.Set;
+import java.util.concurrent.CopyOnWriteArraySet;
 
+import org.activebpel.rt.bpel.AeProcessEventType;
 import org.activebpel.rt.bpel.IAeProcessEvent;
 import org.activebpel.rt.bpel.IAeProcessInfoEvent;
-import org.activebpel.rt.util.AeUtil;
 
 public class AeProcessLoggingFilter implements IAeLoggingFilter {
 
-	private Set<Integer> mProcessEventIds = Collections.EMPTY_SET;
+	private final Set<AeProcessEventType> mProcessEventIds = new CopyOnWriteArraySet<AeProcessEventType>();
 	
 	@Override
 	public boolean accept(IAeProcessEvent aEvent) {
-		return mProcessEventIds.contains(aEvent.getEventType().code());
+		return mProcessEventIds.contains(aEvent.getEventType());
 	}
 
 	@Override
 	public boolean accept(IAeProcessInfoEvent aInfoEvent) {
-		return true;
+		return false;
 	}
 
 	@Override
@@ -26,35 +27,15 @@ public class AeProcessLoggingFilter implements IAeLoggingFilter {
 		return !mProcessEventIds.isEmpty();
 	}
 
-	public Set getProcessEventIds() {
-		return mProcessEventIds;
-	}
-
-	public void setProcessEventIds(Set aProcessEventIds) {
-		mProcessEventIds = aProcessEventIds;
+	@Override
+	public Set<AeProcessEventType> getEnabledEventTypes() {
+		return Collections.unmodifiableSet(mProcessEventIds);
 	}
 
 	@Override
-	public String getFilterAsString() {
-		StringBuilder sb = new StringBuilder();
-		String delim = "";
-		for(int e : mProcessEventIds) {
-			sb.append(e);
-			sb.append(delim);
-			delim = " ";
-		}
-		return sb.toString();
-	}
-
-	@Override
-	public void setFilterAsString(String aStr) {
+	public void setEnabledEventTypes(Set<AeProcessEventType> aEnabledEvents) {
 		mProcessEventIds.clear();
-		String[] events = AeUtil.getSafeString(aStr).split(" ");
-		for(String e : events) {
-			try {
-                mProcessEventIds.add(Integer.parseInt(e));
-            } catch (NumberFormatException e1) {
-            }
-		}
+		mProcessEventIds.addAll(aEnabledEvents);
 	}
+
 }

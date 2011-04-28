@@ -17,8 +17,8 @@ import java.util.Map;
 import javax.xml.XMLConstants;
 
 import org.activebpel.rt.AeException;
+import org.activebpel.rt.bpel.AePreferences;
 import org.activebpel.rt.bpel.server.deploy.bpr.IAeBpr;
-import org.activebpel.rt.bpel.server.engine.AeEngineFactory;
 import org.activebpel.rt.wsdl.def.IAeBPELExtendedWSDLConst;
 
 import bpelg.services.deploy.types.catalog.BaseCatalogEntryType;
@@ -98,8 +98,7 @@ public class AeCatalogMappings {
 		if (aCatalogDocument.isReplaceExisting() != null) {
 			mReplaceExistingResource = aCatalogDocument.isReplaceExisting();
 		} else {
-			mReplaceExistingResource = AeEngineFactory.getEngineConfig()
-					.isResourceReplaceEnabled();
+			mReplaceExistingResource = AePreferences.isResourceReplaceEnabled();
 		}
 	}
 

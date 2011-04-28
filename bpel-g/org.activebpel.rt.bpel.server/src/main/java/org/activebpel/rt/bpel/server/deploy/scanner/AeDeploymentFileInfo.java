@@ -20,8 +20,6 @@ public class AeDeploymentFileInfo
    // file extension constants
    public static final String BPR_SUFFIX = ".bpr"; //$NON-NLS-1$
 
-   /** Engine config file name. */
-   private static String mConfigFileName;
    /** The deployment directory. */
    private static String mDeployDirectory;
    /** The staging directory. */
@@ -30,23 +28,6 @@ public class AeDeploymentFileInfo
    
    public static void setInstallDir(File aInstallDir) {
        mInstallDir = aInstallDir;
-   }
-   
-   /**
-    * Accessor for engine config file name.
-    */
-   public static String getConfigFileName()
-   {
-      return mConfigFileName;
-   }
-   
-   /**
-    * Setter for the engine config file name.
-    * @param aConfigFileName
-    */
-   public static void setConfigFileName( String aConfigFileName )
-   {
-      mConfigFileName = aConfigFileName;
    }
    
    /**
@@ -89,24 +70,6 @@ public class AeDeploymentFileInfo
            return new File(mInstallDir, mDeployDirectory);
    }
    
-   /**
-    * Accessor for the engine config file.
-    */
-   public static File getEngineConfigFile()
-   {
-      File deploymentDir = getDeploymentDirectory();
-      return new File( deploymentDir, getConfigFileName() );
-   }
-   
-   /**
-    * Return true if the URL is point to the engine config file.
-    * @param aFileUrl
-    */
-   public static boolean isEngineConfig( URL aFileUrl )
-   {
-      return aFileUrl.getFile().endsWith( getConfigFileName() );
-   }
-
    /**
     * Return true if the URL is point to a BPEL deployment archive file.
     * @param aFileUrl
