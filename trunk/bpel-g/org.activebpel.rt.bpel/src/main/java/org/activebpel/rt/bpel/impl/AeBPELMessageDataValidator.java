@@ -13,6 +13,7 @@ import java.util.List;
 
 import org.activebpel.rt.AeException;
 import org.activebpel.rt.bpel.AeMessages;
+import org.activebpel.rt.bpel.AePreferences;
 import org.activebpel.rt.bpel.AeWSDLDefHelper;
 import org.activebpel.rt.bpel.IAeMonitorListener;
 import org.activebpel.rt.bpel.def.activity.IAeMessageDataConsumerDef;
@@ -74,7 +75,7 @@ public class AeBPELMessageDataValidator implements IAeMessageValidator, IAeImplA
    private void validate(IAeBusinessProcessInternal aProcess, String aOperation, IAeMessageData aMessageData,
          AeMessagePartsMap aMessagePartsMap, List aPolicies, boolean aIsSend) throws AeBpelException
    {
-      boolean validationDefault = aProcess.getEngine().getEngineConfiguration().validateServiceMessages();
+      boolean validationDefault = AePreferences.isValidateServiceMessages();
       if (! AeValidationPolicy.isValidateEnabled(aPolicies, aOperation, aIsSend, validationDefault))
          return;
       long start = System.currentTimeMillis();

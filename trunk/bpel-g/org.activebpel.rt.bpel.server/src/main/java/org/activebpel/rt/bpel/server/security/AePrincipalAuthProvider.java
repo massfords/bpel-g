@@ -17,6 +17,7 @@ import javax.security.auth.Subject;
 import javax.xml.namespace.QName;
 
 import org.activebpel.rt.bpel.AeBusinessProcessException;
+import org.activebpel.rt.bpel.AePreferences;
 import org.activebpel.rt.bpel.def.AePartnerLinkDef;
 import org.activebpel.rt.bpel.impl.IAeProcessPlan;
 import org.activebpel.rt.bpel.server.AeMessages;
@@ -70,7 +71,7 @@ public class AePrincipalAuthProvider implements IAeAuthorizationProvider
       }
 
       // We're not enforcing roles
-      if (!AeEngineFactory.getEngineConfig().isAllowedRolesEnforced())
+      if (!AePreferences.isAllowedRolesEnforced())
       {
          return true;
       }

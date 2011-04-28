@@ -16,7 +16,7 @@ import org.activebpel.rt.bpel.AeEngineEventFormatter;
 import org.activebpel.rt.bpel.IAeBaseProcessEvent;
 import org.activebpel.rt.bpel.IAeProcessEvent;
 import org.activebpel.rt.bpel.IAeProcessInfoEvent;
-import org.activebpel.rt.bpel.ProcessEventType;
+import org.activebpel.rt.bpel.AeProcessEventType;
 import org.activebpel.rt.util.AER;
 import org.activebpel.rt.util.AeUtil;
 
@@ -79,7 +79,7 @@ public class AeBPELProcessEventFormatter extends AeEngineEventFormatter
       return super.format( aEvent.getProcessInfoEventType().code(), convertToArray(aEvent, aEvent.getProcessInfoEventType().code()));
    }
 
-   public String format( ProcessEventType aEventType, Object[] aArguments )
+   public String format( AeProcessEventType aEventType, Object[] aArguments )
    {
       // Format the event message, then check to see if we should add an
       //  error/fault indicator at the end.

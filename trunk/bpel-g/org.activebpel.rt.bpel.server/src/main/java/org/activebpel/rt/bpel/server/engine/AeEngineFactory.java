@@ -13,7 +13,6 @@ import java.util.Map;
 
 import org.activebpel.rt.AeException;
 import org.activebpel.rt.bpel.AeBusinessProcessException;
-import org.activebpel.rt.bpel.config.IAeEngineConfiguration;
 import org.activebpel.rt.bpel.impl.IAeBusinessProcessEngineInternal;
 import org.activebpel.rt.bpel.server.AeMessages;
 import org.activebpel.rt.bpel.server.admin.IAeEngineAdministration;
@@ -33,9 +32,6 @@ import commonj.work.WorkManager;
  * Maintains a singleton instance of the engine.
  */
 public class AeEngineFactory {
-	/** The current configuration settings */
-	private static IAeEngineConfiguration sConfig;
-
 	private static ApplicationContext sContext;
 
 	/**
@@ -103,20 +99,6 @@ public class AeEngineFactory {
 	}
 
 	/**
-	 * Set the engine configuration settings.
-	 */
-	public static void setEngineConfig(IAeEngineConfiguration aConfig) {
-		sConfig = aConfig;
-	}
-
-	/**
-	 * Accessor for engine configuration settings.
-	 */
-	public static IAeEngineConfiguration getEngineConfig() {
-		return sConfig;
-	}
-
-	/**
 	 * Schedules per-process work for the given process.
 	 * 
 	 * @param aProcessId
@@ -145,7 +127,7 @@ public class AeEngineFactory {
 			throws AeBusinessProcessException {
 		try {
 			scheduleChildWork(
-					IAeEngineConfiguration.ALARM_CHILD_WORK_MANAGER_ENTRY,
+					"Alarm",
 					aWork);
 		} catch (AeBusinessProcessException e) {
 			AeException.logError(e);

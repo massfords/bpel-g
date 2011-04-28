@@ -1,6 +1,6 @@
 package org.activebpel.rt.bpel;
 
-public enum ProcessEventType {
+public enum AeProcessEventType {
 	   Inactive(-1), 
 	   ReadyToExecute(0), 
 	   Executing(1), 
@@ -14,7 +14,7 @@ public enum ProcessEventType {
 	   Faulting(14);
 	   
 	   private final int code;
-	   ProcessEventType(int aCode) {
+	   AeProcessEventType(int aCode) {
 		   this.code = aCode;
 	   }
 	   public int code() {

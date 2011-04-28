@@ -10,7 +10,6 @@
 package org.activebpel.rt.bpeladmin.war.web; 
 
 import org.activebpel.rt.AeException;
-import org.activebpel.rt.bpeladmin.war.AeEngineManagementFactory;
 import org.activebpel.rt.bpeladmin.war.AeMessages;
 import org.activebpel.rt.util.AeUtil;
 
@@ -33,15 +32,12 @@ public abstract class AePruningBean extends AeAbstractAdminBean
    private boolean mPrunePending;
    /** Whether the pending request is valid. */
    protected boolean mPruneValid;
-   /** Whether persistent storage is ready for use. */
-   private boolean mStorageAvailable;
    
    /**
     * No arg ctor for JavaBean compliance. 
     */
    public AePruningBean()
    {
-      setStorageAvailable(AeEngineManagementFactory.getBean().isEngineStorageReady());
    }
    
    /**
@@ -59,14 +55,6 @@ public abstract class AePruningBean extends AeAbstractAdminBean
    public boolean isPrunePending()
    {
       return mPrunePending;
-   }
-   
-   /**
-    * Returns flag indicating whether persistent storage is ready for use.
-    */
-   public boolean isStorageAvailable()
-   {
-      return mStorageAvailable;
    }
    
    /**
@@ -146,14 +134,6 @@ public abstract class AePruningBean extends AeAbstractAdminBean
       return mPruneValid;
    }
    
-   /**
-    * Sets flag indicating whether persistent storage is ready for use.
-    */
-   protected void setStorageAvailable(boolean aStorageAvailable)
-   {
-      mStorageAvailable = aStorageAvailable;
-   }
-
    /**
     * Indicates that all updates have taken place and this bean can process its
     * inputs.

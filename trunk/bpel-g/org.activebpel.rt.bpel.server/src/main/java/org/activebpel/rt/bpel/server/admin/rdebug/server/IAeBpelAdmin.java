@@ -12,7 +12,6 @@ package org.activebpel.rt.bpel.server.admin.rdebug.server;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 
-import org.activebpel.rt.AeException;
 import org.activebpel.rt.bpel.AeBusinessProcessException;
 import org.activebpel.wsio.AeWebServiceAttachment;
 
@@ -28,30 +27,6 @@ public interface IAeBpelAdmin extends Remote
    /** The API version for the BPEL administration API. */
    public static final String CURRENT_API_VERSION = "4.2";    //$NON-NLS-1$
    
-   /**
-    * Gets the current engine configuration as xml. This is intended to be used 
-    * as a debugging and testing tool. The structure of the xml is subject to change 
-    * without notice so don't rely on it to be consistent across versions.
-    * Finer grain access to configuration properties may be forthcoming in another
-    * part of the api.
-    * 
-    * @return xml string representing the engine config
-    * @throws RemoteException
-    * @throws AeException
-    */
-   public String getConfiguration() throws RemoteException, AeException;
-   
-   /**
-    * Setter for the engine config. Accepts an xml string that will be parsed into
-    * a configuration object and update the current engine config. Note: this string
-    * must contain ALL of the config properties.
-    * 
-    * @param aXmlString
-    * @throws RemoteException
-    * @throws AeException
-    */
-   public void setConfiguration(String aXmlString) throws RemoteException, AeException;
-
    /**
     * Suspends the business process identified by the passed pid.
     * @param aPid The process id of the process to suspend.

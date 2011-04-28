@@ -16,11 +16,14 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
+import java.util.prefs.PreferenceChangeEvent;
+import java.util.prefs.PreferenceChangeListener;
 
 import javax.xml.namespace.QName;
 
 import org.activebpel.rt.AeException;
 import org.activebpel.rt.bpel.AeBusinessProcessException;
+import org.activebpel.rt.bpel.AePreferences;
 import org.activebpel.rt.bpel.IAeBusinessProcess;
 import org.activebpel.rt.bpel.IAeFault;
 import org.activebpel.rt.bpel.IAeMonitorListener;
@@ -79,14 +82,8 @@ import commonj.work.WorkManager;
  */
 public class AePersistentProcessManager extends AeAbstractProcessManager
 		implements IAePersistentProcessManager, IAeProcessWrapperMapCallback,
-		IAeRecoverableProcessManager {
-	public static final int DEFAULT_PROCESS_COUNT = 50;
-	// FIXME (MF) should add the pm as a listener on the config to update the
-	// lag if it changes
-	public static final int DEFAULT_RELEASE_LAG = 10; // seconds
+		IAeRecoverableProcessManager, PreferenceChangeListener {
 	public static final int DEADLOCK_TRY_COUNT = 5;
-
-	private static final long MILLIS_PER_SECOND = 1000L;
 
 	/** The maximum number of processes allowed in memory. */
 	private int mMaxProcessCount;
@@ -119,10 +116,10 @@ public class AePersistentProcessManager extends AeAbstractProcessManager
 	private int mSaveAvertedCount;
 
 	/**
-	 * The number of seconds to wait after a process goes quiescent before
+	 * The number of millis to wait after a process goes quiescent before
 	 * releasing the process from memory.
 	 */
-	private int mConfigReleaseLagSeconds;
+	private long mConfigReleaseLagMillis;
 
 	/**
 	 * Maps process ids to instances of {@link commonj.timers.Timer}. Based on a
@@ -153,6 +150,8 @@ public class AePersistentProcessManager extends AeAbstractProcessManager
 	 *            The configuration map.
 	 */
 	public AePersistentProcessManager() throws Exception {
+		AePreferences.processes().addPreferenceChangeListener(this);
+		update();
 		setProcessWrapperMap(new AeProcessWrapperMap(this));
 		setProcessStateReader(new AeProcessStateReader(this));
 		setProcessStateWriter(new AeProcessStateWriter(this));
@@ -291,14 +290,6 @@ public class AePersistentProcessManager extends AeAbstractProcessManager
 	 */
 	public Reader dumpLog(long aProcessId) throws AeBusinessProcessException {
 		return getStorage().dumpLog(aProcessId);
-	}
-
-	/**
-	 * Returns the number of seconds to wait after a process goes quiescent
-	 * before releasing the process from memory.
-	 */
-	public int getConfigReleaseLagSeconds() {
-		return mConfigReleaseLagSeconds;
 	}
 
 	/**
@@ -721,8 +712,7 @@ public class AePersistentProcessManager extends AeAbstractProcessManager
 	 * the behavior.
 	 */
 	protected long getReleaseLagMillis(AeProcessWrapper aWrapper) {
-		return (aWrapper.isQuickRelease() || !aWrapper.isModified()) ? 0
-				: (getConfigReleaseLagSeconds() * MILLIS_PER_SECOND);
+		return (aWrapper.isQuickRelease() || !aWrapper.isModified()) ? 0 : mConfigReleaseLagMillis;
 	}
 
 	/**
@@ -1202,32 +1192,6 @@ public class AePersistentProcessManager extends AeAbstractProcessManager
 	}
 
 	/**
-	 * Sets the number of seconds to wait after a process goes quiescent before
-	 * releasing the process from memory.
-	 */
-	public void setConfigReleaseLagSeconds(int aConfigReleaseLagSeconds) {
-		if (aConfigReleaseLagSeconds >= 0) {
-			mConfigReleaseLagSeconds = aConfigReleaseLagSeconds;
-		} else {
-			aConfigReleaseLagSeconds = DEFAULT_RELEASE_LAG;
-		}
-	}
-
-	/**
-	 * Sets the maximum number of processes allowed in memory.
-	 * 
-	 * @param aMaxProcessCount
-	 */
-	public void setMaxProcessCount(int aMaxProcessCount) {
-		if (aMaxProcessCount > 0) {
-			mMaxProcessCount = aMaxProcessCount;
-		} else {
-			// Specifying 0 or less means no limit.
-			mMaxProcessCount = Integer.MAX_VALUE;
-		}
-	}
-
-	/**
 	 * @see org.activebpel.rt.bpel.impl.IAeProcessManager#setPlanManager(org.activebpel.rt.bpel.IAePlanManager)
 	 */
 	public void setPlanManager(IAePlanManager aPlanManager) {
@@ -1585,5 +1549,15 @@ public class AePersistentProcessManager extends AeAbstractProcessManager
 
 	public void setTimerManager(TimerManager aTimerManager) {
 		mTimerManager = aTimerManager;
+	}
+	
+	private void update() {
+		this.mMaxProcessCount = AePreferences.getProcessCount();
+		this.mConfigReleaseLagMillis = AePreferences.getReleaseLagMillis();
+	}
+
+	@Override
+	public void preferenceChange(PreferenceChangeEvent aEvt) {
+		update();
 	}
 }

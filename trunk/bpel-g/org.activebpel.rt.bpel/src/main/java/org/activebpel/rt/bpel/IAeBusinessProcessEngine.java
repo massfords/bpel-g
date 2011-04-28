@@ -13,7 +13,6 @@ import java.util.Date;
 import java.util.Map;
 
 import org.activebpel.rt.attachment.IAeAttachmentItem;
-import org.activebpel.rt.bpel.config.IAeEngineConfiguration;
 import org.activebpel.rt.bpel.impl.AeConflictingRequestException;
 import org.activebpel.rt.bpel.impl.AeCorrelationViolationException;
 import org.activebpel.rt.bpel.impl.IAeProcessPlan;
@@ -32,6 +31,7 @@ import org.w3c.dom.Document;
 /** Describes the interface used for interacting with a business process engine */
 public interface IAeBusinessProcessEngine
 {
+	// FIXME enum
    /** Monitor status indicating engine is running normal */
    public static final int MONITOR_NORMAL  = 0; 
    /** Monitor status indicating engine is running with one or more monitor warnings */
@@ -342,13 +342,6 @@ public interface IAeBusinessProcessEngine
     */   
    public void queueInvokeFault(long aProcessId, String aLocationPath, long aTransmissionId, IAeFault aFault, Map aProcessProperties, IAeMessageAcknowledgeCallback aAckCallback)
       throws AeBusinessProcessException;
-   
-   /**
-    * The engine configuration.
-    * @return IAeEngineConfiguration The engine configuration for this engine instance.
-    */
-   public IAeEngineConfiguration getEngineConfiguration();
-   public void setEngineConfiguration(IAeEngineConfiguration aConfiguration);
    
    /**
     * Gets the date/time that the engine started.

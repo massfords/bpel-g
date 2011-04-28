@@ -15,12 +15,12 @@ import java.util.List;
 import org.activebpel.rt.IAeConstants;
 import org.activebpel.rt.IAePolicyConstants;
 import org.activebpel.rt.bpel.AeBusinessProcessException;
+import org.activebpel.rt.bpel.AePreferences;
 import org.activebpel.rt.bpel.IAeEndpointReference;
 import org.activebpel.rt.bpel.def.activity.AeActivityInvokeDef;
 import org.activebpel.rt.bpel.impl.AePartnerLink;
 import org.activebpel.rt.bpel.impl.activity.AeActivityInvokeImpl;
 import org.activebpel.rt.bpel.server.deploy.AeDeployConstants;
-import org.activebpel.rt.bpel.server.engine.AeEngineFactory;
 import org.activebpel.rt.util.AeUtil;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -64,7 +64,7 @@ public class AeInvokeRecoveryEvaluator
       {
          // If the attribute has value "default", then delegate to the engine
          // configuration setting.
-         boolean suspend = AeEngineFactory.getEngineConfig().isSuspendProcessOnInvokeRecovery();
+         boolean suspend = AePreferences.isSuspendProcessOnInvokeRecovery();
          action = suspend ? SUSPEND_PROCESS : CONTINUE_PROCESS;
       }
       else if (suspendProcess.equals(AeDeployConstants.SUSPEND_TYPE_TRUE))

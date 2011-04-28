@@ -21,11 +21,6 @@ import org.activebpel.rt.bpel.server.AeMessages;
  */
 public interface IAeProcessLogger extends IAeProcessListener
 {
-   /** default number of lines to read for the head of the log */
-   public static final int DEFAULT_HEAD = 100;
-   /** default number of lines to read for the tail of the log */
-   public static final int DEFAULT_TAIL = 500;
-
    /** Used as the delimiter between the head and tail of the log */
    public static final String SNIP = 
       AeMessages.getString("IAeProcessLogger.0"); //$NON-NLS-1$

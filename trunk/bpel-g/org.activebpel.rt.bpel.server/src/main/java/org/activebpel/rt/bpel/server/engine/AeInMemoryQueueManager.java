@@ -13,6 +13,7 @@ import java.util.Date;
 
 import org.activebpel.rt.AeException;
 import org.activebpel.rt.bpel.AeBusinessProcessException;
+import org.activebpel.rt.bpel.AePreferences;
 import org.activebpel.rt.bpel.impl.AeBaseQueueManager;
 import org.activebpel.rt.bpel.impl.AeCorrelationViolationException;
 import org.activebpel.rt.bpel.impl.IAeInvokeInternal;
@@ -173,7 +174,7 @@ public void setReceiveHandlerFactory(
       Date timeoutDate = aInboundReceive.getTimeoutDate();
       if (timeoutDate == null)
       {
-         long timeout = getEngine().getEngineConfiguration().getUpdatableEngineConfig().getUnmatchedCorrelatedReceiveTimeout() * 1000;
+         long timeout = AePreferences.getUnmatchedCorrelatedReceiveTimeoutMillis();
          timeoutDate = new Date(System.currentTimeMillis() + timeout);
          aInboundReceive.setTimeoutDate(timeoutDate);
       }

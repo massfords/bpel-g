@@ -10,7 +10,6 @@
 package org.activebpel.rt.bpel.server.admin.rdebug.server;
 
 import java.io.StringReader;
-import java.io.StringWriter;
 import java.lang.reflect.Constructor;
 import java.rmi.RemoteException;
 import java.text.MessageFormat;
@@ -31,8 +30,7 @@ import org.activebpel.rt.bpel.IAeEngineListener;
 import org.activebpel.rt.bpel.IAeProcessEvent;
 import org.activebpel.rt.bpel.IAeProcessInfoEvent;
 import org.activebpel.rt.bpel.IAeProcessListener;
-import org.activebpel.rt.bpel.ProcessEventType;
-import org.activebpel.rt.bpel.config.AeDefaultEngineConfiguration;
+import org.activebpel.rt.bpel.AeProcessEventType;
 import org.activebpel.rt.bpel.def.util.AeLocationPathUtils;
 import org.activebpel.rt.bpel.impl.IAeProcessManager;
 import org.activebpel.rt.bpel.impl.activity.support.AeCorrelationSet;
@@ -82,27 +80,6 @@ public class AeRemoteDebugImpl implements IAeBpelAdmin
 	   sEventHandlerLocator = aEventHandlerLocator;
    }
    
-   /**
-    * @see org.activebpel.rt.bpel.server.admin.rdebug.server.IAeBpelAdmin#getConfiguration()
-    */
-   public String getConfiguration() throws RemoteException, AeException
-   {
-      AeDefaultEngineConfiguration config = (AeDefaultEngineConfiguration) AeEngineFactory.getEngineConfig();
-      StringWriter sw = new StringWriter();
-      config.save(sw);
-      return sw.toString();
-   }
-
-   /**
-    * @see org.activebpel.rt.bpel.server.admin.rdebug.server.IAeBpelAdmin#setConfiguration(java.lang.String)
-    */
-   public void setConfiguration(String aXmlString) throws RemoteException, AeException
-   {
-      AeDefaultEngineConfiguration config = (AeDefaultEngineConfiguration) AeEngineFactory.getEngineConfig();
-      AeDefaultEngineConfiguration.loadConfig(config, AeUTF8Util.getInputStream(aXmlString), null);
-      config.update();
-   }
-
    /**
     * Note this implementation will schhedule the suspend and wait up to 30 seconds for
     * the suspend to actually happen, this avoid deadlocks under rare occasions.
@@ -1138,7 +1115,7 @@ public class AeRemoteDebugImpl implements IAeBpelAdmin
          try
          {
             // If applicable, fire off a breakpoint event.
-            if (mHandler != null && aEvent.getEventType() == ProcessEventType.ReadyToExecute )
+            if (mHandler != null && aEvent.getEventType() == AeProcessEventType.ReadyToExecute )
             {
                // Getting ready to execute - see if there's a breakpoint set for this node path.
                if ( mBreakpointList != null && 

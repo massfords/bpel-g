@@ -61,7 +61,6 @@ public class AeRecoveryEngineFactory
       copy.put(IAeBusinessProcessEngineInternal.COORDINATION_MANAGER_KEY, new AeRecoveryCoordinationManager(aBaseEngine.getCoordinationManager()));
       
       return new AeRecoveryEngine(
-         aBaseEngine.getEngineConfiguration(),
          aBaseEngine.getExpressionLanguageFactory(),
          aBaseEngine.getPartnerLinkStrategy(),
          aBaseEngine.getTransmissionTracker(),

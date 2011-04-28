@@ -19,7 +19,7 @@ import org.activebpel.rt.bpel.AeMessages;
 import org.activebpel.rt.bpel.AeEngineEventType;
 import org.activebpel.rt.bpel.IAeFault;
 import org.activebpel.rt.bpel.IAeMonitorListener;
-import org.activebpel.rt.bpel.ProcessEventType;
+import org.activebpel.rt.bpel.AeProcessEventType;
 import org.activebpel.rt.bpel.def.AeBaseDef;
 import org.activebpel.rt.bpel.def.visitors.AeCreateInstanceVisitor;
 import org.activebpel.rt.bpel.impl.activity.AeActivityScopeImpl;
@@ -57,7 +57,7 @@ public class AeProcessSuspendResumeHandler
          getExecutionQueue().suspend();
          setProcessState( ProcessStateValueType.Suspended );
          fireEngineEvent(AeEngineEventType.ProcessSuspended);
-         getProcess().fireEvent(getProcess().getLocationPath(), ProcessEventType.Suspended, "");          //$NON-NLS-1$
+         getProcess().fireEvent(getProcess().getLocationPath(), AeProcessEventType.Suspended, "");          //$NON-NLS-1$
       }
    }
    
@@ -75,7 +75,7 @@ public class AeProcessSuspendResumeHandler
       setProcessState(ProcessStateValueType.Suspended);
       fireEngineEvent(AeEngineEventType.ProcessSuspended);
       getProcess().getEngine().fireMonitorEvent(IAeMonitorListener.MONITOR_PROCESS_FAULT, IAeMonitorListener.EVENT_DATA_PROCESS_FAULTING);
-      getProcess().fireEvent( aLocationPath, ProcessEventType.Suspended, 
+      getProcess().fireEvent( aLocationPath, AeProcessEventType.Suspended, 
                               aUncaughtFault.getFaultName().getLocalPart(), 
                               aUncaughtFault.getDetailedInfo() );
    }
@@ -91,7 +91,7 @@ public class AeProcessSuspendResumeHandler
       getExecutionQueue().suspend();
       setProcessState(ProcessStateValueType.Suspended);
       fireEngineEvent(AeEngineEventType.ProcessSuspended);
-      getProcess().fireEvent(aLocationPath, ProcessEventType.Suspended, ""); //$NON-NLS-1$
+      getProcess().fireEvent(aLocationPath, AeProcessEventType.Suspended, ""); //$NON-NLS-1$
    }
 
    /**
@@ -107,7 +107,7 @@ public class AeProcessSuspendResumeHandler
       setProcessState(ProcessStateValueType.Suspended);
       fireEngineEvent(AeEngineEventType.ProcessSuspended);
       getProcess().getEngine().fireMonitorEvent(IAeMonitorListener.MONITOR_PROCESS_FAULT, IAeMonitorListener.EVENT_DATA_PROCESS_FAULTING);
-      getProcess().fireEvent( aLocationPath, ProcessEventType.Suspended, 
+      getProcess().fireEvent( aLocationPath, AeProcessEventType.Suspended, 
                               aFault.getFaultName().getLocalPart(), 
                               aFault.getDetailedInfo() );
    }

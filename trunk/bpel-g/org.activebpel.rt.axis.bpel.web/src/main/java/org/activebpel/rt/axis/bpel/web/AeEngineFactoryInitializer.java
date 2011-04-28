@@ -1,25 +1,13 @@
 package org.activebpel.rt.axis.bpel.web;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.InputStream;
-import java.io.UnsupportedEncodingException;
-import java.net.URL;
-import java.net.URLDecoder;
-import java.text.MessageFormat;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 
 import org.activebpel.rt.AeException;
-import org.activebpel.rt.bpel.config.AeDefaultEngineConfiguration;
-import org.activebpel.rt.bpel.config.IAeEngineConfiguration;
-import org.activebpel.rt.bpel.server.AeMessages;
 import org.activebpel.rt.bpel.server.deploy.scanner.AeDeploymentFileInfo;
-import org.activebpel.rt.bpel.server.engine.AeEngineFactory;
-import org.activebpel.rt.bpel.server.engine.config.AeFileBasedEngineConfig;
-import org.activebpel.rt.util.AeCloser;
 import org.activebpel.rt.util.AeUtil;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -31,8 +19,6 @@ public class AeEngineFactoryInitializer implements ServletContextListener {
 	// ///////////////////////////////////////////////////////////////////////////
 	/** Deployment directory init param key. */
 	private static final String BPR_DIR_PARAM = "deployment.directory"; //$NON-NLS-1$
-	/** Engine config file name init param key. */
-	private static final String ENGINE_CONFIG_PARAM = "engine.config"; //$NON-NLS-1$
 	/** Staging directory init param. */
 	private static final String STAGING_DIR_PARAM = "staging.directory"; //$NON-NLS-1$
 	/** Servlet home init param key. */
@@ -66,8 +52,6 @@ public class AeEngineFactoryInitializer implements ServletContextListener {
 	public void contextInitialized(ServletContextEvent aEvent) {
 		try {
 			initFileUtil(aEvent.getServletContext());
-			IAeEngineConfiguration engineConfig = loadEngineConfig();
-			AeEngineFactory.setEngineConfig(engineConfig);
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
@@ -90,9 +74,7 @@ public class AeEngineFactoryInitializer implements ServletContextListener {
 				DEFAULT_DEPLOYMENT_DIR, aConfig);
 		File stagingDir = getFile(servletHome, STAGING_DIR_PARAM,
 				DEFAULT_STAGING_DIR, aConfig);
-		String configFileName = getEngineConfigFileName(aConfig);
 
-		AeDeploymentFileInfo.setConfigFileName(configFileName);
 		AeDeploymentFileInfo.setDeploymentDirectory(deploymentDir.getPath());
 		AeDeploymentFileInfo.setStagingDirectory(stagingDir.getPath());
 	}
@@ -148,81 +130,5 @@ public class AeEngineFactoryInitializer implements ServletContextListener {
 			file = new File(aServletHome, filePath);
 		}
 		return file;
-	}
-
-	/**
-	 * Initialize the engine config file name from the "engine.config" init
-	 * param. Defaults to "aeEngineConfig.xml" if none is specified.
-	 * 
-	 * @param aConfig
-	 */
-	protected String getEngineConfigFileName(ServletContext aConfig) {
-		// get the name of the engine config file default value is
-		// aeEngineConfig.xml
-		String engineConfigFileName = aConfig
-				.getInitParameter(ENGINE_CONFIG_PARAM);
-		if (AeUtil.isNullOrEmpty(engineConfigFileName)) {
-			engineConfigFileName = AeDefaultEngineConfiguration.DEFAULT_CONFIG_FILE;
-		}
-		return engineConfigFileName;
-	}
-
-
-	/**
-	 * Load the engine configuration.
-	 * 
-	 * @throws AeException
-	 */
-	protected IAeEngineConfiguration loadEngineConfig() throws AeException {
-		InputStream in = null;
-		try {
-			File engineConfigFile = loadConfigFile();
-			in = new FileInputStream(engineConfigFile);
-			ClassLoader cl = Thread.currentThread().getContextClassLoader();
-			AeFileBasedEngineConfig engineConfig = new AeFileBasedEngineConfig(
-					engineConfigFile, cl);
-			AeFileBasedEngineConfig.loadConfig(engineConfig, in, cl);
-			return engineConfig;
-		} catch (Exception e) {
-			throw new AeException(e);
-		} finally {
-			AeCloser.close(in);
-		}
-	}
-
-	/**
-	 * Attempt to load the engine config file using the name of the file
-	 * specified by the "engine.config" init param. If the file cannot be
-	 * located, load the default version (aeEngineConfig.xml) from the
-	 * classpath.
-	 * 
-	 * @throws AeException
-	 * @throws UnsupportedEncodingException
-	 */
-	protected File loadConfigFile() throws AeException,
-			UnsupportedEncodingException {
-		File configFile = AeDeploymentFileInfo.getEngineConfigFile();
-
-		if (!configFile.isFile()) {
-			log.error(MessageFormat.format(
-					AeMessages.getString("AeEngineLifecycleWrapper.ERROR_0"), //$NON-NLS-1$
-					new Object[] { configFile.getPath() }), null);
-
-			URL configResource = AeUtil.findOnClasspath(
-					AeDefaultEngineConfiguration.DEFAULT_CONFIG_FILE,
-					getClass());
-			if (configResource == null) {
-				throw new AeException(
-						MessageFormat.format(
-								AeMessages
-										.getString("AeEngineLifecycleWrapper.ERROR_2"), //$NON-NLS-1$
-								new Object[] { AeDefaultEngineConfiguration.DEFAULT_CONFIG_FILE }));
-			}
-			configFile = new File(URLDecoder.decode(configResource.getFile(),
-					"UTF-8"));
-		}
-		log.info(MessageFormat
-				.format(AeMessages.getString("AeEngineLifecycleWrapper.3"), new Object[] { configFile.getPath() })); //$NON-NLS-1$
-		return configFile;
 	}
 }

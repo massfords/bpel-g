@@ -87,10 +87,6 @@ public class AeCatalog implements IAeCatalog, IAeCatalogAdmin {
 		mCache = cache;
 	}
 
-	public void setMaxCacheSize(int aMaxCache) {
-		mCache.setMaxCacheSize(aMaxCache);
-	}
-
 	/**
 	 * @see org.activebpel.rt.bpel.server.catalog.IAeCatalog#addCatalogEntries(org.activebpel.rt.bpel.server.deploy.IAeDeploymentId,
 	 *      org.activebpel.rt.bpel.server.catalog.IAeCatalogMapping[], boolean)

@@ -22,7 +22,6 @@ import org.activebpel.rt.bpel.IAeActivity;
 import org.activebpel.rt.bpel.IAeExpressionLanguageFactory;
 import org.activebpel.rt.bpel.IAeFault;
 import org.activebpel.rt.bpel.ProcessInfoEventType;
-import org.activebpel.rt.bpel.config.IAeEngineConfiguration;
 import org.activebpel.rt.bpel.def.AeActivityDef;
 import org.activebpel.rt.bpel.def.AeBaseDef;
 import org.activebpel.rt.bpel.def.IAeExpressionDef;
@@ -597,14 +596,6 @@ abstract public class AeActivityImpl extends AeAbstractBpelObject implements IAe
             bipple.setState(AeBpelState.DEAD_PATH);
          }
       }
-   }
-
-   /**
-    * Convenience accessor for the <code>IAeEngineConfiguration</code>.
-    */
-   protected IAeEngineConfiguration getEngineConfiguration()
-   {
-      return getProcess().getEngine().getEngineConfiguration();
    }
 
    /**

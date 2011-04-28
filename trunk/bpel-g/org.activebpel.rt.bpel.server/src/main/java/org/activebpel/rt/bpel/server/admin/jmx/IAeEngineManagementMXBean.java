@@ -13,13 +13,14 @@ import org.activebpel.rt.bpel.impl.list.AeCatalogItemDetail;
 import org.activebpel.rt.bpel.server.admin.AeBuildInfo;
 import org.activebpel.rt.bpel.server.admin.AeProcessDeploymentDetail;
 import org.activebpel.rt.bpel.server.admin.AeQueuedReceiveDetail;
-import org.activebpel.rt.bpel.server.engine.storage.AeStorageException;
 import org.activebpel.rt.xml.AeQName;
 
 import bpelg.services.processes.types.ProcessFilterType;
 
 public interface IAeEngineManagementMXBean {
 
+	// FIXME ! move all of the listing calls to services
+	
 	/**
 	 * Gets the details for all of the deployed services.
 	 */
@@ -192,17 +193,7 @@ public interface IAeEngineManagementMXBean {
 	public AeProcessListResultBean getProcessList(ProcessFilterType aFilter)
 			throws AeBusinessProcessException;
 
-	public String getRawConfig();
-
-	public void setRawConfig(String aList);
-
-	public boolean isEngineStorageReady();
-
 	public boolean isRestartable(long aPid);
-
-	public String getStorageError();
-
-	public void initializeStorage() throws AeStorageException;
 
 	public String getCompiledProcessDef(long aProcessId, AeQName aName)
 			throws AeBusinessProcessException;
@@ -216,15 +207,13 @@ public interface IAeEngineManagementMXBean {
 
 	public void setAllowCreateXPath(boolean aAllowedCreateXPath);
 
-	public void setLoggingFilter(String aFilter);
-
 	public void setAllowEmptyQuerySelection(boolean aAllowedEmptyQuerySelection);
 
 	public void setValidateServiceMessages(boolean aValidateServiceMessages);
 
 	public void setResourceReplaceEnabled(boolean aEnabled);
 
-	public void setUnmatchedCorrelatedReceiveTimeout(int aTimeout);
+	public void setUnmatchedCorrelatedReceiveTimeoutMillis(long aTimeout);
 
 	public void setWebServiceInvokeTimeout(int aTimeout);
 
@@ -240,15 +229,13 @@ public interface IAeEngineManagementMXBean {
 
 	public boolean isAllowCreateXPath();
 
-	public String getLoggingFilter();
-
 	public boolean isAllowEmptyQuerySelection();
 
 	public boolean isValidateServiceMessages();
 
 	public boolean isResourceReplaceEnabled();
 
-	public int getUnmatchedCorrelatedReceiveTimeout();
+	public long getUnmatchedCorrelatedReceiveTimeoutMillis();
 
 	public int getWebServiceInvokeTimeout();
 
