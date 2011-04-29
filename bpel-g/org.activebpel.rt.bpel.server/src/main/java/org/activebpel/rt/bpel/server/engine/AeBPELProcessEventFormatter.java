@@ -75,7 +75,6 @@ public class AeBPELProcessEventFormatter extends AeEngineEventFormatter
     */
    public String formatEvent( IAeProcessInfoEvent aEvent )
    {
-	   // FIXME enum
       return super.format( aEvent.getProcessInfoEventType().code(), convertToArray(aEvent, aEvent.getProcessInfoEventType().code()));
    }
 

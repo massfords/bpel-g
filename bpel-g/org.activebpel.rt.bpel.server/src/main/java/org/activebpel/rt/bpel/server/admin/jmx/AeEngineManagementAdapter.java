@@ -17,6 +17,7 @@ import org.activebpel.rt.bpel.AeBusinessProcessException;
 import org.activebpel.rt.bpel.AePreferences;
 import org.activebpel.rt.bpel.coord.AeCoordinationDetail;
 import org.activebpel.rt.bpel.def.AeProcessDef;
+import org.activebpel.rt.bpel.impl.AeMonitorStatus;
 import org.activebpel.rt.bpel.impl.list.AeAlarmExt;
 import org.activebpel.rt.bpel.impl.list.AeAlarmFilter;
 import org.activebpel.rt.bpel.impl.list.AeCatalogItem;
@@ -27,6 +28,7 @@ import org.activebpel.rt.bpel.impl.list.AeMessageReceiverListResult;
 import org.activebpel.rt.bpel.impl.queue.AeMessageReceiver;
 import org.activebpel.rt.bpel.server.IAeDeploymentProvider;
 import org.activebpel.rt.bpel.server.admin.AeBuildInfo;
+import org.activebpel.rt.bpel.server.admin.AeEngineStatus;
 import org.activebpel.rt.bpel.server.admin.AeProcessDeploymentDetail;
 import org.activebpel.rt.bpel.server.admin.AeQueuedReceiveDetail;
 import org.activebpel.rt.bpel.server.admin.IAeEngineAdministration;
@@ -116,11 +118,11 @@ public class AeEngineManagementAdapter implements IAeEngineManagementMXBean {
         return mAdmin.getEngineErrorInfo();
     }
 
-    public int getEngineState() {
+    public AeEngineStatus getEngineState() {
         return mAdmin.getEngineState();
     }
 
-    public int getMonitorStatus() {
+    public AeMonitorStatus getMonitorStatus() {
         return mAdmin.getMonitorStatus();
     }
 

@@ -32,6 +32,7 @@ import org.activebpel.rt.bpel.AeBusinessProcessException;
 import org.activebpel.rt.bpel.coord.AeCoordinationDetail;
 import org.activebpel.rt.bpel.coord.AeCoordinationNotFoundException;
 import org.activebpel.rt.bpel.def.AeProcessDef;
+import org.activebpel.rt.bpel.impl.AeMonitorStatus;
 import org.activebpel.rt.bpel.impl.AeUnmatchedReceive;
 import org.activebpel.rt.bpel.impl.IAeProcessPlan;
 import org.activebpel.rt.bpel.impl.IAeQueueManager;
@@ -48,6 +49,7 @@ import org.activebpel.rt.bpel.server.AeMessages;
 import org.activebpel.rt.bpel.server.IAeDeploymentProvider;
 import org.activebpel.rt.bpel.server.IAeProcessDeployment;
 import org.activebpel.rt.bpel.server.admin.AeBuildInfo;
+import org.activebpel.rt.bpel.server.admin.AeEngineStatus;
 import org.activebpel.rt.bpel.server.admin.AeProcessDeploymentDetail;
 import org.activebpel.rt.bpel.server.admin.AeQueuedReceiveDetail;
 import org.activebpel.rt.bpel.server.admin.AeQueuedReceiveMessageData;
@@ -394,14 +396,14 @@ public class AeEngineAdministration implements IAeEngineAdministration {
 	/**
 	 * @see org.activebpel.rt.bpel.server.admin.IAeEngineAdministration#getEngineState()
 	 */
-	public int getEngineState() {
+	public AeEngineStatus getEngineState() {
 		return getBpelEngine().getState();
 	}
 
 	/**
 	 * @see org.activebpel.rt.bpel.server.admin.IAeEngineAdministration#getMonitorStatus()
 	 */
-	public int getMonitorStatus() {
+	public AeMonitorStatus getMonitorStatus() {
 		return getBpelEngine().getMonitorStatus();
 	}
 
@@ -498,7 +500,7 @@ public class AeEngineAdministration implements IAeEngineAdministration {
 	 * @see org.activebpel.rt.bpel.server.admin.IAeEngineAdministration#isRunning()
 	 */
 	public boolean isRunning() {
-		return getEngineState() == IAeEngineAdministration.RUNNING;
+		return getEngineState() == AeEngineStatus.Running;
 	}
 
 	/**

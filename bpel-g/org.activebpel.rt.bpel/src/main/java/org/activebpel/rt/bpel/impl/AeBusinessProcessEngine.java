@@ -30,7 +30,6 @@ import org.activebpel.rt.bpel.AeMessages;
 import org.activebpel.rt.bpel.AePreferences;
 import org.activebpel.rt.bpel.AeWSDLDefHelper;
 import org.activebpel.rt.bpel.IAeBusinessProcess;
-import org.activebpel.rt.bpel.IAeBusinessProcessEngine;
 import org.activebpel.rt.bpel.IAeEndpointReference;
 import org.activebpel.rt.bpel.IAeEngineAlert;
 import org.activebpel.rt.bpel.IAeEngineEvent;
@@ -87,7 +86,7 @@ public class AeBusinessProcessEngine implements IAeBusinessProcessEngineInternal
    private IAeURNResolver mURNResolver;
 
    /** The monitor status which indicates the current health of the system */
-   protected int mMonitorStatus = IAeBusinessProcessEngine.MONITOR_NORMAL;
+   protected AeMonitorStatus mMonitorStatus = AeMonitorStatus.Normal;
 
    /** Engine listeners */
    protected Set<IAeEngineListener> mEngineListeners = new CopyOnWriteArraySet<IAeEngineListener>();
@@ -2030,15 +2029,15 @@ public class AeBusinessProcessEngine implements IAeBusinessProcessEngineInternal
    /**
     * @see org.activebpel.rt.bpel.IAeBusinessProcessEngine#getMonitorStatus()
     */
-   public int getMonitorStatus()
+   public AeMonitorStatus getMonitorStatus()
    {
       return mMonitorStatus;
    }
 
    /**
-    * @see org.activebpel.rt.bpel.IAeBusinessProcessEngine#setMonitorStatus(int)
+    * @see org.activebpel.rt.bpel.IAeBusinessProcessEngine#setMonitorStatus(AeMonitorStatus)
     */
-   public void setMonitorStatus(int aMonitorStatus)
+   public void setMonitorStatus(AeMonitorStatus aMonitorStatus)
    {
       mMonitorStatus = aMonitorStatus;
    }

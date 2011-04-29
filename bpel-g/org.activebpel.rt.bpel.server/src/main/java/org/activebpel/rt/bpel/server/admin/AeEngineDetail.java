@@ -12,15 +12,17 @@ package org.activebpel.rt.bpel.server.admin;
 import java.io.Serializable;
 import java.util.Date;
 
+import org.activebpel.rt.bpel.impl.AeMonitorStatus;
+
 /**
  * This class contains details about a currently running engine.
  */
 public class AeEngineDetail implements Serializable
 {
    /** The current engine state. */
-   protected int mState;
+   protected AeEngineStatus mState;
    /** The current monitor status. */
-   protected int mMonitorStatus;
+   protected AeMonitorStatus mMonitorStatus;
    /** The error message if the state of the engine is "ERROR". */
    protected String mErrorMessage;
    /** The current engine's start time (null if stopped). */
@@ -37,7 +39,7 @@ public class AeEngineDetail implements Serializable
    /**
     * Getter for the engine state property.
     */
-   public int getState()
+   public AeEngineStatus getState()
    {
       return mState;
    }
@@ -47,7 +49,7 @@ public class AeEngineDetail implements Serializable
     * 
     * @param aEngineState The engine state.
     */
-   public void setState(int aEngineState)
+   public void setState(AeEngineStatus aEngineState)
    {
       mState = aEngineState;
    }
@@ -55,7 +57,7 @@ public class AeEngineDetail implements Serializable
    /**
     * Getter for the monitor status property.
     */
-   public int getMonitorStatus()
+   public AeMonitorStatus getMonitorStatus()
    {
       return mMonitorStatus;
    }
@@ -65,7 +67,7 @@ public class AeEngineDetail implements Serializable
     * 
     * @param aMonitorStatus The monitor status
     */
-   public void setMonitorStatus(int aMonitorStatus)
+   public void setMonitorStatus(AeMonitorStatus aMonitorStatus)
    {
       mMonitorStatus = aMonitorStatus;
    }

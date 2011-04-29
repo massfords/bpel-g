@@ -14,9 +14,9 @@ import java.util.Date;
 import java.util.List;
 
 import org.activebpel.rt.AeException;
-import org.activebpel.rt.bpel.IAeBusinessProcessEngine;
+import org.activebpel.rt.bpel.impl.AeMonitorStatus;
+import org.activebpel.rt.bpel.server.admin.AeEngineStatus;
 import org.activebpel.rt.bpel.server.admin.AeProcessDeploymentDetail;
-import org.activebpel.rt.bpel.server.admin.IAeEngineAdministration;
 import org.activebpel.rt.bpeladmin.war.AeBuildNumber;
 import org.activebpel.rt.bpeladmin.war.AeMessages;
 
@@ -100,7 +100,7 @@ public class AeEngineStatusBean extends AeAbstractAdminBean
    public Date getStartDate()
    {
       Date startDate = null;
-      if(getAdmin().getEngineState() == IAeEngineAdministration.RUNNING)
+      if(getAdmin().getEngineState() == AeEngineStatus.Running)
       {
          startDate = getAdmin().getStartDate();
       }
@@ -137,10 +137,10 @@ public class AeEngineStatusBean extends AeAbstractAdminBean
    public String getMonitorStatus()
    {
       // TODO (RN) These strings should be localized to the browser context not the engine
-      int status = getAdmin().getMonitorStatus();
-      if (status == IAeBusinessProcessEngine.MONITOR_WARNING)
+	   AeMonitorStatus status = getAdmin().getMonitorStatus();
+      if (status == AeMonitorStatus.Warning)
          return AeMessages.getString("AeEngineStatusBean.MonitorWarning"); //$NON-NLS-1$
-      else if (status == IAeBusinessProcessEngine.MONITOR_ERROR)
+      else if (status == AeMonitorStatus.Error)
          return AeMessages.getString("AeEngineStatusBean.MonitorError"); //$NON-NLS-1$
       else
          return AeMessages.getString("AeEngineStatusBean.MonitorNormal"); //$NON-NLS-1$
@@ -153,49 +153,40 @@ public class AeEngineStatusBean extends AeAbstractAdminBean
    {
       // TODO (RN) These strings should be localized to the browser context not the engine
       String status = AeMessages.getString("AeEngineStatusBean.0"); //$NON-NLS-1$
-      // if the factory says engine storage is not ready then display that message
-//      if(! AeEngineManagementFactory.getBean().isEngineStorageReady())
-//      {
-//         status = AeMessages.getString("AeEngineStatusBean.1"); //$NON-NLS-1$
-//      }
-//      else
-//      { 
-         // check the state of the engine and get information to display to the user
          switch(getAdmin().getEngineState())
          {
-            case IAeEngineAdministration.CREATED:
+            case Created:
                status = AeMessages.getString("AeEngineStatusBean.2"); //$NON-NLS-1$
             break;
          
-            case IAeEngineAdministration.STARTING:
+            case Starting:
                status = AeMessages.getString("AeEngineStatusBean.3"); //$NON-NLS-1$
             break;
          
-            case IAeEngineAdministration.RUNNING:
+            case Running:
                status = AeMessages.getString("AeEngineStatusBean.4"); //$NON-NLS-1$
             break;
 
-            case IAeEngineAdministration.STOPPING:
+            case Stopping:
                status = AeMessages.getString("AeEngineStatusBean.5"); //$NON-NLS-1$
             break;
          
-            case IAeEngineAdministration.STOPPED:
+            case Stopped:
                status = AeMessages.getString("AeEngineStatusBean.6"); //$NON-NLS-1$
             break;
          
-            case IAeEngineAdministration.SHUTTINGDOWN:
+            case ShuttingDown:
                status = AeMessages.getString("AeEngineStatusBean.7"); //$NON-NLS-1$
             break;
          
-            case IAeEngineAdministration.SHUTDOWN:
+            case Shutdown:
                status = AeMessages.getString("AeEngineStatusBean.8"); //$NON-NLS-1$
             break;
          
-            case IAeEngineAdministration.ERROR:
+            case Error:
                status = AeMessages.getString("AeEngineStatusBean.9") + getAdmin().getEngineErrorInfo(); //$NON-NLS-1$
             break;
          }
-//      }
       return status;
    }
 }
