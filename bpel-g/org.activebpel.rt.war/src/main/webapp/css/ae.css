@@ -13,7 +13,7 @@ TEXTAREA {font-family: Arial,Helvetica,sans-serif; color: #000000; font-size: 0.
 INPUT {font-family: Arial,Helvetica,sans-serif; color: #000000; font-size: 0.8em; }
 BUTTON {font-family: Arial,Helvetica,sans-serif; color: #000000; font-size: 0.8em; }
 
-.columnHeaders { font-weight: bold; color: #000000; border-top: 1px solid black; font-family: Arial,Helvetica,sans-serif; border-bottom: 1px solid black; background-color: #D3E4F5; }
+.columnHeaders { font-weight: bold; color: #000000; border-top: 1px solid black; font-family: Arial,Helvetica,sans-serif; border-bottom: 1px solid black; background-color: #E0E0E0; }
 .columnHeaders A:active { text-decoration: underline; color: #ffffff}
 .columnHeaders A:link { text-decoration: underline; color: #ffffff}
 .columnHeaders A:visited { text-decoration: underline; color: #ffffff}
@@ -23,9 +23,9 @@ BUTTON {font-family: Arial,Helvetica,sans-serif; color: #000000; font-size: 0.8e
 .filterFields { font-family: Arial,Helvetica,sans-serif}
 .gridLines { background-color: #000000}
 .iconText { font-family: Arial,Helvetica,sans-serif; font-weight: normal}
-.labelHeaders { font-weight: bold; color: #000000; font-family: Arial,Helvetica,sans-serif; background-color: #D3E4F5; }
+.labelHeaders { font-weight: bold; color: #000000; font-family: Arial,Helvetica,sans-serif; background-color: #E0E0E0; }
 
-.navItem { padding: 2px; font-weight: normal; color: #000000; font-family: Arial,Helvetica,sans-serif; background-color: #D3E4F5; border-right: 1px solid black; border-left: 1px solid black;}
+.navItem { padding: 2px; font-weight: normal; color: #000000; font-family: Arial,Helvetica,sans-serif; background-color: #E0E0E0; border-right: 1px solid black; border-left: 1px solid black;}
 .navItem A:active { text-decoration: underline; color: #000000}
 .navItem A:link { text-decoration: underline; color: #000000}
 .navItem A:visited { text-decoration: underline; color: #000000}
@@ -67,7 +67,7 @@ ul.tabnav {
 ul.tabnav li {
    float: left;
    height: 2em;
-   background-color: #d3e4f5;
+   background-color: #E0E0E0;
    margin: 0.20em;
    padding:0;
    border: 1px solid #036;

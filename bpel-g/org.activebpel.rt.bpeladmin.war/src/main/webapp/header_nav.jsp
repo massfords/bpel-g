@@ -8,7 +8,7 @@
 <!--------------->
 <table border="0" cellpadding="0" cellspacing="0" width="100%" align="left">
 
-   <tr><td><img src="images/logo.gif"></td></tr>
+   <tr><td><a href="home.jsp"></a><img src="images/bpel-g-logo.png"></a></td></tr>
 
    <tr height="10"><td></td></tr>
 

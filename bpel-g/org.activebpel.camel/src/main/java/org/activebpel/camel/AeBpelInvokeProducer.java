@@ -11,9 +11,9 @@ import org.apache.camel.Message;
 import org.apache.camel.impl.DefaultProducer;
 import org.w3c.dom.Document;
 
-public class AeBpelProducer extends DefaultProducer {
-
-	public AeBpelProducer(Endpoint aEndpoint) {
+public class AeBpelInvokeProducer extends DefaultProducer {
+	
+	public AeBpelInvokeProducer(Endpoint aEndpoint) {
 		super(aEndpoint);
 	}
 
