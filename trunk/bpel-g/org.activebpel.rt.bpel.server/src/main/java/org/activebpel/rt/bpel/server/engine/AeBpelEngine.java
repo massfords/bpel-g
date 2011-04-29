@@ -41,7 +41,7 @@ import org.activebpel.rt.bpel.server.AeMessages;
 import org.activebpel.rt.bpel.server.IAeDeploymentProvider;
 import org.activebpel.rt.bpel.server.IAeProcessDeployment;
 import org.activebpel.rt.bpel.server.admin.AeEngineDetail;
-import org.activebpel.rt.bpel.server.admin.IAeEngineAdministration;
+import org.activebpel.rt.bpel.server.admin.AeEngineStatus;
 import org.activebpel.rt.bpel.server.coord.AeRegistrationRequest;
 import org.activebpel.rt.bpel.server.coord.subprocess.IAeSpCoordinating;
 import org.activebpel.rt.bpel.server.deploy.AeProcessDeploymentFactory;
@@ -66,7 +66,7 @@ import org.w3c.dom.Element;
  */
 public class AeBpelEngine extends AeAbstractServerEngine {
 	/** current state of the engine */
-	private int mState = IAeEngineAdministration.CREATED;
+	private AeEngineStatus mState = AeEngineStatus.Created;
 
 	/** current state info */
 	private String mErrorInfo;
@@ -128,7 +128,7 @@ public class AeBpelEngine extends AeAbstractServerEngine {
 		detail.setStartTime(getStartDate());
 		detail.setState(getState());
 		detail.setMonitorStatus(getMonitorStatus());
-		if (getState() == IAeEngineAdministration.ERROR) {
+		if (getState() == AeEngineStatus.Error) {
 			detail.setErrorMessage(getErrorInfo());
 		}
 		return detail;
@@ -174,7 +174,7 @@ public class AeBpelEngine extends AeAbstractServerEngine {
 	/**
 	 * Getter for the engine state.
 	 */
-	public int getState() {
+	public AeEngineStatus getState() {
 		return mState;
 	}
 
@@ -183,7 +183,7 @@ public class AeBpelEngine extends AeAbstractServerEngine {
 	 * 
 	 * @param aState
 	 */
-	protected void setState(int aState) {
+	protected void setState(AeEngineStatus aState) {
 		mState = aState;
 	}
 
@@ -201,10 +201,10 @@ public class AeBpelEngine extends AeAbstractServerEngine {
 		try {
 			super.start();
 
-			setState(IAeEngineAdministration.STARTING);
+			setState(AeEngineStatus.Starting);
 			prepareManagersToStart();
 
-			setState(IAeEngineAdministration.RUNNING);
+			setState(AeEngineStatus.Running);
 			startManagers();
 		} catch (Exception e) {
 			fail(e.getLocalizedMessage());
@@ -222,7 +222,7 @@ public class AeBpelEngine extends AeAbstractServerEngine {
 		// Stop the managers...
 		stopManagers();
 
-		setState(IAeEngineAdministration.ERROR);
+		setState(AeEngineStatus.Error);
 		String errMsg = formatErrorMessage(aMessage);
 		setErrorInfo(errMsg);
 	}
@@ -250,11 +250,11 @@ public class AeBpelEngine extends AeAbstractServerEngine {
 	public void stop() throws AeBusinessProcessException {
 		super.stop();
 
-		setState(IAeEngineAdministration.STOPPING);
+		setState(AeEngineStatus.Stopping);
 
 		stopManagers();
 
-		setState(IAeEngineAdministration.STOPPED);
+		setState(AeEngineStatus.Stopped);
 	}
 
 	/**
@@ -263,14 +263,14 @@ public class AeBpelEngine extends AeAbstractServerEngine {
 	 */
 	public void shutDown() throws AeBusinessProcessException {
 		// Stop the engine prior to shutting down if we are currently running
-		if (getState() == IAeEngineAdministration.RUNNING)
+		if (getState() == AeEngineStatus.Running)
 			stop();
 
-		setState(IAeEngineAdministration.SHUTTINGDOWN);
+		setState(AeEngineStatus.ShuttingDown);
 		AeEngineFactory.shutDownWorkManager();
 		AeEngineFactory.shutDownTimerManager();
 		destroyManagers();
-		setState(IAeEngineAdministration.SHUTDOWN);
+		setState(AeEngineStatus.Shutdown);
 	}
 
 	/**
@@ -785,7 +785,7 @@ public class AeBpelEngine extends AeAbstractServerEngine {
 			IAeMessageAcknowledgeCallback aAckCallback,
 			boolean aQueueForExecution) throws AeCorrelationViolationException,
 			AeConflictingRequestException, AeBusinessProcessException {
-		if (getState() != IAeEngineAdministration.RUNNING)
+		if (getState() != AeEngineStatus.Running)
 			throw new AeBusinessProcessException(
 					AeMessages.getString("AeBpelEngine.ERROR_6")); //$NON-NLS-1$
 		return super.queueReceiveDataInternal(aInboundReceive, aAckCallback,
@@ -822,7 +822,7 @@ public class AeBpelEngine extends AeAbstractServerEngine {
 	 * Returns an error message if the state is ERROR, null otherwise.
 	 */
 	public String getErrorInfo() {
-		if (getState() == IAeEngineAdministration.ERROR) {
+		if (getState() == AeEngineStatus.Error) {
 			return mErrorInfo;
 		} else {
 			return null;
@@ -842,7 +842,7 @@ public class AeBpelEngine extends AeAbstractServerEngine {
 	 * @see org.activebpel.rt.bpel.impl.IAeBusinessProcessEngineInternal#isRunning()
 	 */
 	public boolean isRunning() {
-		return getState() == IAeEngineAdministration.RUNNING;
+		return getState() == AeEngineStatus.Running;
 	}
 
 	/**

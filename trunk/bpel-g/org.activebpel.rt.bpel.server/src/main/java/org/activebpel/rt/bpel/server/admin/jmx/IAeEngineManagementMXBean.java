@@ -7,10 +7,12 @@ import java.util.Map;
 import org.activebpel.rt.AeException;
 import org.activebpel.rt.bpel.AeBusinessProcessException;
 import org.activebpel.rt.bpel.coord.AeCoordinationDetail;
+import org.activebpel.rt.bpel.impl.AeMonitorStatus;
 import org.activebpel.rt.bpel.impl.list.AeAlarmExt;
 import org.activebpel.rt.bpel.impl.list.AeCatalogItem;
 import org.activebpel.rt.bpel.impl.list.AeCatalogItemDetail;
 import org.activebpel.rt.bpel.server.admin.AeBuildInfo;
+import org.activebpel.rt.bpel.server.admin.AeEngineStatus;
 import org.activebpel.rt.bpel.server.admin.AeProcessDeploymentDetail;
 import org.activebpel.rt.bpel.server.admin.AeQueuedReceiveDetail;
 import org.activebpel.rt.xml.AeQName;
@@ -68,12 +70,12 @@ public interface IAeEngineManagementMXBean {
 	/**
 	 * Returns the current state of the engine.
 	 */
-	public int getEngineState();
+	public AeEngineStatus getEngineState();
 
 	/**
 	 * Returns the current monitor state of the engine.
 	 */
-	public int getMonitorStatus();
+	public AeMonitorStatus getMonitorStatus();
 
 	/**
 	 * Returns an error message if the state is ERROR, null otherwise.

@@ -15,6 +15,7 @@ import java.util.Map;
 import org.activebpel.rt.attachment.IAeAttachmentItem;
 import org.activebpel.rt.bpel.impl.AeConflictingRequestException;
 import org.activebpel.rt.bpel.impl.AeCorrelationViolationException;
+import org.activebpel.rt.bpel.impl.AeMonitorStatus;
 import org.activebpel.rt.bpel.impl.IAeProcessPlan;
 import org.activebpel.rt.bpel.impl.queue.AeInboundReceive;
 import org.activebpel.rt.bpel.impl.reply.IAeReplyReceiver;
@@ -31,14 +32,6 @@ import org.w3c.dom.Document;
 /** Describes the interface used for interacting with a business process engine */
 public interface IAeBusinessProcessEngine
 {
-	// FIXME enum
-   /** Monitor status indicating engine is running normal */
-   public static final int MONITOR_NORMAL  = 0; 
-   /** Monitor status indicating engine is running with one or more monitor warnings */
-   public static final int MONITOR_WARNING = 1; 
-   /** Monitor status indicating engine is running with one or more error warnings */
-   public static final int MONITOR_ERROR   = 2;
-   
    /**
     * Gets the expression language factory configured in the engine config.  Defaults to the standard
     * AeExpressionLanguageFactory which includes support for XPath 1.0 as required by the BPEL spec.
@@ -49,12 +42,12 @@ public interface IAeBusinessProcessEngine
     * Sets the monitor health status of the engine
     * @param aStatus The status to be set (MONITOR_NORMAL, MONITOR_WARNING, MONITOR_ERROR)
     */
-   public void setMonitorStatus(int aStatus);
+   public void setMonitorStatus(AeMonitorStatus aStatus);
    
    /**
     * Returns the monitor health status of the engine 
     */
-   public int getMonitorStatus();
+   public AeMonitorStatus getMonitorStatus();
    
    /**
     * Return the partner role endpoint reference for the partnerLink 

@@ -18,6 +18,7 @@ import javax.xml.namespace.QName;
 import org.activebpel.rt.AeException;
 import org.activebpel.rt.bpel.AeBusinessProcessException;
 import org.activebpel.rt.bpel.coord.AeCoordinationDetail;
+import org.activebpel.rt.bpel.impl.AeMonitorStatus;
 import org.activebpel.rt.bpel.impl.list.AeAlarmFilter;
 import org.activebpel.rt.bpel.impl.list.AeAlarmListResult;
 import org.activebpel.rt.bpel.impl.list.AeMessageReceiverFilter;
@@ -35,17 +36,6 @@ import bpelg.services.processes.types.ProcessList;
  */
 public interface IAeEngineAdministration
 {
-	// FIXME enum
-   /** engine state constants */
-   public static final int CREATED      = 0;
-   public static final int STARTING     = 1;
-   public static final int RUNNING      = 2;
-   public static final int STOPPING     = 3;
-   public static final int STOPPED      = 4;
-   public static final int SHUTTINGDOWN = 5;
-   public static final int SHUTDOWN     = 6;
-   public static final int ERROR        = 7;
-
    /**
     * Gets the details for all of the deployed services.
     */
@@ -91,12 +81,12 @@ public interface IAeEngineAdministration
    /**
     * Returns the current state of the engine.
     */
-   public int getEngineState();
+   public AeEngineStatus getEngineState();
 
    /**
     * Returns the current monitor state of the engine.
     */
-   public int getMonitorStatus();
+   public AeMonitorStatus getMonitorStatus();
    
    /**
     * Returns an error message if the state is ERROR, null otherwise.
