@@ -33,10 +33,6 @@ public class AePreferences {
 		return root().node("messaging");
 	}
 	
-	public static Preferences correlations() {
-		return root().node("correlations");
-	}
-	
 	public static Preferences processes() {
 		return root().node("processes");
 	}
@@ -165,61 +161,61 @@ public class AePreferences {
 		return logEvents().getBoolean("readyToExecute", false);
 	}
 	public static void setLogReadyToExecute(boolean aFlag) {
-		logging().putBoolean("readyToExecute", aFlag);
+		logEvents().putBoolean("readyToExecute", aFlag);
 	}
 	public static boolean isLogExecuting() {
 		return logEvents().getBoolean("executing", false);
 	}
 	public static void setLogExecuting(boolean aFlag) {
-		logging().putBoolean("executing", aFlag);
+		logEvents().putBoolean("executing", aFlag);
 	}
 	public static boolean isLogExecuteComplete() {
 		return logEvents().getBoolean("executeComplete", false);
 	}
 	public static void setLogExecuteComplete(boolean aFlag) {
-		logging().putBoolean("executeComplete", aFlag);
+		logEvents().putBoolean("executeComplete", aFlag);
 	}
 	public static boolean isLogExecuteFault() {
 		return logEvents().getBoolean("executeFault", false);
 	}
 	public static void setLogExecuteFault(boolean aFlag) {
-		logging().putBoolean("executeFault", aFlag);
+		logEvents().putBoolean("executeFault", aFlag);
 	}
 	public static boolean isLogLinkStatus() {
 		return logEvents().getBoolean("linkStatus", false);
 	}
 	public static void setLogLinkStatus(boolean aFlag) {
-		logging().putBoolean("linkStatus", aFlag);
+		logEvents().putBoolean("linkStatus", aFlag);
 	}
 	public static boolean isLogDeadPathStatus() {
 		return logEvents().getBoolean("deadPathStatus", false);
 	}
 	public static void setLogDeadPathStatus(boolean aFlag) {
-		logging().putBoolean("deadPathStatus", aFlag);
+		logEvents().putBoolean("deadPathStatus", aFlag);
 	}
 	public static boolean isLogTerminated() {
 		return logEvents().getBoolean("terminated", false);
 	}
 	public static void setLogTerminated(boolean aFlag) {
-		logging().putBoolean("terminated", aFlag);
+		logEvents().putBoolean("terminated", aFlag);
 	}
 	public static boolean isLogMigrated() {
 		return logEvents().getBoolean("migrated", false);
 	}
 	public static void setLogMigrated(boolean aFlag) {
-		logging().putBoolean("migrated", aFlag);
+		logEvents().putBoolean("migrated", aFlag);
 	}
 	public static boolean isLogSuspended() {
 		return logEvents().getBoolean("suspended", false);
 	}
 	public static void setLogSuspended(boolean aFlag) {
-		logging().putBoolean("suspended", aFlag);
+		logEvents().putBoolean("suspended", aFlag);
 	}
 	public static boolean isLogFaulting() {
 		return logEvents().getBoolean("faulting", false);
 	}
 	public static void setLogFaulting(boolean aFlag) {
-		logging().putBoolean("faulting", aFlag);
+		logEvents().putBoolean("faulting", aFlag);
 	}
 
 	
@@ -290,9 +286,9 @@ public class AePreferences {
 	}
 
 	public static int getMaxCorrelationCombinations() {
-		return correlations().getInt("maxCombinations", 10);
+		return messaging().getInt("maxCombinations", 10);
 	}
 	public static void setMaxCorrelationCombinations(int aMax) {
-		correlations().putInt("maxCombinations", aMax);
+		messaging().putInt("maxCombinations", aMax);
 	}
 }

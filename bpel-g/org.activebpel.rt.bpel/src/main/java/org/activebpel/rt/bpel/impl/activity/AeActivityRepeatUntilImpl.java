@@ -11,7 +11,7 @@
 package org.activebpel.rt.bpel.impl.activity;
 
 import org.activebpel.rt.bpel.AeBusinessProcessException;
-import org.activebpel.rt.bpel.ProcessInfoEventType;
+import org.activebpel.rt.bpel.AeProcessInfoEventType;
 import org.activebpel.rt.bpel.def.activity.AeActivityRepeatUntilDef;
 import org.activebpel.rt.bpel.def.activity.support.AeConditionDef;
 import org.activebpel.rt.bpel.impl.AeBpelState;
@@ -60,7 +60,7 @@ public class AeActivityRepeatUntilImpl extends AeActivityWhileImpl
 
          // Generate engine info event for debug.
          getProcess().getEngine().fireEvaluationEvent(getProcess().getProcessId(),
-               conditionDef.getExpression(), ProcessInfoEventType.InfoRepeatUntil, getLocationPath(),
+               conditionDef.getExpression(), AeProcessInfoEventType.InfoRepeatUntil, getLocationPath(),
                Boolean.toString(isConditionTrue));
 
          if(isConditionTrue)

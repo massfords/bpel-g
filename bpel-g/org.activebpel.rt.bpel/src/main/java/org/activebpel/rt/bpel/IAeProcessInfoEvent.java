@@ -16,5 +16,5 @@ package org.activebpel.rt.bpel;
  */
 public interface IAeProcessInfoEvent extends IAeBaseProcessEvent
 {
-	ProcessInfoEventType getProcessInfoEventType();
+	AeProcessInfoEventType getProcessInfoEventType();
 }

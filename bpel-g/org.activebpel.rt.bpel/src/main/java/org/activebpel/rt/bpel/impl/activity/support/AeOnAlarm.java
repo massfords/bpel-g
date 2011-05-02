@@ -12,7 +12,7 @@ package org.activebpel.rt.bpel.impl.activity.support;
 import java.util.Date;
 
 import org.activebpel.rt.bpel.AeBusinessProcessException;
-import org.activebpel.rt.bpel.ProcessInfoEventType;
+import org.activebpel.rt.bpel.AeProcessInfoEventType;
 import org.activebpel.rt.bpel.def.activity.support.AeOnAlarmDef;
 import org.activebpel.rt.bpel.impl.IAeAlarmReceiver;
 import org.activebpel.rt.bpel.impl.activity.AeActivityPickImpl;
@@ -72,7 +72,7 @@ public class AeOnAlarm extends AeBaseEvent implements IAeAlarmReceiver
     */
    public void execute() throws AeBusinessProcessException
    {
-      Date deadline = AeAlarmCalculator.calculateDeadline(this, getDef(), ProcessInfoEventType.InfoOnAlarm);
+      Date deadline = AeAlarmCalculator.calculateDeadline(this, getDef(), AeProcessInfoEventType.InfoOnAlarm);
       queueAlarm(deadline);
    }
 

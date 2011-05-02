@@ -11,7 +11,7 @@ package org.activebpel.rt.bpel.impl.activity.support;
 
 import org.activebpel.rt.bpel.AeBusinessProcessException;
 import org.activebpel.rt.bpel.IAeFault;
-import org.activebpel.rt.bpel.ProcessInfoEventType;
+import org.activebpel.rt.bpel.AeProcessInfoEventType;
 import org.activebpel.rt.bpel.impl.AeProcessInfoEvent;
 import org.activebpel.rt.bpel.impl.IAeBusinessProcessInternal;
 
@@ -42,7 +42,7 @@ public class AeProcessCompensationCallbackWrapper implements
    public void compensationComplete(AeCompensationHandler aCompHandler) throws AeBusinessProcessException
    {
       getDelegate().compensationComplete(aCompHandler); 
-      setProcessState(aCompHandler, ProcessStateValueType.Complete, ProcessInfoEventType.InfoProcessCompensationFinished);
+      setProcessState(aCompHandler, ProcessStateValueType.Complete, AeProcessInfoEventType.InfoProcessCompensationFinished);
    }
 
    /**
@@ -51,7 +51,7 @@ public class AeProcessCompensationCallbackWrapper implements
    public void compensationCompleteWithFault(AeCompensationHandler aCompHandler, IAeFault aFault) throws AeBusinessProcessException
    {
       getDelegate().compensationCompleteWithFault(aCompHandler, aFault);
-      setProcessState(aCompHandler, ProcessStateValueType.Faulted, ProcessInfoEventType.InfoProcessCompensationFaulted);
+      setProcessState(aCompHandler, ProcessStateValueType.Faulted, AeProcessInfoEventType.InfoProcessCompensationFaulted);
    }
 
    /**
@@ -61,7 +61,7 @@ public class AeProcessCompensationCallbackWrapper implements
    {
       getDelegate().compensationTerminated(aCompHandler);
       // As per CK/Defect1558 - change state to Faulted instead of Completed.
-      setProcessState(aCompHandler, ProcessStateValueType.Faulted, ProcessInfoEventType.InfoProcessCompensationTerminated);
+      setProcessState(aCompHandler, ProcessStateValueType.Faulted, AeProcessInfoEventType.InfoProcessCompensationTerminated);
    }
    
    /**
@@ -71,7 +71,7 @@ public class AeProcessCompensationCallbackWrapper implements
     * @param aProcessState
     * @param aProcessInfoState
     */
-   protected void setProcessState(AeCompensationHandler aCompHandler, ProcessStateValueType aProcessState, ProcessInfoEventType aProcessInfoState)
+   protected void setProcessState(AeCompensationHandler aCompHandler, ProcessStateValueType aProcessState, AeProcessInfoEventType aProcessInfoState)
    {
       IAeBusinessProcessInternal process = aCompHandler.getProcess();
       AeProcessInfoEvent event = new AeProcessInfoEvent(process.getProcessId(), process.getLocationPath(), aProcessInfoState);

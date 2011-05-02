@@ -22,6 +22,10 @@
         serviceName="s:URNResolver" address="/URNResolver"
         xmlns:s="urn:bpel-g:services:urn-resolver"/>
 
+    <jaxws:endpoint implementor="#PreferencesService" endpointName="s:Preferences"
+        serviceName="s:PreferencesService" address="/PreferencesService"
+        xmlns:s="urn:bpel-g:services:preferences"/>
+
     <bean id="DeploymentService" class="org.activebpel.rt.bpel.server.services.AeDeploymentService">
         <property name="DeploymentHandler" ref="DeploymentHandler"/>
     </bean>
@@ -33,6 +37,8 @@
     <bean id="ResolverService" class="org.activebpel.rt.bpel.server.services.AeURNResolverService">
         <property name="resolver" ref="URNResolver"/>
     </bean>
+    
+    <bean id="PreferencesService" class="org.activebpel.rt.bpel.server.services.AePreferencesService"/>
 
     <bean id="TransactionManager"
         class="org.activebpel.rt.bpel.server.engine.transaction.sql.AeSQLTransactionManager"/>

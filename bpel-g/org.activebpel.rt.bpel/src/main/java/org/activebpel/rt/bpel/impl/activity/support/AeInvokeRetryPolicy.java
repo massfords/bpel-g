@@ -25,7 +25,7 @@ import org.activebpel.rt.bpel.AeBusinessProcessException;
 import org.activebpel.rt.bpel.AeMessages;
 import org.activebpel.rt.bpel.IAeEndpointReference;
 import org.activebpel.rt.bpel.IAeFault;
-import org.activebpel.rt.bpel.ProcessInfoEventType;
+import org.activebpel.rt.bpel.AeProcessInfoEventType;
 import org.activebpel.rt.bpel.def.activity.AeActivityInvokeDef;
 import org.activebpel.rt.bpel.impl.AeBpelState;
 import org.activebpel.rt.bpel.impl.AePartnerLink;
@@ -153,7 +153,7 @@ public class AeInvokeRetryPolicy
             AeProcessInfoEvent infoEvent = new AeProcessInfoEvent(
                   getInvoke().getProcess().getProcessId(),
                   getInvoke().getLocationPath(),
-                  ProcessInfoEventType.GenericInfoEvent,
+                  AeProcessInfoEventType.GenericInfoEvent,
                   null,
                   AeMessages.format("AeInvokeRetryPolicy.RetryingInvoke", deadline.toString())); //$NON-NLS-1$
             getInvoke().getProcess().getEngine().fireInfoEvent(infoEvent);
