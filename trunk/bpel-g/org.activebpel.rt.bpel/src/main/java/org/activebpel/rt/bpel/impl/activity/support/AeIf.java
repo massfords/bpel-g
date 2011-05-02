@@ -10,7 +10,7 @@
 
 package org.activebpel.rt.bpel.impl.activity.support;
 
-import org.activebpel.rt.bpel.ProcessInfoEventType;
+import org.activebpel.rt.bpel.AeProcessInfoEventType;
 import org.activebpel.rt.bpel.def.IAeBPELConstants;
 import org.activebpel.rt.bpel.def.activity.support.AeElseIfDef;
 import org.activebpel.rt.bpel.def.activity.support.AeIfDef;
@@ -37,9 +37,9 @@ public class AeIf extends AeElseIf
     */
    protected void fireEvalEvent(AeElseIfDef aDef, boolean aResult)
    {
-	   ProcessInfoEventType eventId = ProcessInfoEventType.InfoIf;
+	   AeProcessInfoEventType eventId = AeProcessInfoEventType.InfoIf;
       if (IAeBPELConstants.BPWS_NAMESPACE_URI.equals(getProcess().getBPELNamespace()))
-         eventId = ProcessInfoEventType.InfoCase;
+         eventId = AeProcessInfoEventType.InfoCase;
 
       getProcess().getEngine().fireEvaluationEvent(getProcess().getProcessId(),
             aDef.getConditionDef().getExpression(), eventId, getLocationPath(),

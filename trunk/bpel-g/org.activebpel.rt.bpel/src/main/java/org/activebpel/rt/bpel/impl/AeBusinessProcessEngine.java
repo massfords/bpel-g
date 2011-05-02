@@ -42,7 +42,7 @@ import org.activebpel.rt.bpel.IAePlanManager;
 import org.activebpel.rt.bpel.IAeProcessEvent;
 import org.activebpel.rt.bpel.IAeProcessInfoEvent;
 import org.activebpel.rt.bpel.IAeProcessListener;
-import org.activebpel.rt.bpel.ProcessInfoEventType;
+import org.activebpel.rt.bpel.AeProcessInfoEventType;
 import org.activebpel.rt.bpel.coord.IAeCoordinationContext;
 import org.activebpel.rt.bpel.def.AePartnerLinkDef;
 import org.activebpel.rt.bpel.def.AePartnerLinkOpKey;
@@ -1747,7 +1747,7 @@ public class AeBusinessProcessEngine implements IAeBusinessProcessEngineInternal
       }
    }
 
-   public void fireEvaluationEvent(long aPID, String aExpression, ProcessInfoEventType aEventID, String aNodePath, String aResult)
+   public void fireEvaluationEvent(long aPID, String aExpression, AeProcessInfoEventType aEventID, String aNodePath, String aResult)
    {
       // TODO (MF) we're not doing anything with the expression but we should be.
       // The designer code doesn't need it since it'll use the location path to

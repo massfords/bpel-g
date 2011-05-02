@@ -135,6 +135,12 @@
                   </bindingFiles>
                   <wsdl>${basedir}/target/dependency/deploy.wsdl</wsdl>
                 </wsdlOption>
+                <wsdlOption>
+                  <bindingFiles>
+                    <bindingFile>${basedir}/src/main/bindings/preferences-bindings.xml</bindingFile>
+                  </bindingFiles>
+                  <wsdl>${basedir}/target/dependency/preferences.wsdl</wsdl>
+                </wsdlOption>
               </wsdlOptions>
             </configuration>
             <goals>

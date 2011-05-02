@@ -1,6 +1,6 @@
 package org.activebpel.rt.bpel;
 
-public enum ProcessInfoEventType {
+public enum AeProcessInfoEventType {
 	
 	InfoEvents(1000),
 	InfoOnAlarm(1001),
@@ -34,7 +34,7 @@ public enum ProcessInfoEventType {
 	
 	
 	private final int code; 
-	ProcessInfoEventType(int code) {
+	AeProcessInfoEventType(int code) {
 		this.code = code;
 	}
 	

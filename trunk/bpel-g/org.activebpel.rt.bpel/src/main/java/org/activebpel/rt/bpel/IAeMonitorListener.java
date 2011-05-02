@@ -14,6 +14,7 @@ package org.activebpel.rt.bpel;
  */
 public interface IAeMonitorListener
 {
+	// FIXME enum
    /** Monitor event sent when a process faults or is suspended because of a fault */
    public static final int MONITOR_PROCESS_FAULT = 100;
    /** Monitor event sent when a process is loaded */
@@ -34,6 +35,7 @@ public interface IAeMonitorListener
    /** EventData code used in MONITOR_PROCESS_FAULT to signal process suspended because it was about to fault */
    public static final long EVENT_DATA_PROCESS_FAULTING = 1;
 
+	// FIXME enum
    /** EventData code used in MONITOR_PROCESS_LOADED to signal process loaded from cache */
    public static final long EVENT_DATA_PROCESS_LOAD_FROM_CACHE = 0;
    /** EventData code used in MONITOR_PROCESS_LOADED to signal process loaded from database */

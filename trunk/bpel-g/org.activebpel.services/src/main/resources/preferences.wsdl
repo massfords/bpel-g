@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions targetNamespace="urn:bpel-g:services:preferences" 
+   xmlns:tns="urn:bpel-g:services:preferences" 
+      xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+                  xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" 
+                  xmlns:xs="http://www.w3.org/2001/XMLSchema">
+              
+   <wsdl:types>
+      <xs:schema elementFormDefault="qualified" targetNamespace="urn:bpel-g:services:preferences">
+         <xs:element name="getPreferencesRequest">
+            <xs:complexType/>
+         </xs:element>
+         <xs:complexType name="preferencesType">
+            <xs:all>
+               <xs:element name="workManager">
+                  <xs:complexType>
+                     <xs:sequence>
+                        <xs:element name="processWorkCount" type="xs:positiveInteger"/>
+                        <xs:element name="threadPoolMin" type="xs:positiveInteger"/>
+                        <xs:element name="threadPoolMax" type="xs:positiveInteger"/>
+                     </xs:sequence>
+                  </xs:complexType>
+               </xs:element>
+               <xs:element name="childWorkManagers">
+                  <xs:complexType>
+                     <xs:sequence>
+                        <xs:element name="Alarm" type="xs:positiveInteger"/>
+                     </xs:sequence>
+                  </xs:complexType>
+               </xs:element>
+               <xs:element name="logging">
+                  <xs:complexType>
+                     <xs:all>
+                        <xs:element name="directory" type="xs:string"/>
+                        <xs:element name="headLines" type="xs:positiveInteger"/>
+                        <xs:element name="tailLines" type="xs:positiveInteger"/>
+                        <xs:element name="enabledEvents">
+                           <xs:complexType>
+                              <xs:attribute name="readyToExecute" type="xs:boolean" use="required"/>
+                              <xs:attribute name="executing" type="xs:boolean" use="required"/>
+                              <xs:attribute name="executeComplete" type="xs:boolean" use="required"/>
+                              <xs:attribute name="executeFault" type="xs:boolean" use="required"/>
+                              <xs:attribute name="linkStatus" type="xs:boolean" use="required"/>
+                              <xs:attribute name="deadPathStatus" type="xs:boolean" use="required"/>
+                              <xs:attribute name="terminated" type="xs:boolean" use="required"/>
+                              <xs:attribute name="migrated" type="xs:boolean" use="required"/>
+                              <xs:attribute name="suspended" type="xs:boolean" use="required"/>
+                              <xs:attribute name="faulting" type="xs:boolean" use="required"/>
+                           </xs:complexType>
+                        </xs:element>
+                     </xs:all>
+                  </xs:complexType>
+               </xs:element>
+               <xs:element name="catalog">
+                  <xs:complexType>
+                     <xs:all>
+                        <xs:element name="cacheSize" type="xs:positiveInteger"/>
+                        <xs:element name="resourceReplaceEnabled" type="xs:boolean"/>
+                     </xs:all>
+                  </xs:complexType>
+               </xs:element>
+               <xs:element name="execution">
+                  <xs:complexType>
+                     <xs:all>
+                        <xs:element name="allowCreateXpath" type="xs:boolean"/>
+                        <xs:element name="allowEmptyQuerySelection" type="xs:boolean"/>
+                        <xs:element name="whileLoopAlarmDelay" type="xs:long"/>
+                        <xs:element name="whileLoopIterations" type="xs:positiveInteger"/>
+                        <xs:element name="suspendOnUncaughtFaults" type="xs:boolean"/>
+                        <xs:element name="suspendOnInvokeRecovery" type="xs:boolean"/>
+                     </xs:all>
+                  </xs:complexType>
+               </xs:element>
+               <xs:element name="messaging">
+                  <xs:complexType>
+                     <xs:all>
+                        <xs:element name="receiveTimeout" type="xs:positiveInteger"/>
+                        <xs:element name="sendTimeout" type="xs:positiveInteger"/>
+                        <xs:element name="validateServiceMessages" type="xs:boolean"/>
+                        <xs:element name="allowedRulesEnforced" type="xs:boolean"/>
+                        <xs:element name="maxCorrelationCombinations" type="xs:positiveInteger"/>
+                        <xs:element name="unmatchedCorrelatedReceiveTimeout" type="xs:positiveInteger"/>
+                     </xs:all>
+                  </xs:complexType>
+               </xs:element>
+               <xs:element name="processes">
+                  <xs:complexType>
+                     <xs:all>
+                        <xs:element name="processCount" type="xs:positiveInteger"/>
+                        <xs:element name="releaseLag" type="xs:long"/>
+                        <xs:element name="restartEnabled" type="xs:boolean"/>
+                     </xs:all>
+                  </xs:complexType>
+               </xs:element>
+            </xs:all>
+         </xs:complexType>
+         
+         <xs:element name="preferences" type="tns:preferencesType"/>
+         <xs:element name="setPreferencesRequest" type="tns:preferencesType"/>
+         
+      </xs:schema>
+   </wsdl:types>
+   
+   <wsdl:message name="getPreferencesRequest">
+      <wsdl:part name="body" element="tns:getPreferencesRequest"/>
+   </wsdl:message>
+   <wsdl:message name="preferences">
+      <wsdl:part name="body" element="tns:preferences"/>
+   </wsdl:message>   
+
+   <wsdl:message name="setPreferencesRequest">
+      <wsdl:part name="body" element="tns:setPreferencesRequest"/>
+   </wsdl:message>
+   <wsdl:message name="voidMessage"/>
+      
+
+   <wsdl:portType name="AePreferences">
+      <wsdl:operation name="getPreferences">
+         <wsdl:input  message="tns:getPreferencesRequest"/>
+         <wsdl:output message="tns:preferences"/>
+      </wsdl:operation>
+      <wsdl:operation name="setPreferences">
+         <wsdl:input  message="tns:setPreferencesRequest"/>
+         <wsdl:output message="tns:voidMessage"/>
+      </wsdl:operation>
+   </wsdl:portType>
+
+   <wsdl:binding name="AePreferencesBinding" type="tns:AePreferences">
+      <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+
+      <wsdl:operation name="getPreferences">
+         <wsdl:input>
+            <soap:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output>
+            <soap:body use="literal"/>
+         </wsdl:output>
+      </wsdl:operation>
+      <wsdl:operation name="setPreferences">
+         <wsdl:input>
+            <soap:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output>
+            <soap:body use="literal"/>
+         </wsdl:output>
+      </wsdl:operation>
+   </wsdl:binding>
+
+   <wsdl:service name="PreferencesService">
+      <wsdl:port binding="tns:AePreferencesBinding" name="AePreferences">
+         <soap:address location="http://localhost:8080/bpel-g/cxf/PreferencesService"/>
+      </wsdl:port>
+   </wsdl:service>
+</wsdl:definitions>

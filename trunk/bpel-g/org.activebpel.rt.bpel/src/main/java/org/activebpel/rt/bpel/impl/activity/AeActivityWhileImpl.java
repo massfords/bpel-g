@@ -16,7 +16,7 @@ import java.util.Iterator;
 import org.activebpel.rt.bpel.AeBusinessProcessException;
 import org.activebpel.rt.bpel.AePreferences;
 import org.activebpel.rt.bpel.IAeActivity;
-import org.activebpel.rt.bpel.ProcessInfoEventType;
+import org.activebpel.rt.bpel.AeProcessInfoEventType;
 import org.activebpel.rt.bpel.def.activity.AeActivityWhileDef;
 import org.activebpel.rt.bpel.def.activity.support.AeConditionDef;
 import org.activebpel.rt.bpel.impl.AeBpelState;
@@ -96,7 +96,7 @@ public class AeActivityWhileImpl extends AeLoopActivity
       // Generate engine info event for debug.
       //
       getProcess().getEngine().fireEvaluationEvent(getProcess().getProcessId(), conditionDef.getExpression(),
-    		  ProcessInfoEventType.InfoWhile, getLocationPath(), Boolean.toString(isConditionTrue));
+    		  AeProcessInfoEventType.InfoWhile, getLocationPath(), Boolean.toString(isConditionTrue));
 
       if(isConditionTrue)
       {

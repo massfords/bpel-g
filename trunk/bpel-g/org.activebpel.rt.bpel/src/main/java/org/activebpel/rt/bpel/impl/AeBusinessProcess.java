@@ -43,7 +43,7 @@ import org.activebpel.rt.bpel.IAeMonitorListener;
 import org.activebpel.rt.bpel.IAePartnerLink;
 import org.activebpel.rt.bpel.IAeVariable;
 import org.activebpel.rt.bpel.AeProcessEventType;
-import org.activebpel.rt.bpel.ProcessInfoEventType;
+import org.activebpel.rt.bpel.AeProcessInfoEventType;
 import org.activebpel.rt.bpel.coord.AeCoordinationException;
 import org.activebpel.rt.bpel.coord.IAeCoordinating;
 import org.activebpel.rt.bpel.coord.IAeCoordinator;
@@ -838,7 +838,7 @@ public class AeBusinessProcess extends AeActivityScopeImpl implements IAeBusines
       compHandler.setCallback(new AeProcessCompensationCallbackWrapper(aCallback));
       compHandler.setCompInfo(getCompInfo());
 
-      AeProcessInfoEvent event = new AeProcessInfoEvent(getProcessId(), getLocationPath(), ProcessInfoEventType.InfoProcessCompensationStarted);
+      AeProcessInfoEvent event = new AeProcessInfoEvent(getProcessId(), getLocationPath(), AeProcessInfoEventType.InfoProcessCompensationStarted);
       getEngine().fireInfoEvent(event);
       queueObjectToExecute(compHandler);
    }
@@ -2190,7 +2190,7 @@ public class AeBusinessProcess extends AeActivityScopeImpl implements IAeBusines
       AeProcessInfoEvent infoEvent = new AeProcessInfoEvent(
             getProcessId(),
             aLocationPath,
-            ProcessInfoEventType.GenericInfoEvent,
+            AeProcessInfoEventType.GenericInfoEvent,
             null,
             AeMessages.format("AeBusinessProcess.UNMATCHED_REQUEST", new Object[] {aLocationPath})); //$NON-NLS-1$
       getEngine().fireInfoEvent(infoEvent);
@@ -2715,7 +2715,7 @@ public class AeBusinessProcess extends AeActivityScopeImpl implements IAeBusines
          AeProcessInfoEvent infoEvent = new AeProcessInfoEvent(
                getProcessId(),
                getLocationPath(),
-               ProcessInfoEventType.GenericInfoEvent,
+               AeProcessInfoEventType.GenericInfoEvent,
                null,
                message);
          getEngine().fireInfoEvent(infoEvent);

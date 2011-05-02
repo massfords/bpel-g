@@ -18,7 +18,7 @@ import javax.xml.namespace.QName;
 import org.activebpel.rt.bpel.AeEngineAlertEventType;
 import org.activebpel.rt.bpel.AeEngineEventType;
 import org.activebpel.rt.bpel.AeProcessEventType;
-import org.activebpel.rt.bpel.ProcessInfoEventType;
+import org.activebpel.rt.bpel.AeProcessInfoEventType;
 import org.w3c.dom.Document;
 
 /**
@@ -82,7 +82,7 @@ public interface IAeEventHandler extends Remote
     * @param aText optional text
     * @param aTimestamp the event's timestamp
     */
-   public void processInfoEventHandler(long aContextId, long aProcessId, String aPath, ProcessInfoEventType aEventType,
+   public void processInfoEventHandler(long aContextId, long aProcessId, String aPath, AeProcessInfoEventType aEventType,
          String aFaultName, String aText, Date aTimestamp) throws RemoteException;
 
    /**
