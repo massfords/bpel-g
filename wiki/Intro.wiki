@@ -9,7 +9,7 @@ those in the public sector. The main focus is spec compliance.
 = Building =
 
 == Maven ==
-bpel-g uses maven. You should be using maven 2.0.9 or later.
+bpel-g uses maven. You should be using maven 2.2.1 or later.
 
 === Local Repo ===
 A couple of the projects require artifacts which aren't available on public repositories. A local maven repository is included as part of the trunk and is referenced by a some of the projects. If you're using a local proxy to mirror remote maven repositories, make sure that you have the mirrorOf rule configured to allow local repos (i.e. {{{ <mirrorOf>external:*</mirrorOf>}}} )
@@ -37,18 +37,12 @@ The ddl project in bpel-g contains scripts for Oracle, DB2, MySQL, SQL Server an
 == Configuring WAR ==
 The WAR project has a context that is already configured to reference the database created during the build. Be sure to put the H2 jar within the $CATALINA_HOME/lib directory.
 
-== Configuring ServiceMix ==
-See the [ServiceMix] page
-
 = Deployments =
 
 == WAR ==
-The Business Process Archive (or BPR) is the only supported packaging structure at the moment for the web application. Check the [http://activevos.com ActiveVOS] web site for information on how to construct a BPR or simply use their BPEL designer to create one. Support for a simpler packaging structure will be added in the future.
+The Business Process Archive (or BPR) or Apache ODE style zip are both supported.  Check the [http://activevos.com ActiveVOS] web site for information on how to construct a BPR or simply use their BPEL designer to create one. Check the Apache ODE site for info on how to construct a zip with their deploy.xml metadata file. 
 
 It is also possible to deploy a BPR via a web service call.
-
-== Service Mix ==
-See the [ServiceMix] page
 
 == Validation ==
 The default behavior during deployment is to validate the bpel, deployment artifacts, and WSDL. It is possible to disable this validation (although not recommended) by including a file named "skip.validation" inside the BPR or service unit. If present, none of the resources within the deployment unit will be validated. This was added to address a situation where deployment speed was essential and the bpel and associated artifacts were all known to be valid. 
