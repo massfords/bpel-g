@@ -16,7 +16,6 @@ import javax.xml.namespace.QName;
 
 import org.activebpel.rt.IAeConstants;
 import org.activebpel.rt.bpel.def.AePartnerLinkDef;
-import org.activebpel.rt.bpel.def.AePartnerLinkDefKey;
 import org.activebpel.rt.bpel.def.AeProcessDef;
 import org.activebpel.rt.bpel.server.AeMessages;
 import org.activebpel.rt.util.AeUtil;
@@ -27,6 +26,8 @@ import bpelg.services.deploy.types.pdd.MyRoleBindingType;
 import bpelg.services.deploy.types.pdd.MyRoleType;
 import bpelg.services.deploy.types.pdd.PartnerLinkType;
 import bpelg.services.deploy.types.pdd.Pdd;
+import bpelg.services.processes.types.ServiceDeployment;
+import bpelg.services.processes.types.ServiceDeployments;
 
 /**
  * Static utilities to determine service info from deployment documents
@@ -40,7 +41,7 @@ public class AeServiceDeploymentUtil implements IAeConstants {
 	 * @param aProcessElement
 	 * @throws AeDeploymentException
 	 */
-	public static List<IAeServiceDeploymentInfo> getServices(
+	public static ServiceDeployments getServices(
 			AeProcessDef aProcessDef, Pdd aPdd) throws AeDeploymentException {
 		try {
 			// data for creating the processNamespace and
@@ -49,7 +50,7 @@ public class AeServiceDeploymentUtil implements IAeConstants {
 			// with the myRole child for a given process
 			QName processQname = aPdd.getName();
 
-			List services = new ArrayList();
+			ServiceDeployments services = new ServiceDeployments();
 
 			// locate all of the myRole elements and build the
 			// appropriate service element for each one
@@ -73,15 +74,19 @@ public class AeServiceDeploymentUtil implements IAeConstants {
 				// Look up the partner link def in the process.
 				AePartnerLinkDef plDef = aProcessDef
 						.findPartnerLink(partnerLink);
-				AePartnerLinkDefKey plDefKey = new AePartnerLinkDefKey(plDef);
 
 				String allowedRoles = myRole.getAllowedRoles();
 				List<Element> policies = myRole.getAny();
-
-				AeServiceDeploymentInfo serviceData = new AeServiceDeploymentInfo(
-						serviceName, plDefKey, binding, allowedRoles, policies);
-				serviceData.setProcessQName(processQname);
-				services.add(serviceData);
+				
+				ServiceDeployment sd = new ServiceDeployment()
+					.withAllowedRoles(allowedRoles)
+					.withBinding(binding)
+					.withPartnerLink(plDef.getName())
+					.withPartnerLinkId(plDef.getLocationId())
+					.withProcessName(processQname)
+					.withService(serviceName)
+					.withAny(policies);
+				services.withServiceDeployment(sd);
 			}
 
 			return services;

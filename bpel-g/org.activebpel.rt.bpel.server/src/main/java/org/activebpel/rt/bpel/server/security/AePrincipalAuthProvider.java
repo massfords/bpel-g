@@ -10,6 +10,8 @@
 package org.activebpel.rt.bpel.server.security;
 
 import java.security.Principal;
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
@@ -23,10 +25,11 @@ import org.activebpel.rt.bpel.impl.IAeProcessPlan;
 import org.activebpel.rt.bpel.server.AeMessages;
 import org.activebpel.rt.bpel.server.IAeDeploymentProvider;
 import org.activebpel.rt.bpel.server.IAeProcessDeployment;
-import org.activebpel.rt.bpel.server.deploy.IAeServiceDeploymentInfo;
 import org.activebpel.rt.bpel.server.engine.AeEngineFactory;
 import org.activebpel.rt.util.AeUtil;
 import org.activebpel.wsio.receive.IAeMessageContext;
+
+import bpelg.services.processes.types.ServiceDeployment;
 
 /**
  * Authorization provider that checks if one of a subject's principals is in
@@ -49,9 +52,22 @@ public class AePrincipalAuthProvider implements IAeAuthorizationProvider
          // Lookup the allowed roles from the service deployment
          IAeProcessDeployment deployment = getDeploymentPlan(aContext.getProcessName());
          AePartnerLinkDef plinkDef = getPartnerLinkDef(deployment, aContext);
-         IAeServiceDeploymentInfo service = deployment.getServiceInfo(plinkDef.getLocationPath());
+         ServiceDeployment service = deployment.getServiceInfo(plinkDef.getLocationPath());
          
-         return authorize(aSubject, service.getAllowedRoles());
+         // roles to set
+         // FIXME not very efficient, but I don't think this gets used very often
+         Set roles = null;
+         if (AeUtil.isNullOrEmpty(service.getAllowedRoles())) {
+        	 roles = Collections.emptySet();
+         } else {
+        	 String[] rolls = service.getAllowedRoles().split(",");
+        	 roles = new HashSet();
+        	 for(String r : rolls) {
+        		 roles.add(r.trim());
+        	 }
+         }
+         
+         return authorize(aSubject, roles);
       }
       catch (AeBusinessProcessException ae)
       {

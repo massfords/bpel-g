@@ -11,14 +11,16 @@ package org.activebpel.rt.bpeladmin.war.web;
 
 import java.text.MessageFormat;
 import java.util.Date;
-import java.util.List;
 
 import org.activebpel.rt.AeException;
 import org.activebpel.rt.bpel.impl.AeMonitorStatus;
 import org.activebpel.rt.bpel.server.admin.AeEngineStatus;
-import org.activebpel.rt.bpel.server.admin.AeProcessDeploymentDetail;
 import org.activebpel.rt.bpeladmin.war.AeBuildNumber;
+import org.activebpel.rt.bpeladmin.war.AeEngineManagementFactory;
 import org.activebpel.rt.bpeladmin.war.AeMessages;
+
+import bpelg.services.processes.types.GetProcessDeployments;
+import bpelg.services.processes.types.ProcessDeployments;
 
 /**
  *  Bean for driving display of home page.
@@ -80,12 +82,13 @@ public class AeEngineStatusBean extends AeAbstractAdminBean
    {
       try
       {
-         List<AeProcessDeploymentDetail> deployedProcesses = getAdmin().getDeployedProcesses();
+    	  ProcessDeployments deployedProcesses = AeEngineManagementFactory.getProcessManager()
+    	  		.getProcessDeployments(new GetProcessDeployments());
          if( deployedProcesses == null )
          {
             return 0;
          }
-         return deployedProcesses.size();
+         return deployedProcesses.getProcessDeployment().size();
       }
       catch(Exception ex)
       {

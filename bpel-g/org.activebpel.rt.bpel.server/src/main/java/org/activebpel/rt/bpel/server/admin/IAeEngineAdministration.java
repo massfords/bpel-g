@@ -24,12 +24,14 @@ import org.activebpel.rt.bpel.impl.list.AeAlarmListResult;
 import org.activebpel.rt.bpel.impl.list.AeMessageReceiverFilter;
 import org.activebpel.rt.bpel.impl.list.AeMessageReceiverListResult;
 import org.activebpel.rt.bpel.server.catalog.report.IAeCatalogAdmin;
-import org.activebpel.rt.bpel.server.deploy.IAeServiceDeploymentInfo;
 import org.activebpel.rt.bpel.server.logging.IAeDeploymentLogger;
 import org.activebpel.rt.bpel.urn.IAeURNResolver;
 
+import bpelg.services.processes.types.ProcessDeployment;
+import bpelg.services.processes.types.ProcessDeployments;
 import bpelg.services.processes.types.ProcessFilterType;
 import bpelg.services.processes.types.ProcessList;
+import bpelg.services.processes.types.ServiceDeployments;
 
 /**
  * Interface for engine administration/console support
@@ -39,18 +41,18 @@ public interface IAeEngineAdministration
    /**
     * Gets the details for all of the deployed services.
     */
-   public IAeServiceDeploymentInfo[] getDeployedServices();
+   public ServiceDeployments getDeployedServices();
 
    /**
     * Gets the details for all of the deployed processes
     */
-   public AeProcessDeploymentDetail[] getDeployedProcesses();
+   public ProcessDeployments getDeployedProcesses();
 
    /**
     * Get the details for a single process identified by its QName.
     * @param aQName
     */
-   public AeProcessDeploymentDetail getDeployedProcessDetail(QName aQName);
+   public ProcessDeployment getDeployedProcessDetail(QName aQName);
 
    /**
     * Gets a list of the unmatched inbound queued receives from the engine's

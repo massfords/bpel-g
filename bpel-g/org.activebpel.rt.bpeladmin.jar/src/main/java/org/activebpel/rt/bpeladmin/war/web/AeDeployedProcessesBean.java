@@ -9,11 +9,11 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpeladmin.war.web;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.activebpel.rt.bpel.server.admin.AeProcessDeploymentDetail;
 import org.activebpel.rt.bpeladmin.war.AeEngineManagementFactory;
+
+import bpelg.services.processes.types.GetProcessDeployments;
+import bpelg.services.processes.types.ProcessDeployment;
+import bpelg.services.processes.types.ProcessDeployments;
 
 /**
  * Wraps the AeProcessDeploymentDetail array for the 
@@ -22,7 +22,7 @@ import org.activebpel.rt.bpeladmin.war.AeEngineManagementFactory;
 public class AeDeployedProcessesBean
 {
    /** Deployed process details. */   
-   protected List<AeProcessDeploymentDetail> mDetails;
+   protected ProcessDeployments mDetails;
    /** Pointer to current index. */
    protected int mCurrentIndex;
    
@@ -32,7 +32,7 @@ public class AeDeployedProcessesBean
     */
    public AeDeployedProcessesBean()
    {
-      mDetails = new ArrayList(AeEngineManagementFactory.getBean().getDeployedProcesses());      
+      mDetails = AeEngineManagementFactory.getProcessManager().getProcessDeployments(new GetProcessDeployments());      
    }
    
    /**
@@ -45,17 +45,17 @@ public class AeDeployedProcessesBean
       {
          return 0;
       }
-      return mDetails.size();
+      return mDetails.getProcessDeployment().size();
    }
    
    /**
     * Indexed accessor.
     * @param aIndex
     */
-   public AeProcessDeploymentDetail getDetail( int aIndex )
+   public ProcessDeployment getDetail( int aIndex )
    {
       setCurrentIndex( aIndex );
-      return mDetails.get(aIndex);
+      return mDetails.getProcessDeployment().get(aIndex);
    }
    
    /**

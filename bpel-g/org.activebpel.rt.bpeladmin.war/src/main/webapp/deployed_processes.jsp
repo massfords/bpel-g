@@ -37,9 +37,9 @@
                      <th class="columnHeaders" align="left" nowrap="true">&nbsp;<ae:GetResource name="name" /></th>
                   </tr>
 
-                  <ae:IndexedProperty name="processBean" id="rowDetail" property="detail" indexedClassName="org.activebpel.rt.bpel.server.admin.AeProcessDeploymentDetail" >
+                  <ae:IndexedProperty name="processBean" id="rowDetail" property="detail" indexedClassName="bpelg.services.processes.types.ProcessDeployment" >
                      <tr>
-                       <td align="left">&nbsp;<a href='deployed_process_detail.jsp?pdid=<ae:GetProperty name="processBean" property="currentIndex" />&tab=0'><ae:GetProperty name="rowDetail" property="localName" /></a></td>
+                       <td align="left">&nbsp;<a href='deployed_process_detail.jsp?pdid=<ae:GetProperty name="processBean" property="currentIndex" />&tab=0'><ae:GetProperty name="rowDetail" property="process.name.localPart" /></a></td>
                      </tr>
                      <tr height="1">
                        <td colspan="3" height="1" class="tabular"></td>

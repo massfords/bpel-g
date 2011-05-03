@@ -74,7 +74,7 @@ public class AeDuplicateServiceNameValidator implements
 								IAeDeploymentProvider.class)
 								.getRoutingInfoByServiceName(serviceName);
 						QName conflictingProcess = routingInfo.getServiceData()
-								.getProcessQName();
+								.getProcessName();
 						String[] args = { serviceName, pddResource.getName(),
 								aBprFile.getBprFileName(),
 								conflictingProcess.getNamespaceURI(),

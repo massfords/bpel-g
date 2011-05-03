@@ -19,9 +19,10 @@ import org.activebpel.rt.bpel.def.validation.IAeBaseErrorReporter;
 import org.activebpel.rt.bpel.server.IAeProcessDeployment;
 import org.activebpel.rt.bpel.server.deploy.AeDeploymentException;
 import org.activebpel.rt.bpel.server.deploy.IAeDeploymentSource;
-import org.activebpel.rt.bpel.server.deploy.IAeServiceDeploymentInfo;
 import org.activebpel.rt.bpel.server.deploy.pdd.AePartnerLinkDescriptor;
 import org.activebpel.rt.wsdl.IAeContextWSDLProvider;
+
+import bpelg.services.processes.types.ServiceDeployment;
 
 /**
  * Emit a warning for myRole and static endpoint references with policy references that
@@ -44,7 +45,7 @@ public class AePolicyReferenceValidator
          IAeEndpointReference partnerRef = aDeployment.getPartnerEndpointRef(plinkDef.getLocationPath());
          if (partnerRef != null)
             validatePartnerReference(aReporter, aDeployment, partnerRef);
-         IAeServiceDeploymentInfo service = aDeployment.getServiceInfo(plinkDef.getLocationPath());
+         ServiceDeployment service = aDeployment.getServiceInfo(plinkDef.getLocationPath());
          if (service != null)
             validateServiceReferences(aReporter, aDeployment, service);
       }
@@ -73,7 +74,7 @@ public class AePolicyReferenceValidator
       // check myRole services
       try
       {
-         for (IAeServiceDeploymentInfo service : aSource.getServices())
+         for (ServiceDeployment service : aSource.getServices().getServiceDeployment())
          {
             validateServiceReferences(aReporter, aProvider, service);            
          }
@@ -92,9 +93,9 @@ public class AePolicyReferenceValidator
     * @param aWsdlProvider
     * @param aProcessName
     */
-   private static void validateServiceReferences(IAeBaseErrorReporter aReporter, IAeContextWSDLProvider aWsdlProvider, IAeServiceDeploymentInfo aServiceInfo)
+   private static void validateServiceReferences(IAeBaseErrorReporter aReporter, IAeContextWSDLProvider aWsdlProvider, ServiceDeployment aServiceInfo)
    {
-      AeWSDLPolicyHelper.resolvePolicyReferences(aWsdlProvider, aServiceInfo.getPolicies(), aReporter);      
+      AeWSDLPolicyHelper.resolvePolicyReferences(aWsdlProvider, aServiceInfo.getAny(), aReporter);      
    }
    
    /**

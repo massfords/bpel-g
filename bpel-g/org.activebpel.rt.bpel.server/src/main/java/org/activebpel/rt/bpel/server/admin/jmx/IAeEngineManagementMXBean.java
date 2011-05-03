@@ -13,7 +13,6 @@ import org.activebpel.rt.bpel.impl.list.AeCatalogItem;
 import org.activebpel.rt.bpel.impl.list.AeCatalogItemDetail;
 import org.activebpel.rt.bpel.server.admin.AeBuildInfo;
 import org.activebpel.rt.bpel.server.admin.AeEngineStatus;
-import org.activebpel.rt.bpel.server.admin.AeProcessDeploymentDetail;
 import org.activebpel.rt.bpel.server.admin.AeQueuedReceiveDetail;
 import org.activebpel.rt.xml.AeQName;
 
@@ -23,19 +22,6 @@ public interface IAeEngineManagementMXBean {
 
 	// FIXME ! move all of the listing calls to services
 	
-	/**
-	 * Gets the details for all of the deployed services.
-	 */
-	public List<AeServiceDeploymentBean> getDeployedServices();
-
-	/**
-	 * Gets the details for all of the deployed processes
-	 */
-	public List<AeProcessDeploymentDetail> getDeployedProcesses();
-
-	public AeProcessDeploymentDetail getDeployedProcessDetail(
-			String aNamespace, String aName);
-
 	/**
 	 * Gets a list of the unmatched inbound queued receives from the engine's
 	 * queue.

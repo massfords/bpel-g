@@ -1017,6 +1017,10 @@ public class AeProcessDef extends AeScopeDef implements Serializable
 
       return findPartnerLink(location);
    }
+   
+   public AePartnerLinkDef findPartnerLinkByLocation(int aLocationId) {
+	   return findPartnerLink(getLocationPath(aLocationId));
+   }
 
    /**
     * Gets an Iterator over all partner link defs in this process.

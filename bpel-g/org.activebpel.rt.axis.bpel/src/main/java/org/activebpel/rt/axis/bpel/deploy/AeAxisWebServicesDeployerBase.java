@@ -19,7 +19,6 @@ import org.activebpel.rt.bpel.server.IAeDeploymentProvider;
 import org.activebpel.rt.bpel.server.deploy.AeDeploymentException;
 import org.activebpel.rt.bpel.server.deploy.IAeDeploymentContainer;
 import org.activebpel.rt.bpel.server.deploy.IAeDeploymentHandler;
-import org.activebpel.rt.bpel.server.deploy.IAeServiceDeploymentInfo;
 import org.activebpel.rt.bpel.server.engine.AeEngineFactory;
 import org.activebpel.rt.bpel.server.logging.IAeDeploymentLogger;
 import org.activebpel.rt.util.AeUtil;
@@ -34,6 +33,8 @@ import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
 import bpelg.services.deploy.types.pdd.MyRoleBindingType;
+import bpelg.services.processes.types.ServiceDeployment;
+import bpelg.services.processes.types.ServiceDeployments;
 
 /**
  * WebServicesDeployer impl that deploys web services to Axis.
@@ -44,8 +45,8 @@ public abstract class AeAxisWebServicesDeployerBase extends AeAxisBase
 	@Override
 	public void deploy(IAeDeploymentContainer aContainer,
 			IAeDeploymentLogger aLogger) throws AeException {
-		List<IAeServiceDeploymentInfo> services = aContainer.getServiceDeploymentInfo();
-		for (IAeServiceDeploymentInfo service : services) {
+		ServiceDeployments services = aContainer.getServiceDeploymentInfo();
+		for (ServiceDeployment service : services.getServiceDeployment()) {
 			resolveServicePolicies(service);
 		}
 		Document wsddDoc = createWsdd(aContainer.getServiceDeploymentInfo());
@@ -74,10 +75,10 @@ public abstract class AeAxisWebServicesDeployerBase extends AeAxisBase
 	 * @throws AeDeploymentException
 	 */
 	protected Document createWsddForUndeployment(
-			List<IAeServiceDeploymentInfo> aServices) throws AeDeploymentException {
+			ServiceDeployments aServices) throws AeDeploymentException {
 		AeWsddBuilder builder = new AeWsddBuilder();
-		for (IAeServiceDeploymentInfo serviceData : aServices) {
-			builder.addServiceElement(serviceData.getServiceName(), null);
+		for (ServiceDeployment serviceData : aServices.getServiceDeployment()) {
+			builder.addServiceElement(serviceData.getService(), null);
 		}
 		return builder.getWsddDocument();
 	}
@@ -89,10 +90,10 @@ public abstract class AeAxisWebServicesDeployerBase extends AeAxisBase
 	 * @return wsdd document
 	 * @throws AeDeploymentException
 	 */
-	protected Document createWsdd(List<IAeServiceDeploymentInfo> aServices)
+	protected Document createWsdd(ServiceDeployments aServices)
 			throws AeDeploymentException {
 		AeWsddBuilder builder = new AeWsddBuilder();
-		for (IAeServiceDeploymentInfo serviceData : aServices) {
+		for (ServiceDeployment serviceData : aServices.getServiceDeployment()) {
 			MyRoleBindingType binding = serviceData.getBinding();
 			if (binding == MyRoleBindingType.RPC) {
 				builder.addRpcService(serviceData);
@@ -105,7 +106,7 @@ public abstract class AeAxisWebServicesDeployerBase extends AeAxisBase
 			} else if (binding != MyRoleBindingType.EXTERNAL) {
 				AeException
 						.logWarning(AeMessages
-								.format("AeAxisWebServicesDeployerBase.UNKNOWN_ROLE_IN_WSDD", serviceData.getServiceName())); //$NON-NLS-1$
+								.format("AeAxisWebServicesDeployerBase.UNKNOWN_ROLE_IN_WSDD", serviceData.getService())); //$NON-NLS-1$
 			}
 		}
 
@@ -190,17 +191,17 @@ public abstract class AeAxisWebServicesDeployerBase extends AeAxisBase
 	 * @param aService
 	 * @throws AeException
 	 */
-	protected void resolveServicePolicies(IAeServiceDeploymentInfo aService)
+	protected void resolveServicePolicies(ServiceDeployment aService)
 			throws AeException {
-		if (!AeUtil.isNullOrEmpty(aService.getPolicies())) {
+		if (!AeUtil.isNullOrEmpty(aService.getAny())) {
 			IAeContextWSDLProvider wsdlProvider = AeEngineFactory.getBean(
 					IAeDeploymentProvider.class).findCurrentDeployment(
-					aService.getProcessQName());
+					aService.getProcessName());
 			List policies = AeWSDLPolicyHelper.resolvePolicyReferences(
-					wsdlProvider, aService.getPolicies());
+					wsdlProvider, aService.getAny());
 			if (!AeUtil.isNullOrEmpty(policies)) {
-				aService.getPolicies().clear();
-				aService.getPolicies().addAll(policies);
+				aService.getAny().clear();
+				aService.getAny().addAll(policies);
 			}
 		}
 	}

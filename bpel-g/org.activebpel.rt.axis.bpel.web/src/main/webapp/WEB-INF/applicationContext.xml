@@ -32,6 +32,7 @@
 
     <bean id="ProcessManagerService" class="org.activebpel.rt.bpel.server.services.AeProcessManagerService">
         <property name="ProcessManager" ref="ProcessManager"/>
+        <property name="EngineAdmin" ref="EngineAdminImpl"/>
     </bean>
     
     <bean id="ResolverService" class="org.activebpel.rt.bpel.server.services.AeURNResolverService">

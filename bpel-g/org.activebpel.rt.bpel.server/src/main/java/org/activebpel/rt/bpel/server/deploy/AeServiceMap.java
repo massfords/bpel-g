@@ -17,6 +17,8 @@ import java.util.Map;
 
 import javax.xml.namespace.QName;
 
+import bpelg.services.processes.types.ServiceDeployment;
+
 /**
  * Maps service names to their deployment information.
  */
@@ -26,7 +28,7 @@ public class AeServiceMap
    private static final AeServiceMap INSTANCE = new AeServiceMap();
    
    /** maps the service name to the service data */
-   private Map mMap = new HashMap();
+   private Map<String,ServiceDeployment> mMap = new HashMap();
    
    /**
     * singleton getter
@@ -51,13 +53,13 @@ public class AeServiceMap
     * 
     * @param aServiceData
     */
-   public void addServiceData(IAeServiceDeploymentInfo[] aServiceData)
+   public void addServiceData(ServiceDeployment[] aServiceData)
    {
       // work off of a copy of the map so we don't have to sync the reads.
       Map copy = new HashMap(mMap);
       for (int i = 0; i < aServiceData.length; i++)
       {
-         copy.put(aServiceData[i].getServiceName(), aServiceData[i]);
+         copy.put(aServiceData[i].getService(), aServiceData[i]);
       }
       mMap = copy;
    }
@@ -67,9 +69,9 @@ public class AeServiceMap
     * 
     * @param aServiceName
     */
-   public IAeServiceDeploymentInfo getServiceData(String aServiceName)
+   public ServiceDeployment getServiceData(String aServiceName)
    {
-      return (IAeServiceDeploymentInfo) mMap.get(aServiceName);
+      return mMap.get(aServiceName);
    }
    
    /**
@@ -81,12 +83,12 @@ public class AeServiceMap
    public void processUndeployed(QName aProcessQName)
    {
       // work off of a copy of the map so we don't have to sync the reads.
-      Map copy = new HashMap(mMap);
+      Map<String,ServiceDeployment> copy = new HashMap(mMap);
       for (Iterator iter = copy.entrySet().iterator(); iter.hasNext();)
       {
-         Map.Entry entry = (Map.Entry) iter.next();
-         IAeServiceDeploymentInfo data = (IAeServiceDeploymentInfo) entry.getValue();
-         if (data.getProcessQName().equals(aProcessQName))
+         Map.Entry<String,ServiceDeployment> entry = (Map.Entry) iter.next();
+         ServiceDeployment data = entry.getValue();
+         if (data.getProcessName().equals(aProcessQName))
          {
             iter.remove();
          }

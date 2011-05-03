@@ -22,9 +22,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.Marshaller;
 import javax.xml.namespace.QName;
 
 import org.activebpel.rt.AeException;
@@ -50,27 +47,25 @@ import org.activebpel.rt.bpel.server.IAeDeploymentProvider;
 import org.activebpel.rt.bpel.server.IAeProcessDeployment;
 import org.activebpel.rt.bpel.server.admin.AeBuildInfo;
 import org.activebpel.rt.bpel.server.admin.AeEngineStatus;
-import org.activebpel.rt.bpel.server.admin.AeProcessDeploymentDetail;
 import org.activebpel.rt.bpel.server.admin.AeQueuedReceiveDetail;
 import org.activebpel.rt.bpel.server.admin.AeQueuedReceiveMessageData;
 import org.activebpel.rt.bpel.server.admin.IAeEngineAdministration;
 import org.activebpel.rt.bpel.server.catalog.IAeCatalog;
 import org.activebpel.rt.bpel.server.catalog.report.IAeCatalogAdmin;
 import org.activebpel.rt.bpel.server.deploy.AeServiceMap;
-import org.activebpel.rt.bpel.server.deploy.IAeServiceDeploymentInfo;
 import org.activebpel.rt.bpel.server.logging.IAeDeploymentLogger;
 import org.activebpel.rt.bpel.urn.IAeURNResolver;
 import org.activebpel.rt.message.IAeMessageData;
 import org.activebpel.rt.util.AeUtil;
-import org.activebpel.rt.xml.AeQName;
 import org.activebpel.rt.xml.AeXMLParserBase;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.w3c.dom.Document;
 
-import bpelg.services.deploy.types.pdd.Pdd;
+import bpelg.services.processes.types.ProcessDeployment;
+import bpelg.services.processes.types.ProcessDeployments;
 import bpelg.services.processes.types.ProcessFilterType;
 import bpelg.services.processes.types.ProcessList;
+import bpelg.services.processes.types.ServiceDeployment;
+import bpelg.services.processes.types.ServiceDeployments;
 
 /**
  * Provides administration/console support for the engine. This class uses the
@@ -82,7 +77,6 @@ import bpelg.services.processes.types.ProcessList;
  * caller.
  */
 public class AeEngineAdministration implements IAeEngineAdministration {
-	private static Log sLog = LogFactory.getLog(AeEngineAdministration.class);
 	/** Holds build information. */
 	private AeBuildInfo[] mBuildInfo = null;
 	private IAeURNResolver mURNResolver;
@@ -90,42 +84,39 @@ public class AeEngineAdministration implements IAeEngineAdministration {
 	/** comparator for sorting the deployment detail objects */
 	private Comparator mDeploymentComparator = new Comparator() {
 		public int compare(Object o1, Object o2) {
-			AeProcessDeploymentDetail one = (AeProcessDeploymentDetail) o1;
-			AeProcessDeploymentDetail two = (AeProcessDeploymentDetail) o2;
-			return one.getName().getLocalPart()
-					.compareToIgnoreCase(two.getName().getLocalPart());
+			ProcessDeployment one = (ProcessDeployment) o1;
+			ProcessDeployment two = (ProcessDeployment) o2;
+			return one.getProcess().getName().getLocalPart()
+					.compareToIgnoreCase(two.getProcess().getName().getLocalPart());
 		}
 	};
 
 	/** comparator for service deployment objects */
 	private Comparator mServiceComparator = new Comparator() {
 		public int compare(Object o1, Object o2) {
-			IAeServiceDeploymentInfo one = (IAeServiceDeploymentInfo) o1;
-			IAeServiceDeploymentInfo two = (IAeServiceDeploymentInfo) o2;
-			return one.getServiceName().compareTo(two.getServiceName());
+			ServiceDeployment one = (ServiceDeployment) o1;
+			ServiceDeployment two = (ServiceDeployment) o2;
+			return one.getService().compareTo(two.getService());
 		}
 	};
 
 	/**
 	 * @see org.activebpel.rt.bpel.server.admin.IAeEngineAdministration#getDeployedServices()
 	 */
-	public IAeServiceDeploymentInfo[] getDeployedServices() {
+	public ServiceDeployments getDeployedServices() {
 		List sortedList = AeServiceMap.getServiceEntries();
 		Collections.sort(sortedList, mServiceComparator);
 
-		IAeServiceDeploymentInfo[] services = new IAeServiceDeploymentInfo[sortedList
-				.size()];
-		sortedList.toArray(services);
-		return services;
+		return new ServiceDeployments().withServiceDeployment(sortedList);
 	}
 
 	/**
 	 * @see org.activebpel.rt.bpel.server.admin.IAeEngineAdministration#getDeployedProcesses()
 	 */
-	public AeProcessDeploymentDetail[] getDeployedProcesses() {
+	public ProcessDeployments getDeployedProcesses() {
 		IAeDeploymentProvider deploymentProvider = AeEngineFactory
 				.getBean(IAeDeploymentProvider.class);
-		List list = new ArrayList();
+		List<ProcessDeployment> list = new ArrayList();
 		for (Iterator iter = deploymentProvider.getDeployedPlans(); iter
 				.hasNext();) {
 			IAeProcessDeployment deployedProcess = (IAeProcessDeployment) iter
@@ -133,10 +124,7 @@ public class AeEngineAdministration implements IAeEngineAdministration {
 			list.add(createProcessDetail(deployedProcess));
 		}
 		Collections.sort(list, mDeploymentComparator);
-		AeProcessDeploymentDetail[] details = new AeProcessDeploymentDetail[list
-				.size()];
-		list.toArray(details);
-		return details;
+		return new ProcessDeployments().withProcessDeployment(list);
 	}
 
 	/**
@@ -145,22 +133,11 @@ public class AeEngineAdministration implements IAeEngineAdministration {
 	 * 
 	 * @param aDeployment
 	 */
-	protected AeProcessDeploymentDetail createProcessDetail(
+	protected ProcessDeployment createProcessDetail(
 			IAeProcessDeployment aDeployment) {
-		AeProcessDeploymentDetail detail = new AeProcessDeploymentDetail();
-		detail.setName(new AeQName(aDeployment.getProcessDef().getQName()));
-		Pdd pdd = aDeployment.getPdd();
-		try {
-			JAXBContext context = JAXBContext.newInstance(Pdd.class);
-			Marshaller m = context.createMarshaller();
-			StringWriter sw = new StringWriter();
-			m.marshal(pdd, sw);
-			detail.setSourceXml(sw.toString());
-		} catch (JAXBException e) {
-			sLog.error(e);
-			detail.setSourceXml(e.getMessage());
-		}
-		detail.setBpelSourceXml(aDeployment.getBpelSource());
+		ProcessDeployment detail = new ProcessDeployment()
+			.withProcess(aDeployment.getPdd())
+			.withSource(aDeployment.getBpelSource());
 		return detail;
 	}
 
@@ -171,8 +148,8 @@ public class AeEngineAdministration implements IAeEngineAdministration {
 	 * @return process deployment detail or <code>null</code> if the the details
 	 *         are not available.
 	 */
-	public AeProcessDeploymentDetail getDeployedProcessDetail(QName aQName) {
-		AeProcessDeploymentDetail detail = null;
+	public ProcessDeployment getDeployedProcessDetail(QName aQName) {
+		ProcessDeployment detail = null;
 		try {
 			IAeDeploymentProvider deploymentProvider = AeEngineFactory
 					.getBean(IAeDeploymentProvider.class);

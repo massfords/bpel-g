@@ -1,18 +1,27 @@
 package org.activebpel.rt.bpel.server.services;
 
+import javax.xml.namespace.QName;
+
 import org.activebpel.rt.bpel.AeBusinessProcessException;
 import org.activebpel.rt.bpel.impl.IAeProcessManager;
+import org.activebpel.rt.bpel.server.admin.IAeEngineAdministration;
 
 import bpelg.services.processes.AeProcessManager;
 import bpelg.services.processes.ProcessStateErrorMessage;
 import bpelg.services.processes.StorageErrorMessage;
+import bpelg.services.processes.types.GetProcessDeployments;
+import bpelg.services.processes.types.GetServiceDeployments;
+import bpelg.services.processes.types.ProcessDeployment;
+import bpelg.services.processes.types.ProcessDeployments;
 import bpelg.services.processes.types.ProcessFilterType;
 import bpelg.services.processes.types.ProcessInstanceDetail;
 import bpelg.services.processes.types.ProcessList;
+import bpelg.services.processes.types.ServiceDeployments;
 
 public class AeProcessManagerService implements AeProcessManager {
 	
 	private IAeProcessManager mProcessManager;
+	private IAeEngineAdministration mEngineAdmin;
 
 	public IAeProcessManager getProcessManager() {
 		return mProcessManager;
@@ -82,5 +91,28 @@ public class AeProcessManagerService implements AeProcessManager {
 	public ProcessInstanceDetail getProcessDetail(long aBody)
 			throws StorageErrorMessage {
 		return getProcessManager().getProcessInstanceDetails(aBody);
+	}
+
+	@Override
+	public ServiceDeployments getServiceDeployments(GetServiceDeployments aBody) {
+		return getEngineAdmin().getDeployedServices();
+	}
+
+	public IAeEngineAdministration getEngineAdmin() {
+		return mEngineAdmin;
+	}
+
+	public void setEngineAdmin(IAeEngineAdministration aEngineAdmin) {
+		mEngineAdmin = aEngineAdmin;
+	}
+
+	@Override
+	public ProcessDeployment getProcessDeploymentByName(QName aBody) {
+		return getEngineAdmin().getDeployedProcessDetail(aBody);
+	}
+
+	@Override
+	public ProcessDeployments getProcessDeployments(GetProcessDeployments aBody) {
+		return getEngineAdmin().getDeployedProcesses();
 	}
 }

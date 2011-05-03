@@ -46,7 +46,6 @@ import org.activebpel.rt.bpel.server.coord.AeRegistrationRequest;
 import org.activebpel.rt.bpel.server.coord.subprocess.IAeSpCoordinating;
 import org.activebpel.rt.bpel.server.deploy.AeProcessDeploymentFactory;
 import org.activebpel.rt.bpel.server.deploy.AeRoutingInfo;
-import org.activebpel.rt.bpel.server.deploy.IAeServiceDeploymentInfo;
 import org.activebpel.rt.bpel.server.engine.recovery.journal.AeInboundReceiveJournalEntry;
 import org.activebpel.rt.bpel.server.engine.recovery.journal.IAeJournalEntry;
 import org.activebpel.rt.bpel.server.engine.transaction.AeTransactionException;
@@ -58,6 +57,8 @@ import org.activebpel.wsio.IAeMessageAcknowledgeCallback;
 import org.activebpel.wsio.receive.AeMessageContext;
 import org.activebpel.wsio.receive.IAeMessageContext;
 import org.w3c.dom.Element;
+
+import bpelg.services.processes.types.ServiceDeployment;
 
 /**
  * The runtime BPEL engine. There are only minor differences between the runtime
@@ -280,10 +281,10 @@ public class AeBpelEngine extends AeAbstractServerEngine {
 	 *      java.lang.String)
 	 */
 	protected int getWebServiceTimeout(IAeProcessPlan aPlan, String aPartnerLink) {
-		IAeServiceDeploymentInfo deployInfo = AeProcessDeploymentFactory
+		ServiceDeployment deployInfo = AeProcessDeploymentFactory
 				.getDeploymentForPlan(aPlan).getServiceInfo(aPartnerLink);
 		Element timeoutPolicy = AeWSDLPolicyHelper.getPolicyElement(
-				deployInfo.getPolicies(), AeTimeoutPolicy.TIMEOUT_ID);
+				deployInfo.getAny(), AeTimeoutPolicy.TIMEOUT_ID);
 		if (timeoutPolicy != null)
 			return AeTimeoutPolicy.getTimeoutValue(timeoutPolicy);
 
@@ -716,7 +717,7 @@ public class AeBpelEngine extends AeAbstractServerEngine {
 			} else {
 				AeRoutingInfo routingInfo = getRoutingInfo(aContext);
 				aContext.setPartnerLink(routingInfo.getServiceData()
-						.getPartnerLinkName());
+						.getPartnerLink());
 				deploymentPlan = routingInfo.getDeployment();
 			}
 		} catch (AeException e) {

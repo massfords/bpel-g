@@ -11,4 +11,5 @@
             <jxb:package name="bpelg.services.deploy.types"/>
         </jxb:schemaBindings>
     </bindings>
+    
 </bindings>

@@ -9,12 +9,4 @@
             <jxb:package name="bpelg.services.deploy.types.catalog"/>
         </jxb:schemaBindings>
     </jxb:bindings>
-    <jxb:bindings schemaLocation="../../../target/dependency/pdd.xsd">
-        <jxb:schemaBindings>
-            <jxb:package name="bpelg.services.deploy.types.pdd"/>
-        </jxb:schemaBindings>
-        <jxb:bindings node="/xs:schema/xs:element[@name='process']">
-            <jxb:class name="Pdd"></jxb:class>
-        </jxb:bindings>
-    </jxb:bindings>
 </jxb:bindings>

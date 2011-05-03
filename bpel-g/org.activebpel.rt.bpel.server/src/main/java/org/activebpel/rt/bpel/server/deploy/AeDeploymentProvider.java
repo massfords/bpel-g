@@ -20,6 +20,8 @@ import org.activebpel.rt.bpel.impl.IAeProcessPlan;
 import org.activebpel.rt.bpel.server.AeMessages;
 import org.activebpel.rt.bpel.server.IAeProcessDeployment;
 
+import bpelg.services.processes.types.ServiceDeployment;
+
 /**
  * This class manages the deployment plans defined for BPEL processes.
  */
@@ -91,10 +93,10 @@ public class AeDeploymentProvider extends AeAbstractDeploymentProvider
    {
       AeRoutingInfo routingInfo = null;
 
-      IAeServiceDeploymentInfo data = AeServiceMap.getInstance().getServiceData(aServiceName);
+      ServiceDeployment data = AeServiceMap.getInstance().getServiceData(aServiceName);
       if (data != null)
       {
-         IAeProcessDeployment deployment = findCurrentDeployment(data.getProcessQName());
+         IAeProcessDeployment deployment = findCurrentDeployment(data.getProcessName());
          
          if (deployment != null)
          {

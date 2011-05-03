@@ -15,12 +15,12 @@ import org.activebpel.rt.bpel.AeBusinessProcessException;
 import org.activebpel.rt.bpel.IAeEndpointReference;
 import org.activebpel.rt.bpel.IAePartnerLink;
 import org.activebpel.rt.bpel.impl.IAeProcessPlan;
-import org.activebpel.rt.bpel.server.deploy.IAeServiceDeploymentInfo;
 import org.activebpel.wsio.receive.IAeMessageContext;
 
 import bpelg.services.deploy.types.pdd.PartnerRoleEndpointReferenceType;
 import bpelg.services.deploy.types.pdd.Pdd;
 import bpelg.services.deploy.types.pdd.ReferenceType;
+import bpelg.services.processes.types.ServiceDeployment;
 
 /**
  * Interface of process deployment descriptor.
@@ -85,5 +85,5 @@ public interface IAeProcessDeployment extends IAeProcessPlan
     * Gets the info for the partner link
     * @param aPartnerLink
     */
-   public IAeServiceDeploymentInfo getServiceInfo(String aPartnerLink);
+   public ServiceDeployment getServiceInfo(String aPartnerLink);
 }
