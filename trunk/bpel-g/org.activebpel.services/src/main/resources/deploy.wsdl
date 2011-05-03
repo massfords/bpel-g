@@ -7,7 +7,9 @@
                   xmlns:xs="http://www.w3.org/2001/XMLSchema">
               
    <wsdl:types>
-      <xs:schema elementFormDefault="qualified" targetNamespace="urn:bpel-g:services:deploy">
+      <xs:schema elementFormDefault="qualified" targetNamespace="urn:bpel-g:services:deploy"
+         xmlns:pdd="http://schemas.active-endpoints.com/pdd/2006/08/pdd.xsd">
+         <xs:import namespace="http://schemas.active-endpoints.com/pdd/2006/08/pdd.xsd" schemaLocation="pdd.xsd"></xs:import>
          <xs:element name="deploymentRequest" type="xs:string"/>
          <xs:element name="deploymentResponse">
             <xs:complexType>
@@ -22,6 +24,7 @@
                            <xs:element name="numberOfErrors" type="xs:int"/>
                            <xs:element name="numberOfWarnings" type="xs:int"/>
                            <xs:element name="log" type="xs:string"/>
+                           <xs:element ref="pdd:process" minOccurs="0"/>
                         </xs:sequence>
                      </xs:complexType>
                   </xs:element>

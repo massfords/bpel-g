@@ -36,7 +36,6 @@ import org.activebpel.rt.bpel.impl.addressing.IAeAddressingSerializer;
 import org.activebpel.rt.bpel.server.AeMessages;
 import org.activebpel.rt.bpel.server.IAeProcessDeployment;
 import org.activebpel.rt.bpel.server.deploy.IAePolicyMapper;
-import org.activebpel.rt.bpel.server.deploy.IAeServiceDeploymentInfo;
 import org.activebpel.rt.bpel.server.engine.AeEngineFactory;
 import org.activebpel.rt.bpel.urn.IAeURNResolver;
 import org.activebpel.rt.util.AeUtil;
@@ -50,6 +49,8 @@ import org.w3c.dom.DocumentFragment;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+
+import bpelg.services.processes.types.ServiceDeployment;
 
 /**
  * The partner addressing layer is responsible for providing endpoint references
@@ -298,7 +299,7 @@ public class AePartnerAddressing implements IAePartnerAddressing
    public IAeEndpointReference getMyRoleEndpoint(IAeProcessDeployment aProcessDeployment, AePartnerLinkDef aPartnerLink, QName aProcessName, String aConversationId) throws AeBusinessProcessException
    {
       // Find the service definition for this partner link
-      IAeServiceDeploymentInfo service = aProcessDeployment.getServiceInfo(aPartnerLink.getLocationPath());
+	   ServiceDeployment service = aProcessDeployment.getServiceInfo(aPartnerLink.getLocationPath());
       
       if (service == null)
       {
@@ -307,14 +308,14 @@ public class AePartnerAddressing implements IAePartnerAddressing
       }
       
       AeEndpointReference myRoleRef = new AeEndpointReference();
-      String url = service.getServiceName();
+      String url = service.getService();
       myRoleRef.setAddress(url); 
       
       AeBPELExtendedWSDLDef cachedDef = AeWSDLDefHelper.getWSDLDefinitionForPLT(aProcessDeployment, aPartnerLink.getPartnerLinkTypeName());
 
       if (cachedDef != null)
       {
-         QName serviceName = new QName(cachedDef.getTargetNamespace(), service.getServiceName());
+         QName serviceName = new QName(cachedDef.getTargetNamespace(), service.getService());
          myRoleRef.setServiceName(serviceName);
          QName portType = aPartnerLink.getMyRolePortType();
          myRoleRef.setPortType(portType);
@@ -334,7 +335,7 @@ public class AePartnerAddressing implements IAePartnerAddressing
             }
          }
       }
-      List policies = service.getPolicies();
+      List policies = service.getAny();
       if (!AeUtil.isNullOrEmpty(policies))
       {
          try
@@ -370,11 +371,11 @@ public class AePartnerAddressing implements IAePartnerAddressing
       return myRoleRef;
    }
 
-public IAeURNResolver getURNResolver() {
-	return mURNResolver;
-}
-
-public void setURNResolver(IAeURNResolver aURNResolver) {
-	mURNResolver = aURNResolver;
-}
+	public IAeURNResolver getURNResolver() {
+		return mURNResolver;
+	}
+	
+	public void setURNResolver(IAeURNResolver aURNResolver) {
+		mURNResolver = aURNResolver;
+	}
 }

@@ -29,10 +29,8 @@ import org.activebpel.rt.bpel.impl.queue.AeMessageReceiver;
 import org.activebpel.rt.bpel.server.IAeDeploymentProvider;
 import org.activebpel.rt.bpel.server.admin.AeBuildInfo;
 import org.activebpel.rt.bpel.server.admin.AeEngineStatus;
-import org.activebpel.rt.bpel.server.admin.AeProcessDeploymentDetail;
 import org.activebpel.rt.bpel.server.admin.AeQueuedReceiveDetail;
 import org.activebpel.rt.bpel.server.admin.IAeEngineAdministration;
-import org.activebpel.rt.bpel.server.deploy.IAeServiceDeploymentInfo;
 import org.activebpel.rt.bpel.server.engine.AeEngineFactory;
 import org.activebpel.rt.bpel.server.engine.IAeProcessLogger;
 import org.activebpel.rt.util.AeCloser;
@@ -48,18 +46,6 @@ public class AeEngineManagementAdapter implements IAeEngineManagementMXBean {
     
     public AeEngineManagementAdapter(IAeEngineAdministration aAdmin) {
         mAdmin = aAdmin;
-    }
-
-    public List<AeServiceDeploymentBean> getDeployedServices() {
-        List<AeServiceDeploymentBean> result = new ArrayList();
-        for (IAeServiceDeploymentInfo info : mAdmin.getDeployedServices()) {
-            result.add(new AeServiceDeploymentBean(info.getServiceName(), new AeQName(info.getProcessQName()), info.getPartnerLinkName(), info.getBinding().toString()));
-        }
-        return result;
-    }
-
-    public List<AeProcessDeploymentDetail> getDeployedProcesses() {
-        return Arrays.asList(mAdmin.getDeployedProcesses());
     }
 
     public List<AeQueuedReceiveDetail> getUnmatchedQueuedReceives() {
@@ -353,10 +339,6 @@ public class AeEngineManagementAdapter implements IAeEngineManagementMXBean {
 
     public void setWebServiceReceiveTimeout(int aTimeout) {
     	AePreferences.setReceiveTimeout(aTimeout);
-    }
-
-    public AeProcessDeploymentDetail getDeployedProcessDetail(String aNamespace, String aName) {
-        return mAdmin.getDeployedProcessDetail(new QName(aNamespace, aName));
     }
 
     public int getProcessCount(ProcessFilterType aFilter)

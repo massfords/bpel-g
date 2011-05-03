@@ -5,7 +5,10 @@
 
    <wsdl:types>
       <xs:schema elementFormDefault="qualified" targetNamespace="urn:bpel-g:services:processes"
+         xmlns:pdd="http://schemas.active-endpoints.com/pdd/2006/08/pdd.xsd"
          xmlns:jaxb="http://java.sun.com/xml/ns/jaxb" jaxb:version="2.0">
+         
+         <xs:import namespace="http://schemas.active-endpoints.com/pdd/2006/08/pdd.xsd" schemaLocation="pdd.xsd"></xs:import>
          
          <xs:complexType name="listingFilter">
             <xs:sequence>
@@ -148,8 +151,73 @@
          <xs:element name="terminateProcess" type="tns:processIdType"/>
          <xs:element name="restartProcess" type="tns:processIdType"/>
          <xs:element name="getProcessDetail" type="tns:processIdType"/>
+         
+         <xs:element name="serviceDeployment">
+            <xs:complexType>
+               <xs:complexContent>
+                  <xs:extension base="pdd:myRoleType">
+                     <xs:sequence>
+                        <xs:element name="processName" type="xs:QName"/>
+                        <xs:element name="partnerLink" type="xs:string"/>
+                        <xs:element name="partnerLinkId" type="xs:int"/>
+                     </xs:sequence>
+                  </xs:extension>
+               </xs:complexContent>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="serviceDeployments">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element ref="tns:serviceDeployment" minOccurs="0" maxOccurs="unbounded"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="getServiceDeployments">
+            <xs:complexType/>
+         </xs:element>
+         
+         <xs:element name="processDeployment">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element ref="pdd:process"/>
+                  <xs:element name="source" type="xs:string"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="processDeployments">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element ref="tns:processDeployment" minOccurs="0" maxOccurs="unbounded"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="getProcessDeployments">
+            <xs:complexType/>
+         </xs:element>
+         <xs:element name="getProcessDeploymentByName" type="xs:QName"/>
       </xs:schema>
    </wsdl:types>
+
+   <wsdl:message name="getProcessDeploymentsRequest">
+      <wsdl:part name="body" element="tns:getProcessDeployments"/>
+   </wsdl:message>
+   <wsdl:message name="getProcessDeploymentsResponse">
+      <wsdl:part name="body" element="tns:processDeployments"/>
+   </wsdl:message>
+
+   <wsdl:message name="getProcessDeploymentByName">
+      <wsdl:part name="body" element="tns:getProcessDeploymentByName"/>
+   </wsdl:message>
+   <wsdl:message name="getProcessDeploymentByNameResponse">
+      <wsdl:part name="body" element="tns:processDeployment"/>
+   </wsdl:message>
+
+   <wsdl:message name="getServiceDeploymentsRequest">
+      <wsdl:part name="body" element="tns:getServiceDeployments"/>
+   </wsdl:message>
+   <wsdl:message name="getServiceDeploymentsResponse">
+      <wsdl:part name="body" element="tns:serviceDeployments"/>
+   </wsdl:message>
 
    <wsdl:message name="removeProcessByQuery">
       <wsdl:part name="name" element="tns:removeProcessByQuery"/>
@@ -226,6 +294,18 @@
          <wsdl:input message="tns:restartProcess"/>
          <wsdl:output message="tns:voidMessage"/>
          <wsdl:fault name="ProcessStateError" message="tns:processStateErrorMessage"/>
+      </wsdl:operation>
+      <wsdl:operation name="getServiceDeployments">
+         <wsdl:input message="tns:getServiceDeploymentsRequest"/>
+         <wsdl:output message="tns:getServiceDeploymentsResponse"/>
+      </wsdl:operation>
+      <wsdl:operation name="getProcessDeployments">
+         <wsdl:input message="tns:getProcessDeploymentsRequest"/>
+         <wsdl:output message="tns:getProcessDeploymentsResponse"/>
+      </wsdl:operation>
+      <wsdl:operation name="getProcessDeploymentByName">
+         <wsdl:input message="tns:getProcessDeploymentByName"/>
+         <wsdl:output message="tns:getProcessDeploymentByNameResponse"/>
       </wsdl:operation>
    </wsdl:portType>
 
@@ -307,6 +387,22 @@
          <wsdl:fault name="ProcessStateError">
             <soap:fault name="ProcessStateError"/>
          </wsdl:fault>
+      </wsdl:operation>
+      <wsdl:operation name="getServiceDeployments">
+         <wsdl:input>
+            <soap:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output>
+            <soap:body use="literal"/>
+         </wsdl:output>
+      </wsdl:operation>
+      <wsdl:operation name="getProcessDeployments">
+         <wsdl:input>
+            <soap:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output>
+            <soap:body use="literal"/>
+         </wsdl:output>
       </wsdl:operation>
    </wsdl:binding>
    

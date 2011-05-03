@@ -43,6 +43,7 @@
 	<!-- ============================= -->
 	<!-- Extended Services Section     -->
 	<!-- ============================= -->
+  <!-- 
 	<tr height="10">
 	  <td class="navItem" align="left" height="10" nowrap="true" width="20%"><img src="images/clear.gif" alt="" height="5" width="1" border="0"></td>
 	</tr>		
@@ -52,7 +53,8 @@
 	<tr>
 	  <td class="navItem" align="left" nowrap="true" width="20%">&nbsp;<a href="identity_service.jsp"><ae:GetResource name="identity_service" /></a>&nbsp;</td>
 	</tr>
-
+  -->
+ 
 	<!-- ============================= -->
 	<!-- Deployment Status Section     -->
 	<!-- ============================= -->

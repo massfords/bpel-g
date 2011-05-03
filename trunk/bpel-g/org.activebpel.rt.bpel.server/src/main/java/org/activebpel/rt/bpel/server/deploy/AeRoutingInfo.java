@@ -14,6 +14,8 @@ import javax.xml.namespace.QName;
 import org.activebpel.rt.bpel.def.AePartnerLinkDef;
 import org.activebpel.rt.bpel.server.IAeProcessDeployment;
 
+import bpelg.services.processes.types.ServiceDeployment;
+
 /**
  * Simple container for returning the routing information for a request.  
  */
@@ -22,7 +24,7 @@ public class AeRoutingInfo
    /** the deployment we'll route to */
    private IAeProcessDeployment mDeployment;
    /** the service being hit */
-   private IAeServiceDeploymentInfo mServiceData;
+   private ServiceDeployment mServiceData;
    
    /**
     * Ctor
@@ -30,7 +32,7 @@ public class AeRoutingInfo
     * @param aDeployment
     * @param aData
     */
-   public AeRoutingInfo(IAeProcessDeployment aDeployment, IAeServiceDeploymentInfo aData)
+   public AeRoutingInfo(IAeProcessDeployment aDeployment, ServiceDeployment aData)
    {
       setDeployment(aDeployment);
       setServiceData(aData);
@@ -55,7 +57,7 @@ public class AeRoutingInfo
    /**
     * @return Returns the serviceData.
     */
-   public IAeServiceDeploymentInfo getServiceData()
+   public ServiceDeployment getServiceData()
    {
       return mServiceData;
    }
@@ -63,7 +65,7 @@ public class AeRoutingInfo
    /**
     * @param aServiceData The serviceData to set.
     */
-   public void setServiceData(IAeServiceDeploymentInfo aServiceData)
+   public void setServiceData(ServiceDeployment aServiceData)
    {
       mServiceData = aServiceData;
    }
@@ -75,7 +77,7 @@ public class AeRoutingInfo
     */
    public boolean isImplemented(QName aPortType, String aOperation)
    {
-      AePartnerLinkDef plinkDef = getDeployment().getProcessDef().findPartnerLink(getServiceData().getPartnerLinkDefKey());
+      AePartnerLinkDef plinkDef = getDeployment().getProcessDef().findPartnerLinkByLocation(getServiceData().getPartnerLinkId());
       QName portTypeQName = plinkDef.getMyRolePortType();
       if (aPortType.equals(portTypeQName))
       {

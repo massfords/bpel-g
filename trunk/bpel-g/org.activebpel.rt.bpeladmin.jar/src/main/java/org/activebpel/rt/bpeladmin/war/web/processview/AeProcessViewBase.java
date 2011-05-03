@@ -19,7 +19,6 @@ import org.activebpel.rt.bpel.def.AeProcessDef;
 import org.activebpel.rt.bpel.def.IAeBPELConstants;
 import org.activebpel.rt.bpel.def.io.readers.AeBpelLocationPathVisitor;
 import org.activebpel.rt.bpel.def.visitors.AeBPWSMessageExchangeDefPathSegmentVisitor;
-import org.activebpel.rt.bpel.server.admin.AeProcessDeploymentDetail;
 import org.activebpel.rt.bpeladmin.war.AeEngineManagementFactory;
 import org.activebpel.rt.bpeladmin.war.AeMessages;
 import org.activebpel.rt.bpeladmin.war.graph.AeBpelGraph;
@@ -35,6 +34,9 @@ import org.activebpel.rt.xml.def.IAePathSegmentBuilder;
 import org.w3c.dom.Document;
 
 import bpelg.services.processes.StorageErrorMessage;
+import bpelg.services.processes.types.GetProcessDeployments;
+import bpelg.services.processes.types.ProcessDeployment;
+import bpelg.services.processes.types.ProcessDeployments;
 import bpelg.services.processes.types.ProcessInstanceDetail;
 
 /**
@@ -383,7 +385,7 @@ public class AeProcessViewBase
 	   try {
 	      // Get the BPEL def xml document
 	      Document bpelDoc = null;
-	      AeProcessDeploymentDetail deployDetails = null;
+	      ProcessDeployment deployDetails = null;
 	      if (getMode() == ACTIVE_PROCESS_DETAIL)
 	      {
 	         // get active process def given PID.
@@ -392,18 +394,17 @@ public class AeProcessViewBase
 	         // Get the def deployment details.
 	         if (getProcessDetails() != null)
 	         {
-	            deployDetails = AeEngineManagementFactory.getBean().getDeployedProcessDetail(getProcessDetails().getName().getNamespaceURI(), getProcessDetails().getName().getLocalPart()); 
+	            deployDetails = AeEngineManagementFactory.getProcessManager().getProcessDeploymentByName(getProcessDetails().getName()); 
 	         }
 	      }
 	      else
 	      {
 	         // get deployed process def given pdid.
 	         int pdidOffset = getProcessDeploymentId();
-	         List<AeProcessDeploymentDetail> deployedProcList = AeEngineManagementFactory.getBean().getDeployedProcesses();
-	         AeProcessDeploymentDetail details[] = deployedProcList.toArray(new AeProcessDeploymentDetail[deployedProcList.size()]);
-	         if (pdidOffset >= 0 && pdidOffset < details.length)
+	         ProcessDeployments deployedProcList = AeEngineManagementFactory.getProcessManager().getProcessDeployments(new GetProcessDeployments());
+	         if (pdidOffset >= 0 && pdidOffset < deployedProcList.getProcessDeployment().size())
 	         {
-	            deployDetails = details[pdidOffset];
+	            deployDetails = deployedProcList.getProcessDeployment().get(pdidOffset);
 	         }
 	      }
 	
@@ -413,10 +414,10 @@ public class AeProcessViewBase
 	      }
 	      else
 	      {
-	          mBpelSrc = deployDetails.getBpelSourceXml();
+	          mBpelSrc = deployDetails.getSource();
 	         try
 	         {
-	            bpelDoc = AeProcessViewUtil.domFromString(deployDetails.getBpelSourceXml());
+	            bpelDoc = AeProcessViewUtil.domFromString(deployDetails.getSource());
 	         }
 	         catch (Exception e)
 	         {

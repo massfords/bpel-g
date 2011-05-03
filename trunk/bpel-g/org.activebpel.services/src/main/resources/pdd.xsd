@@ -1,7 +1,21 @@
 <?xml version="1.0"?>
 <xs:schema targetNamespace="http://schemas.active-endpoints.com/pdd/2006/08/pdd.xsd"
+   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
    xmlns:tns="http://schemas.active-endpoints.com/pdd/2006/08/pdd.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema"
-   elementFormDefault="qualified">
+   elementFormDefault="qualified"
+   xmlns:jxb="http://java.sun.com/xml/ns/jaxb" jxb:version="2.0"
+   xsi:schemaLocation="http://java.sun.com/xml/ns/jaxb http://java.sun.com/xml/ns/jaxb/bindingschema_2_0.xsd">
+   
+   <xs:annotation>
+      <xs:appinfo>
+         <jxb:schemaBindings>
+            <jxb:package name="bpelg.services.deploy.types.pdd"/>
+         </jxb:schemaBindings>
+         <jxb:bindings node="/xs:schema/xs:element[@name='process']">
+            <jxb:class name="Pdd"></jxb:class>
+         </jxb:bindings>
+      </xs:appinfo>      
+   </xs:annotation>
 
    <!-- =================================================== -->
    <!-- Define some simple types to be used by the schema.  -->
@@ -186,20 +200,15 @@
                </xs:complexType>
             </xs:element>
             <!-- Must have at most one "references" element. -->
-            <xs:sequence minOccurs="0">
-               <xs:choice>
-                  <xs:element name="references">
-                     <xs:complexType>
-                        <!-- Must have at least one "referenceType" element. -->
-                        <xs:sequence>
-                           <xs:element name="wsdl" type="tns:referenceType" maxOccurs="unbounded"/>
-                           <xs:element name="schema" type="tns:referenceType" maxOccurs="unbounded"/>
-                           <xs:element name="other" type="tns:referenceType" maxOccurs="unbounded"/>
-                        </xs:sequence>
-                     </xs:complexType>
-                  </xs:element>
-               </xs:choice>
-            </xs:sequence>
+            <xs:element name="references">
+               <xs:complexType>
+                  <xs:sequence>
+                     <xs:element name="wsdl" type="tns:referenceType" maxOccurs="unbounded"/>
+                     <xs:element name="schema" type="tns:referenceType" maxOccurs="unbounded" minOccurs="0"/>
+                     <xs:element name="other" type="tns:referenceType" maxOccurs="unbounded" minOccurs="0"/>
+                  </xs:sequence>
+               </xs:complexType>
+            </xs:element>
             <xs:element name="extensions" minOccurs="0">
                <xs:complexType>
                   <xs:sequence>

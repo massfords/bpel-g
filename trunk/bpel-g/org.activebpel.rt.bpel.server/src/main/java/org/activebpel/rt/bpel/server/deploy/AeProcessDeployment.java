@@ -61,6 +61,7 @@ import bpelg.services.deploy.types.pdd.PartnerRoleEndpointReferenceType;
 import bpelg.services.deploy.types.pdd.Pdd;
 import bpelg.services.deploy.types.pdd.ReferenceType;
 import bpelg.services.deploy.types.pdd.SuspendFlag;
+import bpelg.services.processes.types.ServiceDeployment;
 
 /**
  * Manages process deployment information for a BPEL deployment.
@@ -77,8 +78,7 @@ public class AeProcessDeployment implements IAeProcessDeployment {
 	/** Map of partner link name to partner link descriptor object. */
 	protected Map mPartnerLinkDescriptors = new HashMap();
 
-	/** Map of plDefKeys to AeServiceDeploymentInfo */
-	private Map mServices = new HashMap();
+	private Map<Integer,ServiceDeployment> mServices = new HashMap();
 
 	private IAeExpressionLanguageFactory mExpressionLanguageFactory;
 	
@@ -91,12 +91,12 @@ public class AeProcessDeployment implements IAeProcessDeployment {
 			throws AeDeploymentException {
 		mPdd = aSource.getPdd();
 		mPlanId = aSource.getPlanId();
-		for (IAeServiceDeploymentInfo service : aSource.getServices()) {
+		for (ServiceDeployment service : aSource.getServices().getServiceDeployment()) {
 			// Touching all nodes to avoid issues when multiple threads examine
 			// the same element
-			AeXmlUtil.touchXmlNodes(service.getPolicies());
+			AeXmlUtil.touchXmlNodes(service.getAny());
 			getServiceMap()
-					.put(service.getPartnerLinkDefKey(), service);
+					.put(service.getPartnerLinkId(), service);
 		}
 	}
 
@@ -377,37 +377,32 @@ public class AeProcessDeployment implements IAeProcessDeployment {
 	/**
 	 * @see org.activebpel.rt.bpel.server.IAeProcessDeployment#getServiceInfo(java.lang.String)
 	 */
-	public IAeServiceDeploymentInfo getServiceInfo(String aPartnerLink) {
+	public ServiceDeployment getServiceInfo(String aPartnerLink) {
 		AePartnerLinkDef plDef = getProcessDef().findPartnerLink(aPartnerLink);
 		// plDef should never be null
 		if (plDef == null)
 			return null;
-		AePartnerLinkDefKey key = new AePartnerLinkDefKey(plDef);
-		return (IAeServiceDeploymentInfo) getServiceMap().get(key);
+		return getServiceMap().get(plDef.getLocationId());
 	}
 
 	/**
 	 * 
 	 * @return service map as array of IAeServiceDeploymentInfo
 	 */
-	public IAeServiceDeploymentInfo[] getServiceInfos() {
+	public ServiceDeployment[] getServiceInfos() {
 		List list = new ArrayList(getServiceMap().values());
-		IAeServiceDeploymentInfo[] infos = new IAeServiceDeploymentInfo[list
-				.size()];
-		return (IAeServiceDeploymentInfo[]) list.toArray(infos);
+		ServiceDeployment[] infos = new ServiceDeployment[list.size()];
+		return (ServiceDeployment[]) list.toArray(infos);
 	}
 
 	/**
 	 * @see org.activebpel.rt.bpel.impl.IAeProcessPlan#getMyRolePolicies(org.activebpel.rt.bpel.impl.AePartnerLink)
 	 */
 	public List getMyRolePolicies(AePartnerLink aPartnerLink) {
-		AePartnerLinkDefKey key = new AePartnerLinkDefKey(
-				aPartnerLink.getDefinition());
-		IAeServiceDeploymentInfo serviceInfo = (IAeServiceDeploymentInfo) getServiceMap()
-				.get(key);
+		ServiceDeployment serviceInfo = getServiceMap().get(aPartnerLink.getDefinition().getLocationId());
 
 		if (serviceInfo != null)
-			return serviceInfo.getPolicies();
+			return serviceInfo.getAny();
 
 		return Collections.EMPTY_LIST;
 	}
@@ -437,7 +432,7 @@ public class AeProcessDeployment implements IAeProcessDeployment {
 	 * 
 	 * @return Map
 	 */
-	protected Map getServiceMap() {
+	protected Map<Integer,ServiceDeployment> getServiceMap() {
 		return mServices;
 	}
 

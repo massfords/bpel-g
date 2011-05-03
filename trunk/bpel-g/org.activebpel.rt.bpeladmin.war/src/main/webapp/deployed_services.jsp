@@ -37,13 +37,13 @@
                      <th class="columnHeaders" align="left" nowrap="true">&nbsp;<ae:GetResource name="partner_link_header" /></th>
                   </tr>
 
-                  <ae:IndexedProperty name="serviceBean" id="rowDetail" property="detail" indexedClassName="org.activebpel.rt.bpel.server.admin.jmx.AeServiceDeploymentBean" >
+                  <ae:IndexedProperty name="serviceBean" id="rowDetail" property="detail" indexedClassName="bpelg.services.processes.types.ServiceDeployment" >
                      <tr>
                        <ae:IfPropertyMatches name="rowDetail" property="binding" value="EXTERNAL" classType="java.lang.String">
-                          <td align="left">&nbsp;<ae:GetProperty name="rowDetail" property="serviceName" /></td>
+                          <td align="left">&nbsp;<ae:GetProperty name="rowDetail" property="service" /></td>
                        </ae:IfPropertyMatches>
                        <ae:IfPropertyNotMatches name="rowDetail" property="binding" value="EXTERNAL" classType="java.lang.String">
-                          <td align="left">&nbsp;<a href='services/<ae:GetProperty name="rowDetail" property="serviceName" />?wsdl'><ae:GetProperty name="rowDetail" property="serviceName" /></a></td>
+                          <td align="left">&nbsp;<a href='services/<ae:GetProperty name="rowDetail" property="service" />?wsdl'><ae:GetProperty name="rowDetail" property="service" /></a></td>
                        </ae:IfPropertyNotMatches>
                        <%
                          String procDetail = response.encodeURL("deployed_process_detail.jsp?planQname=" + rowDetail.getProcessName().getNamespaceURI() + ":" + rowDetail.getProcessName().getLocalPart() + "&tab=0");
@@ -51,7 +51,7 @@
                        %>
                        <td align="left">&nbsp;<a href="<%= procDetail %>"><%= procName %></a></td>
                        <td align="left">&nbsp;<ae:GetProperty name="rowDetail" property="binding" /></td>
-                       <td align="left">&nbsp;<ae:GetProperty name="rowDetail" property="partnerLinkName" /></td>
+                       <td align="left">&nbsp;<ae:GetProperty name="rowDetail" property="partnerLink" /></td>
                      </tr>
                      <tr height="1">
                        <td colspan="4" height="1" class="tabular"></td>

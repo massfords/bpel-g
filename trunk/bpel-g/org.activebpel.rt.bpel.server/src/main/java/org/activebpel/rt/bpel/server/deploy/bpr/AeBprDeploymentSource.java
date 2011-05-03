@@ -13,7 +13,6 @@ import java.io.InputStream;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 
 import org.activebpel.rt.bpel.AeBusinessProcessException;
 import org.activebpel.rt.bpel.def.AeProcessDef;
@@ -23,7 +22,6 @@ import org.activebpel.rt.bpel.server.deploy.AeDeploymentException;
 import org.activebpel.rt.bpel.server.deploy.AeServiceDeploymentUtil;
 import org.activebpel.rt.bpel.server.deploy.IAeDeploymentContext;
 import org.activebpel.rt.bpel.server.deploy.IAeDeploymentSource;
-import org.activebpel.rt.bpel.server.deploy.IAeServiceDeploymentInfo;
 import org.activebpel.rt.bpel.server.deploy.pdd.AePartnerLinkDescriptor;
 import org.activebpel.rt.bpel.server.deploy.pdd.AePartnerLinkDescriptorFactory;
 import org.activebpel.rt.util.AeCloser;
@@ -31,6 +29,7 @@ import org.xml.sax.InputSource;
 
 import bpelg.services.deploy.types.pdd.PartnerLinkType;
 import bpelg.services.deploy.types.pdd.Pdd;
+import bpelg.services.processes.types.ServiceDeployments;
 
 /**
  * Wraps the deployment of a single pdd from the BPR archive.
@@ -146,7 +145,7 @@ public class AeBprDeploymentSource implements IAeDeploymentSource {
 	/**
 	 * @see org.activebpel.rt.bpel.server.deploy.IAeDeploymentSource#getServices()
 	 */
-	public List<IAeServiceDeploymentInfo> getServices()
+	public ServiceDeployments getServices()
 			throws AeDeploymentException {
 		return AeServiceDeploymentUtil.getServices(getProcessDef(),getPdd());
 	}

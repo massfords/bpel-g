@@ -69,7 +69,6 @@
           <schemaDirectory>${basedir}/target/dependency</schemaDirectory>
           <schemaIncludes>
             <value>pddCatalog.xsd</value>
-            <value>pdd.xsd</value>
           </schemaIncludes>
           <bindingDirectory>${basedir}/src/main/bindings</bindingDirectory>
           <args>

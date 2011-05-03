@@ -21,7 +21,10 @@ import org.activebpel.rt.bpel.AePreferences;
 import org.activebpel.rt.bpel.AeProcessEventType;
 import org.activebpel.rt.bpel.server.admin.AeBuildInfo;
 import org.activebpel.rt.bpeladmin.war.AeBuildNumber;
+import org.activebpel.rt.bpeladmin.war.AeEngineManagementFactory;
 import org.activebpel.rt.bpeladmin.war.AeMessages;
+
+import bpelg.services.processes.types.GetProcessDeployments;
 
 /**
  *  Bean for driving display of home page.
@@ -383,11 +386,7 @@ public class AeEngineConfigBean extends AeAbstractAdminBean
     */
    public int getDeployedProcessesSize()
    {
-      if( getAdmin().getDeployedProcesses() == null )
-      {
-         return 0;
-      }
-      return getAdmin().getDeployedProcesses().size();
+	   return AeEngineManagementFactory.getProcessManager().getProcessDeployments(new GetProcessDeployments()).getProcessDeployment().size();
    }
 
    /**

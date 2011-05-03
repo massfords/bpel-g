@@ -17,7 +17,6 @@ import javax.xml.XMLConstants;
 
 import org.activebpel.rt.bpel.server.deploy.AeDeploymentException;
 import org.activebpel.rt.bpel.server.deploy.IAePolicyMapper;
-import org.activebpel.rt.bpel.server.deploy.IAeServiceDeploymentInfo;
 import org.activebpel.rt.bpel.server.deploy.IAeWsddConstants;
 import org.activebpel.rt.bpel.server.engine.AeEngineFactory;
 import org.activebpel.rt.util.AeUtil;
@@ -26,6 +25,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 import bpelg.services.deploy.types.pdd.MyRoleBindingType;
+import bpelg.services.processes.types.ServiceDeployment;
 
 /**
  * Builder class for creating a wsdd deployment document.
@@ -84,11 +84,11 @@ public class AeWsddBuilder implements IAeWsddConstants
     * @param aServices
     * @throws AeDeploymentException
     */
-   public void addServices(IAeServiceDeploymentInfo[] aServices) throws AeDeploymentException
+   public void addServices(ServiceDeployment[] aServices) throws AeDeploymentException
    {
       for (int i = 0; i < aServices.length; i++)
       {
-         IAeServiceDeploymentInfo serviceData = aServices[i];
+    	  ServiceDeployment serviceData = aServices[i];
          MyRoleBindingType binding = serviceData.getBinding();
          if( binding == MyRoleBindingType.RPC )
          {
@@ -113,7 +113,7 @@ public class AeWsddBuilder implements IAeWsddConstants
     * Add a bpel rpc service element.
     * @param aServiceData
     */
-   public void addRpcService(IAeServiceDeploymentInfo aServiceData) throws AeDeploymentException
+   public void addRpcService(ServiceDeployment aServiceData) throws AeDeploymentException
    {
       addService( aServiceData, TAG_RPC_BINDING);
    }
@@ -122,7 +122,7 @@ public class AeWsddBuilder implements IAeWsddConstants
     * Add a bpel rpc literal service element
     * @param aServiceData
     */
-   public void addRpcLiteralService(IAeServiceDeploymentInfo aServiceData) throws AeDeploymentException
+   public void addRpcLiteralService(ServiceDeployment aServiceData) throws AeDeploymentException
    {
       addService( aServiceData, TAG_RPC_LIT_BINDING );
    }
@@ -131,7 +131,7 @@ public class AeWsddBuilder implements IAeWsddConstants
     * Add a bpel msg service element.
     * @param aServiceData
     */
-   public void addMsgService(IAeServiceDeploymentInfo aServiceData) throws AeDeploymentException
+   public void addMsgService(ServiceDeployment aServiceData) throws AeDeploymentException
    {
       addService( aServiceData, TAG_MSG_BINDING );
    }
@@ -140,7 +140,7 @@ public class AeWsddBuilder implements IAeWsddConstants
     * Add a bpel service element where the provider is defined as a parameter in the WSDD.
     * @param aServiceData
     */
-   public void addPolicyService( IAeServiceDeploymentInfo aServiceData )
+   public void addPolicyService( ServiceDeployment aServiceData )
    throws AeDeploymentException
    {
       addService( aServiceData, TAG_POLICY_BINDING );
@@ -153,21 +153,21 @@ public class AeWsddBuilder implements IAeWsddConstants
     * @param aServiceData
     * @param aBinding
     */
-   protected void addService(IAeServiceDeploymentInfo aServiceData, String aBinding) throws AeDeploymentException
+   protected void addService(ServiceDeployment aServiceData, String aBinding) throws AeDeploymentException
    {
-      Element serviceElement = addServiceElement( aServiceData.getServiceName(), aBinding );
+      Element serviceElement = addServiceElement( aServiceData.getService(), aBinding );
 
       // add process info to wsdd doc
-      serviceElement.appendChild( createParamElement( TAG_PROCESS_NS, aServiceData.getProcessQName().getNamespaceURI() ) );
-      serviceElement.appendChild( createParamElement( TAG_PROCESS_NAME, aServiceData.getProcessQName().getLocalPart() ) );
+      serviceElement.appendChild( createParamElement( TAG_PROCESS_NS, aServiceData.getProcessName().getNamespaceURI() ) );
+      serviceElement.appendChild( createParamElement( TAG_PROCESS_NAME, aServiceData.getProcessName().getLocalPart() ) );
       
       // add partner link to wsdd doc
-      serviceElement.appendChild( createParamElement( TAG_PARTNER_LINK, aServiceData.getPartnerLinkDefKey().getPartnerLinkName() ) );
-      serviceElement.appendChild( createParamElement( TAG_PARTNER_LINK_ID, String.valueOf(aServiceData.getPartnerLinkDefKey().getPartnerLinkId()) ) );
+      serviceElement.appendChild( createParamElement( TAG_PARTNER_LINK, aServiceData.getPartnerLink() ) );
+      serviceElement.appendChild( createParamElement( TAG_PARTNER_LINK_ID, String.valueOf(aServiceData.getPartnerLinkId()) ) );
 
       if( !AeUtil.isNullOrEmpty(aServiceData.getAllowedRoles()) )
       {
-         serviceElement.appendChild( createParamElement( TAG_ALLOWED_ROLES, aServiceData.getAllowedRolesAsString() ) );
+         serviceElement.appendChild( createParamElement( TAG_ALLOWED_ROLES, aServiceData.getAllowedRoles() ) );
       }
 
       try 
@@ -177,7 +177,7 @@ public class AeWsddBuilder implements IAeWsddConstants
          if (mapper != null)
          {
             // get Service Parameters
-            List handlers = mapper.getServiceParameters(aServiceData.getPolicies());
+            List handlers = mapper.getServiceParameters(aServiceData.getAny());
             if (!AeUtil.isNullOrEmpty(handlers)) 
             {
                for (Iterator it = handlers.iterator(); it.hasNext();) 
@@ -186,7 +186,7 @@ public class AeWsddBuilder implements IAeWsddConstants
                }
             }
             // get Server Request handlers
-            handlers = mapper.getServerRequestHandlers(aServiceData.getPolicies());
+            handlers = mapper.getServerRequestHandlers(aServiceData.getAny());
             if (!AeUtil.isNullOrEmpty(handlers)) 
             {
                Element requestFlow = (Element) serviceElement.appendChild( createElement( TAG_REQUEST_FLOW) );
@@ -196,7 +196,7 @@ public class AeWsddBuilder implements IAeWsddConstants
                }
             }
             // get Server Response handlers
-            handlers = mapper.getServerResponseHandlers(aServiceData.getPolicies());
+            handlers = mapper.getServerResponseHandlers(aServiceData.getAny());
             if (!AeUtil.isNullOrEmpty(handlers)) 
             {
                Element responseFlow = (Element) serviceElement.appendChild( createElement( TAG_RESPONSE_FLOW) );

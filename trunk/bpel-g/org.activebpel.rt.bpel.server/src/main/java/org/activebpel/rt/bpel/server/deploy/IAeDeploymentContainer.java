@@ -9,10 +9,10 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpel.server.deploy;
 
-import java.util.List;
-
 import org.activebpel.rt.AeException;
 import org.activebpel.rt.bpel.server.deploy.bpr.IAeBpr;
+
+import bpelg.services.processes.types.ServiceDeployments;
 
 /**
  * Top level interface for wrapping of the deployment details.
@@ -22,5 +22,5 @@ public interface IAeDeploymentContainer extends IAeBpr, IAeDeploymentContext {
 	 * @return service deployment information
 	 * @throws AeException 
 	 */
-	public List<IAeServiceDeploymentInfo> getServiceDeploymentInfo() throws AeException;
+	public ServiceDeployments getServiceDeploymentInfo() throws AeException;
 }

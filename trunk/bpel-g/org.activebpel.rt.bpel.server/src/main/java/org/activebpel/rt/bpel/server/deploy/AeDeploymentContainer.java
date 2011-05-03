@@ -11,10 +11,7 @@ package org.activebpel.rt.bpel.server.deploy;
 
 import java.io.InputStream;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
 
 import org.activebpel.rt.AeException;
 import org.activebpel.rt.bpel.def.AeProcessDef;
@@ -24,6 +21,7 @@ import org.w3c.dom.Document;
 
 import bpelg.services.deploy.types.catalog.Catalog;
 import bpelg.services.deploy.types.pdd.Pdd;
+import bpelg.services.processes.types.ServiceDeployments;
 
 /**
  * Deployment container impl.
@@ -38,7 +36,7 @@ public class AeDeploymentContainer implements IAeDeploymentContainer {
 	/** Deployment id url. */
 	protected final URL mUrlForId;
 	/** Service deployment information */
-	protected List<IAeServiceDeploymentInfo> mServiceInfo;
+	protected ServiceDeployments mServiceInfo;
 
 	/**
 	 * Constructor.
@@ -161,16 +159,17 @@ public class AeDeploymentContainer implements IAeDeploymentContainer {
 	 * @throws AeException 
 	 * @see org.activebpel.rt.bpel.server.deploy.IAeDeploymentContainer#getServiceDeploymentInfo()
 	 */
-	public List<IAeServiceDeploymentInfo> getServiceDeploymentInfo() throws AeException {
+	public ServiceDeployments getServiceDeploymentInfo() throws AeException {
 		if (mServiceInfo == null) {
-			mServiceInfo = new ArrayList();
+			mServiceInfo = new ServiceDeployments();
 
 			for (AePddResource pddr : mBprFile.getPddResources()) {
 				IAeDeploymentSource source = getDeploymentSource(pddr.getPdd());
-				mServiceInfo.addAll(getServiceInfo(source));
+				mServiceInfo.withServiceDeployment(getServiceInfo(source).getServiceDeployment());
 			}
 		}
-		return Collections.unmodifiableList(mServiceInfo);
+		// return an unmodifiable copy
+		return new ServiceDeployments().withServiceDeployment(mServiceInfo.getServiceDeployment());
 	}
 
 	/**
@@ -179,7 +178,7 @@ public class AeDeploymentContainer implements IAeDeploymentContainer {
 	 * @param aSource
 	 * @throws AeDeploymentException
 	 */
-	protected List<IAeServiceDeploymentInfo> getServiceInfo(
+	protected ServiceDeployments getServiceInfo(
 			IAeDeploymentSource aSource) throws AeDeploymentException {
 		// Get the service info
 		AeProcessDef processDef = aSource.getProcessDef();

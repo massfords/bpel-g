@@ -10,12 +10,12 @@
 package org.activebpel.rt.bpel.server.deploy;
 
 import java.util.Collection;
-import java.util.List;
 
 import org.activebpel.rt.bpel.def.AeProcessDef;
 import org.activebpel.rt.bpel.server.deploy.pdd.AePartnerLinkDescriptor;
 
 import bpelg.services.deploy.types.pdd.Pdd;
+import bpelg.services.processes.types.ServiceDeployments;
 
 /**
  * Interface for deploying bpel process to the engine.
@@ -40,7 +40,7 @@ public interface IAeDeploymentSource
    /**
     * Gets the services for the plan
     */
-   public List<IAeServiceDeploymentInfo> getServices() throws AeDeploymentException;
+   public ServiceDeployments getServices() throws AeDeploymentException;
 
    public Pdd getPdd();
 }
