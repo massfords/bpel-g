@@ -1,5 +1,12 @@
 #summary How bpel-g integrates with ServiceMix
 
+= Deprecated =
+
+<font color="red">*Please note that the information below only applies to the 5.1 release of bpel-g. Future releases (and the trunk) have dropped support for ServiceMix. The projects are still in the source tree but are not part of the build and are getting out of date.*
+</font>
+
+----
+
 = Introduction =
 
 bpel-g has a JBI packaging which can be deployed to [http://servicemix.apache.org/home.html Apache ServiceMix 3.3.1]. In this packaging, bpel-g provides a service engine component for BPEL orchestrations. 
