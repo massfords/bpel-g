@@ -89,7 +89,7 @@ public class BgPddBuilderTest {
         Document expected = AeXmlUtil.toDoc(expectedXml);
         
         Document actual = serialize(testPdd);
-        BgXmlAssert.assertXml(expected, actual, "/process/partnerLinks/partnerLink/myRole/@service", "/process/@name");
+        BgXmlAssert.assertXml(expected, actual, "/process[1]/partnerLinks[1]/partnerLink[1]/myRole[1]/@service", "/process[1]/@name");
     }
 
     // FIXME deploy restore this test
@@ -130,7 +130,7 @@ public class BgPddBuilderTest {
         
         Document actual = serialize(testPdd);
         
-        BgXmlAssert.assertXml(expected, actual, "/process/partnerLinks/partnerLink/myRole/@service", "/process/@name");
+        BgXmlAssert.assertXml(expected, actual, "/process[1]/partnerLinks[1]/partnerLink[1]/myRole[1]/@service", "/process[1]/@name");
     }
 
 	protected Document serialize(Pdd testPdd) throws JAXBException {
