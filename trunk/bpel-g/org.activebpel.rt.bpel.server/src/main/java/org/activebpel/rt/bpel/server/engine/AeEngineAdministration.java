@@ -15,7 +15,6 @@ import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -44,7 +43,6 @@ import org.activebpel.rt.bpel.impl.queue.AeInboundReceive;
 import org.activebpel.rt.bpel.impl.queue.AeMessageReceiver;
 import org.activebpel.rt.bpel.server.AeMessages;
 import org.activebpel.rt.bpel.server.IAeDeploymentProvider;
-import org.activebpel.rt.bpel.server.IAeProcessDeployment;
 import org.activebpel.rt.bpel.server.admin.AeBuildInfo;
 import org.activebpel.rt.bpel.server.admin.AeEngineStatus;
 import org.activebpel.rt.bpel.server.admin.AeQueuedReceiveDetail;
@@ -52,20 +50,14 @@ import org.activebpel.rt.bpel.server.admin.AeQueuedReceiveMessageData;
 import org.activebpel.rt.bpel.server.admin.IAeEngineAdministration;
 import org.activebpel.rt.bpel.server.catalog.IAeCatalog;
 import org.activebpel.rt.bpel.server.catalog.report.IAeCatalogAdmin;
-import org.activebpel.rt.bpel.server.deploy.AeServiceMap;
 import org.activebpel.rt.bpel.server.logging.IAeDeploymentLogger;
-import org.activebpel.rt.bpel.urn.IAeURNResolver;
 import org.activebpel.rt.message.IAeMessageData;
 import org.activebpel.rt.util.AeUtil;
 import org.activebpel.rt.xml.AeXMLParserBase;
 import org.w3c.dom.Document;
 
-import bpelg.services.processes.types.ProcessDeployment;
-import bpelg.services.processes.types.ProcessDeployments;
 import bpelg.services.processes.types.ProcessFilterType;
 import bpelg.services.processes.types.ProcessList;
-import bpelg.services.processes.types.ServiceDeployment;
-import bpelg.services.processes.types.ServiceDeployments;
 
 /**
  * Provides administration/console support for the engine. This class uses the
@@ -79,92 +71,6 @@ import bpelg.services.processes.types.ServiceDeployments;
 public class AeEngineAdministration implements IAeEngineAdministration {
 	/** Holds build information. */
 	private AeBuildInfo[] mBuildInfo = null;
-	private IAeURNResolver mURNResolver;
-
-	/** comparator for sorting the deployment detail objects */
-	private Comparator mDeploymentComparator = new Comparator() {
-		public int compare(Object o1, Object o2) {
-			ProcessDeployment one = (ProcessDeployment) o1;
-			ProcessDeployment two = (ProcessDeployment) o2;
-			return one.getProcess().getName().getLocalPart()
-					.compareToIgnoreCase(two.getProcess().getName().getLocalPart());
-		}
-	};
-
-	/** comparator for service deployment objects */
-	private Comparator mServiceComparator = new Comparator() {
-		public int compare(Object o1, Object o2) {
-			ServiceDeployment one = (ServiceDeployment) o1;
-			ServiceDeployment two = (ServiceDeployment) o2;
-			return one.getService().compareTo(two.getService());
-		}
-	};
-
-	/**
-	 * @see org.activebpel.rt.bpel.server.admin.IAeEngineAdministration#getDeployedServices()
-	 */
-	public ServiceDeployments getDeployedServices() {
-		List sortedList = AeServiceMap.getServiceEntries();
-		Collections.sort(sortedList, mServiceComparator);
-
-		return new ServiceDeployments().withServiceDeployment(sortedList);
-	}
-
-	/**
-	 * @see org.activebpel.rt.bpel.server.admin.IAeEngineAdministration#getDeployedProcesses()
-	 */
-	public ProcessDeployments getDeployedProcesses() {
-		IAeDeploymentProvider deploymentProvider = AeEngineFactory
-				.getBean(IAeDeploymentProvider.class);
-		List<ProcessDeployment> list = new ArrayList();
-		for (Iterator iter = deploymentProvider.getDeployedPlans(); iter
-				.hasNext();) {
-			IAeProcessDeployment deployedProcess = (IAeProcessDeployment) iter
-					.next();
-			list.add(createProcessDetail(deployedProcess));
-		}
-		Collections.sort(list, mDeploymentComparator);
-		return new ProcessDeployments().withProcessDeployment(list);
-	}
-
-	/**
-	 * Create the <code>AeProcessDeploymentDetail</code> from the given
-	 * <code>IAeProcessDeployment</code>.
-	 * 
-	 * @param aDeployment
-	 */
-	protected ProcessDeployment createProcessDetail(
-			IAeProcessDeployment aDeployment) {
-		ProcessDeployment detail = new ProcessDeployment()
-			.withProcess(aDeployment.getPdd())
-			.withSource(aDeployment.getBpelSource());
-		return detail;
-	}
-
-	/**
-	 * Gets the current <code>AeProcessDeploymentDetail</code> that represents
-	 * the current plan data for the given QName.
-	 * 
-	 * @return process deployment detail or <code>null</code> if the the details
-	 *         are not available.
-	 */
-	public ProcessDeployment getDeployedProcessDetail(QName aQName) {
-		ProcessDeployment detail = null;
-		try {
-			IAeDeploymentProvider deploymentProvider = AeEngineFactory
-					.getBean(IAeDeploymentProvider.class);
-			IAeProcessDeployment deploymentPlan = deploymentProvider
-					.findCurrentDeployment(aQName);
-			// deployment plan maybe null if it was removed (e.g. .bpr removed.
-			// See defect # 1368)
-			if (deploymentPlan != null) {
-				detail = createProcessDetail(deploymentPlan);
-			}
-		} catch (AeBusinessProcessException abe) {
-			abe.logError();
-		}
-		return detail;
-	}
 
 	/**
 	 * Getter for the bpel engine
@@ -491,13 +397,6 @@ public class AeEngineAdministration implements IAeEngineAdministration {
 	}
 
 	/**
-	 * @see org.activebpel.rt.bpel.server.admin.IAeEngineAdministration#getURNAddressResolver()
-	 */
-	public IAeURNResolver getURNAddressResolver() {
-		return getURNResolver();
-	}
-
-	/**
 	 * @see org.activebpel.rt.bpel.server.admin.IAeEngineAdministration#isInternalWorkManager()
 	 */
 	public boolean isInternalWorkManager() {
@@ -537,13 +436,5 @@ public class AeEngineAdministration implements IAeEngineAdministration {
 		} catch (AeCoordinationNotFoundException cnfe) {
 			return Collections.EMPTY_LIST;
 		}
-	}
-
-	public IAeURNResolver getURNResolver() {
-		return mURNResolver;
-	}
-
-	public void setURNResolver(IAeURNResolver aURNResolver) {
-		mURNResolver = aURNResolver;
 	}
 }

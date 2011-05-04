@@ -8,6 +8,7 @@ import org.activebpel.rt.bpel.urn.IAeURNResolver;
 
 import bpelg.services.urnresolver.AeURNResolver;
 import bpelg.services.urnresolver.types.AddMappingRequest;
+import bpelg.services.urnresolver.types.GetMappingsRequest;
 import bpelg.services.urnresolver.types.Mappings;
 import bpelg.services.urnresolver.types.Mappings.Mapping;
 import bpelg.services.urnresolver.types.Names;
@@ -31,7 +32,7 @@ public class AeURNResolverService implements AeURNResolver {
 	}
 
 	@Override
-	public Mappings getMappings(String aBody) {
+	public Mappings getMappings(GetMappingsRequest aBody) {
 		Map<String,String> map = getResolver().getMappings();
 		List<Mapping> mappings = new LinkedList();
 		for(Map.Entry<String, String> entry : map.entrySet()) {

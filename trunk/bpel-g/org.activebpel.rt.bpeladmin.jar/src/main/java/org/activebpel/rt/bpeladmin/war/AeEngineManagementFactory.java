@@ -21,6 +21,7 @@ import org.activebpel.rt.bpel.server.admin.jmx.IAeEngineManagementMXBean;
 import org.activebpel.rt.bpel.server.engine.AeEngineFactory;
 
 import bpelg.services.processes.AeProcessManager;
+import bpelg.services.urnresolver.AeURNResolver;
 
 public class AeEngineManagementFactory {
     
@@ -33,6 +34,7 @@ public class AeEngineManagementFactory {
     private static DisconnectedListener sNotificationlistener = new DisconnectedListener();
     private static boolean sRemote;
     private static AeProcessManager sProcessManager;
+    private static AeURNResolver sResolverService;
     
     
     public synchronized static IAeEngineManagementMXBean getBean() {
@@ -152,4 +154,15 @@ public class AeEngineManagementFactory {
 	public static void setProcessManager(AeProcessManager aProcessManager) {
 		sProcessManager = aProcessManager;
 	}
+
+    public static AeURNResolver getResolverService() {
+        if (sResolverService == null) {
+            sResolverService = AeEngineFactory.getBean(AeURNResolver.class);
+        }
+        return sResolverService;
+    }
+
+    public static void setsResolverService(AeURNResolver aSResolverService) {
+        sResolverService = aSResolverService;
+    }
 }
