@@ -21,7 +21,11 @@ import org.activebpel.rt.war.AeMessages;
  */
 public class AeRequestEncodingTag extends TagSupport
 {
-   /** The character encoding value. */
+   /**
+     * 
+     */
+    private static final long serialVersionUID = -3315371708855125002L;
+/** The character encoding value. */
    protected String mValue;
 
    /**

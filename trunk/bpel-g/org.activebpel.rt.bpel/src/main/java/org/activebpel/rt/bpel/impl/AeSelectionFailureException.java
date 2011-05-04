@@ -19,7 +19,11 @@ public class AeSelectionFailureException extends AeBpelException
 {
    // fixme (MF) create real error messages for the errors below
 
-   /** error message when the expression failed to select a single EII or TII */
+   /**
+     * 
+     */
+    private static final long serialVersionUID = -4645738697392815750L;
+/** error message when the expression failed to select a single EII or TII */
    private static final String SELECTION_COUNT_ERROR = "AeSelectionFailureException.SELECTION_COUNT_ERROR"; //$NON-NLS-1$
    /** signals a selection failure due to having the copy op's keepSrcElementName option enabled but they failed to select an element */
    public static final String KEEP_SRC_ELEMENT_ERROR = "AeSelectionFailureException.KEEP_SRC_ELEMENT_ERROR"; //$NON-NLS-1$

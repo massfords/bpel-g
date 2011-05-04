@@ -19,7 +19,11 @@ import org.apache.axis.client.Service;
  */
 public class AeService extends Service
 {
-   /** cached copy of the AxisClient to avoid creating one-off instances for each invoke */
+   /**
+     * 
+     */
+    private static final long serialVersionUID = 6912645261729889910L;
+/** cached copy of the AxisClient to avoid creating one-off instances for each invoke */
    private static AxisClient sClient = null;
    
    /**

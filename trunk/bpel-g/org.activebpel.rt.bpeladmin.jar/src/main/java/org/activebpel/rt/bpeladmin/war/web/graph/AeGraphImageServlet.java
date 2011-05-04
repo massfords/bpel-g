@@ -31,7 +31,11 @@ import org.activebpel.rt.util.AeUtil;
  */
 public class AeGraphImageServlet extends HttpServlet
 {
-   /** Key used to look up the http servlet session for the model cache. */
+   /**
+     * 
+     */
+    private static final long serialVersionUID = -3373104996323762328L;
+/** Key used to look up the http servlet session for the model cache. */
    private static String CACHE_MODEL_SESSION_KEY = "org.activebpel.rt.bpeladmin.war.web.graph.AeProcessImageModelCache";  //$NON-NLS-1$
 
    /**

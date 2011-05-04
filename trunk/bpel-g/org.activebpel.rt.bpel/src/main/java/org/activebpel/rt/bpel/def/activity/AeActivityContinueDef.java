@@ -20,6 +20,11 @@ import org.activebpel.rt.bpel.def.visitors.IAeDefVisitor;
 public class AeActivityContinueDef extends AeActivityDef implements IAeExtensionActivityDef
 {
    /**
+     * 
+     */
+    private static final long serialVersionUID = 5696702293018791590L;
+
+/**
     * Ctor 
     */
    public AeActivityContinueDef()

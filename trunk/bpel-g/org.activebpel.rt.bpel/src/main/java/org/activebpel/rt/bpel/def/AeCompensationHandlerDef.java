@@ -20,6 +20,11 @@ public class AeCompensationHandlerDef extends AeSingleActivityParentBaseDef
               IAeFCTHandlerDef, IAeUncrossableLinkBoundary
 {
    /**
+     * 
+     */
+    private static final long serialVersionUID = -1071237621129347062L;
+
+/**
     * Default c'tor.
     */
    public AeCompensationHandlerDef()

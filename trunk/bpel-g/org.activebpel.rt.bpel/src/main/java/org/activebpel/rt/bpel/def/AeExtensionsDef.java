@@ -21,6 +21,11 @@ import org.activebpel.rt.util.AeUtil;
 public class AeExtensionsDef extends AeBaseContainer
 {
    /**
+     * 
+     */
+    private static final long serialVersionUID = 1204991616987068600L;
+
+/**
     * Default c'tor.
     */
    public AeExtensionsDef()

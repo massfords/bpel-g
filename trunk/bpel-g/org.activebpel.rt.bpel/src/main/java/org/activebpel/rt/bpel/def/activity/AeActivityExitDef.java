@@ -18,6 +18,11 @@ import org.activebpel.rt.bpel.def.visitors.IAeDefVisitor;
 public class AeActivityExitDef extends AeActivityDef
 {
    /**
+     * 
+     */
+    private static final long serialVersionUID = 5978562097295660637L;
+
+/**
     * Default constructor
     */
    public AeActivityExitDef()

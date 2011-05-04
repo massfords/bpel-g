@@ -23,7 +23,11 @@ public class AeActivityWhileDef extends AeActivityDef
    implements IAeSingleActivityContainerDef, IAeLoopActivityDef, 
               IAeConditionParentDef, IAeUncrossableLinkBoundary
 {
-   /** The while activity's 'condition' child construct. */
+   /**
+     * 
+     */
+    private static final long serialVersionUID = -7921431230413995398L;
+/** The while activity's 'condition' child construct. */
    private AeConditionDef mCondition;
    /** The while activity's child activity. */
    private AeActivityDef mActivity;

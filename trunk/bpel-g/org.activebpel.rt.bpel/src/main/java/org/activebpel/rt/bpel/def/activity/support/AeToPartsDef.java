@@ -21,6 +21,11 @@ import org.activebpel.rt.bpel.def.visitors.IAeDefVisitor;
 public class AeToPartsDef extends AeBaseContainer
 {
    /**
+     * 
+     */
+    private static final long serialVersionUID = 7649526241910343097L;
+
+/**
     * Default c'tor.
     */
    public AeToPartsDef()

@@ -19,6 +19,11 @@ public class AeIfParamNotMatchesTag extends AeIfParamMatchesTag
 {
 
    /**
+     * 
+     */
+    private static final long serialVersionUID = 6032113531659798275L;
+
+/**
     * Returns true if the request parameter does not match the 
     * expected value.
     */

@@ -18,7 +18,11 @@ import java.io.Serializable;
  */
 public class AeSpecStrategyKey implements Serializable
 {
-   /** The name of the strategy. */
+   /**
+     * 
+     */
+    private static final long serialVersionUID = -4858012092196758892L;
+/** The name of the strategy. */
    private String mStrategyName;
    /** Optional arguments that will get passed to the strategy when it is created. */
    private Object [] mStrategyArguments;

@@ -16,7 +16,11 @@ package org.activebpel.rt.bpel.def;
  */
 public abstract class AeSingleActivityParentBaseDef extends AeBaseDef implements IAeSingleActivityContainerDef
 {
-   /** Activity to execute if this fault handler is called */
+   /**
+     * 
+     */
+    private static final long serialVersionUID = -4659397635974933532L;
+/** Activity to execute if this fault handler is called */
    private AeActivityDef mActivity;
 
    /**

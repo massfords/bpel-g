@@ -19,7 +19,11 @@ import javax.servlet.jsp.tagext.BodyTagSupport;
  */
 public class AeIfParamMatchesTag extends BodyTagSupport
 {
-   /** The key for the http request parameter */
+   /**
+     * 
+     */
+    private static final long serialVersionUID = -4828679922476339069L;
+/** The key for the http request parameter */
    protected String mProperty;
    /** The value to match against. */
    protected String mValue;

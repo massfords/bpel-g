@@ -19,7 +19,11 @@ import org.activebpel.rt.bpel.def.visitors.IAeDefVisitor;
  */
 public class AeActivitySuspendDef extends AeActivityDef implements IAeExtensionActivityDef
 {
-   /** name of the optional variable */
+   /**
+     * 
+     */
+    private static final long serialVersionUID = 6163247028689090950L;
+/** name of the optional variable */
    private String mVariable;
 
    /**

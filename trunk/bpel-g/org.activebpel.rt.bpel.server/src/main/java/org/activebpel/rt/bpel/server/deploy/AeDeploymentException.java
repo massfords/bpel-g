@@ -17,6 +17,11 @@ import org.activebpel.rt.bpel.AeBusinessProcessException;
 public class AeDeploymentException extends AeBusinessProcessException
 {
    /**
+     * 
+     */
+    private static final long serialVersionUID = -2450295449155338645L;
+
+/**
     * Constructs the exception with a string message
     * @param aInfo
     */

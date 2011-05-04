@@ -19,6 +19,11 @@ public class AeBpelProcessFigure extends AeBpelFigureBase
 {
 
    /**
+     * 
+     */
+    private static final long serialVersionUID = 4394297624475048274L;
+
+/**
     * Constructs the figure with the given name
     * @param aBpelName
     */

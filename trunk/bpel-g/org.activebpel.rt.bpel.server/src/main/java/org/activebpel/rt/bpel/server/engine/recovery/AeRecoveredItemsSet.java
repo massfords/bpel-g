@@ -23,6 +23,11 @@ import org.activebpel.rt.bpel.server.engine.recovery.recovered.IAeRecoveredItem;
 public class AeRecoveredItemsSet extends LinkedHashMap implements IAeRecoveredItemsSet
 {
    /**
+     * 
+     */
+    private static final long serialVersionUID = 4790725409613185210L;
+
+/**
     * @see org.activebpel.rt.bpel.server.engine.recovery.IAeRecoveredItemsSet#addRecoveredItem(org.activebpel.rt.bpel.server.engine.recovery.recovered.IAeRecoveredItem)
     */
    public void addRecoveredItem(IAeRecoveredItem aRecoveredItem) throws AeRecoveryConflictingRequestException

@@ -25,7 +25,11 @@ import org.activebpel.rt.bpel.def.visitors.IAeDefVisitor;
  */
 public class AeActivityFlowDef extends AeActivityDef implements IAeMultipleActivityContainerDef
 {
-   /** The list of activities in the flow. */
+   /**
+     * 
+     */
+    private static final long serialVersionUID = 55963937468851520L;
+/** The list of activities in the flow. */
    private List mActivities = new ArrayList();  // Will always be at least one
    /** Container used to store links for Flow. */
    private AeLinksDef mLinks;

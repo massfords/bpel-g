@@ -19,7 +19,11 @@ import org.activebpel.rt.bpel.def.visitors.IAeDefVisitor;
  */
 public class AeForEachBranchesDef extends AeExpressionBaseDef
 {
-   /** true limits the completion count to scopes that completed normally */
+   /**
+     * 
+     */
+    private static final long serialVersionUID = -1296760189458241709L;
+/** true limits the completion count to scopes that completed normally */
    private boolean mCountCompletedBranchesOnly = false;
    
    /**

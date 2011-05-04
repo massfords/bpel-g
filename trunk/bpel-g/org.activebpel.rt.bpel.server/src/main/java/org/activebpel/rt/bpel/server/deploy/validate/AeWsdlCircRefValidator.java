@@ -130,7 +130,11 @@ public class AeWsdlCircRefValidator implements IAePredeploymentValidator
     */
    static class AeCircularRefException extends Exception
    {
-      /** The offending import location */
+      /**
+     * 
+     */
+    private static final long serialVersionUID = 1592449269844957157L;
+    /** The offending import location */
       private String mCircularRef;
 
       /**

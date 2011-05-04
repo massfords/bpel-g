@@ -18,6 +18,11 @@ import org.activebpel.rt.bpel.def.visitors.IAeDefVisitor;
 public class AeActivityRepeatUntilDef extends AeActivityWhileDef
 {
    /**
+     * 
+     */
+    private static final long serialVersionUID = 6086587087261386528L;
+
+/**
     * Default c'tor.
     */
    public AeActivityRepeatUntilDef()

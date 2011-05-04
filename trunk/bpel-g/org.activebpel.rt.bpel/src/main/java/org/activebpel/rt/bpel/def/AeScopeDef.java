@@ -24,7 +24,11 @@ public class AeScopeDef extends AeNamedDef implements IAeSingleActivityContainer
       IAeVariablesParentDef, IAeFaultHandlersParentDef, IAeCompensationHandlerParentDef,
       IAeEventHandlersParentDef, IAeTerminationHandlerParentDef
 {
-   /** contains events and alarms */
+   /**
+     * 
+     */
+    private static final long serialVersionUID = 8447417650049965452L;
+/** contains events and alarms */
    private AeEventHandlersDef mEventHandlers;
    /** the single child activity for the scope */
    private AeActivityDef mActivity;

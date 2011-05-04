@@ -19,7 +19,11 @@ import org.activebpel.rt.util.AeDate;
  */
 public class AeListingFilter implements IAeListingFilter, Serializable
 {
-   /** The maximum set of results to be returned by this call, 0 is unlimited */
+   /**
+     * 
+     */
+    private static final long serialVersionUID = 5126642668733031818L;
+/** The maximum set of results to be returned by this call, 0 is unlimited */
    private int mMaxReturn;
    /** The row number to start fetching results if a max return size is specified. */
    private int mListStart;

@@ -28,7 +28,11 @@ import org.activebpel.rt.util.AeUtil;
  */
 public class AeAttachmentDownloadServlet extends HttpServlet
 {
-   public static final String DEFAULT_CONTENT_TYPE = "application/octet-stream"; //$NON-NLS-1$
+   /**
+     * 
+     */
+    private static final long serialVersionUID = 8723141806706014007L;
+public static final String DEFAULT_CONTENT_TYPE = "application/octet-stream"; //$NON-NLS-1$
    private static final String HANDLER_CLASS_PARAMETER = "handler.class"; //$NON-NLS-1$
 
    /**

@@ -19,7 +19,11 @@ import org.activebpel.rt.bpel.def.visitors.IAeDefVisitor;
  */
 public class AeActivityThrowDef extends AeActivityDef
 {
-   /** fault name for the throw */
+   /**
+     * 
+     */
+    private static final long serialVersionUID = -1218508980800868436L;
+/** fault name for the throw */
    private QName mFaultName;
    /** name of variable for throw */
    private String mFaultVariable;

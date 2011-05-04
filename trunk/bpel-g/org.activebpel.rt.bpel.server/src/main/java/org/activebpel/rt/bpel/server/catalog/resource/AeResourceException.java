@@ -17,6 +17,11 @@ import org.activebpel.rt.AeException;
 public class AeResourceException extends AeException
 {
    /**
+     * 
+     */
+    private static final long serialVersionUID = -3026354900843508505L;
+
+/**
     * Construct a resource excetpion with the passed info.
     * @param aInfo
     */

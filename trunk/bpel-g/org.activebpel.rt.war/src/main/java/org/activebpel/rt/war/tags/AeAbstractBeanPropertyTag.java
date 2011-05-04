@@ -23,7 +23,11 @@ import org.activebpel.rt.war.AeMessages;
  */
 abstract public class AeAbstractBeanPropertyTag extends AeAbstractResourceTag
 {
-   /** property we're going to read from the bean */
+   /**
+     * 
+     */
+    private static final long serialVersionUID = -7106472673156542961L;
+/** property we're going to read from the bean */
    private String mProperty;
    /** name of the bean */
    private String mName;

@@ -739,6 +739,11 @@ public class AeVariable implements IAeVariable, IAeCopyFromParent, Cloneable
    protected class AeVariableAttachmentContainer extends AeAttachmentContainer
    {
       /**
+     * 
+     */
+    private static final long serialVersionUID = 7053516551067476913L;
+
+    /**
        * Constructs an empty container.
        */
       public AeVariableAttachmentContainer()

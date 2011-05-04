@@ -32,6 +32,11 @@ import org.w3c.dom.Element;
 public class AeXPathReceiveHandler extends AeXPathHandler
 {
    /**
+     * 
+     */
+    private static final long serialVersionUID = 3202944164468980074L;
+
+/**
     * @see org.apache.axis.Handler#invoke(org.apache.axis.MessageContext)
     */
    public void invoke(MessageContext aMsgContext) throws AxisFault

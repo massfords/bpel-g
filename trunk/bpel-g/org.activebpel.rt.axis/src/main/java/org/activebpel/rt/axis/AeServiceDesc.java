@@ -29,7 +29,12 @@ import org.apache.axis.encoding.TypeMappingRegistry;
  */
 public class AeServiceDesc implements ServiceDesc
 {
-   /** The name of this service */
+   /**
+     * 
+     */
+    private static final long serialVersionUID = -38555408231532414L;
+
+/** The name of this service */
    private String mName;
 
    /** The documentation of this service */

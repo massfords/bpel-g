@@ -23,7 +23,11 @@ import org.activebpel.rt.war.AeMessages;
  */
 public class AeRequestParamTag extends TagSupport
 {
-   /** The key value for the request parameter. */
+   /**
+     * 
+     */
+    private static final long serialVersionUID = 4105228777078652399L;
+/** The key value for the request parameter. */
    protected String mParameterName;
 
    /**

@@ -23,7 +23,11 @@ import org.activebpel.rt.message.AeMessagePartsMap;
  */
 public class AePartnerLinkDelegate implements IAeCorrelationsParentDef, Serializable
 {
-   /** partner link */
+   /**
+     * 
+     */
+    private static final long serialVersionUID = -3001253453202003787L;
+/** partner link */
    private String mPartnerLink;
    /** port type.*/
    private QName mPortType;

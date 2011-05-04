@@ -26,7 +26,12 @@ import org.activebpel.rt.util.AeUtil;
  */
 public abstract class AeAbstractResourceTag extends BodyTagSupport
 {
-   private static final String NOT_PRESENT = "none"; //$NON-NLS-1$
+   /**
+     * 
+     */
+    private static final long serialVersionUID = -5719968890312472049L;
+
+private static final String NOT_PRESENT = "none"; //$NON-NLS-1$
    
    /** Collection of bundles based on locale */
    protected static Hashtable sBundleTable = new Hashtable();

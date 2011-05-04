@@ -18,7 +18,11 @@ import org.activebpel.rt.bpel.def.visitors.IAeDefVisitor;
  */
 public class AeMessageExchangeDef extends AeBaseDef
 {
-   /** The message exchange's 'name' attribute. */
+   /**
+     * 
+     */
+    private static final long serialVersionUID = -6632540620542542L;
+/** The message exchange's 'name' attribute. */
    private String mName;
 
    /**

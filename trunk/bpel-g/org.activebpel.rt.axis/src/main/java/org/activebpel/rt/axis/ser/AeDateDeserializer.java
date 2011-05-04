@@ -20,6 +20,11 @@ import org.apache.axis.encoding.ser.SimpleDeserializer;
 public class AeDateDeserializer extends SimpleDeserializer
 {
    /**
+     * 
+     */
+    private static final long serialVersionUID = 7137452886177181257L;
+
+/**
     * The Deserializer is constructed with the xmlType and javaType
     */
    public AeDateDeserializer(Class javaType, QName xmlType)

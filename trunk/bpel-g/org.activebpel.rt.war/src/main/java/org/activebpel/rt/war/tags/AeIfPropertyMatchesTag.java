@@ -24,7 +24,11 @@ import org.activebpel.rt.war.AeMessages;
  */
 public class AeIfPropertyMatchesTag extends AeAbstractBeanPropertyTag
 {
-   /** The value to evaluate against. */
+   /**
+     * 
+     */
+    private static final long serialVersionUID = 1907626224173510505L;
+/** The value to evaluate against. */
    protected String mValue;
    /** The return type of the bean property. */
    protected Class mClassType;

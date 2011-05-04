@@ -26,6 +26,11 @@ import org.w3c.dom.Node;
 public class AeXpathExistTag extends AeAbstractXpathSelectionTag
 {
    /**
+     * 
+     */
+    private static final long serialVersionUID = -4374301473266165322L;
+
+/**
     * @see javax.servlet.jsp.tagext.BodyTagSupport#doStartTag()
     */
    public int doStartTag() throws JspException

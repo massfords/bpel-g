@@ -19,6 +19,11 @@ public class AeRegistrationResponse extends AeContextBase implements IAeRegistra
 {
 
    /**
+     * 
+     */
+    private static final long serialVersionUID = -3294981009242005306L;
+
+/**
     * Default constructor.
     */
    public AeRegistrationResponse()

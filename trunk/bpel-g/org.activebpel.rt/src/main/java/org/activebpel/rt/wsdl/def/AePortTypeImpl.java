@@ -17,7 +17,11 @@ import javax.xml.namespace.QName;
  */
 public class AePortTypeImpl implements IAePortType, IAeBPELExtendedWSDLConst
 {
-   // The name of this PortType
+   /**
+     * 
+     */
+    private static final long serialVersionUID = 6000694968484997495L;
+// The name of this PortType
    private QName mQName;
    
    /**

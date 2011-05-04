@@ -18,7 +18,11 @@ import javax.xml.namespace.QName;
  */
 public class AeBreakpointInstanceDetail implements Serializable
 {
-   /** name of the process */
+   /**
+     * 
+     */
+    private static final long serialVersionUID = 8236027627006956801L;
+/** name of the process */
    private QName mProcessName;
    /** node path of this breakpoint */
    private String mNodePath;

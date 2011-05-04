@@ -21,7 +21,11 @@ import org.activebpel.rt.wsdl.def.IAeRole;
  */
 public class AePartnerLinkDef extends AeNamedDef
 {
-   /** The partner link type name. */
+   /**
+     * 
+     */
+    private static final long serialVersionUID = -8088234041577539129L;
+/** The partner link type name. */
    private QName mPartnerLinkTypeName;
    /** The my role. */
    private String mMyRole;

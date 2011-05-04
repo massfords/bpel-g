@@ -17,6 +17,11 @@ import org.activebpel.rt.bpel.AeMessages;
 public class AeUnmatchedRequestException extends AeCorrelationViolationException
 {
    /**
+     * 
+     */
+    private static final long serialVersionUID = -3257143956975679077L;
+
+/**
     * Ctor takes namespace for the bpel fault
     * @param aNamespace
     */

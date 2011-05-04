@@ -23,6 +23,11 @@ public class AeIfPropertyNotMatchesTag extends AeIfPropertyMatchesTag
 {
 
    /**
+     * 
+     */
+    private static final long serialVersionUID = -8086873932321804093L;
+
+/**
     * Returns true of the string value of the actual argument does not match the tag value.
     * @param aActualValue property object to compared to
     * @return true if property does not matche the value.

@@ -19,7 +19,11 @@ import org.activebpel.rt.xml.AeQName;
  */
 public class AeQNamePropertyTag extends AeAbstractBeanPropertyTag
 {
-   /** part of the qname that we're reading, either "uri" or "local" */
+   /**
+     * 
+     */
+    private static final long serialVersionUID = 8007813652572136606L;
+/** part of the qname that we're reading, either "uri" or "local" */
    protected String mPart;
    
    /**

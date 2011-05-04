@@ -31,7 +31,11 @@ import org.activebpel.rt.util.AeUtil;
  */
 public class AeSetPropertyTag extends AeAbstractBeanPropertyTag
 {
-   /** Name of the param to read from the request */
+   /**
+     * 
+     */
+    private static final long serialVersionUID = 4803266339158935104L;
+/** Name of the param to read from the request */
    private String mParam;
    /** Value attribute. */
    private String mValue;

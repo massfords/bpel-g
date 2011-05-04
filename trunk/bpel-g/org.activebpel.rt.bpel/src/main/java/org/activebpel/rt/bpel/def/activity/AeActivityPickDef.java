@@ -26,6 +26,11 @@ import org.activebpel.rt.bpel.def.visitors.IAeDefVisitor;
 public class AeActivityPickDef extends AeActivityDef implements IAeMessageContainerDef, IAeActivityCreateInstanceDef
 {
    /**
+     * 
+     */
+    private static final long serialVersionUID = 8177057775951556549L;
+
+/**
     * createInstance attribute.
     */
    private boolean mCreateInstance;

@@ -18,7 +18,11 @@ import java.util.ArrayList;
  */
 public class AeExpressionSpecStrategyKey extends AeSpecStrategyKey
 {
-   /** The query's variable ref. */
+   /**
+     * 
+     */
+    private static final long serialVersionUID = 2121717434433538453L;
+/** The query's variable ref. */
    private String mVariableName;
    /** The query's (optional) part. */
    private String mPartName;

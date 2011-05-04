@@ -26,7 +26,12 @@ import org.activebpel.rt.util.AeUtil;
 public class AePropertyAliasImpl
    implements ExtensibilityElement, IAePropertyAlias, IAeBPELExtendedWSDLConst
 {
-   /** The QName of this extension element. */
+   /**
+     * 
+     */
+    private static final long serialVersionUID = 2197713087784258798L;
+
+/** The QName of this extension element. */
    private QName mElementType;
 
    /** Indicates if the semantics of this extension are required. */

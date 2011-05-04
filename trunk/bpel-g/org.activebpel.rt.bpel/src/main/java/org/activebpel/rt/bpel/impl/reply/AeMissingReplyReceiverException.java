@@ -18,6 +18,11 @@ import org.activebpel.rt.bpel.AeMessages;
 public class AeMissingReplyReceiverException extends AeBusinessProcessException
 {  
    /**
+     * 
+     */
+    private static final long serialVersionUID = 440645650352821956L;
+
+/**
     * Constructs the exception with reply id.
     * @param aReplyId
     */

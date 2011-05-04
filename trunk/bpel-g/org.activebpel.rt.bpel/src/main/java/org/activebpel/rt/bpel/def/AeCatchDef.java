@@ -19,7 +19,11 @@ import org.activebpel.rt.util.AeUtil;
  */
 public class AeCatchDef extends AeSingleActivityParentBaseDef implements IAeSingleActivityContainerDef, IAeVariableParentDef, IAeFCTHandlerDef
 {
-   /** The 'faultName' attribute. */
+   /**
+     * 
+     */
+    private static final long serialVersionUID = 2154097406120719205L;
+/** The 'faultName' attribute. */
    private QName mFaultName;
    /** The 'faultVariable' attribute. */
    private String mFaultVariable;

@@ -23,7 +23,12 @@ import org.apache.axis.encoding.SerializerFactory;
  */
 public class AeRPCEncodedSerializerFactory implements SerializerFactory
 {
-   /** Supported mechanisms is singleton list for axis only deserialization */
+   /**
+     * 
+     */
+    private static final long serialVersionUID = 1088250809846876228L;
+
+/** Supported mechanisms is singleton list for axis only deserialization */
    private static final List SUPPORTED_MECHANISMS = Collections.singletonList(Constants.AXIS_SAX);
 
    /** context contains the Schemas needed to serialize the Document correctly */

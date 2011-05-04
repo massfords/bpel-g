@@ -22,6 +22,11 @@ public class AeBpelChoiceContainerFigure extends AeContainerFigure
 {
 
    /**
+     * 
+     */
+    private static final long serialVersionUID = 3218827529794545007L;
+
+/**
     * Constructs the container with the given name.
     * @param aBpelName
     */

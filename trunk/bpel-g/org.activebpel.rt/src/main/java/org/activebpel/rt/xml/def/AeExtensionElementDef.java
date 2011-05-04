@@ -25,7 +25,11 @@ import org.w3c.dom.Element;
  */
 public class AeExtensionElementDef extends AeBaseXmlDef implements IAeExtensionObjectParentDef
 {
-   /** the actual dom element */
+   /**
+     * 
+     */
+    private static final long serialVersionUID = -1786366702116774593L;
+/** the actual dom element */
    private Element mExtensionElement;
    /** any accumulated comments */
    private String mComments;

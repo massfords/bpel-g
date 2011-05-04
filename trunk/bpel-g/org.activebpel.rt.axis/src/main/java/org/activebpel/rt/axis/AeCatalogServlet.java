@@ -25,6 +25,11 @@ import org.activebpel.rt.util.AeUtil;
 public class AeCatalogServlet extends HttpServlet
 {
    /**
+     * 
+     */
+    private static final long serialVersionUID = 1749211963155528885L;
+
+/**
     * Handle POST request for WSDL catalog entry. 
     * @see javax.servlet.http.HttpServlet#doPost(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
     */

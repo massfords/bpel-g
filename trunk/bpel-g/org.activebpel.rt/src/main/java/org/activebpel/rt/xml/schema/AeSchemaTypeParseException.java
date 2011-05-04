@@ -17,6 +17,11 @@ package org.activebpel.rt.xml.schema;
 public class AeSchemaTypeParseException extends RuntimeException
 {
    /**
+     * 
+     */
+    private static final long serialVersionUID = -5042435978903385887L;
+
+/**
     * Constructor.
     */
    public AeSchemaTypeParseException(String aMessage)

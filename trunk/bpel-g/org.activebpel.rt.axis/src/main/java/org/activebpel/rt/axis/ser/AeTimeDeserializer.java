@@ -19,6 +19,11 @@ import org.activebpel.rt.xml.schema.AeSchemaTime;
 public class AeTimeDeserializer extends AeAbstractSchemaTypeDeserializer
 {
    /**
+     * 
+     */
+    private static final long serialVersionUID = 289283105570820366L;
+
+/**
     * The Deserializer is constructed with the xmlType and javaType
     */
    public AeTimeDeserializer(Class javaType, QName xmlType)

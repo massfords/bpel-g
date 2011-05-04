@@ -15,6 +15,11 @@ package org.activebpel.rt.bpel.def.io.writers;
 public class AeBpelWriterException extends RuntimeException
 {
    /**
+     * 
+     */
+    private static final long serialVersionUID = 8131485659631576048L;
+
+/**
     * @param message
     */
    public AeBpelWriterException(String message)

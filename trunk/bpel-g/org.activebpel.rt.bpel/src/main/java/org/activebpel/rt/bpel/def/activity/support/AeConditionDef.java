@@ -19,6 +19,11 @@ import org.activebpel.rt.bpel.def.visitors.IAeDefVisitor;
 public class AeConditionDef extends AeExpressionBaseDef
 {
    /**
+     * 
+     */
+    private static final long serialVersionUID = 3871818836802578211L;
+
+/**
     * Default c'tor.
     */
    public AeConditionDef()

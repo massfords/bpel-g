@@ -20,7 +20,11 @@ import org.activebpel.rt.bpel.def.visitors.IAeDefVisitor;
  */
 public class AeTargetsDef extends AeBaseContainer
 {
-   /** The optional joinCondition child. */
+   /**
+     * 
+     */
+    private static final long serialVersionUID = -4301807529349695524L;
+/** The optional joinCondition child. */
    private AeJoinConditionDef mJoinCondition;
 
    /**

@@ -18,6 +18,11 @@ public class AeAttachmentException extends AeException
 {
 
    /**
+     * 
+     */
+    private static final long serialVersionUID = 567548431918285398L;
+
+/**
     * Default constructor.
     */
    public AeAttachmentException()

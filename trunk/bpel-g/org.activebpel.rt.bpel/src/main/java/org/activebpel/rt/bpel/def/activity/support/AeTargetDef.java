@@ -17,7 +17,11 @@ import org.activebpel.rt.bpel.def.visitors.IAeDefVisitor;
  */
 public class AeTargetDef extends AeBaseDef
 {
-   // persistent attributes of the definition
+   /**
+     * 
+     */
+    private static final long serialVersionUID = -2638884439914650804L;
+// persistent attributes of the definition
    private String mLinkName;
 
    /**

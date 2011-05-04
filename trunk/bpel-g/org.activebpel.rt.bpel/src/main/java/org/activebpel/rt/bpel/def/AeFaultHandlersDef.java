@@ -19,7 +19,11 @@ import org.activebpel.rt.bpel.def.visitors.IAeDefVisitor;
 public class AeFaultHandlersDef extends AeBaseContainer 
    implements IAeCatchParentDef, IAeCompensateParentDef, IAeUncrossableLinkBoundary
 {
-   /** Default fault handler - <code>catchAll</code> */
+   /**
+     * 
+     */
+    private static final long serialVersionUID = 5291422823550320642L;
+/** Default fault handler - <code>catchAll</code> */
    private AeCatchAllDef mCatchAllDef;
 
    /**

@@ -20,6 +20,10 @@ import org.activebpel.rt.util.AeUtil;
 public class AeContextBase implements Serializable
 {
    /**
+     * 
+     */
+    private static final long serialVersionUID = 8557647981628942510L;
+/**
     * Properties.
     */
    private Properties mProperties = null;

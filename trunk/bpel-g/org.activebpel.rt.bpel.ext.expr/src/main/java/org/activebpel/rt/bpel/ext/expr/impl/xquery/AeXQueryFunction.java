@@ -38,7 +38,11 @@ import org.activebpel.rt.bpel.impl.expr.AeExpressionException;
  */
 public class AeXQueryFunction extends FunctionCall
 {
-   /** The generic function to delegate work to. */
+   /**
+     * 
+     */
+    private static final long serialVersionUID = -7195582690516514793L;
+/** The generic function to delegate work to. */
    private IAeFunction mFunction;
    /** The expression context to use during function execution. */
    private IAeFunctionExecutionContext mFunctionExecutionContext;
@@ -127,7 +131,12 @@ public class AeXQueryFunction extends FunctionCall
       }
       catch (Throwable fe)
       {
-         throw new XPathException(fe.getLocalizedMessage(), fe) {};
+         throw new XPathException(fe.getLocalizedMessage(), fe) {
+
+            /**
+             * 
+             */
+            private static final long serialVersionUID = 4427507312359055336L;};
       }
    }
 

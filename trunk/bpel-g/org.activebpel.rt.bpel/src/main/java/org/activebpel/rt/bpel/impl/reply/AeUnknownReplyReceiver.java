@@ -19,6 +19,11 @@ public class AeUnknownReplyReceiver extends AeBusinessProcessException
 {
 
    /**
+     * 
+     */
+    private static final long serialVersionUID = 8180806993059621609L;
+
+/**
     * Default ctor.
     */
    public AeUnknownReplyReceiver()

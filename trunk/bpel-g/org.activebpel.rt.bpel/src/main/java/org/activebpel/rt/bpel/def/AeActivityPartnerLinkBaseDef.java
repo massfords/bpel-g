@@ -24,7 +24,11 @@ import org.activebpel.rt.message.AeMessagePartsMap;
 public abstract class AeActivityPartnerLinkBaseDef extends AeActivityDef implements
       IAePartnerLinkActivityDef, IAeCorrelationsParentDef
 {
-   /** delegate which handle the partner link and correlation information. */
+   /**
+     * 
+     */
+    private static final long serialVersionUID = 3930397707726410228L;
+/** delegate which handle the partner link and correlation information. */
    private AePartnerLinkDelegate mDelegate = new AePartnerLinkDelegate();
    
    /**

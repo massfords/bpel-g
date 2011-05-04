@@ -23,7 +23,11 @@ import org.apache.axis.encoding.DeserializerFactory;
  */
 public class AeRPCLiteralDeserializerFactory implements DeserializerFactory
 {
-   /** Supported mechanisms is singleton list for axis only deserialization */
+   /**
+     * 
+     */
+    private static final long serialVersionUID = -5100621829370176764L;
+/** Supported mechanisms is singleton list for axis only deserialization */
    private static final List SUPPORTED_MECHANISMS = Collections.singletonList(Constants.AXIS_SAX);
    /** context provides access to the schema types that we need to handle deserialization */
    private IAeTypesContext mTypesContext;

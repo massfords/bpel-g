@@ -19,7 +19,11 @@ import org.activebpel.rt.bpel.def.visitors.IAeDefVisitor;
  */
 public class AeElseIfDef extends AeElseDef implements IAeConditionParentDef
 {
-   /** The elseif's condition. */
+   /**
+     * 
+     */
+    private static final long serialVersionUID = -5301690943976343313L;
+/** The elseif's condition. */
    private AeConditionDef mCondition;
 
    /**

@@ -24,7 +24,11 @@ import org.activebpel.rt.bpeladmin.war.graph.ui.figure.AeGraphFigure;
  */
 public class AeGraphContainer extends AeGraphFigure
 {
-   /** Controller factory */
+   /**
+     * 
+     */
+    private static final long serialVersionUID = 3801063817740040404L;
+/** Controller factory */
    private IAeGraphControllerFactory mControllerFactory = null;
    /** The root or top level controller */
    private IAeGraphController mRootController = null;

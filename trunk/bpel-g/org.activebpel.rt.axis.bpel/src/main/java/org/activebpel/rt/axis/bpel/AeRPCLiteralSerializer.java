@@ -25,6 +25,11 @@ import org.xml.sax.Attributes;
 public class AeRPCLiteralSerializer extends ElementSerializer
 {
    /**
+     * 
+     */
+    private static final long serialVersionUID = -701865705230521418L;
+
+/**
     * Constructor
     */
    public AeRPCLiteralSerializer()

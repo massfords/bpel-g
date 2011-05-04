@@ -21,7 +21,11 @@ import org.activebpel.rt.util.AeUtil;
  */
 public class AeComponent extends Container
 {
-   /** Preferred sized of the component */
+   /**
+     * 
+     */
+    private static final long serialVersionUID = -1003820368596621231L;
+/** Preferred sized of the component */
    private Dimension mPreferredSize = null;
    
    /** 

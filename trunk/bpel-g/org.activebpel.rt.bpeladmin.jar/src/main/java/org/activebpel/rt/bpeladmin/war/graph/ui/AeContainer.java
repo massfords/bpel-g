@@ -22,6 +22,11 @@ import java.awt.Point;
 public class AeContainer extends AeComponent
 {
    /**
+     * 
+     */
+    private static final long serialVersionUID = -2007403598459452086L;
+
+/**
     * Default constructor.
     */
    public AeContainer()

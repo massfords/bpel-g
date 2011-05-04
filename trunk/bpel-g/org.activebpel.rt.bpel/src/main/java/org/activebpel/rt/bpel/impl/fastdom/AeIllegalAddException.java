@@ -16,6 +16,11 @@ package org.activebpel.rt.bpel.impl.fastdom;
 public class AeIllegalAddException extends RuntimeException
 {
    /**
+     * 
+     */
+    private static final long serialVersionUID = 5061652256740874764L;
+
+/**
     * Default constructor.
     */
    public AeIllegalAddException()

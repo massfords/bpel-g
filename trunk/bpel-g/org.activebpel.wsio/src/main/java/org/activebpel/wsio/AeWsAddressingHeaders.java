@@ -21,7 +21,11 @@ import javax.xml.namespace.QName;
  */
 public class AeWsAddressingHeaders implements IAeWsAddressingHeaders
 {
-   /** Action URI */
+   /**
+     * 
+     */
+    private static final long serialVersionUID = 2519402239643483982L;
+/** Action URI */
    private String mAction;
    /** Message ID URI */
    private String mMessageId;

@@ -33,7 +33,12 @@ import org.activebpel.rt.war.AeMessages;
  */
 public class AeIndexedPropertyTag extends AeAbstractBeanPropertyTag
 {
-   private static final String INDEX = "Index"; //$NON-NLS-1$
+   /**
+     * 
+     */
+    private static final long serialVersionUID = -4278311596869283133L;
+
+private static final String INDEX = "Index"; //$NON-NLS-1$
 
    /** The scriptable object name. */
    protected String mId;

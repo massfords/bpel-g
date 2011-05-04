@@ -16,6 +16,10 @@ public class AeCoordinationNotFoundException extends AeCoordinationException
 {
 
    /**
+     * 
+     */
+    private static final long serialVersionUID = 8583803109364367829L;
+/**
     * Coordination lookup id or key..
     */
    private String mCoordinationIdKey;

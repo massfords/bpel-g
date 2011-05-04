@@ -18,6 +18,11 @@ import org.activebpel.rt.AeException;
 public class AeUnresolvableException extends AeException
 {
    /**
+     * 
+     */
+    private static final long serialVersionUID = -6570080275035743365L;
+
+/**
     * Constructor.
     * @param aInfo
     */

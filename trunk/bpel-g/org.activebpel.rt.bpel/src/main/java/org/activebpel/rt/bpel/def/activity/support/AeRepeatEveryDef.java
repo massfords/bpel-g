@@ -18,6 +18,11 @@ import org.activebpel.rt.bpel.def.visitors.IAeDefVisitor;
 public class AeRepeatEveryDef extends AeForDef
 {
    /**
+     * 
+     */
+    private static final long serialVersionUID = 4711215155231474012L;
+
+/**
     * Default c'tor.
     */
    public AeRepeatEveryDef()

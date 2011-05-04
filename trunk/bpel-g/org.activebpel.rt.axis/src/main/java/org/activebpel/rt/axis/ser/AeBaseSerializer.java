@@ -26,6 +26,11 @@ import org.xml.sax.helpers.AttributesImpl;
 public class AeBaseSerializer extends SimpleSerializer
 {
    /**
+     * 
+     */
+    private static final long serialVersionUID = 1019308524466270988L;
+
+/**
     * C'tor.
     */
    public AeBaseSerializer(Class javaType, QName xmlType)

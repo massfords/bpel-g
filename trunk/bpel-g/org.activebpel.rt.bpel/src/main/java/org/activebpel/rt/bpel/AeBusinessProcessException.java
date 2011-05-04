@@ -17,6 +17,11 @@ import org.activebpel.rt.AeException;
 public class AeBusinessProcessException extends AeException
 {
    /**
+     * 
+     */
+    private static final long serialVersionUID = -7086163749689629832L;
+
+/**
     * Default constructor. 
     */
    public AeBusinessProcessException()

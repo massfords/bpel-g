@@ -28,6 +28,11 @@ public class AeSimpleSerializer extends SimpleSerializer
 {
 
    /**
+     * 
+     */
+    private static final long serialVersionUID = -2606528631355709790L;
+
+/**
     * Ctor
     * 
     * @param javaType

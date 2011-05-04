@@ -177,7 +177,12 @@ public class AeMutex
     */
    protected static class AeMutexStackTrace extends Throwable
    {
-      public AeMutexStackTrace(String aMessage)
+      /**
+     * 
+     */
+    private static final long serialVersionUID = -1993380016811672255L;
+
+    public AeMutexStackTrace(String aMessage)
       {
          super(aMessage);
       }

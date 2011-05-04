@@ -16,7 +16,12 @@ import org.activebpel.rt.bpel.AeBusinessProcessException;
  */
 public class AeStorageException extends AeBusinessProcessException
 {
-   /** Constructor. */
+   /**
+     * 
+     */
+    private static final long serialVersionUID = -5462912139228579723L;
+
+/** Constructor. */
    public AeStorageException(String aInfo)
    {
       super(aInfo);

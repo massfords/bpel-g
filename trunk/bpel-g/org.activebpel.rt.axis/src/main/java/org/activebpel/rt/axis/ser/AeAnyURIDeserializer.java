@@ -20,6 +20,11 @@ import org.apache.axis.encoding.ser.SimpleDeserializer;
 public class AeAnyURIDeserializer extends SimpleDeserializer
 {
    /**
+     * 
+     */
+    private static final long serialVersionUID = 3277862749609949953L;
+
+/**
     * The Deserializer is constructed with the xmlType and javaType
     */
    public AeAnyURIDeserializer(Class javaType, QName xmlType)

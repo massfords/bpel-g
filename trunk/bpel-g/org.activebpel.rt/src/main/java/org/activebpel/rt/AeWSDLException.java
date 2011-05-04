@@ -15,6 +15,11 @@ package org.activebpel.rt;
 public class AeWSDLException extends AeException
 {
   /**
+     * 
+     */
+    private static final long serialVersionUID = -2004986787387364838L;
+
+/**
    * Constructor for AeWSDLExcepton.
    */
   public AeWSDLException()

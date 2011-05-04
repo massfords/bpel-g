@@ -52,7 +52,11 @@ import org.activebpel.rt.wsdl.def.IAePropertyAlias;
  */
 public class AeProcessDef extends AeScopeDef implements Serializable
 {
-   /** The namespace of the process (may be bpel 1.1 or 2.0). */
+   /**
+     * 
+     */
+    private static final long serialVersionUID = -5894622749487897854L;
+/** The namespace of the process (may be bpel 1.1 or 2.0). */
    private String mNamespace;
    /** The target namespace of the process. */
    private String mTargetNamespace;

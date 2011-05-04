@@ -21,7 +21,11 @@ import org.activebpel.rt.bpel.def.visitors.IAeDefVisitor;
  */
 public class AeQueryDef extends AeBaseDef implements IAeQueryDef
 {
-   /** The query language. */
+   /**
+     * 
+     */
+    private static final long serialVersionUID = -932345675803601079L;
+/** The query language. */
    private String mQueryLanguage;
    /** The query. */
    private String mQuery;

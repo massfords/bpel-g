@@ -20,6 +20,11 @@ public class AeSimpleSerializerFactory extends BaseSerializerFactory
 {
 
    /**
+     * 
+     */
+    private static final long serialVersionUID = 1798453046873645218L;
+
+/**
     * Creates a serializer factory with the given xml and java types.
     * 
     * @param aXmlType

@@ -22,6 +22,11 @@ import org.apache.axis.encoding.ser.SimpleDeserializer;
 public abstract class AeAbstractSchemaTypeDeserializer extends SimpleDeserializer
 {
    /**
+     * 
+     */
+    private static final long serialVersionUID = 3551678977876913424L;
+
+/**
     * The Deserializer is constructed with the xmlType and javaType
     */
    public AeAbstractSchemaTypeDeserializer(Class javaType, QName xmlType)

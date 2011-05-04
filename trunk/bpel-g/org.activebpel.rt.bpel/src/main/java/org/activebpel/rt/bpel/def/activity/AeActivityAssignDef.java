@@ -23,7 +23,11 @@ import org.activebpel.rt.bpel.def.visitors.IAeDefVisitor;
  */
 public class AeActivityAssignDef extends AeActivityDef
 {
-   /** The assign's copy def children. */
+   /**
+     * 
+     */
+    private static final long serialVersionUID = 7211150756018400233L;
+/** The assign's copy def children. */
    private List mCopies = new ArrayList();
    /** The assign's extensibleAssign children. */
    private List mExtensibleAssigns = new ArrayList();

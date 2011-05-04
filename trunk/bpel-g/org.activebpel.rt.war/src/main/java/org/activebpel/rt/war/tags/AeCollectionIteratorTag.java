@@ -26,6 +26,10 @@ import javax.servlet.jsp.PageContext;
 public class AeCollectionIteratorTag extends AeAbstractBeanPropertyTag
 {
    /**
+     * 
+     */
+    private static final long serialVersionUID = -2136661796158468887L;
+/**
     * Collection iterator.
     */
    private Iterator mCollectionIterator = null;

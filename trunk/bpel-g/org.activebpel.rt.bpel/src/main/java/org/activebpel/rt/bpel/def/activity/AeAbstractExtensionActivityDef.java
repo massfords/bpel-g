@@ -24,7 +24,11 @@ import org.activebpel.rt.bpel.def.AeActivityDef;
  */
 public abstract class AeAbstractExtensionActivityDef extends AeActivityDef implements IAeExtensionActivityDef
 {
-   /** The activity's element name. */
+   /**
+     * 
+     */
+    private static final long serialVersionUID = -4613677423555493778L;
+/** The activity's element name. */
    private QName mElementName;
 
    /**

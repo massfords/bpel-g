@@ -23,6 +23,11 @@ import org.apache.axis.encoding.ser.BaseDeserializerFactory;
 public class AeBaseDeserializerFactory extends BaseDeserializerFactory
 {
    /**
+     * 
+     */
+    private static final long serialVersionUID = 7942635858729762977L;
+
+/**
     * Creates a deserializer factory with the given java type and xml type.
     */
    public AeBaseDeserializerFactory(Class aClass, QName xmlType, Class javaType)

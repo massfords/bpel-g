@@ -17,7 +17,11 @@ import org.activebpel.rt.bpel.def.visitors.IAeDefVisitor;
  */
 public class AeActivityCompensateScopeDef extends AeActivityCompensateDef
 {
-   /** The name of the scope to compensate (the value of the 'target' attribute). */
+   /**
+     * 
+     */
+    private static final long serialVersionUID = 3457033038309144216L;
+/** The name of the scope to compensate (the value of the 'target' attribute). */
    private String mTarget;  // Note: also models the BPEL 1.1 'scope' attribute of the 'compensate' activity.
 
    /**

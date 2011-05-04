@@ -21,6 +21,11 @@ import org.activebpel.rt.bpel.server.AeMessages;
 public class AeOperationNotImplementedException extends AeException
 {
    /**
+     * 
+     */
+    private static final long serialVersionUID = -8048770745915843658L;
+
+/**
     * Ctor
     * @param aService
     * @param aPortType

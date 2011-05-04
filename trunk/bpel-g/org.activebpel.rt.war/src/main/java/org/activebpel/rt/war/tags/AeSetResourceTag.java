@@ -17,7 +17,11 @@ import javax.servlet.jsp.JspException;
  */
 public class AeSetResourceTag extends AeAbstractBeanPropertyTag
 {
-   /** Key name. */
+   /**
+     * 
+     */
+    private static final long serialVersionUID = -2624227904606529178L;
+/** Key name. */
    private String mKey;
 
    /**

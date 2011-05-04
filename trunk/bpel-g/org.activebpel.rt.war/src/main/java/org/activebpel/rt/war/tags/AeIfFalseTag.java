@@ -19,6 +19,11 @@ import javax.servlet.jsp.JspException;
 public class AeIfFalseTag extends AeIfTrueTag
 {
    /**
+     * 
+     */
+    private static final long serialVersionUID = 3239767290461412155L;
+
+/**
     * @see javax.servlet.jsp.tagext.Tag#doStartTag()
     */
    public int doStartTag() throws JspException

@@ -22,6 +22,11 @@ import org.activebpel.rt.util.AeHTMLFormatter;
 public class AeJSStringFormatterTag extends AeAbstractPropertyFormatterTag
 {
    /**
+     * 
+     */
+    private static final long serialVersionUID = -5505898763080032312L;
+
+/**
     * Overrides method to convert a Java multi-line string into a JavaScript
     * compatible composite string.
     *

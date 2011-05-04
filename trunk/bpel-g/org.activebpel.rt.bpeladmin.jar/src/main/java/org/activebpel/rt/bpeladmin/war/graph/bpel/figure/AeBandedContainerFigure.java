@@ -23,6 +23,11 @@ public class AeBandedContainerFigure extends AeContainerFigure
 {
 
    /**
+     * 
+     */
+    private static final long serialVersionUID = 1883722046702481229L;
+
+/**
     * Constructs the container with the given name.
     * @param aName name of this component.
     */

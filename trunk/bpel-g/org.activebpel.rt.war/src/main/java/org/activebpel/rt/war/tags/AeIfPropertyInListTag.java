@@ -23,6 +23,11 @@ public class AeIfPropertyInListTag extends AeIfPropertyMatchesTag
 {
 
    /**
+     * 
+     */
+    private static final long serialVersionUID = 196598160167326259L;
+
+/**
     * Returns true if the string representation of <code>aActualValue</code> is in a given list of
     * comma separated strings.
     * @param aActualValue property object to compared to

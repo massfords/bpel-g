@@ -17,7 +17,11 @@ import org.activebpel.rt.bpel.def.visitors.IAeDefVisitor;
  */
 public class AeSourceDef extends AeBaseDef
 {
-   /** The 'linkName' attribute. */
+   /**
+     * 
+     */
+    private static final long serialVersionUID = -8022126210044815845L;
+/** The 'linkName' attribute. */
    private String mLinkName;
    /** The 'transitionCondition' child construct. */
    private AeTransitionConditionDef mTransitionConditionDef;

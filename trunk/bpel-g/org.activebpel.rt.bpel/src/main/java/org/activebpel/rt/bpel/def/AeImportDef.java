@@ -20,7 +20,11 @@ import org.activebpel.rt.wsdl.def.IAeBPELExtendedWSDLConst;
  */
 public class AeImportDef extends AeBaseDef
 {
-   /** The import's 'namespace' attribute. */
+   /**
+     * 
+     */
+    private static final long serialVersionUID = 4454316846197375614L;
+/** The import's 'namespace' attribute. */
    private String mNamespace;
    /** The import's 'location' attribute. */
    private String mLocation;

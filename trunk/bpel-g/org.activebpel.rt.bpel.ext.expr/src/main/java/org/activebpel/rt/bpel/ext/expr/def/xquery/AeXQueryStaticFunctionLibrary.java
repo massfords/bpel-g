@@ -22,7 +22,11 @@ import org.activebpel.rt.xml.IAeNamespaceContext;
  */
 public class AeXQueryStaticFunctionLibrary implements FunctionLibrary
 {
-   /** A namespace context. */
+   /**
+     * 
+     */
+    private static final long serialVersionUID = -1891437605537740600L;
+/** A namespace context. */
    private IAeNamespaceContext mNamespaceContext;
 
    /**

@@ -20,6 +20,11 @@ import org.activebpel.rt.util.AeUtil;
 public class AeCreateContextRequest extends AeContextBase implements IAeCreateContextRequest
 {
    /**
+     * 
+     */
+    private static final long serialVersionUID = -7292870861555678823L;
+
+/**
     * Default constructor.
     */
    public AeCreateContextRequest()

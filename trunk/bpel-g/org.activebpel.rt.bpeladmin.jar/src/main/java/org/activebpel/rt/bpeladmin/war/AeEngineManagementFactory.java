@@ -132,6 +132,11 @@ public class AeEngineManagementFactory {
     
     private static class DisconnectedFilter implements NotificationFilter {
 
+        /**
+         * 
+         */
+        private static final long serialVersionUID = -3923850504072222105L;
+
         @Override
         public boolean isNotificationEnabled(Notification aNotification) {
             return "jmx.remote.connection.closed".equals(aNotification.getType()) ||

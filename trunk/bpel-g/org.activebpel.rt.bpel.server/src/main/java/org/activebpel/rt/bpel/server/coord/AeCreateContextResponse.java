@@ -19,6 +19,10 @@ public class AeCreateContextResponse extends AeContextBase implements IAeCreateC
 {
 
    /**
+     * 
+     */
+    private static final long serialVersionUID = 6334563643784341580L;
+/**
     * Coordination context.
     */
    private IAeCoordinationContext mContext = null;

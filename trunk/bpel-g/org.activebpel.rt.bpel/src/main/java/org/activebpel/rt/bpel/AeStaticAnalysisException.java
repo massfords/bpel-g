@@ -18,6 +18,11 @@ package org.activebpel.rt.bpel;
 public class AeStaticAnalysisException extends AeBusinessProcessException
 {
    /**
+     * 
+     */
+    private static final long serialVersionUID = 272803481089437177L;
+
+/**
     * Creates a static analysis exception with the given message.
     * 
     * @param aMessage

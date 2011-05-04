@@ -17,6 +17,11 @@ import org.activebpel.rt.bpel.AeMessages;
 public class AeUninitializedVariableException extends AeBpelException
 {
    /**
+     * 
+     */
+    private static final long serialVersionUID = 1760137133999924473L;
+
+/**
     * Creates the exception with the proper namespace
     * @param aNamespace
     */

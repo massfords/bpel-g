@@ -23,7 +23,11 @@ import org.activebpel.rt.bpel.def.visitors.IAeDefVisitor;
  */
 public class AeActivitySequenceDef extends AeActivityDef implements IAeMultipleActivityContainerDef
 {
-   // standard elements of the activity definition
+   /**
+     * 
+     */
+    private static final long serialVersionUID = -7811933358756143930L;
+// standard elements of the activity definition
    private List mActivities = new ArrayList();
 
    /**

@@ -19,6 +19,11 @@ import org.activebpel.rt.xml.def.visitors.IAeBaseXmlDefVisitor;
 public abstract class AeBaseDef extends AeBaseXmlDef implements IAeBPELConstants
 {
    /**
+     * 
+     */
+    private static final long serialVersionUID = -349063609928249516L;
+
+/**
     * Default constructor
     */
    public AeBaseDef()

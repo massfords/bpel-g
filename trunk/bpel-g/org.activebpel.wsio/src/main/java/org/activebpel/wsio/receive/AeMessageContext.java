@@ -29,7 +29,11 @@ import org.w3c.dom.Element;
  */
 public class AeMessageContext implements IAeMessageContext
 {
-   // error constants
+   /**
+     * 
+     */
+    private static final long serialVersionUID = -1528522641504715136L;
+// error constants
    private static final String CANNOT_SET_SERVICENAME = "AeMessageContext.ERROR_2"; //$NON-NLS-1$
    private static final String CANNOT_SET_PROCESSNAME = "AeMessageContext.ERROR_1"; //$NON-NLS-1$
 

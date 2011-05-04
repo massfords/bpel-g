@@ -18,6 +18,11 @@ import org.activebpel.rt.bpel.def.visitors.IAeDefVisitor;
 public class AeActivityEmptyDef extends AeActivityDef
 {
    /**
+     * 
+     */
+    private static final long serialVersionUID = -1772129221702377857L;
+
+/**
     * Default constructor
     */
    public AeActivityEmptyDef()

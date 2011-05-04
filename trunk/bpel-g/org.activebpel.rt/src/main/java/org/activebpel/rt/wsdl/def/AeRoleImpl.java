@@ -16,7 +16,12 @@ package org.activebpel.rt.wsdl.def;
  */
 public class AeRoleImpl implements IAeRole, IAeBPELExtendedWSDLConst
 {
-   /** The name of this Role */
+   /**
+     * 
+     */
+    private static final long serialVersionUID = 7070323707500297297L;
+
+/** The name of this Role */
    private String mName;
 
    /** The port type for this role which has a 1 to 1 relationship */

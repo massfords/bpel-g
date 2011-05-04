@@ -25,7 +25,11 @@ import org.w3c.dom.Element;
  */
 public class AeExtendedMessageContext extends AeMessageContext implements IAeExtendedMessageContext
 {
-   private IAeDurableReplyInfo mDurableReplyInfo;
+   /**
+     * 
+     */
+    private static final long serialVersionUID = 6074529531967785258L;
+private IAeDurableReplyInfo mDurableReplyInfo;
    private Element mMappedHeaders;
    private String mTransportUrl;
    private String mEncodingStyle;

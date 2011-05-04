@@ -24,7 +24,11 @@ import org.activebpel.rt.util.AeUtil;
  */
 public class AeTextLabel extends AeComponent
 {
-   /** Text to be displayed. */
+   /**
+     * 
+     */
+    private static final long serialVersionUID = 3640656714706006795L;
+/** Text to be displayed. */
    private String mText = null;
    /** Ascent of the text based on the current font selection */
    private int mAscent;

@@ -57,7 +57,12 @@ import org.w3c.dom.Element;
  */
 public abstract class AeBpelHandler extends AeHandler implements IAePolicyConstants
 {
-   /** key for wsdl object added to the context */
+   /**
+     * 
+     */
+    private static final long serialVersionUID = 3892158413131072002L;
+
+/** key for wsdl object added to the context */
    protected static final String AE_CONTEXT_KEY_WSDL_OUTPUT = "ae.wsdl.output"; //$NON-NLS-1$
    
    /** Key for property which holds the process QName. */

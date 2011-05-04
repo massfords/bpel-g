@@ -19,7 +19,11 @@ import org.activebpel.rt.util.AeUtil;
  */
 public class AeSetNamespaceMappingTag extends AeAbstractXpathTag
 {
-   /** NS prefix. */
+   /**
+     * 
+     */
+    private static final long serialVersionUID = -7340703954585459481L;
+/** NS prefix. */
    private String mPrefix;
    /** NS uri */
    private String mUri;

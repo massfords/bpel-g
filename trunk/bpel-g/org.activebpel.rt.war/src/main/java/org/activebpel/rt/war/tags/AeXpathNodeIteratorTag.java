@@ -31,6 +31,10 @@ import org.w3c.dom.Node;
 public class AeXpathNodeIteratorTag extends AeAbstractXpathSelectionTag
 {
    /**
+     * 
+     */
+    private static final long serialVersionUID = -7669788317975945535L;
+/**
     * Node list iterator.
     */
    private Iterator mNodeListIterator = null;

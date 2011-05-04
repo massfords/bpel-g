@@ -20,6 +20,11 @@ import org.activebpel.rt.bpel.def.visitors.IAeDefVisitor;
 public class AeActivityBreakDef extends AeActivityDef implements IAeExtensionActivityDef
 {
    /**
+     * 
+     */
+    private static final long serialVersionUID = -5673445961544403360L;
+
+/**
     * Ctor 
     */
    public AeActivityBreakDef()

@@ -38,7 +38,11 @@ import org.activebpel.rt.util.AeUtil;
 public class AeActivityInvokeDef extends AeActivityPartnerLinkBaseDef implements IAeCatchParentDef,
       IAeFromPartsParentDef, IAeToPartsParentDef, IAeCompensationHandlerParentDef, IAeMessageDataProducerDef, IAeMessageDataConsumerDef
 {
-   /** The input variable. */
+   /**
+     * 
+     */
+    private static final long serialVersionUID = -9133133372730624314L;
+/** The input variable. */
    private String mInputVariable;
    /** The output variable. */
    private String mOutputVariable;

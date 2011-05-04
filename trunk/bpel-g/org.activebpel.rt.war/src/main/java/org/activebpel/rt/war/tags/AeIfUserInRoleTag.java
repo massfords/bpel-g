@@ -24,7 +24,11 @@ import javax.servlet.jsp.tagext.TagSupport;
  */
 public class AeIfUserInRoleTag extends TagSupport
 {
-   /** name of the role to check for */
+   /**
+     * 
+     */
+    private static final long serialVersionUID = 5030292784894102478L;
+/** name of the role to check for */
    private String mRole;
    
    /**

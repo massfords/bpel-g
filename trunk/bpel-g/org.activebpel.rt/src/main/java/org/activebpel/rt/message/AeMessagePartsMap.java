@@ -29,7 +29,11 @@ import org.exolab.castor.xml.schema.XMLType;
  */
 public class AeMessagePartsMap implements Serializable
 {
-   /** map of part names to AeMessagePartTypeInfo objects */
+   /**
+     * 
+     */
+    private static final long serialVersionUID = 9066805253378567206L;
+/** map of part names to AeMessagePartTypeInfo objects */
    private Map<String,AeMessagePartTypeInfo> mParts = new HashMap();
    /** name of the message */
    private QName mMessageType;

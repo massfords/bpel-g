@@ -18,6 +18,11 @@ import org.activebpel.rt.AeException;
 public class AeFunctionCallException extends AeException
 {
    /**
+     * 
+     */
+    private static final long serialVersionUID = -3014787387461891437L;
+
+/**
     * Construct a new function call exception.
     */
    public AeFunctionCallException()

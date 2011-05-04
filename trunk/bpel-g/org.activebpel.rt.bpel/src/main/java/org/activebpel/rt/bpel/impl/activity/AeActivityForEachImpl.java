@@ -186,7 +186,11 @@ public class AeActivityForEachImpl extends AeLoopActivity implements IAeActivity
     */
    protected static class AeUnsignedIntException extends Exception
    {
-      /** result of executing the expression */
+      /**
+     * 
+     */
+    private static final long serialVersionUID = 7303910224345551241L;
+    /** result of executing the expression */
       private Object mValue;
       /** expression */
       private String mExpression;

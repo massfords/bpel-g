@@ -25,7 +25,11 @@ import org.activebpel.rt.bpeladmin.war.graph.ui.figure.AeGraphFigure;
  */
 public class AeBpelFigureBase extends AeGraphFigure
 {   
-   /** UI color preferences */
+   /**
+     * 
+     */
+    private static final long serialVersionUID = -746596020513604728L;
+/** UI color preferences */
    private AeUiPrefs mUiPrefs = AeUiPrefs.getDefaultPrefs();
    /** BPEL defition's label */
    private AeIconLabel mLabel = null;

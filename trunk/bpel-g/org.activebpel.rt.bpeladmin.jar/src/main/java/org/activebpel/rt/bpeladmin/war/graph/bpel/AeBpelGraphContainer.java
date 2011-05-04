@@ -42,7 +42,11 @@ import org.activebpel.rt.util.AeUtil;
  */
 public class AeBpelGraphContainer extends AeGraphContainer
 {
-   /** Color of text used for time stamp etc. */
+   /**
+     * 
+     */
+    private static final long serialVersionUID = 2707878593031936030L;
+/** Color of text used for time stamp etc. */
    public static final Color TEXT_COLOR = new Color(72,130,180);
    /** Product graphic to be displayed on the bottom right of the final image */
    private AeIcon mLogoIcon = null;

@@ -18,7 +18,11 @@ import org.activebpel.rt.bpel.def.AePartnerLinkOpKey;
  */
 public class AePartnerLinkOpImplKey extends AePartnerLinkOpKey implements Comparable
 {
-   /** The location path of the partner link */
+   /**
+     * 
+     */
+    private static final long serialVersionUID = -6734669246237779276L;
+/** The location path of the partner link */
    private String mPartnerLinkLocationPath;
 
    /**

@@ -21,6 +21,11 @@ import org.activebpel.rt.bpel.def.visitors.IAeDefVisitor;
 public class AeActivityCompensateDef extends AeActivityDef
 {
    /**
+     * 
+     */
+    private static final long serialVersionUID = 151492980420664687L;
+
+/**
     * Default constructor
     */
    public AeActivityCompensateDef()

@@ -53,7 +53,12 @@ implements IAeAlarmParentDef, IAeFromParentDef, IAeConditionParentDef,
       IAeFromPartsParentDef, IAeToPartsParentDef, IAeVariableParentDef,
       IAeExtensionObjectParentDef
 {
-   /** Extension element object */
+   /**
+     * 
+     */
+    private static final long serialVersionUID = -2568383809225427232L;
+
+/** Extension element object */
    private IAeExtensionObject mExtensionObject;
    
    /** Child Defs for the understood extension activity */

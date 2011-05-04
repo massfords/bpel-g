@@ -19,6 +19,11 @@ import org.activebpel.rt.bpel.def.visitors.IAeDefVisitor;
 public class AePartnerLinksDef extends AeBaseContainer implements IAePartnerLinkParentDef
 {
    /**
+     * 
+     */
+    private static final long serialVersionUID = 7730533760835909396L;
+
+/**
     * Default c'tor.
     */
    public AePartnerLinksDef()

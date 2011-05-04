@@ -18,6 +18,11 @@ import org.activebpel.rt.bpel.server.AeMessages;
 public class AeServiceNotFoundException extends AeException
 {
    /**
+     * 
+     */
+    private static final long serialVersionUID = 1740712831017462429L;
+
+/**
     * Ctor
     * @param aServiceName
     * @param aRoot

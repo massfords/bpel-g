@@ -32,7 +32,11 @@ import org.apache.axis.security.simple.SimpleSecurityProvider;
  */
 public class AeSimpleAuthenticationHandler extends BasicHandler
 {
-   protected static final String AUTH_SUBJECT_PROPERTY = Subject.class.getName();
+   /**
+     * 
+     */
+    private static final long serialVersionUID = 1526300256068366347L;
+protected static final String AUTH_SUBJECT_PROPERTY = Subject.class.getName();
 
    /**
     * Pretty much the Axis's implementation except to allow

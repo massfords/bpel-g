@@ -26,7 +26,12 @@ import org.activebpel.rt.util.AeUtil;
  */
 public class AeGraphProperties extends Properties
 {
-   /** Property name for enabling or disabling the graph feature. */
+   /**
+     * 
+     */
+    private static final long serialVersionUID = 2465945524804564030L;
+
+/** Property name for enabling or disabling the graph feature. */
    public static final String ENABLE_GRAPHING         = "org.activebpel.rt.bpeladmin.war.graph.enable";//$NON-NLS-1$
 
    /** Property name for buffered image color depth. */

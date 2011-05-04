@@ -26,7 +26,11 @@ import org.activebpel.rt.bpel.def.visitors.IAeDefVisitor;
  */
 public class AeActivityReplyDef extends AeActivityPartnerLinkBaseDef implements IAeToPartsParentDef, IAeMessageDataProducerDef
 {
-   /** The variable attribute. */
+   /**
+     * 
+     */
+    private static final long serialVersionUID = 6950113877808733780L;
+/** The variable attribute. */
    private String mVariable;
    /** The fault name attribute. */
    private QName mFaultName;

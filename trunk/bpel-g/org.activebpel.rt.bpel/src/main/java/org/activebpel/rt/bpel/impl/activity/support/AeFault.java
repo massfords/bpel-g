@@ -25,7 +25,11 @@ import org.w3c.dom.Element;
  */
 public class AeFault implements IAeFault
 {
-   /** fault name */
+   /**
+     * 
+     */
+    private static final long serialVersionUID = 6069907015589616523L;
+/** fault name */
    private QName mName;
    /** fault message data */
    private IAeMessageData mMessageData;

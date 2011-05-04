@@ -20,6 +20,10 @@ public class AeRegistrationRequest extends AeContextBase implements IAeRegistrat
 {
 
    /**
+     * 
+     */
+    private static final long serialVersionUID = 1707517379541038951L;
+/**
     * Coordination context.
     */
    private IAeCoordinationContext mCoordinationContext;

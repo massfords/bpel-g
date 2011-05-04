@@ -18,7 +18,11 @@ import org.activebpel.rt.bpel.def.visitors.IAeDefVisitor;
  */
 public class AeToPartDef extends AeBaseDef
 {
-   /** The toPart's 'part' attribute. */
+   /**
+     * 
+     */
+    private static final long serialVersionUID = 1327684805409077714L;
+/** The toPart's 'part' attribute. */
    private String mPart;
    /** The toPart's 'fromVariable' attribute. */
    private String mFromVariable;

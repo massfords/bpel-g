@@ -18,7 +18,11 @@ import org.activebpel.rt.xml.def.visitors.IAeBaseXmlDefVisitor;
  */
 public class AeDocumentationDef extends AeBaseXmlDef
 {
-   /** The source uri attribute if specified. */
+   /**
+     * 
+     */
+    private static final long serialVersionUID = -9196768950724398199L;
+/** The source uri attribute if specified. */
    private String mSource;
    /** The language attribute if specified. */
    private String mLanguage;

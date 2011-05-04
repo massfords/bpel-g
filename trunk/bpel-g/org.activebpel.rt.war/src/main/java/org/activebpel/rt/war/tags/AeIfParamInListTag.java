@@ -20,6 +20,11 @@ public class AeIfParamInListTag extends AeIfParamMatchesTag
 {
    
    /**
+     * 
+     */
+    private static final long serialVersionUID = 5986794074438275675L;
+
+/**
     * Returns true if the request parameter is in the given list of comma separated values.
     */
    protected boolean shouldEvaluateBody()

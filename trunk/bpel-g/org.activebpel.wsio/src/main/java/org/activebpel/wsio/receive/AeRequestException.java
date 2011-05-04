@@ -15,6 +15,11 @@ package org.activebpel.wsio.receive;
 public class AeRequestException extends Exception
 {
    /**
+     * 
+     */
+    private static final long serialVersionUID = 556814786327337342L;
+
+/**
     * No-arg ctor 
     */
    public AeRequestException()

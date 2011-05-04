@@ -17,6 +17,11 @@ import org.activebpel.rt.bpel.def.visitors.IAeDefVisitor;
 public class AeCorrelationSetsDef extends AeBaseContainer
 {
    /**
+     * 
+     */
+    private static final long serialVersionUID = 3229780929643955636L;
+
+/**
     * Default c'tor.
     */
    public AeCorrelationSetsDef()

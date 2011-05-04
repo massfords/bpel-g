@@ -18,6 +18,11 @@ public class AeBpelSimpleActivityFigure extends AeBpelFigureBase
 {
 
    /**
+     * 
+     */
+    private static final long serialVersionUID = 6050039160609272955L;
+
+/**
     * Constructs the figure with the given name.
     * @param aBpelName
     */

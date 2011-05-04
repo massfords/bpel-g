@@ -22,7 +22,11 @@ import org.activebpel.rt.bpel.def.io.readers.def.AeSpecStrategyKey;
  */
 abstract public class AeVarDef extends AeBaseDef implements IAeQueryParentDef, IAeExpressionDef
 {
-   /** The 'variable' attribute. */
+   /**
+     * 
+     */
+    private static final long serialVersionUID = 2521138425885899117L;
+/** The 'variable' attribute. */
    private String mVariable;
    /** The 'part' attribute. */
    private String mPart;

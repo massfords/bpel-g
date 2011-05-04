@@ -37,7 +37,11 @@ import org.w3c.dom.Element;
  */
 public abstract class AeBaseXmlDef implements Cloneable, Serializable
 {
-   /** A map of all referenced namespaces referenced at the current node level */
+   /**
+     * 
+     */
+    private static final long serialVersionUID = -272041132121213519L;
+/** A map of all referenced namespaces referenced at the current node level */
    protected Map<String,String> mNamespaceMap;
    /** Default namespace or null if not set */
    private String mDefaultNamespace;

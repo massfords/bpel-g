@@ -19,7 +19,11 @@ import java.io.Serializable;
  */
 public class AePartnerLinkDefKey implements Comparable, Serializable
 {
-   /** The partner link name. */
+   /**
+     * 
+     */
+    private static final long serialVersionUID = 8763916006967925400L;
+/** The partner link name. */
    private String mPartnerLinkName;
    /** The partner link id. */
    private int mPartnerLinkId;

@@ -25,7 +25,11 @@ import org.activebpel.rt.war.AeMessages;
  */
 public class AeDateSetterTag extends AePropertyDateFormatterTag
 {
-   /** name of the param to read from the request */
+   /**
+     * 
+     */
+    private static final long serialVersionUID = -7231422359072694450L;
+/** name of the param to read from the request */
    private String mParam;
    
    /**
