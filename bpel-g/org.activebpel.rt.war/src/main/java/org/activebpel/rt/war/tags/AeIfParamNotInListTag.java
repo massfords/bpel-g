@@ -19,6 +19,11 @@ public class AeIfParamNotInListTag extends AeIfParamInListTag
 {
 
    /**
+     * 
+     */
+    private static final long serialVersionUID = -4626414277491951590L;
+
+/**
     * Returns true if the request parameter is not in the given list of comma separated values.
     */
    protected boolean shouldEvaluateBody()

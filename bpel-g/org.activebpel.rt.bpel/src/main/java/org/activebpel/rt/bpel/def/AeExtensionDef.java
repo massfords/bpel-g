@@ -17,7 +17,11 @@ import org.activebpel.rt.bpel.def.visitors.IAeDefVisitor;
  */
 public class AeExtensionDef extends AeBaseDef
 {
-   /** The extension's 'namespace' attribute. */
+   /**
+     * 
+     */
+    private static final long serialVersionUID = -484092730421253235L;
+/** The extension's 'namespace' attribute. */
    private String mNamespace;
    /** The extension's 'mustUnderstand' attribute. */
    private boolean mMustUnderstand;

@@ -19,6 +19,10 @@ import java.io.File;
 public class AeIcon extends AeComponent
 {
    /**
+     * 
+     */
+    private static final long serialVersionUID = -4387606920422176211L;
+/**
     * Image to be displayed.
     */
    private Image mImage = null;

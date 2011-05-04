@@ -17,6 +17,11 @@ package org.activebpel.rt.bpel.ext.expr.impl.xquery;
 public class AeXQueryTypeConversionException extends RuntimeException
 {
    /**
+     * 
+     */
+    private static final long serialVersionUID = -2128758287325222196L;
+
+/**
     * Constructs the type conversion exception.
     * 
     * @param aException

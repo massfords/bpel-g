@@ -17,6 +17,11 @@ import javax.xml.namespace.QName;
 public class AeGMonthDayDeserializerFactory extends AeBaseDeserializerFactory
 {
    /**
+     * 
+     */
+    private static final long serialVersionUID = -3251197366056754589L;
+
+/**
     * Creates a deserializer factory with the given java type and xml type.
     */
    public AeGMonthDayDeserializerFactory(Class javaType, QName xmlType)

@@ -17,7 +17,12 @@ import java.io.Serializable;
 public class AeAttachmentAttribute implements Serializable
 {
 
-   /** name of the attachment attribute */
+   /**
+     * 
+     */
+    private static final long serialVersionUID = 7470970179669228049L;
+
+/** name of the attachment attribute */
    private String mAttributeName;
 
    /** value of the attachment attribute */

@@ -17,7 +17,12 @@ import java.io.Serializable;
  */
 public class AeJavaTypesWrapper implements Serializable
 {
-   /** Null types wrapper. */
+   /**
+     * 
+     */
+    private static final long serialVersionUID = -700105203046345726L;
+
+/** Null types wrapper. */
    private static final AeJavaTypesWrapper EMPTY = new AeJavaTypesWrapper(""); //$NON-NLS-1$
    
    /** Property value. */

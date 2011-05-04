@@ -42,7 +42,12 @@ import org.activebpel.rt.war.tags.AeAbstractResourceTag;
  */
 public class AeTabTag extends AeAbstractResourceTag
 {
-   /** name to use for reading the tabs from the resource bundle. */
+   /**
+     * 
+     */
+    private static final long serialVersionUID = 5686175167845033362L;
+
+/** name to use for reading the tabs from the resource bundle. */
    private String mName;
    
    /** name of the AeTabBean we're going to populate */

@@ -16,6 +16,11 @@ public class AeMessageAcknowledgeException extends Exception
 {
 
    /**
+     * 
+     */
+    private static final long serialVersionUID = -504113644111156524L;
+
+/**
     * Constructs a exception.
     */
    public AeMessageAcknowledgeException()

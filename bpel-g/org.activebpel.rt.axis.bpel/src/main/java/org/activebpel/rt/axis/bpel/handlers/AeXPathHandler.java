@@ -29,6 +29,11 @@ import org.jaxen.dom.DOMXPath;
 public abstract class AeXPathHandler extends BasicHandler implements IAeConstants, IAePolicyConstants
 {
    /**
+     * 
+     */
+    private static final long serialVersionUID = -381801208752177487L;
+
+/**
     *  
     * Constructor
     */

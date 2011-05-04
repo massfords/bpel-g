@@ -14,7 +14,11 @@ package org.activebpel.rt.war.tags;
  */
 public class AeAbstractFormPropertyTag extends AeAbstractBeanPropertyTag
 {
-   /** Name of the param to read from the request */
+   /**
+     * 
+     */
+    private static final long serialVersionUID = -884442486020851146L;
+/** Name of the param to read from the request */
    private String mParam;
    
    /**

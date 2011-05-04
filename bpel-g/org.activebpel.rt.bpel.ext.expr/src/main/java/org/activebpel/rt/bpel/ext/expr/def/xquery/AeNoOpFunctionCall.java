@@ -27,7 +27,11 @@ import net.sf.saxon.type.TypeHierarchy;
  */
 public class AeNoOpFunctionCall extends FunctionCall
 {
-   /** The function's namespace. */
+   /**
+     * 
+     */
+    private static final long serialVersionUID = 398810397849911384L;
+/** The function's namespace. */
    private String mNamespace;
    /** The function name. */
    private String mName;

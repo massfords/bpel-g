@@ -18,7 +18,11 @@ import org.activebpel.rt.bpel.impl.AeFaultFactory;
  */
 public class AeMismatchedAssignmentException extends AeBpelException
 {
-   /** Error message for the exception */
+   /**
+     * 
+     */
+    private static final long serialVersionUID = 4858490639056143087L;
+/** Error message for the exception */
    private static final String ERROR_MESSAGE = AeMessages.getString("AeMismatchedAssignmentException.Message"); //$NON-NLS-1$
 
    /**

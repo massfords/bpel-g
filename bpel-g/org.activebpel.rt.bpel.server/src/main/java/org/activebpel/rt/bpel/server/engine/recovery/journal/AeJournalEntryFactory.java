@@ -141,6 +141,11 @@ public class AeJournalEntryFactory implements IAeJournalEntryFactory
    protected static class AeUnknownEntryTypeException extends AeException
    {
       /**
+     * 
+     */
+    private static final long serialVersionUID = -5148536477587964493L;
+
+    /**
        * Constructs an exception that reports an unknown entry type.
        */
       public AeUnknownEntryTypeException(int aEntryType, int aLocationId)

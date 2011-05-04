@@ -31,7 +31,11 @@ import org.activebpel.rt.util.AeUtil;
  */
 public class AeGetResourceTag extends AeAbstractBeanPropertyTag
 {
-   /** Indirect method to access the key name via request attribute. */
+   /**
+     * 
+     */
+    private static final long serialVersionUID = 4456753313373201888L;
+/** Indirect method to access the key name via request attribute. */
    protected String mAttributeName;
 
    /**

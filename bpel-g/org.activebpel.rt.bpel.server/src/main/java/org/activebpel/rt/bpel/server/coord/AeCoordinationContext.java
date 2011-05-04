@@ -22,6 +22,10 @@ public class AeCoordinationContext extends AeContextBase implements IAeCoordinat
 {
 
    /**
+     * 
+     */
+    private static final long serialVersionUID = -2548401553993119484L;
+/**
     * Coordination instance id.
     */
    private IAeCoordinationId mCoordinationId;

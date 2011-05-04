@@ -23,7 +23,12 @@ import org.activebpel.rt.util.AeUtil;
  */
 public class AeAttachmentFile extends File
 {
-   /** Prefix for names of temporary attachment file. */
+   /**
+     * 
+     */
+    private static final long serialVersionUID = -8195828968186004297L;
+
+/** Prefix for names of temporary attachment file. */
    public static final String ATTACHMENT_FILE_PREFIX = "att"; //$NON-NLS-1$
 
    /** Suffix for names of temporary attachment file. */

@@ -21,6 +21,11 @@ import org.activebpel.rt.bpel.def.visitors.IAeDefVisitor;
 public class AeElseDef extends AeSingleActivityParentBaseDef implements IAeSingleActivityContainerDef
 {
    /**
+     * 
+     */
+    private static final long serialVersionUID = 7832275213501521226L;
+
+/**
     * No-arg ctor. 
     */
    public AeElseDef()

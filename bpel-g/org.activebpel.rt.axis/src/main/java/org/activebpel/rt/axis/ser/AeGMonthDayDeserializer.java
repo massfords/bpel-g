@@ -20,6 +20,11 @@ import org.apache.axis.encoding.ser.SimpleDeserializer;
 public class AeGMonthDayDeserializer extends SimpleDeserializer
 {
    /**
+     * 
+     */
+    private static final long serialVersionUID = -3823083104845452134L;
+
+/**
     * The Deserializer is constructed with the xmlType and javaType
     */
    public AeGMonthDayDeserializer(Class javaType, QName xmlType)

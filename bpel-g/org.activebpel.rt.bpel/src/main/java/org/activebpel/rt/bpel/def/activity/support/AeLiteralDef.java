@@ -30,7 +30,11 @@ import org.w3c.dom.NodeList;
  */
 public class AeLiteralDef extends AeBaseDef
 {
-   /** The list of child nodes in the literal. */
+   /**
+     * 
+     */
+    private static final long serialVersionUID = 380062235992130912L;
+/** The list of child nodes in the literal. */
    private transient List<Node> mChildNodes = new ArrayList();
 
    /**

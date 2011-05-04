@@ -19,7 +19,12 @@ import java.util.List;
  */
 public class AeListResult<T> implements Serializable
 {
-   /** The total number of rows which match the process list request. */
+   /**
+     * 
+     */
+    private static final long serialVersionUID = -4787728871556985314L;
+
+/** The total number of rows which match the process list request. */
    protected int mTotalRowCount;
 
    /** <code>true</code> if and only if <code>mTotalRowCount</code> is the true total row count. */

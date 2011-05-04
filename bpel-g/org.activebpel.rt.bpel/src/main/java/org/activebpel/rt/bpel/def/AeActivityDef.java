@@ -26,7 +26,11 @@ import org.activebpel.rt.bpel.def.activity.support.AeTargetsDef;
  */
 public abstract class AeActivityDef extends AeNamedDef
 {
-   /** The 'suppressFailure' attribute. */
+   /**
+     * 
+     */
+    private static final long serialVersionUID = -901433654960778972L;
+/** The 'suppressFailure' attribute. */
    private Boolean mSuppressFailure;
    /** The 'sources' def. */
    private AeSourcesDef mSourcesDef;

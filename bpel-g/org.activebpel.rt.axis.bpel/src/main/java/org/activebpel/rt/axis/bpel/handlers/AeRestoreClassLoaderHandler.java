@@ -20,6 +20,11 @@ import org.apache.axis.handlers.BasicHandler;
 public class AeRestoreClassLoaderHandler extends BasicHandler
 {
    /**
+     * 
+     */
+    private static final long serialVersionUID = -3946009249291402L;
+
+/**
     * Restore original classloader.
     * @see org.apache.axis.Handler#invoke(org.apache.axis.MessageContext)
     */

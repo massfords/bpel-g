@@ -234,5 +234,10 @@ public class AeQueryRunner extends QueryRunner
     */
    protected static class AeWarning extends Exception
    {
+
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -265170073874440159L;
    }
 }

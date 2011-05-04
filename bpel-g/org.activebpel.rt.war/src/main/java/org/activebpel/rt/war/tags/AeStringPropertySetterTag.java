@@ -19,6 +19,11 @@ import org.activebpel.rt.util.AeUtil;
 public class AeStringPropertySetterTag extends AeAbstractFormPropertyTag
 {
    /**
+     * 
+     */
+    private static final long serialVersionUID = -4229105998920925246L;
+
+/**
     * Sets string value on the property for the given form parameter.
     * @see javax.servlet.jsp.tagext.Tag#doStartTag()
     */

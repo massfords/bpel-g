@@ -22,7 +22,11 @@ import org.activebpel.rt.bpeladmin.war.graph.ui.AeIconLabel;
  */
 public class AeContainerFigure extends AeBpelFigureBase
 {
-   /** If true, draws a rounded border */
+   /**
+     * 
+     */
+    private static final long serialVersionUID = -2863230733506859524L;
+/** If true, draws a rounded border */
    private boolean mDrawBorder = true;
    /** If true, paints background */
    private boolean mDrawBackground = false;

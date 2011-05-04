@@ -38,7 +38,12 @@ import org.w3c.dom.Element;
  */
 public class AeBprDeployment extends WSDDDeployment
 {
-   /** Provider <code>QName</code> for BPEL RPC services. */ 
+   /**
+     * 
+     */
+    private static final long serialVersionUID = -1534981658258732140L;
+
+/** Provider <code>QName</code> for BPEL RPC services. */ 
    private static final QName BPEL_RPC_PROVIDER_QNAME =
       new QName(IAeWsddConstants.PROVIDER_NAMESPACE_URI, IAeWsddConstants.NAME_RPC_BINDING);
 

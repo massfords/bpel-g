@@ -17,6 +17,11 @@ public class AeWsAddressingException extends Exception
 {
 
    /**
+     * 
+     */
+    private static final long serialVersionUID = -3519843891720068498L;
+
+/**
     * Default Constructor
     *
     */

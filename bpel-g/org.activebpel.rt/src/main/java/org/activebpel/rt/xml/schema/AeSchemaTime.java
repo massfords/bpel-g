@@ -24,7 +24,11 @@ import org.activebpel.rt.util.AeUtil;
  */
 public class AeSchemaTime extends AeSchemaDateTime
 {
-   /** A regular expression for matching schema dateTime strings. */
+   /**
+     * 
+     */
+    private static final long serialVersionUID = 3381227709828723146L;
+/** A regular expression for matching schema dateTime strings. */
    private static Pattern INPUT_PATTERN = Pattern.compile("([0-9]{2}):([0-9]{2}):([0-9]{2})(\\.([0-9]*))?(Z|(([\\+\\-])([0-9]{2}):([0-9]{2})))?"); //$NON-NLS-1$
    /** The output format to use for toString(). */
    private static String OUTPUT_PATTERN = "{0,number,00}:{1,number,00}:{2,number,00}{3,choice,0#|0<.{3,number,000}}Z"; //$NON-NLS-1$

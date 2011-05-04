@@ -27,6 +27,11 @@ public class AePropertyDateFormatterTag extends AeAbstractPropertyFormatterTag
 {
    
    /**
+     * 
+     */
+    private static final long serialVersionUID = 8293802999006080472L;
+
+/**
     * Returns the formatted date string to be displayed.
     * @return formatted date string to be displayed.
     * @throws AeException if error occur during text formatting.

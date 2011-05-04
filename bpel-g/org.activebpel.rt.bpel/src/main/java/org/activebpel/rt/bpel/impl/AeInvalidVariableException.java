@@ -17,6 +17,11 @@ import org.activebpel.rt.bpel.AeMessages;
 public class AeInvalidVariableException extends AeBpelException
 {
    /**
+     * 
+     */
+    private static final long serialVersionUID = 471094875394420239L;
+
+/**
     * Ctor
     * @param aNamespace
     * @param aVariableName

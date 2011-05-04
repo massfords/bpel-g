@@ -21,7 +21,11 @@ import org.activebpel.rt.bpel.impl.queue.AeMessageReceiver;
  */
 public class AeMessageReceiverListResult implements Serializable
 {
-   /** Total rows that matched selection criteria.  This number may be greater than the number of results in this listing. */
+   /**
+     * 
+     */
+    private static final long serialVersionUID = -956966022024432317L;
+/** Total rows that matched selection criteria.  This number may be greater than the number of results in this listing. */
    protected int mTotalRows;
    /** The matching message receivers. */
    protected AeMessageReceiver[] mResults;

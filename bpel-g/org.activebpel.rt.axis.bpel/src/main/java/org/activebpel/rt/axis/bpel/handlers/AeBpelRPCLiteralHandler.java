@@ -17,6 +17,11 @@ import org.apache.axis.constants.Use;
 public class AeBpelRPCLiteralHandler extends AeBpelRPCHandler
 {
    /**
+     * 
+     */
+    private static final long serialVersionUID = 3400194973942032138L;
+
+/**
     * @see org.activebpel.rt.axis.bpel.handlers.AeBpelHandler#getUse()
     */
    protected Use getUse()

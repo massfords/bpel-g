@@ -145,6 +145,11 @@ public class AeFunctionContextWrapper extends AeAbstractFunctionContext
    protected class AeExpressionContextWrapper extends Context
    {
       /**
+     * 
+     */
+    private static final long serialVersionUID = 390910942711579761L;
+
+    /**
        * Very simple constructor.
        */
       public AeExpressionContextWrapper()

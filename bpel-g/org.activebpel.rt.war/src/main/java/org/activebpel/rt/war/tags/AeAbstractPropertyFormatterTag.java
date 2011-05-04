@@ -23,7 +23,11 @@ import org.activebpel.rt.war.AeMessages;
  */
 public abstract class AeAbstractPropertyFormatterTag extends AeAbstractBeanPropertyTag
 {
-   /** pattern for the date or number format */
+   /**
+     * 
+     */
+    private static final long serialVersionUID = 2420166512878397836L;
+/** pattern for the date or number format */
    private String mPattern = null;
    /** The resource key to use to look up the date or number format. */
    private String mPatternKey;

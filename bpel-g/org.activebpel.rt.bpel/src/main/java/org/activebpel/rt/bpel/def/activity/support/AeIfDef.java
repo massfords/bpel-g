@@ -19,6 +19,11 @@ import org.activebpel.rt.bpel.def.visitors.IAeDefVisitor;
 public class AeIfDef extends AeElseIfDef
 {
    /**
+     * 
+     */
+    private static final long serialVersionUID = -8010026468350755663L;
+
+/**
     * Default c'tor.
     */
    public AeIfDef()

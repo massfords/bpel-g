@@ -39,7 +39,11 @@ public class AeOnMessageDef extends AeSingleActivityParentBaseDef implements IAe
       IAeReceiveActivityDef, IAeActivityCreateInstanceDef, IAeFromPartsParentDef, IAeCorrelationsParentDef,
       IAeMessageDataConsumerDef
 {
-   /** message variable */
+   /**
+     * 
+     */
+    private static final long serialVersionUID = -275736037845433303L;
+/** message variable */
    private String mVariable;
    /** on message one-way flag. */
    private boolean mOneWay = false;

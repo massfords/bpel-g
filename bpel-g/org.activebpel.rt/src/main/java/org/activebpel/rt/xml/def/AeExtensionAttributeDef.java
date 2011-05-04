@@ -22,7 +22,11 @@ import org.activebpel.rt.xml.def.visitors.IAeBaseXmlDefVisitor;
  */
 public class AeExtensionAttributeDef extends AeBaseXmlDef implements IAeExtensionObjectParentDef
 {
-   /** The attribute's namespace. */
+   /**
+     * 
+     */
+    private static final long serialVersionUID = 8396203096227613626L;
+/** The attribute's namespace. */
    private String mNamespace;
    /** The attribute's qualified name. */
    private String mQualifiedName;

@@ -17,6 +17,11 @@ import java.util.List;
  */
 public class AeCatalogListResult extends AeListResult
 {
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -8000001401672449712L;
+
     public AeCatalogListResult() {
         
     }

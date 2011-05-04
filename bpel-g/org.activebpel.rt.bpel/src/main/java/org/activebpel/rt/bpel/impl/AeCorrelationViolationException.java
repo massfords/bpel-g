@@ -17,7 +17,11 @@ import org.activebpel.rt.bpel.IAeFault;
  */
 public class AeCorrelationViolationException extends AeBpelException
 {
-   /** an activity attempted to access a correlation set before it was initialized */
+   /**
+     * 
+     */
+    private static final long serialVersionUID = -1489373113799794253L;
+/** an activity attempted to access a correlation set before it was initialized */
    public static final int UNINITIALIZED_CORRELATION_SET = 0;
    /** the properties for a correlation were going to be changed */
    public static final int IMMUTABLE = 1;

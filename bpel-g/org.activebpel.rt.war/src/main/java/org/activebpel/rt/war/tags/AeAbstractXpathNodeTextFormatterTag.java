@@ -23,7 +23,11 @@ import org.activebpel.rt.war.AeMessages;
  */
 public abstract class AeAbstractXpathNodeTextFormatterTag extends AeXpathSelectNodeTextTag
 {
-   /** pattern for the date or number format */
+   /**
+     * 
+     */
+    private static final long serialVersionUID = -6336844392856258576L;
+/** pattern for the date or number format */
    private String mPattern = null;
    /** The resource key to use to look up the date or number format. */
    private String mPatternKey;

@@ -21,6 +21,11 @@ import org.activebpel.rt.bpeladmin.war.web.processview.AeProcessViewBase;
 public class AeProcessViewCache extends LinkedHashMap
 {
    /**
+     * 
+     */
+    private static final long serialVersionUID = -1201514635080984761L;
+
+/**
     * Returns a process view object from the cache.
     */
    public AeProcessViewBase get(String aKey)

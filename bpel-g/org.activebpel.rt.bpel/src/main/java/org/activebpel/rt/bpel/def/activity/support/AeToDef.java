@@ -21,6 +21,11 @@ import org.activebpel.rt.util.AeUtil;
 public class AeToDef extends AeVarDef
 {
    /**
+     * 
+     */
+    private static final long serialVersionUID = 2068666836253754001L;
+
+/**
     * Default constructor
     */
    public AeToDef()

@@ -23,7 +23,11 @@ import org.activebpel.rt.AeException;
  */
 public class AeAmbiguousPartnerLinkException extends AeException
 {
-   /** The list of locations that map to the partner link name. */
+   /**
+     * 
+     */
+    private static final long serialVersionUID = 7284457159502214719L;
+/** The list of locations that map to the partner link name. */
    private Set mPartnerLinkLocations;
 
    /**

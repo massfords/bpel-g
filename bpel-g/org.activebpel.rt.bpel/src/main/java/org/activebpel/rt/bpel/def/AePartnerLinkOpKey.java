@@ -21,7 +21,11 @@ import org.activebpel.rt.bpel.impl.AePartnerLinkOpImplKey;
  */
 public class AePartnerLinkOpKey extends AePartnerLinkDefKey
 {
-   /** The operation. */
+   /**
+     * 
+     */
+    private static final long serialVersionUID = 2844900684985898484L;
+/** The operation. */
    private String mOperation;
    
    /**

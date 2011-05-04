@@ -16,7 +16,11 @@ import org.activebpel.rt.bpel.AeMessages;
  */
 public class AeConflictingRequestException extends AeBpelException
 {
-   /** error message */
+   /**
+     * 
+     */
+    private static final long serialVersionUID = -3813372982163587952L;
+/** error message */
    private static final String ERROR_MESSAGE = AeMessages.getString("AeConflictingRequestException.0"); //$NON-NLS-1$
 
    /**

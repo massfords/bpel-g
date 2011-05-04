@@ -22,6 +22,10 @@ import org.activebpel.rt.util.AeUtil;
 public class AeIntegerPropertySetterTag extends AeAbstractFormPropertyTag
 {
    /**
+     * 
+     */
+    private static final long serialVersionUID = 8413734764691592247L;
+/**
     * Indicates that a default value has been set.
     */
    private boolean mHasDefault;

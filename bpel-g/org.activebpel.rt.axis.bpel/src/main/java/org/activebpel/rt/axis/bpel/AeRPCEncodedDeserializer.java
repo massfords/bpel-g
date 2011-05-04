@@ -70,7 +70,12 @@ import org.xml.sax.SAXException;
  */
 public class AeRPCEncodedDeserializer extends DeserializerImpl
 {
-   /** Prefix used for namespaces */
+   /**
+     * 
+     */
+    private static final long serialVersionUID = 4814699332190332175L;
+
+/** Prefix used for namespaces */
    protected static final String PREFIX = "abpel-deser"; //$NON-NLS-1$
    
    /** Counter used to keep any new namespace prefixes we need to create unique */

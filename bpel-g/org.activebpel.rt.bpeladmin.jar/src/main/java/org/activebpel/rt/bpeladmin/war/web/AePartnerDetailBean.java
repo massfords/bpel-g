@@ -16,7 +16,11 @@ import java.io.Serializable;
  */
 public class AePartnerDetailBean implements Serializable
 {
-   /** The specific principal */
+   /**
+     * 
+     */
+    private static final long serialVersionUID = 312778240592886737L;
+/** The specific principal */
    protected String mPrincipal;
    /** The pdef details associated with the principal. */
    protected AePartnerDetailWrapper[] mDetails;

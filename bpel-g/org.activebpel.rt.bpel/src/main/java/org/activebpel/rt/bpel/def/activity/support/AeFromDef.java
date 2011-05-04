@@ -22,7 +22,11 @@ import org.w3c.dom.Node;
  */
 public class AeFromDef extends AeVarDef
 {
-   /** The value of the opaque attribute (if any). */
+   /**
+     * 
+     */
+    private static final long serialVersionUID = 7179300656466329978L;
+/** The value of the opaque attribute (if any). */
    private boolean mOpaque;
    /** The value of the literal (if any). */
    private AeLiteralDef mLiteralDef;

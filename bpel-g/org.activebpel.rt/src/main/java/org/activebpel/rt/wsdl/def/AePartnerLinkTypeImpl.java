@@ -23,7 +23,12 @@ import javax.xml.namespace.QName;
  */
 public class AePartnerLinkTypeImpl implements ExtensibilityElement, IAePartnerLinkType, IAeBPELExtendedWSDLConst
 {
-   // The QName of this extension element.
+   /**
+     * 
+     */
+    private static final long serialVersionUID = -4834535980041774071L;
+
+// The QName of this extension element.
    private QName mElementType;
 
    // Indicates if the semantics of this extension are required.

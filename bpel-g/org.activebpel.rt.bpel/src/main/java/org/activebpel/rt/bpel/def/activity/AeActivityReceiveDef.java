@@ -29,7 +29,11 @@ import org.activebpel.rt.bpel.def.visitors.IAeDefVisitor;
 public class AeActivityReceiveDef extends AeActivityCreateInstanceBaseDef implements IAeReceiveActivityDef,
       IAeFromPartsParentDef, IAeMessageDataConsumerDef
 {
-   /** The variable. */
+   /**
+     * 
+     */
+    private static final long serialVersionUID = 4474411253870634387L;
+/** The variable. */
    private String mVariable;
    /**  indicates the one-way attribute flag. */
    private boolean mOneWay;

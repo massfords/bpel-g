@@ -19,6 +19,11 @@ import org.activebpel.rt.bpel.server.AeMessages;
 public class AeMissingStorageDocumentException extends AeException
 {
    /**
+     * 
+     */
+    private static final long serialVersionUID = -8779216249457981893L;
+
+/**
     * Constructs an exception that reports a missing storage document for a
     * journal entry.
     */

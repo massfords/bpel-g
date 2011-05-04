@@ -16,6 +16,11 @@ import org.apache.axis.encoding.ser.BaseSerializerFactory;
 public class AeBaseSerializerFactory extends BaseSerializerFactory
 {
    /**
+     * 
+     */
+    private static final long serialVersionUID = 2194915300957669430L;
+
+/**
     * Creates a serializer factory with the given java type and xml type.
     */
    public AeBaseSerializerFactory(Class javaType, QName xmlType)

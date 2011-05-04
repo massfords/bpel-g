@@ -18,6 +18,11 @@ public class AeGMonthDeserializerFactory extends AeBaseDeserializerFactory
 {
 
    /**
+     * 
+     */
+    private static final long serialVersionUID = -7564558449214441974L;
+
+/**
     * Creates a deserializer factory with the given java type and xml type.
     */
    public AeGMonthDeserializerFactory(Class javaType, QName xmlType)

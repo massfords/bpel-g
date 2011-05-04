@@ -27,7 +27,12 @@ import org.activebpel.rt.war.AeMessages;
 public class AePropertyNumberFormatterTag extends AeAbstractPropertyFormatterTag
 {   
 
-   private Object getNumberBean()
+   /**
+     * 
+     */
+    private static final long serialVersionUID = -2948974141535788112L;
+
+private Object getNumberBean()
    {
       Object rObject = null;
       try

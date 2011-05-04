@@ -16,7 +16,11 @@ import org.activebpel.rt.bpel.AeMessages;
  */
 public class AeConflictingReceiveException extends AeBpelException
 {
-   private static final String ERROR_MESSAGE = AeMessages.getString("AeConflictingReceiveException.0"); //$NON-NLS-1$
+   /**
+     * 
+     */
+    private static final long serialVersionUID = -7846146516740849625L;
+private static final String ERROR_MESSAGE = AeMessages.getString("AeConflictingReceiveException.0"); //$NON-NLS-1$
    /**
     * Creates the exception with a bpws:conflictingRequest fault. 
     */

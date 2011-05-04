@@ -22,7 +22,11 @@ import org.activebpel.rt.bpel.def.visitors.IAeDefVisitor;
  */
 public class AeActivityForEachDef extends AeActivityDef implements IAeSingleActivityContainerDef, IAeLoopActivityDef
 {
-   /** optional completion condition for serial and parallel forEach */
+   /**
+     * 
+     */
+    private static final long serialVersionUID = -3212111656104818083L;
+/** optional completion condition for serial and parallel forEach */
    private AeForEachCompletionConditionDef mCompletionCondition;
    /** for each defs can only contain scope activities */
    private AeActivityScopeDef mChildDef;

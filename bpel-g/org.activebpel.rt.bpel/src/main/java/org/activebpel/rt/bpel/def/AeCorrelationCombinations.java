@@ -19,7 +19,11 @@ import org.activebpel.rt.util.AeCombinations;
  */
 public class AeCorrelationCombinations implements Serializable
 {
-   /** the different correlationSets that are used by activities with this plink and operation */
+   /**
+     * 
+     */
+    private static final long serialVersionUID = -2634821001957232378L;
+/** the different correlationSets that are used by activities with this plink and operation */
    private Collection mCorrelationSetCombinations = new HashSet();
    /** provides a quick way of knowing which sets in our collection contain join style correlations */
    private Set mJoins = new HashSet();
@@ -329,7 +333,11 @@ public class AeCorrelationCombinations implements Serializable
     */
    public class AeCorrelatedProperties implements Serializable
    {
-      /** All of the correlationSets used by this plink and operation are already initiated at the time of the IMA's execution */
+      /**
+     * 
+     */
+    private static final long serialVersionUID = 1121786637037439950L;
+    /** All of the correlationSets used by this plink and operation are already initiated at the time of the IMA's execution */
       public static final int INITIATED                                            = 0;
       /** The combinations of correlationSets include a mix of initiated and join style */
       public static final int INITIATED_AND_JOIN                                   = 1;

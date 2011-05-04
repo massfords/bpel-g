@@ -18,6 +18,11 @@ public class AeCheckboxPropertySetterTag extends AeAbstractFormPropertyTag
 {
 
    /**
+     * 
+     */
+    private static final long serialVersionUID = -409669424770928224L;
+
+/**
     * Sets boolean value on the property for the given check box form parameter.
     * A value of boolean true is used if the form data parameter exists,
     * otherwise, false value is assign.

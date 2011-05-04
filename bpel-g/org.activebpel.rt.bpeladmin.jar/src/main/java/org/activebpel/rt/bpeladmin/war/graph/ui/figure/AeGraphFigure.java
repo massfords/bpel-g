@@ -18,6 +18,11 @@ public class AeGraphFigure extends AeContainer implements IAeGraphFigure
 {
 
    /**
+     * 
+     */
+    private static final long serialVersionUID = -3171622772333355503L;
+
+/**
     * Default constructor.
     */
    public AeGraphFigure()

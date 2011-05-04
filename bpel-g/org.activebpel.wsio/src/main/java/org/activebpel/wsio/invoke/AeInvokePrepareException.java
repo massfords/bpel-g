@@ -16,6 +16,11 @@ public class AeInvokePrepareException extends Exception
 {
 
    /**
+     * 
+     */
+    private static final long serialVersionUID = -7537261524574747008L;
+
+/**
     * Default constructor. 
     */
    public AeInvokePrepareException()

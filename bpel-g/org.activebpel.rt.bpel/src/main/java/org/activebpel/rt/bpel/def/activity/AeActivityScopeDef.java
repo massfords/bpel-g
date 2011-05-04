@@ -49,7 +49,11 @@ public class AeActivityScopeDef extends AeActivityDef
       IAeEventHandlersParentDef, IAeTerminationHandlerParentDef,
       IAeUncrossableLinkBoundary
 {
-   /** Flag indicating if the scope is isolated. */
+   /**
+     * 
+     */
+    private static final long serialVersionUID = 4771836200294453420L;
+/** Flag indicating if the scope is isolated. */
    private boolean mIsolated;
    /** The exit on standard fault override. */
    private Boolean mExitOnStandardFault;

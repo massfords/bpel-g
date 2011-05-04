@@ -19,7 +19,11 @@ import org.activebpel.rt.bpel.def.util.AeDefUtil;
  */
 public abstract class AeExpressionBaseDef extends AeBaseDef implements IAeExpressionDef
 {
-   /** The join condition construct's 'expressionLanguage' attribute. */
+   /**
+     * 
+     */
+    private static final long serialVersionUID = -7895968036775613991L;
+/** The join condition construct's 'expressionLanguage' attribute. */
    private String mExpressionLanguage;
    /** The value of the joinCondition, which is the boolean expression. */
    private String mExpression;

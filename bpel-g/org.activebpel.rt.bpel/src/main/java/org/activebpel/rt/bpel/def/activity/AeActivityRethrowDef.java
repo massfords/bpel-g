@@ -19,6 +19,11 @@ import org.activebpel.rt.bpel.def.visitors.IAeDefVisitor;
 public class AeActivityRethrowDef extends AeActivityDef
 {
    /**
+     * 
+     */
+    private static final long serialVersionUID = -7681516990162573194L;
+
+/**
     * Default c'tor.
     */
    public AeActivityRethrowDef()

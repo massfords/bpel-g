@@ -31,7 +31,11 @@ import org.activebpel.rt.util.AeUtil;
  */
 public class AeSchemaDate extends AeSchemaDateTime
 {
-   /** A regular expression for matching schema date strings. */
+   /**
+     * 
+     */
+    private static final long serialVersionUID = 6939815826808316376L;
+/** A regular expression for matching schema date strings. */
    private static Pattern INPUT_PATTERN = Pattern.compile("(-?)([1-9]*[0-9]{4})-([0-9]{2})-([0-9]{2})(Z|(([\\+\\-])([0-9]{2}):([0-9]{2})))?"); //$NON-NLS-1$
    /** The output format to use for toString(). */
    private static String OUTPUT_PATTERN = "{0}{1,number,0000}-{2,number,00}-{3,number,00}"; //$NON-NLS-1$

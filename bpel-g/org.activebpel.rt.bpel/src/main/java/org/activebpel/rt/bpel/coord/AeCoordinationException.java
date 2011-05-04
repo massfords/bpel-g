@@ -18,6 +18,11 @@ public class AeCoordinationException extends AeException
 {
 
    /**
+     * 
+     */
+    private static final long serialVersionUID = 4916400457098934442L;
+
+/**
     * Default constructor.
     */
    public AeCoordinationException()

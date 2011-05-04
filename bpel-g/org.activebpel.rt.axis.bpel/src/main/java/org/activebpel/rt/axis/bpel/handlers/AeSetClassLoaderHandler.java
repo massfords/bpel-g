@@ -23,7 +23,11 @@ import org.apache.axis.MessageContext;
  */
 public class AeSetClassLoaderHandler extends AeRestoreClassLoaderHandler
 {
-   /** the property to save the classloader in. */
+   /**
+     * 
+     */
+    private static final long serialVersionUID = -4231294964289391761L;
+/** the property to save the classloader in. */
    public static final String SAVED_CLASSLOADER_PROPERTY = "aeOldClassLoader"; // $NON_NLS1 //$NON-NLS-1$
    
    /**

@@ -35,6 +35,10 @@ import org.w3c.dom.Document;
 public class AeInvoke extends AeAbstractQueuedObject implements IAeInvokeInternal
 {
    /**
+     * 
+     */
+    private static final long serialVersionUID = 5258167614696627765L;
+/**
     * Flag indicates if this invoke is a one-way invoke and not expecting a
     * response
     */

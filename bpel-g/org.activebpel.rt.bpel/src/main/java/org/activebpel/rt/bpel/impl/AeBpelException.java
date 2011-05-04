@@ -18,7 +18,11 @@ import org.activebpel.rt.util.AeUtil;
  */
 public class AeBpelException extends AeBusinessProcessException
 {
-   /** The BPEL fault which was created */
+   /**
+     * 
+     */
+    private static final long serialVersionUID = -1974097114673293953L;
+/** The BPEL fault which was created */
    private IAeFault mFault;
    
    /**

@@ -26,7 +26,11 @@ import org.activebpel.rt.bpeladmin.war.graph.ui.AeIconLabel;
  */
 public class AeBpelLinkFigure extends AeBpelFigureBase
 {
-   /** Indicates the line direction heading North (up) **/
+   /**
+     * 
+     */
+    private static final long serialVersionUID = 256504745439002359L;
+/** Indicates the line direction heading North (up) **/
    public static final int NORTH = 0;
    /** Indicates the line direction heading EAST (right) **/
    public static final int EAST = 1;

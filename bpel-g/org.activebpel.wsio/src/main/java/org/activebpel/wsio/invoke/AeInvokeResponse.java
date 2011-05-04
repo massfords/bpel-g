@@ -21,7 +21,11 @@ import org.activebpel.wsio.IAeWebServiceResponse;
  */
 public class AeInvokeResponse implements IAeWebServiceResponse
 {
-   /** Error code QName. */
+   /**
+     * 
+     */
+    private static final long serialVersionUID = -6509109170679414109L;
+/** Error code QName. */
    protected QName mErrorCode;
    /** Message data. */
    protected IAeWebServiceMessageData mMessageData;

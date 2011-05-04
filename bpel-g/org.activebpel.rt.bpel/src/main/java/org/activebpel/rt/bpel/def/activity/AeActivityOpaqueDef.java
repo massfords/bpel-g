@@ -18,7 +18,12 @@ import org.activebpel.rt.bpel.def.visitors.IAeDefVisitor;
 public class AeActivityOpaqueDef extends AeActivityDef
 {
 
-   public AeActivityOpaqueDef()
+   /**
+     * 
+     */
+    private static final long serialVersionUID = 1929930792371833992L;
+
+public AeActivityOpaqueDef()
    {
       super();
    }

@@ -17,7 +17,12 @@ import java.io.Serializable;
  */
 public class AeBreakpointList implements Serializable
 {
-   /** The total number of rows in the list of breakpoints. */
+   /**
+     * 
+     */
+    private static final long serialVersionUID = 6077184411925830387L;
+
+/** The total number of rows in the list of breakpoints. */
    private int mTotalRowCount;
    
    /** The detail rows for the list of breakpoints. */

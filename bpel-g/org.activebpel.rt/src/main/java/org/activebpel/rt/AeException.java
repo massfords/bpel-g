@@ -20,7 +20,12 @@ import org.activebpel.rt.util.AeLoggerFactory;
 /** Describes the standard exception  */
 public class AeException extends Exception
 {
-   /** Flag indicating if stack trace enabled, on by default. */
+   /**
+     * 
+     */
+    private static final long serialVersionUID = -7891249123313611358L;
+
+/** Flag indicating if stack trace enabled, on by default. */
    public static boolean sStackTraceOn = true;
    
    /** The root cause of this exception */

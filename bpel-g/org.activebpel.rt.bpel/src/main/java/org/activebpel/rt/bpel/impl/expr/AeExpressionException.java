@@ -19,7 +19,11 @@ import org.activebpel.rt.bpel.impl.AeBpelException;
  */
 public class AeExpressionException extends RuntimeException
 {
-   /** The wrapped AeException. */
+   /**
+     * 
+     */
+    private static final long serialVersionUID = 1442148915615249837L;
+/** The wrapped AeException. */
    private AeBpelException mWrappedException;
 
    /**

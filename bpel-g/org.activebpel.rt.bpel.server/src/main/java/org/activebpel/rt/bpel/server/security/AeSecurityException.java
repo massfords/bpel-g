@@ -18,6 +18,11 @@ public class AeSecurityException extends AeException
 {
 
    /**
+     * 
+     */
+    private static final long serialVersionUID = -2495450924471164061L;
+
+/**
     * No arg constructor
     *
     */

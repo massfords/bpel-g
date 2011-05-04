@@ -85,7 +85,11 @@ import org.apache.commons.logging.Log;
  */
 public class AeHTTPSender extends BasicHandler
 {
-   private static final String KEY_IDLE_TIMEOUT = "org.activebpel.httpsender.idle.timeout"; //$NON-NLS-1$
+   /**
+     * 
+     */
+    private static final long serialVersionUID = 8364141576381461740L;
+private static final String KEY_IDLE_TIMEOUT = "org.activebpel.httpsender.idle.timeout"; //$NON-NLS-1$
    private static final String KEY_IDLE_SWEEP_INTERVAL = "org.activebpel.httpsender.idle.sweep.interval"; //$NON-NLS-1$
    private static final int DEFAULT_IDLE_CONNECTION_TIMEOUT = 5000;
    private static final int DEFAULT_IDLE_CONNECTION_SWEEP_INTERVAL = 3000;

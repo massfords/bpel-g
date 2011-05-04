@@ -20,6 +20,11 @@ import org.apache.axis.encoding.ser.SimpleDeserializer;
 public class AeHexBinaryDeserializer extends SimpleDeserializer
 {
    /**
+     * 
+     */
+    private static final long serialVersionUID = -1169050020891291809L;
+
+/**
     * The Deserializer is constructed with the xmlType and javaType
     */
    public AeHexBinaryDeserializer(Class javaType, QName xmlType)

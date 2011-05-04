@@ -18,6 +18,11 @@ import org.activebpel.rt.bpel.def.visitors.IAeDefVisitor;
 public class AeCatchAllDef extends AeSingleActivityParentBaseDef implements IAeFCTHandlerDef
 {
    /**
+     * 
+     */
+    private static final long serialVersionUID = 3824270965219586982L;
+
+/**
     * Default constructor
     */
    public AeCatchAllDef()

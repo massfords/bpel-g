@@ -21,6 +21,11 @@ public class AeIfPropertyNotInListTag extends AeIfPropertyInListTag
 {
 
    /**
+     * 
+     */
+    private static final long serialVersionUID = 2978206630222934200L;
+
+/**
     * Returns true if the string representation of <code>aActualValue</code> is 
     * <strong>not</strong> in a given list of comma separated strings.
     * @param aActualValue property object to compared to

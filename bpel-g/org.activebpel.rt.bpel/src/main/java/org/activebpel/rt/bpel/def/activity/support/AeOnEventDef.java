@@ -25,7 +25,11 @@ import org.activebpel.rt.bpel.def.visitors.IAeDefVisitor;
  */
 public class AeOnEventDef extends AeOnMessageDef
 {
-   /** The 'messageType' attribute. */
+   /**
+     * 
+     */
+    private static final long serialVersionUID = 2752682203786693941L;
+/** The 'messageType' attribute. */
    private QName mMessageType;
    /** The 'element' attribute. */
    private QName mElement;

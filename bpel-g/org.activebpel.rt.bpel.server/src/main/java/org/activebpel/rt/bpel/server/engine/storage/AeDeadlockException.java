@@ -19,6 +19,11 @@ import org.activebpel.rt.bpel.server.AeMessages;
 public class AeDeadlockException extends AeStorageException
 {
    /**
+     * 
+     */
+    private static final long serialVersionUID = 6509220201733882617L;
+
+/**
     * Construct a new runtime exception.
     */
    public AeDeadlockException()

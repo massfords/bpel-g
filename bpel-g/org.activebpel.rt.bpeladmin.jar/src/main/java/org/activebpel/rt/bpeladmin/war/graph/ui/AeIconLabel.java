@@ -18,7 +18,11 @@ import java.awt.Image;
  */
 public class AeIconLabel extends AeContainer
 {
-   /** Icon to be displayed. */
+   /**
+     * 
+     */
+    private static final long serialVersionUID = 1503463084475457607L;
+/** Icon to be displayed. */
    private AeIcon mIcon = null;
    /** Text label to be displayed. */
    private AeTextLabel mLabel;

@@ -17,6 +17,11 @@ import javax.xml.namespace.QName;
 public class AeBase64BinaryDeserializerFactory extends AeBaseDeserializerFactory
 {
    /**
+     * 
+     */
+    private static final long serialVersionUID = -8553164633106117589L;
+
+/**
     * Creates a deserializer factory with the given java type and xml type.
     */
    public AeBase64BinaryDeserializerFactory(Class javaType, QName xmlType)

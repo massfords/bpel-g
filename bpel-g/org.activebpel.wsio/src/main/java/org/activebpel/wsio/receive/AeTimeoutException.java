@@ -15,6 +15,11 @@ package org.activebpel.wsio.receive;
 public class AeTimeoutException extends AeRequestException
 {
    /**
+     * 
+     */
+    private static final long serialVersionUID = 3157387382162579964L;
+
+/**
     * Creates the exception with the specified message.
     * 
     * @param aMessage

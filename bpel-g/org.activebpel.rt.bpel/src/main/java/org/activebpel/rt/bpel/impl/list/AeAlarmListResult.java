@@ -19,6 +19,11 @@ import java.util.List;
 public class AeAlarmListResult extends AeListResult implements Serializable
 {
    /**
+     * 
+     */
+    private static final long serialVersionUID = -249832311166148492L;
+
+/**
     * Constructor.
     * @param aTotalRows Total rows that matched selection criteria.  This number may be greater than the number of results in this listing.
     * @param aAlarms The matching alarms.

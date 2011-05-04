@@ -19,6 +19,11 @@ import org.activebpel.rt.bpel.def.visitors.IAeDefVisitor;
 public class AeExtensibleAssignDef extends AeBaseDef
 {
    /**
+     * 
+     */
+    private static final long serialVersionUID = -1539201909914126508L;
+
+/**
     * Default c'tor.
     */
    public AeExtensibleAssignDef()

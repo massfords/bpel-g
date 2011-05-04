@@ -34,6 +34,11 @@ import org.apache.axis.utils.Messages;
 public class AeSimpleAuthorizationHandler extends BasicHandler
 {
    /**
+     * 
+     */
+    private static final long serialVersionUID = -145502166338487674L;
+
+/**
     * @see org.apache.axis.Handler#invoke(org.apache.axis.MessageContext)
     */
    public void invoke(MessageContext msgContext) throws AxisFault

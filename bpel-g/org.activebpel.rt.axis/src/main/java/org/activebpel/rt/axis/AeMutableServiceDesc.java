@@ -23,6 +23,10 @@ import org.apache.axis.description.OperationDesc;
 public class AeMutableServiceDesc extends AeServiceDesc
 {
    /**
+     * 
+     */
+    private static final long serialVersionUID = -7356824642863040857L;
+/**
     * The <code>IAeWsdlReference</code> impl.
     */
    private IAeWsdlReference mWsdlReference;

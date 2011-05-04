@@ -25,6 +25,11 @@ public class AeBpelActivityContainerFigure extends AeBpelFigureBase
 {
 
    /**
+     * 
+     */
+    private static final long serialVersionUID = 6041862079913842401L;
+
+/**
     * Constructs the container with the given name.
     * @param aBpelName
     */

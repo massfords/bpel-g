@@ -19,7 +19,11 @@ import org.activebpel.rt.bpel.def.visitors.IAeDefVisitor;
  */
 public class AeExtensionActivityDef extends AeActivityDef implements IAeSingleActivityContainerDef
 {
-   /** The extensionActivity construct must have a single activity child. */
+   /**
+     * 
+     */
+    private static final long serialVersionUID = 3547624255332890023L;
+/** The extensionActivity construct must have a single activity child. */
    private AeActivityDef mActivity;
 
    /**

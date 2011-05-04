@@ -25,7 +25,12 @@ import org.activebpel.rt.util.AeUtil;
  */
 public class AeAddressHandlingType implements Serializable
 {
-   /** value of the address handling directive */
+   /**
+     * 
+     */
+    private static final long serialVersionUID = -4617863103300522859L;
+
+/** value of the address handling directive */
    private String mValue;
    
    /** wsa:Address will be ignored in favor of the soap:address found in the service definition provided by wsa:ServiceName */

@@ -54,7 +54,12 @@ import org.xml.sax.helpers.AttributesImpl;
 public class AeRPCEncodedSerializer extends ElementSerializer
 {
 
-   /** prefix used when setting the xsi:type on the serialized multiRef element. 
+   /**
+     * 
+     */
+    private static final long serialVersionUID = -664459608908076244L;
+
+/** prefix used when setting the xsi:type on the serialized multiRef element. 
     * The AeLiteralDeserializer will skip over namespace declaration with this prefix
     * to avoid the namespace declaration getting propagated when it's not needed. */
    public static final String TYPE_PREFIX = "abpel-ser"; //$NON-NLS-1$
@@ -382,6 +387,11 @@ public class AeRPCEncodedSerializer extends ElementSerializer
    private static class AeNoOpDeserializerFactory implements DeserializerFactory
    {
       /**
+     * 
+     */
+    private static final long serialVersionUID = 285458507630799345L;
+
+    /**
        * @see javax.xml.rpc.encoding.DeserializerFactory#getDeserializerAs(java.lang.String)
        */
       public Deserializer getDeserializerAs(String mechanismType)

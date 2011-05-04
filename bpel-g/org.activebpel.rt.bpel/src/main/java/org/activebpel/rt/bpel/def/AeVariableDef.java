@@ -30,7 +30,11 @@ import org.exolab.castor.xml.schema.XMLType;
  */
 public class AeVariableDef extends AeNamedDef implements IAeFromParentDef
 {
-   /** Holds a map of part names to part type information. */
+   /**
+     * 
+     */
+    private static final long serialVersionUID = 6961564255591501071L;
+/** Holds a map of part names to part type information. */
    private AeMessagePartsMap mMessageParts;
    /** The message type of the variable, null if not a message type */
    private QName mMessageType;

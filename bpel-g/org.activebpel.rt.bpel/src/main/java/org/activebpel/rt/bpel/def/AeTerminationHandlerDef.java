@@ -18,6 +18,11 @@ import org.activebpel.rt.bpel.def.visitors.IAeDefVisitor;
 public class AeTerminationHandlerDef extends AeSingleActivityParentBaseDef implements IAeSingleActivityContainerDef, IAeCompensateParentDef, IAeFCTHandlerDef
 {
    /**
+     * 
+     */
+    private static final long serialVersionUID = 6119565490102992381L;
+
+/**
     * Default c'tor.
     */
    public AeTerminationHandlerDef()

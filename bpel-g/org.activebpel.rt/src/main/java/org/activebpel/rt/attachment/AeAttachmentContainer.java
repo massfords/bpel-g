@@ -27,7 +27,11 @@ import org.activebpel.rt.util.AeUtil;
  */
 public class AeAttachmentContainer extends ArrayList implements IAeAttachmentContainer
 {
-   /** regular expression to match Content-Id unique postfix*/
+   /**
+     * 
+     */
+    private static final long serialVersionUID = 3367155879963089013L;
+/** regular expression to match Content-Id unique postfix*/
    private static Pattern sContentIdRegEx = Pattern.compile(
          "(.*)\\-([0-9]+)", Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE); //$NON-NLS-1$
    

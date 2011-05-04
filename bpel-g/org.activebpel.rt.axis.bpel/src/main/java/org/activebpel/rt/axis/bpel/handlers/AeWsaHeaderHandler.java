@@ -32,6 +32,11 @@ import org.apache.axis.message.SOAPHeaderElement;
 public class AeWsaHeaderHandler extends BasicHandler
 {
    /**
+     * 
+     */
+    private static final long serialVersionUID = 3657010884787063650L;
+
+/**
     * Overrides method to flag all wsa headers as understood 
     * @see org.apache.axis.Handler#invoke(org.apache.axis.MessageContext)
     */

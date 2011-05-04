@@ -41,7 +41,11 @@ import net.sf.saxon.value.Value;
  */
 public class AeNoOpVariable implements Expression
 {
-   /** The variable's namespace. */
+   /**
+     * 
+     */
+    private static final long serialVersionUID = -8480067208450743376L;
+/** The variable's namespace. */
    private String mNamespaceURI;
    /** The variable's name. */
    private String mName;

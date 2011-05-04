@@ -38,7 +38,11 @@ import org.w3c.dom.Element;
  */
 public class AeAddressingHeaders extends AeWsAddressingHeaders implements IAeAddressingHeaders
 {
-   /** factory that gives us a means to parse endpoint references from xml */
+   /**
+     * 
+     */
+    private static final long serialVersionUID = -5809842109938806654L;
+/** factory that gives us a means to parse endpoint references from xml */
    private static IAeEndpointFactory sEndpointFactory = new AeEndpointFactory();
    
    /**

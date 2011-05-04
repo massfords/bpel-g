@@ -20,7 +20,11 @@ import org.w3c.dom.Node;
  */
 public abstract class AeAbstractXpathSelectionTag extends AeAbstractXpathTag
 {
-   /** Xpath selection path query. */
+   /**
+     * 
+     */
+    private static final long serialVersionUID = -519657779232252197L;
+/** Xpath selection path query. */
    private String mQuery;
 
    /**

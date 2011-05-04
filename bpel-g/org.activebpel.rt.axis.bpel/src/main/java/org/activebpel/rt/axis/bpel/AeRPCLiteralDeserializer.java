@@ -33,7 +33,12 @@ import org.xml.sax.SAXException;
  */
 public class AeRPCLiteralDeserializer extends AeRPCEncodedDeserializer
 {
-   // TODO (MF) This class no longer needs to extend AeRPCEncodedDeserializer
+   /**
+     * 
+     */
+    private static final long serialVersionUID = 2323846492927151161L;
+
+// TODO (MF) This class no longer needs to extend AeRPCEncodedDeserializer
    /**
     * Constructor for deserializer.
     */

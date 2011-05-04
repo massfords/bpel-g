@@ -21,7 +21,11 @@ import org.activebpel.rt.bpel.def.visitors.IAeDefVisitor;
  */
 public class AeActivityWaitDef extends AeActivityDef implements IAeTimedDef, IAeForUntilParentDef
 {
-   /** The 'for' child construct. */
+   /**
+     * 
+     */
+    private static final long serialVersionUID = -3840446576366612492L;
+/** The 'for' child construct. */
    private AeForDef mForDef;
    /** The 'until' child construct. */
    private AeUntilDef mUntilDef;

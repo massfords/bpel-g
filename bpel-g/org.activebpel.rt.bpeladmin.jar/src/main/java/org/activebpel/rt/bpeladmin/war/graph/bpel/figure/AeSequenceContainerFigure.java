@@ -24,6 +24,11 @@ public class AeSequenceContainerFigure extends AeContainerFigure
 {
 
    /**
+     * 
+     */
+    private static final long serialVersionUID = 5399718336912260309L;
+
+/**
     * Constructs this container with the given name.
     * @param aName
     */

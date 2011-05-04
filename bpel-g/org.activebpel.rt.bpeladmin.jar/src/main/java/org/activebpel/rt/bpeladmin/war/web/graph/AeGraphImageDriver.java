@@ -482,6 +482,11 @@ public class AeGraphImageDriver
    private static class AeResourceAllocationException extends AeException
    {
       /**
+     * 
+     */
+    private static final long serialVersionUID = -3745274477250367559L;
+
+    /**
        * Default ctor.
        * @param aAllocateBytes maximum allocated memory (bytes)
        * @param aRequiredBytes memory required to render the graph image (bytes).

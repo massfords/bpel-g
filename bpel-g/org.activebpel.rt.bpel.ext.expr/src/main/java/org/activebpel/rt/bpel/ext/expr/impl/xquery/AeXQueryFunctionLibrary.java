@@ -24,7 +24,11 @@ import org.activebpel.rt.bpel.function.IAeFunctionFactory;
  */
 public class AeXQueryFunctionLibrary implements FunctionLibrary
 {
-   /** The expression context to use during function execution. */
+   /**
+     * 
+     */
+    private static final long serialVersionUID = 8974556871214950752L;
+/** The expression context to use during function execution. */
    private IAeFunctionExecutionContext mFunctionExecutionContext;
 
    /**

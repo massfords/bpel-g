@@ -17,6 +17,11 @@ import org.activebpel.rt.AeException;
 public class AeInvalidFunctionContextException extends AeException
 {
    /**
+     * 
+     */
+    private static final long serialVersionUID = 6586348928682354215L;
+
+/**
     * Constructor. 
     */
    public AeInvalidFunctionContextException()

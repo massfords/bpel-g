@@ -17,7 +17,11 @@ import org.activebpel.rt.bpel.def.visitors.IAeDefVisitor;
 /** Holds individual correlation elements */
 public class AeCorrelationDef extends AeBaseDef
 {
-   // Initiate possible values
+   /**
+     * 
+     */
+    private static final long serialVersionUID = 521882643408569269L;
+// Initiate possible values
    public static final String INITIATE_YES = "yes"; //$NON-NLS-1$
    public static final String INITIATE_NO = "no"; //$NON-NLS-1$
    public static final String INITIATE_JOIN = "join"; //$NON-NLS-1$
@@ -152,7 +156,12 @@ public class AeCorrelationDef extends AeBaseDef
     */
    public static class AeCorrelationPatternType implements Serializable
    {
-      /** value of the pattern */
+      /**
+     * 
+     */
+    private static final long serialVersionUID = 1817062058030101506L;
+
+    /** value of the pattern */
       private String mValue;
       
       /** invoke will initiate/validate correlation set with its request messages */
@@ -206,6 +215,11 @@ public class AeCorrelationDef extends AeBaseDef
    public static class AeInvalidCorrelationPatternType extends AeCorrelationPatternType
    {
       /**
+     * 
+     */
+    private static final long serialVersionUID = -3441106048685124750L;
+
+    /**
        * Ctor
        * @param aValue
        */

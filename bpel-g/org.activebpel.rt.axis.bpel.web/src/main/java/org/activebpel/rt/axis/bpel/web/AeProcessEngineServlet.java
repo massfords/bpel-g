@@ -33,7 +33,11 @@ import org.apache.axis.transport.http.AxisServlet;
 public class AeProcessEngineServlet extends AxisServlet
 {
 
-   /** The axis server */
+   /**
+     * 
+     */
+    private static final long serialVersionUID = -8165149089539255494L;
+/** The axis server */
    protected static AxisServer mAxisServer = null;
 
    /**

@@ -19,7 +19,11 @@ import org.activebpel.rt.bpel.def.visitors.IAeDefVisitor;
 /** The onAlarm element used within the Pick activity */
 public class AeOnAlarmDef extends AeSingleActivityParentBaseDef implements IAeSingleActivityContainerDef, IAeTimedDef, IAeForUntilParentDef
 {
-   /** The 'for' child construct. */
+   /**
+     * 
+     */
+    private static final long serialVersionUID = -3092381568670938327L;
+/** The 'for' child construct. */
    private AeForDef mForDef;
    /** The 'until' child construct. */
    private AeUntilDef mUntilDef;

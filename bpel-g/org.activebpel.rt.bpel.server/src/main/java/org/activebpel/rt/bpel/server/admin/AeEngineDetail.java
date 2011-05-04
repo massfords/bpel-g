@@ -19,7 +19,11 @@ import org.activebpel.rt.bpel.impl.AeMonitorStatus;
  */
 public class AeEngineDetail implements Serializable
 {
-   /** The current engine state. */
+   /**
+     * 
+     */
+    private static final long serialVersionUID = -6604156295241504873L;
+/** The current engine state. */
    protected AeEngineStatus mState;
    /** The current monitor status. */
    protected AeMonitorStatus mMonitorStatus;

@@ -19,7 +19,11 @@ import javax.xml.namespace.QName;
  */
 public class AeMessageReceiverFilter extends AeListingFilter implements Serializable
 {
-   /** No selection criteria specified. */
+   /**
+     * 
+     */
+    private static final long serialVersionUID = -6961169569858978932L;
+/** No selection criteria specified. */
    public static final AeMessageReceiverFilter NULL_FILTER = new AeMessageReceiverFilter();
    /** Default 'null' value for process id. */
    public static final long NULL_ID = -1;

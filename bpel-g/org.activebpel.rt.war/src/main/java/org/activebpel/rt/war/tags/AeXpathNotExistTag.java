@@ -22,6 +22,11 @@ import javax.servlet.jsp.JspException;
 public class AeXpathNotExistTag extends AeXpathExistTag
 {
    /**
+     * 
+     */
+    private static final long serialVersionUID = 2216079127445317122L;
+
+/**
     * Overrides method to return false if the path exists.
     * @see org.activebpel.rt.war.tags.AeXpathExistTag#pathExists()
     */

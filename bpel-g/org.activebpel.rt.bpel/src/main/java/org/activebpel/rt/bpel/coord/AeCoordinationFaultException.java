@@ -23,7 +23,11 @@ package org.activebpel.rt.bpel.coord;
  */
 public class AeCoordinationFaultException extends AeCoordinationException
 {
-   public static final String  INVALID_STATE       = "aecoor:InvalidState"; //$NON-NLS-1$
+   /**
+     * 
+     */
+    private static final long serialVersionUID = -5627402728005034157L;
+public static final String  INVALID_STATE       = "aecoor:InvalidState"; //$NON-NLS-1$
    public static final String  INVALID_PROTOCOL    = "aecoor:InvalidProtocol"; //$NON-NLS-1$
    public static final String  INVALID_PARAMETERS  = "aecoor:InvalidParameters"; //$NON-NLS-1$
    public static final String  NO_ACTIVITY         = "aecoor:NoActivity"; //$NON-NLS-1$

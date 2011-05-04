@@ -51,7 +51,12 @@ import org.w3c.dom.Element;
  */
 public abstract class AeHandler extends BasicProvider
 {
-   /** Key for property which holds the AeBPELExtendedWSDLDef this service operates against */
+   /**
+     * 
+     */
+    private static final long serialVersionUID = -5093538490485247955L;
+
+/** Key for property which holds the AeBPELExtendedWSDLDef this service operates against */
    public static final String WSDL_DEF_ENTRY = "org.activebpel.rt.axis.WsdlDefEntry"; //$NON-NLS-1$
    
    /** Key for property which specifies the AePartnerLinkDef which this service operates against*/

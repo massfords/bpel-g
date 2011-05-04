@@ -31,6 +31,11 @@ import org.activebpel.rt.util.AeCloser;
 public class AeProcessLogDumpServlet extends HttpServlet {
 
     /**
+     * 
+     */
+    private static final long serialVersionUID = 6697153830648576282L;
+
+    /**
      * @see javax.servlet.http.HttpServlet#doGet(javax.servlet.http.HttpServletRequest,
      *      javax.servlet.http.HttpServletResponse)
      */

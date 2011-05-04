@@ -303,7 +303,11 @@ public class AeBpelEngine extends AeAbstractServerEngine {
 	 */
 	private static class AeDispatchReceiveRunnableHelper extends AeAbstractWork
 			implements IAeInputMessageWork {
-		/** process id */
+		/**
+         * 
+         */
+        private static final long serialVersionUID = -2262847462498470335L;
+        /** process id */
 		private long mProcessId;
 		/** location id of message receiver */
 		private int mLocationId;
@@ -387,7 +391,11 @@ public class AeBpelEngine extends AeAbstractServerEngine {
 	 */
 	private static class AeProcessExecutionRunnableHelper extends
 			AeAbstractWork implements IAeInputMessageWork {
-		/** pid for the process that we want to execute */
+		/**
+         * 
+         */
+        private static final long serialVersionUID = 8508128496760923014L;
+        /** pid for the process that we want to execute */
 		private long mProcessId;
 		/** current BPEL engine */
 		private transient AeBpelEngine mBpelEngine;

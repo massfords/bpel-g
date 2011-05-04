@@ -15,7 +15,12 @@ package org.activebpel.rt.bpel.impl.list;
  */
 public class AeCatalogListingFilter extends AeListingFilter
 {
-   /** The type uri to select which is null or empty if none selected. */
+   /**
+     * 
+     */
+    private static final long serialVersionUID = -7007007514337609403L;
+
+/** The type uri to select which is null or empty if none selected. */
    private String mTypeURI;
    
    /** The resource name to filter on, may contain asterisk as wild card. */

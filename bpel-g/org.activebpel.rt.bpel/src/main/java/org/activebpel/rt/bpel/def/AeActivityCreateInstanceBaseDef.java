@@ -15,6 +15,10 @@ package org.activebpel.rt.bpel.def;
 public abstract class AeActivityCreateInstanceBaseDef extends AeActivityPartnerLinkBaseDef implements IAeActivityCreateInstanceDef
 {
    /**
+     * 
+     */
+    private static final long serialVersionUID = -2738783630696156435L;
+/**
     * createInstance attribute.
     */
    private boolean mCreateInstance;

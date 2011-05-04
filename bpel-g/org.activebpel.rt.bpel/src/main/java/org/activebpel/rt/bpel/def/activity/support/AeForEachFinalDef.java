@@ -17,6 +17,11 @@ import org.activebpel.rt.bpel.def.visitors.IAeDefVisitor;
 public class AeForEachFinalDef extends AeExpressionBaseDef
 {
    /**
+     * 
+     */
+    private static final long serialVersionUID = 3623903748352647468L;
+
+/**
     * Default c'tor.
     */
    public AeForEachFinalDef()

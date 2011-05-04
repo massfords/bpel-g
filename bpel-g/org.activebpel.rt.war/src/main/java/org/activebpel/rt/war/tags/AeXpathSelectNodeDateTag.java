@@ -30,6 +30,11 @@ import org.activebpel.rt.xml.schema.AeSchemaDateTime;
 public class AeXpathSelectNodeDateTag extends AeAbstractXpathNodeTextFormatterTag
 {
    /**
+     * 
+     */
+    private static final long serialVersionUID = -1081892307812561412L;
+
+/**
     * Creates and returns the concrete DateFormat object.
     *
     * @param aPattern

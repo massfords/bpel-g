@@ -20,7 +20,11 @@ import javax.xml.namespace.QName;
  */
 public class AeWebServiceMessageData implements IAeWebServiceMessageData
 {
-   /** Message qname. */
+   /**
+     * 
+     */
+    private static final long serialVersionUID = -3852795336489774885L;
+/** Message qname. */
    protected QName mMessageQName;
    /** Message part data. */
    protected Map mParts = new HashMap();

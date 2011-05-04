@@ -21,7 +21,11 @@ import org.activebpel.rt.bpel.def.visitors.IAeDefVisitor;
  */
 public class AeForEachCompletionConditionDef extends AeBaseDef implements IAeExpressionDef
 {
-   /** delegate branches */
+   /**
+     * 
+     */
+    private static final long serialVersionUID = -7974326429816299462L;
+/** delegate branches */
    private AeForEachBranchesDef mBranches;
    
    /**

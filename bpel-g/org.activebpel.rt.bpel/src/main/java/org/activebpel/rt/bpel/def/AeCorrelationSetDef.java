@@ -23,7 +23,11 @@ import org.activebpel.rt.bpel.def.visitors.IAeDefVisitor;
  */
 public class AeCorrelationSetDef extends AeNamedDef
 {
-   /** The properties of the correlation set. */
+   /**
+     * 
+     */
+    private static final long serialVersionUID = 4635602438406610972L;
+/** The properties of the correlation set. */
    private Collection<QName> mProperties;
    /** Flag for whether this correlationSet has multiple points of initiation */
    private boolean mJoinStyle;

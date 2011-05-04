@@ -16,7 +16,11 @@ import org.activebpel.rt.xml.def.IAeNamedDef;
  */
 public abstract class AeNamedDef extends AeBaseDef implements IAeNamedDef
 {
-   // persistent attributes of the definition
+   /**
+     * 
+     */
+    private static final long serialVersionUID = -7194070584181259906L;
+// persistent attributes of the definition
    private String mName = ""; //$NON-NLS-1$
 
    /**

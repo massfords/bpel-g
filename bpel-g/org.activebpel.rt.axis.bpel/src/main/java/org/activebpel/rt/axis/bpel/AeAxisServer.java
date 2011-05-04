@@ -21,6 +21,11 @@ import org.apache.axis.server.AxisServer;
 public class AeAxisServer extends AxisServer
 {
    /**
+     * 
+     */
+    private static final long serialVersionUID = 6776265942617566255L;
+
+/**
     * Sets the current thread-local message context
     * @param aContext
     */

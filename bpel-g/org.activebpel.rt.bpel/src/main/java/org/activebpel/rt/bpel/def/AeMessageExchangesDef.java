@@ -22,7 +22,12 @@ import org.activebpel.rt.util.AeUtil;
  */
 public class AeMessageExchangesDef extends AeBaseContainer
 {
-   /** true if the messageExchanges implicitly declares the "default" messageExchange value */
+   /**
+     * 
+     */
+    private static final long serialVersionUID = -1116836666830553841L;
+
+/** true if the messageExchanges implicitly declares the "default" messageExchange value */
    private boolean mDefaultDeclared = false;
 
    /** cached set of values for the messageExchanges contained within this def */

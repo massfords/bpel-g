@@ -18,5 +18,10 @@ import org.activebpel.rt.AeException;
  */
 public class AeRecoveryConflictingRequestException extends AeException
 {
+
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -7384862175427623208L;
 }
  
