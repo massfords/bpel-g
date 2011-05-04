@@ -48,17 +48,8 @@
               <goal>unpack-dependencies</goal>
             </goals>
             <configuration>
-              <artifactItems>
-                <artifactItem>
-                  <groupId>org.activebpel</groupId>
-                  <artifactId>ae-services</artifactId>
-                  <version>5.2-SNAPSHOT</version>
-                  <type>jar</type>
-                  <overWrite>true</overWrite>
-                  <outputDirectory>${basedir}/target/dependency</outputDirectory>
-                  <includes>**/*.wsdl,**/*.xsd</includes>
-                </artifactItem>
-              </artifactItems>
+              <includeArtifactIds>ae-services</includeArtifactIds>
+              <includes>**/*.xsd, **/*.wsdl</includes>
             </configuration>
           </execution>
         </executions>
