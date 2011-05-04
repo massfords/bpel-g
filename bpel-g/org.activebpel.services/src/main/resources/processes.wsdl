@@ -214,7 +214,20 @@
                <xs:element name="portType" type="xs:QName"/>
                <xs:element name="operation" type="xs:string"/>
                <xs:element ref="tns:correlationProperties" minOccurs="0"/>
-               <xs:element name="data" type="xs:string"/>
+               <xs:element name="message">
+                  <xs:complexType>
+                     <xs:sequence>
+                        <xs:element name="part" maxOccurs="unbounded" minOccurs="0">
+                           <xs:complexType mixed="true">
+                              <xs:sequence>
+                                 <xs:any processContents="skip"/>
+                              </xs:sequence>
+                              <xs:attribute name="name" use="required"/>
+                           </xs:complexType>
+                        </xs:element>
+                     </xs:sequence>
+                  </xs:complexType>
+               </xs:element>
             </xs:sequence>
          </xs:complexType>
          <xs:element name="inboundMessage" type="tns:messageRoutingDetails"/>
