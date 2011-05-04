@@ -26,6 +26,17 @@
         </configuration>
       </plugin>
       <plugin>
+		<groupId>org.apache.maven.plugins</groupId>
+		<artifactId>maven-eclipse-plugin</artifactId>
+		<version>2.8</version>
+		<configuration>
+			<sourceIncludes>
+				<sourceInclude>${basedir}/target/generated-sources/xjc</sourceInclude>
+				<sourceInclude>${basedir}/target/generated-sources/cxf/wsdl2java</sourceInclude>
+			</sourceIncludes>
+		</configuration>
+	  </plugin>
+      <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-dependency-plugin</artifactId>
         <version>2.1</version>
@@ -34,7 +45,7 @@
             <id>unpack-interfaces</id>
             <phase>initialize</phase>
             <goals>
-              <goal>unpack</goal>
+              <goal>unpack-dependencies</goal>
             </goals>
             <configuration>
               <artifactItems>
