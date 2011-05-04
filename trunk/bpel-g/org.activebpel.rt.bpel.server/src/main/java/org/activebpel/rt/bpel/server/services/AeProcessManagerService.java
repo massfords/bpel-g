@@ -9,8 +9,10 @@ import org.activebpel.rt.bpel.server.admin.IAeEngineAdministration;
 import bpelg.services.processes.AeProcessManager;
 import bpelg.services.processes.ProcessStateErrorMessage;
 import bpelg.services.processes.StorageErrorMessage;
+import bpelg.services.processes.types.GetInboundMessages;
 import bpelg.services.processes.types.GetProcessDeployments;
 import bpelg.services.processes.types.GetServiceDeployments;
+import bpelg.services.processes.types.InboundMessages;
 import bpelg.services.processes.types.ProcessDeployment;
 import bpelg.services.processes.types.ProcessDeployments;
 import bpelg.services.processes.types.ProcessFilterType;
@@ -19,106 +21,106 @@ import bpelg.services.processes.types.ProcessList;
 import bpelg.services.processes.types.ServiceDeployments;
 
 public class AeProcessManagerService implements AeProcessManager {
-	
-	private IAeProcessManager mProcessManager;
-	private IAeEngineAdministration mEngineAdmin;
 
-	public IAeProcessManager getProcessManager() {
-		return mProcessManager;
-	}
+    private IAeProcessManager mProcessManager;
+    private IAeEngineAdministration mEngineAdmin;
 
-	public void setProcessManager(IAeProcessManager aProcessManager) {
-		mProcessManager = aProcessManager;
-	}
+    public IAeProcessManager getProcessManager() {
+        return mProcessManager;
+    }
 
-	@Override
-	public int removeProcessByQuery(ProcessFilterType aFilter)
-			throws StorageErrorMessage {
-		try {
-			return getProcessManager().removeProcesses(aFilter);
-		} catch(AeBusinessProcessException e) {
-			throw new StorageErrorMessage(e.getMessage(), e);
-		}
-	}
+    public void setProcessManager(IAeProcessManager aProcessManager) {
+        mProcessManager = aProcessManager;
+    }
 
-	@Override
-	public ProcessList getProcesses(ProcessFilterType aBody)
-			throws StorageErrorMessage {
-		try {
-			return getProcessManager().getProcesses(aBody);
-		} catch (AeBusinessProcessException e) {
-			throw new StorageErrorMessage(e.getMessage(), e);
-		}
-	}
+    @Override
+    public int removeProcessByQuery(ProcessFilterType aFilter)
+            throws StorageErrorMessage {
+        try {
+            return getProcessManager().removeProcesses(aFilter);
+        } catch (AeBusinessProcessException e) {
+            throw new StorageErrorMessage(e.getMessage(), e);
+        }
+    }
 
-	@Override
-	public void restartProcess(long aProcessId) throws ProcessStateErrorMessage {
-		try {
-			getProcessManager().getEngine().restartProcess(aProcessId);
-		} catch (AeBusinessProcessException e) {
-			throw new ProcessStateErrorMessage(e.getMessage(), e);
-		}
-	}
+    @Override
+    public ProcessList getProcesses(ProcessFilterType aBody)
+            throws StorageErrorMessage {
+        try {
+            return getProcessManager().getProcesses(aBody);
+        } catch (AeBusinessProcessException e) {
+            throw new StorageErrorMessage(e.getMessage(), e);
+        }
+    }
 
-	@Override
-	public void resumeProcess(long aProcessId) throws ProcessStateErrorMessage {
-		try {
-			getProcessManager().getEngine().resumeProcess(aProcessId);
-		} catch (AeBusinessProcessException e) {
-			throw new ProcessStateErrorMessage(e.getMessage(), e);
-		}
-	}
+    @Override
+    public void restartProcess(long aProcessId) throws ProcessStateErrorMessage {
+        try {
+            getProcessManager().getEngine().restartProcess(aProcessId);
+        } catch (AeBusinessProcessException e) {
+            throw new ProcessStateErrorMessage(e.getMessage(), e);
+        }
+    }
 
-	@Override
-	public void terminateProcess(long aProcessId) throws ProcessStateErrorMessage {
-		try {
-			getProcessManager().getEngine().terminateProcess(aProcessId);
-		} catch (AeBusinessProcessException e) {
-			throw new ProcessStateErrorMessage(e.getMessage(), e);
-		}
-	}
+    @Override
+    public void resumeProcess(long aProcessId) throws ProcessStateErrorMessage {
+        try {
+            getProcessManager().getEngine().resumeProcess(aProcessId);
+        } catch (AeBusinessProcessException e) {
+            throw new ProcessStateErrorMessage(e.getMessage(), e);
+        }
+    }
 
-	@Override
-	public void suspendProcess(long aProcessId) throws ProcessStateErrorMessage {
-		try {
-			getProcessManager().getEngine().suspendProcess(aProcessId);
-		} catch (AeBusinessProcessException e) {
-			throw new ProcessStateErrorMessage(e.getMessage(), e);
-		}
-	}
+    @Override
+    public void terminateProcess(long aProcessId)
+            throws ProcessStateErrorMessage {
+        try {
+            getProcessManager().getEngine().terminateProcess(aProcessId);
+        } catch (AeBusinessProcessException e) {
+            throw new ProcessStateErrorMessage(e.getMessage(), e);
+        }
+    }
 
-	@Override
-	public ProcessInstanceDetail getProcessDetail(long aBody)
-			throws StorageErrorMessage {
-		return getProcessManager().getProcessInstanceDetails(aBody);
-	}
+    @Override
+    public void suspendProcess(long aProcessId) throws ProcessStateErrorMessage {
+        try {
+            getProcessManager().getEngine().suspendProcess(aProcessId);
+        } catch (AeBusinessProcessException e) {
+            throw new ProcessStateErrorMessage(e.getMessage(), e);
+        }
+    }
 
-	@Override
-	public ServiceDeployments getServiceDeployments(GetServiceDeployments aBody) {
-		return getEngineAdmin().getDeployedServices();
-	}
+    @Override
+    public ProcessInstanceDetail getProcessDetail(long aBody)
+            throws StorageErrorMessage {
+        return getProcessManager().getProcessInstanceDetails(aBody);
+    }
 
-	public IAeEngineAdministration getEngineAdmin() {
-		return mEngineAdmin;
-	}
+    @Override
+    public ServiceDeployments getServiceDeployments(GetServiceDeployments aBody) {
+        return getEngineAdmin().getDeployedServices();
+    }
 
-	public void setEngineAdmin(IAeEngineAdministration aEngineAdmin) {
-		mEngineAdmin = aEngineAdmin;
-	}
+    public IAeEngineAdministration getEngineAdmin() {
+        return mEngineAdmin;
+    }
 
-	@Override
-	public ProcessDeployment getProcessDeploymentByName(QName aBody) {
-		return getEngineAdmin().getDeployedProcessDetail(aBody);
-	}
+    public void setEngineAdmin(IAeEngineAdministration aEngineAdmin) {
+        mEngineAdmin = aEngineAdmin;
+    }
 
-	@Override
-	public ProcessDeployments getProcessDeployments(GetProcessDeployments aBody) {
-		return getEngineAdmin().getDeployedProcesses();
-	}
+    @Override
+    public ProcessDeployment getProcessDeploymentByName(QName aBody) {
+        return getEngineAdmin().getDeployedProcessDetail(aBody);
+    }
 
-        @Override
-	public bpelg.services.processes.types.InboundMessages getInboundMessages(
-										 bpelg.services.processes.types.GetInboundMessages body) {return null;}
+    @Override
+    public ProcessDeployments getProcessDeployments(GetProcessDeployments aBody) {
+        return getEngineAdmin().getDeployedProcesses();
+    }
 
-
+    @Override
+    public InboundMessages getInboundMessages(GetInboundMessages aBody) {
+        return null;
+    }
 }
