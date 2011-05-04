@@ -17,6 +17,7 @@ import org.junit.Test;
 
 import bpelg.services.urnresolver.AeURNResolver;
 import bpelg.services.urnresolver.types.AddMappingRequest;
+import bpelg.services.urnresolver.types.GetMappingsRequest;
 import bpelg.services.urnresolver.types.Mappings;
 import bpelg.services.urnresolver.types.Mappings.Mapping;
 import bpelg.services.urnresolver.types.Names;
@@ -49,7 +50,7 @@ public class AeURNResolverIntegrationTest {
     }
 
 	protected Map<String, String> getMappings() {
-		Mappings mappings = resolver.getMappings("");
+		Mappings mappings = resolver.getMappings(new GetMappingsRequest());
 	    Map<String,String> names = new HashMap();
 	    for(Mapping mapping : mappings.getMapping()) {
 	    	names.put(mapping.getName(), mapping.getValue());

@@ -2,7 +2,6 @@ package org.activebpel.rt.bpel.server.admin.jmx;
 
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 import org.activebpel.rt.AeException;
 import org.activebpel.rt.bpel.AeBusinessProcessException;
@@ -142,12 +141,6 @@ public interface IAeEngineManagementMXBean {
 	 * Returns true if the engine is currently running.
 	 */
 	public boolean isRunning();
-
-	public void addURNMapping(String aURN, String aURL);
-
-	public Map<String, String> getURNMappings();
-
-	public void removeURNMappings(String[] aURN);
 
 	/**
 	 * Returns True if using internal WorkManager or False if using server

@@ -168,7 +168,6 @@
         <property name="StorageFactory" ref="StorageFactory"/>
     </bean>
     <bean id="EngineAdminImpl" class="org.activebpel.rt.axis.bpel.web.AeWebEngineAdministration">
-        <property name="URNResolver" ref="URNResolver"/>
         <property name="DeploymentHandler" ref="DeploymentHandler"/>
     </bean>
     <bean id="DeploymentProvider" class="org.activebpel.rt.bpel.server.deploy.AeDeploymentProvider"/>

@@ -13,8 +13,6 @@ import java.io.File;
 import java.util.Date;
 import java.util.List;
 
-import javax.xml.namespace.QName;
-
 import org.activebpel.rt.AeException;
 import org.activebpel.rt.bpel.AeBusinessProcessException;
 import org.activebpel.rt.bpel.coord.AeCoordinationDetail;
@@ -25,35 +23,15 @@ import org.activebpel.rt.bpel.impl.list.AeMessageReceiverFilter;
 import org.activebpel.rt.bpel.impl.list.AeMessageReceiverListResult;
 import org.activebpel.rt.bpel.server.catalog.report.IAeCatalogAdmin;
 import org.activebpel.rt.bpel.server.logging.IAeDeploymentLogger;
-import org.activebpel.rt.bpel.urn.IAeURNResolver;
 
-import bpelg.services.processes.types.ProcessDeployment;
-import bpelg.services.processes.types.ProcessDeployments;
 import bpelg.services.processes.types.ProcessFilterType;
 import bpelg.services.processes.types.ProcessList;
-import bpelg.services.processes.types.ServiceDeployments;
 
 /**
  * Interface for engine administration/console support
  */
 public interface IAeEngineAdministration
 {
-   /**
-    * Gets the details for all of the deployed services.
-    */
-   public ServiceDeployments getDeployedServices();
-
-   /**
-    * Gets the details for all of the deployed processes
-    */
-   public ProcessDeployments getDeployedProcesses();
-
-   /**
-    * Get the details for a single process identified by its QName.
-    * @param aQName
-    */
-   public ProcessDeployment getDeployedProcessDetail(QName aQName);
-
    /**
     * Gets a list of the unmatched inbound queued receives from the engine's
     * queue.
@@ -171,11 +149,6 @@ public interface IAeEngineAdministration
     * @param aLogger A logger to use.
     */
    public void deployNewBpr(File aBprFile, String aBprFilename, IAeDeploymentLogger aLogger) throws AeException;
-
-   /**
-    * Getter for the urn resolver.
-    */
-   public IAeURNResolver getURNAddressResolver();
 
    /**
     * Returns True if using internal WorkManager or False if using server implementation.

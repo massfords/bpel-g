@@ -195,18 +195,6 @@ public class AeEngineManagementAdapter implements IAeEngineManagementMXBean {
         mAdmin.stop();
     }
 
-    public void addURNMapping(String aURN, String aURL) {
-        mAdmin.getURNAddressResolver().addMapping(aURN, aURL);
-    }
-
-    public Map<String, String> getURNMappings() {
-        return mAdmin.getURNAddressResolver().getMappings();
-    }
-
-    public void removeURNMappings(String[] aURN) {
-        mAdmin.getURNAddressResolver().removeMappings(aURN);
-    }
-
     public AeCoordinationDetail getCoordinatorForProcessId(long aChildProcessId) throws AeException {
         return mAdmin.getCoordinatorForProcessId(aChildProcessId);
     }

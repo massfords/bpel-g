@@ -10,12 +10,14 @@
 package org.activebpel.rt.bpeladmin.war.web.urn; 
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
+import org.activebpel.rt.bpeladmin.war.AeEngineManagementFactory;
 import org.activebpel.rt.bpeladmin.war.web.AeAbstractAdminBean;
+
+import bpelg.services.urnresolver.types.GetMappingsRequest;
+import bpelg.services.urnresolver.types.Mappings;
+import bpelg.services.urnresolver.types.Mappings.Mapping;
 
 /**
  * Gets the URN mappings from the resolver and makes them available for the JSP.
@@ -56,20 +58,16 @@ public class AeListMappingsBean extends AeAbstractAdminBean
    /**
     * Gets the mappings from the resolver. They will be sorted alphabetically by URN.
     */
-   protected List loadValues()
+   protected List<AeURNMapping> loadValues()
    {
-      Map map = getAdmin().getURNMappings();
-      List list = new ArrayList();
-      list.addAll(map.keySet());
-      Collections.sort(list);
+      Mappings mappings = AeEngineManagementFactory.getResolverService().getMappings(
+              new GetMappingsRequest());
       
       List values = new ArrayList();
-      int offset = 0;
-      for (Iterator iter = list.iterator(); iter.hasNext(); offset++)
-      {
-         String urn = (String) iter.next();
-         values.add(new AeURNMapping(urn, map.get(urn).toString()));
+      for(Mapping mapping : mappings.getMapping()) {
+          values.add(new AeURNMapping(mapping.getName(), mapping.getValue()));
       }
+      
       return values;
    }
    

@@ -9,9 +9,12 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpeladmin.war.web.urn; 
 
+import org.activebpel.rt.bpeladmin.war.AeEngineManagementFactory;
 import org.activebpel.rt.bpeladmin.war.AeMessages;
 import org.activebpel.rt.bpeladmin.war.web.AeAbstractAdminBean;
 import org.activebpel.rt.util.AeUtil;
+
+import bpelg.services.urnresolver.types.AddMappingRequest;
 
 /**
  * Adds a URN to URL mapping 
@@ -33,7 +36,7 @@ public class AeAddMappingBean extends AeAbstractAdminBean
       {
          if (isValid())
          {
-            getAdmin().addURNMapping(getURN(), getURL());
+            AeEngineManagementFactory.getResolverService().addMapping(new AddMappingRequest().withName(getURN()).withValue(getURL()));
             setStatusDetail(AeMessages.getString("AeAddMappingBean.MAPPING_ADDED")); //$NON-NLS-1$
          }
       }
