@@ -115,4 +115,10 @@ public class AeProcessManagerService implements AeProcessManager {
 	public ProcessDeployments getProcessDeployments(GetProcessDeployments aBody) {
 		return getEngineAdmin().getDeployedProcesses();
 	}
+
+        @Override
+	public bpelg.services.processes.types.InboundMessages getInboundMessages(
+										 bpelg.services.processes.types.GetInboundMessages body) {return null;}
+
+
 }
