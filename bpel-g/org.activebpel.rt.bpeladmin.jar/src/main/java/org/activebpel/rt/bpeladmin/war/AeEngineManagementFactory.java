@@ -21,6 +21,7 @@ import org.activebpel.rt.bpel.server.admin.jmx.IAeEngineManagementMXBean;
 import org.activebpel.rt.bpel.server.engine.AeEngineFactory;
 
 import bpelg.services.processes.AeProcessManager;
+import bpelg.services.queue.AeQueueManager;
 import bpelg.services.urnresolver.AeURNResolver;
 
 public class AeEngineManagementFactory {
@@ -35,6 +36,7 @@ public class AeEngineManagementFactory {
     private static boolean sRemote;
     private static AeProcessManager sProcessManager;
     private static AeURNResolver sResolverService;
+    private static AeQueueManager sQueueManager;
     
     
     public synchronized static IAeEngineManagementMXBean getBean() {
@@ -165,4 +167,15 @@ public class AeEngineManagementFactory {
     public static void setsResolverService(AeURNResolver aSResolverService) {
         sResolverService = aSResolverService;
     }
+
+	public static AeQueueManager getQueueManager() {
+		if (sQueueManager == null) {
+			sQueueManager = AeEngineFactory.getBean(AeQueueManager.class);
+		}
+		return sQueueManager;
+	}
+
+	public static void setQueueManager(AeQueueManager aQueueManager) {
+		sQueueManager = aQueueManager;
+	}
 }

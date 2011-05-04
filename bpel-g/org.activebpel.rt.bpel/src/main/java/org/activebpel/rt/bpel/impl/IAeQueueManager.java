@@ -109,7 +109,7 @@ public interface IAeQueueManager extends IAeManager
    /**
     * Returns an iterator over a read only collection of unmatched AeQueueReceiveObjects.
     */
-   public Iterator getUnmatchedReceivesIterator();
+   public Iterator<AeUnmatchedReceive> getUnmatchedReceivesIterator();
 
    /**
     * Returns a listing of matching AeMessageReceivers based on

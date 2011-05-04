@@ -46,7 +46,7 @@
                      <tr height="1">
                        <td height="1" colspan="4" class="gridLines"></td>
                      </tr>
-                     <ae:IndexedProperty name="recsBean" id="recRow" property="detail" indexedClassName="org.activebpel.rt.bpel.server.admin.AeQueuedReceiveDetail" >
+                     <ae:IndexedProperty name="recsBean" id="recRow" property="detail" indexedClassName="bpelg.services.queue.types.InboundMessage" >
                         <tr>
                            <td>&nbsp;<a href='inbound_detail.jsp?id=<ae:GetProperty name="recsBean" property="identifier" />'><ae:GetProperty name="recRow" property="partnerLinkName" /></a></td>
                            <td>&nbsp;<ae:GetProperty name="recRow" property="portType" /></td>

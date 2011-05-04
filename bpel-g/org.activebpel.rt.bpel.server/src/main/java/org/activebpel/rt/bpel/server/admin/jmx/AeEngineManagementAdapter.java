@@ -3,7 +3,6 @@ package org.activebpel.rt.bpel.server.admin.jmx;
 import java.io.IOException;
 import java.io.Reader;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -29,7 +28,6 @@ import org.activebpel.rt.bpel.impl.queue.AeMessageReceiver;
 import org.activebpel.rt.bpel.server.IAeDeploymentProvider;
 import org.activebpel.rt.bpel.server.admin.AeBuildInfo;
 import org.activebpel.rt.bpel.server.admin.AeEngineStatus;
-import org.activebpel.rt.bpel.server.admin.AeQueuedReceiveDetail;
 import org.activebpel.rt.bpel.server.admin.IAeEngineAdministration;
 import org.activebpel.rt.bpel.server.engine.AeEngineFactory;
 import org.activebpel.rt.bpel.server.engine.IAeProcessLogger;
@@ -46,10 +44,6 @@ public class AeEngineManagementAdapter implements IAeEngineManagementMXBean {
     
     public AeEngineManagementAdapter(IAeEngineAdministration aAdmin) {
         mAdmin = aAdmin;
-    }
-
-    public List<AeQueuedReceiveDetail> getUnmatchedQueuedReceives() {
-        return Arrays.asList(mAdmin.getUnmatchedQueuedReceives());
     }
 
     public List<AeMessageReceiverBean> getMessageReceivers(long aProcessId, String aPartnerLinkName, String aPortTypeNamespace, String aPortTypeLocalPart,

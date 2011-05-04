@@ -33,12 +33,6 @@ import bpelg.services.processes.types.ProcessList;
 public interface IAeEngineAdministration
 {
    /**
-    * Gets a list of the unmatched inbound queued receives from the engine's
-    * queue.
-    */
-   public AeQueuedReceiveDetail[] getUnmatchedQueuedReceives();
-
-   /**
     * Gets a listing of the queued message receivers from the engine's queue.
     */
    public AeMessageReceiverListResult getMessageReceivers( AeMessageReceiverFilter aFilter);

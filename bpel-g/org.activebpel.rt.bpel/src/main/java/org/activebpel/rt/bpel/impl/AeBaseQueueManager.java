@@ -54,8 +54,8 @@ public abstract class AeBaseQueueManager extends AeManagerAdapter implements IAe
    public static final String CONFIG_UNMATCHED_RECEIVES_COUNT = "UnmatchedReceivesCount"; //$NON-NLS-1$
    public static final int DEFAULT_UNMATCHED_RECEIVES_COUNT = 50;
 
-   /** inbound receives that have not been matched to activities */
-   private List mUnmatchedReceives = Collections.synchronizedList(new LinkedList());
+   /** inbound receives that have not been matched to activities */ 
+   private List<AeUnmatchedReceive> mUnmatchedReceives = Collections.synchronizedList(new LinkedList());
    /** activites that are waiting to receive data */
    private Collection mMessageReceivers = Collections.synchronizedSet(new TreeSet(sMessageReceiverComparator));
    /** contains the reply portion of an inbound receive that has been matched and is waiting to receive its response from its call */
@@ -87,7 +87,7 @@ public abstract class AeBaseQueueManager extends AeManagerAdapter implements IAe
    /**
     * @see org.activebpel.rt.bpel.impl.IAeQueueManager#getUnmatchedReceivesIterator()
     */
-   public Iterator getUnmatchedReceivesIterator()
+   public Iterator<AeUnmatchedReceive> getUnmatchedReceivesIterator()
    {
       synchronized(getUnmatchedReceives())
       {
@@ -109,9 +109,9 @@ public abstract class AeBaseQueueManager extends AeManagerAdapter implements IAe
       // among the inbound receives
       if (aMessageReceiver.isCorrelated())
       {
-         for (Iterator iter = getUnmatchedReceives().iterator(); iter.hasNext();)
+         for (Iterator<AeUnmatchedReceive> iter = getUnmatchedReceives().iterator(); iter.hasNext();)
          {
-            AeUnmatchedReceive unmatchedReceive = (AeUnmatchedReceive) iter.next();
+            AeUnmatchedReceive unmatchedReceive = iter.next();
             if (aMessageReceiver.correlatesTo(unmatchedReceive.getInboundReceive()))
             {
                iter.remove();
@@ -123,9 +123,9 @@ public abstract class AeBaseQueueManager extends AeManagerAdapter implements IAe
       {
          // if the message receiver is not correlated, then we only need to match
          // on the partner link, port type, and operation.
-         for (Iterator iter = getUnmatchedReceives().iterator(); iter.hasNext();)
+         for (Iterator<AeUnmatchedReceive> iter = getUnmatchedReceives().iterator(); iter.hasNext();)
          {
-            AeUnmatchedReceive unmatchedReceive = (AeUnmatchedReceive) iter.next();
+            AeUnmatchedReceive unmatchedReceive = iter.next();
             if (aMessageReceiver.matches(unmatchedReceive.getInboundReceive()))
             {
                iter.remove();
@@ -277,7 +277,7 @@ public abstract class AeBaseQueueManager extends AeManagerAdapter implements IAe
             // Notify monitor that a correlated msg was discarded because cache was full
             getEngine().fireMonitorEvent(IAeMonitorListener.MONITOR_CORR_MSG_DISCARD, 1);
             
-            AeUnmatchedReceive first = (AeUnmatchedReceive) getUnmatchedReceives().get(0);
+            AeUnmatchedReceive first = getUnmatchedReceives().get(0);
             removeUnmatchedReceive(first.getQueueId());
 
             // Make sure it's really gone from the list at this point;
@@ -481,9 +481,9 @@ public abstract class AeBaseQueueManager extends AeManagerAdapter implements IAe
       AeUnmatchedReceive found = null;
       synchronized(getUnmatchedReceives())
       {
-         for (Iterator iter = getUnmatchedReceives().iterator(); found == null && iter.hasNext();)
+         for (Iterator<AeUnmatchedReceive> iter = getUnmatchedReceives().iterator(); found == null && iter.hasNext();)
          {
-            AeUnmatchedReceive queuedUnmatchedReceive = (AeUnmatchedReceive) iter.next();
+            AeUnmatchedReceive queuedUnmatchedReceive = iter.next();
             if (aQueueId.equals(queuedUnmatchedReceive.getQueueId()))
             {
                iter.remove();
@@ -608,7 +608,7 @@ public abstract class AeBaseQueueManager extends AeManagerAdapter implements IAe
    /**
     * Getter for the unmatched receives collection
     */
-   protected List getUnmatchedReceives()
+   protected List<AeUnmatchedReceive> getUnmatchedReceives()
    {
       return mUnmatchedReceives;
    }

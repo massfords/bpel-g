@@ -195,86 +195,8 @@
             <xs:complexType/>
          </xs:element>
          <xs:element name="getProcessDeploymentByName" type="xs:QName"/>
-         
-         <xs:element name="correlationProperties">
-            <xs:complexType>
-               <xs:sequence>
-                  <xs:element name="property" maxOccurs="unbounded">
-                     <xs:complexType>
-                        <xs:attribute name="property" type="xs:QName" use="required"/>
-                        <xs:attribute name="value" type="xs:string" use="required"/>
-                     </xs:complexType>
-                  </xs:element>
-               </xs:sequence>
-            </xs:complexType>
-         </xs:element>
-         <xs:complexType name="messageRoutingDetails">
-            <xs:sequence>
-               <xs:element name="partnerLinkName" type="xs:string"/>
-               <xs:element name="portType" type="xs:QName"/>
-               <xs:element name="operation" type="xs:string"/>
-               <xs:element ref="tns:correlationProperties" minOccurs="0"/>
-               <xs:element name="message">
-                  <xs:complexType>
-                     <xs:sequence>
-                        <xs:element name="part" maxOccurs="unbounded" minOccurs="0">
-                           <xs:complexType mixed="true">
-                              <xs:sequence>
-                                 <xs:any processContents="skip"/>
-                              </xs:sequence>
-                              <xs:attribute name="name" use="required"/>
-                           </xs:complexType>
-                        </xs:element>
-                     </xs:sequence>
-                  </xs:complexType>
-               </xs:element>
-            </xs:sequence>
-         </xs:complexType>
-         <xs:element name="inboundMessage" type="tns:messageRoutingDetails"/>
-         <xs:element name="getInboundMessages">
-            <xs:complexType/>
-         </xs:element>
-         <xs:element name="inboundMessages">
-            <xs:complexType>
-               <xs:sequence>
-                  <xs:element ref="tns:inboundMessage" maxOccurs="unbounded" minOccurs="0"/>
-               </xs:sequence>
-            </xs:complexType>
-         </xs:element>
-         <xs:element name="messageReceiver">
-            <xs:complexType>
-               <xs:complexContent>
-                  <xs:extension base="tns:messageRoutingDetails">
-                     <xs:sequence>
-                        <xs:element name="processId" type="xs:long"/>
-                        <xs:element name="locationPath" type="xs:string"/>
-                     </xs:sequence>
-                  </xs:extension>
-               </xs:complexContent>
-            </xs:complexType>
-         </xs:element>
-         <xs:element name="scheduledAlarm">
-            <xs:complexType>
-               <xs:sequence>
-                  <xs:element name="processName" type="xs:QName"/>
-                  <xs:element name="locationPath" type="xs:string"/>
-                  <xs:element name="deadline" type="xs:date"/>
-                  <xs:element name="pathId" type="xs:int"/>
-                  <xs:element name="processId" type="xs:long"/>
-                  <xs:element name="groupId" type="xs:int"/>
-                  <xs:element name="alarmId" type="xs:int"/>
-               </xs:sequence>
-            </xs:complexType>
-         </xs:element>
       </xs:schema>
    </wsdl:types>
-
-   <wsdl:message name="getInboundMessagesRequest">
-      <wsdl:part name="body" element="tns:getInboundMessages"/>
-   </wsdl:message>
-   <wsdl:message name="getInboundMessagesResponse">
-      <wsdl:part name="body" element="tns:inboundMessages"/>
-   </wsdl:message>
 
    <wsdl:message name="getProcessDeploymentsRequest">
       <wsdl:part name="body" element="tns:getProcessDeployments"/>
@@ -385,11 +307,6 @@
          <wsdl:input message="tns:getProcessDeploymentByName"/>
          <wsdl:output message="tns:getProcessDeploymentByNameResponse"/>
       </wsdl:operation>
-      <wsdl:operation name="getInboundMessages">
-         <wsdl:input message="tns:getInboundMessagesRequest"/>
-         <wsdl:output message="tns:getInboundMessagesResponse"/>
-      </wsdl:operation>
-      
    </wsdl:portType>
 
    <wsdl:binding name="AeProcessBinding" type="tns:AeProcessManager">
@@ -480,14 +397,6 @@
          </wsdl:output>
       </wsdl:operation>
       <wsdl:operation name="getProcessDeployments">
-         <wsdl:input>
-            <soap:body use="literal"/>
-         </wsdl:input>
-         <wsdl:output>
-            <soap:body use="literal"/>
-         </wsdl:output>
-      </wsdl:operation>
-      <wsdl:operation name="getInboundMessages">
          <wsdl:input>
             <soap:body use="literal"/>
          </wsdl:input>
