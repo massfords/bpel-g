@@ -151,6 +151,12 @@
                   </bindingFiles>
                   <wsdl>${basedir}/target/dependency/preferences.wsdl</wsdl>
                 </wsdlOption>
+                <wsdlOption>
+                  <bindingFiles>
+                    <bindingFile>${basedir}/src/main/bindings/queue-bindings.xml</bindingFile>
+                  </bindingFiles>
+                  <wsdl>${basedir}/target/dependency/queue.wsdl</wsdl>
+                </wsdlOption>
               </wsdlOptions>
             </configuration>
             <goals>

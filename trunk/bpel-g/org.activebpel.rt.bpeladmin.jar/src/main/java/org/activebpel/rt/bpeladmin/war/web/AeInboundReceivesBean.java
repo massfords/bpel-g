@@ -10,127 +10,113 @@
 package org.activebpel.rt.bpeladmin.war.web;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.activebpel.rt.bpel.server.admin.AeQueuedReceiveDetail;
 import org.activebpel.rt.bpeladmin.war.AeEngineManagementFactory;
 
-/**
- * Top level listing of unmatched inbound queued receives. 
- */
-public class AeInboundReceivesBean
-{
-   /** Unmatched inbound queued receives */
-   protected List mDetails;
-   /** Current row index. */
-   protected int mCurrentIndex;
-      
-   /**
-    * Default constructor.
-    * Intializes the unmatched inbound queued receives list.
-    */
-   public AeInboundReceivesBean()
-   {
-      List<AeQueuedReceiveDetail> detailList = AeEngineManagementFactory.getBean().getUnmatchedQueuedReceives();
-      AeQueuedReceiveDetail[] details = detailList.toArray(new AeQueuedReceiveDetail[detailList.size()]);
-      Map detailsMap = parse(details);
-      mDetails = new ArrayList( detailsMap.values() );
-   }
-   
-   /**
-    * Returns true if the row details are empty.
-    */
-   public boolean isEmpty()
-   {
-      return mDetails == null || mDetails.size() == 0;
-   }
-   
-   /**
-    * Maps the partner link, port type, operation key to one or more
-    * AeQueuedReceiveDetail objects.
-    * @param aDetails
-    */
-   protected static Map parse( AeQueuedReceiveDetail[] aDetails )
-   {
-      Map recs = new HashMap();
-      for( int i = 0; i < aDetails.length; i++ )
-      {
-         AeQueuedReceiveDetail detail = aDetails[i];
-         addToMap( recs, detail );
-      }
-      return recs;
-   }
-   
-   /**
-    * Convenience method for adding details to the map.
-    * @param aHashMap
-    * @param aDetail
-    */
-   protected static void addToMap( Map aHashMap, AeQueuedReceiveDetail aDetail )
-   {
-      String key = makeKey( aDetail );
-      List matches = (List)aHashMap.get( key );
-      if( matches == null )
-      {
-         matches = new ArrayList();
-         aHashMap.put( key, matches );
-      }
-      matches.add( aDetail );
-   }
+import bpelg.services.queue.types.GetInboundMessages;
+import bpelg.services.queue.types.InboundMessage;
+import bpelg.services.queue.types.InboundMessages;
 
-   /**
-    * Create a key based on the partner link, port type and operation.
-    * @param aDetail
-    */
-   public static String makeKey( AeQueuedReceiveDetail aDetail )
-   {
-      return aDetail.getPartnerLinkName()+":"+aDetail.getPortType()+ //$NON-NLS-1$
-            ":"+aDetail.getOperation(); //$NON-NLS-1$
-   }
-   
-   
-   /**
-    * Indexed accessor for the queued receive detail.
-    * @param aIndex
-    */
-   public AeQueuedReceiveDetail getDetail( int aIndex )
-   {
-      mCurrentIndex = aIndex;
-      List detailList = (List)mDetails.get(aIndex);
-      return (AeQueuedReceiveDetail)detailList.get(0);
-   }
-   
-   /**
-    * Returns the number of queued receives for the current row.
-    */
-   public int getQueuedReceiveCount()
-   {
-      return ((List)mDetails.get(mCurrentIndex)).size();
-   }
-   
-   /**
-    * Creates a unique key to identify this row.
-    */
-   public String getIdentifier()
-   {
-      List detailList = (List)mDetails.get(mCurrentIndex);
-      return makeKey((AeQueuedReceiveDetail)detailList.get(0));
-   }
-   
-   /**
-    * Returns the number of details rows available.
-    */
-   public int getDetailSize()
-   {
-      if( mDetails == null )
-      {
-         return 0;
-      }
-      else
-      {
-         return mDetails.size();
-      }
-   }
+/**
+ * Top level listing of unmatched inbound queued receives.
+ */
+public class AeInboundReceivesBean {
+	/** Unmatched inbound queued receives */
+	protected List<List<InboundMessage>> mDetails;
+	/** Current row index. */
+	protected int mCurrentIndex;
+
+	/**
+	 * Default constructor. Intializes the unmatched inbound queued receives
+	 * list.
+	 */
+	public AeInboundReceivesBean() {
+		mDetails = toListOfLists(AeEngineManagementFactory.getQueueManager()
+				.getInboundMessages(new GetInboundMessages()));
+	}
+
+	/**
+	 * Returns true if the row details are empty.
+	 */
+	public boolean isEmpty() {
+		return mDetails.isEmpty();
+	}
+
+	/**
+	 * Maps the partner link, port type, operation key to one or more
+	 * AeQueuedReceiveDetail objects.
+	 * 
+	 * @param aDetails
+	 */
+	private static List<List<InboundMessage>> toListOfLists(
+			InboundMessages aDetails) {
+		Map<String, List<InboundMessage>> recs = new LinkedHashMap<String, List<InboundMessage>>();
+
+		for (InboundMessage im : aDetails.getInboundMessage()) {
+			addToMap(recs, im);
+		}
+		return new ArrayList(recs.values());
+	}
+
+	/**
+	 * Convenience method for adding details to the map.
+	 * 
+	 * @param aHashMap
+	 * @param aDetail
+	 */
+	private static void addToMap(Map<String, List<InboundMessage>> aHashMap,
+			InboundMessage aDetail) {
+		String key = makeKey(aDetail);
+		List<InboundMessage> matches = aHashMap.get(key);
+		if (matches == null) {
+			matches = new ArrayList();
+			aHashMap.put(key, matches);
+		}
+		matches.add(aDetail);
+	}
+
+	/**
+	 * Create a key based on the partner link, port type and operation.
+	 * 
+	 * @param aDetail
+	 */
+	protected static String makeKey(InboundMessage aDetail) {
+		return aDetail.getPartnerLinkName() + ":" + aDetail.getPortType() + //$NON-NLS-1$
+				":" + aDetail.getOperation(); //$NON-NLS-1$
+	}
+
+	/**
+	 * Indexed accessor for the queued receive detail.
+	 * 
+	 * @param aIndex
+	 */
+	public InboundMessage getDetail(int aIndex) {
+		mCurrentIndex = aIndex;
+		return mDetails.get(aIndex).get(0);
+	}
+
+	/**
+	 * Returns the number of queued receives for the current row.
+	 */
+	public int getQueuedReceiveCount() {
+		return mDetails.get(mCurrentIndex).size();
+	}
+
+	/**
+	 * Creates a unique key to identify this row.
+	 */
+	public String getIdentifier() {
+		List<InboundMessage> detailList = mDetails.get(mCurrentIndex);
+		return makeKey(detailList.get(0));
+	}
+
+	/**
+	 * Returns the number of details rows available.
+	 */
+	public int getDetailSize() {
+		return mDetails.size();
+	}
 }

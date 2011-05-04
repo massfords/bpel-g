@@ -12,7 +12,6 @@ import org.activebpel.rt.bpel.impl.list.AeCatalogItem;
 import org.activebpel.rt.bpel.impl.list.AeCatalogItemDetail;
 import org.activebpel.rt.bpel.server.admin.AeBuildInfo;
 import org.activebpel.rt.bpel.server.admin.AeEngineStatus;
-import org.activebpel.rt.bpel.server.admin.AeQueuedReceiveDetail;
 import org.activebpel.rt.xml.AeQName;
 
 import bpelg.services.processes.types.ProcessFilterType;
@@ -21,12 +20,6 @@ public interface IAeEngineManagementMXBean {
 
 	// FIXME ! move all of the listing calls to services
 	
-	/**
-	 * Gets a list of the unmatched inbound queued receives from the engine's
-	 * queue.
-	 */
-	public List<AeQueuedReceiveDetail> getUnmatchedQueuedReceives();
-
 	/**
 	 * Gets a listing of the queued message receivers from the engine's queue.
 	 */

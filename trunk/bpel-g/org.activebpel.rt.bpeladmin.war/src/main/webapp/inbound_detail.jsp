@@ -4,7 +4,9 @@
 <html>
 
 <%@ taglib uri="http://activebpel.org/aetaglib" prefix="ae" %>
-
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jstl/xml" prefix="x" %>
+<c:import var="xslt" url="prettyPrint.xsl" />
    <%-- Use UTF-8 to decode request parameters. --%>
    <ae:RequestEncoding value="UTF-8" />
 
@@ -75,23 +77,22 @@
                        <td height="1" colspan="3" class="gridLines"></td>
                      </tr>
 
-                     <ae:IndexedProperty name="recDetailBean" id="recRow" property="detail" indexedClassName="org.activebpel.rt.bpel.server.admin.AeQueuedReceiveDetail" >
+                     <ae:IndexedProperty name="recDetailBean" id="recRow" property="detail" indexedClassName="bpelg.services.queue.types.InboundMessage" >
                         <tr>
-                           <td align="center">
-                              <ae:IfTrue name="recRow" property="correlated">
-                                 &nbsp;<a href="javascript:alert('<ae:GetProperty name="recRow" property="correlatedData" />')"><ae:GetResource name="view" /></a>
-                              </ae:IfTrue>
-                              <ae:IfFalse name="recRow" property="correlated">
-                                 &nbsp;None
-                              </ae:IfFalse>
+                           <td align="left">
+                            
+                            <c:if test="${detail.correlationProperties != null}">
+                               <c:forEach var="prop" items="${detail.correlationProperties.property}">
+                                  <c:out value="${prop.property.localPart}=${prop.value} }"/>
+                               </c:forEach>
+                            </c:if>
+                            <c:if test="${detail.correlationProperties == null}">
+                               Uncorrelated
+                            </c:if>
                            </td>
-                           <td align="center">
-                              <ae:IfTrue name="recRow" property="messageDataAvailable">
-                                 &nbsp;<a href="javascript:alert('<ae:GetProperty name="recRow" property="messageData" />')"><ae:GetResource name="view" /></a>
-                              </ae:IfTrue>
-                              <ae:IfFalse name="recRow" property="messageDataAvailable">
-                                 &nbsp;<ae:GetResource name="none" />
-                              </ae:IfFalse>
+                           <td align="left">
+                           <!--  insert code here to format the xml or simple type parts -->
+                           
                            </td>
                            <td></td>
                         </tr>

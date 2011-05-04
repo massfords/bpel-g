@@ -12,17 +12,14 @@ import org.activebpel.rt.bpel.AeBusinessProcessException;
 import org.activebpel.rt.bpel.impl.IAeProcessManager;
 import org.activebpel.rt.bpel.server.IAeDeploymentProvider;
 import org.activebpel.rt.bpel.server.IAeProcessDeployment;
-import org.activebpel.rt.bpel.server.admin.IAeEngineAdministration;
 import org.activebpel.rt.bpel.server.deploy.AeServiceMap;
 import org.activebpel.rt.bpel.server.engine.AeEngineFactory;
 
 import bpelg.services.processes.AeProcessManager;
 import bpelg.services.processes.ProcessStateErrorMessage;
 import bpelg.services.processes.StorageErrorMessage;
-import bpelg.services.processes.types.GetInboundMessages;
 import bpelg.services.processes.types.GetProcessDeployments;
 import bpelg.services.processes.types.GetServiceDeployments;
-import bpelg.services.processes.types.InboundMessages;
 import bpelg.services.processes.types.ProcessDeployment;
 import bpelg.services.processes.types.ProcessDeployments;
 import bpelg.services.processes.types.ProcessFilterType;
@@ -52,7 +49,6 @@ public class AeProcessManagerService implements AeProcessManager {
         }
     };
     private IAeProcessManager mProcessManager;
-    private IAeEngineAdministration mEngineAdmin;
 
     public IAeProcessManager getProcessManager() {
         return mProcessManager;
@@ -133,14 +129,6 @@ public class AeProcessManagerService implements AeProcessManager {
         return new ServiceDeployments().withServiceDeployment(sortedList);
     }
 
-    public IAeEngineAdministration getEngineAdmin() {
-        return mEngineAdmin;
-    }
-
-    public void setEngineAdmin(IAeEngineAdministration aEngineAdmin) {
-        mEngineAdmin = aEngineAdmin;
-    }
-
     @Override
     public ProcessDeployment getProcessDeploymentByName(QName aBody) {
         ProcessDeployment detail = null;
@@ -181,10 +169,5 @@ public class AeProcessManagerService implements AeProcessManager {
         ProcessDeployment detail = new ProcessDeployment().withProcess(
                 aDeployment.getPdd()).withSource(aDeployment.getBpelSource());
         return detail;
-    }
-
-    @Override
-    public InboundMessages getInboundMessages(GetInboundMessages aBody) {
-        return null;
     }
 }
