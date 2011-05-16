@@ -157,6 +157,19 @@ public class AePreferences {
 		return enabled;
 	}
 	
+	public static void setLoggingEvents(Set<AeProcessEventType> enabled) {
+		setLogDeadPathStatus(enabled.contains(AeProcessEventType.DeadPathStatus));
+		setLogExecuteComplete(enabled.contains(AeProcessEventType.ExecuteComplete));
+		setLogExecuteFault(enabled.contains(AeProcessEventType.ExecuteFault));
+		setLogExecuting(enabled.contains(AeProcessEventType.Executing));
+		setLogFaulting(enabled.contains(AeProcessEventType.Faulting));
+		setLogLinkStatus(enabled.contains(AeProcessEventType.LinkStatus));
+		setLogMigrated(enabled.contains(AeProcessEventType.Migrated));
+		setLogReadyToExecute(enabled.contains(AeProcessEventType.ReadyToExecute));
+		setLogSuspended(enabled.contains(AeProcessEventType.Suspended));
+		setLogTerminated(enabled.contains(AeProcessEventType.Terminated));
+	}
+	
 	public static boolean isLogReadyToExecute() {
 		return logEvents().getBoolean("readyToExecute", false);
 	}

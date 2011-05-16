@@ -295,17 +295,17 @@
       <dependency>
          <groupId>org.apache.camel</groupId>
          <artifactId>camel-core</artifactId>
-         <version>2.5.0</version>
+         <version>${camel.version}</version>
       </dependency>
       <dependency>
          <groupId>org.apache.camel</groupId>
          <artifactId>camel-stream</artifactId>
-         <version>2.5.0</version>
+         <version>${camel.version}</version>
       </dependency>
       <dependency>
          <groupId>org.apache.camel</groupId>
          <artifactId>camel-spring</artifactId>
-         <version>2.5.0</version>
+         <version>${camel.version}</version>
       </dependency>
       <dependency>
          <groupId>xmlunit</groupId>
@@ -324,5 +324,13 @@
       	<artifactId>ae-camel</artifactId>
       	<version>5.2-SNAPSHOT</version>
       </dependency>
+      <dependency>
+      	<groupId>org.apache.camel</groupId>
+      	<artifactId>camel-spring-ws</artifactId>
+      	<version>${camel.version}</version>
+      </dependency>
    </dependencies>
+   <properties>
+   	<camel.version>2.6.0</camel.version>
+   </properties>
 </project>
