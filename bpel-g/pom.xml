@@ -36,6 +36,7 @@
       <spring-version>3.0.4.RELEASE</spring-version>
       <camel-version>2.5.0</camel-version>
       <cxf-version>2.2.12</cxf-version>
+      <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
    </properties>
   <build>
     <plugins>
@@ -45,6 +46,7 @@
         <configuration>
           <source>1.6</source>
           <target>1.6</target>
+          <encoding>UTF-8</encoding>
         </configuration>
       </plugin>
       <plugin>

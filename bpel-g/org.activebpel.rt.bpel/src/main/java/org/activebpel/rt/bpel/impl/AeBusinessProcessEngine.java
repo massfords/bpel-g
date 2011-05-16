@@ -49,6 +49,7 @@ import org.activebpel.rt.bpel.def.AePartnerLinkOpKey;
 import org.activebpel.rt.bpel.function.AeFunctionContextContainer;
 import org.activebpel.rt.bpel.function.AeUnresolvableException;
 import org.activebpel.rt.bpel.function.IAeFunction;
+import org.activebpel.rt.bpel.function.IAeFunctionContext;
 import org.activebpel.rt.bpel.impl.queue.AeInboundReceive;
 import org.activebpel.rt.bpel.impl.queue.AeMessageReceiver;
 import org.activebpel.rt.bpel.impl.queue.AeReply;
@@ -2073,7 +2074,10 @@ public class AeBusinessProcessEngine implements IAeBusinessProcessEngineInternal
 
     @Override
     public IAeFunction getFunction(String aLocalName, String aNamespaceURI) throws AeUnresolvableException {
-        return mFunctionContainer.getFunctionContext(aNamespaceURI).getFunction(aLocalName);
+        IAeFunctionContext functionContext = mFunctionContainer.getFunctionContext(aNamespaceURI);
+        if (functionContext != null)
+        	return functionContext.getFunction(aLocalName);
+        return null;
     }
 
     @Override

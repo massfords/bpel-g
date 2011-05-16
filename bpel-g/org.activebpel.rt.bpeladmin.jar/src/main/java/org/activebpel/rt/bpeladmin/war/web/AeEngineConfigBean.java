@@ -271,41 +271,7 @@ public class AeEngineConfigBean extends AeAbstractAdminBean
       if( aValue )
       {
          getAdmin().setAllowCreateXPath( mCreateXPath );
-         
-         for(AeProcessEventType event : mNewFilter) {
-        	 switch(event) {
-        	 case ReadyToExecute:
-        		 AePreferences.setLogReadyToExecute(true);
-        		 break;
-        	 case Executing:
-        		 AePreferences.setLogExecuting(true);
-        		 break;
-        	 case ExecuteComplete:
-        		 AePreferences.setLogExecuteComplete(true);
-        		 break;
-        	 case ExecuteFault:
-        		 AePreferences.setLogExecuteFault(true);
-        		 break;
-        	 case LinkStatus:
-        		 AePreferences.setLogLinkStatus(true);
-        		 break;
-        	 case DeadPathStatus:
-        		 AePreferences.setLogDeadPathStatus(true);
-        		 break;
-        	 case Terminated:
-        		 AePreferences.setLogTerminated(true);
-        		 break;
-        	 case Migrated:
-        		 AePreferences.setLogMigrated(true);
-        		 break;
-        	 case Suspended:
-        		 AePreferences.setLogSuspended(true);
-        		 break;
-        	 case Faulting:
-        		 AePreferences.setLogFaulting(true);
-        		 break;
-        	 }
-         }
+         AePreferences.setLoggingEvents(mNewFilter);
          getAdmin().setAllowEmptyQuerySelection( mAllowEmptyQuery );
          getAdmin().setValidateServiceMessages( mValidateMessages );
          getAdmin().setResourceReplaceEnabled( mReplaceResources );
