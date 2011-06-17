@@ -99,7 +99,7 @@ public class AeBusinessProcessEngine implements IAeBusinessProcessEngineInternal
    protected Set<IAeProcessListener> mGlobalProcessListeners = new CopyOnWriteArraySet<IAeProcessListener>();
 
    /** Map of listeners, keyed by the process ID */
-   protected Map<Long,CopyOnWriteArraySet<IAeProcessListener>> mProcessListeners = new HashMap();
+   protected Map<Long,CopyOnWriteArraySet<IAeProcessListener>> mProcessListeners = new HashMap<Long,CopyOnWriteArraySet<IAeProcessListener>>();
 
    /** Maps process QName to its process plan */
    protected IAePlanManager mPlanManager;
@@ -126,7 +126,7 @@ public class AeBusinessProcessEngine implements IAeBusinessProcessEngineInternal
     */
    protected Map<Long,Long> mProcessJournalIdMap = Collections.synchronizedMap( new HashMap<Long,Long>() );
 
-   private Map<String,IAeManager> mManagers = new HashMap();
+   private Map<String,IAeManager> mManagers = new HashMap<String,IAeManager>();
    
    private IAeExpressionLanguageFactory mExpressionLanguageFactory;
    private AeFunctionContextContainer mFunctionContainer;
@@ -569,7 +569,7 @@ public class AeBusinessProcessEngine implements IAeBusinessProcessEngineInternal
          {
             synchronized(replyReceiver)
             {
-               if (replyReceiver.isWaitable())
+               while (replyReceiver.isWaitable())
                {
                   try
                   {
@@ -645,7 +645,7 @@ public class AeBusinessProcessEngine implements IAeBusinessProcessEngineInternal
    {
       IAeProcessPlan processPlan = getProcessPlan(AeMessageContext.convert(aContext));
       AePartnerLinkOpKey plOpKey = getPartnerLinkOpKey(aContext, processPlan);
-      Map correlationMap = createCorrelationMap(processPlan, aMessageData, aContext);
+      Map<QName, String> correlationMap = createCorrelationMap(processPlan, aMessageData, aContext);
       AeInboundReceive inboundReceive = new AeInboundReceive(plOpKey, correlationMap, processPlan, aMessageData, aContext, aReply);
       // queue receive to create process, but do not queue the process for execution.
       return queueReceiveData(inboundReceive, aAckCallback, aQueueForExecution);
@@ -701,7 +701,7 @@ public class AeBusinessProcessEngine implements IAeBusinessProcessEngineInternal
       }
 
       AePartnerLinkOpKey plOpKey = getPartnerLinkOpKey(aContext, plan);
-      Map correlationMap = createCorrelationMap(plan, aMessageData, aContext);
+      Map<QName, String> correlationMap = createCorrelationMap(plan, aMessageData, aContext);
       boolean isOneWay = plan.getProcessDef().isOneWayReceive(plOpKey);
       IAeReplyReceiver replyReceiver = aReply;
       // If the op is one-way - don't use the reply receiver, even if one was included.
@@ -879,10 +879,10 @@ public class AeBusinessProcessEngine implements IAeBusinessProcessEngineInternal
     * @param aData
     * @param aContext
     */
-   private Map createCorrelationMap(IAeProcessPlan aDesc, IAeMessageData aData,
+   private Map<QName, String> createCorrelationMap(IAeProcessPlan aDesc, IAeMessageData aData,
                                     IAeMessageContext aContext) throws AeBusinessProcessException
    {
-      Map map = new HashMap();
+      Map<QName, String> map = new HashMap<QName, String>();
       AePartnerLinkDef plDef = aDesc.getProcessDef().findPartnerLink(aContext.getPartnerLink());
       AePartnerLinkOpKey plOpKey = new AePartnerLinkOpKey(plDef, aContext.getOperation());
       AeMessagePartsMap messagePartsMap = aDesc.getProcessDef().getMessageForCorrelation(plOpKey);
@@ -1677,7 +1677,7 @@ public class AeBusinessProcessEngine implements IAeBusinessProcessEngineInternal
    {
        // FIXME replace this sync with a self cleaning ConcurrentHashMap<Long,List>
         synchronized (mProcessListeners) {
-            CopyOnWriteArraySet<IAeProcessListener> listeners = mProcessListeners.get(aPid);
+        	CopyOnWriteArraySet<IAeProcessListener> listeners = mProcessListeners.get(aPid);
             if (listeners == null)
                 mProcessListeners.put(aPid,
                         (listeners = new CopyOnWriteArraySet<IAeProcessListener>()));

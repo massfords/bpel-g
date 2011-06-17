@@ -80,6 +80,7 @@
         <module>bpel-g-jbi</module>
         <module>bpel-g.test</module>
         -->
+        <module>bpel-g-ear</module>
   </modules>
   <dependencies>
     <dependency>

@@ -21,7 +21,6 @@ import org.xml.sax.EntityResolver;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
-//@Ignore
 public class BgWebAppIntegrationTest {
 
 	/**
