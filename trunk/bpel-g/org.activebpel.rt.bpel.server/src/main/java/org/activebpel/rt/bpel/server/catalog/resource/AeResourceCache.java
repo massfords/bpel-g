@@ -60,7 +60,7 @@ public class AeResourceCache implements IAeResourceCache, PreferenceChangeListen
 
     public void updateResource(ReferenceType aKey, Object aObj) {
         removeResource(aKey);
-        mCache.put(new Element(aKey, aObj));
+        mCache.put(new Element(toKey(aKey), aObj));
     }
 
     public Object getResource(ReferenceType aKey) throws AeResourceException {
@@ -75,6 +75,10 @@ public class AeResourceCache implements IAeResourceCache, PreferenceChangeListen
         // locations we need a factory?
         return getInputSourceForLocation(aKey);
     }
+    
+    private Object toKey(ReferenceType aKey) {
+    	return aKey.getTypeURI() + aKey.getNamespace() + aKey.getLocation();
+    }
 
     /**
      * Utility method to locate def. First check is via the LRU cache and if the
@@ -85,13 +89,13 @@ public class AeResourceCache implements IAeResourceCache, PreferenceChangeListen
      */
     protected AeBPELExtendedWSDLDef getDefFromCache(ReferenceType aKey) throws AeResourceException {
         AeBPELExtendedWSDLDef def = null;
-        Element e = mCache.get(aKey);
+        Element e = mCache.get(toKey(aKey));
         if (e != null)
             def = (AeBPELExtendedWSDLDef) e.getObjectValue();
 
         if (def == null) {
             def = getDefForLocation(aKey);
-            mCache.put(new Element(aKey, def));
+            mCache.put(new Element(toKey(aKey), def));
         }
 
         return def;
@@ -106,12 +110,12 @@ public class AeResourceCache implements IAeResourceCache, PreferenceChangeListen
      */
     protected Schema getSchemaDefFromCache(ReferenceType aKey) throws AeResourceException {
         Schema def = null;
-        Element e = mCache.get(aKey);
+        Element e = mCache.get(toKey(aKey));
         if (e != null)
             def = (Schema) e.getObjectValue();
         if (def == null) {
             def = getSchemaDefForLocation(aKey);
-            mCache.put(new Element(aKey, def));
+            mCache.put(new Element(toKey(aKey), def));
         }
 
         return def;
@@ -176,7 +180,7 @@ public class AeResourceCache implements IAeResourceCache, PreferenceChangeListen
         Reader reader = null;
         try {
             byte[] bytes = null;
-            Element e = mCache.get(aKey);
+            Element e = mCache.get(toKey(aKey));
             if (e != null)
                 bytes = (byte[]) e.getObjectValue();
             if (bytes == null) {
@@ -236,7 +240,7 @@ public class AeResourceCache implements IAeResourceCache, PreferenceChangeListen
                     bytes = (new String(chars)).getBytes(encoding);
                 }
 
-                mCache.put(new Element(aKey, bytes));
+                mCache.put(new Element(toKey(aKey), bytes));
             }
             return new ByteArrayInputStream(bytes);
         } catch (Exception ex) {
@@ -274,7 +278,7 @@ public class AeResourceCache implements IAeResourceCache, PreferenceChangeListen
      */
     public boolean removeResource(ReferenceType aKey) {
         // remove the object from the cache (it may not be in memory)
-        return mCache.remove(aKey);
+        return mCache.remove(toKey(aKey));
     }
 
     private void setMaxCacheSize(int aMaxValue) {

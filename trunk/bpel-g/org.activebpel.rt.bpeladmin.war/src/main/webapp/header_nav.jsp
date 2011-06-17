@@ -8,23 +8,11 @@
 <!--------------->
 <table border="0" cellpadding="0" cellspacing="0" width="100%" align="left">
 
-   <tr><td><a href="home.jsp"></a><img src="images/bpel-g-logo.png"></a></td></tr>
-
-   <tr height="10"><td></td></tr>
-
-   <tr height="1">
-     <td height="1" colspan="2" class="gridLines"><img src="images/clear.gif" alt="" height="1" width="1" border="0"></td>
-   </tr>
-           <tr>
-             <td class="navItem" align="left" nowrap="true" width="20%">&nbsp;<a href="home.jsp"><ae:GetResource name="home" /></a>&nbsp;</td>
-           </tr>
+   <tr><td><a href="home.jsp"><img src="images/bpel-g-logo.png"></a></td></tr>
 
 	<!-- ============================= -->
 	<!-- Engine Config Section     -->
 	<!-- ============================= -->
-   <tr height="10">
-     <td class="navItem" align="left" height="10" nowrap="true" width="20%"><img src="images/clear.gif" alt="" height="10" width="1" border="0"></td>
-   </tr>
    <tr>
      <td class="navHeaders" align="left" nowrap="true" width="20%">&nbsp;<ae:GetResource name="engine" /></td>
    </tr>

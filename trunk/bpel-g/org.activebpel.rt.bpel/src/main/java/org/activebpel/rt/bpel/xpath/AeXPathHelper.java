@@ -257,19 +257,23 @@ public class AeXPathHelper
       }
       catch (FunctionCallException fe)
       {
+    	  fe.printStackTrace();
          rethrowFunctionCallException(aExpr, fe);
       }
       catch (UnresolvableException ue)
       {
+    	  ue.printStackTrace();
          String msg = AeMessages.format("AeXPathHelper.ERROR_EVALUATING_EXPRESSION_UNRESOLVEABLE", new Object[] { aExpr, ue.getLocalizedMessage() }); //$NON-NLS-1$
          throw new AeBpelException(msg, getFaultFactory().getSubLanguageExecutionFault(IAeFaultFactory.XPATH_FUNCTION_ERROR,ue, ue.getLocalizedMessage()));
       }
       catch (AeExpressionException aex)
       {
+    	  aex.printStackTrace();
          throw aex;
       }
       catch (Throwable ex)
       {
+    	  ex.printStackTrace();
          throw new AeBpelException( MessageFormat.format(AeMessages.getString("AeXPathHelper.ERROR_1"), //$NON-NLS-1$
                                                          new Object[] {aExpr, ex.getMessage()}), 
                                     getFaultFactory().getSubLanguageExecutionFault(IAeFaultFactory.XPATH_FUNCTION_ERROR, ex, ex.getLocalizedMessage()) );    
@@ -289,9 +293,11 @@ public class AeXPathHelper
    private void rethrowFunctionCallException(String aExpression, FunctionCallException aFunctionCallException) throws AeBpelException
    {
       if (aFunctionCallException.getCause() instanceof AeBusinessProcessException)
-         throw new AeBpelException(MessageFormat.format(AeMessages.getString("AeXPathHelper.ERROR_1"), //$NON-NLS-1$
-               new Object[] { aExpression, aFunctionCallException.getCause().getMessage() }),
-               getFaultFactory().getSubLanguageExecutionFault(IAeFaultFactory.XPATH_FUNCTION_ERROR, aFunctionCallException, aFunctionCallException.getLocalizedMessage()));
+         throw new AeBpelException(
+        		 MessageFormat.format(AeMessages.getString("AeXPathHelper.ERROR_1"), //$NON-NLS-1$
+        				 	new Object[] { aExpression, aFunctionCallException.getCause().getMessage() }),
+        	     getFaultFactory().getSubLanguageExecutionFault(IAeFaultFactory.XPATH_FUNCTION_ERROR, aFunctionCallException, aFunctionCallException.getLocalizedMessage()),
+        	     aFunctionCallException.getCause());
       else if (aFunctionCallException.getCause() instanceof AeFunctionCallException)
       {
          Throwable rootException = aFunctionCallException.getCause();
@@ -308,13 +314,15 @@ public class AeXPathHelper
             throw (AeBpelException) rootException;
          throw new AeBpelException(MessageFormat.format(AeMessages.getString("AeXPathHelper.ERROR_1"), //$NON-NLS-1$
                new Object[] { aExpression, msg }),
-               getFaultFactory().getSubLanguageExecutionFault(IAeFaultFactory.XPATH_FUNCTION_ERROR, aFunctionCallException, aFunctionCallException.getLocalizedMessage()));
+               getFaultFactory().getSubLanguageExecutionFault(IAeFaultFactory.XPATH_FUNCTION_ERROR, aFunctionCallException, aFunctionCallException.getLocalizedMessage()),
+               rootException);
          
       }
       else
          throw new AeBpelException( MessageFormat.format(AeMessages.getString("AeXPathHelper.ERROR_1"), //$NON-NLS-1$
                new Object[] {aExpression, aFunctionCallException.getMessage()}), 
-               getFaultFactory().getSubLanguageExecutionFault(IAeFaultFactory.XPATH_FUNCTION_ERROR, aFunctionCallException, aFunctionCallException.getLocalizedMessage()) );
+               getFaultFactory().getSubLanguageExecutionFault(IAeFaultFactory.XPATH_FUNCTION_ERROR, aFunctionCallException, aFunctionCallException.getLocalizedMessage()),
+               aFunctionCallException.getCause());
    }
 
    /**
