@@ -8,25 +8,11 @@
         <param-value>bpel-g</param-value>
     </context-param>
 
-    <listener>
-        <listener-class>org.h2.server.web.DbStarter</listener-class>
-    </listener>
-    
-    <servlet>
-        <servlet-name>H2Console</servlet-name>
-        <servlet-class>org.h2.server.web.WebServlet</servlet-class>
-        <load-on-startup>1</load-on-startup>
-    </servlet>
-    
-    <servlet-mapping>
-        <servlet-name>H2Console</servlet-name>
-        <url-pattern>/console/*</url-pattern>
-    </servlet-mapping>
-    
     <resource-ref>
         <description>DB Connection</description>
         <res-ref-name>jdbc/ActiveBPELDB</res-ref-name>
         <res-type>javax.sql.DataSource</res-type>
         <res-auth>Container</res-auth>
+        <mapped-name>java:ActiveBPELDB</mapped-name>
     </resource-ref>   
 </web-app>
