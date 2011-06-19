@@ -36,9 +36,7 @@ public class AeMessageData implements IAeMessageData, Externalizable
    /** The variable message type for which we are storing data */
    private QName mMsgType;
    /** Holds on to the part data, the name of the part is its key. */
-   private Map mPartData = new HashMap();
-   /** Flag to track if the message data is dirty */
-   private boolean mDirty;
+   private Map<String,Object> mPartData = new HashMap();
    /** place holder for optional attachments */
    private IAeAttachmentContainer mAttachmentContainer;
 
@@ -79,35 +77,9 @@ public class AeMessageData implements IAeMessageData, Externalizable
    }
 
    /**
-    * Returns flag indicating if the message data is dirty.
-    */
-   public boolean isDirty()
-   {
-      // TODO (MF) only called by win32, perhaps those classes could use a subclass and remove this method?
-      return mDirty;
-   }
-
-   /**
-    * Clears the flag indicating that the data is dirty.
-    */
-   public void clearDirty()
-   {
-      mDirty = false;
-   }
-
-   /**
-    * Allows inheriting classes ability to set dirty flag.
-    * @param aDirty True for dirty and False if not dirty
-    */
-   protected void setDirty(boolean aDirty)
-   {
-      mDirty = aDirty;
-   }
-
-   /**
     * Returns an iterator over the part names for which we are storing data.
     */
-   public Iterator getPartNames()
+   public Iterator<String> getPartNames()
    {
       return mPartData.keySet().iterator();
    }
@@ -130,7 +102,6 @@ public class AeMessageData implements IAeMessageData, Externalizable
    public void setData(String aPartName, Object aData)
    {
       mPartData.put(aPartName, aData);
-      mDirty = true;
    }
 
    /**
@@ -207,7 +178,6 @@ public class AeMessageData implements IAeMessageData, Externalizable
    public void writeExternal(ObjectOutput aOut) throws IOException
    {
       aOut.writeObject(getMessageType());
-      aOut.writeBoolean(isDirty());
 
       aOut.writeInt(mPartData.size());
       for (Iterator iter = mPartData.entrySet().iterator(); iter.hasNext(); )
@@ -236,7 +206,6 @@ public class AeMessageData implements IAeMessageData, Externalizable
    public void readExternal(ObjectInput aIn) throws IOException, ClassNotFoundException
    {
       mMsgType = (QName) aIn.readObject();
-      mDirty = aIn.readBoolean();
 
       mPartData = new HashMap();
       int numParts = aIn.readInt();

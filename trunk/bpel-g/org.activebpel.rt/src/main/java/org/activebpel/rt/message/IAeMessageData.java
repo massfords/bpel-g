@@ -21,16 +21,6 @@ import org.activebpel.rt.attachment.IAeAttachmentContainer;
 public interface IAeMessageData extends Cloneable
 {
    /**
-    * Returns flag indicating if the message data is dirty.
-    */
-   public boolean isDirty();
-
-   /**
-    * Clears the flag indicating that the data is dirty.
-    */
-   public void clearDirty();
-
-   /**
     * Returns the type of message this data is representing. 
     */
    public QName getMessageType();
@@ -38,7 +28,7 @@ public interface IAeMessageData extends Cloneable
    /**
     * Returns an iterator over the part names for which we are storing data.
     */
-   public Iterator getPartNames();
+   public Iterator<String> getPartNames();
 
    /**
     * Returns the data associated with a passed part. Null if none.

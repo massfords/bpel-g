@@ -28,7 +28,7 @@ public interface IAeReplyReceiver
     * @param aProcessProperties Business Process properties.
     * @throws AeBusinessProcessException Allows the receiver to throw an exception.
     */
-   public void onMessage(IAeMessageData aMessage, Map aProcessProperties) throws AeBusinessProcessException;
+   public void onMessage(IAeMessageData aMessage, Map<String,String> aProcessProperties) throws AeBusinessProcessException;
 
    /**
     * Callback when a fault arrives instead of the expected message.
@@ -38,7 +38,7 @@ public interface IAeReplyReceiver
     * unmatched receive.
     * @throws AeBusinessProcessException Allows the receiver to throw an exception.
     */
-   public void onFault(IAeFault aFault, Map aProcessProperties ) throws AeBusinessProcessException;
+   public void onFault(IAeFault aFault, Map<String,String> aProcessProperties ) throws AeBusinessProcessException;
       
    /**
     * Returns the durable reply information if the reply receiver is supports durable
