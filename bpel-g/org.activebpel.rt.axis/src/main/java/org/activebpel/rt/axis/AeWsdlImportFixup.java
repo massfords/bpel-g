@@ -39,7 +39,7 @@ public class AeWsdlImportFixup
    
    /** The <code>ACTIVE_BPEL</code> field contains the prefix for axis and the catalog servlet, normally active-bpel. */
    // FIXME need to make this configurable. 
-   private static final String ACTIVE_BPEL = AeMessages.getString("AeWsdlImportFixup.ACTIVE_BPEL_CONTEXT"); //$NON-NLS-1$
+//   private static final String ACTIVE_BPEL = AeMessages.getString("AeWsdlImportFixup.ACTIVE_BPEL_CONTEXT"); //$NON-NLS-1$
 
    /**
     * Used to modify the import location references so that they may be resolved by the catalog servlet.

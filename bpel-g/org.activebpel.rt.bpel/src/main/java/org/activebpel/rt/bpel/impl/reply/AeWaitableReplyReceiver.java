@@ -29,7 +29,7 @@ public class AeWaitableReplyReceiver extends AeReplyReceiverBase
     * @param aProcessProperties business process properties.
     * @see org.activebpel.rt.bpel.impl.reply.IAeReplyReceiver#onFault(org.activebpel.rt.bpel.IAeFault, java.util.Map)
     */
-   public synchronized void onFault(IAeFault aFault, Map aProcessProperties) throws AeBusinessProcessException
+   public synchronized void onFault(IAeFault aFault, Map<String,String> aProcessProperties) throws AeBusinessProcessException
    {
       if (aFault == null)
          throw new AeBusinessProcessException(AeMessages.getString("AeWaitableReplyReceiver.ERROR_0")); //$NON-NLS-1$
@@ -45,7 +45,7 @@ public class AeWaitableReplyReceiver extends AeReplyReceiverBase
     * @param aProcessProperties business process properties.
     * @see org.activebpel.rt.bpel.impl.reply.IAeReplyReceiver#onMessage(org.activebpel.rt.message.IAeMessageData, java.util.Map)
     */
-   public synchronized void onMessage(IAeMessageData aMessageData, Map aProcessProperties) throws AeBusinessProcessException
+   public synchronized void onMessage(IAeMessageData aMessageData, Map<String,String> aProcessProperties) throws AeBusinessProcessException
    {
       if (aMessageData == null)
          throw new AeBusinessProcessException(AeMessages.getString("AeWaitableReplyReceiver.ERROR_1")); //$NON-NLS-1$

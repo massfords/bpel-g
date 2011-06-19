@@ -27,7 +27,7 @@ public class AeWebServiceMessageData implements IAeWebServiceMessageData
 /** Message qname. */
    protected QName mMessageQName;
    /** Message part data. */
-   protected Map mParts = new HashMap();
+   protected Map<String,Object> mParts = new HashMap();
    /** Optional list of attachments */
    protected List mAttachments;
    
@@ -61,7 +61,7 @@ public class AeWebServiceMessageData implements IAeWebServiceMessageData
     /**
     * @see org.activebpel.wsio.IAeWebServiceMessageData#getMessageData()
     */
-   public Map getMessageData()
+   public Map<String,Object> getMessageData()
    {
       return mParts;
    }

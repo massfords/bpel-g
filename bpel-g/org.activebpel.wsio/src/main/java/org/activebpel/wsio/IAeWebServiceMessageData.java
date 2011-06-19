@@ -28,7 +28,7 @@ public interface IAeWebServiceMessageData extends Serializable
    /**
     * Get the message part data.
     */
-   public Map getMessageData();
+   public Map<String,Object> getMessageData();
    
    /**
     * Get the message attachments.

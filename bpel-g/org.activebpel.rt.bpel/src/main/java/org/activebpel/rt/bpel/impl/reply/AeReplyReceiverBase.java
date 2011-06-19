@@ -27,17 +27,17 @@ public abstract class AeReplyReceiverBase implements IAeReplyReceiver
    /** The message data returned from this response receiver */
    private IAeMessageData mMessageData;
    /** The Business Process properties. */
-   private Map mProcessProperties;
+   private Map<String,String> mProcessProperties;
 
    /**
     * @see org.activebpel.rt.bpel.impl.reply.IAeReplyReceiver#onMessage(org.activebpel.rt.message.IAeMessageData, java.util.Map)
     */
-   public abstract void onMessage(IAeMessageData aMessage, Map aProcessProperties) throws AeBusinessProcessException;
+   public abstract void onMessage(IAeMessageData aMessage, Map<String,String> aProcessProperties) throws AeBusinessProcessException;
 
    /**
     * @see org.activebpel.rt.bpel.impl.reply.IAeReplyReceiver#onFault(org.activebpel.rt.bpel.IAeFault, java.util.Map)
     */
-   public abstract void onFault(IAeFault aFault, Map aProcessProperties) throws AeBusinessProcessException;
+   public abstract void onFault(IAeFault aFault, Map<String,String> aProcessProperties) throws AeBusinessProcessException;
 
    /**
     * Overrides method to return <code>null</code> to indicate that the reply is not durable (by default).
@@ -90,7 +90,7 @@ public abstract class AeReplyReceiverBase implements IAeReplyReceiver
    /**
     * Returns the process process properties or null of none were set.
     */
-   public Map getBusinessProcessProperties()
+   public Map<String,String> getBusinessProcessProperties()
    {
       return mProcessProperties;
    }
@@ -98,7 +98,7 @@ public abstract class AeReplyReceiverBase implements IAeReplyReceiver
    /**
     * @param aProcessProperties The processProperties to set.
     */
-   protected void setBusinessProcessProperties(Map aProcessProperties)
+   protected void setBusinessProcessProperties(Map<String,String> aProcessProperties)
    {
       // Work around for defect 2247. Coordination specific.
       // Remove WSCOORD_ID. This id should only exist in participants (child process)

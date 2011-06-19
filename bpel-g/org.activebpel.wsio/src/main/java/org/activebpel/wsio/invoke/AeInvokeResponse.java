@@ -34,7 +34,7 @@ public class AeInvokeResponse implements IAeWebServiceResponse
    /** Stacktrace */
    protected String mErrorDetail;
    /** Business process properties */
-   protected Map mBusinessProcessProperties;
+   protected Map<String,String> mBusinessProcessProperties;
    /** Flag to indicate that the actual response will be coming later. (Early Reply to the client) **/
    protected boolean mEarlyReply = false;
    
@@ -137,7 +137,7 @@ public class AeInvokeResponse implements IAeWebServiceResponse
     * Add a business process property to this response.
     * @param aProperties
     */
-   public void setBusinessProcessProperties( Map aProperties )
+   public void setBusinessProcessProperties( Map<String,String> aProperties )
    {
       mBusinessProcessProperties = aProperties;
    }
@@ -145,7 +145,7 @@ public class AeInvokeResponse implements IAeWebServiceResponse
    /**
     * @see org.activebpel.wsio.IAeWebServiceResponse#getBusinessProcessProperties()
     */
-   public Map getBusinessProcessProperties()
+   public Map<String,String> getBusinessProcessProperties()
    {
       return mBusinessProcessProperties;
    }   

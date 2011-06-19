@@ -49,7 +49,7 @@ public interface IAeWebServiceResponse extends Serializable
     * Return the <code>Map</code> of (string) name/value pairs from the
     * business process.
     */
-   public Map getBusinessProcessProperties();
+   public Map<String,String> getBusinessProcessProperties();
    
    /**
     * Flag that indicates that the actual response will be coming later. (Early Reply to the client)

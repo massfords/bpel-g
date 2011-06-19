@@ -39,21 +39,6 @@ public class AeEmptyMessage implements IAeMessageData
    }
 
    /**
-    * @see org.activebpel.rt.message.IAeMessageData#isDirty()
-    */
-   public boolean isDirty()
-   {
-      return false;
-   }
-
-   /**
-    * @see org.activebpel.rt.message.IAeMessageData#clearDirty()
-    */
-   public void clearDirty()
-   {
-   }
-
-   /**
     * @see org.activebpel.rt.message.IAeMessageData#getMessageType()
     */
    public QName getMessageType()
@@ -64,7 +49,7 @@ public class AeEmptyMessage implements IAeMessageData
    /**
     * @see org.activebpel.rt.message.IAeMessageData#getPartNames()
     */
-   public Iterator getPartNames()
+   public Iterator<String> getPartNames()
    {
       return Collections.EMPTY_SET.iterator();
    }
