@@ -1,13 +1,20 @@
 package org.activebpel.rt.bpel;
 
 import java.io.ByteArrayOutputStream;
+import java.util.ServiceLoader;
+import java.util.prefs.PreferencesFactory;
 
 import org.junit.Test;
 
 public class AePreferencesTest {
 
-	
-	// FIXME add some real tests here
+	@Test
+	public void file() throws Exception {
+	    ServiceLoader<PreferencesFactory> sl = ServiceLoader.load(PreferencesFactory.class);
+	    for(PreferencesFactory pf : sl) {
+	        System.out.println(pf.getClass().getName());
+	    }
+	}
 	
 	@Test
 	public void serialize() throws Exception {
