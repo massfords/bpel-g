@@ -40,7 +40,7 @@ public class AeProcessImplStateAttributeDefaults implements IAeImplStateNames
     */
    private AeProcessImplStateAttributeDefaults()
    {
-      Map defaults = new HashMap();
+      Map<String, String> defaults = new HashMap<String, String>();
 
       defaults.put(STATE_DATA                 , "no"); //$NON-NLS-1$
       defaults.put(STATE_ENABLED              , "true"); //$NON-NLS-1$

@@ -28,7 +28,7 @@ import org.activebpel.rt.util.AeUtil;
 public class AeFunctionContextContainer
 {
    /** Internal storage for mapping namespace to function contexts. */
-   private Map mNamespaceToFunctionContextMap;
+   private Map<String, AeFunctionContextInfo> mNamespaceToFunctionContextMap;
    /** Locator for creating function contexts. */
    private IAeFunctionContextLocator mLocator;
    /** bpel expression function context */
@@ -43,13 +43,13 @@ public class AeFunctionContextContainer
     */
    public AeFunctionContextContainer( )
    {
-      mNamespaceToFunctionContextMap = new HashMap();
+      mNamespaceToFunctionContextMap = new HashMap<String, AeFunctionContextInfo>();
    }
 
    /** 
     * @return Returns ns to function context map.
     */
-   protected Map getNamespaceToFunctionContextMap()
+   protected Map<String, AeFunctionContextInfo> getNamespaceToFunctionContextMap()
    {
       return mNamespaceToFunctionContextMap;
    }
@@ -58,7 +58,7 @@ public class AeFunctionContextContainer
     * Return all of the custom <code>AeFunctionContextInfo</code> objects registered
     * with the container.
     */
-   public Collection getFunctionContexts()
+   public Collection<AeFunctionContextInfo> getFunctionContexts()
    {
       return getNamespaceToFunctionContextMap().values();
    }
@@ -68,7 +68,7 @@ public class AeFunctionContextContainer
     */
    public Set getFunctionContextNamespaces()
    {
-      HashSet set = new HashSet(getNamespaceToFunctionContextMap().keySet());
+      HashSet<String> set = new HashSet<String>(getNamespaceToFunctionContextMap().keySet());
       set.add(IAeBPELConstants.BPWS_NAMESPACE_URI);
       set.add(IAeBPELConstants.WSBPEL_2_0_NAMESPACE_URI);
       set.add(IAeBPELConstants.ABX_FUNCTIONS_NAMESPACE_URI);
@@ -82,9 +82,9 @@ public class AeFunctionContextContainer
     */
    public void remove( String aName )
    {
-      for (Iterator iter = getNamespaceToFunctionContextMap().entrySet().iterator(); iter.hasNext(); )
+      for (Iterator<Map.Entry<String, AeFunctionContextInfo>> iter = getNamespaceToFunctionContextMap().entrySet().iterator(); iter.hasNext(); )
       {
-         Map.Entry entry = (Map.Entry) iter.next();
+         Map.Entry<String, AeFunctionContextInfo> entry = iter.next();
          AeFunctionContextInfo info = (AeFunctionContextInfo) entry.getValue();
          if (aName.equals(info.getName()))
          {
@@ -117,7 +117,7 @@ public class AeFunctionContextContainer
       }
       else
       {
-         AeFunctionContextInfo info = (AeFunctionContextInfo) getNamespaceToFunctionContextMap().get(aNamespace);
+         AeFunctionContextInfo info = getNamespaceToFunctionContextMap().get(aNamespace);
          if (info != null)
          {
             found = info.getFunctionContext();

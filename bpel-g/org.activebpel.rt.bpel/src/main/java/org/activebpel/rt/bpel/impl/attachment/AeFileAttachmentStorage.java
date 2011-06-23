@@ -38,16 +38,16 @@ public class AeFileAttachmentStorage implements IAeAttachmentStorage
    private AeLongCounter mAttachmentIdCounter = new AeLongCounter();
 
    /** Maps attachment ids to {@link AeAttachmentInfo} instances. */
-   private Map<Long,AeAttachmentInfo> mAttachmentInfoMap = Collections.synchronizedMap(new HashMap());
+   private Map<Long,AeAttachmentInfo> mAttachmentInfoMap = Collections.synchronizedMap(new HashMap<Long,AeAttachmentInfo>());
 
    /** Counter for attachment group ids. */
    private AeLongCounter mGroupIdCounter = new AeLongCounter();
 
    /** Maps attachment group ids to lists of {@link AeAttachmentInfo} instances. */
-   private Map<Long,List<AeAttachmentInfo>> mGroupInfosMap = Collections.synchronizedMap(new HashMap());
+   private Map<Long,List<AeAttachmentInfo>> mGroupInfosMap = Collections.synchronizedMap(new HashMap<Long,List<AeAttachmentInfo>>());
 
    /** Maps process ids to lists of {@link AeAttachmentInfo} instances. */
-   private Map<Long,List<AeAttachmentInfo>> mProcessInfosMap = Collections.synchronizedMap(new HashMap());
+   private Map<Long,List<AeAttachmentInfo>> mProcessInfosMap = Collections.synchronizedMap(new HashMap<Long,List<AeAttachmentInfo>>());
 
    /**
     * Overrides method to move the {@link AeAttachmentInfo} instances associated
@@ -59,10 +59,10 @@ public class AeFileAttachmentStorage implements IAeAttachmentStorage
    public void associateProcess(long aAttachmentGroupId, long aProcessId) throws AeBusinessProcessException
    {
       // Remove the group's entry from the group map.
-      List groupInfos = (List) getGroupInfosMap().remove(aAttachmentGroupId);
+      List<AeAttachmentInfo> groupInfos = getGroupInfosMap().remove(aAttachmentGroupId);
       if (groupInfos != null)
       {
-         List processInfos = getProcessInfos(aProcessId);
+         List<AeAttachmentInfo> processInfos = getProcessInfos(aProcessId);
    
          synchronized (processInfos)
          {
@@ -84,7 +84,7 @@ public class AeFileAttachmentStorage implements IAeAttachmentStorage
       File[] tempFiles = AeAttachmentFile.listAttachmentFiles();
 
       // Construct the set of files to delete.
-      Set deleteFiles = new HashSet(Arrays.asList(tempFiles));
+      Set<File> deleteFiles = new HashSet<File>(Arrays.asList(tempFiles));
 
       // Don't delete files that we are actively managing.
       for (Iterator i = getAttachmentInfoMap().values().iterator(); i.hasNext(); )
@@ -110,7 +110,7 @@ public class AeFileAttachmentStorage implements IAeAttachmentStorage
    {
       long groupId = getNextGroupId();
 
-      getGroupInfosMap().put(groupId, new ArrayList());
+      getGroupInfosMap().put(groupId, new ArrayList<AeAttachmentInfo>());
 
       return groupId;
    }
@@ -189,7 +189,7 @@ public class AeFileAttachmentStorage implements IAeAttachmentStorage
    public long storeAttachment(long aAttachmentGroupId, InputStream aInputStream, Map aHeaders) throws AeBusinessProcessException
    {
       // Verify that the specified group exists.
-      List groupInfos = (List) getGroupInfosMap().get(aAttachmentGroupId);
+	  List<AeAttachmentInfo> groupInfos = getGroupInfosMap().get(aAttachmentGroupId);
       if (groupInfos == null)
       {
          throw new AeBusinessProcessException(AeMessages.format("AeFileAttachmentStorage.ERROR_IllegalGroupId", String.valueOf(aAttachmentGroupId))); //$NON-NLS-1$
@@ -283,15 +283,15 @@ public class AeFileAttachmentStorage implements IAeAttachmentStorage
     *
     * @param aProcessId
     */
-   protected List getProcessInfos(long aProcessId)
+   protected List<AeAttachmentInfo> getProcessInfos(long aProcessId)
    {
       synchronized (getProcessInfosMap())
       {
-         List processInfos = (List) getProcessInfosMap().get(aProcessId);
+    	 List<AeAttachmentInfo> processInfos = getProcessInfosMap().get(aProcessId);
          if (processInfos == null)
          {
             // If an entry for the process doesn't exist yet, then create one.
-            processInfos = new ArrayList();
+            processInfos = new ArrayList<AeAttachmentInfo>();
             getProcessInfosMap().put(aProcessId, processInfos);
          }
 

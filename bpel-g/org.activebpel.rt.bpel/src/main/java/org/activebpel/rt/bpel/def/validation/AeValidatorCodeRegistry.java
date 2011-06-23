@@ -35,7 +35,7 @@ public class AeValidatorCodeRegistry
    /** schema for the validator severity file */
    private static Schema sSeverityFileSchema;
    /** default namespace serverity map */
-   private static Map sPrefixMap = new HashMap();
+   private static Map<String, String> sPrefixMap = new HashMap<String, String>();
    /** map of namespace to map of code/severity */
    private static Map sSeverityMap = new HashMap();
    

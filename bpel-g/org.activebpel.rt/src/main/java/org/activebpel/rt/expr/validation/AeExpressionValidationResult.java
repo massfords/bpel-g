@@ -22,11 +22,11 @@ import org.activebpel.rt.expr.def.IAeExpressionParseResult;
 public class AeExpressionValidationResult implements IAeExpressionValidationResult
 {
    /** List of info messages. */
-   private List mInfoList;
+   private List<String> mInfoList;
    /** The list of errors. */
-   private List mErrors;
+   private List<String> mErrors;
    /** The list of warnings. */
-   private List mWarnings;
+   private List<String> mWarnings;
    /** Results of the parsing, will be null if the expression wasn't parsed */
    private IAeExpressionParseResult mParseResult;
 
@@ -35,15 +35,15 @@ public class AeExpressionValidationResult implements IAeExpressionValidationResu
     */
    public AeExpressionValidationResult()
    {
-      setInfoList(new LinkedList());
-      setErrors(new LinkedList());
-      setWarnings(new LinkedList());
+      setInfoList(new LinkedList<String>());
+      setErrors(new LinkedList<String>());
+      setWarnings(new LinkedList<String>());
    }
    
    /**
     * @return Returns the infoList.
     */
-   public List getInfoList()
+   public List<String> getInfoList()
    {
       return mInfoList;
    }
@@ -51,7 +51,7 @@ public class AeExpressionValidationResult implements IAeExpressionValidationResu
    /**
     * @param aInfoList The infoList to set.
     */
-   public void setInfoList(List aInfoList)
+   public void setInfoList(List<String> aInfoList)
    {
       mInfoList = aInfoList;
    }
@@ -59,7 +59,7 @@ public class AeExpressionValidationResult implements IAeExpressionValidationResu
    /**
     * @see org.activebpel.rt.expr.validation.IAeExpressionValidationResult#getErrors()
     */
-   public List getErrors()
+   public List<String> getErrors()
    {
       return mErrors;
    }
@@ -68,7 +68,7 @@ public class AeExpressionValidationResult implements IAeExpressionValidationResu
     * Setter for the errors.
     * @param aErrors
     */
-   protected void setErrors(List aErrors)
+   protected void setErrors(List<String> aErrors)
    {
       mErrors = aErrors;
    }
@@ -86,7 +86,7 @@ public class AeExpressionValidationResult implements IAeExpressionValidationResu
     * Adds a list of info messages to the internal info list.
     * @param aInfoList
     */
-   public void addInfo(List aInfoList)
+   public void addInfo(List<String> aInfoList)
    {
       getInfoList().addAll(aInfoList);
    }   
@@ -104,7 +104,7 @@ public class AeExpressionValidationResult implements IAeExpressionValidationResu
     * Adds a list of errors to the internal error list.
     * @param aErrors
     */
-   public void addErrors(List aErrors)
+   public void addErrors(List<String> aErrors)
    {
       getErrors().addAll(aErrors);
    }
@@ -121,7 +121,7 @@ public class AeExpressionValidationResult implements IAeExpressionValidationResu
    /**
     * Gets the list of warnings.
     */
-   public List getWarnings()
+   public List<String> getWarnings()
    {
       return mWarnings;
    }
@@ -131,7 +131,7 @@ public class AeExpressionValidationResult implements IAeExpressionValidationResu
     * 
     * @param aWarnings
     */
-   protected void setWarnings(List aWarnings)
+   protected void setWarnings(List<String> aWarnings)
    {
       mWarnings = aWarnings;
    }

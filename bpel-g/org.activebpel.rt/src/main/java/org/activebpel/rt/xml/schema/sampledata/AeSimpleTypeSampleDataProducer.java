@@ -39,7 +39,7 @@ import org.activebpel.rt.xml.schema.AeTypeMapping;
  */
 public class AeSimpleTypeSampleDataProducer
 {
-   private Map mMap = new HashMap();
+   private Map<QName, Object> mMap = new HashMap<QName, Object>();
    private Date mDate = new Date();
    
    /**
@@ -210,7 +210,7 @@ public class AeSimpleTypeSampleDataProducer
       int month = calendar.get(Calendar.MONTH) + 1;
       int day = calendar.get(Calendar.DAY_OF_MONTH);
       
-      Map map = getMap();
+      Map<QName, Object> map = getMap();
       map.put(AeTypeMapping.XSD_ANYURI, new AeSchemaAnyURI("anyURI")); //$NON-NLS-1$
       map.put(new QName(XMLConstants.W3C_XML_SCHEMA_NS_URI, "anyType"), "anyType"); //$NON-NLS-1$ //$NON-NLS-2$
       map.put(AeTypeMapping.XSD_BASE64_BINARY, new AeSchemaBase64Binary(Base64.encodeBytes("base64-string".getBytes()))); //$NON-NLS-1$
@@ -260,7 +260,7 @@ public class AeSimpleTypeSampleDataProducer
    /**
     * @return the map
     */
-   protected Map getMap()
+   protected Map<QName, Object> getMap()
    {
       return mMap;
    }
@@ -268,7 +268,7 @@ public class AeSimpleTypeSampleDataProducer
    /**
     * @param aMap the map to set
     */
-   protected void setMap(Map aMap)
+   protected void setMap(Map<QName, Object> aMap)
    {
       mMap = aMap;
    }
