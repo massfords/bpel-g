@@ -120,11 +120,11 @@ public abstract class AeWSIOInvokeHandler implements IAeInvokeHandler,
 		aContext.setReplyTo(replyTo);
 
 		// Resolve endpoint and wsdl policies
-		List wsdlPolicy = getWsdlPolicies(wsdlDef, aInvokeQueueObject,
+		List<Element> wsdlPolicy = getWsdlPolicies(wsdlDef, aInvokeQueueObject,
 				endpointReference);
 		aContext.setPolicyList(wsdlPolicy);
 		// map policy to call properties
-		Map callProperties = getPolicyDrivenProperties(wsdlPolicy);
+		Map<String, Object> callProperties = getPolicyDrivenProperties(wsdlPolicy);
 		aContext.setCallProperties(callProperties);
 
 		String url = getEndpointUrl(wsdlService, endpointReference,
@@ -161,12 +161,12 @@ public abstract class AeWSIOInvokeHandler implements IAeInvokeHandler,
 			BindingInput input = bop.getBindingInput();
 			Message inputMessage = operation.getInput().getMessage();
 
-			Collection inputHeaderParts = AeBindingUtils.getPartsForHeader(
+			Collection<String> inputHeaderParts = AeBindingUtils.getPartsForHeader(
 					input, inputMessage.getQName());
 			aContext.setInputHeaderParts(inputHeaderParts);
 
 			if (operation.getOutput() != null) {
-				Collection outputHeaderParts = AeBindingUtils
+				Collection<String> outputHeaderParts = AeBindingUtils
 						.getPartsForHeader(bop.getBindingOutput(), operation
 								.getOutput().getMessage().getQName());
 				aContext.setOutputHeaderParts(outputHeaderParts);
@@ -529,18 +529,18 @@ public abstract class AeWSIOInvokeHandler implements IAeInvokeHandler,
 	 * 
 	 * @param aPolicyList
 	 */
-	protected Map getPolicyDrivenProperties(List aPolicyList)
+	protected Map<String, Object> getPolicyDrivenProperties(List<Element> aPolicyList)
 			throws AeBusinessProcessException {
 		try {
 			// Map policy assertions to call properties
 			if (!AeUtil.isNullOrEmpty(aPolicyList)) {
 				// get the main policy mapper
-				IAePolicyMapper mapper = AeEngineFactory
-						.getBean(IAePolicyMapper.class);
+				@SuppressWarnings("unchecked")
+                IAePolicyMapper<Object> mapper = AeEngineFactory.getBean(IAePolicyMapper.class);
 				// get Client Request properties
 				return mapper.getCallProperties(aPolicyList);
 			} else {
-				return Collections.EMPTY_MAP;
+				return Collections.<String, Object>emptyMap();
 			}
 		} catch (Throwable t) {
 			throw new AeBusinessProcessException(t.getLocalizedMessage(), t);
@@ -556,7 +556,7 @@ public abstract class AeWSIOInvokeHandler implements IAeInvokeHandler,
 	 * @param aEndpoint
 	 * @throws AeBusinessProcessException
 	 */
-	protected List getWsdlPolicies(AeBPELExtendedWSDLDef aDef,
+	protected List<Element> getWsdlPolicies(AeBPELExtendedWSDLDef aDef,
 			IAeInvoke aInvoke, IAeEndpointReference aEndpoint)
 			throws AeBusinessProcessException {
 		IAeContextWSDLProvider wsdlProvider = AeEngineFactory.getBean(
@@ -625,11 +625,9 @@ public abstract class AeWSIOInvokeHandler implements IAeInvokeHandler,
 			IAeEndpointReference endpoint = aContext.getEndpoint();
 			Element principalHeader = null;
 			// look for existing principal header
-			for (Iterator it = endpoint.getReferenceProperties().iterator(); it
-					.hasNext();) {
-				Element header = (Element) it.next();
-				QName headerName = new QName(header.getNamespaceURI(),
-						header.getLocalName());
+			for (Iterator<Element> it = endpoint.getReferenceProperties().iterator(); it.hasNext();) {
+				Element header = it.next();
+				QName headerName = new QName(header.getNamespaceURI(), header.getLocalName());
 				if (IAePolicyConstants.PRINCIPAL_HEADER.equals(headerName)) {
 					principalHeader = header;
 					break;

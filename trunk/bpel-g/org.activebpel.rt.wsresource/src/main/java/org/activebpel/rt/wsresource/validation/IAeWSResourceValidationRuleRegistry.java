@@ -23,5 +23,5 @@ public interface IAeWSResourceValidationRuleRegistry
     * 
     * @param aWSResourceType
     */
-   public List getRules(String aWSResourceType);
+   public List<IAeWSResourceValidationRule> getRules(String aWSResourceType);
 }

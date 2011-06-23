@@ -16,6 +16,8 @@ import java.util.Map;
 
 import javax.xml.namespace.QName;
 
+import org.w3c.dom.Element;
+
 /**
  * Partner endpoint reference data.
  */
@@ -24,13 +26,13 @@ public interface IAeWebServiceEndpointReference extends Serializable
    /**
     * Returns the list of policy elements if any were specified. 
     */
-   public List getPolicies();
+   public List<Element> getPolicies();
 
    /**
     * Returns an Iterator of extensibility elements defined here.
     * @return Iterator the extensibility elements.
     */
-   public Iterator getExtensibilityElements();
+   public Iterator<Element> getExtensibilityElements();
 
    /**
     * Returns the name of the WSDL file which contains the definition of the
@@ -56,7 +58,7 @@ public interface IAeWebServiceEndpointReference extends Serializable
    /**
     * Returns the map of properties if any were specified. 
     */
-   public Map getProperties();
+   public Map<QName, String> getProperties();
 
    /**
     * Returns the address for the endpoint.
@@ -72,7 +74,7 @@ public interface IAeWebServiceEndpointReference extends Serializable
     * Gets an Iterator of all reference property elements.
     * @return Iterator for reference property elements.
     */
-   public List getReferenceProperties();
+   public List<Element> getReferenceProperties();
    
    /**
     * @return the wsa namespace uri

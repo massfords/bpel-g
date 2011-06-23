@@ -69,9 +69,9 @@ public abstract class AeAbstractBpelReaderRegistry extends AeDefReaderRegistry
    /**
     * Gets a list of the common activity containers for bpws and wsbpel.
     */
-   protected List getActivityContainers()
+   protected List<Class<?>> getActivityContainers()
    {
-      Class[] containers =
+      Class<?>[] containers =
       {
             ACTIVITY_FLOW_CLASS,
             ACTIVITY_FOREACH_CLASS,
@@ -169,16 +169,14 @@ public abstract class AeAbstractBpelReaderRegistry extends AeDefReaderRegistry
     */
    protected void initBpelActivities()
    {
-      List bpelActivities = getBpelActivityMappings();
+      List<AeRegistryMapping> bpelActivities = getBpelActivityMappings();
 
-      for (Iterator outerIter = getActivityContainers().iterator(); outerIter.hasNext();)
+      for (Iterator<Class<?>> outerIter = getActivityContainers().iterator(); outerIter.hasNext();)
       {
-         Class container = (Class) outerIter.next();
+         Class<?> container = outerIter.next();
 
-         for (Iterator innerIter = bpelActivities.iterator(); innerIter.hasNext();)
+         for (AeRegistryMapping mapping : bpelActivities)
          {
-            AeRegistryMapping mapping = (AeRegistryMapping) innerIter.next();
-
             registerReader(container, mapping.getName(), mapping.getReader());
          }
       }

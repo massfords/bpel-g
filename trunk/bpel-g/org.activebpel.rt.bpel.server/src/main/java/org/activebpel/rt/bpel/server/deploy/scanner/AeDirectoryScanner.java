@@ -47,11 +47,11 @@ public class AeDirectoryScanner {
 	/** Filter for specifying file types */
 	private FilenameFilter mFilter;
 	/** Listeners for directory changes */
-	private ArrayList mListeners;
+	private ArrayList<IAeScannerListener> mListeners;
 	/** Delay interval before scanning starts. */
 	private long mInitialDelay;
 	/** Comparator to control order in which files are listed. */
-	private Comparator mComparator;
+	private Comparator<String> mComparator;
 	/**
 	 * A set of manually added files that should be skipped the next time a scan
 	 * happens.
@@ -70,7 +70,7 @@ public class AeDirectoryScanner {
 	 *            include all files.
 	 */
 	public AeDirectoryScanner(File aScanDir, long aScanInterval,
-			FilenameFilter aFilter, Comparator aComparator) {
+			FilenameFilter aFilter, Comparator<String> aComparator) {
 		mScanDir = aScanDir;
 		if (!mScanDir.isDirectory()) {
 			throw new IllegalArgumentException(aScanDir
@@ -79,8 +79,8 @@ public class AeDirectoryScanner {
 		mScanInterval = aScanInterval;
 		mFilter = aFilter;
 		mComparator = aComparator;
-		mListeners = new ArrayList();
-		setDeployments(new HashMap());
+		mListeners = new ArrayList<IAeScannerListener>();
+		setDeployments(new HashMap<String,Long>());
 	}
 
 	/**
@@ -88,7 +88,7 @@ public class AeDirectoryScanner {
 	 * <code>File</code> objects that have been registered with the scanner.
 	 */
 	protected File[] prime() {
-		mDeployments = new HashMap();
+		mDeployments = new HashMap<String,Long>();
 		File scanDir = getScanDir();
 		if (!scanDir.isDirectory()) {
 			scanDir.mkdirs();
@@ -137,7 +137,7 @@ public class AeDirectoryScanner {
 					String[] fileNames = getFileList();
 
 					if (fileNames != null) {
-						Map<String,Long> currentDeployments = new HashMap();
+						Map<String,Long> currentDeployments = new HashMap<String,Long>();
 						for (int i = 0; i < fileNames.length; i++) {
 							boolean isNewDeployment = true;
 							File bprFile = new File(getScanDir(), fileNames[i]);
@@ -225,9 +225,9 @@ public class AeDirectoryScanner {
 		}
 
 		if (files != null && getFileSorter() != null) {
-			List fileList = Arrays.asList(files);
+			List<String> fileList = Arrays.asList(files);
 			Collections.sort(fileList, getFileSorter());
-			files = (String[]) fileList.toArray(new String[fileList.size()]);
+			files = fileList.toArray(new String[fileList.size()]);
 		}
 		return files;
 	}
@@ -237,7 +237,7 @@ public class AeDirectoryScanner {
 	 * 
 	 * @return The comparator or null if none has been set.
 	 */
-	protected Comparator getFileSorter() {
+	protected Comparator<String> getFileSorter() {
 		return mComparator;
 	}
 
@@ -249,10 +249,8 @@ public class AeDirectoryScanner {
 	 */
 	protected void removeRemainingDeployments() throws MalformedURLException {
 		if (!getDeployments().isEmpty()) {
-			for (Iterator iter = getDeployments().keySet().iterator(); iter
-					.hasNext();) {
-				fireRemoveEvent(new File(getScanDir(), iter.next().toString())
-						.toURI().toURL(), null);
+			for (Iterator<String> iter = getDeployments().keySet().iterator(); iter.hasNext();) {
+				fireRemoveEvent(new File(getScanDir(), iter.next()).toURI().toURL(), null);
 			}
 		}
 	}
@@ -419,18 +417,19 @@ public class AeDirectoryScanner {
 	 *            The event type.
 	 * @param aUserData
 	 */
-	protected void fireEvent(URL aURL, int aType, Object aUserData) {
-		List recipients = null;
+	@SuppressWarnings("unchecked")
+    protected void fireEvent(URL aURL, int aType, Object aUserData) {
+		List<IAeScannerListener> recipients = null;
 		synchronized (mListeners) {
 			if (!mListeners.isEmpty()) {
-				recipients = (ArrayList) mListeners.clone();
+				recipients = (ArrayList<IAeScannerListener>) mListeners.clone();
 			}
 		}
 
 		if (recipients != null) {
 			AeScanEvent event = new AeScanEvent(aURL, aType, aUserData);
-			for (Iterator iter = recipients.iterator(); iter.hasNext();) {
-				((IAeScannerListener) iter.next()).onChange(event);
+			for (Iterator<IAeScannerListener> iter = recipients.iterator(); iter.hasNext();) {
+				iter.next().onChange(event);
 			}
 		}
 	}

@@ -24,7 +24,7 @@ public interface IAeDefWriterRegistry
     * @param aDef the base def object to be serialized
     * @return the appropriate writer
     */
-   public IAeDefWriter getWriter(Class aParentClass, AeBaseXmlDef aDef);
+   public IAeDefWriter getWriter(Class<?> aParentClass, AeBaseXmlDef aDef);
    
    /**
     * @param aDef

@@ -148,7 +148,7 @@ public class AeDefReaderRegistry implements IAeDefReaderRegistry, IAeBaseXmlDefC
     * @param aElementQName
     * @param aReader
     */
-   protected void registerReader(Class aClass, QName aElementQName, IAeDefReader aReader)
+   protected void registerReader(Class<?> aClass, QName aElementQName, IAeDefReader aReader)
    {
       Map<QName, IAeDefReader> innerMap = getOrCreateInnerRegistryMap(aClass);
       innerMap.put( aElementQName, aReader );
@@ -169,11 +169,11 @@ public class AeDefReaderRegistry implements IAeDefReaderRegistry, IAeBaseXmlDefC
       IAeDefReader reader = null;
       if (aParentDef != null)
       {
-         Map childReadersMap = (Map)getParentRegistry().get(aParentDef.getClass());
+         Map<QName, IAeDefReader> childReadersMap = getParentRegistry().get(aParentDef.getClass());
          
          if( childReadersMap != null )
          {
-            reader = (IAeDefReader)childReadersMap.get(aElementQName);
+            reader = childReadersMap.get(aElementQName);
          }
          
          // if a reader was installed, return it
@@ -227,7 +227,7 @@ public class AeDefReaderRegistry implements IAeDefReaderRegistry, IAeBaseXmlDefC
     * @param aElementName child element for this parent
     * @param aReader IAeDefReader impl
     */
-   protected void registerReader(Class aClass, String aElementName, IAeDefReader aReader)
+   protected void registerReader(Class<?> aClass, String aElementName, IAeDefReader aReader)
    {
       registerReader(aClass, makeDefaultQName(aElementName), aReader);
    }
@@ -237,7 +237,7 @@ public class AeDefReaderRegistry implements IAeDefReaderRegistry, IAeBaseXmlDefC
     * 
     * @param aClass
     */
-   protected IAeDefReader createReader(Class aClass)
+   protected IAeDefReader createReader(Class<?> aClass)
    {
       return new AeDelegatingDefReader(aClass, getReaderFactory());
    }
