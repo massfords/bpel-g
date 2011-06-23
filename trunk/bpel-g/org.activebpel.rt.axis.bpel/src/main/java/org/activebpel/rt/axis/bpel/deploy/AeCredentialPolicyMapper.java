@@ -24,14 +24,14 @@ import org.w3c.dom.NodeList;
 /**
  * Creates Policy Deployment for a XPath mapping assertions 
  */
-public class AeCredentialPolicyMapper extends AeAxisPolicyMapper 
+public class AeCredentialPolicyMapper extends AeAxisPolicyMapper<String>
 {
    /**
     * @see org.activebpel.rt.bpel.server.deploy.IAePolicyMapper#getServerRequestHandlers(java.util.List)
     */
    public List<Element> getServerRequestHandlers( List<Element> aPolicyList ) throws AeException
    {
-      return Collections.EMPTY_LIST;
+      return Collections.<Element>emptyList();
    }
 
    /**
@@ -40,7 +40,7 @@ public class AeCredentialPolicyMapper extends AeAxisPolicyMapper
    public List<Element> getServerResponseHandlers( List<Element> aPolicyList )
    throws AeException
    {
-      return Collections.EMPTY_LIST;
+      return Collections.<Element>emptyList();
    }
    
    
@@ -50,7 +50,7 @@ public class AeCredentialPolicyMapper extends AeAxisPolicyMapper
    public List<Element> getClientRequestHandlers( List<Element> aPolicyList )
    throws AeException
    {
-      return Collections.EMPTY_LIST;
+      return Collections.<Element>emptyList();
    }
 
    /**
@@ -59,7 +59,7 @@ public class AeCredentialPolicyMapper extends AeAxisPolicyMapper
    public List<Element> getClientResponseHandlers( List<Element> aPolicyList )
    throws AeException
    {
-      return Collections.EMPTY_LIST;
+      return Collections.<Element>emptyList();
    }
 
    /**
@@ -67,15 +67,15 @@ public class AeCredentialPolicyMapper extends AeAxisPolicyMapper
     */
    public List<Element> getServiceParameters(List<Element> aPolicyList) throws AeException
    {
-      return Collections.EMPTY_LIST;
+      return Collections.<Element>emptyList();
    }
 
    /**
     * @see org.activebpel.rt.bpel.server.deploy.IAePolicyMapper#getCallProperties(java.util.List)
     */
-   public Map getCallProperties(List<Element> aPolicyList) throws AeException
+   public Map<String, String> getCallProperties(List<Element> aPolicyList) throws AeException
    {
-      Map map = new HashMap();
+      Map<String, String> map = new HashMap<String, String>();
       
       for (Iterator it = aPolicyList.iterator(); it.hasNext();)
       {

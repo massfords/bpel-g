@@ -411,7 +411,7 @@ public class AeSchemaUtil
       List list = new ArrayList();
       
       // keep a set of the schemas we've processed to avoid recursing forever
-      Set alreadyProcessed = new HashSet();
+      Set<Schema> alreadyProcessed = new HashSet<Schema>();
       
       for(Iterator it=aSchemas.iterator(); it.hasNext();)
       {
@@ -468,7 +468,7 @@ public class AeSchemaUtil
       List list = new ArrayList();
 
       // set to avoid recursing forever
-      Set alreadyProcessed = new HashSet();
+      Set<Schema> alreadyProcessed = new HashSet<Schema>();
       
       // walk all of the schemas
       for(Iterator it=aSchemas.iterator(); it.hasNext();)

@@ -31,6 +31,7 @@ import org.activebpel.rt.bpel.function.AeUnresolvableException;
 import org.activebpel.rt.bpel.function.IAeFunction;
 import org.activebpel.rt.bpel.function.IAeFunctionFactory;
 import org.activebpel.rt.bpel.impl.activity.AeActivityScopeImpl;
+import org.activebpel.rt.bpel.impl.activity.IAeExtensionLifecycleAdapter;
 import org.activebpel.rt.bpel.impl.activity.support.AeCorrelationSet;
 import org.activebpel.rt.bpel.impl.activity.support.AeLink;
 import org.activebpel.rt.bpel.impl.expr.AeExpressionRunnerContext;
@@ -1213,8 +1214,8 @@ abstract public class AeAbstractBpelObject implements IAeExecutableBpelObject, I
    /**
     * @see org.activebpel.rt.bpel.impl.IAeBpelObject#getExtensions()
     */
-   public Collection getExtensions()
+   public Collection<IAeExtensionLifecycleAdapter> getExtensions()
    {
-      return Collections.EMPTY_LIST;
+      return Collections.<IAeExtensionLifecycleAdapter>emptyList();
    }
 }

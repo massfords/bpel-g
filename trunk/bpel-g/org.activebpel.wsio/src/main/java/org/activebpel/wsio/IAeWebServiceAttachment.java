@@ -51,7 +51,7 @@ public interface IAeWebServiceAttachment
    /**
     * returns all mime headers associated with attachment
     */
-   public Map getMimeHeaders();
+   public Map<String, String> getMimeHeaders();
    
    /**
     * Get the attachment data.

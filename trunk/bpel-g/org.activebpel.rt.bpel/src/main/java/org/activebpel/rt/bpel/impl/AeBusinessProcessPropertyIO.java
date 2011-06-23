@@ -50,7 +50,7 @@ public class AeBusinessProcessPropertyIO implements IAeImplStateNames
     * @param aElement
     * @param aMap
     */
-   public static void extractBusinessProcessProperty( Element aElement, Map aMap )
+   public static void extractBusinessProcessProperty( Element aElement, Map<String, String> aMap )
    {
       String name = aElement.getAttribute( STATE_NAME );
       String value = AeXmlUtil.getText( aElement );

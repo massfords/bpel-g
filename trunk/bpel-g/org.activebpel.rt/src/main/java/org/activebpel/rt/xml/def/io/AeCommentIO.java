@@ -14,6 +14,7 @@ import java.io.IOException;
 import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 import org.activebpel.rt.util.AeUtil;
 import org.activebpel.rt.xml.def.AeBaseXmlDef;
@@ -29,7 +30,7 @@ public class AeCommentIO
 {
 
    /** Accumulated comments awaiting an encounter with their corresponding comment-aware def element. */
-   private StringBuffer sLastComments = new StringBuffer();
+   private StringBuilder lastComments = new StringBuilder();
 
    /**
     * Comments precede activity node.  Check to see if any comment
@@ -51,8 +52,8 @@ public class AeCommentIO
     */
    public String getAndClearLastComments()
    {
-      String comment = sLastComments.toString();
-      sLastComments.setLength(0);
+      String comment = lastComments.toString();
+      lastComments.setLength(0);
       return AeUtil.trimText(comment);
    }
 
@@ -79,9 +80,9 @@ public class AeCommentIO
     * Accessor method for accumulated BPEL comments.
     * @return StringBuffer.
     */
-   private StringBuffer getLastComments()
+   private StringBuilder getLastComments()
    {
-      return sLastComments;
+      return lastComments;
    }
    
    /**
@@ -95,12 +96,12 @@ public class AeCommentIO
       if ( aAppendString != null )
       {
 
-         if ( sLastComments.length() > 0 )
+         if ( lastComments.length() > 0 )
          {
-            sLastComments.append("\n"); //$NON-NLS-1$
+        	 lastComments.append("\n"); //$NON-NLS-1$
          }
 
-         sLastComments.append(aAppendString);
+         lastComments.append(aAppendString);
       }
    }
 
@@ -116,23 +117,22 @@ public class AeCommentIO
     */
    public static void writeFormattedComments(Node aNode, String aComments)
    {
-      ArrayList formattedComments = formatComments(aComments);
+      List<String> formattedComments = formatComments(aComments);
       if ( aNode instanceof Document )
       {
          Document doc = (Document)aNode;
          // add comment nodes as child nodes.
-         for (Iterator it = formattedComments.iterator(); it.hasNext(); )
+         for (String comment : formattedComments)
          {
-            doc.appendChild( doc.createComment((String)it.next()) );
+            doc.appendChild( doc.createComment(comment) );
          }
       }
       else if ( aNode instanceof Element )
       {
          Element elem = (Element)aNode;
          // add comment nodes as preceding sibling nodes.
-         for (Iterator it = formattedComments.iterator(); it.hasNext(); )
+         for (String comment : formattedComments)
          {
-            String comment = (String) it.next();
             Node commentNode = elem.getOwnerDocument().createComment(comment);
             elem.getParentNode().insertBefore( commentNode, elem );
          }
@@ -145,13 +145,13 @@ public class AeCommentIO
     * @param aComments a string of newline delimited text lines.
     * @return ArrayList a list string lines.
     */
-   private static ArrayList formatComments(String aComments)
+   private static List<String> formatComments(String aComments)
    {
-      ArrayList formattedList = new ArrayList();
+      ArrayList<String> formattedList = new ArrayList<String>();
       if ( ! AeUtil.isNullOrEmpty(aComments) )
       {
          int maxLen = 0;
-         ArrayList commentList = new ArrayList();
+         List<String> commentList = new ArrayList<String>();
          String line;
          BufferedReader buffReader = new BufferedReader(new StringReader(aComments));
          try

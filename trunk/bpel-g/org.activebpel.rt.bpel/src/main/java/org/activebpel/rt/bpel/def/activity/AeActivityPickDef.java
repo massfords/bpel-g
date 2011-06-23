@@ -36,9 +36,9 @@ public class AeActivityPickDef extends AeActivityDef implements IAeMessageContai
    private boolean mCreateInstance;
    
    /** The list of onMessage children. */
-   private List mOnMessageList = new ArrayList();  // Will always be at least one
+   private List<AeOnMessageDef> mOnMessageList = new ArrayList<AeOnMessageDef>();  // Will always be at least one
    /** The list of onAlarm children. */
-   private List mOnAlarmList;                      // May have zero or more elements
+   private List<AeOnAlarmDef> mOnAlarmList;                      // May have zero or more elements
 
    /**
     * Default constructor
@@ -59,7 +59,7 @@ public class AeActivityPickDef extends AeActivityDef implements IAeMessageContai
    /**
     * @see org.activebpel.rt.bpel.def.activity.IAeMessageContainerDef#getOnMessageDefs()
     */
-   public Iterator getOnMessageDefs()
+   public Iterator<AeOnMessageDef> getOnMessageDefs()
    {
       return mOnMessageList.iterator();
    }
@@ -70,7 +70,7 @@ public class AeActivityPickDef extends AeActivityDef implements IAeMessageContai
    public void addAlarmDef(AeOnAlarmDef aAlarm)
    {
       if (mOnAlarmList == null)
-         mOnAlarmList = new ArrayList();
+         mOnAlarmList = new ArrayList<AeOnAlarmDef>();
          
       mOnAlarmList.add(aAlarm);
    }
@@ -78,10 +78,10 @@ public class AeActivityPickDef extends AeActivityDef implements IAeMessageContai
    /**
     * @see org.activebpel.rt.bpel.def.activity.IAeAlarmParentDef#getAlarmDefs()
     */
-   public Iterator getAlarmDefs()
+   public Iterator<AeOnAlarmDef> getAlarmDefs()
    {
       if (mOnAlarmList == null || mOnAlarmList.size() == 0)
-         return Collections.EMPTY_LIST.iterator();
+         return Collections.<AeOnAlarmDef>emptyList().iterator();
       else
          return mOnAlarmList.iterator();
    }

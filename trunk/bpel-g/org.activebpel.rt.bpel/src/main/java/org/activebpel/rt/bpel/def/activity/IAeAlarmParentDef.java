@@ -22,7 +22,7 @@ public interface IAeAlarmParentDef
    /**
     * Gets an iterator over the alarm defs.
     */
-   public Iterator getAlarmDefs();
+   public Iterator<AeOnAlarmDef> getAlarmDefs();
 
    /**
     * Adds the alarm.

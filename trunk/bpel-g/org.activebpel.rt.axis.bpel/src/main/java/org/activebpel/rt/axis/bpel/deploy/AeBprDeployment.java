@@ -10,6 +10,7 @@
 package org.activebpel.rt.axis.bpel.deploy;
 
 // axis config and utils
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Iterator;
@@ -192,7 +193,7 @@ public class AeBprDeployment extends WSDDDeployment
     */
    public Iterator getDeployedServices() throws ConfigurationException
    {
-      List serviceDescs = new java.util.ArrayList();
+      List<ServiceDesc> serviceDescs = new ArrayList<ServiceDesc>();
       WSDDService[] services = getServices();
 
       ClassLoader origClassLoader = Thread.currentThread().getContextClassLoader();
@@ -234,12 +235,11 @@ public class AeBprDeployment extends WSDDDeployment
          Thread.currentThread().setContextClassLoader(origClassLoader);
       }
 
-      Comparator sorter = new Comparator()
+      Comparator<ServiceDesc> sorter = new Comparator<ServiceDesc>()
       {
-         public int compare(Object o1, Object o2)
+         public int compare(ServiceDesc o1, ServiceDesc o2)
          {
-            return ((ServiceDesc)o1).getName().toLowerCase().compareTo(
-                  ((ServiceDesc)o2).getName().toLowerCase() );
+            return o1.getName().toLowerCase().compareTo(o2.getName().toLowerCase());
          }
       };
       Collections.sort( serviceDescs, sorter );

@@ -19,10 +19,10 @@ import java.util.NoSuchElementException;
  * Represents the logical concatenation of multiple <code>java.util.Iterator</code>
  * objects as well as individually added objects.     
  */
-public class AeSequenceIterator implements Iterator
+public class AeSequenceIterator<T> implements Iterator<T>
 {
    /** Holds onto the iterators that we're joining */
-   private List mIters = new ArrayList();
+   private List<Iterator<? extends T>> mIters = new ArrayList<Iterator<? extends T>>();
    
    /** Offset used to track where we are in the list of iterators */
    private int mOffset = 0;
@@ -36,11 +36,11 @@ public class AeSequenceIterator implements Iterator
     * @return Iterator, possibly the Collections.EMPTY_SET.iterator() if both are
     *         null/empty. 
     */
-   public static Iterator join(Iterator aIterOne, Iterator aIterTwo)
+   public static <T> Iterator<? extends T> join(Iterator<? extends T> aIterOne, Iterator<? extends T> aIterTwo)
    {
       if (isNullOrEmpty(aIterOne) && isNullOrEmpty(aIterTwo))
       {
-         return Collections.EMPTY_SET.iterator();
+         return Collections.<T>emptySet().iterator();
       }
       
       if (isNullOrEmpty(aIterOne))
@@ -53,7 +53,7 @@ public class AeSequenceIterator implements Iterator
          return aIterOne;
       }
       
-      return new AeSequenceIterator(aIterOne, aIterTwo);
+      return new AeSequenceIterator<T>(aIterOne, aIterTwo);
    }
    
    /**
@@ -79,9 +79,10 @@ public class AeSequenceIterator implements Iterator
     * @param aIteratorOne can be null
     * @param aIteratorTwo can be null
     */
-   public AeSequenceIterator(Iterator aIteratorOne, Iterator aIteratorTwo)
+   public AeSequenceIterator(Iterator<? extends T> aIteratorOne, Iterator<? extends T> aIteratorTwo)
    {
-      this((Object)aIteratorOne, (Object)aIteratorTwo);
+      add(aIteratorOne);
+      add(aIteratorTwo);
    }
    
    /**
@@ -90,7 +91,7 @@ public class AeSequenceIterator implements Iterator
     * @param aObjectOne
     * @param aObjectTwo
     */
-   public AeSequenceIterator(Object aObjectOne, Object aObjectTwo)
+   public AeSequenceIterator(T aObjectOne, T aObjectTwo)
    {
       add(aObjectOne);
       add(aObjectTwo);
@@ -100,9 +101,9 @@ public class AeSequenceIterator implements Iterator
     * Adds the iterator to our collection if it has elements in it.
     * @param aIterator can be null
     */
-   public void add(Iterator aIterator)
+   public void add(Iterator<? extends T> aIterator)
    {
-      if ( ! isNullOrEmpty(aIterator) )
+      if (!isNullOrEmpty(aIterator))
       {
          mIters.add(aIterator);
       }
@@ -114,16 +115,12 @@ public class AeSequenceIterator implements Iterator
     * this object gets appended to our sequence if it's not null.
     * @param aObject if null, will not be added to our collection
     */
-   public void add(Object aObject)
+   public void add(T aObject)
    {
-      if (aObject instanceof Iterator)
-      {
-         add((Iterator)aObject);
-      }
-      else if (aObject != null)
-      {
+	  if (aObject != null) 
+	  {
          add(Collections.singleton(aObject).iterator());
-      }
+   	  }
    }
 
    /**
@@ -131,7 +128,7 @@ public class AeSequenceIterator implements Iterator
     */
    public boolean hasNext()
    {
-      Iterator it = getCurrentIterator();
+      Iterator<? extends T> it = getCurrentIterator();
       if (it == null)
       {
          return false;
@@ -145,12 +142,12 @@ public class AeSequenceIterator implements Iterator
     * Iterators left then we return null;
     * @return Iterator or null if there are none left.
     */
-   private Iterator getCurrentIterator()
+   private Iterator<? extends T> getCurrentIterator()
    {
-      Iterator found = null;
+      Iterator<? extends T> found = null;
       while (mOffset < mIters.size())
       {
-         Iterator it = (Iterator) mIters.get(mOffset);
+         Iterator<? extends T> it = mIters.get(mOffset);
          if (it.hasNext())
          {
             found = it;
@@ -164,9 +161,9 @@ public class AeSequenceIterator implements Iterator
    /**
     * @see java.util.Iterator#next()
     */
-   public Object next()
+   public T next()
    {
-      Iterator it = getCurrentIterator();
+      Iterator<? extends T> it = getCurrentIterator();
       if (it == null)
       {
          throw new NoSuchElementException();

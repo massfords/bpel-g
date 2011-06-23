@@ -26,7 +26,7 @@ import org.w3c.dom.NodeList;
 /**
  * Creates Policy Deployment for a XPath mapping assertions 
  */
-public class AeAxisXPathPolicyMapper extends AeAxisPolicyMapper 
+public class AeAxisXPathPolicyMapper extends AeAxisPolicyMapper<Object>
 {
    public static final String HANDLER_XPATH_RECEIVER = "proc:".concat(org.activebpel.rt.axis.bpel.handlers.AeXPathReceiveHandler.class.getName()); //$NON-NLS-1$
    
@@ -36,7 +36,7 @@ public class AeAxisXPathPolicyMapper extends AeAxisPolicyMapper
    public List<Element> getServerRequestHandlers( List<Element> aPolicyList )
    throws AeException
    {
-      List handlers = new ArrayList();
+      List<Element> handlers = new ArrayList<Element>();
       
       // Examine the list of policy assertions to determine the request handlers
       for (Iterator it = aPolicyList.iterator(); it.hasNext();) 
@@ -69,7 +69,7 @@ public class AeAxisXPathPolicyMapper extends AeAxisPolicyMapper
    public List<Element> getServerResponseHandlers( List<Element> aPolicyList )
    throws AeException
    {
-      return Collections.EMPTY_LIST;
+      return Collections.<Element>emptyList();
    }
    
    
@@ -79,7 +79,7 @@ public class AeAxisXPathPolicyMapper extends AeAxisPolicyMapper
    public List<Element> getClientRequestHandlers( List<Element> aPolicyList )
    throws AeException
    {
-      return Collections.EMPTY_LIST;
+      return Collections.<Element>emptyList();
    }
 
    /**
@@ -97,16 +97,16 @@ public class AeAxisXPathPolicyMapper extends AeAxisPolicyMapper
     */
    public List<Element> getServiceParameters(List<Element> aPolicyList) throws AeException
    {
-      return Collections.EMPTY_LIST;
+      return Collections.<Element>emptyList();
    }
 
    /**
     * Overrides method to map policies to name/value pairs 
     * @see org.activebpel.rt.bpel.server.deploy.IAePolicyMapper#getCallProperties(java.util.List)
     */
-   public Map getCallProperties(List<Element> aPolicyList) throws AeException
+   public Map<String, Object> getCallProperties(List<Element> aPolicyList) throws AeException
    {
-      Map map = new HashMap();
+      Map<String, Object> map = new HashMap<String, Object>();
       // Examine the list of policy assertions to determine the request handlers
       for (Iterator it = aPolicyList.iterator(); it.hasNext();) 
       {
@@ -115,7 +115,7 @@ public class AeAxisXPathPolicyMapper extends AeAxisPolicyMapper
          for (int i=0, len=children.getLength(); i < len; i++)
          {
             map.put(IAePolicyConstants.XPATH_QUERY_SOURCE, IAePolicyConstants.XPATH_QUERY_SOURCE_CONTEXT);
-            HashMap handlerParams = new HashMap();
+            Map<String, String> handlerParams = new HashMap<String, String>();
             Element assertion = (Element) children.item(i);
             NodeList params = assertion.getChildNodes();
             for (int j = 0; j < params.getLength(); j++) 

@@ -25,14 +25,14 @@ import org.activebpel.rt.expr.def.AeScriptVarDef;
 public class AeXPathVariableNodeVisitor extends AeAbstractXPathNodeVisitor
 {
    /** The variable references founds by the visitor. */
-   private Set mVariableReferences;
+   private Set<AeScriptVarDef> mVariableReferences;
 
    /**
     * Default c'tor.
     */
    public AeXPathVariableNodeVisitor()
    {
-      setVariableReferences(new LinkedHashSet());
+      setVariableReferences(new LinkedHashSet<AeScriptVarDef>());
    }
 
    /**
@@ -66,7 +66,7 @@ public class AeXPathVariableNodeVisitor extends AeAbstractXPathNodeVisitor
    /**
     * @return Returns the variableReferences.
     */
-   public Set getVariableReferences()
+   public Set<AeScriptVarDef> getVariableReferences()
    {
       return mVariableReferences;
    }
@@ -74,7 +74,7 @@ public class AeXPathVariableNodeVisitor extends AeAbstractXPathNodeVisitor
    /**
     * @param aVariableReferences The variableReferences to set.
     */
-   protected void setVariableReferences(Set aVariableReferences)
+   protected void setVariableReferences(Set<AeScriptVarDef> aVariableReferences)
    {
       mVariableReferences = aVariableReferences;
    }

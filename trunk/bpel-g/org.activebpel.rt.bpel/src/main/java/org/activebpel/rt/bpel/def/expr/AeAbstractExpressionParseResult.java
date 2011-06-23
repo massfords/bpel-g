@@ -44,7 +44,7 @@ public abstract class AeAbstractExpressionParseResult implements IAeExpressionPa
    /** The parser context. */
    private IAeExpressionParserContext mParserContext;
    /** A list of errors found during parse. */
-   private List mErrors;
+   private List<String> mErrors;
 
    /**
     * Creates the parse result.
@@ -56,7 +56,7 @@ public abstract class AeAbstractExpressionParseResult implements IAeExpressionPa
    {
       setExpression(aExpression);
       setParserContext(aParserContext);
-      setErrors(new ArrayList());
+      setErrors(new ArrayList<String>());
    }
 
    /**
@@ -70,7 +70,7 @@ public abstract class AeAbstractExpressionParseResult implements IAeExpressionPa
    /**
     * @see org.activebpel.rt.expr.def.IAeExpressionParseResult#getParseErrors()
     */
-   public List getParseErrors()
+   public List<String> getParseErrors()
    {
       return getErrors();
    }
@@ -86,9 +86,9 @@ public abstract class AeAbstractExpressionParseResult implements IAeExpressionPa
    /**
     * @see org.activebpel.rt.expr.def.IAeExpressionParseResult#getLinkStatusFunctionList()
     */
-   public List getLinkStatusFunctionList()
+   public List<AeScriptFuncDef> getLinkStatusFunctionList()
    {
-      List list = new LinkedList();
+      List<AeScriptFuncDef> list = new LinkedList<AeScriptFuncDef>();
       for (Iterator iter = getFunctions().iterator(); iter.hasNext();)
       {
          AeScriptFuncDef function = (AeScriptFuncDef) iter.next();
@@ -103,9 +103,9 @@ public abstract class AeAbstractExpressionParseResult implements IAeExpressionPa
    /**
     * @see org.activebpel.rt.expr.def.IAeExpressionParseResult#getDoXslTransformFunctionList()
     */
-   public List getDoXslTransformFunctionList()
+   public List<AeScriptFuncDef> getDoXslTransformFunctionList()
    {
-      List list = new LinkedList();
+      List<AeScriptFuncDef> list = new LinkedList<AeScriptFuncDef>();
       for (Iterator iter = getFunctions().iterator(); iter.hasNext();)
       {
          AeScriptFuncDef function = (AeScriptFuncDef) iter.next();
@@ -120,9 +120,9 @@ public abstract class AeAbstractExpressionParseResult implements IAeExpressionPa
    /**
     * @see org.activebpel.rt.expr.def.IAeExpressionParseResult#getVarDataFunctionList()
     */
-   public List getVarDataFunctionList()
+   public List<AeScriptFuncDef> getVarDataFunctionList()
    {
-      List list = new LinkedList();
+      List<AeScriptFuncDef> list = new LinkedList<AeScriptFuncDef>();
       for (Iterator iter = getFunctions().iterator(); iter.hasNext();)
       {
          AeScriptFuncDef function = (AeScriptFuncDef) iter.next();
@@ -137,9 +137,9 @@ public abstract class AeAbstractExpressionParseResult implements IAeExpressionPa
    /**
     * @see org.activebpel.rt.expr.def.IAeExpressionParseResult#getVarPropertyFunctionList()
     */
-   public List getVarPropertyFunctionList()
+   public List<AeScriptFuncDef> getVarPropertyFunctionList()
    {
-      List list = new LinkedList();
+      List<AeScriptFuncDef> list = new LinkedList<AeScriptFuncDef>();
       for (Iterator iter = getFunctions().iterator(); iter.hasNext();)
       {
          AeScriptFuncDef function = (AeScriptFuncDef) iter.next();
@@ -154,9 +154,9 @@ public abstract class AeAbstractExpressionParseResult implements IAeExpressionPa
    /**
     * @see org.activebpel.rt.expr.def.IAeExpressionParseResult#getAttachmentFunctionList()
     */
-   public List getAttachmentFunctionList()
+   public List<AeScriptFuncDef> getAttachmentFunctionList()
    {
-      List list = new LinkedList();
+      List<AeScriptFuncDef> list = new LinkedList<AeScriptFuncDef>();
       for (Iterator iter = getFunctions().iterator(); iter.hasNext();)
       {
          AeScriptFuncDef function = (AeScriptFuncDef) iter.next();
@@ -169,9 +169,9 @@ public abstract class AeAbstractExpressionParseResult implements IAeExpressionPa
    /**
     * @see org.activebpel.rt.expr.def.IAeExpressionParseResult#getMyRolePropertyFunctionList()
     */
-   public List getMyRolePropertyFunctionList()
+   public List<AeScriptFuncDef> getMyRolePropertyFunctionList()
    {
-      List list = new LinkedList();
+      List<AeScriptFuncDef> list = new LinkedList<AeScriptFuncDef>();
       for (Iterator iter = getFunctions().iterator(); iter.hasNext();)
       {
          AeScriptFuncDef function = (AeScriptFuncDef) iter.next();
@@ -186,9 +186,9 @@ public abstract class AeAbstractExpressionParseResult implements IAeExpressionPa
    /**
     * @see org.activebpel.rt.expr.def.IAeExpressionParseResult#getVarDataList()
     */
-   public List getVarDataList()
+   public List<AeVariableData> getVarDataList()
    {
-      List list = new LinkedList();
+      List<AeVariableData> list = new LinkedList<AeVariableData>();
       Collection functionList = getVarDataFunctionList();
       for (Iterator iter = functionList.iterator(); iter.hasNext();)
       {
@@ -208,9 +208,9 @@ public abstract class AeAbstractExpressionParseResult implements IAeExpressionPa
    /**
     * @see org.activebpel.rt.expr.def.IAeExpressionParseResult#getVarPropertyList()
     */
-   public List getVarPropertyList()
+   public List<AeVariableProperty> getVarPropertyList()
    {
-      List list = new LinkedList();
+      List<AeVariableProperty> list = new LinkedList<AeVariableProperty>();
       Collection functionList = getFunctions();
       for (Iterator iter = functionList.iterator(); iter.hasNext();)
       {
@@ -233,9 +233,9 @@ public abstract class AeAbstractExpressionParseResult implements IAeExpressionPa
    /**
     * @see org.activebpel.rt.expr.def.IAeExpressionParseResult#getVarAttachmentList()
     */
-   public List getVarAttachmentList()
+   public List<String> getVarAttachmentList()
    {
-      List list = new LinkedList();
+      List<String> list = new LinkedList<String>();
       Collection functionList = getAttachmentFunctionList();
       for (Iterator iter = functionList.iterator(); iter.hasNext();)
       {
@@ -287,9 +287,9 @@ public abstract class AeAbstractExpressionParseResult implements IAeExpressionPa
    /**
     * @see org.activebpel.rt.expr.def.IAeExpressionParseResult#getVarNames()
     */
-   public Set getVarNames()
+   public Set<String> getVarNames()
    {
-      Set rval = new LinkedHashSet();
+      Set<String> rval = new LinkedHashSet<String>();
       for (Iterator iter = getVarDataList().iterator(); iter.hasNext(); )
       {
          AeVariableData vd = (AeVariableData) iter.next();
@@ -302,7 +302,7 @@ public abstract class AeAbstractExpressionParseResult implements IAeExpressionPa
          rval.add(vp.getVarName());
       }
 
-      for (Iterator iter = getVarAttachmentList().iterator(); iter.hasNext(); )
+      for (Iterator<String> iter = getVarAttachmentList().iterator(); iter.hasNext(); )
          rval.add(iter.next());
       
       return rval;
@@ -311,9 +311,9 @@ public abstract class AeAbstractExpressionParseResult implements IAeExpressionPa
    /**
     * @see org.activebpel.rt.expr.def.IAeExpressionParseResult#getStylesheetURIList()
     */
-   public List getStylesheetURIList()
+   public List<String> getStylesheetURIList()
    {
-      List list = new LinkedList();
+      List<String> list = new LinkedList<String>();
       
       for (Iterator iter = getDoXslTransformFunctionList().iterator(); iter.hasNext(); )
       {
@@ -429,7 +429,7 @@ public abstract class AeAbstractExpressionParseResult implements IAeExpressionPa
    /**
     * @return Returns the list of errors.
     */
-   public List getErrors()
+   public List<String> getErrors()
    {
       return mErrors;
    }
@@ -437,7 +437,7 @@ public abstract class AeAbstractExpressionParseResult implements IAeExpressionPa
    /**
     * @param aErrors The errors to set.
     */
-   protected void setErrors(List aErrors)
+   protected void setErrors(List<String> aErrors)
    {
       mErrors = aErrors;
    }

@@ -67,7 +67,7 @@ public class AeAlarmListingBean extends AeAbstractListingBean
          String name = mQName != null ? mQName.getLocalPart() : null;
          
          List<AeAlarmExt> resultz = getAdmin().getAlarms(mProcessId, getStartDate(), getEndDate(), namespace, name, getRowCount(), getRowStart() );
-         AeAlarmListResult results = new AeAlarmListResult(resultz.size(), resultz);
+         AeAlarmListResult<AeAlarmExt> results = new AeAlarmListResult<AeAlarmExt>(resultz.size(), resultz);
             
          if( !results.isEmpty() )
          { 

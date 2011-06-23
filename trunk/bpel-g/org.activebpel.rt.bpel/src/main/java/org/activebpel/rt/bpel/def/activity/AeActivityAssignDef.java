@@ -23,14 +23,11 @@ import org.activebpel.rt.bpel.def.visitors.IAeDefVisitor;
  */
 public class AeActivityAssignDef extends AeActivityDef
 {
-   /**
-     * 
-     */
-    private static final long serialVersionUID = 7211150756018400233L;
-/** The assign's copy def children. */
-   private List mCopies = new ArrayList();
+   private static final long serialVersionUID = 7211150756018400233L;
+   /** The assign's copy def children. */
+   private List<AeAssignCopyDef> mCopies = new ArrayList<AeAssignCopyDef>();
    /** The assign's extensibleAssign children. */
-   private List mExtensibleAssigns = new ArrayList();
+   private List<AeExtensibleAssignDef> mExtensibleAssigns = new ArrayList<AeExtensibleAssignDef>();
    /** The assign's 'validate' attribute. */
    private boolean mValidate;
 
@@ -57,7 +54,7 @@ public class AeActivityAssignDef extends AeActivityDef
     *
     * @return iterator of AeAssignCopyDef objects
     */
-   public Iterator getCopyDefs()
+   public Iterator<AeAssignCopyDef> getCopyDefs()
    {
       return mCopies.iterator();
    }
@@ -81,7 +78,7 @@ public class AeActivityAssignDef extends AeActivityDef
    /**
     * @return Returns the extensibleAssigns.
     */
-   public Iterator getExtensibleAssignDefs()
+   public Iterator<AeExtensibleAssignDef> getExtensibleAssignDefs()
    {
       return mExtensibleAssigns.iterator();
    }

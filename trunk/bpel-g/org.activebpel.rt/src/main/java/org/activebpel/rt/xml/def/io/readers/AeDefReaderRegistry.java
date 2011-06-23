@@ -27,9 +27,9 @@ import org.activebpel.rt.xml.def.IAeBaseXmlDefConstants;
 public class AeDefReaderRegistry implements IAeDefReaderRegistry, IAeBaseXmlDefConstants
 {
    /** map of QNames to readers */
-   private Map mGenericReadersMap = new HashMap();
+   private Map<QName, IAeDefReader> mGenericReadersMap = new HashMap<QName, IAeDefReader>();
    /** maps def class to map of child QName to reader  */
-   private Map mParentRegistryMap = new HashMap();
+   private Map<Class<?>, Map<QName, IAeDefReader>> mParentRegistryMap = new HashMap<Class<?>, Map<QName, IAeDefReader>>();
    /** The reader def visitor factory that the dispatch reader will use to create readers. */
    private IAeReaderFactory mReaderFactory;
    /** A reader that can read in an extension element. */
@@ -76,7 +76,7 @@ public class AeDefReaderRegistry implements IAeDefReaderRegistry, IAeBaseXmlDefC
    /**
     * @return Returns the genericReadersMap.
     */
-   protected Map getGenericReadersMap()
+   protected Map<QName, IAeDefReader> getGenericReadersMap()
    {
       return mGenericReadersMap;
    }
@@ -85,7 +85,7 @@ public class AeDefReaderRegistry implements IAeDefReaderRegistry, IAeBaseXmlDefC
     * Accessor for parent registry map.
     * @return registry map
     */
-   protected Map getParentRegistry()
+   protected Map<Class<?>, Map<QName, IAeDefReader>> getParentRegistry()
    {
       return mParentRegistryMap;
    }
@@ -130,12 +130,12 @@ public class AeDefReaderRegistry implements IAeDefReaderRegistry, IAeBaseXmlDefC
     * 
     * @param aClass
     */
-   protected Map getOrCreateInnerRegistryMap(Class aClass)
+   protected Map<QName, IAeDefReader> getOrCreateInnerRegistryMap(Class<?> aClass)
    {
-      Map innerMap = (Map) getParentRegistry().get(aClass);
+      Map<QName, IAeDefReader> innerMap = getParentRegistry().get(aClass);
       if (innerMap == null)
       {
-         innerMap = new HashMap();
+         innerMap = new HashMap<QName, IAeDefReader>();
          getParentRegistry().put(aClass, innerMap);
       }
       return innerMap;
@@ -150,7 +150,7 @@ public class AeDefReaderRegistry implements IAeDefReaderRegistry, IAeBaseXmlDefC
     */
    protected void registerReader(Class aClass, QName aElementQName, IAeDefReader aReader)
    {
-      Map innerMap = getOrCreateInnerRegistryMap(aClass);
+      Map<QName, IAeDefReader> innerMap = getOrCreateInnerRegistryMap(aClass);
       innerMap.put( aElementQName, aReader );
    }
 

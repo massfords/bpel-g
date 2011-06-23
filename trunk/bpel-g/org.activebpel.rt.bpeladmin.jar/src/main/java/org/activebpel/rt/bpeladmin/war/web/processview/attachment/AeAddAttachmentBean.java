@@ -106,8 +106,8 @@ public class AeAddAttachmentBean extends AeNewAttachmentUploader {
 	 * 
 	 * @param aXml
 	 */
-	protected Map convertXml(String aXml) {
-		Map attributes = new HashMap();
+	protected Map<String, String> convertXml(String aXml) {
+		Map<String, String> attributes = new HashMap<String, String>();
 		attributes.put(AeMimeUtil.CONTENT_TYPE_ATTRIBUTE, getContentType());
 
 		try {

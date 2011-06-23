@@ -38,9 +38,9 @@ public abstract class AeAbstractXQueryParseResult extends AeAbstractExpressionPa
    /** The saxon Configuration object. */
    private Configuration mConfiguration;
    /** The cached set of functions. */
-   private Set mFunctions;
+   private Set<AeScriptFuncDef> mFunctions;
    /** The cached set of variables. */
-   private Set mVariables;
+   private Set<AeScriptVarDef> mVariables;
 
    /**
     * Creates the xquery parse result.
@@ -61,7 +61,7 @@ public abstract class AeAbstractXQueryParseResult extends AeAbstractExpressionPa
    /**
     * @see org.activebpel.rt.expr.def.IAeExpressionParseResult#getFunctions()
     */
-   public Set getFunctions()
+   public Set<AeScriptFuncDef> getFunctions()
    {
       if (mFunctions == null)
          mFunctions = extractFunctions(getXQueryExpression(), getConfiguration(), null);
@@ -72,7 +72,7 @@ public abstract class AeAbstractXQueryParseResult extends AeAbstractExpressionPa
    /**
     * @see org.activebpel.rt.expr.def.IAeExpressionParseResult#getVariableReferences()
     */
-   public Set getVariableReferences()
+   public Set<AeScriptVarDef> getVariableReferences()
    {
       if (mVariables == null)
          mVariables = extractVariables(getXQueryExpression(), getConfiguration());
@@ -88,9 +88,9 @@ public abstract class AeAbstractXQueryParseResult extends AeAbstractExpressionPa
     * @param aConfig
     * @param aParentFunc
     */
-   protected Set extractFunctions(Expression aExpression, Configuration aConfig, AeScriptFuncDef aParentFunc)
+   protected Set<AeScriptFuncDef> extractFunctions(Expression aExpression, Configuration aConfig, AeScriptFuncDef aParentFunc)
    {
-      Set set = new LinkedHashSet();
+      Set<AeScriptFuncDef> set = new LinkedHashSet<AeScriptFuncDef>();
       AeScriptFuncDef parentFunc = aParentFunc;
       
       // If the expression is a function call, then extract it and add it to the list.
@@ -130,9 +130,9 @@ public abstract class AeAbstractXQueryParseResult extends AeAbstractExpressionPa
     * @param aExpression
     * @param aConfig
     */
-   protected Set extractVariables(Expression aExpression, Configuration aConfig)
+   protected Set<AeScriptVarDef> extractVariables(Expression aExpression, Configuration aConfig)
    {
-      Set set = new LinkedHashSet();
+      Set<AeScriptVarDef> set = new LinkedHashSet<AeScriptVarDef>();
       
       // If the expression is a variable reference, then extract it and add it to the list.
       if (aExpression instanceof VariableReference)

@@ -12,6 +12,7 @@ package org.activebpel.rt.bpel.def;
 
 import java.util.Iterator;
 
+import org.activebpel.rt.bpel.def.activity.support.AeToPartDef;
 import org.activebpel.rt.bpel.def.activity.support.AeToPartsDef;
 
 /**
@@ -34,5 +35,5 @@ public interface IAeToPartsParentDef
    /**
     * Gets an iterator over the list of toPart defs.
     */
-   public Iterator getToPartDefs();
+   public Iterator<AeToPartDef> getToPartDefs();
 }

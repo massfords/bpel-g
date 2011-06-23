@@ -28,14 +28,14 @@ import org.activebpel.rt.expr.def.AeScriptFuncDef;
 public class AeXPathFunctionNodeVisitor extends AeAbstractXPathNodeVisitor
 {
    /** The functions founds by the visitor. */
-   private Set mFunctions;
+   private Set<AeScriptFuncDef> mFunctions;
 
    /**
     * Default c'tor.
     */
    public AeXPathFunctionNodeVisitor()
    {
-      setFunctions(new LinkedHashSet());
+      setFunctions(new LinkedHashSet<AeScriptFuncDef>());
    }
 
    /**
@@ -45,7 +45,7 @@ public class AeXPathFunctionNodeVisitor extends AeAbstractXPathNodeVisitor
    {
       AeScriptFuncDef funcDef = new AeScriptFuncDef(aNode.getFunctionQName());
       
-      List arguments = new ArrayList();
+      List<Object> arguments = new ArrayList<Object>();
       for (Iterator iter = aNode.getChildren().iterator(); iter.hasNext(); )
       {
          AeAbstractXPathNode child = (AeAbstractXPathNode) iter.next();
@@ -62,7 +62,7 @@ public class AeXPathFunctionNodeVisitor extends AeAbstractXPathNodeVisitor
    /**
     * @return Returns the functions.
     */
-   public Set getFunctions()
+   public Set<AeScriptFuncDef> getFunctions()
    {
       return mFunctions;
    }
@@ -70,7 +70,7 @@ public class AeXPathFunctionNodeVisitor extends AeAbstractXPathNodeVisitor
    /**
     * @param aFunctions The functions to set.
     */
-   protected void setFunctions(Set aFunctions)
+   protected void setFunctions(Set<AeScriptFuncDef> aFunctions)
    {
       mFunctions = aFunctions;
    }

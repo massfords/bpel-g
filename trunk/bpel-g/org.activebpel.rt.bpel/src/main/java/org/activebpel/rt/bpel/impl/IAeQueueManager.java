@@ -19,6 +19,7 @@ import org.activebpel.rt.bpel.impl.list.AeAlarmFilter;
 import org.activebpel.rt.bpel.impl.list.AeAlarmListResult;
 import org.activebpel.rt.bpel.impl.list.AeMessageReceiverFilter;
 import org.activebpel.rt.bpel.impl.list.AeMessageReceiverListResult;
+import org.activebpel.rt.bpel.impl.queue.AeAlarm;
 import org.activebpel.rt.bpel.impl.queue.AeInboundReceive;
 import org.activebpel.rt.bpel.impl.queue.AeMessageReceiver;
 import org.activebpel.rt.bpel.impl.queue.AeReply;
@@ -104,7 +105,7 @@ public interface IAeQueueManager extends IAeManager
     * @throws AeMissingReplyReceiverException if no reply was found to be waiting
     * @throws AeBusinessProcessException if there is some communication error executing the reply
     */
-   public void sendReply(AeReply aReplyObject, IAeMessageData aData, IAeFault aFault, Map aProcessProperties ) throws AeBusinessProcessException;
+   public void sendReply(AeReply aReplyObject, IAeMessageData aData, IAeFault aFault, Map<String, String> aProcessProperties ) throws AeBusinessProcessException;
 
    /**
     * Returns an iterator over a read only collection of unmatched AeQueueReceiveObjects.
@@ -175,7 +176,7 @@ public interface IAeQueueManager extends IAeManager
     * @param aFilter filter for alarms to be returned.
     * @return list of alarms matching the passed filter.
     */
-   public AeAlarmListResult getAlarms(AeAlarmFilter aFilter) throws AeBusinessProcessException;
+   public AeAlarmListResult<? extends AeAlarm> getAlarms(AeAlarmFilter aFilter) throws AeBusinessProcessException;
 
    /**
     * Returns the configured receive handler for the protocol

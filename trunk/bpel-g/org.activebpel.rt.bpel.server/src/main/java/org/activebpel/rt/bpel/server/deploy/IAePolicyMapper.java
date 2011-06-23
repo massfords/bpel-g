@@ -18,7 +18,7 @@ import org.w3c.dom.Element;
 /**
  * Handle the platform specific details of deploying policy for a web service.
  */
-public interface IAePolicyMapper
+public interface IAePolicyMapper<T>
 {
 
    /**
@@ -73,7 +73,7 @@ public interface IAePolicyMapper
     * @return Map of property name/value pairs
     * @throws AeException
     */
-   public Map<String,String> getCallProperties( List<Element> aPolicyList )
+   public Map<String,T> getCallProperties( List<Element> aPolicyList )
    throws AeException;
    
    /**

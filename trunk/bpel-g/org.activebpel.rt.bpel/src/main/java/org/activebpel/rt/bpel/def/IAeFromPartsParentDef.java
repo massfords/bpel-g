@@ -12,6 +12,7 @@ package org.activebpel.rt.bpel.def;
 
 import java.util.Iterator;
 
+import org.activebpel.rt.bpel.def.activity.support.AeFromPartDef;
 import org.activebpel.rt.bpel.def.activity.support.AeFromPartsDef;
 
 /**
@@ -34,5 +35,5 @@ public interface IAeFromPartsParentDef
    /**
     * Gets an iterator over the list of fromPart defs.
     */
-   public Iterator getFromPartDefs();
+   public Iterator<AeFromPartDef> getFromPartDefs();
 }

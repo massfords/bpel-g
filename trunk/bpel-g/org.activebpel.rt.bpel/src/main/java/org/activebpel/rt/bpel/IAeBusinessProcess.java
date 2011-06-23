@@ -97,7 +97,7 @@ public interface IAeBusinessProcess
     * @param aLocationPath Identifies the correlation set within the process.
     * @param aCorrelationData
     */
-   public void setCorrelationData( String aLocationPath, Map aCorrelationData )
+   public void setCorrelationData( String aLocationPath, Map<QName, Object> aCorrelationData )
    throws AeBusinessProcessException;
 
    /**
@@ -273,7 +273,7 @@ public interface IAeBusinessProcess
     * @param aLocationPath The path to the location awaiting the response
     * @param aData The data we have received from invoke.
     */
-   public void dispatchInvokeData(String aLocationPath, IAeMessageData aData, Map aBusinessProcessProperties);
+   public void dispatchInvokeData(String aLocationPath, IAeMessageData aData, Map<String, String> aBusinessProcessProperties);
 
    /**
     * Dispatches a fault to a queued invoke.
@@ -281,7 +281,7 @@ public interface IAeBusinessProcess
     * @param aLocationPath The path to the location awaiting the response
     * @param aFault The fault we received from invoke.
     */
-   public void dispatchInvokeFault(String aLocationPath, IAeFault aFault, Map aBusinessProcessProperties);
+   public void dispatchInvokeFault(String aLocationPath, IAeFault aFault, Map<String, String> aBusinessProcessProperties);
 
    /**
     * Dispatches message data to a message receiver (by location path id).

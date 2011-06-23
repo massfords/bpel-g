@@ -380,7 +380,7 @@ public class AeBusinessProcessEngine implements IAeBusinessProcessEngineInternal
     * @see org.activebpel.rt.bpel.IAeBusinessProcessEngine#setCorrelationData(long, java.lang.String, java.util.Map)
     */
    public void setCorrelationData(long aPid, String aCorrsetPath,
-         Map aCorrelationData) throws AeBusinessProcessException
+         Map<QName, Object> aCorrelationData) throws AeBusinessProcessException
    {
       IAeBusinessProcess process = getProcessById(aPid);
       try
@@ -645,7 +645,7 @@ public class AeBusinessProcessEngine implements IAeBusinessProcessEngineInternal
    {
       IAeProcessPlan processPlan = getProcessPlan(AeMessageContext.convert(aContext));
       AePartnerLinkOpKey plOpKey = getPartnerLinkOpKey(aContext, processPlan);
-      Map<QName, String> correlationMap = createCorrelationMap(processPlan, aMessageData, aContext);
+      Map<QName, Object> correlationMap = createCorrelationMap(processPlan, aMessageData, aContext);
       AeInboundReceive inboundReceive = new AeInboundReceive(plOpKey, correlationMap, processPlan, aMessageData, aContext, aReply);
       // queue receive to create process, but do not queue the process for execution.
       return queueReceiveData(inboundReceive, aAckCallback, aQueueForExecution);
@@ -701,7 +701,7 @@ public class AeBusinessProcessEngine implements IAeBusinessProcessEngineInternal
       }
 
       AePartnerLinkOpKey plOpKey = getPartnerLinkOpKey(aContext, plan);
-      Map<QName, String> correlationMap = createCorrelationMap(plan, aMessageData, aContext);
+      Map<QName, Object> correlationMap = createCorrelationMap(plan, aMessageData, aContext);
       boolean isOneWay = plan.getProcessDef().isOneWayReceive(plOpKey);
       IAeReplyReceiver replyReceiver = aReply;
       // If the op is one-way - don't use the reply receiver, even if one was included.
@@ -879,10 +879,10 @@ public class AeBusinessProcessEngine implements IAeBusinessProcessEngineInternal
     * @param aData
     * @param aContext
     */
-   private Map<QName, String> createCorrelationMap(IAeProcessPlan aDesc, IAeMessageData aData,
+   private Map<QName, Object> createCorrelationMap(IAeProcessPlan aDesc, IAeMessageData aData,
                                     IAeMessageContext aContext) throws AeBusinessProcessException
    {
-      Map<QName, String> map = new HashMap<QName, String>();
+      Map<QName, Object> map = new HashMap<QName, Object>();
       AePartnerLinkDef plDef = aDesc.getProcessDef().findPartnerLink(aContext.getPartnerLink());
       AePartnerLinkOpKey plOpKey = new AePartnerLinkOpKey(plDef, aContext.getOperation());
       AeMessagePartsMap messagePartsMap = aDesc.getProcessDef().getMessageForCorrelation(plOpKey);
@@ -1155,7 +1155,7 @@ public class AeBusinessProcessEngine implements IAeBusinessProcessEngineInternal
     * @see org.activebpel.rt.bpel.IAeBusinessProcessEngine#queueInvokeData(long, java.lang.String, long, org.activebpel.rt.message.IAeMessageData, java.util.Map)
     */
    public final void queueInvokeData(long aProcessId, String aLocationPath, long aTransmissionId,
-         IAeMessageData aMessageData, Map aProperties ) throws AeBusinessProcessException
+         IAeMessageData aMessageData, Map<String,String> aProperties ) throws AeBusinessProcessException
    {
       queueInvokeData(aProcessId, aLocationPath, aTransmissionId, aMessageData, aProperties, null);
    }
@@ -1164,7 +1164,7 @@ public class AeBusinessProcessEngine implements IAeBusinessProcessEngineInternal
     * @see org.activebpel.rt.bpel.IAeBusinessProcessEngine#queueInvokeData(long, java.lang.String, long,  org.activebpel.rt.message.IAeMessageData, java.util.Map, org.activebpel.wsio.IAeMessageAcknowledgeCallback)
     */
    public void queueInvokeData(long aProcessId, String aLocationPath, long aTransmissionId,
-         IAeMessageData aMessageData, Map aProperties, IAeMessageAcknowledgeCallback aAckCallback ) throws AeBusinessProcessException
+         IAeMessageData aMessageData, Map<String, String> aProperties, IAeMessageAcknowledgeCallback aAckCallback ) throws AeBusinessProcessException
    {
       IAeBusinessProcess process = getProcessById(aProcessId);
       try
@@ -1333,7 +1333,7 @@ public class AeBusinessProcessEngine implements IAeBusinessProcessEngineInternal
    /**
     * @see org.activebpel.rt.bpel.IAeBusinessProcessEngine#queueInvokeFault(long, java.lang.String, long, org.activebpel.rt.bpel.IAeFault, java.util.Map)
     */
-   public final void queueInvokeFault(long aProcessId, String aLocationPath, long aTransmissionId, IAeFault aFault, Map aProperties) throws AeBusinessProcessException
+   public final void queueInvokeFault(long aProcessId, String aLocationPath, long aTransmissionId, IAeFault aFault, Map<String,String> aProperties) throws AeBusinessProcessException
    {
       queueInvokeFault(aProcessId, aLocationPath, aTransmissionId, aFault, aProperties, null);
    }
@@ -1341,7 +1341,7 @@ public class AeBusinessProcessEngine implements IAeBusinessProcessEngineInternal
    /**
     * @see org.activebpel.rt.bpel.IAeBusinessProcessEngine#queueInvokeFault(long, java.lang.String, long, org.activebpel.rt.bpel.IAeFault, java.util.Map, org.activebpel.wsio.IAeMessageAcknowledgeCallback)
     */
-   public void queueInvokeFault(long aProcessId, String aLocationPath, long aTransmissionId, IAeFault aFault, Map aProperties, IAeMessageAcknowledgeCallback aAckCallback) throws AeBusinessProcessException
+   public void queueInvokeFault(long aProcessId, String aLocationPath, long aTransmissionId, IAeFault aFault, Map<String,String> aProperties, IAeMessageAcknowledgeCallback aAckCallback) throws AeBusinessProcessException
    {
       // Note: aAckCallback may be null.
       IAeBusinessProcess process = getProcessById(aProcessId);
@@ -1925,7 +1925,7 @@ public class AeBusinessProcessEngine implements IAeBusinessProcessEngineInternal
    /**
     * @see org.activebpel.rt.bpel.impl.IAeBusinessProcessEngineInternal#sendReply(org.activebpel.rt.bpel.impl.queue.AeReply, org.activebpel.rt.message.IAeMessageData, org.activebpel.rt.bpel.IAeFault, java.util.Map)
     */
-   public void sendReply(AeReply aReplyObject, IAeMessageData aData, IAeFault aFault, Map aProcessProperties) throws AeBusinessProcessException
+   public void sendReply(AeReply aReplyObject, IAeMessageData aData, IAeFault aFault, Map<String,String> aProcessProperties) throws AeBusinessProcessException
    {
       getQueueManager().sendReply(aReplyObject, aData, aFault, aProcessProperties);
       getProcessManager().journalSentReply(aReplyObject.getProcessId(), aReplyObject, aProcessProperties);

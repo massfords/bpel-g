@@ -17,6 +17,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import org.activebpel.rt.bpel.AeBusinessProcessException;
 import org.activebpel.rt.bpel.AeMessages;
@@ -69,13 +70,13 @@ public class AeActivityScopeImpl extends AeActivityImpl implements IAeActivityPa
    private AeVariablesImpl mVariables;
 
    /** collection of fault implementation object */
-   private Collection mFaultHandlers;
+   private Collection<AeFaultHandler> mFaultHandlers;
 
    /** catchAll fault handler */
    private AeDefaultFaultHandler mCatchAll;
 
    /** maps correlation set name to implementation object */
-   private Map mCorrelationSets;
+   private Map<String,AeCorrelationSet> mCorrelationSets;
 
    /** container for the termination handling behavior */
    private AeTerminationHandler mTerminationHandler;
@@ -102,7 +103,7 @@ public class AeActivityScopeImpl extends AeActivityImpl implements IAeActivityPa
    private boolean mSnapshotRecorded = false;
 
    /** Our map of associated partner links for this process. */
-   private Map mPartnerLinks = new HashMap();
+   private Map<String, AePartnerLink> mPartnerLinks = new HashMap<String, AePartnerLink>();
    
    /** strategy to handle the termination of scopes */
    private IAeScopeTerminationStrategy mTerminationStrategy;
@@ -115,7 +116,7 @@ public class AeActivityScopeImpl extends AeActivityImpl implements IAeActivityPa
    /**
     * Links that have been deferred because they leave an isolated scope.
     */
-   private List mDeferredLinks = new LinkedList();
+   private List<IAeLink> mDeferredLinks = new LinkedList<IAeLink>();
 
    /** default constructor for activity */
    public AeActivityScopeImpl(AeActivityScopeDef aActivityDef, IAeActivityParent aParent)
@@ -565,7 +566,7 @@ public class AeActivityScopeImpl extends AeActivityImpl implements IAeActivityPa
     */
    public AeCorrelationSet getCorrelationSet(String aName)
    {
-      return (AeCorrelationSet) getCorrelationSetMap().get(aName);
+      return getCorrelationSetMap().get(aName);
    }
 
    /**
@@ -593,11 +594,11 @@ public class AeActivityScopeImpl extends AeActivityImpl implements IAeActivityPa
    /**
     * Getter for the correlation set map. Lazily creates the map.
     */
-   protected Map getCorrelationSetMap()
+   protected Map<String,AeCorrelationSet> getCorrelationSetMap()
    {
       if (mCorrelationSets == null)
       {
-         mCorrelationSets = new HashMap();
+         mCorrelationSets = new HashMap<String,AeCorrelationSet>();
       }
       return mCorrelationSets;
    }
@@ -661,11 +662,11 @@ public class AeActivityScopeImpl extends AeActivityImpl implements IAeActivityPa
    /**
     * Getter for the fault handlers map. Lazily creates the map.
     */
-   protected Collection getFaultHandlersCollection()
+   protected Collection<AeFaultHandler> getFaultHandlersCollection()
    {
       if (mFaultHandlers == null)
       {
-         mFaultHandlers = new ArrayList();
+         mFaultHandlers = new ArrayList<AeFaultHandler>();
       }
       return mFaultHandlers;
    }
@@ -674,13 +675,13 @@ public class AeActivityScopeImpl extends AeActivityImpl implements IAeActivityPa
     * Helper method to get the iterator of fault handlers or the empty iterator
     * if there are no fault handlers.
     */
-   public Iterator getFaultHandlersIterator()
+   public Iterator<? extends AeDefaultFaultHandler> getFaultHandlersIterator()
    {
       if (mFaultHandlers == null && mCatchAll == null)
       {
-         return Collections.EMPTY_SET.iterator();
+         return Collections.<AeFaultHandler>emptySet().iterator();
       }
-      return AeUtil.join(getFaultHandlersCollection().iterator(), mCatchAll);
+      return AeUtil.<AeDefaultFaultHandler>join(getFaultHandlersCollection().iterator(), mCatchAll);
    }
 
    /**
@@ -809,10 +810,10 @@ public class AeActivityScopeImpl extends AeActivityImpl implements IAeActivityPa
     */
    private void clearCorrelationSetState(boolean aCloneFlag)
    {
-      for (Iterator iter = getCorrelationSetMap().entrySet().iterator(); iter.hasNext();)
+      for (Iterator<Entry<String,AeCorrelationSet>> iter = getCorrelationSetMap().entrySet().iterator(); iter.hasNext();)
       {
-         Map.Entry entry = (Map.Entry) iter.next();
-         AeCorrelationSet corrSet = (AeCorrelationSet) entry.getValue();
+         Map.Entry<String,AeCorrelationSet> entry = iter.next();
+         AeCorrelationSet corrSet = entry.getValue();
          if (aCloneFlag)
          {
             corrSet = (AeCorrelationSet) corrSet.clone();
@@ -832,10 +833,10 @@ public class AeActivityScopeImpl extends AeActivityImpl implements IAeActivityPa
    {
       if (aCloneFlag)
       {
-         for (Iterator iter = getPartnerLinks().entrySet().iterator(); iter.hasNext(); )
+         for (Iterator<Entry<String, AePartnerLink>> iter = getPartnerLinks().entrySet().iterator(); iter.hasNext(); )
          {
-            Map.Entry entry = (Map.Entry) iter.next();
-            AePartnerLink plink = (AePartnerLink) entry.getValue();
+            Map.Entry<String, AePartnerLink> entry = iter.next();
+            AePartnerLink plink = entry.getValue();
             entry.setValue((AePartnerLink) plink.clone());
          }
       }
@@ -846,9 +847,9 @@ public class AeActivityScopeImpl extends AeActivityImpl implements IAeActivityPa
     */
    protected void initializePartnerLinks() throws AeBusinessProcessException
    {
-      for (Iterator iter = getPartnerLinks().values().iterator(); iter.hasNext(); )
+      for (Iterator<AePartnerLink> iter = getPartnerLinks().values().iterator(); iter.hasNext(); )
       {
-         AePartnerLink plink = (AePartnerLink)iter.next();
+         AePartnerLink plink = iter.next();
          getProcess().initPartnerLink(plink);
       }
    }
@@ -1107,7 +1108,7 @@ public class AeActivityScopeImpl extends AeActivityImpl implements IAeActivityPa
     */
    public Iterator getChildrenForStateChange()
    {
-      AeSequenceIterator seqIterator = new AeSequenceIterator();
+      AeSequenceIterator<IAeBpelObject> seqIterator = new AeSequenceIterator<IAeBpelObject>();
       seqIterator.add(getActivity());
       seqIterator.add(mCompensationHandler);
       seqIterator.add(getFaultHandlersIterator());
@@ -1277,7 +1278,7 @@ public class AeActivityScopeImpl extends AeActivityImpl implements IAeActivityPa
     */
    public Iterator getChildrenForTermination() throws AeBusinessProcessException
    {
-      LinkedList childrenToTerminate = new LinkedList();
+      LinkedList<IAeBpelObject> childrenToTerminate = new LinkedList<IAeBpelObject>();
       childrenToTerminate.add(getActivity());
       
       if (hasEvents() && getEventHandlersContainer().getState().isTerminatable())
@@ -1352,7 +1353,7 @@ public class AeActivityScopeImpl extends AeActivityImpl implements IAeActivityPa
    /**
     * @return Returns the partnerLinks.
     */
-   public Map getPartnerLinks()
+   public Map<String, AePartnerLink> getPartnerLinks()
    {
       return mPartnerLinks;
    }
@@ -1424,7 +1425,7 @@ public class AeActivityScopeImpl extends AeActivityImpl implements IAeActivityPa
     * Returns the list of links that have been deferred because they leave an
     * isolated scope.
     */
-   protected List getDeferredLinks()
+   protected List<IAeLink> getDeferredLinks()
    {
       return mDeferredLinks;
    }

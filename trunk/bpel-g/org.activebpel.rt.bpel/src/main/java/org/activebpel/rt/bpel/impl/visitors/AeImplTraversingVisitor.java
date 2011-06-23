@@ -38,6 +38,11 @@ public class AeImplTraversingVisitor extends AeAbstractImplVisitor
       for (Iterator i = aImpl.getChildrenForStateChange(); i.hasNext(); )
       {
          AeAbstractBpelObject child = (AeAbstractBpelObject) i.next();
+         
+         if (child == null) {
+        	 System.out.println(aImpl.getClass().getName());
+         }
+         
          child.accept(this);
       }
    }

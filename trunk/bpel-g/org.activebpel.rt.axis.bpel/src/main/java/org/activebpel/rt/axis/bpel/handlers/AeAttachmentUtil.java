@@ -47,14 +47,14 @@ public class AeAttachmentUtil
       // AeSOAPInvoker::receiveAttachments(), AeActiveBpelAdminImpl::addAttachment() and AeActiveBPELAdminEndpointImpl::addAttachment()
       
       Iterator aAttachmentItr = aMessage.getAttachments();
-      List attachments = null;
+      List<IAeWebServiceAttachment> attachments = null;
 
       // A soap message can have 0..n attachment parts
       while (aAttachmentItr.hasNext())
       {
          // Convert the Mime headers of the attachment part to a Map, add the map to the attachment
          AttachmentPart attachPart = (AttachmentPart)aAttachmentItr.next();
-         Map mimeHeaderPairs = new HashMap();
+         Map<String, String> mimeHeaderPairs = new HashMap<String, String>();
          for (Iterator mimeItr = attachPart.getAllMimeHeaders(); mimeItr.hasNext();)
          {
             MimeHeader pair = (MimeHeader)mimeItr.next();
@@ -73,7 +73,7 @@ public class AeAttachmentUtil
          // Add the attachment to the attachment list of the message
          if ( attachments == null )
          {
-            attachments = new LinkedList();
+            attachments = new LinkedList<IAeWebServiceAttachment>();
          }
          attachments.add(attachment);
       }

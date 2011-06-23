@@ -23,7 +23,7 @@ import org.w3c.dom.Element;
  * Abstract class to help map Axis specific details of deploying policy for a
  * web service.
  */
-public abstract class AeAxisPolicyMapper implements IAePolicyMapper,
+public abstract class AeAxisPolicyMapper<T> implements IAePolicyMapper<T>,
 		IAeWsddConstants, IAePolicyConstants {
 
 	/**

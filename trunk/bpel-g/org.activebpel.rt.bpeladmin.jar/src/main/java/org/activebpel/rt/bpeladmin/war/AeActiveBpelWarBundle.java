@@ -89,7 +89,7 @@ public class AeActiveBpelWarBundle extends ResourceBundle
    {
       // An enumeration must be passed to SequenceInputStream for concatenation. So we will use 
       // vector.elements()
-      Vector streamVector = new Vector();
+      Vector<InputStream> streamVector = new Vector<InputStream>();
       
       for (int i = 0; i < mBundlePrefix.length; i++)
       {
@@ -152,7 +152,7 @@ public class AeActiveBpelWarBundle extends ResourceBundle
    /**
     * @see java.util.ResourceBundle#getKeys()
     */
-   public Enumeration getKeys()
+   public Enumeration<String> getKeys()
    {
       return mProxiedBundle.getKeys();
    }

@@ -13,23 +13,22 @@ import java.beans.ConstructorProperties;
 import java.io.Serializable;
 import java.util.List;
 
+import org.activebpel.rt.bpel.impl.queue.AeAlarm;
+
 /**
  * Wraps a listing of alarm objects.
  */
-public class AeAlarmListResult extends AeListResult implements Serializable
+public class AeAlarmListResult<T extends AeAlarm> extends AeListResult<T> implements Serializable
 {
-   /**
-     * 
-     */
     private static final long serialVersionUID = -249832311166148492L;
 
-/**
+   /**
     * Constructor.
     * @param aTotalRows Total rows that matched selection criteria.  This number may be greater than the number of results in this listing.
     * @param aAlarms The matching alarms.
     */
    @ConstructorProperties({"totalRowCount", "results"})
-   public AeAlarmListResult( int aTotalRows, List<AeAlarmExt> aAlarms )
+   public AeAlarmListResult( int aTotalRows, List<T> aAlarms )
    {
       super( aTotalRows, aAlarms, true );
    }

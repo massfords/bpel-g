@@ -27,7 +27,7 @@ import org.activebpel.rt.bpel.AeMessages;
 public abstract class AeAbstractLockManager extends AeManagerAdapter implements IAeLockManager
 {
    /** Map of maps that tracks what threads own what locks. Outer map is thread to lock map. Inner map is simply lock to lock. */
-   private Map mThreadsToLocks = new Hashtable();
+   private Map<Thread, Map<IAeLock, IAeLock>> mThreadsToLocks = new Hashtable<Thread, Map<IAeLock, IAeLock>>();
    
    /**
     * Template method that attempts to acquire the lock for the specified timeout period.
@@ -119,12 +119,12 @@ public abstract class AeAbstractLockManager extends AeManagerAdapter implements 
     */
    protected boolean threadOwnsLock(IAeLock aLock)
    {
-      Map locks = getLocksOwnedByThread(false);
+      Map<IAeLock, IAeLock> locks = getLocksOwnedByThread(false);
       IAeLock lock = null;
       
       if (locks != null)
       {
-         lock = (IAeLock) locks.get(aLock);
+         lock = locks.get(aLock);
       }
       
       if (lock != null)
@@ -141,12 +141,12 @@ public abstract class AeAbstractLockManager extends AeManagerAdapter implements 
     * @param aCreateIfNull flag controls creation of underlying map if none was found.
     * @return map of locks owned by thread or null if there were none and the flag is false
     */
-   protected Map getLocksOwnedByThread(boolean aCreateIfNull)
+   protected Map<IAeLock, IAeLock> getLocksOwnedByThread(boolean aCreateIfNull)
    {
-      Map locks = (Map) mThreadsToLocks.get(Thread.currentThread());
+      Map<IAeLock, IAeLock> locks = mThreadsToLocks.get(Thread.currentThread());
       if (locks == null && aCreateIfNull)
       {
-         locks = new HashMap();
+         locks = new HashMap<IAeLock, IAeLock>();
          mThreadsToLocks.put(Thread.currentThread(), locks);
       }
       return locks;
@@ -159,8 +159,8 @@ public abstract class AeAbstractLockManager extends AeManagerAdapter implements 
     */
    protected void bindLock(IAeLock aLock)
    {
-      Map locks = getLocksOwnedByThread(true);
-      AeLock lock = (AeLock) locks.get(aLock);
+      Map<IAeLock, IAeLock> locks = getLocksOwnedByThread(true);
+      IAeLock lock = locks.get(aLock);
       if (lock != null)
       {
          // they already own the lock so increment the ref counter on the one found
@@ -210,14 +210,14 @@ public abstract class AeAbstractLockManager extends AeManagerAdapter implements 
    {
       boolean noReferencesLeft = true;
 
-      Map map = getLocksOwnedByThread(false);
+      Map<IAeLock, IAeLock> map = getLocksOwnedByThread(false);
 
       if (map == null)
       {
          throw new IllegalStateException(AeMessages.getString("AeAbstractLockManager.ERROR_1")); //$NON-NLS-1$
       }
 
-      IAeLock lock = (IAeLock) map.get(aLock);
+      IAeLock lock = map.get(aLock);
       if (lock == null)
       {
          throw new IllegalStateException(AeMessages.getString("AeAbstractLockManager.ERROR_1")); //$NON-NLS-1$

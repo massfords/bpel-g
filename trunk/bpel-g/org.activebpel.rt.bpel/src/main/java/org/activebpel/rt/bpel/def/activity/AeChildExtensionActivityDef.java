@@ -53,19 +53,16 @@ implements IAeAlarmParentDef, IAeFromParentDef, IAeConditionParentDef,
       IAeFromPartsParentDef, IAeToPartsParentDef, IAeVariableParentDef,
       IAeExtensionObjectParentDef
 {
-   /**
-     * 
-     */
-    private static final long serialVersionUID = -2568383809225427232L;
+   private static final long serialVersionUID = -2568383809225427232L;
 
-/** Extension element object */
+   /** Extension element object */
    private IAeExtensionObject mExtensionObject;
    
    /** Child Defs for the understood extension activity */
-   private List mChildDefs = new ArrayList();
+   private List<AeBaseDef> mChildDefs = new ArrayList<AeBaseDef>();
    
     /** Maintains the order of elements added for serialization */
-   private List mOrderedDefs;
+   private List<AeBaseXmlDef> mOrderedDefs;
    
    /**
     * Default c'tor.
@@ -94,7 +91,7 @@ implements IAeAlarmParentDef, IAeFromParentDef, IAeConditionParentDef,
    /**
     * @see org.activebpel.rt.bpel.def.activity.IAeAlarmParentDef#getAlarmDefs()
     */
-   public Iterator getAlarmDefs()
+   public Iterator<AeOnAlarmDef> getAlarmDefs()
    {
       return getChildren(AeOnAlarmDef.class).iterator();
    }
@@ -104,7 +101,7 @@ implements IAeAlarmParentDef, IAeFromParentDef, IAeConditionParentDef,
     */
    public AeFromDef getFromDef()
    {
-      return (AeFromDef) getChild(AeFromDef.class);
+      return getChild(AeFromDef.class);
    }
 
    /**
@@ -120,7 +117,7 @@ implements IAeAlarmParentDef, IAeFromParentDef, IAeConditionParentDef,
     */
    public AeConditionDef getConditionDef()
    {
-      return (AeConditionDef) getChild(AeConditionDef.class);
+      return getChild(AeConditionDef.class);
    }
 
    /**
@@ -134,7 +131,7 @@ implements IAeAlarmParentDef, IAeFromParentDef, IAeConditionParentDef,
    /**
     * @see org.activebpel.rt.bpel.def.IAeFromPartsParentDef#getFromPartDefs()
     */
-   public Iterator getFromPartDefs()
+   public Iterator<AeFromPartDef> getFromPartDefs()
    {
       return getChildren(AeFromPartDef.class).iterator();
    }
@@ -144,7 +141,7 @@ implements IAeAlarmParentDef, IAeFromParentDef, IAeConditionParentDef,
     */
    public AeFromPartsDef getFromPartsDef()
    {
-      return (AeFromPartsDef) getChild(AeFromPartsDef.class);
+      return getChild(AeFromPartsDef.class);
    }
 
    /**
@@ -158,7 +155,7 @@ implements IAeAlarmParentDef, IAeFromParentDef, IAeConditionParentDef,
    /**
     * @see org.activebpel.rt.bpel.def.IAeToPartsParentDef#getToPartDefs()
     */
-   public Iterator getToPartDefs()
+   public Iterator<AeToPartDef> getToPartDefs()
    {
       return getChildren(AeToPartDef.class).iterator();
    }
@@ -168,7 +165,7 @@ implements IAeAlarmParentDef, IAeFromParentDef, IAeConditionParentDef,
     */
    public AeToPartsDef getToPartsDef()
    {
-      return (AeToPartsDef) getChild(AeToPartsDef.class);
+      return getChild(AeToPartsDef.class);
    }
 
    /**
@@ -184,7 +181,7 @@ implements IAeAlarmParentDef, IAeFromParentDef, IAeConditionParentDef,
     */
    public AeVariableDef getVariableDef(String aVariableName)
    {
-      return (AeVariableDef) getChild(AeVariableDef.class);
+      return getChild(AeVariableDef.class);
    }
 
    /**
@@ -216,15 +213,15 @@ implements IAeAlarmParentDef, IAeFromParentDef, IAeConditionParentDef,
     * Returns all of the children that can be assigned to the class or interface passed in
     * @param aClass
     */
-   public List getChildren(Class aClass)
+   public <T> List<T> getChildren(Class<T> aClass)
    {
-      ArrayList list = new ArrayList();
+      List<T> list = new ArrayList<T>();
       for (Iterator iter = getChildDefs(); iter.hasNext(); )
       {
          Object obj = iter.next();
          if (aClass.isAssignableFrom(obj.getClass()))
          {
-            list.add(obj);
+            list.add(aClass.cast(obj));
          }
       }
       return list;
@@ -235,11 +232,11 @@ implements IAeAlarmParentDef, IAeFromParentDef, IAeConditionParentDef,
     * If there are more than one then return the first child
     * @param aClass
     */
-   public AeBaseXmlDef getChild(Class aClass)
+   public <T> T getChild(Class<T> aClass)
    {
-      List list = getChildren(aClass);
+      List<T> list = getChildren(aClass);
       if (list.size() >= 1)
-         return (AeBaseXmlDef) list.get(0);
+         return list.get(0);
       else 
          return null;
    }
@@ -297,10 +294,10 @@ implements IAeAlarmParentDef, IAeFromParentDef, IAeConditionParentDef,
    /**
     * @return the elementOrder
     */
-   public List getOrderedDefs()
+   public List<AeBaseXmlDef> getOrderedDefs()
    {
       if(mOrderedDefs == null)
-         mOrderedDefs = new ArrayList();
+         mOrderedDefs = new ArrayList<AeBaseXmlDef>();
       return mOrderedDefs;
    }
    

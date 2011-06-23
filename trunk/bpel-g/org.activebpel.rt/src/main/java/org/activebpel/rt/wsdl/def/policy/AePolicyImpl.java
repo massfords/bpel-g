@@ -32,7 +32,7 @@ public class AePolicyImpl implements IAePolicy, IAePolicyConstants
    private String mId;
    private Boolean mRequired;
    private QName mElementType = POLICY_QNAME;
-   private List mExtElements;
+   private List<ExtensibilityElement> mExtElements;
 
    /**
     * No-arg constructor
@@ -153,11 +153,11 @@ public class AePolicyImpl implements IAePolicy, IAePolicyConstants
    /**
     * @see javax.wsdl.extensions.ElementExtensible#getExtensibilityElements()
     */
-   public List getExtensibilityElements()
+   public List<ExtensibilityElement> getExtensibilityElements()
    {
       if (mExtElements == null)
       {
-         mExtElements = new ArrayList();
+         mExtElements = new ArrayList<ExtensibilityElement>();
       }
       return mExtElements;
    }

@@ -105,7 +105,7 @@ public interface IAeExpressionParseResult
     * Gets a list of all the variable data (AeVariableData) objects which 
     * reference attachments.
     */
-   public List getVarAttachmentList();
+   public List<String> getVarAttachmentList();
    
    /**
     * Gets the list of all stylesheet URIs found in the expression.  Stylesheet URIs are found

@@ -22,7 +22,7 @@ public interface IAeMessageContainerDef extends IAeAlarmParentDef
    /**
     * Gets an iterator over the onMessage defs.
     */
-   public Iterator getOnMessageDefs();
+   public Iterator<AeOnMessageDef> getOnMessageDefs();
 
    /**
     * Adds the message

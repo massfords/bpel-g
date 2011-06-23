@@ -30,7 +30,7 @@ public class AeBaseXmlDefElementCreator
    private Element mSerializedElement;
 
    /** stack for maintaining parent elements */
-   private Stack mStack = new Stack();
+   private Stack<Element> mStack = new Stack<Element>();
 
    /** Def registry */
    private IAeDefRegistry mRegistry;
@@ -65,7 +65,7 @@ public class AeBaseXmlDefElementCreator
     */
    private Element peek()
    {
-      return mStack.isEmpty() ? null : (Element)mStack.peek();
+      return mStack.isEmpty() ? null : mStack.peek();
    }
 
    /**

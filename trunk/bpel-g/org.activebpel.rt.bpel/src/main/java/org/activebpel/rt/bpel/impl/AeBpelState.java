@@ -131,7 +131,7 @@ public class AeBpelState
    };
    
    /** Maps state names to state objects. Initialized and used by <code>forName</code>. */
-   private static Map sStatesMap;
+   private static Map<String, AeBpelState> sStatesMap;
 
    /**
     * Ensures that the change to from the object's current state to the new state
@@ -303,12 +303,12 @@ public class AeBpelState
    /**
     * Returns map of state names to state objects.
     */
-   private static Map getStatesMap()
+   private static Map<String, AeBpelState> getStatesMap()
    {
       // First time through, construct and populate the map.
       if (sStatesMap == null)
       {
-         Map map = new HashMap();
+         Map<String, AeBpelState> map = new HashMap<String, AeBpelState>();
          
          for (int i = sStates.length; --i >= 0; )
          {
@@ -335,7 +335,7 @@ public class AeBpelState
          throw new AeBusinessProcessException(AeMessages.getString("AeBpelState.ERROR_14")); //$NON-NLS-1$
       }
 
-      AeBpelState state = (AeBpelState) getStatesMap().get(aName);
+      AeBpelState state = getStatesMap().get(aName);
 
       if (state == null)
       {

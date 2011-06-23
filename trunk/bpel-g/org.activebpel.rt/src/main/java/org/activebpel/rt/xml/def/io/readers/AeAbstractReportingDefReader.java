@@ -37,9 +37,9 @@ import org.w3c.dom.NodeList;
 public abstract class AeAbstractReportingDefReader implements IAeReportingDefReader
 {
    /** list of errors encountered during parse */
-   private List mErrors;
+   private List<String> mErrors;
    /** A set of consumed attributes. */
-   private Set mConsumedAttributes = new HashSet();
+   private Set<Attr> mConsumedAttributes = new HashSet<Attr>();
    /** current element being read */
    private Element mCurrentElement;
    /** Parent def object */
@@ -67,17 +67,17 @@ public abstract class AeAbstractReportingDefReader implements IAeReportingDefRea
    /**
     * @see org.activebpel.rt.xml.def.io.readers.IAeReportingDefReader#getErrors()
     */
-   public List getErrors()
+   public List<String> getErrors()
    {
       if (mErrors == null)
-         mErrors = new ArrayList();
+         mErrors = new ArrayList<String>();
       return mErrors;
    }
 
    /**
     * @return Returns the consumedAttributes.
     */
-   public Set getConsumedAttributes()
+   public Set<Attr> getConsumedAttributes()
    {
       return mConsumedAttributes;
    }
@@ -320,9 +320,9 @@ public abstract class AeAbstractReportingDefReader implements IAeReportingDefRea
     * 
     * @param aElement
     */
-   protected List getChildrenForLiteral(Element aElement)
+   protected List<Node> getChildrenForLiteral(Element aElement)
    {
-      List childNodes = new ArrayList();
+      List<Node> childNodes = new ArrayList<Node>();
       
       aElement.normalize();
       if (aElement.hasChildNodes())

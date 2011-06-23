@@ -404,7 +404,7 @@ public class AeRestoreImplStateVisitor extends AeBaseRestoreVisitor
          Collection extensionPropertyElements = getImplState().getBusinessProcessPropertiesElements();
          if( extensionPropertyElements != null )
          {
-            Map properties = new HashMap();
+            Map<String, String> properties = new HashMap<String, String>();
             for( Iterator iter = extensionPropertyElements.iterator(); iter.hasNext(); )
             {
                Element propertyExtEl = (Element)iter.next();

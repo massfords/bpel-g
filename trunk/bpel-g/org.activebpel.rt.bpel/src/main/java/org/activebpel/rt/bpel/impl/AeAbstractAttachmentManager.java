@@ -111,14 +111,14 @@ public abstract class AeAbstractAttachmentManager extends AeManagerAdapter imple
     */
    public List bpel2wsio(IAeAttachmentContainer aBpelContainer) throws AeBusinessProcessException
    {
-      List wsAttachments = new ArrayList(aBpelContainer.size());
+      List<IAeWebServiceAttachment> wsAttachments = new ArrayList<IAeWebServiceAttachment>(aBpelContainer.size());
 
       // An AeAttachmentContainer can have 0..n attachment parts
       for (Iterator attachmentItr = aBpelContainer.getAttachmentItems(); attachmentItr.hasNext();)
       {
          IAeAttachmentItem attachment = (IAeAttachmentItem)attachmentItr.next();
          InputStream content = deserialize(attachment.getAttachmentId());
-         Map headers = attachment.getHeaders();
+         Map<String, String> headers = attachment.getHeaders();
 
          // create a wsio attachment with headers and content
          wsAttachments.add(new AeWebServiceAttachment(content, headers));
@@ -190,7 +190,7 @@ public abstract class AeAbstractAttachmentManager extends AeManagerAdapter imple
             IAeWebServiceAttachment wsAttachment = (IAeWebServiceAttachment)i.next();
             AeBlobInputStream content = new AeBlobInputStream(wsAttachment.getContent());
 
-            Map headers = wsAttachment.getMimeHeaders();
+            Map<String, String> headers = wsAttachment.getMimeHeaders();
             // Add attribute content size as an attribute of the attachment
             headers.put(AeMimeUtil.AE_SIZE_ATTRIBUTE, String.valueOf(content.length()));
 
@@ -298,7 +298,7 @@ public abstract class AeAbstractAttachmentManager extends AeManagerAdapter imple
     * @param aHeaders
     * @throws AeBusinessProcessException
     */
-   protected IAeAttachmentItem storeAttachment(long aGroupId, InputStream aInputStream, Map aHeaders)
+   protected IAeAttachmentItem storeAttachment(long aGroupId, InputStream aInputStream, Map<String, String> aHeaders)
          throws AeBusinessProcessException
    {
       long attachmentId = getStorage().storeAttachment(aGroupId, aInputStream, aHeaders);
@@ -321,7 +321,7 @@ public abstract class AeAbstractAttachmentManager extends AeManagerAdapter imple
          throws AeBusinessProcessException
    {
       long groupId = getStorage().createAttachmentGroup(aPlan);
-      List storedAttachments = new ArrayList(aContainer.size());
+      List<IAeAttachmentItem> storedAttachments = new ArrayList<IAeAttachmentItem>(aContainer.size());
 
       for (Iterator i = aContainer.iterator(); i.hasNext();)
       {
@@ -341,7 +341,7 @@ public abstract class AeAbstractAttachmentManager extends AeManagerAdapter imple
             content = deserialize(attachment.getAttachmentId());
          }
 
-         Map headers = attachment.getHeaders();
+         Map<String, String> headers = attachment.getHeaders();
 
          IAeAttachmentItem storedAttachment = storeAttachment(groupId, content, headers);
          storedAttachments.add(storedAttachment);

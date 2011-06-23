@@ -13,11 +13,9 @@ import java.io.File;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -78,7 +76,7 @@ public class AeEngineAdministration implements IAeEngineAdministration {
 	public AeMessageReceiverListResult getMessageReceivers(
 			AeMessageReceiverFilter aFilter) {
 		try {
-			Map<Long, AeProcessDef> processDefMap = new HashMap();
+			Map<Long, AeProcessDef> processDefMap = new HashMap<Long, AeProcessDef>();
 
 			AeMessageReceiverListResult results = getBpelEngine()
 					.getQueueManager().getMessageReceivers(aFilter);
@@ -105,10 +103,9 @@ public class AeEngineAdministration implements IAeEngineAdministration {
 	 */
 	public AeAlarmListResult getAlarms(AeAlarmFilter aFilter) {
 		try {
-			Map<Long, AeProcessDef> processDefMap = new HashMap();
+			Map<Long, AeProcessDef> processDefMap = new HashMap<Long, AeProcessDef>();
 
-			AeListResult<AeAlarm> results = getBpelEngine().getQueueManager()
-					.getAlarms(aFilter);
+			AeListResult<? extends AeAlarm> results = getBpelEngine().getQueueManager().getAlarms(aFilter);
 			List<AeAlarmExt> extList = new ArrayList<AeAlarmExt>();
 			for (int i = 0; i < results.getResults().size(); i++) {
 				AeAlarm alarm = results.getResults().get(i);
@@ -127,8 +124,7 @@ public class AeEngineAdministration implements IAeEngineAdministration {
 				aeAlarmExt.setLocation(path);
 				extList.add(aeAlarmExt);
 			}
-			AeAlarmListResult result = new AeAlarmListResult(extList.size(),
-					extList);
+			AeAlarmListResult<AeAlarmExt> result = new AeAlarmListResult<AeAlarmExt>(extList.size(), extList);
 			return result;
 		} catch (AeBusinessProcessException ex) {
 			ex.logError();
@@ -163,28 +159,12 @@ public class AeEngineAdministration implements IAeEngineAdministration {
 	}
 
 	/**
-	 * Convenience method for adding source iterator objects to the target
-	 * collection.
-	 * 
-	 * @param aTarget
-	 *            The target collection.
-	 * @param aSource
-	 *            The source iterator.
-	 */
-	protected void addAll(Collection aTarget, Iterator aSource) {
-		while (aSource.hasNext()) {
-			aTarget.add(aSource.next());
-		}
-	}
-
-	/**
 	 * @see org.activebpel.rt.bpel.server.admin.IAeEngineAdministration#getBuildInfo()
 	 */
 	public AeBuildInfo[] getBuildInfo() {
 		if (mBuildInfo == null) {
-			List list = createBuildInfo();
-			mBuildInfo = (AeBuildInfo[]) list.toArray(new AeBuildInfo[list
-					.size()]);
+			List<AeBuildInfo> list = createBuildInfo();
+			mBuildInfo = list.toArray(new AeBuildInfo[list.size()]);
 		}
 		return mBuildInfo;
 	}
@@ -192,8 +172,8 @@ public class AeEngineAdministration implements IAeEngineAdministration {
 	/**
 	 * Creates the list of build info objects.
 	 */
-	protected List createBuildInfo() {
-		ArrayList list = new ArrayList();
+	protected List<AeBuildInfo> createBuildInfo() {
+		List<AeBuildInfo> list = new ArrayList<AeBuildInfo>();
 		list.add(new AeBuildInfo(
 				AeMessages.getString("AeEngineAdministration.RT"), org.activebpel.rt.AeBuildNumber.getBuildNumber(), AeBuildInfo.convertCVSDateString(org.activebpel.rt.AeBuildNumber.getBuildDate()))); //$NON-NLS-1$
 		list.add(new AeBuildInfo(

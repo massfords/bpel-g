@@ -22,10 +22,12 @@ import javax.xml.namespace.QName;
 
 import org.activebpel.rt.AeException;
 import org.activebpel.rt.bpel.def.AePartnerLinkOpKey;
+import org.activebpel.rt.bpel.impl.list.AeAlarmExt;
 import org.activebpel.rt.bpel.impl.list.AeAlarmFilter;
 import org.activebpel.rt.bpel.impl.list.AeAlarmListResult;
 import org.activebpel.rt.bpel.impl.list.AeMessageReceiverFilter;
 import org.activebpel.rt.bpel.impl.list.AeMessageReceiverListResult;
+import org.activebpel.rt.bpel.impl.queue.AeAlarm;
 import org.activebpel.rt.bpel.impl.queue.AeInboundReceive;
 import org.activebpel.rt.bpel.impl.queue.AeMessageReceiver;
 import org.activebpel.rt.bpel.server.AeMessages;
@@ -334,7 +336,7 @@ public class AeSQLQueueStorageProvider extends AeAbstractSQLStorageProvider impl
     * @return The AeAlarmListResult.
     * @throws AeStorageException
     */
-   protected AeAlarmListResult getFilteredAlarms(String aSQLQuery, Object[] aParams, AeAlarmFilter aFilter)
+   protected AeAlarmListResult<? extends AeAlarm> getFilteredAlarms(String aSQLQuery, Object[] aParams, AeAlarmFilter aFilter)
          throws AeStorageException
    {
       Connection connection = getConnection();
@@ -342,8 +344,9 @@ public class AeSQLQueueStorageProvider extends AeAbstractSQLStorageProvider impl
       try
       {
          AeAlarmListHandler handler = new AeAlarmListHandler(aFilter);
-         List matches = (List) getQueryRunner().query(connection, aSQLQuery, aParams, handler);
-         return new AeAlarmListResult(handler.getRowCount(), matches);
+         @SuppressWarnings("unchecked")
+		 List<AeAlarmExt> matches = (List<AeAlarmExt>) getQueryRunner().query(connection, aSQLQuery, aParams, handler);
+         return new AeAlarmListResult<AeAlarmExt>(handler.getRowCount(), matches);
       }
       catch (SQLException ex)
       {
@@ -408,7 +411,8 @@ public class AeSQLQueueStorageProvider extends AeAbstractSQLStorageProvider impl
       try
       {
          AeMessageReceiverListHandler handler = new AeMessageReceiverListHandler(aFilter);
-         List matches = (List) getQueryRunner().query(connection, aSQLQuery, aParams, handler);
+         @SuppressWarnings("unchecked")
+		 List<AeMessageReceiver> matches = (List<AeMessageReceiver>) getQueryRunner().query(connection, aSQLQuery, aParams, handler);
          AeMessageReceiver[] receivers = (AeMessageReceiver[]) matches.toArray(new AeMessageReceiver[matches.size()]);
          return new AeMessageReceiverListResult(handler.getRowCount(), receivers);
       }

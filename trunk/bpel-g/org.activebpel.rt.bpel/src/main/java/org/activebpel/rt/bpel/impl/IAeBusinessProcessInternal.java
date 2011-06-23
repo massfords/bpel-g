@@ -158,7 +158,7 @@ public interface IAeBusinessProcessInternal extends IAeBusinessProcess, IAeActiv
     * are in the faulting state.  This <code>List</code> will be empty if there
     * are none.
     */
-   public List getFaultingActivityLocationPaths();
+   public List<String> getFaultingActivityLocationPaths();
 
    /**
     * Gets the def used to create this process.

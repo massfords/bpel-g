@@ -19,6 +19,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 
 import net.sf.ehcache.Statistics;
@@ -55,19 +56,19 @@ public class AeCatalog implements IAeCatalog, IAeCatalogAdmin {
 	private IAeResourceCache mCache;
 
 	/** Maps the locating hint to a mapping object for the resource. */
-	private Map mLocationToMapping;
+	private Map<String, IAeCatalogMapping> mLocationToMapping;
 
 	/**
 	 * Maps the namespaces to a mapping object or a list of mapping object for
 	 * the resource.
 	 */
-	private Map mNamespaceMapping;
+	private Map<String, Object> mNamespaceMapping;
 
 	/** Maps the a list of catalog mapping for each deployment id. */
-	private Map mDeploymentMapping;
+	private Map<IAeDeploymentId, IAeCatalogMapping[]> mDeploymentMapping;
 
 	/** Catalog listeners */
-	private Collection mListeners = new ArrayList();
+	private Collection<IAeCatalogListener> mListeners = new ArrayList<IAeCatalogListener>();
 
 	/**
 	 * Constructor.
@@ -80,9 +81,9 @@ public class AeCatalog implements IAeCatalog, IAeCatalogAdmin {
 	 * Creates the various pieces of the catalog.
 	 */
 	protected void init() {
-		setLocationToMapping(new HashMap());
-		setNamespaceMapping(new HashMap());
-		setDeploymentMapping(new HashMap());
+		setLocationToMapping(new HashMap<String, IAeCatalogMapping>());
+		setNamespaceMapping(new HashMap<String, Object>());
+		setDeploymentMapping(new HashMap<IAeDeploymentId, IAeCatalogMapping[]>());
 		AeResourceCache cache = new AeResourceCache("ae-resource-cache");
 		mCache = cache;
 	}
@@ -100,7 +101,7 @@ public class AeCatalog implements IAeCatalog, IAeCatalogAdmin {
 
 		// create a list of booleans where true indicates a new entry based
 		// event for events below
-		List catalogEvents = new ArrayList();
+		List<Boolean> catalogEvents = new ArrayList<Boolean>();
 
 		// check each mapping for replacement or addition to current locations
 		for (int i = 0; i < aMappings.length; i++) {
@@ -152,21 +153,22 @@ public class AeCatalog implements IAeCatalog, IAeCatalogAdmin {
 	 * 
 	 * @param aMapping
 	 */
+	@SuppressWarnings("unchecked")
 	protected void addNamespaceMapping(IAeCatalogMapping aMapping) {
 		// check if mapping already exists which requires adding to
 		Object obj = getNamespaceMapping().get(aMapping.getTargetNamespace());
 		if (obj == null) {
 			getNamespaceMapping().put(aMapping.getTargetNamespace(), aMapping);
 		} else {
-			HashMap map;
+			HashMap<String, IAeCatalogMapping> map;
 			if (obj instanceof HashMap) {
 				// rather than create a synchronized list for possible iterator
 				// usage we'll copy here
-				map = new HashMap((HashMap) obj);
+				map = new HashMap<String, IAeCatalogMapping>((HashMap<String, IAeCatalogMapping>) obj);
 				map.put(aMapping.getLocationHint(), aMapping);
 			} else {
-				map = new HashMap();
-				map.put(((IAeCatalogMapping) obj).getLocationHint(), obj);
+				map = new HashMap<String, IAeCatalogMapping>();
+				map.put(((IAeCatalogMapping) obj).getLocationHint(), (IAeCatalogMapping)obj);
 				map.put(aMapping.getLocationHint(), aMapping);
 			}
 			getNamespaceMapping().put(aMapping.getTargetNamespace(), map);
@@ -219,11 +221,10 @@ public class AeCatalog implements IAeCatalog, IAeCatalogAdmin {
 	 * @param aLocationHint
 	 *            The location hint for entry which was displaced
 	 */
-	protected void addDisplacedCatalogEntry(HashMap aMap,
-			IAeDeploymentId aDeployId, String aLocationHint) {
-		Set catalogLocations = (Set) aMap.get(aDeployId);
+	protected void addDisplacedCatalogEntry(Map<IAeDeploymentId, Set<String>> aMap, IAeDeploymentId aDeployId, String aLocationHint) {
+		Set<String> catalogLocations = aMap.get(aDeployId);
 		if (catalogLocations == null) {
-			catalogLocations = new HashSet();
+			catalogLocations = new HashSet<String>();
 			aMap.put(aDeployId, catalogLocations);
 		}
 
@@ -237,21 +238,17 @@ public class AeCatalog implements IAeCatalog, IAeCatalogAdmin {
 	 * @param aDisplacedMappings
 	 *            map of displace resource entries
 	 */
-	protected void updateDisplacedCatalogItems(HashMap aDisplacedMappings) {
+	protected void updateDisplacedCatalogItems(Map<IAeDeploymentId, Set<String>> aDisplacedMappings) {
 		// Add catalog entries back for all displaced entries
-		for (Iterator iter = aDisplacedMappings.keySet().iterator(); iter
-				.hasNext();) {
-			IAeDeploymentId deployId = (IAeDeploymentId) iter.next();
-			Collection displacedLocations = (Collection) aDisplacedMappings
-					.get(deployId);
+		for (Entry<IAeDeploymentId, Set<String>> entry : aDisplacedMappings.entrySet())
+		{
+			IAeDeploymentId deployId = (IAeDeploymentId) entry.getKey();
+			Set<String> displacedLocations = entry.getValue();
 
-			IAeCatalogMapping[] newMappings = new IAeCatalogMapping[displacedLocations
-					.size()];
-			IAeCatalogMapping[] currentMappings = (IAeCatalogMapping[]) getDeploymentMapping()
-					.get(deployId);
+			IAeCatalogMapping[] newMappings = new IAeCatalogMapping[displacedLocations.size()];
+			IAeCatalogMapping[] currentMappings = getDeploymentMapping().get(deployId);
 			for (int i = 0, j = 0; i < currentMappings.length; ++i) {
-				if (displacedLocations.contains(currentMappings[i]
-						.getLocationHint()))
+				if (displacedLocations.contains(currentMappings[i].getLocationHint()))
 					newMappings[j++] = currentMappings[i];
 			}
 
@@ -265,32 +262,26 @@ public class AeCatalog implements IAeCatalog, IAeCatalogAdmin {
 	 * @see org.activebpel.rt.bpel.server.catalog.IAeCatalog#remove(org.activebpel.rt.bpel.server.deploy.IAeDeploymentId)
 	 */
 	public synchronized void remove(IAeDeploymentId aId) {
-		IAeCatalogMapping[] mappings = (IAeCatalogMapping[]) getDeploymentMapping()
-				.get(aId);
+		IAeCatalogMapping[] mappings = getDeploymentMapping().get(aId);
 		if (mappings == null)
 			return;
 
 		// Check all mappings for this deployment to see if they are referenced
 		// by other deployments
-		HashMap displacedMappings = new HashMap();
+		Map<IAeDeploymentId, Set<String>> displacedMappings = new HashMap<IAeDeploymentId, Set<String>>();
 		for (int i = 0; i < mappings.length; ++i) {
 			String location = mappings[i].getLocationHint();
-			for (Iterator iter = getDeploymentMapping().keySet().iterator(); iter
-					.hasNext();) {
+			for (Entry<IAeDeploymentId, IAeCatalogMapping[]> entry : getDeploymentMapping().entrySet()) {
 				// Do not check our own mapping, since it is being removed
 				// anyways
-				IAeDeploymentId deployId = (IAeDeploymentId) iter.next();
+				IAeDeploymentId deployId = entry.getKey();
 				if (!aId.equals(deployId)) {
 					// Add any displaced entries to our list, so that we may fix
 					// them up later
-					IAeCatalogMapping[] deployMappings = (IAeCatalogMapping[]) getDeploymentMapping()
-							.get(deployId);
+					IAeCatalogMapping[] deployMappings = entry.getValue();
 					for (int j = 0; j < deployMappings.length; ++j) {
-						if (location
-								.equals(deployMappings[j].getLocationHint()))
-							addDisplacedCatalogEntry(displacedMappings,
-									deployId,
-									deployMappings[j].getLocationHint());
+						if (location.equals(deployMappings[j].getLocationHint()))
+							addDisplacedCatalogEntry(displacedMappings, deployId, deployMappings[j].getLocationHint());
 					}
 				}
 			}
@@ -339,19 +330,19 @@ public class AeCatalog implements IAeCatalog, IAeCatalogAdmin {
 	 * 
 	 * @param aMapping
 	 */
+	@SuppressWarnings("unchecked")
 	protected void removeNamespaceMapping(IAeCatalogMapping aMapping) {
 		Object obj = getNamespaceMapping().get(aMapping.getTargetNamespace());
 		if (obj != null) {
-			Map map;
+			Map<String, IAeCatalogMapping> map;
 			if (obj instanceof Map) {
 				// rather than create a synchronized list for possible iterator
 				// usage we'll copy here
 				// then find by location hint this entry and remove it
-				map = new HashMap((Map) obj);
-				for (Iterator iter = map.values().iterator(); iter.hasNext();) {
-					IAeCatalogMapping mapping = (IAeCatalogMapping) iter.next();
-					if (AeUtil.compareObjects(aMapping.getLocationHint(),
-							mapping.getLocationHint())) {
+				map = new HashMap<String, IAeCatalogMapping>((Map<String, IAeCatalogMapping>) obj);
+				for (Iterator<IAeCatalogMapping> iter = map.values().iterator(); iter.hasNext();) {
+					IAeCatalogMapping mapping = iter.next();
+					if (AeUtil.compareObjects(aMapping.getLocationHint(), mapping.getLocationHint())) {
 						iter.remove();
 						break;
 					}
@@ -361,8 +352,7 @@ public class AeCatalog implements IAeCatalog, IAeCatalogAdmin {
 				if (map.size() == 0)
 					getNamespaceMapping().remove(aMapping.getTargetNamespace());
 				else
-					getNamespaceMapping().put(aMapping.getTargetNamespace(),
-							map);
+					getNamespaceMapping().put(aMapping.getTargetNamespace(), map);
 			} else {
 				// only 1 entry so remove
 				getNamespaceMapping().remove(aMapping.getTargetNamespace());
@@ -394,7 +384,8 @@ public class AeCatalog implements IAeCatalog, IAeCatalogAdmin {
 		if (obj instanceof Map) {
 			// Create new list to avoid ConcurrenModificationException during
 			// traversal
-			ArrayList list = new ArrayList(((Map) obj).values());
+			@SuppressWarnings("unchecked")
+			List<IAeCatalogMapping> list = new ArrayList<IAeCatalogMapping>(((Map<String,IAeCatalogMapping>) obj).values());
 			return list.iterator();
 		} else if (obj != null)
 			return Collections.singleton(obj).iterator();
@@ -435,7 +426,7 @@ public class AeCatalog implements IAeCatalog, IAeCatalogAdmin {
 		List recipients = null;
 		synchronized (mListeners) {
 			if (!isListenerListEmpty()) {
-				recipients = new ArrayList(mListeners);
+				recipients = new ArrayList<IAeCatalogListener>(mListeners);
 			}
 		}
 
@@ -534,26 +525,24 @@ public class AeCatalog implements IAeCatalog, IAeCatalogAdmin {
 	protected AeCatalogItemPlanReference[] getPlanReferencesForLocation(
 			String aLocationHint) throws AeException {
 		// Loops through plans to cross reference the resource usage
-		List details = new ArrayList();
+		List<AeCatalogItemPlanReference> details = new ArrayList<AeCatalogItemPlanReference>();
 		for (Iterator iter = AeEngineFactory.getBean(
 				IAeDeploymentProvider.class).getDeployedPlans(); iter.hasNext();) {
 			IAeProcessDeployment deployment = (IAeProcessDeployment) iter
 					.next();
 			for (ReferenceType ref : deployment.getAllReferenceTypes()) {
 				if (AeUtil.compareObjects(aLocationHint,ref.getLocation()))
-					details.add(new AeCatalogItemPlanReference(new AeQName(
-							deployment.getProcessDef().getQName())));
+					details.add(new AeCatalogItemPlanReference(new AeQName(deployment.getProcessDef().getQName())));
 			}
 		}
 
-		return (AeCatalogItemPlanReference[]) details
-				.toArray(new AeCatalogItemPlanReference[details.size()]);
+		return details.toArray(new AeCatalogItemPlanReference[details.size()]);
 	}
 
 	/**
 	 * @return Returns the locationToMapping.
 	 */
-	protected Map getLocationToMapping() {
+	protected Map<String, IAeCatalogMapping> getLocationToMapping() {
 		return mLocationToMapping;
 	}
 
@@ -561,14 +550,14 @@ public class AeCatalog implements IAeCatalog, IAeCatalogAdmin {
 	 * @param aLocationToMapping
 	 *            The locationToMapping to set.
 	 */
-	protected void setLocationToMapping(Map aLocationToMapping) {
+	protected void setLocationToMapping(Map<String, IAeCatalogMapping> aLocationToMapping) {
 		mLocationToMapping = aLocationToMapping;
 	}
 
 	/**
 	 * @return Returns the namespaceMapping.
 	 */
-	protected Map getNamespaceMapping() {
+	protected Map<String, Object> getNamespaceMapping() {
 		return mNamespaceMapping;
 	}
 
@@ -576,14 +565,14 @@ public class AeCatalog implements IAeCatalog, IAeCatalogAdmin {
 	 * @param aNamespaceMapping
 	 *            The namespaceMapping to set.
 	 */
-	protected void setNamespaceMapping(Map aNamespaceMapping) {
+	protected void setNamespaceMapping(Map<String, Object> aNamespaceMapping) {
 		mNamespaceMapping = aNamespaceMapping;
 	}
 
 	/**
 	 * @return Returns the deploymentMapping.
 	 */
-	protected Map getDeploymentMapping() {
+	protected Map<IAeDeploymentId, IAeCatalogMapping[]> getDeploymentMapping() {
 		return mDeploymentMapping;
 	}
 
@@ -591,7 +580,7 @@ public class AeCatalog implements IAeCatalog, IAeCatalogAdmin {
 	 * @param aDeploymentMapping
 	 *            The deploymentMapping to set.
 	 */
-	protected void setDeploymentMapping(Map aDeploymentMapping) {
+	protected void setDeploymentMapping(Map<IAeDeploymentId, IAeCatalogMapping[]> aDeploymentMapping) {
 		mDeploymentMapping = aDeploymentMapping;
 	}
 

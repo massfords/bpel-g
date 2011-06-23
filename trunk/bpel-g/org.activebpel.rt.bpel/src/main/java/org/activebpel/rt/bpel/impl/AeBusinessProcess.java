@@ -32,6 +32,8 @@ import org.activebpel.rt.bpel.AeEngineAlertEventType;
 import org.activebpel.rt.bpel.AeEngineEventType;
 import org.activebpel.rt.bpel.AeMessages;
 import org.activebpel.rt.bpel.AePreferences;
+import org.activebpel.rt.bpel.AeProcessEventType;
+import org.activebpel.rt.bpel.AeProcessInfoEventType;
 import org.activebpel.rt.bpel.IAeActivity;
 import org.activebpel.rt.bpel.IAeBusinessProcess;
 import org.activebpel.rt.bpel.IAeEndpointReference;
@@ -42,8 +44,6 @@ import org.activebpel.rt.bpel.IAeLocatableObject;
 import org.activebpel.rt.bpel.IAeMonitorListener;
 import org.activebpel.rt.bpel.IAePartnerLink;
 import org.activebpel.rt.bpel.IAeVariable;
-import org.activebpel.rt.bpel.AeProcessEventType;
-import org.activebpel.rt.bpel.AeProcessInfoEventType;
 import org.activebpel.rt.bpel.coord.AeCoordinationException;
 import org.activebpel.rt.bpel.coord.IAeCoordinating;
 import org.activebpel.rt.bpel.coord.IAeCoordinator;
@@ -113,11 +113,11 @@ public class AeBusinessProcess extends AeActivityScopeImpl implements IAeBusines
    /** Our process state (running, suspended, etc.) */
    private ProcessStateValueType mProcessState;
    /** Map of source location for the Bpel implementation objects. */
-   private Map mBpelObjects = new HashMap();
+   private Map<String, IAeBpelObject> mBpelObjects = new HashMap<String, IAeBpelObject>();
    /** Map of source locations to process variables. */
-   private Map mProcessVariables = new HashMap();
+   private Map<String, IAeVariable> mProcessVariables = new HashMap<String, IAeVariable>();
    /** Map of source locations to partner links. */
-   private Map mPartnerLinkMap = new HashMap();
+   private Map<String, AePartnerLink> mPartnerLinkMap = new HashMap<String, AePartnerLink>();
    /**
     * Queue used to execute objects. Prevents multiple executes from happening
     * concurrently
@@ -135,15 +135,15 @@ public class AeBusinessProcess extends AeActivityScopeImpl implements IAeBusines
    /** process plan */
    protected IAeProcessPlan mProcessPlan;
    /** business process instance properties */
-   private Map mBusinessProcessProperties;
+   private Map<String, String> mBusinessProcessProperties;
    /** utility class for handling resume/suspend logic */
    private AeProcessSuspendResumeHandler mProcessAdministrator;
    /** location paths for any activities that are in the faulting state */
-   private List mFaultingActivityLocationPaths;
+   private List<String> mFaultingActivityLocationPaths;
    /** maps location id to location path */
    private Map<Integer,String> mLocationIdToPath = new HashMap<Integer,String>();
    /** maps location path to location id */
-   private Map mLocationPathToId = new HashMap();
+   private Map<String, Integer> mLocationPathToId = new HashMap<String, Integer>();
    /**
     * max location id used for creating new bpel objects dynamically as in
     * parallel forEach
@@ -154,7 +154,7 @@ public class AeBusinessProcess extends AeActivityScopeImpl implements IAeBusines
    /** Reason code for process state, default to none */
    private SuspendReasonType mProcessStateReason = SuspendReasonType.None;
    /** List of open activity info objects. */
-   private List mOpenMessageActivityInfoList;
+   private List<AeOpenMessageActivityInfo> mOpenMessageActivityInfoList;
    /** Indicates if the process is a parent in an coordinated  activity */
    private boolean mCoordinator;
    /** Indicates if the process is a child  in an coordinated  activity */
@@ -171,7 +171,7 @@ public class AeBusinessProcess extends AeActivityScopeImpl implements IAeBusines
    /** Next alarm execution id. */
    private int mAlarmId;
    /** Map of queuedReceiveKeys to message receivers (receive, onMessage, onEvent) */
-   private Map mQueuedReceives = new HashMap();
+   private Map<AeQueuedReceiveKey, IAeMessageReceiverActivity> mQueuedReceives = new HashMap<AeQueuedReceiveKey, IAeMessageReceiverActivity>();
 
    /** maps state change values to their engine event values.  */
    private static final  AeProcessEventType[] STATE_TO_EVENT_MAPPING =
@@ -205,7 +205,7 @@ public class AeBusinessProcess extends AeActivityScopeImpl implements IAeBusines
       setEngine(aEngine);
       setProcessState(ProcessStateValueType.Loaded);
       mProcessPlan = aPlan;
-      mFaultingActivityLocationPaths = new ArrayList();
+      mFaultingActivityLocationPaths = new ArrayList<String>();
       mProcessAdministrator = new AeProcessSuspendResumeHandler( this );
    }
 
@@ -906,7 +906,7 @@ public class AeBusinessProcess extends AeActivityScopeImpl implements IAeBusines
     * @param aMessageReceiver The receive or onMessage activity
     * @param aCorrelation - optional map to store the correlation values
     */
-   protected void getEngineManagedCorrelationData(IAeMessageReceiverActivity aMessageReceiver, Map aCorrelation)
+   protected void getEngineManagedCorrelationData(IAeMessageReceiverActivity aMessageReceiver, Map<QName, Object> aCorrelation)
    {
       AePartnerLink plink = findProcessPartnerLink(aMessageReceiver.getPartnerLinkOperationImplKey().getPartnerLinkLocationPath());
       IAeEndpointReference myRef = plink.getMyReference();
@@ -927,7 +927,7 @@ public class AeBusinessProcess extends AeActivityScopeImpl implements IAeBusines
          throws AeBusinessProcessException
    {
       IAeIMACorrelations receiveCorrelations = aMessageReceiver.getCorrelations();
-      Map correlation = receiveCorrelations != null? receiveCorrelations.getInitiatedProperties() : new HashMap();
+      Map<QName, Object> correlation = receiveCorrelations != null? receiveCorrelations.getInitiatedProperties() : new HashMap<QName, Object>();
 
       int receiverPathId = getLocationId(aMessageReceiver.getLocationPath());
       AePartnerLinkOpImplKey plOpImplKey = aMessageReceiver.getPartnerLinkOperationImplKey();
@@ -1031,7 +1031,7 @@ public class AeBusinessProcess extends AeActivityScopeImpl implements IAeBusines
    {
       // find matching open message activity info.
       AeOpenMessageActivityInfo info = findMatchingOpenMessageActivityInfo(aPartnerLinkKey, aMessageExchange);
-      Map propertiesSnapshot = cloneBusinessProcessProperties();
+      Map<String, String> propertiesSnapshot = cloneBusinessProcessProperties();
       try
       {
          if (aFaultName == null)
@@ -1059,7 +1059,7 @@ public class AeBusinessProcess extends AeActivityScopeImpl implements IAeBusines
     * @throws AeBusinessProcessException
     */
    protected void sendReply(AeOpenMessageActivityInfo aOpenMessageActivity,
-         IAeMessageData aInputMessage, IAeFault aFault, Map aBusinessProperties) throws AeBusinessProcessException
+         IAeMessageData aInputMessage, IAeFault aFault, Map<String, String> aBusinessProperties) throws AeBusinessProcessException
    {
       if (aOpenMessageActivity == null)
       {
@@ -1120,9 +1120,9 @@ public class AeBusinessProcess extends AeActivityScopeImpl implements IAeBusines
    /**
     * Shallow clone of the properties map.
     */
-   protected Map cloneBusinessProcessProperties()
+   protected Map<String, String> cloneBusinessProcessProperties()
    {
-      return new HashMap(getBusinessProcessPropertiesMap());
+      return new HashMap<String, String>(getBusinessProcessPropertiesMap());
    }
 
    /**
@@ -1151,7 +1151,7 @@ public class AeBusinessProcess extends AeActivityScopeImpl implements IAeBusines
          if (aObject.getLocationId() != -1)
          {
             mLocationIdToPath.put(aObject.getLocationId(), aObject.getLocationPath());
-            mLocationPathToId.put(aObject.getLocationPath(), new Integer(aObject.getLocationId()));
+            mLocationPathToId.put(aObject.getLocationPath(), Integer.valueOf(aObject.getLocationId()));
          }
       }
    }
@@ -1695,7 +1695,7 @@ public class AeBusinessProcess extends AeActivityScopeImpl implements IAeBusines
    public void setExecutionQueue(boolean aSuspended, List aExecutionQueuePaths) throws AeBusinessProcessException
    {
       // Note: This non-interface method is public for AeRestoreImplStateVisitor.
-      List queue = new LinkedList();
+      List<IAeBpelObject> queue = new LinkedList<IAeBpelObject>();
 
       // Convert location paths to implementation objects.
       for (Iterator i = aExecutionQueuePaths.iterator(); i.hasNext(); )
@@ -1763,7 +1763,7 @@ public class AeBusinessProcess extends AeActivityScopeImpl implements IAeBusines
          aWsioAttachment.getMimeHeaders().put(AeMimeUtil.CONTENT_ID_ATTRIBUTE, AeMimeUtil.AE_DEFAULT_REMOTE_CONTENT_ID);
       }
       
-      List newAttachmentList = new LinkedList();
+      List<AeWebServiceAttachment> newAttachmentList = new LinkedList<AeWebServiceAttachment>();
       newAttachmentList.add(aWsioAttachment);
       IAeAttachmentContainer tempContainer = attachmentManager.wsio2bpel(newAttachmentList);
       attachmentManager.storeAttachments(tempContainer, null);
@@ -1855,7 +1855,7 @@ public class AeBusinessProcess extends AeActivityScopeImpl implements IAeBusines
    /**
     * @see org.activebpel.rt.bpel.IAeBusinessProcess#dispatchInvokeData(java.lang.String, org.activebpel.rt.message.IAeMessageData, java.util.Map)
     */
-   public synchronized void dispatchInvokeData(String aLocationPath, IAeMessageData aData, Map aBusinessProcessProperties)
+   public synchronized void dispatchInvokeData(String aLocationPath, IAeMessageData aData, Map<String, String> aBusinessProcessProperties)
    {
       try
       {
@@ -1886,7 +1886,7 @@ public class AeBusinessProcess extends AeActivityScopeImpl implements IAeBusines
    /**
     * @see org.activebpel.rt.bpel.IAeBusinessProcess#dispatchInvokeFault(java.lang.String, org.activebpel.rt.bpel.IAeFault, java.util.Map)
     */
-   public synchronized void dispatchInvokeFault(String aLocationPath, IAeFault aFault, Map aBusinessProcessProperties)
+   public synchronized void dispatchInvokeFault(String aLocationPath, IAeFault aFault, Map<String, String> aBusinessProcessProperties)
    {
       try
       {
@@ -2049,7 +2049,7 @@ public class AeBusinessProcess extends AeActivityScopeImpl implements IAeBusines
    private void handleAmbiguousReceives(IAeMessageDispatcher aDispatcher, List aList, AeInboundReceive aInboundReceive) throws AeBusinessProcessException
    {
       // create list of dispatchers
-      List dispatchers = new ArrayList(aList.size() + 1);
+      List<IAeMessageDispatcher> dispatchers = new ArrayList<IAeMessageDispatcher>(aList.size() + 1);
       dispatchers.add(aDispatcher);
 
       // create a dispatcher for each of the message receivers
@@ -2097,7 +2097,7 @@ public class AeBusinessProcess extends AeActivityScopeImpl implements IAeBusines
       if (!getFaultFactory().isAmbiguousReceiveFaultSupported())
          return Collections.EMPTY_LIST;
 
-      List list = null;
+      List<IAeMessageReceiverActivity> list = null;
 
       for(Iterator it=getQueuedReceives().values().iterator(); it.hasNext();)
       {
@@ -2113,7 +2113,7 @@ public class AeBusinessProcess extends AeActivityScopeImpl implements IAeBusines
                {
                   // we've found an ambiguousReceive, add it to the list
                   if (list == null)
-                     list = new ArrayList();
+                     list = new ArrayList<IAeMessageReceiverActivity>();
                   list.add(receiver);
                }
             }
@@ -2121,7 +2121,7 @@ public class AeBusinessProcess extends AeActivityScopeImpl implements IAeBusines
       }
 
       if (list == null)
-         list = Collections.EMPTY_LIST;
+         list = Collections.<IAeMessageReceiverActivity>emptyList();
       return list;
    }
 
@@ -2146,8 +2146,8 @@ public class AeBusinessProcess extends AeActivityScopeImpl implements IAeBusines
       {
          try
          {
-            Map inboundProperties = new HashMap(aInboundReceive.getCorrelation());
-            Map activityCorrelations = aActivity.getCorrelations() != null ? aActivity.getCorrelations().getInitiatedProperties() : new HashMap();
+            Map<QName,Object> inboundProperties = new HashMap<QName,Object>(aInboundReceive.getCorrelation());
+            Map<QName, Object> activityCorrelations = aActivity.getCorrelations() != null ? aActivity.getCorrelations().getInitiatedProperties() : new HashMap<QName, Object>();
 
             // add any engine managed correlation
             getEngineManagedCorrelationData(aActivity, activityCorrelations);
@@ -2306,11 +2306,11 @@ public class AeBusinessProcess extends AeActivityScopeImpl implements IAeBusines
    /**
     * @see org.activebpel.rt.bpel.impl.IAeBusinessProcessInternal#getBusinessProcessPropertiesMap()
     */
-   public Map getBusinessProcessPropertiesMap()
+   public Map<String, String> getBusinessProcessPropertiesMap()
    {
       if( mBusinessProcessProperties == null )
       {
-         mBusinessProcessProperties = new HashMap();
+         mBusinessProcessProperties = new HashMap<String, String>();
       }
       return mBusinessProcessProperties;
    }
@@ -2321,7 +2321,7 @@ public class AeBusinessProcess extends AeActivityScopeImpl implements IAeBusines
     *
     * @param aMap
     */
-   public void addBusinessProcessProperties( Map aMap )
+   public void addBusinessProcessProperties( Map<String, String> aMap )
    {
       // Note: This non-interface method is public for AeRestoreImplStateVisitor.
       if (aMap != null)
@@ -2359,7 +2359,7 @@ public class AeBusinessProcess extends AeActivityScopeImpl implements IAeBusines
    /**
     * @see org.activebpel.rt.bpel.impl.IAeBusinessProcessInternal#getFaultingActivityLocationPaths()
     */
-   public List getFaultingActivityLocationPaths()
+   public List<String> getFaultingActivityLocationPaths()
    {
       return mFaultingActivityLocationPaths;
    }
@@ -2449,13 +2449,13 @@ public class AeBusinessProcess extends AeActivityScopeImpl implements IAeBusines
    public synchronized Map getCorrelationData( String aLocationPath) throws AeBusinessProcessException
    {
       AeCorrelationSet correlationSet = findCorrelationSetByPath( aLocationPath );
-      return new HashMap(correlationSet.getPropertyValues());
+      return new HashMap<QName, Object>(correlationSet.getPropertyValues());
    }
 
    /**
     * @see org.activebpel.rt.bpel.IAeBusinessProcess#setCorrelationData(java.lang.String, java.util.Map)
     */
-   public synchronized void setCorrelationData( String aLocationPath, Map aCorrelationData )
+   public synchronized void setCorrelationData( String aLocationPath, Map<QName, Object> aCorrelationData )
    throws AeBusinessProcessException
    {
       AeCorrelationSet correlationSet = findCorrelationSetByPath( aLocationPath );
@@ -2571,7 +2571,7 @@ public class AeBusinessProcess extends AeActivityScopeImpl implements IAeBusines
    {
       // Note: This non-interface method is public for AeRestoreImplStateVisitor.
       AeQueuedReceiveKey key = new AeQueuedReceiveKey(aMessageReceiver);
-      Object conflict = getQueuedReceives().put(key, aMessageReceiver);
+      IAeMessageReceiverActivity conflict = getQueuedReceives().put(key, aMessageReceiver);
       if (conflict != null)
       {
          // put the old one back
@@ -2595,7 +2595,7 @@ public class AeBusinessProcess extends AeActivityScopeImpl implements IAeBusines
    /**
     * @return Returns the queuedReceives.
     */
-   protected Map getQueuedReceives()
+   protected Map<AeQueuedReceiveKey, IAeMessageReceiverActivity> getQueuedReceives()
    {
       return mQueuedReceives;
    }
@@ -2654,12 +2654,12 @@ public class AeBusinessProcess extends AeActivityScopeImpl implements IAeBusines
    /**
     * @return List containing open inbound message activity info.
     */
-   public List getOpenMessageActivityInfoList()
+   public List<AeOpenMessageActivityInfo> getOpenMessageActivityInfoList()
    {
       // Note: This non-interface method is public for AeSaveImplStateVisitor.
       if (mOpenMessageActivityInfoList == null)
       {
-         mOpenMessageActivityInfoList = new LinkedList();
+         mOpenMessageActivityInfoList = new LinkedList<AeOpenMessageActivityInfo>();
       }
       return mOpenMessageActivityInfoList;
    }
@@ -2829,7 +2829,7 @@ public class AeBusinessProcess extends AeActivityScopeImpl implements IAeBusines
    public void faultOrphanedIMAs(AeActivityScopeImpl aScope, IAeFault aFault)
    {
       String scopePath = aScope.getLocationPath();
-      Map properties = null;
+      Map<String, String> properties = null;
 
       // Legacy behavior: fault with missingReply if the IMA was not orphaned
       // by some other fault (i.e., if aFault == null).
@@ -3146,7 +3146,7 @@ public class AeBusinessProcess extends AeActivityScopeImpl implements IAeBusines
        * set comprised of location paths for the correlation sets used for the
        * receive
        */
-      private Set mCorrelationSets = new HashSet();
+      private Set<String> mCorrelationSets = new HashSet<String>();
       /** cached value of the hashcode */
       private int mHashcode;
       /** the location id for the activity */
@@ -3160,7 +3160,7 @@ public class AeBusinessProcess extends AeActivityScopeImpl implements IAeBusines
       public AeQueuedReceiveKey(IAeMessageReceiverActivity aMessageReceiver)
       {
          IAeIMACorrelations receiveCorrelations = aMessageReceiver.getCorrelations();
-         Set csPaths = receiveCorrelations != null? receiveCorrelations.getCSPathsForConflictingReceives() : Collections.EMPTY_SET;
+         Set<String> csPaths = receiveCorrelations != null? receiveCorrelations.getCSPathsForConflictingReceives() : Collections.<String>emptySet();
 
          mLocationId = AeBusinessProcess.this.getLocationId(aMessageReceiver.getLocationPath());
          mPartnerLinkOpImplKey = aMessageReceiver.getPartnerLinkOperationImplKey();

@@ -15,6 +15,7 @@ import java.util.Set;
 
 import org.activebpel.rt.bpel.def.expr.AeAbstractExpressionParseResult;
 import org.activebpel.rt.expr.def.AeScriptFuncDef;
+import org.activebpel.rt.expr.def.AeScriptVarDef;
 import org.activebpel.rt.expr.def.IAeExpressionParserContext;
 import org.mozilla.javascript.Node;
 import org.mozilla.javascript.ScriptOrFnNode;
@@ -28,9 +29,9 @@ public abstract class AeAbstractJavaScriptParseResult extends AeAbstractExpressi
    /** The root of the javascript parse tree. */
    private ScriptOrFnNode mRootNode;
    /** The cached list of functions. */
-   private Set mFunctions;
+   private Set<AeScriptFuncDef> mFunctions;
    /** The cached list of variables. */
-   private Set mVariables;
+   private Set<AeScriptVarDef> mVariables;
 
    /**
     * Constructor.
@@ -49,7 +50,7 @@ public abstract class AeAbstractJavaScriptParseResult extends AeAbstractExpressi
    /**
     * @see org.activebpel.rt.expr.def.IAeExpressionParseResult#getFunctions()
     */
-   public Set getFunctions()
+   public Set<AeScriptFuncDef> getFunctions()
    {
       if (mFunctions == null)
       {
@@ -62,7 +63,7 @@ public abstract class AeAbstractJavaScriptParseResult extends AeAbstractExpressi
    /**
     * @see org.activebpel.rt.expr.def.IAeExpressionParseResult#getVariableReferences()
     */
-   public Set getVariableReferences()
+   public Set<AeScriptVarDef> getVariableReferences()
    {
       if (mVariables == null)
          mVariables = extractVariables(getRootNode());
@@ -79,9 +80,9 @@ public abstract class AeAbstractJavaScriptParseResult extends AeAbstractExpressi
     * @param aNode
     * @param aParentFunc
     */
-   protected Set extractFunctions(Node aNode, AeScriptFuncDef aParentFunc)
+   protected Set<AeScriptFuncDef> extractFunctions(Node aNode, AeScriptFuncDef aParentFunc)
    {
-      Set set = new LinkedHashSet();
+      Set<AeScriptFuncDef> set = new LinkedHashSet<AeScriptFuncDef>();
       AeScriptFuncDef parentFunc = aParentFunc;
 
       // If the Node is a Function Call, extract it and add it to the list.
@@ -112,9 +113,9 @@ public abstract class AeAbstractJavaScriptParseResult extends AeAbstractExpressi
     * 
     * @param aNode
     */
-   protected Set extractVariables(Node aNode)
+   protected Set<AeScriptVarDef> extractVariables(Node aNode)
    {
-      Set set = new LinkedHashSet();
+      Set<AeScriptVarDef> set = new LinkedHashSet<AeScriptVarDef>();
 
       // Now process all of the node's children.
       Node child = aNode.getFirstChild();

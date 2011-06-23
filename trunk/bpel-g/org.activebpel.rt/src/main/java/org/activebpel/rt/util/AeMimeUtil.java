@@ -16,6 +16,7 @@ import java.io.StringReader;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 import java.util.StringTokenizer;
 import java.util.TreeSet;
@@ -118,10 +119,10 @@ public class AeMimeUtil
    public static final String MULTIPART_PARALLEL_MIME = "multipart/parallel"; //$NON-NLS-1$
 
    /** Map of default content-type to file extensions. */
-   private static Map sMimeToExtension;
+   private static Map<String, String> sMimeToExtension;
    static
    {
-      sMimeToExtension = new HashMap();
+      sMimeToExtension = new HashMap<String, String>();
       sMimeToExtension.put("video/x-msvideo", "avi"); //$NON-NLS-1$ //$NON-NLS-2$
       sMimeToExtension.put("application/octet-stream", "bin"); //$NON-NLS-1$ //$NON-NLS-2$
       sMimeToExtension.put("image/bmp", "bmp"); //$NON-NLS-1$ //$NON-NLS-2$
@@ -164,11 +165,11 @@ public class AeMimeUtil
    }
 
    /** The extension map of well known Mime types */
-   protected static Map sExtensionToMime;
+   protected static Map<String, String> sExtensionToMime;
 
    static
    {
-      sExtensionToMime = new HashMap();
+      sExtensionToMime = new HashMap<String, String>();
 
       sExtensionToMime.put("bas", "text/plain"); //$NON-NLS-1$ //$NON-NLS-2$
       sExtensionToMime.put("java", "text/plain"); //$NON-NLS-1$ //$NON-NLS-2$
@@ -202,9 +203,9 @@ public class AeMimeUtil
       sExtensionToMime.put("lsx", "video/x-la-asf"); //$NON-NLS-1$ //$NON-NLS-2$
       sExtensionToMime.put("rmi", "audio/mid"); //$NON-NLS-1$ //$NON-NLS-2$
 
-      for (Iterator iter = sMimeToExtension.entrySet().iterator(); iter.hasNext();)
+      for (Iterator<Entry<String, String>> iter = sMimeToExtension.entrySet().iterator(); iter.hasNext();)
       {
-         Map.Entry entry = (Map.Entry)iter.next();
+         Map.Entry<String, String> entry = iter.next();
          sExtensionToMime.put(entry.getValue(), entry.getKey());
       }
    }
@@ -456,7 +457,7 @@ public class AeMimeUtil
     */
    public static boolean isXmlText(String aMime)
    {
-      Set implicitMembers = new TreeSet();
+      Set<String> implicitMembers = new TreeSet<String>();
       implicitMembers.add(AeMimeUtil.ATOM_XML_MIME);
       return isXmlText(aMime,implicitMembers);
        
@@ -467,11 +468,11 @@ public class AeMimeUtil
     * @param aMime
     * @return <code>true</code> if mime recognized and xml mime type ; otherwise returns <code>false</code>
     */
-   public static boolean isXmlText(String aMime, Set aMemberMimeTypes)
+   public static boolean isXmlText(String aMime, Set<String> aMemberMimeTypes)
    {
       // TODO (JB) for backwards compatibility - to be remove eventually when policy mime type dialog completed
       if (aMemberMimeTypes.size() == 0)
-         aMemberMimeTypes = new TreeSet();
+         aMemberMimeTypes = new TreeSet<String>();
       aMemberMimeTypes.add(AeMimeUtil.ATOM_XML_MIME);
       
       if ( AeUtil.notNullOrEmpty(aMime) && (aMime.trim().startsWith(AeMimeUtil.XML_MIME) || isMember(aMime,aMemberMimeTypes)) )

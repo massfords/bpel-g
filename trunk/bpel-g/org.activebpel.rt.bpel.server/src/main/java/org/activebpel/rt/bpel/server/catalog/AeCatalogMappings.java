@@ -34,9 +34,9 @@ public class AeCatalogMappings {
 	/** The bpr file containing the catalog. */
 	private IAeBpr mBpr;
 	/** Store the AeCatalogBprMapping mappings. */
-	private Map mResources = new HashMap();
+	private Map<String, IAeCatalogMapping> mResources = new HashMap<String, IAeCatalogMapping>();
 	/** Store the AeCatalogBprMapping of missing resources. */
-	private Map mMissingResources = new HashMap();
+	private Map<String, IAeCatalogMapping> mMissingResources = new HashMap<String, IAeCatalogMapping>();
 	/** Replace any existing resource entries. */
 	private boolean mReplaceExistingResource;
 
@@ -78,7 +78,7 @@ public class AeCatalogMappings {
 					IAeBPELExtendedWSDLConst.WSDL_NAMESPACE);
 			addEntries(aCatalogDocument.getSchemaEntry(),
 					XMLConstants.W3C_XML_SCHEMA_NS_URI);
-			addEntries(new ArrayList(aCatalogDocument.getOtherEntry()), null);
+			addEntries(new ArrayList<BaseCatalogEntryType>(aCatalogDocument.getOtherEntry()), null);
 			initReplaceResourceFlag(aCatalogDocument);
 		}
 	}
@@ -136,7 +136,7 @@ public class AeCatalogMappings {
 	 *         <code>AeCatalogBprMapping</code> these are mapping that exist in
 	 *         the BPR.
 	 */
-	public Map getResources() {
+	public Map<String, IAeCatalogMapping> getResources() {
 		return mResources;
 	}
 
@@ -144,7 +144,7 @@ public class AeCatalogMappings {
 	 * @return Returns the missingMappings map which are of type
 	 *         <code>AeCatalogBprMapping</code>.
 	 */
-	public Map getMissingResources() {
+	public Map<String, IAeCatalogMapping> getMissingResources() {
 		return mMissingResources;
 	}
 

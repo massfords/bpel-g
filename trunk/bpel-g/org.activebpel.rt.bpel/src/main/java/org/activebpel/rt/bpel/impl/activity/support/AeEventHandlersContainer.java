@@ -231,9 +231,7 @@ public class AeEventHandlersContainer extends AeAbstractBpelObject implements IA
     */
    public Iterator getChildrenForStateChange()
    {
-      return AeUtil.join(
-         getEventHandlers().getAlarms(),
-         getEventHandlers().getMessages());
+      return AeUtil.joinIter(getEventHandlers().getAlarms(), getEventHandlers().getMessages());
    }
    
    /**

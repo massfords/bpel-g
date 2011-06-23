@@ -22,12 +22,12 @@ public class AeEventHandlers
    /**
     * list of messages
     */
-   private List mMessages;
+   private List<AeOnMessage> mMessages;
    
    /**
     * list of alarms
     */
-   private List mAlarms;
+   private List<AeOnAlarm> mAlarms;
 
    /**
     * Adds the alarm to the list.
@@ -50,11 +50,11 @@ public class AeEventHandlers
    /**
     * Getter for the alarms, lazy load here. 
     */
-   protected List getAlarmsList()
+   protected List<AeOnAlarm> getAlarmsList()
    {
       if (mAlarms == null)
       {
-         mAlarms = new ArrayList();
+         mAlarms = new ArrayList<AeOnAlarm>();
       }
       return mAlarms;
    }
@@ -62,11 +62,11 @@ public class AeEventHandlers
    /**
     * Getter for the messages, lazy load here.
     */
-   protected List getMessagesList()
+   protected List<AeOnMessage> getMessagesList()
    {
       if (mMessages == null)
       {
-         mMessages = new ArrayList();
+         mMessages = new ArrayList<AeOnMessage>();
       }
       return mMessages;
    }
@@ -74,11 +74,11 @@ public class AeEventHandlers
    /**
     * Gets the alarms or empty iterator if there are none.
     */
-   public Iterator getAlarms()
+   public Iterator<AeOnAlarm> getAlarms()
    {
       if (mAlarms == null)
       {
-         return Collections.EMPTY_LIST.iterator();
+         return Collections.<AeOnAlarm>emptyList().iterator();
       }
       return getAlarmsList().iterator();
    }
@@ -86,11 +86,11 @@ public class AeEventHandlers
    /**
     * Gets the messages or empty iterator if there are none.
     */
-   public Iterator getMessages()
+   public Iterator<AeOnMessage> getMessages()
    {
       if (mMessages == null)
       {
-         return Collections.EMPTY_LIST.iterator();
+         return Collections.<AeOnMessage>emptyList().iterator();
       }
       return getMessagesList().iterator();
    }

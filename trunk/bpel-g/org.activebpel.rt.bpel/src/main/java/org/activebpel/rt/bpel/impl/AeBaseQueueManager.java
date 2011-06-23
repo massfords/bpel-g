@@ -19,6 +19,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.TreeSet;
 
 import org.activebpel.rt.AeException;
@@ -55,24 +56,24 @@ public abstract class AeBaseQueueManager extends AeManagerAdapter implements IAe
    public static final int DEFAULT_UNMATCHED_RECEIVES_COUNT = 50;
 
    /** inbound receives that have not been matched to activities */ 
-   private List<AeUnmatchedReceive> mUnmatchedReceives = Collections.synchronizedList(new LinkedList());
+   private List<AeUnmatchedReceive> mUnmatchedReceives = Collections.synchronizedList(new LinkedList<AeUnmatchedReceive>());
    /** activites that are waiting to receive data */
-   private Collection mMessageReceivers = Collections.synchronizedSet(new TreeSet(sMessageReceiverComparator));
+   private Collection<AeMessageReceiver> mMessageReceivers = Collections.synchronizedSet(new TreeSet<AeMessageReceiver>(sMessageReceiverComparator));
    /** contains the reply portion of an inbound receive that has been matched and is waiting to receive its response from its call */
-   private Map mReplies = Collections.synchronizedMap(new HashMap());
+   private Map<Long, AeReply> mReplies = Collections.synchronizedMap(new HashMap<Long, AeReply>());
    /** next id for unmatched receives */
    private long mQueueId = 0;
    /** comparator used to keep the message receiver list sorted by # of correlated properties */
-   private static final Comparator sMessageReceiverComparator = new AeMessageReceiverComparator();
+   private static final Comparator<AeMessageReceiver> sMessageReceiverComparator = new AeMessageReceiverComparator();
 
    /** the maximum number of unmatched receives */
    private int mMaxUnmatchedReceivesCount;
    /** flag that let's us know if we've been started */
    private boolean mStarted = false;
    /** Maps AeAlarm objects to the scheduled task's timer id. */
-   private Map mLookup = new HashMap();
+   private Map<AeAlarm, Timer> mLookup = new HashMap<AeAlarm, Timer>();
    /** Saved map for in-memory starts and stops. */
-   private Map mSavedLookup;
+   private Map<AeAlarm, Timer> mSavedLookup;
    /** Next journal id for non-persitent implementation of the queue manager. */
    private static long NONPERSISTENT_QUEUEMANAGER_NEXT_ID = IAeProcessManager.NULL_JOURNAL_ID + 1;
 
@@ -199,7 +200,7 @@ public abstract class AeBaseQueueManager extends AeManagerAdapter implements IAe
     * @param aReason optional reason for faulting.
     */
    protected void replyFault(AeInboundReceive aInboundReceive, IAeMessageAcknowledgeCallback aAckCallback,
-         Map aProcessProperties, IAeFault aFault, Throwable aReason)
+         Map<String, String> aProcessProperties, IAeFault aFault, Throwable aReason)
    {
       // If a durable messaging callback is given then, callback.
       if (aAckCallback != null)
@@ -572,7 +573,7 @@ public abstract class AeBaseQueueManager extends AeManagerAdapter implements IAe
    /**
     * @see org.activebpel.rt.bpel.impl.IAeQueueManager#sendReply(org.activebpel.rt.bpel.impl.queue.AeReply, org.activebpel.rt.message.IAeMessageData, org.activebpel.rt.bpel.IAeFault, java.util.Map)
     */
-   public void sendReply(AeReply aReplyObject, IAeMessageData aData, IAeFault aFault, Map aProcessProperties ) throws AeBusinessProcessException
+   public void sendReply(AeReply aReplyObject, IAeMessageData aData, IAeFault aFault, Map<String, String> aProcessProperties ) throws AeBusinessProcessException
    {
       if ((aData != null) && (aFault != null))
       {
@@ -616,7 +617,7 @@ public abstract class AeBaseQueueManager extends AeManagerAdapter implements IAe
    /**
     * Getter for the message receivers collection
     */
-   protected Collection getMessageReceivers()
+   protected Collection<AeMessageReceiver> getMessageReceivers()
    {
       return mMessageReceivers;
    }
@@ -659,7 +660,7 @@ public abstract class AeBaseQueueManager extends AeManagerAdapter implements IAe
    /**
     * Getter for the replies collection set.
     */
-   protected Map getReplies()
+   protected Map<Long, AeReply> getReplies()
    {
       return mReplies;
    }
@@ -805,14 +806,14 @@ public abstract class AeBaseQueueManager extends AeManagerAdapter implements IAe
       int count = 0;
       synchronized (mLookup)
       {
-         for (Iterator iter = mLookup.entrySet().iterator(); iter.hasNext(); )
+         for (Iterator<Entry<AeAlarm, Timer>> iter = mLookup.entrySet().iterator(); iter.hasNext(); )
          {
-            Map.Entry entry = (Map.Entry) iter.next();
-            AeAlarm alarm = (AeAlarm) entry.getKey();
+            Map.Entry<AeAlarm, Timer> entry = iter.next();
+            AeAlarm alarm = entry.getKey();
             if (alarm.getProcessId() == aProcessId && alarm.getGroupId() == aGroupId)
             {
                count++;
-               Timer timer = (Timer) entry.getValue();
+               Timer timer = entry.getValue();
                timer.cancel();
                iter.remove();
             }
@@ -838,7 +839,7 @@ public abstract class AeBaseQueueManager extends AeManagerAdapter implements IAe
       Timer timer = null;
       synchronized (mLookup)
       {
-         timer = (Timer)mLookup.remove(new AeAlarm(aProcessId, aLocationPathId, aAlarmId));
+         timer = mLookup.remove(new AeAlarm(aProcessId, aLocationPathId, aAlarmId));
       }
 
       if (timer == null)
@@ -907,8 +908,8 @@ public abstract class AeBaseQueueManager extends AeManagerAdapter implements IAe
 
       synchronized (mLookup)
       {
-         for (Iterator iter = mLookup.values().iterator(); iter.hasNext();)
-            ((Timer)iter.next()).cancel();
+         for (Iterator<Timer> iter = mLookup.values().iterator(); iter.hasNext();)
+            iter.next().cancel();
 
          saveLookup();
          mLookup.clear();
@@ -920,7 +921,7 @@ public abstract class AeBaseQueueManager extends AeManagerAdapter implements IAe
     */
    protected void saveLookup()
    {
-      mSavedLookup = new HashMap(mLookup);
+      mSavedLookup = new HashMap<AeAlarm, Timer>(mLookup);
    }
 
    /**
@@ -936,13 +937,13 @@ public abstract class AeBaseQueueManager extends AeManagerAdapter implements IAe
    /**
     * @see org.activebpel.rt.bpel.impl.IAeQueueManager#getAlarms(org.activebpel.rt.bpel.impl.list.AeAlarmFilter)
     */
-   public AeAlarmListResult getAlarms(AeAlarmFilter aFilter) throws AeBusinessProcessException
+   public AeAlarmListResult<? extends AeAlarm> getAlarms(AeAlarmFilter aFilter) throws AeBusinessProcessException
    {
       AeAlarmFilter filter = aFilter == null ? AeAlarmFilter.NULL_FILTER : aFilter;
       synchronized( mLookup )
       {
          // The keyset is a collection of AeAlarm objects
-         ArrayList list = new ArrayList(mLookup.keySet());
+         List<AeAlarm> list = new ArrayList<AeAlarm>(mLookup.keySet());
          return AeAlarmFilterManager.filter(getEngine(), filter, list);
       }
    }
@@ -951,13 +952,13 @@ public abstract class AeBaseQueueManager extends AeManagerAdapter implements IAe
     * Comparator that brings the correlated message receivers with the most
     * properties to the top so we can match against those first.
     */
-   private static class AeMessageReceiverComparator implements Comparator
+   private static class AeMessageReceiverComparator implements Comparator<AeMessageReceiver>
    {
-      public int compare(Object aO1, Object aO2)
+      /**
+       * @see java.util.Comparator#compare(java.lang.Object, java.lang.Object)
+       */
+      public int compare(AeMessageReceiver one, AeMessageReceiver two)
       {
-         AeMessageReceiver one = (AeMessageReceiver) aO1;
-         AeMessageReceiver two = (AeMessageReceiver) aO2;
-
          int twoSize = two.isCorrelated() ? two.getCorrelation().size() : 0;
          int oneSize = one.isCorrelated() ? one.getCorrelation().size() : 0;
 

@@ -54,9 +54,9 @@ public class AeNoOpExpressionAnalyzer implements IAeExpressionAnalyzer
    /**
     * @see org.activebpel.rt.expr.def.IAeExpressionAnalyzer#getStylesheetURIs(org.activebpel.rt.expr.def.IAeExpressionAnalyzerContext, java.lang.String)
     */
-   public Set getStylesheetURIs(IAeExpressionAnalyzerContext aContext, String aExpression)
+   public Set<String> getStylesheetURIs(IAeExpressionAnalyzerContext aContext, String aExpression)
    {
-      return Collections.EMPTY_SET;
+      return Collections.<String>emptySet();
    }
    
    /**

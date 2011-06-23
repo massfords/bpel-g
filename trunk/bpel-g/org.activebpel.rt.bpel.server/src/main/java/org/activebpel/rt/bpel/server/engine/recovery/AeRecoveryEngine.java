@@ -489,9 +489,9 @@ public class AeRecoveryEngine extends AeAbstractServerEngine implements IAeRecov
     * Returns sent reply objects from the sent reply journal entries in the
     * given list of journal entries.
     */
-   protected List getSentReplies(List aJournalEntries) throws AeBusinessProcessException
+   protected List<AeReply> getSentReplies(List aJournalEntries) throws AeBusinessProcessException
    {
-      List sentReplies = new LinkedList();
+      List<AeReply> sentReplies = new LinkedList<AeReply>();
 
       for (Iterator i = aJournalEntries.iterator(); i.hasNext(); )
       {

@@ -25,12 +25,9 @@ import org.activebpel.rt.bpel.def.visitors.IAeDefVisitor;
  */
 public class AeActivityFlowDef extends AeActivityDef implements IAeMultipleActivityContainerDef
 {
-   /**
-     * 
-     */
-    private static final long serialVersionUID = 55963937468851520L;
-/** The list of activities in the flow. */
-   private List mActivities = new ArrayList();  // Will always be at least one
+   private static final long serialVersionUID = 55963937468851520L;
+   /** The list of activities in the flow. */
+   private List<AeActivityDef> mActivities = new ArrayList<AeActivityDef>();  // Will always be at least one
    /** Container used to store links for Flow. */
    private AeLinksDef mLinks;
 
@@ -96,9 +93,9 @@ public class AeActivityFlowDef extends AeActivityDef implements IAeMultipleActiv
     */
    public void replaceActivityDef(AeActivityDef aOldActivityDef, AeActivityDef aNewActivityDef)
    {
-      for (ListIterator liter = mActivities.listIterator(); liter.hasNext(); )
+      for (ListIterator<AeActivityDef> liter = mActivities.listIterator(); liter.hasNext(); )
       {
-         AeActivityDef activityDef = (AeActivityDef) liter.next();
+         AeActivityDef activityDef = liter.next();
          if (activityDef == aOldActivityDef)
          {
             liter.set(aNewActivityDef);

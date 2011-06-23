@@ -53,11 +53,11 @@ public class AeXPathParseHandler implements XPathHandler
    /** The namespace resolver to use while parsing. */
    private IAeNamespaceContext mNamespaceContext;
    /** The node stack. */
-   private Stack mNodeStack = new Stack();
+   private Stack<AeAbstractXPathNode> mNodeStack = new Stack<AeAbstractXPathNode>();
    /** The full AST - set when endXPath() is called. */
    private AeXPathAST mAbstractSyntaxTree;
    /** A list of errors found while handling the jaxen parse. */
-   private List mErrors = new ArrayList();
+   private List<String> mErrors = new ArrayList<String>();
 
    /**
     * Constructor.
@@ -478,7 +478,7 @@ public class AeXPathParseHandler implements XPathHandler
    {
       if (mNodeStack.size() > 0)
       {
-         AeAbstractXPathNode parent = (AeAbstractXPathNode) mNodeStack.peek();
+         AeAbstractXPathNode parent = mNodeStack.peek();
          parent.addChild(aNode);
          aNode.setParent(parent);
       }
@@ -490,7 +490,7 @@ public class AeXPathParseHandler implements XPathHandler
     */
    protected AeAbstractXPathNode popNode()
    {
-      return (AeAbstractXPathNode) mNodeStack.pop();
+      return mNodeStack.pop();
    }
 
    /**
@@ -512,7 +512,7 @@ public class AeXPathParseHandler implements XPathHandler
    /**
     * @return Returns the errors.
     */
-   public List getErrors()
+   public List<String> getErrors()
    {
       return mErrors;
    }
@@ -520,7 +520,7 @@ public class AeXPathParseHandler implements XPathHandler
    /**
     * @param aErrors The errors to set.
     */
-   protected void setErrors(List aErrors)
+   protected void setErrors(List<String> aErrors)
    {
       mErrors = aErrors;
    }

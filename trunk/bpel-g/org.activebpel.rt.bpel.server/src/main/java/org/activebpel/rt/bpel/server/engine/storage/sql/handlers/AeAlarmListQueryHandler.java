@@ -30,7 +30,7 @@ public class AeAlarmListQueryHandler implements ResultSetHandler
     */
    public Object handle(ResultSet aResultSet) throws SQLException
    {
-      LinkedList list = new LinkedList();
+      LinkedList<AePersistedAlarm> list = new LinkedList<AePersistedAlarm>();
       while (aResultSet.next())
       {
          long processId = aResultSet.getLong(IAeQueueColumns.PROCESS_ID);

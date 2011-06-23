@@ -26,12 +26,12 @@ public class AeStreamAttachmentItem implements IAeAttachmentItem
    private final InputStream mContent;
    
    /** <code>Map</code> of attachment's MIME headers. */
-   private final Map mHeaders;
+   private final Map<String, String> mHeaders;
 
    /**
     * Default constructor.
     */
-   public AeStreamAttachmentItem(InputStream aContent, Map aHeaders)
+   public AeStreamAttachmentItem(InputStream aContent, Map<String, String> aHeaders)
    {
       mContent = aContent;
       mHeaders = aHeaders;
@@ -58,13 +58,13 @@ public class AeStreamAttachmentItem implements IAeAttachmentItem
     */
    public String getHeader(String aHeaderName)
    {
-      return (String) getHeaders().get(aHeaderName);
+      return getHeaders().get(aHeaderName);
    }
 
    /**
     * @see org.activebpel.rt.attachment.IAeAttachmentItem#getHeaders()
     */
-   public Map getHeaders()
+   public Map<String, String> getHeaders()
    {
       return mHeaders;
    }

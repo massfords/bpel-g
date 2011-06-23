@@ -29,7 +29,7 @@ import org.activebpel.rt.util.AeUtil;
 public class AeActivityIfImpl extends AeActivityImpl
 {
    /** The list of 'else' children. */
-   private List mElseIfs = new ArrayList();
+   private List<AeElseIf> mElseIfs = new ArrayList<AeElseIf>();
    /** The optional 'else' child. */
    private AeElse mElse;
 
@@ -146,7 +146,7 @@ public class AeActivityIfImpl extends AeActivityImpl
    /**
     * @return Returns the elseIfs.
     */
-   protected List getElseIfs()
+   protected List<AeElseIf> getElseIfs()
    {
       return mElseIfs;
    }
@@ -154,7 +154,7 @@ public class AeActivityIfImpl extends AeActivityImpl
    /**
     * @param aElseIfs The elseIfs to set.
     */
-   protected void setElseIfs(List aElseIfs)
+   protected void setElseIfs(List<AeElseIf> aElseIfs)
    {
       mElseIfs = aElseIfs;
    }

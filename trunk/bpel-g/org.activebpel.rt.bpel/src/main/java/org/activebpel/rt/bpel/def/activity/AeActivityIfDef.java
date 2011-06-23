@@ -27,14 +27,11 @@ import org.activebpel.rt.bpel.def.visitors.IAeDefVisitor;
  */
 public class AeActivityIfDef extends AeActivityDef implements IAeSingleActivityContainerDef, IAeConditionParentDef
 {
-   /**
-     * 
-     */
-    private static final long serialVersionUID = -1829020082919496754L;
-/** A container for the condition and activity children of the if activity. */
+   private static final long serialVersionUID = -1829020082919496754L;
+    /** A container for the condition and activity children of the if activity. */
    private AeIfDef mIfDef;
    /** The list of 'elseif' constructs in this if. */
-   private List mElseIfs = new ArrayList();
+   private List<AeElseIfDef> mElseIfs = new ArrayList<AeElseIfDef>();
    /** The final else child. */
    private AeElseDef mElse;
 
