@@ -27,24 +27,24 @@ import org.w3c.dom.Element;
  * Policy mapper that calls each configured mapper in turn to provide a complete set of Handlers for policy
  * assertions
  */
-public class AeMasterPolicyMapper implements IAePolicyMapper, IAeWsddConstants
+public class AeMasterPolicyMapper implements IAePolicyMapper<Object>, IAeWsddConstants
 {
    private static final String WSA_HEADER_HANDLER = "proc:org.activebpel.rt.axis.bpel.handlers.AeWsaHeaderHandler"; //$NON-NLS-1$
    
-   private List<IAePolicyMapper> mMappers;
+   private List<IAePolicyMapper<Object>> mMappers;
 
    /**
     * @see org.activebpel.rt.bpel.server.deploy.IAePolicyMapper#getServerRequestHandlers(java.util.List)
     */
    public List<Element> getServerRequestHandlers(List<Element> aPolicyList) throws AeException
    {
-      List<Element> handlers = new ArrayList();
+      List<Element> handlers = new ArrayList<Element>();
 
       if (AeUtil.notNullOrEmpty(aPolicyList))
       {
-         for (Iterator it = mMappers.iterator(); it.hasNext();)
+         for (Iterator<IAePolicyMapper<Object>> it = mMappers.iterator(); it.hasNext();)
          {
-            IAePolicyMapper policyMapper = (IAePolicyMapper)it.next();
+        	 IAePolicyMapper<Object> policyMapper = it.next();
             try
             {
                handlers.addAll(policyMapper.getServerRequestHandlers(aPolicyList));
@@ -71,13 +71,13 @@ public class AeMasterPolicyMapper implements IAePolicyMapper, IAeWsddConstants
     */
    public List<Element> getServerResponseHandlers(List<Element> aPolicyList) throws AeException
    {
-      List<Element> handlers = new ArrayList();
+      List<Element> handlers = new ArrayList<Element>();
 
       if (AeUtil.notNullOrEmpty(aPolicyList))
       {
-         for (Iterator it = mMappers.iterator(); it.hasNext();)
+         for (Iterator<IAePolicyMapper<Object>> it = mMappers.iterator(); it.hasNext();)
          {
-            IAePolicyMapper policyMapper = (IAePolicyMapper)it.next();
+        	 IAePolicyMapper<Object> policyMapper = it.next();
             try
             {
                handlers.addAll(policyMapper.getServerResponseHandlers(aPolicyList));
@@ -98,13 +98,13 @@ public class AeMasterPolicyMapper implements IAePolicyMapper, IAeWsddConstants
     */
    public List<Element> getClientRequestHandlers(List<Element> aPolicyList) throws AeException
    {
-      List handlers = new ArrayList();
+      List<Element> handlers = new ArrayList<Element>();
 
       if (AeUtil.notNullOrEmpty(aPolicyList))
       {
-         for (Iterator it = mMappers.iterator(); it.hasNext();)
+         for (Iterator<IAePolicyMapper<Object>> it = mMappers.iterator(); it.hasNext();)
          {
-            IAePolicyMapper policyMapper = (IAePolicyMapper)it.next();
+        	 IAePolicyMapper<Object> policyMapper = it.next();
             try
             {
                handlers.addAll(policyMapper.getClientRequestHandlers(aPolicyList));
@@ -125,13 +125,13 @@ public class AeMasterPolicyMapper implements IAePolicyMapper, IAeWsddConstants
     */
    public List<Element> getClientResponseHandlers(List<Element> aPolicyList) throws AeException
    {
-      List<Element> handlers = new ArrayList();
+      List<Element> handlers = new ArrayList<Element>();
 
       if (AeUtil.notNullOrEmpty(aPolicyList))
       {
-         for (Iterator it = mMappers.iterator(); it.hasNext();)
+         for (Iterator<IAePolicyMapper<Object>> it = mMappers.iterator(); it.hasNext();)
          {
-            IAePolicyMapper policyMapper = (IAePolicyMapper)it.next();
+        	 IAePolicyMapper<Object> policyMapper = it.next();
             try
             {
                handlers.addAll(policyMapper.getClientResponseHandlers(aPolicyList));
@@ -153,13 +153,13 @@ public class AeMasterPolicyMapper implements IAePolicyMapper, IAeWsddConstants
     */
    public List<Element> getServiceParameters(List<Element> aPolicyList) throws AeException
    {
-      List<Element> handlers = new ArrayList();
+      List<Element> handlers = new ArrayList<Element>();
 
       if (AeUtil.notNullOrEmpty(aPolicyList))
       {
-         for (Iterator it = mMappers.iterator(); it.hasNext();)
+         for (Iterator<IAePolicyMapper<Object>> it = mMappers.iterator(); it.hasNext();)
          {
-            IAePolicyMapper policyMapper = (IAePolicyMapper)it.next();
+        	 IAePolicyMapper<Object> policyMapper = it.next();
             try
             {
                handlers.addAll(policyMapper.getServiceParameters(aPolicyList));
@@ -178,18 +178,18 @@ public class AeMasterPolicyMapper implements IAePolicyMapper, IAeWsddConstants
    /**
     * @see org.activebpel.rt.bpel.server.deploy.IAePolicyMapper#getCallProperties(java.util.List)
     */
-   public Map getCallProperties(List<Element> aPolicyList) throws AeException
+   public Map<String, Object> getCallProperties(List<Element> aPolicyList) throws AeException
    {
-      HashMap map = new HashMap();
+      Map<String, Object> map = new HashMap<String, Object>();
       
       if (AeUtil.notNullOrEmpty(aPolicyList))
       {
-         for (Iterator it = mMappers.iterator(); it.hasNext();)
+         for (Iterator<IAePolicyMapper<Object>> it = mMappers.iterator(); it.hasNext();)
          {
-            IAePolicyMapper policyMapper = (IAePolicyMapper)it.next();
+        	 IAePolicyMapper<Object> policyMapper = it.next();
             try
             {
-               Map policyMap = policyMapper.getCallProperties(aPolicyList);
+               Map<String, Object> policyMap = policyMapper.getCallProperties(aPolicyList);
                if (policyMap != null)
                     map.putAll(policyMap);
             }
@@ -211,9 +211,9 @@ public class AeMasterPolicyMapper implements IAePolicyMapper, IAeWsddConstants
       String handler = null;
       if (AeUtil.notNullOrEmpty(aPolicyList))
       {
-         for (Iterator it = mMappers.iterator(); it.hasNext();)
+         for (Iterator<IAePolicyMapper<Object>> it = mMappers.iterator(); it.hasNext();)
          {
-            IAePolicyMapper policyMapper = (IAePolicyMapper)it.next();
+            IAePolicyMapper<Object> policyMapper = it.next();
             try
             {
                String newhandler = policyMapper.getDeploymentHandler(aPolicyList);
@@ -241,8 +241,10 @@ public class AeMasterPolicyMapper implements IAePolicyMapper, IAeWsddConstants
       return handler;
    }
    
-   public void setMappers(List<IAePolicyMapper> aMapper) {
+   /**
+    * @param aMapper
+ 	*/
+   public void setMappers(List<IAePolicyMapper<Object>> aMapper) {
 	   mMappers = aMapper;
    }
-
 }

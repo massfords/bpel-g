@@ -9,6 +9,12 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpel.impl.activity;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+
 import org.activebpel.rt.bpel.AeBusinessProcessException;
 import org.activebpel.rt.bpel.IAeActivity;
 import org.activebpel.rt.bpel.def.activity.AeActivityFlowDef;
@@ -17,22 +23,16 @@ import org.activebpel.rt.bpel.impl.IAeBpelObject;
 import org.activebpel.rt.bpel.impl.activity.support.AeLink;
 import org.activebpel.rt.bpel.impl.visitors.IAeImplVisitor;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-
 /**
  * Implementation of the bpel flow activity.
  */
 public class AeActivityFlowImpl extends AeActivityImpl implements IAeActivityParent
 {
    /** maps link names to link objects */
-   private Map mLinks;
+   private Map<String, AeLink> mLinks;
    
    /** list of child activities. */
-   private List mChildActivities = new ArrayList();
+   private List<IAeActivity> mChildActivities = new ArrayList<IAeActivity>();
    
    /** default constructor for activity */
    public AeActivityFlowImpl(AeActivityFlowDef aActivityDef, IAeActivityParent aParent)
@@ -77,11 +77,11 @@ public class AeActivityFlowImpl extends AeActivityImpl implements IAeActivityPar
    /**
     * Getter for the link map.
     */
-   protected Map getLinkMap()
+   protected Map<String, AeLink> getLinkMap()
    {
       if (mLinks == null)
       {
-         setLinkMap(new HashMap());
+         setLinkMap(new HashMap<String, AeLink>());
       }
       return mLinks;
    }
@@ -90,7 +90,7 @@ public class AeActivityFlowImpl extends AeActivityImpl implements IAeActivityPar
     * Setter for the link map.
     * @param aMap
     */
-   protected void setLinkMap(Map aMap)
+   protected void setLinkMap(Map<String, AeLink> aMap)
    {
       mLinks = aMap;
    }

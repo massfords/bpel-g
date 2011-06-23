@@ -14,6 +14,7 @@ import java.util.Map;
 
 import org.activebpel.rt.bpel.def.activity.IAeMessageDataConsumerDef;
 import org.activebpel.rt.bpel.def.activity.IAeMessageDataProducerDef;
+import org.activebpel.rt.bpel.def.visitors.preprocess.strategies.AeBaseSpec;
 
 /**
  * Base class for message data consumer and producer strategy matchers.  
@@ -21,9 +22,9 @@ import org.activebpel.rt.bpel.def.activity.IAeMessageDataProducerDef;
 public abstract class AeBaseMessageDataStrategyMatcher implements IAeMessageDataStrategyMatcher
 {
    /** map of producer specs to strategy names */
-   private Map mProducerMap = new HashMap();
+   private Map<AeBaseSpec, String> mProducerMap = new HashMap<AeBaseSpec, String>();
    /** map of consumer specs to strategy names */
-   private Map mConsumerMap = new HashMap();
+   private Map<AeBaseSpec, String> mConsumerMap = new HashMap<AeBaseSpec, String>();
    
    /**
     * Ctor inits the maps 
@@ -47,7 +48,7 @@ public abstract class AeBaseMessageDataStrategyMatcher implements IAeMessageData
    /**
     * Getter for the map
     */
-   protected Map getProducerMap()
+   protected Map<AeBaseSpec, String> getProducerMap()
    {
       return mProducerMap;
    }
@@ -55,7 +56,7 @@ public abstract class AeBaseMessageDataStrategyMatcher implements IAeMessageData
    /**
     * Getter for the map
     */
-   protected Map getConsumerMap()
+   protected Map<AeBaseSpec, String> getConsumerMap()
    {
       return mConsumerMap;
    }

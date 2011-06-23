@@ -36,6 +36,7 @@ import org.activebpel.rt.bpel.def.validation.extensions.AeExtensionsValidator;
 import org.activebpel.rt.bpel.def.validation.query.AeXPathQueryValidator;
 import org.activebpel.rt.bpel.def.visitors.AeCheckStartActivityVisitor;
 import org.activebpel.rt.util.AeUtil;
+import org.activebpel.rt.xml.def.AeBaseXmlDef;
 
 /**
  * Root validator for the process.
@@ -45,7 +46,7 @@ public class AeProcessValidator extends AeBaseScopeValidator
    /** provides context for the validation including WSDL provider, error reporter ...etc  */
    private IAeValidationContext mValidationContext;
    /** list o' models that are marked as create instances */
-   private List mCreateInstances = new LinkedList();
+   private List<IAeValidator> mCreateInstances = new LinkedList<IAeValidator>();
    /** Link validation helper for this instance. */
    private AeLinkValidator mLinkValidator; 
    /** The extensions validator. */
@@ -112,10 +113,9 @@ public class AeProcessValidator extends AeBaseScopeValidator
          if (mCreateInstances.size() > 0)
          {
             AeCheckStartActivityVisitor viz = new AeCheckStartActivityVisitor(getReporter());
-            List createInstanceDefs = new ArrayList(mCreateInstances.size());
-            for (Iterator iter = mCreateInstances.iterator(); iter.hasNext();)
+            List<AeBaseXmlDef> createInstanceDefs = new ArrayList<AeBaseXmlDef>(mCreateInstances.size());
+            for (IAeValidator model : mCreateInstances)
             {
-               AeBaseValidator model = (AeBaseValidator) iter.next();
                createInstanceDefs.add(model.getDefinition());
             }
             viz.doValidation(createInstanceDefs);
@@ -158,16 +158,15 @@ public class AeProcessValidator extends AeBaseScopeValidator
    protected void validateMultiStartCorrelation()
    {
       // fixme 2.0 static analysis should emit warning/error for multi-start that shares correlations that aren't initiate="join"
-      List wsioActivities = new LinkedList();
+      List<AeBaseValidator> wsioActivities = new LinkedList<AeBaseValidator>();
       for (Iterator iter = mCreateInstances.iterator(); iter.hasNext();)
       {
          AeBaseValidator model = (AeBaseValidator) iter.next();
          if (model instanceof AeActivityPickValidator)
          {
-            for(Iterator iter2 = model.getChildren(AeOnMessageValidator.class).iterator(); iter2.hasNext();)
+            for(AeOnMessageValidator validator : model.getChildren(AeOnMessageValidator.class))
             {
-               AeOnMessageValidator onMessageModel = (AeOnMessageValidator)iter2.next();
-               wsioActivities.add(onMessageModel);
+               wsioActivities.add(validator);
             }
          }
          else
@@ -176,13 +175,13 @@ public class AeProcessValidator extends AeBaseScopeValidator
          }
       }
       
-      Set acceptedSetPaths = null;
+      Set<String> acceptedSetPaths = null;
       boolean reportError = false;
-      for (Iterator iter = wsioActivities.iterator(); iter.hasNext();)
+      for (Iterator<AeBaseValidator> iter = wsioActivities.iterator(); iter.hasNext();)
       {
-         Object next = iter.next();
+    	 AeBaseValidator next = iter.next();
          AeWSIOActivityValidator model = (AeWSIOActivityValidator) next;
-         Set setPaths = getCorrelationSetPaths(model);
+         Set<String> setPaths = getCorrelationSetPaths(model);
                
          if (setPaths == null)
          {
@@ -193,7 +192,7 @@ public class AeProcessValidator extends AeBaseScopeValidator
          }
          else if (acceptedSetPaths == null)
          {
-            acceptedSetPaths = new HashSet(setPaths);
+            acceptedSetPaths = new HashSet<String>(setPaths);
          }
          else if (!acceptedSetPaths.equals(setPaths) || acceptedSetPaths.isEmpty())
          {
@@ -219,10 +218,10 @@ public class AeProcessValidator extends AeBaseScopeValidator
     * Gets the paths for the correlation sets used by the wsio activity
     * @param aWSIOActivityModel
     */
-   protected Set getCorrelationSetPaths(AeWSIOActivityValidator aWSIOActivityModel)
+   protected Set<String> getCorrelationSetPaths(AeWSIOActivityValidator aWSIOActivityModel)
    {
       List correlationModels = aWSIOActivityModel.getCorrelations();
-      Set setPaths = new HashSet();
+      Set<String> setPaths = new HashSet<String>();
       for(Iterator iter=correlationModels.iterator(); iter.hasNext();)
       {
          AeCorrelationValidator corrModel = (AeCorrelationValidator) iter.next();

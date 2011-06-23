@@ -69,7 +69,7 @@ public class AeActivityPickImpl extends AeActivityImpl implements IAeEventParent
     */
    public Iterator getChildrenForStateChange()
    {
-      return AeUtil.join(mEvents.getAlarms(), mEvents.getMessages());
+      return AeUtil.joinIter(mEvents.getAlarms(), mEvents.getMessages());
    }
 
    /**

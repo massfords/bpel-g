@@ -40,9 +40,9 @@ public class AeBindingUtils
     * @param aElementExtensible an input or output binding
     * @param aMessageQName name of the message, we only support parts from the same message going in the header
     */
-   public static Collection getPartsForHeader(ElementExtensible aElementExtensible, QName aMessageQName)
+   public static Collection<String> getPartsForHeader(ElementExtensible aElementExtensible, QName aMessageQName)
    {
-      Collection coll = null;
+      Collection<String> coll = null;
       UnknownExtensibilityElement[] headerExtElements = getUnknownExtensibilityElementsByName(aElementExtensible, SOAP_HEADER); 
       for (int i=0; i<headerExtElements.length; i++)
       {
@@ -53,7 +53,7 @@ public class AeBindingUtils
          {
             String partName = extElement.getElement().getAttribute("part"); //$NON-NLS-1$
             if (coll == null)
-               coll = new HashSet();
+               coll = new HashSet<String>();
             coll.add(partName);
          }
          else
@@ -64,7 +64,7 @@ public class AeBindingUtils
             AeException.logWarning(AeMessages.format("AeBindingUtils.DifferentMessageInHeader", args)); //$NON-NLS-1$
          }
       }
-      return coll == null? Collections.EMPTY_LIST : coll;
+      return coll == null? Collections.<String>emptyList() : coll;
    }
    
    /**
@@ -74,7 +74,7 @@ public class AeBindingUtils
     */
    public static UnknownExtensibilityElement[] getUnknownExtensibilityElementsByName(ElementExtensible aElement, QName aName)
    {
-      List values = null;
+      List<UnknownExtensibilityElement> values = null;
       
       for (Iterator iter = aElement.getExtensibilityElements().iterator(); iter.hasNext();)
       {
@@ -86,7 +86,7 @@ public class AeBindingUtils
             if ( aName.equals(extElement.getElementType()) ) 
             {
                if (values == null)
-                  values = new ArrayList();
+                  values = new ArrayList<UnknownExtensibilityElement>();
                values.add(extElement);
             }
          }
@@ -99,7 +99,7 @@ public class AeBindingUtils
       else
       {
          UnknownExtensibilityElement[] elements = new UnknownExtensibilityElement[values.size()];
-         return (UnknownExtensibilityElement[]) values.toArray(elements);
+         return values.toArray(elements);
       }
    }
 }

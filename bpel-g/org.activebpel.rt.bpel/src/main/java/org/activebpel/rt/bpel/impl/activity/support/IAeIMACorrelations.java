@@ -12,6 +12,8 @@ package org.activebpel.rt.bpel.impl.activity.support;
 import java.util.Map;
 import java.util.Set;
 
+import javax.xml.namespace.QName;
+
 import org.activebpel.rt.bpel.impl.AeCorrelationViolationException;
 
 /**
@@ -27,12 +29,12 @@ public interface IAeIMACorrelations extends IAeCorrelations
     * @throws AeCorrelationViolationException thrown if the one or more 
     *         correlation sets were supposed to initiated but weren't
     */
-   public Map getInitiatedProperties() throws AeCorrelationViolationException;
+   public Map<QName, Object> getInitiatedProperties() throws AeCorrelationViolationException;
    
    /**
     * Creates a set of location paths for the correlationSets used for the 
     * activity. This is used in order to detect conflicting receives.
     */
-   public Set getCSPathsForConflictingReceives();
+   public Set<String> getCSPathsForConflictingReceives();
 }
  

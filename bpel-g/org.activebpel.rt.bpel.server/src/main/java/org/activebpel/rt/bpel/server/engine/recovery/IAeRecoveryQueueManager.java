@@ -13,6 +13,7 @@ import java.util.List;
 
 import org.activebpel.rt.bpel.IAeBusinessProcess;
 import org.activebpel.rt.bpel.impl.IAeQueueManager;
+import org.activebpel.rt.bpel.impl.queue.AeReply;
 
 /**
  * Extends {@link org.activebpel.rt.bpel.impl.IAeQueueManager} to define the
@@ -48,5 +49,5 @@ public interface IAeRecoveryQueueManager extends IAeQueueManager
    /**
     * Sets the sent replies.
     */
-   public void setSentReplies(List aSentReplies);
+   public void setSentReplies(List<AeReply> aSentReplies);
 }

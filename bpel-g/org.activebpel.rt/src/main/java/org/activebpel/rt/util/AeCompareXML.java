@@ -33,7 +33,7 @@ public class AeCompareXML
    private static final String ATTR_SKIP_CONTENTS = "skipContents"; //$NON-NLS-1$
 
    /** list of errors */
-   private List mErrors = new ArrayList();
+   private List<String> mErrors = new ArrayList<String>();
    /** flag for matching exact order of elements */
    private boolean mMatchOrder = false;
    /** Flag indicating whether wildcards are supported. */
@@ -107,7 +107,7 @@ public class AeCompareXML
     */
    public boolean compareElements(Element aElement1, Element aElement2, String aPath)
    {
-      HashMap usedChildren2 = new HashMap();
+      HashMap<Integer, Integer> usedChildren2 = new HashMap<Integer, Integer>();
       String path = aPath + "/" + aElement1.getNodeName(); //$NON-NLS-1$
 
       // check if element name matches first
@@ -278,7 +278,7 @@ public class AeCompareXML
     */
    private void error(Element aElement1, Element aElement2, String aString)
    {
-      StringBuffer bugger = new StringBuffer();
+	  StringBuilder bugger = new StringBuilder();
       addNodeDetail(aElement1, bugger);
       addNodeDetail(aElement2, bugger);
       mErrors.add(aString + "\n" + bugger.toString()); //$NON-NLS-1$
@@ -291,7 +291,7 @@ public class AeCompareXML
     */
    private void error(Node aNode, String aMessage)
    {
-      StringBuffer buffer = new StringBuffer();
+      StringBuilder buffer = new StringBuilder();
       addNodeDetail(aNode, buffer);
       mErrors.add(aMessage + "\n" + buffer.toString()); //$NON-NLS-1$
    }
@@ -311,7 +311,7 @@ public class AeCompareXML
     * @param aNode
     * @param aBuffer
     */
-   private void addNodeDetail(Node aNode, StringBuffer aBuffer)
+   private void addNodeDetail(Node aNode, StringBuilder aBuffer)
    {
       if (aNode instanceof Element)
       {

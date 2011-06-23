@@ -56,7 +56,7 @@ public class AePropertyAliasImpl
    private String mQueryLanguage;
    
    // Table of namespaces defined
-   private Map<String,String> mNamespaces = new HashMap();
+   private Map<String,String> mNamespaces = new HashMap<String, String>();
 
    /**
     * Constructor.  This contructor is generally used for modeling a new

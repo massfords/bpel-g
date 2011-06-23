@@ -14,6 +14,7 @@ import java.lang.reflect.Method;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 
 import org.activebpel.rt.AeException;
@@ -38,7 +39,8 @@ public class AeCloneUtil
     * Utility method to deep clone a List. All items of the list must be {@link Cloneable}
     * @param aList the list of items to be cloned
     */
-   public static List deepClone(List aList) throws CloneNotSupportedException
+   @SuppressWarnings("unchecked")
+   public static <T> List<T> deepClone(List<T> aList) throws CloneNotSupportedException
    {
       if (aList == null)
          return null;
@@ -46,15 +48,15 @@ public class AeCloneUtil
       try
       {
          Constructor ctor = aList.getClass().getConstructor(EMPTY_SIGNATURE);
-         List clonedList = (List)ctor.newInstance(EMPTY_ARGS);
+         List<T> clonedList = (List<T>) ctor.newInstance(EMPTY_ARGS);
          
-         for (Iterator iter=aList.iterator(); iter.hasNext();)
+         for (Iterator<T> iter=aList.iterator(); iter.hasNext();)
          {
-            Object obj = iter.next();
+            T obj = iter.next();
             if (obj instanceof Cloneable)
             {
                Method method = obj.getClass().getMethod("clone", EMPTY_SIGNATURE); //$NON-NLS-1$
-               obj = method.invoke(obj, EMPTY_ARGS);
+               obj = (T) method.invoke(obj, EMPTY_ARGS);
             }
             
             clonedList.add(obj);
@@ -74,7 +76,8 @@ public class AeCloneUtil
     * Utility method to deep clone a Set. All items of the list must be {@link Cloneable}
     * @param aSet the {@link Set} of items to be cloned
     */
-   public static Set deepClone(Set aSet) throws CloneNotSupportedException
+   @SuppressWarnings("unchecked")
+   public static <T> Set<T> deepClone(Set<T> aSet) throws CloneNotSupportedException
    {
       if (aSet == null)
          return null;
@@ -82,15 +85,15 @@ public class AeCloneUtil
       try
       {
          Constructor ctor = aSet.getClass().getConstructor(EMPTY_SIGNATURE);
-         Set clonedSet = (Set)ctor.newInstance(EMPTY_ARGS);
+         Set<T> clonedSet = (Set<T>)ctor.newInstance(EMPTY_ARGS);
          
-         for (Iterator iter=aSet.iterator(); iter.hasNext();)
+         for (Iterator<T> iter=aSet.iterator(); iter.hasNext();)
          {
-            Object obj = iter.next();
+            T obj = iter.next();
             if (obj instanceof Cloneable)
             {
                Method method = obj.getClass().getMethod("clone", EMPTY_SIGNATURE); //$NON-NLS-1$
-               obj = method.invoke(obj, EMPTY_ARGS);
+               obj = (T) method.invoke(obj, EMPTY_ARGS);
             }
             clonedSet.add(obj);
          }
@@ -109,7 +112,8 @@ public class AeCloneUtil
     * Utility method to deep clone a Map. All items of the list must be {@link Cloneable}
     * @param aMap the map of items to be cloned
     */
-   public static Map deepClone(Map aMap) throws CloneNotSupportedException
+   @SuppressWarnings("unchecked")
+   public static <K,V> Map<K,V> deepClone(Map<K,V> aMap) throws CloneNotSupportedException
    {
       if (aMap == null)
          return null;
@@ -117,23 +121,23 @@ public class AeCloneUtil
       try
       {
          Constructor ctor = aMap.getClass().getConstructor(EMPTY_SIGNATURE);
-         Map clonedMap = (Map)ctor.newInstance(EMPTY_ARGS);
+         Map<K,V> clonedMap = (Map<K,V>)ctor.newInstance(EMPTY_ARGS);
          
-         for (Iterator iter=aMap.entrySet().iterator(); iter.hasNext();)
+         for (Iterator<Entry<K, V>> iter=aMap.entrySet().iterator(); iter.hasNext();)
          {
-            Map.Entry entry = (Map.Entry)iter.next();
-            Object key = entry.getKey();
+            Map.Entry<K,V> entry = iter.next();
+            K key = entry.getKey();
             if (key instanceof Cloneable)
             {
                Method keyMethod = entry.getKey().getClass().getMethod("clone", EMPTY_SIGNATURE); //$NON-NLS-1$
-               key = keyMethod.invoke(entry.getKey(), EMPTY_ARGS);
+               key = (K)keyMethod.invoke(entry.getKey(), EMPTY_ARGS);
             }
             
-            Object value = entry.getValue();
+            V value = entry.getValue();
             if (value instanceof Cloneable)
             {
                Method valueMethod = entry.getValue().getClass().getMethod("clone", EMPTY_SIGNATURE); //$NON-NLS-1$
-               value = valueMethod.invoke(entry.getValue(), EMPTY_ARGS);
+               value = (V)valueMethod.invoke(entry.getValue(), EMPTY_ARGS);
             }
             
             clonedMap.put(key, value);

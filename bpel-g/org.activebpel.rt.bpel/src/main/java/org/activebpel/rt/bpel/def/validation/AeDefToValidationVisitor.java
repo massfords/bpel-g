@@ -175,15 +175,15 @@ import org.activebpel.rt.xml.def.AeExtensionElementDef;
  */
 public abstract class AeDefToValidationVisitor extends AeAbstractDefVisitor
 {
-   protected static final Object NULL = new Object();
+   protected static final Class<IAeValidator> NULL = IAeValidator.class;
    /** root validator */
    private AeProcessValidator mProcessValidator;
    /** stack used for parenting */
-   private Stack mStack = new Stack();
+   private Stack<AeBaseValidator> mStack = new Stack<AeBaseValidator>();
    /** context for the validation */
    private IAeValidationContext mContext;
    /** maps defs classes to their validators */
-   private Map mDefToValidatorMap = new HashMap();
+   private Map<Class<?>, Class<? extends IAeValidator>> mDefToValidatorMap = new HashMap<Class<?>, Class<? extends IAeValidator>>();
    
    /**
     * Ctor accepts the validation context
@@ -209,7 +209,7 @@ public abstract class AeDefToValidationVisitor extends AeAbstractDefVisitor
     */
    protected void initMap()
    {
-      Map map = getDefToValidatorMap();
+      Map<Class<?>, Class<? extends IAeValidator>> map = getDefToValidatorMap();
       map.put(AeProcessDef.class,                   AeProcessValidator.class);
       map.put(AeActivityAssignDef.class,            AeActivityAssignValidator.class);
       map.put(AeActivityCompensateDef.class,        AeActivityCompensateValidator.class);
@@ -318,7 +318,7 @@ public abstract class AeDefToValidationVisitor extends AeAbstractDefVisitor
    /**
     * Getter for the def to validator map
     */
-   protected Map getDefToValidatorMap()
+   protected Map<Class<?>, Class<? extends IAeValidator>> getDefToValidatorMap()
    {
       return mDefToValidatorMap;
    }

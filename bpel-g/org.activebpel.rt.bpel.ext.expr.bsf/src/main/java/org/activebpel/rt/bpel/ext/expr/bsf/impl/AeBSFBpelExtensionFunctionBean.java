@@ -73,7 +73,7 @@ public class AeBSFBpelExtensionFunctionBean extends AeBSFAbstractExtensionFuncti
     */
    public Object getVariableData(Object aArg1, Object aArg2, Object aArg3)
    {
-      List args = new ArrayList();
+      List<Object> args = new ArrayList<Object>();
       if (aArg1 != null)
          args.add(aArg1);
       if (aArg2 != null)
@@ -93,7 +93,7 @@ public class AeBSFBpelExtensionFunctionBean extends AeBSFAbstractExtensionFuncti
    {
       try
       {
-         List args = new ArrayList();
+         List<Object> args = new ArrayList<Object>();
          args.add(aArg1);
          args.add(aArg2);
          return callFunction("getVariableProperty", args); //$NON-NLS-1$
@@ -113,7 +113,7 @@ public class AeBSFBpelExtensionFunctionBean extends AeBSFAbstractExtensionFuncti
    {
       try
       {
-         List args = new ArrayList();
+         List<Object> args = new ArrayList<Object>();
          args.add(aArg1);
          return callFunction("getLinkStatus", args); //$NON-NLS-1$
       }

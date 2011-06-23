@@ -19,19 +19,20 @@ import java.util.Map;
 public class AeWebServiceAttachment implements IAeWebServiceAttachment
 {
    /** Attachment Mime headers. stored as Strings. key=mimeId */
-   protected Map mMimeHeaders;
+   protected Map<String, String> mMimeHeaders;
 
    /** Attachment Data Content */
    InputStream mDataContent;
 
    /**
     * Constructor.
+    * @param aAttachmentData
     * @param aMimeHeaders
     */
-   public AeWebServiceAttachment(InputStream aAttachmentData, Map aMimeHeaders)
+   public AeWebServiceAttachment(InputStream aAttachmentData, Map<String, String> aMimeHeaders)
    {
       mDataContent = aAttachmentData;
-      mMimeHeaders = new HashMap(aMimeHeaders);
+      mMimeHeaders = new HashMap<String, String>(aMimeHeaders);
       addTimeStamp();
    }
 
@@ -46,7 +47,7 @@ public class AeWebServiceAttachment implements IAeWebServiceAttachment
    /**
     * @see org.activebpel.wsio.IAeWebServiceAttachment#getMimeHeaders()
     */
-   public Map getMimeHeaders()
+   public Map<String, String> getMimeHeaders()
    {
       return mMimeHeaders;
    }

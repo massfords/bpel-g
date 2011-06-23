@@ -53,7 +53,7 @@ public class AeBaseValidator implements IAeValidationDefs, IAeValidator, IAeVali
     * list of all child models for this model. This list may have mixed types of child models depending 
     * on the specific instance of this model 
     */
-   private List mChildren;
+   private List<AeBaseValidator> mChildren;
    /** reference to our parent */
    private AeBaseValidator mParent;
    /** reference to the root process model */
@@ -131,10 +131,10 @@ public class AeBaseValidator implements IAeValidationDefs, IAeValidator, IAeVali
    /**
     * Getter for the children list, does lazy instantiation
     */
-   private List getChildren()
+   private List<AeBaseValidator> getChildren()
    {
       if (mChildren == null)
-         mChildren = new ArrayList();
+         mChildren = new ArrayList<AeBaseValidator>();
       return mChildren;
    }
    
@@ -150,24 +150,24 @@ public class AeBaseValidator implements IAeValidationDefs, IAeValidator, IAeVali
     * Returns all of the children that can be assigned to the class or interface passed in
     * @param aClass
     */
-   public List getChildren(Class aClass)
+   public <T> List<T> getChildren(Class<T> aClass)
    {
       if (hasChildren())
       {
-         ArrayList list = new ArrayList();
+         List<T> list = new ArrayList<T>();
          for (int i =0; i<getChildren().size(); i++)
          {
             Object obj = getChildren().get(i);
             if (aClass.isAssignableFrom(obj.getClass()))
             {
-               list.add(obj);
+               list.add(aClass.cast(obj));
             }
          }
          return list;
       }
       else
       {
-         return Collections.EMPTY_LIST;
+         return Collections.<T>emptyList();
       }
    }
    
@@ -177,9 +177,9 @@ public class AeBaseValidator implements IAeValidationDefs, IAeValidator, IAeVali
     * were only expecting to find 1 or 0.
     * @param aClass
     */
-   protected Object getChild(Class aClass)
+   protected <T> T getChild(Class<T> aClass)
    {
-      List list = getChildren(aClass);
+      List<T> list = getChildren(aClass);
       if (list.size() == 1)
          return list.get(0);
       else if (list.size() > 1)
@@ -202,7 +202,7 @@ public class AeBaseValidator implements IAeValidationDefs, IAeValidator, IAeVali
       {
          for (int i =0; i<getChildren().size(); i++)
          {
-            AeBaseValidator model = (AeBaseValidator) getChildren().get(i);
+            AeBaseValidator model = getChildren().get(i);
             model.validate();
          }
       }
@@ -289,7 +289,7 @@ public class AeBaseValidator implements IAeValidationDefs, IAeValidator, IAeVali
     */
    protected AeProcessDef getProcessDef()
    {
-      return (AeProcessDef) getProcessValidator().getProcessDef();
+      return getProcessValidator().getProcessDef();
    }
    
    /**
@@ -306,19 +306,19 @@ public class AeBaseValidator implements IAeValidationDefs, IAeValidator, IAeVali
     */
    protected AeActivityValidator getParentActivityModel()
    {
-      return (AeActivityValidator) getAnscestor(AeActivityValidator.class);
+      return getAnscestor(AeActivityValidator.class);
    }
    
    /**
     * Returns the first anscestor that can be assigned to the given class or interface
     * @param aClass
     */
-   public AeBaseValidator getAnscestor(Class aClass)
+   public <T> T getAnscestor(Class<T> aClass)
    {
       AeBaseValidator parent = getParent();
       while(parent != null && !aClass.isAssignableFrom(parent.getClass()))
          parent = parent.getParent();
-      return parent;
+      return aClass.cast(parent);
    }
    
    /**

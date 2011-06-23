@@ -32,7 +32,7 @@ public class AeScopeSnapshot
    private final Map mVariableMap;
 
    /** Maps the correlation set to its version number */
-   private final Map mCorrelationSetMap;
+   private final Map<String,AeCorrelationSet> mCorrelationSetMap;
    
    /** Maps the partner link to its version number */
    private final Map mPartnerLinkMap;
@@ -54,7 +54,7 @@ public class AeScopeSnapshot
    public AeScopeSnapshot(Map aVariableMap, Map aCorrelationSetMap, Map aPartnerLinkMap)
    {
       mVariableMap = new HashMap(aVariableMap);
-      mCorrelationSetMap = new HashMap(aCorrelationSetMap);
+      mCorrelationSetMap = new HashMap<String,AeCorrelationSet>(aCorrelationSetMap);
       mPartnerLinkMap = new HashMap(aPartnerLinkMap);
    }
 
@@ -76,7 +76,7 @@ public class AeScopeSnapshot
     * is first cleared before this set is added.
     * @param aCorrelationSetMap
     */
-   public void addCorrelationSets(Map aCorrelationSetMap)
+   public void addCorrelationSets(Map<String,AeCorrelationSet> aCorrelationSetMap)
    {
       // Note: this method is used by the AeBusinessProcess when it needs to record the current
       // correlation set information for Process instance compensation.
@@ -113,9 +113,9 @@ public class AeScopeSnapshot
    /**
     * Returns the <code>Set</code> of this snapshot's correlation sets.
     */
-   public Set getCorrelationSets()
+   public Set<AeCorrelationSet> getCorrelationSets()
    {
-      return new HashSet(mCorrelationSetMap.values());
+      return new HashSet<AeCorrelationSet>(mCorrelationSetMap.values());
    }
    
    /**

@@ -45,10 +45,10 @@ public class AeCorrelationSet extends AeScopedObject implements Cloneable
    private boolean mInitialized = false;
    
    /** The set of data associated with an initialized correlation set. */
-   private HashMap mPropertyValues;
+   private Map<QName, Object> mPropertyValues;
    
    /** maintains list of listeners waiting to queue themselves once we're initialized */
-   private Collection mListeners;
+   private Collection<IAeCorrelationListener> mListeners;
 
    /** The version number of the variable. Increments with each change */
    private int mVersionNumber;
@@ -95,7 +95,7 @@ public class AeCorrelationSet extends AeScopedObject implements Cloneable
     */
    public static Map convertCorrSetDataToMap(Document aCorrSetData) throws AeException
    {
-      Map correlationData = new HashMap();
+      Map<QName, Object> correlationData = new HashMap<QName, Object>();
       if(aCorrSetData != null)
       {
          List propertyNodeList = AeXPathUtil.selectNodes(aCorrSetData.getDocumentElement(), "//property"); //$NON-NLS-1$
@@ -113,7 +113,7 @@ public class AeCorrelationSet extends AeScopedObject implements Cloneable
     * Returns the property values for this correlation set. If the set is not
     * initialized then you'll get an exception here. 
     */
-   public Map getPropertyValues() throws AeCorrelationViolationException
+   public Map<QName, Object> getPropertyValues() throws AeCorrelationViolationException
    {
       if( ! isInitialized())
          throw new AeCorrelationViolationException(getBPELNamespace(), AeCorrelationViolationException.UNINITIALIZED_CORRELATION_SET);
@@ -124,10 +124,10 @@ public class AeCorrelationSet extends AeScopedObject implements Cloneable
    /**
     * Getter for the property values map with lazy load.
     */
-   protected Map getPropertyValuesMap()
+   protected Map<QName, Object> getPropertyValuesMap()
    {
       if(mPropertyValues == null)
-         mPropertyValues = new HashMap();
+         mPropertyValues = new HashMap<QName, Object>();
       return mPropertyValues;
    }
    
@@ -138,7 +138,7 @@ public class AeCorrelationSet extends AeScopedObject implements Cloneable
     */
    protected void initiate(IAeMessageData aMessageData, AeMessagePartsMap aMessagePartsMap) throws AeBusinessProcessException
    {
-      Map map = getPropertyValuesMap();
+      Map<QName, Object> map = getPropertyValuesMap();
       buildPropertyMap(aMessageData, aMessagePartsMap, map);
       setInitialized(true);
       notifyListeners();
@@ -171,7 +171,7 @@ public class AeCorrelationSet extends AeScopedObject implements Cloneable
       if (!isInitialized())
          throw new AeCorrelationViolationException(getBPELNamespace(), AeCorrelationViolationException.UNINITIALIZED_CORRELATION_SET);
       
-      Map map = new HashMap();
+      Map<QName, Object> map = new HashMap<QName, Object>();
       buildPropertyMap(aMessageData, aMessagePartsMap, map);
       
       if (!getPropertyValuesMap().equals(map))
@@ -188,7 +188,7 @@ public class AeCorrelationSet extends AeScopedObject implements Cloneable
     * @throws AeBusinessProcessException
     * @throws AeBpelException
     */
-   private void buildPropertyMap(IAeMessageData aMessageData, AeMessagePartsMap aMessagePartsMap, Map aMap)
+   private void buildPropertyMap(IAeMessageData aMessageData, AeMessagePartsMap aMessagePartsMap, Map<QName, Object> aMap)
       throws AeBusinessProcessException, AeBpelException
    {
       for (Iterator it=getDefinition().getPropertiesList(); it.hasNext();)
@@ -211,7 +211,7 @@ public class AeCorrelationSet extends AeScopedObject implements Cloneable
    {
       if (mListeners != null)
       {
-         List list = new ArrayList(getListeners());
+         List<IAeCorrelationListener> list = new ArrayList<IAeCorrelationListener>(getListeners());
          for (Iterator iter = list.iterator(); iter.hasNext();)
          {
             IAeCorrelationListener listener = (IAeCorrelationListener) iter.next();
@@ -270,11 +270,11 @@ public class AeCorrelationSet extends AeScopedObject implements Cloneable
    /**
     * Getter for the listeners collection. 
     */
-   private Collection getListeners()
+   private Collection<IAeCorrelationListener> getListeners()
    {
       if (mListeners == null)
       {
-         mListeners = new ArrayList();
+         mListeners = new ArrayList<IAeCorrelationListener>();
       }
       return mListeners;
    }
@@ -312,10 +312,10 @@ public class AeCorrelationSet extends AeScopedObject implements Cloneable
     *
     * @param aMap the map of name-value pairs to set
     */
-   public void setPropertyValues(Map aMap) throws AeBpelException
+   public void setPropertyValues(Map<QName, Object> aMap) throws AeBpelException
    {
       setInitialized(true);
-      mPropertyValues = new HashMap(aMap);
+      mPropertyValues = new HashMap<QName, Object>(aMap);
    }
 
    /**

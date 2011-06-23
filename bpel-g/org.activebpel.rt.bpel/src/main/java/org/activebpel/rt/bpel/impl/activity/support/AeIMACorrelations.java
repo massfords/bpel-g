@@ -15,6 +15,8 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
+import javax.xml.namespace.QName;
+
 import org.activebpel.rt.bpel.def.AeCorrelationsDef;
 import org.activebpel.rt.bpel.def.activity.support.AeCorrelationDef;
 import org.activebpel.rt.bpel.impl.AeCorrelationViolationException;
@@ -76,9 +78,9 @@ public class AeIMACorrelations extends AeCorrelationsImpl implements IAeIMACorre
    /**
     * @see org.activebpel.rt.bpel.impl.activity.support.IAeIMACorrelations#getInitiatedProperties()
     */
-   public Map getInitiatedProperties() throws AeCorrelationViolationException
+   public Map<QName, Object> getInitiatedProperties() throws AeCorrelationViolationException
    {
-      HashMap correlation = new HashMap();
+      Map<QName, Object> correlation = new HashMap<QName, Object>();
       for(Iterator iter = getInitiatedCorrelationDefs(); iter.hasNext(); )
       {
          AeCorrelationDef corrDef = (AeCorrelationDef)iter.next();
@@ -94,9 +96,9 @@ public class AeIMACorrelations extends AeCorrelationsImpl implements IAeIMACorre
    /**
     * @see org.activebpel.rt.bpel.impl.activity.support.IAeIMACorrelations#getCSPathsForConflictingReceives()
     */
-   public Set getCSPathsForConflictingReceives()
+   public Set<String> getCSPathsForConflictingReceives()
    {
-      HashSet set = new HashSet();
+      Set<String> set = new HashSet<String>();
       for(Iterator iter = getInitiatedCorrelationDefs(); iter.hasNext(); )
       {
          // The test for conflicting receives is based on duplicate receives

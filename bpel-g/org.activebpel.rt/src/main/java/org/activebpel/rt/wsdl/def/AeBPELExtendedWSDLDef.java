@@ -102,16 +102,16 @@ public class AeBPELExtendedWSDLDef implements IAeBPELExtendedWSDLConst, IAeMutab
    protected static AeBPELExtendedWSDLDef sDefaultDef = new AeBPELExtendedWSDLDef();
 
    /** Map of schemas which have already been loaded and we are caching */
-   protected HashMap mSchemaDefs = new LinkedHashMap(); // Use a linked hashmap because schema import order matters
+   protected Map<String, Schema> mSchemaDefs = new LinkedHashMap<String, Schema>(); // Use a linked hashmap because schema import order matters
 
    /** List of Partner Link Type extensibility element implementations. */
-   private List mPartnerLinkTypeExtElements;
+   private List<IAePartnerLinkType> mPartnerLinkTypeExtElements;
 
    /** List of message property extensibility element implementations. */
-   private List mPropExtElements;
+   private List<IAeProperty> mPropExtElements;
 
    /** List of message property alias extensibility element implementations. */
-   private List mPropAliasExtElements;
+   private List<IAePropertyAlias> mPropAliasExtElements;
 
    /** Extension Registry for BPEL extensions. */
    private ExtensionRegistry mExtRegistry;
@@ -129,10 +129,10 @@ public class AeBPELExtendedWSDLDef implements IAeBPELExtendedWSDLConst, IAeMutab
    private WSDLLocator mLocator;
 
    /** List of references this WSDL object imports or includes */
-   private List mSchemaReferences = Collections.EMPTY_LIST;
+   private List<String> mSchemaReferences = Collections.<String>emptyList();
    
    /** List of policy extensibility element implementations. */
-   private List mPolicyExtElements;
+   private List<IAePolicy> mPolicyExtElements;
    
    /**
     * Default Constructor.  Dummy blank entry creation.
@@ -144,10 +144,10 @@ public class AeBPELExtendedWSDLDef implements IAeBPELExtendedWSDLConst, IAeMutab
          WSDLFactory lFactory = WSDLFactory.newInstance();
          Definition lDef = lFactory.newDefinition();
          mDefinition = lDef;
-         mPartnerLinkTypeExtElements = Collections.EMPTY_LIST;
-         mPropExtElements = Collections.EMPTY_LIST;
-         mPropAliasExtElements = Collections.EMPTY_LIST;
-         mPolicyExtElements = Collections.EMPTY_LIST;
+         mPartnerLinkTypeExtElements = Collections.<IAePartnerLinkType>emptyList();
+         mPropExtElements = Collections.<IAeProperty>emptyList();
+         mPropAliasExtElements = Collections.<IAePropertyAlias>emptyList();
+         mPolicyExtElements = Collections.<IAePolicy>emptyList();
       }
       catch (WSDLException e)
       {
@@ -209,7 +209,7 @@ public class AeBPELExtendedWSDLDef implements IAeBPELExtendedWSDLConst, IAeMutab
       this();
       if(aSchemas != null)
       {
-         Set namespaces = new HashSet();
+         Set<String> namespaces = new HashSet<String>();
          for (int i = 0; i < aSchemas.length; i++)
          {
             Schema schema = aSchemas[i];
@@ -229,10 +229,10 @@ public class AeBPELExtendedWSDLDef implements IAeBPELExtendedWSDLConst, IAeMutab
     */
    protected void refreshSchemaRefs() throws AeWSDLException
    {
-      List schemaRefs = new ArrayList();
-      for (Iterator iter = getSchemas(); iter.hasNext(); )
+      List<String> schemaRefs = new ArrayList<String>();
+      for (Iterator<Schema> iter = getSchemas(); iter.hasNext(); )
       {
-         Schema schema = (Schema) iter.next();
+         Schema schema = iter.next();
          try
          {
             String schemaLoc = schema.getSchemaLocation();
@@ -427,22 +427,22 @@ public class AeBPELExtendedWSDLDef implements IAeBPELExtendedWSDLConst, IAeMutab
    private void processExtElements(Definition aDef) throws AeWSDLException
    {
       // Build lists of found extensibility elements.
-      ArrayList partnerLinks = new ArrayList();
-      ArrayList properties = new ArrayList();
-      ArrayList propertyAliases = new ArrayList();
-      ArrayList policies = new ArrayList();
+      List<IAePartnerLinkType> partnerLinks = new ArrayList<IAePartnerLinkType>();
+      List<IAeProperty> properties = new ArrayList<IAeProperty>();
+      List<IAePropertyAlias> propertyAliases = new ArrayList<IAePropertyAlias>();
+      List<IAePolicy> policies = new ArrayList<IAePolicy>();
 
       for (Iterator iter = aDef.getExtensibilityElements().iterator(); iter.hasNext();)
       {
          ExtensibilityElement extElem = (ExtensibilityElement)iter.next();
          if (extElem instanceof IAePartnerLinkType)
-            partnerLinks.add(extElem);
+            partnerLinks.add((IAePartnerLinkType)extElem);
          else if (extElem instanceof IAeProperty)
-            properties.add(extElem);
+            properties.add((IAeProperty)extElem);
          else if (extElem instanceof IAePropertyAlias)
-            propertyAliases.add(extElem);
+            propertyAliases.add((IAePropertyAlias)extElem);
          else if (extElem instanceof IAePolicy)
-            policies.add(extElem);
+            policies.add((IAePolicy)extElem);
       }
 
       setPartnerLinkTypeExtElements(partnerLinks);
@@ -1007,7 +1007,7 @@ public class AeBPELExtendedWSDLDef implements IAeBPELExtendedWSDLConst, IAeMutab
     *
     * @param aQNames The list of required QNames.
     */
-   public void addQNames( Collection aQNames )
+   public void addQNames( Collection<QName> aQNames )
    {
       Definition lDef = getWSDLDef();
 
@@ -1015,10 +1015,10 @@ public class AeBPELExtendedWSDLDef implements IAeBPELExtendedWSDLConst, IAeMutab
       {
          Set prefixes = lDef.getNamespaces().keySet();
 
-         Iterator iter = aQNames.iterator();
+         Iterator<QName> iter = aQNames.iterator();
          while (iter.hasNext())
          {
-            QName name = (QName)iter.next();
+            QName name = iter.next();
             String uri = name.getNamespaceURI();
             String prefix = lDef.getPrefix(uri);
             if (prefix == null || prefix.length() <= 0)
@@ -1125,7 +1125,7 @@ public class AeBPELExtendedWSDLDef implements IAeBPELExtendedWSDLConst, IAeMutab
 
             // Add the required namespace references.
             //
-            ArrayList qNames = new ArrayList();
+            List<QName> qNames = new ArrayList<QName>();
             // If Input message is present add its QName
             if (aOperation.getInput() != null)
             {
@@ -1179,7 +1179,7 @@ public class AeBPELExtendedWSDLDef implements IAeBPELExtendedWSDLConst, IAeMutab
          if (aMessage != null)
          {
             // Add the messages QName to the array..
-            ArrayList qNames = new ArrayList();
+            List<QName> qNames = new ArrayList<QName>();
             // Add it to the current QName list.
             qNames.add(aMessage.getQName());
 
@@ -1206,7 +1206,7 @@ public class AeBPELExtendedWSDLDef implements IAeBPELExtendedWSDLConst, IAeMutab
     * Return an iterator of parsed schema objects defined within the Types section.
     * @return Iterator, iterator of declared Schema objects.
     */
-   public Iterator getSchemas()
+   public Iterator<Schema> getSchemas()
    {
       return mSchemaDefs.values().iterator();
    }
@@ -1310,8 +1310,8 @@ public class AeBPELExtendedWSDLDef implements IAeBPELExtendedWSDLConst, IAeMutab
       Types types = aDef.getTypes();
       if ((types != null) && !types.getExtensibilityElements().isEmpty())
       {
-         Set schemaRefs = new HashSet();
-         List schemas = new ArrayList();
+         Set<String> schemaRefs = new HashSet<String>();
+         List<Schema> schemas = new ArrayList<Schema>();
 
          // First, create a list of all the <schema> elements.
          for (Iterator it = types.getExtensibilityElements().iterator(); it.hasNext();)
@@ -1381,10 +1381,10 @@ public class AeBPELExtendedWSDLDef implements IAeBPELExtendedWSDLConst, IAeMutab
 
          // Now iterate through the remaining schemas and catalog them
          for (Iterator iter = schemas.iterator(); iter.hasNext(); )
-            catalogSchemaAndImports((Schema) iter.next(), new HashSet(), true);
+            catalogSchemaAndImports((Schema) iter.next(), new HashSet<String>(), true);
 
          // Add all references we've collected so far to the master list for the WSDL def
-         mSchemaReferences = new ArrayList(schemaRefs);
+         mSchemaReferences = new ArrayList<String>(schemaRefs);
       }
    }
 
@@ -1396,9 +1396,9 @@ public class AeBPELExtendedWSDLDef implements IAeBPELExtendedWSDLConst, IAeMutab
     * @param aSchemaList
     * @throws AeWSDLException
     */
-   private List mergeSchemaList(List aSchemaList) throws AeWSDLException
+   private List<Schema> mergeSchemaList(List aSchemaList) throws AeWSDLException
    {
-      Map mergedSchemas = new HashMap();
+      Map<String, Schema> mergedSchemas = new HashMap<String, Schema>();
 
       try
       {
@@ -1423,7 +1423,7 @@ public class AeBPELExtendedWSDLDef implements IAeBPELExtendedWSDLConst, IAeMutab
                + se.getLocalizedMessage());
       }
 
-      return new ArrayList(mergedSchemas.values());
+      return new ArrayList<Schema>(mergedSchemas.values());
    }
 
    /**
@@ -1431,7 +1431,7 @@ public class AeBPELExtendedWSDLDef implements IAeBPELExtendedWSDLConst, IAeMutab
     * @param aSchema schema to process imports from.
     * @param aCatalogedNamespaces a set of the namespaces that have already been cataloged or are currently being cataloged - this should prevent infinite recursion
     */
-   protected void catalogSchemaAndImports(Schema aSchema, Set aCatalogedNamespaces, boolean aRecurse)
+   protected void catalogSchemaAndImports(Schema aSchema, Set<String> aCatalogedNamespaces, boolean aRecurse)
    {
       // catalog schema if not cataloged
       String namespace = aSchema.getTargetNamespace();
@@ -1497,13 +1497,13 @@ public class AeBPELExtendedWSDLDef implements IAeBPELExtendedWSDLConst, IAeMutab
     * schemas.
     * @return Iterator an iterator of schema simple type QNames.
     */
-   public Iterator getSchemaSimpleTypeNames()
+   public Iterator<QName> getSchemaSimpleTypeNames()
    {
-      List types = new ArrayList();
-      Iterator it = getSchemas();
+      List<QName> types = new ArrayList<QName>();
+      Iterator<Schema> it = getSchemas();
       while (it.hasNext())
       {
-         Schema schema = (Schema)it.next();
+         Schema schema = it.next();
          String tns = schema.getTargetNamespace();
          if (tns == null)
             tns = ""; //$NON-NLS-1$
@@ -1524,13 +1524,13 @@ public class AeBPELExtendedWSDLDef implements IAeBPELExtendedWSDLConst, IAeMutab
     * schemas.
     * @return Iterator an iterator of schema simple type QNames.
     */
-   public Iterator getComplexTypeNames()
+   public Iterator<QName> getComplexTypeNames()
    {
-      List types = new ArrayList();
-      Iterator it = getSchemas();
+      List<QName> types = new ArrayList<QName>();
+      Iterator<Schema> it = getSchemas();
       while (it.hasNext())
       {
-         Schema schema = (Schema)it.next();
+         Schema schema = it.next();
          String tns = schema.getTargetNamespace();
          if (tns == null)
             tns = ""; //$NON-NLS-1$
@@ -1551,13 +1551,13 @@ public class AeBPELExtendedWSDLDef implements IAeBPELExtendedWSDLConst, IAeMutab
     * that defined for all schemas.
     * @return Iterator an iterator of schema global element QNames.
     */
-   public Iterator getSchemaGlobalElementNames()
+   public Iterator<QName> getSchemaGlobalElementNames()
    {
-      List elements = new ArrayList();
-      Iterator it = getSchemas();
+      List<QName> elements = new ArrayList<QName>();
+      Iterator<Schema> it = getSchemas();
       while (it.hasNext())
       {
-         Schema schema = (Schema)it.next();
+         Schema schema = it.next();
          String tns = schema.getTargetNamespace();
          if (tns == null)
             tns = ""; //$NON-NLS-1$
@@ -1776,9 +1776,9 @@ public class AeBPELExtendedWSDLDef implements IAeBPELExtendedWSDLConst, IAeMutab
    /**
     * @see org.activebpel.rt.xml.IAeNamespaceContext#resolveNamespaceToPrefixes(java.lang.String)
     */
-   public Set resolveNamespaceToPrefixes(String aNamespace)
+   public Set<String> resolveNamespaceToPrefixes(String aNamespace)
    {
-      Set prefixes = new HashSet();
+      Set<String> prefixes = new HashSet<String>();
       for (Iterator iter = getWSDLDef().getNamespaces().entrySet().iterator(); iter.hasNext(); )
       {
          Map.Entry entry = (Map.Entry) iter.next();
@@ -1936,7 +1936,7 @@ public class AeBPELExtendedWSDLDef implements IAeBPELExtendedWSDLConst, IAeMutab
     *
     * @return List of IAePartnerLinkType objects.
     */
-   public List getPartnerLinkTypeExtElements()
+   public List<IAePartnerLinkType> getPartnerLinkTypeExtElements()
    {
       return mPartnerLinkTypeExtElements;
    }
@@ -1946,7 +1946,7 @@ public class AeBPELExtendedWSDLDef implements IAeBPELExtendedWSDLConst, IAeMutab
     *
     * @param partnerLnkExtElements The partnerLnkExtElements to set
     */
-   public void setPartnerLinkTypeExtElements(List partnerLnkExtElements)
+   public void setPartnerLinkTypeExtElements(List<IAePartnerLinkType> partnerLnkExtElements)
    {
       mPartnerLinkTypeExtElements = partnerLnkExtElements;
    }
@@ -1956,7 +1956,7 @@ public class AeBPELExtendedWSDLDef implements IAeBPELExtendedWSDLConst, IAeMutab
     *
     * @return List of IAeProperty objects.
     */
-   public List getPropExtElements()
+   public List<IAeProperty> getPropExtElements()
    {
       return mPropExtElements;
    }
@@ -1966,7 +1966,7 @@ public class AeBPELExtendedWSDLDef implements IAeBPELExtendedWSDLConst, IAeMutab
     *
     * @param propExtElements The propExtElements to set
     */
-   public void setPropExtElements(List propExtElements)
+   public void setPropExtElements(List<IAeProperty> propExtElements)
    {
       mPropExtElements = propExtElements;
    }
@@ -1976,7 +1976,7 @@ public class AeBPELExtendedWSDLDef implements IAeBPELExtendedWSDLConst, IAeMutab
     *
     * @return List of IAePropertyAlias objects
     */
-   public List getPropAliasExtElements()
+   public List<IAePropertyAlias> getPropAliasExtElements()
    {
       return mPropAliasExtElements;
    }
@@ -1986,7 +1986,7 @@ public class AeBPELExtendedWSDLDef implements IAeBPELExtendedWSDLConst, IAeMutab
     *
     * @param propAliasExtElements The propAliasExtElements to set
     */
-   public void setPropAliasExtElements(List propAliasExtElements)
+   public void setPropAliasExtElements(List<IAePropertyAlias> propAliasExtElements)
    {
       mPropAliasExtElements = propAliasExtElements;
    }
@@ -2021,7 +2021,7 @@ public class AeBPELExtendedWSDLDef implements IAeBPELExtendedWSDLConst, IAeMutab
     */
    private Schema getSchema(String aNamespaceURI)
    {
-      return (Schema)mSchemaDefs.get(aNamespaceURI);
+      return mSchemaDefs.get(aNamespaceURI);
    }
 
    /**
@@ -2055,9 +2055,9 @@ public class AeBPELExtendedWSDLDef implements IAeBPELExtendedWSDLConst, IAeMutab
     * 
     * @param aNamespace
     */
-   public Set getPrefixes(String aNamespace)
+   public Set<String> getPrefixes(String aNamespace)
    {
-      Set prefixes = new HashSet();
+      Set<String> prefixes = new HashSet<String>();
       
       Map namespaces = getWSDLDef().getNamespaces();
       for (Iterator iter = namespaces.entrySet().iterator(); iter.hasNext(); )
@@ -2392,7 +2392,7 @@ public class AeBPELExtendedWSDLDef implements IAeBPELExtendedWSDLConst, IAeMutab
    /**
     * @return the policyExtElements
     */
-   public List getPolicyExtElements()
+   public List<IAePolicy> getPolicyExtElements()
    {
       return mPolicyExtElements;
    }
@@ -2400,7 +2400,7 @@ public class AeBPELExtendedWSDLDef implements IAeBPELExtendedWSDLConst, IAeMutab
    /**
     * @param aPolicyExtElements the policyExtElements to set
     */
-   public void setPolicyExtElements(List aPolicyExtElements)
+   public void setPolicyExtElements(List<IAePolicy> aPolicyExtElements)
    {
       mPolicyExtElements = aPolicyExtElements;
    }

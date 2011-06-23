@@ -34,7 +34,7 @@ public class AeScriptFuncDef
    /** The function name. */
    private String mName;
    /** The list of arguments passed to the function. */
-   private List mArgs;
+   private List<Object> mArgs;
    /** The parent function if this is a nested function. */
    private AeScriptFuncDef mParent;
 
@@ -49,7 +49,7 @@ public class AeScriptFuncDef
    {
       setNamespace(aNamespace);
       setName(aName);
-      setArgs(new ArrayList());
+      setArgs(new ArrayList<Object>());
    }
    
    /**
@@ -137,7 +137,7 @@ public class AeScriptFuncDef
    /**
     * @return Returns the args.
     */
-   public List getArgs()
+   public List<Object> getArgs()
    {
       return mArgs;
    }
@@ -145,7 +145,7 @@ public class AeScriptFuncDef
    /**
     * @param aArgs The args to set.
     */
-   public void setArgs(List aArgs)
+   public void setArgs(List<Object> aArgs)
    {
       mArgs = aArgs;
    }

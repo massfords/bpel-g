@@ -340,9 +340,9 @@ public class AeBpelGraphContainer extends AeGraphContainer
    /** 
     * @return List of AeBpelActivityCoordinates objects which contains the hit test areas.
     */
-   public List getCoordinateList()
+   public List<AeBpelActivityCoordinates> getCoordinateList()
    {
-      List list = new ArrayList();
+      List<AeBpelActivityCoordinates> list = new ArrayList<AeBpelActivityCoordinates>();
       AeBpelProcessRootController root = (AeBpelProcessRootController) getRootController();
       getCoordinates(root, list);
       return list;
@@ -354,7 +354,7 @@ public class AeBpelGraphContainer extends AeGraphContainer
     * @param aController parent controller
     * @param list list containing the hit test objects.
     */
-   private void getCoordinates(AeBpelControllerBase aController, List list)
+   private void getCoordinates(AeBpelControllerBase aController, List<AeBpelActivityCoordinates> list)
    {
       for (int i = 0; i < aController.getChildren().size(); i++)
       {

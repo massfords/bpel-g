@@ -131,7 +131,7 @@ public class AeBuildInfo
     * @param aBuildNumberClassname
     * @param aDisplayName
     */
-   public static void createBuildInfoFor(List aList, String aBuildNumberClassname, String aDisplayName)
+   public static void createBuildInfoFor(List<AeBuildInfo> aList, String aBuildNumberClassname, String aDisplayName)
    {
       try
       {
@@ -189,10 +189,9 @@ public class AeBuildInfo
     * @param aClass
     * @param aMethod
     */
-   protected static String invoke(Class aClass, String aMethod) throws Exception
+   protected static String invoke(Class<?> aClass, String aMethod) throws Exception
    {
       Method m = aClass.getMethod(aMethod, (Class[])null);
       return (String) m.invoke(null, (Object[])null);
    }
-
 }

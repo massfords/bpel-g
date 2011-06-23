@@ -23,11 +23,11 @@ import org.activebpel.rt.bpel.def.IAeBPELConstants;
 public class AeBpelDefConverterFactory
 {
    /** A map of converters. */
-   private static Map sConverters;
+   private static Map<AeBpelConverterKey, Class<? extends IAeBpelDefConverter>> sConverters;
    
    static
    {
-      sConverters = new HashMap();
+      sConverters = new HashMap<AeBpelConverterKey, Class<? extends IAeBpelDefConverter>>();
       // bpws 1.1 -> wsbpel 2.x
       sConverters.put(
             new AeBpelConverterKey(IAeBPELConstants.BPWS_NAMESPACE_URI, IAeBPELConstants.WSBPEL_2_0_NAMESPACE_URI),
@@ -50,7 +50,7 @@ public class AeBpelDefConverterFactory
       IAeBpelDefConverter converter = null;
 
       AeBpelConverterKey key = new AeBpelConverterKey(aFromNamespace, aToNamespace);
-      Class clazz = (Class) sConverters.get(key);
+      Class<? extends IAeBpelDefConverter> clazz = sConverters.get(key);
       if (clazz != null)
       {
          try

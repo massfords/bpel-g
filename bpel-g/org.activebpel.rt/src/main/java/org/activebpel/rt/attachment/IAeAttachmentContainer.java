@@ -16,10 +16,10 @@ import java.util.List;
  * Base interface required to be implemented by all internal attachment containers and wrappers. Basically
  * forces containers to extend List
  */
-public interface IAeAttachmentContainer extends List
+public interface IAeAttachmentContainer extends List<IAeAttachmentItem>
 {
    /** Return iterator to attachment items */
-   public Iterator getAttachmentItems();
+   public Iterator<IAeAttachmentItem> getAttachmentItems();
     
    /**
     * @return true when there are attachment items, otherwise false

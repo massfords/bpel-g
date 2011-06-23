@@ -16,6 +16,7 @@ import javax.xml.namespace.QName;
 
 import org.activebpel.rt.attachment.AeAttachmentContainer;
 import org.activebpel.rt.attachment.IAeAttachmentContainer;
+import org.activebpel.rt.attachment.IAeAttachmentItem;
 import org.activebpel.rt.bpel.AeMessageDataFactory;
 import org.activebpel.rt.bpel.AeMessages;
 import org.activebpel.rt.bpel.AeWSDLDefHelper;
@@ -755,7 +756,7 @@ public class AeVariable implements IAeVariable, IAeCopyFromParent, Cloneable
        *
        * @param aAttachments
        */
-      public AeVariableAttachmentContainer(Collection aAttachments)
+      public AeVariableAttachmentContainer(Collection<IAeAttachmentItem> aAttachments)
       {
          super(aAttachments);
       }
@@ -763,7 +764,7 @@ public class AeVariable implements IAeVariable, IAeCopyFromParent, Cloneable
       /**
        * @see org.activebpel.rt.attachment.AeAttachmentContainer#add(java.lang.Object)
        */
-      public boolean add(Object aObject)
+      public boolean add(IAeAttachmentItem aObject)
       {
          return incrementVersionIfChanged(super.add(aObject));
       }
@@ -771,7 +772,7 @@ public class AeVariable implements IAeVariable, IAeCopyFromParent, Cloneable
       /**
        * @see org.activebpel.rt.attachment.AeAttachmentContainer#add(int, java.lang.Object)
        */
-      public void add(int aIndex, Object aObject)
+      public void add(int aIndex, IAeAttachmentItem aObject)
       {
          int oldSize = size();
          super.add(aIndex, aObject);
@@ -782,7 +783,7 @@ public class AeVariable implements IAeVariable, IAeCopyFromParent, Cloneable
       /**
        * @see org.activebpel.rt.attachment.AeAttachmentContainer#addAll(java.util.Collection)
        */
-      public boolean addAll(Collection aCollection)
+      public boolean addAll(Collection<? extends IAeAttachmentItem> aCollection)
       {
          return incrementVersionIfChanged(super.addAll(aCollection));
       }
@@ -799,9 +800,9 @@ public class AeVariable implements IAeVariable, IAeCopyFromParent, Cloneable
       /**
        * @see java.util.ArrayList#remove(int)
        */
-      public Object remove(int aIndex)
+      public IAeAttachmentItem remove(int aIndex)
       {
-         Object result = super.remove(aIndex);
+    	 IAeAttachmentItem result = super.remove(aIndex);
          incrementVersionNumber(); // always increment the version number
          return result;
       }
@@ -809,9 +810,9 @@ public class AeVariable implements IAeVariable, IAeCopyFromParent, Cloneable
       /**
        * @see org.activebpel.rt.attachment.AeAttachmentContainer#set(int, java.lang.Object)
        */
-      public Object set(int aIndex, Object aObject)
+      public IAeAttachmentItem set(int aIndex, IAeAttachmentItem aObject)
       {
-         Object result = super.set(aIndex, aObject);
+    	 IAeAttachmentItem result = super.set(aIndex, aObject);
          incrementVersionIfChanged(result != null);
          return result;
       }

@@ -42,7 +42,7 @@ public abstract class AeAbstractXPathNode
    /** The node name. */
    private String mType;
    /** The node's children. */
-   private List mChildren = new ArrayList();
+   private List<AeAbstractXPathNode> mChildren = new ArrayList<AeAbstractXPathNode>();
 
    /**
     * Simple constructor.
@@ -57,7 +57,7 @@ public abstract class AeAbstractXPathNode
    /**
     * @return Returns the children.
     */
-   public List getChildren()
+   public List<AeAbstractXPathNode> getChildren()
    {
       return mChildren;
    }
@@ -83,7 +83,7 @@ public abstract class AeAbstractXPathNode
    /**
     * @param aChildren The children to set.
     */
-   protected void setChildren(List aChildren)
+   protected void setChildren(List<AeAbstractXPathNode> aChildren)
    {
       mChildren = aChildren;
    }
@@ -138,7 +138,7 @@ public abstract class AeAbstractXPathNode
    public boolean replaceChild(AeAbstractXPathNode aOldNode, AeAbstractXPathNode aNewNode)
    {
       boolean replaced = false;
-      for (ListIterator iter = getChildren().listIterator(); iter.hasNext(); )
+      for (ListIterator<AeAbstractXPathNode> iter = getChildren().listIterator(); iter.hasNext(); )
       {
          AeAbstractXPathNode node = (AeAbstractXPathNode) iter.next();
          if (node == aOldNode)
@@ -196,7 +196,7 @@ public abstract class AeAbstractXPathNode
     */
    protected void normalizeChildren()
    {
-      List list = new ArrayList();
+      List<AeAbstractXPathNode> list = new ArrayList<AeAbstractXPathNode>();
       for (Iterator iter = getChildren().iterator(); iter.hasNext(); )
       {
          AeAbstractXPathNode node = (AeAbstractXPathNode) iter.next();

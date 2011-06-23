@@ -120,9 +120,9 @@ public class AeBPWSDefReaderRegistry extends AeAbstractBpelReaderRegistry implem
    /**
     * @see org.activebpel.rt.bpel.def.io.registry.AeAbstractBpelReaderRegistry#getBpelActivityMappings()
     */
-   protected List getBpelActivityMappings()
+   protected List<AeRegistryMapping> getBpelActivityMappings()
    {
-      List list = super.getBpelActivityMappings();
+      List<AeRegistryMapping> list = super.getBpelActivityMappings();
       list.add(new AeRegistryMapping( makeDefaultQName(TAG_COMPENSATE), new AeCompensateActivityReader(getReaderFactory())));
       list.add(new AeRegistryMapping( makeDefaultQName(IAeBpelLegacyConstants.TAG_TERMINATE), createReader(ACTIVITY_TERMINATE_CLASS) ));
       list.add(new AeRegistryMapping( makeDefaultQName(IAeBpelLegacyConstants.TAG_SWITCH), createReader(ACTIVITY_IF_CLASS) ));

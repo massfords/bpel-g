@@ -19,7 +19,7 @@ public interface IAeAttachmentItem
    /**
     * @return <code>Map</code> of attachment headers
     */
-   public Map getHeaders();
+   public Map<String, String> getHeaders();
    
    /**
     * Returns the value of the header corresponding to the given header name.

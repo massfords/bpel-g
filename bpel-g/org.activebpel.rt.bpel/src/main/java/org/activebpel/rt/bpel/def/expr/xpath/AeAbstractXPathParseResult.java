@@ -17,6 +17,8 @@ import org.activebpel.rt.bpel.def.expr.AeAbstractExpressionParseResult;
 import org.activebpel.rt.bpel.def.expr.xpath.ast.visitors.AeXPathFunctionNodeVisitor;
 import org.activebpel.rt.bpel.def.expr.xpath.ast.visitors.AeXPathVariableNodeVisitor;
 import org.activebpel.rt.bpel.xpath.ast.AeXPathAST;
+import org.activebpel.rt.expr.def.AeScriptFuncDef;
+import org.activebpel.rt.expr.def.AeScriptVarDef;
 import org.activebpel.rt.expr.def.IAeExpressionParserContext;
 
 /**
@@ -27,9 +29,9 @@ public abstract class AeAbstractXPathParseResult extends AeAbstractExpressionPar
    /** The AST representation of the parsed XPath. */
    private AeXPathAST mXPathAST;
    /** Cached list of functions. */
-   private Set mFunctions;
+   private Set<AeScriptFuncDef> mFunctions;
    /** Cached list of variables. */
-   private Set mVariableReferences;
+   private Set<AeScriptVarDef> mVariableReferences;
 
    /**
     * Creates the xpath parse result.
@@ -39,7 +41,7 @@ public abstract class AeAbstractXPathParseResult extends AeAbstractExpressionPar
     * @param aErrors
     * @param aParserContext
     */
-   public AeAbstractXPathParseResult(String aExpression, AeXPathAST aXPathAST, List aErrors,
+   public AeAbstractXPathParseResult(String aExpression, AeXPathAST aXPathAST, List<String> aErrors,
          IAeExpressionParserContext aParserContext)
    {
       super(aExpression, aParserContext);
@@ -50,7 +52,7 @@ public abstract class AeAbstractXPathParseResult extends AeAbstractExpressionPar
    /**
     * @see org.activebpel.rt.expr.def.IAeExpressionParseResult#getFunctions()
     */
-   public Set getFunctions()
+   public Set<AeScriptFuncDef> getFunctions()
    {
       if (mFunctions == null)
          setFunctions(findFunctions());
@@ -60,7 +62,7 @@ public abstract class AeAbstractXPathParseResult extends AeAbstractExpressionPar
    /**
     * @see org.activebpel.rt.expr.def.IAeExpressionParseResult#getVariableReferences()
     */
-   public Set getVariableReferences()
+   public Set<AeScriptVarDef> getVariableReferences()
    {
       if (mVariableReferences == null)
          setVariableReferences(findVariableReferences());
@@ -70,7 +72,7 @@ public abstract class AeAbstractXPathParseResult extends AeAbstractExpressionPar
    /**
     * Visits the xpath AST in order to find the functions.
     */
-   protected Set findFunctions()
+   protected Set<AeScriptFuncDef> findFunctions()
    {
       AeXPathFunctionNodeVisitor visitor = new AeXPathFunctionNodeVisitor();
       getXPathAST().visitAll(visitor);
@@ -80,7 +82,7 @@ public abstract class AeAbstractXPathParseResult extends AeAbstractExpressionPar
    /**
     * Visits the xpath AST in order to find the variable references.
     */
-   protected Set findVariableReferences()
+   protected Set<AeScriptVarDef> findVariableReferences()
    {
       AeXPathVariableNodeVisitor visitor = new AeXPathVariableNodeVisitor();
       getXPathAST().visitAll(visitor);
@@ -106,7 +108,7 @@ public abstract class AeAbstractXPathParseResult extends AeAbstractExpressionPar
    /**
     * @param aVariableReferences The variableReferences to set.
     */
-   protected void setVariableReferences(Set aVariableReferences)
+   protected void setVariableReferences(Set<AeScriptVarDef> aVariableReferences)
    {
       mVariableReferences = aVariableReferences;
    }
@@ -114,7 +116,7 @@ public abstract class AeAbstractXPathParseResult extends AeAbstractExpressionPar
    /**
     * @param aFunctions The functions to set.
     */
-   protected void setFunctions(Set aFunctions)
+   protected void setFunctions(Set<AeScriptFuncDef> aFunctions)
    {
       mFunctions = aFunctions;
    }

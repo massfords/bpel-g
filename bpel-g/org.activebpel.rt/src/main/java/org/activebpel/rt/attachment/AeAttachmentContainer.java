@@ -25,14 +25,11 @@ import org.activebpel.rt.util.AeUtil;
  * <code>AeMessageData</code>. Attachments are instances of
  * <code>IAeAttachmentItem</code>.
  */
-public class AeAttachmentContainer extends ArrayList implements IAeAttachmentContainer
+public class AeAttachmentContainer extends ArrayList<IAeAttachmentItem> implements IAeAttachmentContainer
 {
-   /**
-     * 
-     */
     private static final long serialVersionUID = 3367155879963089013L;
-/** regular expression to match Content-Id unique postfix*/
-   private static Pattern sContentIdRegEx = Pattern.compile(
+    /** regular expression to match Content-Id unique postfix*/
+    private static Pattern sContentIdRegEx = Pattern.compile(
          "(.*)\\-([0-9]+)", Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE); //$NON-NLS-1$
    
    /**
@@ -47,7 +44,7 @@ public class AeAttachmentContainer extends ArrayList implements IAeAttachmentCon
     *
     * @param aAttachments
     */
-   public AeAttachmentContainer(Collection aAttachments)
+   public AeAttachmentContainer(Collection<IAeAttachmentItem> aAttachments)
    {
       addAll(aAttachments);
    }
@@ -55,7 +52,7 @@ public class AeAttachmentContainer extends ArrayList implements IAeAttachmentCon
    /**
     * @see org.activebpel.rt.attachment.IAeAttachmentContainer#getAttachmentItems()
     */
-   public Iterator getAttachmentItems()
+   public Iterator<IAeAttachmentItem> getAttachmentItems()
    {
       return iterator();
    }
@@ -65,15 +62,15 @@ public class AeAttachmentContainer extends ArrayList implements IAeAttachmentCon
     *
     * @see java.util.ArrayList#addAll(java.util.Collection)
     */
-   public boolean addAll(Collection aAttachments)
+   public boolean addAll(Collection<? extends IAeAttachmentItem> aAttachments)
    {
       boolean changed = false;
 
       if ( aAttachments != null )
       {
-         for (Iterator iter = aAttachments.iterator(); iter.hasNext();)
+         for (Iterator<? extends IAeAttachmentItem> iter = aAttachments.iterator(); iter.hasNext();)
          {
-            Object item = iter.next();
+        	 IAeAttachmentItem item = iter.next();
             if (addIfAbsent(item))
             {
                changed = true;
@@ -88,7 +85,7 @@ public class AeAttachmentContainer extends ArrayList implements IAeAttachmentCon
     * 
     * @see java.util.ArrayList#add(java.lang.Object)
     */
-   public boolean add(Object aObject)
+   public boolean add(IAeAttachmentItem aObject)
    {
       return addIfAbsent(aObject);
    }
@@ -97,7 +94,7 @@ public class AeAttachmentContainer extends ArrayList implements IAeAttachmentCon
     * Adds only an instance of {@link IAeAttachmentItem} that is not already in
     * the list.
     */
-   protected boolean addIfAbsent(Object aObject)
+   protected boolean addIfAbsent(IAeAttachmentItem aObject)
    {
       if ( !contains(aObject) && (aObject instanceof IAeAttachmentItem) )
       {
@@ -116,7 +113,7 @@ public class AeAttachmentContainer extends ArrayList implements IAeAttachmentCon
     *
     * @see java.util.ArrayList#add(int, java.lang.Object)
     */
-   public void add(int aIndex, Object aObject)
+   public void add(int aIndex, IAeAttachmentItem aObject)
    {
       if ( !contains(aObject) && (aObject instanceof IAeAttachmentItem) )
       {
@@ -130,7 +127,7 @@ public class AeAttachmentContainer extends ArrayList implements IAeAttachmentCon
     *
     * @see java.util.ArrayList#set(int, java.lang.Object)
     */
-   public Object set(int aIndex, Object aObject)
+   public IAeAttachmentItem set(int aIndex, IAeAttachmentItem aObject)
    {
       if ( !contains(aObject) && (aObject instanceof IAeAttachmentItem) )
       {
@@ -171,9 +168,9 @@ public class AeAttachmentContainer extends ArrayList implements IAeAttachmentCon
      if (AeUtil.isNullOrEmpty(contentId))
         return aItem;     
      
-     Set ids = new HashSet();
-     for(Iterator itr = getAttachmentItems(); itr.hasNext();)
-        ids.add((String)((IAeAttachmentItem)itr.next()).getHeaders().get(AeMimeUtil.CONTENT_ID_ATTRIBUTE));
+     Set<String> ids = new HashSet<String>();
+     for(Iterator<IAeAttachmentItem> itr = getAttachmentItems(); itr.hasNext();)
+        ids.add((String)(itr.next()).getHeaders().get(AeMimeUtil.CONTENT_ID_ATTRIBUTE));
      
      String newId = contentId;
      int count = 0;

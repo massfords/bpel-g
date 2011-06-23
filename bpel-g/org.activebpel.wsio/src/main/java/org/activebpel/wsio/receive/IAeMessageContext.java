@@ -62,7 +62,7 @@ public interface IAeMessageContext extends Serializable
     * Accessor for name/value properties that will be passed to the business
     * process instance.
     */
-   public Map getBusinessProcessProperties();
+   public Map<String, String> getBusinessProcessProperties();
 
    /**
     * Gets an Iterator of all reference property elements associated with the inbound message.

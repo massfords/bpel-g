@@ -26,18 +26,15 @@ import org.activebpel.rt.bpel.def.activity.support.AeTargetsDef;
  */
 public abstract class AeActivityDef extends AeNamedDef
 {
-   /**
-     * 
-     */
-    private static final long serialVersionUID = -901433654960778972L;
-/** The 'suppressFailure' attribute. */
+   private static final long serialVersionUID = -901433654960778972L;
+   /** The 'suppressFailure' attribute. */
    private Boolean mSuppressFailure;
    /** The 'sources' def. */
    private AeSourcesDef mSourcesDef;
    /** The 'targets' def. */
    private AeTargetsDef mTargetsDef;
    /** The list of link names (cached). */
-   private List mTargetLinkNames;
+   private List<String> mTargetLinkNames;
    /** Set of resources that this activity uses. Used in conjunction with serializable scopes and variable/partner link locking. */
    private Set mResourcesUsed;
 
@@ -89,11 +86,11 @@ public abstract class AeActivityDef extends AeNamedDef
    /**
     * Gets a list of the targets.
     */
-   public List getTargetLinkNames()
+   public List<String> getTargetLinkNames()
    {
       if (mTargetLinkNames == null)
       {
-         List list = new ArrayList();
+         List<String> list = new ArrayList<String>();
          if (getTargetsDef() != null)
          {
             for (Iterator titer = getTargetsDef().getTargetDefs(); titer.hasNext(); )

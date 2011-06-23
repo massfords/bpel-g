@@ -21,8 +21,8 @@ import org.activebpel.rt.bpel.xpath.ast.AeAbstractXPathNode;
  */
 public abstract class AeAbstractTraversingXPathNodeVisitor extends AeAbstractXPathNodeVisitor
 {
-   /** The node stac. */
-   private Stack mNodeStack;
+   /** The node stack. */
+   private Stack<AeAbstractXPathNode> mNodeStack;
 
    /**
     * Default c'tor.
@@ -30,14 +30,13 @@ public abstract class AeAbstractTraversingXPathNodeVisitor extends AeAbstractXPa
    protected AeAbstractTraversingXPathNodeVisitor()
    {
       super();
-      
-      setNodeStack(new Stack());
+      setNodeStack(new Stack<AeAbstractXPathNode>());
    }
 
    /**
     * @return Returns the nodeStack.
     */
-   protected Stack getNodeStack()
+   protected Stack<AeAbstractXPathNode> getNodeStack()
    {
       return mNodeStack;
    }
@@ -45,7 +44,7 @@ public abstract class AeAbstractTraversingXPathNodeVisitor extends AeAbstractXPa
    /**
     * @param aNodeStack The nodeStack to set.
     */
-   protected void setNodeStack(Stack aNodeStack)
+   protected void setNodeStack(Stack<AeAbstractXPathNode> aNodeStack)
    {
       mNodeStack = aNodeStack;
    }
@@ -76,10 +75,9 @@ public abstract class AeAbstractTraversingXPathNodeVisitor extends AeAbstractXPa
    protected void traverse(AeAbstractXPathNode aNode)
    {
       pushNode(aNode);
-      for (Iterator iter = aNode.getChildren().iterator(); iter.hasNext(); )
+      for (Iterator<AeAbstractXPathNode> iter = aNode.getChildren().iterator(); iter.hasNext(); )
       {
-         AeAbstractXPathNode child = (AeAbstractXPathNode) iter.next();
-         child.accept(this);
+         iter.next().accept(this);
       }
       popNode();
    }

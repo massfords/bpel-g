@@ -253,7 +253,7 @@ public class AeInboundReceiveDeserializer implements IAeImplStateNames
 
          // Deserialize process properties.
          NodeList nodes = aMessageContextElement.getChildNodes();
-         Map properties = result.getBusinessProcessProperties();
+         Map<String, String> properties = result.getBusinessProcessProperties();
 
          for (int i = nodes.getLength(); --i >= 0; )
          {

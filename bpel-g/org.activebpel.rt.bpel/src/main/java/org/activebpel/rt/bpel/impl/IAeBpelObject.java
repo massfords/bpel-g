@@ -135,7 +135,7 @@ public interface IAeBpelObject extends IAeLocatableObject
     * Gets a collection of {@link IAeExtensionLifecycleAdapter} objects for this 
     * object.
     */
-   public Collection getExtensions();
+   public Collection<IAeExtensionLifecycleAdapter> getExtensions();
 
    /**
     * Gets this bpel object's definition.

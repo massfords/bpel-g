@@ -56,7 +56,7 @@ public interface IAeExpressionAnalyzer
     * @param aContext
     * @param aExpression
     */
-   public Set getStylesheetURIs(IAeExpressionAnalyzerContext aContext, String aExpression);
+   public Set<String> getStylesheetURIs(IAeExpressionAnalyzerContext aContext, String aExpression);
    
    /**
     * This method is called to rename a variable that is used in an expression.  The method

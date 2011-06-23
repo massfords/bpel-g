@@ -30,8 +30,7 @@ public class AeAlarmFilterManager
 {
 
    /** Default comparator for sorting the list of alarms. */
-   private static final AeAlarmComparator SORTER = 
-      new AeAlarmComparator();
+   private static final AeAlarmComparator SORTER = new AeAlarmComparator();
 
    /**
     * Returns a filtered list of alarms.
@@ -40,17 +39,15 @@ public class AeAlarmFilterManager
     * @param aAlarms All of the available alarms on the queue.
     * @return The filtered results.
     */
-   public static AeAlarmListResult filter( IAeBusinessProcessEngineInternal aEngine, 
-                                             AeAlarmFilter aFilter, List aAlarms )
+   public static AeAlarmListResult<? extends AeAlarm> filter( IAeBusinessProcessEngineInternal aEngine, AeAlarmFilter aFilter, List<AeAlarm> aAlarms )
    {
-      List matches = new ArrayList();
+      List<AeAlarmExt> matches = new ArrayList<AeAlarmExt>();
       // totalRows is the number of records that matched the filter query.
       int totalRows = 0;
       
       if( aAlarms != null && !aAlarms.isEmpty() )
       {
-         AeAlarm[] recs = (AeAlarm[]) aAlarms.toArray( 
-            new AeAlarm[aAlarms.size()]);
+         AeAlarm[] recs = aAlarms.toArray(new AeAlarm[aAlarms.size()]);
             
          for( int i = 0; i < recs.length; i++ )
          {
@@ -82,7 +79,7 @@ public class AeAlarmFilterManager
          sort( matches );
       }
       
-      return new AeAlarmListResult(totalRows, matches);
+      return new AeAlarmListResult<AeAlarmExt>(totalRows, matches);
    }
    
    /**
@@ -155,7 +152,7 @@ public class AeAlarmFilterManager
     * Sorts the matching queued alarm.
     * @param aMatches
     */
-   protected static void sort( List aMatches )
+   protected static void sort( List<AeAlarmExt> aMatches )
    {
       Collections.sort( aMatches, SORTER );
    }
@@ -163,19 +160,14 @@ public class AeAlarmFilterManager
    /**
     * Comparator impl compares on process id.
     */
-   protected static class AeAlarmComparator implements Comparator
+   protected static class AeAlarmComparator implements Comparator<AeAlarmExt>
    {
       /**
        * @see java.util.Comparator#compare(java.lang.Object, java.lang.Object)
        */
-      public int compare(Object a1, Object a2)
+      public int compare(AeAlarmExt a1, AeAlarmExt a2)
       {
-         AeAlarm alarmOne = (AeAlarm)a1;
-         AeAlarm alarmTwo = (AeAlarm)a2;
-         
-         int match = (int) (alarmOne.getProcessId() - alarmTwo.getProcessId());
-
-         return match;
+    	  return (int) (a1.getProcessId() - a2.getProcessId());
       }
    }
 }

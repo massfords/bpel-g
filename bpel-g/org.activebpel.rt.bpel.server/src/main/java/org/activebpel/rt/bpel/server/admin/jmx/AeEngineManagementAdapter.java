@@ -62,8 +62,8 @@ public class AeEngineManagementAdapter implements IAeEngineManagementMXBean {
             Map<AeQName,String> correlation = null;
             if (receiver.isCorrelated()) {
                 correlation = new HashMap<AeQName,String>();
-                for(Map.Entry<QName,String> entry : receiver.getCorrelation().entrySet()) {
-                    correlation.put(new AeQName(entry.getKey()), entry.getValue());
+                for(Map.Entry<QName,Object> entry : receiver.getCorrelation().entrySet()) {
+                    correlation.put(new AeQName(entry.getKey()), entry.getValue().toString());
                 }
             }
             receivers.add(new AeMessageReceiverBean(receiver.getProcessId(), 

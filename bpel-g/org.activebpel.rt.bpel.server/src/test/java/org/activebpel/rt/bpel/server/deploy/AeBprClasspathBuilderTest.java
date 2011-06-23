@@ -23,7 +23,7 @@ public class AeBprClasspathBuilderTest {
 		assertNotNull(cl);
 		URL[] path = cl.getURLs();
 		assertEquals(3, path.length);
-		Set<URL> urls = new HashSet();
+		Set<URL> urls = new HashSet<URL>();
 		urls.addAll(Arrays.asList(path));
 		assertEquals(3, urls.size());
 		assertTrue(urls.contains(new File(dir, "foo.jar").toURI().toURL()));

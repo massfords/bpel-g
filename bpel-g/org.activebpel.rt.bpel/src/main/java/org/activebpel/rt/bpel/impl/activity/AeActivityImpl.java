@@ -44,11 +44,11 @@ import org.activebpel.rt.util.AeUtil;
 abstract public class AeActivityImpl extends AeAbstractBpelObject implements IAeActivity
 {
    /** storage for this activity's source links (aka outbound links) */
-   private Collection mSourceLinks;
+   private Collection<AeLink> mSourceLinks;
    /** storage for this activity's target links (aka inbound links) */
-   private Collection mTargetLinks;
+   private Collection<AeLink> mTargetLinks;
    /** collection of extension objects that were installed because of an extension attribute or element */
-   private Collection mExtensions;
+   private Collection<IAeExtensionLifecycleAdapter> mExtensions;
    
    /** default constructor for activity */
    public AeActivityImpl(AeActivityDef aActivityDef, IAeActivityParent aParent)
@@ -260,7 +260,7 @@ abstract public class AeActivityImpl extends AeAbstractBpelObject implements IAe
     * Setter for the source links collection
     * @param aSourceLinks
     */
-   protected void setSourceLinks(Collection aSourceLinks)
+   protected void setSourceLinks(Collection<AeLink> aSourceLinks)
    {
       mSourceLinks = aSourceLinks;
    }
@@ -268,11 +268,11 @@ abstract public class AeActivityImpl extends AeAbstractBpelObject implements IAe
    /**
     * Getter for the source links collection.
     */
-   protected Collection getSourceLinksColl()
+   protected Collection<AeLink> getSourceLinksColl()
    {
       if (mSourceLinks == null)
       {
-         mSourceLinks = new ArrayList();
+         mSourceLinks = new ArrayList<AeLink>();
       }
       return mSourceLinks;
    }
@@ -292,11 +292,11 @@ abstract public class AeActivityImpl extends AeAbstractBpelObject implements IAe
    /**
     * Getter for the target links collection
     */
-   protected Collection getTargetLinksColl()
+   protected Collection<AeLink> getTargetLinksColl()
    {
       if (mTargetLinks == null)
       {
-         mTargetLinks = new ArrayList();
+         mTargetLinks = new ArrayList<AeLink>();
       }
       return mTargetLinks;
    }
@@ -305,7 +305,7 @@ abstract public class AeActivityImpl extends AeAbstractBpelObject implements IAe
     * Setter for the target links collection
     * @param aCollection
     */
-   protected void setTargetLinksColl(Collection aCollection)
+   protected void setTargetLinksColl(Collection<AeLink> aCollection)
    {
       mTargetLinks = aCollection;
    }
@@ -601,7 +601,7 @@ abstract public class AeActivityImpl extends AeAbstractBpelObject implements IAe
    /**
     * @see org.activebpel.rt.bpel.impl.AeAbstractBpelObject#getExtensions()
     */
-   public Collection getExtensions()
+   public Collection<IAeExtensionLifecycleAdapter> getExtensions()
    {
       return mExtensions;
    }
@@ -609,7 +609,7 @@ abstract public class AeActivityImpl extends AeAbstractBpelObject implements IAe
    /**
     * @param aExtensionObjects the extensionObjects to set
     */
-   public void setExtensions(Collection aExtensionObjects)
+   public void setExtensions(Collection<IAeExtensionLifecycleAdapter> aExtensionObjects)
    {
       mExtensions = aExtensionObjects;
    }
@@ -622,7 +622,7 @@ abstract public class AeActivityImpl extends AeAbstractBpelObject implements IAe
    public void addExtension(IAeExtensionLifecycleAdapter aAdapter)
    {
       if (getExtensions() == null)
-         setExtensions(new LinkedList());
+         setExtensions(new LinkedList<IAeExtensionLifecycleAdapter>());
       getExtensions().add(aAdapter);
       
       aAdapter.onInstalled(this);

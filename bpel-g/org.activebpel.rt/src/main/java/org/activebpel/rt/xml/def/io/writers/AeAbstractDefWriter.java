@@ -36,7 +36,7 @@ public abstract class AeAbstractDefWriter implements IAeDefWriter
    /** The current element. */
    private Element mElement;
    /** map of namespace to preferred prefix */
-   private Map mPreferredPrefixes;
+   private Map<String, String> mPreferredPrefixes;
    /** The def being written. */
    private AeBaseXmlDef mDef;
 
@@ -48,7 +48,7 @@ public abstract class AeAbstractDefWriter implements IAeDefWriter
     * @param aTagName The tag of the new element to create.
     * @param aPreferredPrefixesMap map of namespace URI's to prefix.
     */
-   public AeAbstractDefWriter( AeBaseXmlDef aDef, Element aParentElement, String aNamespace, String aTagName, Map aPreferredPrefixesMap )
+   public AeAbstractDefWriter( AeBaseXmlDef aDef, Element aParentElement, String aNamespace, String aTagName, Map<String, String> aPreferredPrefixesMap )
    {
       getPreferredPrefixes().putAll(aPreferredPrefixesMap);
       setDef(aDef);
@@ -99,17 +99,17 @@ public abstract class AeAbstractDefWriter implements IAeDefWriter
    /**
     * @return the preferredPrefixes
     */
-   protected Map getPreferredPrefixes()
+   protected Map<String, String> getPreferredPrefixes()
    {
       if (mPreferredPrefixes == null)
-         setPreferredPrefixes(new HashMap());
+         setPreferredPrefixes(new HashMap<String, String>());
       return mPreferredPrefixes;
    }
 
    /**
     * @param aPreferredPrefixes the preferredPrefixes to set
     */
-   protected void setPreferredPrefixes(Map aPreferredPrefixes)
+   protected void setPreferredPrefixes(Map<String, String> aPreferredPrefixes)
    {
       mPreferredPrefixes = aPreferredPrefixes;
    }

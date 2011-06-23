@@ -12,6 +12,8 @@ package org.activebpel.rt.bpel;
 import java.util.Date;
 import java.util.Map;
 
+import javax.xml.namespace.QName;
+
 import org.activebpel.rt.attachment.IAeAttachmentItem;
 import org.activebpel.rt.bpel.impl.AeConflictingRequestException;
 import org.activebpel.rt.bpel.impl.AeCorrelationViolationException;
@@ -106,7 +108,7 @@ public interface IAeBusinessProcessEngine
     * @param aCorrelationData
     * @throws AeBusinessProcessException
     */
-   public void setCorrelationData( long aPid, String aCorrsetPath, Map aCorrelationData )
+   public void setCorrelationData( long aPid, String aCorrsetPath, Map<QName, Object> aCorrelationData )
    throws AeBusinessProcessException;
    
    /**
@@ -294,7 +296,7 @@ public interface IAeBusinessProcessEngine
     * @param aProcessProperties Any string name/value pairs we received back from the invoke.
     * @throws AeBusinessProcessException Thrown if error occurs setting the receiver.
     */
-   public void queueInvokeData(long aProcessId, String aLocationPath, long aTransmissionId, IAeMessageData aMessageData, Map aProcessProperties)
+   public void queueInvokeData(long aProcessId, String aLocationPath, long aTransmissionId, IAeMessageData aMessageData, Map<String,String> aProcessProperties)
          throws AeBusinessProcessException;
    
    /**
@@ -307,7 +309,7 @@ public interface IAeBusinessProcessEngine
     * @param aAckCallback optional callback to acknowledge the receipt of data.
     * @throws AeBusinessProcessException Thrown if error occurs setting the receiver.
     */
-   public void queueInvokeData(long aProcessId, String aLocationPath, long aTransmissionId, IAeMessageData aMessageData, Map aProcessProperties, IAeMessageAcknowledgeCallback aAckCallback)
+   public void queueInvokeData(long aProcessId, String aLocationPath, long aTransmissionId, IAeMessageData aMessageData, Map<String, String> aProcessProperties, IAeMessageAcknowledgeCallback aAckCallback)
          throws AeBusinessProcessException;
 
 
@@ -320,7 +322,7 @@ public interface IAeBusinessProcessEngine
     * @param aProcessProperties Any string name/value pairs we received back from the invoke.
     * @throws AeBusinessProcessException Thrown if error occurs setting the receiver.
     */   
-   public void queueInvokeFault(long aProcessId, String aLocationPath, long aTransmissionId, IAeFault aFault, Map aProcessProperties)
+   public void queueInvokeFault(long aProcessId, String aLocationPath, long aTransmissionId, IAeFault aFault, Map<String,String> aProcessProperties)
       throws AeBusinessProcessException;
    
    /**
@@ -333,7 +335,7 @@ public interface IAeBusinessProcessEngine
     * @param aAckCallback optional callback to acknowledge the receipt of data.
     * @throws AeBusinessProcessException Thrown if error occurs setting the receiver.
     */   
-   public void queueInvokeFault(long aProcessId, String aLocationPath, long aTransmissionId, IAeFault aFault, Map aProcessProperties, IAeMessageAcknowledgeCallback aAckCallback)
+   public void queueInvokeFault(long aProcessId, String aLocationPath, long aTransmissionId, IAeFault aFault, Map<String,String> aProcessProperties, IAeMessageAcknowledgeCallback aAckCallback)
       throws AeBusinessProcessException;
    
    /**

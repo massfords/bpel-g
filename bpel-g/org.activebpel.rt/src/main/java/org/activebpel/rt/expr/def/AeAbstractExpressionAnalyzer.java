@@ -90,25 +90,25 @@ public abstract class AeAbstractExpressionAnalyzer implements IAeExpressionAnaly
    /**
     * @see org.activebpel.rt.expr.def.IAeExpressionAnalyzer#getStylesheetURIs(org.activebpel.rt.expr.def.IAeExpressionAnalyzerContext, java.lang.String)
     */
-   public Set getStylesheetURIs(IAeExpressionAnalyzerContext aContext, String aExpression)
+   public Set<String> getStylesheetURIs(IAeExpressionAnalyzerContext aContext, String aExpression)
    {
       if (AeUtil.isNullOrEmpty(aExpression))
-         return Collections.EMPTY_SET;
+         return Collections.<String>emptySet();
 
       try
       {
          IAeExpressionParserContext parserCtx = createParserContext(aContext);
          IAeExpressionParser parser = createExpressionParser(parserCtx);
          IAeExpressionParseResult parseResult = parser.parse(aExpression);
-         List stylesheetURIs = parseResult.getStylesheetURIList();
-         Set set = new HashSet();
+         List<String> stylesheetURIs = parseResult.getStylesheetURIList();
+         Set<String> set = new HashSet<String>();
          set.addAll(stylesheetURIs);
          return set;
       }
       catch (Exception e)
       {
          AeException.logError(e, e.getLocalizedMessage());
-         return Collections.EMPTY_SET;
+         return Collections.<String>emptySet();
       }
    }
 

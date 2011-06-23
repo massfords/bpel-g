@@ -32,14 +32,14 @@ import org.w3c.dom.NodeList;
  * Web Service Timeout
  * 
  */
-public class AeWsioPolicyMapper implements IAePolicyMapper 
+public class AeWsioPolicyMapper implements IAePolicyMapper<Object> 
 {
    /**
     * @see org.activebpel.rt.bpel.server.deploy.IAePolicyMapper#getServerRequestHandlers(java.util.List)
     */
    public List<Element> getServerRequestHandlers( List<Element> aPolicyList ) throws AeException
    {
-      return Collections.EMPTY_LIST;
+      return Collections.<Element>emptyList();
    }
 
    /**
@@ -48,7 +48,7 @@ public class AeWsioPolicyMapper implements IAePolicyMapper
    public List<Element> getServerResponseHandlers( List<Element> aPolicyList )
    throws AeException
    {
-      return Collections.EMPTY_LIST;
+	   return Collections.<Element>emptyList();
    }
    
    
@@ -58,7 +58,7 @@ public class AeWsioPolicyMapper implements IAePolicyMapper
    public List<Element> getClientRequestHandlers( List<Element> aPolicyList )
    throws AeException
    {
-      return Collections.EMPTY_LIST;
+	   return Collections.<Element>emptyList();
    }
 
    /**
@@ -75,15 +75,15 @@ public class AeWsioPolicyMapper implements IAePolicyMapper
     */
    public List<Element> getServiceParameters(List<Element> aPolicyList) throws AeException
    {
-      return Collections.EMPTY_LIST;
+      return Collections.<Element>emptyList();
    }
 
    /**
     * @see org.activebpel.rt.bpel.server.deploy.IAePolicyMapper#getCallProperties(java.util.List)
     */
-   public Map getCallProperties(List<Element> aPolicyList) throws AeException
+   public Map<String, Object> getCallProperties(List<Element> aPolicyList) throws AeException
    {
-      Map map = new HashMap();
+      Map<String, Object> map = new HashMap<String, Object>();
       if (AeUtil.notNullOrEmpty(aPolicyList))
       {
          // Examine the list of policy assertions to determine the request handlers

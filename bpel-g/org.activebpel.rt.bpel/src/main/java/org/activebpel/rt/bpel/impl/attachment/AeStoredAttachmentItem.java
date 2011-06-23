@@ -21,7 +21,7 @@ import org.activebpel.rt.bpel.IAeBusinessProcess;
 public class AeStoredAttachmentItem implements IAeAttachmentItem
 {
    /** <code>Map</code> of attachment's MIME headers. */
-   private Map mHeaders = null;
+   private Map<String, String> mHeaders = null;
 
    /** Attachment's id. */
    private long mAttachmentId;
@@ -85,17 +85,17 @@ public class AeStoredAttachmentItem implements IAeAttachmentItem
     */
    public String getHeader(String aHeaderName)
    {
-      return (String) getHeaders().get(aHeaderName);
+      return getHeaders().get(aHeaderName);
    }
 
    /**
     * @see org.activebpel.rt.attachment.IAeAttachmentItem#getHeaders()
     */
-   public Map getHeaders()
+   public Map<String, String> getHeaders()
    {
       if (mHeaders == null)
       {
-         mHeaders = new HashMap();
+         mHeaders = new HashMap<String, String>();
       }
 
       return mHeaders;
@@ -134,7 +134,7 @@ public class AeStoredAttachmentItem implements IAeAttachmentItem
     *
     * @param aHeaders
     */
-   public void setHeaders(Map aHeaders)
+   public void setHeaders(Map<String, String> aHeaders)
    {
       mHeaders = aHeaders;
    }

@@ -278,7 +278,7 @@ public interface IAeBusinessProcessEngineInternal extends IAeBusinessProcessEngi
     * @throws AeMissingReplyReceiverException if no reply was found to be waiting
     * @throws AeBusinessProcessException if there is some communication error executing the reply
     */
-   public void sendReply(AeReply aReplyObject, IAeMessageData aData, IAeFault aFault, Map aProcessProperties) throws AeBusinessProcessException;
+   public void sendReply(AeReply aReplyObject, IAeMessageData aData, IAeFault aFault, Map<String,String> aProcessProperties) throws AeBusinessProcessException;
 
    /**
     * Specialized version of queue receive data that accepts the process plan.

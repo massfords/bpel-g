@@ -15,7 +15,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 
 import javax.xml.XMLConstants;
@@ -50,14 +51,14 @@ import org.exolab.castor.xml.schema.XMLType;
 public class AeTypeMapping
 {
    /** Java to schema mappings. */
-   protected HashMap mJava2SchemaMappings = new HashMap();
+   protected Map<Class<?>, IAeTypeMapper> mJava2SchemaMappings = new HashMap<Class<?>, IAeTypeMapper>();
    /** Schema to java mappings. */
-   protected HashMap mSchema2JavaMappings = new HashMap();
+   protected Map<QName, IAeTypeMapper> mSchema2JavaMappings = new HashMap<QName, IAeTypeMapper>();
    /** The default mapper if we don't have a specific one. */
    protected IAeTypeMapper defaultMapper = new AeBasicMapper();
    
    /** supported simple type Set */
-   private static Set sSimpleTypes;
+   private static Set<QName> sSimpleTypes;
 
    public static final QName XSD_ANYURI = new QName(XMLConstants.W3C_XML_SCHEMA_NS_URI, "anyURI"); //$NON-NLS-1$
    public static final QName XSD_BASE64_BINARY = new QName(XMLConstants.W3C_XML_SCHEMA_NS_URI, "base64Binary"); //$NON-NLS-1$
@@ -107,7 +108,7 @@ public class AeTypeMapping
     * Statically load the simple type Set.
     */
    static {
-      sSimpleTypes = new HashSet();
+      sSimpleTypes = new HashSet<QName>();
       sSimpleTypes.add(AeTypeMapping.XSD_ANYURI);
       sSimpleTypes.add(AeTypeMapping.XSD_BASE64_BINARY);
       sSimpleTypes.add(AeTypeMapping.XSD_BOOLEAN);
@@ -244,15 +245,14 @@ public class AeTypeMapping
    {
       if (aObj != null)
       {
-         IAeTypeMapper mapper = (IAeTypeMapper)mJava2SchemaMappings.get(aObj.getClass());
+         IAeTypeMapper mapper = mJava2SchemaMappings.get(aObj.getClass());
          if (mapper != null)
          {
-            for (Iterator iter=mSchema2JavaMappings.keySet().iterator(); iter.hasNext();)
-            {
-               Object key = iter.next();
-               if (mapper.getClass().equals(mSchema2JavaMappings.get(key).getClass()))
-                   return (QName)key;
-            }
+        	for (Entry<QName, IAeTypeMapper> mapperEntry : mSchema2JavaMappings.entrySet()) 
+        	{
+        	   if (mapper.getClass().equals(mapperEntry.getValue().getClass()))
+        	      return mapperEntry.getKey();
+        	}
          }
       }
       
@@ -268,7 +268,7 @@ public class AeTypeMapping
    {
       if(aObj != null)
       {
-         IAeTypeMapper mapper = (IAeTypeMapper)mJava2SchemaMappings.get(aObj.getClass());
+         IAeTypeMapper mapper = mJava2SchemaMappings.get(aObj.getClass());
          if(mapper == null)
             mapper = defaultMapper;
          return mapper.serialize(aObj);
@@ -287,7 +287,7 @@ public class AeTypeMapping
    {
       if (aObj != null)
       {
-         IAeTypeMapper mapper = (IAeTypeMapper) mSchema2JavaMappings.get(aType);
+         IAeTypeMapper mapper = mSchema2JavaMappings.get(aType);
          if (mapper == null)
             return serialize(aObj);
          return mapper.serialize(aObj);
@@ -305,7 +305,7 @@ public class AeTypeMapping
    {
       if(aType != null && aObj != null)
       {
-         IAeTypeMapper mapper = (IAeTypeMapper)mSchema2JavaMappings.get(aType);
+         IAeTypeMapper mapper = mSchema2JavaMappings.get(aType);
          // TODO check for base type mapping
          if (mapper == null)
             mapper = defaultMapper;
@@ -326,12 +326,12 @@ public class AeTypeMapping
       if(aObj != null)
       {
          QName typeName = new QName(aType.getSchema().getSchemaNamespace(), aType.getName());
-         IAeTypeMapper mapper = (IAeTypeMapper)mSchema2JavaMappings.get(typeName);
+         IAeTypeMapper mapper = mSchema2JavaMappings.get(typeName);
          while(mapper == null && aType.getBaseType() != null)
          {
             aType = aType.getBaseType();
             typeName = new QName(aType.getSchema().getSchemaNamespace(), aType.getName());
-            mapper = (IAeTypeMapper)mSchema2JavaMappings.get(typeName);
+            mapper = mSchema2JavaMappings.get(typeName);
          }
          if(mapper == null)
             mapper = defaultMapper;

@@ -337,9 +337,9 @@ public class AeUtil
     * from the iterator passed in.
     * @param aIterator
     */
-   public static List toList(Iterator aIterator)
+   public static <T> List<T> toList(Iterator<T> aIterator)
    {
-      List list = new ArrayList();
+      List<T> list = new ArrayList<T>();
       while(aIterator != null && aIterator.hasNext())
          list.add(aIterator.next());
       return list;
@@ -352,9 +352,9 @@ public class AeUtil
     * @param aSeparator value delimiter
     * @return List containing String objects.
     */
-   public static List toList(String aCsvList, String aSeparator)
+   public static List<String> toList(String aCsvList, String aSeparator)
    {
-      List list = new ArrayList();
+      List<String> list = new ArrayList<String>();
       StringTokenizer st = new StringTokenizer( getSafeString(aCsvList), aSeparator);
       while (st.hasMoreTokens() )
       {
@@ -369,13 +369,13 @@ public class AeUtil
     * @param aObject
     * @param aIterator
     */
-   public static Iterator join(Object aObject, Iterator aIterator)
+   public static <T> Iterator<? extends T> join(T aObject, Iterator<? extends T> aIterator)
    {
       if (aObject == null)
       {
          return aIterator;
       }
-      return join(Collections.singleton(aObject).iterator(), aIterator);
+      return joinIter(Collections.singleton(aObject).iterator(), aIterator);
    }
 
    /**
@@ -383,7 +383,7 @@ public class AeUtil
     * @param aFirstIterator can be null
     * @param aSecondIterator can be null
     */
-   public static Iterator join(Iterator aFirstIterator, Iterator aSecondIterator)
+   public static <T> Iterator<? extends T> joinIter(Iterator<? extends T> aFirstIterator, Iterator<? extends T> aSecondIterator)
    {
       return AeSequenceIterator.join(aFirstIterator, aSecondIterator);
    }
@@ -394,13 +394,13 @@ public class AeUtil
     * @param aIter can be null
     * @param aObject can be null
     */
-   public static Iterator join(Iterator aIter, Object aObject)
+   public static <T> Iterator<? extends T> join(Iterator<? extends T> aIter, T aObject)
    {
       if (aObject == null)
       {
          return aIter;
       }
-      return join(aIter, Collections.singleton(aObject).iterator());
+      return joinIter(aIter, Collections.singleton(aObject).iterator());
    }
 
    /**
@@ -1549,9 +1549,9 @@ public class AeUtil
     *
     * @param aStringArray
     */
-   public static Set toSet(String [] aStringArray)
+   public static Set<String> toSet(String [] aStringArray)
    {
-      Set set = new LinkedHashSet();
+      Set<String> set = new LinkedHashSet<String>();
       if (aStringArray != null)
       {
          for (int i = 0; i < aStringArray.length; i++)
@@ -1678,7 +1678,7 @@ public class AeUtil
     * @param aName
     * @param aStringCollection
     */
-   public static String generateUniqueName(String aName, Collection aStringCollection)
+   public static String generateUniqueName(String aName, Collection<String> aStringCollection)
    {
       return generateUniqueName(aName, aStringCollection, false);
    }
@@ -1690,9 +1690,9 @@ public class AeUtil
     * @param aStringCollection
     * @param aPreserveIfAlreadyUnique
     */
-   public static String generateUniqueName(String aPrefix, Collection aStringCollection, boolean aPreserveIfAlreadyUnique)
+   public static String generateUniqueName(String aPrefix, Collection<String> aStringCollection, boolean aPreserveIfAlreadyUnique)
    {
-      Set set = new HashSet();
+      Set<String> set = new HashSet<String>();
       set.addAll(aStringCollection);
 
       if (aPreserveIfAlreadyUnique && !set.contains(aPrefix))

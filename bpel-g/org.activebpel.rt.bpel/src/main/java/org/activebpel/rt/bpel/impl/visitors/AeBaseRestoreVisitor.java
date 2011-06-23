@@ -48,7 +48,7 @@ public class AeBaseRestoreVisitor extends AeImplTraversingVisitor implements IAe
    private final AeRestoreImplState mImplState;
 
    /** Maps object ids to objects. */
-   private final Map<Integer,Object> mIdObjectMap = new HashMap();
+   private final Map<Integer,Object> mIdObjectMap = new HashMap<Integer,Object>();
    
    /**
     * Constructor.
@@ -204,7 +204,7 @@ public class AeBaseRestoreVisitor extends AeImplTraversingVisitor implements IAe
          List properties = selectNodes(aElement, xpath, "Error restoring correlation set properties"); //$NON-NLS-1$
 
          // Convert property elements to property map.
-         Map map = new HashMap();
+         Map<QName, Object> map = new HashMap<QName, Object>();
 
          for (Iterator i = properties.iterator(); i.hasNext(); )
          {

@@ -64,7 +64,7 @@ public class AeRecoveryQueueManager extends AeBaseQueueManager implements IAeRec
    private IAeBusinessProcess mRecoveryProcess;
 
    /** The sent replies. These are the replies that we recorded the process to have sent. */
-   private List mSentReplies;
+   private List<AeReply> mSentReplies;
    
    /** The BPEL receive handler */
    private AeDefaultReceiveHandler mReceiveHandler = new AeDefaultReceiveHandler();
@@ -451,7 +451,7 @@ public class AeRecoveryQueueManager extends AeBaseQueueManager implements IAeRec
    /**
     * @see org.activebpel.rt.bpel.impl.IAeQueueManager#sendReply(org.activebpel.rt.bpel.impl.queue.AeReply, org.activebpel.rt.message.IAeMessageData, org.activebpel.rt.bpel.IAeFault, java.util.Map)
     */
-   public void sendReply(AeReply aReply, IAeMessageData aMessageData, IAeFault aFault, Map aProcessProperties) throws AeBusinessProcessException
+   public void sendReply(AeReply aReply, IAeMessageData aMessageData, IAeFault aFault, Map<String, String> aProcessProperties) throws AeBusinessProcessException
    {
       checkProcessId(aReply.getProcessId());
 
@@ -538,10 +538,10 @@ public class AeRecoveryQueueManager extends AeBaseQueueManager implements IAeRec
    /**
     * @see org.activebpel.rt.bpel.server.engine.recovery.IAeRecoveryQueueManager#setSentReplies(java.util.List)
     */
-   public void setSentReplies(List aSentReplies)
+   public void setSentReplies(List<AeReply> aSentReplies)
    {
       // Copy the list, so that we can modify it without affecting the caller.
-      mSentReplies = new LinkedList(aSentReplies);
+      mSentReplies = new LinkedList<AeReply>(aSentReplies);
    }
 
 }

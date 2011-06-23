@@ -27,7 +27,7 @@ public class AeBPWSXPathParseResult extends AeAbstractXPathParseResult
     * @param aErrors
     * @param aParserContext
     */
-   public AeBPWSXPathParseResult(String aExpression, AeXPathAST aXPathAST, List aErrors,
+   public AeBPWSXPathParseResult(String aExpression, AeXPathAST aXPathAST, List<String> aErrors,
          IAeExpressionParserContext aParserContext)
    {
       super(aExpression, aXPathAST, aErrors, aParserContext);

@@ -26,7 +26,7 @@ public class AeBpelControllerFactory implements IAeGraphControllerFactory
    /** Image resources and cache. */
    private AeBpelImageResources mImageResources= null;
    
-   private static final Map CONTROLLER_MAP = new HashMap();
+   private static final Map<String, Class<? extends IAeGraphController>> CONTROLLER_MAP = new HashMap<String, Class<? extends IAeGraphController>>();
    static
    {
       // switch
