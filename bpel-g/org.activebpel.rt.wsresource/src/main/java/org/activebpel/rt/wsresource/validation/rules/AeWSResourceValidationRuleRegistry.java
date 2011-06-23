@@ -25,6 +25,7 @@ import org.activebpel.rt.util.AeXPathUtil;
 import org.activebpel.rt.wsdl.def.castor.AeSchemaParserUtil;
 import org.activebpel.rt.wsresource.IAeWSResourceConstants;
 import org.activebpel.rt.wsresource.validation.AeWSResourceValidationRule;
+import org.activebpel.rt.wsresource.validation.IAeWSResourceValidationRule;
 import org.activebpel.rt.wsresource.validation.IAeWSResourceValidationRuleRegistry;
 import org.activebpel.rt.xml.AeXMLParserBase;
 import org.activebpel.rt.xml.AeXMLParserErrorHandler;
@@ -40,7 +41,7 @@ import org.xml.sax.InputSource;
 public class AeWSResourceValidationRuleRegistry implements IAeWSResourceValidationRuleRegistry
 {
    private static Schema sRulesFileSchema;
-   private static Map sPrefixMap = new HashMap();
+   private static Map<String, String> sPrefixMap = new HashMap<String, String>();
 
    static
    {
@@ -51,7 +52,7 @@ public class AeWSResourceValidationRuleRegistry implements IAeWSResourceValidati
    }
 
    /** Map of resource namespace -> List of rules. */
-   private Map mRules = new HashMap();
+   private Map<String, List<IAeWSResourceValidationRule>> mRules = new HashMap<String, List<IAeWSResourceValidationRule>>();
 
    /**
     * C'tor.
@@ -81,13 +82,14 @@ public class AeWSResourceValidationRuleRegistry implements IAeWSResourceValidati
             throw parser.getErrorHandler().getParseException();
          }
 
-         List ruleNodes = AeXPathUtil.selectNodes(rulesDoc, "aerule:rules/aerule:rule", sPrefixMap); //$NON-NLS-1$
-         List rules = new ArrayList();
+         @SuppressWarnings("unchecked")
+         List<Element> ruleNodes = AeXPathUtil.selectNodes(rulesDoc, "aerule:rules/aerule:rule", sPrefixMap); //$NON-NLS-1$
+         List<IAeWSResourceValidationRule> rules = new ArrayList<IAeWSResourceValidationRule>();
          String targetNS = AeXPathUtil.selectSingleNode(rulesDoc, "aerule:rules/@targetNamespace", //$NON-NLS-1$
                sPrefixMap).getNodeValue();
-         for (Iterator iter = ruleNodes.iterator(); iter.hasNext(); )
+         for (Iterator<Element> iter = ruleNodes.iterator(); iter.hasNext(); )
          {
-            Element ruleElem = (Element) iter.next();
+            Element ruleElem = iter.next();
             String code = AeXPathUtil.selectText(ruleElem, "aerule:code", sPrefixMap); //$NON-NLS-1$
             Integer defaultSeverity = AeRulesUtil.convertSeverity(AeXPathUtil.selectText(ruleElem,
                   "aerule:defaultSeverity", sPrefixMap)); //$NON-NLS-1$
@@ -107,15 +109,15 @@ public class AeWSResourceValidationRuleRegistry implements IAeWSResourceValidati
    /**
     * @see org.activebpel.rt.wsresource.validation.IAeWSResourceValidationRuleRegistry#getRules(java.lang.String)
     */
-   public List getRules(String aWSResourceType)
+   public List<IAeWSResourceValidationRule> getRules(String aWSResourceType)
    {
-      return (List) getRules().get(aWSResourceType);
+      return getRules().get(aWSResourceType);
    }
 
    /**
     * @return Returns the rules.
     */
-   protected Map getRules()
+   protected Map<String, List<IAeWSResourceValidationRule>> getRules()
    {
       return mRules;
    }
@@ -123,7 +125,7 @@ public class AeWSResourceValidationRuleRegistry implements IAeWSResourceValidati
    /**
     * @param aRules the rules to set
     */
-   protected void setRules(Map aRules)
+   protected void setRules(Map<String, List<IAeWSResourceValidationRule>> aRules)
    {
       mRules = aRules;
    }

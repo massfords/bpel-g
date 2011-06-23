@@ -1734,11 +1734,11 @@ public class AeBusinessProcessEngine implements IAeBusinessProcessEngineInternal
          }
       }
 
-      for (Iterator iter=mGlobalProcessListeners.iterator(); iter.hasNext();)
+      for (IAeProcessListener listener : mGlobalProcessListeners)
       {
          try
          {
-            ((IAeProcessListener)iter.next()).handleProcessInfoEvent(aInfoEvent);
+             listener.handleProcessInfoEvent(aInfoEvent);
          }
          catch (Throwable th)
          {

@@ -31,7 +31,7 @@ public class AeBaseDefWriterRegistry implements IAeDefWriterRegistry
    public static final AeSkipWriter SKIP_WRITER = new AeSkipWriter();
 
    /** writer registry */
-   private Map<Class, IAeDefWriter> mRegistry = new HashMap<Class, IAeDefWriter>();
+   private Map<Class<?>, IAeDefWriter> mRegistry = new HashMap<Class<?>, IAeDefWriter>();
    /** The writer def visitor factory. */
    private IAeDefWriterFactory mWriterFactory;
    /** default namespace for elements if not specified */
@@ -65,7 +65,7 @@ public class AeBaseDefWriterRegistry implements IAeDefWriterRegistry
     * @param aClass
     * @param aTagName
     */
-   protected void registerWriter(Class aClass, String aTagName)
+   protected void registerWriter(Class<?> aClass, String aTagName)
    {
       registerWriter(aClass, new QName(getDefaultNamespace(), aTagName));
    }
@@ -76,7 +76,7 @@ public class AeBaseDefWriterRegistry implements IAeDefWriterRegistry
     * @param aClass
     * @param aTagName
     */
-   protected void registerWriter(Class aClass, QName aTagName)
+   protected void registerWriter(Class<?> aClass, QName aTagName)
    {
       registerWriter(aClass, createWriter(aTagName.getNamespaceURI(), aTagName.getLocalPart()));
    }
@@ -87,7 +87,7 @@ public class AeBaseDefWriterRegistry implements IAeDefWriterRegistry
     * @param aClass
     * @param aWriter
     */
-   protected void registerWriter(Class aClass, IAeDefWriter aWriter)
+   protected void registerWriter(Class<?> aClass, IAeDefWriter aWriter)
    {
       getRegistry().put(aClass, aWriter);
    }
@@ -129,9 +129,9 @@ public class AeBaseDefWriterRegistry implements IAeDefWriterRegistry
     * @param aDef the base def object to be serialized
     * @return the appropriate writer
     */
-   public IAeDefWriter getWriter(Class aParentClass, AeBaseXmlDef aDef)
+   public IAeDefWriter getWriter(Class<?> aParentClass, AeBaseXmlDef aDef)
    {
-      IAeDefWriter writer = (IAeDefWriter)mRegistry.get(aDef.getClass());
+      IAeDefWriter writer = mRegistry.get(aDef.getClass());
       if( writer == null )
       {
          throw new UnsupportedOperationException(AeMessages.format("AeBaseDefWriterRegistry.WriterNotFound",  //$NON-NLS-1$
@@ -152,7 +152,7 @@ public class AeBaseDefWriterRegistry implements IAeDefWriterRegistry
     * NOTE: publicly exposed to enable participation of multiple registries in a namespace based registry.
     * @return Returns the registry.
     */
-   protected Map<Class, IAeDefWriter> getRegistry()
+   protected Map<Class<?>, IAeDefWriter> getRegistry()
    {
       return mRegistry;
    }
@@ -160,7 +160,7 @@ public class AeBaseDefWriterRegistry implements IAeDefWriterRegistry
    /**
     * @param aRegistry The registry to set.
     */
-   protected void setRegistry(Map<Class, IAeDefWriter> aRegistry)
+   protected void setRegistry(Map<Class<?>, IAeDefWriter> aRegistry)
    {
       mRegistry = aRegistry;
    }

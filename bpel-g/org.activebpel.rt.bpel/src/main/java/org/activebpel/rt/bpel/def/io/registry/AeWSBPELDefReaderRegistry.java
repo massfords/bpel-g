@@ -158,9 +158,9 @@ public class AeWSBPELDefReaderRegistry extends AeAbstractBpelReaderRegistry
    /**
     * @see org.activebpel.rt.bpel.def.io.registry.AeAbstractBpelReaderRegistry#getActivityContainers()
     */
-   protected List getActivityContainers()
+   protected List<Class<?>> getActivityContainers()
    {
-      List list = new ArrayList(super.getActivityContainers());
+      List<Class<?>> list = new ArrayList<Class<?>>(super.getActivityContainers());
       list.add(TERMINATION_HANDLER_CLASS);
       list.add(ACTIVITY_REPEAT_UNTIL_CLASS);
       list.add(ACTIVITY_IF_CLASS);
@@ -171,9 +171,9 @@ public class AeWSBPELDefReaderRegistry extends AeAbstractBpelReaderRegistry
    /**
     * @see org.activebpel.rt.bpel.def.io.registry.AeAbstractBpelReaderRegistry#getBpelActivityMappings()
     */
-   protected List getBpelActivityMappings()
+   protected List<AeRegistryMapping> getBpelActivityMappings()
    {
-      List list = super.getBpelActivityMappings();
+      List<AeRegistryMapping> list = super.getBpelActivityMappings();
       list.add(new AeRegistryMapping(makeDefaultQName(TAG_IF), createReader(ACTIVITY_IF_CLASS) ));
       list.add(new AeRegistryMapping(makeDefaultQName(TAG_FOREACH), createReader(ACTIVITY_FOREACH_CLASS) ));
       list.add(new AeRegistryMapping(makeDefaultQName(TAG_REPEAT_UNTIL), createReader(ACTIVITY_REPEAT_UNTIL_CLASS) ));
@@ -201,7 +201,7 @@ public class AeWSBPELDefReaderRegistry extends AeAbstractBpelReaderRegistry
       IAeDefReader targetReader = createReader(TARGETS_CLASS);
       IAeDefReader sourceReader = createReader(SOURCES_CLASS);
 
-      Class[] activities = 
+      Class<?>[] activities = 
       {
             ACTIVITY_ASSIGN_CLASS,
             ACTIVITY_BREAK_CLASS,

@@ -442,10 +442,10 @@ public abstract class AeBaseXmlDef implements Cloneable, Serializable
       Element element;
       if (AeUtil.notNullOrEmpty(aQName.getNamespaceURI()))
       {
-         Set prefixes = findPrefixesForNamespace(aQName.getNamespaceURI());
+         Set<String> prefixes = findPrefixesForNamespace(aQName.getNamespaceURI());
          String prefix = aPreferredPrefix;
          if (AeUtil.notNullOrEmpty(prefixes))
-            prefix = (String) prefixes.iterator().next();
+            prefix = prefixes.iterator().next();
          element = doc.createElementNS(aQName.getNamespaceURI(), prefix + ":" + aQName.getLocalPart()); //$NON-NLS-1$
          element.setAttributeNS(XMLConstants.XMLNS_ATTRIBUTE_NS_URI, "xmlns:" + prefix, aQName.getNamespaceURI()); //$NON-NLS-1$
       }
@@ -478,7 +478,7 @@ public abstract class AeBaseXmlDef implements Cloneable, Serializable
     */
    public AeExtensionElementDef getFirstExtensionElementDef()
    {
-      Iterator iter = getExtensionElementDefs().iterator();
+      Iterator<AeExtensionElementDef> iter = getExtensionElementDefs().iterator();
       if (iter.hasNext())
       {
          return (AeExtensionElementDef) iter.next();
@@ -495,9 +495,9 @@ public abstract class AeBaseXmlDef implements Cloneable, Serializable
     */
    public AeExtensionElementDef getExtensionElementDef(QName aElementQName)
    {
-      for (Iterator iter = getExtensionElementDefs().iterator(); iter.hasNext(); )
+      for (Iterator<AeExtensionElementDef> iter = getExtensionElementDefs().iterator(); iter.hasNext(); )
       {
-         AeExtensionElementDef eeDef = (AeExtensionElementDef) iter.next();
+         AeExtensionElementDef eeDef = iter.next();
          if (AeUtil.compareObjects(eeDef.getElementQName(), aElementQName))
          {
             return eeDef;

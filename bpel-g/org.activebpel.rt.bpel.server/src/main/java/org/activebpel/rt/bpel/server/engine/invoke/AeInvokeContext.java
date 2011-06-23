@@ -22,6 +22,7 @@ import javax.wsdl.Service;
 import org.activebpel.rt.bpel.IAeEndpointReference;
 import org.activebpel.wsio.invoke.AeInvokeResponse;
 import org.activebpel.wsio.invoke.IAeInvoke;
+import org.w3c.dom.Element;
 
 /**
  * Context information necessary to execute and invoke.
@@ -37,9 +38,9 @@ public class AeInvokeContext
    /** The invoke operation. */
    private Operation mOperation;
    /** Message parts that are destined for the header, they should not be added to the body */
-   private Collection mInputHeaderParts;
+   private Collection<String> mInputHeaderParts;
    /** Message parts that should be extracted from the response soap headers */
-   private Collection mOutputHeaderParts;
+   private Collection<String> mOutputHeaderParts;
    /** Contains binding info for the operation being invoked */
    private BindingOperation mBindingOperation;
    /** Target Endpoint for the invoke */
@@ -47,9 +48,9 @@ public class AeInvokeContext
    /** ReplyTo Endpoint for the invoke */
    private IAeEndpointReference mReplyTo;
    /** resolved policies */
-   private List mPolicyList;
+   private List<Element> mPolicyList;
    /** policy driven call properties */
-   private Map mCallProperties;
+   private Map<String, Object> mCallProperties;
    /** the address handling type */
    private AeAddressHandlingType mAddressType;
    /** the soapAction from the binding op */
@@ -129,11 +130,11 @@ public class AeInvokeContext
    /**
     * @return Returns the inputHeaderParts.
     */
-   public Collection getInputHeaderParts()
+   public Collection<String> getInputHeaderParts()
    {
       if (mInputHeaderParts == null)
       {
-         mInputHeaderParts = Collections.EMPTY_SET;
+         mInputHeaderParts = Collections.<String>emptySet();
       }
       return mInputHeaderParts;
    }
@@ -141,19 +142,19 @@ public class AeInvokeContext
    /**
     * @param aInputHeaderParts The inputHeaderParts to set.
     */
-   public void setInputHeaderParts(Collection aInputHeaderParts)
+   public void setInputHeaderParts(Collection<String> aInputHeaderParts)
    {
-      mInputHeaderParts = aInputHeaderParts.isEmpty() ? null : new HashSet(aInputHeaderParts);
+      mInputHeaderParts = aInputHeaderParts.isEmpty() ? null : new HashSet<String>(aInputHeaderParts);
    }
 
    /**
     * @return Returns the outputHeaderParts.
     */
-   public Collection getOutputHeaderParts()
+   public Collection<String> getOutputHeaderParts()
    {
       if (mOutputHeaderParts == null)
       {
-         mOutputHeaderParts = Collections.EMPTY_SET;
+         mOutputHeaderParts = Collections.<String>emptySet();
       }
       return mOutputHeaderParts;
    }
@@ -161,9 +162,9 @@ public class AeInvokeContext
    /**
     * @param aOutputHeaderParts The outputHeaderParts to set.
     */
-   public void setOutputHeaderParts(Collection aOutputHeaderParts)
+   public void setOutputHeaderParts(Collection<String> aOutputHeaderParts)
    {
-      mOutputHeaderParts = aOutputHeaderParts.isEmpty() ? null : new HashSet(aOutputHeaderParts);
+      mOutputHeaderParts = aOutputHeaderParts.isEmpty() ? null : new HashSet<String>(aOutputHeaderParts);
    }
 
    /**
@@ -235,7 +236,7 @@ public class AeInvokeContext
    /**
     * @return the policyList
     */
-   public List getPolicyList()
+   public List<Element> getPolicyList()
    {
       return mPolicyList;
    }
@@ -243,7 +244,7 @@ public class AeInvokeContext
    /**
     * @param aPolicyList the policyList to set
     */
-   public void setPolicyList(List aPolicyList)
+   public void setPolicyList(List<Element> aPolicyList)
    {
       mPolicyList = aPolicyList;
    }
@@ -283,7 +284,7 @@ public class AeInvokeContext
    /**
     * @return the callProperties
     */
-   public Map getCallProperties()
+   public Map<String, Object> getCallProperties()
    {
       return mCallProperties;
    }
@@ -291,7 +292,7 @@ public class AeInvokeContext
    /**
     * @param aCallProperties the callProperties to set
     */
-   public void setCallProperties(Map aCallProperties)
+   public void setCallProperties(Map<String, Object> aCallProperties)
    {
       mCallProperties = aCallProperties;
    }

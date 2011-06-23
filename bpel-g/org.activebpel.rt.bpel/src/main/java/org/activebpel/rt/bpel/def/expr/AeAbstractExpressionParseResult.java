@@ -89,9 +89,8 @@ public abstract class AeAbstractExpressionParseResult implements IAeExpressionPa
    public List<AeScriptFuncDef> getLinkStatusFunctionList()
    {
       List<AeScriptFuncDef> list = new LinkedList<AeScriptFuncDef>();
-      for (Iterator iter = getFunctions().iterator(); iter.hasNext();)
+      for (AeScriptFuncDef function : getFunctions())
       {
-         AeScriptFuncDef function = (AeScriptFuncDef) iter.next();
          if (isGetLinkStatusFunction(function))
          {
             list.add(function);
@@ -106,9 +105,8 @@ public abstract class AeAbstractExpressionParseResult implements IAeExpressionPa
    public List<AeScriptFuncDef> getDoXslTransformFunctionList()
    {
       List<AeScriptFuncDef> list = new LinkedList<AeScriptFuncDef>();
-      for (Iterator iter = getFunctions().iterator(); iter.hasNext();)
+      for (AeScriptFuncDef function : getFunctions())
       {
-         AeScriptFuncDef function = (AeScriptFuncDef) iter.next();
          if (isDoXslTransformFunction(function))
          {
             list.add(function);
@@ -123,9 +121,8 @@ public abstract class AeAbstractExpressionParseResult implements IAeExpressionPa
    public List<AeScriptFuncDef> getVarDataFunctionList()
    {
       List<AeScriptFuncDef> list = new LinkedList<AeScriptFuncDef>();
-      for (Iterator iter = getFunctions().iterator(); iter.hasNext();)
+      for (AeScriptFuncDef function : getFunctions())
       {
-         AeScriptFuncDef function = (AeScriptFuncDef) iter.next();
          if (isGetVariableDataFunction(function))
          {
             list.add(function);
@@ -140,9 +137,8 @@ public abstract class AeAbstractExpressionParseResult implements IAeExpressionPa
    public List<AeScriptFuncDef> getVarPropertyFunctionList()
    {
       List<AeScriptFuncDef> list = new LinkedList<AeScriptFuncDef>();
-      for (Iterator iter = getFunctions().iterator(); iter.hasNext();)
+      for (AeScriptFuncDef function : getFunctions())
       {
-         AeScriptFuncDef function = (AeScriptFuncDef) iter.next();
          if (isGetVariablePropertyFunction(function))
          {
             list.add(function);
@@ -157,9 +153,8 @@ public abstract class AeAbstractExpressionParseResult implements IAeExpressionPa
    public List<AeScriptFuncDef> getAttachmentFunctionList()
    {
       List<AeScriptFuncDef> list = new LinkedList<AeScriptFuncDef>();
-      for (Iterator iter = getFunctions().iterator(); iter.hasNext();)
+      for (AeScriptFuncDef function : getFunctions())
       {
-         AeScriptFuncDef function = (AeScriptFuncDef) iter.next();
          if (isAttachmentFunction(function))
             list.add(function);
       }
@@ -172,9 +167,8 @@ public abstract class AeAbstractExpressionParseResult implements IAeExpressionPa
    public List<AeScriptFuncDef> getMyRolePropertyFunctionList()
    {
       List<AeScriptFuncDef> list = new LinkedList<AeScriptFuncDef>();
-      for (Iterator iter = getFunctions().iterator(); iter.hasNext();)
+      for (AeScriptFuncDef function : getFunctions())
       {
-         AeScriptFuncDef function = (AeScriptFuncDef) iter.next();
          if (AeExpressionLanguageUtil.isMyRolePropertyFunction(function))
          {
             list.add(function);
@@ -189,11 +183,9 @@ public abstract class AeAbstractExpressionParseResult implements IAeExpressionPa
    public List<AeVariableData> getVarDataList()
    {
       List<AeVariableData> list = new LinkedList<AeVariableData>();
-      Collection functionList = getVarDataFunctionList();
-      for (Iterator iter = functionList.iterator(); iter.hasNext();)
+      Collection<AeScriptFuncDef> functionList = getVarDataFunctionList();
+      for (AeScriptFuncDef function : functionList)
       {
-         AeScriptFuncDef function = (AeScriptFuncDef) iter.next();
-
          String var = function.getStringArgument(0);
          if (AeUtil.notNullOrEmpty(var))
          {
@@ -211,11 +203,9 @@ public abstract class AeAbstractExpressionParseResult implements IAeExpressionPa
    public List<AeVariableProperty> getVarPropertyList()
    {
       List<AeVariableProperty> list = new LinkedList<AeVariableProperty>();
-      Collection functionList = getFunctions();
-      for (Iterator iter = functionList.iterator(); iter.hasNext();)
+      Collection<AeScriptFuncDef> functionList = getFunctions();
+      for (AeScriptFuncDef function : functionList)
       {
-         AeScriptFuncDef function = (AeScriptFuncDef) iter.next();
-
          if (isGetVariablePropertyFunction(function))
          {
             String var = function.getStringArgument(0);
@@ -236,10 +226,9 @@ public abstract class AeAbstractExpressionParseResult implements IAeExpressionPa
    public List<String> getVarAttachmentList()
    {
       List<String> list = new LinkedList<String>();
-      Collection functionList = getAttachmentFunctionList();
-      for (Iterator iter = functionList.iterator(); iter.hasNext();)
+      Collection<AeScriptFuncDef> functionList = getAttachmentFunctionList();
+      for (AeScriptFuncDef function : functionList)
       {
-         AeScriptFuncDef function = (AeScriptFuncDef) iter.next();
          if (AeExpressionLanguageUtil.ATTACHMENT_COPY_ALL_FUNC.equals(function.getQName()) ||
                AeExpressionLanguageUtil.ATTACHMENT_REMOVE_ALL_FUNC.equals(function.getQName()))
          {
@@ -290,15 +279,13 @@ public abstract class AeAbstractExpressionParseResult implements IAeExpressionPa
    public Set<String> getVarNames()
    {
       Set<String> rval = new LinkedHashSet<String>();
-      for (Iterator iter = getVarDataList().iterator(); iter.hasNext(); )
+      for (AeVariableData vd : getVarDataList())
       {
-         AeVariableData vd = (AeVariableData) iter.next();
          rval.add(vd.getVarName());
       }
 
-      for (Iterator iter = getVarPropertyList().iterator(); iter.hasNext(); )
+      for (AeVariableProperty vp : getVarPropertyList())
       {
-         AeVariableProperty vp = (AeVariableProperty) iter.next();
          rval.add(vp.getVarName());
       }
 
@@ -315,9 +302,8 @@ public abstract class AeAbstractExpressionParseResult implements IAeExpressionPa
    {
       List<String> list = new LinkedList<String>();
       
-      for (Iterator iter = getDoXslTransformFunctionList().iterator(); iter.hasNext(); )
+      for (AeScriptFuncDef function : getDoXslTransformFunctionList())
       {
-         AeScriptFuncDef function = (AeScriptFuncDef) iter.next();
          String uri = function.getStringArgument(0);
          if (uri != null)
          {

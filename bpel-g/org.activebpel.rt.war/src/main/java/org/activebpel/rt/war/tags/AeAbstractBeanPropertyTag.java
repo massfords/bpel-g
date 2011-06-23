@@ -104,7 +104,7 @@ abstract public class AeAbstractBeanPropertyTag extends AeAbstractResourceTag
       {
          try
          {
-            Class beanClass = aBean.getClass();
+            Class<? extends Object> beanClass = aBean.getClass();
             // get list of method names (from string dot separated format method1.method2.methodN).
             String methodNameList[] = aProperty.split("\\."); //$NON-NLS-1$
             for (int i = 0; i < methodNameList.length; i++)

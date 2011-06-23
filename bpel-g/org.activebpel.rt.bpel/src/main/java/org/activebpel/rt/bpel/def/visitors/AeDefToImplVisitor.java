@@ -194,19 +194,19 @@ public abstract class AeDefToImplVisitor implements IAeDefToImplVisitor
    protected long mProcessId;
    /** The engine the created process will run inside of. */
    protected IAeBusinessProcessEngineInternal mEngine;
-   /** The process that we're creating implmentations for */
+   /** The process that we're creating implementations for */
    protected IAeBusinessProcessInternal mProcess;
    /** Stores the stack of objects that we're visiting */
-   protected Stack mStack = new Stack();
+   protected Stack<Object> mStack = new Stack<Object>();
    /** Plan used to create the business process instance */
    protected IAeProcessPlan mPlan;
 
    /** collection of variables we've created */
-   private Collection mVariables = new ArrayList();
+   private Collection<AeVariable> mVariables = new ArrayList<AeVariable>();
    /** collection of bpel objects we've created */
-   private Collection mBpelObjects = new ArrayList();
+   private Collection<IAeBpelObject> mBpelObjects = new ArrayList<IAeBpelObject>();
    /** collection of partner links we've created */
-   private Collection mPartnerLinks = new ArrayList();
+   private Collection<AePartnerLink> mPartnerLinks = new ArrayList<AePartnerLink>();
 
    /** Strategy for matching faults */
    private IAeFaultMatchingStrategy mFaultMatchingStrategy;
@@ -329,7 +329,7 @@ public abstract class AeDefToImplVisitor implements IAeDefToImplVisitor
    {
       // Add all BPEL objects to our lookup map
       if (aImpl instanceof IAeBpelObject)
-         getBpelObjects().add(aImpl);
+         getBpelObjects().add((IAeBpelObject)aImpl);
 
       // No need to bother with stack if we have no parent object
       if (aImpl == null)
@@ -1335,26 +1335,24 @@ public abstract class AeDefToImplVisitor implements IAeDefToImplVisitor
    public void reportObjects()
    {
       // BPEL objects
-      for (Iterator iter = getBpelObjects().iterator(); iter.hasNext();)
+      for (Iterator<IAeBpelObject> iter = getBpelObjects().iterator(); iter.hasNext();)
       {
-         IAeBpelObject obj = (IAeBpelObject) iter.next();
+         IAeBpelObject obj = iter.next() ;
          getProcess().addBpelObject(obj.getLocationPath(), obj);
       }
       getBpelObjects().clear();
 
       // variables
-      for (Iterator iter = getVariables().iterator(); iter.hasNext();)
+      for (Iterator<AeVariable> iter = getVariables().iterator(); iter.hasNext();)
       {
-         AeVariable variable = (AeVariable) iter.next();
-         getProcess().addVariableMapping(variable);
+         getProcess().addVariableMapping(iter.next());
       }
       getVariables().clear();
 
       // partner links
-      for (Iterator iter = getPartnerLinks().iterator(); iter.hasNext();)
+      for (Iterator<AePartnerLink> iter = getPartnerLinks().iterator(); iter.hasNext();)
       {
-         AePartnerLink plink = (AePartnerLink) iter.next();
-         getProcess().addPartnerLinkMapping(plink);
+         getProcess().addPartnerLinkMapping(iter.next());
       }
       getPartnerLinks().clear();
    }
@@ -1489,7 +1487,7 @@ public abstract class AeDefToImplVisitor implements IAeDefToImplVisitor
    /**
     * @return Returns the bpelObjects.
     */
-   public Collection getBpelObjects()
+   public Collection<IAeBpelObject> getBpelObjects()
    {
       return mBpelObjects;
    }
@@ -1497,7 +1495,7 @@ public abstract class AeDefToImplVisitor implements IAeDefToImplVisitor
    /**
     * @return Returns the partnerLinks.
     */
-   public Collection getPartnerLinks()
+   public Collection<AePartnerLink> getPartnerLinks()
    {
       return mPartnerLinks;
    }
@@ -1505,7 +1503,7 @@ public abstract class AeDefToImplVisitor implements IAeDefToImplVisitor
    /**
     * @return Returns the variables.
     */
-   public Collection getVariables()
+   public Collection<AeVariable> getVariables()
    {
       return mVariables;
    }

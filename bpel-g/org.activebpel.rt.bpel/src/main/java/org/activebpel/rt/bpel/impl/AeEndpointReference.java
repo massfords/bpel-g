@@ -16,6 +16,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import javax.xml.XMLConstants;
 import javax.xml.namespace.QName;
@@ -70,7 +71,7 @@ public class AeEndpointReference implements IAeEndpointReference
    /** Required URI address of the endpoint reference. */
    private String mAddress;
    /** Optional list of properties required to identify resource. */
-   private Map mProperties;
+   private Map<QName, String> mProperties;
    /** Optional port type of the reference. */
    private QName mPortType;
    /** Optional specification of WSDL service element which defines endpoint. */
@@ -78,9 +79,9 @@ public class AeEndpointReference implements IAeEndpointReference
    /** Optional name of service port used in conjunction with service name. */
    private String mServicePort;
    /** Optional list of policy elements used by endpoint. */
-   private List mPolicies;
+   private List<Element> mPolicies;
    /** Optional list of resolved policy elements used by endpoint. */
-   private transient List mResolvedPolicies;
+   private transient List<Element> mResolvedPolicies;
    /** Port type used to resolve policies cached on this instance */
    private QName mPolicyPortType;
    /** Operation used to resolve policies cached on this instance*/
@@ -88,9 +89,9 @@ public class AeEndpointReference implements IAeEndpointReference
    /** The namespace of the endpoint's source xml or default if not set */
    private String mNamespace = IAeConstants.WSA_NAMESPACE_URI;
    /** List of extensibility element. */
-   private List mExtElements;
+   private List<Element> mExtElements;
    /** Optional list of reference property elements used by endpoint. */
-   private List mRefProps = new ArrayList();
+   private List<Element> mRefProps = new ArrayList<Element>();
    /** Internal document used for importing reference properties, policies, etc */
    private Element mMetadata;
 
@@ -138,27 +139,26 @@ public class AeEndpointReference implements IAeEndpointReference
          mServicePort = aRef.getServicePort();
    
          // Add any properties the source endpoint reference contains
-         for (Iterator iter=aRef.getProperties().keySet().iterator(); iter.hasNext();)
+         for (Entry<QName, String> entry : aRef.getProperties().entrySet())
          {
-            Object key = iter.next();
-            addProperty((QName)key, (String)aRef.getProperties().get(key));
+            addProperty(entry.getKey(), entry.getValue());
          }
    
          // Add reference property elements
-         for (Iterator it = aRef.getReferenceProperties().iterator(); it.hasNext();) {
-            addReferenceProperty((Element) it.next());
+         for (Iterator<Element> it = aRef.getReferenceProperties().iterator(); it.hasNext();) {
+            addReferenceProperty(it.next());
          }
    
          // Add any properties the source endpoint reference contains
          if(! AeUtil.isNullOrEmpty(aRef.getPolicies()))
          {
-            for (Iterator iter=aRef.getPolicies().iterator(); iter.hasNext();)
-               addPolicyElement((Element)iter.next());
+            for (Iterator<Element> iter=aRef.getPolicies().iterator(); iter.hasNext();)
+               addPolicyElement(iter.next());
          }
    
          // Add any extensibility elements the source endpoint reference contains
-         for (Iterator iter=aRef.getExtensibilityElements(); iter.hasNext();) {
-               addExtensibilityElement((Element)iter.next());
+         for (Iterator<Element> iter=aRef.getExtensibilityElements(); iter.hasNext();) {
+               addExtensibilityElement(iter.next());
          }
       }
       catch (ConcurrentModificationException cme)
@@ -187,19 +187,18 @@ public class AeEndpointReference implements IAeEndpointReference
       mServicePort = aRef.getServicePort();
 
       // Add any properties the source endpoint reference contains
-      for (Iterator iter=aRef.getProperties().keySet().iterator(); iter.hasNext();)
+      for (Entry<QName, String> entry : aRef.getProperties().entrySet())
       {
-         Object key = iter.next();
-         addProperty((QName)key, (String)aRef.getProperties().get(key));
+         addProperty(entry.getKey(), entry.getValue());
       }
 
       // Add reference property elements
       if( !AeUtil.isNullOrEmpty(aRef.getReferenceProperties()))
       {
          clearReferenceProperties();
-         for (Iterator it = aRef.getReferenceProperties().iterator(); it.hasNext();) 
+         for (Iterator<Element> it = aRef.getReferenceProperties().iterator(); it.hasNext();) 
          {
-            addReferenceProperty((Element) it.next());
+            addReferenceProperty(it.next());
          }
       }
 
@@ -207,17 +206,17 @@ public class AeEndpointReference implements IAeEndpointReference
       if(! AeUtil.isNullOrEmpty(aRef.getPolicies()))
       {
          clearPolicies();
-         for (Iterator iter=aRef.getPolicies().iterator(); iter.hasNext();)
-            addPolicyElement((Element)iter.next());
+         for (Iterator<Element> iter=aRef.getPolicies().iterator(); iter.hasNext();)
+            addPolicyElement(iter.next());
       }
 
       // Add any extensibility elements the source endpoint reference contains
       if( aRef.getExtensibilityElements().hasNext())
       {
-         setExtensibilityElements(new ArrayList());
-         for (Iterator iter=aRef.getExtensibilityElements(); iter.hasNext();) 
+         setExtensibilityElements(new ArrayList<Element>());
+         for (Iterator<Element> iter=aRef.getExtensibilityElements(); iter.hasNext();) 
          {
-            addExtensibilityElement((Element)iter.next());
+            addExtensibilityElement(iter.next());
          }
       }
    }
@@ -274,7 +273,7 @@ public class AeEndpointReference implements IAeEndpointReference
       try
       {
          newRef.setReferenceData(toDocument().getDocumentElement());
-         newRef.setProperties(new HashMap(getProperties()));
+         newRef.setProperties(new HashMap<QName, String>(getProperties()));
       }
       catch (AeBusinessProcessException ex)
       {
@@ -295,10 +294,10 @@ public class AeEndpointReference implements IAeEndpointReference
     * Returns the list of policies if any were specified. The list returned is
     * unmodifiable, and proper API should be used to modify the underlying collection.
     */
-   public List getPolicies()
+   public List<Element> getPolicies()
    {
       if (mPolicies == null)
-         mPolicies = new ArrayList();
+         mPolicies = new ArrayList<Element>();
       return Collections.unmodifiableList(mPolicies);
    }
 
@@ -315,7 +314,7 @@ public class AeEndpointReference implements IAeEndpointReference
    /**
     * @see org.activebpel.rt.bpel.IAeEndpointReference#getEffectivePolicies(org.activebpel.rt.wsdl.IAeContextWSDLProvider)
     */
-   public List getEffectivePolicies(IAeContextWSDLProvider aWSDLProvider)
+   public List<Element> getEffectivePolicies(IAeContextWSDLProvider aWSDLProvider)
    {
       return getEffectivePolicies(aWSDLProvider, null, null);
    }
@@ -327,7 +326,7 @@ public class AeEndpointReference implements IAeEndpointReference
     * 
     * @see org.activebpel.rt.bpel.IAeEndpointReference#getEffectivePolicies(org.activebpel.rt.wsdl.IAeContextWSDLProvider, javax.xml.namespace.QName, java.lang.String)
     */
-   public List getEffectivePolicies(IAeContextWSDLProvider aWSDLProvider, QName aPortType, String aOperation)
+   public List<Element> getEffectivePolicies(IAeContextWSDLProvider aWSDLProvider, QName aPortType, String aOperation)
    {
       if (mResolvedPolicies == null || !AeUtil.compareObjects(mPolicyPortType, aPortType) || !AeUtil.compareObjects(mPolicyOperation, aOperation)) 
       {
@@ -335,13 +334,13 @@ public class AeEndpointReference implements IAeEndpointReference
          mPolicyPortType = aPortType;
          mPolicyOperation = aOperation;
       }
-      return (mResolvedPolicies != null ? mResolvedPolicies : Collections.EMPTY_LIST);
+      return (mResolvedPolicies != null ? mResolvedPolicies : Collections.<Element>emptyList());
    }
    
    /**
     * @see org.activebpel.rt.bpel.IAeEndpointReference#findPolicyElements(org.activebpel.rt.wsdl.IAeContextWSDLProvider, java.lang.String)
     */
-   public List findPolicyElements(IAeContextWSDLProvider aWSDLProvider, String aPolicyName)
+   public List<Element> findPolicyElements(IAeContextWSDLProvider aWSDLProvider, String aPolicyName)
    {
       return findPolicyElements(aWSDLProvider, null, null, aPolicyName);
    }
@@ -349,10 +348,10 @@ public class AeEndpointReference implements IAeEndpointReference
    /**
     * @see org.activebpel.rt.bpel.IAeEndpointReference#findPolicyElements(org.activebpel.rt.wsdl.IAeContextWSDLProvider, javax.xml.namespace.QName, java.lang.String, java.lang.String)
     */
-   public List findPolicyElements(IAeContextWSDLProvider aWSDLProvider, QName aPortType, String aOperation,
+   public List<Element> findPolicyElements(IAeContextWSDLProvider aWSDLProvider, QName aPortType, String aOperation,
          String aPolicyTagName)
    {
-      List results = findPolicyElements(aWSDLProvider, aPortType, aOperation, new QName(IAeConstants.ABP_NAMESPACE_URI, aPolicyTagName));
+      List<Element> results = findPolicyElements(aWSDLProvider, aPortType, aOperation, new QName(IAeConstants.ABP_NAMESPACE_URI, aPolicyTagName));
       if (AeUtil.isNullOrEmpty(results))
          results = findPolicyElements(aWSDLProvider, aPortType, aOperation, new QName(IAeConstants.ABPEL_POLICY_NS, aPolicyTagName));
       
@@ -364,16 +363,16 @@ public class AeEndpointReference implements IAeEndpointReference
     * @param aWSDLProvider The WSDL provider to use for resolving references
     * @param aPolicyName The policy QName
     */
-   public List findPolicyElements(IAeContextWSDLProvider aWSDLProvider, QName aPortType, String aOperation, QName aPolicyName)
+   public List<Element> findPolicyElements(IAeContextWSDLProvider aWSDLProvider, QName aPortType, String aOperation, QName aPolicyName)
    {
-      List results = new ArrayList();
-      for(Iterator iter=getEffectivePolicies(aWSDLProvider, aPortType, aOperation).iterator(); iter.hasNext(); )
+      List<Element> results = new ArrayList<Element>();
+      for(Iterator<Element> iter=getEffectivePolicies(aWSDLProvider, aPortType, aOperation).iterator(); iter.hasNext(); )
       {
-         Element policyEl = (Element)iter.next();
+         Element policyEl = iter.next();
          NodeList children = policyEl.getElementsByTagNameNS(aPolicyName.getNamespaceURI(), aPolicyName.getLocalPart());
 
          for(int i=0, len=children.getLength(); i < len; ++i)
-            results.add(children.item(i));
+            results.add((Element)children.item(i));
       }
       
       return results;
@@ -391,9 +390,9 @@ public class AeEndpointReference implements IAeEndpointReference
    /**
     * Returns the map of properties if any were specified.
     */
-   public Map getProperties()
+   public Map<QName, String> getProperties()
    {
-      return (mProperties == null ? Collections.EMPTY_MAP : mProperties);
+      return (mProperties == null ? Collections.<QName, String>emptyMap() : mProperties);
    }
 
    /**
@@ -426,7 +425,7 @@ public class AeEndpointReference implements IAeEndpointReference
       mPolicies    = null;
       mResolvedPolicies = null;
       mExtElements = null;
-      mRefProps = new ArrayList();
+      mRefProps = new ArrayList<Element>();
       mMetadata = null;
    }
 
@@ -453,8 +452,8 @@ public class AeEndpointReference implements IAeEndpointReference
             return false;
 
          AeCompareXML compare = new AeCompareXML();
-         Iterator otherIter = other.getExtensibilityElements();
-         Iterator thisIter = getExtensibilityElements();
+         Iterator<Element> otherIter = other.getExtensibilityElements();
+         Iterator<Element> thisIter = getExtensibilityElements();
          while ( otherIter.hasNext() )
          {
             Element otherElem = (Element)otherIter.next();
@@ -489,7 +488,7 @@ public class AeEndpointReference implements IAeEndpointReference
    public void addProperty(QName aKey, String aValue)
    {
       if (mProperties == null)
-         mProperties = new HashMap();
+         mProperties = new HashMap<QName, String>();
 
       mProperties.put(aKey, aValue);
    }
@@ -529,7 +528,7 @@ public class AeEndpointReference implements IAeEndpointReference
    /**
     * @param aMap
     */
-   public void setProperties(Map aMap)
+   public void setProperties(Map<QName, String> aMap)
    {
       mProperties = aMap;
    }
@@ -564,15 +563,15 @@ public class AeEndpointReference implements IAeEndpointReference
     * Get all the extensibility elements.
     * @return List extensibility elements.
     */
-   private List getExtensibilityElementsList()
+   private List<Element> getExtensibilityElementsList()
    {
-      return mExtElements != null ? mExtElements : Collections.EMPTY_LIST;
+      return mExtElements != null ? mExtElements : Collections.<Element>emptyList();
    }
 
    /**
     * @see org.activebpel.wsio.IAeWebServiceEndpointReference#getExtensibilityElements()
     */
-   public Iterator getExtensibilityElements()
+   public Iterator<Element> getExtensibilityElements()
    {
       return getExtensibilityElementsList().iterator();
    }
@@ -581,7 +580,7 @@ public class AeEndpointReference implements IAeEndpointReference
     * Setter for the list of extensibility elements.
     * @param aList
     */
-   public void setExtensibilityElements(List aList)
+   public void setExtensibilityElements(List<Element> aList)
    {
       mExtElements = aList;
    }
@@ -593,7 +592,7 @@ public class AeEndpointReference implements IAeEndpointReference
    public void addExtensibilityElement(Element aExtElement)
    {
       if (getExtensibilityElementsList() == Collections.EMPTY_LIST)
-         setExtensibilityElements(new ArrayList());
+         setExtensibilityElements(new ArrayList<Element>());
 
       getExtensibilityElementsList().add(cloneElement(aExtElement));
    }
@@ -605,7 +604,7 @@ public class AeEndpointReference implements IAeEndpointReference
    public void addPolicyElement(Element aPolicyElement)
    {
       if (mPolicies == null)
-         mPolicies = new ArrayList();
+         mPolicies = new ArrayList<Element>();
       mPolicies.add(cloneElement(aPolicyElement));
    }
 
@@ -616,7 +615,7 @@ public class AeEndpointReference implements IAeEndpointReference
    public void addReferenceProperty(Element aRefElement)
    {
       if (mRefProps == null)
-         mRefProps = new ArrayList();
+         mRefProps = new ArrayList<Element>();
 
       // create a clone of the element to detach from original parent
       Element element = cloneElement(aRefElement);
@@ -677,7 +676,7 @@ public class AeEndpointReference implements IAeEndpointReference
     * Gets an Iterator of all reference property elements.
     * @return Iterator for reference property elements.
     */
-   public List getReferenceProperties()
+   public List<Element> getReferenceProperties()
    {
       return mRefProps;
    }

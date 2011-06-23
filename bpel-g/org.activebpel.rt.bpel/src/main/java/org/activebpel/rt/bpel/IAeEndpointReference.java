@@ -44,7 +44,7 @@ public interface IAeEndpointReference extends IAeWebServiceEndpointReference, Se
     * 
     * @param aWSDLProvider The WSDL provider used to resolve references 
     */
-   public List getEffectivePolicies(IAeContextWSDLProvider aWSDLProvider);
+   public List<Element> getEffectivePolicies(IAeContextWSDLProvider aWSDLProvider);
 
    /**
     * Returns a {@link List} of resolved policy elements for an invoke 
@@ -57,21 +57,21 @@ public interface IAeEndpointReference extends IAeWebServiceEndpointReference, Se
     * 
     * @param aWSDLProvider The WSDL provider used to resolve references 
     */
-   public List getEffectivePolicies(IAeContextWSDLProvider aWSDLProvider, QName aPortType, String aOperation);
+   public List<Element> getEffectivePolicies(IAeContextWSDLProvider aWSDLProvider, QName aPortType, String aOperation);
    
    /**
     * Returns a {@link List} of {@link Element} objects which match the given policy tag name.
     * An empty list will be returned if not matches are found.
     * @param aPolicyTagName The name of the 
     */
-   public List findPolicyElements(IAeContextWSDLProvider aWSDLProvider, String aPolicyTagName);
+   public List<Element> findPolicyElements(IAeContextWSDLProvider aWSDLProvider, String aPolicyTagName);
 
    /**
     * Returns a {@link List} of {@link Element} objects which match the given policy tag name.
     * An empty list will be returned if not matches are found.
     * @param aPolicyTagName The name of the 
     */
-   public List findPolicyElements(IAeContextWSDLProvider aWSDLProvider, QName aPortType, String aOperation, String aPolicyTagName);
+   public List<Element> findPolicyElements(IAeContextWSDLProvider aWSDLProvider, QName aPortType, String aOperation, String aPolicyTagName);
    
    /**
     * Sets the data which defines the endpoint reference based upon the
@@ -161,7 +161,7 @@ public interface IAeEndpointReference extends IAeWebServiceEndpointReference, Se
     * Gets an Iterator of all reference property elements.
     * @return Iterator for reference property elements.
     */
-   public List getReferenceProperties();
+   public List<Element> getReferenceProperties();
    
    /**
     * Called to clone the endpoint reference.

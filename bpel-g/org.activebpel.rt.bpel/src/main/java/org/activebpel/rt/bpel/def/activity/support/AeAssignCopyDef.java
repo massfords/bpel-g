@@ -18,11 +18,8 @@ import org.activebpel.rt.bpel.def.visitors.IAeDefVisitor;
  */
 public class AeAssignCopyDef extends AeBaseDef implements IAeFromParentDef
 {
-   /**
-     * 
-     */
-    private static final long serialVersionUID = 9036730111713644790L;
-/** The copy's 'from' construct. */
+   private static final long serialVersionUID = 9036730111713644790L;
+   /** The copy's 'from' construct. */
    private AeFromDef mFrom;
    /** The copy's 'to' construct. */
    private AeToDef mTo;

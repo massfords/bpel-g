@@ -70,7 +70,7 @@ public class AeXmlUtil
    public static final Pattern sNCNamePattern = Pattern.compile(NCNAME_PATTERN);
 
    /** The doc builder map. */
-   private static final Map sDocumentBuilderMap = new HashMap();
+   private static final Map<String, DocumentBuilder> sDocumentBuilderMap = new HashMap<String, DocumentBuilder>();
    /** A default AE prefix. */
    private static final String PREFIX = "aeaaanstmp";  //$NON-NLS-1$
 
@@ -519,7 +519,7 @@ public class AeXmlUtil
     * @param aStartingValue
     * @param aPrefixToNamespaceMap
     */
-   private static int getUniquePrefix(int aStartingValue, HashMap aPrefixToNamespaceMap)
+   private static int getUniquePrefix(int aStartingValue, Map<String, String> aPrefixToNamespaceMap)
    {
       int counter = aStartingValue;
 
@@ -538,7 +538,7 @@ public class AeXmlUtil
     * @param aElement Element to scan for namespace declarations in.
     * @param aNamespaceAttrs HashMap to return declarations in.
     */
-   public static void getDeclaredNamespaces(Element aElement, Map aNamespaceAttrs)
+   public static void getDeclaredNamespaces(Element aElement, Map<String, String> aNamespaceAttrs)
    {
       // Loop through and add all attributes which are part of the xmlns to the map
       NamedNodeMap attrNodes = aElement.getAttributes();
