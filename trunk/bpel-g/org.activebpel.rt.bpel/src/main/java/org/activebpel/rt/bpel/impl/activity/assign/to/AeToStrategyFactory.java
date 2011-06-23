@@ -38,7 +38,7 @@ public class AeToStrategyFactory extends AeCopyOperationComponentFactory
     */
    protected void initMap()
    {
-      Map map = getMap();
+      Map<String, Class<?>> map = getMap();
 
       map.put(IAeToStrategyNames.TO_PARTNER_LINK, AeToPartnerLink.class);
       map.put(IAeToStrategyNames.TO_PROPERTY_ELEMENT, AeToPropertyElement.class);

@@ -23,7 +23,7 @@ import org.activebpel.rt.bpel.def.activity.AeActivityInvokeDef;
 public class AeDefActivityInvokeVisitor extends AeAbstractDefVisitor
 {
    /** List of all the AeActivityInvokeDef objects found in the BPEL */
-   private List mInvokes = new ArrayList(); 
+   private List<AeActivityInvokeDef> mInvokes = new ArrayList<AeActivityInvokeDef>(); 
    
    /**
     * Constructor
@@ -59,13 +59,13 @@ public class AeDefActivityInvokeVisitor extends AeAbstractDefVisitor
     * @param aName
     * @return List of AeActivityInvokeDef objects
     */
-   public List getInvokes(String aName)
+   public List<AeActivityInvokeDef> getInvokes(String aName)
    {
-      List retList = new ArrayList();
+      List<AeActivityInvokeDef> retList = new ArrayList<AeActivityInvokeDef>();
       
-      for( Iterator iter = mInvokes.iterator(); iter.hasNext(); )
+      for( Iterator<AeActivityInvokeDef> iter = mInvokes.iterator(); iter.hasNext(); )
       {
-         AeActivityInvokeDef def = (AeActivityInvokeDef) iter.next();
+         AeActivityInvokeDef def = iter.next();
          if( def.getName().equals(aName) )
          {
             retList.add(def);

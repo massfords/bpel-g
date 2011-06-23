@@ -61,9 +61,9 @@ public class AeExtensionActivityDurableInfo implements IAeDurableReplyInfo
    /**
     * @see org.activebpel.rt.bpel.impl.reply.IAeDurableReplyInfo#getProperties()
     */
-   public Map getProperties()
+   public Map<String, String> getProperties()
    {
-      Map props = new HashMap();
+      Map<String, String> props = new HashMap<String, String>();
       props.put( PROCESS_ID, String.valueOf( getProcessId() ) );
       props.put( LOCATION_PATH, String.valueOf( getLocationPath() ) );
       props.put( TRANSMISSION_ID, String.valueOf( getTransmissionId() ) );

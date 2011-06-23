@@ -28,5 +28,5 @@ public interface IAeDurableReplyInfo
    /**
     * Returns properties associated with a specific durable reply.
     */
-   public Map getProperties();
+   public Map<String, String> getProperties();
 }

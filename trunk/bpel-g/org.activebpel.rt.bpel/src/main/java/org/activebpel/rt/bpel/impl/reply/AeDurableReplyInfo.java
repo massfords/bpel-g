@@ -20,14 +20,14 @@ public class AeDurableReplyInfo implements IAeDurableReplyInfo
    /** Durable reply type. */
    private String mType;
    /** Map containing reply information. */
-   private Map mProperties;
+   private Map<String, String> mProperties;
    
    /**
     * Constructs a reply info for the given type and properties.
     * @param aType durable reply type.
     * @param aProperties reply properties.
     */
-   public AeDurableReplyInfo(String aType, Map aProperties)
+   public AeDurableReplyInfo(String aType, Map<String, String> aProperties)
    {
       mType = aType;
       mProperties = aProperties;
@@ -55,11 +55,11 @@ public class AeDurableReplyInfo implements IAeDurableReplyInfo
     * Overrides method to reply context properties. 
     * @see org.activebpel.rt.bpel.impl.reply.IAeDurableReplyInfo#getProperties()
     */
-   public Map getProperties()
+   public Map<String, String> getProperties()
    {
       if (mProperties == null)
       {
-         mProperties = new HashMap();
+         mProperties = new HashMap<String, String>();
       }
       return mProperties;
    }

@@ -25,7 +25,7 @@ import org.activebpel.rt.bpel.def.io.readers.def.AeSpecStrategyKey;
 public abstract class AeCopyOperationComponentFactory
 {
    /**  */
-   private Map mMap = new HashMap();
+   private Map<String, Class<?>> mMap = new HashMap<String, Class<?>>();
 
    /**
     * Inits the map
@@ -43,7 +43,7 @@ public abstract class AeCopyOperationComponentFactory
    /**
     * Getter for the map
     */
-   protected Map getMap()
+   protected Map<String, Class<?>> getMap()
    {
       return mMap;
    }
@@ -56,7 +56,7 @@ public abstract class AeCopyOperationComponentFactory
    {
       AeSpecStrategyKey strategy = aDef.getStrategyKey();
       String strategyName = strategy.getStrategyName();
-      Class clazz = (Class) getMap().get(strategyName);
+      Class<?> clazz = getMap().get(strategyName);
       try
       {
          if (strategy.hasArguments())

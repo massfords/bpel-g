@@ -42,7 +42,7 @@ public class AeFromStrategyFactory extends AeCopyOperationComponentFactory
     */
    protected void initMap()
    {
-      Map map = getMap();
+      Map<String, Class<?>> map = getMap();
       map.put(IAeFromStrategyNames.FROM_EXPRESSION, AeFromExpression.class);
       map.put(IAeFromStrategyNames.FROM_LITERAL, AeFromLiteral.class);
       map.put(IAeFromStrategyNames.FROM_PARTNER_LINK, AeFromPartnerLink.class);

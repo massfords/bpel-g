@@ -56,18 +56,18 @@ public class AeCoordinationContainer extends AeAbstractBpelObject
     * Contains a set of coordination ids of activities which are currently executing (i.e has not completed, or faulted).
     * A scope cannot complete until all coordinated activities have completed.
     */
-   private Set mActiveCoordinations = null;
+   private Set<String> mActiveCoordinations = null;
 
    /** 
     * Map containing a set of all registered coordination-ids (key) along with the state information (value).
     */
-   private Map mRegsiteredCoordinations = null;   
+   private Map<String, String> mRegsiteredCoordinations = null;   
    
    /**
     * Map containing a set of coordination-ids (key) to compensationHandler (value) of coordinated activities
     * which have a compensation handler associated with them. 
     **/
-   private Map mCompCoordinationsMap = null;
+   private Map<String, AeCompensationHandler> mCompCoordinationsMap = null;
    
    /**
     * Default constructor.
@@ -82,11 +82,11 @@ public class AeCoordinationContainer extends AeAbstractBpelObject
     * Returns a colletion of all activities that have registered for coordination.
     * @return map containing all coordinations.
     */
-   protected Map getRegisteredCoordinationsMap()
+   protected Map<String, String> getRegisteredCoordinationsMap()
    {
       if (mRegsiteredCoordinations == null)
       {
-         mRegsiteredCoordinations = new HashMap();
+         mRegsiteredCoordinations = new HashMap<String, String>();
       }
       return mRegsiteredCoordinations;
    }
@@ -94,11 +94,11 @@ public class AeCoordinationContainer extends AeAbstractBpelObject
    /**
     * Returns the map containing coordinations which have compensation handlers installed.
     */
-   protected Map getCompCoordinationMap()
+   protected Map<String, AeCompensationHandler> getCompCoordinationMap()
    {
       if (mCompCoordinationsMap == null)
       {
-         mCompCoordinationsMap = new HashMap();
+         mCompCoordinationsMap = new HashMap<String, AeCompensationHandler>();
       }
       return mCompCoordinationsMap;
    }
@@ -106,11 +106,11 @@ public class AeCoordinationContainer extends AeAbstractBpelObject
    /** 
     * @return Set containing ids of active coordinations.
     */
-   protected Set getActiveCoordinations()
+   protected Set<String> getActiveCoordinations()
    {
       if (mActiveCoordinations == null)
       {
-         mActiveCoordinations = new HashSet();
+         mActiveCoordinations = new HashSet<String>();
       }
       return mActiveCoordinations;
    }
@@ -119,7 +119,7 @@ public class AeCoordinationContainer extends AeAbstractBpelObject
     * Returns a set containing coordination-ids of all activities (including completed and faulted).
     * @return set of all coordinations.
     */
-   public Set getRegisteredCoordinations()
+   public Set<String> getRegisteredCoordinations()
    {
       return Collections.unmodifiableSet(getRegisteredCoordinationsMap().keySet());
    }   
@@ -131,7 +131,7 @@ public class AeCoordinationContainer extends AeAbstractBpelObject
     */
    public String getState(String aCoordinationId)
    {
-      return (String)getRegisteredCoordinationsMap().get(aCoordinationId);
+      return getRegisteredCoordinationsMap().get(aCoordinationId);
    }
    
    /**
@@ -259,11 +259,11 @@ public class AeCoordinationContainer extends AeAbstractBpelObject
  
       if (hasActiveCoordinations())
       {
-         Set activeSet = new HashSet(getActiveCoordinations());
-         Iterator  coordIdIter = activeSet.iterator();
+         Set<String> activeSet = new HashSet<String>(getActiveCoordinations());
+         Iterator<String>  coordIdIter = activeSet.iterator();
          while (coordIdIter.hasNext())
          {
-            cancelActiveCoordination( (String) coordIdIter.next() );
+            cancelActiveCoordination( coordIdIter.next() );
          }
       }
    }
@@ -391,13 +391,13 @@ public class AeCoordinationContainer extends AeAbstractBpelObject
    /**
     * Returns a list of compensation handlers
     */
-   protected List getCompensationHandlers()
+   protected List<AeCompensationHandler> getCompensationHandlers()
    {
-      List list = new ArrayList();
-      Iterator it = getCompCoordinationMap().values().iterator();
+      List<AeCompensationHandler> list = new ArrayList<AeCompensationHandler>();
+      Iterator<AeCompensationHandler> it = getCompCoordinationMap().values().iterator();
       while (it.hasNext())
       {
-         Object handler = it.next();
+    	  AeCompensationHandler handler = it.next();
          if (handler != null)
          {
             list.add(handler);
