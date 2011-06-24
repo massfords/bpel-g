@@ -59,7 +59,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-war-plugin</artifactId>
-				<version>2.0</version>
+				<version>2.1.1</version>
 				<configuration>
 					<webResources>
 						<resource>
@@ -127,7 +127,7 @@
 						<type>embedded</type>
 						<dependencies>
 							<dependency>
-                			<groupId>com.h2database</groupId>
+								<groupId>com.h2database</groupId>
 								<artifactId>h2</artifactId>
 							</dependency>
 							<dependency>
@@ -226,7 +226,7 @@
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-test</artifactId>
-			<version>3.0.4.RELEASE</version>
+			<version>${spring-version}</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
@@ -255,7 +255,7 @@
 		<dependency>
 			<groupId>bpel-g</groupId>
 			<artifactId>ode-packaging</artifactId>
-			<version>5.2-SNAPSHOT</version>
+			<version>${project.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.h2database</groupId>
@@ -371,6 +371,91 @@
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
+
+	<profiles>
+		<profile>
+			<!-- When packaging for JBOSS create a skinny war -->
+			<id>jboss</id>
+			<activation>
+				<activeByDefault>false</activeByDefault>
+			</activation>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-antrun-plugin</artifactId>
+						<executions>
+							<execution>
+								<id>merge-web-xml</id>
+								<phase>process-classes</phase>
+								<configuration>
+									<tasks>
+										<copy
+											file="${basedir}/../org.activebpel.rt.axis.bpel.web/src/main/webapp/WEB-INF/applicationContext.xml"
+											todir="${project.build.directory}/bpel-g/WEB-INF/" />
+										<xslt in="${basedir}/src/main/web-jboss.xml" out="${project.build.directory}/web-jboss.xml"
+											style="${basedir}/src/main/web.xsl" />
+									</tasks>
+								</configuration>
+								<goals>
+									<goal>run</goal>
+								</goals>
+							</execution>
+						</executions>
+						<dependencies>
+							<dependency>
+								<groupId>ant</groupId>
+								<artifactId>ant-trax</artifactId>
+								<version>1.6.5</version>
+							</dependency>
+						</dependencies>
+					</plugin>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-war-plugin</artifactId>
+						<version>2.1.1</version>
+						<configuration>
+							<packagingExcludes>WEB-INF/lib/ae*.jar,WEB-INF/lib/camel*.jar,WEB-INF/lib/commons*.jar,WEB-INF/lib/cxf*.jar,
+							WEB-INF/lib/geronimo*.jar,WEB-INF/lib/jax*.jar,WEB-INF/lib/slf4j*.jar,WEB-INF/lib/saaj*.jar,
+							WEB-INF/lib/saxon*.jar,WEB-INF/lib/spring*.jar,WEB-INF/lib/w*.jar,WEB-INF/lib/x*.jar,,WEB-INF/lib/js-*.jar,
+							WEB-INF/lib/XmlSchema*.jar,WEB-INF/lib/o*.jar,WEB-INF/lib/neethi*.jar,WEB-INF/lib/jython*.jar,
+							WEB-INF/lib/castor*.jar,WEB-INF/lib/bsf*.jar,WEB-INF/lib/asm*.jar,WEB-INF/lib/icu4j*.jar,
+							WEB-INF/lib/aop*.jar,WEB-INF/lib/axis*.jar,WEB-INF/lib/ehcache*.jar,WEB-INF/lib/wsdl4j*.jar</packagingExcludes>
+							<archive>
+								<manifest>
+									<addClasspath>true</addClasspath>
+									<classpathPrefix>lib/</classpathPrefix>
+								</manifest>
+							</archive>
+							<webResources>
+								<resource>
+									<!-- this is relative to the pom.xml directory -->
+									<directory>${basedir}/src/main/filtered-webapp</directory>
+									<filtering>true</filtering>
+								</resource>
+								<resource>
+									<directory>${basedir}/../org.activebpel.rt.war/src/main/webapp</directory>
+									<excludes>
+										<exclude>WEB-INF/web.xml</exclude>
+									</excludes>
+									<filtering>false</filtering>
+								</resource>
+								<resource>
+									<directory>${basedir}/../org.activebpel.rt.bpeladmin.war/src/main/webapp</directory>
+									<excludes>
+										<exclude>WEB-INF/web.xml</exclude>
+									</excludes>
+									<filtering>false</filtering>
+								</resource>
+							</webResources>
+							<webXml>${project.build.directory}/web-jboss.xml</webXml>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
+
 	<properties>
 		<camel.version>2.6.0</camel.version>
 	</properties>
