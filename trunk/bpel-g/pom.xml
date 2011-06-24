@@ -35,7 +35,7 @@
   </repositories>
   <properties>
     <spring-version>3.0.4.RELEASE</spring-version>
-    <camel-version>2.5.0</camel-version>
+    <camel-version>2.6.0</camel-version>
     <cxf-version>2.2.12</cxf-version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>

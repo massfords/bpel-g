@@ -27,6 +27,7 @@ public class BgWebAppIntegrationTest {
 	 * Tests the init of the web app and the spring config in a unit test so I don't have to 
 	 * build, deploy, and restart tomcat to work out any issues.
 	 */
+	@SuppressWarnings("unchecked")
 	@Test
 	public void init() throws Exception {
 		File wardir = new File("target/bpel-g").getAbsoluteFile();

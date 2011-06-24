@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:util="http://www.springframework.org/schema/util"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+    http://camel.apache.org/schema/spring http://camel.apache.org/schema/spring/camel-spring.xsd">
+    
+    <bean id="activemq" 
+      class="org.apache.camel.component.activemq.ActiveMQComponent">
+      <property name="brokerURL" value="tcp://localhost:61616"/>
+   </bean>
+    
+    <camelContext id="jms-test" xmlns="http://camel.apache.org/schema/spring">
+        <route>
+            <!-- Routes always start with a from. -->
+            <from uri="activemq:queue:bpel-inbound"/>
+            <setHeader headerName="partnerLink">
+                <constant>LoanProcess</constant>
+            </setHeader>
+            <setHeader headerName="processNamespace">
+                <constant>http://docs.active-endpoints.com/sample/bpel/loanprocess/2008/02/loanProcessCompleted.bpel</constant>
+            </setHeader>
+            <setHeader headerName="processLocalPart">
+                <constant>loanProcessCompleted</constant>
+            </setHeader>
+            
+            <!-- Not much to configure on the component itself since all of the inputs are headers -->
+            <to uri="bpel:invoke"/>
+            
+            <convertBodyTo type="java.lang.String"/>
+            
+            <!-- dumping the contents of the current message out for debugging only -->
+            <to uri="stream:out"/>
+            <!-- sends the output message back to our mock endpoint listening on the outbound queue -->
+            <to uri="activemq:queue:bpel-outbound"/>
+        </route>
+    </camelContext>
+</beans>
