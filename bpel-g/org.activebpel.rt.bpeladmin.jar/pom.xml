@@ -1,46 +1,84 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <name>ActiveBPEL Admin Web Archive</name>
-  <groupId>org.activebpel</groupId>
-  <artifactId>ae-bpeladmin</artifactId>
-  <parent>
-      <groupId>bpel-g</groupId>
-      <artifactId>bpel-g</artifactId>
-      <version>5.2-SNAPSHOT</version>
-  </parent>
-  <dependencies>
-  	<dependency>
-  		<groupId>org.activebpel</groupId>
-  		<artifactId>ae-war</artifactId>
-  	    <version>${project.version}</version>
-  	</dependency>
-  	<dependency>
-  		<groupId>org.activebpel</groupId>
-  		<artifactId>ae-bpelsrvr</artifactId>
-  	    <version>${project.version}</version>
-  	</dependency>
-     <!-- <dependency>
-  		<groupId>org.activebpel</groupId>
-  		<artifactId>ae-identity</artifactId>
-          <version>${project.version}</version>
-      </dependency>
-     -->
-  	<dependency>
-  		<groupId>commons-fileupload</groupId>
-  		<artifactId>commons-fileupload</artifactId>
-  		<version>1.2.1</version>
-  	</dependency>
-    <dependency>
-        <groupId>javax.servlet</groupId>
-        <artifactId>servlet-api</artifactId>
-        <version>2.5</version>
-        <scope>provided</scope>
-    </dependency>
-    <dependency>
-        <groupId>javax.servlet.jsp</groupId>
-        <artifactId>jsp-api</artifactId>
-        <version>2.1</version>
-        <scope>provided</scope>
-    </dependency>
-  </dependencies>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<name>ActiveBPEL Admin Web Archive</name>
+	<groupId>org.activebpel</groupId>
+	<artifactId>ae-bpeladmin</artifactId>
+	<parent>
+		<groupId>bpel-g</groupId>
+		<artifactId>bpel-g</artifactId>
+		<version>5.2-SNAPSHOT</version>
+	</parent>
+	<dependencies>
+		<dependency>
+			<groupId>org.activebpel</groupId>
+			<artifactId>ae-war</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.activebpel</groupId>
+			<artifactId>ae-bpelsrvr</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<!-- <dependency> <groupId>org.activebpel</groupId> <artifactId>ae-identity</artifactId> 
+			<version>${project.version}</version> </dependency> -->
+		<dependency>
+			<groupId>commons-fileupload</groupId>
+			<artifactId>commons-fileupload</artifactId>
+			<version>1.2.1</version>
+		</dependency>
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>servlet-api</artifactId>
+			<version>2.5</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>javax.servlet.jsp</groupId>
+			<artifactId>jsp-api</artifactId>
+			<version>2.1</version>
+			<scope>provided</scope>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>buildnumber-maven-plugin</artifactId>
+				<version>1.0</version>
+				<executions>
+					<execution>
+						<phase>validate</phase>
+						<goals>
+							<goal>create</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<timestampFormat>{0,date,MM-dd-yyyy}</timestampFormat>
+					<doCheck>false</doCheck>
+					<doUpdate>true</doUpdate>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<version>2.3.1</version>
+				<configuration>
+					<archive>
+						<manifest>
+							<addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+						</manifest>
+						<manifestEntries>
+							<Implementation-Build>${buildNumber}</Implementation-Build>
+							<Implementation-Date>${timestamp}</Implementation-Date>
+						</manifestEntries>
+					</archive>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+
 </project>

@@ -175,20 +175,16 @@ public class AeEngineAdministration implements IAeEngineAdministration {
 	protected List<AeBuildInfo> createBuildInfo() {
 		List<AeBuildInfo> list = new ArrayList<AeBuildInfo>();
 		list.add(new AeBuildInfo(
-				AeMessages.getString("AeEngineAdministration.RT"), org.activebpel.rt.AeBuildNumber.getBuildNumber(), AeBuildInfo.convertCVSDateString(org.activebpel.rt.AeBuildNumber.getBuildDate()))); //$NON-NLS-1$
+				AeMessages.getString("AeEngineAdministration.RT"), org.activebpel.rt.AeBuildNumber.getBuildNumber(), org.activebpel.rt.AeBuildNumber.getBuildDate(), org.activebpel.rt.AeBuildNumber.getVersionNumber())); //$NON-NLS-1$
 		list.add(new AeBuildInfo(
-				AeMessages.getString("AeEngineAdministration.RT_BPEL"), org.activebpel.rt.bpel.AeBuildNumber.getBuildNumber(), AeBuildInfo.convertCVSDateString(org.activebpel.rt.bpel.AeBuildNumber.getBuildDate()))); //$NON-NLS-1$
+				AeMessages.getString("AeEngineAdministration.RT_BPEL"), org.activebpel.rt.bpel.AeBuildNumber.getBuildNumber(), org.activebpel.rt.bpel.AeBuildNumber.getBuildDate(), org.activebpel.rt.bpel.AeBuildNumber.getVersionNumber())); //$NON-NLS-1$
 		list.add(new AeBuildInfo(
-				AeMessages.getString("AeEngineAdministration.RT_BPEL_SERVER"), org.activebpel.rt.bpel.server.AeBuildNumber.getBuildNumber(), AeBuildInfo.convertCVSDateString(org.activebpel.rt.bpel.server.AeBuildNumber.getBuildDate()))); //$NON-NLS-1$
+				AeMessages.getString("AeEngineAdministration.RT_BPEL_SERVER"), org.activebpel.rt.bpel.server.AeBuildNumber.getBuildNumber(), org.activebpel.rt.bpel.server.AeBuildNumber.getBuildDate(), org.activebpel.rt.bpel.server.AeBuildNumber.getVersionNumber())); //$NON-NLS-1$
 
 		AeBuildInfo
 				.createBuildInfoFor(
 						list,
 						"org.activebpel.rt.axis.bpel.AeBuildNumber", AeMessages.getString("AeEngineAdministration.RT_AXIS")); //$NON-NLS-1$ //$NON-NLS-2$
-		AeBuildInfo
-				.createBuildInfoFor(
-						list,
-						"org.activebpel.rt.tomcat.AeBuildNumber", AeMessages.getString("AeEngineAdministration.RT_TOMCAT")); //$NON-NLS-1$ //$NON-NLS-2$
 
 		return list;
 	}

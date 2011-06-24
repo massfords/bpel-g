@@ -9,7 +9,6 @@
 <ae:RequestEncoding value="UTF-8" />
 
 <jsp:useBean id="configBean" class="org.activebpel.rt.bpeladmin.war.web.AeEngineConfigBean" />
-<jsp:useBean id="statusBean" class="org.activebpel.rt.bpeladmin.war.web.AeEngineStatusBean" />
 
 <jsp:include page="header_head.jsp" />
 
@@ -39,7 +38,7 @@
                <ae:IndexedProperty name="configBean" id="buildInfoRow" property="buildInfo" indexedClassName="org.activebpel.rt.bpel.server.admin.AeBuildInfo" >
                   <tr>
                      <td align="left">&nbsp;<ae:GetProperty name="buildInfoRow" property="projectName" /></td>
-                     <td align="left">&nbsp;<ae:GetProperty name="statusBean" property="engineVersion" />.<ae:GetProperty name="buildInfoRow" property="buildNumber" /></td>
+                     <td align="left">&nbsp;<ae:GetProperty name="buildInfoRow" property="buildVersion" /> (<ae:GetProperty name="buildInfoRow" property="buildNumber" />)</td>
                      <td align="left">&nbsp;<ae:GetProperty name="buildInfoRow" property="buildDate" /></td>
                   </tr>
                   <tr height="1">

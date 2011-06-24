@@ -102,7 +102,7 @@ public class AeSaveImplStateVisitor extends AeImplTraversingVisitor implements I
    };
 
    /** Set of states that allow skipping the traversal of child activities. */
-   private static final Set sSkipChildrenStates = Collections.unmodifiableSet(new HashSet(Arrays.asList(sSkipChildrenStatesArray)));
+   private static final Set<AeBpelState> sSkipChildrenStates = Collections.unmodifiableSet(new HashSet<AeBpelState>(Arrays.asList(sSkipChildrenStatesArray)));
 
    /** Process state object to which implementation state is saved. */
    private AeProcessImplState mImplState;
@@ -315,7 +315,7 @@ public class AeSaveImplStateVisitor extends AeImplTraversingVisitor implements I
 
          try
          {
-            Map properties;
+            Map<QName, String> properties;
 
             try
             {

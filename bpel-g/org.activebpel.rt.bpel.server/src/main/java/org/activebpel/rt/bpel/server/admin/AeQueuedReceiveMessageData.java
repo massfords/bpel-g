@@ -23,7 +23,7 @@ public class AeQueuedReceiveMessageData
    /** message data qname */
    private QName mQName;
    /** map of message data */
-   private Map mPartData;
+   private Map<String, Object>  mPartData;
    
    /**
     * Constructor.
@@ -32,7 +32,7 @@ public class AeQueuedReceiveMessageData
    public AeQueuedReceiveMessageData( QName aQName )
    {
       mQName = aQName;
-      mPartData = new HashMap();
+      mPartData = new HashMap<String, Object> ();
    }
    
    /**
@@ -48,7 +48,7 @@ public class AeQueuedReceiveMessageData
    /**
     * Return part data map.
     */
-   public Map getPartData()
+   public Map<String, Object> getPartData()
    {
       return mPartData;
    }

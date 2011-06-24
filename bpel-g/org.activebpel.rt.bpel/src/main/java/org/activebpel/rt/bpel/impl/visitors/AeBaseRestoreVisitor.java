@@ -204,7 +204,7 @@ public class AeBaseRestoreVisitor extends AeImplTraversingVisitor implements IAe
          List properties = selectNodes(aElement, xpath, "Error restoring correlation set properties"); //$NON-NLS-1$
 
          // Convert property elements to property map.
-         Map<QName, Object> map = new HashMap<QName, Object>();
+         Map<QName, String> map = new HashMap<QName, String>();
 
          for (Iterator i = properties.iterator(); i.hasNext(); )
          {

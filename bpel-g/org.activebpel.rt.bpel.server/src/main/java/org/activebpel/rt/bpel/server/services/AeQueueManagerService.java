@@ -33,9 +33,8 @@ public class AeQueueManagerService implements AeQueueManager {
 				.withPortType(ur.getInboundReceive().getPortType())
 				.withId(ur.getInboundReceive().getQueueId());
 			CorrelationProperties cp = new CorrelationProperties();
-			for(Entry<QName,Object> entry : ur.getInboundReceive().getCorrelation().entrySet()) {
-				cp.withProperty(new Property().withProperty(entry.getKey())
-							.withValue(entry.getValue().toString()));
+			for(Entry<QName,String> entry : ur.getInboundReceive().getCorrelation().entrySet()) {
+				cp.withProperty(new Property().withProperty(entry.getKey()).withValue(entry.getValue()));
 			}
 			if (!cp.getProperty().isEmpty())
 				md.withCorrelationProperties(cp);

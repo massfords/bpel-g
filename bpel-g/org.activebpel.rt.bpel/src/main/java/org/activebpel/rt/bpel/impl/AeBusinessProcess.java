@@ -906,7 +906,7 @@ public class AeBusinessProcess extends AeActivityScopeImpl implements IAeBusines
     * @param aMessageReceiver The receive or onMessage activity
     * @param aCorrelation - optional map to store the correlation values
     */
-   protected void getEngineManagedCorrelationData(IAeMessageReceiverActivity aMessageReceiver, Map<QName, Object> aCorrelation)
+   protected void getEngineManagedCorrelationData(IAeMessageReceiverActivity aMessageReceiver, Map<QName, String> aCorrelation)
    {
       AePartnerLink plink = findProcessPartnerLink(aMessageReceiver.getPartnerLinkOperationImplKey().getPartnerLinkLocationPath());
       IAeEndpointReference myRef = plink.getMyReference();
@@ -927,7 +927,7 @@ public class AeBusinessProcess extends AeActivityScopeImpl implements IAeBusines
          throws AeBusinessProcessException
    {
       IAeIMACorrelations receiveCorrelations = aMessageReceiver.getCorrelations();
-      Map<QName, Object> correlation = receiveCorrelations != null? receiveCorrelations.getInitiatedProperties() : new HashMap<QName, Object>();
+      Map<QName, String> correlation = receiveCorrelations != null? receiveCorrelations.getInitiatedProperties() : new HashMap<QName, String>();
 
       int receiverPathId = getLocationId(aMessageReceiver.getLocationPath());
       AePartnerLinkOpImplKey plOpImplKey = aMessageReceiver.getPartnerLinkOperationImplKey();
@@ -2147,7 +2147,7 @@ public class AeBusinessProcess extends AeActivityScopeImpl implements IAeBusines
          try
          {
             Map<QName,Object> inboundProperties = new HashMap<QName,Object>(aInboundReceive.getCorrelation());
-            Map<QName, Object> activityCorrelations = aActivity.getCorrelations() != null ? aActivity.getCorrelations().getInitiatedProperties() : new HashMap<QName, Object>();
+            Map<QName, String> activityCorrelations = aActivity.getCorrelations() != null ? aActivity.getCorrelations().getInitiatedProperties() : new HashMap<QName, String>();
 
             // add any engine managed correlation
             getEngineManagedCorrelationData(aActivity, activityCorrelations);
@@ -2446,16 +2446,16 @@ public class AeBusinessProcess extends AeActivityScopeImpl implements IAeBusines
    /**
     * @see org.activebpel.rt.bpel.IAeBusinessProcess#getCorrelationData(java.lang.String)
     */
-   public synchronized Map getCorrelationData( String aLocationPath) throws AeBusinessProcessException
+   public synchronized Map<QName, String> getCorrelationData( String aLocationPath) throws AeBusinessProcessException
    {
       AeCorrelationSet correlationSet = findCorrelationSetByPath( aLocationPath );
-      return new HashMap<QName, Object>(correlationSet.getPropertyValues());
+      return new HashMap<QName, String>(correlationSet.getPropertyValues());
    }
 
    /**
     * @see org.activebpel.rt.bpel.IAeBusinessProcess#setCorrelationData(java.lang.String, java.util.Map)
     */
-   public synchronized void setCorrelationData( String aLocationPath, Map<QName, Object> aCorrelationData )
+   public synchronized void setCorrelationData( String aLocationPath, Map<QName, String> aCorrelationData )
    throws AeBusinessProcessException
    {
       AeCorrelationSet correlationSet = findCorrelationSetByPath( aLocationPath );

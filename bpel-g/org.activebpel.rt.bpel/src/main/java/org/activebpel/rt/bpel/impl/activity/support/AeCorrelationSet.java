@@ -15,6 +15,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import javax.xml.namespace.QName;
 
@@ -45,7 +46,7 @@ public class AeCorrelationSet extends AeScopedObject implements Cloneable
    private boolean mInitialized = false;
    
    /** The set of data associated with an initialized correlation set. */
-   private Map<QName, Object> mPropertyValues;
+   private Map<QName, String> mPropertyValues;
    
    /** maintains list of listeners waiting to queue themselves once we're initialized */
    private Collection<IAeCorrelationListener> mListeners;
@@ -67,21 +68,20 @@ public class AeCorrelationSet extends AeScopedObject implements Cloneable
     * Converts a Map of Correlation Set property data into XML formatted string.
     * @param aCorrSetData map of Correlation Propert data 
     */
-   public static String convertCorrSetDataToString(Map aCorrSetData)
+   public static String convertCorrSetDataToString(Map<QName, String> aCorrSetData)
    {
       Document crsDoc = AeXmlUtil.newDocument();
       Element root = crsDoc.createElement("corrSet");  //$NON-NLS-1$
       crsDoc.appendChild(root);
       
-      for (Iterator iter = aCorrSetData.keySet().iterator(); iter.hasNext();)
+      for (Entry<QName, String> entry : aCorrSetData.entrySet())
       {
-         QName propQName = (QName)iter.next();
-         String value = (String) aCorrSetData.get(propQName);
+         QName propQName = entry.getKey();
          Element ele = crsDoc.createElement("property");  //$NON-NLS-1$  
          root.appendChild(ele);
          ele.setAttribute("name", propQName.getLocalPart());  //$NON-NLS-1$  
          ele.setAttribute("namespaceURI", propQName.getNamespaceURI());  //$NON-NLS-1$  
-         ele.setAttribute("value", String.valueOf(value));  //$NON-NLS-1$ 
+         ele.setAttribute("value", entry.getValue());  //$NON-NLS-1$ 
       }
       
       return AeXMLParserBase.documentToString(crsDoc, true);
@@ -93,9 +93,9 @@ public class AeCorrelationSet extends AeScopedObject implements Cloneable
     * @param aCorrSetData the XML document to process if null returns an empty map
     * @throws AeException if document is invalid
     */
-   public static Map convertCorrSetDataToMap(Document aCorrSetData) throws AeException
+   public static Map<QName, String> convertCorrSetDataToMap(Document aCorrSetData) throws AeException
    {
-      Map<QName, Object> correlationData = new HashMap<QName, Object>();
+      Map<QName, String> correlationData = new HashMap<QName, String>();
       if(aCorrSetData != null)
       {
          List propertyNodeList = AeXPathUtil.selectNodes(aCorrSetData.getDocumentElement(), "//property"); //$NON-NLS-1$
@@ -113,7 +113,7 @@ public class AeCorrelationSet extends AeScopedObject implements Cloneable
     * Returns the property values for this correlation set. If the set is not
     * initialized then you'll get an exception here. 
     */
-   public Map<QName, Object> getPropertyValues() throws AeCorrelationViolationException
+   public Map<QName, String> getPropertyValues() throws AeCorrelationViolationException
    {
       if( ! isInitialized())
          throw new AeCorrelationViolationException(getBPELNamespace(), AeCorrelationViolationException.UNINITIALIZED_CORRELATION_SET);
@@ -124,10 +124,10 @@ public class AeCorrelationSet extends AeScopedObject implements Cloneable
    /**
     * Getter for the property values map with lazy load.
     */
-   protected Map<QName, Object> getPropertyValuesMap()
+   protected Map<QName, String> getPropertyValuesMap()
    {
       if(mPropertyValues == null)
-         mPropertyValues = new HashMap<QName, Object>();
+         mPropertyValues = new HashMap<QName, String>();
       return mPropertyValues;
    }
    
@@ -138,7 +138,7 @@ public class AeCorrelationSet extends AeScopedObject implements Cloneable
     */
    protected void initiate(IAeMessageData aMessageData, AeMessagePartsMap aMessagePartsMap) throws AeBusinessProcessException
    {
-      Map<QName, Object> map = getPropertyValuesMap();
+      Map<QName, String> map = getPropertyValuesMap();
       buildPropertyMap(aMessageData, aMessagePartsMap, map);
       setInitialized(true);
       notifyListeners();
@@ -171,7 +171,7 @@ public class AeCorrelationSet extends AeScopedObject implements Cloneable
       if (!isInitialized())
          throw new AeCorrelationViolationException(getBPELNamespace(), AeCorrelationViolationException.UNINITIALIZED_CORRELATION_SET);
       
-      Map<QName, Object> map = new HashMap<QName, Object>();
+      Map<QName, String> map = new HashMap<QName, String>();
       buildPropertyMap(aMessageData, aMessagePartsMap, map);
       
       if (!getPropertyValuesMap().equals(map))
@@ -188,7 +188,7 @@ public class AeCorrelationSet extends AeScopedObject implements Cloneable
     * @throws AeBusinessProcessException
     * @throws AeBpelException
     */
-   private void buildPropertyMap(IAeMessageData aMessageData, AeMessagePartsMap aMessagePartsMap, Map<QName, Object> aMap)
+   private void buildPropertyMap(IAeMessageData aMessageData, AeMessagePartsMap aMessagePartsMap, Map<QName, String> aMap)
       throws AeBusinessProcessException, AeBpelException
    {
       for (Iterator it=getDefinition().getPropertiesList(); it.hasNext();)
@@ -198,7 +198,7 @@ public class AeCorrelationSet extends AeScopedObject implements Cloneable
          
          AeTypeMapping typeMapping = getProcess().getEngine().getTypeMapping();
          QName propType = getProcess().getProcessDefinition().getPropertyType(propAlias.getPropertyName());
-         Object simpleType = AeXPathHelper.getInstance(getBPELNamespace()).extractCorrelationPropertyValue(
+         String simpleType = AeXPathHelper.getInstance(getBPELNamespace()).extractCorrelationPropertyValue(
                      propAlias, aMessageData, typeMapping, propType);
          aMap.put(propName, simpleType);
       }
@@ -312,10 +312,10 @@ public class AeCorrelationSet extends AeScopedObject implements Cloneable
     *
     * @param aMap the map of name-value pairs to set
     */
-   public void setPropertyValues(Map<QName, Object> aMap) throws AeBpelException
+   public void setPropertyValues(Map<QName, String> aMap) throws AeBpelException
    {
       setInitialized(true);
-      mPropertyValues = new HashMap<QName, Object>(aMap);
+      mPropertyValues = new HashMap<QName, String>(aMap);
    }
 
    /**

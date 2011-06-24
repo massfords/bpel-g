@@ -90,14 +90,14 @@ public interface IAeBusinessProcess
     * @param aLocationPath Identifies the correlation set within the process.
     * @return CorrelationData map
     */
-   public Map getCorrelationData(String aLocationPath) throws AeBusinessProcessException;
+   public Map<QName, String> getCorrelationData(String aLocationPath) throws AeBusinessProcessException;
 
    /**
     * Set correlation data on the process instance.
     * @param aLocationPath Identifies the correlation set within the process.
     * @param aCorrelationData
     */
-   public void setCorrelationData( String aLocationPath, Map<QName, Object> aCorrelationData )
+   public void setCorrelationData( String aLocationPath, Map<QName, String> aCorrelationData )
    throws AeBusinessProcessException;
 
    /**

@@ -29,7 +29,7 @@ public interface IAeIMACorrelations extends IAeCorrelations
     * @throws AeCorrelationViolationException thrown if the one or more 
     *         correlation sets were supposed to initiated but weren't
     */
-   public Map<QName, Object> getInitiatedProperties() throws AeCorrelationViolationException;
+   public Map<QName, String> getInitiatedProperties() throws AeCorrelationViolationException;
    
    /**
     * Creates a set of location paths for the correlationSets used for the 

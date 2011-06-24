@@ -380,7 +380,7 @@ public class AeBusinessProcessEngine implements IAeBusinessProcessEngineInternal
     * @see org.activebpel.rt.bpel.IAeBusinessProcessEngine#setCorrelationData(long, java.lang.String, java.util.Map)
     */
    public void setCorrelationData(long aPid, String aCorrsetPath,
-         Map<QName, Object> aCorrelationData) throws AeBusinessProcessException
+         Map<QName, String> aCorrelationData) throws AeBusinessProcessException
    {
       IAeBusinessProcess process = getProcessById(aPid);
       try
@@ -645,7 +645,7 @@ public class AeBusinessProcessEngine implements IAeBusinessProcessEngineInternal
    {
       IAeProcessPlan processPlan = getProcessPlan(AeMessageContext.convert(aContext));
       AePartnerLinkOpKey plOpKey = getPartnerLinkOpKey(aContext, processPlan);
-      Map<QName, Object> correlationMap = createCorrelationMap(processPlan, aMessageData, aContext);
+      Map<QName, String> correlationMap = createCorrelationMap(processPlan, aMessageData, aContext);
       AeInboundReceive inboundReceive = new AeInboundReceive(plOpKey, correlationMap, processPlan, aMessageData, aContext, aReply);
       // queue receive to create process, but do not queue the process for execution.
       return queueReceiveData(inboundReceive, aAckCallback, aQueueForExecution);
@@ -701,7 +701,7 @@ public class AeBusinessProcessEngine implements IAeBusinessProcessEngineInternal
       }
 
       AePartnerLinkOpKey plOpKey = getPartnerLinkOpKey(aContext, plan);
-      Map<QName, Object> correlationMap = createCorrelationMap(plan, aMessageData, aContext);
+      Map<QName, String> correlationMap = createCorrelationMap(plan, aMessageData, aContext);
       boolean isOneWay = plan.getProcessDef().isOneWayReceive(plOpKey);
       IAeReplyReceiver replyReceiver = aReply;
       // If the op is one-way - don't use the reply receiver, even if one was included.
@@ -879,10 +879,10 @@ public class AeBusinessProcessEngine implements IAeBusinessProcessEngineInternal
     * @param aData
     * @param aContext
     */
-   private Map<QName, Object> createCorrelationMap(IAeProcessPlan aDesc, IAeMessageData aData,
+   private Map<QName, String> createCorrelationMap(IAeProcessPlan aDesc, IAeMessageData aData,
                                     IAeMessageContext aContext) throws AeBusinessProcessException
    {
-      Map<QName, Object> map = new HashMap<QName, Object>();
+      Map<QName, String> map = new HashMap<QName, String>();
       AePartnerLinkDef plDef = aDesc.getProcessDef().findPartnerLink(aContext.getPartnerLink());
       AePartnerLinkOpKey plOpKey = new AePartnerLinkOpKey(plDef, aContext.getOperation());
       AeMessagePartsMap messagePartsMap = aDesc.getProcessDef().getMessageForCorrelation(plOpKey);
