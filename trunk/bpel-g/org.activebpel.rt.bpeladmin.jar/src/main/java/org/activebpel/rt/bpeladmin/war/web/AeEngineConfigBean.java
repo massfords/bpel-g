@@ -35,7 +35,7 @@ public class AeEngineConfigBean extends AeAbstractAdminBean
    protected AeBuildInfo[] mBuildInfos;
 
    // internal state
-   private Set<AeProcessEventType> mNewFilter = new HashSet();
+   private Set<AeProcessEventType> mNewFilter = new HashSet<AeProcessEventType>();
    private boolean mAllowEmptyQuery;
    private boolean mValidateMessages;
    private boolean mCreateXPath;
@@ -54,7 +54,7 @@ public class AeEngineConfigBean extends AeAbstractAdminBean
     */
    protected AeBuildInfo[] getBuildInfo()
    {
-      ArrayList list = new ArrayList();
+      List<AeBuildInfo> list = new ArrayList<AeBuildInfo>();
       AeBuildInfo[] infoArray = getAdmin().getBuildInfo();
       for (int i = 0; i < infoArray.length; i++)
       {
@@ -67,9 +67,9 @@ public class AeEngineConfigBean extends AeAbstractAdminBean
    }
 
    /**
-    * Creates an additional bild info object for the admin console.
+    * Creates an additional build info object for the administration console.
     */
-   protected void addAdminBuildInfo(List aList)
+   protected void addAdminBuildInfo(List<AeBuildInfo> aList)
    {
       try
       {

@@ -26,11 +26,11 @@ import org.activebpel.rt.war.tags.IAeErrorAwareBean;
 public class AeAbstractAdminBean implements IAeErrorAwareBean
 {
    /** maps property names to their error values */
-   private Map mPropertyErrors;
+   private Map<String, String> mPropertyErrors;
    /** Indicates whether the status message is actually an error message */
    private boolean mErrorDetail;
    /** List of error or status detail messages. */
-   private List mMessageList = new ArrayList();
+   private List<String> mMessageList = new ArrayList<String>();
 
    /**
     * Adds a error or detail message.
@@ -137,8 +137,7 @@ public class AeAbstractAdminBean implements IAeErrorAwareBean
    /**
     * @see org.activebpel.rt.war.tags.IAeErrorAwareBean#addError(java.lang.String, java.lang.String, java.lang.String)
     */
-   public void addError(String aPropertyName, String aValue,
-         String aErrorMessage)
+   public void addError(String aPropertyName, String aValue, String aErrorMessage)
    {
       getPropertyErrors().put(aPropertyName, aValue);
       setErrorDetail(true);
@@ -168,11 +167,11 @@ public class AeAbstractAdminBean implements IAeErrorAwareBean
    /**
     * @return Returns the propertyErrors.
     */
-   protected Map getPropertyErrors()
+   protected Map<String, String> getPropertyErrors()
    {
       if (mPropertyErrors == null)
       {
-         mPropertyErrors = new HashMap();
+         mPropertyErrors = new HashMap<String, String>();
       }
       return mPropertyErrors;
    }
@@ -180,7 +179,7 @@ public class AeAbstractAdminBean implements IAeErrorAwareBean
    /**
     * @param aPropertyErrors The propertyErrors to set.
     */
-   protected void setPropertyErrors(Map aPropertyErrors)
+   protected void setPropertyErrors(Map<String, String> aPropertyErrors)
    {
       mPropertyErrors = aPropertyErrors;
    }

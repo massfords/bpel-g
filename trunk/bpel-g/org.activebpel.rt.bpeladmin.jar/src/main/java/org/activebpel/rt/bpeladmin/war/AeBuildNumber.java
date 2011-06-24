@@ -10,7 +10,8 @@
 package org.activebpel.rt.bpeladmin.war;
 
 import java.io.IOException;
-import java.util.Properties;
+import java.net.URL;
+import java.util.jar.Manifest;
 
 /**
  * Build number class is a helper for accessing version info.
@@ -20,19 +21,18 @@ public class AeBuildNumber
    private static String mBuildNumber = ""; //$NON-NLS-1$
    private static String mBuildDate   = ""; //$NON-NLS-1$
    private static String mVersionNumber = ""; //$NON-NLS-1$
-   private static String mMasterBuildNumber = ""; //$NON-NLS-1$
 
    static
    {
       try
       {
-         Properties props = new Properties();
-         props.load(new AeBuildNumber().getClass().getResourceAsStream("version.properties")); //$NON-NLS-1$
-      
-         mBuildNumber   = props.getProperty("build.number"); //$NON-NLS-1$
-         mBuildDate     = props.getProperty("build.date"); //$NON-NLS-1$
-         mVersionNumber = props.getProperty("build.version"); //$NON-NLS-1$
-         mMasterBuildNumber = props.getProperty("build.master"); //$NON-NLS-1$
+    	 String cp = AeBuildNumber.class.getResource(AeBuildNumber.class.getSimpleName() + ".class").toString();
+    	 cp = cp.substring(0, cp.indexOf(AeBuildNumber.class.getPackage().getName().replace(".", "/"))) +  "META-INF/MANIFEST.MF";
+    	 Manifest mf = new Manifest((new URL(cp)).openStream());
+
+    	 mBuildNumber   = mf.getMainAttributes().getValue("Implementation-Build"); //$NON-NLS-1$
+         mBuildDate     = mf.getMainAttributes().getValue("Implementation-Date"); //$NON-NLS-1$
+         mVersionNumber = mf.getMainAttributes().getValue("Implementation-Version"); //$NON-NLS-1$
       }
       catch (IOException ioe)
       {
@@ -74,13 +74,5 @@ public class AeBuildNumber
    public final static String getBuildDate() 
    {
       return mBuildDate;
-   }
-
-   /**
-    * Obtains the master build number for this component.
-    */
-   public final static String getMasterBuildNumber()
-   {
-      return mMasterBuildNumber;
    }
 }

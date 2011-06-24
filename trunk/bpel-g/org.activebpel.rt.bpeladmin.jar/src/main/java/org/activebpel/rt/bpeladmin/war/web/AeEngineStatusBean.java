@@ -9,7 +9,6 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpeladmin.war.web;
 
-import java.text.MessageFormat;
 import java.util.Date;
 
 import org.activebpel.rt.AeException;
@@ -27,9 +26,6 @@ import bpelg.services.processes.types.ProcessDeployments;
  */
 public class AeEngineStatusBean extends AeAbstractAdminBean
 {
-   /** The format of the engine version string. */
-   private static final String VERSION_PATTERN = "{0} ({1})"; //$NON-NLS-1$
-
    /**
     * Default constructor.
     */
@@ -123,7 +119,7 @@ public class AeEngineStatusBean extends AeAbstractAdminBean
     */
    public String getEngineVersion()
    {
-      return MessageFormat.format(VERSION_PATTERN, new Object[] { AeBuildNumber.getVersionNumber(), AeBuildNumber.getMasterBuildNumber() });
+      return AeBuildNumber.getVersionNumber();
    }
    
    /**

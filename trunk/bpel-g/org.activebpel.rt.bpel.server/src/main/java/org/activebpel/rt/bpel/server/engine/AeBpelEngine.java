@@ -574,7 +574,7 @@ public class AeBpelEngine extends AeAbstractServerEngine {
 	 *            The correlation map.
 	 * @return A correlation map hash.
 	 */
-	protected int calculateCorrelationHash(Map<QName, Object> aCorrelationMap) {
+	protected int calculateCorrelationHash(Map<QName, String> aCorrelationMap) {
 		int hash = 0;
 		int count = 1;
 		// Sort the keys - this ensures that the correlation set hash is always

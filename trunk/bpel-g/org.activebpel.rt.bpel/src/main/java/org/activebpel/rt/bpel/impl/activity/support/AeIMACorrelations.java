@@ -78,9 +78,9 @@ public class AeIMACorrelations extends AeCorrelationsImpl implements IAeIMACorre
    /**
     * @see org.activebpel.rt.bpel.impl.activity.support.IAeIMACorrelations#getInitiatedProperties()
     */
-   public Map<QName, Object> getInitiatedProperties() throws AeCorrelationViolationException
+   public Map<QName, String> getInitiatedProperties() throws AeCorrelationViolationException
    {
-      Map<QName, Object> correlation = new HashMap<QName, Object>();
+      Map<QName, String> correlation = new HashMap<QName, String>();
       for(Iterator iter = getInitiatedCorrelationDefs(); iter.hasNext(); )
       {
          AeCorrelationDef corrDef = (AeCorrelationDef)iter.next();

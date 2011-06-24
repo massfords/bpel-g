@@ -108,7 +108,7 @@ public interface IAeBusinessProcessEngine
     * @param aCorrelationData
     * @throws AeBusinessProcessException
     */
-   public void setCorrelationData( long aPid, String aCorrsetPath, Map<QName, Object> aCorrelationData )
+   public void setCorrelationData( long aPid, String aCorrsetPath, Map<QName, String> aCorrelationData )
    throws AeBusinessProcessException;
    
    /**

@@ -11,9 +11,6 @@ package org.activebpel.rt.bpel.server.admin;
 
 import java.beans.ConstructorProperties;
 import java.lang.reflect.Method;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 
 import org.activebpel.rt.AeException;
@@ -23,15 +20,7 @@ import org.activebpel.rt.AeException;
  */
 public class AeBuildInfo
 {
-   /** The date pattern contains the cvs tag in it which will get replaced with
-    *  the current date each time we check in. In order to keep the date intact,
-    *  we need to break up the pattern into two strings as so */
-   private static final String sDatePatternPartOne = "'$Dat"; //$NON-NLS-1$
-   private static final String sDatePatternPartTwo = "e: 'yyyy'/'MM'/'dd' 'HH':'mm':'ss' $'"; //$NON-NLS-1$
-   private static final String sDatePattern = sDatePatternPartOne + sDatePatternPartTwo;
-   
-   private static final String sDisplayDatePattern = "yyyy/MM/dd"; //$NON-NLS-1$
-
+   private String mBuildVersion;
    /** The build number for the project */
    private String mBuildNumber;
    /** The build date for the project */
@@ -39,16 +28,27 @@ public class AeBuildInfo
    /** The project name */
    private String mProjectName;
    
+   /**
+	* C'tor.
+	*/
    public AeBuildInfo()
    {
    }
    
-   @ConstructorProperties({"projectName", "buildNumber", "buildDate"})
-   public AeBuildInfo(String aProjectName, String aBuildNumber, String aBuildDate)
+   /**
+	* C'tor.
+	* @param aProjectName
+	* @param aBuildNumber
+	* @param aBuildDate
+	* @param aBuildVersion
+	*/
+   @ConstructorProperties({"projectName", "buildNumber", "buildDate", "buildVersion"})
+   public AeBuildInfo(String aProjectName, String aBuildNumber, String aBuildDate, String aBuildVersion)
    {
       setProjectName(aProjectName);
       setBuildNumber(aBuildNumber);
       setBuildDate(aBuildDate);
+      setBuildVersion(aBuildVersion);
    }
    
    /**
@@ -68,24 +68,13 @@ public class AeBuildInfo
    }
    
    /**
-    * Sets the date as a CVS date string
-    * @param aString
+    * Gets the build version
     */
-   public static String convertCVSDateString(String aString)
+   public String getBuildVersion()
    {
-      SimpleDateFormat sdf = new SimpleDateFormat(sDatePattern);
-      try
-      {
-         Date date = sdf.parse(aString);
-         SimpleDateFormat displaySdf = new SimpleDateFormat(sDisplayDatePattern);
-         return displaySdf.format(date);
-      }
-      catch (ParseException e)
-      {
-         return aString;
-      }
+      return mBuildVersion;
    }
-
+   
    /**
     * Sets the build date
     * @param aString
@@ -102,6 +91,15 @@ public class AeBuildInfo
    public void setBuildNumber(String aString)
    {
       mBuildNumber = aString;
+   }
+   
+   /**
+    * Sets the build version
+    * @param aString
+    */
+   public void setBuildVersion(String aString)
+   {
+      mBuildVersion = aString;
    }
 
    /**
@@ -173,9 +171,10 @@ public class AeBuildInfo
    {
       try
       {
-         String axisBuildNumber = invoke(aBuildNumberClass, "getBuildNumber");  //$NON-NLS-1$
-         String axisBuildDate = invoke(aBuildNumberClass, "getBuildDate");  //$NON-NLS-1$
-         return new AeBuildInfo(aDisplayName, axisBuildNumber, AeBuildInfo.convertCVSDateString(axisBuildDate));
+         String buildNumber = invoke(aBuildNumberClass, "getBuildNumber");  //$NON-NLS-1$
+         String buildDate = invoke(aBuildNumberClass, "getBuildDate");  //$NON-NLS-1$
+         String buildVersion = invoke(aBuildNumberClass, "getVersionNumber");  //$NON-NLS-1$
+         return new AeBuildInfo(aDisplayName, buildNumber, buildDate, buildVersion);
       }
       catch (Exception e)
       {
