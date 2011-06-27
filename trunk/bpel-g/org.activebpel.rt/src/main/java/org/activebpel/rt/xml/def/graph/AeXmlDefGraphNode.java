@@ -24,7 +24,7 @@ public class AeXmlDefGraphNode implements IAeXmlDefGraphNode
    /** Parent */
    private IAeXmlDefGraphNode mParent;
    /** List of children.**/
-   private List mChildren;
+   private List<IAeXmlDefGraphNode> mChildren;
    /** Display name. */
    private String mDisplayName;
    /** Icon image file name */
@@ -88,7 +88,7 @@ public class AeXmlDefGraphNode implements IAeXmlDefGraphNode
    {
       if (mChildren == null)
       {
-         mChildren = new ArrayList();
+         mChildren = new ArrayList<IAeXmlDefGraphNode>();
       }
       if (aChild != null && !mChildren.contains(aChild) )
       {
@@ -100,13 +100,13 @@ public class AeXmlDefGraphNode implements IAeXmlDefGraphNode
    /**
     * @see org.activebpel.rt.xml.def.graph.IAeXmlDefGraphNode#getChildren()
     */
-   public List getChildren()
+   public List<IAeXmlDefGraphNode> getChildren()
    {
       if (mChildren != null)
       {
          return mChildren;
       }
-      return Collections.EMPTY_LIST;
+      return Collections.<IAeXmlDefGraphNode>emptyList();
    }
 
    /**

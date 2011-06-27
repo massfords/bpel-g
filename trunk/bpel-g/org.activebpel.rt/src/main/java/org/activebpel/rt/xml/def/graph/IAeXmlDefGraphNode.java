@@ -61,7 +61,7 @@ public interface IAeXmlDefGraphNode
     * Returns list of child <code>IAeXmlDefGraphNode</code> nodes.
     * @return list of child nodes.
     */
-   public List getChildren();
+   public List<IAeXmlDefGraphNode> getChildren();
    
    /**
     * Returns true if a node is meant to be displayed only on outline view

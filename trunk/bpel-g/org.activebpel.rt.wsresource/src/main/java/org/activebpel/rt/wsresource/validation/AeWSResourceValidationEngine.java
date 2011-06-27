@@ -159,9 +159,9 @@ public class AeWSResourceValidationEngine
        *
        * @param aDef
        */
-      protected Set getSuppressedRuleIds(AeBaseXmlDef aDef)
+      protected Set<QName> getSuppressedRuleIds(AeBaseXmlDef aDef)
       {
-         Set suppressedIds = null;
+         Set<QName> suppressedIds = null;
 
          // First get all suppressed rules from the def's parent (if any)
          if (aDef.getParentXmlDef() != null)
@@ -175,7 +175,7 @@ public class AeWSResourceValidationEngine
             // Create the set here if not already created.
             if (suppressedIds == null)
             {
-               suppressedIds = new HashSet();
+               suppressedIds = new HashSet<QName>();
             }
             
             // The value of the extension attribute is a list of encoded QNames

@@ -78,7 +78,7 @@ public class AeXmlNormalizer
     *
     * @param aElements
     */
-   protected List normalizeElements(List aElements)
+   protected List<Element> normalizeElements(List aElements)
    {
       // First, configure the namespace manager by adding in all
       // namespaces from all elements being normalized.
@@ -88,7 +88,7 @@ public class AeXmlNormalizer
          getNamespaceManager().addNamespaces(element);
       }
 
-      List newElements = new ArrayList();
+      List<Element> newElements = new ArrayList<Element>();
       // Now normalize each element using the configured namespace manager.
       for (Iterator iter = aElements.iterator(); iter.hasNext(); )
       {
@@ -230,9 +230,9 @@ public class AeXmlNormalizer
    protected static class AeNamespaceManager
    {
       /** Map of prefix to namespace. */
-      private Map mPrefixToNamespaceMap = new HashMap();
+      private Map<String, String> mPrefixToNamespaceMap = new HashMap<String, String>();
       /** Map of namespace to prefix. */
-      private Map mNamespaceToPrefixMap = new HashMap();
+      private Map<String, String> mNamespaceToPrefixMap = new HashMap<String, String>();
 
       /**
        * C'tor.

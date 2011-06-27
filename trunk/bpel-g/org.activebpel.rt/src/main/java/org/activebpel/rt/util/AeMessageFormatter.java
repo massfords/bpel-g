@@ -12,7 +12,7 @@ package org.activebpel.rt.util;
 
 import java.text.MessageFormat;
 import java.util.Arrays;
-import java.util.HashMap;
+import java.util.Map;
 
 import org.activebpel.rt.AeException;
 import org.activebpel.rt.AeMessages;
@@ -53,7 +53,7 @@ public abstract class AeMessageFormatter
     * with a set of simulator message formats, while a Live Debugger can be running 
     * in another page using a (different) set of debugger message formats.
     */
-   public abstract HashMap getFormatMap();
+   public abstract Map<Integer, String> getFormatMap();
    
    /**
     * Implementors will provide the format string accessor applicable to their
@@ -156,7 +156,7 @@ public abstract class AeMessageFormatter
    protected void mapFormatToID( int aID, String aFormat )
    {
       if ( getFormatMap() != null )
-         getFormatMap().put( new Integer( aID ), aFormat );
+         getFormatMap().put(aID, aFormat);
    }
    
    /**

@@ -22,9 +22,9 @@ public class AeNoOpExpressionAnalyzer implements IAeExpressionAnalyzer
    /**
     * @see org.activebpel.rt.expr.def.IAeExpressionAnalyzer#getNamespaces(org.activebpel.rt.expr.def.IAeExpressionAnalyzerContext, java.lang.String)
     */
-   public Set getNamespaces(IAeExpressionAnalyzerContext aContext, String aExpression)
+   public Set<String> getNamespaces(IAeExpressionAnalyzerContext aContext, String aExpression)
    {
-      return Collections.EMPTY_SET;
+      return Collections.<String>emptySet();
    }
    
    /**

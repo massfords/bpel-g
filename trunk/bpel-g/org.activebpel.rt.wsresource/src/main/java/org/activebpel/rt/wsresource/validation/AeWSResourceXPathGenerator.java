@@ -48,7 +48,7 @@ public class AeWSResourceXPathGenerator
     */
    public String generateXPath(Node aNode)
    {
-      List steps = new ArrayList();
+      List<String> steps = new ArrayList<String>();
 
       Node node = aNode;
 

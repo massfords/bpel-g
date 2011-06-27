@@ -17,6 +17,7 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 import java.util.TimerTask;
 
 /**
@@ -44,7 +45,7 @@ public class AeTimerService
    private java.util.Timer mTimer;
 
    /** The map of currently running alarm manager tasks, keyed by request ID. */
-   private HashMap mTimerTasks = new HashMap();
+   private Map<Long, AeTimerTask> mTimerTasks = new HashMap<Long, AeTimerTask>();
 
    /**
     * Constructs a new timer service.
@@ -187,7 +188,7 @@ public class AeTimerService
       synchronized (getTimerTasks())
       {
          Long key = ((AeTimerTask)aTimer).getId();
-         AeTimerTask task = (AeTimerTask)getTimerTasks().get(key);
+         AeTimerTask task = getTimerTasks().get(key);
          if (task == null)
             cancelled = false;
          else
@@ -210,10 +211,10 @@ public class AeTimerService
          // Iterate over a copy of the timer tasks collection, so that we don't
          // get a concurrent modification exception when AeTimerTask#cancel()
          // removes a task from the timer tasks map.
-         Collection tasks = new ArrayList(getTimerTasks().values());
+         Collection<AeTimerTask> tasks = new ArrayList<AeTimerTask>(getTimerTasks().values());
 
-         for (Iterator iter = tasks.iterator(); iter.hasNext(); )
-            ((AeTimerTask)iter.next()).cancel();
+         for (Iterator<AeTimerTask> iter = tasks.iterator(); iter.hasNext(); )
+            iter.next().cancel();
       }
 
       // Cancel myself.
@@ -242,7 +243,7 @@ public class AeTimerService
    /**
     * Returns the collection of timer events which are currently scheduled. 
     */
-   protected HashMap getTimerTasks()
+   protected Map<Long, AeTimerTask> getTimerTasks()
    {
       return mTimerTasks;
    }

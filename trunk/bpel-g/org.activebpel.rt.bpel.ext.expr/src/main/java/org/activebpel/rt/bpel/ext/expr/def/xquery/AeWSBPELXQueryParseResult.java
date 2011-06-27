@@ -46,9 +46,9 @@ public class AeWSBPELXQueryParseResult extends AeAbstractXQueryParseResult
    /**
     * @see org.activebpel.rt.bpel.def.expr.AeAbstractExpressionParseResult#getVarDataList()
     */
-   public List getVarDataList()
+   public List<AeVariableData> getVarDataList()
    {
-      List varData = super.getVarDataList();
+      List<AeVariableData> varData = super.getVarDataList();
       varData.addAll(getVarDataFromXQueryVariables());
       return varData;
    }
@@ -56,9 +56,9 @@ public class AeWSBPELXQueryParseResult extends AeAbstractXQueryParseResult
    /**
     * Gets a list of AeVariableData objects built from the 
     */
-   protected Collection getVarDataFromXQueryVariables()
+   protected Collection<AeVariableData> getVarDataFromXQueryVariables()
    {
-      List list = new LinkedList();
+      List<AeVariableData> list = new LinkedList<AeVariableData>();
       for (Iterator iter = getVariableReferences().iterator(); iter.hasNext(); )
       {
          AeScriptVarDef varDef = (AeScriptVarDef) iter.next();

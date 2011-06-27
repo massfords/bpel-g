@@ -27,9 +27,9 @@ public abstract class AePrefixedExpressionAnalyzer extends AeAbstractExpressionA
    /**
     * @see org.activebpel.rt.expr.def.IAeExpressionAnalyzer#getNamespaces(org.activebpel.rt.expr.def.IAeExpressionAnalyzerContext, java.lang.String)
     */
-   public Set getNamespaces(IAeExpressionAnalyzerContext aContext, String aExpression)
+   public Set<String> getNamespaces(IAeExpressionAnalyzerContext aContext, String aExpression)
    {
-      Set set = new LinkedHashSet();
+      Set<String> set = new LinkedHashSet<String>();
 
       Pattern p = sGetNamespacesPattern;
       Matcher m = p.matcher(aExpression);

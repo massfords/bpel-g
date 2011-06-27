@@ -30,10 +30,10 @@ public class AeStaticConstantsMap
    private boolean mInited = false;
 
    /** Map from the names of the class's static fields to their values. */
-   private Map mNamesToValuesMap;
+   private Map<String, Object> mNamesToValuesMap;
 
    /** Map from the values of the class's static fields to their names. */
-   private Map mValuesToNamesMap;
+   private Map<Object, String> mValuesToNamesMap;
 
    /**
     * Constructs a map between the names and values of the static fields in the
@@ -54,8 +54,8 @@ public class AeStaticConstantsMap
          mInited = true;
 
          Field[] fields = mClass.getDeclaredFields();
-         mNamesToValuesMap = new HashMap();
-         mValuesToNamesMap = new HashMap();
+         mNamesToValuesMap = new HashMap<String, Object>();
+         mValuesToNamesMap = new HashMap<Object, String>();
 
          for (int i = 0; i < fields.length; ++i)
          {

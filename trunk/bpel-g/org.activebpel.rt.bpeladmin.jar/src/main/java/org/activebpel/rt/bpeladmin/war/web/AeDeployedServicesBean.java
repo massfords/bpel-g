@@ -34,7 +34,7 @@ public class AeDeployedServicesBean
    {
       List<ServiceDeployment> deployedServices = AeEngineManagementFactory.getProcessManager()
       		.getServiceDeployments(new GetServiceDeployments()).getServiceDeployment();
-      mDetails = new ArrayList(deployedServices);      
+      mDetails = new ArrayList<ServiceDeployment>(deployedServices);      
    }
    
    /**

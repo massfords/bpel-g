@@ -39,5 +39,5 @@ public interface IAeWSResourceStandardNamespaces extends IAeNamespaceContext
    /**
     * Gets all of the standard namespaces.
     */
-   public Collection getAllNamespaces();
+   public Collection<String> getAllNamespaces();
 }

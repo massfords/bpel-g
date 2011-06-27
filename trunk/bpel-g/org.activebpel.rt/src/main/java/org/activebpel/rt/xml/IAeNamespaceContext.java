@@ -30,6 +30,6 @@ public interface IAeNamespaceContext
     * 
     * @param aNamespace
     */
-   public Set resolveNamespaceToPrefixes(String aNamespace);
+   public Set<String> resolveNamespaceToPrefixes(String aNamespace);
 
 }

@@ -44,7 +44,7 @@ public class AeXmlDefUtil
     */
    public static String generateUniqueName(String aPrefix, Collection aNamedDefsCollection, boolean aPreserveIfAlreadyUnique)
    {
-      Set set = new HashSet();
+      Set<String> set = new HashSet<String>();
       for (Iterator iter = aNamedDefsCollection.iterator(); iter.hasNext();)
       {
          IAeNamedDef def = (IAeNamedDef) iter.next();
@@ -146,7 +146,7 @@ public class AeXmlDefUtil
     * @param aDef
     * @param aType
     */
-   public static AeBaseXmlDef getAncestorByType(AeBaseXmlDef aDef, Class aType)
+   public static AeBaseXmlDef getAncestorByType(AeBaseXmlDef aDef, Class<?> aType)
    {
       boolean isAssignable = false;
       AeBaseXmlDef def = aDef.getParentXmlDef();

@@ -201,7 +201,7 @@ public class AeSOAPElementUtil
     * @param aElement element 
     * @param aPrefixMap map of prefixes to namespaces
     */
-   public static void getDeclaredNamespaces(SOAPElement aElement, Map aPrefixMap)
+   public static void getDeclaredNamespaces(SOAPElement aElement, Map<String, String> aPrefixMap)
    {
       for(SOAPElement element = aElement; element != null; element = element.getParentElement())
       {
@@ -226,9 +226,9 @@ public class AeSOAPElementUtil
     */
    private static void addNewDOMPrefixes(SOAPElement aSource, Element aTarget)
    {
-      Map sourcePrefixes = new HashMap();
+      Map<String, String> sourcePrefixes = new HashMap<String, String>();
       getDeclaredNamespaces(aSource, sourcePrefixes);
-      Map targetPrefixes = new HashMap();
+      Map<String, String> targetPrefixes = new HashMap<String, String>();
       AeXmlUtil.getDeclaredNamespaces(aTarget, targetPrefixes);
       
       for (Iterator it = sourcePrefixes.entrySet().iterator(); it.hasNext();)
@@ -265,9 +265,9 @@ public class AeSOAPElementUtil
     */
    private static void addNewSOAPPrefixes(Element aSource, SOAPElement aTarget) throws SOAPException
    {
-      Map sourcePrefixes = new HashMap();
+      Map<String, String> sourcePrefixes = new HashMap<String, String>();
       AeXmlUtil.getDeclaredNamespaces(aSource, sourcePrefixes);
-      Map targetPrefixes = new HashMap();
+      Map<String, String> targetPrefixes = new HashMap<String, String>();
       getDeclaredNamespaces(aTarget, targetPrefixes);
       
       for (Iterator it = sourcePrefixes.entrySet().iterator(); it.hasNext();)

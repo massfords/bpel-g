@@ -76,7 +76,7 @@ public class AeJarReaderUtil
     */
    public Collection<String> getEntryNames( FilenameFilter aFilter )
    {
-      List matches = new ArrayList();
+      List<String> matches = new ArrayList<String>();
       for( Enumeration e = mJarFile.entries(); e.hasMoreElements(); )
       {
          JarEntry jarEntry = (JarEntry)e.nextElement();
@@ -96,7 +96,7 @@ public class AeJarReaderUtil
     */
    public Collection<JarEntry> getEntries( FilenameFilter aFilter )
    {
-      List matches = new ArrayList();
+      List<JarEntry> matches = new ArrayList<JarEntry>();
       for( Enumeration e = mJarFile.entries(); e.hasMoreElements(); )
       {
          JarEntry jarEntry = (JarEntry)e.nextElement();

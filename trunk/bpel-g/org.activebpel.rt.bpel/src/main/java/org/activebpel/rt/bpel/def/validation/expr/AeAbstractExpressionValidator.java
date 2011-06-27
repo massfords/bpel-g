@@ -259,7 +259,7 @@ public abstract class AeAbstractExpressionValidator implements IAeExpressionVali
    /**
     * Gets the set of functions allowed in join condition expressions.
     */
-   protected Set getJoinConditionAllowedFunctions()
+   protected Set<QName> getJoinConditionAllowedFunctions()
    {
       return sJoinConditionAllowedFunctions;
    }

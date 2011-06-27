@@ -30,7 +30,7 @@ public class AeWsAddressingHeaders implements IAeWsAddressingHeaders
    /** Message ID URI */
    private String mMessageId;
    /** Collection of RelationshipType QName/MessageId pairs */
-   private HashMap mRelatesTo = new HashMap();
+   private Map<QName, String> mRelatesTo = new HashMap<QName, String>();
    /** From endpoint */
    private IAeWebServiceEndpointReference mFrom;
    /** ReplyTo endpoint */
@@ -124,7 +124,7 @@ public class AeWsAddressingHeaders implements IAeWsAddressingHeaders
    /**
     * @see org.activebpel.wsio.IAeWsAddressingHeaders#getRelatesTo()
     */
-   public Map getRelatesTo()
+   public Map<QName, String> getRelatesTo()
    {
       return mRelatesTo;
    }
@@ -134,16 +134,16 @@ public class AeWsAddressingHeaders implements IAeWsAddressingHeaders
     */
    public String getRelatesTo(QName aRelation)
    {
-      return (String) mRelatesTo.get(aRelation);
+      return mRelatesTo.get(aRelation);
    }
    
    
    /**
     * @see org.activebpel.wsio.IAeWsAddressingHeaders#setRelatesTo(java.util.Map)
     */
-   public void setRelatesTo(Map aRelatesTo)
+   public void setRelatesTo(Map<QName, String> aRelatesTo)
    {
-      mRelatesTo = (HashMap) aRelatesTo;
+      mRelatesTo = aRelatesTo;
    }
 
    /**
