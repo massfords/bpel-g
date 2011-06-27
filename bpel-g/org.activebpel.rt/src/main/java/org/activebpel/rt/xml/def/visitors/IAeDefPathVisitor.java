@@ -23,7 +23,7 @@ public interface IAeDefPathVisitor extends IAeBaseXmlDefVisitor
    /**
     * Returns set of generated location paths.
     */
-   public Set getLocationPaths();
+   public Set<String> getLocationPaths();
    
    /**
     * Returns location id corresponding to a location path.

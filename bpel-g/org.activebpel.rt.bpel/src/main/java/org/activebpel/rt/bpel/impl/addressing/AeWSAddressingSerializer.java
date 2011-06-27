@@ -11,6 +11,7 @@ package org.activebpel.rt.bpel.impl.addressing;
 
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import javax.xml.XMLConstants;
 import javax.xml.namespace.QName;
@@ -165,11 +166,11 @@ public class AeWSAddressingSerializer implements IAeAddressingSerializer
          addEndpointHeader(headers, WSA_FAULT_TO_NAME, aRef.getFaultTo());
       if (!AeUtil.isNullOrEmpty(aRef.getRelatesTo()))
       {
-          Map relatesTo = aRef.getRelatesTo();
-          for (Iterator it = relatesTo.keySet().iterator(); it.hasNext();)
+          Map<QName, String> relatesTo = aRef.getRelatesTo();
+          for (Entry<QName, String> entry : relatesTo.entrySet())
           {
-             QName name = (QName) it.next();
-             addRelatesToHeader(headers, IAeWsAddressingConstants.WSA_NS_PREFIX + ":" + name.getLocalPart(), (String) relatesTo.get(name));  //$NON-NLS-1$
+             QName name = entry.getKey();
+             addRelatesToHeader(headers, IAeWsAddressingConstants.WSA_NS_PREFIX + ":" + name.getLocalPart(), entry.getValue());  //$NON-NLS-1$
           }
       }
       if (!AeUtil.isNullOrEmpty(aRef.getReferenceProperties()))

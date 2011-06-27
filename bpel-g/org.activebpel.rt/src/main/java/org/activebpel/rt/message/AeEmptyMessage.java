@@ -51,7 +51,7 @@ public class AeEmptyMessage implements IAeMessageData
     */
    public Iterator<String> getPartNames()
    {
-      return Collections.EMPTY_SET.iterator();
+      return Collections.<String>emptyList().iterator();
    }
 
    /**

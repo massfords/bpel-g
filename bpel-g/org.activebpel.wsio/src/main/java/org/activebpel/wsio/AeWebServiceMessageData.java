@@ -27,7 +27,7 @@ public class AeWebServiceMessageData implements IAeWebServiceMessageData
 /** Message qname. */
    protected QName mMessageQName;
    /** Message part data. */
-   protected Map<String,Object> mParts = new HashMap();
+   protected Map<String,Object> mParts = new HashMap<String,Object>();
    /** Optional list of attachments */
    protected List mAttachments;
    
@@ -52,7 +52,7 @@ public class AeWebServiceMessageData implements IAeWebServiceMessageData
     * @param aQName
     * @param aData
     */
-   public AeWebServiceMessageData( QName aQName, Map aData )
+   public AeWebServiceMessageData( QName aQName, Map<String,Object> aData )
    {
       this( aQName );
       mParts.putAll( aData );

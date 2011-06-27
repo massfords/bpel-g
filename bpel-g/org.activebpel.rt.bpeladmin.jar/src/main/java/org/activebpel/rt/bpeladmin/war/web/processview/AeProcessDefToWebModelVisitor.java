@@ -106,13 +106,13 @@ public class AeProcessDefToWebModelVisitor extends AeProcessDefToWebVisitorBase
    private AeBpelProcessObject mBpelProcessModel;
 
    /** Stack for the current visual model parent. */
-   private Stack mStack;
+   private Stack<AeBpelObjectBase> mStack;
 
    /** Stack for the holding links on per Flow basis. */
-   private Stack mLinkContainerStack;
+   private Stack<Map<String, AeBpelLinkObject>> mLinkContainerStack;
 
    /** List of links visited */
-   private List mLinksList;
+   private List<AeBpelLinkObject> mLinksList;
 
    /** Process def */
    private AeProcessDef mProcessDef;
@@ -124,8 +124,8 @@ public class AeProcessDefToWebModelVisitor extends AeProcessDefToWebVisitorBase
    public AeProcessDefToWebModelVisitor(AeProcessDef aProcessDef)
    {
       setProcessDef(aProcessDef);
-      mStack = new Stack();
-      mLinkContainerStack = new Stack();
+      mStack = new Stack<AeBpelObjectBase>();
+      mLinkContainerStack = new Stack<Map<String, AeBpelLinkObject>>();
       init();
    }
 
@@ -164,11 +164,11 @@ public class AeProcessDefToWebModelVisitor extends AeProcessDefToWebVisitorBase
    /**
     * Returns list containt AeLinkImpl objects that were visited.
     */
-   protected List getLinksList()
+   protected List<AeBpelLinkObject> getLinksList()
    {
       if (mLinksList == null)
       {
-         mLinksList = new ArrayList();
+         mLinksList = new ArrayList<AeBpelLinkObject>();
       }
       return mLinksList;
    }
@@ -195,7 +195,7 @@ public class AeProcessDefToWebModelVisitor extends AeProcessDefToWebVisitorBase
     */
    protected AeBpelObjectBase popModel()
    {
-      return (AeBpelObjectBase) mStack.pop();
+      return mStack.pop();
    }
 
    /**
@@ -229,7 +229,7 @@ public class AeProcessDefToWebModelVisitor extends AeProcessDefToWebVisitorBase
     */
    protected void pushLinksContainer()
    {
-      Map map = new HashMap();
+      Map<String, AeBpelLinkObject> map = new HashMap<String, AeBpelLinkObject>();
       mLinkContainerStack.push(map);
    }
 
@@ -239,15 +239,15 @@ public class AeProcessDefToWebModelVisitor extends AeProcessDefToWebVisitorBase
     */
    protected Map popLinksContainer()
    {
-      return (Map) mLinkContainerStack.pop();
+      return mLinkContainerStack.pop();
    }
 
    /**
     * @return the map containing links in the current flow.
     */
-   protected Map getLinksContainerMap()
+   protected Map<String, AeBpelLinkObject> getLinksContainerMap()
    {
-      return (Map) mLinkContainerStack.peek();
+      return mLinkContainerStack.peek();
    }
 
    /**
@@ -275,7 +275,7 @@ public class AeProcessDefToWebModelVisitor extends AeProcessDefToWebVisitorBase
       int size = mLinkContainerStack.size();
       for(int i=size-1; i >=0 && rVal==null; i--)
       {
-         rVal = (AeBpelLinkObject) ((Map)mLinkContainerStack.get(i)).get(aName);
+         rVal = mLinkContainerStack.get(i).get(aName);
       }
       return rVal;
    }
@@ -1096,7 +1096,7 @@ public class AeProcessDefToWebModelVisitor extends AeProcessDefToWebVisitorBase
     */
    protected void buildTree(IAeXmlDefGraphNode aNode, IAeXmlDefGraphNodeAdapter aAdapter)
    {
-      List children = aNode.getChildren();
+      List<IAeXmlDefGraphNode> children = aNode.getChildren();
       AeBpelObjectBase visualModel = null;
       AeBaseXmlDef def = aNode.getDef();
 
@@ -1120,11 +1120,10 @@ public class AeProcessDefToWebModelVisitor extends AeProcessDefToWebVisitorBase
       visualModel.setName(aNode.getDisplayName());
       visualModel.setLocationPath(def.getLocationPath());
       pushModel(visualModel);
-      Iterator it = children.iterator();
+      Iterator<IAeXmlDefGraphNode> it = children.iterator();
       while (it.hasNext())
       {
-         IAeXmlDefGraphNode child = (IAeXmlDefGraphNode) it.next();
-         buildTree(child, aAdapter);
+         buildTree(it.next(), aAdapter);
       }
       popModel();
    }

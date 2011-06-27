@@ -88,7 +88,7 @@ public interface IAeExpressionAnalyzer
     * @param aContext
     * @param aExpression
     */
-   public Set getNamespaces(IAeExpressionAnalyzerContext aContext, String aExpression);
+   public Set<String> getNamespaces(IAeExpressionAnalyzerContext aContext, String aExpression);
 
    /**
     * This method is called to parse an expression to-spec and return the expression's component

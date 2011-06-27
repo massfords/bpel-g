@@ -23,15 +23,15 @@ import org.activebpel.rt.wsresource.validation.IAeWSResourceValidationPreference
 public class AeRulesUtil
 {
    /** Mapping of string serverity codes to Integer objects */
-   private static Map sSeverityMap = new HashMap();
+   private static Map<String, Integer> sSeverityMap = new HashMap<String, Integer>();
    
    /** load the severity mapping */
    static
    {
-      sSeverityMap.put("ERROR", new Integer(IAeWSResourceValidationPreferences.SEVERITY_ERROR)); //$NON-NLS-1$
-      sSeverityMap.put("WARNING", new Integer(IAeWSResourceValidationPreferences.SEVERITY_WARNING)); //$NON-NLS-1$
-      sSeverityMap.put("INFO", new Integer(IAeWSResourceValidationPreferences.SEVERITY_INFO)); //$NON-NLS-1$
-      sSeverityMap.put("SKIP", new Integer(IAeWSResourceValidationPreferences.SEVERITY_SKIP)); //$NON-NLS-1$
+      sSeverityMap.put("ERROR", IAeWSResourceValidationPreferences.SEVERITY_ERROR); //$NON-NLS-1$
+      sSeverityMap.put("WARNING", IAeWSResourceValidationPreferences.SEVERITY_WARNING); //$NON-NLS-1$
+      sSeverityMap.put("INFO", IAeWSResourceValidationPreferences.SEVERITY_INFO); //$NON-NLS-1$
+      sSeverityMap.put("SKIP", IAeWSResourceValidationPreferences.SEVERITY_SKIP); //$NON-NLS-1$
    }
    
    /**
@@ -42,11 +42,11 @@ public class AeRulesUtil
     */
    public static Integer convertSeverity(String aSeverity)
    {
-      Integer code = new Integer(-1);
+      Integer code = Integer.valueOf(-1);
       
       if (sSeverityMap.containsKey(aSeverity)) 
       {
-         code = ((Integer) sSeverityMap.get(aSeverity));
+         code = sSeverityMap.get(aSeverity);
       }
       
       return code;

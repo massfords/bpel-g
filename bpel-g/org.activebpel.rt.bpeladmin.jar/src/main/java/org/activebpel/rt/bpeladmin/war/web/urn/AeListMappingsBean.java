@@ -63,7 +63,7 @@ public class AeListMappingsBean extends AeAbstractAdminBean
       Mappings mappings = AeEngineManagementFactory.getResolverService().getMappings(
               new GetMappingsRequest());
       
-      List values = new ArrayList();
+      List<AeURNMapping> values = new ArrayList<AeURNMapping>();
       for(Mapping mapping : mappings.getMapping()) {
           values.add(new AeURNMapping(mapping.getName(), mapping.getValue()));
       }

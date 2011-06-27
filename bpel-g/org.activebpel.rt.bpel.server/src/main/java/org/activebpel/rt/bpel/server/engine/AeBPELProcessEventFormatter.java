@@ -11,6 +11,7 @@ package org.activebpel.rt.bpel.server.engine;
 
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Map;
 
 import org.activebpel.rt.bpel.AeEngineEventFormatter;
 import org.activebpel.rt.bpel.IAeBaseProcessEvent;
@@ -30,7 +31,7 @@ public class AeBPELProcessEventFormatter extends AeEngineEventFormatter
    private static AeBPELProcessEventFormatter sFormatter ;
 
    /** Map of format IDs to format strings. */
-   private HashMap mEventFormatMap = new HashMap();
+   private Map<Integer, String> mEventFormatMap = new HashMap<Integer, String>();
 
    /**
     * Private ctor.  Get the singleton instance with getInstance().
@@ -109,7 +110,7 @@ public class AeBPELProcessEventFormatter extends AeEngineEventFormatter
    /**
     * @see org.activebpel.rt.util.AeMessageFormatter#getFormatMap()
     */   
-   public HashMap getFormatMap()
+   public Map<Integer, String> getFormatMap()
    {
       return mEventFormatMap ;
    }

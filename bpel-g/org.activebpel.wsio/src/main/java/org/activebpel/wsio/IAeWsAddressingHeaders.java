@@ -78,12 +78,12 @@ public interface IAeWsAddressingHeaders extends Serializable
     * @return Returns collection of message id's related to this message, 
     * indexed by the wsa RelationshipType QName.
     */
-   public Map getRelatesTo();
+   public Map<QName, String> getRelatesTo();
    
    /**
     * @param aRelatesTo The collection of RelationshipType QName/MessageId pairs to set.
     */
-   public void setRelatesTo(Map aRelatesTo);
+   public void setRelatesTo(Map<QName, String> aRelatesTo);
 
    /**
     * Adds a MessageId to the RelatesTo collection, identified by 

@@ -38,9 +38,9 @@ public abstract class AeWSResourceValidationPreferences implements IAeWSResource
    /** schema for the severity file */
    private static Schema sSeveritySchema;
    /** prefix to namespace mapping*/
-   private static Map sPrefixMap = new HashMap();
+   private static Map<String, String> sPrefixMap = new HashMap<String, String>();
    /** Map of rule ids -> severity */
-   private Map mSeverity = new HashMap();
+   private Map<QName, Integer> mSeverity = new HashMap<QName, Integer>();
    
    static
    {
@@ -104,7 +104,7 @@ public abstract class AeWSResourceValidationPreferences implements IAeWSResource
    {
       if (getSeverityMap().containsKey(aRuleId))
       {
-         return ((Integer) mSeverity.get(aRuleId)).intValue();
+         return mSeverity.get(aRuleId).intValue();
       }
       else
       {
@@ -115,7 +115,7 @@ public abstract class AeWSResourceValidationPreferences implements IAeWSResource
    /**
     * @return Returns the severity Map.
     */
-   protected Map getSeverityMap()
+   protected Map<QName, Integer> getSeverityMap()
    {
       return mSeverity;
    }

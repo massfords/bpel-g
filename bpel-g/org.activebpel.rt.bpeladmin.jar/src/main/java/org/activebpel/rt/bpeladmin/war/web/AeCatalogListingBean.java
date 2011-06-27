@@ -53,7 +53,7 @@ public class AeCatalogListingBean extends AeAbstractListingBean
    {
        if( aValue )
        {
-           List resultz = getAdmin().getCatalogListing(getItemType(getFilterType()).getTypeURI(), getFilterResource(), getFilterNamespace(), getRowCount(), getRowStart() ); 
+           List<AeCatalogItem> resultz = getAdmin().getCatalogListing(getItemType(getFilterType()).getTypeURI(), getFilterResource(), getFilterNamespace(), getRowCount(), getRowStart() ); 
            mResults = new AeCatalogListResult(resultz.size(), resultz, true);
            
            if( mResults != null )

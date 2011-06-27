@@ -19,11 +19,8 @@ import javax.servlet.jsp.PageContext;
  */
 public abstract class AeAbstractXpathTag extends AeAbstractBeanPropertyTag
 {
-   /**
-     * 
-     */
-    private static final long serialVersionUID = -4008820284852198603L;
-/** Request attribute key used to store the name space map. */
+   private static final long serialVersionUID = -4008820284852198603L;
+   /** Request attribute key used to store the name space map. */
    public static final String NSMAP_KEY = "org.activebpel.rt.war.tags.NSMAP"; //$NON-NLS-1$
    /**
     * Returns the NS Map from the request scope. If the map did not exist, a new hash map

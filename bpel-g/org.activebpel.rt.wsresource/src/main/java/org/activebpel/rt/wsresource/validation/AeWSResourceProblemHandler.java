@@ -24,14 +24,14 @@ import org.xml.sax.SAXParseException;
 public class AeWSResourceProblemHandler implements IAeWSResourceProblemHandler
 {
    /** The collected problems, if any. */
-   private Collection mProblems;
+   private Collection<AeWSResourceProblem> mProblems;
 
    /**
     * C'tor.
     */
    public AeWSResourceProblemHandler()
    {
-      setProblems(new ArrayList());
+      setProblems(new ArrayList<AeWSResourceProblem>());
    }
 
    /**
@@ -45,7 +45,7 @@ public class AeWSResourceProblemHandler implements IAeWSResourceProblemHandler
    /**
     * @param aErrors the problems to set
     */
-   protected void setProblems(Collection aErrors)
+   protected void setProblems(Collection<AeWSResourceProblem> aErrors)
    {
       mProblems = aErrors;
    }
@@ -73,7 +73,7 @@ public class AeWSResourceProblemHandler implements IAeWSResourceProblemHandler
    /**
     * @return Returns the problems.
     */
-   public Collection getProblems()
+   public Collection<AeWSResourceProblem> getProblems()
    {
       return mProblems;
    }

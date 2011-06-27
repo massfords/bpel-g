@@ -15,15 +15,14 @@ import java.util.List;
 /**
  * Wraps the catalog listing results.
  */
-public class AeCatalogListResult extends AeListResult
+public class AeCatalogListResult extends AeListResult<AeCatalogItem>
 {
-    /**
-     * 
-     */
     private static final long serialVersionUID = -8000001401672449712L;
 
+    /**
+     * C'tor.
+     */
     public AeCatalogListResult() {
-        
     }
     
     /**

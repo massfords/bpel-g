@@ -27,8 +27,8 @@ import org.activebpel.rt.wsdl.def.IAeBPELExtendedWSDLConst;
  */
 public class AeWSResourceStandardNamespaces implements IAeWSResourceStandardNamespaces
 {
-   private static Map sPrefixToNamespaceMap = new HashMap();
-   private static Map sNamespaceToPrefixMap = new HashMap();
+   private static Map<String, String> sPrefixToNamespaceMap = new HashMap<String, String>();
+   private static Map<String, String> sNamespaceToPrefixMap = new HashMap<String, String>();
 
    /**
     * Creates a prefix/namespace mapping in the maps.
@@ -67,13 +67,13 @@ public class AeWSResourceStandardNamespaces implements IAeWSResourceStandardName
     */
    public String resolveNamespaceToPrefix(String aNamespace)
    {
-      return (String) sNamespaceToPrefixMap.get(aNamespace);
+      return sNamespaceToPrefixMap.get(aNamespace);
    }
    
    /**
     * @see org.activebpel.rt.xml.IAeNamespaceContext#resolveNamespaceToPrefixes(java.lang.String)
     */
-   public Set resolveNamespaceToPrefixes(String aNamespace)
+   public Set<String> resolveNamespaceToPrefixes(String aNamespace)
    {
       return Collections.singleton(resolveNamespaceToPrefix(aNamespace));
    }
@@ -89,7 +89,7 @@ public class AeWSResourceStandardNamespaces implements IAeWSResourceStandardName
    /**
     * @see org.activebpel.rt.wsresource.validation.IAeWSResourceStandardNamespaces#getAllNamespaces()
     */
-   public Collection getAllNamespaces()
+   public Collection<String> getAllNamespaces()
    {
       return sNamespaceToPrefixMap.keySet();
    }

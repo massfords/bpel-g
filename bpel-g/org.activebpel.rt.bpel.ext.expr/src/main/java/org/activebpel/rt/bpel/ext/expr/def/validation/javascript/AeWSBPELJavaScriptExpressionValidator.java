@@ -27,7 +27,7 @@ import org.activebpel.rt.expr.def.IAeExpressionParserContext;
 public class AeWSBPELJavaScriptExpressionValidator extends AeAbstractJavaScriptExpressionValidator
 {
    /** The Set of allowed join condition functions for WSBPEL Javascript expressions. */
-   private static Set sAllowedJoinConditionFunctions;
+   private static Set<QName> sAllowedJoinConditionFunctions;
 
    /**
     * @see org.activebpel.rt.bpel.ext.expr.def.validation.javascript.AeAbstractJavaScriptExpressionValidator#createExpressionParser(org.activebpel.rt.expr.def.IAeExpressionParserContext)
@@ -43,11 +43,11 @@ public class AeWSBPELJavaScriptExpressionValidator extends AeAbstractJavaScriptE
     * 
     * @see org.activebpel.rt.bpel.def.validation.expr.AeAbstractExpressionValidator#getJoinConditionAllowedFunctions()
     */
-   protected Set getJoinConditionAllowedFunctions()
+   protected Set<QName> getJoinConditionAllowedFunctions()
    {
       if (sAllowedJoinConditionFunctions == null)
       {
-         Set set = new HashSet(super.getJoinConditionAllowedFunctions());
+         Set<QName> set = new HashSet<QName>(super.getJoinConditionAllowedFunctions());
          set.add(new QName(IAeBPELConstants.WSBPEL_2_0_NAMESPACE_URI, AeExpressionLanguageUtil.LINK_STATUS_FUNC_NAME));
          sAllowedJoinConditionFunctions = set;
       }

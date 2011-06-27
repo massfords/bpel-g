@@ -57,14 +57,14 @@ public class AeXQueryTypeMapper
    private static AeXQueryTypeMapper sInstance = new AeXQueryTypeMapper();
    
    /** The map of Saxon types to specific convert methods. */
-   private Map mMethodMap;
+   private Map<Integer, Method> mMethodMap;
 
    /**
     * Private c'tor.
     */
    private AeXQueryTypeMapper()
    {
-      setMethodMap(new HashMap());
+      setMethodMap(new HashMap<Integer, Method>());
       createMapping(Type.ANY_URI, "convertAnyURI"); //$NON-NLS-1$
       createMapping(Type.BASE64_BINARY, "convertBase64Binary"); //$NON-NLS-1$
       createMapping(Type.DATE, "convertDate"); //$NON-NLS-1$
@@ -87,7 +87,7 @@ public class AeXQueryTypeMapper
     */
    protected void createMapping(int aType, String aMethodName)
    {
-      Object key = new Integer(aType);
+      Integer key = Integer.valueOf(aType);
       Method value = getMethod(aMethodName);
       getMethodMap().put(key, value);
    }
@@ -116,7 +116,7 @@ public class AeXQueryTypeMapper
     */
    public static boolean canConvert(AtomicValue aValue)
    {
-      Object key = new Integer(aValue.getItemType(null).getPrimitiveType());
+	  Integer key = Integer.valueOf(aValue.getItemType(null).getPrimitiveType());
       return sInstance.getMethodMap().containsKey(key);
    }
 
@@ -132,8 +132,8 @@ public class AeXQueryTypeMapper
       Object rval = null;
 
       AeXQueryTypeMapper mapper = sInstance;
-      Object key = new Integer(aValue.getItemType(null).getPrimitiveType());
-      Method method = (Method) mapper.getMethodMap().get(key);
+      Integer key = Integer.valueOf(aValue.getItemType(null).getPrimitiveType());
+      Method method = mapper.getMethodMap().get(key);
       if (method == null)
          throw new IllegalArgumentException();
       Object [] args = new Object[] { aValue };
@@ -302,7 +302,7 @@ public class AeXQueryTypeMapper
    /**
     * @return Returns the methodMap.
     */
-   public Map getMethodMap()
+   public Map<Integer, Method> getMethodMap()
    {
       return mMethodMap;
    }
@@ -310,7 +310,7 @@ public class AeXQueryTypeMapper
    /**
     * @param aMethodMap The methodMap to set.
     */
-   public void setMethodMap(Map aMethodMap)
+   public void setMethodMap(Map<Integer, Method> aMethodMap)
    {
       mMethodMap = aMethodMap;
    }

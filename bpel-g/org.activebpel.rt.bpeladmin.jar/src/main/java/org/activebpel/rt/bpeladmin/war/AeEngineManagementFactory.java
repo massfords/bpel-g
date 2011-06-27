@@ -88,7 +88,7 @@ public class AeEngineManagementFactory {
             try {
                 JMXServiceURL url = new JMXServiceURL(sServiceURL);
                 String[] creds = {sUser, sPassword};
-                Map map = Collections.singletonMap(JMXConnector.CREDENTIALS, creds);
+                Map<String, String[]> map = Collections.singletonMap(JMXConnector.CREDENTIALS, creds);
                 JMXConnector connector = JMXConnectorFactory.connect(url, map);
                 MBeanServerConnection mbs = connector.getMBeanServerConnection();
                 ObjectName objectName = ObjectName.getInstance(sObjectName);

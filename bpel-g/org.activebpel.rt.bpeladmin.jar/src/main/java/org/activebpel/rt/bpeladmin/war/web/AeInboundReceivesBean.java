@@ -58,7 +58,7 @@ public class AeInboundReceivesBean {
 		for (InboundMessage im : aDetails.getInboundMessage()) {
 			addToMap(recs, im);
 		}
-		return new ArrayList(recs.values());
+		return new ArrayList<List<InboundMessage>>(recs.values());
 	}
 
 	/**
@@ -72,7 +72,7 @@ public class AeInboundReceivesBean {
 		String key = makeKey(aDetail);
 		List<InboundMessage> matches = aHashMap.get(key);
 		if (matches == null) {
-			matches = new ArrayList();
+			matches = new ArrayList<InboundMessage>();
 			aHashMap.put(key, matches);
 		}
 		matches.add(aDetail);

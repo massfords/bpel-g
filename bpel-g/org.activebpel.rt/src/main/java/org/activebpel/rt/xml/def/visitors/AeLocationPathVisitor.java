@@ -38,11 +38,11 @@ public class AeLocationPathVisitor implements IAeDefPathVisitor
    /** Current path */
    private String mPath=""; //$NON-NLS-1$
    /** Path Maps */
-   private Set mPaths = new HashSet();
+   private Set<String> mPaths = new HashSet<String>();
    /** Next available location id */
    private int mNextLocationId = 1;
    /** Maps location paths to location ids */
-   private Map mLocationPathMap = new HashMap();
+   private Map<String, Integer> mLocationPathMap = new HashMap<String, Integer>();
    /** visitor to build a single segment of the path for a def */
    private IAePathSegmentBuilder mSegmentBuilder;
    /** visitor for traversing defs */
@@ -172,7 +172,7 @@ public class AeLocationPathVisitor implements IAeDefPathVisitor
    {
       int locationId = getNextLocationId();
       setNextLocationId(locationId + 1);
-      getLocationPathMap().put(getPath(), new Integer(locationId));
+      getLocationPathMap().put(getPath(), locationId);
       recordLocationPathAndId(aDef, getPath(), locationId);
    }   
    
@@ -257,14 +257,14 @@ public class AeLocationPathVisitor implements IAeDefPathVisitor
    /**
     * @return the locationPathMap
     */
-   public Map getLocationPathMap()
+   public Map<String, Integer> getLocationPathMap()
    {
       return mLocationPathMap;
    }
    /**
     * @return the paths
     */
-   public Set getPaths()
+   public Set<String> getPaths()
    {
       return mPaths;
    }
@@ -289,14 +289,13 @@ public class AeLocationPathVisitor implements IAeDefPathVisitor
     */
    public int getLocationId(String aLocationPath)
    {
-      Integer id = (Integer) getLocationPathMap().get(aLocationPath);
-      return id.intValue();
+      return getLocationPathMap().get(aLocationPath).intValue();
    }
 
    /**
     * @see org.activebpel.rt.xml.def.visitors.IAeDefPathVisitor#getLocationPaths()
     */
-   public Set getLocationPaths()
+   public Set<String> getLocationPaths()
    {
       return Collections.unmodifiableSet(getLocationPathMap().keySet());
    }

@@ -33,7 +33,7 @@ public class AeSampleDataPreferences implements IAeSampleDataPreferences
    private int mElementRepeatCount = 1;
 
    /** The preferred namespace prefix map. */
-   private Map mNamespaceMap = new HashMap();
+   private Map<String, String> mNamespaceMap = new HashMap<String, String>();
 
    /** The limit or depth of recursive structure references. */
    private int mRecursionLimit = 2;
@@ -136,7 +136,7 @@ public class AeSampleDataPreferences implements IAeSampleDataPreferences
     */
    public String getPreferredPrefix(String aNamespace)
    {
-      String prefix = (String) mNamespaceMap.get(aNamespace);
+      String prefix = mNamespaceMap.get(aNamespace);
       if (prefix == null)
          prefix = PREFERRED_PREFIX; 
       return prefix;
@@ -152,7 +152,7 @@ public class AeSampleDataPreferences implements IAeSampleDataPreferences
    public String getAndMapPrefix(String aNamespace)
    {
       String preferredPrefix = PREFERRED_PREFIX;
-      String prefix = (String) mNamespaceMap.get(aNamespace);
+      String prefix = mNamespaceMap.get(aNamespace);
       if (prefix == null)
       { 
          // Create a unique prefix
