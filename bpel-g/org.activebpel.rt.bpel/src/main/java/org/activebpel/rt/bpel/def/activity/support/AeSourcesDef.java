@@ -18,14 +18,11 @@ import org.activebpel.rt.bpel.def.visitors.IAeDefVisitor;
 /**
  * Models the 'sources' container bpel construct introduced in WS-BPEL 2.0.
  */
-public class AeSourcesDef extends AeBaseContainer
+public class AeSourcesDef extends AeBaseContainer<AeSourceDef,AeSourceDef>
 {
-   /**
-     * 
-     */
-    private static final long serialVersionUID = -2205240916674281482L;
+   private static final long serialVersionUID = -2205240916674281482L;
 
-/**
+   /**
     * Default c'tor.
     */
    public AeSourcesDef()
@@ -46,7 +43,7 @@ public class AeSourcesDef extends AeBaseContainer
    /**
     * Gets an iterator over all of the source defs.
     */
-   public Iterator<AeSourceDef> getSourceDefs()
+   public Iterator<? extends AeSourceDef> getSourceDefs()
    {
       return getValues();
    }

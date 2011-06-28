@@ -16,14 +16,11 @@ import org.activebpel.rt.bpel.def.visitors.IAeDefVisitor;
 /**
  * Container for partnerLinks. Broken out as a separate class so we can visit it.
  */
-public class AePartnerLinksDef extends AeBaseContainer implements IAePartnerLinkParentDef
+public class AePartnerLinksDef extends AeBaseContainer<String, AePartnerLinkDef> implements IAePartnerLinkParentDef
 {
-   /**
-     * 
-     */
-    private static final long serialVersionUID = 7730533760835909396L;
+   private static final long serialVersionUID = 7730533760835909396L;
 
-/**
+   /**
     * Default c'tor.
     */
    public AePartnerLinksDef()
@@ -47,13 +44,13 @@ public class AePartnerLinksDef extends AeBaseContainer implements IAePartnerLink
     */
    public AePartnerLinkDef getPartnerLinkDef(String aPartnerLinkName)
    {
-      return (AePartnerLinkDef) get(aPartnerLinkName);
+      return get(aPartnerLinkName);
    }
    
    /**
     * Gets an iterator over the list of all partner link defs.
     */
-   public Iterator getPartnerLinkDefs()
+   public Iterator<? extends AePartnerLinkDef> getPartnerLinkDefs()
    {
       return getValues();
    }

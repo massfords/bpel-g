@@ -17,7 +17,6 @@ import org.activebpel.rt.bpel.AeBusinessProcessException;
 import org.activebpel.rt.bpel.IAePartnerLink;
 import org.activebpel.rt.bpel.IAeVariable;
 import org.activebpel.rt.bpel.impl.AeAbstractBpelObject;
-import org.activebpel.rt.bpel.impl.AePartnerLink;
 import org.w3c.dom.Document;
 
 /**
@@ -52,9 +51,9 @@ public class AeAtomicCopyOperationContext extends AeCopyOperationContext
    /**
     * @see org.activebpel.rt.bpel.impl.activity.assign.IAeCopyOperationContext#getPartnerLinkForUpdate(java.lang.String)
     */
-   public AePartnerLink getPartnerLinkForUpdate(String aName)
+   public IAePartnerLink getPartnerLinkForUpdate(String aName)
    {
-      AePartnerLink plink = getPartnerLink(aName);
+	  IAePartnerLink plink = getPartnerLink(aName);
       storePartnerLinkForRollback(plink);
       plink.incrementVersionNumber();
       return plink;

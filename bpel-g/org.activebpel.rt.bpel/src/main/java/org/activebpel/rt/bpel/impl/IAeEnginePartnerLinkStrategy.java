@@ -10,6 +10,7 @@
 package org.activebpel.rt.bpel.impl;
 
 import org.activebpel.rt.bpel.AeBusinessProcessException;
+import org.activebpel.rt.bpel.IAePartnerLink;
 import org.activebpel.wsio.receive.IAeMessageContext;
 
 /**
@@ -26,7 +27,7 @@ public interface IAeEnginePartnerLinkStrategy
     * @param aPlan
     * @throws AeBusinessProcessException
     */
-   public void initPartnerLink(AePartnerLink aPartnerLink, IAeProcessPlan aPlan)  throws AeBusinessProcessException;
+   public void initPartnerLink(IAePartnerLink aPartnerLink, IAeProcessPlan aPlan)  throws AeBusinessProcessException;
 
    /**
     * Updates the partner link object with the data from the inbound receive.
@@ -36,5 +37,5 @@ public interface IAeEnginePartnerLinkStrategy
     * @param aMessageContext
     * @throws AeBusinessProcessException
     */
-   public void updatePartnerLink(AePartnerLink aPartnerLink, IAeProcessPlan aPlan, IAeMessageContext aMessageContext) throws AeBusinessProcessException;
+   public void updatePartnerLink(IAePartnerLink aPartnerLink, IAeProcessPlan aPlan, IAeMessageContext aMessageContext) throws AeBusinessProcessException;
 }

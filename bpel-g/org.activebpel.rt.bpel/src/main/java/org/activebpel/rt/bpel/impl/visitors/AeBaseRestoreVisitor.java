@@ -20,6 +20,7 @@ import javax.xml.namespace.QName;
 import org.activebpel.rt.bpel.AeBusinessProcessException;
 import org.activebpel.rt.bpel.AeMessages;
 import org.activebpel.rt.bpel.IAeEndpointReference;
+import org.activebpel.rt.bpel.IAePartnerLink;
 import org.activebpel.rt.bpel.def.util.AeLocationPathUtils;
 import org.activebpel.rt.bpel.impl.AeBusinessProcess;
 import org.activebpel.rt.bpel.impl.AePartnerLink;
@@ -254,7 +255,7 @@ public class AeBaseRestoreVisitor extends AeImplTraversingVisitor implements IAe
     * @param aElement The partner link's state <code>Element</code>
     * @param aPartnerLink The partner link to restore.
     */
-   protected static void restorePartnerLink(Element aElement, AePartnerLink aPartnerLink) throws AeBusinessProcessException
+   protected static void restorePartnerLink(Element aElement, IAePartnerLink aPartnerLink) throws AeBusinessProcessException
    {
       if (!AeUtil.isNullOrEmpty(aPartnerLink.getMyRole()))
       {
@@ -273,7 +274,7 @@ public class AeBaseRestoreVisitor extends AeImplTraversingVisitor implements IAe
 
       if (aPartnerLink.hasCustomLocationPath())
       {
-         AeBusinessProcess process = ((AeBusinessProcess) aPartnerLink.getProcess());
+         AeBusinessProcess process = ((AeBusinessProcess) ((AePartnerLink) aPartnerLink).getProcess());
          process.addPartnerLinkMapping(aPartnerLink);
       }
    }

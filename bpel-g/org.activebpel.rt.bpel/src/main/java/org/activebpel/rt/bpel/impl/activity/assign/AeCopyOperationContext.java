@@ -14,12 +14,12 @@ import java.util.Set;
 import javax.xml.namespace.QName;
 
 import org.activebpel.rt.bpel.AeBusinessProcessException;
+import org.activebpel.rt.bpel.IAePartnerLink;
 import org.activebpel.rt.bpel.IAeVariable;
 import org.activebpel.rt.bpel.def.IAeExpressionDef;
 import org.activebpel.rt.bpel.function.AeFunctionExecutionContext;
 import org.activebpel.rt.bpel.function.IAeFunctionExecutionContext;
 import org.activebpel.rt.bpel.impl.AeAbstractBpelObject;
-import org.activebpel.rt.bpel.impl.AePartnerLink;
 import org.activebpel.rt.bpel.impl.IAeBpelObject;
 import org.activebpel.rt.bpel.impl.IAeBusinessProcessInternal;
 import org.activebpel.rt.bpel.impl.activity.assign.to.AeFromQueryVariableContext;
@@ -101,7 +101,7 @@ public class AeCopyOperationContext implements IAeCopyOperationContext
    /**
     * @see org.activebpel.rt.bpel.impl.activity.assign.IAeCopyOperationContext#getPartnerLink(java.lang.String)
     */
-   public AePartnerLink getPartnerLink(String aName)
+   public IAePartnerLink getPartnerLink(String aName)
    {
       return getContextBase().findPartnerLink(aName);
    }
@@ -109,7 +109,7 @@ public class AeCopyOperationContext implements IAeCopyOperationContext
    /**
     * @see org.activebpel.rt.bpel.impl.activity.assign.IAeCopyOperationContext#getPartnerLinkForUpdate(java.lang.String)
     */
-   public AePartnerLink getPartnerLinkForUpdate(String aName)
+   public IAePartnerLink getPartnerLinkForUpdate(String aName)
    {
       // Base implementation does not need to maintain rollback history
       return getPartnerLink(aName);
@@ -198,7 +198,7 @@ public class AeCopyOperationContext implements IAeCopyOperationContext
    /**
     * @see org.activebpel.rt.xml.IAeNamespaceContext#resolveNamespaceToPrefixes(java.lang.String)
     */
-   public Set resolveNamespaceToPrefixes(String aNamespace)
+   public Set<String> resolveNamespaceToPrefixes(String aNamespace)
    {
       return getContextBase().resolveNamespaceToPrefixes(aNamespace);
    }

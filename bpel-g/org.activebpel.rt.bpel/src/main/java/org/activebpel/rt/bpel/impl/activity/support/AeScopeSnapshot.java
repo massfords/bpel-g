@@ -15,8 +15,8 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+import org.activebpel.rt.bpel.IAePartnerLink;
 import org.activebpel.rt.bpel.IAeVariable;
-import org.activebpel.rt.bpel.impl.AePartnerLink;
 
 /**
  * A snapshot of the process variables for use in compensation. Compensation handlers
@@ -29,20 +29,20 @@ import org.activebpel.rt.bpel.impl.AePartnerLink;
 public class AeScopeSnapshot
 {
    /** Maps the variable name to its version number */
-   private final Map mVariableMap;
+   private final Map<String, IAeVariable> mVariableMap;
 
    /** Maps the correlation set to its version number */
    private final Map<String,AeCorrelationSet> mCorrelationSetMap;
    
    /** Maps the partner link to its version number */
-   private final Map mPartnerLinkMap;
+   private final Map<String, IAePartnerLink> mPartnerLinkMap;
 
    /**
     * Default constructor.
     */
    public AeScopeSnapshot()
    {
-      this(Collections.EMPTY_MAP, Collections.EMPTY_MAP, Collections.EMPTY_MAP);
+      this(Collections.<String, IAeVariable>emptyMap(), Collections.<String,AeCorrelationSet>emptyMap(), Collections.<String, IAePartnerLink>emptyMap());
    }
 
    /**
@@ -51,11 +51,11 @@ public class AeScopeSnapshot
     * @param aVariableMap
     * @param aCorrelationSetMap
     */
-   public AeScopeSnapshot(Map aVariableMap, Map aCorrelationSetMap, Map aPartnerLinkMap)
+   public AeScopeSnapshot(Map<String, IAeVariable> aVariableMap, Map<String,AeCorrelationSet> aCorrelationSetMap, Map<String, IAePartnerLink> aPartnerLinkMap)
    {
-      mVariableMap = new HashMap(aVariableMap);
+      mVariableMap = new HashMap<String, IAeVariable>(aVariableMap);
       mCorrelationSetMap = new HashMap<String,AeCorrelationSet>(aCorrelationSetMap);
-      mPartnerLinkMap = new HashMap(aPartnerLinkMap);
+      mPartnerLinkMap = new HashMap<String, IAePartnerLink>(aPartnerLinkMap);
    }
 
    /**
@@ -63,7 +63,7 @@ public class AeScopeSnapshot
     * adding the new collection.
     * @param aVariableMap
     */
-   public void addVariables(Map aVariableMap)
+   public void addVariables(Map<String, IAeVariable> aVariableMap)
    {
       // Note: this method is used by the AeBusinessProcess when it needs to record the current
       // variable information for Process instance compensation.
@@ -90,15 +90,15 @@ public class AeScopeSnapshot
     */
    public IAeVariable getVariable(String aName)
    {
-      return (IAeVariable) mVariableMap.get(aName);
+      return mVariableMap.get(aName);
    }
 
    /**
     * Returns the <code>Set</code> of this snapshot's variables.
     */
-   public Set getVariables()
+   public Set<IAeVariable> getVariables()
    {
-      return new HashSet(mVariableMap.values());
+      return new HashSet<IAeVariable>(mVariableMap.values());
    }
 
    /**
@@ -107,7 +107,7 @@ public class AeScopeSnapshot
     */
    public AeCorrelationSet getCorrelationSet(String aName)
    {
-      return (AeCorrelationSet) mCorrelationSetMap.get(aName);
+      return mCorrelationSetMap.get(aName);
    }
 
    /**
@@ -123,17 +123,17 @@ public class AeScopeSnapshot
     * 
     * @param aName
     */
-   public AePartnerLink getPartnerLink(String aName)
+   public IAePartnerLink getPartnerLink(String aName)
    {
-      return (AePartnerLink) mPartnerLinkMap.get(aName);
+      return mPartnerLinkMap.get(aName);
    }
    
    /**
     * Gets a set of the snapshot's partner links.
     */
-   public Set getPartnerLinks()
+   public Set<IAePartnerLink> getPartnerLinks()
    {
-      return new HashSet(mPartnerLinkMap.values());
+      return new HashSet<IAePartnerLink>(mPartnerLinkMap.values());
    }
    
    /**
@@ -141,7 +141,7 @@ public class AeScopeSnapshot
     * 
     * @param aPartnerLinkMap
     */
-   public void addPartnerLinks(Map aPartnerLinkMap)
+   public void addPartnerLinks(Map<String, IAePartnerLink> aPartnerLinkMap)
    {
       mPartnerLinkMap.clear();
       mPartnerLinkMap.putAll(aPartnerLinkMap);

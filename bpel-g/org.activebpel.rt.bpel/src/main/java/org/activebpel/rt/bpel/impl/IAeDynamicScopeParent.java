@@ -11,6 +11,7 @@ package org.activebpel.rt.bpel.impl;
 
 import java.util.List;
 
+import org.activebpel.rt.bpel.IAeActivity;
 import org.activebpel.rt.bpel.def.activity.AeActivityScopeDef;
 import org.activebpel.rt.bpel.impl.visitors.IAeVisitable;
 
@@ -28,7 +29,7 @@ public interface IAeDynamicScopeParent extends IAeActivityParent, IAeVisitable
    /**
     * Gets the list of children. 
     */
-   public List getChildren();
+   public List<IAeActivity> getChildren();
    
    /**
     * Gets the child scope def. This is the def that is visited to produce the

@@ -26,6 +26,7 @@ import org.activebpel.rt.bpel.AeMessages;
 import org.activebpel.rt.bpel.IAeEndpointReference;
 import org.activebpel.rt.bpel.IAeFault;
 import org.activebpel.rt.bpel.AeProcessInfoEventType;
+import org.activebpel.rt.bpel.IAePartnerLink;
 import org.activebpel.rt.bpel.def.activity.AeActivityInvokeDef;
 import org.activebpel.rt.bpel.impl.AeBpelState;
 import org.activebpel.rt.bpel.impl.AePartnerLink;
@@ -87,12 +88,12 @@ public class AeInvokeRetryPolicy
     */
    public boolean reschedule(IAeFault aFault) throws AeBusinessProcessException
    {
-      AePartnerLink partnerLink = getInvoke().findPartnerLink(getDef().getPartnerLink());
+      IAePartnerLink partnerLink = getInvoke().findPartnerLink(getDef().getPartnerLink());
       IAeEndpointReference epr = partnerLink.getPartnerReference();
       
       if (epr != null)
       {
-         List policyElements = epr.findPolicyElements(partnerLink.getProcess().getProcessPlan(), getDef().getProducerPortType(), getDef().getProducerOperation(), IAePolicyConstants.RETRY_POLICY_TAG);
+         List policyElements = epr.findPolicyElements(((AePartnerLink)partnerLink).getProcess().getProcessPlan(), getDef().getProducerPortType(), getDef().getProducerOperation(), IAePolicyConstants.RETRY_POLICY_TAG);
          for (Iterator iter=policyElements.iterator(); iter.hasNext();)
          {
             if(rescheduleFromRetryAssertion(aFault, (Element)iter.next()))
@@ -326,7 +327,7 @@ public class AeInvokeRetryPolicy
    protected void setAlternateEndpoint(Element aServiceResponse) throws AeException
    {
       // XPath xmlns map & statement to select EndpointReference element in any of the supported wsa namespaces
-      Map wsaNs = new HashMap();
+      Map<String, String> wsaNs = new HashMap<String, String>();
       wsaNs.put("wsa03", IAeConstants.WSA_NAMESPACE_URI); //$NON-NLS-1$
       wsaNs.put("wsa0403", IAeConstants.WSA_NAMESPACE_URI_2004_03); //$NON-NLS-1$
       wsaNs.put("wsa0408", IAeConstants.WSA_NAMESPACE_URI_2004_08); //$NON-NLS-1$
@@ -343,7 +344,7 @@ public class AeInvokeRetryPolicy
          {
             // update the partner endpoint. 
             // we use 'update' rather than 'set' to merge any existing policy and reference params 
-            AePartnerLink partnerLink = getInvoke().findPartnerLink(getDef().getPartnerLink());
+            IAePartnerLink partnerLink = getInvoke().findPartnerLink(getDef().getPartnerLink());
             partnerLink.getPartnerReference().updateReferenceData((Element) eprElem);
          }
       }

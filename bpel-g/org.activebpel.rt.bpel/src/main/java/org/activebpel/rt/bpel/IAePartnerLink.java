@@ -96,4 +96,9 @@ public interface IAePartnerLink extends IAeLocatableObject
     */
    public String getConversationId();
    
+   /**
+	* @return
+	*/
+   public Object clone();
+   
 }

@@ -11,13 +11,13 @@ package org.activebpel.rt.bpel.impl.activity;
 
 import org.activebpel.rt.AeException;
 import org.activebpel.rt.bpel.AeBusinessProcessException;
-import org.activebpel.rt.bpel.IAeFault;
 import org.activebpel.rt.bpel.AeProcessInfoEventType;
+import org.activebpel.rt.bpel.IAeFault;
+import org.activebpel.rt.bpel.IAePartnerLink;
 import org.activebpel.rt.bpel.def.activity.AeActivityScopeDef;
 import org.activebpel.rt.bpel.def.activity.support.AeOnEventDef;
 import org.activebpel.rt.bpel.impl.AeBpelException;
 import org.activebpel.rt.bpel.impl.AeFaultFactory;
-import org.activebpel.rt.bpel.impl.AePartnerLink;
 import org.activebpel.rt.bpel.impl.AePartnerLinkOpImplKey;
 import org.activebpel.rt.bpel.impl.AeProcessInfoEvent;
 import org.activebpel.rt.bpel.impl.IAeBpelObject;
@@ -126,7 +126,7 @@ public class AeActivityOnEventScopeImpl extends AeActivityScopeImpl implements I
       
       // then init with any state from the message context
       AeOnEvent onEvent = (AeOnEvent) getParent();
-      AePartnerLink plink = findPartnerLink(((AeOnEventDef)onEvent.getDefinition()).getPartnerLink());
+      IAePartnerLink plink = findPartnerLink(((AeOnEventDef)onEvent.getDefinition()).getPartnerLink());
       IAeEnginePartnerLinkStrategy plinkStrategy = getProcess().getEngine().getPartnerLinkStrategy();
       IAeProcessPlan plan = getProcess().getProcessPlan();
       plinkStrategy.updatePartnerLink(plink, plan, getMessageContext());
@@ -186,7 +186,7 @@ public class AeActivityOnEventScopeImpl extends AeActivityScopeImpl implements I
    {
       AeOnEventDef onEventDef = getParentDef();
       String plinkName = onEventDef.getPartnerLink();
-      AePartnerLink plink = findPartnerLink(plinkName);
+      IAePartnerLink plink = findPartnerLink(plinkName);
       return new AePartnerLinkOpImplKey(plink, onEventDef.getOperation());
    }
 

@@ -118,7 +118,7 @@ public class AeBusinessProcess extends AeActivityScopeImpl implements IAeBusines
    /** Map of source locations to process variables. */
    private Map<String, IAeVariable> mProcessVariables = new HashMap<String, IAeVariable>();
    /** Map of source locations to partner links. */
-   private Map<String, AePartnerLink> mPartnerLinkMap = new HashMap<String, AePartnerLink>();
+   private Map<String, IAePartnerLink> mPartnerLinkMap = new HashMap<String, IAePartnerLink>();
    /**
     * Queue used to execute objects. Prevents multiple executes from happening
     * concurrently
@@ -909,7 +909,7 @@ public class AeBusinessProcess extends AeActivityScopeImpl implements IAeBusines
     */
    protected void getEngineManagedCorrelationData(IAeMessageReceiverActivity aMessageReceiver, Map<QName, String> aCorrelation)
    {
-      AePartnerLink plink = findProcessPartnerLink(aMessageReceiver.getPartnerLinkOperationImplKey().getPartnerLinkLocationPath());
+	  IAePartnerLink plink = findProcessPartnerLink(aMessageReceiver.getPartnerLinkOperationImplKey().getPartnerLinkLocationPath());
       IAeEndpointReference myRef = plink.getMyReference();
       if (myRef == null)
          return;
@@ -932,7 +932,7 @@ public class AeBusinessProcess extends AeActivityScopeImpl implements IAeBusines
 
       int receiverPathId = getLocationId(aMessageReceiver.getLocationPath());
       AePartnerLinkOpImplKey plOpImplKey = aMessageReceiver.getPartnerLinkOperationImplKey();
-      AePartnerLink plink = findProcessPartnerLink(plOpImplKey.getPartnerLinkLocationPath());
+      IAePartnerLink plink = findProcessPartnerLink(plOpImplKey.getPartnerLinkLocationPath());
       getEngineManagedCorrelationData(aMessageReceiver, correlation);
       AeMessageReceiver messageQueueObject = new AeMessageReceiver(getProcessId(), getName(), plOpImplKey,
             plink.getDefinition().getMyRolePortType(), correlation, receiverPathId, aGroupId, aMessageReceiver.isConcurrent());
@@ -1172,7 +1172,7 @@ public class AeBusinessProcess extends AeActivityScopeImpl implements IAeBusines
    /**
     * @see org.activebpel.rt.bpel.impl.IAeBusinessProcessInternal#addPartnerLinkMapping(org.activebpel.rt.bpel.impl.AePartnerLink)
     */
-   public void addPartnerLinkMapping(AePartnerLink aPartnerLink)
+   public void addPartnerLinkMapping(IAePartnerLink aPartnerLink)
    {
       mPartnerLinkMap.put(aPartnerLink.getLocationPath(), aPartnerLink);
       addMappings(aPartnerLink);
@@ -1226,9 +1226,9 @@ public class AeBusinessProcess extends AeActivityScopeImpl implements IAeBusines
    /**
     * @see org.activebpel.rt.bpel.IAeBusinessProcess#findProcessPartnerLink(java.lang.String)
     */
-   public synchronized AePartnerLink findProcessPartnerLink(String aLocationPath)
+   public synchronized IAePartnerLink findProcessPartnerLink(String aLocationPath)
    {
-      return (AePartnerLink) mPartnerLinkMap.get(aLocationPath);
+      return mPartnerLinkMap.get(aLocationPath);
    }
 
    /**
@@ -1984,7 +1984,7 @@ public class AeBusinessProcess extends AeActivityScopeImpl implements IAeBusines
             // updated prior to the scope's execution and therefore having its
             // state cleared as part of the normal state transition.
             AePartnerLinkOpImplKey plo = messageReceiver.getPartnerLinkOperationImplKey();
-            AePartnerLink plink = findProcessPartnerLink(plo.getPartnerLinkLocationPath());
+            IAePartnerLink plink = findProcessPartnerLink(plo.getPartnerLinkLocationPath());
             getEngine().getPartnerLinkStrategy().updatePartnerLink(plink, getProcessPlan(), aInboundReceive.getContext());
          }
 
@@ -2379,7 +2379,7 @@ public class AeBusinessProcess extends AeActivityScopeImpl implements IAeBusines
    public synchronized void setPartnerLinkData( boolean aIsPartnerRole, String aPartnerLinkPath, Document aPartnerEndpointRef )
    throws AeBusinessProcessException
    {
-      AePartnerLink partnerLink = findProcessPartnerLink(aPartnerLinkPath);
+	  IAePartnerLink partnerLink = findProcessPartnerLink(aPartnerLinkPath);
       if( partnerLink != null )
       {
          if(aIsPartnerRole)
@@ -2400,7 +2400,7 @@ public class AeBusinessProcess extends AeActivityScopeImpl implements IAeBusines
    public synchronized IAeEndpointReference getPartnerRoleEndpointReference(String aPartnerLinkPath)
    throws AeBusinessProcessException
    {
-      AePartnerLink partnerLink = findProcessPartnerLink(aPartnerLinkPath);
+	  IAePartnerLink partnerLink = findProcessPartnerLink(aPartnerLinkPath);
 
       if( partnerLink != null && partnerLink.getPartnerReference() != null )
       {
@@ -2737,7 +2737,7 @@ public class AeBusinessProcess extends AeActivityScopeImpl implements IAeBusines
    /**
     * @see org.activebpel.rt.bpel.impl.IAeBusinessProcessInternal#initPartnerLink(org.activebpel.rt.bpel.impl.AePartnerLink)
     */
-   public void initPartnerLink(AePartnerLink aPartnerLink) throws AeBusinessProcessException
+   public void initPartnerLink(IAePartnerLink aPartnerLink) throws AeBusinessProcessException
    {
       aPartnerLink.clear();
       getEngine().getPartnerLinkStrategy().initPartnerLink(aPartnerLink, getProcessPlan());

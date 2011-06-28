@@ -12,9 +12,9 @@ package org.activebpel.rt.bpel.impl.activity;
 import java.util.List;
 
 import org.activebpel.rt.bpel.AeBusinessProcessException;
+import org.activebpel.rt.bpel.IAePartnerLink;
 import org.activebpel.rt.bpel.def.activity.AeActivityReplyDef;
 import org.activebpel.rt.bpel.def.activity.IAeMessageDataProducerDef;
-import org.activebpel.rt.bpel.impl.AePartnerLink;
 import org.activebpel.rt.bpel.impl.AePartnerLinkOpImplKey;
 import org.activebpel.rt.bpel.impl.IAeActivityParent;
 import org.activebpel.rt.bpel.impl.activity.wsio.produce.AeActivityReplyProducerContext;
@@ -55,7 +55,7 @@ public class AeActivityReplyImpl extends AeWSIOActivityImpl implements IAeMessag
    {
       super.execute();
       IAeMessageData inputMessage = getMessageDataProducer().produceMessageData(new AeActivityReplyProducerContext(this));
-      AePartnerLink plink = findPartnerLink(getDef().getPartnerLink());
+      IAePartnerLink plink = findPartnerLink(getDef().getPartnerLink());
 
       // Validate only if we know the outgoing message type. In particular, we
       // won't know the outgoing message type if we are replying with a fault
@@ -91,7 +91,7 @@ public class AeActivityReplyImpl extends AeWSIOActivityImpl implements IAeMessag
    public void exceptionManagementCompleteActivity() throws AeBusinessProcessException
    {
       // Remove the open IMA from the process open IMA list.
-      AePartnerLink plink = findPartnerLink(getDef().getPartnerLink());
+	  IAePartnerLink plink = findPartnerLink(getDef().getPartnerLink());
       AePartnerLinkOpImplKey plOpKey = new AePartnerLinkOpImplKey(plink, getDef().getOperation());
       String messageExchangePath = findEnclosingScope().getMessageExchangePath(getDef().getMessageExchange());
       

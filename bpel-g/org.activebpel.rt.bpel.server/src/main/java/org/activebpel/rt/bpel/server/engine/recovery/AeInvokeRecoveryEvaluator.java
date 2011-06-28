@@ -17,8 +17,8 @@ import org.activebpel.rt.IAePolicyConstants;
 import org.activebpel.rt.bpel.AeBusinessProcessException;
 import org.activebpel.rt.bpel.AePreferences;
 import org.activebpel.rt.bpel.IAeEndpointReference;
+import org.activebpel.rt.bpel.IAePartnerLink;
 import org.activebpel.rt.bpel.def.activity.AeActivityInvokeDef;
-import org.activebpel.rt.bpel.impl.AePartnerLink;
 import org.activebpel.rt.bpel.impl.activity.AeActivityInvokeImpl;
 import org.activebpel.rt.bpel.server.deploy.AeDeployConstants;
 import org.activebpel.rt.util.AeUtil;
@@ -114,7 +114,7 @@ public class AeInvokeRecoveryEvaluator
          return false;
       }
    
-      AePartnerLink partnerLink = getInvoke().findPartnerLink(getDef().getPartnerLink());
+      IAePartnerLink partnerLink = getInvoke().findPartnerLink(getDef().getPartnerLink());
       IAeEndpointReference epr = partnerLink.getPartnerReference();
       
       List resolvedPolicies = null;

@@ -23,6 +23,7 @@ import org.activebpel.rt.bpel.AeBusinessProcessException;
 import org.activebpel.rt.bpel.AeMessages;
 import org.activebpel.rt.bpel.IAeActivity;
 import org.activebpel.rt.bpel.IAeFault;
+import org.activebpel.rt.bpel.IAePartnerLink;
 import org.activebpel.rt.bpel.IAeVariable;
 import org.activebpel.rt.bpel.def.AeBaseDef;
 import org.activebpel.rt.bpel.def.AeScopeDef;
@@ -103,7 +104,7 @@ public class AeActivityScopeImpl extends AeActivityImpl implements IAeActivityPa
    private boolean mSnapshotRecorded = false;
 
    /** Our map of associated partner links for this process. */
-   private Map<String, AePartnerLink> mPartnerLinks = new HashMap<String, AePartnerLink>();
+   private Map<String, IAePartnerLink> mPartnerLinks = new HashMap<String, IAePartnerLink>();
    
    /** strategy to handle the termination of scopes */
    private IAeScopeTerminationStrategy mTerminationStrategy;
@@ -649,9 +650,9 @@ public class AeActivityScopeImpl extends AeActivityImpl implements IAeActivityPa
    /**
     * @see org.activebpel.rt.bpel.impl.IAeBpelObject#findPartnerLink(java.lang.String)
     */
-   public AePartnerLink findPartnerLink(String aName)
+   public IAePartnerLink findPartnerLink(String aName)
    {
-      AePartnerLink plink = (AePartnerLink) mPartnerLinks.get(aName);
+	  IAePartnerLink plink = (AePartnerLink) mPartnerLinks.get(aName);
       if (plink == null && getParent() != null)
       {
          plink = super.findPartnerLink(aName);
@@ -834,10 +835,10 @@ public class AeActivityScopeImpl extends AeActivityImpl implements IAeActivityPa
    {
       if (aCloneFlag)
       {
-         for (Iterator<Entry<String, AePartnerLink>> iter = getPartnerLinks().entrySet().iterator(); iter.hasNext(); )
+         for (Iterator<Entry<String, IAePartnerLink>> iter = getPartnerLinks().entrySet().iterator(); iter.hasNext(); )
          {
-            Map.Entry<String, AePartnerLink> entry = iter.next();
-            AePartnerLink plink = entry.getValue();
+            Map.Entry<String, IAePartnerLink> entry = iter.next();
+            IAePartnerLink plink = entry.getValue();
             entry.setValue((AePartnerLink) plink.clone());
          }
       }
@@ -848,9 +849,9 @@ public class AeActivityScopeImpl extends AeActivityImpl implements IAeActivityPa
     */
    protected void initializePartnerLinks() throws AeBusinessProcessException
    {
-      for (Iterator<AePartnerLink> iter = getPartnerLinks().values().iterator(); iter.hasNext(); )
+      for (Iterator<IAePartnerLink> iter = getPartnerLinks().values().iterator(); iter.hasNext(); )
       {
-         AePartnerLink plink = iter.next();
+    	 IAePartnerLink plink = iter.next();
          getProcess().initPartnerLink(plink);
       }
    }
@@ -1107,7 +1108,7 @@ public class AeActivityScopeImpl extends AeActivityImpl implements IAeActivityPa
     * bpel objects need to have the state change propagated to them.
     * @see org.activebpel.rt.bpel.impl.IAeBpelObject#getChildrenForStateChange()
     */
-   public Iterator getChildrenForStateChange()
+   public Iterator<? extends IAeBpelObject> getChildrenForStateChange()
    {
       AeSequenceIterator<IAeBpelObject> seqIterator = new AeSequenceIterator<IAeBpelObject>();
       seqIterator.add(getActivity());
@@ -1277,7 +1278,7 @@ public class AeActivityScopeImpl extends AeActivityImpl implements IAeActivityPa
     * @return IAeBpelObject or null if there are no active bpel objects that require termination.
     * @see org.activebpel.rt.bpel.impl.AeAbstractBpelObject#getChildrenForTermination()
     */
-   public Iterator getChildrenForTermination() throws AeBusinessProcessException
+   public Iterator<? extends IAeBpelObject> getChildrenForTermination() throws AeBusinessProcessException
    {
       LinkedList<IAeBpelObject> childrenToTerminate = new LinkedList<IAeBpelObject>();
       childrenToTerminate.add(getActivity());
@@ -1354,7 +1355,7 @@ public class AeActivityScopeImpl extends AeActivityImpl implements IAeActivityPa
    /**
     * @return Returns the partnerLinks.
     */
-   public Map<String, AePartnerLink> getPartnerLinks()
+   public Map<String, IAePartnerLink> getPartnerLinks()
    {
       return mPartnerLinks;
    }

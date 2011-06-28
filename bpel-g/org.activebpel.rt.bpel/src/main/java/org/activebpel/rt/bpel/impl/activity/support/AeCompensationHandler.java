@@ -13,10 +13,10 @@ import java.util.Set;
 
 import org.activebpel.rt.bpel.AeBusinessProcessException;
 import org.activebpel.rt.bpel.IAeFault;
+import org.activebpel.rt.bpel.IAePartnerLink;
 import org.activebpel.rt.bpel.IAeVariable;
 import org.activebpel.rt.bpel.def.AeCompensationHandlerDef;
 import org.activebpel.rt.bpel.def.activity.AeActivityScopeDef;
-import org.activebpel.rt.bpel.impl.AePartnerLink;
 import org.activebpel.rt.bpel.impl.activity.AeActivityScopeImpl;
 import org.activebpel.rt.bpel.impl.visitors.IAeImplVisitor;
 
@@ -101,9 +101,9 @@ public class AeCompensationHandler extends AeFCTHandler
     * Overridden here so we can pull the partner link we need from the snapshot.
     * @see org.activebpel.rt.bpel.impl.AeAbstractBpelObject#findPartnerLink(java.lang.String)
     */
-   public AePartnerLink findPartnerLink(String aName)
+   public IAePartnerLink findPartnerLink(String aName)
    {
-      AePartnerLink plink = getCompInfo().getPartnerLink(aName);
+	  IAePartnerLink plink = getCompInfo().getPartnerLink(aName);
       if (plink == null)
          plink = super.findPartnerLink(aName);
       return plink;

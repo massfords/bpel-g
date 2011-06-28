@@ -16,10 +16,10 @@ import org.activebpel.rt.IAeConstants;
 import org.activebpel.rt.bpel.AeBusinessProcessException;
 import org.activebpel.rt.bpel.AeMessages;
 import org.activebpel.rt.bpel.IAeEndpointReference;
+import org.activebpel.rt.bpel.IAePartnerLink;
 import org.activebpel.rt.bpel.function.AeFunctionCallException;
 import org.activebpel.rt.bpel.function.IAeFunction;
 import org.activebpel.rt.bpel.function.IAeFunctionExecutionContext;
-import org.activebpel.rt.bpel.impl.AePartnerLink;
 import org.activebpel.rt.bpel.impl.expr.xpath.AeXPathFunctionContext;
 import org.activebpel.rt.bpel.impl.expr.xpath.AeXPathNamespaceContext;
 import org.activebpel.rt.bpel.xpath.AeXPathHelper;
@@ -71,7 +71,7 @@ public class AeGetMyRolePropertyFunction extends AeAbstractBpelFunction implemen
             throw new AeFunctionCallException(INVALID_ARGS);
 
          // Get the partner link
-         AePartnerLink plink = aContext.getAbstractBpelObject().findPartnerLink(getStringArg(aArgs,0));
+         IAePartnerLink plink = aContext.getAbstractBpelObject().findPartnerLink(getStringArg(aArgs,0));
          if ( plink == null )
             // no such partner link
             throw new AeFunctionCallException(INVALID_PARTNER_LINK);

@@ -23,10 +23,10 @@ import org.activebpel.rt.bpel.def.AeBaseDef;
 public class AeBpelActivityObject extends AeBpelObjectContainer
 {
    /** List containing source links. */
-   private List mSourceLinks = new ArrayList();
+   private List<AeBpelLinkObject> mSourceLinks = new ArrayList<AeBpelLinkObject>();
    
    /** List of target links */
-   private List mTargetLinks = new ArrayList();
+   private List<AeBpelLinkObject> mTargetLinks = new ArrayList<AeBpelLinkObject>();
    
    /** BPEL activity specific condition attribute. This attribute may be used to
     *  display text next to the activity (as an adornment).
@@ -57,7 +57,7 @@ public class AeBpelActivityObject extends AeBpelObjectContainer
    /** 
     * @return List of source links.
     */
-   public List getSourceLinks()
+   public List<AeBpelLinkObject> getSourceLinks()
    {
       return mSourceLinks;
    }
@@ -78,7 +78,7 @@ public class AeBpelActivityObject extends AeBpelObjectContainer
    /** 
     * @return List of link targets associated with this activity.
     */
-   public List getTargetLinks()
+   public List<AeBpelLinkObject> getTargetLinks()
    {
       return mTargetLinks;
    }

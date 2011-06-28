@@ -61,7 +61,7 @@ public interface IAeBusinessProcessInternal extends IAeBusinessProcess, IAeActiv
     *
     * @param aPartnerLink
     */
-   public void addPartnerLinkMapping(AePartnerLink aPartnerLink);
+   public void addPartnerLinkMapping(IAePartnerLink aPartnerLink);
 
    /**
     * The process maintains unique values for each version of a variable and partner link.
@@ -80,7 +80,7 @@ public interface IAeBusinessProcessInternal extends IAeBusinessProcess, IAeActiv
     * 
     * @param aPartnerLink
     */
-   public void initPartnerLink(AePartnerLink aPartnerLink) throws AeBusinessProcessException;
+   public void initPartnerLink(IAePartnerLink aPartnerLink) throws AeBusinessProcessException;
    
    /**
     * Adds a reference for the object at the given location path.

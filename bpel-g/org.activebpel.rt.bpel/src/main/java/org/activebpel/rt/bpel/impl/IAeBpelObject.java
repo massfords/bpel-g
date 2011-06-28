@@ -15,6 +15,7 @@ import java.util.Iterator;
 import org.activebpel.rt.bpel.AeBusinessProcessException;
 import org.activebpel.rt.bpel.IAeFault;
 import org.activebpel.rt.bpel.IAeLocatableObject;
+import org.activebpel.rt.bpel.IAePartnerLink;
 import org.activebpel.rt.bpel.IAeVariable;
 import org.activebpel.rt.bpel.def.AeBaseDef;
 import org.activebpel.rt.bpel.impl.activity.IAeExtensionLifecycleAdapter;
@@ -57,7 +58,7 @@ public interface IAeBpelObject extends IAeLocatableObject, IAeExecutableQueueIte
    /**
     * Gets the <code>partnerLink</code> by name
     */
-   public AePartnerLink findPartnerLink(String aName);
+   public IAePartnerLink findPartnerLink(String aName);
    
    /**
     * Getter for the owning process.

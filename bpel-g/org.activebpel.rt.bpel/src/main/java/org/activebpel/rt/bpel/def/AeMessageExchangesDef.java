@@ -20,21 +20,19 @@ import org.activebpel.rt.util.AeUtil;
 /**
  * Simple container for string values used for binding receives and replies
  */
-public class AeMessageExchangesDef extends AeBaseContainer
+public class AeMessageExchangesDef extends AeBaseContainer<AeMessageExchangeDef, AeMessageExchangeDef>
 {
-   /**
-     * 
-     */
-    private static final long serialVersionUID = -1116836666830553841L;
+   private static final long serialVersionUID = -1116836666830553841L;
 
-/** true if the messageExchanges implicitly declares the "default" messageExchange value */
+   /** true if the messageExchanges implicitly declares the "default" messageExchange value */
    private boolean mDefaultDeclared = false;
 
    /** cached set of values for the messageExchanges contained within this def */
-   private Set mValues = null;
+   private Set<String> mValues = null;
 
    /** Indicates if this def is an implicit construct. */
    private boolean mImplict;
+   
    /**
     * Default c'tor.
     */
@@ -73,7 +71,7 @@ public class AeMessageExchangesDef extends AeBaseContainer
    /**
     * Gets an Iterator over the message exchange defs.
     */
-   public Iterator getMessageExchangeDefs()
+   public Iterator<? extends Object> getMessageExchangeDefs()
    {
       return getValues();
    }
@@ -85,10 +83,10 @@ public class AeMessageExchangesDef extends AeBaseContainer
    {
       if (mValues == null)
       {
-         Set set = new HashSet();
-         for (Iterator iter = getValues(); iter.hasNext(); )
+         Set<String> set = new HashSet<String>();
+         for (Iterator<? extends AeMessageExchangeDef> iter = getValues(); iter.hasNext(); )
          {
-            AeMessageExchangeDef msgExchangeDef = (AeMessageExchangeDef) iter.next();
+            AeMessageExchangeDef msgExchangeDef = iter.next();
             set.add(msgExchangeDef.getName());
          }
          mValues = Collections.unmodifiableSet(set);
@@ -97,30 +95,12 @@ public class AeMessageExchangesDef extends AeBaseContainer
    }
 
    /**
-    * Adds a message exchange to the container.
-    *
-    * @param aDef
-    */
-   public void addMessageExchangeDef(AeMessageExchangeDef aDef)
-   {
-      add(aDef);
-   }
-
-   /**
+    * Increase visibility and clear message exchange def name cache.
     * @see org.activebpel.rt.bpel.def.AeBaseContainer#add(java.lang.Object)
     */
-   protected void add(Object aValue)
+   public void add(AeMessageExchangeDef aValue)
    {
       super.add(aValue);
-      clearValues();
-   }
-
-   /**
-    * @see org.activebpel.rt.bpel.def.AeBaseContainer#add(java.lang.String, java.lang.Object)
-    */
-   protected void add(String aKey, Object aValue)
-   {
-      super.add(aKey, aValue);
       clearValues();
    }
 

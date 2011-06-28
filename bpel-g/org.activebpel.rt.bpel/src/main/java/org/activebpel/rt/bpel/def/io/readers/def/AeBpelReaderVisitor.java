@@ -566,7 +566,7 @@ public abstract class AeBpelReaderVisitor extends AeAbstractReportingDefReader i
       readAttributes( aDef );
 
       aDef.setName(getAttribute(TAG_NAME));
-      ((AeMessageExchangesDef) getParentDef()).addMessageExchangeDef(aDef);
+      ((AeMessageExchangesDef) getParentDef()).add(aDef);
    }
 
    /**

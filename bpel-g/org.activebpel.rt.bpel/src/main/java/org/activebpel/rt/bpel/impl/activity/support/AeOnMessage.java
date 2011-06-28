@@ -13,11 +13,11 @@ import java.util.List;
 
 import org.activebpel.rt.bpel.AeBusinessProcessException;
 import org.activebpel.rt.bpel.IAeFault;
+import org.activebpel.rt.bpel.IAePartnerLink;
 import org.activebpel.rt.bpel.def.AePartnerLinkDef;
 import org.activebpel.rt.bpel.def.activity.AeActivityPickDef;
 import org.activebpel.rt.bpel.def.activity.IAeMessageDataConsumerDef;
 import org.activebpel.rt.bpel.def.activity.support.AeOnMessageDef;
-import org.activebpel.rt.bpel.impl.AePartnerLink;
 import org.activebpel.rt.bpel.impl.AePartnerLinkOpImplKey;
 import org.activebpel.rt.bpel.impl.IAeActivityParent;
 import org.activebpel.rt.bpel.impl.IAeBpelObject;
@@ -89,7 +89,7 @@ public class AeOnMessage extends AeBaseEvent implements IAeActivityParent, IAeMe
    /**
     * finds the plink
     */
-   public AePartnerLink findPartnerLink()
+   public IAePartnerLink findPartnerLink()
    {
       AePartnerLinkDef def = getPartnerLinkDef();
       if (def == null)

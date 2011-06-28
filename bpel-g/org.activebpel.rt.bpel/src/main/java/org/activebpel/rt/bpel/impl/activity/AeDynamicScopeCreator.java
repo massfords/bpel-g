@@ -34,7 +34,7 @@ public class AeDynamicScopeCreator
    /** value of the final instance */
    private int mFinalInstance;
    /** list of scopes that were created */
-   private List mScopes = new LinkedList();
+   private List<AeActivityScopeImpl> mScopes = new LinkedList<AeActivityScopeImpl>();
    /** reference to the parent object */
    private IAeDynamicScopeParent mParent;
    
@@ -61,7 +61,7 @@ public class AeDynamicScopeCreator
     * @param aStartInstance - instance value to use for the first scope
     * @param aFinalInstance - instance value to use for the final scope
     */
-   public static List create(boolean aCreateFlag, IAeDynamicScopeParent aParent, int aStartInstance, int aFinalInstance)
+   public static List<AeActivityScopeImpl> create(boolean aCreateFlag, IAeDynamicScopeParent aParent, int aStartInstance, int aFinalInstance)
    {
       AeDynamicScopeCreator creator = new AeDynamicScopeCreator(aCreateFlag, aParent, aStartInstance, aFinalInstance);
       creator.create();
@@ -164,7 +164,7 @@ public class AeDynamicScopeCreator
    /**
     * @return Returns the scopes.
     */
-   protected List getScopes()
+   protected List<AeActivityScopeImpl> getScopes()
    {
       return mScopes;
    }
@@ -172,7 +172,7 @@ public class AeDynamicScopeCreator
    /**
     * @param aScopes The scopes to set.
     */
-   protected void setScopes(List aScopes)
+   protected void setScopes(List<AeActivityScopeImpl> aScopes)
    {
       mScopes = aScopes;
    }

@@ -61,16 +61,16 @@ public class AeRestoreImplState implements IAeImplStateNames
    };
 
    /** Set of tags of elements that contain process state. */
-   private static Set mStateElementTags;
+   private static Set<String> mStateElementTags;
 
    /** The XML document containing the serialized process state. */
    private Document mDocument;
 
    /** List of paths in the execution queue. */
-   private List mExecutionQueuePaths;
+   private List<String> mExecutionQueuePaths;
 
    /** Maps location paths to state elements. */
-   private Map mLocationPathsMap;
+   private Map<String, Element> mLocationPathsMap;
    
    /** Process to restore. */
    private AeBusinessProcess mProcess;
@@ -171,11 +171,11 @@ public class AeRestoreImplState implements IAeImplStateNames
     * @return List
     * @throws AeBusinessProcessException
     */
-   public List getExecutionQueuePaths() throws AeBusinessProcessException
+   public List<String> getExecutionQueuePaths() throws AeBusinessProcessException
    {
       if (mExecutionQueuePaths == null)
       {
-         List result = new LinkedList();
+         List<String> result = new LinkedList<String>();
 
          // Get execution queue nodes.
          List nodes;
@@ -210,12 +210,12 @@ public class AeRestoreImplState implements IAeImplStateNames
     * @return Map
     * @throws AeBusinessProcessException
     */
-   protected Map getLocationPathsMap() throws AeBusinessProcessException
+   protected Map<String, Element> getLocationPathsMap() throws AeBusinessProcessException
    {
       if (mLocationPathsMap == null)
       {
-         Map pathsToElements = new HashMap();
-         Map elementsToPaths = new HashMap();
+         Map<String, Element> pathsToElements = new HashMap<String, Element>();
+         Map<Element, String> elementsToPaths = new HashMap<Element, String>();
 
          // Get all nodes that have a locationId attribute.
          List nodes;
@@ -311,11 +311,11 @@ public class AeRestoreImplState implements IAeImplStateNames
    /**
     * Returns the set of tags of elements that contain process state.
     */
-   protected static Set getStateElementTags()
+   protected static Set<String> getStateElementTags()
    {
       if (mStateElementTags == null)
       {
-         mStateElementTags = Collections.unmodifiableSet(new HashSet(Arrays.asList(sStateElementTagsArray)));
+         mStateElementTags = Collections.unmodifiableSet(new HashSet<String>(Arrays.asList(sStateElementTagsArray)));
       }
 
       return mStateElementTags;

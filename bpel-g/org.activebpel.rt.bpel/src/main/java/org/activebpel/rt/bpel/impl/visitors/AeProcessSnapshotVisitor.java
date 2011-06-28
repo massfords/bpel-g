@@ -14,6 +14,7 @@ import java.util.Iterator;
 import java.util.Set;
 
 import org.activebpel.rt.bpel.AeBusinessProcessException;
+import org.activebpel.rt.bpel.IAePartnerLink;
 import org.activebpel.rt.bpel.IAeVariable;
 import org.activebpel.rt.bpel.def.AeCorrelationSetDef;
 import org.activebpel.rt.bpel.def.AeProcessDef;
@@ -38,16 +39,16 @@ import org.activebpel.rt.bpel.impl.activity.support.AeWSBPELFaultHandler;
 public class AeProcessSnapshotVisitor extends AeImplTraversingVisitor
 {
    /** The <code>Set</code> of <code>AeCorrelationSet</code> instances. */
-   private final Set mCorrelationSets = new HashSet();
+   private final Set<AeCorrelationSet> mCorrelationSets = new HashSet<AeCorrelationSet>();
 
    /** The <code>Set</code> of <code>IAeVariable</code> instances. */
-   private final Set mVariables = new HashSet();
+   private final Set<IAeVariable> mVariables = new HashSet<IAeVariable>();
    
    /** The <code>Set</code> of <code>AePartnerLink</code> instances. */
-   private final Set mPartnerLinks = new HashSet();
+   private final Set<IAePartnerLink> mPartnerLinks = new HashSet<IAePartnerLink>();
 
    /** The <code>Set</code> of pending <code>AeActivityInvokeImpl</code> instances. */
-   private final Set mPendingInvokes = new HashSet();
+   private final Set<AeActivityInvokeImpl> mPendingInvokes = new HashSet<AeActivityInvokeImpl>();
 
    /**
     * Adds all live variable and correlation set instances reachable from the
@@ -60,9 +61,9 @@ public class AeProcessSnapshotVisitor extends AeImplTraversingVisitor
       AeScopeSnapshot snapshot = aCompInfo.getSnapshot();
       if (snapshot != null)
       {
-         Set correlationSets = snapshot.getCorrelationSets();
-         Set variables = snapshot.getVariables();
-         Set partnerLinks = snapshot.getPartnerLinks();
+         Set<AeCorrelationSet> correlationSets = snapshot.getCorrelationSets();
+         Set<IAeVariable> variables = snapshot.getVariables();
+         Set<IAePartnerLink> partnerLinks = snapshot.getPartnerLinks();
    
          addCorrelationSets(correlationSets);
          addVariables(variables);
@@ -95,7 +96,7 @@ public class AeProcessSnapshotVisitor extends AeImplTraversingVisitor
     *
     * @param aCorrelationSets
     */
-   protected void addCorrelationSets(Set aCorrelationSets)
+   protected void addCorrelationSets(Set<AeCorrelationSet> aCorrelationSets)
    {
       getCorrelationSets().addAll(aCorrelationSets);
    }
@@ -177,7 +178,7 @@ public class AeProcessSnapshotVisitor extends AeImplTraversingVisitor
     *
     * @param aVariables
     */
-   protected void addVariables(Set aVariables)
+   protected void addVariables(Set<IAeVariable> aVariables)
    {
       getVariables().addAll(aVariables);
    }
@@ -188,7 +189,7 @@ public class AeProcessSnapshotVisitor extends AeImplTraversingVisitor
     * 
     * @param aPartnerLinks
     */
-   protected void addPartnerLinks(Set aPartnerLinks)
+   protected void addPartnerLinks(Set<IAePartnerLink> aPartnerLinks)
    {
       getPartnerLinks().addAll(aPartnerLinks);
    }
@@ -196,7 +197,7 @@ public class AeProcessSnapshotVisitor extends AeImplTraversingVisitor
    /**
     * Returns the <code>Set</code> of <code>AeCorrelationSet</code> instances.
     */
-   public Set getCorrelationSets()
+   public Set<AeCorrelationSet> getCorrelationSets()
    {
       return mCorrelationSets;
    }
@@ -204,7 +205,7 @@ public class AeProcessSnapshotVisitor extends AeImplTraversingVisitor
    /**
     * Returns the <code>Set</code> of pending <code>AeActivityInvokeImpl</code> instances.
     */
-   public Set getPendingInvokes()
+   public Set<AeActivityInvokeImpl> getPendingInvokes()
    {
       return mPendingInvokes;
    }
@@ -212,7 +213,7 @@ public class AeProcessSnapshotVisitor extends AeImplTraversingVisitor
    /**
     * Returns the <code>Set</code> of <code>IAeVariable</code> instances.
     */
-   public Set getVariables()
+   public Set<IAeVariable> getVariables()
    {
       return mVariables;
    }
@@ -220,7 +221,7 @@ public class AeProcessSnapshotVisitor extends AeImplTraversingVisitor
    /**
     * Returns the set of AePartnerLink instances.
     */
-   public Set getPartnerLinks()
+   public Set<IAePartnerLink> getPartnerLinks()
    {
       return mPartnerLinks;
    }
