@@ -37,6 +37,6 @@ public interface IAeFunctionFactory
     * Gets a list of all namespaces for which function contexts are configured.  A list of Strings is
     * returns (each namespace is a String in the List).
     */
-   public Set getFunctionContextNamespaceList();
+   public Set<String> getFunctionContextNamespaceList();
    
 }

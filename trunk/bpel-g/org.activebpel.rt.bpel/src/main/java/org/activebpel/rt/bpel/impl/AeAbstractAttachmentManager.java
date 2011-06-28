@@ -109,14 +109,14 @@ public abstract class AeAbstractAttachmentManager extends AeManagerAdapter imple
    /**
     * @see org.activebpel.rt.bpel.impl.AeAbstractAttachmentManager#bpel2wsio(org.activebpel.rt.attachment.IAeAttachmentContainer)
     */
-   public List bpel2wsio(IAeAttachmentContainer aBpelContainer) throws AeBusinessProcessException
+   public List<IAeWebServiceAttachment> bpel2wsio(IAeAttachmentContainer aBpelContainer) throws AeBusinessProcessException
    {
       List<IAeWebServiceAttachment> wsAttachments = new ArrayList<IAeWebServiceAttachment>(aBpelContainer.size());
 
       // An AeAttachmentContainer can have 0..n attachment parts
-      for (Iterator attachmentItr = aBpelContainer.getAttachmentItems(); attachmentItr.hasNext();)
+      for (Iterator<IAeAttachmentItem> attachmentItr = aBpelContainer.getAttachmentItems(); attachmentItr.hasNext();)
       {
-         IAeAttachmentItem attachment = (IAeAttachmentItem)attachmentItr.next();
+         IAeAttachmentItem attachment = attachmentItr.next();
          InputStream content = deserialize(attachment.getAttachmentId());
          Map<String, String> headers = attachment.getHeaders();
 
@@ -174,7 +174,7 @@ public abstract class AeAbstractAttachmentManager extends AeManagerAdapter imple
    /**
     * @see org.activebpel.rt.bpel.impl.IAeAttachmentManager#wsio2bpel(java.util.List)
     */
-   public IAeAttachmentContainer wsio2bpel(List aWsioAttachments) throws AeBusinessProcessException
+   public IAeAttachmentContainer wsio2bpel(List<IAeWebServiceAttachment> aWsioAttachments) throws AeBusinessProcessException
    {
       if ( aWsioAttachments == null || aWsioAttachments.size() == 0 )
       {
@@ -185,9 +185,9 @@ public abstract class AeAbstractAttachmentManager extends AeManagerAdapter imple
       IAeAttachmentContainer container = new AeAttachmentContainer();
       try
       {
-         for (Iterator i = aWsioAttachments.iterator(); i.hasNext();)
+         for (Iterator<IAeWebServiceAttachment> i = aWsioAttachments.iterator(); i.hasNext();)
          {
-            IAeWebServiceAttachment wsAttachment = (IAeWebServiceAttachment)i.next();
+            IAeWebServiceAttachment wsAttachment = i.next();
             AeBlobInputStream content = new AeBlobInputStream(wsAttachment.getContent());
 
             Map<String, String> headers = wsAttachment.getMimeHeaders();
@@ -220,7 +220,7 @@ public abstract class AeAbstractAttachmentManager extends AeManagerAdapter imple
       long groupId = ((AeStoredAttachmentItem)aContainer.get(0)).getGroupId();
 
       // Validate that all the attachments belong to the same group.
-      for (Iterator i = aContainer.iterator(); i.hasNext();)
+      for (Iterator<IAeAttachmentItem> i = aContainer.iterator(); i.hasNext();)
       {
          AeStoredAttachmentItem attachment = (AeStoredAttachmentItem)i.next();
          if ( attachment.getGroupId() != groupId )
@@ -240,12 +240,12 @@ public abstract class AeAbstractAttachmentManager extends AeManagerAdapter imple
     */
    protected long getProcessId(IAeAttachmentContainer aContainer)
    {
-      long processId = ((IAeAttachmentItem)aContainer.get(0)).getProcessId();
+      long processId = aContainer.get(0).getProcessId();
 
       // Validate that all the attachments belong to the same process.
-      for (Iterator i = aContainer.iterator(); i.hasNext();)
+      for (Iterator<IAeAttachmentItem> i = aContainer.iterator(); i.hasNext();)
       {
-         IAeAttachmentItem attachment = (IAeAttachmentItem)i.next();
+         IAeAttachmentItem attachment = i.next();
          if ( attachment.getProcessId() != processId )
          {
             throw new IllegalStateException(AeMessages
@@ -262,7 +262,7 @@ public abstract class AeAbstractAttachmentManager extends AeManagerAdapter imple
     */
    protected boolean isStored(IAeAttachmentContainer aContainer)
    {
-      for (Iterator i = aContainer.iterator(); i.hasNext();)
+      for (Iterator<IAeAttachmentItem> i = aContainer.iterator(); i.hasNext();)
       {
          if ( !(i.next() instanceof AeStoredAttachmentItem) )
          {
@@ -284,7 +284,7 @@ public abstract class AeAbstractAttachmentManager extends AeManagerAdapter imple
       getStorage().associateProcess(groupId, aProcessId);
 
       // Set the associated process id for all attachments in the container.
-      for (Iterator i = aContainer.iterator(); i.hasNext();)
+      for (Iterator<IAeAttachmentItem> i = aContainer.iterator(); i.hasNext();)
       {
          AeStoredAttachmentItem attachment = (AeStoredAttachmentItem)i.next();
          attachment.setProcessId(aProcessId);
@@ -323,7 +323,7 @@ public abstract class AeAbstractAttachmentManager extends AeManagerAdapter imple
       long groupId = getStorage().createAttachmentGroup(aPlan);
       List<IAeAttachmentItem> storedAttachments = new ArrayList<IAeAttachmentItem>(aContainer.size());
 
-      for (Iterator i = aContainer.iterator(); i.hasNext();)
+      for (Iterator<IAeAttachmentItem> i = aContainer.iterator(); i.hasNext();)
       {
          IAeAttachmentItem attachment = (IAeAttachmentItem)i.next();
          InputStream content;

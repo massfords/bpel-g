@@ -359,7 +359,7 @@ public interface IAeBusinessProcessEngineInternal extends IAeBusinessProcessEngi
    
    public IAeFunction getFunction(String aLocalName, String aNamespaceURI) throws AeUnresolvableException;
 
-   public Set getFunctionContextNamespaceList();
+   public Set<String> getFunctionContextNamespaceList();
 
    public IAeFunctionValidatorFactory getFunctionValidatorFactory();
 

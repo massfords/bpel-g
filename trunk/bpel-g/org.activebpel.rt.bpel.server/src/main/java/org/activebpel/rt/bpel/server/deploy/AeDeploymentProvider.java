@@ -12,6 +12,7 @@ package org.activebpel.rt.bpel.server.deploy;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 
 import javax.xml.namespace.QName;
 
@@ -28,14 +29,14 @@ import bpelg.services.processes.types.ServiceDeployment;
 public class AeDeploymentProvider extends AeAbstractDeploymentProvider
 {
    /** The deployment plans which are currently deployed */
-   private HashMap mDeploymentPlans = new HashMap();
+   private Map<QName, IAeProcessDeployment> mDeploymentPlans = new HashMap<QName, IAeProcessDeployment>();
 
    /**
     * @see org.activebpel.rt.bpel.server.IAeDeploymentProvider#findCurrentDeployment(javax.xml.namespace.QName)
     */
    public IAeProcessDeployment findCurrentDeployment(QName aProcessName) throws AeBusinessProcessException
    {
-      return (IAeProcessDeployment)mDeploymentPlans.get(aProcessName);
+      return mDeploymentPlans.get(aProcessName);
    }
    
    /**
@@ -61,11 +62,11 @@ public class AeDeploymentProvider extends AeAbstractDeploymentProvider
    /**
     * @see org.activebpel.rt.bpel.server.IAeDeploymentProvider#getDeployedPlans()
     */
-   public Iterator getDeployedPlans()
+   public Iterator<IAeProcessDeployment> getDeployedPlans()
    {
       synchronized(mDeploymentPlans)
       {
-         return new ArrayList(mDeploymentPlans.values()).iterator();
+         return new ArrayList<IAeProcessDeployment>(mDeploymentPlans.values()).iterator();
       }
    }
 

@@ -36,7 +36,7 @@ public interface IAeVariableContainer
    /**
     * Gets an iterator over the IAeVariables within this container
     */
-   public Iterator iterator();
+   public Iterator<IAeVariable> iterator();
    
    /**
     * Initializes the variables in the container

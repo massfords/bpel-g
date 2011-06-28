@@ -17,6 +17,7 @@ import java.util.Set;
 
 import org.activebpel.rt.bpel.def.activity.AeActivityScopeDef;
 import org.activebpel.rt.bpel.def.activity.support.AeJoinConditionDef;
+import org.activebpel.rt.bpel.def.activity.support.AeSourceDef;
 import org.activebpel.rt.bpel.def.activity.support.AeSourcesDef;
 import org.activebpel.rt.bpel.def.activity.support.AeTargetDef;
 import org.activebpel.rt.bpel.def.activity.support.AeTargetsDef;
@@ -36,7 +37,7 @@ public abstract class AeActivityDef extends AeNamedDef
    /** The list of link names (cached). */
    private List<String> mTargetLinkNames;
    /** Set of resources that this activity uses. Used in conjunction with serializable scopes and variable/partner link locking. */
-   private Set mResourcesUsed;
+   private Set<String> mResourcesUsed;
 
    /**
     * The isolated scope that encloses this activity, or <code>null</code> if
@@ -93,9 +94,9 @@ public abstract class AeActivityDef extends AeNamedDef
          List<String> list = new ArrayList<String>();
          if (getTargetsDef() != null)
          {
-            for (Iterator titer = getTargetsDef().getTargetDefs(); titer.hasNext(); )
+            for (Iterator<AeTargetDef> titer = getTargetsDef().getTargetDefs(); titer.hasNext(); )
             {
-               AeTargetDef target = (AeTargetDef) titer.next();
+               AeTargetDef target = titer.next();
                list.add(target.getLinkName());
             }
          }
@@ -127,7 +128,7 @@ public abstract class AeActivityDef extends AeNamedDef
    /**
     * Getter for the resources used by this activity that need to be locked.
     */
-   public Set getResourcesUsed()
+   public Set<String> getResourcesUsed()
    {
       return mResourcesUsed;
    }
@@ -136,7 +137,7 @@ public abstract class AeActivityDef extends AeNamedDef
     * Setter for the resources used that need to be locked. 
     * @param aSet
     */
-   public void setResourcesUsed(Set aSet)
+   public void setResourcesUsed(Set<String> aSet)
    {
       mResourcesUsed = aSet;
    }
@@ -202,9 +203,9 @@ public abstract class AeActivityDef extends AeNamedDef
    /**
     * Gets an iterator over the target defs in the activity.
     */
-   public Iterator getTargetDefs()
+   public Iterator<AeTargetDef> getTargetDefs()
    {
-      Iterator iter = Collections.EMPTY_LIST.iterator();
+      Iterator<AeTargetDef> iter = Collections.<AeTargetDef>emptyList().iterator();
       if (getTargetsDef() != null)
       {
          iter = getTargetsDef().getTargetDefs();
@@ -215,9 +216,9 @@ public abstract class AeActivityDef extends AeNamedDef
    /**
     * Gets an iterator over the source defs in the activity.
     */
-   public Iterator getSourceDefs()
+   public Iterator<AeSourceDef> getSourceDefs()
    {
-      Iterator iter = Collections.EMPTY_LIST.iterator();
+      Iterator<AeSourceDef> iter = Collections.<AeSourceDef>emptyList().iterator();
       if (getSourcesDef() != null)
       {
          iter = getSourcesDef().getSourceDefs();

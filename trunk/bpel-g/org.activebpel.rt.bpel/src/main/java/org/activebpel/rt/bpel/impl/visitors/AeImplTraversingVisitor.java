@@ -13,6 +13,7 @@ import java.util.Iterator;
 
 import org.activebpel.rt.bpel.AeBusinessProcessException;
 import org.activebpel.rt.bpel.impl.AeAbstractBpelObject;
+import org.activebpel.rt.bpel.impl.IAeBpelObject;
 import org.activebpel.rt.bpel.impl.activity.AeActivityImpl;
 import org.activebpel.rt.bpel.impl.activity.support.AeLink;
 
@@ -35,7 +36,7 @@ public class AeImplTraversingVisitor extends AeAbstractImplVisitor
          }
       }
 
-      for (Iterator i = aImpl.getChildrenForStateChange(); i.hasNext(); )
+      for (Iterator<? extends IAeBpelObject> i = aImpl.getChildrenForStateChange(); i.hasNext(); )
       {
          AeAbstractBpelObject child = (AeAbstractBpelObject) i.next();
          

@@ -353,7 +353,7 @@ public class AeActivityCompensateImpl extends AeActivityImpl implements IAeCompe
     * Overrides method to 
     * @see org.activebpel.rt.bpel.impl.AeAbstractBpelObject#getChildrenForCompletion()
     */
-   protected Iterator getChildrenForCompletion()
+   protected Iterator<IAeBpelObject> getChildrenForCompletion()
    {
       try
       {
@@ -362,7 +362,7 @@ public class AeActivityCompensateImpl extends AeActivityImpl implements IAeCompe
       catch(Throwable t)
       {
          AeException.logError(t);
-         return Collections.EMPTY_LIST.iterator();
+         return Collections.<IAeBpelObject>emptyList().iterator();
       }
    }
    
@@ -370,7 +370,7 @@ public class AeActivityCompensateImpl extends AeActivityImpl implements IAeCompe
     * Includes the compensationHandler that is currently executing.
     * @see org.activebpel.rt.bpel.impl.AeAbstractBpelObject#getChildrenForTermination()
     */
-   public Iterator getChildrenForTermination()
+   public Iterator<IAeBpelObject> getChildrenForTermination()
    {
       return getExecutingCompHandlerIterator();
    }
@@ -378,21 +378,21 @@ public class AeActivityCompensateImpl extends AeActivityImpl implements IAeCompe
    /** 
     * @return iterator to currently executing compensation handler.
     */
-   protected Iterator getExecutingCompHandlerIterator() 
+   protected Iterator<IAeBpelObject> getExecutingCompHandlerIterator() 
    {
-      Iterator childrenIterator = null;
+      Iterator<IAeBpelObject> childrenIterator = null;
       if (mNextIndex > 0)
       {
          // we need to terminate the active compensationHandler
          AeCompensationHandler compHandler = getExecutingCompensationHandlerForTermination();
          if (compHandler != null)
          {
-            childrenIterator = Collections.singleton(compHandler).iterator();
+            childrenIterator = Collections.<IAeBpelObject>singleton(compHandler).iterator();
          }
       }
       if (childrenIterator == null)
       {
-         return Collections.EMPTY_LIST.iterator();
+         return Collections.<IAeBpelObject>emptyList().iterator();
       }
       else
       {

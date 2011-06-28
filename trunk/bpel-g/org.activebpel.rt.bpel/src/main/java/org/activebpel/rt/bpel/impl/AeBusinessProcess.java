@@ -88,6 +88,7 @@ import org.activebpel.rt.message.IAeMessageData;
 import org.activebpel.rt.util.AeMimeUtil;
 import org.activebpel.rt.util.AeUtil;
 import org.activebpel.wsio.AeWebServiceAttachment;
+import org.activebpel.wsio.IAeWebServiceAttachment;
 import org.activebpel.wsio.invoke.IAeTransmission;
 import org.w3c.dom.Document;
 import org.w3c.dom.DocumentFragment;
@@ -1099,7 +1100,7 @@ public class AeBusinessProcess extends AeActivityScopeImpl implements IAeBusines
          IAeMessageData aInputMessage, IAePartnerLink aPartnerLink, AePartnerLinkOpImplKey aPartnerLinkKey)
       throws AeBusinessProcessException
    {
-      Map propertiesSnapshot = cloneBusinessProcessProperties();
+      Map<String, String> propertiesSnapshot = cloneBusinessProcessProperties();
 
       AeInvoke messageQueueObject =
             new AeInvoke(
@@ -1658,7 +1659,7 @@ public class AeBusinessProcess extends AeActivityScopeImpl implements IAeBusines
     * Returns a list of the location paths of the object's in this process's
     * execution queue.
     */
-   public List getExecutionQueuePaths()
+   public List<String> getExecutionQueuePaths()
    {
       // Note: This non-interface method is public for AeSaveImplStateVisitor.
       return getExecutionQueue().getLocationPaths();
@@ -1692,16 +1693,16 @@ public class AeBusinessProcess extends AeActivityScopeImpl implements IAeBusines
     * @param aExecutionQueuePaths the list of implementation object location paths
     * @throws AeBusinessProcessException
     */
-   public void setExecutionQueue(boolean aSuspended, List aExecutionQueuePaths) throws AeBusinessProcessException
+   public void setExecutionQueue(boolean aSuspended, List<String> aExecutionQueuePaths) throws AeBusinessProcessException
    {
       // Note: This non-interface method is public for AeRestoreImplStateVisitor.
-      List<IAeBpelObject> queue = new LinkedList<IAeBpelObject>();
+      List<IAeExecutableQueueItem> queue = new LinkedList<IAeExecutableQueueItem>();
 
       // Convert location paths to implementation objects.
-      for (Iterator i = aExecutionQueuePaths.iterator(); i.hasNext(); )
+      for (Iterator<String> i = aExecutionQueuePaths.iterator(); i.hasNext(); )
       {
-         String locationPath = (String) i.next();
-         IAeBpelObject impl = findBpelObjectOrThrow(locationPath);
+         String locationPath = i.next();
+         IAeExecutableQueueItem impl = findBpelObjectOrThrow(locationPath);
 
          queue.add(impl);
       }
@@ -1763,7 +1764,7 @@ public class AeBusinessProcess extends AeActivityScopeImpl implements IAeBusines
          aWsioAttachment.getMimeHeaders().put(AeMimeUtil.CONTENT_ID_ATTRIBUTE, AeMimeUtil.AE_DEFAULT_REMOTE_CONTENT_ID);
       }
       
-      List<AeWebServiceAttachment> newAttachmentList = new LinkedList<AeWebServiceAttachment>();
+      List<IAeWebServiceAttachment> newAttachmentList = new LinkedList<IAeWebServiceAttachment>();
       newAttachmentList.add(aWsioAttachment);
       IAeAttachmentContainer tempContainer = attachmentManager.wsio2bpel(newAttachmentList);
       attachmentManager.storeAttachments(tempContainer, null);
@@ -1991,7 +1992,7 @@ public class AeBusinessProcess extends AeActivityScopeImpl implements IAeBusines
          // detecting a conflictingRequest. The conflictingRequest fault isn't
          // thrown until the receive starts executing so it seems that the
          // ambiguousReceive takes precedence.
-         List list = findAmbiguousReceives(aInboundReceive, messageReceiver);
+         List<IAeMessageReceiverActivity> list = findAmbiguousReceives(aInboundReceive, messageReceiver);
          if (!list.isEmpty())
          {
             handleAmbiguousReceives(dispatcher, list, aInboundReceive);
@@ -2046,16 +2047,16 @@ public class AeBusinessProcess extends AeActivityScopeImpl implements IAeBusines
     * @param aList
     * @param aInboundReceive
     */
-   private void handleAmbiguousReceives(IAeMessageDispatcher aDispatcher, List aList, AeInboundReceive aInboundReceive) throws AeBusinessProcessException
+   private void handleAmbiguousReceives(IAeMessageDispatcher aDispatcher, List<IAeMessageReceiverActivity> aList, AeInboundReceive aInboundReceive) throws AeBusinessProcessException
    {
       // create list of dispatchers
       List<IAeMessageDispatcher> dispatchers = new ArrayList<IAeMessageDispatcher>(aList.size() + 1);
       dispatchers.add(aDispatcher);
 
       // create a dispatcher for each of the message receivers
-      for (Iterator iter = aList.iterator(); iter.hasNext();)
+      for (Iterator<IAeMessageReceiverActivity> iter = aList.iterator(); iter.hasNext();)
       {
-         IAeMessageReceiverActivity receiver = (IAeMessageReceiverActivity) iter.next();
+         IAeMessageReceiverActivity receiver = iter.next();
          dispatchers.add(receiver.createDispatcher(aInboundReceive.getContext()));
       }
 
@@ -2063,9 +2064,9 @@ public class AeBusinessProcess extends AeActivityScopeImpl implements IAeBusines
       // bpel object is still in non-final state since it's possible that the
       // first fault that gets dispatched could cause all of the other receives
       // to be terminated.
-      for (Iterator iter = dispatchers.iterator(); iter.hasNext();)
+      for (Iterator<IAeMessageDispatcher> iter = dispatchers.iterator(); iter.hasNext();)
       {
-         IAeMessageDispatcher dispatcher = (IAeMessageDispatcher) iter.next();
+         IAeMessageDispatcher dispatcher = iter.next();
          IAeBpelObject target = dispatcher.getTarget();
          if (!target.getState().isFinal())
          {
@@ -2091,17 +2092,17 @@ public class AeBusinessProcess extends AeActivityScopeImpl implements IAeBusines
     * @return List of ambiguous receives, all of which need to be faulted in
     *         addition to the original message receiver
     */
-   private List findAmbiguousReceives(AeInboundReceive aInboundReceive, IAeMessageReceiverActivity aMessageReceiver)
+   private List<IAeMessageReceiverActivity> findAmbiguousReceives(AeInboundReceive aInboundReceive, IAeMessageReceiverActivity aMessageReceiver)
    {
       // there is no fault for BPWS
       if (!getFaultFactory().isAmbiguousReceiveFaultSupported())
-         return Collections.EMPTY_LIST;
+         return Collections.<IAeMessageReceiverActivity>emptyList();
 
       List<IAeMessageReceiverActivity> list = null;
 
-      for(Iterator it=getQueuedReceives().values().iterator(); it.hasNext();)
+      for(Iterator<IAeMessageReceiverActivity> it=getQueuedReceives().values().iterator(); it.hasNext();)
       {
-         IAeMessageReceiverActivity receiver = (IAeMessageReceiverActivity) it.next();
+         IAeMessageReceiverActivity receiver = it.next();
          if (receiver != aMessageReceiver)
          {
             // start with the plink + operation
@@ -2686,9 +2687,9 @@ public class AeBusinessProcess extends AeActivityScopeImpl implements IAeBusines
    {
       // no need to synchronized on open message activity list since only one
       // thread has access to a process.
-      for (Iterator i = getOpenMessageActivityInfoList().iterator(); i.hasNext(); )
+      for (Iterator<AeOpenMessageActivityInfo> i = getOpenMessageActivityInfoList().iterator(); i.hasNext(); )
       {
-         AeOpenMessageActivityInfo oma = (AeOpenMessageActivityInfo) i.next();
+         AeOpenMessageActivityInfo oma = i.next();
          if (oma.equals(aPrototype))
          {
             return oma;
@@ -2797,9 +2798,9 @@ public class AeBusinessProcess extends AeActivityScopeImpl implements IAeBusines
       String scopePath = aScope.getLocationPath();
       boolean found = false;
 
-      for (Iterator i = getOpenMessageActivityInfoList().iterator(); i.hasNext(); )
+      for (Iterator<AeOpenMessageActivityInfo> i = getOpenMessageActivityInfoList().iterator(); i.hasNext(); )
       {
-         AeOpenMessageActivityInfo oma = (AeOpenMessageActivityInfo) i.next();
+         AeOpenMessageActivityInfo oma = i.next();
 
          // Skip previously orphaned IMAs.
          if (!oma.isOrphaned())
@@ -2837,9 +2838,9 @@ public class AeBusinessProcess extends AeActivityScopeImpl implements IAeBusines
       // fixme (MF-3.1) Change this to missingReply or custom AE fault
       IAeFault fault = (aFault == null) ? getFaultFactory().getMissingReply() : aFault;
 
-      for (Iterator i = getOpenMessageActivityInfoList().iterator(); i.hasNext(); )
+      for (Iterator<AeOpenMessageActivityInfo> i = getOpenMessageActivityInfoList().iterator(); i.hasNext(); )
       {
-         AeOpenMessageActivityInfo oma = (AeOpenMessageActivityInfo) i.next();
+         AeOpenMessageActivityInfo oma = i.next();
 
          // Fault only previously orphaned IMAs.
          if (oma.isOrphaned())
@@ -3171,7 +3172,7 @@ public class AeBusinessProcess extends AeActivityScopeImpl implements IAeBusines
       /**
        * @return Returns the correlationSets.
        */
-      protected Set getCorrelationSets()
+      protected Set<String> getCorrelationSets()
       {
          return mCorrelationSets;
       }

@@ -63,7 +63,7 @@ public class AeAnonymousVariableContainer implements IAeVariableContainer
    /**
     * @see org.activebpel.rt.bpel.impl.activity.IAeVariableContainer#iterator()
     */
-   public Iterator iterator()
+   public Iterator<IAeVariable> iterator()
    {
       return Collections.singleton(getVariable()).iterator();
    }

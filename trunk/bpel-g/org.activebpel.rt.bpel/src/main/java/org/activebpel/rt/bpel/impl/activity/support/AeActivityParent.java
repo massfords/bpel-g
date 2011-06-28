@@ -21,9 +21,7 @@ import java.util.Iterator;
 /**
  * Base class for implementation objects that are parents for a single activity.
  */
-abstract public class AeActivityParent
-   extends AeAbstractBpelObject
-   implements IAeActivityParent
+abstract public class AeActivityParent extends AeAbstractBpelObject implements IAeActivityParent
 {
    /** Child activity */
    protected IAeActivity mChild;
@@ -49,9 +47,9 @@ abstract public class AeActivityParent
    /**
     * @see org.activebpel.rt.bpel.impl.IAeBpelObject#getChildrenForStateChange()
     */
-   public Iterator getChildrenForStateChange()
+   public Iterator<IAeBpelObject> getChildrenForStateChange()
    {
-      return Collections.singleton(getActivity()).iterator();
+      return Collections.<IAeBpelObject>singleton(getActivity()).iterator();
    }
 
    /**

@@ -107,16 +107,16 @@ public class AeLocationPathUtils
     * @param aSetOfPaths
     * @param aActivityPath - should contain instance information
     */
-   public static Set addInstanceInfo(Set aSetOfPaths, String aActivityPath)
+   public static Set<String> addInstanceInfo(Set<String> aSetOfPaths, String aActivityPath)
    {
-      Set set = null;
+      Set<String> set = null;
       if (!AeUtil.isNullOrEmpty(aSetOfPaths))
       {
-         set = new HashSet();
+         set = new HashSet<String>();
 
          // split the acticity path into a list of paths that identify all of the
          // enclosed scopes.
-         List scopePaths = splitScopes(aActivityPath);
+         List<String> scopePaths = splitScopes(aActivityPath);
 
          // TODO (MF) I could do some of this work during the loading of the def,
          //           but doesn't quite seem worth it. It's simple string pushing
@@ -129,26 +129,26 @@ public class AeLocationPathUtils
          // paths in the collection will NOT include any instance information
          // Using a map to avoid having to run removeInstanceInfo multiple times
          // for the same scope.
-         Map scopePathsToNonInstancePaths = new HashMap();
-         for(Iterator it = scopePaths.iterator(); it.hasNext();)
+         Map<String, String> scopePathsToNonInstancePaths = new HashMap<String, String>();
+         for(Iterator<String> it = scopePaths.iterator(); it.hasNext();)
          {
-            String path = (String) it.next();
+            String path = it.next();
             scopePathsToNonInstancePaths.put(path, removeInstanceInfo(path));
          }
 
          // walk all of the paths in the collection and see if they are declared
          // in any of the nested parallel forEach scope paths
-         for (Iterator iter = aSetOfPaths.iterator(); iter.hasNext();)
+         for (Iterator<String> iter = aSetOfPaths.iterator(); iter.hasNext();)
          {
-            String path = (String) iter.next();
+            String path = iter.next();
 
             // if we don't find a match against the scope paths then this variable
             // is declared outside of the parallel forEach and its current path
             // is correct.
             boolean foundMatch = false;
-            for (Iterator iter2 = scopePaths.iterator(); !foundMatch && iter2.hasNext();)
+            for (Iterator<String> iter2 = scopePaths.iterator(); !foundMatch && iter2.hasNext();)
             {
-               String scopePath = (String) iter2.next();
+               String scopePath = iter2.next();
                String nonInstanceLastScopePath = (String) scopePathsToNonInstancePaths.get(scopePath);
 
                if (path.startsWith(nonInstanceLastScopePath))
@@ -188,9 +188,9 @@ public class AeLocationPathUtils
     *
     * @param aActivityPath
     */
-   protected static List splitScopes(String aActivityPath)
+   protected static List<String> splitScopes(String aActivityPath)
    {
-      LinkedList list = new LinkedList();
+      LinkedList<String> list = new LinkedList<String>();
       int offset = -1;
 
       // We only care about variables declarations nested within parallel forEach's
@@ -260,8 +260,8 @@ public class AeLocationPathUtils
       }
       else
       {
-         Set set = addInstanceInfo(Collections.singleton(aPathThatNeedsInstanceInfo), aPathWithInstanceInfo);
-         return (String) set.iterator().next();
+         Set<String> set = addInstanceInfo(Collections.singleton(aPathThatNeedsInstanceInfo), aPathWithInstanceInfo);
+         return set.iterator().next();
       }
    }
    
@@ -566,9 +566,9 @@ public class AeLocationPathUtils
     *        activities.
     * @return Map
     */
-   public static Map createPathToInstanceNumberMap(String aNodePath)
+   public static Map<String, Integer> createPathToInstanceNumberMap(String aNodePath)
    {
-      HashMap pathMap = new HashMap();
+      Map<String, Integer> pathMap = new HashMap<String, Integer>();
       
       if ( AeLocationPathUtils.getNodePathInstanceNum(aNodePath) != -1 )
       {
@@ -584,7 +584,7 @@ public class AeLocationPathUtils
             int instanceNum = AeLocationPathUtils.getNodePathInstanceNum(scopePath);
             String dynamicScopeContainerPath = AeLocationPathUtils.getDynamicScopeContainerNodePath(scopePath);
             
-            pathMap.put( dynamicScopeContainerPath, new Integer(instanceNum) );
+            pathMap.put( dynamicScopeContainerPath, instanceNum );
             searchPos = start+end+1;
          }
       }

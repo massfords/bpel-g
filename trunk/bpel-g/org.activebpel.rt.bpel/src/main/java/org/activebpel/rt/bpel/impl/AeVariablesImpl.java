@@ -33,13 +33,13 @@ import org.activebpel.rt.bpel.impl.activity.assign.IAeCopyOperationContext;
 public class AeVariablesImpl implements IAeVariableContainer
 {
    /** map of variable name to variable object */
-   private Map mMap = new HashMap();
+   private Map<String, IAeVariable> mMap = new HashMap<String, IAeVariable>();
    /** def object */
    private AeVariablesDef mVariablesDef;
    /** scope parent */
    private AeActivityScopeImpl mScope;
    /** virtual copy operations that contain variable initializations */
-   private Collection mCopyOperations;
+   private Collection<IAeCopyOperation> mCopyOperations;
    /** context used to initialize our variables */
    private IAeCopyOperationContext mContext;
    
@@ -57,7 +57,7 @@ public class AeVariablesImpl implements IAeVariableContainer
    /**
     * @see org.activebpel.rt.bpel.impl.activity.IAeVariableContainer#iterator()
     */
-   public Iterator iterator()
+   public Iterator<IAeVariable> iterator()
    {
       return getMap().values().iterator();
    }
@@ -90,7 +90,7 @@ public class AeVariablesImpl implements IAeVariableContainer
    /**
     * Getter for the variables map
     */
-   public Map getMap()
+   public Map<String, IAeVariable> getMap()
    {
       return mMap;
    }
@@ -116,10 +116,10 @@ public class AeVariablesImpl implements IAeVariableContainer
     */
    public void clearVariableState(boolean aCloneFlag)
    {
-      for (Iterator iter = getMap().entrySet().iterator(); iter.hasNext();)
+      for (Iterator<Entry<String, IAeVariable>> iter = getMap().entrySet().iterator(); iter.hasNext();)
       {
-         Map.Entry entry = (Entry) iter.next();
-         AeVariable var = (AeVariable) entry.getValue();
+         Map.Entry<String, IAeVariable> entry = iter.next();
+         IAeVariable var = entry.getValue();
          if (aCloneFlag)
          {
             var = (AeVariable) var.clone();
@@ -135,10 +135,10 @@ public class AeVariablesImpl implements IAeVariableContainer
    /**
     * Getter for the copy operations collection.
     */
-   protected Collection getCopyOperationsCollection()
+   protected Collection<IAeCopyOperation> getCopyOperationsCollection()
    {
       if (mCopyOperations == null)
-         mCopyOperations = new ArrayList();
+         mCopyOperations = new ArrayList<IAeCopyOperation>();
       
       return mCopyOperations;
    }
@@ -159,9 +159,9 @@ public class AeVariablesImpl implements IAeVariableContainer
    {
       try
       {
-         for (Iterator iter=getCopyOperationsCollection().iterator(); iter.hasNext(); )
+         for (Iterator<IAeCopyOperation> iter=getCopyOperationsCollection().iterator(); iter.hasNext(); )
          {
-            IAeCopyOperation copyOp = (IAeCopyOperation) iter.next();
+            IAeCopyOperation copyOp = iter.next();
             copyOp.setContext(getContext());
             copyOp.execute();
          }

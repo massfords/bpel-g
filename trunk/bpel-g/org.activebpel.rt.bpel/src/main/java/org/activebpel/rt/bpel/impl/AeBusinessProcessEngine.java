@@ -2081,7 +2081,7 @@ public class AeBusinessProcessEngine implements IAeBusinessProcessEngineInternal
     }
 
     @Override
-    public Set getFunctionContextNamespaceList() {
+    public Set<String> getFunctionContextNamespaceList() {
         return mFunctionContainer.getFunctionContextNamespaces();
     }
     

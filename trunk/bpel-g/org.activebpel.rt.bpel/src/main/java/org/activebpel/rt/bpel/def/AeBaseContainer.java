@@ -19,11 +19,8 @@ import java.util.Map;
  */
 abstract public class AeBaseContainer extends AeBaseDef
 {
-   /**
-     * 
-     */
-    private static final long serialVersionUID = 5943567398933667871L;
-/** HashMap used for associating names to objects */
+   private static final long serialVersionUID = 5943567398933667871L;
+   /** HashMap used for associating names to objects */
    private LinkedHashMap mMap;
 
    /**

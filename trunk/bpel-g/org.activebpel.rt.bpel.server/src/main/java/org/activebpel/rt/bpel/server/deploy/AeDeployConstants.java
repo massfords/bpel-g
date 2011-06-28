@@ -94,7 +94,7 @@ public class AeDeployConstants
    public static final String PDD = "pdd"; //$NON-NLS-1$
    
    /** Supported Pdd namespaces (in the pdd editor) */
-   public static final Collection PDD_SUPPORTED_NAMESPACES = new ArrayList();
+   public static final Collection<String> PDD_SUPPORTED_NAMESPACES = new ArrayList<String>();
    static
    {
       PDD_SUPPORTED_NAMESPACES.add("http://schemas.active-endpoints.com/pdd/2006/08/pdd.xsd"); //$NON-NLS-1$

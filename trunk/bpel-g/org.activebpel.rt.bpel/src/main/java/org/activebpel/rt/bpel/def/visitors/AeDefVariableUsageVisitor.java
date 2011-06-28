@@ -269,12 +269,12 @@ public class AeDefVariableUsageVisitor extends AeAbstractDefVisitor
     * Gets or creates the the set that stores the variables used for this def.
     * @param aActivityDef
     */
-   protected Set getResourcesUsedSet(AeActivityDef aActivityDef)
+   protected Set<String> getResourcesUsedSet(AeActivityDef aActivityDef)
    {
-      Set resourcesUsed = aActivityDef.getResourcesUsed();
+      Set<String> resourcesUsed = aActivityDef.getResourcesUsed();
       if (resourcesUsed == null)
       {
-         resourcesUsed = new HashSet();
+         resourcesUsed = new HashSet<String>();
          aActivityDef.setResourcesUsed(resourcesUsed);
       }
       return resourcesUsed;

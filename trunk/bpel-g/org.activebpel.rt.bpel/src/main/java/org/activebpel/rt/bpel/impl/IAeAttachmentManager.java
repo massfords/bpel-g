@@ -15,6 +15,7 @@ import java.util.List;
 import org.activebpel.rt.attachment.IAeAttachmentContainer;
 import org.activebpel.rt.bpel.AeBusinessProcessException;
 import org.activebpel.rt.bpel.IAeBusinessProcess;
+import org.activebpel.wsio.IAeWebServiceAttachment;
 import org.activebpel.wsio.IAeWebServiceMessageData;
 
 /**
@@ -38,7 +39,7 @@ public interface IAeAttachmentManager extends IAeManager
     * @param aBpelContainer
     * @return list of wsio attachments in IAeWebServiceAttachment format
     */
-   public List bpel2wsio(IAeAttachmentContainer aBpelContainer) throws AeBusinessProcessException;
+   public List<IAeWebServiceAttachment> bpel2wsio(IAeAttachmentContainer aBpelContainer) throws AeBusinessProcessException;
 
    /**
     * Convert attachment items from {@link IAeWebServiceMessageData} to {@link IAeAttachmentContainer}
@@ -47,7 +48,7 @@ public interface IAeAttachmentManager extends IAeManager
     * @param aWsioAttachments
     * @return IAeAttachmenContainer
     */
-   public IAeAttachmentContainer wsio2bpel(List aWsioAttachments) throws AeBusinessProcessException;
+   public IAeAttachmentContainer wsio2bpel(List<IAeWebServiceAttachment> aWsioAttachments) throws AeBusinessProcessException;
 
    /**
     * Deserializes a stored attachment to a stream.

@@ -60,7 +60,7 @@ public class AeSequenceIterator<T> implements Iterator<T>
     * Returns true if the Iterator passed in is either null or empty.
     * @param aIter
     */
-   private static boolean isNullOrEmpty(Iterator aIter)
+   private static <T> boolean isNullOrEmpty(Iterator<? extends T> aIter)
    {
       return aIter == null || !aIter.hasNext();
    }
@@ -177,7 +177,7 @@ public class AeSequenceIterator<T> implements Iterator<T>
     */
    public void remove()
    {
-      Iterator it = getCurrentIterator();
+      Iterator<? extends T> it = getCurrentIterator();
       if (it == null)
       {
          throw new NoSuchElementException();

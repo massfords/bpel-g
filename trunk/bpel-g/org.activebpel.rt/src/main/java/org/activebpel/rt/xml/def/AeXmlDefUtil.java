@@ -30,7 +30,7 @@ public class AeXmlDefUtil
     * @param aPrefix
     * @param aNamedDefsCollection
     */
-   public static String generateUniqueName(String aPrefix, Collection aNamedDefsCollection)
+   public static String generateUniqueName(String aPrefix, Collection<IAeNamedDef> aNamedDefsCollection)
    {
       return generateUniqueName(aPrefix, aNamedDefsCollection, false);
    }
@@ -42,12 +42,12 @@ public class AeXmlDefUtil
     * @param aNamedDefsCollection
     * @param aPreserveIfAlreadyUnique
     */
-   public static String generateUniqueName(String aPrefix, Collection aNamedDefsCollection, boolean aPreserveIfAlreadyUnique)
+   public static String generateUniqueName(String aPrefix, Collection<IAeNamedDef> aNamedDefsCollection, boolean aPreserveIfAlreadyUnique)
    {
       Set<String> set = new HashSet<String>();
-      for (Iterator iter = aNamedDefsCollection.iterator(); iter.hasNext();)
+      for (Iterator<IAeNamedDef> iter = aNamedDefsCollection.iterator(); iter.hasNext();)
       {
-         IAeNamedDef def = (IAeNamedDef) iter.next();
+         IAeNamedDef def = iter.next();
          set.add(def.getName());
       }
       
@@ -169,7 +169,7 @@ public class AeXmlDefUtil
     * @param aDef
     * @param aType
     */
-   public static boolean isParentedByType(AeBaseXmlDef aDef, Class aType)
+   public static boolean isParentedByType(AeBaseXmlDef aDef, Class<?> aType)
    {
       return getAncestorByType(aDef, aType) != null;
 

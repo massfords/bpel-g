@@ -136,10 +136,10 @@ abstract public class AeActivityImpl extends AeAbstractBpelObject implements IAe
     * to convert one or more of its variable paths to include instance
     * information if those variables are themselves declared within a parallel forEach.
     */
-   protected Set getConvertedResourceLockPaths()
+   protected Set<String> getConvertedResourceLockPaths()
    {
       AeActivityDef def = (AeActivityDef) getDefinition();
-      Set resourcePathsUsed = def.getResourcesUsed();
+      Set<String> resourcePathsUsed = def.getResourcesUsed();
       return customizeResourcePaths(resourcePathsUsed);
    }
 
@@ -177,9 +177,9 @@ abstract public class AeActivityImpl extends AeAbstractBpelObject implements IAe
          {
             // implicit 'OR' so start as false first true will break loop
             result = false;
-            for (Iterator iter = getTargetLinksColl().iterator(); result == false && iter.hasNext();)
+            for (Iterator<AeLink> iter = getTargetLinksColl().iterator(); result == false && iter.hasNext();)
             {
-               AeLink link = (AeLink) iter.next();
+               AeLink link = iter.next();
                result = link.getStatus();
             }
          }
@@ -206,9 +206,9 @@ abstract public class AeActivityImpl extends AeAbstractBpelObject implements IAe
       // if we have target links check their status
       if(hasTargetLinks())
       {
-         for (Iterator iter = getTargetLinksColl().iterator(); iter.hasNext();)
+         for (Iterator<AeLink> iter = getTargetLinksColl().iterator(); iter.hasNext();)
          {
-            AeLink link = (AeLink) iter.next();
+            AeLink link = iter.next();
             if ( ! link.isStatusKnown())
             {
                return false;
@@ -225,9 +225,9 @@ abstract public class AeActivityImpl extends AeAbstractBpelObject implements IAe
     */
    public AeLink findTargetLink(String aLinkName)
    {
-      for (Iterator iter = getTargetLinksColl().iterator(); iter.hasNext();)
+      for (Iterator<AeLink> iter = getTargetLinksColl().iterator(); iter.hasNext();)
       {
-         AeLink link = (AeLink)iter.next();
+         AeLink link = iter.next();
          if (link.getName().equals(aLinkName))
             return link;
       }
@@ -280,11 +280,11 @@ abstract public class AeActivityImpl extends AeAbstractBpelObject implements IAe
    /**
     * Returns an iterator on the source links collection.
     */
-   public Iterator getSourceLinks()
+   public Iterator<AeLink> getSourceLinks()
    {
       if (mSourceLinks == null)
       {
-         return Collections.EMPTY_SET.iterator();
+         return Collections.<AeLink>emptySet().iterator();
       }
       return getSourceLinksColl().iterator();
    }
@@ -376,11 +376,11 @@ abstract public class AeActivityImpl extends AeAbstractBpelObject implements IAe
    protected IAeFault evaluateLinks() throws AeBusinessProcessException
    {
       IAeFault fault = null;
-      for (Iterator iter = getSourceLinks(); iter.hasNext();)
+      for (Iterator<AeLink> iter = getSourceLinks(); iter.hasNext();)
       {
       	// Evaluating all of the links instead of stopping after the first failure
       	//	This is discussed in Issue 169
-         AeLink link = (AeLink) iter.next();
+         AeLink link = iter.next();
          try
          {
             link.evaluate();
@@ -447,9 +447,9 @@ abstract public class AeActivityImpl extends AeAbstractBpelObject implements IAe
    protected void notifyProcessOfLinkChanges()
    {
       // now have the links notify the process that they've changed
-      for (Iterator iter = getSourceLinks(); iter.hasNext();)
+      for (Iterator<AeLink> iter = getSourceLinks(); iter.hasNext();)
       {
-         AeLink link = (AeLink) iter.next();
+         AeLink link = iter.next();
          link.notifyProcess();
       }
    }
@@ -457,9 +457,9 @@ abstract public class AeActivityImpl extends AeAbstractBpelObject implements IAe
    /**
     * @see org.activebpel.rt.bpel.impl.IAeBpelObject#getChildrenForStateChange()
     */
-   public Iterator getChildrenForStateChange()
+   public Iterator<? extends IAeBpelObject> getChildrenForStateChange()
    {
-      return Collections.EMPTY_SET.iterator();
+      return Collections.<IAeBpelObject>emptyList().iterator();
    }
 
    /**
@@ -538,9 +538,9 @@ abstract public class AeActivityImpl extends AeAbstractBpelObject implements IAe
    {
       if (getState().linksBecomeFalse())
       {
-         for(Iterator iter=getSourceLinksColl().iterator(); iter.hasNext(); )
+         for(Iterator<AeLink> iter=getSourceLinksColl().iterator(); iter.hasNext(); )
          {
-            AeLink link = (AeLink)iter.next();
+            AeLink link = iter.next();
             link.setStatus(false);
          }
       }
@@ -553,9 +553,9 @@ abstract public class AeActivityImpl extends AeAbstractBpelObject implements IAe
     */
    protected boolean childrenAreDone()
    {
-      for (Iterator iter = getChildrenForStateChange(); iter.hasNext();)
+      for (Iterator<? extends IAeBpelObject> iter = getChildrenForStateChange(); iter.hasNext();)
       {
-         IAeBpelObject child = (IAeBpelObject) iter.next();
+         IAeBpelObject child = iter.next();
          if ( ! child.getState().isFinal())
          {
             return false;
@@ -585,12 +585,12 @@ abstract public class AeActivityImpl extends AeAbstractBpelObject implements IAe
     * @param aIterator
     * @throws AeBusinessProcessException
     */
-   protected void setAllOtherToDeadPath(IAeBpelObject aChild, Iterator aIterator)
+   protected void setAllOtherToDeadPath(IAeBpelObject aChild, Iterator<? extends IAeBpelObject> aIterator)
       throws AeBusinessProcessException
    {
       while (aIterator.hasNext())
       {
-         IAeBpelObject bipple = (IAeBpelObject) aIterator.next();
+         IAeBpelObject bipple = aIterator.next();
          if (bipple != aChild)
          {
             bipple.setState(AeBpelState.DEAD_PATH);
