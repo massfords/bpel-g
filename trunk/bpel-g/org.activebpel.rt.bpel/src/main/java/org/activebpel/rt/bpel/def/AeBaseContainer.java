@@ -17,20 +17,20 @@ import java.util.Map;
  * Base class for def objects that have a collection of other objects which need
  * to be visited as a collection and/or individually.  
  */
-abstract public class AeBaseContainer extends AeBaseDef
+abstract public class AeBaseContainer<K,V> extends AeBaseDef
 {
    private static final long serialVersionUID = 5943567398933667871L;
    /** HashMap used for associating names to objects */
-   private LinkedHashMap mMap;
+   private LinkedHashMap<K,V>  mMap;
 
    /**
     * Private getter forces subclasses to use the collection mutator methods below.
     */
-   private Map getMap()
+   private Map<K,V>  getMap()
    {
       if (mMap == null)
       {
-         mMap = new LinkedHashMap();
+         mMap = new LinkedHashMap<K,V> ();
       }
       return mMap;
    }
@@ -38,7 +38,7 @@ abstract public class AeBaseContainer extends AeBaseDef
    /**
     * Gets the named object
     */
-   protected Object get(String aKey)
+   protected V get(K aKey)
    {
       return getMap().get(aKey);
    }
@@ -46,7 +46,7 @@ abstract public class AeBaseContainer extends AeBaseDef
    /**
     * Adds a named object to this collection.
     */
-   protected void add(String aKey, Object aValue)
+   protected void add(K aKey, V aValue)
    {
       getMap().put(aKey, aValue);
    }
@@ -55,9 +55,10 @@ abstract public class AeBaseContainer extends AeBaseDef
     * Adds an object to the collection. This is here for subclasses that don't
     * need to have names associated with the objects.
     */
-   protected void add(Object aValue)
+   @SuppressWarnings("unchecked")
+   protected void add(V aValue)
    {
-      getMap().put(aValue, aValue);
+      getMap().put((K)aValue, aValue);
    }
 
    /**
@@ -66,7 +67,7 @@ abstract public class AeBaseContainer extends AeBaseDef
     * @param aKey
     * @param aValue
     */
-   protected void remove(String aKey, Object aValue)
+   protected void remove(K aKey, V aValue)
    {
       getMap().remove(aKey);
    }
@@ -76,7 +77,7 @@ abstract public class AeBaseContainer extends AeBaseDef
     * 
     * @param aValue
     */
-   protected void remove(Object aValue)
+   protected void remove(V aValue)
    {
       getMap().remove(aValue);
    }
@@ -92,7 +93,7 @@ abstract public class AeBaseContainer extends AeBaseDef
    /**
     * Gets an iterator over the values in the collection.
     */
-   public Iterator getValues()
+   public Iterator<? extends V> getValues()
    {
       return getMap().values().iterator();
    }

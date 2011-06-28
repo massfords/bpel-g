@@ -21,6 +21,7 @@ import org.activebpel.rt.bpel.AeMessages;
 import org.activebpel.rt.bpel.AeStaticAnalysisException;
 import org.activebpel.rt.bpel.IAeExpressionLanguageFactory;
 import org.activebpel.rt.bpel.IAeFault;
+import org.activebpel.rt.bpel.IAePartnerLink;
 import org.activebpel.rt.bpel.IAeVariable;
 import org.activebpel.rt.bpel.AeProcessInfoEventType;
 import org.activebpel.rt.bpel.def.AeBaseDef;
@@ -212,7 +213,7 @@ abstract public class AeAbstractBpelObject implements IAeExecutableBpelObject, I
     * Delegates the call to the parent.
     * @see org.activebpel.rt.bpel.impl.IAeBpelObject#findPartnerLink(java.lang.String)
     */
-   public AePartnerLink findPartnerLink(String aName)
+   public IAePartnerLink findPartnerLink(String aName)
    {
       return getParent().findPartnerLink(aName);
    }

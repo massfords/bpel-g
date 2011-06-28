@@ -15,10 +15,10 @@ import java.util.List;
 
 import org.activebpel.rt.bpel.AeBusinessProcessException;
 import org.activebpel.rt.bpel.IAeActivity;
+import org.activebpel.rt.bpel.IAePartnerLink;
 import org.activebpel.rt.bpel.IAeVariable;
 import org.activebpel.rt.bpel.def.activity.AeActivityScopeDef;
 import org.activebpel.rt.bpel.def.activity.support.AeOnEventDef;
-import org.activebpel.rt.bpel.impl.AePartnerLink;
 import org.activebpel.rt.bpel.impl.IAeBpelObject;
 import org.activebpel.rt.bpel.impl.IAeDynamicScopeParent;
 import org.activebpel.rt.bpel.impl.activity.AeActivityOnEventScopeImpl;
@@ -75,13 +75,13 @@ public class AeOnEvent extends AeOnMessage implements IAeDynamicScopeParent
    private AeActivityOnEventScopeImpl mCurrentScope;
    
    /** list of child scope instances created during execute routine */
-   private List mChildren = new ArrayList();
+   private List<IAeActivity> mChildren = new ArrayList<IAeActivity>();
 
    /** 
     * list of child scope instances that have been restored for compensation 
     * purposes 
     */
-   private List mCompensatableChildren = new ArrayList();
+   private List<IAeActivity> mCompensatableChildren = new ArrayList<IAeActivity>();
 
    /** value for the next scope instance created for this onEvent */
    private int mInstanceValue = 1;
@@ -106,7 +106,7 @@ public class AeOnEvent extends AeOnMessage implements IAeDynamicScopeParent
    {
       if (isConcurrent())
       {
-         for (Iterator iter = getChildren().iterator(); iter.hasNext();)
+         for (Iterator<IAeActivity> iter = getChildren().iterator(); iter.hasNext();)
          {
             AeActivityOnEventScopeImpl scope = (AeActivityOnEventScopeImpl) iter.next();
             // FIXME (onevent-leak) only save scopes if they are compensatable.
@@ -172,9 +172,9 @@ public class AeOnEvent extends AeOnMessage implements IAeDynamicScopeParent
     * 
     * @see org.activebpel.rt.bpel.impl.AeAbstractBpelObject#findPartnerLink(java.lang.String)
     */
-   public AePartnerLink findPartnerLink(String aName)
+   public IAePartnerLink findPartnerLink(String aName)
    {
-      AePartnerLink plink = null;
+      IAePartnerLink plink = null;
 
       // If the onEvent is being queued then we should check with the queuing
       // scope to see if it resolves the plink
@@ -271,7 +271,7 @@ public class AeOnEvent extends AeOnMessage implements IAeDynamicScopeParent
    /**
     * @return Returns the children.
     */
-   public List getChildren()
+   public List<IAeActivity> getChildren()
    {
       return mChildren;
    }
@@ -279,7 +279,7 @@ public class AeOnEvent extends AeOnMessage implements IAeDynamicScopeParent
    /**
     * @return Returns the compensatableChildren.
     */
-   public List getCompensatableChildren()
+   public List<IAeActivity> getCompensatableChildren()
    {
       return mCompensatableChildren;
    }
@@ -292,6 +292,9 @@ public class AeOnEvent extends AeOnMessage implements IAeDynamicScopeParent
       mCurrentScope = aCurrentScope;
    }
    
+   /**
+    * @return
+    */
    public AeActivityOnEventScopeImpl getCurrentScope()
    {
       return mCurrentScope;
@@ -358,7 +361,7 @@ public class AeOnEvent extends AeOnMessage implements IAeDynamicScopeParent
    /**
     * @see org.activebpel.rt.bpel.impl.activity.support.AeActivityParent#getChildrenForStateChange()
     */
-   public Iterator getChildrenForStateChange()
+   public Iterator<? extends IAeBpelObject> getChildrenForStateChange()
    {
       return getChildren().iterator();
    }

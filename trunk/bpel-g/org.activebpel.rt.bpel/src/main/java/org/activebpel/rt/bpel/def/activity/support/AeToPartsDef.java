@@ -18,14 +18,11 @@ import org.activebpel.rt.bpel.def.visitors.IAeDefVisitor;
 /**
  * Models the BPEL 2.0 'toParts' construct.
  */
-public class AeToPartsDef extends AeBaseContainer
+public class AeToPartsDef extends AeBaseContainer<AeToPartDef,AeToPartDef>
 {
-   /**
-     * 
-     */
-    private static final long serialVersionUID = 7649526241910343097L;
+   private static final long serialVersionUID = 7649526241910343097L;
 
-/**
+   /**
     * Default c'tor.
     */
    public AeToPartsDef()
@@ -46,7 +43,7 @@ public class AeToPartsDef extends AeBaseContainer
    /**
     * Gets an iterator over all of the toPart defs.
     */
-   public Iterator getToPartDefs()
+   public Iterator<? extends AeToPartDef> getToPartDefs()
    {
       return getValues();
    }

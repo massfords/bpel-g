@@ -19,14 +19,11 @@ import org.activebpel.rt.bpel.def.visitors.IAeDefVisitor;
  * Container class for <code>correlations</code> that are a part of <code>receive</code>,
  * <code>reply</code>, <code>invoke</code>, and <code>pick</code>.
  */
-public class AeCorrelationsDef extends AeBaseContainer
+public class AeCorrelationsDef extends AeBaseContainer<AeCorrelationDef,AeCorrelationDef>
 {
-   /**
-     * 
-     */
     private static final long serialVersionUID = -8218610196649194695L;
 
-/**
+   /**
     * Default c'tor.
     */
    public AeCorrelationsDef()
@@ -57,9 +54,9 @@ public class AeCorrelationsDef extends AeBaseContainer
     */
    public boolean isRequestPatternUsed()
    {
-      for (Iterator iter = getValues(); iter.hasNext();)
+      for (Iterator<? extends AeCorrelationDef> iter = getValues(); iter.hasNext();)
       {
-         AeCorrelationDef def = (AeCorrelationDef) iter.next();
+         AeCorrelationDef def = iter.next();
          if (def.getPattern() != null && def.getPattern().isRequestDataUsed())
          {
             return true;
@@ -73,9 +70,9 @@ public class AeCorrelationsDef extends AeBaseContainer
     */
    public boolean isResponsePatternUsed()
    {
-      for (Iterator iter = getValues(); iter.hasNext();)
+      for (Iterator<? extends AeCorrelationDef> iter = getValues(); iter.hasNext();)
       {
-         AeCorrelationDef def = (AeCorrelationDef) iter.next();
+         AeCorrelationDef def = iter.next();
          if (def.getPattern() != null && def.getPattern().isResponseDataUsed())
          {
             return true;

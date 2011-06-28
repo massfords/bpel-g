@@ -30,10 +30,10 @@ import org.activebpel.rt.bpel.impl.visitors.IAeImplVisitor;
 public class AeActivityForEachParallelImpl extends AeActivityForEachImpl implements IAeDynamicScopeParent
 {
    /** list of child scope instances created during execute routine */
-   private List mChildren = new ArrayList();
+   private List<IAeActivity> mChildren = new ArrayList<IAeActivity>();
 
    /** list of child scope instances that have been restored for compensation purposes */
-   private List mCompensatableChildren = new ArrayList();
+   private List<IAeActivity> mCompensatableChildren = new ArrayList<IAeActivity>();
 
    /** value for the next scope instance created for this parallel forEach */
    private int mInstanceValue = 1;
@@ -67,7 +67,7 @@ public class AeActivityForEachParallelImpl extends AeActivityForEachImpl impleme
    /**
     * Getter for the collection of children
     */
-   public List getChildren()
+   public List<IAeActivity> getChildren()
    {
       return mChildren;
    }
@@ -84,7 +84,7 @@ public class AeActivityForEachParallelImpl extends AeActivityForEachImpl impleme
       // restoration. The result is a state document which won't contain any info
       // for the currently compensating scope. By adding the compensatable scopes
       // to the separate collection, they'll get persisted. 
-      for (Iterator iter = getChildren().iterator(); iter.hasNext();)
+      for (Iterator<IAeActivity> iter = getChildren().iterator(); iter.hasNext();)
       {
          AeActivityScopeImpl scope = (AeActivityScopeImpl) iter.next();
          if (scope.isNormalCompletion())
@@ -108,16 +108,16 @@ public class AeActivityForEachParallelImpl extends AeActivityForEachImpl impleme
          // creates all of the children
          int startInstance = getInstanceValue();
          int finalInstance = startInstance + (getFinalValue() - getStartValue());
-         List scopes = AeDynamicScopeCreator.create(true, this, startInstance, finalInstance);
+         List<AeActivityScopeImpl> scopes = AeDynamicScopeCreator.create(true, this, startInstance, finalInstance);
          getChildren().addAll(scopes);
          
          // set the instance value for the next time we execute
          setInstanceValue(finalInstance + 1);
          setCounterValue(getFinalValue() + 1);
 
-         for (Iterator it=getChildren().iterator(); it.hasNext();)
+         for (Iterator<IAeActivity> it=getChildren().iterator(); it.hasNext();)
          {
-            getProcess().queueObjectToExecute((IAeBpelObject) it.next());
+            getProcess().queueObjectToExecute(it.next());
          }
       }
       else
@@ -152,9 +152,9 @@ public class AeActivityForEachParallelImpl extends AeActivityForEachImpl impleme
    protected int getNumberOfIterationsRemaining()
    {
       int stillExecuting = 0;
-      for (Iterator iter = getChildren().iterator(); iter.hasNext();)
+      for (Iterator<IAeActivity> iter = getChildren().iterator(); iter.hasNext();)
       {
-         AeActivityScopeImpl scope = (AeActivityScopeImpl) iter.next();
+    	 IAeActivity scope = iter.next();
          if (!scope.getState().isFinal())
          {
             stillExecuting++;
@@ -211,9 +211,9 @@ public class AeActivityForEachParallelImpl extends AeActivityForEachImpl impleme
    protected void runEarlyTerminationOnChildren() throws AeBusinessProcessException
    {
       boolean terminatedChild = false;
-      for (Iterator iter = getChildren().iterator(); iter.hasNext();)
+      for (Iterator<IAeActivity> iter = getChildren().iterator(); iter.hasNext();)
       {
-         AeActivityScopeImpl impl = (AeActivityScopeImpl) iter.next();
+    	 IAeActivity impl = iter.next();
          if (!impl.getState().isFinal())
          {
             impl.terminateEarly();
@@ -249,7 +249,7 @@ public class AeActivityForEachParallelImpl extends AeActivityForEachImpl impleme
    /**
     * @see org.activebpel.rt.bpel.impl.IAeBpelObject#getChildrenForStateChange()
     */
-   public Iterator getChildrenForStateChange()
+   public Iterator<? extends IAeBpelObject> getChildrenForStateChange()
    {
       return getChildren().iterator();
    }
@@ -257,7 +257,7 @@ public class AeActivityForEachParallelImpl extends AeActivityForEachImpl impleme
    /**
     * Getter for the list of children that are compensatable
     */
-   public List getCompensatableChildren()
+   public List<IAeActivity> getCompensatableChildren()
    {
       return mCompensatableChildren;
    }

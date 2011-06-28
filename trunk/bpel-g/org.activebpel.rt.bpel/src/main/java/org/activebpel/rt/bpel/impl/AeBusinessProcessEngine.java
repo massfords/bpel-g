@@ -38,6 +38,7 @@ import org.activebpel.rt.bpel.IAeExpressionLanguageFactory;
 import org.activebpel.rt.bpel.IAeFault;
 import org.activebpel.rt.bpel.IAeInvokeActivity;
 import org.activebpel.rt.bpel.IAeMonitorListener;
+import org.activebpel.rt.bpel.IAePartnerLink;
 import org.activebpel.rt.bpel.IAePlanManager;
 import org.activebpel.rt.bpel.IAeProcessEvent;
 import org.activebpel.rt.bpel.IAeProcessInfoEvent;
@@ -1119,7 +1120,7 @@ public class AeBusinessProcessEngine implements IAeBusinessProcessEngineInternal
 
       // initialize the partner links from the deployment object
       String plLocation = aProcess.getLocationPath(aInboundReceive.getPartnerLinkOperationKey().getPartnerLinkId());
-      AePartnerLink plink = aProcess.findProcessPartnerLink(plLocation);
+      IAePartnerLink plink = aProcess.findProcessPartnerLink(plLocation);
       getPartnerLinkStrategy().updatePartnerLink(plink, aProcess.getProcessPlan(), aInboundReceive.getContext());
    }
 
@@ -1947,14 +1948,14 @@ public class AeBusinessProcessEngine implements IAeBusinessProcessEngineInternal
       /**
        * @see org.activebpel.rt.bpel.impl.IAeEnginePartnerLinkStrategy#initPartnerLink(org.activebpel.rt.bpel.impl.AePartnerLink, org.activebpel.rt.bpel.impl.IAeProcessPlan)
        */
-      public void initPartnerLink(AePartnerLink aPartnerLink, IAeProcessPlan aPlan) throws AeBusinessProcessException
+      public void initPartnerLink(IAePartnerLink aPartnerLink, IAeProcessPlan aPlan) throws AeBusinessProcessException
       {
       }
 
       /**
        * @see org.activebpel.rt.bpel.impl.IAeEnginePartnerLinkStrategy#updatePartnerLink(org.activebpel.rt.bpel.impl.AePartnerLink, org.activebpel.rt.bpel.impl.IAeProcessPlan, org.activebpel.wsio.receive.IAeMessageContext)
        */
-      public void updatePartnerLink(AePartnerLink aPartnerLink, IAeProcessPlan aPlan, IAeMessageContext aMessageContext) throws AeBusinessProcessException
+      public void updatePartnerLink(IAePartnerLink aPartnerLink, IAeProcessPlan aPlan, IAeMessageContext aMessageContext) throws AeBusinessProcessException
       {
       }
    }

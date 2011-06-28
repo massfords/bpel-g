@@ -10,6 +10,7 @@
 
 package org.activebpel.rt.bpel.impl;
 
+import org.activebpel.rt.bpel.IAePartnerLink;
 import org.activebpel.rt.bpel.def.AePartnerLinkOpKey;
 
 /**
@@ -18,11 +19,8 @@ import org.activebpel.rt.bpel.def.AePartnerLinkOpKey;
  */
 public class AePartnerLinkOpImplKey extends AePartnerLinkOpKey implements Comparable
 {
-   /**
-     * 
-     */
-    private static final long serialVersionUID = -6734669246237779276L;
-/** The location path of the partner link */
+   private static final long serialVersionUID = -6734669246237779276L;
+   /** The location path of the partner link */
    private String mPartnerLinkLocationPath;
 
    /**
@@ -33,7 +31,7 @@ public class AePartnerLinkOpImplKey extends AePartnerLinkOpKey implements Compar
     * @param aPartnerLink
     * @param aOperation
     */
-   public AePartnerLinkOpImplKey(AePartnerLink aPartnerLink, String aOperation)
+   public AePartnerLinkOpImplKey(IAePartnerLink aPartnerLink, String aOperation)
    {
       super(aPartnerLink.getDefinition(), aOperation);
 
@@ -68,13 +66,10 @@ public class AePartnerLinkOpImplKey extends AePartnerLinkOpKey implements Compar
     */
    public String toString()
    {
-      StringBuffer buff = new StringBuffer();
-      synchronized(buff)
-      {
-         buff.append(super.toString());
-         buff.append("\nLoc Path:  "); //$NON-NLS-1$
-         buff.append(getPartnerLinkLocationPath());
-      }
+      StringBuilder buff = new StringBuilder();
+      buff.append(super.toString());
+      buff.append("\nLoc Path:  "); //$NON-NLS-1$
+      buff.append(getPartnerLinkLocationPath());
       return buff.toString();
    }
 

@@ -17,14 +17,11 @@ import org.activebpel.rt.bpel.def.visitors.IAeDefVisitor;
 /**
  * Models the <code>variables</code> element from BPEL.  
  */
-public class AeVariablesDef extends AeBaseContainer
+public class AeVariablesDef extends AeBaseContainer<String,AeVariableDef>
 {
-   /**
-     * 
-     */
-    private static final long serialVersionUID = 821570063127891317L;
+   private static final long serialVersionUID = 821570063127891317L;
 
-/**
+   /**
     * Default c'tor.
     */
    public AeVariablesDef()
@@ -47,7 +44,7 @@ public class AeVariablesDef extends AeBaseContainer
     */
    public AeVariableDef getVariableDef(String aName)
    {
-      return (AeVariableDef) get(aName);
+      return get(aName);
    }
    
    /**
@@ -60,9 +57,9 @@ public class AeVariablesDef extends AeBaseContainer
       {
          boolean foundExplicit = false;
          // we might still be empty if the container only has dynamic variables
-         for (Iterator it = getValues(); it.hasNext(); )
+         for (Iterator<? extends AeVariableDef> it = getValues(); it.hasNext(); )
          {
-            AeVariableDef def = (AeVariableDef) it.next();
+            AeVariableDef def = it.next();
             if (!def.isImplicit())
             {
                foundExplicit = true;

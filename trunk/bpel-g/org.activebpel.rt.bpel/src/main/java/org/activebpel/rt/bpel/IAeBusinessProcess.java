@@ -15,7 +15,6 @@ import java.util.Map;
 import javax.xml.namespace.QName;
 
 import org.activebpel.rt.attachment.IAeAttachmentItem;
-import org.activebpel.rt.bpel.impl.AePartnerLink;
 import org.activebpel.rt.bpel.impl.AeSuspendReason;
 import org.activebpel.rt.bpel.impl.IAeBpelObject;
 import org.activebpel.rt.bpel.impl.IAeBusinessProcessEngineInternal;
@@ -335,7 +334,7 @@ public interface IAeBusinessProcess
     * @param aLocationPath
     * @return the partner link or null if not found
     */
-   public AePartnerLink findProcessPartnerLink(String aLocationPath);
+   public IAePartnerLink findProcessPartnerLink(String aLocationPath);
 
    /**
     * Returns a variable specified by the location.

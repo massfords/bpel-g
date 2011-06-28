@@ -47,7 +47,7 @@ abstract public class AeActivityParent extends AeAbstractBpelObject implements I
    /**
     * @see org.activebpel.rt.bpel.impl.IAeBpelObject#getChildrenForStateChange()
     */
-   public Iterator<IAeBpelObject> getChildrenForStateChange()
+   public Iterator<? extends IAeBpelObject> getChildrenForStateChange()
    {
       return Collections.<IAeBpelObject>singleton(getActivity()).iterator();
    }

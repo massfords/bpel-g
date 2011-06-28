@@ -18,14 +18,11 @@ import org.activebpel.rt.bpel.def.visitors.IAeDefVisitor;
 /**
  * Models the BPEL 2.0 'fromParts' construct.
  */
-public class AeFromPartsDef extends AeBaseContainer
+public class AeFromPartsDef extends AeBaseContainer<AeFromPartDef,AeFromPartDef>
 {
-   /**
-     * 
-     */
     private static final long serialVersionUID = 1659540461858410972L;
 
-/**
+   /**
     * Default c'tor.
     */
    public AeFromPartsDef()
@@ -40,13 +37,13 @@ public class AeFromPartsDef extends AeBaseContainer
     */
    public void addFromPartDef(AeFromPartDef aDef)
    {
-      add(aDef);
+      super.add(aDef);
    }
    
    /**
     * Gets an iterator over all of the fromPart defs.
     */
-   public Iterator getFromPartDefs()
+   public Iterator<? extends AeFromPartDef> getFromPartDefs()
    {
       return getValues();
    }

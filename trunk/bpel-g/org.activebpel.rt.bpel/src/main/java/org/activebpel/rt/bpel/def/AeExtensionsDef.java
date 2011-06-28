@@ -18,14 +18,11 @@ import org.activebpel.rt.util.AeUtil;
 /**
  * Models the 'extensions' bpel construct introduced in WS-BPEL 2.0.
  */
-public class AeExtensionsDef extends AeBaseContainer
+public class AeExtensionsDef extends AeBaseContainer<AeExtensionDef,AeExtensionDef>
 {
-   /**
-     * 
-     */
     private static final long serialVersionUID = 1204991616987068600L;
 
-/**
+   /**
     * Default c'tor.
     */
    public AeExtensionsDef()
@@ -40,13 +37,13 @@ public class AeExtensionsDef extends AeBaseContainer
     */
    public void addExtensionDef(AeExtensionDef aDef)
    {
-      add(aDef);
+      super.add(aDef);
    }
 
    /**
     * Gets an Iterator over the list of all the extension defs.
     */
-   public Iterator getExtensionDefs()
+   public Iterator<? extends AeExtensionDef> getExtensionDefs()
    {
       return getValues();
    }
@@ -58,9 +55,9 @@ public class AeExtensionsDef extends AeBaseContainer
     */
    public boolean hasExtensionDef(String aNamespace)
    {
-      for (Iterator iter = getValues(); iter.hasNext(); )
+      for (Iterator<? extends AeExtensionDef> iter = getValues(); iter.hasNext(); )
       {
-         AeExtensionDef extDef = (AeExtensionDef) iter.next();
+         AeExtensionDef extDef = iter.next();
          if (AeUtil.compareObjects(aNamespace, extDef.getNamespace()))
          {
             return true;

@@ -14,14 +14,11 @@ import org.activebpel.rt.bpel.def.visitors.IAeDefVisitor;
 /**
  * Container def for AePartnerDef objects.
  */
-public class AePartnersDef extends AeBaseContainer
+public class AePartnersDef extends AeBaseContainer<String, AePartnerDef>
 {
-   /**
-     * 
-     */
-    private static final long serialVersionUID = 6248312283070864489L;
+   private static final long serialVersionUID = 6248312283070864489L;
 
-/**
+   /**
     * Default c'tor.
     */
    public AePartnersDef()

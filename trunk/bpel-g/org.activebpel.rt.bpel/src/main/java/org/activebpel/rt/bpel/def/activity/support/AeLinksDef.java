@@ -18,14 +18,11 @@ import org.activebpel.rt.bpel.def.visitors.IAeDefVisitor;
  * Container for the links within a Flow. Using this container as opposed to 
  * a collection so it can be visited.
  */
-public class AeLinksDef extends AeBaseContainer
+public class AeLinksDef extends AeBaseContainer<AeLinkDef,AeLinkDef>
 {
-   /**
-     * 
-     */
-    private static final long serialVersionUID = -7462005664763933604L;
+   private static final long serialVersionUID = -7462005664763933604L;
 
-/**
+   /**
     * Default c'tor.
     */
    public AeLinksDef()
@@ -45,7 +42,7 @@ public class AeLinksDef extends AeBaseContainer
    /**
     * Gets the iterator for the collection of links.
     */
-   public Iterator getLinkDefs()
+   public Iterator<? extends AeLinkDef> getLinkDefs()
    {
       return getValues();
    }

@@ -20,6 +20,7 @@ import org.activebpel.rt.AeException;
 import org.activebpel.rt.bpel.AeBusinessProcessException;
 import org.activebpel.rt.bpel.AeMessages;
 import org.activebpel.rt.bpel.IAeFault;
+import org.activebpel.rt.bpel.IAePartnerLink;
 import org.activebpel.rt.bpel.IAeVariable;
 import org.activebpel.rt.bpel.coord.IAeCoordinating;
 import org.activebpel.rt.bpel.def.AePartnerLinkDef;
@@ -32,13 +33,11 @@ import org.activebpel.rt.bpel.impl.AeBusinessProcess;
 import org.activebpel.rt.bpel.impl.AeBusinessProcessPropertyIO;
 import org.activebpel.rt.bpel.impl.AeConflictingReceiveException;
 import org.activebpel.rt.bpel.impl.AeMessageDataDeserializer;
-import org.activebpel.rt.bpel.impl.AePartnerLink;
 import org.activebpel.rt.bpel.impl.AePartnerLinkOpImplKey;
 import org.activebpel.rt.bpel.impl.AeVariable;
 import org.activebpel.rt.bpel.impl.IAeBpelObject;
 import org.activebpel.rt.bpel.impl.IAeBusinessProcessInternal;
 import org.activebpel.rt.bpel.impl.IAeDynamicScopeParent;
-import org.activebpel.rt.bpel.impl.IAeFaultHandler;
 import org.activebpel.rt.bpel.impl.IAeImplStateNames;
 import org.activebpel.rt.bpel.impl.activity.AeActivityChildExtensionActivityImpl;
 import org.activebpel.rt.bpel.impl.activity.AeActivityCompensateImpl;
@@ -106,7 +105,7 @@ public class AeRestoreImplStateVisitor extends AeBaseRestoreVisitor
     * Maps compensation callback location paths to the compensation handlers
     * that need them.
     */
-   private final Map mCompensationCallbackOwnersMap = new HashMap();
+   private final Map<String, AeCompensationHandler> mCompensationCallbackOwnersMap = new HashMap<String, AeCompensationHandler>();
    
    /** Flag to indicate if any of the scopes that were visited had any sub process invokes (coordinations). */
    private boolean mScopeHadCoordination = false;
@@ -309,7 +308,7 @@ public class AeRestoreImplStateVisitor extends AeBaseRestoreVisitor
       {
          Element element = (Element) i.next();
          String name = getAttribute(element, STATE_NAME);
-         AePartnerLink plink = aScope.findPartnerLink(name);
+         IAePartnerLink plink = aScope.findPartnerLink(name);
          
          restorePartnerLink(element, plink);
       }
@@ -353,7 +352,7 @@ public class AeRestoreImplStateVisitor extends AeBaseRestoreVisitor
       {
          Element element = (Element) i.next();
          String plinkLocation = getAttribute(element, STATE_PLINK_LOCATION);
-         AePartnerLink partnerLink = null;
+         IAePartnerLink partnerLink = null;
          if (AeUtil.isNullOrEmpty(plinkLocation))
          {
             String partnerLinkName = getAttribute(element, STATE_PLINK);
@@ -860,7 +859,7 @@ public class AeRestoreImplStateVisitor extends AeBaseRestoreVisitor
          // time they'd been in memory. 
          int startInstance = AeLocationPathUtils.getStartInstanceValue(instanceValue, aImpl.getStartValue(), aImpl.getFinalValue());
          int finalInstance = AeLocationPathUtils.getFinalInstanceValue(instanceValue, aImpl.getStartValue(), aImpl.getFinalValue());
-         List scopes = AeDynamicScopeCreator.create(false, aImpl, startInstance, finalInstance);
+         List<AeActivityScopeImpl> scopes = AeDynamicScopeCreator.create(false, aImpl, startInstance, finalInstance);
          aImpl.getChildren().addAll(scopes);
       }
       
@@ -991,7 +990,7 @@ public class AeRestoreImplStateVisitor extends AeBaseRestoreVisitor
       // Scope visit needs to happen before we set the location paths for the process as they are dependent
       // upon impl objects created in the scope visitation.
       boolean suspended = isSuspended(processState);
-      List locationPaths = getImplState().getExecutionQueuePaths();
+      List<String> locationPaths = getImplState().getExecutionQueuePaths();
       aProcess.setExecutionQueue(suspended, locationPaths);
       
       // Set the coordinator flag.
@@ -1180,7 +1179,7 @@ public class AeRestoreImplStateVisitor extends AeBaseRestoreVisitor
          // there are children to restore
          int startValue = instanceValue - instanceCount;
          int finalValue = instanceValue - 1;
-         List scopes = AeDynamicScopeCreator.create(false, aImpl, startValue, finalValue );
+         List<AeActivityScopeImpl> scopes = AeDynamicScopeCreator.create(false, aImpl, startValue, finalValue );
          aImpl.getChildren().addAll(scopes);
       }
    }

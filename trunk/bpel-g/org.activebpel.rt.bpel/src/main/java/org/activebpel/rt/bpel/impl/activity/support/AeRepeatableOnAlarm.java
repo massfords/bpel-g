@@ -36,13 +36,13 @@ public class AeRepeatableOnAlarm extends AeOnAlarm implements IAeDynamicScopePar
    // TODO (MF) refactor the event classes to enable some code reuse between the repeatable alarms and onEvent. Perhaps make all events support the notion of concurrency but only enable for some?  
    
    /** list of child scope instances created during onAlarm routines */
-   private List mChildren = new ArrayList();
+   private List<IAeActivity> mChildren = new ArrayList<IAeActivity>();
 
    /** 
     * list of child scope instances that have been restored for compensation 
     * purposes 
     */
-   private List mCompensatableChildren = new ArrayList();
+   private List<IAeActivity> mCompensatableChildren = new ArrayList<IAeActivity>();
 
    /** value for the next scope instance created for this onAlarm */
    private int mInstanceValue = 1;
@@ -76,7 +76,7 @@ public class AeRepeatableOnAlarm extends AeOnAlarm implements IAeDynamicScopePar
    {
       if (isConcurrent())
       {
-         for (Iterator iter = getChildren().iterator(); iter.hasNext();)
+         for (Iterator<IAeActivity> iter = getChildren().iterator(); iter.hasNext();)
          {
             AeActivityScopeImpl scope = (AeActivityScopeImpl) iter.next();
             if (scope.isNormalCompletion())
@@ -125,8 +125,8 @@ public class AeRepeatableOnAlarm extends AeOnAlarm implements IAeDynamicScopePar
       setInstanceValue(getInstanceValue() + 1);
       
       // create a dynamic scope
-      List scopes = AeDynamicScopeCreator.create(true, this, instance, instance);
-      AeActivityScopeImpl scope = (AeActivityScopeImpl) scopes.get(0);
+      List<AeActivityScopeImpl> scopes = AeDynamicScopeCreator.create(true, this, instance, instance);
+      AeActivityScopeImpl scope = scopes.get(0);
       
       // add to our list of children
       getChildren().add(scope);
@@ -139,14 +139,13 @@ public class AeRepeatableOnAlarm extends AeOnAlarm implements IAeDynamicScopePar
     * 
     * @see org.activebpel.rt.bpel.impl.IAeExecutableBpelObject#childComplete(org.activebpel.rt.bpel.impl.IAeBpelObject)
     */
-   public void childComplete(IAeBpelObject aChild)
-         throws AeBusinessProcessException
+   public void childComplete(IAeBpelObject aChild) throws AeBusinessProcessException
    {
       if (isConcurrent())
       {
-         for (Iterator iter = getChildrenForStateChange(); iter.hasNext();)
+         for (Iterator<? extends IAeBpelObject> iter = getChildrenForStateChange(); iter.hasNext();)
          {
-            AeActivityScopeImpl scope = (AeActivityScopeImpl) iter.next();
+        	IAeBpelObject scope = iter.next();
             if (!scope.getState().isFinal())
             {
                return;
@@ -173,7 +172,7 @@ public class AeRepeatableOnAlarm extends AeOnAlarm implements IAeDynamicScopePar
    /**
     * @see org.activebpel.rt.bpel.impl.IAeDynamicScopeParent#getChildren()
     */
-   public List getChildren()
+   public List<IAeActivity> getChildren()
    {
       return mChildren;
    }
@@ -181,7 +180,7 @@ public class AeRepeatableOnAlarm extends AeOnAlarm implements IAeDynamicScopePar
    /**
     * @param aChildren the children to set
     */
-   protected void setChildren(List aChildren)
+   protected void setChildren(List<IAeActivity> aChildren)
    {
       mChildren = aChildren;
    }
@@ -189,7 +188,7 @@ public class AeRepeatableOnAlarm extends AeOnAlarm implements IAeDynamicScopePar
    /**
     * @see org.activebpel.rt.bpel.impl.IAeDynamicScopeParent#getCompensatableChildren()
     */
-   public List getCompensatableChildren()
+   public List<IAeActivity> getCompensatableChildren()
    {
       return mCompensatableChildren;
    }
@@ -197,7 +196,7 @@ public class AeRepeatableOnAlarm extends AeOnAlarm implements IAeDynamicScopePar
    /**
     * @param aCompensatableChildren the compensatableChildren to set
     */
-   protected void setCompensatableChildren(List aCompensatableChildren)
+   protected void setCompensatableChildren(List<IAeActivity> aCompensatableChildren)
    {
       mCompensatableChildren = aCompensatableChildren;
    }
@@ -255,7 +254,7 @@ public class AeRepeatableOnAlarm extends AeOnAlarm implements IAeDynamicScopePar
    /**
     * @see org.activebpel.rt.bpel.impl.activity.support.AeActivityParent#getChildrenForStateChange()
     */
-   public Iterator getChildrenForStateChange()
+   public Iterator<? extends IAeBpelObject> getChildrenForStateChange()
    {
       return getChildren().iterator();
    }

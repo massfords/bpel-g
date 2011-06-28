@@ -12,10 +12,10 @@ package org.activebpel.rt.bpel.impl.activity.assign;
 import javax.xml.namespace.QName;
 
 import org.activebpel.rt.bpel.AeBusinessProcessException;
+import org.activebpel.rt.bpel.IAePartnerLink;
 import org.activebpel.rt.bpel.IAeVariable;
 import org.activebpel.rt.bpel.def.IAeExpressionDef;
 import org.activebpel.rt.bpel.function.IAeFunctionExecutionContext;
-import org.activebpel.rt.bpel.impl.AePartnerLink;
 import org.activebpel.rt.bpel.impl.IAeBpelObject;
 import org.activebpel.rt.bpel.impl.IAeBusinessProcessInternal;
 import org.activebpel.rt.bpel.xpath.AeXPathHelper;
@@ -59,13 +59,13 @@ public interface IAeCopyOperationContext extends IAeNamespaceContext
     * Getter for the partner link
     * @param aName
     */
-   public AePartnerLink getPartnerLink(String aName);
+   public IAePartnerLink getPartnerLink(String aName);
    
    /**
     * Getter for the partner link that will be updated
     * @param aName
     */
-   public AePartnerLink getPartnerLinkForUpdate(String aName);
+   public IAePartnerLink getPartnerLinkForUpdate(String aName);
    
    /**
     * Getter for the property alias.

@@ -234,9 +234,9 @@ public class AeBpelProcessObject extends AeBpelScopeObject implements
 	 * @return root activity model
 	 */
 	public AeBpelObjectBase getProcessActivity() {
-		List children = getChildren();
+		List<AeBpelObjectBase> children = getChildren();
 		for (int i = 0; i < children.size(); i++) {
-			AeBpelObjectBase child = (AeBpelObjectBase) children.get(i);
+			AeBpelObjectBase child = children.get(i);
 			if (child instanceof AeBpelActivityObject) {
 				return child;
 			}
@@ -250,9 +250,9 @@ public class AeBpelProcessObject extends AeBpelScopeObject implements
 	 * @return faultHandlers model.
 	 */
 	public AeBpelObjectBase getFaultHandlers() {
-		List children = getChildren();
+		List<AeBpelObjectBase> children = getChildren();
 		for (int i = 0; i < children.size(); i++) {
-			AeBpelObjectBase child = (AeBpelObjectBase) children.get(i);
+			AeBpelObjectBase child = children.get(i);
 			if (child instanceof AeBpelFaultHandlersObject) {
 				return child;
 			}
@@ -266,9 +266,9 @@ public class AeBpelProcessObject extends AeBpelScopeObject implements
 	 * @return compensationHandler model.
 	 */
 	public AeBpelObjectBase getCompensationHandler() {
-		List children = getChildren();
+		List<AeBpelObjectBase> children = getChildren();
 		for (int i = 0; i < children.size(); i++) {
-			AeBpelObjectBase child = (AeBpelObjectBase) children.get(i);
+			AeBpelObjectBase child = children.get(i);
 			if (child instanceof AeBpelCompensationHandlerObject) {
 				return child;
 			}
@@ -282,9 +282,9 @@ public class AeBpelProcessObject extends AeBpelScopeObject implements
 	 * @return terminationHandler model.
 	 */
 	public AeBpelObjectBase getTerminationHandler() {
-		List children = getChildren();
+		List<AeBpelObjectBase> children = getChildren();
 		for (int i = 0; i < children.size(); i++) {
-			AeBpelObjectBase child = (AeBpelObjectBase) children.get(i);
+			AeBpelObjectBase child = children.get(i);
 			if (child instanceof AeBpelTerminationHandlerObject) {
 				return child;
 			}
@@ -298,9 +298,9 @@ public class AeBpelProcessObject extends AeBpelScopeObject implements
 	 * @return eventHandlers model.
 	 */
 	public AeBpelObjectBase getEventHandlers() {
-		List children = getChildren();
+		List<AeBpelObjectBase> children = getChildren();
 		for (int i = 0; i < children.size(); i++) {
-			AeBpelObjectBase child = (AeBpelObjectBase) children.get(i);
+			AeBpelObjectBase child = children.get(i);
 			if (child instanceof AeBpelEventHandlersObject) {
 				return child;
 			}

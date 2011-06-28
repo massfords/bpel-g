@@ -63,13 +63,13 @@ public class AeBpelScopeObject extends AeBpelActivityObject
    protected AeBpelObjectBase getPartnerLink(String aPartnerLinkName)
    {
       AeBpelObjectBase rVal = null;
-      List partnerLinks = getChildren("partnerLinks");//$NON-NLS-1$
+      List<AeBpelObjectBase> partnerLinks = getChildren("partnerLinks");//$NON-NLS-1$
       if (partnerLinks.size() > 0)
       {
-         List partners = ( (AeBpelObjectContainer)partnerLinks.get(0)).getChildren();
+         List<AeBpelObjectBase> partners = ((AeBpelObjectContainer)partnerLinks.get(0)).getChildren();
          for (int i = 0; i < partners.size(); i++)
          {
-            AeBpelObjectBase partnerLink = (AeBpelObjectBase) partners.get(i);
+            AeBpelObjectBase partnerLink = partners.get(i);
             if (partnerLink.getName().equals(aPartnerLinkName))
             {
                rVal = partnerLink;

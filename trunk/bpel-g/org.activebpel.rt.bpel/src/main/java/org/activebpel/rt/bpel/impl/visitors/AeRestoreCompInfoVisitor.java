@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.activebpel.rt.bpel.AeBusinessProcessException;
+import org.activebpel.rt.bpel.IAePartnerLink;
 import org.activebpel.rt.bpel.impl.AeAbstractBpelObject;
 import org.activebpel.rt.bpel.impl.AeBusinessProcess;
 import org.activebpel.rt.bpel.impl.AePartnerLink;
@@ -238,11 +239,11 @@ public class AeRestoreCompInfoVisitor extends AeBaseRestoreVisitor
     * @param aScope
     * @throws AeBusinessProcessException
     */
-   protected Map createCompInfoPartnerLinks(Element aCompInfoElement, AeActivityScopeImpl aScope) throws AeBusinessProcessException
+   protected Map<String,IAePartnerLink> createCompInfoPartnerLinks(Element aCompInfoElement, AeActivityScopeImpl aScope) throws AeBusinessProcessException
    {
       String xpath = "./" + STATE_PLINK; //$NON-NLS-1$
       List elements = selectNodes(aCompInfoElement, xpath, "Error restoring compensation info partner links"); //$NON-NLS-1$
-      Map map = new HashMap();
+      Map<String,IAePartnerLink> map = new HashMap<String,IAePartnerLink>();
 
       for (Iterator i = elements.iterator(); i.hasNext(); )
       {
@@ -250,7 +251,7 @@ public class AeRestoreCompInfoVisitor extends AeBaseRestoreVisitor
          String name = getAttribute(element, STATE_NAME);
 
          int versionNumber = getAttributeInt(element, STATE_VERSION);
-         AePartnerLink plink = aScope.findPartnerLink(name);
+         IAePartnerLink plink = aScope.findPartnerLink(name);
 
          if (versionNumber != plink.getVersionNumber())
          {

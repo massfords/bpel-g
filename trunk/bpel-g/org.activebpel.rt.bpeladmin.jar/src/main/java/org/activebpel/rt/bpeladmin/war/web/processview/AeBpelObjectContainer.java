@@ -22,7 +22,7 @@ import org.activebpel.rt.xml.def.AeBaseXmlDef;
 public class AeBpelObjectContainer extends AeBpelObjectBase
 {
    /** BPEL child model objects contained by this parent. */
-   private List mChildren = new ArrayList();
+   private List<AeBpelObjectBase> mChildren = new ArrayList<AeBpelObjectBase>();
 
    /**
     *
@@ -87,7 +87,7 @@ public class AeBpelObjectContainer extends AeBpelObjectBase
    /**
     * @return List of children in this container.
     */
-   public List getChildren()
+   public List<AeBpelObjectBase> getChildren()
    {
       return mChildren;
    }
@@ -103,14 +103,14 @@ public class AeBpelObjectContainer extends AeBpelObjectBase
    /**
     * @return List of children in this container for the given type.
     */
-   public List getChildren(String aBpelTagName)
+   public List<AeBpelObjectBase> getChildren(String aBpelTagName)
    {
-      List children =  getChildren();
-      List rList = new ArrayList();
-      Iterator iterator = children.iterator();
+      List<AeBpelObjectBase> children =  getChildren();
+      List<AeBpelObjectBase> rList = new ArrayList<AeBpelObjectBase>();
+      Iterator<AeBpelObjectBase> iterator = children.iterator();
       while (iterator.hasNext())
       {
-         AeBpelObjectBase child = (AeBpelObjectBase)iterator.next();
+         AeBpelObjectBase child = iterator.next();
          if (child.getTagName().equalsIgnoreCase(aBpelTagName))
          {
             rList.add(child);

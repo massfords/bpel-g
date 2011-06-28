@@ -94,7 +94,7 @@ public abstract class AeActivityDef extends AeNamedDef
          List<String> list = new ArrayList<String>();
          if (getTargetsDef() != null)
          {
-            for (Iterator<AeTargetDef> titer = getTargetsDef().getTargetDefs(); titer.hasNext(); )
+            for (Iterator<? extends AeTargetDef> titer = getTargetsDef().getTargetDefs(); titer.hasNext(); )
             {
                AeTargetDef target = titer.next();
                list.add(target.getLinkName());
@@ -203,9 +203,9 @@ public abstract class AeActivityDef extends AeNamedDef
    /**
     * Gets an iterator over the target defs in the activity.
     */
-   public Iterator<AeTargetDef> getTargetDefs()
+   public Iterator<? extends AeTargetDef> getTargetDefs()
    {
-      Iterator<AeTargetDef> iter = Collections.<AeTargetDef>emptyList().iterator();
+      Iterator<? extends AeTargetDef> iter = Collections.<AeTargetDef>emptyList().iterator();
       if (getTargetsDef() != null)
       {
          iter = getTargetsDef().getTargetDefs();
@@ -216,9 +216,9 @@ public abstract class AeActivityDef extends AeNamedDef
    /**
     * Gets an iterator over the source defs in the activity.
     */
-   public Iterator<AeSourceDef> getSourceDefs()
+   public Iterator<? extends AeSourceDef> getSourceDefs()
    {
-      Iterator<AeSourceDef> iter = Collections.<AeSourceDef>emptyList().iterator();
+      Iterator<? extends AeSourceDef> iter = Collections.<AeSourceDef>emptyList().iterator();
       if (getSourcesDef() != null)
       {
          iter = getSourcesDef().getSourceDefs();

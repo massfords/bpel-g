@@ -14,10 +14,10 @@ import java.util.LinkedList;
 import java.util.List;
 
 import org.activebpel.rt.bpel.AeBusinessProcessException;
+import org.activebpel.rt.bpel.IAePartnerLink;
 import org.activebpel.rt.bpel.IAeVariable;
 import org.activebpel.rt.bpel.def.activity.AeActivityScopeDef;
 import org.activebpel.rt.bpel.impl.AeBpelState;
-import org.activebpel.rt.bpel.impl.AePartnerLink;
 import org.activebpel.rt.bpel.impl.activity.AeActivityScopeImpl;
 
 /**
@@ -132,9 +132,9 @@ public class AeCompInfo
     * 
     * @param aName
     */
-   public AePartnerLink getPartnerLink(String aName)
+   public IAePartnerLink getPartnerLink(String aName)
    {
-      AePartnerLink plink = getSnapshot() != null ? getSnapshot().getPartnerLink(aName) : null;
+      IAePartnerLink plink = getSnapshot() != null ? getSnapshot().getPartnerLink(aName) : null;
       if (plink == null && getParent() != null)
          plink = getParent().getPartnerLink(aName);
       return plink;

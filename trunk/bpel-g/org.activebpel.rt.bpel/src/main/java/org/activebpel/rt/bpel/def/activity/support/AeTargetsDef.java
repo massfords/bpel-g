@@ -18,13 +18,10 @@ import org.activebpel.rt.bpel.def.visitors.IAeDefVisitor;
 /**
  * Models the 'target' container bpel construct introduced in WS-BPEL 2.0.
  */
-public class AeTargetsDef extends AeBaseContainer
+public class AeTargetsDef extends AeBaseContainer<AeTargetDef,AeTargetDef>
 {
-   /**
-     * 
-     */
-    private static final long serialVersionUID = -4301807529349695524L;
-/** The optional joinCondition child. */
+   private static final long serialVersionUID = -4301807529349695524L;
+   /** The optional joinCondition child. */
    private AeJoinConditionDef mJoinCondition;
 
    /**
@@ -48,7 +45,7 @@ public class AeTargetsDef extends AeBaseContainer
    /**
     * Gets an iterator over all of the target defs.
     */
-   public Iterator<AeTargetDef> getTargetDefs()
+   public Iterator<? extends AeTargetDef> getTargetDefs()
    {
       return getValues();
    }

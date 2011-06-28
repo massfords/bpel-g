@@ -14,12 +14,12 @@ import java.util.List;
 import org.activebpel.rt.bpel.AeBusinessProcessException;
 import org.activebpel.rt.bpel.IAeFault;
 import org.activebpel.rt.bpel.IAeInvokeActivity;
+import org.activebpel.rt.bpel.IAePartnerLink;
 import org.activebpel.rt.bpel.IAeVariable;
 import org.activebpel.rt.bpel.def.activity.AeActivityInvokeDef;
 import org.activebpel.rt.bpel.def.activity.IAeMessageDataConsumerDef;
 import org.activebpel.rt.bpel.def.activity.IAeMessageDataProducerDef;
 import org.activebpel.rt.bpel.impl.AeBpelState;
-import org.activebpel.rt.bpel.impl.AePartnerLink;
 import org.activebpel.rt.bpel.impl.AePartnerLinkOpImplKey;
 import org.activebpel.rt.bpel.impl.IAeActivityParent;
 import org.activebpel.rt.bpel.impl.IAeAlarmReceiver;
@@ -119,7 +119,7 @@ public class AeActivityInvokeImpl extends AeWSIOActivityImpl implements IAeInvok
    {
       IAeMessageData data = aMessageData == null? getInputMessageData() : aMessageData;
           
-      AePartnerLink partnerLink = findPartnerLink(getDef().getPartnerLink());
+      IAePartnerLink partnerLink = findPartnerLink(getDef().getPartnerLink());
       AePartnerLinkOpImplKey aePartnerLinkOpImplKey = new AePartnerLinkOpImplKey(partnerLink, getDef().getOperation());
 
       getProcess().queueInvoke(this, data, partnerLink, aePartnerLinkOpImplKey);
@@ -144,7 +144,7 @@ public class AeActivityInvokeImpl extends AeWSIOActivityImpl implements IAeInvok
       IAeMessageData inputMessage = getMessageDataProducer().produceMessageData(new AeActivityInvokeProducerContext(this));
 
       List policies = null;
-      AePartnerLink plink = findPartnerLink(getDef().getPartnerLink());
+      IAePartnerLink plink = findPartnerLink(getDef().getPartnerLink());
       if (plink != null && plink.getPartnerReference() != null)
       {
          policies = plink.getPartnerReference().getEffectivePolicies(getProcess().getProcessPlan(), getDef().getProducerPortType(), getDef().getProducerOperation());
@@ -178,7 +178,7 @@ public class AeActivityInvokeImpl extends AeWSIOActivityImpl implements IAeInvok
       if (aMessage != null)
       {
          List policies = null; 
-         AePartnerLink plink = findPartnerLink(getDef().getPartnerLink());
+         IAePartnerLink plink = findPartnerLink(getDef().getPartnerLink());
          if (plink != null && plink.getPartnerReference() != null)
             policies = plink.getPartnerReference().getEffectivePolicies(getProcess().getProcessPlan(), getDef().getConsumerPortType(), getDef().getConsumerOperation());
          

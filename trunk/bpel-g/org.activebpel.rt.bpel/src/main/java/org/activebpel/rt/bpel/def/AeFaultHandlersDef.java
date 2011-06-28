@@ -16,14 +16,11 @@ import org.activebpel.rt.bpel.def.visitors.IAeDefVisitor;
 /**
  * Container class for fault handlers (catch or catchAll) attached to a scope. 
  */
-public class AeFaultHandlersDef extends AeBaseContainer 
+public class AeFaultHandlersDef extends AeBaseContainer<AeCatchDef,AeCatchDef>
    implements IAeCatchParentDef, IAeCompensateParentDef, IAeUncrossableLinkBoundary
 {
-   /**
-     * 
-     */
-    private static final long serialVersionUID = 5291422823550320642L;
-/** Default fault handler - <code>catchAll</code> */
+   private static final long serialVersionUID = 5291422823550320642L;
+   /** Default fault handler - <code>catchAll</code> */
    private AeCatchAllDef mCatchAllDef;
 
    /**
@@ -46,7 +43,7 @@ public class AeFaultHandlersDef extends AeBaseContainer
    /**
     * Gets an iterator for the faulthandlers
     */
-   public Iterator getCatchDefs()
+   public Iterator<? extends AeCatchDef> getCatchDefs()
    {
       return getValues();
    }
