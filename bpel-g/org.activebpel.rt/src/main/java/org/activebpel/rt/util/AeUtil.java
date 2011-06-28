@@ -130,7 +130,7 @@ public class AeUtil
     *
     * @param aClass
     */
-   public static String getLocationForClass(Class aClass)
+   public static String getLocationForClass(Class<?> aClass)
    {
       try
       {
@@ -161,7 +161,7 @@ public class AeUtil
     * @param aMap A map that may be empty or null.
     * @return True if the map is null or empty.
     */
-   public static boolean isNullOrEmpty(Map aMap)
+   public static boolean isNullOrEmpty(Map<?,?> aMap)
    {
       return (aMap == null) || aMap.isEmpty();
    }
@@ -210,7 +210,7 @@ public class AeUtil
     *
     * @param aMap
     */
-   public static boolean notNullOrEmpty(Map aMap)
+   public static boolean notNullOrEmpty(Map<?,?> aMap)
    {
       return !isNullOrEmpty(aMap);
    }
@@ -220,7 +220,7 @@ public class AeUtil
     *
     * @param aCollection
     */
-   public static boolean notNullOrEmpty(Collection aCollection)
+   public static boolean notNullOrEmpty(Collection<?> aCollection)
    {
       return !isNullOrEmpty(aCollection);
    }
@@ -239,7 +239,7 @@ public class AeUtil
     * Returns true if the collection passed in is either null or empty.
     * @param aCollection
     */
-   public static boolean isNullOrEmpty(Collection aCollection)
+   public static boolean isNullOrEmpty(Collection<?> aCollection)
    {
       return aCollection == null || aCollection.isEmpty();
    }
@@ -831,7 +831,7 @@ public class AeUtil
     * @return The resource <code>URL</code> or null if the resource could
     * not be located.
     */
-   public static URL findOnClasspath( String aResourceName, Class aClass )
+   public static URL findOnClasspath( String aResourceName, Class<?> aClass )
    {
       URL resourceURL = null;
 

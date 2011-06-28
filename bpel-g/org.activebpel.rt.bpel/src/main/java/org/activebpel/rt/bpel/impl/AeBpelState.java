@@ -276,9 +276,9 @@ public class AeBpelState
    {
       AeBpelState stateForPropagation = aObject.getState().getStateForPropagation();
 
-      for(Iterator it = aObject.getChildrenForStateChange(); it.hasNext();)
+      for(Iterator<? extends IAeBpelObject> it = aObject.getChildrenForStateChange(); it.hasNext();)
       {
-         IAeBpelObject child = (IAeBpelObject) it.next();
+         IAeBpelObject child = it.next();
          child.setState(stateForPropagation);
       }
    }

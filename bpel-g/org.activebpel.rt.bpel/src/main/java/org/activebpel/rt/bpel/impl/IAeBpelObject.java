@@ -24,7 +24,7 @@ import org.activebpel.rt.bpel.impl.visitors.IAeImplVisitor;
 /**
  * Base interface for Bpel object implementations. 
  */
-public interface IAeBpelObject extends IAeLocatableObject
+public interface IAeBpelObject extends IAeLocatableObject, IAeExecutableQueueItem
 {
    /**
     * Returns the current state
@@ -45,7 +45,7 @@ public interface IAeBpelObject extends IAeLocatableObject
     *  
     * @return Iterator containing IAeBpelObjets
     */
-   public Iterator getChildrenForStateChange();
+   public Iterator<? extends IAeBpelObject> getChildrenForStateChange();
    
    /**
     * Gets a variable by name. If the object implementing this interface is a scope

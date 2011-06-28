@@ -70,7 +70,7 @@ public class AeActivityScopeImpl extends AeActivityImpl implements IAeActivityPa
    private AeVariablesImpl mVariables;
 
    /** collection of fault implementation object */
-   private Collection<AeFaultHandler> mFaultHandlers;
+   private Collection<IAeFaultHandler> mFaultHandlers;
 
    /** catchAll fault handler */
    private AeDefaultFaultHandler mCatchAll;
@@ -662,11 +662,11 @@ public class AeActivityScopeImpl extends AeActivityImpl implements IAeActivityPa
    /**
     * Getter for the fault handlers map. Lazily creates the map.
     */
-   protected Collection<AeFaultHandler> getFaultHandlersCollection()
+   protected Collection<IAeFaultHandler> getFaultHandlersCollection()
    {
       if (mFaultHandlers == null)
       {
-         mFaultHandlers = new ArrayList<AeFaultHandler>();
+         mFaultHandlers = new ArrayList<IAeFaultHandler>();
       }
       return mFaultHandlers;
    }
@@ -675,13 +675,14 @@ public class AeActivityScopeImpl extends AeActivityImpl implements IAeActivityPa
     * Helper method to get the iterator of fault handlers or the empty iterator
     * if there are no fault handlers.
     */
-   public Iterator<? extends AeDefaultFaultHandler> getFaultHandlersIterator()
+   public Iterator<? extends IAeFaultHandler> getFaultHandlersIterator()
    {
       if (mFaultHandlers == null && mCatchAll == null)
       {
-         return Collections.<AeFaultHandler>emptySet().iterator();
+         return Collections.<IAeFaultHandler>emptySet().iterator();
       }
-      return AeUtil.<AeDefaultFaultHandler>join(getFaultHandlersCollection().iterator(), mCatchAll);
+      Iterator<? extends IAeFaultHandler> x = AeUtil.<IAeFaultHandler>join(getFaultHandlersCollection().iterator(), (IAeFaultHandler)mCatchAll);
+      return x;
    }
 
    /**

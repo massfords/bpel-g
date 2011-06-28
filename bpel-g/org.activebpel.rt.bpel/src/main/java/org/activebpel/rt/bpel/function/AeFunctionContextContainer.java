@@ -66,7 +66,7 @@ public class AeFunctionContextContainer
    /**
     * Gets a list of all the function context namespaces.
     */
-   public Set getFunctionContextNamespaces()
+   public Set<String> getFunctionContextNamespaces()
    {
       HashSet<String> set = new HashSet<String>(getNamespaceToFunctionContextMap().keySet());
       set.add(IAeBPELConstants.BPWS_NAMESPACE_URI);

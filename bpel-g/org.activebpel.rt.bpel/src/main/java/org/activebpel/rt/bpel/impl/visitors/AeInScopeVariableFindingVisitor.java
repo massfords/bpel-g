@@ -29,23 +29,23 @@ import org.activebpel.rt.bpel.impl.activity.IAeVariableContainer;
 public class AeInScopeVariableFindingVisitor extends AeImplReverseTraversingVisitor
 {
    /** A map of variable name -> IAeVariable. */
-   private Map mInScopeVariables;
+   private Map<String, IAeVariable> mInScopeVariables;
    /** A set of variables that should be excluded from the search. */
-   private Set mExcludedVariables;
+   private Set<String> mExcludedVariables;
 
    /**
     * C'tor.
     */
    public AeInScopeVariableFindingVisitor()
    {
-      setInScopeVariables(new HashMap());
-      setExcludedVariables(new HashSet());
+      setInScopeVariables(new HashMap<String, IAeVariable>());
+      setExcludedVariables(new HashSet<String>());
    }
 
    /**
     * C'tor.
     */
-   public AeInScopeVariableFindingVisitor(Set aExcludedVariables)
+   public AeInScopeVariableFindingVisitor(Set<String> aExcludedVariables)
    {
       this();
       if (aExcludedVariables != null)
@@ -79,13 +79,12 @@ public class AeInScopeVariableFindingVisitor extends AeImplReverseTraversingVisi
     */
    private void findInScopeVariables(AeActivityScopeImpl aImpl)
    {
-      
       IAeVariableContainer variableContainer = aImpl.getVariableContainer();
       if (variableContainer != null)
       {
-         for (Iterator iter = variableContainer.iterator(); iter.hasNext(); )
+         for (Iterator<IAeVariable> iter = variableContainer.iterator(); iter.hasNext(); )
          {
-            IAeVariable variable = (IAeVariable) iter.next();
+            IAeVariable variable = iter.next();
             // If it's not already included, and it's not excluded, then add it to
             // the map of variables that we've found.
             if (!getInScopeVariables().containsKey(variable.getName())
@@ -100,7 +99,7 @@ public class AeInScopeVariableFindingVisitor extends AeImplReverseTraversingVisi
    /**
     * Gets the collection of variables found.
     */
-   public Collection getVariables()
+   public Collection<IAeVariable> getVariables()
    {
       return getInScopeVariables().values();
    }
@@ -108,7 +107,7 @@ public class AeInScopeVariableFindingVisitor extends AeImplReverseTraversingVisi
    /**
     * @return Returns the inScopeVariables.
     */
-   protected Map getInScopeVariables()
+   protected Map<String, IAeVariable> getInScopeVariables()
    {
       return mInScopeVariables;
    }
@@ -116,7 +115,7 @@ public class AeInScopeVariableFindingVisitor extends AeImplReverseTraversingVisi
    /**
     * @param aInScopeVariables the inScopeVariables to set
     */
-   protected void setInScopeVariables(Map aInScopeVariables)
+   protected void setInScopeVariables(Map<String, IAeVariable> aInScopeVariables)
    {
       mInScopeVariables = aInScopeVariables;
    }
@@ -124,7 +123,7 @@ public class AeInScopeVariableFindingVisitor extends AeImplReverseTraversingVisi
    /**
     * @return Returns the excludedVariables.
     */
-   protected Set getExcludedVariables()
+   protected Set<String> getExcludedVariables()
    {
       return mExcludedVariables;
    }
@@ -132,7 +131,7 @@ public class AeInScopeVariableFindingVisitor extends AeImplReverseTraversingVisi
    /**
     * @param aExcludedVariables the excludedVariables to set
     */
-   protected void setExcludedVariables(Set aExcludedVariables)
+   protected void setExcludedVariables(Set<String> aExcludedVariables)
    {
       mExcludedVariables = aExcludedVariables;
    }

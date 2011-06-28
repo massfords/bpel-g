@@ -67,7 +67,7 @@ public class AeActivityPickImpl extends AeActivityImpl implements IAeEventParent
    /**
     * @see org.activebpel.rt.bpel.impl.IAeBpelObject#getChildrenForStateChange()
     */
-   public Iterator getChildrenForStateChange()
+   public Iterator<? extends IAeBpelObject> getChildrenForStateChange()
    {
       return AeUtil.joinIter(mEvents.getAlarms(), mEvents.getMessages());
    }
@@ -79,9 +79,9 @@ public class AeActivityPickImpl extends AeActivityImpl implements IAeEventParent
    public void execute() throws AeBusinessProcessException
    {
       super.execute();
-      for(Iterator iter=getChildrenForStateChange(); iter.hasNext(); )
+      for(Iterator<? extends IAeBpelObject> iter=getChildrenForStateChange(); iter.hasNext(); )
       {
-         IAeBpelObject bpelObject = (IAeBpelObject)iter.next();
+         IAeBpelObject bpelObject = iter.next();
          if (!bpelObject.getState().isFinal())
             getProcess().queueObjectToExecute(bpelObject); 
       }
@@ -110,9 +110,9 @@ public class AeActivityPickImpl extends AeActivityImpl implements IAeEventParent
          throw new AeBusinessProcessException(AeMessages.getString("AeActivityPickImpl.ERROR_0")); //$NON-NLS-1$
          
       // loop through children for non-active children and set to dead path
-      for(Iterator iter=getChildrenForStateChange(); iter.hasNext(); )
+      for(Iterator<? extends IAeBpelObject> iter=getChildrenForStateChange(); iter.hasNext(); )
       {
-         IAeBpelObject bpelObject = (IAeBpelObject)iter.next();
+         IAeBpelObject bpelObject = iter.next();
          if(bpelObject != aChild)
          {
 	        if(bpelObject.getState().isFinal() || ((AeBaseEvent)bpelObject).isActive())

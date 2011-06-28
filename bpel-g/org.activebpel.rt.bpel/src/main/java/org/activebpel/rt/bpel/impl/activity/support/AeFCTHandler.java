@@ -88,9 +88,9 @@ public abstract class AeFCTHandler extends AeActivityParent implements IAeFCTHan
     * Overrides method to 
     * @see org.activebpel.rt.bpel.impl.IAeBpelObject#getChildrenForStateChange()
     */
-   public Iterator getChildrenForStateChange()
+   public Iterator<IAeBpelObject> getChildrenForStateChange()
    {
-      List list = new ArrayList();
+      List<IAeBpelObject> list = new ArrayList<IAeBpelObject>();
       list.add(getActivity());
       if (hasCoordinatedCompensator())
       {

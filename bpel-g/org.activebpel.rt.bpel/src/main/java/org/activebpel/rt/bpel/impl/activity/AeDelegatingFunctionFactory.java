@@ -29,7 +29,7 @@ public class AeDelegatingFunctionFactory implements IAeFunctionFactory
    public static final String NO_FUNCTION_FOUND_ERROR = AeMessages.getString("AeAbstractFunctionContext.0"); //$NON-NLS-1$
 
    /** contains a list of all functional factories that this factory can delegate getFunction() to */
-   private List mDelegates = new LinkedList();
+   private List<IAeFunctionFactory> mDelegates = new LinkedList<IAeFunctionFactory>();
    
    /**
     * C'tor that accepts two function factories 
@@ -56,9 +56,9 @@ public class AeDelegatingFunctionFactory implements IAeFunctionFactory
     */
    public IAeFunction getFunction(String aNamespace, String aFunctionName) throws AeUnresolvableException
    {
-      for(Iterator iter=getDelegates().iterator(); iter.hasNext(); )
+      for(Iterator<IAeFunctionFactory> iter=getDelegates().iterator(); iter.hasNext(); )
       {
-         IAeFunctionFactory delegate = (IAeFunctionFactory) iter.next();
+         IAeFunctionFactory delegate = iter.next();
          if (delegate.getFunctionContextNamespaceList().contains(aNamespace))
          {
             return delegate.getFunction(aNamespace, aFunctionName);
@@ -72,12 +72,12 @@ public class AeDelegatingFunctionFactory implements IAeFunctionFactory
    /**
     * @see org.activebpel.rt.bpel.function.IAeFunctionFactory#getFunctionContextNamespaceList()
     */
-   public Set getFunctionContextNamespaceList()
+   public Set<String> getFunctionContextNamespaceList()
    {
-      Set namespacesList = new LinkedHashSet();
-      for(Iterator iter=getDelegates().iterator(); iter.hasNext(); )
+      Set<String> namespacesList = new LinkedHashSet<String>();
+      for(Iterator<IAeFunctionFactory> iter=getDelegates().iterator(); iter.hasNext(); )
       {
-         IAeFunctionFactory delegate = (IAeFunctionFactory) iter.next();
+         IAeFunctionFactory delegate = iter.next();
          namespacesList.addAll(delegate.getFunctionContextNamespaceList());
       }
       return namespacesList;
@@ -86,7 +86,7 @@ public class AeDelegatingFunctionFactory implements IAeFunctionFactory
    /**
     * @return the iterator over the delegates list
     */
-   protected List getDelegates()
+   protected List<IAeFunctionFactory> getDelegates()
    {
       return mDelegates;
    }
@@ -94,7 +94,7 @@ public class AeDelegatingFunctionFactory implements IAeFunctionFactory
    /**
     * @param aDelegates the delegates to set
     */
-   protected void setDelegates(List aDelegates)
+   protected void setDelegates(List<IAeFunctionFactory> aDelegates)
    {
       mDelegates = aDelegates;
    }

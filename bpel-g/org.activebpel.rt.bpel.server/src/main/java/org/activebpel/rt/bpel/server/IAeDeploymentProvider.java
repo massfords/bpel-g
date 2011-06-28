@@ -47,7 +47,7 @@ public interface IAeDeploymentProvider extends IAePlanManager
    /**
     * Gets an Iterator of IAeProcessDeployment for all the deployed plans.
     */
-   public Iterator getDeployedPlans();
+   public Iterator<IAeProcessDeployment> getDeployedPlans();
 
    /**
     * Remove the deployment for the specified process qname.

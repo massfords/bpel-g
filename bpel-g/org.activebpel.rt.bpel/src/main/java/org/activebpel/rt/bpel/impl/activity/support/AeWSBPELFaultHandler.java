@@ -71,13 +71,13 @@ public class AeWSBPELFaultHandler extends AeFaultHandler implements IAeVariableC
    /**
     * @see org.activebpel.rt.bpel.impl.activity.IAeVariableContainer#iterator()
     */
-   public Iterator iterator()
+   public Iterator<IAeVariable> iterator()
    {
       if (getFaultVariable() != null)
       {
          return Collections.singleton(getFaultVariable()).iterator();
       }
-      return Collections.EMPTY_LIST.iterator();
+      return Collections.<IAeVariable>emptyList().iterator();
    }
 
    /**

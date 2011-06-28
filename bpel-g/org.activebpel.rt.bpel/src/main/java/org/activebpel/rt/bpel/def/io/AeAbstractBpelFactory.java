@@ -24,7 +24,7 @@ public abstract class AeAbstractBpelFactory implements IAeBpelFactory
    private IAeDefRegistry mBpelRegistry;
    
    /** factory's features map. */
-   private Map mFeatures = new HashMap();
+   private Map<String, Boolean> mFeatures = new HashMap<String, Boolean>();
 
    /**
     * Default c'tor.
@@ -64,13 +64,13 @@ public abstract class AeAbstractBpelFactory implements IAeBpelFactory
     */
    public void setFeature(String aName, boolean aFlag)
    {
-      getFeatures().put(aName, new Boolean(aFlag));
+      getFeatures().put(aName, Boolean.valueOf(aFlag));
    }
    
    /**
     * @return the factory's features map.
     */
-   protected Map getFeatures()
+   protected Map<String, Boolean> getFeatures()
    {
       return mFeatures;
    }

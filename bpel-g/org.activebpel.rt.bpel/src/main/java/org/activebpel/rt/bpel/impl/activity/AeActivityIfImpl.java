@@ -67,7 +67,7 @@ public class AeActivityIfImpl extends AeActivityImpl
    /**
     * @see org.activebpel.rt.bpel.impl.IAeBpelObject#getChildrenForStateChange()
     */
-   public Iterator getChildrenForStateChange()
+   public Iterator<? extends IAeBpelObject> getChildrenForStateChange()
    {
       return AeUtil.join(getElseIfs().iterator(), getElse());
    }

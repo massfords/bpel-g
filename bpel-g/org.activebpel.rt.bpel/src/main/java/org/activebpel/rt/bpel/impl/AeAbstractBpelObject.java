@@ -466,9 +466,9 @@ abstract public class AeAbstractBpelObject implements IAeExecutableBpelObject, I
       setStartingTermination(true);
       try
       {
-         for (Iterator it = getChildrenForTermination(); !getState().isFinal() && it.hasNext();)
+         for (Iterator<? extends IAeBpelObject> it = getChildrenForTermination(); !getState().isFinal() && it.hasNext();)
          {
-            IAeBpelObject child = (IAeBpelObject) it.next();
+            IAeBpelObject child = it.next();
             // If the child can transition to dead path then we'll do that here.
             // This includes children that are currently queued by their parent,
             // ready to execute, or inactive. Setting them to dead path here will
@@ -529,9 +529,9 @@ abstract public class AeAbstractBpelObject implements IAeExecutableBpelObject, I
     */
    protected boolean allEligibleChildrenAreTerminated() throws AeBusinessProcessException
    {
-      for (Iterator iter = getChildrenForTermination(); iter.hasNext();)
+      for (Iterator<? extends IAeBpelObject> iter = getChildrenForTermination(); iter.hasNext();)
       {
-         IAeBpelObject child = (IAeBpelObject) iter.next();
+         IAeBpelObject child = iter.next();
          if (!child.getState().isFinal())
          {
             return false;
@@ -640,7 +640,7 @@ abstract public class AeAbstractBpelObject implements IAeExecutableBpelObject, I
     * Returns the next child eligible for termination or null if there are no
     * child objects that need to be terminated.
     */
-   public Iterator getChildrenForTermination() throws AeBusinessProcessException
+   public Iterator<? extends IAeBpelObject> getChildrenForTermination() throws AeBusinessProcessException
    {
       return getChildrenForStateChange();
    }
@@ -688,9 +688,9 @@ abstract public class AeAbstractBpelObject implements IAeExecutableBpelObject, I
     * Convenience method for activities and compensation handlers to incorporate
     * instance information into resource paths.
     */
-   protected Set customizeResourcePaths(Set aResourcePaths)
+   protected Set<String> customizeResourcePaths(Set<String> aResourcePaths)
    {
-      Set resourcePaths = aResourcePaths;
+      Set<String> resourcePaths = aResourcePaths;
 
       if (!AeUtil.isNullOrEmpty(resourcePaths) && hasCustomLocationPath())
       {
@@ -1121,7 +1121,7 @@ abstract public class AeAbstractBpelObject implements IAeExecutableBpelObject, I
    /**
     * @see org.activebpel.rt.xml.IAeNamespaceContext#resolveNamespaceToPrefixes(java.lang.String)
     */
-   public Set resolveNamespaceToPrefixes(String aNamespace)
+   public Set<String> resolveNamespaceToPrefixes(String aNamespace)
    {
       return getDefinition().findPrefixesForNamespace(aNamespace);
    }
@@ -1137,7 +1137,7 @@ abstract public class AeAbstractBpelObject implements IAeExecutableBpelObject, I
    /**
     * @see org.activebpel.rt.bpel.function.IAeFunctionFactory#getFunctionContextNamespaceList()
     */
-   public Set getFunctionContextNamespaceList()
+   public Set<String> getFunctionContextNamespaceList()
    {
       return getProcess().getEngine().getFunctionContextNamespaceList();
    }
@@ -1173,9 +1173,9 @@ abstract public class AeAbstractBpelObject implements IAeExecutableBpelObject, I
       }
       // Walk all of the children and set them to dead path or complete them as
       // well.
-      for (Iterator it = getChildrenForCompletion(); it.hasNext();)
+      for (Iterator<? extends IAeBpelObject> it = getChildrenForCompletion(); it.hasNext();)
       {
-         IAeBpelObject child = (IAeBpelObject) it.next();
+         IAeBpelObject child = it.next();
          if (child.getState().canTransitionToDeadPath())
          {
             child.setState(AeBpelState.DEAD_PATH);
@@ -1196,7 +1196,7 @@ abstract public class AeAbstractBpelObject implements IAeExecutableBpelObject, I
    /** 
     * @return Returns list of children that eligle for process exception management's Complete Activity operation.
     */
-   protected Iterator getChildrenForCompletion()
+   protected Iterator<? extends IAeBpelObject> getChildrenForCompletion()
    {
       return getChildrenForStateChange();
    }

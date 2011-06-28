@@ -35,7 +35,7 @@ public class AeExecutionQueue
    //       process at any given time.
 
    /** Holds the objects that we want to execute. */
-   private final LinkedList mExecutionQueue;
+   private final LinkedList<IAeExecutableQueueItem> mExecutionQueue;
    /** flag for whether execution is suspended */
    private boolean mSuspended = false;
    /** Number of pending calls to <code>execute</code>. */
@@ -45,7 +45,7 @@ public class AeExecutionQueue
    /** The owner process. */
    private IAeBusinessProcessInternal mProcess;
    /** Location paths to be resumed. */
-   private final Set mPendingResumePaths = new HashSet();
+   private final Set<String> mPendingResumePaths = new HashSet<String>();
 
    /**
     * Constructs empty queue.
@@ -54,7 +54,7 @@ public class AeExecutionQueue
     */
    public AeExecutionQueue(IAeBusinessProcessInternal aProcess)
    {
-      this(aProcess, false, Collections.EMPTY_LIST);
+      this(aProcess, false, Collections.<IAeExecutableQueueItem>emptyList());
    }
 
    /**
@@ -64,11 +64,11 @@ public class AeExecutionQueue
     * @param aSuspended flag for whether execution is suspended
     * @param aQueue initial queue of objects
     */
-   public AeExecutionQueue(IAeBusinessProcessInternal aProcess, boolean aSuspended, List aQueue)
+   public AeExecutionQueue(IAeBusinessProcessInternal aProcess, boolean aSuspended, List<IAeExecutableQueueItem> aQueue)
    {
       mProcess = aProcess;
       mSuspended = aSuspended;
-      mExecutionQueue = new LinkedList(aQueue);
+      mExecutionQueue = new LinkedList<IAeExecutableQueueItem>(aQueue);
    }
 
    /**
@@ -231,14 +231,13 @@ public class AeExecutionQueue
     * Returns the location paths of the objects in this queue in the same order 
     * as the queue.
     */
-   public List getLocationPaths()
+   public List<String> getLocationPaths()
    {
-      List locationPaths = new LinkedList();
+      List<String> locationPaths = new LinkedList<String>();
 
-      for (Iterator i = mExecutionQueue.iterator(); i.hasNext(); )
+      for (Iterator<IAeExecutableQueueItem> i = mExecutionQueue.iterator(); i.hasNext(); )
       {
-         Object obj = i.next();
-         IAeExecutableQueueItem ex = (IAeExecutableQueueItem)obj;
+         IAeExecutableQueueItem ex = i.next();
          String locationPath = ex.getLocationPath();
          locationPaths.add(locationPath);
       }
@@ -300,9 +299,9 @@ public class AeExecutionQueue
          IAeExecutableQueueItem object = null;
 
          // Scan the execution queue for the specified location path.
-         for (Iterator i = mExecutionQueue.iterator(); i.hasNext() && !found; )
+         for (Iterator<IAeExecutableQueueItem> i = mExecutionQueue.iterator(); i.hasNext() && !found; )
          {
-            object = (IAeExecutableQueueItem) i.next();
+            object = i.next();
             found = aLocationPath.equals(object.getLocationPath());
          }
 
@@ -472,7 +471,7 @@ public class AeExecutionQueue
     * @param aQueue the list of executable objects to set for the queue.
     * @throws AeBusinessProcessException
     */
-   public void setQueueData(boolean aSuspended, List aQueue) throws AeBusinessProcessException
+   public void setQueueData(boolean aSuspended, List<IAeExecutableQueueItem> aQueue) throws AeBusinessProcessException
    {
       if (!isQuiescent())
       {

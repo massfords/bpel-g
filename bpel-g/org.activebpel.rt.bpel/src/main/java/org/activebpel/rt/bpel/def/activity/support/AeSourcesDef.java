@@ -46,7 +46,7 @@ public class AeSourcesDef extends AeBaseContainer
    /**
     * Gets an iterator over all of the source defs.
     */
-   public Iterator getSourceDefs()
+   public Iterator<AeSourceDef> getSourceDefs()
    {
       return getValues();
    }

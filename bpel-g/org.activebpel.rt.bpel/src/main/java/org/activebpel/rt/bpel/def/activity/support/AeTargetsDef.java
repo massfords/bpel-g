@@ -48,7 +48,7 @@ public class AeTargetsDef extends AeBaseContainer
    /**
     * Gets an iterator over all of the target defs.
     */
-   public Iterator getTargetDefs()
+   public Iterator<AeTargetDef> getTargetDefs()
    {
       return getValues();
    }

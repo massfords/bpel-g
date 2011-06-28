@@ -35,8 +35,10 @@ import org.activebpel.rt.bpel.impl.AeMessageDataDeserializer;
 import org.activebpel.rt.bpel.impl.AePartnerLink;
 import org.activebpel.rt.bpel.impl.AePartnerLinkOpImplKey;
 import org.activebpel.rt.bpel.impl.AeVariable;
+import org.activebpel.rt.bpel.impl.IAeBpelObject;
 import org.activebpel.rt.bpel.impl.IAeBusinessProcessInternal;
 import org.activebpel.rt.bpel.impl.IAeDynamicScopeParent;
+import org.activebpel.rt.bpel.impl.IAeFaultHandler;
 import org.activebpel.rt.bpel.impl.IAeImplStateNames;
 import org.activebpel.rt.bpel.impl.activity.AeActivityChildExtensionActivityImpl;
 import org.activebpel.rt.bpel.impl.activity.AeActivityCompensateImpl;
@@ -702,7 +704,7 @@ public class AeRestoreImplStateVisitor extends AeBaseRestoreVisitor
       else if (AeUtil.notNullOrEmpty(faultHandlerPath))
       {
          // One of our faultHandlers is executing. Set that instance on the scope.
-         for (Iterator iter = aImpl.getFaultHandlersIterator(); iter.hasNext();)
+         for (Iterator<? extends IAeBpelObject> iter = aImpl.getFaultHandlersIterator(); iter.hasNext();)
          {
             AeDefaultFaultHandler fh = (AeDefaultFaultHandler) iter.next();
             if (fh.getLocationPath().equals(faultHandlerPath))

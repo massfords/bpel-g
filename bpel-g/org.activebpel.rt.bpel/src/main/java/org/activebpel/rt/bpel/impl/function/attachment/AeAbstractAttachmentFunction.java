@@ -92,7 +92,7 @@ public abstract class AeAbstractAttachmentFunction extends AeAbstractBpelFunctio
     * @param aVariableNames
     * @return collection of variables
     */
-   protected Collection resolveVariables(IAeFunctionExecutionContext aContext, String aVariableNames) throws AeFunctionCallException
+   protected Collection<IAeVariable> resolveVariables(IAeFunctionExecutionContext aContext, String aVariableNames) throws AeFunctionCallException
    {
       return resolveVariables(aContext, aVariableNames, null);
    }
@@ -107,7 +107,7 @@ public abstract class AeAbstractAttachmentFunction extends AeAbstractBpelFunctio
     * @param aToVariableName
     * @return collection of variables
     */
-   protected Collection resolveVariables(IAeFunctionExecutionContext aContext, String aVariableNames,
+   protected Collection<IAeVariable> resolveVariables(IAeFunctionExecutionContext aContext, String aVariableNames,
          String aToVariableName) throws AeFunctionCallException
    {
       List<IAeVariable> variables = new ArrayList<IAeVariable>();
@@ -134,7 +134,7 @@ public abstract class AeAbstractAttachmentFunction extends AeAbstractBpelFunctio
     * @param aContext
     * @throws AeFunctionCallException
     */
-   protected Collection resolveAllVariablesInScope(IAeFunctionExecutionContext aContext,
+   protected Collection<IAeVariable> resolveAllVariablesInScope(IAeFunctionExecutionContext aContext,
          String aToVariableName) throws AeFunctionCallException
    {
       AeAbstractBpelObject bpelObj = aContext.getAbstractBpelObject();
