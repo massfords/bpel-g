@@ -79,10 +79,10 @@ public class AeElementBasedNamespaceContext implements IAeMutableNamespaceContex
    /**
     * @see org.activebpel.rt.xml.IAeNamespaceContext#resolveNamespaceToPrefixes(java.lang.String)
     */
-   public Set resolveNamespaceToPrefixes(String aNamespace)
+   public Set<String> resolveNamespaceToPrefixes(String aNamespace)
    {
       // TODO (EPW) improve this implementation to actually return all of the prefixes.
-      Set rval = new HashSet();
+      Set<String> rval = new HashSet<String>();
       String prefix = AeXmlUtil.getPrefixForNamespace(getElement(), aNamespace);
       if (AeUtil.notNullOrEmpty(prefix))
       {

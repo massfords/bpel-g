@@ -43,19 +43,19 @@ public class BgCatalogBuilder {
     
     private static final Log sLog = LogFactory.getLog(BgCatalogBuilder.class);
     
-    private static final Map<String,String> NS = new HashMap();
+    private static final Map<String,String> NS = new HashMap<String,String>();
     static {
         NS.put("wsdl", IAeConstants.WSDL_NAMESPACE);
         NS.put("xs", XMLConstants.W3C_XML_SCHEMA_NS_URI);
     }
     
     private File mServiceUnitRoot;
-    private Collection<BgCatalogTuple> mCollection = new ArrayList();
+    private Collection<BgCatalogTuple> mCollection = new ArrayList<BgCatalogTuple>();
     private String mLogicalPathPrefix;
     private Catalog mCatalog;
     private boolean mReplaceExisting;
     // location paths relative to the service unit root that are referenced directly or transitively by the bpel. These paths will be included in the deployment.
-    private Set<String> mLocations = new HashSet();
+    private Set<String> mLocations = new HashSet<String>();
     
     public BgCatalogBuilder(File aRoot) {
         assert aRoot.isDirectory();
@@ -194,7 +194,8 @@ public class BgCatalogBuilder {
         }
     }
 
-    private void findLocations(File aFile, Document doc, String xpath) throws Exception {
+    @SuppressWarnings("unchecked")
+	private void findLocations(File aFile, Document doc, String xpath) throws Exception {
         List<Node> nodes = AeXPathUtil.selectNodes(doc, xpath, NS);
         for(Node node : nodes) {
             String location = node.getNodeValue();

@@ -14,6 +14,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.TreeMap;
+import java.util.Map.Entry;
 
 /**
  * Counts occurrences of attribute values used for persistence by attribute
@@ -22,7 +23,7 @@ import java.util.TreeMap;
  */
 public abstract class AeProcessImplStateAttributeCounts
 {
-   private static final Integer ONE = new Integer(1);
+   private static final Integer ONE = Integer.valueOf(1);
 
    /** <code>true</code> to enable counts. */
 //   private static final boolean ENABLED = false;
@@ -85,24 +86,24 @@ public abstract class AeProcessImplStateAttributeCounts
    protected static class AeRealCounts extends AeProcessImplStateAttributeCounts
    {
       /** Maps attribute names to the map of values for that name. */
-      private final Map mNamesMap = new HashMap();
+      private final Map<String,Map<String, Integer>> mNamesMap = new HashMap<String,Map<String, Integer>>();
 
       /**
        * @see org.activebpel.rt.bpel.impl.storage.AeProcessImplStateAttributeCounts#incrementCount(java.lang.String, java.lang.String)
        */
       public void incrementCount(String aName, String aValue)
       {
-         Map valuesMap;
+         Map<String, Integer> valuesMap;
 
          synchronized (mNamesMap)
          {
             // Get the values for the name.
-            valuesMap = (Map) mNamesMap.get(aName);
+            valuesMap = mNamesMap.get(aName);
 
             if (valuesMap == null)
             {
                // Haven't seen this name yet. Create a new values map.
-               valuesMap = new HashMap();
+               valuesMap = new HashMap<String, Integer>();
                mNamesMap.put(aName, valuesMap);
             }
          }
@@ -110,12 +111,12 @@ public abstract class AeProcessImplStateAttributeCounts
          synchronized (valuesMap)
          {
             // Get the old count.
-            Integer count = (Integer) valuesMap.get(aValue);
+            Integer count = valuesMap.get(aValue);
 
             if (count != null)
             {
                // Store the new count.
-               valuesMap.put(aValue, new Integer(count.intValue() + 1));
+               valuesMap.put(aValue, Integer.valueOf(count.intValue() + 1));
             }
             else if (valuesMap.size() < MAX_VALUES)
             {
@@ -130,20 +131,17 @@ public abstract class AeProcessImplStateAttributeCounts
        */
       public void printCounts()
       {
-         Map sortedNamesMap;
+         Map<String,Map<String, Integer>> sortedNamesMap;
 
          synchronized (mNamesMap)
          {
-            sortedNamesMap = new TreeMap(mNamesMap);
+            sortedNamesMap = new TreeMap<String,Map<String, Integer>>(mNamesMap);
          }
 
-         for (Iterator i = sortedNamesMap.entrySet().iterator(); i.hasNext(); )
+         for (Iterator<Entry<String,Map<String, Integer>>> i = sortedNamesMap.entrySet().iterator(); i.hasNext(); )
          {
-            Map.Entry entry = (Map.Entry) i.next();
-            String name = (String) entry.getKey();
-            Map valuesMap = (Map) entry.getValue();
-
-            printCounts(name, valuesMap);
+        	Entry<String,Map<String, Integer>> entry = i.next();
+            printCounts(entry.getKey(), entry.getValue());
          }
       }
 
@@ -151,22 +149,19 @@ public abstract class AeProcessImplStateAttributeCounts
        * Prints the counts for the specified name from the specified
        * <code>Map</code> of values to counts.
        */
-      public void printCounts(String aName, Map aValuesMap)
+      public void printCounts(String aName, Map<String, Integer> aValuesMap)
       {
-         Map sortedValuesMap = new TreeMap(new AeReverseCountComparator(aValuesMap));
+    	 Map<String, Integer> sortedValuesMap = new TreeMap<String, Integer>(new AeReverseCountComparator(aValuesMap));
 
          synchronized (aValuesMap)
          {
             sortedValuesMap.putAll(aValuesMap);
          }
 
-         for (Iterator j = sortedValuesMap.entrySet().iterator(); j.hasNext(); )
+         for (Iterator<Entry<String, Integer>> j = sortedValuesMap.entrySet().iterator(); j.hasNext(); )
          {
-            Map.Entry entry = (Map.Entry) j.next();
-            String value = (String) entry.getKey();
-            Integer count = (Integer) entry.getValue();
-
-            System.out.println("count[" + aName + "][" + value + "] = " + count); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+        	Entry<String, Integer> entry = j.next();
+            System.out.println("count[" + aName + "][" + entry.getKey() + "] = " + entry.getValue().toString()); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
          }
       }
 
@@ -174,10 +169,10 @@ public abstract class AeProcessImplStateAttributeCounts
        * Implements a <code>Comparator</code> that compares values in reverse
        * order of associated counts.
        */
-      protected static class AeReverseCountComparator implements Comparator
+      protected static class AeReverseCountComparator implements Comparator<String>
       {
          /** <code>Map</code> from values to counts. */
-         private final Map mValuesMap;
+         private final Map<String, Integer> mValuesMap;
 
          /**
           * Constructs reverse count comparator with the specified
@@ -185,7 +180,7 @@ public abstract class AeProcessImplStateAttributeCounts
           *
           * @param aValuesMap
           */
-         public AeReverseCountComparator(Map aValuesMap)
+         public AeReverseCountComparator(Map<String, Integer> aValuesMap)
          {
             mValuesMap = aValuesMap;
          }
@@ -193,12 +188,12 @@ public abstract class AeProcessImplStateAttributeCounts
          /**
           * @see java.util.Comparator#compare(java.lang.Object, java.lang.Object)
           */
-         public int compare(Object o1, Object o2)
+         public int compare(String o1, String o2)
          {
             synchronized (mValuesMap)
             {
-               int count1 = ((Integer) mValuesMap.get(o1)).intValue();
-               int count2 = ((Integer) mValuesMap.get(o2)).intValue();
+               int count1 = mValuesMap.get(o1).intValue();
+               int count2 = mValuesMap.get(o2).intValue();
                return count2 - count1;
             }
          }

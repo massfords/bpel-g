@@ -34,7 +34,7 @@ public abstract class AeStructure
    private AeStructure mParent;
    
    /** The children of this object. */
-   private List mChildren = new ArrayList();
+   private List<AeStructure> mChildren = new ArrayList<AeStructure>();
    
    /** Minimum number of time this structure can occur; Default is 1. */
    private int  mMinOccurs = 1;
@@ -53,7 +53,7 @@ public abstract class AeStructure
    /**
     * @return List
     */
-   public List getChildren()
+   public List<AeStructure> getChildren()
    {
       return mChildren;
    }
@@ -61,7 +61,7 @@ public abstract class AeStructure
    /**
     * @param aChildren
     */
-   public void setChildren(List aChildren)
+   public void setChildren(List<AeStructure> aChildren)
    {
       mChildren = aChildren;
    }

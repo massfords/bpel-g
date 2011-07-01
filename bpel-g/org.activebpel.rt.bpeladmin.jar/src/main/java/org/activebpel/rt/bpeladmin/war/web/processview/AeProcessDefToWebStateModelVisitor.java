@@ -40,7 +40,7 @@ import org.w3c.dom.Element;
 public class AeProcessDefToWebStateModelVisitor extends AeProcessDefToWebModelVisitor
 {
    /** Non-activity models that should not include default states.*/
-   protected static final Set SKIP_STATE_PROPERTY = new HashSet();
+   protected static final Set<String> SKIP_STATE_PROPERTY = new HashSet<String>();
    static
    {
       SKIP_STATE_PROPERTY.add(IAeBPELConstants.TAG_VARIABLE);

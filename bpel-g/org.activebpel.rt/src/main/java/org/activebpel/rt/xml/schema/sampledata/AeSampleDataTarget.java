@@ -52,7 +52,7 @@ public class AeSampleDataTarget
    /** The context used when generating sample data. */
    private Object mContext;
    /** Map of prefix->namespace that should be used for sample data generation. */
-   private Map mNamespaces = new HashMap();
+   private Map<String, String> mNamespaces = new HashMap<String, String>();
 
    /**
     * C'tor.
@@ -90,11 +90,11 @@ public class AeSampleDataTarget
     *
     * @return List list of compatible Element objects.
     */
-   protected List buildCompatibleElementsList()
+   protected List<ElementDecl> buildCompatibleElementsList()
    {
       IAeElementFilter filter = getElementFilter();
 
-      List list = new ArrayList();
+      List<ElementDecl> list = new ArrayList<ElementDecl>();
 
       for ( Iterator it=getSchemas().iterator(); it.hasNext(); )
       {
@@ -134,16 +134,16 @@ public class AeSampleDataTarget
     *
     * @return List of compatible ComplexType objects.
     */
-   protected List buildCompatibleComplexTypeList()
+   protected List<ComplexType> buildCompatibleComplexTypeList()
    {
       if (isSimpleType())
       {
-         return Collections.EMPTY_LIST;
+         return Collections.<ComplexType>emptyList();
       }
 
       IAeComplexTypeFilter filter = getComplexTypeFilter();
 
-      List list = new ArrayList();
+      List<ComplexType> list = new ArrayList<ComplexType>();
 
       for ( Iterator it=getSchemas().iterator(); it.hasNext(); )
       {
@@ -333,7 +333,7 @@ public class AeSampleDataTarget
    /**
     * @return Returns the namespaces.
     */
-   public Map getNamespaces()
+   public Map<String, String> getNamespaces()
    {
       return mNamespaces;
    }
@@ -341,7 +341,7 @@ public class AeSampleDataTarget
    /**
     * @param aNamespaces the namespaces to set
     */
-   public void setNamespaces(Map aNamespaces)
+   public void setNamespaces(Map<String, String> aNamespaces)
    {
       mNamespaces = aNamespaces;
    }

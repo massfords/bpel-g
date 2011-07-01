@@ -54,7 +54,7 @@ public class AeMessageDataFactory
     * @param aMsgName
     * @param aMessageData
     */
-   public IAeMessageData createMessageData( QName aMsgName, Map aMessageData )
+   public IAeMessageData createMessageData( QName aMsgName, Map<String,Object> aMessageData )
    {
       return new AeMessageData( aMsgName, aMessageData );
    }

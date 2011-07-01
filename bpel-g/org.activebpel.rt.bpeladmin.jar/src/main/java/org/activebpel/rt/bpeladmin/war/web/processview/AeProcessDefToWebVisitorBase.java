@@ -124,7 +124,7 @@ public class AeProcessDefToWebVisitorBase implements IAeDefVisitor
    private Document mStateDoc = null;
 	/** Map containing bpel state document's element node name and a
     * collection of location path to elements. */
-   private Map stateElementMap;
+   private Map<String, Map<String, Element>> stateElementMap;
 
    /** Indicates the process is based on ws-bpel 1.1 */
    private boolean mBpelVersion11;
@@ -134,7 +134,7 @@ public class AeProcessDefToWebVisitorBase implements IAeDefVisitor
     */
    public AeProcessDefToWebVisitorBase()
    {
-      stateElementMap = new HashMap();
+      stateElementMap = new HashMap<String, Map<String, Element>>();
    }
 
    /**
@@ -166,7 +166,7 @@ public class AeProcessDefToWebVisitorBase implements IAeDefVisitor
    /**
     * @return Returns the stateElementMap.
     */
-   protected Map getStateElementMap()
+   protected Map<String, Map<String, Element>> getStateElementMap()
    {
       return stateElementMap;
    }
@@ -193,7 +193,7 @@ public class AeProcessDefToWebVisitorBase implements IAeDefVisitor
    {
       try
       {
-         List eleList = selectElements("//" + aElementName); //$NON-NLS-1$
+         List<Element> eleList = selectElements("//" + aElementName); //$NON-NLS-1$
          if (eleList.size() > 0)
          {
             addElementList(eleList, aElementName);
@@ -210,14 +210,14 @@ public class AeProcessDefToWebVisitorBase implements IAeDefVisitor
     * @param aElementList
     * @param aElementName
     */
-   protected void addElementList(List aElementList, String aElementName)
+   protected void addElementList(List<Element> aElementList, String aElementName)
    {
-      Map map = new HashMap();
+      Map<String, Element> map = new HashMap<String, Element>();
       getStateElementMap().put(aElementName, map);
-      Iterator it= aElementList.iterator();
+      Iterator<Element> it= aElementList.iterator();
       while (it.hasNext())
       {
-         Element ele = (Element) it.next();
+         Element ele = it.next();
          map.put(ele.getAttribute(IAeImplStateNames.STATE_LOC), ele);
       }
    }
@@ -406,12 +406,13 @@ public class AeProcessDefToWebVisitorBase implements IAeDefVisitor
     * @param aXpathExpression
     * @throws AeException
     */
-   protected List selectElements(String aXpathExpression) throws AeException
+   @SuppressWarnings("unchecked")
+   protected List<Element> selectElements(String aXpathExpression) throws AeException
    {
       try
       {
          XPath xPath = new DOMXPath(aXpathExpression);
-         return (List) xPath.selectNodes(getStateDocument());
+         return xPath.selectNodes(getStateDocument());
       }
       catch(JaxenException je)
       {

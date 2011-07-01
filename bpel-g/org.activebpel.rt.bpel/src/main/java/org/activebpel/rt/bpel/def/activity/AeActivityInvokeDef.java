@@ -26,7 +26,9 @@ import org.activebpel.rt.bpel.def.IAeCatchParentDef;
 import org.activebpel.rt.bpel.def.IAeCompensationHandlerParentDef;
 import org.activebpel.rt.bpel.def.IAeFromPartsParentDef;
 import org.activebpel.rt.bpel.def.IAeToPartsParentDef;
+import org.activebpel.rt.bpel.def.activity.support.AeFromPartDef;
 import org.activebpel.rt.bpel.def.activity.support.AeFromPartsDef;
+import org.activebpel.rt.bpel.def.activity.support.AeToPartDef;
 import org.activebpel.rt.bpel.def.activity.support.AeToPartsDef;
 import org.activebpel.rt.bpel.def.util.AeDefUtil;
 import org.activebpel.rt.bpel.def.visitors.IAeDefVisitor;
@@ -238,10 +240,10 @@ public class AeActivityInvokeDef extends AeActivityPartnerLinkBaseDef implements
    /**
     * @see org.activebpel.rt.bpel.def.IAeFromPartsParentDef#getFromPartDefs()
     */
-   public Iterator getFromPartDefs()
+   public Iterator<? extends AeFromPartDef> getFromPartDefs()
    {
       if (getFromPartsDef() == null)
-         return Collections.EMPTY_LIST.iterator();
+         return Collections.<AeFromPartDef>emptyList().iterator();
       else
          return getFromPartsDef().getFromPartDefs();
    }
@@ -265,10 +267,10 @@ public class AeActivityInvokeDef extends AeActivityPartnerLinkBaseDef implements
    /**
     * @see org.activebpel.rt.bpel.def.IAeToPartsParentDef#getToPartDefs()
     */
-   public Iterator getToPartDefs()
+   public Iterator<? extends AeToPartDef> getToPartDefs()
    {
       if (getToPartsDef() == null)
-         return Collections.EMPTY_LIST.iterator();
+         return Collections.<AeToPartDef>emptyList().iterator();
       else
          return getToPartsDef().getToPartDefs();
    }

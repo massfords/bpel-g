@@ -20,7 +20,7 @@ public class BgGatherImportsTest {
         
         System.out.println(actual);
         
-        Set<String> expected = new HashSet();
+        Set<String> expected = new HashSet<String>();
         expected.add("wsdl/example.wsdl");
         expected.add("wsdl/messages.wsdl");
         expected.add("wsdl/port-types.wsdl");

@@ -26,14 +26,14 @@ import org.activebpel.rt.bpel.xpath.ast.visitors.AeAbstractXPathNodeVisitor;
 public class AeXPathInvalidLiteralNodeVisitor extends AeAbstractXPathNodeVisitor
 {
    /** The list of invalid literals found during the visit. */
-   private List mLiterals;
+   private List<AeXPathLiteralNode> mLiterals;
    
    /**
     * Default c'tor.
     */
    public AeXPathInvalidLiteralNodeVisitor()
    {
-      setLiterals(new LinkedList());
+      setLiterals(new LinkedList<AeXPathLiteralNode>());
    }
 
    /**
@@ -68,7 +68,7 @@ public class AeXPathInvalidLiteralNodeVisitor extends AeAbstractXPathNodeVisitor
    /**
     * @return Returns the literals.
     */
-   public List getLiterals()
+   public List<AeXPathLiteralNode> getLiterals()
    {
       return mLiterals;
    }
@@ -76,7 +76,7 @@ public class AeXPathInvalidLiteralNodeVisitor extends AeAbstractXPathNodeVisitor
    /**
     * @param aLiterals The literals to set.
     */
-   protected void setLiterals(List aLiterals)
+   protected void setLiterals(List<AeXPathLiteralNode> aLiterals)
    {
       mLiterals = aLiterals;
    }

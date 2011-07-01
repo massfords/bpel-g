@@ -112,7 +112,7 @@ public class AePersistentProcessRecovery implements IAeProcessRecovery
     */
    protected Set<Long> getDoneJournalIds(List aJournalEntries)
    {
-       Set<Long> result = new HashSet();
+      Set<Long> result = new HashSet<Long>();
       boolean restartEnabled = AePreferences.isRestartEnabled();
       for (Iterator i = aJournalEntries.iterator(); i.hasNext(); )
       {

@@ -40,7 +40,7 @@ public class AeInMemoryCoordinationManager extends AeCoordinationManager
     * Map containing coordinatables (coordinator or participant), keyed by 
     * combination of process id and location path.
     */
-   private Map mCoordinatingsPidMap = null;   
+   private Map<String,IAeCoordinating> mCoordinatingsPidMap = null;   
 
    /**
     * Creates and registers the given context given the context. The coordination id is normally null 
@@ -131,13 +131,13 @@ public class AeInMemoryCoordinationManager extends AeCoordinationManager
     * @param aCoordinationId
     * @return iterator of IAeCoordinating objects.
     */
-   protected synchronized Iterator getCoordinatingIterator(String aCoordinationId) throws AeCoordinationNotFoundException
+   protected synchronized Iterator<? extends IAeCoordinating> getCoordinatingIterator(String aCoordinationId) throws AeCoordinationNotFoundException
    {
-      Set set = new HashSet();
-      Iterator it = getCoordinatingsPidMap().values().iterator();
+      Set<IAeCoordinating> set = new HashSet<IAeCoordinating>();
+      Iterator<IAeCoordinating> it = getCoordinatingsPidMap().values().iterator();
       while (it.hasNext())
       {
-         IAeCoordinating c = (IAeCoordinating) it.next();
+         IAeCoordinating c = it.next();
          if (c.getCoordinationId().equals(aCoordinationId))
          {
             set.add(c);
@@ -149,10 +149,10 @@ public class AeInMemoryCoordinationManager extends AeCoordinationManager
    /**
     * @see org.activebpel.rt.bpel.server.coord.AeCoordinationManager#getCoordinatingIterator(long)
     */
-   protected synchronized Iterator getCoordinatingIterator(long aProcessId) throws AeCoordinationNotFoundException
+   protected synchronized Iterator<? extends IAeCoordinating> getCoordinatingIterator(long aProcessId) throws AeCoordinationNotFoundException
    {
-      Set set = new HashSet();
-      Iterator it = getCoordinatingsPidMap().values().iterator();
+      Set<IAeCoordinating> set = new HashSet<IAeCoordinating>();
+      Iterator<IAeCoordinating> it = getCoordinatingsPidMap().values().iterator();
       while (it.hasNext())
       {
          IAeCoordinating c = (IAeCoordinating) it.next();
@@ -203,11 +203,11 @@ public class AeInMemoryCoordinationManager extends AeCoordinationManager
    /**
     * @return Returns the processEventListeners.
     */
-   protected Map getCoordinatingsPidMap()
+   protected Map<String,IAeCoordinating> getCoordinatingsPidMap()
    {
       if (mCoordinatingsPidMap == null)
       {
-         mCoordinatingsPidMap = new HashMap();
+         mCoordinatingsPidMap = new HashMap<String,IAeCoordinating>();
       }
       return mCoordinatingsPidMap;
    }     
@@ -245,9 +245,9 @@ public class AeInMemoryCoordinationManager extends AeCoordinationManager
     * Overrides method to 
     * @see org.activebpel.rt.bpel.coord.IAeCoordinationManager#getParticipantDetail(long)
     */
-   public List getParticipantDetail(long aParentProcessId) throws AeCoordinationNotFoundException
+   public List<AeCoordinationDetail> getParticipantDetail(long aParentProcessId) throws AeCoordinationNotFoundException
    {
-      List retList = new ArrayList();
+      List<AeCoordinationDetail> retList = new ArrayList<AeCoordinationDetail>();
       // find parent process coordinators given process id and get the coordination id.
       Iterator it = getCoordinatingIterator(aParentProcessId);  
       while (it.hasNext())

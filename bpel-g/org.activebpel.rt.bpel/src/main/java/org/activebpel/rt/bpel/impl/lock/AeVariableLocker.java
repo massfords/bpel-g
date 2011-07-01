@@ -13,7 +13,6 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
@@ -43,13 +42,13 @@ import org.w3c.dom.Node;
 public class AeVariableLocker implements IAeVariableLocker
 {
    /** Map of variable paths to their lock holders */
-   private Map mLockedPaths = new HashMap();
+   private Map<String, AeLockHolder> mLockedPaths = new HashMap<String, AeLockHolder>();
 
    /** Map of the failed lock requests that are awaiting an unlock to continue */
-   private Map mFailedLockRequests = new HashMap();
+   private Map<String, AeLockRequest> mFailedLockRequests = new HashMap<String, AeLockRequest>();
 
    /** Map of the owner paths to the variables that they have locked. */
-   private Map mOwnersToVariablesLocked = new HashMap();
+   private Map<String, Set<String>> mOwnersToVariablesLocked = new HashMap<String, Set<String>>();
 
    /**
     * Returns true if all of the variables in the set were able to be
@@ -61,7 +60,7 @@ public class AeVariableLocker implements IAeVariableLocker
     * @param aCallback The callback object that gets notified when the lock is
     *                  acquired if it's not immediately available
     */
-   public synchronized boolean addExclusiveLock(Set aSetOfVariablePaths, String aOwnerXPath, IAeVariableLockCallback aCallback)
+   public synchronized boolean addExclusiveLock(Set<String> aSetOfVariablePaths, String aOwnerXPath, IAeVariableLockCallback aCallback)
    {
       if (AeUtil.isNullOrEmpty(aSetOfVariablePaths))
          return true;
@@ -79,7 +78,7 @@ public class AeVariableLocker implements IAeVariableLocker
     * @param aCallback The callback object that gets notified when the lock is
     *                  acquired if it's not immediately available
     */
-   public synchronized boolean addSharedLock(Set aSetOfVariablePaths, String aOwnerXPath, IAeVariableLockCallback aCallback)
+   public synchronized boolean addSharedLock(Set<String> aSetOfVariablePaths, String aOwnerXPath, IAeVariableLockCallback aCallback)
    {
       if (AeUtil.isNullOrEmpty(aSetOfVariablePaths))
          return true;
@@ -96,7 +95,7 @@ public class AeVariableLocker implements IAeVariableLocker
     */
    public synchronized void releaseLocks(String aOwner) throws AeBusinessProcessException
    {
-      Set set = (Set) mOwnersToVariablesLocked.remove(aOwner);
+      Set<String> set = mOwnersToVariablesLocked.remove(aOwner);
       
       // TODO (MF) look into avoiding acquiring locks if object in final state which is what led me here in the first place
       mFailedLockRequests.remove(aOwner);
@@ -115,11 +114,10 @@ public class AeVariableLocker implements IAeVariableLocker
     * @param aSetOfVariablePaths - A set of variable location paths
     * @param aOwner - location path for the lock owner being removed
     */
-   private void removeLocks(Set aSetOfVariablePaths, String aOwner)
+   private void removeLocks(Set<String> aSetOfVariablePaths, String aOwner)
    {
-      for (Iterator iter = aSetOfVariablePaths.iterator(); iter.hasNext();)
+      for (String variablePath : aSetOfVariablePaths)
       {
-         String variablePath = (String) iter.next();
          AeLockHolder lockHolder = getLockHolder(variablePath);
          // should never be null
          lockHolder.remove(aOwner);
@@ -138,11 +136,10 @@ public class AeVariableLocker implements IAeVariableLocker
    {
       if (!mFailedLockRequests.isEmpty())
       {
-         Map map = new HashMap(mFailedLockRequests);
+         Map<String, AeLockRequest> map = new HashMap<String, AeLockRequest>(mFailedLockRequests);
          mFailedLockRequests.clear();
-         for (Iterator iter = map.values().iterator(); iter.hasNext();)
+         for (AeLockRequest request : map.values())
          {
-            AeLockRequest request = (AeLockRequest) iter.next();
             if (request.acquireLock())
             {
                request.getCallback().variableLocksAcquired(request.getOwner());
@@ -157,7 +154,7 @@ public class AeVariableLocker implements IAeVariableLocker
     */
    AeLockHolder getLockHolder(String aVariablePath)
    {
-      return (AeLockHolder) mLockedPaths.get(aVariablePath);
+      return mLockedPaths.get(aVariablePath);
    }
 
    /**
@@ -170,7 +167,7 @@ public class AeVariableLocker implements IAeVariableLocker
    void addLockHolder(String aVariablePath, String aOwnerPath, boolean aExclusive)
    {
       // Add variable->owner mapping (via AeLockHolder).
-      AeLockHolder lockHolder = (AeLockHolder) mLockedPaths.get(aVariablePath);
+      AeLockHolder lockHolder = mLockedPaths.get(aVariablePath);
 
       if (lockHolder == null)
       {
@@ -182,11 +179,11 @@ public class AeVariableLocker implements IAeVariableLocker
       lockHolder.setExclusive(aExclusive);
 
       // Add owner->variable mapping.
-      Set variablePaths = (Set) mOwnersToVariablesLocked.get(aOwnerPath);
+      Set<String> variablePaths = mOwnersToVariablesLocked.get(aOwnerPath);
 
       if (variablePaths == null)
       {
-         variablePaths = new HashSet();
+         variablePaths = new HashSet<String>();
          mOwnersToVariablesLocked.put(aOwnerPath, variablePaths);
       }
 
@@ -225,25 +222,24 @@ public class AeVariableLocker implements IAeVariableLocker
    /**
     * @see java.lang.Object#equals(java.lang.Object)
     */
-   public boolean equals(Object o)
+   public boolean equals(Object aObject)
    {
-      if (!(o instanceof AeVariableLocker))
+      if (!(aObject instanceof AeVariableLocker))
       {
          return false;
       }
 
-      AeVariableLocker other = (AeVariableLocker) o;
+      AeVariableLocker other = (AeVariableLocker) aObject;
 
       return mLockedPaths.equals(other.mLockedPaths)
           && mFailedLockRequests.equals(other.mFailedLockRequests)
-          && mOwnersToVariablesLocked.equals(other.mOwnersToVariablesLocked)
-          ;
+          && mOwnersToVariablesLocked.equals(other.mOwnersToVariablesLocked);
    }
 
    /**
     * Returns set of locked variable paths (for serialization).
     */
-   Set getLockedPaths()
+   Set<String> getLockedPaths()
    {
       return Collections.unmodifiableSet(mLockedPaths.keySet());
    }
@@ -251,7 +247,7 @@ public class AeVariableLocker implements IAeVariableLocker
    /**
     * Returns collection of outstanding lock requests (for serialization).
     */
-   Collection getLockRequests()
+   Collection<AeLockRequest> getLockRequests()
    {
       return Collections.unmodifiableCollection(mFailedLockRequests.values());
    }
@@ -284,8 +280,7 @@ public class AeVariableLocker implements IAeVariableLocker
    {
       return mLockedPaths.hashCode()
            + mFailedLockRequests.hashCode()
-           + mOwnersToVariablesLocked.hashCode()
-           ;
+           + mOwnersToVariablesLocked.hashCode();
    }
 
    /**

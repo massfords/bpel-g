@@ -22,14 +22,14 @@ import org.activebpel.rt.util.AeUtil;
 public class AeURNResolver implements IAeURNResolver
 {
    /** Map of URN to URL values */
-   private Map mMap = new HashMap();
+   private Map<String, String> mMap = new HashMap<String, String>();
 
    /**
     * @see org.activebpel.rt.bpel.urn.IAeURNResolver#getMappings()
     */
-   public Map getMappings()
+   public Map<String, String> getMappings()
    {
-      return new HashMap(getMap());
+      return new HashMap<String, String>(getMap());
    }
 
    /**
@@ -50,7 +50,7 @@ public class AeURNResolver implements IAeURNResolver
     */
    public synchronized void addMapping(String aURN, String aURL)
    {
-      Map map = getMappings();
+      Map<String, String> map = getMappings();
       map.put(AeUtil.normalizeURN(aURN), aURL);
       setMap(map);
    }
@@ -68,7 +68,7 @@ public class AeURNResolver implements IAeURNResolver
     */
    public synchronized void removeMappings(String[] aURNArray)
    {
-      Map map = getMappings();
+      Map<String, String> map = getMappings();
       for (int i = 0; i < aURNArray.length; i++)
       {
          map.remove(AeUtil.normalizeURN(aURNArray[i]));
@@ -82,7 +82,7 @@ public class AeURNResolver implements IAeURNResolver
     */
    protected String getURL(String aOriginalURN, String aPartialURN)
    {
-      String result = (String) getMap().get(aPartialURN);
+      String result = getMap().get(aPartialURN);
       if (result == null)
       {
          // there was no match, try again by stripping off the last segment of the URN
@@ -105,7 +105,7 @@ public class AeURNResolver implements IAeURNResolver
     * Implementation of the deferred map that loads the map with the parsed URN
     * value as soon as the map is accessed.
     */
-   protected static class AeURNTokenParsingMapFactory extends AeDeferredMapFactory
+   protected static class AeURNTokenParsingMapFactory extends AeDeferredMapFactory<String, String>
    {
       /** urn we need to parse */
       private String mURN;
@@ -124,10 +124,10 @@ public class AeURNResolver implements IAeURNResolver
        * 
        * @see org.activebpel.rt.util.AeDeferredMapFactory#buildMap()
        */
-      protected Map buildMap()
+      protected Map<String, String> buildMap()
       {
          StringTokenizer stoker = new StringTokenizer(mURN, ":"); //$NON-NLS-1$
-         Map map = new HashMap();
+         Map<String, String> map = new HashMap<String, String>();
          int counter = 1;
          while(stoker.hasMoreTokens())
          {
@@ -140,7 +140,7 @@ public class AeURNResolver implements IAeURNResolver
    /**
     * Getter for the map
     */
-   protected Map getMap()
+   protected Map<String, String> getMap()
    {
       return mMap;
    }
@@ -150,7 +150,7 @@ public class AeURNResolver implements IAeURNResolver
     * 
     * @param aMap
     */
-   protected void setMap(Map aMap)
+   protected void setMap(Map<String, String> aMap)
    {
       mMap = aMap;
    }

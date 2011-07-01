@@ -34,7 +34,7 @@ public class AeWSBPELXPathParseResult extends AeAbstractXPathParseResult
     * @param aErrors
     * @param aParserContext
     */
-   public AeWSBPELXPathParseResult(String aExpression, AeXPathAST aXPathAST, List aErrors, IAeExpressionParserContext aParserContext)
+   public AeWSBPELXPathParseResult(String aExpression, AeXPathAST aXPathAST, List<String> aErrors, IAeExpressionParserContext aParserContext)
    {
       super(aExpression, aXPathAST, aErrors, aParserContext);
    }
@@ -42,9 +42,9 @@ public class AeWSBPELXPathParseResult extends AeAbstractXPathParseResult
    /**
     * @see org.activebpel.rt.bpel.def.expr.AeAbstractExpressionParseResult#getVarDataList()
     */
-   public List getVarDataList()
+   public List<AeVariableData> getVarDataList()
    {
-      List varData = super.getVarDataList();
+      List<AeVariableData> varData = super.getVarDataList();
       varData.addAll(getVarDataFromXPathVariables());
       return varData;
    }
@@ -52,9 +52,9 @@ public class AeWSBPELXPathParseResult extends AeAbstractXPathParseResult
    /**
     * Gets a list of AeVariableData objects built from the 
     */
-   protected Collection getVarDataFromXPathVariables()
+   protected Collection<AeVariableData> getVarDataFromXPathVariables()
    {
-      List list = new LinkedList();
+      List<AeVariableData> list = new LinkedList<AeVariableData>();
       for (Iterator iter = getVariableReferences().iterator(); iter.hasNext(); )
       {
          AeScriptVarDef varDef = (AeScriptVarDef) iter.next();

@@ -162,6 +162,6 @@ public interface IAeEngineAdministration
     * @param aParentProcessId
     * @throws AeException
     */
-   public List getParticipantForProcessId(long aParentProcessId) throws AeException;
+   public List<AeCoordinationDetail> getParticipantForProcessId(long aParentProcessId) throws AeException;
 
 }

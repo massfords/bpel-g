@@ -405,10 +405,10 @@ public class AeSchemaUtil
     * @param aSchemas
     * @param aComplexType
     */
-   public static List findDerivedTypes(List aSchemas, ComplexType aComplexType)
+   public static List<ComplexType> findDerivedTypes(List aSchemas, ComplexType aComplexType)
    {
       // list that we'll return
-      List list = new ArrayList();
+      List<ComplexType> list = new ArrayList<ComplexType>();
       
       // keep a set of the schemas we've processed to avoid recursing forever
       Set<Schema> alreadyProcessed = new HashSet<Schema>();
@@ -445,7 +445,7 @@ public class AeSchemaUtil
     * @param aType
     * @param aList
     */
-   protected static void findDerivedTypes(Schema aSchema, ComplexType aType, List aList)
+   protected static void findDerivedTypes(Schema aSchema, ComplexType aType, List<ComplexType> aList)
    {
       for(Enumeration enoom = aSchema.getComplexTypes(); enoom.hasMoreElements();)
       {
@@ -462,10 +462,10 @@ public class AeSchemaUtil
     * @param aSchemas
     * @param aElement
     */
-   public static List findSubstitutionGroupElements(List aSchemas, ElementDecl aElement)
+   public static List<ElementDecl> findSubstitutionGroupElements(List aSchemas, ElementDecl aElement)
    {
       // the list we're going to return
-      List list = new ArrayList();
+      List<ElementDecl> list = new ArrayList<ElementDecl>();
 
       // set to avoid recursing forever
       Set<Schema> alreadyProcessed = new HashSet<Schema>();
@@ -503,7 +503,7 @@ public class AeSchemaUtil
     * @param aElement
     * @param aList
     */
-   protected static void findSubstitutionGroupElements(Schema aSchema, ElementDecl aElement, List aList)
+   protected static void findSubstitutionGroupElements(Schema aSchema, ElementDecl aElement, List<ElementDecl> aList)
    {
       for(Enumeration enoom = aSchema.getElementDecls(); enoom.hasMoreElements();)
       {

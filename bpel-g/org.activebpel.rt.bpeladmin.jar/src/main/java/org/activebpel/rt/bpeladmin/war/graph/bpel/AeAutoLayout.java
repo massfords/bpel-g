@@ -374,7 +374,7 @@ public class AeAutoLayout
       {
          return Collections.EMPTY_LIST;
       } 
-      List parentList = new ArrayList();
+      List<AeBpelActivityObject> parentList = new ArrayList<AeBpelActivityObject>();
       AeBpelActivityObject activityObj = (AeBpelActivityObject) aChild;      
       List targetConnections = activityObj.getTargetLinks();      
       for (int i = 0; i < targetConnections.size(); i++)

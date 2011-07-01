@@ -260,10 +260,10 @@ public class AeOnMessageDef extends AeSingleActivityParentBaseDef implements IAe
    /**
     * @see org.activebpel.rt.bpel.def.IAeFromPartsParentDef#getFromPartDefs()
     */
-   public Iterator getFromPartDefs()
+   public Iterator<? extends AeFromPartDef> getFromPartDefs()
    {
       if (getFromPartsDef() == null)
-         return Collections.EMPTY_LIST.iterator();
+         return Collections.<AeFromPartDef>emptyList().iterator();
       else
          return getFromPartsDef().getFromPartDefs();
    }

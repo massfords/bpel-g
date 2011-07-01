@@ -35,5 +35,5 @@ public interface IAeToPartsParentDef
    /**
     * Gets an iterator over the list of toPart defs.
     */
-   public Iterator<AeToPartDef> getToPartDefs();
+   public Iterator<? extends AeToPartDef> getToPartDefs();
 }

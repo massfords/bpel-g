@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.activebpel.rt.bpeladmin.war.graph.ui.figure.AeGraphFigure;
+import org.activebpel.rt.bpeladmin.war.web.processview.AeBpelObjectBase;
 
 /**
  * Basic implementation of the IAeGraphController interface.
@@ -23,7 +24,7 @@ public class AeGraphController implements IAeGraphController
    private IAeGraphController mParent = null;
    
    /** list of child controllers */
-   private List mChildren = new ArrayList();
+   private List<IAeGraphController> mChildren = new ArrayList<IAeGraphController>();
    
    /** main figure container */
    private AeGraphFigure mFigure = null;
@@ -35,7 +36,7 @@ public class AeGraphController implements IAeGraphController
    private Object mModel = null;
    
    /** List children belonging to the model */
-   private List mModelChildren = new ArrayList();
+   private List<AeBpelObjectBase> mModelChildren = new ArrayList<AeBpelObjectBase>();
    
    /**
     * Default constructor.
@@ -147,7 +148,7 @@ public class AeGraphController implements IAeGraphController
     * Returns list of child controllers.
     * @return list of IAeGraphController child objects.
     */  
-   public List getChildren()
+   public List<IAeGraphController> getChildren()
    {
       return mChildren;
    }
@@ -174,7 +175,7 @@ public class AeGraphController implements IAeGraphController
     * Returns list of model's children.
     * @return list of child models contained in the model.
     */   
-   public List getModelChildren()
+   public List<AeBpelObjectBase> getModelChildren()
    {
       return mModelChildren;  
    }   

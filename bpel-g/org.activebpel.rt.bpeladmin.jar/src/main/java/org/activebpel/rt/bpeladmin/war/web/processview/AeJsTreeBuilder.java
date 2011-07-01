@@ -29,7 +29,7 @@ public class AeJsTreeBuilder
    private int mNextNodeId = 2; // start with 2, since 1 is reserved for the root .
    
    /** Set to hold image (icon) names. */
-   private Set mImageNames = new HashSet();
+   private Set<String> mImageNames = new HashSet<String>();
    
    /** Base path to image resources. */
    private AeProcessViewImageResources mImagePaths = null;

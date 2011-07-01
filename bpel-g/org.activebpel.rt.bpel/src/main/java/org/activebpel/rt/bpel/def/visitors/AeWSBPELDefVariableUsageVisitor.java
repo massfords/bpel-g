@@ -214,9 +214,9 @@ public class AeWSBPELDefVariableUsageVisitor extends AeDefVariableUsageVisitor
     * 
     * @see org.activebpel.rt.bpel.def.visitors.AeDefVariableUsageVisitor#getResourcesUsedSet(org.activebpel.rt.bpel.def.AeActivityDef)
     */
-   protected Set getResourcesUsedSet(AeActivityDef aActivityDef)
+   protected Set<String> getResourcesUsedSet(AeActivityDef aActivityDef)
    {
-      Set resourcesUsed;
+      Set<String> resourcesUsed;
 
       // If we are traversing an isolated domain for a compensation handler,
       // then return the set stored for the compensation handler in its scope.
@@ -227,7 +227,7 @@ public class AeWSBPELDefVariableUsageVisitor extends AeDefVariableUsageVisitor
          resourcesUsed = scope.getResourcesUsedByCompensationHandler();
          if (resourcesUsed == null)
          {
-            resourcesUsed = new HashSet();
+            resourcesUsed = new HashSet<String>();
             scope.setResourcesUsedByCompensationHandler(resourcesUsed);
          }
       }

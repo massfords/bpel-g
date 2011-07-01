@@ -60,13 +60,13 @@ public abstract class AeCoordinationManager extends AeManagerAdapter implements 
       try
       {
          // Find list of coordinations (coordinators or participants) for this process id.
-         Iterator it = getCoordinatingIterator(aProcessId);
-         List coordinatingObjects = AeUtil.toList(it);
+         Iterator<? extends IAeCoordinating> it = getCoordinatingIterator(aProcessId);
+         List<? extends IAeCoordinating> coordinatingObjects = AeUtil.toList(it);
 
          // for each coordinator, call coord.onProcessComplete(aFault)
-         for (Iterator iter = coordinatingObjects.iterator(); iter.hasNext();)
+         for (Iterator<? extends IAeCoordinating> iter = coordinatingObjects.iterator(); iter.hasNext();)
          {
-            IAeCoordinating c = (IAeCoordinating) iter.next();
+            IAeCoordinating c = iter.next();
             // should this be done via a message dispatch (async mechanism) ?
             if (c instanceof IAeCoordinator)
             {
@@ -119,8 +119,8 @@ public abstract class AeCoordinationManager extends AeManagerAdapter implements 
       try
       {
          // Find list of coordinations (coordinators or participants) for this process id.
-         Iterator it = getCoordinatingIterator(aProcessId);
-         List coordinatingObjects = AeUtil.toList(it);
+         Iterator<? extends IAeCoordinating> it = getCoordinatingIterator(aProcessId);
+         List<? extends IAeCoordinating> coordinatingObjects = AeUtil.toList(it);
 
          // If completed normally and aProcessId has both Coordinator(s) 
          // and Participant, that means aProcessId is a subprocess with a
@@ -129,9 +129,9 @@ public abstract class AeCoordinationManager extends AeManagerAdapter implements 
          boolean skipNotifyingCoordinators = hasCoordinatorsAndParticipant(coordinatingObjects);
          
          // for each coordination, call coord.onProcessComplete(aFault)
-         for (Iterator iter = coordinatingObjects.iterator(); iter.hasNext();)
+         for (Iterator<? extends IAeCoordinating> iter = coordinatingObjects.iterator(); iter.hasNext();)
          {
-            IAeCoordinating c = (IAeCoordinating) iter.next();
+            IAeCoordinating c = iter.next();
             // should this be done via a message dispatch (async mechanism) ?
             if (c instanceof IAeCoordinator && skipNotifyingCoordinators)
             {
@@ -475,16 +475,16 @@ public abstract class AeCoordinationManager extends AeManagerAdapter implements 
     * @param aCoordinationId
     * @return iterator to coordinators.
     */   
-   public Iterator getCoordinatorIterator(String aCoordinationId) throws AeCoordinationNotFoundException
+   public Iterator<? extends IAeCoordinating> getCoordinatorIterator(String aCoordinationId) throws AeCoordinationNotFoundException
    {
-      Set set = new HashSet();
+      Set<IAeCoordinator> set = new HashSet<IAeCoordinator>();
       Iterator it = getCoordinatingIterator(aCoordinationId);
       while (it.hasNext())
       {
          IAeCoordinating c = (IAeCoordinating) it.next();
          if (c instanceof IAeCoordinator)
          {
-            set.add(c);
+            set.add((IAeCoordinator)c);
          }
       }
       return getCoordinatingIterator(set, aCoordinationId);
@@ -515,14 +515,14 @@ public abstract class AeCoordinationManager extends AeManagerAdapter implements 
     */
    protected Iterator getParticipantIterator(String aCoordinationId) throws AeCoordinationNotFoundException
    {
-      Set set = new HashSet();
-      Iterator it = getCoordinatingIterator(aCoordinationId);
+      Set<IAeParticipant> set = new HashSet<IAeParticipant>();
+      Iterator<? extends IAeCoordinating> it = getCoordinatingIterator(aCoordinationId);
       while (it.hasNext())
       {
-         IAeCoordinating c = (IAeCoordinating) it.next();
+         IAeCoordinating c = it.next();
          if (c instanceof IAeParticipant)
          {
-            set.add(c);
+            set.add((IAeParticipant)c);
          }
       }
       return getCoordinatingIterator(set, aCoordinationId);
@@ -547,7 +547,7 @@ public abstract class AeCoordinationManager extends AeManagerAdapter implements 
     * @return iterator of IAeCoordinating objects.
     * @throws AeCoordinationNotFoundException
     */
-   protected abstract Iterator getCoordinatingIterator(String aCoordinationId) throws AeCoordinationNotFoundException;
+   protected abstract Iterator<? extends IAeCoordinating> getCoordinatingIterator(String aCoordinationId) throws AeCoordinationNotFoundException;
    
    /**
     * Returns an iterator to coordinating activities matching the process id.
@@ -555,7 +555,7 @@ public abstract class AeCoordinationManager extends AeManagerAdapter implements 
     * @return iterator of IAeCoordinating objects.
     * @throws AeCoordinationNotFoundException
     */
-   protected abstract Iterator getCoordinatingIterator(long aProcessId) throws AeCoordinationNotFoundException;
+   protected abstract Iterator<? extends IAeCoordinating> getCoordinatingIterator(long aProcessId) throws AeCoordinationNotFoundException;
    
    /**
     * Returns a Coordination object given the process id and the coordination id.
@@ -574,7 +574,7 @@ public abstract class AeCoordinationManager extends AeManagerAdapter implements 
     * @return Iterator to collection.
     * @throws AeCoordinationNotFoundException
     */
-   protected Iterator getCoordinatingIterator(Collection aCollection, String aCoordinationId) throws AeCoordinationNotFoundException
+   protected Iterator<? extends IAeCoordinating> getCoordinatingIterator(Collection<? extends IAeCoordinating> aCollection, String aCoordinationId) throws AeCoordinationNotFoundException
    {
       if (aCollection.size() == 0)
       {

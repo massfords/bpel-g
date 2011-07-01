@@ -10,6 +10,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
+import javax.xml.namespace.QName;
+
 import org.activebpel.rt.util.AeCombinations;
 
 
@@ -19,14 +21,11 @@ import org.activebpel.rt.util.AeCombinations;
  */
 public class AeCorrelationCombinations implements Serializable
 {
-   /**
-     * 
-     */
-    private static final long serialVersionUID = -2634821001957232378L;
-/** the different correlationSets that are used by activities with this plink and operation */
-   private Collection mCorrelationSetCombinations = new HashSet();
+   private static final long serialVersionUID = -2634821001957232378L;
+   /** the different correlationSets that are used by activities with this plink and operation */
+   private Collection<Set<AeCorrelationSetDef>> mCorrelationSetCombinations = new HashSet<Set<AeCorrelationSetDef>>();
    /** provides a quick way of knowing which sets in our collection contain join style correlations */
-   private Set mJoins = new HashSet();
+   private Set<Set<AeCorrelationSetDef>> mJoins = new HashSet<Set<AeCorrelationSetDef>>();
    /** flag that gets set to true if at least one IMA uses a correlationSet that is initiated at the time the IMA executes */
    private boolean mInitiated;
    /** the max number of correlationSets on a single activity that were join style */
@@ -37,17 +36,15 @@ public class AeCorrelationCombinations implements Serializable
    
    // The comparator is used to sort each collection of correlation sets by size
    // to ensure that we attempt to match against the most properties in the collection first
-   private static final Comparator COMPARATOR = new Comparator()
+   private static final Comparator<Set<QName>> COMPARATOR = new Comparator<Set<QName>>()
    {
       /**
        * @see java.util.Comparator#compare(java.lang.Object, java.lang.Object)
        */
-      public int compare(Object aOne, Object aTwo)
+      public int compare(Set<QName> aOne, Set<QName> aTwo)
       {
-         Set one = (Set) aOne;
-         Set two = (Set) aTwo;
          // i want descending order, so flip the comparison
-         return two.size() - one.size();
+         return aTwo.size() - aOne.size();
       }
    };
 
@@ -146,7 +143,7 @@ public class AeCorrelationCombinations implements Serializable
    /**
     * Getter for the collection that maintains the correlationSet combinations
     */
-   protected Collection getCorrelationSetsColl()
+   protected Collection<Set<AeCorrelationSetDef>> getCorrelationSetsColl()
    {
       return mCorrelationSetCombinations;
    }
@@ -182,7 +179,7 @@ public class AeCorrelationCombinations implements Serializable
     */
    protected Collection createPropertyCombinations(int aMaxCombinations)
    {
-      Collection coll = null;
+      Collection<Set<QName>> coll = null;
       if (isJoinStyle())
       {
          if (getJoinCount() < aMaxCombinations)
@@ -198,7 +195,7 @@ public class AeCorrelationCombinations implements Serializable
       {
          coll = createInitiatedCombinations();
       }
-      LinkedList list = new LinkedList(coll);
+      LinkedList<Set<QName>> list = new LinkedList<Set<QName>>(coll);
       Collections.sort(list, COMPARATOR);
       return list;
    }
@@ -210,9 +207,9 @@ public class AeCorrelationCombinations implements Serializable
     * @return SortedSet - a set of sets. The contained sets have all of the properties needed to compute the
     *                     correlation hash. The set is sorted by the number of properties in descending order. 
     */
-   private Set createInitiatedCombinations()
+   private Set<Set<QName>> createInitiatedCombinations()
    {
-      Set set = new HashSet();
+	  Set<Set<QName>> set = new HashSet<Set<QName>>();
       addInitiatedCorrelationSetProperties(set, getInitiatedIterator());
       return set;
    }
@@ -223,15 +220,15 @@ public class AeCorrelationCombinations implements Serializable
     * @param aSet
     * @param aIter - iteration over a set of sets. The inner sets contain AeCorrelationSetDefs
     */
-   protected void addInitiatedCorrelationSetProperties(Set aSet, Iterator aIter)
+   protected void addInitiatedCorrelationSetProperties(Set<Set<QName>> aSet, Iterator<Set<AeCorrelationSetDef>> aIter)
    {
       while (aIter.hasNext())
       {
-         Set set = new HashSet();
-         Set setOfCorrelationSetDefs = (Set) aIter.next();
-         for (Iterator iterator = setOfCorrelationSetDefs.iterator(); iterator.hasNext();)
+         Set<QName> set = new HashSet<QName>();
+         Set<AeCorrelationSetDef> setOfCorrelationSetDefs = aIter.next();
+         for (Iterator<AeCorrelationSetDef> iterator = setOfCorrelationSetDefs.iterator(); iterator.hasNext();)
          {
-            AeCorrelationSetDef corrSetDef = (AeCorrelationSetDef) iterator.next();
+            AeCorrelationSetDef corrSetDef = iterator.next();
             set.addAll(corrSetDef.getProperties());
          }
          aSet.add(set);
@@ -243,20 +240,20 @@ public class AeCorrelationCombinations implements Serializable
     * the possibility that a correlationSet may or may not have been initiated at the time of the object's
     * execution.
     */
-   private Collection createJoinStyleCombinations()
+   private Collection<Set<QName>> createJoinStyleCombinations()
    {
-      Set combinationSet = new HashSet();
-      for (Iterator iter = getJoinsIterator(); iter.hasNext();)
+	  Set<Set<QName>> combinationSet = new HashSet<Set<QName>>();
+      for (Iterator<Set<AeCorrelationSetDef>> iter = getJoinsIterator(); iter.hasNext();)
       {
          // this set will contain at least one correlationSet that is a join style
-         Set setOfCorrelationSetDefs = (Set) iter.next();
+    	 Set<AeCorrelationSetDef> setOfCorrelationSetDefs = iter.next();
          
          // divide the corr sets into the initiated style and join style
-         List initiatedList = new LinkedList();
-         List joinList = new LinkedList();
-         for (Iterator iterator = setOfCorrelationSetDefs.iterator(); iterator.hasNext();)
+         List<AeCorrelationSetDef> initiatedList = new LinkedList<AeCorrelationSetDef>();
+         List<AeCorrelationSetDef> joinList = new LinkedList<AeCorrelationSetDef>();
+         for (Iterator<AeCorrelationSetDef> iterator = setOfCorrelationSetDefs.iterator(); iterator.hasNext();)
          {
-            AeCorrelationSetDef corrSetDef = (AeCorrelationSetDef) iterator.next();
+            AeCorrelationSetDef corrSetDef = iterator.next();
             if (corrSetDef.isJoinStyle())
             {
                joinList.add(corrSetDef);
@@ -268,10 +265,10 @@ public class AeCorrelationCombinations implements Serializable
          }
          
          // get all of the initiated props since they'll be the same for each combination
-         Set initiatedProps = new HashSet();
-         for (Iterator iterator = initiatedList.iterator(); iterator.hasNext();)
+         Set<QName> initiatedProps = new HashSet<QName>();
+         for (Iterator<AeCorrelationSetDef> iterator = initiatedList.iterator(); iterator.hasNext();)
          {
-            AeCorrelationSetDef corrSetDef = (AeCorrelationSetDef) iterator.next();
+            AeCorrelationSetDef corrSetDef = iterator.next();
             initiatedProps.addAll(corrSetDef.getProperties());
          }
          
@@ -282,15 +279,14 @@ public class AeCorrelationCombinations implements Serializable
          }
          
          // get all combinations of the array
-         for(Iterator combinationsIter = AeCombinations.createAllCombinations(joinList); combinationsIter.hasNext();)
+         for(Iterator<List<AeCorrelationSetDef>> combinationsIter = AeCombinations.createAllCombinations(joinList); combinationsIter.hasNext();)
          {
-            HashSet set = new HashSet();
+            HashSet<QName> set = new HashSet<QName>();
             set.addAll(initiatedProps);
             
-            Object[] next = (Object[]) combinationsIter.next();
-            for (int i = 0; i < next.length; i++)
+            List<AeCorrelationSetDef> next = combinationsIter.next();
+            for (AeCorrelationSetDef corrSetDef : next)
             {
-               AeCorrelationSetDef corrSetDef = (AeCorrelationSetDef) next[i];
                set.addAll(corrSetDef.getProperties());
             }
             
@@ -305,7 +301,7 @@ public class AeCorrelationCombinations implements Serializable
    /**
     * Returns an iterator over the sets that contain "join" style correlation sets
     */
-   protected Iterator getJoinsIterator()
+   protected Iterator<Set<AeCorrelationSetDef>> getJoinsIterator()
    {
       return mJoins.iterator(); 
    }
@@ -313,9 +309,9 @@ public class AeCorrelationCombinations implements Serializable
    /**
     * Returns an iterator over the sets that contain the initiated correlation sets
     */
-   protected Iterator getInitiatedIterator()
+   protected Iterator<Set<AeCorrelationSetDef>> getInitiatedIterator()
    {
-      HashSet set = new HashSet(getCorrelationSetsColl());
+      HashSet<Set<AeCorrelationSetDef>> set = new HashSet<Set<AeCorrelationSetDef>>(getCorrelationSetsColl());
       set.removeAll(getJoins());
       return set.iterator();
    }
@@ -323,7 +319,7 @@ public class AeCorrelationCombinations implements Serializable
    /**
     * Getter for the joins set
     */
-   protected Set getJoins()
+   protected Set<Set<AeCorrelationSetDef>> getJoins()
    {
       return mJoins;
    }
@@ -333,11 +329,8 @@ public class AeCorrelationCombinations implements Serializable
     */
    public class AeCorrelatedProperties implements Serializable
    {
-      /**
-     * 
-     */
-    private static final long serialVersionUID = 1121786637037439950L;
-    /** All of the correlationSets used by this plink and operation are already initiated at the time of the IMA's execution */
+      private static final long serialVersionUID = 1121786637037439950L;
+      /** All of the correlationSets used by this plink and operation are already initiated at the time of the IMA's execution */
       public static final int INITIATED                                            = 0;
       /** The combinations of correlationSets include a mix of initiated and join style */
       public static final int INITIATED_AND_JOIN                                   = 1;

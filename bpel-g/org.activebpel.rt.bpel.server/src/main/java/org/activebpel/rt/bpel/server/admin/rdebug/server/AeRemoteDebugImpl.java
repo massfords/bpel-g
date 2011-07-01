@@ -67,13 +67,13 @@ public class AeRemoteDebugImpl implements IAeBpelAdmin
    private static String sEventHandlerLocator;
    
    /** Map of context Id to engine listener used for dispatching remote debug events. */
-   private static Hashtable sEngineListeners = new Hashtable();
+   private static Hashtable<String, IAeEngineListener> sEngineListeners = new Hashtable<String, IAeEngineListener>();
    
    /** Map of context Id to process listener used for dispatching remote debug events. */
-   private static Hashtable sProcessListeners = new Hashtable();
+   private static Hashtable<String, IAeProcessListener> sProcessListeners = new Hashtable<String, IAeProcessListener>();
 
    /** Map of context Id to breakpoint listener used for dispatching remote debug events. */
-   private static Hashtable sBreakpointListeners = new Hashtable();
+   private static Hashtable<String, AeBreakpointListener> sBreakpointListeners = new Hashtable<String, AeBreakpointListener>();
 
 
    public void setEventHandlerLocator(String aEventHandlerLocator) {
@@ -455,7 +455,7 @@ public class AeRemoteDebugImpl implements IAeBpelAdmin
          AeXMLParserBase parser = new AeXMLParserBase();         
          Document doc = parser.loadDocumentFromString("<CorrSetProps>" + aData + "</CorrSetProps>", null); //$NON-NLS-1$//$NON-NLS-2$
          
-         Map corrSetData = AeCorrelationSet.convertCorrSetDataToMap(doc);
+         Map<QName, String> corrSetData = AeCorrelationSet.convertCorrSetDataToMap(doc);
          if (corrSetData.size() > 0)
             AeEngineFactory.getEngine().setCorrelationData(aPid, aLocationPath, corrSetData);
       }
@@ -536,7 +536,7 @@ public class AeRemoteDebugImpl implements IAeBpelAdmin
     */
    public static void doRemoveEngineListener(long aContextId, String aEndpointURL) throws RemoteException
    {
-      IAeEngineListener listener = (IAeEngineListener)sEngineListeners.remove(getKey(aContextId, aEndpointURL));
+      IAeEngineListener listener = sEngineListeners.remove(getKey(aContextId, aEndpointURL));
       if (listener != null)
          AeEngineFactory.getEngine().removeEngineListener(listener);
    }
@@ -570,7 +570,7 @@ public class AeRemoteDebugImpl implements IAeBpelAdmin
     */
    public static void doRemoveProcessListener(long aContextId, long aPid, String aEndpointURL) throws RemoteException
    {
-      IAeProcessListener listener = (IAeProcessListener)sProcessListeners.remove(getKey(aContextId, aEndpointURL));
+      IAeProcessListener listener = sProcessListeners.remove(getKey(aContextId, aEndpointURL));
       if (listener != null)
          AeEngineFactory.getEngine().removeProcessListener(listener, aPid);
    }
@@ -617,7 +617,7 @@ public class AeRemoteDebugImpl implements IAeBpelAdmin
    public static void doUpdateBreakpointList(long aContextId, String aEndpointURL, AeBreakpointList aBreakpointList)
       throws RemoteException
    {
-      AeBreakpointListener listener = (AeBreakpointListener)sBreakpointListeners.get(getKey(aContextId, aEndpointURL));
+      AeBreakpointListener listener = sBreakpointListeners.get(getKey(aContextId, aEndpointURL));
       if (listener != null)
          listener.updateBreakpointList(aBreakpointList);
    }
@@ -638,7 +638,8 @@ public class AeRemoteDebugImpl implements IAeBpelAdmin
       try
       {
          Class c = Class.forName(sEventHandlerLocator);
-         Constructor constructor = c.getConstructor( new Class[] {String.class} );
+         @SuppressWarnings("unchecked")
+		 Constructor constructor = c.getConstructor( String.class );
          return (IAeEventHandlerService) constructor.newInstance( new Object[] {aEndpointURL} );
       }
       catch (Exception e)
@@ -1051,7 +1052,7 @@ public class AeRemoteDebugImpl implements IAeBpelAdmin
       private IAeEventHandler mHandler;
 
       /** The list of breakpoints for this proxy to monitor. */
-      private HashMap mBreakpointList;
+      private HashMap<String, AeBreakpointInstanceDetail> mBreakpointList;
 
       /**
        * Contructor for listener which requires the remote context id,
@@ -1088,15 +1089,14 @@ public class AeRemoteDebugImpl implements IAeBpelAdmin
          }
          else
          {
-            HashMap breakpointList = new HashMap();
+            HashMap<String, AeBreakpointInstanceDetail> breakpointList = new HashMap<String, AeBreakpointInstanceDetail>();
             for (int i=0 ; i < aBreakpointList.getTotalRowCount() ; i++)
             {
                AeBreakpointInstanceDetail detail = aBreakpointList.getRowDetails()[i];
                if (! AeUtil.isNullOrEmpty(detail.getNodePath()) &&
                    ! AeUtil.isNullOrEmpty(detail.getProcessName().toString()))
                {
-                  breakpointList.put(
-                        AeLocationPathUtils.removeInstanceInfo(detail.getNodePath()) + detail.getProcessName().toString(), detail);
+                  breakpointList.put(AeLocationPathUtils.removeInstanceInfo(detail.getNodePath()) + detail.getProcessName().toString(), detail);
                }
             }
             

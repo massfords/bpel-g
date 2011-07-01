@@ -24,7 +24,7 @@ import org.activebpel.rt.xml.schema.sampledata.IAeSampleDataVisitor;
 public class AeComplexElement extends AeBaseElement
 {
    /** List of Attributes for this complexType. */
-   private List mAttributes = new LinkedList();
+   private List<AeBaseAttribute> mAttributes = new LinkedList<AeBaseAttribute>();
 
    /** QName for the xsi:type attribute. If set, then we should output the type with the element */
    private QName mXsiType;
@@ -57,7 +57,7 @@ public class AeComplexElement extends AeBaseElement
    /**
     * @return List
     */
-   public List getAttributes()
+   public List<AeBaseAttribute> getAttributes()
    {
       return mAttributes;
    }
@@ -154,6 +154,4 @@ public class AeComplexElement extends AeBaseElement
    {
       mDataType = aDataType;
    }
-   
 }
- 

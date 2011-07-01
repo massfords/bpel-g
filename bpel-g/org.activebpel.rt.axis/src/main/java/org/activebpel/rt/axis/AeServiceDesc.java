@@ -29,12 +29,9 @@ import org.apache.axis.encoding.TypeMappingRegistry;
  */
 public class AeServiceDesc implements ServiceDesc
 {
-   /**
-     * 
-     */
-    private static final long serialVersionUID = -38555408231532414L;
+   private static final long serialVersionUID = -38555408231532414L;
 
-/** The name of this service */
+   /** The name of this service */
    private String mName;
 
    /** The documentation of this service */
@@ -53,10 +50,10 @@ public class AeServiceDesc implements ServiceDesc
    private boolean mUseSet;
 
    /** Our operations - a list of OperationDescs */
-   private ArrayList mOperations = new ArrayList();
+   private ArrayList<OperationDesc> mOperations = new ArrayList<OperationDesc>();
 
    /** A collection of namespaces which will map to this service */
-   private List mNamespaceMappings;
+   private List<String> mNamespaceMappings;
 
    /**
     * Specifies where our WSDL document lives.  If this is non-null, the "?WSDL"
@@ -74,10 +71,10 @@ public class AeServiceDesc implements ServiceDesc
    private String mEndpointURL;
 
    /** Place to store user-extensible service-related properties */
-   private HashMap mProperties;
+   private HashMap<String, Object> mProperties;
 
    /** Lookup caches */
-   private HashMap mNameToOperationsMap;
+   private HashMap<String, List<OperationDesc>> mNameToOperationsMap;
 
    /** List of allowed methods */
    /** null allows everything, an empty ArrayList allows nothing */
@@ -265,14 +262,14 @@ public class AeServiceDesc implements ServiceDesc
       mOperations.add(aOperation);
       aOperation.setParent(this);
       if (mNameToOperationsMap == null)
-         mNameToOperationsMap = new HashMap();
+         mNameToOperationsMap = new HashMap<String, List<OperationDesc>>();
 
       // Add name to nameToOperations Map
       String name = aOperation.getName();
-      ArrayList overloads = (ArrayList) mNameToOperationsMap.get(name);
+      List<OperationDesc> overloads = mNameToOperationsMap.get(name);
       if (overloads == null)
       {
-         overloads = new ArrayList();
+         overloads = new ArrayList<OperationDesc>();
          mNameToOperationsMap.put(name, overloads);
       }
       overloads.add(aOperation);
@@ -288,7 +285,7 @@ public class AeServiceDesc implements ServiceDesc
 			mOperations.remove(aOperation);
 			aOperation.setParent(null);
 			if (mNameToOperationsMap == null)
-			   mNameToOperationsMap = new HashMap();
+			   mNameToOperationsMap = new HashMap<String, List<OperationDesc>>();
 			
 			// Remove name from nameToOperations Map
 			mNameToOperationsMap.remove(aOperation.getName());
@@ -316,12 +313,12 @@ public class AeServiceDesc implements ServiceDesc
       if (mNameToOperationsMap == null)
           return null;
 
-      ArrayList overloads = (ArrayList)mNameToOperationsMap.get(methodName);
+      List<OperationDesc> overloads = mNameToOperationsMap.get(methodName);
       if (overloads == null)
           return null;
 
       OperationDesc [] array = new OperationDesc [overloads.size()];
-      return (OperationDesc[])overloads.toArray(array);
+      return overloads.toArray(array);
    }
 
    /**
@@ -335,12 +332,12 @@ public class AeServiceDesc implements ServiceDesc
       if (mNameToOperationsMap == null)
           return null;
 
-      ArrayList overloads = (ArrayList)mNameToOperationsMap.get(methodName);
+      List<OperationDesc> overloads = mNameToOperationsMap.get(methodName);
       if (overloads == null)
           return null;
 
 
-      return (OperationDesc)overloads.get(0);
+      return overloads.get(0);
    }
 
    /**
@@ -373,6 +370,7 @@ public class AeServiceDesc implements ServiceDesc
    /**
     * @see org.apache.axis.description.ServiceDesc#setNamespaceMappings(java.util.List)
     */
+   @SuppressWarnings("unchecked")
    public void setNamespaceMappings(List aNamespaces)
    {
       mNamespaceMappings = aNamespaces;
@@ -386,7 +384,7 @@ public class AeServiceDesc implements ServiceDesc
       if (mNamespaceMappings == null || mNamespaceMappings.isEmpty())
          return null;
 
-      return (String) mNamespaceMappings.get(0);
+      return mNamespaceMappings.get(0);
    }
 
    /**
@@ -395,7 +393,7 @@ public class AeServiceDesc implements ServiceDesc
    public void setDefaultNamespace(String aNamespace)
    {
       if (mNamespaceMappings == null)
-         mNamespaceMappings = new ArrayList();
+         mNamespaceMappings = new ArrayList<String>();
 
       mNamespaceMappings.add(0, aNamespace);
    }
@@ -406,7 +404,7 @@ public class AeServiceDesc implements ServiceDesc
    public void setProperty(String aName, Object aValue)
    {
       if (mProperties == null)
-         mProperties = new HashMap();
+         mProperties = new HashMap<String, Object>();
 
       mProperties.put(aName, aValue);
    }

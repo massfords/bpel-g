@@ -18,6 +18,7 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import javax.wsdl.Fault;
 import javax.wsdl.Operation;
@@ -68,7 +69,7 @@ public class AeAxisInvokeHandler extends AeWSIOInvokeHandler
    /** namespace we're using for identifying the credentials embedded in the endpoint properties */
    private static final String CREDENTIALS_NAMESPACE = "http://active-endpoints/endpoint-credentials"; //$NON-NLS-1$
    
-   Map<String,IAeInvoker> mStyleMap = Collections.EMPTY_MAP;
+   Map<String,IAeInvoker> mStyleMap = Collections.<String,IAeInvoker>emptyMap();
 
    /**
     * Invokes the partner operation. This is done by utlizing the endpoint
@@ -354,26 +355,27 @@ public class AeAxisInvokeHandler extends AeWSIOInvokeHandler
     * @param aPolicyList
     * @param aCall
     */
-   protected void setupCallForPolicies( List aPolicyList, Call aCall ) throws AeException
+   protected void setupCallForPolicies( List<Element> aPolicyList, Call aCall ) throws AeException
    {
       try {
          // Map policy assertions to call properties
          if (!AeUtil.isNullOrEmpty(aPolicyList)) 
          {
-            Map props = getPolicyDrivenProperties(aPolicyList);
-            for (Iterator it = props.keySet().iterator(); it.hasNext();)
+            Map<String, Object> props = getPolicyDrivenProperties(aPolicyList);
+            for (Iterator<Entry<String, Object>> it = props.entrySet().iterator(); it.hasNext();)
             {
-                String name = (String) it.next();
+            	Entry<String, Object> entry = it.next();
+                String name = entry.getKey();
                 if (name.equals(TAG_ASSERT_AUTH_USER))
-                   aCall.setUsername((String) props.get(name));
+                   aCall.setUsername((String) entry.getValue());
                 else if (name.equals(TAG_ASSERT_AUTH_PASSWORD))
                 {
-                   String password = (String) props.get(name);
+                   String password = (String) entry.getValue();
                    aCall.setPassword(AeCryptoUtil.decryptString(password));
                 }
                 else if (name.equals(PARAM_TRANSPORT))
                 {
-                   Transport transport = (Transport) props.get(name);
+                   Transport transport = (Transport) entry.getValue();
                    transport.setUrl(aCall.getTargetEndpointAddress());
                    aCall.setTransport(transport);
                 }

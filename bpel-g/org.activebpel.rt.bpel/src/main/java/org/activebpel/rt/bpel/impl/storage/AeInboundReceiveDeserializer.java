@@ -82,7 +82,7 @@ public class AeInboundReceiveDeserializer implements IAeImplStateNames
          IAeMessageData aData, IAeMessageContext aContext) throws AeBusinessProcessException
    {
       Collection names = aPlan.getCorrelatedPropertyNames(aPartnerLinkOpKey);
-      Map map = new HashMap();
+      Map<QName, String> map = new HashMap<QName, String>();
 
       // Note: aData would only be null if an inbound receive had no message data.  This only
       // happens when saving the state of an AeActivityOnEventScopeImpl.  For details, see 
@@ -139,7 +139,7 @@ public class AeInboundReceiveDeserializer implements IAeImplStateNames
       AePartnerLinkOpKey plOpKey = new AePartnerLinkOpKey(plDef, context.getOperation());
 
       // Reconstruct correlation map.
-      Map correlationMap = createCorrelationMap(plOpKey, plan, data, context);
+      Map<QName, String> correlationMap = createCorrelationMap(plOpKey, plan, data, context);
       boolean replyWaiting = "true".equalsIgnoreCase( aInboundReceiveElement.getAttribute(STATE_REPLYWAITING)); //$NON-NLS-1$
       // Create inbound receive (with out the durable reply info)
       AeInboundReceive result = new AeInboundReceive(plOpKey, correlationMap, plan, data, context);
@@ -302,13 +302,13 @@ public class AeInboundReceiveDeserializer implements IAeImplStateNames
             epr.setReferenceData(aHeaders.getRecipient());
             
          NodeList props = mappedHeaders.getChildNodes();
-         List extElements = new ArrayList();
+         List<Element> extElements = new ArrayList<Element>();
          extElements.addAll(AeUtil.toList(epr.getExtensibilityElements()));
          for (int i = 0; i < props.getLength(); i++)
          {
             if (props.item(i).getNodeType() == Node.ELEMENT_NODE)
             {
-               extElements.add(props.item(i));
+               extElements.add((Element)props.item(i));
             }
          }
          
@@ -381,10 +381,10 @@ public class AeInboundReceiveDeserializer implements IAeImplStateNames
     * 
     * @param aElement
     */
-   protected Map getChildElementsMap(Element aElement)
+   protected Map<String, Node> getChildElementsMap(Element aElement)
    {
       NodeList nodes = aElement.getChildNodes();
-      Map result = new HashMap(nodes.getLength());
+      Map<String, Node> result = new HashMap<String, Node>(nodes.getLength());
 
       for (int i = 0; i < nodes.getLength(); ++i)
       {

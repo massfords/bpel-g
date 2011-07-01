@@ -23,11 +23,8 @@ import org.activebpel.rt.bpel.def.visitors.IAeDefVisitor;
  */
 public class AeCorrelationSetDef extends AeNamedDef
 {
-   /**
-     * 
-     */
-    private static final long serialVersionUID = 4635602438406610972L;
-/** The properties of the correlation set. */
+   private static final long serialVersionUID = 4635602438406610972L;
+   /** The properties of the correlation set. */
    private Collection<QName> mProperties;
    /** Flag for whether this correlationSet has multiple points of initiation */
    private boolean mJoinStyle;
@@ -44,10 +41,10 @@ public class AeCorrelationSetDef extends AeNamedDef
     * Provides a list of correlation set properties for the user to iterate.
     * @return Iterator of property of object.
     */
-   public Iterator getPropertiesList()
+   public Iterator<QName> getPropertiesList()
    {
       if (mProperties == null)
-         return Collections.EMPTY_LIST.iterator();
+         return Collections.<QName>emptyList().iterator();
       else
          return mProperties.iterator();
    }
@@ -59,7 +56,7 @@ public class AeCorrelationSetDef extends AeNamedDef
    public void addProperty(QName aProperty)
    {
       if (mProperties == null)
-         mProperties = new ArrayList();
+         mProperties = new ArrayList<QName>();
          
       mProperties.add(aProperty);
    }
@@ -68,15 +65,15 @@ public class AeCorrelationSetDef extends AeNamedDef
     * Setter for the properties
     * @param aCollection
     */
-   public void setProperties(Collection aCollection)
+   public void setProperties(Collection<QName> aCollection)
    {
-      mProperties = new ArrayList(aCollection);
+      mProperties = new ArrayList<QName>(aCollection);
    }
 
    /**
     * Getter for the properties
     */
-   public Collection getProperties()
+   public Collection<QName> getProperties()
    {
       return mProperties;
    }

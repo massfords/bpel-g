@@ -73,7 +73,7 @@ public interface IAeCoordinationManager extends IAeManager
     * @return list containing AeCoordinationDetail objects
     * @throws AeCoordinationNotFoundException
     */
-   public List getParticipantDetail(long aParentProcessId) throws AeCoordinationNotFoundException;
+   public List<AeCoordinationDetail> getParticipantDetail(long aParentProcessId) throws AeCoordinationNotFoundException;
 
    /**
     * Sends compensate signal from coordinator to participant

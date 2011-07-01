@@ -75,7 +75,7 @@ public class AeAxisSOAPHeaderInvocationHandler implements InvocationHandler
                      setCachedHeaderElement(getProxiedSOAPHeader().getAsDOM());
                   }
                   NodeList nl = getCachedHeaderElement().getChildNodes();
-                  List list = new ArrayList(nl.getLength());
+                  List<Element> list = new ArrayList<Element>(nl.getLength());
                   for (int i = 0; i < nl.getLength(); i++)
                   {
                      Node node = nl.item(i);

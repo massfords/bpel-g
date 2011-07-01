@@ -36,7 +36,7 @@ public class AeURIResolver implements URIResolver
    /** The Castor URI resolver to use if the WSDL locator is not provided. */
    private URIResolver mDelegate;
    /** Collection of all unique resolution requests */
-   private Set mResolvedReferences;
+   private Set<String> mResolvedReferences;
 
    /**
     * Constructs a URI resolver using the specified WSDL locator, location, and standard
@@ -49,7 +49,7 @@ public class AeURIResolver implements URIResolver
    {
       mWSDLLocator = aLocator;
       mStandardResolver = aStandardResolver;
-      mResolvedReferences = new HashSet();
+      mResolvedReferences = new HashSet<String>();
    }
 
    /**
@@ -116,7 +116,7 @@ public class AeURIResolver implements URIResolver
    /**
     * Returns an iterator over the unique URI references we have been aaked to resolve.
     */
-   public Iterator getURIReferences()
+   public Iterator<String> getURIReferences()
    {
       return mResolvedReferences.iterator();
    }

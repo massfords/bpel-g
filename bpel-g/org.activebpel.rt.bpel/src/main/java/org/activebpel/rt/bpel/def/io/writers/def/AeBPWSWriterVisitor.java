@@ -43,7 +43,7 @@ import org.w3c.dom.Element;
 public class AeBPWSWriterVisitor extends AeWriterVisitor
 {
    /** mapping of namespaces to preferred prefixes */
-   private static final Map sPreferredPrefixes = Collections.singletonMap(IAeBPELConstants.BPWS_NAMESPACE_URI, "bpws"); //$NON-NLS-1$
+   private static final Map<String, String> sPreferredPrefixes = Collections.singletonMap(IAeBPELConstants.BPWS_NAMESPACE_URI, "bpws"); //$NON-NLS-1$
    
    /**
     * Constructs a bpel4ws writer visitor.

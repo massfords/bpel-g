@@ -25,9 +25,8 @@ import org.activebpel.rt.bpel.server.engine.AeEngineFactory;
  */
 public class AeWsdlReferenceTracker
 {
-   
    /** Map of service names to <code>IAeWsdlReference</code> objects. */
-   private static Map mReferences = new HashMap();
+   private static Map<String, IAeWsdlReference> mReferences = new HashMap<String, IAeWsdlReference>();
    
    /**
     * Register the <code>IAeWsdlReference</code> as a <code>IAeCatalogListener</code> with
@@ -50,7 +49,7 @@ public class AeWsdlReferenceTracker
     */
    public static void unregisterReference( String aServiceName )
    {
-      IAeWsdlReference wsdlRef = (IAeWsdlReference)mReferences.remove( aServiceName );
+      IAeWsdlReference wsdlRef = mReferences.remove( aServiceName );
       if( wsdlRef != null )
       {
          AeEngineFactory.getBean(IAeCatalog.class).removeCatalogListener( wsdlRef );

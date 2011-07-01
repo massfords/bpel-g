@@ -30,7 +30,7 @@ import org.xml.sax.InputSource;
 public class AeXMLParserSchemaHandler extends AeXMLParserDefaultHandler
 {
    /** A map from namespace to <code>Schema</code> object. */
-   private HashMap mSchemaMap = new HashMap();
+   private HashMap<String,Schema> mSchemaMap = new HashMap<String,Schema>();
 
    /**
     * Constructs a schema xml handler given the wsdl locator and schema list.
@@ -39,7 +39,7 @@ public class AeXMLParserSchemaHandler extends AeXMLParserDefaultHandler
     * @param aSchemaList
     */
    // fixme (MF) change to accept a map of namespaces to byte[]
-   public AeXMLParserSchemaHandler(WSDLLocator aWSDLLocator, List aSchemaList)
+   public AeXMLParserSchemaHandler(WSDLLocator aWSDLLocator, List<Schema> aSchemaList)
    {
       this(aWSDLLocator, null, aSchemaList);
    }
@@ -52,7 +52,7 @@ public class AeXMLParserSchemaHandler extends AeXMLParserDefaultHandler
     * @param aErrorHandler
     */
    // fixme (MF) change to accept a map of namespaces to byte[]
-   public AeXMLParserSchemaHandler(WSDLLocator aWSDLLocator, ErrorHandler aErrorHandler, List aSchemaList)
+   public AeXMLParserSchemaHandler(WSDLLocator aWSDLLocator, ErrorHandler aErrorHandler, List<Schema> aSchemaList)
    {
       super(aWSDLLocator, aErrorHandler);
       
@@ -95,11 +95,11 @@ public class AeXMLParserSchemaHandler extends AeXMLParserDefaultHandler
     * 
     * @param aSchemaList
     */
-   protected void buildSchemaMap(List aSchemaList)
+   protected void buildSchemaMap(List<Schema> aSchemaList)
    {
-      for (Iterator iter = aSchemaList.iterator(); iter.hasNext(); )
+      for (Iterator<Schema> iter = aSchemaList.iterator(); iter.hasNext(); )
       {
-         Schema schema = (Schema) iter.next();
+         Schema schema = iter.next();
          mSchemaMap.put(schema.getTargetNamespace(), schema);
       }
    }
@@ -111,6 +111,6 @@ public class AeXMLParserSchemaHandler extends AeXMLParserDefaultHandler
     */
    protected Schema findSchema(String aNamespace)
    {
-      return (Schema) mSchemaMap.get(aNamespace);
+      return mSchemaMap.get(aNamespace);
    }
 }

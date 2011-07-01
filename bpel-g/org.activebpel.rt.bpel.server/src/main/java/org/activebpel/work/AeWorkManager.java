@@ -37,7 +37,7 @@ import commonj.work.WorkManager;
 public class AeWorkManager implements WorkManager, Runnable,
 		PreferenceChangeListener, IAeStoppableWorkManager {
 	/** work waiting to be executing because of a lack of threads */
-	private AeBlockingQueue mQueuedWork = new AeBlockingQueue();
+	private AeBlockingQueue<AeQueuedWork> mQueuedWork = new AeBlockingQueue<AeQueuedWork>();
 	/** our pool of threads */
 	private AeThreadPool mPool = new AeThreadPool();
 	/** our dispatch thread */
@@ -123,8 +123,7 @@ public class AeWorkManager implements WorkManager, Runnable,
 				// thread can be null if thread was interrupted while waiting
 				// for new thread
 				if (thread != null) {
-					AeQueuedWork queuedWork = (AeQueuedWork) mQueuedWork
-							.getNextObjectOrWait();
+					AeQueuedWork queuedWork = (AeQueuedWork) mQueuedWork.getNextObjectOrWait();
 					// queued work can be null if thread was interrupted while
 					// waiting for next object
 					if (queuedWork != null) {

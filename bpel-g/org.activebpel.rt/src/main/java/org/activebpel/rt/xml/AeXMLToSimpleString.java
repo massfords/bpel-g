@@ -11,7 +11,7 @@ package org.activebpel.rt.xml;
 
 import java.io.InputStream;
 import java.util.Iterator;
-import java.util.Map;
+import java.util.Map.Entry;
 import java.util.TreeMap;
 
 import javax.xml.parsers.SAXParser;
@@ -40,7 +40,7 @@ public class AeXMLToSimpleString extends DefaultHandler
    private StringBuffer mOutput;
    
    /** The map of namespace declarations */
-   private TreeMap mNamespaces = new TreeMap();
+   private TreeMap<String,String> mNamespaces = new TreeMap<String,String>();
    
    /**
     * This method takes as input a stream which represents an XML document, and
@@ -124,19 +124,19 @@ public class AeXMLToSimpleString extends DefaultHandler
       mOutput.append("<").append(aLocalName); //$NON-NLS-1$
       
       // Sort the attribute declarations and add to the element
-      TreeMap map = new TreeMap();
+      TreeMap<String,String> map = new TreeMap<String,String>();
       for (int i=0, len = aAttrs.getLength(); i < len; i++)
          map.put(aAttrs.getQName(i), aAttrs.getValue(i));
-      for(Iterator iter= map.entrySet().iterator(); iter.hasNext(); )
+      for(Iterator<Entry<String,String>> iter= map.entrySet().iterator(); iter.hasNext(); )
       {
-         Map.Entry entry = (Map.Entry)iter.next();
+         Entry<String,String> entry = iter.next();
          mOutput.append(" ").append(entry.getKey()).append("=\"").append(entry.getValue()).append("\"");   //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
       }
 
       // Add the sorted namespace declarations we may have collected, then reset the namespaces
-      for (Iterator iter=mNamespaces.entrySet().iterator(); iter.hasNext(); )
+      for (Iterator<Entry<String,String>> iter=mNamespaces.entrySet().iterator(); iter.hasNext(); )
       {
-         Map.Entry entry = (Map.Entry)iter.next();
+    	 Entry<String,String> entry = iter.next();
          mOutput.append(" ").append(entry.getKey()).append("=\"").append(entry.getValue()).append("\"");   //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
       }
       mNamespaces.clear();

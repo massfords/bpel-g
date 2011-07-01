@@ -37,7 +37,7 @@ public class AeBaseDefNamespaceContext implements IAeMutableNamespaceContext
    /**
     * @see org.activebpel.rt.xml.IAeNamespaceContext#resolveNamespaceToPrefixes(java.lang.String)
     */
-   public Set resolveNamespaceToPrefixes(String aNamespace)
+   public Set<String> resolveNamespaceToPrefixes(String aNamespace)
    {
       return getBaseDef().findPrefixesForNamespace(aNamespace);
    }

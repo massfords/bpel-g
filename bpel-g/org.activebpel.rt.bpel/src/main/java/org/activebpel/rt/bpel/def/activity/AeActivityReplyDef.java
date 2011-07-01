@@ -17,6 +17,7 @@ import javax.xml.namespace.QName;
 import org.activebpel.rt.bpel.def.AeActivityPartnerLinkBaseDef;
 import org.activebpel.rt.bpel.def.AeVariableDef;
 import org.activebpel.rt.bpel.def.IAeToPartsParentDef;
+import org.activebpel.rt.bpel.def.activity.support.AeToPartDef;
 import org.activebpel.rt.bpel.def.activity.support.AeToPartsDef;
 import org.activebpel.rt.bpel.def.util.AeDefUtil;
 import org.activebpel.rt.bpel.def.visitors.IAeDefVisitor;
@@ -116,10 +117,10 @@ public class AeActivityReplyDef extends AeActivityPartnerLinkBaseDef implements 
    /**
     * @see org.activebpel.rt.bpel.def.IAeFromPartsParentDef#getFromPartDefs()
     */
-   public Iterator getToPartDefs()
+   public Iterator<? extends AeToPartDef> getToPartDefs()
    {
       if (getToPartsDef() == null)
-         return Collections.EMPTY_LIST.iterator();
+         return Collections.<AeToPartDef>emptyList().iterator();
       else
          return getToPartsDef().getToPartDefs();
    }

@@ -131,7 +131,7 @@ public abstract class AeWriterVisitor extends AeAbstractDefWriter implements IAe
     * @param aTagName The tag of the new element to create.
     * @param aPreferredPrefixesMap map of namespace URI's to prefix.
     */
-   public AeWriterVisitor( AeBaseXmlDef aDef, Element aParentElement, String aNamespace, String aTagName, Map aPreferredPrefixesMap )
+   public AeWriterVisitor( AeBaseXmlDef aDef, Element aParentElement, String aNamespace, String aTagName, Map<String, String> aPreferredPrefixesMap )
    {
       super(aDef, aParentElement, aNamespace, aTagName, aPreferredPrefixesMap);
    }

@@ -13,6 +13,7 @@ package org.activebpel.rt.axis.bpel.deploy;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -39,12 +40,9 @@ import org.w3c.dom.Element;
  */
 public class AeBprDeployment extends WSDDDeployment
 {
-   /**
-     * 
-     */
-    private static final long serialVersionUID = -1534981658258732140L;
+   private static final long serialVersionUID = -1534981658258732140L;
 
-/** Provider <code>QName</code> for BPEL RPC services. */ 
+   /** Provider <code>QName</code> for BPEL RPC services. */ 
    private static final QName BPEL_RPC_PROVIDER_QNAME =
       new QName(IAeWsddConstants.PROVIDER_NAMESPACE_URI, IAeWsddConstants.NAME_RPC_BINDING);
 
@@ -60,7 +58,7 @@ public class AeBprDeployment extends WSDDDeployment
    protected static final Logger log = Logger.getLogger("ActiveBPEL"); //$NON-NLS-1$
 
    /** Mapping of service classloaders (qname to classloader). */
-   protected Map mServiceClassloaderMap;
+   protected Map<Object, ClassLoader> mServiceClassloaderMap;
 
    /**
     * Constructor for Deployment.
@@ -81,10 +79,10 @@ public class AeBprDeployment extends WSDDDeployment
    /**
     * Returns the service to classloader map
     */
-   protected synchronized Map getServiceClassloaderMap()
+   protected synchronized Map<Object, ClassLoader> getServiceClassloaderMap()
    {
       if (mServiceClassloaderMap == null)
-         mServiceClassloaderMap = new java.util.HashMap();
+         mServiceClassloaderMap = new HashMap<Object, ClassLoader>();
       return mServiceClassloaderMap;
    }
 

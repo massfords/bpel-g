@@ -67,7 +67,7 @@ public class AeActivityScopeDef extends AeActivityDef
     * Set of resources used by this scope's compensation handler isolation
     * domain. Will be <code>null</code> if this is not an isolated scope.
     */
-   private Set mResourcesUsedByCompensationHandler;
+   private Set<String> mResourcesUsedByCompensationHandler;
 
    /**
     * Default constructor
@@ -360,7 +360,7 @@ public class AeActivityScopeDef extends AeActivityDef
     * Returns the set of resources used by this scope's compensation handler
     * isolation domain.
     */
-   public Set getResourcesUsedByCompensationHandler()
+   public Set<String> getResourcesUsedByCompensationHandler()
    {
       return mResourcesUsedByCompensationHandler;
    }
@@ -369,7 +369,7 @@ public class AeActivityScopeDef extends AeActivityDef
     * Sets the set of resources used by this scope's compensation handler
     * isolation domain.
     */
-   public void setResourcesUsedByCompensationHandler(Set aResourcesUsedByCompensationHandler)
+   public void setResourcesUsedByCompensationHandler(Set<String> aResourcesUsedByCompensationHandler)
    {
       mResourcesUsedByCompensationHandler = aResourcesUsedByCompensationHandler;
    }

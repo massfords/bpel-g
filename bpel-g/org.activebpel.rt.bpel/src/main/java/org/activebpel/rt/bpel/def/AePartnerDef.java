@@ -20,12 +20,9 @@ import org.activebpel.rt.bpel.def.visitors.IAeDefVisitor;
  */
 public class AePartnerDef extends AeNamedDef implements IAePartnerLinkParentDef
 {
-   /**
-     * 
-     */
-    private static final long serialVersionUID = 1300863792945266946L;
-/** List of strings which are the names of the associated partner links. */
-   private List<String> mPartnerLinks = new ArrayList();
+   private static final long serialVersionUID = 1300863792945266946L;
+   /** List of strings which are the names of the associated partner links. */
+   private List<String> mPartnerLinks = new ArrayList<String>();
 
    /**
     * Default constructor

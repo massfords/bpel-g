@@ -23,12 +23,9 @@ import org.activebpel.rt.bpel.def.visitors.IAeDefVisitor;
  */
 public class AeActivityValidateDef extends AeActivityDef
 {
-   /**
-     * 
-     */
-    private static final long serialVersionUID = -9005669307414799092L;
-/** The activity's 'variables' attribute. */
-   private List mVariables = new ArrayList();
+   private static final long serialVersionUID = -9005669307414799092L;
+   /** The activity's 'variables' attribute. */
+   private List<String> mVariables = new ArrayList<String>();
 
    /**
     * Default c'tor.

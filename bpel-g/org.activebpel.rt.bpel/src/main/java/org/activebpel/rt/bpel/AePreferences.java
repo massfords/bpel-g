@@ -133,7 +133,7 @@ public class AePreferences {
 	}
 	
 	public static Set<AeProcessEventType> getEnabledLogEvents() {
-		Set<AeProcessEventType> enabled = new HashSet();
+		Set<AeProcessEventType> enabled = new HashSet<AeProcessEventType>();
 		if (isLogDeadPathStatus())
 			enabled.add(AeProcessEventType.DeadPathStatus);
 		if (isLogExecuteComplete())

@@ -16,6 +16,7 @@ import java.io.ObjectOutput;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import javax.xml.namespace.QName;
 
@@ -115,9 +116,9 @@ public class AeMessageData implements IAeMessageData, Externalizable
          copy.mPartData = new HashMap<String,Object>(mPartData);
          
          // walk the map and deep clone any Nodes
-         for (Iterator iter = copy.mPartData.entrySet().iterator(); iter.hasNext();)
+         for (Iterator<Entry<String,Object>> iter = copy.mPartData.entrySet().iterator(); iter.hasNext();)
          {
-            Map.Entry entry = (Map.Entry) iter.next();
+            Map.Entry<String,Object> entry = iter.next();
             if (entry.getValue() instanceof Document)
             {
                Document doc = (Document) entry.getValue();

@@ -44,7 +44,7 @@ public class AeVariableValidator extends AeBaseValidator
    /** reference to the WSDL def that defines the variable's message or type */
    private AeBPELExtendedWSDLDef mWsdlDef;
    /** list of variable usage objects that record a variable's usage by a wsio activity, correlation, or assign */
-   private List mVariableUsers = new LinkedList();
+   private List<AeVariableUsage> mVariableUsers = new LinkedList<AeVariableUsage>();
    /** flag that indicates a variable is referenced by another model but without requiring any additional validation like the usage list */
    private boolean mReferenced;
    private BitSet mVariableUsage = new BitSet();
@@ -398,7 +398,7 @@ public class AeVariableValidator extends AeBaseValidator
     */
    public List buildVariableUsageWarnings()
    {
-      List warnings = new ArrayList();
+      List<String> warnings = new ArrayList<String>();
       // Get the BitSet for all types of reads
       BitSet readSet = and( mVariableUsage, ALL_READS);
       // Get the BitSet for all types of writes
