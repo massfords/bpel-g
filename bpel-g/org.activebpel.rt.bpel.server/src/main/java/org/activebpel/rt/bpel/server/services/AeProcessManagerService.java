@@ -31,20 +31,16 @@ import bpelg.services.processes.types.ServiceDeployments;
 public class AeProcessManagerService implements AeProcessManager {
 
     /** comparator for sorting the deployment detail objects */
-    private Comparator mDeploymentComparator = new Comparator() {
-        public int compare(Object o1, Object o2) {
-            ProcessDeployment one = (ProcessDeployment) o1;
-            ProcessDeployment two = (ProcessDeployment) o2;
+    private Comparator<ProcessDeployment> mDeploymentComparator = new Comparator<ProcessDeployment>() {
+        public int compare(ProcessDeployment one, ProcessDeployment two) {
             return one.getProcess().getName().getLocalPart().compareToIgnoreCase(
                     two.getProcess().getName().getLocalPart());
         }
     };
 
     /** comparator for service deployment objects */
-    private Comparator mServiceComparator = new Comparator() {
-        public int compare(Object o1, Object o2) {
-            ServiceDeployment one = (ServiceDeployment) o1;
-            ServiceDeployment two = (ServiceDeployment) o2;
+    private Comparator<ServiceDeployment> mServiceComparator = new Comparator<ServiceDeployment>() {
+        public int compare(ServiceDeployment one, ServiceDeployment two) {
             return one.getService().compareTo(two.getService());
         }
     };
@@ -123,7 +119,7 @@ public class AeProcessManagerService implements AeProcessManager {
 
     @Override
     public ServiceDeployments getServiceDeployments(GetServiceDeployments aBody) {
-        List sortedList = AeServiceMap.getServiceEntries();
+        List<ServiceDeployment> sortedList = AeServiceMap.getServiceEntries();
         Collections.sort(sortedList, mServiceComparator);
 
         return new ServiceDeployments().withServiceDeployment(sortedList);
@@ -149,7 +145,7 @@ public class AeProcessManagerService implements AeProcessManager {
     @Override
     public ProcessDeployments getProcessDeployments(GetProcessDeployments aBody) {
         IAeDeploymentProvider deploymentProvider = AeEngineFactory.getBean(IAeDeploymentProvider.class);
-        List<ProcessDeployment> list = new ArrayList();
+        List<ProcessDeployment> list = new ArrayList<ProcessDeployment>();
         for (Iterator iter = deploymentProvider.getDeployedPlans(); iter.hasNext();) {
             IAeProcessDeployment deployedProcess = (IAeProcessDeployment) iter.next();
             list.add(createProcessDetail(deployedProcess));

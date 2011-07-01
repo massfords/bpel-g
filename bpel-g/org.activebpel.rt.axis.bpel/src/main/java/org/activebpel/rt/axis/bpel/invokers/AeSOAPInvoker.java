@@ -21,7 +21,6 @@ import javax.xml.soap.SOAPException;
 import javax.xml.soap.SOAPMessage;
 
 import org.activebpel.rt.AeException;
-import org.activebpel.rt.axis.bpel.AeMessages;
 import org.activebpel.rt.axis.bpel.handlers.AeAttachmentUtil;
 import org.activebpel.rt.util.AeCloser;
 import org.activebpel.wsio.AeWebServiceMessageData;
@@ -111,7 +110,7 @@ public abstract class AeSOAPInvoker implements IAeInvoker
    {
       IAeWebServiceMessageData inputMessageData = aInvokeContext.getInvoke().getInputMessageData();
 
-      List attachments = inputMessageData.getAttachments();
+      List<IAeWebServiceAttachment> attachments = inputMessageData.getAttachments();
       
       
       if (attachments != null)
@@ -126,13 +125,9 @@ public abstract class AeSOAPInvoker implements IAeInvoker
            throw new AeException(ex1);
          }
          
-         for (Iterator itr = attachments.iterator();itr.hasNext();)
+         for (Iterator<IAeWebServiceAttachment> itr = attachments.iterator();itr.hasNext();)
          {
-            Object attachment = itr.next();
-            if(!(attachment instanceof IAeWebServiceAttachment))
-            {
-               new AeException(AeMessages.getString("AeSOAPInvoker.ERROR_1")); //$NON-NLS-1$
-            }
+        	IAeWebServiceAttachment attachment = itr.next();
             DataHandler dh = new DataHandler(new AeAttachmentDataSource((IAeWebServiceAttachment)attachment));
             AttachmentPart ap = (AttachmentPart)msg.createAttachmentPart(dh);
             ap.setContentId(((IAeWebServiceAttachment)attachment).getContentId());

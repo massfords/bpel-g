@@ -344,12 +344,9 @@ public class AeProcessDeployment implements IAeProcessDeployment {
 	 * 
 	 * @param aPartnerLinkDesc
 	 */
-	public void addPartnerLinkDescriptor(
-			AePartnerLinkDescriptor aPartnerLinkDesc) {
-		AePartnerLinkDef plDef = getProcessDef().findPartnerLink(
-				aPartnerLinkDesc.getPartnerLinkDefKey());
-		mPartnerLinkDescriptors.put(new AePartnerLinkDefKey(plDef),
-				aPartnerLinkDesc);
+	public void addPartnerLinkDescriptor(AePartnerLinkDescriptor aPartnerLinkDesc) {
+		AePartnerLinkDef plDef = getProcessDef().findPartnerLink(aPartnerLinkDesc.getPartnerLinkDefKey());
+		mPartnerLinkDescriptors.put(new AePartnerLinkDefKey(plDef), aPartnerLinkDesc);
 	}
 
 	/**
@@ -390,9 +387,9 @@ public class AeProcessDeployment implements IAeProcessDeployment {
 	 * @return service map as array of IAeServiceDeploymentInfo
 	 */
 	public ServiceDeployment[] getServiceInfos() {
-		List list = new ArrayList(getServiceMap().values());
+		List<ServiceDeployment> list = new ArrayList<ServiceDeployment>(getServiceMap().values());
 		ServiceDeployment[] infos = new ServiceDeployment[list.size()];
-		return (ServiceDeployment[]) list.toArray(infos);
+		return list.toArray(infos);
 	}
 
 	/**
@@ -477,7 +474,7 @@ public class AeProcessDeployment implements IAeProcessDeployment {
 
 	@Override
 	public Collection<ReferenceType> getAllReferenceTypes() {
-		List<ReferenceType> list = new LinkedList();
+		List<ReferenceType> list = new LinkedList<ReferenceType>();
 		List<ReferenceType> wsdl = getPdd().getReferences().getWsdl();
 		for(ReferenceType ref : wsdl) {
 			ref.setTypeURI(IAeConstants.WSDL_NAMESPACE);

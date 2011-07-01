@@ -395,7 +395,7 @@ public class AeProcessSuspendResumeHandler
    /**
     * Get the list of faulting activity location paths.
     */
-   protected List getFaultingActivityLocationPaths()
+   protected List<String> getFaultingActivityLocationPaths()
    {
       return getProcess().getFaultingActivityLocationPaths();
    }

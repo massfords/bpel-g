@@ -62,7 +62,7 @@ public class AeQueueManagerReplyReceiver implements IAeReplyReceiver
    /**
     * @see org.activebpel.rt.bpel.impl.reply.IAeReplyReceiver#onMessage(org.activebpel.rt.message.IAeMessageData, java.util.Map)
     */
-   public void onMessage(IAeMessageData aMessage, Map aProcessProperties) throws AeBusinessProcessException
+   public void onMessage(IAeMessageData aMessage, Map<String,String> aProcessProperties) throws AeBusinessProcessException
    {
       getDelegate().onMessage(aMessage, aProcessProperties);
    }
@@ -70,7 +70,7 @@ public class AeQueueManagerReplyReceiver implements IAeReplyReceiver
    /**
     * @see org.activebpel.rt.bpel.impl.reply.IAeReplyReceiver#onFault(org.activebpel.rt.bpel.IAeFault, java.util.Map)
     */
-   public void onFault(IAeFault aFault, Map aProcessProperties) throws AeBusinessProcessException
+   public void onFault(IAeFault aFault, Map<String,String> aProcessProperties) throws AeBusinessProcessException
    {
       getDelegate().onFault(aFault, aProcessProperties);
    }

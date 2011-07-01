@@ -55,7 +55,7 @@ public class AeWSBPELXPathLinkVariableContext implements VariableContext
       {
          String linkName = aLocalName;
          IAeFunction function = new AeGetLinkStatusFunction();
-         List args = new ArrayList();
+         List<String> args = new ArrayList<String>();
          args.add(linkName);
          try
          {

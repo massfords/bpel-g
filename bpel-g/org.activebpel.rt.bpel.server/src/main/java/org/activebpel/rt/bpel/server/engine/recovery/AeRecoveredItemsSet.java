@@ -20,14 +20,11 @@ import org.activebpel.rt.bpel.server.engine.recovery.recovered.IAeRecoveredItem;
  * requests. Extends {@link java.util.LinkedHashMap} to preserve order of
  * insertion for {@link #getRecoveredItems()}.
  */
-public class AeRecoveredItemsSet extends LinkedHashMap implements IAeRecoveredItemsSet
+public class AeRecoveredItemsSet extends LinkedHashMap<IAeRecoveredItem,IAeRecoveredItem> implements IAeRecoveredItemsSet
 {
-   /**
-     * 
-     */
-    private static final long serialVersionUID = 4790725409613185210L;
+   private static final long serialVersionUID = 4790725409613185210L;
 
-/**
+   /**
     * @see org.activebpel.rt.bpel.server.engine.recovery.IAeRecoveredItemsSet#addRecoveredItem(org.activebpel.rt.bpel.server.engine.recovery.recovered.IAeRecoveredItem)
     */
    public void addRecoveredItem(IAeRecoveredItem aRecoveredItem) throws AeRecoveryConflictingRequestException
@@ -43,9 +40,9 @@ public class AeRecoveredItemsSet extends LinkedHashMap implements IAeRecoveredIt
    /**
     * @see org.activebpel.rt.bpel.server.engine.recovery.IAeRecoveredItemsSet#getRecoveredItems()
     */
-   public List getRecoveredItems()
+   public List<IAeRecoveredItem> getRecoveredItems()
    {
-      return new LinkedList(this.values());
+      return new LinkedList<IAeRecoveredItem>(this.values());
    }
 
    /**

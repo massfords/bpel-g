@@ -35,7 +35,7 @@ public class AeProcessFilterAdapter {
 	protected int mCurrentRow;
 	/** Mapping of filter state to process states */
 	// FIXME disappointing that these values don't match up
-	private static Map<ProcessStateFilterValueType, ProcessStateValueType> sMappings = new HashMap();
+	private static Map<ProcessStateFilterValueType, ProcessStateValueType> sMappings = new HashMap<ProcessStateFilterValueType, ProcessStateValueType>();
 
 	static {
 		sMappings.put(ProcessStateFilterValueType.Completed,

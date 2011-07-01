@@ -40,7 +40,7 @@ public class AeProcessImplState implements IAeImplStateNames
    private AeFastElement mCurrentNode ;
 
    /** Stack to keep track of current node parent. */
-   private final LinkedList mParentStack = new LinkedList();
+   private final LinkedList<IAeFastParent> mParentStack = new LinkedList<IAeFastParent>();
 
    /** Visitor that traverses the implementation and populates this object. */
    private AeSaveImplStateVisitor mStateVisitor ;
@@ -49,7 +49,7 @@ public class AeProcessImplState implements IAeImplStateNames
    private boolean mForPersistence;
 
    /** <code>Map</code> from nodes in the state tree to associated location paths. */
-   private final Map mNodesToLocationPathsMap = new HashMap();
+   private final Map<AeFastElement,String> mNodesToLocationPathsMap = new HashMap<AeFastElement,String>();
 
    /**
     * Get the visitor used to record the current state.
@@ -205,7 +205,7 @@ public class AeProcessImplState implements IAeImplStateNames
          getNodesToLocationPathsMap().put(getCurrentNode(), aLocationPath);
 
          IAeFastParent parent = getCurrentParent();
-         String parentPath = (String) getNodesToLocationPathsMap().get(parent);
+         String parentPath = getNodesToLocationPathsMap().get(parent);
 
          if ((parentPath != null) && aLocationPath.startsWith(parentPath + "/")) //$NON-NLS-1$
          {
@@ -291,7 +291,7 @@ public class AeProcessImplState implements IAeImplStateNames
     * Returns <code>Map</code> from nodes in the state tree to associated
     * location paths. This is used only if serializing for persistence.
     */
-   protected Map getNodesToLocationPathsMap()
+   protected Map<AeFastElement,String> getNodesToLocationPathsMap()
    {
       return mNodesToLocationPathsMap;
    }
@@ -326,7 +326,7 @@ public class AeProcessImplState implements IAeImplStateNames
     *
     * @return LinkedList
     */
-   protected LinkedList getParentStack()
+   protected LinkedList<IAeFastParent> getParentStack()
    {
       return mParentStack;
    }
@@ -349,7 +349,7 @@ public class AeProcessImplState implements IAeImplStateNames
          throw new RuntimeException("Unmatched popParent()!"); //$NON-NLS-1$
       }
 
-      IAeFastParent parent = (IAeFastParent) getParentStack().removeFirst();
+      IAeFastParent parent = getParentStack().removeFirst();
 
       if (!(parent instanceof AeFastElement))
       {

@@ -46,7 +46,7 @@ public class AeQueuedExecutingLocationIdsCollector extends AeImplTraversingVisit
     */
    public Set<Integer> getExecutingLocationIds(IAeBusinessProcess aProcess) throws AeBusinessProcessException
    {
-      setExecutingLocationIds(new HashSet());
+      setExecutingLocationIds(new HashSet<Integer>());
       
       if (aProcess instanceof AeBusinessProcess)
       {

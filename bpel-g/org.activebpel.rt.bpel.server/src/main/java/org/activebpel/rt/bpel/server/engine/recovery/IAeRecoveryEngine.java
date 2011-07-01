@@ -14,6 +14,7 @@ import java.util.List;
 import org.activebpel.rt.bpel.AeBusinessProcessException;
 import org.activebpel.rt.bpel.IAeBusinessProcess;
 import org.activebpel.rt.bpel.impl.IAeBusinessProcessEngineInternal;
+import org.activebpel.rt.bpel.server.engine.recovery.journal.IAeJournalEntry;
 
 /**
  * Extends {@link org.activebpel.rt.bpel.impl.IAeBusinessProcessEngineInternal}
@@ -43,7 +44,7 @@ public interface IAeRecoveryEngine extends IAeBusinessProcessEngineInternal
     * @return A list of {@link org.activebpel.rt.bpel.server.engine.recovery.recovered.IAeRecoveredItem} instances.
     * @throws AeBusinessProcessException
     */
-   public List recover(IAeBusinessProcess aProcess, List aJournalEntries, boolean aQueueRecoveredItems) throws AeBusinessProcessException;
+   public List recover(IAeBusinessProcess aProcess, List<IAeJournalEntry> aJournalEntries, boolean aQueueRecoveredItems) throws AeBusinessProcessException;
 
    /**
     * Type safe getter for the specialized recovery process manager

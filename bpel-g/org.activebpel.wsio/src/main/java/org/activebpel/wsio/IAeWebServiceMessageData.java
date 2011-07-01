@@ -33,5 +33,5 @@ public interface IAeWebServiceMessageData extends Serializable
    /**
     * Get the message attachments.
     */
-   public List getAttachments();
+   public List<IAeWebServiceAttachment> getAttachments();
 }

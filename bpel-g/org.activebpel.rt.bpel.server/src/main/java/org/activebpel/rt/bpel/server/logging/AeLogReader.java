@@ -248,7 +248,7 @@ public class AeLogReader extends AeSQLObject
        */
       public Object handle(ResultSet rs) throws SQLException
       {
-         List list = new ArrayList();
+         List<AeLogEntry> list = new ArrayList<AeLogEntry>();
          
          while(rs.next())
          {

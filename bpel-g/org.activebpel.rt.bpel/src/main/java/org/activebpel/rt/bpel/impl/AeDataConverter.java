@@ -19,6 +19,7 @@ import org.activebpel.rt.bpel.AeMessageDataFactory;
 import org.activebpel.rt.bpel.IAeFault;
 import org.activebpel.rt.message.IAeMessageData;
 import org.activebpel.wsio.AeWebServiceMessageData;
+import org.activebpel.wsio.IAeWebServiceAttachment;
 import org.activebpel.wsio.IAeWebServiceMessageData;
 
 /**
@@ -105,7 +106,7 @@ public class AeDataConverter
          bpelMsg = AeMessageDataFactory.instance().createMessageData(aData.getMessageType(),
                aData.getMessageData());
 
-         List attachments = aData.getAttachments();
+         List<IAeWebServiceAttachment> attachments = aData.getAttachments();
          if ((attachments != null) && !attachments.isEmpty())
          {
             IAeAttachmentContainer container = sAttachmentManager.wsio2bpel(attachments);

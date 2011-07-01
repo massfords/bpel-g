@@ -45,7 +45,7 @@ public class AeQueuedLocationIdsCollector
    /** The set of location ids for queued activities. */
    private Set<Integer> mQueuedLocationIds;
    /** Maps location ids to the alarm object. Supports a one to many mapping. */
-   private Map<Integer,List<AeAlarm>> mAlarms = new HashMap();
+   private Map<Integer,List<AeAlarm>> mAlarms = new HashMap<Integer,List<AeAlarm>>();
 
    /**
     * Default constructor.
@@ -115,10 +115,10 @@ public class AeQueuedLocationIdsCollector
       // Technically shouldn't need this legacy check but it's possible that 
       // users could do a hard shutdown prior to upgrading and have old journal
       // items left behind.
-      List list = (List) getAlarms().get(aAlarm.getPathId());
+      List<AeAlarm> list = getAlarms().get(aAlarm.getPathId());
       if (list == null)
       {
-         list = new ArrayList();
+         list = new ArrayList<AeAlarm>();
          getAlarms().put(aAlarm.getPathId(), list);
       }
       list.add(aAlarm);
@@ -202,7 +202,7 @@ public class AeQueuedLocationIdsCollector
       {
          setProcess(aProcess);
          setKnownJournalEntries(aKnownJournalEntries);
-         setQueuedLocationIds(new HashSet());
+         setQueuedLocationIds(new HashSet<Integer>());
          
          // We don't need to wrap the following steps in a database transaction,
          // because if we happen to receive an alarm or message during this

@@ -25,9 +25,9 @@ public class AeThreadPool
    /** maximum number of free and working threads */
    private int mMaxPoolSize = 10;
    /** pooled threads that are available for work */
-   private Collection mFreeThreads = new LinkedList();
+   private Collection<AeWorkerThread> mFreeThreads = new LinkedList<AeWorkerThread>();
    /** threads that are currently busy working */
-   private Set mWorkingThreads = new HashSet();
+   private Set<AeWorkerThread> mWorkingThreads = new HashSet<AeWorkerThread>();
    /** increments with each thread we create, used for the thread name */
    private long mThreadCounter = 1;
    
@@ -36,10 +36,10 @@ public class AeThreadPool
     */
    public synchronized void killAllThreads()
    {
-      for(Iterator iter = mFreeThreads.iterator(); iter.hasNext(); )
-         ((AeWorkerThread)iter.next()).die();
-      for(Iterator iter = mWorkingThreads.iterator(); iter.hasNext(); )
-         ((AeWorkerThread)iter.next()).die();
+      for(Iterator<AeWorkerThread> iter = mFreeThreads.iterator(); iter.hasNext(); )
+         iter.next().die();
+      for(Iterator<AeWorkerThread> iter = mWorkingThreads.iterator(); iter.hasNext(); )
+         iter.next().die();
       mWorkingThreads.clear();
    }
    
@@ -71,7 +71,7 @@ public class AeThreadPool
       AeWorkerThread free = null;
       if (!mFreeThreads.isEmpty())
       {
-         free = (AeWorkerThread) mFreeThreads.iterator().next();
+         free = mFreeThreads.iterator().next();
          mFreeThreads.remove(free);
       }
       

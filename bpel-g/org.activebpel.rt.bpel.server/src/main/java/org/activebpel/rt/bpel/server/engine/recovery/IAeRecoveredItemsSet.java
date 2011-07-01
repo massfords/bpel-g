@@ -30,7 +30,7 @@ public interface IAeRecoveredItemsSet
    /**
     * Returns recovered items as a list.
     */
-   public List getRecoveredItems();
+   public List<IAeRecoveredItem> getRecoveredItems();
 
    /**
     * Removes and returns the recovered item that matches the given item;

@@ -38,7 +38,7 @@ public class AeProcessSnapshot implements IAeProcessSnapshot
     * Maps location paths to 2nd-level maps that map version numbers to
     * correlation sets.
     */
-   private Map mCorrelationSetLocationPathsMap;
+   private Map<String,Map<Integer,AeCorrelationSet>> mCorrelationSetLocationPathsMap;
 
    /** The set of correlation sets in the snapshot. */
    private Set mCorrelationSets;
@@ -47,7 +47,7 @@ public class AeProcessSnapshot implements IAeProcessSnapshot
     * Maps location paths to 2nd-level maps that map version numbers to
     * variables.
     */
-   private Map mVariableLocationPathsMap;
+   private Map<String,Map<Integer,IAeVariable>> mVariableLocationPathsMap;
 
    /** The set of variables in the snapshot. */
    private Set mVariables;
@@ -91,7 +91,7 @@ public class AeProcessSnapshot implements IAeProcessSnapshot
    {
       if (mCorrelationSetLocationPathsMap == null)
       {
-         Map<String,Map<Integer,AeCorrelationSet>> locationPathsMap = new HashMap();
+         Map<String,Map<Integer,AeCorrelationSet>> locationPathsMap = new HashMap<String,Map<Integer,AeCorrelationSet>>();
 
          // Iterate through all correlation sets in the snapshot.
          for (Iterator i = getCorrelationSets().iterator(); i.hasNext(); )
@@ -104,7 +104,7 @@ public class AeProcessSnapshot implements IAeProcessSnapshot
             Map<Integer,AeCorrelationSet> versionNumbersMap = locationPathsMap.get(locationPath);
             if (versionNumbersMap == null)
             {
-               versionNumbersMap = new HashMap();
+               versionNumbersMap = new HashMap<Integer,AeCorrelationSet>();
                locationPathsMap.put(locationPath, versionNumbersMap);
             }
 
@@ -125,7 +125,7 @@ public class AeProcessSnapshot implements IAeProcessSnapshot
    public Set<Integer> getCorrelationSetVersionNumbers(String aLocationPath)
    {
       Map<Integer,AeCorrelationSet> versionNumbersMap = getCorrelationSetLocationPathsMap().get(aLocationPath);
-      return (versionNumbersMap == null) ? Collections.EMPTY_SET : versionNumbersMap.keySet();
+      return (versionNumbersMap == null) ? Collections.<Integer>emptySet() : versionNumbersMap.keySet();
    }
 
    /**
@@ -190,7 +190,7 @@ public class AeProcessSnapshot implements IAeProcessSnapshot
    {
       if (mVariableLocationPathsMap == null)
       {
-         Map<String,Map<Integer,IAeVariable>> locationPathsMap = new HashMap();
+         Map<String,Map<Integer,IAeVariable>> locationPathsMap = new HashMap<String,Map<Integer,IAeVariable>>();
 
          // Iterate through all variables in the snapshot.
          for (Iterator i = getVariables().iterator(); i.hasNext(); )
@@ -203,7 +203,7 @@ public class AeProcessSnapshot implements IAeProcessSnapshot
             Map<Integer,IAeVariable> versionNumbersMap = locationPathsMap.get(locationPath);
             if (versionNumbersMap == null)
             {
-               versionNumbersMap = new HashMap();
+               versionNumbersMap = new HashMap<Integer,IAeVariable>();
                locationPathsMap.put(locationPath, versionNumbersMap);
             }
 
@@ -224,7 +224,7 @@ public class AeProcessSnapshot implements IAeProcessSnapshot
    public Set<Integer> getVariableVersionNumbers(String aLocationPath)
    {
       Map<Integer,IAeVariable> versionNumbersMap = getVariableLocationPathsMap().get(aLocationPath);
-      return (versionNumbersMap == null) ? Collections.EMPTY_SET : versionNumbersMap.keySet();
+      return (versionNumbersMap == null) ? Collections.<Integer>emptySet() : versionNumbersMap.keySet();
    }
 
    /**

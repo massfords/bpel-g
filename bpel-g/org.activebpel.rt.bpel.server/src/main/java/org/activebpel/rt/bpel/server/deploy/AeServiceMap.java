@@ -14,6 +14,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import javax.xml.namespace.QName;
 
@@ -28,7 +29,7 @@ public class AeServiceMap
    private static final AeServiceMap INSTANCE = new AeServiceMap();
    
    /** maps the service name to the service data */
-   private Map<String,ServiceDeployment> mMap = new HashMap();
+   private Map<String,ServiceDeployment> mMap = new HashMap<String,ServiceDeployment>();
    
    /**
     * singleton getter
@@ -41,9 +42,9 @@ public class AeServiceMap
    /**
     * Returns a list of <code>AeServiceDeploymentInfo</code> entries currently deployed in the engine. 
     */
-   public static List getServiceEntries()
+   public static List<ServiceDeployment> getServiceEntries()
    {
-      return new LinkedList(getInstance().mMap.values());
+      return new LinkedList<ServiceDeployment>(getInstance().mMap.values());
    }
    
    /**
@@ -56,7 +57,7 @@ public class AeServiceMap
    public void addServiceData(ServiceDeployment[] aServiceData)
    {
       // work off of a copy of the map so we don't have to sync the reads.
-      Map copy = new HashMap(mMap);
+      Map<String,ServiceDeployment> copy = new HashMap<String,ServiceDeployment>(mMap);
       for (int i = 0; i < aServiceData.length; i++)
       {
          copy.put(aServiceData[i].getService(), aServiceData[i]);
@@ -83,10 +84,10 @@ public class AeServiceMap
    public void processUndeployed(QName aProcessQName)
    {
       // work off of a copy of the map so we don't have to sync the reads.
-      Map<String,ServiceDeployment> copy = new HashMap(mMap);
-      for (Iterator iter = copy.entrySet().iterator(); iter.hasNext();)
+      Map<String,ServiceDeployment> copy = new HashMap<String,ServiceDeployment>(mMap);
+      for (Iterator<Entry<String,ServiceDeployment>> iter = copy.entrySet().iterator(); iter.hasNext();)
       {
-         Map.Entry<String,ServiceDeployment> entry = (Map.Entry) iter.next();
+         Entry<String,ServiceDeployment> entry = iter.next();
          ServiceDeployment data = entry.getValue();
          if (data.getProcessName().equals(aProcessQName))
          {

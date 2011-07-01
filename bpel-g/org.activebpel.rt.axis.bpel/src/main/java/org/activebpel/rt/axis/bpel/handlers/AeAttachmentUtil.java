@@ -29,7 +29,7 @@ import org.apache.axis.Message;
 public class AeAttachmentUtil
 {
 
-   public static List soap2wsioAttachments(Message aMessage) throws Exception
+   public static List<IAeWebServiceAttachment> soap2wsioAttachments(Message aMessage) throws Exception
    {
       return soap2wsioAttachments(aMessage, null);
    }
@@ -40,7 +40,7 @@ public class AeAttachmentUtil
     * @return List of attachments
     * @see IAeWebServiceAttachment
     */
-   public static List soap2wsioAttachments(Message aMessage, String aPrincipalName) throws Exception
+   public static List<IAeWebServiceAttachment> soap2wsioAttachments(Message aMessage, String aPrincipalName) throws Exception
    {
       //todo: only AeBpelHandler passes in the principalname from the message context. Check
       // if the following needs to pass in principal name as well:
