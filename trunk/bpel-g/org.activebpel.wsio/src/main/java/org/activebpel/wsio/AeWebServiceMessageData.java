@@ -29,7 +29,7 @@ public class AeWebServiceMessageData implements IAeWebServiceMessageData
    /** Message part data. */
    protected Map<String,Object> mParts = new HashMap<String,Object>();
    /** Optional list of attachments */
-   protected List mAttachments;
+   protected List<IAeWebServiceAttachment> mAttachments;
    
    /**
     * no arg ctor.
@@ -89,7 +89,7 @@ public class AeWebServiceMessageData implements IAeWebServiceMessageData
     * Setter for attachments.
     * @param aAttachments
     */
-   public void setAttachments( List aAttachments )
+   public void setAttachments( List<IAeWebServiceAttachment> aAttachments )
    {
       mAttachments = aAttachments;
    }
@@ -105,7 +105,7 @@ public class AeWebServiceMessageData implements IAeWebServiceMessageData
    /**
     * @see org.activebpel.wsio.IAeWebServiceMessageData#getAttachments()
     */
-   public List getAttachments()
+   public List<IAeWebServiceAttachment> getAttachments()
    {
       return mAttachments;
    }

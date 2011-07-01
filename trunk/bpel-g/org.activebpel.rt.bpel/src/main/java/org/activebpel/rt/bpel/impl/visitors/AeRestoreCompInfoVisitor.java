@@ -17,6 +17,7 @@ import java.util.Map;
 
 import org.activebpel.rt.bpel.AeBusinessProcessException;
 import org.activebpel.rt.bpel.IAePartnerLink;
+import org.activebpel.rt.bpel.IAeVariable;
 import org.activebpel.rt.bpel.impl.AeAbstractBpelObject;
 import org.activebpel.rt.bpel.impl.AeBusinessProcess;
 import org.activebpel.rt.bpel.impl.AePartnerLink;
@@ -132,15 +133,15 @@ public class AeRestoreCompInfoVisitor extends AeBaseRestoreVisitor
             // This element contains the compensation info object's inner data.
             // Reconstruct the variables, correlation sets, partner links, and enclosed
             // compensation info objects.
-            Map variables = createCompInfoVariables(aElement, scope);
-            Map correlationSets = createCompInfoCorrelationSets(aElement, scope);
-            Map partnerLinks = createCompInfoPartnerLinks(aElement, scope);
+            Map<String,IAeVariable> variables = createCompInfoVariables(aElement, scope);
+            Map<String, AeCorrelationSet> correlationSets = createCompInfoCorrelationSets(aElement, scope);
+            Map<String,IAePartnerLink> partnerLinks = createCompInfoPartnerLinks(aElement, scope);
             AeScopeSnapshot snapshot = new AeScopeSnapshot(variables, correlationSets, partnerLinks);
             compInfo.setSnapshot(snapshot);
 
             String xpath = "./" + STATE_COMPINFO; //$NON-NLS-1$
             List enclosedScopeElements = selectNodes(aElement, xpath, "Error restoring enclosed compensation info"); //$NON-NLS-1$
-            LinkedList enclosedScopes = new LinkedList();
+            LinkedList<AeCompInfo> enclosedScopes = new LinkedList<AeCompInfo>();
 
             for (Iterator i = enclosedScopeElements.iterator(); i.hasNext(); )
             {
@@ -166,11 +167,11 @@ public class AeRestoreCompInfoVisitor extends AeBaseRestoreVisitor
     * @return Map
     * @throws AeBusinessProcessException
     */
-   protected Map createCompInfoCorrelationSets(Element aCompInfoElement, AeActivityScopeImpl aScope) throws AeBusinessProcessException
+   protected Map<String, AeCorrelationSet> createCompInfoCorrelationSets(Element aCompInfoElement, AeActivityScopeImpl aScope) throws AeBusinessProcessException
    {
       String xpath = "./" + STATE_CORRSET; //$NON-NLS-1$
       List elements = selectNodes(aCompInfoElement, xpath, "Error restoring compensation info correlation sets"); //$NON-NLS-1$
-      Map map = new HashMap();
+      Map<String, AeCorrelationSet> map = new HashMap<String, AeCorrelationSet>();
 
       for (Iterator i = elements.iterator(); i.hasNext(); )
       {
@@ -203,11 +204,11 @@ public class AeRestoreCompInfoVisitor extends AeBaseRestoreVisitor
     * @return Map
     * @throws AeBusinessProcessException
     */
-   protected Map createCompInfoVariables(Element aCompInfoElement, AeActivityScopeImpl aScope) throws AeBusinessProcessException
+   protected Map<String,IAeVariable> createCompInfoVariables(Element aCompInfoElement, AeActivityScopeImpl aScope) throws AeBusinessProcessException
    {
       String xpath = "./" + STATE_VAR; //$NON-NLS-1$
       List elements = selectNodes(aCompInfoElement, xpath, "Error restoring compensation info variables"); //$NON-NLS-1$
-      Map map = new HashMap();
+      Map<String,IAeVariable> map = new HashMap<String,IAeVariable>();
 
       for (Iterator i = elements.iterator(); i.hasNext(); )
       {

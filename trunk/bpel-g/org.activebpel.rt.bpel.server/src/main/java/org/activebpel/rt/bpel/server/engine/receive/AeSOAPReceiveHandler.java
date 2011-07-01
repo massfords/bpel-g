@@ -180,8 +180,7 @@ public abstract class AeSOAPReceiveHandler extends AeAbstractReceiveHandler {
 
 			// Copy attachments.
 			if (aResponse.getMessageData() != null) {
-				responseData.setAttachments(aResponse.getMessageData()
-						.getAttachments());
+				responseData.setAttachments(aResponse.getMessageData().getAttachments());
 			}
 		}
 

@@ -385,7 +385,7 @@ public abstract class AeBpelHandler extends AeHandler implements IAePolicyConsta
       
       Message soapMessage = new Message(resEnv);
       
-      List attachments = aWsResponse.getMessageData().getAttachments();
+      List<IAeWebServiceAttachment> attachments = aWsResponse.getMessageData().getAttachments();
       if ((attachments != null) && (attachments.size() > 0))
       {
          // Attachments need to be added to the the soap message.
@@ -397,10 +397,9 @@ public abstract class AeBpelHandler extends AeHandler implements IAePolicyConsta
          try
          {
             // Create the SOAP Message attachments
-            for(Iterator attachmentItr = attachments.iterator(); attachmentItr.hasNext();)
+            for(Iterator<IAeWebServiceAttachment> attachmentItr = attachments.iterator(); attachmentItr.hasNext();)
             {
-               IAeWebServiceAttachment attachment = (IAeWebServiceAttachment)attachmentItr.next();
-                
+               IAeWebServiceAttachment attachment = attachmentItr.next();
                AttachmentPart soapAttachment = (AttachmentPart)soapMessage.createAttachmentPart();
                String mimeType = attachment.getMimeType();
                soapAttachment.setContent(attachment.getContent(),mimeType);

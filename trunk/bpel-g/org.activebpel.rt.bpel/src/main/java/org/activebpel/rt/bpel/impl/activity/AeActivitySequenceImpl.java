@@ -25,7 +25,7 @@ import org.activebpel.rt.bpel.impl.visitors.IAeImplVisitor;
 public class AeActivitySequenceImpl extends AeActivityImpl implements IAeActivityParent
 {
    /** activities to execute in sequence */
-   private ArrayList mActivities = new ArrayList();
+   private ArrayList<IAeActivity> mActivities = new ArrayList<IAeActivity>();
    
    /** constructor for sequence activity */
    public AeActivitySequenceImpl(AeActivitySequenceDef aActivityDef, IAeActivityParent aParent)
@@ -48,7 +48,7 @@ public class AeActivitySequenceImpl extends AeActivityImpl implements IAeActivit
    }
 
    /** returns an iterator of activity objects to be executed in sequence */
-   public Iterator getChildrenForStateChange()
+   public Iterator<IAeActivity> getChildrenForStateChange()
    {
       return mActivities.iterator();
    }

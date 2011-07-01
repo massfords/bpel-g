@@ -31,7 +31,7 @@ public class AeWorkItem implements WorkItem
    /** stores the status of the work that was scheduled */
    protected int mStatus;
    /** list of work done listeners */
-   protected List mListeners;
+   protected List<IAeWorkDoneListener> mListeners;
    
    /**
     * Constructor which takes as input a Work object.
@@ -49,7 +49,7 @@ public class AeWorkItem implements WorkItem
    public synchronized void addWorkDoneListener(IAeWorkDoneListener aListener)
    {
       if (mListeners == null)
-         mListeners = new ArrayList();
+         mListeners = new ArrayList<IAeWorkDoneListener>();
       
       mListeners.add(aListener);
    }
@@ -60,8 +60,8 @@ public class AeWorkItem implements WorkItem
     */
    public synchronized void notifyListeners()
    {
-      for (Iterator iter=getListeners().iterator(); iter.hasNext();)
-         ((IAeWorkDoneListener)iter.next()).workDone();
+      for (Iterator<IAeWorkDoneListener> iter=getListeners().iterator(); iter.hasNext();)
+         iter.next().workDone();
    }
    
    /** 
@@ -75,9 +75,9 @@ public class AeWorkItem implements WorkItem
    /**
     * Getter for the list of listeners with lazy instantiation.
     */
-   protected List getListeners()
+   protected List<IAeWorkDoneListener> getListeners()
    {
-      return (mListeners != null ? mListeners : Collections.EMPTY_LIST);
+      return (mListeners != null ? mListeners : Collections.<IAeWorkDoneListener>emptyList());
    }
    
    /**

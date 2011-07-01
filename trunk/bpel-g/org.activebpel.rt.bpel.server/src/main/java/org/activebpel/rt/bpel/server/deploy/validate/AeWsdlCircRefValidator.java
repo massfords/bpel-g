@@ -48,7 +48,7 @@ public class AeWsdlCircRefValidator implements IAePredeploymentValidator
          IAeCatalogMapping mapping = (IAeCatalogMapping) iter.next();
          Document wsdlDom = mapping.getDocument();
 
-         HashSet imports = new HashSet();
+         HashSet<String> imports = new HashSet<String>();
          imports.add(mapping.getLocationHint());
          try
          {
@@ -74,7 +74,7 @@ public class AeWsdlCircRefValidator implements IAePredeploymentValidator
     * @throws AeException
     */
    protected void searchForCircularRefs( Document aWsdlDom, 
-      Map aWsdlCatalog, Set aImports, IAeBpr aBpr )
+      Map aWsdlCatalog, Set<String> aImports, IAeBpr aBpr )
          throws AeCircularRefException, AeException    
    {
       NodeList imports = aWsdlDom.getElementsByTagNameNS( aWsdlDom.getDocumentElement().getNamespaceURI(), IMPORT_ELEMENT );

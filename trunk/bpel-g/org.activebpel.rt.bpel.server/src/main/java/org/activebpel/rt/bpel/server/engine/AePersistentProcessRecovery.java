@@ -91,7 +91,7 @@ public class AePersistentProcessRecovery implements IAeProcessRecovery
     *
     * @param aProcessId
     */
-   protected List getJournalEntries(long aProcessId)
+   protected List<IAeJournalEntry> getJournalEntries(long aProcessId)
    {
       try
       {
@@ -100,7 +100,7 @@ public class AePersistentProcessRecovery implements IAeProcessRecovery
       catch (AeStorageException e)
       {
          AeException.logError(e, AeMessages.format("AePersistentProcessRecovery.ERROR_0", aProcessId)); //$NON-NLS-1$
-         return Collections.EMPTY_LIST;
+         return Collections.<IAeJournalEntry>emptyList();
       }
    }
 
@@ -148,7 +148,7 @@ public class AePersistentProcessRecovery implements IAeProcessRecovery
    {
       if (mPreparedProcessIds == null)
       {
-         mPreparedProcessIds = new TreeSet();
+         mPreparedProcessIds = new TreeSet<Long>();
       }
 
       return mPreparedProcessIds;
@@ -412,7 +412,7 @@ public class AePersistentProcessRecovery implements IAeProcessRecovery
       // pending invokes (in which case the invokes will no longer be pending
       // after recovery).
       long processId = aProcess.getProcessId();
-      List journalEntries = getJournalEntries(processId);
+      List<IAeJournalEntry> journalEntries = getJournalEntries(processId);
 
       // Remove the restart process journal entry.
       journalEntries = removeRestartProcessJournalEntry(journalEntries);
@@ -555,14 +555,14 @@ public class AePersistentProcessRecovery implements IAeProcessRecovery
     *
     * @param aEntries
     */
-   protected List removeRestartProcessJournalEntry(List aEntries)
+   protected List<IAeJournalEntry> removeRestartProcessJournalEntry(List<IAeJournalEntry> aEntries)
    {
-      List entries = new ArrayList(aEntries.size());
+      List<IAeJournalEntry> entries = new ArrayList<IAeJournalEntry>(aEntries.size());
 
       // Add all but the restart process journal entry.
-      for (Iterator i = aEntries.iterator(); i.hasNext(); )
+      for (Iterator<IAeJournalEntry> i = aEntries.iterator(); i.hasNext(); )
       {
-         IAeJournalEntry entry = (IAeJournalEntry) i.next();
+         IAeJournalEntry entry = i.next();
 
          if (!(entry instanceof AeRestartProcessJournalEntry))
          {

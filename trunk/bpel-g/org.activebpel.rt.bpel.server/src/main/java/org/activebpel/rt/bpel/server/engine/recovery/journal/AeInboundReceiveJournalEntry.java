@@ -11,6 +11,8 @@ package org.activebpel.rt.bpel.server.engine.recovery.journal;
 
 import java.util.Collections;
 
+import javax.xml.namespace.QName;
+
 import org.activebpel.rt.bpel.AeBusinessProcessException;
 import org.activebpel.rt.bpel.IAeBusinessProcess;
 import org.activebpel.rt.bpel.def.AePartnerLinkOpKey;
@@ -112,7 +114,7 @@ public class AeInboundReceiveJournalEntry extends AeAbstractJournalEntry impleme
          // process.
          IAeMessageReceiverActivity activity = (IAeMessageReceiverActivity) aProcess.findBpelObject(locationId);
          AePartnerLinkOpKey plinkKey = activity.getPartnerLinkOperationImplKey();
-         AeInboundReceive inboundReceive = new AeInboundReceive(plinkKey, Collections.EMPTY_MAP, aProcess.getProcessPlan(), messageData, new AeMessageContext(), null);
+         AeInboundReceive inboundReceive = new AeInboundReceive(plinkKey, Collections.<QName,String>emptyMap(), aProcess.getProcessPlan(), messageData, new AeMessageContext(), null);
          
          engine.getQueueManager().removeMessageReceiver(processId, locationId);
          aProcess.dispatchReceiveData(locationId, inboundReceive, IAeReplyReceiver.NULL_REPLY_ID);

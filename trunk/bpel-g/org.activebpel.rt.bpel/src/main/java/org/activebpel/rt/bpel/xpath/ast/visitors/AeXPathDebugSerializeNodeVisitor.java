@@ -49,7 +49,7 @@ public class AeXPathDebugSerializeNodeVisitor extends AeAbstractTraversingXPathN
    public AeXPathDebugSerializeNodeVisitor()
    {
       setBuffer(new AeUnsynchronizedCharArrayWriter());
-      setNodeStack(new Stack());
+      setNodeStack(new Stack<AeAbstractXPathNode>());
    }
 
    /**

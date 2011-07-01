@@ -20,6 +20,8 @@ import java.util.Set;
 import java.util.prefs.PreferenceChangeEvent;
 import java.util.prefs.PreferenceChangeListener;
 
+import javax.xml.namespace.QName;
+
 import org.activebpel.rt.IAePolicyConstants;
 import org.activebpel.rt.bpel.AeBusinessProcessException;
 import org.activebpel.rt.bpel.AePreferences;
@@ -340,13 +342,13 @@ public class AeQueueStorage extends AeAbstractStorage implements
 
 		for (Iterator it = aCorrProps.getCollection().iterator(); found == null
 				&& it.hasNext();) {
-			Set propsForMap = new HashSet((Set) it.next());
+			Set<QName> propsForMap = new HashSet<QName>((Set) it.next());
 			if (aInboundReceive.getContext().getWsAddressingHeaders()
 					.getConversationId() != null) {
 				// add engine managed correlation property to the set
 				propsForMap.add(IAePolicyConstants.CONVERSATION_ID_HEADER);
 			}
-			Map map = new HashMap(aInboundReceive.getCorrelation());
+			Map<QName,String> map = new HashMap<QName,String>(aInboundReceive.getCorrelation());
 			map.keySet().retainAll(propsForMap);
 
 			receives = getMatchingReceives(aInboundReceive, map);
@@ -374,9 +376,9 @@ public class AeQueueStorage extends AeAbstractStorage implements
 		AePersistedMessageReceiver found = null;
 		List receives = null;
 
-		Set propsForMap = new HashSet();
+		Set<QName> propsForMap = new HashSet<QName>();
 		propsForMap.add(IAePolicyConstants.CONVERSATION_ID_HEADER);
-		Map map = new HashMap(aInboundReceive.getCorrelation());
+		Map<QName,String> map = new HashMap<QName,String>(aInboundReceive.getCorrelation());
 		map.keySet().retainAll(propsForMap);
 
 		receives = getMatchingReceives(aInboundReceive, map);

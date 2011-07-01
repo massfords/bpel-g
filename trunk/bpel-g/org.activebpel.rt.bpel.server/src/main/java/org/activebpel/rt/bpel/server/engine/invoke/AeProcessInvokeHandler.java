@@ -280,12 +280,12 @@ public class AeProcessInvokeHandler implements IAeTwoPhaseInvokeHandler, IAeMess
       finally
       {
          // Close wsData attachmentstreams to eliminate redundant temporary files.
-         List attachments = wsData.getAttachments();
+         List<IAeWebServiceAttachment> attachments = wsData.getAttachments();
          if (attachments != null)
          {
-            for (Iterator wsItr = attachments.iterator(); wsItr.hasNext();)
+            for (Iterator<IAeWebServiceAttachment> wsItr = attachments.iterator(); wsItr.hasNext();)
             {
-               AeCloser.close(((IAeWebServiceAttachment) wsItr.next()).getContent());
+               AeCloser.close(wsItr.next().getContent());
             }
          }
       }
@@ -477,9 +477,10 @@ public class AeProcessInvokeHandler implements IAeTwoPhaseInvokeHandler, IAeMess
          
          // resolve policy references
          IAeContextWSDLProvider wsdlProvider = AeEngineFactory.getBean(IAeDeploymentProvider.class).findDeploymentPlan(aInvoke.getProcessId(), aInvoke.getProcessName());
-         List resolvedPolicies = aEndpoint.getEffectivePolicies(wsdlProvider, aInvoke.getPortType(), aInvoke.getOperation());
+         List<Element> resolvedPolicies = aEndpoint.getEffectivePolicies(wsdlProvider, aInvoke.getPortType(), aInvoke.getOperation());
          
-         Map callProperties = AeEngineFactory.getBean(IAePolicyMapper.class).getCallProperties(resolvedPolicies);
+         IAePolicyMapper<?> mapper = AeEngineFactory.getBean(IAePolicyMapper.class);
+         Map<String,?> callProperties = mapper.getCallProperties(resolvedPolicies);
          // check for principal header policy 
          QName principalName = (QName) callProperties.get(IAePolicyConstants.TAG_ASSERT_MAP_PROCESS_INTIATOR);
          if (!AeUtil.isNullOrEmpty(principalName))

@@ -34,7 +34,7 @@ import org.activebpel.rt.message.IAeMessageData;
 public class AeToPartsMessageDataProducer extends AeAbstractMessageDataProducer
 {
    /** The list of copy operations. */
-   private List mCopyOperations;
+   private List<IAeCopyOperation> mCopyOperations;
 
    /**
     * Constructs a <code>toParts</code> message data producer for the given
@@ -94,11 +94,11 @@ public class AeToPartsMessageDataProducer extends AeAbstractMessageDataProducer
     * definitions to an anonymous variable that will wrap the outgoing message
     * data.
     */
-   protected List getCopyOperations(IAeMessageDataProducerContext aContext) throws AeBusinessProcessException
+   protected List<IAeCopyOperation> getCopyOperations(IAeMessageDataProducerContext aContext) throws AeBusinessProcessException
    {
       if (mCopyOperations == null)
       {
-         mCopyOperations = new LinkedList();
+         mCopyOperations = new LinkedList<IAeCopyOperation>();
 
          IAeMessageDataProducerDef def = aContext.getMessageDataProducerDef();
          for (Iterator i = def.getToPartsDef().getToPartDefs(); i.hasNext(); )

@@ -116,13 +116,13 @@ public class AeRecoveryEngine extends AeAbstractServerEngine implements IAeRecov
     * @param aProcess
     * @param aStaleLocationIds
     */
-   protected void addStaleRequestRemovalItems(List aRecoveredItems, IAeBusinessProcess aProcess, Set aStaleLocationIds)
+   protected void addStaleRequestRemovalItems(List<IAeRecoveredItem> aRecoveredItems, IAeBusinessProcess aProcess, Set<Integer> aStaleLocationIds)
    {
       long processId = aProcess.getProcessId();
 
-      for (Iterator i = aStaleLocationIds.iterator(); i.hasNext(); )
+      for (Iterator<Integer> i = aStaleLocationIds.iterator(); i.hasNext(); )
       {
-         int locationId = ((Number) i.next()).intValue();
+         int locationId = i.next().intValue();
          IAeBpelObject aImpl = aProcess.findBpelObject(locationId);
          
          if (aImpl instanceof IAeAlarmReceiver)
@@ -146,15 +146,15 @@ public class AeRecoveryEngine extends AeAbstractServerEngine implements IAeRecov
     * @param aProcess
     * @throws AeBusinessProcessException
     */
-   protected void dispatchJournalEntries(List aJournalEntries, IAeBusinessProcess aProcess) throws AeBusinessProcessException
+   protected void dispatchJournalEntries(List<IAeJournalEntry> aJournalEntries, IAeBusinessProcess aProcess) throws AeBusinessProcessException
    {
       // Loop until we dispatch all of the journal entries or the process
       // completes.
-      Iterator i = aJournalEntries.iterator();
+      Iterator<? extends IAeJournalEntry> i = aJournalEntries.iterator();
 
       while (i.hasNext())
       {
-         IAeJournalEntry entry = (IAeJournalEntry) i.next();
+         IAeJournalEntry entry = i.next();
          
          // This code used to stop looping as soon as the process reached a final
          // state but it was changed to ask the journal entry if it should be
@@ -240,9 +240,9 @@ public class AeRecoveryEngine extends AeAbstractServerEngine implements IAeRecov
     * Returns location ids of requests that are currently queued but should no
     * longer be queued, because the corresponding activity is not executing.
     */
-   protected Set getStaleLocationIds(Set aQueuedLocationIds, Set aExecutingLocationIds)
+   protected Set<Integer> getStaleLocationIds(Set<Integer> aQueuedLocationIds, Set<Integer> aExecutingLocationIds)
    {
-      Set staleLocationIds = new HashSet(aQueuedLocationIds);
+      Set<Integer> staleLocationIds = new HashSet<Integer>(aQueuedLocationIds);
       staleLocationIds.removeAll(aExecutingLocationIds);
 
       return staleLocationIds;
@@ -285,17 +285,17 @@ public class AeRecoveryEngine extends AeAbstractServerEngine implements IAeRecov
    /**
     * @see org.activebpel.rt.bpel.server.engine.recovery.IAeRecoveryEngine#recover(org.activebpel.rt.bpel.IAeBusinessProcess, java.util.List, boolean)
     */
-   public List recover(IAeBusinessProcess aProcess, List aJournalEntries, boolean aQueueRecoveredItems) throws AeBusinessProcessException
+   public List recover(IAeBusinessProcess aProcess, List<IAeJournalEntry> aJournalEntries, boolean aQueueRecoveredItems) throws AeBusinessProcessException
    {
       // Extract sent reply objects.
-      List sentReplies = getSentReplies(aJournalEntries);
+      List<AeReply> sentReplies = getSentReplies(aJournalEntries);
 
       // Extract invoke transmitted journal entries.
       List invokeTransmittedEntries = getInvokeTransmittedEntries(aJournalEntries);
 
       // Recover the process state and generate a complete list of recovered
       // alarm and queue manager requests.
-      List recoveredItems = recover(aProcess, aJournalEntries, sentReplies, invokeTransmittedEntries);
+      List<IAeRecoveredItem> recoveredItems = recover(aProcess, aJournalEntries, sentReplies, invokeTransmittedEntries);
 
       // Get location ids for requests that are already queued.
       AeQueuedLocationIdsCollector collector = new AeQueuedLocationIdsCollector();
@@ -308,7 +308,7 @@ public class AeRecoveryEngine extends AeAbstractServerEngine implements IAeRecov
       Set<Integer> executingLocationIds = getExecutingLocationIds(aProcess);
 
       // Get location ids for queued requests that should be removed.
-      Set staleLocationIds = getStaleLocationIds(collector.getQueuedLocationIds(), executingLocationIds);
+      Set<Integer> staleLocationIds = getStaleLocationIds(collector.getQueuedLocationIds(), executingLocationIds);
 
       // Add recovered items to remove stale requests.
       addStaleRequestRemovalItems(recoveredItems, aProcess, staleLocationIds);
@@ -334,7 +334,7 @@ public class AeRecoveryEngine extends AeAbstractServerEngine implements IAeRecov
     * @return A list of {@link org.activebpel.rt.bpel.server.engine.recovery.recovered.IAeRecoveredItem} instances.
     * @throws AeBusinessProcessException
     */
-   protected synchronized List recover(IAeBusinessProcess aProcess, List aJournalEntries, List aSentReplies, List aInvokeTransmittedEntries) throws AeBusinessProcessException
+   protected synchronized List<IAeRecoveredItem> recover(IAeBusinessProcess aProcess, List<IAeJournalEntry> aJournalEntries, List<AeReply> aSentReplies, List aInvokeTransmittedEntries) throws AeBusinessProcessException
    {
       // The whole method is synchronized, because we can only recover one
       // process at a time.
@@ -523,14 +523,13 @@ public class AeRecoveryEngine extends AeAbstractServerEngine implements IAeRecov
     * Returns invoke transmitted journal entries from the given list of journal
     * entries.
     */
-   protected List getInvokeTransmittedEntries(List aJournalEntries) throws AeBusinessProcessException
+   protected List<IAeJournalEntry> getInvokeTransmittedEntries(List<IAeJournalEntry> aJournalEntries) throws AeBusinessProcessException
    {
-      List transmittedInvokeEntries = new LinkedList();
+      List<IAeJournalEntry> transmittedInvokeEntries = new LinkedList<IAeJournalEntry>();
 
-      for (Iterator i = aJournalEntries.iterator(); i.hasNext(); )
+      for (Iterator<IAeJournalEntry> i = aJournalEntries.iterator(); i.hasNext(); )
       {
-         IAeJournalEntry entry = (IAeJournalEntry) i.next();
-
+         IAeJournalEntry entry = i.next();
          if (entry instanceof AeInvokeTransmittedJournalEntry)
          {
             transmittedInvokeEntries.add(entry);

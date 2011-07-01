@@ -27,7 +27,7 @@ public class AeProcessWorkQueue
    private final long mProcessId;
 
    /** <code>Work</code> objects waiting to be scheduled with the "real" work manager. */
-   private final Collection mWaitingQueue = new LinkedList();
+   private final Collection<Work>  mWaitingQueue = new LinkedList<Work> ();
 
    /** The number of <code>Work</code> objects currently scheduled for the process. */
    private int mScheduledCount = 0;
@@ -87,7 +87,7 @@ public class AeProcessWorkQueue
    /**
     * Returns the <code>Work</code> objects waiting to be scheduled.
     */
-   protected Collection getWaitingQueue()
+   protected Collection<Work> getWaitingQueue()
    {
       return mWaitingQueue;
    }

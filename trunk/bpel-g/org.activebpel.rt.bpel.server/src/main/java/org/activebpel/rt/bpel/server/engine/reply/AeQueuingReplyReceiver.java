@@ -121,7 +121,7 @@ public class AeQueuingReplyReceiver extends AeReplyReceiverBase
     * @param aAckCallback optional message acknoledge callback.
     * @throws AeBusinessProcessException
     */
-   protected void queueInvokeFault(IAeFault aFault, Map aProcessProperties, IAeMessageAcknowledgeCallback aAckCallback) throws AeBusinessProcessException
+   protected void queueInvokeFault(IAeFault aFault, Map<String,String> aProcessProperties, IAeMessageAcknowledgeCallback aAckCallback) throws AeBusinessProcessException
    {
       setFault(aFault);
       setBusinessProcessProperties(aProcessProperties);
@@ -149,7 +149,7 @@ public class AeQueuingReplyReceiver extends AeReplyReceiverBase
     * @param aAckCallback
     * @throws AeBusinessProcessException
     */
-   protected void queueInvokeData(IAeMessageData aMessageData, Map aProcessProperties, IAeMessageAcknowledgeCallback aAckCallback) throws AeBusinessProcessException
+   protected void queueInvokeData(IAeMessageData aMessageData, Map<String,String> aProcessProperties, IAeMessageAcknowledgeCallback aAckCallback) throws AeBusinessProcessException
    {
       setMessageData(aMessageData);
       setBusinessProcessProperties(aProcessProperties);

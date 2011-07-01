@@ -72,7 +72,7 @@ public class AeWSBPELFaultFactory extends AeBaseFaultFactory implements IAeFault
    };
    
    /** standard BPEL faults */
-   private static Set STANDARD_FAULTS_SET = new HashSet(Arrays.asList(STANDARD_FAULTS));
+   private static Set<String> STANDARD_FAULTS_SET = new HashSet<String>(Arrays.asList(STANDARD_FAULTS));
 
    /**
     * Ctor accepts namespace

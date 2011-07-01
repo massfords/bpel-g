@@ -46,7 +46,7 @@ public class AeWsa2005EndpointSerializer extends AeWSAddressingEndpointSerialize
     * Overrides method to put policy and extensibility elements in a wsa:Metadata element as defined in the 2005 spec 
     * @see org.activebpel.rt.bpel.impl.endpoints.AeWSAddressingEndpointSerializer#addMetadata(org.activebpel.wsio.IAeWebServiceEndpointReference, org.w3c.dom.Element)
     */
-   protected void addMetadata(IAeWebServiceEndpointReference aRef, Element aElement, Map aQNamePrefixMap)
+   protected void addMetadata(IAeWebServiceEndpointReference aRef, Element aElement, Map<String, String> aQNamePrefixMap)
    {
       if (!AeUtil.isNullOrEmpty(aRef.getServiceName()) || aRef.getExtensibilityElements().hasNext() || !aRef.getPolicies().isEmpty())
       {
