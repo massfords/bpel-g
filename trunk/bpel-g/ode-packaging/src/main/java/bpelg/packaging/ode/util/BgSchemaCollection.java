@@ -45,7 +45,7 @@ public class BgSchemaCollection {
 
     private static Log log = LogFactory.getLog(BgSchemaCollection.class);
     
-    private Map schemas;
+    private Map<String,BgSchema> schemas;
     private URI baseUri;
     
     public BgSchemaCollection() {
@@ -57,7 +57,7 @@ public class BgSchemaCollection {
             log.debug("Initializing schema collection with baseUri: " + baseUri);
         }
         this.baseUri = baseUri;
-        this.schemas = new HashMap();
+        this.schemas = new HashMap<String,BgSchema>();
     }
     
     public BgSchema getSchema(String namespaceURI) {
@@ -109,7 +109,7 @@ public class BgSchemaCollection {
     
     protected void handleImports(BgSchema schema) throws Exception {
         NodeList children = schema.getRoot().getChildNodes();
-        List imports = new ArrayList();
+        List<Element> imports = new ArrayList<Element>();
         for (int i = 0; i < children.getLength(); i++) {
             Node child = children.item(i);
             if (child instanceof Element) {
@@ -120,8 +120,8 @@ public class BgSchemaCollection {
                 }
             }
         }
-        for (Iterator iter = imports.iterator(); iter.hasNext();) {
-            Element ce = (Element) iter.next();
+        for (Iterator<Element> iter = imports.iterator(); iter.hasNext();) {
+            Element ce = iter.next();
             String namespace = ce.getAttribute("namespace");
             if (schemas.get(namespace) == null) {
                 String location = ce.getAttribute("schemaLocation");

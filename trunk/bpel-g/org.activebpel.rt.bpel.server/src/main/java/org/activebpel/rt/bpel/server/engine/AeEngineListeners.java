@@ -7,7 +7,7 @@ import org.activebpel.rt.bpel.IAeBusinessProcessEngine;
 import org.activebpel.rt.bpel.IAeEngineListener;
 
 public class AeEngineListeners {
-	private List<IAeEngineListener> mListeners = Collections.EMPTY_LIST;
+	private List<IAeEngineListener> mListeners = Collections.<IAeEngineListener>emptyList();
 	private IAeBusinessProcessEngine mEngine;
 	
 	public void init() {

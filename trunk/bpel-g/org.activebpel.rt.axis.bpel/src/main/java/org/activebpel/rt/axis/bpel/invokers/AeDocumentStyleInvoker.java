@@ -61,7 +61,7 @@ public class AeDocumentStyleInvoker extends AeSOAPInvoker
       
       List orderedParts = aInvokeContext.getOperation().getInput().getMessage().getOrderedParts(null);
       
-      ArrayList list = new ArrayList();
+      ArrayList<SOAPBodyElement> list = new ArrayList<SOAPBodyElement>();
       Map messageData = getMessageData(aInvokeContext);
       List outboundAttachments = addAttachments(aInvokeContext);
       AeWebServiceMessageData outputMsg;

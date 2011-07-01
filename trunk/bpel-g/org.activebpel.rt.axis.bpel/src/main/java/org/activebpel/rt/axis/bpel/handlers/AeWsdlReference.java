@@ -54,7 +54,6 @@ import org.apache.axis.description.ServiceDesc;
  */
 public class AeWsdlReference implements IAeWsdlReference, IAeCatalogListener
 {
-
    // error constants
    private static final String NO_WSDL_FOR_PARTNER_LINK_TYPE = "AeWsdlReference.ERROR_1"; //$NON-NLS-1$
    private static final String NO_PARTNER_LINK_FOUND         = "AeWsdlReference.ERROR_2"; //$NON-NLS-1$
@@ -79,11 +78,11 @@ public class AeWsdlReference implements IAeWsdlReference, IAeCatalogListener
    /** The partner link def object. */
    private AePartnerLinkDef mPartnerLinkDef;
    /** Allowed methods. */
-   private List mAllowedMethods;
+   private List<String> mAllowedMethods;
    /** List of operations. */
-   private ArrayList mOperations;
+   private ArrayList<OperationDesc> mOperations;
    /** Keeps track of overloaded methods. */
-   private Map mNameToOperationsMap;
+   private Map<String, List<OperationDesc>> mNameToOperationsMap;
    
    /**
     * Constructor.
@@ -102,8 +101,8 @@ public class AeWsdlReference implements IAeWsdlReference, IAeCatalogListener
       mProcessQName = aProcessQName;
       mPartnerLinkType = aPartnerLinkType;
       mTransportUrl = aTransportUrl;
-      mOperations = new ArrayList();
-      mNameToOperationsMap = new HashMap();
+      mOperations = new ArrayList<OperationDesc>();
+      mNameToOperationsMap = new HashMap<String, List<OperationDesc>>();
    }
 
    /**
@@ -215,7 +214,7 @@ public class AeWsdlReference implements IAeWsdlReference, IAeCatalogListener
    protected void initOperations() throws Exception
    {
       getOperationsInternal().clear();
-      ArrayList allowedMethods = new ArrayList();
+      List<String> allowedMethods = new ArrayList<String>();
       for( Iterator iter = getWsdlDef().getOperations( getPortTypeQName() ); iter.hasNext(); )
       {
          Operation operation = (Operation)iter.next();
@@ -295,10 +294,10 @@ public class AeWsdlReference implements IAeWsdlReference, IAeCatalogListener
       
       // Add name to nameToOperations Map
       String name = aOperation.getName();
-      ArrayList overloads = (ArrayList) getNameToOperationsMap().get(name);
+      List<OperationDesc> overloads = getNameToOperationsMap().get(name);
       if (overloads == null)
       {
-         overloads = new ArrayList();
+         overloads = new ArrayList<OperationDesc>();
          getNameToOperationsMap().put(name, overloads);
       }
       overloads.add(aOperation);
@@ -337,7 +336,7 @@ public class AeWsdlReference implements IAeWsdlReference, IAeCatalogListener
    /**
     * @return Synchronized access to list of operations.
     */
-   public synchronized ArrayList getOperations()
+   public synchronized ArrayList<OperationDesc> getOperations()
    {
       return getOperationsInternal();
    }
@@ -361,10 +360,10 @@ public class AeWsdlReference implements IAeWsdlReference, IAeCatalogListener
    public synchronized OperationDesc[] getOperationsByName(String aMethodName)
    {
       OperationDesc[] array = null;
-      ArrayList overloads = (ArrayList)getNameToOperationsMap().get( aMethodName );
+      List<OperationDesc> overloads = getNameToOperationsMap().get( aMethodName );
       if (overloads != null)
       {
-         array = (OperationDesc[])overloads.toArray( new OperationDesc[overloads.size()]);
+         array = overloads.toArray( new OperationDesc[overloads.size()]);
       }
       return array; 
    }
@@ -377,10 +376,10 @@ public class AeWsdlReference implements IAeWsdlReference, IAeCatalogListener
    public synchronized OperationDesc getOperationByName(String methodName)
    {
       OperationDesc operation = null;
-      ArrayList overloads = (ArrayList)getNameToOperationsMap().get(methodName);
+      List<OperationDesc> overloads = getNameToOperationsMap().get(methodName);
       if (overloads != null)
       {
-         operation = (OperationDesc)overloads.get(0);
+         operation = overloads.get(0);
       }
       return operation;
    }
@@ -505,7 +504,7 @@ public class AeWsdlReference implements IAeWsdlReference, IAeCatalogListener
    /**
     * @param aAllowedMethods The allowedMethods to set.
     */
-   protected void setAllowedMethods(List aAllowedMethods)
+   protected void setAllowedMethods(List<String> aAllowedMethods)
    {
       mAllowedMethods = aAllowedMethods;
    }
@@ -537,7 +536,7 @@ public class AeWsdlReference implements IAeWsdlReference, IAeCatalogListener
    /**
     * Internal, unsynchronized access to list of operations.
     */
-   protected ArrayList getOperationsInternal()
+   protected ArrayList<OperationDesc> getOperationsInternal()
    {
       return mOperations;
    }
@@ -545,7 +544,7 @@ public class AeWsdlReference implements IAeWsdlReference, IAeCatalogListener
    /**
     * @return Returns the nameToOperationsMap.
     */
-   protected Map getNameToOperationsMap()
+   protected Map<String, List<OperationDesc>> getNameToOperationsMap()
    {
       return mNameToOperationsMap;
    }

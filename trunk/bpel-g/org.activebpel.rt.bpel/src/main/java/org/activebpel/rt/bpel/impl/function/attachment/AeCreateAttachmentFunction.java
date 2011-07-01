@@ -93,7 +93,7 @@ public class AeCreateAttachmentFunction extends AeAbstractAttachmentFunction
       IAeBusinessProcessInternal process = aContext.getAbstractBpelObject().getProcess();
 
       long pid = process.getProcessId();
-      Map attributes = new HashMap();
+      Map<String, String> attributes = new HashMap<String, String>();
       attributes.put(AeMimeUtil.CONTENT_TYPE_ATTRIBUTE, mimeType);
       attributes.put(AeMimeUtil.CONTENT_ID_ATTRIBUTE, numArgs == 4 ? getStringArg(aArgs,3) : AeMimeUtil.AE_DEFAULT_INLINE_CONTENT_ID + pid);
 
@@ -111,7 +111,7 @@ public class AeCreateAttachmentFunction extends AeAbstractAttachmentFunction
     * @param aContext
     * @throws AeFunctionCallException
     */
-   public IAeAttachmentItem addVariableAttachment(String aVariableName, Map aAttachmentProps, String aContent, IAeFunctionExecutionContext aContext) throws AeFunctionCallException
+   public IAeAttachmentItem addVariableAttachment(String aVariableName, Map<String, String> aAttachmentProps, String aContent, IAeFunctionExecutionContext aContext) throws AeFunctionCallException
    {
       IAeVariable variable = getVariable(aContext.getAbstractBpelObject(), aVariableName);
       IAeBusinessProcessInternal process = aContext.getAbstractBpelObject().getProcess();

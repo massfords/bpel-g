@@ -30,7 +30,7 @@ public class AeEngineConfigExtensionRegistry extends
 	private List<AeExtensionEntry> mExtensions;
 	
 	public void init() {
-		Map map = new HashMap();
+		Map<QName,String> map = new HashMap<QName,String>();
 		if (getExtensions() != null) {
 			for(AeExtensionEntry entry : getExtensions()) {
 				map.put(new QName(entry.getNamespace(), entry.getLocalPart()), entry.getClassName());

@@ -52,9 +52,9 @@ public class AeCreateSampleMessage
     * Creates a sample for the given message
     * @param aMessage
     */
-   public LinkedHashMap create(AeBPELExtendedWSDLDef aDef, Message aMessage) throws AeException
+   public LinkedHashMap<Part,Object> create(AeBPELExtendedWSDLDef aDef, Message aMessage) throws AeException
    {
-      LinkedHashMap map = new LinkedHashMap();
+      LinkedHashMap<Part,Object> map = new LinkedHashMap<Part,Object>();
 
       List parts = aMessage.getOrderedParts(null);
 

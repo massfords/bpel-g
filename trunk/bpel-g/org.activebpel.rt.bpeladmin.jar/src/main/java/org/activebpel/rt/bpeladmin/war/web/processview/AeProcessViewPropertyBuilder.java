@@ -421,7 +421,7 @@ public class AeProcessViewPropertyBuilder extends AeProcessWebPropertyBuilder
       public boolean mAvailable = false;
       public String mEditValue = null;
       public String mDisplayValue = null;
-      public List mAttachmentDetails = new LinkedList();
+      public List<AeAttachmentViewBean> mAttachmentDetails = new LinkedList<AeAttachmentViewBean>();
    }
 
    public class AeAttachmentDetail

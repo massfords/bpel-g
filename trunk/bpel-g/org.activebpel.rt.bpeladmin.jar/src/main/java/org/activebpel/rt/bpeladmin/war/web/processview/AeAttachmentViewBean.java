@@ -15,6 +15,7 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import org.activebpel.rt.util.AeMimeUtil;
 import org.activebpel.rt.util.AeUTF8Util;
@@ -25,7 +26,7 @@ import org.activebpel.rt.util.AeUTF8Util;
 public class AeAttachmentViewBean
 {
    /** Mime headers associated with the attachment */
-   private Map mHeaders;
+   private Map<String, String> mHeaders;
 
    /** attachment content id */
    private long mAttachmentId;
@@ -74,7 +75,7 @@ public class AeAttachmentViewBean
    public void setHeader(String aName, String aValue)
    {
       if (mHeaders == null)
-         mHeaders = new LinkedHashMap();
+         mHeaders = new LinkedHashMap<String, String>();
       
       mHeaders.put(aName, aValue);
    }
@@ -114,13 +115,13 @@ public class AeAttachmentViewBean
    /**
     * Returns the list of headers in the form of AeAttachmentHeader objects
     */
-   public List getHeaders()
+   public List<AeAttachmentHeader> getHeaders()
    {
-      List headers = new ArrayList();
-      for (Iterator iter = mHeaders.entrySet().iterator(); iter.hasNext();)
+      List<AeAttachmentHeader> headers = new ArrayList<AeAttachmentHeader>();
+      for (Iterator<Entry<String, String>> iter = mHeaders.entrySet().iterator(); iter.hasNext();)
       {
-         Map.Entry entry = (Map.Entry)iter.next();
-         headers.add(new AeAttachmentHeader((String)entry.getKey(), (String)entry.getValue()));
+         Entry<String, String> entry = iter.next();
+         headers.add(new AeAttachmentHeader(entry.getKey(), entry.getValue()));
       }
       
       return headers;

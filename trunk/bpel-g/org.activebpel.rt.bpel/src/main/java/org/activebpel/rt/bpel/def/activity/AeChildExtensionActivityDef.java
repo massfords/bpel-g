@@ -131,7 +131,7 @@ implements IAeAlarmParentDef, IAeFromParentDef, IAeConditionParentDef,
    /**
     * @see org.activebpel.rt.bpel.def.IAeFromPartsParentDef#getFromPartDefs()
     */
-   public Iterator<AeFromPartDef> getFromPartDefs()
+   public Iterator<? extends AeFromPartDef> getFromPartDefs()
    {
       return getChildren(AeFromPartDef.class).iterator();
    }
@@ -155,7 +155,7 @@ implements IAeAlarmParentDef, IAeFromParentDef, IAeConditionParentDef,
    /**
     * @see org.activebpel.rt.bpel.def.IAeToPartsParentDef#getToPartDefs()
     */
-   public Iterator<AeToPartDef> getToPartDefs()
+   public Iterator<? extends AeToPartDef> getToPartDefs()
    {
       return getChildren(AeToPartDef.class).iterator();
    }

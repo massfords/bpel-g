@@ -13,7 +13,7 @@ import org.w3c.dom.Element;
 public class BgPddInfo {
     private AeProcessDef mProcessDef;
     private String mLocation;
-    private Map<String,BgPlink> mPartnerLinks = new HashMap();
+    private Map<String,BgPlink> mPartnerLinks = new HashMap<String,BgPlink>();
     
     public BgPddInfo(AeProcessDef aProcessDef, String aLocation) { 
         mProcessDef = aProcessDef;

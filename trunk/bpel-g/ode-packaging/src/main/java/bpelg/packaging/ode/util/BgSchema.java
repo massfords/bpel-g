@@ -32,7 +32,7 @@ public class BgSchema {
 
     private Element root;
     private String namespace;
-    private List imports;
+    private List<String> imports;
     private URI sourceUri;
     
     /**
@@ -41,7 +41,7 @@ public class BgSchema {
      */
     public void addImport(String namespace) {
         if (imports == null) {
-            imports = new ArrayList();
+            imports = new ArrayList<String>();
         }
         imports.add(namespace);
     }
@@ -56,7 +56,7 @@ public class BgSchema {
     /**
      * @param imports The imports to set.
      */
-    public void setImports(List imports) {
+    public void setImports(List<String> imports) {
         this.imports = imports;
     }
 

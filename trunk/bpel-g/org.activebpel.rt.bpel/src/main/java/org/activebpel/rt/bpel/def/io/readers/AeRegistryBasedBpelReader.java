@@ -172,12 +172,12 @@ public class AeRegistryBasedBpelReader implements IAeBpelReader
       pathVisitor.visit(aDef);
 
       // populate bidirectional maps between location paths and location ids
-      Map locationPathsToIds = new HashMap();
+      Map<String,Integer> locationPathsToIds = new HashMap<String,Integer>();
       for (Iterator i = pathVisitor.getLocationPaths().iterator(); i.hasNext(); )
       {
          String locationPath = (String) i.next();
          int locationId = pathVisitor.getLocationId(locationPath);
-         locationPathsToIds.put(locationPath, new Integer(locationId));
+         locationPathsToIds.put(locationPath, Integer.valueOf(locationId));
       }
       aDef.setLocationPathsToIds(locationPathsToIds);
    }

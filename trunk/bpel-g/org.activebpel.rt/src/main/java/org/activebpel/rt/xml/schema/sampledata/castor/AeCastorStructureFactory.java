@@ -27,6 +27,7 @@ import org.activebpel.rt.xml.schema.sampledata.structure.AeAny;
 import org.activebpel.rt.xml.schema.sampledata.structure.AeAnyAttribute;
 import org.activebpel.rt.xml.schema.sampledata.structure.AeAnyTypeElement;
 import org.activebpel.rt.xml.schema.sampledata.structure.AeAttribute;
+import org.activebpel.rt.xml.schema.sampledata.structure.AeBaseAttribute;
 import org.activebpel.rt.xml.schema.sampledata.structure.AeBaseElement;
 import org.activebpel.rt.xml.schema.sampledata.structure.AeChoice;
 import org.activebpel.rt.xml.schema.sampledata.structure.AeComplexElement;
@@ -195,7 +196,7 @@ public class AeCastorStructureFactory
     */
    private static void processEnumerations(AeSimpleElement aElement, SimpleType aType)
    {
-      List enumerations = new ArrayList();
+      List<String> enumerations = new ArrayList<String>();
       Enumeration enumer = aType.getLocalFacets();
       if ( enumer != null )
       {
@@ -317,7 +318,7 @@ public class AeCastorStructureFactory
       aeAttr.setFixedValue(aAttrDecl.getFixedValue());
 
       // process enumerations.
-      List enumerations = new ArrayList();
+      List<String> enumerations = new ArrayList<String>();
       if ( type instanceof SimpleType )
       {
          SimpleType simpleType = (SimpleType)type;
@@ -410,9 +411,9 @@ public class AeCastorStructureFactory
     * @param aComplexType
     * @return List
     */
-   private static List createAttributes(ComplexType aComplexType)
+   private static List<AeBaseAttribute> createAttributes(ComplexType aComplexType)
    {
-      List attribs = new ArrayList();
+      List<AeBaseAttribute> attribs = new ArrayList<AeBaseAttribute>();
       Enumeration enumer = aComplexType.getAttributeDecls();
       while ( enumer.hasMoreElements() )
       {

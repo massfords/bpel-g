@@ -32,18 +32,19 @@ public class AeGridTable
    private AeLayoutPrefs mLayoutPrefs;
 
    /** Holds all members of the grid table */
-   private ArrayList mGridData;
+   private ArrayList<AeGridElement> mGridData;
 
    /** Buckets which are used to group siblings together */
-   private ArrayList mBuckets[];   
+   private ArrayList<AeGridElement> mBuckets[];   
 
    /**
     * Constructs the table with the given layout preferences.
     */
+   @SuppressWarnings("unchecked")
    public AeGridTable(AeLayoutPrefs aPrefs)
    {
       mLayoutPrefs = aPrefs;
-      mGridData = new ArrayList(10);      
+      mGridData = new ArrayList<AeGridElement>(10);      
       mBuckets  = new ArrayList[10];       
    }
 
@@ -104,9 +105,9 @@ public class AeGridTable
    public int getNextColumnForRow(int aRow)
    {
       int slot = -1;         
-      for (Iterator iter = mGridData.iterator(); iter.hasNext();)
+      for (Iterator<AeGridElement> iter = mGridData.iterator(); iter.hasNext();)
       {
-         AeGridElement gridElement = (AeGridElement)iter.next();
+         AeGridElement gridElement = iter.next();
          if (gridElement.getRow() == aRow)
             slot = Math.max(slot, gridElement.getColumn());
       }
@@ -123,9 +124,9 @@ public class AeGridTable
    public int getNextRowForColumn(int aCol)
    {
       int slot = -1;         
-      for (Iterator iter = mGridData.iterator(); iter.hasNext();)
+      for (Iterator<AeGridElement> iter = mGridData.iterator(); iter.hasNext();)
       {
-         AeGridElement gridElement = (AeGridElement)iter.next();
+         AeGridElement gridElement = iter.next();
          if (gridElement.getColumn() == aCol)
             slot = Math.max(slot, gridElement.getRow());
       }
@@ -142,9 +143,9 @@ public class AeGridTable
     */
    public AeGridElement getGridElement(int aRow, int aCol)
    {
-      for (Iterator iter = mGridData.iterator(); iter.hasNext();)
+      for (Iterator<AeGridElement> iter = mGridData.iterator(); iter.hasNext();)
       {
-         AeGridElement gridElement = (AeGridElement)iter.next();
+         AeGridElement gridElement = iter.next();
          if (gridElement.getRow() == aRow && gridElement.getColumn() == aCol)
             return gridElement;
       }
@@ -162,9 +163,9 @@ public class AeGridTable
    public AeGridElement findGridElement(AeBpelControllerBase aNode)
    {
       AeGridElement gridElement = null;         
-      for (Iterator iter = mGridData.iterator(); iter.hasNext();)
+      for (Iterator<AeGridElement> iter = mGridData.iterator(); iter.hasNext();)
       {
-         gridElement = (AeGridElement)iter.next();
+         gridElement = iter.next();
          if (gridElement.getNode() == aNode)
             break;
       }
@@ -181,9 +182,9 @@ public class AeGridTable
    public AeGridElement findGridElement(AeBpelObjectBase aNode)
    {
       AeGridElement gridElement = null;         
-      for (Iterator iter = mGridData.iterator(); iter.hasNext();)
+      for (Iterator<AeGridElement> iter = mGridData.iterator(); iter.hasNext();)
       {
-         gridElement = (AeGridElement)iter.next();
+         gridElement = iter.next();
          if (gridElement.getNode().getBpelModel() == aNode)
             break;
       }
@@ -410,7 +411,7 @@ public class AeGridTable
       {
          if (mBuckets[0] == null)
          {
-            mBuckets[0] = new ArrayList(10);
+            mBuckets[0] = new ArrayList<AeGridElement>(10);
          }  
          mBuckets[0].add(aElement);
          elementAdded = true;
@@ -424,7 +425,7 @@ public class AeGridTable
             if (mBuckets[i] != null)
             {
                // Get sample sibling to check parental association
-               AeGridElement sibling = (AeGridElement)mBuckets[i].get(0);
+               AeGridElement sibling = mBuckets[i].get(0);
                for (Iterator iter = sibling.getParents().iterator(); iter.hasNext();)
                {
                   if (aElement.getParents().indexOf(iter.next()) >= 0)
@@ -469,13 +470,14 @@ public class AeGridTable
                
                // Create a new array of buckets 50% greater than the previous one
                // Then copy the old bucket contents to the newly created bucket array
-               ArrayList newBuckets[] = new ArrayList[(int)(mBuckets.length * 1.5)];               
+               @SuppressWarnings("unchecked")
+			   ArrayList<AeGridElement> newBuckets[] = new ArrayList[(int)(mBuckets.length * 1.5)];               
                System.arraycopy(mBuckets, 0, newBuckets, 0, mBuckets.length);
                mBuckets = newBuckets;
             }
             
             // Now create the list for the bucket and add the element to it
-            mBuckets[freeBucket] = new ArrayList(10);
+            mBuckets[freeBucket] = new ArrayList<AeGridElement>(10);
             mBuckets[freeBucket].add(aElement);            
          }
       }      
@@ -490,9 +492,9 @@ public class AeGridTable
       {
          if (mBuckets[i] != null)
          {
-            for (Iterator iter = mBuckets[i].iterator(); iter.hasNext();)
+            for (Iterator<AeGridElement> iter = mBuckets[i].iterator(); iter.hasNext();)
             {
-               AeGridElement sibling = (AeGridElement)iter.next();
+               AeGridElement sibling = iter.next();
                sibling.setColumn(col++);
             }            
          }         
@@ -557,9 +559,9 @@ public class AeGridTable
       boolean simpleGrid = isSimpleGrid();
 
       // Process all container elements within grid to assign proper coordinates 
-      for (Iterator iter = mGridData.iterator(); iter.hasNext();)
+      for (Iterator<AeGridElement> iter = mGridData.iterator(); iter.hasNext();)
       {
-         AeGridElement gridElement = (AeGridElement)iter.next();
+         AeGridElement gridElement = iter.next();
          AeGraphFigure nodeFig = gridElement.getNode().getFigure();
          int col = gridElement.getColumn();
          int colCenter = 0;
@@ -613,9 +615,9 @@ public class AeGridTable
       }
 
       // Process all container elements within grid to assign proper coordinates 
-      for (Iterator iter = mGridData.iterator(); iter.hasNext();)
+      for (Iterator<AeGridElement> iter = mGridData.iterator(); iter.hasNext();)
       {
-         AeGridElement gridElement = (AeGridElement)iter.next();
+         AeGridElement gridElement = iter.next();
          AeGraphFigure nodeFig = gridElement.getNode().getFigure();
          
          int col = gridElement.getColumn();
@@ -643,9 +645,9 @@ public class AeGridTable
    public int getMaxCols()
    {
       int maxCols = 0;         
-      for (Iterator iter = mGridData.iterator(); iter.hasNext();)
+      for (Iterator<AeGridElement> iter = mGridData.iterator(); iter.hasNext();)
       {
-         maxCols = Math.max(maxCols, ((AeGridElement)iter.next()).getColumn());
+         maxCols = Math.max(maxCols, (iter.next()).getColumn());
       }  
       return maxCols + 1;
    }
@@ -658,9 +660,9 @@ public class AeGridTable
    public int getMaxRows()
    {
       int maxRows = 0;         
-      for (Iterator iter = mGridData.iterator(); iter.hasNext();)
+      for (Iterator<AeGridElement> iter = mGridData.iterator(); iter.hasNext();)
       {
-         maxRows = Math.max(maxRows, ((AeGridElement)iter.next()).getRow());
+         maxRows = Math.max(maxRows, (iter.next()).getRow());
       }  
       return maxRows + 1;
    }
@@ -674,9 +676,9 @@ public class AeGridTable
    public int getMaxRowHeight(int aRow)
    {
       int maxHeight = 0;         
-      for (Iterator iter = mGridData.iterator(); iter.hasNext();)
+      for (Iterator<AeGridElement> iter = mGridData.iterator(); iter.hasNext();)
       {
-         AeGridElement gridElement = (AeGridElement)iter.next();
+         AeGridElement gridElement = iter.next();
          if (gridElement.getRow() == aRow)
          {
             maxHeight = Math.max(maxHeight, gridElement.getNode().getFigure().getSize().height);
@@ -694,9 +696,9 @@ public class AeGridTable
    public int getMaxRowWidth(int aRow)
    {
       int maxWidth = 0;         
-      for (Iterator iter = mGridData.iterator(); iter.hasNext();)
+      for (Iterator<AeGridElement> iter = mGridData.iterator(); iter.hasNext();)
       {
-         AeGridElement gridElement = (AeGridElement)iter.next();
+         AeGridElement gridElement = iter.next();
          if (gridElement.getRow() == aRow)
          {
             maxWidth = Math.max(maxWidth, gridElement.getNode().getFigure().getSize().width);
@@ -716,9 +718,9 @@ public class AeGridTable
    {
       boolean simpleGrid = isSimpleGrid();
       int maxWidth = 0;         
-      for (Iterator iter = mGridData.iterator(); iter.hasNext();)
+      for (Iterator<AeGridElement> iter = mGridData.iterator(); iter.hasNext();)
       {
-         AeGridElement gridElement = (AeGridElement)iter.next();
+         AeGridElement gridElement = iter.next();
          if (gridElement.getColumn() == aColumn)
          {
             int nodeWidth = gridElement.getNode().getFigure().getSize().width;
@@ -758,9 +760,9 @@ public class AeGridTable
     */
    protected boolean isSimpleGrid()
    {
-      for (Iterator iter = mGridData.iterator(); iter.hasNext();)
+      for (Iterator<AeGridElement> iter = mGridData.iterator(); iter.hasNext();)
       {
-         AeGridElement gridElement = (AeGridElement)iter.next();
+         AeGridElement gridElement = iter.next();
          if(getSimpleFigure(gridElement) == null)
          {
             return false;
@@ -799,9 +801,9 @@ public class AeGridTable
    public int getMaxColHeight(int aColumn)
    {
       int maxHeight = 0;         
-      for (Iterator iter = mGridData.iterator(); iter.hasNext();)
+      for (Iterator<AeGridElement> iter = mGridData.iterator(); iter.hasNext();)
       {
-         AeGridElement gridElement = (AeGridElement)iter.next();
+         AeGridElement gridElement = iter.next();
          if (gridElement.getColumn() == aColumn)
          {
             maxHeight = Math.max(maxHeight, gridElement.getNode().getFigure().getSize().height);
@@ -820,9 +822,9 @@ public class AeGridTable
     */   
    public void insertColumn(int aCol)
    {
-      for (Iterator iter = mGridData.iterator(); iter.hasNext();)
+      for (Iterator<AeGridElement> iter = mGridData.iterator(); iter.hasNext();)
       {
-         AeGridElement gridElement = (AeGridElement)iter.next();
+         AeGridElement gridElement = iter.next();
          if (gridElement.getColumn() >= aCol)
          {
             gridElement.setColumn(gridElement.getColumn() + 1);

@@ -73,7 +73,7 @@ import org.w3c.dom.Text;
  */
 public class AeWSBPELWriterVisitor extends AeWriterVisitor
 {
-   private static final Map sPreferredPrefixes = Collections.singletonMap(IAeBPELConstants.WSBPEL_2_0_NAMESPACE_URI, "bpel"); //$NON-NLS-1$
+   private static final Map<String,String> sPreferredPrefixes = Collections.singletonMap(IAeBPELConstants.WSBPEL_2_0_NAMESPACE_URI, "bpel"); //$NON-NLS-1$
    
    /** Flag indicating if the portType attribute for the WSIO activities should written. */
    private boolean mWritePortTypeAttrib;

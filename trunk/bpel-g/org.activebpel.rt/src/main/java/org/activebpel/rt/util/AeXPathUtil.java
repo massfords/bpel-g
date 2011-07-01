@@ -343,16 +343,16 @@ public class AeXPathUtil
     * @param aNsPrefixUriMap
     * @return List of strings or empty list of not found.
     */
-   public static List selectTextList(Node aNode, String aPath, Map aNsPrefixUriMap)
+   public static List<String> selectTextList(Node aNode, String aPath, Map aNsPrefixUriMap)
    {
       try
       {
          List nodeList = selectNodes(aNode, aPath, aNsPrefixUriMap);
          if (nodeList.size() == 0)
          {
-            return Collections.EMPTY_LIST;
+            return Collections.<String>emptyList();
          }
-         List rval = new ArrayList();
+         List<String> rval = new ArrayList<String>();
          Iterator it = nodeList.iterator();
          while (it.hasNext())
          {
@@ -364,7 +364,7 @@ public class AeXPathUtil
       catch (Exception ex)
       {
          AeException.logError(ex);
-         return Collections.EMPTY_LIST;
+         return Collections.<String>emptyList();
       }
    }
 

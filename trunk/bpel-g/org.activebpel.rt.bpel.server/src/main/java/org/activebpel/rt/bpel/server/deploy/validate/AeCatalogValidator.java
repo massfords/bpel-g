@@ -37,7 +37,7 @@ public class AeCatalogValidator implements IAePredeploymentValidator {
 					.addWarning(
 							AeMessages.getString("AeCatalogValidator.1"), new String[] { aBprFile.getBprFileName() }, null); //$NON-NLS-1$
 		} else {
-			List<BaseCatalogEntryType> toValidate = new LinkedList();
+			List<BaseCatalogEntryType> toValidate = new LinkedList<BaseCatalogEntryType>();
 			toValidate.addAll(catalogDoc.getWsdlEntry());
 			toValidate.addAll(catalogDoc.getSchemaEntry());
 			toValidate.addAll(catalogDoc.getOtherEntry());

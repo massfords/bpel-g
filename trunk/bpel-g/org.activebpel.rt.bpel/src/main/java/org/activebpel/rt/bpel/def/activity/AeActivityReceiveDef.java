@@ -19,6 +19,7 @@ import org.activebpel.rt.bpel.def.AeActivityCreateInstanceBaseDef;
 import org.activebpel.rt.bpel.def.AeBaseDef;
 import org.activebpel.rt.bpel.def.AeVariableDef;
 import org.activebpel.rt.bpel.def.IAeFromPartsParentDef;
+import org.activebpel.rt.bpel.def.activity.support.AeFromPartDef;
 import org.activebpel.rt.bpel.def.activity.support.AeFromPartsDef;
 import org.activebpel.rt.bpel.def.util.AeDefUtil;
 import org.activebpel.rt.bpel.def.visitors.IAeDefVisitor;
@@ -135,10 +136,10 @@ public class AeActivityReceiveDef extends AeActivityCreateInstanceBaseDef implem
    /**
     * @see org.activebpel.rt.bpel.def.IAeFromPartsParentDef#getFromPartDefs()
     */
-   public Iterator getFromPartDefs()
+   public Iterator<? extends AeFromPartDef> getFromPartDefs()
    {
       if (getFromPartsDef() == null)
-         return Collections.EMPTY_LIST.iterator();
+         return Collections.<AeFromPartDef>emptyList().iterator();
       else
          return getFromPartsDef().getFromPartDefs();
    }

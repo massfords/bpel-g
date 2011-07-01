@@ -45,7 +45,7 @@ public class AeXQueryStatement
    /** The raw xquery (pre-replacement). */
    private String mXQuery;
    /** The query parameter values. */
-   private Map mQueryParameters = new HashMap();
+   private Map<Integer,Object> mQueryParameters = new HashMap<Integer,Object>();
 
    /**
     * C'tor.
@@ -67,7 +67,7 @@ public class AeXQueryStatement
    {
       if (aParameterIndex < 1)
          throw new AssertionError(AeMessages.getString("AeXQueryStatement.ParamIndexError")); //$NON-NLS-1$
-      getQueryParameters().put(new Integer(aParameterIndex), aValue);
+      getQueryParameters().put(Integer.valueOf(aParameterIndex), aValue);
    }
 
    /**
@@ -95,11 +95,11 @@ public class AeXQueryStatement
 
       // Replace the parameters in the XQuery with the parameter values
       // set in the statement.
-      Set paramKeys = new TreeSet();
+      Set<Integer> paramKeys = new TreeSet<Integer>();
       paramKeys.addAll(getQueryParameters().keySet());
-      for (Iterator iter = paramKeys.iterator(); iter.hasNext(); )
+      for (Iterator<Integer> iter = paramKeys.iterator(); iter.hasNext(); )
       {
-         Integer paramIndex = (Integer) iter.next();
+         Integer paramIndex = iter.next();
          Object value = getQueryParameters().get(paramIndex);
          String formattedValue = sFormatter.formatParameterValue(value);
          formattedValue = Matcher.quoteReplacement(formattedValue);
@@ -164,7 +164,7 @@ public class AeXQueryStatement
    /**
     * @return Returns the parameters.
     */
-   protected Map getQueryParameters()
+   protected Map<Integer,Object> getQueryParameters()
    {
       return mQueryParameters;
    }
@@ -172,7 +172,7 @@ public class AeXQueryStatement
    /**
     * @param aParameters the parameters to set
     */
-   protected void setQueryParameters(Map aParameters)
+   protected void setQueryParameters(Map<Integer,Object> aParameters)
    {
       mQueryParameters = aParameters;
    }

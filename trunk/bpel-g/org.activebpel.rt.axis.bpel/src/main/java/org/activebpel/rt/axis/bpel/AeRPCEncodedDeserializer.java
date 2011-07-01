@@ -85,7 +85,7 @@ public class AeRPCEncodedDeserializer extends DeserializerImpl
    private IAeTypesContext mTypesContext;
    
    /** namespaces for attributes that we will skip during the deserialization process */
-   protected static final Collection sNamespacesToSkipColl = new HashSet();
+   protected static final Collection<String> sNamespacesToSkipColl = new HashSet<String>();
    
    static 
    {
@@ -106,8 +106,7 @@ public class AeRPCEncodedDeserializer extends DeserializerImpl
    /**
     * @see org.apache.axis.encoding.Deserializer#onEndElement(java.lang.String, java.lang.String, org.apache.axis.encoding.DeserializationContext)
     */
-   public void onEndElement(String aNamespace, String aLocalName,
-                                  DeserializationContext aContext)
+   public void onEndElement(String aNamespace, String aLocalName, DeserializationContext aContext)
        throws SAXException
    {
       MessageElement msgElem = aContext.getCurElement();
@@ -203,7 +202,7 @@ public class AeRPCEncodedDeserializer extends DeserializerImpl
     */
    protected void addNSDeclarationsFromEnvelope(DeserializationContext aContext, Element aElement) throws SOAPException
    {
-      Map nsMap = new HashMap();
+      Map<String, Mapping> nsMap = new HashMap<String, Mapping>();
       MessageElement envelope = aContext.getEnvelope();
       if (envelope.namespaces != null)
       {
@@ -228,7 +227,7 @@ public class AeRPCEncodedDeserializer extends DeserializerImpl
     * @param nsMap
     * @param aEnvelope
     */
-   protected void addNamespaceMappings(Map nsMap, MessageElement aEnvelope)
+   protected void addNamespaceMappings(Map<String, Mapping> nsMap, MessageElement aEnvelope)
    {
       for (Iterator it=aEnvelope.namespaces.iterator(); it.hasNext();)
       {
@@ -262,10 +261,10 @@ public class AeRPCEncodedDeserializer extends DeserializerImpl
       }
       if (!AeUtil.isNullOrEmpty(aMessageElement.namespaces))
       {
-         List nsList = getAllLocallyDeclaredNamespaces(aMessageElement);
+         List<Mapping> nsList = getAllLocallyDeclaredNamespaces(aMessageElement);
          for(int i=0; i<nsList.size(); i++)
          {
-            Mapping mapping = (Mapping) nsList.get(i);
+            Mapping mapping = nsList.get(i);
             if (shouldCopyAttribute(mapping.getNamespaceURI(), "") && !mapping.getPrefix().startsWith(AeRPCEncodedSerializer.TYPE_PREFIX) && !mapping.getPrefix().startsWith(PREFIX)) //$NON-NLS-1$
             {
                if(AeUtil.isNullOrEmpty(mapping.getPrefix()))
@@ -286,9 +285,10 @@ public class AeRPCEncodedDeserializer extends DeserializerImpl
     * the parent are removed, leaving just the declarations added in the child.
     * @param aMessageElement
     */
-   protected List getAllLocallyDeclaredNamespaces(MessageElement aMessageElement)
+   protected List<Mapping> getAllLocallyDeclaredNamespaces(MessageElement aMessageElement)
    {
-      List locallyDeclaredNamespaces = aMessageElement.namespaces != null? new ArrayList(aMessageElement.namespaces) : Collections.EMPTY_LIST;
+      @SuppressWarnings("unchecked")
+	  List<Mapping> locallyDeclaredNamespaces = aMessageElement.namespaces != null? new ArrayList<Mapping>(aMessageElement.namespaces) : Collections.<Mapping>emptyList();
       if (!locallyDeclaredNamespaces.isEmpty())
       {
          Node parent = aMessageElement.getParentNode();

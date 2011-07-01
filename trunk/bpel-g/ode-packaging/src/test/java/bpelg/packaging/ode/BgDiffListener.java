@@ -11,7 +11,7 @@ import org.w3c.dom.Node;
 
 public class BgDiffListener implements DifferenceListener {
     
-    protected Set<String> mIgnorePaths = new HashSet();
+    protected Set<String> mIgnorePaths = new HashSet<String>();
     
     public int differenceFound(Difference aDifference)
     {

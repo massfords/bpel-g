@@ -107,7 +107,7 @@ public class AePersistentCoordinationManager extends AeCoordinationManager
     * @param aCoordinationId
     * @return iterator of IAeCoordinating objects.
     */
-   protected Iterator getCoordinatingIterator(String aCoordinationId) throws AeCoordinationNotFoundException
+   protected Iterator<? extends IAeCoordinating> getCoordinatingIterator(String aCoordinationId) throws AeCoordinationNotFoundException
    {
       try
       {
@@ -123,7 +123,7 @@ public class AePersistentCoordinationManager extends AeCoordinationManager
    /**
     * @see org.activebpel.rt.bpel.server.coord.AeCoordinationManager#getCoordinatingIterator(long)
     */
-   protected Iterator getCoordinatingIterator(long aProcessId) throws AeCoordinationNotFoundException
+   protected Iterator<? extends IAeCoordinating> getCoordinatingIterator(long aProcessId) throws AeCoordinationNotFoundException
    {
       try
       {
@@ -184,9 +184,9 @@ public class AePersistentCoordinationManager extends AeCoordinationManager
     * Overrides method to return a list of participants from the SQL storage layer. 
     * @see org.activebpel.rt.bpel.coord.IAeCoordinationManager#getParticipant(String)
     */
-   public List getParticipantDetail(long aParentProcessId) throws AeCoordinationNotFoundException
+   public List<AeCoordinationDetail> getParticipantDetail(long aParentProcessId) throws AeCoordinationNotFoundException
    {
-      List rList = null;
+      List<AeCoordinationDetail> rList = null;
       try
       {
          rList = getStorage().getParticipantDetail(aParentProcessId);

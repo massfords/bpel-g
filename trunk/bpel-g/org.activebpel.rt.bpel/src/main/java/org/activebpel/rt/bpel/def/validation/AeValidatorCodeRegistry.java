@@ -37,7 +37,7 @@ public class AeValidatorCodeRegistry
    /** default namespace serverity map */
    private static Map<String, String> sPrefixMap = new HashMap<String, String>();
    /** map of namespace to map of code/severity */
-   private static Map sSeverityMap = new HashMap();
+   private static Map<String,Map<String,String>> sSeverityMap = new HashMap<String,Map<String,String>>();
    
    /** valid values for validator severity */
    public static final String ERROR = "ERROR";     //$NON-NLS-1$
@@ -89,7 +89,7 @@ public class AeValidatorCodeRegistry
          
          List codeNodes = AeXPathUtil.selectNodes(severityDoc, "aeSeverity:codes/aeSeverity:code", sPrefixMap); //$NON-NLS-1$
          
-         Map codeMap = new HashMap();
+         Map<String,String> codeMap = new HashMap<String,String>();
          String targetNS = AeXPathUtil.selectSingleNode(severityDoc, "aeSeverity:codes/@targetNamespace", sPrefixMap).getNodeValue();//$NON-NLS-1$
          
          // loop over the code nodes and load the map
@@ -115,9 +115,9 @@ public class AeValidatorCodeRegistry
     * 
     * @param aNamespace
     */
-   public static Map getCodes(String aNamespace)
+   public static Map<String,String> getCodes(String aNamespace)
    {
-      return (Map) sSeverityMap.get(aNamespace);
+      return sSeverityMap.get(aNamespace);
    }
    
    /**
@@ -129,7 +129,7 @@ public class AeValidatorCodeRegistry
     */
    public static String getProblemSeverity(String aNamespace, String aProblemCode, String aDefaultSeverity)
    {
-      Map codes = (Map) sSeverityMap.get(aNamespace);
+	   Map<String,String> codes = sSeverityMap.get(aNamespace);
       
       if (codes == null)
       {
@@ -137,9 +137,8 @@ public class AeValidatorCodeRegistry
       }
       else
       {
-         Object sev = codes.get(aProblemCode);
-         return AeUtil.isNullOrEmpty((String) sev) ? AeValidatorCodeRegistry.ERROR : String.valueOf(sev);
+    	 String sev = codes.get(aProblemCode);
+         return AeUtil.isNullOrEmpty(sev) ? AeValidatorCodeRegistry.ERROR : sev;
       }
    }
-   
 }

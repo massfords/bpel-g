@@ -28,8 +28,7 @@ public class AeMessageReceiverFilterManager
 {
 
    /** Default comparator for sorting the list of message receivers. */
-   private static final AeMessageReceiverComparator SORTER = 
-      new AeMessageReceiverComparator();
+   private static final AeMessageReceiverComparator SORTER =  new AeMessageReceiverComparator();
 
    /**
     * Returns a filtered list of message receivers.
@@ -37,16 +36,14 @@ public class AeMessageReceiverFilterManager
     * @param aMessageReceivers All of the available receivers on the queue.
     * @return The filtered results.
     */
-   public static AeMessageReceiverListResult filter( 
-                       AeMessageReceiverFilter aFilter, Collection aMessageReceivers )
+   public static AeMessageReceiverListResult filter(AeMessageReceiverFilter aFilter, Collection<AeMessageReceiver> aMessageReceivers )
    {
-      List matches = new ArrayList();
+      List<AeMessageReceiver> matches = new ArrayList<AeMessageReceiver>();
       int totalRows = 0;
       
       if( aMessageReceivers != null && !aMessageReceivers.isEmpty() )
       {
-         AeMessageReceiver[] recs = (AeMessageReceiver[]) aMessageReceivers.toArray( 
-            new AeMessageReceiver[aMessageReceivers.size()]);
+         AeMessageReceiver[] recs = aMessageReceivers.toArray(new AeMessageReceiver[aMessageReceivers.size()]);
             
          for( int i = 0; i < recs.length; i++ )
          {
@@ -65,10 +62,10 @@ public class AeMessageReceiverFilterManager
       
       if( !matches.isEmpty() )
       {
-         sort( matches );
+         Collections.sort( matches, SORTER );
       }
       
-      return new AeMessageReceiverListResult(totalRows,(AeMessageReceiver[]) matches.toArray(new AeMessageReceiver[matches.size()]));
+      return new AeMessageReceiverListResult(totalRows, matches.toArray(new AeMessageReceiver[matches.size()]));
    }
    
    /**
@@ -190,28 +187,16 @@ public class AeMessageReceiverFilterManager
    }
    
    /**
-    * Sorts the matching queued receiver.
-    * @param aMatches
-    */
-   protected static void sort( List aMatches )
-   {
-      Collections.sort( aMatches, SORTER );
-   }
-   
-   /**
     * Comparator impl.  Does string compares on partnerlink type name,
     * portType, operation and int compares on process id.
     */
-   protected static class AeMessageReceiverComparator implements Comparator
+   protected static class AeMessageReceiverComparator implements Comparator<AeMessageReceiver>
    {
       /**
        * @see java.util.Comparator#compare(java.lang.Object, java.lang.Object)
        */
-      public int compare(Object a1, Object a2)
+      public int compare(AeMessageReceiver receiverOne, AeMessageReceiver receiverTwo)
       {
-         AeMessageReceiver receiverOne = (AeMessageReceiver)a1;
-         AeMessageReceiver receiverTwo = (AeMessageReceiver)a2;
-         
          int match = receiverOne.getPartnerLinkOperationKey().getPartnerLinkName().compareTo( receiverTwo.getPartnerLinkOperationKey().getPartnerLinkName() );
          
          if( match == 0 )

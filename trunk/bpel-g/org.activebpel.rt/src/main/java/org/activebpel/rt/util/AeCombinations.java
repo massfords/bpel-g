@@ -36,9 +36,9 @@ public class AeCombinations<E> implements Iterator<List<E>> {
      * @param aObjects
      */
     public static <E> Iterator<List<E>> createAllCombinations(List<E> aObjects) {
-        AeSequenceIterator seqIter = new AeSequenceIterator();
+        AeSequenceIterator<List<E>> seqIter = new AeSequenceIterator<List<E>>();
         for (int i = aObjects.size(); i > 0; i--) {
-            seqIter.add(new AeCombinations(aObjects, i));
+            seqIter.add(new AeCombinations<E>(aObjects, i));
         }
         return seqIter;
     }
@@ -53,7 +53,7 @@ public class AeCombinations<E> implements Iterator<List<E>> {
      */
     public AeCombinations(List<E> aObjects, int aCount) {
         if (aCount > aObjects.size() || aCount == 0) {
-            Object[] args = { new Integer(aCount), new Integer(aObjects.size()) };
+            Object[] args = { Integer.valueOf(aCount), Integer.valueOf(aObjects.size()) };
             throw new IllegalArgumentException(AeMessages.format(
                     "AeCombinations.IllegalCount", args)); //$NON-NLS-1$
         }

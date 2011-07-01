@@ -42,7 +42,7 @@ import org.w3c.dom.Element;
 public class AeTypeMappingHelper implements IAeTypesContext
 {
    /** maps the qname to the tuple of info */
-   private Map mQNameToTuple;
+   private Map<QName, AeTypeMappingTuple> mQNameToTuple;
 
    /** def that contains the input message for the operation*/
    private AeBPELExtendedWSDLDef mInputMessageDef;
@@ -334,11 +334,11 @@ public class AeTypeMappingHelper implements IAeTypesContext
    /**
     * Getter for the map, does lazy loading
     */
-   protected Map getMap()
+   protected Map<QName, AeTypeMappingTuple> getMap()
    {
       if (mQNameToTuple == null)
       {
-         mQNameToTuple = new HashMap();
+         mQNameToTuple = new HashMap<QName, AeTypeMappingTuple>();
       }
       return mQNameToTuple;
    }

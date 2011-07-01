@@ -191,14 +191,11 @@ public abstract class AeAxisWebServicesDeployerBase extends AeAxisBase
 	 * @param aService
 	 * @throws AeException
 	 */
-	protected void resolveServicePolicies(ServiceDeployment aService)
-			throws AeException {
+	protected void resolveServicePolicies(ServiceDeployment aService) throws AeException {
 		if (!AeUtil.isNullOrEmpty(aService.getAny())) {
-			IAeContextWSDLProvider wsdlProvider = AeEngineFactory.getBean(
-					IAeDeploymentProvider.class).findCurrentDeployment(
-					aService.getProcessName());
-			List policies = AeWSDLPolicyHelper.resolvePolicyReferences(
-					wsdlProvider, aService.getAny());
+			IAeDeploymentProvider provider = AeEngineFactory.getBean(IAeDeploymentProvider.class);
+			IAeContextWSDLProvider wsdlProvider = provider.findCurrentDeployment(aService.getProcessName());
+			List<Element> policies = AeWSDLPolicyHelper.resolvePolicyReferences(wsdlProvider, aService.getAny());
 			if (!AeUtil.isNullOrEmpty(policies)) {
 				aService.getAny().clear();
 				aService.getAny().addAll(policies);

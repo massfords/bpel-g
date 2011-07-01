@@ -297,9 +297,9 @@ public class AeXmlUtil
       if(aSource.getNodeType() == Node.ELEMENT_NODE &&
          aTarget.getNodeType() == Node.ELEMENT_NODE)
       {
-         HashMap newNamespaceAttrs = new HashMap();
-         HashMap existingNamespaceAttrs = new HashMap();
-         HashMap changedNamespaceAttrs = new HashMap();
+         HashMap<String, String> newNamespaceAttrs = new HashMap<String, String>();
+         HashMap<String, String> existingNamespaceAttrs = new HashMap<String, String>();
+         HashMap<String, String> changedNamespaceAttrs = new HashMap<String, String>();
          getDeclaredNamespaces((Element)aSource, newNamespaceAttrs);
          getDeclaredNamespaces((Element)aTarget, existingNamespaceAttrs);
 
@@ -452,7 +452,7 @@ public class AeXmlUtil
     * Adds the default namespace to the map if it's not already declared.
     * @param aNsMap
     */
-   private static void addDefaultNamespace(Map aNsMap)
+   private static void addDefaultNamespace(Map<String, String> aNsMap)
    {
       if (!aNsMap.containsKey("")) //$NON-NLS-1$
       {
@@ -648,7 +648,7 @@ public class AeXmlUtil
     */
    public static void declareNamespacePrefixesLocally(Element aElement)
    {
-      Map namespaceMap = new HashMap();
+      Map<String, String> namespaceMap = new HashMap<String, String>();
       AeXmlUtil.getDeclaredNamespaces(aElement, namespaceMap);
       declareNamespacePrefixes(aElement, namespaceMap);
    }
@@ -1130,7 +1130,7 @@ public class AeXmlUtil
          prefix = aPreferredPrefix;
 
          // find all of the prefixes in scope so we don't step on them
-         Map existingPrefixesInScope = new HashMap();
+         Map<String, String> existingPrefixesInScope = new HashMap<String, String>();
          AeXmlUtil.getDeclaredNamespaces(aParentElement, existingPrefixesInScope);
          int counter = 1;
          while (existingPrefixesInScope.containsKey(prefix))
@@ -1439,7 +1439,7 @@ public class AeXmlUtil
       // List to hold the attributes we are going to remove - this is to
       // avoid changing the Node while we are iterating over it via the
       // NamedNodeMap object (some DOM impls simply proxy the source node).
-      List attributesToRemove = new ArrayList();
+      List<Attr> attributesToRemove = new ArrayList<Attr>();
 
       // Iterate through all of the xmlns: attributes and save the ones
       // that are not necessary (because some parent node already declares
@@ -1447,7 +1447,7 @@ public class AeXmlUtil
       NamedNodeMap attrNodes = aElement.getAttributes();
       if (attrNodes != null && attrNodes.getLength() > 0)
       {
-         Map declaredNamespaces = new HashMap();
+         Map<String, String> declaredNamespaces = new HashMap<String, String>();
          // Get all in-scope NS declarations from the parent.
          getDeclaredNamespaces((Element) aElement.getParentNode(), declaredNamespaces);
 
@@ -1472,9 +1472,8 @@ public class AeXmlUtil
       }
 
       // Now actually remove the attributes from the Element.
-      for (Iterator iter = attributesToRemove.iterator(); iter.hasNext(); )
+      for (Attr attr : attributesToRemove)
       {
-         Attr attr = (Attr) iter.next();
          aElement.removeAttributeNode(attr);
       }
    }

@@ -55,7 +55,7 @@ public class AeExpressionSpecStrategyKey extends AeSpecStrategyKey
     */
    public Object[] getStrategyArguments()
    {
-      ArrayList list = new ArrayList();
+      ArrayList<String> list = new ArrayList<String>();
       list.add(getVariableName());
       if (getPartName() != null)
          list.add(getPartName());

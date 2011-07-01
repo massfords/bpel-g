@@ -229,7 +229,7 @@ public class AeMimeUtil
     * @param aHeaders map of name/value mime headers
     * @return filename with extension
     */
-   public static String getFileName(Map aHeaders)
+   public static String getFileName(Map<String, String> aHeaders)
    {
       return getFileName(aHeaders, DEFAULT_FILE_NAME, DEFAULT_FILE_NAME_EXT);
    }
@@ -240,7 +240,7 @@ public class AeMimeUtil
     * @param aDefaultFileName fallback default filename
     * @return filename with extension
     */
-   public static String getFileName(Map aHeaders, String aDefaultFileName)
+   public static String getFileName(Map<String, String> aHeaders, String aDefaultFileName)
    {
       return getFileName(aHeaders, aDefaultFileName, null);
    }
@@ -252,7 +252,7 @@ public class AeMimeUtil
     * @param aDefaultExt fallback default filename extension
     * @return filename with extension
     */
-   public static String getFileName(Map aHeaders, String aDefaultFileName, String aDefaultExt)
+   public static String getFileName(Map<String, String> aHeaders, String aDefaultFileName, String aDefaultExt)
    {
       String fileName = null;
       String ext = null;

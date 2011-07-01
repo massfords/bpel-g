@@ -58,7 +58,7 @@ import org.activebpel.rt.xml.def.AeBaseXmlDef;
 public class AeDefVariableUsageVisitor extends AeAbstractDefVisitor
 {
    /** Def objects are pushed and popped from the stack as we traverse the tree */
-   private Stack mStack = new Stack();
+   private Stack<AeBaseXmlDef> mStack = new Stack<AeBaseXmlDef>();
    /** Set to true if come across a serializable scope which requires us to do resource locking */
    private boolean mResourceLockingRequired = false;
    /** The current compensation handler or <code>null</code> */
@@ -565,7 +565,7 @@ public class AeDefVariableUsageVisitor extends AeAbstractDefVisitor
    /**
     * Getter for the stack
     */
-   protected Stack getStack()
+   protected Stack<AeBaseXmlDef> getStack()
    {
       return mStack;
    }

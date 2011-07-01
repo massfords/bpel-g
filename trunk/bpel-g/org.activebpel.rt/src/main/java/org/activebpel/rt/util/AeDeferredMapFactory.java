@@ -18,28 +18,26 @@ import java.util.Map;
  * A base class for building a {@link java.util.Map} whose contents won't be loaded
  * until the map is accessed. 
  */
-public abstract class AeDeferredMapFactory implements InvocationHandler
+public abstract class AeDeferredMapFactory<K,V> implements InvocationHandler
 {
    /** init flag to avoid building the map multiple times */
    private boolean mInitialized;
    /** map that we're delegating to */
-   private Map mMap;
+   private Map<K,V> mMap;
    
    /**
     * Method to be overridden by subclass to return our delegate map.
     */
-   protected abstract Map buildMap();
+   protected abstract Map<K,V> buildMap();
    
    /**
     * Creates a proxy for the map. Invoking any method on the proxy will cause
     * the delegate map to get built.
     */
-   public Map getMapProxy()
+   @SuppressWarnings("unchecked")
+   public Map<K,V> getMapProxy()
    {
-      return (Map) Proxy.newProxyInstance(
-            getClass().getClassLoader(),
-            new Class[] { Map.class },
-            this );
+      return (Map<K,V>) Proxy.newProxyInstance(getClass().getClassLoader(), new Class[] { Map.class }, this );
    }
    
    /**
@@ -47,8 +45,7 @@ public abstract class AeDeferredMapFactory implements InvocationHandler
     * 
     * @see java.lang.reflect.InvocationHandler#invoke(java.lang.Object, java.lang.reflect.Method, java.lang.Object[])
     */
-   public Object invoke(Object aProxy, Method aMethod, Object[] args)
-         throws Throwable
+   public Object invoke(Object aProxy, Method aMethod, Object[] args) throws Throwable
    {
       init();
       return aMethod.invoke(getMap(), args);
@@ -86,7 +83,7 @@ public abstract class AeDeferredMapFactory implements InvocationHandler
    /**
     * @return Returns the map.
     */
-   protected Map getMap()
+   protected Map<K,V> getMap()
    {
       return mMap;
    }
@@ -94,7 +91,7 @@ public abstract class AeDeferredMapFactory implements InvocationHandler
    /**
     * @param aMap The map to set.
     */
-   protected void setMap(Map aMap)
+   protected void setMap(Map<K,V> aMap)
    {
       mMap = aMap;
    }

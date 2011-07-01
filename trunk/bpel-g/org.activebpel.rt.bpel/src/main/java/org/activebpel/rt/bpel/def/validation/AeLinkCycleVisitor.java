@@ -48,10 +48,10 @@ public class AeLinkCycleVisitor extends AeAbstractDefVisitor
     * Maps each activity to the next activity in a sequence, or
     * <code>null</code> if there is no such activity.
     */
-   private final Map mNextSequenceActivityMap = new HashMap();
+   private final Map<AeActivityDef, AeActivityDef> mNextSequenceActivityMap = new HashMap<AeActivityDef, AeActivityDef>();
 
    /** The <code>Set</code> of links that participate in control cycles. */
-   private Set mCycleLinks;
+   private Set<AeLinkComposite> mCycleLinks;
 
    /**
     * A <code>Set</code> containing the source activity for the current
@@ -59,7 +59,7 @@ public class AeLinkCycleVisitor extends AeAbstractDefVisitor
     * 
     * @see #enclosesSourceActivity(AeActivityDef)
     */
-   private Set mSourceAndAncestors;
+   private Set<AeBaseDef> mSourceAndAncestors;
 
    /**
     * <code>true</code> if and only if we have reached the source activity
@@ -71,7 +71,7 @@ public class AeLinkCycleVisitor extends AeAbstractDefVisitor
     * The <code>Set</code> of activities that we have visited during the current
     * traversal.
     */
-   private Set mVisitedActivities;
+   private Set<AeActivityDef> mVisitedActivities;
    
    /** 
     * The isolated scope for a source link that is currently being traversed. 
@@ -146,7 +146,7 @@ public class AeLinkCycleVisitor extends AeAbstractDefVisitor
     */
    protected Set findCycleLinks()
    {
-      setCycleLinks(new LinkedHashSet());
+      setCycleLinks(new LinkedHashSet<AeLinkComposite>());
 
       // Iterate over the links in the link validator. Add a link to the set of
       // cycle links if it is not already in the set and the link participates
@@ -168,7 +168,7 @@ public class AeLinkCycleVisitor extends AeAbstractDefVisitor
    /**
     * Returns the <code>Set</code> of links that participate in control cycles. 
     */
-   protected Set getCycleLinks()
+   protected Set<AeLinkComposite> getCycleLinks()
    {
       return mCycleLinks;
    }
@@ -202,7 +202,7 @@ public class AeLinkCycleVisitor extends AeAbstractDefVisitor
     */
    protected AeActivityDef getNextSequenceActivity(AeActivityDef aActivityDef)
    {
-      Map map = getNextSequenceActivityMap();
+      Map<AeActivityDef, AeActivityDef> map = getNextSequenceActivityMap();
       if (!map.containsKey(aActivityDef))
       {
          AeBaseDef parent = aActivityDef.getParent();
@@ -242,7 +242,7 @@ public class AeLinkCycleVisitor extends AeAbstractDefVisitor
     * Returns the <code>Map</code> from each activity to the next activity in a
     * sequence, or <code>null</code> if there is no such activity.
     */
-   protected Map getNextSequenceActivityMap()
+   protected Map<AeActivityDef, AeActivityDef> getNextSequenceActivityMap()
    {
       return mNextSequenceActivityMap;
    }
@@ -260,7 +260,7 @@ public class AeLinkCycleVisitor extends AeAbstractDefVisitor
     * Returns the <code>Set</code> of activities that we have visited during the
     * current traversal.
     */
-   protected Set getVisitedActivities()
+   protected Set<AeActivityDef> getVisitedActivities()
    {
       return mVisitedActivities;
    }
@@ -279,7 +279,7 @@ public class AeLinkCycleVisitor extends AeAbstractDefVisitor
       if (aLink.isComplete())
       {
          setSourceActivity(aLink.getSource());
-         setVisitedActivities(new HashSet());
+         setVisitedActivities(new HashSet<AeActivityDef>());
          recordIsolatedScopeReference(aLink);
 
          // Visit the target of the link. If we reach the source of the link
@@ -343,7 +343,7 @@ public class AeLinkCycleVisitor extends AeAbstractDefVisitor
     *
     * @param aCycleLinks
     */
-   protected void setCycleLinks(Set aCycleLinks)
+   protected void setCycleLinks(Set<AeLinkComposite> aCycleLinks)
    {
       mCycleLinks = aCycleLinks;
    }
@@ -356,7 +356,7 @@ public class AeLinkCycleVisitor extends AeAbstractDefVisitor
    protected void setSourceActivity(AeActivityDef aActivityDef)
    {
       // Create a set containing the source activity and its ancestors.
-      Set set = new HashSet();
+      Set<AeBaseDef> set = new HashSet<AeBaseDef>();
 
       for (AeBaseDef def = aActivityDef; def != null; def = def.getParent())
       {
@@ -374,7 +374,7 @@ public class AeLinkCycleVisitor extends AeAbstractDefVisitor
     * 
     * @param aSourceAndAncestors
     */
-   protected void setSourceAndAncestors(Set aSourceAndAncestors)
+   protected void setSourceAndAncestors(Set<AeBaseDef> aSourceAndAncestors)
    {
       mSourceAndAncestors = aSourceAndAncestors;
    }
@@ -395,7 +395,7 @@ public class AeLinkCycleVisitor extends AeAbstractDefVisitor
     *
     * @param aVisitedActivities
     */
-   protected void setVisitedActivities(Set aVisitedActivities)
+   protected void setVisitedActivities(Set<AeActivityDef> aVisitedActivities)
    {
       mVisitedActivities = aVisitedActivities;
    }

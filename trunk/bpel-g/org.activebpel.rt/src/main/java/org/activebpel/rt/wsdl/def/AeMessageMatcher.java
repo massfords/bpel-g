@@ -110,14 +110,14 @@ public class AeMessageMatcher
    /**
     * Gets the parts map which produces a map of the part names to the data
     */
-   public Map getPartsMap()
+   public Map<Part,Document> getPartsMap()
    {
       if (!foundMatch())
       {
          return null;
       }
       
-      Map map = new HashMap();
+      Map<Part,Document> map = new HashMap<Part,Document>();
       List list = getMessage().getOrderedParts(null);
       if (list != null)
       {

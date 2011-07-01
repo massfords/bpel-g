@@ -41,7 +41,7 @@ public class BgPddBuilder {
     
     private static final String WSP = "http://schemas.xmlsoap.org/ws/2004/09/policy";
     
-    private static final Map NAMESPACES = new HashMap<String,String>();
+    private static final Map<String,String> NAMESPACES = new HashMap<String,String>();
     static {
         NAMESPACES.put("ode", "http://www.apache.org/ode/schemas/dd/2007/03");
         NAMESPACES.put("wsp", WSP);
@@ -51,10 +51,10 @@ public class BgPddBuilder {
     
     private File mServiceUnitRoot;
     
-    private Map<QName, BgPddInfo> mDeployments = new HashMap();
-    private Map<String,BgPddInfo> mPddFileNameToPddInfo = new HashMap();
+    private Map<QName, BgPddInfo> mDeployments = new HashMap<QName, BgPddInfo>();
+    private Map<String,BgPddInfo> mPddFileNameToPddInfo = new HashMap<String,BgPddInfo>();
     private Document mDeployXml;
-    private Set<BgCatalogTuple> mReferenced = new HashSet();
+    private Set<BgCatalogTuple> mReferenced = new HashSet<BgCatalogTuple>();
     
     public BgPddBuilder(File aServiceUnitRoot) throws AeException {
         assert aServiceUnitRoot.isDirectory();
@@ -75,7 +75,7 @@ public class BgPddBuilder {
     }
     
     public Collection<AePddResource> getPdds(BgCatalogBuilder aCatalogBuilder) {
-    	Collection<AePddResource> list = new LinkedList();
+    	Collection<AePddResource> list = new LinkedList<AePddResource>();
         for(String pddName : getPddNames()) {
         	Pdd pdd = createPddDocument(pddName, aCatalogBuilder.getItems());
         	list.add(new AePddResource(pddName, pdd));
@@ -153,7 +153,8 @@ public class BgPddBuilder {
         return aImportDef.getLocation();
     }
     
-    public void build() throws Exception {
+    @SuppressWarnings("unchecked")
+	public void build() throws Exception {
         buildDeploymentMap();
 
         List<Element> processes = getProcesses();
@@ -192,14 +193,16 @@ public class BgPddBuilder {
 		return (Element) AeXPathUtil.selectSingleNode(aInvokeService, "wsa:EndpointReference", NAMESPACES);
 	}
 
+	@SuppressWarnings("unchecked")
 	private List<Element> getPolicies(Element aService) throws AeException {
         List<Element> policies = AeXPathUtil.selectNodes(aService, "wsp:Policy", NAMESPACES);
         return policies;
     }
 
-    private List<Element> getProcesses() throws AeException {
+    @SuppressWarnings("unchecked")
+	private List<Element> getProcesses() throws AeException {
         if (mDeployXml == null)
-            return Collections.EMPTY_LIST;
+            return Collections.<Element>emptyList();
         List<Element> processes = AeXPathUtil.selectNodes(mDeployXml, "/ode:deploy/ode:process", NAMESPACES);
         return processes;
     }

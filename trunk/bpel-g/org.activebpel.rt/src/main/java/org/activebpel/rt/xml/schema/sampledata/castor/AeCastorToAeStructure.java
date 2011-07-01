@@ -97,6 +97,7 @@ public class AeCastorToAeStructure
     * @param aStructure AE structure object representing the Castor object.
     * @param aObject Castor object being processed.
     */
+   @SuppressWarnings("unchecked")
    private void push(AeStructure aStructure, Object aObject)
    {
       AeStructure parent = peekStructure();
@@ -239,7 +240,7 @@ public class AeCastorToAeStructure
             }
             else
             {
-               List particles = new ArrayList();
+               List<Particle> particles = new ArrayList<Particle>();
                
                addAllInheritedParticles(complexType, particles);
 
@@ -276,7 +277,7 @@ public class AeCastorToAeStructure
     * @param aType
     * @param aParticles
     */
-   protected void addAllInheritedParticles(ComplexType aType, List aParticles)
+   protected void addAllInheritedParticles(ComplexType aType, List<Particle> aParticles)
    {
       // load any particles from the parent
       if(aType.getBaseType() != null && aType.getBaseType() instanceof ComplexType && !aType.isRestricted())
@@ -451,7 +452,7 @@ public class AeCastorToAeStructure
     * QName check correctly.
     * @param aElementDecl
     */
-   protected static List getSubstitutionGroupMembers(ElementDecl aElementDecl)
+   protected static List<ElementDecl> getSubstitutionGroupMembers(ElementDecl aElementDecl)
    {
       // TODO (JP) need to check for sg elements in imported schemas
       ElementDecl elementDecl = aElementDecl;
@@ -461,7 +462,7 @@ public class AeCastorToAeStructure
       }
 
       QName headQName = new QName(elementDecl.getSchema().getTargetNamespace(), elementDecl.getName());
-      List result = new LinkedList();
+      List<ElementDecl> result = new LinkedList<ElementDecl>();
       Enumeration enumeration = elementDecl.getSchema().getElementDecls();
       while (enumeration.hasMoreElements())
       {

@@ -20,11 +20,8 @@ import javax.xml.namespace.QName;
  */
 public class AeAlarmFilter extends AeListingFilter implements Serializable
 {
-   /**
-     * 
-     */
-    private static final long serialVersionUID = 4987805669869939244L;
-/** No selection criteria specified. */
+   private static final long serialVersionUID = 4987805669869939244L;
+   /** No selection criteria specified. */
    public static final AeAlarmFilter NULL_FILTER = new AeAlarmFilter();
    /** Default 'null' value for process id. */
    public static final long NULL_ID = -1;

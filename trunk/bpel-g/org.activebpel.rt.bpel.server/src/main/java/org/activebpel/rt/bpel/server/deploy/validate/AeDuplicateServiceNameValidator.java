@@ -46,7 +46,7 @@ public class AeDuplicateServiceNameValidator implements
 	 */
 	public void validate(IAeBpr aBprFile, IAeBaseErrorReporter aReporter)
 			throws AeException {
-		Map<String,String> myRoleServices = new HashMap();
+		Map<String,String> myRoleServices = new HashMap<String,String>();
 
 		for (AePddResource pddResource : aBprFile.getPddResources()) {
 			for (PartnerLinkType plinkType : pddResource.getPdd()

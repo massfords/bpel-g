@@ -1378,7 +1378,7 @@ public class AePersistentProcessManager extends AeAbstractProcessManager
 			throws AeBusinessProcessException {
 		Map<Long, Integer> map = getStorage().getJournalEntriesLocationIdsMap(
 				aProcessId);
-		Set<Long> journalIds = new HashSet(map.keySet());
+		Set<Long> journalIds = new HashSet<Long>(map.keySet());
 		journalEntriesDone(aProcessId, journalIds);
 	}
 

@@ -25,14 +25,11 @@ import org.activebpel.rt.bpel.def.visitors.IAeDefVisitor;
 public class AeEventHandlersDef extends AeBaseDef 
       implements IAeEventContainerDef, IAeUncrossableLinkBoundary
 {
-   /**
-     * 
-     */
-    private static final long serialVersionUID = 7489121643064264023L;
-/** The list of on message definitions, may be null */
-   private List<AeOnEventDef> mOnEventList = new ArrayList();
+   private static final long serialVersionUID = 7489121643064264023L;
+   /** The list of on message definitions, may be null */
+   private List<AeOnEventDef> mOnEventList = new ArrayList<AeOnEventDef>();
    /** The list of on alaram definitions, may be null */
-   private List<AeOnAlarmDef> mOnAlarmList = new ArrayList();
+   private List<AeOnAlarmDef> mOnAlarmList = new ArrayList<AeOnAlarmDef>();
 
    /**
     * Default constructor
@@ -69,7 +66,7 @@ public class AeEventHandlersDef extends AeBaseDef
    /**
     * @see org.activebpel.rt.bpel.def.activity.IAeAlarmParentDef#getAlarmDefs()
     */
-   public Iterator getAlarmDefs()
+   public Iterator<AeOnAlarmDef> getAlarmDefs()
    {
       return mOnAlarmList.iterator();
    }

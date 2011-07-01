@@ -9,7 +9,7 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpel.ext.expr.bsf.impl;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 
 import org.activebpel.rt.bpel.function.IAeFunctionExecutionContext;
 import org.activebpel.rt.util.AeXmlUtil;
@@ -165,12 +165,6 @@ public class AeBSFGenericExtensionFunctionBean extends AeBSFAbstractExtensionFun
       String ns = getFunctionExecutionContext().getNamespaceContext().resolvePrefixToNamespace(prefix);
 
       // Create the argument list.
-      ArrayList list = new ArrayList();
-      for (int i = 0; i < aArgs.length; i++)
-      {
-         list.add(aArgs[i]);
-      }
-
-      return callFunction(ns, funcName, list);
+      return callFunction(ns, funcName, Arrays.asList(aArgs));
    }
 }

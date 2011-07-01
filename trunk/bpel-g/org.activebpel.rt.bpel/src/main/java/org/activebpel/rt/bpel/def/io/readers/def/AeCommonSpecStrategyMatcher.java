@@ -27,9 +27,9 @@ import org.activebpel.rt.util.AeUtil;
 public class AeCommonSpecStrategyMatcher implements IAeCopyOperationStrategyMatcher
 {
    /** maps the spec object to the strategy name */
-   private Map mFromStrategyMap = new HashMap();
+   private Map<AeFromSpec, AeSpecStrategyKey> mFromStrategyMap = new HashMap<AeFromSpec, AeSpecStrategyKey>();
    /** maps the spec object to the strategy name */
-   private Map mToStrategyMap = new HashMap();
+   private Map<AeToSpec, AeSpecStrategyKey> mToStrategyMap = new HashMap<AeToSpec, AeSpecStrategyKey>();
 
    /**
     * No arg ctor inits the maps
@@ -179,7 +179,7 @@ public class AeCommonSpecStrategyMatcher implements IAeCopyOperationStrategyMatc
    public AeSpecStrategyKey getStrategy(AeFromDef aFromDef, AeVariableDef aVarDef)
    {
       AeFromSpec fromSpec = AeFromSpec.createSpec(aFromDef, aVarDef);
-      return (AeSpecStrategyKey) mFromStrategyMap.get(fromSpec);
+      return mFromStrategyMap.get(fromSpec);
    }
 
    /**
@@ -188,7 +188,7 @@ public class AeCommonSpecStrategyMatcher implements IAeCopyOperationStrategyMatc
    public AeSpecStrategyKey getStrategy(AeToDef aToDef, AeVariableDef aVarDef, IAeExpressionLanguageFactory aExpressionLanguageFactory)
    {
       AeToSpec toSpec = AeToSpec.createSpec(aToDef, aVarDef);
-      return (AeSpecStrategyKey) mToStrategyMap.get(toSpec);
+      return mToStrategyMap.get(toSpec);
    }
 
    /**

@@ -42,7 +42,7 @@ public class AeInMemoryCatalogListing
          throws AeWSDLException
    {
       // create the container for the listing details
-      List results = new ArrayList();
+      List<AeCatalogItem> results = new ArrayList<AeCatalogItem>();
 
       // walk the list of mapping in the catalog
       for( Iterator iter = aLocationHintsToMapping.values().iterator(); iter.hasNext(); )
@@ -120,7 +120,7 @@ public class AeInMemoryCatalogListing
     * Sort the resources by namespace.
     * @param aListingDetails
     */
-   protected static void sort(List aListingDetails)
+   protected static void sort(List<AeCatalogItem> aListingDetails)
    {
       Collections.sort(aListingDetails, SORTER);
    }
@@ -128,14 +128,14 @@ public class AeInMemoryCatalogListing
    /**
     * Default sort order is namespace.
     */
-   protected static class AeResourceSorter implements Comparator
+   protected static class AeResourceSorter implements Comparator<AeCatalogItem>
    {
       /*
        * @see java.util.Comparator#compare(java.lang.Object, java.lang.Object)
        */
-      public int compare(Object aO1, Object aO2)
+      public int compare(AeCatalogItem aO1, AeCatalogItem aO2)
       {
-         return ((AeCatalogItem) aO1).getFormattedName().compareTo(((AeCatalogItem) aO2).getFormattedName());
+         return aO1.getFormattedName().compareTo(aO2.getFormattedName());
       }
    }
 }

@@ -15,16 +15,16 @@ import java.util.List;
 /**
  * Implementation of a blocking queue.  
  */
-public class AeBlockingQueue
+public class AeBlockingQueue<T>
 {
    /** list of objects for our queue */
-   private List mQueue = new LinkedList();
+   private List<T> mQueue = new LinkedList<T>();
    
    /**
     * Adds a new object to the queue, calling notify() on this object.
     * @param aObject
     */
-   public synchronized void add(Object aObject)
+   public synchronized void add(T aObject)
    {
       mQueue.add(aObject);
       notify();
@@ -52,7 +52,7 @@ public class AeBlockingQueue
    /**
     * Gets the first object from the queue
     */
-   public synchronized Object getNextObjectOrWait()
+   public synchronized T getNextObjectOrWait()
    {
       waitForObject();
       if (!mQueue.isEmpty())

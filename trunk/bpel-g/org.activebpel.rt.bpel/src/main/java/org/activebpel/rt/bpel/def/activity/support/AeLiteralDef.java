@@ -30,12 +30,9 @@ import org.w3c.dom.NodeList;
  */
 public class AeLiteralDef extends AeBaseDef
 {
-   /**
-     * 
-     */
-    private static final long serialVersionUID = 380062235992130912L;
-/** The list of child nodes in the literal. */
-   private transient List<Node> mChildNodes = new ArrayList();
+   private static final long serialVersionUID = 380062235992130912L;
+   /** The list of child nodes in the literal. */
+   private transient List<Node> mChildNodes = new ArrayList<Node>();
 
    /**
     * Default c'tor.
@@ -97,7 +94,7 @@ public class AeLiteralDef extends AeBaseDef
         String xml = in.readUTF();
         try {
             Document doc = new AeXMLParserBase(true,false).loadDocumentFromString(xml, null);
-            mChildNodes = new ArrayList();
+            mChildNodes = new ArrayList<Node>();
             NodeList childNodes = doc.getDocumentElement().getChildNodes();
             for(int i=0; i<childNodes.getLength(); i++) {
                 addChildNode(childNodes.item(i));

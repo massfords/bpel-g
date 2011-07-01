@@ -53,30 +53,32 @@ public abstract class AeXPathHandler extends BasicHandler implements IAeConstant
     * Utility method to create all the XPaths defined in the handler
     * options
     * 
-    * @return HashMap Map of defined XPath queries
+    * @return Map Map of defined XPath queries
     */
-   protected HashMap getXpaths(MessageContext aMsgContext) throws JaxenException 
+   @SuppressWarnings("unchecked")
+   protected Map<String, XPath> getXpaths(MessageContext aMsgContext) throws JaxenException 
    {
       // Figure out if map is coming from options (server) or context (client)
       if (XPATH_QUERY_SOURCE_CONTEXT.equals(getStringValue(XPATH_QUERY_SOURCE, aMsgContext)))
       {
          HashMap xpathParams = (HashMap) aMsgContext.getProperty(XPATH_QUERY_PARAMS);
-         HashMap xpaths = createXpathMap(xpathParams);
+         Map<String, XPath> xpaths = createXpathMap(xpathParams);
          return xpaths;
       }
       else
       {
          // see if we already have the list stashed in 
          // the handler options table
-         HashMap xpaths = (HashMap) this.getOption(XPATH_MAP);     
+         
+		 Map<String, XPath> xpaths = (Map<String, XPath>) this.getOption(XPATH_MAP);     
          if (xpaths == null) 
          {
             xpaths = createXpathMap(getOptions());
-           // Add to options table 
-           synchronized(AeXPathHandler.class) 
-           { 
-              this.options.put(XPATH_MAP, xpaths);
-           }
+            // Add to options table 
+            synchronized(AeXPathHandler.class) 
+            { 
+               this.options.put(XPATH_MAP, xpaths);
+            }
          }
          return xpaths;
       }
@@ -88,10 +90,10 @@ public abstract class AeXPathHandler extends BasicHandler implements IAeConstant
     * @param aXpathParams
     * @throws JaxenException
     */
-   private HashMap createXpathMap(Map aXpathParams) throws JaxenException
+   private Map<String, XPath> createXpathMap(Map aXpathParams) throws JaxenException
    {
       // Create XPaths
-      HashMap xpaths = new HashMap();
+      Map<String, XPath> xpaths = new HashMap<String, XPath>();
 
       // get namespace declarations
       NamespaceContext nsc = getNamespaceContext(aXpathParams);

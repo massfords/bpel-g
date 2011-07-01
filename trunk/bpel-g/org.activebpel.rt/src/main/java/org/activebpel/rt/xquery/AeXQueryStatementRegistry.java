@@ -35,14 +35,14 @@ public class AeXQueryStatementRegistry
    private static final String STATEMENT_FILE_NS = "http://schemas.active-endpoints.com/xqueryStatements/2008/03/xqueryStatements.xsd"; //$NON-NLS-1$
 
    /** The xqueries loaded from the XML config file. */
-   private Map mXQueries;
+   private Map<String,String> mXQueries;
 
    /**
     * C'tor.
     */
    protected AeXQueryStatementRegistry()
    {
-      setXQueries(new HashMap());
+      setXQueries(new HashMap<String,String>());
    }
 
    /**
@@ -146,7 +146,7 @@ public class AeXQueryStatementRegistry
    /**
     * @return Returns the xQueries.
     */
-   protected Map getXQueries()
+   protected Map<String,String> getXQueries()
    {
       return mXQueries;
    }
@@ -154,7 +154,7 @@ public class AeXQueryStatementRegistry
    /**
     * @param aQueries the xQueries to set
     */
-   protected void setXQueries(Map aQueries)
+   protected void setXQueries(Map<String,String> aQueries)
    {
       mXQueries = aQueries;
    }

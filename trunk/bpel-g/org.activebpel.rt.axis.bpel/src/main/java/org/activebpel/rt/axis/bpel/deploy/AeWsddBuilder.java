@@ -173,11 +173,11 @@ public class AeWsddBuilder implements IAeWsddConstants
       try 
       {
          // get the main policy mapper
-         IAePolicyMapper mapper = (IAePolicyMapper) AeEngineFactory.getBean(IAePolicyMapper.class);
+         IAePolicyMapper<?> mapper = (IAePolicyMapper) AeEngineFactory.getBean(IAePolicyMapper.class);
          if (mapper != null)
          {
             // get Service Parameters
-            List handlers = mapper.getServiceParameters(aServiceData.getAny());
+            List<Element> handlers = mapper.getServiceParameters(aServiceData.getAny());
             if (!AeUtil.isNullOrEmpty(handlers)) 
             {
                for (Iterator it = handlers.iterator(); it.hasNext();) 
@@ -217,13 +217,10 @@ public class AeWsddBuilder implements IAeWsddConstants
     * Create a client side handler deployment document for policy assertions.
     * @param aPolicyList
     */
-   public static Document getClientDeployment( List aPolicyList )
-   throws AeDeploymentException
+   public static Document getClientDeployment( List<Element> aPolicyList ) throws AeDeploymentException
    {
       AeWsddBuilder builder = new AeWsddBuilder();
-
       builder.createClientDocument(aPolicyList);
-
       return builder.getWsddDocument();
    }
 
@@ -232,8 +229,7 @@ public class AeWsddBuilder implements IAeWsddConstants
     * Create a client side handler deployment document for policy assertions.
     * @param aPolicyList
     */
-   protected void createClientDocument( List aPolicyList )
-   throws AeDeploymentException
+   protected void createClientDocument( List<Element> aPolicyList ) throws AeDeploymentException
    {
       try {
 
@@ -245,9 +241,9 @@ public class AeWsddBuilder implements IAeWsddConstants
          if (!AeUtil.isNullOrEmpty(aPolicyList)) 
          {
             // get the main policy mapper
-            IAePolicyMapper mapper = (IAePolicyMapper) AeEngineFactory.getBean(IAePolicyMapper.class);
+            IAePolicyMapper<?> mapper = (IAePolicyMapper) AeEngineFactory.getBean(IAePolicyMapper.class);
             // get Client Request handlers
-            List handlers = mapper.getClientRequestHandlers(aPolicyList);
+            List<Element> handlers = mapper.getClientRequestHandlers(aPolicyList);
             if (!AeUtil.isNullOrEmpty(handlers)) 
             {
                Element requestFlow = (Element) globalConfig.appendChild( createElement( TAG_REQUEST_FLOW) );

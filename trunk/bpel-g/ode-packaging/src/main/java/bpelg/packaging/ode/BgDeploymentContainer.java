@@ -39,7 +39,7 @@ public class BgDeploymentContainer implements IAeDeploymentContainer {
     private final ClassLoader mClassLoader;
     private final BgCatalogBuilder mCatalogBuilder;
     private final BgPddBuilder mPddBuilder;
-    private final Map<Pdd,IAeDeploymentSource> mDeploymentSources = new HashMap();
+    private final Map<Pdd,IAeDeploymentSource> mDeploymentSources = new HashMap<Pdd,IAeDeploymentSource>();
     private final Collection<AePddResource> mPdds;
     
     public BgDeploymentContainer(File aServiceUnitRoot) throws Exception {

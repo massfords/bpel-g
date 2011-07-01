@@ -9,8 +9,7 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.axis.bpel.handlers;
 
-import java.util.HashMap;
-import java.util.Iterator;
+import java.util.Map;
 
 import javax.xml.XMLConstants;
 
@@ -44,7 +43,7 @@ public class AeXPathReceiveHandler extends AeXPathHandler
       try
       {
          // Get xpaths
-         HashMap xpaths = getXpaths(aMsgContext);
+    	 Map<String, XPath> xpaths = getXpaths(aMsgContext);
          // Get the message
          Message msg = aMsgContext.getCurrentMessage();
          if (msg == null)
@@ -68,10 +67,8 @@ public class AeXPathReceiveHandler extends AeXPathHandler
             headerDoc.appendChild(headers);
          }
          // Add selected nodes to operation element
-         for (Iterator it = xpaths.keySet().iterator(); it.hasNext();)
+         for (XPath xpath : xpaths.values())
          {
-            String key = (String) it.next();
-            XPath xpath = (XPath) xpaths.get(key);
             Element selected = (Element) xpath.selectSingleNode(domReq);
             if (selected != null)
             {

@@ -35,9 +35,9 @@ public class BgCatalogBuilderTest {
         Collection<BgCatalogTuple> items = builder.getItems();
         assertEquals(4, items.size());
         
-        Set<BgCatalogTuple> actual = new HashSet(items);
+        Set<BgCatalogTuple> actual = new HashSet<BgCatalogTuple>(items);
         
-        Set<BgCatalogTuple> expected = new HashSet();
+        Set<BgCatalogTuple> expected = new HashSet<BgCatalogTuple>();
         expected.add(new BgCatalogTuple("project:/example-su/wsdl/example.wsdl", "wsdl/example.wsdl", "http://www.example.org/test/", IAeConstants.WSDL_NAMESPACE));
         expected.add(new BgCatalogTuple("project:/example-su/xsd/example.xsd", "xsd/example.xsd", "http://www.example.org/test/", XMLConstants.W3C_XML_SCHEMA_NS_URI));
         expected.add(new BgCatalogTuple("project:/example-su/xsd/example-not-used.xsd", "xsd/example-not-used.xsd", "http://www.example.org/test/", XMLConstants.W3C_XML_SCHEMA_NS_URI));
@@ -50,7 +50,7 @@ public class BgCatalogBuilderTest {
     public void testGetCatalog() throws Exception {
         
         // record the files that are imported into the bpel's directly
-        Set<BgCatalogTuple> referenced = new HashSet();
+        Set<BgCatalogTuple> referenced = new HashSet<BgCatalogTuple>();
         referenced.add(new BgCatalogTuple("project:/example-su/wsdl/example.wsdl", "wsdl/example.wsdl", "http://www.example.org/test/", IAeConstants.WSDL_NAMESPACE));
         builder.setReferenced(referenced);
         

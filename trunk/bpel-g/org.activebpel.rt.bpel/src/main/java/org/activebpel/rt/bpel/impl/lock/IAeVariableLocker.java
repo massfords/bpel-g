@@ -34,7 +34,7 @@ public interface IAeVariableLocker
     * @param aCallback The callback object that gets notified when the lock is
     *                  acquired if it's not immediately available
     */
-   public boolean addExclusiveLock(Set aSetOfVariablePaths, String aOwnerXPath, IAeVariableLockCallback aCallback);
+   public boolean addExclusiveLock(Set<String> aSetOfVariablePaths, String aOwnerXPath, IAeVariableLockCallback aCallback);
 
    /**
     * Returns true if all of the variables in the set were able to be
@@ -45,7 +45,7 @@ public interface IAeVariableLocker
     * @param aCallback The callback object that gets notified when the lock is
     *                  acquired if it's not immediately available
     */
-   public boolean addSharedLock(Set aSetOfVariablePaths, String aOwnerXPath, IAeVariableLockCallback aCallback);
+   public boolean addSharedLock(Set<String> aSetOfVariablePaths, String aOwnerXPath, IAeVariableLockCallback aCallback);
 
    /**
     * This unlocks all of the variables locked by the owner and will possibly

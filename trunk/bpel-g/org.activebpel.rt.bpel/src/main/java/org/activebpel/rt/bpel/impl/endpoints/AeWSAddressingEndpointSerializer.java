@@ -93,7 +93,7 @@ public class AeWSAddressingEndpointSerializer implements IAeEndpointSerializer
    {
       Document doc = AeXmlUtil.newDocument();
       
-      Map qnameToPrefixMap = new HashMap();
+      Map<String, String> qnameToPrefixMap = new HashMap<String, String>();
          
       Element er = AeXmlUtil.addElementNS(doc, mNamespace, "wsa:EndpointReference", null); //$NON-NLS-1$
       
@@ -129,7 +129,7 @@ public class AeWSAddressingEndpointSerializer implements IAeEndpointSerializer
     * @param aRef
     * @param aElement
     */
-   protected void addMetadata(IAeWebServiceEndpointReference aRef, Element aElement, Map aQNamePrefixMap)
+   protected void addMetadata(IAeWebServiceEndpointReference aRef, Element aElement, Map<String, String> aQNamePrefixMap)
    {
       // Add the port type if one was specified
       if (aRef.getPortType() != null)
@@ -234,7 +234,7 @@ public class AeWSAddressingEndpointSerializer implements IAeEndpointSerializer
     * @param aName
     * @param qnameToPrefixMap
     */
-   private String getQNameStr(QName aName, Map qnameToPrefixMap)
+   private String getQNameStr(QName aName, Map<String, String> qnameToPrefixMap)
    {
       if (!AeUtil.isNullOrEmpty(aName.getNamespaceURI()))
       {
@@ -255,7 +255,7 @@ public class AeWSAddressingEndpointSerializer implements IAeEndpointSerializer
     * @param aPrefix the current prefix
     * @param qnameToPrefixMap the map of namespace prefixes
     */
-   private String getPrefix(String aNamespace, String aPrefix, Map qnameToPrefixMap)
+   private String getPrefix(String aNamespace, String aPrefix, Map<String, String> qnameToPrefixMap)
    {
       String prefix = (String) qnameToPrefixMap.get(aNamespace);
       if (AeUtil.isNullOrEmpty(prefix))

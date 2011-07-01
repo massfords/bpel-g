@@ -88,7 +88,7 @@ public class AeRpcStyleInvoker extends AeSOAPInvoker
       typeMappingHelper.registerTypes(typeMapper);
       
       // Format the message into the call parameters
-      ArrayList list = new ArrayList();
+      ArrayList<Object> list = new ArrayList<Object>();
       Map messageData  = getMessageData(aContext);
       List outboundAttachments = addAttachments(aContext);
       AeWebServiceMessageData outputMsg = null;
