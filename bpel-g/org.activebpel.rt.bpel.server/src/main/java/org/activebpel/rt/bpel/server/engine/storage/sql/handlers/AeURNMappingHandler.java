@@ -15,14 +15,14 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.activebpel.rt.bpel.server.engine.storage.sql.AeDbUtils;
-import org.activebpel.rt.bpel.server.engine.storage.sql.AeResultSetHandler;
 import org.activebpel.rt.bpel.server.engine.storage.sql.IAeURNColumns;
+import org.apache.commons.dbutils.ResultSetHandler;
 
 
 /**
  * Walks the result set building a map of urn to url values. 
  */
-public class AeURNMappingHandler implements AeResultSetHandler<Map<String,String>>
+public class AeURNMappingHandler implements ResultSetHandler<Map<String,String>>
 {
    /**
     * @see org.apache.commons.dbutils.ResultSetHandler#handle(java.sql.ResultSet)

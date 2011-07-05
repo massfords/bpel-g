@@ -19,8 +19,8 @@ import org.activebpel.rt.bpel.server.AeMessages;
 import org.activebpel.rt.bpel.server.engine.storage.AeStorageException;
 import org.activebpel.rt.bpel.server.engine.storage.AeStorageUtil;
 import org.activebpel.rt.bpel.server.engine.storage.sql.AeDbUtils;
-import org.activebpel.rt.bpel.server.engine.storage.sql.AeResultSetHandler;
 import org.activebpel.rt.bpel.server.engine.storage.sql.IAeCoordinationColumns;
+import org.apache.commons.dbutils.ResultSetHandler;
 import org.w3c.dom.Document;
 
 
@@ -28,7 +28,7 @@ import org.w3c.dom.Document;
  * Implements a <code>ResultSetHandler</code> that converts the next row of
  * a <code>ResultSet</code> to an <code>IAeCoordinating</code>.
  */
-public class AeSQLCoordinatingResultSetHandler implements AeResultSetHandler<IAeCoordinating>
+public class AeSQLCoordinatingResultSetHandler implements ResultSetHandler<IAeCoordinating>
 {
    /** The coordination manager. */
    private IAeCoordinationManager mManager = null;

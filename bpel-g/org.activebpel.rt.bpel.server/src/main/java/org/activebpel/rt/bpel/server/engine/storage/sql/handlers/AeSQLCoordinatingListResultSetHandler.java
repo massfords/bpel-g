@@ -16,13 +16,13 @@ import java.util.List;
 
 import org.activebpel.rt.bpel.coord.IAeCoordinating;
 import org.activebpel.rt.bpel.coord.IAeCoordinationManager;
-import org.activebpel.rt.bpel.server.engine.storage.sql.AeResultSetHandler;
+import org.apache.commons.dbutils.ResultSetHandler;
 
 
 /**
  * Resultset handler which creates and returns a list of IAeCoordinating objects.
  */
-public class AeSQLCoordinatingListResultSetHandler implements AeResultSetHandler<List<IAeCoordinating>>
+public class AeSQLCoordinatingListResultSetHandler implements ResultSetHandler<List<IAeCoordinating>>
 {
    /** The coordination manager. */
    private IAeCoordinationManager mManager;

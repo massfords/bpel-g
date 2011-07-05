@@ -16,15 +16,15 @@ import java.io.StringWriter;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import org.activebpel.rt.bpel.server.engine.storage.sql.AeResultSetHandler;
 import org.activebpel.rt.bpel.server.engine.storage.sql.AeSQLConfig;
 import org.activebpel.rt.util.AeCloser;
 import org.apache.commons.dbutils.QueryRunner;
+import org.apache.commons.dbutils.ResultSetHandler;
 
 /**
  * Provides a single InputStream interface to a sequence of Clobs. 
  */
-public class AeSequentialClobStream extends Reader implements AeResultSetHandler<Reader>
+public class AeSequentialClobStream extends Reader implements ResultSetHandler<Reader>
 {
    private static final String SQL_GET_PROCESS_LOG_STREAM = "SequentialClobStream.GetProcessLogStream"; //$NON-NLS-1$
 

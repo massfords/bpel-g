@@ -14,7 +14,7 @@ import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.activebpel.rt.bpel.server.engine.storage.sql.AeResultSetHandler;
+import org.apache.commons.dbutils.ResultSetHandler;
 
 
 /**
@@ -22,7 +22,7 @@ import org.activebpel.rt.bpel.server.engine.storage.sql.AeResultSetHandler;
  * converts a {@link java.sql.ResultSet} to a map from journal entry ids to
  * location ids.
  */
-public class AeJournalEntriesLocationIdsResultSetHandler implements AeResultSetHandler<Map<Long, Integer>>
+public class AeJournalEntriesLocationIdsResultSetHandler implements ResultSetHandler<Map<Long, Integer>>
 {
    /**
     * Default constructor that is visible to classes derived from

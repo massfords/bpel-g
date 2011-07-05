@@ -15,8 +15,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.activebpel.rt.bpel.coord.AeCoordinationDetail;
-import org.activebpel.rt.bpel.server.engine.storage.sql.AeResultSetHandler;
 import org.activebpel.rt.bpel.server.engine.storage.sql.IAeCoordinationColumns;
+import org.apache.commons.dbutils.ResultSetHandler;
 
 /**
  * Implements a <code>ResultSetHandler</code> that converts the next row of
@@ -24,7 +24,7 @@ import org.activebpel.rt.bpel.server.engine.storage.sql.IAeCoordinationColumns;
  * <br/>
  */
 
-public class AeCoordinationDetailListResultSetHandler implements AeResultSetHandler<List<AeCoordinationDetail>>
+public class AeCoordinationDetailListResultSetHandler implements ResultSetHandler<List<AeCoordinationDetail>>
 {
 
    /**

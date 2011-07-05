@@ -15,14 +15,14 @@ import java.sql.SQLException;
 
 import org.activebpel.rt.bpel.server.engine.storage.attachment.AeAttachmentItemEntry;
 import org.activebpel.rt.bpel.server.engine.storage.sql.AeDbUtils;
-import org.activebpel.rt.bpel.server.engine.storage.sql.AeResultSetHandler;
+import org.apache.commons.dbutils.ResultSetHandler;
 import org.w3c.dom.Document;
 
 /**
  * Implements a <code>ResultSetHandler</code> that returns the first row of a
  * <code>ResultSet</code> as a <code>AeAttachmentItemEntry</code>.
  */
-public class AeAttachmentItemResultSetHandler implements AeResultSetHandler<AeAttachmentItemEntry>
+public class AeAttachmentItemResultSetHandler implements ResultSetHandler<AeAttachmentItemEntry>
 {
    /**
     * @see org.apache.commons.dbutils.ResultSetHandler#handle(java.sql.ResultSet)
