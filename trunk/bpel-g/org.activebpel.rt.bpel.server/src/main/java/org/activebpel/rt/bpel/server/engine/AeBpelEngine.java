@@ -648,7 +648,7 @@ public class AeBpelEngine extends AeAbstractServerEngine {
 	 *      org.activebpel.wsio.IAeMessageAcknowledgeCallback)
 	 */
 	protected long journalQueueInvokeData(long aProcessId, int aLocationId,
-			long aTransmissionId, IAeMessageData aMessageData, Map aProperties,
+			long aTransmissionId, IAeMessageData aMessageData, Map<String,String> aProperties,
 			IAeMessageAcknowledgeCallback aAckCallback)
 			throws AeBusinessProcessException {
 		long journalId = IAeProcessManager.NULL_JOURNAL_ID;
@@ -686,7 +686,7 @@ public class AeBpelEngine extends AeAbstractServerEngine {
 	 *      org.activebpel.wsio.IAeMessageAcknowledgeCallback)
 	 */
 	protected long journalQueueInvokeFault(long aProcessId, int aLocationId,
-			long aTransmissionId, IAeFault aFault, Map aProperties,
+			long aTransmissionId, IAeFault aFault, Map<String,String> aProperties,
 			IAeMessageAcknowledgeCallback aAckCallback)
 			throws AeBusinessProcessException {
 		long journalId = IAeProcessManager.NULL_JOURNAL_ID;

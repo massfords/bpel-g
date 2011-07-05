@@ -107,9 +107,9 @@ public class AeServiceDeploymentUtil implements IAeConstants {
 	protected static List getPolicyNodes(Element aElement) throws Exception {
 		NodeList policies = aElement.getElementsByTagNameNS(
 				IAeConstants.WSP_NAMESPACE_URI, "*"); //$NON-NLS-1$
-		List elements = new ArrayList(policies.getLength());
+		List<Element> elements = new ArrayList<Element>(policies.getLength());
 		for (int i = 0; i < policies.getLength(); i++) {
-			elements.add(policies.item(i));
+			elements.add((Element) policies.item(i));
 		}
 		return elements;
 	}

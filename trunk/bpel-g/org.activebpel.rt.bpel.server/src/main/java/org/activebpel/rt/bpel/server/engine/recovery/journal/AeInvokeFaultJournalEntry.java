@@ -33,7 +33,7 @@ public class AeInvokeFaultJournalEntry extends AeAbstractJournalEntry
    private IAeFault mFault;
 
    /** The associated process properties. */
-   private Map mProcessProperties;
+   private Map<String,String> mProcessProperties;
 
    /** Invoke activity transmission id. */
    private long mTransmissionId; 
@@ -41,7 +41,7 @@ public class AeInvokeFaultJournalEntry extends AeAbstractJournalEntry
    /**
     * Constructs journal entry to persist to storage.
     */
-   public AeInvokeFaultJournalEntry(int aLocationId, long aTransmissionId, IAeFault aFault, Map aProcessProperties)
+   public AeInvokeFaultJournalEntry(int aLocationId, long aTransmissionId, IAeFault aFault, Map<String,String> aProcessProperties)
    {
       super(JOURNAL_INVOKE_FAULT, aLocationId);
 
@@ -81,7 +81,7 @@ public class AeInvokeFaultJournalEntry extends AeAbstractJournalEntry
       IAeBusinessProcessEngineInternal engine = aProcess.getEngine();
       long processId = aProcess.getProcessId();
       IAeFault fault = getFault();
-      Map processProperties = getProcessProperties();
+      Map<String,String> processProperties = getProcessProperties();
       engine.queueInvokeFault(processId, locationPath, getTransmissionId(), fault, processProperties);
    }
 
@@ -97,7 +97,7 @@ public class AeInvokeFaultJournalEntry extends AeAbstractJournalEntry
    /**
     * Returns the associated process properties.
     */
-   protected Map getProcessProperties() throws AeBusinessProcessException
+   protected Map<String,String> getProcessProperties() throws AeBusinessProcessException
    {
       deserialize();
       return mProcessProperties;

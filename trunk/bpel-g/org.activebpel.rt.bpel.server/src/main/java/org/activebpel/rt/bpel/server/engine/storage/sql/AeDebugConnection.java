@@ -33,7 +33,7 @@ public class AeDebugConnection implements Connection
 {
    private Connection mDelegate;
    private int mCloseCount;
-   private static Hashtable sOpenConnections = new Hashtable();
+   private static Hashtable<AeDebugConnection, RuntimeException> sOpenConnections = new Hashtable<AeDebugConnection, RuntimeException>();
    
    public AeDebugConnection(Connection aDelegate)
    {
@@ -171,7 +171,7 @@ public class AeDebugConnection implements Connection
       return mDelegate.createStatement(aResultSetType, aResultSetConcurrency, aResultSetHoldability);
    }
 
-   public Map getTypeMap() throws SQLException
+   public Map<String,Class<?>> getTypeMap() throws SQLException
    {
       return mDelegate.getTypeMap();
    }

@@ -24,7 +24,7 @@ import org.w3c.dom.NodeList;
 /**
  * Creates Policy Deployment for a XPath mapping assertions 
  */
-public class AeCredentialPolicyMapper extends AeAxisPolicyMapper<String>
+public class AeCredentialPolicyMapper extends AeAxisPolicyMapper
 {
    /**
     * @see org.activebpel.rt.bpel.server.deploy.IAePolicyMapper#getServerRequestHandlers(java.util.List)
@@ -73,9 +73,9 @@ public class AeCredentialPolicyMapper extends AeAxisPolicyMapper<String>
    /**
     * @see org.activebpel.rt.bpel.server.deploy.IAePolicyMapper#getCallProperties(java.util.List)
     */
-   public Map<String, String> getCallProperties(List<Element> aPolicyList) throws AeException
+   public Map<String, Object> getCallProperties(List<Element> aPolicyList) throws AeException
    {
-      Map<String, String> map = new HashMap<String, String>();
+      Map<String, Object> map = new HashMap<String, Object>();
       
       for (Iterator it = aPolicyList.iterator(); it.hasNext();)
       {

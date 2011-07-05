@@ -15,8 +15,8 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Map;
-import java.util.Set;
 import java.util.Map.Entry;
+import java.util.Set;
 
 import org.activebpel.rt.bpel.AeMessages;
 import org.activebpel.rt.bpel.def.AeBaseDef;
@@ -59,13 +59,13 @@ public class AeMessageExchangeValidationVisitor extends AeAbstractDefVisitor
 
    /** set of plink.operation.messageExchange, all replies are matched against
     *  this set to assert that we have matched receives/replies */
-   private Set mMessageExchangeReceives = new HashSet();
+   private Set<String> mMessageExchangeReceives = new HashSet<String>();
 
    /** Collection of replies that have been visited - used to assert a match w/ receives/replies for messageExchange */
-   private Collection mReplies = new LinkedList();
+   private Collection<AeActivityReplyDef> mReplies = new LinkedList<AeActivityReplyDef>();
    
    /** collection of receives and onMessages, mapped to the context def used to resolve resources*/
-   private Map mReceiveDefsToContexts = new HashMap();
+   private Map<IAeReceiveActivityDef, AeBaseDef> mReceiveDefsToContexts = new HashMap<IAeReceiveActivityDef, AeBaseDef>();
    
    /** process being visited */
    private AeProcessDef mProcessDef;
@@ -187,7 +187,7 @@ public class AeMessageExchangeValidationVisitor extends AeAbstractDefVisitor
    protected void validateMessageExchangeForReplies()
    {
       // validates that the replies match to receives. This will find any replies that have invalid messageExchange values
-      Set replyPaths = new HashSet();
+      Set<String> replyPaths = new HashSet<String>();
       for (Iterator iter = mReplies.iterator(); iter.hasNext();)
       {
          AeActivityReplyDef def = (AeActivityReplyDef) iter.next();

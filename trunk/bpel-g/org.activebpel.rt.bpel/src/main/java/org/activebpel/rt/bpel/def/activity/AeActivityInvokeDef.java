@@ -9,10 +9,8 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpel.def.activity;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
-import java.util.List;
 
 import javax.xml.namespace.QName;
 
@@ -67,19 +65,6 @@ public class AeActivityInvokeDef extends AeActivityPartnerLinkBaseDef implements
       super();
    }
    
-   /**
-    * Adds to the list passed in, returning a new list if the list param was null
-    * @param aObject
-    * @param aListToAddTo
-    */
-   protected List addToList(Object aObject, List aListToAddTo)
-   {
-      if (aListToAddTo == null)
-         aListToAddTo = new ArrayList();
-      aListToAddTo.add(aObject);
-      return aListToAddTo;
-   }
-
    /**
     * Returns the input Variable of the invoke activity.
     * @return input variable of invoke activity

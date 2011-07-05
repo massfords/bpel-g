@@ -23,7 +23,7 @@ import org.activebpel.rt.bpel.def.validation.IAeValidator;
 public class AeExtensionValidator extends AeBaseValidator
 {
    /** Users of this extension. */
-   private List mExtensionUsers = new LinkedList();
+   private List<AeExtensionUsage> mExtensionUsers = new LinkedList<AeExtensionUsage>();
 
    /**
     * ctor
@@ -96,7 +96,7 @@ public class AeExtensionValidator extends AeBaseValidator
    /**
     * @return Returns the extensionUsers.
     */
-   public List getExtensionUsers()
+   public List<AeExtensionUsage> getExtensionUsers()
    {
       return mExtensionUsers;
    }
@@ -104,7 +104,7 @@ public class AeExtensionValidator extends AeBaseValidator
    /**
     * @param aExtensionUsers The extensionUsers to set.
     */
-   public void setExtensionUsers(List aExtensionUsers)
+   public void setExtensionUsers(List<AeExtensionUsage> aExtensionUsers)
    {
       mExtensionUsers = aExtensionUsers;
    }

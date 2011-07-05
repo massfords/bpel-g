@@ -58,8 +58,8 @@ public interface IAeMessageQueue
     * @param aMessageData The data we have received from invoke.
     * @param aProcessProperties Any string name/value pairs we received back from the invoke.
     */
-   public void queueInvokeData(long aProcessId, String aLocationPath, long aTransmissionId, IAeWebServiceMessageData aMessageData, Map aProcessProperties )
-         throws RemoteException, AeRequestException;
+   public void queueInvokeData(long aProcessId, String aLocationPath, long aTransmissionId, IAeWebServiceMessageData aMessageData, Map<String,String> aProcessProperties )
+         throws AeRequestException;
    
    /**
     * Allows an externally invoked operation fault to dispatch to a queued invoke.
@@ -70,8 +70,8 @@ public interface IAeMessageQueue
     * @param aFaultData The fault data we have received from invoke or null if not available
     * @param aProcessProperties Any string name/value pairs we received back from the invoke.
     */
-   public void queueInvokeFault(long aProcessId, String aLocationPath, long aTransmissionId, QName aFaultName, IAeWebServiceMessageData aFaultData, Map aProcessProperties)
-      throws RemoteException, AeRequestException;
+   public void queueInvokeFault(long aProcessId, String aLocationPath, long aTransmissionId, QName aFaultName, IAeWebServiceMessageData aFaultData, Map<String,String> aProcessProperties)
+      throws AeRequestException;
    
 }
  

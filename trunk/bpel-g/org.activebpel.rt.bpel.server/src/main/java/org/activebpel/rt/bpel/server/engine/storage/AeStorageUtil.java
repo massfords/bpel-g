@@ -212,7 +212,7 @@ public class AeStorageUtil
     * @return The correlation <code>Map</code>.
     * @throws AeStorageException
     */
-   public static Map deserializeCorrelationProperties(Reader aReader) throws AeStorageException
+   public static Map<QName,String> deserializeCorrelationProperties(Reader aReader) throws AeStorageException
    {
       try
       {
@@ -235,11 +235,11 @@ public class AeStorageUtil
     * @throws AeStorageException
     */
    @SuppressWarnings("unchecked")
-public static Map deserializeCorrelationProperties(Element aRootElement) throws AeStorageException
+   public static Map<QName,String> deserializeCorrelationProperties(Element aRootElement) throws AeStorageException
    {
       try
       {
-         Map map = new HashMap();
+         Map<QName,String> map = new HashMap<QName,String>();
 
          NodeList nl = aRootElement.getElementsByTagName(PROPERTY_TAGNAME);
          for (int i = 0; i < nl.getLength(); i++)
@@ -251,8 +251,10 @@ public static Map deserializeCorrelationProperties(Element aRootElement) throws 
             String valueType = propElem.getAttribute(TYPE_ATTRNAME);
             String value = AeXmlUtil.getText(propElem);
             Class c = Class.forName(valueType);
+            // FIXME GENERICS -- looks like the serialization layer is supporting more than just strings although 
+            //             the map is strings elsewhere. Could be something introduced with all the generics work 
             Constructor constructor = c.getConstructor( new Class[] { String.class } );
-            map.put(name, constructor.newInstance(new Object[] { value }));
+            map.put(name, (String) constructor.newInstance(new Object[] { value }));
          }
 
          return map;

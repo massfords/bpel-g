@@ -131,7 +131,7 @@ public class AeWSBPELActivityScopeValidator extends AeActivityScopeValidator
        * set of scope names that are being targeted by <compensateScope/> 
        * activities 
        */
-      private Set mScopeNames = new HashSet();
+      private Set<String> mScopeNames = new HashSet<String>();
       
       /** set to true if we encounter a <compensate/> */
       private boolean mCompensateFound = false;
@@ -210,7 +210,7 @@ public class AeWSBPELActivityScopeValidator extends AeActivityScopeValidator
       /**
        * @return the scopeNames
        */
-      protected Set getScopeNames()
+      protected Set<String> getScopeNames()
       {
          return mScopeNames;
       }
@@ -218,7 +218,7 @@ public class AeWSBPELActivityScopeValidator extends AeActivityScopeValidator
       /**
        * @param aScopeNames the scopeNames to set
        */
-      protected void setScopeNames(Set aScopeNames)
+      protected void setScopeNames(Set<String> aScopeNames)
       {
          mScopeNames = aScopeNames;
       }
@@ -238,7 +238,7 @@ public class AeWSBPELActivityScopeValidator extends AeActivityScopeValidator
       /** tracks the depth to avoid matching nested scopes by name */
       private int mLevel = 1;
       /** Set of matched isolated scopes */
-      private Set mMatchedScopes = new HashSet();
+      private Set<AeActivityScopeDef> mMatchedScopes = new HashSet<AeActivityScopeDef>();
       
       /**
        * Visitor will match on any isolated scopes
@@ -349,7 +349,7 @@ public class AeWSBPELActivityScopeValidator extends AeActivityScopeValidator
       /**
        * @return the scopeLocationPaths
        */
-      public Set getMatchedScopes()
+      public Set<AeActivityScopeDef> getMatchedScopes()
       {
          return mMatchedScopes;
       }

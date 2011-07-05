@@ -1206,7 +1206,7 @@ public class AeBusinessProcessEngine implements IAeBusinessProcessEngineInternal
     * @throws AeBusinessProcessException
     */
    protected long journalQueueInvokeData(long aProcessId, int aLocationId, long aTransmissionId, IAeMessageData aMessageData,
-         Map aProperties, IAeMessageAcknowledgeCallback aAckCallback) throws AeBusinessProcessException
+         Map<String,String> aProperties, IAeMessageAcknowledgeCallback aAckCallback) throws AeBusinessProcessException
    {
       long journalId = getProcessManager().journalInvokeData(aProcessId, aLocationId, aTransmissionId, aMessageData, aProperties);
       if (aAckCallback != null)
@@ -1234,7 +1234,7 @@ public class AeBusinessProcessEngine implements IAeBusinessProcessEngineInternal
     * @throws AeBusinessProcessException
     */
    protected long journalQueueInvokeFault(long aProcessId, int aLocationId, long aTransmissionId, IAeFault aFault,
-         Map aProperties, IAeMessageAcknowledgeCallback aAckCallback) throws AeBusinessProcessException
+         Map<String,String> aProperties, IAeMessageAcknowledgeCallback aAckCallback) throws AeBusinessProcessException
    {
       long journalId = getProcessManager().journalInvokeFault(aProcessId, aLocationId, aTransmissionId, aFault, aProperties);
       if (aAckCallback != null)

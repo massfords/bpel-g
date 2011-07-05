@@ -340,9 +340,7 @@ public class AeQueueStorage extends AeAbstractStorage implements
 		AePersistedMessageReceiver found = null;
 		List receives = null;
 
-		for (Iterator it = aCorrProps.getCollection().iterator(); found == null
-				&& it.hasNext();) {
-			Set<QName> propsForMap = new HashSet<QName>((Set) it.next());
+		for (Set<QName> propsForMap : aCorrProps.getCollection()) {
 			if (aInboundReceive.getContext().getWsAddressingHeaders()
 					.getConversationId() != null) {
 				// add engine managed correlation property to the set
@@ -360,6 +358,8 @@ public class AeQueueStorage extends AeAbstractStorage implements
 					break;
 				}
 			}
+			if (found != null)
+			    break;
 		}
 
 		return found;
@@ -428,8 +428,8 @@ public class AeQueueStorage extends AeAbstractStorage implements
 	 *            The map that contains the correlated info
 	 * @return A list of matching receives.
 	 */
-	protected List getMatchingReceives(AeInboundReceive aInboundReceive,
-			Map aCorrelationMap) throws AeStorageException {
+	protected List<AePersistedMessageReceiver> getMatchingReceives(AeInboundReceive aInboundReceive,
+			Map<QName,String> aCorrelationMap) throws AeStorageException {
 		int matchHash = AeStorageUtil.getReceiveMatchHash(aInboundReceive);
 		int correlatesHash = 0;
 
@@ -450,7 +450,7 @@ public class AeQueueStorage extends AeAbstractStorage implements
 			getQueueStorageProvider().incrementHashCollisionCounter();
 		}
 
-		LinkedList rval = new LinkedList();
+		LinkedList<AePersistedMessageReceiver> rval = new LinkedList<AePersistedMessageReceiver>();
 		for (Iterator iter = list.iterator(); iter.hasNext();) {
 			AePersistedMessageReceiver queuedReceive = (AePersistedMessageReceiver) iter
 					.next();

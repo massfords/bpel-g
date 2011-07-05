@@ -286,12 +286,12 @@ public class AeWorkManager implements WorkManager, Runnable,
 		 * 
 		 * @param aWorkItems
 		 */
-		private Collection copyWorkItems(Collection aWorkItems) {
-			Collection coll = new LinkedList();
+		private Collection<AeWorkItem> copyWorkItems(Collection aWorkItems) {
+			Collection<AeWorkItem> coll = new LinkedList<AeWorkItem>();
 			for (Iterator iter = aWorkItems.iterator(); iter.hasNext();) {
 				Object o = iter.next();
-				if (o instanceof WorkItem) {
-					coll.add(o);
+				if (o instanceof AeWorkItem) {
+					coll.add((AeWorkItem) o);
 				}
 			}
 			return coll;
@@ -380,7 +380,7 @@ public class AeWorkManager implements WorkManager, Runnable,
 		 * Gets all of the completed items or null if there are none.
 		 */
 		protected Collection getCompletedItems() {
-			List list = null;
+			List<WorkItem> list = null;
 			for (Iterator iter = mColl.iterator(); iter.hasNext();) {
 				WorkItem item = (WorkItem) iter.next();
 				if (item.getStatus() == WorkEvent.WORK_COMPLETED) {
@@ -390,7 +390,7 @@ public class AeWorkManager implements WorkManager, Runnable,
 
 			// 1.1 version of spec requires empty list instead of null
 			if (list == null)
-				list = Collections.EMPTY_LIST;
+				list = Collections.emptyList();
 			return list;
 		}
 
@@ -403,8 +403,8 @@ public class AeWorkManager implements WorkManager, Runnable,
 		 * @param aList
 		 *            List or null to return a new one.
 		 */
-		private List addToList(WorkItem aItem, List aList) {
-			List list = aList == null ? new ArrayList() : aList;
+		private List<WorkItem> addToList(WorkItem aItem, List<WorkItem> aList) {
+			List<WorkItem> list = aList == null ? new ArrayList<WorkItem>() : aList;
 			list.add(aItem);
 			return list;
 		}

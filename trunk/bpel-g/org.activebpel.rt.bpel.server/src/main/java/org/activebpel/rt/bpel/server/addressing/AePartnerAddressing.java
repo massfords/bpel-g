@@ -335,7 +335,7 @@ public class AePartnerAddressing implements IAePartnerAddressing
             }
          }
       }
-      List policies = service.getAny();
+      List<Element> policies = service.getAny();
       if (!AeUtil.isNullOrEmpty(policies))
       {
          try
@@ -349,7 +349,7 @@ public class AePartnerAddressing implements IAePartnerAddressing
             if (aConversationId != null)
             {
                // get the correlationId property from the mapper
-               Map props = AeEngineFactory.getBean(IAePolicyMapper.class).getCallProperties(policies);
+               Map<String,Object> props = AeEngineFactory.getBean(IAePolicyMapper.class).getCallProperties(policies);
                QName correlationProperty = (QName) props.get(IAePolicyConstants.TAG_ASSERT_MANAGED_CORRELATION);
                if (correlationProperty != null)
                {

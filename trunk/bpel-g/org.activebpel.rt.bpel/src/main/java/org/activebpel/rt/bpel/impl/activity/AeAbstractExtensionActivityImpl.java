@@ -78,6 +78,7 @@ public abstract class AeAbstractExtensionActivityImpl implements IAeActivityLife
    /**
     * @see org.activebpel.rt.bpel.impl.activity.IAeActivityLifeCycleAdapter#getImplAdapter(java.lang.Class)
     */
+   @SuppressWarnings("unchecked")
    public IAeImplAdapter getImplAdapter(Class aClass)
    {
       if (aClass.isAssignableFrom(getClass()))

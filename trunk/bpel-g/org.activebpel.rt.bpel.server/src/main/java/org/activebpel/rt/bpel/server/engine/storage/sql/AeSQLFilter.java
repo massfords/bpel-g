@@ -25,7 +25,7 @@ abstract public class AeSQLFilter
    private final StringBuffer mConditions = new StringBuffer();
 
    /** The values of the replacement parameters specified by the WHERE clause. */
-   private final List mParams = new ArrayList();
+   private final List<Object> mParams = new ArrayList<Object>();
 
    /** Config object used to load sql statements */
    private AeSQLConfig mConfig;

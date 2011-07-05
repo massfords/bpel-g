@@ -150,7 +150,7 @@ public class AeFunctionContextLocator implements IAeFunctionContextLocator
     */
    protected URL[] resolveUrls(String aClasspath)
    {
-      ArrayList urlList = new ArrayList();
+      ArrayList<URL> urlList = new ArrayList<URL>();
       StringTokenizer classFile = new StringTokenizer( aClasspath, LOCATION_SEP );
       int files = classFile.countTokens();
       if ( files > 0 )

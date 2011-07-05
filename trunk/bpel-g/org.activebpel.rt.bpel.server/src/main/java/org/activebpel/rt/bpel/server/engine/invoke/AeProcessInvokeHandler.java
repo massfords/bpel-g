@@ -479,7 +479,7 @@ public class AeProcessInvokeHandler implements IAeTwoPhaseInvokeHandler, IAeMess
          IAeContextWSDLProvider wsdlProvider = AeEngineFactory.getBean(IAeDeploymentProvider.class).findDeploymentPlan(aInvoke.getProcessId(), aInvoke.getProcessName());
          List<Element> resolvedPolicies = aEndpoint.getEffectivePolicies(wsdlProvider, aInvoke.getPortType(), aInvoke.getOperation());
          
-         IAePolicyMapper<?> mapper = AeEngineFactory.getBean(IAePolicyMapper.class);
+         IAePolicyMapper mapper = AeEngineFactory.getBean(IAePolicyMapper.class);
          Map<String,?> callProperties = mapper.getCallProperties(resolvedPolicies);
          // check for principal header policy 
          QName principalName = (QName) callProperties.get(IAePolicyConstants.TAG_ASSERT_MAP_PROCESS_INTIATOR);

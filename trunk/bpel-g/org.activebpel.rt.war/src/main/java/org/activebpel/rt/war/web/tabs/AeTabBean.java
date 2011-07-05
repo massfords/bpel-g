@@ -18,7 +18,7 @@ import java.util.List;
 public class AeTabBean
 {
    /** The list of tabs */
-   private List mTabs = new ArrayList();
+   private List<AeTab> mTabs = new ArrayList<AeTab>();
    /** The tab at this offset is the currently selected tab */
    private int mSelectedOffset;
    

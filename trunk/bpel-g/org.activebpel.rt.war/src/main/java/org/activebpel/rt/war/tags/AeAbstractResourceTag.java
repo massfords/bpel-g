@@ -59,7 +59,7 @@ private static final String NOT_PRESENT = "none"; //$NON-NLS-1$
          {
             String bundleLoc = aServletContext.getInitParameter("resource-bundle-class"); //$NON-NLS-1$
             String bundlePrefix = aServletContext.getInitParameter("bundle-prefix"); //$NON-NLS-1$
-            Class c = Class.forName(bundleLoc);
+            Class<?> c = Class.forName(bundleLoc);
             Constructor constructor = c.getConstructor( new Class[] { String.class, ServletContext.class, ServletRequest.class } );
             bundle = (ResourceBundle) constructor.newInstance( new Object[] { bundlePrefix, aServletContext, aServletRequest } );
             sBundleTable.put(bundleKey, bundle);

@@ -20,7 +20,7 @@ import org.activebpel.rt.bpel.AeBusinessProcessException;
 public class AeInMemoryLockManager extends AeAbstractLockManager
 {
    /** Contains all currently acquired locks. */
-   private Set mLocks;
+   private Set<IAeLock> mLocks;
 
    /**
     * @see org.activebpel.rt.bpel.impl.IAeManager#create()
@@ -29,7 +29,7 @@ public class AeInMemoryLockManager extends AeAbstractLockManager
    {
       super.create();
       
-      mLocks = new HashSet();
+      mLocks = new HashSet<IAeLock>();
    }
    
    /**

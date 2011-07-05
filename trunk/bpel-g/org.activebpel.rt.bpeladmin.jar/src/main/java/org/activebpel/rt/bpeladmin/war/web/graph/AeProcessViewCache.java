@@ -18,7 +18,7 @@ import org.activebpel.rt.bpeladmin.war.web.processview.AeProcessViewBase;
  * Simple linked list map which removes the eldest entry when the number of
  * entries is &gt; 10.
  */
-public class AeProcessViewCache extends LinkedHashMap
+public class AeProcessViewCache extends LinkedHashMap<String,AeProcessViewBase>
 {
    /**
      * 

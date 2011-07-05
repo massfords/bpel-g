@@ -142,7 +142,7 @@ public class AeResourceResolver implements IAeResourceResolver
     * Setter for the map
     * @param map
     */
-   protected void setMap(Map map)
+   protected void setMap(Map<String, IAeCatalogMapping> map)
    {
       mMap = map;
    }
@@ -150,7 +150,7 @@ public class AeResourceResolver implements IAeResourceResolver
    /**
     * Getter for the map
     */
-   protected Map getMap()
+   protected Map<String, IAeCatalogMapping> getMap()
    {
       return mMap;
    }
