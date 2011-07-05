@@ -41,7 +41,7 @@ import org.activebpel.rt.bpel.impl.visitors.IAeImplVisitor;
 public class AeActivityCompensateImpl extends AeActivityImpl implements IAeCompensationCallback
 {
    /** The <code>List</code> of matching <code>AeCompInfo</code> objects for iteration. */
-   private List mIterationScopes;
+   private List<AeCompInfo> mIterationScopes;
 
    /** The next index in the list of matching <code>AeCompInfo</code> objects. */
    private int mNextIndex = 0;
@@ -302,15 +302,15 @@ public class AeActivityCompensateImpl extends AeActivityImpl implements IAeCompe
    /**
     * Returns the list of matching scopes for iteration.
     */
-   protected List getIterationScopes() 
+   protected List<AeCompInfo> getIterationScopes() 
    {
       if (mIterationScopes == null)
       {
-         List matchingScopes;
+         List<AeCompInfo> matchingScopes;
 
          if (isMatchCoordinated())
          {
-            // get all effected comp info objects which are coordinated.
+            // get all affected comp info objects which are coordinated.
             matchingScopes = getCompInfo().getCoordinatedEnclosedScopes();
          }
          else
@@ -318,7 +318,7 @@ public class AeActivityCompensateImpl extends AeActivityImpl implements IAeCompe
             matchingScopes = getMatchingScopes();
          }
 
-         mIterationScopes = new ArrayList(matchingScopes);
+         mIterationScopes = new ArrayList<AeCompInfo>(matchingScopes);
       }
 
       return mIterationScopes;
@@ -328,7 +328,7 @@ public class AeActivityCompensateImpl extends AeActivityImpl implements IAeCompe
     * Gets the list of matching scopes for compensation.
     * 
     */
-   protected List getMatchingScopes()
+   protected List<AeCompInfo> getMatchingScopes()
    {
       return getCompInfo().getEnclosedScopes();
    }

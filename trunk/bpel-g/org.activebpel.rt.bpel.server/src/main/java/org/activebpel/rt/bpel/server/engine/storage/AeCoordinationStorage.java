@@ -12,6 +12,7 @@ package org.activebpel.rt.bpel.server.engine.storage;
 
 import java.util.List;
 
+import org.activebpel.rt.bpel.coord.AeCoordinationDetail;
 import org.activebpel.rt.bpel.coord.IAeCoordinating;
 import org.activebpel.rt.bpel.coord.IAeCoordinationManager;
 import org.activebpel.rt.bpel.impl.fastdom.AeFastDocument;
@@ -115,7 +116,7 @@ public class AeCoordinationStorage extends AeAbstractStorage implements IAeCoord
    /**
     * @see org.activebpel.rt.bpel.server.engine.storage.IAeCoordinationStorage#getCoordinations(java.lang.String)
     */
-   public List getCoordinations(String aCoordinationId) throws AeStorageException
+   public List<? extends IAeCoordinating> getCoordinations(String aCoordinationId) throws AeStorageException
    {
       return getCoordinationStorageProvider().getCoordinations(aCoordinationId);
    }
@@ -150,7 +151,7 @@ public class AeCoordinationStorage extends AeAbstractStorage implements IAeCoord
    /**
     * @see org.activebpel.rt.bpel.server.engine.storage.IAeCoordinationStorage#getParticipantDetail(long)
     */
-   public List getParticipantDetail(long aParentProcessId) throws AeStorageException
+   public List<AeCoordinationDetail> getParticipantDetail(long aParentProcessId) throws AeStorageException
    {
       return getCoordinationStorageProvider().getParticipantDetail(aParentProcessId);
    }

@@ -41,6 +41,7 @@ import org.activebpel.rt.xml.AeElementBasedNamespaceContext;
 import org.activebpel.rt.xml.AeXMLParserBase;
 import org.activebpel.rt.xml.IAeMutableNamespaceContext;
 import org.activebpel.rt.xml.schema.AeSchemaDateTime;
+import org.exolab.castor.xml.schema.Schema;
 import org.exolab.castor.xml.schema.XMLType;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
@@ -101,7 +102,7 @@ public class AeXmlUtil
     * @param aSchemas schema, if present will validate the document.
     * @return Document object.
     */
-   public static Document toDoc(File aXmlFile, Iterator aSchemas) throws AeException
+   public static Document toDoc(File aXmlFile, Iterator<Schema> aSchemas) throws AeException
    {
       try
       {
@@ -119,7 +120,7 @@ public class AeXmlUtil
     * @param aSchemas schema, if present will validate the document.
     * @return Document object.
     */
-   public static Document toDoc(InputSource aInputSource, Iterator aSchemas) throws AeException
+   public static Document toDoc(InputSource aInputSource, Iterator<Schema> aSchemas) throws AeException
    {
       Document rDoc;
       AeXMLParserBase parser = new AeXMLParserBase();

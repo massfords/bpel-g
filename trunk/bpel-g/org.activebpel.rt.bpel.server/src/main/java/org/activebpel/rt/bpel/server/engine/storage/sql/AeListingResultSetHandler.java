@@ -23,7 +23,7 @@ import org.apache.commons.dbutils.ResultSetHandler;
  * <br/>
  * Note: This class is not intended to be thread safe. 
  */
-abstract public class AeListingResultSetHandler implements ResultSetHandler
+abstract public class AeListingResultSetHandler<L,T> implements ResultSetHandler
 {
    /** The row number where to start fetching results. */
    private final int mListStart;
@@ -82,7 +82,7 @@ abstract public class AeListingResultSetHandler implements ResultSetHandler
    /**
     * @see org.apache.commons.dbutils.ResultSetHandler#handle(java.sql.ResultSet)
     */
-   public synchronized Object handle(ResultSet aResultSet) throws SQLException
+   public synchronized L handle(ResultSet aResultSet) throws SQLException
    {
       // Note: This class is not intended to be thread safe. We need to
       // to do some checks in case some client code uses a shared instance.
@@ -95,7 +95,7 @@ abstract public class AeListingResultSetHandler implements ResultSetHandler
       
       try
       {
-         List results = new ArrayList();      
+         List<T> results = new ArrayList<T>();      
          // Set ResultSet for next().
          setResultSet(aResultSet);
          setRowCount(0);
@@ -143,14 +143,14 @@ abstract public class AeListingResultSetHandler implements ResultSetHandler
     * @param results
     * @throws SQLException
     */
-   protected void readRows(ResultSet aResultSet, List results) throws SQLException
+   protected void readRows(ResultSet aResultSet, List<T> results) throws SQLException
    {
       // Iterate through rows until we have nMaxReturn rows.
       while ((results.size() < mMaxReturn) && next())
       {
          // Add result if one was returned, if null handler impl may have filtered it out
          // In which case, we must decrement the row count so it will match the result set
-         Object result = readRow(aResultSet);
+         T result = readRow(aResultSet);
          if (result != null)
             results.add(result);
          else
@@ -175,13 +175,13 @@ abstract public class AeListingResultSetHandler implements ResultSetHandler
     * @param aResultSet
     * @throws SQLException
     */
-   abstract protected Object readRow(ResultSet aResultSet) throws SQLException;
+   abstract protected T readRow(ResultSet aResultSet) throws SQLException;
 
    /**
     * Converts the list of results to the specific type needed.
     * @param aResults
     */
-   abstract protected Object convertToType(List aResults);
+   abstract protected L convertToType(List<T> aResults);
 
    /**
     * Wraps <code>mResultSet.next()</code> to count the total number of rows

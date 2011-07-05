@@ -24,6 +24,7 @@ import org.activebpel.rt.bpel.AePreferences;
 import org.activebpel.rt.bpel.server.AeMessages;
 import org.activebpel.rt.bpel.server.engine.IAeProcessLogger;
 import org.activebpel.rt.bpel.server.engine.storage.AeStorageException;
+import org.activebpel.rt.bpel.server.engine.storage.sql.AeResultSetHandler;
 import org.activebpel.rt.bpel.server.engine.storage.sql.AeSQLConfig;
 import org.activebpel.rt.bpel.server.engine.storage.sql.AeSQLObject;
 import org.activebpel.rt.util.AeCloser;
@@ -182,12 +183,12 @@ public class AeLogReader extends AeSQLObject
     * As its name implies, this is designed for reading a small number of clobs since
     * it reads the entire contents of the clobs into memory.
     */
-   protected static class AeSmallLogHandler implements ResultSetHandler
+   protected static class AeSmallLogHandler implements AeResultSetHandler<String>
    {
       /**
        * @see org.apache.commons.dbutils.ResultSetHandler#handle(java.sql.ResultSet)
        */
-      public Object handle(ResultSet rs) throws SQLException
+      public String handle(ResultSet rs) throws SQLException
       {
          Reader reader = null;
          StringBuffer sb = new StringBuffer();
@@ -241,12 +242,13 @@ public class AeLogReader extends AeSQLObject
     * apparent performance issue with mysql where it was generating OutOfMemoryErrors
     * when trying to sort a small ResultSet. 
     */
-   protected class AeLogEntryHandler implements ResultSetHandler
+   protected class AeLogEntryHandler implements AeResultSetHandler<List<AeLogEntry>>
    {
       /**
        * @see org.apache.commons.dbutils.ResultSetHandler#handle(java.sql.ResultSet)
        */
-      public Object handle(ResultSet rs) throws SQLException
+      @SuppressWarnings("unchecked")
+      public List<AeLogEntry> handle(ResultSet rs) throws SQLException
       {
          List<AeLogEntry> list = new ArrayList<AeLogEntry>();
          

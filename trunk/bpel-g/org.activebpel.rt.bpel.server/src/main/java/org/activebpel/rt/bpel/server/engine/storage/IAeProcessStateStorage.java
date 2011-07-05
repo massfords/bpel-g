@@ -58,7 +58,7 @@ public interface IAeProcessStateStorage extends IAeStorage
     * @return List
     * @throws AeStorageException
     */
-   public List getJournalEntries(long aProcessId) throws AeStorageException;
+   public List<IAeJournalEntry> getJournalEntries(long aProcessId) throws AeStorageException;
 
    /**
     * Returns location ids of journal entries for the given process as a map

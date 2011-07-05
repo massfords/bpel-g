@@ -15,6 +15,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 
 import org.activebpel.rt.AeException;
@@ -70,7 +71,7 @@ public class AeRecoveryEngine extends AeAbstractServerEngine implements IAeRecov
       setExpressionLanguageFactory(aFactory);
       setPartnerLinkStrategy(aPartnerLinkStrategy);
       setTransmissionTracker(aTransmissionTracker);
-      Map managersMap = createRecoveryVersionsOfCustomManagers(aManagersMap);
+      Map<String,IAeManager> managersMap = createRecoveryVersionsOfCustomManagers(aManagersMap);
       setManagers(managersMap);
       // Since recovery engine extends BusiProcEngine, engine id will always be 1.
       // We need to get the engine id from the underlying engine.      
@@ -82,13 +83,11 @@ public class AeRecoveryEngine extends AeAbstractServerEngine implements IAeRecov
     * managers provide adapters for {@link IAeRecoveryAwareManager}.
     * @param aCustomManagersMap
     */
-   protected Map createRecoveryVersionsOfCustomManagers(Map aCustomManagersMap)
+   protected Map<String,IAeManager> createRecoveryVersionsOfCustomManagers(Map<String,IAeManager> aCustomManagersMap)
    {
-      Map managersMap = new HashMap(aCustomManagersMap);
-      for (Iterator it = managersMap.entrySet().iterator(); it.hasNext();)
+      Map<String,IAeManager> managersMap = new HashMap<String,IAeManager>(aCustomManagersMap);
+      for (Entry<String,IAeManager> entry : managersMap.entrySet())
       {
-         Map.Entry entry = (Map.Entry) it.next();
-         
          IAeManager manager = (IAeManager) entry.getValue();
          IAeRecoveryAwareManager recoveryAwareManager = (IAeRecoveryAwareManager) manager.getAdapter(IAeRecoveryAwareManager.class);
          if (recoveryAwareManager != null)

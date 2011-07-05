@@ -11,6 +11,7 @@ package org.activebpel.rt.bpel.server.engine.recovery;
 
 import java.util.List;
 
+import org.activebpel.rt.bpel.impl.IAeManager;
 import org.activebpel.rt.bpel.impl.activity.IAeImplAdapter;
 
 /**
@@ -21,7 +22,7 @@ import org.activebpel.rt.bpel.impl.activity.IAeImplAdapter;
  * will be replaced with its recovery version returned from this interface's
  * method. 
  */
-public interface IAeRecoveryAwareManager extends IAeImplAdapter
+public interface IAeRecoveryAwareManager extends IAeImplAdapter, IAeManager
 {
    /**
     * Setter for the items that have been recovered for the process

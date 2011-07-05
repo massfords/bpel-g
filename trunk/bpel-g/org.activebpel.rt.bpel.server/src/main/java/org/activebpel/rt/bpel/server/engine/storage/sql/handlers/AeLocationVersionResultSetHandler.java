@@ -15,17 +15,17 @@ import java.sql.SQLException;
 
 import org.activebpel.rt.bpel.server.engine.storage.AeLocationVersionSet;
 import org.activebpel.rt.bpel.server.engine.storage.IAeLocationVersionSet;
-import org.apache.commons.dbutils.ResultSetHandler;
+import org.activebpel.rt.bpel.server.engine.storage.sql.AeResultSetHandler;
 
 /**
  * A SQL result set handler that returns a set of location id/version number tuples.
  */
-public class AeLocationVersionResultSetHandler implements ResultSetHandler
+public class AeLocationVersionResultSetHandler implements AeResultSetHandler<IAeLocationVersionSet>
 {
    /**
     * @see org.apache.commons.dbutils.ResultSetHandler#handle(java.sql.ResultSet)
     */
-   public Object handle(ResultSet rs) throws SQLException
+   public IAeLocationVersionSet handle(ResultSet rs) throws SQLException
    {
       IAeLocationVersionSet set = new AeLocationVersionSet();
 

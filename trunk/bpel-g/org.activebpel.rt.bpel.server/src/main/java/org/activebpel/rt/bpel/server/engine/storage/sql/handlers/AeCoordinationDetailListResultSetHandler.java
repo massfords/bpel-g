@@ -11,8 +11,11 @@ package org.activebpel.rt.bpel.server.engine.storage.sql.handlers;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.activebpel.rt.bpel.coord.AeCoordinationDetail;
+import org.activebpel.rt.bpel.server.engine.storage.sql.AeResultSetHandler;
 import org.activebpel.rt.bpel.server.engine.storage.sql.IAeCoordinationColumns;
 
 /**
@@ -21,7 +24,7 @@ import org.activebpel.rt.bpel.server.engine.storage.sql.IAeCoordinationColumns;
  * <br/>
  */
 
-public class AeCoordinationDetailListResultSetHandler extends AeSQLCoordinatingListResultSetHandler
+public class AeCoordinationDetailListResultSetHandler implements AeResultSetHandler<List<AeCoordinationDetail>>
 {
 
    /**
@@ -29,13 +32,27 @@ public class AeCoordinationDetailListResultSetHandler extends AeSQLCoordinatingL
     */
    public AeCoordinationDetailListResultSetHandler()
    {
-      super(null);
    }
 
    /**
+    * @see org.apache.commons.dbutils.ResultSetHandler#handle(java.sql.ResultSet)
+    */
+   public List<AeCoordinationDetail> handle(ResultSet aResultSet) throws SQLException
+   {
+       List<AeCoordinationDetail> results = new ArrayList<AeCoordinationDetail>();
+      // Iterate through rows
+      while (aResultSet.next())
+      {
+         results.add(readRow(aResultSet));
+      }      
+      return results;
+   }
+   
+   
+   /**
     * @see org.activebpel.rt.bpel.server.engine.storage.sql.AeListingResultSetHandler#readRow(java.sql.ResultSet)
     */
-   protected Object readRow(ResultSet aResultSet) throws SQLException
+   protected AeCoordinationDetail readRow(ResultSet aResultSet) throws SQLException
    {
       String coordId = aResultSet.getString(IAeCoordinationColumns.COORDINATION_ID);
       String state = aResultSet.getString(IAeCoordinationColumns.STATE);

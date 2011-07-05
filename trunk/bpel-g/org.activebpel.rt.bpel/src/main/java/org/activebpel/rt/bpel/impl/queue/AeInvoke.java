@@ -66,7 +66,7 @@ public class AeInvoke extends AeAbstractQueuedObject implements IAeInvokeInterna
    /** The custom invoker uri. */
    private String mInvokeHandler;
    /** Business process properties. */
-   private Map mProcessProperties;
+   private Map<String,String> mProcessProperties;
    /**
     * The partner link location (convenient access so that the plink id doesn't
     * always need to be de-referenced).
@@ -92,7 +92,7 @@ public class AeInvoke extends AeAbstractQueuedObject implements IAeInvokeInterna
     */
    public AeInvoke(long aProcessId, QName aProcessName, IAePartnerLink aPartnerLink,
          AePartnerLinkOpImplKey aPartnerLinkOpImplKey, IAeMessageData aInputMessageData,
-         IAeInvokeActivity aInvokeActivity, Map aProcessProperties) throws AeBusinessProcessException
+         IAeInvokeActivity aInvokeActivity, Map<String,String> aProcessProperties) throws AeBusinessProcessException
    {
       super(aPartnerLinkOpImplKey);
       setProcessId(aProcessId);
@@ -108,7 +108,7 @@ public class AeInvoke extends AeAbstractQueuedObject implements IAeInvokeInterna
       setInputMessageData(aInputMessageData);
       mMessageReceiverPath = aInvokeActivity.getLocationPath();
       mLocationPath = aInvokeActivity.getLocationPath();
-      mProcessProperties = new HashMap(aProcessProperties);
+      mProcessProperties = new HashMap<String,String>(aProcessProperties);
       mLocationId = aInvokeActivity.getLocationId();
       mTransmissionId = aInvokeActivity.getTransmissionId();
       setInvokeActivity(aInvokeActivity);

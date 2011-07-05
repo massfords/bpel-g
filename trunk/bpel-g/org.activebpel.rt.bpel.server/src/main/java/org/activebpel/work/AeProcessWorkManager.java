@@ -35,7 +35,7 @@ public class AeProcessWorkManager implements IAeProcessWorkManager,
 	 * Maps process id to an instance of {@link AeProcessWorkQueue} for the
 	 * process.
 	 */
-	private Map<Long, AeProcessWorkQueue> mProcessWorkMap = new HashMap();
+	private Map<Long, AeProcessWorkQueue> mProcessWorkMap = new HashMap<Long, AeProcessWorkQueue>();
 
 	public AeProcessWorkManager() {
 		mProcessWorkCount = AePreferences.getProcessWorkCount();

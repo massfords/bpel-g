@@ -30,7 +30,7 @@ public class AeMessageReceiverListResult implements Serializable
    /** The matching message receivers. */
    protected AeMessageReceiver[] mResults;
    /** Mapping of process ids to location paths. */
-   protected Map<Integer,String> mLocationIdtoLocationPathMap = new HashMap();
+   protected Map<Integer,String> mLocationIdtoLocationPathMap = new HashMap<Integer, String>();
    
    /**
     * Constructor.

@@ -85,7 +85,7 @@ public class AeXMLParserBase
    private WSDLLocator mWSDLLocator;
    
    /** map of features to enable / disable on the parser */
-   private Map mFeatures = new HashMap();
+   private Map<String,Object> mFeatures = new HashMap<String, Object>();
 
    /**
     * Default constructor
@@ -127,7 +127,7 @@ public class AeXMLParserBase
     * @return the document loaded or null if an error has occurred during parse
     * @throws AeException
     */
-   public Document loadDocumentFromString(String aXmlString, Iterator aSchemas) throws AeException
+   public Document loadDocumentFromString(String aXmlString, Iterator<Schema> aSchemas) throws AeException
    {
       // The WebLogic 9.2 XML parser emits an error message, "[Fatal Error]
       // :-1:-1: Premature end of file," whenever it parses an empty string, so
@@ -152,7 +152,7 @@ public class AeXMLParserBase
     * @return the document loaded or null if an error has occurred during parse
     * @throws AeException
     */
-   public Document loadDocument(String aFilename, Iterator aSchemas) throws AeException
+   public Document loadDocument(String aFilename, Iterator<Schema> aSchemas) throws AeException
    {
       Document document = null;
       try
@@ -181,7 +181,7 @@ public class AeXMLParserBase
     * @return the document loaded or null if an error has occurred during parse
     * @throws AeException
     */
-   public Document loadDocument(InputSource aInput, Iterator aSchemas) throws AeException
+   public Document loadDocument(InputSource aInput, Iterator<Schema> aSchemas) throws AeException
    {
       Document document = null;
       ClassLoader previousClassLoader = null;
@@ -196,7 +196,7 @@ public class AeXMLParserBase
          factory.setNamespaceAware(isNamespaceAware());
          resetParseWarnings();
 
-         List schemas = AeUtil.toList(aSchemas);
+         List<Schema> schemas = AeUtil.toList(aSchemas);
          List schemaInputStreams = isValidating() ? serializeSchemas(schemas) : Collections.EMPTY_LIST;
 
          // Don't validate if we have no schemas to validate against.
@@ -255,7 +255,7 @@ public class AeXMLParserBase
     * @return the document loaded or null if an error has occurred during parse
     * @throws AeException
     */
-   public Document loadDocument(InputStream aInput, Iterator aSchemas) throws AeException
+   public Document loadDocument(InputStream aInput, Iterator<Schema> aSchemas) throws AeException
    {
       try
       {
@@ -279,7 +279,7 @@ public class AeXMLParserBase
     * @return the document loaded or null if an error has occurred during parse
     * @throws AeException
     */
-   public Document loadDocument(Reader aInput, Iterator aSchemas) throws AeException
+   public Document loadDocument(Reader aInput, Iterator<Schema> aSchemas) throws AeException
    {
       try
       {
@@ -300,7 +300,7 @@ public class AeXMLParserBase
     *         schema validation.
     * @throws AeException if an error occurs parsing the document
     */
-   public void validateDocument(Document aDocument, Iterator aSchemas) throws AeException
+   public void validateDocument(Document aDocument, Iterator<Schema> aSchemas) throws AeException
    {
       ClassLoader previousClassLoader = Thread.currentThread().getContextClassLoader();
       try
@@ -317,8 +317,8 @@ public class AeXMLParserBase
          // Create the SAX parser and set any schemas which were passed to us
          SAXParser parser = factory.newSAXParser();
 
-         List schemas = AeUtil.toList(aSchemas);
-         List schemaInputStreams = isValidating() ? serializeSchemas(schemas) : Collections.EMPTY_LIST;
+         List<Schema> schemas = AeUtil.toList(aSchemas);
+         List<InputStream> schemaInputStreams = isValidating() ? serializeSchemas(schemas) : new ArrayList<InputStream>();
 
          // Note: we always set the JAXP schema related properties, even
          // if there are no schemas in the list.  I haven't tracked down
@@ -604,13 +604,13 @@ public class AeXMLParserBase
     * @param aSchemas - list of Castor schema objects
     * @throws AeException
     */
-   protected List serializeSchemas(List aSchemas) throws AeException
+   protected List<InputStream> serializeSchemas(List aSchemas) throws AeException
    {
       if (AeUtil.isNullOrEmpty(aSchemas))
-         return Collections.EMPTY_LIST;
+         return Collections.emptyList();
 
       // Build a list of all schemas being referenced by this variable
-      List schemaStreamList = new ArrayList();
+      List<InputStream> schemaStreamList = new ArrayList<InputStream>();
       for (Iterator it=aSchemas.iterator(); it.hasNext();)
       {
          Object schemaObj = it.next();
@@ -687,7 +687,7 @@ public class AeXMLParserBase
    /**
     * Getter for the features map
     */
-   protected Map getFeatures()
+   protected Map<String,Object> getFeatures()
    {
       return mFeatures;
    }

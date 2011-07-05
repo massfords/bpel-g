@@ -126,7 +126,7 @@ public class AeProcessStateStorage extends AeAbstractStorage implements IAeProce
    /**
     * @see org.activebpel.rt.bpel.server.engine.storage.IAeProcessStateStorage#getJournalEntries(long)
     */
-   public List getJournalEntries(long aProcessId) throws AeStorageException
+   public List<IAeJournalEntry> getJournalEntries(long aProcessId) throws AeStorageException
    {
       return getProcessStateStorageProvider().getJournalEntries(aProcessId);
    }

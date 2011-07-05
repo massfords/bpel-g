@@ -61,7 +61,7 @@ public class AeStorageBackedURNResolver extends AeURNResolver implements
 	 */
 	public synchronized void reload() {
 		try {
-			setMap(new HashMap(getStorage().getMappings()));
+			setMap(new HashMap<String,String>(getStorage().getMappings()));
 		} catch (AeStorageException e) {
 			e.logError();
 		}

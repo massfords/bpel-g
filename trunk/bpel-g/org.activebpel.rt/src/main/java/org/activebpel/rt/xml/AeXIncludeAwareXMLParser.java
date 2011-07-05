@@ -16,6 +16,7 @@ import java.util.Iterator;
 
 import org.activebpel.rt.AeException;
 import org.activebpel.rt.util.AeCloser;
+import org.exolab.castor.xml.schema.Schema;
 import org.w3c.dom.Document;
 import org.xml.sax.InputSource;
 
@@ -78,7 +79,7 @@ public class AeXIncludeAwareXMLParser
     *         schema validation.
     * @throws AeException if an error occurs parsing the document
     */
-   public void validateDocument(Document aDocument, Iterator aSchemas) throws AeException
+   public void validateDocument(Document aDocument, Iterator<Schema> aSchemas) throws AeException
    {
       getParser().validateDocument(aDocument, aSchemas);
    }
@@ -93,7 +94,7 @@ public class AeXIncludeAwareXMLParser
     * @param aSchemas
     * @throws AeException
     */
-   public Document loadDocument(InputStream aInput, String aResourceURI, Iterator aSchemas) throws AeException
+   public Document loadDocument(InputStream aInput, String aResourceURI, Iterator<Schema> aSchemas) throws AeException
    {
       try
       {
@@ -117,7 +118,7 @@ public class AeXIncludeAwareXMLParser
     * @param aSchemas
     * @throws AeException
     */
-   public Document loadDocument(Reader aInput, String aResourceURI, Iterator aSchemas) throws AeException
+   public Document loadDocument(Reader aInput, String aResourceURI, Iterator<Schema> aSchemas) throws AeException
    {
       try
       {
@@ -142,7 +143,7 @@ public class AeXIncludeAwareXMLParser
     * @return the document loaded or null if an error has occurred during parse
     * @throws AeException
     */
-   public Document loadDocument(InputSource aInput, Iterator aSchemas) throws AeException
+   public Document loadDocument(InputSource aInput, Iterator<Schema> aSchemas) throws AeException
    {
       return getParser().loadDocument(aInput, aSchemas);
    }

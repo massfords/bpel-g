@@ -20,7 +20,7 @@ import org.activebpel.rt.bpel.server.engine.recovery.journal.AeJournalEntryFacto
 import org.activebpel.rt.bpel.server.engine.recovery.journal.IAeJournalEntry;
 import org.activebpel.rt.bpel.server.engine.recovery.journal.IAeJournalEntryFactory;
 import org.activebpel.rt.bpel.server.engine.storage.sql.AeDbUtils;
-import org.apache.commons.dbutils.ResultSetHandler;
+import org.activebpel.rt.bpel.server.engine.storage.sql.AeResultSetHandler;
 import org.w3c.dom.Document;
 
 
@@ -30,7 +30,7 @@ import org.w3c.dom.Document;
  * org.activebpel.rt.bpel.server.engine.recovery.journal.IAeJournalEntry}
  * instances.
  */
-public class AeJournalEntriesResultSetHandler implements ResultSetHandler
+public class AeJournalEntriesResultSetHandler implements AeResultSetHandler<List<IAeJournalEntry>>
 {
    /**
     * Default constructor that is visible to classes derived from
@@ -44,10 +44,10 @@ public class AeJournalEntriesResultSetHandler implements ResultSetHandler
    /**
     * @see org.apache.commons.dbutils.ResultSetHandler#handle(java.sql.ResultSet)
     */
-   public Object handle(ResultSet rs) throws SQLException
+   public List<IAeJournalEntry> handle(ResultSet rs) throws SQLException
    {
       IAeJournalEntryFactory factory = AeJournalEntryFactory.getInstance();
-      List result = new LinkedList();
+      List<IAeJournalEntry> result = new LinkedList<IAeJournalEntry>();
 
       while (rs.next())
       {

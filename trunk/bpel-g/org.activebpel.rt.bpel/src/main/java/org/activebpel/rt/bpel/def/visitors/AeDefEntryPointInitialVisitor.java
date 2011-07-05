@@ -13,6 +13,7 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.activebpel.rt.bpel.def.AePartnerLinkOpKey;
 import org.activebpel.rt.bpel.def.activity.AeActivityPickDef;
 import org.activebpel.rt.bpel.def.activity.AeActivityReceiveDef;
 import org.activebpel.rt.bpel.def.activity.IAeReceiveActivityDef;
@@ -34,7 +35,7 @@ public class AeDefEntryPointInitialVisitor extends AeAbstractEntryPointVisitor
    private int mCount = 0;
    
    /** list of keys for initial entry points into process */
-   private Set mCreateInstance = new HashSet();
+   private Set<AePartnerLinkOpKey> mCreateInstance = new HashSet<AePartnerLinkOpKey>();
 
    /**
     * Default constructor.
@@ -47,7 +48,7 @@ public class AeDefEntryPointInitialVisitor extends AeAbstractEntryPointVisitor
     * Accessor for key list.
     * @return list of keys for initial entry points into the process
     */
-   public Collection getCreateInstanceCollection()
+   public Collection<AePartnerLinkOpKey> getCreateInstanceCollection()
    {
       return mCreateInstance;
    }

@@ -72,9 +72,9 @@ public class AeCoordinatorCompInfo extends AeCompInfo
     * Extracts matching info objects from the linked list of completed enclosed scopes.
     * @param aScopeName
     */
-   public List getEnclosedInfoByScopeName(String aScopeName)
+   public List<AeCompInfo> getEnclosedInfoByScopeName(String aScopeName)
    {
-      return Collections.EMPTY_LIST;
+      return Collections.emptyList();
    }
    
    /**
@@ -114,9 +114,9 @@ public class AeCoordinatorCompInfo extends AeCompInfo
    /**
     * Getter for the enclosed scopes list
     */
-   public LinkedList getEnclosedScopes()
+   public LinkedList<AeCompInfo> getEnclosedScopes()
    {
-      return new LinkedList(Collections.EMPTY_LIST);
+      return new LinkedList<AeCompInfo>();
    }
    
    /**

@@ -13,18 +13,18 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import org.activebpel.rt.bpel.server.engine.storage.AePersistedMessageReceiver;
+import org.activebpel.rt.bpel.server.engine.storage.sql.AeResultSetHandler;
 import org.activebpel.rt.bpel.server.engine.storage.sql.AeSQLQueueStorageProvider;
-import org.apache.commons.dbutils.ResultSetHandler;
 
 /**
  * Creates a result set handler that returns an <code>AeSQLMessageReceiver</code> object.
  */
-public class AeMessageReceiverHandler implements ResultSetHandler
+public class AeMessageReceiverHandler implements AeResultSetHandler<AePersistedMessageReceiver>
 {
    /**
     * @see org.apache.commons.dbutils.ResultSetHandler#handle(java.sql.ResultSet)
     */
-   public Object handle(ResultSet aResultSet) throws SQLException
+   public AePersistedMessageReceiver handle(ResultSet aResultSet) throws SQLException
    {
       AePersistedMessageReceiver rval = null;
       if (aResultSet.next())

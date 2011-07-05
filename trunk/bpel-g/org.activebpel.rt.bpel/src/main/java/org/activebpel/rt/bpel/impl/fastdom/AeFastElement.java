@@ -28,10 +28,10 @@ public class AeFastElement extends AeFastNode implements IAeFastParent
    private final String mName;
 
    /** Maps attribute names to attribute instances. */
-   private final Map mAttributesMap = new HashMap();
+   private final Map<String,AeFastAttribute> mAttributesMap = new HashMap<String,AeFastAttribute>();
 
    /** The element's child nodes. */
-   private final Collection mChildNodes = new LinkedHashSet();
+   private final Collection<AeFastNode> mChildNodes = new LinkedHashSet<AeFastNode>();
 
    /**
     * Constructs an element with the specified name.
@@ -70,13 +70,13 @@ public class AeFastElement extends AeFastNode implements IAeFastParent
     */
    public Collection getAttributes()
    {
-      return new TreeMap(getAttributesMap()).values();
+      return new TreeMap<String,AeFastAttribute>(getAttributesMap()).values();
    }
 
    /**
     * Returns the <code>Map</code> of attribute names to attribute instances.
     */
-   protected Map getAttributesMap()
+   protected Map<String,AeFastAttribute> getAttributesMap()
    {
       return mAttributesMap;
    }
@@ -84,9 +84,9 @@ public class AeFastElement extends AeFastNode implements IAeFastParent
    /**
     * @see org.activebpel.rt.bpel.impl.fastdom.IAeFastParent#getChildNodes()
     */
-   public List getChildNodes()
+   public List<AeFastNode> getChildNodes()
    {
-      return new ArrayList(internalGetChildNodes());
+      return new ArrayList<AeFastNode>(internalGetChildNodes());
    }
 
    /**
@@ -100,7 +100,7 @@ public class AeFastElement extends AeFastNode implements IAeFastParent
    /**
     * Returns the internal representation of this node's child nodes.
     */
-   protected Collection internalGetChildNodes()
+   protected Collection<AeFastNode> internalGetChildNodes()
    {
       return mChildNodes;
    }

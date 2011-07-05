@@ -21,7 +21,7 @@ public interface IAeURNStorage extends IAeStorage
    /**
     * Gets all of the mappings for URN to URL
     */
-   public Map getMappings() throws AeStorageException;
+   public Map<String,String> getMappings() throws AeStorageException;
    
    /**
     * Adds the mapping. If the mapping already exists in the db then it is updated.

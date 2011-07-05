@@ -52,7 +52,7 @@ public class AeInMemoryProcessManager extends AeAbstractProcessManager
 	private long mNextProcessId = 1;
 
 	/** Maps process ids to processes */
-	private Hashtable mProcesses = new Hashtable();
+	private Hashtable<Long,IAeBusinessProcess> mProcesses = new Hashtable<Long,IAeBusinessProcess>();
 
 	/**
 	 * The number of completed process to leave temporarily in
@@ -64,7 +64,7 @@ public class AeInMemoryProcessManager extends AeAbstractProcessManager
 	 * Process ids for completed processes temporarily left in
 	 * {@link #mProcesses}.
 	 */
-	private List mCompletedProcessIds = new LinkedList();
+	private List<Long> mCompletedProcessIds = new LinkedList<Long>();
 
 	/** The next journal ID to use for journaling methods. */
 	private long mNextJournalId = 1;
@@ -99,7 +99,7 @@ public class AeInMemoryProcessManager extends AeAbstractProcessManager
 	 * Returns a key compatible with a Java <code>Map</code> for the specified
 	 * process id.
 	 */
-	protected Object getKey(long aProcessId) {
+	protected Long getKey(long aProcessId) {
 		return new Long(aProcessId);
 	}
 
@@ -129,7 +129,7 @@ public class AeInMemoryProcessManager extends AeAbstractProcessManager
 	/**
 	 * Returns process map.
 	 */
-	protected Map getProcessMap() {
+	protected Map<Long,IAeBusinessProcess> getProcessMap() {
 		return mProcesses;
 	}
 
@@ -167,14 +167,14 @@ public class AeInMemoryProcessManager extends AeAbstractProcessManager
 	 * .processes.types.ProcessFilterType)
 	 */
 	public ProcessList getProcesses(ProcessFilterType aFilter) {
-		ArrayList results = new ArrayList();
+		ArrayList<ProcessInstanceDetail> results = new ArrayList<ProcessInstanceDetail>();
 		int totalCount = aFilter == null ? 0 : aFilter.getListStart();
 		int matches = 0;
 
 		synchronized (getProcessMap()) {
 			AeProcessFilterAdapter filter = new AeProcessFilterAdapter(aFilter);
 
-			SortedMap map = new TreeMap(new AeReverseComparator());
+			SortedMap<Long,IAeBusinessProcess> map = new TreeMap<Long,IAeBusinessProcess>(new AeReverseComparator());
 			map.putAll(getProcessMap());
 
 			for (Iterator iter = map.keySet().iterator(); iter.hasNext();) {
@@ -237,12 +237,12 @@ public class AeInMemoryProcessManager extends AeAbstractProcessManager
 	 * @see org.activebpel.rt.bpel.impl.IAeProcessManager#removeProcess(long)
 	 */
 	public void removeProcess(long aProcessId) {
-		List purgedProcessIds = new ArrayList();
+		List<Long> purgedProcessIds = new ArrayList<Long>();
 
 		if (getCompletedProcessCount() <= 0) {
 			// If we're not caching completed processes, then just remove the
 			// process from the process map.
-			Object key = getKey(aProcessId);
+			Long key = getKey(aProcessId);
 			getProcessMap().remove(key);
 
 			purgedProcessIds.add(key);
@@ -251,7 +251,7 @@ public class AeInMemoryProcessManager extends AeAbstractProcessManager
 				// Otherwise, pare the list of cached processes to the cache
 				// size.
 				while (mCompletedProcessIds.size() >= getCompletedProcessCount()) {
-					Object key = mCompletedProcessIds.remove(0);
+					Long key = mCompletedProcessIds.remove(0);
 					getProcessMap().remove(key);
 
 					purgedProcessIds.add(key);
@@ -274,7 +274,7 @@ public class AeInMemoryProcessManager extends AeAbstractProcessManager
 	 */
 	public int removeProcesses(ProcessFilterType aFilter) {
 		synchronized (getProcessMap()) {
-			List processes = new ArrayList(getProcessMap().values());
+			List<IAeBusinessProcess> processes = new ArrayList<IAeBusinessProcess>(getProcessMap().values());
 			AeProcessFilterAdapter filter = new AeProcessFilterAdapter(aFilter);
 			int removed = 0;
 
@@ -511,13 +511,13 @@ public class AeInMemoryProcessManager extends AeAbstractProcessManager
 	 * Implements a <code>Comparator</code> that reverses the natural order of
 	 * <code>Comparable</code> objects.
 	 */
-	protected static class AeReverseComparator implements Comparator {
-		/**
-		 * @see java.util.Comparator#compare(java.lang.Object, java.lang.Object)
-		 */
-		public int compare(Object o1, Object o2) {
-			return -((Comparable) o1).compareTo(o2);
-		}
+	protected static class AeReverseComparator implements Comparator<Comparable> {
+	    
+        @SuppressWarnings("unchecked")
+        @Override
+        public int compare(Comparable o1, Comparable o2) {
+            return -(o1.compareTo(o2));
+        }
 	}
 
 	/**

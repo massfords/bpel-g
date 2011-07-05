@@ -14,6 +14,7 @@ import java.sql.Connection;
 import java.util.Date;
 import java.util.List;
 
+import org.activebpel.rt.bpel.coord.AeCoordinationDetail;
 import org.activebpel.rt.bpel.coord.IAeCoordinating;
 import org.activebpel.rt.bpel.coord.IAeCoordinationManager;
 import org.activebpel.rt.bpel.impl.fastdom.AeFastDocument;
@@ -138,7 +139,7 @@ public class AeSQLCoordinationStorageProvider extends AeAbstractSQLStorageProvid
    /**
     * @see org.activebpel.rt.bpel.server.engine.storage.providers.IAeCoordinationStorageProvider#getCoordinations(java.lang.String)
     */
-   public List getCoordinations(String aCoordinationId) throws AeStorageException
+   public List<IAeCoordinating> getCoordinations(String aCoordinationId) throws AeStorageException
    {
       Object[] params = {new Long(aCoordinationId)};
       ResultSetHandler handler = createCoordinatingListResultSetHandler();
@@ -147,7 +148,7 @@ public class AeSQLCoordinationStorageProvider extends AeAbstractSQLStorageProvid
       try
       {
          conn = getTransactionConnection();
-         return (List) query( conn,IAeCoordinationSQLKeys.LIST_BY_COORDINATION_ID, params, handler);
+         return (List<IAeCoordinating>) query( conn,IAeCoordinationSQLKeys.LIST_BY_COORDINATION_ID, params, handler);
       }
       finally
       {
@@ -218,10 +219,11 @@ public class AeSQLCoordinationStorageProvider extends AeAbstractSQLStorageProvid
    /**
     * @see org.activebpel.rt.bpel.server.engine.storage.providers.IAeCoordinationStorageProvider#getParticipantDetail(long)
     */
-   public List getParticipantDetail(long aParentProcessId) throws AeStorageException
+   @SuppressWarnings("unchecked")
+   public List<AeCoordinationDetail> getParticipantDetail(long aParentProcessId) throws AeStorageException
    {
       Object param = new Long(aParentProcessId);
-      return (List) query(IAeCoordinationSQLKeys.LIST_PARTICIPANTS_FOR_PID, param, COORDINATION_DETAIL_LIST_RESULT_SET_HANDLER);
+      return (List<AeCoordinationDetail>) query(IAeCoordinationSQLKeys.LIST_PARTICIPANTS_FOR_PID, param, COORDINATION_DETAIL_LIST_RESULT_SET_HANDLER);
    }
 
    /**

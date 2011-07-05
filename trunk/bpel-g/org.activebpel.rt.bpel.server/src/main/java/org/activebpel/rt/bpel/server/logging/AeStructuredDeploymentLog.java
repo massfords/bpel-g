@@ -27,7 +27,7 @@ import bpelg.services.deploy.types.DeploymentResponse.DeploymentInfo;
  */
 public class AeStructuredDeploymentLog extends AeDeploymentLog {
 	/** A map to hold the deployment info for each PDD. */
-	protected Map<String,DeploymentInfo> mDeployInfoMap = new LinkedHashMap();
+	protected Map<String,DeploymentInfo> mDeployInfoMap = new LinkedHashMap<String,DeploymentInfo>();
 	/** A string buffer to hold the log messages. */
 	private StringBuffer mBuffer = new StringBuffer();
 	/**
@@ -98,8 +98,8 @@ public class AeStructuredDeploymentLog extends AeDeploymentLog {
 	/**
 	 * Gets a list of the deployment info objects.
 	 */
-	public List getDeploymentInfoList() {
-		return new ArrayList(mDeployInfoMap.values());
+	public List<DeploymentInfo> getDeploymentInfoList() {
+		return new ArrayList<DeploymentInfo>(mDeployInfoMap.values());
 	}
 
 	/**

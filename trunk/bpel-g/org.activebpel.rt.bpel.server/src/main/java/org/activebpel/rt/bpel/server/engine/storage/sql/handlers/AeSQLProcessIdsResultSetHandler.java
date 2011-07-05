@@ -21,7 +21,7 @@ import bpelg.services.processes.types.ProcessFilterType;
 /**
  * Helper class to convert a <code>ResultSet</code> to a long[].
  */
-public class AeSQLProcessIdsResultSetHandler extends AeListingResultSetHandler
+public class AeSQLProcessIdsResultSetHandler extends AeListingResultSetHandler<long[],Number>
 {
    /**
     * Constructor.
@@ -36,7 +36,7 @@ public class AeSQLProcessIdsResultSetHandler extends AeListingResultSetHandler
    /**
     * @see org.activebpel.rt.bpel.server.engine.storage.sql.AeListingResultSetHandler#readRow(java.sql.ResultSet)
     */
-   protected Object readRow(ResultSet aResultSet) throws SQLException
+   protected Number readRow(ResultSet aResultSet) throws SQLException
    {
       return new Long(aResultSet.getLong(1));
    }
@@ -44,7 +44,7 @@ public class AeSQLProcessIdsResultSetHandler extends AeListingResultSetHandler
    /**
     * @see org.activebpel.rt.bpel.server.engine.storage.sql.AeListingResultSetHandler#convertToType(java.util.List)
     */
-   protected Object convertToType(List aResults)
+   protected long[] convertToType(List<Number> aResults)
    {
       // aResults is already sorted, because the SELECT includes ORDER BY ProcessId.
       int count = aResults.size();

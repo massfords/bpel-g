@@ -14,14 +14,15 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.activebpel.rt.bpel.coord.IAeCoordinating;
 import org.activebpel.rt.bpel.coord.IAeCoordinationManager;
-import org.apache.commons.dbutils.ResultSetHandler;
+import org.activebpel.rt.bpel.server.engine.storage.sql.AeResultSetHandler;
 
 
 /**
  * Resultset handler which creates and returns a list of IAeCoordinating objects.
  */
-public class AeSQLCoordinatingListResultSetHandler implements ResultSetHandler
+public class AeSQLCoordinatingListResultSetHandler implements AeResultSetHandler<List<IAeCoordinating>>
 {
    /** The coordination manager. */
    private IAeCoordinationManager mManager;
@@ -39,9 +40,9 @@ public class AeSQLCoordinatingListResultSetHandler implements ResultSetHandler
    /**
     * @see org.apache.commons.dbutils.ResultSetHandler#handle(java.sql.ResultSet)
     */
-   public Object handle(ResultSet aResultSet) throws SQLException
+   public List<IAeCoordinating> handle(ResultSet aResultSet) throws SQLException
    {
-      List results = new ArrayList();
+      List<IAeCoordinating> results = new ArrayList<IAeCoordinating>();
       // Iterate through rows
       while (aResultSet.next())
       {
@@ -53,7 +54,7 @@ public class AeSQLCoordinatingListResultSetHandler implements ResultSetHandler
    /**
     * @see org.activebpel.rt.bpel.server.engine.storage.sql.AeListingResultSetHandler#readRow(java.sql.ResultSet)
     */
-   protected Object readRow(ResultSet aResultSet) throws SQLException
+   protected IAeCoordinating readRow(ResultSet aResultSet) throws SQLException
    {
       return AeSQLCoordinatingResultSetHandler.createCoordinating(aResultSet, mManager);
    }
