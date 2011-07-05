@@ -48,14 +48,15 @@ public abstract class AeSOAPInvoker implements IAeInvoker
    {
       try
       {
-         for (Iterator iter = aContext.getOutputHeaderParts().iterator(); iter.hasNext();)
+         for (Iterator<String> iter = aContext.getOutputHeaderParts().iterator(); iter.hasNext();)
          {
-            String partName = (String) iter.next();
+            String partName = iter.next();
             Part part = aContext.getOperation().getOutput().getMessage().getPart(partName);
             QName elementQName = part.getElementName();
             if (elementQName != null)
             {
-               for(Iterator it = aContext.getCall().getResponseMessage().getSOAPHeader().examineAllHeaderElements(); it.hasNext(); )
+               for(@SuppressWarnings("unchecked")
+            		   Iterator<SOAPHeaderElement> it = aContext.getCall().getResponseMessage().getSOAPHeader().examineAllHeaderElements(); it.hasNext(); )
                {
                   SOAPHeaderElement headerElement = (SOAPHeaderElement) it.next();
                   if (headerElement.getQName().equals(elementQName))
@@ -94,7 +95,7 @@ public abstract class AeSOAPInvoker implements IAeInvoker
     * @param aContext
     * @throws AeException
     */
-   protected Map getMessageData(AeAxisInvokeContext aContext) throws AeException
+   protected Map<String,Object> getMessageData(AeAxisInvokeContext aContext) throws AeException
    {
       return aContext.getInvoke().getInputMessageData().getMessageData();
    }
@@ -106,7 +107,7 @@ public abstract class AeSOAPInvoker implements IAeInvoker
     * @return List of attachments added
     * @throws AeException
     */
-   protected List addAttachments(AeAxisInvokeContext aInvokeContext) throws AeException
+   protected List<IAeWebServiceAttachment> addAttachments(AeAxisInvokeContext aInvokeContext) throws AeException
    {
       IAeWebServiceMessageData inputMessageData = aInvokeContext.getInvoke().getInputMessageData();
 
@@ -141,14 +142,14 @@ public abstract class AeSOAPInvoker implements IAeInvoker
    /**
     * Close attachment streams
     */
-   protected void closeAttachmentStreams(List aAttachments)
+   protected void closeAttachmentStreams(List<IAeWebServiceAttachment> aAttachments)
    {
       if(aAttachments != null)
       {
          // close attachment streams of the message sent.
-         for (Iterator itr = aAttachments.iterator();itr.hasNext();)
+         for (Iterator<IAeWebServiceAttachment> itr = aAttachments.iterator();itr.hasNext();)
          {
-            AeCloser.close(((IAeWebServiceAttachment)itr.next()).getContent()); 
+            AeCloser.close(itr.next().getContent()); 
          }  
       }
    }

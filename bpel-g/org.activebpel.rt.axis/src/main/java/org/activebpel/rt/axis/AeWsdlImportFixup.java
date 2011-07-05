@@ -63,10 +63,12 @@ public class AeWsdlImportFixup
    protected static void fixUpWsdlImportReferences( String aTransportUrl, Definition aDef, String aParentLocation )
    {
       AeImportUrl importUrl = new AeImportUrl( aTransportUrl, aParentLocation );
-      for (Iterator iter=aDef.getImports().keySet().iterator(); iter.hasNext();)
+      for (@SuppressWarnings("unchecked")
+    		  Iterator<String> iter=aDef.getImports().keySet().iterator(); iter.hasNext();)
       {
-         List importList = aDef.getImports(iter.next().toString());
-         for (Iterator impIter=importList.iterator(); impIter.hasNext();)
+         @SuppressWarnings("unchecked")
+		List<Import> importList = aDef.getImports(iter.next().toString());
+         for (Iterator<Import> impIter=importList.iterator(); impIter.hasNext();)
          {
             Import wsdlImport = (Import)impIter.next();
             String importLocation = wsdlImport.getLocationURI();
@@ -90,9 +92,10 @@ public class AeWsdlImportFixup
       Types schemaTypes = aDef.getTypes();
       if( schemaTypes != null && schemaTypes.getExtensibilityElements() != null )
       {
-         for( Iterator iter = schemaTypes.getExtensibilityElements().iterator(); iter.hasNext(); )
+         for( @SuppressWarnings("unchecked")
+        		 Iterator<ExtensibilityElement> iter = schemaTypes.getExtensibilityElements().iterator(); iter.hasNext(); )
          {
-            ExtensibilityElement el = (ExtensibilityElement)iter.next();
+            ExtensibilityElement el = iter.next();
 
             if( AeSchemaParserUtil.isSchemaQName( el.getElementType() ) )
             {

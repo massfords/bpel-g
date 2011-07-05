@@ -38,7 +38,7 @@ public class AeSimpleSerializer extends SimpleSerializer
     * @param javaType
     * @param xmlType
     */
-   public AeSimpleSerializer(Class javaType, QName xmlType)
+   public AeSimpleSerializer(Class<?> javaType, QName xmlType)
    {
       super(javaType, xmlType);
    }
@@ -50,7 +50,7 @@ public class AeSimpleSerializer extends SimpleSerializer
     * @param aXmlType
     * @param aTypeDesc
     */
-   public AeSimpleSerializer(Class aJavaType, QName aXmlType, TypeDesc aTypeDesc)
+   public AeSimpleSerializer(Class<?> aJavaType, QName aXmlType, TypeDesc aTypeDesc)
    {
       super(aJavaType, aXmlType, aTypeDesc);
    }

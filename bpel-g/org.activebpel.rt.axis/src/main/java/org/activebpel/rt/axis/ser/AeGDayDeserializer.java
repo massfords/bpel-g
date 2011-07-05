@@ -27,17 +27,9 @@ public class AeGDayDeserializer extends SimpleDeserializer
 /**
     * The Deserializer is constructed with the xmlType and javaType
     */
-   public AeGDayDeserializer(Class javaType, QName xmlType)
+   public AeGDayDeserializer(Class<AeSchemaDay> javaType, QName xmlType)
    {
       super(javaType, xmlType);
-   }
-
-   /**
-    * @see org.activebpel.rt.axis.ser.AeAbstractSchemaTypeDeserializer#makeValueInternal(java.lang.String)
-    */
-   protected Object makeValueInternal(String aSource)
-   {
-      return new AeSchemaDay(aSource);
    }
 }
  

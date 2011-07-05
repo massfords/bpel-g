@@ -29,7 +29,7 @@ public class AeRPCEncodedSerializerFactory implements SerializerFactory
     private static final long serialVersionUID = 1088250809846876228L;
 
 /** Supported mechanisms is singleton list for axis only deserialization */
-   private static final List SUPPORTED_MECHANISMS = Collections.singletonList(Constants.AXIS_SAX);
+   private static final List<String> SUPPORTED_MECHANISMS = Collections.singletonList(Constants.AXIS_SAX);
 
    /** context contains the Schemas needed to serialize the Document correctly */
    private IAeTypesContext mTypesContext;
@@ -68,7 +68,7 @@ public class AeRPCEncodedSerializerFactory implements SerializerFactory
    /**
     * @see javax.xml.rpc.encoding.SerializerFactory#getSupportedMechanismTypes()
     */
-   public Iterator getSupportedMechanismTypes()
+   public Iterator<String> getSupportedMechanismTypes()
    {
       return SUPPORTED_MECHANISMS.iterator();
    }

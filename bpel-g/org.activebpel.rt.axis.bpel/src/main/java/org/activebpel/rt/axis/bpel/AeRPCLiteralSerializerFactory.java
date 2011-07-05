@@ -29,7 +29,7 @@ public class AeRPCLiteralSerializerFactory implements SerializerFactory
     private static final long serialVersionUID = -6064066254215941736L;
 
 /** Supported mechanisms is singleton list for axis only deserialization */
-   private static final List SUPPORTED_MECHANISMS = Collections.singletonList(Constants.AXIS_SAX);
+   private static final List<String> SUPPORTED_MECHANISMS = Collections.singletonList(Constants.AXIS_SAX);
    
    /** singleton instance for the factory */
    private static final AeRPCLiteralSerializerFactory sFactorySingleton = new AeRPCLiteralSerializerFactory();
@@ -63,7 +63,7 @@ public class AeRPCLiteralSerializerFactory implements SerializerFactory
    /**
     * @see javax.xml.rpc.encoding.SerializerFactory#getSupportedMechanismTypes()
     */
-   public Iterator getSupportedMechanismTypes()
+   public Iterator<String> getSupportedMechanismTypes()
    {
       return SUPPORTED_MECHANISMS.iterator();
    }

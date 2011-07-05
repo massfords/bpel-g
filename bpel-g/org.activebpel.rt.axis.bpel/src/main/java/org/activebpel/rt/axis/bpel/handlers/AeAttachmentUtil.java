@@ -46,18 +46,20 @@ public class AeAttachmentUtil
       // if the following needs to pass in principal name as well:
       // AeSOAPInvoker::receiveAttachments(), AeActiveBpelAdminImpl::addAttachment() and AeActiveBPELAdminEndpointImpl::addAttachment()
       
-      Iterator aAttachmentItr = aMessage.getAttachments();
+      @SuppressWarnings("unchecked")
+      Iterator<AttachmentPart> attachmentItr = aMessage.getAttachments();
       List<IAeWebServiceAttachment> attachments = null;
 
       // A soap message can have 0..n attachment parts
-      while (aAttachmentItr.hasNext())
+      while (attachmentItr.hasNext())
       {
          // Convert the Mime headers of the attachment part to a Map, add the map to the attachment
-         AttachmentPart attachPart = (AttachmentPart)aAttachmentItr.next();
+         AttachmentPart attachPart = (AttachmentPart)attachmentItr.next();
          Map<String, String> mimeHeaderPairs = new HashMap<String, String>();
-         for (Iterator mimeItr = attachPart.getAllMimeHeaders(); mimeItr.hasNext();)
+         for (@SuppressWarnings("unchecked")
+        		 Iterator<MimeHeader> mimeItr = attachPart.getAllMimeHeaders(); mimeItr.hasNext();)
          {
-            MimeHeader pair = (MimeHeader)mimeItr.next();
+            MimeHeader pair = mimeItr.next();
             mimeHeaderPairs.put(pair.getName(), pair.getValue());
          }
          // add principal if available

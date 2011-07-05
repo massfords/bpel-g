@@ -27,17 +27,10 @@ public class AeHexBinaryDeserializer extends SimpleDeserializer
 /**
     * The Deserializer is constructed with the xmlType and javaType
     */
-   public AeHexBinaryDeserializer(Class javaType, QName xmlType)
+   public AeHexBinaryDeserializer(Class<AeSchemaHexBinary> javaType, QName xmlType)
    {
       super(javaType, xmlType);
    }
 
-   /**
-    * @see org.activebpel.rt.axis.ser.AeAbstractSchemaTypeDeserializer#makeValueInternal(java.lang.String)
-    */
-   protected Object makeValueInternal(String aSource)
-   {
-      return new AeSchemaHexBinary(aSource);
-   }
 }
  

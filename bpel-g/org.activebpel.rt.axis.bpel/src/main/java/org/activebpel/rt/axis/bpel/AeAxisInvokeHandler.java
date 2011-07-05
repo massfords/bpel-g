@@ -196,11 +196,11 @@ public class AeAxisInvokeHandler extends AeWSIOInvokeHandler
       }
             
       // Add all wsa:ReferenceProperties to the call header, per WS-Addressing spec
-      Iterator refProps = endpoint.getReferenceProperties().iterator();
+      Iterator<Element> refProps = endpoint.getReferenceProperties().iterator();
       SOAPHeaderElement header = null;
       while (refProps.hasNext())
       {
-         header = new SOAPHeaderElement((Element)refProps.next());
+         header = new SOAPHeaderElement(refProps.next());
          // special handling for credentials stored as reference properties
          // in the header
          if ( header.getNamespaceURI().equals(CREDENTIALS_NAMESPACE) )

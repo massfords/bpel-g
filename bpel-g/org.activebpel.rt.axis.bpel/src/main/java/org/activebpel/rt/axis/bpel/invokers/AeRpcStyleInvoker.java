@@ -38,6 +38,7 @@ import org.activebpel.rt.wsdl.IAeContextWSDLProvider;
 import org.activebpel.rt.wsdl.def.AeBPELExtendedWSDLDef;
 import org.activebpel.rt.wsdl.def.AeBindingUtils;
 import org.activebpel.wsio.AeWebServiceMessageData;
+import org.activebpel.wsio.IAeWebServiceAttachment;
 import org.apache.axis.constants.Use;
 import org.apache.axis.description.OperationDesc;
 import org.apache.axis.description.ParameterDesc;
@@ -89,16 +90,17 @@ public class AeRpcStyleInvoker extends AeSOAPInvoker
       
       // Format the message into the call parameters
       ArrayList<Object> list = new ArrayList<Object>();
-      Map messageData  = getMessageData(aContext);
-      List outboundAttachments = addAttachments(aContext);
+      Map<String, Object> messageData  = getMessageData(aContext);
+      List<IAeWebServiceAttachment> outboundAttachments = addAttachments(aContext);
       AeWebServiceMessageData outputMsg = null;
       Object obj;
       try
       { 
          Message input = aContext.getOperation().getInput().getMessage();
-         for (Iterator iter = aContext.getCall().getOperation().getAllInParams().iterator(); iter.hasNext();)
+         for (@SuppressWarnings("unchecked")
+        		 Iterator<ParameterDesc> iter = aContext.getCall().getOperation().getAllInParams().iterator(); iter.hasNext();)
          {
-            String partName = ((ParameterDesc) iter.next()).getName();
+            String partName = iter.next().getName();
             
             Part part = input.getPart(partName);
             Object data = messageData.get(partName);
@@ -150,7 +152,8 @@ public class AeRpcStyleInvoker extends AeSOAPInvoker
             // are other parts to the message then we need to walk all of the output
             // params in order to read them
             // 
-            List output = aContext.getCall().getOperation().getAllOutParams();
+            @SuppressWarnings("unchecked")
+			List<ParameterDesc> output = aContext.getCall().getOperation().getAllOutParams();
             
             if (output.size() > 0)
             {
@@ -281,14 +284,15 @@ public class AeRpcStyleInvoker extends AeSOAPInvoker
    {
       // if we're doing the input, then we should respect any parameterOrder attribute that was
       // set on the operation.
-      List paramOrder = aIsInput ? AeBPELExtendedWSDLDef.getParameterOrder(aContext.getOperation()) : null;
+      List<String> paramOrder = aIsInput ? AeBPELExtendedWSDLDef.getParameterOrder(aContext.getOperation()) : null;
 
       Message msg = aIsInput ? aContext.getOperation().getInput().getMessage() : aContext.getOperation().getOutput().getMessage();
-      List partsList = msg.getOrderedParts(paramOrder);
-      for (Iterator iter = partsList.iterator(); iter.hasNext();)
+      @SuppressWarnings("unchecked")
+      List<Part> partsList = msg.getOrderedParts(paramOrder);
+      for (Iterator<Part> iter = partsList.iterator(); iter.hasNext();)
       {
          // Get the next part and obtain the return type for it (may be type or element)
-         Part part = (Part)iter.next();
+         Part part = iter.next();
          QName typeName = part.getElementName();
          if ( typeName == null )
             typeName = part.getTypeName();

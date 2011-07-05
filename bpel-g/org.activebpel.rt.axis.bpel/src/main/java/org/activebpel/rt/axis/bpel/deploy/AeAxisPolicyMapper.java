@@ -10,7 +10,7 @@
 package org.activebpel.rt.axis.bpel.deploy;
 
 import java.util.List;
-import java.util.HashSet;
+import java.util.Set;
 
 import org.activebpel.rt.AeException;
 import org.activebpel.rt.IAePolicyConstants;
@@ -45,7 +45,7 @@ public abstract class AeAxisPolicyMapper implements IAePolicyMapper,
 	 * @return ns aware dom element
 	 */
 	protected Element createHandlerElement(Document doc, String typeName,
-			HashSet handlerElements) {
+			Set<Element> handlerElements) {
 		Element handler = doc.createElementNS(WSDD_NAMESPACE_URI, TAG_HANDLER);
 		handler.setAttribute(IAePolicyConstants.TAG_TYPE_ATTR, typeName);
 

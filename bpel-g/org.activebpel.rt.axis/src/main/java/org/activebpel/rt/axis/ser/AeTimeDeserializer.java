@@ -16,7 +16,7 @@ import org.activebpel.rt.xml.schema.AeSchemaTime;
 /**
  * A custom Axis time deserializer.
  */
-public class AeTimeDeserializer extends AeAbstractSchemaTypeDeserializer
+public class AeTimeDeserializer extends AeAbstractSchemaTypeDeserializer<AeSchemaTime>
 {
    /**
      * 
@@ -26,7 +26,7 @@ public class AeTimeDeserializer extends AeAbstractSchemaTypeDeserializer
 /**
     * The Deserializer is constructed with the xmlType and javaType
     */
-   public AeTimeDeserializer(Class javaType, QName xmlType)
+   public AeTimeDeserializer(Class<AeSchemaTime> javaType, QName xmlType)
    {
       super(javaType, xmlType);
    }
@@ -34,7 +34,7 @@ public class AeTimeDeserializer extends AeAbstractSchemaTypeDeserializer
    /**
     * @see org.activebpel.rt.axis.ser.AeAbstractSchemaTypeDeserializer#makeValueInternal(java.lang.String)
     */
-   protected Object makeValueInternal(String aSource)
+   protected AeSchemaTime makeValueInternal(String aSource)
    {
       return new AeSchemaTime(aSource);
    }

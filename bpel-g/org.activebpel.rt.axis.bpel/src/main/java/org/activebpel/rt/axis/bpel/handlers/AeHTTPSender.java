@@ -31,8 +31,9 @@ import java.io.FilterInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
-import java.util.Hashtable;
 import java.util.Iterator;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.StringTokenizer;
 
 import javax.wsdl.OperationType;
@@ -597,20 +598,22 @@ private static final String KEY_IDLE_TIMEOUT = "org.activebpel.httpsender.idle.t
       MimeHeaders mimeHeaders = msg.getMimeHeaders();
       if (mimeHeaders != null) 
       {
-      	for (Iterator i = mimeHeaders.getAllHeaders(); i.hasNext(); ) {
-            MimeHeader mimeHeader = (MimeHeader) i.next();
+      	for (@SuppressWarnings("unchecked")
+		Iterator<MimeHeader> i = mimeHeaders.getAllHeaders(); i.hasNext(); ) {
+            MimeHeader mimeHeader = i.next();
             method.addRequestHeader(mimeHeader.getName(), mimeHeader.getValue());
          }
       }
 
       // process user defined headers for information.
-      Hashtable userHeaderTable = (Hashtable) msgContext.getProperty(HTTPConstants.REQUEST_HEADERS);
+      @SuppressWarnings("unchecked")
+      Map<Object,Object> userHeaderTable = (Map<Object,Object>) msgContext.getProperty(HTTPConstants.REQUEST_HEADERS);
 
       if (userHeaderTable != null)
       {
-         for (java.util.Iterator e = userHeaderTable.entrySet().iterator(); e.hasNext();)
+         for (java.util.Iterator<Entry<Object,Object>> e = userHeaderTable.entrySet().iterator(); e.hasNext();)
          {
-            java.util.Map.Entry me = (java.util.Map.Entry) e.next();
+            java.util.Map.Entry<Object,Object> me = e.next();
             Object keyObj = me.getKey();
 
             if (null == keyObj)

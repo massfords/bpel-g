@@ -42,7 +42,7 @@ public class AeAxisObjectProxyFactory
     * @param aMessageContext
     * @param aClass SOAPMessageContext class
     */
-   public static SOAPMessageContext getMessageContextProxy(MessageContext aMessageContext, Class aClass)
+   public static SOAPMessageContext getMessageContextProxy(MessageContext aMessageContext, Class<SOAPMessageContext> aClass)
    {
       InvocationHandler handler = new AeAxisMessageContextInvocationHandler(aMessageContext);
 
@@ -82,7 +82,7 @@ public class AeAxisObjectProxyFactory
     * @param aHeader
     * @param aClass SOAPHeader class
     */
-   public static SOAPHeader getSOAPHeaderProxy(org.apache.axis.message.SOAPHeader aHeader, Class aClass)
+   public static SOAPHeader getSOAPHeaderProxy(org.apache.axis.message.SOAPHeader aHeader, Class<SOAPHeader> aClass)
    {
       InvocationHandler handler = new AeAxisSOAPHeaderInvocationHandler(aHeader);
 

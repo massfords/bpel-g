@@ -27,17 +27,10 @@ public class AeBase64BinaryDeserializer extends SimpleDeserializer
 /**
     * The Deserializer is constructed with the xmlType and javaType
     */
-   public AeBase64BinaryDeserializer(Class javaType, QName xmlType)
+   public AeBase64BinaryDeserializer(Class<AeSchemaBase64Binary> javaType, QName xmlType)
    {
       super(javaType, xmlType);
    }
 
-   /**
-    * @see org.activebpel.rt.axis.ser.AeAbstractSchemaTypeDeserializer#makeValueInternal(java.lang.String)
-    */
-   protected Object makeValueInternal(String aSource)
-   {
-      return new AeSchemaBase64Binary(aSource);
-   }
 }
  

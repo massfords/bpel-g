@@ -34,7 +34,7 @@ public class AeAxisSOAPHeaderInvocationHandler implements InvocationHandler
    /** The <code>getChildElements()</code> method. */
    private Method mGetChildElementsMethod;
    /** The child elements. */
-   private List mChildElements;
+   private List<Element> mChildElements;
    
    /**
     * Constructs the invocation handler with the given soap header.
@@ -66,7 +66,8 @@ public class AeAxisSOAPHeaderInvocationHandler implements InvocationHandler
                String elementString = getProxiedSOAPHeader().getAsString();
                if (AeUtil.isNullOrEmpty(elementString))
                {
-                  setChildElements(Collections.EMPTY_LIST);
+                  List<Element> emptyList = Collections.emptyList();
+                  setChildElements(emptyList);
                }
                else
                {
@@ -87,7 +88,8 @@ public class AeAxisSOAPHeaderInvocationHandler implements InvocationHandler
             }
             catch (Exception ex)
             {
-               setChildElements(Collections.EMPTY_LIST);
+               List<Element> emptyList = Collections.emptyList();
+               setChildElements(emptyList);
             }
          }
          return getChildElements().iterator();
@@ -144,7 +146,7 @@ public class AeAxisSOAPHeaderInvocationHandler implements InvocationHandler
    /**
     * @return Returns the childElements.
     */
-   private List getChildElements()
+   private List<Element> getChildElements()
    {
       return mChildElements;
    }
@@ -152,7 +154,7 @@ public class AeAxisSOAPHeaderInvocationHandler implements InvocationHandler
    /**
     * @param aChildElements The childElements to set.
     */
-   private void setChildElements(List aChildElements)
+   private void setChildElements(List<Element> aChildElements)
    {
       mChildElements = aChildElements;
    }

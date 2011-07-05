@@ -24,9 +24,9 @@ public class AeHexBinaryDeserializerFactory extends AeBaseDeserializerFactory
 /**
     * Creates a deserializer factory with the given java type and xml type.
     */
-   public AeHexBinaryDeserializerFactory(Class javaType, QName xmlType)
+   public AeHexBinaryDeserializerFactory(Class<AeHexBinaryDeserializer> javaType, QName xmlType)
    {
-      super(AeHexBinaryDeserializer.class, xmlType, javaType);
+      super(javaType, xmlType, javaType);
    }
 }
  

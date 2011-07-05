@@ -73,7 +73,8 @@ public class AeSOAPMessageWrapper extends SOAPMessage
    /**
     * @see javax.xml.soap.SOAPMessage#getAttachments()
     */
-   public Iterator getAttachments()
+   @SuppressWarnings("unchecked")
+   public Iterator<AttachmentPart> getAttachments()
    {
       return getMessage().getAttachments();
    }
@@ -81,7 +82,8 @@ public class AeSOAPMessageWrapper extends SOAPMessage
    /**
     * @see javax.xml.soap.SOAPMessage#getAttachments(javax.xml.soap.MimeHeaders)
     */
-   public Iterator getAttachments(MimeHeaders aHeaders)
+   @SuppressWarnings("unchecked")
+   public Iterator<AttachmentPart> getAttachments(MimeHeaders aHeaders)
    {
       return getMessage().getAttachments(aHeaders);
    }

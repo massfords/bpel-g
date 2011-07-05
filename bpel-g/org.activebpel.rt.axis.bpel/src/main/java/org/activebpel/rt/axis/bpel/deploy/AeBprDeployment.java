@@ -189,7 +189,7 @@ public class AeBprDeployment extends WSDDDeployment
     * Overriden for classloader setup before service calls.
     * @see org.apache.axis.EngineConfiguration#getDeployedServices()
     */
-   public Iterator getDeployedServices() throws ConfigurationException
+   public Iterator<ServiceDesc> getDeployedServices() throws ConfigurationException
    {
       List<ServiceDesc> serviceDescs = new ArrayList<ServiceDesc>();
       WSDDService[] services = getServices();

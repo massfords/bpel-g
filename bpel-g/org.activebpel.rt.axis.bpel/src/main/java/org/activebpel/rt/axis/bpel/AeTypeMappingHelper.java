@@ -122,7 +122,7 @@ public class AeTypeMappingHelper implements IAeTypesContext
     * 
     * @param aMapping
     */
-   protected Class getClass(AeTypeMappingTuple aMapping)
+   protected Class<?> getClass(AeTypeMappingTuple aMapping)
    {
       if (aMapping.isDerivedSimpleType())
          return AeSimpleValueWrapper.class;
@@ -275,11 +275,12 @@ public class AeTypeMappingHelper implements IAeTypesContext
    {
       AeBPELExtendedWSDLDef def = aInputFlag ? getInputMessageDef() : getOutputMessageDef();
       
-      List parts = aMessage.getOrderedParts(null);
-      for (Iterator iter = parts.iterator(); iter.hasNext();)
+      @SuppressWarnings("unchecked")
+      List<Part> parts = aMessage.getOrderedParts(null);
+      for (Iterator<Part> iter = parts.iterator(); iter.hasNext();)
       {
          AeTypeMappingTuple tuple = null;
-         Part part = (Part) iter.next();
+         Part part = iter.next();
          if (def.isArray(part))
          {
             tuple = getOrCreateTuple(IAeBPELExtendedWSDLConst.SOAP_ARRAY);

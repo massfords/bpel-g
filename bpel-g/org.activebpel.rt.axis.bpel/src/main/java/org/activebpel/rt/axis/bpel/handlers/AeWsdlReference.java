@@ -215,9 +215,9 @@ public class AeWsdlReference implements IAeWsdlReference, IAeCatalogListener
    {
       getOperationsInternal().clear();
       List<String> allowedMethods = new ArrayList<String>();
-      for( Iterator iter = getWsdlDef().getOperations( getPortTypeQName() ); iter.hasNext(); )
+      for( Iterator<Operation> iter = getWsdlDef().getOperations( getPortTypeQName() ); iter.hasNext(); )
       {
-         Operation operation = (Operation)iter.next();
+         Operation operation = iter.next();
          addOperation(operation);
          allowedMethods.add(operation.getName());
       }
@@ -312,10 +312,11 @@ public class AeWsdlReference implements IAeWsdlReference, IAeCatalogListener
     */
    protected void addParamsToOperation(OperationDesc aOperation, Message aMsg, boolean aIsInput)
    {
-      for (Iterator iter=aMsg.getOrderedParts(null).iterator(); iter.hasNext();)
+      for (@SuppressWarnings("unchecked")
+    		  Iterator<Part> iter=aMsg.getOrderedParts(null).iterator(); iter.hasNext();)
       {
          // Get the next part and obtain the return type for it (may be type or element)
-         Part part = (Part)iter.next();
+         Part part = iter.next();
          QName typeName = part.getElementName();
 
          if (typeName == null)
@@ -496,7 +497,7 @@ public class AeWsdlReference implements IAeWsdlReference, IAeCatalogListener
    /**
     * @see org.activebpel.rt.axis.IAeWsdlReference#getAllowedMethods()
     */
-   public synchronized List getAllowedMethods()
+   public synchronized List<String> getAllowedMethods()
    {
       return mAllowedMethods;
    }

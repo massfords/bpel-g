@@ -25,6 +25,7 @@ import org.activebpel.rt.bpel.AeBusinessProcessException;
 import org.activebpel.rt.util.AeUtil;
 import org.activebpel.rt.util.AeXmlUtil;
 import org.activebpel.wsio.AeWebServiceMessageData;
+import org.activebpel.wsio.IAeWebServiceAttachment;
 import org.apache.axis.message.SOAPBodyElement;
 import org.apache.axis.message.SOAPHeaderElement;
 import org.w3c.dom.Document;
@@ -59,18 +60,19 @@ public class AeDocumentStyleInvoker extends AeSOAPInvoker
       // if they're rpc style and not already documents
       Document simpleTypeDoc = null;
       
-      List orderedParts = aInvokeContext.getOperation().getInput().getMessage().getOrderedParts(null);
+      @SuppressWarnings("unchecked")
+	  List<Part> orderedParts = aInvokeContext.getOperation().getInput().getMessage().getOrderedParts(null);
       
       ArrayList<SOAPBodyElement> list = new ArrayList<SOAPBodyElement>();
-      Map messageData = getMessageData(aInvokeContext);
-      List outboundAttachments = addAttachments(aInvokeContext);
+      Map<String,Object> messageData = getMessageData(aInvokeContext);
+      List<IAeWebServiceAttachment> outboundAttachments = addAttachments(aInvokeContext);
       AeWebServiceMessageData outputMsg;
-      Vector elems;
+      Vector<?> elems;
       try
       {
-         for (Iterator iter = orderedParts.iterator(); iter.hasNext();)
+         for (Iterator<Part> iter = orderedParts.iterator(); iter.hasNext();)
          {
-            Part part = (Part) iter.next();
+            Part part = iter.next();
             Object obj = messageData.get(part.getName());
             
             // don't add the part to the body if it is supposed to be a header
@@ -101,7 +103,7 @@ public class AeDocumentStyleInvoker extends AeSOAPInvoker
          }
          
          // for document style we receive a vector of body elements from return
-         elems = (Vector) aInvokeContext.getCall().invoke(list.toArray());
+         elems = (Vector<?>) aInvokeContext.getCall().invoke(list.toArray());
          
          // outputMsg will be created for request/response only
          outputMsg = createOutputMessageData(aInvokeContext);
@@ -120,9 +122,10 @@ public class AeDocumentStyleInvoker extends AeSOAPInvoker
          if (elems != null)
          {
             int i = 0;               
-            for(Iterator iter = aInvokeContext.getOperation().getOutput().getMessage().getOrderedParts(null).iterator(); iter.hasNext(); )
+            for(@SuppressWarnings("unchecked")
+            		Iterator<Part> iter = aInvokeContext.getOperation().getOutput().getMessage().getOrderedParts(null).iterator(); iter.hasNext(); )
             {
-               Part part = (Part)iter.next();
+               Part part = iter.next();
                if (!aInvokeContext.isOutputHeader(part.getName()))
                {
                   SOAPBodyElement elem = (SOAPBodyElement) elems.get(i++);

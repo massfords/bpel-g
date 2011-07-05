@@ -33,7 +33,7 @@ public class AeBaseSerializer extends SimpleSerializer
 /**
     * C'tor.
     */
-   public AeBaseSerializer(Class javaType, QName xmlType)
+   public AeBaseSerializer(Class<?> javaType, QName xmlType)
    {
       super(javaType, xmlType);
    }

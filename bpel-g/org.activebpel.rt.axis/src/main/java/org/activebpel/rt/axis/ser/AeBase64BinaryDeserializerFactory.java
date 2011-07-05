@@ -24,7 +24,7 @@ public class AeBase64BinaryDeserializerFactory extends AeBaseDeserializerFactory
 /**
     * Creates a deserializer factory with the given java type and xml type.
     */
-   public AeBase64BinaryDeserializerFactory(Class javaType, QName xmlType)
+   public AeBase64BinaryDeserializerFactory(Class<AeBase64BinaryDeserializer> javaType, QName xmlType)
    {
       super(AeBase64BinaryDeserializer.class, xmlType, javaType);
    }

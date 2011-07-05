@@ -30,7 +30,7 @@ public class AeBaseDeserializerFactory extends BaseDeserializerFactory
 /**
     * Creates a deserializer factory with the given java type and xml type.
     */
-   public AeBaseDeserializerFactory(Class aClass, QName xmlType, Class javaType)
+   public AeBaseDeserializerFactory(Class<?> aClass, QName xmlType, Class<?> javaType)
    {
       super(aClass, xmlType, javaType);
    }

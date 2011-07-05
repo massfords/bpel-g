@@ -33,6 +33,7 @@ import org.apache.axis.deployment.wsdd.WSDDDeployment;
 import org.apache.axis.deployment.wsdd.WSDDDocument;
 import org.apache.axis.deployment.wsdd.WSDDException;
 import org.apache.axis.deployment.wsdd.WSDDGlobalConfiguration;
+import org.apache.axis.description.ServiceDesc;
 import org.apache.axis.encoding.TypeMappingRegistry;
 import org.apache.axis.handlers.soap.SOAPService;
 import org.apache.axis.utils.Messages;
@@ -216,7 +217,8 @@ public class AeAxisEngineConfiguration implements WSDDEngineConfiguration
    /**
     * @see org.apache.axis.EngineConfiguration#getGlobalOptions()
     */
-   public Hashtable getGlobalOptions() throws ConfigurationException
+   @SuppressWarnings("unchecked")
+   public Hashtable<Object,Object> getGlobalOptions() throws ConfigurationException
    {
       WSDDGlobalConfiguration globalConfig = mDeployment.getGlobalConfiguration();
 
@@ -229,7 +231,8 @@ public class AeAxisEngineConfiguration implements WSDDEngineConfiguration
    /**
     * @see org.apache.axis.EngineConfiguration#getDeployedServices()
     */
-   public Iterator getDeployedServices() throws ConfigurationException
+   @SuppressWarnings("unchecked")
+   public Iterator<ServiceDesc> getDeployedServices() throws ConfigurationException
    {
       return mDeployment.getDeployedServices();
    }
@@ -238,7 +241,8 @@ public class AeAxisEngineConfiguration implements WSDDEngineConfiguration
     * Implements method by returning the associated deployments roles.
     * @see org.apache.axis.EngineConfiguration#getRoles()
     */
-   public List getRoles()
+   @SuppressWarnings("unchecked")
+   public List<String> getRoles()
    {
       return mDeployment.getRoles();
    }

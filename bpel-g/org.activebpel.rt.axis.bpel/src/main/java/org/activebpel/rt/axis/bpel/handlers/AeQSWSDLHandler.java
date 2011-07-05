@@ -57,7 +57,7 @@ public class AeQSWSDLHandler extends QSWSDLHandler
     */
    protected void updateSoapAddressLocationURLs(Document wsdlDoc, MessageContext msgContext) throws AxisFault
    {
-      Set deployedServiceNames;
+      Set<String> deployedServiceNames;
       try
       {
          deployedServiceNames = getDeployedServiceNames(msgContext);
@@ -123,7 +123,7 @@ public class AeQSWSDLHandler extends QSWSDLHandler
     * @param currentServiceEndpointName
     * @param portName
     */
-   private String getNewServiceName(Set deployedServiceNames, String currentServiceEndpointName, String portName)
+   private String getNewServiceName(Set<String> deployedServiceNames, String currentServiceEndpointName, String portName)
    {
       String endpointName = null;
       if (deployedServiceNames.contains(currentServiceEndpointName))
@@ -139,7 +139,7 @@ public class AeQSWSDLHandler extends QSWSDLHandler
     * @param msgContext
     * @throws ConfigurationException
     */
-   private Set getDeployedServiceNames(MessageContext msgContext) throws ConfigurationException
+   private Set<String> getDeployedServiceNames(MessageContext msgContext) throws ConfigurationException
    {
       Set<String> serviceNames = new HashSet<String>();
 
@@ -152,8 +152,9 @@ public class AeQSWSDLHandler extends QSWSDLHandler
       }
       else
       {
-         for (Iterator iter = config.getDeployedServices(); iter.hasNext();)
-            serviceNames.add(((ServiceDesc)iter.next()).getName());
+         for (@SuppressWarnings("unchecked")
+        		 Iterator<ServiceDesc> iter = config.getDeployedServices(); iter.hasNext();)
+            serviceNames.add(iter.next().getName());
       }
 
       return serviceNames;
