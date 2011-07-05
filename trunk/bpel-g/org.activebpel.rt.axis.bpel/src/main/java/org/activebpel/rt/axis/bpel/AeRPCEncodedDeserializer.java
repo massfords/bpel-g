@@ -214,10 +214,10 @@ public class AeRPCEncodedDeserializer extends DeserializerImpl
          addNamespaceMappings(nsMap, body);
       }
       
-      for(Iterator it=nsMap.entrySet().iterator(); it.hasNext();)
+      for(Iterator<Entry<String,Mapping>> it=nsMap.entrySet().iterator(); it.hasNext();)
       {
-         Map.Entry entry = (Entry) it.next();
-         Mapping mapping = (Mapping) entry.getValue();
+         Map.Entry<String,Mapping> entry = it.next();
+         Mapping mapping = entry.getValue();
          aElement.setAttributeNS(XMLConstants.XMLNS_ATTRIBUTE_NS_URI, "xmlns:"+mapping.getPrefix(), mapping.getNamespaceURI()); //$NON-NLS-1$
       }
    }
@@ -229,9 +229,10 @@ public class AeRPCEncodedDeserializer extends DeserializerImpl
     */
    protected void addNamespaceMappings(Map<String, Mapping> nsMap, MessageElement aEnvelope)
    {
-      for (Iterator it=aEnvelope.namespaces.iterator(); it.hasNext();)
+      for (@SuppressWarnings("unchecked")
+    		  Iterator<Mapping> it=aEnvelope.namespaces.iterator(); it.hasNext();)
       {
-         Mapping mapping = (Mapping) it.next();
+         Mapping mapping = it.next();
          // don't add any that we want to skip over, like SOAP or old XSI's
          if (!sNamespacesToSkipColl.contains(mapping.getNamespaceURI()))
          {
@@ -355,7 +356,7 @@ public class AeRPCEncodedDeserializer extends DeserializerImpl
       boolean isSchemaQualified = aParentType!=null ? isSchemaQualified(aParentType.getSchema()) : false;
       // if the parent type is a soap array, then there is special handling for the child element names based on engine config
       boolean parentIsArray = AeSchemaUtil.isArray(parentType);
-      for (Iterator it = aMessageElement.getChildElements(); it.hasNext();)
+      for (Iterator<?> it = aMessageElement.getChildElements(); it.hasNext();)
       {
          Object obj = it.next();
          if (!(obj instanceof Text) && obj instanceof MessageElement)

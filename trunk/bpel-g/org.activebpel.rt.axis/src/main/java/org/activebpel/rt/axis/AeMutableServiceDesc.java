@@ -54,7 +54,7 @@ public class AeMutableServiceDesc extends AeServiceDesc
     * @param aReference
     * @param aServiceDescProps
     */
-   protected Object getWsdlReferenceProperty( String aPropertyKey, IAeWsdlReference aReference, Map aServiceDescProps )
+   protected Object getWsdlReferenceProperty( String aPropertyKey, IAeWsdlReference aReference, Map<String, Object> aServiceDescProps )
    {
       Object propertyObj = null;
       
@@ -81,7 +81,7 @@ public class AeMutableServiceDesc extends AeServiceDesc
    /**
     * @see org.apache.axis.description.ServiceDesc#getOperations()
     */
-   public ArrayList getOperations()
+   public ArrayList<OperationDesc> getOperations()
    {
       return getWsdlReference().getOperations();
    }
@@ -113,7 +113,7 @@ public class AeMutableServiceDesc extends AeServiceDesc
    /**
     * @see org.apache.axis.description.ServiceDesc#getAllowedMethods()
     */
-   public List getAllowedMethods()
+   public List<String> getAllowedMethods()
    {
       return getWsdlReference().getAllowedMethods();
    }

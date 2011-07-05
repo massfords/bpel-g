@@ -27,16 +27,9 @@ public class AeDateDeserializer extends SimpleDeserializer
 /**
     * The Deserializer is constructed with the xmlType and javaType
     */
-   public AeDateDeserializer(Class javaType, QName xmlType)
+   public AeDateDeserializer(Class<AeSchemaDate> javaType, QName xmlType)
    {
       super(javaType, xmlType);
    }
 
-   /**
-    * @see org.activebpel.rt.axis.ser.AeAbstractSchemaTypeDeserializer#makeValueInternal(java.lang.String)
-    */
-   protected Object makeValueInternal(String aSource)
-   {
-      return new AeSchemaDate(aSource);
-   }
 }

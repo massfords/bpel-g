@@ -78,10 +78,10 @@ public class AeServiceDesc implements ServiceDesc
 
    /** List of allowed methods */
    /** null allows everything, an empty ArrayList allows nothing */
-   private List mAllowedMethods;
+   private List<String> mAllowedMethods;
 
    /** List if disallowed methods */
-   private List mDisallowedMethods;
+   private List<String> mDisallowedMethods;
 
    /** Our typemapping for resolving Java&lt;->XML type issues */
    private TypeMapping mTypeMapping = DefaultTypeMappingImpl.getSingletonDelegate();
@@ -172,7 +172,7 @@ public class AeServiceDesc implements ServiceDesc
    /**
     * @see org.apache.axis.description.ServiceDesc#getAllowedMethods()
     */
-   public List getAllowedMethods()
+   public List<String> getAllowedMethods()
    {
       return mAllowedMethods;
    }
@@ -180,7 +180,8 @@ public class AeServiceDesc implements ServiceDesc
    /**
     * @see org.apache.axis.description.ServiceDesc#setAllowedMethods(java.util.List)
     */
-   public void setAllowedMethods(List aAllowedMethods)
+   @SuppressWarnings("unchecked")
+   public void setAllowedMethods(@SuppressWarnings("rawtypes") List aAllowedMethods)
    {
       mAllowedMethods = aAllowedMethods;
    }
@@ -241,7 +242,7 @@ public class AeServiceDesc implements ServiceDesc
    /**
     * @see org.apache.axis.description.ServiceDesc#getDisallowedMethods()
     */
-   public List getDisallowedMethods()
+   public List<String> getDisallowedMethods()
    {
       return mDisallowedMethods;
    }
@@ -249,7 +250,8 @@ public class AeServiceDesc implements ServiceDesc
    /**
     * @see org.apache.axis.description.ServiceDesc#setDisallowedMethods(java.util.List)
     */
-   public void setDisallowedMethods(List aDisallowedMethods)
+   @SuppressWarnings("unchecked")
+   public void setDisallowedMethods(@SuppressWarnings("rawtypes") List aDisallowedMethods)
    {
       mDisallowedMethods = aDisallowedMethods;
    }
@@ -297,7 +299,7 @@ public class AeServiceDesc implements ServiceDesc
     * @return reference to the operations array. This is not a copy
     * @see org.apache.axis.description.ServiceDesc#getOperations()
     */
-   public ArrayList getOperations()
+   public ArrayList<OperationDesc> getOperations()
    {
       return mOperations;
    }
@@ -371,7 +373,7 @@ public class AeServiceDesc implements ServiceDesc
     * @see org.apache.axis.description.ServiceDesc#setNamespaceMappings(java.util.List)
     */
    @SuppressWarnings("unchecked")
-   public void setNamespaceMappings(List aNamespaces)
+   public void setNamespaceMappings(@SuppressWarnings("rawtypes") List aNamespaces)
    {
       mNamespaceMappings = aNamespaces;
    }
@@ -424,7 +426,7 @@ public class AeServiceDesc implements ServiceDesc
    /**
     * Getter for properties map.
     */
-   protected Map getProperties()
+   protected Map<String, Object> getProperties()
    {
       return mProperties;
    }

@@ -24,8 +24,8 @@ public class AeDateTimeDeserializerFactory extends AeBaseDeserializerFactory
 /**
     * Creates a deserializer factory with the given java type and xml type.
     */
-   public AeDateTimeDeserializerFactory(Class javaType, QName xmlType)
+   public AeDateTimeDeserializerFactory(Class<AeDateTimeDeserializer> javaType, QName xmlType)
    {
-      super(AeDateTimeDeserializer.class, xmlType, javaType);
+      super(javaType, xmlType, javaType);
    }
 }

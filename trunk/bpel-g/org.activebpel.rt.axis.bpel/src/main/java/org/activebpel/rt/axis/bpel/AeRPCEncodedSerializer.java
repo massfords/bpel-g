@@ -12,6 +12,7 @@ package org.activebpel.rt.axis.bpel;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.Iterator;
+import java.util.List;
 
 import javax.xml.XMLConstants;
 import javax.xml.namespace.QName;
@@ -402,9 +403,10 @@ public class AeRPCEncodedSerializer extends ElementSerializer
       /**
        * @see javax.xml.rpc.encoding.DeserializerFactory#getSupportedMechanismTypes()
        */
-      public Iterator getSupportedMechanismTypes()
+      public Iterator<String> getSupportedMechanismTypes()
       {
-         return Collections.EMPTY_LIST.iterator();
+         List<String> emptyList = Collections.emptyList();
+         return emptyList.iterator();
       }
 
    }

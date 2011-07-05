@@ -12,7 +12,6 @@ package org.activebpel.rt.axis.bpel.receivers;
 
 import java.util.Iterator;
 import java.util.List;
-import java.util.Vector;
 
 import javax.wsdl.Message;
 import javax.wsdl.Operation;
@@ -43,6 +42,7 @@ import org.apache.axis.MessageContext;
 import org.apache.axis.constants.Use;
 import org.apache.axis.message.RPCElement;
 import org.apache.axis.message.RPCParam;
+import org.apache.axis.message.SOAPBodyElement;
 import org.apache.axis.message.SOAPEnvelope;
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
@@ -90,9 +90,10 @@ public class AeRPCReceiveHandler extends AeAxisReceiveHandler
          // Find the proper operation based on the SOAP request operation
          Operation operation = null;
          PortType portType = defFromService.getPortType(portTypeQName);
-         for (Iterator iter=portType.getOperations().iterator(); iter.hasNext() && operation == null;)
+         for (@SuppressWarnings("unchecked")
+		    Iterator<Operation> iter=portType.getOperations().iterator(); iter.hasNext() && operation == null;)
          {
-            Operation op = (Operation)iter.next();
+            Operation op = iter.next();
             if (op.getName().equals(reqBody.getMethodName()))
                operation = op;
          }         
@@ -159,9 +160,10 @@ public class AeRPCReceiveHandler extends AeAxisReceiveHandler
     */
    private RPCElement findFirstRPCElement(SOAPEnvelope aEnv) throws AxisFault
    {
-      Vector bodyElements = aEnv.getBodyElements();
+      @SuppressWarnings("unchecked")
+      List<SOAPBodyElement> bodyElements = aEnv.getBodyElements();
       RPCElement reqBody = null;
-      for (Iterator it = bodyElements.iterator(); it.hasNext();)
+      for (Iterator<SOAPBodyElement> it = bodyElements.iterator(); it.hasNext();)
       {
          Object element = it.next();
          if (element instanceof RPCElement)
@@ -209,9 +211,10 @@ public class AeRPCReceiveHandler extends AeAxisReceiveHandler
          Message outputMessage = def.getMessage(outputMsg.getMessageType());
 
          // Loop through all parts for the ouput message and add an output param to the response body
-         for (Iterator iter=outputMessage.getOrderedParts(null).iterator(); iter.hasNext();)
+         for (@SuppressWarnings("unchecked")
+        		 Iterator<Part> iter=outputMessage.getOrderedParts(null).iterator(); iter.hasNext();)
          {
-            Part part = (Part) iter.next();
+            Part part = iter.next();
             Object partData = outputMsg.getMessageData().get(part.getName());
             
             // if it's a derived simple type, then add a wrapper so it'll hit our serializer
@@ -280,22 +283,24 @@ public class AeRPCReceiveHandler extends AeAxisReceiveHandler
     */
    protected void extractMessageParts(RPCElement aReqBody, Operation aOperation, IAeMessageData aInputMsg) throws SAXException, AxisFault
    {
-      List paramOrder = AeBPELExtendedWSDLDef.getParameterOrder(aOperation);
+      List<String> paramOrder = AeBPELExtendedWSDLDef.getParameterOrder(aOperation);
       
       // The parts in the order that we're expecting them
-      List parts = aOperation.getInput().getMessage().getOrderedParts(paramOrder);
+      @SuppressWarnings("unchecked")
+	  List<Part> parts = aOperation.getInput().getMessage().getOrderedParts(paramOrder);
       
       // The rpc params from the request. This call will trigger deserialization 
       // of the message
-      List rpcParams = aReqBody.getParams();
+      @SuppressWarnings("unchecked")
+	  List<RPCParam> rpcParams = aReqBody.getParams();
       
       // The assumption is that the two lists are in synch. If not, then we should
       // catch in validation.
       
       int i=0;
-      for (Iterator iter=parts.iterator(); iter.hasNext(); i++)
+      for (Iterator<Part> iter=parts.iterator(); iter.hasNext(); i++)
       {
-         Part part = (Part) iter.next();
+         Part part = iter.next();
          String partName = part.getName();
          RPCParam param = aReqBody.getParam(partName);
          

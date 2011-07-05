@@ -9,8 +9,6 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.wsdl.def;
 
-import com.ibm.wsdl.TypesImpl;
-
 import java.io.IOException;
 import java.io.StringReader;
 import java.io.StringWriter;
@@ -27,8 +25,8 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
-import java.util.Vector;
 
 import javax.wsdl.Binding;
 import javax.wsdl.Definition;
@@ -83,6 +81,8 @@ import org.exolab.castor.xml.schema.XMLType;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.xml.sax.InputSource;
+
+import com.ibm.wsdl.TypesImpl;
 
 /**
  * Read, write, modify and create BPEL Extended WSDL documents.  This class
@@ -432,9 +432,10 @@ public class AeBPELExtendedWSDLDef implements IAeBPELExtendedWSDLConst, IAeMutab
       List<IAePropertyAlias> propertyAliases = new ArrayList<IAePropertyAlias>();
       List<IAePolicy> policies = new ArrayList<IAePolicy>();
 
-      for (Iterator iter = aDef.getExtensibilityElements().iterator(); iter.hasNext();)
+      for (@SuppressWarnings("unchecked")
+    		  Iterator<ExtensibilityElement> iter = aDef.getExtensibilityElements().iterator(); iter.hasNext();)
       {
-         ExtensibilityElement extElem = (ExtensibilityElement)iter.next();
+         ExtensibilityElement extElem = iter.next();
          if (extElem instanceof IAePartnerLinkType)
             partnerLinks.add((IAePartnerLinkType)extElem);
          else if (extElem instanceof IAeProperty)
@@ -779,10 +780,10 @@ public class AeBPELExtendedWSDLDef implements IAeBPELExtendedWSDLConst, IAeMutab
    {
       IAePartnerLinkType lPartnerLinkType = null;
 
-      Iterator lIt = getPartnerLinkTypeExtElements().iterator();
+      Iterator<IAePartnerLinkType> lIt = getPartnerLinkTypeExtElements().iterator();
       while (lIt.hasNext())
       {
-         IAePartnerLinkType lPartnerLinkElem = (IAePartnerLinkType)lIt.next();
+         IAePartnerLinkType lPartnerLinkElem = lIt.next();
 
          ExtensibilityElement extElem = (ExtensibilityElement)lPartnerLinkElem;
 
@@ -809,9 +810,9 @@ public class AeBPELExtendedWSDLDef implements IAeBPELExtendedWSDLConst, IAeMutab
    {
       IAeProperty property = null;
 
-      for (Iterator itr = getPropExtElements().iterator(); itr.hasNext(); )
+      for (Iterator<IAeProperty> itr = getPropExtElements().iterator(); itr.hasNext(); )
       {
-         IAeProperty propElem = (IAeProperty)itr.next();
+         IAeProperty propElem = itr.next();
 
          ExtensibilityElement extElem = (ExtensibilityElement)propElem;
 
@@ -845,9 +846,9 @@ public class AeBPELExtendedWSDLDef implements IAeBPELExtendedWSDLConst, IAeMutab
    {
       IAePropertyAlias propertyAlias = null;
 
-      for (Iterator itr = getPropAliasExtElements().iterator(); itr.hasNext(); )
+      for (Iterator<IAePropertyAlias> itr = getPropAliasExtElements().iterator(); itr.hasNext(); )
       {
-         IAePropertyAlias propAliasElem = (IAePropertyAlias)itr.next();
+         IAePropertyAlias propAliasElem = itr.next();
          ExtensibilityElement extElem = (ExtensibilityElement)propAliasElem;
 
          if ( aPropName.equals(propAliasElem.getPropertyName()) &&
@@ -918,10 +919,11 @@ public class AeBPELExtendedWSDLDef implements IAeBPELExtendedWSDLConst, IAeMutab
     * @param aPortType a PortType QName.
     * @return Iterator for list of Operations.
     */
-   public Iterator getOperations(QName aPortType)
+   @SuppressWarnings("unchecked")
+   public Iterator<Operation> getOperations(QName aPortType)
    {
       Definition lDef = getWSDLDef();
-      List lOperations = null;
+      List<Operation> lOperations = null;
 
       if (lDef != null)
       {
@@ -931,7 +933,7 @@ public class AeBPELExtendedWSDLDef implements IAeBPELExtendedWSDLConst, IAeMutab
       }
 
       if (lOperations == null)
-         return Collections.EMPTY_LIST.iterator();
+         lOperations = Collections.emptyList();
 
       return lOperations.iterator();
    }
@@ -972,10 +974,10 @@ public class AeBPELExtendedWSDLDef implements IAeBPELExtendedWSDLConst, IAeMutab
     */
    public boolean operationExists(QName aPortType, String aOpName)
    {
-      Iterator iter = getOperations(aPortType);
+      Iterator<Operation> iter = getOperations(aPortType);
       while (iter.hasNext())
       {
-         Operation oper = (Operation)iter.next();
+         Operation oper = iter.next();
          if (oper.getName().equals(aOpName.trim()))
             return true;
       }
@@ -1013,7 +1015,8 @@ public class AeBPELExtendedWSDLDef implements IAeBPELExtendedWSDLConst, IAeMutab
 
       if (aQNames.size() > 0 && lDef != null)
       {
-         Set prefixes = lDef.getNamespaces().keySet();
+         @SuppressWarnings("unchecked")
+		Set<String> prefixes = lDef.getNamespaces().keySet();
 
          Iterator<QName> iter = aQNames.iterator();
          while (iter.hasNext())
@@ -1059,10 +1062,11 @@ public class AeBPELExtendedWSDLDef implements IAeBPELExtendedWSDLConst, IAeMutab
 
             // Create an import as specified by the caller.
             //
-            List imports = getWSDLDef().getImports( aNS );
+            @SuppressWarnings("unchecked")
+			List<Import> imports = getWSDLDef().getImports( aNS );
             if ( imports != null )
             {
-               for ( Iterator iter = imports.iterator() ; iter.hasNext() ; )
+               for ( Iterator<Import> iter = imports.iterator() ; iter.hasNext() ; )
                {
                   imp = (Import)iter.next();
                   if ( imp.getLocationURI().equals( aLoc ) &&
@@ -1145,13 +1149,14 @@ public class AeBPELExtendedWSDLDef implements IAeBPELExtendedWSDLConst, IAeMutab
                }
             }
             // If Fault messages are present add their QNames
-            Map faultNames = aOperation.getFaults();
+            @SuppressWarnings("unchecked")
+			Map<String,?> faultNames = aOperation.getFaults();
             if (faultNames != null)
             {
-               Iterator iter = faultNames.keySet().iterator();
+               Iterator<String> iter = faultNames.keySet().iterator();
                while (iter.hasNext())
                {
-                  Fault fault = aOperation.getFault((String)iter.next());
+                  Fault fault = aOperation.getFault(iter.next());
                   qNames.add(fault.getMessage().getQName());
                }
             }
@@ -1314,9 +1319,10 @@ public class AeBPELExtendedWSDLDef implements IAeBPELExtendedWSDLConst, IAeMutab
          List<Schema> schemas = new ArrayList<Schema>();
 
          // First, create a list of all the <schema> elements.
-         for (Iterator it = types.getExtensibilityElements().iterator(); it.hasNext();)
+         for (@SuppressWarnings("unchecked")
+        		 Iterator<UnknownExtensibilityElement> it = types.getExtensibilityElements().iterator(); it.hasNext();)
          {
-            UnknownExtensibilityElement extElement = (UnknownExtensibilityElement)it.next();
+            UnknownExtensibilityElement extElement = it.next();
             if("schema".equals(extElement.getElement().getLocalName())) //$NON-NLS-1$
             {
                try
@@ -1348,8 +1354,8 @@ public class AeBPELExtendedWSDLDef implements IAeBPELExtendedWSDLConst, IAeMutab
                   }
 
                   // Add any schemas which were resolved, add the URL decoded ref to our list of references
-                  for (Iterator refIter=resolver.getURIReferences(); refIter.hasNext();)
-                     schemaRefs.add(AeUTF8Util.urlDecode(refIter.next().toString()));
+                  for (Iterator<String> refIter=resolver.getURIReferences(); refIter.hasNext();)
+                     schemaRefs.add(AeUTF8Util.urlDecode(refIter.next()));
                }
                catch (Exception e)
                {
@@ -1361,13 +1367,12 @@ public class AeBPELExtendedWSDLDef implements IAeBPELExtendedWSDLConst, IAeMutab
          // if we have messages then recursively process schemas in imported wsdl
          if(aRecurse && (! aDef.getMessages().isEmpty()) && (! aDef.getImports().isEmpty()))
          {
-            for(Iterator iter=aDef.getImports().values().iterator(); iter.hasNext(); )
+            for(@SuppressWarnings("unchecked")
+            		Iterator<List<Import>> iter=aDef.getImports().values().iterator(); iter.hasNext(); )
             {
-               Object impObj = iter.next();
-               Vector vecImp = (Vector)impObj;
-               for(Enumeration en = vecImp.elements(); en.hasMoreElements(); )
+               List<Import> impObj = iter.next();
+               for(Import imp : impObj )
                {
-                  Import imp = (Import)en.nextElement();
                   if(imp.getDefinition() != null)
                   {
                      buildSchemaMap(imp.getDefinition(), false);
@@ -1380,8 +1385,8 @@ public class AeBPELExtendedWSDLDef implements IAeBPELExtendedWSDLConst, IAeMutab
          schemas = mergeSchemaList(schemas);
 
          // Now iterate through the remaining schemas and catalog them
-         for (Iterator iter = schemas.iterator(); iter.hasNext(); )
-            catalogSchemaAndImports((Schema) iter.next(), new HashSet<String>(), true);
+         for (Iterator<Schema> iter = schemas.iterator(); iter.hasNext(); )
+            catalogSchemaAndImports(iter.next(), new HashSet<String>(), true);
 
          // Add all references we've collected so far to the master list for the WSDL def
          mSchemaReferences = new ArrayList<String>(schemaRefs);
@@ -1396,15 +1401,15 @@ public class AeBPELExtendedWSDLDef implements IAeBPELExtendedWSDLConst, IAeMutab
     * @param aSchemaList
     * @throws AeWSDLException
     */
-   private List<Schema> mergeSchemaList(List aSchemaList) throws AeWSDLException
+   private List<Schema> mergeSchemaList(List<Schema> aSchemaList) throws AeWSDLException
    {
       Map<String, Schema> mergedSchemas = new HashMap<String, Schema>();
 
       try
       {
-         for (Iterator iter = aSchemaList.iterator(); iter.hasNext();)
+         for (Iterator<Schema> iter = aSchemaList.iterator(); iter.hasNext();)
          {
-            Schema schema = (Schema) iter.next();
+            Schema schema = iter.next();
             String targetNS = schema.getTargetNamespace();
             if (mergedSchemas.containsKey(targetNS))
             {
@@ -1444,7 +1449,8 @@ public class AeBPELExtendedWSDLDef implements IAeBPELExtendedWSDLConst, IAeMutab
          // process imports first (order matters)
          if(aRecurse)
          {
-            Enumeration en = aSchema.getImportedSchema();
+            @SuppressWarnings("unchecked")
+			Enumeration<Schema> en = aSchema.getImportedSchema();
             while (en != null && en.hasMoreElements())
             {
                catalogSchemaAndImports((Schema)en.nextElement(), aCatalogedNamespaces, true);
@@ -1466,9 +1472,10 @@ public class AeBPELExtendedWSDLDef implements IAeBPELExtendedWSDLConst, IAeMutab
    {
       try
       {
-         for(Enumeration e = aSchema.getComplexTypes(); e.hasMoreElements();)
+         for(@SuppressWarnings("unchecked")
+        		 Enumeration<ComplexType> e = aSchema.getComplexTypes(); e.hasMoreElements();)
          {
-            ComplexType complexType = (ComplexType) e.nextElement();
+            ComplexType complexType = e.nextElement();
             if (complexType.isRestricted() && complexType.getParticleCount()==0)
             {
                if (AeSchemaUtil.isArray(complexType))
@@ -1508,10 +1515,11 @@ public class AeBPELExtendedWSDLDef implements IAeBPELExtendedWSDLConst, IAeMutab
          if (tns == null)
             tns = ""; //$NON-NLS-1$
 
-         Enumeration simpleList = schema.getSimpleTypes();
+         @SuppressWarnings("unchecked")
+		Enumeration<SimpleType> simpleList = schema.getSimpleTypes();
          while (simpleList.hasMoreElements())
          {
-            SimpleType simpleType = (SimpleType)simpleList.nextElement();
+            SimpleType simpleType = simpleList.nextElement();
             QName qname = new QName(tns, simpleType.getName());
             types.add(qname);
          }
@@ -1535,10 +1543,11 @@ public class AeBPELExtendedWSDLDef implements IAeBPELExtendedWSDLConst, IAeMutab
          if (tns == null)
             tns = ""; //$NON-NLS-1$
 
-         Enumeration complextList = schema.getComplexTypes();
+         @SuppressWarnings("unchecked")
+         Enumeration<ComplexType> complextList = schema.getComplexTypes();
          while (complextList.hasMoreElements())
          {
-            ComplexType complexType = (ComplexType)complextList.nextElement();
+            ComplexType complexType = complextList.nextElement();
             QName qname = new QName(tns, complexType.getName());
             types.add(qname);
          }
@@ -1562,10 +1571,11 @@ public class AeBPELExtendedWSDLDef implements IAeBPELExtendedWSDLConst, IAeMutab
          if (tns == null)
             tns = ""; //$NON-NLS-1$
 
-         Enumeration elementDecls = schema.getElementDecls();
+         @SuppressWarnings("unchecked")
+		 Enumeration<ElementDecl> elementDecls = schema.getElementDecls();
          while (elementDecls.hasMoreElements())
          {
-            ElementDecl element = (ElementDecl)elementDecls.nextElement();
+            ElementDecl element = elementDecls.nextElement();
             QName qname = new QName(tns, element.getName());
             elements.add(qname);
          }
@@ -1779,9 +1789,10 @@ public class AeBPELExtendedWSDLDef implements IAeBPELExtendedWSDLConst, IAeMutab
    public Set<String> resolveNamespaceToPrefixes(String aNamespace)
    {
       Set<String> prefixes = new HashSet<String>();
-      for (Iterator iter = getWSDLDef().getNamespaces().entrySet().iterator(); iter.hasNext(); )
+      for (@SuppressWarnings("unchecked")
+    		  Iterator<Map.Entry<String,String>> iter = getWSDLDef().getNamespaces().entrySet().iterator(); iter.hasNext(); )
       {
-         Map.Entry entry = (Map.Entry) iter.next();
+         Map.Entry<String,String> entry = iter.next();
          String prefix = (String) entry.getKey();
          String ns = (String) entry.getValue();
          if (AeUtil.compareObjects(aNamespace, ns))
@@ -1841,7 +1852,8 @@ public class AeBPELExtendedWSDLDef implements IAeBPELExtendedWSDLConst, IAeMutab
     * Get all WSDL Message elements defined here.
     * @return Map list of defined WSDL Messages
     */
-   public Map getMessages()
+   @SuppressWarnings("unchecked")
+   public Map<QName,Message> getMessages()
    {
       return getWSDLDef().getMessages();
    }
@@ -1851,7 +1863,8 @@ public class AeBPELExtendedWSDLDef implements IAeBPELExtendedWSDLConst, IAeMutab
     * @param aMessageName the Message name.
     * @return Iterator of Part objects.
     */
-   public Iterator getMessageParts(QName aMessageName)
+   @SuppressWarnings("unchecked")
+   public Iterator<Part> getMessageParts(QName aMessageName)
    {
       // Get the Message object for this Message name.
       Message message = getMessage(aMessageName);
@@ -1859,7 +1872,7 @@ public class AeBPELExtendedWSDLDef implements IAeBPELExtendedWSDLConst, IAeMutab
       if (message != null)
       {
          // Retrieve Parts defined for this message.
-         Map partsMap = message.getParts();
+         Map<String,Part> partsMap = message.getParts();
          if (partsMap != null)
             return message.getOrderedParts(null).iterator();
       }
@@ -1871,7 +1884,8 @@ public class AeBPELExtendedWSDLDef implements IAeBPELExtendedWSDLConst, IAeMutab
     * Get all WSDL portType elements defined here.
     * @return Map list of defined WSDL PortType objects
     */
-   public Map getPortTypes()
+   @SuppressWarnings("unchecked")
+   public Map<QName,PortType> getPortTypes()
    {
       return getWSDLDef().getPortTypes();
    }
@@ -1880,7 +1894,8 @@ public class AeBPELExtendedWSDLDef implements IAeBPELExtendedWSDLConst, IAeMutab
     * Get all WSDL binding elements defined here.
     * @return Map list of defined WSDL Binding objects
     */
-   public Map getBindings()
+   @SuppressWarnings("unchecked")
+   public Map<QName,Binding> getBindings()
    {
       return getWSDLDef().getBindings();
    }
@@ -1902,7 +1917,7 @@ public class AeBPELExtendedWSDLDef implements IAeBPELExtendedWSDLConst, IAeMutab
    /**
     * Returns a list of schema references which this WSDL object imports or includes.
     */
-   public List getSchemaReferences()
+   public List<String> getSchemaReferences()
    {
       return mSchemaReferences;
    }
@@ -2060,10 +2075,11 @@ public class AeBPELExtendedWSDLDef implements IAeBPELExtendedWSDLConst, IAeMutab
    {
       Set<String> prefixes = new HashSet<String>();
       
-      Map namespaces = getWSDLDef().getNamespaces();
-      for (Iterator iter = namespaces.entrySet().iterator(); iter.hasNext(); )
+      @SuppressWarnings("unchecked")
+	  Map<String,String> namespaces = getWSDLDef().getNamespaces();
+      for (Iterator<Entry<String,String>> iter = namespaces.entrySet().iterator(); iter.hasNext(); )
       {
-         Map.Entry entry = (Map.Entry) iter.next();
+         Entry<String,String> entry = iter.next();
          String prefix = (String) entry.getKey();
          String namespace = (String) entry.getValue();
          
@@ -2103,13 +2119,14 @@ public class AeBPELExtendedWSDLDef implements IAeBPELExtendedWSDLConst, IAeMutab
     * @param aNamespaceURI the namespaceURI associated with the desired imports.
     * @return Iterator an Iterator of corresponding Imports.
     */
-   public Iterator getImports(String aNamespaceURI)
+   public Iterator<Import> getImports(String aNamespaceURI)
    {
-      List imports = getWSDLDef().getImports(aNamespaceURI);
+      @SuppressWarnings("unchecked")
+	  List<Import> imports = getWSDLDef().getImports(aNamespaceURI);
       if (imports != null)
          return imports.iterator();
       else
-         return Collections.EMPTY_LIST.iterator();
+         return Collections.<Import>emptyList().iterator();
    }
 
    /**
@@ -2213,9 +2230,10 @@ public class AeBPELExtendedWSDLDef implements IAeBPELExtendedWSDLConst, IAeMutab
     *
     * @param aOperation
     */
-   public static List getParameterOrder(Operation aOperation)
+   public static List<String> getParameterOrder(Operation aOperation)
    {
-      List order = aOperation.getParameterOrdering();
+      @SuppressWarnings("unchecked")
+	  List<String> order = aOperation.getParameterOrdering();
       if (AeUtil.isNullOrEmpty(order))
          order = null;
       return order;
@@ -2256,9 +2274,9 @@ public class AeBPELExtendedWSDLDef implements IAeBPELExtendedWSDLConst, IAeMutab
     *
     * @param aCollection
     */
-   protected static void touchXmlNodes(Collection aCollection)
+   protected static void touchXmlNodes(Collection<?> aCollection)
    {
-      for (Iterator i = aCollection.iterator(); i.hasNext(); )
+      for (Iterator<?> i = aCollection.iterator(); i.hasNext(); )
       {
          Object item = i.next();
 
@@ -2343,10 +2361,10 @@ public class AeBPELExtendedWSDLDef implements IAeBPELExtendedWSDLConst, IAeMutab
       if ( AeUtil.isNullOrEmpty(aNamespace) || // relative reference
             getTargetNamespace().equals(aNamespace)) // matches target ns for wsdl doc
       {
-         Iterator lIt = getPolicyExtElements().iterator();
+         Iterator<IAePolicy> lIt = getPolicyExtElements().iterator();
          while (lIt.hasNext())
          {
-            IAePolicy policyElem = (IAePolicy)lIt.next();
+            IAePolicy policyElem = lIt.next();
 
             if ( policyElem.getReferenceId().equals(aId))
             {
@@ -2358,19 +2376,19 @@ public class AeBPELExtendedWSDLDef implements IAeBPELExtendedWSDLConst, IAeMutab
       else
       {
          // look in imports
-         for (Iterator it = getImports(aNamespace); it.hasNext();)
+         for (Iterator<Import> it = getImports(aNamespace); it.hasNext();)
          {
-            Import importDef = (Import) it.next();
+            Import importDef = it.next();
             Definition def = importDef.getDefinition();
-            List extElements = def.getExtensibilityElements();
+            List<?> extElements = def.getExtensibilityElements();
             if (AeUtil.isNullOrEmpty(extElements))
             {
                return null;
             }
             
-            for ( Iterator itExt = extElements.iterator();itExt.hasNext();)
+            for ( Iterator<?> itExt = extElements.iterator();itExt.hasNext();)
             {
-               Object ext = (Object) itExt.next();
+               Object ext = itExt.next();
                if (ext instanceof IAePolicy)
                {
                    IAePolicy policyElem = (IAePolicy) ext;

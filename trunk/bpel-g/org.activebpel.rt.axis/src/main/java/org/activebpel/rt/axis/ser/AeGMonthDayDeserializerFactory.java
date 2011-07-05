@@ -24,8 +24,8 @@ public class AeGMonthDayDeserializerFactory extends AeBaseDeserializerFactory
 /**
     * Creates a deserializer factory with the given java type and xml type.
     */
-   public AeGMonthDayDeserializerFactory(Class javaType, QName xmlType)
+   public AeGMonthDayDeserializerFactory(Class<AeGMonthDayDeserializer> javaType, QName xmlType)
    {
-      super(AeGMonthDayDeserializer.class, xmlType, javaType);
+      super(javaType, xmlType, javaType);
    }
 }

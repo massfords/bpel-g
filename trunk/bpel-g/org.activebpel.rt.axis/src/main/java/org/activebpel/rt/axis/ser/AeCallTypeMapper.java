@@ -37,7 +37,7 @@ public class AeCallTypeMapper implements IAeTypeMapper
    /**
     * @see org.activebpel.rt.axis.ser.IAeTypeMapper#register(java.lang.Class, javax.xml.namespace.QName, javax.xml.rpc.encoding.SerializerFactory, javax.xml.rpc.encoding.DeserializerFactory)
     */
-   public void register(Class aJavaType, QName aQName,
+   public void register(Class<?> aJavaType, QName aQName,
          SerializerFactory aSerializerFactory,
          DeserializerFactory aDeserializerFactory)
    {

@@ -19,17 +19,17 @@ import org.apache.axis.encoding.ser.SimpleDeserializer;
 /**
  * Base class for Ae deserializers.
  */
-public abstract class AeAbstractSchemaTypeDeserializer extends SimpleDeserializer
+public abstract class AeAbstractSchemaTypeDeserializer<T> extends SimpleDeserializer
 {
    /**
      * 
      */
     private static final long serialVersionUID = 3551678977876913424L;
 
-/**
+    /**
     * The Deserializer is constructed with the xmlType and javaType
     */
-   public AeAbstractSchemaTypeDeserializer(Class javaType, QName xmlType)
+   public AeAbstractSchemaTypeDeserializer(Class<T> javaType, QName xmlType)
    {
       super(javaType, xmlType);
    }
@@ -55,5 +55,5 @@ public abstract class AeAbstractSchemaTypeDeserializer extends SimpleDeserialize
     * 
     * @param aSource
     */
-   protected abstract Object makeValueInternal(String aSource);
+   protected abstract T makeValueInternal(String aSource);
 }

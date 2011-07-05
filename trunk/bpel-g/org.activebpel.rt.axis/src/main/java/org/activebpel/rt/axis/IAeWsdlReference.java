@@ -46,7 +46,7 @@ public interface IAeWsdlReference extends IAeCatalogListener
    /**
     * Return the list of all available <code>OperationDesc</code> objects.
     */
-   public ArrayList getOperations();
+   public ArrayList<OperationDesc> getOperations();
    
    /**
     * Remove the given operation.
@@ -71,7 +71,7 @@ public interface IAeWsdlReference extends IAeCatalogListener
    /**
     * Return the list of allowed method names.
     */
-   public List getAllowedMethods();
+   public List<String> getAllowedMethods();
    
    /**
     * Getter for the current global wsdl def mapped to this wsdl reference.

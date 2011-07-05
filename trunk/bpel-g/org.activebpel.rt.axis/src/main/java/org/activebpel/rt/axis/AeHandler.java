@@ -9,8 +9,8 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.axis;
 
-import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 
 import javax.wsdl.Binding;
 import javax.wsdl.BindingFault;
@@ -204,7 +204,8 @@ public abstract class AeHandler extends BasicProvider
       def.addBinding(binding);
 
       // Create declarations for all allowed operations
-      for (Iterator iter=portType.getOperations().iterator(); iter.hasNext();)
+      for (@SuppressWarnings("unchecked")
+    		  Iterator<Operation> iter=portType.getOperations().iterator(); iter.hasNext();)
       {
          Operation operation=(Operation)iter.next();
          if (aServiceDesc.getAllowedMethods().contains(operation.getName()))
@@ -282,9 +283,10 @@ public abstract class AeHandler extends BasicProvider
          bindingOp.setBindingOutput(bindingOutput);
       }
       
-      for (Iterator faultIter=aOperation.getFaults().values().iterator(); faultIter.hasNext();)
+      for (@SuppressWarnings("unchecked")
+    		  Iterator<Fault> faultIter=aOperation.getFaults().values().iterator(); faultIter.hasNext();)
       {
-         Fault fault = (Fault)faultIter.next();
+         Fault fault = faultIter.next();
          BindingFault bindingFault = aDef.createBindingFault();
          bindingFault.setName(fault.getName());
       
@@ -372,10 +374,10 @@ public abstract class AeHandler extends BasicProvider
     * @param aDataMap map to store part to element mappings
     * @throws Exception
     */
-   protected void mapInputData(ServiceDesc aServiceDesc, IAeMessageData aInputMsg, HashMap aDataMap) throws Exception
+   protected void mapInputData(ServiceDesc aServiceDesc, IAeMessageData aInputMsg, Map<Part,Document> aDataMap) throws Exception
    {
       AeBPELExtendedWSDLDef def = getExtendedWSDLDef(aServiceDesc);
-      for (Iterator iter=aDataMap.keySet().iterator(); iter.hasNext();)
+      for (Iterator<Part> iter=aDataMap.keySet().iterator(); iter.hasNext();)
       {
          // Get the Part from the data map and determine the part type
          Part part = (Part)iter.next();

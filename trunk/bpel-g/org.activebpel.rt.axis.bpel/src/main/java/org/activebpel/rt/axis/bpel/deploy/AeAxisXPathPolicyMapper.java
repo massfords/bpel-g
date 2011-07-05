@@ -39,9 +39,9 @@ public class AeAxisXPathPolicyMapper extends AeAxisPolicyMapper
       List<Element> handlers = new ArrayList<Element>();
       
       // Examine the list of policy assertions to determine the request handlers
-      for (Iterator it = aPolicyList.iterator(); it.hasNext();) 
+      for (Iterator<Element> it = aPolicyList.iterator(); it.hasNext();) 
       {
-         Element policy = (Element) it.next();
+         Element policy = it.next();
          NodeList children = policy.getElementsByTagNameNS(IAeConstants.ABP_NAMESPACE_URI, IAePolicyConstants.TAG_ASSERT_XPATH_RECEIVE);
          for (int i=0, len=children.getLength(); i < len; i++)
          {
@@ -108,9 +108,9 @@ public class AeAxisXPathPolicyMapper extends AeAxisPolicyMapper
    {
       Map<String, Object> map = new HashMap<String, Object>();
       // Examine the list of policy assertions to determine the request handlers
-      for (Iterator it = aPolicyList.iterator(); it.hasNext();) 
+      for (Iterator<Element> it = aPolicyList.iterator(); it.hasNext();) 
       {
-         Element policy = (Element) it.next();
+         Element policy = it.next();
          NodeList children = policy.getElementsByTagNameNS(IAeConstants.ABP_NAMESPACE_URI, IAePolicyConstants.TAG_ASSERT_XPATH_RECEIVE);
          for (int i=0, len=children.getLength(); i < len; i++)
          {

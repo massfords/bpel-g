@@ -27,8 +27,8 @@ public class AeRPCEncodedDeserializerFactory implements DeserializerFactory
      * 
      */
     private static final long serialVersionUID = 1765829277682766807L;
-/** Supported mechanisms is singleton list for axis only deserialization */
-   private static final List SUPPORTED_MECHANISMS = Collections.singletonList(Constants.AXIS_SAX);
+   /** Supported mechanisms is singleton list for axis only deserialization */
+   private static final List<String> SUPPORTED_MECHANISMS = Collections.singletonList(Constants.AXIS_SAX);
    /** context provides access to the schema types that we need to handle deserialization */
    private IAeTypesContext mTypesContext;
    
@@ -53,7 +53,7 @@ public class AeRPCEncodedDeserializerFactory implements DeserializerFactory
    /**
     * @see javax.xml.rpc.encoding.DeserializerFactory#getSupportedMechanismTypes()
     */
-   public Iterator getSupportedMechanismTypes()
+   public Iterator<String> getSupportedMechanismTypes()
    {
       return SUPPORTED_MECHANISMS.iterator();
    }

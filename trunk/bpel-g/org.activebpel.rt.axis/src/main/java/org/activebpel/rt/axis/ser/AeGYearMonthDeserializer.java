@@ -27,17 +27,10 @@ public class AeGYearMonthDeserializer extends SimpleDeserializer
 /**
     * The Deserializer is constructed with the xmlType and javaType
     */
-   public AeGYearMonthDeserializer(Class javaType, QName xmlType)
+   public AeGYearMonthDeserializer(Class<AeSchemaYearMonth> javaType, QName xmlType)
    {
       super(javaType, xmlType);
    }
 
-   /**
-    * @see org.activebpel.rt.axis.ser.AeAbstractSchemaTypeDeserializer#makeValueInternal(java.lang.String)
-    */
-   protected Object makeValueInternal(String aSource)
-   {
-      return new AeSchemaYearMonth(aSource);
-   }
 }
  

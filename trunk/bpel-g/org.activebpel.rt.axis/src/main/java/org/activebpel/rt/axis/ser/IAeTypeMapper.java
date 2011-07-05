@@ -27,6 +27,6 @@ public interface IAeTypeMapper
     * @param aSerializerFactory
     * @param aDeserializerFactory
     */
-   public void register(Class aJavaType, QName aQName, SerializerFactory aSerializerFactory, DeserializerFactory aDeserializerFactory);
+   public void register(Class<?> aJavaType, QName aQName, SerializerFactory aSerializerFactory, DeserializerFactory aDeserializerFactory);
 }
  

@@ -24,19 +24,12 @@ public class AeAnyURIDeserializer extends SimpleDeserializer
      */
     private static final long serialVersionUID = 3277862749609949953L;
 
-/**
+    /**
     * The Deserializer is constructed with the xmlType and javaType
     */
-   public AeAnyURIDeserializer(Class javaType, QName xmlType)
+   public AeAnyURIDeserializer(Class<AeSchemaAnyURI> javaType, QName xmlType)
    {
       super(javaType, xmlType);
    }
 
-   /**
-    * @see org.activebpel.rt.axis.ser.AeAbstractSchemaTypeDeserializer#makeValueInternal(java.lang.String)
-    */
-   protected Object makeValueInternal(String aSource)
-   {
-      return new AeSchemaAnyURI(aSource);
-   }
 }

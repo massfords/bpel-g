@@ -61,7 +61,7 @@ public abstract class AeXPathHandler extends BasicHandler implements IAeConstant
       // Figure out if map is coming from options (server) or context (client)
       if (XPATH_QUERY_SOURCE_CONTEXT.equals(getStringValue(XPATH_QUERY_SOURCE, aMsgContext)))
       {
-         HashMap xpathParams = (HashMap) aMsgContext.getProperty(XPATH_QUERY_PARAMS);
+         Map<String,String> xpathParams = (Map<String,String>) aMsgContext.getProperty(XPATH_QUERY_PARAMS);
          Map<String, XPath> xpaths = createXpathMap(xpathParams);
          return xpaths;
       }
@@ -90,7 +90,7 @@ public abstract class AeXPathHandler extends BasicHandler implements IAeConstant
     * @param aXpathParams
     * @throws JaxenException
     */
-   private Map<String, XPath> createXpathMap(Map aXpathParams) throws JaxenException
+   private Map<String, XPath> createXpathMap(Map<String,String> aXpathParams) throws JaxenException
    {
       // Create XPaths
       Map<String, XPath> xpaths = new HashMap<String, XPath>();
@@ -98,11 +98,11 @@ public abstract class AeXPathHandler extends BasicHandler implements IAeConstant
       // get namespace declarations
       NamespaceContext nsc = getNamespaceContext(aXpathParams);
       
-      for (Iterator it = aXpathParams.keySet().iterator(); it.hasNext();) 
+      for (Iterator<String> it = aXpathParams.keySet().iterator(); it.hasNext();) 
       {
-         String name = (String) it.next();
+         String name = it.next();
          if (name.startsWith(XPATH_PREFIX)) {
-            String query = (String) aXpathParams.get(name);
+            String query = aXpathParams.get(name);
             XPath xpath  = new DOMXPath(query); 
             xpath.setNamespaceContext(nsc);
             xpaths.put(name.substring(XPATH_PREFIX.length()), xpath);
@@ -117,12 +117,12 @@ public abstract class AeXPathHandler extends BasicHandler implements IAeConstant
     * 
     * @return NamespaceContext contains specified namespaces
     */
-   protected NamespaceContext getNamespaceContext(Map aXPathParams) throws JaxenException {
+   protected NamespaceContext getNamespaceContext(Map<String,String> aXPathParams) throws JaxenException {
       
       XPath xpath = new DOMXPath("/"); //$NON-NLS-1$
        
       // get namespace declarations from the options set
-      for (Iterator it = aXPathParams.keySet().iterator(); it.hasNext();) {
+      for (Iterator<String> it = aXPathParams.keySet().iterator(); it.hasNext();) {
            String key = (String) it.next();
            if (key.startsWith(XMLNS_PREFIX)) {
               String prefix = key.substring(XMLNS_PREFIX.length());

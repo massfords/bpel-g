@@ -24,8 +24,8 @@ public class AeAnyURIDeserializerFactory extends AeBaseDeserializerFactory
 /**
     * Creates a deserializer factory with the given java type and xml type.
     */
-   public AeAnyURIDeserializerFactory(Class javaType, QName xmlType)
+   public AeAnyURIDeserializerFactory(Class<AeAnyURIDeserializer> javaType, QName xmlType)
    {
-      super(AeAnyURIDeserializer.class, xmlType, javaType);
+      super(javaType, xmlType, javaType);
    }
 }

@@ -104,9 +104,10 @@ public class AeWsaHeaderHandler extends BasicHandler
    {
       IAeAddressingDeserializer des = AeWsAddressingFactory.getInstance().getDeserializer(IAeConstants.WSA_NAMESPACE_URI);
       // Set the mustUnderstand flag
-      for (Iterator it = aHeader.getChildElements(); it.hasNext(); )
+      for (@SuppressWarnings("unchecked")
+    		  Iterator<SOAPHeaderElement> it = aHeader.getChildElements(); it.hasNext(); )
       {
-         SOAPHeaderElement element = (SOAPHeaderElement) it.next();
+         SOAPHeaderElement element = it.next();
          if (des.isEndpointHeader(element))
          {
             element.setProcessed(true);

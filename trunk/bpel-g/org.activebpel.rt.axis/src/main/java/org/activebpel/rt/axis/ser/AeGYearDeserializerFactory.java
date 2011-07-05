@@ -24,9 +24,9 @@ public class AeGYearDeserializerFactory extends AeBaseDeserializerFactory
 /**
     * Creates a deserializer factory with the given java type and xml type.
     */
-   public AeGYearDeserializerFactory(Class javaType, QName xmlType)
+   public AeGYearDeserializerFactory(Class<AeGYearDeserializer> javaType, QName xmlType)
    {
-      super(AeGYearDeserializer.class, xmlType, javaType);
+      super(javaType, xmlType, javaType);
    }
 }
  

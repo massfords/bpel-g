@@ -27,16 +27,9 @@ public class AeDurationDeserializer extends SimpleDeserializer
 /**
     * The Deserializer is constructed with the xmlType and javaType
     */
-   public AeDurationDeserializer(Class javaType, QName xmlType)
+   public AeDurationDeserializer(Class<AeSchemaDuration> javaType, QName xmlType)
    {
       super(javaType, xmlType);
    }
 
-   /**
-    * @see org.activebpel.rt.axis.ser.AeAbstractSchemaTypeDeserializer#makeValueInternal(java.lang.String)
-    */
-   protected Object makeValueInternal(String aSource)
-   {
-      return new AeSchemaDuration(aSource);
-   }
 }

@@ -10,7 +10,7 @@
 package org.activebpel.rt.axis.bpel.receivers;
 
 import java.util.Iterator;
-import java.util.Vector;
+import java.util.List;
 
 import javax.wsdl.Part;
 import javax.xml.soap.Name;
@@ -68,7 +68,8 @@ public class AeMSGReceiveHandler extends AeAxisReceiveHandler
 
       try
       {
-         Vector bodyElements = aEnv.getBodyElements();
+         @SuppressWarnings("unchecked")
+		 List<SOAPBodyElement> bodyElements = aEnv.getBodyElements();
          Document[] data = new Document[bodyElements.size()];
          for (int i = 0; i < data.length; i++)
          {
@@ -122,9 +123,10 @@ public class AeMSGReceiveHandler extends AeAxisReceiveHandler
          javax.wsdl.Message outputMessage = def.getMessage(aResponse.getMessageData().getMessageType());
          
          // Loop through all parts for the output message and add an output param to the response body
-         for (Iterator iter=outputMessage.getOrderedParts(null).iterator(); iter.hasNext();)
+         for (@SuppressWarnings("unchecked")
+        		 Iterator<Part> iter=outputMessage.getOrderedParts(null).iterator(); iter.hasNext();)
          {
-            Part part = (Part) iter.next();
+            Part part = iter.next();
 
             // Get the data itself, if Document we want to use the Document Element
             Object partData = aResponse.getMessageData().getMessageData().get(part.getName());

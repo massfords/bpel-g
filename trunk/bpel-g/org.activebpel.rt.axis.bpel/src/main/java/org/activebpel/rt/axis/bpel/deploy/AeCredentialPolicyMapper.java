@@ -77,9 +77,9 @@ public class AeCredentialPolicyMapper extends AeAxisPolicyMapper
    {
       Map<String, Object> map = new HashMap<String, Object>();
       
-      for (Iterator it = aPolicyList.iterator(); it.hasNext();)
+      for (Iterator<Element> it = aPolicyList.iterator(); it.hasNext();)
       {
-         Element aPolicyElement = (Element)it.next();
+         Element aPolicyElement = it.next();
 
          String username = null;
          String password = null;
