@@ -16,9 +16,9 @@ import java.util.Date;
 import javax.xml.namespace.QName;
 
 import org.activebpel.rt.bpel.server.engine.storage.sql.AeDbUtils;
-import org.activebpel.rt.bpel.server.engine.storage.sql.AeResultSetHandler;
 import org.activebpel.rt.bpel.server.engine.storage.sql.IAeProcessColumns;
 import org.activebpel.rt.util.AeDate;
+import org.apache.commons.dbutils.ResultSetHandler;
 
 import bpelg.services.processes.types.ProcessInstanceDetail;
 import bpelg.services.processes.types.ProcessStateValueType;
@@ -29,7 +29,7 @@ import bpelg.services.processes.types.SuspendReasonType;
  * Implements a <code>ResultSetHandler</code> that converts the next row of
  * a <code>ResultSet</code> to an <code>AeProcessInstanceDetail</code>.
  */
-public class AeSQLProcessInstanceResultSetHandler implements AeResultSetHandler<ProcessInstanceDetail>
+public class AeSQLProcessInstanceResultSetHandler implements ResultSetHandler<ProcessInstanceDetail>
 {
    /**
     * Converts the current row of the specified <code>ResultSet</code> to an

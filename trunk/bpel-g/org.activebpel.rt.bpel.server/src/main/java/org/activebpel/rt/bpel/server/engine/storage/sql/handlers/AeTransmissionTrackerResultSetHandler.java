@@ -12,14 +12,14 @@ package org.activebpel.rt.bpel.server.engine.storage.sql.handlers;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import org.activebpel.rt.bpel.server.engine.storage.sql.AeResultSetHandler;
 import org.activebpel.rt.bpel.server.engine.storage.sql.IAeTransmissionTrackerColumns;
 import org.activebpel.rt.bpel.server.transreceive.AeTransmissionTrackerEntry;
+import org.apache.commons.dbutils.ResultSetHandler;
 
 /**
  * Creates a <code>AeTransmissionTrackerEntry</code> from the SQL result set.
  */
-public class AeTransmissionTrackerResultSetHandler implements AeResultSetHandler<AeTransmissionTrackerEntry>
+public class AeTransmissionTrackerResultSetHandler implements ResultSetHandler<AeTransmissionTrackerEntry>
 {
    /**
     * 

@@ -20,7 +20,7 @@ import org.activebpel.rt.bpel.server.engine.recovery.journal.AeJournalEntryFacto
 import org.activebpel.rt.bpel.server.engine.recovery.journal.IAeJournalEntry;
 import org.activebpel.rt.bpel.server.engine.recovery.journal.IAeJournalEntryFactory;
 import org.activebpel.rt.bpel.server.engine.storage.sql.AeDbUtils;
-import org.activebpel.rt.bpel.server.engine.storage.sql.AeResultSetHandler;
+import org.apache.commons.dbutils.ResultSetHandler;
 import org.w3c.dom.Document;
 
 
@@ -30,7 +30,7 @@ import org.w3c.dom.Document;
  * org.activebpel.rt.bpel.server.engine.recovery.journal.IAeJournalEntry}
  * instances.
  */
-public class AeJournalEntriesResultSetHandler implements AeResultSetHandler<List<IAeJournalEntry>>
+public class AeJournalEntriesResultSetHandler implements ResultSetHandler<List<IAeJournalEntry>>
 {
    /**
     * Default constructor that is visible to classes derived from

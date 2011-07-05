@@ -45,7 +45,7 @@ public class AeResultSetHandlers
     * Implements a <code>ResultSetHandler</code> that returns the first column
     * of the first row of a <code>ResultSet</code> as an <code>String</code>.
     */
-   private static final ResultSetHandler<String> sStringHandler = new AeResultSetHandler<String>()
+   private static final ResultSetHandler<String> sStringHandler = new ResultSetHandler<String>()
    {
       public String handle(ResultSet rs) throws SQLException
       {
@@ -55,7 +55,7 @@ public class AeResultSetHandlers
    };
    
    /** Same as sStringHandler but reads the string from a CLOB */
-   private static final ResultSetHandler<String> sClobStringHandler = new AeResultSetHandler<String>()
+   private static final ResultSetHandler<String> sClobStringHandler = new ResultSetHandler<String>()
    {
       public String handle(ResultSet rs) throws SQLException
       {
@@ -74,7 +74,7 @@ public class AeResultSetHandlers
    };
    
    /** Same as sStringHandler but reads the string from a BLOB */
-   private static final ResultSetHandler<InputStream> sBlobStreamHandler = new AeResultSetHandler<InputStream>()
+   private static final ResultSetHandler<InputStream> sBlobStreamHandler = new ResultSetHandler<InputStream>()
    {
       public InputStream handle(ResultSet rs) throws SQLException
       {
@@ -105,7 +105,7 @@ public class AeResultSetHandlers
     * of values from the the first column.  Null values are not added to the array.
     * If the result set is empty, an empty array is returned.
     */
-   private static final ResultSetHandler<String[]> sStringArrayHandler = new AeResultSetHandler<String[]>()
+   private static final ResultSetHandler<String[]> sStringArrayHandler = new ResultSetHandler<String[]>()
    {
       public String[] handle(ResultSet rs) throws SQLException
       {
@@ -129,7 +129,7 @@ public class AeResultSetHandlers
     * from the the first and second column.  Null values are not added to the array.
     * If the result set is empty, an empty array is returned.
     */
-   private static final ResultSetHandler<Map<Integer,Integer>> sIntegerMapHandler = new AeResultSetHandler<Map<Integer,Integer>>()
+   private static final ResultSetHandler<Map<Integer,Integer>> sIntegerMapHandler = new ResultSetHandler<Map<Integer,Integer>>()
    {
       public Map<Integer,Integer> handle(ResultSet rs) throws SQLException
       {
@@ -157,7 +157,7 @@ public class AeResultSetHandlers
     * Implements a <code>ResultSetHandler</code> that returns the first column
     * of the first row of a <code>ResultSet</code> as an <code>Integer</code>.
     */
-   private static final ResultSetHandler<Integer> sIntegerHandler = new AeResultSetHandler<Integer>()
+   private static final ResultSetHandler<Integer> sIntegerHandler = new ResultSetHandler<Integer>()
    {
       public Integer handle(ResultSet rs) throws SQLException
       {
@@ -181,7 +181,7 @@ public class AeResultSetHandlers
     * Implements a <code>ResultSetHandler</code> that returns the first column
     * of the first row of a <code>ResultSet</code> as an <code>Float</code>.
     */
-   private static final ResultSetHandler<Float> sFloatHandler = new AeResultSetHandler<Float>()
+   private static final ResultSetHandler<Float> sFloatHandler = new ResultSetHandler<Float>()
    {
       public Float handle(ResultSet rs) throws SQLException
       {
@@ -205,7 +205,7 @@ public class AeResultSetHandlers
     * Implements a <code>ResultSetHandler</code> that returns the first column
     * of the first row of a <code>ResultSet</code> as a <code>Long</code>.
     */
-   private static final ResultSetHandler<Long> sLongHandler = new AeResultSetHandler<Long>()
+   private static final ResultSetHandler<Long> sLongHandler = new ResultSetHandler<Long>()
    {
       public Long handle(ResultSet rs) throws SQLException
       {
@@ -229,7 +229,7 @@ public class AeResultSetHandlers
     * Implements a <code>ResultSetHandler</code> that returns the first column
     * of the first row of a <code>ResultSet</code> as a <code>Date</code>.
     */
-   private static final ResultSetHandler<Date> sDateHandler = new AeResultSetHandler<Date>()
+   private static final ResultSetHandler<Date> sDateHandler = new ResultSetHandler<Date>()
    {
       public Date handle(ResultSet rs) throws SQLException
       {
@@ -243,7 +243,7 @@ public class AeResultSetHandlers
     * columns of the first row of a <code>ResultSet</code> as a
     * <code>QName</code>.
     */
-   private static final ResultSetHandler<QName> sQNameHandler = new AeResultSetHandler<QName>()
+   private static final ResultSetHandler<QName> sQNameHandler = new ResultSetHandler<QName>()
    {
       public QName handle(ResultSet rs) throws SQLException
       {
@@ -266,7 +266,7 @@ public class AeResultSetHandlers
     * Implements a <code>ResultSetHandler</code> that converts the first column
     * of the <code>ResultSet</code> to an <code>AeLongSet</code>.
     */
-   private static final ResultSetHandler<Set<Long>> sLongSetHandler = new AeResultSetHandler<Set<Long>>()
+   private static final ResultSetHandler<Set<Long>> sLongSetHandler = new ResultSetHandler<Set<Long>>()
    {
       public Set<Long> handle(ResultSet rs) throws SQLException
       {
@@ -290,7 +290,7 @@ public class AeResultSetHandlers
     * Implements a <code>ResultSetHandler</code> that converts the first column
     * of the <code>ResultSet</code> to an <code>AeIntSet</code>.
     */
-   private static final ResultSetHandler<Set<Integer>> sIntSetHandler = new AeResultSetHandler<Set<Integer>>()
+   private static final ResultSetHandler<Set<Integer>> sIntSetHandler = new ResultSetHandler<Set<Integer>>()
    {
       public Set<Integer> handle(ResultSet rs) throws SQLException
       {
@@ -434,7 +434,7 @@ public class AeResultSetHandlers
     * Implements a <code>ResultSetHandler</code> that returns the first column
     * of the first row of a <code>ResultSet</code> as a <code>Document</code>.
     */
-   public static class AeDocumentResultSetHandler implements AeResultSetHandler<Document>
+   public static class AeDocumentResultSetHandler implements ResultSetHandler<Document>
    {
       /**
        * @see org.apache.commons.dbutils.ResultSetHandler#handle(java.sql.ResultSet)
