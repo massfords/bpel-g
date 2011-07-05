@@ -24,9 +24,8 @@ import org.activebpel.rt.bpel.def.activity.IAeReceiveActivityDef;
  */
 public class AeCreateInstanceMessageExchangeVisitor extends AeAbstractEntryPointVisitor
 {
-
    /** Stack of our enclosed scopes - used to quickly reference scopes that might declare message exchange values. */
-   private Stack mEnclosedScopes = new Stack();
+   private Stack<AeActivityScopeDef> mEnclosedScopes = new Stack<AeActivityScopeDef>();
    
    /**
     * Default ctor.
@@ -82,7 +81,7 @@ public class AeCreateInstanceMessageExchangeVisitor extends AeAbstractEntryPoint
       //       defs.
       for(int i=mEnclosedScopes.size()-1; i>=0; i--)
       {
-         AeActivityScopeDef enclosedScope = (AeActivityScopeDef) mEnclosedScopes.get(i);
+         AeActivityScopeDef enclosedScope = mEnclosedScopes.get(i);
          if (enclosedScope.getScopeDef().declaresMessageExchange(aMessageExchange))
          {
             return enclosedScope.getLocationPath();

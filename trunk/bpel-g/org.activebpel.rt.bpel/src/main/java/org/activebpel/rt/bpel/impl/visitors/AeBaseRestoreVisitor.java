@@ -79,8 +79,8 @@ public class AeBaseRestoreVisitor extends AeImplTraversingVisitor implements IAe
       IAeDynamicScopeParent scopeParent = (IAeDynamicScopeParent) getImplState().getProcess().findBpelObjectOrThrow(parentPath);
 
       int instanceToRestore = AeLocationPathUtils.getNodePathInstanceNum(aScopeLocation);
-      List scopes = AeDynamicScopeCreator.create(aGenerateNewObjectIdsFlag, scopeParent, instanceToRestore, instanceToRestore);
-      AeActivityScopeImpl scope = (AeActivityScopeImpl) scopes.get(0);
+      List<AeActivityScopeImpl> scopes = AeDynamicScopeCreator.create(aGenerateNewObjectIdsFlag, scopeParent, instanceToRestore, instanceToRestore);
+      AeActivityScopeImpl scope = scopes.get(0);
       scopeParent.getCompensatableChildren().add(scope);
       return scope;
    }

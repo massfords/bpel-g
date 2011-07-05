@@ -288,10 +288,10 @@ public class AeScopeDef extends AeNamedDef implements IAeSingleActivityContainer
     *
     * @return an iterator of the correlation set collection
     */
-   public Iterator getCorrelationSetDefs()
+   public Iterator<? extends AeCorrelationSetDef> getCorrelationSetDefs()
    {
       if (getCorrelationSetsDef() == null)
-         return Collections.EMPTY_LIST.iterator();
+         return Collections.<AeCorrelationSetDef>emptyList().iterator();
       else
          return getCorrelationSetsDef().getValues();
    }

@@ -54,7 +54,7 @@ public class AeActivityValidateImpl extends AeActivityImpl
       super.execute();
       try
       {
-         List exceptions = null;
+         List<String> exceptions = null;
          // Loop through all variables and validate each one
          for (Iterator iter = ((AeActivityValidateDef) getDefinition()).getVariables(); iter.hasNext();)
          {
@@ -66,7 +66,7 @@ public class AeActivityValidateImpl extends AeActivityImpl
             catch (AeInvalidVariableException invalidEx)
             {
                if (exceptions == null)
-                  exceptions = new LinkedList();
+                  exceptions = new LinkedList<String>();
                exceptions.add(invalidEx.getMessage());
             }
          }
@@ -75,11 +75,10 @@ public class AeActivityValidateImpl extends AeActivityImpl
          {
             StringBuffer messages = new StringBuffer();
             String delim = ""; //$NON-NLS-1$
-            for (Iterator it = exceptions.iterator(); it.hasNext();)
+            for (Iterator<String> it = exceptions.iterator(); it.hasNext();)
             {
-               String message = (String) it.next();
                messages.append(delim);
-               messages.append(message);
+               messages.append(it.next());
                delim = "\n"; //$NON-NLS-1$
             }
             throw new AeInvalidVariableException(getBPELNamespace(), messages.toString(), null);

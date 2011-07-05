@@ -74,7 +74,7 @@ public class AeActivityWhileImpl extends AeLoopActivity
    /**
     * @see org.activebpel.rt.bpel.impl.IAeBpelObject#getChildrenForStateChange()
     */
-   public Iterator getChildrenForStateChange()
+   public Iterator<? extends IAeBpelObject> getChildrenForStateChange()
    {
       return Collections.singleton(getChild()).iterator();
    }

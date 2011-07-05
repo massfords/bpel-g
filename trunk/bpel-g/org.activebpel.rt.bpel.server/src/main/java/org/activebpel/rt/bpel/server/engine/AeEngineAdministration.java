@@ -348,13 +348,12 @@ public class AeEngineAdministration implements IAeEngineAdministration {
 	 * @param aParentProcessId
 	 * @throws AeException
 	 */
-	public List getParticipantForProcessId(long aParentProcessId)
+	public List<AeCoordinationDetail> getParticipantForProcessId(long aParentProcessId)
 			throws AeException {
 		try {
-			return getBpelEngine().getCoordinationManager()
-					.getParticipantDetail(aParentProcessId);
+			return getBpelEngine().getCoordinationManager().getParticipantDetail(aParentProcessId);
 		} catch (AeCoordinationNotFoundException cnfe) {
-			return Collections.EMPTY_LIST;
+			return Collections.<AeCoordinationDetail>emptyList();
 		}
 	}
 }

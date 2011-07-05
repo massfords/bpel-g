@@ -131,7 +131,7 @@ public class AeActivityFlowImpl extends AeActivityImpl implements IAeActivityPar
    /**
     * @see org.activebpel.rt.bpel.impl.IAeBpelObject#getChildrenForStateChange()
     */
-   public Iterator getChildrenForStateChange()
+   public Iterator<? extends IAeBpelObject> getChildrenForStateChange()
    {
       return mChildActivities.iterator();
    }

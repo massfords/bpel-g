@@ -460,7 +460,7 @@ public class AeCoordinationContainer extends AeAbstractBpelObject
    /**
     * @see org.activebpel.rt.bpel.impl.IAeBpelObject#getChildrenForStateChange()
     */
-   public Iterator getChildrenForStateChange()
+   public Iterator<? extends IAeBpelObject> getChildrenForStateChange()
    {
       return getCompensationHandlers().iterator();      
    }

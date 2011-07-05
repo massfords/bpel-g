@@ -12,6 +12,8 @@ package org.activebpel.rt.bpel.def.validation;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import org.activebpel.rt.bpel.def.AeProcessDef;
 import org.activebpel.rt.xml.def.AeBaseXmlDef;
@@ -29,21 +31,21 @@ public class AeErrorReporter implements IAeErrorReporter
     * logical node model to a List of error codes corresponding to issues
     * related to that node.
     */
-   protected HashMap mErrors ;
+   protected Map<AeBaseXmlDef, List<String>> mErrors ;
 
    /**
     * The map of warning lists recorded by this instance. Each entry links a
     * logical node model to a List of warning codes corresponding to issues
     * related to that node.
     */
-   protected HashMap mWarnings ;
+   protected Map<AeBaseXmlDef, List<String>> mWarnings ;
 
    /**
     * The map of information lists recorded by this instance. Each entry links a
     * logical node model to a List of information codes corresponding to issues
     * related to that node.
     */
-   protected HashMap mInfos ;
+   protected Map<AeBaseXmlDef, List<String>> mInfos ;
 
    /**
     * Substitue the values in aArgs for the '{n}'s in the base message text.
@@ -73,7 +75,7 @@ public class AeErrorReporter implements IAeErrorReporter
     * @param aKey The key that identifies the node whose issues should be removed.
     * @param aMap The map to remove from, if found.
     */
-   private void removeIssuesFromMap( Object aKey, HashMap aMap )
+   private void removeIssuesFromMap( Object aKey, Map<AeBaseXmlDef, List<String>> aMap )
    {
       if ( aMap.keySet().contains( aKey ))
          aMap.remove( aKey ); 
@@ -97,14 +99,14 @@ public class AeErrorReporter implements IAeErrorReporter
     * @param aNode Node on which error code is set.
     * @param aMap Map (error, warning or info) in which mapping is added.
     */
-   private void addIssue( String aCode, Object[] aArgs, AeBaseXmlDef aNode, HashMap aMap )
+   private void addIssue( String aCode, Object[] aArgs, AeBaseXmlDef aNode, Map<AeBaseXmlDef, List<String>> aMap )
    {
       // See if there's an entry for this visual node.  Create if not.
       //
       if ( aMap.get( aNode ) == null )
-         aMap.put( aNode, new ArrayList() );         
+         aMap.put( aNode, new ArrayList<String>() );         
          
-      ArrayList list = (ArrayList) aMap.get( aNode );
+      List<String> list = aMap.get( aNode );
       list.add( formatIssue( aCode, aArgs ));
    }
    
@@ -206,10 +208,10 @@ public class AeErrorReporter implements IAeErrorReporter
     * 
     * @return HashMap
     */
-   public HashMap getErrors()
+   public Map<AeBaseXmlDef, List<String>> getErrors()
    {
       if ( mErrors == null )
-         mErrors = new HashMap();
+         mErrors = new HashMap<AeBaseXmlDef, List<String>>();
 
       return mErrors;
    }
@@ -219,10 +221,10 @@ public class AeErrorReporter implements IAeErrorReporter
     * 
     * @return HashMap
     */
-   public HashMap getWarnings()
+   public Map<AeBaseXmlDef, List<String>> getWarnings()
    {
       if ( mWarnings == null )
-         mWarnings = new HashMap();
+         mWarnings = new HashMap<AeBaseXmlDef, List<String>>();
 
       return mWarnings;
    }
@@ -232,10 +234,10 @@ public class AeErrorReporter implements IAeErrorReporter
     * 
     * @return HashMap
     */
-   public HashMap getInfos()
+   public Map<AeBaseXmlDef, List<String>> getInfos()
    {
       if ( mInfos == null )
-         mInfos = new HashMap();
+         mInfos = new HashMap<AeBaseXmlDef, List<String>>();
 
       return mInfos;
    }

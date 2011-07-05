@@ -42,7 +42,7 @@ public interface IAeAddressingHeaders extends IAeWsAddressingHeaders
     * 
     * @param aElementList the list of reference properties to serialize as headers.
     */
-   public void setReferenceProperties(List aElementList) throws AeWsAddressingException;
+   public void setReferenceProperties(List<Element> aElementList) throws AeWsAddressingException;
 
    /**
     * Adds elements to the reference properties for this instance.  Any WSA headers embedded

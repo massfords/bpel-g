@@ -28,7 +28,7 @@ import commonj.work.WorkManager;
 public class AeChildWorkManager implements WorkManager, IAeChildWorkCompletedListener
 {
    /** <code>WorkItem</code>s waiting to be scheduled to the parent work manager. */
-   private final Collection mWaitingQueue = new LinkedList();
+   private final Collection<AeChildWorkItem> mWaitingQueue = new LinkedList<AeChildWorkItem>();
 
    /** The maximum number of work items to schedule from this work manager to its parent. */
    private int mMaxWorkCount = 5; 
@@ -74,7 +74,7 @@ public class AeChildWorkManager implements WorkManager, IAeChildWorkCompletedLis
    /**
     * @return the <code>Collection</code> of work items waiting to be scheduled to the parent work manager
     */
-   protected Collection getWaitingQueue()
+   protected Collection<AeChildWorkItem> getWaitingQueue()
    {
       return mWaitingQueue;
    }
@@ -117,9 +117,9 @@ public class AeChildWorkManager implements WorkManager, IAeChildWorkCompletedLis
    {
       // Iterate through the waiting work items until we have scheduled the
       // maximum possible number of work items.
-      for (Iterator i = getWaitingQueue().iterator(); i.hasNext() && (getScheduledCount() < getMaxWorkCount()); )
+      for (Iterator<AeChildWorkItem> i = getWaitingQueue().iterator(); i.hasNext() && (getScheduledCount() < getMaxWorkCount()); )
       {
-         AeChildWorkItem item = (AeChildWorkItem) i.next();
+         AeChildWorkItem item = i.next();
 
          // Schedule the work with its listener to the parent work manager.
          WorkItem scheduledItem = mWorkManagerFactory.getWorkManager().schedule(item.getWork(), item.getWorkListener());

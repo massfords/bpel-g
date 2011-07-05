@@ -21,7 +21,7 @@ import org.activebpel.rt.bpel.def.activity.AeActivityScopeDef;
 public class AeAmbigousCompensateScopeVisitor extends AeChildScopeByNameVisitor
 {
    /** the scope that we're looking for; <code>null</code> until it is found */
-   private List mScopeDef = new ArrayList();
+   private List<AeActivityScopeDef> mScopeDef = new ArrayList<AeActivityScopeDef>();
    /**
     * @param aScopeName
     */
@@ -39,17 +39,17 @@ public class AeAmbigousCompensateScopeVisitor extends AeChildScopeByNameVisitor
     * @param aScopeName
     * @return List
     */
-   public static List findChildScopesByName(AeScopeDef aRootScopeDef, String aScopeName)
+   public static List<AeActivityScopeDef> findChildScopesByName(AeScopeDef aRootScopeDef, String aScopeName)
    {
       AeAmbigousCompensateScopeVisitor visitor = new AeAmbigousCompensateScopeVisitor(aScopeName);
       aRootScopeDef.getActivityDef().accept(visitor);
-      return (List) visitor.getScopeDefs();
+      return visitor.getScopeDefs();
    }
    /**
     * Returns the scope that we're looking for; <code>null</code> until it is
     * found.
     */
-   protected Object getScopeDefs()
+   protected List<AeActivityScopeDef> getScopeDefs()
    {
       return mScopeDef;
    }

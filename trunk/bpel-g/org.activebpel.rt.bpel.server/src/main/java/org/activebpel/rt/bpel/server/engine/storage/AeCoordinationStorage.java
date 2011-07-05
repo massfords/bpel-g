@@ -108,7 +108,7 @@ public class AeCoordinationStorage extends AeAbstractStorage implements IAeCoord
    /**
     * @see org.activebpel.rt.bpel.server.engine.storage.IAeCoordinationStorage#getCoordinationsByProcessId(long)
     */
-   public List getCoordinationsByProcessId(long aProcessId) throws AeStorageException
+   public List<? extends IAeCoordinating> getCoordinationsByProcessId(long aProcessId) throws AeStorageException
    {
       return getCoordinationStorageProvider().getCoordinationsByProcessId(aProcessId);
    }

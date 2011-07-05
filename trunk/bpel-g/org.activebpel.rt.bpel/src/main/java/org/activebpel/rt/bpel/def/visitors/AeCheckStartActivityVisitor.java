@@ -81,7 +81,7 @@ public class AeCheckStartActivityVisitor extends AeAbstractDefVisitor implements
    /** Flag indicating current direction of traversal. */
    private boolean mAscending;
    /** Set of defs that are invalid */
-   private Set mErrorDefs = new HashSet();
+   private Set<AeBaseDef> mErrorDefs = new HashSet<AeBaseDef>();
 
    /**
     * Constructor which requires an error reporter to be used during traversal.
@@ -108,9 +108,9 @@ public class AeCheckStartActivityVisitor extends AeAbstractDefVisitor implements
          mCurrentActivity.getParent().accept(this);
       }
       
-      for (Iterator iter = mErrorDefs.iterator(); iter.hasNext();)
+      for (Iterator<AeBaseDef> iter = mErrorDefs.iterator(); iter.hasNext();)
       {
-         AeBaseDef def = (AeBaseDef) iter.next();
+         AeBaseDef def = iter.next();
          mErrorReporter.reportProblem(IAeValidationProblemCodes.BPEL_CHECK_START_ACTIVITY_CODE,
                                  AeMessages.getString("AeCheckStartActivityVisitor.ERROR_CREATE_INSTANCE_VALIDATION"), //$NON-NLS-1$
                                  new String [] {}, def); 

@@ -175,9 +175,9 @@ public class AeCoordinatorCompensationHandler extends AeCompensationHandler impl
    /**
     * @see org.activebpel.rt.bpel.impl.IAeBpelObject#getChildrenForStateChange()
     */
-   public Iterator getChildrenForStateChange()
+   public Iterator<? extends IAeBpelObject> getChildrenForStateChange()
    {
-      return Collections.EMPTY_SET.iterator();
+      return Collections.<IAeBpelObject>emptyList().iterator();
    }
 
    /**

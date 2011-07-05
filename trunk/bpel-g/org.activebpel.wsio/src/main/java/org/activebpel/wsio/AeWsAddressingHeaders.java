@@ -16,6 +16,8 @@ import java.util.Map;
 
 import javax.xml.namespace.QName;
 
+import org.w3c.dom.Element;
+
 /**
  *  Holder for the values from a set of WS-Addressing Headers
  */
@@ -40,7 +42,7 @@ public class AeWsAddressingHeaders implements IAeWsAddressingHeaders
    /** Endpoint containing To address URI */
    private IAeWebServiceEndpointReference mTo;
    /** List of additional header elements to serialize */
-   private List mReferenceProperties;
+   private List<Element> mReferenceProperties;
    /** WSA Namespace URI */ 
    private String mNamespace;   
    /** WSA To URI */ 
@@ -222,11 +224,11 @@ public class AeWsAddressingHeaders implements IAeWsAddressingHeaders
    /**
     * @see org.activebpel.wsio.IAeWsAddressingHeaders#getReferenceProperties()
     */
-   public List getReferenceProperties()
+   public List<Element> getReferenceProperties()
    {
       if (mReferenceProperties == null)
       {
-         mReferenceProperties = new ArrayList();
+         mReferenceProperties = new ArrayList<Element>();
       }
       return mReferenceProperties;
    }

@@ -31,7 +31,7 @@ import org.activebpel.rt.bpel.impl.visitors.IAeImplVisitor;
 public class AeActivityAssignImpl extends AeActivityImpl
 {
    /** list of copy operations to get executed */
-   private List mCopyOperations = new LinkedList();
+   private List<IAeAssignOperation> mCopyOperations = new LinkedList<IAeAssignOperation>();
    
    /** Copy operation context used by assign activity */
    private IAeCopyOperationContext mCopyOperationContext;
@@ -112,9 +112,9 @@ public class AeActivityAssignImpl extends AeActivityImpl
       int index = 0;
       try
       {
-         for (Iterator iter = getCopyOperations().iterator(); iter.hasNext(); index++)
+         for (Iterator<IAeAssignOperation> iter = getCopyOperations().iterator(); iter.hasNext(); index++)
          {
-            IAeAssignOperation operation = (IAeAssignOperation) iter.next();
+            IAeAssignOperation operation = iter.next();
             operation.execute();
          }
       }
@@ -149,7 +149,7 @@ public class AeActivityAssignImpl extends AeActivityImpl
    /**
     * @return Returns the copyOperations.
     */
-   protected List getCopyOperations()
+   protected List<IAeAssignOperation> getCopyOperations()
    {
       return mCopyOperations;
    }
@@ -157,7 +157,7 @@ public class AeActivityAssignImpl extends AeActivityImpl
    /**
     * @param aCopyOperations The copyOperations to set.
     */
-   protected void setCopyOperations(List aCopyOperations)
+   protected void setCopyOperations(List<IAeAssignOperation> aCopyOperations)
    {
       mCopyOperations = aCopyOperations;
    }

@@ -124,7 +124,7 @@ public class AeDoXslTransformFunction extends AeAbstractBpelFunction
     */
    protected Map extractParameters(List aArguments)
    {
-      Map params = new HashMap();
+      Map<String, Object> params = new HashMap<String, Object>();
       for (int i = 2; i < aArguments.size(); i += 2)
       {
          String paramName = (String) aArguments.get(i);

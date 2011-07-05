@@ -110,7 +110,7 @@ public interface IAeBusinessProcessInternal extends IAeBusinessProcess, IAeActiv
     * @param aSetOfVariablePaths
     * @param aOwnerXPath
     */
-   public boolean addExclusiveLock(Set aSetOfVariablePaths, String aOwnerXPath);
+   public boolean addExclusiveLock(Set<String> aSetOfVariablePaths, String aOwnerXPath);
 
    /**
     * Called by activities prior to execution to ensure that they have
@@ -122,14 +122,13 @@ public interface IAeBusinessProcessInternal extends IAeBusinessProcess, IAeActiv
     * @param aSetOfVariablePaths
     * @param aOwnerXPath
     */
-   public boolean addSharedLock(Set aSetOfVariablePaths, String aOwnerXPath);
+   public boolean addSharedLock(Set<String> aSetOfVariablePaths, String aOwnerXPath);
 
    /**
     * Dequeues an alarm that has been queued.
     * @param aAlarm The alarm to dequeue.
     */
-   public void dequeueAlarm(IAeAlarmReceiver aAlarm)
-      throws AeBusinessProcessException;
+   public void dequeueAlarm(IAeAlarmReceiver aAlarm) throws AeBusinessProcessException;
 
    /**
     * Removes a message receiver from the list of message receivers which are active.

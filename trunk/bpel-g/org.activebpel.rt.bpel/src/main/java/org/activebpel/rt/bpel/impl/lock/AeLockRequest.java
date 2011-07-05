@@ -24,7 +24,7 @@ public abstract class AeLockRequest
 {
    protected final AeVariableLocker mVariableLocker;
    /** The set of variable paths that we want to lock */
-   protected Set mVariablesToLock;
+   protected Set<String> mVariablesToLock;
    /** The callback that gets used if we can't fulfill the request immediately */
    protected IAeVariableLockCallback mCallback;
    /** The path of the object that will be the owner of the lock */
@@ -36,7 +36,7 @@ public abstract class AeLockRequest
     * @param aOwner - The path of the object that will be the owner of the lock
     * @param aCallback - The callback that gets used if we can't fulfill the request immediately
     */
-   public AeLockRequest(AeVariableLocker aVariableLocker, Set aVariablesToLock, String aOwner, IAeVariableLockCallback aCallback)
+   public AeLockRequest(AeVariableLocker aVariableLocker, Set<String> aVariablesToLock, String aOwner, IAeVariableLockCallback aCallback)
    {
       mVariableLocker = aVariableLocker;
       mVariablesToLock = aVariablesToLock;
@@ -86,9 +86,9 @@ public abstract class AeLockRequest
     */
    protected void addLockHolders()
    {
-      for (Iterator iter = mVariablesToLock.iterator(); iter.hasNext();)
+      for (Iterator<String> iter = mVariablesToLock.iterator(); iter.hasNext();)
       {
-         String variablePath = (String) iter.next();
+         String variablePath = iter.next();
          mVariableLocker.addLockHolder(variablePath, getOwner(), isExclusiveRequest());
       }
    }
@@ -123,14 +123,13 @@ public abstract class AeLockRequest
 
       return getVariablesToLock().equals(other.getVariablesToLock())
           && getCallback().equals(other.getCallback())
-          && getOwner().equals(other.getOwner())
-          ;
+          && getOwner().equals(other.getOwner());
    }
 
    /**
     * Returns set of paths of variables to lock.
     */
-   public Set getVariablesToLock()
+   public Set<String> getVariablesToLock()
    {
       return Collections.unmodifiableSet(mVariablesToLock);
    }
@@ -143,7 +142,6 @@ public abstract class AeLockRequest
       return getVariablesToLock().hashCode()
            + ((getCallback() != null) ? getCallback().hashCode() : 0)
            + getOwner().hashCode()
-           + (isExclusiveRequest() ? 1 : 0)
-           ;
+           + (isExclusiveRequest() ? 1 : 0);
    }
 }

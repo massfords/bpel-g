@@ -63,7 +63,7 @@ public interface IAeCoordinationStorageProvider extends IAeStorageProvider
    /**
     * @see org.activebpel.rt.bpel.server.engine.storage.IAeCoordinationStorage#getCoordinationsByProcessId(long)
     */
-   public List getCoordinationsByProcessId(long aProcessId) throws AeStorageException;
+   public List<? extends IAeCoordinating> getCoordinationsByProcessId(long aProcessId) throws AeStorageException;
 
    /**
     * @see org.activebpel.rt.bpel.server.engine.storage.IAeCoordinationStorage#getCoordinations(java.lang.String)

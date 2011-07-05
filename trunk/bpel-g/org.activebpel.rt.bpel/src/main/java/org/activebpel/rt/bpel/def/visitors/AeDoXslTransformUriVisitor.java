@@ -30,7 +30,7 @@ public class AeDoXslTransformUriVisitor extends AeAbstractExpressionDefVisitor
    /** The expression language factory. */
    private IAeExpressionLanguageFactory mFactory;
    /** The set of stylesheets found during visiting. */
-   private Set mStylesheets;
+   private Set<String> mStylesheets;
    
    /**
     * Default c'tor.
@@ -39,7 +39,7 @@ public class AeDoXslTransformUriVisitor extends AeAbstractExpressionDefVisitor
    {
       super();
       setFactory(aFactory);
-      setStylesheets(new HashSet());
+      setStylesheets(new HashSet<String>());
    }
    
    /**
@@ -54,7 +54,7 @@ public class AeDoXslTransformUriVisitor extends AeAbstractExpressionDefVisitor
          IAeExpressionAnalyzer analyzer = getFactory().createExpressionAnalyzer(bpelNS, exprLanguage);
          AeExpressionAnalyzerContext context = new AeExpressionAnalyzerContext(new AeBaseDefNamespaceContext(
                (AeBaseDef) aExpressionDef));
-         Set stylesheets = analyzer.getStylesheetURIs(context, aExpressionDef.getExpression());
+         Set<String> stylesheets = analyzer.getStylesheetURIs(context, aExpressionDef.getExpression());
          getStylesheets().addAll(stylesheets);
       }
       catch (AeException ex)
@@ -82,7 +82,7 @@ public class AeDoXslTransformUriVisitor extends AeAbstractExpressionDefVisitor
    /**
     * @return Returns the stylesheets.
     */
-   public Set getStylesheets()
+   public Set<String> getStylesheets()
    {
       return mStylesheets;
    }
@@ -90,7 +90,7 @@ public class AeDoXslTransformUriVisitor extends AeAbstractExpressionDefVisitor
    /**
     * @param aStylesheets The stylesheets to set.
     */
-   protected void setStylesheets(Set aStylesheets)
+   protected void setStylesheets(Set<String> aStylesheets)
    {
       mStylesheets = aStylesheets;
    }
