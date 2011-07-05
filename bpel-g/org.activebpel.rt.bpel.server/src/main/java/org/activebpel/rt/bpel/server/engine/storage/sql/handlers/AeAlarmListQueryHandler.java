@@ -13,24 +13,25 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Date;
 import java.util.LinkedList;
+import java.util.List;
 
 import org.activebpel.rt.bpel.server.engine.storage.AePersistedAlarm;
+import org.activebpel.rt.bpel.server.engine.storage.sql.AeResultSetHandler;
 import org.activebpel.rt.bpel.server.engine.storage.sql.IAeQueueColumns;
-import org.apache.commons.dbutils.ResultSetHandler;
 
 
 /**
  * Implements a query handler that can transform a result set into a list of
  * persisted alarm objects.
  */
-public class AeAlarmListQueryHandler implements ResultSetHandler
+public class AeAlarmListQueryHandler implements AeResultSetHandler<List<AePersistedAlarm>>
 {
    /**
     * @see org.apache.commons.dbutils.ResultSetHandler#handle(java.sql.ResultSet)
     */
-   public Object handle(ResultSet aResultSet) throws SQLException
+   public List<AePersistedAlarm> handle(ResultSet aResultSet) throws SQLException
    {
-      LinkedList<AePersistedAlarm> list = new LinkedList<AePersistedAlarm>();
+      List<AePersistedAlarm> list = new LinkedList<AePersistedAlarm>();
       while (aResultSet.next())
       {
          long processId = aResultSet.getLong(IAeQueueColumns.PROCESS_ID);

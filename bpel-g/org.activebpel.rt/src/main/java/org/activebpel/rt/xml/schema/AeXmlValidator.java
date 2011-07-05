@@ -9,7 +9,7 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.xml.schema; 
 
-import java.util.Collections;
+import java.util.ArrayList;
 import java.util.Iterator;
 
 import javax.wsdl.xml.WSDLLocator;
@@ -22,6 +22,7 @@ import org.activebpel.rt.util.AeXmlUtil;
 import org.activebpel.rt.wsdl.def.AeBPELExtendedWSDLDef;
 import org.activebpel.rt.xml.AeXMLParserBase;
 import org.activebpel.rt.xml.AeXMLParserErrorHandler;
+import org.exolab.castor.xml.schema.Schema;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
@@ -116,13 +117,16 @@ public class AeXmlValidator
    protected String validateDocument(Document aDoc) throws AeException
    {
       WSDLLocator locator = null;
-      Iterator schemas = Collections.EMPTY_LIST.iterator();
+      Iterator<Schema> schemas = null;
       
       if (getDef() != null)
       {
          locator = getDef().getLocator();
          schemas = getDef().getSchemas();
+      } else {
+          schemas = new ArrayList<Schema>().iterator();
       }
+      
       
       getParser().setWSDLLocator(locator);
       getParser().validateDocument(aDoc, schemas);

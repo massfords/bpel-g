@@ -15,21 +15,21 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.activebpel.rt.bpel.server.engine.storage.sql.AeDbUtils;
+import org.activebpel.rt.bpel.server.engine.storage.sql.AeResultSetHandler;
 import org.activebpel.rt.bpel.server.engine.storage.sql.IAeURNColumns;
-import org.apache.commons.dbutils.ResultSetHandler;
 
 
 /**
  * Walks the result set building a map of urn to url values. 
  */
-public class AeURNMappingHandler implements ResultSetHandler
+public class AeURNMappingHandler implements AeResultSetHandler<Map<String,String>>
 {
    /**
     * @see org.apache.commons.dbutils.ResultSetHandler#handle(java.sql.ResultSet)
     */
-   public Object handle(ResultSet aRs) throws SQLException
+   public Map<String,String> handle(ResultSet aRs) throws SQLException
    {
-      Map map = new HashMap();
+      Map<String,String> map = new HashMap<String, String>();
       while(aRs.next())
       {
          String urn = aRs.getString(IAeURNColumns.COL_URN);

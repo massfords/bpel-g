@@ -11,6 +11,7 @@ package org.activebpel.rt.bpel.server.engine.storage.sql;
 
 import java.io.InputStream;
 import java.sql.Clob;
+import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -44,9 +45,9 @@ public class AeResultSetHandlers
     * Implements a <code>ResultSetHandler</code> that returns the first column
     * of the first row of a <code>ResultSet</code> as an <code>String</code>.
     */
-   private static final ResultSetHandler sStringHandler = new ResultSetHandler()
+   private static final ResultSetHandler sStringHandler = new AeResultSetHandler<String>()
    {
-      public Object handle(ResultSet rs) throws SQLException
+      public String handle(ResultSet rs) throws SQLException
       {
          // ResultSet#getString will return null if the column contains null.
          return rs.next() ? rs.getString(1) : null;
@@ -54,9 +55,9 @@ public class AeResultSetHandlers
    };
    
    /** Same as sStringHandler but reads the string from a CLOB */
-   private static final ResultSetHandler sClobStringHandler = new ResultSetHandler()
+   private static final ResultSetHandler sClobStringHandler = new AeResultSetHandler<String>()
    {
-      public Object handle(ResultSet rs) throws SQLException
+      public String handle(ResultSet rs) throws SQLException
       {
          String s = null;
          if (rs.next())
@@ -73,9 +74,9 @@ public class AeResultSetHandlers
    };
    
    /** Same as sStringHandler but reads the string from a BLOB */
-   private static final ResultSetHandler sBlobStreamHandler = new ResultSetHandler()
+   private static final ResultSetHandler sBlobStreamHandler = new AeResultSetHandler<InputStream>()
    {
-      public Object handle(ResultSet rs) throws SQLException
+      public InputStream handle(ResultSet rs) throws SQLException
       {
          InputStream is = null;
          if (rs.next())
@@ -104,11 +105,11 @@ public class AeResultSetHandlers
     * of values from the the first column.  Null values are not added to the array.
     * If the result set is empty, an empty array is returned.
     */
-   private static final ResultSetHandler sStringArrayHandler = new ResultSetHandler()
+   private static final ResultSetHandler sStringArrayHandler = new AeResultSetHandler<String[]>()
    {
-      public Object handle(ResultSet rs) throws SQLException
+      public String[] handle(ResultSet rs) throws SQLException
       {
-         List results = new ArrayList();
+         List<String> results = new ArrayList<String>();
 
          while( rs.next() )
          {
@@ -128,11 +129,11 @@ public class AeResultSetHandlers
     * from the the first and second column.  Null values are not added to the array.
     * If the result set is empty, an empty array is returned.
     */
-   private static final ResultSetHandler sIntegerMapHandler = new ResultSetHandler()
+   private static final ResultSetHandler sIntegerMapHandler = new AeResultSetHandler<Map<Integer,Integer>>()
    {
-      public Object handle(ResultSet rs) throws SQLException
+      public Map<Integer,Integer> handle(ResultSet rs) throws SQLException
       {
-         Map results = new HashMap();
+         Map<Integer,Integer> results = new HashMap<Integer, Integer>();
 
          while ( rs.next() )
          {
@@ -156,9 +157,9 @@ public class AeResultSetHandlers
     * Implements a <code>ResultSetHandler</code> that returns the first column
     * of the first row of a <code>ResultSet</code> as an <code>Integer</code>.
     */
-   private static final ResultSetHandler sIntegerHandler = new ResultSetHandler()
+   private static final ResultSetHandler sIntegerHandler = new AeResultSetHandler<Integer>()
    {
-      public Object handle(ResultSet rs) throws SQLException
+      public Integer handle(ResultSet rs) throws SQLException
       {
          Integer result = null;
 
@@ -180,9 +181,9 @@ public class AeResultSetHandlers
     * Implements a <code>ResultSetHandler</code> that returns the first column
     * of the first row of a <code>ResultSet</code> as an <code>Float</code>.
     */
-   private static final ResultSetHandler sFloatHandler = new ResultSetHandler()
+   private static final ResultSetHandler sFloatHandler = new AeResultSetHandler<Float>()
    {
-      public Object handle(ResultSet rs) throws SQLException
+      public Float handle(ResultSet rs) throws SQLException
       {
          Float result = null;
 
@@ -204,9 +205,9 @@ public class AeResultSetHandlers
     * Implements a <code>ResultSetHandler</code> that returns the first column
     * of the first row of a <code>ResultSet</code> as a <code>Long</code>.
     */
-   private static final ResultSetHandler sLongHandler = new ResultSetHandler()
+   private static final ResultSetHandler sLongHandler = new AeResultSetHandler<Long>()
    {
-      public Object handle(ResultSet rs) throws SQLException
+      public Long handle(ResultSet rs) throws SQLException
       {
          Long result = null;
 
@@ -228,9 +229,9 @@ public class AeResultSetHandlers
     * Implements a <code>ResultSetHandler</code> that returns the first column
     * of the first row of a <code>ResultSet</code> as a <code>Date</code>.
     */
-   private static final ResultSetHandler sDateHandler = new ResultSetHandler()
+   private static final ResultSetHandler sDateHandler = new AeResultSetHandler<Date>()
    {
-      public Object handle(ResultSet rs) throws SQLException
+      public Date handle(ResultSet rs) throws SQLException
       {
          // ResultSet#getDate returns null if the column contains null.
          return rs.next() ? rs.getDate(1) : null;
@@ -242,9 +243,9 @@ public class AeResultSetHandlers
     * columns of the first row of a <code>ResultSet</code> as a
     * <code>QName</code>.
     */
-   private static final ResultSetHandler sQNameHandler = new ResultSetHandler()
+   private static final ResultSetHandler sQNameHandler = new AeResultSetHandler<QName>()
    {
-      public Object handle(ResultSet rs) throws SQLException
+      public QName handle(ResultSet rs) throws SQLException
       {
          if (rs.next())
          {
@@ -265,11 +266,11 @@ public class AeResultSetHandlers
     * Implements a <code>ResultSetHandler</code> that converts the first column
     * of the <code>ResultSet</code> to an <code>AeLongSet</code>.
     */
-   private static final ResultSetHandler sLongSetHandler = new ResultSetHandler()
+   private static final ResultSetHandler sLongSetHandler = new AeResultSetHandler<Set<Long>>()
    {
-      public Object handle(ResultSet rs) throws SQLException
+      public Set<Long> handle(ResultSet rs) throws SQLException
       {
-         Set<Long> set = new HashSet();
+         Set<Long> set = new HashSet<Long>();
 
          while (rs.next())
          {
@@ -289,11 +290,11 @@ public class AeResultSetHandlers
     * Implements a <code>ResultSetHandler</code> that converts the first column
     * of the <code>ResultSet</code> to an <code>AeIntSet</code>.
     */
-   private static final ResultSetHandler sIntSetHandler = new ResultSetHandler()
+   private static final ResultSetHandler sIntSetHandler = new AeResultSetHandler<Set<Integer>>()
    {
-      public Object handle(ResultSet rs) throws SQLException
+      public Set<Integer> handle(ResultSet rs) throws SQLException
       {
-         Set<Integer> set = new HashSet();
+         Set<Integer> set = new HashSet<Integer>();
 
          while (rs.next())
          {
@@ -433,12 +434,12 @@ public class AeResultSetHandlers
     * Implements a <code>ResultSetHandler</code> that returns the first column
     * of the first row of a <code>ResultSet</code> as a <code>Document</code>.
     */
-   public static class AeDocumentResultSetHandler implements ResultSetHandler
+   public static class AeDocumentResultSetHandler implements AeResultSetHandler<Document>
    {
       /**
        * @see org.apache.commons.dbutils.ResultSetHandler#handle(java.sql.ResultSet)
        */
-      public Object handle(ResultSet rs) throws SQLException
+      public Document handle(ResultSet rs) throws SQLException
       {
          Document result = null;
 

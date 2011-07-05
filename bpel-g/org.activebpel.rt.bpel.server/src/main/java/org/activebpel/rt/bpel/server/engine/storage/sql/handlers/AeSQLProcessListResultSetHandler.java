@@ -16,6 +16,7 @@ import java.util.List;
 import org.activebpel.rt.bpel.server.engine.storage.sql.AeListingResultSetHandler;
 
 import bpelg.services.processes.types.ProcessFilterType;
+import bpelg.services.processes.types.ProcessInstanceDetail;
 import bpelg.services.processes.types.ProcessList;
 
 
@@ -23,7 +24,7 @@ import bpelg.services.processes.types.ProcessList;
  * Helper class to convert a <code>ResultSet</code> to an
  * <code>AeProcessListResult</code>.
  */
-public class AeSQLProcessListResultSetHandler extends AeListingResultSetHandler
+public class AeSQLProcessListResultSetHandler extends AeListingResultSetHandler<ProcessList, ProcessInstanceDetail>
 {
    /**
     * Constructor.
@@ -38,7 +39,7 @@ public class AeSQLProcessListResultSetHandler extends AeListingResultSetHandler
    /**
     * @see org.activebpel.rt.bpel.server.engine.storage.sql.AeListingResultSetHandler#readRow(java.sql.ResultSet)
     */
-   protected Object readRow(ResultSet aResultSet) throws SQLException
+   protected ProcessInstanceDetail readRow(ResultSet aResultSet) throws SQLException
    {
       return AeSQLProcessInstanceResultSetHandler.createProcessInstanceDetail(aResultSet);
    }
@@ -46,7 +47,7 @@ public class AeSQLProcessListResultSetHandler extends AeListingResultSetHandler
    /**
     * @see org.activebpel.rt.bpel.server.engine.storage.sql.AeListingResultSetHandler#convertToType(java.util.List)
     */
-   protected Object convertToType(List aResults)
+   protected ProcessList convertToType(List<ProcessInstanceDetail> aResults)
    {
       return new ProcessList().withTotalRowCount(getRowCount()).withProcessInstanceDetail(aResults).withComplete(!isTruncated());
    }

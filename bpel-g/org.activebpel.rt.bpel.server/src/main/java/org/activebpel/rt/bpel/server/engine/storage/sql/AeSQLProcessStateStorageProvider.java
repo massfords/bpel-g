@@ -263,15 +263,17 @@ public class AeSQLProcessStateStorageProvider extends AeAbstractSQLStorageProvid
    /**
     * @see org.activebpel.rt.bpel.server.engine.storage.providers.IAeProcessStateStorageProvider#getJournalEntries(long)
     */
-   public List getJournalEntries(long aProcessId) throws AeStorageException
+   @SuppressWarnings("unchecked")
+   public List<IAeJournalEntry> getJournalEntries(long aProcessId) throws AeStorageException
    {
       Object param = new Long(aProcessId);
-      return (List) query(IAeProcessSQLKeys.GET_JOURNAL_ENTRIES, param, JOURNAL_ENTRIES_RESULT_SET_HANDLER);
+      return (List<IAeJournalEntry>) query(IAeProcessSQLKeys.GET_JOURNAL_ENTRIES, param, JOURNAL_ENTRIES_RESULT_SET_HANDLER);
    }
 
    /**
     * @see org.activebpel.rt.bpel.server.engine.storage.providers.IAeProcessStateStorageProvider#getJournalEntriesLocationIdsMap(long)
     */
+   @SuppressWarnings("unchecked")
    public Map<Long,Integer> getJournalEntriesLocationIdsMap(long aProcessId) throws AeStorageException
    {
       Object param = new Long(aProcessId);

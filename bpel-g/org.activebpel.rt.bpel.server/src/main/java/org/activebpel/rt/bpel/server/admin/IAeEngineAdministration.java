@@ -17,6 +17,7 @@ import org.activebpel.rt.AeException;
 import org.activebpel.rt.bpel.AeBusinessProcessException;
 import org.activebpel.rt.bpel.coord.AeCoordinationDetail;
 import org.activebpel.rt.bpel.impl.AeMonitorStatus;
+import org.activebpel.rt.bpel.impl.list.AeAlarmExt;
 import org.activebpel.rt.bpel.impl.list.AeAlarmFilter;
 import org.activebpel.rt.bpel.impl.list.AeAlarmListResult;
 import org.activebpel.rt.bpel.impl.list.AeMessageReceiverFilter;
@@ -40,7 +41,7 @@ public interface IAeEngineAdministration
    /**
     * Gets a listing of alarms matching the passed filter.
     */
-   public AeAlarmListResult getAlarms(AeAlarmFilter aFilter);
+   public AeAlarmListResult<AeAlarmExt> getAlarms(AeAlarmFilter aFilter);
 
    /**
     * Gets the build info for the libraries currently in use.

@@ -11,6 +11,7 @@ package org.activebpel.rt.bpel.server.engine.storage;
 
 import java.util.List;
 
+import org.activebpel.rt.bpel.coord.AeCoordinationDetail;
 import org.activebpel.rt.bpel.coord.IAeCoordinating;
 import org.activebpel.rt.bpel.coord.IAeCoordinationManager;
 import org.activebpel.rt.bpel.server.coord.AeCoordinationContext;
@@ -53,14 +54,14 @@ public interface IAeCoordinationStorage extends IAeStorage
     * @param aProcessId
     * @throws AeStorageException
     */
-   public List getCoordinationsByProcessId(long aProcessId) throws AeStorageException;
+   public List<? extends IAeCoordinating> getCoordinationsByProcessId(long aProcessId) throws AeStorageException;
 
    /**
     * Returns list of coordinations with matching coordination id.
     * @param aCoordinationId
     * @throws AeStorageException
     */
-   public List getCoordinations(String aCoordinationId) throws AeStorageException;
+   public List<? extends IAeCoordinating> getCoordinations(String aCoordinationId) throws AeStorageException;
    
    /**
     * Updates the state of the given coordination id.
@@ -90,5 +91,5 @@ public interface IAeCoordinationStorage extends IAeStorage
     * @param aParentProcessId
     * @throws AeStorageException
     */
-   public List getParticipantDetail(long aParentProcessId) throws AeStorageException;
+   public List<AeCoordinationDetail> getParticipantDetail(long aParentProcessId) throws AeStorageException;
 }

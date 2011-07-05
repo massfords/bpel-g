@@ -37,7 +37,7 @@ public class AeCompInfo
    /** Snapshot of the variable data at the time of completion */
    private AeScopeSnapshot mSnapshot;
    /** All completed enclosed scopes */
-   private LinkedList mEnclosedScopes;
+   private LinkedList<AeCompInfo> mEnclosedScopes;
    /** Flag to prevent multiple invocations */
    private boolean mEnabled = true;
 
@@ -73,13 +73,12 @@ public class AeCompInfo
     * Extracts matching info objects from the linked list of completed enclosed scopes.
     * @param aScopeName
     */
-   public List getEnclosedInfoByScopeName(String aScopeName)
+   public List<AeCompInfo> getEnclosedInfoByScopeName(String aScopeName)
    {
-      List matchingScopes = new LinkedList();
+      List<AeCompInfo> matchingScopes = new LinkedList<AeCompInfo>();
 
-      for (Iterator i = getEnclosedScopes().iterator(); i.hasNext(); )
+      for (AeCompInfo enclosedScope : getEnclosedScopes() )
       {
-         AeCompInfo enclosedScope = (AeCompInfo) i.next();
          if (aScopeName.equals(enclosedScope.getScopeName()))
          {
             matchingScopes.add(enclosedScope);
@@ -197,11 +196,11 @@ public class AeCompInfo
    /**
     * Getter for the enclosed scopes list
     */
-   public LinkedList getEnclosedScopes()
+   public LinkedList<AeCompInfo> getEnclosedScopes()
    {
       if (mEnclosedScopes == null)
       {
-         mEnclosedScopes = new LinkedList();
+         mEnclosedScopes = new LinkedList<AeCompInfo>();
       }
       return mEnclosedScopes;
    }
@@ -209,12 +208,11 @@ public class AeCompInfo
    /**
     * Getter for the coordinated enclosed scopes list
     */
-   public List getCoordinatedEnclosedScopes()
+   public List<AeCompInfo> getCoordinatedEnclosedScopes()
    {
-      List matchingScopes = new LinkedList();
-      for (Iterator childIter = getEnclosedScopes().iterator(); childIter.hasNext(); )
+      List<AeCompInfo> matchingScopes = new LinkedList<AeCompInfo>();
+      for (AeCompInfo childCompInfo : getEnclosedScopes() )
       {
-         AeCompInfo childCompInfo = (AeCompInfo) childIter.next();
          if (childCompInfo instanceof AeCoordinatorCompInfo)
          {
             matchingScopes.add(childCompInfo);
@@ -248,9 +246,9 @@ public class AeCompInfo
    /**
     * Setter for the enclosed scopes list
     */
-   public void setEnclosedScopes(List aEnclosedScopes)
+   public void setEnclosedScopes(List<AeCompInfo> aEnclosedScopes)
    {
-      mEnclosedScopes = new LinkedList(aEnclosedScopes);
+      mEnclosedScopes = new LinkedList<AeCompInfo>(aEnclosedScopes);
    }
 
    /**

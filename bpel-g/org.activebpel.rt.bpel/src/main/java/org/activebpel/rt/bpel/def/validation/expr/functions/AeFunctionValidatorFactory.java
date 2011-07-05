@@ -23,7 +23,7 @@ import org.activebpel.rt.expr.validation.functions.IAeFunctionValidatorFactory;
  * Provides lookup of validator given a function qname and BPEL namespace.
  */
 public class AeFunctionValidatorFactory implements IAeFunctionValidatorFactory {
-    private Map<QName, IAeFunctionValidator> mFunctionValidators = new HashMap();
+    private Map<QName, IAeFunctionValidator> mFunctionValidators = new HashMap<QName, IAeFunctionValidator>();
     private List<AeFunctionValidatorEntry> mEntries;
     
     public void init() {

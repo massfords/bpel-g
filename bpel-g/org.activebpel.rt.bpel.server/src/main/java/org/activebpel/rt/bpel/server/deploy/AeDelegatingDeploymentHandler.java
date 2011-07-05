@@ -33,7 +33,7 @@ public class AeDelegatingDeploymentHandler implements IAeDeploymentHandler {
     }
     
     public List<IAeDeploymentHandler> getUndeploymentHandlers() {
-        List l = new ArrayList(getHandlers());
+        List<IAeDeploymentHandler> l = new ArrayList<IAeDeploymentHandler>(getHandlers());
         Collections.reverse(l);
         return l;
     }

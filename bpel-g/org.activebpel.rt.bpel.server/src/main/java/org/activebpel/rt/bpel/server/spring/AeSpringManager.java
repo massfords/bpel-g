@@ -15,7 +15,7 @@ import org.springframework.context.support.GenericApplicationContext;
 public class AeSpringManager extends AeManagerAdapter {
 
     /** map of contexts */
-    private Map<String,GenericApplicationContext> mContextMap = new HashMap();
+    private Map<String,GenericApplicationContext> mContextMap = new HashMap<String, GenericApplicationContext>();
 
     /* start all of the contexts upon manager start
      * @see org.activebpel.rt.bpel.impl.AeManagerAdapter#start()

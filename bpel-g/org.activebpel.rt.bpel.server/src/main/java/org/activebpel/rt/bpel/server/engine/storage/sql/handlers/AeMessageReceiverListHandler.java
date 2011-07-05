@@ -14,6 +14,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 import org.activebpel.rt.bpel.impl.list.AeMessageReceiverFilter;
+import org.activebpel.rt.bpel.server.engine.storage.AePersistedMessageReceiver;
 import org.activebpel.rt.bpel.server.engine.storage.sql.AeListingResultSetHandler;
 import org.activebpel.rt.bpel.server.engine.storage.sql.AeSQLQueueStorageProvider;
 
@@ -21,7 +22,7 @@ import org.activebpel.rt.bpel.server.engine.storage.sql.AeSQLQueueStorageProvide
  * Creates a result set handler that returns a list of matching AeMessageReceivers.
  * Has the ability to filter the selected receivers based on the filter criteria.
  */
-public class AeMessageReceiverListHandler extends AeListingResultSetHandler
+public class AeMessageReceiverListHandler extends AeListingResultSetHandler<List<AePersistedMessageReceiver>, AePersistedMessageReceiver>
 {
    /**
     * Default constructor - uses a null message receiver filter.
@@ -44,7 +45,7 @@ public class AeMessageReceiverListHandler extends AeListingResultSetHandler
    /**
     * @see org.activebpel.rt.bpel.server.engine.storage.sql.AeListingResultSetHandler#convertToType(java.util.List)
     */
-   protected Object convertToType(List aResults)
+   protected List<AePersistedMessageReceiver> convertToType(List<AePersistedMessageReceiver> aResults)
    {
       return aResults;
    }
@@ -52,7 +53,7 @@ public class AeMessageReceiverListHandler extends AeListingResultSetHandler
    /**
     * @see org.activebpel.rt.bpel.server.engine.storage.sql.AeListingResultSetHandler#readRow(java.sql.ResultSet)
     */
-   protected Object readRow(ResultSet aResultSet) throws SQLException
+   protected AePersistedMessageReceiver readRow(ResultSet aResultSet) throws SQLException
    {
       return AeSQLQueueStorageProvider.readSQLMessageReceiver(aResultSet);
    }

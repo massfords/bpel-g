@@ -78,7 +78,7 @@ public class AeBprDeploymentSource implements IAeDeploymentSource {
 	 * @throws AeDeploymentException
 	 */
 	protected void initPartnerLinkData() throws AeDeploymentException {
-		mPartnerLinkData = new ArrayList();
+		mPartnerLinkData = new ArrayList<AePartnerLinkDescriptor>();
 
 		// using the ns from the doc element here because it's possible that
 		// someone has

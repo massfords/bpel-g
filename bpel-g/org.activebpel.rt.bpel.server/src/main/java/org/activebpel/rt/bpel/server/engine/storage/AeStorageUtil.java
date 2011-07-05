@@ -234,7 +234,8 @@ public class AeStorageUtil
     * @param aRootElement
     * @throws AeStorageException
     */
-   public static Map deserializeCorrelationProperties(Element aRootElement) throws AeStorageException
+   @SuppressWarnings("unchecked")
+public static Map deserializeCorrelationProperties(Element aRootElement) throws AeStorageException
    {
       try
       {
@@ -339,15 +340,15 @@ public class AeStorageUtil
     * @param aCorrelationMap The correlation map for the receive.
     * @return A hash value.
     */
-   public static int getReceiveCorrelatesHash(Map aCorrelationMap)
+   public static int getReceiveCorrelatesHash(Map<QName,String> aCorrelationMap)
    {
       int hash = 0;
       int count = 1;
       // Sort the keys - this ensures that the correlation set hash is always calculated the
       // same, even if the data is in the map in a different order.
-      SortedSet ss = new TreeSet(new Comparator()
+    SortedSet<QName> ss = new TreeSet<QName>(new Comparator<QName>()
       {
-         public int compare(Object o1, Object o2)
+         public int compare(QName o1, QName o2)
          {
             String str1 = o1.toString();
             String str2 = o2.toString();

@@ -54,7 +54,7 @@ public class AeRecoveryEngineFactory
     */
    public IAeRecoveryEngine newRecoveryEngine(IAeBusinessProcessEngineInternal aBaseEngine)
    {
-      Map<String,IAeManager> copy = new LinkedHashMap(aBaseEngine.getManagers());
+      Map<String,IAeManager> copy = new LinkedHashMap<String, IAeManager>(aBaseEngine.getManagers());
       copy.put(IAeBusinessProcessEngineInternal.QUEUE_MANAGER_KEY, new AeRecoveryQueueManager());
       copy.put(IAeBusinessProcessEngineInternal.PROCESS_MANAGER_KEY, new AeRecoveryProcessManager());
       copy.put(IAeBusinessProcessEngineInternal.LOCK_MANAGER_KEY, new AeRecoveryLockManager());

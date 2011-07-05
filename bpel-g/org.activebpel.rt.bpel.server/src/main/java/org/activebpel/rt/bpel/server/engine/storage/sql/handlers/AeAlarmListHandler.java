@@ -26,7 +26,7 @@ import org.activebpel.rt.bpel.server.engine.storage.sql.IAeQueueColumns;
  * Creates a result set handler that returns a list of matching AeAlarms.
  * Has the ability to filter the selected alarms based on the filter criteria.
  */
-public class AeAlarmListHandler extends AeListingResultSetHandler
+public class AeAlarmListHandler extends AeListingResultSetHandler<List<AeAlarmExt>, AeAlarmExt>
 {
    /**
     * Default constructor.
@@ -48,7 +48,7 @@ public class AeAlarmListHandler extends AeListingResultSetHandler
    /**
     * @see org.activebpel.rt.bpel.server.engine.storage.sql.AeListingResultSetHandler#convertToType(java.util.List)
     */
-   protected Object convertToType(List aResults)
+   protected List<AeAlarmExt> convertToType(List<AeAlarmExt> aResults)
    {
       return aResults;
    }
@@ -56,7 +56,7 @@ public class AeAlarmListHandler extends AeListingResultSetHandler
    /**
     * @see org.activebpel.rt.bpel.server.engine.storage.sql.AeListingResultSetHandler#readRow(java.sql.ResultSet)
     */
-   protected Object readRow(ResultSet aResultSet) throws SQLException
+   protected AeAlarmExt readRow(ResultSet aResultSet) throws SQLException
    {
       long processId = aResultSet.getLong(IAeQueueColumns.PROCESS_ID);
       String processName = aResultSet.getString(IAeQueueColumns.PROCESS_NAME);

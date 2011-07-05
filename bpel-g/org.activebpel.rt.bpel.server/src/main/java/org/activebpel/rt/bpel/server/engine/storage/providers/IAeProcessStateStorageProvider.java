@@ -83,7 +83,7 @@ public interface IAeProcessStateStorageProvider extends IAeStorageProvider
    /**
     * @see org.activebpel.rt.bpel.server.engine.storage.IAeProcessStateStorage#getJournalEntries(long)
     */
-   public List getJournalEntries(long aProcessId) throws AeStorageException;
+   public List<IAeJournalEntry> getJournalEntries(long aProcessId) throws AeStorageException;
 
    /**
     * @see org.activebpel.rt.bpel.server.engine.storage.IAeProcessStateStorage#getJournalEntriesLocationIdsMap(long)
