@@ -14,6 +14,7 @@ import java.util.List;
 
 import org.activebpel.rt.bpel.def.activity.AeActivityCompensateScopeDef;
 import org.activebpel.rt.bpel.impl.IAeActivityParent;
+import org.activebpel.rt.bpel.impl.activity.support.AeCompInfo;
 
 /**
  * The compensateScope activity gets called from a fault handler or from within an
@@ -60,7 +61,7 @@ public class AeActivityCompensateScopeImpl extends AeActivityCompensateImpl
     * 
     * @see org.activebpel.rt.bpel.impl.activity.AeActivityCompensateImpl#getMatchingScopes()
     */
-   protected List getMatchingScopes()
+   protected List<AeCompInfo> getMatchingScopes()
    {
       String scopeName = getScopeNameForCompensation();
       return getCompInfo().getEnclosedInfoByScopeName(scopeName);

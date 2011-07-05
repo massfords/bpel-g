@@ -1366,7 +1366,7 @@ public class AeBusinessProcess extends AeActivityScopeImpl implements IAeBusines
    /**
     * @see org.activebpel.rt.bpel.impl.IAeBusinessProcessInternal#addExclusiveLock(java.util.Set, java.lang.String)
     */
-   public boolean addExclusiveLock(Set aSetOfVariablePaths, String aOwnerXPath)
+   public boolean addExclusiveLock(Set<String> aSetOfVariablePaths, String aOwnerXPath)
    {
       return getVariableLocker().addExclusiveLock(aSetOfVariablePaths, aOwnerXPath, this);
    }
@@ -1374,7 +1374,7 @@ public class AeBusinessProcess extends AeActivityScopeImpl implements IAeBusines
    /**
     * @see org.activebpel.rt.bpel.impl.IAeBusinessProcessInternal#addSharedLock(java.util.Set, java.lang.String)
     */
-   public boolean addSharedLock(Set aSetOfVariablePaths, String aOwnerXPath)
+   public boolean addSharedLock(Set<String> aSetOfVariablePaths, String aOwnerXPath)
    {
       return getVariableLocker().addSharedLock(aSetOfVariablePaths, aOwnerXPath, this);
    }

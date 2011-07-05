@@ -32,7 +32,7 @@ import org.activebpel.rt.bpel.def.visitors.AeAbstractEntryPointVisitor;
 public class AeBPWSToWSBPELCorrelationInitiateVisitor extends AeAbstractEntryPointVisitor
 {
    /** A map of create instance activities.  The key is a correlation set def, the value is a list of correlation defs from create instance activities. */
-   private Map mCreateInstances = new HashMap();
+   private Map<AeCorrelationSetDef, List<AeCorrelationDef>> mCreateInstances = new HashMap<AeCorrelationSetDef, List<AeCorrelationDef>>();
 
    /**
     * Constructor.
@@ -81,10 +81,10 @@ public class AeBPWSToWSBPELCorrelationInitiateVisitor extends AeAbstractEntryPoi
     */
    protected void addCorrelationMapping(AeCorrelationSetDef aCorrelationSetDef, AeCorrelationDef aCorrelationDef)
    {
-      List list = (List) getCreateInstances().get(aCorrelationSetDef);
+      List<AeCorrelationDef> list = getCreateInstances().get(aCorrelationSetDef);
       if (list == null)
       {
-         list = new ArrayList();
+         list = new ArrayList<AeCorrelationDef>();
          getCreateInstances().put(aCorrelationSetDef, list);
       }
       list.add(aCorrelationDef);
@@ -98,14 +98,14 @@ public class AeBPWSToWSBPELCorrelationInitiateVisitor extends AeAbstractEntryPoi
     */
    protected void processCorrelationMap()
    {
-      for (Iterator iter = getCreateInstances().values().iterator(); iter.hasNext(); )
+      for (Iterator<List<AeCorrelationDef>> iter = getCreateInstances().values().iterator(); iter.hasNext(); )
       {
-         List corrDefs = (List) iter.next();
+         List<AeCorrelationDef> corrDefs = iter.next();
          if (corrDefs.size() > 1)
          {
-            for (Iterator corrDefIter = corrDefs.iterator(); corrDefIter.hasNext(); )
+            for (Iterator<AeCorrelationDef> corrDefIter = corrDefs.iterator(); corrDefIter.hasNext(); )
             {
-               AeCorrelationDef corrDef = (AeCorrelationDef) corrDefIter.next();
+               AeCorrelationDef corrDef = corrDefIter.next();
                corrDef.setInitiate(AeCorrelationDef.INITIATE_JOIN);
             }
          }
@@ -115,7 +115,7 @@ public class AeBPWSToWSBPELCorrelationInitiateVisitor extends AeAbstractEntryPoi
    /**
     * @return Returns the createInstances.
     */
-   public Map getCreateInstances()
+   public Map<AeCorrelationSetDef, List<AeCorrelationDef>> getCreateInstances()
    {
       return mCreateInstances;
    }

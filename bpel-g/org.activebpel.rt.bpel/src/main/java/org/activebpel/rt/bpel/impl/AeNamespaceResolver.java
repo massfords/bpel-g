@@ -12,6 +12,7 @@ package org.activebpel.rt.bpel.impl;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 
 import org.activebpel.rt.wsdl.def.IAePropertyAlias;
@@ -42,20 +43,20 @@ public class AeNamespaceResolver implements IAeNamespaceContext
     */
    public String resolvePrefixToNamespace(String aPrefix)
    {
-      return (String) mPropAlias.getNamespaces().get(aPrefix);
+      return mPropAlias.getNamespaces().get(aPrefix);
    }
 
    /**
     * @see org.activebpel.rt.xml.IAeNamespaceContext#resolveNamespaceToPrefixes(java.lang.String)
     */
-   public Set resolveNamespaceToPrefixes(String aNamespace)
+   public Set<String> resolveNamespaceToPrefixes(String aNamespace)
    {
-      HashSet set = new HashSet();
-      Map map = mPropAlias.getNamespaces();
+      HashSet<String> set = new HashSet<String>();
+      Map<String,String> map = mPropAlias.getNamespaces();
       
-      for (Iterator iter = map.entrySet().iterator(); iter.hasNext(); )
+      for (Iterator<Entry<String, String>> iter = map.entrySet().iterator(); iter.hasNext(); )
       {
-         Map.Entry entry = (Map.Entry) iter.next();
+         Map.Entry<String, String> entry = iter.next();
          if (entry.getValue().equals(aNamespace))
          {
             set.add(entry.getKey());

@@ -13,6 +13,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 
 import org.activebpel.rt.bpel.def.AeCorrelationCombinations;
@@ -47,7 +48,7 @@ public class AeDefCorrelatedReceiveVisitor extends AeAbstractDefVisitor
    private AeProcessDef mProcessDef;
    /** an internal map that uses the concat of the partner link and operation as its
     *  and maps to a Set of correlation sets. */
-   private Map mPartnerLinkOperationToCorrSets = new HashMap();
+   private Map<AePartnerLinkOpKey, AeCorrelationCombinations> mPartnerLinkOperationToCorrSets = new HashMap<AePartnerLinkOpKey, AeCorrelationCombinations>();
 
    /**
     * Constructs the visitor with the given WSDL provider.
@@ -67,12 +68,10 @@ public class AeDefCorrelatedReceiveVisitor extends AeAbstractDefVisitor
       super.visit(aDef);
 
       // walk the map and set all of the plink/operation sets on the def
-      for (Iterator iter = mPartnerLinkOperationToCorrSets.entrySet().iterator(); iter.hasNext();)
+      for (Iterator<Entry<AePartnerLinkOpKey, AeCorrelationCombinations>> iter = mPartnerLinkOperationToCorrSets.entrySet().iterator(); iter.hasNext();)
       {
-         Map.Entry entry = (Map.Entry) iter.next();
-         AePartnerLinkOpKey key = (AePartnerLinkOpKey) entry.getKey();
-         AeCorrelationCombinations combos = (AeCorrelationCombinations) entry.getValue();
-         mProcessDef.setCorrelationProperties(key, combos);
+         Entry<AePartnerLinkOpKey, AeCorrelationCombinations> entry = iter.next();
+         mProcessDef.setCorrelationProperties(entry.getKey(), entry.getValue());
       }
    }
 
@@ -110,7 +109,7 @@ public class AeDefCorrelatedReceiveVisitor extends AeAbstractDefVisitor
     */
    protected void addCorrProps(IAeReceiveActivityDef aDef, Iterator aCorrelationIterator)
    {
-      Set corrSets = null;
+      Set<AeCorrelationSetDef> corrSets = null;
       for (Iterator it = aCorrelationIterator; it.hasNext();)
       {
          AeCorrelationDef def = (AeCorrelationDef) it.next();
@@ -120,7 +119,7 @@ public class AeDefCorrelatedReceiveVisitor extends AeAbstractDefVisitor
          if (!def.isInitiate() || corrSetDef.isJoinStyle())
          {
             if (corrSets == null)
-               corrSets = new HashSet();
+               corrSets = new HashSet<AeCorrelationSetDef>();
 
             corrSets.add(corrSetDef);
       }

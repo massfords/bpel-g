@@ -76,11 +76,11 @@ public class AeSQLConfig extends AeStorageConfig {
     /**
      * @see org.activebpel.rt.bpel.server.engine.storage.AeStorageConfig#getStatementConfigFilenames()
      */
-    protected List getStatementConfigFilenames() {
+    protected List<AeFilenameClassTuple> getStatementConfigFilenames() {
         String commonFileName = "common-sql.xml"; //$NON-NLS-1$
         String specificFileName = mType + "-sql.xml"; //$NON-NLS-1$
 
-        List list = new LinkedList();
+        List<AeFilenameClassTuple> list = new LinkedList<AeFilenameClassTuple>();
         list.add(new AeFilenameClassTuple(commonFileName, AeSQLConfig.class));
         list.add(new AeFilenameClassTuple(specificFileName, AeSQLConfig.class));
 

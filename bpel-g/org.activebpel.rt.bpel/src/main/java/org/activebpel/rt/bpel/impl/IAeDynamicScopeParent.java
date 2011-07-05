@@ -40,7 +40,7 @@ public interface IAeDynamicScopeParent extends IAeActivityParent, IAeVisitable
    /**
     * Gets the list of compensatable children. 
     */
-   public List getCompensatableChildren();
+   public List<IAeActivity> getCompensatableChildren();
    
    /**
     * Setter for the instance value

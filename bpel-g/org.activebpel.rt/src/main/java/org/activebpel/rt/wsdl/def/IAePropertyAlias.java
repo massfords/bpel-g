@@ -135,7 +135,7 @@ public interface IAePropertyAlias extends Serializable
    /**
     * Returns a hashtable of namespaces in use by this property alias.
     */
-   public Map getNamespaces();
+   public Map<String,String> getNamespaces();
 
    /**
     * Sets the namespaces in use by this property alias.

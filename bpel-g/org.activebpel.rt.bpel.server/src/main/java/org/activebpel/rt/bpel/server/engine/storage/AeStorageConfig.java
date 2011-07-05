@@ -327,9 +327,9 @@ public abstract class AeStorageConfig
     * 
     * @param aDocument
     */
-   private Map extractStatementMap(Document aDocument)
+   private Map<String, String> extractStatementMap(Document aDocument)
    {
-      Map rval = new HashMap();
+      Map<String, String> rval = new HashMap<String, String>();
 
       NodeList nl = aDocument.getElementsByTagName(getStatementRootName());
       for (int i = 0; i < nl.getLength(); i++)
@@ -375,6 +375,7 @@ public abstract class AeStorageConfig
    {
       return mConstantOverrides;
    }
+   
    public void setConstantOverrides(Properties aProps) {
        mConstantOverrides =aProps;
    }
@@ -399,7 +400,7 @@ public abstract class AeStorageConfig
     * Returns a list of DB resource config filenames.  Each file will be loaded and the
     * statements found therein will be loaded into the statement map.
     */
-   protected abstract List getStatementConfigFilenames();
+   protected abstract List<AeFilenameClassTuple> getStatementConfigFilenames();
 
    /**
     * This internal class is used by the <code>getStatementConfigFilenames</code> method to 

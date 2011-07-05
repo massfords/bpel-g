@@ -175,9 +175,9 @@ public class AeWSAddressingSerializer implements IAeAddressingSerializer
       }
       if (!AeUtil.isNullOrEmpty(aRef.getReferenceProperties()))
       {
-         for (Iterator it = aRef.getReferenceProperties().iterator(); it.hasNext();)
+         for (Iterator<Element> it = aRef.getReferenceProperties().iterator(); it.hasNext();)
          {
-            addHeaderElement(headers, (Element) it.next());
+            addHeaderElement(headers, it.next());
          }
       }
       return doc;

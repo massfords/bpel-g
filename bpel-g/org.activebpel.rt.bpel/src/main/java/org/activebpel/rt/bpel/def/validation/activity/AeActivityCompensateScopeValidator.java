@@ -14,6 +14,7 @@ import java.util.List;
 
 import org.activebpel.rt.bpel.def.AeScopeDef;
 import org.activebpel.rt.bpel.def.activity.AeActivityCompensateScopeDef;
+import org.activebpel.rt.bpel.def.activity.AeActivityScopeDef;
 import org.activebpel.rt.bpel.def.validation.IAeValidationDefs;
 import org.activebpel.rt.bpel.def.visitors.AeAmbigousCompensateScopeVisitor;
 import org.activebpel.rt.util.AeUtil;
@@ -65,7 +66,7 @@ public class AeActivityCompensateScopeValidator extends AeActivityCompensateVali
    protected void validateScopeTarget(String aScopeName)
    {
       AeScopeDef rootScope = getDef().findRootScopeForCompensation();
-      List targetScopes = AeAmbigousCompensateScopeVisitor.findChildScopesByName(rootScope, aScopeName);
+      List<AeActivityScopeDef> targetScopes = AeAmbigousCompensateScopeVisitor.findChildScopesByName(rootScope, aScopeName);
       if (targetScopes.size() == 0)
       {
          getReporter().reportProblem( BPEL_SCOPE_NOT_FOUND_CODE, ERROR_SCOPE_NOT_FOUND,

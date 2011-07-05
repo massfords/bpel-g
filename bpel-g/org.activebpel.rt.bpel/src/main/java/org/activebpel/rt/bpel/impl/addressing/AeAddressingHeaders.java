@@ -227,10 +227,10 @@ public class AeAddressingHeaders extends AeWsAddressingHeaders implements IAeAdd
     *  
     * @see org.activebpel.rt.bpel.impl.addressing.IAeAddressingHeaders#setReferenceProperties(java.util.List)
     */
-   public void setReferenceProperties(List aElementList) throws AeWsAddressingException
+   public void setReferenceProperties(List<Element> aElementList) throws AeWsAddressingException
    {
       // clear old stuff
-      List props = getReferenceProperties();
+      List<Element> props = getReferenceProperties();
       props.clear();
       addReferenceProperties(aElementList);
    }

@@ -99,7 +99,7 @@ public class AeQueuingReplyReceiver extends AeReplyReceiverBase
     * @param aProcessProperties business process properties.
     * @see org.activebpel.rt.bpel.impl.reply.IAeReplyReceiver#onFault(org.activebpel.rt.bpel.IAeFault, java.util.Map)
     */
-   public void onFault(IAeFault aFault, Map aProcessProperties) throws AeBusinessProcessException
+   public void onFault(IAeFault aFault, Map<String,String> aProcessProperties) throws AeBusinessProcessException
    {
       queueInvokeFault(aFault, aProcessProperties, null);
    }
@@ -110,7 +110,7 @@ public class AeQueuingReplyReceiver extends AeReplyReceiverBase
     * @param aProcessProperties business process properties.
     * @see org.activebpel.rt.bpel.impl.reply.IAeReplyReceiver#onMessage(org.activebpel.rt.message.IAeMessageData, java.util.Map)
     */
-   public void onMessage(IAeMessageData aMessageData, Map aProcessProperties) throws AeBusinessProcessException
+   public void onMessage(IAeMessageData aMessageData, Map<String,String> aProcessProperties) throws AeBusinessProcessException
    {
       queueInvokeData(aMessageData, aProcessProperties, null);
    }

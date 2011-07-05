@@ -249,11 +249,11 @@ public class AeCompensationHandler extends AeFCTHandler
     * Returns paths of resources used by this compensation handler. The paths
     * may be customized with instance information.
     */
-   protected Set getConvertedResourceLockPaths()
+   protected Set<String> getConvertedResourceLockPaths()
    {
       AeActivityScopeImpl scope = (AeActivityScopeImpl) getParent();
       AeActivityScopeDef scopeDef = (AeActivityScopeDef) scope.getDefinition();
-      Set resourcesUsed = scopeDef.getResourcesUsedByCompensationHandler();
+      Set<String> resourcesUsed = scopeDef.getResourcesUsedByCompensationHandler();
       return customizeResourcePaths(resourcesUsed);
    }
 }

@@ -15,6 +15,8 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
+import javax.xml.namespace.QName;
+
 import org.activebpel.rt.bpel.def.AeBaseDef;
 import org.activebpel.rt.bpel.def.AeCorrelationSetDef;
 import org.activebpel.rt.bpel.def.AeCorrelationsDef;
@@ -25,6 +27,7 @@ import org.activebpel.rt.bpel.def.activity.AeActivityScopeDef;
 import org.activebpel.rt.bpel.def.activity.support.AeCorrelationDef;
 import org.activebpel.rt.bpel.def.activity.support.AeOnEventDef;
 import org.activebpel.rt.bpel.def.activity.support.AeOnMessageDef;
+import org.activebpel.rt.message.AeMessagePartsMap;
 
 /**
  * Visit all of the receives and picks and build a mapping of
@@ -34,9 +37,9 @@ import org.activebpel.rt.bpel.def.activity.support.AeOnMessageDef;
 public class AeDefEntryPointPropertiesVisitor extends AeAbstractDefVisitor
 {
    /** map for correlation properties */
-   private Map mPropertiesMap;
+   private Map<AePartnerLinkOpKey, Set<QName>> mPropertiesMap;
    /** map of plink/op keys to messagePartsMaps */
-   private Map mMessagePartsMap;
+   private Map<AePartnerLinkOpKey, AeMessagePartsMap> mMessagePartsMap;
 
    /**
     * Constructor.
@@ -44,8 +47,8 @@ public class AeDefEntryPointPropertiesVisitor extends AeAbstractDefVisitor
    public AeDefEntryPointPropertiesVisitor()
    {
       setTraversalVisitor( new AeTraversalVisitor( new AeDefTraverser(), this ) );
-      mPropertiesMap = new HashMap();
-      mMessagePartsMap = new HashMap();
+      mPropertiesMap = new HashMap<AePartnerLinkOpKey, Set<QName>>();
+      mMessagePartsMap = new HashMap<AePartnerLinkOpKey, AeMessagePartsMap>();
    }
 
    /**
@@ -55,7 +58,7 @@ public class AeDefEntryPointPropertiesVisitor extends AeAbstractDefVisitor
    {
       if( aDef.hasCorrelationList() )
       {
-         Map corrMap = findCorrelationSets(aDef);
+         Map<String, AeCorrelationSetDef> corrMap = findCorrelationSets(aDef);
          AePartnerLinkOpKey key = aDef.getPartnerLinkOperationKey();
          add(key, extractProperties(corrMap, aDef.getCorrelationsDef()));
          getMessagePartsMap().put(key, aDef.getConsumerMessagePartsMap());
@@ -70,7 +73,7 @@ public class AeDefEntryPointPropertiesVisitor extends AeAbstractDefVisitor
    {
       if( aDef.hasCorrelationList() )
       {
-         Map corrMap = findCorrelationSets(aDef);
+         Map<String, AeCorrelationSetDef> corrMap = findCorrelationSets(aDef);
          AePartnerLinkOpKey key = aDef.getPartnerLinkOperationKey();
          add(key, extractProperties(corrMap, aDef.getCorrelationsDef()));
          getMessagePartsMap().put(key, aDef.getConsumerMessagePartsMap());
@@ -85,7 +88,7 @@ public class AeDefEntryPointPropertiesVisitor extends AeAbstractDefVisitor
    {
       if( aDef.hasCorrelationList() )
       {
-         Map corrMap = findCorrelationSets(aDef.getContext());
+         Map<String, AeCorrelationSetDef> corrMap = findCorrelationSets(aDef.getContext());
          AePartnerLinkOpKey key = aDef.getPartnerLinkOperationKey();
          add(key, extractProperties(corrMap, aDef.getCorrelationsDef()));
          getMessagePartsMap().put(key, aDef.getConsumerMessagePartsMap());
@@ -97,9 +100,9 @@ public class AeDefEntryPointPropertiesVisitor extends AeAbstractDefVisitor
     * @param aDef the current def object being visited
     * @return map of all applicable correlation sets keyed by name
     */
-   protected Map findCorrelationSets( AeBaseDef aDef )
+   protected Map<String, AeCorrelationSetDef> findCorrelationSets( AeBaseDef aDef )
    {
-      Map map = new HashMap();
+      Map<String, AeCorrelationSetDef> map = new HashMap<String, AeCorrelationSetDef>();
       extractCorrelationSets( aDef, map );
       return map;
    }
@@ -115,7 +118,7 @@ public class AeDefEntryPointPropertiesVisitor extends AeAbstractDefVisitor
     * @param aBaseDef point at which to start walking
     * @param aMap holds correlation sets keyed by name
     */
-   protected void extractCorrelationSets( AeBaseDef aBaseDef, Map aMap )
+   protected void extractCorrelationSets( AeBaseDef aBaseDef, Map<String, AeCorrelationSetDef> aMap )
    {
       if( aBaseDef instanceof AeProcessDef )
       {
@@ -136,11 +139,11 @@ public class AeDefEntryPointPropertiesVisitor extends AeAbstractDefVisitor
     * @param aIter backed by a collection of AeCorrelationSetDef objects
     * @param aMap hold correlation sets keyed by name
     */
-   protected void addCorrelationSets( Iterator aIter, Map aMap )
+   protected void addCorrelationSets( Iterator<? extends AeCorrelationSetDef> aIter, Map<String, AeCorrelationSetDef> aMap )
    {
       while( aIter.hasNext() )
       {
-         AeCorrelationSetDef corrSet = (AeCorrelationSetDef)aIter.next();
+         AeCorrelationSetDef corrSet = aIter.next();
          if( !aMap.containsKey(corrSet.getName() ) )
          {
             aMap.put( corrSet.getName(), corrSet );
@@ -153,7 +156,7 @@ public class AeDefEntryPointPropertiesVisitor extends AeAbstractDefVisitor
     * @param aKey
     * @param aPropertyQNames
     */
-   protected void add( AePartnerLinkOpKey aKey, Set aPropertyQNames )
+   protected void add( AePartnerLinkOpKey aKey, Set<QName> aPropertyQNames )
    {
       // receives/onMessages can have same partnerLink,
       // portType and operation - so the key value will
@@ -162,10 +165,10 @@ public class AeDefEntryPointPropertiesVisitor extends AeAbstractDefVisitor
       // that key first - and add any new props
       // into the set
       // otherwise, add a new entry into the map
-      Set props = (Set)mPropertiesMap.get( aKey );
+      Set<QName> props = getPropertiesMap().get( aKey );
       if( props == null )
       {
-         mPropertiesMap.put( aKey, aPropertyQNames );               
+         getPropertiesMap().put( aKey, aPropertyQNames );               
       }
       else
       {
@@ -180,14 +183,13 @@ public class AeDefEntryPointPropertiesVisitor extends AeAbstractDefVisitor
     * @param aContainer
     * @return set of all correlation properties
     */
-   protected Set extractProperties( Map aMap, AeCorrelationsDef aContainer )
+   protected Set<QName> extractProperties( Map<String, AeCorrelationSetDef> aMap, AeCorrelationsDef aContainer )
    {
-      Set propertyQNames = new HashSet( aContainer.getSize() );
-      for (Iterator iter = aContainer.getValues(); iter.hasNext();)
+      Set<QName> propertyQNames = new HashSet<QName>( aContainer.getSize() );
+      for (Iterator<? extends AeCorrelationDef> iter = aContainer.getValues(); iter.hasNext();)
       {
-         AeCorrelationDef  corrDef = (AeCorrelationDef) iter.next();
-         String name = corrDef.getCorrelationSetName();
-         AeCorrelationSetDef corrSetDef = (AeCorrelationSetDef)aMap.get( name );
+         String name = iter.next().getCorrelationSetName();
+         AeCorrelationSetDef corrSetDef = aMap.get( name );
          propertyQNames.addAll(corrSetDef.getProperties());      
       }
       return propertyQNames;      
@@ -196,7 +198,7 @@ public class AeDefEntryPointPropertiesVisitor extends AeAbstractDefVisitor
    /**
     * Accessor for correlation property mappings.
     */
-   public Map getPropertiesMap()
+   public Map<AePartnerLinkOpKey, Set<QName>> getPropertiesMap()
    {
       return mPropertiesMap;
    }
@@ -204,7 +206,7 @@ public class AeDefEntryPointPropertiesVisitor extends AeAbstractDefVisitor
    /**
     * @return Returns the messagePartsMap.
     */
-   public Map getMessagePartsMap()
+   public Map<AePartnerLinkOpKey, AeMessagePartsMap> getMessagePartsMap()
    {
       return mMessagePartsMap;
    }

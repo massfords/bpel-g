@@ -1140,7 +1140,7 @@ public class AeProcessDef extends AeScopeDef implements Serializable
    /**
     * @return Returns the messagePartsMap.
     */
-   protected Map getCorrelatedReceivesMessagePartsMap()
+   protected Map<AePartnerLinkOpKey,AeMessagePartsMap> getCorrelatedReceivesMessagePartsMap()
    {
       return mCorrelatedReceivesMessagePartsMap;
    }
@@ -1148,7 +1148,7 @@ public class AeProcessDef extends AeScopeDef implements Serializable
    /**
     * @return Returns the partnerLinkProperties.
     */
-   protected Map getCorrelatedReceivesProperties()
+   protected Map<AePartnerLinkOpKey, Collection<QName>> getCorrelatedReceivesProperties()
    {
       return mCorrelatedReceivesProperties;
    }

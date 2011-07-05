@@ -15,6 +15,8 @@ import java.util.Map;
 
 import javax.xml.namespace.QName;
 
+import org.w3c.dom.Element;
+
 
 /**
  * Represents the values of a set of WS-Addressing header elements
@@ -121,7 +123,7 @@ public interface IAeWsAddressingHeaders extends Serializable
    /**
     * @return Returns additional elements (non-WSA) to serialize as headers
     */
-   public List getReferenceProperties();
+   public List<Element> getReferenceProperties();
    
    /**
     * @param aNamespace The WSA namespace to use.
