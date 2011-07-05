@@ -53,7 +53,7 @@ public interface IAeProcessStateWriter
     * @param aMessageData The message data received from the invoke.
     * @param aProcessProperties
     */
-   public long journalInvokeData(long aProcessId, int aLocationId, long aTransmissionId, IAeMessageData aMessageData, Map aProcessProperties);
+   public long journalInvokeData(long aProcessId, int aLocationId, long aTransmissionId, IAeMessageData aMessageData, Map<String,String> aProcessProperties);
 
    /**
     * Creates journal entry to recover invoke fault in the event of engine
@@ -65,7 +65,7 @@ public interface IAeProcessStateWriter
     * @param aFault The fault received from the invoke.
     * @param aProcessProperties
     */
-   public long journalInvokeFault(long aProcessId, int aLocationId, long aTransmissionId, IAeFault aFault, Map aProcessProperties);
+   public long journalInvokeFault(long aProcessId, int aLocationId, long aTransmissionId, IAeFault aFault, Map<String,String> aProcessProperties);
 
    /**
     * Creates journal entry to recover sent reply in the event of engine

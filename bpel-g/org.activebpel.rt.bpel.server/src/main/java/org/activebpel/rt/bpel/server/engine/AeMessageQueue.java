@@ -52,8 +52,8 @@ public class AeMessageQueue implements IAeMessageQueue
     * @see org.activebpel.wsio.receive.IAeMessageQueue#queueInvokeData(long, java.lang.String, long, org.activebpel.wsio.IAeWebServiceMessageData, java.util.Map)
     */
    public void queueInvokeData(long aProcessId, String aLocationPath, long aTransmissionId,
-         IAeWebServiceMessageData aMessageData, Map aProcessProperties)
-         throws RemoteException, AeRequestException
+         IAeWebServiceMessageData aMessageData, Map<String,String> aProcessProperties)
+         throws AeRequestException
    {   
       try
       {        
@@ -71,7 +71,7 @@ public class AeMessageQueue implements IAeMessageQueue
     */
    public void queueInvokeFault(long aProcessId, String aLocationPath, long aTransmissionId,
          QName aFaultName, IAeWebServiceMessageData aFaultData,
-         Map aProcessProperties) throws RemoteException, AeRequestException
+         Map<String,String> aProcessProperties) throws AeRequestException
    {   
       try
       {

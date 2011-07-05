@@ -25,7 +25,7 @@ import org.w3c.dom.Document;
 public class AeAtomicCopyOperationContext extends AeCopyOperationContext
 {
    /** contains copies of the original unmodified variables/partner links in case we need to rollback */
-   private Map mRollbackMap;
+   private Map<Object, Object> mRollbackMap;
    
    /**
     * Constructor which takes the abstract Bpel object to delegate through and a rollback map
@@ -103,11 +103,11 @@ public class AeAtomicCopyOperationContext extends AeCopyOperationContext
    /**
     * Getter for the rollback map
     */
-   public Map getRollbackMap()
+   public Map<Object, Object> getRollbackMap()
    {
       // If we were not provided a rollback map, create one now
       if (mRollbackMap == null)
-         mRollbackMap = new HashMap();
+         mRollbackMap = new HashMap<Object, Object>();
       
       return mRollbackMap;
    }

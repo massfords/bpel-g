@@ -111,7 +111,7 @@ public class AeLockerDeserializer implements IAeLockerSerializationNames
       boolean exclusive = "true".equals(aRequest.getAttribute(ATTR_EXCLUSIVE)); //$NON-NLS-1$
 
       List variables = selectNodes(aRequest, TAG_VARIABLE);
-      Set variablePaths = new HashSet();
+      Set<String> variablePaths = new HashSet<String>();
 
       for (Iterator i = variables.iterator(); i.hasNext(); )
       {

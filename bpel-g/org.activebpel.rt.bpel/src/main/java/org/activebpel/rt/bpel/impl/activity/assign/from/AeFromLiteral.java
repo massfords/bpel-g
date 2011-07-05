@@ -59,7 +59,7 @@ public class AeFromLiteral extends AeFromBase
          Node node = doc.importNode(getLiteral(), true);
          if (node instanceof Element)
          {
-            Map namespaceMap = new HashMap();
+            Map<String,String> namespaceMap = new HashMap<String, String>();
             AeXmlUtil.getDeclaredNamespaces((Element)getLiteral(), namespaceMap);
             AeXmlUtil.declareNamespacePrefixes((Element)node, namespaceMap);
 

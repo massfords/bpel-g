@@ -278,7 +278,7 @@ public class AeSQLQueueStorageProvider extends AeAbstractSQLStorageProvider impl
       try
       {
          QName portType = new QName(portTypeNamespace, portTypeLocalPart);
-         Map info = AeStorageUtil.deserializeCorrelationProperties(corrPropsReader);
+         Map<QName,String> info = AeStorageUtil.deserializeCorrelationProperties(corrPropsReader);
          rval =
             new AePersistedMessageReceiver(
                   queuedReceiveId,

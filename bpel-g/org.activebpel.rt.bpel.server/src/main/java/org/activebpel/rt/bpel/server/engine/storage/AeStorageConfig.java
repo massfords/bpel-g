@@ -18,6 +18,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Properties;
 import java.util.Set;
 import java.util.regex.Matcher;
@@ -54,7 +55,7 @@ public abstract class AeStorageConfig
    protected static final String ERROR_PARSING_DOCUMENT = AeMessages.getString("AeDBResourceConfig.FAILED_TO_PARSE_CONFIG_ERROR"); //$NON-NLS-1$
 
    /** The map of DB statement names/keys to DB statements. */
-   private Map mStatementMap = new HashMap();
+   private Map<String,String> mStatementMap = new HashMap<String, String>();
    /** map of constant names to values */
    private Properties mConstantsFromFile = new Properties();
    /** map of name value pairs used to override any constant values */
@@ -68,7 +69,7 @@ public abstract class AeStorageConfig
     * Reloads the config with the new overrides which will replace any previously
     * defined overrides. 
     */
-   public void reload(Map aOverrides)
+   public void reload(Map<String,String> aOverrides)
    {
       if (!AeUtil.compareObjects(aOverrides, getConstantOverrides()))
       {
@@ -163,7 +164,7 @@ public abstract class AeStorageConfig
     * Adds the map to the map of the statements and replaces any constants in the map added.
     * @param aMap
     */
-   protected void addStatements(Map aMap)
+   protected void addStatements(Map<String,String> aMap)
    {
       replaceConstants(aMap);
       mStatementMap.putAll(aMap);
@@ -184,18 +185,18 @@ public abstract class AeStorageConfig
     * 
     * TODO (EPW) Break this code out into a util for sharing.
     */
-   private void replaceConstants(Map aMap)
+   private void replaceConstants(Map<String,String> aMap)
    {
       if (hasConstants())
       {
          Pattern pattern = Pattern.compile("%(\\w+)%"); //$NON-NLS-1$
          
          // run through the sqlstmts and replace any constants with their values
-         for (Iterator iter = aMap.entrySet().iterator(); iter.hasNext();)
+         for (Iterator<Entry<String,String>> iter = aMap.entrySet().iterator(); iter.hasNext();)
          {
-            Map.Entry entry = (Map.Entry) iter.next();
+            Map.Entry<String,String> entry = iter.next();
             String stmt = (String) entry.getValue();
-            Set firstMatches = new HashSet();
+            Set<String> firstMatches = new HashSet<String>();
 
             // Loop until there are no more matches. This allows a constant to
             // make nested references to other constants.
@@ -259,7 +260,7 @@ public abstract class AeStorageConfig
     * @param aResourceName The name of the configuration file to load (as a resource).
     * @return A map of statement names to statements.
     */
-   protected Map loadStatements(String aResourceName, Class aClassForLoading)
+   protected Map<String,String> loadStatements(String aResourceName, Class aClassForLoading)
    {
       InputStream iStream = null;
       try
@@ -276,7 +277,7 @@ public abstract class AeStorageConfig
       catch (Exception e)
       {
          AeException.logError(e, ERROR_PARSING_DOCUMENT);
-         return Collections.EMPTY_MAP;
+         return Collections.emptyMap();
       }
       finally
       {
@@ -292,7 +293,7 @@ public abstract class AeStorageConfig
     * @return A map of SQL statement names to SQL statements.
     * @throws Exception
     */
-   protected Map loadStatements(InputStream aStream) throws Exception
+   protected Map<String,String> loadStatements(InputStream aStream) throws Exception
    {
       AeXMLParserBase parser = new AeXMLParserBase();
       parser.setValidating(false);
@@ -445,7 +446,7 @@ public abstract class AeStorageConfig
    /**
     * @param aStatementMap The statementMap to set.
     */
-   protected void setStatementMap(Map aStatementMap)
+   protected void setStatementMap(Map<String,String> aStatementMap)
    {
       mStatementMap = aStatementMap;
    }

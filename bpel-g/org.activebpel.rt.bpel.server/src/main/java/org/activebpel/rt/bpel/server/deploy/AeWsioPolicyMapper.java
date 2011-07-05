@@ -32,7 +32,7 @@ import org.w3c.dom.NodeList;
  * Web Service Timeout
  * 
  */
-public class AeWsioPolicyMapper implements IAePolicyMapper<Object> 
+public class AeWsioPolicyMapper implements IAePolicyMapper
 {
    /**
     * @see org.activebpel.rt.bpel.server.deploy.IAePolicyMapper#getServerRequestHandlers(java.util.List)

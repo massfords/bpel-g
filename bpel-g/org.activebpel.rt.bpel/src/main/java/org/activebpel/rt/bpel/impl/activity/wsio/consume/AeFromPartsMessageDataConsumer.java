@@ -17,6 +17,7 @@ import org.activebpel.rt.bpel.AeBusinessProcessException;
 import org.activebpel.rt.bpel.IAeVariable;
 import org.activebpel.rt.bpel.def.activity.support.AeFromPartDef;
 import org.activebpel.rt.bpel.impl.activity.assign.AeAtomicCopyOperationContext;
+import org.activebpel.rt.bpel.impl.activity.assign.AeCopyOperationBase;
 import org.activebpel.rt.bpel.impl.activity.assign.AeVirtualCopyOperation;
 import org.activebpel.rt.bpel.impl.activity.assign.IAeFrom;
 import org.activebpel.rt.bpel.impl.activity.assign.IAeTo;
@@ -33,7 +34,7 @@ import org.activebpel.rt.message.IAeMessageData;
 public class AeFromPartsMessageDataConsumer extends AeAbstractMessageDataConsumer
 {
    /** The list of copy operations. */
-   private List mCopyOperations;
+   private List<AeCopyOperationBase> mCopyOperations;
    
    /**
     * Constructs a <code>fromParts</code> message data consumer for the given
@@ -145,7 +146,7 @@ public class AeFromPartsMessageDataConsumer extends AeAbstractMessageDataConsume
    {
       if (mCopyOperations == null)
       {
-         mCopyOperations = new LinkedList();
+         mCopyOperations = new LinkedList<AeCopyOperationBase>();
 
          int partNumber = 0;
          for (Iterator i = aContext.getMessageConsumerDef().getFromPartsDef().getFromPartDefs(); i.hasNext(); partNumber++)

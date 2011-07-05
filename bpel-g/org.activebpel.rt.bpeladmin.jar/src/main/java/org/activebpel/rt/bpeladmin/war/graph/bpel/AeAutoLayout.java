@@ -296,7 +296,7 @@ public class AeAutoLayout
      
       // Loop through all components adding them to the grid based upon their
       // distance from the root node.
-      Map traversedNodes = new HashMap();
+      Map<AeBpelObjectBase,AeBpelObjectBase> traversedNodes = new HashMap<AeBpelObjectBase, AeBpelObjectBase>();
       List children = aController.getChildren();
       for (int i = 0; i < children.size(); i++)
       {
@@ -396,7 +396,7 @@ public class AeAutoLayout
     * @param aChild child node we are determining the max level for
     * @return maximum depth of child node in container
     */
-   public static int getMaxChildLevel(AeBpelObjectBase aContainer, AeBpelObjectBase aChild, Map aTraversedNodes)
+   public static int getMaxChildLevel(AeBpelObjectBase aContainer, AeBpelObjectBase aChild, Map<AeBpelObjectBase,AeBpelObjectBase> aTraversedNodes)
    {
       if (!(aContainer instanceof AeBpelObjectContainer) || !(aChild instanceof AeBpelActivityObject) )
       {

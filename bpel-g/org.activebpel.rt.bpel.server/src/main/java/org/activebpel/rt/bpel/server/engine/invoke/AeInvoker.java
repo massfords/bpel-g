@@ -240,7 +240,7 @@ public class AeInvoker
     * @param aMessage
     * @param aProcessProperties
     */
-   public void handleResponseMessage(IAeMessageData aMessage, Map aProcessProperties)
+   public void handleResponseMessage(IAeMessageData aMessage, Map<String,String> aProcessProperties)
    {
       try
       {
@@ -257,7 +257,7 @@ public class AeInvoker
     * @param aFault
     * @param aProcessProperties
     */
-   public void handleResponseFault(IAeFault aFault, Map aProcessProperties )
+   public void handleResponseFault(IAeFault aFault, Map<String,String> aProcessProperties )
    {
       try
       {

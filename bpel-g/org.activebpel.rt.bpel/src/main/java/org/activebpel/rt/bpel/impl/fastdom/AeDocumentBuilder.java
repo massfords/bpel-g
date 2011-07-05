@@ -28,7 +28,7 @@ public class AeDocumentBuilder implements IAeVisitor
    private Document mDocument;
 
    /** Stack of nodes pending construction. */
-   private final LinkedList mNodeStack = new LinkedList();
+   private final LinkedList<Node> mNodeStack = new LinkedList<Node>();
 
    /**
     * Builds a standard XML <code>Document</code> from the specified
@@ -48,7 +48,7 @@ public class AeDocumentBuilder implements IAeVisitor
     */
    protected Node getCurrentNode()
    {
-      return (Node) getNodeStack().getFirst();
+      return getNodeStack().getFirst();
    }
 
    /**
@@ -72,7 +72,7 @@ public class AeDocumentBuilder implements IAeVisitor
    /**
     * Returns the stack of nodes pending construction.
     */
-   protected LinkedList getNodeStack()
+   protected LinkedList<Node> getNodeStack()
    {
       return mNodeStack;
    }
@@ -82,7 +82,7 @@ public class AeDocumentBuilder implements IAeVisitor
     */
    protected Node popNode()
    {
-      return (Node) getNodeStack().removeFirst();
+      return getNodeStack().removeFirst();
    }
 
    /**

@@ -29,12 +29,12 @@ public class AeRecoveredSendReplyItem extends AeRecoveredReplyItem
    private final IAeFault mFault;
 
    /** The associated process properties. */
-   private final Map mProcessProperties;
+   private final Map<String,String> mProcessProperties;
 
    /**
     * Constructs a recovered item to send a reply.
     */
-   public AeRecoveredSendReplyItem(AeReply aReply, IAeMessageData aMessageData, IAeFault aFault, Map aProcessProperties)
+   public AeRecoveredSendReplyItem(AeReply aReply, IAeMessageData aMessageData, IAeFault aFault, Map<String,String> aProcessProperties)
    {
       super(aReply);
 
@@ -62,7 +62,7 @@ public class AeRecoveredSendReplyItem extends AeRecoveredReplyItem
    /**
     * Returns the associated process properties.
     */
-   protected Map getProcessProperties()
+   protected Map<String,String> getProcessProperties()
    {
       return mProcessProperties;
    }

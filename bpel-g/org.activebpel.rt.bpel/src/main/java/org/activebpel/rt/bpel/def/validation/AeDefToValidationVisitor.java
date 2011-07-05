@@ -348,12 +348,12 @@ public abstract class AeDefToValidationVisitor extends AeAbstractDefVisitor
     * @param aValidatorClass
     * @param aDef
     */
-   protected AeBaseValidator createValidator(Class aValidatorClass, AeBaseXmlDef aDef)
+   protected AeBaseValidator createValidator(Class<? extends AeBaseValidator> aValidatorClass, AeBaseXmlDef aDef)
    {
       try
       {
-         Constructor c = aValidatorClass.getConstructor(new Class[]{aDef.getClass()});
-         return (AeBaseValidator) c.newInstance(new Object[]{aDef});
+         Constructor<? extends AeBaseValidator> c = aValidatorClass.getConstructor(new Class[]{aDef.getClass()});
+         return c.newInstance(new Object[]{aDef});
       }
       catch(Throwable t)
       {
@@ -371,7 +371,8 @@ public abstract class AeDefToValidationVisitor extends AeAbstractDefVisitor
    {
       try
       {
-         Class validatorClass = getValidatorClass(aProcessDef);
+         @SuppressWarnings("unchecked")
+         Class<AeProcessValidator> validatorClass = getValidatorClass(aProcessDef);
          Class [] classes = new Class[] { IAeValidationContext.class, AeProcessDef.class };
          Object [] args = new Object[] { mContext, aProcessDef };
          Constructor c = validatorClass.getConstructor(classes);
@@ -389,7 +390,8 @@ public abstract class AeDefToValidationVisitor extends AeAbstractDefVisitor
     */
    protected void traverse(AeBaseXmlDef aDef)
    {
-      Class validatorClass = getValidatorClass(aDef);
+      @SuppressWarnings("unchecked")
+      Class<? extends AeBaseValidator> validatorClass = getValidatorClass(aDef);
       if (validatorClass == null)
       {
          super.traverse(aDef);

@@ -788,7 +788,7 @@ public class AePersistentProcessManager extends AeAbstractProcessManager
 	 */
 	public long journalInvokeData(long aProcessId, int aLocationId,
 			long aTransmissionId, IAeMessageData aMessageData,
-			Map aProcessProperties) throws AeBusinessProcessException {
+			Map<String,String> aProcessProperties) throws AeBusinessProcessException {
 		return getProcessStateWriter().journalInvokeData(aProcessId,
 				aLocationId, aTransmissionId, aMessageData, aProcessProperties);
 	}
@@ -798,7 +798,7 @@ public class AePersistentProcessManager extends AeAbstractProcessManager
 	 *      int, long, org.activebpel.rt.bpel.IAeFault, java.util.Map)
 	 */
 	public long journalInvokeFault(long aProcessId, int aLocationId,
-			long aTransmissionId, IAeFault aFault, Map aProcessProperties)
+			long aTransmissionId, IAeFault aFault, Map<String,String> aProcessProperties)
 			throws AeBusinessProcessException {
 		return getProcessStateWriter().journalInvokeFault(aProcessId,
 				aLocationId, aTransmissionId, aFault, aProcessProperties);

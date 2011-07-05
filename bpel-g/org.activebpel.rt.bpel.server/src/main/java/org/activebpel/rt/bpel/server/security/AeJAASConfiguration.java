@@ -9,7 +9,7 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpel.server.security;
 
-import java.util.Collections;
+import java.util.HashMap;
 
 import javax.security.auth.login.AppConfigurationEntry;
 import javax.security.auth.login.Configuration;
@@ -86,7 +86,7 @@ public class AeJAASConfiguration extends Configuration {
 			AppConfigurationEntry entry = new AppConfigurationEntry(
 					getLoginModule(),
 					AppConfigurationEntry.LoginModuleControlFlag.REQUIRED,
-					Collections.EMPTY_MAP);
+					new HashMap<String,Object>());
 			return new AppConfigurationEntry[] { entry };
 		} else {
 			return null;

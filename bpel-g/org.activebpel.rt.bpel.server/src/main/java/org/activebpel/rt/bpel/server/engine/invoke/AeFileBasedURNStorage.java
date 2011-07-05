@@ -14,7 +14,9 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.HashMap;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Properties;
 
 import org.activebpel.rt.bpel.server.deploy.scanner.AeDeploymentFileInfo;
@@ -61,7 +63,7 @@ public class AeFileBasedURNStorage implements IAeURNStorage
    /**
     * @see org.activebpel.rt.bpel.server.engine.storage.IAeURNStorage#getMappings()
     */
-   public synchronized Map getMappings() throws AeStorageException
+   public synchronized Map<String,String> getMappings() throws AeStorageException
    {
       // Defect #1225 fix: alway return a properties object instead of an immutable collection
       // (java.util.Collections.EMPTY_MAP) since it does not implement Map::put(key,value).
@@ -86,7 +88,11 @@ public class AeFileBasedURNStorage implements IAeURNStorage
             AeCloser.close(in);
          }
       }
-      return props;
+      Map<String,String> ret = new HashMap<String,String>();
+      for(Entry e : props.entrySet()) {
+          ret.put(e.getKey().toString(), e.getValue().toString());
+      }
+      return ret;
    }
    
    /**
@@ -94,7 +100,7 @@ public class AeFileBasedURNStorage implements IAeURNStorage
     */
    public synchronized void addMapping(String aURN, String aURL) throws AeStorageException
    {
-      Map map = getMappings();
+      Map<String,String> map = getMappings();
       map.put(aURN, aURL);
       saveMappings(map);
    }
@@ -104,7 +110,7 @@ public class AeFileBasedURNStorage implements IAeURNStorage
     */
    public synchronized void removeMappings(String[] aURNArray) throws AeStorageException
    {
-      Map map = getMappings();
+      Map<String,String> map = getMappings();
       for (int i = 0; i < aURNArray.length; i++)
       {
          map.remove(aURNArray[i]);
@@ -117,7 +123,7 @@ public class AeFileBasedURNStorage implements IAeURNStorage
     * 
     * @param aMap
     */
-   protected synchronized void saveMappings(Map aMap) throws AeStorageException
+   protected synchronized void saveMappings(Map<String,String> aMap) throws AeStorageException
    {
       Properties props = new Properties();
       props.putAll(aMap);

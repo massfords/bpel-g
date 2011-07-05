@@ -40,7 +40,7 @@ public class AeInvokeDataJournalEntry extends AeAbstractJournalEntry
    private IAeMessageData mMessageData;
 
    /** The associated process properties. */
-   private Map mProcessProperties;
+   private Map<String,String> mProcessProperties;
 
    /** The invoke activity implementation object. */
    private IAeInvokeActivity mInvoke;
@@ -54,7 +54,7 @@ public class AeInvokeDataJournalEntry extends AeAbstractJournalEntry
    /**
     * Constructs journal entry to persist to storage.
     */
-   public AeInvokeDataJournalEntry(int aLocationId, long aTransmissionId, IAeMessageData aMessageData, Map aProcessProperties)
+   public AeInvokeDataJournalEntry(int aLocationId, long aTransmissionId, IAeMessageData aMessageData, Map<String,String> aProcessProperties)
    {
       super(JOURNAL_INVOKE_DATA, aLocationId);
 
@@ -93,7 +93,7 @@ public class AeInvokeDataJournalEntry extends AeAbstractJournalEntry
       long processId = aProcess.getProcessId();
       String locationPath = getInvoke().getLocationPath();
       IAeMessageData messageData = getMessageData();
-      Map processProperties = getProcessProperties();
+      Map<String,String> processProperties = getProcessProperties();
       engine.queueInvokeData(processId, locationPath,  getTransmissionId() , messageData, processProperties);
    }
 
@@ -142,7 +142,7 @@ public class AeInvokeDataJournalEntry extends AeAbstractJournalEntry
    /**
     * Returns the associated process properties.
     */
-   protected Map getProcessProperties() throws AeBusinessProcessException
+   protected Map<String,String> getProcessProperties() throws AeBusinessProcessException
    {
       deserialize();
       return mProcessProperties;

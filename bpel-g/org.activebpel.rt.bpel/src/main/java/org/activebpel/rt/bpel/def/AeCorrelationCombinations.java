@@ -97,7 +97,7 @@ public class AeCorrelationCombinations implements Serializable
       {
          synchronized(this)
          {
-            Collection coll = createPropertyCombinations(aMaxCombinations);
+            Collection<Set<QName>> coll = createPropertyCombinations(aMaxCombinations);
             props = new AeCorrelatedProperties(coll, aMaxCombinations);
             setCorrelatedProperties(props);
             return props;
@@ -177,7 +177,7 @@ public class AeCorrelationCombinations implements Serializable
     * Creates the collection of property combinations that can be used for the plink and operation
     * @param aMaxCombinations
     */
-   protected Collection createPropertyCombinations(int aMaxCombinations)
+   protected Collection<Set<QName>> createPropertyCombinations(int aMaxCombinations)
    {
       Collection<Set<QName>> coll = null;
       if (isJoinStyle())
@@ -342,7 +342,7 @@ public class AeCorrelationCombinations implements Serializable
       public static final int JOIN_OVER_MAX                                        = 4;
 
       /** coll of properties */
-      private Collection mCollection;
+      private Collection<Set<QName>> mCollection;
       /** the max number of join style operations to allow on a single IMA before abandoning the correlated match hash strategy in favor of brute force */
       private int mMaxCombinations;
       
@@ -351,7 +351,7 @@ public class AeCorrelationCombinations implements Serializable
        * @param aCollection
        * @param aMaxCombinations
        */
-      public AeCorrelatedProperties(Collection aCollection, int aMaxCombinations)
+      public AeCorrelatedProperties(Collection<Set<QName>> aCollection, int aMaxCombinations)
       {
          mCollection = aCollection;
          mMaxCombinations = aMaxCombinations;
@@ -360,7 +360,7 @@ public class AeCorrelationCombinations implements Serializable
       /**
        * @return Returns the collection.
        */
-      public Collection getCollection()
+      public Collection<Set<QName>> getCollection()
       {
          return mCollection;
       }

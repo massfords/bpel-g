@@ -56,12 +56,12 @@ public class AePrincipalAuthProvider implements IAeAuthorizationProvider
          
          // roles to set
          // FIXME not very efficient, but I don't think this gets used very often
-         Set roles = null;
+         Set<String> roles = null;
          if (AeUtil.isNullOrEmpty(service.getAllowedRoles())) {
         	 roles = Collections.emptySet();
          } else {
         	 String[] rolls = service.getAllowedRoles().split(",");
-        	 roles = new HashSet();
+        	 roles = new HashSet<String>();
         	 for(String r : rolls) {
         		 roles.add(r.trim());
         	 }

@@ -52,7 +52,7 @@ public interface IAeExtendedMessageContext extends IAeMessageContext
    /**
     * @return map of properties
     */
-   public Map getProperties();   
+   public Map<Object,Object> getProperties();   
    
    /**
     * Add a reference property to be serialied as a SOAPHeaderElement

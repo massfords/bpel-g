@@ -535,8 +535,7 @@ public abstract class AeWSIOInvokeHandler implements IAeInvokeHandler,
 			// Map policy assertions to call properties
 			if (!AeUtil.isNullOrEmpty(aPolicyList)) {
 				// get the main policy mapper
-				@SuppressWarnings("unchecked")
-                IAePolicyMapper<Object> mapper = AeEngineFactory.getBean(IAePolicyMapper.class);
+                IAePolicyMapper mapper = AeEngineFactory.getBean(IAePolicyMapper.class);
 				// get Client Request properties
 				return mapper.getCallProperties(aPolicyList);
 			} else {

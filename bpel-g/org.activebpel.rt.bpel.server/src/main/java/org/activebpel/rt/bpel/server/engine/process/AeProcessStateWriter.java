@@ -181,7 +181,7 @@ public class AeProcessStateWriter implements IAeProcessStateWriter
    /**
     * @see org.activebpel.rt.bpel.server.engine.process.IAeProcessStateWriter#journalInvokeData(long, int, long, org.activebpel.rt.message.IAeMessageData, java.util.Map)
     */
-   public long journalInvokeData(long aProcessId, int aLocationId, long aTransmissionId, IAeMessageData aMessageData, Map aProcessProperties)
+   public long journalInvokeData(long aProcessId, int aLocationId, long aTransmissionId, IAeMessageData aMessageData, Map<String,String> aProcessProperties)
    {
       debug(
          "Process {0,number,0}: received data for invoke at location {1,number,0}", //$NON-NLS-1$
@@ -193,7 +193,7 @@ public class AeProcessStateWriter implements IAeProcessStateWriter
    /**
     * @see org.activebpel.rt.bpel.server.engine.process.IAeProcessStateWriter#journalInvokeFault(long, int, long, org.activebpel.rt.bpel.IAeFault, java.util.Map)
     */
-   public long journalInvokeFault(long aProcessId, int aLocationId, long aTransmissionId, IAeFault aFault, Map aProcessProperties)
+   public long journalInvokeFault(long aProcessId, int aLocationId, long aTransmissionId, IAeFault aFault, Map<String,String> aProcessProperties)
    {
       debug(
          "Process {0,number,0}: received fault for invoke at location {1,number,0}", //$NON-NLS-1$

@@ -24,7 +24,7 @@ class AeExclusiveLockRequest extends AeLockRequest
     * @param aOwner - The path of the object that will be the owner of the lock
     * @param aCallback - The callback that gets used if we can't fulfill the request immediately
     */
-   public AeExclusiveLockRequest(AeVariableLocker aVariableLocker, Set aVariablesToLock, String aOwner, IAeVariableLockCallback aCallback)
+   public AeExclusiveLockRequest(AeVariableLocker aVariableLocker, Set<String> aVariablesToLock, String aOwner, IAeVariableLockCallback aCallback)
    {
       super(aVariableLocker, aVariablesToLock, aOwner, aCallback);
    }

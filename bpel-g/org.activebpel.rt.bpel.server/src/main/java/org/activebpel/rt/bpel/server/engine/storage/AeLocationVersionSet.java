@@ -19,14 +19,14 @@ import java.util.Set;
 public class AeLocationVersionSet implements IAeLocationVersionSet
 {
    /** Set of <code>AeLocationVersionEntry</code> instances. */
-   private final Set mLocationVersionSet;
+   private final Set<AeLocationVersionEntry> mLocationVersionSet;
 
    /**
     * Default constructor.
     */
    public AeLocationVersionSet()
    {
-      this(new HashSet());
+      this(new HashSet<AeLocationVersionEntry>());
    }
 
    /**
@@ -34,7 +34,7 @@ public class AeLocationVersionSet implements IAeLocationVersionSet
     *
     * @param aSet The set to use.
     */
-   public AeLocationVersionSet(Set aSet)
+   public AeLocationVersionSet(Set<AeLocationVersionEntry> aSet)
    {
       mLocationVersionSet = aSet;
    }
@@ -66,7 +66,7 @@ public class AeLocationVersionSet implements IAeLocationVersionSet
    /**
     * Returns the underlying Java <code>Set</code>.
     */
-   protected Set getLocationVersionSet()
+   protected Set<AeLocationVersionEntry> getLocationVersionSet()
    {
       return mLocationVersionSet;
    }

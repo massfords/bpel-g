@@ -29,11 +29,11 @@ public class AeExtendedMessageContext extends AeMessageContext implements IAeExt
      * 
      */
     private static final long serialVersionUID = 6074529531967785258L;
-private IAeDurableReplyInfo mDurableReplyInfo;
+   private IAeDurableReplyInfo mDurableReplyInfo;
    private Element mMappedHeaders;
    private String mTransportUrl;
    private String mEncodingStyle;
-   private HashMap mProperties;
+   private HashMap<Object,Object> mProperties;
    private Subject mSubject;
 
    /**
@@ -174,11 +174,11 @@ private IAeDurableReplyInfo mDurableReplyInfo;
    /**
     * @return Map of properties
     */
-   public Map getProperties()
+   public Map<Object,Object> getProperties()
    {
       if (mProperties == null)
       {
-         mProperties = new HashMap();
+         mProperties = new HashMap<Object, Object>();
       }
       return mProperties;
    }

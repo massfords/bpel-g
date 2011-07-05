@@ -51,7 +51,7 @@ public class AeFileDeploymentLoggerFactory implements IAeDeploymentLoggerFactory
     */
    public String[] getDeploymentLog()
    {
-      List results = new ArrayList();
+      List<String> results = new ArrayList<String>();
       
       if (mFile.isFile())
       {

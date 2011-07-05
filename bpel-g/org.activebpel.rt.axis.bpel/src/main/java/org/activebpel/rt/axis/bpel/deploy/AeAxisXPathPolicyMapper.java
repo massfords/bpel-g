@@ -26,7 +26,7 @@ import org.w3c.dom.NodeList;
 /**
  * Creates Policy Deployment for a XPath mapping assertions 
  */
-public class AeAxisXPathPolicyMapper extends AeAxisPolicyMapper<Object>
+public class AeAxisXPathPolicyMapper extends AeAxisPolicyMapper
 {
    public static final String HANDLER_XPATH_RECEIVER = "proc:".concat(org.activebpel.rt.axis.bpel.handlers.AeXPathReceiveHandler.class.getName()); //$NON-NLS-1$
    

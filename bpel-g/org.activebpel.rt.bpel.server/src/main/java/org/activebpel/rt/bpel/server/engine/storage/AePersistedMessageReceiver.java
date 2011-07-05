@@ -39,7 +39,7 @@ public class AePersistedMessageReceiver extends AeMessageReceiver
     * @param aConcurrent True if message receiver supports concurrent messages
     */
    public AePersistedMessageReceiver(int aQueuedReceiveId, long aProcessId, QName aProcessName,
-         AePartnerLinkOpKey aPartnerLinkOpKey, QName aPortType, Map aCorrelation,
+         AePartnerLinkOpKey aPartnerLinkOpKey, QName aPortType, Map<QName,String> aCorrelation,
          int aMessageReceiverPathId, int aGroupId, boolean aConcurrent)
    {
       super(aProcessId, aProcessName, aPartnerLinkOpKey, aPortType, aCorrelation,

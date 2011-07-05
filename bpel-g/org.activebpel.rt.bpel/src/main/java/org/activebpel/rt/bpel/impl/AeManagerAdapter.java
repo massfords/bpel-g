@@ -82,6 +82,7 @@ public abstract class AeManagerAdapter implements IAeManager
    /**
     * @see org.activebpel.rt.bpel.impl.IAeManager#getAdapter(java.lang.Class)
     */
+   @SuppressWarnings("unchecked")
    public IAeImplAdapter getAdapter(Class aAdapterInterface)
    {
       if (aAdapterInterface.isAssignableFrom(getClass()))

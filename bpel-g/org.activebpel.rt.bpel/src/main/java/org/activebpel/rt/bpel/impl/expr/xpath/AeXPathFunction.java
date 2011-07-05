@@ -49,7 +49,7 @@ public class AeXPathFunction implements Function
    {
       try
       {
-         List args = new ArrayList();
+         List<Object> args = new ArrayList<Object>();
          // Convert the arguments (which were created by Jaxen) to Engine Types (Java Types) so that
          // the custom function only needs to deal with standard Java/Ae types.
          for (Iterator iter = aArgs.iterator(); iter.hasNext(); )
