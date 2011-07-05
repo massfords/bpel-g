@@ -19,6 +19,7 @@ import org.activebpel.rt.bpel.def.activity.support.AeLinkDef;
 import org.activebpel.rt.bpel.def.activity.support.AeTransitionConditionDef;
 import org.activebpel.rt.bpel.impl.AeAbstractBpelObject;
 import org.activebpel.rt.bpel.impl.AeBpelState;
+import org.activebpel.rt.bpel.impl.IAeBpelObject;
 import org.activebpel.rt.bpel.impl.IAeLink;
 import org.activebpel.rt.bpel.impl.activity.AeActivityFlowImpl;
 import org.activebpel.rt.bpel.impl.activity.AeActivityImpl;
@@ -251,9 +252,9 @@ public class AeLink extends AeAbstractBpelObject implements IAeLink
    /**
     * @see org.activebpel.rt.bpel.impl.IAeBpelObject#getChildrenForStateChange()
     */
-   public Iterator getChildrenForStateChange()
+   public Iterator<? extends IAeBpelObject> getChildrenForStateChange()
    {
-      return Collections.EMPTY_SET.iterator();
+      return Collections.<IAeBpelObject>emptyList().iterator();
    }
 
    /**

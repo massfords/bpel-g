@@ -48,7 +48,7 @@ public class AeSQLProcessStateConnectionProvider extends AeAbstractSQLStoragePro
    private static final Object DELETE_JOURNAL_ENTRIES_FILL = AeQueryRunner.NULL_BIGINT;
 
    /** A location version set result set handler. */
-   private static final ResultSetHandler LOCATION_VERSION_SET_HANDLER = new AeLocationVersionResultSetHandler();
+   private static final ResultSetHandler<IAeLocationVersionSet> LOCATION_VERSION_SET_HANDLER = new AeLocationVersionResultSetHandler();
 
    /** The process id. */
    private final long mProcessId;
@@ -119,9 +119,7 @@ public class AeSQLProcessStateConnectionProvider extends AeAbstractSQLStoragePro
     */
    public Document getProcessDocument() throws AeStorageException
    {
-      Object[] param = { new Long(getProcessId()) };
-      return (Document) query(getConnection(), IAeProcessSQLKeys.GET_PROCESS_DOCUMENT, param,
-            AeResultSetHandlers.getDocumentHandler());
+      return query(getConnection(), IAeProcessSQLKeys.GET_PROCESS_DOCUMENT, AeResultSetHandlers.getDocumentHandler(), getProcessId());
    }
 
    /**
@@ -129,9 +127,7 @@ public class AeSQLProcessStateConnectionProvider extends AeAbstractSQLStoragePro
     */
    public IAeLocationVersionSet getProcessVariables() throws AeStorageException
    {
-      Object[] params = { new Long(getProcessId()) };
-      return (IAeLocationVersionSet) query(getConnection(), IAeProcessSQLKeys.GET_PROCESS_VARIABLES, params,
-            LOCATION_VERSION_SET_HANDLER);
+      return query(getConnection(), IAeProcessSQLKeys.GET_PROCESS_VARIABLES, LOCATION_VERSION_SET_HANDLER, getProcessId());
    }
 
    /**
@@ -139,14 +135,8 @@ public class AeSQLProcessStateConnectionProvider extends AeAbstractSQLStoragePro
     */
    public Document getVariableDocument(long aLocationId, int aVersionNumber) throws AeStorageException
    {
-      Object[] params = { 
-            new Long(getProcessId()), 
-            new Long(aLocationId),
-            new Integer(aVersionNumber) 
-      };
-
-      return (Document) query(getConnection(), IAeProcessSQLKeys.GET_VARIABLE_DOCUMENT, params,
-            AeResultSetHandlers.getDocumentHandler());
+      return query(getConnection(), IAeProcessSQLKeys.GET_VARIABLE_DOCUMENT, AeResultSetHandlers.getDocumentHandler(), 
+		  				getProcessId(), aLocationId, Integer.valueOf(aVersionNumber));
    }
 
    /**

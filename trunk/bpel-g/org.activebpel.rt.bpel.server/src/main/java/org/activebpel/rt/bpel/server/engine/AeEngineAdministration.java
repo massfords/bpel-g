@@ -101,7 +101,7 @@ public class AeEngineAdministration implements IAeEngineAdministration {
 	/**
 	 * @see org.activebpel.rt.bpel.server.admin.IAeEngineAdministration#getAlarms(org.activebpel.rt.bpel.impl.list.AeAlarmFilter)
 	 */
-	public AeAlarmListResult getAlarms(AeAlarmFilter aFilter) {
+	public AeAlarmListResult<AeAlarmExt> getAlarms(AeAlarmFilter aFilter) {
 		try {
 			Map<Long, AeProcessDef> processDefMap = new HashMap<Long, AeProcessDef>();
 

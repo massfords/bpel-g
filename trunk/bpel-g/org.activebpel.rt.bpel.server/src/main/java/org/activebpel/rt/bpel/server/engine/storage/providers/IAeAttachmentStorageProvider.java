@@ -38,7 +38,7 @@ public interface IAeAttachmentStorageProvider extends IAeStorageProvider
     * @return Map of header name/value pairs
     * @throws AeStorageException
     */
-   public Map getHeaders(long aAttachmentId) throws AeStorageException;
+   public Map<String,String> getHeaders(long aAttachmentId) throws AeStorageException;
    
    /**
     * Returns a new attachment group id.

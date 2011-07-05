@@ -39,13 +39,13 @@ public class AeResultSetHandlers
     * Implements a <code>ResultSetHandler</code> that returns the first column
     * of the first row of a <code>ResultSet</code> as a <code>Document</code>.
     */
-   private static final ResultSetHandler sDocumentHandler = new AeDocumentResultSetHandler();
+   private static final ResultSetHandler<Document> sDocumentHandler = new AeDocumentResultSetHandler();
 
    /**
     * Implements a <code>ResultSetHandler</code> that returns the first column
     * of the first row of a <code>ResultSet</code> as an <code>String</code>.
     */
-   private static final ResultSetHandler sStringHandler = new AeResultSetHandler<String>()
+   private static final ResultSetHandler<String> sStringHandler = new AeResultSetHandler<String>()
    {
       public String handle(ResultSet rs) throws SQLException
       {
@@ -55,7 +55,7 @@ public class AeResultSetHandlers
    };
    
    /** Same as sStringHandler but reads the string from a CLOB */
-   private static final ResultSetHandler sClobStringHandler = new AeResultSetHandler<String>()
+   private static final ResultSetHandler<String> sClobStringHandler = new AeResultSetHandler<String>()
    {
       public String handle(ResultSet rs) throws SQLException
       {
@@ -74,7 +74,7 @@ public class AeResultSetHandlers
    };
    
    /** Same as sStringHandler but reads the string from a BLOB */
-   private static final ResultSetHandler sBlobStreamHandler = new AeResultSetHandler<InputStream>()
+   private static final ResultSetHandler<InputStream> sBlobStreamHandler = new AeResultSetHandler<InputStream>()
    {
       public InputStream handle(ResultSet rs) throws SQLException
       {
@@ -105,7 +105,7 @@ public class AeResultSetHandlers
     * of values from the the first column.  Null values are not added to the array.
     * If the result set is empty, an empty array is returned.
     */
-   private static final ResultSetHandler sStringArrayHandler = new AeResultSetHandler<String[]>()
+   private static final ResultSetHandler<String[]> sStringArrayHandler = new AeResultSetHandler<String[]>()
    {
       public String[] handle(ResultSet rs) throws SQLException
       {
@@ -129,7 +129,7 @@ public class AeResultSetHandlers
     * from the the first and second column.  Null values are not added to the array.
     * If the result set is empty, an empty array is returned.
     */
-   private static final ResultSetHandler sIntegerMapHandler = new AeResultSetHandler<Map<Integer,Integer>>()
+   private static final ResultSetHandler<Map<Integer,Integer>> sIntegerMapHandler = new AeResultSetHandler<Map<Integer,Integer>>()
    {
       public Map<Integer,Integer> handle(ResultSet rs) throws SQLException
       {
@@ -157,7 +157,7 @@ public class AeResultSetHandlers
     * Implements a <code>ResultSetHandler</code> that returns the first column
     * of the first row of a <code>ResultSet</code> as an <code>Integer</code>.
     */
-   private static final ResultSetHandler sIntegerHandler = new AeResultSetHandler<Integer>()
+   private static final ResultSetHandler<Integer> sIntegerHandler = new AeResultSetHandler<Integer>()
    {
       public Integer handle(ResultSet rs) throws SQLException
       {
@@ -181,7 +181,7 @@ public class AeResultSetHandlers
     * Implements a <code>ResultSetHandler</code> that returns the first column
     * of the first row of a <code>ResultSet</code> as an <code>Float</code>.
     */
-   private static final ResultSetHandler sFloatHandler = new AeResultSetHandler<Float>()
+   private static final ResultSetHandler<Float> sFloatHandler = new AeResultSetHandler<Float>()
    {
       public Float handle(ResultSet rs) throws SQLException
       {
@@ -205,7 +205,7 @@ public class AeResultSetHandlers
     * Implements a <code>ResultSetHandler</code> that returns the first column
     * of the first row of a <code>ResultSet</code> as a <code>Long</code>.
     */
-   private static final ResultSetHandler sLongHandler = new AeResultSetHandler<Long>()
+   private static final ResultSetHandler<Long> sLongHandler = new AeResultSetHandler<Long>()
    {
       public Long handle(ResultSet rs) throws SQLException
       {
@@ -229,7 +229,7 @@ public class AeResultSetHandlers
     * Implements a <code>ResultSetHandler</code> that returns the first column
     * of the first row of a <code>ResultSet</code> as a <code>Date</code>.
     */
-   private static final ResultSetHandler sDateHandler = new AeResultSetHandler<Date>()
+   private static final ResultSetHandler<Date> sDateHandler = new AeResultSetHandler<Date>()
    {
       public Date handle(ResultSet rs) throws SQLException
       {
@@ -243,7 +243,7 @@ public class AeResultSetHandlers
     * columns of the first row of a <code>ResultSet</code> as a
     * <code>QName</code>.
     */
-   private static final ResultSetHandler sQNameHandler = new AeResultSetHandler<QName>()
+   private static final ResultSetHandler<QName> sQNameHandler = new AeResultSetHandler<QName>()
    {
       public QName handle(ResultSet rs) throws SQLException
       {
@@ -266,7 +266,7 @@ public class AeResultSetHandlers
     * Implements a <code>ResultSetHandler</code> that converts the first column
     * of the <code>ResultSet</code> to an <code>AeLongSet</code>.
     */
-   private static final ResultSetHandler sLongSetHandler = new AeResultSetHandler<Set<Long>>()
+   private static final ResultSetHandler<Set<Long>> sLongSetHandler = new AeResultSetHandler<Set<Long>>()
    {
       public Set<Long> handle(ResultSet rs) throws SQLException
       {
@@ -290,7 +290,7 @@ public class AeResultSetHandlers
     * Implements a <code>ResultSetHandler</code> that converts the first column
     * of the <code>ResultSet</code> to an <code>AeIntSet</code>.
     */
-   private static final ResultSetHandler sIntSetHandler = new AeResultSetHandler<Set<Integer>>()
+   private static final ResultSetHandler<Set<Integer>> sIntSetHandler = new AeResultSetHandler<Set<Integer>>()
    {
       public Set<Integer> handle(ResultSet rs) throws SQLException
       {
@@ -314,7 +314,7 @@ public class AeResultSetHandlers
     * Returns a <code>ResultSetHandler</code> that returns the first column
     * of the first row of a <code>ResultSet</code> as a <code>Document</code>.
     */
-   public static ResultSetHandler getDocumentHandler()
+   public static ResultSetHandler<Document> getDocumentHandler()
    {
       return sDocumentHandler;
    }
@@ -323,7 +323,7 @@ public class AeResultSetHandlers
     * Returns a <code>ResultSetHandler</code> that returns the first column of
     * the first row of a <code>ResultSet</code> as an <code>String</code>.
     */
-   public static ResultSetHandler getStringHandler()
+   public static ResultSetHandler<String> getStringHandler()
    {
       return sStringHandler;
    }
@@ -333,7 +333,7 @@ public class AeResultSetHandlers
     * be a CLOB. The entire contents of the CLOB will be returned as a single
     * String.
     */
-   public static ResultSetHandler getClobStringHandler()
+   public static ResultSetHandler<String> getClobStringHandler()
    {
       return sClobStringHandler;
    }
@@ -342,7 +342,7 @@ public class AeResultSetHandlers
     * Returns a<code>ResultSetHandler</code> that returns the first column of
     * the first row of a <code>ResultSet</code> as a <code>BLOB</code>. The contents of the BLOB will be returned as an InputStream.
     */
-   public static ResultSetHandler getBlobStreamHandler()
+   public static ResultSetHandler<InputStream> getBlobStreamHandler()
    {
       return sBlobStreamHandler;
    }
@@ -351,7 +351,7 @@ public class AeResultSetHandlers
     * of values from the the first column.  Null values are not added to the array.
     * If the result set is empty, an empty array is returned.
     */
-   public static ResultSetHandler getStringArrayHandler()
+   public static ResultSetHandler<String[]> getStringArrayHandler()
    {
       return sStringArrayHandler;
    }
@@ -361,7 +361,7 @@ public class AeResultSetHandlers
     * from the the first and second columns.  Null values are not added to the array.
     * If the result set is empty, an empty array is returned.
     */
-   public static ResultSetHandler getIntegerMapHandler()
+   public static ResultSetHandler<Map<Integer,Integer>> getIntegerMapHandler()
    {
       return sIntegerMapHandler;
    }
@@ -370,7 +370,7 @@ public class AeResultSetHandlers
     * Returns a <code>ResultSetHandler</code> that returns the first column of
     * the first row of a <code>ResultSet</code> as an <code>Integer</code>.
     */
-   public static ResultSetHandler getIntegerHandler()
+   public static ResultSetHandler<Integer> getIntegerHandler()
    {
       return sIntegerHandler;
    }
@@ -379,7 +379,7 @@ public class AeResultSetHandlers
     * Returns a <code>ResultSetHandler</code> that returns the first column of
     * the first row of a <code>ResultSet</code> as a <code>Long</code>.
     */
-   public static ResultSetHandler getLongHandler()
+   public static ResultSetHandler<Long> getLongHandler()
    {
       return sLongHandler;
    }
@@ -388,7 +388,7 @@ public class AeResultSetHandlers
     * Returns a <code>ResultSetHandler</code> that returns the first column of
     * the first row of a <code>ResultSet</code> as a <code>Date</code>.
     */
-   public static ResultSetHandler getDateHandler()
+   public static ResultSetHandler<Date> getDateHandler()
    {
       return sDateHandler;
    }
@@ -398,7 +398,7 @@ public class AeResultSetHandlers
     * columns of the first row of a <code>ResultSet</code> as a
     * <code>QName</code>.
     */
-   public static ResultSetHandler getQNameHandler()
+   public static ResultSetHandler<QName> getQNameHandler()
    {
       return sQNameHandler;
    }
@@ -407,7 +407,7 @@ public class AeResultSetHandlers
     * Returns a <code>ResultSetHandler</code> that converts the first column
     * of the <code>ResultSet</code> to an <code>AeLongSet</code>.
     */
-   public static ResultSetHandler getLongSetHandler()
+   public static ResultSetHandler<Set<Long>> getLongSetHandler()
    {
       return sLongSetHandler;
    }
@@ -416,7 +416,7 @@ public class AeResultSetHandlers
     * Returns a <code>ResultSetHandler</code> that converts the first column
     * of the <code>ResultSet</code> to an <code>AeIntSet</code>.
     */
-   public static ResultSetHandler getIntSetHandler()
+   public static ResultSetHandler<Set<Integer>> getIntSetHandler()
    {
       return sIntSetHandler;
    }
@@ -425,7 +425,7 @@ public class AeResultSetHandlers
     * Returns a <code>ResultSetHandler</code> that converts the first column
     * of the <code>ResultSet</code> to an <code>Float</code>.
     */
-   public static ResultSetHandler getFloatHandler()
+   public static ResultSetHandler<Float> getFloatHandler()
    {
       return sFloatHandler;
    }

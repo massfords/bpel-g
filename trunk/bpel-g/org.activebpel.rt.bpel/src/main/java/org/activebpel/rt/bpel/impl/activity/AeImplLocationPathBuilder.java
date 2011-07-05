@@ -23,7 +23,7 @@ import org.activebpel.rt.xml.def.IAePathSegmentBuilder;
 public class AeImplLocationPathBuilder extends AeDynamicInstancePathBuilder
 {
    /** map of def objects to their path information */
-   private Map mDefToPathMap = new HashMap();
+   private Map<AeBaseXmlDef, String> mDefToPathMap = new HashMap<AeBaseXmlDef, String>();
    /** flag that tells us if we're in create mode or not */
    private boolean mCreateMode;
    
@@ -81,13 +81,13 @@ public class AeImplLocationPathBuilder extends AeDynamicInstancePathBuilder
     */
    protected String getLocationPath(AeBaseXmlDef aDef)
    {
-      return (String) getDefToPathMap().get(aDef);
+      return getDefToPathMap().get(aDef);
    }
 
    /**
     * @return the defToPathMap
     */
-   protected Map getDefToPathMap()
+   protected Map<AeBaseXmlDef, String> getDefToPathMap()
    {
       return mDefToPathMap;
    }

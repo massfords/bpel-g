@@ -81,8 +81,7 @@ public class AeSQLTransmissionTrackerStorageProvider extends AeAbstractSQLStorag
     */
    public AeTransmissionTrackerEntry get(long aTransmissionId) throws AeStorageException
    {
-      Object param = new Long(aTransmissionId);
-      return (AeTransmissionTrackerEntry) query(IAeTransmissionTrackerSQLKeys.GET_ENTRY, param, new AeTransmissionTrackerResultSetHandler());
+      return query(IAeTransmissionTrackerSQLKeys.GET_ENTRY, new AeTransmissionTrackerResultSetHandler(), aTransmissionId);
    }
 
    /**

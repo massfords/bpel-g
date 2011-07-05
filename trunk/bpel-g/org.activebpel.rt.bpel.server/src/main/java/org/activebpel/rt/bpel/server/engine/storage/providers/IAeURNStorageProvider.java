@@ -23,7 +23,7 @@ public interface IAeURNStorageProvider extends IAeStorageProvider
    /**
     * @see org.activebpel.rt.bpel.server.engine.storage.IAeURNStorage#getMappings()
     */
-   public Map getMappings() throws AeStorageException;
+   public Map<String,String> getMappings() throws AeStorageException;
    
    /**
     * @see org.activebpel.rt.bpel.server.engine.storage.IAeURNStorage#addMapping(java.lang.String, java.lang.String)

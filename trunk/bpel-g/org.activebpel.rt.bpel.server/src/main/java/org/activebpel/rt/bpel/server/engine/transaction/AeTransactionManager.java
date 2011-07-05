@@ -17,7 +17,7 @@ import org.activebpel.rt.bpel.server.engine.AeEngineFactory;
  */
 public abstract class AeTransactionManager implements IAeTransactionManager {
 	/** Per-thread storage for transaction reference. */
-	private ThreadLocal mTransactionThreadLocal = new ThreadLocal();
+	private ThreadLocal<IAeTransaction> mTransactionThreadLocal = new ThreadLocal<IAeTransaction>();
 
 	/**
 	 * Protected constructor for singleton instance.
@@ -63,8 +63,7 @@ public abstract class AeTransactionManager implements IAeTransactionManager {
 	 * @see org.activebpel.rt.bpel.server.engine.transaction.IAeTransactionManager#getTransaction()
 	 */
 	public IAeTransaction getTransaction() throws AeTransactionException {
-		IAeTransaction transaction = (IAeTransaction) mTransactionThreadLocal
-				.get();
+		IAeTransaction transaction = mTransactionThreadLocal.get();
 
 		if (transaction == null) {
 			// Construct a new transaction.

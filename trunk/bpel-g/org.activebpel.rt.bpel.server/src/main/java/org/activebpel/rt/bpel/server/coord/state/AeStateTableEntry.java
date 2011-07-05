@@ -24,7 +24,7 @@ public class AeStateTableEntry
    /**
     * Map containing various states, keyed by message.
     */
-   private Map mMessageStateMap = new Hashtable();
+   private Map<String, IAeProtocolState> mMessageStateMap = new Hashtable<String, IAeProtocolState>();
    
    /**
     * Default construct.
@@ -49,6 +49,6 @@ public class AeStateTableEntry
     */
    public IAeProtocolState get(IAeProtocolMessage aMessage)
    {
-     return (IAeProtocolState) mMessageStateMap.get(aMessage.getSignal());  
+     return mMessageStateMap.get(aMessage.getSignal());  
    }    
 }

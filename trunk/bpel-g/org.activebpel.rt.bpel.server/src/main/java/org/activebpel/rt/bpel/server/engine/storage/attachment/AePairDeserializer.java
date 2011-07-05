@@ -30,9 +30,9 @@ import org.w3c.dom.Node;
 public class AePairDeserializer
 {
 
-   public static Map deserialize(Document aDocument) throws AeBusinessProcessException
+   public static Map<String,String> deserialize(Document aDocument) throws AeBusinessProcessException
    {
-      Map headers = new HashMap();
+      Map<String,String> headers = new HashMap<String,String>();
       
       Element root = aDocument.getDocumentElement();
       

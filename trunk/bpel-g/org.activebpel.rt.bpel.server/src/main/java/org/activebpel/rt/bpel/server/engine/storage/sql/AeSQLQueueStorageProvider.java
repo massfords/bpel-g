@@ -195,24 +195,20 @@ public class AeSQLQueueStorageProvider extends AeAbstractSQLStorageProvider impl
    public AePersistedMessageReceiver getReceiveObject(long aProcessId, int aMessageReceiverPathId)
          throws AeStorageException
    {
-      Object[] params = new Object[] { new Long(aProcessId), new Integer(aMessageReceiverPathId) };
-      return (AePersistedMessageReceiver) query(IAeQueueSQLKeys.GET_QUEUED_RECEIVE, params,
-            MESSAGE_RECEIVER_HANDLER);
+      return query(IAeQueueSQLKeys.GET_QUEUED_RECEIVE, MESSAGE_RECEIVER_HANDLER, new Long(aProcessId), Integer.valueOf(aMessageReceiverPathId));
    }
 
    /**
     * @see org.activebpel.rt.bpel.server.engine.storage.providers.IAeQueueStorageProvider#getReceives(int, int)
     */
-   public List getReceives(int aMatchHash, int aCorrelatesHash) throws AeStorageException
+   public List<AePersistedMessageReceiver> getReceives(int aMatchHash, int aCorrelatesHash) throws AeStorageException
    {
       for (int tries = 0; true; )
       {
          try
          {
             // Stop looping when successful.
-            Object[] params = new Object[] { new Integer(aMatchHash), new Integer(aCorrelatesHash) };
-            return (List) query(IAeQueueSQLKeys.GET_CORRELATED_RECEIVES, params,
-                  MESSAGE_RECEIVER_LIST_HANDLER);
+            return query(IAeQueueSQLKeys.GET_CORRELATED_RECEIVES, MESSAGE_RECEIVER_LIST_HANDLER, Integer.valueOf(aMatchHash), Integer.valueOf(aCorrelatesHash));
          }
          catch (AeStorageException e)
          {
@@ -236,8 +232,7 @@ public class AeSQLQueueStorageProvider extends AeAbstractSQLStorageProvider impl
    {
       AeSQLReceiverFilter filter = createSQLFilter( aFilter );
       String sql = filter.getSelectStatement();
-      Object[] params = filter.getParams();
-      return getFilteredReceives( sql, params, aFilter );
+      return getFilteredReceives( sql, aFilter, filter.getParams() );
    }
 
    /**
@@ -309,12 +304,11 @@ public class AeSQLQueueStorageProvider extends AeAbstractSQLStorageProvider impl
    /**
     * @see org.activebpel.rt.bpel.server.engine.storage.providers.IAeQueueStorageProvider#getAlarms(org.activebpel.rt.bpel.impl.list.AeAlarmFilter)
     */
-   public AeAlarmListResult getAlarms(AeAlarmFilter aFilter) throws AeStorageException
+   public AeAlarmListResult<? extends AeAlarm> getAlarms(AeAlarmFilter aFilter) throws AeStorageException
    {
       AeSQLAlarmFilter filter = createSQLAlarmFilter(aFilter);
       String sql = filter.getSelectStatement();
-      Object[] params = filter.getParams();
-      return getFilteredAlarms(sql, params, aFilter);
+      return getFilteredAlarms(sql, aFilter, filter.getParams());
    }
 
    /**
@@ -336,7 +330,7 @@ public class AeSQLQueueStorageProvider extends AeAbstractSQLStorageProvider impl
     * @return The AeAlarmListResult.
     * @throws AeStorageException
     */
-   protected AeAlarmListResult<? extends AeAlarm> getFilteredAlarms(String aSQLQuery, Object[] aParams, AeAlarmFilter aFilter)
+   protected AeAlarmListResult<? extends AeAlarm> getFilteredAlarms(String aSQLQuery, AeAlarmFilter aFilter, Object... aParams)
          throws AeStorageException
    {
       Connection connection = getConnection();
@@ -344,8 +338,7 @@ public class AeSQLQueueStorageProvider extends AeAbstractSQLStorageProvider impl
       try
       {
          AeAlarmListHandler handler = new AeAlarmListHandler(aFilter);
-         @SuppressWarnings("unchecked")
-		 List<AeAlarmExt> matches = (List<AeAlarmExt>) getQueryRunner().query(connection, aSQLQuery, aParams, handler);
+		 List<AeAlarmExt> matches = getQueryRunner().query(connection, aSQLQuery, handler, aParams);
          return new AeAlarmListResult<AeAlarmExt>(handler.getRowCount(), matches);
       }
       catch (SQLException ex)
@@ -404,15 +397,13 @@ public class AeSQLQueueStorageProvider extends AeAbstractSQLStorageProvider impl
     * @return The AeMessageReceiverListResult.
     * @throws AeStorageException
     */
-   protected AeMessageReceiverListResult getFilteredReceives(String aSQLQuery, Object[] aParams,
-         AeMessageReceiverFilter aFilter) throws AeStorageException
+   protected AeMessageReceiverListResult getFilteredReceives(String aSQLQuery, AeMessageReceiverFilter aFilter, Object ... aParams) throws AeStorageException
    {
       Connection connection = getConnection();
       try
       {
          AeMessageReceiverListHandler handler = new AeMessageReceiverListHandler(aFilter);
-         @SuppressWarnings("unchecked")
-		 List<AeMessageReceiver> matches = (List<AeMessageReceiver>) getQueryRunner().query(connection, aSQLQuery, aParams, handler);
+         List<AePersistedMessageReceiver> matches = getQueryRunner().query(connection, aSQLQuery, handler, aParams);
          AeMessageReceiver[] receivers = (AeMessageReceiver[]) matches.toArray(new AeMessageReceiver[matches.size()]);
          return new AeMessageReceiverListResult(handler.getRowCount(), receivers);
       }

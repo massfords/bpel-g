@@ -31,6 +31,7 @@ import org.activebpel.rt.bpel.impl.list.AeAlarmFilter;
 import org.activebpel.rt.bpel.impl.list.AeAlarmListResult;
 import org.activebpel.rt.bpel.impl.list.AeMessageReceiverFilter;
 import org.activebpel.rt.bpel.impl.list.AeMessageReceiverListResult;
+import org.activebpel.rt.bpel.impl.queue.AeAlarm;
 import org.activebpel.rt.bpel.impl.queue.AeInboundReceive;
 import org.activebpel.rt.bpel.impl.queue.AeMessageReceiver;
 import org.activebpel.rt.bpel.server.engine.AeEngineFactory;
@@ -556,7 +557,7 @@ public class AeQueueStorage extends AeAbstractStorage implements
 	/**
 	 * @see org.activebpel.rt.bpel.server.engine.storage.IAeQueueStorage#getAlarms(org.activebpel.rt.bpel.impl.list.AeAlarmFilter)
 	 */
-	public AeAlarmListResult getAlarms(AeAlarmFilter aFilter)
+	public AeAlarmListResult<? extends AeAlarm> getAlarms(AeAlarmFilter aFilter)
 			throws AeStorageException {
 		return getQueueStorageProvider().getAlarms(aFilter);
 	}

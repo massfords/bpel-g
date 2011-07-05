@@ -35,7 +35,7 @@ public class AeURNStorage extends AeAbstractStorage implements IAeURNStorage
    /**
     * @see org.activebpel.rt.bpel.server.engine.storage.IAeURNStorage#getMappings()
     */
-   public Map getMappings() throws AeStorageException
+   public Map<String,String> getMappings() throws AeStorageException
    {
       return getURNStorageProvider().getMappings();
    }

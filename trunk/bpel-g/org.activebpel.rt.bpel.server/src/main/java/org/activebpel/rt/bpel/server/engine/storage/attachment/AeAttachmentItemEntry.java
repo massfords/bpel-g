@@ -30,7 +30,7 @@ public class AeAttachmentItemEntry
    private Document mHeadersDocument;
 
    /** Deserialized attachment headers. */
-   private Map mHeaders;
+   private Map<String,String> mHeaders;
 
    /**
     * Constructs attachment item entry from specified values.
@@ -65,7 +65,7 @@ public class AeAttachmentItemEntry
    /**
     * @return attachment headers.
     */
-   public Map getHeaders() throws AeBusinessProcessException
+   public Map<String,String> getHeaders() throws AeBusinessProcessException
    {
       if ((mHeaders == null) && (getHeadersDocument() != null))
       {
