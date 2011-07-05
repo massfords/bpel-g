@@ -100,7 +100,7 @@ public class AeQueryRunner extends QueryRunner
     * @see org.apache.commons.dbutils.QueryRunner#fillStatement(java.sql.PreparedStatement,
     *      java.lang.Object[])
     */
-   protected void fillStatement(PreparedStatement aStatement, Object[] aParams) throws SQLException
+   public void fillStatement(PreparedStatement aStatement, Object... aParams) throws SQLException
    {
       // Many databases or JDBC drivers do not support updateable blobs or
       // clobs. Therefore, write documents by passing a character stream to

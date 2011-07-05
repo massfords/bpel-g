@@ -41,7 +41,7 @@ public class AeUnpackedDeploymentStager
    /** Working dir. */   
    private File mWorkingDir;
    /** Maps url to deployment dir. */
-   private Map mTempResources;
+   private Map<URL,AeTempResource> mTempResources;
    /** Logging object. */
    private static Log sLog = LogFactory.getLog(AeUnpackedDeploymentStager.class);
    
@@ -72,7 +72,7 @@ public class AeUnpackedDeploymentStager
       mWorkingDir = aWorkingDir;
       deleteOldDeployments();
       mWorkingDir.mkdirs();
-      mTempResources = new HashMap();
+      mTempResources = new HashMap<URL,AeTempResource>();
    }
    
    /**
@@ -145,14 +145,14 @@ public class AeUnpackedDeploymentStager
     */
    protected AeTempResource getTempResource( URL aDeployment )
    {
-      AeTempResource tempResource = (AeTempResource)getTempResourcesMap().get( aDeployment );
+      AeTempResource tempResource = getTempResourcesMap().get( aDeployment );
       return tempResource;
    }
    
    /**
     * @return Return the temp resources map.
     */
-   protected Map getTempResourcesMap()
+   protected Map<URL,AeTempResource> getTempResourcesMap()
    {
       return mTempResources;
    }

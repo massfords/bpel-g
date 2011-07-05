@@ -86,7 +86,7 @@ public class AeSQLDatabaseType extends AeSQLObject
          throw new AeStorageException(AeMessages.getString("AeSQLDatabaseType.ERROR_2")); //$NON-NLS-1$
       }
 
-      String value = (String) getQueryRunner().query(aConnection, sql, AeResultSetHandlers.getStringHandler());
+      String value = getQueryRunner().query(aConnection, sql, AeResultSetHandlers.getStringHandler());
       if (value == null)
       {
          throw new AeStorageException(AeMessages.getString("AeSQLDatabaseType.ERROR_3")); //$NON-NLS-1$

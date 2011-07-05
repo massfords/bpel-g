@@ -81,7 +81,7 @@ public class AeSQLVersion extends AeSQLObject
          throw new AeStorageException(AeMessages.getString("AeSQLVersion.ERROR_2")); //$NON-NLS-1$
       }
 
-      String value = (String) getQueryRunner().query(aConnection, sql, AeResultSetHandlers.getStringHandler());
+      String value = getQueryRunner().query(aConnection, sql, AeResultSetHandlers.getStringHandler());
       if (value == null)
       {
          throw new AeStorageException(AeMessages.getString("AeSQLVersion.ERROR_0")); //$NON-NLS-1$

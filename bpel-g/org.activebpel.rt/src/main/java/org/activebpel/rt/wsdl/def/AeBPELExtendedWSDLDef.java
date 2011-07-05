@@ -1889,7 +1889,8 @@ public class AeBPELExtendedWSDLDef implements IAeBPELExtendedWSDLConst, IAeMutab
     * Get all WSDL service elements defined here.
     * @return Map list of defined WSDL Service objects
     */
-   public Map getServices()
+   @SuppressWarnings("unchecked")
+   public Map<QName,Service> getServices()
    {
       return getWSDLDef().getServices();
    }

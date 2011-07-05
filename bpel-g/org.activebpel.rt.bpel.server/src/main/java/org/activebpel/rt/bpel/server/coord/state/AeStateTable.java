@@ -22,7 +22,7 @@ public class AeStateTable
    /**
     * Map containing table row entry for a given state.
     */
-   private Map mStateMap = new Hashtable();
+   private Map<String, AeStateTableEntry> mStateMap = new Hashtable<String, AeStateTableEntry>();
    
    /**
     * Default constructor.
@@ -47,7 +47,7 @@ public class AeStateTable
     */
    public AeStateTableEntry get(IAeProtocolState aState)
    {
-     return (AeStateTableEntry) mStateMap.get(aState.getState());  
+     return mStateMap.get(aState.getState());  
    }   
 
 }

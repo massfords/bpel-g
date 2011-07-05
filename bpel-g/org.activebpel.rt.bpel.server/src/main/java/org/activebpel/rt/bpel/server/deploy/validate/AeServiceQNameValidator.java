@@ -66,7 +66,7 @@ public class AeServiceQNameValidator implements IAePredeploymentValidator {
 	public void validate(IAeBpr aBprFile, IAeBaseErrorReporter aReporter)
 			throws AeException {
 		AeResourceResolver resolver = createResolver(aBprFile);
-		Map servicesMap = extractServices(aBprFile, aReporter, resolver);
+		Map<QName,Service> servicesMap = extractServices(aBprFile, aReporter, resolver);
 
 		if (!aReporter.hasErrors()) {
 			for (AePddResource pddResource : aBprFile.getPddResources()) {
@@ -105,8 +105,7 @@ public class AeServiceQNameValidator implements IAePredeploymentValidator {
 	 * @param aPddName
 	 * @param aReporter
 	 */
-	protected void checkServiceQNames(NodeList aServices, Map aServicesMap,
-			String aPddName, IAeBaseErrorReporter aReporter) {
+	protected void checkServiceQNames(NodeList aServices, Map<QName,Service> aServicesMap, String aPddName, IAeBaseErrorReporter aReporter) {
 		for (int i = 0; i < aServices.getLength(); i++) {
 			Element serviceElement = (Element) aServices.item(i);
 			QName serviceQName = extractServiceQName(serviceElement);
@@ -118,8 +117,7 @@ public class AeServiceQNameValidator implements IAePredeploymentValidator {
 			} else {
 				// ensure that if the service is going to be accessed that
 				// it contains a port
-				Service wsdl4JService = (Service) aServicesMap
-						.get(serviceQName);
+				Service wsdl4JService = aServicesMap.get(serviceQName);
 				Port port = wsdl4JService.getPort(portName);
 				if (port == null) {
 					String[] args = { aPddName,
@@ -182,11 +180,10 @@ public class AeServiceQNameValidator implements IAePredeploymentValidator {
 	 * @param aFile
 	 * @param aResolver
 	 */
-	protected Map extractServices(IAeBpr aFile, IAeBaseErrorReporter aReporter,
-			AeResourceResolver aResolver) {
+	protected Map<QName,Service> extractServices(IAeBpr aFile, IAeBaseErrorReporter aReporter, AeResourceResolver aResolver) {
 		// load all of the wsdl defs for each wsdl ref section of each pdd
 		// and create wsdl defs - ask each def for its service names
-		Map services = new HashMap();
+		Map<QName,Service> services = new HashMap<QName,Service>();
 		String pddName = null;
 
 		try {
@@ -212,13 +209,10 @@ public class AeServiceQNameValidator implements IAePredeploymentValidator {
 	 * @param aResolver
 	 * @throws AeException
 	 */
-	protected void addServiceNamesFromWsdlRefs(AePddResource aPddResource,
-			Map aServices, AeResourceResolver aResolver) throws AeException {
-		for (ReferenceType ref : aPddResource.getPdd().getReferences()
-				.getWsdl()) {
+	protected void addServiceNamesFromWsdlRefs(AePddResource aPddResource, Map<QName,Service> aServices, AeResourceResolver aResolver) throws AeException {
+		for (ReferenceType ref : aPddResource.getPdd().getReferences().getWsdl()) {
 			if (aResolver.hasMapping(ref.getLocation())) {
-				AeBPELExtendedWSDLDef def = aResolver.newInstance(ref
-						.getLocation());
+				AeBPELExtendedWSDLDef def = aResolver.newInstance(ref.getLocation());
 				aServices.putAll(def.getServices());
 			}
 		}

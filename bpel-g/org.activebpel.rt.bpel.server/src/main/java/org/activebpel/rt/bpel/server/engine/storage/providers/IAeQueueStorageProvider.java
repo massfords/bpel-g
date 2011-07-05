@@ -16,6 +16,7 @@ import org.activebpel.rt.bpel.impl.list.AeAlarmFilter;
 import org.activebpel.rt.bpel.impl.list.AeAlarmListResult;
 import org.activebpel.rt.bpel.impl.list.AeMessageReceiverFilter;
 import org.activebpel.rt.bpel.impl.list.AeMessageReceiverListResult;
+import org.activebpel.rt.bpel.impl.queue.AeAlarm;
 import org.activebpel.rt.bpel.impl.queue.AeInboundReceive;
 import org.activebpel.rt.bpel.impl.queue.AeMessageReceiver;
 import org.activebpel.rt.bpel.server.engine.storage.AePersistedMessageReceiver;
@@ -109,7 +110,7 @@ public interface IAeQueueStorageProvider extends IAeStorageProvider
     * @param aCorrelatesHash
     * @throws AeStorageException
     */
-   public List getReceives(int aMatchHash, int aCorrelatesHash) throws AeStorageException;
+   public List<AePersistedMessageReceiver> getReceives(int aMatchHash, int aCorrelatesHash) throws AeStorageException;
 
    /**
     * Gets a list of message receivers that match the given filter.
@@ -130,7 +131,7 @@ public interface IAeQueueStorageProvider extends IAeStorageProvider
     * @param aFilter
     * @throws AeStorageException
     */
-   public AeAlarmListResult getAlarms(AeAlarmFilter aFilter) throws AeStorageException;
+   public AeAlarmListResult<? extends AeAlarm> getAlarms(AeAlarmFilter aFilter) throws AeStorageException;
 
    /**
     * Journals an inbound receive by putting a record of it in the database and associating attachments to the process.

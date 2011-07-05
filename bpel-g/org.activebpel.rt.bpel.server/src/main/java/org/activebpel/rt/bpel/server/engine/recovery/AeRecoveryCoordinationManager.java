@@ -210,7 +210,7 @@ public class AeRecoveryCoordinationManager implements
 	/**
 	 * @see org.activebpel.rt.bpel.coord.IAeCoordinationManager#getParticipantDetail(long)
 	 */
-	public List getParticipantDetail(long aParentProcessId)
+	public List<AeCoordinationDetail> getParticipantDetail(long aParentProcessId)
 			throws AeCoordinationNotFoundException {
 		return getDelegate().getParticipantDetail(aParentProcessId);
 	}

@@ -45,7 +45,7 @@ public class AeLogReader extends AeSQLObject
    private static final String SQL_GET_SMALL_LOG      = "GetSmallLog"; //$NON-NLS-1$
 
    /** shared instance of the resultset handler used to read small logs */
-   private static final ResultSetHandler SMALL_LOG_HANDLER = new AeSmallLogHandler(); 
+   private static final ResultSetHandler<String> SMALL_LOG_HANDLER = new AeSmallLogHandler(); 
    
    /** process id we're searching for */
    private Long mProcessId;
@@ -83,10 +83,10 @@ public class AeLogReader extends AeSQLObject
    public String readLog() throws AeStorageException, SQLException
    {
       // 1: get the sorted list of log entries
-      mLogEntries = (List) getQueryRunner().query(
+      mLogEntries = getQueryRunner().query(
                   getSQLStatement(SQL_GET_LOG_ENTRIES), 
-                  mProcessId, 
-                  new AeLogEntryHandler());
+                  new AeLogEntryHandler(), 
+                  mProcessId);
                   
       String result = null;
                   
@@ -94,10 +94,10 @@ public class AeLogReader extends AeSQLObject
       if (getTotalLineCount() <= (mHeadLimit + mTailLimit))
       {
          // execute single query to get everything concat'd together
-         result = (String) getQueryRunner().query(
+         result = getQueryRunner().query(
                   getSQLStatement(SQL_GET_SMALL_LOG),
-                  mProcessId,
-                  SMALL_LOG_HANDLER);
+                  SMALL_LOG_HANDLER, 
+                  mProcessId);
       }
       else
       {
@@ -122,13 +122,10 @@ public class AeLogReader extends AeSQLObject
    private String getLogSegment(int aCounterValue, String aSqlStatement)
       throws SQLException, AeStorageException
    {
-      String result;
-      Object[] args = { mProcessId, new Integer(aCounterValue) };
-      result = (String) getQueryRunner().query(
+	   return getQueryRunner().query(
                getSQLStatement(aSqlStatement),
-               args,
-               SMALL_LOG_HANDLER);
-      return result;
+               SMALL_LOG_HANDLER,
+               mProcessId, Integer.valueOf(aCounterValue));
    }
    
    /**

@@ -57,8 +57,8 @@ public class AeSQLProcessStateStorageProvider extends AeAbstractSQLStorageProvid
    public static final String SQL_ORDER_BY_START_DATE_PROCESSID = " ORDER BY " + IAeProcessColumns.START_DATE + " DESC, " + IAeProcessColumns.PROCESS_ID + " DESC"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 
    protected static final AeSQLProcessInstanceResultSetHandler PROC_INSTANCE_HANDLER = new AeSQLProcessInstanceResultSetHandler();
-   protected static final ResultSetHandler JOURNAL_ENTRIES_RESULT_SET_HANDLER = new AeJournalEntriesResultSetHandler();
-   protected static final ResultSetHandler JOURNAL_ENTRIES_LOCATION_IDS_RESULT_SET_HANDLER = new AeJournalEntriesLocationIdsResultSetHandler();
+   protected static final ResultSetHandler<List<IAeJournalEntry>> JOURNAL_ENTRIES_RESULT_SET_HANDLER = new AeJournalEntriesResultSetHandler();
+   protected static final ResultSetHandler<Map<Long, Integer>> JOURNAL_ENTRIES_LOCATION_IDS_RESULT_SET_HANDLER = new AeJournalEntriesLocationIdsResultSetHandler();
 
    /** The journal storage. */
    private AeSQLJournalStorage mJournalStorage;
@@ -151,9 +151,7 @@ public class AeSQLProcessStateStorageProvider extends AeAbstractSQLStorageProvid
     */
    public ProcessInstanceDetail getProcessInstanceDetail(long aProcessId) throws AeStorageException
    {
-      Object param = new Long(aProcessId);
-      return (ProcessInstanceDetail) query(IAeProcessSQLKeys.GET_PROCESS_INSTANCE_DETAIL, param,
-            getProcessInstanceResultSetHandler());
+      return query(IAeProcessSQLKeys.GET_PROCESS_INSTANCE_DETAIL, getProcessInstanceResultSetHandler(), aProcessId);
    }
 
    /**
@@ -164,6 +162,9 @@ public class AeSQLProcessStateStorageProvider extends AeAbstractSQLStorageProvid
       return PROC_INSTANCE_HANDLER;
    }
 
+   /**
+	* @see org.activebpel.rt.bpel.server.engine.storage.providers.IAeProcessStateStorageProvider#getProcessList(bpelg.services.processes.types.ProcessFilterType)
+	*/
    public ProcessList getProcessList(ProcessFilterType aFilter) throws AeStorageException
    {
       try
@@ -173,10 +174,10 @@ public class AeSQLProcessStateStorageProvider extends AeAbstractSQLStorageProvid
          Object[] params = filter.getParams();
 
          // Construct a ResultSetHandler that converts the ResultSet to an AeProcessListResult.
-         ResultSetHandler handler = createProcessListResultSetHandler(aFilter);
+         AeSQLProcessListResultSetHandler handler = createProcessListResultSetHandler(aFilter);
 
          // Run the query.
-         return (ProcessList) getQueryRunner().query(sql, params, handler);
+         return getQueryRunner().query(sql, handler, params);
       }
       catch (SQLException ex)
       {
@@ -193,7 +194,7 @@ public class AeSQLProcessStateStorageProvider extends AeAbstractSQLStorageProvid
          Object[] params = filter.getParams();
 
          // Run the query.
-         return ((Integer) getQueryRunner().query(sql, params, AeResultSetHandlers.getIntegerHandler())).intValue();
+         return (getQueryRunner().query(sql, AeResultSetHandlers.getIntegerHandler(), params)).intValue();
       }
       catch (SQLException ex)
       {
@@ -213,8 +214,8 @@ public class AeSQLProcessStateStorageProvider extends AeAbstractSQLStorageProvid
          filter.setOrderBy(AeSQLProcessStateStorageProvider.SQL_ORDER_BY_PROCESSID);
          String sql = filter.getSelectStatement();
          Object[] params = filter.getParams();         
-         ResultSetHandler handler = createProcessIdsResultSetHandler(aFilter);
-         return (long[]) getQueryRunner().query(sql, params, handler);
+         AeSQLProcessIdsResultSetHandler handler = createProcessIdsResultSetHandler(aFilter);
+         return getQueryRunner().query(sql, handler, params);
       }
       catch (SQLException ex)
       {
@@ -256,28 +257,23 @@ public class AeSQLProcessStateStorageProvider extends AeAbstractSQLStorageProvid
     */
    public QName getProcessName(long aProcessId) throws AeStorageException
    {
-      Object param = new Long(aProcessId);
-      return (QName) query(IAeProcessSQLKeys.GET_PROCESS_NAME, param, AeResultSetHandlers.getQNameHandler());
+      return query(IAeProcessSQLKeys.GET_PROCESS_NAME, AeResultSetHandlers.getQNameHandler(), aProcessId);
    }
 
    /**
     * @see org.activebpel.rt.bpel.server.engine.storage.providers.IAeProcessStateStorageProvider#getJournalEntries(long)
     */
-   @SuppressWarnings("unchecked")
    public List<IAeJournalEntry> getJournalEntries(long aProcessId) throws AeStorageException
    {
-      Object param = new Long(aProcessId);
-      return (List<IAeJournalEntry>) query(IAeProcessSQLKeys.GET_JOURNAL_ENTRIES, param, JOURNAL_ENTRIES_RESULT_SET_HANDLER);
+      return (List<IAeJournalEntry>) query(IAeProcessSQLKeys.GET_JOURNAL_ENTRIES, JOURNAL_ENTRIES_RESULT_SET_HANDLER, aProcessId);
    }
 
    /**
     * @see org.activebpel.rt.bpel.server.engine.storage.providers.IAeProcessStateStorageProvider#getJournalEntriesLocationIdsMap(long)
     */
-   @SuppressWarnings("unchecked")
    public Map<Long,Integer> getJournalEntriesLocationIdsMap(long aProcessId) throws AeStorageException
    {
-      Object param = new Long(aProcessId);
-      return (Map<Long,Integer>) query(IAeProcessSQLKeys.GET_JOURNAL_ENTRIES_LOCATION_IDS, param, JOURNAL_ENTRIES_LOCATION_IDS_RESULT_SET_HANDLER);
+      return query(IAeProcessSQLKeys.GET_JOURNAL_ENTRIES_LOCATION_IDS, JOURNAL_ENTRIES_LOCATION_IDS_RESULT_SET_HANDLER, aProcessId);
    }
 
    /**
@@ -285,8 +281,7 @@ public class AeSQLProcessStateStorageProvider extends AeAbstractSQLStorageProvid
     */
    public IAeJournalEntry getJournalEntry(long aJournalId) throws AeStorageException
    {
-      Object param = new Long(aJournalId);
-      List list = (List) query(IAeProcessSQLKeys.GET_JOURNAL_ENTRY, param, JOURNAL_ENTRIES_RESULT_SET_HANDLER);
+      List list = query(IAeProcessSQLKeys.GET_JOURNAL_ENTRY, JOURNAL_ENTRIES_RESULT_SET_HANDLER, aJournalId);
 
       return ((list != null) && (list.size() > 0)) ? (IAeJournalEntry) list.get(0) : null;
    }
@@ -399,17 +394,22 @@ public class AeSQLProcessStateStorageProvider extends AeAbstractSQLStorageProvid
     */
    public AeRestartProcessJournalEntry getRestartProcessJournalEntry(long aProcessId) throws AeStorageException
    {
-      Object param = new Long(aProcessId);
-      List list = (List) query(IAeProcessSQLKeys.GET_RESTART_PROCESS_JOURNAL_ENTRY, param, JOURNAL_ENTRIES_RESULT_SET_HANDLER);
+      List list = query(IAeProcessSQLKeys.GET_RESTART_PROCESS_JOURNAL_ENTRY, JOURNAL_ENTRIES_RESULT_SET_HANDLER, aProcessId);
 
       return ((list != null) && (list.size() > 0)) ? (AeRestartProcessJournalEntry) list.get(0) : null;
    }
 
-public AeCounter getCounter() {
-    return mCounter;
-}
+   /**
+    * @return
+    */
+   public AeCounter getCounter() {
+      return mCounter;
+   }
 
-public void setCounter(AeCounter aCounter) {
-    mCounter = aCounter;
-}
+   /**
+    * @param aCounter
+    */
+   public void setCounter(AeCounter aCounter) {
+      mCounter = aCounter;
+   }
 }

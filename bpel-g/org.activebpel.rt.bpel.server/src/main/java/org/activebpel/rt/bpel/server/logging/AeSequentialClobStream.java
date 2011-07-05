@@ -109,10 +109,7 @@ public class AeSequentialClobStream extends Reader implements AeResultSetHandler
          Object[] args = {mProcessId, new Integer(mCounter)};
          try
          {
-            mCurrentStream = (Reader) mQueryRunner.query(
-                     mSqlStatement, 
-                     args, 
-                     this);
+            mCurrentStream = mQueryRunner.query(mSqlStatement, this, args);
          }
          catch (SQLException e)
          {

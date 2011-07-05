@@ -38,14 +38,14 @@ public class AeSQLCoordinationStorageProvider extends AeAbstractSQLStorageProvid
    protected static final String COORDINATION_STORAGE_PREFIX = "CoordinationStorage."; //$NON-NLS-1$
 
    /** A result set handler for returning  */
-   private static final ResultSetHandler COORDINATION_DETAIL_LIST_RESULT_SET_HANDLER = new AeCoordinationDetailListResultSetHandler();
+   private static final ResultSetHandler<List<AeCoordinationDetail>> COORDINATION_DETAIL_LIST_RESULT_SET_HANDLER = new AeCoordinationDetailListResultSetHandler();
 
    /** Coordination manager. */
    private IAeCoordinationManager mCoordinationManager;
    /** The cached coordinating response handler. */
-   private ResultSetHandler mCoordinatingResultSetHandler;
+   private ResultSetHandler<IAeCoordinating> mCoordinatingResultSetHandler;
    /** The cached coordinating list response handler. */
-   private ResultSetHandler mCoordinatingListResultSetHandler;
+   private ResultSetHandler<List<IAeCoordinating>> mCoordinatingListResultSetHandler;
    private AeCounter mCounter;
 
    /**
@@ -68,7 +68,7 @@ public class AeSQLCoordinationStorageProvider extends AeAbstractSQLStorageProvid
       Object[] params = new Object[] {
             new Long(pk),
             aCoordinationType,
-            new Integer(aRole),
+            Integer.valueOf(aRole),
             aIdentifier,
             aState,
             new Long(aProcessId),
@@ -95,19 +95,15 @@ public class AeSQLCoordinationStorageProvider extends AeAbstractSQLStorageProvid
     */
    public IAeCoordinating getCoordination(String aCoordinationId, long aProcessId) throws AeStorageException
    {
-      Object[] params = new Object[] {
-            aCoordinationId,
-            new Long(aProcessId)
-      };
       // Construct a ResultSetHandler that converts the first row of the ResultSet to an IAeCoordinating.
-      ResultSetHandler handler = getCoordinatingResultSetHandler();
+      ResultSetHandler<IAeCoordinating> handler = getCoordinatingResultSetHandler();
       // Run the query.
       // note: when calling query, we also pass the aClose=true to close the connection in case the connection is not from the TxManager.
       Connection conn = null;
       try
       {
          conn = getTransactionConnection();
-         return (IAeCoordinating) query( conn,IAeCoordinationSQLKeys.LOOKUP_COORDINATION, params, handler);
+         return query(conn,IAeCoordinationSQLKeys.LOOKUP_COORDINATION, handler, aCoordinationId, Long.valueOf(aProcessId));
       }
       finally
       {
@@ -118,22 +114,20 @@ public class AeSQLCoordinationStorageProvider extends AeAbstractSQLStorageProvid
    /**
     * @see org.activebpel.rt.bpel.server.engine.storage.providers.IAeCoordinationStorageProvider#getCoordinationsByProcessId(long)
     */
-   public List getCoordinationsByProcessId(long aProcessId) throws AeStorageException
+   public List<? extends IAeCoordinating> getCoordinationsByProcessId(long aProcessId) throws AeStorageException
    {
-      Object[] params = { new Long(aProcessId) };
-      ResultSetHandler handler = getCoordinatingListResultSetHandler();
+      ResultSetHandler<List<IAeCoordinating>> handler = getCoordinatingListResultSetHandler();
       // note: when calling query, we also pass the aClose=true to close the connection in case the connection is not from the TxManager.      
       Connection conn = null;
       try
       {
          conn = getTransactionConnection();
-         return (List) query(conn, IAeCoordinationSQLKeys.LIST_BY_PROCESS_ID, params, handler);
+         return query(conn, IAeCoordinationSQLKeys.LIST_BY_PROCESS_ID, handler, Long.valueOf(aProcessId));
       }
       finally
       {
          AeCloser.close(conn);
       }      
-      
    }
 
    /**
@@ -141,14 +135,13 @@ public class AeSQLCoordinationStorageProvider extends AeAbstractSQLStorageProvid
     */
    public List<IAeCoordinating> getCoordinations(String aCoordinationId) throws AeStorageException
    {
-      Object[] params = {new Long(aCoordinationId)};
-      ResultSetHandler handler = createCoordinatingListResultSetHandler();
+      ResultSetHandler<List<IAeCoordinating>> handler = createCoordinatingListResultSetHandler();
       // note: when calling query, we also pass the aClose=true to close the connection in case the connection is not from the TxManager.      
       Connection conn = null;
       try
       {
          conn = getTransactionConnection();
-         return (List<IAeCoordinating>) query( conn,IAeCoordinationSQLKeys.LIST_BY_COORDINATION_ID, params, handler);
+         return query( conn,IAeCoordinationSQLKeys.LIST_BY_COORDINATION_ID, handler, Long.valueOf(aCoordinationId));
       }
       finally
       {
@@ -184,8 +177,7 @@ public class AeSQLCoordinationStorageProvider extends AeAbstractSQLStorageProvid
    /**
     * @see org.activebpel.rt.bpel.server.engine.storage.providers.IAeCoordinationStorageProvider#updateCoordinationContext(org.activebpel.rt.bpel.server.coord.AePersistentCoordinationId, org.activebpel.rt.bpel.impl.fastdom.AeFastDocument)
     */
-   public void updateCoordinationContext(AePersistentCoordinationId aCoordinationId,
-         AeFastDocument aContextDocument) throws AeStorageException
+   public void updateCoordinationContext(AePersistentCoordinationId aCoordinationId, AeFastDocument aContextDocument) throws AeStorageException
    {
       Object contextClob = aContextDocument == null ? AeQueryRunner.NULL_CLOB : (Object) aContextDocument;
 
@@ -210,26 +202,23 @@ public class AeSQLCoordinationStorageProvider extends AeAbstractSQLStorageProvid
    /**
     * @see org.activebpel.rt.bpel.server.engine.storage.providers.IAeCoordinationStorageProvider#getCoordinatorDetail(long)
     */
-   public List getCoordinatorDetail(long aChildProcessId) throws AeStorageException
+   public List<AeCoordinationDetail> getCoordinatorDetail(long aChildProcessId) throws AeStorageException
    {
-      Object param = new Long(aChildProcessId);
-      return (List) query(IAeCoordinationSQLKeys.LIST_COORDINATORS_FOR_PID, param, COORDINATION_DETAIL_LIST_RESULT_SET_HANDLER);
+      return query(IAeCoordinationSQLKeys.LIST_COORDINATORS_FOR_PID, COORDINATION_DETAIL_LIST_RESULT_SET_HANDLER, Long.valueOf(aChildProcessId));
    }
    
    /**
     * @see org.activebpel.rt.bpel.server.engine.storage.providers.IAeCoordinationStorageProvider#getParticipantDetail(long)
     */
-   @SuppressWarnings("unchecked")
    public List<AeCoordinationDetail> getParticipantDetail(long aParentProcessId) throws AeStorageException
    {
-      Object param = new Long(aParentProcessId);
-      return (List<AeCoordinationDetail>) query(IAeCoordinationSQLKeys.LIST_PARTICIPANTS_FOR_PID, param, COORDINATION_DETAIL_LIST_RESULT_SET_HANDLER);
+      return query(IAeCoordinationSQLKeys.LIST_PARTICIPANTS_FOR_PID, COORDINATION_DETAIL_LIST_RESULT_SET_HANDLER, Long.valueOf(aParentProcessId));
    }
 
    /**
     * @return Resultset handler to create IAeCoordinating object.
     */
-   protected ResultSetHandler createCoordinatingResultSetHandler()
+   protected ResultSetHandler<IAeCoordinating> createCoordinatingResultSetHandler()
    {
       return new AeSQLCoordinatingResultSetHandler(getCoordinationManager());
    }
@@ -237,7 +226,7 @@ public class AeSQLCoordinationStorageProvider extends AeAbstractSQLStorageProvid
    /**
     * @return Resultset handler to create a list of IAeCoordinating objects.
     */   
-   protected ResultSetHandler createCoordinatingListResultSetHandler()
+   protected ResultSetHandler<List<IAeCoordinating>> createCoordinatingListResultSetHandler()
    {
       return new AeSQLCoordinatingListResultSetHandler(getCoordinationManager());
    }
@@ -245,7 +234,7 @@ public class AeSQLCoordinationStorageProvider extends AeAbstractSQLStorageProvid
    /**
     * @return Returns the coordinatingResultSetHandler.
     */
-   protected ResultSetHandler getCoordinatingResultSetHandler()
+   protected ResultSetHandler<IAeCoordinating> getCoordinatingResultSetHandler()
    {
       if (mCoordinatingResultSetHandler == null)
       {
@@ -257,7 +246,7 @@ public class AeSQLCoordinationStorageProvider extends AeAbstractSQLStorageProvid
    /**
     * @param aCoordinatingResultSetHandler The coordinatingResultSetHandler to set.
     */
-   protected void setCoordinatingResultSetHandler(ResultSetHandler aCoordinatingResultSetHandler)
+   protected void setCoordinatingResultSetHandler(ResultSetHandler<IAeCoordinating> aCoordinatingResultSetHandler)
    {
       mCoordinatingResultSetHandler = aCoordinatingResultSetHandler;
    }
@@ -265,7 +254,7 @@ public class AeSQLCoordinationStorageProvider extends AeAbstractSQLStorageProvid
    /**
     * @return Returns the coordinatingListResultSetHandler.
     */
-   protected ResultSetHandler getCoordinatingListResultSetHandler()
+   protected ResultSetHandler<List<IAeCoordinating>> getCoordinatingListResultSetHandler()
    {
       if (mCoordinatingListResultSetHandler == null)
       {
@@ -277,7 +266,7 @@ public class AeSQLCoordinationStorageProvider extends AeAbstractSQLStorageProvid
    /**
     * @param aCoordinatingListResultSetHandler The coordinatingListResultSetHandler to set.
     */
-   protected void setCoordinatingListResultSetHandler(ResultSetHandler aCoordinatingListResultSetHandler)
+   protected void setCoordinatingListResultSetHandler(ResultSetHandler<List<IAeCoordinating>> aCoordinatingListResultSetHandler)
    {
       mCoordinatingListResultSetHandler = aCoordinatingListResultSetHandler;
    }

@@ -55,10 +55,9 @@ public class AeSQLAttachmentStorageProvider extends AeAbstractSQLStorageProvider
    protected static final String SQL_REMOVE_ATTACHMENT = "RemoveAttachment"; //$NON-NLS-1$
 
    private AeCounter mCounter;
-   
 
    /** Result set handler for attachment items. */
-   protected static final ResultSetHandler sAttachmentItemHandler = new AeAttachmentItemResultSetHandler();
+   protected static final ResultSetHandler<AeAttachmentItemEntry> sAttachmentItemHandler = new AeAttachmentItemResultSetHandler();
 
    public AeSQLAttachmentStorageProvider()
    {
@@ -162,12 +161,11 @@ public class AeSQLAttachmentStorageProvider extends AeAbstractSQLStorageProvider
    /**
     * @see org.activebpel.rt.bpel.server.engine.storage.providers.IAeAttachmentStorageProvider#getHeaders(long)
     */
-   public Map getHeaders(long aAttachmentId) throws AeStorageException
+   public Map<String,String> getHeaders(long aAttachmentId) throws AeStorageException
    {
       try
       {
-         Object[] params = { new Long(aAttachmentId) };
-         AeAttachmentItemEntry entry = (AeAttachmentItemEntry) query(SELECT_ATTACHMENT_HEADERS, params, sAttachmentItemHandler);
+         AeAttachmentItemEntry entry = query(SELECT_ATTACHMENT_HEADERS, sAttachmentItemHandler, Long.valueOf(aAttachmentId));
          return entry.getHeaders();
       }
       catch (AeStorageException e)
@@ -185,8 +183,7 @@ public class AeSQLAttachmentStorageProvider extends AeAbstractSQLStorageProvider
     */
    public InputStream getContent(long aAttachmentId) throws AeStorageException
    {
-      Object[] params = { new Long(aAttachmentId) };
-      return (InputStream) query(SELECT_ATTACHMENT_CONTENTS, params, AeResultSetHandlers.getBlobStreamHandler());
+      return query(SELECT_ATTACHMENT_CONTENTS, AeResultSetHandlers.getBlobStreamHandler(), Long.valueOf(aAttachmentId));
    }
 
    /**
@@ -194,7 +191,7 @@ public class AeSQLAttachmentStorageProvider extends AeAbstractSQLStorageProvider
     */
    public void cleanup() throws AeStorageException
    {
-      update(SQL_CLEANUP_ATTACHMENTS, null);
+      update(SQL_CLEANUP_ATTACHMENTS);
    }
 
    /**
@@ -206,11 +203,17 @@ public class AeSQLAttachmentStorageProvider extends AeAbstractSQLStorageProvider
       update(SQL_REMOVE_ATTACHMENT, params);
    }
 
-public AeCounter getCounter() {
-    return mCounter;
-}
-
-public void setCounter(AeCounter aCounter) {
-    mCounter = aCounter;
-}
+   /**
+	* @return
+	*/
+   public AeCounter getCounter() {
+      return mCounter;
+   }
+	
+   /**
+    * @param aCounter
+    */
+   public void setCounter(AeCounter aCounter) {
+      mCounter = aCounter;
+   }
 }

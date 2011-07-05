@@ -16,6 +16,7 @@ import org.activebpel.rt.bpel.impl.list.AeAlarmFilter;
 import org.activebpel.rt.bpel.impl.list.AeAlarmListResult;
 import org.activebpel.rt.bpel.impl.list.AeMessageReceiverFilter;
 import org.activebpel.rt.bpel.impl.list.AeMessageReceiverListResult;
+import org.activebpel.rt.bpel.impl.queue.AeAlarm;
 import org.activebpel.rt.bpel.impl.queue.AeInboundReceive;
 import org.activebpel.rt.bpel.impl.queue.AeMessageReceiver;
 import org.activebpel.wsio.IAeMessageAcknowledgeCallback;
@@ -91,7 +92,7 @@ public interface IAeQueueStorage extends IAeStorage
     * @param aFilter Filter for alarms to find.
     * @return List of alarms matching the passed filter.
     */
-   public AeAlarmListResult getAlarms(AeAlarmFilter aFilter) throws AeStorageException;
+   public AeAlarmListResult<? extends AeAlarm> getAlarms(AeAlarmFilter aFilter) throws AeStorageException;
    
    /**
     * Stores an alarm in the store object.  The alarm will be saved to some

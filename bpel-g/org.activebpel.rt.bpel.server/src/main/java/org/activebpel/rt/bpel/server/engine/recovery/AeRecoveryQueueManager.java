@@ -222,7 +222,7 @@ public class AeRecoveryQueueManager extends AeBaseQueueManager implements IAeRec
     *
     * @see org.activebpel.rt.bpel.impl.AeBaseQueueManager#getReplies()
     */
-   protected Map getReplies()
+   protected Map<Long, AeReply> getReplies()
    {
       // This is basically an assertion that we are not using this portion of
       // AeBaseQueueManager.

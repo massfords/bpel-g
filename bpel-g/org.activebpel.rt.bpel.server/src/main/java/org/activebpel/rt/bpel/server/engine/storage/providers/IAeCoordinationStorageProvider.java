@@ -85,7 +85,7 @@ public interface IAeCoordinationStorageProvider extends IAeStorageProvider
    /**
     * @see org.activebpel.rt.bpel.server.engine.storage.IAeCoordinationStorage#getCoordinatorDetail(long)
     */
-   public List getCoordinatorDetail(long aChildProcessId) throws AeStorageException;
+   public List<AeCoordinationDetail> getCoordinatorDetail(long aChildProcessId) throws AeStorageException;
 
    /**
     * @see org.activebpel.rt.bpel.server.engine.storage.IAeCoordinationStorage#getParticipantDetail(long)

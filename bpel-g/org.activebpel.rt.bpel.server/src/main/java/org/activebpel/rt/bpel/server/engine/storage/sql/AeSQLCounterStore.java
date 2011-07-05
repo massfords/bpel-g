@@ -165,9 +165,7 @@ public class AeSQLCounterStore extends AeSQLObject implements IAeCounterStore
    protected long getValue(Connection aConnection, String aCounterName) throws AeStorageException, SQLException
    {
       String sql = getSQLStatement(SQL_GET_COUNTER_VALUE);
-      Object param = aCounterName;
-
-      Long value = (Long) getQueryRunner().query(aConnection, sql, param, AeResultSetHandlers.getLongHandler());
+      Long value = getQueryRunner().query(aConnection, sql, AeResultSetHandlers.getLongHandler(), aCounterName);
       if (value == null)
       {
          throw new AeStorageException(AeMessages.format("AeSQLCounterStore.ERROR_3", aCounterName)); //$NON-NLS-1$

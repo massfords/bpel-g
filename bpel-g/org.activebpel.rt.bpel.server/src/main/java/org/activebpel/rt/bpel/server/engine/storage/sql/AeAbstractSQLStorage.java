@@ -39,8 +39,7 @@ abstract public class AeAbstractSQLStorage extends AeSQLObject
     * @return The SQL statement found for that name.
     * @throws AeStorageException If the SQL statement is not found.
     */
-   protected String getSQLStatement(String aStatementName) 
-   throws AeStorageException
+   protected String getSQLStatement(String aStatementName) throws AeStorageException
    {
       String key = getPrefix() + aStatementName;
       String sql = getSQLConfig().getSQLStatement(key);
@@ -53,53 +52,13 @@ abstract public class AeAbstractSQLStorage extends AeSQLObject
    }
    
    /**
-    * Return sql key prefix.
-    */
-   public String getPrefix()
-   {
-      return mPrefix;
-   }
-   
-   public void setPrefix(String aPrefix) {
-       mPrefix = aPrefix;
-   }
-   
-   /**
-    * Accessor for sql config.
-    */
-   public AeSQLConfig getSQLConfig()
-   {
-      return mConfig;
-   }
-   
-   public void setSQLConfig(AeSQLConfig aConfig) {
-       mConfig = aConfig;
-   }
-   
-   /**
-    * Executes the udpate sql bound to the name provided and using the single param
-    * @param aQueryName
-    * @param aObject
-    * @throws AeStorageException
-    */
-   protected int update(String aQueryName, Object aObject) throws AeStorageException
-   {
-      if (aObject instanceof Object[])
-      {
-         return update(aQueryName, (Object[])aObject);
-      }
-      Object[] params = {aObject};
-      return update(aQueryName, params);
-   }
-   
-   /**
     * Executes the update sql bound to the name provided and using the params
     * passed in.
     * @param aQueryName
     * @param aParams
     * @throws AeStorageException
     */
-   protected int update(String aQueryName, Object[] aParams) throws AeStorageException
+   protected int update(String aQueryName, Object ... aParams) throws AeStorageException
    {
       Connection conn = null;
       try
@@ -121,12 +80,12 @@ abstract public class AeAbstractSQLStorage extends AeSQLObject
     * @param aParams
     * @throws AeStorageException
     */
-   protected int update(Connection aConnection, String aQueryName, Object[] aParams) throws AeStorageException
+   protected int update(Connection aConnection, String aQueryName, Object ... aParams) throws AeStorageException
    {
       try
       {
          String stmt = getSQLStatement(aQueryName);
-         return getQueryRunner().update(aConnection, stmt,aParams);
+         return getQueryRunner().update(aConnection, stmt, aParams);
       }
       catch( SQLException sql )
       {
@@ -141,13 +100,13 @@ abstract public class AeAbstractSQLStorage extends AeSQLObject
     * @param aHandler
     * @throws AeStorageException
     */
-   protected Object query(String aQueryName, Object[] aParams, ResultSetHandler aHandler) throws AeStorageException
+   protected <T> T query(String aQueryName, ResultSetHandler<T> aHandler, Object ... aParams) throws AeStorageException
    {
       Connection conn = null;
       try
       {
          conn = getConnection();
-         return query(conn, aQueryName, aParams, aHandler);
+         return query(conn, aQueryName, aHandler, aParams);
       }
       finally
       {
@@ -164,12 +123,12 @@ abstract public class AeAbstractSQLStorage extends AeSQLObject
     * @param aHandler
     * @throws AeStorageException
     */
-   protected Object query(Connection aConn, String aQueryName, Object[] aParams, ResultSetHandler aHandler) throws AeStorageException
+   protected <T> T query(Connection aConn, String aQueryName, ResultSetHandler<T> aHandler, Object ... aParams) throws AeStorageException
    {
       try
       {
          String stmt = getSQLStatement(aQueryName);
-         return getQueryRunner().query(aConn,stmt,aParams,aHandler);
+         return getQueryRunner().query(aConn,stmt,aHandler,aParams);
       }
       catch( SQLException sql )
       {
@@ -178,18 +137,35 @@ abstract public class AeAbstractSQLStorage extends AeSQLObject
    }
    
    /**
-    * Convenience method for executing a query
-    * @param aQueryName
-    * @param aParam
-    * @param aHandler
-    * @throws AeStorageException
+    * Return sql key prefix.
     */
-   protected Object query(String aQueryName, Object aParam, ResultSetHandler aHandler)
-         throws AeStorageException
+   public String getPrefix()
    {
-      return query(aQueryName, new Object[] { aParam }, aHandler);
+      return mPrefix;
    }
-
+   
+   /**
+	* @param aPrefix
+	*/
+   public void setPrefix(String aPrefix) {
+       mPrefix = aPrefix;
+   }
+   
+   /**
+    * Accessor for sql config.
+    */
+   public AeSQLConfig getSQLConfig()
+   {
+      return mConfig;
+   }
+   
+   /**
+	* @param aConfig
+	*/
+   public void setSQLConfig(AeSQLConfig aConfig) {
+       mConfig = aConfig;
+   }
+   
    /**
     * @return Returns the config.
     */

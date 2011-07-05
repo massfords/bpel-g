@@ -27,12 +27,13 @@ public abstract class AeAbstractXpathTag extends AeAbstractBeanPropertyTag
     * is created and set on the request scope.
     * @return Map containing namespace prefix uri mapping.
     */
-   protected Map getNamespaceMap()
+   protected Map<String, String> getNamespaceMap()
    {
-      Map map = (Map) pageContext.getAttribute(NSMAP_KEY, PageContext.REQUEST_SCOPE );
+      @SuppressWarnings("unchecked")
+	  Map<String, String> map = (Map<String, String>) pageContext.getAttribute(NSMAP_KEY, PageContext.REQUEST_SCOPE );
       if (map == null)
       {
-         map = new HashMap();
+         map = new HashMap<String, String>();
          pageContext.setAttribute(NSMAP_KEY, map, PageContext.REQUEST_SCOPE );
       }
       return map;

@@ -27,7 +27,7 @@ import org.activebpel.rt.bpel.def.util.AeDefUtil;
 public class AeJoinVisitor extends AeAbstractDefVisitor
 {
    /** maps the correlationSetDef to a object which describes its usage */
-   private Map mCSToUsageMap = new HashMap();
+   private Map<AeCorrelationSetDef, AeCorrelationSetUsage> mCSToUsageMap = new HashMap<AeCorrelationSetDef, AeCorrelationSetUsage>();
 
    /**
     * no arg ctor 
@@ -81,7 +81,7 @@ public class AeJoinVisitor extends AeAbstractDefVisitor
    /**
     * Getter for the usage map
     */
-   protected Map getUsageMap()
+   protected Map<AeCorrelationSetDef, AeCorrelationSetUsage> getUsageMap()
    {
       return mCSToUsageMap;
    }

@@ -5,7 +5,7 @@ import java.sql.SQLException;
 
 import org.apache.commons.dbutils.ResultSetHandler;
 
-public interface AeResultSetHandler<T> extends ResultSetHandler {
+public interface AeResultSetHandler<T> extends ResultSetHandler<T> {
 
     /**
      * @see org.apache.commons.dbutils.ResultSetHandler#handle(java.sql.ResultSet)

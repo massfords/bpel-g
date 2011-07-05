@@ -23,7 +23,7 @@ import org.apache.commons.dbutils.ResultSetHandler;
  * <br/>
  * Note: This class is not intended to be thread safe. 
  */
-abstract public class AeListingResultSetHandler<L,T> implements ResultSetHandler
+abstract public class AeListingResultSetHandler<L,T> implements ResultSetHandler<L>
 {
    /** The row number where to start fetching results. */
    private final int mListStart;

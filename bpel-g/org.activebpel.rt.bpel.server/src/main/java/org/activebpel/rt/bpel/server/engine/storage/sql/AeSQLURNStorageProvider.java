@@ -28,7 +28,7 @@ public class AeSQLURNStorageProvider extends AeAbstractSQLStorageProvider implem
    protected static final String SQLSTATEMENT_PREFIX = "URNStorage."; //$NON-NLS-1$
 
    /** resultset handler used to read the urn mappings into a map */
-   private static final ResultSetHandler URN_MAPPING_HANDLER = new AeURNMappingHandler();
+   private static final ResultSetHandler<Map<String,String>> URN_MAPPING_HANDLER = new AeURNMappingHandler();
    
    private AeCounter mCounter;
 
@@ -43,9 +43,9 @@ public class AeSQLURNStorageProvider extends AeAbstractSQLStorageProvider implem
    /**
     * @see org.activebpel.rt.bpel.server.engine.storage.providers.IAeURNStorageProvider#getMappings()
     */
-   public Map getMappings() throws AeStorageException
+   public Map<String,String> getMappings() throws AeStorageException
    {
-      return (Map) query(IAeURNSQLKeys.SQL_GET_MAPPINGS, new Object[0], URN_MAPPING_HANDLER);
+      return query(IAeURNSQLKeys.SQL_GET_MAPPINGS, URN_MAPPING_HANDLER);
    }
 
    /**
