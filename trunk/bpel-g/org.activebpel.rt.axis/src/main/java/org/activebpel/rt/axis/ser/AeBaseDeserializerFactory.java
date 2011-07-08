@@ -20,7 +20,7 @@ import org.apache.axis.encoding.ser.BaseDeserializerFactory;
  * A base class for AE deserializer factories. This class causes the general purpose and specialized cases to
  * be skipped (since they are never used).
  */
-public class AeBaseDeserializerFactory extends BaseDeserializerFactory
+public final class AeBaseDeserializerFactory extends BaseDeserializerFactory
 {
    /**
      * 
@@ -30,9 +30,9 @@ public class AeBaseDeserializerFactory extends BaseDeserializerFactory
 /**
     * Creates a deserializer factory with the given java type and xml type.
     */
-   public AeBaseDeserializerFactory(Class<?> aClass, QName xmlType, Class<?> javaType)
+   public AeBaseDeserializerFactory(Class<?> javaType, QName xmlType)
    {
-      super(aClass, xmlType, javaType);
+      super(javaType, xmlType, javaType);
    }
 
    /**

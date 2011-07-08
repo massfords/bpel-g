@@ -208,7 +208,7 @@ public class AeSQLQueueStorageProvider extends AeAbstractSQLStorageProvider impl
          try
          {
             // Stop looping when successful.
-            return query(IAeQueueSQLKeys.GET_CORRELATED_RECEIVES, MESSAGE_RECEIVER_LIST_HANDLER, Integer.valueOf(aMatchHash), Integer.valueOf(aCorrelatesHash));
+            return (List<AePersistedMessageReceiver>) query(IAeQueueSQLKeys.GET_CORRELATED_RECEIVES, (ResultSetHandler)MESSAGE_RECEIVER_LIST_HANDLER, Integer.valueOf(aMatchHash), Integer.valueOf(aCorrelatesHash));
          }
          catch (AeStorageException e)
          {
@@ -298,7 +298,7 @@ public class AeSQLQueueStorageProvider extends AeAbstractSQLStorageProvider impl
     */
    public List getAlarms() throws AeStorageException
    {
-      return (List) query(IAeQueueSQLKeys.GET_ALARMS, null, ALARM_LIST_HANDLER);
+      return (List) query(IAeQueueSQLKeys.GET_ALARMS, ALARM_LIST_HANDLER);
    }
 
    /**
@@ -338,7 +338,7 @@ public class AeSQLQueueStorageProvider extends AeAbstractSQLStorageProvider impl
       try
       {
          AeAlarmListHandler handler = new AeAlarmListHandler(aFilter);
-		 List<AeAlarmExt> matches = getQueryRunner().query(connection, aSQLQuery, handler, aParams);
+		 List<AeAlarmExt> matches = (List<AeAlarmExt>) getQueryRunner().query(connection, aSQLQuery, (ResultSetHandler)handler, aParams);
          return new AeAlarmListResult<AeAlarmExt>(handler.getRowCount(), matches);
       }
       catch (SQLException ex)
@@ -403,7 +403,7 @@ public class AeSQLQueueStorageProvider extends AeAbstractSQLStorageProvider impl
       try
       {
          AeMessageReceiverListHandler handler = new AeMessageReceiverListHandler(aFilter);
-         List<AePersistedMessageReceiver> matches = getQueryRunner().query(connection, aSQLQuery, handler, aParams);
+         List<AePersistedMessageReceiver> matches = (List<AePersistedMessageReceiver>) getQueryRunner().query(connection, aSQLQuery, (ResultSetHandler)handler, aParams);
          AeMessageReceiver[] receivers = (AeMessageReceiver[]) matches.toArray(new AeMessageReceiver[matches.size()]);
          return new AeMessageReceiverListResult(handler.getRowCount(), receivers);
       }

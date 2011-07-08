@@ -23,9 +23,9 @@ public class AeBaseSerializerFactory extends BaseSerializerFactory
 /**
     * Creates a serializer factory with the given java type and xml type.
     */
-   public AeBaseSerializerFactory(Class<AeBaseSerializer> javaType, QName xmlType)
+   public AeBaseSerializerFactory(Class<?> javaType, QName xmlType)
    {
-      super(javaType, xmlType, javaType);
+      super(AeBaseSerializer.class, xmlType, javaType);
    }
 
 }
