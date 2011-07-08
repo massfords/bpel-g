@@ -177,7 +177,7 @@ public class AeSQLProcessStateStorageProvider extends AeAbstractSQLStorageProvid
          AeSQLProcessListResultSetHandler handler = createProcessListResultSetHandler(aFilter);
 
          // Run the query.
-         return getQueryRunner().query(sql, handler, params);
+         return (ProcessList) getQueryRunner().query(sql, (ResultSetHandler) handler, params);
       }
       catch (SQLException ex)
       {
@@ -215,7 +215,7 @@ public class AeSQLProcessStateStorageProvider extends AeAbstractSQLStorageProvid
          String sql = filter.getSelectStatement();
          Object[] params = filter.getParams();         
          AeSQLProcessIdsResultSetHandler handler = createProcessIdsResultSetHandler(aFilter);
-         return getQueryRunner().query(sql, handler, params);
+         return (long[]) getQueryRunner().query(sql, (ResultSetHandler) handler, params);
       }
       catch (SQLException ex)
       {
@@ -291,7 +291,7 @@ public class AeSQLProcessStateStorageProvider extends AeAbstractSQLStorageProvid
     */
    public Set getRecoveryProcessIds() throws AeStorageException
    {
-      return (Set) query(IAeProcessSQLKeys.GET_RECOVERY_PROCESS_IDS, null, AeResultSetHandlers.getLongSetHandler());
+      return (Set) query(IAeProcessSQLKeys.GET_RECOVERY_PROCESS_IDS, AeResultSetHandlers.getLongSetHandler());
    }
 
    /**
