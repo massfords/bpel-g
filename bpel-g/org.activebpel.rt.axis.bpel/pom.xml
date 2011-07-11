@@ -6,7 +6,7 @@
 	<parent>
 		<groupId>bpel-g</groupId>
 		<artifactId>bpel-g</artifactId>
-		<version>5.2</version>
+		<version>5.3-SNAPSHOT</version>
 	</parent>
 	<description>Contains the BPEL endpoint integration components for Axis. This includes the Java provider class that routes messages into the BPEL engine and an invoke handler that enables the Invoke activity to invoke web services via Axis.</description>
 	<dependencies>
