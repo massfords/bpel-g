@@ -18,9 +18,9 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
+import org.activebpel.rt.bpel.impl.AeAbstractProcessManager;
 import org.activebpel.rt.bpel.impl.fastdom.AeFastDocument;
 import org.activebpel.rt.bpel.server.AeMessages;
-import org.activebpel.rt.bpel.server.engine.AePersistentProcessManager;
 import org.activebpel.rt.bpel.server.engine.storage.AeStorageException;
 import org.activebpel.rt.bpel.server.engine.storage.IAeLocationVersionSet;
 import org.activebpel.rt.bpel.server.engine.storage.providers.IAeProcessStateConnectionProvider;
@@ -317,7 +317,7 @@ public class AeSQLProcessStateConnectionProvider extends AeAbstractSQLStoragePro
     */
    protected boolean isDebugReleaseConnection()
    {
-      return AePersistentProcessManager.isDebug() && !isContainerManaged();
+      return AeAbstractProcessManager.isDebug() && !isContainerManaged();
    }
 
    /**

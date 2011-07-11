@@ -34,6 +34,7 @@ import org.activebpel.rt.bpel.server.AeMessages;
 import org.activebpel.rt.bpel.server.engine.recovery.journal.AeAlarmJournalEntry;
 import org.activebpel.rt.bpel.server.engine.recovery.journal.AeInboundReceiveJournalEntry;
 import org.activebpel.rt.bpel.server.engine.storage.AeCounter;
+import org.activebpel.rt.bpel.server.engine.storage.AePersistedAlarm;
 import org.activebpel.rt.bpel.server.engine.storage.AePersistedMessageReceiver;
 import org.activebpel.rt.bpel.server.engine.storage.AeStorageException;
 import org.activebpel.rt.bpel.server.engine.storage.AeStorageUtil;
@@ -62,7 +63,7 @@ public class AeSQLQueueStorageProvider extends AeAbstractSQLStorageProvider impl
    /** A SQL Result Set Handler that returns a single Message Receivers. */
    private static final AeMessageReceiverHandler MESSAGE_RECEIVER_HANDLER = new AeMessageReceiverHandler();
    /** A SQL Result Set Handler that returns a list of Alarms. */
-   private static final ResultSetHandler ALARM_LIST_HANDLER = new AeAlarmListQueryHandler();
+   private static final ResultSetHandler<List<AePersistedAlarm>> ALARM_LIST_HANDLER = new AeAlarmListQueryHandler();
 
    /** The number of times to retry deadlocked transactions. */
    private static final int DEADLOCK_TRY_COUNT = 5;
@@ -208,7 +209,7 @@ public class AeSQLQueueStorageProvider extends AeAbstractSQLStorageProvider impl
          try
          {
             // Stop looping when successful.
-            return (List<AePersistedMessageReceiver>) query(IAeQueueSQLKeys.GET_CORRELATED_RECEIVES, (ResultSetHandler)MESSAGE_RECEIVER_LIST_HANDLER, Integer.valueOf(aMatchHash), Integer.valueOf(aCorrelatesHash));
+            return query(IAeQueueSQLKeys.GET_CORRELATED_RECEIVES, MESSAGE_RECEIVER_LIST_HANDLER, Integer.valueOf(aMatchHash), Integer.valueOf(aCorrelatesHash));
          }
          catch (AeStorageException e)
          {
@@ -296,9 +297,9 @@ public class AeSQLQueueStorageProvider extends AeAbstractSQLStorageProvider impl
    /**
     * @see org.activebpel.rt.bpel.server.engine.storage.providers.IAeQueueStorageProvider#getAlarms()
     */
-   public List getAlarms() throws AeStorageException
+   public List<AePersistedAlarm> getAlarms() throws AeStorageException
    {
-      return (List) query(IAeQueueSQLKeys.GET_ALARMS, ALARM_LIST_HANDLER);
+      return query(IAeQueueSQLKeys.GET_ALARMS, ALARM_LIST_HANDLER);
    }
 
    /**
@@ -338,7 +339,7 @@ public class AeSQLQueueStorageProvider extends AeAbstractSQLStorageProvider impl
       try
       {
          AeAlarmListHandler handler = new AeAlarmListHandler(aFilter);
-		 List<AeAlarmExt> matches = (List<AeAlarmExt>) getQueryRunner().query(connection, aSQLQuery, (ResultSetHandler)handler, aParams);
+		 List<AeAlarmExt> matches = getQueryRunner().query(connection, aSQLQuery, handler, aParams);
          return new AeAlarmListResult<AeAlarmExt>(handler.getRowCount(), matches);
       }
       catch (SQLException ex)
@@ -403,8 +404,8 @@ public class AeSQLQueueStorageProvider extends AeAbstractSQLStorageProvider impl
       try
       {
          AeMessageReceiverListHandler handler = new AeMessageReceiverListHandler(aFilter);
-         List<AePersistedMessageReceiver> matches = (List<AePersistedMessageReceiver>) getQueryRunner().query(connection, aSQLQuery, (ResultSetHandler)handler, aParams);
-         AeMessageReceiver[] receivers = (AeMessageReceiver[]) matches.toArray(new AeMessageReceiver[matches.size()]);
+         List<AePersistedMessageReceiver> matches = getQueryRunner().query(connection, aSQLQuery, handler, aParams);
+         AeMessageReceiver[] receivers = matches.toArray(new AeMessageReceiver[matches.size()]);
          return new AeMessageReceiverListResult(handler.getRowCount(), receivers);
       }
       catch (SQLException ex)
