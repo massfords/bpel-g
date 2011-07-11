@@ -1,5 +1,4 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<name>bpel-g Web Archive</name>
 	<groupId>bpel-g</groupId>
@@ -8,7 +7,7 @@
 	<parent>
 		<groupId>bpel-g</groupId>
 		<artifactId>bpel-g</artifactId>
-		<version>5.2-SNAPSHOT</version>
+		<version>5.2</version>
 	</parent>
 	<build>
 		<filters>
@@ -94,11 +93,8 @@
 						<phase>process-classes</phase>
 						<configuration>
 							<tasks>
-								<copy
-									file="${basedir}/../org.activebpel.rt.axis.bpel.web/src/main/webapp/WEB-INF/applicationContext.xml"
-									todir="${project.build.directory}/bpel-g/WEB-INF/" />
-								<xslt in="${basedir}/src/main/webapp/WEB-INF/web.xml" out="${project.build.directory}/web.xml"
-									style="${basedir}/src/main/web.xsl" />
+								<copy file="${basedir}/../org.activebpel.rt.axis.bpel.web/src/main/webapp/WEB-INF/applicationContext.xml" todir="${project.build.directory}/bpel-g/WEB-INF/" />
+								<xslt in="${basedir}/src/main/webapp/WEB-INF/web.xml" out="${project.build.directory}/web.xml" style="${basedir}/src/main/web.xsl" />
 							</tasks>
 						</configuration>
 						<goals>
@@ -391,11 +387,8 @@
 								<phase>process-classes</phase>
 								<configuration>
 									<tasks>
-										<copy
-											file="${basedir}/../org.activebpel.rt.axis.bpel.web/src/main/webapp/WEB-INF/applicationContext.xml"
-											todir="${project.build.directory}/bpel-g/WEB-INF/" />
-										<xslt in="${basedir}/src/main/web-jboss.xml" out="${project.build.directory}/web-jboss.xml"
-											style="${basedir}/src/main/web.xsl" />
+										<copy file="${basedir}/../org.activebpel.rt.axis.bpel.web/src/main/webapp/WEB-INF/applicationContext.xml" todir="${project.build.directory}/bpel-g/WEB-INF/" />
+										<xslt in="${basedir}/src/main/web-jboss.xml" out="${project.build.directory}/web-jboss.xml" style="${basedir}/src/main/web.xsl" />
 									</tasks>
 								</configuration>
 								<goals>

@@ -1,10 +1,9 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <name>bpel-g project</name>
   <groupId>bpel-g</groupId>
   <artifactId>bpel-g</artifactId>
-  <version>5.2-SNAPSHOT</version>
+  <version>5.2</version>
   <packaging>pom</packaging>
   <developers>
     <developer>
@@ -17,9 +16,9 @@
     </developer>
   </developers>
   <scm>
-    <connection>scm:svn:http://bpel-g.googlecode.com/svn/trunk/bpel-g</connection>
-    <developerConnection>scm:svn:https://bpel-g.googlecode.com/svn/trunk/bpel-g</developerConnection>
-    <url>http://bpel-g.googlecode.com/svn/trunk/bpel-g/</url>
+    <connection>scm:svn:http://bpel-g.googlecode.com/svn/tags/bpel-g-5.2</connection>
+    <developerConnection>scm:svn:https://bpel-g.googlecode.com/svn/tags/bpel-g-5.2</developerConnection>
+    <url>http://bpel-g.googlecode.com/svn/tags/bpel-g-5.2</url>
   </scm>
   <repositories>
     <repository>

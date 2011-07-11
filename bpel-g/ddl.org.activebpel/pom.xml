@@ -6,6 +6,6 @@
   <parent>
       <groupId>bpel-g</groupId>
       <artifactId>bpel-g</artifactId>
-      <version>5.2-SNAPSHOT</version>
+      <version>5.2</version>
   </parent>  
 </project>
