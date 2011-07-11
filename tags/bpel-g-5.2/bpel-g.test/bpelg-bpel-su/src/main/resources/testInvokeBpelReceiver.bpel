@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpel:process xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xsi:schemaLocation="http://docs.oasis-open.org/wsbpel/2.0/process/executable ../../../../ws-bpel_executable.xsd"
+ xmlns:ns1="http://www.example.org/test/"
+ xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+ xmlns:ext="http://www.activebpel.org/2006/09/bpel/extension/query_handling"
+ xmlns:bpel="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+ name="testInvokeBpelReceiver"
+ suppressJoinFailure="yes"
+ targetNamespace="urn:bpelg:test">
+   <bpel:extensions>
+      <bpel:extension namespace="http://www.w3.org/2001/XMLSchema-instance" mustUnderstand="no"/>
+   </bpel:extensions>
+   <bpel:import importType="http://schemas.xmlsoap.org/wsdl/" location="wsdl/example.wsdl"
+      namespace="http://www.example.org/test/"/>
+   <bpel:partnerLinks>
+      <bpel:partnerLink myRole="proces" name="testPartnerLinkType2"
+         partnerLinkType="ns1:testPartnerLinkType2"/>
+   </bpel:partnerLinks>
+   <bpel:variables>
+      <bpel:variable element="ns1:CreateProcessRequest2" name="CreateProcessRequest2"/>
+      <bpel:variable element="ns1:CreateProcessResponse2" name="CreateProcessResponse2"/>
+   </bpel:variables>
+   <bpel:sequence>
+      <bpel:receive createInstance="yes" operation="createProcess2"
+         partnerLink="testPartnerLinkType2" variable="CreateProcessRequest2"/>
+      <bpel:assign>
+         <bpel:copy>
+            <bpel:from>
+               <bpel:literal>
+                  <ns1:CreateProcessResponse2>
+                     <ns1:value>SUCCESS</ns1:value>
+                  </ns1:CreateProcessResponse2>
+               </bpel:literal>
+            </bpel:from>
+            <bpel:to variable="CreateProcessResponse2"/>
+         </bpel:copy>
+      </bpel:assign>
+      <bpel:reply operation="createProcess2" partnerLink="testPartnerLinkType2"
+         variable="CreateProcessResponse2"/>
+   </bpel:sequence>
+</bpel:process>

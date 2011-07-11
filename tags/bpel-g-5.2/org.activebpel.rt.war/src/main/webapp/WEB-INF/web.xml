@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<!DOCTYPE web-app PUBLIC
+   "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
+   "http://java.sun.com/dtd/web-app_2_3.dtd">
+
+<web-app>
+   <description>ActiveBPEL Base Application</description>
+
+   <welcome-file-list>
+       <welcome-file>home.jsp</welcome-file>
+   </welcome-file-list>
+
+	<taglib>
+		<taglib-uri>
+		   http://activebpel.org/aetaglib
+		</taglib-uri>
+		<taglib-location>
+		   /META-INF/aetags.tld
+		</taglib-location>
+	</taglib>
+</web-app>

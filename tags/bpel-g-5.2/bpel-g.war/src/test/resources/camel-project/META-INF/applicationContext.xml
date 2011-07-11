@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:util="http://www.springframework.org/schema/util"
+    xsi:schemaLocation="
+    http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+    http://camel.apache.org/schema/spring http://camel.apache.org/schema/spring/camel-spring.xsd">
+    
+    <camelContext id="test" xmlns="http://camel.apache.org/schema/spring">
+        <route>
+            <!-- Routes always start with a from. -->
+            <from uri="netty:udp://localhost:60200?sync=false"/>
+            <!-- The following setHeader's are required so the bpel-g component will know
+                 how to route the message. These values are using hard coded constants but
+                 the header values support expression.
+            -->
+            <setHeader headerName="partnerLink">
+                <constant>LoanProcess</constant>
+            </setHeader>
+            <setHeader headerName="processNamespace">
+                <constant>http://docs.active-endpoints.com/sample/bpel/loanprocess/2008/02/loanProcessCompleted.bpel</constant>
+            </setHeader>
+            <setHeader headerName="processLocalPart">
+                <constant>loanProcessCompleted</constant>
+            </setHeader>
+            <!-- Not much to configure on the component itself since all of the inputs are headers -->
+            <to uri="bpel:invoke"/>
+            
+            <!-- The bpel-g component will set the payload as a Document. This needs to be converted to a string
+                 since I don't think the Netty UDP component does this conversion automatically. Some form of
+                 serialization is needed to get the object onto the wire -->
+            <convertBodyTo type="java.lang.String"/>
+            <!-- dumping the contents of the current message out for debugging only -->
+            <to uri="stream:out"/>
+            <!-- sends the output message back to our mock endpoint listening on the same port -->
+            <to uri="netty:udp://localhost:60300?sync=false"/>
+        </route>
+    </camelContext>
+    
+</beans>

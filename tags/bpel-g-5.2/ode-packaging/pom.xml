@@ -1,0 +1,39 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <artifactId>bpel-g</artifactId>
+    <groupId>bpel-g</groupId>
+    <version>5.2</version>
+  </parent>
+  <groupId>bpel-g</groupId>
+  <artifactId>ode-packaging</artifactId>
+  <version>5.2</version>
+  <name>Apache ODE packaging</name>
+  <description>
+    Adds support or Apache ODE style packaging. A zip file with a single deploy.xml and a bunch of BPEL/WSDL/XSD/XSLT.
+    Much easier to generate this packaging then the AE BPR packaging.
+   </description>
+  <dependencies>
+  	<dependency>
+  		<groupId>org.activebpel</groupId>
+  		<artifactId>ae-bpel</artifactId>
+  		<version>5.2</version>
+  	</dependency>
+  	<dependency>
+  		<groupId>org.activebpel</groupId>
+  		<artifactId>ae-bpelsrvr</artifactId>
+  		<version>5.2</version>
+  	</dependency>
+  	<dependency>
+  		<groupId>xmlunit</groupId>
+  		<artifactId>xmlunit</artifactId>
+  		<version>1.3</version>
+  		<scope>test</scope>
+  	</dependency>
+  	<dependency>
+  		<groupId>commons-lang</groupId>
+  		<artifactId>commons-lang</artifactId>
+  		<version>2.5</version>
+  	</dependency>
+  </dependencies>
+</project>

@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions targetNamespace="urn:bpel-g:services:deploy" 
+      xmlns:tns="urn:bpel-g:services:deploy" 
+      xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/"
+      xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+                  xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" 
+                  xmlns:xs="http://www.w3.org/2001/XMLSchema">
+              
+   <wsdl:types>
+      <xs:schema elementFormDefault="qualified" targetNamespace="urn:bpel-g:services:deploy"
+         xmlns:pdd="http://schemas.active-endpoints.com/pdd/2006/08/pdd.xsd">
+         <xs:import namespace="http://schemas.active-endpoints.com/pdd/2006/08/pdd.xsd" schemaLocation="pdd.xsd"></xs:import>
+         <xs:element name="deploymentRequest" type="xs:string"/>
+         <xs:element name="deploymentResponse">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element name="message" type="xs:string" minOccurs="0"/>
+                  <xs:element ref="tns:deploymentContainerId"/>
+                  <xs:element name="deploymentInfo" maxOccurs="unbounded">
+                     <xs:complexType>
+                        <xs:sequence>
+                           <xs:element name="name" type="xs:string"/>
+                           <xs:element name="deployed" type="xs:boolean"/>
+                           <xs:element name="numberOfErrors" type="xs:int"/>
+                           <xs:element name="numberOfWarnings" type="xs:int"/>
+                           <xs:element name="log" type="xs:string"/>
+                           <xs:element ref="pdd:process" minOccurs="0"/>
+                        </xs:sequence>
+                     </xs:complexType>
+                  </xs:element>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="deploymentContainerId" type="xs:string"/>
+         <xs:element name="undeploymentRequest">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element ref="tns:deploymentContainerId"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="undeploymentResponse" type="xs:boolean"/>
+      </xs:schema>
+   </wsdl:types>
+   
+   <wsdl:message name="deploymentRequest">
+      <wsdl:part name="name" element="tns:deploymentRequest"/>
+      <wsdl:part name="archive" type="xs:base64Binary"/>
+   </wsdl:message>
+   <wsdl:message name="deploymentResponse">
+      <wsdl:part name="body" element="tns:deploymentResponse"/>
+   </wsdl:message>   
+
+   <wsdl:message name="undeploymentRequest">
+      <wsdl:part name="name" element="tns:undeploymentRequest"/>
+   </wsdl:message>
+   <wsdl:message name="undeploymentResponse">
+      <wsdl:part name="body" element="tns:undeploymentResponse"/>
+   </wsdl:message>   
+
+   <wsdl:portType name="AeDeployer">
+
+      <wsdl:operation name="deploy">
+         <wsdl:input  message="tns:deploymentRequest"/>
+         <wsdl:output message="tns:deploymentResponse"/>
+      </wsdl:operation>
+      
+      <wsdl:operation name="undeploy">
+         <wsdl:input  message="tns:undeploymentRequest"/>
+         <wsdl:output message="tns:undeploymentResponse"/>
+      </wsdl:operation>
+   </wsdl:portType>
+
+   <wsdl:binding name="AeDeployerBinding" type="tns:AeDeployer">
+      <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+      <wsdl:operation name="deploy">
+         <wsdl:input>
+            <mime:multipartRelated>
+               <mime:part>
+                  <soap:body parts="name" use="literal" />
+               </mime:part>
+               <mime:part>
+                  <mime:content part="payload" type="application/zip" />
+               </mime:part>
+            </mime:multipartRelated>
+         </wsdl:input>
+         <wsdl:output>
+            <soap:body use="literal"/>
+         </wsdl:output>
+      </wsdl:operation>
+
+      <wsdl:operation name="undeploy">
+         <wsdl:input>
+            <soap:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output>
+            <soap:body use="literal"/>
+         </wsdl:output>
+      </wsdl:operation>
+   </wsdl:binding>
+
+   <wsdl:service name="DeploymentService">
+      <wsdl:port binding="tns:AeDeployerBinding" name="AeDeployer">
+         <soap:address location="http://localhost:8080/bpel-g/cxf/DeploymentService"/>
+      </wsdl:port>
+   </wsdl:service>
+</wsdl:definitions>
