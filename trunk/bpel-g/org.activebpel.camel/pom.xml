@@ -8,7 +8,7 @@
   <parent>
     <artifactId>bpel-g</artifactId>
     <groupId>bpel-g</groupId>
-    <version>5.2</version>
+    <version>5.3-SNAPSHOT</version>
   </parent>
   <groupId>org.activebpel</groupId>
   <artifactId>ae-camel</artifactId>

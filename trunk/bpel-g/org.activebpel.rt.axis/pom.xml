@@ -7,7 +7,7 @@
 	<parent>
 		<groupId>bpel-g</groupId>
 		<artifactId>bpel-g</artifactId>
-		<version>5.2</version>
+		<version>5.3-SNAPSHOT</version>
 	</parent>
 
 	<description>Some supporting classes for modeling services and deployments within Axis. </description>

@@ -3,11 +3,11 @@
   <parent>
     <artifactId>bpel-g</artifactId>
     <groupId>bpel-g</groupId>
-    <version>5.2</version>
+    <version>5.3-SNAPSHOT</version>
   </parent>
   <groupId>bpel-g</groupId>
   <artifactId>ode-packaging</artifactId>
-  <version>5.2</version>
+  <version>5.3-SNAPSHOT</version>
   <name>Apache ODE packaging</name>
   <description>
     Adds support or Apache ODE style packaging. A zip file with a single deploy.xml and a bunch of BPEL/WSDL/XSD/XSLT.
@@ -17,12 +17,12 @@
   	<dependency>
   		<groupId>org.activebpel</groupId>
   		<artifactId>ae-bpel</artifactId>
-  		<version>5.2</version>
+  		<version>5.3-SNAPSHOT</version>
   	</dependency>
   	<dependency>
   		<groupId>org.activebpel</groupId>
   		<artifactId>ae-bpelsrvr</artifactId>
-  		<version>5.2</version>
+  		<version>5.3-SNAPSHOT</version>
   	</dependency>
   	<dependency>
   		<groupId>xmlunit</groupId>
