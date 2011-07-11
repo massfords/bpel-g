@@ -23,6 +23,7 @@ import org.activebpel.rt.bpel.server.AeMessages;
 import org.activebpel.rt.bpel.server.engine.recovery.journal.AeRestartProcessJournalEntry;
 import org.activebpel.rt.bpel.server.engine.recovery.journal.IAeJournalEntry;
 import org.activebpel.rt.bpel.server.engine.storage.AeCounter;
+import org.activebpel.rt.bpel.server.engine.storage.AeStorageConfig;
 import org.activebpel.rt.bpel.server.engine.storage.AeStorageException;
 import org.activebpel.rt.bpel.server.engine.storage.IAeProcessStateConnection;
 import org.activebpel.rt.bpel.server.engine.storage.providers.IAeProcessStateConnectionProvider;
@@ -177,7 +178,7 @@ public class AeSQLProcessStateStorageProvider extends AeAbstractSQLStorageProvid
          AeSQLProcessListResultSetHandler handler = createProcessListResultSetHandler(aFilter);
 
          // Run the query.
-         return (ProcessList) getQueryRunner().query(sql, (ResultSetHandler) handler, params);
+         return getQueryRunner().query(sql, handler, params);
       }
       catch (SQLException ex)
       {
@@ -215,7 +216,7 @@ public class AeSQLProcessStateStorageProvider extends AeAbstractSQLStorageProvid
          String sql = filter.getSelectStatement();
          Object[] params = filter.getParams();         
          AeSQLProcessIdsResultSetHandler handler = createProcessIdsResultSetHandler(aFilter);
-         return (long[]) getQueryRunner().query(sql, (ResultSetHandler) handler, params);
+         return getQueryRunner().query(sql, handler, params);
       }
       catch (SQLException ex)
       {
@@ -265,7 +266,7 @@ public class AeSQLProcessStateStorageProvider extends AeAbstractSQLStorageProvid
     */
    public List<IAeJournalEntry> getJournalEntries(long aProcessId) throws AeStorageException
    {
-      return (List<IAeJournalEntry>) query(IAeProcessSQLKeys.GET_JOURNAL_ENTRIES, JOURNAL_ENTRIES_RESULT_SET_HANDLER, aProcessId);
+      return query(IAeProcessSQLKeys.GET_JOURNAL_ENTRIES, JOURNAL_ENTRIES_RESULT_SET_HANDLER, aProcessId);
    }
 
    /**
@@ -281,17 +282,17 @@ public class AeSQLProcessStateStorageProvider extends AeAbstractSQLStorageProvid
     */
    public IAeJournalEntry getJournalEntry(long aJournalId) throws AeStorageException
    {
-      List list = query(IAeProcessSQLKeys.GET_JOURNAL_ENTRY, JOURNAL_ENTRIES_RESULT_SET_HANDLER, aJournalId);
+      List<IAeJournalEntry> list = query(IAeProcessSQLKeys.GET_JOURNAL_ENTRY, JOURNAL_ENTRIES_RESULT_SET_HANDLER, aJournalId);
 
-      return ((list != null) && (list.size() > 0)) ? (IAeJournalEntry) list.get(0) : null;
+      return ((list != null) && (list.size() > 0)) ? list.get(0) : null;
    }
 
    /**
     * @see org.activebpel.rt.bpel.server.engine.storage.providers.IAeProcessStateStorageProvider#getRecoveryProcessIds()
     */
-   public Set getRecoveryProcessIds() throws AeStorageException
+   public Set<Long> getRecoveryProcessIds() throws AeStorageException
    {
-      return (Set) query(IAeProcessSQLKeys.GET_RECOVERY_PROCESS_IDS, AeResultSetHandlers.getLongSetHandler());
+      return query(IAeProcessSQLKeys.GET_RECOVERY_PROCESS_IDS, AeResultSetHandlers.getLongSetHandler());
    }
 
    /**
@@ -311,7 +312,7 @@ public class AeSQLProcessStateStorageProvider extends AeAbstractSQLStorageProvid
 
       Object[] params = new Object[] { new Long(aProcessId) };
 
-      if (!getSQLConfig().getParameterBoolean(AeSQLConfig.PARAMETER_HAS_CASCADING_DELETES))
+      if (!getSQLConfig().getParameterBoolean(AeStorageConfig.PARAMETER_HAS_CASCADING_DELETES))
       {
          // Scrub process from dependent tables.
          update(connection, IAeProcessSQLKeys.DELETE_PROCESS_LOG, params);
@@ -328,7 +329,7 @@ public class AeSQLProcessStateStorageProvider extends AeAbstractSQLStorageProvid
    {
       try
       {
-         if ( !getSQLConfig().getParameterBoolean(AeSQLConfig.PARAMETER_HAS_CASCADING_DELETES) )
+         if ( !getSQLConfig().getParameterBoolean(AeStorageConfig.PARAMETER_HAS_CASCADING_DELETES) )
          {
             throw new AeStorageException(AeMessages.getString("AeSQLProcessStateStorage.ERROR_2")); //$NON-NLS-1$
          }

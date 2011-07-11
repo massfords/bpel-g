@@ -19,6 +19,7 @@ import org.activebpel.rt.bpel.impl.list.AeMessageReceiverListResult;
 import org.activebpel.rt.bpel.impl.queue.AeAlarm;
 import org.activebpel.rt.bpel.impl.queue.AeInboundReceive;
 import org.activebpel.rt.bpel.impl.queue.AeMessageReceiver;
+import org.activebpel.rt.bpel.server.engine.storage.AePersistedAlarm;
 import org.activebpel.rt.bpel.server.engine.storage.AePersistedMessageReceiver;
 import org.activebpel.rt.bpel.server.engine.storage.AeStorageException;
 
@@ -123,7 +124,7 @@ public interface IAeQueueStorageProvider extends IAeStorageProvider
    /**
     * Gets a list of all alarms in the database.
     */
-   public List getAlarms() throws AeStorageException;
+   public List<AePersistedAlarm> getAlarms() throws AeStorageException;
 
    /**
     * Gets a list of all alarm in the database that match the given filter.

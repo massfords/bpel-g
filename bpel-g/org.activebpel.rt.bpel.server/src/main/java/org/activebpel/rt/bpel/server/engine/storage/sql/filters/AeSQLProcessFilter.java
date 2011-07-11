@@ -52,8 +52,7 @@ public class AeSQLProcessFilter extends AeSQLFilter {
 		setCountClause(getSQLStatement(IAeProcessSQLKeys.GET_PROCESS_COUNT));
 	}
 
-	private void processFilter(ProcessFilterType aFilter)
-			throws AeStorageException {
+	private void processFilter(ProcessFilterType aFilter) {
 		clearWhereClause();
 
 		// The static where clause is included on the query if it's been set in

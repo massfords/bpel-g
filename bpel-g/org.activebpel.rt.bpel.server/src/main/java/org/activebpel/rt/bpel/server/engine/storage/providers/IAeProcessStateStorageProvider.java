@@ -98,7 +98,7 @@ public interface IAeProcessStateStorageProvider extends IAeStorageProvider
    /**
     * @see org.activebpel.rt.bpel.server.engine.storage.IAeProcessStateStorage#getRecoveryProcessIds()
     */
-   public Set getRecoveryProcessIds() throws AeStorageException;
+   public Set<Long> getRecoveryProcessIds() throws AeStorageException;
 
    /**
     * @see org.activebpel.rt.bpel.server.engine.storage.IAeProcessStateStorage#releaseConnection(org.activebpel.rt.bpel.server.engine.storage.IAeProcessStateConnection)
