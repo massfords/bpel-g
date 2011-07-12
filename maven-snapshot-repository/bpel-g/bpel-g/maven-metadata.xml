@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metadata>
+  <groupId>bpel-g</groupId>
+  <artifactId>bpel-g</artifactId>
+  <versioning>
+    <versions>
+      <version>5.3-SNAPSHOT</version>
+    </versions>
+    <lastUpdated>20110712002445</lastUpdated>
+  </versioning>
+</metadata>
