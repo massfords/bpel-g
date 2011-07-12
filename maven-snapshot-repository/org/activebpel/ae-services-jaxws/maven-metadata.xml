@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metadata>
+  <groupId>org.activebpel</groupId>
+  <artifactId>ae-services-jaxws</artifactId>
+  <versioning>
+    <versions>
+      <version>5.3-SNAPSHOT</version>
+    </versions>
+    <lastUpdated>20110712002912</lastUpdated>
+  </versioning>
+</metadata>
