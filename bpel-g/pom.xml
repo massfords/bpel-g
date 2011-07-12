@@ -20,6 +20,20 @@
     <developerConnection>scm:svn:https://bpel-g.googlecode.com/svn/trunk/bpel-g</developerConnection>
     <url>http://bpel-g.googlecode.com/svn/trunk/bpel-g/</url>
   </scm>
+
+   <distributionManagement>
+      <repository>
+         <id>googlecode.bpel-g.repo</id>
+         <url>dav:https://bpel-g.googlecode.com/svn/maven-repository/</url>
+      </repository>
+      <snapshotRepository>
+         <id>googlecode.bpel-g.snapshotrepo</id>
+         <url>dav:https://bpel-g.googlecode.com/svn/maven-snapshot-repository/</url>
+      </snapshotRepository>
+   </distributionManagement>
+
+
+
   <repositories>
     <repository>
       <releases>
