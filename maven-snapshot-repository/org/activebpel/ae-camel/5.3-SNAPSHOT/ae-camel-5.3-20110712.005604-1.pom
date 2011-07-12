@@ -1,0 +1,27 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <name>Apache Camel bpel-g component</name>
+  <description>
+    Very rough Apache Camel component for dispatching one-way messages into the engine.
+    Also provides an IAeInvokeHandlerFactory for invoking camel based endpoints.
+   </description>
+  <parent>
+    <artifactId>bpel-g</artifactId>
+    <groupId>bpel-g</groupId>
+    <version>5.3-SNAPSHOT</version>
+  </parent>
+  <groupId>org.activebpel</groupId>
+  <artifactId>ae-camel</artifactId>
+  <dependencies>
+  	<dependency>
+  		<groupId>org.apache.camel</groupId>
+  		<artifactId>camel-core</artifactId>
+  		<version>${camel-version}</version>
+  	</dependency>
+  	<dependency>
+  		<groupId>org.activebpel</groupId>
+  		<artifactId>ae-bpelsrvr</artifactId>
+  		<version>${project.version}</version>
+  	</dependency>
+  </dependencies>
+</project>
