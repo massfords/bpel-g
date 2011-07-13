@@ -1,0 +1,18 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <name>ActiveBPEL Web Service Resource Validation Models</name>
+  <groupId>org.activebpel</groupId>
+  <artifactId>ae-wsresource</artifactId>
+  <parent>
+      <groupId>bpel-g</groupId>
+      <artifactId>bpel-g</artifactId>
+      <version>5.2</version>
+  </parent>  
+  <dependencies>
+  	<dependency>
+  		<groupId>org.activebpel</groupId>
+  		<artifactId>ae-bpel</artifactId>
+  	    <version>${project.version}</version>
+  	</dependency>
+  </dependencies>
+</project>
