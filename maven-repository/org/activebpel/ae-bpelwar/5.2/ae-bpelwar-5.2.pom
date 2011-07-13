@@ -1,0 +1,45 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<name>ActiveBPEL Admin Web Archive</name>
+	<groupId>org.activebpel</groupId>
+	<artifactId>ae-bpelwar</artifactId>
+	<packaging>war</packaging>
+	<parent>
+		<groupId>bpel-g</groupId>
+		<artifactId>bpel-g</artifactId>
+		<version>5.2</version>
+	</parent>
+	<build>
+		<finalName>bpelg-console</finalName>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-war-plugin</artifactId>
+				<version>2.0</version>
+				<configuration>
+					<webResources>
+						<resource>
+							<directory>${basedir}/../org.activebpel.rt.war/src/main/webapp</directory>
+							<excludes>
+								<exclude>WEB-INF/web.xml</exclude>
+							</excludes>
+							<filtering>false</filtering>
+						</resource>
+					</webResources>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+	<dependencies>
+		<dependency>
+			<groupId>org.activebpel</groupId>
+			<artifactId>ae-bpeladmin</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>jstl</artifactId>
+			<version>1.2</version>
+		</dependency>
+	</dependencies>
+</project>
