@@ -5,9 +5,17 @@
 [http://camel.apache.org/ Apache Camel] is a popular open source Java implementation of the [http://www.enterpriseintegrationpatterns.com/toc.html Enterprise Integration Patterns]. The 5.2 release for bpel-g includes the core dependencies from Camel in order to provide endpoint abstraction, mediation, or transformation tasks.
 
 = Camel Invoke Handler =
-A custom invoke handler supports the integration of camel endpoints within a process.
+A custom invoke handler supports the integration of camel endpoints within a process. The camel invoke handler is targeted by using the uri scheme "camel" for the endpoint address. The remainder of the URI is passed to the camel context for evaluation.
 
-Note: the current invoke handler only has access to an empty context. A future release will provide access to the contexts within the bundle's optional [SpringDeploymentHandler context].
+For example:
+
+{{{
+   <wsa:EndpointReference>
+      <wsa:Address>camel:vm:endpointname?optional-params</wsa:Address>
+   </wsa:EndpointReference>
+}}}
+
+Note: the current invoke handler only has access to an empty context. A future release will provide access to the contexts within the bundle's optional [SpringDeploymentHandler context]. The example above shows the use of the vm endpoint. Once locally configured contexts are implemented, local 
 
 = Camel Component =
 bpel-g includes a camel component that binds the uri scheme "bpel" in order to route messages into the engine and also to undeploy processes. Other commands will be added as needed.
