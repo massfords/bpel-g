@@ -2,7 +2,7 @@
 
 = Deployment Handlers =
 
-The 5.2 release introduced a simplification of the deployment process where each archive (either a BPR or ODE style) passes through a chain of handlers that each handle a different part of the deployment process. This chain includes handlers for deploying WSDL/XSD resources, BPEL processes, web services for BPEL endpoints, as well as an optional Spring Application Context for each BPR.
+The 5.2 release introduced a [DeploymentClasses simplification] of the deployment process where each archive (either a BPR or ODE style) passes through a chain of handlers that each handle a different part of the deployment process. This chain includes handlers for deploying WSDL/XSD resources, BPEL processes, web services for BPEL endpoints, as well as an optional Spring Application Context for each BPR.
 
 = Spring Deployment Handler =
 
