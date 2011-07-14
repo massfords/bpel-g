@@ -117,7 +117,7 @@
 				<configuration>
 					<wait>false</wait>
 					<properties>
-						<cargo.jvmargs>-XX:MaxPermSize=256m -Xmx1536m</cargo.jvmargs>
+						<cargo.jvmargs>-XX:MaxPermSize=512m -Xmx1536m</cargo.jvmargs>
 					</properties>
 					<container>
 						<containerId>jetty6x</containerId>
