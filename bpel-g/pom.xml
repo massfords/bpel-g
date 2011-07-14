@@ -40,10 +40,10 @@
         <enabled>true</enabled>
       </releases>
       <snapshots>
-        <enabled>true</enabled>
+        <enabled>false</enabled>
       </snapshots>
       <id>bpel-g-repo</id>
-      <url>http://bpel-g.googlecode.com/svn/trunk/maven-repository</url>
+      <url>http://bpel-g.googlecode.com/svn/maven-repository</url>
     </repository>
   </repositories>
   <properties>
