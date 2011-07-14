@@ -1,10 +1,15 @@
 package org.activebpel.rt.bpel.server.spring;
 
 import java.net.URL;
+import java.util.HashSet;
+import java.util.Set;
+
+import javax.xml.namespace.QName;
 
 import org.activebpel.rt.AeException;
 import org.activebpel.rt.bpel.server.deploy.IAeDeploymentContainer;
 import org.activebpel.rt.bpel.server.deploy.IAeDeploymentHandler;
+import org.activebpel.rt.bpel.server.deploy.bpr.AePddResource;
 import org.activebpel.rt.bpel.server.logging.IAeDeploymentLogger;
 import org.springframework.beans.factory.xml.XmlBeanDefinitionReader;
 import org.springframework.context.support.GenericApplicationContext;
@@ -37,7 +42,11 @@ public class AeSpringDeploymentHandler implements IAeDeploymentHandler {
 			XmlBeanDefinitionReader xmlReader = new XmlBeanDefinitionReader(ac);
 			xmlReader.loadBeanDefinitions(new UrlResource(context));
 			ac.refresh();
-			getSpringManager().add(context.toExternalForm(), ac);
+			Set<QName> processNames = new HashSet<QName>();
+			for(AePddResource pdd : aContainer.getPddResources()) {
+			    processNames.add(pdd.getPdd().getName());
+			}
+			getSpringManager().add(processNames,context.toExternalForm(), ac);
 		}
 	}
 

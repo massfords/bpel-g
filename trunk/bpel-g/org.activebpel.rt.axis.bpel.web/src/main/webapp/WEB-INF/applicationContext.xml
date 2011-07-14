@@ -109,7 +109,10 @@
                             </bean>
                         </entry>
                         <entry key="camel">
-                            <bean class="org.activebpel.camel.AeCamelInvokeHandlerFactory"/>
+                            <bean class="org.activebpel.camel.AeCamelInvokeHandlerFactory">
+                                <property name="springManager" ref="SpringManager">
+                                </property>
+                            </bean>
                         </entry>
                         <entry key="java">
                             <bean
