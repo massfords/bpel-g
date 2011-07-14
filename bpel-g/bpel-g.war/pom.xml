@@ -367,6 +367,18 @@
 			<version>${camel.version}</version>
 			<scope>test</scope>
 		</dependency>
+        <dependency>
+            <groupId>de.schlichtherle.truezip</groupId>
+            <artifactId>truezip-file</artifactId>
+            <version>${truezip.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>de.schlichtherle.truezip</groupId>
+            <artifactId>truezip-driver-zip</artifactId>
+            <version>${truezip.version}</version>
+            <scope>test</scope>
+        </dependency>
 	</dependencies>
 
 	<profiles>
@@ -452,5 +464,6 @@
 
 	<properties>
 		<camel.version>2.6.0</camel.version>
+        <truezip.version>7.1</truezip.version>
 	</properties>
 </project>
