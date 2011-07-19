@@ -11,8 +11,22 @@ those in the public sector. The main focus is spec compliance.
 == Maven ==
 bpel-g uses maven. You should be using maven 2.2.1 or later.
 
-=== Local Repo ===
-A couple of the projects require artifacts which aren't available on public repositories. A local maven repository is included as part of the trunk and is referenced by a some of the projects. If you're using a local proxy to mirror remote maven repositories, make sure that you have the mirrorOf rule configured to allow local repos (i.e. {{{ <mirrorOf>external:*</mirrorOf>}}} )
+=== Repo ===
+A couple of the projects require artifacts which aren't available on public repositories. The svn repo contains these dependencies and should be added to your local maven proxy if you get build errors.
+
+{{{
+    <repository>
+      <releases>
+        <enabled>true</enabled>
+      </releases>
+      <snapshots>
+        <enabled>true</enabled>
+      </snapshots>
+      <id>bpel-g-repo</id>
+      <url>http://bpel-g.googlecode.com/svn/trunk/maven-repository</url>
+    </repository>
+}}}
+
 
 == Eclipse ==
 Here are the steps for using eclipse:
