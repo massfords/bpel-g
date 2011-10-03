@@ -123,10 +123,10 @@ public abstract class AeXPathHandler extends BasicHandler implements IAeConstant
        
       // get namespace declarations from the options set
       for (Iterator<String> it = aXPathParams.keySet().iterator(); it.hasNext();) {
-           String key = (String) it.next();
+           String key = it.next();
            if (key.startsWith(XMLNS_PREFIX)) {
               String prefix = key.substring(XMLNS_PREFIX.length());
-              xpath.addNamespace(prefix, (String) aXPathParams.get(key));
+              xpath.addNamespace(prefix, aXPathParams.get(key));
            }
       }
       return xpath.getNamespaceContext();

@@ -369,7 +369,7 @@ public class AeLinkValidator implements IAeValidationDefs
     */
    protected AeLinkComposite getLinkComposite( AeLinkDef aLink )
    {
-      AeLinkComposite comp = (AeLinkComposite) getLinkMap().get( aLink );
+      AeLinkComposite comp = getLinkMap().get( aLink );
       if ( comp == null )
       {
          comp = new AeLinkComposite( aLink );
@@ -480,7 +480,7 @@ public class AeLinkValidator implements IAeValidationDefs
     */
    public AeLinkSource getLinkSource( AeActivityDef aDef )
    {
-      return (AeLinkSource) getLinkSourcesMap().get(aDef);
+      return getLinkSourcesMap().get(aDef);
    }
 
    /**

@@ -257,7 +257,7 @@ public class AeWSAddressingEndpointSerializer implements IAeEndpointSerializer
     */
    private String getPrefix(String aNamespace, String aPrefix, Map<String, String> qnameToPrefixMap)
    {
-      String prefix = (String) qnameToPrefixMap.get(aNamespace);
+      String prefix = qnameToPrefixMap.get(aNamespace);
       if (AeUtil.isNullOrEmpty(prefix))
       {
          if (AeUtil.isNullOrEmpty(aPrefix) || qnameToPrefixMap.containsValue(aPrefix))

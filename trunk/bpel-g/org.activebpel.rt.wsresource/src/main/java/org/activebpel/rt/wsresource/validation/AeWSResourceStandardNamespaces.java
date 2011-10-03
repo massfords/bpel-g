@@ -83,7 +83,7 @@ public class AeWSResourceStandardNamespaces implements IAeWSResourceStandardName
     */
    public String resolvePrefixToNamespace(String aPrefix)
    {
-      return (String) sPrefixToNamespaceMap.get(aPrefix);
+      return sPrefixToNamespaceMap.get(aPrefix);
    }
    
    /**

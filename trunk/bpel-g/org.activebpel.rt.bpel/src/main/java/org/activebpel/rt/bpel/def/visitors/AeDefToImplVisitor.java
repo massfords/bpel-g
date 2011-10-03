@@ -836,7 +836,7 @@ public abstract class AeDefToImplVisitor implements IAeDefToImplVisitor
     */
    public void visit(AeAssignCopyDef aDef)
    {
-      AeActivityAssignImpl assign = (AeActivityAssignImpl) getAssign();
+      AeActivityAssignImpl assign = getAssign();
       AeCopyOperation copy = new AeCopyOperation(aDef, assign.getCopyOperationContext());
       assign.addCopyOperation(copy);
       traverse(aDef, copy);

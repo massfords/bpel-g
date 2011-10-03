@@ -33,7 +33,7 @@ public class AeBaseLoopingActivityValidator extends AeActivityValidator
    {
       super.validate();
 
-      IAeExpressionModelValidator expression = (IAeExpressionModelValidator)getChild(IAeExpressionModelValidator.class);
+      IAeExpressionModelValidator expression = getChild(IAeExpressionModelValidator.class);
       if (isNullOrEmpty(expression))
       {
          getReporter().reportProblem( BPEL_LOOP_FIELD_MISSING_CODE,

@@ -102,7 +102,7 @@ public class AeOnEventValidator extends AeOnMessageBaseValidator
     */
    protected AeActivityScopeValidator getChildScope()
    {
-      AeActivityScopeValidator scope = (AeActivityScopeValidator) getChild(AeActivityScopeValidator.class);
+      AeActivityScopeValidator scope = getChild(AeActivityScopeValidator.class);
       if (scope == null && !mScopeChecked)
       {
          mScopeChecked = true;

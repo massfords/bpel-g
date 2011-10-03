@@ -631,7 +631,7 @@ public class AeActivityScopeImpl extends AeActivityImpl implements IAeActivityPa
       IAeVariable var = null;
       if (getVariableContainer() != null)
       {
-         var = (IAeVariable) getVariableContainer().findVariable(aName);
+         var = getVariableContainer().findVariable(aName);
       }
       return var;
    }
@@ -652,7 +652,7 @@ public class AeActivityScopeImpl extends AeActivityImpl implements IAeActivityPa
     */
    public IAePartnerLink findPartnerLink(String aName)
    {
-	  IAePartnerLink plink = (AePartnerLink) mPartnerLinks.get(aName);
+	  IAePartnerLink plink = mPartnerLinks.get(aName);
       if (plink == null && getParent() != null)
       {
          plink = super.findPartnerLink(aName);
@@ -682,7 +682,7 @@ public class AeActivityScopeImpl extends AeActivityImpl implements IAeActivityPa
       {
          return Collections.<IAeFaultHandler>emptySet().iterator();
       }
-      Iterator<? extends IAeFaultHandler> x = AeUtil.<IAeFaultHandler>join(getFaultHandlersCollection().iterator(), (IAeFaultHandler)mCatchAll);
+      Iterator<? extends IAeFaultHandler> x = AeUtil.<IAeFaultHandler>join(getFaultHandlersCollection().iterator(), mCatchAll);
       return x;
    }
 

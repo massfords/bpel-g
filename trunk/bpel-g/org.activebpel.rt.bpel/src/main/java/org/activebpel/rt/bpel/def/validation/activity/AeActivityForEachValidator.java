@@ -73,7 +73,7 @@ public class AeActivityForEachValidator extends AeActivityValidator
     */
    protected AeVariableValidator getCounterVariableModel()
    {
-      AeActivityScopeValidator scope = (AeActivityScopeValidator) getChild(AeActivityScopeValidator.class);
+      AeActivityScopeValidator scope = getChild(AeActivityScopeValidator.class);
       if (scope != null)
       {
          return scope.getVariableValidator(getDef().getCounterName(), AeVariableValidator.VARIABLE_IMPLICIT);

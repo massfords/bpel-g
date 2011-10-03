@@ -96,7 +96,7 @@ public class AeXQueryStatementRegistry
     */
    public AeXQueryStatement getXQueryStatement(String aXQueryKey)
    {
-      String query = (String) getXQueries().get(aXQueryKey);
+      String query = getXQueries().get(aXQueryKey);
       if (query == null)
          throw new AssertionError(MessageFormat.format(AeMessages.getString("AeXQueryStatementRegistry.StatementNotFound"), new Object[] { aXQueryKey })); //$NON-NLS-1$
       else

@@ -315,7 +315,7 @@ public class AeXmlUtil
             Map.Entry es = (Map.Entry)iter.next();
             String prefix = (String)es.getKey();
             String namespace = (String)es.getValue();
-            String oldNamespace = (String) existingNamespaceAttrs.get(prefix);
+            String oldNamespace = existingNamespaceAttrs.get(prefix);
 
             // add a namespace declaration
             if(!namespace.equals(oldNamespace))
@@ -799,7 +799,7 @@ public class AeXmlUtil
          String key = "" + aNamespaceAwareFlag + "; " + aValidationFlag; //$NON-NLS-1$ //$NON-NLS-2$
 
          // Check map of DocumentBuilder objects for matching request.
-         DocumentBuilder builder = (DocumentBuilder) sDocumentBuilderMap.get(key);
+         DocumentBuilder builder = sDocumentBuilderMap.get(key);
          if (builder == null)
          {
             ClassLoader previousClassLoader = Thread.currentThread().getContextClassLoader();

@@ -1068,7 +1068,7 @@ public class AeBPELExtendedWSDLDef implements IAeBPELExtendedWSDLConst, IAeMutab
             {
                for ( Iterator<Import> iter = imports.iterator() ; iter.hasNext() ; )
                {
-                  imp = (Import)iter.next();
+                  imp = iter.next();
                   if ( imp.getLocationURI().equals( aLoc ) &&
                         imp.getNamespaceURI().equals( aNS ) )
                   {
@@ -1413,7 +1413,7 @@ public class AeBPELExtendedWSDLDef implements IAeBPELExtendedWSDLConst, IAeMutab
             String targetNS = schema.getTargetNamespace();
             if (mergedSchemas.containsKey(targetNS))
             {
-               Schema schema2 = (Schema) mergedSchemas.get(targetNS);
+               Schema schema2 = mergedSchemas.get(targetNS);
                mergedSchemas.put(targetNS, AeSchemaUtil.mergeSchemas(schema2, schema));
             }
             else
@@ -1453,7 +1453,7 @@ public class AeBPELExtendedWSDLDef implements IAeBPELExtendedWSDLConst, IAeMutab
 			Enumeration<Schema> en = aSchema.getImportedSchema();
             while (en != null && en.hasMoreElements())
             {
-               catalogSchemaAndImports((Schema)en.nextElement(), aCatalogedNamespaces, true);
+               catalogSchemaAndImports(en.nextElement(), aCatalogedNamespaces, true);
             }
          }
 
@@ -1793,8 +1793,8 @@ public class AeBPELExtendedWSDLDef implements IAeBPELExtendedWSDLConst, IAeMutab
     		  Iterator<Map.Entry<String,String>> iter = getWSDLDef().getNamespaces().entrySet().iterator(); iter.hasNext(); )
       {
          Map.Entry<String,String> entry = iter.next();
-         String prefix = (String) entry.getKey();
-         String ns = (String) entry.getValue();
+         String prefix = entry.getKey();
+         String ns = entry.getValue();
          if (AeUtil.compareObjects(aNamespace, ns))
          {
             prefixes.add(prefix);
@@ -2080,8 +2080,8 @@ public class AeBPELExtendedWSDLDef implements IAeBPELExtendedWSDLConst, IAeMutab
       for (Iterator<Entry<String,String>> iter = namespaces.entrySet().iterator(); iter.hasNext(); )
       {
          Entry<String,String> entry = iter.next();
-         String prefix = (String) entry.getKey();
-         String namespace = (String) entry.getValue();
+         String prefix = entry.getKey();
+         String namespace = entry.getValue();
          
          if (AeUtil.compareObjects(namespace, aNamespace))
          {

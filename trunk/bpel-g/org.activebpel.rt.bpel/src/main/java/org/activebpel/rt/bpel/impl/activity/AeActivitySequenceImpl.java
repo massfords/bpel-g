@@ -99,7 +99,7 @@ public class AeActivitySequenceImpl extends AeActivityImpl implements IAeActivit
    {
       for (int i=0; i<mActivities.size(); i++)
       {
-         IAeBpelObject nextObject = (IAeBpelObject)mActivities.get(i);
+         IAeBpelObject nextObject = mActivities.get(i);
          if ( ! nextObject.getState().isFinal())
          {
             return nextObject;

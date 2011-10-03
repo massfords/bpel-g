@@ -173,7 +173,7 @@ public class AeWsddBuilder implements IAeWsddConstants
       try 
       {
          // get the main policy mapper
-         IAePolicyMapper mapper = (IAePolicyMapper) AeEngineFactory.getBean(IAePolicyMapper.class);
+         IAePolicyMapper mapper = AeEngineFactory.getBean(IAePolicyMapper.class);
          if (mapper != null)
          {
             // get Service Parameters
@@ -241,7 +241,7 @@ public class AeWsddBuilder implements IAeWsddConstants
          if (!AeUtil.isNullOrEmpty(aPolicyList)) 
          {
             // get the main policy mapper
-            IAePolicyMapper mapper = (IAePolicyMapper) AeEngineFactory.getBean(IAePolicyMapper.class);
+            IAePolicyMapper mapper = AeEngineFactory.getBean(IAePolicyMapper.class);
             // get Client Request handlers
             List<Element> handlers = mapper.getClientRequestHandlers(aPolicyList);
             if (!AeUtil.isNullOrEmpty(handlers)) 

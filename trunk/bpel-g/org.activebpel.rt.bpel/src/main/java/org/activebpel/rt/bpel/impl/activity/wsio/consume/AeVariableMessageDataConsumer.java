@@ -80,7 +80,7 @@ public class AeVariableMessageDataConsumer extends AeAbstractMessageDataConsumer
       {
          try
          {
-            String partName = (String) aMessageData.getPartNames().next();
+            String partName = aMessageData.getPartNames().next();
             Document doc = (Document) aMessageData.getData(partName); 
             variable.setElementData(doc.getDocumentElement());
             

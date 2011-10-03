@@ -125,11 +125,11 @@ public class AeWSAddressingEndpointDeserializer implements IAeEndpointDeserializ
       {
          if ("Address".equals(aChild.getLocalName())) //$NON-NLS-1$
          {
-            String address = AeXmlUtil.getText((Element) aChild); 
+            String address = AeXmlUtil.getText(aChild); 
             aRef.setAddress(address.trim());
          }
          else if ("PortType".equals(aChild.getLocalName())) //$NON-NLS-1$
-            aRef.setPortType(extractQNameData((Element)aChild));
+            aRef.setPortType(extractQNameData(aChild));
          else if ("ReferenceProperties".equals(aChild.getLocalName())) //$NON-NLS-1$
          {
             deserializeProperties(aRef, aChild.getChildNodes());
@@ -140,11 +140,11 @@ public class AeWSAddressingEndpointDeserializer implements IAeEndpointDeserializ
          }
          else if ("ServiceName".equals(aChild.getLocalName())) //$NON-NLS-1$
          {
-            String portName = ((Element)aChild).getAttribute("PortName"); //$NON-NLS-1$
+            String portName = (aChild).getAttribute("PortName"); //$NON-NLS-1$
             if (! AeUtil.isNullOrEmpty(portName))
                aRef.setServicePort(portName);
             
-            aRef.setServiceName(extractQNameData((Element)aChild));
+            aRef.setServiceName(extractQNameData(aChild));
          }
          else if ("Metadata".equals(aChild.getLocalName())) //$NON-NLS-1$
          {
@@ -159,18 +159,18 @@ public class AeWSAddressingEndpointDeserializer implements IAeEndpointDeserializ
          else
          {
             // Extensibility element
-            aRef.addExtensibilityElement((Element)aChild);
+            aRef.addExtensibilityElement(aChild);
          }
       }
       else if (IAeBPELConstants.WSP_NAMESPACE_URI.equals(aChild.getNamespaceURI()))
       {
          if ("Policy".equals(aChild.getLocalName())) //$NON-NLS-1$
-            aRef.addPolicyElement((Element)aChild);
+            aRef.addPolicyElement(aChild);
       }
       else
       {
          // Extensibility element
-         aRef.addExtensibilityElement((Element)aChild);
+         aRef.addExtensibilityElement(aChild);
       }
    }
    
@@ -201,7 +201,7 @@ public class AeWSAddressingEndpointDeserializer implements IAeEndpointDeserializ
    protected void deserializeProperty(IAeEndpointReference aRef, Element aProp)
    {
       // add element to reference properties for header propagation
-      aRef.addReferenceProperty((Element) aProp);
+      aRef.addReferenceProperty(aProp);
    }
 
    

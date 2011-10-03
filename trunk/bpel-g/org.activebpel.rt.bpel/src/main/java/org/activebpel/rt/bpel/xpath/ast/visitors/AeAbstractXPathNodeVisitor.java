@@ -64,7 +64,7 @@ public abstract class AeAbstractXPathNodeVisitor implements IAeXPathNodeVisitor
     */
    public void visit(AeXPathFunctionNode aNode)
    {
-      visitBaseXPathNode((AeAbstractXPathNode) aNode);
+      visitBaseXPathNode(aNode);
    }
 
    /**
@@ -72,7 +72,7 @@ public abstract class AeAbstractXPathNodeVisitor implements IAeXPathNodeVisitor
     */
    public void visit(AeXPathVariableNode aNode)
    {
-      visitBaseXPathNode((AeAbstractXPathNode) aNode);
+      visitBaseXPathNode(aNode);
    }
 
    /**
@@ -80,7 +80,7 @@ public abstract class AeAbstractXPathNodeVisitor implements IAeXPathNodeVisitor
     */
    public void visit(AeXPathLiteralNode aNode)
    {
-      visitBaseXPathNode((AeAbstractXPathNode) aNode);
+      visitBaseXPathNode(aNode);
    }
    
    /**
@@ -88,7 +88,7 @@ public abstract class AeAbstractXPathNodeVisitor implements IAeXPathNodeVisitor
     */
    public void visit(AeXPathAbsLocPathNode aNode)
    {
-      visitBaseXPathNode((AeAbstractXPathNode) aNode);
+      visitBaseXPathNode(aNode);
    }
 
    /**
@@ -96,7 +96,7 @@ public abstract class AeAbstractXPathNodeVisitor implements IAeXPathNodeVisitor
     */
    public void visit(AeXPathAdditiveExprNode aNode)
    {
-      visitBaseXPathNode((AeAbstractXPathNode) aNode);
+      visitBaseXPathNode(aNode);
    }
 
    /**
@@ -104,7 +104,7 @@ public abstract class AeAbstractXPathNodeVisitor implements IAeXPathNodeVisitor
     */
    public void visit(AeXPathAllNodeStepNode aNode)
    {
-      visitBaseXPathNode((AeAbstractXPathNode) aNode);
+      visitBaseXPathNode(aNode);
    }
 
    /**
@@ -112,7 +112,7 @@ public abstract class AeAbstractXPathNodeVisitor implements IAeXPathNodeVisitor
     */
    public void visit(AeXPathAndExprNode aNode)
    {
-      visitBaseXPathNode((AeAbstractXPathNode) aNode);
+      visitBaseXPathNode(aNode);
    }
 
    /**
@@ -120,7 +120,7 @@ public abstract class AeAbstractXPathNodeVisitor implements IAeXPathNodeVisitor
     */
    public void visit(AeXPathCommentNodeStepNode aNode)
    {
-      visitBaseXPathNode((AeAbstractXPathNode) aNode);
+      visitBaseXPathNode(aNode);
    }
 
    /**
@@ -128,7 +128,7 @@ public abstract class AeAbstractXPathNodeVisitor implements IAeXPathNodeVisitor
     */
    public void visit(AeXPathEqualityExprNode aNode)
    {
-      visitBaseXPathNode((AeAbstractXPathNode) aNode);
+      visitBaseXPathNode(aNode);
    }
 
    /**
@@ -136,7 +136,7 @@ public abstract class AeAbstractXPathNodeVisitor implements IAeXPathNodeVisitor
     */
    public void visit(AeXPathFilterExprNode aNode)
    {
-      visitBaseXPathNode((AeAbstractXPathNode) aNode);
+      visitBaseXPathNode(aNode);
    }
 
    /**
@@ -144,7 +144,7 @@ public abstract class AeAbstractXPathNodeVisitor implements IAeXPathNodeVisitor
     */
    public void visit(AeXPathMultiplicativeExprNode aNode)
    {
-      visitBaseXPathNode((AeAbstractXPathNode) aNode);
+      visitBaseXPathNode(aNode);
    }
 
    /**
@@ -152,7 +152,7 @@ public abstract class AeAbstractXPathNodeVisitor implements IAeXPathNodeVisitor
     */
    public void visit(AeXPathNameStepNode aNode)
    {
-      visitBaseXPathNode((AeAbstractXPathNode) aNode);
+      visitBaseXPathNode(aNode);
    }
 
    /**
@@ -160,7 +160,7 @@ public abstract class AeAbstractXPathNodeVisitor implements IAeXPathNodeVisitor
     */
    public void visit(AeXPathOrExprNode aNode)
    {
-      visitBaseXPathNode((AeAbstractXPathNode) aNode);
+      visitBaseXPathNode(aNode);
    }
 
    /**
@@ -168,7 +168,7 @@ public abstract class AeAbstractXPathNodeVisitor implements IAeXPathNodeVisitor
     */
    public void visit(AeXPathPathExprNode aNode)
    {
-      visitBaseXPathNode((AeAbstractXPathNode) aNode);
+      visitBaseXPathNode(aNode);
    }
 
    /**
@@ -176,7 +176,7 @@ public abstract class AeAbstractXPathNodeVisitor implements IAeXPathNodeVisitor
     */
    public void visit(AeXPathPredicateNode aNode)
    {
-      visitBaseXPathNode((AeAbstractXPathNode) aNode);
+      visitBaseXPathNode(aNode);
    }
 
    /**
@@ -184,7 +184,7 @@ public abstract class AeAbstractXPathNodeVisitor implements IAeXPathNodeVisitor
     */
    public void visit(AeXPathProcessingInstructionNodeStepNode aNode)
    {
-      visitBaseXPathNode((AeAbstractXPathNode) aNode);
+      visitBaseXPathNode(aNode);
    }
 
    /**
@@ -192,7 +192,7 @@ public abstract class AeAbstractXPathNodeVisitor implements IAeXPathNodeVisitor
     */
    public void visit(AeXPathRelationalExprNode aNode)
    {
-      visitBaseXPathNode((AeAbstractXPathNode) aNode);
+      visitBaseXPathNode(aNode);
    }
 
    /**
@@ -200,7 +200,7 @@ public abstract class AeAbstractXPathNodeVisitor implements IAeXPathNodeVisitor
     */
    public void visit(AeXPathRelativeLocPathNode aNode)
    {
-      visitBaseXPathNode((AeAbstractXPathNode) aNode);
+      visitBaseXPathNode(aNode);
    }
 
    /**
@@ -208,7 +208,7 @@ public abstract class AeAbstractXPathNodeVisitor implements IAeXPathNodeVisitor
     */
    public void visit(AeXPathRootXpathNode aNode)
    {
-      visitBaseXPathNode((AeAbstractXPathNode) aNode);
+      visitBaseXPathNode(aNode);
    }
 
    /**
@@ -216,7 +216,7 @@ public abstract class AeAbstractXPathNodeVisitor implements IAeXPathNodeVisitor
     */
    public void visit(AeXPathTextNodeStepNode aNode)
    {
-      visitBaseXPathNode((AeAbstractXPathNode) aNode);
+      visitBaseXPathNode(aNode);
    }
 
    /**
@@ -224,7 +224,7 @@ public abstract class AeAbstractXPathNodeVisitor implements IAeXPathNodeVisitor
     */
    public void visit(AeXPathUnaryExprNode aNode)
    {
-      visitBaseXPathNode((AeAbstractXPathNode) aNode);
+      visitBaseXPathNode(aNode);
    }
 
    /**
@@ -232,6 +232,6 @@ public abstract class AeAbstractXPathNodeVisitor implements IAeXPathNodeVisitor
     */
    public void visit(AeXPathUnionExprNode aNode)
    {
-      visitBaseXPathNode((AeAbstractXPathNode) aNode);
+      visitBaseXPathNode(aNode);
    }
 }

@@ -51,7 +51,7 @@ public class AeStaticEndpointReferenceValidator
          AeBPELExtendedWSDLDef wsdlDef = AeWSDLDefHelper.getWSDLDefinitionForService( aWsdlProvider, aPartnerReference.getServiceName() );
          if( wsdlDef != null )
          {
-            Service wsdlService = (Service)wsdlDef.getServices().get( aPartnerReference.getServiceName() );
+            Service wsdlService = wsdlDef.getServices().get( aPartnerReference.getServiceName() );
             
             if( wsdlService != null && wsdlService.getPort( aPartnerReference.getServicePort() ) == null )
             {

@@ -63,7 +63,7 @@ public abstract class AeAbstractProtocolStateTable implements IAeProtocolStateTa
    protected AeStateTableEntry getTableEntry(IAeProtocolState aState)
    {
       AeStateTable table = getStateTable();
-      AeStateTableEntry entry = (AeStateTableEntry) table.get(aState);
+      AeStateTableEntry entry = table.get(aState);
       return entry;
    }
    

@@ -104,7 +104,7 @@ public class AeCompensateSubprocessJournalEntry extends AeAbstractJournalEntry
    {
       try
       {
-         IAeBusinessProcessEngineInternal engine = (IAeBusinessProcessEngineInternal) aProcess.getEngine();
+         IAeBusinessProcessEngineInternal engine = aProcess.getEngine();
          engine.getProcessCoordination().compensateSubProcess( aProcess.getProcessId(), getCoordinationId(), getJournalId(), null, IAeProcessManager.NULL_JOURNAL_ID);
       }
       catch(AeCoordinationException ace)

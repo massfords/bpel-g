@@ -174,7 +174,7 @@ public class AeCheckStartActivityVisitor extends AeAbstractDefVisitor implements
          return;
 
       // We only need to process the first activity of the sequence
-      AeActivityDef firstActivity = (AeActivityDef)aDef.getActivityDefs().next();
+      AeActivityDef firstActivity = aDef.getActivityDefs().next();
 
       if (mAscending)
       {

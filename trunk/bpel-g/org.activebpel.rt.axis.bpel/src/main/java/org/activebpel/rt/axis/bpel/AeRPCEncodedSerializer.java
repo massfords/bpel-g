@@ -107,7 +107,7 @@ public class AeRPCEncodedSerializer extends ElementSerializer
          Attributes attribs = null;
          boolean xsiTypeRequired = false;
       
-         if (xmlType instanceof ComplexType && AeSchemaUtil.isArray(((ComplexType)xmlType)))
+         if (xmlType instanceof ComplexType && AeSchemaUtil.isArray((xmlType)))
          {
             // set the array type instead
             // note: no need to hold onto the return value, the call to get will

@@ -566,7 +566,7 @@ public abstract class AeBaseQueueManager extends AeManagerAdapter implements IAe
     */
    public AeReply removeReply(AeReply aReplyQueueObject)
    {
-      AeReply reply  = (AeReply) getReplies().remove( new Long(aReplyQueueObject.getReplyId()) );
+      AeReply reply  = getReplies().remove( new Long(aReplyQueueObject.getReplyId()) );
       return reply;
    }
 

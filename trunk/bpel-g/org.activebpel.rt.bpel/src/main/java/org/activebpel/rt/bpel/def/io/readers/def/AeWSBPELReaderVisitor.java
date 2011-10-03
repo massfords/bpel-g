@@ -322,7 +322,7 @@ public class AeWSBPELReaderVisitor extends AeBpelReaderVisitor
    {
       readAttributes(aDef);
 
-      readExpressionDef((AeExpressionBaseDef) aDef);
+      readExpressionDef(aDef);
       ((AeTargetsDef) getParentDef()).setJoinConditionDef(aDef);
    }
 
@@ -333,7 +333,7 @@ public class AeWSBPELReaderVisitor extends AeBpelReaderVisitor
    {
       readAttributes(aDef);
 
-      readExpressionDef((AeExpressionBaseDef) aDef);
+      readExpressionDef(aDef);
       ((AeSourceDef) getParentDef()).setTransitionConditionDef(aDef);
    }
 
@@ -344,7 +344,7 @@ public class AeWSBPELReaderVisitor extends AeBpelReaderVisitor
    {
       readAttributes(aDef);
 
-      readExpressionDef((AeExpressionBaseDef) aDef);
+      readExpressionDef(aDef);
       ((IAeForUntilParentDef) getParentDef()).setForDef(aDef);
    }
 
@@ -355,7 +355,7 @@ public class AeWSBPELReaderVisitor extends AeBpelReaderVisitor
    {
       readAttributes(aDef);
 
-      readExpressionDef((AeExpressionBaseDef) aDef);
+      readExpressionDef(aDef);
       ((IAeForUntilParentDef) getParentDef()).setUntilDef(aDef);
    }
 
@@ -375,7 +375,7 @@ public class AeWSBPELReaderVisitor extends AeBpelReaderVisitor
    {
       readAttributes(aDef);
 
-      readExpressionDef((AeExpressionBaseDef) aDef);
+      readExpressionDef(aDef);
       ((IAeConditionParentDef) getParentDef()).setConditionDef(aDef);
    }
 
@@ -405,7 +405,7 @@ public class AeWSBPELReaderVisitor extends AeBpelReaderVisitor
    public void visit(AeRepeatEveryDef aDef)
    {
       readAttributes(aDef);
-      readExpressionDef((AeExpressionBaseDef) aDef);
+      readExpressionDef(aDef);
       ((AeOnAlarmDef) getParentDef()).setRepeatEveryDef(aDef);
    }
 

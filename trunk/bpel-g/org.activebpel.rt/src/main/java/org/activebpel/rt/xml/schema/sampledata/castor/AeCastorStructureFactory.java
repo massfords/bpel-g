@@ -319,9 +319,9 @@ public class AeCastorStructureFactory
 
       // process enumerations.
       List<String> enumerations = new ArrayList<String>();
-      if ( type instanceof SimpleType )
+      if ( type != null )
       {
-         SimpleType simpleType = (SimpleType)type;
+         SimpleType simpleType = type;
          Enumeration enumer = simpleType.getLocalFacets();
          if ( enumer != null )
          {

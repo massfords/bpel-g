@@ -58,7 +58,7 @@ public class AeSOAPElementUtil
     */
    public static Element convertToDOM(SOAPElement aSoapElement, Element aParent)
    {
-      Element srcElement = (Element) aSoapElement;
+      Element srcElement = aSoapElement;
       String namespace = aSoapElement.getElementName().getURI();
       String name = aSoapElement.getElementName().getQualifiedName();
       
@@ -142,7 +142,7 @@ public class AeSOAPElementUtil
       String namespace = aSoapElement.getElementName().getURI();
       String name = aSoapElement.getElementName().getQualifiedName();
       
-      Element element = (Element) aSoapElement;
+      Element element = aSoapElement;
       
       // add any new declarations
       addNewSOAPPrefixes(aSource, aSoapElement);
@@ -240,7 +240,7 @@ public class AeSOAPElementUtil
             String sourceNamespace = (String) entry.getValue();
                         
             // find prefix in the target
-            String targetNamespace = (String) targetPrefixes.get(prefixToCheck);
+            String targetNamespace = targetPrefixes.get(prefixToCheck);
             if (!sourceNamespace.equals(targetNamespace))
             {
                if (AeUtil.notNullOrEmpty(prefixToCheck))
@@ -279,7 +279,7 @@ public class AeSOAPElementUtil
             String sourceNamespace = (String) entry.getValue();
                         
             // find prefix in the target
-            String targetNamespace = (String) targetPrefixes.get(prefixToCheck);
+            String targetNamespace = targetPrefixes.get(prefixToCheck);
             if (!sourceNamespace.equals(targetNamespace))
             {
                if (AeUtil.notNullOrEmpty(prefixToCheck))

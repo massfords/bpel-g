@@ -68,7 +68,7 @@ public class AeVariablesImpl implements IAeVariableContainer
     */
    public IAeVariable findVariable(String aVariableName)
    {
-      return (IAeVariable) getMap().get(aVariableName);
+      return getMap().get(aVariableName);
    }
 
    /**

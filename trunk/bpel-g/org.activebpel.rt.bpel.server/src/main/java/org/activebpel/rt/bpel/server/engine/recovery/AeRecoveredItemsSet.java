@@ -50,6 +50,6 @@ public class AeRecoveredItemsSet extends LinkedHashMap<IAeRecoveredItem,IAeRecov
     */
    public IAeRecoveredItem removeRecoveredItem(IAeRecoveredItem aItem)
    {
-      return (IAeRecoveredItem) remove(aItem);
+      return remove(aItem);
    }
 }

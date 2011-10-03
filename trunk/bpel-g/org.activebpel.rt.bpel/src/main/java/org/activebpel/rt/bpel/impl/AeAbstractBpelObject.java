@@ -93,7 +93,7 @@ abstract public class AeAbstractBpelObject implements IAeExecutableBpelObject, I
     */
    public AeAbstractBpelObject(AeBaseDef aDef, IAeBpelObject aParent)
    {
-      mParent = (IAeBpelObject) aParent;
+      mParent = aParent;
       mDef = aDef;
    }
 

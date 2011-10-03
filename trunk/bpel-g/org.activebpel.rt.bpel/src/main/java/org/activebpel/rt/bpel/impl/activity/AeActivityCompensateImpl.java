@@ -213,7 +213,7 @@ public class AeActivityCompensateImpl extends AeActivityImpl implements IAeCompe
       int i = getNextIndex();
       setNextIndex(i + 1);
 
-      return (AeCompInfo) getIterationScopes().get(i);
+      return getIterationScopes().get(i);
    }
 
    /**
@@ -412,7 +412,7 @@ public class AeActivityCompensateImpl extends AeActivityImpl implements IAeCompe
       // no compensation handlers running. 
       if (offset < getIterationScopes().size())
       {
-         AeCompInfo compInfo = (AeCompInfo) getIterationScopes().get(offset);
+         AeCompInfo compInfo = getIterationScopes().get(offset);
          if (compInfo.getCompensationHandler() != null && !compInfo.getCompensationHandler().getState().isFinal())
          {
             compHandler = compInfo.getCompensationHandler();

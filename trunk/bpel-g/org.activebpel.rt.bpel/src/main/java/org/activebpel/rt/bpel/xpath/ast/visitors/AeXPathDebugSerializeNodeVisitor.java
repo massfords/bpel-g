@@ -121,7 +121,7 @@ public class AeXPathDebugSerializeNodeVisitor extends AeAbstractTraversingXPathN
     */
    public void visit(AeXPathAllNodeStepNode aNode)
    {
-      visitAxisNode((AeAbstractXPathAxisNode) aNode);
+      visitAxisNode(aNode);
    }
 
    /**
@@ -129,7 +129,7 @@ public class AeXPathDebugSerializeNodeVisitor extends AeAbstractTraversingXPathN
     */
    public void visit(AeXPathCommentNodeStepNode aNode)
    {
-      visitAxisNode((AeAbstractXPathAxisNode) aNode);
+      visitAxisNode(aNode);
    }
 
    /**
@@ -151,7 +151,7 @@ public class AeXPathDebugSerializeNodeVisitor extends AeAbstractTraversingXPathN
     */
    public void visit(AeXPathTextNodeStepNode aNode)
    {
-      visitAxisNode((AeAbstractXPathAxisNode) aNode);
+      visitAxisNode(aNode);
    }
 
    /**
@@ -159,7 +159,7 @@ public class AeXPathDebugSerializeNodeVisitor extends AeAbstractTraversingXPathN
     */
    public void visit(AeXPathAndExprNode aNode)
    {
-      visitBooleanNode((AeAbstractXPathBooleanNode) aNode);
+      visitBooleanNode(aNode);
    }
 
    /**
@@ -167,7 +167,7 @@ public class AeXPathDebugSerializeNodeVisitor extends AeAbstractTraversingXPathN
     */
    public void visit(AeXPathOrExprNode aNode)
    {
-      visitBooleanNode((AeAbstractXPathBooleanNode) aNode);
+      visitBooleanNode(aNode);
    }
 
    /**
@@ -175,7 +175,7 @@ public class AeXPathDebugSerializeNodeVisitor extends AeAbstractTraversingXPathN
     */
    public void visit(AeXPathUnionExprNode aNode)
    {
-      visitBooleanNode((AeAbstractXPathBooleanNode) aNode);
+      visitBooleanNode(aNode);
    }
    
    /**
@@ -183,7 +183,7 @@ public class AeXPathDebugSerializeNodeVisitor extends AeAbstractTraversingXPathN
     */
    public void visit(AeXPathAdditiveExprNode aNode)
    {
-      visitOperatorNode((AeAbstractXPathOperatorNode) aNode);
+      visitOperatorNode(aNode);
    }
    
    /**
@@ -191,7 +191,7 @@ public class AeXPathDebugSerializeNodeVisitor extends AeAbstractTraversingXPathN
     */
    public void visit(AeXPathEqualityExprNode aNode)
    {
-      visitOperatorNode((AeAbstractXPathOperatorNode) aNode);
+      visitOperatorNode(aNode);
    }
    
    /**
@@ -199,7 +199,7 @@ public class AeXPathDebugSerializeNodeVisitor extends AeAbstractTraversingXPathN
     */
    public void visit(AeXPathMultiplicativeExprNode aNode)
    {
-      visitOperatorNode((AeAbstractXPathOperatorNode) aNode);
+      visitOperatorNode(aNode);
    }
    
    /**
@@ -207,7 +207,7 @@ public class AeXPathDebugSerializeNodeVisitor extends AeAbstractTraversingXPathN
     */
    public void visit(AeXPathRelationalExprNode aNode)
    {
-      visitOperatorNode((AeAbstractXPathOperatorNode) aNode);
+      visitOperatorNode(aNode);
    }
    
    /**
@@ -215,7 +215,7 @@ public class AeXPathDebugSerializeNodeVisitor extends AeAbstractTraversingXPathN
     */
    public void visit(AeXPathUnaryExprNode aNode)
    {
-      visitOperatorNode((AeAbstractXPathOperatorNode) aNode);
+      visitOperatorNode(aNode);
    }
 
    /**

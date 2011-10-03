@@ -139,6 +139,6 @@ public class AeMain
     */
    public String getArg( String aFlag )
    {
-      return (String) mArgs.get( aFlag );
+      return mArgs.get( aFlag );
    }
 }

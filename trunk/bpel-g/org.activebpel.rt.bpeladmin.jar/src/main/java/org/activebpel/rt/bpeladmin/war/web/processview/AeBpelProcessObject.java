@@ -175,7 +175,7 @@ public class AeBpelProcessObject extends AeBpelScopeObject implements
 	 * @return BPEL def object
 	 */
 	public AeBpelObjectBase getWebModel(String aLocationPath) {
-		return (AeBpelObjectBase) mPathToWebModelMap.get(aLocationPath);
+		return mPathToWebModelMap.get(aLocationPath);
 	}
 
 	/**
@@ -216,7 +216,7 @@ public class AeBpelProcessObject extends AeBpelScopeObject implements
 	 * @return Link associated with this name.
 	 */
 	public AeBpelLinkObject getLink(String aLinkLocationPath) {
-		return (AeBpelLinkObject) mLinks.get(aLinkLocationPath);
+		return mLinks.get(aLinkLocationPath);
 	}
 
 	/**

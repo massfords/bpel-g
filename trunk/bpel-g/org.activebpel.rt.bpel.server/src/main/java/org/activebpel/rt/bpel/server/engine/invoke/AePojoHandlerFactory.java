@@ -40,7 +40,7 @@ public class AePojoHandlerFactory implements IAeInvokeHandlerFactory
          throws AeBusinessProcessException
    {
       String clazz = AeInvokeHandlerUri.getInvokerString(aInvoke.getInvokeHandler());
-      IAeInvokeHandler handler = (IAeInvokeHandler) getInvokers().get(clazz);
+      IAeInvokeHandler handler = getInvokers().get(clazz);
       if (handler == null)
       {
          try

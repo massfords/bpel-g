@@ -327,7 +327,7 @@ public class AeCoordinationContainer extends AeAbstractBpelObject
    public synchronized AeCompensationHandler getCompensationHandler(String aCoordinationId)
    {
       AeCompensationHandler handler = null;
-      handler = (AeCompensationHandler) getCompCoordinationMap().get(aCoordinationId);      
+      handler = getCompCoordinationMap().get(aCoordinationId);      
       return handler;
    }
    

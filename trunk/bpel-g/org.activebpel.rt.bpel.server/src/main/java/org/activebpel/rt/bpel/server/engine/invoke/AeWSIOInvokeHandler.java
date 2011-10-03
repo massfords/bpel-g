@@ -218,7 +218,7 @@ public abstract class AeWSIOInvokeHandler implements IAeInvokeHandler,
 		Service service = null;
 		if (aEndpointRef.getServiceName() != null) {
 			if (aDef != null) {
-				service = (Service) aDef.getServices().get(
+				service = aDef.getServices().get(
 						aEndpointRef.getServiceName());
 			}
 			// TODO (MF) if we were given a service name but couldn't find it,

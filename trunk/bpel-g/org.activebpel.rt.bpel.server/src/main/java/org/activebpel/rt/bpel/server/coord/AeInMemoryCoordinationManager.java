@@ -155,7 +155,7 @@ public class AeInMemoryCoordinationManager extends AeCoordinationManager
       Iterator<IAeCoordinating> it = getCoordinatingsPidMap().values().iterator();
       while (it.hasNext())
       {
-         IAeCoordinating c = (IAeCoordinating) it.next();
+         IAeCoordinating c = it.next();
          if (c.getProcessId() == aProcessId)
          {
             set.add(c);
@@ -170,7 +170,7 @@ public class AeInMemoryCoordinationManager extends AeCoordinationManager
    protected synchronized IAeCoordinating getCoordinating(String aCoordinationId, long aPid) throws AeCoordinationNotFoundException
    {
       IAeCoordinating rVal = null;
-      rVal = (IAeCoordinating) getCoordinatingsPidMap().get( getKey(aCoordinationId, aPid) );
+      rVal = getCoordinatingsPidMap().get( getKey(aCoordinationId, aPid) );
       if (rVal == null)
       {
          throw new AeCoordinationNotFoundException(getKey(aCoordinationId, aPid));

@@ -93,7 +93,7 @@ public class AeJoinVisitor extends AeAbstractDefVisitor
     */
    protected void addCorrelationInitiation(AeCorrelationSetDef aDef)
    {
-      AeCorrelationSetUsage usage = (AeCorrelationSetUsage) getUsageMap().get(aDef);
+      AeCorrelationSetUsage usage = getUsageMap().get(aDef);
       if (usage == null)
       {
          usage = new AeCorrelationSetUsage();

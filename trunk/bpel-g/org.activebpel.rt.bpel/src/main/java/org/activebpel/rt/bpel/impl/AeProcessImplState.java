@@ -269,7 +269,7 @@ public class AeProcessImplState implements IAeImplStateNames
     */
    protected IAeFastParent getCurrentParent()
    {
-      return (IAeFastParent) mParentStack.getFirst();
+      return mParentStack.getFirst();
    }
 
    /**

@@ -123,7 +123,7 @@ public class AeWorkManager implements WorkManager, Runnable,
 				// thread can be null if thread was interrupted while waiting
 				// for new thread
 				if (thread != null) {
-					AeQueuedWork queuedWork = (AeQueuedWork) mQueuedWork.getNextObjectOrWait();
+					AeQueuedWork queuedWork = mQueuedWork.getNextObjectOrWait();
 					// queued work can be null if thread was interrupted while
 					// waiting for next object
 					if (queuedWork != null) {

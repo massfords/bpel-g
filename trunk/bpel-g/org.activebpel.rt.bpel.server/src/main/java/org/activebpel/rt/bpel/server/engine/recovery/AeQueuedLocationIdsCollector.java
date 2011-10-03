@@ -131,7 +131,7 @@ public class AeQueuedLocationIdsCollector
     */
    public boolean isQueued(int aPathId, int aAlarmId)
    {
-      List list = (List) getAlarms().get(aPathId);
+      List list = getAlarms().get(aPathId);
       if (AeUtil.notNullOrEmpty(list))
       {
          for (Iterator iter = list.iterator(); iter.hasNext();)

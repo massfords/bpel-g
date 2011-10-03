@@ -453,7 +453,7 @@ public abstract class AeProcessWebPropertyBuilder extends AeProcessDefToWebVisit
       String name = ""; //$NON-NLS-1$
       if (NON_ACTIVITY_CONTAINERS.keySet().contains(getBpelModel().getTagName()))
       {
-         name = ((String)NON_ACTIVITY_CONTAINERS.get(getBpelModel().getTagName())) + "Count";  //$NON-NLS-1$
+         name = (NON_ACTIVITY_CONTAINERS.get(getBpelModel().getTagName())) + "Count";  //$NON-NLS-1$
       }
       String value = String.valueOf( aDef.getSize());
       addProperty(name, value);
@@ -802,7 +802,7 @@ public abstract class AeProcessWebPropertyBuilder extends AeProcessDefToWebVisit
    public void visit(AeActivityInvokeDef aDef)
    {
       buildActivityBase(aDef);
-      build( (AeActivityPartnerLinkBaseDef) aDef, false);
+      build( aDef, false);
       addProperty("oneWay", getYesNo(isOneWay(aDef))); //$NON-NLS-1$
       addProperty("inputVariable", aDef.getInputVariable(), findVariableLocationPath(aDef.getInputVariable())); //$NON-NLS-1$
       if (AeUtil.notNullOrEmpty(aDef.getOutputVariable()))
@@ -834,7 +834,7 @@ public abstract class AeProcessWebPropertyBuilder extends AeProcessDefToWebVisit
    public void visit(AeActivityReceiveDef aDef)
    {
       buildActivityBase(aDef);
-      build( (AeActivityPartnerLinkBaseDef) aDef, true);
+      build( aDef, true);
       addProperty("createInstance", getYesNo(aDef.isCreateInstance())); //$NON-NLS-1$
       if (AeUtil.notNullOrEmpty(aDef.getMessageExchange()))
       {
@@ -849,7 +849,7 @@ public abstract class AeProcessWebPropertyBuilder extends AeProcessDefToWebVisit
    public void visit(AeActivityReplyDef aDef)
    {
       buildActivityBase(aDef);
-      build( (AeActivityPartnerLinkBaseDef) aDef, true);
+      build( aDef, true);
       if (AeUtil.notNullOrEmpty(aDef.getMessageExchange()))
       {
          addProperty("messageExchange",aDef.getMessageExchange()); //$NON-NLS-1$
@@ -1003,7 +1003,7 @@ public abstract class AeProcessWebPropertyBuilder extends AeProcessDefToWebVisit
     */
    public void visit(AeVariablesDef aDef)
    {
-      buildNonActivityContainerProperties((AeBaseContainer)aDef);
+      buildNonActivityContainerProperties(aDef);
    }
 
 
@@ -1012,7 +1012,7 @@ public abstract class AeProcessWebPropertyBuilder extends AeProcessDefToWebVisit
     */
    public void visit(AeCorrelationSetsDef aDef)
    {
-      buildNonActivityContainerProperties((AeBaseContainer)aDef);
+      buildNonActivityContainerProperties(aDef);
    }
 
    /**
@@ -1020,7 +1020,7 @@ public abstract class AeProcessWebPropertyBuilder extends AeProcessDefToWebVisit
     */
    public void visit(AeMessageExchangesDef aDef)
    {
-      buildNonActivityContainerProperties((AeBaseContainer)aDef);
+      buildNonActivityContainerProperties(aDef);
    }
 
    /**
@@ -1194,7 +1194,7 @@ public abstract class AeProcessWebPropertyBuilder extends AeProcessDefToWebVisit
     */
    public void visit(AeFromPartsDef aDef)
    {
-      buildNonActivityContainerProperties((AeBaseContainer)aDef);
+      buildNonActivityContainerProperties(aDef);
    }
 
    /**
@@ -1202,7 +1202,7 @@ public abstract class AeProcessWebPropertyBuilder extends AeProcessDefToWebVisit
     */
    public void visit(AeToPartsDef aDef)
    {
-      buildNonActivityContainerProperties((AeBaseContainer)aDef);
+      buildNonActivityContainerProperties(aDef);
    }
 
    /**
@@ -1324,7 +1324,7 @@ public abstract class AeProcessWebPropertyBuilder extends AeProcessDefToWebVisit
     */
    public void visit(AePartnerLinksDef aDef)
    {
-      buildNonActivityContainerProperties((AeBaseContainer)aDef);
+      buildNonActivityContainerProperties(aDef);
    }
 
    /**
@@ -1332,7 +1332,7 @@ public abstract class AeProcessWebPropertyBuilder extends AeProcessDefToWebVisit
     */
    public void visit(AePartnersDef aDef)
    {
-      buildNonActivityContainerProperties((AeBaseContainer)aDef);
+      buildNonActivityContainerProperties(aDef);
    }
 
    /**
@@ -1340,7 +1340,7 @@ public abstract class AeProcessWebPropertyBuilder extends AeProcessDefToWebVisit
     */
    public void visit(AeCorrelationsDef aDef)
    {
-      buildNonActivityContainerProperties((AeBaseContainer)aDef);
+      buildNonActivityContainerProperties(aDef);
    }
 
    /**

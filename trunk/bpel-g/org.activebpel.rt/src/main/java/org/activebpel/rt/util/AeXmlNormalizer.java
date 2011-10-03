@@ -307,7 +307,7 @@ public class AeXmlNormalizer
       public String addNamespace(String aPrefix, String aNamespace)
       {
          if (mNamespaceToPrefixMap.containsKey(aNamespace))
-            return (String) mNamespaceToPrefixMap.get(aNamespace);
+            return mNamespaceToPrefixMap.get(aNamespace);
 
          String prefix = aPrefix;
          if (mPrefixToNamespaceMap.containsKey(prefix))
@@ -324,7 +324,7 @@ public class AeXmlNormalizer
        */
       public String getNamespaceForPrefix(String aPrefix)
       {
-         return (String) mPrefixToNamespaceMap.get(aPrefix);
+         return mPrefixToNamespaceMap.get(aPrefix);
       }
 
       /**
@@ -334,7 +334,7 @@ public class AeXmlNormalizer
        */
       public String getPrefixForNamespace(String aNamespace)
       {
-         return (String) mNamespaceToPrefixMap.get(aNamespace);
+         return mNamespaceToPrefixMap.get(aNamespace);
       }
 
       /**

@@ -66,7 +66,7 @@ public abstract class AeBaseMessageDataStrategyMatcher implements IAeMessageData
     */
    public String getProducerStrategy(IAeMessageDataProducerDef aDef)
    {
-      return (String) getProducerMap().get(AeMessageDataSpec.create(aDef));
+      return getProducerMap().get(AeMessageDataSpec.create(aDef));
    }
    
    /**
@@ -74,7 +74,7 @@ public abstract class AeBaseMessageDataStrategyMatcher implements IAeMessageData
     */
    public String getConsumerStrategy(IAeMessageDataConsumerDef aDef)
    {
-      return (String) getConsumerMap().get(AeMessageDataSpec.create(aDef));
+      return getConsumerMap().get(AeMessageDataSpec.create(aDef));
    }
 }
  

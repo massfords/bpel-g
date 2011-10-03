@@ -164,7 +164,7 @@ public class AeProcessWorkManager implements IAeProcessWorkManager,
 	 */
 	protected void workCompleted(long aProcessId) {
 		synchronized (getProcessWorkQueueMap()) {
-			AeProcessWorkQueue queue = (AeProcessWorkQueue) getProcessWorkQueueMap()
+			AeProcessWorkQueue queue = getProcessWorkQueueMap()
 					.get(aProcessId);
 			if (queue == null) {
 				throw new IllegalStateException(

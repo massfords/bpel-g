@@ -178,7 +178,7 @@ public class AeBaseScopeValidator extends AeActivityValidator
     */
    public AeFaultHandlersValidator getFaultHandlersModel()
    {
-      return (AeFaultHandlersValidator) getChild(AeFaultHandlersValidator.class);
+      return getChild(AeFaultHandlersValidator.class);
    }
 
    /**

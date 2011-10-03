@@ -55,7 +55,7 @@ public class AePartnerLinkTypeImpl implements ExtensibilityElement, IAePartnerLi
     */
    public void addRole(IAeRole aRole)
    {
-      mRolesMap.put((String) aRole.getName(), (IAeRole) aRole);
+      mRolesMap.put(aRole.getName(), aRole);
    }
 
    /**
@@ -65,7 +65,7 @@ public class AePartnerLinkTypeImpl implements ExtensibilityElement, IAePartnerLi
     */
    public IAeRole findRole(String aName)
    {
-      return (IAeRole) mRolesMap.get(aName);
+      return mRolesMap.get(aName);
    }
  
    /**
@@ -85,7 +85,7 @@ public class AePartnerLinkTypeImpl implements ExtensibilityElement, IAePartnerLi
     */
    public IAeRole removeRole(String aName)
    {
-      return (IAeRole)mRolesMap.remove(aName);
+      return mRolesMap.remove(aName);
    }
    
    /**

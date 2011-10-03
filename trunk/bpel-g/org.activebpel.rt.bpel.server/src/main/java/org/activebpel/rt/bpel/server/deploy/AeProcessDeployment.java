@@ -250,7 +250,7 @@ public class AeProcessDeployment implements IAeProcessDeployment {
 			IAeWebServiceEndpointReference invokerEndpoint = replyHeaders
 					.getRecipient();
 
-			PartnerRoleEndpointReferenceType type = (PartnerRoleEndpointReferenceType) getEndpointSourceType(aPartnerLink
+			PartnerRoleEndpointReferenceType type = getEndpointSourceType(aPartnerLink
 					.getLocationPath());
 			if (type == PartnerRoleEndpointReferenceType.INVOKER) {
 				if (invokerEndpoint == null) {
@@ -324,7 +324,7 @@ public class AeProcessDeployment implements IAeProcessDeployment {
 			String aPartnerLink) {
 		AePartnerLinkDef plDef = getProcessDef().findPartnerLink(aPartnerLink);
 		AePartnerLinkDefKey key = new AePartnerLinkDefKey(plDef);
-		AePartnerLinkDescriptor descriptor = (AePartnerLinkDescriptor) mPartnerLinkDescriptors
+		AePartnerLinkDescriptor descriptor = mPartnerLinkDescriptors
 				.get(key);
 		if (descriptor == null) {
 			try {

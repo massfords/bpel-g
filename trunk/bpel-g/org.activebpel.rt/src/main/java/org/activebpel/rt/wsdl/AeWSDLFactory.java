@@ -64,7 +64,7 @@ public class AeWSDLFactory implements IAeWSDLFactory
       try
       {
          // Check if WSDL has catalog entry for the local classpath otherwise open URL
-         String classpath = (String)sUrl2Classpath.get(aWsdlUrl.toLowerCase());
+         String classpath = sUrl2Classpath.get(aWsdlUrl.toLowerCase());
          if(classpath != null)
             stream = Thread.currentThread().getContextClassLoader().getResourceAsStream(classpath); 
          else
@@ -94,7 +94,7 @@ public class AeWSDLFactory implements IAeWSDLFactory
     */
    public String getWSDLLocationForNamespace(String aNamespace) throws AeException
    {
-      return (String)sNamespace2Url.get(aNamespace);
+      return sNamespace2Url.get(aNamespace);
    }
 
    /**

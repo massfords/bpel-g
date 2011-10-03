@@ -106,8 +106,8 @@ public class AeBPWSToWSBPELXPathNodeVisitor extends AeAbstractTraversingXPathNod
     */
    protected void convertGetVariableDataFunctionTwoArgs(AeXPathFunctionNode aFunctionNode)
    {
-      AeAbstractXPathNode varNameNode = (AeAbstractXPathNode) aFunctionNode.getChildren().get(0);
-      AeAbstractXPathNode partOrQueryNode = (AeAbstractXPathNode) aFunctionNode.getChildren().get(1);
+      AeAbstractXPathNode varNameNode = aFunctionNode.getChildren().get(0);
+      AeAbstractXPathNode partOrQueryNode = aFunctionNode.getChildren().get(1);
       // All children must be literals for this to work.
       if (varNameNode instanceof AeXPathLiteralNode && partOrQueryNode instanceof AeXPathLiteralNode)
       {
@@ -142,9 +142,9 @@ public class AeBPWSToWSBPELXPathNodeVisitor extends AeAbstractTraversingXPathNod
     */
    protected void convertGetVariableDataFunctionThreeArgs(AeXPathFunctionNode aFunctionNode)
    {
-      AeAbstractXPathNode varNameNode = (AeAbstractXPathNode) aFunctionNode.getChildren().get(0);
-      AeAbstractXPathNode partNameNode = (AeAbstractXPathNode) aFunctionNode.getChildren().get(1);
-      AeAbstractXPathNode queryNode = (AeAbstractXPathNode) aFunctionNode.getChildren().get(2);
+      AeAbstractXPathNode varNameNode = aFunctionNode.getChildren().get(0);
+      AeAbstractXPathNode partNameNode = aFunctionNode.getChildren().get(1);
+      AeAbstractXPathNode queryNode = aFunctionNode.getChildren().get(2);
       // All children must be literals for this to work.
       if (varNameNode instanceof AeXPathLiteralNode && partNameNode instanceof AeXPathLiteralNode
             && queryNode instanceof AeXPathLiteralNode)
@@ -170,7 +170,7 @@ public class AeBPWSToWSBPELXPathNodeVisitor extends AeAbstractTraversingXPathNod
     */
    protected void convertGetVariableDataFunctionOneArg(AeXPathFunctionNode aFunctionNode)
    {
-      AeAbstractXPathNode node = (AeAbstractXPathNode) aFunctionNode.getChildren().get(0);
+      AeAbstractXPathNode node = aFunctionNode.getChildren().get(0);
       // Must be a literal child for this to work.
       if (node instanceof AeXPathLiteralNode)
       {
@@ -219,7 +219,7 @@ public class AeBPWSToWSBPELXPathNodeVisitor extends AeAbstractTraversingXPathNod
     */
    protected void convertGetLinkStatusFunction(AeXPathFunctionNode aFunctionNode)
    {
-      AeAbstractXPathNode node = (AeAbstractXPathNode) aFunctionNode.getChildren().get(0);
+      AeAbstractXPathNode node = aFunctionNode.getChildren().get(0);
       // Must be a literal child for this to work.
       if (node instanceof AeXPathLiteralNode)
       {

@@ -141,7 +141,7 @@ public class AeWSDLPolicyHelper
       
       List<IAePolicy> policies = new ArrayList<IAePolicy>();
       
-      Service service = (Service) aDef.getServices().get(aServiceName);
+      Service service = aDef.getServices().get(aServiceName);
       if (service == null)
       {
          return policies;
@@ -485,7 +485,7 @@ public class AeWSDLPolicyHelper
       List<IAePolicy> policyMatches = new ArrayList<IAePolicy>();
       for (Iterator<?> it = aProvider.getWSDLIterator(aPolicyRef.getNamespaceURI()); it.hasNext();)
       {
-         AeBPELExtendedWSDLDef def = (AeBPELExtendedWSDLDef) aProvider.dereferenceIteration(it.next());
+         AeBPELExtendedWSDLDef def = aProvider.dereferenceIteration(it.next());
          IAePolicy policy = def.getPolicy(aPolicyRef.getReferenceId());
          if (policy != null)
          {

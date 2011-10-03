@@ -185,7 +185,7 @@ public class AeDefReaderRegistry implements IAeDefReaderRegistry, IAeBaseXmlDefC
       }
    
       // look in the generic QName -> reader map
-      return (IAeDefReader) getGenericReadersMap().get(aElementQName);
+      return getGenericReadersMap().get(aElementQName);
    }
 
    /**

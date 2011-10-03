@@ -159,7 +159,7 @@ public class AeProcessSuspendResumeHandler
       for (Iterator iter = getFaultingActivityLocationPaths().iterator(); iter.hasNext();)
       {
          String path = (String) iter.next();
-         AeAbstractBpelObject faultingBpelObj = (AeAbstractBpelObject)findBpelObject( path );
+         AeAbstractBpelObject faultingBpelObj = findBpelObject( path );
          if (faultingBpelObj.getState() != AeBpelState.FAULTING)
          {
             return;
@@ -173,11 +173,11 @@ public class AeProcessSuspendResumeHandler
       // result in process termination (this is an uncaught fault)
       // we can safely discard the rest of the entries in the 
       // suspension data list
-      String locationPath = (String)getFaultingActivityLocationPaths().remove(0);
+      String locationPath = getFaultingActivityLocationPaths().remove(0);
       getFaultingActivityLocationPaths().clear();
 
       // get the faulting bpel object
-      AeAbstractBpelObject faultingBpelObj = (AeAbstractBpelObject)findBpelObject( locationPath );
+      AeAbstractBpelObject faultingBpelObj = findBpelObject( locationPath );
       IAeFault uncaughtFault = faultingBpelObj.getFault();
       
       // clear the fault from the bpel obj

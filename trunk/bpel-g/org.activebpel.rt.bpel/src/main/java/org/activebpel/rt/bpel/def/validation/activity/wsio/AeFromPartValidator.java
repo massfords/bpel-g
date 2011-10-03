@@ -66,7 +66,7 @@ public class AeFromPartValidator extends AeBaseValidator
       }
       
       // validate the toVariable attribute using the proper scoping rules
-      AeWSIOActivityValidator wsioParent = (AeWSIOActivityValidator) getAnscestor(AeWSIOActivityValidator.class);
+      AeWSIOActivityValidator wsioParent = getAnscestor(AeWSIOActivityValidator.class);
       if (wsioParent != null)
       {
          String toVariableName = getDef().getToVariable();

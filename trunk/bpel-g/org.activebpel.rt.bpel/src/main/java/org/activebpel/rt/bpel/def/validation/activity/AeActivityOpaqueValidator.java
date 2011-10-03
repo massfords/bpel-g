@@ -39,7 +39,7 @@ public class AeActivityOpaqueValidator extends AeActivityValidator
          getReporter().reportProblem( BPEL_OPAQUE_ACTIVITY_NOT_ALLOWED_CODE, 
                                        ERROR_OPAQUE_ACTIVITY_NOT_ALLOWED, 
                                        null, 
-                                       (AeActivityOpaqueDef)getDefinition() );         
+                                       getDefinition() );         
       }
    }
 

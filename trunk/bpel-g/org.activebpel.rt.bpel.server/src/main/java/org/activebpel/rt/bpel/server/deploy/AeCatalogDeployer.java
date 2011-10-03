@@ -33,7 +33,7 @@ public class AeCatalogDeployer implements IAeDeploymentHandler {
         try {
             AeCatalogMappings catalog = new AeCatalogMappings(aContainer);
             IAeCatalogMapping[] mappingEntries = createCatalogMappings(catalog,
-                    (IAeDeploymentContext) aContainer);
+                    aContainer);
             AeEngineFactory.getBean(IAeCatalog.class).addCatalogEntries(
                     aContainer.getDeploymentId(), mappingEntries, catalog.replaceExistingResource());
         } finally {
@@ -54,7 +54,7 @@ public class AeCatalogDeployer implements IAeDeploymentHandler {
      */
     protected IAeCatalogMapping[] createCatalogMappings(AeCatalogMappings aCatalog,
             IAeDeploymentContext aContext) {
-        return (IAeCatalogMapping[]) aCatalog.getResources().values().toArray(
+        return aCatalog.getResources().values().toArray(
                 new IAeCatalogMapping[aCatalog.getResources().values().size()]);
     }
 }

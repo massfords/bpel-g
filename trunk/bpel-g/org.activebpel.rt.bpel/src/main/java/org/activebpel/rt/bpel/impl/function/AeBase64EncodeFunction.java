@@ -50,7 +50,7 @@ public class AeBase64EncodeFunction extends AeAbstractBpelFunction
      
       try
       {
-         return (String)Base64.encodeBytes(getStringArg(aArgs,0).getBytes(aArgs.size() == 2 ? getStringArg(aArgs,1) : DEFAULT_CHAR_SET));
+         return Base64.encodeBytes(getStringArg(aArgs,0).getBytes(aArgs.size() == 2 ? getStringArg(aArgs,1) : DEFAULT_CHAR_SET));
       }
       catch (UnsupportedEncodingException ex)
       {

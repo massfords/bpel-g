@@ -52,7 +52,7 @@ private static final String NOT_PRESENT = "none"; //$NON-NLS-1$
       
       String bundleKey = language + "_" + country; //$NON-NLS-1$
       
-      ResourceBundle bundle = (ResourceBundle)sBundleTable.get(bundleKey);
+      ResourceBundle bundle = sBundleTable.get(bundleKey);
       if (bundle == null)
       {
          try

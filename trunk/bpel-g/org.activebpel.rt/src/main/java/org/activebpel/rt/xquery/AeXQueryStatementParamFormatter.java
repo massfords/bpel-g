@@ -58,7 +58,7 @@ class AeXQueryStatementParamFormatter
       if (aValue == null)
          throw new AssertionError(AeMessages.getString("AeXQueryStatementParamFormatter.InvalidNullParamValue")); //$NON-NLS-1$
 
-      IAeXQueryStatementParamFormatter formatter = (IAeXQueryStatementParamFormatter) mFormatters.get(aValue.getClass());
+      IAeXQueryStatementParamFormatter formatter = mFormatters.get(aValue.getClass());
       if (formatter == null)
          throw new AssertionError(AeMessages.format("AeXQueryStatementParamFormatter.NoFormatterError", aValue.getClass().getName())); //$NON-NLS-1$
 

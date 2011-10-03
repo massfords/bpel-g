@@ -70,7 +70,7 @@ public class AeWsdlImportFixup
 		List<Import> importList = aDef.getImports(iter.next().toString());
          for (Iterator<Import> impIter=importList.iterator(); impIter.hasNext();)
          {
-            Import wsdlImport = (Import)impIter.next();
+            Import wsdlImport = impIter.next();
             String importLocation = wsdlImport.getLocationURI();
             wsdlImport.setLocationURI(importUrl.getImportUrl(importLocation, WSDL_EXTENSION));
          }

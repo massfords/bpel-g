@@ -90,7 +90,7 @@ public class AeStaticConstantsMap
    public String getName(Object aValue)
    {
       init();
-      return (String) mValuesToNamesMap.get(aValue);
+      return mValuesToNamesMap.get(aValue);
    }
 
    /**

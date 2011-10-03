@@ -451,7 +451,7 @@ public class AeGraphImageDriver
       if (aMaxMb > 0)
       {
          long available = aMaxMb * 1024 * 1024L;
-         long needed = ((long)Math.ceil((double)aColorDepth/8.0)) * (long)(aWidth * aHeight);
+         long needed = ((long)Math.ceil(aColorDepth/8.0)) * (aWidth * aHeight);
          if (needed > available)
          {
             throw new AeResourceAllocationException(available, needed);

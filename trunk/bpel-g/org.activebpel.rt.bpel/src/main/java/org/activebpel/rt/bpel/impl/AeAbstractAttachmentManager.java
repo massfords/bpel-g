@@ -325,7 +325,7 @@ public abstract class AeAbstractAttachmentManager extends AeManagerAdapter imple
 
       for (Iterator<IAeAttachmentItem> i = aContainer.iterator(); i.hasNext();)
       {
-         IAeAttachmentItem attachment = (IAeAttachmentItem)i.next();
+         IAeAttachmentItem attachment = i.next();
          InputStream content;
 
          if ( attachment instanceof AeStreamAttachmentItem )

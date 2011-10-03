@@ -206,7 +206,7 @@ public class AeSpCoordinator extends AeSpCoordinatingBase implements IAeSpCoordi
       setState(AeSpCoordinationStates.ACTIVE);
 
       // add coordination id to enclosing scope.
-      IAeBusinessProcessEngineInternal engine = (IAeBusinessProcessEngineInternal)AeEngineFactory.getEngine();
+      IAeBusinessProcessEngineInternal engine = AeEngineFactory.getEngine();
       engine.getProcessCoordination().registerCoordinationId( getProcessId(), getLocationPath(), getCoordinationId());
    }
 
@@ -221,7 +221,7 @@ public class AeSpCoordinator extends AeSpCoordinatingBase implements IAeSpCoordi
    private void deregister(IAeMessageAcknowledgeCallback aCallback, long aJournalId) throws AeCoordinationException
    {
       // remove coordination id from enclosing scope.
-      IAeBusinessProcessEngineInternal engine = (IAeBusinessProcessEngineInternal)AeEngineFactory.getEngine();
+      IAeBusinessProcessEngineInternal engine = AeEngineFactory.getEngine();
       engine.getProcessCoordination().deregisterCoordinationId( getProcessId(), getLocationPath(), getCoordinationId(), aCallback, aJournalId);
    }
 
@@ -292,7 +292,7 @@ public class AeSpCoordinator extends AeSpCoordinatingBase implements IAeSpCoordi
       AePersistCoordinationStateCallback callback = new AePersistCoordinationStateCallback();
       
       // install compensation handler.
-      IAeBusinessProcessEngineInternal engine = (IAeBusinessProcessEngineInternal)AeEngineFactory.getEngine();
+      IAeBusinessProcessEngineInternal engine = AeEngineFactory.getEngine();
       engine.getProcessCoordination().installCompensationHandler( getProcessId(), getLocationPath(), getCoordinationId(), this, callback, aMessage.getJournalId());
    }
 
@@ -433,7 +433,7 @@ public class AeSpCoordinator extends AeSpCoordinatingBase implements IAeSpCoordi
 
       // signal the compHandler that it's done.
       IAeMessageAcknowledgeCallback callback = new AePersistCoordinationStateCallback();
-      IAeBusinessProcessEngineInternal engine = (IAeBusinessProcessEngineInternal)AeEngineFactory.getEngine();
+      IAeBusinessProcessEngineInternal engine = AeEngineFactory.getEngine();
       engine.getProcessCoordination().compensationCompletedCallback( getProcessId(), getLocationPath(), getCoordinationId(), IAeProcessManager.NULL_JOURNAL_ID,  callback, aMessage.getJournalId());
    }
 
@@ -453,7 +453,7 @@ public class AeSpCoordinator extends AeSpCoordinatingBase implements IAeSpCoordi
       IAeMessageAcknowledgeCallback callback = new AePersistCoordinationStateCallback();
 
       // signal the compHandler that it 'completed with fault'.
-      IAeBusinessProcessEngineInternal engine = (IAeBusinessProcessEngineInternal)AeEngineFactory.getEngine();
+      IAeBusinessProcessEngineInternal engine = AeEngineFactory.getEngine();
       engine.getProcessCoordination().compensationCompletedWithFaultCallback( getProcessId(), getLocationPath(), getCoordinationId(), aMessage.getFault(), IAeProcessManager.NULL_JOURNAL_ID, callback, aMessage.getJournalId() );
    }
 
@@ -472,7 +472,7 @@ public class AeSpCoordinator extends AeSpCoordinatingBase implements IAeSpCoordi
       IAeMessageAcknowledgeCallback callback = new AePersistCoordinationStateCallback();
       
       //Fault the enclosing scope
-      IAeBusinessProcessEngineInternal engine = (IAeBusinessProcessEngineInternal)AeEngineFactory.getEngine();
+      IAeBusinessProcessEngineInternal engine = AeEngineFactory.getEngine();
       engine.getProcessCoordination().activityFaulted( getProcessId(), getLocationPath(), getCoordinationId(), aMessage.getFault(), callback, aMessage.getJournalId() );
    }
 

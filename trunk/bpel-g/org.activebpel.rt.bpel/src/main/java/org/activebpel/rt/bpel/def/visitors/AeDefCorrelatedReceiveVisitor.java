@@ -128,7 +128,7 @@ public class AeDefCorrelatedReceiveVisitor extends AeAbstractDefVisitor
       if (corrSets != null)
       {
          AePartnerLinkOpKey key = aDef.getPartnerLinkOperationKey();
-         AeCorrelationCombinations combos = (AeCorrelationCombinations) mPartnerLinkOperationToCorrSets.get(key);
+         AeCorrelationCombinations combos = mPartnerLinkOperationToCorrSets.get(key);
          if (combos == null)
          {
             combos = new AeCorrelationCombinations();

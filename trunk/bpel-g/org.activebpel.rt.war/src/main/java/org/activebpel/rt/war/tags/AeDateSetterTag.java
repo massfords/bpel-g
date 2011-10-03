@@ -41,7 +41,7 @@ public class AeDateSetterTag extends AePropertyDateFormatterTag
    {
       try
       {         
-         Date date = (Date) getDateFromParam();
+         Date date = getDateFromParam();
          setPropertyOnBean(date, Date.class);
       }
       catch(AeException ae)

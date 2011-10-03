@@ -153,7 +153,7 @@ public class AeExecutionQueue
     */
    private IAeExecutableQueueItem getNextObjectToExecute()
    {
-      return (IAeExecutableQueueItem) mExecutionQueue.removeFirst();
+      return mExecutionQueue.removeFirst();
    }
 
    /**
@@ -192,7 +192,7 @@ public class AeExecutionQueue
                if (aExecutable.getState() != AeBpelState.EXECUTING && aExecutable instanceof AeAbstractBpelObject)
                {
                   AeAbstractBpelObject bo = (AeAbstractBpelObject) aExecutable;
-                  getProcess().handleExecutableItemException((AeAbstractBpelObject)bo.getParent(), ex);
+                  getProcess().handleExecutableItemException(bo.getParent(), ex);
                }
                else
                {

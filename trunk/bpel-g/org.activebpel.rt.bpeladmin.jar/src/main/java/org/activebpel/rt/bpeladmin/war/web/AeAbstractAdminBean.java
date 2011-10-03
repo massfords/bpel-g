@@ -151,7 +151,7 @@ public class AeAbstractAdminBean implements IAeErrorAwareBean
    {
       if (hasPropertyErrors())
       {
-         return (String) getPropertyErrors().get(aPropertyName);
+         return getPropertyErrors().get(aPropertyName);
       }
       return null;
    }

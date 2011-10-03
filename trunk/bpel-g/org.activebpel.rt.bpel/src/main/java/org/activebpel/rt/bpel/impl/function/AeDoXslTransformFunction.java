@@ -83,7 +83,7 @@ public class AeDoXslTransformFunction extends AeAbstractBpelFunction
          }
 
          String xslUri = (String) aArgs.get(0);
-         Object nodeSet = (Object) aArgs.get(1);
+         Object nodeSet = aArgs.get(1);
          Map parameters = extractParameters(aArgs);
 
          Source xsltSource = resolveXslUri(aContext, xslUri);

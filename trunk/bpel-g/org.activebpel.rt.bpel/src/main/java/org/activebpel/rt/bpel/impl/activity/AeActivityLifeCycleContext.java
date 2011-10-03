@@ -65,7 +65,7 @@ public class AeActivityLifeCycleContext implements IAeActivityLifeCycleContext
     */
    public void completedWithFault(IAeFault aFault) throws AeBusinessProcessException
    {
-      AeActivityChildExtensionActivityImpl impl = (AeActivityChildExtensionActivityImpl) getChildExtensionActivityImpl();
+      AeActivityChildExtensionActivityImpl impl = getChildExtensionActivityImpl();
       impl.objectCompletedWithFault(aFault);
    }
 

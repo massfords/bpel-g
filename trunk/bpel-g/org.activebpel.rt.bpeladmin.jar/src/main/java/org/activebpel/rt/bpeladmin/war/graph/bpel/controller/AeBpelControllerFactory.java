@@ -116,7 +116,7 @@ public class AeBpelControllerFactory implements IAeGraphControllerFactory
       
       if (CONTROLLER_MAP.containsKey(bpelModel.getControllerType()))
       {
-         Class c = (Class) CONTROLLER_MAP.get(bpelModel.getControllerType());
+         Class c = CONTROLLER_MAP.get(bpelModel.getControllerType());
          if (c != null)
          {
             try

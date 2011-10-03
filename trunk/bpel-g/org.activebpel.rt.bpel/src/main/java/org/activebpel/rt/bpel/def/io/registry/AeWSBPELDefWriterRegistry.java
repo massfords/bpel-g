@@ -174,7 +174,7 @@ public class AeWSBPELDefWriterRegistry extends AeAbstractBpelWriterRegistry
       {
          AeChildExtensionActivityDef actExtDef = (AeChildExtensionActivityDef) aBaseDef;
 
-         IAeDefWriter writer = getWriterFactory().createDefWriter((AeBaseDef) aBaseDef,
+         IAeDefWriter writer = getWriterFactory().createDefWriter(aBaseDef,
                aParentElement, actExtDef.getElementName().getNamespaceURI(),
                actExtDef.getElementName().getLocalPart());
          return writer.createElement(aBaseDef, aParentElement);
@@ -197,7 +197,7 @@ public class AeWSBPELDefWriterRegistry extends AeAbstractBpelWriterRegistry
          if (compHandlerDef.getParent() instanceof AeProcessDef)
             namespace = IAeBPELConstants.AE_EXTENSION_NAMESPACE_URI_ALLOW_PROCESS_COORDINATION;
 
-         IAeDefWriter writer = getWriterFactory().createDefWriter((AeBaseDef) aBaseDef,
+         IAeDefWriter writer = getWriterFactory().createDefWriter(aBaseDef,
                aParentElement, namespace, elementName);
          return writer.createElement(aBaseDef, aParentElement);
       }
@@ -220,7 +220,7 @@ public class AeWSBPELDefWriterRegistry extends AeAbstractBpelWriterRegistry
          if (termHandlerDef.getParent() instanceof AeProcessDef)
             namespace = IAeBPELConstants.AE_EXTENSION_NAMESPACE_URI_ALLOW_PROCESS_COORDINATION;
 
-         IAeDefWriter writer = getWriterFactory().createDefWriter((AeBaseDef) aBaseDef,
+         IAeDefWriter writer = getWriterFactory().createDefWriter(aBaseDef,
                aParentElement, namespace, elementName);
          return writer.createElement(aBaseDef, aParentElement);
       }
@@ -244,7 +244,7 @@ public class AeWSBPELDefWriterRegistry extends AeAbstractBpelWriterRegistry
             elementName = TAG_OPAQUE_FROM;
             namespace = IAeBPELConstants.WSBPEL_2_0_ABSTRACT_NAMESPACE_URI;
          }
-         IAeDefWriter writer = getWriterFactory().createDefWriter((AeBaseDef) aBaseDef,
+         IAeDefWriter writer = getWriterFactory().createDefWriter(aBaseDef,
                aParentElement, namespace, elementName);
          return writer.createElement(aBaseDef, aParentElement);
       }

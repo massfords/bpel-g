@@ -57,7 +57,7 @@ public class AeWebServiceAttachment implements IAeWebServiceAttachment
     */
    public String getMimeType()
    {
-      return (String)mMimeHeaders.get(AE_CONTENT_TYPE_MIME);
+      return mMimeHeaders.get(AE_CONTENT_TYPE_MIME);
    }
 
    /**
@@ -65,7 +65,7 @@ public class AeWebServiceAttachment implements IAeWebServiceAttachment
     */
    public String getLocation()
    {
-      return (String)mMimeHeaders.get(AE_CONTENT_LOCATION_MIME);
+      return mMimeHeaders.get(AE_CONTENT_LOCATION_MIME);
    }
 
    /**
@@ -73,7 +73,7 @@ public class AeWebServiceAttachment implements IAeWebServiceAttachment
     */
    public String getContentId()
    {
-      return (String)mMimeHeaders.get(AE_CONTENT_ID_MIME);
+      return mMimeHeaders.get(AE_CONTENT_ID_MIME);
    }
    
    /**

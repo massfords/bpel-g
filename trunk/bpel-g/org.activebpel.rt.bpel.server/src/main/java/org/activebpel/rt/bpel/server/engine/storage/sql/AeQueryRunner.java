@@ -170,7 +170,7 @@ public class AeQueryRunner extends QueryRunner
             {
                AeBlobInputStream stream = (AeBlobInputStream) param;
                // This is binary blob data set the stream
-               aStatement.setBinaryStream(i + 1, stream, (int) stream.length());
+               aStatement.setBinaryStream(i + 1, stream, stream.length());
             }
             else
             {

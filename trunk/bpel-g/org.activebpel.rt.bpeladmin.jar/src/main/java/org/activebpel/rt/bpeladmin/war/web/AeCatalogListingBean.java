@@ -89,7 +89,7 @@ public class AeCatalogListingBean extends AeAbstractListingBean
     */
    public AeCatalogItem getDetail( int aIndex )
    {
-       return (AeCatalogItem) mResults.getResults().get(aIndex);
+       return mResults.getResults().get(aIndex);
    }
    
    /**

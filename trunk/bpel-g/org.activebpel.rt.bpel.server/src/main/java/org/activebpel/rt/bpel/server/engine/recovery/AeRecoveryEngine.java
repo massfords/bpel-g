@@ -88,7 +88,7 @@ public class AeRecoveryEngine extends AeAbstractServerEngine implements IAeRecov
       Map<String,IAeManager> managersMap = new HashMap<String,IAeManager>(aCustomManagersMap);
       for (Entry<String,IAeManager> entry : managersMap.entrySet())
       {
-         IAeManager manager = (IAeManager) entry.getValue();
+         IAeManager manager = entry.getValue();
          IAeRecoveryAwareManager recoveryAwareManager = (IAeRecoveryAwareManager) manager.getAdapter(IAeRecoveryAwareManager.class);
          if (recoveryAwareManager != null)
          {
@@ -184,7 +184,7 @@ public class AeRecoveryEngine extends AeAbstractServerEngine implements IAeRecov
 
          while (i.hasNext())
          {
-            IAeJournalEntry entry = (IAeJournalEntry) i.next();
+            IAeJournalEntry entry = i.next();
 
             if (entry instanceof AeEngineFailureJournalEntry)
             {

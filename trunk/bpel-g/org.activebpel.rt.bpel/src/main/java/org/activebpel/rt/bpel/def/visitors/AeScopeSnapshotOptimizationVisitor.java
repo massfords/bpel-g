@@ -49,7 +49,7 @@ public class AeScopeSnapshotOptimizationVisitor extends AeAbstractDefVisitor
    {
       for(int i=getEnclosedScopes().size()-1; i>=0; i--)
       {
-         AeActivityScopeDef scope = (AeActivityScopeDef) getEnclosedScopes().get(i);
+         AeActivityScopeDef scope = getEnclosedScopes().get(i);
          // Note: was previously short circuiting as soon as I encountered a scope w/ 
          // its flag set to "true" but this requires an understanding of the order of 
          // traversal and not worth the risk.

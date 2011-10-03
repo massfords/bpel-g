@@ -24,6 +24,12 @@ import org.activebpel.rt.util.AeUtil;
  * Container for internal attachments associated with <code>AeVariable</code> or
  * <code>AeMessageData</code>. Attachments are instances of
  * <code>IAeAttachmentItem</code>.
+ * 
+ * Note: When the developer that created this class was interviewed, he was asked to explain the difference
+ *       between a list and a set. He was unable to do so and in fact defended that a list could have 
+ *       unique items in it as well. Somehow he was hired and eventually proved his point by creating this
+ *       mess of a class which is effectively a LinkedHashSet. 
+ * 
  */
 public class AeAttachmentContainer extends ArrayList<IAeAttachmentItem> implements IAeAttachmentContainer
 {
@@ -96,9 +102,9 @@ public class AeAttachmentContainer extends ArrayList<IAeAttachmentItem> implemen
     */
    protected boolean addIfAbsent(IAeAttachmentItem aObject)
    {
-      if ( !contains(aObject) && (aObject instanceof IAeAttachmentItem) )
+      if ( !contains(aObject) && (aObject != null) )
       {
-         IAeAttachmentItem item = ensureUniqueContentId((IAeAttachmentItem)aObject);
+         IAeAttachmentItem item = ensureUniqueContentId(aObject);
          return super.add(item);
       }
       else
@@ -115,7 +121,7 @@ public class AeAttachmentContainer extends ArrayList<IAeAttachmentItem> implemen
     */
    public void add(int aIndex, IAeAttachmentItem aObject)
    {
-      if ( !contains(aObject) && (aObject instanceof IAeAttachmentItem) )
+      if ( !contains(aObject) && (aObject != null) )
       {
          super.add(aIndex, aObject);
       }
@@ -129,7 +135,7 @@ public class AeAttachmentContainer extends ArrayList<IAeAttachmentItem> implemen
     */
    public IAeAttachmentItem set(int aIndex, IAeAttachmentItem aObject)
    {
-      if ( !contains(aObject) && (aObject instanceof IAeAttachmentItem) )
+      if ( !contains(aObject) && (aObject != null) )
       {
          return super.set(aIndex, aObject);
       }
@@ -162,7 +168,7 @@ public class AeAttachmentContainer extends ArrayList<IAeAttachmentItem> implemen
     */
    private IAeAttachmentItem ensureUniqueContentId(IAeAttachmentItem aItem)
    {
-     String contentId = (String)aItem.getHeaders().get(AeMimeUtil.CONTENT_ID_ATTRIBUTE);
+     String contentId = aItem.getHeaders().get(AeMimeUtil.CONTENT_ID_ATTRIBUTE);
  
      // If Content-Id is not set, nothing further needs to be done
      if (AeUtil.isNullOrEmpty(contentId))
@@ -170,7 +176,7 @@ public class AeAttachmentContainer extends ArrayList<IAeAttachmentItem> implemen
      
      Set<String> ids = new HashSet<String>();
      for(Iterator<IAeAttachmentItem> itr = getAttachmentItems(); itr.hasNext();)
-        ids.add((String)(itr.next()).getHeaders().get(AeMimeUtil.CONTENT_ID_ATTRIBUTE));
+        ids.add((itr.next()).getHeaders().get(AeMimeUtil.CONTENT_ID_ATTRIBUTE));
      
      String newId = contentId;
      int count = 0;

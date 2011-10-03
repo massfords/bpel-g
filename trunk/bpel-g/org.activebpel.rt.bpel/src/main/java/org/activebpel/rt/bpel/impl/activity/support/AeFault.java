@@ -103,7 +103,7 @@ public class AeFault implements IAeFault
          IAeMessageData messageData = getMessageData();
          if (messageData.getPartCount() == 1)
          {
-            Object data = messageData.getData((String) messageData.getPartNames().next());
+            Object data = messageData.getData(messageData.getPartNames().next());
             if (data instanceof Document)
             {
                Element e = ((Document)data).getDocumentElement();

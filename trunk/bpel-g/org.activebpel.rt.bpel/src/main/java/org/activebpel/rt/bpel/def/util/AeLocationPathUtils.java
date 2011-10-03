@@ -149,7 +149,7 @@ public class AeLocationPathUtils
             for (Iterator<String> iter2 = scopePaths.iterator(); !foundMatch && iter2.hasNext();)
             {
                String scopePath = iter2.next();
-               String nonInstanceLastScopePath = (String) scopePathsToNonInstancePaths.get(scopePath);
+               String nonInstanceLastScopePath = scopePathsToNonInstancePaths.get(scopePath);
 
                if (path.startsWith(nonInstanceLastScopePath))
                {

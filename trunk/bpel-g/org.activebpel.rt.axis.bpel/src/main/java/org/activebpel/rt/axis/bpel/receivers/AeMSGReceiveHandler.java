@@ -73,7 +73,7 @@ public class AeMSGReceiveHandler extends AeAxisReceiveHandler
          Document[] data = new Document[bodyElements.size()];
          for (int i = 0; i < data.length; i++)
          {
-            SOAPBodyElement bodyElement = (SOAPBodyElement)bodyElements.get(i);
+            SOAPBodyElement bodyElement = bodyElements.get(i);
             Document doc = bodyElement.getAsDocument();
             data[i] = doc; 
          }

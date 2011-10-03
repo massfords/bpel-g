@@ -59,7 +59,7 @@ public class AeMessagePartsMap implements Serializable
    {
       if (getPartsCount() == 1)
       {
-         AeMessagePartTypeInfo info = (AeMessagePartTypeInfo) getPartsMap().values().iterator().next();
+         AeMessagePartTypeInfo info = getPartsMap().values().iterator().next();
          return info.getElementName();
       }
       return null;

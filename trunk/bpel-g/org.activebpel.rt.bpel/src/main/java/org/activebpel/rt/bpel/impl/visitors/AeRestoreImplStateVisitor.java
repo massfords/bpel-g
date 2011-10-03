@@ -572,7 +572,7 @@ public class AeRestoreImplStateVisitor extends AeBaseRestoreVisitor
 
       // We may have already traversed a compensation handler that needs to
       // call this compensate activity.
-      AeCompensationHandler handler = (AeCompensationHandler) mCompensationCallbackOwnersMap.remove(aImpl.getLocationPath());
+      AeCompensationHandler handler = mCompensationCallbackOwnersMap.remove(aImpl.getLocationPath());
       if (handler != null)
       {
          handler.setCallback(aImpl);
@@ -1236,7 +1236,7 @@ public class AeRestoreImplStateVisitor extends AeBaseRestoreVisitor
    public void visit(AeDefaultFaultHandler aImpl) throws AeBusinessProcessException
    {
       // restore base handler information
-      restoreFCTHandler( (AeFCTHandler) aImpl);
+      restoreFCTHandler( aImpl);
       
       super.visit(aImpl);
 

@@ -400,7 +400,7 @@ public abstract class AeBpelHandler extends AeHandler implements IAePolicyConsta
             for(Iterator<IAeWebServiceAttachment> attachmentItr = attachments.iterator(); attachmentItr.hasNext();)
             {
                IAeWebServiceAttachment attachment = attachmentItr.next();
-               AttachmentPart soapAttachment = (AttachmentPart)soapMessage.createAttachmentPart();
+               AttachmentPart soapAttachment = soapMessage.createAttachmentPart();
                String mimeType = attachment.getMimeType();
                soapAttachment.setContent(attachment.getContent(),mimeType);
                soapAttachment.setContentId(attachment.getContentId());
@@ -409,7 +409,7 @@ public abstract class AeBpelHandler extends AeHandler implements IAePolicyConsta
                for (Iterator<Entry<String,String>> i = headers.entrySet().iterator(); i.hasNext();)
                {
                   Entry<String,String> pair = i.next();
-                  soapAttachment.addMimeHeader((String)pair.getKey(), (String)pair.getValue());
+                  soapAttachment.addMimeHeader(pair.getKey(), pair.getValue());
                }
                soapMessage.addAttachmentPart(soapAttachment);
             }

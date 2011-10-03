@@ -149,7 +149,7 @@ public class AeServiceQNameValidator implements IAePredeploymentValidator {
 		if (catalogDocument != null) {
 			AeCatalogMappings catalog = new AeCatalogMappings(aBprFile,
 					IAeCatalog.KEEP_EXISTING_RESOURCE);
-			IAeCatalogMapping[] mappings = (IAeCatalogMapping[]) catalog
+			IAeCatalogMapping[] mappings = catalog
 					.getResources()
 					.values()
 					.toArray(

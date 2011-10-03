@@ -37,7 +37,7 @@ public class AeActivityIfValidator extends AeActivityValidator
    {
       super.validate();
       
-      AeIfValidator child = (AeIfValidator)getChild(AeIfValidator.class);
+      AeIfValidator child = getChild(AeIfValidator.class);
       if(child == null)
       {
          getReporter().reportProblem( BPEL_MISSING_CONDITION_CODE, getMissingConditionError(), null, getDefinition() );

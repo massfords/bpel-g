@@ -116,7 +116,7 @@ public class AeWSAddressingSerializer implements IAeAddressingSerializer
       {
          Document doc = serializeToDocument(aReference);
          SOAPHeader header = aEnv.getHeader();
-         AeSOAPElementUtil.copyToSOAP(doc.getDocumentElement(), (SOAPElement) header);
+         AeSOAPElementUtil.copyToSOAP(doc.getDocumentElement(), header);
          return header;
       }
       catch (SOAPException ex)

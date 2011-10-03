@@ -1156,7 +1156,7 @@ public class AePersistentProcessManager extends AeAbstractProcessManager
 			if (isDebug()) {
 				int total = mSaveProcessCount + mSaveAvertedCount;
 				int percent = (int) (100.0 * mSaveAvertedCount
-						/ ((double) total) + 0.5);
+						/ (total) + 0.5);
 
 				debug("Process {0,number,0}: saved ({1,number,0} millis){2,choice,0#|1# with 1 invoke pending|1< with {2,number,0} invokes pending} (averted {3}%)", //$NON-NLS-1$
 				new Object[] { new Long(aWrapper.getProcessId()),

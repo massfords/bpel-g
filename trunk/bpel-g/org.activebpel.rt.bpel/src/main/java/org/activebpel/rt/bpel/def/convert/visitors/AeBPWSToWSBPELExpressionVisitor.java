@@ -58,7 +58,7 @@ public class AeBPWSToWSBPELExpressionVisitor extends AeAbstractExpressionDefVisi
       String query = aDef.getQuery();
       if (AeUtil.notNullOrEmpty(query))
       {
-         IAeMutableNamespaceContext nsContext = new AeBaseDefNamespaceContext((AeBaseDef) aDef);
+         IAeMutableNamespaceContext nsContext = new AeBaseDefNamespaceContext(aDef);
          String newQuery = AeBPWSToWSBPELXPathConverter.convertQuery(query, nsContext);
          if (AeUtil.isNullOrEmpty(newQuery))
          {

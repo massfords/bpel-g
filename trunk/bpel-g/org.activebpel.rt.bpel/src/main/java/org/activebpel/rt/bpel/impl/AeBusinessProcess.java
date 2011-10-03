@@ -626,7 +626,7 @@ public class AeBusinessProcess extends AeActivityScopeImpl implements IAeBusines
    {
       // add the object to our execution queue. If the queue is being executed,
       // the our addition will be queued, otherwise it'll execute immediately
-      getExecutionQueue().add((IAeExecutableBpelObject) aObject);
+      getExecutionQueue().add(aObject);
    }
 
    /**
@@ -914,7 +914,7 @@ public class AeBusinessProcess extends AeActivityScopeImpl implements IAeBusines
       if (myRef == null)
          return;
 
-      String correlationId = (String) myRef.getProperties().get(IAePolicyConstants.CONVERSATION_ID_HEADER);
+      String correlationId = myRef.getProperties().get(IAePolicyConstants.CONVERSATION_ID_HEADER);
       if (correlationId != null)
       {
          aCorrelation.put(IAePolicyConstants.CONVERSATION_ID_HEADER, plink.getConversationId());
@@ -1183,7 +1183,7 @@ public class AeBusinessProcess extends AeActivityScopeImpl implements IAeBusines
     */
    public synchronized IAeBpelObject findBpelObject(String aLocationPath)
    {
-      return (IAeBpelObject)mBpelObjects.get(aLocationPath);
+      return mBpelObjects.get(aLocationPath);
    }
 
    /**
@@ -1220,7 +1220,7 @@ public class AeBusinessProcess extends AeActivityScopeImpl implements IAeBusines
     */
    public IAeVariable findProcessVariable(String aLocationPath)
    {
-      return (IAeVariable)mProcessVariables.get(aLocationPath);
+      return mProcessVariables.get(aLocationPath);
    }
 
    /**
@@ -1772,7 +1772,7 @@ public class AeBusinessProcess extends AeActivityScopeImpl implements IAeBusines
       // Add new stored attachment to the variable container.
       variable.getAttachmentData().copy(tempContainer);
       
-      return (IAeAttachmentItem)tempContainer.get(0);
+      return tempContainer.get(0);
    }
    
    /**
@@ -1791,7 +1791,7 @@ public class AeBusinessProcess extends AeActivityScopeImpl implements IAeBusines
       IAeAttachmentManager attachmentManager = getEngine().getAttachmentManager();
       for(int i=aAttachmentItemNumbers.length -1; i >= 0; i--)
       {
-         IAeAttachmentItem item = (IAeAttachmentItem)variable.getAttachmentData().get(aAttachmentItemNumbers[i]);
+         IAeAttachmentItem item = variable.getAttachmentData().get(aAttachmentItemNumbers[i]);
          attachmentManager.removeAttachment(item.getAttachmentId());
          variable.getAttachmentData().remove(aAttachmentItemNumbers[i]);
       }
@@ -2241,7 +2241,7 @@ public class AeBusinessProcess extends AeActivityScopeImpl implements IAeBusines
       {
          synchronized (this)
          {
-         Integer eyeD = (Integer) mLocationPathToId.get(aLocationPath);
+         Integer eyeD = mLocationPathToId.get(aLocationPath);
          if (eyeD != null)
             id = eyeD.intValue();
       }
@@ -2264,7 +2264,7 @@ public class AeBusinessProcess extends AeActivityScopeImpl implements IAeBusines
       {
          synchronized (this)
          {
-         path = (String) mLocationIdToPath.get(aLocationId);
+         path = mLocationIdToPath.get(aLocationId);
       }
       }
       return path;

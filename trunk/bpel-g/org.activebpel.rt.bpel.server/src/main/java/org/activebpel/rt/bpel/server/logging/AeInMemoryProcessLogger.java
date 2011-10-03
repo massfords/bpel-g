@@ -122,10 +122,10 @@ public class AeInMemoryProcessLogger implements IAeProcessLogger, PreferenceChan
      * @param aCreateIfNotFound
      */
     protected StringBuffer getBuffer(long aPid, boolean aCreateIfNotFound) {
-        StringBuffer buffer = (StringBuffer) getBufferMap().get(aPid);
+        StringBuffer buffer = getBufferMap().get(aPid);
         if (buffer == null && aCreateIfNotFound) {
             synchronized (getBufferMap()) {
-                buffer = (StringBuffer) getBufferMap().get(aPid);
+                buffer = getBufferMap().get(aPid);
                 if (buffer == null) {
                     buffer = new StringBuffer();
                     getBufferMap().put(aPid, buffer);

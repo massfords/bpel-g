@@ -456,8 +456,8 @@ public class AeEndpointReference implements IAeEndpointReference
          Iterator<Element> thisIter = getExtensibilityElements();
          while ( otherIter.hasNext() )
          {
-            Element otherElem = (Element)otherIter.next();
-            Element thisElem =  (Element)thisIter.next();
+            Element otherElem = otherIter.next();
+            Element thisElem =  thisIter.next();
             if ( ! compare.compareBothElements(otherElem, thisElem, "/") ) //$NON-NLS-1$
                return false;
          }
@@ -498,7 +498,7 @@ public class AeEndpointReference implements IAeEndpointReference
     */
    public String getUsername()
    {
-      return (String) getProperties().get(CREDENTIALS_USER);
+      return getProperties().get(CREDENTIALS_USER);
    }
 
    /**
@@ -506,7 +506,7 @@ public class AeEndpointReference implements IAeEndpointReference
     */
    public String getPassword()
    {
-      return (String) getProperties().get(CREDENTIALS_PW);
+      return getProperties().get(CREDENTIALS_PW);
    }
 
    /**

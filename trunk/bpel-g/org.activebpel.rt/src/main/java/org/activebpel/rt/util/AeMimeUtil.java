@@ -260,7 +260,7 @@ public class AeMimeUtil
       // Work out a reasonable filename
       Matcher matcher;
 
-      String match = (String)aHeaders.get(CONTENT_LOCATION_ATTRIBUTE);
+      String match = aHeaders.get(CONTENT_LOCATION_ATTRIBUTE);
       if ( !AeUtil.isNullOrEmpty(match) )
       {
          if ( sNameRegEx.matcher(match).matches() )
@@ -269,7 +269,7 @@ public class AeMimeUtil
          }
       }
 
-      match = (String)aHeaders.get(CONTENT_ID_ATTRIBUTE);
+      match = aHeaders.get(CONTENT_ID_ATTRIBUTE);
       if ( !AeUtil.isNullOrEmpty(match) && AeUtil.isNullOrEmpty(fileName) )
       {
          matcher = sContentIdRegEx.matcher(match);
@@ -283,9 +283,9 @@ public class AeMimeUtil
          }
       }
 
-      if ( sMimeToExtension.get((String)aHeaders.get(CONTENT_TYPE_ATTRIBUTE)) != null )
+      if ( sMimeToExtension.get(aHeaders.get(CONTENT_TYPE_ATTRIBUTE)) != null )
       {
-         ext = (String)sMimeToExtension.get((String)aHeaders.get(CONTENT_TYPE_ATTRIBUTE));
+         ext = sMimeToExtension.get(aHeaders.get(CONTENT_TYPE_ATTRIBUTE));
       }
 
       if ( AeUtil.isNullOrEmpty(fileName) )
@@ -356,7 +356,7 @@ public class AeMimeUtil
     */
    public static String getContentTypeFromExtension(String aExtension, String aDefaultType)
    {
-      String contentType = (String)sExtensionToMime.get(AeUtil.getSafeString(aExtension).toLowerCase());
+      String contentType = sExtensionToMime.get(AeUtil.getSafeString(aExtension).toLowerCase());
       if ( AeUtil.notNullOrEmpty(contentType) )
       {
          return contentType;

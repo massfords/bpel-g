@@ -183,7 +183,7 @@ public class AeCatalog implements IAeCatalog, IAeCatalogAdmin {
 	 * @return IAeCatalogMapping if it exists
 	 */
 	public synchronized IAeCatalogMapping getMappingForLocation(String aLocation) {
-		return (IAeCatalogMapping) getLocationToMapping().get(aLocation);
+		return getLocationToMapping().get(aLocation);
 	}
 
 	/**
@@ -242,7 +242,7 @@ public class AeCatalog implements IAeCatalog, IAeCatalogAdmin {
 		// Add catalog entries back for all displaced entries
 		for (Entry<IAeDeploymentId, Set<String>> entry : aDisplacedMappings.entrySet())
 		{
-			IAeDeploymentId deployId = (IAeDeploymentId) entry.getKey();
+			IAeDeploymentId deployId = entry.getKey();
 			Set<String> displacedLocations = entry.getValue();
 
 			IAeCatalogMapping[] newMappings = new IAeCatalogMapping[displacedLocations.size()];
@@ -485,7 +485,7 @@ public class AeCatalog implements IAeCatalog, IAeCatalogAdmin {
 	 */
 	public synchronized AeCatalogItemDetail getCatalogItemDetail(
 			String aLocationHint) {
-		IAeCatalogMapping mapping = (IAeCatalogMapping) getLocationToMapping()
+		IAeCatalogMapping mapping = getLocationToMapping()
 				.get(aLocationHint);
 		// check for mapping == null, in case where the catalog entry has been
 		// deleted.

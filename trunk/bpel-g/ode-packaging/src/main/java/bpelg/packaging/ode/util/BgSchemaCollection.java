@@ -61,7 +61,7 @@ public class BgSchemaCollection {
     }
     
     public BgSchema getSchema(String namespaceURI) {
-        return (BgSchema) schemas.get(namespaceURI);
+        return schemas.get(namespaceURI);
     }
     
     public void read(Element elem, URI sourceUri) throws Exception {
