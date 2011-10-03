@@ -43,7 +43,7 @@ public class AeOnAlarmValidator extends AeBaseValidator
     */
    protected void validateAlarmChildren()
    {
-      IAeExpressionModelValidator child = (IAeExpressionModelValidator) getChild(IAeExpressionModelValidator.class);
+      IAeExpressionModelValidator child = getChild(IAeExpressionModelValidator.class);
       validateAlarmChild(child);
    }
 

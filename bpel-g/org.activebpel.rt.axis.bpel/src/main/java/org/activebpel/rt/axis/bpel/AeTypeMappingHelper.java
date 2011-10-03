@@ -323,7 +323,7 @@ public class AeTypeMappingHelper implements IAeTypesContext
     */
    protected AeTypeMappingTuple getOrCreateTuple(QName aName)
    {
-      AeTypeMappingTuple tuple = (AeTypeMappingTuple) getMap().get(aName);
+      AeTypeMappingTuple tuple = getMap().get(aName);
       if (tuple == null)
       {
          tuple = new AeTypeMappingTuple(aName);

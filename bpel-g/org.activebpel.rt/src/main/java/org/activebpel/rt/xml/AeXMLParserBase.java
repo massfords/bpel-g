@@ -49,7 +49,6 @@ import org.exolab.castor.xml.schema.Schema;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.xml.sax.InputSource;
-import org.xml.sax.helpers.DefaultHandler;
 
 /**
  * This class is a base for all those implementing a parse routine. This class
@@ -495,7 +494,7 @@ public class AeXMLParserBase
     */
    public void setErrorHandler(AeXMLParserErrorHandler aErrorHandler)
    {
-      if (aErrorHandler instanceof DefaultHandler)
+      if (aErrorHandler != null)
          mErrorHandler = aErrorHandler;
    }
 

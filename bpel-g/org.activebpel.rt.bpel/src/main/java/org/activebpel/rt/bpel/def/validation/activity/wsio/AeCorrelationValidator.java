@@ -270,7 +270,7 @@ public class AeCorrelationValidator extends AeBaseValidator
     */
    protected IAeCorrelationUser getCorrelationUser()
    {
-      return (IAeCorrelationUser) getAnscestor(IAeCorrelationUser.class);
+      return getAnscestor(IAeCorrelationUser.class);
    }
 }
  

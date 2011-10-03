@@ -230,7 +230,7 @@ public class AeProcessDefToWebVisitorBase implements IAeDefVisitor
    protected Element getElement(String aLocationPath, String aElementName)
    {
       Element rEle = null;
-      Map map = (Map) getStateElementMap().get(aElementName);
+      Map map = getStateElementMap().get(aElementName);
       if (map != null)
       {
          rEle = (Element) map.get(aLocationPath);

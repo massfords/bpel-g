@@ -116,7 +116,7 @@ public class AeInMemoryProcessManager extends AeAbstractProcessManager
 	 * @see org.activebpel.rt.bpel.impl.IAeProcessManager#getProcess(long)
 	 */
 	public IAeBusinessProcess getProcess(long aProcessId) {
-		return (IAeBusinessProcess) getProcessMap().get(getKey(aProcessId));
+		return getProcessMap().get(getKey(aProcessId));
 	}
 
 	/**
@@ -178,7 +178,7 @@ public class AeInMemoryProcessManager extends AeAbstractProcessManager
 			map.putAll(getProcessMap());
 
 			for (Iterator iter = map.keySet().iterator(); iter.hasNext();) {
-				IAeBusinessProcess process = (IAeBusinessProcess) map.get(iter
+				IAeBusinessProcess process = map.get(iter
 						.next());
 				if (filter.accept(process)) {
 					totalCount++;
@@ -304,7 +304,7 @@ public class AeInMemoryProcessManager extends AeAbstractProcessManager
 	public QName getProcessQName(long aProcessId) {
 		QName processName = null;
 		Object key = getKey(aProcessId);
-		IAeBusinessProcess process = (IAeBusinessProcess) getProcessMap().get(
+		IAeBusinessProcess process = getProcessMap().get(
 				key);
 		if (process != null) {
 			processName = process.getName();

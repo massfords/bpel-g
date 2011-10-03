@@ -45,7 +45,7 @@ public class AeWSBPELOnAlarmValidator extends AeOnAlarmValidator
       if ( getDef().getParent() instanceof AeEventHandlersDef )
       {
          // onAlarm activities within an event handler requires a child Scope.         
-         AeActivityScopeValidator scope = (AeActivityScopeValidator) getChild(AeActivityScopeValidator.class);
+         AeActivityScopeValidator scope = getChild(AeActivityScopeValidator.class);
          if ( scope == null )
          {
             getReporter().reportProblem( WSBPEL_REQUIRES_SCOPE_CHILD_CODE, ERROR_REQUIRES_SCOPE_CHILD, new String[] { getDefinition().getLocationPath() },

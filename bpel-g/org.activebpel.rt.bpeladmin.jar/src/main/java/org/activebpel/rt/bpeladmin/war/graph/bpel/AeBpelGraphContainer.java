@@ -290,7 +290,7 @@ public class AeBpelGraphContainer extends AeGraphContainer
       g.setColor(Color.GRAY);
       if (mLogoIcon != null)
       {
-         y = getHeight() - bottom - maxH + (int)((maxH - logoH)/2);
+         y = getHeight() - bottom - maxH + ((maxH - logoH)/2);
          mLogoIcon.setLocation(x, y);
          mLogoIcon.paint(g);
          x = x + logoW + padding;
@@ -302,7 +302,7 @@ public class AeBpelGraphContainer extends AeGraphContainer
       g.drawLine(x,y, x, y + maxH);
       g.drawLine(x,y + maxH, x + padding, y + maxH);
       x = x + 2 * padding;
-      y = getHeight() - bottom - maxH + (int)((maxH - textH)/2);
+      y = getHeight() - bottom - maxH + ((maxH - textH)/2);
       if (mDateLabel != null && mCaptionLabel != null)
       {         
          mCaptionLabel.setLocation(x, y);

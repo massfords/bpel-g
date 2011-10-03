@@ -156,7 +156,7 @@ public class AeBprDeployment extends WSDDDeployment
     */
    public ClassLoader getClassLoader(QName aServiceName)
    {
-      return (ClassLoader) getServiceClassloaderMap().get(aServiceName);
+      return getServiceClassloaderMap().get(aServiceName);
    }
 
    /**
@@ -164,7 +164,7 @@ public class AeBprDeployment extends WSDDDeployment
     */
    public ClassLoader getClassLoader(String aNamespace)
    {
-      return (ClassLoader) getServiceClassloaderMap().get(aNamespace);
+      return getServiceClassloaderMap().get(aNamespace);
    }
 
    /**

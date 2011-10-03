@@ -176,7 +176,7 @@ public class AeXPathHelper
    {
       // fixme (TypeMapping) pass XMLType instead of type QName. Enables deserialization code in type mapper to search for base types.
       Object propData = null;
-      Object varData = aPropAlias.getType() == IAePropertyAlias.MESSAGE_TYPE ? aMsgData.getData(aPropAlias.getPart()) : aMsgData.getData((String) aMsgData.getPartNames().next());
+      Object varData = aPropAlias.getType() == IAePropertyAlias.MESSAGE_TYPE ? aMsgData.getData(aPropAlias.getPart()) : aMsgData.getData(aMsgData.getPartNames().next());
       if (varData instanceof Document)
       {
          Element docElem = ((Document) varData).getDocumentElement();

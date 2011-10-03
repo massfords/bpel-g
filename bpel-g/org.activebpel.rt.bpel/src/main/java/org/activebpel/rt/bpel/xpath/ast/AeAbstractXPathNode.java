@@ -140,7 +140,7 @@ public abstract class AeAbstractXPathNode
       boolean replaced = false;
       for (ListIterator<AeAbstractXPathNode> iter = getChildren().listIterator(); iter.hasNext(); )
       {
-         AeAbstractXPathNode node = (AeAbstractXPathNode) iter.next();
+         AeAbstractXPathNode node = iter.next();
          if (node == aOldNode)
          {
             iter.set(aNewNode);
@@ -170,7 +170,7 @@ public abstract class AeAbstractXPathNode
    {
       if (getChildren().size() == 1)
       {
-         AeAbstractXPathNode node = ((AeAbstractXPathNode) getChildren().get(0)).normalize();
+         AeAbstractXPathNode node = (getChildren().get(0)).normalize();
          node.setParent(getParent());
          return node;
       }

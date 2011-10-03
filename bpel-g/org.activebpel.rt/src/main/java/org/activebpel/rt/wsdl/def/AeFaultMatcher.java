@@ -233,7 +233,7 @@ public class AeFaultMatcher
       {
          return null;
       }
-      Element detail = AeXmlUtil.getFirstSubElement((Element) nodes.item(0));
+      Element detail = AeXmlUtil.getFirstSubElement(nodes.item(0));
       if (detail == null)
       {
          return null;

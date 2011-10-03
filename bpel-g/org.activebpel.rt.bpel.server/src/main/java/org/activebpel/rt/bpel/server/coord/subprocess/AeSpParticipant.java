@@ -313,7 +313,7 @@ public class AeSpParticipant extends AeSpCoordinatingBase implements IAeSpPartic
       IAeSpProtocolMessage msg = createMessage(AeSpCoordinationMessages.CLOSED, null);
       IAeMessageAcknowledgeCallback callback = new AeMessageClosedAcknowledgement(msg);
       
-      IAeBusinessProcessEngineInternal engine = (IAeBusinessProcessEngineInternal)AeEngineFactory.getEngine();
+      IAeBusinessProcessEngineInternal engine = AeEngineFactory.getEngine();
       engine.getProcessCoordination().subprocessCoordinationEnded( getProcessId(), IAeProcessManager.NULL_JOURNAL_ID, callback, aMessage.getJournalId() );
 
       // change to next state and send off message.
@@ -377,7 +377,7 @@ public class AeSpParticipant extends AeSpCoordinatingBase implements IAeSpPartic
    {
       changeStateNoPersist(aMessage); // should transition to 'compensating'.
       // begin compensating the subprocess.
-      IAeBusinessProcessEngineInternal engine = (IAeBusinessProcessEngineInternal)AeEngineFactory.getEngine();
+      IAeBusinessProcessEngineInternal engine = AeEngineFactory.getEngine();
       IAeMessageAcknowledgeCallback callback = new AePersistCoordinationStateCallback();
       engine.getProcessCoordination().compensateSubProcess( getProcessId(), getCoordinationId(), IAeProcessManager.NULL_JOURNAL_ID, callback, aMessage.getJournalId() );
    }
@@ -393,7 +393,7 @@ public class AeSpParticipant extends AeSpCoordinatingBase implements IAeSpPartic
       
       IAeMessageAcknowledgeCallback callback = new AePersistCoordinationStateCallback();
 
-      IAeBusinessProcessEngineInternal engine = (IAeBusinessProcessEngineInternal)AeEngineFactory.getEngine();
+      IAeBusinessProcessEngineInternal engine = AeEngineFactory.getEngine();
       engine.getProcessCoordination().subprocessCoordinationEnded( getProcessId(), IAeProcessManager.NULL_JOURNAL_ID, callback, aMessage.getJournalId() );
    }
 
@@ -406,7 +406,7 @@ public class AeSpParticipant extends AeSpCoordinatingBase implements IAeSpPartic
       {
          changeStateNoPersist(aMessage);
          IAeSpProtocolMessage message = (IAeSpProtocolMessage) aMessage;
-         IAeBusinessProcessEngineInternal engine = (IAeBusinessProcessEngineInternal)AeEngineFactory.getEngine();
+         IAeBusinessProcessEngineInternal engine = AeEngineFactory.getEngine();
          AeCancelProcessAcknowledge callback = new AeCancelProcessAcknowledge(message);
          if (aCancelCompensationHandler)
          {

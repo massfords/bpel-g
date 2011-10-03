@@ -218,7 +218,7 @@ public class AeFileAttachmentManager extends AeAbstractAttachmentManager impleme
        */
       public synchronized int increment(long aKey)
       {
-         AeIntCounter counter = (AeIntCounter) getLongMap().get(aKey);
+         AeIntCounter counter = getLongMap().get(aKey);
          if (counter == null)
          {
             counter = new AeIntCounter();

@@ -657,7 +657,7 @@ class AeCoordinationMessageProcessEnqueueWork extends AeCoordinationMessageDispa
          IAeProcessManager processManager = null;
          try
          {
-            IAeBusinessProcessEngineInternal engine = (IAeBusinessProcessEngineInternal)AeEngineFactory.getEngine();
+            IAeBusinessProcessEngineInternal engine = AeEngineFactory.getEngine();
             processManager = engine.getProcessManager();
             process = processManager.getProcess(pid);
 

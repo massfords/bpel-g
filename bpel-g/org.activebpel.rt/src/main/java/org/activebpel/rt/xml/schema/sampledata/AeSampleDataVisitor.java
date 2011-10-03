@@ -201,7 +201,7 @@ public class AeSampleDataVisitor implements IAeSampleDataVisitor
                // Generate the 1st choice only.
                if ( aChoice.getChildren().size() > 0 )
                {
-                  AeStructure choice = (AeStructure)aChoice.getChildren().get(0);
+                  AeStructure choice = aChoice.getChildren().get(0);
                   choice.accept(this);
                }
               break;

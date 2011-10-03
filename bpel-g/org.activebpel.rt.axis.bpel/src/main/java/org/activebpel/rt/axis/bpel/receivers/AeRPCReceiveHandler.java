@@ -307,7 +307,7 @@ public class AeRPCReceiveHandler extends AeAxisReceiveHandler
          if (param == null && i < rpcParams.size())
          {
             // try getting it by offset if we couldn't find it by name
-            param = (RPCParam) rpcParams.get(i);
+            param = rpcParams.get(i);
          }
          
          // if the part is missing, we'll add it as a null to the messageData object. If the user has validation

@@ -123,7 +123,7 @@ public class AeProcessWrapperMap implements IAeProcessWrapperMap
     */
    public synchronized AeProcessWrapper getCurrentWrapper(long aProcessId)
    {
-      return (AeProcessWrapper) getInMemoryMap().get(aProcessId);
+      return getInMemoryMap().get(aProcessId);
    }
 
    /**
@@ -165,14 +165,14 @@ public class AeProcessWrapperMap implements IAeProcessWrapperMap
     */
    public synchronized AeProcessWrapper getWrapper(long aProcessId)
    {
-      AeProcessWrapper wrapper = (AeProcessWrapper) getInMemoryMap().get(aProcessId);
+      AeProcessWrapper wrapper = getInMemoryMap().get(aProcessId);
       if (wrapper == null)
       {
          // Wait until there are fewer than the maximum number of processes.
          waitUntilFewerThan(getEffectiveProcessLimit());
 
          // If we haven't created one for this process yet then create a brand new wrapper.
-         if((wrapper = (AeProcessWrapper) getInMemoryMap().get(aProcessId)) == null)
+         if((wrapper = getInMemoryMap().get(aProcessId)) == null)
          {
             wrapper = new AeProcessWrapper(aProcessId);
             getInMemoryMap().put(aProcessId, wrapper);

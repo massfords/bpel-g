@@ -141,7 +141,7 @@ public class AeEngineAdministration implements IAeEngineAdministration {
 	 */
 	private AeProcessDef getProcessDef(long aProcessId,
 			Map<Long, AeProcessDef> aProcessDefMap) {
-		AeProcessDef processDef = (AeProcessDef) aProcessDefMap.get(aProcessId);
+		AeProcessDef processDef = aProcessDefMap.get(aProcessId);
 		if (processDef == null) {
 			try {
 				QName processName = getBpelEngine().getProcessManager()

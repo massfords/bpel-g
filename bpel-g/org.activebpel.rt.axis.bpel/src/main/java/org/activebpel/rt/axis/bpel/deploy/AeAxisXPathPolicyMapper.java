@@ -49,7 +49,7 @@ public class AeAxisXPathPolicyMapper extends AeAxisPolicyMapper
             Element handler = createHandlerElement(policy.getOwnerDocument(), HANDLER_XPATH_RECEIVER , null);
             NodeList params = assertion.getChildNodes();
             for (int j = 0; j < params.getLength(); j++) {
-               Node param = (Node) params.item(j);
+               Node param = params.item(j);
                if (param.getNodeType() != Node.ELEMENT_NODE)
                   continue;
                Element elem = (Element) param;
@@ -120,7 +120,7 @@ public class AeAxisXPathPolicyMapper extends AeAxisPolicyMapper
             NodeList params = assertion.getChildNodes();
             for (int j = 0; j < params.getLength(); j++) 
             {
-               Node param = (Node) params.item(j);
+               Node param = params.item(j);
                if (param.getNodeType() != Node.ELEMENT_NODE)
                   continue;
                Element elem = (Element) param;

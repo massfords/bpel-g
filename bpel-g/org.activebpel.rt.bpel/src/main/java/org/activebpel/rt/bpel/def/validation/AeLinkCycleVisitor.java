@@ -235,7 +235,7 @@ public class AeLinkCycleVisitor extends AeAbstractDefVisitor
          }
       }
       
-      return (AeActivityDef) map.get(aActivityDef);
+      return map.get(aActivityDef);
    }
 
    /**

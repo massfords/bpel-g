@@ -165,7 +165,7 @@ public class AeProcessSnapshot implements IAeProcessSnapshot
          throw new AeBusinessProcessException(AeMessages.getString("AeProcessSnapshot.ERROR_0") + getProcess().getProcessId() + ": " + aLocationPath); //$NON-NLS-1$ //$NON-NLS-2$
       }
 
-      IAeVariable variable = (IAeVariable) versionNumbersMap.get(aVersionNumber);
+      IAeVariable variable = versionNumbersMap.get(aVersionNumber);
       if (variable == null)
       {
          throw new AeBusinessProcessException(AeMessages.getString("AeProcessSnapshot.ERROR_0") + getProcess().getProcessId() + ": " + aLocationPath + ", " + aVersionNumber); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$

@@ -142,7 +142,7 @@ public class AeDirectoryScanner {
 							boolean isNewDeployment = true;
 							File bprFile = new File(getScanDir(), fileNames[i]);
 
-							Long lastModified = (Long) getDeployments().get(
+							Long lastModified = getDeployments().get(
 									fileNames[i]);
 							if (lastModified != null) {
 								getDeployments().remove(fileNames[i]);

@@ -276,7 +276,7 @@ public abstract class AeWSIOActivityValidator extends AeActivityValidator implem
     */
    public List getCorrelations()
    {
-      AeCorrelationsValidator corrModel = (AeCorrelationsValidator) getChild(AeCorrelationsValidator.class);
+      AeCorrelationsValidator corrModel = getChild(AeCorrelationsValidator.class);
       if (corrModel == null)
          return Collections.EMPTY_LIST;
       return corrModel.getChildren(AeCorrelationValidator.class);

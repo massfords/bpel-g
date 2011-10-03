@@ -36,8 +36,8 @@ public class AeAssignCopyValidator extends AeBaseValidator
    {
       super.validate();
       
-      AeFromValidator from = (AeFromValidator) getChild(AeFromValidator.class);
-      AeToValidator to = (AeToValidator) getChild(AeToValidator.class);
+      AeFromValidator from = getChild(AeFromValidator.class);
+      AeToValidator to = getChild(AeToValidator.class);
 
       if (from == null)
       {

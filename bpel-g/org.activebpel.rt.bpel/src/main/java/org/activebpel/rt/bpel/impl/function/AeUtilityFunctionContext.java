@@ -80,7 +80,7 @@ public class AeUtilityFunctionContext implements IAeFunctionContext
     */
    public IAeFunction getFunction(String aLocalName) throws AeUnresolvableException
    {
-      IAeFunction function = (IAeFunction) mFunctionMap.get(aLocalName.toLowerCase());
+      IAeFunction function = mFunctionMap.get(aLocalName.toLowerCase());
       if (function == null)
       {
          throw new AeUnresolvableException(

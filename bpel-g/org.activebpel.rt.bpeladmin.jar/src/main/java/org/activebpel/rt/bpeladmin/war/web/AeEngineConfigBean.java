@@ -63,7 +63,7 @@ public class AeEngineConfigBean extends AeAbstractAdminBean
 
       addAdminBuildInfo(list);
 
-      return (AeBuildInfo[]) list.toArray(new AeBuildInfo[list.size()]);
+      return list.toArray(new AeBuildInfo[list.size()]);
    }
 
    /**

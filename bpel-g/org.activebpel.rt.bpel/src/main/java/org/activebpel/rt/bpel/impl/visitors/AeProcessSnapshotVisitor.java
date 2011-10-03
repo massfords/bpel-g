@@ -233,7 +233,7 @@ public class AeProcessSnapshotVisitor extends AeImplTraversingVisitor
    public void visit(AeWSBPELFaultHandler aImpl) throws AeBusinessProcessException
    {
       super.visit(aImpl); 
-      addFaultVariable( (AeFaultHandler) aImpl);
+      addFaultVariable( aImpl);
    }   
 
    /**

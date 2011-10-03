@@ -141,7 +141,7 @@ public class AeBpelImageResources
    {
       String key = aActivityName + ".inactive"; //  //$NON-NLS-1$
       // check the cache.
-      Image image = (Image) mImageCache.get(key);
+      Image image = mImageCache.get(key);
       if (image == null)
       {
          // get the 'normal' (or active) image
@@ -174,7 +174,7 @@ public class AeBpelImageResources
    {
       String key = aActivityName + ".deadpath"; //$NON-NLS-1$
       // check the cache.
-      Image image = (Image) mImageCache.get(key);
+      Image image = mImageCache.get(key);
       if (image == null)
       {
          // get the 'normal' (or active) image
@@ -247,7 +247,7 @@ public class AeBpelImageResources
     */
    public synchronized Image loadImage(String aImageName)
    {
-      Image image = (Image) mImageCache.get(aImageName);
+      Image image = mImageCache.get(aImageName);
       if (image == null)
       {
          try

@@ -65,7 +65,7 @@ public class AeVariableDeserializer implements IAeImplStateNames
    protected Element getElementData() throws AeBusinessProcessException
    {
       // Return the first child of the document root.
-      return (Element) AeXmlUtil.getFirstSubElement(getDocument().getDocumentElement());
+      return AeXmlUtil.getFirstSubElement(getDocument().getDocumentElement());
    }
 
    /**

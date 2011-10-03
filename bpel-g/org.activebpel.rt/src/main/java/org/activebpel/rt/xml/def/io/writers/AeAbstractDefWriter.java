@@ -83,7 +83,7 @@ public abstract class AeAbstractDefWriter implements IAeDefWriter
    {
       if (mPreferredPrefixes == null)
          return null;
-      return (String) getPreferredPrefixes().get(aNamespaceURI);
+      return getPreferredPrefixes().get(aNamespaceURI);
    }
 
    /**

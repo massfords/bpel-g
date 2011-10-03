@@ -312,7 +312,7 @@ public abstract class AeDefToValidationVisitor extends AeAbstractDefVisitor
     */
    protected AeBaseValidator getParent()
    {
-      return (AeBaseValidator) mStack.peek();
+      return mStack.peek();
    }
    
    /**

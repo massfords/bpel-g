@@ -380,7 +380,7 @@ public abstract class AeBpelReaderVisitor extends AeAbstractReportingDefReader i
    public void visit(AeForEachFinalDef aDef)
    {
       readAttributes(aDef);
-      readExpressionDef((AeExpressionBaseDef) aDef);
+      readExpressionDef(aDef);
       ((AeActivityForEachDef)getParentDef()).setFinalDef(aDef);
    }
 
@@ -390,7 +390,7 @@ public abstract class AeBpelReaderVisitor extends AeAbstractReportingDefReader i
    public void visit(AeForEachStartDef aDef)
    {
       readAttributes(aDef);
-      readExpressionDef((AeExpressionBaseDef) aDef);
+      readExpressionDef(aDef);
       ((AeActivityForEachDef)getParentDef()).setStartDef(aDef);
    }
    
@@ -400,7 +400,7 @@ public abstract class AeBpelReaderVisitor extends AeAbstractReportingDefReader i
    public void visit(AeForEachBranchesDef aDef)
    {
       readAttributes(aDef);
-      readExpressionDef((AeExpressionBaseDef) aDef);
+      readExpressionDef(aDef);
       ((AeForEachCompletionConditionDef)getParentDef()).setBranches(aDef);
    }
    

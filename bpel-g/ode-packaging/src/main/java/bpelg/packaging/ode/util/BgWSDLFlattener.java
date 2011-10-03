@@ -82,7 +82,7 @@ public class BgWSDLFlattener {
      * @throws Exception if an error occurs
      */
     public Definition getDefinition(QName portType) throws Exception {
-        Definition def = (Definition) _flattened.get(portType);
+        Definition def = _flattened.get(portType);
         if (def == null) {
             def = flattenDefinition(portType);
             _flattened.put(portType, def);

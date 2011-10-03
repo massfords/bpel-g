@@ -168,6 +168,6 @@ public class AeFunctionContextLocator implements IAeFunctionContextLocator
             }
          }
       }
-      return (URL[])urlList.toArray( new URL[urlList.size()] );
+      return urlList.toArray( new URL[urlList.size()] );
    }
 }

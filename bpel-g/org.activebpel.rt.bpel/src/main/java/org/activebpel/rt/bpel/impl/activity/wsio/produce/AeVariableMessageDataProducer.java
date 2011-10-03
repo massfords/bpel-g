@@ -41,7 +41,7 @@ public class AeVariableMessageDataProducer extends AeAbstractMessageDataProducer
       // variable or an element variable.
       if (variable.isMessageType())
       {
-         result = (IAeMessageData) variable.getMessageData();
+         result = variable.getMessageData();
       }
       else
       {

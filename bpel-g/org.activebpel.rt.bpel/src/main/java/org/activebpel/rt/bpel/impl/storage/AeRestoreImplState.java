@@ -155,7 +155,7 @@ public class AeRestoreImplState implements IAeImplStateNames
     */
    protected Element getElement(String aLocationPath) throws AeBusinessProcessException
    {
-      Element element = (Element) getLocationPathsMap().get(aLocationPath);
+      Element element = getLocationPathsMap().get(aLocationPath);
 
       if (element == null)
       {
@@ -282,7 +282,7 @@ public class AeRestoreImplState implements IAeImplStateNames
                if (!locationPath.startsWith("/")) //$NON-NLS-1$
                {
                   Element parent = (Element) element.getParentNode();
-                  String parentPath = (String) elementsToPaths.get(parent);
+                  String parentPath = elementsToPaths.get(parent);
                   
                   locationPath = parentPath + "/" + locationPath; //$NON-NLS-1$
                }

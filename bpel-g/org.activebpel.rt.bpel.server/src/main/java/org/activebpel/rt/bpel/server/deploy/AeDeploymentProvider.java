@@ -84,7 +84,7 @@ public class AeDeploymentProvider extends AeAbstractDeploymentProvider
     */
    public IAeProcessDeployment findDeploymentPlan(long aProcessId, QName aProcessName) throws AeBusinessProcessException
    {
-      return (IAeProcessDeployment) mDeploymentPlans.get(aProcessName);
+      return mDeploymentPlans.get(aProcessName);
    }
    
    /**

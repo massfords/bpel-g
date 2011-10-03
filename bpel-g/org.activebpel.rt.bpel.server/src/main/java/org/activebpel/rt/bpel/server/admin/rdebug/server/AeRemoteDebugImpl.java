@@ -603,7 +603,7 @@ public class AeRemoteDebugImpl implements IAeBpelAdmin
     */
    public static void doRemoveBreakpointListener(long aContextId, String aEndpointURL) throws RemoteException
    {
-      AeBreakpointListener listener = (AeBreakpointListener)sBreakpointListeners.remove(getKey(aContextId, aEndpointURL));
+      AeBreakpointListener listener = sBreakpointListeners.remove(getKey(aContextId, aEndpointURL));
       if (listener != null)
          AeEngineFactory.getEngine().removeProcessListener(listener);
    }

@@ -75,7 +75,7 @@ public class AeFileDeploymentLoggerFactory implements IAeDeploymentLoggerFactory
             AeCloser.close( reader );
          }
       }
-      return (String[]) results.toArray( new String[ results.size() ] );
+      return results.toArray( new String[ results.size() ] );
    }
 
    /**

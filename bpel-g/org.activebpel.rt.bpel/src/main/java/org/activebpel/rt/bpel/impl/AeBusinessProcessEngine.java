@@ -152,7 +152,7 @@ public class AeBusinessProcessEngine implements IAeBusinessProcessEngineInternal
     */
    protected long removeProcessJournalId(long aProcessId)
    {
-      Long journalIdObj = (Long) mProcessJournalIdMap.remove(aProcessId);
+      Long journalIdObj = mProcessJournalIdMap.remove(aProcessId);
       if (journalIdObj != null)
       {
          return journalIdObj.longValue();
@@ -1695,7 +1695,7 @@ public class AeBusinessProcessEngine implements IAeBusinessProcessEngineInternal
        // FIXME replace this sync with a self cleaning ConcurrentHashMap<Long,List>
       synchronized (mProcessListeners)
       {
-         Collection listeners = (Collection) mProcessListeners.get(aPid);
+         Collection listeners = mProcessListeners.get(aPid);
          if (listeners != null)
          {
             listeners.remove(aListener);
@@ -1715,7 +1715,7 @@ public class AeBusinessProcessEngine implements IAeBusinessProcessEngineInternal
       synchronized(mProcessListeners)
       {
          // Get listeners for the specified process
-         listeners = (Collection) mProcessListeners.get(aInfoEvent.getPID());
+         listeners = mProcessListeners.get(aInfoEvent.getPID());
       }
 
       // If we have listeners for this process, fire the notifications
@@ -1772,7 +1772,7 @@ public class AeBusinessProcessEngine implements IAeBusinessProcessEngineInternal
       synchronized(mProcessListeners)
       {
          // Get listeners for the specified process
-         listeners = (Collection) mProcessListeners.get(aEvent.getPID());
+         listeners = mProcessListeners.get(aEvent.getPID());
       }
 
       // If we have listeners for this process, fire the notifications
@@ -2003,7 +2003,7 @@ public class AeBusinessProcessEngine implements IAeBusinessProcessEngineInternal
     */
    public IAeManager getManager(String aManagerName)
    {
-      return (IAeManager) getManagers().get(aManagerName);
+      return getManagers().get(aManagerName);
    }
 
    /**

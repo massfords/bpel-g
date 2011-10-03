@@ -204,7 +204,7 @@ public abstract class AeSOAPReceiveHandler extends AeAbstractReceiveHandler {
 			SOAPEnvelope env = createEnvelope();
 
 			SOAPBody body = env.getBody();
-			SOAPFault fault = (SOAPFault) body.addFault();
+			SOAPFault fault = body.addFault();
 			QName code = aResponse.getErrorCode();
 			fault.setFaultCode(env.createName(code.getLocalPart(), null,
 					code.getNamespaceURI()));
@@ -230,7 +230,7 @@ public abstract class AeSOAPReceiveHandler extends AeAbstractReceiveHandler {
 								aResponse.getMessageData().getMessageData());
 
 				// there can only be one part name
-				String partName = (String) data.getPartNames().next();
+				String partName = data.getPartNames().next();
 				Object partData = data.getData(partName);
 
 				// If data is of type document, ok to set the data

@@ -323,7 +323,7 @@ public class AeCastorToAeStructure
       
       if (isRef)
       {
-         AeGroup group = (AeGroup)AeCastorStructureFactory.createGroupModel(aGroup);
+         AeGroup group = AeCastorStructureFactory.createGroupModel(aGroup);
          push(group, aGroup);
       }
       

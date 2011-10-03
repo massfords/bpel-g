@@ -186,7 +186,7 @@ public class AeWSBPELSpecStrategyMatcher extends AeCommonSpecStrategyMatcher
       AeSpecStrategyKey key = null;
       
       String varName = aToSpecDetails.getVariableName();
-      AeVariableDef varDef = (AeVariableDef) AeDefUtil.getVariableByName(varName, aToDef);
+      AeVariableDef varDef = AeDefUtil.getVariableByName(varName, aToDef);
       String partName = aToSpecDetails.getPartName();
       String query = aToSpecDetails.getQuery();
       String queryLanguage = aToSpecDetails.getQueryLanguage();

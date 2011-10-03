@@ -30,7 +30,7 @@ public class AeProcessViewCache extends LinkedHashMap<String,AeProcessViewBase>
     */
    public AeProcessViewBase get(String aKey)
    {
-      return (AeProcessViewBase) super.get(aKey);
+      return super.get(aKey);
    }
 
    /**

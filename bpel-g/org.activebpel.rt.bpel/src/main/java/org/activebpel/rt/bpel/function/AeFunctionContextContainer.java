@@ -85,7 +85,7 @@ public class AeFunctionContextContainer
       for (Iterator<Map.Entry<String, AeFunctionContextInfo>> iter = getNamespaceToFunctionContextMap().entrySet().iterator(); iter.hasNext(); )
       {
          Map.Entry<String, AeFunctionContextInfo> entry = iter.next();
-         AeFunctionContextInfo info = (AeFunctionContextInfo) entry.getValue();
+         AeFunctionContextInfo info = entry.getValue();
          if (aName.equals(info.getName()))
          {
             iter.remove();

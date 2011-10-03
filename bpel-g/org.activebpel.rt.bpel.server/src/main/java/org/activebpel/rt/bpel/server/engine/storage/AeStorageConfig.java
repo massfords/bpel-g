@@ -195,7 +195,7 @@ public abstract class AeStorageConfig
          for (Iterator<Entry<String,String>> iter = aMap.entrySet().iterator(); iter.hasNext();)
          {
             Map.Entry<String,String> entry = iter.next();
-            String stmt = (String) entry.getValue();
+            String stmt = entry.getValue();
             Set<String> firstMatches = new HashSet<String>();
 
             // Loop until there are no more matches. This allows a constant to
@@ -211,7 +211,7 @@ public abstract class AeStorageConfig
                {
                   // extract name of constant
                   String constant = matcher.group(1);
-                  String replacementValue = (String) resolveToken(constant);
+                  String replacementValue = resolveToken(constant);
 
                   if (replacementValue == null)
                   {

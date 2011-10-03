@@ -198,7 +198,7 @@ public class AeProcessDef extends AeScopeDef implements Serializable
    protected IAePropertyAlias getPropertyAlias(int aType, QName aName, QName aPropertyName)
    {
       Object key = makeKey(aType, aName, aPropertyName);
-      return (IAePropertyAlias) mPropertyAliasMap.get(key);
+      return mPropertyAliasMap.get(key);
    }
 
    /**
@@ -250,7 +250,7 @@ public class AeProcessDef extends AeScopeDef implements Serializable
     */
    public QName getPropertyType(QName aPropertyName)
    {
-      return (QName) mPropertyTypeMap.get(aPropertyName);
+      return mPropertyTypeMap.get(aPropertyName);
    }
 
    /**
@@ -681,7 +681,7 @@ public class AeProcessDef extends AeScopeDef implements Serializable
     */
    public Collection getCorrelatedPropertyNames(AePartnerLinkOpKey aPartnerLinkOpKey)
    {
-      Collection props = (Collection) getCorrelatedReceivesProperties().get(aPartnerLinkOpKey);
+      Collection props = getCorrelatedReceivesProperties().get(aPartnerLinkOpKey);
       if (props == null)
          props = Collections.EMPTY_SET;
 
@@ -693,7 +693,7 @@ public class AeProcessDef extends AeScopeDef implements Serializable
     */
    public int getLocationId(String aLocationPath)
    {
-      Integer id = (Integer) mLocationPathsToIds.get(aLocationPath);
+      Integer id = mLocationPathsToIds.get(aLocationPath);
       return (id == null) ? -1 : id.intValue();
    }
 
@@ -702,7 +702,7 @@ public class AeProcessDef extends AeScopeDef implements Serializable
     */
    public String getLocationPath(int aLocationId)
    {
-      return (String) mLocationIdsToPaths.get(aLocationId);
+      return mLocationIdsToPaths.get(aLocationId);
    }
 
    /**
@@ -736,7 +736,7 @@ public class AeProcessDef extends AeScopeDef implements Serializable
     */
    public AeCorrelationCombinations getCorrelationProperties(AePartnerLinkOpKey aPartnerLinkOpKey)
    {
-      return (AeCorrelationCombinations) mCorrelationPropertiesMap.get(aPartnerLinkOpKey);
+      return mCorrelationPropertiesMap.get(aPartnerLinkOpKey);
    }
 
    /**
@@ -758,7 +758,7 @@ public class AeProcessDef extends AeScopeDef implements Serializable
     */
    public String getCreateInstanceMessageExchange(AePartnerLinkOpKey aPartnerLinkOpKey)
    {
-      return (String) mMessageExchangeMap.get(aPartnerLinkOpKey);
+      return mMessageExchangeMap.get(aPartnerLinkOpKey);
    }
 
    /**
@@ -1134,7 +1134,7 @@ public class AeProcessDef extends AeScopeDef implements Serializable
     */
    public AeMessagePartsMap getMessageForCorrelation(AePartnerLinkOpKey aKey)
    {
-      return (AeMessagePartsMap) getCorrelatedReceivesMessagePartsMap().get(aKey);
+      return getCorrelatedReceivesMessagePartsMap().get(aKey);
    }
 
    /**

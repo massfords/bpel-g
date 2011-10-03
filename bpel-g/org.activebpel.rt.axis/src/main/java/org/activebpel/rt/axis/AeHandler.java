@@ -207,7 +207,7 @@ public abstract class AeHandler extends BasicProvider
       for (@SuppressWarnings("unchecked")
     		  Iterator<Operation> iter=portType.getOperations().iterator(); iter.hasNext();)
       {
-         Operation operation=(Operation)iter.next();
+         Operation operation=iter.next();
          if (aServiceDesc.getAllowedMethods().contains(operation.getName()))
             binding.addBindingOperation(createBindingOperation(aServiceDesc, def, portType, operation));
       }
@@ -380,7 +380,7 @@ public abstract class AeHandler extends BasicProvider
       for (Iterator<Part> iter=aDataMap.keySet().iterator(); iter.hasNext();)
       {
          // Get the Part from the data map and determine the part type
-         Part part = (Part)iter.next();
+         Part part = iter.next();
          XMLType type = null;
          boolean complex = false;
          if (part.getTypeName() != null)
@@ -396,7 +396,7 @@ public abstract class AeHandler extends BasicProvider
                type = element.getType(); 
          }
 
-         Document doc = (Document)aDataMap.get(part);
+         Document doc = aDataMap.get(part);
          if (type == null || complex)
          {
             // if part declared as type then make sure the root is the part name 

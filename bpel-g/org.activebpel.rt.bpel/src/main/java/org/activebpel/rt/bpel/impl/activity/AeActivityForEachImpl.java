@@ -251,7 +251,7 @@ public class AeActivityForEachImpl extends AeLoopActivity implements IAeActivity
          //       actually needed. Now, the scope clears its variables and creates
          //       clones during its change to READY_TO_EXECUTE but this special
          //       handling is needed for implicit variables like the forEach's counter.
-         IAeVariable variable = (IAeVariable) scope.getVariableContainer().findVariable(getDef().getCounterName());
+         IAeVariable variable = scope.getVariableContainer().findVariable(getDef().getCounterName());
          IAeVariable clone = scope.isSnapshotRecorded()? (IAeVariable) variable.clone() : variable;
          clone.setTypeData(new Integer(getCounterValue()));
          scope.getVariableContainer().addVariable(clone);

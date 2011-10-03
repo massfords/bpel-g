@@ -89,7 +89,7 @@ class AeLockerSerializer implements IAeLockerSerializationNames
     */
    private void serializeLock(String aVariablePath, Element aLocks)
    {
-      AeLockHolder lockHolder = (AeLockHolder) mVariableLocker.getLockHolder(aVariablePath);
+      AeLockHolder lockHolder = mVariableLocker.getLockHolder(aVariablePath);
 
       Document doc = aLocks.getOwnerDocument();
       Element lock = doc.createElement(TAG_LOCK);

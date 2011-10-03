@@ -149,7 +149,7 @@ public class AeWSBPELFaultHandler extends AeFaultHandler implements IAeVariableC
          else if (variable.getDefinition().isElement() && aFault.hasMessageData())
          {
             // special case of matching message fault to element
-            String partName = (String) messageData.getPartNames().next();
+            String partName = messageData.getPartNames().next();
             Document document = (Document) messageData.getData(partName);
             variable.setElementData(AeXmlUtil.cloneElement(document.getDocumentElement()));
          }

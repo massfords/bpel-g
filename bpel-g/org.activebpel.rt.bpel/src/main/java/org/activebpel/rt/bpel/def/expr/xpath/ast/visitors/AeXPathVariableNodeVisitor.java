@@ -57,7 +57,7 @@ public class AeXPathVariableNodeVisitor extends AeAbstractXPathNodeVisitor
       AeAbstractXPathNode parent = aNode.getParent();
       if (parent instanceof AeXPathPathExprNode)
       {
-         AeAbstractXPathNode sibling = (AeAbstractXPathNode) parent.getChildren().get(1);
+         AeAbstractXPathNode sibling = parent.getChildren().get(1);
          return sibling.serialize();
       }
       return null;

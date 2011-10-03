@@ -150,7 +150,7 @@ public class AeProcessViewBean extends AeProcessViewBase
          while (it.hasNext())
          {
             String key = (String) it.next();
-            AePropertyNameValue value = (AePropertyNameValue) mProperties.get(key);
+            AePropertyNameValue value = mProperties.get(key);
             mPropNvList[i++] = value;
          }
       }
@@ -334,7 +334,7 @@ public class AeProcessViewBean extends AeProcessViewBase
     */
    public AePropertyNameValue getDetails(int aIndex)
    {
-      return (AePropertyNameValue) mDetails.get(aIndex);
+      return mDetails.get(aIndex);
    }
 
    /**
@@ -373,7 +373,7 @@ public class AeProcessViewBean extends AeProcessViewBase
     */
    public AeAttachmentViewBean getAttachments(int aIndex)
    {
-      return (AeAttachmentViewBean) mAttachments.get(aIndex);
+      return mAttachments.get(aIndex);
    }
 
    /**
@@ -429,7 +429,7 @@ public class AeProcessViewBean extends AeProcessViewBase
     */
    public AePropertyNameValue getProperty(String aKey)
    {
-      return (AePropertyNameValue) mProperties.get(aKey);
+      return mProperties.get(aKey);
    }
 
    /**

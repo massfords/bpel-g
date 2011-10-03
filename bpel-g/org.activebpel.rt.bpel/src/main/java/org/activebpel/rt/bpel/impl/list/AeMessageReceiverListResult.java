@@ -76,7 +76,7 @@ public class AeMessageReceiverListResult implements Serializable
     */
    public String getLocationPath( int aLocationId )
    {
-      return (String)mLocationIdtoLocationPathMap.get( aLocationId );
+      return mLocationIdtoLocationPathMap.get( aLocationId );
    }
    
    /**

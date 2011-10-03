@@ -140,7 +140,7 @@ public class AeWSBPELCatchValidator extends AeBaseCatchValidator
       if (AeUtil.compareObjects(aName, getDef().getFaultVariable()))
       {
          getVariable().addVariableUsage(aMode);
-         return (AeVariableValidator) getVariable();
+         return getVariable();
       }
       else
       {

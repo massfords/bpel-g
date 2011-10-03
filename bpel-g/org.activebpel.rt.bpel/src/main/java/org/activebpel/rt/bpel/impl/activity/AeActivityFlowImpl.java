@@ -62,7 +62,7 @@ public class AeActivityFlowImpl extends AeActivityImpl implements IAeActivityPar
     */
    public AeLink getLink(String aLinkName)
    {
-      return (AeLink) getLinkMap().get(aLinkName);
+      return getLinkMap().get(aLinkName);
    }
    
    /**

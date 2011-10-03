@@ -116,7 +116,7 @@ public class AeResourceResolver implements IAeResourceResolver
     */
    protected IAeCatalogMapping getMapping(String aLocationHint)
    {
-      return (IAeCatalogMapping) getMap().get(formatKey(aLocationHint));
+      return getMap().get(formatKey(aLocationHint));
    }
    
    /**

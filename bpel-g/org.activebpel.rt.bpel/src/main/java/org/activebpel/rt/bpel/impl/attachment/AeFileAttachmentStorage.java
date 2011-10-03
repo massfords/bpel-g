@@ -155,7 +155,7 @@ public class AeFileAttachmentStorage implements IAeAttachmentStorage
    public void removeProcess(long aProcessId)
    {
       // Remove the process's entry from the process map.
-      List processInfos = (List) getProcessInfosMap().remove(aProcessId);
+      List processInfos = getProcessInfosMap().remove(aProcessId);
       if (processInfos != null)
       {
          // Remove the attachments from the attachment map.
@@ -226,7 +226,7 @@ public class AeFileAttachmentStorage implements IAeAttachmentStorage
     */
    protected AeAttachmentInfo getAttachmentInfo(long aAttachmentId) throws AeBusinessProcessException
    {
-      AeAttachmentInfo info = (AeAttachmentInfo) getAttachmentInfoMap().get(aAttachmentId);
+      AeAttachmentInfo info = getAttachmentInfoMap().get(aAttachmentId);
       if (info == null)
       {
          throw new AeBusinessProcessException(AeMessages.format("AeFileAttachmentStorage.ERROR_IllegalAttachmentId", String.valueOf(aAttachmentId))); //$NON-NLS-1$

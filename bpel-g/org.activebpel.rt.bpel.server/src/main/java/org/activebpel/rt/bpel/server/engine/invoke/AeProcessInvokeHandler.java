@@ -373,7 +373,7 @@ public class AeProcessInvokeHandler implements IAeTwoPhaseInvokeHandler, IAeMess
       wsa.setReplyTo(replyTo);
 
       context.setWsAddressingHeaders(wsa);
-      return (IAeMessageContext)context;
+      return context;
    }
 
    /**
@@ -418,7 +418,7 @@ public class AeProcessInvokeHandler implements IAeTwoPhaseInvokeHandler, IAeMess
       }
 
       // get the correlation header
-      String correlationHeaderValue = (String)endpoint.getProperties().get(
+      String correlationHeaderValue = endpoint.getProperties().get(
             IAePolicyConstants.CONVERSATION_ID_HEADER);
       if ( correlationHeaderValue != null )
       {

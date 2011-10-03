@@ -320,7 +320,7 @@ public class AePartnerAddressing implements IAePartnerAddressing
          QName portType = aPartnerLink.getMyRolePortType();
          myRoleRef.setPortType(portType);
          
-         Service wsdlService = (Service) cachedDef.getServices().get(serviceName);
+         Service wsdlService = cachedDef.getServices().get(serviceName);
          if (wsdlService != null)
          {
             Map ports = wsdlService.getPorts();

@@ -33,7 +33,7 @@ public class AeActivityWaitValidator extends AeActivityValidator
    {
       super.validate();
       
-      IAeExpressionModelValidator child = (IAeExpressionModelValidator) getChild(IAeExpressionModelValidator.class);
+      IAeExpressionModelValidator child = getChild(IAeExpressionModelValidator.class);
       if (isNullOrEmpty(child))
       {
          getReporter().reportProblem( BPEL_WAIT_FIELD_MISSING_CODE,

@@ -1256,7 +1256,7 @@ public class AeSaveImplStateVisitor extends AeImplTraversingVisitor implements I
       }
 
       // Save base handler information
-      saveFCTHandler( (AeFCTHandler) aImpl);
+      saveFCTHandler( aImpl);
 
       getImplState().pushParent();
 
@@ -1389,7 +1389,7 @@ public class AeSaveImplStateVisitor extends AeImplTraversingVisitor implements I
    {
       super.visit(aImpl);
       // Save base handler information
-      saveFCTHandler( (AeFCTHandler) aImpl);
+      saveFCTHandler( aImpl);
       if (aImpl.isExecuting() && aImpl.getHandledFault() != null)
       {
          getImplState().pushParent();

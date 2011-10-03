@@ -48,7 +48,7 @@ public abstract class AeAbstractServerEngine extends AeBusinessProcessEngine
    protected final IAeCoordinationContext getCoordinationContext(IAeMessageContext aContext)
    {
       IAeCoordinationContext ctx = null;
-      String coordId = (String)aContext.getBusinessProcessProperties().get(IAeCoordinating.WSCOORD_ID);
+      String coordId = aContext.getBusinessProcessProperties().get(IAeCoordinating.WSCOORD_ID);
       if ( AeUtil.notNullOrEmpty(coordId) )
       {
          try

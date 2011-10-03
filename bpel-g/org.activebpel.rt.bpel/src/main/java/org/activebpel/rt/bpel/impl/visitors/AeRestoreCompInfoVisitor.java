@@ -179,7 +179,7 @@ public class AeRestoreCompInfoVisitor extends AeBaseRestoreVisitor
          String name = getAttribute(element, STATE_NAME);
 
          int versionNumber = getAttributeInt(element, STATE_VERSION);
-         AeCorrelationSet correlationSet = (AeCorrelationSet) aScope.findCorrelationSet(name);
+         AeCorrelationSet correlationSet = aScope.findCorrelationSet(name);
 
          if (versionNumber != correlationSet.getVersionNumber())
          {

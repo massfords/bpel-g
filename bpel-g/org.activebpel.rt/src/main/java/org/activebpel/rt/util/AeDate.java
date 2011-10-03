@@ -155,7 +155,7 @@ public class AeDate {
 		AeDate rVal = null;
 		if (AeUtil.notNullOrEmpty(aDateTime)) {
 			for (int i = 0; i < sPatterns.size(); i++) {
-				AeDate datePattern = (AeDate) sPatterns.get(i);
+				AeDate datePattern = sPatterns.get(i);
 				Date date = parseDate(aDateTime, datePattern.getPattern());
 				if (date != null) {
 					rVal = new AeDate(date, datePattern.getPattern(),

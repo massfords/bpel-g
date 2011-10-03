@@ -58,7 +58,7 @@ public class AeTabBean
     */
    public AeTab getTab(int aOffset)
    {
-      return (AeTab) mTabs.get(aOffset);
+      return mTabs.get(aOffset);
    }
    
    /**

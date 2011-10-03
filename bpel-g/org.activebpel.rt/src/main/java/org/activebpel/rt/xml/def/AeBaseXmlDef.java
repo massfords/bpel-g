@@ -225,7 +225,7 @@ public abstract class AeBaseXmlDef implements Cloneable, Serializable
     */
    public String getNamespace(String aPrefix)
    {
-      return (String) getNamespaceMap().get(aPrefix);
+      return getNamespaceMap().get(aPrefix);
    }
 
    /**
@@ -281,7 +281,7 @@ public abstract class AeBaseXmlDef implements Cloneable, Serializable
          // Now go through the stack and process each def.
          while (!defStack.isEmpty())
          {
-            def = (AeBaseXmlDef) defStack.pop();
+            def = defStack.pop();
             getPrefixesForNamespace(def, aNamespace, set);
          }
 
@@ -481,7 +481,7 @@ public abstract class AeBaseXmlDef implements Cloneable, Serializable
       Iterator<AeExtensionElementDef> iter = getExtensionElementDefs().iterator();
       if (iter.hasNext())
       {
-         return (AeExtensionElementDef) iter.next();
+         return iter.next();
       }
       return null;
    }

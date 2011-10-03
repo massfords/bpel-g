@@ -55,7 +55,7 @@ public class AeBpelDefConverterFactory
       {
          try
          {
-            converter = (IAeBpelDefConverter) clazz.newInstance();
+            converter = clazz.newInstance();
          }
          catch (Throwable t)
          {

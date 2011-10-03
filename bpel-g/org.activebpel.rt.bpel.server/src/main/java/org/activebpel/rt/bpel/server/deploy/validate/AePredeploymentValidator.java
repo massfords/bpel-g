@@ -75,7 +75,7 @@ public class AePredeploymentValidator implements IAePredeploymentValidator
    {
       for( int i=0; i < mValidators.length; i++ )
       {
-         IAePredeploymentValidator validator = (IAePredeploymentValidator)mValidators[i];
+         IAePredeploymentValidator validator = mValidators[i];
          try
          {
             validator.validate( aBprFile, aReporter );

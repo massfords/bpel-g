@@ -41,7 +41,7 @@ public class AeCorrelationSetsDef extends AeBaseContainer<String, AeCorrelationS
     */
    public AeCorrelationSetDef getCorrelationSetDef(String aName)
    {
-      return (AeCorrelationSetDef) super.get(aName);
+      return super.get(aName);
    }
 
    /**

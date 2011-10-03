@@ -158,14 +158,14 @@ public class AeRpcStyleInvoker extends AeSOAPInvoker
             if (output.size() > 0)
             {
                // set the first part
-               ParameterDesc desc = (ParameterDesc) output.get(0);
+               ParameterDesc desc = output.get(0);
                outputMsg.setData(desc.getName(), AeTypeMappingHelper.fixPart(aContext.getOperation().getOutput().getMessage().getPart(desc.getName()), obj));
                
                // Now walk all of the other parts (if any) and set their types on the
                // output message. 
                for (int i=1; i<output.size(); i++)
                {
-                  desc = (ParameterDesc) output.get(i);
+                  desc = output.get(i);
                   obj = aContext.getCall().getOutputParams().get( desc.getQName() );
                   outputMsg.setData(desc.getName(), AeTypeMappingHelper.fixPart(aContext.getOperation().getOutput().getMessage().getPart(desc.getName()), obj));
                }

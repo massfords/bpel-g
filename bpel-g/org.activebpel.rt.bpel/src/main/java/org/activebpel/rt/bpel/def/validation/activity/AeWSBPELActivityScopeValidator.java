@@ -47,7 +47,7 @@ public class AeWSBPELActivityScopeValidator extends AeActivityScopeValidator
    protected void validateIsolatedScope()
    {
       // must not be nested within an isolated scope
-      for (AeActivityScopeValidator parent = (AeActivityScopeValidator) getAnscestor(AeActivityScopeValidator.class); parent != null; parent = (AeActivityScopeValidator) parent.getAnscestor(AeActivityScopeValidator.class))
+      for (AeActivityScopeValidator parent = getAnscestor(AeActivityScopeValidator.class); parent != null; parent = parent.getAnscestor(AeActivityScopeValidator.class))
       {
          if (parent.getDef().isIsolated())
          {
@@ -107,7 +107,7 @@ public class AeWSBPELActivityScopeValidator extends AeActivityScopeValidator
     */
    private AeActivityScopeDef getEnclosingScopeDef()
    {
-      AeActivityScopeValidator enclosingScopeValidator = (AeActivityScopeValidator) getAnscestor(AeActivityScopeValidator.class);
+      AeActivityScopeValidator enclosingScopeValidator = getAnscestor(AeActivityScopeValidator.class);
       AeActivityScopeDef enclosingScopeDef = enclosingScopeValidator.getDef();
       return enclosingScopeDef;
    }

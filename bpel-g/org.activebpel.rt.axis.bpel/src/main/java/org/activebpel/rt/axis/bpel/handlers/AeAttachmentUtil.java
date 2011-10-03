@@ -54,7 +54,7 @@ public class AeAttachmentUtil
       while (attachmentItr.hasNext())
       {
          // Convert the Mime headers of the attachment part to a Map, add the map to the attachment
-         AttachmentPart attachPart = (AttachmentPart)attachmentItr.next();
+         AttachmentPart attachPart = attachmentItr.next();
          Map<String, String> mimeHeaderPairs = new HashMap<String, String>();
          for (@SuppressWarnings("unchecked")
         		 Iterator<MimeHeader> mimeItr = attachPart.getAllMimeHeaders(); mimeItr.hasNext();)

@@ -211,7 +211,7 @@ public class AeProcessDefToWebModelVisitor extends AeProcessDefToWebVisitorBase
     */
    protected AeBpelObjectBase getModel()
    {
-      return (AeBpelObjectBase) mStack.peek();
+      return mStack.peek();
    }
 
    /**
@@ -391,7 +391,7 @@ public class AeProcessDefToWebModelVisitor extends AeProcessDefToWebVisitorBase
      // TODO (PJ) remove this method when defect wrt visting empty def is fixed.
       if (aModel.size() == 0 && aModel.getParent() != null)
       {
-         ((AeBpelObjectContainer)aModel.getParent()).removeChild(aModel);
+         (aModel.getParent()).removeChild(aModel);
       }
    }
 

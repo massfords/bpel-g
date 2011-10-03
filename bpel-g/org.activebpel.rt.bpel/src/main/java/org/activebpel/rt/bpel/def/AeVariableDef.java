@@ -230,7 +230,7 @@ public class AeVariableDef extends AeNamedDef implements IAeFromParentDef
     */
    public AeMessagePartTypeInfo getPartInfo(String aPartName) throws AeBpelException
    {
-      AeMessagePartTypeInfo partType = (AeMessagePartTypeInfo)getMessageParts().getPartInfo(aPartName);
+      AeMessagePartTypeInfo partType = getMessageParts().getPartInfo(aPartName);
       if (partType == null)
       {
          throw new AeBpelException(AeMessages.format("AeVariableDef.ERROR_4", aPartName), AeFaultFactory.getSystemErrorFault());          //$NON-NLS-1$

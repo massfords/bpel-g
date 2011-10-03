@@ -98,7 +98,7 @@ public class AeWsdlValidator implements IAePredeploymentValidator {
 					IAeCatalog.KEEP_EXISTING_RESOURCE);
 
 			checkForMissingFiles(catalog, aBprFile);
-			IAeCatalogMapping[] mappings = (IAeCatalogMapping[]) catalog
+			IAeCatalogMapping[] mappings = catalog
 					.getResources()
 					.values()
 					.toArray(
