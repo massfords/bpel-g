@@ -1,6 +1,8 @@
 package org.activebpel.rt.bpel;
 
 import org.activebpel.rt.bpel.expr.BpelExpressionLanguageFactory;
+import org.activebpel.rt.bpel.function.IAeFunction;
+import org.activebpel.rt.bpel.function.IAeFunctionContext;
 import org.activebpel.rt.expr.validation.functions.IAeFunctionValidator;
 import org.activebpel.rt.expr.validation.functions.IAeFunctionValidatorFactory;
 import org.junit.Assert;
@@ -16,7 +18,7 @@ import javax.xml.namespace.QName;
  */
 public class SpringExtFunctionValidatorsTest extends Assert {
     @Test
-    public void functions() throws Exception {
+    public void functionValidators() throws Exception {
         ApplicationContext context = new FileSystemXmlApplicationContext(
                 "src/test/resources/functionValidators.xml");
         IAeFunctionValidatorFactory factory = context.getBean(IAeFunctionValidatorFactory.class);
@@ -38,4 +40,15 @@ public class SpringExtFunctionValidatorsTest extends Assert {
         assertEquals("http://www.w3.org/TR/1999/REC-xpath-19991116", factory.getBpelDefaultLanguage());
     }
 
+    @Test
+    public void extfunctions() throws Exception {
+        ApplicationContext context = new FileSystemXmlApplicationContext(
+                "src/test/resources/extfunctions.xml");
+        IAeFunctionContext factory = context.getBean(IAeFunctionContext.class);
+        assertNotNull(factory);
+
+        IAeFunction f = factory.getFunction("getProcessId");
+
+        assertNotNull(f);
+    }
 }
