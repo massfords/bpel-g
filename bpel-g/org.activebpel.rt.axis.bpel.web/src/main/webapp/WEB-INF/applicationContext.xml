@@ -2,10 +2,14 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:util="http://www.springframework.org/schema/util"
+    xmlns:bpelg="urn:bpel-g:spring-ext"
+    xmlns:ws-bpel="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
     xmlns:jaxws="http://cxf.apache.org/jaxws"
     xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
                         http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.0.xsd
-                        http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd">
+                        http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd
+                        urn:bpel-g:spring-ext
+                        http://bpel-g.googlecode.com/svn/trunk/bpel-g/org.activebpel.rt.bpel/src/main/resources/springext-bpel.xsd">
     <import resource="classpath:META-INF/cxf/cxf.xml"/>
     <import resource="classpath:META-INF/cxf/cxf-extension-soap.xml"/>
     <import resource="classpath:META-INF/cxf/cxf-servlet.xml"/>
@@ -186,149 +190,61 @@
         <property name="factoryMap">
             <util:map>
                 <entry key="http://schemas.xmlsoap.org/ws/2003/03/business-process/">
-                    <bean class="org.activebpel.rt.bpel.expr.BpelExpressionLanguageFactory">
-                        <property name="bpelDefaultLanguage"
-                            value="http://www.w3.org/TR/1999/REC-xpath-19991116"/>
-                        <property name="bundles">
-                            <util:map>
-                                <entry key="http://www.w3.org/TR/1999/REC-xpath-19991116">
-                                    <bean class="org.activebpel.rt.bpel.expr.AeExpressionBundle">
-                                        <property name="validator">
-                                            <bean
-                                                class="org.activebpel.rt.bpel.def.validation.expr.xpath.AeBPWSXPathExpressionValidator"
-                                            />
-                                        </property>
-                                        <property name="runner">
-                                            <bean
-                                                class="org.activebpel.rt.bpel.impl.expr.xpath.AeBPWSXPathExpressionRunner"
-                                            />
-                                        </property>
-                                        <property name="analyzer">
-                                            <bean
-                                                class="org.activebpel.rt.bpel.def.expr.xpath.AeBPWSXPathExpressionAnalyzer"
-                                            />
-                                        </property>
-                                    </bean>
-                                </entry>
-                                <entry key="urn:active-endpoints:expression-language:xquery1.0">
-                                    <bean class="org.activebpel.rt.bpel.expr.AeExpressionBundle">
-                                        <property name="validator">
-                                            <bean
-                                                class="org.activebpel.rt.bpel.ext.expr.def.validation.xquery.AeBPWSXQueryExpressionValidator"
-                                            />
-                                        </property>
-                                        <property name="runner">
-                                            <bean
-                                                class="org.activebpel.rt.bpel.ext.expr.impl.xquery.AeBPWSXQueryExpressionRunner"
-                                            />
-                                        </property>
-                                        <property name="analyzer">
-                                            <bean
-                                                class="org.activebpel.rt.bpel.ext.expr.def.xquery.AeBPWSXQueryExpressionAnalyzer"
-                                            />
-                                        </property>
-                                    </bean>
-                                </entry>
-                                <entry key="urn:active-endpoints:expression-language:javascript1.5">
-                                    <bean class="org.activebpel.rt.bpel.expr.AeExpressionBundle">
-                                        <property name="validator">
-                                            <bean
-                                                class="org.activebpel.rt.bpel.ext.expr.def.validation.javascript.AeBPWSJavaScriptExpressionValidator"
-                                            />
-                                        </property>
-                                        <property name="runner">
-                                            <bean
-                                                class="org.activebpel.rt.bpel.ext.expr.impl.javascript.AeBPWSJavaScriptExpressionRunner"
-                                            />
-                                        </property>
-                                        <property name="analyzer">
-                                            <bean
-                                                class="org.activebpel.rt.bpel.ext.expr.def.javascript.AeBPWSJavaScriptExpressionAnalyzer"
-                                            />
-                                        </property>
-                                    </bean>
-                                </entry>
-                            </util:map>
-                        </property>
-                    </bean>
+                    <bpelg:bpelExpressionLanguageFactory
+                            defaultLanguage="http://www.w3.org/TR/1999/REC-xpath-19991116">
+                        <bpelg:bundle
+                                uri="http://www.w3.org/TR/1999/REC-xpath-19991116"
+                                validator="org.activebpel.rt.bpel.def.validation.expr.xpath.AeBPWSXPathExpressionValidator"
+                                runner="org.activebpel.rt.bpel.impl.expr.xpath.AeBPWSXPathExpressionRunner"
+                                analyzer="org.activebpel.rt.bpel.def.expr.xpath.AeBPWSXPathExpressionAnalyzer"/>
+
+                        <bpelg:bundle
+                                uri="urn:active-endpoints:expression-language:xquery1.0"
+                                validator="org.activebpel.rt.bpel.ext.expr.def.validation.xquery.AeBPWSXQueryExpressionValidator"
+                                runner="org.activebpel.rt.bpel.ext.expr.impl.xquery.AeBPWSXQueryExpressionRunner"
+                                analyzer="org.activebpel.rt.bpel.ext.expr.def.xquery.AeBPWSXQueryExpressionAnalyzer"/>
+
+                        <bpelg:bundle
+                                uri="urn:active-endpoints:expression-language:javascript1.5"
+                                validator="org.activebpel.rt.bpel.ext.expr.def.validation.javascript.AeBPWSJavaScriptExpressionValidator"
+                                runner="org.activebpel.rt.bpel.ext.expr.impl.javascript.AeBPWSJavaScriptExpressionRunner"
+                                analyzer="org.activebpel.rt.bpel.ext.expr.def.javascript.AeBPWSJavaScriptExpressionAnalyzer"/>
+                    </bpelg:bpelExpressionLanguageFactory>
                 </entry>
                 <entry key="http://docs.oasis-open.org/wsbpel/2.0/process/executable">
-                    <bean class="org.activebpel.rt.bpel.expr.BpelExpressionLanguageFactory">
-                        <property name="bpelDefaultLanguage"
-                            value="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0"/>
-                        <property name="bundles">
-                            <util:map>
-                                <entry key="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">
-                                    <bean class="org.activebpel.rt.bpel.expr.AeExpressionBundle">
-                                        <property name="validator">
-                                            <bean
-                                                class="org.activebpel.rt.bpel.def.validation.expr.xpath.AeWSBPELXPathExpressionValidator"
-                                            />
-                                        </property>
-                                        <property name="runner">
-                                            <bean
-                                                class="org.activebpel.rt.bpel.impl.expr.xpath.AeWSBPELXPathExpressionRunner"
-                                            />
-                                        </property>
-                                        <property name="analyzer">
-                                            <bean
-                                                class="org.activebpel.rt.bpel.def.expr.xpath.AeWSBPELXPathExpressionAnalyzer"
-                                            />
-                                        </property>
-                                    </bean>
-                                </entry>
-                                <entry key="urn:active-endpoints:expression-language:xquery1.0">
-                                    <bean class="org.activebpel.rt.bpel.expr.AeExpressionBundle">
-                                        <property name="validator" ref="xqValidator"/>
-                                        <property name="runner" ref="xqRunner"/>
-                                        <property name="analyzer" ref="xqAnalyzer"/>
-                                    </bean>
-                                </entry>
-                                <entry key="urn:oasis:names:tc:wsbpel:2.0:sublang:xquery1.0">
-                                    <bean class="org.activebpel.rt.bpel.expr.AeExpressionBundle">
-                                        <property name="validator" ref="xqValidator"/>
-                                        <property name="runner" ref="xqRunner"/>
-                                        <property name="analyzer" ref="xqAnalyzer"/>
-                                    </bean>
-                                </entry>
-                                <entry key="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath2.0">
-                                    <bean class="org.activebpel.rt.bpel.expr.AeExpressionBundle">
-                                        <property name="validator" ref="xqValidator"/>
-                                        <property name="runner" ref="xqRunner"/>
-                                        <property name="analyzer" ref="xqAnalyzer"/>
-                                    </bean>
-                                </entry>
-                                <entry key="urn:active-endpoints:expression-language:javascript1.5">
-                                    <bean class="org.activebpel.rt.bpel.expr.AeExpressionBundle">
-                                        <property name="validator">
-                                            <bean
-                                                class="org.activebpel.rt.bpel.ext.expr.def.validation.javascript.AeWSBPELJavaScriptExpressionValidator"
-                                            />
-                                        </property>
-                                        <property name="runner">
-                                            <bean
-                                                class="org.activebpel.rt.bpel.ext.expr.impl.javascript.AeWSBPELJavaScriptExpressionRunner"
-                                            />
-                                        </property>
-                                        <property name="analyzer">
-                                            <bean
-                                                class="org.activebpel.rt.bpel.ext.expr.def.javascript.AeWSBPELJavaScriptExpressionAnalyzer"
-                                            />
-                                        </property>
-                                    </bean>
-                                </entry>
-                            </util:map>
-                        </property>
-                    </bean>
+
+                    <bpelg:bpelExpressionLanguageFactory
+                            defaultLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">
+                        <bpelg:bundle
+                                uri="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0"
+                                validator="org.activebpel.rt.bpel.def.validation.expr.xpath.AeWSBPELXPathExpressionValidator"
+                                runner="org.activebpel.rt.bpel.impl.expr.xpath.AeWSBPELXPathExpressionRunner"
+                                analyzer="org.activebpel.rt.bpel.def.expr.xpath.AeWSBPELXPathExpressionAnalyzer"/>
+
+                        <bpelg:bundle
+                                uri="urn:active-endpoints:expression-language:xquery1.0"
+                                validator="org.activebpel.rt.bpel.ext.expr.def.validation.xquery.AeWSBPELXQueryExpressionValidator"
+                                runner="org.activebpel.rt.bpel.ext.expr.impl.xquery.AeWSBPELXQueryExpressionRunner"
+                                analyzer="org.activebpel.rt.bpel.ext.expr.def.xquery.AeWSBPELXQueryExpressionAnalyzer"/>
+
+                        <bpelg:bundle
+                                uri="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath2.0"
+                                validator="org.activebpel.rt.bpel.ext.expr.def.validation.xquery.AeWSBPELXQueryExpressionValidator"
+                                runner="org.activebpel.rt.bpel.ext.expr.impl.xquery.AeWSBPELXQueryExpressionRunner"
+                                analyzer="org.activebpel.rt.bpel.ext.expr.def.xquery.AeWSBPELXQueryExpressionAnalyzer"/>
+
+                        <bpelg:bundle
+                                uri="urn:active-endpoints:expression-language:javascript1.5"
+                                validator="org.activebpel.rt.bpel.ext.expr.def.validation.javascript.AeWSBPELJavaScriptExpressionValidator"
+                                runner="org.activebpel.rt.bpel.ext.expr.impl.javascript.AeWSBPELJavaScriptExpressionRunner"
+                                analyzer="org.activebpel.rt.bpel.ext.expr.def.javascript.AeWSBPELJavaScriptExpressionAnalyzer"/>
+
+                    </bpelg:bpelExpressionLanguageFactory>
                 </entry>
             </util:map>
         </property>
     </bean>
 
-    <bean id="xqValidator" class="org.activebpel.rt.bpel.ext.expr.def.validation.xquery.AeWSBPELXQueryExpressionValidator"/>
-    <bean id="xqRunner" class="org.activebpel.rt.bpel.ext.expr.impl.xquery.AeWSBPELXQueryExpressionRunner"/>
-    <bean id="xqAnalyzer" class="org.activebpel.rt.bpel.ext.expr.def.xquery.AeWSBPELXQueryExpressionAnalyzer"/>
-    
 
     <bean id="FunctionContextContainer"
         class="org.activebpel.rt.bpel.function.AeFunctionContextContainer">
@@ -432,219 +348,50 @@
             </bean>
         </property>
     </bean>
-    <bean id="FunctionValidatorFactory"
-        class="org.activebpel.rt.bpel.def.validation.expr.functions.AeFunctionValidatorFactory"
-        init-method="init">
-        <property name="entries">
-            <util:list>
-                <bean
-                    class="org.activebpel.rt.bpel.def.validation.expr.functions.AeFunctionValidatorEntry">
-                    <property name="namespace" value="http://www.activebpel.org/bpel/extension"/>
-                    <property name="localPart" value="getProcessId"/>
-                    <property name="validator">
-                        <bean
-                            class="org.activebpel.rt.bpel.def.validation.expr.functions.AeGetProcessIdFunctionValidator"
-                        />
-                    </property>
-                </bean>
-                <bean
-                    class="org.activebpel.rt.bpel.def.validation.expr.functions.AeFunctionValidatorEntry">
-                    <property name="namespace" value="http://www.activebpel.org/bpel/extension"/>
-                    <property name="localPart" value="getProcessName"/>
-                    <property name="validator">
-                        <bean
-                            class="org.activebpel.rt.bpel.def.validation.expr.functions.AeGetProcessNameFunctionValidator"
-                        />
-                    </property>
-                </bean>
-                <bean
-                    class="org.activebpel.rt.bpel.def.validation.expr.functions.AeFunctionValidatorEntry">
-                    <property name="namespace" value="http://www.activebpel.org/bpel/extension"/>
-                    <property name="localPart" value="resolveURN"/>
-                    <property name="validator">
-                        <bean
-                            class="org.activebpel.rt.bpel.def.validation.expr.functions.AeResolveURNFunctionValidator"
-                        />
-                    </property>
-                </bean>
-                <bean
-                    class="org.activebpel.rt.bpel.def.validation.expr.functions.AeFunctionValidatorEntry">
-                    <property name="namespace" value="http://www.activebpel.org/bpel/extension"/>
-                    <property name="localPart" value="getMyRoleProperty"/>
-                    <property name="validator">
-                        <bean
-                            class="org.activebpel.rt.bpel.def.validation.expr.functions.AeGetMyRolePropertyFunctionValidator"
-                        />
-                    </property>
-                </bean>
-                <bean
-                    class="org.activebpel.rt.bpel.def.validation.expr.functions.AeFunctionValidatorEntry">
-                    <property name="namespace" value="http://www.activebpel.org/bpel/extension"/>
-                    <property name="localPart" value="getAttachmentCount"/>
-                    <property name="validator">
-                        <bean
-                            class="org.activebpel.rt.bpel.def.validation.expr.functions.AeGetAttachmentCountFunctionValidator"
-                        />
-                    </property>
-                </bean>
-                <bean
-                    class="org.activebpel.rt.bpel.def.validation.expr.functions.AeFunctionValidatorEntry">
-                    <property name="namespace" value="http://www.activebpel.org/bpel/extension"/>
-                    <property name="localPart" value="copyAttachment"/>
-                    <property name="validator">
-                        <bean
-                            class="org.activebpel.rt.bpel.def.validation.expr.functions.AeCopyAttachmentFunctionValidator"
-                        />
-                    </property>
-                </bean>
-                <bean
-                    class="org.activebpel.rt.bpel.def.validation.expr.functions.AeFunctionValidatorEntry">
-                    <property name="namespace" value="http://www.activebpel.org/bpel/extension"/>
-                    <property name="localPart" value="replaceAttachment"/>
-                    <property name="validator">
-                        <bean
-                            class="org.activebpel.rt.bpel.def.validation.expr.functions.AeReplaceAttachmentFunctionValidator"
-                        />
-                    </property>
-                </bean>
-                <bean
-                    class="org.activebpel.rt.bpel.def.validation.expr.functions.AeFunctionValidatorEntry">
-                    <property name="namespace" value="http://www.activebpel.org/bpel/extension"/>
-                    <property name="localPart" value="removeAttachment"/>
-                    <property name="validator">
-                        <bean
-                            class="org.activebpel.rt.bpel.def.validation.expr.functions.AeRemoveAttachmentFunctionValidator"
-                        />
-                    </property>
-                </bean>
-                <bean
-                    class="org.activebpel.rt.bpel.def.validation.expr.functions.AeFunctionValidatorEntry">
-                    <property name="namespace" value="http://www.activebpel.org/bpel/extension"/>
-                    <property name="localPart" value="copyAllAttachments"/>
-                    <property name="validator">
-                        <bean
-                            class="org.activebpel.rt.bpel.def.validation.expr.functions.AeCopyAllAttachmentsFunctionValidator"
-                        />
-                    </property>
-                </bean>
-                <bean
-                    class="org.activebpel.rt.bpel.def.validation.expr.functions.AeFunctionValidatorEntry">
-                    <property name="namespace" value="http://www.activebpel.org/bpel/extension"/>
-                    <property name="localPart" value="removeAllAttachments"/>
-                    <property name="validator">
-                        <bean
-                            class="org.activebpel.rt.bpel.def.validation.expr.functions.AeRemoveAllAttachmentsFunctionValidator"
-                        />
-                    </property>
-                </bean>
-                <bean
-                    class="org.activebpel.rt.bpel.def.validation.expr.functions.AeFunctionValidatorEntry">
-                    <property name="namespace" value="http://www.activebpel.org/bpel/extension"/>
-                    <property name="localPart" value="getAttachmentType"/>
-                    <property name="validator">
-                        <bean
-                            class="org.activebpel.rt.bpel.def.validation.expr.functions.AeGetAttachmentTypeFunctionValidator"
-                        />
-                    </property>
-                </bean>
-                <bean
-                    class="org.activebpel.rt.bpel.def.validation.expr.functions.AeFunctionValidatorEntry">
-                    <property name="namespace" value="http://www.activebpel.org/bpel/extension"/>
-                    <property name="localPart" value="getAttachmentProperty"/>
-                    <property name="validator">
-                        <bean
-                            class="org.activebpel.rt.bpel.def.validation.expr.functions.AeGetAttachmentPropertyFunctionValidator"
-                        />
-                    </property>
-                </bean>
-                <bean
-                    class="org.activebpel.rt.bpel.def.validation.expr.functions.AeFunctionValidatorEntry">
-                    <property name="namespace" value="http://www.activebpel.org/bpel/extension"/>
-                    <property name="localPart" value="getAttachmentSize"/>
-                    <property name="validator">
-                        <bean
-                            class="org.activebpel.rt.bpel.def.validation.expr.functions.AeGetAttachmentSizeFunctionValidator"
-                        />
-                    </property>
-                </bean>
-                <bean
-                    class="org.activebpel.rt.bpel.def.validation.expr.functions.AeFunctionValidatorEntry">
-                    <property name="namespace" value="http://www.activebpel.org/bpel/extension"/>
-                    <property name="localPart" value="createAttachment"/>
-                    <property name="validator">
-                        <bean
-                            class="org.activebpel.rt.bpel.def.validation.expr.functions.AeCreateAttachmentFunctionValidator"
-                        />
-                    </property>
-                </bean>
-                <bean
-                    class="org.activebpel.rt.bpel.def.validation.expr.functions.AeFunctionValidatorEntry">
-                    <property name="namespace" value="http://www.activebpel.org/bpel/extension"/>
-                    <property name="localPart" value="base64Encode"/>
-                    <property name="validator">
-                        <bean
-                            class="org.activebpel.rt.bpel.def.validation.expr.functions.AeBase64EncodeFunctionValidator"
-                        />
-                    </property>
-                </bean>
-                <bean
-                    class="org.activebpel.rt.bpel.def.validation.expr.functions.AeFunctionValidatorEntry">
-                    <property name="namespace"
-                        value="http://docs.oasis-open.org/wsbpel/2.0/process/executable"/>
-                    <property name="localPart" value="getVariableProperty"/>
-                    <property name="validator">
-                        <bean
-                            class="org.activebpel.rt.bpel.def.validation.expr.functions.AeGetVariablePropertyFunctionValidator"
-                        />
-                    </property>
-                </bean>
-                <bean
-                    class="org.activebpel.rt.bpel.def.validation.expr.functions.AeFunctionValidatorEntry">
-                    <property name="namespace"
-                        value="http://docs.oasis-open.org/wsbpel/2.0/process/executable"/>
-                    <property name="localPart" value="doXslTransform"/>
-                    <property name="validator">
-                        <bean
-                            class="org.activebpel.rt.bpel.def.validation.expr.functions.AeDoXslTransformFunctionValidator"
-                        />
-                    </property>
-                </bean>
-                <bean
-                    class="org.activebpel.rt.bpel.def.validation.expr.functions.AeFunctionValidatorEntry">
-                    <property name="namespace"
-                        value="http://docs.oasis-open.org/wsbpel/2.0/process/executable"/>
-                    <property name="localPart" value="getVariableData"/>
-                    <property name="validator">
-                        <bean
-                            class="org.activebpel.rt.bpel.def.validation.expr.functions.AeGetVariableDataFunctionValidator"
-                        />
-                    </property>
-                </bean>
-                <bean
-                    class="org.activebpel.rt.bpel.def.validation.expr.functions.AeFunctionValidatorEntry">
-                    <property name="namespace"
-                        value="http://docs.oasis-open.org/wsbpel/2.0/process/executable"/>
-                    <property name="localPart" value="getVariableProperty"/>
-                    <property name="validator">
-                        <bean
-                            class="org.activebpel.rt.bpel.def.validation.expr.functions.AeGetVariablePropertyFunctionValidator"
-                        />
-                    </property>
-                </bean>
-                <bean
-                    class="org.activebpel.rt.bpel.def.validation.expr.functions.AeFunctionValidatorEntry">
-                    <property name="namespace"
-                        value="http://docs.oasis-open.org/wsbpel/2.0/process/executable"/>
-                    <property name="localPart" value="getLinkStatus"/>
-                    <property name="validator">
-                        <bean
-                            class="org.activebpel.rt.bpel.def.validation.expr.functions.AeGetLinkStatusFunctionValidator"
-                        />
-                    </property>
-                </bean>
-            </util:list>
-        </property>
-    </bean>
+    <bpelg:functionValidatorFactory id="FunctionValidatorFactory"
+            xmlns:ext="http://www.activebpel.org/bpel/extension">
+        <bpelg:validator class="org.activebpel.rt.bpel.def.validation.expr.functions.AeGetProcessIdFunctionValidator"
+                         name="ext:getProcessId"/>
+        <bpelg:validator class="org.activebpel.rt.bpel.def.validation.expr.functions.AeGetProcessNameFunctionValidator"
+                         name="ext:getProcessName"/>
+        <bpelg:validator class="org.activebpel.rt.bpel.def.validation.expr.functions.AeResolveURNFunctionValidator"
+                         name="ext:resolveURN"/>
+        <bpelg:validator class="org.activebpel.rt.bpel.def.validation.expr.functions.AeGetMyRolePropertyFunctionValidator"
+                         name="ext:getMyRoleProperty"/>
+        <bpelg:validator class="org.activebpel.rt.bpel.def.validation.expr.functions.AeGetAttachmentCountFunctionValidator"
+                         name="ext:getAttachmentCount"/>
+        <bpelg:validator class="org.activebpel.rt.bpel.def.validation.expr.functions.AeCopyAttachmentFunctionValidator"
+                         name="ext:copyAttachment"/>
+        <bpelg:validator class="org.activebpel.rt.bpel.def.validation.expr.functions.AeReplaceAttachmentFunctionValidator"
+                         name="ext:replaceAttachment"/>
+        <bpelg:validator class="org.activebpel.rt.bpel.def.validation.expr.functions.AeRemoveAttachmentFunctionValidator"
+                         name="ext:removeAttachment"/>
+        <bpelg:validator class="org.activebpel.rt.bpel.def.validation.expr.functions.AeCopyAllAttachmentsFunctionValidator"
+                         name="ext:copyAllAttachments"/>
+        <bpelg:validator class="org.activebpel.rt.bpel.def.validation.expr.functions.AeRemoveAllAttachmentsFunctionValidator"
+                         name="ext:removeAllAttachments"/>
+        <bpelg:validator class="org.activebpel.rt.bpel.def.validation.expr.functions.AeGetAttachmentTypeFunctionValidator"
+                         name="ext:getAttachmentType"/>
+        <bpelg:validator class="org.activebpel.rt.bpel.def.validation.expr.functions.AeGetAttachmentPropertyFunctionValidator"
+                         name="ext:getAttachmentProperty"/>
+        <bpelg:validator class="org.activebpel.rt.bpel.def.validation.expr.functions.AeGetAttachmentSizeFunctionValidator"
+                         name="ext:getAttachmentSize"/>
+        <bpelg:validator class="org.activebpel.rt.bpel.def.validation.expr.functions.AeCreateAttachmentFunctionValidator"
+                         name="ext:createAttachment"/>
+        <bpelg:validator class="org.activebpel.rt.bpel.def.validation.expr.functions.AeBase64EncodeFunctionValidator"
+                         name="ext:base64Encode"/>
+        <bpelg:validator class="org.activebpel.rt.bpel.def.validation.expr.functions.AeGetVariablePropertyFunctionValidator"
+                         name="ws-bpel:getVariableProperty"/>
+        <bpelg:validator class="org.activebpel.rt.bpel.def.validation.expr.functions.AeDoXslTransformFunctionValidator"
+                         name="ws-bpel:doXslTransform"/>
+        <bpelg:validator class="org.activebpel.rt.bpel.def.validation.expr.functions.AeGetVariableDataFunctionValidator"
+                         name="ws-bpel:getVariableData"/>
+        <bpelg:validator class="org.activebpel.rt.bpel.def.validation.expr.functions.AeGetVariableDataFunctionValidator"
+                         name="ws-bpel:getVariableData"/>
+        <bpelg:validator class="org.activebpel.rt.bpel.def.validation.expr.functions.AeGetLinkStatusFunctionValidator"
+                         name="ws-bpel:getLinkStatus"/>
+    </bpelg:functionValidatorFactory>
+
     <bean id="PartnerAddressing"
         class="org.activebpel.rt.bpel.server.addressing.AePartnerAddressing">
         <property name="URNResolver" ref="URNResolver"/>
