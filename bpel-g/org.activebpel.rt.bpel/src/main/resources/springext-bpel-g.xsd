@@ -47,4 +47,20 @@
         </xs:complexType>
     </xs:element>
 
+    <xs:element name="extensionFunctionContext">
+        <xs:complexType>
+            <xs:complexContent>
+                <xs:extension base="beans:identifiedType">
+                    <xs:sequence>
+                        <xs:element name="function" maxOccurs="unbounded">
+                            <xs:complexType>
+                                <xs:attribute name="class" type="xs:string" use="required"/>
+                                <xs:attribute name="name" type="xs:string" use="required"/>
+                            </xs:complexType>
+                        </xs:element>
+                    </xs:sequence>
+                </xs:extension>
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:element>
 </xs:schema>

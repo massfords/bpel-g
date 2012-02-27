@@ -11,5 +11,7 @@ public class BgNamespaceHandler extends NamespaceHandlerSupport {
     public void init() {
         registerBeanDefinitionParser("functionValidatorFactory", new FunctionValidatorFactoryBeanDefParser());
         registerBeanDefinitionParser("bpelExpressionLanguageFactory", new BpelExpressionLanguageFactoryBeanDefParser());
+        registerBeanDefinitionParser("extensionFunctionContext", new ExtensionFunctionContextBeanDefParser());
+
     }
 }
