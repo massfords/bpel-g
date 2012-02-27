@@ -10,28 +10,19 @@
 
 package org.activebpel.rt.bpel.def.validation.expr.functions;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.xml.namespace.QName;
-
 import org.activebpel.rt.expr.validation.functions.IAeFunctionValidator;
 import org.activebpel.rt.expr.validation.functions.IAeFunctionValidatorFactory;
+
+import javax.xml.namespace.QName;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Provides lookup of validator given a function qname and BPEL namespace.
  */
 public class AeFunctionValidatorFactory implements IAeFunctionValidatorFactory {
     private Map<QName, IAeFunctionValidator> mFunctionValidators = new HashMap<QName, IAeFunctionValidator>();
-    private List<AeFunctionValidatorEntry> mEntries;
-    
-    public void init() {
-        for(AeFunctionValidatorEntry entry : mEntries) {
-            mFunctionValidators.put(new QName(entry.getNamespace(), entry.getLocalPart()), entry.getValidator());
-        }
-    }
-    
+
     public IAeFunctionValidator getValidator(QName aQName) {
         return getFunctionValidators().get(aQName);
     }
@@ -42,13 +33,5 @@ public class AeFunctionValidatorFactory implements IAeFunctionValidatorFactory {
 
     public void setFunctionValidators(Map<QName, IAeFunctionValidator> aFunctionValidators) {
         mFunctionValidators = aFunctionValidators;
-    }
-
-    public List<AeFunctionValidatorEntry> getEntries() {
-        return mEntries;
-    }
-
-    public void setEntries(List<AeFunctionValidatorEntry> aEntries) {
-        mEntries = aEntries;
     }
 }

@@ -1,0 +1,15 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:bpelg="urn:bpel-g:spring-ext"
+       xmlns:ws-bpel="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+       urn:bpel-g:spring-ext
+       http://bpel-g.googlecode.com/svn/trunk/bpel-g/org.activebpel.rt.bpel/src/main/resources/springext-bpel.xsd">
+
+    <bpelg:functionValidatorFactory id="factory">
+        <bpelg:validator class="org.activebpel.rt.bpel.def.validation.expr.functions.AeGetVariablePropertyFunctionValidator"
+             name="ws-bpel:getVariableProperty"/>
+    </bpelg:functionValidatorFactory>
+
+</beans>
