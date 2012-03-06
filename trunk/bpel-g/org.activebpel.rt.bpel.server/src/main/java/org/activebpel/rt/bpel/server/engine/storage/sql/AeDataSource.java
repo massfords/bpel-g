@@ -9,19 +9,19 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpel.server.engine.storage.sql;
 
-import java.io.PrintWriter;
-import java.lang.reflect.InvocationHandler;
-import java.sql.Connection;
-import java.sql.SQLException;
-
-import javax.sql.DataSource;
-
 import org.activebpel.rt.bpel.server.AeMessages;
 import org.activebpel.rt.bpel.server.engine.storage.AeStorageException;
 import org.activebpel.rt.bpel.server.engine.transaction.AeTransactionException;
 import org.activebpel.rt.bpel.server.engine.transaction.AeTransactionManager;
 import org.activebpel.rt.bpel.server.engine.transaction.IAeTransaction;
 import org.activebpel.rt.bpel.server.engine.transaction.sql.IAeSQLTransaction;
+
+import javax.inject.Inject;
+import javax.sql.DataSource;
+import java.io.PrintWriter;
+import java.lang.reflect.InvocationHandler;
+import java.sql.Connection;
+import java.sql.SQLException;
 
 /**
  * Convenience class to centralize access to JDBC data sources. There is a
@@ -35,6 +35,7 @@ public abstract class AeDataSource implements DataSource
    public static AeDataSource MAIN = null;
 
    /** The SQL configuration. */
+   @Inject
    private AeSQLConfig mSQLConfig;
 
    /** The underlying delegate JDBC data source. */

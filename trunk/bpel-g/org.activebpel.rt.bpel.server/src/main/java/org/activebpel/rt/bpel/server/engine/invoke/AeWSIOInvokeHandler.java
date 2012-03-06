@@ -9,25 +9,6 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpel.server.engine.invoke;
 
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-
-import javax.wsdl.Binding;
-import javax.wsdl.BindingInput;
-import javax.wsdl.BindingOperation;
-import javax.wsdl.Fault;
-import javax.wsdl.Message;
-import javax.wsdl.Operation;
-import javax.wsdl.Port;
-import javax.wsdl.PortType;
-import javax.wsdl.Service;
-import javax.wsdl.extensions.UnknownExtensibilityElement;
-import javax.xml.XMLConstants;
-import javax.xml.namespace.QName;
-
 import org.activebpel.rt.IAePolicyConstants;
 import org.activebpel.rt.bpel.AeBusinessProcessException;
 import org.activebpel.rt.bpel.AeWSDLDefHelper;
@@ -58,6 +39,13 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
 
+import javax.inject.Inject;
+import javax.wsdl.*;
+import javax.wsdl.extensions.UnknownExtensibilityElement;
+import javax.xml.XMLConstants;
+import javax.xml.namespace.QName;
+import java.util.*;
+
 /**
  * Base class for invoke handlers making calls that require WSDL, Policy and
  * WS-Addressing support
@@ -66,6 +54,7 @@ public abstract class AeWSIOInvokeHandler implements IAeInvokeHandler,
 		IAePolicyConstants {
 	public static final String STYLE_RPC = "rpc"; //$NON-NLS-1$
 	public static final String STYLE_DOCUMENT = "document"; //$NON-NLS-1$
+    @Inject
 	private IAeURNResolver mURNResolver;
 
 	/**

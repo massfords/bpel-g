@@ -13,8 +13,11 @@ import bpelg.services.deploy.AeDeployer;
 import bpelg.services.deploy.types.DeploymentResponse;
 import bpelg.services.deploy.types.UndeploymentRequest;
 
+import javax.inject.Inject;
+
 public class AeDeploymentService implements AeDeployer {
-	
+
+    @Inject
 	private IAeDeploymentFileHandler mDeploymentHandler;
 	
 	private static Log sLog = LogFactory.getLog(AeDeploymentService.class);

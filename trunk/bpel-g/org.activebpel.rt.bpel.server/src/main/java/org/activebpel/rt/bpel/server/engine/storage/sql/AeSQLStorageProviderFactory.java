@@ -24,6 +24,8 @@ import org.activebpel.rt.bpel.server.engine.storage.providers.IAeTransmissionTra
 import org.activebpel.rt.bpel.server.engine.storage.providers.IAeURNStorageProvider;
 import org.activebpel.rt.util.AeUtil;
 
+import javax.inject.Inject;
+
 /**
  * This factory instantiates SQL versions of the queue, and process state
  * storage objects.
@@ -36,6 +38,7 @@ public class AeSQLStorageProviderFactory implements IAeStorageProviderFactory
    private AeDataSource mDataSource;
 
    /** The SQL Config object. */
+   @Inject
    protected AeSQLConfig mSQLConfig;
    
    private String mVersion;

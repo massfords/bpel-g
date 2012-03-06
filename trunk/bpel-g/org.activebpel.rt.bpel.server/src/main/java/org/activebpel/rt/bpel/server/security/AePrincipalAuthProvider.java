@@ -9,15 +9,7 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpel.server.security;
 
-import java.security.Principal;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Set;
-
-import javax.security.auth.Subject;
-import javax.xml.namespace.QName;
-
+import bpelg.services.processes.types.ServiceDeployment;
 import org.activebpel.rt.bpel.AeBusinessProcessException;
 import org.activebpel.rt.bpel.AePreferences;
 import org.activebpel.rt.bpel.def.AePartnerLinkDef;
@@ -29,7 +21,13 @@ import org.activebpel.rt.bpel.server.engine.AeEngineFactory;
 import org.activebpel.rt.util.AeUtil;
 import org.activebpel.wsio.receive.IAeMessageContext;
 
-import bpelg.services.processes.types.ServiceDeployment;
+import javax.security.auth.Subject;
+import javax.xml.namespace.QName;
+import java.security.Principal;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Set;
 
 /**
  * Authorization provider that checks if one of a subject's principals is in

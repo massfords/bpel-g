@@ -2,14 +2,18 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:util="http://www.springframework.org/schema/util"
+    xmlns:context="http://www.springframework.org/schema/context"
     xmlns:bpelg="urn:bpel-g:spring-ext"
     xmlns:ws-bpel="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
     xmlns:jaxws="http://cxf.apache.org/jaxws"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
-                        http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.0.xsd
+    xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+                        http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.0.xsd
                         http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd
+                        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
                         urn:bpel-g:spring-ext
                         http://bpel-g.googlecode.com/svn/trunk/bpel-g/org.activebpel.rt.bpel/src/main/resources/springext-bpel.xsd">
+    <context:annotation-config/>
+
     <import resource="classpath:META-INF/cxf/cxf.xml"/>
     <import resource="classpath:META-INF/cxf/cxf-extension-soap.xml"/>
     <import resource="classpath:META-INF/cxf/cxf-servlet.xml"/>
@@ -34,22 +38,14 @@
         serviceName="s:PreferencesService" address="/PreferencesService"
         xmlns:s="urn:bpel-g:services:preferences"/>
 
-    <bean id="DeploymentService" class="org.activebpel.rt.bpel.server.services.AeDeploymentService">
-        <property name="DeploymentHandler" ref="DeploymentHandler"/>
-    </bean>
+    <bean id="DeploymentService" class="org.activebpel.rt.bpel.server.services.AeDeploymentService"/>
 
-    <bean id="ProcessManagerService" class="org.activebpel.rt.bpel.server.services.AeProcessManagerService">
-        <property name="ProcessManager" ref="ProcessManager"/>
-    </bean>
-    
-    <bean id="QueueManagerService" class="org.activebpel.rt.bpel.server.services.AeQueueManagerService">
-        <property name="QueueManager" ref="QueueManager"/>
-    </bean>
+    <bean id="ProcessManagerService" class="org.activebpel.rt.bpel.server.services.AeProcessManagerService"/>
 
-    <bean id="ResolverService" class="org.activebpel.rt.bpel.server.services.AeURNResolverService">
-        <property name="resolver" ref="URNResolver"/>
-    </bean>
-    
+    <bean id="QueueManagerService" class="org.activebpel.rt.bpel.server.services.AeQueueManagerService"/>
+
+    <bean id="ResolverService" class="org.activebpel.rt.bpel.server.services.AeURNResolverService"/>
+
     <bean id="PreferencesService" class="org.activebpel.rt.bpel.server.services.AePreferencesService"/>
 
     <bean id="TransactionManager"
@@ -78,8 +74,6 @@
 
     <bean id="QueueManager"
         class="org.activebpel.rt.bpel.server.engine.storage.AePersistentQueueManager">
-        <property name="TimerManager" ref="TimerManager"/>
-        <property name="StorageFactory" ref="StorageFactory"/>
         <property name="invokeHandlerFactory">
             <bean
                 class="org.activebpel.rt.bpel.server.engine.invoke.AeDelegatingInvokeHandlerFactory">
@@ -89,22 +83,15 @@
                             <bean class="org.activebpel.rt.axis.bpel.AeAxisInvokeHandlerFactory">
                                 <property name="handler">
                                     <bean class="org.activebpel.rt.axis.bpel.AeAxisInvokeHandler">
-                                        <property name="URNResolver" ref="URNResolver"/>
                                         <property name="styleMap">
                                             <util:map>
                                                 <entry key="rpc">
                                                   <bean
-                                                  class="org.activebpel.rt.axis.bpel.invokers.AeRpcStyleInvoker">
-                                                  <property name="messageFactory"
-                                                  ref="SOAPMessageFactory"/>
-                                                  </bean>
+                                                  class="org.activebpel.rt.axis.bpel.invokers.AeRpcStyleInvoker"/>
                                                 </entry>
                                                 <entry key="document">
                                                   <bean
-                                                  class="org.activebpel.rt.axis.bpel.invokers.AeDocumentStyleInvoker">
-                                                  <property name="messageFactory"
-                                                  ref="SOAPMessageFactory"/>
-                                                  </bean>
+                                                  class="org.activebpel.rt.axis.bpel.invokers.AeDocumentStyleInvoker"/>
                                                 </entry>
                                             </util:map>
                                         </property>
@@ -113,21 +100,13 @@
                             </bean>
                         </entry>
                         <entry key="camel">
-                            <bean class="org.activebpel.camel.AeCamelInvokeHandlerFactory">
-                                <property name="springManager" ref="SpringManager">
-                                </property>
-                            </bean>
+                            <bean class="org.activebpel.camel.AeCamelInvokeHandlerFactory"/>
                         </entry>
                         <entry key="java">
-                            <bean
-                                class="org.activebpel.rt.bpel.server.engine.invoke.AePojoHandlerFactory"
-                            />
+                            <bean class="org.activebpel.rt.bpel.server.engine.invoke.AePojoHandlerFactory"/>
                         </entry>
                         <entry key="process">
-                            <bean
-                                class="org.activebpel.rt.bpel.server.engine.invoke.AeProcessHandlerFactory">
-                                <property name="CoordinationManager" ref="CoordinationManager"/>
-                            </bean>
+                            <bean class="org.activebpel.rt.bpel.server.engine.invoke.AeProcessHandlerFactory"/>
                         </entry>
                         <entry key="policy">
                             <bean class="org.activebpel.rt.axis.bpel.AePolicyInvokeHandlerFactory"/>
@@ -149,9 +128,7 @@
                 <property name="delegates">
                     <util:map>
                         <entry key="default">
-                            <bean
-                                class="org.activebpel.rt.bpel.server.engine.receive.AeBPELReceiveHandlerFactory"
-                            />
+                            <bean class="org.activebpel.rt.bpel.server.engine.receive.AeBPELReceiveHandlerFactory"/>
                         </entry>
                         <entry key="soap">
                             <bean
@@ -174,16 +151,10 @@
 
     <bean id="LockManager" class="org.activebpel.rt.bpel.impl.AeInMemoryLockManager"/>
     <bean id="AttachmentManager"
-        class="org.activebpel.rt.bpel.server.engine.storage.AePersistentAttachmentManager">
-        <property name="StorageFactory" ref="StorageFactory"/>
-    </bean>
+        class="org.activebpel.rt.bpel.server.engine.storage.AePersistentAttachmentManager"/>
     <bean id="CoordinationManager"
-        class="org.activebpel.rt.bpel.server.coord.AePersistentCoordinationManager">
-        <property name="StorageFactory" ref="StorageFactory"/>
-    </bean>
-    <bean id="EngineAdminImpl" class="org.activebpel.rt.axis.bpel.web.AeWebEngineAdministration">
-        <property name="DeploymentHandler" ref="DeploymentHandler"/>
-    </bean>
+        class="org.activebpel.rt.bpel.server.coord.AePersistentCoordinationManager"/>
+    <bean id="EngineAdminImpl" class="org.activebpel.rt.axis.bpel.web.AeWebEngineAdministration"/>
     <bean id="DeploymentProvider" class="org.activebpel.rt.bpel.server.deploy.AeDeploymentProvider"/>
 
     <bean id="ExpressionLanguageFactory" class="org.activebpel.rt.bpel.AeExpressionLanguageFactory">
@@ -343,7 +314,6 @@
 
     <bean id="PartnerAddressing"
         class="org.activebpel.rt.bpel.server.addressing.AePartnerAddressing">
-        <property name="URNResolver" ref="URNResolver"/>
     </bean>
 
     <bean id="StorageFactory" class="org.activebpel.rt.bpel.server.engine.storage.AeStorageFactory"
@@ -352,7 +322,6 @@
             <bean
                 class="org.activebpel.rt.bpel.server.engine.storage.sql.AeSQLStorageProviderFactory">
                 <property name="version" value="5.0.2"/>
-                <property name="SQLConfig" ref="SQLConfig"/>
                 <property name="dataSource">
                     <bean
                         class="org.activebpel.rt.bpel.server.engine.storage.sql.AeFallbackDataSource"
@@ -362,19 +331,15 @@
                         <property name="username" value=""/>
                         <property name="password" value=""/>
                         -->
-                        <property name="SQLConfig" ref="SQLConfig"/>
                         <property name="SetTransactionIsolationLevel" value="false"/>
                     </bean>
                 </property>
                 <property name="queueStorageProvider">
                     <bean
                         class="org.activebpel.rt.bpel.server.engine.storage.sql.AeSQLQueueStorageProvider">
-                        <property name="SQLConfig" ref="SQLConfig"/>
-                        <property name="journalStorage" ref="JournalStorage"/>
                         <property name="Counter">
                             <bean class="org.activebpel.rt.bpel.server.engine.storage.AeCounter">
                                 <property name="counterName" value="queue"/>
-                                <property name="counterStore" ref="CounterStore"/>
                             </bean>
                         </property>
                     </bean>
@@ -382,12 +347,9 @@
                 <property name="processStateStorageProvider">
                     <bean
                         class="org.activebpel.rt.bpel.server.engine.storage.sql.AeSQLProcessStateStorageProvider">
-                        <property name="SQLConfig" ref="SQLConfig"/>
-                        <property name="journalStorage" ref="JournalStorage"/>
                         <property name="Counter">
                             <bean class="org.activebpel.rt.bpel.server.engine.storage.AeCounter">
                                 <property name="counterName" value="processState"/>
-                                <property name="counterStore" ref="CounterStore"/>
                             </bean>
                         </property>
                     </bean>
@@ -395,11 +357,9 @@
                 <property name="coordinationStorageProvider">
                     <bean
                         class="org.activebpel.rt.bpel.server.engine.storage.sql.AeSQLCoordinationStorageProvider">
-                        <property name="SQLConfig" ref="SQLConfig"/>
                         <property name="Counter">
                             <bean class="org.activebpel.rt.bpel.server.engine.storage.AeCounter">
                                 <property name="counterName" value="coord"/>
-                                <property name="counterStore" ref="CounterStore"/>
                             </bean>
                         </property>
                     </bean>
@@ -407,11 +367,9 @@
                 <property name="URNStorageProvider">
                     <bean
                         class="org.activebpel.rt.bpel.server.engine.storage.sql.AeSQLURNStorageProvider">
-                        <property name="SQLConfig" ref="SQLConfig"/>
                         <property name="Counter">
                             <bean class="org.activebpel.rt.bpel.server.engine.storage.AeCounter">
                                 <property name="counterName" value="urn"/>
-                                <property name="counterStore" ref="CounterStore"/>
                             </bean>
                         </property>
                     </bean>
@@ -419,11 +377,9 @@
                 <property name="transmissionTrackerStorageProvider">
                     <bean
                         class="org.activebpel.rt.bpel.server.engine.storage.sql.AeSQLTransmissionTrackerStorageProvider">
-                        <property name="SQLConfig" ref="SQLConfig"/>
                         <property name="Counter">
                             <bean class="org.activebpel.rt.bpel.server.engine.storage.AeCounter">
                                 <property name="counterName" value="transmission"/>
-                                <property name="counterStore" ref="CounterStore"/>
                             </bean>
                         </property>
                     </bean>
@@ -434,10 +390,8 @@
                         <property name="Counter">
                             <bean class="org.activebpel.rt.bpel.server.engine.storage.AeCounter">
                                 <property name="counterName" value="attachment"/>
-                                <property name="counterStore" ref="CounterStore"/>
                             </bean>
                         </property>
-                        <property name="SQLConfig" ref="SQLConfig"/>
                     </bean>
                 </property>
             </bean>
@@ -449,11 +403,9 @@
     </bean>
     <bean id="JournalStorage"
         class="org.activebpel.rt.bpel.server.engine.storage.sql.AeSQLJournalStorage">
-        <property name="SQLConfig" ref="SQLConfig"/>
         <property name="counter">
             <bean class="org.activebpel.rt.bpel.server.engine.storage.AeCounter">
                 <property name="counterName" value="attachment"/>
-                <property name="counterStore" ref="CounterStore"/>
             </bean>
         </property>
     </bean>
@@ -470,11 +422,7 @@
         </property>
     </bean>
     <bean id="ProcessManager"
-        class="org.activebpel.rt.bpel.server.engine.AePersistentProcessManager">
-        <property name="TimerManager" ref="TimerManager"/>
-        <property name="planManager" ref="DeploymentProvider"/>
-        <property name="StorageFactory" ref="StorageFactory"/>
-    </bean>
+        class="org.activebpel.rt.bpel.server.engine.AePersistentProcessManager"/>
 
     <bean id="TransmissionTracker"
         class="org.activebpel.rt.bpel.server.transreceive.AePersistentTransmissionTracker">
@@ -496,13 +444,11 @@
                 </property>
             </bean>
         </property>
-        <property name="storageFactory" ref="StorageFactory"/>
     </bean>
 
     <bean id="URNResolver"
         class="org.activebpel.rt.bpel.server.addressing.AeStorageBackedURNResolver"
         init-method="init">
-        <property name="storageFactory" ref="StorageFactory"/>
     </bean>
 
     <bean id="ProcessLogger" class="org.activebpel.rt.bpel.server.logging.AePersistentLogger" init-method="init">
@@ -540,12 +486,6 @@
     <bean id="ProcessWorkManager" class="org.activebpel.work.AeProcessWorkManager"/>
 
     <bean id="Engine" class="org.activebpel.rt.bpel.server.engine.AeBpelEngine" init-method="create">
-        <property name="URNResolver" ref="URNResolver"/>
-        <property name="PlanManager" ref="DeploymentProvider"/>
-        <property name="TransmissionTracker" ref="TransmissionTracker"/>
-        <property name="ExpressionLanguageFactory" ref="ExpressionLanguageFactory"/>
-        <property name="FunctionContainer" ref="FunctionContextContainer"/>
-        <property name="FunctionValidatorFactory" ref="FunctionValidatorFactory"/>
         <property name="PartnerLinkStrategy">
             <bean class="org.activebpel.rt.bpel.server.engine.AeServerPartnerLinkStrategy"/>
         </property>
@@ -609,14 +549,8 @@
         </property>
     </bean>
 
-    <bean id="RPCReceiveHandler" class="org.activebpel.rt.axis.bpel.receivers.AeRPCReceiveHandler">
-        <property name="messageFactory" ref="SOAPMessageFactory"/>
-        <property name="securityProvider" ref="SecurityProvider"/>
-    </bean>
-    <bean id="MSGReceiveHandler" class="org.activebpel.rt.axis.bpel.receivers.AeMSGReceiveHandler">
-        <property name="messageFactory" ref="SOAPMessageFactory"/>
-        <property name="securityProvider" ref="SecurityProvider"/>
-    </bean>
+    <bean id="RPCReceiveHandler" class="org.activebpel.rt.axis.bpel.receivers.AeRPCReceiveHandler"/>
+    <bean id="MSGReceiveHandler" class="org.activebpel.rt.axis.bpel.receivers.AeMSGReceiveHandler"/>
 
     <bean class="org.activebpel.rt.bpel.server.deploy.AeDelegatingDeploymentHandler">
         <property name="handlers">
@@ -626,15 +560,10 @@
 
                 <bean class="org.activebpel.rt.bpel.server.deploy.AeCatalogDeployer"/>
 
-                <bean class="org.activebpel.rt.bpel.server.deploy.AeBpelDeployer">
-                    <property name="ExpressionLanguageFactory" ref="ExpressionLanguageFactory"/>
-                    <property name="functionValidatorFactory" ref="FunctionValidatorFactory"/>
-                </bean>
+                <bean class="org.activebpel.rt.bpel.server.deploy.AeBpelDeployer"/>
                 <bean class="org.activebpel.rt.axis.bpel.web.deploy.AeAxisWebServicesDeployer"/>
                 <bean id="SpringDeployer"
-                    class="org.activebpel.rt.bpel.server.spring.AeSpringDeploymentHandler">
-                    <property name="SpringManager" ref="SpringManager"/>
-                </bean>
+                    class="org.activebpel.rt.bpel.server.spring.AeSpringDeploymentHandler"/>
             </util:list>
         </property>
     </bean>

@@ -9,19 +9,21 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpel;
 
-import java.util.Map;
-
 import org.activebpel.rt.AeException;
 import org.activebpel.rt.bpel.expr.IAeBpelExpressionLanguageFactory;
 import org.activebpel.rt.bpel.impl.expr.IAeExpressionRunner;
 import org.activebpel.rt.expr.def.IAeExpressionAnalyzer;
 import org.activebpel.rt.expr.validation.IAeExpressionValidator;
 
+import javax.inject.Singleton;
+import java.util.Map;
+
 /**
  * This implementation of the expression language factory uses the engine
  * configuration file to map expression languages to implementations of
  * validators and runners.
  */
+@Singleton
 public class AeExpressionLanguageFactory implements IAeExpressionLanguageFactory {
 
     /** The map of BPEL Namespace URI -> expression language factory. */

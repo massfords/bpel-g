@@ -9,35 +9,16 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpel.server.engine.storage.sql;
 
-import java.io.Reader;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Timestamp;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-
-import javax.xml.namespace.QName;
-
 import org.activebpel.rt.AeException;
 import org.activebpel.rt.bpel.def.AePartnerLinkOpKey;
-import org.activebpel.rt.bpel.impl.list.AeAlarmExt;
-import org.activebpel.rt.bpel.impl.list.AeAlarmFilter;
-import org.activebpel.rt.bpel.impl.list.AeAlarmListResult;
-import org.activebpel.rt.bpel.impl.list.AeMessageReceiverFilter;
-import org.activebpel.rt.bpel.impl.list.AeMessageReceiverListResult;
+import org.activebpel.rt.bpel.impl.list.*;
 import org.activebpel.rt.bpel.impl.queue.AeAlarm;
 import org.activebpel.rt.bpel.impl.queue.AeInboundReceive;
 import org.activebpel.rt.bpel.impl.queue.AeMessageReceiver;
 import org.activebpel.rt.bpel.server.AeMessages;
 import org.activebpel.rt.bpel.server.engine.recovery.journal.AeAlarmJournalEntry;
 import org.activebpel.rt.bpel.server.engine.recovery.journal.AeInboundReceiveJournalEntry;
-import org.activebpel.rt.bpel.server.engine.storage.AeCounter;
-import org.activebpel.rt.bpel.server.engine.storage.AePersistedAlarm;
-import org.activebpel.rt.bpel.server.engine.storage.AePersistedMessageReceiver;
-import org.activebpel.rt.bpel.server.engine.storage.AeStorageException;
-import org.activebpel.rt.bpel.server.engine.storage.AeStorageUtil;
+import org.activebpel.rt.bpel.server.engine.storage.*;
 import org.activebpel.rt.bpel.server.engine.storage.providers.IAeQueueStorageProvider;
 import org.activebpel.rt.bpel.server.engine.storage.providers.IAeStorageConnection;
 import org.activebpel.rt.bpel.server.engine.storage.sql.filters.AeSQLAlarmFilter;
@@ -49,6 +30,17 @@ import org.activebpel.rt.bpel.server.engine.storage.sql.handlers.AeMessageReceiv
 import org.activebpel.rt.util.AeCloser;
 import org.activebpel.rt.util.AeUtil;
 import org.apache.commons.dbutils.ResultSetHandler;
+
+import javax.inject.Inject;
+import javax.xml.namespace.QName;
+import java.io.Reader;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
 
 /**
  * This is a SQL Queue Storage provider (an implementation of IAeQueueStorageDelegate).
@@ -72,12 +64,11 @@ public class AeSQLQueueStorageProvider extends AeAbstractSQLStorageProvider impl
    private AeCounter mHashCollisionCounter;
 
    /** The journal storage. */
+   @Inject
    private AeSQLJournalStorage mJournalStorage;
    
    /**
     * Constructs a SQL Queue storage delegate given a SQL config object.
-    * 
-    * @param aConfig
     */
    public AeSQLQueueStorageProvider()
    {

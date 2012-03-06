@@ -1,19 +1,21 @@
 package org.activebpel.rt.bpel.server.services;
 
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-
-import org.activebpel.rt.bpel.urn.IAeURNResolver;
-
 import bpelg.services.urnresolver.AeURNResolver;
 import bpelg.services.urnresolver.types.AddMappingRequest;
 import bpelg.services.urnresolver.types.GetMappingsRequest;
 import bpelg.services.urnresolver.types.Mappings;
 import bpelg.services.urnresolver.types.Mappings.Mapping;
 import bpelg.services.urnresolver.types.Names;
+import org.activebpel.rt.bpel.urn.IAeURNResolver;
+
+import javax.inject.Inject;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 
 public class AeURNResolverService implements AeURNResolver {
+
+    @Inject
 	IAeURNResolver mResolver;
 
 	@Override

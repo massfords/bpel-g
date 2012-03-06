@@ -38,18 +38,23 @@ import commonj.timers.Timer;
 import commonj.timers.TimerListener;
 import commonj.timers.TimerManager;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
+
 /**
  * Queue Manager for server side operations.  Handles invokes through
  * an installed invoke handler.  This class can be used both as a concrete
  * implementation of a queue manager, as well as a base class for other queue
  * manager implementations (such as the persistent queue manager).
  */
+@Singleton
 public class AeInMemoryQueueManager extends AeBaseQueueManager
 {
    /** factory for creating invoke handlers */
    protected IAeInvokeHandlerFactory mInvokeHandlerFactory;
    /** factory for creating receive handlers */
    protected IAeReceiveHandlerFactory mReceiveHandlerFactory;
+   @Inject
    private TimerManager mTimerManager;
    
    /**

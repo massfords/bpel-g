@@ -9,11 +9,12 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpel.server.engine.storage.sql;
 
-import java.util.LinkedList;
-import java.util.List;
-
 import org.activebpel.rt.bpel.server.engine.storage.AeStorageConfig;
 import org.activebpel.rt.util.AeUtil;
+
+import javax.inject.Singleton;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * This class encapsulates the SQL statements used by the Active BPEL
@@ -22,6 +23,7 @@ import org.activebpel.rt.util.AeUtil;
  * is specific to the database being used. The values in the specific xml file
  * will override the values in the common file.
  */
+@Singleton
 public class AeSQLConfig extends AeStorageConfig {
     private static final String SQL_ELEM_NAME = "sql"; //$NON-NLS-1$
     private static final String SQL_STATEMENT_ELEM_NAME = "sql-statement"; //$NON-NLS-1$

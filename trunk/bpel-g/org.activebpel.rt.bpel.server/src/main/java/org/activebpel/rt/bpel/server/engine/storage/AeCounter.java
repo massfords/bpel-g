@@ -9,9 +9,10 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpel.server.engine.storage;
 
-import java.rmi.RemoteException;
-
 import org.activebpel.rt.bpel.server.AeMessages;
+
+import javax.inject.Inject;
+import java.rmi.RemoteException;
 
 /**
  * Implements persistent counters.
@@ -19,6 +20,7 @@ import org.activebpel.rt.bpel.server.AeMessages;
 public class AeCounter
 {
    /** The persistent counter store. */
+   @Inject
    private IAeCounterStore mCounterStore;
 
    /** Name of this counter. */

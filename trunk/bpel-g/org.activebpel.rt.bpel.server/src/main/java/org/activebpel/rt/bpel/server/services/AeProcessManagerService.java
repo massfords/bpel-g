@@ -6,6 +6,7 @@ import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 
+import javax.inject.Inject;
 import javax.xml.namespace.QName;
 
 import org.activebpel.rt.bpel.AeBusinessProcessException;
@@ -44,6 +45,8 @@ public class AeProcessManagerService implements AeProcessManager {
             return one.getService().compareTo(two.getService());
         }
     };
+
+    @Inject
     private IAeProcessManager mProcessManager;
 
     public IAeProcessManager getProcessManager() {

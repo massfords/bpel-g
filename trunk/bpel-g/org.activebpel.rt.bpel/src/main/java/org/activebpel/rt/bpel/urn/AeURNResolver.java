@@ -9,16 +9,18 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpel.urn; 
 
+import org.activebpel.rt.util.AeDeferredMapFactory;
+import org.activebpel.rt.util.AeUtil;
+
+import javax.inject.Singleton;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.StringTokenizer;
 
-import org.activebpel.rt.util.AeDeferredMapFactory;
-import org.activebpel.rt.util.AeUtil;
-
 /**
  * Resolves urns to urls. 
  */
+@Singleton
 public class AeURNResolver implements IAeURNResolver
 {
    /** Map of URN to URL values */

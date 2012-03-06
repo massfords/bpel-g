@@ -9,9 +9,6 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpel.server.engine.receive;
 
-import javax.security.auth.Subject;
-import javax.xml.namespace.QName;
-
 import org.activebpel.rt.AeException;
 import org.activebpel.rt.bpel.AeBusinessProcessException;
 import org.activebpel.rt.bpel.IAeEndpointReference;
@@ -42,6 +39,10 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import javax.inject.Inject;
+import javax.security.auth.Subject;
+import javax.xml.namespace.QName;
+
 /**
  * Common base class for implementations of IAeReceiveHandler
  */
@@ -49,6 +50,7 @@ public abstract class AeAbstractReceiveHandler implements IAeReceiveHandler,
 		IAeBPELReceiveHandler {
 	/** key for wsdl object added to the context */
 	protected static final String AE_CONTEXT_KEY_WSDL_OUTPUT = "ae.wsdl.output"; //$NON-NLS-1$
+    @Inject
 	private IAeSecurityProvider mSecurityProvider;
 
 	/**

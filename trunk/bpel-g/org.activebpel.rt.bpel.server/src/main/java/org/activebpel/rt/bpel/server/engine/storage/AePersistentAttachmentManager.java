@@ -14,6 +14,8 @@ import org.activebpel.rt.bpel.impl.attachment.IAeAttachmentStorage;
 import org.activebpel.rt.bpel.server.AeMessages;
 import org.activebpel.rt.bpel.server.engine.storage.attachment.AeCompositeAttachmentStorage;
 
+import javax.inject.Inject;
+
 /**
  * Implements a persistent attachment manager.
  */
@@ -24,6 +26,7 @@ public class AePersistentAttachmentManager extends AeFileAttachmentManager {
 	/** The default persistent storage object. */
 	private IAeAttachmentStorage mPersistentStorage;
 
+    @Inject
 	private IAeStorageFactory mStorageFactory;
 
 	/**

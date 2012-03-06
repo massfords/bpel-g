@@ -9,11 +9,6 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpel.server.engine.storage;
 
-import java.sql.SQLException;
-import java.util.Date;
-import java.util.Iterator;
-import java.util.List;
-
 import org.activebpel.rt.AeException;
 import org.activebpel.rt.bpel.AeBusinessProcessException;
 import org.activebpel.rt.bpel.impl.list.AeAlarmFilter;
@@ -29,18 +24,27 @@ import org.activebpel.rt.bpel.server.engine.AeInMemoryQueueManager;
 import org.activebpel.rt.bpel.server.engine.AePersistentProcessManager;
 import org.activebpel.wsio.IAeMessageAcknowledgeCallback;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
+import java.sql.SQLException;
+import java.util.Date;
+import java.util.Iterator;
+import java.util.List;
+
 /**
  * Implements a persistent queue manager. This is a version of the bpel engine
  * queue manager that will remember its state even across engine restarts. The
  * class delegates the work of actually saving state to a persistent queue
  * store.
  */
+@Singleton
 public class AePersistentQueueManager extends AeInMemoryQueueManager {
 	/**
 	 * The storage that this manager will use to store and retrieve queue
 	 * objects.
 	 */
 	protected IAeQueueStorage mStorage;
+    @Inject
 	private IAeStorageFactory mStorageFactory;
 
 	/**

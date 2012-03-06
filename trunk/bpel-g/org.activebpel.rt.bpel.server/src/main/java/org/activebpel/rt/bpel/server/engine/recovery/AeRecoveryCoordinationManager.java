@@ -33,11 +33,14 @@ import org.activebpel.rt.bpel.server.engine.recovery.recovered.coord.AeRecovered
 import org.activebpel.rt.bpel.server.engine.recovery.recovered.coord.AeRecoveredCompensateItem;
 import org.activebpel.rt.bpel.server.engine.recovery.recovered.coord.AeRecoveredCompensateOrCancelItem;
 
+import javax.inject.Singleton;
+
 /**
  * Recovery version of the coordination manager that creates recovered items in
  * order to replay them through the coordination manager after the process has
  * been completely recovered.
  */
+@Singleton
 public class AeRecoveryCoordinationManager implements
 		IAeRecoveryCoordinationManager {
 	/** The set of alarm and queue manager items generated during recovery. */

@@ -9,23 +9,23 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpel.server.deploy;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
-
-import javax.xml.namespace.QName;
-
+import bpelg.services.processes.types.ServiceDeployment;
 import org.activebpel.rt.bpel.AeBusinessProcessException;
 import org.activebpel.rt.bpel.impl.IAeProcessPlan;
 import org.activebpel.rt.bpel.server.AeMessages;
 import org.activebpel.rt.bpel.server.IAeProcessDeployment;
 
-import bpelg.services.processes.types.ServiceDeployment;
+import javax.inject.Singleton;
+import javax.xml.namespace.QName;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 
 /**
  * This class manages the deployment plans defined for BPEL processes.
  */
+@Singleton
 public class AeDeploymentProvider extends AeAbstractDeploymentProvider
 {
    /** The deployment plans which are currently deployed */

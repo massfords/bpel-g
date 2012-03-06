@@ -19,6 +19,7 @@ import java.util.Map;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
+import javax.inject.Singleton;
 import javax.xml.namespace.QName;
 
 import org.activebpel.rt.AeException;
@@ -41,6 +42,7 @@ import bpelg.services.processes.types.ProcessList;
 /**
  * Implements a simple in-memory process manager.
  */
+@Singleton
 public class AeInMemoryProcessManager extends AeAbstractProcessManager
 		implements IAeProcessManager {
 	public static final String CONFIG_COMPLETED_PROCESS_COUNT = "CompletedProcessCount"; //$NON-NLS-1$

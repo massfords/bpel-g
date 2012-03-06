@@ -9,25 +9,18 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpel.server.engine;
 
-import java.io.Reader;
-import java.sql.SQLException;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.LinkedHashMap;
-import java.util.Map;
-import java.util.Set;
-import java.util.prefs.PreferenceChangeEvent;
-import java.util.prefs.PreferenceChangeListener;
-
-import javax.xml.namespace.QName;
-
+import bpelg.services.deploy.types.pdd.PersistenceType;
+import bpelg.services.processes.types.ProcessFilterType;
+import bpelg.services.processes.types.ProcessInstanceDetail;
+import bpelg.services.processes.types.ProcessList;
+import bpelg.services.processes.types.ProcessStateFilterValueType;
+import commonj.timers.Timer;
+import commonj.timers.TimerListener;
+import commonj.timers.TimerManager;
+import commonj.work.Work;
+import commonj.work.WorkManager;
 import org.activebpel.rt.AeException;
-import org.activebpel.rt.bpel.AeBusinessProcessException;
-import org.activebpel.rt.bpel.AePreferences;
-import org.activebpel.rt.bpel.IAeBusinessProcess;
-import org.activebpel.rt.bpel.IAeFault;
-import org.activebpel.rt.bpel.IAeMonitorListener;
-import org.activebpel.rt.bpel.IAePlanManager;
+import org.activebpel.rt.bpel.*;
 import org.activebpel.rt.bpel.coord.IAeProtocolMessage;
 import org.activebpel.rt.bpel.def.visitors.AeDefToImplVisitor;
 import org.activebpel.rt.bpel.impl.AeAbstractProcessManager;
@@ -40,14 +33,7 @@ import org.activebpel.rt.bpel.server.AeMessages;
 import org.activebpel.rt.bpel.server.IAeDeploymentProvider;
 import org.activebpel.rt.bpel.server.IAeProcessDeployment;
 import org.activebpel.rt.bpel.server.deploy.AeProcessDeploymentFactory;
-import org.activebpel.rt.bpel.server.engine.process.AeProcessStateReader;
-import org.activebpel.rt.bpel.server.engine.process.AeProcessStateWriter;
-import org.activebpel.rt.bpel.server.engine.process.AeProcessWrapper;
-import org.activebpel.rt.bpel.server.engine.process.AeProcessWrapperMap;
-import org.activebpel.rt.bpel.server.engine.process.IAeProcessStateReader;
-import org.activebpel.rt.bpel.server.engine.process.IAeProcessStateWriter;
-import org.activebpel.rt.bpel.server.engine.process.IAeProcessWrapperMap;
-import org.activebpel.rt.bpel.server.engine.process.IAeProcessWrapperMapCallback;
+import org.activebpel.rt.bpel.server.engine.process.*;
 import org.activebpel.rt.bpel.server.engine.recovery.journal.AeInboundReceiveJournalEntry;
 import org.activebpel.rt.bpel.server.engine.recovery.journal.IAeJournalEntry;
 import org.activebpel.rt.bpel.server.engine.storage.AeStorageException;
@@ -60,17 +46,14 @@ import org.activebpel.rt.message.IAeMessageData;
 import org.activebpel.rt.util.AeDate;
 import org.activebpel.work.AeAbstractWork;
 
-import bpelg.services.deploy.types.pdd.PersistenceType;
-import bpelg.services.processes.types.ProcessFilterType;
-import bpelg.services.processes.types.ProcessInstanceDetail;
-import bpelg.services.processes.types.ProcessList;
-import bpelg.services.processes.types.ProcessStateFilterValueType;
-
-import commonj.timers.Timer;
-import commonj.timers.TimerListener;
-import commonj.timers.TimerManager;
-import commonj.work.Work;
-import commonj.work.WorkManager;
+import javax.inject.Inject;
+import javax.inject.Singleton;
+import javax.xml.namespace.QName;
+import java.io.Reader;
+import java.sql.SQLException;
+import java.util.*;
+import java.util.prefs.PreferenceChangeEvent;
+import java.util.prefs.PreferenceChangeListener;
 
 /**
  * Implements process manager that persists processes to an instance of
@@ -80,6 +63,7 @@ import commonj.work.WorkManager;
  * {@link #getProcess(long)} <strong>must</strong> must be balanced by a
  * corresponding call to {@link #releaseProcess(IAeBusinessProcess)}.
  */
+@Singleton
 public class AePersistentProcessManager extends AeAbstractProcessManager
 		implements IAePersistentProcessManager, IAeProcessWrapperMapCallback,
 		IAeRecoverableProcessManager, PreferenceChangeListener {
@@ -95,6 +79,7 @@ public class AePersistentProcessManager extends AeAbstractProcessManager
 	 * The plan manager that resolves a process <code>QName</code> to a context
 	 * WSDL provider for the process.
 	 */
+    @Inject
 	private IAePlanManager mPlanManager;
 
 	/** Maps process ids to process wrappers. */
@@ -139,15 +124,14 @@ public class AePersistentProcessManager extends AeAbstractProcessManager
 	 * recovery and the {@link #stop()} method.
 	 */
 	private final Object mRecoveryAndStopMutex = new Object();
+    @Inject
 	private IAeStorageFactory mStorageFactory;
+    @Inject
 	private TimerManager mTimerManager;
 
 	/**
 	 * Creates a persistent process manager given the manager's engine
 	 * configuration map.
-	 * 
-	 * @param aConfig
-	 *            The configuration map.
 	 */
 	public AePersistentProcessManager() throws Exception {
 		AePreferences.processes().addPreferenceChangeListener(this);

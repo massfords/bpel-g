@@ -9,15 +9,16 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpel.server.engine.storage.sql;
 
-import java.sql.Connection;
-import java.sql.SQLException;
-import java.text.MessageFormat;
-
 import org.activebpel.rt.bpel.server.AeMessages;
 import org.activebpel.rt.bpel.server.engine.storage.AeStorageException;
 import org.activebpel.rt.util.AeCloser;
 import org.activebpel.rt.util.AeUtil;
 import org.apache.commons.dbutils.ResultSetHandler;
+
+import javax.inject.Inject;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.text.MessageFormat;
 
 /**
  * Base class for SQL storage objects that extract sql statement from
@@ -26,6 +27,7 @@ import org.apache.commons.dbutils.ResultSetHandler;
 abstract public class AeAbstractSQLStorage extends AeSQLObject
 {
    /** SQL statement repository. */
+   @Inject
    protected AeSQLConfig mConfig;
    /** SQL key prefix. */
    protected String mPrefix;

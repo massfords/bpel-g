@@ -9,31 +9,18 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpel.server.coord;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
-import org.activebpel.rt.bpel.coord.AeCoordinationDetail;
-import org.activebpel.rt.bpel.coord.AeCoordinationException;
-import org.activebpel.rt.bpel.coord.AeCoordinationFaultException;
-import org.activebpel.rt.bpel.coord.AeCoordinationNotFoundException;
-import org.activebpel.rt.bpel.coord.IAeCoordinating;
-import org.activebpel.rt.bpel.coord.IAeCoordinator;
-import org.activebpel.rt.bpel.coord.IAeCreateContextRequest;
-import org.activebpel.rt.bpel.coord.IAeParticipant;
-import org.activebpel.rt.bpel.coord.IAeProtocolMessage;
-import org.activebpel.rt.bpel.coord.IAeProtocolState;
+import org.activebpel.rt.bpel.coord.*;
 import org.activebpel.rt.bpel.impl.IAeProcessManager;
 import org.activebpel.rt.bpel.server.coord.subprocess.IAeSpCoordinating;
 import org.activebpel.rt.util.AeUtil;
 
+import javax.inject.Singleton;
+import java.util.*;
+
 /**
  * In mememory implementation of a coordination manager.
  */
+@Singleton
 public class AeInMemoryCoordinationManager extends AeCoordinationManager
 {
    /**

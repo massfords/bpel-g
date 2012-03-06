@@ -1,10 +1,5 @@
 package org.activebpel.camel;
 
-import javax.wsdl.Operation;
-import javax.wsdl.PortType;
-import javax.xml.namespace.QName;
-import javax.xml.transform.dom.DOMSource;
-
 import org.activebpel.rt.bpel.AeBusinessProcessException;
 import org.activebpel.rt.bpel.AeWSDLDefHelper;
 import org.activebpel.rt.bpel.impl.queue.AeInvoke;
@@ -20,19 +15,22 @@ import org.activebpel.wsio.IAeWebServiceResponse;
 import org.activebpel.wsio.invoke.AeInvokeResponse;
 import org.activebpel.wsio.invoke.IAeInvoke;
 import org.activebpel.wsio.invoke.IAeInvokeHandler;
-import org.apache.camel.CamelContext;
-import org.apache.camel.Endpoint;
-import org.apache.camel.Exchange;
-import org.apache.camel.Message;
-import org.apache.camel.Producer;
+import org.apache.camel.*;
 import org.apache.camel.impl.DefaultCamelContext;
 import org.springframework.beans.BeansException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 
+import javax.inject.Inject;
+import javax.wsdl.Operation;
+import javax.wsdl.PortType;
+import javax.xml.namespace.QName;
+import javax.xml.transform.dom.DOMSource;
+
 public class AeCamelInvokeHandlerFactory implements IAeInvokeHandlerFactory, IAeInvokeHandler {
 
 	private DefaultCamelContext mContext = new DefaultCamelContext();
+    @Inject
 	private AeSpringManager mSpringManager;
 	
 	public AeCamelInvokeHandlerFactory() {
