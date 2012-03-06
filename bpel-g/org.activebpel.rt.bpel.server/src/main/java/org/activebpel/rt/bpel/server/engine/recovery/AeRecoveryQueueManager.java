@@ -9,24 +9,15 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpel.server.engine.recovery;
 
-import java.util.Date;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-
+import commonj.timers.Timer;
+import commonj.timers.TimerListener;
 import org.activebpel.rt.bpel.AeBusinessProcessException;
 import org.activebpel.rt.bpel.IAeBusinessProcess;
 import org.activebpel.rt.bpel.IAeFault;
 import org.activebpel.rt.bpel.coord.AeCoordinationDetail;
 import org.activebpel.rt.bpel.coord.AeCoordinationException;
 import org.activebpel.rt.bpel.coord.IAeCoordinator;
-import org.activebpel.rt.bpel.impl.AeBaseQueueManager;
-import org.activebpel.rt.bpel.impl.AeConflictingRequestException;
-import org.activebpel.rt.bpel.impl.AeCorrelationViolationException;
-import org.activebpel.rt.bpel.impl.IAeInvokeInternal;
-import org.activebpel.rt.bpel.impl.IAeProcessPlan;
-import org.activebpel.rt.bpel.impl.IAeReceiveHandler;
+import org.activebpel.rt.bpel.impl.*;
 import org.activebpel.rt.bpel.impl.activity.AeActivityInvokeImpl;
 import org.activebpel.rt.bpel.impl.activity.AeActivityScopeImpl;
 import org.activebpel.rt.bpel.impl.queue.AeAlarm;
@@ -37,24 +28,20 @@ import org.activebpel.rt.bpel.impl.reply.IAeTransmissionTracker;
 import org.activebpel.rt.bpel.server.AeMessages;
 import org.activebpel.rt.bpel.server.engine.receive.AeDefaultReceiveHandler;
 import org.activebpel.rt.bpel.server.engine.recovery.journal.AeInvokeTransmittedJournalEntry;
-import org.activebpel.rt.bpel.server.engine.recovery.recovered.AeRecoveredAddReceiverItem;
-import org.activebpel.rt.bpel.server.engine.recovery.recovered.AeRecoveredAddReplyItem;
-import org.activebpel.rt.bpel.server.engine.recovery.recovered.AeRecoveredRemoveAlarmItem;
-import org.activebpel.rt.bpel.server.engine.recovery.recovered.AeRecoveredScheduleAlarmItem;
-import org.activebpel.rt.bpel.server.engine.recovery.recovered.AeRecoveredSendReplyItem;
-import org.activebpel.rt.bpel.server.engine.recovery.recovered.IAeRecoveredItem;
+import org.activebpel.rt.bpel.server.engine.recovery.recovered.*;
 import org.activebpel.rt.message.IAeMessageData;
 import org.activebpel.rt.util.AeUtil;
 import org.activebpel.wsio.IAeMessageAcknowledgeCallback;
 
-import commonj.timers.Timer;
-import commonj.timers.TimerListener;
+import javax.inject.Singleton;
+import java.util.*;
 
 /**
  * Implements a queue manager for recovery. Extends {@link AeBaseQueueManager}
  * to leverage its functionality for matching inbound receives to message
  * receivers.
  */
+@Singleton
 public class AeRecoveryQueueManager extends AeBaseQueueManager implements IAeRecoveryQueueManager
 {
    /** The set of alarm and queue manager items generated during recovery. */

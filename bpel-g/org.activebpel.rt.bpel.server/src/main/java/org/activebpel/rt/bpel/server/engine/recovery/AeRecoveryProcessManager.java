@@ -9,10 +9,9 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpel.server.engine.recovery;
 
-import java.util.Map;
-
-import javax.xml.namespace.QName;
-
+import bpelg.services.processes.types.ProcessFilterType;
+import bpelg.services.processes.types.ProcessInstanceDetail;
+import bpelg.services.processes.types.ProcessList;
 import org.activebpel.rt.bpel.AeBusinessProcessException;
 import org.activebpel.rt.bpel.IAeBusinessProcess;
 import org.activebpel.rt.bpel.IAeFault;
@@ -26,13 +25,14 @@ import org.activebpel.rt.bpel.impl.queue.AeReply;
 import org.activebpel.rt.bpel.server.AeMessages;
 import org.activebpel.rt.message.IAeMessageData;
 
-import bpelg.services.processes.types.ProcessFilterType;
-import bpelg.services.processes.types.ProcessInstanceDetail;
-import bpelg.services.processes.types.ProcessList;
+import javax.inject.Singleton;
+import javax.xml.namespace.QName;
+import java.util.Map;
 
 /**
  * Implements a process manager for recovery.
  */
+@Singleton
 public class AeRecoveryProcessManager extends AeManagerAdapter implements IAeRecoveryProcessManager
 {
    /** The process that is currently being recovered. */

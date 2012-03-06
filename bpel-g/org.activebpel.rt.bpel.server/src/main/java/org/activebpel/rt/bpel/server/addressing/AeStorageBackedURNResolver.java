@@ -9,19 +9,23 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpel.server.addressing;
 
-import java.util.HashMap;
-
 import org.activebpel.rt.bpel.server.engine.storage.AeStorageException;
 import org.activebpel.rt.bpel.server.engine.storage.IAeStorageFactory;
 import org.activebpel.rt.bpel.server.engine.storage.IAeURNStorage;
 import org.activebpel.rt.bpel.urn.AeURNResolver;
 import org.activebpel.rt.util.AeUtil;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
+import java.util.HashMap;
+
 /**
  * Keeps all of the mappings in memory.
  */
+@Singleton
 public class AeStorageBackedURNResolver extends AeURNResolver implements
 		IAeStorageBackedURNResolver {
+    @Inject
 	IAeStorageFactory mStorageFactory;
 
 	public void init() throws AeStorageException {

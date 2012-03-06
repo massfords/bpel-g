@@ -9,17 +9,7 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpel.server.addressing;
 
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-
-import javax.wsdl.Port;
-import javax.wsdl.Service;
-import javax.xml.namespace.QName;
-import javax.xml.rpc.handler.soap.SOAPMessageContext;
-import javax.xml.soap.SOAPException;
-import javax.xml.soap.SOAPHeader;
-
+import bpelg.services.processes.types.ServiceDeployment;
 import org.activebpel.rt.AeException;
 import org.activebpel.rt.IAeConstants;
 import org.activebpel.rt.IAePolicyConstants;
@@ -28,11 +18,7 @@ import org.activebpel.rt.bpel.AeWSDLDefHelper;
 import org.activebpel.rt.bpel.IAeEndpointReference;
 import org.activebpel.rt.bpel.def.AePartnerLinkDef;
 import org.activebpel.rt.bpel.impl.AeEndpointReference;
-import org.activebpel.rt.bpel.impl.addressing.AeAddressingHeaders;
-import org.activebpel.rt.bpel.impl.addressing.AeWsAddressingFactory;
-import org.activebpel.rt.bpel.impl.addressing.IAeAddressingDeserializer;
-import org.activebpel.rt.bpel.impl.addressing.IAeAddressingHeaders;
-import org.activebpel.rt.bpel.impl.addressing.IAeAddressingSerializer;
+import org.activebpel.rt.bpel.impl.addressing.*;
 import org.activebpel.rt.bpel.server.AeMessages;
 import org.activebpel.rt.bpel.server.IAeProcessDeployment;
 import org.activebpel.rt.bpel.server.deploy.IAePolicyMapper;
@@ -44,13 +30,18 @@ import org.activebpel.rt.wsdl.def.AeBPELExtendedWSDLDef;
 import org.activebpel.wsio.AeWsAddressingException;
 import org.activebpel.wsio.IAeWebServiceEndpointReference;
 import org.activebpel.wsio.IAeWsAddressingHeaders;
-import org.w3c.dom.Document;
-import org.w3c.dom.DocumentFragment;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
+import org.w3c.dom.*;
 
-import bpelg.services.processes.types.ServiceDeployment;
+import javax.inject.Inject;
+import javax.wsdl.Port;
+import javax.wsdl.Service;
+import javax.xml.namespace.QName;
+import javax.xml.rpc.handler.soap.SOAPMessageContext;
+import javax.xml.soap.SOAPException;
+import javax.xml.soap.SOAPHeader;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 
 /**
  * The partner addressing layer is responsible for providing endpoint references
@@ -60,6 +51,7 @@ import bpelg.services.processes.types.ServiceDeployment;
  */
 public class AePartnerAddressing implements IAePartnerAddressing
 {
+   @Inject
    private IAeURNResolver mURNResolver;
    
    /**

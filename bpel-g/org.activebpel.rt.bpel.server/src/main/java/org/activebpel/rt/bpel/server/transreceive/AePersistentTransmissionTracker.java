@@ -9,8 +9,6 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpel.server.transreceive;
 
-import java.util.Set;
-
 import org.activebpel.rt.AeException;
 import org.activebpel.rt.bpel.impl.reply.IAeDurableReplyFactory;
 import org.activebpel.rt.bpel.impl.reply.IAeTransmissionTracker;
@@ -20,14 +18,20 @@ import org.activebpel.rt.bpel.server.engine.storage.IAeStorageFactory;
 import org.activebpel.rt.bpel.server.engine.storage.IAeTransmissionTrackerStorage;
 import org.activebpel.wsio.invoke.IAeTransmission;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
+import java.util.Set;
+
 /**
  * Implements the persistent version of a transmission manager which is required
  * for durable invokes and durable replies.
  * 
  */
+@Singleton
 public class AePersistentTransmissionTracker implements IAeTransmissionTracker {
 	/** Durable reply factory. */
 	private IAeDurableReplyFactory mDurableReplyFactory;
+    @Inject
 	private IAeStorageFactory mStorageFactory;
 
 	/**

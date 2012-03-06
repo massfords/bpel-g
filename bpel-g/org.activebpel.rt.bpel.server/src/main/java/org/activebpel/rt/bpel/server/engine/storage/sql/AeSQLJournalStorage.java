@@ -9,8 +9,6 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpel.server.engine.storage.sql;
 
-import java.sql.Connection;
-
 import org.activebpel.rt.bpel.AeBusinessProcessException;
 import org.activebpel.rt.bpel.impl.IAeBusinessProcessEngineInternal;
 import org.activebpel.rt.bpel.impl.fastdom.AeFastDocument;
@@ -22,9 +20,13 @@ import org.activebpel.rt.bpel.server.engine.storage.AeStorageException;
 import org.activebpel.rt.util.AeCloser;
 import org.activebpel.rt.xml.schema.AeTypeMapping;
 
+import javax.inject.Singleton;
+import java.sql.Connection;
+
 /**
  * A SQL journal storage.  Used to write journal entries to a SQL database.
  */
+@Singleton
 public class AeSQLJournalStorage extends AeAbstractSQLStorage
 {
    /** The SQL statement prefix for all SQL statements used in this class. */
@@ -34,8 +36,6 @@ public class AeSQLJournalStorage extends AeAbstractSQLStorage
 
    /**
     * Constructs the journal storage given the SQL config to use to resolve SQL statements.
-    * 
-    * @param aConfig
     */
    protected AeSQLJournalStorage()
    {

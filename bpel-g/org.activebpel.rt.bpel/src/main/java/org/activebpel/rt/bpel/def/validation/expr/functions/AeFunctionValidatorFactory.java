@@ -13,6 +13,7 @@ package org.activebpel.rt.bpel.def.validation.expr.functions;
 import org.activebpel.rt.expr.validation.functions.IAeFunctionValidator;
 import org.activebpel.rt.expr.validation.functions.IAeFunctionValidatorFactory;
 
+import javax.inject.Singleton;
 import javax.xml.namespace.QName;
 import java.util.HashMap;
 import java.util.Map;
@@ -20,6 +21,7 @@ import java.util.Map;
 /**
  * Provides lookup of validator given a function qname and BPEL namespace.
  */
+@Singleton
 public class AeFunctionValidatorFactory implements IAeFunctionValidatorFactory {
     private Map<QName, IAeFunctionValidator> mFunctionValidators = new HashMap<QName, IAeFunctionValidator>();
 

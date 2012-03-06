@@ -9,8 +9,6 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.axis.bpel.web;
 
-import java.io.File;
-
 import org.activebpel.rt.AeException;
 import org.activebpel.rt.bpel.server.deploy.scanner.IAeDeploymentFileHandler;
 import org.activebpel.rt.bpel.server.engine.AeEngineAdministration;
@@ -19,6 +17,9 @@ import org.activebpel.rt.bpel.server.logging.AeTeeDeploymentLogger;
 import org.activebpel.rt.bpel.server.logging.IAeDeploymentLogger;
 import org.activebpel.rt.bpel.server.logging.IAeDeploymentLoggerFactory;
 
+import javax.inject.Inject;
+import java.io.File;
+
 /**
  * This is an implementation of the ActiveBPEL engine administration interface.
  * It extends the base implementation in order to override the
@@ -26,6 +27,7 @@ import org.activebpel.rt.bpel.server.logging.IAeDeploymentLoggerFactory;
  * that method in order to allow web service deployments to work in ActiveBPEL.
  */
 public class AeWebEngineAdministration extends AeEngineAdministration {
+    @Inject
 	private IAeDeploymentFileHandler mDeploymentHandler;
 
 	/**

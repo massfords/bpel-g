@@ -9,17 +9,6 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.axis.bpel.invokers; 
 
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-
-import javax.activation.DataHandler;
-import javax.wsdl.Part;
-import javax.xml.namespace.QName;
-import javax.xml.soap.MessageFactory;
-import javax.xml.soap.SOAPException;
-import javax.xml.soap.SOAPMessage;
-
 import org.activebpel.rt.AeException;
 import org.activebpel.rt.axis.bpel.handlers.AeAttachmentUtil;
 import org.activebpel.rt.util.AeCloser;
@@ -30,12 +19,23 @@ import org.apache.axis.attachments.AttachmentPart;
 import org.apache.axis.message.SOAPHeaderElement;
 import org.w3c.dom.Document;
 
+import javax.activation.DataHandler;
+import javax.inject.Inject;
+import javax.wsdl.Part;
+import javax.xml.namespace.QName;
+import javax.xml.soap.MessageFactory;
+import javax.xml.soap.SOAPException;
+import javax.xml.soap.SOAPMessage;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+
 /**
  * Base class for RPC and DOC invokers. 
  */
 public abstract class AeSOAPInvoker implements IAeInvoker
 {
-
+    @Inject
 	private MessageFactory mMessageFactory;
    
    /**

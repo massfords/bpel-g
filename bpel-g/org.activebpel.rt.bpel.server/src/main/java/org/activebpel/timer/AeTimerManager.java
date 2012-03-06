@@ -12,14 +12,14 @@ package org.activebpel.timer;
 import commonj.timers.Timer;
 import commonj.timers.TimerListener;
 import commonj.timers.TimerManager;
-
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.Iterator;
-
 import org.activebpel.rt.AeException;
 import org.activebpel.rt.bpel.server.AeMessages;
 import org.activebpel.rt.timersvc.AeTimerService;
+
+import javax.inject.Singleton;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.Iterator;
 
 /**
  * Implementation of the TimerManager for Application Servers spec from CommonJ.
@@ -27,6 +27,7 @@ import org.activebpel.rt.timersvc.AeTimerService;
  * 
  * Reference: http://dev2dev.bea.com/technologies/commonj/twm/index.jsp 
  */
+@Singleton
 public class AeTimerManager implements TimerManager, IAeStoppableTimerManager
 {
    /** Timer Manager state indicating that we are running */

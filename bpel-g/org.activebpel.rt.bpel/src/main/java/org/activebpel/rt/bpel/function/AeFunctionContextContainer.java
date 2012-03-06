@@ -9,22 +9,19 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpel.function;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Set;
-
 import org.activebpel.rt.AeException;
 import org.activebpel.rt.bpel.AeMessages;
 import org.activebpel.rt.bpel.def.IAeBPELConstants;
 import org.activebpel.rt.bpel.impl.function.AeInvalidFunctionContextException;
 import org.activebpel.rt.util.AeUtil;
 
+import javax.inject.Singleton;
+import java.util.*;
+
 /**
  * Container for custom function contexts.
  */
+@Singleton
 public class AeFunctionContextContainer
 {
    /** Internal storage for mapping namespace to function contexts. */

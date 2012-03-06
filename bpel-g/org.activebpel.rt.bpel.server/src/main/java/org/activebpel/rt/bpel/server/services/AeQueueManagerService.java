@@ -3,6 +3,7 @@ package org.activebpel.rt.bpel.server.services;
 import java.util.Iterator;
 import java.util.Map.Entry;
 
+import javax.inject.Inject;
 import javax.xml.namespace.QName;
 
 import org.activebpel.rt.bpel.impl.AeUnmatchedReceive;
@@ -19,7 +20,8 @@ import bpelg.services.queue.types.MessageRoutingDetails.Message;
 import bpelg.services.queue.types.MessageRoutingDetails.Message.Part;
 
 public class AeQueueManagerService implements AeQueueManager {
-	
+
+    @Inject
 	private IAeQueueManager mQueueManager;
 
 	@Override

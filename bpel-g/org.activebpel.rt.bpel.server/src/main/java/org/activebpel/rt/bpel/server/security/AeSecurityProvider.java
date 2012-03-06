@@ -9,17 +9,18 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpel.server.security;
 
-import java.util.Set;
-
-import javax.security.auth.Subject;
-
 import org.activebpel.rt.bpel.server.AeMessages;
 import org.activebpel.wsio.receive.IAeMessageContext;
+
+import javax.inject.Singleton;
+import javax.security.auth.Subject;
+import java.util.Set;
 
 /**
  * Security provider that acesses login and authorization providers
  * configured in the engine config
  */
+@Singleton
 public class AeSecurityProvider implements IAeSecurityProvider
 {
    private IAeLoginProvider mLoginProvider;

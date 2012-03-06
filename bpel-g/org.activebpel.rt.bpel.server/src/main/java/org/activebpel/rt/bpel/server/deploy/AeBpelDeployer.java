@@ -9,8 +9,7 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpel.server.deploy;
 
-import java.text.MessageFormat;
-
+import bpelg.services.processes.types.ProcessFilterType;
 import org.activebpel.rt.AeException;
 import org.activebpel.rt.bpel.IAeExpressionLanguageFactory;
 import org.activebpel.rt.bpel.def.validation.IAeBaseErrorReporter;
@@ -27,7 +26,8 @@ import org.activebpel.rt.util.AeUtil;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import bpelg.services.processes.types.ProcessFilterType;
+import javax.inject.Inject;
+import java.text.MessageFormat;
 
 /**
  * IAeBpelDeployer impl.
@@ -36,7 +36,9 @@ public class AeBpelDeployer implements IAeDeploymentHandler {
 
     private static Log sLog = LogFactory.getLog(AeBpelDeployer.class);
 
+    @Inject
     private IAeExpressionLanguageFactory mExpressionLanguageFactory;
+    @Inject
     private IAeFunctionValidatorFactory mFunctionValidatorFactory;
 
     @Override

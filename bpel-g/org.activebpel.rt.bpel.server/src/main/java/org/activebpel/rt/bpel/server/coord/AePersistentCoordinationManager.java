@@ -9,26 +9,24 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpel.server.coord;
 
-import java.util.Iterator;
-import java.util.List;
-
 import org.activebpel.rt.AeException;
-import org.activebpel.rt.bpel.coord.AeCoordinationDetail;
-import org.activebpel.rt.bpel.coord.AeCoordinationException;
-import org.activebpel.rt.bpel.coord.AeCoordinationNotFoundException;
-import org.activebpel.rt.bpel.coord.IAeCoordinating;
-import org.activebpel.rt.bpel.coord.IAeCreateContextRequest;
-import org.activebpel.rt.bpel.coord.IAeProtocolMessage;
-import org.activebpel.rt.bpel.coord.IAeProtocolState;
+import org.activebpel.rt.bpel.coord.*;
 import org.activebpel.rt.bpel.impl.IAeProcessManager;
 import org.activebpel.rt.bpel.server.engine.storage.IAeCoordinationStorage;
 import org.activebpel.rt.bpel.server.engine.storage.IAeStorageFactory;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
+import java.util.Iterator;
+import java.util.List;
+
 /**
  * Persistent Coordination manager implementation.
  */
+@Singleton
 public class AePersistentCoordinationManager extends AeCoordinationManager
 {
+   @Inject
    private IAeStorageFactory mStorageFactory;
    private IAeCoordinationStorage mStorage;
    

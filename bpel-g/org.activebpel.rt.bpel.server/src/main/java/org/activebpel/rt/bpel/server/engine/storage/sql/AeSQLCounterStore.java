@@ -9,11 +9,6 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpel.server.engine.storage.sql;
 
-import java.sql.Connection;
-import java.sql.SQLException;
-import java.util.Collections;
-import java.util.Map;
-
 import org.activebpel.rt.AeException;
 import org.activebpel.rt.bpel.server.AeMessages;
 import org.activebpel.rt.bpel.server.engine.storage.AeStorageException;
@@ -21,9 +16,16 @@ import org.activebpel.rt.bpel.server.engine.storage.IAeCounterStore;
 import org.activebpel.rt.util.AeCloser;
 import org.activebpel.rt.util.AeUtil;
 
+import javax.inject.Singleton;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.util.Collections;
+import java.util.Map;
+
 /**
  * Implements persistent counter store in the database.
  */
+@Singleton
 public class AeSQLCounterStore extends AeSQLObject implements IAeCounterStore
 {
    private static final String SQL_GET_COUNTER_VALUE    = "GetCounterValue"; //$NON-NLS-1$

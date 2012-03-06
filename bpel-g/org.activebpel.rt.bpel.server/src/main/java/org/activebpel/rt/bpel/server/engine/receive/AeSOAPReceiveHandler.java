@@ -9,21 +9,6 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpel.server.engine.receive;
 
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-
-import javax.wsdl.Message;
-import javax.wsdl.Part;
-import javax.xml.namespace.QName;
-import javax.xml.soap.Detail;
-import javax.xml.soap.MessageFactory;
-import javax.xml.soap.SOAPBody;
-import javax.xml.soap.SOAPElement;
-import javax.xml.soap.SOAPEnvelope;
-import javax.xml.soap.SOAPException;
-import javax.xml.soap.SOAPFault;
-import javax.xml.soap.SOAPMessage;
-
 import org.activebpel.rt.IAeConstants;
 import org.activebpel.rt.bpel.AeBusinessProcessException;
 import org.activebpel.rt.bpel.AeMessageDataFactory;
@@ -46,6 +31,14 @@ import org.activebpel.wsio.invoke.AeInvokeResponse;
 import org.activebpel.wsio.receive.AeMessageContext;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+
+import javax.inject.Inject;
+import javax.wsdl.Message;
+import javax.wsdl.Part;
+import javax.xml.namespace.QName;
+import javax.xml.soap.*;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
 
 /**
  * Abstract receive handler for handling input and output data as SOAPEnvelope
@@ -70,6 +63,7 @@ public abstract class AeSOAPReceiveHandler extends AeAbstractReceiveHandler {
 	 */
 	public static final String PORT_TYPE_ENTRY = "org.activebpel.rt.axis.PortTypeEntry"; //$NON-NLS-1$
 
+    @Inject
 	private MessageFactory mMessageFactory;
 
 	/**

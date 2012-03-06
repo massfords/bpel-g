@@ -9,41 +9,10 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpel.impl;
 
-import java.net.URL;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Set;
-import java.util.concurrent.CopyOnWriteArraySet;
-
-import javax.xml.namespace.QName;
-
 import org.activebpel.rt.AeException;
 import org.activebpel.rt.IAePolicyConstants;
 import org.activebpel.rt.attachment.IAeAttachmentItem;
-import org.activebpel.rt.bpel.AeBusinessProcessException;
-import org.activebpel.rt.bpel.AeEngineEventType;
-import org.activebpel.rt.bpel.AeMessages;
-import org.activebpel.rt.bpel.AePreferences;
-import org.activebpel.rt.bpel.AeWSDLDefHelper;
-import org.activebpel.rt.bpel.IAeBusinessProcess;
-import org.activebpel.rt.bpel.IAeEndpointReference;
-import org.activebpel.rt.bpel.IAeEngineAlert;
-import org.activebpel.rt.bpel.IAeEngineEvent;
-import org.activebpel.rt.bpel.IAeEngineListener;
-import org.activebpel.rt.bpel.IAeExpressionLanguageFactory;
-import org.activebpel.rt.bpel.IAeFault;
-import org.activebpel.rt.bpel.IAeInvokeActivity;
-import org.activebpel.rt.bpel.IAeMonitorListener;
-import org.activebpel.rt.bpel.IAePartnerLink;
-import org.activebpel.rt.bpel.IAePlanManager;
-import org.activebpel.rt.bpel.IAeProcessEvent;
-import org.activebpel.rt.bpel.IAeProcessInfoEvent;
-import org.activebpel.rt.bpel.IAeProcessListener;
-import org.activebpel.rt.bpel.AeProcessInfoEventType;
+import org.activebpel.rt.bpel.*;
 import org.activebpel.rt.bpel.coord.IAeCoordinationContext;
 import org.activebpel.rt.bpel.def.AePartnerLinkDef;
 import org.activebpel.rt.bpel.def.AePartnerLinkOpKey;
@@ -77,6 +46,12 @@ import org.activebpel.wsio.receive.IAeMessageContext;
 import org.w3c.dom.Document;
 import org.xml.sax.InputSource;
 
+import javax.inject.Inject;
+import javax.xml.namespace.QName;
+import java.net.URL;
+import java.util.*;
+import java.util.concurrent.CopyOnWriteArraySet;
+
 /** The class implementing the business process execution engine. */
 public class AeBusinessProcessEngine implements IAeBusinessProcessEngineInternal, IAeBusinessProcessEngineCallback
 {
@@ -85,6 +60,7 @@ public class AeBusinessProcessEngine implements IAeBusinessProcessEngineInternal
     */
    private static final int DEFAULT_ENGINE_ID = 1;
 
+   @Inject
    private IAeURNResolver mURNResolver;
 
    /** The monitor status which indicates the current health of the system */
@@ -103,6 +79,7 @@ public class AeBusinessProcessEngine implements IAeBusinessProcessEngineInternal
    protected Map<Long,CopyOnWriteArraySet<IAeProcessListener>> mProcessListeners = new HashMap<Long,CopyOnWriteArraySet<IAeProcessListener>>();
 
    /** Maps process QName to its process plan */
+   @Inject
    protected IAePlanManager mPlanManager;
 
    /** The type mapping to use when converting from schema to java and back. */
@@ -115,6 +92,7 @@ public class AeBusinessProcessEngine implements IAeBusinessProcessEngineInternal
    private IAeEnginePartnerLinkStrategy mPartnerLinkStrategy;
 
    /** Transmit and receive id manager. */
+   @Inject
    private IAeTransmissionTracker  mTransmissionTracker;
 
    /**
@@ -128,10 +106,13 @@ public class AeBusinessProcessEngine implements IAeBusinessProcessEngineInternal
    protected Map<Long,Long> mProcessJournalIdMap = Collections.synchronizedMap( new HashMap<Long,Long>() );
 
    private Map<String,IAeManager> mManagers = new HashMap<String,IAeManager>();
-   
+
+   @Inject
    private IAeExpressionLanguageFactory mExpressionLanguageFactory;
+   @Inject
    private AeFunctionContextContainer mFunctionContainer;
    /** A cached function validator factory. */
+   @Inject
    protected IAeFunctionValidatorFactory mFunctionValidatorFactory;
 
    /**

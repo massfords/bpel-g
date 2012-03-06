@@ -1,11 +1,5 @@
 package org.activebpel.rt.bpel.server.spring;
 
-import java.net.URL;
-import java.util.HashSet;
-import java.util.Set;
-
-import javax.xml.namespace.QName;
-
 import org.activebpel.rt.AeException;
 import org.activebpel.rt.bpel.server.deploy.IAeDeploymentContainer;
 import org.activebpel.rt.bpel.server.deploy.IAeDeploymentHandler;
@@ -16,6 +10,12 @@ import org.springframework.context.support.GenericApplicationContext;
 import org.springframework.core.io.DefaultResourceLoader;
 import org.springframework.core.io.UrlResource;
 
+import javax.inject.Inject;
+import javax.xml.namespace.QName;
+import java.net.URL;
+import java.util.HashSet;
+import java.util.Set;
+
 /**
  * Handles the deployment of a spring context within a deployment container.
  * For now, the context MUST be located at META-INF/applicationContext.xml
@@ -25,6 +25,7 @@ import org.springframework.core.io.UrlResource;
 public class AeSpringDeploymentHandler implements IAeDeploymentHandler {
 
 	/** reference to the manager that holds onto the context */
+    @Inject
 	private AeSpringManager mSpringManager;
 	
 	@Override

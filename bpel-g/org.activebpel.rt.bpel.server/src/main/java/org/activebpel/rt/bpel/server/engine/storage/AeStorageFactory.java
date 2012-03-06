@@ -20,11 +20,14 @@ import org.activebpel.rt.bpel.server.engine.storage.providers.IAeQueueStoragePro
 import org.activebpel.rt.bpel.server.engine.storage.providers.IAeTransmissionTrackerStorageProvider;
 import org.activebpel.rt.bpel.server.engine.storage.providers.IAeURNStorageProvider;
 
+import javax.inject.Singleton;
+
 /**
  * A basic storage factory - this class creates the various storage objects. It
  * uses a storage provider factory to create the providers needed by the
  * storages.
  */
+@Singleton
 public class AeStorageFactory implements IAeStorageFactory {
     /** The storage provider factory. */
     private IAeStorageProviderFactory mStorageProviderFactory;

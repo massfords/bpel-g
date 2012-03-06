@@ -1,15 +1,15 @@
 package org.activebpel.rt.bpel.server.spring;
 
-import java.util.Map;
-import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
-
-import javax.xml.namespace.QName;
-
 import org.activebpel.rt.bpel.impl.AeManagerAdapter;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.GenericApplicationContext;
+
+import javax.inject.Singleton;
+import javax.xml.namespace.QName;
+import java.util.Map;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Manager that keeps the references to Spring ApplicationContexts that have been deployed as part
@@ -17,6 +17,7 @@ import org.springframework.context.support.GenericApplicationContext;
  * 
  * @author mford
  */
+@Singleton
 public class AeSpringManager extends AeManagerAdapter {
 
     /** map of contexts */

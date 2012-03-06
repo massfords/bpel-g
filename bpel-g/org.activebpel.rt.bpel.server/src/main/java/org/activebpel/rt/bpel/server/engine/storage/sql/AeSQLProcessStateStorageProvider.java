@@ -17,6 +17,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import javax.inject.Inject;
 import javax.xml.namespace.QName;
 
 import org.activebpel.rt.bpel.server.AeMessages;
@@ -62,6 +63,7 @@ public class AeSQLProcessStateStorageProvider extends AeAbstractSQLStorageProvid
    protected static final ResultSetHandler<Map<Long, Integer>> JOURNAL_ENTRIES_LOCATION_IDS_RESULT_SET_HANDLER = new AeJournalEntriesLocationIdsResultSetHandler();
 
    /** The journal storage. */
+   @Inject
    private AeSQLJournalStorage mJournalStorage;
    private AeCounter mCounter;
    

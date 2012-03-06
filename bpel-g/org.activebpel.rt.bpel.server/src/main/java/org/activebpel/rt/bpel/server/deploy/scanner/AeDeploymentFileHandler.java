@@ -9,6 +9,17 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpel.server.deploy.scanner;
 
+import bpelg.services.deploy.types.UndeploymentRequest;
+import org.activebpel.rt.AeException;
+import org.activebpel.rt.bpel.server.AeMessages;
+import org.activebpel.rt.bpel.server.deploy.*;
+import org.activebpel.rt.bpel.server.engine.AeEngineFactory;
+import org.activebpel.rt.bpel.server.logging.IAeDeploymentLogger;
+import org.activebpel.rt.bpel.server.logging.IAeDeploymentLoggerFactory;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
+import javax.inject.Singleton;
 import java.io.File;
 import java.io.FilenameFilter;
 import java.io.IOException;
@@ -16,25 +27,10 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.text.MessageFormat;
 
-import org.activebpel.rt.AeException;
-import org.activebpel.rt.bpel.server.AeMessages;
-import org.activebpel.rt.bpel.server.deploy.AeDelegatingDeploymentHandler;
-import org.activebpel.rt.bpel.server.deploy.AeNewDeploymentInfo;
-import org.activebpel.rt.bpel.server.deploy.AeUnpackedDeploymentStager;
-import org.activebpel.rt.bpel.server.deploy.IAeDeploymentContainer;
-import org.activebpel.rt.bpel.server.deploy.IAeDeploymentContainerFactory;
-import org.activebpel.rt.bpel.server.deploy.IAeDeploymentHandler;
-import org.activebpel.rt.bpel.server.engine.AeEngineFactory;
-import org.activebpel.rt.bpel.server.logging.IAeDeploymentLogger;
-import org.activebpel.rt.bpel.server.logging.IAeDeploymentLoggerFactory;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
-import bpelg.services.deploy.types.UndeploymentRequest;
-
 /**
  * Active bprl impl of the <code>IAeDeploymentFileHandler</code>.
  */
+@Singleton
 public class AeDeploymentFileHandler implements IAeDeploymentFileHandler, IAeScannerListener {
     private Log sLog = LogFactory.getLog(AeDeploymentFileHandler.class);
     private IAeDeploymentContainerFactory mDeploymentContainerFactory;
@@ -45,8 +41,6 @@ public class AeDeploymentFileHandler implements IAeDeploymentFileHandler, IAeSca
 
     /**
      * Constructor.
-     * 
-     * @param aLog
      */
     public AeDeploymentFileHandler() {
         AeUnpackedDeploymentStager.init(AeDeploymentFileInfo.getStagingDirectory());
