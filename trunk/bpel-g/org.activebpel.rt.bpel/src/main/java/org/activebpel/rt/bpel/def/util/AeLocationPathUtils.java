@@ -9,16 +9,9 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpel.def.util; 
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
 import org.activebpel.rt.util.AeUtil;
+
+import java.util.*;
 
 /**
  * Utils for extracting info from the bpel location paths. 
@@ -130,41 +123,33 @@ public class AeLocationPathUtils
          // Using a map to avoid having to run removeInstanceInfo multiple times
          // for the same scope.
          Map<String, String> scopePathsToNonInstancePaths = new HashMap<String, String>();
-         for(Iterator<String> it = scopePaths.iterator(); it.hasNext();)
-         {
-            String path = it.next();
-            scopePathsToNonInstancePaths.put(path, removeInstanceInfo(path));
-         }
+          for (String path : scopePaths) {
+              scopePathsToNonInstancePaths.put(path, removeInstanceInfo(path));
+          }
 
          // walk all of the paths in the collection and see if they are declared
          // in any of the nested parallel forEach scope paths
-         for (Iterator<String> iter = aSetOfPaths.iterator(); iter.hasNext();)
-         {
-            String path = iter.next();
+          for (String path : aSetOfPaths) {
+              // if we don't find a match against the scope paths then this variable
+              // is declared outside of the parallel forEach and its current path
+              // is correct.
+              boolean foundMatch = false;
+              for (Iterator<String> iter2 = scopePaths.iterator(); !foundMatch && iter2.hasNext(); ) {
+                  String scopePath = iter2.next();
+                  String nonInstanceLastScopePath = scopePathsToNonInstancePaths.get(scopePath);
 
-            // if we don't find a match against the scope paths then this variable
-            // is declared outside of the parallel forEach and its current path
-            // is correct.
-            boolean foundMatch = false;
-            for (Iterator<String> iter2 = scopePaths.iterator(); !foundMatch && iter2.hasNext();)
-            {
-               String scopePath = iter2.next();
-               String nonInstanceLastScopePath = scopePathsToNonInstancePaths.get(scopePath);
+                  if (path.startsWith(nonInstanceLastScopePath)) {
+                      // add the instance info to the variable path
+                      set.add(scopePath + path.substring(nonInstanceLastScopePath.length()));
+                      // record that we've matched this variable to break the loop
+                      foundMatch = true;
+                  }
+              }
 
-               if (path.startsWith(nonInstanceLastScopePath))
-               {
-                  // add the instance info to the variable path
-                  set.add(scopePath + path.substring(nonInstanceLastScopePath.length()));
-                  // record that we've matched this variable to break the loop
-                  foundMatch = true;
-               }
-            }
-
-            if (!foundMatch)
-            {
-               set.add(path);
-            }
-         }
+              if (!foundMatch) {
+                  set.add(path);
+              }
+          }
       }
       else
       {

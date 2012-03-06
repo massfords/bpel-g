@@ -9,11 +9,6 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpel.impl.storage;
 
-import java.util.Iterator;
-import java.util.Map;
-
-import javax.xml.namespace.QName;
-
 import org.activebpel.rt.bpel.AeBusinessProcessException;
 import org.activebpel.rt.bpel.AeMessages;
 import org.activebpel.rt.bpel.impl.AeBusinessProcessPropertyIO;
@@ -35,6 +30,10 @@ import org.activebpel.wsio.IAeWsAddressingHeaders;
 import org.activebpel.wsio.receive.IAeMessageContext;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+
+import javax.xml.namespace.QName;
+import java.util.Iterator;
+import java.util.Map;
 
 /**
  * Serializes an inbound receive to an instance of {@link
@@ -197,14 +196,13 @@ public class AeInboundReceiveSerializer implements IAeImplStateNames
          Map properties = aMessageContext.getBusinessProcessProperties();
          if (properties != null)
          {
-            for (Iterator i = properties.entrySet().iterator(); i.hasNext(); )
-            {
-               Map.Entry entry = (Map.Entry) i.next();
-               String name = (String) entry.getKey();
-               String value = AeUtil.getSafeString((String) entry.getValue());
+             for (Object o : properties.entrySet()) {
+                 Map.Entry entry = (Map.Entry) o;
+                 String name = (String) entry.getKey();
+                 String value = AeUtil.getSafeString((String) entry.getValue());
 
-               appendElement(result, AeBusinessProcessPropertyIO.getBusinessProcessPropertyElement(name, value));
-            }
+                 appendElement(result, AeBusinessProcessPropertyIO.getBusinessProcessPropertyElement(name, value));
+             }
          }
       }
 

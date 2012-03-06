@@ -9,20 +9,19 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpel.impl.endpoints;
 
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Map.Entry;
-
-import javax.xml.XMLConstants;
-import javax.xml.namespace.QName;
-
 import org.activebpel.rt.IAeConstants;
 import org.activebpel.rt.util.AeUtil;
 import org.activebpel.rt.util.AeXmlUtil;
 import org.activebpel.wsio.IAeWebServiceEndpointReference;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+
+import javax.xml.XMLConstants;
+import javax.xml.namespace.QName;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Map.Entry;
 
 /**
  * Endpoint serializer for WS-Addressing endpoints. 
@@ -113,13 +112,12 @@ public class AeWSAddressingEndpointSerializer implements IAeEndpointSerializer
       addMetadata(aRef, er, qnameToPrefixMap);
       
       // add all of the namespaces we've discovered      
-      for (Iterator iter = qnameToPrefixMap.entrySet().iterator(); iter.hasNext();)
-      {
-         Map.Entry entry = (Entry) iter.next();
-         String namespace = (String) entry.getKey();
-         String prefix = (String) entry.getValue();
-         er.setAttributeNS(XMLConstants.XMLNS_ATTRIBUTE_NS_URI, "xmlns:" + prefix, namespace); //$NON-NLS-1$
-      }
+       for (Entry<String, String> stringStringEntry : qnameToPrefixMap.entrySet()) {
+           Entry entry = (Entry) stringStringEntry;
+           String namespace = (String) entry.getKey();
+           String prefix = (String) entry.getValue();
+           er.setAttributeNS(XMLConstants.XMLNS_ATTRIBUTE_NS_URI, "xmlns:" + prefix, namespace); //$NON-NLS-1$
+       }
       
       return doc;
    }
@@ -163,11 +161,9 @@ public class AeWSAddressingEndpointSerializer implements IAeEndpointSerializer
     */
    protected void addPolicies(IAeWebServiceEndpointReference aRef, Element aElement)
    {
-      for(Iterator iter = aRef.getPolicies().iterator(); iter.hasNext(); )
-      {
-         Element prop = (Element) iter.next();
-         addChildElement(prop, aElement);
-      }
+       for (Element prop : aRef.getPolicies()) {
+           addChildElement(prop, aElement);
+       }
    }
 
    /**
@@ -194,11 +190,9 @@ public class AeWSAddressingEndpointSerializer implements IAeEndpointSerializer
    {
       if (!aRef.getReferenceProperties().isEmpty())
       {
-         for(Iterator iter= aRef.getReferenceProperties().iterator(); iter.hasNext(); ) 
-         {
-            Element prop = (Element) iter.next();
-            addChildElement(prop, aElement);
-         }      
+          for (Element prop : aRef.getReferenceProperties()) {
+              addChildElement(prop, aElement);
+          }
       }
    }
 

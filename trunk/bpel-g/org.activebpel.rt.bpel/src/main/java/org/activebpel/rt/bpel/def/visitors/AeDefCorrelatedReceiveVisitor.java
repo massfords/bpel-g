@@ -9,13 +9,6 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpel.def.visitors;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Set;
-
 import org.activebpel.rt.bpel.def.AeCorrelationCombinations;
 import org.activebpel.rt.bpel.def.AeCorrelationSetDef;
 import org.activebpel.rt.bpel.def.AePartnerLinkOpKey;
@@ -26,6 +19,9 @@ import org.activebpel.rt.bpel.def.activity.support.AeCorrelationDef;
 import org.activebpel.rt.bpel.def.activity.support.AeOnEventDef;
 import org.activebpel.rt.bpel.def.activity.support.AeOnMessageDef;
 import org.activebpel.rt.bpel.def.util.AeDefUtil;
+
+import java.util.*;
+import java.util.Map.Entry;
 
 /**
  * This visitor walks the process def collecting information about correlated receives.
@@ -68,11 +64,9 @@ public class AeDefCorrelatedReceiveVisitor extends AeAbstractDefVisitor
       super.visit(aDef);
 
       // walk the map and set all of the plink/operation sets on the def
-      for (Iterator<Entry<AePartnerLinkOpKey, AeCorrelationCombinations>> iter = mPartnerLinkOperationToCorrSets.entrySet().iterator(); iter.hasNext();)
-      {
-         Entry<AePartnerLinkOpKey, AeCorrelationCombinations> entry = iter.next();
-         mProcessDef.setCorrelationProperties(entry.getKey(), entry.getValue());
-      }
+       for (Entry<AePartnerLinkOpKey, AeCorrelationCombinations> entry : mPartnerLinkOperationToCorrSets.entrySet()) {
+           mProcessDef.setCorrelationProperties(entry.getKey(), entry.getValue());
+       }
    }
 
    /**

@@ -10,14 +10,13 @@
 
 package org.activebpel.rt.bpel.def.validation.expr.xpath;
 
-import java.util.Iterator;
-import java.util.Set;
-
 import org.activebpel.rt.bpel.AeMessages;
 import org.activebpel.rt.expr.def.AeScriptVarDef;
 import org.activebpel.rt.expr.def.IAeExpressionParseResult;
 import org.activebpel.rt.expr.validation.AeExpressionValidationResult;
 import org.activebpel.rt.expr.validation.IAeExpressionValidationContext;
+
+import java.util.Set;
 
 /**
  * Implements an expression validator for the XPath 1.0 expression language.  This is the default languge used
@@ -44,12 +43,11 @@ public class AeBPWSXPathExpressionValidator extends AeAbstractXPathExpressionVal
    protected void checkExpressionVariableReferences(IAeExpressionParseResult aParseResult, AeExpressionValidationResult aValidationResult)
    {
       Set variables = aParseResult.getVariableReferences();
-      for (Iterator iter = variables.iterator(); iter.hasNext(); )
-      {
-         AeScriptVarDef varDef = (AeScriptVarDef) iter.next();
-         addError(aValidationResult, AeMessages.getString("AeBPEL4WSXPathExpressionValidator.ERROR_RESOLVING_XPATH_VARIABLE"), //$NON-NLS-1$
-               new Object[] { varDef.getName() });
-      }
+       for (Object variable : variables) {
+           AeScriptVarDef varDef = (AeScriptVarDef) variable;
+           addError(aValidationResult, AeMessages.getString("AeBPEL4WSXPathExpressionValidator.ERROR_RESOLVING_XPATH_VARIABLE"), //$NON-NLS-1$
+                   new Object[]{varDef.getName()});
+       }
    }
 
    /**

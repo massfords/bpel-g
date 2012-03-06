@@ -9,10 +9,6 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpel.impl.activity.wsio.produce;
 
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
-
 import org.activebpel.rt.bpel.AeBusinessProcessException;
 import org.activebpel.rt.bpel.IAeVariable;
 import org.activebpel.rt.bpel.def.activity.IAeMessageDataProducerDef;
@@ -26,6 +22,10 @@ import org.activebpel.rt.bpel.impl.activity.assign.from.AeFromVariableType;
 import org.activebpel.rt.bpel.impl.activity.assign.to.AeToVariableMessagePart;
 import org.activebpel.rt.message.AeMessagePartsMap;
 import org.activebpel.rt.message.IAeMessageData;
+
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * Implements a message data producer that copies data according to a series of
@@ -139,11 +139,9 @@ public class AeToPartsMessageDataProducer extends AeAbstractMessageDataProducer
       }
 
       // Copy to the message data parts.
-      for (Iterator i = getCopyOperations(aContext).iterator(); i.hasNext(); )
-      {
-         IAeCopyOperation copyOperation = (IAeCopyOperation) i.next();
-         copyOperation.execute();
-      }
+       for (IAeCopyOperation copyOperation : getCopyOperations(aContext)) {
+           copyOperation.execute();
+       }
 
       return messageData;
    }

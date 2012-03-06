@@ -9,12 +9,11 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpel.impl;
 
+import org.activebpel.rt.AeException;
+
 import java.text.MessageFormat;
-import java.util.Iterator;
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArraySet;
-
-import org.activebpel.rt.AeException;
 
 /**
  * Implements a simple in-memory process manager.
@@ -75,19 +74,15 @@ public abstract class AeAbstractProcessManager extends AeManagerAdapter implemen
     */
    protected void fireProcessPurged(long aProcessId)
    {
-      for (Iterator i = getProcessPurgedListeners().iterator(); i.hasNext(); )
-      {
-         try
-         {
-            ((IAeProcessPurgedListener) i.next()).processPurged(aProcessId);
-         }
-         catch (Throwable t)
-         {
-            // Just log exception from listeners, because we should not let them
-            // impact us in any way.
-            AeException.logError(t);
-         }
-      }
+       for (IAeProcessPurgedListener iAeProcessPurgedListener : getProcessPurgedListeners()) {
+           try {
+               (iAeProcessPurgedListener).processPurged(aProcessId);
+           } catch (Throwable t) {
+               // Just log exception from listeners, because we should not let them
+               // impact us in any way.
+               AeException.logError(t);
+           }
+       }
    }
 
    /**

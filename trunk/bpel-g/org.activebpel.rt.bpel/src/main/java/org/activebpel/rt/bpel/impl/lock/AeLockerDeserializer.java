@@ -11,17 +11,15 @@ package org.activebpel.rt.bpel.impl.lock;
 
 import org.activebpel.rt.AeException;
 import org.activebpel.rt.bpel.AeMessages;
-
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Set;
-
 import org.jaxen.JaxenException;
 import org.jaxen.XPath;
 import org.jaxen.dom.DOMXPath;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
+
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 /**
  * Implements deserialization for a variable locker.
@@ -58,24 +56,22 @@ public class AeLockerDeserializer implements IAeLockerSerializationNames
 
       mVariableLocker.clearLocks();
 
-      for (Iterator i = locks.iterator(); i.hasNext(); )
-      {
-         Element lock = (Element) i.next();
+       for (Object lock1 : locks) {
+           Element lock = (Element) lock1;
 
-         deserializeLock(lock);
-      }
+           deserializeLock(lock);
+       }
 
       // Deserialize requests.
       List requests = selectNodes(aNode, ".//" + TAG_REQUESTS + "/" + TAG_REQUEST); //$NON-NLS-1$ //$NON-NLS-2$
 
       mVariableLocker.clearRequests();
 
-      for (Iterator i = requests.iterator(); i.hasNext(); )
-      {
-         Element request = (Element) i.next();
+       for (Object request1 : requests) {
+           Element request = (Element) request1;
 
-         deserializeLockRequest(request);
-      }
+           deserializeLockRequest(request);
+       }
    }
 
    /**
@@ -90,13 +86,12 @@ public class AeLockerDeserializer implements IAeLockerSerializationNames
       boolean exclusive = "true".equals(aLock.getAttribute(ATTR_EXCLUSIVE)); //$NON-NLS-1$
       List owners = selectNodes(aLock, TAG_OWNER);
 
-      for (Iterator i = owners.iterator(); i.hasNext(); )
-      {
-         Element owner = (Element) i.next();
-         String ownerPath = owner.getAttribute(ATTR_OWNERPATH);
+       for (Object owner1 : owners) {
+           Element owner = (Element) owner1;
+           String ownerPath = owner.getAttribute(ATTR_OWNERPATH);
 
-         mVariableLocker.addLockHolder(variablePath, ownerPath, exclusive);
-      }
+           mVariableLocker.addLockHolder(variablePath, ownerPath, exclusive);
+       }
    }
 
    /**
@@ -113,12 +108,11 @@ public class AeLockerDeserializer implements IAeLockerSerializationNames
       List variables = selectNodes(aRequest, TAG_VARIABLE);
       Set<String> variablePaths = new HashSet<String>();
 
-      for (Iterator i = variables.iterator(); i.hasNext(); )
-      {
-         Element variable = (Element) i.next();
-         String variablePath = variable.getAttribute(ATTR_VARIABLEPATH);
-         variablePaths.add(variablePath);
-      }
+       for (Object variable1 : variables) {
+           Element variable = (Element) variable1;
+           String variablePath = variable.getAttribute(ATTR_VARIABLEPATH);
+           variablePaths.add(variablePath);
+       }
 
       AeLockRequest lockRequest;
 

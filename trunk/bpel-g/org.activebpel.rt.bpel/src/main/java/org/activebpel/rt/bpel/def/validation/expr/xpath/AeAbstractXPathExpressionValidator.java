@@ -9,9 +9,6 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpel.def.validation.expr.xpath;
 
-import java.util.Iterator;
-import java.util.List;
-
 import org.activebpel.rt.bpel.AeMessages;
 import org.activebpel.rt.bpel.def.expr.xpath.AeAbstractXPathParseResult;
 import org.activebpel.rt.bpel.def.expr.xpath.AeBPWSXPathExpressionParser;
@@ -23,6 +20,8 @@ import org.activebpel.rt.expr.def.IAeExpressionParser;
 import org.activebpel.rt.expr.def.IAeExpressionParserContext;
 import org.activebpel.rt.expr.validation.AeExpressionValidationResult;
 import org.activebpel.rt.expr.validation.IAeExpressionValidationContext;
+
+import java.util.List;
 
 /**
  * Implements an expression validator for the XPath 1.0 expression language.  This class must be
@@ -57,15 +56,14 @@ public abstract class AeAbstractXPathExpressionValidator extends AeAbstractExpre
       AeXPathInvalidLiteralNodeVisitor visitor = new AeXPathInvalidLiteralNodeVisitor();
       ((AeAbstractXPathParseResult) aParseResult).getXPathAST().visitAll(visitor);
       List invalidLiterals = visitor.getLiterals();
-      
-      for (Iterator iter = invalidLiterals.iterator(); iter.hasNext(); )
-      {
-         AeXPathLiteralNode literal = (AeXPathLiteralNode) iter.next();
-         addError(aValidationResult,
-               AeMessages.getString("AeXPathExpressionValidator.INVALID_LITERAL_IN_JOINCONDITION_ERROR"),  //$NON-NLS-1$
-               new Object [] { literal.getValue(), aParseResult.getExpression() });
-         
-      }
+
+       for (Object invalidLiteral : invalidLiterals) {
+           AeXPathLiteralNode literal = (AeXPathLiteralNode) invalidLiteral;
+           addError(aValidationResult,
+                   AeMessages.getString("AeXPathExpressionValidator.INVALID_LITERAL_IN_JOINCONDITION_ERROR"),  //$NON-NLS-1$
+                   new Object[]{literal.getValue(), aParseResult.getExpression()});
+
+       }
    }
 
    /**

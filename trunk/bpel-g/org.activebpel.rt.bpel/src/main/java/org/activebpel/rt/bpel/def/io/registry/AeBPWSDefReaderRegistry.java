@@ -9,10 +9,6 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpel.def.io.registry;
 
-import java.util.List;
-
-import javax.xml.namespace.QName;
-
 import org.activebpel.rt.AeException;
 import org.activebpel.rt.bpel.def.AeBaseDef;
 import org.activebpel.rt.bpel.def.AeMessageExchangeDef;
@@ -29,6 +25,9 @@ import org.activebpel.rt.xml.def.io.readers.IAeDefReader;
 import org.activebpel.rt.xml.def.io.readers.IAeReaderFactory;
 import org.activebpel.rt.xml.def.io.readers.IAeReportingDefReader;
 import org.w3c.dom.Element;
+
+import javax.xml.namespace.QName;
+import java.util.List;
 
 /**
  * BPEL4WS registry for mapping BPEL elements to the
@@ -171,12 +170,11 @@ public class AeBPWSDefReaderRegistry extends AeAbstractBpelReaderRegistry implem
             ACTIVITY_WAIT_CLASS,
             ACTIVITY_WHILE_CLASS,
       };
-      
-      for (int i = 0; i < activities.length; i++)
-      {
-         registerReader(activities[i],  TAG_TARGET, targetReader);
-         registerReader(activities[i],  TAG_SOURCE, sourceReader);
-      }
+
+       for (Class activity : activities) {
+           registerReader(activity, TAG_TARGET, targetReader);
+           registerReader(activity, TAG_SOURCE, sourceReader);
+       }
    }
 
    /**

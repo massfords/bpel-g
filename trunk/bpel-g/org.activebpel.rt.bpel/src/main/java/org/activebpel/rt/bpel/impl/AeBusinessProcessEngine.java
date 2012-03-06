@@ -868,15 +868,14 @@ public class AeBusinessProcessEngine implements IAeBusinessProcessEngineInternal
       AePartnerLinkDef plDef = aDesc.getProcessDef().findPartnerLink(aContext.getPartnerLink());
       AePartnerLinkOpKey plOpKey = new AePartnerLinkOpKey(plDef, aContext.getOperation());
       AeMessagePartsMap messagePartsMap = aDesc.getProcessDef().getMessageForCorrelation(plOpKey);
-      for (Iterator iter = aDesc.getCorrelatedPropertyNames(plOpKey).iterator(); iter.hasNext();)
-      {
-         QName propName = (QName) iter.next();
-         IAePropertyAlias propAlias = aDesc.getProcessDef().getPropertyAliasForCorrelation(messagePartsMap, propName);
-         IAeProperty prop = AeWSDLDefHelper.getProperty(aDesc, propName);
-         if (prop == null)
-            throw new AeBusinessProcessException(AeMessages.format("AeBusinessProcessEngine.ERROR_MISSING_PROPERTY", propName)); //$NON-NLS-1$
-         map.put(propName, AeXPathHelper.getInstance(aDesc.getProcessDef().getNamespace()).extractCorrelationPropertyValue(propAlias, aData, getTypeMapping(), prop.getTypeName()));
-      }
+       for (Object o : aDesc.getCorrelatedPropertyNames(plOpKey)) {
+           QName propName = (QName) o;
+           IAePropertyAlias propAlias = aDesc.getProcessDef().getPropertyAliasForCorrelation(messagePartsMap, propName);
+           IAeProperty prop = AeWSDLDefHelper.getProperty(aDesc, propName);
+           if (prop == null)
+               throw new AeBusinessProcessException(AeMessages.format("AeBusinessProcessEngine.ERROR_MISSING_PROPERTY", propName)); //$NON-NLS-1$
+           map.put(propName, AeXPathHelper.getInstance(aDesc.getProcessDef().getNamespace()).extractCorrelationPropertyValue(propAlias, aData, getTypeMapping(), prop.getTypeName()));
+       }
       // Engine managed correlation
       String convId = aContext.getWsAddressingHeaders().getConversationId();
       if (AeUtil.notNullOrEmpty(convId))
@@ -1547,18 +1546,14 @@ public class AeBusinessProcessEngine implements IAeBusinessProcessEngineInternal
    public void fireEngineEvent(IAeEngineEvent aEvent)
    {
       boolean suspend = false;
-      for (Iterator iter=mEngineListeners.iterator(); iter.hasNext();)
-      {
-         try
-         {
-            suspend |= ((IAeEngineListener)iter.next()).handleEngineEvent(aEvent);
-         }
-         catch (Throwable th)
-         {
-            // Just log exception from listeners, they should not impact us in anyway
-            AeException.logError(th);
-         }
-      }
+       for (IAeEngineListener mEngineListener : mEngineListeners) {
+           try {
+               suspend |= (mEngineListener).handleEngineEvent(aEvent);
+           } catch (Throwable th) {
+               // Just log exception from listeners, they should not impact us in anyway
+               AeException.logError(th);
+           }
+       }
 
       // if an engine event listener suggests we should supend the process then attempt to suspend it
       if(suspend && aEvent.getPID() >= 0)
@@ -1579,18 +1574,14 @@ public class AeBusinessProcessEngine implements IAeBusinessProcessEngineInternal
     */
    public void fireEngineAlert(IAeEngineAlert aAlert)
    {
-      for (Iterator iter=mEngineListeners.iterator(); iter.hasNext();)
-      {
-         try
-         {
-            ((IAeEngineListener)iter.next()).handleAlert(aAlert);
-         }
-         catch (Throwable th)
-         {
-            // Just log exception from listeners, they should not impact us in anyway
-            AeException.logError(th);
-         }
-      }
+       for (IAeEngineListener listener : mEngineListeners) {
+           try {
+               (listener).handleAlert(aAlert);
+           } catch (Throwable th) {
+               // Just log exception from listeners, they should not impact us in anyway
+               AeException.logError(th);
+           }
+       }
    }
 
    /////////////////////////////////////////////////////////////////////////////////
@@ -1618,18 +1609,14 @@ public class AeBusinessProcessEngine implements IAeBusinessProcessEngineInternal
     */
    public void fireMonitorEvent(int aMonitorId, long aEventData)
    {
-      for (Iterator iter=mMonitorListeners.iterator(); iter.hasNext();)
-      {
-         try
-         {
-            ((IAeMonitorListener)iter.next()).handleMonitorEvent(aMonitorId, aEventData);
-         }
-         catch (Throwable th)
-         {
-            // Just log exception from listeners, they should not impact us in anyway
-            AeException.logError(th);
-         }
-      }
+       for (IAeMonitorListener listener : mMonitorListeners) {
+           try {
+               (listener).handleMonitorEvent(aMonitorId, aEventData);
+           } catch (Throwable th) {
+               // Just log exception from listeners, they should not impact us in anyway
+               AeException.logError(th);
+           }
+       }
    }
 
    /////////////////////////////////////////////////////////////////////////////////
@@ -1702,18 +1689,14 @@ public class AeBusinessProcessEngine implements IAeBusinessProcessEngineInternal
       // If we have listeners for this process, fire the notifications
       if (listeners != null)
       {
-         for (Iterator iter=listeners.iterator(); iter.hasNext();)
-         {
-            try
-            {
-               ((IAeProcessListener)iter.next()).handleProcessInfoEvent(aInfoEvent);
-            }
-            catch (Throwable th)
-            {
-               // Just log exception from listeners, they should not impact us in anyway
-               AeException.logError(th);
-            }
-         }
+          for (Object listener : listeners) {
+              try {
+                  ((IAeProcessListener) listener).handleProcessInfoEvent(aInfoEvent);
+              } catch (Throwable th) {
+                  // Just log exception from listeners, they should not impact us in anyway
+                  AeException.logError(th);
+              }
+          }
       }
 
       for (IAeProcessListener listener : mGlobalProcessListeners)
@@ -1759,32 +1742,24 @@ public class AeBusinessProcessEngine implements IAeBusinessProcessEngineInternal
       // If we have listeners for this process, fire the notifications
       if (listeners != null)
       {
-         for (Iterator iter=listeners.iterator(); iter.hasNext();)
-         {
-            try
-            {
-               suspend |= ((IAeProcessListener)iter.next()).handleProcessEvent(aEvent);
-            }
-            catch (Throwable th)
-            {
-               // Just log exception from listeners, they should not impact us in anyway
-               AeException.logError(th);
-            }
-         }
+          for (Object listener : listeners) {
+              try {
+                  suspend |= ((IAeProcessListener) listener).handleProcessEvent(aEvent);
+              } catch (Throwable th) {
+                  // Just log exception from listeners, they should not impact us in anyway
+                  AeException.logError(th);
+              }
+          }
       }
 
-      for (Iterator iter=mGlobalProcessListeners.iterator(); iter.hasNext();)
-      {
-         try
-         {
-            suspend |= ((IAeProcessListener)iter.next()).handleProcessEvent(aEvent);
-         }
-         catch (Throwable th)
-         {
-            // Just log exception from listeners, they should not impact us in anyway
-            AeException.logError(th);
-         }
-      }
+       for (IAeProcessListener listener : mGlobalProcessListeners) {
+           try {
+               suspend |= (listener).handleProcessEvent(aEvent);
+           } catch (Throwable th) {
+               // Just log exception from listeners, they should not impact us in anyway
+               AeException.logError(th);
+           }
+       }
 
       // if event handlers asked for suspend then suspend the process
       if(suspend)

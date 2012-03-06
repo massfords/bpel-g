@@ -27,11 +27,8 @@ public class AeCoordinationFaultException extends AeCoordinationException
      * 
      */
     private static final long serialVersionUID = -5627402728005034157L;
-public static final String  INVALID_STATE       = "aecoor:InvalidState"; //$NON-NLS-1$
+   public static final String  INVALID_STATE       = "aecoor:InvalidState"; //$NON-NLS-1$
    public static final String  INVALID_PROTOCOL    = "aecoor:InvalidProtocol"; //$NON-NLS-1$
-   public static final String  INVALID_PARAMETERS  = "aecoor:InvalidParameters"; //$NON-NLS-1$
-   public static final String  NO_ACTIVITY         = "aecoor:NoActivity"; //$NON-NLS-1$
-   public static final String  CONTEXT_REFUSED     = "aecoor:ContextRefused"; //$NON-NLS-1$
    public static final String  ALREADY_REGISTERED  = "aecoor:AlreadyRegistered"; //$NON-NLS-1$
    
    /**
@@ -60,29 +57,6 @@ public static final String  INVALID_STATE       = "aecoor:InvalidState"; //$NON-
       setFaultCode(aFaultCode);
    }
 
-   /**
-    * Construct the fault object given the fault code and the root cause. 
-    * @param aFaultCode faultCode as per WSBA specifcation.  
-    * @param aRootCause root cause.
-    */
-   public AeCoordinationFaultException(String aFaultCode, Throwable aRootCause)
-   {
-      super(aRootCause);
-      setFaultCode(aFaultCode);
-   }
-
-   /**
-    * Construct the fault object given the fault code, description and the root cause. 
-    * @param aFaultCode faultCode as per WSBA specifcation.   
-    * @param aInfo fault description or message.
-    * @param aRootCause root cause.
-    */
-   public AeCoordinationFaultException(String aFaultCode, String aInfo, Throwable aRootCause)
-   {
-      super(aInfo, aRootCause);
-      setFaultCode(aFaultCode);
-   }
-   
    /**
     * @return Returns the faultCode.
     */

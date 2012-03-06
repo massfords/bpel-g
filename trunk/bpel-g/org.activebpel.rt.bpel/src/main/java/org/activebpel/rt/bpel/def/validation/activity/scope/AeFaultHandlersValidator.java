@@ -9,11 +9,6 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpel.def.validation.activity.scope; 
 
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Set;
-
 import org.activebpel.rt.bpel.IAeFaultTypeInfo;
 import org.activebpel.rt.bpel.def.AeCatchDef;
 import org.activebpel.rt.bpel.def.AeFaultHandlersDef;
@@ -23,6 +18,10 @@ import org.activebpel.rt.bpel.def.validation.AeBaseValidator;
 import org.activebpel.rt.bpel.def.validation.activity.scope.AeBaseCatchValidator.AeCatchSpec;
 import org.activebpel.rt.util.AeUtil;
 import org.activebpel.rt.wsdl.IAeContextWSDLProvider;
+
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 /**
  * model provides validation for the faultHandlers def
@@ -49,16 +48,13 @@ public abstract class AeFaultHandlersValidator extends AeBaseValidator
       super.validate();
 
       Set<IAeCatchValidatorSpec> noDupes = new HashSet<IAeCatchValidatorSpec>();
-      List catchChildren = getChildren(AeBaseCatchValidator.class);
-      for (Iterator iter = catchChildren.iterator(); iter.hasNext();)
-      {
-         AeBaseCatchValidator baseCatch = (AeBaseCatchValidator)iter.next();
-         IAeCatchValidatorSpec spec = createSpecValidator(baseCatch);
-         if ( !noDupes.add(spec) )
-         {
-            reportDuplicateCatch(baseCatch);
-         }
-      }
+      List<AeBaseCatchValidator> catchChildren = getChildren(AeBaseCatchValidator.class);
+       for (AeBaseCatchValidator baseCatch : catchChildren) {
+           IAeCatchValidatorSpec spec = createSpecValidator(baseCatch);
+           if (!noDupes.add(spec)) {
+               reportDuplicateCatch(baseCatch);
+           }
+       }
    }
 
    /**

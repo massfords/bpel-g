@@ -9,14 +9,13 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpel.impl.fastdom;
 
-import java.util.Iterator;
-import java.util.LinkedList;
-
 import org.activebpel.rt.xml.AeXMLParserBase;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.Text;
+
+import java.util.LinkedList;
 
 /**
  * Builds a standard XML <code>Document</code> from an
@@ -131,15 +130,13 @@ public class AeDocumentBuilder implements IAeVisitor
 
       try
       {
-         for (Iterator i = aElement.getAttributes().iterator(); i.hasNext(); )
-         {
-            visit((AeFastAttribute) i.next());
-         }
+          for (Object o : aElement.getAttributes()) {
+              visit((AeFastAttribute) o);
+          }
 
-         for (Iterator i = aElement.getChildNodes().iterator(); i.hasNext(); )
-         {
-            ((AeFastNode) i.next()).accept(this);
-         }
+          for (AeFastNode node : aElement.getChildNodes()) {
+              (node).accept(this);
+          }
       }
       finally
       {

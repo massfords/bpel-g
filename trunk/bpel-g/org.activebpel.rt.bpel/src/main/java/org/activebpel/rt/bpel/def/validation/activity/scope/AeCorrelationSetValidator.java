@@ -9,15 +9,13 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpel.def.validation.activity.scope; 
 
-import java.util.Collection;
-import java.util.Iterator;
-
-import javax.xml.namespace.QName;
-
 import org.activebpel.rt.bpel.AeWSDLDefHelper;
 import org.activebpel.rt.bpel.def.AeCorrelationSetDef;
 import org.activebpel.rt.bpel.def.validation.AeBaseValidator;
 import org.activebpel.rt.wsdl.def.AeBPELExtendedWSDLDef;
+
+import javax.xml.namespace.QName;
+import java.util.Collection;
 
 /**
  * moddel provides validation for a correlation set def
@@ -77,15 +75,13 @@ public class AeCorrelationSetValidator extends AeBaseValidator
       Collection props = getDef().getProperties();
       if ( props != null && !props.isEmpty() )
       {
-         for ( Iterator iterProps = props.iterator() ; iterProps.hasNext() ; )
-         {
-            QName propName = (QName)iterProps.next();
-            AeBPELExtendedWSDLDef wsdl = AeWSDLDefHelper.getWSDLDefinitionForProp( getValidationContext().getContextWSDLProvider(), propName );
-            if ( wsdl == null )
-            {
-               addTypeNotFoundError(ERROR_PROP_NOT_FOUND, propName);
-            }
-         }
+          for (Object prop : props) {
+              QName propName = (QName) prop;
+              AeBPELExtendedWSDLDef wsdl = AeWSDLDefHelper.getWSDLDefinitionForProp(getValidationContext().getContextWSDLProvider(), propName);
+              if (wsdl == null) {
+                  addTypeNotFoundError(ERROR_PROP_NOT_FOUND, propName);
+              }
+          }
       }
       else
       {

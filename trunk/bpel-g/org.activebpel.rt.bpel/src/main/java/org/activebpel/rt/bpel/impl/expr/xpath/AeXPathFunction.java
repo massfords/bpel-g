@@ -9,16 +9,15 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpel.impl.expr.xpath;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-
 import org.activebpel.rt.bpel.function.AeFunctionCallException;
 import org.activebpel.rt.bpel.function.IAeFunction;
 import org.activebpel.rt.bpel.function.IAeFunctionExecutionContext;
 import org.jaxen.Context;
 import org.jaxen.Function;
 import org.jaxen.FunctionCallException;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Implements an xpath function given the generic ActiveBPEL <code>IAeExpressionFunction</code>.
@@ -52,8 +51,7 @@ public class AeXPathFunction implements Function
          List<Object> args = new ArrayList<Object>();
          // Convert the arguments (which were created by Jaxen) to Engine Types (Java Types) so that
          // the custom function only needs to deal with standard Java/Ae types.
-         for (Iterator iter = aArgs.iterator(); iter.hasNext(); )
-            args.add(getFunctionExecContext().getTypeConverter().convertToEngineType(iter.next()));
+          for (Object aArg : aArgs) args.add(getFunctionExecContext().getTypeConverter().convertToEngineType(aArg));
 
          Object rval = getDelegate().call(new AeXPathContext(aContext, getFunctionExecContext()), args);
          return getFunctionExecContext().getTypeConverter().convertToExpressionType(rval);

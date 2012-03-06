@@ -10,11 +10,6 @@
 
 package org.activebpel.rt.bpel.def.io.registry;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.xml.namespace.QName;
-
 import org.activebpel.rt.bpel.def.AeBaseDef;
 import org.activebpel.rt.bpel.def.AeExtensionActivityDef;
 import org.activebpel.rt.bpel.def.IAeBPELConstants;
@@ -29,6 +24,10 @@ import org.activebpel.rt.xml.def.io.readers.IAeDefReader;
 import org.activebpel.rt.xml.def.io.readers.IAeReaderFactory;
 import org.activebpel.rt.xml.def.io.readers.IAeReportingDefReader;
 import org.w3c.dom.Element;
+
+import javax.xml.namespace.QName;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * An implementation of the Def Reader Registry for WS-BPEL 2.0. This implementation extends the BPEL4WS 1.1
@@ -230,12 +229,11 @@ public class AeWSBPELDefReaderRegistry extends AeAbstractBpelReaderRegistry
             ACTIVITY_VALIDATE_CLASS,
             ACTIVITY_CHILDEXTENSION_CLASS
       };
-      
-      for (int i = 0; i < activities.length; i++)
-      {
-         registerReader(activities[i],  TAG_TARGETS, targetReader);
-         registerReader(activities[i],  TAG_SOURCES, sourceReader);
-      }
+
+       for (Class<?> activity : activities) {
+           registerReader(activity, TAG_TARGETS, targetReader);
+           registerReader(activity, TAG_SOURCES, sourceReader);
+       }
    }
 
    /**

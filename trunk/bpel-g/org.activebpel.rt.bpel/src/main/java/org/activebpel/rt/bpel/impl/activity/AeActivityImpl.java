@@ -9,34 +9,18 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpel.impl.activity;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.Set;
-
-import org.activebpel.rt.bpel.AeBusinessProcessException;
-import org.activebpel.rt.bpel.AeMessages;
-import org.activebpel.rt.bpel.IAeActivity;
-import org.activebpel.rt.bpel.IAeExpressionLanguageFactory;
-import org.activebpel.rt.bpel.IAeFault;
-import org.activebpel.rt.bpel.AeProcessInfoEventType;
+import org.activebpel.rt.bpel.*;
 import org.activebpel.rt.bpel.def.AeActivityDef;
 import org.activebpel.rt.bpel.def.AeBaseDef;
 import org.activebpel.rt.bpel.def.IAeExpressionDef;
 import org.activebpel.rt.bpel.def.activity.support.AeJoinConditionDef;
-import org.activebpel.rt.bpel.impl.AeAbstractBpelObject;
-import org.activebpel.rt.bpel.impl.AeBpelException;
-import org.activebpel.rt.bpel.impl.AeBpelState;
-import org.activebpel.rt.bpel.impl.AeFaultFactory;
-import org.activebpel.rt.bpel.impl.AeProcessInfoEvent;
-import org.activebpel.rt.bpel.impl.IAeActivityParent;
-import org.activebpel.rt.bpel.impl.IAeBpelObject;
+import org.activebpel.rt.bpel.impl.*;
 import org.activebpel.rt.bpel.impl.activity.support.AeLink;
 import org.activebpel.rt.bpel.impl.expr.AeExpressionException;
 import org.activebpel.rt.bpel.impl.expr.IAeExpressionRunner;
 import org.activebpel.rt.util.AeUtil;
+
+import java.util.*;
 
 /**
  * Base class for bpel activity implementations.
@@ -206,14 +190,11 @@ abstract public class AeActivityImpl extends AeAbstractBpelObject implements IAe
       // if we have target links check their status
       if(hasTargetLinks())
       {
-         for (Iterator<AeLink> iter = getTargetLinksColl().iterator(); iter.hasNext();)
-         {
-            AeLink link = iter.next();
-            if ( ! link.isStatusKnown())
-            {
-               return false;
-            }
-         }
+          for (AeLink link : getTargetLinksColl()) {
+              if (!link.isStatusKnown()) {
+                  return false;
+              }
+          }
       }
       return true;
    }
@@ -225,12 +206,10 @@ abstract public class AeActivityImpl extends AeAbstractBpelObject implements IAe
     */
    public AeLink findTargetLink(String aLinkName)
    {
-      for (Iterator<AeLink> iter = getTargetLinksColl().iterator(); iter.hasNext();)
-      {
-         AeLink link = iter.next();
-         if (link.getName().equals(aLinkName))
-            return link;
-      }
+       for (AeLink link : getTargetLinksColl()) {
+           if (link.getName().equals(aLinkName))
+               return link;
+       }
 
       return null;
    }
@@ -538,11 +517,9 @@ abstract public class AeActivityImpl extends AeAbstractBpelObject implements IAe
    {
       if (getState().linksBecomeFalse())
       {
-         for(Iterator<AeLink> iter=getSourceLinksColl().iterator(); iter.hasNext(); )
-         {
-            AeLink link = iter.next();
-            link.setStatus(false);
-         }
+          for (AeLink link : getSourceLinksColl()) {
+              link.setStatus(false);
+          }
       }
    }
 

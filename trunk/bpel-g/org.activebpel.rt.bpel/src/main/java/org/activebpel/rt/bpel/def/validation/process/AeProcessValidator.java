@@ -7,26 +7,14 @@
 //Active Endpoints, Inc. Removal of this PROPRIETARY RIGHTS STATEMENT 
 //is strictly forbidden. Copyright (c) 2002-2006 All rights reserved. 
 /////////////////////////////////////////////////////////////////////////////
-package org.activebpel.rt.bpel.def.validation.process; 
-
-import java.text.MessageFormat;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Set;
+package org.activebpel.rt.bpel.def.validation.process;
 
 import org.activebpel.rt.AeException;
 import org.activebpel.rt.bpel.AeMessages;
 import org.activebpel.rt.bpel.IAeExpressionLanguageFactory;
 import org.activebpel.rt.bpel.def.AeBaseDef;
 import org.activebpel.rt.bpel.def.AeProcessDef;
-import org.activebpel.rt.bpel.def.validation.AeBaseValidator;
-import org.activebpel.rt.bpel.def.validation.AeLinkValidator;
-import org.activebpel.rt.bpel.def.validation.AeMessageExchangeValidationVisitor;
-import org.activebpel.rt.bpel.def.validation.IAeValidationContext;
-import org.activebpel.rt.bpel.def.validation.IAeValidator;
+import org.activebpel.rt.bpel.def.validation.*;
 import org.activebpel.rt.bpel.def.validation.activity.AeActivityPickValidator;
 import org.activebpel.rt.bpel.def.validation.activity.AeBaseScopeValidator;
 import org.activebpel.rt.bpel.def.validation.activity.AeOnMessageValidator;
@@ -37,6 +25,9 @@ import org.activebpel.rt.bpel.def.validation.query.AeXPathQueryValidator;
 import org.activebpel.rt.bpel.def.visitors.AeCheckStartActivityVisitor;
 import org.activebpel.rt.util.AeUtil;
 import org.activebpel.rt.xml.def.AeBaseXmlDef;
+
+import java.text.MessageFormat;
+import java.util.*;
 
 /**
  * Root validator for the process.
@@ -159,58 +150,44 @@ public class AeProcessValidator extends AeBaseScopeValidator
    {
       // fixme 2.0 static analysis should emit warning/error for multi-start that shares correlations that aren't initiate="join"
       List<AeBaseValidator> wsioActivities = new LinkedList<AeBaseValidator>();
-      for (Iterator iter = mCreateInstances.iterator(); iter.hasNext();)
-      {
-         AeBaseValidator model = (AeBaseValidator) iter.next();
-         if (model instanceof AeActivityPickValidator)
-         {
-            for(AeOnMessageValidator validator : model.getChildren(AeOnMessageValidator.class))
-            {
-               wsioActivities.add(validator);
-            }
-         }
-         else
-         {
-            wsioActivities.add(model);
-         }
-      }
+       for (IAeValidator mCreateInstance : mCreateInstances) {
+           AeBaseValidator model = (AeBaseValidator) mCreateInstance;
+           if (model instanceof AeActivityPickValidator) {
+               for (AeOnMessageValidator validator : model.getChildren(AeOnMessageValidator.class)) {
+                   wsioActivities.add(validator);
+               }
+           } else {
+               wsioActivities.add(model);
+           }
+       }
       
       Set<String> acceptedSetPaths = null;
       boolean reportError = false;
-      for (Iterator<AeBaseValidator> iter = wsioActivities.iterator(); iter.hasNext();)
-      {
-    	 AeBaseValidator next = iter.next();
-         AeWSIOActivityValidator model = (AeWSIOActivityValidator) next;
-         Set<String> setPaths = getCorrelationSetPaths(model);
-               
-         if (setPaths == null)
-         {
-            // an activity referenced a correlationSet that wasn't in scope, no point in continuing
-            // the validation here since they'll already have error messages for the correlation
-            reportError = true;
-            break;
-         }
-         else if (acceptedSetPaths == null)
-         {
-            acceptedSetPaths = new HashSet<String>(setPaths);
-         }
-         else if (!acceptedSetPaths.equals(setPaths) || acceptedSetPaths.isEmpty())
-         {
-            // encountered a create instance that used different correlation paths then a
-            // previously encountered create instance. Also detects if the two create instances
-            // are empty which is not valid for 1.1 or 2.0 (at least until we impl engine managed correlation)
-            reportError = true;
-            break;
-         }
-      }
+       for (AeBaseValidator next : wsioActivities) {
+           AeWSIOActivityValidator model = (AeWSIOActivityValidator) next;
+           Set<String> setPaths = getCorrelationSetPaths(model);
+
+           if (setPaths == null) {
+               // an activity referenced a correlationSet that wasn't in scope, no point in continuing
+               // the validation here since they'll already have error messages for the correlation
+               reportError = true;
+               break;
+           } else if (acceptedSetPaths == null) {
+               acceptedSetPaths = new HashSet<String>(setPaths);
+           } else if (!acceptedSetPaths.equals(setPaths) || acceptedSetPaths.isEmpty()) {
+               // encountered a create instance that used different correlation paths then a
+               // previously encountered create instance. Also detects if the two create instances
+               // are empty which is not valid for 1.1 or 2.0 (at least until we impl engine managed correlation)
+               reportError = true;
+               break;
+           }
+       }
       
       if (reportError || acceptedSetPaths == null)
       {
-         for ( Iterator iter = mCreateInstances.iterator() ; iter.hasNext() ; )
-         {
-            IAeValidator model = (IAeValidator) iter.next();
-            getReporter().reportProblem( BPEL_CORR_SET_MISMATCH_CODE, ERROR_CS_MISMATCH, null, model.getDefinition() );
-         }
+          for (IAeValidator model : mCreateInstances) {
+              getReporter().reportProblem(BPEL_CORR_SET_MISMATCH_CODE, ERROR_CS_MISMATCH, null, model.getDefinition());
+          }
       }
    }
 
@@ -222,17 +199,15 @@ public class AeProcessValidator extends AeBaseScopeValidator
    {
       List correlationModels = aWSIOActivityModel.getCorrelations();
       Set<String> setPaths = new HashSet<String>();
-      for(Iterator iter=correlationModels.iterator(); iter.hasNext();)
-      {
-         AeCorrelationValidator corrModel = (AeCorrelationValidator) iter.next();
-         if (corrModel.getSetModel() == null)
-         {
-            // an activity referenced a correlationSet that wasn't in scope, no point in continuing
-            // the validation here since they'll already have error messages for the correlation
-            return null;
-         }
-         setPaths.add(corrModel.getSetModel().getDef().getLocationPath());
-      }
+       for (Object correlationModel : correlationModels) {
+           AeCorrelationValidator corrModel = (AeCorrelationValidator) correlationModel;
+           if (corrModel.getSetModel() == null) {
+               // an activity referenced a correlationSet that wasn't in scope, no point in continuing
+               // the validation here since they'll already have error messages for the correlation
+               return null;
+           }
+           setPaths.add(corrModel.getSetModel().getDef().getLocationPath());
+       }
       return setPaths;
    }
 

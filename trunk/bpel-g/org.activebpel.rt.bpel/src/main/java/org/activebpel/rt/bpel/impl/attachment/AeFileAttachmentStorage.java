@@ -9,24 +9,16 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpel.impl.attachment;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
 import org.activebpel.rt.AeException;
 import org.activebpel.rt.bpel.AeBusinessProcessException;
 import org.activebpel.rt.bpel.AeMessages;
 import org.activebpel.rt.bpel.impl.IAeProcessPlan;
 import org.activebpel.rt.util.AeUtil;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
+import java.util.*;
 
 /**
  * Implements an attachment storage that stores the contents of attachments in
@@ -87,17 +79,14 @@ public class AeFileAttachmentStorage implements IAeAttachmentStorage
       Set<File> deleteFiles = new HashSet<File>(Arrays.asList(tempFiles));
 
       // Don't delete files that we are actively managing.
-      for (Iterator i = getAttachmentInfoMap().values().iterator(); i.hasNext(); )
-      {
-         AeAttachmentInfo info = (AeAttachmentInfo) i.next();
-         deleteFiles.remove(info.mAttachmentFile);
-      }
+       for (AeAttachmentInfo info : getAttachmentInfoMap().values()) {
+           deleteFiles.remove(info.mAttachmentFile);
+       }
 
       // Delete any remaining temporary attachment files.
-      for (Iterator i = deleteFiles.iterator(); i.hasNext(); )
-      {
-         ((File) i.next()).delete();
-      }
+       for (File deleteFile : deleteFiles) {
+           (deleteFile).delete();
+       }
    }
 
    /**
@@ -155,27 +144,24 @@ public class AeFileAttachmentStorage implements IAeAttachmentStorage
    public void removeProcess(long aProcessId)
    {
       // Remove the process's entry from the process map.
-      List processInfos = getProcessInfosMap().remove(aProcessId);
+      List<AeAttachmentInfo> processInfos = getProcessInfosMap().remove(aProcessId);
       if (processInfos != null)
       {
          // Remove the attachments from the attachment map.
          synchronized (getAttachmentInfoMap())
          {
-            for (Iterator i = processInfos.iterator(); i.hasNext(); )
-            {
-               AeAttachmentInfo info = (AeAttachmentInfo) i.next();
-               getAttachmentInfoMap().remove(info.mAttachmentId);
-            }
+             for (AeAttachmentInfo processInfo : processInfos) {
+                 getAttachmentInfoMap().remove(processInfo.mAttachmentId);
+             }
          }
          
          // Delete the associated temporary files. Do this outside of the
          // synchronized block to avoid blocking other threads during these
          // relatively expensive I/O operations.
-         for (Iterator i = processInfos.iterator(); i.hasNext(); )
-         {
-            AeAttachmentInfo info = (AeAttachmentInfo) i.next();
-            info.mAttachmentFile.delete();
-         }
+          for (Object processInfo : processInfos) {
+              AeAttachmentInfo info = (AeAttachmentInfo) processInfo;
+              info.mAttachmentFile.delete();
+          }
       }
    }
 

@@ -9,13 +9,12 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpel.impl.expr;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-
 import org.activebpel.rt.xml.schema.IAeSchemaType;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A simple type converter that does some basic type conversions that are necessary for all/most
@@ -41,14 +40,12 @@ public abstract class AeAbstractExpressionTypeConverter implements IAeExpression
          List<Object> rvalList = new ArrayList<Object>();
          if (list.size() > 0)
          {
-            for (Iterator iter = list.iterator(); iter.hasNext(); )
-            {
-               Object item = iter.next();
-               if (item instanceof Node)
-                  rvalList.add(item);
-               else
-                  rvalList.add(convertToExpressionType(item));
-            }
+             for (Object item : list) {
+                 if (item instanceof Node)
+                     rvalList.add(item);
+                 else
+                     rvalList.add(convertToExpressionType(item));
+             }
             rval = rvalList;
          }
       }

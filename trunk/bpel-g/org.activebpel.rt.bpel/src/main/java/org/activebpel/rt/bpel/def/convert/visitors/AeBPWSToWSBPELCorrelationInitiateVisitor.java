@@ -10,12 +10,6 @@
 
 package org.activebpel.rt.bpel.def.convert.visitors;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-
 import org.activebpel.rt.bpel.def.AeCorrelationSetDef;
 import org.activebpel.rt.bpel.def.AeCorrelationsDef;
 import org.activebpel.rt.bpel.def.AeProcessDef;
@@ -24,6 +18,8 @@ import org.activebpel.rt.bpel.def.activity.IAeReceiveActivityDef;
 import org.activebpel.rt.bpel.def.activity.support.AeCorrelationDef;
 import org.activebpel.rt.bpel.def.util.AeDefUtil;
 import org.activebpel.rt.bpel.def.visitors.AeAbstractEntryPointVisitor;
+
+import java.util.*;
 
 /**
  * This is a visitor used by the BPEL 1.1 -> BPEL 2.0 converter.  It is responsible for changing
@@ -98,18 +94,13 @@ public class AeBPWSToWSBPELCorrelationInitiateVisitor extends AeAbstractEntryPoi
     */
    protected void processCorrelationMap()
    {
-      for (Iterator<List<AeCorrelationDef>> iter = getCreateInstances().values().iterator(); iter.hasNext(); )
-      {
-         List<AeCorrelationDef> corrDefs = iter.next();
-         if (corrDefs.size() > 1)
-         {
-            for (Iterator<AeCorrelationDef> corrDefIter = corrDefs.iterator(); corrDefIter.hasNext(); )
-            {
-               AeCorrelationDef corrDef = corrDefIter.next();
-               corrDef.setInitiate(AeCorrelationDef.INITIATE_JOIN);
-            }
-         }
-      }
+       for (List<AeCorrelationDef> corrDefs : getCreateInstances().values()) {
+           if (corrDefs.size() > 1) {
+               for (AeCorrelationDef corrDef : corrDefs) {
+                   corrDef.setInitiate(AeCorrelationDef.INITIATE_JOIN);
+               }
+           }
+       }
    }
 
    /**

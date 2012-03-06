@@ -9,14 +9,15 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpel.impl.visitors;
 
-import java.util.Iterator;
-
 import org.activebpel.rt.bpel.AeBusinessProcessException;
+import org.activebpel.rt.bpel.IAePartnerLink;
 import org.activebpel.rt.bpel.impl.AeAbstractBpelObject;
 import org.activebpel.rt.bpel.impl.AeBusinessProcess;
 import org.activebpel.rt.bpel.impl.AePartnerLink;
 import org.activebpel.rt.bpel.impl.AeVariable;
 import org.activebpel.rt.bpel.impl.activity.AeActivityScopeImpl;
+
+import java.util.Iterator;
 
 /**
  * Visit the objects creating unique ids from process ids and their paths.  This
@@ -70,11 +71,10 @@ public class AeRegisterLocationVisitor extends AeImplTraversingVisitor
             getProcess().addVariableMapping(variable);
          }
       }
-      for (Iterator iter = aImpl.getPartnerLinks().values().iterator(); iter.hasNext(); )
-      {
-         AePartnerLink plink = (AePartnerLink) iter.next();
-         getProcess().addPartnerLinkMapping(plink);
-      }
+       for (IAePartnerLink iAePartnerLink : aImpl.getPartnerLinks().values()) {
+           AePartnerLink plink = (AePartnerLink) iAePartnerLink;
+           getProcess().addPartnerLinkMapping(plink);
+       }
       super.visitScope(aImpl);
    }
    

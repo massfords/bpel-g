@@ -10,12 +10,11 @@
 
 package org.activebpel.rt.bpel.def.visitors;
 
+import org.activebpel.rt.bpel.def.activity.AeActivityInvokeDef;
+
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Iterator;
 import java.util.List;
-
-import org.activebpel.rt.bpel.def.activity.AeActivityInvokeDef;
 
 /**
  * A def visitor that will find all invokes.
@@ -62,16 +61,13 @@ public class AeDefActivityInvokeVisitor extends AeAbstractDefVisitor
    public List<AeActivityInvokeDef> getInvokes(String aName)
    {
       List<AeActivityInvokeDef> retList = new ArrayList<AeActivityInvokeDef>();
-      
-      for( Iterator<AeActivityInvokeDef> iter = mInvokes.iterator(); iter.hasNext(); )
-      {
-         AeActivityInvokeDef def = iter.next();
-         if( def.getName().equals(aName) )
-         {
-            retList.add(def);
-         }
-         
-      }
+
+       for (AeActivityInvokeDef def : mInvokes) {
+           if (def.getName().equals(aName)) {
+               retList.add(def);
+           }
+
+       }
       
       return Collections.unmodifiableList(retList);
    }

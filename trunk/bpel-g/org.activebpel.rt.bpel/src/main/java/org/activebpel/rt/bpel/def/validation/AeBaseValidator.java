@@ -9,26 +9,10 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpel.def.validation; 
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Set;
-
-import javax.xml.namespace.QName;
-
-import org.activebpel.rt.bpel.def.AeActivityPartnerLinkBaseDef;
-import org.activebpel.rt.bpel.def.AeNamedDef;
-import org.activebpel.rt.bpel.def.AeProcessDef;
-import org.activebpel.rt.bpel.def.IAeBPELConstants;
-import org.activebpel.rt.bpel.def.IAeExpressionDef;
+import org.activebpel.rt.bpel.def.*;
 import org.activebpel.rt.bpel.def.validation.activity.AeActivityValidator;
 import org.activebpel.rt.bpel.def.validation.activity.AeBaseScopeValidator;
-import org.activebpel.rt.bpel.def.validation.activity.scope.AeCompensationHandlerValidator;
-import org.activebpel.rt.bpel.def.validation.activity.scope.AeCorrelationSetValidator;
-import org.activebpel.rt.bpel.def.validation.activity.scope.AeFaultHandlersValidator;
-import org.activebpel.rt.bpel.def.validation.activity.scope.AePartnerLinkValidator;
-import org.activebpel.rt.bpel.def.validation.activity.scope.AeTerminationHandlerValidator;
+import org.activebpel.rt.bpel.def.validation.activity.scope.*;
 import org.activebpel.rt.bpel.def.validation.expressions.IAeExpressionModelValidator;
 import org.activebpel.rt.bpel.def.validation.extensions.AeExtensionValidator;
 import org.activebpel.rt.bpel.def.validation.extensions.AeExtensionsValidator;
@@ -40,6 +24,12 @@ import org.activebpel.rt.util.AeXmlUtil;
 import org.activebpel.rt.xml.def.AeBaseXmlDef;
 import org.activebpel.rt.xml.def.AeXmlDefUtil;
 import org.activebpel.rt.xml.def.IAeExtensionObject;
+
+import javax.xml.namespace.QName;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Set;
 
 /**
  * Base class for all validation models. Provides accessors to the def, child models, parent model, and
@@ -243,14 +233,12 @@ public class AeBaseValidator implements IAeValidationDefs, IAeValidator, IAeVali
       if (extensionsValidator != null)
       {
          List extensionValidators = extensionsValidator.getChildren(AeExtensionValidator.class);
-         for (Iterator iter = extensionValidators.iterator(); iter.hasNext(); )
-         {
-            AeExtensionValidator validator = (AeExtensionValidator) iter.next();
-            if (AeUtil.compareObjects(aNamespace, validator.getNamespace()))
-            {
-               extensionValidator = validator;
-            }
-         }
+          for (Object extensionValidator1 : extensionValidators) {
+              AeExtensionValidator validator = (AeExtensionValidator) extensionValidator1;
+              if (AeUtil.compareObjects(aNamespace, validator.getNamespace())) {
+                  extensionValidator = validator;
+              }
+          }
       }
       
       return extensionValidator;
@@ -603,12 +591,11 @@ public class AeBaseValidator implements IAeValidationDefs, IAeValidator, IAeVali
             List requiredExtensions = extensionUsageAdapter.getRequiredExtensions();
             if (requiredExtensions != null)
             {
-               for(Iterator it=requiredExtensions.iterator(); it.hasNext();)
-               {
-                  AeExtensionNamespaceInfo nsInfo = (AeExtensionNamespaceInfo) it.next();
-                  AeExtensionValidator extensionValidator = findExtensionValidator(nsInfo.getNamespace());
-                  processExtensionValidator(extensionValidator, nsInfo.isMustUnderstand(), nsInfo.getNamespace());
-               }
+                for (Object requiredExtension : requiredExtensions) {
+                    AeExtensionNamespaceInfo nsInfo = (AeExtensionNamespaceInfo) requiredExtension;
+                    AeExtensionValidator extensionValidator = findExtensionValidator(nsInfo.getNamespace());
+                    processExtensionValidator(extensionValidator, nsInfo.isMustUnderstand(), nsInfo.getNamespace());
+                }
             }
          }
          
@@ -623,12 +610,11 @@ public class AeBaseValidator implements IAeValidationDefs, IAeValidator, IAeVali
     */
    protected void recordExtensionVariableUsage(Set aVariableReferences)
    {
-      for (Iterator iter = aVariableReferences.iterator(); iter.hasNext(); )
-      {
-         AeVariableReference varReference = (AeVariableReference) iter.next();
-         getVariableValidator(varReference.getVariableName(), null, true, varReference.getMode(),
-               varReference.getDef());
-      }
+       for (Object ref : aVariableReferences) {
+           AeVariableReference varReference = (AeVariableReference) ref;
+           getVariableValidator(varReference.getVariableName(), null, true, varReference.getMode(),
+                   varReference.getDef());
+       }
    }
 
    /**

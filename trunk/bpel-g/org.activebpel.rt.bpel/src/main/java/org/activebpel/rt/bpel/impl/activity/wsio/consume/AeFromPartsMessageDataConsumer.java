@@ -9,23 +9,19 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpel.impl.activity.wsio.consume;
 
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
-
 import org.activebpel.rt.bpel.AeBusinessProcessException;
 import org.activebpel.rt.bpel.IAeVariable;
 import org.activebpel.rt.bpel.def.activity.support.AeFromPartDef;
-import org.activebpel.rt.bpel.impl.activity.assign.AeAtomicCopyOperationContext;
-import org.activebpel.rt.bpel.impl.activity.assign.AeCopyOperationBase;
-import org.activebpel.rt.bpel.impl.activity.assign.AeVirtualCopyOperation;
-import org.activebpel.rt.bpel.impl.activity.assign.IAeFrom;
-import org.activebpel.rt.bpel.impl.activity.assign.IAeTo;
+import org.activebpel.rt.bpel.impl.activity.assign.*;
 import org.activebpel.rt.bpel.impl.activity.assign.from.AeFromVariableMessagePart;
 import org.activebpel.rt.bpel.impl.activity.assign.from.AeFromVariableMessagePartWithAttachments;
 import org.activebpel.rt.bpel.impl.activity.assign.to.AeToVariableElement;
 import org.activebpel.rt.bpel.impl.activity.assign.to.AeToVariableType;
 import org.activebpel.rt.message.IAeMessageData;
+
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * Implements a message data consumer that copies data according to a series of
@@ -59,19 +55,16 @@ public class AeFromPartsMessageDataConsumer extends AeAbstractMessageDataConsume
       
       try
       {
-         for (Iterator i = getCopyOperations(aContext).iterator(); i.hasNext(); )
-         {
-            // Get the virtual copy operation.
-            AeVirtualCopyOperation copyOperation = (AeVirtualCopyOperation) i.next();
+          for (AeCopyOperationBase copyOperation : getCopyOperations(aContext)) {
 
-            // Update the virtual copy operation to copy from the anonymous
-            // variable.
-            AeFromVariableMessagePart from = (AeFromVariableMessagePart)copyOperation.getFrom();
-            from.setVariable(anonymousVariable);
+              // Update the virtual copy operation to copy from the anonymous
+              // variable.
+              AeFromVariableMessagePart from = (AeFromVariableMessagePart) copyOperation.getFrom();
+              from.setVariable(anonymousVariable);
 
-            // Execute the copy operation.
-            copyOperation.execute();
-         }
+              // Execute the copy operation.
+              copyOperation.execute();
+          }
       }
       catch (Throwable t)
       {
@@ -142,7 +135,7 @@ public class AeFromPartsMessageDataConsumer extends AeAbstractMessageDataConsume
     * @param aContext
     * @throws AeBusinessProcessException
     */
-   protected List getCopyOperations(IAeMessageDataConsumerContext aContext) throws AeBusinessProcessException
+   protected List<AeCopyOperationBase> getCopyOperations(IAeMessageDataConsumerContext aContext) throws AeBusinessProcessException
    {
       if (mCopyOperations == null)
       {

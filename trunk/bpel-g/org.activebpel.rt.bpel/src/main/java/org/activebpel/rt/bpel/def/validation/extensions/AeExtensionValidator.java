@@ -9,13 +9,12 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpel.def.validation.extensions; 
 
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
-
 import org.activebpel.rt.bpel.def.AeExtensionDef;
 import org.activebpel.rt.bpel.def.validation.AeBaseValidator;
 import org.activebpel.rt.bpel.def.validation.IAeValidator;
+
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * model provides validation for an extension model
@@ -73,14 +72,11 @@ public class AeExtensionValidator extends AeBaseValidator
       else if (isMustUnderstand())
       {
          // Find any usages that are not understood.
-         for (Iterator iter = getExtensionUsers().iterator(); iter.hasNext(); )
-         {
-            AeExtensionUsage usage = (AeExtensionUsage) iter.next();
-            if (!usage.isUnderstood())
-            {
-               getReporter().reportProblem(BPEL_EXTENSION_NOT_UNDERSTOOD_CODE, ERROR_DID_NOT_UNDERSTAND_EXTENSION, null, usage.getValidator().getDefinition());
-            }
-         }
+          for (AeExtensionUsage usage : getExtensionUsers()) {
+              if (!usage.isUnderstood()) {
+                  getReporter().reportProblem(BPEL_EXTENSION_NOT_UNDERSTOOD_CODE, ERROR_DID_NOT_UNDERSTAND_EXTENSION, null, usage.getValidator().getDefinition());
+              }
+          }
       }
       super.validate();
    }

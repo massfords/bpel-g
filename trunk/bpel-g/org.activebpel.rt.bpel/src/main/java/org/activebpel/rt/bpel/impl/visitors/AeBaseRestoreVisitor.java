@@ -9,24 +9,12 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpel.impl.visitors;
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-
-import javax.xml.namespace.QName;
-
 import org.activebpel.rt.bpel.AeBusinessProcessException;
 import org.activebpel.rt.bpel.AeMessages;
 import org.activebpel.rt.bpel.IAeEndpointReference;
 import org.activebpel.rt.bpel.IAePartnerLink;
 import org.activebpel.rt.bpel.def.util.AeLocationPathUtils;
-import org.activebpel.rt.bpel.impl.AeBusinessProcess;
-import org.activebpel.rt.bpel.impl.AePartnerLink;
-import org.activebpel.rt.bpel.impl.AeVariable;
-import org.activebpel.rt.bpel.impl.IAeDynamicScopeParent;
-import org.activebpel.rt.bpel.impl.IAeImplStateNames;
+import org.activebpel.rt.bpel.impl.*;
 import org.activebpel.rt.bpel.impl.activity.AeActivityScopeImpl;
 import org.activebpel.rt.bpel.impl.activity.AeDynamicScopeCreator;
 import org.activebpel.rt.bpel.impl.activity.support.AeCorrelationSet;
@@ -38,6 +26,12 @@ import org.jaxen.XPath;
 import org.jaxen.dom.DOMXPath;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
+
+import javax.xml.namespace.QName;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Convenience base class for visitors that restore state in implementation
@@ -207,16 +201,15 @@ public class AeBaseRestoreVisitor extends AeImplTraversingVisitor implements IAe
          // Convert property elements to property map.
          Map<QName, String> map = new HashMap<QName, String>();
 
-         for (Iterator i = properties.iterator(); i.hasNext(); )
-         {
-            Element property = (Element) i.next();
-            String name = getAttribute(property, STATE_NAME);
-            String ns = getAttribute(property, STATE_NAMESPACEURI);
-            QName key = new QName(ns, name);
-            String value = getAttribute(property, STATE_VALUE);
+          for (Object property1 : properties) {
+              Element property = (Element) property1;
+              String name = getAttribute(property, STATE_NAME);
+              String ns = getAttribute(property, STATE_NAMESPACEURI);
+              QName key = new QName(ns, name);
+              String value = getAttribute(property, STATE_VALUE);
 
-            map.put(key, value);
-         }
+              map.put(key, value);
+          }
 
          aCorrelationSet.setPropertyValues(map);
       }

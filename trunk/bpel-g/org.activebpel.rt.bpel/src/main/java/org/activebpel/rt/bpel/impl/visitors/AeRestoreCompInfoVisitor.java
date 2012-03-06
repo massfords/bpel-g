@@ -9,34 +9,22 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpel.impl.visitors;
 
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-
 import org.activebpel.rt.bpel.AeBusinessProcessException;
+import org.activebpel.rt.bpel.IAeActivity;
 import org.activebpel.rt.bpel.IAePartnerLink;
 import org.activebpel.rt.bpel.IAeVariable;
-import org.activebpel.rt.bpel.impl.AeAbstractBpelObject;
-import org.activebpel.rt.bpel.impl.AeBusinessProcess;
-import org.activebpel.rt.bpel.impl.AePartnerLink;
-import org.activebpel.rt.bpel.impl.AeVariable;
-import org.activebpel.rt.bpel.impl.IAeDynamicScopeParent;
+import org.activebpel.rt.bpel.impl.*;
 import org.activebpel.rt.bpel.impl.activity.AeActivityForEachParallelImpl;
 import org.activebpel.rt.bpel.impl.activity.AeActivityScopeImpl;
-import org.activebpel.rt.bpel.impl.activity.support.AeCompInfo;
-import org.activebpel.rt.bpel.impl.activity.support.AeCompensationHandler;
-import org.activebpel.rt.bpel.impl.activity.support.AeCoordinatorCompInfo;
-import org.activebpel.rt.bpel.impl.activity.support.AeCoordinatorCompensationHandler;
-import org.activebpel.rt.bpel.impl.activity.support.AeCorrelationSet;
-import org.activebpel.rt.bpel.impl.activity.support.AeImplicitCompensationHandler;
-import org.activebpel.rt.bpel.impl.activity.support.AeOnEvent;
-import org.activebpel.rt.bpel.impl.activity.support.AeRepeatableOnAlarm;
-import org.activebpel.rt.bpel.impl.activity.support.AeScopeSnapshot;
+import org.activebpel.rt.bpel.impl.activity.support.*;
 import org.activebpel.rt.bpel.impl.storage.AeRestoreImplState;
 import org.activebpel.rt.util.AeUtil;
 import org.w3c.dom.Element;
+
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Visits a tree of BPEL implementation objects to restore {@link AeCompInfo}
@@ -143,13 +131,12 @@ public class AeRestoreCompInfoVisitor extends AeBaseRestoreVisitor
             List enclosedScopeElements = selectNodes(aElement, xpath, "Error restoring enclosed compensation info"); //$NON-NLS-1$
             LinkedList<AeCompInfo> enclosedScopes = new LinkedList<AeCompInfo>();
 
-            for (Iterator i = enclosedScopeElements.iterator(); i.hasNext(); )
-            {
-               Element element = (Element) i.next();
-               AeCompInfo enclosedScope = createCompInfo(element);
-               enclosedScope.setParent(compInfo);
-               enclosedScopes.addLast(enclosedScope);
-            }
+             for (Object enclosedScopeElement : enclosedScopeElements) {
+                 Element element = (Element) enclosedScopeElement;
+                 AeCompInfo enclosedScope = createCompInfo(element);
+                 enclosedScope.setParent(compInfo);
+                 enclosedScopes.addLast(enclosedScope);
+             }
 
             compInfo.setEnclosedScopes(enclosedScopes);
          }
@@ -173,24 +160,22 @@ public class AeRestoreCompInfoVisitor extends AeBaseRestoreVisitor
       List elements = selectNodes(aCompInfoElement, xpath, "Error restoring compensation info correlation sets"); //$NON-NLS-1$
       Map<String, AeCorrelationSet> map = new HashMap<String, AeCorrelationSet>();
 
-      for (Iterator i = elements.iterator(); i.hasNext(); )
-      {
-         Element element = (Element) i.next();
-         String name = getAttribute(element, STATE_NAME);
+       for (Object element1 : elements) {
+           Element element = (Element) element1;
+           String name = getAttribute(element, STATE_NAME);
 
-         int versionNumber = getAttributeInt(element, STATE_VERSION);
-         AeCorrelationSet correlationSet = aScope.findCorrelationSet(name);
+           int versionNumber = getAttributeInt(element, STATE_VERSION);
+           AeCorrelationSet correlationSet = aScope.findCorrelationSet(name);
 
-         if (versionNumber != correlationSet.getVersionNumber())
-         {
-            // Different version from the correlation set in the scope. Clone a
-            // new correlation set from the scope correlation set.
-            correlationSet = (AeCorrelationSet) correlationSet.clone();
-            restoreCorrelationSet(element, correlationSet);
-         }
+           if (versionNumber != correlationSet.getVersionNumber()) {
+               // Different version from the correlation set in the scope. Clone a
+               // new correlation set from the scope correlation set.
+               correlationSet = (AeCorrelationSet) correlationSet.clone();
+               restoreCorrelationSet(element, correlationSet);
+           }
 
-         map.put(name, correlationSet);
-      }
+           map.put(name, correlationSet);
+       }
 
       return map;
    }
@@ -210,24 +195,22 @@ public class AeRestoreCompInfoVisitor extends AeBaseRestoreVisitor
       List elements = selectNodes(aCompInfoElement, xpath, "Error restoring compensation info variables"); //$NON-NLS-1$
       Map<String,IAeVariable> map = new HashMap<String,IAeVariable>();
 
-      for (Iterator i = elements.iterator(); i.hasNext(); )
-      {
-         Element element = (Element) i.next();
-         String name = getAttribute(element, STATE_NAME);
+       for (Object element1 : elements) {
+           Element element = (Element) element1;
+           String name = getAttribute(element, STATE_NAME);
 
-         int versionNumber = getAttributeInt(element, STATE_VERSION);
-         AeVariable variable = (AeVariable) aScope.findVariable(name);
+           int versionNumber = getAttributeInt(element, STATE_VERSION);
+           AeVariable variable = (AeVariable) aScope.findVariable(name);
 
-         if (versionNumber != variable.getVersionNumber())
-         {
-            // Different version from the variable in the scope. Clone a new
-            // variable from the scope variable.
-            variable = (AeVariable) variable.clone();
-            restoreVariable(element, variable);
-         }
+           if (versionNumber != variable.getVersionNumber()) {
+               // Different version from the variable in the scope. Clone a new
+               // variable from the scope variable.
+               variable = (AeVariable) variable.clone();
+               restoreVariable(element, variable);
+           }
 
-         map.put(name, variable);
-      }
+           map.put(name, variable);
+       }
 
       return map;
    }
@@ -246,24 +229,22 @@ public class AeRestoreCompInfoVisitor extends AeBaseRestoreVisitor
       List elements = selectNodes(aCompInfoElement, xpath, "Error restoring compensation info partner links"); //$NON-NLS-1$
       Map<String,IAePartnerLink> map = new HashMap<String,IAePartnerLink>();
 
-      for (Iterator i = elements.iterator(); i.hasNext(); )
-      {
-         Element element = (Element) i.next();
-         String name = getAttribute(element, STATE_NAME);
+       for (Object element1 : elements) {
+           Element element = (Element) element1;
+           String name = getAttribute(element, STATE_NAME);
 
-         int versionNumber = getAttributeInt(element, STATE_VERSION);
-         IAePartnerLink plink = aScope.findPartnerLink(name);
+           int versionNumber = getAttributeInt(element, STATE_VERSION);
+           IAePartnerLink plink = aScope.findPartnerLink(name);
 
-         if (versionNumber != plink.getVersionNumber())
-         {
-            // Different version from the partner link in the scope. Clone a new
-            // partner link from the scope partner link.
-            plink = (AePartnerLink) plink.clone();
-            restorePartnerLink(element, plink);
-         }
+           if (versionNumber != plink.getVersionNumber()) {
+               // Different version from the partner link in the scope. Clone a new
+               // partner link from the scope partner link.
+               plink = (AePartnerLink) plink.clone();
+               restorePartnerLink(element, plink);
+           }
 
-         map.put(name, plink);
-      }
+           map.put(name, plink);
+       }
 
       return map;
    }
@@ -364,10 +345,9 @@ public class AeRestoreCompInfoVisitor extends AeBaseRestoreVisitor
    protected void restoreCompensatableChildren(IAeDynamicScopeParent aImpl) throws AeBusinessProcessException
    {
       // now visit the compensatable scopes
-      for (Iterator iter = aImpl.getCompensatableChildren().iterator(); iter.hasNext();)
-      {
-         AeActivityScopeImpl scope = (AeActivityScopeImpl) iter.next();
-         scope.accept(this);
-      }
+       for (IAeActivity iAeActivity : aImpl.getCompensatableChildren()) {
+           AeActivityScopeImpl scope = (AeActivityScopeImpl) iAeActivity;
+           scope.accept(this);
+       }
    }
 }

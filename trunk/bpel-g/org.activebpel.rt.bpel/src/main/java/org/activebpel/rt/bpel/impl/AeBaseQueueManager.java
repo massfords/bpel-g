@@ -9,30 +9,14 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpel.impl;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.TreeSet;
-
+import commonj.timers.Timer;
+import commonj.timers.TimerListener;
 import org.activebpel.rt.AeException;
 import org.activebpel.rt.bpel.AeBusinessProcessException;
 import org.activebpel.rt.bpel.AeMessages;
 import org.activebpel.rt.bpel.IAeFault;
 import org.activebpel.rt.bpel.IAeMonitorListener;
-import org.activebpel.rt.bpel.impl.list.AeAlarmFilter;
-import org.activebpel.rt.bpel.impl.list.AeAlarmFilterManager;
-import org.activebpel.rt.bpel.impl.list.AeAlarmListResult;
-import org.activebpel.rt.bpel.impl.list.AeMessageReceiverFilter;
-import org.activebpel.rt.bpel.impl.list.AeMessageReceiverFilterManager;
-import org.activebpel.rt.bpel.impl.list.AeMessageReceiverListResult;
+import org.activebpel.rt.bpel.impl.list.*;
 import org.activebpel.rt.bpel.impl.queue.AeAlarm;
 import org.activebpel.rt.bpel.impl.queue.AeInboundReceive;
 import org.activebpel.rt.bpel.impl.queue.AeMessageReceiver;
@@ -43,8 +27,8 @@ import org.activebpel.rt.message.IAeMessageData;
 import org.activebpel.rt.util.AeUtil;
 import org.activebpel.wsio.IAeMessageAcknowledgeCallback;
 
-import commonj.timers.Timer;
-import commonj.timers.TimerListener;
+import java.util.*;
+import java.util.Map.Entry;
 
 /**
  * An in-memory implementation of the queue manager. All of the queues are implemented
@@ -888,11 +872,10 @@ public abstract class AeBaseQueueManager extends AeManagerAdapter implements IAe
    {
       if(mSavedLookup != null)
       {
-         for(Iterator iter = mSavedLookup.values().iterator(); iter.hasNext(); )
-         {
-            AeAlarm alarm = (AeAlarm)iter.next();
-            scheduleAlarm(alarm.getProcessId(), alarm.getPathId(), alarm.getGroupId(), alarm.getAlarmId(), alarm.getDeadline());
-         }
+          for (Timer timer : mSavedLookup.values()) {
+              AeAlarm alarm = (AeAlarm) timer;
+              scheduleAlarm(alarm.getProcessId(), alarm.getPathId(), alarm.getGroupId(), alarm.getAlarmId(), alarm.getDeadline());
+          }
          mSavedLookup = null;
       }
    }
@@ -908,8 +891,7 @@ public abstract class AeBaseQueueManager extends AeManagerAdapter implements IAe
 
       synchronized (mLookup)
       {
-         for (Iterator<Timer> iter = mLookup.values().iterator(); iter.hasNext();)
-            iter.next().cancel();
+          for (Timer timer : mLookup.values()) timer.cancel();
 
          saveLookup();
          mLookup.clear();

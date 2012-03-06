@@ -10,10 +10,9 @@
 
 package org.activebpel.rt.bpel.xpath.ast.visitors;
 
-import java.util.Iterator;
-import java.util.Stack;
-
 import org.activebpel.rt.bpel.xpath.ast.AeAbstractXPathNode;
+
+import java.util.Stack;
 
 /**
  * This class is a simple traversing xpath node visitor.  It simply adds some convenience 
@@ -75,10 +74,9 @@ public abstract class AeAbstractTraversingXPathNodeVisitor extends AeAbstractXPa
    protected void traverse(AeAbstractXPathNode aNode)
    {
       pushNode(aNode);
-      for (Iterator<AeAbstractXPathNode> iter = aNode.getChildren().iterator(); iter.hasNext(); )
-      {
-         iter.next().accept(this);
-      }
+       for (AeAbstractXPathNode node : aNode.getChildren()) {
+           node.accept(this);
+       }
       popNode();
    }
 

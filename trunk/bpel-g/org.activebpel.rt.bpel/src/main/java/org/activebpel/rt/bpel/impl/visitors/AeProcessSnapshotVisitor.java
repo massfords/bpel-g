@@ -9,10 +9,6 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpel.impl.visitors;
 
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Set;
-
 import org.activebpel.rt.bpel.AeBusinessProcessException;
 import org.activebpel.rt.bpel.IAePartnerLink;
 import org.activebpel.rt.bpel.IAeVariable;
@@ -24,12 +20,11 @@ import org.activebpel.rt.bpel.def.activity.AeActivityScopeDef;
 import org.activebpel.rt.bpel.impl.AeBusinessProcess;
 import org.activebpel.rt.bpel.impl.activity.AeActivityInvokeImpl;
 import org.activebpel.rt.bpel.impl.activity.AeActivityScopeImpl;
-import org.activebpel.rt.bpel.impl.activity.support.AeCompInfo;
-import org.activebpel.rt.bpel.impl.activity.support.AeCompensationHandler;
-import org.activebpel.rt.bpel.impl.activity.support.AeCorrelationSet;
-import org.activebpel.rt.bpel.impl.activity.support.AeFaultHandler;
-import org.activebpel.rt.bpel.impl.activity.support.AeScopeSnapshot;
-import org.activebpel.rt.bpel.impl.activity.support.AeWSBPELFaultHandler;
+import org.activebpel.rt.bpel.impl.activity.support.*;
+
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Set;
 
 /**
  * Visits a tree of BPEL implementation objects to collect all versions of all
@@ -72,11 +67,9 @@ public class AeProcessSnapshotVisitor extends AeImplTraversingVisitor
 
       // Add variables and correlation sets from enclosed scopes' compensation
       // infos.
-      for (Iterator i = aCompInfo.getEnclosedScopes().iterator(); i.hasNext(); )
-      {
-         AeCompInfo enclosedScope = (AeCompInfo) i.next();
-         addCompInfo(enclosedScope);
-      }
+       for (AeCompInfo enclosedScope : aCompInfo.getEnclosedScopes()) {
+           addCompInfo(enclosedScope);
+       }
    }
 
    /**

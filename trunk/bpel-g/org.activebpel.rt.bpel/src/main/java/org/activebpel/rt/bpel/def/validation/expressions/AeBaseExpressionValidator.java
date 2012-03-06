@@ -9,8 +9,6 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpel.def.validation.expressions; 
 
-import java.util.Iterator;
-
 import org.activebpel.rt.AeException;
 import org.activebpel.rt.bpel.AeMessages;
 import org.activebpel.rt.bpel.def.AeBaseDef;
@@ -114,25 +112,19 @@ public abstract class AeBaseExpressionValidator extends AeBaseValidator implemen
    protected void processExpressionValidationResult(IAeExpressionValidationResult aResult)
    {
       // Process any info messages found by the validator.
-      for ( Iterator iter = aResult.getInfoList().iterator() ; iter.hasNext() ; )
-      {
-         String info = (String) iter.next();
-         getReporter().reportProblem(BPEL_EXPRESSION_INFO_CODE, info, null, getDefinition());
-      }
+       for (String info : aResult.getInfoList()) {
+           getReporter().reportProblem(BPEL_EXPRESSION_INFO_CODE, info, null, getDefinition());
+       }
 
       // Process any errors found by the validator.
-      for ( Iterator iter = aResult.getErrors().iterator() ; iter.hasNext() ; )
-      {
-         String error = (String) iter.next();
-         getReporter().reportProblem(BPEL_EXPRESSION_ERROR_CODE, error, null, getDefinition());
-      }
+       for (String error : aResult.getErrors()) {
+           getReporter().reportProblem(BPEL_EXPRESSION_ERROR_CODE, error, null, getDefinition());
+       }
 
       // Process any warnings found by the validator.
-      for ( Iterator iter = aResult.getWarnings().iterator() ; iter.hasNext() ; )
-      {
-         String warning = (String) iter.next();
-         getReporter().reportProblem(BPEL_EXPRESSION_WARNING_CODE, warning, null, getDefinition());
-      }
+       for (String warning : aResult.getWarnings()) {
+           getReporter().reportProblem(BPEL_EXPRESSION_WARNING_CODE, warning, null, getDefinition());
+       }
       
       if (aResult.getParseResult() != null)
       {
@@ -147,54 +139,45 @@ public abstract class AeBaseExpressionValidator extends AeBaseValidator implemen
    protected void recordVariablesInExpression(IAeExpressionValidationResult aResult)
    {
       // walk all of the variables found and add a reference
-      for(Iterator it = aResult.getParseResult().getVarNames().iterator(); it.hasNext(); )
-      {
-         String name = (String) it.next();
-         // Getting the variable will record the reference
-         /*AeVariableValidator varModel =*/ getVariableValidator(name, null, true, AeVariableValidator.VARIABLE_READ_FROM_SPEC);
-      }
+       for (String name : aResult.getParseResult().getVarNames()) {
+           // Getting the variable will record the reference
+           /*AeVariableValidator varModel =*/
+           getVariableValidator(name, null, true, AeVariableValidator.VARIABLE_READ_FROM_SPEC);
+       }
 
       // Check variable data list.
-      for (Iterator iter = aResult.getParseResult().getVarDataList().iterator(); iter.hasNext();)
-      {
-         AeVariableData varData = (AeVariableData) iter.next();
-         AeVariableValidator varModel = getVariableValidator(varData.getVarName(), null, true, AeVariableValidator.VARIABLE_READ_FROM_SPEC);
-         if (varModel != null)
-         {
-            if (varModel.getDef().isElement())
-            {
-               // There is a legacy issue here with getVariableData(). Our prev versions
-               // allowed for a variant of getVariableData that selected an element variable
-               // along with a query expression. 
-               // In this format, the AeVariableData class will store the query as the
-               // part name since it wasn't aware of this variation from the spec.
-               varModel.addUsage(this, null, varData.getPart(), null);
-            }
-            else
-            {
-               varModel.addUsage(this, varData.getPart(), varData.getQuery(), null);
-            }
-            if (varModel.getDef().isMessageType() && AeUtil.isNullOrEmpty(varData.getPart()))
-            {
-               getReporter().reportProblem(BPEL_MISSING_EXPRESSION_PART_CODE,
-                     AeMessages.getString("AeBaseExpressionModel.MissingPartInExpressionError"),  //$NON-NLS-1$
-                     new Object[] { varModel.getDef().getName() }, 
-                     getDefinition());
-            }
-         }
-      }
+       for (Object o1 : aResult.getParseResult().getVarDataList()) {
+           AeVariableData varData = (AeVariableData) o1;
+           AeVariableValidator varModel = getVariableValidator(varData.getVarName(), null, true, AeVariableValidator.VARIABLE_READ_FROM_SPEC);
+           if (varModel != null) {
+               if (varModel.getDef().isElement()) {
+                   // There is a legacy issue here with getVariableData(). Our prev versions
+                   // allowed for a variant of getVariableData that selected an element variable
+                   // along with a query expression.
+                   // In this format, the AeVariableData class will store the query as the
+                   // part name since it wasn't aware of this variation from the spec.
+                   varModel.addUsage(this, null, varData.getPart(), null);
+               } else {
+                   varModel.addUsage(this, varData.getPart(), varData.getQuery(), null);
+               }
+               if (varModel.getDef().isMessageType() && AeUtil.isNullOrEmpty(varData.getPart())) {
+                   getReporter().reportProblem(BPEL_MISSING_EXPRESSION_PART_CODE,
+                           AeMessages.getString("AeBaseExpressionModel.MissingPartInExpressionError"),  //$NON-NLS-1$
+                           new Object[]{varModel.getDef().getName()},
+                           getDefinition());
+               }
+           }
+       }
 
-      // Check variable property combos.
-      for (Iterator iter = aResult.getParseResult().getVarPropertyList().iterator(); iter.hasNext();)
-      {
-         AeVariableProperty varProp = (AeVariableProperty) iter.next();
-         AeVariableValidator varModel = getVariableValidator(varProp.getVarName(), null, true, AeVariableValidator.VARIABLE_READ_FROM_SPEC);
-         if (varModel != null && varProp.getProperty() != null)
-         {
-            varModel.addUsage(this, null, null, varProp.getProperty());
-         }
-      }
-}
+       // Check variable property combos.
+       for (Object o : aResult.getParseResult().getVarPropertyList()) {
+           AeVariableProperty varProp = (AeVariableProperty) o;
+           AeVariableValidator varModel = getVariableValidator(varProp.getVarName(), null, true, AeVariableValidator.VARIABLE_READ_FROM_SPEC);
+           if (varModel != null && varProp.getProperty() != null) {
+               varModel.addUsage(this, null, null, varProp.getProperty());
+           }
+       }
+   }
 
    /**
     * Validates the expression. Subclasses will validate the specific type of the expression by calling different

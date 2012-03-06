@@ -9,43 +9,21 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpel.def;
 
-import java.io.Serializable;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
-import javax.xml.namespace.QName;
-
 import org.activebpel.rt.bpel.AeBusinessProcessException;
 import org.activebpel.rt.bpel.AeMessages;
 import org.activebpel.rt.bpel.AeStaticAnalysisException;
 import org.activebpel.rt.bpel.IAeExpressionLanguageFactory;
 import org.activebpel.rt.bpel.def.util.AeLocationPathUtils;
-import org.activebpel.rt.bpel.def.visitors.AeCreateInstanceMessageExchangeVisitor;
-import org.activebpel.rt.bpel.def.visitors.AeCreateInstanceOperationVisitor;
-import org.activebpel.rt.bpel.def.visitors.AeDefCorrelatedReceiveVisitor;
-import org.activebpel.rt.bpel.def.visitors.AeDefEntryPointInitialVisitor;
-import org.activebpel.rt.bpel.def.visitors.AeDefEntryPointPropertiesVisitor;
-import org.activebpel.rt.bpel.def.visitors.AeDefOnEventVariableTypeVisitor;
-import org.activebpel.rt.bpel.def.visitors.AeDefOneWayVisitor;
-import org.activebpel.rt.bpel.def.visitors.AeDefPartnerLinkTypeVisitor;
-import org.activebpel.rt.bpel.def.visitors.AeDefVariableTypeVisitor;
-import org.activebpel.rt.bpel.def.visitors.AeDefVisitorFactory;
-import org.activebpel.rt.bpel.def.visitors.AeIsolatedScopeVisitor;
-import org.activebpel.rt.bpel.def.visitors.AeScopeSnapshotOptimizationVisitor;
-import org.activebpel.rt.bpel.def.visitors.IAeDefMessagePartsMapVisitor;
-import org.activebpel.rt.bpel.def.visitors.IAeDefVisitor;
+import org.activebpel.rt.bpel.def.visitors.*;
 import org.activebpel.rt.bpel.def.visitors.preprocess.AeValidationPreprocessingVisitor;
 import org.activebpel.rt.message.AeMessagePartsMap;
 import org.activebpel.rt.util.AeUtil;
 import org.activebpel.rt.wsdl.IAeContextWSDLProvider;
 import org.activebpel.rt.wsdl.def.IAePropertyAlias;
+
+import javax.xml.namespace.QName;
+import java.io.Serializable;
+import java.util.*;
 
 /**
  * Definition for bpel process
@@ -1052,11 +1030,9 @@ public class AeProcessDef extends AeScopeDef implements Serializable
       mLocationPathsToIds.putAll(aLocationPathsToIds);
 
       mLocationIdsToPaths.clear();
-      for (Iterator<Map.Entry<String,Integer>> iter = aLocationPathsToIds.entrySet().iterator(); iter.hasNext();)
-      {
-         Map.Entry<String,Integer> entry = iter.next();
-         mLocationIdsToPaths.put(entry.getValue(), entry.getKey());
-      }
+       for (Map.Entry<String, Integer> entry : aLocationPathsToIds.entrySet()) {
+           mLocationIdsToPaths.put(entry.getValue(), entry.getKey());
+       }
    }
 
    /**

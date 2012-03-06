@@ -9,10 +9,6 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpel.impl.activity; 
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-
 import org.activebpel.rt.bpel.AeBusinessProcessException;
 import org.activebpel.rt.bpel.IAeActivity;
 import org.activebpel.rt.bpel.IAeFault;
@@ -22,6 +18,10 @@ import org.activebpel.rt.bpel.impl.IAeActivityParent;
 import org.activebpel.rt.bpel.impl.IAeBpelObject;
 import org.activebpel.rt.bpel.impl.IAeDynamicScopeParent;
 import org.activebpel.rt.bpel.impl.visitors.IAeImplVisitor;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 /**
  * An extension of the forEach activity that executes all of its iterations
@@ -84,15 +84,13 @@ public class AeActivityForEachParallelImpl extends AeActivityForEachImpl impleme
       // restoration. The result is a state document which won't contain any info
       // for the currently compensating scope. By adding the compensatable scopes
       // to the separate collection, they'll get persisted. 
-      for (Iterator<IAeActivity> iter = getChildren().iterator(); iter.hasNext();)
-      {
-         AeActivityScopeImpl scope = (AeActivityScopeImpl) iter.next();
-         if (scope.isNormalCompletion())
-         {
-            // TODO (KR) Drop this collection.
-            getCompensatableChildren().add(scope);
-         }
-      }
+       for (IAeActivity activity : getChildren()) {
+           AeActivityScopeImpl scope = (AeActivityScopeImpl) activity;
+           if (scope.isNormalCompletion()) {
+               // TODO (KR) Drop this collection.
+               getCompensatableChildren().add(scope);
+           }
+       }
       getChildren().clear();
       super.execute();
    }
@@ -115,10 +113,9 @@ public class AeActivityForEachParallelImpl extends AeActivityForEachImpl impleme
          setInstanceValue(finalInstance + 1);
          setCounterValue(getFinalValue() + 1);
 
-         for (Iterator<IAeActivity> it=getChildren().iterator(); it.hasNext();)
-         {
-            getProcess().queueObjectToExecute(it.next());
-         }
+          for (IAeActivity activity : getChildren()) {
+              getProcess().queueObjectToExecute(activity);
+          }
       }
       else
       {
@@ -152,14 +149,11 @@ public class AeActivityForEachParallelImpl extends AeActivityForEachImpl impleme
    protected int getNumberOfIterationsRemaining()
    {
       int stillExecuting = 0;
-      for (Iterator<IAeActivity> iter = getChildren().iterator(); iter.hasNext();)
-      {
-    	 IAeActivity scope = iter.next();
-         if (!scope.getState().isFinal())
-         {
-            stillExecuting++;
-         }
-      }
+       for (IAeActivity scope : getChildren()) {
+           if (!scope.getState().isFinal()) {
+               stillExecuting++;
+           }
+       }
       return stillExecuting;
    }
 
@@ -211,15 +205,12 @@ public class AeActivityForEachParallelImpl extends AeActivityForEachImpl impleme
    protected void runEarlyTerminationOnChildren() throws AeBusinessProcessException
    {
       boolean terminatedChild = false;
-      for (Iterator<IAeActivity> iter = getChildren().iterator(); iter.hasNext();)
-      {
-    	 IAeActivity impl = iter.next();
-         if (!impl.getState().isFinal())
-         {
-            impl.terminateEarly();
-            terminatedChild = true;
-         }
-      }
+       for (IAeActivity impl : getChildren()) {
+           if (!impl.getState().isFinal()) {
+               impl.terminateEarly();
+               terminatedChild = true;
+           }
+       }
       
       // if we didn't actually terminate any children, then we should just
       // signal that we're done.

@@ -9,10 +9,6 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpel.def.io.readers;
 
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
-
 import org.activebpel.rt.AeException;
 import org.activebpel.rt.bpel.AeBusinessProcessException;
 import org.activebpel.rt.bpel.def.AeProcessDef;
@@ -21,12 +17,7 @@ import org.activebpel.rt.bpel.def.activity.support.AeExpressionBaseDef;
 import org.activebpel.rt.bpel.def.activity.support.AeFromDef;
 import org.activebpel.rt.bpel.def.activity.support.AeLiteralDef;
 import org.activebpel.rt.bpel.def.io.IAeBpelReader;
-import org.activebpel.rt.bpel.def.visitors.AeDefCreateInvokeScopeVisitor;
-import org.activebpel.rt.bpel.def.visitors.AeDefPartnerLinkNameVisitor;
-import org.activebpel.rt.bpel.def.visitors.AeDefTraverser;
-import org.activebpel.rt.bpel.def.visitors.AeDefVisitorFactory;
-import org.activebpel.rt.bpel.def.visitors.AeTraversalVisitor;
-import org.activebpel.rt.bpel.def.visitors.IAeDefVisitor;
+import org.activebpel.rt.bpel.def.visitors.*;
 import org.activebpel.rt.bpel.def.visitors.preprocess.AeCorePreprocessingVisitor;
 import org.activebpel.rt.xml.def.AeBaseXmlDef;
 import org.activebpel.rt.xml.def.io.IAeDefRegistry;
@@ -36,6 +27,9 @@ import org.activebpel.rt.xml.def.visitors.AeDefAssignParentVisitor;
 import org.activebpel.rt.xml.def.visitors.IAeDefPathVisitor;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Base class for readers that use the registry to drive the deserialization process.
@@ -173,12 +167,10 @@ public class AeRegistryBasedBpelReader implements IAeBpelReader
 
       // populate bidirectional maps between location paths and location ids
       Map<String,Integer> locationPathsToIds = new HashMap<String,Integer>();
-      for (Iterator i = pathVisitor.getLocationPaths().iterator(); i.hasNext(); )
-      {
-         String locationPath = (String) i.next();
-         int locationId = pathVisitor.getLocationId(locationPath);
-         locationPathsToIds.put(locationPath, Integer.valueOf(locationId));
-      }
+       for (String locationPath : pathVisitor.getLocationPaths()) {
+           int locationId = pathVisitor.getLocationId(locationPath);
+           locationPathsToIds.put(locationPath, Integer.valueOf(locationId));
+       }
       aDef.setLocationPathsToIds(locationPathsToIds);
    }
 

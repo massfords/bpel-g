@@ -9,13 +9,12 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpel.impl.function.attachment;
 
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
-
 import org.activebpel.rt.bpel.IAeVariable;
 import org.activebpel.rt.bpel.function.AeFunctionCallException;
 import org.activebpel.rt.bpel.function.IAeFunctionExecutionContext;
+
+import java.util.Collection;
+import java.util.List;
 
 /**
  * Class representing the function used by expression evaluators to handle the BPEL -
@@ -69,12 +68,11 @@ public class AeCopyAllAttachmentsFunction extends AeAbstractAttachmentFunction
 
       int preCopyCount = toVariable.getAttachmentData().size();
       int count = 0;
-      for (Iterator varIter = fromVariables.iterator(); varIter.hasNext(); )
-      {
-         IAeVariable fromVariable = (IAeVariable) varIter.next();
-         toVariable.getAttachmentData().addAll(fromVariable.getAttachmentData());
-         count += toVariable.getAttachmentData().size();
-      }
+       for (Object fromVariable1 : fromVariables) {
+           IAeVariable fromVariable = (IAeVariable) fromVariable1;
+           toVariable.getAttachmentData().addAll(fromVariable.getAttachmentData());
+           count += toVariable.getAttachmentData().size();
+       }
       return new Integer(count - preCopyCount);
    }
 }

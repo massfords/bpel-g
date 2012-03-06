@@ -9,99 +9,9 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpel.def.io.writers.def;
 
-import java.util.Iterator;
-import java.util.Map;
-
-import javax.xml.XMLConstants;
-
-import org.activebpel.rt.bpel.def.AeActivityDef;
-import org.activebpel.rt.bpel.def.AeActivityPartnerLinkBaseDef;
-import org.activebpel.rt.bpel.def.AeCatchAllDef;
-import org.activebpel.rt.bpel.def.AeCatchDef;
-import org.activebpel.rt.bpel.def.AeCompensationHandlerDef;
-import org.activebpel.rt.bpel.def.AeCorrelationSetDef;
-import org.activebpel.rt.bpel.def.AeCorrelationSetsDef;
-import org.activebpel.rt.bpel.def.AeCorrelationsDef;
-import org.activebpel.rt.bpel.def.AeEventHandlersDef;
-import org.activebpel.rt.bpel.def.AeExtensionActivityDef;
-import org.activebpel.rt.bpel.def.AeExtensionDef;
-import org.activebpel.rt.bpel.def.AeExtensionsDef;
-import org.activebpel.rt.bpel.def.AeFaultHandlersDef;
-import org.activebpel.rt.bpel.def.AeImportDef;
-import org.activebpel.rt.bpel.def.AeMessageExchangeDef;
-import org.activebpel.rt.bpel.def.AeMessageExchangesDef;
-import org.activebpel.rt.bpel.def.AeNamedDef;
-import org.activebpel.rt.bpel.def.AePartnerDef;
-import org.activebpel.rt.bpel.def.AePartnerLinkDef;
-import org.activebpel.rt.bpel.def.AePartnerLinksDef;
-import org.activebpel.rt.bpel.def.AePartnersDef;
-import org.activebpel.rt.bpel.def.AeProcessDef;
-import org.activebpel.rt.bpel.def.AeScopeDef;
-import org.activebpel.rt.bpel.def.AeTerminationHandlerDef;
-import org.activebpel.rt.bpel.def.AeVariableDef;
-import org.activebpel.rt.bpel.def.AeVariablesDef;
-import org.activebpel.rt.bpel.def.IAeBPELConstants;
-import org.activebpel.rt.bpel.def.IAeExpressionDef;
-import org.activebpel.rt.bpel.def.activity.AeActivityAssignDef;
-import org.activebpel.rt.bpel.def.activity.AeActivityBreakDef;
-import org.activebpel.rt.bpel.def.activity.AeActivityCompensateDef;
-import org.activebpel.rt.bpel.def.activity.AeActivityCompensateScopeDef;
-import org.activebpel.rt.bpel.def.activity.AeActivityContinueDef;
-import org.activebpel.rt.bpel.def.activity.AeActivityEmptyDef;
-import org.activebpel.rt.bpel.def.activity.AeActivityExitDef;
-import org.activebpel.rt.bpel.def.activity.AeActivityFlowDef;
-import org.activebpel.rt.bpel.def.activity.AeActivityForEachDef;
-import org.activebpel.rt.bpel.def.activity.AeActivityIfDef;
-import org.activebpel.rt.bpel.def.activity.AeActivityInvokeDef;
-import org.activebpel.rt.bpel.def.activity.AeActivityOpaqueDef;
-import org.activebpel.rt.bpel.def.activity.AeActivityPickDef;
-import org.activebpel.rt.bpel.def.activity.AeActivityReceiveDef;
-import org.activebpel.rt.bpel.def.activity.AeActivityRepeatUntilDef;
-import org.activebpel.rt.bpel.def.activity.AeActivityReplyDef;
-import org.activebpel.rt.bpel.def.activity.AeActivityRethrowDef;
-import org.activebpel.rt.bpel.def.activity.AeActivityScopeDef;
-import org.activebpel.rt.bpel.def.activity.AeActivitySequenceDef;
-import org.activebpel.rt.bpel.def.activity.AeActivitySuspendDef;
-import org.activebpel.rt.bpel.def.activity.AeActivityThrowDef;
-import org.activebpel.rt.bpel.def.activity.AeActivityValidateDef;
-import org.activebpel.rt.bpel.def.activity.AeActivityWaitDef;
-import org.activebpel.rt.bpel.def.activity.AeActivityWhileDef;
-import org.activebpel.rt.bpel.def.activity.AeChildExtensionActivityDef;
-import org.activebpel.rt.bpel.def.activity.support.AeAssignCopyDef;
-import org.activebpel.rt.bpel.def.activity.support.AeConditionDef;
-import org.activebpel.rt.bpel.def.activity.support.AeCorrelationDef;
-import org.activebpel.rt.bpel.def.activity.support.AeElseDef;
-import org.activebpel.rt.bpel.def.activity.support.AeElseIfDef;
-import org.activebpel.rt.bpel.def.activity.support.AeExpressionBaseDef;
-import org.activebpel.rt.bpel.def.activity.support.AeExtensibleAssignDef;
-import org.activebpel.rt.bpel.def.activity.support.AeForDef;
-import org.activebpel.rt.bpel.def.activity.support.AeForEachBranchesDef;
-import org.activebpel.rt.bpel.def.activity.support.AeForEachCompletionConditionDef;
-import org.activebpel.rt.bpel.def.activity.support.AeForEachFinalDef;
-import org.activebpel.rt.bpel.def.activity.support.AeForEachStartDef;
-import org.activebpel.rt.bpel.def.activity.support.AeFromDef;
-import org.activebpel.rt.bpel.def.activity.support.AeFromPartDef;
-import org.activebpel.rt.bpel.def.activity.support.AeFromPartsDef;
-import org.activebpel.rt.bpel.def.activity.support.AeIfDef;
-import org.activebpel.rt.bpel.def.activity.support.AeJoinConditionDef;
-import org.activebpel.rt.bpel.def.activity.support.AeLinkDef;
-import org.activebpel.rt.bpel.def.activity.support.AeLinksDef;
-import org.activebpel.rt.bpel.def.activity.support.AeLiteralDef;
-import org.activebpel.rt.bpel.def.activity.support.AeOnAlarmDef;
-import org.activebpel.rt.bpel.def.activity.support.AeOnEventDef;
-import org.activebpel.rt.bpel.def.activity.support.AeOnMessageDef;
-import org.activebpel.rt.bpel.def.activity.support.AeQueryDef;
-import org.activebpel.rt.bpel.def.activity.support.AeRepeatEveryDef;
-import org.activebpel.rt.bpel.def.activity.support.AeSourceDef;
-import org.activebpel.rt.bpel.def.activity.support.AeSourcesDef;
-import org.activebpel.rt.bpel.def.activity.support.AeTargetDef;
-import org.activebpel.rt.bpel.def.activity.support.AeTargetsDef;
-import org.activebpel.rt.bpel.def.activity.support.AeToDef;
-import org.activebpel.rt.bpel.def.activity.support.AeToPartDef;
-import org.activebpel.rt.bpel.def.activity.support.AeToPartsDef;
-import org.activebpel.rt.bpel.def.activity.support.AeTransitionConditionDef;
-import org.activebpel.rt.bpel.def.activity.support.AeUntilDef;
-import org.activebpel.rt.bpel.def.activity.support.AeVarDef;
+import org.activebpel.rt.bpel.def.*;
+import org.activebpel.rt.bpel.def.activity.*;
+import org.activebpel.rt.bpel.def.activity.support.*;
 import org.activebpel.rt.bpel.def.io.AeCorrelationPatternIOFactory;
 import org.activebpel.rt.bpel.def.io.IAeCorrelationPatternIO;
 import org.activebpel.rt.bpel.def.io.writers.AeCorrelationSetUtil;
@@ -117,6 +27,10 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.Text;
+
+import javax.xml.XMLConstants;
+import java.util.Iterator;
+import java.util.Map;
 
 /**
  * Impl of the def visitor that serializes the def to a DOM.
@@ -867,14 +781,12 @@ public abstract class AeWriterVisitor extends AeAbstractDefWriter implements IAe
    {
       writeStandardAttributes(aDef);
 
-      for (Iterator iter = aDef.getChildNodes().iterator(); iter.hasNext(); )
-      {
-         Node node = (Node) iter.next();
-         Node importedNode = getElement().getOwnerDocument().importNode(node, true);
-         getElement().appendChild(importedNode);
-         if (importedNode.getNodeType() == Node.ELEMENT_NODE)
-            AeXmlUtil.removeDuplicateNSDecls((Element) importedNode);
-      }
+       for (Node node : aDef.getChildNodes()) {
+           Node importedNode = getElement().getOwnerDocument().importNode(node, true);
+           getElement().appendChild(importedNode);
+           if (importedNode.getNodeType() == Node.ELEMENT_NODE)
+               AeXmlUtil.removeDuplicateNSDecls((Element) importedNode);
+       }
    }
 
    /**

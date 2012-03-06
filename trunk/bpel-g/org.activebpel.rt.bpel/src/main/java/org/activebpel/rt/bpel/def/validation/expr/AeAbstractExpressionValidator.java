@@ -9,23 +9,11 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpel.def.validation.expr;
 
-import java.text.MessageFormat;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Set;
-
-import javax.xml.namespace.QName;
-
 import org.activebpel.rt.AeException;
 import org.activebpel.rt.bpel.AeMessages;
 import org.activebpel.rt.bpel.def.expr.AeExpressionLanguageUtil;
 import org.activebpel.rt.bpel.def.validation.IAeValidationDefs;
-import org.activebpel.rt.expr.def.AeExpressionParserContext;
-import org.activebpel.rt.expr.def.AeScriptFuncDef;
-import org.activebpel.rt.expr.def.IAeExpressionParseResult;
-import org.activebpel.rt.expr.def.IAeExpressionParser;
-import org.activebpel.rt.expr.def.IAeExpressionParserContext;
+import org.activebpel.rt.expr.def.*;
 import org.activebpel.rt.expr.validation.AeExpressionValidationResult;
 import org.activebpel.rt.expr.validation.IAeExpressionValidationContext;
 import org.activebpel.rt.expr.validation.IAeExpressionValidationResult;
@@ -34,6 +22,12 @@ import org.activebpel.rt.expr.validation.functions.IAeFunctionValidator;
 import org.activebpel.rt.util.AeUtil;
 import org.activebpel.rt.xml.IAeNamespaceContext;
 import org.activebpel.rt.xml.def.AeBaseDefNamespaceContext;
+
+import javax.xml.namespace.QName;
+import java.text.MessageFormat;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Base class that expression validators may use to perform common functionality.
@@ -158,11 +152,9 @@ public abstract class AeAbstractExpressionValidator implements IAeExpressionVali
    protected void doFunctionValidation(IAeExpressionParseResult aParseResult,
          AeExpressionValidationResult aValidationResult, IAeExpressionValidationContext aContext)
    {
-      for (Iterator iter = aParseResult.getFunctions().iterator(); iter.hasNext();)
-      {
-         AeScriptFuncDef function = (AeScriptFuncDef) iter.next();
-         validateFunction(function, aValidationResult, aContext);
-      }
+       for (AeScriptFuncDef function : aParseResult.getFunctions()) {
+           validateFunction(function, aValidationResult, aContext);
+       }
    }
 
    /**
@@ -232,20 +224,16 @@ public abstract class AeAbstractExpressionValidator implements IAeExpressionVali
          handleNoFunctionsInJoinCondition(aParseResult, aValidationResult);
          return;
       }
-      for (Iterator iter = functionList.iterator(); iter.hasNext(); )
-      {
-         AeScriptFuncDef function = (AeScriptFuncDef) iter.next();
-         if (!getJoinConditionAllowedFunctions().contains(function.getQName()))
-         {
-            addError(aValidationResult,
-                  AeMessages.getString("AeAbstractExpressionValidator.ILLEGAL_CALL_IN_JOIN_CONDITION_ERROR"), //$NON-NLS-1$
-                  new Object[] { function.getQName(), aParseResult.getExpression() });
-         }
-         else
-         {
-            validateFunction(function, aValidationResult, aContext);
-         }
-      }
+       for (Object aFunctionList : functionList) {
+           AeScriptFuncDef function = (AeScriptFuncDef) aFunctionList;
+           if (!getJoinConditionAllowedFunctions().contains(function.getQName())) {
+               addError(aValidationResult,
+                       AeMessages.getString("AeAbstractExpressionValidator.ILLEGAL_CALL_IN_JOIN_CONDITION_ERROR"), //$NON-NLS-1$
+                       new Object[]{function.getQName(), aParseResult.getExpression()});
+           } else {
+               validateFunction(function, aValidationResult, aContext);
+           }
+       }
    }
 
    /**

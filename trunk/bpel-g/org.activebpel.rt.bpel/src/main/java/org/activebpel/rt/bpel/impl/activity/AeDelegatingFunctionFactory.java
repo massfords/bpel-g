@@ -9,16 +9,15 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpel.impl.activity;
 
-import java.util.Iterator;
-import java.util.LinkedHashSet;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Set;
-
 import org.activebpel.rt.bpel.AeMessages;
 import org.activebpel.rt.bpel.function.AeUnresolvableException;
 import org.activebpel.rt.bpel.function.IAeFunction;
 import org.activebpel.rt.bpel.function.IAeFunctionFactory;
+
+import java.util.LinkedHashSet;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Set;
 
 /**
  * This factory delegates the work to an appropriate delegate based on the namespace   
@@ -56,14 +55,11 @@ public class AeDelegatingFunctionFactory implements IAeFunctionFactory
     */
    public IAeFunction getFunction(String aNamespace, String aFunctionName) throws AeUnresolvableException
    {
-      for(Iterator<IAeFunctionFactory> iter=getDelegates().iterator(); iter.hasNext(); )
-      {
-         IAeFunctionFactory delegate = iter.next();
-         if (delegate.getFunctionContextNamespaceList().contains(aNamespace))
-         {
-            return delegate.getFunction(aNamespace, aFunctionName);
-         }
-      }
+       for (IAeFunctionFactory delegate : getDelegates()) {
+           if (delegate.getFunctionContextNamespaceList().contains(aNamespace)) {
+               return delegate.getFunction(aNamespace, aFunctionName);
+           }
+       }
       // We don't want to throw here since the function may be one of the built
       // in functions that can be handled by the expression runner. (i.e. number())
       return null;
@@ -75,11 +71,9 @@ public class AeDelegatingFunctionFactory implements IAeFunctionFactory
    public Set<String> getFunctionContextNamespaceList()
    {
       Set<String> namespacesList = new LinkedHashSet<String>();
-      for(Iterator<IAeFunctionFactory> iter=getDelegates().iterator(); iter.hasNext(); )
-      {
-         IAeFunctionFactory delegate = iter.next();
-         namespacesList.addAll(delegate.getFunctionContextNamespaceList());
-      }
+       for (IAeFunctionFactory delegate : getDelegates()) {
+           namespacesList.addAll(delegate.getFunctionContextNamespaceList());
+       }
       return namespacesList;
    }
 

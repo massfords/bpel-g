@@ -9,22 +9,8 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpel.def.validation; 
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Set;
-
 import org.activebpel.rt.bpel.AeMessages;
-import org.activebpel.rt.bpel.def.AeBaseDef;
-import org.activebpel.rt.bpel.def.AeMessageExchangesDef;
-import org.activebpel.rt.bpel.def.AePartnerLinkDef;
-import org.activebpel.rt.bpel.def.AeProcessDef;
-import org.activebpel.rt.bpel.def.IAeBPELConstants;
-import org.activebpel.rt.bpel.def.IAeMessageExchangesParentDef;
+import org.activebpel.rt.bpel.def.*;
 import org.activebpel.rt.bpel.def.activity.AeActivityReceiveDef;
 import org.activebpel.rt.bpel.def.activity.AeActivityReplyDef;
 import org.activebpel.rt.bpel.def.activity.IAeReceiveActivityDef;
@@ -35,6 +21,9 @@ import org.activebpel.rt.bpel.def.visitors.AeAbstractDefVisitor;
 import org.activebpel.rt.bpel.def.visitors.AeDefTraverser;
 import org.activebpel.rt.bpel.def.visitors.AeTraversalVisitor;
 import org.activebpel.rt.util.AeUtil;
+
+import java.util.*;
+import java.util.Map.Entry;
 
 /**
  * Visits the receives and replies to ensure that they're matched up with their
@@ -188,47 +177,37 @@ public class AeMessageExchangeValidationVisitor extends AeAbstractDefVisitor
    {
       // validates that the replies match to receives. This will find any replies that have invalid messageExchange values
       Set<String> replyPaths = new HashSet<String>();
-      for (Iterator iter = mReplies.iterator(); iter.hasNext();)
-      {
-         AeActivityReplyDef def = (AeActivityReplyDef) iter.next();
-         
-         String fullMessageExchangePath = getFullPathForMessageExchange(def.getMessageExchange(), def);
-         AePartnerLinkDef plinkDef = AeDefUtil.findPartnerLinkDef(def, def.getPartnerLink());
-         // if the plinkDef is null then we'll have reported an error elsewhere
-         if (plinkDef != null)
-         {
-            String key = makeMessageExchangeKey(plinkDef.getLocationPath(), def.getOperation(), fullMessageExchangePath);
-            if (!mMessageExchangeReceives.contains(key))
-            {
-               Object[] args = { def.getPartnerLink(), def.getOperation(), def.getMessageExchange() };
-               addError( UNMATCHED_MESSAGE_EXCHANGE, args, def );
-            }
-            else
-            {
-               replyPaths.add(key);
-            }
-         }
-      }
+       for (AeActivityReplyDef def : mReplies) {
+           String fullMessageExchangePath = getFullPathForMessageExchange(def.getMessageExchange(), def);
+           AePartnerLinkDef plinkDef = AeDefUtil.findPartnerLinkDef(def, def.getPartnerLink());
+           // if the plinkDef is null then we'll have reported an error elsewhere
+           if (plinkDef != null) {
+               String key = makeMessageExchangeKey(plinkDef.getLocationPath(), def.getOperation(), fullMessageExchangePath);
+               if (!mMessageExchangeReceives.contains(key)) {
+                   Object[] args = {def.getPartnerLink(), def.getOperation(), def.getMessageExchange()};
+                   addError(UNMATCHED_MESSAGE_EXCHANGE, args, def);
+               } else {
+                   replyPaths.add(key);
+               }
+           }
+       }
       
       // walk the receives that had valid messageExchange values and make sure that
       // they match to replies
-      for (Iterator iter = mReceiveDefsToContexts.entrySet().iterator(); iter.hasNext();)
-      {
-         Map.Entry entry = (Entry) iter.next();
-         IAeReceiveActivityDef receiveDef = (IAeReceiveActivityDef) entry.getKey();
-         AeBaseDef contextDef = (AeBaseDef) entry.getValue();
-         String fullMessageExchangePath = getFullPathForMessageExchange(receiveDef.getMessageExchange(), contextDef);
-         AePartnerLinkDef plinkDef = AeDefUtil.findPartnerLinkDef(contextDef, receiveDef.getPartnerLink());
-         if (plinkDef != null)
-         {
-            String key = makeMessageExchangeKey(plinkDef.getLocationPath(), receiveDef.getOperation(), fullMessageExchangePath);
-            if (!replyPaths.contains(key))
-            {
-               Object[] args = { receiveDef.getPartnerLink(), receiveDef.getOperation(), receiveDef.getMessageExchange(), receiveDef.getTypeDisplayText() };
-               addError( MISSING_REPLY, args, receiveDef );
-            }
-         }
-      }
+       for (Entry<IAeReceiveActivityDef, AeBaseDef> iAeReceiveActivityDefAeBaseDefEntry : mReceiveDefsToContexts.entrySet()) {
+           Entry entry = (Entry) iAeReceiveActivityDefAeBaseDefEntry;
+           IAeReceiveActivityDef receiveDef = (IAeReceiveActivityDef) entry.getKey();
+           AeBaseDef contextDef = (AeBaseDef) entry.getValue();
+           String fullMessageExchangePath = getFullPathForMessageExchange(receiveDef.getMessageExchange(), contextDef);
+           AePartnerLinkDef plinkDef = AeDefUtil.findPartnerLinkDef(contextDef, receiveDef.getPartnerLink());
+           if (plinkDef != null) {
+               String key = makeMessageExchangeKey(plinkDef.getLocationPath(), receiveDef.getOperation(), fullMessageExchangePath);
+               if (!replyPaths.contains(key)) {
+                   Object[] args = {receiveDef.getPartnerLink(), receiveDef.getOperation(), receiveDef.getMessageExchange(), receiveDef.getTypeDisplayText()};
+                   addError(MISSING_REPLY, args, receiveDef);
+               }
+           }
+       }
    }
 
    /**

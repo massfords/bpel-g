@@ -9,51 +9,17 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpel.def.visitors;
 
+import org.activebpel.rt.bpel.AeMessages;
+import org.activebpel.rt.bpel.def.*;
+import org.activebpel.rt.bpel.def.activity.*;
+import org.activebpel.rt.bpel.def.activity.support.*;
+import org.activebpel.rt.bpel.def.validation.IAeValidationProblemCodes;
+import org.activebpel.rt.bpel.def.validation.IAeValidationProblemReporter;
+
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
-
-import org.activebpel.rt.bpel.AeMessages;
-import org.activebpel.rt.bpel.def.AeActivityDef;
-import org.activebpel.rt.bpel.def.AeBaseDef;
-import org.activebpel.rt.bpel.def.AeCatchAllDef;
-import org.activebpel.rt.bpel.def.AeCatchDef;
-import org.activebpel.rt.bpel.def.AeCompensationHandlerDef;
-import org.activebpel.rt.bpel.def.AeCorrelationSetsDef;
-import org.activebpel.rt.bpel.def.AeCorrelationsDef;
-import org.activebpel.rt.bpel.def.AeEventHandlersDef;
-import org.activebpel.rt.bpel.def.AeFaultHandlersDef;
-import org.activebpel.rt.bpel.def.AeProcessDef;
-import org.activebpel.rt.bpel.def.AeScopeDef;
-import org.activebpel.rt.bpel.def.AeTerminationHandlerDef;
-import org.activebpel.rt.bpel.def.activity.AeActivityAssignDef;
-import org.activebpel.rt.bpel.def.activity.AeActivityCompensateDef;
-import org.activebpel.rt.bpel.def.activity.AeActivityCompensateScopeDef;
-import org.activebpel.rt.bpel.def.activity.AeActivityEmptyDef;
-import org.activebpel.rt.bpel.def.activity.AeActivityExitDef;
-import org.activebpel.rt.bpel.def.activity.AeActivityFlowDef;
-import org.activebpel.rt.bpel.def.activity.AeActivityForEachDef;
-import org.activebpel.rt.bpel.def.activity.AeActivityIfDef;
-import org.activebpel.rt.bpel.def.activity.AeActivityInvokeDef;
-import org.activebpel.rt.bpel.def.activity.AeActivityPickDef;
-import org.activebpel.rt.bpel.def.activity.AeActivityReceiveDef;
-import org.activebpel.rt.bpel.def.activity.AeActivityRepeatUntilDef;
-import org.activebpel.rt.bpel.def.activity.AeActivityReplyDef;
-import org.activebpel.rt.bpel.def.activity.AeActivityScopeDef;
-import org.activebpel.rt.bpel.def.activity.AeActivitySequenceDef;
-import org.activebpel.rt.bpel.def.activity.AeActivityThrowDef;
-import org.activebpel.rt.bpel.def.activity.AeActivityWaitDef;
-import org.activebpel.rt.bpel.def.activity.AeActivityWhileDef;
-import org.activebpel.rt.bpel.def.activity.AeChildExtensionActivityDef;
-import org.activebpel.rt.bpel.def.activity.support.AeElseDef;
-import org.activebpel.rt.bpel.def.activity.support.AeElseIfDef;
-import org.activebpel.rt.bpel.def.activity.support.AeIfDef;
-import org.activebpel.rt.bpel.def.activity.support.AeOnAlarmDef;
-import org.activebpel.rt.bpel.def.activity.support.AeOnEventDef;
-import org.activebpel.rt.bpel.def.activity.support.AeOnMessageDef;
-import org.activebpel.rt.bpel.def.validation.IAeValidationProblemCodes;
-import org.activebpel.rt.bpel.def.validation.IAeValidationProblemReporter;
 
 /**
  * Class which implements a visitor pattern used to validate that the current process
@@ -101,20 +67,17 @@ public class AeCheckStartActivityVisitor extends AeAbstractDefVisitor implements
    public void doValidation(List aCreateInstanceActivities)
    {
       mErrorDefs.clear();
-      for (Iterator iter=aCreateInstanceActivities.iterator(); iter.hasNext();)
-      {
-         mCurrentActivity = (AeActivityDef)iter.next();
-         mAscending = true;
-         mCurrentActivity.getParent().accept(this);
-      }
-      
-      for (Iterator<AeBaseDef> iter = mErrorDefs.iterator(); iter.hasNext();)
-      {
-         AeBaseDef def = iter.next();
-         mErrorReporter.reportProblem(IAeValidationProblemCodes.BPEL_CHECK_START_ACTIVITY_CODE,
-                                 AeMessages.getString("AeCheckStartActivityVisitor.ERROR_CREATE_INSTANCE_VALIDATION"), //$NON-NLS-1$
-                                 new String [] {}, def); 
-      }
+       for (Object activity : aCreateInstanceActivities) {
+           mCurrentActivity = (AeActivityDef) activity;
+           mAscending = true;
+           mCurrentActivity.getParent().accept(this);
+       }
+
+       for (AeBaseDef def : mErrorDefs) {
+           mErrorReporter.reportProblem(IAeValidationProblemCodes.BPEL_CHECK_START_ACTIVITY_CODE,
+                   AeMessages.getString("AeCheckStartActivityVisitor.ERROR_CREATE_INSTANCE_VALIDATION"), //$NON-NLS-1$
+                   new String[]{}, def);
+       }
    }
 
    /**

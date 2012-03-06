@@ -7,13 +7,7 @@
 //Active Endpoints, Inc. Removal of this PROPRIETARY RIGHTS STATEMENT 
 //is strictly forbidden. Copyright (c) 2002-2006 All rights reserved. 
 /////////////////////////////////////////////////////////////////////////////
-package org.activebpel.rt.bpel.def.validation.activity.scope; 
-
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
-
-import javax.xml.namespace.QName;
+package org.activebpel.rt.bpel.def.validation.activity.scope;
 
 import org.activebpel.rt.bpel.AeWSDLDefHelper;
 import org.activebpel.rt.bpel.def.AePartnerLinkDef;
@@ -23,6 +17,10 @@ import org.activebpel.rt.util.AeUtil;
 import org.activebpel.rt.wsdl.def.AeBPELExtendedWSDLDef;
 import org.activebpel.rt.wsdl.def.IAePartnerLinkType;
 import org.activebpel.rt.wsdl.def.IAeRole;
+
+import javax.xml.namespace.QName;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * model provides validation for the partnerLink def
@@ -236,11 +234,9 @@ public class AePartnerLinkValidator extends AeBaseValidator
     */
    protected void validatePartnerLinkUsers()
    {
-      for(Iterator it=mUsers.iterator(); it.hasNext();)
-      {
-         IAePartnerLinkOperationUser user = (IAePartnerLinkOperationUser) it.next();
-         validatePartnerLinkUser(user);
-      }
+       for (IAePartnerLinkOperationUser user : mUsers) {
+           validatePartnerLinkUser(user);
+       }
    }
    
    /**

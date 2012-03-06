@@ -9,21 +9,6 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpel;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.List;
-
-import javax.wsdl.Binding;
-import javax.wsdl.BindingOperation;
-import javax.wsdl.Operation;
-import javax.wsdl.Port;
-import javax.wsdl.PortType;
-import javax.wsdl.Service;
-import javax.wsdl.extensions.ElementExtensible;
-import javax.wsdl.extensions.ExtensibilityElement;
-import javax.xml.namespace.QName;
-
 import org.activebpel.rt.AeException;
 import org.activebpel.rt.bpel.def.validation.IAeBaseErrorReporter;
 import org.activebpel.rt.util.AeUtil;
@@ -35,6 +20,15 @@ import org.activebpel.rt.wsdl.def.policy.IAePolicy;
 import org.activebpel.rt.wsdl.def.policy.IAePolicyReference;
 import org.activebpel.wsio.IAeWebServiceEndpointReference;
 import org.w3c.dom.Element;
+
+import javax.wsdl.*;
+import javax.wsdl.extensions.ElementExtensible;
+import javax.wsdl.extensions.ExtensibilityElement;
+import javax.xml.namespace.QName;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.List;
 
 /**
  * Utility helper class to do various WSDL policy attachment lookups.
@@ -65,11 +59,9 @@ public class AeWSDLPolicyHelper
       List<Element> policyElements = new ArrayList<Element>();
       if (!AeUtil.isNullOrEmpty(policies)) 
       {
-         for (Iterator<IAePolicy> it = policies.iterator(); it.hasNext();)
-         {
-            IAePolicy policy = it.next();
-            policyElements.add(policy.getPolicyElement());
-         }
+          for (IAePolicy policy : policies) {
+              policyElements.add(policy.getPolicyElement());
+          }
       }
 
       // resolve from endpoint policy
@@ -106,11 +98,9 @@ public class AeWSDLPolicyHelper
       List<Element> policyElements = new ArrayList<Element>();
       if (!AeUtil.isNullOrEmpty(policies)) 
       {
-         for (Iterator<IAePolicy> it = policies.iterator(); it.hasNext();)
-         {
-            IAePolicy policy = it.next();
-            policyElements.add(policy.getPolicyElement());
-         }
+          for (IAePolicy policy : policies) {
+              policyElements.add(policy.getPolicyElement());
+          }
       }
 
       // resolve from endpoint policy
@@ -332,30 +322,24 @@ public class AeWSDLPolicyHelper
       }
       
       List<IAePolicy> policies = new ArrayList<IAePolicy>();
-      for (Iterator<ExtensibilityElement> it = elements.iterator(); it.hasNext();)
-      {
-         ExtensibilityElement ext = it.next();
-         IAePolicy policy = null;
+       for (ExtensibilityElement ext : elements) {
+           IAePolicy policy = null;
 
-         // see if we've got a wsp:Policy or wsp:PolicyReference
-         if (ext instanceof IAePolicy)
-         {
-            policy = (IAePolicy) ext;
-         }
-         else if (ext instanceof IAePolicyReference)
-         {
-            IAePolicyReference ref = null;
-            ref = (IAePolicyReference) ext;
-            // See if we can resolve the reference using the given wsdl
-            policy = getPolicy(aDef, ref, aReporter);
-         }
-         
-         // add the policy we found
-         if (policy != null)
-         {
-            policies.add(policy);
-         }
-      }
+           // see if we've got a wsp:Policy or wsp:PolicyReference
+           if (ext instanceof IAePolicy) {
+               policy = (IAePolicy) ext;
+           } else if (ext instanceof IAePolicyReference) {
+               IAePolicyReference ref = null;
+               ref = (IAePolicyReference) ext;
+               // See if we can resolve the reference using the given wsdl
+               policy = getPolicy(aDef, ref, aReporter);
+           }
+
+           // add the policy we found
+           if (policy != null) {
+               policies.add(policy);
+           }
+       }
       return policies;
    }
 
@@ -380,35 +364,27 @@ public class AeWSDLPolicyHelper
       
       List<IAePolicy> policies = new ArrayList<IAePolicy>();
       // flag indicates if this policy has direct assertion children
-      boolean hasAssertions = false; 
-      for (Iterator<ExtensibilityElement> it = elements.iterator(); it.hasNext();)
-      {
-         ExtensibilityElement ext = it.next();
-         IAePolicy policy = null;
+      boolean hasAssertions = false;
+       for (ExtensibilityElement ext : elements) {
+           IAePolicy policy = null;
 
-         // see if we've got a wsp:Policy or wsp:PolicyReference
-         if (ext instanceof IAePolicy)
-         {
-            policy = (IAePolicy) ext;
-            policies.add(policy);
-         }
-         else if (ext instanceof IAePolicyReference)
-         {
-            IAePolicyReference ref = null;
-            ref = (IAePolicyReference) ext;
-            // See if we can resolve the reference using the given wsdl
-            List<IAePolicy> resolved = getPolicy(aProvider, ref, aReporter);
-            if (!AeUtil.isNullOrEmpty(resolved))
-            {
-               policies.addAll(resolved);
-            }
-         }
-         else
-         {
-            // anything that's not policy or policy reference is an assertion
-            hasAssertions = true;
-         }
-      }
+           // see if we've got a wsp:Policy or wsp:PolicyReference
+           if (ext instanceof IAePolicy) {
+               policy = (IAePolicy) ext;
+               policies.add(policy);
+           } else if (ext instanceof IAePolicyReference) {
+               IAePolicyReference ref = null;
+               ref = (IAePolicyReference) ext;
+               // See if we can resolve the reference using the given wsdl
+               List<IAePolicy> resolved = getPolicy(aProvider, ref, aReporter);
+               if (!AeUtil.isNullOrEmpty(resolved)) {
+                   policies.addAll(resolved);
+               }
+           } else {
+               // anything that's not policy or policy reference is an assertion
+               hasAssertions = true;
+           }
+       }
       
       // this is a policy element with assertions (not other policy or references)
       if ((aExtElement instanceof IAePolicy) && hasAssertions)
@@ -536,19 +512,16 @@ public class AeWSDLPolicyHelper
       {
          return Collections.<Element>emptyList();
       }
-      
-      for (Iterator<Element> it = aPolicyElementList.iterator(); it.hasNext();) 
-      {
-         IAePolicy policy = new AePolicyImpl(it.next());
-         List<IAePolicy> policies = getPolicies(aProvider, policy, aReporter);
-         if (!AeUtil.isNullOrEmpty(policies))
-         {
-            for (Iterator<IAePolicy> p = policies.iterator(); p.hasNext();)
-            {
-               resolved.add(p.next().getPolicyElement());
-            }
-         }
-      }
+
+       for (Element anAPolicyElementList : aPolicyElementList) {
+           IAePolicy policy = new AePolicyImpl(anAPolicyElementList);
+           List<IAePolicy> policies = getPolicies(aProvider, policy, aReporter);
+           if (!AeUtil.isNullOrEmpty(policies)) {
+               for (IAePolicy policy1 : policies) {
+                   resolved.add(policy1.getPolicyElement());
+               }
+           }
+       }
       return resolved;
    }
    
@@ -560,12 +533,11 @@ public class AeWSDLPolicyHelper
    public static List<Element> getPolicyElements(List<Element> aPolicyList, QName aPolicyName)
    {
       List<Element> elements = new ArrayList<Element>();
-      for (Iterator<Element> iter = aPolicyList.iterator(); iter.hasNext();)
-      {
-         Element e = AeXmlUtil.findSubElement(iter.next(), aPolicyName);
-         if (e != null)
-            elements.add(e);
-      }
+       for (Element anAPolicyList : aPolicyList) {
+           Element e = AeXmlUtil.findSubElement(anAPolicyList, aPolicyName);
+           if (e != null)
+               elements.add(e);
+       }
       
       return elements;
    }
@@ -577,12 +549,11 @@ public class AeWSDLPolicyHelper
     */
    public static Element getPolicyElement(List<Element> aPolicyList, QName aPolicyName)
    {
-      for (Iterator<Element> iter=aPolicyList.iterator(); iter.hasNext();)
-      {
-         Element e = AeXmlUtil.findSubElement(iter.next(), aPolicyName);
-         if (e != null)
-            return e;
-      }
+       for (Element anAPolicyList : aPolicyList) {
+           Element e = AeXmlUtil.findSubElement(anAPolicyList, aPolicyName);
+           if (e != null)
+               return e;
+       }
       return null;
    }
    

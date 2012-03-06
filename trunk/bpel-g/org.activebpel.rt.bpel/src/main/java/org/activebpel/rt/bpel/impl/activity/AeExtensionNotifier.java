@@ -9,11 +9,10 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpel.impl.activity; 
 
-import java.util.Collection;
-import java.util.Iterator;
-
 import org.activebpel.rt.bpel.IAeFault;
 import org.activebpel.rt.util.AeUtil;
+
+import java.util.Collection;
 
 /**
  * Helper class that notifies all of the extension adapter objects within the 
@@ -152,14 +151,12 @@ public abstract class AeExtensionNotifier
     */
    protected void notifyExtensions(AeActivityImpl aImpl, IAeFault aFault)
    {
-      Collection extensions = aImpl.getExtensions();
+      Collection<IAeExtensionLifecycleAdapter> extensions = aImpl.getExtensions();
       if (AeUtil.notNullOrEmpty(extensions))
       {
-         for (Iterator it = extensions.iterator(); it.hasNext();)
-         {
-            IAeExtensionLifecycleAdapter adapter = (IAeExtensionLifecycleAdapter) it.next();
-            notifyExtension(aImpl, aFault, adapter);
-         }
+          for (IAeExtensionLifecycleAdapter extension : extensions) {
+              notifyExtension(aImpl, aFault, extension);
+          }
       }
    }
    

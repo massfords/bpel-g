@@ -9,8 +9,6 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpel.def.io.registry;
 
-import java.util.Iterator;
-
 import org.activebpel.rt.bpel.def.IAeBPELConstants;
 import org.activebpel.rt.bpel.def.activity.support.AeLiteralDef;
 import org.activebpel.rt.bpel.def.activity.support.AeQueryDef;
@@ -104,13 +102,10 @@ public class AeBPWSDefWriterRegistry extends AeAbstractBpelWriterRegistry implem
       public Element createElement(AeBaseXmlDef aBaseDef, Element aParentElement)
       {
          AeLiteralDef def = (AeLiteralDef) aBaseDef;
-         for (Iterator iter = def.getChildNodes().iterator(); iter.hasNext(); )
-         {
-            Node node = (Node) iter.next();
-            
-            Node importedNode = aParentElement.getOwnerDocument().importNode(node, true);
-            aParentElement.appendChild(importedNode);
-         }
+          for (Node node : def.getChildNodes()) {
+              Node importedNode = aParentElement.getOwnerDocument().importNode(node, true);
+              aParentElement.appendChild(importedNode);
+          }
 
          return aParentElement;
       }

@@ -9,22 +9,17 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpel.impl;
 
-import java.util.Iterator;
-import java.util.Map;
-
-import javax.xml.namespace.QName;
-
 import org.activebpel.rt.attachment.IAeAttachmentContainer;
 import org.activebpel.rt.bpel.AeMessages;
 import org.activebpel.rt.bpel.impl.attachment.AeStoredAttachmentItem;
-import org.activebpel.rt.bpel.impl.fastdom.AeFastDocument;
-import org.activebpel.rt.bpel.impl.fastdom.AeFastElement;
-import org.activebpel.rt.bpel.impl.fastdom.AeFastNode;
-import org.activebpel.rt.bpel.impl.fastdom.AeFastText;
-import org.activebpel.rt.bpel.impl.fastdom.AeForeignNode;
+import org.activebpel.rt.bpel.impl.fastdom.*;
 import org.activebpel.rt.message.IAeMessageData;
 import org.activebpel.rt.xml.schema.AeTypeMapping;
 import org.w3c.dom.Document;
+
+import javax.xml.namespace.QName;
+import java.util.Iterator;
+import java.util.Map;
 
 /**
  * Serializes a message data object to an <code>AeFastElement</code> or
@@ -104,16 +99,15 @@ public class AeMessageDataSerializer implements IAeImplStateNames
          itemElement.setAttribute(STATE_ID, String.valueOf(attachmentId));
          itemElement.setAttribute(STATE_GID, String.valueOf(groupId));
          itemElement.setAttribute(STATE_PID, String.valueOf(processId));
-         
-         for (Iterator pairs = item.getHeaders().entrySet().iterator(); pairs.hasNext();)
-         {
-            Map.Entry pair = (Map.Entry)pairs.next();
-            AeFastElement pairElement = new AeFastElement(STATE_ATTACHMENT_HEADER);
-            pairElement.setAttribute(STATE_NAME, (String)pair.getKey());
-            AeFastText value = new AeFastText((String)pair.getValue());
-            pairElement.appendChild(value);
-            itemElement.appendChild(pairElement);
-         }
+
+          for (Map.Entry<String, String> stringStringEntry : item.getHeaders().entrySet()) {
+              Map.Entry pair = (Map.Entry) stringStringEntry;
+              AeFastElement pairElement = new AeFastElement(STATE_ATTACHMENT_HEADER);
+              pairElement.setAttribute(STATE_NAME, (String) pair.getKey());
+              AeFastText value = new AeFastText((String) pair.getValue());
+              pairElement.appendChild(value);
+              itemElement.appendChild(pairElement);
+          }
          
          aParentElement.appendChild(itemElement);
       }

@@ -9,18 +9,6 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpel;
 
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Set;
-
-import javax.wsdl.Fault;
-import javax.wsdl.Input;
-import javax.wsdl.Message;
-import javax.wsdl.Operation;
-import javax.wsdl.Output;
-import javax.wsdl.PortType;
-import javax.xml.namespace.QName;
-
 import org.activebpel.rt.AeException;
 import org.activebpel.rt.util.AeUtil;
 import org.activebpel.rt.wsdl.IAeContextWSDLProvider;
@@ -28,6 +16,12 @@ import org.activebpel.rt.wsdl.IAeWSDLProvider;
 import org.activebpel.rt.wsdl.def.AeBPELExtendedWSDLDef;
 import org.activebpel.rt.wsdl.def.IAeProperty;
 import org.activebpel.rt.wsdl.def.IAePropertyAlias;
+
+import javax.wsdl.*;
+import javax.xml.namespace.QName;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * Utility helper class to do various WSDL definition lookups.
@@ -200,12 +194,10 @@ public class AeWSDLDefHelper
       for ( Iterator iter = aProvider.getWSDLIterator( aPropName.getNamespaceURI() ) ; iter.hasNext() ; )
       {
          AeBPELExtendedWSDLDef def = aProvider.dereferenceIteration( iter.next());
-         for ( Iterator iterProps = def.getPropExtElements().iterator() ; iterProps.hasNext() ; )
-         {
-            IAeProperty prop = (IAeProperty)iterProps.next();
-            if ( prop.getQName().equals( aPropName ) )
-               return def ;
-         }
+          for (IAeProperty prop : def.getPropExtElements()) {
+              if (prop.getQName().equals(aPropName))
+                  return def;
+          }
       }
 
       return null;
@@ -229,15 +221,12 @@ public class AeWSDLDefHelper
       for ( Iterator iterW = aProvider.getWSDLIterator() ; iterW.hasNext() ; )
       {
          AeBPELExtendedWSDLDef def = aProvider.dereferenceIteration( iterW.next());
-         for ( Iterator iter = def.getPropAliasExtElements().iterator() ; iter.hasNext() ; )
-         {
-            IAePropertyAlias alias = (IAePropertyAlias)iter.next();
-            if ( alias.getType() == aType && aTypeName.equals( alias.getQName() ) &&
-                 aPropName.equals( alias.getPropertyName()))
-            {
-               return alias ;
-            }
-         }
+          for (IAePropertyAlias alias : def.getPropAliasExtElements()) {
+              if (alias.getType() == aType && aTypeName.equals(alias.getQName()) &&
+                      aPropName.equals(alias.getPropertyName())) {
+                  return alias;
+              }
+          }
       }
 
       return null;
@@ -432,14 +421,12 @@ public class AeWSDLDefHelper
             	// If the namespace we are looking for matches a default
                // namespace in some schema from the wsdl provider, the prefix would
                // be an empty string. Check against that.
-            	for(Iterator prefixIter = prefixes.iterator(); prefixIter.hasNext();)
-            	{
-                	String prefix = (String) prefixIter.next();
-                	if(AeUtil.notNullOrEmpty(prefix))
-                	{
-                		return prefix;
-                	}
-            	}
+                for (Object prefixe : prefixes) {
+                    String prefix = (String) prefixe;
+                    if (AeUtil.notNullOrEmpty(prefix)) {
+                        return prefix;
+                    }
+                }
             }
          }
       }

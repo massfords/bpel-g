@@ -7,13 +7,12 @@
 //Active Endpoints, Inc. Removal of this PROPRIETARY RIGHTS STATEMENT 
 //is strictly forbidden. Copyright (c) 2002-2006 All rights reserved. 
 /////////////////////////////////////////////////////////////////////////////
-package org.activebpel.rt.bpel.def.validation.activity.scope; 
-
-import java.util.Iterator;
-import java.util.List;
+package org.activebpel.rt.bpel.def.validation.activity.scope;
 
 import org.activebpel.rt.bpel.def.AePartnerLinksDef;
 import org.activebpel.rt.bpel.def.validation.AeBaseValidator;
+
+import java.util.List;
 
 /**
  * Model provides validation for the partnerlinks model
@@ -37,12 +36,11 @@ public class AePartnerLinksValidator extends AeBaseValidator
    public AePartnerLinkValidator getPartnerLinkModel(String aName)
    {
       List plinks = getChildren(AePartnerLinkValidator.class);
-      for (Iterator iter = plinks.iterator(); iter.hasNext();)
-      {
-         AePartnerLinkValidator plinkModel = (AePartnerLinkValidator) iter.next();
-         if (plinkModel.getName().equals(aName))
-            return plinkModel;
-      }
+       for (Object plink : plinks) {
+           AePartnerLinkValidator plinkModel = (AePartnerLinkValidator) plink;
+           if (plinkModel.getName().equals(aName))
+               return plinkModel;
+       }
       return null;
    }
 }

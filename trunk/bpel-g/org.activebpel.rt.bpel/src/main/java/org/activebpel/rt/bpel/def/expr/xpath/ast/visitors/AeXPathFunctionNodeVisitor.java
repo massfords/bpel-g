@@ -10,17 +10,16 @@
 
 package org.activebpel.rt.bpel.def.expr.xpath.ast.visitors;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Set;
-
 import org.activebpel.rt.bpel.xpath.ast.AeAbstractXPathNode;
 import org.activebpel.rt.bpel.xpath.ast.AeXPathFunctionNode;
 import org.activebpel.rt.bpel.xpath.ast.AeXPathLiteralNode;
 import org.activebpel.rt.bpel.xpath.ast.visitors.AeAbstractXPathNodeVisitor;
 import org.activebpel.rt.expr.def.AeScriptFuncDef;
+
+import java.util.ArrayList;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Set;
 
 /**
  * This visitor will visit the xpath AST looking for functions.
@@ -46,14 +45,12 @@ public class AeXPathFunctionNodeVisitor extends AeAbstractXPathNodeVisitor
       AeScriptFuncDef funcDef = new AeScriptFuncDef(aNode.getFunctionQName());
       
       List<Object> arguments = new ArrayList<Object>();
-      for (Iterator iter = aNode.getChildren().iterator(); iter.hasNext(); )
-      {
-         AeAbstractXPathNode child = (AeAbstractXPathNode) iter.next();
-         if (child instanceof AeXPathLiteralNode)
-            arguments.add( ((AeXPathLiteralNode) child).getValue() );
-         else
-            arguments.add(AeScriptFuncDef.__EXPRESSION__);
-      }
+       for (AeAbstractXPathNode child : aNode.getChildren()) {
+           if (child instanceof AeXPathLiteralNode)
+               arguments.add(((AeXPathLiteralNode) child).getValue());
+           else
+               arguments.add(AeScriptFuncDef.__EXPRESSION__);
+       }
       funcDef.setArgs(arguments);
       
       getFunctions().add(funcDef);

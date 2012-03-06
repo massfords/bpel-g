@@ -1,18 +1,10 @@
 package org.activebpel.rt.bpel.def;
 
-import java.io.Serializable;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Set;
+import org.activebpel.rt.util.AeCombinations;
 
 import javax.xml.namespace.QName;
-
-import org.activebpel.rt.util.AeCombinations;
+import java.io.Serializable;
+import java.util.*;
 
 
 /**
@@ -61,18 +53,13 @@ public class AeCorrelationCombinations implements Serializable
       if (added)
       {
          int count = 0;
-         for (Iterator iter = aSetOfCorrelationSetDefs.iterator(); iter.hasNext();)
-         {
-            AeCorrelationSetDef corrSetDef = (AeCorrelationSetDef) iter.next();
-            if (corrSetDef.isJoinStyle())
-            {
-               count++;
-            }
-            else
-            {
-               setInitiated(true);
-            }
-         }
+          for (AeCorrelationSetDef corrSetDef : aSetOfCorrelationSetDefs) {
+              if (corrSetDef.isJoinStyle()) {
+                  count++;
+              } else {
+                  setInitiated(true);
+              }
+          }
          setJoinCount(Math.max(getJoinCount(), count));
          
          if (count > 0)
@@ -179,7 +166,7 @@ public class AeCorrelationCombinations implements Serializable
     */
    protected Collection<Set<QName>> createPropertyCombinations(int aMaxCombinations)
    {
-      Collection<Set<QName>> coll = null;
+      Collection<Set<QName>> coll;
       if (isJoinStyle())
       {
          if (getJoinCount() < aMaxCombinations)
@@ -226,11 +213,9 @@ public class AeCorrelationCombinations implements Serializable
       {
          Set<QName> set = new HashSet<QName>();
          Set<AeCorrelationSetDef> setOfCorrelationSetDefs = aIter.next();
-         for (Iterator<AeCorrelationSetDef> iterator = setOfCorrelationSetDefs.iterator(); iterator.hasNext();)
-         {
-            AeCorrelationSetDef corrSetDef = iterator.next();
-            set.addAll(corrSetDef.getProperties());
-         }
+          for (AeCorrelationSetDef corrSetDef : setOfCorrelationSetDefs) {
+              set.addAll(corrSetDef.getProperties());
+          }
          aSet.add(set);
       }
    }
@@ -251,26 +236,19 @@ public class AeCorrelationCombinations implements Serializable
          // divide the corr sets into the initiated style and join style
          List<AeCorrelationSetDef> initiatedList = new LinkedList<AeCorrelationSetDef>();
          List<AeCorrelationSetDef> joinList = new LinkedList<AeCorrelationSetDef>();
-         for (Iterator<AeCorrelationSetDef> iterator = setOfCorrelationSetDefs.iterator(); iterator.hasNext();)
-         {
-            AeCorrelationSetDef corrSetDef = iterator.next();
-            if (corrSetDef.isJoinStyle())
-            {
-               joinList.add(corrSetDef);
-            }
-            else
-            {
-               initiatedList.add(corrSetDef);
-            }
-         }
+          for (AeCorrelationSetDef corrSetDef : setOfCorrelationSetDefs) {
+              if (corrSetDef.isJoinStyle()) {
+                  joinList.add(corrSetDef);
+              } else {
+                  initiatedList.add(corrSetDef);
+              }
+          }
          
          // get all of the initiated props since they'll be the same for each combination
          Set<QName> initiatedProps = new HashSet<QName>();
-         for (Iterator<AeCorrelationSetDef> iterator = initiatedList.iterator(); iterator.hasNext();)
-         {
-            AeCorrelationSetDef corrSetDef = iterator.next();
-            initiatedProps.addAll(corrSetDef.getProperties());
-         }
+          for (AeCorrelationSetDef corrSetDef : initiatedList) {
+              initiatedProps.addAll(corrSetDef.getProperties());
+          }
          
          // add the combination which covers none of the join style sets being initiated
          if (!initiatedProps.isEmpty())
@@ -391,15 +369,6 @@ public class AeCorrelationCombinations implements Serializable
       {
          return mMaxCombinations;
       }
-      
-      /**
-       * Setter for the max number of combinations. If greater than the current value
-       * then any previously created combinations will be cleared.
-       * @param aMaxCombinations
-       */
-      public void setMaxCombinations(int aMaxCombinations)
-      {
-         mMaxCombinations = aMaxCombinations;
-      }
+
    }
 }

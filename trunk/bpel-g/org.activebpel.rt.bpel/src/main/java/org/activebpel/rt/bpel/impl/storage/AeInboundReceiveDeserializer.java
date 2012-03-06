@@ -9,15 +9,6 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpel.impl.storage;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-
-import javax.xml.namespace.QName;
-
 import org.activebpel.rt.IAeConstants;
 import org.activebpel.rt.IAePolicyConstants;
 import org.activebpel.rt.bpel.AeBusinessProcessException;
@@ -25,11 +16,7 @@ import org.activebpel.rt.bpel.AeMessages;
 import org.activebpel.rt.bpel.AeWSDLDefHelper;
 import org.activebpel.rt.bpel.def.AePartnerLinkDef;
 import org.activebpel.rt.bpel.def.AePartnerLinkOpKey;
-import org.activebpel.rt.bpel.impl.AeBusinessProcessPropertyIO;
-import org.activebpel.rt.bpel.impl.AeEndpointReference;
-import org.activebpel.rt.bpel.impl.AeMessageDataDeserializer;
-import org.activebpel.rt.bpel.impl.IAeImplStateNames;
-import org.activebpel.rt.bpel.impl.IAeProcessPlan;
+import org.activebpel.rt.bpel.impl.*;
 import org.activebpel.rt.bpel.impl.addressing.AeAddressingHeaders;
 import org.activebpel.rt.bpel.impl.addressing.AeWsAddressingFactory;
 import org.activebpel.rt.bpel.impl.addressing.IAeAddressingDeserializer;
@@ -49,6 +36,9 @@ import org.activebpel.wsio.receive.IAeMessageContext;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+
+import javax.xml.namespace.QName;
+import java.util.*;
 
 /**
  * Deserializes an inbound receive from its serialization.
@@ -81,7 +71,7 @@ public class AeInboundReceiveDeserializer implements IAeImplStateNames
    private Map<QName,String> createCorrelationMap(AePartnerLinkOpKey aPartnerLinkOpKey, IAeProcessPlan aPlan,
          IAeMessageData aData, IAeMessageContext aContext) throws AeBusinessProcessException
    {
-      Collection names = aPlan.getCorrelatedPropertyNames(aPartnerLinkOpKey);
+      Collection<QName> names = aPlan.getCorrelatedPropertyNames(aPartnerLinkOpKey);
       Map<QName, String> map = new HashMap<QName, String>();
 
       // Note: aData would only be null if an inbound receive had no message data.  This only
@@ -89,16 +79,14 @@ public class AeInboundReceiveDeserializer implements IAeImplStateNames
       // AeSaveImplStateVisitor::visit(AeActivityOnEventScopeImpl aImpl). 
       if (aData != null)
       {
-         for (Iterator i = names.iterator(); i.hasNext(); )
-         {
-            QName name = (QName) i.next();
-            AeMessagePartsMap messagePartsMap = aPlan.getProcessDef().getMessageForCorrelation(aPartnerLinkOpKey);
-            IAePropertyAlias alias = aPlan.getProcessDef().getPropertyAliasForCorrelation(messagePartsMap, name);
-            QName type = AeWSDLDefHelper.getProperty(aPlan, name).getTypeName();
-            String value = AeXPathHelper.getInstance(aPlan.getProcessDef().getNamespace()).extractCorrelationPropertyValue(alias, aData, getTypeMapping(), type);
-   
-            map.put(name, value);
-         }
+          for (QName name : names) {
+              AeMessagePartsMap messagePartsMap = aPlan.getProcessDef().getMessageForCorrelation(aPartnerLinkOpKey);
+              IAePropertyAlias alias = aPlan.getProcessDef().getPropertyAliasForCorrelation(messagePartsMap, name);
+              QName type = AeWSDLDefHelper.getProperty(aPlan, name).getTypeName();
+              String value = AeXPathHelper.getInstance(aPlan.getProcessDef().getNamespace()).extractCorrelationPropertyValue(alias, aData, getTypeMapping(), type);
+
+              map.put(name, value);
+          }
       }
 
       String convId = aContext.getWsAddressingHeaders().getConversationId(); 

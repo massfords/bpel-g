@@ -9,24 +9,10 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpel.impl.activity.support; 
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-
-import javax.xml.XMLConstants;
-import javax.xml.namespace.QName;
-
 import org.activebpel.rt.AeException;
 import org.activebpel.rt.IAeConstants;
 import org.activebpel.rt.IAePolicyConstants;
-import org.activebpel.rt.bpel.AeBusinessProcessException;
-import org.activebpel.rt.bpel.AeMessages;
-import org.activebpel.rt.bpel.IAeEndpointReference;
-import org.activebpel.rt.bpel.IAeFault;
-import org.activebpel.rt.bpel.AeProcessInfoEventType;
-import org.activebpel.rt.bpel.IAePartnerLink;
+import org.activebpel.rt.bpel.*;
 import org.activebpel.rt.bpel.def.activity.AeActivityInvokeDef;
 import org.activebpel.rt.bpel.impl.AeBpelState;
 import org.activebpel.rt.bpel.impl.AePartnerLink;
@@ -41,6 +27,13 @@ import org.activebpel.wsio.IAeWebServiceResponse;
 import org.activebpel.wsio.receive.AeMessageContext;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+
+import javax.xml.XMLConstants;
+import javax.xml.namespace.QName;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Encapsulates all of the retry code for the invoke activity
@@ -94,11 +87,10 @@ public class AeInvokeRetryPolicy
       if (epr != null)
       {
          List policyElements = epr.findPolicyElements(((AePartnerLink)partnerLink).getProcess().getProcessPlan(), getDef().getProducerPortType(), getDef().getProducerOperation(), IAePolicyConstants.RETRY_POLICY_TAG);
-         for (Iterator iter=policyElements.iterator(); iter.hasNext();)
-         {
-            if(rescheduleFromRetryAssertion(aFault, (Element)iter.next()))
-               return true;
-         }
+          for (Object policyElement : policyElements) {
+              if (rescheduleFromRetryAssertion(aFault, (Element) policyElement))
+                  return true;
+          }
       }
       
       return false;
@@ -197,11 +189,10 @@ public class AeInvokeRetryPolicy
       {
          // split list on whitespace and test the indvidual entries
          String[] qnameList = faultList.split("\\s"); //$NON-NLS-1$
-         for(int i=0; i < qnameList.length; ++i)
-         {
-            if(isFaultNameMatch(aFault.getFaultName(), qnameList[i]))
-               return true;
-         }
+          for (String name : qnameList) {
+              if (isFaultNameMatch(aFault.getFaultName(), name))
+                  return true;
+          }
          return false;
       }
 
@@ -211,11 +202,10 @@ public class AeInvokeRetryPolicy
       {
          // split list on whitespace and test the indvidual entries
          String[] qnameList = faultExclusionList.split("\\s"); //$NON-NLS-1$
-         for(int i=0; i < qnameList.length; ++i)
-         {
-            if(isFaultNameMatch(aFault.getFaultName(), qnameList[i]))
-               return false;
-         }
+          for (String name : qnameList) {
+              if (isFaultNameMatch(aFault.getFaultName(), name))
+                  return false;
+          }
          return true;
       }
 

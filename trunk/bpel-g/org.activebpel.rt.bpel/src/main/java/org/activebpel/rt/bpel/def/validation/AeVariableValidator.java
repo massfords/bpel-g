@@ -7,34 +7,22 @@
 //Active Endpoints, Inc. Removal of this PROPRIETARY RIGHTS STATEMENT 
 //is strictly forbidden. Copyright (c) 2002-2006 All rights reserved. 
 /////////////////////////////////////////////////////////////////////////////
-package org.activebpel.rt.bpel.def.validation; 
-
-import java.util.ArrayList;
-import java.util.BitSet;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
-
-import javax.wsdl.Message;
-import javax.wsdl.Part;
-import javax.xml.XMLConstants;
-import javax.xml.namespace.QName;
+package org.activebpel.rt.bpel.def.validation;
 
 import org.activebpel.rt.AeException;
 import org.activebpel.rt.bpel.AeMessages;
 import org.activebpel.rt.bpel.AeWSDLDefHelper;
 import org.activebpel.rt.bpel.def.AeVariableDef;
 import org.activebpel.rt.bpel.def.io.readers.def.IAeFromStrategyNames;
-import org.activebpel.rt.bpel.def.validation.variable.AeComplexTypeQueryUsage;
-import org.activebpel.rt.bpel.def.validation.variable.AeElementPropertyUsage;
-import org.activebpel.rt.bpel.def.validation.variable.AeElementQueryUsage;
-import org.activebpel.rt.bpel.def.validation.variable.AeMessagePartQueryUsage;
-import org.activebpel.rt.bpel.def.validation.variable.AeMessagePartUsage;
-import org.activebpel.rt.bpel.def.validation.variable.AeMessagePropertyUsage;
-import org.activebpel.rt.bpel.def.validation.variable.AeTypePropertyUsage;
-import org.activebpel.rt.bpel.def.validation.variable.AeVariableUsage;
+import org.activebpel.rt.bpel.def.validation.variable.*;
 import org.activebpel.rt.util.AeUtil;
 import org.activebpel.rt.wsdl.def.AeBPELExtendedWSDLDef;
+
+import javax.wsdl.Message;
+import javax.wsdl.Part;
+import javax.xml.XMLConstants;
+import javax.xml.namespace.QName;
+import java.util.*;
 
 /**
  * Model for validating variables.
@@ -156,10 +144,9 @@ public class AeVariableValidator extends AeBaseValidator
       
       if (isReferenced() && !getDef().isImplicit())
       {
-         for(Iterator iter = buildVariableUsageWarnings().iterator(); iter.hasNext();)
-         {
-            getReporter().reportProblem(BPEL_VARIABLE_USAGE_CODE, (String) iter.next(),  new String[] { getDef().getName() }, getDef() );
-         }
+          for (Object o : buildVariableUsageWarnings()) {
+              getReporter().reportProblem(BPEL_VARIABLE_USAGE_CODE, (String) o, new String[]{getDef().getName()}, getDef());
+          }
       }
    }
    
@@ -499,11 +486,9 @@ public class AeVariableValidator extends AeBaseValidator
     */
    protected void validateVariableUsage()
    {
-      for(Iterator it=mVariableUsers.iterator(); it.hasNext();)
-      {
-         AeVariableUsage usage = (AeVariableUsage) it.next();
-         usage.validate();
-      }
+       for (AeVariableUsage usage : mVariableUsers) {
+           usage.validate();
+       }
    }
    
 }

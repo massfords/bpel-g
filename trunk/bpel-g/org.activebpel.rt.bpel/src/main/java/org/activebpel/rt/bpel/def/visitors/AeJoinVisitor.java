@@ -9,15 +9,14 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpel.def.visitors; 
 
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
-
 import org.activebpel.rt.bpel.def.AeCorrelationSetDef;
 import org.activebpel.rt.bpel.def.AeProcessDef;
 import org.activebpel.rt.bpel.def.activity.support.AeCorrelationDef;
 import org.activebpel.rt.bpel.def.activity.support.AeOnEventDef;
 import org.activebpel.rt.bpel.def.util.AeDefUtil;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Visits each correlation and records whether the correlation is an initiate="yes" on the correlationSet.
@@ -45,17 +44,14 @@ public class AeJoinVisitor extends AeAbstractDefVisitor
       super.visit(aDef);
       
       // walk all of the correlationSet's we've encountered and mark those that have multiple initiate points w/ the "join" flag
-      for (Iterator iter = getUsageMap().entrySet().iterator(); iter.hasNext();)
-      {
-         Map.Entry entry = (Map.Entry) iter.next();
-         AeCorrelationSetDef csDef = (AeCorrelationSetDef) entry.getKey();
-         AeCorrelationSetUsage usage = (AeCorrelationSetUsage) entry.getValue();
-         
-         if (usage.isJoin())
-         {
-            csDef.setJoinStyle(true);
-         }
-      }
+       for (Map.Entry<AeCorrelationSetDef, AeCorrelationSetUsage> entry : getUsageMap().entrySet()) {
+           AeCorrelationSetDef csDef = entry.getKey();
+           AeCorrelationSetUsage usage = entry.getValue();
+
+           if (usage.isJoin()) {
+               csDef.setJoinStyle(true);
+           }
+       }
    }
 
    /**

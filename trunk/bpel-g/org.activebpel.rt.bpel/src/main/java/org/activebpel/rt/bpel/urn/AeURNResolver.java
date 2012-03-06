@@ -71,10 +71,9 @@ public class AeURNResolver implements IAeURNResolver
    public synchronized void removeMappings(String[] aURNArray)
    {
       Map<String, String> map = getMappings();
-      for (int i = 0; i < aURNArray.length; i++)
-      {
-         map.remove(AeUtil.normalizeURN(aURNArray[i]));
-      }
+       for (String anAURNArray : aURNArray) {
+           map.remove(AeUtil.normalizeURN(anAURNArray));
+       }
       setMap(map);
    }
 

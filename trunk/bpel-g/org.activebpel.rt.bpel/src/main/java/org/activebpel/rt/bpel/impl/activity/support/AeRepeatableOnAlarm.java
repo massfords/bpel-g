@@ -7,12 +7,7 @@
 //Active Endpoints, Inc. Removal of this PROPRIETARY RIGHTS STATEMENT 
 //is strictly forbidden. Copyright (c) 2002-2006 All rights reserved. 
 /////////////////////////////////////////////////////////////////////////////
-package org.activebpel.rt.bpel.impl.activity.support; 
-
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.Iterator;
-import java.util.List;
+package org.activebpel.rt.bpel.impl.activity.support;
 
 import org.activebpel.rt.bpel.AeBusinessProcessException;
 import org.activebpel.rt.bpel.IAeActivity;
@@ -26,6 +21,11 @@ import org.activebpel.rt.bpel.impl.activity.AeDynamicScopeCreator;
 import org.activebpel.rt.bpel.impl.activity.IAeEventParent;
 import org.activebpel.rt.bpel.impl.visitors.IAeImplVisitor;
 import org.activebpel.rt.xml.schema.AeSchemaDuration;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.Iterator;
+import java.util.List;
 
 /**
  * Implementation of a repeatable alarm for use when a scope onAlarm contains
@@ -76,14 +76,12 @@ public class AeRepeatableOnAlarm extends AeOnAlarm implements IAeDynamicScopePar
    {
       if (isConcurrent())
       {
-         for (Iterator<IAeActivity> iter = getChildren().iterator(); iter.hasNext();)
-         {
-            AeActivityScopeImpl scope = (AeActivityScopeImpl) iter.next();
-            if (scope.isNormalCompletion())
-            {
-               getCompensatableChildren().add(scope);
-            }
-         }
+          for (IAeActivity iAeActivity : getChildren()) {
+              AeActivityScopeImpl scope = (AeActivityScopeImpl) iAeActivity;
+              if (scope.isNormalCompletion()) {
+                  getCompensatableChildren().add(scope);
+              }
+          }
          getChildren().clear();
       }
       

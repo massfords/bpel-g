@@ -9,70 +9,10 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpel.impl.visitors;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
-import javax.xml.namespace.QName;
-
-import org.activebpel.rt.bpel.AeBusinessProcessException;
-import org.activebpel.rt.bpel.AeMessages;
-import org.activebpel.rt.bpel.IAeFault;
-import org.activebpel.rt.bpel.IAeVariable;
-import org.activebpel.rt.bpel.impl.AeAbstractBpelObject;
-import org.activebpel.rt.bpel.impl.AeBpelException;
-import org.activebpel.rt.bpel.impl.AeBpelState;
-import org.activebpel.rt.bpel.impl.AeBusinessProcess;
-import org.activebpel.rt.bpel.impl.AeBusinessProcessPropertyIO;
-import org.activebpel.rt.bpel.impl.AePartnerLink;
-import org.activebpel.rt.bpel.impl.AeProcessImplState;
-import org.activebpel.rt.bpel.impl.IAeActivityParent;
-import org.activebpel.rt.bpel.impl.IAeBpelObject;
-import org.activebpel.rt.bpel.impl.IAeDynamicScopeParent;
-import org.activebpel.rt.bpel.impl.IAeImplStateNames;
-import org.activebpel.rt.bpel.impl.activity.AeActivityChildExtensionActivityImpl;
-import org.activebpel.rt.bpel.impl.activity.AeActivityCompensateImpl;
-import org.activebpel.rt.bpel.impl.activity.AeActivityForEachImpl;
-import org.activebpel.rt.bpel.impl.activity.AeActivityForEachParallelImpl;
-import org.activebpel.rt.bpel.impl.activity.AeActivityInvokeImpl;
-import org.activebpel.rt.bpel.impl.activity.AeActivityOnEventScopeImpl;
-import org.activebpel.rt.bpel.impl.activity.AeActivityReceiveImpl;
-import org.activebpel.rt.bpel.impl.activity.AeActivityRepeatUntilImpl;
-import org.activebpel.rt.bpel.impl.activity.AeActivityScopeImpl;
-import org.activebpel.rt.bpel.impl.activity.AeActivityWaitImpl;
-import org.activebpel.rt.bpel.impl.activity.AeActivityWhileImpl;
-import org.activebpel.rt.bpel.impl.activity.AeLoopActivity;
-import org.activebpel.rt.bpel.impl.activity.IAeActivityLifeCycleAdapter;
-import org.activebpel.rt.bpel.impl.activity.IAeExtensionLifecycleAdapter;
-import org.activebpel.rt.bpel.impl.activity.support.AeBaseEvent;
-import org.activebpel.rt.bpel.impl.activity.support.AeCompInfo;
-import org.activebpel.rt.bpel.impl.activity.support.AeCompensationHandler;
-import org.activebpel.rt.bpel.impl.activity.support.AeCoordinationContainer;
-import org.activebpel.rt.bpel.impl.activity.support.AeCoordinatorCompensationHandler;
-import org.activebpel.rt.bpel.impl.activity.support.AeCorrelationSet;
-import org.activebpel.rt.bpel.impl.activity.support.AeDefaultFaultHandler;
-import org.activebpel.rt.bpel.impl.activity.support.AeFCTHandler;
-import org.activebpel.rt.bpel.impl.activity.support.AeFaultHandler;
-import org.activebpel.rt.bpel.impl.activity.support.AeImplicitCompensationHandler;
-import org.activebpel.rt.bpel.impl.activity.support.AeImplicitFaultHandler;
-import org.activebpel.rt.bpel.impl.activity.support.AeLink;
-import org.activebpel.rt.bpel.impl.activity.support.AeOnAlarm;
-import org.activebpel.rt.bpel.impl.activity.support.AeOnEvent;
-import org.activebpel.rt.bpel.impl.activity.support.AeOnMessage;
-import org.activebpel.rt.bpel.impl.activity.support.AeOpenMessageActivityInfo;
-import org.activebpel.rt.bpel.impl.activity.support.AeRepeatableOnAlarm;
-import org.activebpel.rt.bpel.impl.activity.support.AeScopeSnapshot;
-import org.activebpel.rt.bpel.impl.activity.support.AeWSBPELFaultHandler;
-import org.activebpel.rt.bpel.impl.activity.support.IAeCompensationCallback;
+import org.activebpel.rt.bpel.*;
+import org.activebpel.rt.bpel.impl.*;
+import org.activebpel.rt.bpel.impl.activity.*;
+import org.activebpel.rt.bpel.impl.activity.support.*;
 import org.activebpel.rt.bpel.impl.fastdom.AeFastElement;
 import org.activebpel.rt.bpel.impl.queue.AeInboundReceive;
 import org.activebpel.rt.bpel.impl.storage.AeDurableReplySerializer;
@@ -83,6 +23,11 @@ import org.w3c.dom.DocumentFragment;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+
+import javax.xml.namespace.QName;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 /**
  * Visit / traverse the impl to save state at each node.
@@ -239,11 +184,9 @@ public class AeSaveImplStateVisitor extends AeImplTraversingVisitor implements I
                }
 
                // Recursively save enclosed compensation info.
-               for (Iterator i = aCompInfo.getEnclosedScopes().iterator(); i.hasNext(); )
-               {
-                  AeCompInfo enclosedScope = (AeCompInfo) i.next();
-                  appendCompInfo(enclosedScope);
-               }
+                for (AeCompInfo enclosedScope : aCompInfo.getEnclosedScopes()) {
+                    appendCompInfo(enclosedScope);
+                }
             }
             finally
             {
@@ -261,21 +204,20 @@ public class AeSaveImplStateVisitor extends AeImplTraversingVisitor implements I
    protected void appendCorrelationProperties(Map aProperties)
    {
       // save each name/value pair
-      for (Iterator iterNames = aProperties.keySet().iterator(); iterNames.hasNext(); )
-      {
-         QName partName = (QName)iterNames.next();
-         Object value = aProperties.get(partName);
+       for (Object o : aProperties.keySet()) {
+           QName partName = (QName) o;
+           Object value = aProperties.get(partName);
 
-         getImplState().appendElement(
-            STATE_PROPERTY,
-            new String[]
-            {
-               STATE_NAME        , partName.getLocalPart(),
-               STATE_NAMESPACEURI, partName.getNamespaceURI(),
-               STATE_VALUE       , value.toString()
-            }
-         );
-      }
+           getImplState().appendElement(
+                   STATE_PROPERTY,
+                   new String[]
+                           {
+                                   STATE_NAME, partName.getLocalPart(),
+                                   STATE_NAMESPACEURI, partName.getNamespaceURI(),
+                                   STATE_VALUE, value.toString()
+                           }
+           );
+       }
    }
 
    /**
@@ -432,11 +374,10 @@ public class AeSaveImplStateVisitor extends AeImplTraversingVisitor implements I
       {
          List locationPaths = aProcess.getExecutionQueuePaths();
 
-         for (Iterator i = locationPaths.iterator(); i.hasNext(); )
-         {
-            String locationPath = (String) i.next();
-            getImplState().appendElement(STATE_QUEUEITEM, new String[] { STATE_LOC, locationPath });
-         }
+          for (Object locationPath1 : locationPaths) {
+              String locationPath = (String) locationPath1;
+              getImplState().appendElement(STATE_QUEUEITEM, new String[]{STATE_LOC, locationPath});
+          }
       }
       finally
       {
@@ -478,13 +419,11 @@ public class AeSaveImplStateVisitor extends AeImplTraversingVisitor implements I
     */
    protected void appendExtensionState(Collection aExtensions)
    {
-      Element elem = AeXmlUtil.createElement(IAeActivityLifeCycleAdapter.EXTENSION_STATE_NAMESPACE, IAeActivityLifeCycleAdapter.EXTENSION_NAMESPACE_PREFIX, IAeActivityLifeCycleAdapter.EXTENSION_STATE_ELEMENT); 
-      for(Iterator iter=aExtensions.iterator(); iter.hasNext(); )
-      {
-         Object obj = iter.next();
-         if (obj instanceof IAeExtensionLifecycleAdapter)
-            ((IAeExtensionLifecycleAdapter) obj).onSave(elem);
-      }
+      Element elem = AeXmlUtil.createElement(IAeActivityLifeCycleAdapter.EXTENSION_STATE_NAMESPACE, IAeActivityLifeCycleAdapter.EXTENSION_NAMESPACE_PREFIX, IAeActivityLifeCycleAdapter.EXTENSION_STATE_ELEMENT);
+       for (Object obj : aExtensions) {
+           if (obj instanceof IAeExtensionLifecycleAdapter)
+               ((IAeExtensionLifecycleAdapter) obj).onSave(elem);
+       }
       if (elem.hasChildNodes())
          getImplState().appendForeignNode(elem);
       
@@ -566,23 +505,18 @@ public class AeSaveImplStateVisitor extends AeImplTraversingVisitor implements I
     */
    protected void appendScopeSnapshot(AeScopeSnapshot aSnapshot) throws AeBusinessProcessException
    {
-      for (Iterator i = aSnapshot.getVariables().iterator(); i.hasNext(); )
-      {
-         IAeVariable variable = (IAeVariable) i.next();
-         appendVariable(variable);
-      }
+       for (IAeVariable variable : aSnapshot.getVariables()) {
+           appendVariable(variable);
+       }
 
-      for (Iterator i = aSnapshot.getCorrelationSets().iterator(); i.hasNext(); )
-      {
-         AeCorrelationSet correlationSet = (AeCorrelationSet) i.next();
-         appendCorrelationSet(correlationSet);
-      }
+       for (AeCorrelationSet correlationSet : aSnapshot.getCorrelationSets()) {
+           appendCorrelationSet(correlationSet);
+       }
 
-      for (Iterator i = aSnapshot.getPartnerLinks().iterator(); i.hasNext(); )
-      {
-         AePartnerLink partnerLink = (AePartnerLink) i.next();
-         appendPartnerLink(partnerLink);
-      }
+       for (IAePartnerLink iAePartnerLink : aSnapshot.getPartnerLinks()) {
+           AePartnerLink partnerLink = (AePartnerLink) iAePartnerLink;
+           appendPartnerLink(partnerLink);
+       }
    }
 
    /**
@@ -1087,15 +1021,13 @@ public class AeSaveImplStateVisitor extends AeImplTraversingVisitor implements I
             // we're only interested in saving the state of scopes that are 
             // currently compensating. This is determined by checking the 
             // scope's compensation handler.
-            for (Iterator iter = compensatableScopes.iterator(); iter.hasNext();)
-            {
-               AeActivityScopeImpl scope = (AeActivityScopeImpl) iter.next();
-               if (scope.isCompensating())
-               {
-                  scope.accept(this);
-                  getImplState().appendAttribute(STATE_SCOPE_COMPENSATING, "true"); //$NON-NLS-1$ 
-               }
-            }
+             for (Object compensatableScope : compensatableScopes) {
+                 AeActivityScopeImpl scope = (AeActivityScopeImpl) compensatableScope;
+                 if (scope.isCompensating()) {
+                     scope.accept(this);
+                     getImplState().appendAttribute(STATE_SCOPE_COMPENSATING, "true"); //$NON-NLS-1$
+                 }
+             }
          }
          finally
          {
@@ -1196,18 +1128,16 @@ public class AeSaveImplStateVisitor extends AeImplTraversingVisitor implements I
     */
    protected void appendBusinessProcessProperties( AeBusinessProcess aImpl )
    {
-      for (Iterator i = aImpl.getBusinessProcessPropertiesMap().entrySet().iterator(); i.hasNext(); )
-      {
-         Map.Entry entry = (Map.Entry) i.next();
-         Object name = entry.getKey();
-         Object value = entry.getValue();
+       for (Map.Entry<String, String> stringStringEntry : aImpl.getBusinessProcessPropertiesMap().entrySet()) {
+           Map.Entry entry = (Map.Entry) stringStringEntry;
+           Object name = entry.getKey();
+           Object value = entry.getValue();
 
-         if ((name instanceof String) && (value instanceof String))
-         {
-            AeFastElement element = AeBusinessProcessPropertyIO.getBusinessProcessPropertyElement((String) name, (String) value);
-            getImplState().appendElement(element);
-         }
-      }
+           if ((name instanceof String) && (value instanceof String)) {
+               AeFastElement element = AeBusinessProcessPropertyIO.getBusinessProcessPropertyElement((String) name, (String) value);
+               getImplState().appendElement(element);
+           }
+       }
    }
 
    /**
@@ -1217,13 +1147,11 @@ public class AeSaveImplStateVisitor extends AeImplTraversingVisitor implements I
     */
    protected void appendFaultingActivityLocationPaths( AeBusinessProcess aImpl )
    {
-      for( Iterator iter = aImpl.getFaultingActivityLocationPaths().iterator(); iter.hasNext(); )
-      {
-         String locationPath = (String)iter.next();
-         AeFastElement faultingElement = new AeFastElement( STATE_FAULTING_ACTIVITY );
-         faultingElement.setAttribute( STATE_LOC, locationPath );
-         getImplState().appendElement( faultingElement );
-      }
+       for (String locationPath : aImpl.getFaultingActivityLocationPaths()) {
+           AeFastElement faultingElement = new AeFastElement(STATE_FAULTING_ACTIVITY);
+           faultingElement.setAttribute(STATE_LOC, locationPath);
+           getImplState().appendElement(faultingElement);
+       }
    }
 
    /**

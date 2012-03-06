@@ -9,10 +9,6 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpel.impl.activity; 
 
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
-
 import org.activebpel.rt.bpel.AeBusinessProcessException;
 import org.activebpel.rt.bpel.IAeVariable;
 import org.activebpel.rt.bpel.def.activity.AeActivityValidateDef;
@@ -21,6 +17,10 @@ import org.activebpel.rt.bpel.impl.AeInvalidVariableException;
 import org.activebpel.rt.bpel.impl.IAeActivityParent;
 import org.activebpel.rt.bpel.impl.visitors.IAeImplVisitor;
 import org.activebpel.rt.util.AeUtil;
+
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * Implementation of the BPEL validate activity.
@@ -75,12 +75,11 @@ public class AeActivityValidateImpl extends AeActivityImpl
          {
             StringBuffer messages = new StringBuffer();
             String delim = ""; //$NON-NLS-1$
-            for (Iterator<String> it = exceptions.iterator(); it.hasNext();)
-            {
-               messages.append(delim);
-               messages.append(it.next());
-               delim = "\n"; //$NON-NLS-1$
-            }
+             for (String exception : exceptions) {
+                 messages.append(delim);
+                 messages.append(exception);
+                 delim = "\n"; //$NON-NLS-1$
+             }
             throw new AeInvalidVariableException(getBPELNamespace(), messages.toString(), null);
          }
 

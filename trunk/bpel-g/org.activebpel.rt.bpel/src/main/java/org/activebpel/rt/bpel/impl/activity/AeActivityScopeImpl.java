@@ -9,54 +9,19 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpel.impl.activity;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-
-import org.activebpel.rt.bpel.AeBusinessProcessException;
-import org.activebpel.rt.bpel.AeMessages;
-import org.activebpel.rt.bpel.IAeActivity;
-import org.activebpel.rt.bpel.IAeFault;
-import org.activebpel.rt.bpel.IAePartnerLink;
-import org.activebpel.rt.bpel.IAeVariable;
+import org.activebpel.rt.bpel.*;
 import org.activebpel.rt.bpel.def.AeBaseDef;
 import org.activebpel.rt.bpel.def.AeScopeDef;
 import org.activebpel.rt.bpel.def.activity.AeActivityScopeDef;
 import org.activebpel.rt.bpel.def.faults.IAeFaultMatchingStrategy;
-import org.activebpel.rt.bpel.impl.AeBpelState;
-import org.activebpel.rt.bpel.impl.AeBusinessProcess;
-import org.activebpel.rt.bpel.impl.AePartnerLink;
-import org.activebpel.rt.bpel.impl.AeVariablesImpl;
-import org.activebpel.rt.bpel.impl.IAeActivityParent;
-import org.activebpel.rt.bpel.impl.IAeBpelObject;
-import org.activebpel.rt.bpel.impl.IAeBusinessProcessInternal;
-import org.activebpel.rt.bpel.impl.IAeCompensatableActivity;
-import org.activebpel.rt.bpel.impl.IAeFaultHandler;
-import org.activebpel.rt.bpel.impl.IAeLink;
-import org.activebpel.rt.bpel.impl.activity.support.AeCompInfo;
-import org.activebpel.rt.bpel.impl.activity.support.AeCompensationHandler;
-import org.activebpel.rt.bpel.impl.activity.support.AeCoordinationContainer;
-import org.activebpel.rt.bpel.impl.activity.support.AeCorrelationSet;
-import org.activebpel.rt.bpel.impl.activity.support.AeDefaultFaultHandler;
-import org.activebpel.rt.bpel.impl.activity.support.AeEventHandlers;
-import org.activebpel.rt.bpel.impl.activity.support.AeEventHandlersContainer;
-import org.activebpel.rt.bpel.impl.activity.support.AeFaultHandler;
-import org.activebpel.rt.bpel.impl.activity.support.AeImplicitCompensationHandler;
-import org.activebpel.rt.bpel.impl.activity.support.AeImplicitFaultHandler;
-import org.activebpel.rt.bpel.impl.activity.support.AeImplicitTerminationHandler;
-import org.activebpel.rt.bpel.impl.activity.support.AeOnAlarm;
-import org.activebpel.rt.bpel.impl.activity.support.AeOnMessage;
-import org.activebpel.rt.bpel.impl.activity.support.AeScopeSnapshot;
-import org.activebpel.rt.bpel.impl.activity.support.AeTerminationHandler;
+import org.activebpel.rt.bpel.impl.*;
+import org.activebpel.rt.bpel.impl.activity.support.*;
 import org.activebpel.rt.bpel.impl.visitors.IAeImplVisitor;
 import org.activebpel.rt.util.AeSequenceIterator;
 import org.activebpel.rt.util.AeUtil;
+
+import java.util.*;
+import java.util.Map.Entry;
 
 /**
  * Implementation of the bpel scope activity.
@@ -812,17 +777,14 @@ public class AeActivityScopeImpl extends AeActivityImpl implements IAeActivityPa
     */
    private void clearCorrelationSetState(boolean aCloneFlag)
    {
-      for (Iterator<Entry<String,AeCorrelationSet>> iter = getCorrelationSetMap().entrySet().iterator(); iter.hasNext();)
-      {
-         Map.Entry<String,AeCorrelationSet> entry = iter.next();
-         AeCorrelationSet corrSet = entry.getValue();
-         if (aCloneFlag)
-         {
-            corrSet = (AeCorrelationSet) corrSet.clone();
-            entry.setValue(corrSet);
-         }
-         corrSet.clear();
-      }
+       for (Entry<String, AeCorrelationSet> entry : getCorrelationSetMap().entrySet()) {
+           AeCorrelationSet corrSet = entry.getValue();
+           if (aCloneFlag) {
+               corrSet = (AeCorrelationSet) corrSet.clone();
+               entry.setValue(corrSet);
+           }
+           corrSet.clear();
+       }
    }
 
    /**
@@ -835,12 +797,10 @@ public class AeActivityScopeImpl extends AeActivityImpl implements IAeActivityPa
    {
       if (aCloneFlag)
       {
-         for (Iterator<Entry<String, IAePartnerLink>> iter = getPartnerLinks().entrySet().iterator(); iter.hasNext(); )
-         {
-            Map.Entry<String, IAePartnerLink> entry = iter.next();
-            IAePartnerLink plink = entry.getValue();
-            entry.setValue((AePartnerLink) plink.clone());
-         }
+          for (Entry<String, IAePartnerLink> entry : getPartnerLinks().entrySet()) {
+              IAePartnerLink plink = entry.getValue();
+              entry.setValue((AePartnerLink) plink.clone());
+          }
       }
    }
 
@@ -849,11 +809,9 @@ public class AeActivityScopeImpl extends AeActivityImpl implements IAeActivityPa
     */
    protected void initializePartnerLinks() throws AeBusinessProcessException
    {
-      for (Iterator<IAePartnerLink> iter = getPartnerLinks().values().iterator(); iter.hasNext(); )
-      {
-    	 IAePartnerLink plink = iter.next();
-         getProcess().initPartnerLink(plink);
-      }
+       for (IAePartnerLink plink : getPartnerLinks().values()) {
+           getProcess().initPartnerLink(plink);
+       }
    }
 
    /**
@@ -1450,11 +1408,9 @@ public class AeActivityScopeImpl extends AeActivityImpl implements IAeActivityPa
     */
    protected void notifyProcessOfLinkChanges()
    {
-      for (Iterator i = getDeferredLinks().iterator(); i.hasNext(); )
-      {
-         IAeLink link = (IAeLink) i.next();
-         getProcess().linkStatusChanged(link);
-      }
+       for (IAeLink link : getDeferredLinks()) {
+           getProcess().linkStatusChanged(link);
+       }
 
       super.notifyProcessOfLinkChanges();
    }

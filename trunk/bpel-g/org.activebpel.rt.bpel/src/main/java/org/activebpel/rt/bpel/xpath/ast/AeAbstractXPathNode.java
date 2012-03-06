@@ -1,12 +1,11 @@
 package org.activebpel.rt.bpel.xpath.ast;
 
+import org.activebpel.rt.bpel.xpath.ast.visitors.AeXPathSerializeNodeVisitor;
+
 import java.text.MessageFormat;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
-
-import org.activebpel.rt.bpel.xpath.ast.visitors.AeXPathSerializeNodeVisitor;
 
 /**
  * A simple 'node' inner class.
@@ -197,11 +196,9 @@ public abstract class AeAbstractXPathNode
    protected void normalizeChildren()
    {
       List<AeAbstractXPathNode> list = new ArrayList<AeAbstractXPathNode>();
-      for (Iterator iter = getChildren().iterator(); iter.hasNext(); )
-      {
-         AeAbstractXPathNode node = (AeAbstractXPathNode) iter.next();
-         list.add(node.normalize());
-      }
+       for (AeAbstractXPathNode node : getChildren()) {
+           list.add(node.normalize());
+       }
       setChildren(list);
    }
    

@@ -9,16 +9,14 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpel.impl.queue;
 
-import java.beans.ConstructorProperties;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Map.Entry;
-
-import javax.xml.namespace.QName;
-
 import org.activebpel.rt.bpel.def.AePartnerLinkOpKey;
 import org.activebpel.rt.bpel.impl.IAeProcessManager;
 import org.activebpel.rt.util.AeUtil;
+
+import javax.xml.namespace.QName;
+import java.beans.ConstructorProperties;
+import java.util.Map;
+import java.util.Map.Entry;
 
 /**
  * Models a single bpel activity that has executed and is waiting to receive
@@ -138,15 +136,13 @@ public class AeMessageReceiver extends AeCorrelatedReceive
     */
    protected boolean correlatedPropertiesMatch(AeInboundReceive aInboundReceive)
    {
-      for (Iterator iter = getCorrelation().entrySet().iterator(); iter.hasNext();)
-      {
-         Map.Entry entry = (Entry) iter.next();
-         Object otherValue = aInboundReceive.getCorrelation().get(entry.getKey());
-         if (otherValue == null || !entry.getValue().equals(otherValue))
-         {
-            return false;
-         }
-      }
+       for (Entry<QName, String> qNameStringEntry : getCorrelation().entrySet()) {
+           Entry entry = (Entry) qNameStringEntry;
+           Object otherValue = aInboundReceive.getCorrelation().get(entry.getKey());
+           if (otherValue == null || !entry.getValue().equals(otherValue)) {
+               return false;
+           }
+       }
 
       return true;
    }

@@ -10,10 +10,6 @@
 
 package org.activebpel.rt.bpel.impl.activity;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-
 import org.activebpel.rt.bpel.AeBusinessProcessException;
 import org.activebpel.rt.bpel.def.activity.AeActivityIfDef;
 import org.activebpel.rt.bpel.impl.IAeActivityParent;
@@ -22,6 +18,10 @@ import org.activebpel.rt.bpel.impl.activity.support.AeElse;
 import org.activebpel.rt.bpel.impl.activity.support.AeElseIf;
 import org.activebpel.rt.bpel.impl.visitors.IAeImplVisitor;
 import org.activebpel.rt.util.AeUtil;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 /**
  * Implementation of the bpel 2.0 if activity.
@@ -113,15 +113,12 @@ public class AeActivityIfImpl extends AeActivityImpl
    private IAeBpelObject findTrueClause() throws AeBusinessProcessException
    {
       IAeBpelObject foundClause = null;
-      for (Iterator iter = getElseIfs().iterator(); iter.hasNext();)
-      {
-         AeElseIf elseIf = (AeElseIf) iter.next();
-         if (elseIf.isEvalTrue())
-         {
-            foundClause = elseIf;
-            break;
-         }
-      }
+       for (AeElseIf elseIf : getElseIfs()) {
+           if (elseIf.isEvalTrue()) {
+               foundClause = elseIf;
+               break;
+           }
+       }
 
       // If nothing evaluated to true, use the else.
       if (foundClause == null)
