@@ -9,16 +9,6 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpel.impl.activity.support;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-
-import javax.xml.namespace.QName;
-
 import org.activebpel.rt.AeException;
 import org.activebpel.rt.bpel.AeBusinessProcessException;
 import org.activebpel.rt.bpel.def.AeCorrelationSetDef;
@@ -36,6 +26,10 @@ import org.activebpel.rt.xml.AeXMLParserBase;
 import org.activebpel.rt.xml.schema.AeTypeMapping;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+
+import javax.xml.namespace.QName;
+import java.util.*;
+import java.util.Map.Entry;
 
 /**
  * Models a <code>correlationSet</code> defined as part of a scope or process.
@@ -99,12 +93,11 @@ public class AeCorrelationSet extends AeScopedObject implements Cloneable
       if(aCorrSetData != null)
       {
          List propertyNodeList = AeXPathUtil.selectNodes(aCorrSetData.getDocumentElement(), "//property"); //$NON-NLS-1$
-         for (Iterator iter = propertyNodeList.iterator(); iter.hasNext();)
-         {
-            Element ele = (Element) iter.next();
-            QName propQName = new QName( ele.getAttribute("namespaceURI"), ele.getAttribute("name")); //$NON-NLS-1$ //$NON-NLS-2$
-            correlationData.put(propQName , ele.getAttribute("value") );  //$NON-NLS-1$
-         }
+          for (Object aPropertyNodeList : propertyNodeList) {
+              Element ele = (Element) aPropertyNodeList;
+              QName propQName = new QName(ele.getAttribute("namespaceURI"), ele.getAttribute("name")); //$NON-NLS-1$ //$NON-NLS-2$
+              correlationData.put(propQName, ele.getAttribute("value"));  //$NON-NLS-1$
+          }
       }      
       return correlationData;
    }
@@ -212,11 +205,9 @@ public class AeCorrelationSet extends AeScopedObject implements Cloneable
       if (mListeners != null)
       {
          List<IAeCorrelationListener> list = new ArrayList<IAeCorrelationListener>(getListeners());
-         for (Iterator iter = list.iterator(); iter.hasNext();)
-         {
-            IAeCorrelationListener listener = (IAeCorrelationListener) iter.next();
-            listener.correlationSetInitialized(this);
-         }
+          for (IAeCorrelationListener listener : list) {
+              listener.correlationSetInitialized(this);
+          }
       }
    }
 

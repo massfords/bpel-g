@@ -9,13 +9,6 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpel.impl;
 
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-
-import javax.xml.namespace.QName;
-
 import org.activebpel.rt.attachment.AeAttachmentContainer;
 import org.activebpel.rt.attachment.IAeAttachmentContainer;
 import org.activebpel.rt.bpel.AeBusinessProcessException;
@@ -36,6 +29,12 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+
+import javax.xml.namespace.QName;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Constructs a message data object from serialized message data.
@@ -74,24 +73,20 @@ public class AeMessageDataDeserializer implements IAeImplStateNames
       List partElements = selectNodes(aMessageDataElement, "./" + STATE_PART); //$NON-NLS-1$
       IAeMessageData messageData = AeMessageDataFactory.instance().createMessageData(aMessageType);
 
-      for (Iterator i = partElements.iterator(); i.hasNext(); )
-      {
-         Element partElement = (Element) i.next();
-         String name = partElement.getAttribute(STATE_NAME);
-         Object value;
+       for (Object partElement1 : partElements) {
+           Element partElement = (Element) partElement1;
+           String name = partElement.getAttribute(STATE_NAME);
+           Object value;
 
-         Element data = AeXmlUtil.getFirstSubElement(partElement);
-         if (data != null)
-         {
-            value = createPartDocument(data);
-         }
-         else
-         {
-            value = AeXmlUtil.getText(partElement);
-         }
+           Element data = AeXmlUtil.getFirstSubElement(partElement);
+           if (data != null) {
+               value = createPartDocument(data);
+           } else {
+               value = AeXmlUtil.getText(partElement);
+           }
 
-         messageData.setData(name, value);
-      }
+           messageData.setData(name, value);
+       }
 
       // If there is a variable to supply type definitions and a type mapping
       // to deserialize simple types, then fix parts that are simple types.
@@ -132,34 +127,32 @@ public class AeMessageDataDeserializer implements IAeImplStateNames
    {
       IAeAttachmentContainer container = new AeAttachmentContainer();
       List attachmentElements = selectNodes(aMessageDataElement, "./" + STATE_ATTACHMENT); //$NON-NLS-1$
-     
-      for (Iterator i = attachmentElements.iterator(); i.hasNext(); )
-      {
-         // deserialize attachment item
-         Element attachmentElement = (Element) i.next();
-         long attachmentId = Long.parseLong(attachmentElement.getAttribute(STATE_ID));
-         long groupId = Long.parseLong(attachmentElement.getAttribute(STATE_GID));
-         long processId = Long.parseLong(attachmentElement.getAttribute(STATE_PID));
-         
-         // deserialize headers
-         Map<String, String> headers = new HashMap<String, String>();
-         NodeList headerNodes = attachmentElement.getElementsByTagName(STATE_ATTACHMENT_HEADER);
-      
-         for( int h = 0; h < headerNodes.getLength(); h++ )
-         {
-            Element header = (Element)headerNodes.item(h);
-            headers.put(header.getAttribute(STATE_NAME), AeXmlUtil.getText(header).trim());
-         }  
 
-         // Create attachment item and add it to the container.
-         AeStoredAttachmentItem item = new AeStoredAttachmentItem();
-         item.setAttachmentId(attachmentId);
-         item.setGroupId(groupId);
-         item.setProcessId(processId);
-         item.setHeaders(headers);
+       for (Object attachmentElement1 : attachmentElements) {
+           // deserialize attachment item
+           Element attachmentElement = (Element) attachmentElement1;
+           long attachmentId = Long.parseLong(attachmentElement.getAttribute(STATE_ID));
+           long groupId = Long.parseLong(attachmentElement.getAttribute(STATE_GID));
+           long processId = Long.parseLong(attachmentElement.getAttribute(STATE_PID));
 
-         container.add(item);
-      }
+           // deserialize headers
+           Map<String, String> headers = new HashMap<String, String>();
+           NodeList headerNodes = attachmentElement.getElementsByTagName(STATE_ATTACHMENT_HEADER);
+
+           for (int h = 0; h < headerNodes.getLength(); h++) {
+               Element header = (Element) headerNodes.item(h);
+               headers.put(header.getAttribute(STATE_NAME), AeXmlUtil.getText(header).trim());
+           }
+
+           // Create attachment item and add it to the container.
+           AeStoredAttachmentItem item = new AeStoredAttachmentItem();
+           item.setAttachmentId(attachmentId);
+           item.setGroupId(groupId);
+           item.setProcessId(processId);
+           item.setHeaders(headers);
+
+           container.add(item);
+       }
 
       return container;
    }

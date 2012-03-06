@@ -9,13 +9,6 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpel.def.validation;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.LinkedHashSet;
-import java.util.Map;
-import java.util.Set;
-
 import org.activebpel.rt.bpel.def.AeActivityDef;
 import org.activebpel.rt.bpel.def.AeBaseDef;
 import org.activebpel.rt.bpel.def.activity.AeActivityScopeDef;
@@ -26,6 +19,8 @@ import org.activebpel.rt.bpel.def.visitors.AeAbstractDefVisitor;
 import org.activebpel.rt.bpel.def.visitors.AeDefTraverser;
 import org.activebpel.rt.bpel.def.visitors.AeTraversalVisitor;
 import org.activebpel.rt.xml.def.AeBaseXmlDef;
+
+import java.util.*;
 
 /**
  * Locates links that participate in control cycles.
@@ -152,15 +147,12 @@ public class AeLinkCycleVisitor extends AeAbstractDefVisitor
       // cycle links if it is not already in the set and the link participates
       // in a control cycle. A link may be added to the set here or during the
       // search traversal for a previous link (see traverseOutgoingLinks()).
-      for (Iterator i = getLinkValidator().getLinks().iterator(); i.hasNext(); )
-      {
-         AeLinkComposite link = (AeLinkComposite) i.next();
+       for (AeLinkComposite link : getLinkValidator().getLinks()) {
 
-         if (!getCycleLinks().contains(link) && isInCycle(link))
-         {
-            addCycleLink(link);
-         }
-      }
+           if (!getCycleLinks().contains(link) && isInCycle(link)) {
+               addCycleLink(link);
+           }
+       }
 
       return getCycleLinks();
    }
@@ -295,7 +287,6 @@ public class AeLinkCycleVisitor extends AeAbstractDefVisitor
     * Records the isolated scope for the source of the link iff the target is
     * not within the same isolated scope. This is to check for a link that 
     * leaves an isolated scope and returns.
-    * @param aIsolatedScope
     */
    private void recordIsolatedScopeReference(AeLinkComposite aLinkComposite)
    {

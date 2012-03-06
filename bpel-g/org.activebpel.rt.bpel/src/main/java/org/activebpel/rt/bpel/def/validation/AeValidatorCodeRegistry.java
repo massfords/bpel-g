@@ -10,13 +10,6 @@
 
 package org.activebpel.rt.bpel.def.validation;
 
-import java.net.URL;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-
 import org.activebpel.rt.util.AeUtil;
 import org.activebpel.rt.util.AeXPathUtil;
 import org.activebpel.rt.wsdl.def.castor.AeSchemaParserUtil;
@@ -26,6 +19,12 @@ import org.exolab.castor.xml.schema.Schema;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.xml.sax.InputSource;
+
+import java.net.URL;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Registry of codes and severity for the 3 different BPEL namespaces (BPEL 1.1, BPEL 2.0 and Abstract BPEL).
@@ -93,13 +92,12 @@ public class AeValidatorCodeRegistry
          String targetNS = AeXPathUtil.selectSingleNode(severityDoc, "aeSeverity:codes/@targetNamespace", sPrefixMap).getNodeValue();//$NON-NLS-1$
          
          // loop over the code nodes and load the map
-         for (Iterator iter = codeNodes.iterator(); iter.hasNext(); )
-         {
-            Element codeElem = (Element) iter.next();
-            String id = AeXPathUtil.selectText(codeElem, "aeSeverity:id", sPrefixMap); //$NON-NLS-1$
-            String severity = AeXPathUtil.selectText(codeElem, "aeSeverity:severity", sPrefixMap); //$NON-NLS-1$
-            codeMap.put(id, severity); 
-         }
+          for (Object codeNode : codeNodes) {
+              Element codeElem = (Element) codeNode;
+              String id = AeXPathUtil.selectText(codeElem, "aeSeverity:id", sPrefixMap); //$NON-NLS-1$
+              String severity = AeXPathUtil.selectText(codeElem, "aeSeverity:severity", sPrefixMap); //$NON-NLS-1$
+              codeMap.put(id, severity);
+          }
          
          sSeverityMap.put(targetNS, Collections.unmodifiableMap(codeMap));
       }

@@ -9,160 +9,22 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpel.def.visitors;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.Stack;
-
 import org.activebpel.rt.bpel.AeMessages;
 import org.activebpel.rt.bpel.IAeActivity;
 import org.activebpel.rt.bpel.IAeBusinessProcess;
-import org.activebpel.rt.bpel.def.AeBaseDef;
-import org.activebpel.rt.bpel.def.AeCatchAllDef;
-import org.activebpel.rt.bpel.def.AeCatchDef;
-import org.activebpel.rt.bpel.def.AeCompensationHandlerDef;
-import org.activebpel.rt.bpel.def.AeCorrelationSetsDef;
-import org.activebpel.rt.bpel.def.AeCorrelationsDef;
-import org.activebpel.rt.bpel.def.AeEventHandlersDef;
-import org.activebpel.rt.bpel.def.AeExtensionActivityDef;
-import org.activebpel.rt.bpel.def.AeExtensionDef;
-import org.activebpel.rt.bpel.def.AeExtensionsDef;
-import org.activebpel.rt.bpel.def.AeFaultHandlersDef;
-import org.activebpel.rt.bpel.def.AeImportDef;
-import org.activebpel.rt.bpel.def.AeMessageExchangeDef;
-import org.activebpel.rt.bpel.def.AeMessageExchangesDef;
-import org.activebpel.rt.bpel.def.AePartnerDef;
-import org.activebpel.rt.bpel.def.AePartnerLinkDef;
-import org.activebpel.rt.bpel.def.AePartnerLinksDef;
-import org.activebpel.rt.bpel.def.AePartnersDef;
-import org.activebpel.rt.bpel.def.AeProcessDef;
-import org.activebpel.rt.bpel.def.AeScopeDef;
-import org.activebpel.rt.bpel.def.AeTerminationHandlerDef;
-import org.activebpel.rt.bpel.def.AeVariableDef;
-import org.activebpel.rt.bpel.def.AeVariablesDef;
-import org.activebpel.rt.bpel.def.activity.AeActivityAssignDef;
-import org.activebpel.rt.bpel.def.activity.AeActivityBreakDef;
-import org.activebpel.rt.bpel.def.activity.AeActivityCompensateDef;
-import org.activebpel.rt.bpel.def.activity.AeActivityCompensateScopeDef;
-import org.activebpel.rt.bpel.def.activity.AeActivityContinueDef;
-import org.activebpel.rt.bpel.def.activity.AeActivityEmptyDef;
-import org.activebpel.rt.bpel.def.activity.AeActivityExitDef;
-import org.activebpel.rt.bpel.def.activity.AeActivityFlowDef;
-import org.activebpel.rt.bpel.def.activity.AeActivityForEachDef;
-import org.activebpel.rt.bpel.def.activity.AeActivityIfDef;
-import org.activebpel.rt.bpel.def.activity.AeActivityInvokeDef;
-import org.activebpel.rt.bpel.def.activity.AeActivityOpaqueDef;
-import org.activebpel.rt.bpel.def.activity.AeActivityPickDef;
-import org.activebpel.rt.bpel.def.activity.AeActivityReceiveDef;
-import org.activebpel.rt.bpel.def.activity.AeActivityRepeatUntilDef;
-import org.activebpel.rt.bpel.def.activity.AeActivityReplyDef;
-import org.activebpel.rt.bpel.def.activity.AeActivityRethrowDef;
-import org.activebpel.rt.bpel.def.activity.AeActivityScopeDef;
-import org.activebpel.rt.bpel.def.activity.AeActivitySequenceDef;
-import org.activebpel.rt.bpel.def.activity.AeActivitySuspendDef;
-import org.activebpel.rt.bpel.def.activity.AeActivityThrowDef;
-import org.activebpel.rt.bpel.def.activity.AeActivityValidateDef;
-import org.activebpel.rt.bpel.def.activity.AeActivityWaitDef;
-import org.activebpel.rt.bpel.def.activity.AeActivityWhileDef;
-import org.activebpel.rt.bpel.def.activity.AeChildExtensionActivityDef;
-import org.activebpel.rt.bpel.def.activity.IAeMessageDataConsumerDef;
-import org.activebpel.rt.bpel.def.activity.IAeMessageDataProducerDef;
-import org.activebpel.rt.bpel.def.activity.support.AeAssignCopyDef;
-import org.activebpel.rt.bpel.def.activity.support.AeConditionDef;
-import org.activebpel.rt.bpel.def.activity.support.AeCorrelationDef;
-import org.activebpel.rt.bpel.def.activity.support.AeElseDef;
-import org.activebpel.rt.bpel.def.activity.support.AeElseIfDef;
-import org.activebpel.rt.bpel.def.activity.support.AeExtensibleAssignDef;
-import org.activebpel.rt.bpel.def.activity.support.AeForDef;
-import org.activebpel.rt.bpel.def.activity.support.AeForEachBranchesDef;
-import org.activebpel.rt.bpel.def.activity.support.AeForEachCompletionConditionDef;
-import org.activebpel.rt.bpel.def.activity.support.AeForEachFinalDef;
-import org.activebpel.rt.bpel.def.activity.support.AeForEachStartDef;
-import org.activebpel.rt.bpel.def.activity.support.AeFromDef;
-import org.activebpel.rt.bpel.def.activity.support.AeFromPartDef;
-import org.activebpel.rt.bpel.def.activity.support.AeFromPartsDef;
-import org.activebpel.rt.bpel.def.activity.support.AeIfDef;
-import org.activebpel.rt.bpel.def.activity.support.AeJoinConditionDef;
-import org.activebpel.rt.bpel.def.activity.support.AeLinkDef;
-import org.activebpel.rt.bpel.def.activity.support.AeLinksDef;
-import org.activebpel.rt.bpel.def.activity.support.AeLiteralDef;
-import org.activebpel.rt.bpel.def.activity.support.AeOnAlarmDef;
-import org.activebpel.rt.bpel.def.activity.support.AeOnEventDef;
-import org.activebpel.rt.bpel.def.activity.support.AeOnMessageDef;
-import org.activebpel.rt.bpel.def.activity.support.AeQueryDef;
-import org.activebpel.rt.bpel.def.activity.support.AeRepeatEveryDef;
-import org.activebpel.rt.bpel.def.activity.support.AeSourceDef;
-import org.activebpel.rt.bpel.def.activity.support.AeSourcesDef;
-import org.activebpel.rt.bpel.def.activity.support.AeTargetDef;
-import org.activebpel.rt.bpel.def.activity.support.AeTargetsDef;
-import org.activebpel.rt.bpel.def.activity.support.AeToDef;
-import org.activebpel.rt.bpel.def.activity.support.AeToPartDef;
-import org.activebpel.rt.bpel.def.activity.support.AeToPartsDef;
-import org.activebpel.rt.bpel.def.activity.support.AeTransitionConditionDef;
-import org.activebpel.rt.bpel.def.activity.support.AeUntilDef;
+import org.activebpel.rt.bpel.def.*;
+import org.activebpel.rt.bpel.def.activity.*;
+import org.activebpel.rt.bpel.def.activity.support.*;
 import org.activebpel.rt.bpel.def.faults.IAeFaultMatchingStrategy;
 import org.activebpel.rt.bpel.def.visitors.preprocess.strategies.wsio.IAeMessageDataStrategyNames;
-import org.activebpel.rt.bpel.impl.AeBusinessProcess;
-import org.activebpel.rt.bpel.impl.AePartnerLink;
-import org.activebpel.rt.bpel.impl.AeVariable;
-import org.activebpel.rt.bpel.impl.AeVariablesImpl;
-import org.activebpel.rt.bpel.impl.IAeActivityParent;
-import org.activebpel.rt.bpel.impl.IAeBpelObject;
-import org.activebpel.rt.bpel.impl.IAeBusinessProcessEngineInternal;
-import org.activebpel.rt.bpel.impl.IAeBusinessProcessInternal;
-import org.activebpel.rt.bpel.impl.IAeMessageValidator;
-import org.activebpel.rt.bpel.impl.IAeProcessPlan;
-import org.activebpel.rt.bpel.impl.activity.AeActivityAssignImpl;
-import org.activebpel.rt.bpel.impl.activity.AeActivityBreakImpl;
-import org.activebpel.rt.bpel.impl.activity.AeActivityCompensateImpl;
-import org.activebpel.rt.bpel.impl.activity.AeActivityCompensateScopeImpl;
-import org.activebpel.rt.bpel.impl.activity.AeActivityContinueImpl;
-import org.activebpel.rt.bpel.impl.activity.AeActivityEmptyImpl;
-import org.activebpel.rt.bpel.impl.activity.AeActivityFlowImpl;
-import org.activebpel.rt.bpel.impl.activity.AeActivityForEachImpl;
-import org.activebpel.rt.bpel.impl.activity.AeActivityForEachParallelImpl;
-import org.activebpel.rt.bpel.impl.activity.AeActivityIfImpl;
-import org.activebpel.rt.bpel.impl.activity.AeActivityImpl;
-import org.activebpel.rt.bpel.impl.activity.AeActivityInvokeImpl;
-import org.activebpel.rt.bpel.impl.activity.AeActivityPickImpl;
-import org.activebpel.rt.bpel.impl.activity.AeActivityReceiveImpl;
-import org.activebpel.rt.bpel.impl.activity.AeActivityRepeatUntilImpl;
-import org.activebpel.rt.bpel.impl.activity.AeActivityReplyImpl;
-import org.activebpel.rt.bpel.impl.activity.AeActivityRethrowImpl;
-import org.activebpel.rt.bpel.impl.activity.AeActivityScopeImpl;
-import org.activebpel.rt.bpel.impl.activity.AeActivitySequenceImpl;
-import org.activebpel.rt.bpel.impl.activity.AeActivitySuspendImpl;
-import org.activebpel.rt.bpel.impl.activity.AeActivityTerminateImpl;
-import org.activebpel.rt.bpel.impl.activity.AeActivityThrowImpl;
-import org.activebpel.rt.bpel.impl.activity.AeActivityWaitImpl;
-import org.activebpel.rt.bpel.impl.activity.AeActivityWhileImpl;
-import org.activebpel.rt.bpel.impl.activity.IAeCopyFromParent;
-import org.activebpel.rt.bpel.impl.activity.IAeEventParent;
-import org.activebpel.rt.bpel.impl.activity.IAeMessageConsumerParentAdapter;
-import org.activebpel.rt.bpel.impl.activity.IAeMessageProducerParentAdapter;
-import org.activebpel.rt.bpel.impl.activity.IAeScopeTerminationStrategy;
-import org.activebpel.rt.bpel.impl.activity.IAeVariableContainer;
-import org.activebpel.rt.bpel.impl.activity.IAeWSIOActivity;
+import org.activebpel.rt.bpel.impl.*;
+import org.activebpel.rt.bpel.impl.activity.*;
 import org.activebpel.rt.bpel.impl.activity.assign.AeCopyOperation;
 import org.activebpel.rt.bpel.impl.activity.assign.IAeFrom;
 import org.activebpel.rt.bpel.impl.activity.assign.IAeTo;
 import org.activebpel.rt.bpel.impl.activity.assign.from.AeFromStrategyFactory;
 import org.activebpel.rt.bpel.impl.activity.assign.to.AeToStrategyFactory;
-import org.activebpel.rt.bpel.impl.activity.support.AeCompensationHandler;
-import org.activebpel.rt.bpel.impl.activity.support.AeCorrelationsImpl;
-import org.activebpel.rt.bpel.impl.activity.support.AeCorrelationsPatternImpl;
-import org.activebpel.rt.bpel.impl.activity.support.AeDefaultFaultHandler;
-import org.activebpel.rt.bpel.impl.activity.support.AeElse;
-import org.activebpel.rt.bpel.impl.activity.support.AeElseIf;
-import org.activebpel.rt.bpel.impl.activity.support.AeEventHandlersContainer;
-import org.activebpel.rt.bpel.impl.activity.support.AeFaultHandler;
-import org.activebpel.rt.bpel.impl.activity.support.AeIMACorrelations;
-import org.activebpel.rt.bpel.impl.activity.support.AeIf;
-import org.activebpel.rt.bpel.impl.activity.support.AeLink;
-import org.activebpel.rt.bpel.impl.activity.support.AeOnAlarm;
-import org.activebpel.rt.bpel.impl.activity.support.AeOnMessage;
-import org.activebpel.rt.bpel.impl.activity.support.AeTerminationHandler;
-import org.activebpel.rt.bpel.impl.activity.support.IAeCorrelations;
+import org.activebpel.rt.bpel.impl.activity.support.*;
 import org.activebpel.rt.bpel.impl.activity.wsio.consume.AeFromPartsMessageDataConsumer;
 import org.activebpel.rt.bpel.impl.activity.wsio.consume.AeNoopMessageDataConsumer;
 import org.activebpel.rt.bpel.impl.activity.wsio.consume.AeVariableMessageDataConsumer;
@@ -175,6 +37,10 @@ import org.activebpel.rt.xml.def.AeBaseXmlDef;
 import org.activebpel.rt.xml.def.AeDocumentationDef;
 import org.activebpel.rt.xml.def.AeExtensionAttributeDef;
 import org.activebpel.rt.xml.def.AeExtensionElementDef;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Stack;
 
 /**
  * <p>Visitor responsible for creating implementation objects from their definition
@@ -1335,25 +1201,21 @@ public abstract class AeDefToImplVisitor implements IAeDefToImplVisitor
    public void reportObjects()
    {
       // BPEL objects
-      for (Iterator<IAeBpelObject> iter = getBpelObjects().iterator(); iter.hasNext();)
-      {
-         IAeBpelObject obj = iter.next() ;
-         getProcess().addBpelObject(obj.getLocationPath(), obj);
-      }
+       for (IAeBpelObject obj : getBpelObjects()) {
+           getProcess().addBpelObject(obj.getLocationPath(), obj);
+       }
       getBpelObjects().clear();
 
       // variables
-      for (Iterator<AeVariable> iter = getVariables().iterator(); iter.hasNext();)
-      {
-         getProcess().addVariableMapping(iter.next());
-      }
+       for (AeVariable variable : getVariables()) {
+           getProcess().addVariableMapping(variable);
+       }
       getVariables().clear();
 
       // partner links
-      for (Iterator<AePartnerLink> iter = getPartnerLinks().iterator(); iter.hasNext();)
-      {
-         getProcess().addPartnerLinkMapping(iter.next());
-      }
+       for (AePartnerLink link : getPartnerLinks()) {
+           getProcess().addPartnerLinkMapping(link);
+       }
       getPartnerLinks().clear();
    }
 

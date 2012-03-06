@@ -9,18 +9,16 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpel.def.io.registry;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.List;
-
-import javax.xml.namespace.QName;
-
 import org.activebpel.rt.bpel.def.IAeBPELConstants;
 import org.activebpel.rt.bpel.def.io.IAeBpelClassConstants;
 import org.activebpel.rt.xml.def.io.readers.AeDefReaderRegistry;
 import org.activebpel.rt.xml.def.io.readers.IAeDefReader;
 import org.activebpel.rt.xml.def.io.readers.IAeReaderFactory;
+
+import javax.xml.namespace.QName;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * Abstract registry for reading BPEL defs from xml
@@ -171,15 +169,11 @@ public abstract class AeAbstractBpelReaderRegistry extends AeDefReaderRegistry
    {
       List<AeRegistryMapping> bpelActivities = getBpelActivityMappings();
 
-      for (Iterator<Class<?>> outerIter = getActivityContainers().iterator(); outerIter.hasNext();)
-      {
-         Class<?> container = outerIter.next();
-
-         for (AeRegistryMapping mapping : bpelActivities)
-         {
-            registerReader(container, mapping.getName(), mapping.getReader());
-         }
-      }
+       for (Class<?> container : getActivityContainers()) {
+           for (AeRegistryMapping mapping : bpelActivities) {
+               registerReader(container, mapping.getName(), mapping.getReader());
+           }
+       }
    }
 
    /**

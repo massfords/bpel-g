@@ -9,72 +9,18 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpel.impl.visitors;
 
-import java.util.Collection;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-
+import bpelg.services.processes.types.ProcessStateValueType;
+import bpelg.services.processes.types.SuspendReasonType;
 import org.activebpel.rt.AeException;
-import org.activebpel.rt.bpel.AeBusinessProcessException;
-import org.activebpel.rt.bpel.AeMessages;
-import org.activebpel.rt.bpel.IAeFault;
-import org.activebpel.rt.bpel.IAePartnerLink;
-import org.activebpel.rt.bpel.IAeVariable;
+import org.activebpel.rt.bpel.*;
 import org.activebpel.rt.bpel.coord.IAeCoordinating;
 import org.activebpel.rt.bpel.def.AePartnerLinkDef;
 import org.activebpel.rt.bpel.def.AePartnerLinkOpKey;
 import org.activebpel.rt.bpel.def.AeProcessDef;
 import org.activebpel.rt.bpel.def.util.AeLocationPathUtils;
-import org.activebpel.rt.bpel.impl.AeAbstractBpelObject;
-import org.activebpel.rt.bpel.impl.AeBpelState;
-import org.activebpel.rt.bpel.impl.AeBusinessProcess;
-import org.activebpel.rt.bpel.impl.AeBusinessProcessPropertyIO;
-import org.activebpel.rt.bpel.impl.AeConflictingReceiveException;
-import org.activebpel.rt.bpel.impl.AeMessageDataDeserializer;
-import org.activebpel.rt.bpel.impl.AePartnerLinkOpImplKey;
-import org.activebpel.rt.bpel.impl.AeVariable;
-import org.activebpel.rt.bpel.impl.IAeBpelObject;
-import org.activebpel.rt.bpel.impl.IAeBusinessProcessInternal;
-import org.activebpel.rt.bpel.impl.IAeDynamicScopeParent;
-import org.activebpel.rt.bpel.impl.IAeImplStateNames;
-import org.activebpel.rt.bpel.impl.activity.AeActivityChildExtensionActivityImpl;
-import org.activebpel.rt.bpel.impl.activity.AeActivityCompensateImpl;
-import org.activebpel.rt.bpel.impl.activity.AeActivityForEachImpl;
-import org.activebpel.rt.bpel.impl.activity.AeActivityForEachParallelImpl;
-import org.activebpel.rt.bpel.impl.activity.AeActivityInvokeImpl;
-import org.activebpel.rt.bpel.impl.activity.AeActivityOnEventScopeImpl;
-import org.activebpel.rt.bpel.impl.activity.AeActivityReceiveImpl;
-import org.activebpel.rt.bpel.impl.activity.AeActivityRepeatUntilImpl;
-import org.activebpel.rt.bpel.impl.activity.AeActivityScopeImpl;
-import org.activebpel.rt.bpel.impl.activity.AeActivityWaitImpl;
-import org.activebpel.rt.bpel.impl.activity.AeActivityWhileImpl;
-import org.activebpel.rt.bpel.impl.activity.AeDynamicScopeCreator;
-import org.activebpel.rt.bpel.impl.activity.AeLoopActivity;
-import org.activebpel.rt.bpel.impl.activity.IAeActivityLifeCycleAdapter;
-import org.activebpel.rt.bpel.impl.activity.IAeExtensionLifecycleAdapter;
-import org.activebpel.rt.bpel.impl.activity.IAeVariableContainer;
-import org.activebpel.rt.bpel.impl.activity.support.AeBaseEvent;
-import org.activebpel.rt.bpel.impl.activity.support.AeCompensationHandler;
-import org.activebpel.rt.bpel.impl.activity.support.AeCoordinationContainer;
-import org.activebpel.rt.bpel.impl.activity.support.AeCoordinatorCompensationHandler;
-import org.activebpel.rt.bpel.impl.activity.support.AeCorrelationSet;
-import org.activebpel.rt.bpel.impl.activity.support.AeDefaultFaultHandler;
-import org.activebpel.rt.bpel.impl.activity.support.AeFCTHandler;
-import org.activebpel.rt.bpel.impl.activity.support.AeFaultHandler;
-import org.activebpel.rt.bpel.impl.activity.support.AeImplicitCompensationHandler;
-import org.activebpel.rt.bpel.impl.activity.support.AeImplicitFaultHandler;
-import org.activebpel.rt.bpel.impl.activity.support.AeLink;
-import org.activebpel.rt.bpel.impl.activity.support.AeOnAlarm;
-import org.activebpel.rt.bpel.impl.activity.support.AeOnEvent;
-import org.activebpel.rt.bpel.impl.activity.support.AeOnMessage;
-import org.activebpel.rt.bpel.impl.activity.support.AeOpenMessageActivityInfo;
-import org.activebpel.rt.bpel.impl.activity.support.AeParticipantCompensator;
-import org.activebpel.rt.bpel.impl.activity.support.AeProcessCompensationCallbackWrapper;
-import org.activebpel.rt.bpel.impl.activity.support.AeRepeatableOnAlarm;
-import org.activebpel.rt.bpel.impl.activity.support.AeWSBPELFaultHandler;
-import org.activebpel.rt.bpel.impl.activity.support.IAeCompensationCallback;
+import org.activebpel.rt.bpel.impl.*;
+import org.activebpel.rt.bpel.impl.activity.*;
+import org.activebpel.rt.bpel.impl.activity.support.*;
 import org.activebpel.rt.bpel.impl.queue.AeInboundReceive;
 import org.activebpel.rt.bpel.impl.reply.IAeDurableReplyFactory;
 import org.activebpel.rt.bpel.impl.reply.IAeReplyReceiver;
@@ -92,8 +38,7 @@ import org.w3c.dom.Attr;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
-import bpelg.services.processes.types.ProcessStateValueType;
-import bpelg.services.processes.types.SuspendReasonType;
+import java.util.*;
 
 /**
  * Visits a tree of BPEL implementation objects to restore the state from an
@@ -241,15 +186,12 @@ public class AeRestoreImplStateVisitor extends AeBaseRestoreVisitor
       Collection extensions = aImpl.getExtensions();
       if (extensions == null)
          return;
-      
-      for(Iterator iter=extensions.iterator(); iter.hasNext(); )
-      {
-         Object obj = iter.next();
-         if (obj instanceof IAeExtensionLifecycleAdapter)
-         {
-            ((IAeExtensionLifecycleAdapter) obj).onRestore(elem);
-         }
-      }
+
+       for (Object obj : extensions) {
+           if (obj instanceof IAeExtensionLifecycleAdapter) {
+               ((IAeExtensionLifecycleAdapter) obj).onRestore(elem);
+           }
+       }
    }
    /**
     * Creates an instance of <code>IAeFault</code> from its serialization.
@@ -304,14 +246,13 @@ public class AeRestoreImplStateVisitor extends AeBaseRestoreVisitor
       String xpath = "./" + STATE_PLINK; //$NON-NLS-1$
       List elements = selectNodes(aScopeElement, xpath, "Error restoring scope partner links"); //$NON-NLS-1$
 
-      for (Iterator i = elements.iterator(); i.hasNext(); )
-      {
-         Element element = (Element) i.next();
-         String name = getAttribute(element, STATE_NAME);
-         IAePartnerLink plink = aScope.findPartnerLink(name);
-         
-         restorePartnerLink(element, plink);
-      }
+       for (Object element1 : elements) {
+           Element element = (Element) element1;
+           String name = getAttribute(element, STATE_NAME);
+           IAePartnerLink plink = aScope.findPartnerLink(name);
+
+           restorePartnerLink(element, plink);
+       }
    }
 
    /**
@@ -324,19 +265,17 @@ public class AeRestoreImplStateVisitor extends AeBaseRestoreVisitor
    {
       String xpath = "./" + STATE_VAR; //$NON-NLS-1$
       List elements = selectNodes(aElement, xpath, "Error restoring scope variables"); //$NON-NLS-1$
-   
-      for (Iterator i = elements.iterator(); i.hasNext(); )
-      {
-         Element element = (Element) i.next();
-         String name = getAttribute(element, STATE_NAME);
-         IAeVariable variable = aVariableContainer.findVariable(name);
-   
-         if (variable != null)
-         {
-            // cast to AeVariable because we need to access the process
-            restoreVariable(element, (AeVariable) variable);
-         }
-      }
+
+       for (Object element1 : elements) {
+           Element element = (Element) element1;
+           String name = getAttribute(element, STATE_NAME);
+           IAeVariable variable = aVariableContainer.findVariable(name);
+
+           if (variable != null) {
+               // cast to AeVariable because we need to access the process
+               restoreVariable(element, (AeVariable) variable);
+           }
+       }
    }
 
    /**
@@ -348,47 +287,41 @@ public class AeRestoreImplStateVisitor extends AeBaseRestoreVisitor
    {
       String xpath = "./" + STATE_OPEN_MESSAGE_ACTIVITY; //$NON-NLS-1$
       List elements = selectNodes(aProcessElement, xpath, "Error restoring open message activity list"); //$NON-NLS-1$
-      for (Iterator i = elements.iterator(); i.hasNext(); )
-      {
-         Element element = (Element) i.next();
-         String plinkLocation = getAttribute(element, STATE_PLINK_LOCATION);
-         IAePartnerLink partnerLink = null;
-         if (AeUtil.isNullOrEmpty(plinkLocation))
-         {
-            String partnerLinkName = getAttribute(element, STATE_PLINK);
-            partnerLink = aProcess.findPartnerLink(partnerLinkName);
-         }
-         else
-         {
-            partnerLink = aProcess.findProcessPartnerLink(plinkLocation);
-         }
+       for (Object element1 : elements) {
+           Element element = (Element) element1;
+           String plinkLocation = getAttribute(element, STATE_PLINK_LOCATION);
+           IAePartnerLink partnerLink = null;
+           if (AeUtil.isNullOrEmpty(plinkLocation)) {
+               String partnerLinkName = getAttribute(element, STATE_PLINK);
+               partnerLink = aProcess.findPartnerLink(partnerLinkName);
+           } else {
+               partnerLink = aProcess.findProcessPartnerLink(plinkLocation);
+           }
 
-         String operation = getAttribute(element, STATE_OPERATION);
-         String messageExchangePath = null;
-         String s = getAttribute(element, STATE_MESSAGE_EXCHANGE);
-         
-         if (AeUtil.notNullOrEmpty(s))
-         {
-            messageExchangePath = s;
-         }
-         long replyId = getAttributeLong(element, STATE_REPLY_ID);
-         
-         AePartnerLinkOpImplKey plOpImplKey = new AePartnerLinkOpImplKey(partnerLink, operation);
-         
-         AeOpenMessageActivityInfo info = new AeOpenMessageActivityInfo(plOpImplKey, messageExchangePath, replyId);
-         // create durable reply info. (if available)
-         xpath = "./" + STATE_DURABLE_REPLY; //$NON-NLS-1$
-         Element durableReplyEle = (Element)selectOptionalNode(element, xpath, "Error restoring durableReply from openMessageActivity"); //$NON-NLS-1$
-         if (durableReplyEle != null)
-         {
-            AeDurableReplyDeserializer des = new AeDurableReplyDeserializer();
-            des.setDurableReplyInfoElement(durableReplyEle);
-            IAeReplyReceiver replyReceiver = aProcess.getEngine().getTransmissionTracker().getDurableReplyFactory().createReplyReceiver(-1, des.getDurableReplyInfo() );
-            info.setDurableReplyReceiver( replyReceiver );
-         }
-         // add to process list
-         aProcess.addOpenMessageActivityInfo(info);
-      }
+           String operation = getAttribute(element, STATE_OPERATION);
+           String messageExchangePath = null;
+           String s = getAttribute(element, STATE_MESSAGE_EXCHANGE);
+
+           if (AeUtil.notNullOrEmpty(s)) {
+               messageExchangePath = s;
+           }
+           long replyId = getAttributeLong(element, STATE_REPLY_ID);
+
+           AePartnerLinkOpImplKey plOpImplKey = new AePartnerLinkOpImplKey(partnerLink, operation);
+
+           AeOpenMessageActivityInfo info = new AeOpenMessageActivityInfo(plOpImplKey, messageExchangePath, replyId);
+           // create durable reply info. (if available)
+           xpath = "./" + STATE_DURABLE_REPLY; //$NON-NLS-1$
+           Element durableReplyEle = (Element) selectOptionalNode(element, xpath, "Error restoring durableReply from openMessageActivity"); //$NON-NLS-1$
+           if (durableReplyEle != null) {
+               AeDurableReplyDeserializer des = new AeDurableReplyDeserializer();
+               des.setDurableReplyInfoElement(durableReplyEle);
+               IAeReplyReceiver replyReceiver = aProcess.getEngine().getTransmissionTracker().getDurableReplyFactory().createReplyReceiver(-1, des.getDurableReplyInfo());
+               info.setDurableReplyReceiver(replyReceiver);
+           }
+           // add to process list
+           aProcess.addOpenMessageActivityInfo(info);
+       }
       
    }
    
@@ -406,11 +339,10 @@ public class AeRestoreImplStateVisitor extends AeBaseRestoreVisitor
          if( extensionPropertyElements != null )
          {
             Map<String, String> properties = new HashMap<String, String>();
-            for( Iterator iter = extensionPropertyElements.iterator(); iter.hasNext(); )
-            {
-               Element propertyExtEl = (Element)iter.next();
-               AeBusinessProcessPropertyIO.extractBusinessProcessProperty(propertyExtEl, properties );
-            }
+             for (Object extensionPropertyElement : extensionPropertyElements) {
+                 Element propertyExtEl = (Element) extensionPropertyElement;
+                 AeBusinessProcessPropertyIO.extractBusinessProcessProperty(propertyExtEl, properties);
+             }
 
             aProcess.addBusinessProcessProperties( properties );
          }
@@ -436,12 +368,11 @@ public class AeRestoreImplStateVisitor extends AeBaseRestoreVisitor
          Collection faultingActivityElements = getImplState().getFaultingActivityElements();
          if( faultingActivityElements != null )
          {
-            for( Iterator iter = faultingActivityElements.iterator(); iter.hasNext(); )
-            {
-               Element faultingActivityEl = (Element)iter.next();
-               String locationPath = faultingActivityEl.getAttribute( STATE_LOC );
-               aProcess.getFaultingActivityLocationPaths().add( locationPath );
-            }
+             for (Object faultingActivityElement : faultingActivityElements) {
+                 Element faultingActivityEl = (Element) faultingActivityElement;
+                 String locationPath = faultingActivityEl.getAttribute(STATE_LOC);
+                 aProcess.getFaultingActivityLocationPaths().add(locationPath);
+             }
          }
       }
       catch( AeException ae )
@@ -463,17 +394,15 @@ public class AeRestoreImplStateVisitor extends AeBaseRestoreVisitor
       String xpath = "./" + STATE_CORRSET; //$NON-NLS-1$
       List elements = selectNodes(aScopeElement, xpath, "Error restoring scope correlation sets"); //$NON-NLS-1$
 
-      for (Iterator i = elements.iterator(); i.hasNext(); )
-      {
-         Element element = (Element) i.next();
-         String name = getAttribute(element, STATE_NAME);
-         AeCorrelationSet correlationSet = aScope.findCorrelationSet(name);
+       for (Object element1 : elements) {
+           Element element = (Element) element1;
+           String name = getAttribute(element, STATE_NAME);
+           AeCorrelationSet correlationSet = aScope.findCorrelationSet(name);
 
-         if (correlationSet != null)
-         {
-            restoreCorrelationSet(element, correlationSet);
-         }
-      }
+           if (correlationSet != null) {
+               restoreCorrelationSet(element, correlationSet);
+           }
+       }
    }
 
    /**
@@ -882,13 +811,12 @@ public class AeRestoreImplStateVisitor extends AeBaseRestoreVisitor
       // scopes and their children.
       String xpath = "./"+STATE_ACTY+"[@" + STATE_SCOPE_COMPENSATING + "='true']"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
       List compensatingScopes = selectNodes(aElement, xpath, "Error restoring compensating scopes within dynamic scope container"); //$NON-NLS-1$
-      for (Iterator iter = compensatingScopes.iterator(); iter.hasNext();)
-      {
-         Element scopeElement = (Element) iter.next();
-         String scopeLocation = scopeElement.getAttribute(STATE_LOC);
-         AeActivityScopeImpl scope = restoreScopeInstance(scopeLocation, false);
-         scope.accept(this);
-      }
+       for (Object compensatingScope : compensatingScopes) {
+           Element scopeElement = (Element) compensatingScope;
+           String scopeLocation = scopeElement.getAttribute(STATE_LOC);
+           AeActivityScopeImpl scope = restoreScopeInstance(scopeLocation, false);
+           scope.accept(this);
+       }
    }
    
    /**
@@ -944,11 +872,10 @@ public class AeRestoreImplStateVisitor extends AeBaseRestoreVisitor
          String xpath = "//" + STATE_VAR + "/@" + STATE_VERSION; //$NON-NLS-1$ //$NON-NLS-2$
          List nodes = selectNodes(element.getOwnerDocument(), xpath, "Error selecting variable versions"); //$NON-NLS-1$
          nextVariableId = 0;
-         for (Iterator iter = nodes.iterator(); iter.hasNext();)
-         {
-            Attr attr = (Attr) iter.next();
-            nextVariableId = Math.max(nextVariableId, Integer.parseInt(attr.getNodeValue()));
-         }
+          for (Object node : nodes) {
+              Attr attr = (Attr) node;
+              nextVariableId = Math.max(nextVariableId, Integer.parseInt(attr.getNodeValue()));
+          }
          // add one to move to a unique value
          nextVariableId += 1;
       }

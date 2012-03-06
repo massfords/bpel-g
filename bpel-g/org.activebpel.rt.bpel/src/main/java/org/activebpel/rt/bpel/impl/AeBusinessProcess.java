@@ -9,62 +9,22 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpel.impl;
 
-import java.text.MessageFormat;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
-import javax.xml.namespace.QName;
-
+import bpelg.services.processes.types.ProcessStateValueType;
+import bpelg.services.processes.types.SuspendReasonType;
 import org.activebpel.rt.AeException;
 import org.activebpel.rt.IAePolicyConstants;
 import org.activebpel.rt.attachment.IAeAttachmentContainer;
 import org.activebpel.rt.attachment.IAeAttachmentItem;
-import org.activebpel.rt.bpel.AeBusinessProcessException;
-import org.activebpel.rt.bpel.AeEngineAlertEventType;
-import org.activebpel.rt.bpel.AeEngineEventType;
-import org.activebpel.rt.bpel.AeMessages;
-import org.activebpel.rt.bpel.AePreferences;
-import org.activebpel.rt.bpel.AeProcessEventType;
-import org.activebpel.rt.bpel.AeProcessInfoEventType;
-import org.activebpel.rt.bpel.IAeActivity;
-import org.activebpel.rt.bpel.IAeBusinessProcess;
-import org.activebpel.rt.bpel.IAeEndpointReference;
-import org.activebpel.rt.bpel.IAeExpressionLanguageFactory;
-import org.activebpel.rt.bpel.IAeFault;
-import org.activebpel.rt.bpel.IAeInvokeActivity;
-import org.activebpel.rt.bpel.IAeLocatableObject;
-import org.activebpel.rt.bpel.IAeMonitorListener;
-import org.activebpel.rt.bpel.IAePartnerLink;
-import org.activebpel.rt.bpel.IAeVariable;
+import org.activebpel.rt.bpel.*;
 import org.activebpel.rt.bpel.coord.AeCoordinationException;
 import org.activebpel.rt.bpel.coord.IAeCoordinating;
 import org.activebpel.rt.bpel.coord.IAeCoordinator;
-import org.activebpel.rt.bpel.def.AePartnerLinkDefKey;
-import org.activebpel.rt.bpel.def.AePartnerLinkOpKey;
-import org.activebpel.rt.bpel.def.AeProcessDef;
-import org.activebpel.rt.bpel.def.AeScopeDef;
-import org.activebpel.rt.bpel.def.IAeBPELConstants;
+import org.activebpel.rt.bpel.def.*;
 import org.activebpel.rt.bpel.def.util.AeLocationPathUtils;
 import org.activebpel.rt.bpel.impl.activity.AeActivityScopeImpl;
 import org.activebpel.rt.bpel.impl.activity.IAeMessageDispatcher;
 import org.activebpel.rt.bpel.impl.activity.IAeMessageReceiverActivity;
-import org.activebpel.rt.bpel.impl.activity.support.AeCompInfo;
-import org.activebpel.rt.bpel.impl.activity.support.AeCompensationHandler;
-import org.activebpel.rt.bpel.impl.activity.support.AeCoordinatorCompInfo;
-import org.activebpel.rt.bpel.impl.activity.support.AeCorrelationSet;
-import org.activebpel.rt.bpel.impl.activity.support.AeFault;
-import org.activebpel.rt.bpel.impl.activity.support.AeOpenMessageActivityInfo;
-import org.activebpel.rt.bpel.impl.activity.support.AeProcessCompensationCallbackWrapper;
-import org.activebpel.rt.bpel.impl.activity.support.IAeCompensationCallback;
-import org.activebpel.rt.bpel.impl.activity.support.IAeIMACorrelations;
+import org.activebpel.rt.bpel.impl.activity.support.*;
 import org.activebpel.rt.bpel.impl.fastdom.AeDocumentBuilder;
 import org.activebpel.rt.bpel.impl.fastdom.AeFastDocument;
 import org.activebpel.rt.bpel.impl.fastdom.AeFastElement;
@@ -94,8 +54,9 @@ import org.w3c.dom.Document;
 import org.w3c.dom.DocumentFragment;
 import org.w3c.dom.Node;
 
-import bpelg.services.processes.types.ProcessStateValueType;
-import bpelg.services.processes.types.SuspendReasonType;
+import javax.xml.namespace.QName;
+import java.text.MessageFormat;
+import java.util.*;
 
 /**
  * Describes the interface used for interacting with business processes
@@ -1699,13 +1660,11 @@ public class AeBusinessProcess extends AeActivityScopeImpl implements IAeBusines
       List<IAeExecutableQueueItem> queue = new LinkedList<IAeExecutableQueueItem>();
 
       // Convert location paths to implementation objects.
-      for (Iterator<String> i = aExecutionQueuePaths.iterator(); i.hasNext(); )
-      {
-         String locationPath = i.next();
-         IAeExecutableQueueItem impl = findBpelObjectOrThrow(locationPath);
+       for (String locationPath : aExecutionQueuePaths) {
+           IAeExecutableQueueItem impl = findBpelObjectOrThrow(locationPath);
 
-         queue.add(impl);
-      }
+           queue.add(impl);
+       }
 
       getExecutionQueue().setQueueData(aSuspended, queue);
    }
@@ -2054,28 +2013,23 @@ public class AeBusinessProcess extends AeActivityScopeImpl implements IAeBusines
       dispatchers.add(aDispatcher);
 
       // create a dispatcher for each of the message receivers
-      for (Iterator<IAeMessageReceiverActivity> iter = aList.iterator(); iter.hasNext();)
-      {
-         IAeMessageReceiverActivity receiver = iter.next();
-         dispatchers.add(receiver.createDispatcher(aInboundReceive.getContext()));
-      }
+       for (IAeMessageReceiverActivity receiver : aList) {
+           dispatchers.add(receiver.createDispatcher(aInboundReceive.getContext()));
+       }
 
       // fault each of the dispatchers. Note: we check that the dispatcher's
       // bpel object is still in non-final state since it's possible that the
       // first fault that gets dispatched could cause all of the other receives
       // to be terminated.
-      for (Iterator<IAeMessageDispatcher> iter = dispatchers.iterator(); iter.hasNext();)
-      {
-         IAeMessageDispatcher dispatcher = iter.next();
-         IAeBpelObject target = dispatcher.getTarget();
-         if (!target.getState().isFinal())
-         {
-            // any exception from this call will break us out of the loop.
-            // I don't think there are any recoverable faults here so
-            // propagating the fault seems ok.
-            dispatcher.onFault(getFaultFactory().getAmbiguousReceive());
-         }
-      }
+       for (IAeMessageDispatcher dispatcher : dispatchers) {
+           IAeBpelObject target = dispatcher.getTarget();
+           if (!target.getState().isFinal()) {
+               // any exception from this call will break us out of the loop.
+               // I don't think there are any recoverable faults here so
+               // propagating the fault seems ok.
+               dispatcher.onFault(getFaultFactory().getAmbiguousReceive());
+           }
+       }
 
       if (aInboundReceive.getReplyReceiver() != null)
       {
@@ -2100,26 +2054,21 @@ public class AeBusinessProcess extends AeActivityScopeImpl implements IAeBusines
 
       List<IAeMessageReceiverActivity> list = null;
 
-      for(Iterator<IAeMessageReceiverActivity> it=getQueuedReceives().values().iterator(); it.hasNext();)
-      {
-         IAeMessageReceiverActivity receiver = it.next();
-         if (receiver != aMessageReceiver)
-         {
-            // start with the plink + operation
-            boolean match = aInboundReceive.getPartnerLinkOperationKey().equals(receiver.getPartnerLinkOperationImplKey());
-            if (match)
-            {
-               // move on to test the correlation data
-               if (messageCorrelates(aInboundReceive, receiver))
-               {
-                  // we've found an ambiguousReceive, add it to the list
-                  if (list == null)
-                     list = new ArrayList<IAeMessageReceiverActivity>();
-                  list.add(receiver);
+       for (IAeMessageReceiverActivity receiver : getQueuedReceives().values()) {
+           if (receiver != aMessageReceiver) {
+               // start with the plink + operation
+               boolean match = aInboundReceive.getPartnerLinkOperationKey().equals(receiver.getPartnerLinkOperationImplKey());
+               if (match) {
+                   // move on to test the correlation data
+                   if (messageCorrelates(aInboundReceive, receiver)) {
+                       // we've found an ambiguousReceive, add it to the list
+                       if (list == null)
+                           list = new ArrayList<IAeMessageReceiverActivity>();
+                       list.add(receiver);
+                   }
                }
-            }
-         }
-      }
+           }
+       }
 
       if (list == null)
          list = Collections.<IAeMessageReceiverActivity>emptyList();
@@ -2687,14 +2636,11 @@ public class AeBusinessProcess extends AeActivityScopeImpl implements IAeBusines
    {
       // no need to synchronized on open message activity list since only one
       // thread has access to a process.
-      for (Iterator<AeOpenMessageActivityInfo> i = getOpenMessageActivityInfoList().iterator(); i.hasNext(); )
-      {
-         AeOpenMessageActivityInfo oma = i.next();
-         if (oma.equals(aPrototype))
-         {
-            return oma;
-         }
-      }
+       for (AeOpenMessageActivityInfo oma : getOpenMessageActivityInfoList()) {
+           if (oma.equals(aPrototype)) {
+               return oma;
+           }
+       }
 
       return null;
    }
@@ -2798,28 +2744,23 @@ public class AeBusinessProcess extends AeActivityScopeImpl implements IAeBusines
       String scopePath = aScope.getLocationPath();
       boolean found = false;
 
-      for (Iterator<AeOpenMessageActivityInfo> i = getOpenMessageActivityInfoList().iterator(); i.hasNext(); )
-      {
-         AeOpenMessageActivityInfo oma = i.next();
+       for (AeOpenMessageActivityInfo oma : getOpenMessageActivityInfoList()) {
+           // Skip previously orphaned IMAs.
+           if (!oma.isOrphaned()) {
+               String messageExchangePath = AeUtil.getSafeString(oma.getMessageExchangePath());
+               String partnerLinkPath = AeUtil.getSafeString(oma.getPartnerLinkLocationPath());
 
-         // Skip previously orphaned IMAs.
-         if (!oma.isOrphaned())
-         {
-            String messageExchangePath = AeUtil.getSafeString(oma.getMessageExchangePath());
-            String partnerLinkPath = AeUtil.getSafeString(oma.getPartnerLinkLocationPath());
+               // Check if the message exchange or partner link is defined somewhere
+               // within the given scope.
+               if (messageExchangePath.startsWith(scopePath) || partnerLinkPath.startsWith(scopePath)) {
+                   // Mark this one as orphaned.
+                   oma.setOrphaned(true);
 
-            // Check if the message exchange or partner link is defined somewhere
-            // within the given scope.
-            if (messageExchangePath.startsWith(scopePath) || partnerLinkPath.startsWith(scopePath))
-            {
-               // Mark this one as orphaned.
-               oma.setOrphaned(true);
-
-               // Found at least one.
-               found = true;
-            }
-         }
-      }
+                   // Found at least one.
+                   found = true;
+               }
+           }
+       }
 
       return found;
    }

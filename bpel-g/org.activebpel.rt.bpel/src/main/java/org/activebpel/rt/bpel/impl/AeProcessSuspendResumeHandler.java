@@ -9,23 +9,16 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpel.impl;
 
-import java.util.Iterator;
-import java.util.List;
-
-import javax.xml.namespace.QName;
-
-import org.activebpel.rt.bpel.AeBusinessProcessException;
-import org.activebpel.rt.bpel.AeMessages;
-import org.activebpel.rt.bpel.AeEngineEventType;
-import org.activebpel.rt.bpel.IAeFault;
-import org.activebpel.rt.bpel.IAeMonitorListener;
-import org.activebpel.rt.bpel.AeProcessEventType;
+import bpelg.services.processes.types.ProcessStateValueType;
+import org.activebpel.rt.bpel.*;
 import org.activebpel.rt.bpel.def.AeBaseDef;
 import org.activebpel.rt.bpel.def.visitors.AeCreateInstanceVisitor;
 import org.activebpel.rt.bpel.impl.activity.AeActivityScopeImpl;
 import org.activebpel.rt.bpel.impl.activity.IAeMessageReceiverActivity;
 
-import bpelg.services.processes.types.ProcessStateValueType;
+import javax.xml.namespace.QName;
+import java.util.Iterator;
+import java.util.List;
 
 /**
  * Handles the suspensd/resume and process exception management logic for the
@@ -156,15 +149,12 @@ public class AeProcessSuspendResumeHandler
       // walk all of the faulting location paths to see if one of the activities 
       // is executing as opposed to faulting. This will indicate that there is
       // a retry from the scope level executing and we should allow it to finish
-      for (Iterator iter = getFaultingActivityLocationPaths().iterator(); iter.hasNext();)
-      {
-         String path = (String) iter.next();
-         AeAbstractBpelObject faultingBpelObj = findBpelObject( path );
-         if (faultingBpelObj.getState() != AeBpelState.FAULTING)
-         {
-            return;
-         }
-      }
+       for (String path : getFaultingActivityLocationPaths()) {
+           AeAbstractBpelObject faultingBpelObj = findBpelObject(path);
+           if (faultingBpelObj.getState() != AeBpelState.FAULTING) {
+               return;
+           }
+       }
       
       // otherwise
       // if the caller hit resume, we should take the first entry

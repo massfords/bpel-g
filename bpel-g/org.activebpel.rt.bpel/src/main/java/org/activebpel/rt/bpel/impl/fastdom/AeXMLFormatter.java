@@ -9,20 +9,15 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpel.impl.fastdom;
 
-import java.io.IOException;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
-import java.io.UnsupportedEncodingException;
-import java.io.Writer;
-import java.util.Iterator;
-import java.util.List;
-
 import org.activebpel.rt.AeException;
 import org.activebpel.rt.bpel.AeMessages;
 import org.activebpel.rt.util.AeUTF8Util;
 import org.activebpel.rt.util.AeUtil;
 import org.activebpel.rt.xml.AeXMLParserBase;
 import org.w3c.dom.Node;
+
+import java.io.*;
+import java.util.List;
 
 /**
  * Formats an <code>AeFastNode</code> object to an XML stream.
@@ -241,10 +236,9 @@ public class AeXMLFormatter implements IAeVisitor
          mWriter.write('<');
          mWriter.write(aElement.getName());
 
-         for (Iterator i = aElement.getAttributes().iterator(); i.hasNext(); )
-         {
-            visit((AeFastAttribute) i.next());
-         }
+          for (Object o : aElement.getAttributes()) {
+              visit((AeFastAttribute) o);
+          }
 
          List children = aElement.getChildNodes();
          if (children.isEmpty())
@@ -261,10 +255,9 @@ public class AeXMLFormatter implements IAeVisitor
 
             try
             {
-               for (Iterator i = children.iterator(); i.hasNext(); )
-               {
-                  ((AeFastNode) i.next()).accept(this);
-               }
+                for (Object aChildren : children) {
+                    ((AeFastNode) aChildren).accept(this);
+                }
             }
             finally
             {

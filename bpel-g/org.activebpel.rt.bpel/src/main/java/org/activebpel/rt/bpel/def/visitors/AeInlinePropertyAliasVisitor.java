@@ -9,33 +9,12 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpel.def.visitors;
 
-import java.util.Iterator;
-
-import javax.xml.namespace.QName;
-
 import org.activebpel.rt.AeException;
 import org.activebpel.rt.bpel.AeWSDLDefHelper;
 import org.activebpel.rt.bpel.IAeExpressionLanguageFactory;
-import org.activebpel.rt.bpel.def.AeBaseDef;
-import org.activebpel.rt.bpel.def.AeCorrelationSetDef;
-import org.activebpel.rt.bpel.def.AeProcessDef;
-import org.activebpel.rt.bpel.def.AeVariableDef;
-import org.activebpel.rt.bpel.def.IAeExpressionDef;
-import org.activebpel.rt.bpel.def.activity.AeActivityInvokeDef;
-import org.activebpel.rt.bpel.def.activity.AeActivityReceiveDef;
-import org.activebpel.rt.bpel.def.activity.AeActivityReplyDef;
-import org.activebpel.rt.bpel.def.activity.AeActivityWaitDef;
-import org.activebpel.rt.bpel.def.activity.AeActivityWhileDef;
-import org.activebpel.rt.bpel.def.activity.support.AeCorrelationDef;
-import org.activebpel.rt.bpel.def.activity.support.AeElseIfDef;
-import org.activebpel.rt.bpel.def.activity.support.AeFromDef;
-import org.activebpel.rt.bpel.def.activity.support.AeIfDef;
-import org.activebpel.rt.bpel.def.activity.support.AeOnAlarmDef;
-import org.activebpel.rt.bpel.def.activity.support.AeOnEventDef;
-import org.activebpel.rt.bpel.def.activity.support.AeOnMessageDef;
-import org.activebpel.rt.bpel.def.activity.support.AeSourceDef;
-import org.activebpel.rt.bpel.def.activity.support.AeToDef;
-import org.activebpel.rt.bpel.def.activity.support.AeVarDef;
+import org.activebpel.rt.bpel.def.*;
+import org.activebpel.rt.bpel.def.activity.*;
+import org.activebpel.rt.bpel.def.activity.support.*;
 import org.activebpel.rt.bpel.def.util.AeDefUtil;
 import org.activebpel.rt.bpel.def.util.AeVariableProperty;
 import org.activebpel.rt.expr.def.AeExpressionAnalyzerContext;
@@ -47,6 +26,9 @@ import org.activebpel.rt.wsdl.IAeContextWSDLProvider;
 import org.activebpel.rt.wsdl.def.IAeProperty;
 import org.activebpel.rt.wsdl.def.IAePropertyAlias;
 import org.activebpel.rt.xml.def.AeBaseDefNamespaceContext;
+
+import javax.xml.namespace.QName;
+import java.util.Iterator;
 
 /**
  * Visits the def to inline usage of property alias's where possible. This will
@@ -372,12 +354,11 @@ public class AeInlinePropertyAliasVisitor extends AeAbstractDefVisitor
          IAeExpressionAnalyzer analyzer = getExpressionLanguageFactory().createExpressionAnalyzer(aExpressionDef.getBpelNamespace(), language);
          IAeExpressionAnalyzerContext ctx = new AeExpressionAnalyzerContext(new AeBaseDefNamespaceContext(aDef));
 
-         for (Iterator iter = analyzer.getVarPropertyList(ctx, aExpressionDef.getExpression()).iterator(); iter.hasNext();)
-         {
-            AeVariableProperty varProp = (AeVariableProperty) iter.next();
-            AeVariableDef varDef = AeDefUtil.getVariableByName(varProp.getVarName(), aDef);
-            cachePropertyAlias(varDef, varProp.getProperty());
-         }
+          for (Object o : analyzer.getVarPropertyList(ctx, aExpressionDef.getExpression())) {
+              AeVariableProperty varProp = (AeVariableProperty) o;
+              AeVariableDef varDef = AeDefUtil.getVariableByName(varProp.getVarName(), aDef);
+              cachePropertyAlias(varDef, varProp.getProperty());
+          }
       }
       catch (AeException e)
       {

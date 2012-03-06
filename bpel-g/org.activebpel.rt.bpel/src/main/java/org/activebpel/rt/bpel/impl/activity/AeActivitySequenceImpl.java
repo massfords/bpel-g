@@ -9,15 +9,15 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpel.impl.activity;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-
 import org.activebpel.rt.bpel.AeBusinessProcessException;
 import org.activebpel.rt.bpel.IAeActivity;
 import org.activebpel.rt.bpel.def.activity.AeActivitySequenceDef;
 import org.activebpel.rt.bpel.impl.IAeActivityParent;
 import org.activebpel.rt.bpel.impl.IAeBpelObject;
 import org.activebpel.rt.bpel.impl.visitors.IAeImplVisitor;
+
+import java.util.ArrayList;
+import java.util.Iterator;
 
 /**
  * Implementation of the bpel sequence activity.
@@ -97,14 +97,11 @@ public class AeActivitySequenceImpl extends AeActivityImpl implements IAeActivit
     */
    protected IAeBpelObject getNextObject()
    {
-      for (int i=0; i<mActivities.size(); i++)
-      {
-         IAeBpelObject nextObject = mActivities.get(i);
-         if ( ! nextObject.getState().isFinal())
-         {
-            return nextObject;
-         }
-      }
+       for (IAeActivity activity : mActivities) {
+           if (!activity.getState().isFinal()) {
+               return activity;
+           }
+       }
       return null;
    }
 }

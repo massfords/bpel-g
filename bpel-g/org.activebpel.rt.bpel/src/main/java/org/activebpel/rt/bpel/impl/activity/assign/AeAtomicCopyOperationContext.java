@@ -9,15 +9,14 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpel.impl.activity.assign; 
 
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
-
 import org.activebpel.rt.bpel.AeBusinessProcessException;
 import org.activebpel.rt.bpel.IAePartnerLink;
 import org.activebpel.rt.bpel.IAeVariable;
 import org.activebpel.rt.bpel.impl.AeAbstractBpelObject;
 import org.w3c.dom.Document;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * The context for the copy operation.
@@ -64,30 +63,23 @@ public class AeAtomicCopyOperationContext extends AeCopyOperationContext
     */
    public void rollback()
    {
-      for (Iterator iter = getRollbackMap().entrySet().iterator(); iter.hasNext();)
-      {
-         Map.Entry entry = (Map.Entry) iter.next();
-         if (entry.getKey() instanceof IAeVariable)
-         {
-            IAeVariable var = (IAeVariable) entry.getKey();
-            var.restore((IAeVariable) entry.getValue());
-         }
-         else
-         {
-            IAePartnerLink plink = (IAePartnerLink) entry.getKey();
-            Document doc = (Document) entry.getValue();
-            try
-            {
-               plink.getPartnerReference().setReferenceData(doc.getDocumentElement());
-            }
-            catch (AeBusinessProcessException e)
-            {
-               // seems unlikely that we'd be unable to deserialize the epr data if we just
-               // serialized it moments ago
-               e.logError();
-            }
-         }
-      }
+       for (Map.Entry<Object, Object> objectObjectEntry : getRollbackMap().entrySet()) {
+           Map.Entry entry = (Map.Entry) objectObjectEntry;
+           if (entry.getKey() instanceof IAeVariable) {
+               IAeVariable var = (IAeVariable) entry.getKey();
+               var.restore((IAeVariable) entry.getValue());
+           } else {
+               IAePartnerLink plink = (IAePartnerLink) entry.getKey();
+               Document doc = (Document) entry.getValue();
+               try {
+                   plink.getPartnerReference().setReferenceData(doc.getDocumentElement());
+               } catch (AeBusinessProcessException e) {
+                   // seems unlikely that we'd be unable to deserialize the epr data if we just
+                   // serialized it moments ago
+                   e.logError();
+               }
+           }
+       }
       
       clearRollback();
    }

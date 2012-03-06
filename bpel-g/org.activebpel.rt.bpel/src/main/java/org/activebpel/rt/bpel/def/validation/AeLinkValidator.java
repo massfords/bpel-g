@@ -9,22 +9,8 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpel.def.validation;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
 import org.activebpel.rt.bpel.AeMessages;
-import org.activebpel.rt.bpel.def.AeActivityDef;
-import org.activebpel.rt.bpel.def.AeBaseDef;
-import org.activebpel.rt.bpel.def.AeCompensationHandlerDef;
-import org.activebpel.rt.bpel.def.AeEventHandlersDef;
-import org.activebpel.rt.bpel.def.AeFaultHandlersDef;
-import org.activebpel.rt.bpel.def.AeProcessDef;
-import org.activebpel.rt.bpel.def.IAeUncrossableLinkBoundary;
+import org.activebpel.rt.bpel.def.*;
 import org.activebpel.rt.bpel.def.activity.AeActivityFlowDef;
 import org.activebpel.rt.bpel.def.activity.AeActivityScopeDef;
 import org.activebpel.rt.bpel.def.activity.AeActivityWhileDef;
@@ -32,6 +18,8 @@ import org.activebpel.rt.bpel.def.activity.support.AeLinkDef;
 import org.activebpel.rt.bpel.def.activity.support.AeSourceDef;
 import org.activebpel.rt.bpel.def.activity.support.AeTargetDef;
 import org.activebpel.rt.bpel.def.util.AeDefUtil;
+
+import java.util.*;
 
 /**
  * Validation helper for link collection and testing.
@@ -110,32 +98,25 @@ public class AeLinkValidator implements IAeValidationDefs
     */
    public void checkLinks()
    {
-      for ( Iterator iter = getLinks().iterator() ; iter.hasNext() ; )
-      {
-         AeLinkComposite comp = (AeLinkComposite) iter.next();
-         if (comp.isUsed())
-         {
-            if ( comp.isComplete() )
-            {
-               checkBoundaryCrossings( comp );
-               checkBadTarget( comp );
-            }
-            else
-            {
-               getReporter().reportProblem( IAeValidationProblemCodes.BPEL_BAD_LINK_CODE, 
-                                             ERROR_BAD_LINK,
-                                             new String[] { comp.getLink().getLocationPath() },
-                                             comp.getLink());
-            }
-         }
-         else
-         {
-            getReporter().reportProblem( IAeValidationProblemCodes.BPEL_LINK_NOT_USED_CODE, 
-                                          WARNING_LINK_NOT_USED,
-                                          new String[] { comp.getLink().getName() },
-                                          comp.getLink());
-         }
-      }
+       for (Object o : getLinks()) {
+           AeLinkComposite comp = (AeLinkComposite) o;
+           if (comp.isUsed()) {
+               if (comp.isComplete()) {
+                   checkBoundaryCrossings(comp);
+                   checkBadTarget(comp);
+               } else {
+                   getReporter().reportProblem(IAeValidationProblemCodes.BPEL_BAD_LINK_CODE,
+                           ERROR_BAD_LINK,
+                           new String[]{comp.getLink().getLocationPath()},
+                           comp.getLink());
+               }
+           } else {
+               getReporter().reportProblem(IAeValidationProblemCodes.BPEL_LINK_NOT_USED_CODE,
+                       WARNING_LINK_NOT_USED,
+                       new String[]{comp.getLink().getName()},
+                       comp.getLink());
+           }
+       }
 
       checkLinkCycles();
    }
@@ -149,11 +130,10 @@ public class AeLinkValidator implements IAeValidationDefs
       Set cycleLinks = AeLinkCycleVisitor.findCycleLinks(this);
 
       // Report any such links.
-      for (Iterator iter = cycleLinks.iterator(); iter.hasNext(); )
-      {
-         AeLinkDef link = ((AeLinkComposite)iter.next()).getLink();
-         getReporter().reportProblem( IAeValidationProblemCodes.BPEL_LINK_CYCLE_CODE, ERROR_LINK_CYCLE, new String[]{link.getName()}, link );
-      }
+       for (Object cycleLink : cycleLinks) {
+           AeLinkDef link = ((AeLinkComposite) cycleLink).getLink();
+           getReporter().reportProblem(IAeValidationProblemCodes.BPEL_LINK_CYCLE_CODE, ERROR_LINK_CYCLE, new String[]{link.getName()}, link);
+       }
    }
 
    /**
@@ -325,7 +305,7 @@ public class AeLinkValidator implements IAeValidationDefs
     * 
     * @return Collection
     */
-   public Collection getLinks()
+   public Collection<AeLinkComposite> getLinks()
    {
       return getLinkMap().values();
    }

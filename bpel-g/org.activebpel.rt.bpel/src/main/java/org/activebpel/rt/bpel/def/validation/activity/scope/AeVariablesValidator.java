@@ -7,14 +7,13 @@
 //Active Endpoints, Inc. Removal of this PROPRIETARY RIGHTS STATEMENT 
 //is strictly forbidden. Copyright (c) 2002-2006 All rights reserved. 
 /////////////////////////////////////////////////////////////////////////////
-package org.activebpel.rt.bpel.def.validation.activity.scope; 
-
-import java.util.Iterator;
-import java.util.List;
+package org.activebpel.rt.bpel.def.validation.activity.scope;
 
 import org.activebpel.rt.bpel.def.AeVariablesDef;
 import org.activebpel.rt.bpel.def.validation.AeBaseValidator;
 import org.activebpel.rt.bpel.def.validation.AeVariableValidator;
+
+import java.util.List;
 
 /**
  * model provides validation for variables def
@@ -47,15 +46,13 @@ public class AeVariablesValidator extends AeBaseValidator
    public AeVariableValidator getVariableValidator(String aName, int aMode)
    {
       List vars = getChildren(AeVariableValidator.class);
-      for (Iterator iter = vars.iterator(); iter.hasNext();)
-      {
-         AeVariableValidator variableModel = (AeVariableValidator) iter.next();
-         if (variableModel.getName().equals(aName))
-         {
-            variableModel.addVariableUsage(aMode);
-            return variableModel;
-         }
-      }
+       for (Object var : vars) {
+           AeVariableValidator variableModel = (AeVariableValidator) var;
+           if (variableModel.getName().equals(aName)) {
+               variableModel.addVariableUsage(aMode);
+               return variableModel;
+           }
+       }
       return null;
    }
 }

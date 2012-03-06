@@ -7,10 +7,7 @@
 //Active Endpoints, Inc. Removal of this PROPRIETARY RIGHTS STATEMENT 
 //is strictly forbidden. Copyright (c) 2002-2006 All rights reserved. 
 /////////////////////////////////////////////////////////////////////////////
-package org.activebpel.rt.bpel.impl.activity; 
-
-import java.util.Iterator;
-import java.util.Map;
+package org.activebpel.rt.bpel.impl.activity;
 
 import org.activebpel.rt.bpel.AeBusinessProcessException;
 import org.activebpel.rt.bpel.IAeVariable;
@@ -18,6 +15,8 @@ import org.activebpel.rt.bpel.def.activity.AeActivityAssignDef;
 import org.activebpel.rt.bpel.impl.AeBpelException;
 import org.activebpel.rt.bpel.impl.IAeActivityParent;
 import org.activebpel.rt.bpel.impl.activity.assign.AeAtomicCopyOperationContext;
+
+import java.util.Map;
 
 /**
  * Assign impl for 2.0. Extends the base class by adding support for the validate attribute
@@ -68,16 +67,13 @@ public class AeActivityAssignWSBPELImpl extends AeActivityAssignImpl
    {
       // TODO (MF) change to validate all of the variables and then report all failures at once
       Map rollbackMap = ((AeAtomicCopyOperationContext)getCopyOperationContext()).getRollbackMap();
-      for(Iterator it = rollbackMap.keySet().iterator(); it.hasNext();)
-      {
-         // might be a partner link
-         Object modifiedData = it.next();
-         if (modifiedData instanceof IAeVariable)
-         {
-            IAeVariable var = (IAeVariable) modifiedData;
-            var.validate();
-         }
-      }
+       for (Object modifiedData : rollbackMap.keySet()) {
+           // might be a partner link
+           if (modifiedData instanceof IAeVariable) {
+               IAeVariable var = (IAeVariable) modifiedData;
+               var.validate();
+           }
+       }
    }
    
    /**

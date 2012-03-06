@@ -9,8 +9,6 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpel.impl.lock;
 
-import java.util.Iterator;
-
 import org.activebpel.rt.AeException;
 import org.activebpel.rt.util.AeXmlUtil;
 import org.w3c.dom.Document;
@@ -55,28 +53,21 @@ class AeLockerSerializer implements IAeLockerSerializationNames
       Element locks = doc.createElement(TAG_LOCKS);
       result.appendChild(locks);
 
-      for (Iterator i = mVariableLocker.getLockedPaths().iterator(); i.hasNext(); )
-      {
-         String variablePath = (String) i.next();
-
-         serializeLock(variablePath, locks);
-      }
+       for (String variablePath : mVariableLocker.getLockedPaths()) {
+           serializeLock(variablePath, locks);
+       }
 
       // Serialize lock requests.
       Element requests = doc.createElement(TAG_REQUESTS);
       result.appendChild(requests);
 
-      for (Iterator i = mVariableLocker.getLockRequests().iterator(); i.hasNext(); )
-      {
-         AeLockRequest lockRequest = (AeLockRequest) i.next();
-
-         // AeVariableLocker#setLockerData can reconstruct lock requests for
-         // only one callback, so serialize requests only for one callback.
-         if (lockRequest.getCallback() == mCallback)
-         {
-            serializeLockRequest(lockRequest, requests);
-         }
-      }
+       for (AeLockRequest lockRequest : mVariableLocker.getLockRequests()) {
+           // AeVariableLocker#setLockerData can reconstruct lock requests for
+           // only one callback, so serialize requests only for one callback.
+           if (lockRequest.getCallback() == mCallback) {
+               serializeLockRequest(lockRequest, requests);
+           }
+       }
 
       return result;
    }
@@ -98,14 +89,13 @@ class AeLockerSerializer implements IAeLockerSerializationNames
       lock.setAttribute(ATTR_VARIABLEPATH, aVariablePath);
       lock.setAttribute(ATTR_EXCLUSIVE   , "" + lockHolder.isExclusive()); //$NON-NLS-1$
 
-      for (Iterator i = lockHolder.getOwners().iterator(); i.hasNext(); )
-      {
-         Element owner = doc.createElement(TAG_OWNER);
-         lock.appendChild(owner);
+       for (String s : lockHolder.getOwners()) {
+           Element owner = doc.createElement(TAG_OWNER);
+           lock.appendChild(owner);
 
-         String ownerPath = (String) i.next();
-         owner.setAttribute(ATTR_OWNERPATH, ownerPath);
-      }
+           String ownerPath = s;
+           owner.setAttribute(ATTR_OWNERPATH, ownerPath);
+       }
    }
 
    /**
@@ -123,13 +113,12 @@ class AeLockerSerializer implements IAeLockerSerializationNames
       request.setAttribute(ATTR_OWNERPATH, aLockRequest.getOwner());
       request.setAttribute(ATTR_EXCLUSIVE, "" + aLockRequest.isExclusiveRequest()); //$NON-NLS-1$
 
-      for (Iterator i = aLockRequest.getVariablesToLock().iterator(); i.hasNext(); )
-      {
-         Element variable = doc.createElement(TAG_VARIABLE);
-         request.appendChild(variable);
+       for (String s : aLockRequest.getVariablesToLock()) {
+           Element variable = doc.createElement(TAG_VARIABLE);
+           request.appendChild(variable);
 
-         String variablePath = (String) i.next();
-         variable.setAttribute(ATTR_VARIABLEPATH, variablePath);
-      }
+           String variablePath = s;
+           variable.setAttribute(ATTR_VARIABLEPATH, variablePath);
+       }
    }
 }

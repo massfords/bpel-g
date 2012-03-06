@@ -9,11 +9,11 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpel.def.faults;
 
-import java.util.Iterator;
-
 import org.activebpel.rt.bpel.IAeFaultTypeInfo;
 import org.activebpel.rt.util.AeUtil;
 import org.activebpel.rt.wsdl.IAeContextWSDLProvider;
+
+import java.util.Iterator;
 
 /**
  * Base impl of the fault matching strategy. This interface provides the common framework for matching thrown
@@ -169,37 +169,31 @@ public abstract class AeBaseFaultMatchingStrategy implements IAeFaultMatchingStr
          IAeCatch katch = (IAeCatch)aIterOfCatches.next();
          // array of rules to match against
          IAeFaultMatchingRule[] rules = getRules();
-         for (int i = 0; i < rules.length; i++)
-         {
-            IAeFaultMatchingRule rule = rules[i];
-            IAeMatch match = rule.getMatch(aProvider, katch, aFault);
-            // if the rule produced a match, then see if it's the best match or perhaps better than a previous match
-            if ( match != null )
-            {
-               // if the rule is a best match, then we won't encounter a better match so stop looping
-               if ( match.isBestMatch() )
-               {
-                  return katch;
-               }
-               // if there is no previous match, then record the match as our current match which may end up 
-               // being what we match on if no better match is found
-               if ( previousMatch == null )
-               {
-                  previousMatch = match;
-                  matched = katch;
-               }
-               // if there is a previous match, then replace it if the new match is a better 
-               // match than the previous match.
-               // One match is a better than another if it has a higher priority OR if it's the same priority
-               // but the new match is closer to an SG head than the previous match. This logic is encapsulated
-               // within the match impl classes.
-               else if ( match.isBetterMatchThan(previousMatch) )
-               {
-                  previousMatch = match;
-                  matched = katch;
-               }
-            }
-         }
+          for (IAeFaultMatchingRule rule : rules) {
+              IAeMatch match = rule.getMatch(aProvider, katch, aFault);
+              // if the rule produced a match, then see if it's the best match or perhaps better than a previous match
+              if (match != null) {
+                  // if the rule is a best match, then we won't encounter a better match so stop looping
+                  if (match.isBestMatch()) {
+                      return katch;
+                  }
+                  // if there is no previous match, then record the match as our current match which may end up
+                  // being what we match on if no better match is found
+                  if (previousMatch == null) {
+                      previousMatch = match;
+                      matched = katch;
+                  }
+                  // if there is a previous match, then replace it if the new match is a better
+                  // match than the previous match.
+                  // One match is a better than another if it has a higher priority OR if it's the same priority
+                  // but the new match is closer to an SG head than the previous match. This logic is encapsulated
+                  // within the match impl classes.
+                  else if (match.isBetterMatchThan(previousMatch)) {
+                      previousMatch = match;
+                      matched = katch;
+                  }
+              }
+          }
       }
       return matched;
    }

@@ -9,9 +9,8 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpel.impl.activity;
 
-import java.util.Iterator;
-
 import org.activebpel.rt.bpel.AeBusinessProcessException;
+import org.activebpel.rt.bpel.IAePartnerLink;
 import org.activebpel.rt.bpel.def.activity.AeActivityScopeDef;
 import org.activebpel.rt.bpel.def.visitors.AeDefVisitorFactory;
 import org.activebpel.rt.bpel.impl.AeAbstractBpelObject;
@@ -21,6 +20,8 @@ import org.activebpel.rt.bpel.impl.AeVariable;
 import org.activebpel.rt.bpel.impl.activity.support.AeCorrelationSet;
 import org.activebpel.rt.bpel.impl.visitors.AeImplTraversingVisitor;
 import org.activebpel.rt.xml.def.IAePathSegmentBuilder;
+
+import java.util.Iterator;
 
 /**
  * Visits each of the implementation objects and sets a custom location path
@@ -97,18 +98,15 @@ public class AeLocationPathImplVisitor extends AeImplTraversingVisitor
       
       if (def.getScopeDef().hasCorrelationSets())
       {
-         for (Iterator iter = aImpl.getCorrelationSetMap().values().iterator(); iter.hasNext();)
-         {
-            AeCorrelationSet corrSet = (AeCorrelationSet) iter.next();
-            setCorrelationSetPath(corrSet);
-         }
+          for (AeCorrelationSet corrSet : aImpl.getCorrelationSetMap().values()) {
+              setCorrelationSetPath(corrSet);
+          }
       }
 
-      for (Iterator iter = aImpl.getPartnerLinks().values().iterator(); iter.hasNext(); )
-      {
-         AePartnerLink plink = (AePartnerLink) iter.next();
-         setPartnerLinkPath(plink);
-      }
+       for (IAePartnerLink iAePartnerLink : aImpl.getPartnerLinks().values()) {
+           AePartnerLink plink = (AePartnerLink) iAePartnerLink;
+           setPartnerLinkPath(plink);
+       }
    }
    
    

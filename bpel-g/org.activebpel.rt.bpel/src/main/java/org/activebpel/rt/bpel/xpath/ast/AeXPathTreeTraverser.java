@@ -10,8 +10,6 @@
 
 package org.activebpel.rt.bpel.xpath.ast;
 
-import java.util.Iterator;
-
 /**
  * Used to traverse the XPath AST.
  */
@@ -41,11 +39,9 @@ public class AeXPathTreeTraverser
       aXPathNode.accept(getVisitor());
 
       // Traverse all of that node's children.
-      for (Iterator iter = aXPathNode.getChildren().iterator(); iter.hasNext(); )
-      {
-         AeAbstractXPathNode child = (AeAbstractXPathNode) iter.next();
-         traverse(child);
-      }
+       for (AeAbstractXPathNode child : aXPathNode.getChildren()) {
+           traverse(child);
+       }
    }
 
    /**

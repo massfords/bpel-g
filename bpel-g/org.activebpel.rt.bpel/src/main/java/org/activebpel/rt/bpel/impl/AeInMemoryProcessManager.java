@@ -9,19 +9,9 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpel.impl;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.Hashtable;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.SortedMap;
-import java.util.TreeMap;
-
-import javax.inject.Singleton;
-import javax.xml.namespace.QName;
-
+import bpelg.services.processes.types.ProcessFilterType;
+import bpelg.services.processes.types.ProcessInstanceDetail;
+import bpelg.services.processes.types.ProcessList;
 import org.activebpel.rt.AeException;
 import org.activebpel.rt.bpel.AeBusinessProcessException;
 import org.activebpel.rt.bpel.IAeBusinessProcess;
@@ -35,9 +25,9 @@ import org.activebpel.rt.bpel.impl.queue.AeReply;
 import org.activebpel.rt.message.IAeMessageData;
 import org.activebpel.rt.util.AeDate;
 
-import bpelg.services.processes.types.ProcessFilterType;
-import bpelg.services.processes.types.ProcessInstanceDetail;
-import bpelg.services.processes.types.ProcessList;
+import javax.inject.Singleton;
+import javax.xml.namespace.QName;
+import java.util.*;
 
 /**
  * Implements a simple in-memory process manager.
@@ -179,17 +169,16 @@ public class AeInMemoryProcessManager extends AeAbstractProcessManager
 			SortedMap<Long,IAeBusinessProcess> map = new TreeMap<Long,IAeBusinessProcess>(new AeReverseComparator());
 			map.putAll(getProcessMap());
 
-			for (Iterator iter = map.keySet().iterator(); iter.hasNext();) {
-				IAeBusinessProcess process = map.get(iter
-						.next());
-				if (filter.accept(process)) {
-					totalCount++;
-					if (isWithinRange(aFilter, totalCount)) {
-						results.add(createProcessInstanceDetail(process));
-					}
-					matches++;
-				}
-			}
+            for (Long l : map.keySet()) {
+                IAeBusinessProcess process = map.get(l);
+                if (filter.accept(process)) {
+                    totalCount++;
+                    if (isWithinRange(aFilter, totalCount)) {
+                        results.add(createProcessInstanceDetail(process));
+                    }
+                    matches++;
+                }
+            }
 		}
 
 		return new ProcessList().withTotalRowCount(totalCount).withProcessInstanceDetail(results)
@@ -265,10 +254,10 @@ public class AeInMemoryProcessManager extends AeAbstractProcessManager
 		}
 
 		// Notify listeners of the purged processes.
-		for (Iterator i = purgedProcessIds.iterator(); i.hasNext();) {
-			long processId = fromKey(i.next());
-			fireProcessPurged(processId);
-		}
+        for (Long purgedProcessId : purgedProcessIds) {
+            long processId = fromKey(purgedProcessId);
+            fireProcessPurged(processId);
+        }
 	}
 
 	/* (non-Javadoc)
@@ -280,14 +269,12 @@ public class AeInMemoryProcessManager extends AeAbstractProcessManager
 			AeProcessFilterAdapter filter = new AeProcessFilterAdapter(aFilter);
 			int removed = 0;
 
-			for (Iterator i = processes.iterator(); i.hasNext();) {
-				IAeBusinessProcess process = (IAeBusinessProcess) i.next();
-
-				if (filter.accept(process)) {
-					removeProcess(process.getProcessId());
-					++removed;
-				}
-			}
+            for (IAeBusinessProcess process : processes) {
+                if (filter.accept(process)) {
+                    removeProcess(process.getProcessId());
+                    ++removed;
+                }
+            }
 
 			return removed;
 		}

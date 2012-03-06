@@ -9,19 +9,18 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpel.impl.list;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
-
-import javax.xml.namespace.QName;
-
 import org.activebpel.rt.AeException;
 import org.activebpel.rt.bpel.AeBusinessProcessException;
 import org.activebpel.rt.bpel.AeMessages;
 import org.activebpel.rt.bpel.impl.IAeBusinessProcessEngineInternal;
 import org.activebpel.rt.bpel.impl.queue.AeAlarm;
 import org.activebpel.rt.util.AeUtil;
+
+import javax.xml.namespace.QName;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 
 /**
  * Provides filtering capability for the in-memory alarm manager listing.
@@ -48,30 +47,23 @@ public class AeAlarmFilterManager
       if( aAlarms != null && !aAlarms.isEmpty() )
       {
          AeAlarm[] recs = aAlarms.toArray(new AeAlarm[aAlarms.size()]);
-            
-         for( int i = 0; i < recs.length; i++ )
-         {
-            AeAlarm alarm = recs[i];
-            try
-            {
-               QName processQName = aEngine.getProcessManager().getProcessQName(alarm.getProcessId());
-               AeAlarmExt alarmExt = new AeAlarmExt(alarm.getProcessId(), alarm.getPathId(), alarm.getGroupId(), alarm.getAlarmId() , alarm.getDeadline(), processQName);
-               if( accepts(aFilter, alarmExt) )                  
-               {                  
-                  totalRows++;
-                  // add to 'matches' list if  [startPos]  <= [current matched record number] < [endPos]
-                  // where startPos = aFilter.getListStart(),  endPos = startPos + aFilter.getMaxReturn() 
-                  if( aFilter.isWithinRange(totalRows) )
-                  {
-                     matches.add(alarmExt);
+
+          for (AeAlarm alarm : recs) {
+              try {
+                  QName processQName = aEngine.getProcessManager().getProcessQName(alarm.getProcessId());
+                  AeAlarmExt alarmExt = new AeAlarmExt(alarm.getProcessId(), alarm.getPathId(), alarm.getGroupId(), alarm.getAlarmId(), alarm.getDeadline(), processQName);
+                  if (accepts(aFilter, alarmExt)) {
+                      totalRows++;
+                      // add to 'matches' list if  [startPos]  <= [current matched record number] < [endPos]
+                      // where startPos = aFilter.getListStart(),  endPos = startPos + aFilter.getMaxReturn()
+                      if (aFilter.isWithinRange(totalRows)) {
+                          matches.add(alarmExt);
+                      }
                   }
-               }
-            }
-            catch (AeBusinessProcessException e)
-            {
-               AeException.logError(e, AeMessages.getString("AeAlarmFilterManager.ERROR_0") + alarm.getProcessId()); //$NON-NLS-1$
-            }
-         }
+              } catch (AeBusinessProcessException e) {
+                  AeException.logError(e, AeMessages.getString("AeAlarmFilterManager.ERROR_0") + alarm.getProcessId()); //$NON-NLS-1$
+              }
+          }
       }
       
       if( ! matches.isEmpty() )

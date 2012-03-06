@@ -9,16 +9,15 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpel.impl;
 
-import java.util.Collection;
-import java.util.List;
-
-import javax.xml.namespace.QName;
-
 import org.activebpel.rt.bpel.def.AePartnerLinkDefKey;
 import org.activebpel.rt.bpel.def.AePartnerLinkOpKey;
 import org.activebpel.rt.bpel.def.AeProcessDef;
 import org.activebpel.rt.wsdl.IAeContextWSDLProvider;
 import org.w3c.dom.Element;
+
+import javax.xml.namespace.QName;
+import java.util.Collection;
+import java.util.List;
 
 /**
  * Describes some basic characteristics of a process that we need in order to
@@ -39,7 +38,7 @@ public interface IAeProcessPlan extends IAeContextWSDLProvider
     * If no list has been set an empty collection will be returned.
     * @param aPartnerLinkOpKey the partner link and operation key
     */
-   public Collection getCorrelatedPropertyNames(AePartnerLinkOpKey aPartnerLinkOpKey);
+   public Collection<QName> getCorrelatedPropertyNames(AePartnerLinkOpKey aPartnerLinkOpKey);
 
    /**
     * Gets the process definition.

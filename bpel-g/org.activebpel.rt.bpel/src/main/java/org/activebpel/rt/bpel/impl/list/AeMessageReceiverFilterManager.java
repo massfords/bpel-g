@@ -9,16 +9,11 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpel.impl.list;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
-
-import javax.xml.namespace.QName;
-
 import org.activebpel.rt.bpel.impl.queue.AeMessageReceiver;
 import org.activebpel.rt.util.AeUtil;
+
+import javax.xml.namespace.QName;
+import java.util.*;
 
 /**
  * Provides filtering capability for the in-memory queue manager 
@@ -44,20 +39,15 @@ public class AeMessageReceiverFilterManager
       if( aMessageReceivers != null && !aMessageReceivers.isEmpty() )
       {
          AeMessageReceiver[] recs = aMessageReceivers.toArray(new AeMessageReceiver[aMessageReceivers.size()]);
-            
-         for( int i = 0; i < recs.length; i++ )
-         {
-            AeMessageReceiver receiver = recs[i];
-            
-            if( accepts(aFilter, receiver) ) 
-            {
-               totalRows++;
-               if( aFilter.isWithinRange(totalRows) )
-               {
-                  matches.add( receiver );                     
-               }
-            }
-         }
+
+          for (AeMessageReceiver receiver : recs) {
+              if (accepts(aFilter, receiver)) {
+                  totalRows++;
+                  if (aFilter.isWithinRange(totalRows)) {
+                      matches.add(receiver);
+                  }
+              }
+          }
       }
       
       if( !matches.isEmpty() )

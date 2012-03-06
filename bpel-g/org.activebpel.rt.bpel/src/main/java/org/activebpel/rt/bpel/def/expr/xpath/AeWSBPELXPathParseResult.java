@@ -10,16 +10,15 @@
 
 package org.activebpel.rt.bpel.def.expr.xpath;
 
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
-
 import org.activebpel.rt.bpel.def.util.AeVariableData;
 import org.activebpel.rt.bpel.xpath.ast.AeXPathAST;
 import org.activebpel.rt.expr.def.AeScriptVarDef;
 import org.activebpel.rt.expr.def.IAeExpressionParserContext;
 import org.activebpel.rt.util.AeUtil;
+
+import java.util.Collection;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * A concrete implementation of a parse result for the xpath language (for BPEL 2.0).
@@ -55,16 +54,13 @@ public class AeWSBPELXPathParseResult extends AeAbstractXPathParseResult
    protected Collection<AeVariableData> getVarDataFromXPathVariables()
    {
       List<AeVariableData> list = new LinkedList<AeVariableData>();
-      for (Iterator iter = getVariableReferences().iterator(); iter.hasNext(); )
-      {
-         AeScriptVarDef varDef = (AeScriptVarDef) iter.next();
-         // BPEL 2.0 variables are referenced using an unqualified XPath 1.0 variable reference.
-         if (AeUtil.isNullOrEmpty(varDef.getNamespace()))
-         {
-            AeXPathVariableReference varRef = new AeXPathVariableReference(varDef.getName());
-            list.add(new AeVariableData(varRef.getVariableName(), varRef.getPartName(), varDef.getQuery()));
-         }
-      }
+       for (AeScriptVarDef varDef : getVariableReferences()) {
+           // BPEL 2.0 variables are referenced using an unqualified XPath 1.0 variable reference.
+           if (AeUtil.isNullOrEmpty(varDef.getNamespace())) {
+               AeXPathVariableReference varRef = new AeXPathVariableReference(varDef.getName());
+               list.add(new AeVariableData(varRef.getVariableName(), varRef.getPartName(), varDef.getQuery()));
+           }
+       }
       return list;
    }
 }

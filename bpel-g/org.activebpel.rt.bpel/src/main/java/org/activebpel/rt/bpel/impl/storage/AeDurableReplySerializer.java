@@ -9,9 +9,6 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpel.impl.storage;
 
-import java.util.Iterator;
-import java.util.Map;
-
 import org.activebpel.rt.bpel.AeBusinessProcessException;
 import org.activebpel.rt.bpel.AeMessages;
 import org.activebpel.rt.bpel.impl.IAeImplStateNames;
@@ -20,6 +17,8 @@ import org.activebpel.rt.bpel.impl.fastdom.AeFastElement;
 import org.activebpel.rt.bpel.impl.fastdom.AeFastText;
 import org.activebpel.rt.bpel.impl.reply.IAeDurableReplyInfo;
 import org.activebpel.rt.util.AeUtil;
+
+import java.util.Map;
 
 /**
  * Serialiazes an instance of IAeDurableReplyInfo class.
@@ -81,17 +80,16 @@ public class AeDurableReplySerializer implements IAeImplStateNames
       Map properties = aReply.getProperties();
       if (properties != null)
       {
-         for (Iterator i = properties.entrySet().iterator(); i.hasNext(); )
-         {
-            Map.Entry entry = (Map.Entry) i.next();
-            String name = (String) entry.getKey();
-            String value = AeUtil.getSafeString((String) entry.getValue());
-            AeFastElement propertyElement = new AeFastElement( STATE_PROPERTY );
-            propertyElement.setAttribute( STATE_NAME, name );
-            AeFastText valueNode = new AeFastText( value );
-            propertyElement.appendChild( valueNode );            
-            result.appendChild(propertyElement);
-         }
+          for (Object o : properties.entrySet()) {
+              Map.Entry entry = (Map.Entry) o;
+              String name = (String) entry.getKey();
+              String value = AeUtil.getSafeString((String) entry.getValue());
+              AeFastElement propertyElement = new AeFastElement(STATE_PROPERTY);
+              propertyElement.setAttribute(STATE_NAME, name);
+              AeFastText valueNode = new AeFastText(value);
+              propertyElement.appendChild(valueNode);
+              result.appendChild(propertyElement);
+          }
       }      
       return result;
    }  

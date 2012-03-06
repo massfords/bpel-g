@@ -9,13 +9,12 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpel.impl.function.attachment;
 
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
-
 import org.activebpel.rt.bpel.IAeVariable;
 import org.activebpel.rt.bpel.function.AeFunctionCallException;
 import org.activebpel.rt.bpel.function.IAeFunctionExecutionContext;
+
+import java.util.Collection;
+import java.util.List;
 
 /**
  * Class representing the function used by expression evaluators to handle the BPEL -
@@ -65,13 +64,12 @@ public class AeRemoveAllAttachmentsFunction extends AeAbstractAttachmentFunction
       // Now get the list of variables
       Collection variables = resolveVariables(aContext, variableNames);
       int count = 0;
-      for (Iterator varIter = variables.iterator(); varIter.hasNext();)
-      {
-         IAeVariable variable = (IAeVariable)varIter.next();
+       for (Object variable1 : variables) {
+           IAeVariable variable = (IAeVariable) variable1;
 
-         count += variable.getAttachmentData().size();
-         variable.getAttachmentData().clear();
-      }
+           count += variable.getAttachmentData().size();
+           variable.getAttachmentData().clear();
+       }
 
       result = new Integer(count);
 

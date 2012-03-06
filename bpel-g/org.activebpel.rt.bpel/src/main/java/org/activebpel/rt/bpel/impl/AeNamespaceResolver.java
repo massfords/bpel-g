@@ -9,14 +9,13 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpel.impl;
 
+import org.activebpel.rt.wsdl.def.IAePropertyAlias;
+import org.activebpel.rt.xml.IAeNamespaceContext;
+
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
-
-import org.activebpel.rt.wsdl.def.IAePropertyAlias;
-import org.activebpel.rt.xml.IAeNamespaceContext;
 
 
 /**
@@ -53,15 +52,12 @@ public class AeNamespaceResolver implements IAeNamespaceContext
    {
       HashSet<String> set = new HashSet<String>();
       Map<String,String> map = mPropAlias.getNamespaces();
-      
-      for (Iterator<Entry<String, String>> iter = map.entrySet().iterator(); iter.hasNext(); )
-      {
-         Map.Entry<String, String> entry = iter.next();
-         if (entry.getValue().equals(aNamespace))
-         {
-            set.add(entry.getKey());
-         }
-      }
+
+       for (Entry<String, String> entry : map.entrySet()) {
+           if (entry.getValue().equals(aNamespace)) {
+               set.add(entry.getKey());
+           }
+       }
       return set;
    }
 

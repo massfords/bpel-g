@@ -7,14 +7,7 @@
 //Active Endpoints, Inc. Removal of this PROPRIETARY RIGHTS STATEMENT 
 //is strictly forbidden. Copyright (c) 2002-2006 All rights reserved. 
 /////////////////////////////////////////////////////////////////////////////
-package org.activebpel.rt.bpel.impl; 
-
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Map.Entry;
+package org.activebpel.rt.bpel.impl;
 
 import org.activebpel.rt.AeException;
 import org.activebpel.rt.bpel.AeMessages;
@@ -26,6 +19,9 @@ import org.activebpel.rt.bpel.impl.activity.IAeVariableContainer;
 import org.activebpel.rt.bpel.impl.activity.assign.AeCopyOperationContext;
 import org.activebpel.rt.bpel.impl.activity.assign.IAeCopyOperation;
 import org.activebpel.rt.bpel.impl.activity.assign.IAeCopyOperationContext;
+
+import java.util.*;
+import java.util.Map.Entry;
 
 /**
  * impl for the variables object that contains a map of the variables and behavior for variable initialization
@@ -116,20 +112,16 @@ public class AeVariablesImpl implements IAeVariableContainer
     */
    public void clearVariableState(boolean aCloneFlag)
    {
-      for (Iterator<Entry<String, IAeVariable>> iter = getMap().entrySet().iterator(); iter.hasNext();)
-      {
-         Map.Entry<String, IAeVariable> entry = iter.next();
-         IAeVariable var = entry.getValue();
-         if (aCloneFlag)
-         {
-            var = (AeVariable) var.clone();
-            entry.setValue(var);
-         }
-         if (!var.getDefinition().isImplicit())
-         {
-            var.clear();
-         }
-      }
+       for (Entry<String, IAeVariable> entry : getMap().entrySet()) {
+           IAeVariable var = entry.getValue();
+           if (aCloneFlag) {
+               var = (AeVariable) var.clone();
+               entry.setValue(var);
+           }
+           if (!var.getDefinition().isImplicit()) {
+               var.clear();
+           }
+       }
    }
    
    /**
@@ -159,12 +151,10 @@ public class AeVariablesImpl implements IAeVariableContainer
    {
       try
       {
-         for (Iterator<IAeCopyOperation> iter=getCopyOperationsCollection().iterator(); iter.hasNext(); )
-         {
-            IAeCopyOperation copyOp = iter.next();
-            copyOp.setContext(getContext());
-            copyOp.execute();
-         }
+          for (IAeCopyOperation copyOp : getCopyOperationsCollection()) {
+              copyOp.setContext(getContext());
+              copyOp.execute();
+          }
       }
       catch (Exception e)
       {

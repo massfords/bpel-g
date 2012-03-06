@@ -7,11 +7,7 @@
 //Active Endpoints, Inc. Removal of this PROPRIETARY RIGHTS STATEMENT 
 //is strictly forbidden. Copyright (c) 2002-2006 All rights reserved. 
 /////////////////////////////////////////////////////////////////////////////
-package org.activebpel.rt.bpel.def.validation.activity; 
-
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Set;
+package org.activebpel.rt.bpel.def.validation.activity;
 
 import org.activebpel.rt.bpel.def.AeCompensationHandlerDef;
 import org.activebpel.rt.bpel.def.AeFaultHandlersDef;
@@ -25,6 +21,9 @@ import org.activebpel.rt.bpel.def.visitors.AeAbstractDefVisitor;
 import org.activebpel.rt.bpel.def.visitors.AeAbstractSearchVisitor;
 import org.activebpel.rt.bpel.def.visitors.AeDefTraverser;
 import org.activebpel.rt.bpel.def.visitors.AeTraversalVisitor;
+
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * WS-BPEL scope validator 
@@ -86,17 +85,14 @@ public class AeWSBPELActivityScopeValidator extends AeActivityScopeValidator
                getReporter().reportProblem(WSBPEL_NESTED_ISOLATED_SCOPE_FCT_SOURCE_CODE,
                      IAeValidationDefs.ERROR_NESTED_ISOLATED_SCOPE_FCT_SOURCE, null,
                      getDefinition());
-               
-               for (Iterator iter = isolatedSearchVisitor.getMatchedScopes().iterator(); iter.hasNext();)
-               {
-                  // and one error for each one of the targets
-                  AeActivityScopeDef def = (AeActivityScopeDef) iter.next();
-                  
-                  getReporter().reportProblem(WSBPEL_NESTED_ISOLATED_SCOPE_FCT_TARGET_CODE,
-                        IAeValidationDefs.ERROR_NESTED_ISOLATED_SCOPE_FCT_TARGET, new String[] {getDef().getLocationPath()},
-                        def);
-                  
-               }
+
+                for (AeActivityScopeDef def : isolatedSearchVisitor.getMatchedScopes()) {
+                    // and one error for each one of the targets
+                    getReporter().reportProblem(WSBPEL_NESTED_ISOLATED_SCOPE_FCT_TARGET_CODE,
+                            IAeValidationDefs.ERROR_NESTED_ISOLATED_SCOPE_FCT_TARGET, new String[]{getDef().getLocationPath()},
+                            def);
+
+                }
             }
          }
       }

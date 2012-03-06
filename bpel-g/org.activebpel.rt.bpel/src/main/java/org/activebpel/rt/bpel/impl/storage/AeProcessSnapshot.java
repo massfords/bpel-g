@@ -9,12 +9,6 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpel.impl.storage;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Set;
-
 import org.activebpel.rt.bpel.AeBusinessProcessException;
 import org.activebpel.rt.bpel.AeMessages;
 import org.activebpel.rt.bpel.IAeVariable;
@@ -24,6 +18,11 @@ import org.activebpel.rt.bpel.impl.activity.support.AeCorrelationSet;
 import org.activebpel.rt.bpel.impl.fastdom.AeFastDocument;
 import org.activebpel.rt.bpel.impl.visitors.AeProcessSnapshotVisitor;
 import org.w3c.dom.Document;
+
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * Implements a process snapshot that contain all variables and correlation
@@ -94,24 +93,22 @@ public class AeProcessSnapshot implements IAeProcessSnapshot
          Map<String,Map<Integer,AeCorrelationSet>> locationPathsMap = new HashMap<String,Map<Integer,AeCorrelationSet>>();
 
          // Iterate through all correlation sets in the snapshot.
-         for (Iterator i = getCorrelationSets().iterator(); i.hasNext(); )
-         {
-            AeCorrelationSet correlationSet = (AeCorrelationSet) i.next();
-            String locationPath = correlationSet.getLocationPath();
+          for (Object o : getCorrelationSets()) {
+              AeCorrelationSet correlationSet = (AeCorrelationSet) o;
+              String locationPath = correlationSet.getLocationPath();
 
-            // If the location path is not yet in the location path map, then
-            // add a new 2nd-level map for the location path.
-            Map<Integer,AeCorrelationSet> versionNumbersMap = locationPathsMap.get(locationPath);
-            if (versionNumbersMap == null)
-            {
-               versionNumbersMap = new HashMap<Integer,AeCorrelationSet>();
-               locationPathsMap.put(locationPath, versionNumbersMap);
-            }
+              // If the location path is not yet in the location path map, then
+              // add a new 2nd-level map for the location path.
+              Map<Integer, AeCorrelationSet> versionNumbersMap = locationPathsMap.get(locationPath);
+              if (versionNumbersMap == null) {
+                  versionNumbersMap = new HashMap<Integer, AeCorrelationSet>();
+                  locationPathsMap.put(locationPath, versionNumbersMap);
+              }
 
-            // Add the correlation set to the 2nd-level map.
-            int versionNumber = correlationSet.getVersionNumber();
-            versionNumbersMap.put(versionNumber, correlationSet);
-         }
+              // Add the correlation set to the 2nd-level map.
+              int versionNumber = correlationSet.getVersionNumber();
+              versionNumbersMap.put(versionNumber, correlationSet);
+          }
 
          mCorrelationSetLocationPathsMap = locationPathsMap;
       }
@@ -193,24 +190,22 @@ public class AeProcessSnapshot implements IAeProcessSnapshot
          Map<String,Map<Integer,IAeVariable>> locationPathsMap = new HashMap<String,Map<Integer,IAeVariable>>();
 
          // Iterate through all variables in the snapshot.
-         for (Iterator i = getVariables().iterator(); i.hasNext(); )
-         {
-            IAeVariable variable = (IAeVariable) i.next();
-            String locationPath = variable.getLocationPath();
+          for (Object o : getVariables()) {
+              IAeVariable variable = (IAeVariable) o;
+              String locationPath = variable.getLocationPath();
 
-            // If the location path is not yet in the location path map, then
-            // add a new 2nd-level map for the location path.
-            Map<Integer,IAeVariable> versionNumbersMap = locationPathsMap.get(locationPath);
-            if (versionNumbersMap == null)
-            {
-               versionNumbersMap = new HashMap<Integer,IAeVariable>();
-               locationPathsMap.put(locationPath, versionNumbersMap);
-            }
+              // If the location path is not yet in the location path map, then
+              // add a new 2nd-level map for the location path.
+              Map<Integer, IAeVariable> versionNumbersMap = locationPathsMap.get(locationPath);
+              if (versionNumbersMap == null) {
+                  versionNumbersMap = new HashMap<Integer, IAeVariable>();
+                  locationPathsMap.put(locationPath, versionNumbersMap);
+              }
 
-            // Add the variable to the 2nd-level map.
-            int versionNumber = variable.getVersionNumber();
-            versionNumbersMap.put(versionNumber, variable);
-         }
+              // Add the variable to the 2nd-level map.
+              int versionNumber = variable.getVersionNumber();
+              versionNumbersMap.put(versionNumber, variable);
+          }
 
          mVariableLocationPathsMap = locationPathsMap;
       }

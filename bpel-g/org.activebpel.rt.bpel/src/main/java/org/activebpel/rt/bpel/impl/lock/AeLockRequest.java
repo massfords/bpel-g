@@ -10,7 +10,6 @@
 package org.activebpel.rt.bpel.impl.lock;
 
 import java.util.Collections;
-import java.util.Iterator;
 import java.util.Set;
 
 /**
@@ -86,11 +85,9 @@ public abstract class AeLockRequest
     */
    protected void addLockHolders()
    {
-      for (Iterator<String> iter = mVariablesToLock.iterator(); iter.hasNext();)
-      {
-         String variablePath = iter.next();
-         mVariableLocker.addLockHolder(variablePath, getOwner(), isExclusiveRequest());
-      }
+       for (String variablePath : mVariablesToLock) {
+           mVariableLocker.addLockHolder(variablePath, getOwner(), isExclusiveRequest());
+       }
    }
 
    /** Getter for the callback */

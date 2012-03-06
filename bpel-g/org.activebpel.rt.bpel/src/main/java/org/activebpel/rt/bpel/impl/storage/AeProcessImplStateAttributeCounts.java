@@ -11,10 +11,9 @@ package org.activebpel.rt.bpel.impl.storage;
 
 import java.util.Comparator;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
-import java.util.TreeMap;
 import java.util.Map.Entry;
+import java.util.TreeMap;
 
 /**
  * Counts occurrences of attribute values used for persistence by attribute
@@ -138,11 +137,9 @@ public abstract class AeProcessImplStateAttributeCounts
             sortedNamesMap = new TreeMap<String,Map<String, Integer>>(mNamesMap);
          }
 
-         for (Iterator<Entry<String,Map<String, Integer>>> i = sortedNamesMap.entrySet().iterator(); i.hasNext(); )
-         {
-        	Entry<String,Map<String, Integer>> entry = i.next();
-            printCounts(entry.getKey(), entry.getValue());
-         }
+          for (Entry<String, Map<String, Integer>> entry : sortedNamesMap.entrySet()) {
+              printCounts(entry.getKey(), entry.getValue());
+          }
       }
 
       /**
@@ -158,11 +155,9 @@ public abstract class AeProcessImplStateAttributeCounts
             sortedValuesMap.putAll(aValuesMap);
          }
 
-         for (Iterator<Entry<String, Integer>> j = sortedValuesMap.entrySet().iterator(); j.hasNext(); )
-         {
-        	Entry<String, Integer> entry = j.next();
-            System.out.println("count[" + aName + "][" + entry.getKey() + "] = " + entry.getValue().toString()); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-         }
+          for (Entry<String, Integer> entry : sortedValuesMap.entrySet()) {
+              System.out.println("count[" + aName + "][" + entry.getKey() + "] = " + entry.getValue().toString()); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+          }
       }
 
       /**

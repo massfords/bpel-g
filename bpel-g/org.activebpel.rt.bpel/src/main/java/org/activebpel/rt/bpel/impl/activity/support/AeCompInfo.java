@@ -9,16 +9,16 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpel.impl.activity.support;
 
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
-
 import org.activebpel.rt.bpel.AeBusinessProcessException;
 import org.activebpel.rt.bpel.IAePartnerLink;
 import org.activebpel.rt.bpel.IAeVariable;
 import org.activebpel.rt.bpel.def.activity.AeActivityScopeDef;
 import org.activebpel.rt.bpel.impl.AeBpelState;
 import org.activebpel.rt.bpel.impl.activity.AeActivityScopeImpl;
+
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * An AeCompInfo object represents a single successful execution of a <code>scope</code>
@@ -231,15 +231,12 @@ public class AeCompInfo
    public boolean hasEnabledCoordinatedChildren()
    {
       boolean rVal = false;
-      for (Iterator childIter = getCoordinatedEnclosedScopes().iterator(); childIter.hasNext(); )
-      {
-         AeCompInfo childCompInfo = (AeCompInfo) childIter.next();
-         if (childCompInfo.isEnabled())
-         {
-            rVal = true;
-            break;
-         }
-      }
+       for (AeCompInfo childCompInfo : getCoordinatedEnclosedScopes()) {
+           if (childCompInfo.isEnabled()) {
+               rVal = true;
+               break;
+           }
+       }
       return rVal;
    }
 

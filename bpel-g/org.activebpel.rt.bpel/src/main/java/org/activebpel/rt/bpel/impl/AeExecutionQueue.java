@@ -9,19 +9,14 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpel.impl;
 
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Set;
-
 import org.activebpel.rt.AeException;
 import org.activebpel.rt.bpel.AeBusinessProcessException;
 import org.activebpel.rt.bpel.AeMessages;
 import org.activebpel.rt.bpel.IAeFault;
 import org.activebpel.rt.bpel.impl.activity.IAeMessageDispatcher;
 import org.activebpel.rt.message.IAeMessageData;
+
+import java.util.*;
 
 /**
  * Used in conjunction with the process to ensure that we're only executing a
@@ -235,12 +230,10 @@ public class AeExecutionQueue
    {
       List<String> locationPaths = new LinkedList<String>();
 
-      for (Iterator<IAeExecutableQueueItem> i = mExecutionQueue.iterator(); i.hasNext(); )
-      {
-         IAeExecutableQueueItem ex = i.next();
-         String locationPath = ex.getLocationPath();
-         locationPaths.add(locationPath);
-      }
+       for (IAeExecutableQueueItem ex : mExecutionQueue) {
+           String locationPath = ex.getLocationPath();
+           locationPaths.add(locationPath);
+       }
 
       return locationPaths;
    }

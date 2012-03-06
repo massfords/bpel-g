@@ -9,18 +9,6 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpel.impl.storage;
 
-import java.io.InputStream;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
 import org.activebpel.rt.AeException;
 import org.activebpel.rt.bpel.AeBusinessProcessException;
 import org.activebpel.rt.bpel.AeMessages;
@@ -43,6 +31,9 @@ import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
+
+import java.io.InputStream;
+import java.util.*;
 
 /**
  * Restores the state of BPEL implementation objects as saved by
@@ -190,13 +181,12 @@ public class AeRestoreImplState implements IAeImplStateNames
             throw new AeBusinessProcessException(AeMessages.getString("AeRestoreImplState.ERROR_4"), e); //$NON-NLS-1$
          }
 
-         for (Iterator i = nodes.iterator(); i.hasNext(); )
-         {
-            Attr attr = (Attr) i.next();
-            String locationPath = attr.getValue();
+          for (Object node : nodes) {
+              Attr attr = (Attr) node;
+              String locationPath = attr.getValue();
 
-            result.add(locationPath);
-         }
+              result.add(locationPath);
+          }
 
          mExecutionQueuePaths = result;
       }
@@ -230,32 +220,29 @@ public class AeRestoreImplState implements IAeImplStateNames
          }
 
          // Map location ids to elements in the state document.
-         for (Iterator i = nodes.iterator(); i.hasNext(); )
-         {
-            Attr attr = (Attr) i.next();
-            Element element = attr.getOwnerElement();
+          for (Object node1 : nodes) {
+              Attr attr = (Attr) node1;
+              Element element = attr.getOwnerElement();
 
-            // Map only to state elements. Ignore location ids that may appear
-            // elsewhere.
-            if (isStateElement(element))
-            {
-               int locationId = Integer.parseInt(attr.getValue());
-               String locationPath = getProcess().getLocationPath(locationId);
+              // Map only to state elements. Ignore location ids that may appear
+              // elsewhere.
+              if (isStateElement(element)) {
+                  int locationId = Integer.parseInt(attr.getValue());
+                  String locationPath = getProcess().getLocationPath(locationId);
 
-               // the process might not have a mapping of this location id which
-               // means that it's a dynamically created object (nested within 
-               // an executing parallel for each)
-               // we'll add mappings for these objects below when we visit the
-               // nodes again for location paths
-               if (locationPath != null)
-               {
-                  pathsToElements.put(locationPath, element);
-                  elementsToPaths.put(element, locationPath);
-               }
-            }
-         }
+                  // the process might not have a mapping of this location id which
+                  // means that it's a dynamically created object (nested within
+                  // an executing parallel for each)
+                  // we'll add mappings for these objects below when we visit the
+                  // nodes again for location paths
+                  if (locationPath != null) {
+                      pathsToElements.put(locationPath, element);
+                      elementsToPaths.put(element, locationPath);
+                  }
+              }
+          }
 
-         // Get all nodes that have a locationPath attribute.
+          // Get all nodes that have a locationPath attribute.
          try
          {
             nodes = selectNodes(getDocument(), "//@" + STATE_LOC); //$NON-NLS-1$
@@ -266,33 +253,31 @@ public class AeRestoreImplState implements IAeImplStateNames
          }
 
          // Map location paths to elements in the state document.
-         for (Iterator i = nodes.iterator(); i.hasNext(); )
-         {
-            Attr attr = (Attr) i.next();
-            Element element = attr.getOwnerElement();
+          for (Object node : nodes) {
+              Attr attr = (Attr) node;
+              Element element = attr.getOwnerElement();
 
-            // Map only to state elements. Ignore location paths that may
-            // appear elsewhere.
-            if (isStateElement(element))
-            {
-               String locationPath = attr.getValue();
+              // Map only to state elements. Ignore location paths that may
+              // appear elsewhere.
+              if (isStateElement(element)) {
+                  String locationPath = attr.getValue();
 
-               // If it's a relative path, then prepend the full path from the
-               // parent node.
-               if (!locationPath.startsWith("/")) //$NON-NLS-1$
-               {
-                  Element parent = (Element) element.getParentNode();
-                  String parentPath = elementsToPaths.get(parent);
-                  
-                  locationPath = parentPath + "/" + locationPath; //$NON-NLS-1$
-               }
-               
-               pathsToElements.put(locationPath, element);
-               elementsToPaths.put(element, locationPath);
-            }
-         }
+                  // If it's a relative path, then prepend the full path from the
+                  // parent node.
+                  if (!locationPath.startsWith("/")) //$NON-NLS-1$
+                  {
+                      Element parent = (Element) element.getParentNode();
+                      String parentPath = elementsToPaths.get(parent);
 
-         mLocationPathsMap = pathsToElements;
+                      locationPath = parentPath + "/" + locationPath; //$NON-NLS-1$
+                  }
+
+                  pathsToElements.put(locationPath, element);
+                  elementsToPaths.put(element, locationPath);
+              }
+          }
+
+          mLocationPathsMap = pathsToElements;
       }
 
       return mLocationPathsMap;

@@ -9,11 +9,10 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpel.def.validation.activity.scope; 
 
-import java.util.Iterator;
-import java.util.List;
-
 import org.activebpel.rt.bpel.def.AeCorrelationSetsDef;
 import org.activebpel.rt.bpel.def.validation.AeBaseValidator;
+
+import java.util.List;
 
 /**
  * model provides validation for the correlationSets def
@@ -36,12 +35,11 @@ public class AeCorrelationSetsValidator extends AeBaseValidator
    public AeCorrelationSetValidator getCorrelationSetModel(String aName)
    {
       List correlationSets = getChildren(AeCorrelationSetValidator.class);
-      for (Iterator iter = correlationSets.iterator(); iter.hasNext();)
-      {
-         AeCorrelationSetValidator corrSetModel = (AeCorrelationSetValidator) iter.next();
-         if (corrSetModel.getName().equals(aName))
-            return corrSetModel;
-      }
+       for (Object correlationSet : correlationSets) {
+           AeCorrelationSetValidator corrSetModel = (AeCorrelationSetValidator) correlationSet;
+           if (corrSetModel.getName().equals(aName))
+               return corrSetModel;
+       }
       return null;
    }
 }

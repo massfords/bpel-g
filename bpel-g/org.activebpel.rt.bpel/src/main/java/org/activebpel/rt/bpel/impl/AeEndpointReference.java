@@ -9,19 +9,6 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpel.impl;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.ConcurrentModificationException;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-
-import javax.xml.XMLConstants;
-import javax.xml.namespace.QName;
-import javax.xml.soap.SOAPElement;
-
 import org.activebpel.rt.AeException;
 import org.activebpel.rt.IAeConstants;
 import org.activebpel.rt.bpel.AeBusinessProcessException;
@@ -42,6 +29,12 @@ import org.activebpel.wsio.IAeWsAddressingConstants;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
+
+import javax.xml.XMLConstants;
+import javax.xml.namespace.QName;
+import javax.xml.soap.SOAPElement;
+import java.util.*;
+import java.util.Map.Entry;
 
 /**
  * The implementation of endpoint references for invoking and allowing
@@ -145,15 +138,14 @@ public class AeEndpointReference implements IAeEndpointReference
          }
    
          // Add reference property elements
-         for (Iterator<Element> it = aRef.getReferenceProperties().iterator(); it.hasNext();) {
-            addReferenceProperty(it.next());
-         }
+          for (Element element1 : aRef.getReferenceProperties()) {
+              addReferenceProperty(element1);
+          }
    
          // Add any properties the source endpoint reference contains
          if(! AeUtil.isNullOrEmpty(aRef.getPolicies()))
          {
-            for (Iterator<Element> iter=aRef.getPolicies().iterator(); iter.hasNext();)
-               addPolicyElement(iter.next());
+             for (Element element : aRef.getPolicies()) addPolicyElement(element);
          }
    
          // Add any extensibility elements the source endpoint reference contains
@@ -196,18 +188,16 @@ public class AeEndpointReference implements IAeEndpointReference
       if( !AeUtil.isNullOrEmpty(aRef.getReferenceProperties()))
       {
          clearReferenceProperties();
-         for (Iterator<Element> it = aRef.getReferenceProperties().iterator(); it.hasNext();) 
-         {
-            addReferenceProperty(it.next());
-         }
+          for (Element element : aRef.getReferenceProperties()) {
+              addReferenceProperty(element);
+          }
       }
 
       // Add any properties the source endpoint reference contains
       if(! AeUtil.isNullOrEmpty(aRef.getPolicies()))
       {
          clearPolicies();
-         for (Iterator<Element> iter=aRef.getPolicies().iterator(); iter.hasNext();)
-            addPolicyElement(iter.next());
+          for (Element element : aRef.getPolicies()) addPolicyElement(element);
       }
 
       // Add any extensibility elements the source endpoint reference contains
@@ -366,14 +356,12 @@ public class AeEndpointReference implements IAeEndpointReference
    public List<Element> findPolicyElements(IAeContextWSDLProvider aWSDLProvider, QName aPortType, String aOperation, QName aPolicyName)
    {
       List<Element> results = new ArrayList<Element>();
-      for(Iterator<Element> iter=getEffectivePolicies(aWSDLProvider, aPortType, aOperation).iterator(); iter.hasNext(); )
-      {
-         Element policyEl = iter.next();
-         NodeList children = policyEl.getElementsByTagNameNS(aPolicyName.getNamespaceURI(), aPolicyName.getLocalPart());
+       for (Element policyEl : getEffectivePolicies(aWSDLProvider, aPortType, aOperation)) {
+           NodeList children = policyEl.getElementsByTagNameNS(aPolicyName.getNamespaceURI(), aPolicyName.getLocalPart());
 
-         for(int i=0, len=children.getLength(); i < len; ++i)
-            results.add((Element)children.item(i));
-      }
+           for (int i = 0, len = children.getLength(); i < len; ++i)
+               results.add((Element) children.item(i));
+       }
       
       return results;
    }

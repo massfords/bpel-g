@@ -9,12 +9,6 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpel.impl.activity;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-
 import org.activebpel.rt.bpel.AeBusinessProcessException;
 import org.activebpel.rt.bpel.IAeActivity;
 import org.activebpel.rt.bpel.def.activity.AeActivityFlowDef;
@@ -22,6 +16,8 @@ import org.activebpel.rt.bpel.impl.IAeActivityParent;
 import org.activebpel.rt.bpel.impl.IAeBpelObject;
 import org.activebpel.rt.bpel.impl.activity.support.AeLink;
 import org.activebpel.rt.bpel.impl.visitors.IAeImplVisitor;
+
+import java.util.*;
 
 /**
  * Implementation of the bpel flow activity.
@@ -102,16 +98,14 @@ public class AeActivityFlowImpl extends AeActivityImpl implements IAeActivityPar
    {
       super.execute();
       // clear the link status so they will be recomputed (in case we are looping)
-      for(Iterator iter=getLinkMap().values().iterator(); iter.hasNext(); )
-      {
-         ((AeLink)iter.next()).clearStatus();
-      }
+       for (AeLink link : getLinkMap().values()) {
+           (link).clearStatus();
+       }
       
       // schedule all activities to be run when their links are known
-      for(Iterator iter=mChildActivities.iterator(); iter.hasNext();)
-      {
-         getProcess().queueObjectToExecute((IAeBpelObject)iter.next());
-      }
+       for (IAeActivity mChildActivity : mChildActivities) {
+           getProcess().queueObjectToExecute((IAeBpelObject) mChildActivity);
+       }
    }
 
    /**
@@ -146,11 +140,9 @@ public class AeActivityFlowImpl extends AeActivityImpl implements IAeActivityPar
          setTerminating(true);
          if (mLinks != null)
          {
-            for (Iterator iter = mLinks.values().iterator(); iter.hasNext();)
-            {
-               AeLink link = (AeLink) iter.next();
-               link.setStatus(false);
-            }
+             for (AeLink link : mLinks.values()) {
+                 link.setStatus(false);
+             }
          }
          super.terminate();
       }

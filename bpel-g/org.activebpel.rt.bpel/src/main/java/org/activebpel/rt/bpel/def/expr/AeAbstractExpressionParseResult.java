@@ -9,23 +9,15 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpel.def.expr;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.LinkedHashSet;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Set;
-import java.util.StringTokenizer;
-
-import javax.xml.namespace.QName;
-
 import org.activebpel.rt.bpel.def.util.AeVariableData;
 import org.activebpel.rt.bpel.def.util.AeVariableProperty;
 import org.activebpel.rt.expr.def.AeScriptFuncDef;
 import org.activebpel.rt.expr.def.IAeExpressionParseResult;
 import org.activebpel.rt.expr.def.IAeExpressionParserContext;
 import org.activebpel.rt.util.AeUtil;
+
+import javax.xml.namespace.QName;
+import java.util.*;
 
 /**
  * An abstract parse result object that can be extended by language specific impls.
@@ -289,8 +281,7 @@ public abstract class AeAbstractExpressionParseResult implements IAeExpressionPa
          rval.add(vp.getVarName());
       }
 
-      for (Iterator<String> iter = getVarAttachmentList().iterator(); iter.hasNext(); )
-         rval.add(iter.next());
+       for (String s : getVarAttachmentList()) rval.add(s);
       
       return rval;
    }

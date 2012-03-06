@@ -9,15 +9,14 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpel.impl;
 
-import java.text.MessageFormat;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.Map;
-
 import org.activebpel.rt.IAeConstants;
 import org.activebpel.rt.util.AeXPathUtil;
 import org.w3c.dom.Element;
+
+import java.text.MessageFormat;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Map;
 
 /**
  * Helper class to handle validation policy interactions.
@@ -52,29 +51,27 @@ public class AeValidationPolicy
       if (aPolicies != null)
       {
          String exactMatch = MessageFormat.format("abp:Validation[@operation=''{0}'']", new Object[]{aOperation});  //$NON-NLS-1$
-         
-         for (Iterator iter=aPolicies.iterator(); iter.hasNext();)
-         {
-            Element policyElement = (Element)iter.next();
-            
-            // look for exact match first
-            Element e = (Element) AeXPathUtil.selectSingleNodeIgnoreException(policyElement, exactMatch, sMap);
-            if (e == null)
-               e = (Element) AeXPathUtil.selectSingleNodeIgnoreException(policyElement, XPATH_NO_OP_ATTR, sMap);
 
-            if (e != null)
-            {
-               String pattern = e.getAttribute(ATTR_VALIDATION_DIRECTION);
-               if (VALIDATION_BOTH.equals(pattern))
-                  return true;
-               else if (VALIDATION_NONE.equals(pattern))
-                  return false;
-               else if (VALIDATION_OUT.equals(pattern))
-                  return (aIsOutput ? true : false);
-               else if (VALIDATION_IN.equals(pattern))
-                  return (aIsOutput ? false : true);
-            }
-         }
+          for (Object aPolicy : aPolicies) {
+              Element policyElement = (Element) aPolicy;
+
+              // look for exact match first
+              Element e = (Element) AeXPathUtil.selectSingleNodeIgnoreException(policyElement, exactMatch, sMap);
+              if (e == null)
+                  e = (Element) AeXPathUtil.selectSingleNodeIgnoreException(policyElement, XPATH_NO_OP_ATTR, sMap);
+
+              if (e != null) {
+                  String pattern = e.getAttribute(ATTR_VALIDATION_DIRECTION);
+                  if (VALIDATION_BOTH.equals(pattern))
+                      return true;
+                  else if (VALIDATION_NONE.equals(pattern))
+                      return false;
+                  else if (VALIDATION_OUT.equals(pattern))
+                      return (aIsOutput ? true : false);
+                  else if (VALIDATION_IN.equals(pattern))
+                      return (aIsOutput ? false : true);
+              }
+          }
       }
       return aDefault;
    }

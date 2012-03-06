@@ -9,11 +9,6 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpel.impl.addressing;
 
-import java.util.Iterator;
-import java.util.List;
-
-import javax.xml.namespace.QName;
-
 import org.activebpel.rt.AeException;
 import org.activebpel.rt.IAeConstants;
 import org.activebpel.rt.IAePolicyConstants;
@@ -26,12 +21,11 @@ import org.activebpel.rt.bpel.impl.endpoints.IAeEndpointFactory;
 import org.activebpel.rt.util.AeSOAPElementUtil;
 import org.activebpel.rt.util.AeUtil;
 import org.activebpel.rt.util.AeXmlUtil;
-import org.activebpel.wsio.AeWsAddressingException;
-import org.activebpel.wsio.AeWsAddressingHeaders;
-import org.activebpel.wsio.IAeWebServiceEndpointReference;
-import org.activebpel.wsio.IAeWsAddressingConstants;
-import org.activebpel.wsio.IAeWsAddressingHeaders;
+import org.activebpel.wsio.*;
 import org.w3c.dom.Element;
+
+import javax.xml.namespace.QName;
+import java.util.List;
 
 /**
  *  Holder for the values from a set of WS-Addressing Headers
@@ -247,12 +241,11 @@ public class AeAddressingHeaders extends AeWsAddressingHeaders implements IAeAdd
       try
       {
          // Add all the properties
-         for (Iterator it = aElementList.iterator(); it.hasNext();)
-         {
-            // This method figures out if an element is an 
-            // embedded WSA header
-            addHeaderElement((Element) it.next());
-         }
+          for (Object o : aElementList) {
+              // This method figures out if an element is an
+              // embedded WSA header
+              addHeaderElement((Element) o);
+          }
       }
       catch (Exception e)
       {

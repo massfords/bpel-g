@@ -7,11 +7,7 @@
 // Active Endpoints, Inc. Removal of this PROPRIETARY RIGHTS STATEMENT
 // is strictly forbidden. Copyright (c) 2002-2006 All rights reserved.
 /////////////////////////////////////////////////////////////////////////////
-package org.activebpel.rt.bpel.def.visitors; 
-
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Set;
+package org.activebpel.rt.bpel.def.visitors;
 
 import org.activebpel.rt.bpel.AeMessages;
 import org.activebpel.rt.bpel.IAeExpressionLanguageFactory;
@@ -22,15 +18,13 @@ import org.activebpel.rt.bpel.def.AeScopeDef;
 import org.activebpel.rt.bpel.def.activity.AeActivityCompensateDef;
 import org.activebpel.rt.bpel.def.activity.AeActivityCompensateScopeDef;
 import org.activebpel.rt.bpel.def.activity.AeActivityScopeDef;
-import org.activebpel.rt.bpel.def.activity.support.AeFromDef;
-import org.activebpel.rt.bpel.def.activity.support.AeFromPartDef;
-import org.activebpel.rt.bpel.def.activity.support.AeFromPartsDef;
-import org.activebpel.rt.bpel.def.activity.support.AeOnEventDef;
-import org.activebpel.rt.bpel.def.activity.support.AeToDef;
-import org.activebpel.rt.bpel.def.activity.support.AeToPartDef;
+import org.activebpel.rt.bpel.def.activity.support.*;
 import org.activebpel.rt.bpel.def.io.readers.def.AeExpressionSpecStrategyKey;
 import org.activebpel.rt.bpel.def.util.AeDefUtil;
 import org.activebpel.rt.util.AeUtil;
+
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Def visitor that records resources that need to be locked for WS-BPEL 2.0 rules.
@@ -285,12 +279,11 @@ public class AeWSBPELDefVariableUsageVisitor extends AeDefVariableUsageVisitor
    protected void traverseChildScopeCompensationHandlers(AeScopeDef aScope)
    {
       Set childScopes = AeChildScopesVisitor.findChildScopes(aScope);
-      
-      for (Iterator i = childScopes.iterator(); i.hasNext(); )
-      {
-         AeActivityScopeDef childScope = (AeActivityScopeDef) i.next();
-         traverseCompensationHandler(childScope);
-      }
+
+       for (Object childScope1 : childScopes) {
+           AeActivityScopeDef childScope = (AeActivityScopeDef) childScope1;
+           traverseCompensationHandler(childScope);
+       }
    }
 
    /**

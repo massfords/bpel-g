@@ -9,13 +9,6 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpel.impl;
 
-import java.io.FileNotFoundException;
-import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-
 import org.activebpel.rt.AeException;
 import org.activebpel.rt.attachment.AeAttachmentContainer;
 import org.activebpel.rt.attachment.IAeAttachmentContainer;
@@ -31,6 +24,13 @@ import org.activebpel.rt.util.AeMimeUtil;
 import org.activebpel.wsio.AeWebServiceAttachment;
 import org.activebpel.wsio.IAeWebServiceAttachment;
 
+import java.io.FileNotFoundException;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+
 /**
  * Abstract base class for attachment managers.
  */
@@ -39,10 +39,6 @@ public abstract class AeAbstractAttachmentManager extends AeManagerAdapter imple
    /** A flag indicating whether we are in debug mode. */
    private boolean mDebug = false;
 
-   /**
-    * Constructs the attachment manager with the given engine configuration.
-    * @param aConfig The engine configuration for this manager.
-    */
    public AeAbstractAttachmentManager()
    {
       // BPELG-64 attachments - what's up w/ this circular dependency?
@@ -185,17 +181,15 @@ public abstract class AeAbstractAttachmentManager extends AeManagerAdapter imple
       IAeAttachmentContainer container = new AeAttachmentContainer();
       try
       {
-         for (Iterator<IAeWebServiceAttachment> i = aWsioAttachments.iterator(); i.hasNext();)
-         {
-            IAeWebServiceAttachment wsAttachment = i.next();
-            AeBlobInputStream content = new AeBlobInputStream(wsAttachment.getContent());
+          for (IAeWebServiceAttachment wsAttachment : aWsioAttachments) {
+              AeBlobInputStream content = new AeBlobInputStream(wsAttachment.getContent());
 
-            Map<String, String> headers = wsAttachment.getMimeHeaders();
-            // Add attribute content size as an attribute of the attachment
-            headers.put(AeMimeUtil.AE_SIZE_ATTRIBUTE, String.valueOf(content.length()));
+              Map<String, String> headers = wsAttachment.getMimeHeaders();
+              // Add attribute content size as an attribute of the attachment
+              headers.put(AeMimeUtil.AE_SIZE_ATTRIBUTE, String.valueOf(content.length()));
 
-            container.add(new AeStreamAttachmentItem(content, headers));
-         }
+              container.add(new AeStreamAttachmentItem(content, headers));
+          }
       }
       catch (FileNotFoundException ex)
       {
@@ -220,15 +214,13 @@ public abstract class AeAbstractAttachmentManager extends AeManagerAdapter imple
       long groupId = ((AeStoredAttachmentItem)aContainer.get(0)).getGroupId();
 
       // Validate that all the attachments belong to the same group.
-      for (Iterator<IAeAttachmentItem> i = aContainer.iterator(); i.hasNext();)
-      {
-         AeStoredAttachmentItem attachment = (AeStoredAttachmentItem)i.next();
-         if ( attachment.getGroupId() != groupId )
-         {
-            throw new IllegalStateException(AeMessages
-                  .getString("AeAbstractAttachmentManager.ERROR_MultipleGroups")); //$NON-NLS-1$
-         }
-      }
+       for (IAeAttachmentItem c : aContainer) {
+           AeStoredAttachmentItem attachment = (AeStoredAttachmentItem) c;
+           if (attachment.getGroupId() != groupId) {
+               throw new IllegalStateException(AeMessages
+                       .getString("AeAbstractAttachmentManager.ERROR_MultipleGroups")); //$NON-NLS-1$
+           }
+       }
 
       return groupId;
    }
@@ -243,15 +235,12 @@ public abstract class AeAbstractAttachmentManager extends AeManagerAdapter imple
       long processId = aContainer.get(0).getProcessId();
 
       // Validate that all the attachments belong to the same process.
-      for (Iterator<IAeAttachmentItem> i = aContainer.iterator(); i.hasNext();)
-      {
-         IAeAttachmentItem attachment = i.next();
-         if ( attachment.getProcessId() != processId )
-         {
-            throw new IllegalStateException(AeMessages
-                  .getString("AeAbstractAttachmentManager.ERROR_MultipleProcesses")); //$NON-NLS-1$
-         }
-      }
+       for (IAeAttachmentItem attachment : aContainer) {
+           if (attachment.getProcessId() != processId) {
+               throw new IllegalStateException(AeMessages
+                       .getString("AeAbstractAttachmentManager.ERROR_MultipleProcesses")); //$NON-NLS-1$
+           }
+       }
 
       return processId;
    }
@@ -262,13 +251,11 @@ public abstract class AeAbstractAttachmentManager extends AeManagerAdapter imple
     */
    protected boolean isStored(IAeAttachmentContainer aContainer)
    {
-      for (Iterator<IAeAttachmentItem> i = aContainer.iterator(); i.hasNext();)
-      {
-         if ( !(i.next() instanceof AeStoredAttachmentItem) )
-         {
-            return false;
-         }
-      }
+       for (IAeAttachmentItem c : aContainer) {
+           if (!(c instanceof AeStoredAttachmentItem)) {
+               return false;
+           }
+       }
 
       return true;
    }
@@ -284,11 +271,10 @@ public abstract class AeAbstractAttachmentManager extends AeManagerAdapter imple
       getStorage().associateProcess(groupId, aProcessId);
 
       // Set the associated process id for all attachments in the container.
-      for (Iterator<IAeAttachmentItem> i = aContainer.iterator(); i.hasNext();)
-      {
-         AeStoredAttachmentItem attachment = (AeStoredAttachmentItem)i.next();
-         attachment.setProcessId(aProcessId);
-      }
+       for (IAeAttachmentItem ai : aContainer) {
+           AeStoredAttachmentItem attachment = (AeStoredAttachmentItem) ai;
+           attachment.setProcessId(aProcessId);
+       }
    }
 
    /**
@@ -323,29 +309,24 @@ public abstract class AeAbstractAttachmentManager extends AeManagerAdapter imple
       long groupId = getStorage().createAttachmentGroup(aPlan);
       List<IAeAttachmentItem> storedAttachments = new ArrayList<IAeAttachmentItem>(aContainer.size());
 
-      for (Iterator<IAeAttachmentItem> i = aContainer.iterator(); i.hasNext();)
-      {
-         IAeAttachmentItem attachment = i.next();
-         InputStream content;
+       for (IAeAttachmentItem attachment : aContainer) {
+           InputStream content;
 
-         if ( attachment instanceof AeStreamAttachmentItem )
-         {
-            // Not yet stored.
-            content = ((AeStreamAttachmentItem)attachment).getContent();
-         }
-         else
-         {
-            // Already stored for a different process
-            // TODO: (JB) future enhancements should optimize the movement of attachments between process
-            // boundaries
-            content = deserialize(attachment.getAttachmentId());
-         }
+           if (attachment instanceof AeStreamAttachmentItem) {
+               // Not yet stored.
+               content = ((AeStreamAttachmentItem) attachment).getContent();
+           } else {
+               // Already stored for a different process
+               // TODO: (JB) future enhancements should optimize the movement of attachments between process
+               // boundaries
+               content = deserialize(attachment.getAttachmentId());
+           }
 
-         Map<String, String> headers = attachment.getHeaders();
+           Map<String, String> headers = attachment.getHeaders();
 
-         IAeAttachmentItem storedAttachment = storeAttachment(groupId, content, headers);
-         storedAttachments.add(storedAttachment);
-      }
+           IAeAttachmentItem storedAttachment = storeAttachment(groupId, content, headers);
+           storedAttachments.add(storedAttachment);
+       }
 
       aContainer.clear();
       aContainer.addAll(storedAttachments);

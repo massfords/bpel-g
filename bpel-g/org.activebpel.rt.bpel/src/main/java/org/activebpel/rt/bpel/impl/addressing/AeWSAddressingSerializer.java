@@ -9,17 +9,6 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpel.impl.addressing;
 
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Map.Entry;
-
-import javax.xml.XMLConstants;
-import javax.xml.namespace.QName;
-import javax.xml.soap.SOAPElement;
-import javax.xml.soap.SOAPEnvelope;
-import javax.xml.soap.SOAPException;
-import javax.xml.soap.SOAPHeader;
-
 import org.activebpel.rt.IAeConstants;
 import org.activebpel.rt.bpel.AeBusinessProcessException;
 import org.activebpel.rt.bpel.AeMessages;
@@ -32,6 +21,14 @@ import org.activebpel.wsio.IAeWebServiceEndpointReference;
 import org.activebpel.wsio.IAeWsAddressingConstants;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+
+import javax.xml.XMLConstants;
+import javax.xml.namespace.QName;
+import javax.xml.soap.SOAPEnvelope;
+import javax.xml.soap.SOAPException;
+import javax.xml.soap.SOAPHeader;
+import java.util.Map;
+import java.util.Map.Entry;
 
 /**
  * WS-Addressing serializer to add addressing headers to a SOAPHeader or DOM element. 
@@ -175,10 +172,9 @@ public class AeWSAddressingSerializer implements IAeAddressingSerializer
       }
       if (!AeUtil.isNullOrEmpty(aRef.getReferenceProperties()))
       {
-         for (Iterator<Element> it = aRef.getReferenceProperties().iterator(); it.hasNext();)
-         {
-            addHeaderElement(headers, it.next());
-         }
+          for (Element element : aRef.getReferenceProperties()) {
+              addHeaderElement(headers, element);
+          }
       }
       return doc;
    }

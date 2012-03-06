@@ -9,37 +9,12 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpel.def.visitors;
 
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Set;
-import java.util.Stack;
-
 import org.activebpel.rt.AeException;
 import org.activebpel.rt.bpel.AeMessages;
 import org.activebpel.rt.bpel.IAeExpressionLanguageFactory;
-import org.activebpel.rt.bpel.def.AeActivityDef;
-import org.activebpel.rt.bpel.def.AeBaseDef;
-import org.activebpel.rt.bpel.def.AeCatchDef;
-import org.activebpel.rt.bpel.def.AeCompensationHandlerDef;
-import org.activebpel.rt.bpel.def.AeProcessDef;
-import org.activebpel.rt.bpel.def.AeVariableDef;
-import org.activebpel.rt.bpel.def.IAeExpressionDef;
-import org.activebpel.rt.bpel.def.IAeQueryDef;
-import org.activebpel.rt.bpel.def.activity.AeActivityInvokeDef;
-import org.activebpel.rt.bpel.def.activity.AeActivityReceiveDef;
-import org.activebpel.rt.bpel.def.activity.AeActivityReplyDef;
-import org.activebpel.rt.bpel.def.activity.AeActivityScopeDef;
-import org.activebpel.rt.bpel.def.activity.AeActivityThrowDef;
-import org.activebpel.rt.bpel.def.activity.AeActivityWaitDef;
-import org.activebpel.rt.bpel.def.activity.AeActivityWhileDef;
-import org.activebpel.rt.bpel.def.activity.support.AeElseIfDef;
-import org.activebpel.rt.bpel.def.activity.support.AeFromDef;
-import org.activebpel.rt.bpel.def.activity.support.AeIfDef;
-import org.activebpel.rt.bpel.def.activity.support.AeOnAlarmDef;
-import org.activebpel.rt.bpel.def.activity.support.AeOnEventDef;
-import org.activebpel.rt.bpel.def.activity.support.AeOnMessageDef;
-import org.activebpel.rt.bpel.def.activity.support.AeSourceDef;
-import org.activebpel.rt.bpel.def.activity.support.AeToDef;
+import org.activebpel.rt.bpel.def.*;
+import org.activebpel.rt.bpel.def.activity.*;
+import org.activebpel.rt.bpel.def.activity.support.*;
 import org.activebpel.rt.bpel.def.util.AeDefUtil;
 import org.activebpel.rt.bpel.def.util.AeVariableData;
 import org.activebpel.rt.bpel.def.util.AeVariableProperty;
@@ -49,6 +24,10 @@ import org.activebpel.rt.expr.def.IAeExpressionAnalyzerContext;
 import org.activebpel.rt.util.AeUtil;
 import org.activebpel.rt.xml.def.AeBaseDefNamespaceContext;
 import org.activebpel.rt.xml.def.AeBaseXmlDef;
+
+import java.util.HashSet;
+import java.util.Set;
+import java.util.Stack;
 
 /**
  * Visitor that compiles a set of variables used for each activity. This set
@@ -165,17 +144,15 @@ public class AeDefVariableUsageVisitor extends AeAbstractDefVisitor
          IAeExpressionAnalyzer analyzer = getExpressionLanguageFactory().createExpressionAnalyzer(aQueryDef.getBpelNamespace(), language);
          IAeExpressionAnalyzerContext ctx = new AeExpressionAnalyzerContext(new AeBaseDefNamespaceContext(aDef));
 
-         for (Iterator it = analyzer.getVarPropertyList(ctx, aQueryDef.getQuery()).iterator(); it.hasNext();)
-         {
-            AeVariableProperty varProp = (AeVariableProperty) it.next();
-            addVariableLock(aDef, varProp.getVarName(), AeLockType.Read);
-         }
+          for (Object o1 : analyzer.getVarPropertyList(ctx, aQueryDef.getQuery())) {
+              AeVariableProperty varProp = (AeVariableProperty) o1;
+              addVariableLock(aDef, varProp.getVarName(), AeLockType.Read);
+          }
 
-         for (Iterator it = analyzer.getVarDataList(ctx, aQueryDef.getQuery()).iterator(); it.hasNext();)
-         {
-            AeVariableData varData = (AeVariableData) it.next();
-            addVariableLock(aDef, varData.getVarName(), AeLockType.Read);
-         }
+          for (Object o : analyzer.getVarDataList(ctx, aQueryDef.getQuery())) {
+              AeVariableData varData = (AeVariableData) o;
+              addVariableLock(aDef, varData.getVarName(), AeLockType.Read);
+          }
 
       }
       catch (AeException e)
@@ -210,17 +187,15 @@ public class AeDefVariableUsageVisitor extends AeAbstractDefVisitor
          IAeExpressionAnalyzer analyzer = getExpressionLanguageFactory().createExpressionAnalyzer(aExpressionDef.getBpelNamespace(), language);
          IAeExpressionAnalyzerContext ctx = new AeExpressionAnalyzerContext(new AeBaseDefNamespaceContext(aDef));
 
-         for (Iterator it = analyzer.getVarPropertyList(ctx, aExpressionDef.getExpression()).iterator(); it.hasNext();)
-         {
-            AeVariableProperty varProp = (AeVariableProperty) it.next();
-            addVariableLock(aDef, varProp.getVarName(), AeLockType.Read);
-         }
+          for (Object o1 : analyzer.getVarPropertyList(ctx, aExpressionDef.getExpression())) {
+              AeVariableProperty varProp = (AeVariableProperty) o1;
+              addVariableLock(aDef, varProp.getVarName(), AeLockType.Read);
+          }
 
-         for (Iterator it = analyzer.getVarDataList(ctx, aExpressionDef.getExpression()).iterator(); it.hasNext();)
-         {
-            AeVariableData varData = (AeVariableData) it.next();
-            addVariableLock(aDef, varData.getVarName(), AeLockType.Read);
-         }
+          for (Object o : analyzer.getVarDataList(ctx, aExpressionDef.getExpression())) {
+              AeVariableData varData = (AeVariableData) o;
+              addVariableLock(aDef, varData.getVarName(), AeLockType.Read);
+          }
 
       }
       catch (AeException e)
