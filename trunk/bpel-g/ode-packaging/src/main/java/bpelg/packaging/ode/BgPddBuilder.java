@@ -1,19 +1,9 @@
 package bpelg.packaging.ode;
 
-import java.io.File;
-import java.io.FileFilter;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
-import javax.xml.namespace.QName;
-
+import bpelg.packaging.ode.BgPddInfo.BgPlink;
+import bpelg.services.deploy.types.pdd.*;
+import bpelg.services.deploy.types.pdd.Pdd.PartnerLinks;
+import bpelg.services.deploy.types.pdd.Pdd.References;
 import org.activebpel.rt.AeException;
 import org.activebpel.rt.bpel.def.AeImportDef;
 import org.activebpel.rt.bpel.def.AeProcessDef;
@@ -25,17 +15,10 @@ import org.activebpel.rt.util.AeXmlUtil;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-import bpelg.packaging.ode.BgPddInfo.BgPlink;
-import bpelg.services.deploy.types.pdd.MyRoleBindingType;
-import bpelg.services.deploy.types.pdd.MyRoleType;
-import bpelg.services.deploy.types.pdd.PartnerLinkType;
-import bpelg.services.deploy.types.pdd.PartnerRoleEndpointReferenceType;
-import bpelg.services.deploy.types.pdd.PartnerRoleType;
-import bpelg.services.deploy.types.pdd.Pdd;
-import bpelg.services.deploy.types.pdd.Pdd.PartnerLinks;
-import bpelg.services.deploy.types.pdd.Pdd.References;
-import bpelg.services.deploy.types.pdd.PlatformType;
-import bpelg.services.deploy.types.pdd.ReferenceType;
+import javax.xml.namespace.QName;
+import java.io.File;
+import java.io.FileFilter;
+import java.util.*;
 
 public class BgPddBuilder {
     
@@ -49,46 +32,47 @@ public class BgPddBuilder {
         NAMESPACES.put("ae", "urn:org.activebpel.deploy");
     }
     
-    private File mServiceUnitRoot;
+    private File serviceUnitRoot;
     
-    private Map<QName, BgPddInfo> mDeployments = new HashMap<QName, BgPddInfo>();
-    private Map<String,BgPddInfo> mPddFileNameToPddInfo = new HashMap<String,BgPddInfo>();
-    private Document mDeployXml;
-    private Set<BgCatalogTuple> mReferenced = new HashSet<BgCatalogTuple>();
+    private Map<QName, BgPddInfo> deployments = new HashMap<QName, BgPddInfo>();
+    private Map<String,BgPddInfo> pddFileNameToPddInfo = new HashMap<String,BgPddInfo>();
+    private Document deployXml;
+    private Set<BgCatalogTuple> referenced = new HashSet<BgCatalogTuple>();
     
     public BgPddBuilder(File aServiceUnitRoot) throws AeException {
         assert aServiceUnitRoot.isDirectory();
         
-        mServiceUnitRoot = aServiceUnitRoot;
-        File deployFile = new File(mServiceUnitRoot, "deploy.xml");
+        serviceUnitRoot = aServiceUnitRoot;
+        File deployFile = new File(serviceUnitRoot, "deploy.xml");
         if (deployFile.isFile()) {
-            mDeployXml = AeXmlUtil.toDoc(deployFile, null);
+            deployXml = AeXmlUtil.toDoc(deployFile, null);
         }
     }
     
     public Set<BgCatalogTuple> getReferenced() {
-        return mReferenced;
+        return referenced;
     }
     
     public Collection<String> getPddNames() {
-        return mPddFileNameToPddInfo.keySet();
+        return pddFileNameToPddInfo.keySet();
     }
     
-    public Collection<AePddResource> getPdds(BgCatalogBuilder aCatalogBuilder) {
+    public Collection<AePddResource> getPdds(BgCatalogBuilder catalogBuilder) {
     	Collection<AePddResource> list = new LinkedList<AePddResource>();
         for(String pddName : getPddNames()) {
-        	Pdd pdd = createPddDocument(pddName, aCatalogBuilder.getItems());
+        	Pdd pdd = createPddDocument(pddName, catalogBuilder.getItems());
         	list.add(new AePddResource(pddName, pdd));
         }
         return list;
     }
 
-    protected Pdd createPddDocument(String aName, Collection<BgCatalogTuple> aCatalog) {
-        BgPddInfo info = mPddFileNameToPddInfo.get(aName);
+    protected Pdd createPddDocument(String name, Collection<BgCatalogTuple> catalog) {
+        BgPddInfo info = pddFileNameToPddInfo.get(name);
         Pdd pdd = new Pdd()
+                .withPersistenceType(info.getPersistenceType())
         		.withName(info.getProcessName())
         		.withPlatform(PlatformType.OPENSOURCE)
-        		.withLocation(aName.substring(0, aName.lastIndexOf('.')));
+        		.withLocation(name.substring(0, name.lastIndexOf('.')));
         
         PartnerLinks plinks = new PartnerLinks();
         pdd.setPartnerLinks(plinks);
@@ -129,7 +113,7 @@ public class BgPddBuilder {
             // each wsdl or xsd that is in the bpel file needs to be in the
             // pdd:references
             ReferenceType entry = new ReferenceType()
-            							.withLocation(getLogicalLocation(def, aCatalog))
+            							.withLocation(getLogicalLocation(def, catalog))
             							.withNamespace(AeUtil.getSafeString(def.getNamespace()));
             if (def.isWSDL()) {
             	refs.withWsdl(entry);
@@ -143,14 +127,14 @@ public class BgPddBuilder {
         return pdd;
     }
 
-    private String getLogicalLocation(AeImportDef aImportDef, Collection<BgCatalogTuple> aTupleColl) {
-        for(BgCatalogTuple tuple : aTupleColl) {
-            if (tuple.physicalLocation.equals(aImportDef.getLocation())) {
-                mReferenced.add(tuple);
+    private String getLogicalLocation(AeImportDef importDef, Collection<BgCatalogTuple> tupleColl) {
+        for(BgCatalogTuple tuple : tupleColl) {
+            if (tuple.physicalLocation.equals(importDef.getLocation())) {
+                referenced.add(tuple);
                 return tuple.logicalLocation;
             }
         }
-        return aImportDef.getLocation();
+        return importDef.getLocation();
     }
     
     @SuppressWarnings("unchecked")
@@ -161,10 +145,13 @@ public class BgPddBuilder {
         for(Element process : processes) {
             
             QName processName = AeXmlUtil.getAttributeQName(process, "name");
-            
-            BgPddInfo pddInfo = mDeployments.get(processName);
-            mDeployments.put(pddInfo.getProcessName(), pddInfo);
-            mPddFileNameToPddInfo.put(pddInfo.getLocation() + ".pdd", pddInfo);
+
+            PersistenceType type = AeXPathUtil.selectBoolean(process, "ode:in-memory", NAMESPACES) ? PersistenceType.NONE : PersistenceType.FULL;
+
+            BgPddInfo pddInfo = deployments.get(processName);
+            pddInfo.setPersistenceType(type);
+            deployments.put(pddInfo.getProcessName(), pddInfo);
+            pddFileNameToPddInfo.put(pddInfo.getLocation() + ".pdd", pddInfo);
             
             // add provides
             List<Element> providesService = AeXPathUtil.selectNodes(process, "ode:provide/ode:service", NAMESPACES);
@@ -189,21 +176,21 @@ public class BgPddBuilder {
         }
     }
 
-    private Element getEpr(Element aInvokeService) throws AeException {
-		return (Element) AeXPathUtil.selectSingleNode(aInvokeService, "wsa:EndpointReference", NAMESPACES);
+    private Element getEpr(Element invokeService) throws AeException {
+		return (Element) AeXPathUtil.selectSingleNode(invokeService, "wsa:EndpointReference", NAMESPACES);
 	}
 
 	@SuppressWarnings("unchecked")
-	private List<Element> getPolicies(Element aService) throws AeException {
-        List<Element> policies = AeXPathUtil.selectNodes(aService, "wsp:Policy", NAMESPACES);
+	private List<Element> getPolicies(Element service) throws AeException {
+        List<Element> policies = AeXPathUtil.selectNodes(service, "wsp:Policy", NAMESPACES);
         return policies;
     }
 
     @SuppressWarnings("unchecked")
 	private List<Element> getProcesses() throws AeException {
-        if (mDeployXml == null)
+        if (deployXml == null)
             return Collections.<Element>emptyList();
-        List<Element> processes = AeXPathUtil.selectNodes(mDeployXml, "/ode:deploy/ode:process", NAMESPACES);
+        List<Element> processes = AeXPathUtil.selectNodes(deployXml, "/ode:deploy/ode:process", NAMESPACES);
         return processes;
     }
     
@@ -223,12 +210,12 @@ public class BgPddBuilder {
             QName processName = processDef.getQName();
             String location = file.getName();
             BgPddInfo pddInfo = new BgPddInfo(processDef, location);
-            mDeployments.put(processName, pddInfo);
+            deployments.put(processName, pddInfo);
         }
     }
 
     private File[] getBpelFiles() {
-        File[] files = mServiceUnitRoot.listFiles(new FileFilter() {
+        File[] files = serviceUnitRoot.listFiles(new FileFilter() {
 
             @Override
             public boolean accept(File aFile) {
@@ -239,6 +226,6 @@ public class BgPddBuilder {
     }
     
     protected Map<QName,BgPddInfo> getDeployments() {
-        return mDeployments;
+        return deployments;
     }
 }

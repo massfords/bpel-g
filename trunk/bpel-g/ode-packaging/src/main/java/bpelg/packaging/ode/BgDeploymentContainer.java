@@ -1,5 +1,19 @@
 package bpelg.packaging.ode;
 
+import bpelg.packaging.ode.BgPddInfo.BgPlink;
+import bpelg.services.deploy.types.catalog.Catalog;
+import bpelg.services.deploy.types.pdd.Pdd;
+import bpelg.services.processes.types.ServiceDeployments;
+import org.activebpel.rt.AeException;
+import org.activebpel.rt.bpel.def.AeProcessDef;
+import org.activebpel.rt.bpel.server.deploy.*;
+import org.activebpel.rt.bpel.server.deploy.bpr.AeBprDeploymentSource;
+import org.activebpel.rt.bpel.server.deploy.bpr.AePddResource;
+import org.activebpel.rt.util.AeCloser;
+import org.activebpel.rt.xml.AeXMLParserBase;
+import org.w3c.dom.Document;
+
+import javax.xml.namespace.QName;
 import java.io.File;
 import java.io.InputStream;
 import java.net.MalformedURLException;
@@ -9,110 +23,87 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-import javax.xml.namespace.QName;
-
-import org.activebpel.rt.AeException;
-import org.activebpel.rt.bpel.def.AeProcessDef;
-import org.activebpel.rt.bpel.server.deploy.AeBprClasspathBuilder;
-import org.activebpel.rt.bpel.server.deploy.AeDeploymentException;
-import org.activebpel.rt.bpel.server.deploy.AeDeploymentId;
-import org.activebpel.rt.bpel.server.deploy.AeServiceDeploymentUtil;
-import org.activebpel.rt.bpel.server.deploy.IAeDeploymentContainer;
-import org.activebpel.rt.bpel.server.deploy.IAeDeploymentContext;
-import org.activebpel.rt.bpel.server.deploy.IAeDeploymentId;
-import org.activebpel.rt.bpel.server.deploy.IAeDeploymentSource;
-import org.activebpel.rt.bpel.server.deploy.bpr.AeBprDeploymentSource;
-import org.activebpel.rt.bpel.server.deploy.bpr.AePddResource;
-import org.activebpel.rt.util.AeCloser;
-import org.activebpel.rt.xml.AeXMLParserBase;
-import org.w3c.dom.Document;
-
-import bpelg.packaging.ode.BgPddInfo.BgPlink;
-import bpelg.services.deploy.types.catalog.Catalog;
-import bpelg.services.deploy.types.pdd.Pdd;
-import bpelg.services.processes.types.ServiceDeployments;
-
 public class BgDeploymentContainer implements IAeDeploymentContainer {
     
-    private final File mServiceUnitRoot;
-    private ServiceDeployments mServiceDeploymentInfos;
-    private final ClassLoader mClassLoader;
-    private final BgCatalogBuilder mCatalogBuilder;
-    private final BgPddBuilder mPddBuilder;
-    private final Map<Pdd,IAeDeploymentSource> mDeploymentSources = new HashMap<Pdd,IAeDeploymentSource>();
-    private final Collection<AePddResource> mPdds;
+    private final File serviceUnitRoot;
+    private ServiceDeployments serviceDeploymentInfos;
+    private final ClassLoader classLoader;
+    private final BgCatalogBuilder catalogBuilder;
+    private final BgPddBuilder pddBuilder;
+    private final Map<Pdd,IAeDeploymentSource> deploymentSources = new HashMap<Pdd,IAeDeploymentSource>();
+    private final Collection<AePddResource> pdds;
     
-    public BgDeploymentContainer(File aServiceUnitRoot) throws Exception {
-        mServiceUnitRoot = aServiceUnitRoot;
-        mClassLoader = AeBprClasspathBuilder.build(aServiceUnitRoot.toURI().toURL());
+    public BgDeploymentContainer(File serviceUnitRoot) throws Exception {
+        this.serviceUnitRoot = serviceUnitRoot;
+        classLoader = AeBprClasspathBuilder.build(serviceUnitRoot.toURI().toURL());
         
-        mCatalogBuilder = new BgCatalogBuilder(mServiceUnitRoot);
-        mCatalogBuilder.build();
+        catalogBuilder = new BgCatalogBuilder(this.serviceUnitRoot);
+        catalogBuilder.build();
 
-        mPddBuilder = new BgPddBuilder(mServiceUnitRoot);
-        mPddBuilder.build();
-        mPdds = mPddBuilder.getPdds(mCatalogBuilder);
+        pddBuilder = new BgPddBuilder(this.serviceUnitRoot);
+        pddBuilder.build();
+        pdds = pddBuilder.getPdds(catalogBuilder);
         
         // now that we've written all of the pdd's, we know what each bpel is importing
         // we're now able to build a collection of just those tuples that are referenced
-        Set<BgCatalogTuple> referenced = mPddBuilder.getReferenced();
-        mCatalogBuilder.setReferenced(referenced);
+        Set<BgCatalogTuple> referenced = pddBuilder.getReferenced();
+        catalogBuilder.setReferenced(referenced);
         
     }
     
-    public BgPlink getPlink(QName aProcessName, String aPlinkName) {
-     return mPddBuilder.getDeployments().get(aProcessName).getBgPlink(aPlinkName);   
+    public BgPlink getPlink(QName processName, String plinkName) {
+     return pddBuilder.getDeployments().get(processName).getBgPlink(plinkName);
     }
 
     @Override
-    public IAeDeploymentSource getDeploymentSource(Pdd aPdd) throws AeException {
+    public IAeDeploymentSource getDeploymentSource(Pdd pdd) throws AeException {
     	// FIXME this looks wrong
-        IAeDeploymentSource source = mDeploymentSources.get(aPdd);
+        IAeDeploymentSource source = deploymentSources.get(pdd);
         if (source == null) {
-            source = new AeBprDeploymentSource(aPdd, this);
-            mDeploymentSources.put(aPdd, source);
+            source = new AeBprDeploymentSource(pdd, this);
+            deploymentSources.put(pdd, source);
         }
         return source;
     }
     
     @Override
     public String getShortName() {
-        return mServiceUnitRoot.getName();
+        return serviceUnitRoot.getName();
     }
 
     @Override
     public ServiceDeployments getServiceDeploymentInfo() throws AeException {
-    	if (mServiceDeploymentInfos == null) {
-    		mServiceDeploymentInfos = new ServiceDeployments();
-    		for(AePddResource pddr : mPdds) {
+    	if (serviceDeploymentInfos == null) {
+    		serviceDeploymentInfos = new ServiceDeployments();
+    		for(AePddResource pddr : pdds) {
     			IAeDeploymentSource source = getDeploymentSource(pddr.getPdd());
-				mServiceDeploymentInfos.withServiceDeployment(getServiceInfo(source).getServiceDeployment());
+				serviceDeploymentInfos.withServiceDeployment(getServiceInfo(source).getServiceDeployment());
     		}
     	}
-        return new ServiceDeployments().withServiceDeployment(mServiceDeploymentInfos.getServiceDeployment());
+        return new ServiceDeployments().withServiceDeployment(serviceDeploymentInfos.getServiceDeployment());
     }
 	/**
 	 * Gets the service deployment info from a source
 	 * 
-	 * @param aSource
+	 * @param source
 	 * @throws AeDeploymentException
 	 */
 	protected ServiceDeployments getServiceInfo(
-			IAeDeploymentSource aSource) throws AeDeploymentException {
+			IAeDeploymentSource source) throws AeDeploymentException {
 		// Get the service info
-		AeProcessDef processDef = aSource.getProcessDef();
+		AeProcessDef processDef = source.getProcessDef();
 		return AeServiceDeploymentUtil
-				.getServices(processDef, aSource.getPdd());
+				.getServices(processDef, source.getPdd());
 	}
 
     @Override
-    public boolean exists(String aResourceName) {
-        return getResourceURL(aResourceName) != null;
+    public boolean exists(String resourceName) {
+        return getResourceURL(resourceName) != null;
     }
 
     @Override
     public String getBprFileName() {
-        return mServiceUnitRoot.getName();
+        return serviceUnitRoot.getName();
     }
 
     @Override
@@ -121,8 +112,8 @@ public class BgDeploymentContainer implements IAeDeploymentContainer {
     }
 
     @Override
-    public InputStream getResourceAsStream(String aResourceName) {
-        return getResourceClassLoader().getResourceAsStream(aResourceName);
+    public InputStream getResourceAsStream(String resourceName) {
+        return getResourceClassLoader().getResourceAsStream(resourceName);
     }
 
     @Override
@@ -133,7 +124,7 @@ public class BgDeploymentContainer implements IAeDeploymentContainer {
     @Override
     public URL getDeploymentLocation() {
         try {
-            return mServiceUnitRoot.toURI().toURL();
+            return serviceUnitRoot.toURI().toURL();
         } catch (MalformedURLException e) {
             return null;
         }
@@ -141,12 +132,12 @@ public class BgDeploymentContainer implements IAeDeploymentContainer {
 
     @Override
     public ClassLoader getResourceClassLoader() {
-        return mClassLoader;
+        return classLoader;
     }
 
     @Override
-    public URL getResourceURL(String aResourceName) {
-        return getResourceClassLoader().getResource(aResourceName);
+    public URL getResourceURL(String resourceName) {
+        return getResourceClassLoader().getResource(resourceName);
     }
 
     @Override
@@ -157,7 +148,7 @@ public class BgDeploymentContainer implements IAeDeploymentContainer {
     @Override
     public Catalog getCatalogDocument() throws AeException {
         try {
-            return mCatalogBuilder.getCatalog();
+            return catalogBuilder.getCatalog();
         } catch (Exception e) {
             throw new AeException(e);
         }
@@ -165,15 +156,15 @@ public class BgDeploymentContainer implements IAeDeploymentContainer {
 
     @Override
     public Collection<AePddResource> getPddResources() {
-        return mPdds;
+        return pdds;
     }
 
     @Override
-    public Document getResourceAsDocument(String aResourceName) throws AeException {
-        InputStream in = getResourceAsStream(aResourceName);
+    public Document getResourceAsDocument(String resourceName) throws AeException {
+        InputStream in = getResourceAsStream(resourceName);
         AeXMLParserBase parser = new AeXMLParserBase(true, false);
         try {
-            in = getResourceAsStream(aResourceName);
+            in = getResourceAsStream(resourceName);
             return parser.loadDocument(in, null);
         } finally {
             AeCloser.close(in);
