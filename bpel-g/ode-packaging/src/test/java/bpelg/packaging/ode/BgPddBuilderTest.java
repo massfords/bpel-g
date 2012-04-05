@@ -1,47 +1,44 @@
 package bpelg.packaging.ode;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-
-import java.io.File;
-import java.util.Map;
-
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.Marshaller;
-import javax.xml.namespace.QName;
-import javax.xml.transform.dom.DOMResult;
-
+import bpelg.packaging.ode.BgPddInfo.BgPlink;
+import bpelg.services.deploy.types.pdd.Pdd;
+import bpelg.services.deploy.types.pdd.PersistenceType;
 import org.activebpel.rt.util.AeXmlUtil;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.w3c.dom.Document;
 
-import bpelg.packaging.ode.BgPddInfo.BgPlink;
-import bpelg.services.deploy.types.pdd.Pdd;
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Marshaller;
+import javax.xml.namespace.QName;
+import javax.xml.transform.dom.DOMResult;
+import java.io.File;
+import java.util.Map;
+
+import static org.junit.Assert.*;
 
 public class BgPddBuilderTest {
     
-    private BgPddBuilder mBuilder;
-    private BgCatalogBuilder mCatalogBuilder;
+    private BgPddBuilder builder;
+    private BgCatalogBuilder catalogBuilder;
     
     @Before
     public void setUp() throws Exception {
         File file = new File("src/test/resources/example-su");
         assertTrue(file.isDirectory());
         
-        mBuilder = new BgPddBuilder(file);
-        mBuilder.build();
+        builder = new BgPddBuilder(file);
+        builder.build();
         
-        mCatalogBuilder = new BgCatalogBuilder(file);
-        mCatalogBuilder.build();
+        catalogBuilder = new BgCatalogBuilder(file);
+        catalogBuilder.build();
     }
     
     @Test
     public void testBuild() throws Exception {
-        Map<QName,BgPddInfo> deployments = mBuilder.getDeployments();
+        Map<QName,BgPddInfo> deployments = builder.getDeployments();
         
         assertEquals(3, deployments.size());
 
@@ -71,12 +68,26 @@ public class BgPddBuilderTest {
     }
     
     @Test
+    public void testPersistenceType() throws Exception {
+        Pdd testPdd = builder.createPddDocument("test.bpel.pdd", catalogBuilder.getItems());
+        assertEquals(PersistenceType.NONE, testPdd.getPersistenceType());
+
+        Pdd testInvoke = builder.createPddDocument("testInvoke.bpel.pdd", catalogBuilder.getItems());
+        assertEquals(PersistenceType.FULL, testInvoke.getPersistenceType());
+
+        Pdd testInvokeBpelReceiver = builder.createPddDocument("testInvokeBpelReceiver.bpel.pdd", catalogBuilder.getItems());
+        assertEquals(PersistenceType.FULL, testInvokeBpelReceiver.getPersistenceType());
+    }
+    
+    @Test
     public void testGetPdd_testBpel() throws Exception {
         
-        Pdd testPdd = mBuilder.createPddDocument("test.bpel.pdd", mCatalogBuilder.getItems());
+        Pdd testPdd = builder.createPddDocument("test.bpel.pdd", catalogBuilder.getItems());
+        
+        assertEquals(PersistenceType.NONE, testPdd.getPersistenceType());
         
         String expectedXml = 
-            "<pdd:process xmlns:bpelns='test' xmlns:pdd='http://schemas.active-endpoints.com/pdd/2006/08/pdd.xsd' location='test.bpel' name='ns2:test' platform='opensource'>" + 
+            "<pdd:process xmlns:bpelns='test' persistenceType='none' xmlns:pdd='http://schemas.active-endpoints.com/pdd/2006/08/pdd.xsd' location='test.bpel' name='ns2:test' platform='opensource'>" +
         		"<pdd:partnerLinks>" + 
         		    "<pdd:partnerLink name='testPartnerLinkType'>" + 
         		        "<pdd:myRole allowedRoles='' binding='MSG' service='test'/>" + 
@@ -96,7 +107,7 @@ public class BgPddBuilderTest {
     @Ignore
     public void testGetPdd_testInvokeBpel() throws Exception {
         
-        Pdd testPdd = mBuilder.createPddDocument("testInvoke.bpel.pdd", mCatalogBuilder.getItems());
+        Pdd testPdd = builder.createPddDocument("testInvoke.bpel.pdd", catalogBuilder.getItems());
         
         String expectedXml = 
             "<pdd:process xmlns:bpelns='test' xmlns:pdd='http://schemas.active-endpoints.com/pdd/2006/08/pdd.xsd' location='testInvoke.bpel' name='ns2:testInvoke' platform='opensource'>" + 

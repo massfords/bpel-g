@@ -4,6 +4,7 @@
     xmlns:example="http://www.example.org/test/" replace.existing="true">
     
     <process name="test:test">
+        <in-memory>true</in-memory>
         <provide partnerLink="testPartnerLinkType">
             <service name="example:test" port="test"/>
         </provide>
@@ -27,6 +28,7 @@
     </process>
 
     <process name="test:testInvokeBpelReceiver">
+        <in-memory>false</in-memory>
         <provide partnerLink="testPartnerLinkType2">
             <service name="example:test2" port="testInvokeBpelReceiver"/>
         </provide>

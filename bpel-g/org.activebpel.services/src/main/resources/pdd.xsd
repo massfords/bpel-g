@@ -221,7 +221,7 @@
          <xs:attribute name="processRetentionDays" type="xs:integer"/>
          <xs:attribute name="processGroup" type="xs:string"/>
          <xs:attribute name="location" type="xs:string" use="required"/>
-         <xs:attribute name="persistenceType" type="tns:persistenceType"/>
+         <xs:attribute name="persistenceType" type="tns:persistenceType" default="full"/>
          <xs:attribute name="transactionType" type="tns:transactionType"/>
          <xs:attribute name="suspendProcessOnUncaughtFault" type="tns:suspendFlag"/>
          <xs:attribute name="suspendProcessOnInvokeRecovery" type="tns:suspendFlag"/>

@@ -1,18 +1,8 @@
 package bpelg.packaging.ode;
 
-import java.io.File;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
-import javax.xml.XMLConstants;
-
+import bpelg.services.deploy.types.catalog.BaseCatalogEntryType;
+import bpelg.services.deploy.types.catalog.Catalog;
+import bpelg.services.deploy.types.catalog.OtherEntryType;
 import org.activebpel.rt.IAeConstants;
 import org.activebpel.rt.util.AeUtil;
 import org.activebpel.rt.util.AeXPathUtil;
@@ -22,9 +12,11 @@ import org.apache.commons.logging.LogFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 
-import bpelg.services.deploy.types.catalog.BaseCatalogEntryType;
-import bpelg.services.deploy.types.catalog.Catalog;
-import bpelg.services.deploy.types.catalog.OtherEntryType;
+import javax.xml.XMLConstants;
+import java.io.File;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.*;
 
 
 /**
@@ -49,34 +41,34 @@ public class BgCatalogBuilder {
         NS.put("xs", XMLConstants.W3C_XML_SCHEMA_NS_URI);
     }
     
-    private File mServiceUnitRoot;
-    private Collection<BgCatalogTuple> mCollection = new ArrayList<BgCatalogTuple>();
-    private String mLogicalPathPrefix;
-    private Catalog mCatalog;
-    private boolean mReplaceExisting;
+    private File serviceUnitRoot;
+    private Collection<BgCatalogTuple> collection = new ArrayList<BgCatalogTuple>();
+    private String logicalPathPrefix;
+    private Catalog catalog;
+    private boolean replaceExisting;
     // location paths relative to the service unit root that are referenced directly or transitively by the bpel. These paths will be included in the deployment.
-    private Set<String> mLocations = new HashSet<String>();
+    private Set<String> locations = new HashSet<String>();
     
-    public BgCatalogBuilder(File aRoot) {
-        assert aRoot.isDirectory();
-        mServiceUnitRoot = aRoot;
-        setReplaceExisting( new File(aRoot, "replace.existing").isFile() );
-        mLogicalPathPrefix = "project:/" + mServiceUnitRoot.getName() + "/";
+    public BgCatalogBuilder(File root) {
+        assert root.isDirectory();
+        serviceUnitRoot = root;
+        setReplaceExisting( new File(root, "replace.existing").isFile() );
+        logicalPathPrefix = "project:/" + serviceUnitRoot.getName() + "/";
     }
 
     /**
      * Set the collection of catalog entries that have been imported into BPEL's
-     * @param aReferenced
+     * @param referenced
      * @throws Exception
      */
-    public void setReferenced(Collection<BgCatalogTuple> aReferenced) throws Exception {
-        for(BgCatalogTuple tuple : aReferenced) {
-            findLocations(new File(mServiceUnitRoot, tuple.physicalLocation));
+    public void setReferenced(Collection<BgCatalogTuple> referenced) throws Exception {
+        for(BgCatalogTuple tuple : referenced) {
+            findLocations(new File(serviceUnitRoot, tuple.physicalLocation));
         }
     }
     
     public void build() throws Exception {
-        addFiles(mServiceUnitRoot, "");
+        addFiles(serviceUnitRoot, "");
     }
     
     /**
@@ -90,7 +82,7 @@ public class BgCatalogBuilder {
      */
     protected void buildCatalog() throws Exception {
     	Catalog doc = new Catalog().withReplaceExisting(isReplaceExisting());
-        for(BgCatalogTuple tuple : mCollection) {
+        for(BgCatalogTuple tuple : collection) {
         	BaseCatalogEntryType entry = null;
             if (tuple.isWsdl()) {
                 if (isReferenced(tuple)) {
@@ -114,26 +106,26 @@ public class BgCatalogBuilder {
                 sLog.warn("The following catalog item will not be deployed since it is not imported by any of the bpel's or their wsdl/xsd imports:" + tuple.physicalLocation);
             }
         }
-        mCatalog = doc;
+        catalog = doc;
     }
 
     /**
-     * @param aTuple
+     * @param tuple
      */
-    protected boolean isReferenced(BgCatalogTuple aTuple) {
-        return mLocations.isEmpty() || mLocations.contains(aTuple.physicalLocation);
+    protected boolean isReferenced(BgCatalogTuple tuple) {
+        return locations.isEmpty() || locations.contains(tuple.physicalLocation);
     }
     
     protected Catalog getCatalog() throws Exception {
-        if (mCatalog == null)
+        if (catalog == null)
             buildCatalog();
-        return mCatalog;
+        return catalog;
     }
     
-    protected void addFiles(File aCurrentDir, String aPath) throws Exception {
-        File[] files = aCurrentDir.listFiles();
+    protected void addFiles(File currentDir, String p) throws Exception {
+        File[] files = currentDir.listFiles();
         for(File file : files) {
-            String path = aPath + file.getName();
+            String path = p + file.getName();
 
             if (file.isDirectory()) {
                 addFiles(file, path + "/");
@@ -142,88 +134,88 @@ public class BgCatalogBuilder {
                 String name = file.getName().toLowerCase();
                 if (name.endsWith(".wsdl")) {
                     String namespace = getTargetNamespace(file);
-                    item = new BgCatalogTuple(mLogicalPathPrefix + path, path, namespace, IAeConstants.WSDL_NAMESPACE);
+                    item = new BgCatalogTuple(logicalPathPrefix + path, path, namespace, IAeConstants.WSDL_NAMESPACE);
                 } else if (name.endsWith(".xsd")) {
                     String namespace = getTargetNamespace(file);
-                    item = new BgCatalogTuple(mLogicalPathPrefix + path, path, namespace, XMLConstants.W3C_XML_SCHEMA_NS_URI);
+                    item = new BgCatalogTuple(logicalPathPrefix + path, path, namespace, XMLConstants.W3C_XML_SCHEMA_NS_URI);
                 } else if (name.endsWith(".xsl")) {
-                    item = new BgCatalogTuple(mLogicalPathPrefix + path, path, null, IAeConstants.XSL_NAMESPACE);
+                    item = new BgCatalogTuple(logicalPathPrefix + path, path, null, IAeConstants.XSL_NAMESPACE);
                 }
                 
                 if (item !=null)
-                    mCollection.add(item);
+                    collection.add(item);
             }
         }
     }
     
-    protected String getTargetNamespace(File aFile) throws Exception {
-        Document doc = AeXmlUtil.toDoc(aFile, null);
+    protected String getTargetNamespace(File file) throws Exception {
+        Document doc = AeXmlUtil.toDoc(file, null);
         return doc.getDocumentElement().getAttribute("targetNamespace");
     }
     
     public Collection<BgCatalogTuple> getItems() {
-        return mCollection;
+        return collection;
     }
 
     public boolean isReplaceExisting() {
-        return mReplaceExisting;
+        return replaceExisting;
     }
 
-    public void setReplaceExisting(boolean aReplaceExisting) {
-        mReplaceExisting = aReplaceExisting;
+    public void setReplaceExisting(boolean replaceExisting) {
+        this.replaceExisting = replaceExisting;
     }
 
     /**
      * Loads the WSDL or XSD referenced by this file and adds it and any of its
      * imported/included resources to the set of resources we're tracking for the catalog.
-     * @param aFile
+     * @param file
      * @throws Exception
      */
-    public void findLocations(File aFile) throws Exception {
-        String physicalLocation = toPhysicalLocation(aFile);
+    public void findLocations(File file) throws Exception {
+        String physicalLocation = toPhysicalLocation(file);
         if (!getLocations().add(physicalLocation)) {
             return;
         }
-        Document doc = AeXmlUtil.toDoc(aFile, null);
+        Document doc = AeXmlUtil.toDoc(file, null);
         if (isWsdl(doc)) {
-            findLocations(aFile, doc, "/wsdl:definitions/wsdl:import/@location");
-            findLocations(aFile, doc, "/wsdl:definitions/wsdl:types/xs:schema/xs:import/@schemaLocation");
+            findLocations(file, doc, "/wsdl:definitions/wsdl:import/@location");
+            findLocations(file, doc, "/wsdl:definitions/wsdl:types/xs:schema/xs:import/@schemaLocation");
         } else if (isSchema(doc)) {
-            findLocations(aFile, doc, "/xs:schema/xs:include/@schemaLocation");
-            findLocations(aFile, doc, "/xs:schema/xs:import/@schemaLocation");
+            findLocations(file, doc, "/xs:schema/xs:include/@schemaLocation");
+            findLocations(file, doc, "/xs:schema/xs:import/@schemaLocation");
         }
     }
 
     @SuppressWarnings("unchecked")
-	private void findLocations(File aFile, Document doc, String xpath) throws Exception {
+	private void findLocations(File file, Document doc, String xpath) throws Exception {
         List<Node> nodes = AeXPathUtil.selectNodes(doc, xpath, NS);
         for(Node node : nodes) {
             String location = node.getNodeValue();
             if (!AeUtil.isUrlLocation(location)) {
                 // it's a relative import
-                File file = new File(aFile.getParentFile(), location);
-                findLocations(file);
+                File f = new File(file.getParentFile(), location);
+                findLocations(f);
             }
         }
     }
 
     private String toPhysicalLocation(File file) throws URISyntaxException {
-    	String uriStr = file.getPath().substring(mServiceUnitRoot.getPath().length()+1);
+    	String uriStr = file.getPath().substring(serviceUnitRoot.getPath().length()+1);
     	uriStr = uriStr.replaceAll("\\\\", "/");
     	URI uri = URI.create(uriStr);
     	String physicalLocation = uri.normalize().toString();
         return physicalLocation;
     }
     
-    private boolean isWsdl(Document aDoc) {
-        return aDoc.getDocumentElement().getNamespaceURI().equals(IAeConstants.WSDL_NAMESPACE);
+    private boolean isWsdl(Document doc) {
+        return doc.getDocumentElement().getNamespaceURI().equals(IAeConstants.WSDL_NAMESPACE);
     }
     
-    private boolean isSchema(Document aDoc) {
-        return aDoc.getDocumentElement().getNamespaceURI().equals(XMLConstants.W3C_XML_SCHEMA_NS_URI);
+    private boolean isSchema(Document doc) {
+        return doc.getDocumentElement().getNamespaceURI().equals(XMLConstants.W3C_XML_SCHEMA_NS_URI);
     }
 
     public Set<String> getLocations() {
-        return mLocations;
+        return locations;
     }
 }

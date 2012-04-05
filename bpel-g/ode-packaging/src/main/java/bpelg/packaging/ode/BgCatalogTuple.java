@@ -1,10 +1,10 @@
 package bpelg.packaging.ode;
 
-import javax.xml.XMLConstants;
-
 import org.activebpel.rt.IAeConstants;
 import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.builder.ToStringBuilder;
+
+import javax.xml.XMLConstants;
 
 public class BgCatalogTuple {
     public String logicalLocation;
@@ -12,11 +12,11 @@ public class BgCatalogTuple {
     public String namespace;
     public String type;
     
-    public BgCatalogTuple(String aLogicalLocation, String aPhysicalLocation, String aNamespace, String aType) {
-        logicalLocation = aLogicalLocation;
-        physicalLocation = aPhysicalLocation;
-        namespace = aNamespace;
-        type = aType;
+    public BgCatalogTuple(String logicalLocation, String physicalLocation, String namespace, String type) {
+        this.logicalLocation = logicalLocation;
+        this.physicalLocation = physicalLocation;
+        this.namespace = namespace;
+        this.type = type;
     }
     
     public boolean isWsdl() {

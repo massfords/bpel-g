@@ -1,39 +1,48 @@
 package bpelg.packaging.ode;
 
+import bpelg.services.deploy.types.pdd.PersistenceType;
+import org.activebpel.rt.bpel.def.AeProcessDef;
+import org.w3c.dom.Element;
+
+import javax.xml.namespace.QName;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.xml.namespace.QName;
-
-import org.activebpel.rt.bpel.def.AeProcessDef;
-import org.w3c.dom.Element;
-
 public class BgPddInfo {
-    private AeProcessDef mProcessDef;
-    private String mLocation;
-    private Map<String,BgPlink> mPartnerLinks = new HashMap<String,BgPlink>();
+    private PersistenceType persistenceType = PersistenceType.FULL;
+    private AeProcessDef processDef;
+    private String location;
+    private Map<String,BgPlink> partnerLinks = new HashMap<String,BgPlink>();
     
-    public BgPddInfo(AeProcessDef aProcessDef, String aLocation) { 
-        mProcessDef = aProcessDef;
-        setLocation(aLocation);
+    public BgPddInfo(AeProcessDef processDef, String location) {
+        this.processDef = processDef;
+        setLocation(location);
+    }
+
+    public PersistenceType getPersistenceType() {
+        return persistenceType;
+    }
+
+    public void setPersistenceType(PersistenceType persistenceType) {
+        this.persistenceType = persistenceType;
     }
     
-    public void setLocation(String aLocation) {
-        mLocation = aLocation;
+    public void setLocation(String location) {
+        this.location = location;
     }
     
     public AeProcessDef getProcessDef() {
-        return mProcessDef;
+        return processDef;
     }
     
     public QName getProcessName() {
-        return mProcessDef.getQName();
+        return processDef.getQName();
     }
     
     public String getLocation() {
-        return mLocation;
+        return location;
     }
     
     public void addProvide(String aPlinkName, QName aService, String aEndpoint, List<Element> aPolicies) {
@@ -52,11 +61,11 @@ public class BgPddInfo {
     }
     
     public BgPlink getBgPlink(String aName) {
-        return mPartnerLinks.get(aName);
+        return partnerLinks.get(aName);
     }
     
     public Collection<BgPlink> getBgPlinks() {
-        return mPartnerLinks.values();
+        return partnerLinks.values();
     }
     
     protected BgPlink getOrCreate(String aName) {
@@ -64,7 +73,7 @@ public class BgPddInfo {
         if (plink == null) {
             plink = new BgPlink();
             plink.name = aName;
-            mPartnerLinks.put(aName, plink);
+            partnerLinks.put(aName, plink);
         }
         return plink;
         
