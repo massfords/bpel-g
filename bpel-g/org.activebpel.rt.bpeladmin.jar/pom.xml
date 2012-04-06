@@ -11,10 +11,10 @@
 	<dependencies>
 		<dependency>
 			<groupId>org.activebpel</groupId>
-			<artifactId>ae-war</artifactId>
+			<artifactId>ae-tags</artifactId>
 			<version>${project.version}</version>
 		</dependency>
-		<dependency>
+        <dependency>
 			<groupId>org.activebpel</groupId>
 			<artifactId>ae-bpelsrvr</artifactId>
 			<version>${project.version}</version>
@@ -42,7 +42,7 @@
 
 	<build>
 		<plugins>
-			<plugin>
+            <plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>buildnumber-maven-plugin</artifactId>
 				<version>1.0</version>

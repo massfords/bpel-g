@@ -44,6 +44,7 @@
 			<groupId>org.activebpel</groupId>
 			<artifactId>ae-axisbpelweb</artifactId>
 			<version>${project.version}</version>
+            <type>war</type>
 		</dependency>
 		<dependency>
 			<groupId>org.activebpel</groupId>
@@ -59,8 +60,14 @@
 			<groupId>org.activebpel</groupId>
 			<artifactId>ae-war</artifactId>
 			<version>${project.version}</version>
-		</dependency>
-		<dependency>
+            <type>war</type>
+        </dependency>
+        <dependency>
+            <groupId>org.activebpel</groupId>
+            <artifactId>ae-tags</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
 			<groupId>org.activebpel</groupId>
 			<artifactId>ae-bpelexpr</artifactId>
 			<version>${project.version}</version>
@@ -80,7 +87,7 @@
 			<groupId>org.activebpel</groupId>
 			<artifactId>ae-bpeladmin</artifactId>
 			<version>${project.version}</version>
-		</dependency>
+        </dependency>
 		<dependency>
 			<groupId>org.activebpel</groupId>
 			<artifactId>ae-services</artifactId>
@@ -375,10 +382,6 @@
 						</jarModule>
 						<jarModule>
 							<groupId>org.activebpel</groupId>
-							<artifactId>ae-axisbpelweb</artifactId>
-						</jarModule>
-						<jarModule>
-							<groupId>org.activebpel</groupId>
 							<artifactId>ae-bpel</artifactId>
 						</jarModule>
 						<jarModule>
@@ -415,7 +418,7 @@
 						</jarModule>
 						<jarModule>
 							<groupId>org.activebpel</groupId>
-							<artifactId>ae-war</artifactId>
+							<artifactId>ae-tags</artifactId>
 						</jarModule>
 						<jarModule>
 							<groupId>org.activebpel</groupId>

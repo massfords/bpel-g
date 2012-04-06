@@ -46,8 +46,17 @@
   				<groupId>xerces</groupId>
   				<artifactId>xmlParserAPIs</artifactId>
   			</exclusion>
+              <exclusion>
+                  <groupId>com.ibm.icu</groupId>
+                  <artifactId>icu4j</artifactId>
+              </exclusion>
   		</exclusions>
   	</dependency>
+      <dependency>
+          <groupId>com.ibm.icu</groupId>
+          <artifactId>icu4j</artifactId>
+          <version>3.4.4</version>
+      </dependency>
   	<dependency>
   		<groupId>org.apache.geronimo.specs</groupId>
   		<artifactId>geronimo-commonj_1.1_spec</artifactId>
