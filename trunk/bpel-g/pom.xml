@@ -110,6 +110,7 @@
     <module>org.activebpel.camel</module>
     <module>bpel-g.war</module>
     <module>bpel-g-ear</module>
+      <module>org.activebpel.rt.war.tags</module>
   </modules>
   <dependencies>
     <dependency>

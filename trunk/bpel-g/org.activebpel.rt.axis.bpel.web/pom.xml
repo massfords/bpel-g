@@ -3,6 +3,7 @@
    <name>Apache Axis BPEL Web Archive</name>
    <groupId>org.activebpel</groupId>
    <artifactId>ae-axisbpelweb</artifactId>
+    <packaging>war</packaging>
    <parent>
       <groupId>bpel-g</groupId>
       <artifactId>bpel-g</artifactId>

@@ -1,15 +1,7 @@
 package org.activebpel.services.jaxws;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.StringReader;
-import java.util.concurrent.TimeUnit;
-import java.util.jar.JarOutputStream;
-import java.util.zip.ZipEntry;
-
-import javax.xml.transform.stream.StreamSource;
-
+import bpelg.services.deploy.types.UndeploymentRequest;
+import bpelg.services.urnresolver.types.AddMappingRequest;
 import org.apache.activemq.broker.BrokerService;
 import org.apache.camel.Endpoint;
 import org.apache.camel.Exchange;
@@ -22,15 +14,23 @@ import org.apache.camel.test.junit4.CamelTestSupport;
 import org.apache.commons.io.IOUtils;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.w3c.dom.Document;
 
-import bpelg.services.deploy.types.UndeploymentRequest;
-import bpelg.services.urnresolver.types.AddMappingRequest;
+import javax.xml.transform.stream.StreamSource;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.StringReader;
+import java.util.concurrent.TimeUnit;
+import java.util.jar.JarOutputStream;
+import java.util.zip.ZipEntry;
 
 /**
  * This test adapts a request-response BPEL process into an asynchronous exchange with JMS bindings.
  */
+@Ignore
 public class AeCamelJMSIntegrationTest extends CamelTestSupport {
     AeProcessFixture pfix = new AeProcessFixture();
 
