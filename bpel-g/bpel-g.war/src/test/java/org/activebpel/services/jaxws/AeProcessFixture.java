@@ -1,12 +1,19 @@
 package org.activebpel.services.jaxws;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-
-import java.io.File;
-import java.io.FileInputStream;
-import java.net.MalformedURLException;
-import java.net.URL;
+import bpelg.services.deploy.AeDeployer;
+import bpelg.services.deploy.DeploymentService;
+import bpelg.services.deploy.types.DeploymentResponse;
+import bpelg.services.deploy.types.DeploymentResponse.DeploymentInfo;
+import bpelg.services.processes.AeProcessManager;
+import bpelg.services.processes.ProcessManagerService;
+import bpelg.services.urnresolver.AeURNResolver;
+import org.activebpel.rt.util.AeXmlUtil;
+import org.activebpel.rt.xml.AeXMLParserBase;
+import org.apache.commons.io.IOUtils;
+import org.custommonkey.xmlunit.*;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
 
 import javax.xml.namespace.QName;
 import javax.xml.parsers.ParserConfigurationException;
@@ -18,27 +25,13 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.ws.Dispatch;
 import javax.xml.ws.Service;
 import javax.xml.ws.soap.SOAPBinding;
+import java.io.File;
+import java.io.FileInputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
 
-import org.activebpel.rt.util.AeXmlUtil;
-import org.activebpel.rt.xml.AeXMLParserBase;
-import org.apache.commons.io.IOUtils;
-import org.custommonkey.xmlunit.Diff;
-import org.custommonkey.xmlunit.Difference;
-import org.custommonkey.xmlunit.DifferenceConstants;
-import org.custommonkey.xmlunit.DifferenceListener;
-import org.custommonkey.xmlunit.XMLAssert;
-import org.custommonkey.xmlunit.XMLUnit;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-
-import bpelg.services.deploy.AeDeployer;
-import bpelg.services.deploy.DeploymentService;
-import bpelg.services.deploy.types.DeploymentResponse;
-import bpelg.services.deploy.types.DeploymentResponse.DeploymentInfo;
-import bpelg.services.processes.AeProcessManager;
-import bpelg.services.processes.ProcessManagerService;
-import bpelg.services.urnresolver.AeURNResolver;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 public class AeProcessFixture {
 	AeXMLParserBase mParser = new AeXMLParserBase();
@@ -82,11 +75,15 @@ public class AeProcessFixture {
 	}
 	
 	protected Document invoke(File aFile, String aEndpoint) throws Exception {
-		return invoke(aFile, createDispatch(aEndpoint));
+        Source request = new DOMSource(mParser.loadDocument(new FileInputStream(aFile), null));
+		return invoke(request, aEndpoint);
 	}
 
-	protected Document invoke(File aFile, Dispatch<Source> aDispatch) throws Exception {
-		Source request = new DOMSource(mParser.loadDocument(new FileInputStream(aFile), null));
+    protected Document invoke(Source request, String aEndpoint) throws Exception {
+        return invoke(request, createDispatch(aEndpoint));
+    }
+
+    protected Document invoke(Source request, Dispatch<Source> aDispatch) throws Exception {
 		Source response = aDispatch.invoke(request);
 		Node actualNode = toNode(response);
 		return (Document) actualNode;
