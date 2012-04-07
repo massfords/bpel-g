@@ -25,7 +25,10 @@ import javax.inject.Inject;
 import javax.wsdl.Operation;
 import javax.wsdl.PortType;
 import javax.xml.namespace.QName;
+import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
+import java.io.StringWriter;
 
 public class AeCamelInvokeHandlerFactory implements IAeInvokeHandlerFactory, IAeInvokeHandler {
 
@@ -63,9 +66,18 @@ public class AeCamelInvokeHandlerFactory implements IAeInvokeHandlerFactory, IAe
 		Endpoint ep = locate(aInvoke.getProcessName()).getEndpoint(address);
 		try {
 			Producer p = ep.createProducer();
+            p.start();
 			Exchange ex = p.createExchange();
-			ex.getIn().setBody(new DOMSource((Node) invoke.getInputMessageData().getMessageData().values().iterator().next()));
+            // todo - do I really need to convert to a string? test this after commit.
+            DOMSource source = new DOMSource((Node) invoke.getInputMessageData().getMessageData().values().iterator().next());
+            StringWriter sw = new StringWriter();
+            StreamResult r = new StreamResult(sw);
+            TransformerFactory.newInstance().newTransformer().transform(source, r);
+            //System.out.println(sw);
+            ex.getIn().setBody(sw.toString());
 			p.process(ex);
+            p.stop();
+
 			
 			if (!invoke.isOneWay()) {
 	            AeWebServiceMessageData data = new AeWebServiceMessageData();

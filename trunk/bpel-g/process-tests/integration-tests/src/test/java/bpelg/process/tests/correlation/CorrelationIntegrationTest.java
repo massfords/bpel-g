@@ -1,16 +1,18 @@
-package org.activebpel.services.jaxws;
+package bpelg.process.tests.correlation;
 
 import bpelg.services.deploy.types.UndeploymentRequest;
 import org.activebpel.rt.util.AeXPathUtil;
-import org.apache.commons.io.IOUtils;
-import org.junit.*;
+import org.activebpel.services.jaxws.AeProcessFixture;
+import org.junit.After;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
 import org.w3c.dom.Document;
 
 import javax.xml.transform.stream.StreamSource;
-import java.io.*;
+import java.io.File;
+import java.io.StringReader;
 import java.util.Collections;
-import java.util.jar.JarOutputStream;
-import java.util.zip.ZipEntry;
 
 /**
  * @author markford
@@ -21,25 +23,22 @@ public class CorrelationIntegrationTest extends Assert {
 
     @Before
     public void setUp() throws Exception {
-
-        // zip the bpel and such
-        JarOutputStream jout = new JarOutputStream(new FileOutputStream("target/correlation.zip"));
-
-        addToZip(jout, new File("src/test/resources/correlation/correlation.bpel"),
-                        new File("src/test/resources/correlation/correlation.wsdl"),
-                        new File("src/test/resources/correlation/deploy.xml"));
-        jout.flush();
-        jout.close();
-
         // deploy
-        pfix.deploySingle(new File("target/correlation.zip"));
+        pfix.deploySingle(new File("target/dependency/correlation-test.jar"));
     }
 
     @Test
     public void test() throws Exception {
 
+        String request =
+                "<requestForQuote xmlns='http://www.example.org/correlation/'>" +
+                "    <customerId>junit</customerId>" +
+                "    <productId>100</productId>" +
+                "    <quantity>5</quantity>" +
+                "</requestForQuote>";
+
         // invoke the service and get our quote back
-        Document quote = pfix.invoke(new File("src/test/resources/correlation/requestForQuote.xml"),
+        Document quote = pfix.invoke(new StreamSource(new StringReader(request)),
                 "http://localhost:8080/bpel-g/services/quoteService");
         assertNotNull(quote);
 
@@ -60,15 +59,6 @@ public class CorrelationIntegrationTest extends Assert {
 
     @After
     public void tearDown() throws Exception {
-        pfix.getDeployer().undeploy(new UndeploymentRequest().withDeploymentContainerId("correlation.zip"));
+        pfix.getDeployer().undeploy(new UndeploymentRequest().withDeploymentContainerId("correlation-test.jar"));
     }
-
-    private void addToZip(JarOutputStream jout, File...files) throws IOException {
-        for(File file : files) {
-            jout.putNextEntry(new ZipEntry(file.getName()));
-            jout.write(IOUtils.toByteArray(new FileInputStream(file)));
-            jout.closeEntry();
-        }
-    }
-
 }

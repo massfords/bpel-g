@@ -1,27 +1,25 @@
 package org.activebpel.services.jaxws;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-
-import java.net.URL;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
-
-import javax.xml.namespace.QName;
-import javax.xml.ws.Service;
-
-import org.junit.Before;
-import org.junit.Test;
-
 import bpelg.services.urnresolver.AeURNResolver;
 import bpelg.services.urnresolver.types.AddMappingRequest;
 import bpelg.services.urnresolver.types.GetMappingsRequest;
 import bpelg.services.urnresolver.types.Mappings;
 import bpelg.services.urnresolver.types.Mappings.Mapping;
 import bpelg.services.urnresolver.types.Names;
+import org.junit.Before;
+import org.junit.Ignore;
+import org.junit.Test;
 
+import javax.xml.namespace.QName;
+import javax.xml.ws.Service;
+import java.net.URL;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
+
+import static org.junit.Assert.*;
+
+@Ignore
 public class AeURNResolverIntegrationTest {
     
 	AeURNResolver resolver;

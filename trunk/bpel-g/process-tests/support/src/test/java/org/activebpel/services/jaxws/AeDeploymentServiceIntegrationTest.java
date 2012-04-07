@@ -1,18 +1,18 @@
 package org.activebpel.services.jaxws;
 
-import java.io.File;
-import java.io.FileInputStream;
-
-import javax.xml.transform.stream.StreamSource;
-
+import bpelg.services.deploy.types.UndeploymentRequest;
+import bpelg.services.urnresolver.types.AddMappingRequest;
 import org.activebpel.rt.xml.AeXMLParserBase;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.w3c.dom.Document;
 
-import bpelg.services.deploy.types.UndeploymentRequest;
-import bpelg.services.urnresolver.types.AddMappingRequest;
+import javax.xml.transform.stream.StreamSource;
+import java.io.File;
+import java.io.FileInputStream;
 
+@Ignore
 public class AeDeploymentServiceIntegrationTest {
 
 	AeProcessFixture pfix = new AeProcessFixture();

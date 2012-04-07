@@ -543,6 +543,9 @@
                         <entry key="zip">
                             <bean class="bpelg.packaging.ode.BgDeploymentContainerFactory"/>
                         </entry>
+                        <entry key="jar">
+                            <bean class="bpelg.packaging.ode.BgDeploymentContainerFactory"/>
+                        </entry>
                     </util:map>
                 </property>
             </bean>
