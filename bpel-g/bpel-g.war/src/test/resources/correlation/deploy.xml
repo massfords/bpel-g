@@ -4,7 +4,7 @@
     
     <process name="proc:correlation" xmlns:proc="http://www.example.org/">
         <provide partnerLink="plt">
-            <service name="ex:quote" port="quoteService"/>
+            <service name="ex:quoteService" port="quoteService"/>
         </provide>
     </process>
 </deploy>

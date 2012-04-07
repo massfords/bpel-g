@@ -24,7 +24,7 @@
             <bpel:copy>
                 <bpel:from>
                     <![CDATA[
-                    <quote xmlns="http://www.example.org/correlation/">
+                    <quote xmlns="http://www.example.org/correlation/" xmlns:abx='http://www.activebpel.org/bpel/extension'>
                         <quoteId>{abx:getProcessId()}</quoteId>
                         <amount>1234.50</amount>
                     </quote>
