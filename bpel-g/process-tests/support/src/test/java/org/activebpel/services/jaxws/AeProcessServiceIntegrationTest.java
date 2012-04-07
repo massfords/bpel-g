@@ -1,19 +1,20 @@
 package org.activebpel.services.jaxws;
 
-import static org.junit.Assert.assertEquals;
-
-import java.io.File;
-
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-
 import bpelg.services.deploy.types.UndeploymentRequest;
 import bpelg.services.processes.types.ProcessFilterType;
 import bpelg.services.processes.types.ProcessList;
 import bpelg.services.processes.types.ProcessStateFilterValueType;
 import bpelg.services.urnresolver.types.AddMappingRequest;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Ignore;
+import org.junit.Test;
 
+import java.io.File;
+
+import static org.junit.Assert.assertEquals;
+
+@Ignore
 public class AeProcessServiceIntegrationTest {
 	AeProcessFixture pfix = new AeProcessFixture();
 

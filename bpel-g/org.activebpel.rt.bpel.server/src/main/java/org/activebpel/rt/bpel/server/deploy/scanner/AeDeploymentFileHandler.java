@@ -53,7 +53,7 @@ public class AeDeploymentFileHandler implements IAeDeploymentFileHandler, IAeSca
         return new FilenameFilter() {
             public boolean accept(File aDir, String aFileName) {
                 return aFileName.endsWith(AeDeploymentFileInfo.BPR_SUFFIX)
-                        || aFileName.endsWith(".zip");
+                        || aFileName.endsWith(".zip") || aFileName.endsWith(".jar");
             }
         };
     }

@@ -11,6 +11,7 @@ import org.activebpel.rt.util.AeXmlUtil;
 import org.activebpel.rt.xml.AeXMLParserBase;
 import org.apache.commons.io.IOUtils;
 import org.custommonkey.xmlunit.*;
+import org.junit.Assert;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -30,16 +31,13 @@ import java.io.FileInputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-
-public class AeProcessFixture {
+public class AeProcessFixture extends Assert {
 	AeXMLParserBase mParser = new AeXMLParserBase();
 	AeDeployer mDeployer;
 	AeURNResolver mResolver;
 	AeProcessManager mProcessManager;
 
-	protected AeURNResolver getResolver() throws MalformedURLException {
+	public AeURNResolver getResolver() throws MalformedURLException {
 		if (mResolver == null) {
 	    	String catalina_port = getCatalinaPort();
 	    	URL url = new URL(
@@ -50,12 +48,12 @@ public class AeProcessFixture {
 		return mResolver;
 	}
 	
-	protected String getCatalinaPort() {
+	public String getCatalinaPort() {
     	String catalina_port = System.getProperty("CATALINA_PORT", "8080");
     	return catalina_port;
 	}
 	
-	protected AeDeployer getDeployer() throws Exception {
+	public AeDeployer getDeployer() throws Exception {
 		if (mDeployer == null) {
 	    	String catalina_port = getCatalinaPort();
 			DeploymentService ds = new DeploymentService(new URL(
@@ -65,7 +63,7 @@ public class AeProcessFixture {
 		return mDeployer;
 	}
 	
-	protected AeProcessManager getProcessManager() throws Exception {
+	public AeProcessManager getProcessManager() throws Exception {
 		if (mProcessManager == null) {
 	    	String catalina_port = getCatalinaPort();
 			mProcessManager = new ProcessManagerService(new URL(
@@ -74,22 +72,22 @@ public class AeProcessFixture {
 		return mProcessManager;
 	}
 	
-	protected Document invoke(File aFile, String aEndpoint) throws Exception {
+	public Document invoke(File aFile, String aEndpoint) throws Exception {
         Source request = new DOMSource(mParser.loadDocument(new FileInputStream(aFile), null));
 		return invoke(request, aEndpoint);
 	}
 
-    protected Document invoke(Source request, String aEndpoint) throws Exception {
+    public Document invoke(Source request, String aEndpoint) throws Exception {
         return invoke(request, createDispatch(aEndpoint));
     }
 
-    protected Document invoke(Source request, Dispatch<Source> aDispatch) throws Exception {
+    public Document invoke(Source request, Dispatch<Source> aDispatch) throws Exception {
 		Source response = aDispatch.invoke(request);
 		Node actualNode = toNode(response);
 		return (Document) actualNode;
 	}
 	
-	protected Dispatch<Source> createDispatch(String aEndpoint) {
+	public Dispatch<Source> createDispatch(String aEndpoint) {
 		String ns = "urn:bpel-g:generic";
 		QName serviceName = new QName(ns, "DOCLitService");
 		Service service = Service.create(serviceName);
@@ -102,12 +100,12 @@ public class AeProcessFixture {
 	}
 	
 
-	protected void deploySingle(File file) throws Exception {
+	public void deploySingle(File file) throws Exception {
 		DeploymentResponse resp = deployAll(file);
 		assertEquals(1, resp.getDeploymentInfo().size());
 	}
 
-	protected DeploymentResponse deployAll(File file) throws Exception {
+	public DeploymentResponse deployAll(File file) throws Exception {
 		DeploymentResponse response = deploy(file);
 		for(DeploymentInfo info : response.getDeploymentInfo()) {
 			assertTrue(info.isDeployed());
@@ -116,7 +114,7 @@ public class AeProcessFixture {
 		return response;
 	}
 
-	protected DeploymentResponse deploy(File file) throws Exception {
+	public DeploymentResponse deploy(File file) throws Exception {
 		byte[] raw = IOUtils.toByteArray(new FileInputStream(file));
 		DeploymentResponse response = getDeployer().deploy(file.getName(), raw);
 		return response;

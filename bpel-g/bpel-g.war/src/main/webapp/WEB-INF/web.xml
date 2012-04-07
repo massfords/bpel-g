@@ -256,7 +256,7 @@
     <jsp-config>
         <taglib>
             <taglib-uri>http://activebpel.org/aetaglib</taglib-uri>
-            <taglib-location>/META-INF/aetags.tld</taglib-location>
+            <taglib-location>/WEB-INF/aetags.tld</taglib-location>
         </taglib>
     </jsp-config>
     <!--<security-constraint>-->

@@ -1,5 +1,0 @@
-<requestForQuote xmlns="http://www.example.org/correlation/">
-    <customerId>junit</customerId>
-    <productId>100</productId>
-    <quantity>5</quantity>
-</requestForQuote>

@@ -88,12 +88,12 @@ public class AeSpringManager extends AeManagerAdapter {
     }
     
     public <T> T getBean(QName aProcessName, Class<T> aClass) throws BeansException {
-        ApplicationContext ac = mContextMap.get(aProcessName);
+        ApplicationContext ac = mQNameContextMap.get(aProcessName);
         return ac.getBean(aClass);
     }
 
     public <T> T getBean(QName aProcessName, Class<T> aClass, String aId) throws BeansException {
-        ApplicationContext ac = mContextMap.get(aProcessName);
+        ApplicationContext ac = mQNameContextMap.get(aProcessName);
         return ac.getBean(aId, aClass);
     }
 }
