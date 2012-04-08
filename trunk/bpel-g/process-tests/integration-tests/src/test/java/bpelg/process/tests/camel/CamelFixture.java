@@ -62,9 +62,7 @@ public class CamelFixture {
     }
 
     public void assertIsSatisfied() throws InterruptedException {
-        int timeout = 20;
-        TimeUnit seconds = TimeUnit.SECONDS;
-        assertIsSatisfied(timeout, seconds);
+        assertIsSatisfied(5, TimeUnit.SECONDS);
     }
 
     public void assertIsSatisfied(int timeout, TimeUnit seconds) throws InterruptedException {

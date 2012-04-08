@@ -17,6 +17,7 @@
         <module>camel-receive</module>
         <module>camel-invoke</module>
         <module>integration-tests</module>
+        <module>camel-activemq-test</module>
     </modules>
 
 </project>
