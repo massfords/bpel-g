@@ -61,7 +61,8 @@ Message level validation can be enabled/disabled on each partner link. This is d
 {{{
         <provide partnerLink="testPartnerLinkType">
             <service name="example:test" port="testInvoke">
-                <wsp:Policy xmlns:abp="http://schemas.active-endpoints.com/ws/2005/12/policy" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy">
+                <wsp:Policy xmlns:abp="http://schemas.active-endpoints.com/ws/2005/12/policy" 
+xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy">
                     <abp:Validation direction="none"/>
                 </wsp:Policy>
             </service>
@@ -89,3 +90,8 @@ The service and port values aren't significant in the deploy.xml. The real addre
 
 == Process Validation ==
 The default behavior during deployment is to validate the bpel, deployment artifacts, and WSDL. It is possible to disable this validation (although not recommended) by including a file named "skip.validation" inside the BPR or service unit. If present, none of the resources within the deployment unit will be validated. This was added to address a situation where deployment speed was essential and the bpel and associated artifacts were all known to be valid. 
+
+== Sample Projects ==
+Check out the sample projects in the process-tests module. This module contains a number of sample processes that are built and deployed as integration tests. If you find a problem with a deployment setting or something in the core engine, this is a good place to contribute a simple test to illustrate the issue.
+
+The integration-test module provides some good examples at deploying and undeploying processes through the web service layer. Check out the source in the process-tests/integration-test and support module.
