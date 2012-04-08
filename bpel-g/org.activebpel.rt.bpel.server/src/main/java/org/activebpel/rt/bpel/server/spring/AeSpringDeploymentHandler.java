@@ -39,6 +39,7 @@ public class AeSpringDeploymentHandler implements IAeDeploymentHandler {
 			// to set the resource loader in place so it uses the classloader bound to this
 			// directory.
 			GenericApplicationContext ac = new GenericApplicationContext();
+            ac.setClassLoader(aContainer.getResourceClassLoader());
 			ac.setResourceLoader(new DefaultResourceLoader(aContainer.getResourceClassLoader()));
 			XmlBeanDefinitionReader xmlReader = new XmlBeanDefinitionReader(ac);
 			xmlReader.loadBeanDefinitions(new UrlResource(context));
