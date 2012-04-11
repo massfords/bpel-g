@@ -1,19 +1,12 @@
 package org.activebpel.rt.bpel.server.services;
 
-import java.math.BigInteger;
-
-import org.activebpel.rt.bpel.AePreferences;
-
 import bpelg.services.preferences.types.GetPreferencesRequest;
 import bpelg.services.preferences.types.PreferencesType;
-import bpelg.services.preferences.types.PreferencesType.Catalog;
-import bpelg.services.preferences.types.PreferencesType.ChildWorkManagers;
-import bpelg.services.preferences.types.PreferencesType.Execution;
-import bpelg.services.preferences.types.PreferencesType.Logging;
+import bpelg.services.preferences.types.PreferencesType.*;
 import bpelg.services.preferences.types.PreferencesType.Logging.EnabledEvents;
-import bpelg.services.preferences.types.PreferencesType.Messaging;
-import bpelg.services.preferences.types.PreferencesType.Processes;
-import bpelg.services.preferences.types.PreferencesType.WorkManager;
+import org.activebpel.rt.bpel.AePreferences;
+
+import java.math.BigInteger;
 
 public class AePreferencesService implements bpelg.services.preferences.AePreferences {
 
@@ -81,7 +74,9 @@ public class AePreferencesService implements bpelg.services.preferences.AePrefer
 				.withMaxCorrelationCombinations(bi(AePreferences.getMaxCorrelationCombinations()))
 				.withReceiveTimeout(bi(AePreferences.getReceiveTimeout()))
 				.withSendTimeout(bi(AePreferences.getSendTimeout()))
-				.withValidateServiceMessages(AePreferences.isValidateServiceMessages()))
+				.withValidateServiceMessages(AePreferences.isValidateServiceMessages())
+                .withUnmatchedCorrelatedReceiveTimeout(new BigInteger(""+AePreferences.getUnmatchedCorrelatedReceiveTimeoutMillis()))
+                )
 			.withProcesses(new Processes()
 				.withProcessCount(bi(AePreferences.getProcessCount()))
 				.withReleaseLag(AePreferences.getReleaseLagMillis())
