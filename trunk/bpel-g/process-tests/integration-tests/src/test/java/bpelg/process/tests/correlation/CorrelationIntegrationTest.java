@@ -1,30 +1,71 @@
 package bpelg.process.tests.correlation;
 
 import bpelg.services.deploy.types.UndeploymentRequest;
+import bpelg.services.preferences.types.GetPreferencesRequest;
+import bpelg.services.preferences.types.PreferencesType;
 import org.activebpel.rt.util.AeXPathUtil;
 import org.activebpel.services.jaxws.AeProcessFixture;
-import org.junit.After;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.*;
+import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
 import org.w3c.dom.Document;
 
 import javax.xml.transform.stream.StreamSource;
 import java.io.File;
 import java.io.StringReader;
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author markford
  *         Date: 4/6/12
  */
+@RunWith(Parameterized.class)
 public class CorrelationIntegrationTest extends Assert {
-    AeProcessFixture pfix = new AeProcessFixture();
+
+    private static final AeProcessFixture pfix = new AeProcessFixture();
+    private final long processRelease;
+    private final long sleepTime;
+    private long originalRelease;
+
+    @BeforeClass
+    public static void deployProcess() throws Exception {
+        // deploy
+        pfix.deploySingle(new File("target/dependency/correlation-test.jar"));
+    }
+
+    @AfterClass
+    public static void undeployProcess() throws Exception {
+        pfix.getDeployer().undeploy(new UndeploymentRequest().withDeploymentContainerId("correlation-test.jar"));
+    }
+
+    @Parameterized.Parameters
+    public static List<Object[]> params() throws Exception {
+        List<Object[]> p = new ArrayList<Object[]>();
+        // no sleep, process stays in memory
+        p.add(new Object[] {TimeUnit.SECONDS.toMillis(10), 0});
+        // some sleep, process stays in memory
+        p.add(new Object[] {TimeUnit.SECONDS.toMillis(10), TimeUnit.SECONDS.toMillis(1)});
+        // sleep past the persistence time to force a write to disk
+        p.add(new Object[] {TimeUnit.SECONDS.toMillis(1), TimeUnit.SECONDS.toMillis(5)});
+        return p;
+    }
+
+    public CorrelationIntegrationTest(long processRelease, long sleepTime) {
+        this.processRelease = processRelease;
+        this.sleepTime = sleepTime;
+    }
 
     @Before
     public void setUp() throws Exception {
-        // deploy
-        pfix.deploySingle(new File("target/dependency/correlation-test.jar"));
+        // update the process lag
+        String catalina_port = pfix.getCatalinaPort();
+        PreferencesType prefs = pfix.getPreferencesService().getPreferences(new GetPreferencesRequest());
+        originalRelease = prefs.getProcesses().getReleaseLag();
+        prefs.getProcesses().setReleaseLag(processRelease);
+        pfix.getPreferencesService().setPreferences(prefs);
     }
 
     @Test
@@ -41,6 +82,8 @@ public class CorrelationIntegrationTest extends Assert {
         Document quote = pfix.invoke(new StreamSource(new StringReader(request)),
                 "http://localhost:8080/bpel-g/services/quoteService");
         assertNotNull(quote);
+
+        Thread.sleep(sleepTime);
 
         // send another message saying that we agree to the quote
         String quoteId = AeXPathUtil.selectText(quote, "//q:quoteId",
@@ -59,6 +102,9 @@ public class CorrelationIntegrationTest extends Assert {
 
     @After
     public void tearDown() throws Exception {
-        pfix.getDeployer().undeploy(new UndeploymentRequest().withDeploymentContainerId("correlation-test.jar"));
+        // restore the release
+        PreferencesType prefs = pfix.getPreferencesService().getPreferences(new GetPreferencesRequest());
+        prefs.getProcesses().setReleaseLag(originalRelease);
+        pfix.getPreferencesService().setPreferences(prefs);
     }
 }

@@ -4,6 +4,8 @@ import bpelg.services.deploy.AeDeployer;
 import bpelg.services.deploy.DeploymentService;
 import bpelg.services.deploy.types.DeploymentResponse;
 import bpelg.services.deploy.types.DeploymentResponse.DeploymentInfo;
+import bpelg.services.preferences.AePreferences;
+import bpelg.services.preferences.PreferencesService;
 import bpelg.services.processes.AeProcessManager;
 import bpelg.services.processes.ProcessManagerService;
 import bpelg.services.urnresolver.AeURNResolver;
@@ -32,20 +34,30 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 public class AeProcessFixture extends Assert {
-	AeXMLParserBase mParser = new AeXMLParserBase();
-	AeDeployer mDeployer;
-	AeURNResolver mResolver;
-	AeProcessManager mProcessManager;
+    private AeXMLParserBase parser = new AeXMLParserBase();
+    private AeDeployer deployer;
+    private AeURNResolver resolver;
+	private AeProcessManager processManager;
+    private AePreferences preferencesService;
 
-	public AeURNResolver getResolver() throws MalformedURLException {
-		if (mResolver == null) {
+    public AePreferences getPreferencesService() throws Exception {
+        if (preferencesService == null) {
+            String catalina_port = getCatalinaPort();
+            preferencesService = new PreferencesService(new URL(
+                    "http://localhost:" + catalina_port + "/bpel-g/cxf/PreferencesService?wsdl")).getPort(AePreferences.class);
+        }
+        return preferencesService;
+    }
+
+    public AeURNResolver getResolver() throws MalformedURLException {
+		if (resolver == null) {
 	    	String catalina_port = getCatalinaPort();
 	    	URL url = new URL(
 					"http://localhost:" + catalina_port + "/bpel-g/cxf/URNResolver?wsdl");
 			Service svc = Service.create(url, new QName("urn:bpel-g:services:urn-resolver", "URNResolver"));
-			mResolver = svc.getPort(AeURNResolver.class);
+			resolver = svc.getPort(AeURNResolver.class);
 		}
-		return mResolver;
+		return resolver;
 	}
 	
 	public String getCatalinaPort() {
@@ -54,46 +66,46 @@ public class AeProcessFixture extends Assert {
 	}
 	
 	public AeDeployer getDeployer() throws Exception {
-		if (mDeployer == null) {
+		if (deployer == null) {
 	    	String catalina_port = getCatalinaPort();
 			DeploymentService ds = new DeploymentService(new URL(
 					"http://localhost:" + catalina_port + "/bpel-g/cxf/DeploymentService?wsdl"));
-			mDeployer = ds.getPort(AeDeployer.class);
+			deployer = ds.getPort(AeDeployer.class);
 		}
-		return mDeployer;
+		return deployer;
 	}
 	
 	public AeProcessManager getProcessManager() throws Exception {
-		if (mProcessManager == null) {
+		if (processManager == null) {
 	    	String catalina_port = getCatalinaPort();
-			mProcessManager = new ProcessManagerService(new URL(
+			processManager = new ProcessManagerService(new URL(
 					"http://localhost:" + catalina_port + "/bpel-g/cxf/ProcessManagerService?wsdl")).getPort(AeProcessManager.class);
 		}
-		return mProcessManager;
+		return processManager;
 	}
 	
-	public Document invoke(File aFile, String aEndpoint) throws Exception {
-        Source request = new DOMSource(mParser.loadDocument(new FileInputStream(aFile), null));
-		return invoke(request, aEndpoint);
+	public Document invoke(File file, String endpoint) throws Exception {
+        Source request = new DOMSource(parser.loadDocument(new FileInputStream(file), null));
+		return invoke(request, endpoint);
 	}
 
-    public Document invoke(Source request, String aEndpoint) throws Exception {
-        return invoke(request, createDispatch(aEndpoint));
+    public Document invoke(Source request, String endpoint) throws Exception {
+        return invoke(request, createDispatch(endpoint));
     }
 
-    public Document invoke(Source request, Dispatch<Source> aDispatch) throws Exception {
-		Source response = aDispatch.invoke(request);
+    public Document invoke(Source request, Dispatch<Source> dispatch) throws Exception {
+		Source response = dispatch.invoke(request);
 		Node actualNode = toNode(response);
 		return (Document) actualNode;
 	}
 	
-	public Dispatch<Source> createDispatch(String aEndpoint) {
+	public Dispatch<Source> createDispatch(String endpoint) {
 		String ns = "urn:bpel-g:generic";
 		QName serviceName = new QName(ns, "DOCLitService");
 		Service service = Service.create(serviceName);
 
 		QName portName = new QName(ns, "DOCLitPortType");
-		service.addPort(portName, SOAPBinding.SOAP11HTTP_BINDING, aEndpoint);
+		service.addPort(portName, SOAPBinding.SOAP11HTTP_BINDING, endpoint);
 		Dispatch<Source> dispatch = service.createDispatch(portName,
 				Source.class, Service.Mode.PAYLOAD);
 		return dispatch;
@@ -120,28 +132,28 @@ public class AeProcessFixture extends Assert {
 		return response;
 	}
 
-	public Node toNode(Source aExpected) throws TransformerException {
+	public Node toNode(Source expected) throws TransformerException {
 		Node expectedNode;
-		if (aExpected instanceof DOMSource) {
-			expectedNode = ((DOMSource) aExpected).getNode();
+		if (expected instanceof DOMSource) {
+			expectedNode = ((DOMSource) expected).getNode();
 		} else {
 			DOMResult result = new DOMResult();
 			TransformerFactory tf = TransformerFactory.newInstance();
-			tf.newTransformer().transform(aExpected, result);
+			tf.newTransformer().transform(expected, result);
 			expectedNode = result.getNode();
 		}
 		return expectedNode;
 	}
 
-	public void assertXMLIgnorePrefix(String aMessage, Node aExpected,
-			Node aActual) throws Exception {
+	public void assertXMLIgnorePrefix(String message, Node expected,
+			Node actual) throws Exception {
 		XMLUnit.setIgnoreComments(true);
 		XMLUnit.setIgnoreWhitespace(true);
 		XMLUnit.setIgnoreAttributeOrder(true);
 
-		Document expected = toDocument(aExpected);
-		Document actual = toDocument(aActual);
-		Diff diff = new Diff(expected, actual);
+		Document expectedDoc = toDocument(expected);
+		Document actualDoc = toDocument(actual);
+		Diff diff = new Diff(expectedDoc, actualDoc);
 		diff.overrideDifferenceListener(new DifferenceListener() {
 			public int differenceFound(Difference aDifference) {
 				if (aDifference.getId() == DifferenceConstants.NAMESPACE_PREFIX_ID)
@@ -152,24 +164,24 @@ public class AeProcessFixture extends Assert {
 			public void skippedComparison(Node aControl, Node aTest) {
 			}
 		});
-		XMLAssert.assertXMLEqual(diff, true);
+		XMLAssert.assertXMLEqual(message, diff, true);
 	}
 
 	/**
 	 * Convenience method that converts an Element into a Document or returns
 	 * the arg passed if already a Document
 	 * 
-	 * @param aDocOrElement
+	 * @param docOrElement
 	 * @throws ParserConfigurationException
 	 */
-	public static Document toDocument(Node aDocOrElement) throws Exception {
+	public static Document toDocument(Node docOrElement) throws Exception {
 		Document doc = null;
-		if (aDocOrElement instanceof Element) {
+		if (docOrElement instanceof Element) {
 			doc = AeXmlUtil.newDocument();
-			Node node = doc.importNode(aDocOrElement, true);
+			Node node = doc.importNode(docOrElement, true);
 			doc.appendChild(node);
-		} else if (aDocOrElement instanceof Document)
-			doc = (Document) aDocOrElement;
+		} else if (docOrElement instanceof Document)
+			doc = (Document) docOrElement;
 		else
 			throw new IllegalArgumentException("expected a Document or Element");
 		return doc;
