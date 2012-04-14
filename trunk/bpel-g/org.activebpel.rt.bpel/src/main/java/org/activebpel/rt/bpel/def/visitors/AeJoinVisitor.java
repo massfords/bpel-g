@@ -39,9 +39,9 @@ public class AeJoinVisitor extends AeAbstractDefVisitor
    /**
     * @see org.activebpel.rt.bpel.def.visitors.AeAbstractDefVisitor#visit(org.activebpel.rt.bpel.def.AeProcessDef)
     */
-   public void visit(AeProcessDef aDef)
+   public void visit(AeProcessDef def)
    {
-      super.visit(aDef);
+      super.visit(def);
       
       // walk all of the correlationSet's we've encountered and mark those that have multiple initiate points w/ the "join" flag
        for (Map.Entry<AeCorrelationSetDef, AeCorrelationSetUsage> entry : getUsageMap().entrySet()) {

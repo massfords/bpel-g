@@ -52,11 +52,11 @@ public class AeMessageExchangeVisitor extends AeAbstractDefVisitor
     * Marks the process def as implicitly declaring a default message exchange value
     * @see org.activebpel.rt.bpel.def.visitors.AeAbstractDefVisitor#visit(org.activebpel.rt.bpel.def.AeProcessDef)
     */
-   public void visit(AeProcessDef aDef)
+   public void visit(AeProcessDef def)
    {
-      AeMessageExchangesDef msgExsDef = getOrCreateMessageExchangesDef(aDef);
+      AeMessageExchangesDef msgExsDef = getOrCreateMessageExchangesDef(def);
       msgExsDef.setDefaultDeclared(true);
-      super.visit(aDef);
+      super.visit(def);
    }
 
    /**

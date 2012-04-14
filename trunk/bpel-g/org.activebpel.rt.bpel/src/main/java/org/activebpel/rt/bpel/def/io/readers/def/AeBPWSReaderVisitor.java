@@ -66,11 +66,11 @@ public class AeBPWSReaderVisitor extends AeBpelReaderVisitor
     * Overrides to parse the 'abstractProcess' attribute.
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.AeProcessDef)
     */
-   public void visit(AeProcessDef aDef)
+   public void visit(AeProcessDef def)
    {
-      super.visit(aDef);
+      super.visit(def);
       
-      aDef.setAbstractProcess(getAttributeBoolean(TAG_ABSTRACT_PROCESS));
+      def.setAbstractProcess(getAttributeBoolean(TAG_ABSTRACT_PROCESS));
 
       // Note: for legacy reasons, some container defs must always be created.  Old 
       // versions of the engine created these containers as part of the ProcessDef
@@ -78,8 +78,8 @@ public class AeBPWSReaderVisitor extends AeBpelReaderVisitor
       // paths are created in 3.0 as 2.1.  If a different set of paths are created
       // then the location path IDs will not be correct, and we will have problems
       // in persistence.
-      aDef.setPartnersDef(new AePartnersDef());
-      aDef.setPartnerLinksDef(new AePartnerLinksDef());
+      def.setPartnersDef(new AePartnersDef());
+      def.setPartnerLinksDef(new AePartnerLinksDef());
    }   
    
    /**
@@ -151,34 +151,34 @@ public class AeBPWSReaderVisitor extends AeBpelReaderVisitor
    /**
     * @see org.activebpel.rt.bpel.def.io.readers.def.AeBpelReaderVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityFlowDef)
     */
-   public void visit(AeActivityFlowDef aDef)
+   public void visit(AeActivityFlowDef def)
    {
-      super.visit(aDef);
+      super.visit(def);
       
       // Note: for legacy reasons, some container defs must always be created. Old
       // versions of the engine always created these containers These containers
       // are needed so that the same set of location paths are created in 3.0 as
       // 2.1. If a different set of paths are created then the location path IDs
       // will not be correct, and we will have problems in persistence.
-      aDef.setLinksDef(new AeLinksDef());
+      def.setLinksDef(new AeLinksDef());
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeSourceDef)
     */
-   public void visit(AeSourceDef aDef)
+   public void visit(AeSourceDef def)
    {
-      super.visit(aDef);
+      super.visit(def);
       
       String transCondExpression = getAttribute(TAG_TRANSITION_CONDITION);
       if (AeUtil.notNullOrEmpty(transCondExpression))
       {
          AeTransitionConditionDef transCondDef = new AeTransitionConditionDef();
          transCondDef.setExpression(transCondExpression);
-         aDef.setTransitionConditionDef(transCondDef);
+         def.setTransitionConditionDef(transCondDef);
       }
 
-      AeBPWSUtil.addSourceToActivity(aDef, (AeActivityDef) getParentDef());
+      AeBPWSUtil.addSourceToActivity(def, (AeActivityDef) getParentDef());
    }
 
    /**
@@ -210,11 +210,11 @@ public class AeBPWSReaderVisitor extends AeBpelReaderVisitor
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityScopeDef)
     */
-   public void visit(AeActivityScopeDef aDef)
+   public void visit(AeActivityScopeDef def)
    {
-      super.visit(aDef);
+      super.visit(def);
       
-      aDef.setVariableAccessSerializable(getAttributeBoolean(IAeBpelLegacyConstants.TAG_VARIABLE_ACCESS_SERIALIZABLE));
+      def.setVariableAccessSerializable(getAttributeBoolean(IAeBpelLegacyConstants.TAG_VARIABLE_ACCESS_SERIALIZABLE));
    }
 
    /**
@@ -343,35 +343,35 @@ public class AeBPWSReaderVisitor extends AeBpelReaderVisitor
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityCompensateScopeDef)
     */
-   public void visit(AeActivityCompensateScopeDef aDef)
+   public void visit(AeActivityCompensateScopeDef def)
    {
-      readAttributes(aDef);
-      aDef.setTarget(getAttribute(TAG_SCOPE));
-      addActivityToParent(aDef);
+      readAttributes(def);
+      def.setTarget(getAttribute(TAG_SCOPE));
+      addActivityToParent(def);
    }
    
    /**
     * @see org.activebpel.rt.bpel.def.io.readers.def.AeBpelReaderVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityBreakDef)
     */
-   public void visit(AeActivityBreakDef aDef)
+   public void visit(AeActivityBreakDef def)
    {
-      readAeExtensionActivity(aDef);
+      readAeExtensionActivity(def);
    }
    
    /**
     * @see org.activebpel.rt.bpel.def.io.readers.def.AeBpelReaderVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityContinueDef)
     */
-   public void visit(AeActivityContinueDef aDef)
+   public void visit(AeActivityContinueDef def)
    {
-      readAeExtensionActivity(aDef);
+      readAeExtensionActivity(def);
    }
    
    /**
     * @see org.activebpel.rt.bpel.def.io.readers.def.AeBpelReaderVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivitySuspendDef)
     */
-   public void visit(AeActivitySuspendDef aDef)
+   public void visit(AeActivitySuspendDef def)
    {
-      readAeExtensionActivity(aDef);
+      readAeExtensionActivity(def);
    }
 
    /**

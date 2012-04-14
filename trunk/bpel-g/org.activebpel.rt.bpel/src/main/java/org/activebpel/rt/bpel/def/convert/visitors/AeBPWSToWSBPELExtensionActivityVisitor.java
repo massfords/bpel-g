@@ -49,28 +49,28 @@ public class AeBPWSToWSBPELExtensionActivityVisitor extends AeAbstractBPWSToWSBP
    /**
     * @see org.activebpel.rt.bpel.def.visitors.AeAbstractDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityBreakDef)
     */
-   public void visit(AeActivityBreakDef aDef)
+   public void visit(AeActivityBreakDef def)
    {
       addAeActivityExtensionDef();
-      super.visit(aDef);
+      super.visit(def);
    }
    
    /**
     * @see org.activebpel.rt.bpel.def.visitors.AeAbstractDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityContinueDef)
     */
-   public void visit(AeActivityContinueDef aDef)
+   public void visit(AeActivityContinueDef def)
    {
       addAeActivityExtensionDef();
-      super.visit(aDef);
+      super.visit(def);
    }
    
    /**
     * @see org.activebpel.rt.bpel.def.visitors.AeAbstractDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivitySuspendDef)
     */
-   public void visit(AeActivitySuspendDef aDef)
+   public void visit(AeActivitySuspendDef def)
    {
       addAeActivityExtensionDef();
-      super.visit(aDef);
+      super.visit(def);
    }
 
    /**

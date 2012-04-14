@@ -1,19 +1,18 @@
 package org.activebpel.rt.bpel.server.services;
 
-import java.io.ByteArrayInputStream;
-
-import org.activebpel.rt.AeException;
-import org.activebpel.rt.bpel.server.deploy.bpr.AeTempFileUploadHandler;
-import org.activebpel.rt.bpel.server.deploy.scanner.IAeDeploymentFileHandler;
-import org.activebpel.rt.bpel.server.logging.AeStructuredDeploymentLog;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
 import bpelg.services.deploy.AeDeployer;
 import bpelg.services.deploy.types.DeploymentResponse;
 import bpelg.services.deploy.types.UndeploymentRequest;
+import org.activebpel.rt.AeException;
+import org.activebpel.rt.bpel.server.deploy.bpr.AeTempFileUploadHandler;
+import org.activebpel.rt.bpel.server.deploy.scanner.IAeDeploymentFileHandler;
+import org.activebpel.rt.bpel.server.logging.DeploymentLogger;
+import org.activebpel.rt.bpel.server.logging.IAeDeploymentLogger;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 import javax.inject.Inject;
+import java.io.ByteArrayInputStream;
 
 public class AeDeploymentService implements AeDeployer {
 
@@ -24,13 +23,15 @@ public class AeDeploymentService implements AeDeployer {
 
 	@Override
 	public DeploymentResponse deploy(String aName, byte[] aArchive) {
-        AeStructuredDeploymentLog logger = new AeStructuredDeploymentLog();
+        DeploymentResponse response = new DeploymentResponse();
+        IAeDeploymentLogger logger = new DeploymentLogger();
         try {
 			AeTempFileUploadHandler.handleUpload( aName, new ByteArrayInputStream(aArchive), logger );
 		} catch (AeException e) {
 			sLog.error(e);
+            response.withMessage(e.getMessage());
 		}
-        DeploymentResponse response = logger.getDeploymentSummary();
+        response.withDeploymentInfo(logger.getDeploymentInfos());
         response.setDeploymentContainerId(aName);
         return response;
 	}

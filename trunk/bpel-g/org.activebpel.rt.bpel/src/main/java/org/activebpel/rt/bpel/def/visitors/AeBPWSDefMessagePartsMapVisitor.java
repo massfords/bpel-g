@@ -48,15 +48,15 @@ public class AeBPWSDefMessagePartsMapVisitor extends AeAbstractDefMessagePartsMa
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityInvokeDef)
     */
-   public void visit(AeActivityInvokeDef aDef)
+   public void visit(AeActivityInvokeDef def)
    {
-      QName portType = getPartnerRolePortType(aDef);
-      String operation = aDef.getOperation();
-      String locationPath = aDef.getLocationPath();
+      QName portType = getPartnerRolePortType(def);
+      String operation = def.getOperation();
+      String locationPath = def.getLocationPath();
    
       // message types are only used for BPWS processes, left the call in the base class to leverage the visit() methods
-      QName requestMessageType = getMessageType(aDef, aDef.getInputVariable());
-      QName responseMessageType = getMessageType(aDef, aDef.getOutputVariable());
+      QName requestMessageType = getMessageType(def, def.getInputVariable());
+      QName responseMessageType = getMessageType(def, def.getOutputVariable());
       
       // If the outputVariable wasn't specified, then it's either a one-way 
       // operation or it's an error. Passing the EMPTY_QNAME into the method 
@@ -69,19 +69,19 @@ public class AeBPWSDefMessagePartsMapVisitor extends AeAbstractDefMessagePartsMa
          responseMessageType = EMPTY_QNAME;
       }
 
-      if (aDef.getProducerMessagePartsMap() == null)
+      if (def.getProducerMessagePartsMap() == null)
       {
          AeMessagePartsMap inputMap = createInputMessagePartsMap(portType, operation, requestMessageType, responseMessageType, locationPath);
-         aDef.setProducerMessagePartsMap(inputMap);
+         def.setProducerMessagePartsMap(inputMap);
       }
    
-      if (aDef.getConsumerMessagePartsMap() == null)
+      if (def.getConsumerMessagePartsMap() == null)
       {
          AeMessagePartsMap outputMap = createOutputMessagePartsMap(portType, operation, requestMessageType, responseMessageType, locationPath);
-         aDef.setConsumerMessagePartsMap(outputMap);
+         def.setConsumerMessagePartsMap(outputMap);
       }
    
-      super.visit(aDef);
+      super.visit(def);
    }
 
    /**

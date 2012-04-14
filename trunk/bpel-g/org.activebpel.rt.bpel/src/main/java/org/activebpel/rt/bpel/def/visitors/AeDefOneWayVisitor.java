@@ -51,10 +51,10 @@ public class AeDefOneWayVisitor extends AeAbstractDefVisitor
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.AeProcessDef)
     */
-   public void visit(AeProcessDef aDef)
+   public void visit(AeProcessDef def)
    {
-      mProcessDef = aDef;
-      super.visit(aDef);
+      mProcessDef = def;
+      super.visit(def);
    }
 
    /**
@@ -86,10 +86,10 @@ public class AeDefOneWayVisitor extends AeAbstractDefVisitor
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityReceiveDef)
     */
-   public void visit(AeActivityReceiveDef aDef)
+   public void visit(AeActivityReceiveDef def)
    {
-      examineForOneWay(aDef);
-      super.visit(aDef);
+      examineForOneWay(def);
+      super.visit(def);
    }
    
    /**

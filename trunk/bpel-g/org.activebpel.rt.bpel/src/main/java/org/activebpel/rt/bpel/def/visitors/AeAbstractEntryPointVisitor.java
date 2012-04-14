@@ -49,23 +49,23 @@ abstract public class AeAbstractEntryPointVisitor extends AeAbstractDefVisitor
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.AeProcessDef)
     */
-   public void visit(AeProcessDef aDef)
+   public void visit(AeProcessDef def)
    {
-      mProcessDef = aDef;
-      super.visit(aDef);
+      mProcessDef = def;
+      super.visit(def);
    }
 
    /**
     * If the accept method return true call processReceive.
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityReceiveDef)
     */
-   public void visit(AeActivityReceiveDef aDef)
+   public void visit(AeActivityReceiveDef def)
    {
-      if( accept( aDef ) )
+      if( accept(def) )
       {
-         processEntryPoint( aDef );
+         processEntryPoint(def);
       }
-      super.visit(aDef);
+      super.visit(def);
    }
    
    /**
@@ -84,19 +84,19 @@ abstract public class AeAbstractEntryPointVisitor extends AeAbstractDefVisitor
     * and call process for each one.
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityPickDef)
     */
-   public void visit(AeActivityPickDef aDef)
+   public void visit(AeActivityPickDef def)
    {
       // NOTE: a pick with a createInstance attribute that 
       // evaluates to true must have at least one onMessage
       // create keys for each onMessage
-      if( accept( aDef ) )
+      if( accept(def) )
       {
-         for( Iterator iter = aDef.getOnMessageDefs(); iter.hasNext(); )
+         for( Iterator iter = def.getOnMessageDefs(); iter.hasNext(); )
          {
             processEntryPoint( (AeOnMessageDef)iter.next() );
          }
       }
-      super.visit(aDef);
+      super.visit(def);
    }
    
    /**

@@ -42,29 +42,29 @@ public class AeMessageDataStrategyVisitor extends AeAbstractDefVisitor
    /**
     * @see org.activebpel.rt.bpel.def.visitors.AeAbstractDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityInvokeDef)
     */
-   public void visit(AeActivityInvokeDef aDef)
+   public void visit(AeActivityInvokeDef def)
    {
-      determineProducerStrategy(aDef);
-      determineConsumerStrategy(aDef);
-      super.visit(aDef);
+      determineProducerStrategy(def);
+      determineConsumerStrategy(def);
+      super.visit(def);
    }
    
    /**
     * @see org.activebpel.rt.bpel.def.visitors.AeAbstractDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityReplyDef)
     */
-   public void visit(AeActivityReplyDef aDef)
+   public void visit(AeActivityReplyDef def)
    {
-      determineProducerStrategy(aDef);
-      super.visit(aDef);
+      determineProducerStrategy(def);
+      super.visit(def);
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.visitors.AeAbstractDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityReceiveDef)
     */
-   public void visit(AeActivityReceiveDef aDef)
+   public void visit(AeActivityReceiveDef def)
    {
-      determineConsumerStrategy(aDef);
-      super.visit(aDef);
+      determineConsumerStrategy(def);
+      super.visit(def);
    }
 
    /**

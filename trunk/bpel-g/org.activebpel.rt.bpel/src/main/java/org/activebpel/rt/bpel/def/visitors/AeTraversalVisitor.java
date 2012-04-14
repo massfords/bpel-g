@@ -121,17 +121,17 @@ public class AeTraversalVisitor implements IAeDefVisitor
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.AeProcessDef)
     */
-   public void visit(AeProcessDef aDef)
+   public void visit(AeProcessDef def)
    {
-      getTravers().traverse(aDef, getVisitor());
+      getTravers().traverse(def, getVisitor());
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityScopeDef)
     */
-   public void visit(AeActivityScopeDef aDef)
+   public void visit(AeActivityScopeDef def)
    {
-      getTravers().traverse(aDef, getVisitor());
+      getTravers().traverse(def, getVisitor());
    }
 
    /**
@@ -225,81 +225,81 @@ public class AeTraversalVisitor implements IAeDefVisitor
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityAssignDef)
     */
-   public void visit(AeActivityAssignDef aDef)
+   public void visit(AeActivityAssignDef def)
    {
-      getTravers().traverse(aDef, getVisitor());
+      getTravers().traverse(def, getVisitor());
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityCompensateDef)
     */
-   public void visit(AeActivityCompensateDef aDef)
+   public void visit(AeActivityCompensateDef def)
    {
-      getTravers().traverse(aDef, getVisitor());
+      getTravers().traverse(def, getVisitor());
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityCompensateScopeDef)
     */
-   public void visit(AeActivityCompensateScopeDef aDef)
+   public void visit(AeActivityCompensateScopeDef def)
    {
-      getTravers().traverse(aDef, getVisitor());
+      getTravers().traverse(def, getVisitor());
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityEmptyDef)
     */
-   public void visit(AeActivityEmptyDef aDef)
+   public void visit(AeActivityEmptyDef def)
    {
-      getTravers().traverse(aDef, getVisitor());
+      getTravers().traverse(def, getVisitor());
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityFlowDef)
     */
-   public void visit(AeActivityFlowDef aDef)
+   public void visit(AeActivityFlowDef def)
    {
-      getTravers().traverse(aDef, getVisitor());
+      getTravers().traverse(def, getVisitor());
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityInvokeDef)
     */
-   public void visit(AeActivityInvokeDef aDef)
+   public void visit(AeActivityInvokeDef def)
    {
-      getTravers().traverse(aDef, getVisitor());
+      getTravers().traverse(def, getVisitor());
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityPickDef)
     */
-   public void visit(AeActivityPickDef aDef)
+   public void visit(AeActivityPickDef def)
    {
-      getTravers().traverse(aDef, getVisitor());
+      getTravers().traverse(def, getVisitor());
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityReceiveDef)
     */
-   public void visit(AeActivityReceiveDef aDef)
+   public void visit(AeActivityReceiveDef def)
    {
-      getTravers().traverse(aDef, getVisitor());
+      getTravers().traverse(def, getVisitor());
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityReplyDef)
     */
-   public void visit(AeActivityReplyDef aDef)
+   public void visit(AeActivityReplyDef def)
    {
-      getTravers().traverse(aDef, getVisitor());
+      getTravers().traverse(def, getVisitor());
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivitySuspendDef)
     */
-   public void visit(AeActivitySuspendDef aDef)
+   public void visit(AeActivitySuspendDef def)
    {
-      getTravers().traverse(aDef, getVisitor());
+      getTravers().traverse(def, getVisitor());
    }
 
    /**
@@ -393,17 +393,17 @@ public class AeTraversalVisitor implements IAeDefVisitor
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityContinueDef)
     */
-   public void visit(AeActivityContinueDef aDef)
+   public void visit(AeActivityContinueDef def)
    {
-      getTravers().traverse(aDef, getVisitor());
+      getTravers().traverse(def, getVisitor());
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityBreakDef)
     */
-   public void visit(AeActivityBreakDef aDef)
+   public void visit(AeActivityBreakDef def)
    {
-      getTravers().traverse(aDef, getVisitor());
+      getTravers().traverse(def, getVisitor());
    }
 
    /**
@@ -505,9 +505,9 @@ public class AeTraversalVisitor implements IAeDefVisitor
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeSourceDef)
     */
-   public void visit(AeSourceDef aDef)
+   public void visit(AeSourceDef def)
    {
-      getTravers().traverse(aDef, getVisitor());
+      getTravers().traverse(def, getVisitor());
    }
 
    /**

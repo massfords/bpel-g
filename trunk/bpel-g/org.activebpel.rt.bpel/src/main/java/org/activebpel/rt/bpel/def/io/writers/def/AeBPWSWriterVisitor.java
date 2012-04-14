@@ -113,10 +113,10 @@ public class AeBPWSWriterVisitor extends AeWriterVisitor
     * Overrides to append the abstractProcess boolean attribute.
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.AeProcessDef)
     */
-   public void visit(AeProcessDef aDef)
+   public void visit(AeProcessDef def)
    {
-      super.visit(aDef);
-      setAttribute(TAG_ABSTRACT_PROCESS, aDef.isAbstractProcess(), false);
+      super.visit(def);
+      setAttribute(TAG_ABSTRACT_PROCESS, def.isAbstractProcess(), false);
    }      
 
    /**
@@ -131,11 +131,11 @@ public class AeBPWSWriterVisitor extends AeWriterVisitor
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeSourceDef)
     */
-   public void visit(AeSourceDef aDef)
+   public void visit(AeSourceDef def)
    {
-      super.visit(aDef);
+      super.visit(def);
 
-      setAttribute(TAG_TRANSITION_CONDITION, aDef.getTransitionCondition());
+      setAttribute(TAG_TRANSITION_CONDITION, def.getTransitionCondition());
    }
 
    /**
@@ -173,11 +173,11 @@ public class AeBPWSWriterVisitor extends AeWriterVisitor
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityScopeDef)
     */
-   public void visit(AeActivityScopeDef aDef)
+   public void visit(AeActivityScopeDef def)
    {
-      super.visit(aDef);
+      super.visit(def);
 
-      setAttribute(IAeBpelLegacyConstants.TAG_VARIABLE_ACCESS_SERIALIZABLE, aDef.isIsolated(), false);
+      setAttribute(IAeBpelLegacyConstants.TAG_VARIABLE_ACCESS_SERIALIZABLE, def.isIsolated(), false);
    }
 
    /**
@@ -226,13 +226,13 @@ public class AeBPWSWriterVisitor extends AeWriterVisitor
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityCompensateScopeDef)
     */
-   public void visit(AeActivityCompensateScopeDef aDef)
+   public void visit(AeActivityCompensateScopeDef def)
    {
       // Even though this construct doesn't exist in bpel 1.1, we model the <compensate scope="S1" form of the
       // bpel 1.1 activity by using the bpel 2.0 compensateScope def.
-      writeAttributes(aDef);
+      writeAttributes(def);
       
-      setAttribute(TAG_SCOPE, aDef.getTarget());
+      setAttribute(TAG_SCOPE, def.getTarget());
    }
    
    /**

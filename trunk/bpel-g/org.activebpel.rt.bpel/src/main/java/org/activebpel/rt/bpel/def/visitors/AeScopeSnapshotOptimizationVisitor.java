@@ -35,10 +35,10 @@ public class AeScopeSnapshotOptimizationVisitor extends AeAbstractDefVisitor
    /**
     * @see org.activebpel.rt.bpel.def.visitors.AeAbstractDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityScopeDef)
     */
-   public void visit(AeActivityScopeDef aDef)
+   public void visit(AeActivityScopeDef def)
    {
-      getEnclosedScopes().push(aDef);
-      super.visit(aDef);
+      getEnclosedScopes().push(def);
+      super.visit(def);
       getEnclosedScopes().pop();
    }
 

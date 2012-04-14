@@ -33,11 +33,11 @@ public class AeDefPartnerLinkNameVisitor extends AeAbstractDefVisitor
    /**
     * @see org.activebpel.rt.bpel.def.visitors.AeAbstractDefVisitor#visit(org.activebpel.rt.bpel.def.AeProcessDef)
     */
-   public void visit(AeProcessDef aDef)
+   public void visit(AeProcessDef def)
    {
-      setProcessDef(aDef);
+      setProcessDef(def);
 
-      super.visit(aDef);
+      super.visit(def);
    }
 
    /**

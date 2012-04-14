@@ -45,7 +45,6 @@ import org.activebpel.rt.bpel.def.activity.support.AeAssignCopyDef;
 import org.activebpel.rt.bpel.def.activity.support.AeConditionDef;
 import org.activebpel.rt.bpel.def.activity.support.AeElseDef;
 import org.activebpel.rt.bpel.def.activity.support.AeElseIfDef;
-import org.activebpel.rt.bpel.def.activity.support.AeExpressionBaseDef;
 import org.activebpel.rt.bpel.def.activity.support.AeExtensibleAssignDef;
 import org.activebpel.rt.bpel.def.activity.support.AeForDef;
 import org.activebpel.rt.bpel.def.activity.support.AeForEachBranchesDef;
@@ -119,18 +118,18 @@ public class AeWSBPELReaderVisitor extends AeBpelReaderVisitor
     * Overides to use the name space to determine the abstract process.
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.AeProcessDef)
     */
-   public void visit(AeProcessDef aDef)
+   public void visit(AeProcessDef def)
    {
-      super.visit(aDef);
+      super.visit(def);
 
-      aDef.setExitOnStandardFault(new Boolean(getAttributeBoolean(TAG_EXIT_ON_STANDARD_FAULT)));
+      def.setExitOnStandardFault(new Boolean(getAttributeBoolean(TAG_EXIT_ON_STANDARD_FAULT)));
       if (AeUtil.notNullOrEmpty(getAttributeNS(IAeBPELConstants.WSBPEL_2_0_ABSTRACT_NAMESPACE_URI, TAG_ABSTRACT_PROCESS_PROFILE)))
       {
-         aDef.setAbstractProcessProfile(getAttributeNS(IAeBPELConstants.WSBPEL_2_0_ABSTRACT_NAMESPACE_URI, TAG_ABSTRACT_PROCESS_PROFILE));
+         def.setAbstractProcessProfile(getAttributeNS(IAeBPELConstants.WSBPEL_2_0_ABSTRACT_NAMESPACE_URI, TAG_ABSTRACT_PROCESS_PROFILE));
       }
-      aDef.setCreateTargetXPath(getAttributeBooleanNS(
+      def.setCreateTargetXPath(getAttributeBooleanNS(
             IAeBPELConstants.AE_EXTENSION_NAMESPACE_URI_QUERY_HANDLING, TAG_CREATE_TARGET_XPATH));
-      aDef.setDisableSelectionFailure(getAttributeBooleanNS(
+      def.setDisableSelectionFailure(getAttributeBooleanNS(
             IAeBPELConstants.AE_EXTENSION_NAMESPACE_URI_QUERY_HANDLING, TAG_DISABLE_SELECTION_FAILURE));
    }
 
@@ -187,11 +186,11 @@ public class AeWSBPELReaderVisitor extends AeBpelReaderVisitor
    /**
     * @see org.activebpel.rt.bpel.def.io.readers.def.AeBpelReaderVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityAssignDef)
     */
-   public void visit(AeActivityAssignDef aDef)
+   public void visit(AeActivityAssignDef def)
    {
-      super.visit(aDef);
+      super.visit(def);
 
-      aDef.setValidate(getAttributeBoolean(TAG_VALIDATE));
+      def.setValidate(getAttributeBoolean(TAG_VALIDATE));
    }
 
    /**
@@ -288,11 +287,11 @@ public class AeWSBPELReaderVisitor extends AeBpelReaderVisitor
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeSourceDef)
     */
-   public void visit(AeSourceDef aDef)
+   public void visit(AeSourceDef def)
    {
-      super.visit(aDef);
+      super.visit(def);
 
-      ((AeSourcesDef) getParentDef()).addSourceDef(aDef);
+      ((AeSourcesDef) getParentDef()).addSourceDef(def);
    }
 
    /**
@@ -412,14 +411,14 @@ public class AeWSBPELReaderVisitor extends AeBpelReaderVisitor
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityScopeDef)
     */
-   public void visit(AeActivityScopeDef aDef)
+   public void visit(AeActivityScopeDef def)
    {
-      super.visit(aDef);
+      super.visit(def);
 
-      aDef.setIsolated(getAttributeBoolean(TAG_ISOLATED));
+      def.setIsolated(getAttributeBoolean(TAG_ISOLATED));
       if (AeUtil.notNullOrEmpty (getAttribute(TAG_EXIT_ON_STANDARD_FAULT)) )
       {
-         aDef.setExitOnStandardFault(new Boolean(getAttributeBoolean(TAG_EXIT_ON_STANDARD_FAULT)));
+         def.setExitOnStandardFault(new Boolean(getAttributeBoolean(TAG_EXIT_ON_STANDARD_FAULT)));
       }
    }
 
@@ -529,11 +528,11 @@ public class AeWSBPELReaderVisitor extends AeBpelReaderVisitor
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityCompensateScopeDef)
     */
-   public void visit(AeActivityCompensateScopeDef aDef)
+   public void visit(AeActivityCompensateScopeDef def)
    {
-      readAttributes(aDef);
-      aDef.setTarget(getAttribute(TAG_TARGET));
-      addActivityToParent(aDef);
+      readAttributes(def);
+      def.setTarget(getAttribute(TAG_TARGET));
+      addActivityToParent(def);
    }
 
    /**

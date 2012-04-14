@@ -101,37 +101,37 @@ public class AeBPWSProcessValidator extends AeProcessValidator
       /**
        * @see org.activebpel.rt.bpel.def.visitors.AeAbstractDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityReceiveDef)
        */
-      public void visit(AeActivityReceiveDef aDef)
+      public void visit(AeActivityReceiveDef def)
       {
-         if (AeUtil.notNullOrEmpty(aDef.getMessageExchange()))
+         if (AeUtil.notNullOrEmpty(def.getMessageExchange()))
          {
             setExtensionActivitiesUsed(true);
          }
-         super.visit(aDef);
+         super.visit(def);
       }
       
       /**
        * @see org.activebpel.rt.bpel.def.visitors.AeAbstractDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityReplyDef)
        */
-      public void visit(AeActivityReplyDef aDef)
+      public void visit(AeActivityReplyDef def)
       {
-         if (AeUtil.notNullOrEmpty(aDef.getMessageExchange()))
+         if (AeUtil.notNullOrEmpty(def.getMessageExchange()))
          {
             setExtensionActivitiesUsed(true);
          }
-         super.visit(aDef);
+         super.visit(def);
       }
       
       /**
        * @see org.activebpel.rt.bpel.def.visitors.AeAbstractDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityScopeDef)
        */
-      public void visit(AeActivityScopeDef aDef)
+      public void visit(AeActivityScopeDef def)
       {
-         if (aDef.getMessageExchangesDef() != null && aDef.getMessageExchangesDef().getMessageExchangeValues().size() > 0)
+         if (def.getMessageExchangesDef() != null && def.getMessageExchangesDef().getMessageExchangeValues().size() > 0)
          {
             setExtensionActivitiesUsed(true);
          }
-         super.visit(aDef);
+         super.visit(def);
       }
       
       /**
@@ -146,28 +146,28 @@ public class AeBPWSProcessValidator extends AeProcessValidator
       /**
        * @see org.activebpel.rt.bpel.def.visitors.AeAbstractDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityBreakDef)
        */
-      public void visit(AeActivityBreakDef aDef)
+      public void visit(AeActivityBreakDef def)
       {
          setExtensionActivitiesUsed(true);
-         super.visit(aDef);
+         super.visit(def);
       }
       
       /**
        * @see org.activebpel.rt.bpel.def.visitors.AeAbstractDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityContinueDef)
        */
-      public void visit(AeActivityContinueDef aDef)
+      public void visit(AeActivityContinueDef def)
       {
          setExtensionActivitiesUsed(true);
-         super.visit(aDef);
+         super.visit(def);
       }
       
       /**
        * @see org.activebpel.rt.bpel.def.visitors.AeAbstractDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivitySuspendDef)
        */
-      public void visit(AeActivitySuspendDef aDef)
+      public void visit(AeActivitySuspendDef def)
       {
          setExtensionActivitiesUsed(true);
-         super.visit(aDef);
+         super.visit(def);
       }
 
       /**

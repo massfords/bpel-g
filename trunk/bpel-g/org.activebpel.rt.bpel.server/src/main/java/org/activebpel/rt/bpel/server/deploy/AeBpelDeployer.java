@@ -74,10 +74,7 @@ public class AeBpelDeployer implements IAeDeploymentHandler {
             } finally {
                 aLogger.processDeploymentFinished(success);
             }
-
-            aLogger.resetWarningAndErrorFlags();
         }
-        aLogger.setPddName(null);
     }
 
     @Override

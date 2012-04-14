@@ -39,10 +39,10 @@ public class AeCreateInstanceMessageExchangeVisitor extends AeAbstractEntryPoint
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityScopeDef)
     */
-   public void visit(AeActivityScopeDef aDef)
+   public void visit(AeActivityScopeDef def)
    {
-      mEnclosedScopes.push(aDef);
-      super.visit(aDef);
+      mEnclosedScopes.push(def);
+      super.visit(def);
       mEnclosedScopes.pop();
    }   
 

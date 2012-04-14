@@ -32,36 +32,36 @@ public class AeDefCreateInvokeScopeVisitor extends AeAbstractDefVisitor
    /**
     * @see org.activebpel.rt.bpel.def.visitors.AeAbstractDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityInvokeDef)
     */
-   public void visit(AeActivityInvokeDef aDef)
+   public void visit(AeActivityInvokeDef def)
    {
-      AeBaseDef parentDef = aDef.getParent();
+      AeBaseDef parentDef = def.getParent();
 
-      if (aDef.hasImplicitScopeDef())
+      if (def.hasImplicitScopeDef())
       {
-         AeActivityScopeDef scopeDef = aDef.removeImplicitScopeDef();
-         scopeDef.setName(aDef.getName());
-         scopeDef.setSourcesDef(aDef.getSourcesDef());
-         scopeDef.setTargetsDef(aDef.getTargetsDef());
+         AeActivityScopeDef scopeDef = def.removeImplicitScopeDef();
+         scopeDef.setName(def.getName());
+         scopeDef.setSourcesDef(def.getSourcesDef());
+         scopeDef.setTargetsDef(def.getTargetsDef());
          scopeDef.getScopeDef().setParentXmlDef(scopeDef);
 
          // ************************************************************************************
          // Note here that the name of the invoke activity does not need to be voided - but we 
          // used to do that, so we continue to do it for location-path legacy reasons.
          // ************************************************************************************
-         aDef.setName(""); //$NON-NLS-1$
-         aDef.setSourcesDef(null);
-         aDef.setTargetsDef(null);
+         def.setName(""); //$NON-NLS-1$
+         def.setSourcesDef(null);
+         def.setTargetsDef(null);
          
          // Now do the following:
          // 1) make the invoke a child of the scope
          // 2) tell the invoke's old parent to replace the invoke with the scope
          // 3) make the scope the parent of the invoke
          // 4) make the invoke's old 'parent' the parent of the scope.
-         scopeDef.setActivityDef(aDef);
-         ((IAeActivityContainerDef) parentDef).replaceActivityDef(aDef, scopeDef);
-         aDef.setParentXmlDef(scopeDef);
+         scopeDef.setActivityDef(def);
+         ((IAeActivityContainerDef) parentDef).replaceActivityDef(def, scopeDef);
+         def.setParentXmlDef(scopeDef);
          scopeDef.setParentXmlDef(parentDef);
       }
-      super.visit(aDef);
+      super.visit(def);
    }
 }

@@ -45,13 +45,13 @@ public class AeInlinePropertyAliasVisitor extends AeAbstractDefVisitor
 
    /**
     * Constructor for the visitor
-    * @param aProvider
-    * @param aExpressionLanguageFactory
+    * @param provider
+    * @param expressionLanguageFactory
     */
-   protected AeInlinePropertyAliasVisitor(IAeContextWSDLProvider aProvider, IAeExpressionLanguageFactory aExpressionLanguageFactory)
+   protected AeInlinePropertyAliasVisitor(IAeContextWSDLProvider provider, IAeExpressionLanguageFactory expressionLanguageFactory)
    {
-      mWSDLProvider = aProvider;
-      setExpressionLanguageFactory(aExpressionLanguageFactory);
+      mWSDLProvider = provider;
+      setExpressionLanguageFactory(expressionLanguageFactory);
       setTraversalVisitor(new AeTraversalVisitor(new AeDefTraverser(), this));
    }
 
@@ -60,120 +60,120 @@ public class AeInlinePropertyAliasVisitor extends AeAbstractDefVisitor
     * the input and output variables of an invoke.
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityInvokeDef)
     */
-   public void visit(AeActivityInvokeDef aDef)
+   public void visit(AeActivityInvokeDef def)
    {
-      for ( Iterator iter = aDef.getCorrelationList() ; iter.hasNext() ; )
+      for ( Iterator iter = def.getCorrelationList() ; iter.hasNext() ; )
       {
          AeCorrelationDef corrDef = (AeCorrelationDef)iter.next();
-         AeCorrelationSetDef corrSetDef = AeDefUtil.findCorrSetByName( corrDef.getCorrelationSetName(), aDef );
+         AeCorrelationSetDef corrSetDef = AeDefUtil.findCorrSetByName( corrDef.getCorrelationSetName(), def);
          if ( corrDef.isRequestDataUsedForCorrelation())
-            walkCorrelationSet( corrSetDef, aDef.getProducerMessagePartsMap());
+            walkCorrelationSet( corrSetDef, def.getProducerMessagePartsMap());
          if ( corrDef.isResponseDataUsedForCorrelation())
-            walkCorrelationSet( corrSetDef, aDef.getConsumerMessagePartsMap());
+            walkCorrelationSet( corrSetDef, def.getConsumerMessagePartsMap());
       }
 
-      super.visit(aDef);
+      super.visit(def);
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityReceiveDef)
     */
-   public void visit(AeActivityReceiveDef aDef)
+   public void visit(AeActivityReceiveDef def)
    {
-      walkCorrelationIterator(aDef, aDef.getConsumerMessagePartsMap(), aDef.getCorrelationList());
-      super.visit(aDef);
+      walkCorrelationIterator(def, def.getConsumerMessagePartsMap(), def.getCorrelationList());
+      super.visit(def);
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityReplyDef)
     */
-   public void visit(AeActivityReplyDef aDef)
+   public void visit(AeActivityReplyDef def)
    {
-      walkCorrelationIterator(aDef, aDef.getProducerMessagePartsMap(), aDef.getCorrelationList());
-      super.visit(aDef);
+      walkCorrelationIterator(def, def.getProducerMessagePartsMap(), def.getCorrelationList());
+      super.visit(def);
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeOnMessageDef)
     */
-   public void visit(AeOnMessageDef aDef)
+   public void visit(AeOnMessageDef def)
    {
-      walkCorrelationIterator(aDef, aDef.getConsumerMessagePartsMap(), aDef.getCorrelationDefs());
-      super.visit(aDef);
+      walkCorrelationIterator(def, def.getConsumerMessagePartsMap(), def.getCorrelationDefs());
+      super.visit(def);
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.visitors.AeAbstractDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeOnEventDef)
     */
-   public void visit(AeOnEventDef aDef)
+   public void visit(AeOnEventDef def)
    {
-      walkCorrelationIterator(aDef.getContext(), aDef.getConsumerMessagePartsMap(), aDef.getCorrelationDefs());
-      super.visit(aDef);
+      walkCorrelationIterator(def.getContext(), def.getConsumerMessagePartsMap(), def.getCorrelationDefs());
+      super.visit(def);
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.AeProcessDef)
     */
-   public void visit(AeProcessDef aDef)
+   public void visit(AeProcessDef def)
    {
-      mProcessDef = aDef;
-      super.visit(aDef);
+      mProcessDef = def;
+      super.visit(def);
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeFromDef)
     */
-   public void visit(AeFromDef aDef)
+   public void visit(AeFromDef def)
    {
-      visitFromDef(aDef);
-      super.visit(aDef);
+      visitFromDef(def);
+      super.visit(def);
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeToDef)
     */
-   public void visit(AeToDef aDef)
+   public void visit(AeToDef def)
    {
-      visitToDef(aDef);
-      super.visit(aDef);
+      visitToDef(def);
+      super.visit(def);
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityWaitDef)
     */
-   public void visit(AeActivityWaitDef aDef)
+   public void visit(AeActivityWaitDef def)
    {
-      extractPropAliasFromExpression(aDef.getForDef(), aDef);
-      extractPropAliasFromExpression(aDef.getUntilDef(), aDef);
-      super.visit(aDef);
+      extractPropAliasFromExpression(def.getForDef(), def);
+      extractPropAliasFromExpression(def.getUntilDef(), def);
+      super.visit(def);
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityWhileDef)
     */
-   public void visit(AeActivityWhileDef aDef)
+   public void visit(AeActivityWhileDef def)
    {
-      extractPropAliasFromExpression(aDef.getConditionDef(), aDef);
-      super.visit(aDef);
+      extractPropAliasFromExpression(def.getConditionDef(), def);
+      super.visit(def);
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeOnAlarmDef)
     */
-   public void visit(AeOnAlarmDef aDef)
+   public void visit(AeOnAlarmDef def)
    {
-      extractPropAliasFromExpression(aDef.getForDef(), aDef);
-      extractPropAliasFromExpression(aDef.getUntilDef(), aDef);
-      super.visit(aDef);
+      extractPropAliasFromExpression(def.getForDef(), def);
+      extractPropAliasFromExpression(def.getUntilDef(), def);
+      super.visit(def);
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeSourceDef)
     */
-   public void visit(AeSourceDef aDef)
+   public void visit(AeSourceDef def)
    {
-      extractPropAliasFromExpression(aDef.getTransitionConditionDef(), aDef);
-      super.visit(aDef);
+      extractPropAliasFromExpression(def.getTransitionConditionDef(), def);
+      super.visit(def);
    }
 
    /**
@@ -257,13 +257,13 @@ public class AeInlinePropertyAliasVisitor extends AeAbstractDefVisitor
    
    /**
     * Looks up a property alias for the message and caches it.
-    * @param aMessagePartsMap
-    * @param aPropName
+    * @param messagePartsMap
+    * @param propName
     * @return true if cached.
     */
-   protected boolean cacheCorrelationPropertyAlias(AeMessagePartsMap aMessagePartsMap, QName aPropName)
-   {
-      return cachePropertyAlias(IAePropertyAlias.MESSAGE_TYPE, aMessagePartsMap.getMessageType(), aPropName);
+   protected boolean cacheCorrelationPropertyAlias(AeMessagePartsMap messagePartsMap, QName propName) {
+       if (messagePartsMap == null) return false;
+       return cachePropertyAlias(IAePropertyAlias.MESSAGE_TYPE, messagePartsMap.getMessageType(), propName);
    }
 
    /**
@@ -322,7 +322,7 @@ public class AeInlinePropertyAliasVisitor extends AeAbstractDefVisitor
       visitVarDef(aDef);
 
       // TODO (MF) Update AeToDef to be similar to AeFromDef
-      // extractPropAliasFromExpression(aDef, aDef);
+      // extractPropAliasFromExpression(def, def);
    }
 
    /**

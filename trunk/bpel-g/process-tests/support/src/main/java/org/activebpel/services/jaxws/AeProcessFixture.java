@@ -32,6 +32,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.List;
 
 public class AeProcessFixture extends Assert {
     private AeXMLParserBase parser = new AeXMLParserBase();
@@ -112,9 +113,18 @@ public class AeProcessFixture extends Assert {
 	}
 	
 
-	public void deploySingle(File file) throws Exception {
+	public DeploymentResponse deploySingle(File file) throws Exception {
 		DeploymentResponse resp = deployAll(file);
-		assertEquals(1, resp.getDeploymentInfo().size());
+        List<DeploymentInfo> infos = resp.getDeploymentInfo();
+        try {
+            assertEquals(1, infos.size());
+        } finally {
+            List<DeploymentInfo> deploymentInfo = resp.getDeploymentInfo();
+            if (!deploymentInfo.isEmpty() && deploymentInfo.get(0).getNumberOfErrors() != 0) {
+                System.out.println(resp.getDeploymentInfo().get(0).getLog());
+            }
+        }
+        return resp;
 	}
 
 	public DeploymentResponse deployAll(File file) throws Exception {

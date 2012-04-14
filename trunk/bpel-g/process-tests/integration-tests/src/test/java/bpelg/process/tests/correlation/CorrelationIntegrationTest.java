@@ -1,5 +1,6 @@
 package bpelg.process.tests.correlation;
 
+import bpelg.services.deploy.types.DeploymentResponse;
 import bpelg.services.deploy.types.UndeploymentRequest;
 import bpelg.services.preferences.types.GetPreferencesRequest;
 import bpelg.services.preferences.types.PreferencesType;
@@ -33,7 +34,10 @@ public class CorrelationIntegrationTest extends Assert {
     @BeforeClass
     public static void deployProcess() throws Exception {
         // deploy
-        pfix.deploySingle(new File("target/dependency/correlation-test.jar"));
+        DeploymentResponse response = pfix.deploySingle(new File("target/dependency/correlation-test.jar"));
+        DeploymentResponse.DeploymentInfo info = response.getDeploymentInfo().get(0);
+        assertNotNull(info.getLog());
+        System.out.println(info.getLog());
     }
 
     @AfterClass

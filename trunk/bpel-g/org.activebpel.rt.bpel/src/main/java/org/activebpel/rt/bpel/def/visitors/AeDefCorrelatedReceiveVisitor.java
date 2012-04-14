@@ -57,11 +57,11 @@ public class AeDefCorrelatedReceiveVisitor extends AeAbstractDefVisitor
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.AeProcessDef)
     */
-   public void visit(AeProcessDef aDef)
+   public void visit(AeProcessDef def)
    {
-      mProcessDef = aDef;
-      aDef.accept(new AeJoinVisitor());
-      super.visit(aDef);
+      mProcessDef = def;
+      def.accept(new AeJoinVisitor());
+      super.visit(def);
 
       // walk the map and set all of the plink/operation sets on the def
        for (Entry<AePartnerLinkOpKey, AeCorrelationCombinations> entry : mPartnerLinkOperationToCorrSets.entrySet()) {
@@ -72,10 +72,10 @@ public class AeDefCorrelatedReceiveVisitor extends AeAbstractDefVisitor
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityReceiveDef)
     */
-   public void visit(AeActivityReceiveDef aDef)
+   public void visit(AeActivityReceiveDef def)
    {
-      addCorrProps(aDef, aDef.getCorrelationList());
-      super.visit(aDef);
+      addCorrProps(def, def.getCorrelationList());
+      super.visit(def);
    }
 
    /**

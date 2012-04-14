@@ -147,24 +147,24 @@ public class AeWSBPELWriterVisitor extends AeWriterVisitor
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.AeProcessDef)
     */
-   public void visit(AeProcessDef aDef)
+   public void visit(AeProcessDef def)
    {
-      super.visit(aDef);
+      super.visit(def);
 
-      if(aDef.getExitOnStandardFault() != null)
+      if(def.getExitOnStandardFault() != null)
       {
-         setAttribute(TAG_EXIT_ON_STANDARD_FAULT, aDef.getExitOnStandardFault().booleanValue(), false);
+         setAttribute(TAG_EXIT_ON_STANDARD_FAULT, def.getExitOnStandardFault().booleanValue(), false);
       }
       
       IAeMutableNamespaceContext nsContext = new AeElementBasedNamespaceContext( getElement() );
       setAttributeNS(nsContext, IAeBPELConstants.AE_EXTENSION_NAMESPACE_URI_QUERY_HANDLING,
-            IAeBPELConstants.AE_EXTENSION_PREFIX, TAG_CREATE_TARGET_XPATH, aDef.isCreateTargetXPath(), false);
+            IAeBPELConstants.AE_EXTENSION_PREFIX, TAG_CREATE_TARGET_XPATH, def.isCreateTargetXPath(), false);
       setAttributeNS(nsContext, IAeBPELConstants.AE_EXTENSION_NAMESPACE_URI_QUERY_HANDLING,
-            IAeBPELConstants.AE_EXTENSION_PREFIX, TAG_DISABLE_SELECTION_FAILURE, aDef.isDisableSelectionFailure(), false);
+            IAeBPELConstants.AE_EXTENSION_PREFIX, TAG_DISABLE_SELECTION_FAILURE, def.isDisableSelectionFailure(), false);
 
-      if (AeUtil.notNullOrEmpty(aDef.getAbstractProcessProfile()))
+      if (AeUtil.notNullOrEmpty(def.getAbstractProcessProfile()))
       {
-         writeAbstractProcessProfileAttribute(aDef, nsContext);
+         writeAbstractProcessProfileAttribute(def, nsContext);
       }
    }
    
@@ -177,7 +177,7 @@ public class AeWSBPELWriterVisitor extends AeWriterVisitor
    {
       // do not write process profile for executable ns. 
       //setAttributeNS(aNsContext, IAeBPELConstants.WSBPEL_2_0_ABSTRACT_NAMESPACE_URI, 
-      //      IAeBPELConstants.ABSTRACT_PROC_PREFIX, IAeBPELConstants.TAG_ABSTRACT_PROCESS_PROFILE, aDef.getAbstractProcessProfile());
+      //      IAeBPELConstants.ABSTRACT_PROC_PREFIX, IAeBPELConstants.TAG_ABSTRACT_PROCESS_PROFILE, def.getAbstractProcessProfile());
       
    }
    
@@ -234,11 +234,11 @@ public class AeWSBPELWriterVisitor extends AeWriterVisitor
    /**
     * @see org.activebpel.rt.bpel.def.io.writers.def.AeWriterVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityAssignDef)
     */
-   public void visit(AeActivityAssignDef aDef)
+   public void visit(AeActivityAssignDef def)
    {
-      super.visit(aDef);
+      super.visit(def);
       
-      setAttribute(TAG_VALIDATE, aDef.isValidate(), false);
+      setAttribute(TAG_VALIDATE, def.isValidate(), false);
    }
    
    /**
@@ -387,15 +387,15 @@ public class AeWSBPELWriterVisitor extends AeWriterVisitor
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityScopeDef)
     */
-   public void visit(AeActivityScopeDef aDef)
+   public void visit(AeActivityScopeDef def)
    {
-      super.visit(aDef);
+      super.visit(def);
 
-      setAttribute(TAG_ISOLATED, aDef.isIsolated(), false);
+      setAttribute(TAG_ISOLATED, def.isIsolated(), false);
 
-      if (aDef.getExitOnStandardFault() != null)
+      if (def.getExitOnStandardFault() != null)
       {
-         setAttribute(TAG_EXIT_ON_STANDARD_FAULT, aDef.getExitOnStandardFault().booleanValue(), true);
+         setAttribute(TAG_EXIT_ON_STANDARD_FAULT, def.getExitOnStandardFault().booleanValue(), true);
       }
    }
    
@@ -496,10 +496,10 @@ public class AeWSBPELWriterVisitor extends AeWriterVisitor
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityCompensateScopeDef)
     */
-   public void visit(AeActivityCompensateScopeDef aDef)
+   public void visit(AeActivityCompensateScopeDef def)
    {
-      writeAttributes(aDef);
-      setAttribute(TAG_TARGET, aDef.getTarget());
+      writeAttributes(def);
+      setAttribute(TAG_TARGET, def.getTarget());
    }
    
    /**

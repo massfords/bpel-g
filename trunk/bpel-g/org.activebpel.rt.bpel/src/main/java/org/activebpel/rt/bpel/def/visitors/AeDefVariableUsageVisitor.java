@@ -373,43 +373,43 @@ public class AeDefVariableUsageVisitor extends AeAbstractDefVisitor
     * 
     * @see org.activebpel.rt.bpel.def.visitors.AeAbstractDefVisitor#visit(org.activebpel.rt.bpel.def.AeProcessDef)
     */
-   public void visit(AeProcessDef aDef)
+   public void visit(AeProcessDef def)
    {
-       if (aDef.containsSerializableScopes()) {
-           super.visit(aDef);
+       if (def.containsSerializableScopes()) {
+           super.visit(def);
        }
    }
    
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityInvokeDef)
     */
-   public void visit(AeActivityInvokeDef aDef)
+   public void visit(AeActivityInvokeDef def)
    {
-      addVariableLock(aDef, aDef.getInputVariable(), AeLockType.Read);
-      addVariableLock(aDef, aDef.getOutputVariable(), AeLockType.Write);
-      traverse(aDef);
+      addVariableLock(def, def.getInputVariable(), AeLockType.Read);
+      addVariableLock(def, def.getOutputVariable(), AeLockType.Write);
+      traverse(def);
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityReceiveDef)
     */
-   public void visit(AeActivityReceiveDef aDef)
+   public void visit(AeActivityReceiveDef def)
    {
-      addVariableLock(aDef, aDef.getVariable(), AeLockType.Write);
-      traverse(aDef);
+      addVariableLock(def, def.getVariable(), AeLockType.Write);
+      traverse(def);
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityScopeDef)
     */
-   public void visit(AeActivityScopeDef aDef)
+   public void visit(AeActivityScopeDef def)
    {
-      if (aDef.isIsolated())
+      if (def.isIsolated())
       {
          setResourceLockingRequired(true);
       }
       
-      super.visit(aDef);
+      super.visit(def);
    }
 
    /**
@@ -498,10 +498,10 @@ public class AeDefVariableUsageVisitor extends AeAbstractDefVisitor
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeSourceDef)
     */
-   public void visit(AeSourceDef aDef)
+   public void visit(AeSourceDef def)
    {
-      parseForVariables(findParentActivityDef(), aDef.getTransitionConditionDef());
-      traverse(aDef);
+      parseForVariables(findParentActivityDef(), def.getTransitionConditionDef());
+      traverse(def);
    }
 
    /**
@@ -531,10 +531,10 @@ public class AeDefVariableUsageVisitor extends AeAbstractDefVisitor
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityReplyDef)
     */
-   public void visit(AeActivityReplyDef aDef)
+   public void visit(AeActivityReplyDef def)
    {
-      addVariableLock(aDef, aDef.getVariable(), AeLockType.Read);
-      traverse(aDef);
+      addVariableLock(def, def.getVariable(), AeLockType.Read);
+      traverse(def);
    }
 
    /**

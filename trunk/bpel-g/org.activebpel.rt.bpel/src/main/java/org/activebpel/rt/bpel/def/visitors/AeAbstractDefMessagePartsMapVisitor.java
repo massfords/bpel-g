@@ -216,34 +216,34 @@ public abstract class AeAbstractDefMessagePartsMapVisitor extends AeAbstractDefV
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityReceiveDef)
     */
-   public void visit(AeActivityReceiveDef aDef)
+   public void visit(AeActivityReceiveDef def)
    {
-      if (aDef.getConsumerMessagePartsMap() == null)
+      if (def.getConsumerMessagePartsMap() == null)
       {
-         QName portType = getMyRolePortType(aDef);
-         String operation = aDef.getOperation();
-         String locationPath = aDef.getLocationPath();
+         QName portType = getMyRolePortType(def);
+         String operation = def.getOperation();
+         String locationPath = def.getLocationPath();
          // msgType is only used for BPWS processes, left the call in the base class to leverage the visit() methods
-         QName msgType = getMessageType(aDef, aDef.getVariable());
+         QName msgType = getMessageType(def, def.getVariable());
          
          AeMessagePartsMap map = createInputMessagePartsMap(portType, operation, msgType, null, locationPath);
-         aDef.setConsumerMessagePartsMap(map);
+         def.setConsumerMessagePartsMap(map);
       }
    
-      super.visit(aDef);
+      super.visit(def);
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityReplyDef)
     */
-   public void visit(AeActivityReplyDef aDef)
+   public void visit(AeActivityReplyDef def)
    {
-      if (aDef.getProducerMessagePartsMap() == null)
+      if (def.getProducerMessagePartsMap() == null)
       {
-         QName portType = getMyRolePortType(aDef);
-         String operation = aDef.getOperation();
-         QName faultName = aDef.getFaultName();
-         String locationPath = aDef.getLocationPath();
+         QName portType = getMyRolePortType(def);
+         String operation = def.getOperation();
+         QName faultName = def.getFaultName();
+         String locationPath = def.getLocationPath();
    
          AeMessagePartsMap outputMap;
          
@@ -254,14 +254,14 @@ public abstract class AeAbstractDefMessagePartsMapVisitor extends AeAbstractDefV
          else
          {
             // msgType is only used for BPWS processes, left the call in the base class to leverage the visit() methods
-            QName msgType = getMessageType(aDef, aDef.getVariable());
+            QName msgType = getMessageType(def, def.getVariable());
             outputMap = createOutputMessagePartsMap(portType, operation, null, msgType, locationPath);
          }
    
-         aDef.setProducerMessagePartsMap(outputMap);
+         def.setProducerMessagePartsMap(outputMap);
       }
    
-      super.visit(aDef);
+      super.visit(def);
    }
 
    /**

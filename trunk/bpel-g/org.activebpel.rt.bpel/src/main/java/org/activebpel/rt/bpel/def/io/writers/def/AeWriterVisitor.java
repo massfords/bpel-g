@@ -62,23 +62,23 @@ public abstract class AeWriterVisitor extends AeAbstractDefWriter implements IAe
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityAssignDef)
     */
-   public void visit(AeActivityAssignDef aDef)
+   public void visit(AeActivityAssignDef def)
    {
-      writeAttributes(aDef);
+      writeAttributes(def);
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityCompensateDef)
     */
-   public void visit(AeActivityCompensateDef aDef)
+   public void visit(AeActivityCompensateDef def)
    {
-      writeAttributes(aDef);
+      writeAttributes(def);
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityCompensateScopeDef)
     */
-   public void visit(AeActivityCompensateScopeDef aDef)
+   public void visit(AeActivityCompensateScopeDef def)
    {
       throw new UnsupportedOperationException();
    }
@@ -86,63 +86,63 @@ public abstract class AeWriterVisitor extends AeAbstractDefWriter implements IAe
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityEmptyDef)
     */
-   public void visit(AeActivityEmptyDef aDef)
+   public void visit(AeActivityEmptyDef def)
    {
-      writeAttributes(aDef);
+      writeAttributes(def);
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityContinueDef)
     */
-   public void visit(AeActivityContinueDef aDef)
+   public void visit(AeActivityContinueDef def)
    {
-      writeAttributes(aDef);
+      writeAttributes(def);
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityBreakDef)
     */
-   public void visit(AeActivityBreakDef aDef)
+   public void visit(AeActivityBreakDef def)
    {
-      writeAttributes(aDef);
+      writeAttributes(def);
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityFlowDef)
     */
-   public void visit(AeActivityFlowDef aDef)
+   public void visit(AeActivityFlowDef def)
    {
-      writeAttributes(aDef);
+      writeAttributes(def);
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityInvokeDef)
     */
-   public void visit(AeActivityInvokeDef aDef)
+   public void visit(AeActivityInvokeDef def)
    {
-      writeAttributes(aDef);
-      setAttribute(TAG_INPUT_VARIABLE, aDef.getInputVariable());
-      setAttribute(TAG_OUTPUT_VARIABLE, aDef.getOutputVariable());
+      writeAttributes(def);
+      setAttribute(TAG_INPUT_VARIABLE, def.getInputVariable());
+      setAttribute(TAG_OUTPUT_VARIABLE, def.getOutputVariable());
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityPickDef)
     */
-   public void visit(AeActivityPickDef aDef)
+   public void visit(AeActivityPickDef def)
    {
-      writeAttributes(aDef);
-      setAttribute(TAG_CREATE_INSTANCE,aDef.isCreateInstance(), false);
+      writeAttributes(def);
+      setAttribute(TAG_CREATE_INSTANCE, def.isCreateInstance(), false);
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityReceiveDef)
     */
-   public void visit(AeActivityReceiveDef aDef)
+   public void visit(AeActivityReceiveDef def)
    {
-      writeAttributes(aDef);
-      setAttribute(TAG_VARIABLE, aDef.getVariable());
-      setAttribute(TAG_CREATE_INSTANCE, aDef.isCreateInstance(), false);
-      writeMessageExchange(aDef.getMessageExchange());
+      writeAttributes(def);
+      setAttribute(TAG_VARIABLE, def.getVariable());
+      setAttribute(TAG_CREATE_INSTANCE, def.isCreateInstance(), false);
+      writeMessageExchange(def.getMessageExchange());
    }
 
    /**
@@ -154,29 +154,29 @@ public abstract class AeWriterVisitor extends AeAbstractDefWriter implements IAe
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityReplyDef)
     */
-   public void visit(AeActivityReplyDef aDef)
+   public void visit(AeActivityReplyDef def)
    {
-      writeAttributes(aDef);
-      setAttribute(TAG_VARIABLE, aDef.getVariable());
-      setAttribute(TAG_FAULT_NAME, aDef.getFaultName());
-      writeMessageExchange(aDef.getMessageExchange());
+      writeAttributes(def);
+      setAttribute(TAG_VARIABLE, def.getVariable());
+      setAttribute(TAG_FAULT_NAME, def.getFaultName());
+      writeMessageExchange(def.getMessageExchange());
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivitySuspendDef)
     */
-   public void visit(AeActivitySuspendDef aDef)
+   public void visit(AeActivitySuspendDef def)
    {
-      writeAttributes(aDef);
-      setAttribute(TAG_VARIABLE, aDef.getVariable());
+      writeAttributes(def);
+      setAttribute(TAG_VARIABLE, def.getVariable());
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityScopeDef)
     */
-   public void visit(AeActivityScopeDef aDef)
+   public void visit(AeActivityScopeDef def)
    {
-      writeAttributes(aDef);
+      writeAttributes(def);
    }
 
    /**
@@ -493,30 +493,30 @@ public abstract class AeWriterVisitor extends AeAbstractDefWriter implements IAe
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.AeProcessDef)
     */
-   public void visit(AeProcessDef aDef)
+   public void visit(AeProcessDef def)
    {
       // Add preamble comment if available (user comments written with attributes method)
-      if(! AeUtil.isNullOrEmpty(aDef.getProcessPreambleComment()))
+      if(! AeUtil.isNullOrEmpty(def.getProcessPreambleComment()))
       {
          Document doc = getElement().getOwnerDocument();
-         Node commentNode = doc.createComment(aDef.getProcessPreambleComment());
+         Node commentNode = doc.createComment(def.getProcessPreambleComment());
          getElement().getParentNode().insertBefore( commentNode, getElement() );
       }
 
-      writeAttributes(aDef);
+      writeAttributes(def);
       
       // write the default namespace out if it's present.
-      if (AeUtil.notNullOrEmpty(aDef.getDefaultNamespace()))
+      if (AeUtil.notNullOrEmpty(def.getDefaultNamespace()))
       {
-         getElement().setAttributeNS(XMLConstants.XMLNS_ATTRIBUTE_NS_URI, "xmlns", aDef.getDefaultNamespace()); //$NON-NLS-1$
+         getElement().setAttributeNS(XMLConstants.XMLNS_ATTRIBUTE_NS_URI, "xmlns", def.getDefaultNamespace()); //$NON-NLS-1$
       }
 
-      setAttribute(TAG_TARGET_NAMESPACE, aDef.getTargetNamespace());
-      setAttribute(TAG_QUERY_LANGUAGE, aDef.getQueryLanguage());
-      setAttribute(TAG_EXPRESSION_LANGUAGE, aDef.getExpressionLanguage());
+      setAttribute(TAG_TARGET_NAMESPACE, def.getTargetNamespace());
+      setAttribute(TAG_QUERY_LANGUAGE, def.getQueryLanguage());
+      setAttribute(TAG_EXPRESSION_LANGUAGE, def.getExpressionLanguage());
 
-      setAttribute(TAG_SUPPRESS_JOIN_FAILURE, aDef.getSuppressJoinFailure(), false);
-      setAttribute(TAG_ENABLE_INSTANCE_COMPENSATION, aDef.getEnableInstanceCompensation(), false);
+      setAttribute(TAG_SUPPRESS_JOIN_FAILURE, def.getSuppressJoinFailure(), false);
+      setAttribute(TAG_ENABLE_INSTANCE_COMPENSATION, def.getEnableInstanceCompensation(), false);
    }
 
    /**
@@ -545,10 +545,10 @@ public abstract class AeWriterVisitor extends AeAbstractDefWriter implements IAe
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeSourceDef)
     */
-   public void visit(AeSourceDef aDef)
+   public void visit(AeSourceDef def)
    {
-      writeStandardAttributes(aDef);
-      setAttribute(TAG_LINK_NAME, aDef.getLinkName());
+      writeStandardAttributes(def);
+      setAttribute(TAG_LINK_NAME, def.getLinkName());
    }
 
    /**

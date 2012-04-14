@@ -18,40 +18,40 @@
     <import resource="classpath:META-INF/cxf/cxf-extension-soap.xml"/>
     <import resource="classpath:META-INF/cxf/cxf-servlet.xml"/>
 
-    <jaxws:endpoint implementor="#QueueManagerService" endpointName="s:QueueManagerService"
+    <jaxws:endpoint implementor="#queueManagerService" endpointName="s:QueueManagerService"
         serviceName="s:QueueManagerService" address="/QueueManagerService"
-        xmlns:s="urn:bpel-g:services:queue"></jaxws:endpoint>
+        xmlns:s="urn:bpel-g:services:queue"/>
 
-    <jaxws:endpoint implementor="#ProcessManagerService" endpointName="s:ProcessManagerService"
+    <jaxws:endpoint implementor="#processManagerService" endpointName="s:ProcessManagerService"
         serviceName="s:ProcessManagerService" address="/ProcessManagerService"
-        xmlns:s="urn:bpel-g:services:processes"></jaxws:endpoint>
+        xmlns:s="urn:bpel-g:services:processes"/>
 
-    <jaxws:endpoint implementor="#DeploymentService" endpointName="s:DeploymentService"
+    <jaxws:endpoint implementor="#deploymentService" endpointName="s:DeploymentService"
         serviceName="s:DeploymentService" address="/DeploymentService"
-        xmlns:s="urn:bpel-g:services:deploy"></jaxws:endpoint>
+        xmlns:s="urn:bpel-g:services:deploy"/>
 
-    <jaxws:endpoint implementor="#ResolverService" endpointName="s:URNResolver"
+    <jaxws:endpoint implementor="#resolverService" endpointName="s:URNResolver"
         serviceName="s:URNResolver" address="/URNResolver"
         xmlns:s="urn:bpel-g:services:urn-resolver"/>
 
-    <jaxws:endpoint implementor="#PreferencesService" endpointName="s:Preferences"
+    <jaxws:endpoint implementor="#preferencesService" endpointName="s:Preferences"
         serviceName="s:PreferencesService" address="/PreferencesService"
         xmlns:s="urn:bpel-g:services:preferences"/>
 
-    <bean id="DeploymentService" class="org.activebpel.rt.bpel.server.services.AeDeploymentService"/>
+    <bean id="deploymentService" class="org.activebpel.rt.bpel.server.services.AeDeploymentService"/>
 
-    <bean id="ProcessManagerService" class="org.activebpel.rt.bpel.server.services.AeProcessManagerService"/>
+    <bean id="processManagerService" class="org.activebpel.rt.bpel.server.services.AeProcessManagerService"/>
 
-    <bean id="QueueManagerService" class="org.activebpel.rt.bpel.server.services.AeQueueManagerService"/>
+    <bean id="queueManagerService" class="org.activebpel.rt.bpel.server.services.AeQueueManagerService"/>
 
-    <bean id="ResolverService" class="org.activebpel.rt.bpel.server.services.AeURNResolverService"/>
+    <bean id="resolverService" class="org.activebpel.rt.bpel.server.services.AeURNResolverService"/>
 
-    <bean id="PreferencesService" class="org.activebpel.rt.bpel.server.services.AePreferencesService"/>
+    <bean id="preferencesService" class="org.activebpel.rt.bpel.server.services.AePreferencesService"/>
 
-    <bean id="TransactionManager"
+    <bean id="transactionManager"
         class="org.activebpel.rt.bpel.server.engine.transaction.sql.AeSQLTransactionManager"/>
 
-    <bean id="SecurityProvider" class="org.activebpel.rt.bpel.server.security.AeSecurityProvider">
+    <bean id="securityProvider" class="org.activebpel.rt.bpel.server.security.AeSecurityProvider">
         <!-- Uncomment to use an installed JAAS provider
             <property name="loginProvider">
                 <bean class="org.activebpel.rt.bpel.server.security.AeJAASLoginProvider" init-method="init">
@@ -72,7 +72,7 @@
         </property>
     </bean>
 
-    <bean id="QueueManager"
+    <bean id="queueManager"
         class="org.activebpel.rt.bpel.server.engine.storage.AePersistentQueueManager">
         <property name="invokeHandlerFactory">
             <bean
@@ -135,9 +135,9 @@
                                 class="org.activebpel.rt.axis.bpel.receivers.AeAxisReceiveHandlerFactory">
                                 <property name="receiveHandlers">
                                     <util:map>
-                                        <entry key="RPC" value-ref="RPCReceiveHandler"/>
-                                        <entry key="RPC-LIT" value-ref="RPCReceiveHandler"/>
-                                        <entry key="MSG" value-ref="MSGReceiveHandler"/>
+                                        <entry key="RPC" value-ref="rpcReceiveHandler"/>
+                                        <entry key="RPC-LIT" value-ref="rpcReceiveHandler"/>
+                                        <entry key="MSG" value-ref="msgReceiveHandler"/>
                                     </util:map>
                                 </property>
                             </bean>
@@ -149,15 +149,15 @@
         <property name="maxUnmatchedReceivesCount" value="50"/>
     </bean>
 
-    <bean id="LockManager" class="org.activebpel.rt.bpel.impl.AeInMemoryLockManager"/>
-    <bean id="AttachmentManager"
+    <bean id="lockManager" class="org.activebpel.rt.bpel.impl.AeInMemoryLockManager"/>
+    <bean id="attachmentManager"
         class="org.activebpel.rt.bpel.server.engine.storage.AePersistentAttachmentManager"/>
-    <bean id="CoordinationManager"
+    <bean id="coordinationManager"
         class="org.activebpel.rt.bpel.server.coord.AePersistentCoordinationManager"/>
-    <bean id="EngineAdminImpl" class="org.activebpel.rt.axis.bpel.web.AeWebEngineAdministration"/>
-    <bean id="DeploymentProvider" class="org.activebpel.rt.bpel.server.deploy.AeDeploymentProvider"/>
+    <bean id="engineAdminImpl" class="org.activebpel.rt.axis.bpel.web.AeWebEngineAdministration"/>
+    <bean id="deploymentProvider" class="org.activebpel.rt.bpel.server.deploy.AeDeploymentProvider"/>
 
-    <bean id="ExpressionLanguageFactory" class="org.activebpel.rt.bpel.AeExpressionLanguageFactory">
+    <bean id="expressionLanguageFactory" class="org.activebpel.rt.bpel.AeExpressionLanguageFactory">
         <property name="factoryMap">
             <util:map>
                 <entry key="http://schemas.xmlsoap.org/ws/2003/03/business-process/">
@@ -217,7 +217,7 @@
     </bean>
 
 
-    <bean id="FunctionContextContainer"
+    <bean id="functionContextContainer"
         class="org.activebpel.rt.bpel.function.AeFunctionContextContainer">
         <property name="locator">
             <bean class="org.activebpel.rt.bpel.function.AeFunctionContextLocator"/>
@@ -312,11 +312,11 @@
                          name="ws-bpel:getLinkStatus"/>
     </bpelg:functionValidatorFactory>
 
-    <bean id="PartnerAddressing"
+    <bean id="partnerAddressing"
         class="org.activebpel.rt.bpel.server.addressing.AePartnerAddressing">
     </bean>
 
-    <bean id="StorageFactory" class="org.activebpel.rt.bpel.server.engine.storage.AeStorageFactory"
+    <bean id="storageFactory" class="org.activebpel.rt.bpel.server.engine.storage.AeStorageFactory"
         init-method="init">
         <property name="storageProviderFactory">
             <bean
@@ -397,11 +397,11 @@
             </bean>
         </property>
     </bean>
-    <bean id="SQLConfig" class="org.activebpel.rt.bpel.server.engine.storage.sql.AeSQLConfig"
+    <bean id="sqlConfig" class="org.activebpel.rt.bpel.server.engine.storage.sql.AeSQLConfig"
         init-method="loadStatements">
         <property name="databaseType" value="h2"/>
     </bean>
-    <bean id="JournalStorage"
+    <bean id="journalStorage"
         class="org.activebpel.rt.bpel.server.engine.storage.sql.AeSQLJournalStorage">
         <property name="counter">
             <bean class="org.activebpel.rt.bpel.server.engine.storage.AeCounter">
@@ -409,10 +409,10 @@
             </bean>
         </property>
     </bean>
-    <bean id="CounterStore"
+    <bean id="counterStore"
         class="org.activebpel.rt.bpel.server.engine.storage.sql.AeSQLCounterStore"/>
-    <bean id="Catalog" class="org.activebpel.rt.bpel.server.catalog.AeCatalog"/>
-    <bean id="PolicyMapper" class="org.activebpel.rt.bpel.server.deploy.AeMasterPolicyMapper">
+    <bean id="catalog" class="org.activebpel.rt.bpel.server.catalog.AeCatalog"/>
+    <bean id="policyMapper" class="org.activebpel.rt.bpel.server.deploy.AeMasterPolicyMapper">
         <property name="mappers">
             <util:list>
                 <bean class="org.activebpel.rt.axis.bpel.deploy.AeCredentialPolicyMapper"/>
@@ -421,10 +421,10 @@
             </util:list>
         </property>
     </bean>
-    <bean id="ProcessManager"
+    <bean id="processManager"
         class="org.activebpel.rt.bpel.server.engine.AePersistentProcessManager"/>
 
-    <bean id="TransmissionTracker"
+    <bean id="transmissionTracker"
         class="org.activebpel.rt.bpel.server.transreceive.AePersistentTransmissionTracker">
         <property name="DurableReplyFactory">
             <bean class="org.activebpel.rt.bpel.server.engine.reply.AeDurableReplyFactory">
@@ -446,67 +446,63 @@
         </property>
     </bean>
 
-    <bean id="URNResolver"
+    <bean id="urnResolver"
         class="org.activebpel.rt.bpel.server.addressing.AeStorageBackedURNResolver"
         init-method="init">
     </bean>
 
-    <bean id="ProcessLogger" class="org.activebpel.rt.bpel.server.logging.AePersistentLogger" init-method="init">
+    <bean id="processLogger" class="org.activebpel.rt.bpel.server.logging.AePersistentLogger" init-method="init">
         <property name="loggingFilter">
-            <bean id="ProcessLoggingFilter"
-                class="org.activebpel.rt.bpel.server.logging.AeProcessLoggingFilter"/>
+            <bean class="org.activebpel.rt.bpel.server.logging.AeProcessLoggingFilter"/>
         </property>
-        <property name="Engine" ref="Engine"/>
+        <property name="Engine" ref="engine"/>
     </bean>
 
-    <bean id="DeploymentLog"
-        class="org.activebpel.rt.bpel.server.logging.AeFileDeploymentLoggerFactory"/>
-
-    <bean id="WorkManagerFactory" class="org.activebpel.work.factory.AeDefaultWorkManagerFactory"
+    <bean id="workManagerFactory" class="org.activebpel.work.factory.AeDefaultWorkManagerFactory"
         init-method="init">
         <!-- You may specify a JNDI location to load a work manager.  -->
         <!-- If not specified, the default work manager will be used. -->
         <!-- <property name="JNDILocation" value="java:comp/env/wm/ActiveBPEL"/> -->
     </bean>
 
-    <bean id="ExceptionReportingWorkManager"
+    <bean id="exceptionReportingWorkManager"
         class="org.activebpel.work.AeExceptionReportingWorkManager">
-        <constructor-arg ref="WorkManagerFactory"/>
+        <constructor-arg ref="workManagerFactory"/>
     </bean>
 
-    <util:map id="ChildWorkManagers">
+    <util:map id="childWorkManagers">
         <entry key="Alarm">
             <bean class="org.activebpel.work.child.AeConfigAwareChildWorkManager" init-method="init">
                 <property name="name" value="Alarm"/>
-                <property name="workManagerFactory" ref="WorkManagerFactory"/>
+                <property name="workManagerFactory" ref="workManagerFactory"/>
             </bean>
         </entry>
     </util:map>
 
-    <bean id="ProcessWorkManager" class="org.activebpel.work.AeProcessWorkManager"/>
+    <bean id="processWorkManager" class="org.activebpel.work.AeProcessWorkManager"/>
 
-    <bean id="Engine" class="org.activebpel.rt.bpel.server.engine.AeBpelEngine" init-method="create">
+    <bean id="engine" class="org.activebpel.rt.bpel.server.engine.AeBpelEngine" init-method="create">
         <property name="PartnerLinkStrategy">
             <bean class="org.activebpel.rt.bpel.server.engine.AeServerPartnerLinkStrategy"/>
         </property>
         <property name="Managers">
             <util:map map-class="java.util.LinkedHashMap"
                 value-type="org.activebpel.rt.bpel.impl.IAeManager">
-                <entry key="QueueManager" value-ref="QueueManager"/>
-                <entry key="ProcessManager" value-ref="ProcessManager"/>
-                <entry key="LockManager" value-ref="LockManager"/>
-                <entry key="AttachmentManager" value-ref="AttachmentManager"/>
-                <entry key="CoordinationManager" value-ref="CoordinationManager"/>
-                <entry key="SpringManager" value-ref="SpringManager"> </entry>
+                <entry key="QueueManager" value-ref="queueManager"/>
+                <entry key="ProcessManager" value-ref="processManager"/>
+                <entry key="LockManager" value-ref="lockManager"/>
+                <entry key="AttachmentManager" value-ref="attachmentManager"/>
+                <entry key="CoordinationManager" value-ref="coordinationManager"/>
+                <entry key="SpringManager" value-ref="springManager"> </entry>
             </util:map>
         </property>
     </bean>
 
-    <bean id="SpringManager" class="org.activebpel.rt.bpel.server.spring.AeSpringManager"/>
+    <bean id="springManager" class="org.activebpel.rt.bpel.server.spring.AeSpringManager"/>
 
-    <bean id="EngineListenerFactory" class="org.activebpel.rt.bpel.server.engine.AeEngineListeners"
+    <bean id="engineListenerFactory" class="org.activebpel.rt.bpel.server.engine.AeEngineListeners"
         init-method="init">
-        <property name="Engine" ref="Engine"/>
+        <property name="Engine" ref="engine"/>
         <property name="listeners">
             <util:list>
                 <!--  <bean class="Your-Engine-Listener.class"/> -->
@@ -514,20 +510,20 @@
         </property>
     </bean>
 
-    <bean id="SOAPMessageFactory" class="javax.xml.soap.MessageFactory" factory-method="newInstance"/>
+    <bean id="soapMessageFactory" class="javax.xml.soap.MessageFactory" factory-method="newInstance"/>
 
-    <bean id="RemoteDebug"
+    <bean id="remoteDebug"
         class="org.activebpel.rt.bpel.server.admin.rdebug.server.AeRemoteDebugImpl">
         <property name="EventHandlerLocator"
             value="org.activebpel.rt.axis.bpel.rdebug.client.AeEventHandlerLocator"/>
     </bean>
 
-    <bean id="TimerManager" class="org.activebpel.timer.AeTimerManager"/>
+    <bean id="timerManager" class="org.activebpel.timer.AeTimerManager"/>
 
-    <bean id="ExtensionRegistry"
+    <bean id="extensionRegistry"
         class="org.activebpel.rt.bpel.def.io.registry.AeEngineConfigExtensionRegistry"/>
 
-    <bean id="DeploymentHandler"
+    <bean id="deploymentHandler"
         class="org.activebpel.rt.bpel.server.deploy.scanner.AeDeploymentFileHandler">
         <property name="scanInterval" value="10000"/>
         <property name="deploymentContainerFactory">
@@ -552,8 +548,8 @@
         </property>
     </bean>
 
-    <bean id="RPCReceiveHandler" class="org.activebpel.rt.axis.bpel.receivers.AeRPCReceiveHandler"/>
-    <bean id="MSGReceiveHandler" class="org.activebpel.rt.axis.bpel.receivers.AeMSGReceiveHandler"/>
+    <bean id="rpcReceiveHandler" class="org.activebpel.rt.axis.bpel.receivers.AeRPCReceiveHandler"/>
+    <bean id="msgReceiveHandler" class="org.activebpel.rt.axis.bpel.receivers.AeMSGReceiveHandler"/>
 
     <bean class="org.activebpel.rt.bpel.server.deploy.AeDelegatingDeploymentHandler">
         <property name="handlers">

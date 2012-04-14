@@ -23,7 +23,21 @@
                            <xs:element name="deployed" type="xs:boolean"/>
                            <xs:element name="numberOfErrors" type="xs:int"/>
                            <xs:element name="numberOfWarnings" type="xs:int"/>
-                           <xs:element name="log" type="xs:string"/>
+                           <xs:element name="log">
+                               <xs:complexType>
+                                   <xs:sequence>
+                                       <xs:element name="msg" maxOccurs="unbounded" minOccurs="0">
+                                           <xs:complexType>
+                                               <xs:simpleContent>
+                                                   <xs:extension base="xs:string">
+                                                       <xs:attribute name="type" type="tns:messageType"/>
+                                                   </xs:extension>
+                                               </xs:simpleContent>
+                                           </xs:complexType>
+                                       </xs:element>
+                                   </xs:sequence>
+                               </xs:complexType>
+                           </xs:element>
                            <xs:element ref="pdd:process" minOccurs="0"/>
                         </xs:sequence>
                      </xs:complexType>
@@ -40,6 +54,13 @@
             </xs:complexType>
          </xs:element>
          <xs:element name="undeploymentResponse" type="xs:boolean"/>
+          <xs:simpleType name="messageType">
+              <xs:restriction base="xs:string">
+                  <xs:enumeration value="info"/>
+                  <xs:enumeration value="warning"/>
+                  <xs:enumeration value="error"/>
+              </xs:restriction>
+          </xs:simpleType>
       </xs:schema>
    </wsdl:types>
    

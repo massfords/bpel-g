@@ -321,19 +321,19 @@ public class AeWSBPELDefVariableUsageVisitor extends AeDefVariableUsageVisitor
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityCompensateDef)
     */
-   public void visit(AeActivityCompensateDef aDef)
+   public void visit(AeActivityCompensateDef def)
    {
-      AeScopeDef rootScope = aDef.findRootScopeForCompensation();
+      AeScopeDef rootScope = def.findRootScopeForCompensation();
       traverseChildScopeCompensationHandlers(rootScope);
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityCompensateScopeDef)
     */
-   public void visit(AeActivityCompensateScopeDef aDef)
+   public void visit(AeActivityCompensateScopeDef def)
    {
-      AeScopeDef rootScope = aDef.findRootScopeForCompensation();
-      String targetName = aDef.getTarget();
+      AeScopeDef rootScope = def.findRootScopeForCompensation();
+      String targetName = def.getTarget();
       AeActivityScopeDef targetScope = AeChildScopeByNameVisitor.findChildScopeByName(rootScope, targetName);
       traverseCompensationHandler(targetScope);
    }

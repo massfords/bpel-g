@@ -64,25 +64,25 @@ public abstract class AeBpelReaderVisitor extends AeAbstractReportingDefReader i
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityAssignDef)
     */
-   public void visit(AeActivityAssignDef aDef)
+   public void visit(AeActivityAssignDef def)
    {
-      readAttributes(aDef);
-      addActivityToParent(aDef);
+      readAttributes(def);
+      addActivityToParent(def);
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityCompensateDef)
     */
-   public void visit(AeActivityCompensateDef aDef)
+   public void visit(AeActivityCompensateDef def)
    {
-      readAttributes(aDef);
-      addActivityToParent(aDef);
+      readAttributes(def);
+      addActivityToParent(def);
    }
    
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityCompensateScopeDef)
     */
-   public void visit(AeActivityCompensateScopeDef aDef)
+   public void visit(AeActivityCompensateScopeDef def)
    {
       throw new UnsupportedOperationException();
    }
@@ -90,71 +90,71 @@ public abstract class AeBpelReaderVisitor extends AeAbstractReportingDefReader i
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityEmptyDef)
     */
-   public void visit(AeActivityEmptyDef aDef)
+   public void visit(AeActivityEmptyDef def)
    {
-      readAttributes(aDef);
-      addActivityToParent(aDef);
+      readAttributes(def);
+      addActivityToParent(def);
    }
    
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityContinueDef)
     */
-   public void visit(AeActivityContinueDef aDef)
+   public void visit(AeActivityContinueDef def)
    {
-      readAttributes(aDef);
-      addActivityToParent(aDef);
+      readAttributes(def);
+      addActivityToParent(def);
    }
    
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityBreakDef)
     */
-   public void visit(AeActivityBreakDef aDef)
+   public void visit(AeActivityBreakDef def)
    {
-      readAttributes(aDef);
-      addActivityToParent(aDef);
+      readAttributes(def);
+      addActivityToParent(def);
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityFlowDef)
     */
-   public void visit(AeActivityFlowDef aDef)
+   public void visit(AeActivityFlowDef def)
    {
-      readAttributes(aDef);
-      addActivityToParent(aDef);
+      readAttributes(def);
+      addActivityToParent(def);
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityInvokeDef)
     */
-   public void visit(AeActivityInvokeDef aDef)
+   public void visit(AeActivityInvokeDef def)
    {
-      readAttributes(aDef);
-      aDef.setInputVariable(getAttribute(TAG_INPUT_VARIABLE));
-      aDef.setOutputVariable(getAttribute(TAG_OUTPUT_VARIABLE));
+      readAttributes(def);
+      def.setInputVariable(getAttribute(TAG_INPUT_VARIABLE));
+      def.setOutputVariable(getAttribute(TAG_OUTPUT_VARIABLE));
 
-      addActivityToParent(aDef);
+      addActivityToParent(def);
    }
    
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityPickDef)
     */
-   public void visit(AeActivityPickDef aDef)
+   public void visit(AeActivityPickDef def)
    {
-      readAttributes(aDef);
-      aDef.setCreateInstance(getAttributeBoolean(TAG_CREATE_INSTANCE));
-      addActivityToParent(aDef);
+      readAttributes(def);
+      def.setCreateInstance(getAttributeBoolean(TAG_CREATE_INSTANCE));
+      addActivityToParent(def);
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityReceiveDef)
     */
-   public void visit(AeActivityReceiveDef aDef)
+   public void visit(AeActivityReceiveDef def)
    {
-      readAttributes(aDef);
-      aDef.setVariable(getAttribute(TAG_VARIABLE));
-      aDef.setCreateInstance(getAttributeBoolean(TAG_CREATE_INSTANCE));
-      aDef.setMessageExchange(getMessageExchangeValue());
-      addActivityToParent(aDef);
+      readAttributes(def);
+      def.setVariable(getAttribute(TAG_VARIABLE));
+      def.setCreateInstance(getAttributeBoolean(TAG_CREATE_INSTANCE));
+      def.setMessageExchange(getMessageExchangeValue());
+      addActivityToParent(def);
    }
 
    /**
@@ -165,32 +165,32 @@ public abstract class AeBpelReaderVisitor extends AeAbstractReportingDefReader i
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityReplyDef)
     */
-   public void visit(AeActivityReplyDef aDef)
+   public void visit(AeActivityReplyDef def)
    {
-      readAttributes(aDef);
-      aDef.setVariable(getAttribute(TAG_VARIABLE));
-      aDef.setFaultName(getAttributeQName(TAG_FAULT_NAME));
-      aDef.setMessageExchange(getMessageExchangeValue());
-      addActivityToParent(aDef);
+      readAttributes(def);
+      def.setVariable(getAttribute(TAG_VARIABLE));
+      def.setFaultName(getAttributeQName(TAG_FAULT_NAME));
+      def.setMessageExchange(getMessageExchangeValue());
+      addActivityToParent(def);
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivitySuspendDef)
     */
-   public void visit(AeActivitySuspendDef aDef)
+   public void visit(AeActivitySuspendDef def)
    {
-      readAttributes(aDef);
-      aDef.setVariable(getAttribute(TAG_VARIABLE));
-      addActivityToParent(aDef);
+      readAttributes(def);
+      def.setVariable(getAttribute(TAG_VARIABLE));
+      addActivityToParent(def);
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityScopeDef)
     */
-   public void visit(AeActivityScopeDef aDef)
+   public void visit(AeActivityScopeDef def)
    {
-      readAttributes(aDef);
-      addActivityToParent(aDef);
+      readAttributes(def);
+      addActivityToParent(def);
    }
 
    /**
@@ -549,15 +549,15 @@ public abstract class AeBpelReaderVisitor extends AeAbstractReportingDefReader i
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.AeProcessDef)
     */
-   public void visit(AeProcessDef aDef)
+   public void visit(AeProcessDef def)
    {
-      readAttributes(aDef);
-      aDef.setNamespace(getCurrentElement().getNamespaceURI());
-      aDef.setTargetNamespace(getAttribute(TAG_TARGET_NAMESPACE));
-      aDef.setQueryLanguage(getAttribute(TAG_QUERY_LANGUAGE));
-      aDef.setExpressionLanguage(getAttribute(TAG_EXPRESSION_LANGUAGE));
-      aDef.setSuppressJoinFailure(getAttributeBoolean(TAG_SUPPRESS_JOIN_FAILURE));
-      aDef.setEnableInstanceCompensation(getAttributeBoolean(TAG_ENABLE_INSTANCE_COMPENSATION));
+      readAttributes(def);
+      def.setNamespace(getCurrentElement().getNamespaceURI());
+      def.setTargetNamespace(getAttribute(TAG_TARGET_NAMESPACE));
+      def.setQueryLanguage(getAttribute(TAG_QUERY_LANGUAGE));
+      def.setExpressionLanguage(getAttribute(TAG_EXPRESSION_LANGUAGE));
+      def.setSuppressJoinFailure(getAttributeBoolean(TAG_SUPPRESS_JOIN_FAILURE));
+      def.setEnableInstanceCompensation(getAttributeBoolean(TAG_ENABLE_INSTANCE_COMPENSATION));
       
       // process def doesn't need to be added to anyone
    }
@@ -591,10 +591,10 @@ public abstract class AeBpelReaderVisitor extends AeAbstractReportingDefReader i
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeSourceDef)
     */
-   public void visit(AeSourceDef aDef)
+   public void visit(AeSourceDef def)
    {
-      readAttributes(aDef);
-      aDef.setLinkName(getAttribute(TAG_LINK_NAME));
+      readAttributes(def);
+      def.setLinkName(getAttribute(TAG_LINK_NAME));
    }
 
    /**

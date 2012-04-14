@@ -2,7 +2,10 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:jxb="http://java.sun.com/xml/ns/jaxb"
     wsdlLocation="../../../target/dependency/deploy.wsdl"
-    xsi:schemaLocation="http://java.sun.com/xml/ns/jaxws http://java.sun.com/xml/ns/jaxws/wsdl_customizationschema_2_0.xsd">
+    xsi:schemaLocation="http://java.sun.com/xml/ns/jaxws http://java.sun.com/xml/ns/jaxws/wsdl_customizationschema_2_0.xsd"
+    xmlns:pdd="http://schemas.active-endpoints.com/pdd/2006/08/pdd.xsd"
+    xmlns:deploy="urn:bpel-g:services:deploy">
+    <jxb:globalBindings typesafeEnumBase="deploy:messageType pdd:partnerRoleEndpointReferenceType pdd:myRoleBindingType pdd:dispositionType persistenceType pdd:transactionType pdd:suspendFlag pdd:platformType"/>
     <bindings node="wsdl:definitions">
         <package name="bpelg.services.deploy"/>
     </bindings>

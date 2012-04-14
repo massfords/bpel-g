@@ -9,28 +9,15 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpel.server.admin.rdebug.server;
 
-import java.io.StringReader;
-import java.lang.reflect.Constructor;
-import java.rmi.RemoteException;
-import java.text.MessageFormat;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Hashtable;
-import java.util.Iterator;
-import java.util.Map;
-
-import javax.xml.namespace.QName;
-
+import bpelg.services.processes.types.ProcessFilterType;
+import bpelg.services.processes.types.ProcessInstanceDetail;
+import bpelg.services.processes.types.ProcessList;
+import commonj.work.Work;
+import commonj.work.WorkItem;
+import commonj.work.WorkManager;
 import org.activebpel.rt.AeException;
 import org.activebpel.rt.attachment.IAeAttachmentItem;
-import org.activebpel.rt.bpel.AeBusinessProcessException;
-import org.activebpel.rt.bpel.IAeEngineAlert;
-import org.activebpel.rt.bpel.IAeEngineEvent;
-import org.activebpel.rt.bpel.IAeEngineListener;
-import org.activebpel.rt.bpel.IAeProcessEvent;
-import org.activebpel.rt.bpel.IAeProcessInfoEvent;
-import org.activebpel.rt.bpel.IAeProcessListener;
-import org.activebpel.rt.bpel.AeProcessEventType;
+import org.activebpel.rt.bpel.*;
 import org.activebpel.rt.bpel.def.util.AeLocationPathUtils;
 import org.activebpel.rt.bpel.impl.IAeProcessManager;
 import org.activebpel.rt.bpel.impl.activity.support.AeCorrelationSet;
@@ -40,7 +27,6 @@ import org.activebpel.rt.bpel.server.IAeProcessDeployment;
 import org.activebpel.rt.bpel.server.admin.rdebug.client.IAeEventHandler;
 import org.activebpel.rt.bpel.server.admin.rdebug.client.IAeEventHandlerService;
 import org.activebpel.rt.bpel.server.engine.AeEngineFactory;
-import org.activebpel.rt.bpel.server.logging.AeStructuredDeploymentLog;
 import org.activebpel.rt.util.AeUTF8Util;
 import org.activebpel.rt.util.AeUtil;
 import org.activebpel.rt.xml.AeXMLParserBase;
@@ -50,13 +36,12 @@ import org.activebpel.wsio.AeWebServiceAttachment;
 import org.w3c.dom.Document;
 import org.xml.sax.InputSource;
 
-import bpelg.services.processes.types.ProcessFilterType;
-import bpelg.services.processes.types.ProcessInstanceDetail;
-import bpelg.services.processes.types.ProcessList;
-
-import commonj.work.Work;
-import commonj.work.WorkItem;
-import commonj.work.WorkManager;
+import javax.xml.namespace.QName;
+import java.io.StringReader;
+import java.lang.reflect.Constructor;
+import java.rmi.RemoteException;
+import java.text.MessageFormat;
+import java.util.*;
 
 /**
  * Remote implementation of the BPEL Engine used by Web Service invocation.
@@ -489,14 +474,6 @@ public class AeRemoteDebugImpl implements IAeBpelAdmin
       return AeEngineFactory.isInternalWorkManager();
    }
    
-   /**
-    * Creates the deployment logger to use.
-    */
-   protected AeStructuredDeploymentLog createDeploymentLogger()
-   {
-      return new AeStructuredDeploymentLog();
-   }
-
    // STATIC METHODS
    //
    

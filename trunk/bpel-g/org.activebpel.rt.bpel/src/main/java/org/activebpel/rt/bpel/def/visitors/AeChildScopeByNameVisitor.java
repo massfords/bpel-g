@@ -76,12 +76,12 @@ public class AeChildScopeByNameVisitor extends AeAbstractSearchVisitor
    /**
     * @see org.activebpel.rt.bpel.def.visitors.AeAbstractDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityScopeDef)
     */
-   public void visit(AeActivityScopeDef aDef)
+   public void visit(AeActivityScopeDef def)
    {
-      if (mScopeName.equals(aDef.getName()))
+      if (mScopeName.equals(def.getName()))
       {
          // found what we're looking for
-         setScopeDef(aDef);
+         setScopeDef(def);
       }
       // either way, no traversing into the def since we can only reference scopes 1 level deep.
    }
