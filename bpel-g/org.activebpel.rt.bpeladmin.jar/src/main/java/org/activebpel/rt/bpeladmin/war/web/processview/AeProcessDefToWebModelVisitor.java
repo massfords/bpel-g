@@ -567,30 +567,30 @@ public class AeProcessDefToWebModelVisitor extends AeProcessDefToWebVisitorBase
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.AeCatchDef)
     */
-   public void visit(AeCatchDef aDef)
+   public void visit(AeCatchDef def)
    {
-      AeBpelObjectContainer model = new AeBpelObjectContainer(IAeBPELConstants.TAG_CATCH, aDef);
-      traverse(aDef, model);
-      model.setName( getLocalName(aDef.getFaultName()) );
+      AeBpelObjectContainer model = new AeBpelObjectContainer(IAeBPELConstants.TAG_CATCH, def);
+      traverse(def, model);
+      model.setName( getLocalName(def.getFaultName()) );
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.AeCatchAllDef)
     */
-   public void visit(AeCatchAllDef aDef)
+   public void visit(AeCatchAllDef def)
    {
       // catchAll
-      AeBpelObjectContainer model = new AeBpelObjectContainer(IAeBPELConstants.TAG_CATCH_ALL, aDef);
-      traverse(aDef, model);
+      AeBpelObjectContainer model = new AeBpelObjectContainer(IAeBPELConstants.TAG_CATCH_ALL, def);
+      traverse(def, model);
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.AeTerminationHandlerDef)
     */
-   public void visit(AeTerminationHandlerDef aDef)
+   public void visit(AeTerminationHandlerDef def)
    {
-      AeBpelTerminationHandlerObject model = new AeBpelTerminationHandlerObject(aDef);
-      traverse(aDef, model);
+      AeBpelTerminationHandlerObject model = new AeBpelTerminationHandlerObject(def);
+      traverse(def, model);
       checkEmpty(model);
    }
 
@@ -598,254 +598,254 @@ public class AeProcessDefToWebModelVisitor extends AeProcessDefToWebVisitorBase
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.AeVariableDef)
     */
-   public void visit(AeVariableDef aDef)
+   public void visit(AeVariableDef def)
    {
-      AeBpelObjectContainer model = new AeBpelObjectContainer(IAeBPELConstants.TAG_VARIABLE, aDef);
+      AeBpelObjectContainer model = new AeBpelObjectContainer(IAeBPELConstants.TAG_VARIABLE, def);
       model.setDisplayOutlineOnly(true);
       getBpelProcessModel().addVariablePath(model.getLocationPath());
-      traverse(aDef, model);
+      traverse(def, model);
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.AeVariablesDef)
     */
-   public void visit(AeVariablesDef aDef)
+   public void visit(AeVariablesDef def)
    {
-      AeBpelObjectContainer model = new AeBpelObjectContainer(IAeBPELConstants.TAG_VARIABLES, aDef);
+      AeBpelObjectContainer model = new AeBpelObjectContainer(IAeBPELConstants.TAG_VARIABLES, def);
       model.setDisplayOutlineOnly(true);
-      traverse(aDef, model);
+      traverse(def, model);
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.AeEventHandlersDef)
     */
-   public void visit(AeEventHandlersDef aDef)
+   public void visit(AeEventHandlersDef def)
    {
-      AeBpelEventHandlersObject model = new AeBpelEventHandlersObject(aDef);
-      traverse(aDef, model);
+      AeBpelEventHandlersObject model = new AeBpelEventHandlersObject(def);
+      traverse(def, model);
       checkEmpty(model);
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.AeCompensationHandlerDef)
     */
-   public void visit(AeCompensationHandlerDef aDef)
+   public void visit(AeCompensationHandlerDef def)
    {
-      AeBpelCompensationHandlerObject model = new AeBpelCompensationHandlerObject(aDef);
-      traverse(aDef, model);
+      AeBpelCompensationHandlerObject model = new AeBpelCompensationHandlerObject(def);
+      traverse(def, model);
       checkEmpty(model);
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.AeCorrelationSetsDef)
     */
-   public void visit(AeCorrelationSetsDef aDef)
+   public void visit(AeCorrelationSetsDef def)
    {
-      AeBpelObjectContainer model = new AeBpelObjectContainer(IAeBPELConstants.TAG_CORRELATION_SETS, aDef);
+      AeBpelObjectContainer model = new AeBpelObjectContainer(IAeBPELConstants.TAG_CORRELATION_SETS, def);
       model.setDisplayOutlineOnly(true);
-      traverse(aDef, model);
+      traverse(def, model);
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeFromPartDef)
     */
-   public void visit(AeFromPartDef aDef)
+   public void visit(AeFromPartDef def)
    {
-      AeBpelObjectBase model = new AeBpelObjectBase(IAeBPELConstants.TAG_FROM_PART, aDef);
+      AeBpelObjectBase model = new AeBpelObjectBase(IAeBPELConstants.TAG_FROM_PART, def);
       model.setDisplayOutlineOnly(true);
-      traverse(aDef, model);
+      traverse(def, model);
       //override name with part
-      model.setName(aDef.getPart());
+      model.setName(def.getPart());
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeFromPartsDef)
     */
-   public void visit(AeFromPartsDef aDef)
+   public void visit(AeFromPartsDef def)
    {
-      AeBpelObjectContainer model = new AeBpelObjectContainer(IAeBPELConstants.TAG_FROM_PARTS, aDef);
+      AeBpelObjectContainer model = new AeBpelObjectContainer(IAeBPELConstants.TAG_FROM_PARTS, def);
       model.setDisplayOutlineOnly(true);
-      traverse(aDef, model);
+      traverse(def, model);
    }
 
 
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeToPartDef)
     */
-   public void visit(AeToPartDef aDef)
+   public void visit(AeToPartDef def)
    {
-      AeBpelObjectBase model = new AeBpelObjectBase(IAeBPELConstants.TAG_TO_PART, aDef);
+      AeBpelObjectBase model = new AeBpelObjectBase(IAeBPELConstants.TAG_TO_PART, def);
       model.setDisplayOutlineOnly(true);
-      traverse(aDef, model);
+      traverse(def, model);
       //override name with part
-      model.setName(aDef.getPart());
+      model.setName(def.getPart());
 
    }
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeToPartsDef)
     */
-   public void visit(AeToPartsDef aDef)
+   public void visit(AeToPartsDef def)
    {
-      AeBpelObjectContainer model = new AeBpelObjectContainer(IAeBPELConstants.TAG_TO_PARTS, aDef);
+      AeBpelObjectContainer model = new AeBpelObjectContainer(IAeBPELConstants.TAG_TO_PARTS, def);
       model.setDisplayOutlineOnly(true);
-      traverse(aDef, model);
+      traverse(def, model);
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.AeFaultHandlersDef)
     */
-   public void visit(AeFaultHandlersDef aDef)
+   public void visit(AeFaultHandlersDef def)
    {
-      AeBpelFaultHandlersObject model = new AeBpelFaultHandlersObject(aDef);
-      traverse(aDef, model);
+      AeBpelFaultHandlersObject model = new AeBpelFaultHandlersObject(def);
+      traverse(def, model);
       checkEmpty(model);
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.AeMessageExchangesDef)
     */
-   public void visit(AeMessageExchangesDef aDef)
+   public void visit(AeMessageExchangesDef def)
    {
-      if (!aDef.isImplict() && aDef.getMessageExchangeDefs().hasNext() )
+      if (!def.isImplict() && def.getMessageExchangeDefs().hasNext() )
       {
-         AeBpelObjectContainer model = new AeBpelObjectContainer(IAeBPELConstants.TAG_MESSAGE_EXCHANGES, aDef);
+         AeBpelObjectContainer model = new AeBpelObjectContainer(IAeBPELConstants.TAG_MESSAGE_EXCHANGES, def);
          model.setDisplayOutlineOnly(true);
-         traverse(aDef, model);
+         traverse(def, model);
       }
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.AeMessageExchangeDef)
     */
-   public void visit(AeMessageExchangeDef aDef)
+   public void visit(AeMessageExchangeDef def)
    {
-      AeBpelObjectBase model = new AeBpelObjectBase(IAeBPELConstants.TAG_MESSAGE_EXCHANGE, aDef);
+      AeBpelObjectBase model = new AeBpelObjectBase(IAeBPELConstants.TAG_MESSAGE_EXCHANGE, def);
       model.setDisplayOutlineOnly(true);
-      traverse(aDef, model);
-      model.setName(aDef.getName());
+      traverse(def, model);
+      model.setName(def.getName());
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeOnMessageDef)
     */
-   public void visit(AeOnMessageDef aDef)
+   public void visit(AeOnMessageDef def)
    {
-      AeBpelObjectContainer model = new AeBpelObjectContainer(IAeBPELConstants.TAG_ON_MESSAGE, aDef);
-      traverse(aDef, model);
+      AeBpelObjectContainer model = new AeBpelObjectContainer(IAeBPELConstants.TAG_ON_MESSAGE, def);
+      traverse(def, model);
    }
 
    /**
     * @see org.activebpel.rt.bpeladmin.war.web.processview.AeProcessDefToWebVisitorBase#visit(org.activebpel.rt.bpel.def.activity.support.AeOnEventDef)
     */
-   public void visit(AeOnEventDef aDef)
+   public void visit(AeOnEventDef def)
    {
       if (isBpelVersion11())
       {
-         visit( (AeOnMessageDef) aDef);
+         visit( (AeOnMessageDef) def);
       }
       else
       {
-         AeBpelObjectContainer model = new AeBpelObjectContainer(IAeBPELConstants.TAG_ON_EVENT, IAeBPELConstants.TAG_ON_MESSAGE, aDef);
-         traverse(aDef, model);
+         AeBpelObjectContainer model = new AeBpelObjectContainer(IAeBPELConstants.TAG_ON_EVENT, IAeBPELConstants.TAG_ON_MESSAGE, def);
+         traverse(def, model);
       }
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeOnAlarmDef)
     */
-   public void visit(AeOnAlarmDef aDef)
+   public void visit(AeOnAlarmDef def)
    {
-      AeBpelObjectContainer model = new AeBpelObjectContainer(IAeBPELConstants.TAG_ON_ALARM, aDef);
-      traverse(aDef, model);
+      AeBpelObjectContainer model = new AeBpelObjectContainer(IAeBPELConstants.TAG_ON_ALARM, def);
+      traverse(def, model);
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivitySequenceDef)
     */
-   public void visit(AeActivitySequenceDef aDef)
+   public void visit(AeActivitySequenceDef def)
    {
-      AeBpelActivityObject model = new AeBpelActivityObject(IAeBPELConstants.TAG_SEQUENCE, aDef);
-      traverse(aDef, model);
+      AeBpelActivityObject model = new AeBpelActivityObject(IAeBPELConstants.TAG_SEQUENCE, def);
+      traverse(def, model);
    }
 
 
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityExitDef)
     */
-   public void visit(AeActivityExitDef aDef)
+   public void visit(AeActivityExitDef def)
    {
       String tag = isBpelVersion11() ? IAeBpelLegacyConstants.TAG_TERMINATE : IAeBPELConstants.TAG_EXIT;
-      AeBpelActivityObject model = new AeBpelActivityObject(tag, IAeBpelLegacyConstants.TAG_TERMINATE, aDef);
-      traverse(aDef, model);
+      AeBpelActivityObject model = new AeBpelActivityObject(tag, IAeBpelLegacyConstants.TAG_TERMINATE, def);
+      traverse(def, model);
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityThrowDef)
     */
-   public void visit(AeActivityThrowDef aDef)
+   public void visit(AeActivityThrowDef def)
    {
-      AeBpelActivityObject model = new AeBpelActivityObject(IAeBPELConstants.TAG_THROW, aDef);
-      traverse(aDef, model);
+      AeBpelActivityObject model = new AeBpelActivityObject(IAeBPELConstants.TAG_THROW, def);
+      traverse(def, model);
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityRethrowDef)
     */
-   public void visit(AeActivityRethrowDef aDef)
+   public void visit(AeActivityRethrowDef def)
    {
-      AeBpelActivityObject model = new AeBpelActivityObject(IAeBPELConstants.TAG_RETHROW, aDef);
-      traverse(aDef, model);
+      AeBpelActivityObject model = new AeBpelActivityObject(IAeBPELConstants.TAG_RETHROW, def);
+      traverse(def, model);
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityValidateDef)
     */
-   public void visit(AeActivityValidateDef aDef)
+   public void visit(AeActivityValidateDef def)
    {
-      AeBpelActivityObject model = new AeBpelActivityObject(IAeBPELConstants.TAG_VALIDATE, aDef);
-      traverse(aDef, model);
+      AeBpelActivityObject model = new AeBpelActivityObject(IAeBPELConstants.TAG_VALIDATE, def);
+      traverse(def, model);
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityWaitDef)
     */
-   public void visit(AeActivityWaitDef aDef)
+   public void visit(AeActivityWaitDef def)
    {
-      AeBpelActivityObject model = new AeBpelActivityObject(IAeBPELConstants.TAG_WAIT, aDef);
-      traverse(aDef, model);
+      AeBpelActivityObject model = new AeBpelActivityObject(IAeBPELConstants.TAG_WAIT, def);
+      traverse(def, model);
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityWhileDef)
     */
-   public void visit(AeActivityWhileDef aDef)
+   public void visit(AeActivityWhileDef def)
    {
-      AeBpelActivityObject model = new AeBpelActivityObject(IAeBPELConstants.TAG_WHILE, aDef);
-      traverse(aDef, model);
+      AeBpelActivityObject model = new AeBpelActivityObject(IAeBPELConstants.TAG_WHILE, def);
+      traverse(def, model);
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityRepeatUntilDef)
     */
-   public void visit(AeActivityRepeatUntilDef aDef)
+   public void visit(AeActivityRepeatUntilDef def)
    {
-      AeBpelActivityObject model = new AeBpelActivityObject(IAeBPELConstants.TAG_REPEAT_UNTIL, aDef);
-      traverse(aDef, model);
+      AeBpelActivityObject model = new AeBpelActivityObject(IAeBPELConstants.TAG_REPEAT_UNTIL, def);
+      traverse(def, model);
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityForEachDef)
     */
-   public void visit(AeActivityForEachDef aDef)
+   public void visit(AeActivityForEachDef def)
    {
-      AeBpelActivityObject model = new AeBpelActivityObject(IAeBPELConstants.TAG_FOREACH, aDef);
-      traverse(aDef, model);
+      AeBpelActivityObject model = new AeBpelActivityObject(IAeBPELConstants.TAG_FOREACH, def);
+      traverse(def, model);
    }
 
    /**
     * @see org.activebpel.rt.bpeladmin.war.web.processview.AeProcessDefToWebVisitorBase#visit(org.activebpel.rt.bpel.def.activity.AeActivityIfDef)
     */
-   public void visit(AeActivityIfDef aDef)
+   public void visit(AeActivityIfDef def)
    {
       // Note: BPEL 1.1 <switch> is mapped to a BPEL 2.x <if> activity.
       // The first BPEL 1.1 <case> construct is now part of the BPEL 2.x <if>.
@@ -853,18 +853,18 @@ public class AeProcessDefToWebModelVisitor extends AeProcessDefToWebVisitorBase
       AeBpelActivityObject model = null;
       if ( isBpelVersion11() )
       {
-         model = new AeBpelActivityObject(IAeBpelLegacyConstants.TAG_SWITCH, aDef);
-         traverse(aDef, model);
+         model = new AeBpelActivityObject(IAeBpelLegacyConstants.TAG_SWITCH, def);
+         traverse(def, model);
       }
       else
       {
-         model = new AeBpelActivityObject(IAeBPELConstants.TAG_IF, IAeBpelLegacyConstants.TAG_SWITCH, aDef);
+         model = new AeBpelActivityObject(IAeBPELConstants.TAG_IF, IAeBpelLegacyConstants.TAG_SWITCH, def);
          // the controller type of <if> is not the same as the tag name 'if' since it
          // conflicts with a  <if> definition [which is  a choice part (child) of the main if-else-elsif container].
          //
          // this model is basically the container model to hold the if, elseif and else choice parts.
          model.setControllerType("ifelse"); //$NON-NLS-1$
-         traverse(aDef, model);
+         traverse(def, model);
       }
    }
 
@@ -872,94 +872,94 @@ public class AeProcessDefToWebModelVisitor extends AeProcessDefToWebVisitorBase
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeIfDef)
     */
-   public void visit(AeIfDef aDef)
+   public void visit(AeIfDef def)
    {
       String tag = isBpelVersion11() ? IAeBpelLegacyConstants.TAG_CASE : IAeBPELConstants.TAG_IF;
-      AeBpelObjectContainer model = new AeBpelObjectContainer(tag, IAeBpelLegacyConstants.TAG_CASE, aDef);
-      traverse(aDef, model);
+      AeBpelObjectContainer model = new AeBpelObjectContainer(tag, IAeBpelLegacyConstants.TAG_CASE, def);
+      traverse(def, model);
    }
 
    /**
     * @see org.activebpel.rt.bpeladmin.war.web.processview.AeProcessDefToWebVisitorBase#visit(org.activebpel.rt.bpel.def.activity.support.AeElseIfDef)
     */
-   public void visit(AeElseIfDef aDef)
+   public void visit(AeElseIfDef def)
    {
       // Note: BPEL 1.1 <case> activities are  mapped to a BPEL 2.x <elseif> activity,
       // except for the very 1st <case> construct found in the <switch> - which is mapped in the  BPEL 2.x <if>.
       String tag = isBpelVersion11() ? IAeBpelLegacyConstants.TAG_CASE : IAeBPELConstants.TAG_ELSEIF;
-      AeBpelObjectContainer model = new AeBpelObjectContainer(tag, IAeBpelLegacyConstants.TAG_CASE, aDef);
-      traverse(aDef, model);
+      AeBpelObjectContainer model = new AeBpelObjectContainer(tag, IAeBpelLegacyConstants.TAG_CASE, def);
+      traverse(def, model);
    }
 
    /**
     * @see org.activebpel.rt.bpeladmin.war.web.processview.AeProcessDefToWebVisitorBase#visit(org.activebpel.rt.bpel.def.activity.support.AeElseDef)
     */
-   public void visit(AeElseDef aDef)
+   public void visit(AeElseDef def)
    {
       // Note: BPEL 1.1 <otherwise> activities are  mapped to a BPEL 2.x <else> activity,
       String tag = isBpelVersion11() ? IAeBpelLegacyConstants.TAG_OTHERWISE : IAeBPELConstants.TAG_ELSE;
-      AeBpelObjectContainer model = new AeBpelObjectContainer(tag, IAeBpelLegacyConstants.TAG_OTHERWISE, aDef);
-      traverse(aDef, model);
+      AeBpelObjectContainer model = new AeBpelObjectContainer(tag, IAeBpelLegacyConstants.TAG_OTHERWISE, def);
+      traverse(def, model);
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.AePartnerDef)
     */
-   public void visit(AePartnerDef aDef)
+   public void visit(AePartnerDef def)
    {
-      AeBpelObjectBase model = new AeBpelObjectBase(IAeBpelLegacyConstants.TAG_PARTNER, aDef);
-      traverse(aDef, model);
+      AeBpelObjectBase model = new AeBpelObjectBase(IAeBpelLegacyConstants.TAG_PARTNER, def);
+      traverse(def, model);
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.AePartnerLinkDef)
     */
-   public void visit(AePartnerLinkDef aDef)
+   public void visit(AePartnerLinkDef def)
    {
       // TODO: refactor common code to a base class.
-      AeBpelObjectBase model = new AeBpelObjectBase(IAeBPELConstants.TAG_PARTNER_LINK, aDef);
+      AeBpelObjectBase model = new AeBpelObjectBase(IAeBPELConstants.TAG_PARTNER_LINK, def);
       model.setDisplayOutlineOnly(true);      
-      traverse(aDef, model);
+      traverse(def, model);
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.AeScopeDef)
     */
-   public void visit(AeScopeDef aDef)
+   public void visit(AeScopeDef def)
    {
-      traverse(aDef, null);
+      traverse(def, null);
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeAssignCopyDef)
     */
-   public void visit(AeAssignCopyDef aDef)
+   public void visit(AeAssignCopyDef def)
    {
-      AeBpelObjectBase model = new AeBpelObjectBase(IAeBPELConstants.TAG_COPY, aDef);
+      AeBpelObjectBase model = new AeBpelObjectBase(IAeBPELConstants.TAG_COPY, def);
       model.setDisplayOutlineOnly(true);
-      traverse(aDef, model);
+      traverse(def, model);
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeCorrelationDef)
     */
-   public void visit(AeCorrelationDef aDef)
+   public void visit(AeCorrelationDef def)
    {
-      AeBpelObjectBase model = new AeBpelObjectBase(IAeBPELConstants.TAG_CORRELATION, aDef);
+      AeBpelObjectBase model = new AeBpelObjectBase(IAeBPELConstants.TAG_CORRELATION, def);
       model.setDisplayOutlineOnly(true);
-      traverse(aDef, model);
+      traverse(def, model);
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeLinkDef)
     */
-   public void visit(AeLinkDef aDef)
+   public void visit(AeLinkDef def)
    {
       // create new link model.
-      AeBpelLinkObject linkModel = new AeBpelLinkObject(aDef);
-      linkModel.setLocationPath(aDef.getLocationPath());
-      linkModel.setName( getDefName(aDef) );
-      setState(aDef, linkModel);
+      AeBpelLinkObject linkModel = new AeBpelLinkObject(def);
+      linkModel.setLocationPath(def.getLocationPath());
+      linkModel.setName( getDefName(def) );
+      setState(def, linkModel);
       addLink(linkModel);
    }
 
@@ -979,79 +979,79 @@ public class AeProcessDefToWebModelVisitor extends AeProcessDefToWebVisitorBase
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeTargetDef)
     */
-   public void visit(AeTargetDef aDef)
+   public void visit(AeTargetDef def)
    {
       // find the link and associate it with the target.
-      AeBpelLinkObject linkModel = getLink(aDef.getLinkName());
+      AeBpelLinkObject linkModel = getLink(def.getLinkName());
       getActivityModel().addTargetLink(linkModel);
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.AePartnerLinksDef)
     */
-   public void visit(AePartnerLinksDef aDef)
+   public void visit(AePartnerLinksDef def)
    {
-      AeBpelObjectContainer model = new AeBpelObjectContainer(IAeBPELConstants.TAG_PARTNER_LINKS, aDef);
+      AeBpelObjectContainer model = new AeBpelObjectContainer(IAeBPELConstants.TAG_PARTNER_LINKS, def);
       model.setDisplayOutlineOnly(true);
-      traverse(aDef, model);
+      traverse(def, model);
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.AePartnersDef)
     */
-   public void visit(AePartnersDef aDef)
+   public void visit(AePartnersDef def)
    {
-      AeBpelObjectContainer model = new AeBpelObjectContainer(IAeBpelLegacyConstants.TAG_PARTNERS, aDef);
-      traverse(aDef, model);
+      AeBpelObjectContainer model = new AeBpelObjectContainer(IAeBpelLegacyConstants.TAG_PARTNERS, def);
+      traverse(def, model);
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeLinksDef)
     */
-   public void visit(AeLinksDef aDef)
+   public void visit(AeLinksDef def)
    {
-      traverse(aDef, null);
+      traverse(def, null);
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.AeCorrelationsDef)
     */
-   public void visit(AeCorrelationsDef aDef)
+   public void visit(AeCorrelationsDef def)
    {
-      AeBpelObjectContainer model = new AeBpelObjectContainer(IAeBPELConstants.TAG_CORRELATIONS, aDef);
+      AeBpelObjectContainer model = new AeBpelObjectContainer(IAeBPELConstants.TAG_CORRELATIONS, def);
       model.setDisplayOutlineOnly(true);
-      traverse(aDef, model);
+      traverse(def, model);
    }
 
    /**
     * @see org.activebpel.rt.bpeladmin.war.web.processview.AeProcessDefToWebVisitorBase#visit(org.activebpel.rt.bpel.def.activity.support.AeSourcesDef)
     */
-   public void visit(AeSourcesDef aDef)
+   public void visit(AeSourcesDef def)
    {
-      traverse(aDef, null);
+      traverse(def, null);
    }
 
    /**
     * @see org.activebpel.rt.bpeladmin.war.web.processview.AeProcessDefToWebVisitorBase#visit(org.activebpel.rt.bpel.def.activity.support.AeTargetsDef)
     */
-   public void visit(AeTargetsDef aDef)
+   public void visit(AeTargetsDef def)
    {
-      traverse(aDef, null);
+      traverse(def, null);
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(AeChildExtensionActivityDef)
     */
-   public void visit(AeChildExtensionActivityDef aDef)
+   public void visit(AeChildExtensionActivityDef def)
    {
-      QName elemName = aDef.getElementName();
+      QName elemName = def.getElementName();
       // icon name is same as element name. e.g. peopleActivity.png.
       String iconName = elemName.getLocalPart();
-      AeBpelActivityObject model = new AeBpelActivityObject(elemName.getLocalPart(), iconName, aDef);
+      AeBpelActivityObject model = new AeBpelActivityObject(elemName.getLocalPart(), iconName, def);
       IAeXmlDefGraphNodeAdapter adapter = null; 
-      if (aDef.getExtensionObject() != null)
+      if (def.getExtensionObject() != null)
       {
-         adapter = (IAeXmlDefGraphNodeAdapter) aDef.getExtensionObject().getAdapter(IAeXmlDefGraphNodeAdapter.class);
+         adapter = (IAeXmlDefGraphNodeAdapter) def.getExtensionObject().getAdapter(IAeXmlDefGraphNodeAdapter.class);
          if (adapter != null)
          {
             iconName = adapter.getIcon() != null ? adapter.getIcon() : iconName;
@@ -1059,7 +1059,7 @@ public class AeProcessDefToWebModelVisitor extends AeProcessDefToWebVisitorBase
             model.setAdapter(adapter);
          }
       }
-      traverse(aDef, model);
+      traverse(def, model);
 
       if (null != adapter && null != adapter.getTreeNode())
       {
@@ -1072,9 +1072,9 @@ public class AeProcessDefToWebModelVisitor extends AeProcessDefToWebVisitorBase
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.AeExtensionActivityDef)
     */
-   public void visit(AeExtensionActivityDef aDef)
+   public void visit(AeExtensionActivityDef def)
    {
-      traverse(aDef, null);
+      traverse(def, null);
    }
 
    /**

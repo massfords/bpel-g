@@ -49,7 +49,7 @@ public class AeBPWSDefPathSegmentVisitor extends AeAbstractDefPathSegmentVisitor
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeSourcesDef)
     */
-   public void visit(AeSourcesDef aDef)
+   public void visit(AeSourcesDef def)
    {
       // Skip the implicit 'sources' construct - it isn't really there in bpws 1.1
       setPathSegment(null);
@@ -58,7 +58,7 @@ public class AeBPWSDefPathSegmentVisitor extends AeAbstractDefPathSegmentVisitor
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeTargetsDef)
     */
-   public void visit(AeTargetsDef aDef)
+   public void visit(AeTargetsDef def)
    {
       // Skip the implicit 'targets' construct - it isn't really there in bpws 1.1
       setPathSegment(null);
@@ -67,7 +67,7 @@ public class AeBPWSDefPathSegmentVisitor extends AeAbstractDefPathSegmentVisitor
    /**
     * @see org.activebpel.rt.bpel.def.visitors.AeAbstractDefPathSegmentVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeTransitionConditionDef)
     */
-   public void visit(AeTransitionConditionDef aDef)
+   public void visit(AeTransitionConditionDef def)
    {
       // Skip the implicit 'transitionCondition' construct - it isn't really there in bpws 1.1
       setPathSegment(null);
@@ -76,7 +76,7 @@ public class AeBPWSDefPathSegmentVisitor extends AeAbstractDefPathSegmentVisitor
    /**
     * @see org.activebpel.rt.bpel.def.visitors.AeAbstractDefPathSegmentVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeJoinConditionDef)
     */
-   public void visit(AeJoinConditionDef aDef)
+   public void visit(AeJoinConditionDef def)
    {
       // Skip the implicit 'joinCondition' construct - it isn't really there in bpws 1.1
       setPathSegment(null);
@@ -85,7 +85,7 @@ public class AeBPWSDefPathSegmentVisitor extends AeAbstractDefPathSegmentVisitor
    /**
     * @see org.activebpel.rt.bpel.def.visitors.AeAbstractDefPathSegmentVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeForDef)
     */
-   public void visit(AeForDef aDef)
+   public void visit(AeForDef def)
    {
       // Skip the implicit 'for' construct - it isn't really there in bpws 1.1
       setPathSegment(null);
@@ -94,7 +94,7 @@ public class AeBPWSDefPathSegmentVisitor extends AeAbstractDefPathSegmentVisitor
    /**
     * @see org.activebpel.rt.bpel.def.visitors.AeAbstractDefPathSegmentVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeUntilDef)
     */
-   public void visit(AeUntilDef aDef)
+   public void visit(AeUntilDef def)
    {
       // Skip the implicit 'until' construct - it isn't really there in bpws 1.1
       setPathSegment(null);
@@ -103,7 +103,7 @@ public class AeBPWSDefPathSegmentVisitor extends AeAbstractDefPathSegmentVisitor
    /**
     * @see org.activebpel.rt.bpel.def.visitors.AeAbstractDefPathSegmentVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeConditionDef)
     */
-   public void visit(AeConditionDef aDef)
+   public void visit(AeConditionDef def)
    {
       // Skip the implicit 'condition' construct - it isn't really there in bpws 1.1
       setPathSegment(null);
@@ -112,7 +112,7 @@ public class AeBPWSDefPathSegmentVisitor extends AeAbstractDefPathSegmentVisitor
    /**
     * @see org.activebpel.rt.bpel.def.visitors.AeAbstractDefPathSegmentVisitor#visit(org.activebpel.rt.bpel.def.AeExtensionActivityDef)
     */
-   public void visit(AeExtensionActivityDef aDef)
+   public void visit(AeExtensionActivityDef def)
    {
       setPathSegment(null);
    }
@@ -120,7 +120,7 @@ public class AeBPWSDefPathSegmentVisitor extends AeAbstractDefPathSegmentVisitor
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeOnEventDef)
     */
-   public void visit(AeOnEventDef aDef)
+   public void visit(AeOnEventDef def)
    {
       // We model onMessage w/in eventHandlers as AeOnEvent even in 1.1.
       setPathSegment(IAeBPELConstants.TAG_ON_MESSAGE);
@@ -129,7 +129,7 @@ public class AeBPWSDefPathSegmentVisitor extends AeAbstractDefPathSegmentVisitor
    /**
     * @see org.activebpel.rt.bpel.def.visitors.AeAbstractDefPathSegmentVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityIfDef)
     */
-   public void visit(AeActivityIfDef aDef)
+   public void visit(AeActivityIfDef def)
    {
       // We model switch as if
       setPathSegment(IAeBpelLegacyConstants.TAG_SWITCH);
@@ -138,7 +138,7 @@ public class AeBPWSDefPathSegmentVisitor extends AeAbstractDefPathSegmentVisitor
    /**
     * @see org.activebpel.rt.bpel.def.visitors.AeAbstractDefPathSegmentVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeIfDef)
     */
-   public void visit(AeIfDef aDef)
+   public void visit(AeIfDef def)
    {
       // We model the 1st case as an ifdef
       setPathSegment(IAeBpelLegacyConstants.TAG_CASE);
@@ -147,7 +147,7 @@ public class AeBPWSDefPathSegmentVisitor extends AeAbstractDefPathSegmentVisitor
    /**
     * @see org.activebpel.rt.bpel.def.visitors.AeAbstractDefPathSegmentVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeElseIfDef)
     */
-   public void visit(AeElseIfDef aDef)
+   public void visit(AeElseIfDef def)
    {
       // We model the other cases as elseifs
       setPathSegment(IAeBpelLegacyConstants.TAG_CASE);
@@ -156,7 +156,7 @@ public class AeBPWSDefPathSegmentVisitor extends AeAbstractDefPathSegmentVisitor
    /**
     * @see org.activebpel.rt.bpel.def.visitors.AeAbstractDefPathSegmentVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeElseDef)
     */
-   public void visit(AeElseDef aDef)
+   public void visit(AeElseDef def)
    {
       // We model the otherwise as an else
       setPathSegment(IAeBpelLegacyConstants.TAG_OTHERWISE);
@@ -175,7 +175,7 @@ public class AeBPWSDefPathSegmentVisitor extends AeAbstractDefPathSegmentVisitor
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.AePartnerDef)
     */
-   public void visit(AePartnerDef aDef)
+   public void visit(AePartnerDef def)
    {
       setPathSegment(IAeBpelLegacyConstants.TAG_PARTNER);
    }
@@ -183,7 +183,7 @@ public class AeBPWSDefPathSegmentVisitor extends AeAbstractDefPathSegmentVisitor
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.AePartnersDef)
     */
-   public void visit(AePartnersDef aDef)
+   public void visit(AePartnersDef def)
    {
       setPathSegment(IAeBpelLegacyConstants.TAG_PARTNERS);
    }
@@ -191,7 +191,7 @@ public class AeBPWSDefPathSegmentVisitor extends AeAbstractDefPathSegmentVisitor
    /**
     * @see org.activebpel.rt.bpel.def.visitors.AeAbstractDefPathSegmentVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeQueryDef)
     */
-   public void visit(AeQueryDef aDef)
+   public void visit(AeQueryDef def)
    {
       // Skip the implicit 'query' construct - it isn't really there in bpws 1.1
       setPathSegment(null);
@@ -200,7 +200,7 @@ public class AeBPWSDefPathSegmentVisitor extends AeAbstractDefPathSegmentVisitor
    /**
     * @see org.activebpel.rt.bpel.def.visitors.AeAbstractDefPathSegmentVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeLiteralDef)
     */
-   public void visit(AeLiteralDef aDef)
+   public void visit(AeLiteralDef def)
    {
       // Skip the implicit 'literal' construct - it isn't really there in bpws 1.1
       setPathSegment(null);
@@ -209,7 +209,7 @@ public class AeBPWSDefPathSegmentVisitor extends AeAbstractDefPathSegmentVisitor
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.AeMessageExchangesDef)
     */
-   public void visit(AeMessageExchangesDef aDef)
+   public void visit(AeMessageExchangesDef def)
    {
       // Skip the implicit construct - since this does not exist in bpws 1.1 and therefore we do not
       // want to assign new location id/path to legacy documents and change the document's id structs.
@@ -219,7 +219,7 @@ public class AeBPWSDefPathSegmentVisitor extends AeAbstractDefPathSegmentVisitor
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.AeMessageExchangeDef)
     */
-   public void visit(AeMessageExchangeDef aDef)
+   public void visit(AeMessageExchangeDef def)
    {
       // Skip the implicit construct - since this does not exist in bpws 1.1 and therefore we do not
       // want to assign new location id/path to legacy documents and change the document's id structs.

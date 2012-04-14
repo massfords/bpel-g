@@ -23,7 +23,7 @@ public class AeBPWSMessageExchangeDefPathSegmentVisitor extends AeBPWSDefPathSeg
     * Overrides method to assign a segment path.
     * @see org.activebpel.rt.bpel.def.visitors.AeBPWSDefPathSegmentVisitor#visit(org.activebpel.rt.bpel.def.AeMessageExchangesDef)
     */
-   public void visit(AeMessageExchangesDef aDef)
+   public void visit(AeMessageExchangesDef def)
    {
       setPathSegment(IAeBPELConstants.TAG_MESSAGE_EXCHANGES);
    }
@@ -33,7 +33,7 @@ public class AeBPWSMessageExchangeDefPathSegmentVisitor extends AeBPWSDefPathSeg
     * Overrides method to assign a segment path.
     * @see org.activebpel.rt.bpel.def.visitors.AeBPWSDefPathSegmentVisitor#visit(org.activebpel.rt.bpel.def.AeMessageExchangeDef)
     */
-   public void visit(AeMessageExchangeDef aDef)
+   public void visit(AeMessageExchangeDef def)
    {
       setPathSegment(IAeBPELConstants.TAG_MESSAGE_EXCHANGE);
    }

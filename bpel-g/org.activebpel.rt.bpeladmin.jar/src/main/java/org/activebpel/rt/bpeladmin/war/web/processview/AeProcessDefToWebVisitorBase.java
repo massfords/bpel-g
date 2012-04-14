@@ -9,97 +9,10 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpeladmin.war.web.processview;
 
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-
-import javax.xml.namespace.QName;
-
 import org.activebpel.rt.AeException;
-import org.activebpel.rt.bpel.def.AeBaseDef;
-import org.activebpel.rt.bpel.def.AeCatchAllDef;
-import org.activebpel.rt.bpel.def.AeCatchDef;
-import org.activebpel.rt.bpel.def.AeCompensationHandlerDef;
-import org.activebpel.rt.bpel.def.AeCorrelationSetDef;
-import org.activebpel.rt.bpel.def.AeCorrelationSetsDef;
-import org.activebpel.rt.bpel.def.AeCorrelationsDef;
-import org.activebpel.rt.bpel.def.AeEventHandlersDef;
-import org.activebpel.rt.bpel.def.AeExtensionActivityDef;
-import org.activebpel.rt.bpel.def.AeExtensionDef;
-import org.activebpel.rt.bpel.def.AeExtensionsDef;
-import org.activebpel.rt.bpel.def.AeFaultHandlersDef;
-import org.activebpel.rt.bpel.def.AeImportDef;
-import org.activebpel.rt.bpel.def.AeMessageExchangeDef;
-import org.activebpel.rt.bpel.def.AeMessageExchangesDef;
-import org.activebpel.rt.bpel.def.AePartnerDef;
-import org.activebpel.rt.bpel.def.AePartnerLinkDef;
-import org.activebpel.rt.bpel.def.AePartnerLinksDef;
-import org.activebpel.rt.bpel.def.AePartnersDef;
-import org.activebpel.rt.bpel.def.AeProcessDef;
-import org.activebpel.rt.bpel.def.AeScopeDef;
-import org.activebpel.rt.bpel.def.AeTerminationHandlerDef;
-import org.activebpel.rt.bpel.def.AeVariableDef;
-import org.activebpel.rt.bpel.def.AeVariablesDef;
-import org.activebpel.rt.bpel.def.IAeBPELConstants;
-import org.activebpel.rt.bpel.def.activity.AeActivityAssignDef;
-import org.activebpel.rt.bpel.def.activity.AeActivityBreakDef;
-import org.activebpel.rt.bpel.def.activity.AeActivityCompensateDef;
-import org.activebpel.rt.bpel.def.activity.AeActivityCompensateScopeDef;
-import org.activebpel.rt.bpel.def.activity.AeActivityContinueDef;
-import org.activebpel.rt.bpel.def.activity.AeActivityEmptyDef;
-import org.activebpel.rt.bpel.def.activity.AeActivityExitDef;
-import org.activebpel.rt.bpel.def.activity.AeActivityFlowDef;
-import org.activebpel.rt.bpel.def.activity.AeActivityForEachDef;
-import org.activebpel.rt.bpel.def.activity.AeActivityIfDef;
-import org.activebpel.rt.bpel.def.activity.AeActivityInvokeDef;
-import org.activebpel.rt.bpel.def.activity.AeActivityOpaqueDef;
-import org.activebpel.rt.bpel.def.activity.AeActivityPickDef;
-import org.activebpel.rt.bpel.def.activity.AeActivityReceiveDef;
-import org.activebpel.rt.bpel.def.activity.AeActivityRepeatUntilDef;
-import org.activebpel.rt.bpel.def.activity.AeActivityReplyDef;
-import org.activebpel.rt.bpel.def.activity.AeActivityRethrowDef;
-import org.activebpel.rt.bpel.def.activity.AeActivityScopeDef;
-import org.activebpel.rt.bpel.def.activity.AeActivitySequenceDef;
-import org.activebpel.rt.bpel.def.activity.AeActivitySuspendDef;
-import org.activebpel.rt.bpel.def.activity.AeActivityThrowDef;
-import org.activebpel.rt.bpel.def.activity.AeActivityValidateDef;
-import org.activebpel.rt.bpel.def.activity.AeActivityWaitDef;
-import org.activebpel.rt.bpel.def.activity.AeActivityWhileDef;
-import org.activebpel.rt.bpel.def.activity.AeChildExtensionActivityDef;
-import org.activebpel.rt.bpel.def.activity.support.AeAssignCopyDef;
-import org.activebpel.rt.bpel.def.activity.support.AeConditionDef;
-import org.activebpel.rt.bpel.def.activity.support.AeCorrelationDef;
-import org.activebpel.rt.bpel.def.activity.support.AeElseDef;
-import org.activebpel.rt.bpel.def.activity.support.AeElseIfDef;
-import org.activebpel.rt.bpel.def.activity.support.AeExtensibleAssignDef;
-import org.activebpel.rt.bpel.def.activity.support.AeForDef;
-import org.activebpel.rt.bpel.def.activity.support.AeForEachBranchesDef;
-import org.activebpel.rt.bpel.def.activity.support.AeForEachCompletionConditionDef;
-import org.activebpel.rt.bpel.def.activity.support.AeForEachFinalDef;
-import org.activebpel.rt.bpel.def.activity.support.AeForEachStartDef;
-import org.activebpel.rt.bpel.def.activity.support.AeFromDef;
-import org.activebpel.rt.bpel.def.activity.support.AeFromPartDef;
-import org.activebpel.rt.bpel.def.activity.support.AeFromPartsDef;
-import org.activebpel.rt.bpel.def.activity.support.AeIfDef;
-import org.activebpel.rt.bpel.def.activity.support.AeJoinConditionDef;
-import org.activebpel.rt.bpel.def.activity.support.AeLinkDef;
-import org.activebpel.rt.bpel.def.activity.support.AeLinksDef;
-import org.activebpel.rt.bpel.def.activity.support.AeLiteralDef;
-import org.activebpel.rt.bpel.def.activity.support.AeOnAlarmDef;
-import org.activebpel.rt.bpel.def.activity.support.AeOnEventDef;
-import org.activebpel.rt.bpel.def.activity.support.AeOnMessageDef;
-import org.activebpel.rt.bpel.def.activity.support.AeQueryDef;
-import org.activebpel.rt.bpel.def.activity.support.AeRepeatEveryDef;
-import org.activebpel.rt.bpel.def.activity.support.AeSourceDef;
-import org.activebpel.rt.bpel.def.activity.support.AeSourcesDef;
-import org.activebpel.rt.bpel.def.activity.support.AeTargetDef;
-import org.activebpel.rt.bpel.def.activity.support.AeTargetsDef;
-import org.activebpel.rt.bpel.def.activity.support.AeToDef;
-import org.activebpel.rt.bpel.def.activity.support.AeToPartDef;
-import org.activebpel.rt.bpel.def.activity.support.AeToPartsDef;
-import org.activebpel.rt.bpel.def.activity.support.AeTransitionConditionDef;
-import org.activebpel.rt.bpel.def.activity.support.AeUntilDef;
+import org.activebpel.rt.bpel.def.*;
+import org.activebpel.rt.bpel.def.activity.*;
+import org.activebpel.rt.bpel.def.activity.support.*;
 import org.activebpel.rt.bpel.def.util.AeDefUtil;
 import org.activebpel.rt.bpel.def.visitors.IAeDefVisitor;
 import org.activebpel.rt.bpel.impl.IAeImplStateNames;
@@ -112,6 +25,12 @@ import org.jaxen.XPath;
 import org.jaxen.dom.DOMXPath;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+
+import javax.xml.namespace.QName;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Base visitor responsible for building the web visual model or definition properties.
@@ -559,133 +478,133 @@ public class AeProcessDefToWebVisitorBase implements IAeDefVisitor
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.AeCatchDef)
     */
-   public void visit(AeCatchDef aDef)
+   public void visit(AeCatchDef def)
    {
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.AeCatchAllDef)
     */
-   public void visit(AeCatchAllDef aDef)
+   public void visit(AeCatchAllDef def)
    {
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.AeVariableDef)
     */
-   public void visit(AeVariableDef aDef)
+   public void visit(AeVariableDef def)
    {
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.AeVariablesDef)
     */
-   public void visit(AeVariablesDef aDef)
+   public void visit(AeVariablesDef def)
    {
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.AeEventHandlersDef)
     */
-   public void visit(AeEventHandlersDef aDef)
+   public void visit(AeEventHandlersDef def)
    {
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.AeCompensationHandlerDef)
     */
-   public void visit(AeCompensationHandlerDef aDef)
+   public void visit(AeCompensationHandlerDef def)
    {
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.AeCorrelationSetsDef)
     */
-   public void visit(AeCorrelationSetsDef aDef)
+   public void visit(AeCorrelationSetsDef def)
    {
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.AeFaultHandlersDef)
     */
-   public void visit(AeFaultHandlersDef aDef)
+   public void visit(AeFaultHandlersDef def)
    {
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeOnMessageDef)
     */
-   public void visit(AeOnMessageDef aDef)
+   public void visit(AeOnMessageDef def)
    {
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeOnEventDef)
     */
-   public void visit(AeOnEventDef aDef)
+   public void visit(AeOnEventDef def)
    {
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeOnAlarmDef)
     */
-   public void visit(AeOnAlarmDef aDef)
+   public void visit(AeOnAlarmDef def)
    {
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivitySequenceDef)
     */
-   public void visit(AeActivitySequenceDef aDef)
+   public void visit(AeActivitySequenceDef def)
    {
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityExitDef)
     */
-   public void visit(AeActivityExitDef aDef)
+   public void visit(AeActivityExitDef def)
    {
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityThrowDef)
     */
-   public void visit(AeActivityThrowDef aDef)
+   public void visit(AeActivityThrowDef def)
    {
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityWaitDef)
     */
-   public void visit(AeActivityWaitDef aDef)
+   public void visit(AeActivityWaitDef def)
    {
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityWhileDef)
     */
-   public void visit(AeActivityWhileDef aDef)
+   public void visit(AeActivityWhileDef def)
    {
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityRepeatUntilDef)
     */
-   public void visit(AeActivityRepeatUntilDef aDef)
+   public void visit(AeActivityRepeatUntilDef def)
    {
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityForEachDef)
     */
-   public void visit(AeActivityForEachDef aDef)
+   public void visit(AeActivityForEachDef def)
    {
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeForEachFinalDef)
     */
-   public void visit(AeForEachFinalDef aDef)
+   public void visit(AeForEachFinalDef def)
    {
    }
 
@@ -699,77 +618,77 @@ public class AeProcessDefToWebVisitorBase implements IAeDefVisitor
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeForEachBranchesDef)
     */
-   public void visit(AeForEachBranchesDef aDef)
+   public void visit(AeForEachBranchesDef def)
    {
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeForEachCompletionConditionDef)
     */
-   public void visit(AeForEachCompletionConditionDef aDef)
+   public void visit(AeForEachCompletionConditionDef def)
    {
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.AePartnerDef)
     */
-   public void visit(AePartnerDef aDef)
+   public void visit(AePartnerDef def)
    {
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.AePartnerLinkDef)
     */
-   public void visit(AePartnerLinkDef aDef)
+   public void visit(AePartnerLinkDef def)
    {
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.AeScopeDef)
     */
-   public void visit(AeScopeDef aDef)
+   public void visit(AeScopeDef def)
    {
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.AeMessageExchangesDef)
     */
-   public void visit(AeMessageExchangesDef aDef)
+   public void visit(AeMessageExchangesDef def)
    {
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.AeMessageExchangeDef)
     */
-   public void visit(AeMessageExchangeDef aDef)
+   public void visit(AeMessageExchangeDef def)
    {
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeAssignCopyDef)
     */
-   public void visit(AeAssignCopyDef aDef)
+   public void visit(AeAssignCopyDef def)
    {
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeCorrelationDef)
     */
-   public void visit(AeCorrelationDef aDef)
+   public void visit(AeCorrelationDef def)
    {
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeLinkDef)
     */
-   public void visit(AeLinkDef aDef)
+   public void visit(AeLinkDef def)
    {
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeSourcesDef)
     */
-   public void visit(AeSourcesDef aDef)
+   public void visit(AeSourcesDef def)
    {
    }
 
@@ -783,63 +702,63 @@ public class AeProcessDefToWebVisitorBase implements IAeDefVisitor
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeTargetsDef)
     */
-   public void visit(AeTargetsDef aDef)
+   public void visit(AeTargetsDef def)
    {
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeTargetDef)
     */
-   public void visit(AeTargetDef aDef)
+   public void visit(AeTargetDef def)
    {
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.AePartnerLinksDef)
     */
-   public void visit(AePartnerLinksDef aDef)
+   public void visit(AePartnerLinksDef def)
    {
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.AePartnersDef)
     */
-   public void visit(AePartnersDef aDef)
+   public void visit(AePartnersDef def)
    {
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeLinksDef)
     */
-   public void visit(AeLinksDef aDef)
+   public void visit(AeLinksDef def)
    {
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.AeCorrelationsDef)
     */
-   public void visit(AeCorrelationsDef aDef)
+   public void visit(AeCorrelationsDef def)
    {
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeFromDef)
     */
-   public void visit(AeFromDef aDef)
+   public void visit(AeFromDef def)
    {
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeToDef)
     */
-   public void visit(AeToDef aDef)
+   public void visit(AeToDef def)
    {
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.AeImportDef)
     */
-   public void visit(AeImportDef aDef)
+   public void visit(AeImportDef def)
    {
    }
 
@@ -853,175 +772,175 @@ public class AeProcessDefToWebVisitorBase implements IAeDefVisitor
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityValidateDef)
     */
-   public void visit(AeActivityValidateDef aDef)
+   public void visit(AeActivityValidateDef def)
    {
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeExtensibleAssignDef)
     */
-   public void visit(AeExtensibleAssignDef aDef)
+   public void visit(AeExtensibleAssignDef def)
    {
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.AeExtensionDef)
     */
-   public void visit(AeExtensionDef aDef)
+   public void visit(AeExtensionDef def)
    {
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.AeExtensionsDef)
     */
-   public void visit(AeExtensionsDef aDef)
+   public void visit(AeExtensionsDef def)
    {
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeFromPartsDef)
     */
-   public void visit(AeFromPartsDef aDef)
+   public void visit(AeFromPartsDef def)
    {
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeToPartsDef)
     */
-   public void visit(AeToPartsDef aDef)
+   public void visit(AeToPartsDef def)
    {
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeFromPartDef)
     */
-   public void visit(AeFromPartDef aDef)
+   public void visit(AeFromPartDef def)
    {
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeToPartDef)
     */
-   public void visit(AeToPartDef aDef)
+   public void visit(AeToPartDef def)
    {
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeJoinConditionDef)
     */
-   public void visit(AeJoinConditionDef aDef)
+   public void visit(AeJoinConditionDef def)
    {
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeTransitionConditionDef)
     */
-   public void visit(AeTransitionConditionDef aDef)
+   public void visit(AeTransitionConditionDef def)
    {
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeForDef)
     */
-   public void visit(AeForDef aDef)
+   public void visit(AeForDef def)
    {
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeUntilDef)
     */
-   public void visit(AeUntilDef aDef)
+   public void visit(AeUntilDef def)
    {
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(AeChildExtensionActivityDef)
     */
-   public void visit(AeChildExtensionActivityDef aDef)
+   public void visit(AeChildExtensionActivityDef def)
    {
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.AeExtensionActivityDef)
     */
-   public void visit(AeExtensionActivityDef aDef)
+   public void visit(AeExtensionActivityDef def)
    {
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityIfDef)
     */
-   public void visit(AeActivityIfDef aDef)
+   public void visit(AeActivityIfDef def)
    {
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeConditionDef)
     */
-   public void visit(AeConditionDef aDef)
+   public void visit(AeConditionDef def)
    {
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeElseDef)
     */
-   public void visit(AeElseDef aDef)
+   public void visit(AeElseDef def)
    {
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeElseIfDef)
     */
-   public void visit(AeElseIfDef aDef)
+   public void visit(AeElseIfDef def)
    {
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeIfDef)
     */
-   public void visit(AeIfDef aDef)
+   public void visit(AeIfDef def)
    {
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityRethrowDef)
     */
-   public void visit(AeActivityRethrowDef aDef)
+   public void visit(AeActivityRethrowDef def)
    {
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeRepeatEveryDef)
     */
-   public void visit(AeRepeatEveryDef aDef)
+   public void visit(AeRepeatEveryDef def)
    {
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.AeTerminationHandlerDef)
     */
-   public void visit(AeTerminationHandlerDef aDef)
+   public void visit(AeTerminationHandlerDef def)
    {
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeLiteralDef)
     */
-   public void visit(AeLiteralDef aDef)
+   public void visit(AeLiteralDef def)
    {
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeQueryDef)
     */
-   public void visit(AeQueryDef aDef)
+   public void visit(AeQueryDef def)
    {
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityOpaqueDef)
     */
-   public void visit(AeActivityOpaqueDef aDef)
+   public void visit(AeActivityOpaqueDef def)
    {
    }
 

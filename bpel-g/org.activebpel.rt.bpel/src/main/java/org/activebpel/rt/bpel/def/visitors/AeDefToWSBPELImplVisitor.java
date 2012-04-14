@@ -133,25 +133,25 @@ public class AeDefToWSBPELImplVisitor extends AeDefToImplVisitor
    /**
     * @see org.activebpel.rt.bpel.def.visitors.AeDefToImplVisitor#visit(org.activebpel.rt.bpel.def.AeCatchDef)
     */
-   public void visit(AeCatchDef aDef)
+   public void visit(AeCatchDef def)
    {
-      AeWSBPELFaultHandler fh = new AeWSBPELFaultHandler(aDef, getScope());
+      AeWSBPELFaultHandler fh = new AeWSBPELFaultHandler(def, getScope());
       getScope().addFaultHandler(fh);
-      traverse(aDef, fh);
+      traverse(def, fh);
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.visitors.AeDefToImplVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeOnEventDef)
     */
-   public void visit(AeOnEventDef aDef)
+   public void visit(AeOnEventDef def)
    {
-      AeOnEvent onEvent = new AeOnEvent(aDef, getMessageParent());
+      AeOnEvent onEvent = new AeOnEvent(def, getMessageParent());
       getMessageParent().addMessage(onEvent);
       onEvent.setMessageValidator(getMessageValidator());
       
-      assignMessageDataConsumer(onEvent, aDef);
+      assignMessageDataConsumer(onEvent, def);
 
-      traverse(aDef, onEvent);
+      traverse(def, onEvent);
       
       // move the child scope that was created for the onEvent from its list of 
       // children to the queuing scope. This scope is only used to provide 
@@ -169,17 +169,17 @@ public class AeDefToWSBPELImplVisitor extends AeDefToImplVisitor
    /**
     * @see org.activebpel.rt.bpel.def.visitors.AeDefToImplVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeOnAlarmDef)
     */
-   public void visit(AeOnAlarmDef aDef)
+   public void visit(AeOnAlarmDef def)
    {
-      if (aDef.getRepeatEveryDef() == null)
+      if (def.getRepeatEveryDef() == null)
       {
-         super.visit(aDef);
+         super.visit(def);
       }
       else
       {
-         AeRepeatableOnAlarm alarm = new AeRepeatableOnAlarm(aDef, getMessageParent());
+         AeRepeatableOnAlarm alarm = new AeRepeatableOnAlarm(def, getMessageParent());
          getMessageParent().addAlarm(alarm);
-         traverse(aDef, alarm);
+         traverse(def, alarm);
       }
    }
 
@@ -196,22 +196,22 @@ public class AeDefToWSBPELImplVisitor extends AeDefToImplVisitor
    /**
     * @see org.activebpel.rt.bpel.def.visitors.AeDefToImplVisitor#visit(org.activebpel.rt.bpel.def.AeVariableDef)
     */
-   public void visit(AeVariableDef aVarDef)
+   public void visit(AeVariableDef def)
    {
-      super.visit(aVarDef);
-      if (aVarDef.getFromDef() != null)
+      super.visit(def);
+      if (def.getFromDef() != null)
       {
          AeVariablesImpl variablesImpl = (AeVariablesImpl) getVariableContainer();
-         AeVariable variable = (AeVariable) variablesImpl.getMap().get(aVarDef.getName());
+         AeVariable variable = (AeVariable) variablesImpl.getMap().get(def.getName());
          IAeFrom fromImpl = variable.getFrom();
          AeVirtualCopyOperation copyOp = AeVirtualCopyOperation.createVariableInitializer();
          copyOp.setFrom(fromImpl); 
-         if (aVarDef.isMessageType())
-            copyOp.setTo(new AeToVariableMessage(aVarDef.getName()));
-         else if (aVarDef.isElement())
-            copyOp.setTo(new AeToVariableElement(aVarDef.getName()));
-         else if (aVarDef.isType())
-            copyOp.setTo(new AeToVariableType(aVarDef.getName()));
+         if (def.isMessageType())
+            copyOp.setTo(new AeToVariableMessage(def.getName()));
+         else if (def.isElement())
+            copyOp.setTo(new AeToVariableElement(def.getName()));
+         else if (def.isType())
+            copyOp.setTo(new AeToVariableType(def.getName()));
          variablesImpl.addCopyOperation(copyOp);
       }         
    }
@@ -219,11 +219,11 @@ public class AeDefToWSBPELImplVisitor extends AeDefToImplVisitor
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityValidateDef)
     */
-   public void visit(AeActivityValidateDef aDef)
+   public void visit(AeActivityValidateDef def)
    {
-      IAeActivity impl = new AeActivityValidateImpl(aDef, getActivityParent());
+      IAeActivity impl = new AeActivityValidateImpl(def, getActivityParent());
       getActivityParent().addActivity(impl);
-      traverse(aDef, impl);
+      traverse(def, impl);
    }
 
    /**
@@ -261,15 +261,15 @@ public class AeDefToWSBPELImplVisitor extends AeDefToImplVisitor
    /**
     * @see org.activebpel.rt.bpel.def.visitors.AeDefToImplVisitor#visit(AeChildExtensionActivityDef)
     */
-   public void visit(AeChildExtensionActivityDef aDef)
+   public void visit(AeChildExtensionActivityDef def)
    {
       // Convert all unknown extension activities to Empty impls (note that 
       // validation would have prevented us from getting here if the extension 
       // were mustUnderstand == 'yes').
-      if (aDef.isUnderstood())
+      if (def.isUnderstood())
       {
-         AeActivityChildExtensionActivityImpl impl = new AeActivityChildExtensionActivityImpl(aDef, getActivityParent());
-         IAeExtensionObject extension = aDef.getExtensionObject();
+         AeActivityChildExtensionActivityImpl impl = new AeActivityChildExtensionActivityImpl(def, getActivityParent());
+         IAeExtensionObject extension = def.getExtensionObject();
          IAeActivityLifeCycleAdapter adapter = (IAeActivityLifeCycleAdapter) extension.getAdapter(IAeActivityLifeCycleAdapter.class);
          impl.setLifeCycleAdapter(adapter);
          
@@ -295,11 +295,11 @@ public class AeDefToWSBPELImplVisitor extends AeDefToImplVisitor
          }
          
          getActivityParent().addActivity(impl);
-         traverse(aDef, impl);
+         traverse(def, impl);
       }
       else
       {
-         IAeActivity impl = new AeActivityEmptyImpl(aDef, getActivityParent());
+         IAeActivity impl = new AeActivityEmptyImpl(def, getActivityParent());
          getActivityParent().addActivity(impl);
          //traverse(def, impl);
       }
@@ -308,20 +308,20 @@ public class AeDefToWSBPELImplVisitor extends AeDefToImplVisitor
    /**
     * @see org.activebpel.rt.bpel.def.visitors.AeDefToImplVisitor#visit(org.activebpel.rt.bpel.def.AeCorrelationsDef)
     */
-   public void visit(AeCorrelationsDef aDef)
+   public void visit(AeCorrelationsDef def)
    {
       IAeWSIOActivity parent = (IAeWSIOActivity) peek();
       
       if (parent instanceof AeOnEvent)
       {
-         AeOnEventCorrelations correlations = new AeOnEventCorrelations(aDef, (AeOnEvent) parent);
+         AeOnEventCorrelations correlations = new AeOnEventCorrelations(def, (AeOnEvent) parent);
          correlations.setFilter(getCorrelationsFilter());
          parent.setRequestCorrelations(correlations);
-         traverse(aDef, null);
+         traverse(def, null);
       }
       else
       {
-         super.visit(aDef);
+         super.visit(def);
       }
    }
 

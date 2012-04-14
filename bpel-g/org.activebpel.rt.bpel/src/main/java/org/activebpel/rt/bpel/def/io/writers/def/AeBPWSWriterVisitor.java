@@ -122,10 +122,10 @@ public class AeBPWSWriterVisitor extends AeWriterVisitor
    /**
     * @see org.activebpel.rt.bpel.def.io.writers.def.AeWriterVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeForEachBranchesDef)
     */
-   public void visit(AeForEachBranchesDef aDef)
+   public void visit(AeForEachBranchesDef def)
    {
-      super.visit(aDef);
-      setAttribute(IAeBpelLegacyConstants.COUNT_COMPLETED_BRANCHES_ONLY, aDef.isCountCompletedBranchesOnly(), false);
+      super.visit(def);
+      setAttribute(IAeBpelLegacyConstants.COUNT_COMPLETED_BRANCHES_ONLY, def.isCountCompletedBranchesOnly(), false);
    }
 
    /**
@@ -141,33 +141,33 @@ public class AeBPWSWriterVisitor extends AeWriterVisitor
    /**
     * @see org.activebpel.rt.bpel.def.io.writers.def.AeWriterVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityWaitDef)
     */
-   public void visit(AeActivityWaitDef aDef)
+   public void visit(AeActivityWaitDef def)
    {
-      super.visit(aDef);
+      super.visit(def);
 
-      setAttribute(TAG_FOR, aDef.getFor());
-      setAttribute(TAG_UNTIL, aDef.getUntil());
+      setAttribute(TAG_FOR, def.getFor());
+      setAttribute(TAG_UNTIL, def.getUntil());
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.io.writers.def.AeWriterVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeOnAlarmDef)
     */
-   public void visit(AeOnAlarmDef aDef)
+   public void visit(AeOnAlarmDef def)
    {
-      super.visit(aDef);
+      super.visit(def);
 
-      setAttribute(TAG_FOR, aDef.getFor());
-      setAttribute(TAG_UNTIL, aDef.getUntil());
+      setAttribute(TAG_FOR, def.getFor());
+      setAttribute(TAG_UNTIL, def.getUntil());
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityWhileDef)
     */
-   public void visit(AeActivityWhileDef aDef)
+   public void visit(AeActivityWhileDef def)
    {
-      super.visit(aDef);
+      super.visit(def);
 
-      setAttribute(TAG_CONDITION, aDef.getConditionDef().getExpression());
+      setAttribute(TAG_CONDITION, def.getConditionDef().getExpression());
    }
 
    /**
@@ -186,9 +186,9 @@ public class AeBPWSWriterVisitor extends AeWriterVisitor
     * 
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityIfDef)
     */
-   public void visit(AeActivityIfDef aDef)
+   public void visit(AeActivityIfDef def)
    {
-      writeAttributes(aDef);
+      writeAttributes(def);
    }
 
    /**
@@ -197,9 +197,9 @@ public class AeBPWSWriterVisitor extends AeWriterVisitor
     * 
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeIfDef)
     */
-   public void visit(AeIfDef aDef)
+   public void visit(AeIfDef def)
    {
-      visit((AeElseIfDef) aDef);
+      visit((AeElseIfDef) def);
    }
 
    /**
@@ -208,19 +208,19 @@ public class AeBPWSWriterVisitor extends AeWriterVisitor
     * 
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeElseIfDef)
     */
-   public void visit(AeElseIfDef aDef)
+   public void visit(AeElseIfDef def)
    {
-      writeStandardAttributes(aDef);
-      if (aDef.getConditionDef() != null)
-         setAttribute(TAG_CONDITION, aDef.getConditionDef().getExpression());
+      writeStandardAttributes(def);
+      if (def.getConditionDef() != null)
+         setAttribute(TAG_CONDITION, def.getConditionDef().getExpression());
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeElseDef)
     */
-   public void visit(AeElseDef aDef)
+   public void visit(AeElseDef def)
    {
-      writeStandardAttributes(aDef);
+      writeStandardAttributes(def);
    }
    
    /**
@@ -238,10 +238,10 @@ public class AeBPWSWriterVisitor extends AeWriterVisitor
    /**
     * @see org.activebpel.rt.bpel.def.io.writers.def.AeWriterVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeToDef)
     */
-   public void visit(AeToDef aDef)
+   public void visit(AeToDef def)
    {
-      super.visit(aDef);
+      super.visit(def);
 
-      setAttribute(TAG_QUERY, aDef.getQuery());
+      setAttribute(TAG_QUERY, def.getQuery());
    }
 }

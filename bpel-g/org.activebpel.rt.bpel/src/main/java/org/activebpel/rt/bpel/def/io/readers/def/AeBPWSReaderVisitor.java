@@ -184,26 +184,26 @@ public class AeBPWSReaderVisitor extends AeBpelReaderVisitor
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeTargetDef)
     */
-   public void visit(AeTargetDef aDef)
+   public void visit(AeTargetDef def)
    {
-      super.visit(aDef);
+      super.visit(def);
       
-      AeBPWSUtil.addTargetToActivity(aDef, (AeActivityDef) getParentDef());
+      AeBPWSUtil.addTargetToActivity(def, (AeActivityDef) getParentDef());
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityWhileDef)
     */
-   public void visit(AeActivityWhileDef aDef)
+   public void visit(AeActivityWhileDef def)
    {
-      super.visit(aDef);
+      super.visit(def);
       
       String condition = getAttribute(TAG_CONDITION);
       if (AeUtil.notNullOrEmpty(condition))
       {
          AeConditionDef condDef = new AeConditionDef();
          condDef.setExpression(condition);
-         aDef.setConditionDef(condDef);
+         def.setConditionDef(condDef);
       }
    }
 
@@ -220,16 +220,16 @@ public class AeBPWSReaderVisitor extends AeBpelReaderVisitor
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeOnAlarmDef)
     */
-   public void visit(AeOnAlarmDef aDef)
+   public void visit(AeOnAlarmDef def)
    {
-      super.visit(aDef);
+      super.visit(def);
       
       String forExpression = getAttribute(TAG_FOR);
       if (AeUtil.notNullOrEmpty(forExpression))
       {
          AeForDef forDef = new AeForDef();
          forDef.setExpression(forExpression);
-         aDef.setForDef(forDef);
+         def.setForDef(forDef);
       }
 
       String untilExpression = getAttribute(TAG_UNTIL);
@@ -237,31 +237,31 @@ public class AeBPWSReaderVisitor extends AeBpelReaderVisitor
       {
          AeUntilDef untilDef = new AeUntilDef();
          untilDef.setExpression(untilExpression);
-         aDef.setUntilDef(untilDef);
+         def.setUntilDef(untilDef);
       }
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityWaitDef)
     */
-   public void visit(AeActivityWaitDef aDef)
+   public void visit(AeActivityWaitDef def)
    {
-      super.visit(aDef);
+      super.visit(def);
       
-      readAttributes(aDef);
+      readAttributes(def);
       String forExpression = getAttribute(TAG_FOR);
       if (AeUtil.notNullOrEmpty(forExpression))
       {
          AeForDef forDef = new AeForDef();
          forDef.setExpression(forExpression);
-         aDef.setForDef(forDef);
+         def.setForDef(forDef);
       }
       String untilExpression = getAttribute(TAG_UNTIL);
       if (AeUtil.notNullOrEmpty(untilExpression))
       {
          AeUntilDef untilDef = new AeUntilDef();
          untilDef.setExpression(untilExpression);
-         aDef.setUntilDef(untilDef);
+         def.setUntilDef(untilDef);
       }
    }
 
@@ -270,10 +270,10 @@ public class AeBPWSReaderVisitor extends AeBpelReaderVisitor
     * 
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityIfDef)
     */
-   public void visit(AeActivityIfDef aDef)
+   public void visit(AeActivityIfDef def)
    {
-      readAttributes(aDef);
-      addActivityToParent(aDef);
+      readAttributes(def);
+      addActivityToParent(def);
    }
 
    /**
@@ -300,11 +300,11 @@ public class AeBPWSReaderVisitor extends AeBpelReaderVisitor
     * 
     * @see org.activebpel.rt.bpel.def.io.readers.def.AeBpelReaderVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeIfDef)
     */
-   public void visit(AeIfDef aDef)
+   public void visit(AeIfDef def)
    {
-      readAttributes(aDef);
-      readElseIfCondition(aDef);
-      ((AeActivityIfDef) getParentDef()).setIfDef(aDef);
+      readAttributes(def);
+      readElseIfCondition(def);
+      ((AeActivityIfDef) getParentDef()).setIfDef(def);
    }
 
    /**
@@ -312,11 +312,11 @@ public class AeBPWSReaderVisitor extends AeBpelReaderVisitor
     * 
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeElseIfDef)
     */
-   public void visit(AeElseIfDef aDef)
+   public void visit(AeElseIfDef def)
    {
-      readAttributes(aDef);
-      readElseIfCondition(aDef);
-      ((AeActivityIfDef) getParentDef()).addElseIfDef(aDef);
+      readAttributes(def);
+      readElseIfCondition(def);
+      ((AeActivityIfDef) getParentDef()).addElseIfDef(def);
    }
 
    /**
@@ -324,20 +324,20 @@ public class AeBPWSReaderVisitor extends AeBpelReaderVisitor
     * 
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeElseDef)
     */
-   public void visit(AeElseDef aDef)
+   public void visit(AeElseDef def)
    {
-      readAttributes(aDef);
-      ((AeActivityIfDef)getParentDef()).setElseDef(aDef);
+      readAttributes(def);
+      ((AeActivityIfDef)getParentDef()).setElseDef(def);
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.io.readers.def.AeBpelReaderVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeForEachBranchesDef)
     */
-   public void visit(AeForEachBranchesDef aDef)
+   public void visit(AeForEachBranchesDef def)
    {
-      super.visit(aDef);
+      super.visit(def);
       
-      aDef.setCountCompletedBranchesOnly(getAttributeBoolean(IAeBpelLegacyConstants.COUNT_COMPLETED_BRANCHES_ONLY));
+      def.setCountCompletedBranchesOnly(getAttributeBoolean(IAeBpelLegacyConstants.COUNT_COMPLETED_BRANCHES_ONLY));
    }
 
    /**

@@ -136,15 +136,15 @@ public class AeWSBPELReaderVisitor extends AeBpelReaderVisitor
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.AeImportDef)
     */
-   public void visit(AeImportDef aDef)
+   public void visit(AeImportDef def)
    {
-      readAttributes(aDef);
+      readAttributes(def);
 
-      aDef.setNamespace(getAttribute(TAG_NAMESPACE));
-      aDef.setLocation(getAttribute(TAG_LOCATION));
-      aDef.setImportType(getAttribute(TAG_IMPORT_TYPE));
+      def.setNamespace(getAttribute(TAG_NAMESPACE));
+      def.setLocation(getAttribute(TAG_LOCATION));
+      def.setImportType(getAttribute(TAG_IMPORT_TYPE));
 
-      ((AeProcessDef) getParentDef()).addImportDef(aDef);
+      ((AeProcessDef) getParentDef()).addImportDef(def);
    }
 
    /**
@@ -164,23 +164,23 @@ public class AeWSBPELReaderVisitor extends AeBpelReaderVisitor
    /**
     * @see org.activebpel.rt.bpel.def.io.readers.def.AeBpelReaderVisitor#visit(org.activebpel.rt.bpel.def.AePartnerLinkDef)
     */
-   public void visit(AePartnerLinkDef aDef)
+   public void visit(AePartnerLinkDef def)
    {
-      super.visit(aDef);
+      super.visit(def);
 
       // will set the Boolean or null if not present in xml
-      aDef.setInitializePartnerRole(getAttributeBoolOptional((TAG_INITIALIZE_PARTNER_ROLE)));
+      def.setInitializePartnerRole(getAttributeBoolOptional((TAG_INITIALIZE_PARTNER_ROLE)));
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.io.readers.def.AeBpelReaderVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeAssignCopyDef)
     */
-   public void visit(AeAssignCopyDef aDef)
+   public void visit(AeAssignCopyDef def)
    {
-      super.visit(aDef);
+      super.visit(def);
 
-      aDef.setKeepSrcElementName(getAttributeBoolean(TAG_KEEP_SRC_ELEMENT_NAME));
-      aDef.setIgnoreMissingFromData(getAttributeBoolean(TAG_IGNORE_MISSING_FROM_DATA));
+      def.setKeepSrcElementName(getAttributeBoolean(TAG_KEEP_SRC_ELEMENT_NAME));
+      def.setIgnoreMissingFromData(getAttributeBoolean(TAG_IGNORE_MISSING_FROM_DATA));
    }
 
    /**
@@ -196,92 +196,92 @@ public class AeWSBPELReaderVisitor extends AeBpelReaderVisitor
    /**
     * @see org.activebpel.rt.bpel.def.io.readers.def.AeBpelReaderVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeExtensibleAssignDef)
     */
-   public void visit(AeExtensibleAssignDef aDef)
+   public void visit(AeExtensibleAssignDef def)
    {
-      readAttributes(aDef);
+      readAttributes(def);
 
       // TODO (MF) if we don't understand the extensible assign then we should ignore it
 
-      ((AeActivityAssignDef)getParentDef()).addExtensibleAssignDef(aDef);
+      ((AeActivityAssignDef)getParentDef()).addExtensibleAssignDef(def);
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.io.readers.def.AeBpelReaderVisitor#visit(org.activebpel.rt.bpel.def.AeExtensionsDef)
     */
-   public void visit(AeExtensionsDef aDef)
+   public void visit(AeExtensionsDef def)
    {
-      readAttributes(aDef);
+      readAttributes(def);
 
-      ((AeProcessDef) getParentDef()).setExtensionsDef(aDef);
+      ((AeProcessDef) getParentDef()).setExtensionsDef(def);
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.io.readers.def.AeBpelReaderVisitor#visit(org.activebpel.rt.bpel.def.AeExtensionDef)
     */
-   public void visit(AeExtensionDef aDef)
+   public void visit(AeExtensionDef def)
    {
-      readAttributes(aDef);
+      readAttributes(def);
 
-      aDef.setMustUnderstand(getAttributeBoolean(TAG_MUST_UNDERSTAND));
-      aDef.setNamespace(getAttribute(TAG_NAMESPACE));
+      def.setMustUnderstand(getAttributeBoolean(TAG_MUST_UNDERSTAND));
+      def.setNamespace(getAttribute(TAG_NAMESPACE));
 
-      ((AeExtensionsDef) getParentDef()).addExtensionDef(aDef);
+      ((AeExtensionsDef) getParentDef()).addExtensionDef(def);
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeFromPartsDef)
     */
-   public void visit(AeFromPartsDef aDef)
+   public void visit(AeFromPartsDef def)
    {
-      readAttributes(aDef);
+      readAttributes(def);
 
-      ((IAeFromPartsParentDef) getParentDef()).setFromPartsDef(aDef);
+      ((IAeFromPartsParentDef) getParentDef()).setFromPartsDef(def);
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeToPartsDef)
     */
-   public void visit(AeToPartsDef aDef)
+   public void visit(AeToPartsDef def)
    {
-      readAttributes(aDef);
+      readAttributes(def);
 
-      ((IAeToPartsParentDef) getParentDef()).setToPartsDef(aDef);
+      ((IAeToPartsParentDef) getParentDef()).setToPartsDef(def);
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeFromPartDef)
     */
-   public void visit(AeFromPartDef aDef)
+   public void visit(AeFromPartDef def)
    {
-      readAttributes(aDef);
+      readAttributes(def);
 
-      aDef.setPart(getAttribute(TAG_PART));
-      aDef.setToVariable(getAttribute(TAG_TO_VARIABLE));
+      def.setPart(getAttribute(TAG_PART));
+      def.setToVariable(getAttribute(TAG_TO_VARIABLE));
 
-      ((AeFromPartsDef) getParentDef()).addFromPartDef(aDef);
+      ((AeFromPartsDef) getParentDef()).addFromPartDef(def);
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeToPartDef)
     */
-   public void visit(AeToPartDef aDef)
+   public void visit(AeToPartDef def)
    {
-      readAttributes(aDef);
+      readAttributes(def);
 
-      aDef.setPart(getAttribute(TAG_PART));
-      aDef.setFromVariable(getAttribute(TAG_FROM_VARIABLE));
+      def.setPart(getAttribute(TAG_PART));
+      def.setFromVariable(getAttribute(TAG_FROM_VARIABLE));
 
-      ((AeToPartsDef) getParentDef()).addToPartDef(aDef);
+      ((AeToPartsDef) getParentDef()).addToPartDef(def);
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeSourcesDef)
     */
-   public void visit(AeSourcesDef aDef)
+   public void visit(AeSourcesDef def)
    {
-      readAttributes(aDef);
+      readAttributes(def);
 
-      ((AeActivityDef) getParentDef()).setSourcesDef(aDef);
+      ((AeActivityDef) getParentDef()).setSourcesDef(def);
    }
 
    /**
@@ -297,115 +297,115 @@ public class AeWSBPELReaderVisitor extends AeBpelReaderVisitor
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeTargetsDef)
     */
-   public void visit(AeTargetsDef aDef)
+   public void visit(AeTargetsDef def)
    {
-      readAttributes(aDef);
+      readAttributes(def);
 
-      ((AeActivityDef) getParentDef()).setTargetsDef(aDef);
+      ((AeActivityDef) getParentDef()).setTargetsDef(def);
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeTargetDef)
     */
-   public void visit(AeTargetDef aDef)
+   public void visit(AeTargetDef def)
    {
-      super.visit(aDef);
+      super.visit(def);
 
-      ((AeTargetsDef)getParentDef()).addTargetDef(aDef);
+      ((AeTargetsDef)getParentDef()).addTargetDef(def);
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.io.readers.def.AeBpelReaderVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeJoinConditionDef)
     */
-   public void visit(AeJoinConditionDef aDef)
+   public void visit(AeJoinConditionDef def)
    {
-      readAttributes(aDef);
+      readAttributes(def);
 
-      readExpressionDef(aDef);
-      ((AeTargetsDef) getParentDef()).setJoinConditionDef(aDef);
+      readExpressionDef(def);
+      ((AeTargetsDef) getParentDef()).setJoinConditionDef(def);
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.io.readers.def.AeBpelReaderVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeTransitionConditionDef)
     */
-   public void visit(AeTransitionConditionDef aDef)
+   public void visit(AeTransitionConditionDef def)
    {
-      readAttributes(aDef);
+      readAttributes(def);
 
-      readExpressionDef(aDef);
-      ((AeSourceDef) getParentDef()).setTransitionConditionDef(aDef);
+      readExpressionDef(def);
+      ((AeSourceDef) getParentDef()).setTransitionConditionDef(def);
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.io.readers.def.AeBpelReaderVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeForDef)
     */
-   public void visit(AeForDef aDef)
+   public void visit(AeForDef def)
    {
-      readAttributes(aDef);
+      readAttributes(def);
 
-      readExpressionDef(aDef);
-      ((IAeForUntilParentDef) getParentDef()).setForDef(aDef);
+      readExpressionDef(def);
+      ((IAeForUntilParentDef) getParentDef()).setForDef(def);
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.io.readers.def.AeBpelReaderVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeUntilDef)
     */
-   public void visit(AeUntilDef aDef)
+   public void visit(AeUntilDef def)
    {
-      readAttributes(aDef);
+      readAttributes(def);
 
-      readExpressionDef(aDef);
-      ((IAeForUntilParentDef) getParentDef()).setUntilDef(aDef);
+      readExpressionDef(def);
+      ((IAeForUntilParentDef) getParentDef()).setUntilDef(def);
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityIfDef)
     */
-   public void visit(AeActivityIfDef aDef)
+   public void visit(AeActivityIfDef def)
    {
-      readAttributes(aDef);
-      addActivityToParent(aDef);
+      readAttributes(def);
+      addActivityToParent(def);
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.io.readers.def.AeBpelReaderVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeConditionDef)
     */
-   public void visit(AeConditionDef aDef)
+   public void visit(AeConditionDef def)
    {
-      readAttributes(aDef);
+      readAttributes(def);
 
-      readExpressionDef(aDef);
-      ((IAeConditionParentDef) getParentDef()).setConditionDef(aDef);
+      readExpressionDef(def);
+      ((IAeConditionParentDef) getParentDef()).setConditionDef(def);
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeElseDef)
     */
-   public void visit(AeElseDef aDef)
+   public void visit(AeElseDef def)
    {
-      readAttributes(aDef);
+      readAttributes(def);
 
-      ((AeActivityIfDef) getParentDef()).setElseDef(aDef);
+      ((AeActivityIfDef) getParentDef()).setElseDef(def);
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeElseIfDef)
     */
-   public void visit(AeElseIfDef aDef)
+   public void visit(AeElseIfDef def)
    {
-      readAttributes(aDef);
+      readAttributes(def);
 
-      ((AeActivityIfDef) getParentDef()).addElseIfDef(aDef);
+      ((AeActivityIfDef) getParentDef()).addElseIfDef(def);
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeRepeatEveryDef)
     */
-   public void visit(AeRepeatEveryDef aDef)
+   public void visit(AeRepeatEveryDef def)
    {
-      readAttributes(aDef);
-      readExpressionDef(aDef);
-      ((AeOnAlarmDef) getParentDef()).setRepeatEveryDef(aDef);
+      readAttributes(def);
+      readExpressionDef(def);
+      ((AeOnAlarmDef) getParentDef()).setRepeatEveryDef(def);
    }
 
    /**
@@ -425,104 +425,104 @@ public class AeWSBPELReaderVisitor extends AeBpelReaderVisitor
    /**
     * @see org.activebpel.rt.bpel.def.io.readers.def.AeBpelReaderVisitor#visit(org.activebpel.rt.bpel.def.AeCatchDef)
     */
-   public void visit(AeCatchDef aDef)
+   public void visit(AeCatchDef def)
    {
-      super.visit(aDef);
+      super.visit(def);
 
-      aDef.setFaultMessageType(getAttributeQName(TAG_FAULT_MESSAGE_TYPE));
-      aDef.setFaultElementName(getAttributeQName(TAG_FAULT_ELEMENT));
+      def.setFaultMessageType(getAttributeQName(TAG_FAULT_MESSAGE_TYPE));
+      def.setFaultElementName(getAttributeQName(TAG_FAULT_ELEMENT));
 
-      if (AeUtil.notNullOrEmpty(aDef.getFaultVariable()))
+      if (AeUtil.notNullOrEmpty(def.getFaultVariable()))
       {
          AeVariableDef varDef = new AeVariableDef();
-         varDef.setName(aDef.getFaultVariable());
-         if (aDef.getFaultElementName() != null)
+         varDef.setName(def.getFaultVariable());
+         if (def.getFaultElementName() != null)
          {
-            varDef.setElement(aDef.getFaultElementName());
+            varDef.setElement(def.getFaultElementName());
          }
-         else if (aDef.getFaultMessageType() != null)
+         else if (def.getFaultMessageType() != null)
          {
-            varDef.setMessageType(aDef.getFaultMessageType());
+            varDef.setMessageType(def.getFaultMessageType());
          }
-         aDef.setFaultVariableDef(varDef);
+         def.setFaultVariableDef(varDef);
       }
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.io.readers.def.AeBpelReaderVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityRepeatUntilDef)
     */
-   public void visit(AeActivityRepeatUntilDef aDef)
+   public void visit(AeActivityRepeatUntilDef def)
    {
-      readAttributes(aDef);
-      addActivityToParent(aDef);
+      readAttributes(def);
+      addActivityToParent(def);
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.io.readers.def.AeBpelReaderVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityValidateDef)
     */
-   public void visit(AeActivityValidateDef aDef)
+   public void visit(AeActivityValidateDef def)
    {
-      readAttributes(aDef);
-      aDef.setVariables(getAttribute(TAG_VARIABLES));
-      addActivityToParent(aDef);
+      readAttributes(def);
+      def.setVariables(getAttribute(TAG_VARIABLES));
+      addActivityToParent(def);
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.io.readers.def.AeBpelReaderVisitor#visit(AeChildExtensionActivityDef)
     */
-   public void visit(AeChildExtensionActivityDef aDef)
+   public void visit(AeChildExtensionActivityDef def)
    {
-      readExtensionActivities(aDef);
+      readExtensionActivities(def);
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.io.readers.def.AeBpelReaderVisitor#visit(org.activebpel.rt.bpel.def.AeExtensionActivityDef)
     */
-   public void visit(AeExtensionActivityDef aDef)
+   public void visit(AeExtensionActivityDef def)
    {
-      readAttributes(aDef);
-      addActivityToParent(aDef);
+      readAttributes(def);
+      addActivityToParent(def);
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.io.readers.def.AeBpelReaderVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityRethrowDef)
     */
-   public void visit(AeActivityRethrowDef aDef)
+   public void visit(AeActivityRethrowDef def)
    {
-      readAttributes(aDef);
-      addActivityToParent(aDef);
+      readAttributes(def);
+      addActivityToParent(def);
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.io.readers.def.AeBpelReaderVisitor#visit(org.activebpel.rt.bpel.def.AeTerminationHandlerDef)
     */
-   public void visit(AeTerminationHandlerDef aDef)
+   public void visit(AeTerminationHandlerDef def)
    {
-      readAttributes(aDef);
+      readAttributes(def);
 
-      ((IAeTerminationHandlerParentDef) getParentDef()).setTerminationHandlerDef(aDef);
+      ((IAeTerminationHandlerParentDef) getParentDef()).setTerminationHandlerDef(def);
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.io.readers.def.AeBpelReaderVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeLiteralDef)
     */
-   public void visit(AeLiteralDef aDef)
+   public void visit(AeLiteralDef def)
    {
-      readAttributes(aDef);
+      readAttributes(def);
 
-      addChildrenToLiteral(getCurrentElement(), aDef);
+      addChildrenToLiteral(getCurrentElement(), def);
 
-      ((AeFromDef) getParentDef()).setLiteralDef(aDef);
+      ((AeFromDef) getParentDef()).setLiteralDef(def);
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.io.readers.def.AeBpelReaderVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeForEachBranchesDef)
     */
-   public void visit(AeForEachBranchesDef aDef)
+   public void visit(AeForEachBranchesDef def)
    {
-      super.visit(aDef);
+      super.visit(def);
 
-      aDef.setCountCompletedBranchesOnly(getAttributeBoolean(IAeBPELConstants.TAG_FOREACH_BRANCH_COUNTCOMPLETED));
+      def.setCountCompletedBranchesOnly(getAttributeBoolean(IAeBPELConstants.TAG_FOREACH_BRANCH_COUNTCOMPLETED));
    }
 
    /**
@@ -538,38 +538,38 @@ public class AeWSBPELReaderVisitor extends AeBpelReaderVisitor
    /**
     * @see org.activebpel.rt.bpel.def.io.readers.def.AeBpelReaderVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeQueryDef)
     */
-   public void visit(AeQueryDef aDef)
+   public void visit(AeQueryDef def)
    {
-      readAttributes(aDef);
+      readAttributes(def);
 
-      readQueryDef(aDef);
-      ((IAeQueryParentDef) getParentDef()).setQueryDef(aDef);
+      readQueryDef(def);
+      ((IAeQueryParentDef) getParentDef()).setQueryDef(def);
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityOpaqueDef)
     */
-   public void visit(AeActivityOpaqueDef aDef)
+   public void visit(AeActivityOpaqueDef def)
    {
-      readAttributes(aDef);
-      addActivityToParent(aDef);
+      readAttributes(def);
+      addActivityToParent(def);
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeFromDef)
     */
-   public void visit(AeFromDef aDef)
+   public void visit(AeFromDef def)
    {
       if (TAG_OPAQUE_FROM.equals( getCurrentElement().getLocalName()) )
       {
-         readCommonAttributes(aDef);
-         aDef.setOpaque(true);
+         readCommonAttributes(def);
+         def.setOpaque(true);
       }
       else
       {
-         readAttributes(aDef);
+         readAttributes(def);
       }
-      ((IAeFromParentDef)getParentDef()).setFromDef(aDef);
+      ((IAeFromParentDef)getParentDef()).setFromDef(def);
    }
 
    /**

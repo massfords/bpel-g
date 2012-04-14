@@ -80,26 +80,26 @@ public class AeMessageExchangeValidationVisitor extends AeAbstractDefVisitor
    /**
     * @see org.activebpel.rt.bpel.def.visitors.AeAbstractDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeOnMessageDef)
     */
-   public void visit(AeOnMessageDef aDef)
+   public void visit(AeOnMessageDef def)
    {
-      validateReceive(aDef, aDef);
-      super.visit(aDef);
+      validateReceive(def, def);
+      super.visit(def);
    }
    
    /**
     * @see org.activebpel.rt.bpel.def.visitors.AeAbstractDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeOnEventDef)
     */
-   public void visit(AeOnEventDef aDef)
+   public void visit(AeOnEventDef def)
    {
       if (IAeBPELConstants.BPWS_NAMESPACE_URI.equals(mProcessDef.getNamespace()))
       {
-         validateReceive(aDef, aDef);
+         validateReceive(def, def);
       }
       else
       {
-         validateReceive(aDef, aDef.getActivityDef());
+         validateReceive(def, def.getActivityDef());
       }
-      super.visit(aDef);
+      super.visit(def);
    }
 
    /**

@@ -152,7 +152,7 @@ public class AeWSBPELActivityScopeValidator extends AeActivityScopeValidator
       /**
        * @see org.activebpel.rt.bpel.def.visitors.AeAbstractDefVisitor#visit(org.activebpel.rt.bpel.def.AeCompensationHandlerDef)
        */
-      public void visit(AeCompensationHandlerDef aDef)
+      public void visit(AeCompensationHandlerDef def)
       {
          // do not traverse into an FCT handler. We're only interested in
          // finding <compensate/> or <compensateScope/> activities that can target
@@ -162,7 +162,7 @@ public class AeWSBPELActivityScopeValidator extends AeActivityScopeValidator
       /**
        * @see org.activebpel.rt.bpel.def.visitors.AeAbstractDefVisitor#visit(org.activebpel.rt.bpel.def.AeFaultHandlersDef)
        */
-      public void visit(AeFaultHandlersDef aDef)
+      public void visit(AeFaultHandlersDef def)
       {
          // do not traverse into an FCT handler. We're only interested in
          // finding <compensate/> or <compensateScope/> activities that can target
@@ -172,7 +172,7 @@ public class AeWSBPELActivityScopeValidator extends AeActivityScopeValidator
       /**
        * @see org.activebpel.rt.bpel.def.visitors.AeAbstractDefVisitor#visit(org.activebpel.rt.bpel.def.AeTerminationHandlerDef)
        */
-      public void visit(AeTerminationHandlerDef aDef)
+      public void visit(AeTerminationHandlerDef def)
       {
          // do not traverse into an FCT handler. We're only interested in
          // finding <compensate/> or <compensateScope/> activities that can target

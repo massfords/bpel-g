@@ -38,14 +38,14 @@ public class AeMessageExchangeVisitor extends AeAbstractDefVisitor
     * Marks the child scope as implicitly declaring a default message exchange value.
     * @see org.activebpel.rt.bpel.def.visitors.AeAbstractDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityForEachDef)
     */
-   public void visit(AeActivityForEachDef aDef)
+   public void visit(AeActivityForEachDef def)
    {
-      if (aDef.isParallel() && aDef.getActivityDef() instanceof AeActivityScopeDef)
+      if (def.isParallel() && def.getActivityDef() instanceof AeActivityScopeDef)
       {
-         AeMessageExchangesDef msgExsDef = getOrCreateMessageExchangesDef(aDef.getChildScope().getScopeDef());
+         AeMessageExchangesDef msgExsDef = getOrCreateMessageExchangesDef(def.getChildScope().getScopeDef());
          msgExsDef.setDefaultDeclared(true);
       }
-      super.visit(aDef);
+      super.visit(def);
    }
 
    /**

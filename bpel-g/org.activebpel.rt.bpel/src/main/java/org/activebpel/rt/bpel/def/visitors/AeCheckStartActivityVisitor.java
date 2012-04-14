@@ -84,12 +84,12 @@ public class AeCheckStartActivityVisitor extends AeAbstractDefVisitor implements
     * Override to handle special processing of Scope container.
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.AeScopeDef)
     */
-   public void visit(AeScopeDef aDef)
+   public void visit(AeScopeDef def)
    {
       if (mAscending)
-         aDef.getParent().accept(this);
+         def.getParent().accept(this);
       else
-         aDef.getActivityDef().accept(this);
+         def.getActivityDef().accept(this);
    }
 
    /**
@@ -130,14 +130,14 @@ public class AeCheckStartActivityVisitor extends AeAbstractDefVisitor implements
     * Override to handle special processing of Sequence container.
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivitySequenceDef)
     */
-   public void visit(AeActivitySequenceDef aDef)
+   public void visit(AeActivitySequenceDef def)
    {
       // If no activities in sequence, return since this error is flagged elsewhere
-      if (! aDef.getActivityDefs().hasNext())
+      if (! def.getActivityDefs().hasNext())
          return;
 
       // We only need to process the first activity of the sequence
-      AeActivityDef firstActivity = aDef.getActivityDefs().next();
+      AeActivityDef firstActivity = def.getActivityDefs().next();
 
       if (mAscending)
       {
@@ -147,7 +147,7 @@ public class AeCheckStartActivityVisitor extends AeAbstractDefVisitor implements
          if(mCurrentActivity == firstActivity || firstActivity instanceof AeActivitySequenceDef)
          {
             mCurrentActivity = firstActivity;
-            aDef.getParent().accept(this);
+            def.getParent().accept(this);
          }
          else
          {
@@ -164,39 +164,39 @@ public class AeCheckStartActivityVisitor extends AeAbstractDefVisitor implements
    /**
     * @see org.activebpel.rt.bpel.def.visitors.AeAbstractDefVisitor#visit(org.activebpel.rt.bpel.def.AeCompensationHandlerDef)
     */
-   public void visit(AeCompensationHandlerDef aDef)
+   public void visit(AeCompensationHandlerDef def)
    {
-      reportError(aDef);
+      reportError(def);
    }
    
    /**
     * @see org.activebpel.rt.bpel.def.visitors.AeAbstractDefVisitor#visit(org.activebpel.rt.bpel.def.AeTerminationHandlerDef)
     */
-   public void visit(AeTerminationHandlerDef aDef)
+   public void visit(AeTerminationHandlerDef def)
    {
-      reportError(aDef);
+      reportError(def);
    }
    
    /**
     * @see org.activebpel.rt.bpel.def.visitors.AeAbstractDefVisitor#visit(org.activebpel.rt.bpel.def.AeCatchAllDef)
     */
-   public void visit(AeCatchAllDef aDef)
+   public void visit(AeCatchAllDef def)
    {
-      reportError(aDef);
+      reportError(def);
    }
    
    /**
     * @see org.activebpel.rt.bpel.def.visitors.AeAbstractDefVisitor#visit(org.activebpel.rt.bpel.def.AeCatchDef)
     */
-   public void visit(AeCatchDef aDef)
+   public void visit(AeCatchDef def)
    {
-      reportError(aDef);
+      reportError(def);
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.visitors.AeAbstractDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityForEachDef)
     */
-   public void visit(AeActivityForEachDef aDef)
+   public void visit(AeActivityForEachDef def)
    {
       reportError(mCurrentActivity);
    }
@@ -205,7 +205,7 @@ public class AeCheckStartActivityVisitor extends AeAbstractDefVisitor implements
     * Override to handle special processing of While container.
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityWhileDef)
     */
-   public void visit(AeActivityWhileDef aDef)
+   public void visit(AeActivityWhileDef def)
    {
       reportError(mCurrentActivity);
    }
@@ -221,7 +221,7 @@ public class AeCheckStartActivityVisitor extends AeAbstractDefVisitor implements
    /**
     * @see org.activebpel.rt.bpel.def.visitors.AeAbstractDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityRepeatUntilDef)
     */
-   public void visit(AeActivityRepeatUntilDef aDef)
+   public void visit(AeActivityRepeatUntilDef def)
    {
       reportError(mCurrentActivity);
    }
@@ -291,9 +291,9 @@ public class AeCheckStartActivityVisitor extends AeAbstractDefVisitor implements
    /**
     * @see org.activebpel.rt.bpel.def.visitors.AeAbstractDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeChildExtensionActivityDef)
     */
-   public void visit(AeChildExtensionActivityDef aDef)
+   public void visit(AeChildExtensionActivityDef def)
    {
-      reportError(aDef);
+      reportError(def);
    }
 
    /**
@@ -329,125 +329,125 @@ public class AeCheckStartActivityVisitor extends AeAbstractDefVisitor implements
     * Overrides method to report error during traversal.
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityIfDef)
     */
-   public void visit(AeActivityIfDef aDef)
+   public void visit(AeActivityIfDef def)
    {
-      reportError(aDef);
+      reportError(def);
    }
 
    /**
     * Overrides method to report error during traversal.
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityExitDef)
     */
-   public void visit(AeActivityExitDef aDef)
+   public void visit(AeActivityExitDef def)
    {
-      reportError(aDef);
+      reportError(def);
    }
 
    /**
     * Overrides method to report error during traversal.
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityThrowDef)
     */
-   public void visit(AeActivityThrowDef aDef)
+   public void visit(AeActivityThrowDef def)
    {
-      reportError(aDef);
+      reportError(def);
    }
 
    /**
     * Overrides method to report error during traversal.
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityWaitDef)
     */
-   public void visit(AeActivityWaitDef aDef)
+   public void visit(AeActivityWaitDef def)
    {
-      reportError(aDef);
+      reportError(def);
    }
 
    /**
     * Overrides method to report error during traversal.
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.AeCorrelationsDef)
     */
-   public void visit(AeCorrelationsDef aDef)
+   public void visit(AeCorrelationsDef def)
    {
-      reportError(aDef);
+      reportError(def);
    }
 
    /**
     * Overrides method to report error during traversal.
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.AeCorrelationSetsDef)
     */
-   public void visit(AeCorrelationSetsDef aDef)
+   public void visit(AeCorrelationSetsDef def)
    {
-      reportError(aDef);
+      reportError(def);
    }
 
    /**
     * Overrides method to report error during traversal.
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.AeEventHandlersDef)
     */
-   public void visit(AeEventHandlersDef aDef)
+   public void visit(AeEventHandlersDef def)
    {
-      reportError(aDef);
+      reportError(def);
    }
 
    /**
     * Overrides method to report error during traversal.
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.AeFaultHandlersDef)
     */
-   public void visit(AeFaultHandlersDef aDef)
+   public void visit(AeFaultHandlersDef def)
    {
-      reportError(aDef);
+      reportError(def);
    }
 
    /**
     * Overrides method to report error during traversal.
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeOnAlarmDef)
     */
-   public void visit(AeOnAlarmDef aDef)
+   public void visit(AeOnAlarmDef def)
    {
-      reportError(aDef);
+      reportError(def);
    }
 
    /**
     * Overrides method to report error during traversal.
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeOnMessageDef)
     */
-   public void visit(AeOnMessageDef aDef)
+   public void visit(AeOnMessageDef def)
    {
-      reportError(aDef);
+      reportError(def);
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.visitors.AeAbstractDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeOnEventDef)
     */
-   public void visit(AeOnEventDef aDef)
+   public void visit(AeOnEventDef def)
    {
-      visit((AeOnMessageDef) aDef);
+      visit((AeOnMessageDef) def);
    }
 
    /**
     * Overrides method to report error during traversal.
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeElseDef)
     */
-   public void visit(AeElseDef aDef)
+   public void visit(AeElseDef def)
    {
-      reportError(aDef);
+      reportError(def);
    }
 
    /**
     * Overrides method to report error during traversal.
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeElseIfDef)
     */
-   public void visit(AeElseIfDef aDef)
+   public void visit(AeElseIfDef def)
    {
-      reportError(aDef);
+      reportError(def);
    }
 
    /**
     * Overrides method to report error during traversal.
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeIfDef)
     */
-   public void visit(AeIfDef aDef)
+   public void visit(AeIfDef def)
    {
-      reportError(aDef);
+      reportError(def);
    }
 
    /**

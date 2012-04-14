@@ -179,18 +179,18 @@ public class AeInlinePropertyAliasVisitor extends AeAbstractDefVisitor
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeElseIfDef)
     */
-   public void visit(AeElseIfDef aDef)
+   public void visit(AeElseIfDef def)
    {
-      extractPropAliasFromExpression(aDef.getConditionDef(), aDef);
-      super.visit(aDef);
+      extractPropAliasFromExpression(def.getConditionDef(), def);
+      super.visit(def);
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeIfDef)
     */
-   public void visit(AeIfDef aDef)
+   public void visit(AeIfDef def)
    {
-      visit((AeElseIfDef) aDef);
+      visit((AeElseIfDef) def);
    }
 
    /**

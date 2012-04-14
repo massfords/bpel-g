@@ -63,27 +63,27 @@ public class AeWSBPELDefMessagePartsMapVisitor extends AeAbstractDefMessageParts
    /**
     * @see org.activebpel.rt.bpel.def.visitors.AeAbstractDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeChildExtensionActivityDef)
     */
-   public void visit(AeChildExtensionActivityDef aDef)
+   public void visit(AeChildExtensionActivityDef def)
    {
-      if (aDef.getExtensionObject() != null)
+      if (def.getExtensionObject() != null)
       {
          // producer 
-         IAeMessageDataProducerDef producerDef = (IAeMessageDataProducerDef) aDef.getExtensionObject().getAdapter(IAeMessageDataProducerDef.class);
+         IAeMessageDataProducerDef producerDef = (IAeMessageDataProducerDef) def.getExtensionObject().getAdapter(IAeMessageDataProducerDef.class);
          if (producerDef != null)
          {
-            AeMessagePartsMap map = createInputMessagePartsMap(producerDef.getProducerPortType(), producerDef.getProducerOperation(), null, null, aDef.getLocationPath());
+            AeMessagePartsMap map = createInputMessagePartsMap(producerDef.getProducerPortType(), producerDef.getProducerOperation(), null, null, def.getLocationPath());
             producerDef.setProducerMessagePartsMap(map);
          }
          
          // consumer
-         IAeMessageDataConsumerDef consumerDef = (IAeMessageDataConsumerDef) aDef.getExtensionObject().getAdapter(IAeMessageDataConsumerDef.class);
+         IAeMessageDataConsumerDef consumerDef = (IAeMessageDataConsumerDef) def.getExtensionObject().getAdapter(IAeMessageDataConsumerDef.class);
          if (consumerDef != null)
          {
-            AeMessagePartsMap map = createOutputMessagePartsMap(consumerDef.getConsumerPortType(), consumerDef.getConsumerOperation(), null, null, aDef.getLocationPath());
+            AeMessagePartsMap map = createOutputMessagePartsMap(consumerDef.getConsumerPortType(), consumerDef.getConsumerOperation(), null, null, def.getLocationPath());
             consumerDef.setConsumerMessagePartsMap(map);
          }
       }
-      super.visit(aDef);
+      super.visit(def);
    }
 
    /**

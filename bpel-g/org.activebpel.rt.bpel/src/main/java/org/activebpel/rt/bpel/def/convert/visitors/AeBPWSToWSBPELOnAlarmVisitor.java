@@ -32,21 +32,21 @@ public class AeBPWSToWSBPELOnAlarmVisitor extends AeAbstractBPWSToWSBPELVisitor
    /**
     * @see org.activebpel.rt.bpel.def.visitors.AeAbstractDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeOnAlarmDef)
     */
-   public void visit(AeOnAlarmDef aDef)
+   public void visit(AeOnAlarmDef def)
    {
-      if (aDef.getParent() instanceof AeEventHandlersDef)
+      if (def.getParent() instanceof AeEventHandlersDef)
       {
-         AeActivityDef oldChild = aDef.getActivityDef();
+         AeActivityDef oldChild = def.getActivityDef();
          if (!(oldChild instanceof AeActivityScopeDef))
          {
             AeActivityScopeDef newScopeChild = new AeActivityScopeDef();
             newScopeChild.setActivityDef(oldChild);
             newScopeChild.setParentXmlDef(oldChild.getParent());
             oldChild.setParentXmlDef(newScopeChild);
-            aDef.setActivityDef(newScopeChild);
+            def.setActivityDef(newScopeChild);
          }
       }
 
-      super.visit(aDef);
+      super.visit(def);
    }
 }

@@ -161,12 +161,12 @@ public class AeProcessDefToWebStateModelVisitor extends AeProcessDefToWebModelVi
     * Overrides method to account for duplicate visits in forEach parallel or concurrent onEvent/onAlarm containers.
     * @see org.activebpel.rt.bpeladmin.war.web.processview.AeProcessDefToWebModelVisitor#visit(org.activebpel.rt.bpel.def.AeCorrelationsDef)
     */
-   public void visit(AeCorrelationsDef aDef)
+   public void visit(AeCorrelationsDef def)
    {
       // visit only if not already visited.
-      if (getBpelProcessModel() != null && getBpelProcessModel().getWebModel(aDef.getLocationPath()) == null)
+      if (getBpelProcessModel() != null && getBpelProcessModel().getWebModel(def.getLocationPath()) == null)
       {
-         super.visit(aDef);
+         super.visit(def);
       }
    }
 
@@ -174,19 +174,19 @@ public class AeProcessDefToWebStateModelVisitor extends AeProcessDefToWebModelVi
     * Overrides method to account for concurrent onAlarms instances.
     * @see org.activebpel.rt.bpeladmin.war.web.processview.AeProcessDefToWebModelVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeOnEventDef)
     */
-   public void visit(AeOnEventDef aDef)
+   public void visit(AeOnEventDef def)
    {
       // get the instance counter from the state document.
-      int instanceCount = getInstanceCount(aDef);
+      int instanceCount = getInstanceCount(def);
       if (instanceCount < 1 || isBpelVersion11() )
       {
          // no non-concurrent version
-         super.visit(aDef);
+         super.visit(def);
       }
       else
       {
-         AeActivityScopeDef childScopeDef = aDef.getChildScope();
-         visitConcurrentDef(aDef, childScopeDef, instanceCount, IAeBPELConstants.TAG_ON_EVENT, IAeBPELConstants.TAG_ON_MESSAGE);
+         AeActivityScopeDef childScopeDef = def.getChildScope();
+         visitConcurrentDef(def, childScopeDef, instanceCount, IAeBPELConstants.TAG_ON_EVENT, IAeBPELConstants.TAG_ON_MESSAGE);
       }
    }
 
@@ -195,19 +195,19 @@ public class AeProcessDefToWebStateModelVisitor extends AeProcessDefToWebModelVi
     * Overrides method to
     * @see org.activebpel.rt.bpeladmin.war.web.processview.AeProcessDefToWebModelVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeOnAlarmDef)
     */
-   public void visit(AeOnAlarmDef aDef)
+   public void visit(AeOnAlarmDef def)
    {
       // get the instance counter from the state document.
-      int instanceCount = getInstanceCount(aDef);
+      int instanceCount = getInstanceCount(def);
       if (instanceCount < 1 || isBpelVersion11() )
       {
          // no non-concurrent version
-         super.visit(aDef);
+         super.visit(def);
       }
       else
       {
-         AeActivityScopeDef childScopeDef = (AeActivityScopeDef) aDef.getActivityDef();
-         visitConcurrentDef(aDef, childScopeDef, instanceCount, IAeBPELConstants.TAG_ON_ALARM, IAeBPELConstants.TAG_ON_ALARM);
+         AeActivityScopeDef childScopeDef = (AeActivityScopeDef) def.getActivityDef();
+         visitConcurrentDef(def, childScopeDef, instanceCount, IAeBPELConstants.TAG_ON_ALARM, IAeBPELConstants.TAG_ON_ALARM);
       }
    }
 
@@ -230,11 +230,11 @@ public class AeProcessDefToWebStateModelVisitor extends AeProcessDefToWebModelVi
     * Overrides method to handle parallel for each.
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityForEachDef)
     */
-   public void visit(AeActivityForEachDef aDef)
+   public void visit(AeActivityForEachDef def)
    {
       // if the forEach activity is parallel, then create (scope) models for each instance
       // of the parallel forEach.
-      if (aDef.isParallel())
+      if (def.isParallel())
       {
          // get the instance counter start and final values from the state document.
          int forEachStart = 1;
@@ -242,7 +242,7 @@ public class AeProcessDefToWebStateModelVisitor extends AeProcessDefToWebModelVi
          int forEachInstance = 1;
          try
          {
-            Element ele = selectSingleElement(aDef);
+            Element ele = selectSingleElement(def);
             if (ele != null)
             {
                forEachStart = Integer.parseInt( ele.getAttribute(IAeImplStateNames.STATE_FOREACH_START) );
@@ -261,14 +261,14 @@ public class AeProcessDefToWebStateModelVisitor extends AeProcessDefToWebModelVi
          // create forEach container model and initialize it with child instance scopes.
          if (instanceStartValue != -1 && instanceFinalValue != -1 && instanceStartValue <= instanceFinalValue)
          {
-            AeBpelActivityObject forEachModel = new AeBpelActivityObject(AeActivityForEachDef.TAG_FOREACH, aDef);
-            AeActivityScopeDef childScopeDef = aDef.getChildScope();
-            buildParallelScopeContainer(aDef, childScopeDef, forEachModel, instanceStartValue, instanceFinalValue);
+            AeBpelActivityObject forEachModel = new AeBpelActivityObject(AeActivityForEachDef.TAG_FOREACH, def);
+            AeActivityScopeDef childScopeDef = def.getChildScope();
+            buildParallelScopeContainer(def, childScopeDef, forEachModel, instanceStartValue, instanceFinalValue);
             return;
          }
       }
       // not a parallel forEach (or the loop was never executed) - let the base class handle the creation and traversal.
-      super.visit(aDef);
+      super.visit(def);
 
    }
 

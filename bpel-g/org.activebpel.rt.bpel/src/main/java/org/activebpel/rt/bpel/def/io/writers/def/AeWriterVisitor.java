@@ -182,49 +182,49 @@ public abstract class AeWriterVisitor extends AeAbstractDefWriter implements IAe
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivitySequenceDef)
     */
-   public void visit(AeActivitySequenceDef aDef)
+   public void visit(AeActivitySequenceDef def)
    {
-      writeAttributes(aDef);
+      writeAttributes(def);
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityExitDef)
     */
-   public void visit(AeActivityExitDef aDef)
+   public void visit(AeActivityExitDef def)
    {
-      writeAttributes(aDef);
+      writeAttributes(def);
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityThrowDef)
     */
-   public void visit(AeActivityThrowDef aDef)
+   public void visit(AeActivityThrowDef def)
    {
-      writeAttributes(aDef);
-      setAttribute(TAG_FAULT_NAME, aDef.getFaultName());
-      setAttribute(TAG_FAULT_VARIABLE, aDef.getFaultVariable());
+      writeAttributes(def);
+      setAttribute(TAG_FAULT_NAME, def.getFaultName());
+      setAttribute(TAG_FAULT_VARIABLE, def.getFaultVariable());
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityWaitDef)
     */
-   public void visit(AeActivityWaitDef aDef)
+   public void visit(AeActivityWaitDef def)
    {
-      writeAttributes(aDef);
+      writeAttributes(def);
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityWhileDef)
     */
-   public void visit(AeActivityWhileDef aDef)
+   public void visit(AeActivityWhileDef def)
    {
-      writeAttributes(aDef);
+      writeAttributes(def);
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityRepeatUntilDef)
     */
-   public void visit(AeActivityRepeatUntilDef aDef)
+   public void visit(AeActivityRepeatUntilDef def)
    {
       throw new UnsupportedOperationException();
    }
@@ -232,27 +232,27 @@ public abstract class AeWriterVisitor extends AeAbstractDefWriter implements IAe
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityForEachDef)
     */
-   public void visit(AeActivityForEachDef aDef)
+   public void visit(AeActivityForEachDef def)
    {
-      writeAttributes(aDef);
-      setAttribute(TAG_FOREACH_COUNTERNAME, aDef.getCounterName());
-      setAttribute(TAG_FOREACH_PARALLEL, aDef.isParallel(), true);
+      writeAttributes(def);
+      setAttribute(TAG_FOREACH_COUNTERNAME, def.getCounterName());
+      setAttribute(TAG_FOREACH_PARALLEL, def.isParallel(), true);
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeForEachCompletionConditionDef)
     */
-   public void visit(AeForEachCompletionConditionDef aDef)
+   public void visit(AeForEachCompletionConditionDef def)
    {
-      writeStandardAttributes(aDef);
+      writeStandardAttributes(def);
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeForEachFinalDef)
     */
-   public void visit(AeForEachFinalDef aDef)
+   public void visit(AeForEachFinalDef def)
    {
-      writeExpressionDef(aDef);
+      writeExpressionDef(def);
    }
 
    /**
@@ -266,39 +266,39 @@ public abstract class AeWriterVisitor extends AeAbstractDefWriter implements IAe
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeForEachBranchesDef)
     */
-   public void visit(AeForEachBranchesDef aDef)
+   public void visit(AeForEachBranchesDef def)
    {
-      writeExpressionDef(aDef);
+      writeExpressionDef(def);
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeAssignCopyDef)
     */
-   public void visit(AeAssignCopyDef aDef)
+   public void visit(AeAssignCopyDef def)
    {
-      writeStandardAttributes(aDef);
+      writeStandardAttributes(def);
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeFromDef)
     */
-   public void visit(AeFromDef aDef)
+   public void visit(AeFromDef def)
    {
-      writeAttributes(aDef);
+      writeAttributes(def);
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeToDef)
     */
-   public void visit(AeToDef aDef)
+   public void visit(AeToDef def)
    {
-      writeAttributes(aDef);
+      writeAttributes(def);
    }
    
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeQueryDef)
     */
-   public void visit(AeQueryDef aDef)
+   public void visit(AeQueryDef def)
    {
       throw new UnsupportedOperationException();
    }
@@ -306,33 +306,33 @@ public abstract class AeWriterVisitor extends AeAbstractDefWriter implements IAe
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.AeCorrelationsDef)
     */
-   public void visit(AeCorrelationsDef aDef)
+   public void visit(AeCorrelationsDef def)
    {
-      writeStandardAttributes(aDef);
+      writeStandardAttributes(def);
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeCorrelationDef)
     */
-   public void visit(AeCorrelationDef aDef)
+   public void visit(AeCorrelationDef def)
    {
-      writeStandardAttributes(aDef);
-      setAttribute(TAG_SET, aDef.getCorrelationSetName());
-      if (aDef.getPattern() != null)
+      writeStandardAttributes(def);
+      setAttribute(TAG_SET, def.getCorrelationSetName());
+      if (def.getPattern() != null)
       {
-         AeCorrelationDef.AeCorrelationPatternType type = aDef.getPattern();
+         AeCorrelationDef.AeCorrelationPatternType type = def.getPattern();
          IAeCorrelationPatternIO patternIO = AeCorrelationPatternIOFactory.getInstance(getElement().getNamespaceURI());
          setAttribute(TAG_PATTERN, patternIO.toString(type));
       }
-      setAttribute(TAG_INITIATE, aDef.getInitiate());
+      setAttribute(TAG_INITIATE, def.getInitiate());
    }
    
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.AeCorrelationSetsDef)
     */
-   public void visit(AeCorrelationSetsDef aDef)
+   public void visit(AeCorrelationSetsDef def)
    {
-      writeStandardAttributes(aDef);
+      writeStandardAttributes(def);
    }
 
    /**
@@ -348,111 +348,111 @@ public abstract class AeWriterVisitor extends AeAbstractDefWriter implements IAe
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.AeCatchAllDef)
     */
-   public void visit(AeCatchAllDef aDef)
+   public void visit(AeCatchAllDef def)
    {
-      writeStandardAttributes(aDef);
+      writeStandardAttributes(def);
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.AeEventHandlersDef)
     */
-   public void visit(AeEventHandlersDef aDef)
+   public void visit(AeEventHandlersDef def)
    {
-      writeStandardAttributes(aDef);
+      writeStandardAttributes(def);
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.AeCatchDef)
     */
-   public void visit(AeCatchDef aDef)
+   public void visit(AeCatchDef def)
    {
-      writeStandardAttributes(aDef);
-      setAttribute(TAG_FAULT_NAME, aDef.getFaultName());
-      setAttribute(TAG_FAULT_VARIABLE, aDef.getFaultVariable());
+      writeStandardAttributes(def);
+      setAttribute(TAG_FAULT_NAME, def.getFaultName());
+      setAttribute(TAG_FAULT_VARIABLE, def.getFaultVariable());
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.AeFaultHandlersDef)
     */
-   public void visit(AeFaultHandlersDef aDef)
+   public void visit(AeFaultHandlersDef def)
    {
-      writeStandardAttributes(aDef);
+      writeStandardAttributes(def);
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeLinksDef)
     */
-   public void visit(AeLinksDef aDef)
+   public void visit(AeLinksDef def)
    {
-      writeStandardAttributes(aDef);
+      writeStandardAttributes(def);
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeLinkDef)
     */
-   public void visit(AeLinkDef aDef)
+   public void visit(AeLinkDef def)
    {
-      writeAttributes(aDef);
+      writeAttributes(def);
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.AeMessageExchangesDef)
     */
-   public void visit(AeMessageExchangesDef aDef)
+   public void visit(AeMessageExchangesDef def)
    {
-      writeStandardAttributes(aDef);
+      writeStandardAttributes(def);
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.AeMessageExchangeDef)
     */
-   public void visit(AeMessageExchangeDef aDef)
+   public void visit(AeMessageExchangeDef def)
    {
-      writeStandardAttributes(aDef);
+      writeStandardAttributes(def);
 
-      setAttribute(TAG_NAME, aDef.getName());
+      setAttribute(TAG_NAME, def.getName());
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeOnAlarmDef)
     */
-   public void visit(AeOnAlarmDef aDef)
+   public void visit(AeOnAlarmDef def)
    {
-      writeStandardAttributes(aDef);
+      writeStandardAttributes(def);
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeOnMessageDef)
     */
-   public void visit(AeOnMessageDef aDef)
+   public void visit(AeOnMessageDef def)
    {
-      writeStandardAttributes(aDef);
-      setAttribute(TAG_PARTNER_LINK,   aDef.getPartnerLink());
+      writeStandardAttributes(def);
+      setAttribute(TAG_PARTNER_LINK,   def.getPartnerLink());
       if ( writePortTypeAttrib() )
       {
-         setAttribute(TAG_PORT_TYPE, aDef.getPortType());
+         setAttribute(TAG_PORT_TYPE, def.getPortType());
       }
-      setAttribute(TAG_OPERATION, aDef.getOperation());
-      setAttribute(TAG_VARIABLE, aDef.getVariable());
-      writeMessageExchange(aDef.getMessageExchange());
+      setAttribute(TAG_OPERATION, def.getOperation());
+      setAttribute(TAG_VARIABLE, def.getVariable());
+      writeMessageExchange(def.getMessageExchange());
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeOnEventDef)
     */
-   public void visit(AeOnEventDef aDef)
+   public void visit(AeOnEventDef def)
    {
-      visit((AeOnMessageDef) aDef);
+      visit((AeOnMessageDef) def);
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.AePartnerDef)
     */
-   public void visit(AePartnerDef aDef)
+   public void visit(AePartnerDef def)
    {
-      writeAttributes(aDef);
+      writeAttributes(def);
 
-      for(Iterator iter=aDef.getPartnerLinks(); iter.hasNext();)
+      for(Iterator iter= def.getPartnerLinks(); iter.hasNext();)
       {
          String qualifier = AeUtil.isNullOrEmpty(getElement().getPrefix()) ? "" : getElement().getPrefix() + ":"; //$NON-NLS-1$ //$NON-NLS-2$
          Element element = getElement().getOwnerDocument().createElementNS(getElement().getNamespaceURI(), qualifier + TAG_PARTNER_LINK);
@@ -465,29 +465,29 @@ public abstract class AeWriterVisitor extends AeAbstractDefWriter implements IAe
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.AePartnerLinkDef)
     */
-   public void visit(AePartnerLinkDef aDef)
+   public void visit(AePartnerLinkDef def)
    {
-      writeAttributes(aDef);
-      setAttribute(TAG_PARTNER_LINK_TYPE, aDef.getPartnerLinkTypeName());
-      setAttribute(TAG_MY_ROLE, aDef.getMyRole());
-      setAttribute(TAG_PARTNER_ROLE, aDef.getPartnerRole());
+      writeAttributes(def);
+      setAttribute(TAG_PARTNER_LINK_TYPE, def.getPartnerLinkTypeName());
+      setAttribute(TAG_MY_ROLE, def.getMyRole());
+      setAttribute(TAG_PARTNER_ROLE, def.getPartnerRole());
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.AePartnerLinksDef)
     */
-   public void visit(AePartnerLinksDef aDef)
+   public void visit(AePartnerLinksDef def)
    {
-      writeStandardAttributes(aDef);
+      writeStandardAttributes(def);
    }
 
 
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.AePartnersDef)
     */
-   public void visit(AePartnersDef aDef)
+   public void visit(AePartnersDef def)
    {
-      writeStandardAttributes(aDef);
+      writeStandardAttributes(def);
    }
 
    /**
@@ -522,23 +522,23 @@ public abstract class AeWriterVisitor extends AeAbstractDefWriter implements IAe
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.AeCompensationHandlerDef)
     */
-   public void visit(AeCompensationHandlerDef aDef)
+   public void visit(AeCompensationHandlerDef def)
    {
-      writeStandardAttributes(aDef);
+      writeStandardAttributes(def);
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.AeScopeDef)
     */
-   public void visit(AeScopeDef aDef)
+   public void visit(AeScopeDef def)
    {
-      writeAttributes(aDef);
+      writeAttributes(def);
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeSourcesDef)
     */
-   public void visit(AeSourcesDef aDef)
+   public void visit(AeSourcesDef def)
    {
    }
 
@@ -554,42 +554,42 @@ public abstract class AeWriterVisitor extends AeAbstractDefWriter implements IAe
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeTargetsDef)
     */
-   public void visit(AeTargetsDef aDef)
+   public void visit(AeTargetsDef def)
    {
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeTargetDef)
     */
-   public void visit(AeTargetDef aDef)
+   public void visit(AeTargetDef def)
    {
-      writeStandardAttributes(aDef);
-      setAttribute(TAG_LINK_NAME,aDef.getLinkName());
+      writeStandardAttributes(def);
+      setAttribute(TAG_LINK_NAME, def.getLinkName());
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.AeVariableDef)
     */
-   public void visit(AeVariableDef aDef)
+   public void visit(AeVariableDef def)
    {
-      writeAttributes(aDef);
-      setAttribute(TAG_MESSAGE_TYPE, aDef.getMessageType());
-      setAttribute(TAG_TYPE, aDef.getType());
-      setAttribute(TAG_ELEMENT, aDef.getElement());
+      writeAttributes(def);
+      setAttribute(TAG_MESSAGE_TYPE, def.getMessageType());
+      setAttribute(TAG_TYPE, def.getType());
+      setAttribute(TAG_ELEMENT, def.getElement());
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.AeVariablesDef)
     */
-   public void visit(AeVariablesDef aDef)
+   public void visit(AeVariablesDef def)
    {
-      writeStandardAttributes(aDef);
+      writeStandardAttributes(def);
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.AeImportDef)
     */
-   public void visit(AeImportDef aDef)
+   public void visit(AeImportDef def)
    {
       throw new UnsupportedOperationException();
    }
@@ -605,7 +605,7 @@ public abstract class AeWriterVisitor extends AeAbstractDefWriter implements IAe
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeExtensibleAssignDef)
     */
-   public void visit(AeExtensibleAssignDef aDef)
+   public void visit(AeExtensibleAssignDef def)
    {
       throw new UnsupportedOperationException();
    }
@@ -613,7 +613,7 @@ public abstract class AeWriterVisitor extends AeAbstractDefWriter implements IAe
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityValidateDef)
     */
-   public void visit(AeActivityValidateDef aDef)
+   public void visit(AeActivityValidateDef def)
    {
       throw new UnsupportedOperationException();
    }
@@ -621,7 +621,7 @@ public abstract class AeWriterVisitor extends AeAbstractDefWriter implements IAe
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.AeExtensionDef)
     */
-   public void visit(AeExtensionDef aDef)
+   public void visit(AeExtensionDef def)
    {
       throw new UnsupportedOperationException();
    }
@@ -629,7 +629,7 @@ public abstract class AeWriterVisitor extends AeAbstractDefWriter implements IAe
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.AeExtensionsDef)
     */
-   public void visit(AeExtensionsDef aDef)
+   public void visit(AeExtensionsDef def)
    {
       throw new UnsupportedOperationException();
    }
@@ -637,7 +637,7 @@ public abstract class AeWriterVisitor extends AeAbstractDefWriter implements IAe
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeFromPartsDef)
     */
-   public void visit(AeFromPartsDef aDef)
+   public void visit(AeFromPartsDef def)
    {
       throw new UnsupportedOperationException();
    }
@@ -645,7 +645,7 @@ public abstract class AeWriterVisitor extends AeAbstractDefWriter implements IAe
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeToPartsDef)
     */
-   public void visit(AeToPartsDef aDef)
+   public void visit(AeToPartsDef def)
    {
       throw new UnsupportedOperationException();
    }
@@ -653,7 +653,7 @@ public abstract class AeWriterVisitor extends AeAbstractDefWriter implements IAe
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeFromPartDef)
     */
-   public void visit(AeFromPartDef aDef)
+   public void visit(AeFromPartDef def)
    {
       throw new UnsupportedOperationException();
    }
@@ -661,7 +661,7 @@ public abstract class AeWriterVisitor extends AeAbstractDefWriter implements IAe
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeToPartDef)
     */
-   public void visit(AeToPartDef aDef)
+   public void visit(AeToPartDef def)
    {
       throw new UnsupportedOperationException();
    }
@@ -669,35 +669,35 @@ public abstract class AeWriterVisitor extends AeAbstractDefWriter implements IAe
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeJoinConditionDef)
     */
-   public void visit(AeJoinConditionDef aDef)
+   public void visit(AeJoinConditionDef def)
    {
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeTransitionConditionDef)
     */
-   public void visit(AeTransitionConditionDef aDef)
+   public void visit(AeTransitionConditionDef def)
    {
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeForDef)
     */
-   public void visit(AeForDef aDef)
+   public void visit(AeForDef def)
    {
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeUntilDef)
     */
-   public void visit(AeUntilDef aDef)
+   public void visit(AeUntilDef def)
    {
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(AeChildExtensionActivityDef)
     */
-   public void visit(AeChildExtensionActivityDef aDef)
+   public void visit(AeChildExtensionActivityDef def)
    {
       throw new UnsupportedOperationException();
    }
@@ -705,7 +705,7 @@ public abstract class AeWriterVisitor extends AeAbstractDefWriter implements IAe
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.AeExtensionActivityDef)
     */
-   public void visit(AeExtensionActivityDef aDef)
+   public void visit(AeExtensionActivityDef def)
    {
       // The writer registry for bpel 1.1 will skip the extension activity wrapper
       throw new UnsupportedOperationException();
@@ -714,7 +714,7 @@ public abstract class AeWriterVisitor extends AeAbstractDefWriter implements IAe
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityIfDef)
     */
-   public void visit(AeActivityIfDef aDef)
+   public void visit(AeActivityIfDef def)
    {
       throw new UnsupportedOperationException();
    }
@@ -722,14 +722,14 @@ public abstract class AeWriterVisitor extends AeAbstractDefWriter implements IAe
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeConditionDef)
     */
-   public void visit(AeConditionDef aDef)
+   public void visit(AeConditionDef def)
    {
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeElseDef)
     */
-   public void visit(AeElseDef aDef)
+   public void visit(AeElseDef def)
    {
       throw new UnsupportedOperationException();
    }
@@ -737,7 +737,7 @@ public abstract class AeWriterVisitor extends AeAbstractDefWriter implements IAe
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeElseIfDef)
     */
-   public void visit(AeElseIfDef aDef)
+   public void visit(AeElseIfDef def)
    {
       throw new UnsupportedOperationException();
    }
@@ -745,7 +745,7 @@ public abstract class AeWriterVisitor extends AeAbstractDefWriter implements IAe
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeIfDef)
     */
-   public void visit(AeIfDef aDef)
+   public void visit(AeIfDef def)
    {
       throw new UnsupportedOperationException();
    }
@@ -753,7 +753,7 @@ public abstract class AeWriterVisitor extends AeAbstractDefWriter implements IAe
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityRethrowDef)
     */
-   public void visit(AeActivityRethrowDef aDef)
+   public void visit(AeActivityRethrowDef def)
    {
       throw new UnsupportedOperationException();
    }
@@ -761,7 +761,7 @@ public abstract class AeWriterVisitor extends AeAbstractDefWriter implements IAe
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeRepeatEveryDef)
     */
-   public void visit(AeRepeatEveryDef aDef)
+   public void visit(AeRepeatEveryDef def)
    {
       throw new UnsupportedOperationException();
    }
@@ -769,7 +769,7 @@ public abstract class AeWriterVisitor extends AeAbstractDefWriter implements IAe
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.AeTerminationHandlerDef)
     */
-   public void visit(AeTerminationHandlerDef aDef)
+   public void visit(AeTerminationHandlerDef def)
    {
       throw new UnsupportedOperationException();
    }
@@ -777,11 +777,11 @@ public abstract class AeWriterVisitor extends AeAbstractDefWriter implements IAe
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeLiteralDef)
     */
-   public void visit(AeLiteralDef aDef)
+   public void visit(AeLiteralDef def)
    {
-      writeStandardAttributes(aDef);
+      writeStandardAttributes(def);
 
-       for (Node node : aDef.getChildNodes()) {
+       for (Node node : def.getChildNodes()) {
            Node importedNode = getElement().getOwnerDocument().importNode(node, true);
            getElement().appendChild(importedNode);
            if (importedNode.getNodeType() == Node.ELEMENT_NODE)
@@ -792,7 +792,7 @@ public abstract class AeWriterVisitor extends AeAbstractDefWriter implements IAe
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityOpaqueDef)
     */
-   public void visit(AeActivityOpaqueDef aDef)
+   public void visit(AeActivityOpaqueDef def)
    {
       throw new UnsupportedOperationException();
    }

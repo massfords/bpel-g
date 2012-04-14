@@ -273,9 +273,9 @@ public class AeProcessViewPropertyBuilder extends AeProcessWebPropertyBuilder
     * Overrides method to add variable instance data.
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.AeVariableDef)
     */
-   public void visit(AeVariableDef aDef)
+   public void visit(AeVariableDef def)
    {
-      super.visit(aDef);
+      super.visit(def);
       if (isHasState())
       {
          AeVariableDetail detail =  getVariableDetail(getLocationPath(), getPropertyViewBean().getProcessId());

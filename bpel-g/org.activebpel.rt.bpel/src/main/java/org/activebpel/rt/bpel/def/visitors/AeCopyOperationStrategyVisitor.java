@@ -51,11 +51,11 @@ public class AeCopyOperationStrategyVisitor extends AeAbstractDefVisitor impleme
     * 
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeFromDef)
     */
-   public void visit(AeFromDef aDef)
+   public void visit(AeFromDef def)
    {
-      AeVariableDef variableDef = findVariable(aDef);
-      AeSpecStrategyKey strategy = mStrategyMatcher.getStrategy(aDef, variableDef);
-      aDef.setStrategyKey(strategy);
+      AeVariableDef variableDef = findVariable(def);
+      AeSpecStrategyKey strategy = mStrategyMatcher.getStrategy(def, variableDef);
+      def.setStrategyKey(strategy);
    }
    
    /**
@@ -82,11 +82,11 @@ public class AeCopyOperationStrategyVisitor extends AeAbstractDefVisitor impleme
     * 
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeToDef)
     */
-   public void visit(AeToDef aDef)
+   public void visit(AeToDef def)
    {
-      AeVariableDef variableDef = findVariable(aDef);
-      AeSpecStrategyKey strategy = mStrategyMatcher.getStrategy(aDef, variableDef, getExpressionLanguageFactory());
-      aDef.setStrategyKey(strategy);
+      AeVariableDef variableDef = findVariable(def);
+      AeSpecStrategyKey strategy = mStrategyMatcher.getStrategy(def, variableDef, getExpressionLanguageFactory());
+      def.setStrategyKey(strategy);
    }
 
    /**
