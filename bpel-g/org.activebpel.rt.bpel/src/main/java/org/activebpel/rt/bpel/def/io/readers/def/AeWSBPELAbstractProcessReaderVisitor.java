@@ -30,9 +30,9 @@ public class AeWSBPELAbstractProcessReaderVisitor extends AeWSBPELReaderVisitor
     * Overrides method to read abstract process profile attribute.
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.AeProcessDef)
     */
-   public void visit(AeProcessDef aDef)
+   public void visit(AeProcessDef def)
    {
-      super.visit(aDef);
-      aDef.setAbstractProcessProfile(getAttribute(TAG_ABSTRACT_PROCESS_PROFILE));
+      super.visit(def);
+      def.setAbstractProcessProfile(getAttribute(TAG_ABSTRACT_PROCESS_PROFILE));
    }
 }

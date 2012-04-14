@@ -165,7 +165,7 @@ public class AeBPWSDefPathSegmentVisitor extends AeAbstractDefPathSegmentVisitor
    /**
     * @see org.activebpel.rt.bpel.def.visitors.AeAbstractDefPathSegmentVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityCompensateScopeDef)
     */
-   public void visit(AeActivityCompensateScopeDef aDef)
+   public void visit(AeActivityCompensateScopeDef def)
    {
       // We model the <compensate scope="S1"> activity as a compensateScope def
       setPathSegment(IAeBPELConstants.TAG_COMPENSATE);

@@ -41,13 +41,13 @@ public class AeBPWSToWSBPELExpressionVisitor extends AeAbstractExpressionDefVisi
    /**
     * @see org.activebpel.rt.bpel.def.convert.visitors.AeAbstractBPWSToWSBPELVisitor#visit(org.activebpel.rt.bpel.def.AeProcessDef)
     */
-   public void visit(AeProcessDef aDef)
+   public void visit(AeProcessDef def)
    {
-      if (IAeBPELConstants.BPWS_XPATH_EXPR_LANGUAGE_URI.equals(aDef.getExpressionLanguage()))
+      if (IAeBPELConstants.BPWS_XPATH_EXPR_LANGUAGE_URI.equals(def.getExpressionLanguage()))
       {
-         aDef.setExpressionLanguage(IAeBPELConstants.WSBPEL_EXPR_LANGUAGE_URI);
+         def.setExpressionLanguage(IAeBPELConstants.WSBPEL_EXPR_LANGUAGE_URI);
       }
-      super.visit(aDef);
+      super.visit(def);
    }
 
    /**

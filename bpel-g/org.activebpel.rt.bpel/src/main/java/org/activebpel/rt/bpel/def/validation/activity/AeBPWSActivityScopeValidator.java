@@ -63,15 +63,15 @@ public class AeBPWSActivityScopeValidator extends AeActivityScopeValidator
       /**
        * @see org.activebpel.rt.bpel.def.visitors.AeChildScopeByNameVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityScopeDef)
        */
-      public void visit(AeActivityScopeDef aDef)
+      public void visit(AeActivityScopeDef def)
       {
-         if (aDef == mRoot)
+         if (def == mRoot)
          {
-            traverse(aDef);
+            traverse(def);
          }
          else
          {
-            setScopeDef(aDef);
+            setScopeDef(def);
          }
       }
    }

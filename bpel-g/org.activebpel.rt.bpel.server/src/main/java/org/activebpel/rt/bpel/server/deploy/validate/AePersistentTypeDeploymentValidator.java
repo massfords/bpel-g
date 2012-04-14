@@ -280,26 +280,26 @@ public class AePersistentTypeDeploymentValidator extends AeAbstractDefVisitor
 	/**
 	 * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityReceiveDef)
 	 */
-	public void visit(AeActivityReceiveDef aDef) {
+	public void visit(AeActivityReceiveDef def) {
 		mReceiveActivityRefCount++;
-		if (!checkCreateInstance(aDef)) {
+		if (!checkCreateInstance(def)) {
 			addError(ERROR_NONPERSISTENT_ACTIVITY_NOT_ALLOWED,
 					new String[] { AeActivityReceiveDef.TAG_RECEIVE });
 		}
-		super.visit(aDef);
+		super.visit(def);
 	}
 
 	/**
 	 * @see org.activebpel.rt.bpel.def.visitors.AeAbstractDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityPickDef)
 	 */
-	public void visit(AeActivityPickDef aDef) {
+	public void visit(AeActivityPickDef def) {
 		// fixme (MF) add tests for this class
 		mReceiveActivityRefCount++;
-		if (!checkCreateInstance(aDef)) {
+		if (!checkCreateInstance(def)) {
 			addError(ERROR_NONPERSISTENT_ACTIVITY_NOT_ALLOWED,
 					new String[] { AeActivityPickDef.TAG_RECEIVE });
 		}
-		super.visit(aDef);
+		super.visit(def);
 	}
 
 	/**

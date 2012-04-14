@@ -11,14 +11,12 @@ package org.activebpel.rt.bpel.server.deploy;
 
 import org.activebpel.rt.AeException;
 import org.activebpel.rt.bpel.server.AeMessages;
-import org.activebpel.rt.bpel.server.catalog.AeCatalogEvent;
-import org.activebpel.rt.bpel.server.catalog.AeCatalogMappings;
-import org.activebpel.rt.bpel.server.catalog.IAeCatalog;
-import org.activebpel.rt.bpel.server.catalog.IAeCatalogListener;
-import org.activebpel.rt.bpel.server.catalog.IAeCatalogMapping;
+import org.activebpel.rt.bpel.server.catalog.*;
 import org.activebpel.rt.bpel.server.engine.AeEngineFactory;
 import org.activebpel.rt.bpel.server.logging.IAeDeploymentLogger;
 import org.activebpel.rt.util.AeUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * IAeCatalogDeployer impl.
@@ -28,7 +26,7 @@ public class AeCatalogDeployer implements IAeDeploymentHandler {
     @Override
     public void deploy(IAeDeploymentContainer aContainer, IAeDeploymentLogger aLogger)
             throws AeException {
-        AeCatalogDeploymentLogger logger = new AeCatalogDeploymentLogger(aLogger);
+        AeCatalogDeploymentLogger logger = new AeCatalogDeploymentLogger();
         AeEngineFactory.getBean(IAeCatalog.class).addCatalogListener(logger);
         try {
             AeCatalogMappings catalog = new AeCatalogMappings(aContainer);
@@ -63,17 +61,8 @@ public class AeCatalogDeployer implements IAeDeploymentHandler {
  * Listens for and logs catalog deploment entries.
  */
 class AeCatalogDeploymentLogger implements IAeCatalogListener {
-    /** The deployment logger to log to. */
-    private IAeDeploymentLogger mLogger;
 
-    /**
-     * Constructor.
-     * 
-     * @param aLogger
-     */
-    AeCatalogDeploymentLogger(IAeDeploymentLogger aLogger) {
-        mLogger = aLogger;
-    }
+    private static final Logger log = LoggerFactory.getLogger(AeCatalogDeploymentLogger.class);
 
     /**
      * @see org.activebpel.rt.bpel.server.catalog.IAeCatalogListener#onDeployment(org.activebpel.rt.bpel.server.catalog.AeCatalogEvent)
@@ -81,7 +70,7 @@ class AeCatalogDeploymentLogger implements IAeCatalogListener {
     public void onDeployment(AeCatalogEvent aEvent) {
         Object[] objs = { AeUtil.getShortNameForLocation(aEvent.getLocationHint()),
                 aEvent.getLocationHint() };
-        mLogger.addInfo(AeMessages.format("AeCatalogDeployer.ADDED_RESOURCE", objs)); //$NON-NLS-1$
+        log.info(AeMessages.format("AeCatalogDeployer.ADDED_RESOURCE", objs)); //$NON-NLS-1$
     }
 
     /**
@@ -91,9 +80,9 @@ class AeCatalogDeploymentLogger implements IAeCatalogListener {
         Object[] objs = { AeUtil.getShortNameForLocation(aEvent.getLocationHint()),
                 aEvent.getLocationHint() };
         if (aEvent.isReplacement())
-            mLogger.addInfo(AeMessages.format("AeCatalogDeployer.REPLACED_RESOURCE", objs)); //$NON-NLS-1$
+            log.info(AeMessages.format("AeCatalogDeployer.REPLACED_RESOURCE", objs)); //$NON-NLS-1$
         else
-            mLogger.addInfo(AeMessages.format("AeCatalogDeployer.EXISTING_RESOURCE", objs)); //$NON-NLS-1$
+            log.info(AeMessages.format("AeCatalogDeployer.EXISTING_RESOURCE", objs)); //$NON-NLS-1$
     }
 
     /**
@@ -102,14 +91,6 @@ class AeCatalogDeploymentLogger implements IAeCatalogListener {
     public void onRemoval(AeCatalogEvent aEvent) {
         Object[] objs = { AeUtil.getShortNameForLocation(aEvent.getLocationHint()),
                 aEvent.getLocationHint() };
-        mLogger.addInfo(AeMessages.format("AeCatalogDeployer.REMOVED_RESOURCE", objs)); //$NON-NLS-1$
+        log.info(AeMessages.format("AeCatalogDeployer.REMOVED_RESOURCE", objs)); //$NON-NLS-1$
     }
-
-    /**
-     * @return Returns the logger.
-     */
-    protected IAeDeploymentLogger getLogger() {
-        return mLogger;
-    }
-
 }

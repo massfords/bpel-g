@@ -35,7 +35,7 @@
                 <configuration>
                     <stopKey>1234</stopKey>
                     <stopPort>9999</stopPort>
-                    <scanIntervalSeconds>10</scanIntervalSeconds>
+                    <scanIntervalSeconds>0</scanIntervalSeconds>
                     <webAppConfig>
                         <contextPath>/bpel-g</contextPath>
                     </webAppConfig>
@@ -120,6 +120,11 @@
 			<version>${spring-version}</version>
 			<scope>test</scope>
 		</dependency>
+        <dependency>
+            <groupId>org.activebpel</groupId>
+            <artifactId>ae-axisbpel</artifactId>
+            <version>${project.version}</version>
+        </dependency>
 		<dependency>
 			<groupId>log4j</groupId>
 			<artifactId>log4j</artifactId>

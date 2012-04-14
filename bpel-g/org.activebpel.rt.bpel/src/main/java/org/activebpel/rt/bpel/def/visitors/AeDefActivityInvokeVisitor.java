@@ -36,10 +36,10 @@ public class AeDefActivityInvokeVisitor extends AeAbstractDefVisitor
     * 
     * @see org.activebpel.rt.bpel.def.visitors.AeAbstractDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityInvokeDef)
     */
-   public void visit(AeActivityInvokeDef aDef)
+   public void visit(AeActivityInvokeDef def)
    {
-      mInvokes.add(aDef);
-      super.visit(aDef);
+      mInvokes.add(def);
+      super.visit(def);
    }
 
    /**

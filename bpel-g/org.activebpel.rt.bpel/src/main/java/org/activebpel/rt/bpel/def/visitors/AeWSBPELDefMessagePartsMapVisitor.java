@@ -39,25 +39,25 @@ public class AeWSBPELDefMessagePartsMapVisitor extends AeAbstractDefMessageParts
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityInvokeDef)
     */
-   public void visit(AeActivityInvokeDef aDef)
+   public void visit(AeActivityInvokeDef def)
    {
-      QName portType = getPartnerRolePortType(aDef);
-      String operation = aDef.getOperation();
-      String locationPath = aDef.getLocationPath();
+      QName portType = getPartnerRolePortType(def);
+      String operation = def.getOperation();
+      String locationPath = def.getLocationPath();
    
-      if (aDef.getProducerMessagePartsMap() == null)
+      if (def.getProducerMessagePartsMap() == null)
       {
          AeMessagePartsMap inputMap = createInputMessagePartsMap(portType, operation, null, null, locationPath);
-         aDef.setProducerMessagePartsMap(inputMap);
+         def.setProducerMessagePartsMap(inputMap);
       }
    
-      if (aDef.getConsumerMessagePartsMap() == null)
+      if (def.getConsumerMessagePartsMap() == null)
       {
          AeMessagePartsMap outputMap = createOutputMessagePartsMap(portType, operation, null, null, locationPath);
-         aDef.setConsumerMessagePartsMap(outputMap);
+         def.setConsumerMessagePartsMap(outputMap);
       }
    
-      super.visit(aDef);
+      super.visit(def);
    }
    
    /**

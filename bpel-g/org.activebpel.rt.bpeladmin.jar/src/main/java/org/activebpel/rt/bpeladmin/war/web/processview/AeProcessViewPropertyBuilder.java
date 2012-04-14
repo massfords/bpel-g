@@ -143,9 +143,9 @@ public class AeProcessViewPropertyBuilder extends AeProcessWebPropertyBuilder
     * Overrides method to add process log data if available.
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.AeProcessDef)
     */
-   public void visit(AeProcessDef aDef)
+   public void visit(AeProcessDef def)
    {
-      super.visit(aDef);
+      super.visit(def);
       // remove 'path' per requirement 148.
       removeProperty("path");    //$NON-NLS-1$
       // Get the log

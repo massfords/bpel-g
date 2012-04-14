@@ -105,34 +105,34 @@ public class AeDefInlineInvokeScopeVisitor extends AeAbstractDefVisitor
    /**
     * @see org.activebpel.rt.bpel.def.visitors.AeAbstractDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityScopeDef)
     */
-   public void visit(AeActivityScopeDef aScopeDef)
+   public void visit(AeActivityScopeDef def)
    {
-      if (canScopeBeInlined(aScopeDef))
+      if (canScopeBeInlined(def))
       {
-         AeActivityInvokeDef invokeDef = (AeActivityInvokeDef) aScopeDef.getActivityDef();
-         if (canInvokeBeInlined(invokeDef) && isNameMatch(aScopeDef, invokeDef))
+         AeActivityInvokeDef invokeDef = (AeActivityInvokeDef) def.getActivityDef();
+         if (canInvokeBeInlined(invokeDef) && isNameMatch(def, invokeDef))
          {
-            invokeDef.setImplicitScopeDef(aScopeDef);
+            invokeDef.setImplicitScopeDef(def);
             // Clear out the scope's child
-            aScopeDef.setActivityDef(null);
+            def.setActivityDef(null);
             
             // Set the scope's name as the invoke's name.
-            invokeDef.setName(aScopeDef.getName());
+            invokeDef.setName(def.getName());
             
             // Move the sources and targets from the scope to the invoke.
-            invokeDef.setSourcesDef(aScopeDef.getSourcesDef());
-            invokeDef.setTargetsDef(aScopeDef.getTargetsDef());
-            aScopeDef.setSourcesDef(null);
-            aScopeDef.setTargetsDef(null);
+            invokeDef.setSourcesDef(def.getSourcesDef());
+            invokeDef.setTargetsDef(def.getTargetsDef());
+            def.setSourcesDef(null);
+            def.setTargetsDef(null);
             
             // Tell the scope's parent to replace the scope with the invoke
-            invokeDef.setParentXmlDef(aScopeDef.getParent());
-            ((IAeActivityContainerDef) aScopeDef.getParent()).replaceActivityDef(aScopeDef, invokeDef);
-            aScopeDef.setParentXmlDef(null);
-            aScopeDef.getScopeDef().setParentXmlDef(invokeDef);
+            invokeDef.setParentXmlDef(def.getParent());
+            ((IAeActivityContainerDef) def.getParent()).replaceActivityDef(def, invokeDef);
+            def.setParentXmlDef(null);
+            def.getScopeDef().setParentXmlDef(invokeDef);
          }
       }
       
-      super.visit(aScopeDef);
+      super.visit(def);
    }
 }

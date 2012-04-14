@@ -9,12 +9,12 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpel.def.visitors; 
 
-import javax.xml.namespace.QName;
-
 import org.activebpel.rt.bpel.IAeExpressionLanguageFactory;
 import org.activebpel.rt.message.AeMessagePartsMap;
 import org.activebpel.rt.wsdl.IAeContextWSDLProvider;
 import org.activebpel.rt.wsdl.def.IAePropertyAlias;
+
+import javax.xml.namespace.QName;
 
 /**
  * Provides WS-BPEL 2.0 logic for inlining propertyAliases
@@ -34,12 +34,12 @@ public class AeWSBPELInlinePropertyAliasVisitor extends AeInlinePropertyAliasVis
    /**
     * @see org.activebpel.rt.bpel.def.visitors.AeInlinePropertyAliasVisitor#cacheCorrelationPropertyAlias(org.activebpel.rt.message.AeMessagePartsMap, javax.xml.namespace.QName)
     */
-   protected boolean cacheCorrelationPropertyAlias(AeMessagePartsMap aMessagePartsMap, QName aPropName)
+   protected boolean cacheCorrelationPropertyAlias(AeMessagePartsMap messagePartsMap, QName propName)
    {
-      boolean found = super.cacheCorrelationPropertyAlias(aMessagePartsMap, aPropName);
-      if (!found && aMessagePartsMap.isSinglePartElement())
+      boolean found = super.cacheCorrelationPropertyAlias(messagePartsMap, propName);
+      if (!found && messagePartsMap != null &&  messagePartsMap.isSinglePartElement())
       {
-         found = cachePropertyAlias(IAePropertyAlias.ELEMENT_TYPE, aMessagePartsMap.getSingleElementPart(), aPropName);
+         found = cachePropertyAlias(IAePropertyAlias.ELEMENT_TYPE, messagePartsMap.getSingleElementPart(), propName);
       }
       return found;
    }

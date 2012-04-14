@@ -35,13 +35,13 @@ public class AePartnerLinkValidationVisitor extends AeAbstractSearchVisitor
    /**
     * @see org.activebpel.rt.bpel.def.visitors.AeAbstractDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityInvokeDef)
     */
-   public void visit(AeActivityInvokeDef aDef)
+   public void visit(AeActivityInvokeDef def)
    {
       // fixme (MF) seems like this should be comparing location paths, not just the plink name. This isn't safe for BPEL 2.0 since plinks can be defined within scopes. 
-      if (aDef.getPartnerLinkDef() != null && mPartnerLinkName.equals(aDef.getPartnerLinkDef().getName()))
+      if (def.getPartnerLinkDef() != null && mPartnerLinkName.equals(def.getPartnerLinkDef().getName()))
          mReferenceFound = true;
       
-      super.visit(aDef);
+      super.visit(def);
    }
 
    /**

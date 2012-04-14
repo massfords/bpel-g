@@ -54,10 +54,10 @@ public class AeCreateInstanceOperationVisitor extends AeAbstractDefVisitor
    /**
     * @see org.activebpel.rt.bpel.def.visitors.AeAbstractDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityReceiveDef)
     */
-   public void visit(AeActivityReceiveDef aDef)
+   public void visit(AeActivityReceiveDef def)
    {
-      super.visit(aDef);
-      recordIMA(aDef, aDef.isCreateInstance());
+      super.visit(def);
+      recordIMA(def, def.isCreateInstance());
    }
 
    /**

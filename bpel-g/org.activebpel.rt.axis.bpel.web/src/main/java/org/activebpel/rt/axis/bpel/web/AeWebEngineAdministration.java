@@ -12,10 +12,7 @@ package org.activebpel.rt.axis.bpel.web;
 import org.activebpel.rt.AeException;
 import org.activebpel.rt.bpel.server.deploy.scanner.IAeDeploymentFileHandler;
 import org.activebpel.rt.bpel.server.engine.AeEngineAdministration;
-import org.activebpel.rt.bpel.server.engine.AeEngineFactory;
-import org.activebpel.rt.bpel.server.logging.AeTeeDeploymentLogger;
 import org.activebpel.rt.bpel.server.logging.IAeDeploymentLogger;
-import org.activebpel.rt.bpel.server.logging.IAeDeploymentLoggerFactory;
 
 import javax.inject.Inject;
 import java.io.File;
@@ -38,17 +35,10 @@ public class AeWebEngineAdministration extends AeEngineAdministration {
 	 *      java.lang.String,
 	 *      org.activebpel.rt.bpel.server.logging.IAeDeploymentLogger)
 	 */
-	public void deployNewBpr(File aBprFile, String aBprFilename,
-			IAeDeploymentLogger aLogger) throws AeException {
-		// Combine the passed-in logger with the engine factory logger using the
-		// Tee logger.
-		IAeDeploymentLogger logger = AeEngineFactory.getBean(
-				IAeDeploymentLoggerFactory.class).createLogger();
-		IAeDeploymentLogger teeLogger = new AeTeeDeploymentLogger(logger,
-				aLogger);
+	public void deployNewBpr(File bprFile, String bprFilename,
+			IAeDeploymentLogger logger) throws AeException {
 
-		getDeploymentHandler().handleDeployment(aBprFile,
-				aBprFilename, teeLogger);
+		getDeploymentHandler().handleDeployment(bprFile, bprFilename, logger);
 	}
 
 	public IAeDeploymentFileHandler getDeploymentHandler() {

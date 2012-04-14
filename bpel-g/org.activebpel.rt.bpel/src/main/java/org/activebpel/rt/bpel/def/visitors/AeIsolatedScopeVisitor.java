@@ -71,26 +71,26 @@ public class AeIsolatedScopeVisitor extends AeAbstractDefVisitor
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityScopeDef)
     */
-   public void visit(AeActivityScopeDef aDef)
+   public void visit(AeActivityScopeDef def)
    {
-      if (aDef.isIsolated())
+      if (def.isIsolated())
       {
-         AeDefUtil.getProcessDef(aDef).setContainsSerializableScopes(true);
+         AeDefUtil.getProcessDef(def).setContainsSerializableScopes(true);
           
          // Save (and restore) the current isolated scope in case we have an
          // nested isolated scope (which should never happen).
          AeActivityScopeDef oldIsolatedScope = getIsolatedScope();
          
          // Set the current isolated scope.
-         setIsolatedScope(aDef);
+         setIsolatedScope(def);
 
-         super.visit(aDef);
+         super.visit(def);
 
          setIsolatedScope(oldIsolatedScope);
       }
       else
       {
-         super.visit(aDef);
+         super.visit(def);
       }
    }
 }

@@ -391,9 +391,9 @@ public class AeProcessDefToWebStateModelVisitor extends AeProcessDefToWebModelVi
     * Overrides method to associate the state document with the process visual model.
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.AeProcessDef)
     */
-   public void visit(AeProcessDef aDef)
+   public void visit(AeProcessDef def)
    {
-      super.visit(aDef);
+      super.visit(def);
       getBpelProcessModel().setStateDoc(getStateDocument());
 
       // check for process's coordinator and participant flags.

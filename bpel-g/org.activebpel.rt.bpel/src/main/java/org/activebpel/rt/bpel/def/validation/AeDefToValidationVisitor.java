@@ -423,10 +423,10 @@ public abstract class AeDefToValidationVisitor extends AeAbstractDefVisitor
     * Creates process validator and sets the root
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.AeProcessDef)
     */
-   public void visit(AeProcessDef aDef)
+   public void visit(AeProcessDef def)
    {
-      setProcessValidator(createProcessValidator(aDef));
-      traverse(aDef, getProcessValidator());
+      setProcessValidator(createProcessValidator(def));
+      traverse(def, getProcessValidator());
       
       getProcessValidator().validate();
    }

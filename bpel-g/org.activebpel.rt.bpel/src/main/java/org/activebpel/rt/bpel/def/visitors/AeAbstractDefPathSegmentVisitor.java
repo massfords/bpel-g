@@ -104,7 +104,7 @@ public abstract class AeAbstractDefPathSegmentVisitor extends AeBaseXmlDefSegmen
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.AeProcessDef)
     */
-   public void visit(AeProcessDef aDef)
+   public void visit(AeProcessDef def)
    {
       setPathSegment(IAeBPELConstants.TAG_PROCESS);
    }
@@ -112,7 +112,7 @@ public abstract class AeAbstractDefPathSegmentVisitor extends AeBaseXmlDefSegmen
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityScopeDef)
     */
-   public void visit(AeActivityScopeDef aDef)
+   public void visit(AeActivityScopeDef def)
    {
       setPathSegment(IAeBPELConstants.TAG_SCOPE);
    }
@@ -152,7 +152,7 @@ public abstract class AeAbstractDefPathSegmentVisitor extends AeBaseXmlDefSegmen
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityAssignDef)
     */
-   public void visit(AeActivityAssignDef aDef)
+   public void visit(AeActivityAssignDef def)
    {
       setPathSegment(IAeBPELConstants.TAG_ASSIGN);
    }
@@ -160,7 +160,7 @@ public abstract class AeAbstractDefPathSegmentVisitor extends AeBaseXmlDefSegmen
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityCompensateDef)
     */
-   public void visit(AeActivityCompensateDef aDef)
+   public void visit(AeActivityCompensateDef def)
    {
       setPathSegment(IAeBPELConstants.TAG_COMPENSATE);
    }
@@ -168,7 +168,7 @@ public abstract class AeAbstractDefPathSegmentVisitor extends AeBaseXmlDefSegmen
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityCompensateScopeDef)
     */
-   public void visit(AeActivityCompensateScopeDef aDef)
+   public void visit(AeActivityCompensateScopeDef def)
    {
       setPathSegment(IAeBPELConstants.TAG_COMPENSATE_SCOPE);
    }
@@ -176,7 +176,7 @@ public abstract class AeAbstractDefPathSegmentVisitor extends AeBaseXmlDefSegmen
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityEmptyDef)
     */
-   public void visit(AeActivityEmptyDef aDef)
+   public void visit(AeActivityEmptyDef def)
    {
       setPathSegment(IAeBPELConstants.TAG_EMPTY);
    }
@@ -184,7 +184,7 @@ public abstract class AeAbstractDefPathSegmentVisitor extends AeBaseXmlDefSegmen
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityFlowDef)
     */
-   public void visit(AeActivityFlowDef aDef)
+   public void visit(AeActivityFlowDef def)
    {
       setPathSegment(IAeBPELConstants.TAG_FLOW);
    }
@@ -192,7 +192,7 @@ public abstract class AeAbstractDefPathSegmentVisitor extends AeBaseXmlDefSegmen
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityInvokeDef)
     */
-   public void visit(AeActivityInvokeDef aDef)
+   public void visit(AeActivityInvokeDef def)
    {
       setPathSegment(IAeBPELConstants.TAG_INVOKE);
    }
@@ -200,7 +200,7 @@ public abstract class AeAbstractDefPathSegmentVisitor extends AeBaseXmlDefSegmen
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityPickDef)
     */
-   public void visit(AeActivityPickDef aDef)
+   public void visit(AeActivityPickDef def)
    {
       setPathSegment(IAeBPELConstants.TAG_PICK);
    }
@@ -208,7 +208,7 @@ public abstract class AeAbstractDefPathSegmentVisitor extends AeBaseXmlDefSegmen
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityReceiveDef)
     */
-   public void visit(AeActivityReceiveDef aDef)
+   public void visit(AeActivityReceiveDef def)
    {
       setPathSegment(IAeBPELConstants.TAG_RECEIVE);
    }
@@ -216,7 +216,7 @@ public abstract class AeAbstractDefPathSegmentVisitor extends AeBaseXmlDefSegmen
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityReplyDef)
     */
-   public void visit(AeActivityReplyDef aDef)
+   public void visit(AeActivityReplyDef def)
    {
       setPathSegment(IAeBPELConstants.TAG_REPLY);
    }
@@ -224,7 +224,7 @@ public abstract class AeAbstractDefPathSegmentVisitor extends AeBaseXmlDefSegmen
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivitySuspendDef)
     */
-   public void visit(AeActivitySuspendDef aDef)
+   public void visit(AeActivitySuspendDef def)
    {
       setPathSegment(IAeBPELConstants.TAG_SUSPEND);
    }
@@ -320,7 +320,7 @@ public abstract class AeAbstractDefPathSegmentVisitor extends AeBaseXmlDefSegmen
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityContinueDef)
     */
-   public void visit(AeActivityContinueDef aDef)
+   public void visit(AeActivityContinueDef def)
    {
       setPathSegment(IAeBPELConstants.TAG_CONTINUE);
    }
@@ -328,7 +328,7 @@ public abstract class AeAbstractDefPathSegmentVisitor extends AeBaseXmlDefSegmen
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityBreakDef)
     */
-   public void visit(AeActivityBreakDef aDef)
+   public void visit(AeActivityBreakDef def)
    {
       setPathSegment(IAeBPELConstants.TAG_BREAK);
    }
@@ -509,7 +509,7 @@ public abstract class AeAbstractDefPathSegmentVisitor extends AeBaseXmlDefSegmen
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeSourceDef)
     */
-   public void visit(AeSourceDef aDef)
+   public void visit(AeSourceDef def)
    {
       setPathSegment(IAeBPELConstants.TAG_SOURCE);
    }

@@ -18,6 +18,7 @@
         <module>camel-invoke</module>
         <module>integration-tests</module>
         <module>camel-activemq-test</module>
+        <module>process-with-errors</module>
     </modules>
 
 </project>

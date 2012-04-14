@@ -54,10 +54,10 @@ public class AeChildScopesVisitor extends AeAbstractDefVisitor
    /**
     * @see org.activebpel.rt.bpel.def.visitors.AeAbstractDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityScopeDef)
     */
-   public void visit(AeActivityScopeDef aDef)
+   public void visit(AeActivityScopeDef def)
    {
       // Found a child scope.
-      getChildScopeDefs().add(aDef);
+      getChildScopeDefs().add(def);
       
       // No traversing into the def since we can only reference scopes 1 level deep.
    }

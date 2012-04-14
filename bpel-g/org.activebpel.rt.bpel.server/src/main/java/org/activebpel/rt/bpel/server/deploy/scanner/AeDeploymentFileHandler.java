@@ -175,13 +175,13 @@ public class AeDeploymentFileHandler implements IAeDeploymentFileHandler, IAeSca
 			    info.setTempURL(getUnpackedDeploymentStager().getTempURL(aURL));
 			    IAeDeploymentContainer deployContainer = getDeploymentContainerFactory().createDeploymentContainer(
 			            info);
-			
+
 			    // If the logger is null, used the factory to create a new one.
 			    if (logger == null) {
 			        logger = AeEngineFactory.getBean(IAeDeploymentLoggerFactory.class).createLogger();
 			    }
 			    logger.setContainerName(deployContainer.getShortName());
-			
+
 			    // If the file type is valid, then use the deployment handler to
 			    // deploy the BPR.
 			    if (!logger.hasErrors()) {
@@ -198,10 +198,6 @@ public class AeDeploymentFileHandler implements IAeDeploymentFileHandler, IAeSca
 			    if (logger != null) {
 			        logger.addInfo(
 			                AeMessages.getString("AeDeploymentFileHandler.ERROR_DEPLOYING_BPR"), new Object[] { aURL.toString(), t.getLocalizedMessage() }, null); //$NON-NLS-1$
-			    }
-			} finally {
-			    if (logger != null) {
-			        logger.close();
 			    }
 			}
         }
@@ -246,10 +242,6 @@ public class AeDeploymentFileHandler implements IAeDeploymentFileHandler, IAeSca
             if (logger != null) {
                 logger.addInfo(
                         AeMessages.getString("AeDeploymentFileHandler.ERROR_DEPLOYING_BPR"), new Object[] { aFileUrl.toString(), t.getLocalizedMessage() }, null); //$NON-NLS-1$
-            }
-        } finally {
-            if (logger != null) {
-                logger.close();
             }
         }
     }

@@ -153,7 +153,7 @@ public abstract class AeDefToImplVisitor implements IAeDefToImplVisitor
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.AeProcessDef)
     */
-   public void visit(AeProcessDef aDef)
+   public void visit(AeProcessDef def)
    {
       AeBusinessProcess process = (AeBusinessProcess) mEngine.createProcess(mProcessId, mPlan);
       setProcess(process);
@@ -166,13 +166,13 @@ public abstract class AeDefToImplVisitor implements IAeDefToImplVisitor
     * Creates the scope implementation and then traverses it.
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityScopeDef)
     */
-   public void visit(AeActivityScopeDef aDef)
+   public void visit(AeActivityScopeDef def)
    {
-      AeActivityScopeImpl impl = new AeActivityScopeImpl(aDef, getActivityParent());
+      AeActivityScopeImpl impl = new AeActivityScopeImpl(def, getActivityParent());
       impl.setTerminationStrategy(getScopeTerminationStrategy());
       impl.setFaultMatchingStrategy(getFaultMatchingStrategy());
       getActivityParent().addActivity(impl);
-      traverse(aDef, impl);
+      traverse(def, impl);
    }
 
    /**
@@ -378,121 +378,121 @@ public abstract class AeDefToImplVisitor implements IAeDefToImplVisitor
     * Creates the assign implementation and traverses.
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityAssignDef)
     */
-   public void visit(AeActivityAssignDef aDef)
+   public void visit(AeActivityAssignDef def)
    {
-      AeActivityAssignImpl impl = new AeActivityAssignImpl(aDef, getActivityParent());
+      AeActivityAssignImpl impl = new AeActivityAssignImpl(def, getActivityParent());
       getActivityParent().addActivity(impl);
-      traverse(aDef, impl);
+      traverse(def, impl);
    }
 
    /**
     * Creates the compensate implementation and traverses.
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityCompensateDef)
     */
-   public void visit(AeActivityCompensateDef aDef)
+   public void visit(AeActivityCompensateDef def)
    {
-      AeActivityCompensateImpl impl = new AeActivityCompensateImpl(aDef, getActivityParent());
+      AeActivityCompensateImpl impl = new AeActivityCompensateImpl(def, getActivityParent());
       getActivityParent().addActivity(impl);
-      traverse(aDef, impl);
+      traverse(def, impl);
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityCompensateScopeDef)
     */
-   public void visit(AeActivityCompensateScopeDef aDef)
+   public void visit(AeActivityCompensateScopeDef def)
    {
-      AeActivityCompensateScopeImpl impl = new AeActivityCompensateScopeImpl(aDef, getActivityParent());
+      AeActivityCompensateScopeImpl impl = new AeActivityCompensateScopeImpl(def, getActivityParent());
       getActivityParent().addActivity(impl);
-      traverse(aDef, impl);
+      traverse(def, impl);
    }
 
    /**
     * Creates the empty implementation and traverses.
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityEmptyDef)
     */
-   public void visit(AeActivityEmptyDef aDef)
+   public void visit(AeActivityEmptyDef def)
    {
-      IAeActivity impl = new AeActivityEmptyImpl(aDef, getActivityParent());
+      IAeActivity impl = new AeActivityEmptyImpl(def, getActivityParent());
       getActivityParent().addActivity(impl);
-      traverse(aDef, impl);
+      traverse(def, impl);
    }
 
    /**
     * Creates the flow implementation and traverses.
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityFlowDef)
     */
-   public void visit(AeActivityFlowDef aDef)
+   public void visit(AeActivityFlowDef def)
    {
-      IAeActivity impl = new AeActivityFlowImpl(aDef, getActivityParent());
+      IAeActivity impl = new AeActivityFlowImpl(def, getActivityParent());
       getActivityParent().addActivity(impl);
-      traverse(aDef, impl);
+      traverse(def, impl);
    }
 
    /**
     * Creates the invoke implementation and traverses.
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityInvokeDef)
     */
-   public void visit(AeActivityInvokeDef aDef)
+   public void visit(AeActivityInvokeDef def)
    {
-      AeActivityInvokeImpl impl = new AeActivityInvokeImpl(aDef, getActivityParent());
+      AeActivityInvokeImpl impl = new AeActivityInvokeImpl(def, getActivityParent());
       getActivityParent().addActivity(impl);
       impl.setMessageValidator(getMessageValidator());
 
-      assignMessageDataProducer(impl, aDef);
-      assignMessageDataConsumer(impl, aDef);
+      assignMessageDataProducer(impl, def);
+      assignMessageDataConsumer(impl, def);
 
-      traverse(aDef, impl);
+      traverse(def, impl);
    }
 
    /**
     * Creates the pick implementation and traverses.
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityPickDef)
     */
-   public void visit(AeActivityPickDef aDef)
+   public void visit(AeActivityPickDef def)
    {
-      IAeActivity impl = new AeActivityPickImpl(aDef, getActivityParent());
+      IAeActivity impl = new AeActivityPickImpl(def, getActivityParent());
       getActivityParent().addActivity(impl);
-      traverse(aDef, impl);
+      traverse(def, impl);
    }
 
    /**
     * Creates the receive implmentation and traverses.
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityReceiveDef)
     */
-   public void visit(AeActivityReceiveDef aDef)
+   public void visit(AeActivityReceiveDef def)
    {
-      AeActivityReceiveImpl impl = new AeActivityReceiveImpl(aDef, getActivityParent());
+      AeActivityReceiveImpl impl = new AeActivityReceiveImpl(def, getActivityParent());
       getActivityParent().addActivity(impl);
       impl.setMessageValidator(getMessageValidator());
 
-      assignMessageDataConsumer(impl, aDef);
+      assignMessageDataConsumer(impl, def);
 
-      traverse(aDef, impl);
+      traverse(def, impl);
    }
 
    /**
     * Creates the reply implementation and traverses.
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityReplyDef)
     */
-   public void visit(AeActivityReplyDef aDef)
+   public void visit(AeActivityReplyDef def)
    {
-      AeActivityReplyImpl impl = new AeActivityReplyImpl(aDef, getActivityParent());
+      AeActivityReplyImpl impl = new AeActivityReplyImpl(def, getActivityParent());
       getActivityParent().addActivity(impl);
       impl.setMessageValidator(getMessageValidator());
 
-      assignMessageDataProducer(impl, aDef);
+      assignMessageDataProducer(impl, def);
 
-      traverse(aDef, impl);
+      traverse(def, impl);
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivitySuspendDef)
     */
-   public void visit(AeActivitySuspendDef aDef)
+   public void visit(AeActivitySuspendDef def)
    {
-      IAeActivity impl = new AeActivitySuspendImpl(aDef, getActivityParent());
+      IAeActivity impl = new AeActivitySuspendImpl(def, getActivityParent());
       getActivityParent().addActivity(impl);
-      traverse(aDef, impl);
+      traverse(def, impl);
    }
 
    /**
@@ -607,21 +607,21 @@ public abstract class AeDefToImplVisitor implements IAeDefToImplVisitor
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityContinueDef)
     */
-   public void visit(AeActivityContinueDef aDef)
+   public void visit(AeActivityContinueDef def)
    {
-      IAeActivity impl = new AeActivityContinueImpl(aDef, getActivityParent());
+      IAeActivity impl = new AeActivityContinueImpl(def, getActivityParent());
       getActivityParent().addActivity(impl);
-      traverse(aDef, impl);
+      traverse(def, impl);
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityBreakDef)
     */
-   public void visit(AeActivityBreakDef aDef)
+   public void visit(AeActivityBreakDef def)
    {
-      IAeActivity impl = new AeActivityBreakImpl(aDef, getActivityParent());
+      IAeActivity impl = new AeActivityBreakImpl(def, getActivityParent());
       getActivityParent().addActivity(impl);
-      traverse(aDef, impl);
+      traverse(def, impl);
    }
 
    /**
@@ -779,10 +779,10 @@ public abstract class AeDefToImplVisitor implements IAeDefToImplVisitor
     * add it to the <code>AeActivityImpl</code>'s collection of source links.
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeSourceDef)
     */
-   public void visit(AeSourceDef aDef)
+   public void visit(AeSourceDef def)
    {
-      AeLink link = findLink(aDef.getLinkName());
-      link.setTransitionConditionDef(aDef.getTransitionConditionDef());
+      AeLink link = findLink(def.getLinkName());
+      link.setTransitionConditionDef(def.getTransitionConditionDef());
       link.setSourceActivity(getActivity());
       getActivity().addSourceLink(link);
    }

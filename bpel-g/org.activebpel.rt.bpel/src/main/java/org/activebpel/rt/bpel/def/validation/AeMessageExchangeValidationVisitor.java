@@ -72,9 +72,9 @@ public class AeMessageExchangeValidationVisitor extends AeAbstractDefVisitor
    /**
     * @see org.activebpel.rt.bpel.def.visitors.AeAbstractDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityReceiveDef)
     */
-   public void visit(AeActivityReceiveDef aDef)
+   public void visit(AeActivityReceiveDef def)
    {
-      validateReceive(aDef, aDef);
+      validateReceive(def, def);
    }
 
    /**
@@ -105,21 +105,21 @@ public class AeMessageExchangeValidationVisitor extends AeAbstractDefVisitor
    /**
     * @see org.activebpel.rt.bpel.def.visitors.AeAbstractDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityReplyDef)
     */
-   public void visit(AeActivityReplyDef aDef)
+   public void visit(AeActivityReplyDef def)
    {
       // Note: the message exchange values for replies are validated after the 
       //       whole process has been visited.
-      mReplies.add(aDef);
-      super.visit(aDef);
+      mReplies.add(def);
+      super.visit(def);
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.visitors.AeAbstractDefVisitor#visit(org.activebpel.rt.bpel.def.AeProcessDef)
     */
-   public void visit(AeProcessDef aDef)
+   public void visit(AeProcessDef def)
    {
-      mProcessDef = aDef;
-      super.visit(aDef);
+      mProcessDef = def;
+      super.visit(def);
       validateMessageExchangeForReplies();
    }
    

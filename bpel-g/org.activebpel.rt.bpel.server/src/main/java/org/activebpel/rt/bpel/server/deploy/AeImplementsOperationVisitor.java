@@ -42,10 +42,10 @@ public class AeImplementsOperationVisitor extends AeAbstractSearchVisitor
    /**
     * @see org.activebpel.rt.bpel.def.visitors.AeAbstractDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityReceiveDef)
     */
-   public void visit(AeActivityReceiveDef aDef)
+   public void visit(AeActivityReceiveDef def)
    {
-      checkFound(aDef.getPartnerLinkDef(), aDef.getOperation());
-      super.visit(aDef);
+      checkFound(def.getPartnerLinkDef(), def.getOperation());
+      super.visit(def);
    }
 
    /**

@@ -7,9 +7,12 @@
 //Active Endpoints, Inc. Removal of this PROPRIETARY RIGHTS STATEMENT 
 //is strictly forbidden. Copyright (c) 2002-2004 All rights reserved. 
 /////////////////////////////////////////////////////////////////////////////
-package org.activebpel.rt.bpel.server.logging; 
+package org.activebpel.rt.bpel.server.logging;
 
+import bpelg.services.deploy.types.DeploymentResponse;
 import org.activebpel.rt.bpel.def.validation.IAeBaseErrorReporter;
+
+import java.util.Collection;
 
 /**
  * Interface for reporting errors, warnings, and progress information during
@@ -21,38 +24,24 @@ public interface IAeDeploymentLogger extends IAeBaseErrorReporter
    /**
     * Sets the name of the container that we're deploying. This is typically the
     * name of the BPR file that was uploaded.
-    * @param aContainerName
+    * @param containerName
     */
-   public void setContainerName(String aContainerName);
-   
+   public void setContainerName(String containerName);
+
    /**
     * Sets the name of the pdd currently being deployed.  This method is called each time the engine
     * begins deploying a new deployment unit (PDD). 
-    * @param aPddName
+    * @param pddName
     */
-   public void setPddName(String aPddName);
+   public void setPddName(String pddName);
 
-   /**
-    * Called when the deployment is done. 
-    */
-   public void close();
-   
-   /**
-    * Resets the warning and error flags. 
-    */
-   public void resetWarningAndErrorFlags();
-   
-   /**
-    * Adds an info message to the log
-    * @param aMessage
-    */
-   public void addInfo(String aMessage);
-   
    /**
     * This method is called when the processing of a PDD has finished (either successfully or
     * not).
     * 
-    * @param aBool true if the PDD was actually deployed, false if it was not (for whatever reason)
+    * @param success true if the PDD was actually deployed, false if it was not (for whatever reason)
     */
-   public void processDeploymentFinished(boolean aBool);
+   public void processDeploymentFinished(boolean success);
+
+   public Collection<DeploymentResponse.DeploymentInfo> getDeploymentInfos();
 }

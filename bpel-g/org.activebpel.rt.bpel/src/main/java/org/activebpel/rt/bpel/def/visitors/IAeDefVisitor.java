@@ -99,87 +99,87 @@ public interface IAeDefVisitor extends IAeBaseXmlDefVisitor
 {
    /**
     * Visits the specified type of definition object.
-    * @param aDef
+    * @param def
     */
-   public void visit(AeProcessDef aDef);
+   public void visit(AeProcessDef def);
 
    /**
     * Visits the specified type of definition object.
-    * @param aDef
+    * @param def
     */
-   public void visit(AeActivityAssignDef aDef);
+   public void visit(AeActivityAssignDef def);
 
    /**
     * Visits the specified type of definition object.
-    * @param aDef
+    * @param def
     */
-   public void visit(AeActivityCompensateDef aDef);
+   public void visit(AeActivityCompensateDef def);
 
    /**
     * Visits the specified type of definition object.
-    * @param aDef
+    * @param def
     */
-   public void visit(AeActivityCompensateScopeDef aDef);
+   public void visit(AeActivityCompensateScopeDef def);
 
    /**
     * Visits the specified type of definition object.
-    * @param aDef
+    * @param def
     */
-   public void visit(AeActivityEmptyDef aDef);
+   public void visit(AeActivityEmptyDef def);
 
    /**
     * Visits the specified type of definition object.
-    * @param aDef
+    * @param def
     */
-   public void visit(AeActivityFlowDef aDef);
+   public void visit(AeActivityFlowDef def);
 
    /**
     * Visits the specified type of definition object.
-    * @param aDef
+    * @param def
     */
-   public void visit(AeActivityInvokeDef aDef);
+   public void visit(AeActivityInvokeDef def);
 
    /**
     * Visits the specified type of definition object.
-    * @param aDef
+    * @param def
     */
-   public void visit(AeActivityPickDef aDef);
+   public void visit(AeActivityPickDef def);
 
    /**
     * Visits the specified type of definition object.
-    * @param aDef
+    * @param def
     */
-   public void visit(AeActivityReceiveDef aDef);
+   public void visit(AeActivityReceiveDef def);
 
    /**
     * Visits the specified type of definition object.
-    * @param aDef
+    * @param def
     */
-   public void visit(AeActivityReplyDef aDef);
+   public void visit(AeActivityReplyDef def);
    
    /**
     * Visits the specified type of definition object.
-    * @param aDef
+    * @param def
     */
-   public void visit(AeActivitySuspendDef aDef);
+   public void visit(AeActivitySuspendDef def);
 
    /**
     * Visits the specified type of definition object.
-    * @param aDef
+    * @param def
     */
-   public void visit(AeActivityScopeDef aDef);
+   public void visit(AeActivityScopeDef def);
    
    /**
     * Visits the continue definition.
-    * @param aDef
+    * @param def
     */
-   public void visit(AeActivityContinueDef aDef);
+   public void visit(AeActivityContinueDef def);
    
    /**
     * Visits the break definition.
-    * @param aDef
+    * @param def
     */
-   public void visit(AeActivityBreakDef aDef);
+   public void visit(AeActivityBreakDef def);
 
    /**
     * Visits the specified type of definition object.
@@ -369,9 +369,9 @@ public interface IAeDefVisitor extends IAeBaseXmlDefVisitor
 
    /**
     * Visits the specified type of definition object.
-    * @param aDef
+    * @param def
     */
-   public void visit(AeSourceDef aDef);
+   public void visit(AeSourceDef def);
 
    /**
     * Visits the specified type of definition object.

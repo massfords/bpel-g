@@ -26,6 +26,12 @@
         </dependency>
         <dependency>
             <groupId>bpel-g</groupId>
+            <artifactId>process-with-errors</artifactId>
+            <version>${project.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>bpel-g</groupId>
             <artifactId>camel-receive</artifactId>
             <version>${project.version}</version>
             <scope>test</scope>
@@ -136,12 +142,12 @@
                 <executions>
                     <execution>
                         <id>copy-jars</id>
-                        <phase>pre-integration-test</phase>
+                        <phase>package</phase>
                         <goals>
                             <goal>copy-dependencies</goal>
                         </goals>
                         <configuration>
-                            <includeArtifactIds>camel-invoke,camel-receive,correlation-test,camel-activemq</includeArtifactIds>
+                            <includeArtifactIds>camel-invoke,camel-receive,correlation-test,camel-activemq,process-with-errors</includeArtifactIds>
                             <stripVersion>true</stripVersion>
                         </configuration>
                     </execution>

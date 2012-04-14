@@ -109,25 +109,25 @@ public class AeDefToWSBPELImplVisitor extends AeDefToImplVisitor
    /**
     * @see org.activebpel.rt.bpel.def.visitors.AeDefToImplVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityAssignDef)
     */
-   public void visit(AeActivityAssignDef aDef)
+   public void visit(AeActivityAssignDef def)
    {
-      AeActivityAssignWSBPELImpl impl = new AeActivityAssignWSBPELImpl(aDef, getActivityParent());
+      AeActivityAssignWSBPELImpl impl = new AeActivityAssignWSBPELImpl(def, getActivityParent());
       getActivityParent().addActivity(impl);
-      traverse(aDef, impl);
+      traverse(def, impl);
    }
 
    /**
     * Creates the scope implementation and then traverses it.
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityScopeDef)
     */
-   public void visit(AeActivityScopeDef aDef)
+   public void visit(AeActivityScopeDef def)
    {
       // TODO (MF) provide a separate def for the onEvent scope?
-      AeActivityScopeImpl impl = getActivityParent() instanceof AeOnEvent ? new AeActivityOnEventScopeImpl(aDef, (AeOnEvent)getActivityParent()) : new AeActivityScopeImpl(aDef, getActivityParent());
+      AeActivityScopeImpl impl = getActivityParent() instanceof AeOnEvent ? new AeActivityOnEventScopeImpl(def, (AeOnEvent)getActivityParent()) : new AeActivityScopeImpl(def, getActivityParent());
       impl.setTerminationStrategy(getScopeTerminationStrategy());
       impl.setFaultMatchingStrategy(getFaultMatchingStrategy());
       getActivityParent().addActivity(impl);
-      traverse(aDef, impl);
+      traverse(def, impl);
    }
 
    /**
@@ -301,7 +301,7 @@ public class AeDefToWSBPELImplVisitor extends AeDefToImplVisitor
       {
          IAeActivity impl = new AeActivityEmptyImpl(aDef, getActivityParent());
          getActivityParent().addActivity(impl);
-         //traverse(aDef, impl);
+         //traverse(def, impl);
       }
    }
 

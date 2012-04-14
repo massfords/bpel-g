@@ -135,7 +135,7 @@ public class AeWSBPELActivityScopeValidator extends AeActivityScopeValidator
       /**
        * @see org.activebpel.rt.bpel.def.visitors.AeAbstractDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityCompensateDef)
        */
-      public void visit(AeActivityCompensateDef aDef)
+      public void visit(AeActivityCompensateDef def)
       {
          setCompensateFound(true);
       }
@@ -143,10 +143,10 @@ public class AeWSBPELActivityScopeValidator extends AeActivityScopeValidator
       /**
        * @see org.activebpel.rt.bpel.def.visitors.AeAbstractDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityCompensateScopeDef)
        */
-      public void visit(AeActivityCompensateScopeDef aDef)
+      public void visit(AeActivityCompensateScopeDef def)
       {
-         getScopeNames().add(aDef.getTarget());
-         super.visit(aDef);
+         getScopeNames().add(def.getTarget());
+         super.visit(def);
       }
 
       /**
@@ -247,15 +247,15 @@ public class AeWSBPELActivityScopeValidator extends AeActivityScopeValidator
       /**
        * @see org.activebpel.rt.bpel.def.visitors.AeAbstractDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityScopeDef)
        */
-      public void visit(AeActivityScopeDef aDef)
+      public void visit(AeActivityScopeDef def)
       {
          // we've encountered a scope
          // if it's isolated, then check to see if it's one we're looking for
-         if (aDef.isIsolated())
+         if (def.isIsolated())
          {
-            if (isMatch(aDef))
+            if (isMatch(def))
             {
-               getMatchedScopes().add(aDef);
+               getMatchedScopes().add(def);
             }
          }
          
@@ -266,11 +266,11 @@ public class AeWSBPELActivityScopeValidator extends AeActivityScopeValidator
          // and within our collection of names.
          // If our current level > 1 then we must have already traversed into a
          // matched scope so keep going.
-         if (isMatch(aDef))
+         if (isMatch(def))
          {
             int level = getLevel();
             setLevel(level + 1);
-            super.visit(aDef);
+            super.visit(def);
             setLevel(level);
          }
       }

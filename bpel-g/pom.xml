@@ -24,11 +24,11 @@
    <distributionManagement>
       <repository>
          <id>googlecode.repo</id>
-         <url>dav:https://bpel-g.googlecode.com/svn/maven-repository/</url>
+         <url>dav:http://bpel-g.googlecode.com/svn/maven-repository/</url>
       </repository>
       <snapshotRepository>
          <id>googlecode.snapshotrepo</id>
-         <url>dav:https://bpel-g.googlecode.com/svn/maven-snapshot-repository/</url>
+         <url>dav:http://bpel-g.googlecode.com/svn/maven-snapshot-repository/</url>
       </snapshotRepository>
    </distributionManagement>
 

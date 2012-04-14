@@ -27,7 +27,6 @@ public class AePreDeploymentValidationHandler implements IAeDeploymentHandler {
             throws AeException {
         boolean skipValidation = aContainer.exists("skip.validation");
         if (!skipValidation) {
-            aLogger.resetWarningAndErrorFlags();
             PREDEPLOY_VALIDATOR.validate(aContainer, aLogger);
             if (aLogger.hasErrors()) {
                 throw new AeException("errors during pre-deployment validation");

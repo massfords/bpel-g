@@ -18,11 +18,5 @@ public interface IAeDeploymentLoggerFactory
     * Returns a new logger instance that can be used to log deployment information.
     */
    public IAeDeploymentLogger createLogger();
-   
-   /**
-    * Returns all of the log statements written by logger instances.
-    */
-   // FIXME need to replace this with a decent framework for logging
-   public String[] getDeploymentLog();
 }
  

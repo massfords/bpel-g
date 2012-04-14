@@ -634,22 +634,22 @@ public abstract class AeProcessWebPropertyBuilder extends AeProcessDefToWebVisit
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.AeProcessDef)
     */
-   public void visit(AeProcessDef aDef)
+   public void visit(AeProcessDef def)
    {
-      super.visit(aDef);
-      addProperty("bpelNamespace", aDef.getNamespace()); //$NON-NLS-1$
-      addProperty("targetNamespace", aDef.getTargetNamespace()); //$NON-NLS-1$
-      addProperty("queryLanguage", aDef.getQueryLanguage()); //$NON-NLS-1$
-      addProperty("expressionLanguage", aDef.getExpressionLanguage()); //$NON-NLS-1$
-      addProperty("suppressJoinFailure", getYesNo(aDef.getSuppressJoinFailure())); //$NON-NLS-1$
+      super.visit(def);
+      addProperty("bpelNamespace", def.getNamespace()); //$NON-NLS-1$
+      addProperty("targetNamespace", def.getTargetNamespace()); //$NON-NLS-1$
+      addProperty("queryLanguage", def.getQueryLanguage()); //$NON-NLS-1$
+      addProperty("expressionLanguage", def.getExpressionLanguage()); //$NON-NLS-1$
+      addProperty("suppressJoinFailure", getYesNo(def.getSuppressJoinFailure())); //$NON-NLS-1$
 
       if (isHasState())
       {
          String attrs[] = {IAeImplStateNames.STATE_STARTDATE,IAeImplStateNames.STATE_ENDDATE};
-         String values[] = selectAttributes(aDef.getLocationPath(),IAeImplStateNames.STATE_PROCESSSTATE, attrs);
+         String values[] = selectAttributes(def.getLocationPath(),IAeImplStateNames.STATE_PROCESSSTATE, attrs);
          addProperties(attrs, values,true);
          // build fault info
-         buildFault(aDef);
+         buildFault(def);
       }
    }
 
@@ -732,13 +732,13 @@ public abstract class AeProcessWebPropertyBuilder extends AeProcessDefToWebVisit
     * Overrides method to build the list of Copy definition properties.
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityAssignDef)
     */
-   public void visit(AeActivityAssignDef aDef)
+   public void visit(AeActivityAssignDef def)
    {
       removeProperty("name"); //$NON-NLS-1$
-      buildActivityBase(aDef);
-      addProperty("validate", String.valueOf(aDef.isValidate())); //$NON-NLS-1$
+      buildActivityBase(def);
+      addProperty("validate", String.valueOf(def.isValidate())); //$NON-NLS-1$
       StringBuffer sb = new StringBuffer();
-      Iterator iter = aDef.getCopyDefs();
+      Iterator iter = def.getCopyDefs();
       while (iter.hasNext())
       {
          AeAssignCopyDef copyDef = (AeAssignCopyDef) iter.next();
@@ -779,35 +779,35 @@ public abstract class AeProcessWebPropertyBuilder extends AeProcessDefToWebVisit
     * Overrides method to add a simple property for named scope (if available).
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityCompensateDef)
     */
-   public void visit(AeActivityCompensateDef aDef)
+   public void visit(AeActivityCompensateDef def)
    {
-      buildActivityBase(aDef);
+      buildActivityBase(def);
    }
 
    /**
     * @see org.activebpel.rt.bpeladmin.war.web.processview.AeProcessDefToWebVisitorBase#visit(org.activebpel.rt.bpel.def.activity.AeActivityCompensateScopeDef)
     */
-   public void visit(AeActivityCompensateScopeDef aDef)
+   public void visit(AeActivityCompensateScopeDef def)
    {
-      buildActivityBase(aDef);
-      if (AeUtil.notNullOrEmpty(aDef.getTarget()))
+      buildActivityBase(def);
+      if (AeUtil.notNullOrEmpty(def.getTarget()))
       {
-         addProperty("target", aDef.getTarget()); //$NON-NLS-1$
+         addProperty("target", def.getTarget()); //$NON-NLS-1$
       }
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityInvokeDef)
     */
-   public void visit(AeActivityInvokeDef aDef)
+   public void visit(AeActivityInvokeDef def)
    {
-      buildActivityBase(aDef);
-      build( aDef, false);
-      addProperty("oneWay", getYesNo(isOneWay(aDef))); //$NON-NLS-1$
-      addProperty("inputVariable", aDef.getInputVariable(), findVariableLocationPath(aDef.getInputVariable())); //$NON-NLS-1$
-      if (AeUtil.notNullOrEmpty(aDef.getOutputVariable()))
+      buildActivityBase(def);
+      build(def, false);
+      addProperty("oneWay", getYesNo(isOneWay(def))); //$NON-NLS-1$
+      addProperty("inputVariable", def.getInputVariable(), findVariableLocationPath(def.getInputVariable())); //$NON-NLS-1$
+      if (AeUtil.notNullOrEmpty(def.getOutputVariable()))
       {
-         addProperty("outputVariable", aDef.getOutputVariable(), findVariableLocationPath(aDef.getOutputVariable())); //$NON-NLS-1$
+         addProperty("outputVariable", def.getOutputVariable(), findVariableLocationPath(def.getOutputVariable())); //$NON-NLS-1$
       }
    }
 
@@ -822,71 +822,71 @@ public abstract class AeProcessWebPropertyBuilder extends AeProcessDefToWebVisit
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityPickDef)
     */
-   public void visit(AeActivityPickDef aDef)
+   public void visit(AeActivityPickDef def)
    {
-      buildActivityBase(aDef);
-      addProperty("createInstance", getYesNo(aDef.isCreateInstance()));       //$NON-NLS-1$
+      buildActivityBase(def);
+      addProperty("createInstance", getYesNo(def.isCreateInstance()));       //$NON-NLS-1$
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityReceiveDef)
     */
-   public void visit(AeActivityReceiveDef aDef)
+   public void visit(AeActivityReceiveDef def)
    {
-      buildActivityBase(aDef);
-      build( aDef, true);
-      addProperty("createInstance", getYesNo(aDef.isCreateInstance())); //$NON-NLS-1$
-      if (AeUtil.notNullOrEmpty(aDef.getMessageExchange()))
+      buildActivityBase(def);
+      build(def, true);
+      addProperty("createInstance", getYesNo(def.isCreateInstance())); //$NON-NLS-1$
+      if (AeUtil.notNullOrEmpty(def.getMessageExchange()))
       {
-         addProperty("messageExchange",aDef.getMessageExchange()); //$NON-NLS-1$
+         addProperty("messageExchange", def.getMessageExchange()); //$NON-NLS-1$
       }
-      addProperty("variable", aDef.getVariable(), findVariableLocationPath(aDef.getVariable()));       //$NON-NLS-1$
+      addProperty("variable", def.getVariable(), findVariableLocationPath(def.getVariable()));       //$NON-NLS-1$
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityReplyDef)
     */
-   public void visit(AeActivityReplyDef aDef)
+   public void visit(AeActivityReplyDef def)
    {
-      buildActivityBase(aDef);
-      build( aDef, true);
-      if (AeUtil.notNullOrEmpty(aDef.getMessageExchange()))
+      buildActivityBase(def);
+      build(def, true);
+      if (AeUtil.notNullOrEmpty(def.getMessageExchange()))
       {
-         addProperty("messageExchange",aDef.getMessageExchange()); //$NON-NLS-1$
+         addProperty("messageExchange", def.getMessageExchange()); //$NON-NLS-1$
       }
 
-      addProperty("variable", aDef.getVariable(), findVariableLocationPath(aDef.getVariable())); //$NON-NLS-1$
-      if (aDef.getFaultName()!= null)
+      addProperty("variable", def.getVariable(), findVariableLocationPath(def.getVariable())); //$NON-NLS-1$
+      if (def.getFaultName()!= null)
       {
-         addProperty("faultName", getLocalName(aDef.getFaultName())); //$NON-NLS-1$
+         addProperty("faultName", getLocalName(def.getFaultName())); //$NON-NLS-1$
       }
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivitySuspendDef)
     */
-   public void visit(AeActivitySuspendDef aDef)
+   public void visit(AeActivitySuspendDef def)
    {
-      buildActivityBase(aDef);
+      buildActivityBase(def);
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityScopeDef)
     */
-   public void visit(AeActivityScopeDef aDef)
+   public void visit(AeActivityScopeDef def)
    {
-      buildActivityBase(aDef);
+      buildActivityBase(def);
       if ( isBpelVersion11() )
       {
-         addProperty("variableAccessSerializable", getYesNo(aDef.isIsolated()) ); //$NON-NLS-1$
+         addProperty("variableAccessSerializable", getYesNo(def.isIsolated()) ); //$NON-NLS-1$
       }
       else
       {
-         addProperty("isolated", getYesNo(aDef.isIsolated()) ); //$NON-NLS-1$
+         addProperty("isolated", getYesNo(def.isIsolated()) ); //$NON-NLS-1$
       }
-      if (aDef.getScopeDef().hasMessageExchanges())
+      if (def.getScopeDef().hasMessageExchanges())
       {
-         Set messageExSet = aDef.getScopeDef().getMessageExchangesDef().getMessageExchangeValues();
+         Set messageExSet = def.getScopeDef().getMessageExchangesDef().getMessageExchangeValues();
          StringBuffer buffer = new StringBuffer();
          int size = messageExSet.size();
          int i = 0;
@@ -904,19 +904,19 @@ public abstract class AeProcessWebPropertyBuilder extends AeProcessDefToWebVisit
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityContinueDef)
     */
-   public void visit(AeActivityContinueDef aDef)
+   public void visit(AeActivityContinueDef def)
    {
       removeProperty("name"); //$NON-NLS-1$
-      buildActivityBase(aDef);
+      buildActivityBase(def);
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityBreakDef)
     */
-   public void visit(AeActivityBreakDef aDef)
+   public void visit(AeActivityBreakDef def)
    {
       removeProperty("name"); //$NON-NLS-1$
-      buildActivityBase(aDef);
+      buildActivityBase(def);
    }
 
    /**
