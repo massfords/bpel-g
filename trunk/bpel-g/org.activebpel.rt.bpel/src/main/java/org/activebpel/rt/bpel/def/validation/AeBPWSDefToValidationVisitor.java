@@ -59,20 +59,20 @@ public class AeBPWSDefToValidationVisitor extends AeDefToValidationVisitor
    /**
     * @see org.activebpel.rt.bpel.def.visitors.AeAbstractDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeElseDef)
     */
-   public void visit(AeElseDef aDef)
+   public void visit(AeElseDef def)
    {
-      AeElseValidator elseModel = new AeElseValidator(aDef);
+      AeElseValidator elseModel = new AeElseValidator(def);
       elseModel.setTagName(IAeBpelLegacyConstants.TAG_OTHERWISE);
-      traverse(aDef, elseModel);
+      traverse(def, elseModel);
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityIfDef)
     */
-   public void visit(AeActivityIfDef aDef)
+   public void visit(AeActivityIfDef def)
    {
-      AeActivityIfValidator ifModel = new AeActivityIfValidator(aDef);
+      AeActivityIfValidator ifModel = new AeActivityIfValidator(def);
       ifModel.setMissingConditionError(IAeValidationDefs.SWITCH_MISSING_CASE);
-      traverse(aDef, ifModel);
+      traverse(def, ifModel);
    }
 }

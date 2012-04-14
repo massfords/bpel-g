@@ -318,9 +318,9 @@ public abstract class AeDefToImplVisitor implements IAeDefToImplVisitor
     * an implementation object for the container here.
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.AeCorrelationSetsDef)
     */
-   public void visit(AeCorrelationSetsDef aDef)
+   public void visit(AeCorrelationSetsDef def)
    {
-      traverse(aDef, null);
+      traverse(def, null);
    }
 
    /**
@@ -328,11 +328,11 @@ public abstract class AeDefToImplVisitor implements IAeDefToImplVisitor
     * to pick up any messages or alarms.
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.AeEventHandlersDef)
     */
-   public void visit(AeEventHandlersDef aDef)
+   public void visit(AeEventHandlersDef def)
    {
-      AeEventHandlersContainer events = new AeEventHandlersContainer(aDef, getScope());
+      AeEventHandlersContainer events = new AeEventHandlersContainer(def, getScope());
       getScope().setEventHandlersContainer(events);
-      traverse(aDef, events);
+      traverse(def, events);
    }
 
    /**
@@ -342,9 +342,9 @@ public abstract class AeDefToImplVisitor implements IAeDefToImplVisitor
     * it when they get visited.
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.AeFaultHandlersDef)
     */
-   public void visit(AeFaultHandlersDef aDef)
+   public void visit(AeFaultHandlersDef def)
    {
-      traverse(aDef, null);
+      traverse(def, null);
    }
 
    /**
@@ -353,11 +353,11 @@ public abstract class AeDefToImplVisitor implements IAeDefToImplVisitor
     * compensation handler container.
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.AeCompensationHandlerDef)
     */
-   public void visit(AeCompensationHandlerDef aDef)
+   public void visit(AeCompensationHandlerDef def)
    {
-      AeCompensationHandler compHandler = new AeCompensationHandler(aDef, getScope());
+      AeCompensationHandler compHandler = new AeCompensationHandler(def, getScope());
       getScope().setCompensationHandler(compHandler);
-      traverse(aDef, compHandler);
+      traverse(def, compHandler);
    }
 
    /**
@@ -367,11 +367,11 @@ public abstract class AeDefToImplVisitor implements IAeDefToImplVisitor
     * when they get visited.
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.AeVariablesDef)
     */
-   public void visit(AeVariablesDef aDef)
+   public void visit(AeVariablesDef def)
    {
-      AeVariablesImpl variablesImpl = new AeVariablesImpl(aDef, getScope());
+      AeVariablesImpl variablesImpl = new AeVariablesImpl(def, getScope());
       getScope().setVariablesImpl(variablesImpl);
-      traverse(aDef, variablesImpl);
+      traverse(def, variablesImpl);
    }
 
    /**
@@ -499,62 +499,62 @@ public abstract class AeDefToImplVisitor implements IAeDefToImplVisitor
     * Creates the sequence implementation and traverses.
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivitySequenceDef)
     */
-   public void visit(AeActivitySequenceDef aDef)
+   public void visit(AeActivitySequenceDef def)
    {
-      IAeActivity impl = new AeActivitySequenceImpl(aDef, getActivityParent());
+      IAeActivity impl = new AeActivitySequenceImpl(def, getActivityParent());
       getActivityParent().addActivity(impl);
-      traverse(aDef, impl);
+      traverse(def, impl);
    }
 
    /**
     * Creates the terminate implementation and traverses.
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityExitDef)
     */
-   public void visit(AeActivityExitDef aDef)
+   public void visit(AeActivityExitDef def)
    {
-      IAeActivity impl = new AeActivityTerminateImpl(aDef, getActivityParent());
+      IAeActivity impl = new AeActivityTerminateImpl(def, getActivityParent());
       getActivityParent().addActivity(impl);
-      traverse(aDef, impl);
+      traverse(def, impl);
    }
 
    /**
     * Creates the throw implementation and traverses.
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityThrowDef)
     */
-   public void visit(AeActivityThrowDef aDef)
+   public void visit(AeActivityThrowDef def)
    {
-      IAeActivity impl = new AeActivityThrowImpl(aDef, getActivityParent());
+      IAeActivity impl = new AeActivityThrowImpl(def, getActivityParent());
       getActivityParent().addActivity(impl);
-      traverse(aDef, impl);
+      traverse(def, impl);
    }
 
    /**
     * Creates the wait implementation and traverses.
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityWaitDef)
     */
-   public void visit(AeActivityWaitDef aDef)
+   public void visit(AeActivityWaitDef def)
    {
-      IAeActivity impl = new AeActivityWaitImpl(aDef, getActivityParent());
+      IAeActivity impl = new AeActivityWaitImpl(def, getActivityParent());
       getActivityParent().addActivity(impl);
-      traverse(aDef, impl);
+      traverse(def, impl);
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityForEachDef)
     */
-   public void visit(AeActivityForEachDef aDef)
+   public void visit(AeActivityForEachDef def)
    {
-      IAeActivity impl = aDef.isParallel() ?
-               new AeActivityForEachParallelImpl(aDef, getActivityParent()) :
-                  new AeActivityForEachImpl(aDef, getActivityParent());
+      IAeActivity impl = def.isParallel() ?
+               new AeActivityForEachParallelImpl(def, getActivityParent()) :
+                  new AeActivityForEachImpl(def, getActivityParent());
       getActivityParent().addActivity(impl);
-      traverse(aDef, impl);
+      traverse(def, impl);
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeForEachFinalDef)
     */
-   public void visit(AeForEachFinalDef aDef)
+   public void visit(AeForEachFinalDef def)
    {
       // no impl for final expression
    }
@@ -570,7 +570,7 @@ public abstract class AeDefToImplVisitor implements IAeDefToImplVisitor
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeForEachBranchesDef)
     */
-   public void visit(AeForEachBranchesDef aDef)
+   public void visit(AeForEachBranchesDef def)
    {
       // no impl for branches
    }
@@ -578,7 +578,7 @@ public abstract class AeDefToImplVisitor implements IAeDefToImplVisitor
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeForEachCompletionConditionDef)
     */
-   public void visit(AeForEachCompletionConditionDef aDef)
+   public void visit(AeForEachCompletionConditionDef def)
    {
       // no impl for completion condition
    }
@@ -587,21 +587,21 @@ public abstract class AeDefToImplVisitor implements IAeDefToImplVisitor
     * Creates the <code>while</code> implementation and traverses.
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityWhileDef)
     */
-   public void visit(AeActivityWhileDef aDef)
+   public void visit(AeActivityWhileDef def)
    {
-      IAeActivity impl = new AeActivityWhileImpl(aDef, getActivityParent());
+      IAeActivity impl = new AeActivityWhileImpl(def, getActivityParent());
       getActivityParent().addActivity(impl);
-      traverse(aDef, impl);
+      traverse(def, impl);
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityRepeatUntilDef)
     */
-   public void visit(AeActivityRepeatUntilDef aDef)
+   public void visit(AeActivityRepeatUntilDef def)
    {
-      IAeActivity impl = new AeActivityRepeatUntilImpl(aDef, getActivityParent());
+      IAeActivity impl = new AeActivityRepeatUntilImpl(def, getActivityParent());
       getActivityParent().addActivity(impl);
-      traverse(aDef, impl);
+      traverse(def, impl);
    }
 
    /**
@@ -630,11 +630,11 @@ public abstract class AeDefToImplVisitor implements IAeDefToImplVisitor
     * child activity to the fault.
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.AeCatchDef)
     */
-   public void visit(AeCatchDef aDef)
+   public void visit(AeCatchDef def)
    {
-      AeFaultHandler fh = new AeFaultHandler(aDef, getScope());
+      AeFaultHandler fh = new AeFaultHandler(def, getScope());
       getScope().addFaultHandler(fh);
-      traverse(aDef, fh);
+      traverse(def, fh);
    }
 
    /**
@@ -643,11 +643,11 @@ public abstract class AeDefToImplVisitor implements IAeDefToImplVisitor
     *
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeOnAlarmDef)
     */
-   public void visit(AeOnAlarmDef aDef)
+   public void visit(AeOnAlarmDef def)
    {
-      AeOnAlarm alarm = new AeOnAlarm(aDef, getMessageParent());
+      AeOnAlarm alarm = new AeOnAlarm(def, getMessageParent());
       getMessageParent().addAlarm(alarm);
-      traverse(aDef, alarm);
+      traverse(def, alarm);
    }
 
    /**
@@ -656,63 +656,63 @@ public abstract class AeDefToImplVisitor implements IAeDefToImplVisitor
 
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeOnMessageDef)
     */
-   public void visit(AeOnMessageDef aDef)
+   public void visit(AeOnMessageDef def)
    {
-      AeOnMessage msg = new AeOnMessage(aDef, getMessageParent());
+      AeOnMessage msg = new AeOnMessage(def, getMessageParent());
       msg.setMessageValidator(getMessageValidator());
       getMessageParent().addMessage(msg);
 
-      assignMessageDataConsumer(msg, aDef);
+      assignMessageDataConsumer(msg, def);
 
-      traverse(aDef, msg);
+      traverse(def, msg);
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeOnEventDef)
     */
-   public void visit(AeOnEventDef aDef)
+   public void visit(AeOnEventDef def)
    {
-      visit((AeOnMessageDef)aDef);
+      visit((AeOnMessageDef) def);
    }
 
    /**
     * Create instance of variable and add to scope.
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.AeVariableDef)
     */
-   public void visit(AeVariableDef aDef)
+   public void visit(AeVariableDef def)
    {
-      AeVariable var = new AeVariable(getVariableContainer(), aDef);
+      AeVariable var = new AeVariable(getVariableContainer(), def);
       getVariableContainer().addVariable(var);
       getVariables().add(var);
-      traverse(aDef, var);
+      traverse(def, var);
    }
 
    /**
     * Create instance of <code>catchAll</code> and add to scope.
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.AeCatchAllDef)
     */
-   public void visit(AeCatchAllDef aDef)
+   public void visit(AeCatchAllDef def)
    {
-      AeDefaultFaultHandler catchAll = new AeDefaultFaultHandler(aDef, getScope());
+      AeDefaultFaultHandler catchAll = new AeDefaultFaultHandler(def, getScope());
       getScope().setDefaultFaultHandler(catchAll);
-      traverse(aDef, catchAll);
+      traverse(def, catchAll);
    }
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeAssignCopyDef)
     */
-   public void visit(AeAssignCopyDef aDef)
+   public void visit(AeAssignCopyDef def)
    {
       AeActivityAssignImpl assign = getAssign();
-      AeCopyOperation copy = new AeCopyOperation(aDef, assign.getCopyOperationContext());
+      AeCopyOperation copy = new AeCopyOperation(def, assign.getCopyOperationContext());
       assign.addCopyOperation(copy);
-      traverse(aDef, copy);
+      traverse(def, copy);
    }
 
    /**
     * No implementation to create or traverse.
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeCorrelationDef)
     */
-   public void visit(AeCorrelationDef aDef)
+   public void visit(AeCorrelationDef def)
    {
       // no-op
    }
@@ -722,9 +722,9 @@ public abstract class AeDefToImplVisitor implements IAeDefToImplVisitor
     * traversal.
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeLinkDef)
     */
-   public void visit(AeLinkDef aDef)
+   public void visit(AeLinkDef def)
    {
-      AeLink link = new AeLink(aDef, getFlow());
+      AeLink link = new AeLink(def, getFlow());
       getFlow().addLink(link);
    }
 
@@ -732,7 +732,7 @@ public abstract class AeDefToImplVisitor implements IAeDefToImplVisitor
     * No implementation or further traversal.
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.AePartnerDef)
     */
-   public void visit(AePartnerDef aDef)
+   public void visit(AePartnerDef def)
    {
       // no-op
    }
@@ -741,9 +741,9 @@ public abstract class AeDefToImplVisitor implements IAeDefToImplVisitor
     * Create the <code>partnerLink</code> impl and add to the process.
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.AePartnerLinkDef)
     */
-   public void visit(AePartnerLinkDef aDef)
+   public void visit(AePartnerLinkDef def)
    {
-      AePartnerLink plink = new AePartnerLink(getScope(), aDef);
+      AePartnerLink plink = new AePartnerLink(getScope(), def);
       getScope().addPartnerLink(plink);
       getPartnerLinks().add(plink);
    }
@@ -753,15 +753,15 @@ public abstract class AeDefToImplVisitor implements IAeDefToImplVisitor
     * children.
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.AeScopeDef)
     */
-   public void visit(AeScopeDef aDef)
+   public void visit(AeScopeDef def)
    {
-      traverse(aDef, null);
+      traverse(def, null);
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.AeMessageExchangesDef)
     */
-   public void visit(AeMessageExchangesDef aDef)
+   public void visit(AeMessageExchangesDef def)
    {
       // nothing to create here
    }
@@ -769,7 +769,7 @@ public abstract class AeDefToImplVisitor implements IAeDefToImplVisitor
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.AeMessageExchangeDef)
     */
-   public void visit(AeMessageExchangeDef aDef)
+   public void visit(AeMessageExchangeDef def)
    {
       // nothing to create here and no children that need traversing
    }
@@ -792,9 +792,9 @@ public abstract class AeDefToImplVisitor implements IAeDefToImplVisitor
     * add it to the <code>AeActivityImpl</code>'s collection of target links.
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeTargetDef)
     */
-   public void visit(AeTargetDef aDef)
+   public void visit(AeTargetDef def)
    {
-      AeLink link = findLink(aDef.getLinkName());
+      AeLink link = findLink(def.getLinkName());
       link.setTargetActivity(getActivity());
       getActivity().addTargetLink(link);
    }
@@ -804,16 +804,16 @@ public abstract class AeDefToImplVisitor implements IAeDefToImplVisitor
     * the <code>partnerLink</code>s individually.
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.AePartnerLinksDef)
     */
-   public void visit(AePartnerLinksDef aDef)
+   public void visit(AePartnerLinksDef def)
    {
-      traverse(aDef, null);
+      traverse(def, null);
    }
 
    /**
     * Nothing to create or traverse here.
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.AePartnersDef)
     */
-   public void visit(AePartnersDef aDef)
+   public void visit(AePartnersDef def)
    {
    }
 
@@ -821,9 +821,9 @@ public abstract class AeDefToImplVisitor implements IAeDefToImplVisitor
     * Nothing to create but we need to traverse so we'll hit the links.
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeLinksDef)
     */
-   public void visit(AeLinksDef aDef)
+   public void visit(AeLinksDef def)
    {
-      traverse(aDef, null);
+      traverse(def, null);
    }
 
    /**
@@ -831,7 +831,7 @@ public abstract class AeDefToImplVisitor implements IAeDefToImplVisitor
     * correlations used for a wsio activity
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.AeCorrelationsDef)
     */
-   public void visit(AeCorrelationsDef aDef)
+   public void visit(AeCorrelationsDef def)
    {
       IAeWSIOActivity parent = (IAeWSIOActivity) peek();
 
@@ -839,28 +839,28 @@ public abstract class AeDefToImplVisitor implements IAeDefToImplVisitor
       {
          // invoke uses the pattern attribute for correlations so the sets may
          // be initiated/validated using request or response data
-         if (aDef.isRequestPatternUsed())
+         if (def.isRequestPatternUsed())
          {
-            IAeCorrelations requestCorrelationsImpl = new AeCorrelationsPatternImpl(aDef, parent, true);
+            IAeCorrelations requestCorrelationsImpl = new AeCorrelationsPatternImpl(def, parent, true);
             parent.setRequestCorrelations(requestCorrelationsImpl);
          }
-         if (aDef.isResponsePatternUsed())
+         if (def.isResponsePatternUsed())
          {
-            IAeCorrelations responseCorrelationsImpl = new AeCorrelationsPatternImpl(aDef, parent, false);
+            IAeCorrelations responseCorrelationsImpl = new AeCorrelationsPatternImpl(def, parent, false);
             parent.setResponseCorrelations(responseCorrelationsImpl);
          }
       }
       else if (parent instanceof AeActivityReplyImpl)
       {
-         parent.setResponseCorrelations(new AeCorrelationsImpl(aDef, parent));
+         parent.setResponseCorrelations(new AeCorrelationsImpl(def, parent));
       }
       else
       {
-         AeIMACorrelations correlations = new AeIMACorrelations(aDef, parent);
+         AeIMACorrelations correlations = new AeIMACorrelations(def, parent);
          correlations.setFilter(getCorrelationsFilter());
          parent.setRequestCorrelations(correlations);
       }
-      traverse(aDef, null);
+      traverse(def, null);
    }
 
    /**
@@ -872,7 +872,7 @@ public abstract class AeDefToImplVisitor implements IAeDefToImplVisitor
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.AeImportDef)
     */
-   public void visit(AeImportDef aDef)
+   public void visit(AeImportDef def)
    {
    }
 
@@ -886,21 +886,21 @@ public abstract class AeDefToImplVisitor implements IAeDefToImplVisitor
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeJoinConditionDef)
     */
-   public void visit(AeJoinConditionDef aDef)
+   public void visit(AeJoinConditionDef def)
    {
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeTransitionConditionDef)
     */
-   public void visit(AeTransitionConditionDef aDef)
+   public void visit(AeTransitionConditionDef def)
    {
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityValidateDef)
     */
-   public void visit(AeActivityValidateDef aDef)
+   public void visit(AeActivityValidateDef def)
    {
       throw new UnsupportedOperationException();
    }
@@ -908,226 +908,226 @@ public abstract class AeDefToImplVisitor implements IAeDefToImplVisitor
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeExtensibleAssignDef)
     */
-   public void visit(AeExtensibleAssignDef aDef)
+   public void visit(AeExtensibleAssignDef def)
    {
-      traverse(aDef, null);
+      traverse(def, null);
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.AeExtensionDef)
     */
-   public void visit(AeExtensionDef aDef)
+   public void visit(AeExtensionDef def)
    {
-      traverse(aDef, null);
+      traverse(def, null);
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.AeExtensionsDef)
     */
-   public void visit(AeExtensionsDef aDef)
+   public void visit(AeExtensionsDef def)
    {
-      traverse(aDef, null);
+      traverse(def, null);
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeFromPartsDef)
     */
-   public void visit(AeFromPartsDef aDef)
+   public void visit(AeFromPartsDef def)
    {
-      traverse(aDef, null);
+      traverse(def, null);
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeToPartsDef)
     */
-   public void visit(AeToPartsDef aDef)
+   public void visit(AeToPartsDef def)
    {
-      traverse(aDef, null);
+      traverse(def, null);
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeFromPartDef)
     */
-   public void visit(AeFromPartDef aDef)
+   public void visit(AeFromPartDef def)
    {
-      traverse(aDef, null);
+      traverse(def, null);
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeToPartDef)
     */
-   public void visit(AeToPartDef aDef)
+   public void visit(AeToPartDef def)
    {
-      traverse(aDef, null);
+      traverse(def, null);
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeSourcesDef)
     */
-   public void visit(AeSourcesDef aDef)
+   public void visit(AeSourcesDef def)
    {
-      traverse(aDef, null);
+      traverse(def, null);
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeTargetsDef)
     */
-   public void visit(AeTargetsDef aDef)
+   public void visit(AeTargetsDef def)
    {
-      traverse(aDef, null);
+      traverse(def, null);
    }
 
    /**
     * Creates the appropriate impl object to model the &lt;from&gt;
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeFromDef)
     */
-   public void visit(AeFromDef aDef)
+   public void visit(AeFromDef def)
    {
-      IAeFrom from = AeFromStrategyFactory.createFromStrategy(aDef);
+      IAeFrom from = AeFromStrategyFactory.createFromStrategy(def);
    
       getCopyFromParent().setFrom(from);
-      traverse(aDef, from);
+      traverse(def, from);
    }
 
    /**
     * Creates the appropriate impl object to model the &lt;to&gt;
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeToDef)
     */
-   public void visit(AeToDef aDef)
+   public void visit(AeToDef def)
    {
-      IAeTo to = AeToStrategyFactory.createToStrategy(aDef);
+      IAeTo to = AeToStrategyFactory.createToStrategy(def);
       getCopyOperation().setTo(to);
-      traverse(aDef, to);
+      traverse(def, to);
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeQueryDef)
     */
-   public void visit(AeQueryDef aDef)
+   public void visit(AeQueryDef def)
    {
-      traverse(aDef, null);
+      traverse(def, null);
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeForDef)
     */
-   public void visit(AeForDef aDef)
+   public void visit(AeForDef def)
    {
-      traverse(aDef, null);
+      traverse(def, null);
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeUntilDef)
     */
-   public void visit(AeUntilDef aDef)
+   public void visit(AeUntilDef def)
    {
-      traverse(aDef, null);
+      traverse(def, null);
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(AeChildExtensionActivityDef)
     */
-   public void visit(AeChildExtensionActivityDef aDef)
+   public void visit(AeChildExtensionActivityDef def)
    {
-      traverse(aDef, null);
+      traverse(def, null);
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.AeExtensionActivityDef)
     */
-   public void visit(AeExtensionActivityDef aDef)
+   public void visit(AeExtensionActivityDef def)
    {
-      traverse(aDef, null);
+      traverse(def, null);
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeConditionDef)
     */
-   public void visit(AeConditionDef aDef)
+   public void visit(AeConditionDef def)
    {
-      traverse(aDef, null);
+      traverse(def, null);
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityIfDef)
     */
-   public void visit(AeActivityIfDef aDef)
+   public void visit(AeActivityIfDef def)
    {
-      IAeActivity impl = new AeActivityIfImpl(aDef, getActivityParent());
+      IAeActivity impl = new AeActivityIfImpl(def, getActivityParent());
       getActivityParent().addActivity(impl);
-      traverse(aDef, impl);
+      traverse(def, impl);
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeIfDef)
     */
-   public void visit(AeIfDef aDef)
+   public void visit(AeIfDef def)
    {
-      AeIf elseIf = new AeIf(aDef, getActivityIf());
+      AeIf elseIf = new AeIf(def, getActivityIf());
       getActivityIf().addElseIf(elseIf);
-      traverse(aDef, elseIf);
+      traverse(def, elseIf);
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeElseIfDef)
     */
-   public void visit(AeElseIfDef aDef)
+   public void visit(AeElseIfDef def)
    {
-      AeElseIf elseIf = new AeElseIf(aDef, getActivityIf());
+      AeElseIf elseIf = new AeElseIf(def, getActivityIf());
       getActivityIf().addElseIf(elseIf);
-      traverse(aDef, elseIf);
+      traverse(def, elseIf);
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeElseDef)
     */
-   public void visit(AeElseDef aDef)
+   public void visit(AeElseDef def)
    {
-      AeElse elseObj = new AeElse(aDef, getActivityIf());
+      AeElse elseObj = new AeElse(def, getActivityIf());
       getActivityIf().setElse(elseObj);
-      traverse(aDef, elseObj);
+      traverse(def, elseObj);
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityRethrowDef)
     */
-   public void visit(AeActivityRethrowDef aDef)
+   public void visit(AeActivityRethrowDef def)
    {
-      IAeActivity impl = new AeActivityRethrowImpl(aDef, getActivityParent());
+      IAeActivity impl = new AeActivityRethrowImpl(def, getActivityParent());
       getActivityParent().addActivity(impl);
-      traverse(aDef, impl);
+      traverse(def, impl);
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeRepeatEveryDef)
     */
-   public void visit(AeRepeatEveryDef aDef)
+   public void visit(AeRepeatEveryDef def)
    {
-      traverse(aDef, null);
+      traverse(def, null);
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.AeTerminationHandlerDef)
     */
-   public void visit(AeTerminationHandlerDef aDef)
+   public void visit(AeTerminationHandlerDef def)
    {
-      AeTerminationHandler th = new AeTerminationHandler(aDef, getScope());
+      AeTerminationHandler th = new AeTerminationHandler(def, getScope());
       getScope().setTerminationHandler(th);
-      traverse(aDef, th);
+      traverse(def, th);
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeLiteralDef)
     */
-   public void visit(AeLiteralDef aDef)
+   public void visit(AeLiteralDef def)
    {
-      traverse(aDef, null);
+      traverse(def, null);
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityOpaqueDef)
     */
-   public void visit(AeActivityOpaqueDef aDef)
+   public void visit(AeActivityOpaqueDef def)
    {
       throw new UnsupportedOperationException();
    }

@@ -45,9 +45,9 @@ public class AeWSBPELAbstractProcessDefToValidationVisitor extends AeWSBPELDefTo
     * Overrides method to ignore validation.
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityOpaqueDef)
     */
-   public void visit(AeActivityOpaqueDef aDef)
+   public void visit(AeActivityOpaqueDef def)
    {
       // no need to validate opaque activities.
-      super.traverse(aDef);
+      super.traverse(def);
    }
 }

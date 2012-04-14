@@ -35,17 +35,17 @@ public class AeDefPartnerLinkTypeVisitor extends AeAbstractDefVisitor
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.AePartnerLinkDef)
     */
-   public void visit(AePartnerLinkDef aDef)
+   public void visit(AePartnerLinkDef def)
    {
-      AeBPELExtendedWSDLDef wsdlDef = AeWSDLDefHelper.getWSDLDefinitionForPLT(mProvider, aDef.getPartnerLinkTypeName());
+      AeBPELExtendedWSDLDef wsdlDef = AeWSDLDefHelper.getWSDLDefinitionForPLT(mProvider, def.getPartnerLinkTypeName());
       // Note: if the wsdlDef is null then the plink is unresolved. This is caught during static analysis.
       if (wsdlDef != null)
       {
-         IAePartnerLinkType plType = wsdlDef.getPartnerLinkType(aDef.getPartnerLinkTypeName().getLocalPart());
+         IAePartnerLinkType plType = wsdlDef.getPartnerLinkType(def.getPartnerLinkTypeName().getLocalPart());
          // Note: if the plType is null then the plink is unresolved. This is caught during static analysis.
-         aDef.setPartnerLinkType(plType);
+         def.setPartnerLinkType(plType);
       }
-      super.visit(aDef);
+      super.visit(def);
    }
 }
  

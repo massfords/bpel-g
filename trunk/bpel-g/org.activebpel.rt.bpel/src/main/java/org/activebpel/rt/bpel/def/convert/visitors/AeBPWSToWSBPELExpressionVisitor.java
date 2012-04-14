@@ -53,25 +53,25 @@ public class AeBPWSToWSBPELExpressionVisitor extends AeAbstractExpressionDefVisi
    /**
     * @see org.activebpel.rt.bpel.def.visitors.AeAbstractDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeQueryDef)
     */
-   public void visit(AeQueryDef aDef)
+   public void visit(AeQueryDef def)
    {
-      String query = aDef.getQuery();
+      String query = def.getQuery();
       if (AeUtil.notNullOrEmpty(query))
       {
-         IAeMutableNamespaceContext nsContext = new AeBaseDefNamespaceContext(aDef);
+         IAeMutableNamespaceContext nsContext = new AeBaseDefNamespaceContext(def);
          String newQuery = AeBPWSToWSBPELXPathConverter.convertQuery(query, nsContext);
          if (AeUtil.isNullOrEmpty(newQuery))
          {
-            IAeQueryParentDef parentDef = (IAeQueryParentDef) aDef.getParent();
+            IAeQueryParentDef parentDef = (IAeQueryParentDef) def.getParent();
             parentDef.removeQueryDef();
          }
          else
          {
-            aDef.setQuery(newQuery);
+            def.setQuery(newQuery);
          }
       }
 
-      super.visit(aDef);
+      super.visit(def);
    }
    
    /**

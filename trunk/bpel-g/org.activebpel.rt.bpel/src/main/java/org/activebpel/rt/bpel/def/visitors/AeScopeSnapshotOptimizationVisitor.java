@@ -45,7 +45,7 @@ public class AeScopeSnapshotOptimizationVisitor extends AeAbstractDefVisitor
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.AeCompensationHandlerDef)
     */
-   public void visit(AeCompensationHandlerDef aDef)
+   public void visit(AeCompensationHandlerDef def)
    {
       for(int i=getEnclosedScopes().size()-1; i>=0; i--)
       {
@@ -59,7 +59,7 @@ public class AeScopeSnapshotOptimizationVisitor extends AeAbstractDefVisitor
          // TODO (MF) further optimization possible to detect what variables/correlationSets/partnerLinks are referenced by said CH
          scope.setRecordSnapshotEnabled(true);
       }
-      super.visit(aDef);
+      super.visit(def);
    }
    
    /**

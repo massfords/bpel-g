@@ -95,18 +95,18 @@ public class AeDefOneWayVisitor extends AeAbstractDefVisitor
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeOnMessageDef)
     */
-   public void visit(AeOnMessageDef aDef)
+   public void visit(AeOnMessageDef def)
    {
-      examineForOneWay(aDef);
-      super.visit(aDef);
+      examineForOneWay(def);
+      super.visit(def);
    }
    
    /**
     * @see org.activebpel.rt.bpel.def.visitors.AeAbstractDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeOnEventDef)
     */
-   public void visit(AeOnEventDef aDef)
+   public void visit(AeOnEventDef def)
    {
-      visit((AeOnMessageDef) aDef);
+      visit((AeOnMessageDef) def);
    }
 
    /**

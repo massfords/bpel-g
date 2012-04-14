@@ -34,16 +34,16 @@ public class AeBPWSToWSBPELOnEventVisitor extends AeAbstractBPWSToWSBPELVisitor
    /**
     * @see org.activebpel.rt.bpel.def.visitors.AeAbstractDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeOnEventDef)
     */
-   public void visit(AeOnEventDef aDef)
+   public void visit(AeOnEventDef def)
    {
-      String variable = aDef.getVariable();
-      AeVariableDef varDef = AeDefUtil.getVariableByName(variable, aDef);
+      String variable = def.getVariable();
+      AeVariableDef varDef = AeDefUtil.getVariableByName(variable, def);
       if (varDef != null)
       {
-         aDef.setMessageType(varDef.getMessageType());
+         def.setMessageType(varDef.getMessageType());
       }
 
-      AeActivityDef oldChild = aDef.getActivityDef();
+      AeActivityDef oldChild = def.getActivityDef();
       AeActivityScopeDef childScope = null;
       if (!(oldChild instanceof AeActivityScopeDef))
       {
@@ -51,7 +51,7 @@ public class AeBPWSToWSBPELOnEventVisitor extends AeAbstractBPWSToWSBPELVisitor
          newScopeChild.setActivityDef(oldChild);
          newScopeChild.setParentXmlDef(oldChild.getParent());
          oldChild.setParentXmlDef(newScopeChild);
-         aDef.setActivityDef(newScopeChild);
+         def.setActivityDef(newScopeChild);
 
          childScope = newScopeChild;
       }
@@ -75,6 +75,6 @@ public class AeBPWSToWSBPELOnEventVisitor extends AeAbstractBPWSToWSBPELVisitor
       
       variablesDef.addVariableDef(newVariable);
 
-      super.visit(aDef);
+      super.visit(def);
    }
 }

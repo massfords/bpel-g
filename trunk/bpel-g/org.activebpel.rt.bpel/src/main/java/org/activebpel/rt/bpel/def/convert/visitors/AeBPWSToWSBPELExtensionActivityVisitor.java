@@ -37,13 +37,13 @@ public class AeBPWSToWSBPELExtensionActivityVisitor extends AeAbstractBPWSToWSBP
    /**
     * @see org.activebpel.rt.bpel.def.visitors.AeAbstractDefVisitor#visit(org.activebpel.rt.bpel.def.AeCompensationHandlerDef)
     */
-   public void visit(AeCompensationHandlerDef aDef)
+   public void visit(AeCompensationHandlerDef def)
    {
-      if (aDef.getParent() instanceof AeProcessDef)
+      if (def.getParent() instanceof AeProcessDef)
       {
          addAeProcessCompensationExtensionDef();
       }
-      super.visit(aDef);
+      super.visit(def);
    }
 
    /**

@@ -54,17 +54,17 @@ public class AeDefOnEventVariableTypeVisitor extends AeAbstractDefVisitor
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeOnEventDef)
     */
-   public void visit(AeOnEventDef aDef)
+   public void visit(AeOnEventDef def)
    {
-      if (aDef.getFromPartsDef() != null)
+      if (def.getFromPartsDef() != null)
       {
-         AeActivityScopeDef scopeDef = aDef.getChildScope();
+         AeActivityScopeDef scopeDef = def.getChildScope();
          if (scopeDef != null)
          {
-            Message message = AeWSDLDefHelper.getInputMessage(getWSDLProvider(), aDef.getPortType(), aDef.getOperation());
+            Message message = AeWSDLDefHelper.getInputMessage(getWSDLProvider(), def.getPortType(), def.getOperation());
             if (message != null)
             {
-               for (Iterator i = aDef.getFromPartDefs(); i.hasNext(); )
+               for (Iterator i = def.getFromPartDefs(); i.hasNext(); )
                {
                   AeFromPartDef fromPartDef = (AeFromPartDef) i.next();
                   String variableName = fromPartDef.getToVariable();
@@ -86,6 +86,6 @@ public class AeDefOnEventVariableTypeVisitor extends AeAbstractDefVisitor
          }
       }
 
-      super.visit(aDef);
+      super.visit(def);
    }
 }

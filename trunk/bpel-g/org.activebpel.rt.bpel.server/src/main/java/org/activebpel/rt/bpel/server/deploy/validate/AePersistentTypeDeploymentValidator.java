@@ -246,16 +246,16 @@ public class AePersistentTypeDeploymentValidator extends AeAbstractDefVisitor
 	/**
 	 * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.AePartnerLinkDef)
 	 */
-	public void visit(AePartnerLinkDef aDef) {
-		String invokeHandlerType = getInvokeHandlerType(aDef);
+	public void visit(AePartnerLinkDef def) {
+		String invokeHandlerType = getInvokeHandlerType(def);
 		if (INVOKE_HANDLER_PROCESS_SUB.equalsIgnoreCase(invokeHandlerType)) {
 			addWarning(WARNING_NONPERSISTENT_SUBPROCESS_NOT_ALLOWED,
-					new String[] { aDef.getName() });
+					new String[] { def.getName() });
 		}
-		IAeEndpointReference epr = getEndpointReference(aDef);
+		IAeEndpointReference epr = getEndpointReference(def);
 		if (epr != null && hasRetryPolicy(epr)) {
 			addError(ERROR_NONPERSISTENT_RETRYPOLICY_NOT_ALLOWED,
-					new String[] { aDef.getName() });
+					new String[] { def.getName() });
 		}
 	}
 
@@ -305,43 +305,43 @@ public class AePersistentTypeDeploymentValidator extends AeAbstractDefVisitor
 	/**
 	 * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeOnMessageDef)
 	 */
-	public void visit(AeOnMessageDef aDef) {
+	public void visit(AeOnMessageDef def) {
 		// parent could be a 1.1 scope
-		if (!(aDef.getParent() instanceof AeActivityPickDef)) {
+		if (!(def.getParent() instanceof AeActivityPickDef)) {
 			mReceiveActivityRefCount++;
 		}
-		if (!checkCreateInstance(aDef)) {
+		if (!checkCreateInstance(def)) {
 			addError(ERROR_NONPERSISTENT_ACTIVITY_NOT_ALLOWED,
 					new String[] { AeOnMessageDef.TAG_ON_MESSAGE });
 		}
-		super.visit(aDef);
+		super.visit(def);
 	}
 
 	/**
 	 * @see org.activebpel.rt.bpel.def.visitors.AeAbstractDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeOnEventDef)
 	 */
-	public void visit(AeOnEventDef aDef) {
+	public void visit(AeOnEventDef def) {
 		addError(ERROR_NONPERSISTENT_ACTIVITY_NOT_ALLOWED,
 				new String[] { AeOnEventDef.TAG_ON_MESSAGE });
-		super.visit(aDef);
+		super.visit(def);
 	}
 
 	/**
 	 * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityWaitDef)
 	 */
-	public void visit(AeActivityWaitDef aDef) {
+	public void visit(AeActivityWaitDef def) {
 		addError(ERROR_NONPERSISTENT_ACTIVITY_NOT_ALLOWED,
 				new String[] { AeActivityWaitDef.TAG_WAIT });
-		super.visit(aDef);
+		super.visit(def);
 	}
 
 	/**
 	 * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeOnAlarmDef)
 	 */
-	public void visit(AeOnAlarmDef aDef) {
+	public void visit(AeOnAlarmDef def) {
 		addError(ERROR_NONPERSISTENT_ACTIVITY_NOT_ALLOWED,
 				new String[] { AeOnAlarmDef.TAG_ON_ALARM });
-		super.visit(aDef);
+		super.visit(def);
 	}
 
 	/**

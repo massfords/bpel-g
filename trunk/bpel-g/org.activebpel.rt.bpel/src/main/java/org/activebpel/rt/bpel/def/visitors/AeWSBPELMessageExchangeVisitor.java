@@ -20,16 +20,16 @@ public class AeWSBPELMessageExchangeVisitor extends AeMessageExchangeVisitor
    /**
     * @see org.activebpel.rt.bpel.def.visitors.AeAbstractDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeOnEventDef)
     */
-   public void visit(AeOnEventDef aDef)
+   public void visit(AeOnEventDef def)
    {
       // this visitor is run prior to the static analysis code so it's possible the onEvent is invalid and doesn't have a child scope.
-      if (aDef.getChildScope() != null)
+      if (def.getChildScope() != null)
       {
-         AeMessageExchangesDef msgExsDef = getOrCreateMessageExchangesDef(aDef.getChildScope().getScopeDef());
+         AeMessageExchangesDef msgExsDef = getOrCreateMessageExchangesDef(def.getChildScope().getScopeDef());
          msgExsDef.setDefaultDeclared(true);
       }
 
-      super.visit(aDef);
+      super.visit(def);
    }
 }
  

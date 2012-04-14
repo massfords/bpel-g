@@ -69,31 +69,31 @@ public class AeDefEntryPointPropertiesVisitor extends AeAbstractDefVisitor
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeOnMessageDef)
     */
-   public void visit(AeOnMessageDef aDef)
+   public void visit(AeOnMessageDef def)
    {
-      if( aDef.hasCorrelationList() )
+      if( def.hasCorrelationList() )
       {
-         Map<String, AeCorrelationSetDef> corrMap = findCorrelationSets(aDef);
-         AePartnerLinkOpKey key = aDef.getPartnerLinkOperationKey();
-         add(key, extractProperties(corrMap, aDef.getCorrelationsDef()));
-         getMessagePartsMap().put(key, aDef.getConsumerMessagePartsMap());
+         Map<String, AeCorrelationSetDef> corrMap = findCorrelationSets(def);
+         AePartnerLinkOpKey key = def.getPartnerLinkOperationKey();
+         add(key, extractProperties(corrMap, def.getCorrelationsDef()));
+         getMessagePartsMap().put(key, def.getConsumerMessagePartsMap());
       }
-      super.visit(aDef);
+      super.visit(def);
    }
    
    /**
     * @see org.activebpel.rt.bpel.def.visitors.AeAbstractDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeOnEventDef)
     */
-   public void visit(AeOnEventDef aDef)
+   public void visit(AeOnEventDef def)
    {
-      if( aDef.hasCorrelationList() )
+      if( def.hasCorrelationList() )
       {
-         Map<String, AeCorrelationSetDef> corrMap = findCorrelationSets(aDef.getContext());
-         AePartnerLinkOpKey key = aDef.getPartnerLinkOperationKey();
-         add(key, extractProperties(corrMap, aDef.getCorrelationsDef()));
-         getMessagePartsMap().put(key, aDef.getConsumerMessagePartsMap());
+         Map<String, AeCorrelationSetDef> corrMap = findCorrelationSets(def.getContext());
+         AePartnerLinkOpKey key = def.getPartnerLinkOperationKey();
+         add(key, extractProperties(corrMap, def.getCorrelationsDef()));
+         getMessagePartsMap().put(key, def.getConsumerMessagePartsMap());
       }
-      super.visit(aDef);
+      super.visit(def);
    }
 
    /**

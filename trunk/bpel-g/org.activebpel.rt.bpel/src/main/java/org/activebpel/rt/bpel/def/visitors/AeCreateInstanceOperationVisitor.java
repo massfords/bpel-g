@@ -63,25 +63,25 @@ public class AeCreateInstanceOperationVisitor extends AeAbstractDefVisitor
    /**
     * @see org.activebpel.rt.bpel.def.visitors.AeAbstractDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeOnMessageDef)
     */
-   public void visit(AeOnMessageDef aDef)
+   public void visit(AeOnMessageDef def)
    {
-      super.visit(aDef);
+      super.visit(def);
       boolean createInstance = false;
-      if (aDef.getParent() instanceof AeActivityPickDef)
+      if (def.getParent() instanceof AeActivityPickDef)
       {
-         createInstance = ((AeActivityPickDef)aDef.getParent()).isCreateInstance();
+         createInstance = ((AeActivityPickDef) def.getParent()).isCreateInstance();
       }
-      recordIMA(aDef, createInstance);
+      recordIMA(def, createInstance);
    }
    
    /**
     * @see org.activebpel.rt.bpel.def.visitors.AeAbstractDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeOnEventDef)
     */
-   public void visit(AeOnEventDef aDef)
+   public void visit(AeOnEventDef def)
    {
-      super.visit(aDef);
+      super.visit(def);
       // pass false since an onEvent can never be a createInstance
-      recordIMA(aDef, false);
+      recordIMA(def, false);
    }
    
    /**

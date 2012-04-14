@@ -57,19 +57,19 @@ public class AeJoinVisitor extends AeAbstractDefVisitor
    /**
     * @see org.activebpel.rt.bpel.def.visitors.AeAbstractDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeCorrelationDef)
     */
-   public void visit(AeCorrelationDef aDef)
+   public void visit(AeCorrelationDef def)
    {
-      super.visit(aDef);
+      super.visit(def);
       
-      if (aDef.isInitiate())
+      if (def.isInitiate())
       {
-         if (aDef.getParent().getParent() instanceof AeOnEventDef)
+         if (def.getParent().getParent() instanceof AeOnEventDef)
          {
-            addCorrelationInitiation(AeDefUtil.findCorrSetByName(aDef.getCorrelationSetName(), ((AeOnEventDef)aDef.getParent().getParent()).getContext()));
+            addCorrelationInitiation(AeDefUtil.findCorrSetByName(def.getCorrelationSetName(), ((AeOnEventDef) def.getParent().getParent()).getContext()));
          }
          else
          {
-            addCorrelationInitiation(AeDefUtil.findCorrSetByName(aDef.getCorrelationSetName(), aDef));
+            addCorrelationInitiation(AeDefUtil.findCorrSetByName(def.getCorrelationSetName(), def));
          }
       }
    }

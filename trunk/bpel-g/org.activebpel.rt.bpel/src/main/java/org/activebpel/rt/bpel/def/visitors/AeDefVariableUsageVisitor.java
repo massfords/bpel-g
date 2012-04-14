@@ -331,16 +331,16 @@ public class AeDefVariableUsageVisitor extends AeAbstractDefVisitor
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.AeCompensationHandlerDef)
     */
-   public void visit(AeCompensationHandlerDef aDef)
+   public void visit(AeCompensationHandlerDef def)
    {
       // Save (and restore) the current compensation handler in case we have a
       // nested compensation handler.
       AeCompensationHandlerDef oldCompensationHandler = getCompensationHandler();
 
       // Set the current compensation handler.
-      setCompensationHandler(aDef);
+      setCompensationHandler(def);
 
-      super.visit(aDef);
+      super.visit(def);
 
       setCompensationHandler(oldCompensationHandler);
    }
@@ -415,84 +415,84 @@ public class AeDefVariableUsageVisitor extends AeAbstractDefVisitor
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.AeCatchDef)
     */
-   public void visit(AeCatchDef aDef)
+   public void visit(AeCatchDef def)
    {
-      addVariableLock(findParentActivityDef(), aDef.getFaultVariable(), AeLockType.Read);
-      traverse(aDef);
+      addVariableLock(findParentActivityDef(), def.getFaultVariable(), AeLockType.Read);
+      traverse(def);
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeOnMessageDef)
     */
-   public void visit(AeOnMessageDef aDef)
+   public void visit(AeOnMessageDef def)
    {
       // TODO (MF) the onMessage should release its lock as soon as the data arrives. This is big change since there is currently no notion of ref counts for variable locking and it's possible that some other nested activity within the onMessage may request a lock on that variable 
-      addVariableLock(findParentActivityDef(), aDef.getVariable(), AeLockType.Write);
-      traverse(aDef);
+      addVariableLock(findParentActivityDef(), def.getVariable(), AeLockType.Write);
+      traverse(def);
    }
    
    /**
     * @see org.activebpel.rt.bpel.def.visitors.AeAbstractDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeOnEventDef)
     */
-   public void visit(AeOnEventDef aDef)
+   public void visit(AeOnEventDef def)
    {
-      visit((AeOnMessageDef) aDef);
+      visit((AeOnMessageDef) def);
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeOnAlarmDef)
     */
-   public void visit(AeOnAlarmDef aDef)
+   public void visit(AeOnAlarmDef def)
    {
       AeActivityDef parent = findParentActivityDef();
-      parseForVariables(parent, aDef.getForDef());
-      parseForVariables(parent, aDef.getUntilDef());
-      traverse(aDef);
+      parseForVariables(parent, def.getForDef());
+      parseForVariables(parent, def.getUntilDef());
+      traverse(def);
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityThrowDef)
     */
-   public void visit(AeActivityThrowDef aDef)
+   public void visit(AeActivityThrowDef def)
    {
-      addVariableLock(aDef, aDef.getFaultVariable(), AeLockType.Read);
-      traverse(aDef);
+      addVariableLock(def, def.getFaultVariable(), AeLockType.Read);
+      traverse(def);
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityWaitDef)
     */
-   public void visit(AeActivityWaitDef aDef)
+   public void visit(AeActivityWaitDef def)
    {
-      parseForVariables(aDef, aDef.getForDef());
-      parseForVariables(aDef, aDef.getUntilDef());
-      traverse(aDef);
+      parseForVariables(def, def.getForDef());
+      parseForVariables(def, def.getUntilDef());
+      traverse(def);
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityWhileDef)
     */
-   public void visit(AeActivityWhileDef aDef)
+   public void visit(AeActivityWhileDef def)
    {
-      parseForVariables(aDef, aDef.getConditionDef());
-      traverse(aDef);
+      parseForVariables(def, def.getConditionDef());
+      traverse(def);
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.visitors.AeAbstractDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeElseIfDef)
     */
-   public void visit(AeElseIfDef aDef)
+   public void visit(AeElseIfDef def)
    {
-      parseForVariables(findParentActivityDef(), aDef.getConditionDef());
-      traverse(aDef);
+      parseForVariables(findParentActivityDef(), def.getConditionDef());
+      traverse(def);
    }
    
    /**
     * @see org.activebpel.rt.bpel.def.visitors.AeAbstractDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeIfDef)
     */
-   public void visit(AeIfDef aDef)
+   public void visit(AeIfDef def)
    {
-      visit((AeElseIfDef) aDef);
+      visit((AeElseIfDef) def);
    }
 
    /**
@@ -507,25 +507,25 @@ public class AeDefVariableUsageVisitor extends AeAbstractDefVisitor
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeFromDef)
     */
-   public void visit(AeFromDef aDef)
+   public void visit(AeFromDef def)
    { 
       AeActivityDef parent = findParentActivityDef();
-      addVariableLock(parent, aDef.getVariable(), AeLockType.Read);
-      parseForVariables(parent, aDef);
+      addVariableLock(parent, def.getVariable(), AeLockType.Read);
+      parseForVariables(parent, def);
       
-      traverse(aDef);
+      traverse(def);
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeToDef)
     */
-   public void visit(AeToDef aDef)
+   public void visit(AeToDef def)
    {
       AeActivityDef parent = findParentActivityDef();
-      addVariableLock(parent, aDef.getVariable(), AeLockType.Write);
-      parseForVariables(parent, aDef);
+      addVariableLock(parent, def.getVariable(), AeLockType.Write);
+      parseForVariables(parent, def);
       
-      traverse(aDef);
+      traverse(def);
    }
    
    /**

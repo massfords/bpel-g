@@ -51,19 +51,19 @@ public class AeImplementsOperationVisitor extends AeAbstractSearchVisitor
    /**
     * @see org.activebpel.rt.bpel.def.visitors.AeAbstractDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeOnEventDef)
     */
-   public void visit(AeOnEventDef aDef)
+   public void visit(AeOnEventDef def)
    {
-      checkFound(aDef.getPartnerLinkDef(), aDef.getOperation());
-      super.visit(aDef);
+      checkFound(def.getPartnerLinkDef(), def.getOperation());
+      super.visit(def);
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.visitors.AeAbstractDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeOnMessageDef)
     */
-   public void visit(AeOnMessageDef aDef)
+   public void visit(AeOnMessageDef def)
    {
-      checkFound(aDef.getPartnerLinkDef(), aDef.getOperation());
-      super.visit(aDef);
+      checkFound(def.getPartnerLinkDef(), def.getOperation());
+      super.visit(def);
    }
 
    /**

@@ -72,10 +72,10 @@ public class AeBpelDelegatingDefWriterVisitor extends AeAbstractDefVisitor imple
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.AeScopeDef)
     */
-   public void visit(AeScopeDef aDef)
+   public void visit(AeScopeDef def)
    {
       // there is no xml to write for a scope def so we do a super.traverse() here.
-      super.traverse(aDef);
+      super.traverse(def);
    }
 
    /**

@@ -66,17 +66,17 @@ public class AeImplicitVariableVisitor extends AeAbstractDefVisitor
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityForEachDef)
     */
-   public void visit(AeActivityForEachDef aDef)
+   public void visit(AeActivityForEachDef def)
    {
-      if(aDef.getChildScope() != null)
+      if(def.getChildScope() != null)
       {
-         String varName = aDef.getCounterName();
-         AeVariableDef varDef = addVariableToScope(varName, aDef.getChildScope().getScopeDef());
+         String varName = def.getCounterName();
+         AeVariableDef varDef = addVariableToScope(varName, def.getChildScope().getScopeDef());
          if (varDef != null)
             varDef.setType(new QName(XMLConstants.W3C_XML_SCHEMA_NS_URI, "unsignedInt")); //$NON-NLS-1$
       }
       
-      super.visit(aDef);
+      super.visit(def);
    }
 }
  

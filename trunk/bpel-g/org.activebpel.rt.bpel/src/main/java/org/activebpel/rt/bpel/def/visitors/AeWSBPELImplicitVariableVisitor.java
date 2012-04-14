@@ -35,35 +35,35 @@ public class AeWSBPELImplicitVariableVisitor extends AeImplicitVariableVisitor
    /**
     * @see org.activebpel.rt.bpel.def.visitors.AeAbstractDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeOnEventDef)
     */
-   public void visit(AeOnEventDef aDef)
+   public void visit(AeOnEventDef def)
    {
-      AeActivityScopeDef scopeDef = aDef.getChildScope();
+      AeActivityScopeDef scopeDef = def.getChildScope();
       if (scopeDef != null)
       {
-         String varName = aDef.getVariable();
+         String varName = def.getVariable();
          if (AeUtil.notNullOrEmpty(varName))
          {
             AeVariableDef varDef = addVariableToScope(varName, scopeDef);
             if (varDef != null)
             {
-               if (aDef.getElement() != null)
+               if (def.getElement() != null)
                {
-                  varDef.setElement(aDef.getElement());
+                  varDef.setElement(def.getElement());
                }
                
-               if (aDef.getMessageType() != null)
+               if (def.getMessageType() != null)
                {
-                  varDef.setMessageType(aDef.getMessageType());
+                  varDef.setMessageType(def.getMessageType());
                }
             }
          }
-         else if (aDef.getFromPartsDef() != null)
+         else if (def.getFromPartsDef() != null)
          {
             // Create untyped implicit variables for the fromPart variables. The
             // variable types will be added later by a separate visitor that has
             // access to a WSDL provider (see AeDefOnEventVariableTypeVisitor,
             // which is called by AeProcessDef's preProcessForExecution()).
-            for (Iterator i = aDef.getFromPartDefs(); i.hasNext(); )
+            for (Iterator i = def.getFromPartDefs(); i.hasNext(); )
             {
                AeFromPartDef fromPartDef = (AeFromPartDef) i.next();
                varName = fromPartDef.getToVariable();
@@ -71,23 +71,23 @@ public class AeWSBPELImplicitVariableVisitor extends AeImplicitVariableVisitor
             }
          }
       }
-      super.visit(aDef);
+      super.visit(def);
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.visitors.AeAbstractDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeChildExtensionActivityDef)
     */
-   public void visit(AeChildExtensionActivityDef aDef)
+   public void visit(AeChildExtensionActivityDef def)
    {
-      IAeExtensionObject extObject = aDef.getExtensionObject();
+      IAeExtensionObject extObject = def.getExtensionObject();
       if (extObject != null)
       {
          IAeImplicitVariablesAdapter implicitVariablesAdapter = (IAeImplicitVariablesAdapter) extObject.getAdapter(IAeImplicitVariablesAdapter.class);
          if (implicitVariablesAdapter != null)
-            implicitVariablesAdapter.createImplicitVariables(aDef);
+            implicitVariablesAdapter.createImplicitVariables(def);
       }
       
-      super.visit(aDef);
+      super.visit(def);
    }
    
    

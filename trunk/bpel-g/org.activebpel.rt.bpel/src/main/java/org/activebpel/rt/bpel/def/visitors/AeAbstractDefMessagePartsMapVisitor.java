@@ -267,29 +267,29 @@ public abstract class AeAbstractDefMessagePartsMapVisitor extends AeAbstractDefV
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeOnMessageDef)
     */
-   public void visit(AeOnMessageDef aDef)
+   public void visit(AeOnMessageDef def)
    {
-      if (aDef.getConsumerMessagePartsMap() == null)
+      if (def.getConsumerMessagePartsMap() == null)
       {
-         QName portType = getMyRolePortType(aDef);
-         String operation = aDef.getOperation();
-         String locationPath = aDef.getLocationPath();
+         QName portType = getMyRolePortType(def);
+         String operation = def.getOperation();
+         String locationPath = def.getLocationPath();
          // msgType is only used for BPWS processes, left the call in the base class to leverage the visit() methods
-         QName msgType = getMessageType(aDef, aDef.getVariable());
+         QName msgType = getMessageType(def, def.getVariable());
    
          AeMessagePartsMap map = createInputMessagePartsMap(portType, operation, msgType, null, locationPath);
-         aDef.setConsumerMessagePartsMap(map);
+         def.setConsumerMessagePartsMap(map);
       }
    
-      super.visit(aDef);
+      super.visit(def);
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeOnEventDef)
     */
-   public void visit(AeOnEventDef aDef)
+   public void visit(AeOnEventDef def)
    {
-      visit((AeOnMessageDef) aDef);
+      visit((AeOnMessageDef) def);
    }
 
    /**

@@ -55,11 +55,11 @@ public class AeValidationPreprocessingVisitor extends AeAbstractDefVisitor
    /**
     * @see org.activebpel.rt.bpel.def.visitors.AeAbstractDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeChildExtensionActivityDef)
     */
-   public void visit(AeChildExtensionActivityDef aDef)
+   public void visit(AeChildExtensionActivityDef def)
    {
-      IAeExtensionObject extObj = aDef.getExtensionObject();
+      IAeExtensionObject extObj = def.getExtensionObject();
       preprocessForValidation(extObj);
-      super.visit(aDef);
+      super.visit(def);
    }
    
    /**

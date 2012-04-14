@@ -31,15 +31,15 @@ public class AeBPWSToWSBPELCatchVisitor extends AeAbstractBPWSToWSBPELVisitor
    /**
     * @see org.activebpel.rt.bpel.def.visitors.AeAbstractDefVisitor#visit(org.activebpel.rt.bpel.def.AeCatchDef)
     */
-   public void visit(AeCatchDef aDef)
+   public void visit(AeCatchDef def)
    {
-      String variable = aDef.getFaultVariable();
-      AeVariableDef varDef = AeDefUtil.getVariableByName(variable, aDef);
+      String variable = def.getFaultVariable();
+      AeVariableDef varDef = AeDefUtil.getVariableByName(variable, def);
       if (varDef != null)
       {
-         aDef.setFaultMessageType(varDef.getMessageType());
+         def.setFaultMessageType(varDef.getMessageType());
       }
 
-      super.visit(aDef);
+      super.visit(def);
    }
 }

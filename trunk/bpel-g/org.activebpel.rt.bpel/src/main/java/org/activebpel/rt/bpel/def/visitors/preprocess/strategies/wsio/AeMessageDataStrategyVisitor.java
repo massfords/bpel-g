@@ -70,19 +70,19 @@ public class AeMessageDataStrategyVisitor extends AeAbstractDefVisitor
    /**
     * @see org.activebpel.rt.bpel.def.visitors.AeAbstractDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeOnEventDef)
     */
-   public void visit(AeOnEventDef aDef)
+   public void visit(AeOnEventDef def)
    {
-      determineConsumerStrategy(aDef);
-      super.visit(aDef);
+      determineConsumerStrategy(def);
+      super.visit(def);
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.visitors.AeAbstractDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeOnMessageDef)
     */
-   public void visit(AeOnMessageDef aDef)
+   public void visit(AeOnMessageDef def)
    {
-      determineConsumerStrategy(aDef);
-      super.visit(aDef);
+      determineConsumerStrategy(def);
+      super.visit(def);
    }
 
    /**
@@ -130,25 +130,25 @@ public class AeMessageDataStrategyVisitor extends AeAbstractDefVisitor
    /**
     * @see org.activebpel.rt.bpel.def.visitors.AeAbstractDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeChildExtensionActivityDef)
     */
-   public void visit(AeChildExtensionActivityDef aDef)
+   public void visit(AeChildExtensionActivityDef def)
    {
-      if (aDef.getExtensionObject() != null)
+      if (def.getExtensionObject() != null)
       {
          // producer 
-         IAeMessageDataProducerDef producerDef = (IAeMessageDataProducerDef) aDef.getExtensionObject().getAdapter(IAeMessageDataProducerDef.class);
+         IAeMessageDataProducerDef producerDef = (IAeMessageDataProducerDef) def.getExtensionObject().getAdapter(IAeMessageDataProducerDef.class);
          if (producerDef != null)
          {
             determineProducerStrategy(producerDef);
          }
          
          // consumer
-         IAeMessageDataConsumerDef consumerDef = (IAeMessageDataConsumerDef) aDef.getExtensionObject().getAdapter(IAeMessageDataConsumerDef.class);
+         IAeMessageDataConsumerDef consumerDef = (IAeMessageDataConsumerDef) def.getExtensionObject().getAdapter(IAeMessageDataConsumerDef.class);
          if (consumerDef != null)
          {
             determineConsumerStrategy(consumerDef);
          }
       }
-      super.visit(aDef);
+      super.visit(def);
    }
 }
  

@@ -54,12 +54,12 @@ public class AeCorePreprocessingVisitor extends AeAbstractDefVisitor
    /**
     * @see org.activebpel.rt.bpel.def.visitors.AeAbstractDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeChildExtensionActivityDef)
     */
-   public void visit(AeChildExtensionActivityDef aDef)
+   public void visit(AeChildExtensionActivityDef def)
    {
-      IAeExtensionObject extObj = aDef.getExtensionObject();
+      IAeExtensionObject extObj = def.getExtensionObject();
       if ( extObj != null )
       {
-         preprocess(aDef, extObj);
+         preprocess(def, extObj);
       }
    }
 

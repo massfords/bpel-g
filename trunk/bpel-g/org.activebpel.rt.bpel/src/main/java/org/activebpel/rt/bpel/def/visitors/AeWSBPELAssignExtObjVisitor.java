@@ -37,11 +37,11 @@ public class AeWSBPELAssignExtObjVisitor extends AeAbstractDefVisitor
    /**
     * @see org.activebpel.rt.bpel.def.visitors.AeAbstractDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeChildExtensionActivityDef)
     */
-   public void visit(AeChildExtensionActivityDef aDef)
+   public void visit(AeChildExtensionActivityDef def)
    {
       if (mExtensionRegistry != null)
-         aDef.setExtensionObject(mExtensionRegistry.getExtensionObject(aDef.getElementName()));
-      super.visit(aDef);
+         def.setExtensionObject(mExtensionRegistry.getExtensionObject(def.getElementName()));
+      super.visit(def);
    }
 
    /**

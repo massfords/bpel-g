@@ -84,72 +84,72 @@ public class AeWSBPELDefVariableUsageVisitor extends AeDefVariableUsageVisitor
     *  
     * @see org.activebpel.rt.bpel.def.visitors.AeDefVariableUsageVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeOnEventDef)
     */
-   public void visit(AeOnEventDef aDef)
+   public void visit(AeOnEventDef def)
    {
-      traverse(aDef);
+      traverse(def);
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeFromDef)
     */
-   public void visit(AeFromDef aDef)
+   public void visit(AeFromDef def)
    {
-      addPartnerLinkLock(findParentActivityDef(), aDef.getPartnerLink(), AeLockType.Read);
-      super.visit(aDef);
+      addPartnerLinkLock(findParentActivityDef(), def.getPartnerLink(), AeLockType.Read);
+      super.visit(def);
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.visitors.AeDefVariableUsageVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeToDef)
     */
-   public void visit(AeToDef aDef)
+   public void visit(AeToDef def)
    {
-      if (aDef.getStrategyKey() instanceof AeExpressionSpecStrategyKey)
+      if (def.getStrategyKey() instanceof AeExpressionSpecStrategyKey)
       {
-         AeExpressionSpecStrategyKey strategy = (AeExpressionSpecStrategyKey) aDef.getStrategyKey();
+         AeExpressionSpecStrategyKey strategy = (AeExpressionSpecStrategyKey) def.getStrategyKey();
          AeActivityDef parent = findParentActivityDef();
          addVariableLock(parent, strategy.getVariableName(), AeLockType.Write);
       }
 
-      addPartnerLinkLock(findParentActivityDef(), aDef.getPartnerLink(), AeLockType.Write);
+      addPartnerLinkLock(findParentActivityDef(), def.getPartnerLink(), AeLockType.Write);
 
       // Note: super.visit will parse the query and acquire read locks for each variable it finds.
       // We have already acquired a Write lock for one of the variables, so the attempt to acquire a 
       // Read lock for that same variable will be a no-op.
-      super.visit(aDef);
+      super.visit(def);
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeFromPartDef)
     */
-   public void visit(AeFromPartDef aDef)
+   public void visit(AeFromPartDef def)
    {
-      addVariableLock(findParentActivityDef(), aDef.getToVariable(), AeLockType.Write);
+      addVariableLock(findParentActivityDef(), def.getToVariable(), AeLockType.Write);
 
-      super.visit(aDef);
+      super.visit(def);
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeFromPartsDef)
     */
-   public void visit(AeFromPartsDef aDef)
+   public void visit(AeFromPartsDef def)
    {
       // If this is a fromParts element for an onEvent, then we don't need to
       // visit the individual fromPart elements, because onEvent variables are
       // private to the onEvent's scope.
-      if (!(aDef.getParent() instanceof AeOnEventDef))
+      if (!(def.getParent() instanceof AeOnEventDef))
       {
-         super.visit(aDef);
+         super.visit(def);
       }
    }
 
    /**
     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeToPartDef)
     */
-   public void visit(AeToPartDef aDef)
+   public void visit(AeToPartDef def)
    {
-      addVariableLock(findParentActivityDef(), aDef.getFromVariable(), AeLockType.Read);
+      addVariableLock(findParentActivityDef(), def.getFromVariable(), AeLockType.Read);
 
-      super.visit(aDef);
+      super.visit(def);
    }
 
    /**
