@@ -140,7 +140,7 @@
     <module>org.activebpel.services.jaxws</module>
     <module>ode-packaging</module>
     <module>org.activebpel.camel</module>
-    <module>bpel-g.war</module>
+    <module>bpel-g-web</module>
     <module>bpel-g-ear</module>
       <module>org.activebpel.rt.war.tags</module>
       <module>process-tests</module>
