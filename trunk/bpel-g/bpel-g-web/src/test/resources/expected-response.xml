@@ -1,4 +1,0 @@
-<loanApprovalResponse xmlns="http://schemas.active-endpoints.com/sample/LoanRequest/2008/02/loanRequest.xsd">
-   <responseToLoanRequest>approved</responseToLoanRequest>
-   <responseDescription/>
-</loanApprovalResponse>
