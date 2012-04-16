@@ -7,4 +7,5 @@
             <service name="ex:quoteService" port="quoteService"/>
         </provide>
     </process>
+
 </deploy>

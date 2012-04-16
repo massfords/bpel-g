@@ -1,9 +1,7 @@
-package bpelg.process.tests.correlation;
+package bpelg.process.tests;
 
 import bpelg.services.deploy.types.DeploymentResponse;
-import bpelg.services.deploy.types.UndeploymentRequest;
 import org.activebpel.services.jaxws.AeProcessFixture;
-import org.junit.After;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -43,9 +41,4 @@ public class ProcessWithErrorsIntegrationTest extends Assert {
     - process
     -- static analysis failure
      */
-
-    @After
-    public void tearDown() throws Exception {
-        pfix.getDeployer().undeploy(new UndeploymentRequest().withDeploymentContainerId("process-with-errors.jar"));
-    }
 }

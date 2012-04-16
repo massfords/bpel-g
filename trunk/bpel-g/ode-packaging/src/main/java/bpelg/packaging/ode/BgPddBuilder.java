@@ -1,6 +1,7 @@
 package bpelg.packaging.ode;
 
 import bpelg.packaging.ode.BgPddInfo.BgPlink;
+import bpelg.services.deploy.MissingResourcesException;
 import bpelg.services.deploy.types.pdd.*;
 import bpelg.services.deploy.types.pdd.Pdd.PartnerLinks;
 import bpelg.services.deploy.types.pdd.Pdd.References;
@@ -149,6 +150,10 @@ public class BgPddBuilder {
             PersistenceType type = AeXPathUtil.selectBoolean(process, "ode:in-memory", NAMESPACES) ? PersistenceType.NONE : PersistenceType.FULL;
 
             BgPddInfo pddInfo = deployments.get(processName);
+            if (pddInfo == null) {
+                throw new MissingResourcesException("{" + processName.getNamespaceURI() + "}" + processName.getLocalPart());
+            }
+
             pddInfo.setPersistenceType(type);
             deployments.put(pddInfo.getProcessName(), pddInfo);
             pddFileNameToPddInfo.put(pddInfo.getLocation() + ".pdd", pddInfo);

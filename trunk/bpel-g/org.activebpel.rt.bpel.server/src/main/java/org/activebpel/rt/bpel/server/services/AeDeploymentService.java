@@ -1,6 +1,8 @@
 package org.activebpel.rt.bpel.server.services;
 
 import bpelg.services.deploy.AeDeployer;
+import bpelg.services.deploy.MissingResourcesException;
+import bpelg.services.deploy.UnhandledException;
 import bpelg.services.deploy.types.DeploymentResponse;
 import bpelg.services.deploy.types.UndeploymentRequest;
 import org.activebpel.rt.AeException;
@@ -22,13 +24,13 @@ public class AeDeploymentService implements AeDeployer {
 	private static Log sLog = LogFactory.getLog(AeDeploymentService.class);
 
 	@Override
-	public DeploymentResponse deploy(String aName, byte[] aArchive) {
+	public DeploymentResponse deploy(String aName, byte[] aArchive) throws UnhandledException, MissingResourcesException {
         DeploymentResponse response = new DeploymentResponse();
         IAeDeploymentLogger logger = new DeploymentLogger();
         try {
 			AeTempFileUploadHandler.handleUpload( aName, new ByteArrayInputStream(aArchive), logger );
 		} catch (AeException e) {
-			sLog.error(e);
+//			sLog.error(e);
             response.withMessage(e.getMessage());
 		}
         response.withDeploymentInfo(logger.getDeploymentInfos());

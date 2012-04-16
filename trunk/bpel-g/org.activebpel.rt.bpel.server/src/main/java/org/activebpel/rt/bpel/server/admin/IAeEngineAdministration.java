@@ -9,24 +9,21 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpel.server.admin;
 
-import java.io.File;
-import java.util.Date;
-import java.util.List;
-
+import bpelg.services.deploy.MissingResourcesException;
+import bpelg.services.deploy.UnhandledException;
+import bpelg.services.processes.types.ProcessFilterType;
+import bpelg.services.processes.types.ProcessList;
 import org.activebpel.rt.AeException;
 import org.activebpel.rt.bpel.AeBusinessProcessException;
 import org.activebpel.rt.bpel.coord.AeCoordinationDetail;
 import org.activebpel.rt.bpel.impl.AeMonitorStatus;
-import org.activebpel.rt.bpel.impl.list.AeAlarmExt;
-import org.activebpel.rt.bpel.impl.list.AeAlarmFilter;
-import org.activebpel.rt.bpel.impl.list.AeAlarmListResult;
-import org.activebpel.rt.bpel.impl.list.AeMessageReceiverFilter;
-import org.activebpel.rt.bpel.impl.list.AeMessageReceiverListResult;
+import org.activebpel.rt.bpel.impl.list.*;
 import org.activebpel.rt.bpel.server.catalog.report.IAeCatalogAdmin;
 import org.activebpel.rt.bpel.server.logging.IAeDeploymentLogger;
 
-import bpelg.services.processes.types.ProcessFilterType;
-import bpelg.services.processes.types.ProcessList;
+import java.io.File;
+import java.util.Date;
+import java.util.List;
 
 /**
  * Interface for engine administration/console support
@@ -143,7 +140,7 @@ public interface IAeEngineAdministration
     * @param aBprFilename The name of the BPR file (could be different than aBprFile if it is a temp file).
     * @param aLogger A logger to use.
     */
-   public void deployNewBpr(File aBprFile, String aBprFilename, IAeDeploymentLogger aLogger) throws AeException;
+   public void deployNewBpr(File aBprFile, String aBprFilename, IAeDeploymentLogger aLogger) throws AeException, UnhandledException, MissingResourcesException;
 
    /**
     * Returns True if using internal WorkManager or False if using server implementation.

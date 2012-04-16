@@ -9,11 +9,8 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpel.server.deploy.bpr;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-
+import bpelg.services.deploy.MissingResourcesException;
+import bpelg.services.deploy.UnhandledException;
 import org.activebpel.rt.AeException;
 import org.activebpel.rt.bpel.server.AeMessages;
 import org.activebpel.rt.bpel.server.engine.AeEngineFactory;
@@ -21,6 +18,11 @@ import org.activebpel.rt.bpel.server.logging.IAeDeploymentLogger;
 import org.activebpel.rt.util.AeCloser;
 import org.activebpel.rt.util.AeFileUtil;
 import org.activebpel.rt.util.AeUtil;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 
 /**
  * Default implementation of <code>IAeFileUploadHandler</code>.  Uses the given
@@ -43,8 +45,7 @@ public class AeTempFileUploadHandler
     * @param aLogger
     * @throws AeException
     */
-   public static void handleUpload( String aBprFileName, InputStream aBprStream, IAeDeploymentLogger aLogger ) throws AeException
-   {
+   public static void handleUpload( String aBprFileName, InputStream aBprStream, IAeDeploymentLogger aLogger ) throws AeException, UnhandledException, MissingResourcesException {
       File tmpFile = null;
       try
       {

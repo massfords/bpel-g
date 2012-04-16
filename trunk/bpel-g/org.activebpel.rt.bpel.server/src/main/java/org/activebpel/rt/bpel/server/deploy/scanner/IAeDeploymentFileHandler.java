@@ -9,12 +9,13 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpel.server.deploy.scanner;
 
-import java.io.File;
-
+import bpelg.services.deploy.MissingResourcesException;
+import bpelg.services.deploy.UnhandledException;
+import bpelg.services.deploy.types.UndeploymentRequest;
 import org.activebpel.rt.AeException;
 import org.activebpel.rt.bpel.server.logging.IAeDeploymentLogger;
 
-import bpelg.services.deploy.types.UndeploymentRequest;
+import java.io.File;
 
 
 /**
@@ -32,7 +33,7 @@ public interface IAeDeploymentFileHandler
     * Handle any initial deployments that need to be processed before
     * the engine can be started.
     */
-   public void handleInitialDeployments();
+   public void handleInitialDeployments() throws UnhandledException, MissingResourcesException;
 
    /**
     * Handle the deployment of a single BPR/WSR.
@@ -42,7 +43,7 @@ public interface IAeDeploymentFileHandler
     * @param aLogger
     * @throws AeException
     */
-   public void handleDeployment(File aFile, String aBprName, IAeDeploymentLogger aLogger)  throws AeException;
+   public void handleDeployment(File aFile, String aBprName, IAeDeploymentLogger aLogger) throws AeException, UnhandledException, MissingResourcesException;
    
    public boolean undeploy(UndeploymentRequest aRequest);
 

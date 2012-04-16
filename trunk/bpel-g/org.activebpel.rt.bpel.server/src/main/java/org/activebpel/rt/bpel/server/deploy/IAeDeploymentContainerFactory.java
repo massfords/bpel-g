@@ -1,6 +1,9 @@
 package org.activebpel.rt.bpel.server.deploy;
 
+import bpelg.services.deploy.MissingResourcesException;
+import bpelg.services.deploy.UnhandledException;
 import org.activebpel.rt.AeException;
+import org.activebpel.rt.bpel.server.logging.IAeDeploymentLogger;
 
 public interface IAeDeploymentContainerFactory {
 
@@ -11,8 +14,8 @@ public interface IAeDeploymentContainerFactory {
      * @param aInfo
      * @throws AeException
      */
-    public IAeDeploymentContainer createDeploymentContainer(AeNewDeploymentInfo aInfo)
-            throws AeException;
+    public IAeDeploymentContainer createDeploymentContainer(AeNewDeploymentInfo aInfo, IAeDeploymentLogger logger)
+            throws AeException, MissingResourcesException, UnhandledException;
 
     /**
      * Create and configure the <code>IAeDeploymentContainer</code>for
