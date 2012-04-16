@@ -1,21 +1,24 @@
 package org.activebpel.rt.bpel.server.deploy.scanner;
 
-import java.util.Map;
-
+import bpelg.services.deploy.MissingResourcesException;
+import bpelg.services.deploy.UnhandledException;
 import org.activebpel.rt.AeException;
 import org.activebpel.rt.bpel.server.deploy.AeNewDeploymentInfo;
 import org.activebpel.rt.bpel.server.deploy.IAeDeploymentContainer;
 import org.activebpel.rt.bpel.server.deploy.IAeDeploymentContainerFactory;
+import org.activebpel.rt.bpel.server.logging.IAeDeploymentLogger;
 import org.activebpel.rt.util.AeFileUtil;
+
+import java.util.Map;
 
 public class AeExtensionBasedDeploymentContainerFactory implements IAeDeploymentContainerFactory {
 
     Map<String, IAeDeploymentContainerFactory> mFactoryMap;
 
     @Override
-    public IAeDeploymentContainer createDeploymentContainer(AeNewDeploymentInfo aInfo)
-            throws AeException {
-        return getFactory(aInfo).createDeploymentContainer(aInfo);
+    public IAeDeploymentContainer createDeploymentContainer(AeNewDeploymentInfo aInfo, IAeDeploymentLogger logger)
+            throws AeException, MissingResourcesException, UnhandledException {
+        return getFactory(aInfo).createDeploymentContainer(aInfo, logger);
     }
 
     @Override

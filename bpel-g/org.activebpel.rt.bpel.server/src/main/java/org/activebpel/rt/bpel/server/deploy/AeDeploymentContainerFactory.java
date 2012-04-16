@@ -9,14 +9,15 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpel.server.deploy;
 
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.URLClassLoader;
-
 import org.activebpel.rt.AeException;
 import org.activebpel.rt.bpel.server.deploy.bpr.AeBpr;
 import org.activebpel.rt.bpel.server.deploy.bpr.AeBprContext;
 import org.activebpel.rt.bpel.server.deploy.bpr.IAeBpr;
+import org.activebpel.rt.bpel.server.logging.IAeDeploymentLogger;
+
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLClassLoader;
 
 /**
  * Create and configure the <code>IAeDeploymentContainers</code>needed for bpr
@@ -32,7 +33,7 @@ public class AeDeploymentContainerFactory implements
 	 * @throws AeException
 	 */
 	public IAeDeploymentContainer createDeploymentContainer(
-			AeNewDeploymentInfo aInfo) throws AeException {
+			AeNewDeploymentInfo aInfo, IAeDeploymentLogger logger) throws AeException {
 		ClassLoader bprResourceClassLoader = null;
 		try {
 			bprResourceClassLoader = AeBprClasspathBuilder.build(aInfo.getTempURL());

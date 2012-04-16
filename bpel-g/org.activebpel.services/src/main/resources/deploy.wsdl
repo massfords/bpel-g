@@ -61,6 +61,8 @@
                   <xs:enumeration value="error"/>
               </xs:restriction>
           </xs:simpleType>
+          <xs:element name="missingResourcesException" type="xs:string"/>
+          <xs:element name="unhandledException" type="xs:string"/>
       </xs:schema>
    </wsdl:types>
    
@@ -77,13 +79,21 @@
    </wsdl:message>
    <wsdl:message name="undeploymentResponse">
       <wsdl:part name="body" element="tns:undeploymentResponse"/>
-   </wsdl:message>   
+   </wsdl:message>
+    <wsdl:message name="missingResourcesException">
+        <wsdl:part name="body" element="tns:missingResourcesException"/>
+    </wsdl:message>
+    <wsdl:message name="unhandledException">
+        <wsdl:part name="body" element="tns:unhandledException"/>
+    </wsdl:message>
 
-   <wsdl:portType name="AeDeployer">
+    <wsdl:portType name="AeDeployer">
 
       <wsdl:operation name="deploy">
          <wsdl:input  message="tns:deploymentRequest"/>
          <wsdl:output message="tns:deploymentResponse"/>
+          <wsdl:fault name="missingResources" message="tns:missingResourcesException"/>
+          <wsdl:fault name="unhandledException" message="tns:unhandledException"/>
       </wsdl:operation>
       
       <wsdl:operation name="undeploy">
@@ -108,6 +118,12 @@
          <wsdl:output>
             <soap:body use="literal"/>
          </wsdl:output>
+          <wsdl:fault name="missingResources">
+              <soap:body use="literal"/>
+          </wsdl:fault>
+          <wsdl:fault name="unhandledException">
+              <soap:body use="literal"/>
+          </wsdl:fault>
       </wsdl:operation>
 
       <wsdl:operation name="undeploy">

@@ -9,26 +9,17 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpel.server.deploy.scanner;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FilenameFilter;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-
+import bpelg.services.deploy.MissingResourcesException;
+import bpelg.services.deploy.UnhandledException;
 import org.activebpel.rt.AeException;
 import org.activebpel.rt.bpel.server.AeMessages;
 import org.activebpel.rt.util.AeCloser;
 import org.activebpel.rt.util.AeFileUtil;
+
+import java.io.*;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.*;
 
 /**
  * Watches over a given directory and listens for changes.
@@ -247,7 +238,7 @@ public class AeDirectoryScanner {
 	 * 
 	 * @throws MalformedURLException
 	 */
-	protected void removeRemainingDeployments() throws MalformedURLException {
+	protected void removeRemainingDeployments() throws MalformedURLException, UnhandledException, MissingResourcesException {
 		if (!getDeployments().isEmpty()) {
 			for (Iterator<String> iter = getDeployments().keySet().iterator(); iter.hasNext();) {
 				fireRemoveEvent(new File(getScanDir(), iter.next()).toURI().toURL(), null);
@@ -291,37 +282,31 @@ public class AeDirectoryScanner {
 	 * @throws AeException
 	 */
 	protected void addDeploymentFile(File aFile, String aFileName,
-			Object aUserData) throws AeException {
+			Object aUserData) throws UnhandledException, MissingResourcesException {
 		File destFile = new File(getScanDir(), aFileName);
 		synchronized (mDeploymentMutex) {
-			// First, undeploy the BPR if it already exists.
-			if (getDeployments().get(destFile.getName()) != null) {
-				try {
-					fireRemoveEvent(destFile.toURI().toURL(), null);
-				} catch (MalformedURLException me) {
-					// Shouldn't happen - log it and continue.
-					AeException.logError(me, me.getLocalizedMessage());
-				}
-			}
 
-			// Now, copy the new file into the scanned dir.
-			try {
-				AeFileUtil.copyFile(aFile, destFile);
-			} catch (IOException e) {
-				throw new AeException(e);
-			}
+            try {
+                // First, undeploy the BPR if it already exists.
+                if (getDeployments().get(destFile.getName()) != null) {
+                    fireRemoveEvent(destFile.toURI().toURL(), null);
+                }
 
-			// Now update my internal state.
-			getDeployments().put(destFile.getName(),
-					new Long(destFile.lastModified()));
+                // Now, copy the new file into the scanned dir.
+                AeFileUtil.copyFile(aFile, destFile);
 
-			// Now fire an add event.
-			try {
-				fireAddEvent(destFile.toURI().toURL(), aUserData);
-			} catch (MalformedURLException me) {
-				throw new AeException(me);
-			}
-		}
+                // Now update my internal state.
+                getDeployments().put(destFile.getName(),
+                        new Long(destFile.lastModified()));
+
+                // Now fire an add event.
+                fireAddEvent(destFile.toURI().toURL(), aUserData);
+            } catch (MalformedURLException e) {
+                throw new UnhandledException(e.getMessage(), e);
+            } catch (IOException e) {
+                throw new UnhandledException(e.getMessage(), e);
+            }
+        }
 	}
 
 	/**
@@ -394,7 +379,7 @@ public class AeDirectoryScanner {
 	 * @param aURL
 	 * @param aUserData
 	 */
-	protected void fireRemoveEvent(URL aURL, Object aUserData) {
+	protected void fireRemoveEvent(URL aURL, Object aUserData) throws UnhandledException, MissingResourcesException {
 		fireEvent(aURL, AeScanEvent.REMOVAL, aUserData);
 	}
 
@@ -404,7 +389,7 @@ public class AeDirectoryScanner {
 	 * @param aURL
 	 * @param aUserData
 	 */
-	protected void fireAddEvent(URL aURL, Object aUserData) {
+	protected void fireAddEvent(URL aURL, Object aUserData) throws UnhandledException, MissingResourcesException {
 		fireEvent(aURL, AeScanEvent.ADDITION, aUserData);
 	}
 
@@ -418,7 +403,7 @@ public class AeDirectoryScanner {
 	 * @param aUserData
 	 */
 	@SuppressWarnings("unchecked")
-    protected void fireEvent(URL aURL, int aType, Object aUserData) {
+    protected void fireEvent(URL aURL, int aType, Object aUserData) throws UnhandledException, MissingResourcesException {
 		List<IAeScannerListener> recipients = null;
 		synchronized (mListeners) {
 			if (!mListeners.isEmpty()) {

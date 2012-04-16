@@ -10,6 +10,9 @@
 package org.activebpel.rt.bpel.server.deploy.scanner;
 
 
+import bpelg.services.deploy.MissingResourcesException;
+import bpelg.services.deploy.UnhandledException;
+
 /**
  * Listener interface for event callbacks fired when
  * the <code>AeDirectoryScanner</code> detects a change
@@ -22,6 +25,6 @@ public interface IAeScannerListener
     * Notification that a watch file has changed.
     * @param aEvent
     */
-   public void onChange( AeScanEvent aEvent );
+   public void onChange( AeScanEvent aEvent ) throws UnhandledException, MissingResourcesException;
 
 }

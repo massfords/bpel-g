@@ -9,6 +9,8 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.axis.bpel.web;
 
+import bpelg.services.deploy.MissingResourcesException;
+import bpelg.services.deploy.UnhandledException;
 import org.activebpel.rt.AeException;
 import org.activebpel.rt.bpel.server.deploy.scanner.IAeDeploymentFileHandler;
 import org.activebpel.rt.bpel.server.engine.AeEngineAdministration;
@@ -36,7 +38,7 @@ public class AeWebEngineAdministration extends AeEngineAdministration {
 	 *      org.activebpel.rt.bpel.server.logging.IAeDeploymentLogger)
 	 */
 	public void deployNewBpr(File bprFile, String bprFilename,
-			IAeDeploymentLogger logger) throws AeException {
+			IAeDeploymentLogger logger) throws AeException, UnhandledException, MissingResourcesException {
 
 		getDeploymentHandler().handleDeployment(bprFile, bprFilename, logger);
 	}

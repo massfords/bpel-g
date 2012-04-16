@@ -21,6 +21,8 @@ import java.util.Map;
 
 import javax.xml.namespace.QName;
 
+import bpelg.services.deploy.MissingResourcesException;
+import bpelg.services.deploy.UnhandledException;
 import org.activebpel.rt.AeException;
 import org.activebpel.rt.bpel.AeBusinessProcessException;
 import org.activebpel.rt.bpel.coord.AeCoordinationDetail;
@@ -312,7 +314,7 @@ public class AeEngineAdministration implements IAeEngineAdministration {
 	 *      org.activebpel.rt.bpel.server.logging.IAeDeploymentLogger)
 	 */
 	public void deployNewBpr(File aBprFile, String aBprFilename,
-			IAeDeploymentLogger aLogger) throws AeException {
+			IAeDeploymentLogger aLogger) throws AeException, UnhandledException, MissingResourcesException {
 		throw new UnsupportedOperationException();
 	}
 

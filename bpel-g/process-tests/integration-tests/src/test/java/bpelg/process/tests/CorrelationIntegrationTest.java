@@ -1,4 +1,4 @@
-package bpelg.process.tests.correlation;
+package bpelg.process.tests;
 
 import bpelg.services.deploy.types.DeploymentResponse;
 import bpelg.services.deploy.types.UndeploymentRequest;
