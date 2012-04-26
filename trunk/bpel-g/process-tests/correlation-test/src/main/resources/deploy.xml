@@ -7,4 +7,17 @@
             <service name="ex:quoteService" port="quoteService"/>
         </provide>
     </process>
+
+    <process name="proc:correlation-driver" xmlns:proc="http://www.example.org/">
+        <provide partnerLink="plt-driver">
+            <service name="ex:driverService" port="drive"/>
+        </provide>
+        <invoke partnerLink="plt">
+            <service name="ex:quoteService" port="quoteService">
+                <wsa:EndpointReference xmlns:wsa='http://www.w3.org/2005/08/addressing'>
+                    <wsa:Address>http://localhost:8080/bpel-g/services/quoteService</wsa:Address>
+                </wsa:EndpointReference>
+            </service>
+        </invoke>
+    </process>
 </deploy>

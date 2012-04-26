@@ -172,16 +172,15 @@ public class AeDeploymentFileHandler implements IAeDeploymentFileHandler, IAeSca
 			    IAeDeploymentContainer deployContainer = getDeploymentContainerFactory().createDeploymentContainer(
 			            info, logger);
 
-			    logger.setContainerName(deployContainer.getShortName());
-
 			    // If the file type is valid, then use the deployment handler to
 			    // deploy the BPR.
-			    if (!logger.hasErrors()) {
-			        IAeDeploymentHandler handler = getDeploymentHandler();
+			    if (!logger.hasErrors() && deployContainer != null) {
+                    logger.setContainerName(deployContainer.getShortName());
+                    IAeDeploymentHandler handler = getDeploymentHandler();
 			        handler.deploy(deployContainer, logger);
 			    } else {
 			        sLog.info(MessageFormat.format(AeMessages.getString("AeDeploymentFileHandler.1"), //$NON-NLS-1$
-			                new Object[] { deployContainer.getShortName() }));
+			                new Object[] { url }));
 			    }
             } catch(MissingResourcesException e) {
                 throw e;

@@ -129,6 +129,7 @@ public class AeProcessFixture extends Assert {
 
 	public DeploymentResponse deployAll(File file) throws Exception {
 		DeploymentResponse response = deploy(file);
+        dumpResponse(response);
 		for(DeploymentInfo info : response.getDeploymentInfo()) {
 			assertTrue(info.isDeployed());
 			assertEquals(0, info.getNumberOfErrors());
@@ -136,7 +137,16 @@ public class AeProcessFixture extends Assert {
 		return response;
 	}
 
-	public DeploymentResponse deploy(File file) throws Exception {
+    private void dumpResponse(DeploymentResponse response) {
+        for(DeploymentInfo info :  response.getDeploymentInfo()) {
+            System.out.println(info.getName());
+            for(DeploymentInfo.Log.Msg m : info.getLog().getMsg()) {
+                System.out.println(m.getType() + " " + m.getValue());
+            }
+        }
+    }
+
+    public DeploymentResponse deploy(File file) throws Exception {
 		byte[] raw = IOUtils.toByteArray(new FileInputStream(file));
 		DeploymentResponse response = getDeployer().deploy(file.getName(), raw);
 		return response;
