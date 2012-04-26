@@ -12,6 +12,6 @@
     <artifactId>correlation-test</artifactId>
 
     <build>
-        <finalName>correlation</finalName>
+        <finalName>correlation-test</finalName>
     </build>
 </project>

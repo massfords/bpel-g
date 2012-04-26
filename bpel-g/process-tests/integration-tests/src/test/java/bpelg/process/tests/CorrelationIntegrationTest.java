@@ -34,7 +34,7 @@ public class CorrelationIntegrationTest extends Assert {
     @BeforeClass
     public static void deployProcess() throws Exception {
         // deploy
-        DeploymentResponse response = pfix.deploySingle(new File("target/dependency/correlation-test.jar"));
+        DeploymentResponse response = pfix.deployAll(new File("target/dependency/correlation-test.jar"));
         DeploymentResponse.DeploymentInfo info = response.getDeploymentInfo().get(0);
         assertNotNull(info.getLog());
         System.out.println(info.getLog());

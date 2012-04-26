@@ -20,6 +20,9 @@
     <plnk:partnerLinkType name="plt">
         <plnk:role name="process" portType="tns:quote"/>
     </plnk:partnerLinkType>
+    <plnk:partnerLinkType name="plt-driver">
+        <plnk:role name="driver" portType="tns:driver"/>
+    </plnk:partnerLinkType>
 
     <wsdl:types>
         <xs:schema targetNamespace="http://www.example.org/correlation/" elementFormDefault="qualified">
@@ -78,6 +81,12 @@
         </wsdl:operation>
         <wsdl:operation name="respondToQuote">
             <wsdl:input message="tns:CustomerResponseToQuote"/>
+            <wsdl:output message="tns:Confirmation"/>
+        </wsdl:operation>
+    </wsdl:portType>
+    <wsdl:portType name="driver">
+        <wsdl:operation name="drive">
+            <wsdl:input message="tns:RequestForQuote"/>
             <wsdl:output message="tns:Confirmation"/>
         </wsdl:operation>
     </wsdl:portType>
