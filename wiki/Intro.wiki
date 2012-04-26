@@ -91,7 +91,17 @@ The service and port values aren't significant in the deploy.xml. The real addre
 == Process Validation ==
 The default behavior during deployment is to validate the bpel, deployment artifacts, and WSDL. It is possible to disable this validation (although not recommended) by including a file named "skip.validation" inside the BPR or service unit. If present, none of the resources within the deployment unit will be validated. This was added to address a situation where deployment speed was essential and the bpel and associated artifacts were all known to be valid. 
 
-== Sample Projects ==
-Check out the sample projects in the process-tests module. This module contains a number of sample processes that are built and deployed as integration tests. If you find a problem with a deployment setting or something in the core engine, this is a good place to contribute a simple test to illustrate the issue.
+= Sample Projects =
+
+Summary of the sample projects packaged in the process-tests module.
+
+|| *Module* || Description ||
+|| camel-invoke || Demonstrates a bpel process that invokes an endpoint through an Apache Camel invoke handler. The protocol for the endpoint is a simple UDP address but the applicationContext.xml file in the project could be used to provide more sophisticated processing if needed ||
+|| camel-receive || Demonstrates routing a message into bpel-g from a camel endpoint via the custom bpel-g camel component. ||
+|| correlation-test || Demonstrates the correlation of messages. Includes a process that responds with a quote and awaits a second call to approve the quote. Also includes a test driver process for this process that invokes it and always responds yes to the quote. This serves to demonstrate a simple web service invoke since BPEL processes are themselves web services. ||
+|| process-with-errors || Contains a number of errors in the BPEL definition as a test that the errors will propagate back to the caller and that the process will fail to deploy. ||
+|| camel-activemq-test|| Similar to the camel-receive test. Adapts a BPEL process to receive messages from an ActiveMQ topic. The integration test for this is currently disabled until I restore all of the ActiveMQ dependencies ||
+
+The integration-tests module contains test drivers for the above projects. This module lists all of the BPEL modules as a dependency and has a integration tests that deploy the BPEL jars, executes their processes, asserts the results, and un-deploys the jars. 
 
 The integration-test module provides some good examples at deploying and undeploying processes through the web service layer. Check out the source in the process-tests/integration-test and support module.
