@@ -1,6 +1,8 @@
 package bpelg.packaging.ode;
 
 import bpelg.packaging.ode.BgPddInfo.BgPlink;
+import bpelg.services.deploy.types.MessageType;
+import bpelg.services.deploy.types.Msg;
 import bpelg.services.deploy.types.catalog.Catalog;
 import bpelg.services.deploy.types.pdd.Pdd;
 import bpelg.services.processes.types.ServiceDeployments;
@@ -9,21 +11,25 @@ import org.activebpel.rt.bpel.def.AeProcessDef;
 import org.activebpel.rt.bpel.server.deploy.*;
 import org.activebpel.rt.bpel.server.deploy.bpr.AeBprDeploymentSource;
 import org.activebpel.rt.bpel.server.deploy.bpr.AePddResource;
+import org.activebpel.rt.bpel.server.logging.IAeDeploymentLogger;
 import org.activebpel.rt.util.AeCloser;
+import org.activebpel.rt.util.AeXmlUtil;
 import org.activebpel.rt.xml.AeXMLParserBase;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 
 import javax.xml.namespace.QName;
 import java.io.File;
 import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 public class BgDeploymentContainer implements IAeDeploymentContainer {
+
+    private static final Logger log = LoggerFactory.getLogger(BgDeploymentContainer.class);
     
     private final File serviceUnitRoot;
     private ServiceDeployments serviceDeploymentInfos;
@@ -33,7 +39,7 @@ public class BgDeploymentContainer implements IAeDeploymentContainer {
     private final Map<Pdd,IAeDeploymentSource> deploymentSources = new HashMap<Pdd,IAeDeploymentSource>();
     private final Collection<AePddResource> pdds;
     
-    public BgDeploymentContainer(File serviceUnitRoot) throws Exception {
+    public BgDeploymentContainer(File serviceUnitRoot, IAeDeploymentLogger logger) throws Exception {
         this.serviceUnitRoot = serviceUnitRoot;
         classLoader = AeBprClasspathBuilder.build(serviceUnitRoot.toURI().toURL());
         
@@ -48,7 +54,37 @@ public class BgDeploymentContainer implements IAeDeploymentContainer {
         // we're now able to build a collection of just those tuples that are referenced
         Set<BgCatalogTuple> referenced = pddBuilder.getReferenced();
         catalogBuilder.setReferenced(referenced);
-        
+
+        // let's check to make sure there are no extra bpel's
+        Set<QName> bpels = new HashSet<QName>();
+        for(File file : serviceUnitRoot.listFiles()) {
+            if (file.getName().endsWith(".bpel")) {
+                // add the name to the set
+                try {
+                    Document doc = AeXmlUtil.toDoc(file, null);
+                    Element docElement = doc.getDocumentElement();
+                    QName name = new QName(docElement.getAttribute("targetNamespace"), "name");
+                    bpels.add(name);
+                } catch (Exception e) {
+                    log.error("Error loading bpel", e);
+                }
+            }
+        }
+
+        if (logger != null) {
+            // report any extra bpels
+            for (AePddResource resource : pdds) {
+                bpels.remove(resource.getPdd().getName());
+            }
+
+            // anything left over is an extra bpel
+            for(QName name : bpels) {
+                logger.addContainerMessage(
+                        new Msg().withType(MessageType.WARNING)
+                                 .withValue("Extra bpel file without an entry in deploy.xml:" + name.getLocalPart()));
+            }
+        }
+
     }
     
     public BgPlink getPlink(QName processName, String plinkName) {

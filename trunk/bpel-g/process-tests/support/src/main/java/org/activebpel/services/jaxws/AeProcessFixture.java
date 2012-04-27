@@ -4,6 +4,7 @@ import bpelg.services.deploy.AeDeployer;
 import bpelg.services.deploy.DeploymentService;
 import bpelg.services.deploy.types.DeploymentResponse;
 import bpelg.services.deploy.types.DeploymentResponse.DeploymentInfo;
+import bpelg.services.deploy.types.Msg;
 import bpelg.services.preferences.AePreferences;
 import bpelg.services.preferences.PreferencesService;
 import bpelg.services.processes.AeProcessManager;
@@ -140,7 +141,7 @@ public class AeProcessFixture extends Assert {
     private void dumpResponse(DeploymentResponse response) {
         for(DeploymentInfo info :  response.getDeploymentInfo()) {
             System.out.println(info.getName());
-            for(DeploymentInfo.Log.Msg m : info.getLog().getMsg()) {
+            for(Msg m : info.getLog().getMsg()) {
                 System.out.println(m.getType() + " " + m.getValue());
             }
         }

@@ -10,6 +10,7 @@
 package org.activebpel.rt.bpel.server.logging;
 
 import bpelg.services.deploy.types.DeploymentResponse;
+import bpelg.services.deploy.types.Msg;
 import org.activebpel.rt.bpel.def.validation.IAeBaseErrorReporter;
 
 import java.util.Collection;
@@ -44,4 +45,8 @@ public interface IAeDeploymentLogger extends IAeBaseErrorReporter
    public void processDeploymentFinished(boolean success);
 
    public Collection<DeploymentResponse.DeploymentInfo> getDeploymentInfos();
+
+   public void addContainerMessage(Msg msg);
+
+   public Collection<Msg> getContainerMessages();
 }

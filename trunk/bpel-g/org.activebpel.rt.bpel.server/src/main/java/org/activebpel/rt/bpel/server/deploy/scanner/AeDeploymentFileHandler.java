@@ -295,13 +295,17 @@ public class AeDeploymentFileHandler implements IAeDeploymentFileHandler, IAeSca
     private boolean undeploy(URL url) {
         try {
             URL tempUrl = getUnpackedDeploymentStager().getTempURL(url);
-            AeNewDeploymentInfo info = new AeNewDeploymentInfo();
-            info.setURL(url);
-            info.setTempURL(tempUrl);
-            IAeDeploymentHandler handler = getDeploymentHandler();
-            handler.undeploy(getDeploymentContainerFactory().createUndeploymentContainer(info));
-            getUnpackedDeploymentStager().removeTempDir(url);
-            return true;
+            if (tempUrl != null) {
+                AeNewDeploymentInfo info = new AeNewDeploymentInfo();
+                info.setURL(url);
+                info.setTempURL(tempUrl);
+                IAeDeploymentHandler handler = getDeploymentHandler();
+                handler.undeploy(getDeploymentContainerFactory().createUndeploymentContainer(info));
+                getUnpackedDeploymentStager().removeTempDir(url);
+                return true;
+            } else {
+                return false;
+            }
         } catch (Exception ex) {
             sLog.error(MessageFormat.format(AeMessages.getString("AeDeploymentFileHandler.ERROR_6"), //$NON-NLS-1$
                     new Object[] {url}), ex);

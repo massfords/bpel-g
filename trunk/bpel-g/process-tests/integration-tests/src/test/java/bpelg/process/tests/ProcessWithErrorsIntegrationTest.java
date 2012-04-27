@@ -1,6 +1,7 @@
 package bpelg.process.tests;
 
 import bpelg.services.deploy.types.DeploymentResponse;
+import bpelg.services.deploy.types.Msg;
 import org.activebpel.services.jaxws.AeProcessFixture;
 import org.junit.Assert;
 import org.junit.Test;
@@ -13,7 +14,7 @@ import java.io.File;
  */
 public class ProcessWithErrorsIntegrationTest extends Assert {
 
-    private AeProcessFixture pfix = new AeProcessFixture();
+    private final AeProcessFixture pfix = new AeProcessFixture();
 
     @Test
     public void test() throws Exception {
@@ -21,7 +22,7 @@ public class ProcessWithErrorsIntegrationTest extends Assert {
         assertNotNull(response);
         DeploymentResponse.DeploymentInfo info = response.getDeploymentInfo().get(0);
         assertFalse(info.isDeployed());
-        for(DeploymentResponse.DeploymentInfo.Log.Msg m : info.getLog().getMsg()) {
+        for(Msg m : info.getLog().getMsg()) {
             System.out.println(m.getType());
             System.out.println(m.getValue());
         }
