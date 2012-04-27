@@ -37,8 +37,9 @@ public class AePreferences {
 		return root().node("processes");
 	}
 	
-	protected static Preferences logEvents() {
-		return logging().node("enabledEvents");
+	public static Preferences logEvents() {
+        final Preferences logging = logging();
+        return logging.node("enabledEvents");
 	}
 
 	public static int getProcessCount() {

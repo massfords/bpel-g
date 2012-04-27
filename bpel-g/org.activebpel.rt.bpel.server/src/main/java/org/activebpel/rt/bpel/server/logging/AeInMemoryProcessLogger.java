@@ -9,16 +9,6 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpel.server.logging;
 
-import java.io.IOException;
-import java.io.Reader;
-import java.io.StringReader;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
-import java.util.prefs.PreferenceChangeEvent;
-import java.util.prefs.PreferenceChangeListener;
-
 import org.activebpel.rt.bpel.AePreferences;
 import org.activebpel.rt.bpel.AeProcessEventType;
 import org.activebpel.rt.bpel.IAeProcessEvent;
@@ -29,6 +19,16 @@ import org.activebpel.rt.bpel.server.engine.IAeProcessLogger;
 import org.activebpel.rt.util.AeUtil;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+
+import java.io.IOException;
+import java.io.Reader;
+import java.io.StringReader;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
+import java.util.prefs.PreferenceChangeEvent;
+import java.util.prefs.PreferenceChangeListener;
 
 /**
  * Maintains a StringBuffer of formatted process events for each process created
@@ -48,7 +48,7 @@ public class AeInMemoryProcessLogger implements IAeProcessLogger, PreferenceChan
     protected IAeLoggingFilter mFilter = null;
     
     public AeInMemoryProcessLogger() {
-    	AePreferences.logging().addPreferenceChangeListener(this);
+    	AePreferences.logEvents().addPreferenceChangeListener(this);
     }
 
     /**
