@@ -148,6 +148,8 @@ public class AeDeploymentFileHandler implements IAeDeploymentFileHandler, IAeSca
             IAeDeploymentLogger logger = null;
             if (event.getUserData() instanceof IAeDeploymentLogger) {
                 logger = (IAeDeploymentLogger) event.getUserData();
+            } else {
+                logger = new DeploymentLogger();
             }
             handleAdd(event.getURL(), logger);
         } else {
