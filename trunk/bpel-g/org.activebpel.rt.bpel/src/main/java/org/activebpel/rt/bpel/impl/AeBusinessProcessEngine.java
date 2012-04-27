@@ -122,7 +122,7 @@ public class AeBusinessProcessEngine implements IAeBusinessProcessEngineInternal
     */
    protected void addProcessJournalId(long aProcessId, long aJournalId)
    {
-      mProcessJournalIdMap.put(aProcessId, new Long(aJournalId) );
+      mProcessJournalIdMap.put(aProcessId, aJournalId);
    }
 
    /**
@@ -136,7 +136,7 @@ public class AeBusinessProcessEngine implements IAeBusinessProcessEngineInternal
       Long journalIdObj = mProcessJournalIdMap.remove(aProcessId);
       if (journalIdObj != null)
       {
-         return journalIdObj.longValue();
+         return journalIdObj;
       }
       else
       {
@@ -555,7 +555,7 @@ public class AeBusinessProcessEngine implements IAeBusinessProcessEngineInternal
                {
                   try
                   {
-                     replyReceiver.wait(getWebServiceTimeout(aPlan, aContext.getPartnerLink()) * 1000);
+                     replyReceiver.wait(getWebServiceTimeout(plan, aContext.getPartnerLink()) * 1000);
                   }
                   catch (InterruptedException e)
                   {
@@ -575,7 +575,7 @@ public class AeBusinessProcessEngine implements IAeBusinessProcessEngineInternal
             }
             else
             {
-               String msg = AeMessages.format("AeBusinessProcessEngine.WARNING_TIMEOUT_WAITING_FOR_REPLY", new Object[] { aPlan.getProcessDef().getName(), String.valueOf(pid) }); //$NON-NLS-1$
+               String msg = AeMessages.format("AeBusinessProcessEngine.WARNING_TIMEOUT_WAITING_FOR_REPLY", new Object[] { plan.getProcessDef().getName(), String.valueOf(pid) }); //$NON-NLS-1$
                throw new AeBpelException(msg, AeFaultFactory.getTimeoutFault(msg));
             }
 
@@ -642,8 +642,7 @@ public class AeBusinessProcessEngine implements IAeBusinessProcessEngineInternal
    private AePartnerLinkOpKey getPartnerLinkOpKey(IAeMessageContext aContext, IAeProcessPlan aPlan)
    {
       AePartnerLinkDef plDef = aPlan.getProcessDef().findPartnerLink(aContext.getPartnerLink());
-      AePartnerLinkOpKey plOpKey = new AePartnerLinkOpKey(plDef, aContext.getOperation());
-      return plOpKey;
+       return new AePartnerLinkOpKey(plDef, aContext.getOperation());
    }
 
    /**
@@ -1432,8 +1431,7 @@ public class AeBusinessProcessEngine implements IAeBusinessProcessEngineInternal
       }
       catch(Throwable t)
       {
-         AeBusinessProcessException bpe = new AeBusinessProcessException(t.getMessage(), t);
-         throw bpe;
+          throw new AeBusinessProcessException(t.getMessage(), t);
       }
    }
 
@@ -1781,8 +1779,7 @@ public class AeBusinessProcessEngine implements IAeBusinessProcessEngineInternal
     */
    public IAeBusinessProcess createProcess(long aPid, IAeProcessPlan aPlan)
    {
-      AeBusinessProcess process = new AeBusinessProcess(aPid, this, aPlan);
-      return process;
+       return new AeBusinessProcess(aPid, this, aPlan);
    }
 
    /**
@@ -1901,18 +1898,10 @@ public class AeBusinessProcessEngine implements IAeBusinessProcessEngineInternal
     */
    protected static class AeDefaultPartnerLinkStrategy implements IAeEnginePartnerLinkStrategy
    {
-      /**
-       * @see org.activebpel.rt.bpel.impl.IAeEnginePartnerLinkStrategy#initPartnerLink(org.activebpel.rt.bpel.impl.AePartnerLink, org.activebpel.rt.bpel.impl.IAeProcessPlan)
-       */
-      public void initPartnerLink(IAePartnerLink aPartnerLink, IAeProcessPlan aPlan) throws AeBusinessProcessException
-      {
+      public void initPartnerLink(IAePartnerLink aPartnerLink, IAeProcessPlan aPlan) throws AeBusinessProcessException      {
       }
 
-      /**
-       * @see org.activebpel.rt.bpel.impl.IAeEnginePartnerLinkStrategy#updatePartnerLink(org.activebpel.rt.bpel.impl.AePartnerLink, org.activebpel.rt.bpel.impl.IAeProcessPlan, org.activebpel.wsio.receive.IAeMessageContext)
-       */
-      public void updatePartnerLink(IAePartnerLink aPartnerLink, IAeProcessPlan aPlan, IAeMessageContext aMessageContext) throws AeBusinessProcessException
-      {
+      public void updatePartnerLink(IAePartnerLink aPartnerLink, IAeProcessPlan aPlan, IAeMessageContext aMessageContext)   {
       }
    }
 
@@ -1955,7 +1944,7 @@ public class AeBusinessProcessEngine implements IAeBusinessProcessEngineInternal
    }
 
    /**
-    * @see org.activebpel.rt.bpel.impl.IAeBusinessProcessEngineInternal#getCustomManager(java.lang.String)
+    * @see org.activebpel.rt.bpel.impl.IAeBusinessProcessEngineInternal#getManager(java.lang.String)
     */
    public IAeManager getManager(String aManagerName)
    {

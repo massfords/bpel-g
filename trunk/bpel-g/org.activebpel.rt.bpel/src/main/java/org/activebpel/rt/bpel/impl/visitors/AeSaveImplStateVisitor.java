@@ -1077,8 +1077,8 @@ public class AeSaveImplStateVisitor extends AeImplTraversingVisitor implements I
          {
             STATE_PROC               , aImpl.getName().toString(),
             STATE_PID                , String.valueOf(aImpl.getProcessId()),
-            STATE_PROCESSSTATE       , String.valueOf(aImpl.getProcessState()),
-            STATE_PROCESSSTATEREASON , String.valueOf(aImpl.getProcessStateReason()),
+            STATE_PROCESSSTATE       , String.valueOf(aImpl.getProcessState().value()),
+            STATE_PROCESSSTATEREASON , String.valueOf(aImpl.getProcessStateReason().value()),
             STATE_PROCESSINITIATOR   , aImpl.getProcessInitiator(),
             STATE_ENDDATE            , toString(endDate),
             STATE_ENDDATEMILLIS      , toMillisString(endDate),

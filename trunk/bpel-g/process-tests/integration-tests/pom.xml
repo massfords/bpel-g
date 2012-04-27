@@ -44,7 +44,7 @@
         </dependency>
         <dependency>
             <groupId>bpel-g</groupId>
-            <artifactId>camel-activemq</artifactId>
+            <artifactId>camel-activemq-test</artifactId>
             <version>${project.version}</version>
             <scope>test</scope>
         </dependency>
