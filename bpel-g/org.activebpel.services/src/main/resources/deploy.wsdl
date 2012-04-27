@@ -14,8 +14,8 @@
          <xs:element name="deploymentResponse">
             <xs:complexType>
                <xs:sequence>
-                  <xs:element name="message" type="xs:string" minOccurs="0"/>
-                  <xs:element ref="tns:deploymentContainerId"/>
+                   <xs:element ref="tns:msg" maxOccurs="unbounded" minOccurs="0"/>
+                   <xs:element ref="tns:deploymentContainerId"/>
                   <xs:element name="deploymentInfo" maxOccurs="unbounded">
                      <xs:complexType>
                         <xs:sequence>
@@ -26,15 +26,7 @@
                            <xs:element name="log">
                                <xs:complexType>
                                    <xs:sequence>
-                                       <xs:element name="msg" maxOccurs="unbounded" minOccurs="0">
-                                           <xs:complexType>
-                                               <xs:simpleContent>
-                                                   <xs:extension base="xs:string">
-                                                       <xs:attribute name="type" type="tns:messageType"/>
-                                                   </xs:extension>
-                                               </xs:simpleContent>
-                                           </xs:complexType>
-                                       </xs:element>
+                                       <xs:element ref="tns:msg" maxOccurs="unbounded" minOccurs="0"/>
                                    </xs:sequence>
                                </xs:complexType>
                            </xs:element>
@@ -45,7 +37,16 @@
                </xs:sequence>
             </xs:complexType>
          </xs:element>
-         <xs:element name="deploymentContainerId" type="xs:string"/>
+          <xs:element name="msg">
+              <xs:complexType>
+                  <xs:simpleContent>
+                      <xs:extension base="xs:string">
+                          <xs:attribute name="type" type="tns:messageType"/>
+                      </xs:extension>
+                  </xs:simpleContent>
+              </xs:complexType>
+          </xs:element>
+          <xs:element name="deploymentContainerId" type="xs:string"/>
          <xs:element name="undeploymentRequest">
             <xs:complexType>
                <xs:sequence>

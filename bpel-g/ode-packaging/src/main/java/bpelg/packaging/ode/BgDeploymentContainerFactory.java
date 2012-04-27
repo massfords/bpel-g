@@ -16,7 +16,7 @@ public class BgDeploymentContainerFactory implements IAeDeploymentContainerFacto
     public IAeDeploymentContainer createDeploymentContainer(AeNewDeploymentInfo info, IAeDeploymentLogger logger)
             throws AeException, MissingResourcesException, UnhandledException {
         try {
-            return new BgDeploymentContainer(new File(info.getTempURL().getFile()));
+            return new BgDeploymentContainer(new File(info.getTempURL().getFile()), logger);
         } catch (MissingResourcesException e) {
             throw e;
         } catch (Exception e) {
@@ -28,7 +28,7 @@ public class BgDeploymentContainerFactory implements IAeDeploymentContainerFacto
     public IAeDeploymentContainer createUndeploymentContainer(AeNewDeploymentInfo info)
             throws AeException {
         try {
-            return new BgDeploymentContainer(new File(info.getTempURL().getFile()));
+            return new BgDeploymentContainer(new File(info.getTempURL().getFile()), null);
         } catch (Exception e) {
             throw new AeException(e);
         }

@@ -4,6 +4,8 @@ import bpelg.services.deploy.AeDeployer;
 import bpelg.services.deploy.MissingResourcesException;
 import bpelg.services.deploy.UnhandledException;
 import bpelg.services.deploy.types.DeploymentResponse;
+import bpelg.services.deploy.types.MessageType;
+import bpelg.services.deploy.types.Msg;
 import bpelg.services.deploy.types.UndeploymentRequest;
 import org.activebpel.rt.AeException;
 import org.activebpel.rt.bpel.server.deploy.bpr.AeTempFileUploadHandler;
@@ -31,10 +33,11 @@ public class AeDeploymentService implements AeDeployer {
 			AeTempFileUploadHandler.handleUpload( aName, new ByteArrayInputStream(aArchive), logger );
 		} catch (AeException e) {
 //			sLog.error(e);
-            response.withMessage(e.getMessage());
+            response.withMsg(new Msg().withType(MessageType.ERROR).withValue(e.getMessage()));
 		}
         response.withDeploymentInfo(logger.getDeploymentInfos());
         response.setDeploymentContainerId(aName);
+        response.withMsg(logger.getContainerMessages());
         return response;
 	}
 

@@ -2,13 +2,12 @@ package org.activebpel.rt.bpel.server.logging;
 
 import bpelg.services.deploy.types.DeploymentResponse;
 import bpelg.services.deploy.types.MessageType;
+import bpelg.services.deploy.types.Msg;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.text.MessageFormat;
-import java.util.Collection;
-import java.util.LinkedHashMap;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @author markford
@@ -21,6 +20,7 @@ public class DeploymentLogger implements IAeDeploymentLogger {
     private String currentPdd;
     private boolean hasErrors = false;
     private boolean hasWarnings = false;
+    private final List<Msg> messages = new ArrayList<Msg>();
 
     @Override
     public void setContainerName(String containerName) {
@@ -51,6 +51,16 @@ public class DeploymentLogger implements IAeDeploymentLogger {
     @Override
     public Collection<DeploymentResponse.DeploymentInfo> getDeploymentInfos() {
         return infos.values();
+    }
+
+    @Override
+    public void addContainerMessage(Msg msg) {
+        messages.add(msg);
+    }
+
+    @Override
+    public Collection<Msg> getContainerMessages() {
+        return messages;
     }
 
     @Override
@@ -94,7 +104,7 @@ public class DeploymentLogger implements IAeDeploymentLogger {
 
         DeploymentResponse.DeploymentInfo info = current();
         info.getLog().withMsg(
-                new DeploymentResponse.DeploymentInfo.Log.Msg()
+                new Msg()
                         .withType(type)
                         .withValue(message)
         );
