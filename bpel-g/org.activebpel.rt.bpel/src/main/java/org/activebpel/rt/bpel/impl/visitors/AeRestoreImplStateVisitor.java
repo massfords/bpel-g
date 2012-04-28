@@ -100,7 +100,7 @@ public class AeRestoreImplStateVisitor extends AeBaseRestoreVisitor
       
       AeInboundReceive createMessage;
 
-      if (root.getTagName() == IAeImplStateNames.STATE_MESSAGEDATA)
+      if (root.getTagName().equals(IAeImplStateNames.STATE_MESSAGEDATA))
       {
          // This is the legacy case. We used to synthesize the inbound receive
          // from just the partner link, operation, and message data.

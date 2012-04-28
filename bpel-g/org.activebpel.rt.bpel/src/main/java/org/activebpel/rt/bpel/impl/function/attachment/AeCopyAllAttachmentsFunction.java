@@ -73,6 +73,6 @@ public class AeCopyAllAttachmentsFunction extends AeAbstractAttachmentFunction
            toVariable.getAttachmentData().addAll(fromVariable.getAttachmentData());
            count += toVariable.getAttachmentData().size();
        }
-      return new Integer(count - preCopyCount);
+      return count - preCopyCount;
    }
 }

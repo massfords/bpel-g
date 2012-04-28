@@ -113,7 +113,7 @@ public class AePartnerAddressing implements IAePartnerAddressing
          for (Iterator it = outAddrHeaders.getRecipient().getReferenceProperties().iterator(); it.hasNext();)
          {
             Element el = AeXmlUtil.cloneElement((Element) it.next());
-            if (el.getNamespaceURI() == IAeConstants.WSA_NAMESPACE_URI_2005_08)
+            if (el.getNamespaceURI().equals(IAeConstants.WSA_NAMESPACE_URI_2005_08))
             {
                el.setAttributeNS(IAeConstants.WSA_NAMESPACE_URI_2005_08, "wsa:IsReferenceParameter", "true"); //$NON-NLS-1$ //$NON-NLS-2$
             }

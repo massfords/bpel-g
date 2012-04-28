@@ -95,7 +95,7 @@ private static final String INDEX = "Index"; //$NON-NLS-1$
          String getXXXSize = getProperty()+"Size"; //$NON-NLS-1$
          Method getSizeMethod = AeBeanUtils.getAccessor( aBeanClass, getXXXSize, int.class );
          Integer sizeObject = (Integer)invokeMethod( mBean, getSizeMethod, "size" ); //$NON-NLS-1$
-         mSize = sizeObject.intValue();
+         mSize = sizeObject;
       }
       catch (IntrospectionException e)
       {
@@ -157,7 +157,7 @@ private static final String INDEX = "Index"; //$NON-NLS-1$
                                              int aIndex, String aLabel )
    throws JspTagException
    {
-      Integer[] args = { new Integer(aIndex) };
+      Integer[] args = {aIndex};
       return invokeMethod( aInstance, aMethod, args, aLabel );
    }
    

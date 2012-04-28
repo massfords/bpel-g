@@ -278,7 +278,7 @@ public abstract class AeAbstractReportingDefReader implements IAeReportingDefRea
       Boolean flag = null;
       String attr = getAttribute(aAttributeName);
       if (attr.length() > 0)
-         flag = new Boolean(isTrue(attr));
+         flag = isTrue(attr);
       
       return flag;
    }

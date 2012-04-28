@@ -202,36 +202,36 @@ public class AeSimpleTypeSampleDataProducer
       map.put(new QName(XMLConstants.W3C_XML_SCHEMA_NS_URI, "anyType"), "anyType"); //$NON-NLS-1$ //$NON-NLS-2$
       map.put(AeTypeMapping.XSD_BASE64_BINARY, new AeSchemaBase64Binary(Base64.encodeBase64String("base64-string".getBytes()))); //$NON-NLS-1$
       map.put(AeTypeMapping.XSD_BOOLEAN, Boolean.TRUE);
-      map.put(AeTypeMapping.XSD_BYTE, new Byte((byte)1));
+      map.put(AeTypeMapping.XSD_BYTE, (byte) 1);
       map.put(AeTypeMapping.XSD_DATE, new AeSchemaDate(getDate()));
       map.put(AeTypeMapping.XSD_DATETIME, new AeSchemaDateTime(getDate()));
       map.put(AeTypeMapping.XSD_DAY, new AeSchemaDay(day, 0));
-      map.put(AeTypeMapping.XSD_DECIMAL, new Integer(1));
-      map.put(AeTypeMapping.XSD_DOUBLE, new Double(1));
+      map.put(AeTypeMapping.XSD_DECIMAL, 1);
+      map.put(AeTypeMapping.XSD_DOUBLE, (double) 1);
       map.put(AeTypeMapping.XSD_DURATION, new AeSchemaDuration());
-      map.put(AeTypeMapping.XSD_FLOAT, new Float(1));
+      map.put(AeTypeMapping.XSD_FLOAT, (float) 1);
       map.put(AeTypeMapping.XSD_HEX_BINARY, new AeSchemaHexBinary("10203F")); //$NON-NLS-1$
-      map.put(AeTypeMapping.XSD_INT, new Integer(1));
-      map.put(AeTypeMapping.XSD_INTEGER, new Integer(1));
-      map.put(AeTypeMapping.XSD_LONG, new Long(1));
+      map.put(AeTypeMapping.XSD_INT, 1);
+      map.put(AeTypeMapping.XSD_INTEGER, 1);
+      map.put(AeTypeMapping.XSD_LONG, (long) 1);
       map.put(AeTypeMapping.XSD_MONTH, new AeSchemaMonth(month, 0));
       map.put(AeTypeMapping.XSD_MONTHDAY, new AeSchemaMonthDay(month, day, 0));
       map.put(AeTypeMapping.XSD_QNAME, "qname"); //$NON-NLS-1$
-      map.put(AeTypeMapping.XSD_SHORT, new Short((short)1));
+      map.put(AeTypeMapping.XSD_SHORT, (short) 1);
       map.put(AeTypeMapping.XSD_STRING, "string"); //$NON-NLS-1$
       map.put(AeTypeMapping.XSD_TIME, new AeSchemaTime(getDate()));
       map.put(AeTypeMapping.XSD_YEAR, new AeSchemaYear(year, 0));
       map.put(AeTypeMapping.XSD_YEARMONTH, new AeSchemaYearMonth(year, month, 0));
-      map.put(AeTypeMapping.XSD_POSITIVE_INTEGER, new Integer(1));
+      map.put(AeTypeMapping.XSD_POSITIVE_INTEGER, 1);
       map.put(AeTypeMapping.XSD_NORMALIZED_STRING, "string"); //$NON-NLS-1$
       map.put(AeTypeMapping.XSD_TOKEN, "string");  //$NON-NLS-1$
-      map.put(AeTypeMapping.XSD_UNSIGNED_BYTE, new Integer(1));
-      map.put(AeTypeMapping.XSD_NEGATIVE_INTEGER, new Integer(-1));
-      map.put(AeTypeMapping.XSD_NON_NEGATIVE_INTEGER, new Integer(1));
-      map.put(AeTypeMapping.XSD_NON_POSITIVE_INTEGER, new Integer(-1));
-      map.put(AeTypeMapping.XSD_UNSIGNED_INT, new Integer(1));
-      map.put(AeTypeMapping.XSD_UNSIGNED_LONG, new Long(1));
-      map.put(AeTypeMapping.XSD_UNSIGNED_SHORT, new Short((short)1));
+      map.put(AeTypeMapping.XSD_UNSIGNED_BYTE, 1);
+      map.put(AeTypeMapping.XSD_NEGATIVE_INTEGER, -1);
+      map.put(AeTypeMapping.XSD_NON_NEGATIVE_INTEGER, 1);
+      map.put(AeTypeMapping.XSD_NON_POSITIVE_INTEGER, -1);
+      map.put(AeTypeMapping.XSD_UNSIGNED_INT, 1);
+      map.put(AeTypeMapping.XSD_UNSIGNED_LONG, (long) 1);
+      map.put(AeTypeMapping.XSD_UNSIGNED_SHORT, (short) 1);
       map.put(AeTypeMapping.XSD_NAME, "name");   //$NON-NLS-1$
       map.put(AeTypeMapping.XSD_NCNAME, "ncname"); //$NON-NLS-1$
       map.put(AeTypeMapping.XSD_LANGUAGE, "en");   //$NON-NLS-1$

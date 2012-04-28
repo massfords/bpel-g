@@ -40,7 +40,7 @@ public class AeXPathExpressionTypeConverter extends AeAbstractExpressionTypeConv
       if (type instanceof Number)
       {
          // jaxen likes doubles, but not floats, big integers, so convert to double here
-         type = new Double(((Number) aEngineType).doubleValue());
+         type = ((Number) aEngineType).doubleValue();
       }
       return type;
    }

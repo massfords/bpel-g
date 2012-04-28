@@ -184,7 +184,7 @@ public class AeSQLObject
       {
          return AeQueryRunner.NULL_BIGINT;
       }
-      return new Long(aDate.getTime());
+      return aDate.getTime();
    }
 
    /**

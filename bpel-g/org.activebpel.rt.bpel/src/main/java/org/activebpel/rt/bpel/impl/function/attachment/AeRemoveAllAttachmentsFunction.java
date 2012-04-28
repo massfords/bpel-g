@@ -71,7 +71,7 @@ public class AeRemoveAllAttachmentsFunction extends AeAbstractAttachmentFunction
            variable.getAttachmentData().clear();
        }
 
-      result = new Integer(count);
+      result = count;
 
       return result;
    }

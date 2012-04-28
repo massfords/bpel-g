@@ -110,7 +110,7 @@ public class AeChildWorkItem implements RemoteWorkItem
     */
    protected synchronized static Long getNextItemId()
    {
-      return new Long(sNextItemId++);
+      return sNextItemId++;
    }
 
    /**

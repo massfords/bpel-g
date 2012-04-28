@@ -121,7 +121,7 @@ public class AeJavaScriptParseUtil
             }
             case Token.NUMBER:
             {
-               aFuncDef.getArgs().add(new Double(child.getDouble()));
+               aFuncDef.getArgs().add(child.getDouble());
                break;
             }
             default:

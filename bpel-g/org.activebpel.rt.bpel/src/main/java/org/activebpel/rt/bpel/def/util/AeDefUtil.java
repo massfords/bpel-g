@@ -227,7 +227,7 @@ public class AeDefUtil
          }
          if ( value != null )
          {
-            return value.booleanValue();
+            return value;
          }
          parent = parent.getParentXmlDef(); 
       }

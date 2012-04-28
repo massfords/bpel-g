@@ -237,8 +237,8 @@ public class AePersistentQueueManager extends AeInMemoryQueueManager {
 				} else {
 					String msg = AeMessages.format(
 							"AePersistentQueueManager.ALARM_DEADLOCK_ERROR", //$NON-NLS-1$
-							new Object[] { new Long(aProcessId),
-									new Integer(aLocationPathId) });
+							new Object[] {aProcessId,
+                                    aLocationPathId});
 					AeException.logError(null, msg);
 					rethrownException = ex;
 				}

@@ -112,7 +112,7 @@ public class AeCatalog implements IAeCatalog, IAeCatalogAdmin {
 		for (Iterator iter = catalogEvents.iterator(); iter.hasNext(); ++i) {
 			// for new entries call through deploy sender otherwise warning
 			// sender
-			if (((Boolean) iter.next()).booleanValue())
+			if ((Boolean) iter.next())
 				fireEvent(IAeCatalogEventDispatcher.DEPLOY_SENDER,
 						aMappings[i].getLocationHint(), true);
 			else

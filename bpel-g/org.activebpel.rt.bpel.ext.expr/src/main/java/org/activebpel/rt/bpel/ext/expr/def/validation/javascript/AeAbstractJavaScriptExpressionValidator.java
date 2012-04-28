@@ -66,7 +66,7 @@ public abstract class AeAbstractJavaScriptExpressionValidator extends AeAbstract
       {
          addError(aValidationResult,
                AeMessages.getString("AeJavaScriptExpressionValidator.INVALID_LITERAL_IN_JOINCONDITION_ERROR"),  //$NON-NLS-1$
-               new Object [] { new Double(aNode.getDouble()), aParseResult.getExpression() });
+               new Object [] {aNode.getDouble(), aParseResult.getExpression() });
          return;
       }
 

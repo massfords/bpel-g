@@ -267,7 +267,7 @@ public class AeTimerService
       public AeTimerTask(TimerListener aTimerListener)
       {
          mTimerListener = aTimerListener ;
-         mTimerId = new Long(getNextId()) ;
+         mTimerId = getNextId();
       }
 
       /**

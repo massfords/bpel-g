@@ -22,7 +22,7 @@ import java.util.TreeMap;
  */
 public abstract class AeProcessImplStateAttributeCounts
 {
-   private static final Integer ONE = Integer.valueOf(1);
+   private static final Integer ONE = 1;
 
    /** <code>true</code> to enable counts. */
 //   private static final boolean ENABLED = false;
@@ -115,7 +115,7 @@ public abstract class AeProcessImplStateAttributeCounts
             if (count != null)
             {
                // Store the new count.
-               valuesMap.put(aValue, Integer.valueOf(count.intValue() + 1));
+               valuesMap.put(aValue, count.intValue() + 1);
             }
             else if (valuesMap.size() < MAX_VALUES)
             {
@@ -187,8 +187,8 @@ public abstract class AeProcessImplStateAttributeCounts
          {
             synchronized (mValuesMap)
             {
-               int count1 = mValuesMap.get(o1).intValue();
-               int count2 = mValuesMap.get(o2).intValue();
+               int count1 = mValuesMap.get(o1);
+               int count2 = mValuesMap.get(o2);
                return count2 - count1;
             }
          }

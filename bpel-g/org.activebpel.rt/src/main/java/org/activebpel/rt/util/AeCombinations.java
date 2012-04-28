@@ -53,7 +53,7 @@ public class AeCombinations<E> implements Iterator<List<E>> {
      */
     public AeCombinations(List<E> aObjects, int aCount) {
         if (aCount > aObjects.size() || aCount == 0) {
-            Object[] args = { Integer.valueOf(aCount), Integer.valueOf(aObjects.size()) };
+            Object[] args = {aCount, aObjects.size()};
             throw new IllegalArgumentException(AeMessages.format(
                     "AeCombinations.IllegalCount", args)); //$NON-NLS-1$
         }

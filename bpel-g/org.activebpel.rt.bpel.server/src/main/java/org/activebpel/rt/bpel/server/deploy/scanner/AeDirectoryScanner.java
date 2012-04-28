@@ -89,7 +89,7 @@ public class AeDirectoryScanner {
 		if (files != null) {
 			for (int i = 0; i < files.length; i++) {
 				mDeployments.put(files[i].getName(),
-						new Long(files[i].lastModified()));
+                        files[i].lastModified());
 			}
 		}
 		return files;
@@ -138,16 +138,14 @@ public class AeDirectoryScanner {
 							if (lastModified != null) {
 								getDeployments().remove(fileNames[i]);
 
-								if (bprFile.lastModified() != lastModified
-										.longValue())
+								if (bprFile.lastModified() != lastModified)
 									fireRemoveEvent(bprFile.toURI().toURL(),
 											null);
 								else
 									isNewDeployment = false;
 							}
 
-							currentDeployments.put(fileNames[i], new Long(
-									bprFile.lastModified()));
+							currentDeployments.put(fileNames[i], bprFile.lastModified());
 
 							if (isNewDeployment) {
 								// attempt to avoid notifying listeners if they
@@ -297,7 +295,7 @@ public class AeDirectoryScanner {
 
                 // Now update my internal state.
                 getDeployments().put(destFile.getName(),
-                        new Long(destFile.lastModified()));
+                        destFile.lastModified());
 
                 // Now fire an add event.
                 fireAddEvent(destFile.toURI().toURL(), aUserData);

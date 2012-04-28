@@ -249,7 +249,7 @@ public abstract class AeMessageFormatter
     */
    public String getFormatString( int aFormatIndex )
    {
-      return getFormatMap().get( new Integer( aFormatIndex ) );
+      return getFormatMap().get(aFormatIndex);
    }
    
    /**

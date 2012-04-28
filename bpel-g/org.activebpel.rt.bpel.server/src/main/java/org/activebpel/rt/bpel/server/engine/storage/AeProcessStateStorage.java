@@ -118,7 +118,7 @@ public class AeProcessStateStorage extends AeAbstractStorage implements IAeProce
       if (name == null)
       {
          throw new AeStorageException(MessageFormat.format(AeMessages.getString("AeDelegatingProcessStateStorage.NO_NAME_FOR_PROCESS_ERROR"), //$NON-NLS-1$
-               new Object[] { new Long(aProcessId) }));
+               new Object[] {aProcessId}));
       }
       return name;
    }

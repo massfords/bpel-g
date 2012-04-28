@@ -64,7 +64,7 @@ public abstract class AeAbstractBpelFactory implements IAeBpelFactory
     */
    public void setFeature(String aName, boolean aFlag)
    {
-      getFeatures().put(aName, Boolean.valueOf(aFlag));
+      getFeatures().put(aName, aFlag);
    }
    
    /**

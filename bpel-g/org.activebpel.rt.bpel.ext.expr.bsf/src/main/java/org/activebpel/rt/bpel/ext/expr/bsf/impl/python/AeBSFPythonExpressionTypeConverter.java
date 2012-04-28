@@ -33,7 +33,7 @@ public class AeBSFPythonExpressionTypeConverter extends AeAbstractExpressionType
    {
       if (aExpressionType instanceof PyInteger)
       {
-         return new Integer(((PyInteger) aExpressionType).getValue());
+         return ((PyInteger) aExpressionType).getValue();
       }
       else if (aExpressionType instanceof PyFloat)
       {
@@ -41,7 +41,7 @@ public class AeBSFPythonExpressionTypeConverter extends AeAbstractExpressionType
       }
       else if (aExpressionType instanceof PyLong)
       {
-         return new Double(((PyLong) aExpressionType).doubleValue());
+         return ((PyLong) aExpressionType).doubleValue();
       }
       else if (aExpressionType instanceof PyObject)
       {
@@ -61,7 +61,7 @@ public class AeBSFPythonExpressionTypeConverter extends AeAbstractExpressionType
       Object rval = super.convertToExpressionType(aEngineType);
       if (rval instanceof Number)
       {
-         rval = new Double(((Number) aEngineType).doubleValue());
+         rval = ((Number) aEngineType).doubleValue();
       }
 
       // Unwrap the return value if necessary.

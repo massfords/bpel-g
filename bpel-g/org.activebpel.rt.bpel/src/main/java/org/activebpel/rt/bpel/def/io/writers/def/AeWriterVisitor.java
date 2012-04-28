@@ -900,7 +900,7 @@ public abstract class AeWriterVisitor extends AeAbstractDefWriter implements IAe
       if (aDef.getSuppressFailure() != null)
       {
          setAttribute(TAG_SUPPRESS_FAILURE,
-                     aDef.getSuppressFailure().booleanValue(), true);
+                 aDef.getSuppressFailure(), true);
       }
    }
 

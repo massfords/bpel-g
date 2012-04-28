@@ -33,7 +33,7 @@ public class AeRemoveAllAttachmentsFunctionValidator extends AeAbstractActiveBpe
       if ( numArgs != 1 )
       {
          addError(aResult, AeMessages.getString("AeAbstractActiveBpelExtensionFunctionValidator.ERROR_INCORRECT_ARGS_NUMBER"), //$NON-NLS-1$
-               new Object[] { aScriptFunction.getName(), new Integer(1), new Integer(numArgs), aResult.getParseResult().getExpression() });
+               new Object[] { aScriptFunction.getName(), 1, numArgs, aResult.getParseResult().getExpression() });
       }
       else
       {

@@ -121,7 +121,7 @@ public class AeRecoveryEngine extends AeAbstractServerEngine implements IAeRecov
 
       for (Iterator<Integer> i = aStaleLocationIds.iterator(); i.hasNext(); )
       {
-         int locationId = i.next().intValue();
+         int locationId = i.next();
          IAeBpelObject aImpl = aProcess.findBpelObject(locationId);
          
          if (aImpl instanceof IAeAlarmReceiver)
@@ -203,7 +203,7 @@ public class AeRecoveryEngine extends AeAbstractServerEngine implements IAeRecov
          if (remaining > 0)
          {
             AeException.logWarning(AeMessages.format("AeRecoveryEngine.WARNING_ENTRIES_REMAINING", //$NON-NLS-1$
-                                                     new Object[] { new Long(aProcess.getProcessId()), new Integer(remaining) }));
+                                                     new Object[] {aProcess.getProcessId(), remaining}));
          }
       }
    }
@@ -275,7 +275,7 @@ public class AeRecoveryEngine extends AeAbstractServerEngine implements IAeRecov
                name = name.substring(n + 1);
             }
 
-            Object[] params = new Object[] { name, new Long(aProcess.getProcessId()), new Integer(recoveredItem.getLocationId()) };
+            Object[] params = new Object[] { name, aProcess.getProcessId(), recoveredItem.getLocationId()};
             AeException.logError(e, AeMessages.format("AeRecoveryEngine.ERROR_QUEUE_RECOVERED_ITEM", params)); //$NON-NLS-1$
          }
       }

@@ -32,7 +32,7 @@ public class AeGetProcessIdFunctionValidator extends AeAbstractActiveBpelExtensi
       if (numArgs != 0)
       {
          addError(aResult, AeMessages.getString("AeAbstractActiveBpelExtensionFunctionValidator.ERROR_INCORRECT_ARGS_NUMBER"), //$NON-NLS-1$
-               new Object[] { aScriptFunction.getName(), new Integer(0), new Integer(numArgs), aResult.getParseResult().getExpression() });
+               new Object[] { aScriptFunction.getName(), 0, numArgs, aResult.getParseResult().getExpression() });
       }
    }
 }

@@ -33,7 +33,7 @@ public class AeReplaceAttachmentFunctionValidator extends AeAbstractActiveBpelEx
       if ( numArgs != 4 )
       {
          addError(aResult, AeMessages.getString("AeAbstractActiveBpelExtensionFunctionValidator.ERROR_INCORRECT_ARGS_NUMBER"), //$NON-NLS-1$
-               new Object[] { aScriptFunction.getName(), new Integer(4), new Integer(numArgs), aResult.getParseResult().getExpression() });
+               new Object[] { aScriptFunction.getName(), 4, numArgs, aResult.getParseResult().getExpression() });
       }
       else
       {

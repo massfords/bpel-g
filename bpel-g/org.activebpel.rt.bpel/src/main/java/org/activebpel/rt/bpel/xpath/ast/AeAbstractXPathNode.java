@@ -108,7 +108,7 @@ public abstract class AeAbstractXPathNode
     */
    public String toString()
    {
-      return MessageFormat.format("Node Type: {0} \nNumChildren: {1}", new Object[] { getType(), new Integer(mChildren.size()) }); //$NON-NLS-1$
+      return MessageFormat.format("Node Type: {0} \nNumChildren: {1}", new Object[] { getType(), mChildren.size()}); //$NON-NLS-1$
    }
 
    /**

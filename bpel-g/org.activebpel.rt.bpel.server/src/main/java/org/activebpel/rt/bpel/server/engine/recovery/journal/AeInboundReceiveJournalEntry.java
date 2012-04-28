@@ -9,10 +9,6 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpel.server.engine.recovery.journal;
 
-import java.util.Collections;
-
-import javax.xml.namespace.QName;
-
 import org.activebpel.rt.bpel.AeBusinessProcessException;
 import org.activebpel.rt.bpel.IAeBusinessProcess;
 import org.activebpel.rt.bpel.def.AePartnerLinkOpKey;
@@ -34,6 +30,9 @@ import org.activebpel.rt.xml.schema.AeTypeMapping;
 import org.activebpel.wsio.receive.AeMessageContext;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+
+import javax.xml.namespace.QName;
+import java.util.Collections;
 
 /**
  * Implements journal entry for inbound receive.
@@ -182,7 +181,7 @@ public class AeInboundReceiveJournalEntry extends AeAbstractJournalEntry impleme
    {
       Element root = aStorageDocument.getDocumentElement();
 
-      if (root.getTagName() == IAeImplStateNames.STATE_MESSAGEDATA)
+      if (root.getTagName().equals(IAeImplStateNames.STATE_MESSAGEDATA))
       {
          // Handle legacy instances serialized by a previous version of the
          // engine. We used to serialize only the message data.

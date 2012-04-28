@@ -161,7 +161,7 @@ public class AeProcessStateWriter implements IAeProcessStateWriter
    {
       debug(
          "Process {0,number,0}: received alarm for location {1,number,0} with alarmId {2,number,0}", //$NON-NLS-1$
-         new Object[] { new Long(aProcessId), new Integer(aLocationId), new Integer(aAlarmId) }
+         new Object[] {aProcessId, aLocationId, aAlarmId}
       );
       return writeJournalEntry(aProcessId, new AeAlarmJournalEntry(aLocationId, aGroupId, aAlarmId));
    }
@@ -173,7 +173,7 @@ public class AeProcessStateWriter implements IAeProcessStateWriter
    {
       debug(
          "Process {0,number,0}: received message for location {1,number,0}", //$NON-NLS-1$
-         new Object[] { new Long(aProcessId), new Integer(aLocationId) }
+         new Object[] {aProcessId, aLocationId}
       );
       return writeJournalEntry(aProcessId, new AeInboundReceiveJournalEntry(aLocationId, aInboundReceive));
    }
@@ -185,7 +185,7 @@ public class AeProcessStateWriter implements IAeProcessStateWriter
    {
       debug(
          "Process {0,number,0}: received data for invoke at location {1,number,0}", //$NON-NLS-1$
-         new Object[] { new Long(aProcessId), new Integer(aLocationId) }
+         new Object[] {aProcessId, aLocationId}
       );
       return writeJournalEntry(aProcessId, new AeInvokeDataJournalEntry(aLocationId, aTransmissionId, aMessageData, aProcessProperties));
    }
@@ -197,7 +197,7 @@ public class AeProcessStateWriter implements IAeProcessStateWriter
    {
       debug(
          "Process {0,number,0}: received fault for invoke at location {1,number,0}", //$NON-NLS-1$
-         new Object[] { new Long(aProcessId), new Integer(aLocationId) }
+         new Object[] {aProcessId, aLocationId}
       );
       return writeJournalEntry(aProcessId, new AeInvokeFaultJournalEntry(aLocationId, aTransmissionId, aFault, aProcessProperties));
    }
@@ -209,7 +209,7 @@ public class AeProcessStateWriter implements IAeProcessStateWriter
    {
       debug(
          "Process {0,number,0}: sent reply id {1,number,0}", //$NON-NLS-1$
-         new Object[] { new Long(aProcessId), new Long( aSentReply.getReplyId()) }
+         new Object[] {aProcessId, aSentReply.getReplyId()}
       );
       return writeJournalEntry(aProcessId, new AeSentReplyJournalEntry(aSentReply, aProcessProperties));
    }
@@ -221,7 +221,7 @@ public class AeProcessStateWriter implements IAeProcessStateWriter
    {
       debug(
          "Process {0,number,0}: transmitted invoke at location {1,number,0} with txid {2,number,0}", //$NON-NLS-1$
-         new Object[] { new Long(aProcessId), new Integer(aLocationId), new Long(aTransmissionId) }
+         new Object[] {aProcessId, aLocationId, aTransmissionId}
       );
       return writeJournalEntry(aProcessId, new AeInvokeTransmittedJournalEntry(aLocationId, aTransmissionId));
    }
@@ -233,7 +233,7 @@ public class AeProcessStateWriter implements IAeProcessStateWriter
    {
       debug(
          "Process {0,number,0}: subprocess compensate for coordination id {1}", //$NON-NLS-1$
-         new Object[] { new Long(aProcessId), aCoordinationId }
+         new Object[] {aProcessId, aCoordinationId }
       );
       return writeJournalEntry( aProcessId, new AeCompensateSubprocessJournalEntry(aCoordinationId) );     
    }
@@ -245,7 +245,7 @@ public class AeProcessStateWriter implements IAeProcessStateWriter
    {
       debug(
          "Process {0,number,0}: invoke pending at location {1,number,0}", //$NON-NLS-1$
-         new Object[] { new Long(aProcessId), new Integer(aLocationId) }
+         new Object[] {aProcessId, aLocationId}
       );
       return writeJournalEntry(aProcessId, new AeInvokePendingJournalEntry(aLocationId));
    }
@@ -257,7 +257,7 @@ public class AeProcessStateWriter implements IAeProcessStateWriter
    {
       debug(
          "Process {0,number,0}: recovery from engine {1,number,0}", //$NON-NLS-1$
-         new Object[] { new Long(aProcessId), new Integer(aEngineId) }
+         new Object[] {aProcessId, aEngineId}
       );
       return writeJournalEntry(aProcessId, new AeEngineFailureJournalEntry(aEngineId));
    }
@@ -269,7 +269,7 @@ public class AeProcessStateWriter implements IAeProcessStateWriter
    {
       debug(
             "Process {0,number,0}: participant message {1}", //$NON-NLS-1$
-            new Object[] { new Long(aProcessId), aMessage.getSignal() }
+            new Object[] {aProcessId, aMessage.getSignal() }
          );
       return writeJournalEntry(aProcessId, new AeCoordinationQueueMessageEntry(aProcessId, aMessage));
    }
@@ -281,7 +281,7 @@ public class AeProcessStateWriter implements IAeProcessStateWriter
    {
       debug(
             "Process {0,number,0}: journaling cancel process", //$NON-NLS-1$
-            new Object[] { new Long(aProcessId) }
+            new Object[] {aProcessId}
          );
       return writeJournalEntry(aProcessId, new AeCancelProcessEntry());
    }
@@ -293,7 +293,7 @@ public class AeProcessStateWriter implements IAeProcessStateWriter
    {
       debug(
             "Process {0,number,0}: journaling cancel subprocess compensation", //$NON-NLS-1$
-            new Object[] { new Long(aProcessId) }
+            new Object[] {aProcessId}
          );
       return writeJournalEntry(aProcessId, new AeCancelSubProcessCompensationEntry());
    }
@@ -305,7 +305,7 @@ public class AeProcessStateWriter implements IAeProcessStateWriter
    {
       debug(
             "Process {0,number,0}: journaling release compensation resources", //$NON-NLS-1$
-            new Object[] { new Long(aProcessId) }
+            new Object[] {aProcessId}
          );
       return writeJournalEntry(aProcessId, new AeReleaseCompensationResourcesEntry());
    }
@@ -317,7 +317,7 @@ public class AeProcessStateWriter implements IAeProcessStateWriter
    {
       debug(
             "Process {0,number,0}: journaling notification of coordinators that participant closed", //$NON-NLS-1$
-            new Object[] { new Long(aProcessId) }
+            new Object[] {aProcessId}
          );
       return writeJournalEntry(aProcessId, new AeNotifyCoordinatorsParticipantClosedEntry());
    }
@@ -330,7 +330,7 @@ public class AeProcessStateWriter implements IAeProcessStateWriter
    {
       debug(
             "Process {0,number,0}: journaling compensation callback", //$NON-NLS-1$
-            new Object[] { new Long(aProcessId) }
+            new Object[] {aProcessId}
          );
       return writeJournalEntry(aProcessId, new AeCompensateCallbackEntry(aLocationPath, aCoordinationId, aFault));
    }
@@ -343,7 +343,7 @@ public class AeProcessStateWriter implements IAeProcessStateWriter
    {
       debug(
             "Process {0,number,0}: journaling coordinated activity completed", //$NON-NLS-1$
-            new Object[] { new Long(aProcessId) }
+            new Object[] {aProcessId}
          );
       return writeJournalEntry(aProcessId, new AeCoordinatedActivityCompletedEntry(aLocationPath, aCoordinationId, aFault));
    }
@@ -356,7 +356,7 @@ public class AeProcessStateWriter implements IAeProcessStateWriter
    {
       debug(
             "Process {0,number,0}: journaling deregister of coordination at {1}", //$NON-NLS-1$
-            new Object[] { new Long(aProcessId), aLocationPath }
+            new Object[] {aProcessId, aLocationPath }
          );
       return writeJournalEntry(aProcessId, new AeDeregisterCoordinationEntry(aLocationPath, aCoordinationId));
    }
@@ -400,7 +400,7 @@ public class AeProcessStateWriter implements IAeProcessStateWriter
             {
                debug(
                   "Process {0,number,0}: *** service flow has {1,choice,1#1 invoke|1<{1,number,0} invokes} pending ***", //$NON-NLS-1$
-                  new Object[] { new Long(processId), new Integer(n) }
+                  new Object[] {processId, n}
                );
             }
          }

@@ -183,7 +183,7 @@ public class AeCorrelationValidator extends AeBaseValidator
          {
             getReporter().reportProblem( BPEL_CORR_MISSING_PROPERTY_ALIAS_CODE, AeMessages.getString("AeProcessDef.MissingPropertyAlias"), //$NON-NLS-1$
                   new Object[] {
-               new Integer(IAePropertyAlias.MESSAGE_TYPE),
+                          IAePropertyAlias.MESSAGE_TYPE,
                   aMap.getMessageType().getLocalPart(),
                   getNSPrefix(propName.getNamespaceURI()),
                   propName.getLocalPart()},

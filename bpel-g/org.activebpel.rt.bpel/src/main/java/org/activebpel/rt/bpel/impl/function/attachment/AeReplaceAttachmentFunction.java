@@ -56,7 +56,7 @@ public class AeReplaceAttachmentFunction extends AeAbstractAttachmentFunction
     */
    public Object call(IAeFunctionExecutionContext aContext, List aArgs) throws AeFunctionCallException
    {
-      Object result = new Boolean(false);
+      Object result = false;
 
       // Validate that we have the proper number of arguments
       int numArgs = aArgs.size();

@@ -435,7 +435,7 @@ public class AeXPathParseHandler implements XPathHandler
     */
    public void number(double aNumber) throws SAXPathException
    {
-      AeXPathLiteralNode node = new AeXPathLiteralNode(new Double(aNumber));
+      AeXPathLiteralNode node = new AeXPathLiteralNode(aNumber);
       pushNode(node);
       popNode();
    }
@@ -445,7 +445,7 @@ public class AeXPathParseHandler implements XPathHandler
     */
    public void number(int aNumber) throws SAXPathException
    {
-      AeXPathLiteralNode node = new AeXPathLiteralNode(new Integer(aNumber));
+      AeXPathLiteralNode node = new AeXPathLiteralNode(aNumber);
       pushNode(node);
       popNode();
    }

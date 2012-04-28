@@ -67,7 +67,7 @@ public class AeXQueryStatement
    {
       if (aParameterIndex < 1)
          throw new AssertionError(AeMessages.getString("AeXQueryStatement.ParamIndexError")); //$NON-NLS-1$
-      getQueryParameters().put(Integer.valueOf(aParameterIndex), aValue);
+      getQueryParameters().put(aParameterIndex, aValue);
    }
 
    /**
@@ -128,10 +128,10 @@ public class AeXQueryStatement
       // Validate that the correct indexes were configured.
       for (int i = 0; i < paramCount; i++)
       {
-         if (!getQueryParameters().containsKey(new Integer(i + 1)))
+         if (!getQueryParameters().containsKey(i + 1))
          {
             String pattern = AeMessages.getString("AeXQueryStatement.ParamNotSet"); //$NON-NLS-1$
-            Object [] args = new Object[] { new Integer(i + 1) };
+            Object [] args = new Object[] {i + 1};
             throw new AssertionError(MessageFormat.format(pattern, args));
          }
       }
@@ -140,7 +140,7 @@ public class AeXQueryStatement
       if (paramCount != getQueryParameters().size())
       {
          String pattern = AeMessages.getString("AeXQueryStatement.IncorrectNumberOfParams"); //$NON-NLS-1$
-         Object [] args = new Object[] { new Integer(getQueryParameters().size()), new Integer(paramCount) };
+         Object [] args = new Object[] {getQueryParameters().size(), paramCount};
          throw new AssertionError(MessageFormat.format(pattern, args));
       }
    }

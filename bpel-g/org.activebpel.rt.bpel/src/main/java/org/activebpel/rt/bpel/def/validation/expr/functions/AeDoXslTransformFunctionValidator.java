@@ -33,7 +33,7 @@ public class AeDoXslTransformFunctionValidator extends AeAbstractFunctionValidat
       if (numArgs < 2 || (numArgs % 2) != 0)
       {
          addError(aResult, AeMessages.getString("AeDoXslTransformFunctionValidator.INCORRECT_NUM_ARGS_TO_DOXSLTRANSFORM_ERROR"), //$NON-NLS-1$
-               new Object[] { new Integer(numArgs) });
+               new Object[] {numArgs});
       }
       else
       {
@@ -52,7 +52,7 @@ public class AeDoXslTransformFunctionValidator extends AeAbstractFunctionValidat
             {
                addError(
                      aResult,
-                     AeMessages.getString("AeDoXslTransformFunctionValidator.INVALID_PARAM_NAME_IN_DOXSLTRANSFORM_ERROR"), new Object[] { new Integer(i + 1) }); //$NON-NLS-1$
+                     AeMessages.getString("AeDoXslTransformFunctionValidator.INVALID_PARAM_NAME_IN_DOXSLTRANSFORM_ERROR"), new Object[] {i + 1}); //$NON-NLS-1$
             }
          }
       }

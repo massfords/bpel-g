@@ -685,7 +685,7 @@ class AeDoubleMapper extends AeBasicMapper
       catch (Exception ex)
       {
          // TODO (MF) I removed the log statement to avoid generating error messages when setting variables via remote debugger. Restore once the designer code changes. 
-         return new Double(0);
+         return (double) 0;
       }
    }
 }
@@ -707,7 +707,7 @@ class AeFloatMapper extends AeBasicMapper
       catch (Exception ex)
       {
          // TODO (MF) I removed the log statement to avoid generating error messages when setting variables via remote debugger. Restore once the designer code changes. 
-         return new Float(0);
+         return (float) 0;
       }
    }
 }
@@ -758,7 +758,7 @@ class AeIntMapper extends AeDoubleMapper
     */
    public Object deserialize(String aObj)
    {
-      return new Integer(((Double)super.deserialize(aObj)).intValue());
+      return ((Double) super.deserialize(aObj)).intValue();
    }
 }
 
@@ -772,7 +772,7 @@ class AeLongMapper extends AeDoubleMapper
     */
    public Object deserialize(String aObj)
    {
-      return new Long(((Double)super.deserialize(aObj)).longValue());
+      return ((Double) super.deserialize(aObj)).longValue();
    }
 }
 
@@ -800,6 +800,6 @@ class AeShortMapper extends AeDoubleMapper
     */
    public Object deserialize(String aObj)
    {
-      return new Short(((Double)super.deserialize(aObj)).shortValue());
+      return ((Double) super.deserialize(aObj)).shortValue();
    }
 }

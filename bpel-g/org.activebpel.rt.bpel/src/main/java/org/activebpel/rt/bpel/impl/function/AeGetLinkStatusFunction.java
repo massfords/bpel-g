@@ -55,6 +55,6 @@ public class AeGetLinkStatusFunction extends AeAbstractBpelFunction
          throw new AeExpressionException(e);
       }
       
-      return Boolean.valueOf(link.getStatus());
+      return link.getStatus();
    }
 }

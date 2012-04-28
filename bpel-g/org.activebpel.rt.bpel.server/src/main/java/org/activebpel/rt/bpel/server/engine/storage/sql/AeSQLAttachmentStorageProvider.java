@@ -90,7 +90,7 @@ public class AeSQLAttachmentStorageProvider extends AeAbstractSQLStorageProvider
       Connection connection = getTransactionConnection();
       try
       {
-         Object[] params = new Object[] { new Long(aProcessId), new Long(aAttachmentGroupId) };
+         Object[] params = new Object[] {aProcessId, aAttachmentGroupId};
          update(connection, SQL_PROCESS_ATTACHMENT_GROUP, params);
       }
       finally
@@ -106,7 +106,7 @@ public class AeSQLAttachmentStorageProvider extends AeAbstractSQLStorageProvider
    {
       long attachmentGroupId = getNextAttachmentGroupId();
 
-      Object[] params = new Object[] { new Long(attachmentGroupId) };
+      Object[] params = new Object[] {attachmentGroupId};
       update(SQL_ATTACHMENT_GROUP, params);
       return attachmentGroupId;
    }
@@ -133,8 +133,8 @@ public class AeSQLAttachmentStorageProvider extends AeAbstractSQLStorageProvider
          {
             Object[] params = new Object[]
             {
-               new Long(aAttachmentGroupId),
-               new Long(attachmentId),
+                    aAttachmentGroupId,
+                    attachmentId,
                (aHeaders != null) ? (Object)AePairSerializer.serialize(aHeaders) : AeQueryRunner.NULL_CLOB,
                content
             };
@@ -165,7 +165,7 @@ public class AeSQLAttachmentStorageProvider extends AeAbstractSQLStorageProvider
    {
       try
       {
-         AeAttachmentItemEntry entry = query(SELECT_ATTACHMENT_HEADERS, sAttachmentItemHandler, Long.valueOf(aAttachmentId));
+         AeAttachmentItemEntry entry = query(SELECT_ATTACHMENT_HEADERS, sAttachmentItemHandler, aAttachmentId);
          return entry.getHeaders();
       }
       catch (AeStorageException e)
@@ -183,7 +183,7 @@ public class AeSQLAttachmentStorageProvider extends AeAbstractSQLStorageProvider
     */
    public InputStream getContent(long aAttachmentId) throws AeStorageException
    {
-      return query(SELECT_ATTACHMENT_CONTENTS, AeResultSetHandlers.getBlobStreamHandler(), Long.valueOf(aAttachmentId));
+      return query(SELECT_ATTACHMENT_CONTENTS, AeResultSetHandlers.getBlobStreamHandler(), aAttachmentId);
    }
 
    /**
@@ -199,7 +199,7 @@ public class AeSQLAttachmentStorageProvider extends AeAbstractSQLStorageProvider
     */
    public void removeAttachment(long aAttachmentId) throws AeStorageException
    {
-      Object[] params = { new Long(aAttachmentId) };
+      Object[] params = {aAttachmentId};
       update(SQL_REMOVE_ATTACHMENT, params);
    }
 

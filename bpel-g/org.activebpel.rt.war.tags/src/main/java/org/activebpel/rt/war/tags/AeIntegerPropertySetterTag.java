@@ -47,11 +47,11 @@ public class AeIntegerPropertySetterTag extends AeAbstractFormPropertyTag
       if ( AeUtil.isNumber(getParamValue()) )
       {
          int n = getBoundedValue ( AeUtil.parseInt(getParamValue(),0) );
-         intObject = new Integer(n);         
+         intObject = n;
       }
       else if ( isHasDefault() )
       {
-         intObject = new Integer( getBoundedValue(getDefault()) );
+         intObject = getBoundedValue(getDefault());
       }
       if (intObject != null)
       {

@@ -46,6 +46,6 @@ public class AeIfTrueTag extends AeAbstractBeanPropertyTag
    protected boolean isPropertyTrue() throws JspException
    {
       Boolean b = (Boolean) getPropertyFromBean();
-      return (b != null && b.booleanValue() );
+      return (b != null && b);
    }
 }

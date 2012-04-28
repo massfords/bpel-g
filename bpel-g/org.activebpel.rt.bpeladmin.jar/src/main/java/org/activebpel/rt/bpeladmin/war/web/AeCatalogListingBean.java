@@ -97,7 +97,7 @@ public class AeCatalogListingBean extends AeAbstractListingBean
     */
    public int getItemTypeSize()
    {
-       return Integer.valueOf(AeMessages.getString("AeCatalogItemType.CATALOG_FILTER_TYPE.COUNT")).intValue(); //$NON-NLS-1$
+       return Integer.valueOf(AeMessages.getString("AeCatalogItemType.CATALOG_FILTER_TYPE.COUNT")); //$NON-NLS-1$
    }
    
    /**

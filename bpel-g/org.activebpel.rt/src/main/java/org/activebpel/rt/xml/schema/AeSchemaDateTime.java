@@ -129,7 +129,7 @@ public class AeSchemaDateTime extends AeAbstractTZBasedSchemaType implements Ser
          tzMin = aMatcher.group(14);
       }
 
-      int year = new Integer(yearStr).intValue();
+      int year = new Integer(yearStr);
       int era = GregorianCalendar.AD;
       if (isDateNegative)
       {
@@ -138,7 +138,7 @@ public class AeSchemaDateTime extends AeAbstractTZBasedSchemaType implements Ser
       int millis = 0;
       if (fracSecondStr != null)
       {
-         millis = (int) (1000F * new Float("0." + fracSecondStr).floatValue()); //$NON-NLS-1$
+         millis = (int) (1000F * new Float("0." + fracSecondStr)); //$NON-NLS-1$
       }
       TimeZone tz = createTimeZone(tzHr, tzMin, tzDir);
       setTimeZone(tz);
@@ -147,11 +147,11 @@ public class AeSchemaDateTime extends AeAbstractTZBasedSchemaType implements Ser
       getCalendar().setTimeZone(tz);
       getCalendar().set(Calendar.ERA, era);
       getCalendar().set(Calendar.YEAR, year);
-      getCalendar().set(Calendar.MONTH, new Integer(monthStr).intValue() - 1);
-      getCalendar().set(Calendar.DAY_OF_MONTH, new Integer(dayStr).intValue());
-      getCalendar().set(Calendar.HOUR_OF_DAY, new Integer(hourStr).intValue());
-      getCalendar().set(Calendar.MINUTE, new Integer(minuteStr).intValue());
-      getCalendar().set(Calendar.SECOND, new Integer(secondStr).intValue());
+      getCalendar().set(Calendar.MONTH, new Integer(monthStr) - 1);
+      getCalendar().set(Calendar.DAY_OF_MONTH, new Integer(dayStr));
+      getCalendar().set(Calendar.HOUR_OF_DAY, new Integer(hourStr));
+      getCalendar().set(Calendar.MINUTE, new Integer(minuteStr));
+      getCalendar().set(Calendar.SECOND, new Integer(secondStr));
       getCalendar().set(Calendar.MILLISECOND, millis);
       // Need to update the internal Calendar data structures by asking for the time in millis
       // because they are not updated until some internal data is queried.
@@ -181,13 +181,13 @@ public class AeSchemaDateTime extends AeAbstractTZBasedSchemaType implements Ser
    {
       return new Object [] {
             (getCalendar().get(Calendar.ERA) == GregorianCalendar.BC) ? "-" : "", //$NON-NLS-1$ //$NON-NLS-2$
-            new Integer(getCalendar().get(Calendar.YEAR)),
-            new Integer(getCalendar().get(Calendar.MONTH) + 1),
-            new Integer(getCalendar().get(Calendar.DAY_OF_MONTH)),
-            new Integer(getCalendar().get(Calendar.HOUR_OF_DAY)),
-            new Integer(getCalendar().get(Calendar.MINUTE)),
-            new Integer(getCalendar().get(Calendar.SECOND)),
-            new Integer(getCalendar().get(Calendar.MILLISECOND))
+              getCalendar().get(Calendar.YEAR),
+              getCalendar().get(Calendar.MONTH) + 1,
+              getCalendar().get(Calendar.DAY_OF_MONTH),
+              getCalendar().get(Calendar.HOUR_OF_DAY),
+              getCalendar().get(Calendar.MINUTE),
+              getCalendar().get(Calendar.SECOND),
+              getCalendar().get(Calendar.MILLISECOND)
       };
    }
 

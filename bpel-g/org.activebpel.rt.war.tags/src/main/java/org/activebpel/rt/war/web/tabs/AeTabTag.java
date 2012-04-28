@@ -70,7 +70,7 @@ public class AeTabTag extends AeAbstractResourceTag
       int count = Integer.parseInt(getResourceString(formatCount.format(args)));
       for(int tabNumber = 1; tabNumber <= count; tabNumber++)
       {
-         args[1] = new Integer(tabNumber);
+         args[1] = tabNumber;
          String name = getResourceString(formatName.format(args));
          String page = getResourceString(formatPage.format(args));
          

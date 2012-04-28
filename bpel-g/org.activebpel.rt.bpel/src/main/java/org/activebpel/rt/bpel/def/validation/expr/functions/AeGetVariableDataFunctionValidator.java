@@ -31,7 +31,7 @@ public class AeGetVariableDataFunctionValidator extends AeAbstractFunctionValida
       if (numArgs < 1 || numArgs > 3)
       {
          addError(aResult, AeMessages.getString("AeGetVariableDataFunctionValidator.INVALID_GETVARIABLEDATA_PARAMS"),  //$NON-NLS-1$
-               new Object[] { new Integer(numArgs), aResult.getParseResult().getExpression() });
+               new Object[] {numArgs, aResult.getParseResult().getExpression() });
       }
       else
       {

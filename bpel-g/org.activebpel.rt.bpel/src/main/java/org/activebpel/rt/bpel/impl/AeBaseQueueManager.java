@@ -550,7 +550,7 @@ public abstract class AeBaseQueueManager extends AeManagerAdapter implements IAe
     */
    public AeReply removeReply(AeReply aReplyQueueObject)
    {
-      AeReply reply  = getReplies().remove( new Long(aReplyQueueObject.getReplyId()) );
+      AeReply reply  = getReplies().remove(aReplyQueueObject.getReplyId());
       return reply;
    }
 
@@ -637,7 +637,7 @@ public abstract class AeBaseQueueManager extends AeManagerAdapter implements IAe
       // non-durable replies are maintained in the queue manager.
       synchronized(getReplies())
       {
-         getReplies().put( new Long(aReply.getReplyId()), aReply);
+         getReplies().put(aReply.getReplyId(), aReply);
       }
    }
 

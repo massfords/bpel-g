@@ -53,8 +53,8 @@ public class AeSQLTransmissionTrackerStorageProvider extends AeAbstractSQLStorag
    public void add(AeTransmissionTrackerEntry aEntry) throws AeStorageException
    { 
       Object[] params = new Object[] {
-            new Long(aEntry.getTransmissionId()),
-            new Integer(aEntry.getState()),
+              aEntry.getTransmissionId(),
+              aEntry.getState(),
             getStringOrSqlNullVarchar( aEntry.getMessageId() )
       };
       // note: when calling update, we also pass the aClose=true to close the connection in case the connection is not from the TxManager.
@@ -91,9 +91,9 @@ public class AeSQLTransmissionTrackerStorageProvider extends AeAbstractSQLStorag
    {
       // Note: This method updates both - message id and state.
       Object[] params = new Object[] {
-            new Integer(aEntry.getState()),
+              aEntry.getState(),
             getStringOrSqlNullVarchar( aEntry.getMessageId() ),
-            new Long(aEntry.getTransmissionId())
+              aEntry.getTransmissionId()
       };
       // note: when calling update, we also pass the aClose=true to close the connection in case the connection is not from the TxManager.      
       Connection conn = null;

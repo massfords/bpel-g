@@ -34,7 +34,7 @@ public class AeBase64EncodeFunctionValidator extends AeAbstractActiveBpelExtensi
       {
          addError(aResult,
                AeMessages.getString("AeAbstractActiveBpelExtensionFunctionValidator.ERROR_INCORRECT_ARGS_NUMBER"),  //$NON-NLS-1$
-               new Object [] {aScriptFunction.getName(), "1 or 2" , new Integer(numArgs), aResult.getParseResult().getExpression() }); //$NON-NLS-1$
+               new Object [] {aScriptFunction.getName(), "1 or 2" , numArgs, aResult.getParseResult().getExpression() }); //$NON-NLS-1$
       }
       else 
       {

@@ -55,7 +55,7 @@ public class AeSQLReceiverFilter extends AeSQLFilter {
 
 		if (!filter.isNullProcessId()) {
 			appendCondition(
-					SQL_PROCESS_ID + " = ?", new Long(filter.getProcessId())); //$NON-NLS-1$
+					SQL_PROCESS_ID + " = ?", filter.getProcessId()); //$NON-NLS-1$
 		}
 
 		checkStringParam(filter.getPartnerLinkName(), SQL_PARTNER_LINK_NAME);

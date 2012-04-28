@@ -92,7 +92,7 @@ public class AeInMemoryProcessManager extends AeAbstractProcessManager
 	 * process id.
 	 */
 	protected Long getKey(long aProcessId) {
-		return new Long(aProcessId);
+		return aProcessId;
 	}
 
 	/**

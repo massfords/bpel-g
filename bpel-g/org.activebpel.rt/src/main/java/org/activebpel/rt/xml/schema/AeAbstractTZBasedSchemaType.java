@@ -64,11 +64,11 @@ public abstract class AeAbstractTZBasedSchemaType extends AeAbstractPatternBased
          return sUTCTimeZone;
       }
       // Get number of hours in the offset
-      int offset = new Integer(aTZHours).intValue();
+      int offset = new Integer(aTZHours);
       // Convert to minutes
       offset *= 60;
       // Add offset minutes
-      offset += new Integer(aTZMinutes).intValue();
+      offset += new Integer(aTZMinutes);
       // Convert to millis
       offset *= 60000;
       if (aTZDirection == '-')
@@ -138,7 +138,7 @@ public abstract class AeAbstractTZBasedSchemaType extends AeAbstractPatternBased
          int minutes = offset % 60;
          
          Object [] args = new Object [] { (offsetMillis < 0) ? "-" : "+", //$NON-NLS-1$ //$NON-NLS-2$
-               new Integer(hours), new Integer(minutes) };
+                 hours, minutes};
          
          return MessageFormat.format("{0}{1,number,00}:{2,number,00}", args); //$NON-NLS-1$
       }

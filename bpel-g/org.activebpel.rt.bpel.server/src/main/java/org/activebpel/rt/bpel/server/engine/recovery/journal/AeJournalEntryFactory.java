@@ -150,7 +150,7 @@ public class AeJournalEntryFactory implements IAeJournalEntryFactory
        */
       public AeUnknownEntryTypeException(int aEntryType, int aLocationId)
       {
-         super(AeMessages.format("AeUnknownEntryTypeException.ERROR_UNKNOWN_TYPE", new Object[] { new Integer(aEntryType), new Integer(aLocationId) })); //$NON-NLS-1$
+         super(AeMessages.format("AeUnknownEntryTypeException.ERROR_UNKNOWN_TYPE", new Object[] {aEntryType, aLocationId})); //$NON-NLS-1$
       }
    }
 }

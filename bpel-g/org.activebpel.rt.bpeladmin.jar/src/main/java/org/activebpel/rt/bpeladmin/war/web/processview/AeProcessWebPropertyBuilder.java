@@ -469,7 +469,7 @@ public abstract class AeProcessWebPropertyBuilder extends AeProcessDefToWebVisit
       buildExpressionProperty("joinCondition", aDef.getJoinConditionDef());  //$NON-NLS-1$
       if (aDef.getSuppressFailure() != null)
       {
-         addProperty("suppressJoinFailure", getYesNo(aDef.getSuppressFailure().booleanValue())); //$NON-NLS-1$
+         addProperty("suppressJoinFailure", getYesNo(aDef.getSuppressFailure())); //$NON-NLS-1$
       }
    }
 

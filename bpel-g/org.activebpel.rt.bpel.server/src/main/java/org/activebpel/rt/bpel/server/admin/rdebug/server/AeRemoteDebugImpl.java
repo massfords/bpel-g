@@ -119,7 +119,7 @@ public class AeRemoteDebugImpl implements IAeBpelAdmin
       catch (Exception e)
       {
          Object[] args = new Object[2];
-         args[0] = new Long(aPid);
+         args[0] = aPid;
          args[1] = aLocation;
          throw new AeBusinessProcessException(AeMessages.format("AeRemoteDebugImpl.ERROR_2", args), e);  //$NON-NLS-1$ 
       }
@@ -657,7 +657,7 @@ public class AeRemoteDebugImpl implements IAeBpelAdmin
             // All of the subclasses have a placeholder in their error messages
             // for the process id
             Object[] args = new Object[1];
-            args[0] = new Long(getPid());
+            args[0] = getPid();
             String errorMessage = MessageFormat.format(getErrorMessage(), args);
             AeBusinessProcessException.logError(e, errorMessage);
          }

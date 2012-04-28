@@ -875,7 +875,7 @@ abstract public class AeAbstractBpelObject implements IAeExecutableBpelObject, I
       {
          String expressionLanguage = getExpressionLanguage(aExpressionDef);
          IAeExpressionRunner runner = getExpressionRunner(aExpressionDef);
-         return runner.executeBooleanExpression(createExpressionRunnerContext(expressionLanguage, null), aExpressionDef.getExpression()).booleanValue();
+         return runner.executeBooleanExpression(createExpressionRunnerContext(expressionLanguage, null), aExpressionDef.getExpression());
       }
       catch (AeBusinessProcessException e)
       {

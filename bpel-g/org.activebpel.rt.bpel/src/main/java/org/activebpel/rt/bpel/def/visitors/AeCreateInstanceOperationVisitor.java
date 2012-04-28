@@ -48,7 +48,7 @@ public class AeCreateInstanceOperationVisitor extends AeAbstractDefVisitor
    {
       Map map = getOperationCount();
       Integer i = (Integer) map.get(getCreateInstanceKey());
-      return i.intValue() == 1;
+      return i == 1;
    }
 
    /**
@@ -104,11 +104,11 @@ public class AeCreateInstanceOperationVisitor extends AeAbstractDefVisitor
       Integer i = map.get(key);
       if (i == null)
       {
-         i = new Integer(1);
+         i = 1;
       }
       else
       {
-         i = Integer.valueOf(i.intValue() + 1);
+         i = i.intValue() + 1;
       }
       map.put(key, i);
    }

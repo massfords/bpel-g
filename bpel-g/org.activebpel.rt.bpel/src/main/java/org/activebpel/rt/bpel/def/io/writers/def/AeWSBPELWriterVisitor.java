@@ -153,7 +153,7 @@ public class AeWSBPELWriterVisitor extends AeWriterVisitor
 
       if(def.getExitOnStandardFault() != null)
       {
-         setAttribute(TAG_EXIT_ON_STANDARD_FAULT, def.getExitOnStandardFault().booleanValue(), false);
+         setAttribute(TAG_EXIT_ON_STANDARD_FAULT, def.getExitOnStandardFault(), false);
       }
       
       IAeMutableNamespaceContext nsContext = new AeElementBasedNamespaceContext( getElement() );
@@ -217,7 +217,7 @@ public class AeWSBPELWriterVisitor extends AeWriterVisitor
       super.visit(def);
 
       if (def.getInitializePartnerRole() != null)
-         setAttribute(TAG_INITIALIZE_PARTNER_ROLE, def.getInitializePartnerRole().booleanValue(), true);
+         setAttribute(TAG_INITIALIZE_PARTNER_ROLE, def.getInitializePartnerRole(), true);
    }
    
    /**
@@ -395,7 +395,7 @@ public class AeWSBPELWriterVisitor extends AeWriterVisitor
 
       if (def.getExitOnStandardFault() != null)
       {
-         setAttribute(TAG_EXIT_ON_STANDARD_FAULT, def.getExitOnStandardFault().booleanValue(), true);
+         setAttribute(TAG_EXIT_ON_STANDARD_FAULT, def.getExitOnStandardFault(), true);
       }
    }
    

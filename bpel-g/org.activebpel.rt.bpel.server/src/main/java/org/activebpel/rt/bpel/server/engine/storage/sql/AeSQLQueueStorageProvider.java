@@ -93,19 +93,19 @@ public class AeSQLQueueStorageProvider extends AeAbstractSQLStorageProvider impl
 
       Object[] params = new Object[]
       {
-         new Long(receiveId),
-         new Long(aReceiveObject.getProcessId()),
-         new Integer(aReceiveObject.getMessageReceiverPathId()),
+              receiveId,
+              aReceiveObject.getProcessId(),
+              aReceiveObject.getMessageReceiverPathId(),
          aReceiveObject.getOperation(),
          aReceiveObject.getPartnerLinkOperationKey().getPartnerLinkName(),
          AeUtil.getSafeString(aReceiveObject.getPortType().getNamespaceURI()),
          aReceiveObject.getPortType().getLocalPart(),
          AeStorageUtil.getCorrelationProperties(aReceiveObject),
-         new Integer(AeStorageUtil.getReceiveMatchHash(aReceiveObject)),
-         new Integer(AeStorageUtil.getReceiveCorrelatesHash(aReceiveObject)),
-         new Integer(aReceiveObject.getGroupId()),
-         new Integer(aReceiveObject.getPartnerLinkOperationKey().getPartnerLinkId()),
-         new Integer(AeDbUtils.convertBooleanToInt(aReceiveObject.isConcurrent()))
+              AeStorageUtil.getReceiveMatchHash(aReceiveObject),
+              AeStorageUtil.getReceiveCorrelatesHash(aReceiveObject),
+              aReceiveObject.getGroupId(),
+              aReceiveObject.getPartnerLinkOperationKey().getPartnerLinkId(),
+              AeDbUtils.convertBooleanToInt(aReceiveObject.isConcurrent())
       };
       update(IAeQueueSQLKeys.INSERT_QUEUED_RECEIVE, params);
    }
@@ -117,12 +117,12 @@ public class AeSQLQueueStorageProvider extends AeAbstractSQLStorageProvider impl
          throws AeStorageException
    {
       Object[] params = new Object[] {
-            new Long(aProcessId),
-            new Integer(aLocationPathId),
+              aProcessId,
+              aLocationPathId,
             new Timestamp(aDeadline.getTime()),
-            new Long(aDeadline.getTime()),
-            new Integer(aGroupId),
-            new Integer(aAlarmId)
+              aDeadline.getTime(),
+              aGroupId,
+              aAlarmId
       };
       
       update(IAeQueueSQLKeys.INSERT_ALARM, params);
@@ -136,14 +136,14 @@ public class AeSQLQueueStorageProvider extends AeAbstractSQLStorageProvider impl
    {
       Connection connection = getSQLConnection(aConnection);
       
-      Object[] params = { new Long(aProcessId), new Integer(aGroupId) };
+      Object[] params = {aProcessId, aGroupId};
       int count = update(connection, IAeQueueSQLKeys.DELETE_QUEUED_RECEIVES_BY_GROUP, params);
 
       // Now, for backwards compatibility, remove a single queued receive if none were found in the
       // above delete.
       if (count == 0 && aLocationPathId != -1)
       {
-         Object[] params2 = { new Long(aProcessId), new Integer(aLocationPathId) };
+         Object[] params2 = {aProcessId, aLocationPathId};
          count = update(connection, IAeQueueSQLKeys.DELETE_QUEUED_RECEIVES_BY_LOCID, params2);
       }
 
@@ -156,7 +156,7 @@ public class AeSQLQueueStorageProvider extends AeAbstractSQLStorageProvider impl
    public boolean removeReceiveObjectById(int aQueuedReceiveId) throws AeStorageException
    {
       // Next, delete the queued receive from the QueuedReceive table.
-      return update(IAeQueueSQLKeys.DELETE_QUEUED_RECEIVE_BYID, new Integer(aQueuedReceiveId)) == 1;
+      return update(IAeQueueSQLKeys.DELETE_QUEUED_RECEIVE_BYID, aQueuedReceiveId) == 1;
    }
 
    /**
@@ -165,7 +165,7 @@ public class AeSQLQueueStorageProvider extends AeAbstractSQLStorageProvider impl
    public boolean removeAlarm(long aProcessId, int aLocationPathId, int aAlarmId, IAeStorageConnection aConnection)
          throws AeStorageException
    {
-      Object[] params = new Object[] { new Long(aProcessId), new Integer(aLocationPathId), new Integer(aAlarmId) };
+      Object[] params = new Object[] {aProcessId, aLocationPathId, aAlarmId};
       return update(getSQLConnection(aConnection), IAeQueueSQLKeys.DELETE_ALARM, params) == 1;
    }
 
@@ -176,7 +176,7 @@ public class AeSQLQueueStorageProvider extends AeAbstractSQLStorageProvider impl
    public int removeAlarmsInGroup(long aProcessId, int aGroupId, IAeStorageConnection aConnection)
          throws AeStorageException
    {
-      Object[] params = new Object[] { new Long(aProcessId), new Integer(aGroupId) };
+      Object[] params = new Object[] {aProcessId, aGroupId};
       return update(getSQLConnection(aConnection), IAeQueueSQLKeys.DELETE_ALARMS_IN_GROUP, params);
    }
 
@@ -187,7 +187,7 @@ public class AeSQLQueueStorageProvider extends AeAbstractSQLStorageProvider impl
    public AePersistedMessageReceiver getReceiveObject(long aProcessId, int aMessageReceiverPathId)
          throws AeStorageException
    {
-      return query(IAeQueueSQLKeys.GET_QUEUED_RECEIVE, MESSAGE_RECEIVER_HANDLER, new Long(aProcessId), Integer.valueOf(aMessageReceiverPathId));
+      return query(IAeQueueSQLKeys.GET_QUEUED_RECEIVE, MESSAGE_RECEIVER_HANDLER, aProcessId, aMessageReceiverPathId);
    }
 
    /**
@@ -200,7 +200,7 @@ public class AeSQLQueueStorageProvider extends AeAbstractSQLStorageProvider impl
          try
          {
             // Stop looping when successful.
-            return query(IAeQueueSQLKeys.GET_CORRELATED_RECEIVES, MESSAGE_RECEIVER_LIST_HANDLER, Integer.valueOf(aMatchHash), Integer.valueOf(aCorrelatesHash));
+            return query(IAeQueueSQLKeys.GET_CORRELATED_RECEIVES, MESSAGE_RECEIVER_LIST_HANDLER, aMatchHash, aCorrelatesHash);
          }
          catch (AeStorageException e)
          {

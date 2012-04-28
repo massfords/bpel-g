@@ -62,7 +62,7 @@ public class AeSQLAlarmFilter extends AeSQLFilter
 
      if( !filter.isNullProcessId() )
      {
-        appendCondition( SQL_PROCESS_ID + " = ?", new Long( filter.getProcessId() ) ); //$NON-NLS-1$
+        appendCondition( SQL_PROCESS_ID + " = ?", filter.getProcessId()); //$NON-NLS-1$
      }
 
      if( filter.getProcessName() != null )
@@ -75,12 +75,12 @@ public class AeSQLAlarmFilter extends AeSQLFilter
 
      if( filter.getAlarmFilterStart() != null )
      {
-        appendCondition( SQL_DEADLINE_MILLIS + " >= ?", new Long(filter.getAlarmFilterStart().getTime()) ); //$NON-NLS-1$
+        appendCondition( SQL_DEADLINE_MILLIS + " >= ?", filter.getAlarmFilterStart().getTime()); //$NON-NLS-1$
      }
 
      if( filter.getAlarmFilterEnd() != null )
      {
-        appendCondition( SQL_DEADLINE_MILLIS + " <= ?", new Long(filter.getAlarmFilterEnd().getTime()) ); //$NON-NLS-1$
+        appendCondition( SQL_DEADLINE_MILLIS + " <= ?", filter.getAlarmFilterEnd().getTime()); //$NON-NLS-1$
      }
    }
 }

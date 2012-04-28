@@ -69,7 +69,7 @@ public class AeLogReader extends AeSQLObject
     */
    public AeLogReader(long aProcessId, AeSQLConfig aConfig)
    {
-      mProcessId = new Long(aProcessId);
+      mProcessId = aProcessId;
       mSQLConfig = aConfig;
       
       mHeadLimit = AePreferences.getLoggingLinesHead();
@@ -124,7 +124,7 @@ public class AeLogReader extends AeSQLObject
 	   return getQueryRunner().query(
                getSQLStatement(aSqlStatement),
                SMALL_LOG_HANDLER,
-               mProcessId, Integer.valueOf(aCounterValue));
+               mProcessId, aCounterValue);
    }
    
    /**

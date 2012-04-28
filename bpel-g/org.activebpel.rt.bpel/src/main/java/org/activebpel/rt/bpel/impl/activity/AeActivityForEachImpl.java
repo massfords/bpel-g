@@ -151,9 +151,9 @@ public class AeActivityForEachImpl extends AeLoopActivity implements IAeActivity
       {
          Object[] args = {
                getDef().getCompletionCondition().getExpression(),
-               new Integer(completionCondition),
-               new Integer(getStartValue()),
-               new Integer(getFinalValue())
+                 completionCondition,
+                 getStartValue(),
+                 getFinalValue()
          };
          throw new AeBpelException(AeMessages.format("AeActivityForEachImpl.InvalidBranchCondition_RangeError", args), getFaultFactory().getInvalidBranchCondition()); //$NON-NLS-1$
       }
@@ -253,7 +253,7 @@ public class AeActivityForEachImpl extends AeLoopActivity implements IAeActivity
          //       handling is needed for implicit variables like the forEach's counter.
          IAeVariable variable = scope.getVariableContainer().findVariable(getDef().getCounterName());
          IAeVariable clone = scope.isSnapshotRecorded()? (IAeVariable) variable.clone() : variable;
-         clone.setTypeData(new Integer(getCounterValue()));
+         clone.setTypeData(getCounterValue());
          scope.getVariableContainer().addVariable(clone);
 
          getProcess().queueObjectToExecute(scope);

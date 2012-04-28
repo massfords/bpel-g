@@ -184,9 +184,9 @@ public abstract class AeCopyOperationBase implements IAeCopyOperation, IAeCopyFr
             // value on a complex type and introducing a floating point number
             // where we don't want one. 
             Double d = (Double) aData;
-            if (Double.compare(d.doubleValue(), Math.ceil(d.doubleValue()) ) == 0 )
+            if (Double.compare(d, Math.ceil(d) ) == 0 )
             {
-               extractedData = new Long(d.longValue());
+               extractedData = d.longValue();
             }
             
          }

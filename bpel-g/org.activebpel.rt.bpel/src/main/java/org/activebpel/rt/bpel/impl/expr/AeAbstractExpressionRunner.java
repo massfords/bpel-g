@@ -94,13 +94,13 @@ public abstract class AeAbstractExpressionRunner implements IAeExpressionRunner
          String str = (String) aNativeRval;
          if ("true".equalsIgnoreCase(str) || "false".equalsIgnoreCase(str)) //$NON-NLS-1$ //$NON-NLS-2$
          {
-            return new Boolean("true".equalsIgnoreCase(str)); //$NON-NLS-1$
+            return "true".equalsIgnoreCase(str); //$NON-NLS-1$
          }
       }
       else if (aNativeRval instanceof Integer)
       {
-         int ival = ((Integer) aNativeRval).intValue();
-         return new Boolean(ival > 0);
+         int ival = (Integer) aNativeRval;
+         return ival > 0;
       }
 
       String msg = MessageFormat.format(

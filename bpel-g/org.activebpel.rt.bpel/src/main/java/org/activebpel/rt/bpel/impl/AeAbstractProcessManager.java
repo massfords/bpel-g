@@ -52,7 +52,7 @@ public abstract class AeAbstractProcessManager extends AeManagerAdapter implemen
     */
    public void debug(String aPattern, long aArgument)
    {
-      debug(aPattern, new Object[] { new Long(aArgument) });
+      debug(aPattern, new Object[] {aArgument});
    }
 
    /**

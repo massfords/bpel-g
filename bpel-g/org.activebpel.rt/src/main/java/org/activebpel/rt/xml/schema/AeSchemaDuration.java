@@ -130,13 +130,13 @@ public class AeSchemaDuration extends AeAbstractPatternBasedSchemaType
    {
       return new Object [] {
             isNegative() ? "-" : "", //$NON-NLS-1$ //$NON-NLS-2$
-            new Integer(getYears()),
-            new Integer(getMonths()),
-            new Integer(getDays()),
-            new Integer(getHours()),
-            new Integer(getMinutes()),
-            new Integer(getSeconds()),
-            new Integer(getMilliseconds())
+              getYears(),
+              getMonths(),
+              getDays(),
+              getHours(),
+              getMinutes(),
+              getSeconds(),
+              getMilliseconds()
       };
    }
 
@@ -204,7 +204,7 @@ public class AeSchemaDuration extends AeAbstractPatternBasedSchemaType
       }
       else
       {
-         return (int) (1000F * new Float("0" + aString).floatValue()); //$NON-NLS-1$
+         return (int) (1000F * new Float("0" + aString)); //$NON-NLS-1$
       }
    }
 

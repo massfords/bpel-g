@@ -145,7 +145,7 @@ public class AeResultSetHandlers
 
                if (!rs.wasNull())
                {
-                  results.put(new Integer(n1), new Integer(n2));
+                  results.put(n1, n2);
                }
             }
          }
@@ -169,7 +169,7 @@ public class AeResultSetHandlers
 
             if (!rs.wasNull())
             {
-               result = new Integer(n);
+               result = n;
             }
          }
 
@@ -193,7 +193,7 @@ public class AeResultSetHandlers
 
             if (!rs.wasNull())
             {
-               result = new Float(f);
+               result = f;
             }
          }
 
@@ -217,7 +217,7 @@ public class AeResultSetHandlers
 
             if (!rs.wasNull())
             {
-               result = new Long(n);
+               result = n;
             }
          }
 

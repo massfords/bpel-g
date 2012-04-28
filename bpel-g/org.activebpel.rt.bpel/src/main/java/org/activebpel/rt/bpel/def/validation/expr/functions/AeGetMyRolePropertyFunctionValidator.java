@@ -37,7 +37,7 @@ public class AeGetMyRolePropertyFunctionValidator extends AeAbstractActiveBpelEx
       {
          addError(aResult,
                AeMessages.getString("AeGetMyRolePropertyFunctionValidator.ERROR_INCORRECT_ARGS_NUMBER"), //$NON-NLS-1$
-               new Object[] { aScriptFunction.getName(), null, new Integer(numArgs), aResult.getParseResult().getExpression() });
+               new Object[] { aScriptFunction.getName(), null, numArgs, aResult.getParseResult().getExpression() });
       }
       else
       {   
