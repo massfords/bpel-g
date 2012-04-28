@@ -110,7 +110,7 @@ public class AeXPathDebugSerializeNodeVisitor extends AeAbstractTraversingXPathN
       appendIndentString();
       String msg = MessageFormat.format(
             "NameStep[axis={0}, {1}:{2}]\n",  //$NON-NLS-1$
-            new Object[] { new Integer(aNode.getAxis()), aNode.getPrefix(), aNode.getLocalName() });
+            new Object[] {aNode.getAxis(), aNode.getPrefix(), aNode.getLocalName() });
       getBuffer().write(msg);
 
       traverse(aNode);
@@ -140,7 +140,7 @@ public class AeXPathDebugSerializeNodeVisitor extends AeAbstractTraversingXPathN
       appendIndentString();
       String msg = MessageFormat.format(
             "{0}[axis={1} name={2}]\n",  //$NON-NLS-1$
-            new Object[] { aNode.getType(), new Integer(aNode.getAxis()), aNode.getName() });
+            new Object[] { aNode.getType(), aNode.getAxis(), aNode.getName() });
       getBuffer().write(msg);
 
       traverse(aNode);
@@ -228,7 +228,7 @@ public class AeXPathDebugSerializeNodeVisitor extends AeAbstractTraversingXPathN
       appendIndentString();
       String msg = MessageFormat.format(
             "{0}[create={1}]\n",  //$NON-NLS-1$
-            new Object[] { aNode.getType(), new Boolean(aNode.isCreate()) });
+            new Object[] { aNode.getType(), aNode.isCreate()});
       getBuffer().write(msg);
 
       traverse(aNode);
@@ -244,7 +244,7 @@ public class AeXPathDebugSerializeNodeVisitor extends AeAbstractTraversingXPathN
       appendIndentString();
       String msg = MessageFormat.format(
             "{0}[operator={1}]\n",  //$NON-NLS-1$
-            new Object[] { aNode.getType(), new Integer(aNode.getOperator()) });
+            new Object[] { aNode.getType(), aNode.getOperator()});
       getBuffer().write(msg);
 
       traverse(aNode);
@@ -260,7 +260,7 @@ public class AeXPathDebugSerializeNodeVisitor extends AeAbstractTraversingXPathN
       appendIndentString();
       String msg = MessageFormat.format(
             "{0}[axis={1}]\n",  //$NON-NLS-1$
-            new Object[] { aNode.getType(), new Integer(aNode.getAxis()) });
+            new Object[] { aNode.getType(), aNode.getAxis()});
       getBuffer().write(msg);
 
       traverse(aNode);

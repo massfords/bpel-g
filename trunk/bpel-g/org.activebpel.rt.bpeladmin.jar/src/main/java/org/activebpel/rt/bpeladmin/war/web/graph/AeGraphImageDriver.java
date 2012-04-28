@@ -494,7 +494,7 @@ public class AeGraphImageDriver
       public AeResourceAllocationException(long aAllocateBytes, long aRequiredBytes)
       {
          super();
-         String info = AeMessages.format("AeGraphImageDriver.resource_error", new Object[] { new Long(aRequiredBytes), new Long(aAllocateBytes) } ); //$NON-NLS-1$
+         String info = AeMessages.format("AeGraphImageDriver.resource_error", new Object[] {aRequiredBytes, aAllocateBytes} ); //$NON-NLS-1$
          setInfo(info);
       }
    }

@@ -147,7 +147,7 @@ public class AePartnerLinkDefKey implements Comparable, Serializable
          if (getPartnerLinkId() == -1 || other.getPartnerLinkId() == -1)
             return getPartnerLinkName().compareTo(other.getPartnerLinkName());
          else
-            return new Integer(getPartnerLinkId()).compareTo(new Integer(other.getPartnerLinkId()));
+            return new Integer(getPartnerLinkId()).compareTo(other.getPartnerLinkId());
       }
       return -1;
    }

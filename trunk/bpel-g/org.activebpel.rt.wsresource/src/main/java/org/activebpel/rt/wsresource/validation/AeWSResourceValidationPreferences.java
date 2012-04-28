@@ -104,7 +104,7 @@ public abstract class AeWSResourceValidationPreferences implements IAeWSResource
    {
       if (getSeverityMap().containsKey(aRuleId))
       {
-         return mSeverity.get(aRuleId).intValue();
+         return mSeverity.get(aRuleId);
       }
       else
       {

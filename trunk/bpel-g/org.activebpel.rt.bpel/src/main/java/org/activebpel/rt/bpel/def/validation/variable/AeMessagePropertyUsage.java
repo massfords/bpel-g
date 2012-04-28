@@ -57,7 +57,7 @@ public class AeMessagePropertyUsage extends AeMessagePartQueryUsage
             getVariableValidator().getReporter().reportProblem( IAeValidationProblemCodes.BPEL_MSG_MISSING_PROPERTY_ALIAS_CODE,
                   AeMessages.getString("AeProcessDef.MissingPropertyAlias"), //$NON-NLS-1$
                   new Object[] {
-               new Integer(IAePropertyAlias.MESSAGE_TYPE),
+                          IAePropertyAlias.MESSAGE_TYPE,
                   getVariableValidator().getDef().getName(),
                   getVariableValidator().getNSPrefix(getProperty().getNamespaceURI()),
                   getProperty().getLocalPart()},

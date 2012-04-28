@@ -93,7 +93,7 @@ public class AePddValidator extends AeAbstractPddIterator {
 		 */
 		public void parseWarning(String aMessage, int aLineNumber) {
 			Object[] params = { mPdd.getName(), aMessage,
-					new Integer(aLineNumber) };
+                    aLineNumber};
 			mReporter
 					.addWarning(
 							AeMessages

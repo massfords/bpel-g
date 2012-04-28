@@ -147,13 +147,13 @@ public class AeNewAttachmentUploader extends AeAttachmentBeanBase implements IAe
          Integer thresholdSize = getThresholdSize();
          if ( thresholdSize != null )
          {
-            diskUpload.setSizeThreshold(thresholdSize.intValue());
+            diskUpload.setSizeThreshold(thresholdSize);
          }
 
          Long maxSize = getMaxUploadSize();
          if ( maxSize != null )
          {
-            diskUpload.setSizeMax(maxSize.longValue());
+            diskUpload.setSizeMax(maxSize);
          }
       }
       return diskUpload;

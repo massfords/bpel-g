@@ -42,7 +42,7 @@ public class AeRulesUtil
     */
    public static Integer convertSeverity(String aSeverity)
    {
-      Integer code = Integer.valueOf(-1);
+      Integer code = -1;
       
       if (sSeverityMap.containsKey(aSeverity)) 
       {

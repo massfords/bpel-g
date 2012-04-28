@@ -33,7 +33,7 @@ public class AeCreateAttachmentFunctionValidator extends AeAbstractActiveBpelExt
       if ( numArgs < 3 || numArgs > 4 )
       {
          addError(aResult, AeMessages.getString("AeAbstractActiveBpelExtensionFunctionValidator.ERROR_INCORRECT_ARGS_NUMBER"), //$NON-NLS-1$
-               new Object[] { aScriptFunction.getName(), "3 or 4" , new Integer(numArgs), aResult.getParseResult().getExpression() }); //$NON-NLS-1$
+               new Object[] { aScriptFunction.getName(), "3 or 4" , numArgs, aResult.getParseResult().getExpression() }); //$NON-NLS-1$
       }
       else
       {

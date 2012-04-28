@@ -173,7 +173,7 @@ public class AeSQLCounterStore extends AeSQLObject implements IAeCounterStore
          throw new AeStorageException(AeMessages.format("AeSQLCounterStore.ERROR_3", aCounterName)); //$NON-NLS-1$
       }
 
-      return value.longValue();
+      return value;
    }
 
    /**
@@ -189,7 +189,7 @@ public class AeSQLCounterStore extends AeSQLObject implements IAeCounterStore
       String sql = getSQLStatement(SQL_UPDATE_COUNTER_VALUE);
       Object[] params = new Object[]
       {
-         new Integer(aBlockSize),
+              aBlockSize,
          aCounterName
       };
 
@@ -209,7 +209,7 @@ public class AeSQLCounterStore extends AeSQLObject implements IAeCounterStore
       Object[] params = new Object[]
       {
          aCounterName,
-         new Integer(aBlockSize)
+              aBlockSize
       };
 
       getQueryRunner().update(aConnection, sql, params);

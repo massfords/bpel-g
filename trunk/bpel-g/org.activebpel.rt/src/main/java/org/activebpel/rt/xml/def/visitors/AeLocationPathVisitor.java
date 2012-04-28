@@ -289,7 +289,7 @@ public class AeLocationPathVisitor implements IAeDefPathVisitor
     */
    public int getLocationId(String aLocationPath)
    {
-      return getLocationPathMap().get(aLocationPath).intValue();
+      return getLocationPathMap().get(aLocationPath);
    }
 
    /**

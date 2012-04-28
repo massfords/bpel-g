@@ -201,11 +201,11 @@ public abstract class AeAbstractXQueryParseResult extends AeAbstractExpressionPa
          }
          else if (exp instanceof IntegerValue)
          {
-            aFuncDef.getArgs().add(new Integer((int)((IntegerValue) exp).getDoubleValue()));
+            aFuncDef.getArgs().add((int) ((IntegerValue) exp).getDoubleValue());
          }
          else if (exp instanceof DecimalValue)
          {
-            aFuncDef.getArgs().add(new Double(((DecimalValue) exp).getDoubleValue()));
+            aFuncDef.getArgs().add(((DecimalValue) exp).getDoubleValue());
          }
          else
          {

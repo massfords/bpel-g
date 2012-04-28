@@ -33,7 +33,7 @@ public class AeGetLinkStatusFunctionValidator extends AeAbstractFunctionValidato
       {
          addError(aResult,
                AeMessages.getString("AeAbstractFunctionValidator.ERROR_INCORRECT_ARGS_NUMBER"), //$NON-NLS-1$
-               new Object[] { aScriptFunction.getName(), new Integer(1), new Integer(numArgs), aResult.getParseResult().getExpression() });
+               new Object[] { aScriptFunction.getName(), 1, numArgs, aResult.getParseResult().getExpression() });
       }
       else if ( !(aScriptFunction.getArgument(0) instanceof String) )
       {

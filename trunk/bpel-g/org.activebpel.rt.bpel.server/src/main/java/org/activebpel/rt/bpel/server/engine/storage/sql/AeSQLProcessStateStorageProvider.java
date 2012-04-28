@@ -86,12 +86,12 @@ public class AeSQLProcessStateStorageProvider extends AeAbstractSQLStorageProvid
       // Insert a row for the new process.
       Object[] params = new Object[]
       {
-         new Long(processId),
-         new Integer(aPlanId),
+              processId,
+              aPlanId,
          aProcessName.getNamespaceURI(),
          aProcessName.getLocalPart(),
-         new Integer(ProcessStateValueType.Running.value()),
-         new Integer(SuspendReasonType.None.value()), // StateReason is undefined unless dealing with a suspended state 
+              ProcessStateValueType.Running.value(),
+              SuspendReasonType.None.value(), // StateReason is undefined unless dealing with a suspended state
          new Date() // specify StartDate, so that process will sort correctly in Active Processes list
       };
 
@@ -197,7 +197,7 @@ public class AeSQLProcessStateStorageProvider extends AeAbstractSQLStorageProvid
          Object[] params = filter.getParams();
 
          // Run the query.
-         return (getQueryRunner().query(sql, AeResultSetHandlers.getIntegerHandler(), params)).intValue();
+         return getQueryRunner().query(sql, AeResultSetHandlers.getIntegerHandler(), params);
       }
       catch (SQLException ex)
       {
@@ -312,7 +312,7 @@ public class AeSQLProcessStateStorageProvider extends AeAbstractSQLStorageProvid
    {
       Connection connection = getSQLConnection(aConnection);
 
-      Object[] params = new Object[] { new Long(aProcessId) };
+      Object[] params = new Object[] {aProcessId};
 
       if (!getSQLConfig().getParameterBoolean(AeStorageConfig.PARAMETER_HAS_CASCADING_DELETES))
       {

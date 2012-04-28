@@ -124,9 +124,9 @@ public class AeSchemaDate extends AeSchemaDateTime
       setCalendar(new GregorianCalendar());
       getCalendar().setTimeZone(tz);
       getCalendar().set(Calendar.ERA, era);
-      getCalendar().set(Calendar.YEAR, new Integer(yearStr).intValue());
-      getCalendar().set(Calendar.MONTH, new Integer(monthStr).intValue() - 1); // month is 0 based
-      getCalendar().set(Calendar.DAY_OF_MONTH, new Integer(dayStr).intValue());
+      getCalendar().set(Calendar.YEAR, new Integer(yearStr));
+      getCalendar().set(Calendar.MONTH, new Integer(monthStr) - 1); // month is 0 based
+      getCalendar().set(Calendar.DAY_OF_MONTH, new Integer(dayStr));
       getCalendar().set(Calendar.HOUR_OF_DAY, 0);
       getCalendar().set(Calendar.MINUTE, 0);
       getCalendar().set(Calendar.SECOND, 0);
@@ -159,9 +159,9 @@ public class AeSchemaDate extends AeSchemaDateTime
    {
       return new Object [] {
             (getCalendar().get(Calendar.ERA) == GregorianCalendar.BC) ? "-" : "", //$NON-NLS-1$ //$NON-NLS-2$
-            new Integer(getCalendar().get(Calendar.YEAR)),
-            new Integer(getCalendar().get(Calendar.MONTH) + 1),
-            new Integer(getCalendar().get(Calendar.DAY_OF_MONTH))
+              getCalendar().get(Calendar.YEAR),
+              getCalendar().get(Calendar.MONTH) + 1,
+              getCalendar().get(Calendar.DAY_OF_MONTH)
       };
    }
 

@@ -38,7 +38,7 @@ public class AeSQLProcessIdsResultSetHandler extends AeListingResultSetHandler<l
     */
    protected Number readRow(ResultSet aResultSet) throws SQLException
    {
-      return new Long(aResultSet.getLong(1));
+      return aResultSet.getLong(1);
    }
    
    /**

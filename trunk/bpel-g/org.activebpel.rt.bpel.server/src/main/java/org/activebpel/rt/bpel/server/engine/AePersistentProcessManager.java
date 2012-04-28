@@ -233,7 +233,7 @@ public class AePersistentProcessManager extends AeAbstractProcessManager
 		// if debugging print out info about creation
 		if (isDebug())
 			debug("Process {0,number,0}: {1}, persistenceType = {2}, transactionType = {3}", //$NON-NLS-1$
-			new Object[] { new Long(processId), processName.getLocalPart(),
+			new Object[] {processId, processName.getLocalPart(),
 					deployment.getPdd().getPersistenceType(),
 					deployment.getPdd().getTransactionType() });
 
@@ -1096,8 +1096,8 @@ public class AePersistentProcessManager extends AeAbstractProcessManager
 		getProcessStateReader().readProcess(process);
 
 		debug("Process {0,number,0}: restored ({1,number,0} millis)", //$NON-NLS-1$
-				new Object[] { new Long(aProcessId),
-						new Long(System.currentTimeMillis() - millis) });
+				new Object[] {aProcessId,
+                        System.currentTimeMillis() - millis});
 
 		return process;
 	}
@@ -1143,9 +1143,9 @@ public class AePersistentProcessManager extends AeAbstractProcessManager
 						/ (total) + 0.5);
 
 				debug("Process {0,number,0}: saved ({1,number,0} millis){2,choice,0#|1# with 1 invoke pending|1< with {2,number,0} invokes pending} (averted {3}%)", //$NON-NLS-1$
-				new Object[] { new Long(aWrapper.getProcessId()),
-						new Long(System.currentTimeMillis() - millis),
-						new Integer(n), new Integer(percent) });
+				new Object[] {aWrapper.getProcessId(),
+                        System.currentTimeMillis() - millis,
+                        n, percent});
 			}
 		}
 	}

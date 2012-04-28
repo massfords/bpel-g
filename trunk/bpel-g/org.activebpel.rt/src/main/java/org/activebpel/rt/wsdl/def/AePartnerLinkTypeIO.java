@@ -139,7 +139,7 @@ public class AePartnerLinkTypeIO extends AeWSDLExtensionIO implements IAeBPELExt
       {
          throw new WSDLException(WSDLException.INVALID_WSDL, 
                                  MessageFormat.format(AeMessages.getString("AePartnerLinkTypeImpl.ERROR_0"), //$NON-NLS-1$
-                                                      new Object[] {new Integer(lLen), partnerLink.getName()}));
+                                                      new Object[] {lLen, partnerLink.getName()}));
       }
 
       for (int i = 0; i < lLen; i++)
@@ -173,7 +173,7 @@ public class AePartnerLinkTypeIO extends AeWSDLExtensionIO implements IAeBPELExt
       {
          throw new WSDLException(WSDLException.INVALID_WSDL, 
                                  MessageFormat.format(AeMessages.getString("AeRoleImpl.ERROR_0"), //$NON-NLS-1$
-                                                      new Object[] {new Integer(nodes.getLength()), role.getName()}));
+                                                      new Object[] {nodes.getLength(), role.getName()}));
       }
 
       role.setPortType(readPortType((Element)nodes.item(0), aDefinition));

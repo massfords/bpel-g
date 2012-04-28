@@ -113,7 +113,7 @@ public abstract class AeStorageConfig
     */
    public boolean getParameterBoolean(String aKey) throws AeStorageException
    {
-      return Boolean.valueOf(getParameter(aKey)).booleanValue();
+      return Boolean.valueOf(getParameter(aKey));
    }
 
    /**

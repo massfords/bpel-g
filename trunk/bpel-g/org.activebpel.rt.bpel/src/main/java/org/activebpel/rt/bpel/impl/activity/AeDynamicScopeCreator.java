@@ -102,7 +102,7 @@ public class AeDynamicScopeCreator
             AeActivityForEachDef def = forEach.getDef();
             IAeVariable variable = instanceScope.getVariable(def.getCounterName());
             int scopeCount = getScopes().size() - 1;
-            variable.setTypeData(new Integer(counter+scopeCount));
+            variable.setTypeData(counter + scopeCount);
          }
       }
       

@@ -335,7 +335,7 @@ public class AeXMLParserBase
          {
             Map.Entry entry = (Map.Entry) iter.next();
             Boolean bool = (Boolean) entry.getValue();
-            factory.setFeature((String) entry.getKey(), bool.booleanValue());
+            factory.setFeature((String) entry.getKey(), bool);
          }
 
          // Transform the document into an input source and parse it looking for errors
@@ -567,7 +567,7 @@ public class AeXMLParserBase
       {
          sTransformerFactory = loadTransformerFactory();
          // required for indenting in 1.5 vm see http://forum.java.sun.com/thread.jspa?threadID=562510&start=0 and http://dev.eclipse.org/newslists/news.eclipse.technology.xsd/msg01616.html
-         try { sTransformerFactory.setAttribute("indent-number", new Integer(3)); } catch (Exception ex) { /* ignore for 1.4 vm */ } //$NON-NLS-1$
+         try { sTransformerFactory.setAttribute("indent-number", 3); } catch (Exception ex) { /* ignore for 1.4 vm */ } //$NON-NLS-1$
       }
       return sTransformerFactory;
    }
@@ -698,7 +698,7 @@ public class AeXMLParserBase
     */
    public void setFeature(String aFeatureName, boolean aValue)
    {
-      getFeatures().put(aFeatureName, new Boolean(aValue));
+      getFeatures().put(aFeatureName, aValue);
    }
    
    /**

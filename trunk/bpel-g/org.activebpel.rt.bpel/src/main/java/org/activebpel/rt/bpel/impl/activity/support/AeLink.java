@@ -120,7 +120,7 @@ public class AeLink extends AeAbstractBpelObject implements IAeLink
          throw new IllegalStateException("call isStatusKnown() before checking status"); //$NON-NLS-1$
       }
 
-      return mStatus.booleanValue() && getIsolatedStatus();
+      return mStatus && getIsolatedStatus();
    }
 
    /**
@@ -149,7 +149,7 @@ public class AeLink extends AeAbstractBpelObject implements IAeLink
     */
    public void setRawStatus(boolean aNewStatus)
    {
-      mStatus = new Boolean(aNewStatus);
+      mStatus = aNewStatus;
       mNotifyProcess = false;
    }
 
@@ -163,7 +163,7 @@ public class AeLink extends AeAbstractBpelObject implements IAeLink
       // status is immutable
       if(mStatus == null)
       {
-         mStatus = new Boolean(aBool);
+         mStatus = aBool;
          if (mNotifyProcess)
             notifyProcess();
       }

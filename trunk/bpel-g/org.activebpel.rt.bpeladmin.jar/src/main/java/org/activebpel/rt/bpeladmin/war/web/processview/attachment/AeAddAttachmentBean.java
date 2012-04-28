@@ -9,12 +9,8 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpeladmin.war.web.processview.attachment;
 
-import java.text.MessageFormat;
-import java.util.HashMap;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-
+import bpelg.services.processes.StorageErrorMessage;
+import bpelg.services.processes.types.ProcessStateValueType;
 import org.activebpel.rt.AeException;
 import org.activebpel.rt.bpeladmin.war.AeEngineManagementFactory;
 import org.activebpel.rt.bpeladmin.war.AeMessages;
@@ -25,8 +21,10 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
-import bpelg.services.processes.StorageErrorMessage;
-import bpelg.services.processes.types.ProcessStateValueType;
+import javax.servlet.http.HttpServletRequest;
+import java.text.MessageFormat;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * This bean is responsible for adding process variable attachments on the
@@ -113,7 +111,7 @@ public class AeAddAttachmentBean extends AeNewAttachmentUploader {
 		try {
 			Document aDoc = AeXmlUtil.toDoc(aXml);
 
-			if (aDoc.getDocumentElement().getTagName() != ATTRIBUTES_TAG) {
+			if (!aDoc.getDocumentElement().getTagName().equals(ATTRIBUTES_TAG)) {
 				throw new AeException(
 						MessageFormat.format(
 								AeMessages

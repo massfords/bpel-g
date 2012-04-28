@@ -93,7 +93,7 @@ public class AeSchemaMonth extends AeAbstractTZBasedSchemaType
     */
    protected Object[] getOutputPatternArguments()
    {
-      return new Object[] { new Integer(getMonth()), formatTimeZone() };
+      return new Object[] {getMonth(), formatTimeZone() };
    }
 
    /**

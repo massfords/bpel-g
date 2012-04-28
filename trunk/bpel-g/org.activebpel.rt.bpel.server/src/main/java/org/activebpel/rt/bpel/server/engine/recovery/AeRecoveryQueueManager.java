@@ -74,7 +74,7 @@ public class AeRecoveryQueueManager extends AeBaseQueueManager implements IAeRec
       if (aProcessId != getRecoveryProcess().getProcessId())
       {
          throw new IllegalStateException(AeMessages.format("AeRecoveryQueueManager.ERROR_0", //$NON-NLS-1$
-                                                           new Object[] { new Long(aProcessId), new Long(getRecoveryProcess().getProcessId()) }));
+                                                           new Object[] {aProcessId, getRecoveryProcess().getProcessId()}));
       }
    }
 

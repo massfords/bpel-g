@@ -121,10 +121,10 @@ public class AeSQLJournalStorage extends AeAbstractSQLStorage
 
       Object[] params = new Object[]
       {
-         new Long(journalId),
-         new Long(aProcessId),
-         new Integer(aJournalEntry.getEntryType()),
-         new Integer(aJournalEntry.getLocationId()),
+              journalId,
+              aProcessId,
+              aJournalEntry.getEntryType(),
+              aJournalEntry.getLocationId(),
          (document == null) ? (Object) AeQueryRunner.NULL_CLOB : document 
       };
 

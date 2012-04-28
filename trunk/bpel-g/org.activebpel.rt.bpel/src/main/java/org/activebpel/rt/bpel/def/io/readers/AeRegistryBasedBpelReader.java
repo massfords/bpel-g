@@ -169,7 +169,7 @@ public class AeRegistryBasedBpelReader implements IAeBpelReader
       Map<String,Integer> locationPathsToIds = new HashMap<String,Integer>();
        for (String locationPath : pathVisitor.getLocationPaths()) {
            int locationId = pathVisitor.getLocationId(locationPath);
-           locationPathsToIds.put(locationPath, Integer.valueOf(locationId));
+           locationPathsToIds.put(locationPath, locationId);
        }
       aDef.setLocationPathsToIds(locationPathsToIds);
    }

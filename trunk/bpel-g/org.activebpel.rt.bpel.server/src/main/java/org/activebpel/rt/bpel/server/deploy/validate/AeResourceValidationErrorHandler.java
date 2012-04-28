@@ -54,7 +54,7 @@ public class AeResourceValidationErrorHandler implements IAeResourceValidationEr
     */
    protected void reportError(String aMessage, int aLineNumber)
    {
-      Object [] params = { getName(), aMessage, new Integer(aLineNumber) };
+      Object [] params = { getName(), aMessage, aLineNumber};
       mReporter.addError(AeMessages.getString("AeResourceValidationErrorHandler.REPORT_ERROR_FORMAT_WITH_LINENUMBER"), params, null); //$NON-NLS-1$
    }
 
@@ -87,7 +87,7 @@ public class AeResourceValidationErrorHandler implements IAeResourceValidationEr
     */
    public void parseWarning(String aMessage, int aLineNumber)
    {
-      Object [] params = { getName(), aMessage, new Integer(aLineNumber) };
+      Object [] params = { getName(), aMessage, aLineNumber};
       mReporter.addWarning(AeMessages.getString("AeResourceValidationErrorHandler.REPORT_ERROR_FORMAT_WITH_LINENUMBER"), params, null); //$NON-NLS-1$
    }
 

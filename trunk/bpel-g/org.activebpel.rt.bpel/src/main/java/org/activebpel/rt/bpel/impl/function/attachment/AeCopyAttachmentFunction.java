@@ -48,7 +48,7 @@ public class AeCopyAttachmentFunction extends AeAbstractAttachmentFunction
     */
    public Object call(IAeFunctionExecutionContext aContext, List aArgs) throws AeFunctionCallException
    {
-      Object result = new Boolean(false);
+      Object result = false;
       
       // Validate that we have the proper number of arguments
       int numArgs = aArgs.size();
@@ -60,7 +60,7 @@ public class AeCopyAttachmentFunction extends AeAbstractAttachmentFunction
       // Get the to variable name from the third function argument
       IAeAttachmentItem fromItem = getAttachment(aContext, getStringArg(aArgs,0), getPositiveIntArg(aArgs,1));
       IAeVariable toVariable = getVariable(aContext.getAbstractBpelObject(), getStringArg(aArgs,2));
-      result =  new Boolean(toVariable.getAttachmentData().add(fromItem));
+      result = toVariable.getAttachmentData().add(fromItem);
       return result;
    }
 }

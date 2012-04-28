@@ -31,7 +31,7 @@ public class AeGetVariablePropertyFunctionValidator extends AeAbstractFunctionVa
       {
          addError(aResult,
                AeMessages.getString("AeAbstractFunctionValidator.ERROR_INCORRECT_ARGS_NUMBER"), //$NON-NLS-1$
-               new Object[] { aScriptFunction.getName(), new Integer(2), new Integer(numArgs), aResult.getParseResult().getExpression() });
+               new Object[] { aScriptFunction.getName(), 2, numArgs, aResult.getParseResult().getExpression() });
       }
       else
       {

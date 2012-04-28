@@ -76,48 +76,48 @@ public class AeSQLProcessFilter extends AeSQLFilter {
 		ProcessStateFilterValueType psf = aFilter.getProcessState();
 		if (psf == ProcessStateFilterValueType.Completed)
 			appendCondition(
-					IAeProcessColumns.PROCESS_STATE + " = ?", new Integer(ProcessStateValueType.Complete.value())); //$NON-NLS-1$
+					IAeProcessColumns.PROCESS_STATE + " = ?", ProcessStateValueType.Complete.value()); //$NON-NLS-1$
 		else if (psf == ProcessStateFilterValueType.Running)
 			appendCondition(
-					IAeProcessColumns.PROCESS_STATE + " = ?", new Integer(ProcessStateValueType.Running.value())); //$NON-NLS-1$
+					IAeProcessColumns.PROCESS_STATE + " = ?", ProcessStateValueType.Running.value()); //$NON-NLS-1$
 		else if (psf == ProcessStateFilterValueType.Faulted)
 			appendCondition(
-					IAeProcessColumns.PROCESS_STATE + " = ?", new Integer(ProcessStateValueType.Faulted.value())); //$NON-NLS-1$
+					IAeProcessColumns.PROCESS_STATE + " = ?", ProcessStateValueType.Faulted.value()); //$NON-NLS-1$
 		else if (psf == ProcessStateFilterValueType.Suspended)
 			appendCondition(
-					IAeProcessColumns.PROCESS_STATE + " = ?", new Integer(ProcessStateValueType.Suspended.value())); //$NON-NLS-1$
+					IAeProcessColumns.PROCESS_STATE + " = ?", ProcessStateValueType.Suspended.value()); //$NON-NLS-1$
 		else if (psf == ProcessStateFilterValueType.SuspendedFaulting) {
 			appendCondition(
-					IAeProcessColumns.PROCESS_STATE + " = ?", new Integer(ProcessStateValueType.Suspended.value())); //$NON-NLS-1$
+					IAeProcessColumns.PROCESS_STATE + " = ?", ProcessStateValueType.Suspended.value()); //$NON-NLS-1$
 			appendCondition(
-					IAeProcessColumns.PROCESS_STATE_REASON + " = ?", new Integer(AeSuspendReason.SUSPEND_CODE_AUTOMATIC)); //$NON-NLS-1$
+					IAeProcessColumns.PROCESS_STATE_REASON + " = ?", AeSuspendReason.SUSPEND_CODE_AUTOMATIC); //$NON-NLS-1$
 		} else if (psf == ProcessStateFilterValueType.SuspendedProgrammatic) {
 			appendCondition(
-					IAeProcessColumns.PROCESS_STATE + " = ?", new Integer(ProcessStateValueType.Suspended.value())); //$NON-NLS-1$
+					IAeProcessColumns.PROCESS_STATE + " = ?", ProcessStateValueType.Suspended.value()); //$NON-NLS-1$
 			appendCondition(
-					IAeProcessColumns.PROCESS_STATE_REASON + " = ?", new Integer(AeSuspendReason.SUSPEND_CODE_LOGICAL)); //$NON-NLS-1$
+					IAeProcessColumns.PROCESS_STATE_REASON + " = ?", AeSuspendReason.SUSPEND_CODE_LOGICAL); //$NON-NLS-1$
 		} else if (psf == ProcessStateFilterValueType.SuspendedManual) {
 			appendCondition(
-					IAeProcessColumns.PROCESS_STATE + " = ?", new Integer(ProcessStateValueType.Suspended.value())); //$NON-NLS-1$
+					IAeProcessColumns.PROCESS_STATE + " = ?", ProcessStateValueType.Suspended.value()); //$NON-NLS-1$
 			appendCondition(
-					IAeProcessColumns.PROCESS_STATE_REASON + " = ?", new Integer(AeSuspendReason.SUSPEND_CODE_MANUAL)); //$NON-NLS-1$
+					IAeProcessColumns.PROCESS_STATE_REASON + " = ?", AeSuspendReason.SUSPEND_CODE_MANUAL); //$NON-NLS-1$
 		} else if (psf == ProcessStateFilterValueType.SuspendedInvokeRecovery) {
 			appendCondition(
-					IAeProcessColumns.PROCESS_STATE + " = ?", new Integer(ProcessStateValueType.Suspended.value())); //$NON-NLS-1$
+					IAeProcessColumns.PROCESS_STATE + " = ?", ProcessStateValueType.Suspended.value()); //$NON-NLS-1$
 			appendCondition(
-					IAeProcessColumns.PROCESS_STATE_REASON + " = ?", new Integer(AeSuspendReason.SUSPEND_CODE_INVOKE_RECOVERY)); //$NON-NLS-1$
+					IAeProcessColumns.PROCESS_STATE_REASON + " = ?", AeSuspendReason.SUSPEND_CODE_INVOKE_RECOVERY); //$NON-NLS-1$
 		} else if (psf == ProcessStateFilterValueType.CompletedOrFaulted) {
 			appendCondition(
 					IAeProcessColumns.PROCESS_STATE + " IN (?, ?)", new Object[] { //$NON-NLS-1$
-					new Integer(ProcessStateValueType.Complete.value()),
-							new Integer(ProcessStateValueType.Faulted.value()) });
+                    ProcessStateValueType.Complete.value(),
+                    ProcessStateValueType.Faulted.value()});
 		} else if (psf == ProcessStateFilterValueType.Compensatable)
 			appendCondition(
-					IAeProcessColumns.PROCESS_STATE + " = ?", new Integer(ProcessStateValueType.Compensatable.value())); //$NON-NLS-1$
+					IAeProcessColumns.PROCESS_STATE + " = ?", ProcessStateValueType.Compensatable.value()); //$NON-NLS-1$
 		else if (psf == ProcessStateFilterValueType.RunningOrSuspended) {
 			Object[] params = new Object[] {
-					new Integer(ProcessStateValueType.Running.value()),
-					new Integer(ProcessStateValueType.Suspended.value()) };
+                    ProcessStateValueType.Running.value(),
+                    ProcessStateValueType.Suspended.value()};
 			appendCondition(
 					"("		+ IAeProcessColumns.PROCESS_STATE + " = ? OR " + IAeProcessColumns.PROCESS_STATE + " = ?)", params); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 		}

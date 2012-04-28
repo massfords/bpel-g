@@ -615,7 +615,7 @@ public class AeSaveImplStateVisitor extends AeImplTraversingVisitor implements I
     */
    protected Integer getNextObjectId()
    {
-      return new Integer(mNextObjectId++);
+      return mNextObjectId++;
    }
 
    /**

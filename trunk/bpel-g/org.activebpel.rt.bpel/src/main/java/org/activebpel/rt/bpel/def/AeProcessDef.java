@@ -191,7 +191,7 @@ public class AeProcessDef extends AeScopeDef implements Serializable
       IAePropertyAlias alias = getPropertyAlias(aType, aName, aPropertyName);
       if (alias == null)
       {
-         Object[] args = {new Integer(aType), aName, aPropertyName.getNamespaceURI(), aPropertyName.getLocalPart()};
+         Object[] args = {aType, aName, aPropertyName.getNamespaceURI(), aPropertyName.getLocalPart()};
          
          String msg = AeMessages.format("AeProcessDef.MissingPropertyAlias", args); //$NON-NLS-1$
          throw new AeStaticAnalysisException(msg);
@@ -214,7 +214,7 @@ public class AeProcessDef extends AeScopeDef implements Serializable
       }
       if (propAlias == null)
       {
-         Object[] args = {new Integer(IAePropertyAlias.MESSAGE_TYPE), aMessagePartsMap.getMessageType(), aProperty.getNamespaceURI(), aProperty.getLocalPart()};
+         Object[] args = {IAePropertyAlias.MESSAGE_TYPE, aMessagePartsMap.getMessageType(), aProperty.getNamespaceURI(), aProperty.getLocalPart()};
          String msg = AeMessages.format("AeProcessDef.MissingPropertyAlias", args); //$NON-NLS-1$
          throw new AeStaticAnalysisException(msg);
       }
@@ -672,7 +672,7 @@ public class AeProcessDef extends AeScopeDef implements Serializable
    public int getLocationId(String aLocationPath)
    {
       Integer id = mLocationPathsToIds.get(aLocationPath);
-      return (id == null) ? -1 : id.intValue();
+      return (id == null) ? -1 : id;
    }
 
    /**

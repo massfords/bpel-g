@@ -160,7 +160,7 @@ public class AeProcessInstanceDetailWrapper
       long pid = -1;
       try
       {
-         pid = Long.valueOf(aPid).longValue();
+         pid = Long.valueOf(aPid);
       }
       catch (Exception ex)
       {

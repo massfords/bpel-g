@@ -88,7 +88,7 @@ public class AeProcessPruningBean extends AePruningBean
             int n = AeEngineManagementFactory.getProcessManager().removeProcessByQuery(filter);
 
             String pattern = AeMessages.getString("AeProcessPruningBean.0"); //$NON-NLS-1$
-            Object[] args = {new Integer(n)};
+            Object[] args = {n};
             setStatusDetail(MessageFormat.format(pattern, args));
 
             // If the request succeeds, then clear the prune date.
@@ -118,7 +118,7 @@ public class AeProcessPruningBean extends AePruningBean
             int numProcesses = getAdmin().getProcessCount(filter);
 
             String pattern = AeMessages.getString("AeProcessPruningBean.3"); //$NON-NLS-1$
-            Object[] args = {new Integer(numProcesses)};
+            Object[] args = {numProcesses};
             setStatusDetail(MessageFormat.format(pattern, args));
             setPruneValid(numProcesses > 0);
          }

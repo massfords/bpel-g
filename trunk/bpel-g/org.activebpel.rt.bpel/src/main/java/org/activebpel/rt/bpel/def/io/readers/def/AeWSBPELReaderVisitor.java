@@ -122,7 +122,7 @@ public class AeWSBPELReaderVisitor extends AeBpelReaderVisitor
    {
       super.visit(def);
 
-      def.setExitOnStandardFault(new Boolean(getAttributeBoolean(TAG_EXIT_ON_STANDARD_FAULT)));
+      def.setExitOnStandardFault(getAttributeBoolean(TAG_EXIT_ON_STANDARD_FAULT));
       if (AeUtil.notNullOrEmpty(getAttributeNS(IAeBPELConstants.WSBPEL_2_0_ABSTRACT_NAMESPACE_URI, TAG_ABSTRACT_PROCESS_PROFILE)))
       {
          def.setAbstractProcessProfile(getAttributeNS(IAeBPELConstants.WSBPEL_2_0_ABSTRACT_NAMESPACE_URI, TAG_ABSTRACT_PROCESS_PROFILE));
@@ -418,7 +418,7 @@ public class AeWSBPELReaderVisitor extends AeBpelReaderVisitor
       def.setIsolated(getAttributeBoolean(TAG_ISOLATED));
       if (AeUtil.notNullOrEmpty (getAttribute(TAG_EXIT_ON_STANDARD_FAULT)) )
       {
-         def.setExitOnStandardFault(new Boolean(getAttributeBoolean(TAG_EXIT_ON_STANDARD_FAULT)));
+         def.setExitOnStandardFault(getAttributeBoolean(TAG_EXIT_ON_STANDARD_FAULT));
       }
    }
 

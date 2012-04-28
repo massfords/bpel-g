@@ -58,7 +58,7 @@ public class AeGetAttachmentCountFunction extends AeAbstractAttachmentFunction
       // Get the variable name from the first function argument
       IAeVariable variable = getVariable(aContext.getAbstractBpelObject(), getStringArg(aArgs,0));
      
-      result = new Integer(variable.getAttachmentData().size());
+      result = variable.getAttachmentData().size();
       return result;
    }
 }

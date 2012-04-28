@@ -308,7 +308,7 @@ abstract public class AeActivityImpl extends AeAbstractBpelObject implements IAe
       Boolean flag = def.getSuppressFailure();
       if (flag != null)
       {
-         return flag.booleanValue();
+         return flag;
       }
       return super.isSuppressJoinConditionFailure();
    }
@@ -402,7 +402,7 @@ abstract public class AeActivityImpl extends AeAbstractBpelObject implements IAe
       {
          IAeExpressionLanguageFactory factory = getProcess().getExpressionLanguageFactory();
          IAeExpressionRunner runner = factory.createExpressionRunner(aExpressionDef.getBpelNamespace(), expressionLanguage);
-         return runner.executeJoinConditionExpression(createExpressionRunnerContext(expressionLanguage, null), aExpressionDef.getExpression()).booleanValue();
+         return runner.executeJoinConditionExpression(createExpressionRunnerContext(expressionLanguage, null), aExpressionDef.getExpression());
       }
       catch (AeBusinessProcessException e)
       {

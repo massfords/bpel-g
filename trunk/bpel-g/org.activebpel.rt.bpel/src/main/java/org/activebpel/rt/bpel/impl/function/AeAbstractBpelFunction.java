@@ -108,7 +108,7 @@ public abstract class AeAbstractBpelFunction extends AeFunctionExceptions implem
       Object argObj = aArgs.get(aArgIndex);
       if (!(argObj instanceof String))
       {
-         Object[] args = { getFunctionName(), new Integer(aArgIndex+1)};
+         Object[] args = { getFunctionName(), aArgIndex + 1};
          throwFunctionException(EXPECT_STRING_ARGUMENT, args);
       }
       return (String)aArgs.get(aArgIndex);
@@ -131,7 +131,7 @@ public abstract class AeAbstractBpelFunction extends AeFunctionExceptions implem
       int number = AeUtil.parseInt(argObj.toString(),-1);
       if (number < 0)
       {
-         Object[] args = { getFunctionName(), new Integer(aArgIndex+1)};
+         Object[] args = { getFunctionName(), aArgIndex + 1};
          throwFunctionException(EXPECT_POSITIVE_INT_ARGUMENT, args);
       }
       return number;
@@ -154,7 +154,7 @@ public abstract class AeAbstractBpelFunction extends AeFunctionExceptions implem
        long number = AeUtil.parseLong(argObj.toString(),-1);
        if (number < 0)
        {
-          Object[] args = { getFunctionName(), new Integer(aArgIndex+1)};
+          Object[] args = { getFunctionName(), aArgIndex + 1};
           throwFunctionException(EXPECT_LONG_ARGUMENT, args);
        }
        return number;
@@ -172,7 +172,7 @@ public abstract class AeAbstractBpelFunction extends AeFunctionExceptions implem
         Object argObj = aArgs.get(aArgIndex);
         
         if (argObj instanceof Boolean)
-           return ((Boolean)argObj).booleanValue();
+           return (Boolean) argObj;
        
         return AeUtil.toBoolean(argObj.toString());
      }

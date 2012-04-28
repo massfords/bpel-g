@@ -87,7 +87,7 @@ public class AeXQueryTypeMapper
     */
    protected void createMapping(int aType, String aMethodName)
    {
-      Integer key = Integer.valueOf(aType);
+      Integer key = aType;
       Method value = getMethod(aMethodName);
       getMethodMap().put(key, value);
    }
@@ -116,7 +116,7 @@ public class AeXQueryTypeMapper
     */
    public static boolean canConvert(AtomicValue aValue)
    {
-	  Integer key = Integer.valueOf(aValue.getItemType(null).getPrimitiveType());
+	  Integer key = aValue.getItemType(null).getPrimitiveType();
       return sInstance.getMethodMap().containsKey(key);
    }
 
@@ -132,7 +132,7 @@ public class AeXQueryTypeMapper
       Object rval = null;
 
       AeXQueryTypeMapper mapper = sInstance;
-      Integer key = Integer.valueOf(aValue.getItemType(null).getPrimitiveType());
+      Integer key = aValue.getItemType(null).getPrimitiveType();
       Method method = mapper.getMethodMap().get(key);
       if (method == null)
          throw new IllegalArgumentException();

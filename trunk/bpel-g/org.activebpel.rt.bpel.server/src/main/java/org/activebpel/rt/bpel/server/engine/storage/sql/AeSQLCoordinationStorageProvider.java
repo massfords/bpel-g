@@ -66,12 +66,12 @@ public class AeSQLCoordinationStorageProvider extends AeAbstractSQLStorageProvid
 
       long pk = getCounter().getNextValue();
       Object[] params = new Object[] {
-            new Long(pk),
+              pk,
             aCoordinationType,
-            Integer.valueOf(aRole),
+              aRole,
             aIdentifier,
             aState,
-            new Long(aProcessId),
+              aProcessId,
             aLocationPath.toCharArray(),
             contextClob,
             new Date(), // start date
@@ -103,7 +103,7 @@ public class AeSQLCoordinationStorageProvider extends AeAbstractSQLStorageProvid
       try
       {
          conn = getTransactionConnection();
-         return query(conn,IAeCoordinationSQLKeys.LOOKUP_COORDINATION, handler, aCoordinationId, Long.valueOf(aProcessId));
+         return query(conn,IAeCoordinationSQLKeys.LOOKUP_COORDINATION, handler, aCoordinationId, aProcessId);
       }
       finally
       {
@@ -122,7 +122,7 @@ public class AeSQLCoordinationStorageProvider extends AeAbstractSQLStorageProvid
       try
       {
          conn = getTransactionConnection();
-         return query(conn, IAeCoordinationSQLKeys.LIST_BY_PROCESS_ID, handler, Long.valueOf(aProcessId));
+         return query(conn, IAeCoordinationSQLKeys.LIST_BY_PROCESS_ID, handler, aProcessId);
       }
       finally
       {
@@ -158,7 +158,7 @@ public class AeSQLCoordinationStorageProvider extends AeAbstractSQLStorageProvid
             aState,
             new Date(), // modified date
             aCoordinationId.getIdentifier(),
-            new Long(aCoordinationId.getProcessId())
+              aCoordinationId.getProcessId()
       };
       // note: when calling update, we also pass the aClose=true to close the connection in case the connection is not from the TxManager.
       Connection conn = null;
@@ -184,7 +184,7 @@ public class AeSQLCoordinationStorageProvider extends AeAbstractSQLStorageProvid
       Object[] params = new Object[] {
             contextClob,
             aCoordinationId.getIdentifier(),
-            new Long(aCoordinationId.getProcessId())
+              aCoordinationId.getProcessId()
       };
       // note: when calling update, we also pass the aClose=true to close the connection in case the connection is not from the TxManager.       
       Connection conn = null;
@@ -204,7 +204,7 @@ public class AeSQLCoordinationStorageProvider extends AeAbstractSQLStorageProvid
     */
    public List<AeCoordinationDetail> getCoordinatorDetail(long aChildProcessId) throws AeStorageException
    {
-      return query(IAeCoordinationSQLKeys.LIST_COORDINATORS_FOR_PID, COORDINATION_DETAIL_LIST_RESULT_SET_HANDLER, Long.valueOf(aChildProcessId));
+      return query(IAeCoordinationSQLKeys.LIST_COORDINATORS_FOR_PID, COORDINATION_DETAIL_LIST_RESULT_SET_HANDLER, aChildProcessId);
    }
    
    /**
@@ -212,7 +212,7 @@ public class AeSQLCoordinationStorageProvider extends AeAbstractSQLStorageProvid
     */
    public List<AeCoordinationDetail> getParticipantDetail(long aParentProcessId) throws AeStorageException
    {
-      return query(IAeCoordinationSQLKeys.LIST_PARTICIPANTS_FOR_PID, COORDINATION_DETAIL_LIST_RESULT_SET_HANDLER, Long.valueOf(aParentProcessId));
+      return query(IAeCoordinationSQLKeys.LIST_PARTICIPANTS_FOR_PID, COORDINATION_DETAIL_LIST_RESULT_SET_HANDLER, aParentProcessId);
    }
 
    /**

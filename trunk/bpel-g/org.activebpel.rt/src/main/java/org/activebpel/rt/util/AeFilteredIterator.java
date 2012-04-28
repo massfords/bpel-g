@@ -40,7 +40,7 @@ public abstract class AeFilteredIterator implements Iterator
    {
       checkForNext();
       
-      return getHasNext().booleanValue();
+      return getHasNext();
    }
 
    /**
@@ -63,7 +63,7 @@ public abstract class AeFilteredIterator implements Iterator
    {
       checkForNext();
       
-      if (!getHasNext().booleanValue())
+      if (!getHasNext())
       {
          throw new NoSuchElementException();
       }

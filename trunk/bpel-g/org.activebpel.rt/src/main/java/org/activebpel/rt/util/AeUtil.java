@@ -89,7 +89,7 @@ public class AeUtil
    public static boolean toBoolean( String aTrueFalseString )
    {
       String value = getSafeString(aTrueFalseString).toLowerCase();
-      return Boolean.valueOf( value ).booleanValue();
+      return Boolean.valueOf(value);
    }
 
    /**
@@ -1027,9 +1027,9 @@ public class AeUtil
     */
    public static Object doubleToLong(Double aVal)
    {
-      if (Double.compare(aVal.doubleValue(), Math.ceil(aVal.doubleValue()) ) == 0 )
+      if (Double.compare(aVal, Math.ceil(aVal) ) == 0 )
       {
-         return new Long(aVal.longValue());
+         return aVal.longValue();
       }
       else
          return aVal;

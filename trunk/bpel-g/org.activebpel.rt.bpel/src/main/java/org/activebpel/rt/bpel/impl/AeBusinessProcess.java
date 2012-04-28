@@ -1113,7 +1113,7 @@ public class AeBusinessProcess extends AeActivityScopeImpl implements IAeBusines
          if (aObject.getLocationId() != -1)
          {
             mLocationIdToPath.put(aObject.getLocationId(), aObject.getLocationPath());
-            mLocationPathToId.put(aObject.getLocationPath(), Integer.valueOf(aObject.getLocationId()));
+            mLocationPathToId.put(aObject.getLocationPath(), aObject.getLocationId());
          }
       }
    }
@@ -2192,7 +2192,7 @@ public class AeBusinessProcess extends AeActivityScopeImpl implements IAeBusines
          {
          Integer eyeD = mLocationPathToId.get(aLocationPath);
          if (eyeD != null)
-            id = eyeD.intValue();
+            id = eyeD;
       }
       }
       return id;

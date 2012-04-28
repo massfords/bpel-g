@@ -129,9 +129,9 @@ public class AeProcessStateConnection extends AeAbstractStorage implements IAePr
       if (isStoredVariable(locationId, versionNumber))
       {
          Object[] errorParams = {
-               new Long(aProcess.getProcessId()),
-               new Long(locationId),
-               new Integer(versionNumber)
+                 aProcess.getProcessId(),
+                 (long) locationId,
+                 versionNumber
          };
          throw new AeStorageException(AeMessages.format("AeDelegatingProcessStateConnection.VARIABLE_ALREADY_EXISTS_ERROR", //$NON-NLS-1$
                errorParams));

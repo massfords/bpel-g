@@ -25,32 +25,9 @@ package org.activebpel.rt.axis.bpel.handlers;
  * limitations under the License.
  */
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.FilterInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.URL;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.StringTokenizer;
-
-import javax.wsdl.OperationType;
-import javax.xml.soap.MimeHeader;
-import javax.xml.soap.MimeHeaders;
-
-import org.apache.axis.AxisFault;
-import org.apache.axis.AxisProperties;
-import org.apache.axis.Constants;
-import org.apache.axis.Message;
-import org.apache.axis.MessageContext;
+import org.apache.axis.*;
 import org.apache.axis.components.logger.LogFactory;
-import org.apache.axis.components.net.CommonsHTTPClientProperties;
-import org.apache.axis.components.net.CommonsHTTPClientPropertiesFactory;
-import org.apache.axis.components.net.DefaultCommonsHTTPClientProperties;
-import org.apache.axis.components.net.TransportClientProperties;
-import org.apache.axis.components.net.TransportClientPropertiesFactory;
+import org.apache.axis.components.net.*;
 import org.apache.axis.description.OperationDesc;
 import org.apache.axis.handlers.BasicHandler;
 import org.apache.axis.soap.SOAP12Constants;
@@ -58,20 +35,22 @@ import org.apache.axis.soap.SOAPConstants;
 import org.apache.axis.transport.http.CommonsHTTPSender;
 import org.apache.axis.transport.http.HTTPConstants;
 import org.apache.axis.utils.Messages;
-import org.apache.commons.httpclient.Cookie;
-import org.apache.commons.httpclient.Credentials;
-import org.apache.commons.httpclient.Header;
-import org.apache.commons.httpclient.HostConfiguration;
-import org.apache.commons.httpclient.HttpClient;
-import org.apache.commons.httpclient.HttpMethodBase;
-import org.apache.commons.httpclient.HttpState;
-import org.apache.commons.httpclient.MultiThreadedHttpConnectionManager;
-import org.apache.commons.httpclient.UsernamePasswordCredentials;
+import org.apache.commons.httpclient.*;
 import org.apache.commons.httpclient.cookie.CookiePolicy;
 import org.apache.commons.httpclient.methods.GetMethod;
 import org.apache.commons.httpclient.methods.PostMethod;
 import org.apache.commons.httpclient.util.IdleConnectionTimeoutThread;
 import org.apache.commons.logging.Log;
+
+import javax.wsdl.OperationType;
+import javax.xml.soap.MimeHeader;
+import javax.xml.soap.MimeHeaders;
+import java.io.*;
+import java.net.URL;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.StringTokenizer;
 
 /**
  * This class uses Jakarta Commons's HttpClient to call a SOAP server.
@@ -507,7 +486,7 @@ private static final String KEY_IDLE_TIMEOUT = "org.activebpel.httpsender.idle.t
                      .getProxyUser(), tcp.getProxyPassword());
                client.getState().setProxyCredentials(null, null, proxyCred);
             }
-            int proxyPort = new Integer(tcp.getProxyPort()).intValue();
+            int proxyPort = new Integer(tcp.getProxyPort());
             config.setProxy(tcp.getProxyHost(), proxyPort);
          }
       }

@@ -31,7 +31,7 @@ public class AeCheckboxPropertySetterTag extends AeAbstractFormPropertyTag
     */
    public int doStartTag() throws JspException
    {
-      setPropertyOnBean( new Boolean(getParamValue() != null), boolean.class);
+      setPropertyOnBean(getParamValue() != null, boolean.class);
       return SKIP_BODY;
    }
    

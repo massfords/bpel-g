@@ -96,7 +96,7 @@ public class AeSchemaYear extends AeAbstractTZBasedSchemaType
     */
    protected Object[] getOutputPatternArguments()
    {
-      return new Object[] { new Integer(getYear()), formatTimeZone() };
+      return new Object[] {getYear(), formatTimeZone() };
    }
 
    /**

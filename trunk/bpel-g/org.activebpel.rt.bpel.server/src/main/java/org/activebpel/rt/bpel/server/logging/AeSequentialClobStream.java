@@ -52,7 +52,7 @@ public class AeSequentialClobStream extends Reader implements ResultSetHandler<R
    {
       mSqlStatement = aSQLConfig.getSQLStatement(SQL_GET_PROCESS_LOG_STREAM) + aSQLConfig.getLimitStatement(1);
       mQueryRunner = aQueryRunner;
-      mProcessId = new Long(aProcessId);
+      mProcessId = aProcessId;
    }
    
    /**
@@ -106,7 +106,7 @@ public class AeSequentialClobStream extends Reader implements ResultSetHandler<R
    {
       if (mCurrentStream == null)
       {
-         Object[] args = {mProcessId, new Integer(mCounter)};
+         Object[] args = {mProcessId, mCounter};
          try
          {
             mCurrentStream = mQueryRunner.query(mSqlStatement, this, args);

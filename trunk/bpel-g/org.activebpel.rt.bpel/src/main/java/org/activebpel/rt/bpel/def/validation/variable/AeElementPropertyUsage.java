@@ -54,7 +54,7 @@ public class AeElementPropertyUsage extends AeElementQueryUsage
             getVariableValidator().getReporter().reportProblem( IAeValidationProblemCodes.BPEL_ELEMENT_MISSING_PROPERTY_ALIAS_CODE, 
                   AeMessages.getString("AeProcessDef.MissingPropertyAlias"), //$NON-NLS-1$
                   new Object[] {
-               new Integer(IAePropertyAlias.ELEMENT_TYPE),
+                          IAePropertyAlias.ELEMENT_TYPE,
                   getVariableValidator().getDef().getName(),
                   getVariableValidator().getNSPrefix(getProperty().getNamespaceURI()),
                   getProperty().getLocalPart()},

@@ -136,7 +136,7 @@ public class AeSQLProcessStateConnectionProvider extends AeAbstractSQLStoragePro
    public Document getVariableDocument(long aLocationId, int aVersionNumber) throws AeStorageException
    {
       return query(getConnection(), IAeProcessSQLKeys.GET_VARIABLE_DOCUMENT, AeResultSetHandlers.getDocumentHandler(), 
-		  				getProcessId(), aLocationId, Integer.valueOf(aVersionNumber));
+		  				getProcessId(), aLocationId, aVersionNumber);
    }
 
    /**
@@ -227,13 +227,13 @@ public class AeSQLProcessStateConnectionProvider extends AeAbstractSQLStoragePro
       // TODO (KR) Optionally compress process document.
       Object[] params = {
          (aDocument  == null) ? (Object) AeQueryRunner.NULL_CLOB : aDocument,
-         new Integer(aProcessState),
-         new Integer(aProcessStateReason),
+              aProcessState,
+              aProcessStateReason,
          getDateOrSqlNull(aStartDate),
          getDateOrSqlNull(aEndDate),
-         new Integer(aPendingInvokesCount),
+              aPendingInvokesCount,
          new Date(), // ModifiedDate
-         new Long(getProcessId())
+              getProcessId()
       };
 
       update(getConnection(), IAeProcessSQLKeys.UPDATE_PROCESS, params);
@@ -248,9 +248,9 @@ public class AeSQLProcessStateConnectionProvider extends AeAbstractSQLStoragePro
       // TODO (KR) Optionally compress variable document.
       Object[] params = {
          (aDocument == null) ? (Object) AeQueryRunner.NULL_CLOB : aDocument,
-         new Long(getProcessId()),
-         new Long(aLocationId),
-         new Integer(aVersionNumber)
+              getProcessId(),
+              (long) aLocationId,
+              aVersionNumber
       };
 
       update(getConnection(), IAeProcessSQLKeys.INSERT_VARIABLE, params);
@@ -262,9 +262,9 @@ public class AeSQLProcessStateConnectionProvider extends AeAbstractSQLStoragePro
    public void trimStoredVariable(long aLocationId, int aVersionNumber) throws AeStorageException
    {
       Object[] params = {
-         new Long(getProcessId()),
-         new Long(aLocationId),
-         new Integer(aVersionNumber)
+              getProcessId(),
+              aLocationId,
+              aVersionNumber
       };
 
       update(getConnection(), IAeProcessSQLKeys.DELETE_VARIABLE, params);
@@ -277,9 +277,9 @@ public class AeSQLProcessStateConnectionProvider extends AeAbstractSQLStoragePro
    {
       // TODO (KR) Optionally compress process log.
       Object[] params = {
-         new Long(getProcessId()),
+              getProcessId(),
          aLogString.toCharArray(),
-         new Integer(aLineCount)
+              aLineCount
       };
 
       update(getConnection(), IAeProcessSQLKeys.INSERT_PROCESS_LOG, params);
@@ -349,7 +349,7 @@ public class AeSQLProcessStateConnectionProvider extends AeAbstractSQLStoragePro
     */
    public void updateJournalEntryType(long aJournalId, int aEntryType) throws AeStorageException
    {
-      Object[] params = { new Integer(aEntryType), new Long(aJournalId) };
+      Object[] params = {aEntryType, aJournalId};
       update(getConnection(), IAeProcessSQLKeys.UPDATE_JOURNAL_ENTRY_TYPE, params);
    }
 }

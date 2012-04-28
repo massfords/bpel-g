@@ -60,7 +60,7 @@ public class AeRecoveryProcessManager extends AeManagerAdapter implements IAeRec
       if (aProcessId != getRecoveryProcess().getProcessId())
       {
          throw new IllegalStateException(AeMessages.format("AeRecoveryProcessManager.ERROR_0", //$NON-NLS-1$
-                                                           new Object[] { new Long(aProcessId), new Long(getRecoveryProcess().getProcessId()) }));
+                                                           new Object[] {aProcessId, getRecoveryProcess().getProcessId()}));
       }
    }
 

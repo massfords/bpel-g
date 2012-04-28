@@ -93,7 +93,7 @@ public class AeSchemaDay extends AeAbstractTZBasedSchemaType
     */
    protected Object[] getOutputPatternArguments()
    {
-      return new Object[] { new Integer(getDay()), formatTimeZone() };
+      return new Object[] {getDay(), formatTimeZone() };
    }
 
    /**

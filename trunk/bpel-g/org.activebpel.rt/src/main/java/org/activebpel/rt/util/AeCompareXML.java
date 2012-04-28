@@ -9,17 +9,13 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.util;
 
+import org.activebpel.rt.AeMessages;
+import org.activebpel.rt.xml.AeXMLParserBase;
+import org.w3c.dom.*;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-
-import org.activebpel.rt.AeMessages;
-import org.activebpel.rt.xml.AeXMLParserBase;
-import org.w3c.dom.Attr;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.NamedNodeMap;
-import org.w3c.dom.Node;
 
 /**
  * Compare two xml elements for match (use setting of MatchOrder to force
@@ -142,7 +138,7 @@ public class AeCompareXML
          for(int j = 0; j < aElement2.getChildNodes().getLength(); ++j)
          {
             // if we have already matched this child against an item then skip
-            Integer lNext = new Integer(j);
+            Integer lNext = j;
             if(usedChildren2.get(lNext) != null)
                continue;
 
@@ -379,7 +375,7 @@ public class AeCompareXML
                return false;
             }
          }
-         else if (element2AttrValue != element1AttrValue)
+         else if (!element2AttrValue.equals(element1AttrValue))
          {
             error(attr, AeMessages.getString("AeCompareXML.11")); //$NON-NLS-1$
             return false;

@@ -109,16 +109,16 @@ public class AeSchemaTime extends AeSchemaDateTime
       int millis = 0;
       if (fracSecondStr != null)
       {
-         millis = (int) (1000F * new Float("0." + fracSecondStr).floatValue()); //$NON-NLS-1$
+         millis = (int) (1000F * new Float("0." + fracSecondStr)); //$NON-NLS-1$
       }
       TimeZone tz = createTimeZone(tzHr, tzMin, tzDir);
       setTimeZone(tz);
 
       setCalendar(new GregorianCalendar());
       getCalendar().setTimeZone(tz);
-      getCalendar().set(Calendar.HOUR_OF_DAY, new Integer(hourStr).intValue());
-      getCalendar().set(Calendar.MINUTE, new Integer(minuteStr).intValue());
-      getCalendar().set(Calendar.SECOND, new Integer(secondStr).intValue());
+      getCalendar().set(Calendar.HOUR_OF_DAY, new Integer(hourStr));
+      getCalendar().set(Calendar.MINUTE, new Integer(minuteStr));
+      getCalendar().set(Calendar.SECOND, new Integer(secondStr));
       getCalendar().set(Calendar.MILLISECOND, millis);
       // Need to update the internal Calendar data structures by asking for the time in millis
       // because they are not updated until some internal data is queried.
@@ -147,10 +147,10 @@ public class AeSchemaTime extends AeSchemaDateTime
    protected Object[] getOutputPatternArguments()
    {
       return new Object [] {
-            new Integer(getCalendar().get(Calendar.HOUR_OF_DAY)),
-            new Integer(getCalendar().get(Calendar.MINUTE)),
-            new Integer(getCalendar().get(Calendar.SECOND)),
-            new Integer(getCalendar().get(Calendar.MILLISECOND))
+              getCalendar().get(Calendar.HOUR_OF_DAY),
+              getCalendar().get(Calendar.MINUTE),
+              getCalendar().get(Calendar.SECOND),
+              getCalendar().get(Calendar.MILLISECOND)
       };
    }
 

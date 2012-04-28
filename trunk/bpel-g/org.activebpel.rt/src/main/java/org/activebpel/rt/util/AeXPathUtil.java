@@ -255,7 +255,7 @@ public class AeXPathUtil
    public static boolean selectBoolean(Node aNode, String aPath, Map aNsPrefixMap)
    {
       String value = selectText(aNode, aPath, aNsPrefixMap);
-      return Boolean.valueOf(value).booleanValue();
+      return Boolean.valueOf(value);
    }
 
    /**

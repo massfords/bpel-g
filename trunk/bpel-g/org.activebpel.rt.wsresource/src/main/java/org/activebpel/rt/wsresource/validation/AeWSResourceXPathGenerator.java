@@ -63,7 +63,7 @@ public class AeWSResourceXPathGenerator
             case Node.ELEMENT_NODE:
                Element elem = (Element) node;
                String elemName = getElementName(elem);
-               Integer elemPos = new Integer(getElementPosition(elem));
+               Integer elemPos = getElementPosition(elem);
                steps.add(0, MessageFormat.format(
                      "{0}{1,choice,1#|1<[{1,number,integer}]}", new Object[] { elemName, elemPos })); //$NON-NLS-1$
                break;

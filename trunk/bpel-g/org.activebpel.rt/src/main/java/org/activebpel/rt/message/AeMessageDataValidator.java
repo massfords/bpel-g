@@ -71,7 +71,7 @@ public class AeMessageDataValidator
       // check for the wrong number of parts in the message
       if (!isRelaxedValidation() && aMessageData.getPartCount() != message.getParts().size())
       {
-         Object[] args = {new Integer(message.getParts().size()), new Integer(aMessageData.getPartCount())};
+         Object[] args = {message.getParts().size(), aMessageData.getPartCount()};
          return AeMessages.format("AeMessageDataValidator.WrongPartCount", args); //$NON-NLS-1$
       }
       

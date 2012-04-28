@@ -99,7 +99,7 @@ public class AeSchemaMonthDay extends AeAbstractTZBasedSchemaType
     */
    protected Object[] getOutputPatternArguments()
    {
-      return new Object[] { new Integer(getMonth()), new Integer(getDay()), formatTimeZone() };
+      return new Object[] {getMonth(), getDay(), formatTimeZone() };
    }
 
    /**

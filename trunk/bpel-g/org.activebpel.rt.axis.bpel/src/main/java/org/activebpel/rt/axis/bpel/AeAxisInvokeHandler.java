@@ -9,32 +9,11 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.axis.bpel;
 
-import java.io.PrintWriter;
-import java.io.StringWriter;
-import java.net.MalformedURLException;
-import java.net.SocketTimeoutException;
-import java.net.URL;
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-
-import javax.wsdl.Fault;
-import javax.wsdl.Operation;
-import javax.wsdl.OperationType;
-import javax.wsdl.Service;
-import javax.xml.namespace.QName;
-
 import org.activebpel.rt.AeException;
 import org.activebpel.rt.IAeConstants;
 import org.activebpel.rt.axis.bpel.invokers.AeAxisInvokeContext;
 import org.activebpel.rt.axis.bpel.invokers.IAeInvoker;
-import org.activebpel.rt.bpel.AeBusinessProcessException;
-import org.activebpel.rt.bpel.AePreferences;
-import org.activebpel.rt.bpel.AeWSDLPolicyHelper;
-import org.activebpel.rt.bpel.IAeEndpointReference;
-import org.activebpel.rt.bpel.IAeFault;
+import org.activebpel.rt.bpel.*;
 import org.activebpel.rt.bpel.impl.AeFaultFactory;
 import org.activebpel.rt.bpel.impl.AeTimeoutPolicy;
 import org.activebpel.rt.bpel.impl.queue.AeInvoke;
@@ -58,6 +37,22 @@ import org.apache.axis.constants.Style;
 import org.apache.axis.handlers.soap.SOAPService;
 import org.apache.axis.message.SOAPHeaderElement;
 import org.w3c.dom.Element;
+
+import javax.wsdl.Fault;
+import javax.wsdl.Operation;
+import javax.wsdl.OperationType;
+import javax.wsdl.Service;
+import javax.xml.namespace.QName;
+import java.io.PrintWriter;
+import java.io.StringWriter;
+import java.net.MalformedURLException;
+import java.net.SocketTimeoutException;
+import java.net.URL;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
 /**
  * Handles invoking of endpoint references on behalf of the business process engine.
@@ -180,7 +175,7 @@ public class AeAxisInvokeHandler extends AeWSIOInvokeHandler
       // set an empty soap service so axis doesn't bother trying to find specific one for invoke, since there won't be one
       call.setSOAPService( new SOAPService() );
       setTargetAddress(call, url);
-      call.setTimeout(new Integer(timeout * 1000));
+      call.setTimeout(timeout * 1000);
       call.setSOAPActionURI(aContext.getSoapAction());
       call.setOperationName(operation.getName());
       call.setProperty(Call.OPERATION_STYLE_PROPERTY, requestStyle.getName());

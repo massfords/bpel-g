@@ -54,7 +54,7 @@ public abstract class AeAbstractAttachmentFunction extends AeAbstractBpelFunctio
       if ( offset >= variable.getAttachmentData().size() || offset < 0 )
       {
          // return the item number not the index  for human readability
-         Object[] args = { getFunctionName(),  new Integer(offset+1), new Integer(offset), variable.getName() };
+         Object[] args = { getFunctionName(), offset + 1, offset, variable.getName() };
          throwFunctionException(INVALID_ATTACHMENT_INDEX, args);
       }
 

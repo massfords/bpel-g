@@ -96,7 +96,7 @@ public class AeWSResourceValidationRuleRegistry implements IAeWSResourceValidati
             String description = AeXPathUtil.selectText(ruleElem, "aerule:description", sPrefixMap); //$NON-NLS-1$
             String validator = AeXPathUtil.selectText(ruleElem, "aerule:validator", sPrefixMap); //$NON-NLS-1$
             QName id = new QName(targetNS, code);
-            rules.add(new AeWSResourceValidationRule(id, defaultSeverity.intValue(), description, validator));
+            rules.add(new AeWSResourceValidationRule(id, defaultSeverity, description, validator));
          }
          getRules().put(targetNS, rules);
       }

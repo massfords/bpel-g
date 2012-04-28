@@ -52,7 +52,7 @@ public class AeLocationPathUtils
             try
             {
                Integer instInt = Integer.valueOf(instStr);
-               return instInt.intValue();
+               return instInt;
             }
             catch (NumberFormatException e)
             {
