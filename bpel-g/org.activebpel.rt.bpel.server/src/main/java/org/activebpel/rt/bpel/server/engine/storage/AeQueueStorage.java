@@ -9,19 +9,6 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpel.server.engine.storage;
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.prefs.PreferenceChangeEvent;
-import java.util.prefs.PreferenceChangeListener;
-
-import javax.xml.namespace.QName;
-
 import org.activebpel.rt.IAePolicyConstants;
 import org.activebpel.rt.bpel.AeBusinessProcessException;
 import org.activebpel.rt.bpel.AePreferences;
@@ -41,6 +28,11 @@ import org.activebpel.rt.bpel.server.engine.transaction.AeTransactionException;
 import org.activebpel.rt.bpel.server.engine.transaction.AeTransactionManager;
 import org.activebpel.rt.message.IAeMessageData;
 import org.activebpel.wsio.IAeMessageAcknowledgeCallback;
+
+import javax.xml.namespace.QName;
+import java.util.*;
+import java.util.prefs.PreferenceChangeEvent;
+import java.util.prefs.PreferenceChangeListener;
 
 /**
  * A delegating implementation of a queue storage. This class delegates all of
@@ -351,14 +343,13 @@ public class AeQueueStorage extends AeAbstractStorage implements
 			map.keySet().retainAll(propsForMap);
 
 			receives = getMatchingReceives(aInboundReceive, map);
-			for (Iterator iter = receives.iterator(); iter.hasNext();) {
-				AePersistedMessageReceiver queuedReceive = (AePersistedMessageReceiver) iter
-						.next();
-				if (queuedReceive.correlatesTo(aInboundReceive)) {
-					found = queuedReceive;
-					break;
-				}
-			}
+            for (Object receive : receives) {
+                AePersistedMessageReceiver queuedReceive = (AePersistedMessageReceiver) receive;
+                if (queuedReceive.correlatesTo(aInboundReceive)) {
+                    found = queuedReceive;
+                    break;
+                }
+            }
 			if (found != null)
 			    break;
 		}
@@ -383,14 +374,13 @@ public class AeQueueStorage extends AeAbstractStorage implements
 		map.keySet().retainAll(propsForMap);
 
 		receives = getMatchingReceives(aInboundReceive, map);
-		for (Iterator iter = receives.iterator(); iter.hasNext();) {
-			AePersistedMessageReceiver queuedReceive = (AePersistedMessageReceiver) iter
-					.next();
-			if (queuedReceive.correlatesTo(aInboundReceive)) {
-				found = queuedReceive;
-				break;
-			}
-		}
+        for (Object receive : receives) {
+            AePersistedMessageReceiver queuedReceive = (AePersistedMessageReceiver) receive;
+            if (queuedReceive.correlatesTo(aInboundReceive)) {
+                found = queuedReceive;
+                break;
+            }
+        }
 		return found;
 	}
 
@@ -452,13 +442,12 @@ public class AeQueueStorage extends AeAbstractStorage implements
 		}
 
 		LinkedList<AePersistedMessageReceiver> rval = new LinkedList<AePersistedMessageReceiver>();
-		for (Iterator iter = list.iterator(); iter.hasNext();) {
-			AePersistedMessageReceiver queuedReceive = (AePersistedMessageReceiver) iter
-					.next();
-			if (queuedReceive.matches(aInboundReceive)) {
-				rval.add(queuedReceive);
-			}
-		}
+        for (Object qr : list) {
+            AePersistedMessageReceiver queuedReceive = (AePersistedMessageReceiver) qr;
+            if (queuedReceive.matches(aInboundReceive)) {
+                rval.add(queuedReceive);
+            }
+        }
 
 		return rval;
 	}

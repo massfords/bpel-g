@@ -9,19 +9,12 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.work.child;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
-
+import commonj.work.*;
 import org.activebpel.rt.AeException;
 import org.activebpel.work.AeDelegatingWork;
 
-import commonj.work.RemoteWorkItem;
-import commonj.work.Work;
-import commonj.work.WorkEvent;
-import commonj.work.WorkItem;
-import commonj.work.WorkListener;
-import commonj.work.WorkManager;
+import java.util.ArrayList;
+import java.util.Collection;
 
 /**
  * Implements a <code>WorkItem</code> for a {@link AeChildWorkManager}.
@@ -152,17 +145,13 @@ public class AeChildWorkItem implements RemoteWorkItem
    {
       synchronized (mWorkCompletedListeners)
       {
-         for (Iterator<IAeChildWorkCompletedListener> i = mWorkCompletedListeners.iterator(); i.hasNext(); )
-         {
-            try
-            {
-               i.next().workCompleted(this);
-            }
-            catch (Throwable t)
-            {
-               AeException.logError(t);
-            }
-         }
+          for (IAeChildWorkCompletedListener l : mWorkCompletedListeners) {
+              try {
+                  l.workCompleted(this);
+              } catch (Throwable t) {
+                  AeException.logError(t);
+              }
+          }
       }
    }
 

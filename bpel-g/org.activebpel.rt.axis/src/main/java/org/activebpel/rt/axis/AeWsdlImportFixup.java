@@ -23,7 +23,6 @@ import javax.wsdl.Import;
 import javax.wsdl.Types;
 import javax.wsdl.extensions.ExtensibilityElement;
 import javax.wsdl.extensions.UnknownExtensibilityElement;
-import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -62,18 +61,14 @@ public class AeWsdlImportFixup
    protected static void fixUpWsdlImportReferences( String aTransportUrl, Definition aDef, String aParentLocation )
    {
       AeImportUrl importUrl = new AeImportUrl( aTransportUrl, aParentLocation );
-      for (@SuppressWarnings("unchecked")
-    		  Iterator<String> iter=aDef.getImports().keySet().iterator(); iter.hasNext();)
-      {
-         @SuppressWarnings("unchecked")
-		List<Import> importList = aDef.getImports(iter.next().toString());
-         for (Iterator<Import> impIter=importList.iterator(); impIter.hasNext();)
-         {
-            Import wsdlImport = impIter.next();
-            String importLocation = wsdlImport.getLocationURI();
-            wsdlImport.setLocationURI(importUrl.getImportUrl(importLocation, WSDL_EXTENSION));
-         }
-      }
+       for (String s : (Iterable<String>) aDef.getImports().keySet()) {
+           @SuppressWarnings("unchecked")
+           List<Import> importList = aDef.getImports(s.toString());
+           for (Import wsdlImport : importList) {
+               String importLocation = wsdlImport.getLocationURI();
+               wsdlImport.setLocationURI(importUrl.getImportUrl(importLocation, WSDL_EXTENSION));
+           }
+       }
    }
 
    /**
@@ -91,25 +86,19 @@ public class AeWsdlImportFixup
       Types schemaTypes = aDef.getTypes();
       if( schemaTypes != null && schemaTypes.getExtensibilityElements() != null )
       {
-         for( @SuppressWarnings("unchecked")
-        		 Iterator<ExtensibilityElement> iter = schemaTypes.getExtensibilityElements().iterator(); iter.hasNext(); )
-         {
-            ExtensibilityElement el = iter.next();
+          for (ExtensibilityElement el : (Iterable<ExtensibilityElement>) schemaTypes.getExtensibilityElements()) {
+              if (AeSchemaParserUtil.isSchemaQName(el.getElementType())) {
+                  Element rawSchemaElement = ((UnknownExtensibilityElement) el).getElement();
+                  NodeList imports = AeSchemaParserUtil.getSchemaImportNodeList(rawSchemaElement);
 
-            if( AeSchemaParserUtil.isSchemaQName( el.getElementType() ) )
-            {
-               Element rawSchemaElement = ((UnknownExtensibilityElement)el).getElement();
-               NodeList imports = AeSchemaParserUtil.getSchemaImportNodeList(rawSchemaElement);
-
-               for( int i = 0; i < imports.getLength(); i++ )
-               {
-                  Element impElement = ((Element)imports.item(i));
-                  String location = impElement.getAttribute( AeSchemaParserUtil.SCHEMA_LOCATION );
-                  if (AeUtil.notNullOrEmpty(location))
-                     impElement.setAttribute(AeSchemaParserUtil.SCHEMA_LOCATION, importUrl.getImportUrl(location, SCHEMA_EXTENSION));
-               }
-            }
-         }
+                  for (int i = 0; i < imports.getLength(); i++) {
+                      Element impElement = ((Element) imports.item(i));
+                      String location = impElement.getAttribute(AeSchemaParserUtil.SCHEMA_LOCATION);
+                      if (AeUtil.notNullOrEmpty(location))
+                          impElement.setAttribute(AeSchemaParserUtil.SCHEMA_LOCATION, importUrl.getImportUrl(location, SCHEMA_EXTENSION));
+                  }
+              }
+          }
       }
    }
 

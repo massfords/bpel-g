@@ -9,15 +9,14 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpeladmin.war.web.urn;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
-import java.util.Map;
-
+import bpelg.services.urnresolver.types.Names;
 import org.activebpel.rt.bpeladmin.war.AeEngineManagementFactory;
 import org.activebpel.rt.bpeladmin.war.AeMessages;
 import org.activebpel.rt.bpeladmin.war.web.AeAbstractAdminBean;
 
-import bpelg.services.urnresolver.types.Names;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.util.Map;
 
 /**
  * Removes all of the checked mappings from the resolver.
@@ -54,8 +53,8 @@ public class AeRemoveMappingsBean extends AeAbstractAdminBean {
         if (values != null && values.length > 0) {
             // run URLDecoding on the URN values
             try {
-                for (int i = 0; i < values.length; i++) {
-                    names.withName(URLDecoder.decode(values[i], "UTF8")); //$NON-NLS-1$
+                for (String value : values) {
+                    names.withName(URLDecoder.decode(value, "UTF8")); //$NON-NLS-1$
                 }
             } catch (UnsupportedEncodingException ex) {
                 // ignore, we should have UTF8 or there are bigger problems.

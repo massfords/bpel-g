@@ -66,7 +66,7 @@ public class AeImplicitCompensationHandler extends AeCompensationHandler
    public String getLocationPath()
    {
       IAeBpelObject parent = getParent();
-      StringBuffer buffer = new StringBuffer(parent.getLocationPath());
+      StringBuilder buffer = new StringBuilder(parent.getLocationPath());
       return buffer.append(AeSupportActivityLocationPathSuffix.IMPLICIT_COMPENSATION_HANDLER).toString(); 
    }
 

@@ -10,14 +10,13 @@
 
 package org.activebpel.rt.bpel.ext.expr.def.validation.xquery;
 
-import java.util.Iterator;
-import java.util.Set;
-
 import org.activebpel.rt.bpel.AeMessages;
 import org.activebpel.rt.expr.def.AeScriptVarDef;
 import org.activebpel.rt.expr.def.IAeExpressionParseResult;
 import org.activebpel.rt.expr.validation.AeExpressionValidationResult;
 import org.activebpel.rt.expr.validation.IAeExpressionValidationContext;
+
+import java.util.Set;
 
 /**
  * A BPEL 1.1 impl of a XQuery expression validator.
@@ -51,11 +50,10 @@ public class AeBPWSXQueryExpressionValidator extends AeAbstractXQueryExpressionV
    protected void checkExpressionVariableReferences(IAeExpressionParseResult aParseResult, AeExpressionValidationResult aValidationResult)
    {
       Set variables = aParseResult.getVariableReferences();
-      for (Iterator iter = variables.iterator(); iter.hasNext(); )
-      {
-         AeScriptVarDef varDef = (AeScriptVarDef) iter.next();
-         addError(aValidationResult, AeMessages.getString("AeBPWSXQueryExpressionValidator.ERROR_RESOLVING_XQUERY_VARIABLE"), //$NON-NLS-1$
-               new Object[] { varDef.getName() });
-      }
+       for (Object variable : variables) {
+           AeScriptVarDef varDef = (AeScriptVarDef) variable;
+           addError(aValidationResult, AeMessages.getString("AeBPWSXQueryExpressionValidator.ERROR_RESOLVING_XQUERY_VARIABLE"), //$NON-NLS-1$
+                   new Object[]{varDef.getName()});
+       }
    }
 }

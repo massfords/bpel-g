@@ -9,10 +9,10 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpeladmin.war.web.processview;
 
-import java.util.List;
-
 import org.activebpel.rt.bpel.def.AeBaseDef;
 import org.activebpel.rt.bpel.def.activity.AeActivityScopeDef;
+
+import java.util.List;
 
 /**
  * Represents a web visual model for a BPEL scope activity.
@@ -67,14 +67,11 @@ public class AeBpelScopeObject extends AeBpelActivityObject
       if (partnerLinks.size() > 0)
       {
          List<AeBpelObjectBase> partners = ((AeBpelObjectContainer)partnerLinks.get(0)).getChildren();
-         for (int i = 0; i < partners.size(); i++)
-         {
-            AeBpelObjectBase partnerLink = partners.get(i);
-            if (partnerLink.getName().equals(aPartnerLinkName))
-            {
-               rVal = partnerLink;
-               break;
-            }
+          for (AeBpelObjectBase partnerLink : partners) {
+              if (partnerLink.getName().equals(aPartnerLinkName)) {
+                  rVal = partnerLink;
+                  break;
+              }
           }         
       }
       return rVal;

@@ -9,9 +9,6 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpeladmin.war.graph.bpel.controller;
 
-import java.awt.Image;
-import java.util.List;
-
 import org.activebpel.rt.bpel.impl.AeBpelState;
 import org.activebpel.rt.bpeladmin.war.graph.bpel.AeBpelImageResources;
 import org.activebpel.rt.bpeladmin.war.graph.bpel.figure.AeUiPrefs;
@@ -20,6 +17,9 @@ import org.activebpel.rt.bpeladmin.war.graph.ui.controller.AeGraphController;
 import org.activebpel.rt.bpeladmin.war.web.processview.AeBpelObjectBase;
 import org.activebpel.rt.bpeladmin.war.web.processview.AeBpelObjectContainer;
 import org.activebpel.rt.util.AeUtil;
+
+import java.awt.*;
+import java.util.List;
 
 /**
  * Base controller for all BPEL definitions.
@@ -161,12 +161,11 @@ public class AeBpelControllerBase extends AeGraphController
             && ((AeBpelObjectContainer)aModel).getChildren().size() > 0)
       {  
          List children = ((AeBpelObjectContainer) aModel).getChildren();
-         for (int i = 0; i < children.size(); i++)
-         {
-            AeBpelObjectBase child = (AeBpelObjectBase) children.get(i);
-            // add child model
-            getModelChildren().add(child);
-         }// for
+          for (Object c : children) {
+              AeBpelObjectBase child = (AeBpelObjectBase) c;
+              // add child model
+              getModelChildren().add(child);
+          }// for
       }      
    }
    

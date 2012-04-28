@@ -9,16 +9,11 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpel.server.deploy; 
 
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
+import bpelg.services.processes.types.ServiceDeployment;
 
 import javax.xml.namespace.QName;
-
-import bpelg.services.processes.types.ServiceDeployment;
+import java.util.*;
+import java.util.Map.Entry;
 
 /**
  * Maps service names to their deployment information.
@@ -58,10 +53,9 @@ public class AeServiceMap
    {
       // work off of a copy of the map so we don't have to sync the reads.
       Map<String,ServiceDeployment> copy = new HashMap<String,ServiceDeployment>(mMap);
-      for (int i = 0; i < aServiceData.length; i++)
-      {
-         copy.put(aServiceData[i].getService(), aServiceData[i]);
-      }
+       for (ServiceDeployment sd : aServiceData) {
+           copy.put(sd.getService(), sd);
+       }
       mMap = copy;
    }
    

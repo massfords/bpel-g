@@ -10,36 +10,16 @@
 
 package org.activebpel.rt.xml.schema.sampledata;
 
-import java.util.Date;
-import java.util.Iterator;
-
-import javax.xml.XMLConstants;
-import javax.xml.namespace.QName;
-
 import org.activebpel.rt.util.AeUtil;
 import org.activebpel.rt.util.AeXmlUtil;
 import org.activebpel.rt.xml.AeXMLParserBase;
-import org.activebpel.rt.xml.schema.sampledata.structure.AeAbstractElement;
-import org.activebpel.rt.xml.schema.sampledata.structure.AeAbstractType;
-import org.activebpel.rt.xml.schema.sampledata.structure.AeAll;
-import org.activebpel.rt.xml.schema.sampledata.structure.AeAny;
-import org.activebpel.rt.xml.schema.sampledata.structure.AeAnyAttribute;
-import org.activebpel.rt.xml.schema.sampledata.structure.AeAnyTypeElement;
-import org.activebpel.rt.xml.schema.sampledata.structure.AeAttribute;
-import org.activebpel.rt.xml.schema.sampledata.structure.AeBaseAttribute;
-import org.activebpel.rt.xml.schema.sampledata.structure.AeBaseElement;
-import org.activebpel.rt.xml.schema.sampledata.structure.AeChoice;
-import org.activebpel.rt.xml.schema.sampledata.structure.AeComplexElement;
-import org.activebpel.rt.xml.schema.sampledata.structure.AeGroup;
-import org.activebpel.rt.xml.schema.sampledata.structure.AeSequence;
-import org.activebpel.rt.xml.schema.sampledata.structure.AeSimpleElement;
-import org.activebpel.rt.xml.schema.sampledata.structure.AeStructure;
-import org.w3c.dom.Attr;
-import org.w3c.dom.Comment;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.Text;
+import org.activebpel.rt.xml.schema.sampledata.structure.*;
+import org.w3c.dom.*;
+
+import javax.xml.XMLConstants;
+import javax.xml.namespace.QName;
+import java.util.Date;
+import java.util.Iterator;
 
 /**
  *  A visitor class for generating XML sample data for a given Schema Element (of simpleType or
@@ -90,11 +70,9 @@ public class AeSampleDataVisitor implements IAeSampleDataVisitor
     */
    protected void traverse(String aElementName, AeStructure aStructure)
    {
-      for (Iterator iter = aStructure.getChildren().iterator(); iter.hasNext();)
-      {
-         AeStructure str = (AeStructure) iter.next();
-         str.accept(this);
-      }
+       for (AeStructure str : aStructure.getChildren()) {
+           str.accept(this);
+       }
    }
 
    /**
@@ -439,11 +417,9 @@ public class AeSampleDataVisitor implements IAeSampleDataVisitor
       if (aElement instanceof AeComplexElement)
       {
          // add any other attributes for this type
-         for(Iterator it=((AeComplexElement)aElement).getAttributes().iterator(); it.hasNext();)
-         {
-            AeBaseAttribute attrib = (AeBaseAttribute) it.next();
-            attrib.accept(this);
-         }
+          for (AeBaseAttribute attrib : ((AeComplexElement) aElement).getAttributes()) {
+              attrib.accept(this);
+          }
       }
       visitAllChildren(aElement);
    }
@@ -459,11 +435,9 @@ public class AeSampleDataVisitor implements IAeSampleDataVisitor
 
       while ( repeatCount-- > 0)
       {
-         for(Iterator it=aStructure.getChildren().iterator(); it.hasNext();)
-         {
-            AeStructure struct = (AeStructure)it.next();
-            struct.accept(this);
-         }
+          for (AeStructure struct : aStructure.getChildren()) {
+              struct.accept(this);
+          }
       }
    }
 
@@ -568,11 +542,9 @@ public class AeSampleDataVisitor implements IAeSampleDataVisitor
                }
 
                // visit attributes (regular and wildcard) defined by this element.
-               for ( Iterator itr = complexElement.getAttributes().iterator(); itr.hasNext(); )
-               {
-                  AeBaseAttribute attrib = (AeBaseAttribute)itr.next();
-                  attrib.accept(this);
-               }
+                for (AeBaseAttribute attrib : complexElement.getAttributes()) {
+                    attrib.accept(this);
+                }
                if ( complexElement.isMixed() )
                {
                   Text text = getDocument().createTextNode( getPreferences().getMixedContent(aElement.getName()) );
@@ -634,11 +606,9 @@ public class AeSampleDataVisitor implements IAeSampleDataVisitor
             }
 
             // visit the children of this element.
-            for(Iterator it=aElement.getChildren().iterator(); it.hasNext();)
-            {
-               AeStructure struct = (AeStructure)it.next();
-               struct.accept(this);
-            }
+             for (AeStructure struct : aElement.getChildren()) {
+                 struct.accept(this);
+             }
          }
       }
       finally

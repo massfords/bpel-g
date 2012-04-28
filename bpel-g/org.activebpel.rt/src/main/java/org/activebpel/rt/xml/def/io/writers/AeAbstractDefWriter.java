@@ -9,13 +9,6 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.xml.def.io.writers; 
 
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
-
-import javax.xml.XMLConstants;
-import javax.xml.namespace.QName;
-
 import org.activebpel.rt.util.AeUtil;
 import org.activebpel.rt.util.AeXmlUtil;
 import org.activebpel.rt.xml.IAeMutableNamespaceContext;
@@ -26,6 +19,11 @@ import org.activebpel.rt.xml.def.io.AeCommentIO;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Text;
+
+import javax.xml.XMLConstants;
+import javax.xml.namespace.QName;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Provides methods for creating an element. Details of writing attributes are
@@ -321,11 +319,10 @@ public abstract class AeAbstractDefWriter implements IAeDefWriter
     */
    protected void writeNamespaceAttributes(AeBaseXmlDef aBaseDef, Element aElement)
    {
-      for (Iterator iter = aBaseDef.getNamespacePrefixList().iterator(); iter.hasNext();)
-      {
-         String prefix   = (String)iter.next();
-         aElement.setAttributeNS(XMLConstants.XMLNS_ATTRIBUTE_NS_URI, "xmlns:" + prefix, aBaseDef.getNamespace(prefix)); //$NON-NLS-1$
-      }
+       for (Object o : aBaseDef.getNamespacePrefixList()) {
+           String prefix = (String) o;
+           aElement.setAttributeNS(XMLConstants.XMLNS_ATTRIBUTE_NS_URI, "xmlns:" + prefix, aBaseDef.getNamespace(prefix)); //$NON-NLS-1$
+       }
    }
 
    /**
@@ -336,11 +333,9 @@ public abstract class AeAbstractDefWriter implements IAeDefWriter
     */
    protected void writeExtensionAttributes(AeBaseXmlDef aBaseDef, Element aElement)
    {
-      for (Iterator iter = aBaseDef.getExtensionAttributeDefs().iterator(); iter.hasNext(); )
-      {
-         AeExtensionAttributeDef extAttribute = (AeExtensionAttributeDef) iter.next();
-         aElement.setAttributeNS(extAttribute.getNamespace(), extAttribute.getQualifiedName(), extAttribute.getValue());
-      }
+       for (AeExtensionAttributeDef extAttribute : aBaseDef.getExtensionAttributeDefs()) {
+           aElement.setAttributeNS(extAttribute.getNamespace(), extAttribute.getQualifiedName(), extAttribute.getValue());
+       }
    }
 
    /**

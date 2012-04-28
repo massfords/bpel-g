@@ -9,6 +9,9 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpel.impl.function;
 
+import org.activebpel.rt.bpel.AeMessages;
+import org.activebpel.rt.bpel.function.*;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -16,13 +19,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-
-import org.activebpel.rt.bpel.AeMessages;
-import org.activebpel.rt.bpel.function.AeFunctionCallException;
-import org.activebpel.rt.bpel.function.AeUnresolvableException;
-import org.activebpel.rt.bpel.function.IAeFunction;
-import org.activebpel.rt.bpel.function.IAeFunctionContext;
-import org.activebpel.rt.bpel.function.IAeFunctionExecutionContext;
 
 /**
  * Implements a Jaxen function context that provides a few simple utility
@@ -56,7 +52,7 @@ public class AeUtilityFunctionContext implements IAeFunctionContext
     */
    protected static String concatenate(List aList)
    {
-      StringBuffer buffer = new StringBuffer();
+      StringBuilder buffer = new StringBuilder();
       Iterator i = aList.iterator();
 
       if (i.hasNext())

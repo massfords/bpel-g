@@ -9,20 +9,19 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.message; 
 
-import java.io.Serializable;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
-
-import javax.wsdl.Message;
-import javax.wsdl.Part;
-import javax.xml.namespace.QName;
-
 import org.activebpel.rt.AeException;
 import org.activebpel.rt.AeMessages;
 import org.activebpel.rt.wsdl.def.AeBPELExtendedWSDLDef;
 import org.exolab.castor.xml.schema.ElementDecl;
 import org.exolab.castor.xml.schema.XMLType;
+
+import javax.wsdl.Message;
+import javax.wsdl.Part;
+import javax.xml.namespace.QName;
+import java.io.Serializable;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 
 /**
  * Container for the part info for a specific WSDL message.
@@ -161,14 +160,12 @@ public class AeMessagePartsMap implements Serializable
     */
    public String toString()
    {
-      StringBuffer sb = new StringBuffer();
+      StringBuilder sb = new StringBuilder();
       sb.append("AeMessagePartsMap messageType: ").append(getMessageType()); //$NON-NLS-1$
-      for (Iterator it = getPartsMap().values().iterator(); it.hasNext();)
-      {
-         AeMessagePartTypeInfo part = (AeMessagePartTypeInfo) it.next();
-         sb.append('\n');
-         sb.append(part.toString());
-      }
+       for (AeMessagePartTypeInfo part : getPartsMap().values()) {
+           sb.append('\n');
+           sb.append(part.toString());
+       }
       return sb.toString();
    }
 
@@ -182,11 +179,10 @@ public class AeMessagePartsMap implements Serializable
    {
       AeMessagePartsMap map = new AeMessagePartsMap(aMessage.getQName());
 
-      for (Iterator i = aMessage.getParts().values().iterator(); i.hasNext(); )
-      {
-         Part part = (Part) i.next();
-         map.addPartInfo(part, aDef);
-      }
+       for (Object o : aMessage.getParts().values()) {
+           Part part = (Part) o;
+           map.addPartInfo(part, aDef);
+       }
       
       return map;
    }

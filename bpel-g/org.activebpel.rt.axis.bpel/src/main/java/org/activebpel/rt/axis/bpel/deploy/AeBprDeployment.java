@@ -10,29 +10,18 @@
 package org.activebpel.rt.axis.bpel.deploy;
 
 // axis config and utils
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
-import javax.xml.namespace.QName;
-
 import org.activebpel.rt.axis.bpel.AeMessages;
 import org.activebpel.rt.bpel.server.deploy.IAeWsddConstants;
 import org.apache.axis.ConfigurationException;
-import org.apache.axis.deployment.wsdd.WSDDDeployment;
-import org.apache.axis.deployment.wsdd.WSDDException;
-import org.apache.axis.deployment.wsdd.WSDDNonFatalException;
-import org.apache.axis.deployment.wsdd.WSDDService;
-import org.apache.axis.deployment.wsdd.WSDDTypeMapping;
+import org.apache.axis.deployment.wsdd.*;
 import org.apache.axis.description.ServiceDesc;
 import org.apache.axis.handlers.soap.SOAPService;
 import org.w3c.dom.Element;
+
+import javax.xml.namespace.QName;
+import java.util.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Bpr deployment extends the wsdd deployment of axis for monitoring and
@@ -69,11 +58,10 @@ public class AeBprDeployment extends WSDDDeployment
    {
       super(aRoot);
       Element[] elements = getChildElements(aRoot, "typeMapping"); //$NON-NLS-1$
-      for (int i = 0; i < elements.length; i++)
-      {
-         WSDDTypeMapping mapping = new WSDDTypeMapping(elements[i]);
-         deployTypeMapping(mapping);
-      }
+       for (Element element : elements) {
+           WSDDTypeMapping mapping = new WSDDTypeMapping(element);
+           deployTypeMapping(mapping);
+       }
    }
 
    /**
@@ -197,36 +185,27 @@ public class AeBprDeployment extends WSDDDeployment
       ClassLoader origClassLoader = Thread.currentThread().getContextClassLoader();
       try
       {
-         for (int i = 0; i < services.length; i++ )
-         {
-            WSDDService service = services[i];
+          for (WSDDService service : services) {
+              ClassLoader newClassLoader = getClassLoader(service.getQName());
+              if (newClassLoader != null) {
+                  Thread.currentThread().setContextClassLoader(newClassLoader);
+              } else {
+                  Thread.currentThread().setContextClassLoader(origClassLoader);
+              }
 
-            ClassLoader newClassLoader = getClassLoader(service.getQName());
-            if (newClassLoader != null)
-            {
-               Thread.currentThread().setContextClassLoader(newClassLoader);
-            }
-            else
-            {
-               Thread.currentThread().setContextClassLoader(origClassLoader);
-            }
-
-            try
-            {
-               // we need this soap service object because the service desc
-               // impl contained in the WSDDService is a JavaServiceDesc (and
-               // it doesn't look like that ever changes???!!!) - the SOAPService
-               // (which can't be accessed directly through the WSDDService)
-               // has the correct (ae version) of the service desc impl
-               SOAPService desc = (SOAPService)service.makeNewInstance(this);
-               serviceDescs.add( desc.getServiceDescription() );
-            }
-            catch (WSDDNonFatalException ex)
-            {
-               // If it's non-fatal, just keep on going
-               log.log(Level.INFO, AeMessages.getString("AeBprDeployment.0"), ex); //$NON-NLS-1$
-            }
-         }
+              try {
+                  // we need this soap service object because the service desc
+                  // impl contained in the WSDDService is a JavaServiceDesc (and
+                  // it doesn't look like that ever changes???!!!) - the SOAPService
+                  // (which can't be accessed directly through the WSDDService)
+                  // has the correct (ae version) of the service desc impl
+                  SOAPService desc = (SOAPService) service.makeNewInstance(this);
+                  serviceDescs.add(desc.getServiceDescription());
+              } catch (WSDDNonFatalException ex) {
+                  // If it's non-fatal, just keep on going
+                  log.log(Level.INFO, AeMessages.getString("AeBprDeployment.0"), ex); //$NON-NLS-1$
+              }
+          }
       }
       finally
       {

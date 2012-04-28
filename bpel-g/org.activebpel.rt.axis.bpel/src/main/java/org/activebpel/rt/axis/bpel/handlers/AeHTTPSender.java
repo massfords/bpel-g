@@ -345,12 +345,10 @@ private static final String KEY_IDLE_TIMEOUT = "org.activebpel.httpsender.idle.t
          // Transfer HTTP headers of HTTP message to MIME headers of SOAP message
          Header[] responseHeaders = method.getResponseHeaders();
          MimeHeaders responseMimeHeaders = outMsg.getMimeHeaders();
-         for (int i = 0; i < responseHeaders.length; i++)
-         {
-            Header responseHeader = responseHeaders[i];
-            responseMimeHeaders.addHeader(responseHeader.getName(),
-                  responseHeader.getValue());
-         }
+          for (Header responseHeader : responseHeaders) {
+              responseMimeHeaders.addHeader(responseHeader.getName(),
+                      responseHeader.getValue());
+          }
 
          OperationDesc operation = msgContext.getOperation();
          if (hasSoapFault || operation.getMep().equals(OperationType.REQUEST_RESPONSE))
@@ -392,17 +390,16 @@ private static final String KEY_IDLE_TIMEOUT = "org.activebpel.httpsender.idle.t
          if (msgContext.getMaintainSession())
          {
             Header[] headers = method.getResponseHeaders();
-            for (int i = 0; i < headers.length; i++)
-            {
-               if (headers[i].getName().equalsIgnoreCase(
-                     HTTPConstants.HEADER_SET_COOKIE))
-                  msgContext.setProperty(HTTPConstants.HEADER_COOKIE,
-                        cleanupCookie(headers[i].getValue()));
-               else if (headers[i].getName().equalsIgnoreCase(
-                     HTTPConstants.HEADER_SET_COOKIE2))
-                  msgContext.setProperty(HTTPConstants.HEADER_COOKIE2,
-                        cleanupCookie(headers[i].getValue()));
-            }
+             for (Header header : headers) {
+                 if (header.getName().equalsIgnoreCase(
+                         HTTPConstants.HEADER_SET_COOKIE))
+                     msgContext.setProperty(HTTPConstants.HEADER_COOKIE,
+                             cleanupCookie(header.getValue()));
+                 else if (header.getName().equalsIgnoreCase(
+                         HTTPConstants.HEADER_SET_COOKIE2))
+                     msgContext.setProperty(HTTPConstants.HEADER_COOKIE2,
+                             cleanupCookie(header.getValue()));
+             }
 
          }
 
@@ -590,20 +587,17 @@ private static final String KEY_IDLE_TIMEOUT = "org.activebpel.httpsender.idle.t
 
       if (userHeaderTable != null)
       {
-         for (java.util.Iterator<Entry<Object,Object>> e = userHeaderTable.entrySet().iterator(); e.hasNext();)
-         {
-            java.util.Map.Entry<Object,Object> me = e.next();
-            Object keyObj = me.getKey();
+          for (Entry<Object, Object> me : userHeaderTable.entrySet()) {
+              Object keyObj = me.getKey();
 
-            if (null == keyObj)
-            {
-               continue;
-            }
-            String key = keyObj.toString().trim();
-            String value = me.getValue().toString().trim();
+              if (null == keyObj) {
+                  continue;
+              }
+              String key = keyObj.toString().trim();
+              String value = me.getValue().toString().trim();
 
-            method.addRequestHeader(key, value);
-         }
+              method.addRequestHeader(key, value);
+          }
       }
    }
 
@@ -673,14 +667,12 @@ private static final String KEY_IDLE_TIMEOUT = "org.activebpel.httpsender.idle.t
       char ch;
       boolean containsStar = false;
 
-      for (int i = 0; i < patArr.length; i++)
-      {
-         if (patArr[i] == '*')
-         {
-            containsStar = true;
-            break;
-         }
-      }
+       for (char c : patArr) {
+           if (c == '*') {
+               containsStar = true;
+               break;
+           }
+       }
       if (!containsStar)
       {
 

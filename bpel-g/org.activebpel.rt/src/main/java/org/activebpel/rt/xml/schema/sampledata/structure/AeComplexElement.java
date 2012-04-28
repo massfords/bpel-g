@@ -10,13 +10,11 @@
 
 package org.activebpel.rt.xml.schema.sampledata.structure; 
 
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
+import org.activebpel.rt.xml.schema.sampledata.IAeSampleDataVisitor;
 
 import javax.xml.namespace.QName;
-
-import org.activebpel.rt.xml.schema.sampledata.IAeSampleDataVisitor;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  *  Model of a Schema complexType definition.
@@ -68,12 +66,11 @@ public class AeComplexElement extends AeBaseElement
    public void setAttributes(List aAttributes)
    {
       mAttributes.clear();
-      
-      for (Iterator iter = aAttributes.iterator(); iter.hasNext();)
-      {
-         AeBaseAttribute attrib = (AeBaseAttribute) iter.next();
-         addAttribute(attrib);
-      }
+
+       for (Object a : aAttributes) {
+           AeBaseAttribute attrib = (AeBaseAttribute) a;
+           addAttribute(attrib);
+       }
    }
    
    /**

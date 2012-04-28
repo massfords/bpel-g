@@ -9,16 +9,15 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpeladmin.war.web.processview;
 
+import org.activebpel.rt.util.AeMimeUtil;
+import org.activebpel.rt.util.AeUTF8Util;
+
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-
-import org.activebpel.rt.util.AeMimeUtil;
-import org.activebpel.rt.util.AeUTF8Util;
 
 /**
  * A simple wrapper around attachment viewable items make them accessable by JSP pages
@@ -118,11 +117,9 @@ public class AeAttachmentViewBean
    public List<AeAttachmentHeader> getHeaders()
    {
       List<AeAttachmentHeader> headers = new ArrayList<AeAttachmentHeader>();
-      for (Iterator<Entry<String, String>> iter = mHeaders.entrySet().iterator(); iter.hasNext();)
-      {
-         Entry<String, String> entry = iter.next();
-         headers.add(new AeAttachmentHeader(entry.getKey(), entry.getValue()));
-      }
+       for (Entry<String, String> entry : mHeaders.entrySet()) {
+           headers.add(new AeAttachmentHeader(entry.getKey(), entry.getValue()));
+       }
       
       return headers;
    }

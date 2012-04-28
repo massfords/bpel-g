@@ -9,9 +9,6 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpel.server.engine.recovery; 
 
-import java.util.Iterator;
-import java.util.List;
-
 import org.activebpel.rt.IAeConstants;
 import org.activebpel.rt.IAePolicyConstants;
 import org.activebpel.rt.bpel.AeBusinessProcessException;
@@ -24,6 +21,8 @@ import org.activebpel.rt.bpel.server.deploy.AeDeployConstants;
 import org.activebpel.rt.util.AeUtil;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
+
+import java.util.List;
 
 /**
  * Determines whether a given invoke activity requires suspending the process.
@@ -128,41 +127,34 @@ public class AeInvokeRecoveryEvaluator
          
          // Iterate through all the policy assertions associated with the
          // partner role endpoint reference for the invoke's partner link.
-         for (Iterator i = epr.getPolicies().iterator(); i.hasNext(); )
-         {
-            Element policy = (Element) i.next();
-   
-            // We won't suspend for ws-rm
-            NodeList assertions = policy.getElementsByTagNameNS(IAeConstants.WSRM_POLICY_NAMESPACE_URI, IAePolicyConstants.TAG_ASSERT_RM);
-            if (assertions != null && assertions.getLength() > 0)
-            {
-               return false;
-            }
-            
-            assertions = policy.getElementsByTagNameNS(IAeConstants.ABP_NAMESPACE_URI, IAePolicyConstants.TAG_INVOKE_RECOVERY);
-            if (assertions != null)
-            {
-               for (int j = 0; j < assertions.getLength(); ++j)
-               {
-                  Element assertion = (Element) assertions.item(j);
-                  int action = evaluatePolicyAssertion(assertion);
+          for (Element policy : epr.getPolicies()) {
+              // We won't suspend for ws-rm
+              NodeList assertions = policy.getElementsByTagNameNS(IAeConstants.WSRM_POLICY_NAMESPACE_URI, IAePolicyConstants.TAG_ASSERT_RM);
+              if (assertions != null && assertions.getLength() > 0) {
+                  return false;
+              }
 
-                  switch (action)
-                  {
-                     case SUSPEND_PROCESS:
-                        return true;
+              assertions = policy.getElementsByTagNameNS(IAeConstants.ABP_NAMESPACE_URI, IAePolicyConstants.TAG_INVOKE_RECOVERY);
+              if (assertions != null) {
+                  for (int j = 0; j < assertions.getLength(); ++j) {
+                      Element assertion = (Element) assertions.item(j);
+                      int action = evaluatePolicyAssertion(assertion);
 
-                     case CONTINUE_PROCESS:
-                        return false;
+                      switch (action) {
+                          case SUSPEND_PROCESS:
+                              return true;
 
-                     default:
-                        // This policy assertion was not definitive; perhaps it
-                        // was invalid or ambiguous. Skip it.
-                        continue;
+                          case CONTINUE_PROCESS:
+                              return false;
+
+                          default:
+                              // This policy assertion was not definitive; perhaps it
+                              // was invalid or ambiguous. Skip it.
+                              continue;
+                      }
                   }
-               }
-            }
-         }
+              }
+          }
       }
    
       // If there are no applicable policy assertions, then use the setting

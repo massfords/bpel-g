@@ -9,19 +9,18 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.work;
 
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.prefs.PreferenceChangeEvent;
-import java.util.prefs.PreferenceChangeListener;
-
+import commonj.work.Work;
 import org.activebpel.rt.AeException;
 import org.activebpel.rt.bpel.AeBusinessProcessException;
 import org.activebpel.rt.bpel.AePreferences;
 import org.activebpel.rt.bpel.server.AeMessages;
 import org.activebpel.rt.bpel.server.engine.AeEngineFactory;
 
-import commonj.work.Work;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.prefs.PreferenceChangeEvent;
+import java.util.prefs.PreferenceChangeListener;
 
 /**
  * Limits the amount of work scheduled per process.
@@ -148,11 +147,9 @@ public class AeProcessWorkManager implements IAeProcessWorkManager,
 		// waiting work.
 		if (getProcessWorkCount() > oldCount) {
 			synchronized (getProcessWorkQueueMap()) {
-				for (Iterator i = getProcessWorkQueueMap().values().iterator(); i
-						.hasNext();) {
-					AeProcessWorkQueue queue = (AeProcessWorkQueue) i.next();
-					scheduleWaitingNoException(queue);
-				}
+                for (AeProcessWorkQueue queue : getProcessWorkQueueMap().values()) {
+                    scheduleWaitingNoException(queue);
+                }
 			}
 		}
 	}

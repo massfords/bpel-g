@@ -9,13 +9,11 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpel.impl.activity.support; 
 
-import java.util.Date;
-
 import org.activebpel.rt.AeException;
 import org.activebpel.rt.bpel.AeBusinessProcessException;
 import org.activebpel.rt.bpel.AeMessages;
-import org.activebpel.rt.bpel.IAeExpressionLanguageFactory;
 import org.activebpel.rt.bpel.AeProcessInfoEventType;
+import org.activebpel.rt.bpel.IAeExpressionLanguageFactory;
 import org.activebpel.rt.bpel.def.AeBaseDef;
 import org.activebpel.rt.bpel.def.AeProcessDef;
 import org.activebpel.rt.bpel.def.IAeExpressionDef;
@@ -28,6 +26,8 @@ import org.activebpel.rt.bpel.impl.expr.AeExpressionRunnerVariableResolver;
 import org.activebpel.rt.bpel.impl.expr.IAeExpressionRunner;
 import org.activebpel.rt.bpel.impl.expr.IAeExpressionRunnerContext;
 import org.activebpel.rt.xml.schema.AeSchemaDuration;
+
+import java.util.Date;
 
 /**
  * Schedules the alarm for an activity. Handles the exeuction of an expression 
@@ -75,7 +75,7 @@ public abstract class AeAlarmCalculator
     */
    private static Date calculateDeadline(AeAbstractBpelObject aBpelObject, IAeExpressionDef aExpressionDef, AeProcessInfoEventType aEventId) throws AeBusinessProcessException
    {
-      StringBuffer alarmInfo = new StringBuffer();
+      StringBuilder alarmInfo = new StringBuilder();
       alarmInfo.append('\n');
       alarmInfo.append(aBpelObject.getClass().getName());
       alarmInfo.append(AeMessages.getString("AeAbstractBpelObject.0")); //$NON-NLS-1$

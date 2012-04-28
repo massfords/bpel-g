@@ -10,11 +10,6 @@
 package org.activebpel.rt.bpel.server.deploy.validate;
 
 
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Set;
-
 import org.activebpel.rt.AeException;
 import org.activebpel.rt.bpel.def.validation.IAeBaseErrorReporter;
 import org.activebpel.rt.bpel.server.AeMessages;
@@ -25,6 +20,10 @@ import org.activebpel.rt.bpel.server.deploy.bpr.IAeBpr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
+
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * Validates that there are no circular references in the 
@@ -43,24 +42,19 @@ public class AeWsdlCircRefValidator implements IAePredeploymentValidator
       throws AeException
    {
       AeCatalogMappings catalog = new AeCatalogMappings( aBprFile, IAeCatalog.KEEP_EXISTING_RESOURCE );
-      for( Iterator iter = catalog.getResources().values().iterator(); iter.hasNext(); )
-      {
-         IAeCatalogMapping mapping = (IAeCatalogMapping) iter.next();
-         Document wsdlDom = mapping.getDocument();
+       for (IAeCatalogMapping mapping : catalog.getResources().values()) {
+           Document wsdlDom = mapping.getDocument();
 
-         HashSet<String> imports = new HashSet<String>();
-         imports.add(mapping.getLocationHint());
-         try
-         {
-            searchForCircularRefs( wsdlDom, catalog.getResources(), imports, aBprFile );
-         }
-         catch (AeCircularRefException e)
-         {
-            String[] args = {e.getCircularRef(), mapping.getLocationHint(), aBprFile.getBprFileName().toString()};
-            aReporter.addError(ERROR_MSG, args, null);
-            return;
-         }
-      }
+           HashSet<String> imports = new HashSet<String>();
+           imports.add(mapping.getLocationHint());
+           try {
+               searchForCircularRefs(wsdlDom, catalog.getResources(), imports, aBprFile);
+           } catch (AeCircularRefException e) {
+               String[] args = {e.getCircularRef(), mapping.getLocationHint(), aBprFile.getBprFileName().toString()};
+               aReporter.addError(ERROR_MSG, args, null);
+               return;
+           }
+       }
    }
      
    /**

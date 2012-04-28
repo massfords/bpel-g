@@ -998,7 +998,7 @@ public class AeBusinessProcess extends AeActivityScopeImpl implements IAeBusines
       {
          if (aFaultName == null)
          {
-            sendReply(info, aInputMessage, (IAeFault) null, propertiesSnapshot);
+            sendReply(info, aInputMessage, null, propertiesSnapshot);
          }
          else
          {

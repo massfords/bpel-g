@@ -108,7 +108,7 @@ public class AeLocationPathVisitor implements IAeDefPathVisitor
       String name = aDef.getName();
       if (!AeUtil.isNullOrEmpty(name))
       {
-         StringBuffer buffer = new StringBuffer(aAppendPath);
+         StringBuilder buffer = new StringBuilder(aAppendPath);
          buffer.append("[@name='"); //$NON-NLS-1$
          buffer.append(name);
          buffer.append("']");  //$NON-NLS-1$
@@ -196,7 +196,7 @@ public class AeLocationPathVisitor implements IAeDefPathVisitor
     */
    protected String createUniquePath(AeBaseXmlDef aDef, String aAppendPath)
    {
-      StringBuffer testPath = new StringBuffer(getPath());
+      StringBuilder testPath = new StringBuilder(getPath());
       testPath.append("/"); //$NON-NLS-1$
       testPath.append(aAppendPath);
       int initLen = testPath.length();

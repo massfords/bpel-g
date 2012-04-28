@@ -9,23 +9,14 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpel.server.engine.invoke;
 
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-
-import javax.xml.namespace.QName;
-
+import bpelg.services.deploy.types.pdd.PersistenceType;
 import org.activebpel.rt.AeException;
 import org.activebpel.rt.IAeConstants;
 import org.activebpel.rt.IAePolicyConstants;
 import org.activebpel.rt.bpel.AeBusinessProcessException;
 import org.activebpel.rt.bpel.IAeEndpointReference;
 import org.activebpel.rt.bpel.IAeFault;
-import org.activebpel.rt.bpel.impl.AeBpelException;
-import org.activebpel.rt.bpel.impl.AeDataConverter;
-import org.activebpel.rt.bpel.impl.AeEndpointReference;
-import org.activebpel.rt.bpel.impl.AeFaultFactory;
-import org.activebpel.rt.bpel.impl.IAeInvokeInternal;
+import org.activebpel.rt.bpel.impl.*;
 import org.activebpel.rt.bpel.impl.addressing.AeAddressingHeaders;
 import org.activebpel.rt.bpel.impl.addressing.IAeAddressingHeaders;
 import org.activebpel.rt.bpel.impl.queue.AeInvoke;
@@ -47,12 +38,7 @@ import org.activebpel.rt.util.AeUtil;
 import org.activebpel.rt.util.AeXmlUtil;
 import org.activebpel.rt.wsdl.IAeContextWSDLProvider;
 import org.activebpel.rt.xml.AeXMLParserBase;
-import org.activebpel.wsio.AeMessageAcknowledgeException;
-import org.activebpel.wsio.AeWsAddressingException;
-import org.activebpel.wsio.IAeMessageAcknowledgeCallback;
-import org.activebpel.wsio.IAeWebServiceAttachment;
-import org.activebpel.wsio.IAeWebServiceMessageData;
-import org.activebpel.wsio.IAeWebServiceResponse;
+import org.activebpel.wsio.*;
 import org.activebpel.wsio.invoke.AeInvokePrepareException;
 import org.activebpel.wsio.invoke.AeInvokeResponse;
 import org.activebpel.wsio.invoke.IAeInvoke;
@@ -61,7 +47,9 @@ import org.activebpel.wsio.receive.IAeMessageContext;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-import bpelg.services.deploy.types.pdd.PersistenceType;
+import javax.xml.namespace.QName;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Handler created by the AeProcessHandlerFactory. This handler is responsible for invokes based on the
@@ -283,10 +271,9 @@ public class AeProcessInvokeHandler implements IAeTwoPhaseInvokeHandler, IAeMess
          List<IAeWebServiceAttachment> attachments = wsData.getAttachments();
          if (attachments != null)
          {
-            for (Iterator<IAeWebServiceAttachment> wsItr = attachments.iterator(); wsItr.hasNext();)
-            {
-               AeCloser.close(wsItr.next().getContent());
-            }
+             for (IAeWebServiceAttachment attachment : attachments) {
+                 AeCloser.close(attachment.getContent());
+             }
          }
       }
    }

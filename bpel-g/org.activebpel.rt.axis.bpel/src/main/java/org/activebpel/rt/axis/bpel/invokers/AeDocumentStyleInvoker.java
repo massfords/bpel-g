@@ -9,16 +9,6 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.axis.bpel.invokers;
 
-import java.rmi.RemoteException;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Vector;
-
-import javax.wsdl.Part;
-import javax.xml.XMLConstants;
-
 import org.activebpel.rt.AeException;
 import org.activebpel.rt.axis.bpel.AeMessages;
 import org.activebpel.rt.bpel.AeBusinessProcessException;
@@ -31,6 +21,11 @@ import org.apache.axis.message.SOAPHeaderElement;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
+
+import javax.wsdl.Part;
+import javax.xml.XMLConstants;
+import java.rmi.RemoteException;
+import java.util.*;
 
 /**
  * Calls a document style endpoint.
@@ -70,37 +65,28 @@ public class AeDocumentStyleInvoker extends AeSOAPInvoker
       Vector<?> elems;
       try
       {
-         for (Iterator<Part> iter = orderedParts.iterator(); iter.hasNext();)
-         {
-            Part part = iter.next();
-            Object obj = messageData.get(part.getName());
-            
-            // don't add the part to the body if it is supposed to be a header
-            if (aInvokeContext.isInputHeader(part.getName()) && obj instanceof Document)
-            {
-                Document doc = (Document) obj;
-                aInvokeContext.getCall().addHeader(new SOAPHeaderElement(doc.getDocumentElement()));
-            }
-            else
-            {
-               if (obj instanceof Document)
-               {
-                  Element root = ((Document) obj).getDocumentElement();
-                  list.add(new SOAPBodyElement(root));
-               }
-               else
-               {
-                  if (simpleTypeDoc == null)
-                  {
-                     simpleTypeDoc = AeXmlUtil.newDocument();
+          for (Part part : orderedParts) {
+              Object obj = messageData.get(part.getName());
+
+              // don't add the part to the body if it is supposed to be a header
+              if (aInvokeContext.isInputHeader(part.getName()) && obj instanceof Document) {
+                  Document doc = (Document) obj;
+                  aInvokeContext.getCall().addHeader(new SOAPHeaderElement(doc.getDocumentElement()));
+              } else {
+                  if (obj instanceof Document) {
+                      Element root = ((Document) obj).getDocumentElement();
+                      list.add(new SOAPBodyElement(root));
+                  } else {
+                      if (simpleTypeDoc == null) {
+                          simpleTypeDoc = AeXmlUtil.newDocument();
+                      }
+                      Element e = simpleTypeDoc.createElement(part.getName());
+                      e.appendChild(simpleTypeDoc.createTextNode(obj.toString()));
+                      SOAPBodyElement body = new SOAPBodyElement(e);
+                      list.add(body);
                   }
-                  Element e = simpleTypeDoc.createElement(part.getName());
-                  e.appendChild(simpleTypeDoc.createTextNode(obj.toString()));
-                  SOAPBodyElement body = new SOAPBodyElement(e);
-                  list.add(body);
-               }
-            }
-         }
+              }
+          }
          
          // for document style we receive a vector of body elements from return
          elems = (Vector<?>) aInvokeContext.getCall().invoke(list.toArray());
@@ -121,37 +107,27 @@ public class AeDocumentStyleInvoker extends AeSOAPInvoker
       {
          if (elems != null)
          {
-            int i = 0;               
-            for(@SuppressWarnings("unchecked")
-            		Iterator<Part> iter = aInvokeContext.getOperation().getOutput().getMessage().getOrderedParts(null).iterator(); iter.hasNext(); )
-            {
-               Part part = iter.next();
-               if (!aInvokeContext.isOutputHeader(part.getName()))
-               {
-                  SOAPBodyElement elem = (SOAPBodyElement) elems.get(i++);
-                  Document doc;
-                  try
-                  {
-                     doc = elem.getAsDocument();
-                  }
-                  catch (Exception ex)
-                  {
-                     throw new AeBusinessProcessException(AeMessages.getString("AeInvokeHandler.ERROR_1"), ex); //$NON-NLS-1$
-                  }
-                  Element root = doc.getDocumentElement();
-                  if(root != null)
-                  {
-                     if(isSimpleType(root))
-                        outputMsg.setData(part.getName(), AeXmlUtil.getText(root));
-                     else
-                        outputMsg.setData(part.getName(), doc);
-                  }
-                  else
-                  {
-                     outputMsg.setData(part.getName(), null);
-                  }
-               }
-            }
+            int i = 0;
+             for (Part part : (Iterable<Part>) aInvokeContext.getOperation().getOutput().getMessage().getOrderedParts(null)) {
+                 if (!aInvokeContext.isOutputHeader(part.getName())) {
+                     SOAPBodyElement elem = (SOAPBodyElement) elems.get(i++);
+                     Document doc;
+                     try {
+                         doc = elem.getAsDocument();
+                     } catch (Exception ex) {
+                         throw new AeBusinessProcessException(AeMessages.getString("AeInvokeHandler.ERROR_1"), ex); //$NON-NLS-1$
+                     }
+                     Element root = doc.getDocumentElement();
+                     if (root != null) {
+                         if (isSimpleType(root))
+                             outputMsg.setData(part.getName(), AeXmlUtil.getText(root));
+                         else
+                             outputMsg.setData(part.getName(), doc);
+                     } else {
+                         outputMsg.setData(part.getName(), null);
+                     }
+                 }
+             }
          }
          
          extractPartsFromHeader(aInvokeContext, outputMsg);

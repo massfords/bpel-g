@@ -9,9 +9,10 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpeladmin.war.web.graph;
 
-import java.io.IOException;
-import java.io.OutputStream;
-import java.util.Iterator;
+import org.activebpel.rt.AeException;
+import org.activebpel.rt.bpeladmin.war.AeMessages;
+import org.activebpel.rt.bpeladmin.war.graph.AeGraphProperties;
+import org.activebpel.rt.util.AeUtil;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -19,11 +20,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-
-import org.activebpel.rt.AeException;
-import org.activebpel.rt.bpeladmin.war.AeMessages;
-import org.activebpel.rt.bpeladmin.war.graph.AeGraphProperties;
-import org.activebpel.rt.util.AeUtil;
+import java.io.IOException;
+import java.io.OutputStream;
 
 /**
  * Servlet responsible for drawing the BPEL graph on a off screen graphics context
@@ -50,15 +48,13 @@ public class AeGraphImageServlet extends HttpServlet
       // check and see if there is a corresponding property as part of the servlet's initial parameter.
       AeGraphProperties graphProperties = AeGraphProperties.getInstance();
 
-      for (Iterator i = graphProperties.keySet().iterator(); i.hasNext(); )
-      {
-         String key = (String) i.next();
-         String value = aConfig.getInitParameter(key);
-         if (!AeUtil.isNullOrEmpty(value))
-         {
-            graphProperties.setProperty(key, value);
-         }
-      }
+       for (Object o : graphProperties.keySet()) {
+           String key = (String) o;
+           String value = aConfig.getInitParameter(key);
+           if (!AeUtil.isNullOrEmpty(value)) {
+               graphProperties.setProperty(key, value);
+           }
+       }
    }
 
    /**

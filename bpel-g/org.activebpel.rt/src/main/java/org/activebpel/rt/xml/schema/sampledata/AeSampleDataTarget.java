@@ -10,23 +10,12 @@
 
 package org.activebpel.rt.xml.schema.sampledata;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Enumeration;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-
-import org.activebpel.rt.xml.schema.AeAcceptAllCompatibleComplexTypes;
-import org.activebpel.rt.xml.schema.AeAcceptAllCompatibleElements;
-import org.activebpel.rt.xml.schema.AeAcceptAllComplexTypes;
-import org.activebpel.rt.xml.schema.AeAcceptAllGlobalElements;
-import org.activebpel.rt.xml.schema.IAeComplexTypeFilter;
-import org.activebpel.rt.xml.schema.IAeElementFilter;
+import org.activebpel.rt.xml.schema.*;
 import org.exolab.castor.xml.schema.ComplexType;
 import org.exolab.castor.xml.schema.ElementDecl;
 import org.exolab.castor.xml.schema.Schema;
+
+import java.util.*;
 
 /**
  *  Sample data target information for sample data generation.
@@ -96,19 +85,16 @@ public class AeSampleDataTarget
 
       List<ElementDecl> list = new ArrayList<ElementDecl>();
 
-      for ( Iterator it=getSchemas().iterator(); it.hasNext(); )
-      {
-         Schema schema = (Schema)it.next();
-         for ( Enumeration enu=schema.getElementDecls(); enu.hasMoreElements(); )
-         {
-            ElementDecl e = (ElementDecl) enu.nextElement();
+       for (Object o : getSchemas()) {
+           Schema schema = (Schema) o;
+           for (Enumeration enu = schema.getElementDecls(); enu.hasMoreElements(); ) {
+               ElementDecl e = (ElementDecl) enu.nextElement();
 
-            if (filter.accept(e))
-            {
-               list.add(e);
-            }
-         }
-      }
+               if (filter.accept(e)) {
+                   list.add(e);
+               }
+           }
+       }
 
       return list;
    }
@@ -145,19 +131,16 @@ public class AeSampleDataTarget
 
       List<ComplexType> list = new ArrayList<ComplexType>();
 
-      for ( Iterator it=getSchemas().iterator(); it.hasNext(); )
-      {
-         Schema schema = (Schema)it.next();
-         for ( Enumeration enu=schema.getComplexTypes(); enu.hasMoreElements(); )
-         {
-            ComplexType type = (ComplexType) enu.nextElement();
+       for (Object o : getSchemas()) {
+           Schema schema = (Schema) o;
+           for (Enumeration enu = schema.getComplexTypes(); enu.hasMoreElements(); ) {
+               ComplexType type = (ComplexType) enu.nextElement();
 
-            if (filter.accept(type))
-            {
-               list.add(type);
-            }
-         }
-      }
+               if (filter.accept(type)) {
+                   list.add(type);
+               }
+           }
+       }
 
       return list;
    }

@@ -9,18 +9,17 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.xml.def.io;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.StringReader;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-
 import org.activebpel.rt.util.AeUtil;
 import org.activebpel.rt.xml.def.AeBaseXmlDef;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.StringReader;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Handles the details of reading and writing comments
@@ -168,11 +167,10 @@ public class AeCommentIO
          if ( maxLen > 0 )
          {
             // Add string lines to the results list.
-            for (Iterator it = commentList.iterator(); it.hasNext(); )
-            {
-               String commentLine = " " + getPadding((String)it.next(), maxLen) + " "; //$NON-NLS-1$ //$NON-NLS-2$
-               formattedList.add(commentLine);
-            }
+             for (String c : commentList) {
+                 String commentLine = " " + getPadding(c, maxLen) + " "; //$NON-NLS-1$ //$NON-NLS-2$
+                 formattedList.add(commentLine);
+             }
          }
       }
       return formattedList;
@@ -186,7 +184,7 @@ public class AeCommentIO
     */
    private static String getPadding(String aStr, int aStrMax)
    {
-      StringBuffer padString = new StringBuffer(aStr);
+      StringBuilder padString = new StringBuilder(aStr);
       for ( int i=0; i < (aStrMax-aStr.length()); i++ )
          padString.append(" "); //$NON-NLS-1$
       return padString.toString();

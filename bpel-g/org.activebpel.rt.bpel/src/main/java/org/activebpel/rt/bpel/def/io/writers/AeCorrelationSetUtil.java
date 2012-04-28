@@ -9,15 +9,14 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpel.def.io.writers;
 
-import java.util.Iterator;
-import java.util.StringTokenizer;
-
-import javax.xml.namespace.QName;
-
 import org.activebpel.rt.bpel.def.AeCorrelationSetDef;
 import org.activebpel.rt.util.AeUtil;
 import org.activebpel.rt.util.AeXmlUtil;
 import org.w3c.dom.Element;
+
+import javax.xml.namespace.QName;
+import java.util.Iterator;
+import java.util.StringTokenizer;
 
 /**
  * Utility class for reading and writing correlationSet properties.
@@ -73,7 +72,7 @@ public class AeCorrelationSetUtil
    public static String formatProperties(AeCorrelationSetDef aDef, Element aElement)
    {
       boolean first = true;
-      StringBuffer props = new StringBuffer();
+      StringBuilder props = new StringBuilder();
       for (Iterator it=aDef.getPropertiesList(); it.hasNext(); )
       {
          QName qname = (QName)it.next();

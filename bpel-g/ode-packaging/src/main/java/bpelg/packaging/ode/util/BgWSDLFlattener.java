@@ -17,29 +17,19 @@ package bpelg.packaging.ode.util;
  * limitations under the License.
  */
 
-import java.net.URI;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
+import com.ibm.wsdl.extensions.schema.SchemaImpl;
 
-import javax.wsdl.Definition;
-import javax.wsdl.Fault;
-import javax.wsdl.Import;
-import javax.wsdl.Input;
-import javax.wsdl.Message;
-import javax.wsdl.Operation;
-import javax.wsdl.Output;
-import javax.wsdl.Part;
-import javax.wsdl.PortType;
-import javax.wsdl.Types;
+import javax.wsdl.*;
 import javax.wsdl.extensions.ExtensibilityElement;
+import javax.wsdl.extensions.schema.Schema;
 import javax.wsdl.extensions.schema.SchemaImport;
 import javax.wsdl.factory.WSDLFactory;
 import javax.xml.namespace.QName;
-
-import com.ibm.wsdl.extensions.schema.SchemaImpl;
+import java.net.URI;
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class BgWSDLFlattener {
 
@@ -131,8 +121,8 @@ public class BgWSDLFlattener {
         flatPort.setQName(defPort.getQName());
         flatPort.setUndefined(false);
         // Import all operations and related messages
-        for (Iterator itOper = defPort.getOperations().iterator(); itOper.hasNext();) {
-            Operation defOper = (Operation) itOper.next();
+        for (Object o : defPort.getOperations()) {
+            Operation defOper = (Operation) o;
             Operation flatOper = flat.createOperation();
             flatOper.setName(defOper.getName());
             flatOper.setStyle(defOper.getStyle());
@@ -157,8 +147,8 @@ public class BgWSDLFlattener {
                 }
                 flatOper.setOutput(flatOutput);
             }
-            for (Iterator itFault = defOper.getFaults().values().iterator(); itFault.hasNext();) {
-                Fault defFault = (Fault) itFault.next();
+            for (Object o1 : defOper.getFaults().values()) {
+                Fault defFault = (Fault) o1;
                 Fault flatFault = flat.createFault();
                 flatFault.setName(defFault.getName());
                 if (defFault.getMessage() != null) {
@@ -174,12 +164,12 @@ public class BgWSDLFlattener {
         // Import schemas in definition
         if (_schemas.getSize() > 0) {
            Types types = flat.createTypes();
-           for (Iterator it = _schemas.getSchemas().iterator(); it.hasNext();) {
-              javax.wsdl.extensions.schema.Schema imp = new SchemaImpl();
-              imp.setElement(((BgSchema)it.next()).getRoot());
-              imp.setElementType(new QName("http://www.w3.org/2001/XMLSchema", "schema"));
-              types.addExtensibilityElement(imp);
-           }
+            for (Object o : _schemas.getSchemas()) {
+                Schema imp = new SchemaImpl();
+                imp.setElement(((BgSchema) o).getRoot());
+                imp.setElementType(new QName("http://www.w3.org/2001/XMLSchema", "schema"));
+                types.addExtensibilityElement(imp);
+            }
            flat.setTypes(types);
         }
         
@@ -189,17 +179,17 @@ public class BgWSDLFlattener {
     
     private void parseSchemas(Definition def) throws Exception {
         if (def.getTypes() != null && def.getTypes().getExtensibilityElements() != null) {
-            for (Iterator iter = def.getTypes().getExtensibilityElements().iterator(); iter.hasNext();) {
-                ExtensibilityElement element = (ExtensibilityElement) iter.next();
-                if (element instanceof javax.wsdl.extensions.schema.Schema) {
-                    javax.wsdl.extensions.schema.Schema schema = (javax.wsdl.extensions.schema.Schema) element;
+            for (Object o : def.getTypes().getExtensibilityElements()) {
+                ExtensibilityElement element = (ExtensibilityElement) o;
+                if (element instanceof Schema) {
+                    Schema schema = (Schema) element;
                     if (schema.getElement() != null) {
                         _schemas.read(schema.getElement(), getUri(schema.getDocumentBaseURI()));
                     }
-                    for (Iterator itImp = schema.getImports().values().iterator(); itImp.hasNext();) {
-                        Collection imps = (Collection) itImp.next();
-                        for (Iterator itSi = imps.iterator(); itSi.hasNext();) {
-                            SchemaImport imp = (SchemaImport) itSi.next();
+                    for (Object o1 : schema.getImports().values()) {
+                        Collection imps = (Collection) o1;
+                        for (Object imp1 : imps) {
+                            SchemaImport imp = (SchemaImport) imp1;
                             _schemas.read(imp.getSchemaLocationURI(), getUri(def.getDocumentBaseURI()));
                         }
                     }
@@ -207,10 +197,10 @@ public class BgWSDLFlattener {
             }
         }
         if (def.getImports() != null) {
-            for (Iterator itImp = def.getImports().values().iterator(); itImp.hasNext();) {
-                Collection imps = (Collection) itImp.next();
-                for (Iterator iter = imps.iterator(); iter.hasNext();) {
-                    Import imp = (Import) iter.next();
+            for (Object o : def.getImports().values()) {
+                Collection imps = (Collection) o;
+                for (Object imp1 : imps) {
+                    Import imp = (Import) imp1;
                     parseSchemas(imp.getDefinition());
                 }
             }
@@ -218,15 +208,15 @@ public class BgWSDLFlattener {
     }
 
     private void addNamespaces(Definition flat, Definition def) {
-        for (Iterator itImport = def.getImports().values().iterator(); itImport.hasNext();) {
-            List defImports = (List) itImport.next();
-            for (Iterator iter = defImports.iterator(); iter.hasNext();) {
-                Import defImport = (Import) iter.next();
+        for (Object o : def.getImports().values()) {
+            List defImports = (List) o;
+            for (Object defImport1 : defImports) {
+                Import defImport = (Import) defImport1;
                 addNamespaces(flat, defImport.getDefinition());
             }
         }
-        for (Iterator itNs = def.getNamespaces().keySet().iterator(); itNs.hasNext();) {
-            String key = (String) itNs.next();
+        for (Object o : def.getNamespaces().keySet()) {
+            String key = (String) o;
             String val = def.getNamespace(key);
             flat.addNamespace(key, val);
         }
@@ -238,8 +228,8 @@ public class BgWSDLFlattener {
         if (defMessage.getQName() != null) {
             flatMsg.setQName(new QName(flat.getTargetNamespace(), defMessage.getQName().getLocalPart()));
         }
-        for (Iterator itPart = defMessage.getParts().values().iterator(); itPart.hasNext();) {
-            Part defPart = (Part) itPart.next();
+        for (Object o : defMessage.getParts().values()) {
+            Part defPart = (Part) o;
             Part flatPart = flat.createPart();
             flatPart.setName(defPart.getName());
             flatPart.setElementName(defPart.getElementName());

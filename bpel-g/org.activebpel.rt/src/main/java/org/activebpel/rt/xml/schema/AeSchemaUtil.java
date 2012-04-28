@@ -9,17 +9,6 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.xml.schema;
 
-import java.io.StringReader;
-import java.util.ArrayList;
-import java.util.Enumeration;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Set;
-
-import javax.xml.XMLConstants;
-import javax.xml.namespace.QName;
-
 import org.activebpel.rt.AeException;
 import org.activebpel.rt.AeMessages;
 import org.activebpel.rt.util.AeUnsynchronizedCharArrayWriter;
@@ -28,19 +17,15 @@ import org.activebpel.rt.wsdl.def.AeBPELExtendedWSDLDef;
 import org.activebpel.rt.wsdl.def.IAeBPELExtendedWSDLConst;
 import org.activebpel.rt.xml.AeXMLParserBase;
 import org.exolab.castor.xml.Namespaces;
-import org.exolab.castor.xml.schema.AttributeDecl;
-import org.exolab.castor.xml.schema.AttributeGroupDecl;
-import org.exolab.castor.xml.schema.ComplexType;
-import org.exolab.castor.xml.schema.ElementDecl;
-import org.exolab.castor.xml.schema.Form;
-import org.exolab.castor.xml.schema.ModelGroup;
-import org.exolab.castor.xml.schema.Schema;
-import org.exolab.castor.xml.schema.SchemaException;
-import org.exolab.castor.xml.schema.SimpleType;
-import org.exolab.castor.xml.schema.XMLType;
+import org.exolab.castor.xml.schema.*;
 import org.exolab.castor.xml.schema.writer.SchemaWriter;
 import org.w3c.dom.Document;
 import org.xml.sax.InputSource;
+
+import javax.xml.XMLConstants;
+import javax.xml.namespace.QName;
+import java.io.StringReader;
+import java.util.*;
 
 /**
  * A utility class that contains static methods used to manipulate XML schemas.
@@ -412,28 +397,24 @@ public class AeSchemaUtil
       
       // keep a set of the schemas we've processed to avoid recursing forever
       Set<Schema> alreadyProcessed = new HashSet<Schema>();
-      
-      for(Iterator it=aSchemas.iterator(); it.hasNext();)
-      {
-         Schema schema = (Schema) it.next();
-         // process the schema if u can add it to the set
-         if (alreadyProcessed.add(schema))
-         {
-            // call will populate list with all of the derived types 
-            findDerivedTypes(schema, aComplexType, list);
-            
-            // check for imports in this schema
-            for(Enumeration enoom = schema.getImportedSchema(); enoom.hasMoreElements();)
-            {
-               Schema imported = (Schema) enoom.nextElement();
-               // check to see if the imported schema has already been processed.
-               if (alreadyProcessed.add(imported))
-               {
-                  findDerivedTypes(imported, aComplexType, list);
+
+       for (Object s : aSchemas) {
+           Schema schema = (Schema) s;
+           // process the schema if u can add it to the set
+           if (alreadyProcessed.add(schema)) {
+               // call will populate list with all of the derived types
+               findDerivedTypes(schema, aComplexType, list);
+
+               // check for imports in this schema
+               for (Enumeration enoom = schema.getImportedSchema(); enoom.hasMoreElements(); ) {
+                   Schema imported = (Schema) enoom.nextElement();
+                   // check to see if the imported schema has already been processed.
+                   if (alreadyProcessed.add(imported)) {
+                       findDerivedTypes(imported, aComplexType, list);
+                   }
                }
-            }
-         }
-      }
+           }
+       }
       
       return list;
    }
@@ -471,27 +452,23 @@ public class AeSchemaUtil
       Set<Schema> alreadyProcessed = new HashSet<Schema>();
       
       // walk all of the schemas
-      for(Iterator it=aSchemas.iterator(); it.hasNext();)
-      {
-         Schema schema = (Schema) it.next();
-         // check to see if we've already processed this schema
-         if (alreadyProcessed.add(schema))
-         {
-            // call will populate the list with all of the sg elements
-            findSubstitutionGroupElements(schema, aElement, list);
-            
-            // check for imports in this schema
-            for(Enumeration enoom = schema.getImportedSchema(); enoom.hasMoreElements();)
-            {
-               Schema imported = (Schema) enoom.nextElement();
-               // check to see if we've already seen the import
-               if (alreadyProcessed.add(imported))
-               {
-                  findSubstitutionGroupElements(imported, aElement, list);
+       for (Object s : aSchemas) {
+           Schema schema = (Schema) s;
+           // check to see if we've already processed this schema
+           if (alreadyProcessed.add(schema)) {
+               // call will populate the list with all of the sg elements
+               findSubstitutionGroupElements(schema, aElement, list);
+
+               // check for imports in this schema
+               for (Enumeration enoom = schema.getImportedSchema(); enoom.hasMoreElements(); ) {
+                   Schema imported = (Schema) enoom.nextElement();
+                   // check to see if we've already seen the import
+                   if (alreadyProcessed.add(imported)) {
+                       findSubstitutionGroupElements(imported, aElement, list);
+                   }
                }
-            }
-         }
-      }
+           }
+       }
       
       return list;
    }

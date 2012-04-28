@@ -613,14 +613,13 @@ public abstract class AeWSIOInvokeHandler implements IAeInvokeHandler,
 			IAeEndpointReference endpoint = aContext.getEndpoint();
 			Element principalHeader = null;
 			// look for existing principal header
-			for (Iterator<Element> it = endpoint.getReferenceProperties().iterator(); it.hasNext();) {
-				Element header = it.next();
-				QName headerName = new QName(header.getNamespaceURI(), header.getLocalName());
-				if (IAePolicyConstants.PRINCIPAL_HEADER.equals(headerName)) {
-					principalHeader = header;
-					break;
-				}
-			}
+            for (Element header : endpoint.getReferenceProperties()) {
+                QName headerName = new QName(header.getNamespaceURI(), header.getLocalName());
+                if (IAePolicyConstants.PRINCIPAL_HEADER.equals(headerName)) {
+                    principalHeader = header;
+                    break;
+                }
+            }
 			// not found, create a new element
 			if (principalHeader == null) {
 				String principal = aInvoke.getProcessInitiator();

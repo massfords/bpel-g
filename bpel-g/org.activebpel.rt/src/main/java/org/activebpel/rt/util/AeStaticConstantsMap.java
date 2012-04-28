@@ -9,13 +9,13 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.util;
 
+import org.activebpel.rt.AeException;
+import org.activebpel.rt.AeMessages;
+
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.HashMap;
 import java.util.Map;
-
-import org.activebpel.rt.AeException;
-import org.activebpel.rt.AeMessages;
 
 /**
  * Implements a map between the names and values of the static fields in a Java
@@ -57,30 +57,21 @@ public class AeStaticConstantsMap
          mNamesToValuesMap = new HashMap<String, Object>();
          mValuesToNamesMap = new HashMap<Object, String>();
 
-         for (int i = 0; i < fields.length; ++i)
-         {
-            Field field = fields[i];
+          for (Field field : fields) {
+              if (Modifier.isStatic(field.getModifiers())) {
+                  try {
+                      String name = field.getName();
+                      Object value = field.get(null);
 
-            if (Modifier.isStatic(field.getModifiers()))
-            {
-               try
-               {
-                  String name = field.getName();
-                  Object value = field.get(null);
-
-                  mNamesToValuesMap.put(name, value);
-                  mValuesToNamesMap.put(value, name);
-               }
-               catch (IllegalArgumentException e)
-               {
-                  AeException.logError(e, AeMessages.getString("AeStaticConstantsMap.ERROR_0") + field); //$NON-NLS-1$
-               }
-               catch (IllegalAccessException e)
-               {
-                  AeException.logError(e, AeMessages.getString("AeStaticConstantsMap.ERROR_0") + field); //$NON-NLS-1$
-               }
-            }
-         }
+                      mNamesToValuesMap.put(name, value);
+                      mValuesToNamesMap.put(value, name);
+                  } catch (IllegalArgumentException e) {
+                      AeException.logError(e, AeMessages.getString("AeStaticConstantsMap.ERROR_0") + field); //$NON-NLS-1$
+                  } catch (IllegalAccessException e) {
+                      AeException.logError(e, AeMessages.getString("AeStaticConstantsMap.ERROR_0") + field); //$NON-NLS-1$
+                  }
+              }
+          }
       }
    }
 

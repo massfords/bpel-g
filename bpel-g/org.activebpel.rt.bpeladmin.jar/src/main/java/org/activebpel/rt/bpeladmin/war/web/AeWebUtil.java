@@ -9,19 +9,17 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpeladmin.war.web;
 
+import org.activebpel.rt.AeException;
+import org.activebpel.rt.bpeladmin.war.AeMessages;
+import org.activebpel.rt.util.AeUtil;
+
+import javax.xml.namespace.QName;
 import java.text.DateFormat;
 import java.text.MessageFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Iterator;
 import java.util.Map;
-
-import javax.xml.namespace.QName;
-
-import org.activebpel.rt.AeException;
-import org.activebpel.rt.bpeladmin.war.AeMessages;
-import org.activebpel.rt.util.AeUtil;
 
 /**
  * Utility class for common bean operations.
@@ -119,17 +117,16 @@ public class AeWebUtil
    {
       // @todo - put this in for the ui - may want to revisit this with something
       // that allows more control over th display
-      StringBuffer sb = new StringBuffer();
+      StringBuilder sb = new StringBuilder();
       String sep = ""; //$NON-NLS-1$
-      for( Iterator iter = aMap.entrySet().iterator(); iter.hasNext(); )
-      {
-         Map.Entry entry = (Map.Entry)iter.next();
-         sb.append( sep );
-         sb.append( entry.getKey() );
-         sb.append( "=" ); //$NON-NLS-1$
-         sb.append( entry.getValue() );
-         sep="\\n"; //$NON-NLS-1$
-      }
+       for (Object o : aMap.entrySet()) {
+           Map.Entry entry = (Map.Entry) o;
+           sb.append(sep);
+           sb.append(entry.getKey());
+           sb.append("="); //$NON-NLS-1$
+           sb.append(entry.getValue());
+           sep = "\\n"; //$NON-NLS-1$
+       }
       return sb.toString();
    }
    
@@ -141,10 +138,8 @@ public class AeWebUtil
    public static String escapeSingleQuotes(String aValue)
    {
       aValue = AeUtil.getSafeString(aValue);
-      StringBuffer sb = new StringBuffer();
+      StringBuilder sb = new StringBuilder();
       
-      synchronized(sb)
-      {
          for (int j =0; j < aValue.length(); j++)
          {
             if (aValue.charAt(j) == '\'') 
@@ -154,7 +149,6 @@ public class AeWebUtil
             sb.append(aValue.charAt(j));
    
          }
-      }
       return sb.toString();
    }   
 }

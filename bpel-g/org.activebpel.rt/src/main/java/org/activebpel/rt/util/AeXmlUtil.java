@@ -9,32 +9,6 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.util;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.StringReader;
-import java.text.MessageFormat;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.regex.Pattern;
-
-import javax.xml.XMLConstants;
-import javax.xml.namespace.QName;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.transform.OutputKeys;
-import javax.xml.transform.Source;
-import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerException;
-import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.URIResolver;
-import javax.xml.transform.dom.DOMResult;
-
 import org.activebpel.rt.AeException;
 import org.activebpel.rt.AeMessages;
 import org.activebpel.rt.xml.AeElementBasedNamespaceContext;
@@ -43,14 +17,22 @@ import org.activebpel.rt.xml.IAeMutableNamespaceContext;
 import org.activebpel.rt.xml.schema.AeSchemaDateTime;
 import org.exolab.castor.xml.schema.Schema;
 import org.exolab.castor.xml.schema.XMLType;
-import org.w3c.dom.Attr;
-import org.w3c.dom.Document;
-import org.w3c.dom.DocumentFragment;
-import org.w3c.dom.Element;
-import org.w3c.dom.NamedNodeMap;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
+import org.w3c.dom.*;
 import org.xml.sax.InputSource;
+
+import javax.xml.XMLConstants;
+import javax.xml.namespace.QName;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.transform.*;
+import javax.xml.transform.dom.DOMResult;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.StringReader;
+import java.text.MessageFormat;
+import java.util.*;
+import java.util.regex.Pattern;
 
 /**
  * Utility methods for working with XML.
@@ -310,55 +292,45 @@ public class AeXmlUtil
 
          Element tgtElement = (Element)aTarget;
          String tgtElementPrefix = extractPrefix(tgtElement.getNodeName());
-         for(Iterator iter = newNamespaceAttrs.entrySet().iterator(); iter.hasNext(); )
-         {
-            Map.Entry es = (Map.Entry)iter.next();
-            String prefix = (String)es.getKey();
-            String namespace = (String)es.getValue();
-            String oldNamespace = existingNamespaceAttrs.get(prefix);
+          for (Map.Entry<String, String> entry : newNamespaceAttrs.entrySet()) {
+              String prefix = (String) ((Map.Entry) entry).getKey();
+              String namespace = (String) ((Map.Entry) entry).getValue();
+              String oldNamespace = existingNamespaceAttrs.get(prefix);
 
-            // add a namespace declaration
-            if(!namespace.equals(oldNamespace))
-            {
-               // need to remap the old namespace declaration only if there's a conflict
-               if (existingNamespaceAttrs.containsKey(prefix))
-               {
-                  // add a changed prefix to the map so we can update any existing children
-                  changedNamespaceAttrs.put(prefix, oldNamespace);
+              // add a namespace declaration
+              if (!namespace.equals(oldNamespace)) {
+                  // need to remap the old namespace declaration only if there's a conflict
+                  if (existingNamespaceAttrs.containsKey(prefix)) {
+                      // add a changed prefix to the map so we can update any existing children
+                      changedNamespaceAttrs.put(prefix, oldNamespace);
 
-                  // if the target elements namespace/prefix conflicts reassign elements prefix to temporary one
-                  if(prefix.equals(tgtElementPrefix))
-                  {
-                     int counter = getUniquePrefix(prefixCounter, newNamespaceAttrs);
-                     tgtElementPrefix = PREFIX + counter;
-                     prefixCounter++;
-                     tgtElement.setAttributeNS(XMLConstants.XMLNS_ATTRIBUTE_NS_URI, "xmlns:" + tgtElementPrefix, tgtElement.getNamespaceURI()); //$NON-NLS-1$
-                     tgtElement.setPrefix(tgtElementPrefix);
+                      // if the target elements namespace/prefix conflicts reassign elements prefix to temporary one
+                      if (prefix.equals(tgtElementPrefix)) {
+                          int counter = getUniquePrefix(prefixCounter, newNamespaceAttrs);
+                          tgtElementPrefix = PREFIX + counter;
+                          prefixCounter++;
+                          tgtElement.setAttributeNS(XMLConstants.XMLNS_ATTRIBUTE_NS_URI, "xmlns:" + tgtElementPrefix, tgtElement.getNamespaceURI()); //$NON-NLS-1$
+                          tgtElement.setPrefix(tgtElementPrefix);
+                      }
                   }
-               }
-               // add a new namespace decl
-               if("".equals(prefix)) //$NON-NLS-1$
-               {
-                  // only set the default namespace on the target element if
-                  // it matches the element's current namespace. You can't change
-                  // the namespace of an element in DOM.
-                  if (namespace.equals(tgtElement.getNamespaceURI()))
+                  // add a new namespace decl
+                  if ("".equals(prefix)) //$NON-NLS-1$
                   {
-                     prefix = "xmlns"; //$NON-NLS-1$
-                     tgtElement.setAttributeNS(XMLConstants.XMLNS_ATTRIBUTE_NS_URI, prefix, namespace);
+                      // only set the default namespace on the target element if
+                      // it matches the element's current namespace. You can't change
+                      // the namespace of an element in DOM.
+                      if (namespace.equals(tgtElement.getNamespaceURI())) {
+                          prefix = "xmlns"; //$NON-NLS-1$
+                          tgtElement.setAttributeNS(XMLConstants.XMLNS_ATTRIBUTE_NS_URI, prefix, namespace);
+                      } else {
+                          addXmlnsDeclToChildNodes = true;
+                      }
+                  } else {
+                      prefix = "xmlns:" + prefix;  //$NON-NLS-1$
+                      tgtElement.setAttributeNS(XMLConstants.XMLNS_ATTRIBUTE_NS_URI, prefix, namespace);
                   }
-                  else
-                  {
-                     addXmlnsDeclToChildNodes = true;
-                  }
-               }
-               else
-               {
-                  prefix = "xmlns:" + prefix;  //$NON-NLS-1$
-                  tgtElement.setAttributeNS(XMLConstants.XMLNS_ATTRIBUTE_NS_URI, prefix, namespace);
-               }
-            }
-         }
+              }
+          }
 
          // add a local declaration to any existing children if prefixes were changed
          if (!AeUtil.isNullOrEmpty(changedNamespaceAttrs) && tgtElement.hasChildNodes())
@@ -370,23 +342,20 @@ public class AeXmlUtil
                {
                   Element child = (Element) nodes.item(i);
 
-                  for (Iterator it = changedNamespaceAttrs.entrySet().iterator(); it.hasNext();)
-                  {
-                     Map.Entry entry = (Map.Entry) it.next();
-                     String prefix = (String) entry.getKey();
-                     String namespace = (String) entry.getValue();
+                   for (Map.Entry<String, String> e : changedNamespaceAttrs.entrySet()) {
+                       String prefix = (String) ((Map.Entry) e).getKey();
+                       String namespace = (String) ((Map.Entry) e).getValue();
 
-                     if("".equals(prefix)) //$NON-NLS-1$
-                        prefix = "xmlns"; //$NON-NLS-1$
-                     else
-                        prefix = "xmlns:" + prefix; //$NON-NLS-1$
+                       if ("".equals(prefix)) //$NON-NLS-1$
+                           prefix = "xmlns"; //$NON-NLS-1$
+                       else
+                           prefix = "xmlns:" + prefix; //$NON-NLS-1$
 
-                     // add a new namespace decl if one hasn't been locally defined
-                     if (AeUtil.isNullOrEmpty(child.getAttribute(prefix)))
-                     {
-                        child.setAttributeNS(XMLConstants.XMLNS_ATTRIBUTE_NS_URI, prefix, namespace);
-                     }
-                  }
+                       // add a new namespace decl if one hasn't been locally defined
+                       if (AeUtil.isNullOrEmpty(child.getAttribute(prefix))) {
+                           child.setAttributeNS(XMLConstants.XMLNS_ATTRIBUTE_NS_URI, prefix, namespace);
+                       }
+                   }
                }
             }
          }
@@ -662,18 +631,14 @@ public class AeXmlUtil
    public static void declareNamespacePrefixes(Element aElement, Map aNamespaceMap)
    {
       // declare each of the namespaces locally in the element
-      for (Iterator iter = aNamespaceMap.entrySet().iterator(); iter.hasNext();)
-      {
-         Map.Entry entry = (Map.Entry) iter.next();
-         if (AeUtil.notNullOrEmpty((String) entry.getKey()))
-         {
-            aElement.setAttributeNS(XMLConstants.XMLNS_ATTRIBUTE_NS_URI, "xmlns:" + entry.getKey(), (String)entry.getValue()); //$NON-NLS-1$
-         }
-         else
-         {
-            aElement.setAttributeNS(XMLConstants.XMLNS_ATTRIBUTE_NS_URI, "xmlns", (String)entry.getValue()); //$NON-NLS-1$
-         }
-      }
+       for (Object o : aNamespaceMap.entrySet()) {
+           Map.Entry entry = (Map.Entry) o;
+           if (AeUtil.notNullOrEmpty((String) entry.getKey())) {
+               aElement.setAttributeNS(XMLConstants.XMLNS_ATTRIBUTE_NS_URI, "xmlns:" + entry.getKey(), (String) entry.getValue()); //$NON-NLS-1$
+           } else {
+               aElement.setAttributeNS(XMLConstants.XMLNS_ATTRIBUTE_NS_URI, "xmlns", (String) entry.getValue()); //$NON-NLS-1$
+           }
+       }
    }
 
    /**
@@ -862,7 +827,7 @@ public class AeXmlUtil
       if(aElement == null)
          return null;
 
-      StringBuffer buffer = new StringBuffer();
+      StringBuilder buffer = new StringBuilder();
 
       NodeList nl = aElement.getChildNodes();
       for (int i=0; nl.item(i) != null; i++)
@@ -1488,14 +1453,11 @@ public class AeXmlUtil
    {
       if (!AeUtil.isNullOrEmpty(aCollection))
       {
-         for (Iterator i = aCollection.iterator(); i.hasNext(); )
-         {
-            Object node = i.next();
-            if (node instanceof Node)
-            {
-               touchXmlNodes((Node) node);
-            }
-         }
+          for (Object node : aCollection) {
+              if (node instanceof Node) {
+                  touchXmlNodes((Node) node);
+              }
+          }
       }
    }
 
@@ -1600,12 +1562,11 @@ public class AeXmlUtil
       // Set up the global parameters based on the arguments to the function.
       if (aParams != null)
       {
-         for (Iterator iter = aParams.keySet().iterator(); iter.hasNext(); )
-         {
-            String key = (String) iter.next();
-            Object value = aParams.get(key);
-            trans.setParameter(key, value);
-         }
+          for (Object o : aParams.keySet()) {
+              String key = (String) o;
+              Object value = aParams.get(key);
+              trans.setParameter(key, value);
+          }
       }
       trans.transform(aXmlSource, result);
 

@@ -9,19 +9,13 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpeladmin.war;
 
+import javax.servlet.ServletContext;
+import javax.servlet.ServletRequest;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.SequenceInputStream;
-import java.util.Enumeration;
-import java.util.Locale;
-import java.util.MissingResourceException;
-import java.util.PropertyResourceBundle;
-import java.util.ResourceBundle;
-import java.util.Vector;
-
-import javax.servlet.ServletContext;
-import javax.servlet.ServletRequest;
+import java.util.*;
 
 /**
  * A resource bundle implementation for the ActiveBPEL, Standard and Enterprise Admin WARs.
@@ -90,12 +84,11 @@ public class AeActiveBpelWarBundle extends ResourceBundle
       // An enumeration must be passed to SequenceInputStream for concatenation. So we will use 
       // vector.elements()
       Vector<InputStream> streamVector = new Vector<InputStream>();
-      
-      for (int i = 0; i < mBundlePrefix.length; i++)
-      {
-         streamVector.add(getLocalizedInputStream(mBundlePrefix[i], aServletContext, aServletRequest));
-         streamVector.add(new ByteArrayInputStream("\n".getBytes())); //$NON-NLS-1$
-      }
+
+       for (String prefix : mBundlePrefix) {
+           streamVector.add(getLocalizedInputStream(prefix, aServletContext, aServletRequest));
+           streamVector.add(new ByteArrayInputStream("\n".getBytes())); //$NON-NLS-1$
+       }
       
       return new SequenceInputStream(streamVector.elements());      
    }

@@ -9,17 +9,16 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.axis.bpel.deploy;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-
 import org.activebpel.rt.AeException;
 import org.activebpel.rt.IAeConstants;
 import org.activebpel.rt.bpel.server.AeCryptoUtil;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
+
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Creates Policy Deployment for a XPath mapping assertions 
@@ -76,46 +75,39 @@ public class AeCredentialPolicyMapper extends AeAxisPolicyMapper
    public Map<String, Object> getCallProperties(List<Element> aPolicyList) throws AeException
    {
       Map<String, Object> map = new HashMap<String, Object>();
-      
-      for (Iterator<Element> it = aPolicyList.iterator(); it.hasNext();)
-      {
-         Element aPolicyElement = it.next();
 
-         String username = null;
-         String password = null;
-         // grab the username (if any)
-         NodeList children = aPolicyElement.getElementsByTagNameNS(IAeConstants.ABP_NAMESPACE_URI,
-               TAG_ASSERT_AUTH_USER);
-         if ( children.getLength() > 0 )
-         {
-            username = children.item(0).getFirstChild().getNodeValue();
-            map.put(TAG_ASSERT_AUTH_USER, username);
-         }
+       for (Element pe : aPolicyList) {
+           String username = null;
+           String password = null;
+           // grab the username (if any)
+           NodeList children = pe.getElementsByTagNameNS(IAeConstants.ABP_NAMESPACE_URI,
+                   TAG_ASSERT_AUTH_USER);
+           if (children.getLength() > 0) {
+               username = children.item(0).getFirstChild().getNodeValue();
+               map.put(TAG_ASSERT_AUTH_USER, username);
+           }
 
-         // grab the cleartext password (if any)
-         children = aPolicyElement.getElementsByTagNameNS(IAeConstants.ABP_NAMESPACE_URI,
-               TAG_ASSERT_AUTH_PWD_CLEARTEXT);
-         if ( children.getLength() > 0 )
-         {
-            password = children.item(0).getFirstChild().getNodeValue();
-            password = AeCryptoUtil.encryptString(password);            
-            map.put(TAG_ASSERT_AUTH_PASSWORD, password);
-         }
-         // grab the encrypted password (if any)
-         children = aPolicyElement.getElementsByTagNameNS(IAeConstants.ABP_NAMESPACE_URI, TAG_ASSERT_AUTH_PASSWORD);
-         if ( children.getLength() > 0 )
-         {
-            password = children.item(0).getFirstChild().getNodeValue();
-            map.put(TAG_ASSERT_AUTH_PASSWORD, password);
-         }
+           // grab the cleartext password (if any)
+           children = pe.getElementsByTagNameNS(IAeConstants.ABP_NAMESPACE_URI,
+                   TAG_ASSERT_AUTH_PWD_CLEARTEXT);
+           if (children.getLength() > 0) {
+               password = children.item(0).getFirstChild().getNodeValue();
+               password = AeCryptoUtil.encryptString(password);
+               map.put(TAG_ASSERT_AUTH_PASSWORD, password);
+           }
+           // grab the encrypted password (if any)
+           children = pe.getElementsByTagNameNS(IAeConstants.ABP_NAMESPACE_URI, TAG_ASSERT_AUTH_PASSWORD);
+           if (children.getLength() > 0) {
+               password = children.item(0).getFirstChild().getNodeValue();
+               map.put(TAG_ASSERT_AUTH_PASSWORD, password);
+           }
 
-         // grab the preemptive flag
-         children = aPolicyElement.getElementsByTagNameNS(IAeConstants.ABP_NAMESPACE_URI, TAG_ASSERT_AUTH_PREEMPTIVE);
-         if ( children.getLength() > 0 )
-         {
-            map.put(TAG_ASSERT_AUTH_PREEMPTIVE, "true"); //$NON-NLS-1$
-         }
-      }
+           // grab the preemptive flag
+           children = pe.getElementsByTagNameNS(IAeConstants.ABP_NAMESPACE_URI, TAG_ASSERT_AUTH_PREEMPTIVE);
+           if (children.getLength() > 0) {
+               map.put(TAG_ASSERT_AUTH_PREEMPTIVE, "true"); //$NON-NLS-1$
+           }
+       }
       return map;
    }
 }

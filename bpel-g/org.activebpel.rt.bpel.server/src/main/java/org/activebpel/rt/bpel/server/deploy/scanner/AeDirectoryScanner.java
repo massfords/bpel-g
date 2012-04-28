@@ -87,10 +87,10 @@ public class AeDirectoryScanner {
 
 		File[] files = getScanDir().listFiles(getFilter());
 		if (files != null) {
-			for (int i = 0; i < files.length; i++) {
-				mDeployments.put(files[i].getName(),
-                        files[i].lastModified());
-			}
+            for (File file : files) {
+                mDeployments.put(file.getName(),
+                        file.lastModified());
+            }
 		}
 		return files;
 	}
@@ -129,38 +129,38 @@ public class AeDirectoryScanner {
 
 					if (fileNames != null) {
 						Map<String,Long> currentDeployments = new HashMap<String,Long>();
-						for (int i = 0; i < fileNames.length; i++) {
-							boolean isNewDeployment = true;
-							File bprFile = new File(getScanDir(), fileNames[i]);
+                        for (String fileName : fileNames) {
+                            boolean isNewDeployment = true;
+                            File bprFile = new File(getScanDir(), fileName);
 
-							Long lastModified = getDeployments().get(
-									fileNames[i]);
-							if (lastModified != null) {
-								getDeployments().remove(fileNames[i]);
+                            Long lastModified = getDeployments().get(
+                                    fileName);
+                            if (lastModified != null) {
+                                getDeployments().remove(fileName);
 
-								if (bprFile.lastModified() != lastModified)
-									fireRemoveEvent(bprFile.toURI().toURL(),
-											null);
-								else
-									isNewDeployment = false;
-							}
+                                if (bprFile.lastModified() != lastModified)
+                                    fireRemoveEvent(bprFile.toURI().toURL(),
+                                            null);
+                                else
+                                    isNewDeployment = false;
+                            }
 
-							currentDeployments.put(fileNames[i], bprFile.lastModified());
+                            currentDeployments.put(fileName, bprFile.lastModified());
 
-							if (isNewDeployment) {
-								// attempt to avoid notifying listeners if they
-								// won't be able to acquire
-								// the read lock to the file - remove from the
-								// current deployment list so we can
-								// try again on the next scan cycle.
-								if (cannotOpen(bprFile))
-									currentDeployments.remove(fileNames[i]);
-								else
-									fireAddEvent(bprFile.toURI().toURL(), null);
-							}
+                            if (isNewDeployment) {
+                                // attempt to avoid notifying listeners if they
+                                // won't be able to acquire
+                                // the read lock to the file - remove from the
+                                // current deployment list so we can
+                                // try again on the next scan cycle.
+                                if (cannotOpen(bprFile))
+                                    currentDeployments.remove(fileName);
+                                else
+                                    fireAddEvent(bprFile.toURI().toURL(), null);
+                            }
 
-							bprFile = null;
-						}
+                            bprFile = null;
+                        }
 
 						// if there are deployments left from previous check
 						// remove deployment
@@ -238,9 +238,9 @@ public class AeDirectoryScanner {
 	 */
 	protected void removeRemainingDeployments() throws MalformedURLException, UnhandledException, MissingResourcesException {
 		if (!getDeployments().isEmpty()) {
-			for (Iterator<String> iter = getDeployments().keySet().iterator(); iter.hasNext();) {
-				fireRemoveEvent(new File(getScanDir(), iter.next()).toURI().toURL(), null);
-			}
+            for (String s : getDeployments().keySet()) {
+                fireRemoveEvent(new File(getScanDir(), s).toURI().toURL(), null);
+            }
 		}
 	}
 
@@ -411,9 +411,9 @@ public class AeDirectoryScanner {
 
 		if (recipients != null) {
 			AeScanEvent event = new AeScanEvent(aURL, aType, aUserData);
-			for (Iterator<IAeScannerListener> iter = recipients.iterator(); iter.hasNext();) {
-				iter.next().onChange(event);
-			}
+            for (IAeScannerListener recipient : recipients) {
+                recipient.onChange(event);
+            }
 		}
 	}
 

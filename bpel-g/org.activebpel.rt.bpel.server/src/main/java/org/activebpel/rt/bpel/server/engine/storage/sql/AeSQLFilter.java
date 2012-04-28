@@ -9,12 +9,12 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpel.server.engine.storage.sql; 
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.activebpel.rt.bpel.server.AeMessages;
 import org.activebpel.rt.bpel.server.engine.storage.AeStorageException;
 import org.activebpel.rt.util.AeUtil;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Base class for building a SQL statement from a filter object.
@@ -74,7 +74,7 @@ abstract public class AeSQLFilter
     */
    protected void appendCondition(String aCondition)
    {
-      appendCondition(aCondition, (Object[])null);
+      appendCondition(aCondition, null);
    }
 
    /**
@@ -106,10 +106,9 @@ abstract public class AeSQLFilter
    
          if (aParams != null)
          {
-            for (int i = 0; i < aParams.length; ++i)
-            {
-               mParams.add(aParams[i]);
-            }
+             for (Object p : aParams) {
+                 mParams.add(p);
+             }
          }
       }
    }
@@ -160,7 +159,7 @@ abstract public class AeSQLFilter
       {
          throw new AeStorageException(AeMessages.getString("AeSQLFilter.DeletesNotSupported")); //$NON-NLS-1$
       }
-      StringBuffer buffer = new StringBuffer();
+      StringBuilder buffer = new StringBuilder();
       buffer.append(delete).append(' ');
       String conditions = getConditions().toString();
       if (!AeUtil.isNullOrEmpty(conditions))

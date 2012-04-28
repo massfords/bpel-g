@@ -16,7 +16,6 @@ import commonj.work.WorkItem;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -60,8 +59,7 @@ public class AeWorkItem implements WorkItem
     */
    public synchronized void notifyListeners()
    {
-      for (Iterator<IAeWorkDoneListener> iter=getListeners().iterator(); iter.hasNext();)
-         iter.next().workDone();
+       for (IAeWorkDoneListener iAeWorkDoneListener : getListeners()) iAeWorkDoneListener.workDone();
    }
    
    /** 

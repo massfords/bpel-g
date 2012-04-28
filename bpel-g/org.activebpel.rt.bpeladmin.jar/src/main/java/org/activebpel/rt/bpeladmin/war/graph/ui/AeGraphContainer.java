@@ -9,12 +9,12 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpeladmin.war.graph.ui;
 
-import java.awt.BorderLayout;
-import java.util.List;
-
 import org.activebpel.rt.bpeladmin.war.graph.ui.controller.IAeGraphController;
 import org.activebpel.rt.bpeladmin.war.graph.ui.controller.IAeGraphControllerFactory;
 import org.activebpel.rt.bpeladmin.war.graph.ui.figure.AeGraphFigure;
+
+import java.awt.*;
+import java.util.List;
 
 /**
  * Basic figure container that is the root level container for all of the
@@ -129,19 +129,16 @@ public class AeGraphContainer extends AeGraphFigure
       }
       
       List modelList = aParentController.getModelChildren();
-      for (int i = 0; i < modelList.size(); i++)
-      {
-         Object model = modelList.get(i);
-         IAeGraphController controller = createController(aParentController, model);
-         if (controller == null)
-         {
-            continue;
-         }
-         AeGraphFigure contentFigure = aParentController.getContentFigure();
-         AeGraphFigure figure = controller.getFigure();
-         addChildrenUI(contentFigure, figure, controller);                        
-         aParentController.addChild(controller);
-      }
+       for (Object model : modelList) {
+           IAeGraphController controller = createController(aParentController, model);
+           if (controller == null) {
+               continue;
+           }
+           AeGraphFigure contentFigure = aParentController.getContentFigure();
+           AeGraphFigure figure = controller.getFigure();
+           addChildrenUI(contentFigure, figure, controller);
+           aParentController.addChild(controller);
+       }
    }
 
    /**

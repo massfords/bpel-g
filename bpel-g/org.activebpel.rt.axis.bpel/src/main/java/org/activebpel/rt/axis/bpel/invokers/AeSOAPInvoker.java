@@ -48,26 +48,21 @@ public abstract class AeSOAPInvoker implements IAeInvoker
    {
       try
       {
-         for (Iterator<String> iter = aContext.getOutputHeaderParts().iterator(); iter.hasNext();)
-         {
-            String partName = iter.next();
-            Part part = aContext.getOperation().getOutput().getMessage().getPart(partName);
-            QName elementQName = part.getElementName();
-            if (elementQName != null)
-            {
-               for(@SuppressWarnings("unchecked")
-            		   Iterator<SOAPHeaderElement> it = aContext.getCall().getResponseMessage().getSOAPHeader().examineAllHeaderElements(); it.hasNext(); )
-               {
-                  SOAPHeaderElement headerElement = it.next();
-                  if (headerElement.getQName().equals(elementQName))
-                  {
-                     Document doc = headerElement.getAsDOM().getOwnerDocument();
-                     outputMsg.setData(part.getName(), doc);
-                     break;
+          for (String partName : aContext.getOutputHeaderParts()) {
+              Part part = aContext.getOperation().getOutput().getMessage().getPart(partName);
+              QName elementQName = part.getElementName();
+              if (elementQName != null) {
+                  for (@SuppressWarnings("unchecked")
+                       Iterator<SOAPHeaderElement> it = aContext.getCall().getResponseMessage().getSOAPHeader().examineAllHeaderElements(); it.hasNext(); ) {
+                      SOAPHeaderElement headerElement = it.next();
+                      if (headerElement.getQName().equals(elementQName)) {
+                          Document doc = headerElement.getAsDOM().getOwnerDocument();
+                          outputMsg.setData(part.getName(), doc);
+                          break;
+                      }
                   }
-               }
-            }
-         }
+              }
+          }
       }
       catch (Exception e)
       {
@@ -125,15 +120,13 @@ public abstract class AeSOAPInvoker implements IAeInvoker
          {
            throw new AeException(ex1);
          }
-         
-         for (Iterator<IAeWebServiceAttachment> itr = attachments.iterator();itr.hasNext();)
-         {
-        	IAeWebServiceAttachment attachment = itr.next();
-            DataHandler dh = new DataHandler(new AeAttachmentDataSource(attachment));
-            AttachmentPart ap = (AttachmentPart)msg.createAttachmentPart(dh);
-            ap.setContentId((attachment).getContentId());
-            aInvokeContext.getCall().addAttachmentPart(ap);
-         }
+
+          for (IAeWebServiceAttachment attachment : attachments) {
+              DataHandler dh = new DataHandler(new AeAttachmentDataSource(attachment));
+              AttachmentPart ap = (AttachmentPart) msg.createAttachmentPart(dh);
+              ap.setContentId((attachment).getContentId());
+              aInvokeContext.getCall().addAttachmentPart(ap);
+          }
       }
       
       return attachments;
@@ -147,10 +140,9 @@ public abstract class AeSOAPInvoker implements IAeInvoker
       if(aAttachments != null)
       {
          // close attachment streams of the message sent.
-         for (Iterator<IAeWebServiceAttachment> itr = aAttachments.iterator();itr.hasNext();)
-         {
-            AeCloser.close(itr.next().getContent()); 
-         }  
+          for (IAeWebServiceAttachment aAttachment : aAttachments) {
+              AeCloser.close(aAttachment.getContent());
+          }
       }
    }
    

@@ -9,11 +9,10 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.xml.def;
 
-import java.util.Iterator;
-import java.util.Set;
-
 import org.activebpel.rt.util.AeUtil;
 import org.activebpel.rt.xml.IAeMutableNamespaceContext;
+
+import java.util.Set;
 
 /**
  * A concrete implementation of a namespace context that uses a def object 
@@ -76,12 +75,11 @@ public class AeBaseDefNamespaceContext implements IAeMutableNamespaceContext
       else
       {
          String prefix = null;
-         for (Iterator iter = prefixes.iterator(); iter.hasNext(); )
-         {
-            prefix = (String) iter.next();
-            if (AeUtil.compareObjects(prefix, aPreferredPrefix))
-               break;
-         }
+          for (Object p : prefixes) {
+              prefix = (String) p;
+              if (AeUtil.compareObjects(prefix, aPreferredPrefix))
+                  break;
+          }
          return prefix;
       }
    }

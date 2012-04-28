@@ -10,16 +10,6 @@
 
 package org.activebpel.rt.wsresource.validation;
 
-import java.io.InputStreamReader;
-import java.net.URL;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-
-import javax.xml.namespace.QName;
-
 import org.activebpel.rt.util.AeXPathUtil;
 import org.activebpel.rt.wsdl.def.castor.AeSchemaParserUtil;
 import org.activebpel.rt.wsresource.IAeWSResourceConstants;
@@ -29,6 +19,14 @@ import org.exolab.castor.xml.schema.Schema;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.xml.sax.InputSource;
+
+import javax.xml.namespace.QName;
+import java.io.InputStreamReader;
+import java.net.URL;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Abstract class to provide functionality to load a validation preferences file to extending classes.
@@ -71,16 +69,15 @@ public abstract class AeWSResourceValidationPreferences implements IAeWSResource
                                                 severityDoc, 
                                                 "ae:preferences/@targetNamespace", //$NON-NLS-1$
                                                 sPrefixMap).getNodeValue();
-         
-         for (Iterator iter = ruleNodes.iterator(); iter.hasNext(); )
-         {
-            Element ruleElem = (Element) iter.next();
-            String code = AeXPathUtil.selectText(ruleElem, "ae:ruleCode", sPrefixMap); //$NON-NLS-1$
-            String severity = AeXPathUtil.selectText(ruleElem, "ae:preferredSeverity", sPrefixMap); //$NON-NLS-1$
-            QName id = new QName(targetNS, code);
-            
-            getSeverityMap().put(id, AeRulesUtil.convertSeverity(severity));
-         }
+
+          for (Object ruleNode : ruleNodes) {
+              Element ruleElem = (Element) ruleNode;
+              String code = AeXPathUtil.selectText(ruleElem, "ae:ruleCode", sPrefixMap); //$NON-NLS-1$
+              String severity = AeXPathUtil.selectText(ruleElem, "ae:preferredSeverity", sPrefixMap); //$NON-NLS-1$
+              QName id = new QName(targetNS, code);
+
+              getSeverityMap().put(id, AeRulesUtil.convertSeverity(severity));
+          }
       }
       catch (Exception ex)
       {

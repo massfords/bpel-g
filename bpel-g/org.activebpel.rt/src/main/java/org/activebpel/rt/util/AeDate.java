@@ -10,23 +10,18 @@
 // ///////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.util;
 
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
-import java.util.List;
-
-import javax.xml.datatype.DatatypeConfigurationException;
-import javax.xml.datatype.DatatypeFactory;
-import javax.xml.datatype.XMLGregorianCalendar;
-
 import org.activebpel.rt.xml.schema.AeSchemaDate;
 import org.activebpel.rt.xml.schema.AeSchemaDateTime;
 import org.activebpel.rt.xml.schema.AeSchemaTime;
 import org.activebpel.rt.xml.schema.AeSchemaTypeParseException;
+
+import javax.xml.datatype.DatatypeConfigurationException;
+import javax.xml.datatype.DatatypeFactory;
+import javax.xml.datatype.XMLGregorianCalendar;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 /**
  * Utility class for date parsing.
@@ -154,15 +149,14 @@ public class AeDate {
 	public static AeDate parse(String aDateTime) {
 		AeDate rVal = null;
 		if (AeUtil.notNullOrEmpty(aDateTime)) {
-			for (int i = 0; i < sPatterns.size(); i++) {
-				AeDate datePattern = sPatterns.get(i);
-				Date date = parseDate(aDateTime, datePattern.getPattern());
-				if (date != null) {
-					rVal = new AeDate(date, datePattern.getPattern(),
-							datePattern.getType());
-					break;
-				}
-			}
+            for (AeDate datePattern : sPatterns) {
+                Date date = parseDate(aDateTime, datePattern.getPattern());
+                if (date != null) {
+                    rVal = new AeDate(date, datePattern.getPattern(),
+                            datePattern.getType());
+                    break;
+                }
+            }
 			// try ISO8601 date and time format
 			try {
 				Date date = (new AeSchemaDateTime(aDateTime)).toDate();

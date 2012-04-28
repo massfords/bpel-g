@@ -25,6 +25,6 @@ public class AeImplReverseTraversingVisitor extends AeImplTraversingVisitor
    protected void visitBase(AeAbstractBpelObject aImpl) throws AeBusinessProcessException
    {
       if (aImpl.getParent() != null && aImpl.getParent() instanceof IAeVisitable)
-         ((IAeVisitable) aImpl.getParent()).accept(this);
+         aImpl.getParent().accept(this);
    }
 }

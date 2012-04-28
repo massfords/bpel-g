@@ -10,10 +10,10 @@
 package org.activebpel.rt.bpeladmin.war.web.processview;
 
 
-import java.util.List;
-
 import org.activebpel.rt.xml.def.AeBaseXmlDef;
 import org.activebpel.rt.xml.def.graph.IAeXmlDefGraphNodeAdapter;
+
+import java.util.List;
 
 /**
  * Base model representing an element in a BPEL definition. In addition
@@ -330,15 +330,13 @@ public class AeBpelObjectBase
          }
          if (variables != null && variables.size() > 0)
          {
-            for (int i = 0; i < variables.size(); i++)
-            {
-               AeBpelObjectBase var = (AeBpelObjectBase) variables.get(i);
-               if (var.getName().equals(aVariableName))
-               {
-                  rVal = var;
-                  break;
-               }
-            }
+             for (Object variable : variables) {
+                 AeBpelObjectBase var = (AeBpelObjectBase) variable;
+                 if (var.getName().equals(aVariableName)) {
+                     rVal = var;
+                     break;
+                 }
+             }
          }// if
          parentObj = parentObj.getParent();
       }
@@ -365,15 +363,13 @@ public class AeBpelObjectBase
          if (corrSetsList.size() > 0)
          {
             List corrSets = ( (AeBpelObjectContainer) corrSetsList.get(0)).getChildren();
-            for (int i = 0; i < corrSets.size(); i++)
-            {
-               AeBpelObjectBase cs = (AeBpelObjectBase) corrSets.get(i);
-               if (cs.getName().equals(aSetName))
-               {
-                  rVal = cs;
-                  break;
-               }
-            }
+             for (Object corrSet : corrSets) {
+                 AeBpelObjectBase cs = (AeBpelObjectBase) corrSet;
+                 if (cs.getName().equals(aSetName)) {
+                     rVal = cs;
+                     break;
+                 }
+             }
 
          }
          parentObj = parentObj.getParent();

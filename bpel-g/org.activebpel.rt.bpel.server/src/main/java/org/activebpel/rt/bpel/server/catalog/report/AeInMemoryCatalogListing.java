@@ -9,20 +9,15 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpel.server.catalog.report;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.regex.Pattern;
-
 import org.activebpel.rt.AeWSDLException;
 import org.activebpel.rt.bpel.impl.list.AeCatalogItem;
 import org.activebpel.rt.bpel.impl.list.AeCatalogListResult;
 import org.activebpel.rt.bpel.impl.list.AeCatalogListingFilter;
 import org.activebpel.rt.bpel.server.catalog.IAeCatalogMapping;
 import org.activebpel.rt.util.AeUtil;
+
+import java.util.*;
+import java.util.regex.Pattern;
 
 /**
  * Produce a <code>AeCatalogListResult</code> for the catalog display.  
@@ -43,13 +38,12 @@ public class AeInMemoryCatalogListing
       List<AeCatalogItem> results = new ArrayList<AeCatalogItem>();
 
       // walk the list of mapping in the catalog
-      for( Iterator iter = aLocationHintsToMapping.values().iterator(); iter.hasNext(); )
-      {
-         IAeCatalogMapping mapping = (IAeCatalogMapping)iter.next();
-         AeCatalogItem item = new AeCatalogItem(mapping.getLocationHint(), mapping.getTargetNamespace(), mapping.getTypeURI(), AeUtil.getShortNameForLocation(mapping.getLocationHint()));
-         if(isMatch(aFilter, item))
-            results.add(item);
-      }
+       for (Object o : aLocationHintsToMapping.values()) {
+           IAeCatalogMapping mapping = (IAeCatalogMapping) o;
+           AeCatalogItem item = new AeCatalogItem(mapping.getLocationHint(), mapping.getTargetNamespace(), mapping.getTypeURI(), AeUtil.getShortNameForLocation(mapping.getLocationHint()));
+           if (isMatch(aFilter, item))
+               results.add(item);
+       }
 
       // sort the results by namespace
       sort(results);

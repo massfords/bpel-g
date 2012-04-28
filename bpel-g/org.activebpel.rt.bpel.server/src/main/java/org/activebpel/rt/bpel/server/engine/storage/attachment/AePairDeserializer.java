@@ -9,11 +9,6 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpel.server.engine.storage.attachment;
 
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-
 import org.activebpel.rt.bpel.AeBusinessProcessException;
 import org.activebpel.rt.bpel.AeMessages;
 import org.jaxen.JaxenException;
@@ -22,6 +17,10 @@ import org.jaxen.dom.DOMXPath;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Utility class to convert between a java.util.Map containing name/value pairs and an AeFastDocument
@@ -37,13 +36,12 @@ public class AePairDeserializer
       Element root = aDocument.getDocumentElement();
       
       List pairElements = selectNodes(root, "./" + AePairSerializer.PAIR_ELEMENT); //$NON-NLS-1$
-      
-      for (Iterator pairIter = pairElements.iterator(); pairIter.hasNext();)
-      {
-         Element pairElement = (Element) pairIter.next();
-         String name = pairElement.getAttribute(AePairSerializer.NAME_ATTRIBUTE);
-         headers.put(name, pairElement.getNodeValue());
-      }
+
+       for (Object pe : pairElements) {
+           Element pairElement = (Element) pe;
+           String name = pairElement.getAttribute(AePairSerializer.NAME_ATTRIBUTE);
+           headers.put(name, pairElement.getNodeValue());
+       }
       return headers;
    }
 

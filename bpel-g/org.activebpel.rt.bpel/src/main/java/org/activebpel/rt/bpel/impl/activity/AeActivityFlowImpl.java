@@ -104,7 +104,7 @@ public class AeActivityFlowImpl extends AeActivityImpl implements IAeActivityPar
       
       // schedule all activities to be run when their links are known
        for (IAeActivity mChildActivity : mChildActivities) {
-           getProcess().queueObjectToExecute((IAeBpelObject) mChildActivity);
+           getProcess().queueObjectToExecute(mChildActivity);
        }
    }
 

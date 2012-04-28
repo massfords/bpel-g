@@ -10,15 +10,6 @@
 package org.activebpel.rt.axis.bpel.receivers;
 
 
-import java.util.Iterator;
-import java.util.List;
-
-import javax.wsdl.Message;
-import javax.wsdl.Operation;
-import javax.wsdl.Part;
-import javax.wsdl.PortType;
-import javax.xml.namespace.QName;
-
 import org.activebpel.rt.AeException;
 import org.activebpel.rt.axis.bpel.AeMessages;
 import org.activebpel.rt.axis.bpel.AeTypeMappingHelper;
@@ -46,6 +37,14 @@ import org.apache.axis.message.SOAPBodyElement;
 import org.apache.axis.message.SOAPEnvelope;
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
+
+import javax.wsdl.Message;
+import javax.wsdl.Operation;
+import javax.wsdl.Part;
+import javax.wsdl.PortType;
+import javax.xml.namespace.QName;
+import java.util.Iterator;
+import java.util.List;
 
 /**
  * Receive handler for RPC (Encoded and Literal) SOAP bindings
@@ -137,7 +136,7 @@ public class AeRPCReceiveHandler extends AeAxisReceiveHandler
    
          AeMessageContextTypeMapper msgContextTypeMapper = new AeMessageContextTypeMapper(axisContext);
          AeTypeMappingHelper typeMappingHelper = new AeTypeMappingHelper(inputMessageDef, outputMessageDef, operation);
-         typeMappingHelper.setEncoded((Use) aContext.getProperty(Use.class.getName()) == Use.ENCODED);
+         typeMappingHelper.setEncoded(aContext.getProperty(Use.class.getName()) == Use.ENCODED);
          typeMappingHelper.registerTypes(msgContextTypeMapper); 
          
          extractMessageParts(reqBody, operation, inputMsg);
@@ -163,15 +162,12 @@ public class AeRPCReceiveHandler extends AeAxisReceiveHandler
       @SuppressWarnings("unchecked")
       List<SOAPBodyElement> bodyElements = aEnv.getBodyElements();
       RPCElement reqBody = null;
-      for (Iterator<SOAPBodyElement> it = bodyElements.iterator(); it.hasNext();)
-      {
-         Object element = it.next();
-         if (element instanceof RPCElement)
-         {
-            reqBody = (RPCElement) element;
-            break;
-         }
-      }
+       for (SOAPBodyElement element : bodyElements) {
+           if (element instanceof RPCElement) {
+               reqBody = (RPCElement) element;
+               break;
+           }
+       }
       return reqBody;
    }
 
@@ -211,53 +207,43 @@ public class AeRPCReceiveHandler extends AeAxisReceiveHandler
          Message outputMessage = def.getMessage(outputMsg.getMessageType());
 
          // Loop through all parts for the ouput message and add an output param to the response body
-         for (@SuppressWarnings("unchecked")
-        		 Iterator<Part> iter=outputMessage.getOrderedParts(null).iterator(); iter.hasNext();)
-         {
-            Part part = iter.next();
-            Object partData = outputMsg.getMessageData().get(part.getName());
-            
-            // if it's a derived simple type, then add a wrapper so it'll hit our serializer
-            if (!(partData instanceof Document) && def.isDerivedSimpleType(part))
-            {
-               partData = new AeSimpleValueWrapper(partData);
-            }
+          for (Part part : (Iterable<Part>) outputMessage.getOrderedParts(null)) {
+              Object partData = outputMsg.getMessageData().get(part.getName());
 
-            // if it's a Document and a type, make sure it has an xsi:type value
-            if (partData instanceof Document && AeBPELExtendedWSDLDef.isXsiTypeRequired(part, (Document)partData))
-            {
-               AeXmlUtil.declarePartType((Document)partData, part.getTypeName());
-            }
-            
-            // the part name will be namespace qualified only if it's an element
-            QName partQName = null;
-            if (part.getElementName() == null)
-            {
-               partQName = new QName("", part.getName());  //$NON-NLS-1$ 
-            }
-            else
-            {
-               Document doc = (Document) partData;
-               partQName = AeXmlUtil.getElementType(doc.getDocumentElement());               
-            }
-   
-            RPCParam rpcParam = new RPCParam(partQName, partData);
-            resBody.addParam(rpcParam);
+              // if it's a derived simple type, then add a wrapper so it'll hit our serializer
+              if (!(partData instanceof Document) && def.isDerivedSimpleType(part)) {
+                  partData = new AeSimpleValueWrapper(partData);
+              }
 
-            // The MessageContext will determine the current operation being invoked when
-            // it deserializes the message. However, if there are no parts then 
-            // no deserialization took place. As a result, I trigger the deserialization
-            // here to ensure that the operation is set since I need it to set the param descriptor 
-            if (aContext.getOperation() == null)
-            {
-               reqBody.deserialize();
-            }
+              // if it's a Document and a type, make sure it has an xsi:type value
+              if (partData instanceof Document && AeBPELExtendedWSDLDef.isXsiTypeRequired(part, (Document) partData)) {
+                  AeXmlUtil.declarePartType((Document) partData, part.getTypeName());
+              }
 
-            if (aContext.getOperation() != null)
-            {
-               rpcParam.setParamDesc(axisContext.getOperation().getParamByQName(new QName("", part.getName()))); //$NON-NLS-1$
-            }
-         }
+              // the part name will be namespace qualified only if it's an element
+              QName partQName = null;
+              if (part.getElementName() == null) {
+                  partQName = new QName("", part.getName());  //$NON-NLS-1$
+              } else {
+                  Document doc = (Document) partData;
+                  partQName = AeXmlUtil.getElementType(doc.getDocumentElement());
+              }
+
+              RPCParam rpcParam = new RPCParam(partQName, partData);
+              resBody.addParam(rpcParam);
+
+              // The MessageContext will determine the current operation being invoked when
+              // it deserializes the message. However, if there are no parts then
+              // no deserialization took place. As a result, I trigger the deserialization
+              // here to ensure that the operation is set since I need it to set the param descriptor
+              if (aContext.getOperation() == null) {
+                  reqBody.deserialize();
+              }
+
+              if (aContext.getOperation() != null) {
+                  rpcParam.setParamDesc(axisContext.getOperation().getParamByQName(new QName("", part.getName()))); //$NON-NLS-1$
+              }
+          }
          // Add the response body to the response envelope
          resEnv.addBodyElement(resBody);
          

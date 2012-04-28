@@ -62,7 +62,7 @@ public class AeSQLCoordinationStorageProvider extends AeAbstractSQLStorageProvid
    public void insertContext(String aState, int aRole, String aIdentifier, String aCoordinationType, long aProcessId, 
                              String aLocationPath, AeFastDocument aContextDocument) throws AeStorageException
    {
-      Object contextClob = aContextDocument == null ? AeQueryRunner.NULL_CLOB : (Object) aContextDocument;
+      Object contextClob = aContextDocument == null ? AeQueryRunner.NULL_CLOB : aContextDocument;
 
       long pk = getCounter().getNextValue();
       Object[] params = new Object[] {
@@ -179,7 +179,7 @@ public class AeSQLCoordinationStorageProvider extends AeAbstractSQLStorageProvid
     */
    public void updateCoordinationContext(AePersistentCoordinationId aCoordinationId, AeFastDocument aContextDocument) throws AeStorageException
    {
-      Object contextClob = aContextDocument == null ? AeQueryRunner.NULL_CLOB : (Object) aContextDocument;
+      Object contextClob = aContextDocument == null ? AeQueryRunner.NULL_CLOB : aContextDocument;
 
       Object[] params = new Object[] {
             contextClob,

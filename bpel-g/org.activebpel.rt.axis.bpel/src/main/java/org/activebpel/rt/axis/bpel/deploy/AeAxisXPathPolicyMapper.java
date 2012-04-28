@@ -9,19 +9,14 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.axis.bpel.deploy;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-
 import org.activebpel.rt.AeException;
 import org.activebpel.rt.IAeConstants;
 import org.activebpel.rt.IAePolicyConstants;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+
+import java.util.*;
 
 /**
  * Creates Policy Deployment for a XPath mapping assertions 
@@ -39,27 +34,24 @@ public class AeAxisXPathPolicyMapper extends AeAxisPolicyMapper
       List<Element> handlers = new ArrayList<Element>();
       
       // Examine the list of policy assertions to determine the request handlers
-      for (Iterator<Element> it = aPolicyList.iterator(); it.hasNext();) 
-      {
-         Element policy = it.next();
-         NodeList children = policy.getElementsByTagNameNS(IAeConstants.ABP_NAMESPACE_URI, IAePolicyConstants.TAG_ASSERT_XPATH_RECEIVE);
-         for (int i=0, len=children.getLength(); i < len; i++)
-         {
-            Node assertion = children.item(i);
-            Element handler = createHandlerElement(policy.getOwnerDocument(), HANDLER_XPATH_RECEIVER , null);
-            NodeList params = assertion.getChildNodes();
-            for (int j = 0; j < params.getLength(); j++) {
-               Node param = params.item(j);
-               if (param.getNodeType() != Node.ELEMENT_NODE)
-                  continue;
-               Element elem = (Element) param;
-               String name = elem.getAttribute(IAePolicyConstants.TAG_NAME_ATTR);
-               String value = elem.getAttribute(IAePolicyConstants.TAG_VALUE_ATTR);
-               handler.appendChild(createParameterElement(policy.getOwnerDocument(), name , value ));
-            }
-            handlers.add(handler);
-         }
-      }
+       for (Element policy : aPolicyList) {
+           NodeList children = policy.getElementsByTagNameNS(IAeConstants.ABP_NAMESPACE_URI, IAePolicyConstants.TAG_ASSERT_XPATH_RECEIVE);
+           for (int i = 0, len = children.getLength(); i < len; i++) {
+               Node assertion = children.item(i);
+               Element handler = createHandlerElement(policy.getOwnerDocument(), HANDLER_XPATH_RECEIVER, null);
+               NodeList params = assertion.getChildNodes();
+               for (int j = 0; j < params.getLength(); j++) {
+                   Node param = params.item(j);
+                   if (param.getNodeType() != Node.ELEMENT_NODE)
+                       continue;
+                   Element elem = (Element) param;
+                   String name = elem.getAttribute(IAePolicyConstants.TAG_NAME_ATTR);
+                   String value = elem.getAttribute(IAePolicyConstants.TAG_VALUE_ATTR);
+                   handler.appendChild(createParameterElement(policy.getOwnerDocument(), name, value));
+               }
+               handlers.add(handler);
+           }
+       }
       return handlers;
    }
 
@@ -108,29 +100,25 @@ public class AeAxisXPathPolicyMapper extends AeAxisPolicyMapper
    {
       Map<String, Object> map = new HashMap<String, Object>();
       // Examine the list of policy assertions to determine the request handlers
-      for (Iterator<Element> it = aPolicyList.iterator(); it.hasNext();) 
-      {
-         Element policy = it.next();
-         NodeList children = policy.getElementsByTagNameNS(IAeConstants.ABP_NAMESPACE_URI, IAePolicyConstants.TAG_ASSERT_XPATH_RECEIVE);
-         for (int i=0, len=children.getLength(); i < len; i++)
-         {
-            map.put(IAePolicyConstants.XPATH_QUERY_SOURCE, IAePolicyConstants.XPATH_QUERY_SOURCE_CONTEXT);
-            Map<String, String> handlerParams = new HashMap<String, String>();
-            Element assertion = (Element) children.item(i);
-            NodeList params = assertion.getChildNodes();
-            for (int j = 0; j < params.getLength(); j++) 
-            {
-               Node param = params.item(j);
-               if (param.getNodeType() != Node.ELEMENT_NODE)
-                  continue;
-               Element elem = (Element) param;
-               String name = elem.getAttribute(IAePolicyConstants.TAG_NAME_ATTR);
-               String value = elem.getAttribute(IAePolicyConstants.TAG_VALUE_ATTR);
-               handlerParams.put(name, value);
-            }
-            map.put(IAePolicyConstants.XPATH_QUERY_PARAMS, handlerParams);
-         }
-      }
+       for (Element policy : aPolicyList) {
+           NodeList children = policy.getElementsByTagNameNS(IAeConstants.ABP_NAMESPACE_URI, IAePolicyConstants.TAG_ASSERT_XPATH_RECEIVE);
+           for (int i = 0, len = children.getLength(); i < len; i++) {
+               map.put(IAePolicyConstants.XPATH_QUERY_SOURCE, IAePolicyConstants.XPATH_QUERY_SOURCE_CONTEXT);
+               Map<String, String> handlerParams = new HashMap<String, String>();
+               Element assertion = (Element) children.item(i);
+               NodeList params = assertion.getChildNodes();
+               for (int j = 0; j < params.getLength(); j++) {
+                   Node param = params.item(j);
+                   if (param.getNodeType() != Node.ELEMENT_NODE)
+                       continue;
+                   Element elem = (Element) param;
+                   String name = elem.getAttribute(IAePolicyConstants.TAG_NAME_ATTR);
+                   String value = elem.getAttribute(IAePolicyConstants.TAG_VALUE_ATTR);
+                   handlerParams.put(name, value);
+               }
+               map.put(IAePolicyConstants.XPATH_QUERY_PARAMS, handlerParams);
+           }
+       }
       return map;
    }
    

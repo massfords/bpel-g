@@ -9,10 +9,6 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpel.server.deploy.validate;
 
-import java.util.Iterator;
-
-import javax.wsdl.Service;
-
 import org.activebpel.rt.bpel.AeWSDLDefHelper;
 import org.activebpel.rt.bpel.IAeEndpointReference;
 import org.activebpel.rt.bpel.def.AePartnerLinkDef;
@@ -25,6 +21,9 @@ import org.activebpel.rt.util.AeUtil;
 import org.activebpel.rt.wsdl.IAeContextWSDLProvider;
 import org.activebpel.rt.wsdl.IAeWSDLProvider;
 import org.activebpel.rt.wsdl.def.AeBPELExtendedWSDLDef;
+
+import javax.wsdl.Service;
+import java.util.Iterator;
 
 /**
  * Emit a warning for static endpoint references with service names if
@@ -90,11 +89,9 @@ public class AeStaticEndpointReferenceValidator
    public static void validate(IAeBaseErrorReporter aReporter, IAeContextWSDLProvider aProvider,
          IAeDeploymentSource aSource)
    {
-      for (Iterator iter = aSource.getPartnerLinkDescriptors().iterator(); iter.hasNext(); )
-      {
-         AePartnerLinkDescriptor desc = (AePartnerLinkDescriptor)iter.next();
-         IAeEndpointReference partnerRef = desc.getPartnerEndpointReference();
-         validatePartnerReference(aReporter, partnerRef,  aProvider, aSource.getProcessDef().getName());
-      }
+       for (AePartnerLinkDescriptor desc : aSource.getPartnerLinkDescriptors()) {
+           IAeEndpointReference partnerRef = desc.getPartnerEndpointReference();
+           validatePartnerReference(aReporter, partnerRef, aProvider, aSource.getProcessDef().getName());
+       }
    }
 }

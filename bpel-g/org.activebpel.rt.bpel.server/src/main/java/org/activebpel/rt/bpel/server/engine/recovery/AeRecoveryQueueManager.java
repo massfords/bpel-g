@@ -163,21 +163,19 @@ public class AeRecoveryQueueManager extends AeBaseQueueManager implements IAeRec
          List list = getEngine().getCoordinationManager().getParticipantDetail(processId);
 
          // Find the coordination for this invoke location, if any.
-         for (Iterator i = list.iterator(); i.hasNext(); )
-         {
-            AeCoordinationDetail detail = (AeCoordinationDetail) i.next();
-            String coordinationId = detail.getCoordinationId();
-            IAeCoordinator coordinator = getEngine().getCoordinationManager().getCoordinator(coordinationId);
+          for (Object d : list) {
+              AeCoordinationDetail detail = (AeCoordinationDetail) d;
+              String coordinationId = detail.getCoordinationId();
+              IAeCoordinator coordinator = getEngine().getCoordinationManager().getCoordinator(coordinationId);
 
-            if (AeUtil.compareObjects(coordinator.getLocationPath(), aInvoke.getLocationPath()))
-            {
-               AeActivityScopeImpl scope = aInvoke.findEnclosingScope();
+              if (AeUtil.compareObjects(coordinator.getLocationPath(), aInvoke.getLocationPath())) {
+                  AeActivityScopeImpl scope = aInvoke.findEnclosingScope();
 
-               // Add the coordination id to the scope's coordination container.
-               scope.getCoordinationContainer().registerCoordinationId(coordinationId);
-               break;
-            }
-         }
+                  // Add the coordination id to the scope's coordination container.
+                  scope.getCoordinationContainer().registerCoordinationId(coordinationId);
+                  break;
+              }
+          }
       }
       catch (AeCoordinationException ignore)
       {

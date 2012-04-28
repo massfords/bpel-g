@@ -9,15 +9,15 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpel.ext.expr.impl.javascript;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.activebpel.rt.bpel.function.AeFunctionCallException;
 import org.activebpel.rt.bpel.function.IAeFunction;
 import org.activebpel.rt.bpel.function.IAeFunctionExecutionContext;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Function;
 import org.mozilla.javascript.Scriptable;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -53,10 +53,9 @@ public class AeJavaScriptFunction extends AeScriptable implements Function
          Object[] aArgs)
    {
       List<Object> args = new ArrayList<Object>();
-      for (int i = 0; i < aArgs.length; i++)
-      {
-         args.add(getFunctionExecutionContext().getTypeConverter().convertToEngineType(aArgs[i]));
-      }
+       for (Object arg : aArgs) {
+           args.add(getFunctionExecutionContext().getTypeConverter().convertToEngineType(arg));
+       }
       try
       {
          // Call the function and convert the result to something Rhino will like.

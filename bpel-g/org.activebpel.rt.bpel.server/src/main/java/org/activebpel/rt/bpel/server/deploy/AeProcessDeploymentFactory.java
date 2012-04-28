@@ -9,8 +9,6 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpel.server.deploy;
 
-import java.util.Iterator;
-
 import org.activebpel.rt.bpel.AeBusinessProcessException;
 import org.activebpel.rt.bpel.IAeExpressionLanguageFactory;
 import org.activebpel.rt.bpel.def.AeProcessDef;
@@ -76,10 +74,9 @@ public class AeProcessDeploymentFactory
     */
    protected void initPartnerLinks(IAeDeploymentSource aSource, AeProcessDeployment deployment)
    {
-      for( Iterator iter = aSource.getPartnerLinkDescriptors().iterator(); iter.hasNext(); )
-      {
-         deployment.addPartnerLinkDescriptor( (AePartnerLinkDescriptor)iter.next() );
-      }
+       for (AePartnerLinkDescriptor pld : aSource.getPartnerLinkDescriptors()) {
+           deployment.addPartnerLinkDescriptor(pld);
+       }
    }
 
    /**

@@ -142,7 +142,7 @@ public abstract class AeFaultHandlersValidator extends AeBaseValidator
        */
       public int hashCode()
       {
-         StringBuffer sb = new StringBuffer();
+         StringBuilder sb = new StringBuilder();
          sb.append(mCatchDef.getFaultName());
          sb.append(mCatchDef.getFaultElementName());
          sb.append(mCatchDef.getFaultMessageType());

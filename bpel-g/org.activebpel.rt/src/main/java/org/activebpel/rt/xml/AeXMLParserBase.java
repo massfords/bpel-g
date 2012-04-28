@@ -9,33 +9,6 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.xml;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.Reader;
-import java.io.StringReader;
-import java.io.StringWriter;
-import java.io.Writer;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-
-import javax.wsdl.xml.WSDLLocator;
-import javax.xml.XMLConstants;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.SAXParser;
-import javax.xml.parsers.SAXParserFactory;
-import javax.xml.transform.OutputKeys;
-import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamResult;
-
 import org.activebpel.rt.AeException;
 import org.activebpel.rt.AeMessages;
 import org.activebpel.rt.IAeConstants;
@@ -49,6 +22,20 @@ import org.exolab.castor.xml.schema.Schema;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.xml.sax.InputSource;
+
+import javax.wsdl.xml.WSDLLocator;
+import javax.xml.XMLConstants;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.SAXParser;
+import javax.xml.parsers.SAXParserFactory;
+import javax.xml.transform.OutputKeys;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
+import java.io.*;
+import java.util.*;
 
 /**
  * This class is a base for all those implementing a parse routine. This class
@@ -211,11 +198,10 @@ public class AeXMLParserBase
          }
          
          // set the features on the builder
-         for (Iterator iter = getFeatures().entrySet().iterator(); iter.hasNext();)
-         {
-            Map.Entry entry = (Map.Entry) iter.next();
-            factory.setAttribute((String) entry.getKey(), entry.getValue());
-         }
+          for (Map.Entry<String, Object> stringObjectEntry : getFeatures().entrySet()) {
+              Map.Entry entry = (Map.Entry) stringObjectEntry;
+              factory.setAttribute((String) entry.getKey(), entry.getValue());
+          }
 
          // Create the document builder and parse the filename
          DocumentBuilder db = factory.newDocumentBuilder();
@@ -331,12 +317,11 @@ public class AeXMLParserBase
          parser.setProperty(JAXP_SCHEMA_SOURCE, schemaInputStreams.toArray());
 
          // set the features on the factory
-         for (Iterator iter = getFeatures().entrySet().iterator(); iter.hasNext();)
-         {
-            Map.Entry entry = (Map.Entry) iter.next();
-            Boolean bool = (Boolean) entry.getValue();
-            factory.setFeature((String) entry.getKey(), bool);
-         }
+          for (Map.Entry<String, Object> stringObjectEntry : getFeatures().entrySet()) {
+              Map.Entry entry = (Map.Entry) stringObjectEntry;
+              Boolean bool = (Boolean) entry.getValue();
+              factory.setFeature((String) entry.getKey(), bool);
+          }
 
          // Transform the document into an input source and parse it looking for errors
          StringReader reader = new StringReader(documentToString(aDocument));
@@ -610,59 +595,48 @@ public class AeXMLParserBase
 
       // Build a list of all schemas being referenced by this variable
       List<InputStream> schemaStreamList = new ArrayList<InputStream>();
-      for (Iterator it=aSchemas.iterator(); it.hasNext();)
-      {
-         Object schemaObj = it.next();
-         // stream for the serialized schema
-         InputStream input = null;
-         int index = schemaStreamList.size();
+       for (Object schemaObj : aSchemas) {
+           // stream for the serialized schema
+           InputStream input = null;
+           int index = schemaStreamList.size();
 
-         if (schemaObj instanceof InputStream)
-         {
-            input = (InputStream) schemaObj;
-         }
-         else if (schemaObj instanceof String)
-         {
-            input = AeUTF8Util.getInputStream((String) schemaObj);
-         }
-         else if (schemaObj instanceof Schema)
-         {
-            Schema schema = (Schema) schemaObj;
+           if (schemaObj instanceof InputStream) {
+               input = (InputStream) schemaObj;
+           } else if (schemaObj instanceof String) {
+               input = AeUTF8Util.getInputStream((String) schemaObj);
+           } else if (schemaObj instanceof Schema) {
+               Schema schema = (Schema) schemaObj;
 
-            // Special handling here for the Schema schema. Castor doesn't load the
-            // Schema schema so we use a stripped down version to avoid the parsing
-            // errors. This stripped down version can't be passed to the jaxp
-            // validator or we risk not being able to validate schemas that
-            // reference types or elements defined in the Schema schema.
-            // <xs:documentation/> is one example.
-            // The workaround is to keep a copy of the full XMLSchema file in our
-            // classpath and then return a stream to that file instead of
-            // serializing the one we have loaded into Castor.
-            if (XMLConstants.W3C_XML_SCHEMA_NS_URI.equals(schema.getTargetNamespace()))
-            {
-               input = AeXMLParserBase.class.getResourceAsStream("XMLSchema-full.xsd"); //$NON-NLS-1$
-            }
-            else
-            {
-               // See if they're serializing one of our standard schemas and use
-               // the one we have cached in its serialized form if possible.
-               input = AeStandardSchemas.getStandardSchema(schema.getTargetNamespace());
-               if (input != null && XMLConstants.XML_NS_URI.equals(schema.getTargetNamespace()))
-                  index = 0;
-            }
-   
-            if (input == null)
-            {
-               // If we got here then we have to serialize the Castor Schema object
-               // to a stream so it can be consumed by the jaxp validator.
-               String schemaStr = AeSchemaUtil.serializeSchema(schema, false);
-               input = AeUTF8Util.getInputStream(schemaStr);
-            }
-         }
+               // Special handling here for the Schema schema. Castor doesn't load the
+               // Schema schema so we use a stripped down version to avoid the parsing
+               // errors. This stripped down version can't be passed to the jaxp
+               // validator or we risk not being able to validate schemas that
+               // reference types or elements defined in the Schema schema.
+               // <xs:documentation/> is one example.
+               // The workaround is to keep a copy of the full XMLSchema file in our
+               // classpath and then return a stream to that file instead of
+               // serializing the one we have loaded into Castor.
+               if (XMLConstants.W3C_XML_SCHEMA_NS_URI.equals(schema.getTargetNamespace())) {
+                   input = AeXMLParserBase.class.getResourceAsStream("XMLSchema-full.xsd"); //$NON-NLS-1$
+               } else {
+                   // See if they're serializing one of our standard schemas and use
+                   // the one we have cached in its serialized form if possible.
+                   input = AeStandardSchemas.getStandardSchema(schema.getTargetNamespace());
+                   if (input != null && XMLConstants.XML_NS_URI.equals(schema.getTargetNamespace()))
+                       index = 0;
+               }
 
-         if (input != null)
-            schemaStreamList.add(index, input);
-      }
+               if (input == null) {
+                   // If we got here then we have to serialize the Castor Schema object
+                   // to a stream so it can be consumed by the jaxp validator.
+                   String schemaStr = AeSchemaUtil.serializeSchema(schema, false);
+                   input = AeUTF8Util.getInputStream(schemaStr);
+               }
+           }
+
+           if (input != null)
+               schemaStreamList.add(index, input);
+       }
 
       return schemaStreamList;
    }

@@ -10,24 +10,7 @@
 package org.activebpel.rt.bpeladmin.war.graph.bpel;
 
 
-import java.awt.Component;
-import java.awt.Container;
-import java.awt.Dimension;
-import java.awt.Insets;
-import java.awt.LayoutManager;
-import java.awt.Point;
-import java.awt.Rectangle;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import org.activebpel.rt.bpeladmin.war.graph.bpel.controller.AeBpelBandedContainerController;
-import org.activebpel.rt.bpeladmin.war.graph.bpel.controller.AeBpelControllerBase;
-import org.activebpel.rt.bpeladmin.war.graph.bpel.controller.AeBpelLinkController;
-import org.activebpel.rt.bpeladmin.war.graph.bpel.controller.AeBpelProcessRootController;
-import org.activebpel.rt.bpeladmin.war.graph.bpel.controller.AeBpelSequenceActivityController;
+import org.activebpel.rt.bpeladmin.war.graph.bpel.controller.*;
 import org.activebpel.rt.bpeladmin.war.graph.bpel.figure.AeBpelFigureBase;
 import org.activebpel.rt.bpeladmin.war.graph.bpel.figure.AeBpelLinkFigure;
 import org.activebpel.rt.bpeladmin.war.graph.ui.AeFlowLayoutManager;
@@ -37,6 +20,10 @@ import org.activebpel.rt.bpeladmin.war.web.processview.AeBpelActivityObject;
 import org.activebpel.rt.bpeladmin.war.web.processview.AeBpelLinkObject;
 import org.activebpel.rt.bpeladmin.war.web.processview.AeBpelObjectBase;
 import org.activebpel.rt.bpeladmin.war.web.processview.AeBpelObjectContainer;
+
+import java.awt.*;
+import java.util.*;
+import java.util.List;
 
 
 /**
@@ -167,14 +154,12 @@ public class AeAutoLayout
          return aParentController;
       }
       List children = aParentController.getChildren();
-      for (int i = 0; i < children.size(); i++)
-      {
-         controller = findController( (AeBpelControllerBase) children.get(i), aModel);
-         if  (controller != null)
-         {
-            return controller;
-         }
-      }
+       for (Object child : children) {
+           controller = findController((AeBpelControllerBase) child, aModel);
+           if (controller != null) {
+               return controller;
+           }
+       }
       return null;
    }
    
@@ -186,11 +171,10 @@ public class AeAutoLayout
    {
       // depth first recursion.
       List children = aController.getChildren();
-      for (int i = 0; i < children.size(); i++)
-      {
-         AeBpelControllerBase child = (AeBpelControllerBase) children.get(i);
-         layout(child);
-      }
+       for (Object c : children) {
+           AeBpelControllerBase child = (AeBpelControllerBase) c;
+           layout(child);
+       }
       LayoutManager layoutMgr = aController.getContentFigure().getLayout();
       Dimension dim = null;
 
@@ -298,19 +282,17 @@ public class AeAutoLayout
       // distance from the root node.
       Map<AeBpelObjectBase,AeBpelObjectBase> traversedNodes = new HashMap<AeBpelObjectBase, AeBpelObjectBase>();
       List children = aController.getChildren();
-      for (int i = 0; i < children.size(); i++)
-      {
-         AeBpelControllerBase child = (AeBpelControllerBase) children.get(i);
-         // do not layout links
-         if (child instanceof AeBpelLinkController)
-         {
-            continue;
-         }         
+       for (Object c : children) {
+           AeBpelControllerBase child = (AeBpelControllerBase) c;
+           // do not layout links
+           if (child instanceof AeBpelLinkController) {
+               continue;
+           }
 
-         int level = getMaxChildLevel(parentModel, child.getBpelModel(), traversedNodes);
-         List parents = getParentList(parentModel, child.getBpelModel());
-         grid.addGridElement(child, parents, level, -1);
-      }
+           int level = getMaxChildLevel(parentModel, child.getBpelModel(), traversedNodes);
+           List parents = getParentList(parentModel, child.getBpelModel());
+           grid.addGridElement(child, parents, level, -1);
+       }
       
       // Adjust the grid layout and reposition the components within the container
       grid.adjustLayout();
@@ -376,15 +358,13 @@ public class AeAutoLayout
       } 
       List<AeBpelActivityObject> parentList = new ArrayList<AeBpelActivityObject>();
       AeBpelActivityObject activityObj = (AeBpelActivityObject) aChild;      
-      List targetConnections = activityObj.getTargetLinks();      
-      for (int i = 0; i < targetConnections.size(); i++)
-      {
-         AeBpelLinkObject linkObj = (AeBpelLinkObject) targetConnections.get(i);
-         if (isContainerMember(aContainer, linkObj.getSource()))
-         {
-            parentList.add( linkObj.getSource() );
-         }
-      }
+      List targetConnections = activityObj.getTargetLinks();
+       for (Object targetConnection : targetConnections) {
+           AeBpelLinkObject linkObj = (AeBpelLinkObject) targetConnection;
+           if (isContainerMember(aContainer, linkObj.getSource())) {
+               parentList.add(linkObj.getSource());
+           }
+       }
       return parentList;
    }
    
@@ -406,30 +386,25 @@ public class AeAutoLayout
       int maxLevel = 0;
       aTraversedNodes.put(aChild, aChild);
       AeBpelActivityObject activityObj = (AeBpelActivityObject) aChild;      
-      List targetConnections = activityObj.getTargetLinks();      
-      for (int i = 0; i < targetConnections.size(); i++)
-      {
-         AeBpelLinkObject linkObj = (AeBpelLinkObject) targetConnections.get(i);
-         AeBpelActivityObject node = linkObj.getSource();
-         // if not cyclic link then traverse to find level
-         if(aTraversedNodes.get(node) == null)
-         {
-            int childLevel = getMaxChildLevel(aContainer, node, aTraversedNodes);      
-            if (isContainerMember(aContainer, node))
-            {
-               ++childLevel;
-               // if the container is nested then increment the level (e.g. link out of switch) 
-               if(node.getParent() != aContainer)
-               {
-                  ++childLevel;
+      List targetConnections = activityObj.getTargetLinks();
+       for (Object targetConnection : targetConnections) {
+           AeBpelLinkObject linkObj = (AeBpelLinkObject) targetConnection;
+           AeBpelActivityObject node = linkObj.getSource();
+           // if not cyclic link then traverse to find level
+           if (aTraversedNodes.get(node) == null) {
+               int childLevel = getMaxChildLevel(aContainer, node, aTraversedNodes);
+               if (isContainerMember(aContainer, node)) {
+                   ++childLevel;
+                   // if the container is nested then increment the level (e.g. link out of switch)
+                   if (node.getParent() != aContainer) {
+                       ++childLevel;
+                   }
                }
-            }
-            if (childLevel > maxLevel)
-            {
-               maxLevel = childLevel;
-            }
-         }         
-      }// for
+               if (childLevel > maxLevel) {
+                   maxLevel = childLevel;
+               }
+           }
+       }// for
       aTraversedNodes.remove(aChild);
       return maxLevel;
    }

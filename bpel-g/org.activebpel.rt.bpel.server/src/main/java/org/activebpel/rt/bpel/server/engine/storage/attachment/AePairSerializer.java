@@ -9,12 +9,11 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpel.server.engine.storage.attachment;
 
-import java.util.Iterator;
-import java.util.Map;
-
 import org.activebpel.rt.bpel.impl.fastdom.AeFastDocument;
 import org.activebpel.rt.bpel.impl.fastdom.AeFastElement;
 import org.activebpel.rt.bpel.impl.fastdom.AeFastText;
+
+import java.util.Map;
 
 /**
  * Utility class to convert between a java.util.Map containing name/value pairs and an AeFastDocument
@@ -41,15 +40,14 @@ public class AePairSerializer
    {
       AeFastElement root = new AeFastElement(ROOT_ELEMENT);
 
-      for (Iterator pairs = aNamePair.entrySet().iterator(); pairs.hasNext();)
-      {
-         Map.Entry pair = (Map.Entry)pairs.next();
-         AeFastElement pairElement = new AeFastElement(PAIR_ELEMENT);
-         pairElement.setAttribute(NAME_ATTRIBUTE, (String)pair.getKey());
-         AeFastText value = new AeFastText((String)pair.getValue());
-         pairElement.appendChild(value);
-         root.appendChild(pairElement);
-      }
+       for (Object o : aNamePair.entrySet()) {
+           Map.Entry pair = (Map.Entry) o;
+           AeFastElement pairElement = new AeFastElement(PAIR_ELEMENT);
+           pairElement.setAttribute(NAME_ATTRIBUTE, (String) pair.getKey());
+           AeFastText value = new AeFastText((String) pair.getValue());
+           pairElement.appendChild(value);
+           root.appendChild(pairElement);
+       }
       AeFastDocument document = new AeFastDocument();
       document.setRootElement(root);
       return document;

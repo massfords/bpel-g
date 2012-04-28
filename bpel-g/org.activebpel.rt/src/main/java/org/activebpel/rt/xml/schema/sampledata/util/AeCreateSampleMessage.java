@@ -9,13 +9,6 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.xml.schema.sampledata.util;
 
-import java.util.Iterator;
-import java.util.LinkedHashMap;
-import java.util.List;
-
-import javax.wsdl.Message;
-import javax.wsdl.Part;
-
 import org.activebpel.rt.AeException;
 import org.activebpel.rt.AeMessages;
 import org.activebpel.rt.wsdl.def.AeBPELExtendedWSDLDef;
@@ -26,6 +19,11 @@ import org.exolab.castor.xml.schema.ComplexType;
 import org.exolab.castor.xml.schema.ElementDecl;
 import org.exolab.castor.xml.schema.XMLType;
 import org.w3c.dom.Document;
+
+import javax.wsdl.Message;
+import javax.wsdl.Part;
+import java.util.LinkedHashMap;
+import java.util.List;
 
 /**
  * Util class for creating sample data for a WSDL Message. This util accepts
@@ -58,50 +56,39 @@ public class AeCreateSampleMessage
 
       List parts = aMessage.getOrderedParts(null);
 
-      for (Iterator iter = parts.iterator(); iter.hasNext();)
-      {
-         Part part = (Part) iter.next();
+       for (Object part1 : parts) {
+           Part part = (Part) part1;
 
-         if (!aDef.isComplexEncodedType(part))
-         {
-            map.put(part, sSimpleTypeDataProducer.getSampleData(part.getTypeName()));
-            continue;
-         }
+           if (!aDef.isComplexEncodedType(part)) {
+               map.put(part, sSimpleTypeDataProducer.getSampleData(part.getTypeName()));
+               continue;
+           }
 
-         Document doc = null;
+           Document doc = null;
 
-         if (part.getElementName() != null)
-         {
-            ElementDecl elementDecl = aDef.findElement(part.getElementName());
-            if (elementDecl == null)
-            {
-               throw new AeException( AeMessages.format("AeCreateSampleMessage.ELEM_DECL_NOT_FOUND", new String[]{part.getElementName().toString(), part.getName()}) ); //$NON-NLS-1$
-            }
-            doc = AeCastorSampleDataGenerator.generateXML(elementDecl, getSampleDataPreferences());
-         }
-         else
-         {
-            XMLType type = aDef.findType(part.getTypeName());
-            if (type == null)
-            {
-               throw new AeException( AeMessages.format("AeCreateSampleMessage.PART_TYPE_NOT_FOUND", new String[]{part.getTypeName().toString(), part.getName()}) ); //$NON-NLS-1$
-            }
+           if (part.getElementName() != null) {
+               ElementDecl elementDecl = aDef.findElement(part.getElementName());
+               if (elementDecl == null) {
+                   throw new AeException(AeMessages.format("AeCreateSampleMessage.ELEM_DECL_NOT_FOUND", new String[]{part.getElementName().toString(), part.getName()})); //$NON-NLS-1$
+               }
+               doc = AeCastorSampleDataGenerator.generateXML(elementDecl, getSampleDataPreferences());
+           } else {
+               XMLType type = aDef.findType(part.getTypeName());
+               if (type == null) {
+                   throw new AeException(AeMessages.format("AeCreateSampleMessage.PART_TYPE_NOT_FOUND", new String[]{part.getTypeName().toString(), part.getName()})); //$NON-NLS-1$
+               }
 
-            if (type instanceof ComplexType)
-            {
-               doc = AeCastorSampleDataGenerator.generateXML((ComplexType)type, getSampleDataPreferences());
-            }
-         }
+               if (type instanceof ComplexType) {
+                   doc = AeCastorSampleDataGenerator.generateXML((ComplexType) type, getSampleDataPreferences());
+               }
+           }
 
-         if (doc != null)
-         {
-            map.put(part, doc);
-         }
-         else
-         {
-            map.put(part, ""); //$NON-NLS-1$
-         }
-      }
+           if (doc != null) {
+               map.put(part, doc);
+           } else {
+               map.put(part, ""); //$NON-NLS-1$
+           }
+       }
       return map;
    }
 

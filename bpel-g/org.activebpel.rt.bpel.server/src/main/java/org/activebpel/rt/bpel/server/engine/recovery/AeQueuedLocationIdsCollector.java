@@ -9,14 +9,6 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpel.server.engine.recovery;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
 import org.activebpel.rt.bpel.AeBusinessProcessException;
 import org.activebpel.rt.bpel.IAeBusinessProcess;
 import org.activebpel.rt.bpel.impl.IAeProcessManager;
@@ -30,6 +22,8 @@ import org.activebpel.rt.bpel.server.engine.IAePersistentProcessManager;
 import org.activebpel.rt.bpel.server.engine.recovery.journal.IAeJournalEntry;
 import org.activebpel.rt.bpel.server.engine.storage.IAeProcessStateStorage;
 import org.activebpel.rt.util.AeUtil;
+
+import java.util.*;
 
 /**
  * Determines the location ids for activities that are currently queued in the
@@ -72,12 +66,11 @@ public class AeQueuedLocationIdsCollector
 
          // Remove map entries corresponding to journal entries that we already
          // have in our list of journal entries.
-         for (Iterator i = getKnownJournalEntries().iterator(); i.hasNext(); )
-         {
-            IAeJournalEntry entry = (IAeJournalEntry) i.next();
+          for (Object o : getKnownJournalEntries()) {
+              IAeJournalEntry entry = (IAeJournalEntry) o;
 
-            locationIdsMap.remove(entry.getJournalId());
-         }
+              locationIdsMap.remove(entry.getJournalId());
+          }
 
          // Now add the location ids from the remaining members of the map to
          // the given set of location ids.
@@ -134,12 +127,11 @@ public class AeQueuedLocationIdsCollector
       List list = getAlarms().get(aPathId);
       if (AeUtil.notNullOrEmpty(list))
       {
-         for (Iterator iter = list.iterator(); iter.hasNext();)
-         {
-            AeAlarm alarm = (AeAlarm) iter.next();
-            if (alarm.getAlarmId() == aAlarmId)
-               return true;
-         }
+          for (Object a : list) {
+              AeAlarm alarm = (AeAlarm) a;
+              if (alarm.getAlarmId() == aAlarmId)
+                  return true;
+          }
       }
       return false;
    }
@@ -157,10 +149,9 @@ public class AeQueuedLocationIdsCollector
       {
          AeMessageReceiver[] receivers = list.getResults();
 
-         for (int i = 0; i < receivers.length; ++i)
-         {
-            getQueuedLocationIds().add(receivers[i].getMessageReceiverPathId());
-         }
+          for (AeMessageReceiver receiver : receivers) {
+              getQueuedLocationIds().add(receiver.getMessageReceiverPathId());
+          }
       }
    }
 

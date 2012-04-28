@@ -9,20 +9,12 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpeladmin.war.web.processview;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
+import bpelg.services.processes.types.ProcessStateValueType;
 import org.activebpel.rt.bpel.def.AeProcessDef;
 import org.activebpel.rt.bpel.impl.AeSuspendReason;
 import org.w3c.dom.Document;
 
-import bpelg.services.processes.types.ProcessStateValueType;
+import java.util.*;
 
 /**
  * Represents a BPEL process. This is the root of the BPEL process.
@@ -235,12 +227,11 @@ public class AeBpelProcessObject extends AeBpelScopeObject implements
 	 */
 	public AeBpelObjectBase getProcessActivity() {
 		List<AeBpelObjectBase> children = getChildren();
-		for (int i = 0; i < children.size(); i++) {
-			AeBpelObjectBase child = children.get(i);
-			if (child instanceof AeBpelActivityObject) {
-				return child;
-			}
-		}// for
+        for (AeBpelObjectBase child : children) {
+            if (child instanceof AeBpelActivityObject) {
+                return child;
+            }
+        }// for
 		return null;
 	}
 
@@ -251,12 +242,11 @@ public class AeBpelProcessObject extends AeBpelScopeObject implements
 	 */
 	public AeBpelObjectBase getFaultHandlers() {
 		List<AeBpelObjectBase> children = getChildren();
-		for (int i = 0; i < children.size(); i++) {
-			AeBpelObjectBase child = children.get(i);
-			if (child instanceof AeBpelFaultHandlersObject) {
-				return child;
-			}
-		}// for
+        for (AeBpelObjectBase child : children) {
+            if (child instanceof AeBpelFaultHandlersObject) {
+                return child;
+            }
+        }// for
 		return null;
 	}
 
@@ -267,12 +257,11 @@ public class AeBpelProcessObject extends AeBpelScopeObject implements
 	 */
 	public AeBpelObjectBase getCompensationHandler() {
 		List<AeBpelObjectBase> children = getChildren();
-		for (int i = 0; i < children.size(); i++) {
-			AeBpelObjectBase child = children.get(i);
-			if (child instanceof AeBpelCompensationHandlerObject) {
-				return child;
-			}
-		}// for
+        for (AeBpelObjectBase child : children) {
+            if (child instanceof AeBpelCompensationHandlerObject) {
+                return child;
+            }
+        }// for
 		return null;
 	}
 
@@ -283,12 +272,11 @@ public class AeBpelProcessObject extends AeBpelScopeObject implements
 	 */
 	public AeBpelObjectBase getTerminationHandler() {
 		List<AeBpelObjectBase> children = getChildren();
-		for (int i = 0; i < children.size(); i++) {
-			AeBpelObjectBase child = children.get(i);
-			if (child instanceof AeBpelTerminationHandlerObject) {
-				return child;
-			}
-		}
+        for (AeBpelObjectBase child : children) {
+            if (child instanceof AeBpelTerminationHandlerObject) {
+                return child;
+            }
+        }
 		return null;
 	}
 
@@ -299,12 +287,11 @@ public class AeBpelProcessObject extends AeBpelScopeObject implements
 	 */
 	public AeBpelObjectBase getEventHandlers() {
 		List<AeBpelObjectBase> children = getChildren();
-		for (int i = 0; i < children.size(); i++) {
-			AeBpelObjectBase child = children.get(i);
-			if (child instanceof AeBpelEventHandlersObject) {
-				return child;
-			}
-		}// for
+        for (AeBpelObjectBase child : children) {
+            if (child instanceof AeBpelEventHandlersObject) {
+                return child;
+            }
+        }// for
 		return null;
 	}
 

@@ -262,10 +262,10 @@ public class AeWorkManager implements WorkManager, Runnable,
 		public AeWaitForAll(Collection aColl) {
 			mColl = copyWorkItems(aColl);
 
-			for (Iterator iter = mColl.iterator(); iter.hasNext();) {
-				AeWorkItem item = (AeWorkItem) iter.next();
-				item.addWorkDoneListener(this);
-			}
+            for (Object wi : mColl) {
+                AeWorkItem item = (AeWorkItem) wi;
+                item.addWorkDoneListener(this);
+            }
 		}
 
 		/**
@@ -278,12 +278,11 @@ public class AeWorkManager implements WorkManager, Runnable,
 		 */
 		private Collection<AeWorkItem> copyWorkItems(Collection aWorkItems) {
 			Collection<AeWorkItem> coll = new LinkedList<AeWorkItem>();
-			for (Iterator iter = aWorkItems.iterator(); iter.hasNext();) {
-				Object o = iter.next();
-				if (o instanceof AeWorkItem) {
-					coll.add((AeWorkItem) o);
-				}
-			}
+            for (Object o : aWorkItems) {
+                if (o instanceof AeWorkItem) {
+                    coll.add((AeWorkItem) o);
+                }
+            }
 			return coll;
 		}
 
@@ -326,12 +325,12 @@ public class AeWorkManager implements WorkManager, Runnable,
 		 */
 		protected int getCompleteCount() {
 			int i = 0;
-			for (Iterator iter = mColl.iterator(); iter.hasNext();) {
-				WorkItem workItem = (WorkItem) iter.next();
-				if (workItem.getStatus() == WorkEvent.WORK_COMPLETED) {
-					i++;
-				}
-			}
+            for (Object wi : mColl) {
+                WorkItem workItem = (WorkItem) wi;
+                if (workItem.getStatus() == WorkEvent.WORK_COMPLETED) {
+                    i++;
+                }
+            }
 			return i;
 
 		}
@@ -371,12 +370,12 @@ public class AeWorkManager implements WorkManager, Runnable,
 		 */
 		protected Collection getCompletedItems() {
 			List<WorkItem> list = null;
-			for (Iterator iter = mColl.iterator(); iter.hasNext();) {
-				WorkItem item = (WorkItem) iter.next();
-				if (item.getStatus() == WorkEvent.WORK_COMPLETED) {
-					list = addToList(item, list);
-				}
-			}
+            for (Object wi : mColl) {
+                WorkItem item = (WorkItem) wi;
+                if (item.getStatus() == WorkEvent.WORK_COMPLETED) {
+                    list = addToList(item, list);
+                }
+            }
 
 			// 1.1 version of spec requires empty list instead of null
 			if (list == null)

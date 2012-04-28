@@ -9,19 +9,6 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpel.server.engine.storage;
 
-import java.io.Reader;
-import java.lang.reflect.Constructor;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Properties;
-import java.util.SortedSet;
-import java.util.TreeSet;
-
-import javax.xml.namespace.QName;
-
 import org.activebpel.rt.AeException;
 import org.activebpel.rt.bpel.coord.IAeCoordinating;
 import org.activebpel.rt.bpel.coord.IAeCoordinationManager;
@@ -48,6 +35,11 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+
+import javax.xml.namespace.QName;
+import java.io.Reader;
+import java.lang.reflect.Constructor;
+import java.util.*;
 
 /**
  * Util methods used by the storage layer.
@@ -187,19 +179,18 @@ public class AeStorageUtil
       AeFastElement propsElem = new AeFastElement("properties"); //$NON-NLS-1$
       propsDoc.appendChild(propsElem);
 
-      for (Iterator iter = aMessageReceiver.getCorrelation().entrySet().iterator(); iter.hasNext(); )
-      {
-         Map.Entry entry = (Map.Entry) iter.next();
-         QName key = (QName) entry.getKey();
-         Object value = entry.getValue();
+       for (Map.Entry<QName, String> qNameStringEntry : aMessageReceiver.getCorrelation().entrySet()) {
+           Map.Entry entry = (Map.Entry) qNameStringEntry;
+           QName key = (QName) entry.getKey();
+           Object value = entry.getValue();
 
-         AeFastElement propElem = new AeFastElement(PROPERTY_TAGNAME);
-         propElem.setAttribute(LOCAL_PART_ATTRNAME, key.getLocalPart());
-         propElem.setAttribute(NAMESPACE_ATTRNAME, AeUtil.getSafeString(key.getNamespaceURI()));
-         propElem.setAttribute(TYPE_ATTRNAME, value.getClass().getName());
-         propElem.appendChild(new AeFastText(value.toString()));
-         propsElem.appendChild(propElem);
-      }
+           AeFastElement propElem = new AeFastElement(PROPERTY_TAGNAME);
+           propElem.setAttribute(LOCAL_PART_ATTRNAME, key.getLocalPart());
+           propElem.setAttribute(NAMESPACE_ATTRNAME, AeUtil.getSafeString(key.getNamespaceURI()));
+           propElem.setAttribute(TYPE_ATTRNAME, value.getClass().getName());
+           propElem.appendChild(new AeFastText(value.toString()));
+           propsElem.appendChild(propElem);
+       }
 
       return propsDoc;
    }

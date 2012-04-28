@@ -73,7 +73,7 @@ public class AeActivityValidateImpl extends AeActivityImpl
          
          if (AeUtil.notNullOrEmpty(exceptions))
          {
-            StringBuffer messages = new StringBuffer();
+            StringBuilder messages = new StringBuilder();
             String delim = ""; //$NON-NLS-1$
              for (String exception : exceptions) {
                  messages.append(delim);

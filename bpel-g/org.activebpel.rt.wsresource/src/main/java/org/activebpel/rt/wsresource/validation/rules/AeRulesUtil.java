@@ -10,12 +10,11 @@
 
 package org.activebpel.rt.wsresource.validation.rules;
 
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
-
 import org.activebpel.rt.expr.def.AeScriptFuncDef;
 import org.activebpel.rt.wsresource.validation.IAeWSResourceValidationPreferences;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Utility class for working with validation rules.
@@ -61,16 +60,14 @@ public class AeRulesUtil
    {
       int index = -1;
       int foundIndex = -1;
-      
-      for (Iterator args = aFunction.getArgs().iterator(); args.hasNext();)
-      {
-         index++;
-         if (AeScriptFuncDef.__EXPRESSION__ == args.next())
-         { 
-            foundIndex = index;
-            break;
-         }
-      }
+
+       for (Object o : aFunction.getArgs()) {
+           index++;
+           if (AeScriptFuncDef.__EXPRESSION__ == o) {
+               foundIndex = index;
+               break;
+           }
+       }
       return foundIndex;
    }
 }

@@ -9,15 +9,15 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpeladmin.war.graph.bpel.controller;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-
 import org.activebpel.rt.bpeladmin.war.graph.bpel.figure.AeBpelProcessFigure;
 import org.activebpel.rt.bpeladmin.war.graph.ui.AeXyLayoutManager;
 import org.activebpel.rt.bpeladmin.war.web.processview.AeBpelLinkObject;
 import org.activebpel.rt.bpeladmin.war.web.processview.AeBpelObjectBase;
 import org.activebpel.rt.bpeladmin.war.web.processview.AeBpelProcessObject;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 /**
  * Controller which is the root controller for the BPEL process.
@@ -164,21 +164,17 @@ public class AeBpelProcessRootController extends AeBpelControllerBase
    {      
       List links = mBpelProcessModel.getLinks();
       List<AeBpelLinkObject> tempList = new ArrayList<AeBpelLinkObject>();
-      for (int i =0; i < links.size(); i++)
-      {
-         AeBpelLinkObject link = (AeBpelLinkObject) links.get(i);
-         if (link.isEvaluated())
-         {
-            // append evaluated links to the end of the list to increase its z-order.
-            // (this have, if we need to highlight the link, it can be drawn last, over the other links). 
-            tempList.add(link);
-         }
-         else 
-         {
-            // insert other links to the start of the list.
-            tempList.add(0,link);
-         }
-      }
+       for (Object l : links) {
+           AeBpelLinkObject link = (AeBpelLinkObject) l;
+           if (link.isEvaluated()) {
+               // append evaluated links to the end of the list to increase its z-order.
+               // (this have, if we need to highlight the link, it can be drawn last, over the other links).
+               tempList.add(link);
+           } else {
+               // insert other links to the start of the list.
+               tempList.add(0, link);
+           }
+       }
       getModelChildren().addAll(tempList);
    }
    

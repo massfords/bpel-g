@@ -17,17 +17,6 @@ package bpelg.packaging.ode.util;
  * limitations under the License.
  */
 
-import java.net.URI;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.w3c.dom.Document;
@@ -35,6 +24,11 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import java.net.URI;
+import java.util.*;
 
 /**
  * Collection of schemas.
@@ -120,8 +114,7 @@ public class BgSchemaCollection {
                 }
             }
         }
-        for (Iterator<Element> iter = imports.iterator(); iter.hasNext();) {
-            Element ce = iter.next();
+        for (Element ce : imports) {
             String namespace = ce.getAttribute("namespace");
             if (schemas.get(namespace) == null) {
                 String location = ce.getAttribute("schemaLocation");

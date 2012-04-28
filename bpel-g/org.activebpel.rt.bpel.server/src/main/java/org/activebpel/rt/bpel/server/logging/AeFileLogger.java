@@ -9,20 +9,14 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpel.server.logging;
 
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.RandomAccessFile;
-import java.io.Reader;
-import java.io.Writer;
-
 import org.activebpel.rt.AeException;
 import org.activebpel.rt.bpel.AePreferences;
 import org.activebpel.rt.bpel.server.AeMessages;
 import org.activebpel.rt.util.AeCloser;
 import org.activebpel.rt.util.AeUnsynchronizedCharArrayWriter;
 import org.activebpel.rt.util.AeUtil;
+
+import java.io.*;
 
 /**
  * File based logging. Writes the contents of the process log to a file once the
@@ -40,7 +34,7 @@ public class AeFileLogger extends AeInMemoryProcessLogger
     */
    protected String read(RandomAccessFile raf) throws IOException
    {
-      StringBuffer log = new StringBuffer((int)raf.length());
+      StringBuilder log = new StringBuilder((int)raf.length());
       String line = null;
       while ((line = raf.readLine()) != null)
       {

@@ -9,26 +9,14 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.wsdl.def; 
 
-import javax.wsdl.Binding;
-import javax.wsdl.BindingInput;
-import javax.wsdl.BindingOperation;
-import javax.wsdl.Definition;
-import javax.wsdl.Message;
-import javax.wsdl.Operation;
-import javax.wsdl.Port;
-import javax.wsdl.Service;
+import org.activebpel.rt.IAeConstants;
+import org.activebpel.rt.wsdl.def.policy.*;
+
+import javax.wsdl.*;
 import javax.wsdl.extensions.ExtensionDeserializer;
 import javax.wsdl.extensions.ExtensionRegistry;
 import javax.wsdl.extensions.ExtensionSerializer;
 import javax.xml.namespace.QName;
-
-import org.activebpel.rt.IAeConstants;
-import org.activebpel.rt.wsdl.def.policy.AePolicyIO;
-import org.activebpel.rt.wsdl.def.policy.AePolicyImpl;
-import org.activebpel.rt.wsdl.def.policy.AePolicyRefIO;
-import org.activebpel.rt.wsdl.def.policy.AePolicyRefImpl;
-import org.activebpel.rt.wsdl.def.policy.IAePolicy;
-import org.activebpel.rt.wsdl.def.policy.IAePolicyReference;
 
 /**
  * Populates an extension registry with IO objects for reading and writing 
@@ -108,12 +96,11 @@ public class AeWSDLExtensionLoader
       
       QName policyRefName = new QName(IAeConstants.WSP_NAMESPACE_URI, IAePolicyReference.POLICY_REFERENCE_ELEMENT);
       AePolicyRefIO policyRefIO = new AePolicyRefIO();
-      
-      for (int i = 0; i < clazz.length; i++)
-      {
-         loadExtension(aRegistry, clazz[i], policyName, AePolicyImpl.class, policyIO, policyIO);
-         loadExtension(aRegistry, clazz[i], policyRefName, AePolicyRefImpl.class, policyRefIO, policyRefIO);
-      }
+
+       for (Class c : clazz) {
+           loadExtension(aRegistry, c, policyName, AePolicyImpl.class, policyIO, policyIO);
+           loadExtension(aRegistry, c, policyRefName, AePolicyRefImpl.class, policyRefIO, policyRefIO);
+       }
    }
 
    /**

@@ -10,16 +10,14 @@
 
 package org.activebpel.rt.wsresource.validation;
 
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Set;
-
-import javax.xml.namespace.QName;
-
 import org.activebpel.rt.wsresource.IAeWSResourceConstants;
 import org.activebpel.rt.xml.def.AeBaseXmlDef;
 import org.activebpel.rt.xml.def.AeExtensionAttributeDef;
+
+import javax.xml.namespace.QName;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 /**
  * Engine used to validation web service resources.
@@ -62,13 +60,12 @@ public class AeWSResourceValidationEngine
 
       // supply a classloader so the rules can be found
 
-      for (Iterator iter = validationRules.iterator(); iter.hasNext(); )
-      {
-         IAeWSResourceValidationRule rule = (IAeWSResourceValidationRule) iter.next();
-         problemReporter.setProblemInfo(rule.getId(), aPreferences.getSeverity(rule));
+       for (Object validationRule : validationRules) {
+           IAeWSResourceValidationRule rule = (IAeWSResourceValidationRule) validationRule;
+           problemReporter.setProblemInfo(rule.getId(), aPreferences.getSeverity(rule));
 
-         rule.createValidator(getContext()).validate(aResourceModel, getContext(), problemReporter);
-      }
+           rule.createValidator(getContext()).validate(aResourceModel, getContext(), problemReporter);
+       }
    }
 
    /**
@@ -181,12 +178,11 @@ public class AeWSResourceValidationEngine
             // The value of the extension attribute is a list of encoded QNames
             String qnameList = attributeDef.getValue();
             String[] split = qnameList.split(" "); //$NON-NLS-1$
-            for (int i = 0; i < split.length; i++)
-            {
-               String encodedQname = split[i].trim();
-               QName qname = aDef.toQName(encodedQname);
-               suppressedIds.add(qname);
-            }
+             for (String s : split) {
+                 String encodedQname = s.trim();
+                 QName qname = aDef.toQName(encodedQname);
+                 suppressedIds.add(qname);
+             }
          }
 
          return suppressedIds;
