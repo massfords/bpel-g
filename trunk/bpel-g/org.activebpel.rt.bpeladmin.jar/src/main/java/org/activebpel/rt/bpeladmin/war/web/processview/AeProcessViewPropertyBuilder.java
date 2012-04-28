@@ -9,13 +9,6 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpeladmin.war.web.processview;
 
-import java.text.MessageFormat;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-
 import org.activebpel.rt.AeException;
 import org.activebpel.rt.bpel.AeBusinessProcessException;
 import org.activebpel.rt.bpel.coord.AeCoordinationDetail;
@@ -28,11 +21,13 @@ import org.activebpel.rt.bpeladmin.war.AeMessages;
 import org.activebpel.rt.bpeladmin.war.web.AeWebUtil;
 import org.activebpel.rt.util.AeUtil;
 import org.activebpel.rt.xml.AeXMLParserBase;
-import org.w3c.dom.Attr;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.NamedNodeMap;
-import org.w3c.dom.Node;
+import org.w3c.dom.*;
+
+import java.text.MessageFormat;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 
 /**
  * This class is responsible for building the list of properties to be displayed by the AePropertViewBean. Any
@@ -103,7 +98,7 @@ public class AeProcessViewPropertyBuilder extends AeProcessWebPropertyBuilder
     */
    protected void buildDetail(Element aElement)
    {
-      Node node = ((Node)aElement).getFirstChild();
+      Node node = aElement.getFirstChild();
       while (node != null)
       {
          if ( node.getNodeType() == Node.ELEMENT_NODE )
@@ -252,7 +247,7 @@ public class AeProcessViewPropertyBuilder extends AeProcessWebPropertyBuilder
             if (corrEle != null)
             {
                addProperty(IAeImplStateNames.STATE_INIT, corrEle.getAttribute(IAeImplStateNames.STATE_INIT) );
-               StringBuffer value = new StringBuffer();
+               StringBuilder value = new StringBuilder();
                for(Node node = corrEle.getFirstChild(); node != null; node = node.getNextSibling())
                {
                   if(node.getNodeType() == Node.ELEMENT_NODE)
@@ -302,11 +297,9 @@ public class AeProcessViewPropertyBuilder extends AeProcessWebPropertyBuilder
     */
    protected void addAttachments(AeVariableDetail aDetail)
    {
-      for(Iterator aItr = aDetail.mAttachmentDetails.iterator(); aItr.hasNext();)
-      {
-         AeAttachmentViewBean attachment = (AeAttachmentViewBean)aItr.next();
-         getPropertyViewBean().addAttachments(attachment);
-      }
+       for (AeAttachmentViewBean attachment : aDetail.mAttachmentDetails) {
+           getPropertyViewBean().addAttachments(attachment);
+       }
    }
 
    /**
@@ -317,7 +310,7 @@ public class AeProcessViewPropertyBuilder extends AeProcessWebPropertyBuilder
    protected AeVariableDetail getVariableDetail(String aLocationPath, long aProcessId)
    {
       AeVariableDetail rVal = new AeVariableDetail();
-      StringBuffer xml = new StringBuffer();
+      StringBuilder xml = new StringBuilder();
       try
       {
          String varStr = AeEngineManagementFactory.getBean().getVariable(aProcessId, aLocationPath);

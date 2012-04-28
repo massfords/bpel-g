@@ -9,15 +9,7 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpel.ext.expr.impl.xquery;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import net.sf.saxon.expr.Expression;
-import net.sf.saxon.expr.ExpressionTool;
-import net.sf.saxon.expr.FunctionCall;
-import net.sf.saxon.expr.StaticContext;
-import net.sf.saxon.expr.StaticProperty;
-import net.sf.saxon.expr.XPathContext;
+import net.sf.saxon.expr.*;
 import net.sf.saxon.om.Item;
 import net.sf.saxon.om.ValueRepresentation;
 import net.sf.saxon.trans.XPathException;
@@ -27,10 +19,12 @@ import net.sf.saxon.type.TypeHierarchy;
 import net.sf.saxon.value.SequenceType;
 import net.sf.saxon.value.StringValue;
 import net.sf.saxon.value.Value;
-
 import org.activebpel.rt.bpel.function.IAeFunction;
 import org.activebpel.rt.bpel.function.IAeFunctionExecutionContext;
 import org.activebpel.rt.bpel.impl.expr.AeExpressionException;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * This class wraps a generic ActiveBPEL expression function into something that the Saxon XQuery processor
@@ -102,13 +96,12 @@ public class AeXQueryFunction extends FunctionCall
       try
       {
          List<Object> args = new ArrayList<Object>();
-         for (int i = 0; i < argument.length; i++)
-         {
-            ValueRepresentation valRep = ExpressionTool.eagerEvaluate(argument[i], aContext);
-            Item item = Value.asItem(valRep);
-            Object val = getFunctionExecutionContext().getTypeConverter().convertToEngineType(item);
-            args.add(val);
-         }
+          for (Expression arg : argument) {
+              ValueRepresentation valRep = ExpressionTool.eagerEvaluate(arg, aContext);
+              Item item = Value.asItem(valRep);
+              Object val = getFunctionExecutionContext().getTypeConverter().convertToEngineType(item);
+              args.add(val);
+          }
 
          // Call the function and convert the result to something Saxon will like.
          Object obj = getFunction().call(getFunctionExecutionContext(), args);

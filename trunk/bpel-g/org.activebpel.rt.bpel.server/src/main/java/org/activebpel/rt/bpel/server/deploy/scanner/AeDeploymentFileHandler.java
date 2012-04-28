@@ -89,16 +89,16 @@ public class AeDeploymentFileHandler implements IAeDeploymentFileHandler, IAeSca
         File[] deploymentFiles = getScanner().prime();
         IAeDeploymentLogger logger = new DeploymentLogger();
         if (deploymentFiles != null) {
-            for (int i = 0; i < deploymentFiles.length; i++) {
+            for (File deploymentFile : deploymentFiles) {
                 try {
-                    URL url = deploymentFiles[i].toURI().toURL();
+                    URL url = deploymentFile.toURI().toURL();
                     handleAdd(url, logger);
                 } catch (MalformedURLException mru) {
                     // this should never happen
                     AeException.logError(
                             mru,
                             MessageFormat.format(
-                                    AeMessages.getString("AeDeploymentFileHandler.ERROR_0"), new Object[] { deploymentFiles[i] })); //$NON-NLS-1$
+                                    AeMessages.getString("AeDeploymentFileHandler.ERROR_0"), new Object[]{deploymentFile})); //$NON-NLS-1$
                 }
             }
         }

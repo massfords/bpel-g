@@ -259,7 +259,7 @@ public class AeBPWSToWSBPELXPathNodeVisitor extends AeAbstractTraversingXPathNod
       // Should transform to: $var.part/ns1:data
       if (queryNode instanceof AeXPathRelativeLocPathNode)
       {
-         if (((AeXPathRelativeLocPathNode) queryNode).hasChildren())
+         if (queryNode.hasChildren())
          {
             queryNode.setParent(pathExprNode);
             pathExprNode.addChild(queryNode);

@@ -10,19 +10,17 @@
 
 package org.activebpel.rt.bpel.ext.expr.def.xquery;
 
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
-
 import net.sf.saxon.Configuration;
 import net.sf.saxon.expr.Expression;
-
 import org.activebpel.rt.bpel.def.expr.xpath.AeXPathVariableReference;
 import org.activebpel.rt.bpel.def.util.AeVariableData;
 import org.activebpel.rt.expr.def.AeScriptVarDef;
 import org.activebpel.rt.expr.def.IAeExpressionParserContext;
 import org.activebpel.rt.util.AeUtil;
+
+import java.util.Collection;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * A WS-BPEL version of a XQuery parse result.
@@ -59,18 +57,15 @@ public class AeWSBPELXQueryParseResult extends AeAbstractXQueryParseResult
    protected Collection<AeVariableData> getVarDataFromXQueryVariables()
    {
       List<AeVariableData> list = new LinkedList<AeVariableData>();
-      for (Iterator iter = getVariableReferences().iterator(); iter.hasNext(); )
-      {
-         AeScriptVarDef varDef = (AeScriptVarDef) iter.next();
-         // BPEL 2.0 variables are referenced using an unqualified XPath 1.0 variable reference.
-         if (AeUtil.isNullOrEmpty(varDef.getNamespace()))
-         {
-            AeXPathVariableReference varRef = new AeXPathVariableReference(varDef.getName());
-            // Note that, at the moment, the query portion of the var def will be null for any
-            // $varName syntax based XQuery var reference.
-            list.add(new AeVariableData(varRef.getVariableName(), varRef.getPartName(), varDef.getQuery()));
-         }
-      }
+       for (AeScriptVarDef varDef : getVariableReferences()) {
+           // BPEL 2.0 variables are referenced using an unqualified XPath 1.0 variable reference.
+           if (AeUtil.isNullOrEmpty(varDef.getNamespace())) {
+               AeXPathVariableReference varRef = new AeXPathVariableReference(varDef.getName());
+               // Note that, at the moment, the query portion of the var def will be null for any
+               // $varName syntax based XQuery var reference.
+               list.add(new AeVariableData(varRef.getVariableName(), varRef.getPartName(), varDef.getQuery()));
+           }
+       }
       return list;
    }
 }

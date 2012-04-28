@@ -10,20 +10,6 @@
 
 package org.activebpel.rt.bpel.server.engine.storage;
 
-import java.io.InputStream;
-import java.text.MessageFormat;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Properties;
-import java.util.Set;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 import org.activebpel.rt.AeException;
 import org.activebpel.rt.bpel.server.AeMessages;
 import org.activebpel.rt.util.AeCloser;
@@ -33,6 +19,13 @@ import org.activebpel.rt.xml.AeXMLParserBase;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
+
+import java.io.InputStream;
+import java.text.MessageFormat;
+import java.util.*;
+import java.util.Map.Entry;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * This class is a base for the SQL and Tamino config classes.  It abstracts out the
@@ -153,11 +146,10 @@ public abstract class AeStorageConfig
    public void loadStatements()
    {
       List configFilenames = getStatementConfigFilenames();
-      for (Iterator iter = configFilenames.iterator(); iter.hasNext(); )
-      {
-         AeFilenameClassTuple entry = (AeFilenameClassTuple) iter.next();
-         addStatements(loadStatements(entry.getFilename(), entry.getClassForLoad()));
-      }
+       for (Object configFilename : configFilenames) {
+           AeFilenameClassTuple entry = (AeFilenameClassTuple) configFilename;
+           addStatements(loadStatements(entry.getFilename(), entry.getClassForLoad()));
+       }
    }
    
    /**
@@ -192,64 +184,53 @@ public abstract class AeStorageConfig
          Pattern pattern = Pattern.compile("%(\\w+)%"); //$NON-NLS-1$
          
          // run through the sqlstmts and replace any constants with their values
-         for (Iterator<Entry<String,String>> iter = aMap.entrySet().iterator(); iter.hasNext();)
-         {
-            Map.Entry<String,String> entry = iter.next();
-            String stmt = entry.getValue();
-            Set<String> firstMatches = new HashSet<String>();
+          for (Entry<String, String> entry : aMap.entrySet()) {
+              String stmt = entry.getValue();
+              Set<String> firstMatches = new HashSet<String>();
 
-            // Loop until there are no more matches. This allows a constant to
-            // make nested references to other constants.
-            for (boolean done = false; !done; )
-            {
-               Matcher matcher = pattern.matcher(stmt);
-               StringBuffer sb = new StringBuffer(stmt.length() * 2);
-               int stmtPosition = 0;
+              // Loop until there are no more matches. This allows a constant to
+              // make nested references to other constants.
+              for (boolean done = false; !done; ) {
+                  Matcher matcher = pattern.matcher(stmt);
+                  StringBuilder sb = new StringBuilder(stmt.length() * 2);
+                  int stmtPosition = 0;
 
-               // Make one pass through the statement, replacing constants.
-               while (matcher.find())
-               {
-                  // extract name of constant
-                  String constant = matcher.group(1);
-                  String replacementValue = resolveToken(constant);
+                  // Make one pass through the statement, replacing constants.
+                  while (matcher.find()) {
+                      // extract name of constant
+                      String constant = matcher.group(1);
+                      String replacementValue = resolveToken(constant);
 
-                  if (replacementValue == null)
-                  {
-                     // A minor annoyance is that we will report every missing
-                     // constant in every pass, but there really shouldn't be
-                     // any missing constants.
-                     new AeException(AeMessages.format("AeSQLConfig.ERROR_1", constant)).logError(); //$NON-NLS-1$
+                      if (replacementValue == null) {
+                          // A minor annoyance is that we will report every missing
+                          // constant in every pass, but there really shouldn't be
+                          // any missing constants.
+                          new AeException(AeMessages.format("AeSQLConfig.ERROR_1", constant)).logError(); //$NON-NLS-1$
+                      }
+                      // If this is the first match of the pass and this constant
+                      // was also the first match of a previous pass, then we have
+                      // detected an infinite sequence of nested replacements.
+                      else if ((stmtPosition == 0) && !firstMatches.add(constant)) {
+                          new AeException(AeMessages.format("AeSQLConfig.ERROR_20", constant)).logError(); //$NON-NLS-1$
+                          break;
+                      } else {
+                          sb.append(stmt.substring(stmtPosition, matcher.start()));
+                          sb.append(replacementValue);
+                          stmtPosition = matcher.end();
+                      }
                   }
-                  // If this is the first match of the pass and this constant
-                  // was also the first match of a previous pass, then we have
-                  // detected an infinite sequence of nested replacements. 
-                  else if ((stmtPosition == 0) && !firstMatches.add(constant))
-                  {
-                     new AeException(AeMessages.format("AeSQLConfig.ERROR_20", constant)).logError(); //$NON-NLS-1$
-                     break;
-                  }
-                  else
-                  {
-                     sb.append(stmt.substring(stmtPosition, matcher.start()));
-                     sb.append(replacementValue);
-                     stmtPosition = matcher.end();
-                  }
-               }
 
-               // If there were no matches, then we're done.
-               if (stmtPosition == 0)
-               {
-                  done = true;
-               }
-               else
-               {
-                  sb.append(stmt.substring(stmtPosition));
-                  stmt = sb.toString();
-               }
-            }
-            
-            entry.setValue(stmt);
-         }
+                  // If there were no matches, then we're done.
+                  if (stmtPosition == 0) {
+                      done = true;
+                  } else {
+                      sb.append(stmt.substring(stmtPosition));
+                      stmt = sb.toString();
+                  }
+              }
+
+              entry.setValue(stmt);
+          }
       }
    }
 

@@ -9,13 +9,6 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpel.server.engine.process;
 
-import java.sql.SQLException;
-import java.text.MessageFormat;
-import java.util.Date;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Set;
-
 import org.activebpel.rt.AeException;
 import org.activebpel.rt.bpel.AeBusinessProcessException;
 import org.activebpel.rt.bpel.IAeBusinessProcess;
@@ -33,35 +26,21 @@ import org.activebpel.rt.bpel.server.engine.AeEngineFactory;
 import org.activebpel.rt.bpel.server.engine.AePersistentProcessManager;
 import org.activebpel.rt.bpel.server.engine.IAePersistentProcessManager;
 import org.activebpel.rt.bpel.server.engine.IAeProcessLogger;
-import org.activebpel.rt.bpel.server.engine.recovery.journal.AeAlarmJournalEntry;
-import org.activebpel.rt.bpel.server.engine.recovery.journal.AeEngineFailureJournalEntry;
-import org.activebpel.rt.bpel.server.engine.recovery.journal.AeInboundReceiveJournalEntry;
-import org.activebpel.rt.bpel.server.engine.recovery.journal.AeInvokeDataJournalEntry;
-import org.activebpel.rt.bpel.server.engine.recovery.journal.AeInvokeFaultJournalEntry;
-import org.activebpel.rt.bpel.server.engine.recovery.journal.AeInvokePendingJournalEntry;
-import org.activebpel.rt.bpel.server.engine.recovery.journal.AeInvokeTransmittedJournalEntry;
-import org.activebpel.rt.bpel.server.engine.recovery.journal.AeSentReplyJournalEntry;
-import org.activebpel.rt.bpel.server.engine.recovery.journal.IAeJournalEntry;
-import org.activebpel.rt.bpel.server.engine.recovery.journal.coord.AeCancelProcessEntry;
-import org.activebpel.rt.bpel.server.engine.recovery.journal.coord.AeCancelSubProcessCompensationEntry;
-import org.activebpel.rt.bpel.server.engine.recovery.journal.coord.AeCompensateCallbackEntry;
-import org.activebpel.rt.bpel.server.engine.recovery.journal.coord.AeCompensateSubprocessJournalEntry;
-import org.activebpel.rt.bpel.server.engine.recovery.journal.coord.AeCoordinatedActivityCompletedEntry;
-import org.activebpel.rt.bpel.server.engine.recovery.journal.coord.AeCoordinationQueueMessageEntry;
-import org.activebpel.rt.bpel.server.engine.recovery.journal.coord.AeDeregisterCoordinationEntry;
-import org.activebpel.rt.bpel.server.engine.recovery.journal.coord.AeNotifyCoordinatorsParticipantClosedEntry;
-import org.activebpel.rt.bpel.server.engine.recovery.journal.coord.AeReleaseCompensationResourcesEntry;
-import org.activebpel.rt.bpel.server.engine.storage.AeLocationVersionSet;
-import org.activebpel.rt.bpel.server.engine.storage.AeStorageException;
-import org.activebpel.rt.bpel.server.engine.storage.IAeLocationVersionSet;
-import org.activebpel.rt.bpel.server.engine.storage.IAeProcessStateConnection;
-import org.activebpel.rt.bpel.server.engine.storage.IAeProcessStateStorage;
+import org.activebpel.rt.bpel.server.engine.recovery.journal.*;
+import org.activebpel.rt.bpel.server.engine.recovery.journal.coord.*;
+import org.activebpel.rt.bpel.server.engine.storage.*;
 import org.activebpel.rt.bpel.server.engine.storage.sql.AeDbUtils;
 import org.activebpel.rt.bpel.server.engine.transaction.AeTransactionException;
 import org.activebpel.rt.bpel.server.engine.transaction.AeTransactionManager;
 import org.activebpel.rt.bpel.server.logging.IAePersistentLogger;
 import org.activebpel.rt.bpel.server.logging.IAeProcessLogEntry;
 import org.activebpel.rt.message.IAeMessageData;
+
+import java.sql.SQLException;
+import java.text.MessageFormat;
+import java.util.Date;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * Writes process state to persistent storage.
@@ -562,26 +541,23 @@ public class AeProcessStateWriter implements IAeProcessStateWriter
       IAeLocationVersionSet liveSet = new AeLocationVersionSet();
 
       // Iterate through all live variable location paths.
-      for (Iterator i = snapshot.getVariableLocationPaths().iterator(); i.hasNext(); )
-      {
-         String locationPath = (String) i.next();
-         int locationId = process.getLocationId(locationPath);
-         Set versionNumbers = snapshot.getVariableVersionNumbers(locationPath);
+       for (Object o : snapshot.getVariableLocationPaths()) {
+           String locationPath = (String) o;
+           int locationId = process.getLocationId(locationPath);
+           Set versionNumbers = snapshot.getVariableVersionNumbers(locationPath);
 
-         // Iterate through all version numbers for this location path.
-         for (Iterator j = versionNumbers.iterator(); j.hasNext(); )
-         {
-            int versionNumber = ((Number) j.next()).intValue();
-            liveSet.add(locationId, versionNumber);
-            
-            IAeVariable variable = snapshot.getVariable(locationPath, versionNumber);
-            if ((variable.hasData() || variable.hasAttachments()) && !aConnection.isStoredVariable(locationId, versionNumber))
-            {
-               AeFastDocument variableDocument = snapshot.serializeVariable(variable);
-               aConnection.saveVariable(process, variable, variableDocument);
-            }
-         }
-      }
+           // Iterate through all version numbers for this location path.
+           for (Object vn : versionNumbers) {
+               int versionNumber = ((Number) vn).intValue();
+               liveSet.add(locationId, versionNumber);
+
+               IAeVariable variable = snapshot.getVariable(locationPath, versionNumber);
+               if ((variable.hasData() || variable.hasAttachments()) && !aConnection.isStoredVariable(locationId, versionNumber)) {
+                   AeFastDocument variableDocument = snapshot.serializeVariable(variable);
+                   aConnection.saveVariable(process, variable, variableDocument);
+               }
+           }
+       }
 
       // Trim the set of stored variables to those that are live now.
       aConnection.trimStoredVariables(liveSet);

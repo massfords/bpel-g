@@ -9,21 +9,17 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpel.server.engine.invoke; 
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Properties;
-
 import org.activebpel.rt.bpel.server.deploy.scanner.AeDeploymentFileInfo;
 import org.activebpel.rt.bpel.server.engine.storage.AeStorageException;
 import org.activebpel.rt.bpel.server.engine.storage.IAeURNStorage;
 import org.activebpel.rt.util.AeCloser;
 import org.activebpel.rt.util.AeUtil;
+
+import java.io.*;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Properties;
 
 /**
  * File based implementation of <code>IAeURNStorage</code>. The file is kept up 
@@ -111,10 +107,9 @@ public class AeFileBasedURNStorage implements IAeURNStorage
    public synchronized void removeMappings(String[] aURNArray) throws AeStorageException
    {
       Map<String,String> map = getMappings();
-      for (int i = 0; i < aURNArray.length; i++)
-      {
-         map.remove(aURNArray[i]);
-      }
+       for (String arr : aURNArray) {
+           map.remove(arr);
+       }
       saveMappings(map);
    }
 

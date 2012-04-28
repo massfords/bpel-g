@@ -9,11 +9,11 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpeladmin.war.web.processview;
 
+import org.activebpel.rt.AeException;
+
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-
-import org.activebpel.rt.AeException;
 
 /**
  * This class generates the Java Script needed to display a Tree View control.
@@ -148,11 +148,10 @@ public class AeJsTreeBuilder
             sb.append(param);
             sb.append("\");"); //$NON-NLS-1$
             List children = ((AeBpelObjectContainer) aBpelObj).getChildren();
-            for (int i = 0; i < children.size(); i++)
-            {
-               AeBpelObjectBase child = (AeBpelObjectBase) children.get(i);
-               buildJSTree(child, sb, depth + 1);
-            }
+             for (Object c : children) {
+                 AeBpelObjectBase child = (AeBpelObjectBase) c;
+                 buildJSTree(child, sb, depth + 1);
+             }
          }
          else 
          {

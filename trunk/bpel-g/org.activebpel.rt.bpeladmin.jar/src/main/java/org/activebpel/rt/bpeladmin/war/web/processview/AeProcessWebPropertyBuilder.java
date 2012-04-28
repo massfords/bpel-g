@@ -397,30 +397,26 @@ public abstract class AeProcessWebPropertyBuilder extends AeProcessDefToWebVisit
       IAeXmlDefGraphNodeProperty[] props =  getBpelModel().getAdapter().getProperties(getBpelModel().getDef(), getStateDocument(), getBpelModel().getLocationPath());
       if (props == null)
          return;
-      
-      for(int i=0; i<props.length; i++)
-      {
-         if (props[i].isRemove())
-         {
-            removeProperty(props[i].getName());
-         }
-         else
-         {
-            AePropertyNameValue nv = new AePropertyNameValue(props[i].getName(), props[i].getValue(), false);
-            // Set location path if this is a variable
-            if (props[i].isVariable())
-               nv.setLocationPath(findVariableLocationPath(props[i].getValue()));
-            
-            // Set location path if present in node property
-            if (props[i].isHasLocationPath())
-               nv.setLocationPath(props[i].getLocationPath());
-            
-            if (props[i].isDetail())
-               addDetails(nv);
-            else
-               addProperty(nv);
-         }
-      }
+
+       for (IAeXmlDefGraphNodeProperty prop : props) {
+           if (prop.isRemove()) {
+               removeProperty(prop.getName());
+           } else {
+               AePropertyNameValue nv = new AePropertyNameValue(prop.getName(), prop.getValue(), false);
+               // Set location path if this is a variable
+               if (prop.isVariable())
+                   nv.setLocationPath(findVariableLocationPath(prop.getValue()));
+
+               // Set location path if present in node property
+               if (prop.isHasLocationPath())
+                   nv.setLocationPath(prop.getLocationPath());
+
+               if (prop.isDetail())
+                   addDetails(nv);
+               else
+                   addProperty(nv);
+           }
+       }
    }
    
    /**
@@ -887,7 +883,7 @@ public abstract class AeProcessWebPropertyBuilder extends AeProcessDefToWebVisit
       if (def.getScopeDef().hasMessageExchanges())
       {
          Set messageExSet = def.getScopeDef().getMessageExchangesDef().getMessageExchangeValues();
-         StringBuffer buffer = new StringBuffer();
+         StringBuilder buffer = new StringBuilder();
          int size = messageExSet.size();
          int i = 0;
          Iterator it = messageExSet.iterator();
@@ -928,7 +924,7 @@ public abstract class AeProcessWebPropertyBuilder extends AeProcessDefToWebVisit
       // properties.
       if (!isHasState() && aDef.getProperties().size() > 0)
       {
-         StringBuffer sb = new StringBuffer();
+         StringBuilder sb = new StringBuilder();
          Iterator it = aDef.getPropertiesList();
          while (it.hasNext())
          {

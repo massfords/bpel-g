@@ -9,28 +9,23 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpel.impl.activity;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.List;
-
 import org.activebpel.rt.AeException;
 import org.activebpel.rt.bpel.AeBusinessProcessException;
 import org.activebpel.rt.bpel.AeMessages;
 import org.activebpel.rt.bpel.IAeFault;
 import org.activebpel.rt.bpel.def.AeBaseDef;
 import org.activebpel.rt.bpel.def.activity.AeActivityCompensateDef;
-import org.activebpel.rt.bpel.impl.AeBpelException;
-import org.activebpel.rt.bpel.impl.AeFaultFactory;
-import org.activebpel.rt.bpel.impl.IAeActivityParent;
-import org.activebpel.rt.bpel.impl.IAeBpelObject;
-import org.activebpel.rt.bpel.impl.IAeFCTHandler;
-import org.activebpel.rt.bpel.impl.IAeFaultFactory;
+import org.activebpel.rt.bpel.impl.*;
 import org.activebpel.rt.bpel.impl.activity.support.AeCompInfo;
 import org.activebpel.rt.bpel.impl.activity.support.AeCompensationHandler;
 import org.activebpel.rt.bpel.impl.activity.support.AeSupportActivityLocationPathSuffix;
 import org.activebpel.rt.bpel.impl.activity.support.IAeCompensationCallback;
 import org.activebpel.rt.bpel.impl.visitors.IAeImplVisitor;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.List;
 
 /**
  * The compensate activity gets called from a fault handler or from within an
@@ -123,7 +118,7 @@ public class AeActivityCompensateImpl extends AeActivityImpl implements IAeCompe
          public String getLocationPath()
          {
             IAeBpelObject parent = getParent();
-            StringBuffer buffer = new StringBuffer(parent.getLocationPath());
+            StringBuilder buffer = new StringBuilder(parent.getLocationPath());
             if (isMatchCoordinated())
             {
                buffer.append(AeSupportActivityLocationPathSuffix.IMPLICIT_CC_COMPENSATE_ACTIVITY);

@@ -9,12 +9,8 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.axis.bpel.deploy;
 
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
-
-import javax.xml.XMLConstants;
-
+import bpelg.services.deploy.types.pdd.MyRoleBindingType;
+import bpelg.services.processes.types.ServiceDeployment;
 import org.activebpel.rt.bpel.server.deploy.AeDeploymentException;
 import org.activebpel.rt.bpel.server.deploy.IAePolicyMapper;
 import org.activebpel.rt.bpel.server.deploy.IAeWsddConstants;
@@ -24,8 +20,9 @@ import org.activebpel.rt.util.AeXmlUtil;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-import bpelg.services.deploy.types.pdd.MyRoleBindingType;
-import bpelg.services.processes.types.ServiceDeployment;
+import javax.xml.XMLConstants;
+import java.util.Collection;
+import java.util.List;
 
 /**
  * Builder class for creating a wsdd deployment document.
@@ -44,11 +41,9 @@ public class AeWsddBuilder implements IAeWsddConstants
       AeWsddBuilder builder = new AeWsddBuilder();
       
       // for undeployment build a list of service names to be removed
-      for( Iterator<String> iter = aServiceNames.iterator(); iter.hasNext(); )
-      {
-         String serviceName = iter.next();
-         builder.addServiceElement( serviceName, null );
-      }
+       for (String serviceName : aServiceNames) {
+           builder.addServiceElement(serviceName, null);
+       }
       
       return builder.getWsddDocument();
    }
@@ -84,27 +79,18 @@ public class AeWsddBuilder implements IAeWsddConstants
     */
    public void addServices(ServiceDeployment[] aServices) throws AeDeploymentException
    {
-      for (int i = 0; i < aServices.length; i++)
-      {
-    	  ServiceDeployment serviceData = aServices[i];
-         MyRoleBindingType binding = serviceData.getBinding();
-         if( binding == MyRoleBindingType.RPC )
-         {
-            addRpcService( serviceData );
-         }
-         else if (binding == MyRoleBindingType.RPC_LIT)
-         {
-            addRpcLiteralService( serviceData );
-         }
-         else if (binding == MyRoleBindingType.MSG)
-         {
-            addMsgService( serviceData );
-         }
-         else if (binding == MyRoleBindingType.POLICY)
-         {
-            addPolicyService( serviceData );
-         }
-      }
+       for (ServiceDeployment serviceData : aServices) {
+           MyRoleBindingType binding = serviceData.getBinding();
+           if (binding == MyRoleBindingType.RPC) {
+               addRpcService(serviceData);
+           } else if (binding == MyRoleBindingType.RPC_LIT) {
+               addRpcLiteralService(serviceData);
+           } else if (binding == MyRoleBindingType.MSG) {
+               addMsgService(serviceData);
+           } else if (binding == MyRoleBindingType.POLICY) {
+               addPolicyService(serviceData);
+           }
+       }
    }
    
    /**
@@ -178,30 +164,27 @@ public class AeWsddBuilder implements IAeWsddConstants
             List<Element> handlers = mapper.getServiceParameters(aServiceData.getAny());
             if (!AeUtil.isNullOrEmpty(handlers)) 
             {
-               for (Iterator<Element> it = handlers.iterator(); it.hasNext();) 
-               {
-                  serviceElement.appendChild(getWsddDocument().importNode(it.next(), true));           
-               }
+                for (Element handler : handlers) {
+                    serviceElement.appendChild(getWsddDocument().importNode(handler, true));
+                }
             }
             // get Server Request handlers
             handlers = mapper.getServerRequestHandlers(aServiceData.getAny());
             if (!AeUtil.isNullOrEmpty(handlers)) 
             {
                Element requestFlow = (Element) serviceElement.appendChild( createElement( TAG_REQUEST_FLOW) );
-               for (Iterator<Element> it = handlers.iterator(); it.hasNext();) 
-               {
-                    requestFlow.appendChild(getWsddDocument().importNode(it.next(), true));           
-               }
+                for (Element handler : handlers) {
+                    requestFlow.appendChild(getWsddDocument().importNode(handler, true));
+                }
             }
             // get Server Response handlers
             handlers = mapper.getServerResponseHandlers(aServiceData.getAny());
             if (!AeUtil.isNullOrEmpty(handlers)) 
             {
                Element responseFlow = (Element) serviceElement.appendChild( createElement( TAG_RESPONSE_FLOW) );
-               for (Iterator<Element> it = handlers.iterator(); it.hasNext();) 
-               {
-                  responseFlow.appendChild(getWsddDocument().importNode(it.next(), true));           
-               }
+                for (Element handler : handlers) {
+                    responseFlow.appendChild(getWsddDocument().importNode(handler, true));
+                }
             }
          }
       } 
@@ -245,22 +228,18 @@ public class AeWsddBuilder implements IAeWsddConstants
             if (!AeUtil.isNullOrEmpty(handlers)) 
             {
                Element requestFlow = (Element) globalConfig.appendChild( createElement( TAG_REQUEST_FLOW) );
-               for (Iterator<Element> it = handlers.iterator(); it.hasNext();) 
-               {
-                    Element handler = it.next();
+                for (Element handler : handlers) {
                     requestFlow.appendChild(getWsddDocument().importNode(handler, true));
-               }
+                }
             }
             // get Client Response handlers
             handlers = mapper.getClientResponseHandlers(aPolicyList);
             if (!AeUtil.isNullOrEmpty(handlers)) 
             {
                Element responseFlow = (Element) globalConfig.appendChild( createElement( TAG_RESPONSE_FLOW) );
-               for (Iterator<Element> it = handlers.iterator(); it.hasNext();) 
-               {
-                  Element handler = it.next();
-                  responseFlow.appendChild(getWsddDocument().importNode(handler, true));
-               }
+                for (Element handler : handlers) {
+                    responseFlow.appendChild(getWsddDocument().importNode(handler, true));
+                }
             }
 
          }

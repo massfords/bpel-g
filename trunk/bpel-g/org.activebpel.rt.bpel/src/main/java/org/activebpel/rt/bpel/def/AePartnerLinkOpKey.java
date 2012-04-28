@@ -10,129 +10,116 @@
 
 package org.activebpel.rt.bpel.def;
 
-import java.beans.ConstructorProperties;
-
 import org.activebpel.rt.bpel.impl.AePartnerLinkOpImplKey;
+
+import java.beans.ConstructorProperties;
 
 
 /**
  * This class combines a partner link and an operation into a key that can be used in maps and
  * the like.  It is also convenient to use when passing partner link:operation pairs around.
  */
-public class AePartnerLinkOpKey extends AePartnerLinkDefKey
-{
-   /**
-     * 
+public class AePartnerLinkOpKey extends AePartnerLinkDefKey {
+    /**
+     *
      */
     private static final long serialVersionUID = 2844900684985898484L;
-/** The operation. */
-   private String mOperation;
-   
-   /**
-    * Constructs the partner link op key from all of the necessary parts.
-    * 
-    * @param aPartnerLinkName
-    * @param aPartnerLinkId
-    * @param aOperation
-    */
-   @ConstructorProperties({"partnerLinkName", "partnerLinkId", "operation"})
-   public AePartnerLinkOpKey(String aPartnerLinkName, int aPartnerLinkId, String aOperation)
-   {
-      super(aPartnerLinkName, aPartnerLinkId);
-      setOperation(aOperation);
-   }
-   
-   /**
-    * Constructs the partner link op key from the partner link def and the operation.
-    * 
-    * @param aPartnerLinkDef
-    * @param aOperation
-    */
-   public AePartnerLinkOpKey(AePartnerLinkDef aPartnerLinkDef, String aOperation)
-   {
-      super(aPartnerLinkDef);
-      setOperation(aOperation);
-   }
+    /**
+     * The operation.
+     */
+    private String mOperation;
 
-   /**
-    * Constructs the key from the partner link and operation.
-    * 
-    * @param aPartnerLinkKey
-    * @param aOperation
-    */
-   public AePartnerLinkOpKey(AePartnerLinkDefKey aPartnerLinkKey, String aOperation)
-   {
-      super(aPartnerLinkKey.getPartnerLinkName(), aPartnerLinkKey.getPartnerLinkId());
-      setOperation(aOperation);
-   }
+    /**
+     * Constructs the partner link op key from all of the necessary parts.
+     *
+     * @param aPartnerLinkName
+     * @param aPartnerLinkId
+     * @param aOperation
+     */
+    @ConstructorProperties({"partnerLinkName", "partnerLinkId", "operation"})
+    public AePartnerLinkOpKey(String aPartnerLinkName, int aPartnerLinkId, String aOperation) {
+        super(aPartnerLinkName, aPartnerLinkId);
+        setOperation(aOperation);
+    }
 
-   /**
-    * @return Returns the operation.
-    */
-   public String getOperation()
-   {
-      return mOperation;
-   }
+    /**
+     * Constructs the partner link op key from the partner link def and the operation.
+     *
+     * @param aPartnerLinkDef
+     * @param aOperation
+     */
+    public AePartnerLinkOpKey(AePartnerLinkDef aPartnerLinkDef, String aOperation) {
+        super(aPartnerLinkDef);
+        setOperation(aOperation);
+    }
 
-   /**
-    * @param aOperation The operation to set.
-    */
-   protected void setOperation(String aOperation)
-   {
-      mOperation = aOperation;
-   }
-   
-   /**
-    * @see java.lang.Object#hashCode()
-    */
-   public int hashCode()
-   {
-      return super.hashCode() ^ getOperation().hashCode();
-   }
-   
-   /**
-    * @see java.lang.Object#equals(java.lang.Object)
-    */
-   public boolean equals(Object aObj)
-   {
-      if (aObj instanceof AePartnerLinkOpKey)
-      {
-         AePartnerLinkOpKey other = (AePartnerLinkOpKey) aObj;
-         return super.equals(other) && getOperation().equals(other.getOperation());
-      }
+    /**
+     * Constructs the key from the partner link and operation.
+     *
+     * @param aPartnerLinkKey
+     * @param aOperation
+     */
+    public AePartnerLinkOpKey(AePartnerLinkDefKey aPartnerLinkKey, String aOperation) {
+        super(aPartnerLinkKey.getPartnerLinkName(), aPartnerLinkKey.getPartnerLinkId());
+        setOperation(aOperation);
+    }
 
-      return super.equals(aObj);
-   }
+    /**
+     * @return Returns the operation.
+     */
+    public String getOperation() {
+        return mOperation;
+    }
 
-   /**
-    * @see java.lang.Comparable#compareTo(java.lang.Object)
-    */
-   public int compareTo(Object aObj)
-   {
-      int rval = super.compareTo(aObj);
+    /**
+     * @param aOperation The operation to set.
+     */
+    protected void setOperation(String aOperation) {
+        mOperation = aOperation;
+    }
 
-      if (aObj instanceof AePartnerLinkOpImplKey && rval == 0)
-      {
-         AePartnerLinkOpImplKey other = (AePartnerLinkOpImplKey) aObj;
-         rval = getOperation().compareTo(other.getOperation());
-      }
+    /**
+     * @see java.lang.Object#hashCode()
+     */
+    public int hashCode() {
+        return super.hashCode() ^ getOperation().hashCode();
+    }
 
-      return rval;
-   }
+    /**
+     * @see java.lang.Object#equals(java.lang.Object)
+     */
+    public boolean equals(Object aObj) {
+        if (aObj instanceof AePartnerLinkOpKey) {
+            AePartnerLinkOpKey other = (AePartnerLinkOpKey) aObj;
+            return super.equals(other) && getOperation().equals(other.getOperation());
+        }
 
-   /**
-    * @see java.lang.Object#toString()
-    */
-   public String toString()
-   {
-      StringBuffer buff = new StringBuffer();
-      synchronized(buff)
-      {
-         buff.append(super.toString());
-         buff.append("\n"); //$NON-NLS-1$
-         buff.append("Operation: "); //$NON-NLS-1$
-         buff.append(getOperation());
-      }
-      return buff.toString();
-   }
+        return super.equals(aObj);
+    }
+
+    /**
+     * @see java.lang.Comparable#compareTo(java.lang.Object)
+     */
+    public int compareTo(Object aObj) {
+        int rval = super.compareTo(aObj);
+
+        if (aObj instanceof AePartnerLinkOpImplKey && rval == 0) {
+            AePartnerLinkOpImplKey other = (AePartnerLinkOpImplKey) aObj;
+            rval = getOperation().compareTo(other.getOperation());
+        }
+
+        return rval;
+    }
+
+    /**
+     * @see java.lang.Object#toString()
+     */
+    public String toString() {
+        StringBuilder buff = new StringBuilder();
+        buff.append(super.toString());
+        buff.append("\n"); //$NON-NLS-1$
+        buff.append("Operation: "); //$NON-NLS-1$
+        buff.append(getOperation());
+        return buff.toString();
+    }
 }

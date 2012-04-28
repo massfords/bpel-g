@@ -9,16 +9,8 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.axis.bpel.handlers;
 
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Set;
-
 import org.activebpel.rt.axis.bpel.deploy.AeResourceProvider;
-import org.apache.axis.AxisFault;
-import org.apache.axis.ConfigurationException;
-import org.apache.axis.Constants;
-import org.apache.axis.EngineConfiguration;
-import org.apache.axis.MessageContext;
+import org.apache.axis.*;
 import org.apache.axis.deployment.wsdd.WSDDService;
 import org.apache.axis.description.ServiceDesc;
 import org.apache.axis.transport.http.QSWSDLHandler;
@@ -26,6 +18,10 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Set;
 
 /**
  * Custom version of Query String Handler for serving up WSDL needed to work around
@@ -147,8 +143,7 @@ public class AeQSWSDLHandler extends QSWSDLHandler
       if (config instanceof AeResourceProvider)
       {
          WSDDService[] services = ((AeResourceProvider)config).getMyDeployment().getServices();
-         for (int i = 0; i < services.length; i++)
-            serviceNames.add(services[i].getServiceDesc().getName());
+          for (WSDDService service : services) serviceNames.add(service.getServiceDesc().getName());
       }
       else
       {

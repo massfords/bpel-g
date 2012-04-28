@@ -9,15 +9,13 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.xml.def;
 
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Set;
-
-import javax.xml.namespace.QName;
-
 import org.activebpel.rt.util.AeUtil;
 import org.activebpel.rt.util.AeXmlUtil;
+
+import javax.xml.namespace.QName;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * utility methods for working with def objects.
@@ -45,11 +43,9 @@ public class AeXmlDefUtil
    public static String generateUniqueName(String aPrefix, Collection<IAeNamedDef> aNamedDefsCollection, boolean aPreserveIfAlreadyUnique)
    {
       Set<String> set = new HashSet<String>();
-      for (Iterator<IAeNamedDef> iter = aNamedDefsCollection.iterator(); iter.hasNext();)
-      {
-         IAeNamedDef def = iter.next();
-         set.add(def.getName());
-      }
+       for (IAeNamedDef def : aNamedDefsCollection) {
+           set.add(def.getName());
+       }
       
       return AeUtil.generateUniqueName(aPrefix, set, aPreserveIfAlreadyUnique);
    }

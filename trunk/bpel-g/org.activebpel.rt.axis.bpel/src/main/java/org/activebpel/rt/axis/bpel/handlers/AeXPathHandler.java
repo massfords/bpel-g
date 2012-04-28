@@ -9,10 +9,6 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.axis.bpel.handlers;
 
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
-
 import org.activebpel.rt.IAeConstants;
 import org.activebpel.rt.IAePolicyConstants;
 import org.apache.axis.AxisFault;
@@ -22,6 +18,9 @@ import org.jaxen.JaxenException;
 import org.jaxen.NamespaceContext;
 import org.jaxen.XPath;
 import org.jaxen.dom.DOMXPath;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Abstract Base Class with utility methods for mapping SOAP Headers into process variable properties
@@ -97,17 +96,15 @@ public abstract class AeXPathHandler extends BasicHandler implements IAeConstant
 
       // get namespace declarations
       NamespaceContext nsc = getNamespaceContext(aXpathParams);
-      
-      for (Iterator<String> it = aXpathParams.keySet().iterator(); it.hasNext();) 
-      {
-         String name = it.next();
-         if (name.startsWith(XPATH_PREFIX)) {
-            String query = aXpathParams.get(name);
-            XPath xpath  = new DOMXPath(query); 
-            xpath.setNamespaceContext(nsc);
-            xpaths.put(name.substring(XPATH_PREFIX.length()), xpath);
-         }
-      }
+
+       for (String name : aXpathParams.keySet()) {
+           if (name.startsWith(XPATH_PREFIX)) {
+               String query = aXpathParams.get(name);
+               XPath xpath = new DOMXPath(query);
+               xpath.setNamespaceContext(nsc);
+               xpaths.put(name.substring(XPATH_PREFIX.length()), xpath);
+           }
+       }
       return xpaths;
    }
    
@@ -122,13 +119,12 @@ public abstract class AeXPathHandler extends BasicHandler implements IAeConstant
       XPath xpath = new DOMXPath("/"); //$NON-NLS-1$
        
       // get namespace declarations from the options set
-      for (Iterator<String> it = aXPathParams.keySet().iterator(); it.hasNext();) {
-           String key = it.next();
+       for (String key : aXPathParams.keySet()) {
            if (key.startsWith(XMLNS_PREFIX)) {
-              String prefix = key.substring(XMLNS_PREFIX.length());
-              xpath.addNamespace(prefix, aXPathParams.get(key));
+               String prefix = key.substring(XMLNS_PREFIX.length());
+               xpath.addNamespace(prefix, aXPathParams.get(key));
            }
-      }
+       }
       return xpath.getNamespaceContext();
    }
    

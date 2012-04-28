@@ -9,13 +9,13 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.util;
 
+import org.activebpel.rt.AeMessages;
+
 import java.io.IOException;
 import java.io.Reader;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
-
-import org.activebpel.rt.AeMessages;
 
 /**
  * Joins two readers together much like <code>java.io.SequenceInputStream</code> 
@@ -115,10 +115,9 @@ public class AeSequenceReader extends Reader
     */
    public void close() throws IOException
    {
-      for (int i = 0; i < mReaders.length; i++)
-      {
-         AeCloser.close(mReaders[i]);
-      }
+       for (Reader r : mReaders) {
+           AeCloser.close(r);
+       }
    }
 
 }

@@ -74,14 +74,11 @@ public class AeAttachmentContainer extends ArrayList<IAeAttachmentItem> implemen
 
       if ( aAttachments != null )
       {
-         for (Iterator<? extends IAeAttachmentItem> iter = aAttachments.iterator(); iter.hasNext();)
-         {
-        	 IAeAttachmentItem item = iter.next();
-            if (addIfAbsent(item))
-            {
-               changed = true;
-            }
-         }
+          for (IAeAttachmentItem item : aAttachments) {
+              if (addIfAbsent(item)) {
+                  changed = true;
+              }
+          }
       }
       return changed;
    }

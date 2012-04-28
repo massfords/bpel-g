@@ -9,17 +9,6 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.axis.bpel.handlers;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-
-import javax.wsdl.Message;
-import javax.wsdl.Operation;
-import javax.wsdl.Part;
-import javax.xml.namespace.QName;
-
 import org.activebpel.rt.AeException;
 import org.activebpel.rt.AeWSDLException;
 import org.activebpel.rt.axis.AeWsdlImportFixup;
@@ -45,6 +34,12 @@ import org.apache.axis.constants.Use;
 import org.apache.axis.description.OperationDesc;
 import org.apache.axis.description.ParameterDesc;
 import org.apache.axis.description.ServiceDesc;
+
+import javax.wsdl.Message;
+import javax.wsdl.Operation;
+import javax.wsdl.Part;
+import javax.xml.namespace.QName;
+import java.util.*;
 
 /**
  * Holds information obtained from wsdl def for the service desc object.  Allows
@@ -312,24 +307,20 @@ public class AeWsdlReference implements IAeWsdlReference, IAeCatalogListener
     */
    protected void addParamsToOperation(OperationDesc aOperation, Message aMsg, boolean aIsInput)
    {
-      for (@SuppressWarnings("unchecked")
-    		  Iterator<Part> iter=aMsg.getOrderedParts(null).iterator(); iter.hasNext();)
-      {
-         // Get the next part and obtain the return type for it (may be type or element)
-         Part part = iter.next();
-         QName typeName = part.getElementName();
+       for (Part part : (Iterable<Part>) aMsg.getOrderedParts(null)) {
+           // Get the next part and obtain the return type for it (may be type or element)
+           QName typeName = part.getElementName();
 
-         if (typeName == null)
-         {
-            typeName = part.getTypeName();
-         }
+           if (typeName == null) {
+               typeName = part.getTypeName();
+           }
 
-         ParameterDesc param = new ParameterDesc();
-         param.setMode(aIsInput ? ParameterDesc.IN : ParameterDesc.OUT);
-         param.setName(part.getName());
-         param.setTypeQName(typeName);
-         aOperation.addParameter(param);
-      }
+           ParameterDesc param = new ParameterDesc();
+           param.setMode(aIsInput ? ParameterDesc.IN : ParameterDesc.OUT);
+           param.setName(part.getName());
+           param.setTypeQName(typeName);
+           aOperation.addParameter(param);
+       }
    }
    
    //----------[ Service Operation Methods ]------------------------------------

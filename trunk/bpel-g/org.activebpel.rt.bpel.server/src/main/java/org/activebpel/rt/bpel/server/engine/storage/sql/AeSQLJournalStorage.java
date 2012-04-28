@@ -125,7 +125,7 @@ public class AeSQLJournalStorage extends AeAbstractSQLStorage
               aProcessId,
               aJournalEntry.getEntryType(),
               aJournalEntry.getLocationId(),
-         (document == null) ? (Object) AeQueryRunner.NULL_CLOB : document 
+         (document == null) ? AeQueryRunner.NULL_CLOB : document
       };
 
       update(aConnection, IAeJournalSQLKeys.INSERT_JOURNAL_ENTRY, params);

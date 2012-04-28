@@ -9,25 +9,6 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.axis;
 
-import java.util.Iterator;
-import java.util.Map;
-
-import javax.wsdl.Binding;
-import javax.wsdl.BindingFault;
-import javax.wsdl.BindingInput;
-import javax.wsdl.BindingOperation;
-import javax.wsdl.BindingOutput;
-import javax.wsdl.Definition;
-import javax.wsdl.Fault;
-import javax.wsdl.Operation;
-import javax.wsdl.Part;
-import javax.wsdl.Port;
-import javax.wsdl.PortType;
-import javax.wsdl.Service;
-import javax.wsdl.extensions.ExtensibilityElement;
-import javax.wsdl.extensions.UnknownExtensibilityElement;
-import javax.xml.namespace.QName;
-
 import org.activebpel.rt.AeException;
 import org.activebpel.rt.AeWSDLException;
 import org.activebpel.rt.message.IAeMessageData;
@@ -45,6 +26,12 @@ import org.exolab.castor.xml.schema.ElementDecl;
 import org.exolab.castor.xml.schema.XMLType;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+
+import javax.wsdl.*;
+import javax.wsdl.extensions.ExtensibilityElement;
+import javax.wsdl.extensions.UnknownExtensibilityElement;
+import javax.xml.namespace.QName;
+import java.util.Map;
 
 /**
  * The base handler for web services under an Axis framework.
@@ -204,13 +191,10 @@ public abstract class AeHandler extends BasicProvider
       def.addBinding(binding);
 
       // Create declarations for all allowed operations
-      for (@SuppressWarnings("unchecked")
-    		  Iterator<Operation> iter=portType.getOperations().iterator(); iter.hasNext();)
-      {
-         Operation operation=iter.next();
-         if (aServiceDesc.getAllowedMethods().contains(operation.getName()))
-            binding.addBindingOperation(createBindingOperation(aServiceDesc, def, portType, operation));
-      }
+       for (Operation operation : (Iterable<Operation>) portType.getOperations()) {
+           if (aServiceDesc.getAllowedMethods().contains(operation.getName()))
+               binding.addBindingOperation(createBindingOperation(aServiceDesc, def, portType, operation));
+       }
    }
 
    /**
@@ -282,28 +266,25 @@ public abstract class AeHandler extends BasicProvider
          bindingOutput.addExtensibilityElement(createSoapExtElement("body", bodyElement)); //$NON-NLS-1$
          bindingOp.setBindingOutput(bindingOutput);
       }
-      
-      for (@SuppressWarnings("unchecked")
-    		  Iterator<Fault> faultIter=aOperation.getFaults().values().iterator(); faultIter.hasNext();)
-      {
-         Fault fault = faultIter.next();
-         BindingFault bindingFault = aDef.createBindingFault();
-         bindingFault.setName(fault.getName());
-      
-         // Create the DOM element which represents the SOAP fault operation ext element
-         Element faultElement = getDocument().createElementNS(IAeBPELExtendedWSDLConst.SOAP_NAMESPACE, "fault"); //$NON-NLS-1$
-         faultElement.setPrefix(aDef.getPrefix( IAeBPELExtendedWSDLConst.SOAP_NAMESPACE ));
-         faultElement.setAttributeNS(IAeBPELExtendedWSDLConst.SOAP_NAMESPACE, "use", aServiceDesc.getUse().getName()); //$NON-NLS-1$
-         faultElement.setAttributeNS(IAeBPELExtendedWSDLConst.SOAP_NAMESPACE, "name", fault.getName()) ; //$NON-NLS-1$
-      
-         // RPC style bindings should declare encoding specifications
-         if (isRPCStyle)
-            faultElement.setAttributeNS(IAeBPELExtendedWSDLConst.SOAP_NAMESPACE, "encodingStyle", aServiceDesc.getUse().getEncoding()); //$NON-NLS-1$
-      
-         // Create the SOAP fault ext element and add it to the operation
-         bindingFault.addExtensibilityElement(createSoapExtElement("fault", faultElement)); //$NON-NLS-1$
-         bindingOp.addBindingFault(bindingFault);
-      }
+
+       for (Fault fault : (Iterable<Fault>) aOperation.getFaults().values()) {
+           BindingFault bindingFault = aDef.createBindingFault();
+           bindingFault.setName(fault.getName());
+
+           // Create the DOM element which represents the SOAP fault operation ext element
+           Element faultElement = getDocument().createElementNS(IAeBPELExtendedWSDLConst.SOAP_NAMESPACE, "fault"); //$NON-NLS-1$
+           faultElement.setPrefix(aDef.getPrefix(IAeBPELExtendedWSDLConst.SOAP_NAMESPACE));
+           faultElement.setAttributeNS(IAeBPELExtendedWSDLConst.SOAP_NAMESPACE, "use", aServiceDesc.getUse().getName()); //$NON-NLS-1$
+           faultElement.setAttributeNS(IAeBPELExtendedWSDLConst.SOAP_NAMESPACE, "name", fault.getName()); //$NON-NLS-1$
+
+           // RPC style bindings should declare encoding specifications
+           if (isRPCStyle)
+               faultElement.setAttributeNS(IAeBPELExtendedWSDLConst.SOAP_NAMESPACE, "encodingStyle", aServiceDesc.getUse().getEncoding()); //$NON-NLS-1$
+
+           // Create the SOAP fault ext element and add it to the operation
+           bindingFault.addExtensibilityElement(createSoapExtElement("fault", faultElement)); //$NON-NLS-1$
+           bindingOp.addBindingFault(bindingFault);
+       }
       
       return bindingOp;
    }
@@ -377,46 +358,36 @@ public abstract class AeHandler extends BasicProvider
    protected void mapInputData(ServiceDesc aServiceDesc, IAeMessageData aInputMsg, Map<Part,Document> aDataMap) throws Exception
    {
       AeBPELExtendedWSDLDef def = getExtendedWSDLDef(aServiceDesc);
-      for (Iterator<Part> iter=aDataMap.keySet().iterator(); iter.hasNext();)
-      {
-         // Get the Part from the data map and determine the part type
-         Part part = iter.next();
-         XMLType type = null;
-         boolean complex = false;
-         if (part.getTypeName() != null)
-         {
-            type = def.findType(part.getTypeName());
-            complex = AeXmlUtil.isComplexOrAny(type);
-         }
-         else if (part.getElementName() != null)
-         {
-            complex = true;
-            ElementDecl element = def.findElement(part.getElementName());
-            if (element != null) 
-               type = element.getType(); 
-         }
+       for (Part part : aDataMap.keySet()) {
+           // Get the Part from the data map and determine the part type
+           XMLType type = null;
+           boolean complex = false;
+           if (part.getTypeName() != null) {
+               type = def.findType(part.getTypeName());
+               complex = AeXmlUtil.isComplexOrAny(type);
+           } else if (part.getElementName() != null) {
+               complex = true;
+               ElementDecl element = def.findElement(part.getElementName());
+               if (element != null)
+                   type = element.getType();
+           }
 
-         Document doc = aDataMap.get(part);
-         if (type == null || complex)
-         {
-            // if part declared as type then make sure the root is the part name 
-            // with no namespace (per WS-I BP 1)
-            if (part.getTypeName() != null)
-            {
-               Element root = doc.getDocumentElement();
-               if(! AeUtil.compareObjects(part.getName(), root.getLocalName())  ||
-                  ! AeUtil.isNullOrEmpty(root.getNamespaceURI()))
-               {
-                  doc = AeXmlUtil.createMessagePartTypeDocument(part.getName(), root);
+           Document doc = aDataMap.get(part);
+           if (type == null || complex) {
+               // if part declared as type then make sure the root is the part name
+               // with no namespace (per WS-I BP 1)
+               if (part.getTypeName() != null) {
+                   Element root = doc.getDocumentElement();
+                   if (!AeUtil.compareObjects(part.getName(), root.getLocalName()) ||
+                           !AeUtil.isNullOrEmpty(root.getNamespaceURI())) {
+                       doc = AeXmlUtil.createMessagePartTypeDocument(part.getName(), root);
+                   }
                }
-            }
-            aInputMsg.setData(part.getName(), doc);
-         }
-         else 
-         {
-            // Concatenate all text nodes to get the data value
-            aInputMsg.setData(part.getName(), AeXmlUtil.getText(doc.getDocumentElement()));
-         }
-      }
+               aInputMsg.setData(part.getName(), doc);
+           } else {
+               // Concatenate all text nodes to get the data value
+               aInputMsg.setData(part.getName(), AeXmlUtil.getText(doc.getDocumentElement()));
+           }
+       }
    }
 }

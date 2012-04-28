@@ -155,7 +155,7 @@ public class AeXQueryTypeMapper
     */
    public Object convertAnyURI(AtomicValue aValue)
    {
-      return new AeSchemaAnyURI(((AnyURIValue) aValue).getStringValue());
+      return new AeSchemaAnyURI(aValue.getStringValue());
    }
 
    /**
@@ -165,7 +165,7 @@ public class AeXQueryTypeMapper
     */
    public Object convertBase64Binary(AtomicValue aValue)
    {
-      return new AeSchemaBase64Binary(((Base64BinaryValue) aValue).getStringValue());
+      return new AeSchemaBase64Binary(aValue.getStringValue());
    }
 
    /**
@@ -286,7 +286,7 @@ public class AeXQueryTypeMapper
     */
    public Object convertHexBinary(AtomicValue aValue)
    {
-      return new AeSchemaHexBinary(((HexBinaryValue) aValue).getStringValue());
+      return new AeSchemaHexBinary(aValue.getStringValue());
    }
 
    /**

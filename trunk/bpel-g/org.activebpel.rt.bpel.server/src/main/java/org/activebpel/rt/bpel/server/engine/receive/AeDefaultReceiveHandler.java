@@ -9,13 +9,6 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpel.server.engine.receive;
 
-import java.util.Iterator;
-import java.util.Map;
-
-import javax.wsdl.Operation;
-import javax.wsdl.Part;
-import javax.xml.namespace.QName;
-
 import org.activebpel.rt.AeException;
 import org.activebpel.rt.bpel.AeBusinessProcessException;
 import org.activebpel.rt.bpel.AeMessageDataFactory;
@@ -34,6 +27,11 @@ import org.exolab.castor.xml.schema.ElementDecl;
 import org.exolab.castor.xml.schema.XMLType;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+
+import javax.wsdl.Operation;
+import javax.wsdl.Part;
+import javax.xml.namespace.QName;
+import java.util.Map;
 
 /**
  * Receive handler that simply invokes the BPEL engine. 
@@ -93,55 +91,43 @@ public class AeDefaultReceiveHandler extends AeAbstractReceiveHandler
       
       // create the input data
       Map partAsKeyMap = opFinder.getPartsMap();
-      IAeMessageData inputMsg = AeMessageDataFactory.instance().createMessageData(opFinder.getMessageName()); 
-      for (Iterator iter=partAsKeyMap.keySet().iterator(); iter.hasNext();)
-      {
-         // Get the Part from the data map and determine the part type
-         Part part = (Part)iter.next();
-         XMLType type = null;
-         boolean complex = false;
-         if (part.getTypeName() != null)
-         {
-            try
-            {
-               type = portTypeDef.findType(part.getTypeName());
-            }
-            catch (AeException ex)
-            {
-               throw new AeBusinessProcessException(ex.getLocalizedMessage(), ex);
-            }
-            complex = AeXmlUtil.isComplexOrAny(type);
-         }
-         else if (part.getElementName() != null)
-         {
-            complex = true;
-            ElementDecl element = portTypeDef.findElement(part.getElementName());
-            if (element != null) 
-               type = element.getType(); 
-         }
-
-         Document doc = (Document)partAsKeyMap.get(part);
-         if (type == null || complex)
-         {
-            // if part declared as type then make sure the root is the part name 
-            // with no namespace (per WS-I BP 1)
-            if (part.getTypeName() != null)
-            {
-               Element root = doc.getDocumentElement();
-               if(! AeUtil.compareObjects(part.getName(), root.getLocalName())  ||
-                  ! AeUtil.isNullOrEmpty(root.getNamespaceURI()))
-               {
-                  doc = AeXmlUtil.createMessagePartTypeDocument(part.getName(), root);
+      IAeMessageData inputMsg = AeMessageDataFactory.instance().createMessageData(opFinder.getMessageName());
+       for (Object o : partAsKeyMap.keySet()) {
+           // Get the Part from the data map and determine the part type
+           Part part = (Part) o;
+           XMLType type = null;
+           boolean complex = false;
+           if (part.getTypeName() != null) {
+               try {
+                   type = portTypeDef.findType(part.getTypeName());
+               } catch (AeException ex) {
+                   throw new AeBusinessProcessException(ex.getLocalizedMessage(), ex);
                }
-            }
-            inputMsg.setData(part.getName(), doc);
-         }
-         else 
-         {
-            // Concat all text nodes to get the data value
-            inputMsg.setData(part.getName(), AeXmlUtil.getText(doc.getDocumentElement()));
-         }
-      }      
+               complex = AeXmlUtil.isComplexOrAny(type);
+           } else if (part.getElementName() != null) {
+               complex = true;
+               ElementDecl element = portTypeDef.findElement(part.getElementName());
+               if (element != null)
+                   type = element.getType();
+           }
+
+           Document doc = (Document) partAsKeyMap.get(part);
+           if (type == null || complex) {
+               // if part declared as type then make sure the root is the part name
+               // with no namespace (per WS-I BP 1)
+               if (part.getTypeName() != null) {
+                   Element root = doc.getDocumentElement();
+                   if (!AeUtil.compareObjects(part.getName(), root.getLocalName()) ||
+                           !AeUtil.isNullOrEmpty(root.getNamespaceURI())) {
+                       doc = AeXmlUtil.createMessagePartTypeDocument(part.getName(), root);
+                   }
+               }
+               inputMsg.setData(part.getName(), doc);
+           } else {
+               // Concat all text nodes to get the data value
+               inputMsg.setData(part.getName(), AeXmlUtil.getText(doc.getDocumentElement()));
+           }
+       }
       
       return inputMsg;
    }

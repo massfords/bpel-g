@@ -9,15 +9,6 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpel.impl.activity.support;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
 import org.activebpel.rt.AeException;
 import org.activebpel.rt.bpel.AeBusinessProcessException;
 import org.activebpel.rt.bpel.AeMessages;
@@ -29,6 +20,8 @@ import org.activebpel.rt.bpel.impl.IAeBpelObject;
 import org.activebpel.rt.bpel.impl.activity.AeActivityScopeImpl;
 import org.activebpel.rt.bpel.impl.visitors.IAeImplVisitor;
 import org.activebpel.rt.util.AeUtil;
+
+import java.util.*;
 
 
 /**
@@ -478,7 +471,7 @@ public class AeCoordinationContainer extends AeAbstractBpelObject
    public String getLocationPath()
    {
       IAeBpelObject parent = getParent();
-      StringBuffer buffer = new StringBuffer(parent.getLocationPath());
+      StringBuilder buffer = new StringBuilder(parent.getLocationPath());
       return buffer.append(AeSupportActivityLocationPathSuffix.COORDINATION_CONTAINER).toString(); 
    }
 

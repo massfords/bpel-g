@@ -82,29 +82,26 @@ public class AeXmlNormalizer
    {
       // First, configure the namespace manager by adding in all
       // namespaces from all elements being normalized.
-      for (Iterator iter = aElements.iterator(); iter.hasNext(); )
-      {
-         Element element = (Element) iter.next();
-         getNamespaceManager().addNamespaces(element);
-      }
+       for (Object aElement : aElements) {
+           Element element = (Element) aElement;
+           getNamespaceManager().addNamespaces(element);
+       }
 
       List<Element> newElements = new ArrayList<Element>();
       // Now normalize each element using the configured namespace manager.
-      for (Iterator iter = aElements.iterator(); iter.hasNext(); )
-      {
-         Element element = (Element) iter.next();
-         setDocument(AeXmlUtil.newDocument());
-         Element newElement = normalizeElement(element);
-         // Add in the namespace declarations to the root node only.
-         for (Iterator iter2 = getNamespaceManager().getPrefixToNamespaceMap().entrySet().iterator(); iter2.hasNext(); )
-         {
-            Map.Entry entry = (Map.Entry) iter2.next();
-            String prefix = (String) entry.getKey();
-            String namespace = (String) entry.getValue();
-            newElement.setAttributeNS(XMLConstants.XMLNS_ATTRIBUTE_NS_URI, XMLNS_PREFIX + COLON + prefix, namespace);
-         }
-         newElements.add(newElement);
-      }
+       for (Object e : aElements) {
+           Element element = (Element) e;
+           setDocument(AeXmlUtil.newDocument());
+           Element newElement = normalizeElement(element);
+           // Add in the namespace declarations to the root node only.
+           for (Object o : getNamespaceManager().getPrefixToNamespaceMap().entrySet()) {
+               Map.Entry entry = (Map.Entry) o;
+               String prefix = (String) entry.getKey();
+               String namespace = (String) entry.getValue();
+               newElement.setAttributeNS(XMLConstants.XMLNS_ATTRIBUTE_NS_URI, XMLNS_PREFIX + COLON + prefix, namespace);
+           }
+           newElements.add(newElement);
+       }
 
       return newElements;
    }
@@ -128,46 +125,41 @@ public class AeXmlNormalizer
       List childNodes = selectNodes(aElement);
 
       // Now iterate through all children.
-      for (Iterator iter = childNodes.iterator(); iter.hasNext(); )
-      {
-         Node child = (Node) iter.next();
-         switch (child.getNodeType())
-         {
-            case  Node.ELEMENT_NODE:
-               newElement.appendChild(normalizeElement((Element) child));
-               break;
-            case Node.TEXT_NODE:
-               if (AeUtil.notNullOrEmpty(child.getNodeValue()))
-               {
-                  Node txtNode = getDocument().createTextNode(child.getNodeValue());
-                  newElement.appendChild(txtNode);
-               }
-               break;
-            case Node.CDATA_SECTION_NODE:
-               Node cdataNode = getDocument().createCDATASection(child.getNodeValue());
-               newElement.appendChild(cdataNode);
-               break;
-            case Node.ATTRIBUTE_NODE:
-               Attr attribute = (Attr) child;
-               String namespaceURI = attribute.getNamespaceURI();
-               // Case where the attribute is unqualified
-               if (AeUtil.isNullOrEmpty(namespaceURI))
-               {
-                  newElement.setAttribute(attribute.getNodeName(), attribute.getNodeValue());
-               }
-               // Case where the attribute is qualified (except namespace decls)
-               else if (!XMLConstants.XMLNS_ATTRIBUTE_NS_URI.equals(namespaceURI))
-               {
-                  String localPart = attribute.getLocalName();
-                  String attrPrefix = getNamespaceManager().getPrefixForNamespace(namespaceURI);
-                  String qualifiedName = attrPrefix + COLON + localPart;
-                  newElement.setAttributeNS(namespaceURI, qualifiedName, attribute.getNodeValue());
-               }
-               break;
-            default:
-               break;
-         }
-      }
+       for (Object childNode : childNodes) {
+           Node child = (Node) childNode;
+           switch (child.getNodeType()) {
+               case Node.ELEMENT_NODE:
+                   newElement.appendChild(normalizeElement((Element) child));
+                   break;
+               case Node.TEXT_NODE:
+                   if (AeUtil.notNullOrEmpty(child.getNodeValue())) {
+                       Node txtNode = getDocument().createTextNode(child.getNodeValue());
+                       newElement.appendChild(txtNode);
+                   }
+                   break;
+               case Node.CDATA_SECTION_NODE:
+                   Node cdataNode = getDocument().createCDATASection(child.getNodeValue());
+                   newElement.appendChild(cdataNode);
+                   break;
+               case Node.ATTRIBUTE_NODE:
+                   Attr attribute = (Attr) child;
+                   String namespaceURI = attribute.getNamespaceURI();
+                   // Case where the attribute is unqualified
+                   if (AeUtil.isNullOrEmpty(namespaceURI)) {
+                       newElement.setAttribute(attribute.getNodeName(), attribute.getNodeValue());
+                   }
+                   // Case where the attribute is qualified (except namespace decls)
+                   else if (!XMLConstants.XMLNS_ATTRIBUTE_NS_URI.equals(namespaceURI)) {
+                       String localPart = attribute.getLocalName();
+                       String attrPrefix = getNamespaceManager().getPrefixForNamespace(namespaceURI);
+                       String qualifiedName = attrPrefix + COLON + localPart;
+                       newElement.setAttributeNS(namespaceURI, qualifiedName, attribute.getNodeValue());
+                   }
+                   break;
+               default:
+                   break;
+           }
+       }
 
       return newElement;
    }
@@ -255,11 +247,10 @@ public class AeXmlNormalizer
          try
          {
             List nodes = AeXPathUtil.selectNodes(aElement, "//*"); //$NON-NLS-1$
-            for (Iterator iter = nodes.iterator(); iter.hasNext(); )
-            {
-               Element elem = (Element) iter.next();
-               readNamespaceDeclarations(elem);
-            }
+             for (Object node : nodes) {
+                 Element elem = (Element) node;
+                 readNamespaceDeclarations(elem);
+             }
          }
          catch (AeException ex)
          {

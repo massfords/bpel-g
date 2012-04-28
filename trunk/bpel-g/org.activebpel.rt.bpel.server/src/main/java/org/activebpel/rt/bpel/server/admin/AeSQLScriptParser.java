@@ -46,7 +46,7 @@ public class AeSQLScriptParser
     */
    public boolean next() throws IOException
    {
-      StringBuffer buffer = new StringBuffer();
+      StringBuilder buffer = new StringBuilder();
       String line = null;
       String sep = ""; //$NON-NLS-1$
       boolean isLineWithSemiColon = false;

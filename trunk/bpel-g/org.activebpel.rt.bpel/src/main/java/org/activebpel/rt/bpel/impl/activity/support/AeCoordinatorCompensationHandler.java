@@ -9,9 +9,6 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpel.impl.activity.support;
 
-import java.util.Collections;
-import java.util.Iterator;
-
 import org.activebpel.rt.bpel.AeBusinessProcessException;
 import org.activebpel.rt.bpel.AeMessages;
 import org.activebpel.rt.bpel.IAeFault;
@@ -23,6 +20,9 @@ import org.activebpel.rt.bpel.impl.AePartnerLink;
 import org.activebpel.rt.bpel.impl.IAeBpelObject;
 import org.activebpel.rt.bpel.impl.activity.AeActivityScopeImpl;
 import org.activebpel.rt.bpel.impl.visitors.IAeImplVisitor;
+
+import java.util.Collections;
+import java.util.Iterator;
 
 /**
  * Compensation handler for a coordinated invoke activity.
@@ -186,7 +186,7 @@ public class AeCoordinatorCompensationHandler extends AeCompensationHandler impl
    public String getLocationPath()
    {
       IAeBpelObject parent = getParent();
-      StringBuffer buffer = new StringBuffer(parent.getLocationPath());
+      StringBuilder buffer = new StringBuilder(parent.getLocationPath());
       return buffer.append(AeSupportActivityLocationPathSuffix.COORDINATION_COMPENSATION_HANDLER).toString();
    }
 

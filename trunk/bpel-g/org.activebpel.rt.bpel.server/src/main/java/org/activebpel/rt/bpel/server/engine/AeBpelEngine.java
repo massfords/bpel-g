@@ -9,32 +9,14 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpel.server.engine;
 
-import java.util.Comparator;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.SortedSet;
-import java.util.TreeSet;
-
-import javax.xml.namespace.QName;
-
+import bpelg.services.processes.types.ServiceDeployment;
 import org.activebpel.rt.AeException;
-import org.activebpel.rt.bpel.AeBusinessProcessException;
-import org.activebpel.rt.bpel.AePreferences;
-import org.activebpel.rt.bpel.AeWSDLPolicyHelper;
-import org.activebpel.rt.bpel.IAeBusinessProcess;
-import org.activebpel.rt.bpel.IAeFault;
+import org.activebpel.rt.bpel.*;
 import org.activebpel.rt.bpel.coord.AeCoordinationException;
 import org.activebpel.rt.bpel.coord.IAeCoordinating;
 import org.activebpel.rt.bpel.coord.IAeCoordinationContext;
 import org.activebpel.rt.bpel.coord.IAeCoordinationManager;
-import org.activebpel.rt.bpel.impl.AeConflictingRequestException;
-import org.activebpel.rt.bpel.impl.AeCorrelationViolationException;
-import org.activebpel.rt.bpel.impl.AeTimeoutPolicy;
-import org.activebpel.rt.bpel.impl.IAeLockManager;
-import org.activebpel.rt.bpel.impl.IAeManager;
-import org.activebpel.rt.bpel.impl.IAeManagerVisitor;
-import org.activebpel.rt.bpel.impl.IAeProcessManager;
-import org.activebpel.rt.bpel.impl.IAeProcessPlan;
+import org.activebpel.rt.bpel.impl.*;
 import org.activebpel.rt.bpel.impl.queue.AeInboundReceive;
 import org.activebpel.rt.bpel.impl.queue.AeMessageReceiver;
 import org.activebpel.rt.bpel.server.AeMessages;
@@ -58,7 +40,8 @@ import org.activebpel.wsio.receive.AeMessageContext;
 import org.activebpel.wsio.receive.IAeMessageContext;
 import org.w3c.dom.Element;
 
-import bpelg.services.processes.types.ServiceDeployment;
+import javax.xml.namespace.QName;
+import java.util.*;
 
 /**
  * The runtime BPEL engine. There are only minor differences between the runtime
@@ -234,7 +217,7 @@ public class AeBpelEngine extends AeAbstractServerEngine {
 	 * @param aLocalizedMessage
 	 */
 	protected String formatErrorMessage(String aLocalizedMessage) {
-		StringBuffer msgBuffer = new StringBuffer(
+		StringBuilder msgBuffer = new StringBuilder(
 				AeMessages.getString("AeBpelEngine.ERROR_0") + "-"); //$NON-NLS-1$ //$NON-NLS-2$
 		if (aLocalizedMessage != null) {
 			msgBuffer.append(aLocalizedMessage);

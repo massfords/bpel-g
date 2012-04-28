@@ -162,7 +162,7 @@ public class AeMessageExchangeValidationVisitor extends AeAbstractDefVisitor
     */
    protected String makeMessageExchangeKey(String aPartnerLink, String aOperation, String aMessageExchange)
    {
-      StringBuffer buffer = new StringBuffer(aPartnerLink);
+      StringBuilder buffer = new StringBuilder(aPartnerLink);
       buffer.append('.');
       buffer.append(aOperation);
       buffer.append('.');

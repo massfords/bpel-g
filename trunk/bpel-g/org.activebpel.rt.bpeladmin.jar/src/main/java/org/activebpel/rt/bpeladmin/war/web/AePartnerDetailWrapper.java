@@ -9,10 +9,10 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpeladmin.war.web;
 
-import javax.xml.namespace.QName;
-
 import org.activebpel.rt.bpel.server.deploy.IAeDeploymentContext;
 import org.activebpel.rt.util.AeUtil;
+
+import javax.xml.namespace.QName;
 
 /**
  * Wraps the details of a pdef row.
@@ -50,7 +50,7 @@ public class AePartnerDetailWrapper
     */
    protected String format( QName aQName )
    {
-      StringBuffer sb = new StringBuffer();
+      StringBuilder sb = new StringBuilder();
       if( !AeUtil.isNullOrEmpty(aQName.getNamespaceURI()) )
       {
          sb.append( aQName.getNamespaceURI() );
@@ -67,14 +67,13 @@ public class AePartnerDetailWrapper
     */
    protected String extract( IAeDeploymentContext[] aContexts )
    {
-      StringBuffer sb = new StringBuffer();
+      StringBuilder sb = new StringBuilder();
       String sep = ""; //$NON-NLS-1$
-      for( int i = 0; i < aContexts.length; i++ )
-      {
-         sb.append( sep );
-         sb.append( aContexts[i].getShortName() );
-         sep=","; //$NON-NLS-1$
-      }
+       for (IAeDeploymentContext aContext : aContexts) {
+           sb.append(sep);
+           sb.append(aContext.getShortName());
+           sep = ","; //$NON-NLS-1$
+       }
       return sb.toString();
    }
    

@@ -9,21 +9,8 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpel.impl;
 
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Date;
-import java.util.Iterator;
-import java.util.Set;
-
 import org.activebpel.rt.AeException;
-import org.activebpel.rt.bpel.AeBusinessProcessException;
-import org.activebpel.rt.bpel.AeMessages;
-import org.activebpel.rt.bpel.AeStaticAnalysisException;
-import org.activebpel.rt.bpel.IAeExpressionLanguageFactory;
-import org.activebpel.rt.bpel.IAeFault;
-import org.activebpel.rt.bpel.IAePartnerLink;
-import org.activebpel.rt.bpel.IAeVariable;
-import org.activebpel.rt.bpel.AeProcessInfoEventType;
+import org.activebpel.rt.bpel.*;
 import org.activebpel.rt.bpel.def.AeBaseDef;
 import org.activebpel.rt.bpel.def.IAeExpressionDef;
 import org.activebpel.rt.bpel.def.util.AeDefUtil;
@@ -44,6 +31,8 @@ import org.activebpel.rt.util.AeUtil;
 import org.activebpel.rt.xml.IAeNamespaceContext;
 import org.activebpel.rt.xml.def.AeXmlDefUtil;
 import org.activebpel.rt.xml.schema.AeSchemaDuration;
+
+import java.util.*;
 
 /**
  * Base class for BPEL objects. Provides access to a parent object and 
@@ -1098,7 +1087,7 @@ abstract public class AeAbstractBpelObject implements IAeExecutableBpelObject, I
    {
       if (!getState().isTerminatable())
          return false;
-      if (((AeBusinessProcess) getProcess()).isExiting())
+      if (getProcess().isExiting())
          return true;
       return !isTerminating();
    }   

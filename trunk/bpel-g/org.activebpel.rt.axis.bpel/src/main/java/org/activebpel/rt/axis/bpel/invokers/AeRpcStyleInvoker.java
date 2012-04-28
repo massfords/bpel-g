@@ -9,21 +9,6 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.axis.bpel.invokers;
 
-import java.rmi.RemoteException;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-
-import javax.wsdl.BindingInput;
-import javax.wsdl.BindingOperation;
-import javax.wsdl.Message;
-import javax.wsdl.OperationType;
-import javax.wsdl.Output;
-import javax.wsdl.Part;
-import javax.wsdl.extensions.UnknownExtensibilityElement;
-import javax.xml.namespace.QName;
-
 import org.activebpel.rt.AeException;
 import org.activebpel.rt.axis.bpel.AeTypeMappingHelper;
 import org.activebpel.rt.axis.ser.AeCallTypeMapper;
@@ -44,6 +29,14 @@ import org.apache.axis.description.OperationDesc;
 import org.apache.axis.description.ParameterDesc;
 import org.apache.axis.message.RPCParam;
 import org.w3c.dom.Document;
+
+import javax.wsdl.*;
+import javax.wsdl.extensions.UnknownExtensibilityElement;
+import javax.xml.namespace.QName;
+import java.rmi.RemoteException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Calls an rpc style endpoint.
@@ -97,35 +90,27 @@ public class AeRpcStyleInvoker extends AeSOAPInvoker
       try
       { 
          Message input = aContext.getOperation().getInput().getMessage();
-         for (@SuppressWarnings("unchecked")
-        		 Iterator<ParameterDesc> iter = aContext.getCall().getOperation().getAllInParams().iterator(); iter.hasNext();)
-         {
-            String partName = iter.next().getName();
-            
-            Part part = input.getPart(partName);
-            Object data = messageData.get(partName);
-            if (data instanceof Document && AeBPELExtendedWSDLDef.isXsiTypeRequired(part, (Document) data))
-            {
-               AeXmlUtil.declarePartType((Document)data, part.getTypeName());
-            }      
-            if (inputMessageDef.isDerivedSimpleType(part))
-            {
-             	AeSimpleValueWrapper wrapper = new AeSimpleValueWrapper(data);
-             	RPCParam param = new RPCParam(part.getName(), wrapper);
-             	list.add( param );
-            }
-            else if (part.getElementName() != null)
-            {    
-             	Document doc = (Document)data;
-             	QName elementName = AeXmlUtil.getElementType(doc.getDocumentElement());
-             	RPCParam param = new RPCParam(elementName, data);
-             	list.add(param);
-            }    
-            else
-            {
-               list.add(data);
-            }         
-         }
+          for (ParameterDesc parameterDesc : (Iterable<ParameterDesc>) aContext.getCall().getOperation().getAllInParams()) {
+              String partName = parameterDesc.getName();
+
+              Part part = input.getPart(partName);
+              Object data = messageData.get(partName);
+              if (data instanceof Document && AeBPELExtendedWSDLDef.isXsiTypeRequired(part, (Document) data)) {
+                  AeXmlUtil.declarePartType((Document) data, part.getTypeName());
+              }
+              if (inputMessageDef.isDerivedSimpleType(part)) {
+                  AeSimpleValueWrapper wrapper = new AeSimpleValueWrapper(data);
+                  RPCParam param = new RPCParam(part.getName(), wrapper);
+                  list.add(param);
+              } else if (part.getElementName() != null) {
+                  Document doc = (Document) data;
+                  QName elementName = AeXmlUtil.getElementType(doc.getDocumentElement());
+                  RPCParam param = new RPCParam(elementName, data);
+                  list.add(param);
+              } else {
+                  list.add(data);
+              }
+          }
          
          if ( aContext.getInvoke().isOneWay() )
             aContext.getCall().getOperation().setMep(OperationType.ONE_WAY);
@@ -289,24 +274,22 @@ public class AeRpcStyleInvoker extends AeSOAPInvoker
       Message msg = aIsInput ? aContext.getOperation().getInput().getMessage() : aContext.getOperation().getOutput().getMessage();
       @SuppressWarnings("unchecked")
       List<Part> partsList = msg.getOrderedParts(paramOrder);
-      for (Iterator<Part> iter = partsList.iterator(); iter.hasNext();)
-      {
-         // Get the next part and obtain the return type for it (may be type or element)
-         Part part = iter.next();
-         QName typeName = part.getElementName();
-         if ( typeName == null )
-            typeName = part.getTypeName();
+       for (Part part : partsList) {
+           // Get the next part and obtain the return type for it (may be type or element)
+           QName typeName = part.getElementName();
+           if (typeName == null)
+               typeName = part.getTypeName();
 
-         ParameterDesc param = new ParameterDesc();
-         param.setMode(aIsInput ? ParameterDesc.IN : ParameterDesc.OUT);
-         param.setName(part.getName());
-         param.setTypeQName(typeName);      
-         // check to see if the param is destined for the input or output headers
-         param.setInHeader(aIsInput && aContext.isInputHeader(part.getName()));
-         param.setOutHeader(!aIsInput && aContext.isOutputHeader(part.getName()));
-         
-         aOperation.addParameter(param);
-      }
+           ParameterDesc param = new ParameterDesc();
+           param.setMode(aIsInput ? ParameterDesc.IN : ParameterDesc.OUT);
+           param.setName(part.getName());
+           param.setTypeQName(typeName);
+           // check to see if the param is destined for the input or output headers
+           param.setInHeader(aIsInput && aContext.isInputHeader(part.getName()));
+           param.setOutHeader(!aIsInput && aContext.isOutputHeader(part.getName()));
+
+           aOperation.addParameter(param);
+       }
    }
 
    /**

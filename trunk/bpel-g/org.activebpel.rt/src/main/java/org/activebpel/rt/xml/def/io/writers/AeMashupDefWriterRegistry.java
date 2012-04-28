@@ -9,11 +9,10 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.xml.def.io.writers;
 
-import java.util.Iterator;
-import java.util.List;
-
 import org.activebpel.rt.AeMessages;
 import org.activebpel.rt.xml.def.AeBaseXmlDef;
+
+import java.util.List;
 
 /**
  * Wrapper for multiple participating Writer Registries
@@ -112,14 +111,12 @@ public class AeMashupDefWriterRegistry implements IAeDefWriterRegistry
     */
    private IAeDefWriterRegistry findRegistry(AeBaseXmlDef aDef)
    {
-      for (Iterator itr = getWriteRegistries().iterator(); itr.hasNext();)
-      {
-         IAeDefWriterRegistry reg = (IAeDefWriterRegistry)itr.next();
-         if ( reg.isSupported(aDef) )
-         {
-            return reg;
-         }
-      }
+       for (Object o : getWriteRegistries()) {
+           IAeDefWriterRegistry reg = (IAeDefWriterRegistry) o;
+           if (reg.isSupported(aDef)) {
+               return reg;
+           }
+       }
       return null;
    }
 

@@ -9,14 +9,13 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.war.tags; 
 
-import java.io.IOException;
-import java.lang.reflect.Method;
+import org.activebpel.rt.util.AeUtil;
+import org.activebpel.rt.war.AeMessages;
 
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.PageContext;
-
-import org.activebpel.rt.util.AeUtil;
-import org.activebpel.rt.war.AeMessages;
+import java.io.IOException;
+import java.lang.reflect.Method;
 
 /**
  * Provides support for reading a property from another bean within the page context.
@@ -107,20 +106,16 @@ abstract public class AeAbstractBeanPropertyTag extends AeAbstractResourceTag
             Class<? extends Object> beanClass = aBean.getClass();
             // get list of method names (from string dot separated format method1.method2.methodN).
             String methodNameList[] = aProperty.split("\\."); //$NON-NLS-1$
-            for (int i = 0; i < methodNameList.length; i++)
-            {
-               Method method = AeBeanUtils.getAccessor(beanClass, methodNameList[i], aReturnType);
-               retVal = method.invoke(aBean, new Object[0]);
-               if (retVal != null)
-               {
-                  aBean = retVal;
-                  beanClass = aBean.getClass();
-               }
-               else
-               {
-                  break;
-               }
-            }
+             for (String m : methodNameList) {
+                 Method method = AeBeanUtils.getAccessor(beanClass, m, aReturnType);
+                 retVal = method.invoke(aBean, new Object[0]);
+                 if (retVal != null) {
+                     aBean = retVal;
+                     beanClass = aBean.getClass();
+                 } else {
+                     break;
+                 }
+             }
          }
          catch(Exception e)
          {

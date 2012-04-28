@@ -9,22 +9,6 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.xml.def;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Set;
-import java.util.Stack;
-
-import javax.xml.XMLConstants;
-import javax.xml.namespace.QName;
-
 import org.activebpel.rt.AeException;
 import org.activebpel.rt.util.AeCloneUtil;
 import org.activebpel.rt.util.AeUtil;
@@ -32,6 +16,12 @@ import org.activebpel.rt.util.AeXmlUtil;
 import org.activebpel.rt.xml.def.visitors.IAeBaseXmlDefVisitor;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+
+import javax.xml.XMLConstants;
+import javax.xml.namespace.QName;
+import java.io.Serializable;
+import java.util.*;
+import java.util.Map.Entry;
 
 /**
  * Base definition object for xml definitions
@@ -185,14 +175,11 @@ public abstract class AeBaseXmlDef implements Cloneable, Serializable
    {
       if (def != null)
       {
-        for (Iterator<Entry<String,String>> iterator = def.getNamespaceMap().entrySet().iterator(); iterator.hasNext();)
-        {
-           Map.Entry<String,String> entry = iterator.next();
-           if ( !(getNamespaceMap(true).containsKey(entry.getKey())) )
-           {
-             getNamespaceMap(true).put(entry.getKey(), entry.getValue());
-           }
-        }
+          for (Entry<String, String> entry : def.getNamespaceMap().entrySet()) {
+              if (!(getNamespaceMap(true).containsKey(entry.getKey()))) {
+                  getNamespaceMap(true).put(entry.getKey(), entry.getValue());
+              }
+          }
         addNamespacesInScope(def.getParentXmlDef());
       }
    }
@@ -315,28 +302,23 @@ public abstract class AeBaseXmlDef implements Cloneable, Serializable
     */
    private void getPrefixesForNamespace(AeBaseXmlDef aDef, String aNamespace, Set<String> aResultSet)
    {
-      for (Iterator<Entry<String, String>> iter = aDef.getNamespaceMap().entrySet().iterator(); iter.hasNext(); )
-      {
-         Map.Entry<String, String> entry = iter.next();
-         // Either add the prefix to the set (if it matches the NS) or
-         // remove the prefix (since it doesn't match).  The code works
-         // this way because this method is called from "findPrefixesForNamespace"
-         // which walks DOWN the def tree gathering up prefixes.  The else
-         // clause here exists for the case of shadowed prefix declarations.
-         // In other words, if a prefix is redeclared at a lower level, and 
-         // the namespace it is bound to is NOT the namespace we are looking 
-         // for, then we need to remove it from the collection (because it
-         // may have been bound to a matching namespace higher in the def
-         // tree, and therefore it would be in the Set).
-         if (aNamespace.equals(entry.getValue()) && AeUtil.notNullOrEmpty(entry.getKey()))
-         {
-            aResultSet.add(entry.getKey());
-         }
-         else if (AeUtil.notNullOrEmpty(entry.getKey()))
-         {
-            aResultSet.remove(entry.getKey());
-         }
-      }
+       for (Entry<String, String> entry : aDef.getNamespaceMap().entrySet()) {
+           // Either add the prefix to the set (if it matches the NS) or
+           // remove the prefix (since it doesn't match).  The code works
+           // this way because this method is called from "findPrefixesForNamespace"
+           // which walks DOWN the def tree gathering up prefixes.  The else
+           // clause here exists for the case of shadowed prefix declarations.
+           // In other words, if a prefix is redeclared at a lower level, and
+           // the namespace it is bound to is NOT the namespace we are looking
+           // for, then we need to remove it from the collection (because it
+           // may have been bound to a matching namespace higher in the def
+           // tree, and therefore it would be in the Set).
+           if (aNamespace.equals(entry.getValue()) && AeUtil.notNullOrEmpty(entry.getKey())) {
+               aResultSet.add(entry.getKey());
+           } else if (AeUtil.notNullOrEmpty(entry.getKey())) {
+               aResultSet.remove(entry.getKey());
+           }
+       }
    }
 
    /**
@@ -495,14 +477,11 @@ public abstract class AeBaseXmlDef implements Cloneable, Serializable
     */
    public AeExtensionElementDef getExtensionElementDef(QName aElementQName)
    {
-      for (Iterator<AeExtensionElementDef> iter = getExtensionElementDefs().iterator(); iter.hasNext(); )
-      {
-         AeExtensionElementDef eeDef = iter.next();
-         if (AeUtil.compareObjects(eeDef.getElementQName(), aElementQName))
-         {
-            return eeDef;
-         }
-      }
+       for (AeExtensionElementDef def : getExtensionElementDefs()) {
+           if (AeUtil.compareObjects(def.getElementQName(), aElementQName)) {
+               return def;
+           }
+       }
       return null;
    }
 
@@ -513,14 +492,11 @@ public abstract class AeBaseXmlDef implements Cloneable, Serializable
    public List<AeExtensionElementDef> getAllExtensionElementDef(QName aElementQName)
    {
       List<AeExtensionElementDef> list = new ArrayList<AeExtensionElementDef>();
-      for (Iterator<AeExtensionElementDef> iter = getExtensionElementDefs().iterator(); iter.hasNext(); )
-      {
-         AeExtensionElementDef eeDef = iter.next();
-         if (AeUtil.compareObjects(eeDef.getElementQName(), aElementQName))
-         {
-            list.add(eeDef);
-         }
-      }
+       for (AeExtensionElementDef def : getExtensionElementDefs()) {
+           if (AeUtil.compareObjects(def.getElementQName(), aElementQName)) {
+               list.add(def);
+           }
+       }
       return list;
    }
 
@@ -532,14 +508,11 @@ public abstract class AeBaseXmlDef implements Cloneable, Serializable
     */
    public AeExtensionAttributeDef getExtensionAttributeDef(QName aAttributeQName)
    {
-      for (Iterator<AeExtensionAttributeDef> iter = getExtensionAttributeDefs().iterator(); iter.hasNext(); )
-      {
-         AeExtensionAttributeDef attrDef = iter.next();
-         if (AeUtil.compareObjects(attrDef.getQName(), aAttributeQName))
-         {
-            return attrDef;
-         }
-      }
+       for (AeExtensionAttributeDef attrDef : getExtensionAttributeDefs()) {
+           if (AeUtil.compareObjects(attrDef.getQName(), aAttributeQName)) {
+               return attrDef;
+           }
+       }
       return null;
    }
 
@@ -592,19 +565,15 @@ public abstract class AeBaseXmlDef implements Cloneable, Serializable
     */
    public IAeAdapter getAdapterFromAttributes(Class aClass)
    {
-      for(Iterator<AeExtensionAttributeDef> it = getExtensionAttributeDefs().iterator(); it.hasNext();)
-      {
-         AeExtensionAttributeDef attribDef = it.next();
-         if (attribDef.getExtensionObject() != null)
-         {
-            IAeExtensionObject extObject = attribDef.getExtensionObject();
-            IAeAdapter adapter = extObject.getAdapter(aClass);
-            if (adapter != null)
-            {
-               return adapter;
-            }
-         }
-      }
+       for (AeExtensionAttributeDef attribDef : getExtensionAttributeDefs()) {
+           if (attribDef.getExtensionObject() != null) {
+               IAeExtensionObject extObject = attribDef.getExtensionObject();
+               IAeAdapter adapter = extObject.getAdapter(aClass);
+               if (adapter != null) {
+                   return adapter;
+               }
+           }
+       }
       return null;
    }
 
@@ -708,11 +677,10 @@ public abstract class AeBaseXmlDef implements Cloneable, Serializable
    {
       if (AeUtil.notNullOrEmpty(aList))
       {
-         for (Iterator it = aList.iterator(); it.hasNext();)
-         {
-            AeBaseXmlDef def = (AeBaseXmlDef) it.next();
-            assignParent(def);
-         }
+          for (Object d : aList) {
+              AeBaseXmlDef def = (AeBaseXmlDef) d;
+              assignParent(def);
+          }
       }
    }
 }

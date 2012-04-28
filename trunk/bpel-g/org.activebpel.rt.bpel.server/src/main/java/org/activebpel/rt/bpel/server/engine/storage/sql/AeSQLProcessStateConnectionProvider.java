@@ -167,12 +167,11 @@ public class AeSQLProcessStateConnectionProvider extends AeAbstractSQLStoragePro
 
       if (params.length == 1)
       {
-         for (Iterator i = ids.iterator(); i.hasNext(); )
-         {
-            params[0] = i.next();
+          for (Long id : ids) {
+              params[0] = id;
 
-            update(getConnection(), aSingleParamQueryKey, params);
-         }
+              update(getConnection(), aSingleParamQueryKey, params);
+          }
       }
       else
       {
@@ -226,7 +225,7 @@ public class AeSQLProcessStateConnectionProvider extends AeAbstractSQLStoragePro
    {
       // TODO (KR) Optionally compress process document.
       Object[] params = {
-         (aDocument  == null) ? (Object) AeQueryRunner.NULL_CLOB : aDocument,
+         (aDocument  == null) ? AeQueryRunner.NULL_CLOB : aDocument,
               aProcessState,
               aProcessStateReason,
          getDateOrSqlNull(aStartDate),
@@ -247,7 +246,7 @@ public class AeSQLProcessStateConnectionProvider extends AeAbstractSQLStoragePro
    {
       // TODO (KR) Optionally compress variable document.
       Object[] params = {
-         (aDocument == null) ? (Object) AeQueryRunner.NULL_CLOB : aDocument,
+         (aDocument == null) ? AeQueryRunner.NULL_CLOB : aDocument,
               getProcessId(),
               (long) aLocationId,
               aVersionNumber

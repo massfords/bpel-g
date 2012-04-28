@@ -9,13 +9,13 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.util;
 
+import org.activebpel.rt.AeException;
+import org.activebpel.rt.AeMessages;
+
 import java.text.CharacterIterator;
 import java.text.NumberFormat;
 import java.text.StringCharacterIterator;
 import java.util.StringTokenizer;
-
-import org.activebpel.rt.AeException;
-import org.activebpel.rt.AeMessages;
 
 /**
  * Utility class for massaging strings to appear in HTML
@@ -35,9 +35,7 @@ public class AeHTMLFormatter
       if (AeUtil.isNullOrEmpty(aString))
          return ""; //$NON-NLS-1$
 
-      StringBuffer buff = new StringBuffer();
-      synchronized (buff)
-      {
+      StringBuilder buff = new StringBuilder();
          CharacterIterator i = new StringCharacterIterator(aString.trim());
          for (char ch = i.first(); ch != CharacterIterator.DONE; ch = i.next())
          {
@@ -58,8 +56,7 @@ public class AeHTMLFormatter
                buff.append(ch);
             }
          }
-      }
-      return buff.toString();      
+      return buff.toString();
    }
    
    /**
@@ -75,7 +72,7 @@ public class AeHTMLFormatter
 
       // change any tokens that don't work in javascript or xml
       String str = aString.replace('\'', '\"');
-      StringBuffer buff = new StringBuffer();
+      StringBuilder buff = new StringBuilder();
       StringTokenizer tokenizer = new StringTokenizer(str, "\n\r"); //$NON-NLS-1$
       while (tokenizer.hasMoreTokens())
       {

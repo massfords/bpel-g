@@ -9,21 +9,15 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.wsdl.def;
 
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.Map;
-
-import javax.wsdl.Fault;
-import javax.wsdl.Message;
-import javax.wsdl.Operation;
-import javax.wsdl.Part;
-import javax.wsdl.PortType;
-import javax.xml.namespace.QName;
-
 import org.activebpel.rt.util.AeUtil;
 import org.activebpel.rt.util.AeXmlUtil;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
+
+import javax.wsdl.*;
+import javax.xml.namespace.QName;
+import java.util.Collection;
+import java.util.Map;
 
 /**
  * Utility class that determines the proper Fault defintion for a given port type, operation and 
@@ -439,24 +433,21 @@ public class AeFaultMatcher
       {
          // we found a type. walk all of the existing faults and stop at the
          // first one who has a message that matches our type.
-         for (Iterator iter = aDefinedFaultsForOperationColl.iterator(); iter.hasNext();)
-         {
-            Fault possibleMatch = (Fault)iter.next();
-            Message msg = possibleMatch.getMessage();
-            // fault messages will only have a single part
-            Map partsMap = msg.getParts();
-            if ( partsMap != null && partsMap.size() == 1 )
-            {
-               Part part = (Part)msg.getParts().values().iterator().next();
-               // if we found a complex type, then compare its qname with the part's type='...'
-               // if we found an element, then compare its qname with the part's element='...'
-               if ( isMatch(isType, type, part) )
-               {
-                  wsdlFault = possibleMatch;
-                  break;
-               }
-            }
-         }
+          for (Object f : aDefinedFaultsForOperationColl) {
+              Fault possibleMatch = (Fault) f;
+              Message msg = possibleMatch.getMessage();
+              // fault messages will only have a single part
+              Map partsMap = msg.getParts();
+              if (partsMap != null && partsMap.size() == 1) {
+                  Part part = (Part) msg.getParts().values().iterator().next();
+                  // if we found a complex type, then compare its qname with the part's type='...'
+                  // if we found an element, then compare its qname with the part's element='...'
+                  if (isMatch(isType, type, part)) {
+                      wsdlFault = possibleMatch;
+                      break;
+                  }
+              }
+          }
       }
       return wsdlFault;
    }

@@ -12,13 +12,7 @@ package org.activebpel.rt.timersvc;
 import commonj.timers.Timer;
 import commonj.timers.TimerListener;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.TimerTask;
+import java.util.*;
 
 /**
  * A Simple Timer service.  This class uses a standard Java <code>java.util.Timer</code>
@@ -213,8 +207,7 @@ public class AeTimerService
          // removes a task from the timer tasks map.
          Collection<AeTimerTask> tasks = new ArrayList<AeTimerTask>(getTimerTasks().values());
 
-         for (Iterator<AeTimerTask> iter = tasks.iterator(); iter.hasNext(); )
-            iter.next().cancel();
+          for (AeTimerTask task : tasks) task.cancel();
       }
 
       // Cancel myself.

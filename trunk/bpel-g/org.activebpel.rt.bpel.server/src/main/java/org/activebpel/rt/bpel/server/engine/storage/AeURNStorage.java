@@ -10,10 +10,10 @@
 
 package org.activebpel.rt.bpel.server.engine.storage;
 
-import java.util.Map;
-
 import org.activebpel.rt.bpel.server.engine.storage.providers.IAeStorageConnection;
 import org.activebpel.rt.bpel.server.engine.storage.providers.IAeURNStorageProvider;
+
+import java.util.Map;
 
 /**
  * A delegating implementation of a URN storage.  This class delegates all of the database
@@ -73,10 +73,9 @@ public class AeURNStorage extends AeAbstractStorage implements IAeURNStorage
       IAeStorageConnection connection = getCommitControlDBConnection();
       try
       {
-         for (int i = 0; i < aURNArray.length; i++)
-         {
-            getURNStorageProvider().removeMapping(aURNArray[i], connection);
-         }
+          for (String arr : aURNArray) {
+              getURNStorageProvider().removeMapping(arr, connection);
+          }
          connection.commit();
       }
       catch (AeStorageException e)

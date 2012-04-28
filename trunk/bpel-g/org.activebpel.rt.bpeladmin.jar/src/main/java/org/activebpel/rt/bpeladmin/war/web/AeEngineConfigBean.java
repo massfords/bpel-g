@@ -9,13 +9,7 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpeladmin.war.web;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-import java.util.prefs.BackingStoreException;
-
+import bpelg.services.processes.types.GetProcessDeployments;
 import org.activebpel.rt.AeException;
 import org.activebpel.rt.bpel.AePreferences;
 import org.activebpel.rt.bpel.AeProcessEventType;
@@ -24,7 +18,8 @@ import org.activebpel.rt.bpeladmin.war.AeBuildNumber;
 import org.activebpel.rt.bpeladmin.war.AeEngineManagementFactory;
 import org.activebpel.rt.bpeladmin.war.AeMessages;
 
-import bpelg.services.processes.types.GetProcessDeployments;
+import java.util.*;
+import java.util.prefs.BackingStoreException;
 
 /**
  *  Bean for driving display of home page.
@@ -56,10 +51,9 @@ public class AeEngineConfigBean extends AeAbstractAdminBean
    {
       List<AeBuildInfo> list = new ArrayList<AeBuildInfo>();
       AeBuildInfo[] infoArray = getAdmin().getBuildInfo();
-      for (int i = 0; i < infoArray.length; i++)
-      {
-         list.add(infoArray[i]);
-      }
+       for (AeBuildInfo bi : infoArray) {
+           list.add(bi);
+       }
 
       addAdminBuildInfo(list);
 

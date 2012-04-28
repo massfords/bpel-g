@@ -9,17 +9,11 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpel.server.security;
 
-import java.io.IOException;
-
-import javax.security.auth.callback.Callback;
-import javax.security.auth.callback.CallbackHandler;
-import javax.security.auth.callback.NameCallback;
-import javax.security.auth.callback.PasswordCallback;
-import javax.security.auth.callback.TextOutputCallback;
-import javax.security.auth.callback.UnsupportedCallbackException;
-
 import org.activebpel.rt.AeException;
 import org.activebpel.rt.bpel.server.AeMessages;
+
+import javax.security.auth.callback.*;
+import java.io.IOException;
 
 /**
  * JAAS Callback handler that handles TextOutputCallback, NameCallback, PasswordCallback
@@ -34,10 +28,9 @@ public class AeCallbackHandler implements CallbackHandler
     */
    public void handle(Callback[] aCallbacks) throws IOException, UnsupportedCallbackException
    {
-      for(int i = 0; i < aCallbacks.length; i++)
-      {
-         handle(aCallbacks[i]);
-      }
+       for (Callback cb : aCallbacks) {
+           handle(cb);
+       }
    }
 
    /**

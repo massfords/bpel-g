@@ -9,9 +9,6 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.xml.def.io.readers;
 
-import java.util.Iterator;
-import java.util.Set;
-
 import org.activebpel.rt.AeException;
 import org.activebpel.rt.AeMessages;
 import org.activebpel.rt.xml.def.AeBaseXmlDef;
@@ -19,6 +16,8 @@ import org.activebpel.rt.xml.def.AeExtensionAttributeDef;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
+
+import java.util.Set;
 
 /**
  * Creates an instance of the def and delegates the reading of its attributes
@@ -58,11 +57,10 @@ public class AeDelegatingDefReader extends AeBaseDefReader
       if (delegate.hasErrors())
       {
          // report any errors to the console
-         for (Iterator iter = delegate.getErrors().iterator(); iter.hasNext();)
-         {
-            String error = (String) iter.next();
-            AeException.logWarning(error);
-         }
+          for (Object o : delegate.getErrors()) {
+              String error = (String) o;
+              AeException.logWarning(error);
+          }
       }
       return !delegate.hasErrors();
    }

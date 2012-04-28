@@ -9,12 +9,6 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpel.server.deploy;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-
 import org.activebpel.rt.AeException;
 import org.activebpel.rt.IAePolicyConstants;
 import org.activebpel.rt.bpel.server.AeMessages;
@@ -22,6 +16,8 @@ import org.activebpel.rt.util.AeUtil;
 import org.activebpel.rt.util.AeXmlUtil;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+
+import java.util.*;
 
 /**
  * Policy mapper that calls each configured mapper in turn to provide a complete set of Handlers for policy
@@ -42,19 +38,14 @@ public class AeMasterPolicyMapper implements IAePolicyMapper, IAeWsddConstants
 
       if (AeUtil.notNullOrEmpty(aPolicyList))
       {
-         for (Iterator<IAePolicyMapper> it = mMappers.iterator(); it.hasNext();)
-         {
-        	 IAePolicyMapper policyMapper = it.next();
-            try
-            {
-               handlers.addAll(policyMapper.getServerRequestHandlers(aPolicyList));
-            }
-            catch (Exception e)
-            {
-               throw new AeException(
-                     AeMessages.getString("AePolicyMapper.Error_0") + policyMapper.getClass().getName(), e); //$NON-NLS-1$
-            }
-         }
+          for (IAePolicyMapper policyMapper : mMappers) {
+              try {
+                  handlers.addAll(policyMapper.getServerRequestHandlers(aPolicyList));
+              } catch (Exception e) {
+                  throw new AeException(
+                          AeMessages.getString("AePolicyMapper.Error_0") + policyMapper.getClass().getName(), e); //$NON-NLS-1$
+              }
+          }
       }
       
       // Add the WSA Must-understand handler to all bpel processes
@@ -75,19 +66,14 @@ public class AeMasterPolicyMapper implements IAePolicyMapper, IAeWsddConstants
 
       if (AeUtil.notNullOrEmpty(aPolicyList))
       {
-         for (Iterator<IAePolicyMapper> it = mMappers.iterator(); it.hasNext();)
-         {
-        	 IAePolicyMapper policyMapper = it.next();
-            try
-            {
-               handlers.addAll(policyMapper.getServerResponseHandlers(aPolicyList));
-            }
-            catch (Exception e)
-            {
-               throw new AeException(
-                     AeMessages.getString("AePolicyMapper.Error_0") + policyMapper.getClass().getName(), e); //$NON-NLS-1$
-            }
-         }
+          for (IAePolicyMapper policyMapper : mMappers) {
+              try {
+                  handlers.addAll(policyMapper.getServerResponseHandlers(aPolicyList));
+              } catch (Exception e) {
+                  throw new AeException(
+                          AeMessages.getString("AePolicyMapper.Error_0") + policyMapper.getClass().getName(), e); //$NON-NLS-1$
+              }
+          }
       }
 
       return handlers;
@@ -102,19 +88,14 @@ public class AeMasterPolicyMapper implements IAePolicyMapper, IAeWsddConstants
 
       if (AeUtil.notNullOrEmpty(aPolicyList))
       {
-         for (Iterator<IAePolicyMapper> it = mMappers.iterator(); it.hasNext();)
-         {
-        	 IAePolicyMapper policyMapper = it.next();
-            try
-            {
-               handlers.addAll(policyMapper.getClientRequestHandlers(aPolicyList));
-            }
-            catch (Exception e)
-            {
-               throw new AeException(
-                     AeMessages.getString("AePolicyMapper.Error_0") + policyMapper.getClass().getName(), e); //$NON-NLS-1$
-            }
-         }
+          for (IAePolicyMapper policyMapper : mMappers) {
+              try {
+                  handlers.addAll(policyMapper.getClientRequestHandlers(aPolicyList));
+              } catch (Exception e) {
+                  throw new AeException(
+                          AeMessages.getString("AePolicyMapper.Error_0") + policyMapper.getClass().getName(), e); //$NON-NLS-1$
+              }
+          }
       }
 
       return handlers;
@@ -129,19 +110,14 @@ public class AeMasterPolicyMapper implements IAePolicyMapper, IAeWsddConstants
 
       if (AeUtil.notNullOrEmpty(aPolicyList))
       {
-         for (Iterator<IAePolicyMapper> it = mMappers.iterator(); it.hasNext();)
-         {
-        	 IAePolicyMapper policyMapper = it.next();
-            try
-            {
-               handlers.addAll(policyMapper.getClientResponseHandlers(aPolicyList));
-            }
-            catch (Exception e)
-            {
-               throw new AeException(
-                     AeMessages.getString("AePolicyMapper.Error_0") + policyMapper.getClass().getName(), e); //$NON-NLS-1$
-            }
-         }
+          for (IAePolicyMapper policyMapper : mMappers) {
+              try {
+                  handlers.addAll(policyMapper.getClientResponseHandlers(aPolicyList));
+              } catch (Exception e) {
+                  throw new AeException(
+                          AeMessages.getString("AePolicyMapper.Error_0") + policyMapper.getClass().getName(), e); //$NON-NLS-1$
+              }
+          }
       }
       return handlers;
    }
@@ -157,19 +133,14 @@ public class AeMasterPolicyMapper implements IAePolicyMapper, IAeWsddConstants
 
       if (AeUtil.notNullOrEmpty(aPolicyList))
       {
-         for (Iterator<IAePolicyMapper> it = mMappers.iterator(); it.hasNext();)
-         {
-        	 IAePolicyMapper policyMapper = it.next();
-            try
-            {
-               handlers.addAll(policyMapper.getServiceParameters(aPolicyList));
-            }
-            catch (Exception e)
-            {
-               throw new AeException(
-                     AeMessages.getString("AePolicyMapper.Error_0") + policyMapper.getClass().getName(), e); //$NON-NLS-1$
-            }
-         }
+          for (IAePolicyMapper policyMapper : mMappers) {
+              try {
+                  handlers.addAll(policyMapper.getServiceParameters(aPolicyList));
+              } catch (Exception e) {
+                  throw new AeException(
+                          AeMessages.getString("AePolicyMapper.Error_0") + policyMapper.getClass().getName(), e); //$NON-NLS-1$
+              }
+          }
       }
 
       return handlers;
@@ -184,21 +155,16 @@ public class AeMasterPolicyMapper implements IAePolicyMapper, IAeWsddConstants
       
       if (AeUtil.notNullOrEmpty(aPolicyList))
       {
-         for (Iterator<IAePolicyMapper> it = mMappers.iterator(); it.hasNext();)
-         {
-        	IAePolicyMapper policyMapper = it.next();
-            try
-            {
-               Map<String, Object> policyMap = policyMapper.getCallProperties(aPolicyList);
-               if (policyMap != null)
-                    map.putAll(policyMap);
-            }
-            catch (Exception e)
-            {
-               throw new AeException(
-                     AeMessages.getString("AePolicyMapper.Error_0") + policyMapper.getClass().getName(), e); //$NON-NLS-1$
-            }
-         }
+          for (IAePolicyMapper policyMapper : mMappers) {
+              try {
+                  Map<String, Object> policyMap = policyMapper.getCallProperties(aPolicyList);
+                  if (policyMap != null)
+                      map.putAll(policyMap);
+              } catch (Exception e) {
+                  throw new AeException(
+                          AeMessages.getString("AePolicyMapper.Error_0") + policyMapper.getClass().getName(), e); //$NON-NLS-1$
+              }
+          }
       }
       return map;
    }
@@ -211,32 +177,23 @@ public class AeMasterPolicyMapper implements IAePolicyMapper, IAeWsddConstants
       String handler = null;
       if (AeUtil.notNullOrEmpty(aPolicyList))
       {
-         for (Iterator<IAePolicyMapper> it = mMappers.iterator(); it.hasNext();)
-         {
-            IAePolicyMapper policyMapper = it.next();
-            try
-            {
-               String newhandler = policyMapper.getDeploymentHandler(aPolicyList);
-               if (!AeUtil.isNullOrEmpty(newhandler))
-               {
-                  if (!AeUtil.isNullOrEmpty(handler) && !newhandler.equals(handler))
-                  {
-                     // throw an exception if more than one comes back
-                     String[] args = new String[] {handler, newhandler};
-                     throw new AeException(AeMessages.format("AeMasterPolicyMapper.0", args)); //$NON-NLS-1$
+          for (IAePolicyMapper policyMapper : mMappers) {
+              try {
+                  String newhandler = policyMapper.getDeploymentHandler(aPolicyList);
+                  if (!AeUtil.isNullOrEmpty(newhandler)) {
+                      if (!AeUtil.isNullOrEmpty(handler) && !newhandler.equals(handler)) {
+                          // throw an exception if more than one comes back
+                          String[] args = new String[]{handler, newhandler};
+                          throw new AeException(AeMessages.format("AeMasterPolicyMapper.0", args)); //$NON-NLS-1$
+                      } else {
+                          handler = newhandler;
+                      }
                   }
-                  else
-                  {
-                     handler = newhandler;
-                  }
-               }
-            }
-            catch (Exception e)
-            {
-               throw new AeException(
-                     AeMessages.getString("AePolicyMapper.Error_0") + policyMapper.getClass().getName(), e); //$NON-NLS-1$
-            }
-         }
+              } catch (Exception e) {
+                  throw new AeException(
+                          AeMessages.getString("AePolicyMapper.Error_0") + policyMapper.getClass().getName(), e); //$NON-NLS-1$
+              }
+          }
       }
       return handler;
    }

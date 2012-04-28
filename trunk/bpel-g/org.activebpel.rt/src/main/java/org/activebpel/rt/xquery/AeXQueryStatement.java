@@ -10,16 +10,15 @@
 
 package org.activebpel.rt.xquery;
 
+import org.activebpel.rt.AeMessages;
+
 import java.text.MessageFormat;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import org.activebpel.rt.AeMessages;
 
 /**
  * A simple class to model an XQuery statement, similar in concept to JDBC's
@@ -97,14 +96,12 @@ public class AeXQueryStatement
       // set in the statement.
       Set<Integer> paramKeys = new TreeSet<Integer>();
       paramKeys.addAll(getQueryParameters().keySet());
-      for (Iterator<Integer> iter = paramKeys.iterator(); iter.hasNext(); )
-      {
-         Integer paramIndex = iter.next();
-         Object value = getQueryParameters().get(paramIndex);
-         String formattedValue = sFormatter.formatParameterValue(value);
-         formattedValue = Matcher.quoteReplacement(formattedValue);
-         xquery = xquery.replaceFirst(UNESCAPED_QMARK, "$1" + formattedValue); //$NON-NLS-1$
-      }
+       for (Integer paramIndex : paramKeys) {
+           Object value = getQueryParameters().get(paramIndex);
+           String formattedValue = sFormatter.formatParameterValue(value);
+           formattedValue = Matcher.quoteReplacement(formattedValue);
+           xquery = xquery.replaceFirst(UNESCAPED_QMARK, "$1" + formattedValue); //$NON-NLS-1$
+       }
 
       // Un-escape any escaped question marks in the XQuery
       xquery = xquery.replaceAll("\\\\\\?", "?"); //$NON-NLS-1$ //$NON-NLS-2$

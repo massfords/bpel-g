@@ -9,6 +9,16 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpel.server.logging;
 
+import org.activebpel.rt.bpel.AePreferences;
+import org.activebpel.rt.bpel.server.AeMessages;
+import org.activebpel.rt.bpel.server.engine.IAeProcessLogger;
+import org.activebpel.rt.bpel.server.engine.storage.AeStorageException;
+import org.activebpel.rt.bpel.server.engine.storage.sql.AeSQLConfig;
+import org.activebpel.rt.bpel.server.engine.storage.sql.AeSQLObject;
+import org.activebpel.rt.util.AeCloser;
+import org.activebpel.rt.util.AeUtil;
+import org.apache.commons.dbutils.ResultSetHandler;
+
 import java.io.IOException;
 import java.io.Reader;
 import java.sql.Clob;
@@ -19,16 +29,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
-
-import org.activebpel.rt.bpel.AePreferences;
-import org.activebpel.rt.bpel.server.AeMessages;
-import org.activebpel.rt.bpel.server.engine.IAeProcessLogger;
-import org.activebpel.rt.bpel.server.engine.storage.AeStorageException;
-import org.activebpel.rt.bpel.server.engine.storage.sql.AeSQLConfig;
-import org.activebpel.rt.bpel.server.engine.storage.sql.AeSQLObject;
-import org.activebpel.rt.util.AeCloser;
-import org.activebpel.rt.util.AeUtil;
-import org.apache.commons.dbutils.ResultSetHandler;
 
 /**
  * Responsible for reading the log for a given process out of the database. The
@@ -187,11 +187,9 @@ public class AeLogReader extends AeSQLObject
       public String handle(ResultSet rs) throws SQLException
       {
          Reader reader = null;
-         StringBuffer sb = new StringBuffer();
+         StringBuilder sb = new StringBuilder();
          try
          {
-            synchronized(sb)
-            {
                char[] cbuf = null;
                int read;
                // walk all rows in the result set
@@ -209,7 +207,6 @@ public class AeLogReader extends AeSQLObject
                   reader.close();
                }
                return sb.toString();
-            }
          }
          catch(IOException e)
          {

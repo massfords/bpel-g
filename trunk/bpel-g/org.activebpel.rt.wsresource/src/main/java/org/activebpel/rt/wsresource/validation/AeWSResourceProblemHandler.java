@@ -10,13 +10,11 @@
 
 package org.activebpel.rt.wsresource.validation;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
+import org.xml.sax.SAXParseException;
 
 import javax.xml.namespace.QName;
-
-import org.xml.sax.SAXParseException;
+import java.util.ArrayList;
+import java.util.Collection;
 
 /**
  * Implementation of a ws resource validation problem handler.
@@ -94,14 +92,11 @@ public class AeWSResourceProblemHandler implements IAeWSResourceProblemHandler
     */
    public boolean hasProblems(int aSeverity)
    {
-      for (Iterator iter = getProblems().iterator(); iter.hasNext(); )
-      {
-         AeWSResourceProblem problem = (AeWSResourceProblem) iter.next();
-         if (problem.getSeverity() == aSeverity)
-         {
-            return true;
-         }
-      }
+       for (AeWSResourceProblem problem : getProblems()) {
+           if (problem.getSeverity() == aSeverity) {
+               return true;
+           }
+       }
       return false;
    }
 

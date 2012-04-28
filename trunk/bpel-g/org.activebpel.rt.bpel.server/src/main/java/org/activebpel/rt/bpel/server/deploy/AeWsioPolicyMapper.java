@@ -9,12 +9,6 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpel.server.deploy;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-
 import org.activebpel.rt.AeException;
 import org.activebpel.rt.IAeConstants;
 import org.activebpel.rt.IAePolicyConstants;
@@ -24,6 +18,11 @@ import org.activebpel.rt.bpel.impl.AeTimeoutPolicy;
 import org.activebpel.rt.util.AeUtil;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
+
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Maps assertions into call properties for the following:
@@ -87,25 +86,21 @@ public class AeWsioPolicyMapper implements IAePolicyMapper
       if (AeUtil.notNullOrEmpty(aPolicyList))
       {
          // Examine the list of policy assertions to determine the request handlers
-         for (Iterator it = aPolicyList.iterator(); it.hasNext();) 
-         {
-            Element policy = (Element) it.next();
-            // Engine managed correlation
-            NodeList children = policy.getElementsByTagNameNS(IAeConstants.ABP_NAMESPACE_URI, IAePolicyConstants.TAG_ASSERT_MANAGED_CORRELATION);
-            if (children.getLength() > 0)
-            {
-               // Add a conversationId header QName
-               map.put(IAePolicyConstants.TAG_ASSERT_MANAGED_CORRELATION, IAePolicyConstants.CONVERSATION_ID_HEADER); 
-            }
-            
-            // Map principal as header
-            children = policy.getElementsByTagNameNS(IAeConstants.ABP_NAMESPACE_URI, IAePolicyConstants.TAG_ASSERT_MAP_PROCESS_INTIATOR);
-            if (children.getLength() > 0)
-            {
-               // Add a principal header QName
-               map.put(IAePolicyConstants.TAG_ASSERT_MAP_PROCESS_INTIATOR, IAePolicyConstants.PRINCIPAL_HEADER); 
-            }             
-         }
+          for (Element policy : aPolicyList) {
+              // Engine managed correlation
+              NodeList children = policy.getElementsByTagNameNS(IAeConstants.ABP_NAMESPACE_URI, IAePolicyConstants.TAG_ASSERT_MANAGED_CORRELATION);
+              if (children.getLength() > 0) {
+                  // Add a conversationId header QName
+                  map.put(IAePolicyConstants.TAG_ASSERT_MANAGED_CORRELATION, IAePolicyConstants.CONVERSATION_ID_HEADER);
+              }
+
+              // Map principal as header
+              children = policy.getElementsByTagNameNS(IAeConstants.ABP_NAMESPACE_URI, IAePolicyConstants.TAG_ASSERT_MAP_PROCESS_INTIATOR);
+              if (children.getLength() > 0) {
+                  // Add a principal header QName
+                  map.put(IAePolicyConstants.TAG_ASSERT_MAP_PROCESS_INTIATOR, IAePolicyConstants.PRINCIPAL_HEADER);
+              }
+          }
          
          // See if a timeout policy has been configured, otherwise use the engine value
          int timeout = AePreferences.getSendTimeout();

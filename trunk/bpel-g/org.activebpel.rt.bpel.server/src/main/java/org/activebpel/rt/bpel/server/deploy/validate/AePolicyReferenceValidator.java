@@ -63,13 +63,11 @@ public class AePolicyReferenceValidator
          IAeDeploymentSource aSource)
    {
       // check partner role endpoints 
-      for (Iterator iter = aSource.getPartnerLinkDescriptors().iterator(); iter.hasNext(); )
-      {
-         AePartnerLinkDescriptor desc = (AePartnerLinkDescriptor)iter.next();
-         IAeEndpointReference partnerRef = desc.getPartnerEndpointReference();
-         if (partnerRef != null)
-            validatePartnerReference(aReporter, aProvider, partnerRef);
-      }
+       for (AePartnerLinkDescriptor desc : aSource.getPartnerLinkDescriptors()) {
+           IAeEndpointReference partnerRef = desc.getPartnerEndpointReference();
+           if (partnerRef != null)
+               validatePartnerReference(aReporter, aProvider, partnerRef);
+       }
       
       // check myRole services
       try

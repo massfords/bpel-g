@@ -93,16 +93,16 @@ public class AeCatalog implements IAeCatalog, IAeCatalogAdmin {
 		List<Boolean> catalogEvents = new ArrayList<Boolean>();
 
 		// check each mapping for replacement or addition to current locations
-		for (int i = 0; i < aMappings.length; i++) {
-			if (getLocationToMapping().get(aMappings[i].getLocationHint()) != null) {
-				if (aReplaceFlag)
-					addMappingForLocation(aMappings[i]);
-				catalogEvents.add(Boolean.FALSE);
-			} else {
-				addMappingForLocation(aMappings[i]);
-				catalogEvents.add(Boolean.TRUE);
-			}
-		}
+        for (IAeCatalogMapping aMapping : aMappings) {
+            if (getLocationToMapping().get(aMapping.getLocationHint()) != null) {
+                if (aReplaceFlag)
+                    addMappingForLocation(aMapping);
+                catalogEvents.add(Boolean.FALSE);
+            } else {
+                addMappingForLocation(aMapping);
+                catalogEvents.add(Boolean.TRUE);
+            }
+        }
 
 		// fire the events for all the passed catalog deployments now that we
 		// are done processing
@@ -258,27 +258,27 @@ public class AeCatalog implements IAeCatalog, IAeCatalogAdmin {
 		// Check all mappings for this deployment to see if they are referenced
 		// by other deployments
 		Map<IAeDeploymentId, Set<String>> displacedMappings = new HashMap<IAeDeploymentId, Set<String>>();
-		for (int i = 0; i < mappings.length; ++i) {
-			String location = mappings[i].getLocationHint();
-			for (Entry<IAeDeploymentId, IAeCatalogMapping[]> entry : getDeploymentMapping().entrySet()) {
-				// Do not check our own mapping, since it is being removed
-				// anyways
-				IAeDeploymentId deployId = entry.getKey();
-				if (!aId.equals(deployId)) {
-					// Add any displaced entries to our list, so that we may fix
-					// them up later
-					IAeCatalogMapping[] deployMappings = entry.getValue();
-					for (int j = 0; j < deployMappings.length; ++j) {
-						if (location.equals(deployMappings[j].getLocationHint()))
-							addDisplacedCatalogEntry(displacedMappings, deployId, deployMappings[j].getLocationHint());
-					}
-				}
-			}
+        for (IAeCatalogMapping mapping : mappings) {
+            String location = mapping.getLocationHint();
+            for (Entry<IAeDeploymentId, IAeCatalogMapping[]> entry : getDeploymentMapping().entrySet()) {
+                // Do not check our own mapping, since it is being removed
+                // anyways
+                IAeDeploymentId deployId = entry.getKey();
+                if (!aId.equals(deployId)) {
+                    // Add any displaced entries to our list, so that we may fix
+                    // them up later
+                    IAeCatalogMapping[] deployMappings = entry.getValue();
+                    for (int j = 0; j < deployMappings.length; ++j) {
+                        if (location.equals(deployMappings[j].getLocationHint()))
+                            addDisplacedCatalogEntry(displacedMappings, deployId, deployMappings[j].getLocationHint());
+                    }
+                }
+            }
 
-			// Remove the mapping, now that we've recorded all displaced
-			// locations
-			remove(mappings[i]);
-		}
+            // Remove the mapping, now that we've recorded all displaced
+            // locations
+            remove(mapping);
+        }
 
 		// Update all mappings which we determined to have been displaced
 		updateDisplacedCatalogItems(displacedMappings);
@@ -422,10 +422,10 @@ public class AeCatalog implements IAeCatalog, IAeCatalogAdmin {
 		if (recipients != null) {
 			AeCatalogEvent event = AeCatalogEvent.create(aLocationHint,
 					aIsReplacement);
-			for (Iterator iter = recipients.iterator(); iter.hasNext();) {
-				IAeCatalogListener listener = (IAeCatalogListener) iter.next();
-				aSender.dispatch(listener, event);
-			}
+            for (Object recipient : recipients) {
+                IAeCatalogListener listener = (IAeCatalogListener) recipient;
+                aSender.dispatch(listener, event);
+            }
 		}
 	}
 

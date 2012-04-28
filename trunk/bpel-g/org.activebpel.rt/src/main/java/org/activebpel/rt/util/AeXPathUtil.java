@@ -10,14 +10,6 @@
 
 package org.activebpel.rt.util;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-
-import javax.xml.namespace.QName;
-
 import org.activebpel.rt.AeException;
 import org.activebpel.rt.xml.IAeNamespaceContext;
 import org.activebpel.rt.xml.schema.AeSchemaDateTime;
@@ -28,6 +20,9 @@ import org.jaxen.XPath;
 import org.jaxen.dom.DOMXPath;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
+
+import javax.xml.namespace.QName;
+import java.util.*;
 
 /**
  * Convenience methods for using xpath.
@@ -390,15 +385,13 @@ public class AeXPathUtil
    {
       if (aXpath != null && AeUtil.notNullOrEmpty(aNsPrefixUriMap))
       {
-         for(Iterator it = aNsPrefixUriMap.keySet().iterator(); it.hasNext();)
-         {
-            String prefix = (String) it.next();
-            String uri = (String) aNsPrefixUriMap.get(prefix);
-            if (AeUtil.notNullOrEmpty(prefix) && AeUtil.notNullOrEmpty(uri))
-            {
-               aXpath.addNamespace(prefix, uri);
-            }
-         }
+          for (Object o : aNsPrefixUriMap.keySet()) {
+              String prefix = (String) o;
+              String uri = (String) aNsPrefixUriMap.get(prefix);
+              if (AeUtil.notNullOrEmpty(prefix) && AeUtil.notNullOrEmpty(uri)) {
+                  aXpath.addNamespace(prefix, uri);
+              }
+          }
       }
    }
 

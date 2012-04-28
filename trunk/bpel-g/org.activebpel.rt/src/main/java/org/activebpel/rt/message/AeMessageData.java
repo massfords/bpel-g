@@ -9,6 +9,14 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.message;
 
+import org.activebpel.rt.AeException;
+import org.activebpel.rt.attachment.AeAttachmentContainer;
+import org.activebpel.rt.attachment.IAeAttachmentContainer;
+import org.activebpel.rt.util.AeXmlUtil;
+import org.activebpel.rt.xml.AeXMLParserBase;
+import org.w3c.dom.Document;
+
+import javax.xml.namespace.QName;
 import java.io.Externalizable;
 import java.io.IOException;
 import java.io.ObjectInput;
@@ -17,15 +25,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
-
-import javax.xml.namespace.QName;
-
-import org.activebpel.rt.AeException;
-import org.activebpel.rt.attachment.AeAttachmentContainer;
-import org.activebpel.rt.attachment.IAeAttachmentContainer;
-import org.activebpel.rt.util.AeXmlUtil;
-import org.activebpel.rt.xml.AeXMLParserBase;
-import org.w3c.dom.Document;
 
 /**
  * Manages data interaction for a WSDL message.
@@ -116,15 +115,12 @@ public class AeMessageData implements IAeMessageData, Externalizable
          copy.mPartData = new HashMap<String,Object>(mPartData);
          
          // walk the map and deep clone any Nodes
-         for (Iterator<Entry<String,Object>> iter = copy.mPartData.entrySet().iterator(); iter.hasNext();)
-         {
-            Map.Entry<String,Object> entry = iter.next();
-            if (entry.getValue() instanceof Document)
-            {
-               Document doc = (Document) entry.getValue();
-               entry.setValue(AeXmlUtil.cloneElement(doc.getDocumentElement()).getOwnerDocument());
-            }
-         }
+          for (Entry<String, Object> entry : copy.mPartData.entrySet()) {
+              if (entry.getValue() instanceof Document) {
+                  Document doc = (Document) entry.getValue();
+                  entry.setValue(AeXmlUtil.cloneElement(doc.getDocumentElement()).getOwnerDocument());
+              }
+          }
          
          // clone attachments
          if (hasAttachments())
@@ -181,24 +177,20 @@ public class AeMessageData implements IAeMessageData, Externalizable
       aOut.writeObject(getMessageType());
 
       aOut.writeInt(mPartData.size());
-      for (Iterator iter = mPartData.entrySet().iterator(); iter.hasNext(); )
-      {
-         Map.Entry entry = (Map.Entry) iter.next();
-         aOut.writeObject(entry.getKey());
-         if (entry.getValue() instanceof Document)
-         {
-            Document doc = (Document) entry.getValue();
-            String serializedDoc = AeXmlUtil.serialize(doc.getDocumentElement());
-            aOut.writeBoolean(true); // true - it is a complex (DOM) part
-            aOut.writeObject(serializedDoc);
-         }
-         else
-         {
-            Object value = entry.getValue();
-            aOut.writeBoolean(false); // false - simple object
-            aOut.writeObject(value);
-         }
-      }
+       for (Entry<String, Object> stringObjectEntry : mPartData.entrySet()) {
+           Entry entry = (Entry) stringObjectEntry;
+           aOut.writeObject(entry.getKey());
+           if (entry.getValue() instanceof Document) {
+               Document doc = (Document) entry.getValue();
+               String serializedDoc = AeXmlUtil.serialize(doc.getDocumentElement());
+               aOut.writeBoolean(true); // true - it is a complex (DOM) part
+               aOut.writeObject(serializedDoc);
+           } else {
+               Object value = entry.getValue();
+               aOut.writeBoolean(false); // false - simple object
+               aOut.writeObject(value);
+           }
+       }
    }
 
    /**

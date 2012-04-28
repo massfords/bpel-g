@@ -9,14 +9,10 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.war.tags;
 
-import java.beans.BeanInfo;
-import java.beans.IndexedPropertyDescriptor;
-import java.beans.IntrospectionException;
-import java.beans.Introspector;
-import java.beans.PropertyDescriptor;
-import java.lang.reflect.Method;
-
 import org.activebpel.rt.war.AeMessages;
+
+import java.beans.*;
+import java.lang.reflect.Method;
 
 /**
  * Utility class for common reflection operations used by
@@ -126,18 +122,14 @@ public class AeBeanUtils
       Class aReturnType ) throws IntrospectionException
    {
       PropertyDescriptor[] descriptors = getDescriptors(aBeanClass);
-      for( int i = 0; i < descriptors.length; ++i )
-      {
-         PropertyDescriptor descriptor = descriptors[i];
-         if( descriptor instanceof IndexedPropertyDescriptor && descriptor.getName().equals( aProperty ) )
-         {
-            IndexedPropertyDescriptor ipd = (IndexedPropertyDescriptor)descriptor;
-            if( ipd.getIndexedPropertyType().isAssignableFrom(aReturnType) )
-            {
-               return ipd.getIndexedReadMethod();
-            }
-         }
-      }      
+       for (PropertyDescriptor descriptor : descriptors) {
+           if (descriptor instanceof IndexedPropertyDescriptor && descriptor.getName().equals(aProperty)) {
+               IndexedPropertyDescriptor ipd = (IndexedPropertyDescriptor) descriptor;
+               if (ipd.getIndexedPropertyType().isAssignableFrom(aReturnType)) {
+                   return ipd.getIndexedReadMethod();
+               }
+           }
+       }
       throw new IntrospectionException( AeMessages.getString("AeBeanUtils.ERROR_2") + aProperty ); //$NON-NLS-1$
    }
 

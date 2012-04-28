@@ -9,20 +9,18 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.wsdl.def.castor;
 
-import java.util.Enumeration;
-import java.util.Iterator;
-import java.util.Vector;
-
-import javax.wsdl.Definition;
-import javax.wsdl.Import;
-import javax.wsdl.extensions.UnknownExtensibilityElement;
-import javax.wsdl.xml.WSDLLocator;
-
 import org.activebpel.rt.util.AeUtil;
 import org.activebpel.rt.wsdl.def.IAeStandardSchemaResolver;
 import org.exolab.castor.net.URIException;
 import org.exolab.castor.net.URILocation;
 import org.w3c.dom.Element;
+
+import javax.wsdl.Definition;
+import javax.wsdl.Import;
+import javax.wsdl.extensions.UnknownExtensibilityElement;
+import javax.wsdl.xml.WSDLLocator;
+import java.util.Enumeration;
+import java.util.Vector;
 
 
 /**
@@ -75,22 +73,18 @@ public class AeWSDLSchemaResolver extends AeURIResolver
          return new AeWSDLSchemaURILocation(schemaElem, getWsdlDefinition().getDocumentBaseURI());
       
       // not found as a direct schema in types area is it in a direct imported schema types area
-      for(Iterator iter=getWsdlDefinition().getImports().values().iterator(); iter.hasNext(); )
-      {
-         Object impObj = iter.next(); 
-         Vector vecImp = (Vector)impObj;
-         for(Enumeration en = vecImp.elements(); en.hasMoreElements(); )
-         {
-            Import imp = (Import)en.nextElement();
-            Definition def = imp.getDefinition(); 
-            if(def != null)
-            {
-               schemaElem = getSchemaElement(aHref, def);
-               if(schemaElem != null)
-                  return new AeWSDLSchemaURILocation(schemaElem, def.getDocumentBaseURI());
-            }
-         }
-      }
+       for (Object impObj : getWsdlDefinition().getImports().values()) {
+           Vector vecImp = (Vector) impObj;
+           for (Enumeration en = vecImp.elements(); en.hasMoreElements(); ) {
+               Import imp = (Import) en.nextElement();
+               Definition def = imp.getDefinition();
+               if (def != null) {
+                   schemaElem = getSchemaElement(aHref, def);
+                   if (schemaElem != null)
+                       return new AeWSDLSchemaURILocation(schemaElem, def.getDocumentBaseURI());
+               }
+           }
+       }
       return null;
    }
 
@@ -108,16 +102,15 @@ public class AeWSDLSchemaResolver extends AeURIResolver
          return null;
 
       // find the extension element in the defs type area and return a clone of it
-      for (Iterator it = aWsdlDefinition.getTypes().getExtensibilityElements().iterator(); it.hasNext();)
-      {
-         UnknownExtensibilityElement extElement = (UnknownExtensibilityElement)it.next();
-         if("schema".equals(extElement.getElement().getLocalName())) //$NON-NLS-1$
-         {
-            String ns = extElement.getElement().getAttribute("targetNamespace"); //$NON-NLS-1$
-            if (AeUtil.compareObjects(ns, aHref))
-               return AeSchemaParserUtil.extractSchemaElement(extElement);
-         }
-      }
+       for (Object o : aWsdlDefinition.getTypes().getExtensibilityElements()) {
+           UnknownExtensibilityElement extElement = (UnknownExtensibilityElement) o;
+           if ("schema".equals(extElement.getElement().getLocalName())) //$NON-NLS-1$
+           {
+               String ns = extElement.getElement().getAttribute("targetNamespace"); //$NON-NLS-1$
+               if (AeUtil.compareObjects(ns, aHref))
+                   return AeSchemaParserUtil.extractSchemaElement(extElement);
+           }
+       }
       
       // href is not a target namespace for the embedded schemas
       return null;

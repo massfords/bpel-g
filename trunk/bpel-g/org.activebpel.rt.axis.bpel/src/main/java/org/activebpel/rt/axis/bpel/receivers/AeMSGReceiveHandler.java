@@ -9,13 +9,6 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.axis.bpel.receivers;
 
-import java.util.Iterator;
-import java.util.List;
-
-import javax.wsdl.Part;
-import javax.xml.soap.Name;
-import javax.xml.soap.SOAPException;
-
 import org.activebpel.rt.AeException;
 import org.activebpel.rt.axis.bpel.AeMessages;
 import org.activebpel.rt.bpel.AeBusinessProcessException;
@@ -34,6 +27,11 @@ import org.apache.axis.MessageContext;
 import org.apache.axis.message.SOAPBodyElement;
 import org.apache.axis.message.SOAPEnvelope;
 import org.w3c.dom.Document;
+
+import javax.wsdl.Part;
+import javax.xml.soap.Name;
+import javax.xml.soap.SOAPException;
+import java.util.List;
 
 /**
  * Receive handler for Document Literal SOAP binding
@@ -123,25 +121,18 @@ public class AeMSGReceiveHandler extends AeAxisReceiveHandler
          javax.wsdl.Message outputMessage = def.getMessage(aResponse.getMessageData().getMessageType());
          
          // Loop through all parts for the output message and add an output param to the response body
-         for (@SuppressWarnings("unchecked")
-        		 Iterator<Part> iter=outputMessage.getOrderedParts(null).iterator(); iter.hasNext();)
-         {
-            Part part = iter.next();
-
-            // Get the data itself, if Document we want to use the Document Element
-            Object partData = aResponse.getMessageData().getMessageData().get(part.getName());
-            if(partData instanceof Document)
-            {
-               resEnv.addBodyElement(new SOAPBodyElement(((Document)partData).getDocumentElement()));
-            }
-            else if (partData != null)
-            {
-               Name name = resEnv.createName(part.getName());
-               SOAPBodyElement soapBody = new SOAPBodyElement(name);
-               soapBody.addTextNode(partData.toString());
-               resEnv.addBodyElement(soapBody);
-            }
-         }
+          for (Part part : (Iterable<Part>) outputMessage.getOrderedParts(null)) {
+              // Get the data itself, if Document we want to use the Document Element
+              Object partData = aResponse.getMessageData().getMessageData().get(part.getName());
+              if (partData instanceof Document) {
+                  resEnv.addBodyElement(new SOAPBodyElement(((Document) partData).getDocumentElement()));
+              } else if (partData != null) {
+                  Name name = resEnv.createName(part.getName());
+                  SOAPBodyElement soapBody = new SOAPBodyElement(name);
+                  soapBody.addTextNode(partData.toString());
+                  resEnv.addBodyElement(soapBody);
+              }
+          }
          
          mapResponseAddressing(resEnv, aContext.getWsAddressingHeaders());
          

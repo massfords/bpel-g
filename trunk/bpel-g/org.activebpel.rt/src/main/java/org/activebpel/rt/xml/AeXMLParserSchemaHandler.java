@@ -9,19 +9,17 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.xml;
 
-import java.io.StringReader;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-
-import javax.wsdl.xml.WSDLLocator;
-
 import org.activebpel.rt.AeException;
 import org.activebpel.rt.AeMessages;
 import org.activebpel.rt.xml.schema.AeSchemaUtil;
 import org.exolab.castor.xml.schema.Schema;
 import org.xml.sax.ErrorHandler;
 import org.xml.sax.InputSource;
+
+import javax.wsdl.xml.WSDLLocator;
+import java.io.StringReader;
+import java.util.HashMap;
+import java.util.List;
 
 /**
  * This class implements an XML parser default handler.  It extends the AE default handler
@@ -97,11 +95,9 @@ public class AeXMLParserSchemaHandler extends AeXMLParserDefaultHandler
     */
    protected void buildSchemaMap(List<Schema> aSchemaList)
    {
-      for (Iterator<Schema> iter = aSchemaList.iterator(); iter.hasNext(); )
-      {
-         Schema schema = iter.next();
-         mSchemaMap.put(schema.getTargetNamespace(), schema);
-      }
+       for (Schema schema : aSchemaList) {
+           mSchemaMap.put(schema.getTargetNamespace(), schema);
+       }
    }
 
    /**

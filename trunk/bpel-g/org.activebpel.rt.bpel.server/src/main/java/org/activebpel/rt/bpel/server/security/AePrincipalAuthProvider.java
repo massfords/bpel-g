@@ -26,7 +26,6 @@ import javax.xml.namespace.QName;
 import java.security.Principal;
 import java.util.Collections;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.Set;
 
 /**
@@ -97,15 +96,13 @@ public class AePrincipalAuthProvider implements IAeAuthorizationProvider
       }
       
       // Check the subject for each role
-      
-      for (Iterator it = aAllowedRoles.iterator(); it.hasNext();)
-      {
-         String thisRole = (String) it.next();
-         if (isSubjectInRole(aSubject, thisRole))
-         {
-            return true;
-         }
-      }
+
+       for (Object r : aAllowedRoles) {
+           String thisRole = (String) r;
+           if (isSubjectInRole(aSubject, thisRole)) {
+               return true;
+           }
+       }
       
       // No principals matched any roles
       return false;      
@@ -120,18 +117,13 @@ public class AePrincipalAuthProvider implements IAeAuthorizationProvider
     */
    protected boolean isSubjectInRole(Subject aSubject, String aRolename)
    {
-      for (Iterator it = aSubject.getPrincipals().iterator(); it.hasNext();)
-      {
-         Principal p = (Principal) it.next();
-         if (p instanceof IAePrincipal)
-         {
-            return ((IAePrincipal) p).isUserInRole(aRolename);
-         }
-         else if (aRolename.equals(p.getName()))
-         {
-            return true;
-         }
-      }
+       for (Principal p : aSubject.getPrincipals()) {
+           if (p instanceof IAePrincipal) {
+               return ((IAePrincipal) p).isUserInRole(aRolename);
+           } else if (aRolename.equals(p.getName())) {
+               return true;
+           }
+       }
       
       return false;
    }

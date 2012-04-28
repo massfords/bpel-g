@@ -10,15 +10,6 @@
 
 package org.activebpel.rt.xml.schema.sampledata.castor; 
 
-import java.util.ArrayList;
-import java.util.Enumeration;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Stack;
-
-import javax.xml.namespace.QName;
-
 import org.activebpel.rt.util.AeUtil;
 import org.activebpel.rt.util.AeXmlUtil;
 import org.activebpel.rt.xml.schema.AeSchemaUtil;
@@ -27,15 +18,10 @@ import org.activebpel.rt.xml.schema.sampledata.structure.AeBaseElement;
 import org.activebpel.rt.xml.schema.sampledata.structure.AeComplexElement;
 import org.activebpel.rt.xml.schema.sampledata.structure.AeGroup;
 import org.activebpel.rt.xml.schema.sampledata.structure.AeStructure;
-import org.exolab.castor.xml.schema.ComplexType;
-import org.exolab.castor.xml.schema.ElementDecl;
-import org.exolab.castor.xml.schema.Group;
-import org.exolab.castor.xml.schema.ModelGroup;
-import org.exolab.castor.xml.schema.Order;
-import org.exolab.castor.xml.schema.Particle;
-import org.exolab.castor.xml.schema.Schema;
-import org.exolab.castor.xml.schema.Wildcard;
-import org.exolab.castor.xml.schema.XMLType;
+import org.exolab.castor.xml.schema.*;
+
+import javax.xml.namespace.QName;
+import java.util.*;
 
 /**
  *  Creates an AE schema tree model (AeStructure) from a Castor XML Schema ElementDecl object.
@@ -154,11 +140,10 @@ public class AeCastorToAeStructure
             // to visit the SG elements in order to produce structures for their
             // types.
             List sgElements = getSubstitutionGroupMembers(aElementDecl);
-            for (Iterator iter = sgElements.iterator(); iter.hasNext();)
-            {
-               ElementDecl sgElement = (ElementDecl) iter.next();
-               handleElementDecl(sgElement);
-            }
+             for (Object sg : sgElements) {
+                 ElementDecl sgElement = (ElementDecl) sg;
+                 handleElementDecl(sgElement);
+             }
          }
          else
          {
@@ -245,11 +230,9 @@ public class AeCastorToAeStructure
                addAllInheritedParticles(complexType, particles);
 
                // iterate over all inherited particles plus our particles (inherited first)
-               for(Iterator it=particles.iterator(); it.hasNext(); )
-               {
-                  Particle particle = (Particle)it.next();
-                  handleParticle(particle);
-               }
+                for (Particle particle : particles) {
+                    handleParticle(particle);
+                }
             }
          }
          else

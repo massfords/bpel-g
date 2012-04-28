@@ -9,19 +9,6 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpeladmin.war.graph.bpel;
 
-import java.awt.Color;
-import java.awt.Container;
-import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.Image;
-import java.awt.Rectangle;
-import java.text.DateFormat;
-import java.text.Format;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
 import org.activebpel.rt.bpeladmin.war.AeMessages;
 import org.activebpel.rt.bpeladmin.war.graph.bpel.controller.AeBpelContainerImplicitActivityController;
 import org.activebpel.rt.bpeladmin.war.graph.bpel.controller.AeBpelControllerBase;
@@ -35,6 +22,14 @@ import org.activebpel.rt.bpeladmin.war.graph.ui.AeIcon;
 import org.activebpel.rt.bpeladmin.war.graph.ui.AeTextLabel;
 import org.activebpel.rt.bpeladmin.war.graph.ui.controller.IAeGraphControllerFactory;
 import org.activebpel.rt.util.AeUtil;
+
+import java.awt.*;
+import java.text.DateFormat;
+import java.text.Format;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 
 /**
@@ -139,7 +134,7 @@ public class AeBpelGraphContainer extends AeGraphContainer
     */
    public void setStartStopDates(Date aStartDate, Date aEndDate)
    {   
-      StringBuffer sb = new StringBuffer();
+      StringBuilder sb = new StringBuilder();
       String sep = ""; //$NON-NLS-1$
       if (aStartDate != null)
       {

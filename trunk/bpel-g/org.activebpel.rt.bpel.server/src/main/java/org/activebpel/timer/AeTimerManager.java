@@ -19,7 +19,6 @@ import org.activebpel.rt.timersvc.AeTimerService;
 import javax.inject.Singleton;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Iterator;
 
 /**
  * Implementation of the TimerManager for Application Servers spec from CommonJ.
@@ -138,11 +137,9 @@ public class AeTimerManager implements TimerManager, IAeStoppableTimerManager
       
       synchronized(getPendingTimers())
       {
-         for (Iterator iter=getPendingTimers().iterator(); iter.hasNext();)
-         {
-            Timer timer = (Timer)iter.next();
-            timer.getTimerListener().timerExpired(timer);
-         }
+          for (Timer timer : getPendingTimers()) {
+              timer.getTimerListener().timerExpired(timer);
+          }
          
          // Remove all timers from list
          getPendingTimers().clear();

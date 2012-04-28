@@ -9,15 +9,14 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.util;
 
+import org.activebpel.rt.AeException;
+
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
-
-import org.activebpel.rt.AeException;
 
 /**
  * Utility class to help with clone operations
@@ -49,18 +48,15 @@ public class AeCloneUtil
       {
          Constructor ctor = aList.getClass().getConstructor(EMPTY_SIGNATURE);
          List<T> clonedList = (List<T>) ctor.newInstance(EMPTY_ARGS);
-         
-         for (Iterator<T> iter=aList.iterator(); iter.hasNext();)
-         {
-            T obj = iter.next();
-            if (obj instanceof Cloneable)
-            {
-               Method method = obj.getClass().getMethod("clone", EMPTY_SIGNATURE); //$NON-NLS-1$
-               obj = (T) method.invoke(obj, EMPTY_ARGS);
-            }
-            
-            clonedList.add(obj);
-         }
+
+          for (T obj : aList) {
+              if (obj instanceof Cloneable) {
+                  Method method = obj.getClass().getMethod("clone", EMPTY_SIGNATURE); //$NON-NLS-1$
+                  obj = (T) method.invoke(obj, EMPTY_ARGS);
+              }
+
+              clonedList.add(obj);
+          }
          
          return clonedList;
       }
@@ -86,17 +82,14 @@ public class AeCloneUtil
       {
          Constructor ctor = aSet.getClass().getConstructor(EMPTY_SIGNATURE);
          Set<T> clonedSet = (Set<T>)ctor.newInstance(EMPTY_ARGS);
-         
-         for (Iterator<T> iter=aSet.iterator(); iter.hasNext();)
-         {
-            T obj = iter.next();
-            if (obj instanceof Cloneable)
-            {
-               Method method = obj.getClass().getMethod("clone", EMPTY_SIGNATURE); //$NON-NLS-1$
-               obj = (T) method.invoke(obj, EMPTY_ARGS);
-            }
-            clonedSet.add(obj);
-         }
+
+          for (T obj : aSet) {
+              if (obj instanceof Cloneable) {
+                  Method method = obj.getClass().getMethod("clone", EMPTY_SIGNATURE); //$NON-NLS-1$
+                  obj = (T) method.invoke(obj, EMPTY_ARGS);
+              }
+              clonedSet.add(obj);
+          }
          
          return clonedSet;
       }
@@ -122,26 +115,22 @@ public class AeCloneUtil
       {
          Constructor ctor = aMap.getClass().getConstructor(EMPTY_SIGNATURE);
          Map<K,V> clonedMap = (Map<K,V>)ctor.newInstance(EMPTY_ARGS);
-         
-         for (Iterator<Entry<K, V>> iter=aMap.entrySet().iterator(); iter.hasNext();)
-         {
-            Map.Entry<K,V> entry = iter.next();
-            K key = entry.getKey();
-            if (key instanceof Cloneable)
-            {
-               Method keyMethod = entry.getKey().getClass().getMethod("clone", EMPTY_SIGNATURE); //$NON-NLS-1$
-               key = (K)keyMethod.invoke(entry.getKey(), EMPTY_ARGS);
-            }
-            
-            V value = entry.getValue();
-            if (value instanceof Cloneable)
-            {
-               Method valueMethod = entry.getValue().getClass().getMethod("clone", EMPTY_SIGNATURE); //$NON-NLS-1$
-               value = (V)valueMethod.invoke(entry.getValue(), EMPTY_ARGS);
-            }
-            
-            clonedMap.put(key, value);
-         }
+
+          for (Entry<K, V> entry : aMap.entrySet()) {
+              K key = entry.getKey();
+              if (key instanceof Cloneable) {
+                  Method keyMethod = entry.getKey().getClass().getMethod("clone", EMPTY_SIGNATURE); //$NON-NLS-1$
+                  key = (K) keyMethod.invoke(entry.getKey(), EMPTY_ARGS);
+              }
+
+              V value = entry.getValue();
+              if (value instanceof Cloneable) {
+                  Method valueMethod = entry.getValue().getClass().getMethod("clone", EMPTY_SIGNATURE); //$NON-NLS-1$
+                  value = (V) valueMethod.invoke(entry.getValue(), EMPTY_ARGS);
+              }
+
+              clonedMap.put(key, value);
+          }
          
          return clonedMap;
       }

@@ -75,7 +75,7 @@ public class AeImplicitFaultHandler extends AeDefaultFaultHandler
    public String getLocationPath()
    {
       IAeBpelObject parent = getParent();
-      StringBuffer buffer = new StringBuffer(parent.getLocationPath());
+      StringBuilder buffer = new StringBuilder(parent.getLocationPath());
       return buffer.append(AeSupportActivityLocationPathSuffix.IMPLICIT_FAULT_HANDLER).toString(); 
    }
 

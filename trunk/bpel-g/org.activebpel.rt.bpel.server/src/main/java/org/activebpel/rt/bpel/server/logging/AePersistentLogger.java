@@ -9,13 +9,13 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpel.server.logging;
 
-import java.io.Reader;
-import java.io.StringReader;
-
 import org.activebpel.rt.bpel.IAeProcessEvent;
 import org.activebpel.rt.bpel.server.engine.IAePersistentProcessManager;
 import org.activebpel.rt.util.AeSequenceReader;
 import org.activebpel.rt.util.AeUtil;
+
+import java.io.Reader;
+import java.io.StringReader;
 
 /**
  * Persistent version of the logger. Maintains a StringBuffer for events that
@@ -141,13 +141,11 @@ public class AePersistentLogger extends AeInMemoryProcessLogger implements IAePe
          {
             char[] cdata = getLog().toCharArray();
             mLineCount = 0;
-            for (int i = 0; i < cdata.length; i++)
-            {
-               if (cdata[i] == '\n')
-               {
-                  mLineCount++;
-               }
-            }
+             for (char aCdata : cdata) {
+                 if (aCdata == '\n') {
+                     mLineCount++;
+                 }
+             }
          }
          return mLineCount;
       }

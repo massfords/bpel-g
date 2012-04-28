@@ -9,25 +9,11 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpel.server.engine.recovery;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Set;
-
 import org.activebpel.rt.AeException;
 import org.activebpel.rt.bpel.AeBusinessProcessException;
 import org.activebpel.rt.bpel.IAeBusinessProcess;
 import org.activebpel.rt.bpel.IAeExpressionLanguageFactory;
-import org.activebpel.rt.bpel.impl.AeBpelState;
-import org.activebpel.rt.bpel.impl.IAeAlarmReceiver;
-import org.activebpel.rt.bpel.impl.IAeBpelObject;
-import org.activebpel.rt.bpel.impl.IAeBusinessProcessEngineInternal;
-import org.activebpel.rt.bpel.impl.IAeEnginePartnerLinkStrategy;
-import org.activebpel.rt.bpel.impl.IAeManager;
+import org.activebpel.rt.bpel.impl.*;
 import org.activebpel.rt.bpel.impl.activity.IAeMessageReceiverActivity;
 import org.activebpel.rt.bpel.impl.queue.AeReply;
 import org.activebpel.rt.bpel.impl.reply.IAeTransmissionTracker;
@@ -42,6 +28,9 @@ import org.activebpel.rt.bpel.server.engine.recovery.recovered.AeRecoveredRemove
 import org.activebpel.rt.bpel.server.engine.recovery.recovered.AeRecoveredScheduleAlarmItem;
 import org.activebpel.rt.bpel.server.engine.recovery.recovered.IAeRecoveredItem;
 import org.activebpel.rt.util.AeUtil;
+
+import java.util.*;
+import java.util.Map.Entry;
 
 /**
  * Implements a business process engine that recovers the state of a process
@@ -119,23 +108,18 @@ public class AeRecoveryEngine extends AeAbstractServerEngine implements IAeRecov
    {
       long processId = aProcess.getProcessId();
 
-      for (Iterator<Integer> i = aStaleLocationIds.iterator(); i.hasNext(); )
-      {
-         int locationId = i.next();
-         IAeBpelObject aImpl = aProcess.findBpelObject(locationId);
-         
-         if (aImpl instanceof IAeAlarmReceiver)
-         {
-            IAeAlarmReceiver alarmRec = (IAeAlarmReceiver) aImpl;
-            IAeRecoveredItem removeAlarmItem = new AeRecoveredRemoveAlarmItem(processId, locationId, alarmRec.getAlarmId());
-            aRecoveredItems.add(removeAlarmItem);
-         }
-         else if (aImpl instanceof IAeMessageReceiverActivity)
-         {
-            IAeRecoveredItem removeReceiverItem = new AeRecoveredRemoveReceiverItem(processId, locationId);
-            aRecoveredItems.add(removeReceiverItem);
-         }
-      }
+       for (Integer locationId : aStaleLocationIds) {
+           IAeBpelObject aImpl = aProcess.findBpelObject(locationId);
+
+           if (aImpl instanceof IAeAlarmReceiver) {
+               IAeAlarmReceiver alarmRec = (IAeAlarmReceiver) aImpl;
+               IAeRecoveredItem removeAlarmItem = new AeRecoveredRemoveAlarmItem(processId, locationId, alarmRec.getAlarmId());
+               aRecoveredItems.add(removeAlarmItem);
+           } else if (aImpl instanceof IAeMessageReceiverActivity) {
+               IAeRecoveredItem removeReceiverItem = new AeRecoveredRemoveReceiverItem(processId, locationId);
+               aRecoveredItems.add(removeReceiverItem);
+           }
+       }
    }
 
    /**
@@ -255,30 +239,25 @@ public class AeRecoveryEngine extends AeAbstractServerEngine implements IAeRecov
     */
    protected void queueRecoveredItems(List aRecoveredItems, IAeBusinessProcess aProcess)
    {
-      for (Iterator i = aRecoveredItems.iterator(); i.hasNext(); )
-      {
-         IAeRecoveredItem recoveredItem = (IAeRecoveredItem) i.next();
+       for (Object aRecoveredItem : aRecoveredItems) {
+           IAeRecoveredItem recoveredItem = (IAeRecoveredItem) aRecoveredItem;
 
-         try
-         {
-            recoveredItem.queueItem(aProcess.getEngine());
-         }
-         catch (AeBusinessProcessException e)
-         {
-            // Report the name of the recovered item's class.
-            String name = recoveredItem.getClass().getName();
+           try {
+               recoveredItem.queueItem(aProcess.getEngine());
+           } catch (AeBusinessProcessException e) {
+               // Report the name of the recovered item's class.
+               String name = recoveredItem.getClass().getName();
 
-            // Report just the name without the package.
-            int n = name.lastIndexOf('.');
-            if (n > 0)
-            {
-               name = name.substring(n + 1);
-            }
+               // Report just the name without the package.
+               int n = name.lastIndexOf('.');
+               if (n > 0) {
+                   name = name.substring(n + 1);
+               }
 
-            Object[] params = new Object[] { name, aProcess.getProcessId(), recoveredItem.getLocationId()};
-            AeException.logError(e, AeMessages.format("AeRecoveryEngine.ERROR_QUEUE_RECOVERED_ITEM", params)); //$NON-NLS-1$
-         }
-      }
+               Object[] params = new Object[]{name, aProcess.getProcessId(), recoveredItem.getLocationId()};
+               AeException.logError(e, AeMessages.format("AeRecoveryEngine.ERROR_QUEUE_RECOVERED_ITEM", params)); //$NON-NLS-1$
+           }
+       }
    }
 
    /**
@@ -381,18 +360,15 @@ public class AeRecoveryEngine extends AeAbstractServerEngine implements IAeRecov
    protected void setRecoveryDataOnManagers(IAeRecoveredItemsSet aRecoveredItemsSet, List aInvokeTransmittedEntries)
    {
       getRecoveryQueueManager().setRecoveredItemsSet(aRecoveredItemsSet);
-      
-      for(Iterator it=getManagers().values().iterator(); it.hasNext();)
-      {
-         IAeManager manager = (IAeManager) it.next();
-         if (manager instanceof IAeRecoveryAwareManager)
-         {
-            // fixme (MF-recovery) introduce some kind of context interface here
-            IAeRecoveryAwareManager recoveryManager = (IAeRecoveryAwareManager) manager;
-            recoveryManager.setRecoveredItemsSet(aRecoveredItemsSet);
-            recoveryManager.setInvokeTransmittedEntries(aInvokeTransmittedEntries);
-         }
-      }
+
+       for (IAeManager manager : getManagers().values()) {
+           if (manager instanceof IAeRecoveryAwareManager) {
+               // fixme (MF-recovery) introduce some kind of context interface here
+               IAeRecoveryAwareManager recoveryManager = (IAeRecoveryAwareManager) manager;
+               recoveryManager.setRecoveredItemsSet(aRecoveredItemsSet);
+               recoveryManager.setInvokeTransmittedEntries(aInvokeTransmittedEntries);
+           }
+       }
    }
 
    /**
@@ -456,32 +432,27 @@ public class AeRecoveryEngine extends AeAbstractServerEngine implements IAeRecov
    {
       // Get location ids for executing items 
       Set executingLocationIds = getExecutingLocationIds(aProcess);
-      for (Iterator it = executingLocationIds.iterator(); it.hasNext();)
-      {
-         int locationId = ((Long) it.next()).intValue();
-         IAeBpelObject item = aProcess.findBpelObject(locationId);
-         
-         // re-queue any previously queued message or alarm receivers
-         if (item instanceof IAeMessageReceiverActivity)
-         {
-            IAeMessageReceiverActivity receiver = (IAeMessageReceiverActivity) item;
-            if (receiver.isQueued())
-            {
-               receiver.requeue();
-            }
-         }
-         // we reset the state before re-queue to suppress a state transition warning that is 
-         // entirely appropriate in the normal engine, but not during recovery
-         else if (item instanceof IAeAlarmReceiver)
-         {
-            IAeAlarmReceiver receiver = (IAeAlarmReceiver) item;
-            if (receiver.isQueued())
-            {  
-               item.setState(AeBpelState.INACTIVE);
-               aProcess.queueObjectToExecute(item);
-            }
-         }
-      }
+       for (Object executingLocationId : executingLocationIds) {
+           int locationId = ((Long) executingLocationId).intValue();
+           IAeBpelObject item = aProcess.findBpelObject(locationId);
+
+           // re-queue any previously queued message or alarm receivers
+           if (item instanceof IAeMessageReceiverActivity) {
+               IAeMessageReceiverActivity receiver = (IAeMessageReceiverActivity) item;
+               if (receiver.isQueued()) {
+                   receiver.requeue();
+               }
+           }
+           // we reset the state before re-queue to suppress a state transition warning that is
+           // entirely appropriate in the normal engine, but not during recovery
+           else if (item instanceof IAeAlarmReceiver) {
+               IAeAlarmReceiver receiver = (IAeAlarmReceiver) item;
+               if (receiver.isQueued()) {
+                   item.setState(AeBpelState.INACTIVE);
+                   aProcess.queueObjectToExecute(item);
+               }
+           }
+       }
    }
 
    /**
@@ -492,17 +463,15 @@ public class AeRecoveryEngine extends AeAbstractServerEngine implements IAeRecov
    {
       List<AeReply> sentReplies = new LinkedList<AeReply>();
 
-      for (Iterator i = aJournalEntries.iterator(); i.hasNext(); )
-      {
-         IAeJournalEntry item = (IAeJournalEntry) i.next();
+       for (Object je : aJournalEntries) {
+           IAeJournalEntry item = (IAeJournalEntry) je;
 
-         if (item instanceof AeSentReplyJournalEntry)
-         {
-            // Unwrap the actual reply object.
-            AeReply sentReply = ((AeSentReplyJournalEntry) item).getReply();
-            sentReplies.add(sentReply);
-         }
-      }
+           if (item instanceof AeSentReplyJournalEntry) {
+               // Unwrap the actual reply object.
+               AeReply sentReply = ((AeSentReplyJournalEntry) item).getReply();
+               sentReplies.add(sentReply);
+           }
+       }
 
       return sentReplies;
    }
@@ -526,14 +495,11 @@ public class AeRecoveryEngine extends AeAbstractServerEngine implements IAeRecov
    {
       List<IAeJournalEntry> transmittedInvokeEntries = new LinkedList<IAeJournalEntry>();
 
-      for (Iterator<IAeJournalEntry> i = aJournalEntries.iterator(); i.hasNext(); )
-      {
-         IAeJournalEntry entry = i.next();
-         if (entry instanceof AeInvokeTransmittedJournalEntry)
-         {
-            transmittedInvokeEntries.add(entry);
-         }
-      }
+       for (IAeJournalEntry entry : aJournalEntries) {
+           if (entry instanceof AeInvokeTransmittedJournalEntry) {
+               transmittedInvokeEntries.add(entry);
+           }
+       }
 
       return transmittedInvokeEntries;
    }

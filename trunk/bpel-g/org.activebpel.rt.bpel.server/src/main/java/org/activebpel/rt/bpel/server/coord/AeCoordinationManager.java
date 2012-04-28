@@ -9,29 +9,12 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpel.server.coord;
 
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Set;
-
+import commonj.work.Work;
 import org.activebpel.rt.AeException;
 import org.activebpel.rt.bpel.AeBusinessProcessException;
 import org.activebpel.rt.bpel.IAeBusinessProcess;
 import org.activebpel.rt.bpel.IAeFault;
-import org.activebpel.rt.bpel.coord.AeCoordinationException;
-import org.activebpel.rt.bpel.coord.AeCoordinationFaultException;
-import org.activebpel.rt.bpel.coord.AeCoordinationNotFoundException;
-import org.activebpel.rt.bpel.coord.IAeCoordinating;
-import org.activebpel.rt.bpel.coord.IAeCoordinationContext;
-import org.activebpel.rt.bpel.coord.IAeCoordinator;
-import org.activebpel.rt.bpel.coord.IAeCreateContextRequest;
-import org.activebpel.rt.bpel.coord.IAeCreateContextResponse;
-import org.activebpel.rt.bpel.coord.IAeParticipant;
-import org.activebpel.rt.bpel.coord.IAeProtocolMessage;
-import org.activebpel.rt.bpel.coord.IAeProtocolState;
-import org.activebpel.rt.bpel.coord.IAeRegistrationRequest;
-import org.activebpel.rt.bpel.coord.IAeRegistrationResponse;
+import org.activebpel.rt.bpel.coord.*;
 import org.activebpel.rt.bpel.impl.AeManagerAdapter;
 import org.activebpel.rt.bpel.impl.IAeBusinessProcessEngineInternal;
 import org.activebpel.rt.bpel.impl.IAeCoordinationManagerInternal;
@@ -45,7 +28,7 @@ import org.activebpel.rt.bpel.server.engine.AeEngineFactory;
 import org.activebpel.rt.util.AeUtil;
 import org.activebpel.work.AeAbstractWork;
 
-import commonj.work.Work;
+import java.util.*;
 
 /**
  * Base class of the coordination manager implementation.
@@ -64,15 +47,12 @@ public abstract class AeCoordinationManager extends AeManagerAdapter implements 
          List<? extends IAeCoordinating> coordinatingObjects = AeUtil.toList(it);
 
          // for each coordinator, call coord.onProcessComplete(aFault)
-         for (Iterator<? extends IAeCoordinating> iter = coordinatingObjects.iterator(); iter.hasNext();)
-         {
-            IAeCoordinating c = iter.next();
-            // should this be done via a message dispatch (async mechanism) ?
-            if (c instanceof IAeCoordinator)
-            {
-               c.onProcessComplete(null, true);
-            }
-         }
+          for (IAeCoordinating c : coordinatingObjects) {
+              // should this be done via a message dispatch (async mechanism) ?
+              if (c instanceof IAeCoordinator) {
+                  c.onProcessComplete(null, true);
+              }
+          }
       }
       catch (AeCoordinationNotFoundException cfne)
       {
@@ -129,19 +109,14 @@ public abstract class AeCoordinationManager extends AeManagerAdapter implements 
          boolean skipNotifyingCoordinators = hasCoordinatorsAndParticipant(coordinatingObjects);
          
          // for each coordination, call coord.onProcessComplete(aFault)
-         for (Iterator<? extends IAeCoordinating> iter = coordinatingObjects.iterator(); iter.hasNext();)
-         {
-            IAeCoordinating c = iter.next();
-            // should this be done via a message dispatch (async mechanism) ?
-            if (c instanceof IAeCoordinator && skipNotifyingCoordinators)
-            {
-               // skip call to notify process complete
-            }
-            else
-            {
-               c.onProcessComplete(aFaultObject, aNormalCompletion);
-            }
-         }
+          for (IAeCoordinating c : coordinatingObjects) {
+              // should this be done via a message dispatch (async mechanism) ?
+              if (c instanceof IAeCoordinator && skipNotifyingCoordinators) {
+                  // skip call to notify process complete
+              } else {
+                  c.onProcessComplete(aFaultObject, aNormalCompletion);
+              }
+          }
       }
       catch (AeCoordinationNotFoundException cfne)
       {
@@ -164,16 +139,15 @@ public abstract class AeCoordinationManager extends AeManagerAdapter implements 
       boolean isParticipant = false;
       boolean hasCoordinators = false;
       boolean skipNotifyingCoordinators = false;
-      for (Iterator iter = aCoordinatingObjects.iterator(); iter.hasNext();)
-      {
-         IAeCoordinating c = (IAeCoordinating) iter.next();
-         isParticipant = isParticipant | c instanceof IAeParticipant;
-         hasCoordinators = hasCoordinators | c instanceof IAeCoordinator;
-         skipNotifyingCoordinators = isParticipant && hasCoordinators;
+       for (Object co : aCoordinatingObjects) {
+           IAeCoordinating c = (IAeCoordinating) co;
+           isParticipant = isParticipant | c instanceof IAeParticipant;
+           hasCoordinators = hasCoordinators | c instanceof IAeCoordinator;
+           skipNotifyingCoordinators = isParticipant && hasCoordinators;
 
-         if (skipNotifyingCoordinators)
-            break;
-      }
+           if (skipNotifyingCoordinators)
+               break;
+       }
       //skipNotifyingCoordinators = isParticipant && hasCoordinators;
       return skipNotifyingCoordinators;
    }

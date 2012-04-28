@@ -9,19 +9,14 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.util;
 
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
+import org.w3c.dom.*;
 
 import javax.xml.XMLConstants;
 import javax.xml.soap.SOAPElement;
 import javax.xml.soap.SOAPException;
-
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.NamedNodeMap;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 
 /**
  * Utility methods for converting SOAPElements to DOM elements and vice-versa
@@ -230,30 +225,24 @@ public class AeSOAPElementUtil
       getDeclaredNamespaces(aSource, sourcePrefixes);
       Map<String, String> targetPrefixes = new HashMap<String, String>();
       AeXmlUtil.getDeclaredNamespaces(aTarget, targetPrefixes);
-      
-      for (Iterator it = sourcePrefixes.entrySet().iterator(); it.hasNext();)
-      {
-         Map.Entry entry = (Map.Entry) it.next();
-         if (AeUtil.notNullOrEmpty((String) entry.getValue()))
-         {
-            String prefixToCheck = (String) entry.getKey();
-            String sourceNamespace = (String) entry.getValue();
-                        
-            // find prefix in the target
-            String targetNamespace = targetPrefixes.get(prefixToCheck);
-            if (!sourceNamespace.equals(targetNamespace))
-            {
-               if (AeUtil.notNullOrEmpty(prefixToCheck))
-               {
-                  aTarget.setAttributeNS(XMLConstants.XMLNS_ATTRIBUTE_NS_URI, "xmlns:" + prefixToCheck, sourceNamespace); //$NON-NLS-1$
+
+       for (Map.Entry<String, String> se : sourcePrefixes.entrySet()) {
+           Map.Entry entry = (Map.Entry) se;
+           if (AeUtil.notNullOrEmpty((String) entry.getValue())) {
+               String prefixToCheck = (String) entry.getKey();
+               String sourceNamespace = (String) entry.getValue();
+
+               // find prefix in the target
+               String targetNamespace = targetPrefixes.get(prefixToCheck);
+               if (!sourceNamespace.equals(targetNamespace)) {
+                   if (AeUtil.notNullOrEmpty(prefixToCheck)) {
+                       aTarget.setAttributeNS(XMLConstants.XMLNS_ATTRIBUTE_NS_URI, "xmlns:" + prefixToCheck, sourceNamespace); //$NON-NLS-1$
+                   } else {
+                       aTarget.setAttributeNS(XMLConstants.XMLNS_ATTRIBUTE_NS_URI, "xmlns", sourceNamespace); //$NON-NLS-1$
+                   }
                }
-               else
-               {
-                  aTarget.setAttributeNS(XMLConstants.XMLNS_ATTRIBUTE_NS_URI, "xmlns", sourceNamespace); //$NON-NLS-1$
-               }
-            }
-         }
-      }
+           }
+       }
    }
 
    /**
@@ -269,26 +258,22 @@ public class AeSOAPElementUtil
       AeXmlUtil.getDeclaredNamespaces(aSource, sourcePrefixes);
       Map<String, String> targetPrefixes = new HashMap<String, String>();
       getDeclaredNamespaces(aTarget, targetPrefixes);
-      
-      for (Iterator it = sourcePrefixes.entrySet().iterator(); it.hasNext();)
-      {
-         Map.Entry entry = (Map.Entry) it.next();
-         if (AeUtil.notNullOrEmpty((String) entry.getValue()))
-         {
-            String prefixToCheck = (String) entry.getKey();
-            String sourceNamespace = (String) entry.getValue();
-                        
-            // find prefix in the target
-            String targetNamespace = targetPrefixes.get(prefixToCheck);
-            if (!sourceNamespace.equals(targetNamespace))
-            {
-               if (AeUtil.notNullOrEmpty(prefixToCheck))
-               {
-                  aTarget.addNamespaceDeclaration(prefixToCheck, sourceNamespace);
+
+       for (Map.Entry<String, String> se : sourcePrefixes.entrySet()) {
+           Map.Entry entry = (Map.Entry) se;
+           if (AeUtil.notNullOrEmpty((String) entry.getValue())) {
+               String prefixToCheck = (String) entry.getKey();
+               String sourceNamespace = (String) entry.getValue();
+
+               // find prefix in the target
+               String targetNamespace = targetPrefixes.get(prefixToCheck);
+               if (!sourceNamespace.equals(targetNamespace)) {
+                   if (AeUtil.notNullOrEmpty(prefixToCheck)) {
+                       aTarget.addNamespaceDeclaration(prefixToCheck, sourceNamespace);
+                   }
                }
-            }
-         }
-      }
+           }
+       }
    }
    
 }

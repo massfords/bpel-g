@@ -9,19 +9,17 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpel.server.deploy.bpr;
 
-import java.io.File;
-import java.io.FileFilter;
-import java.util.ArrayList;
-import java.util.Collection;
+import bpelg.services.deploy.types.pdd.Pdd;
+import org.activebpel.rt.bpel.server.deploy.AeDeploymentException;
+import org.activebpel.rt.bpel.server.deploy.IAeDeploymentContext;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
-
-import org.activebpel.rt.bpel.server.deploy.AeDeploymentException;
-import org.activebpel.rt.bpel.server.deploy.IAeDeploymentContext;
-
-import bpelg.services.deploy.types.pdd.Pdd;
+import java.io.File;
+import java.io.FileFilter;
+import java.util.ArrayList;
+import java.util.Collection;
 
 /**
  * A <code>IAeBprFileStrategy</code> impl where bpr resources are pulled from an
@@ -71,25 +69,25 @@ public class AeUnpackedBprAccessor extends AeAbstractBprStrategy {
 			String aPath, FileFilter aFilter) throws AeDeploymentException {
 		File[] files = aDir.listFiles(aFilter);
 		if (files != null) {
-			for (int i = 0; i < files.length; i++) {
-				if (files[i].isFile()) {
-					try {
-						JAXBContext context = JAXBContext.newInstance(Pdd.class);
-						Unmarshaller u = context.createUnmarshaller();
-						Pdd pdd = (Pdd) u.unmarshal(files[i]);
-						aMatches.add(new AePddResource(aPath + files[i].getName(),
-								pdd));
-					} catch (JAXBException e) {
-						throw new AeDeploymentException("Error parsing pdd", e);
-					}
-				} else {
-					String name = files[i].getName();
-					if (!name.endsWith(File.separator)) {
-						name += File.separatorChar;
-					}
-					listFiles(aMatches, files[i], aPath + name, aFilter);
-				}
-			}
+            for (File file : files) {
+                if (file.isFile()) {
+                    try {
+                        JAXBContext context = JAXBContext.newInstance(Pdd.class);
+                        Unmarshaller u = context.createUnmarshaller();
+                        Pdd pdd = (Pdd) u.unmarshal(file);
+                        aMatches.add(new AePddResource(aPath + file.getName(),
+                                pdd));
+                    } catch (JAXBException e) {
+                        throw new AeDeploymentException("Error parsing pdd", e);
+                    }
+                } else {
+                    String name = file.getName();
+                    if (!name.endsWith(File.separator)) {
+                        name += File.separatorChar;
+                    }
+                    listFiles(aMatches, file, aPath + name, aFilter);
+                }
+            }
 		}
 	}
 }

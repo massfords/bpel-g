@@ -10,17 +10,6 @@
 
 package org.activebpel.rt.wsresource.validation.rules;
 
-import java.io.InputStreamReader;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-
-import javax.xml.namespace.QName;
-
 import org.activebpel.rt.util.AeXPathUtil;
 import org.activebpel.rt.wsdl.def.castor.AeSchemaParserUtil;
 import org.activebpel.rt.wsresource.IAeWSResourceConstants;
@@ -33,6 +22,11 @@ import org.exolab.castor.xml.schema.Schema;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.xml.sax.InputSource;
+
+import javax.xml.namespace.QName;
+import java.io.InputStreamReader;
+import java.net.URL;
+import java.util.*;
 
 /**
  * Default rules registry.  Loads rules from the rules.xml config
@@ -87,17 +81,15 @@ public class AeWSResourceValidationRuleRegistry implements IAeWSResourceValidati
          List<IAeWSResourceValidationRule> rules = new ArrayList<IAeWSResourceValidationRule>();
          String targetNS = AeXPathUtil.selectSingleNode(rulesDoc, "aerule:rules/@targetNamespace", //$NON-NLS-1$
                sPrefixMap).getNodeValue();
-         for (Iterator<Element> iter = ruleNodes.iterator(); iter.hasNext(); )
-         {
-            Element ruleElem = iter.next();
-            String code = AeXPathUtil.selectText(ruleElem, "aerule:code", sPrefixMap); //$NON-NLS-1$
-            Integer defaultSeverity = AeRulesUtil.convertSeverity(AeXPathUtil.selectText(ruleElem,
-                  "aerule:defaultSeverity", sPrefixMap)); //$NON-NLS-1$
-            String description = AeXPathUtil.selectText(ruleElem, "aerule:description", sPrefixMap); //$NON-NLS-1$
-            String validator = AeXPathUtil.selectText(ruleElem, "aerule:validator", sPrefixMap); //$NON-NLS-1$
-            QName id = new QName(targetNS, code);
-            rules.add(new AeWSResourceValidationRule(id, defaultSeverity, description, validator));
-         }
+          for (Element ruleElem : ruleNodes) {
+              String code = AeXPathUtil.selectText(ruleElem, "aerule:code", sPrefixMap); //$NON-NLS-1$
+              Integer defaultSeverity = AeRulesUtil.convertSeverity(AeXPathUtil.selectText(ruleElem,
+                      "aerule:defaultSeverity", sPrefixMap)); //$NON-NLS-1$
+              String description = AeXPathUtil.selectText(ruleElem, "aerule:description", sPrefixMap); //$NON-NLS-1$
+              String validator = AeXPathUtil.selectText(ruleElem, "aerule:validator", sPrefixMap); //$NON-NLS-1$
+              QName id = new QName(targetNS, code);
+              rules.add(new AeWSResourceValidationRule(id, defaultSeverity, description, validator));
+          }
          getRules().put(targetNS, rules);
       }
       catch (Exception ex)

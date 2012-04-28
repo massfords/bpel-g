@@ -9,22 +9,17 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.util;
 
+import org.activebpel.rt.AeException;
+import org.xml.sax.InputSource;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.StringReader;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
+import java.util.*;
 import java.util.Map.Entry;
-import java.util.Set;
-import java.util.StringTokenizer;
-import java.util.TreeSet;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import org.activebpel.rt.AeException;
-import org.xml.sax.InputSource;
 
 /**
  * Utility methods for working with mime attributes
@@ -203,11 +198,9 @@ public class AeMimeUtil
       sExtensionToMime.put("lsx", "video/x-la-asf"); //$NON-NLS-1$ //$NON-NLS-2$
       sExtensionToMime.put("rmi", "audio/mid"); //$NON-NLS-1$ //$NON-NLS-2$
 
-      for (Iterator<Entry<String, String>> iter = sMimeToExtension.entrySet().iterator(); iter.hasNext();)
-      {
-         Map.Entry<String, String> entry = iter.next();
-         sExtensionToMime.put(entry.getValue(), entry.getKey());
-      }
+       for (Entry<String, String> entry : sMimeToExtension.entrySet()) {
+           sExtensionToMime.put(entry.getValue(), entry.getKey());
+       }
    }
 
    /**
@@ -490,11 +483,10 @@ public class AeMimeUtil
    {
       if(AeUtil.notNullOrEmpty(aMime))
       {
-         for (Iterator iterator = aMembers.iterator(); iterator.hasNext();)
-         {
-            if(aMime.trim().startsWith((String)iterator.next()))
-               return true;
-         }
+          for (Object m : aMembers) {
+              if (aMime.trim().startsWith((String) m))
+                  return true;
+          }
       }
       return false;
    }

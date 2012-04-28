@@ -9,16 +9,6 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.axis.bpel;
 
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-
-import javax.wsdl.Message;
-import javax.wsdl.Operation;
-import javax.wsdl.Part;
-import javax.xml.namespace.QName;
-
 import org.activebpel.rt.AeException;
 import org.activebpel.rt.axis.ser.AeSimpleSerializerFactory;
 import org.activebpel.rt.axis.ser.AeSimpleValueWrapper;
@@ -34,6 +24,14 @@ import org.exolab.castor.xml.schema.ElementDecl;
 import org.exolab.castor.xml.schema.XMLType;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+
+import javax.wsdl.Message;
+import javax.wsdl.Operation;
+import javax.wsdl.Part;
+import javax.xml.namespace.QName;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Helper class for registering custom serializers/deserializers for
@@ -106,12 +104,11 @@ public class AeTypeMappingHelper implements IAeTypesContext
       if (mappings != null)
       {
          // add the entries to the type mapping
-         for (int i = 0; i < mappings.length; i++)
-         {
-            aTypeMapper.register(getClass(mappings[i]), mappings[i].getType(),
-                  getSerializerFactory(mappings[i]),
-                  getDeserializerFactory(mappings[i]));
-         }
+          for (AeTypeMappingTuple mapping : mappings) {
+              aTypeMapper.register(getClass(mapping), mapping.getType(),
+                      getSerializerFactory(mapping),
+                      getDeserializerFactory(mapping));
+          }
       }
    }
 
@@ -276,29 +273,23 @@ public class AeTypeMappingHelper implements IAeTypesContext
       
       @SuppressWarnings("unchecked")
       List<Part> parts = aMessage.getOrderedParts(null);
-      for (Iterator<Part> iter = parts.iterator(); iter.hasNext();)
-      {
-         AeTypeMappingTuple tuple = null;
-         Part part = iter.next();
-         if (def.isArray(part))
-         {
-            tuple = getOrCreateTuple(IAeBPELExtendedWSDLConst.SOAP_ARRAY);
-            // I need to register our handler to intercept the type as
-            // an array or as its real type. It'll be an array coming in 
-            // from the outside world but it'll be the type when we're
-            // sending the message over the wire.
-            tuple = getOrCreateTuple(getPartType(part));
-         }
-         else if (def.isComplexEncodedType(part))
-         {
-            tuple = getOrCreateTuple(getPartType(part));
-         }
-         else if (def.isDerivedSimpleType(part))
-         {
-            tuple = getOrCreateTuple(getPartType(part));
-            tuple.setDerivedSimpleType(true);
-         }
-      }
+       for (Part part1 : parts) {
+           AeTypeMappingTuple tuple = null;
+           Part part = part1;
+           if (def.isArray(part)) {
+               tuple = getOrCreateTuple(IAeBPELExtendedWSDLConst.SOAP_ARRAY);
+               // I need to register our handler to intercept the type as
+               // an array or as its real type. It'll be an array coming in
+               // from the outside world but it'll be the type when we're
+               // sending the message over the wire.
+               tuple = getOrCreateTuple(getPartType(part));
+           } else if (def.isComplexEncodedType(part)) {
+               tuple = getOrCreateTuple(getPartType(part));
+           } else if (def.isDerivedSimpleType(part)) {
+               tuple = getOrCreateTuple(getPartType(part));
+               tuple.setDerivedSimpleType(true);
+           }
+       }
    }
 
    /**

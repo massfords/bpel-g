@@ -301,11 +301,10 @@ public class AeAxisInvokeHandler extends AeWSIOInvokeHandler
          StringWriter sw = new StringWriter();
          PrintWriter pw = new PrintWriter(sw);
 
-         for (int i = 0; i < details.length; i++)
-         {
-            // todo should we include the element names?
-            pw.println(AeXmlUtil.getText(details[i]));
-         }
+          for (Element detail : details) {
+              // todo should we include the element names?
+              pw.println(AeXmlUtil.getText(detail));
+          }
 
          errorDetail = sw.toString();
       }
@@ -357,26 +356,20 @@ public class AeAxisInvokeHandler extends AeWSIOInvokeHandler
          if (!AeUtil.isNullOrEmpty(aPolicyList)) 
          {
             Map<String, Object> props = getPolicyDrivenProperties(aPolicyList);
-            for (Iterator<Entry<String, Object>> it = props.entrySet().iterator(); it.hasNext();)
-            {
-            	Entry<String, Object> entry = it.next();
-                String name = entry.getKey();
-                if (name.equals(TAG_ASSERT_AUTH_USER))
-                   aCall.setUsername((String) entry.getValue());
-                else if (name.equals(TAG_ASSERT_AUTH_PASSWORD))
-                {
-                   String password = (String) entry.getValue();
-                   aCall.setPassword(AeCryptoUtil.decryptString(password));
-                }
-                else if (name.equals(PARAM_TRANSPORT))
-                {
-                   Transport transport = (Transport) entry.getValue();
-                   transport.setUrl(aCall.getTargetEndpointAddress());
-                   aCall.setTransport(transport);
-                }
-                else   
-                   aCall.setProperty(name, props.get(name));
-            }
+             for (Entry<String, Object> entry : props.entrySet()) {
+                 String name = entry.getKey();
+                 if (name.equals(TAG_ASSERT_AUTH_USER))
+                     aCall.setUsername((String) entry.getValue());
+                 else if (name.equals(TAG_ASSERT_AUTH_PASSWORD)) {
+                     String password = (String) entry.getValue();
+                     aCall.setPassword(AeCryptoUtil.decryptString(password));
+                 } else if (name.equals(PARAM_TRANSPORT)) {
+                     Transport transport = (Transport) entry.getValue();
+                     transport.setUrl(aCall.getTargetEndpointAddress());
+                     aCall.setTransport(transport);
+                 } else
+                     aCall.setProperty(name, props.get(name));
+             }
          }
       } 
       catch (Throwable t) 

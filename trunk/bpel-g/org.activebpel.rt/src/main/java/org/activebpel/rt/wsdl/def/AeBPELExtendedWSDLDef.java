@@ -9,51 +9,7 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.wsdl.def;
 
-import java.io.IOException;
-import java.io.StringReader;
-import java.io.StringWriter;
-import java.io.UnsupportedEncodingException;
-import java.io.Writer;
-import java.text.MessageFormat;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Enumeration;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Set;
-
-import javax.wsdl.Binding;
-import javax.wsdl.Definition;
-import javax.wsdl.Fault;
-import javax.wsdl.Import;
-import javax.wsdl.Message;
-import javax.wsdl.Operation;
-import javax.wsdl.Part;
-import javax.wsdl.PortType;
-import javax.wsdl.Service;
-import javax.wsdl.Types;
-import javax.wsdl.WSDLException;
-import javax.wsdl.extensions.ElementExtensible;
-import javax.wsdl.extensions.ExtensibilityElement;
-import javax.wsdl.extensions.ExtensionRegistry;
-import javax.wsdl.extensions.UnknownExtensibilityElement;
-import javax.wsdl.factory.WSDLFactory;
-import javax.wsdl.xml.WSDLLocator;
-import javax.wsdl.xml.WSDLReader;
-import javax.wsdl.xml.WSDLWriter;
-import javax.xml.XMLConstants;
-import javax.xml.namespace.QName;
-import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamResult;
-
+import com.ibm.wsdl.TypesImpl;
 import org.activebpel.rt.AeException;
 import org.activebpel.rt.AeMessages;
 import org.activebpel.rt.AeWSDLException;
@@ -69,20 +25,30 @@ import org.activebpel.rt.wsdl.def.policy.IAePolicy;
 import org.activebpel.rt.xml.IAeMutableNamespaceContext;
 import org.activebpel.rt.xml.schema.AeSchemaUtil;
 import org.exolab.castor.xml.Namespaces;
-import org.exolab.castor.xml.schema.AnyType;
-import org.exolab.castor.xml.schema.ComplexType;
-import org.exolab.castor.xml.schema.ElementDecl;
-import org.exolab.castor.xml.schema.ModelGroup;
-import org.exolab.castor.xml.schema.Schema;
-import org.exolab.castor.xml.schema.SchemaException;
-import org.exolab.castor.xml.schema.SchemaNames;
-import org.exolab.castor.xml.schema.SimpleType;
-import org.exolab.castor.xml.schema.XMLType;
+import org.exolab.castor.xml.schema.*;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.xml.sax.InputSource;
 
-import com.ibm.wsdl.TypesImpl;
+import javax.wsdl.*;
+import javax.wsdl.extensions.ElementExtensible;
+import javax.wsdl.extensions.ExtensibilityElement;
+import javax.wsdl.extensions.ExtensionRegistry;
+import javax.wsdl.extensions.UnknownExtensibilityElement;
+import javax.wsdl.factory.WSDLFactory;
+import javax.wsdl.xml.WSDLLocator;
+import javax.wsdl.xml.WSDLReader;
+import javax.wsdl.xml.WSDLWriter;
+import javax.xml.XMLConstants;
+import javax.xml.namespace.QName;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
+import java.io.*;
+import java.text.MessageFormat;
+import java.util.*;
+import java.util.Map.Entry;
 
 /**
  * Read, write, modify and create BPEL Extended WSDL documents.  This class
@@ -210,14 +176,11 @@ public class AeBPELExtendedWSDLDef implements IAeBPELExtendedWSDLConst, IAeMutab
       if(aSchemas != null)
       {
          Set<String> namespaces = new HashSet<String>();
-         for (int i = 0; i < aSchemas.length; i++)
-         {
-            Schema schema = aSchemas[i];
-            if (schema != null)
-            {
-               catalogSchemaAndImports(schema, namespaces, true);
-            }
-         }
+          for (Schema schema : aSchemas) {
+              if (schema != null) {
+                  catalogSchemaAndImports(schema, namespaces, true);
+              }
+          }
          refreshSchemaRefs();
       }
    }
@@ -432,19 +395,16 @@ public class AeBPELExtendedWSDLDef implements IAeBPELExtendedWSDLConst, IAeMutab
       List<IAePropertyAlias> propertyAliases = new ArrayList<IAePropertyAlias>();
       List<IAePolicy> policies = new ArrayList<IAePolicy>();
 
-      for (@SuppressWarnings("unchecked")
-    		  Iterator<ExtensibilityElement> iter = aDef.getExtensibilityElements().iterator(); iter.hasNext();)
-      {
-         ExtensibilityElement extElem = iter.next();
-         if (extElem instanceof IAePartnerLinkType)
-            partnerLinks.add((IAePartnerLinkType)extElem);
-         else if (extElem instanceof IAeProperty)
-            properties.add((IAeProperty)extElem);
-         else if (extElem instanceof IAePropertyAlias)
-            propertyAliases.add((IAePropertyAlias)extElem);
-         else if (extElem instanceof IAePolicy)
-            policies.add((IAePolicy)extElem);
-      }
+       for (ExtensibilityElement extElem : (Iterable<ExtensibilityElement>) aDef.getExtensibilityElements()) {
+           if (extElem instanceof IAePartnerLinkType)
+               partnerLinks.add((IAePartnerLinkType) extElem);
+           else if (extElem instanceof IAeProperty)
+               properties.add((IAeProperty) extElem);
+           else if (extElem instanceof IAePropertyAlias)
+               propertyAliases.add((IAePropertyAlias) extElem);
+           else if (extElem instanceof IAePolicy)
+               policies.add((IAePolicy) extElem);
+       }
 
       setPartnerLinkTypeExtElements(partnerLinks);
       setPropExtElements(properties);
@@ -810,22 +770,18 @@ public class AeBPELExtendedWSDLDef implements IAeBPELExtendedWSDLConst, IAeMutab
    {
       IAeProperty property = null;
 
-      for (Iterator<IAeProperty> itr = getPropExtElements().iterator(); itr.hasNext(); )
-      {
-         IAeProperty propElem = itr.next();
+       for (IAeProperty propElem : getPropExtElements()) {
+           ExtensibilityElement extElem = (ExtensibilityElement) propElem;
 
-         ExtensibilityElement extElem = (ExtensibilityElement)propElem;
-
-         if ( aPropName.equals( propElem.getQName().getLocalPart() ) &&
-              ( aPropertyNamespace == null ||
-                ( aPropertyNamespace != null && extElem.getElementType().getNamespaceURI().equals(aPropertyNamespace) )
-              ) &&
-              ( aType == null || ( aType != null && aType.equals(propElem.getTypeName()) )) )
-         {
-            property = propElem;
-            break;
-         }
-      }
+           if (aPropName.equals(propElem.getQName().getLocalPart()) &&
+                   (aPropertyNamespace == null ||
+                           (aPropertyNamespace != null && extElem.getElementType().getNamespaceURI().equals(aPropertyNamespace))
+                   ) &&
+                   (aType == null || (aType != null && aType.equals(propElem.getTypeName())))) {
+               property = propElem;
+               break;
+           }
+       }
       return property;
    }
 
@@ -846,23 +802,20 @@ public class AeBPELExtendedWSDLDef implements IAeBPELExtendedWSDLConst, IAeMutab
    {
       IAePropertyAlias propertyAlias = null;
 
-      for (Iterator<IAePropertyAlias> itr = getPropAliasExtElements().iterator(); itr.hasNext(); )
-      {
-         IAePropertyAlias propAliasElem = itr.next();
-         ExtensibilityElement extElem = (ExtensibilityElement)propAliasElem;
+       for (IAePropertyAlias propAliasElem : getPropAliasExtElements()) {
+           ExtensibilityElement extElem = (ExtensibilityElement) propAliasElem;
 
-         if ( aPropName.equals(propAliasElem.getPropertyName()) &&
-              aTypeName.equals(propAliasElem.getQName()) &&
-              AeUtil.compareObjects(aPart, propAliasElem.getPart()) &&
-              AeUtil.compareObjects(aQuery, propAliasElem.getQuery()) &&
-              ( aPropAliasNamespace == null ||
-                ( aPropAliasNamespace != null && extElem.getElementType().getNamespaceURI().equals(aPropAliasNamespace) )
-              ))
-         {
-            propertyAlias = propAliasElem;
-            break;
-         }
-      }
+           if (aPropName.equals(propAliasElem.getPropertyName()) &&
+                   aTypeName.equals(propAliasElem.getQName()) &&
+                   AeUtil.compareObjects(aPart, propAliasElem.getPart()) &&
+                   AeUtil.compareObjects(aQuery, propAliasElem.getQuery()) &&
+                   (aPropAliasNamespace == null ||
+                           (aPropAliasNamespace != null && extElem.getElementType().getNamespaceURI().equals(aPropAliasNamespace))
+                   )) {
+               propertyAlias = propAliasElem;
+               break;
+           }
+       }
       return propertyAlias;
    }
 
@@ -1066,18 +1019,16 @@ public class AeBPELExtendedWSDLDef implements IAeBPELExtendedWSDLConst, IAeMutab
 			List<Import> imports = getWSDLDef().getImports( aNS );
             if ( imports != null )
             {
-               for ( Iterator<Import> iter = imports.iterator() ; iter.hasNext() ; )
-               {
-                  imp = iter.next();
-                  if ( imp.getLocationURI().equals( aLoc ) &&
-                        imp.getNamespaceURI().equals( aNS ) )
-                  {
-                     // Already have this import - don't add another.  Definition
-                     //  apparently doesn't bother to check.
-                     //
-                     return ;
-                  }
-               }
+                for (Import anImport : imports) {
+                    imp = anImport;
+                    if (imp.getLocationURI().equals(aLoc) &&
+                            imp.getNamespaceURI().equals(aNS)) {
+                        // Already have this import - don't add another.  Definition
+                        //  apparently doesn't bother to check.
+                        //
+                        return;
+                    }
+                }
             }
          }
 
@@ -1293,7 +1244,7 @@ public class AeBPELExtendedWSDLDef implements IAeBPELExtendedWSDLConst, IAeMutab
          
          UnknownExtensibilityElement extElement = new UnknownExtensibilityElement();
          types.addExtensibilityElement(extElement);
-         StringBuffer buff = new StringBuffer();
+         StringBuilder buff = new StringBuilder();
          buff.append("<xs:schema xmlns:xs='").append(XMLConstants.W3C_XML_SCHEMA_NS_URI).append("'>\n"); //$NON-NLS-1$//$NON-NLS-2$
          buff.append("\t\t<xs:import namespace=\'").append(aNS).append("' schemaLocation='").append(aLoc).append("'/>\n"); //$NON-NLS-1$//$NON-NLS-2$ //$NON-NLS-3$
          buff.append("\t</xs:schema>"); //$NON-NLS-1$
@@ -1319,74 +1270,61 @@ public class AeBPELExtendedWSDLDef implements IAeBPELExtendedWSDLConst, IAeMutab
          List<Schema> schemas = new ArrayList<Schema>();
 
          // First, create a list of all the <schema> elements.
-         for (@SuppressWarnings("unchecked")
-        		 Iterator<UnknownExtensibilityElement> it = types.getExtensibilityElements().iterator(); it.hasNext();)
-         {
-            UnknownExtensibilityElement extElement = it.next();
-            if("schema".equals(extElement.getElement().getLocalName())) //$NON-NLS-1$
-            {
-               try
-               {
-                  // need to convert the parsed elements back to text as
-                  // the schema reader expects an input stream
-                  Element element = AeSchemaParserUtil.extractSchemaElement(extElement);
-                  StringWriter sw = new StringWriter(2048);
-                  StreamResult result = new StreamResult(sw);
-                  TransformerFactory transFactory = TransformerFactory.newInstance();
-                  Transformer transformer = transFactory.newTransformer();
-                  transformer.transform(new DOMSource(element), result);
+          for (UnknownExtensibilityElement extElement : (Iterable<UnknownExtensibilityElement>) types.getExtensibilityElements()) {
+              if ("schema".equals(extElement.getElement().getLocalName())) //$NON-NLS-1$
+              {
+                  try {
+                      // need to convert the parsed elements back to text as
+                      // the schema reader expects an input stream
+                      Element element = AeSchemaParserUtil.extractSchemaElement(extElement);
+                      StringWriter sw = new StringWriter(2048);
+                      StreamResult result = new StreamResult(sw);
+                      TransformerFactory transFactory = TransformerFactory.newInstance();
+                      Transformer transformer = transFactory.newTransformer();
+                      transformer.transform(new DOMSource(element), result);
 
-                  // now read back in via the schema reader
-                  InputSource input = new InputSource(new StringReader(sw.toString()));
-                  input.setSystemId(aDef.getDocumentBaseURI());
+                      // now read back in via the schema reader
+                      InputSource input = new InputSource(new StringReader(sw.toString()));
+                      input.setSystemId(aDef.getDocumentBaseURI());
 
-                  // Create the URI resolver to use when reading the schema.
-                  AeWSDLSchemaResolver resolver = new AeWSDLSchemaResolver(getLocator(), aDef, getStandardResolver());
+                      // Create the URI resolver to use when reading the schema.
+                      AeWSDLSchemaResolver resolver = new AeWSDLSchemaResolver(getLocator(), aDef, getStandardResolver());
 
-                  Schema schema = AeSchemaParserUtil.readSchema(input, resolver);
-                  if (schema != null)
-                  {
-                     schemas.add(schema);
+                      Schema schema = AeSchemaParserUtil.readSchema(input, resolver);
+                      if (schema != null) {
+                          schemas.add(schema);
 
-                     // Add schema location to our master list of imported/included schemas
-                     if (schema.getSchemaLocation() != null)
-                        schemaRefs.add(AeUTF8Util.urlDecode(schema.getSchemaLocation()));
+                          // Add schema location to our master list of imported/included schemas
+                          if (schema.getSchemaLocation() != null)
+                              schemaRefs.add(AeUTF8Util.urlDecode(schema.getSchemaLocation()));
+                      }
+
+                      // Add any schemas which were resolved, add the URL decoded ref to our list of references
+                      for (Iterator<String> refIter = resolver.getURIReferences(); refIter.hasNext(); )
+                          schemaRefs.add(AeUTF8Util.urlDecode(refIter.next()));
+                  } catch (Exception e) {
+                      throw new AeWSDLException(e);
                   }
-
-                  // Add any schemas which were resolved, add the URL decoded ref to our list of references
-                  for (Iterator<String> refIter=resolver.getURIReferences(); refIter.hasNext();)
-                     schemaRefs.add(AeUTF8Util.urlDecode(refIter.next()));
-               }
-               catch (Exception e)
-               {
-                  throw new AeWSDLException(e);
-               }
-            }
-         }
+              }
+          }
 
          // if we have messages then recursively process schemas in imported wsdl
          if(aRecurse && (! aDef.getMessages().isEmpty()) && (! aDef.getImports().isEmpty()))
          {
-            for(@SuppressWarnings("unchecked")
-            		Iterator<List<Import>> iter=aDef.getImports().values().iterator(); iter.hasNext(); )
-            {
-               List<Import> impObj = iter.next();
-               for(Import imp : impObj )
-               {
-                  if(imp.getDefinition() != null)
-                  {
-                     buildSchemaMap(imp.getDefinition(), false);
-                  }
-               }
-            }
+             for (List<Import> impObj : (Iterable<List<Import>>) aDef.getImports().values()) {
+                 for (Import imp : impObj) {
+                     if (imp.getDefinition() != null) {
+                         buildSchemaMap(imp.getDefinition(), false);
+                     }
+                 }
+             }
          }
 
          // Merge schemas with the same namespace into a single Schema object
          schemas = mergeSchemaList(schemas);
 
          // Now iterate through the remaining schemas and catalog them
-         for (Iterator<Schema> iter = schemas.iterator(); iter.hasNext(); )
-            catalogSchemaAndImports(iter.next(), new HashSet<String>(), true);
+          for (Schema schema : schemas) catalogSchemaAndImports(schema, new HashSet<String>(), true);
 
          // Add all references we've collected so far to the master list for the WSDL def
          mSchemaReferences = new ArrayList<String>(schemaRefs);
@@ -1407,20 +1345,15 @@ public class AeBPELExtendedWSDLDef implements IAeBPELExtendedWSDLConst, IAeMutab
 
       try
       {
-         for (Iterator<Schema> iter = aSchemaList.iterator(); iter.hasNext();)
-         {
-            Schema schema = iter.next();
-            String targetNS = schema.getTargetNamespace();
-            if (mergedSchemas.containsKey(targetNS))
-            {
-               Schema schema2 = mergedSchemas.get(targetNS);
-               mergedSchemas.put(targetNS, AeSchemaUtil.mergeSchemas(schema2, schema));
-            }
-            else
-            {
-               mergedSchemas.put(targetNS, schema);
-            }
-         }
+          for (Schema schema : aSchemaList) {
+              String targetNS = schema.getTargetNamespace();
+              if (mergedSchemas.containsKey(targetNS)) {
+                  Schema schema2 = mergedSchemas.get(targetNS);
+                  mergedSchemas.put(targetNS, AeSchemaUtil.mergeSchemas(schema2, schema));
+              } else {
+                  mergedSchemas.put(targetNS, schema);
+              }
+          }
       }
       catch (SchemaException se)
       {
@@ -1789,17 +1722,13 @@ public class AeBPELExtendedWSDLDef implements IAeBPELExtendedWSDLConst, IAeMutab
    public Set<String> resolveNamespaceToPrefixes(String aNamespace)
    {
       Set<String> prefixes = new HashSet<String>();
-      for (@SuppressWarnings("unchecked")
-    		  Iterator<Map.Entry<String,String>> iter = getWSDLDef().getNamespaces().entrySet().iterator(); iter.hasNext(); )
-      {
-         Map.Entry<String,String> entry = iter.next();
-         String prefix = entry.getKey();
-         String ns = entry.getValue();
-         if (AeUtil.compareObjects(aNamespace, ns))
-         {
-            prefixes.add(prefix);
-         }
-      }
+       for (Entry<String, String> entry : (Iterable<Entry<String, String>>) getWSDLDef().getNamespaces().entrySet()) {
+           String prefix = entry.getKey();
+           String ns = entry.getValue();
+           if (AeUtil.compareObjects(aNamespace, ns)) {
+               prefixes.add(prefix);
+           }
+       }
       return prefixes;
    }
 
@@ -2077,17 +2006,14 @@ public class AeBPELExtendedWSDLDef implements IAeBPELExtendedWSDLConst, IAeMutab
       
       @SuppressWarnings("unchecked")
 	  Map<String,String> namespaces = getWSDLDef().getNamespaces();
-      for (Iterator<Entry<String,String>> iter = namespaces.entrySet().iterator(); iter.hasNext(); )
-      {
-         Entry<String,String> entry = iter.next();
-         String prefix = entry.getKey();
-         String namespace = entry.getValue();
-         
-         if (AeUtil.compareObjects(namespace, aNamespace))
-         {
-            prefixes.add(prefix);
-         }
-      }
+       for (Entry<String, String> entry : namespaces.entrySet()) {
+           String prefix = entry.getKey();
+           String namespace = entry.getValue();
+
+           if (AeUtil.compareObjects(namespace, aNamespace)) {
+               prefixes.add(prefix);
+           }
+       }
 
       return prefixes;
    }
@@ -2276,30 +2202,21 @@ public class AeBPELExtendedWSDLDef implements IAeBPELExtendedWSDLConst, IAeMutab
     */
    protected static void touchXmlNodes(Collection<?> aCollection)
    {
-      for (Iterator<?> i = aCollection.iterator(); i.hasNext(); )
-      {
-         Object item = i.next();
+       for (Object item : aCollection) {
+           // The item might be a Service, Port, Binding, or BindingOperation,
+           // all of which can have extensibility elements.
+           if (item instanceof ElementExtensible) {
+               AeXmlUtil.touchXmlNodes(((ElementExtensible) item).getExtensibilityElements());
 
-         // The item might be a Service, Port, Binding, or BindingOperation,
-         // all of which can have extensibility elements.
-         if (item instanceof ElementExtensible)
-         {
-            AeXmlUtil.touchXmlNodes(((ElementExtensible) item).getExtensibilityElements());
-
-            if (item instanceof Service)
-            {
-               AeXmlUtil.touchXmlNodes(((Service) item).getPorts().values());
-            }
-            else if (item instanceof Binding)
-            {
-               AeXmlUtil.touchXmlNodes(((Binding) item).getBindingOperations());
-            }
-         }
-         else if (item instanceof UnknownExtensibilityElement)
-         {
-            AeXmlUtil.touchXmlNodes(((UnknownExtensibilityElement) item).getElement());
-         }
-      }
+               if (item instanceof Service) {
+                   AeXmlUtil.touchXmlNodes(((Service) item).getPorts().values());
+               } else if (item instanceof Binding) {
+                   AeXmlUtil.touchXmlNodes(((Binding) item).getBindingOperations());
+               }
+           } else if (item instanceof UnknownExtensibilityElement) {
+               AeXmlUtil.touchXmlNodes(((UnknownExtensibilityElement) item).getElement());
+           }
+       }
    }
 
    /**
@@ -2385,20 +2302,16 @@ public class AeBPELExtendedWSDLDef implements IAeBPELExtendedWSDLConst, IAeMutab
             {
                return null;
             }
-            
-            for ( Iterator<?> itExt = extElements.iterator();itExt.hasNext();)
-            {
-               Object ext = itExt.next();
-               if (ext instanceof IAePolicy)
-               {
-                   IAePolicy policyElem = (IAePolicy) ext;
-                   if ( policyElem.getReferenceId().equals(aId))
-                   {
-                       policy = policyElem;
-                       break;
-                   }
-               }
-            }
+
+             for (Object ext : extElements) {
+                 if (ext instanceof IAePolicy) {
+                     IAePolicy policyElem = (IAePolicy) ext;
+                     if (policyElem.getReferenceId().equals(aId)) {
+                         policy = policyElem;
+                         break;
+                     }
+                 }
+             }
             
             if (policy != null)
                break;

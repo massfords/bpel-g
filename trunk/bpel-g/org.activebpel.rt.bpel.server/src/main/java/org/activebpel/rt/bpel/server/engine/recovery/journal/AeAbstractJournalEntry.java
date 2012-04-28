@@ -9,10 +9,7 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpel.server.engine.recovery.journal;
 
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
-
+import bpelg.services.processes.types.ProcessStateValueType;
 import org.activebpel.rt.bpel.AeBusinessProcessException;
 import org.activebpel.rt.bpel.impl.AeBusinessProcessPropertyIO;
 import org.activebpel.rt.bpel.impl.IAeImplStateNames;
@@ -25,7 +22,8 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-import bpelg.services.processes.types.ProcessStateValueType;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Implements abstract base class for journal entries.
@@ -170,15 +168,14 @@ public abstract class AeAbstractJournalEntry implements IAeJournalEntry, IAeImpl
    {
       if (aProcessProperties != null)
       {
-         for (Iterator i = aProcessProperties.entrySet().iterator(); i.hasNext(); )
-         {
-            Map.Entry entry = (Map.Entry) i.next();
-            String name = (String) entry.getKey();
-            String value = AeUtil.getSafeString((String) entry.getValue());
+          for (Object o : aProcessProperties.entrySet()) {
+              Map.Entry entry = (Map.Entry) o;
+              String name = (String) entry.getKey();
+              String value = AeUtil.getSafeString((String) entry.getValue());
 
-            AeFastElement element = AeBusinessProcessPropertyIO.getBusinessProcessPropertyElement(name, value);
-            aParentElement.appendChild(element);
-         }
+              AeFastElement element = AeBusinessProcessPropertyIO.getBusinessProcessPropertyElement(name, value);
+              aParentElement.appendChild(element);
+          }
       }
    }
 

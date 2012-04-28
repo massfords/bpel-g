@@ -11,7 +11,6 @@ package org.activebpel.work;
 
 import java.util.Collection;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Set;
 
@@ -36,10 +35,8 @@ public class AeThreadPool
     */
    public synchronized void killAllThreads()
    {
-      for(Iterator<AeWorkerThread> iter = mFreeThreads.iterator(); iter.hasNext(); )
-         iter.next().die();
-      for(Iterator<AeWorkerThread> iter = mWorkingThreads.iterator(); iter.hasNext(); )
-         iter.next().die();
+       for (AeWorkerThread ft : mFreeThreads) ft.die();
+       for (AeWorkerThread wt : mWorkingThreads) wt.die();
       mWorkingThreads.clear();
    }
    

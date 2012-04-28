@@ -9,23 +9,6 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.axis.bpel;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-
-import javax.xml.XMLConstants;
-import javax.xml.namespace.QName;
-import javax.xml.soap.SOAPBody;
-import javax.xml.soap.SOAPException;
-import javax.xml.soap.Text;
-
 import org.activebpel.rt.AeException;
 import org.activebpel.rt.util.AeUtil;
 import org.activebpel.rt.util.AeXmlUtil;
@@ -38,17 +21,21 @@ import org.apache.axis.message.MessageElement;
 import org.apache.axis.message.RPCElement;
 import org.apache.axis.message.SOAPEnvelope;
 import org.apache.axis.utils.Mapping;
-import org.exolab.castor.xml.schema.ComplexType;
-import org.exolab.castor.xml.schema.ElementDecl;
-import org.exolab.castor.xml.schema.Form;
-import org.exolab.castor.xml.schema.Schema;
-import org.exolab.castor.xml.schema.XMLType;
+import org.exolab.castor.xml.schema.*;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
+
+import javax.xml.XMLConstants;
+import javax.xml.namespace.QName;
+import javax.xml.soap.SOAPBody;
+import javax.xml.soap.SOAPException;
+import javax.xml.soap.Text;
+import java.util.*;
+import java.util.Map.Entry;
 
 /**
  * Custom deserializer for handling complex types over RPC. These types will be
@@ -213,13 +200,11 @@ public class AeRPCEncodedDeserializer extends DeserializerImpl
       {
          addNamespaceMappings(nsMap, body);
       }
-      
-      for(Iterator<Entry<String,Mapping>> it=nsMap.entrySet().iterator(); it.hasNext();)
-      {
-         Map.Entry<String,Mapping> entry = it.next();
-         Mapping mapping = entry.getValue();
-         aElement.setAttributeNS(XMLConstants.XMLNS_ATTRIBUTE_NS_URI, "xmlns:"+mapping.getPrefix(), mapping.getNamespaceURI()); //$NON-NLS-1$
-      }
+
+       for (Entry<String, Mapping> entry : nsMap.entrySet()) {
+           Mapping mapping = entry.getValue();
+           aElement.setAttributeNS(XMLConstants.XMLNS_ATTRIBUTE_NS_URI, "xmlns:" + mapping.getPrefix(), mapping.getNamespaceURI()); //$NON-NLS-1$
+       }
    }
 
    /**
@@ -229,16 +214,12 @@ public class AeRPCEncodedDeserializer extends DeserializerImpl
     */
    protected void addNamespaceMappings(Map<String, Mapping> nsMap, MessageElement aEnvelope)
    {
-      for (@SuppressWarnings("unchecked")
-    		  Iterator<Mapping> it=aEnvelope.namespaces.iterator(); it.hasNext();)
-      {
-         Mapping mapping = it.next();
-         // don't add any that we want to skip over, like SOAP or old XSI's
-         if (!sNamespacesToSkipColl.contains(mapping.getNamespaceURI()))
-         {
-            nsMap.put(mapping.getPrefix(), mapping);
-         }
-      }
+       for (Mapping mapping : (Iterable<Mapping>) aEnvelope.namespaces) {
+           // don't add any that we want to skip over, like SOAP or old XSI's
+           if (!sNamespacesToSkipColl.contains(mapping.getNamespaceURI())) {
+               nsMap.put(mapping.getPrefix(), mapping);
+           }
+       }
    }
    
    /**
@@ -263,17 +244,15 @@ public class AeRPCEncodedDeserializer extends DeserializerImpl
       if (!AeUtil.isNullOrEmpty(aMessageElement.namespaces))
       {
          List<Mapping> nsList = getAllLocallyDeclaredNamespaces(aMessageElement);
-         for(int i=0; i<nsList.size(); i++)
-         {
-            Mapping mapping = nsList.get(i);
-            if (shouldCopyAttribute(mapping.getNamespaceURI(), "") && !mapping.getPrefix().startsWith(AeRPCEncodedSerializer.TYPE_PREFIX) && !mapping.getPrefix().startsWith(PREFIX)) //$NON-NLS-1$
-            {
-               if(AeUtil.isNullOrEmpty(mapping.getPrefix()))
-                  aElement.setAttributeNS(XMLConstants.XMLNS_ATTRIBUTE_NS_URI, "xmlns", mapping.getNamespaceURI()); //$NON-NLS-1$
-               else
-                  aElement.setAttributeNS(XMLConstants.XMLNS_ATTRIBUTE_NS_URI, "xmlns:"+mapping.getPrefix(), mapping.getNamespaceURI()); //$NON-NLS-1$
-            }
-         }
+          for (Mapping mapping : nsList) {
+              if (shouldCopyAttribute(mapping.getNamespaceURI(), "") && !mapping.getPrefix().startsWith(AeRPCEncodedSerializer.TYPE_PREFIX) && !mapping.getPrefix().startsWith(PREFIX)) //$NON-NLS-1$
+              {
+                  if (AeUtil.isNullOrEmpty(mapping.getPrefix()))
+                      aElement.setAttributeNS(XMLConstants.XMLNS_ATTRIBUTE_NS_URI, "xmlns", mapping.getNamespaceURI()); //$NON-NLS-1$
+                  else
+                      aElement.setAttributeNS(XMLConstants.XMLNS_ATTRIBUTE_NS_URI, "xmlns:" + mapping.getPrefix(), mapping.getNamespaceURI()); //$NON-NLS-1$
+              }
+          }
       }
    }
 

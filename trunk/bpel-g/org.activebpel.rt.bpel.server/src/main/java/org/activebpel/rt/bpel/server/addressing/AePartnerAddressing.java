@@ -39,7 +39,6 @@ import javax.xml.namespace.QName;
 import javax.xml.rpc.handler.soap.SOAPMessageContext;
 import javax.xml.soap.SOAPException;
 import javax.xml.soap.SOAPHeader;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -110,15 +109,13 @@ public class AePartnerAddressing implements IAePartnerAddressing
       
       try
       {
-         for (Iterator it = outAddrHeaders.getRecipient().getReferenceProperties().iterator(); it.hasNext();)
-         {
-            Element el = AeXmlUtil.cloneElement((Element) it.next());
-            if (el.getNamespaceURI().equals(IAeConstants.WSA_NAMESPACE_URI_2005_08))
-            {
-               el.setAttributeNS(IAeConstants.WSA_NAMESPACE_URI_2005_08, "wsa:IsReferenceParameter", "true"); //$NON-NLS-1$ //$NON-NLS-2$
-            }
-            outAddrHeaders.addHeaderElement(el);
-         }
+          for (Element element : outAddrHeaders.getRecipient().getReferenceProperties()) {
+              Element el = AeXmlUtil.cloneElement(element);
+              if (el.getNamespaceURI().equals(IAeConstants.WSA_NAMESPACE_URI_2005_08)) {
+                  el.setAttributeNS(IAeConstants.WSA_NAMESPACE_URI_2005_08, "wsa:IsReferenceParameter", "true"); //$NON-NLS-1$ //$NON-NLS-2$
+              }
+              outAddrHeaders.addHeaderElement(el);
+          }
       }
       catch (AeWsAddressingException wse)
       {
@@ -316,15 +313,13 @@ public class AePartnerAddressing implements IAePartnerAddressing
          if (wsdlService != null)
          {
             Map ports = wsdlService.getPorts();
-            for (Iterator it = ports.values().iterator(); it.hasNext();)
-            {
-               Port port = (Port) it.next();
-               if (port.getBinding().getPortType().getQName().equals(portType))
-               {
-                  myRoleRef.setServicePort(port.getName());
-                  break;
-               }
-            }
+             for (Object o : ports.values()) {
+                 Port port = (Port) o;
+                 if (port.getBinding().getPortType().getQName().equals(portType)) {
+                     myRoleRef.setServicePort(port.getName());
+                     break;
+                 }
+             }
          }
       }
       List<Element> policies = service.getAny();
@@ -332,10 +327,9 @@ public class AePartnerAddressing implements IAePartnerAddressing
       {
          try
          {
-            for (Iterator it = policies.iterator(); it.hasNext();)
-            {
-               myRoleRef.addPolicyElement((Element) it.next());
-            }
+             for (Element policy : policies) {
+                 myRoleRef.addPolicyElement(policy);
+             }
             
             // create a correlation header
             if (aConversationId != null)

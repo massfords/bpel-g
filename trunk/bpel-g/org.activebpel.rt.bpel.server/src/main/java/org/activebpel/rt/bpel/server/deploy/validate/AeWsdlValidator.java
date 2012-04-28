@@ -9,13 +9,7 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpel.server.deploy.validate;
 
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.Map;
-
-import javax.wsdl.Message;
-import javax.wsdl.Part;
-
+import bpelg.services.deploy.types.catalog.Catalog;
 import org.activebpel.rt.AeException;
 import org.activebpel.rt.AeWSDLException;
 import org.activebpel.rt.bpel.def.validation.IAeBaseErrorReporter;
@@ -28,7 +22,11 @@ import org.activebpel.rt.bpel.server.wsdl.AeResourceResolver;
 import org.activebpel.rt.util.AeUtil;
 import org.activebpel.rt.wsdl.def.AeBPELExtendedWSDLDef;
 
-import bpelg.services.deploy.types.catalog.Catalog;
+import javax.wsdl.Message;
+import javax.wsdl.Part;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.Map;
 
 /**
  * Validates that the wsdl def we're working with doesn't contain any undefined
@@ -121,15 +119,14 @@ public class AeWsdlValidator implements IAePredeploymentValidator {
 			IAeBpr aBprFile) throws AeWSDLException {
 		Map missingFiles = aCatalog.getMissingResources();
 		if (missingFiles.size() > 0) {
-			StringBuffer buffer = new StringBuffer();
+			StringBuilder buffer = new StringBuilder();
 			String delim = ""; //$NON-NLS-1$
-			for (Iterator iter = missingFiles.values().iterator(); iter
-					.hasNext();) {
-				IAeCatalogMapping mapping = (IAeCatalogMapping) iter.next();
-				buffer.append(delim);
-				buffer.append(mapping.getLocationHint());
-				delim = ","; //$NON-NLS-1$
-			}
+            for (Object o : missingFiles.values()) {
+                IAeCatalogMapping mapping = (IAeCatalogMapping) o;
+                buffer.append(delim);
+                buffer.append(mapping.getLocationHint());
+                delim = ","; //$NON-NLS-1$
+            }
 			String message = AeMessages.format(
 					"AeWsdlValidator.MISSING_RESOURCE", buffer.toString()); //$NON-NLS-1$
 			throw new AeWSDLException(message);
@@ -142,28 +139,27 @@ public class AeWsdlValidator implements IAePredeploymentValidator {
 	public void validateDef(AeBPELExtendedWSDLDef aDef,
 			IAeBaseErrorReporter aReporter) {
 		Map messageMap = aDef.getMessages();
-		for (Iterator it = messageMap.values().iterator(); it.hasNext();) {
-			Message message = (Message) it.next();
-			if (message.isUndefined()) {
-				String[] args = { aDef.getLocationHint(),
-						message.getQName().toString() };
-				aReporter.addWarning(
-						AeMessages.getString("AeWsdlValidator.0"), args, null); //$NON-NLS-1$
-			} else {
-				Map partMap = message.getParts();
-				for (Iterator partIter = partMap.values().iterator(); partIter
-						.hasNext();) {
-					Part part = (Part) partIter.next();
-					if (AeUtil.isNullOrEmpty(part.getName())) {
-						String[] args = { aDef.getLocationHint(),
-								message.getQName().toString() };
-						aReporter
-								.addWarning(
-										AeMessages
-												.getString("AeWsdlValidator.PART_WITH_NO_NAME_ERROR"), args, null); //$NON-NLS-1$
-					}
-				}
-			}
-		}
+        for (Object o : messageMap.values()) {
+            Message message = (Message) o;
+            if (message.isUndefined()) {
+                String[] args = {aDef.getLocationHint(),
+                        message.getQName().toString()};
+                aReporter.addWarning(
+                        AeMessages.getString("AeWsdlValidator.0"), args, null); //$NON-NLS-1$
+            } else {
+                Map partMap = message.getParts();
+                for (Object o1 : partMap.values()) {
+                    Part part = (Part) o1;
+                    if (AeUtil.isNullOrEmpty(part.getName())) {
+                        String[] args = {aDef.getLocationHint(),
+                                message.getQName().toString()};
+                        aReporter
+                                .addWarning(
+                                        AeMessages
+                                                .getString("AeWsdlValidator.PART_WITH_NO_NAME_ERROR"), args, null); //$NON-NLS-1$
+                    }
+                }
+            }
+        }
 	}
 }

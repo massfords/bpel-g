@@ -71,7 +71,7 @@ public class AeProcessSnapshot implements IAeProcessSnapshot
    protected AeCorrelationSet getCorrelationSet(String aLocationPath, int aVersionNumber)
    {
       Map<Integer,AeCorrelationSet> versionNumbersMap = getCorrelationSetLocationPathsMap().get(aLocationPath);
-      return (versionNumbersMap == null) ? null : (AeCorrelationSet) versionNumbersMap.get(aVersionNumber);
+      return (versionNumbersMap == null) ? null : versionNumbersMap.get(aVersionNumber);
    }
 
    /**

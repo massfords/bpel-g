@@ -10,13 +10,13 @@
 
 package org.activebpel.rt.bpel.def.activity;
 
+import org.activebpel.rt.bpel.def.AeActivityDef;
+import org.activebpel.rt.bpel.def.visitors.IAeDefVisitor;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.StringTokenizer;
-
-import org.activebpel.rt.bpel.def.AeActivityDef;
-import org.activebpel.rt.bpel.def.visitors.IAeDefVisitor;
 
 /**
  * Models the validate activity introduced in WS-BPEL 2.0 (in section 8.1 of the spec).
@@ -40,7 +40,7 @@ public class AeActivityValidateDef extends AeActivityDef
     */
    public String getVariablesAsString()
    {
-      StringBuffer buff = new StringBuffer();
+      StringBuilder buff = new StringBuilder();
       for (Iterator iter = getVariables(); iter.hasNext(); )
       {
          String variable = (String) iter.next();

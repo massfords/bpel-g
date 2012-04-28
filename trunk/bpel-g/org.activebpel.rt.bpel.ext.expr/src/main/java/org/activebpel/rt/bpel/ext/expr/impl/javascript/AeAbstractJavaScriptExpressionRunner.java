@@ -9,19 +9,14 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpel.ext.expr.impl.javascript;
 
-import java.util.Iterator;
-import java.util.Set;
-
 import org.activebpel.rt.bpel.function.IAeFunctionExecutionContext;
 import org.activebpel.rt.bpel.impl.AeBpelException;
-import org.activebpel.rt.bpel.impl.expr.AeAbstractExpressionRunner;
-import org.activebpel.rt.bpel.impl.expr.AeExprFunctionExecutionContext;
-import org.activebpel.rt.bpel.impl.expr.AeExpressionException;
-import org.activebpel.rt.bpel.impl.expr.IAeExpressionRunnerContext;
-import org.activebpel.rt.bpel.impl.expr.IAeExpressionTypeConverter;
+import org.activebpel.rt.bpel.impl.expr.*;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
 import org.mozilla.javascript.ScriptableObject;
+
+import java.util.Set;
 
 /**
  * Base class for JavaScript 1.5 expression runners. This implementation is capable of executing expressions that
@@ -60,19 +55,16 @@ public abstract class AeAbstractJavaScriptExpressionRunner extends AeAbstractExp
          
          Scriptable scope = ctx.initStandardObjects();
          // Get a list of all the function contexts installed (by namespace).
-         for (Iterator iter = aContext.getFunctionContext().getFunctionContextNamespaceList().iterator(); iter.hasNext(); )
-         {
-            String fcNS = (String) iter.next();
-            Set prefixes = aContext.getNamespaceContext().resolveNamespaceToPrefixes(fcNS);
+          for (String fcNS : aContext.getFunctionContext().getFunctionContextNamespaceList()) {
+              Set prefixes = aContext.getNamespaceContext().resolveNamespaceToPrefixes(fcNS);
 
-            // Now add a scriptable for each prefix mapped to the function context's namespace.
-            for (Iterator iter2 = prefixes.iterator(); iter2.hasNext(); )
-            {
-               String prefix = (String) iter2.next();
-               Scriptable scriptable = createFunctionContainer(funcExecContext, scope, fcNS);
-               ScriptableObject.putProperty(scope, prefix, scriptable);
-            }
-         }
+              // Now add a scriptable for each prefix mapped to the function context's namespace.
+              for (Object prefixe : prefixes) {
+                  String prefix = (String) prefixe;
+                  Scriptable scriptable = createFunctionContainer(funcExecContext, scope, fcNS);
+                  ScriptableObject.putProperty(scope, prefix, scriptable);
+              }
+          }
          return ctx.evaluateString(scope, aExpression, "<java>", 1, null); //$NON-NLS-1$
       }
       catch (AeExpressionException ee)

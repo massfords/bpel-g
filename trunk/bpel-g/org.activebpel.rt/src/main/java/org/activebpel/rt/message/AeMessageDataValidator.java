@@ -9,14 +9,6 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.message; 
 
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Map.Entry;
-
-import javax.wsdl.Message;
-import javax.wsdl.Part;
-import javax.xml.namespace.QName;
-
 import org.activebpel.rt.AeException;
 import org.activebpel.rt.AeMessages;
 import org.activebpel.rt.util.AeUtil;
@@ -26,6 +18,11 @@ import org.activebpel.rt.xml.schema.AeTypeMapping;
 import org.activebpel.rt.xml.schema.AeXmlValidator;
 import org.exolab.castor.xml.schema.XMLType;
 import org.w3c.dom.Document;
+
+import javax.wsdl.Message;
+import javax.wsdl.Part;
+import javax.xml.namespace.QName;
+import java.util.Map.Entry;
 
 /**
  * Validates each of the message parts against the expected types from the Message's definition.
@@ -83,65 +80,48 @@ public class AeMessageDataValidator
       }
       
       AeXmlValidator validator = new AeXmlValidator(aDef, aTypeMapping);
-      
-      for (Iterator iter=message.getParts().entrySet().iterator(); iter.hasNext();)
-      {
-         Map.Entry entry = (Entry) iter.next();
-         String partName = (String)entry.getKey();
-         Part part = (Part) entry.getValue();
 
-         XMLType partType = getPartType(partName);
-         Object data = aMessageData.getData(partName);
-         
-         if (data == null)
-         {
-            if (isRelaxedValidation())
-            {
-               continue;
-            }
-            else
-            {
-               return AeMessages.format("AeMessageDataValidator.NullPart", partName); //$NON-NLS-1$
-            }
-         }
-         
-         String errorMessage = null;
-         
-         if (part.getElementName() != null)
-         {
-            if (data instanceof Document)
-            {
-               errorMessage = validator.validateElement((Document) data, part.getElementName());
-            }
-            else
-            {
-               Object[] args = {part.getElementName(), data};
-               errorMessage = AeMessages.format("AeMessageDataValidator.MissingElementDocument", args); //$NON-NLS-1$
-            }
-         }
-         else if (AeXmlUtil.isComplexOrAny(partType))
-         {
-            if (data instanceof Document)
-            {
-               errorMessage = validator.validateComplexType((Document) data, part.getTypeName());
-            }
-            else
-            {
-               Object[] args = {part.getTypeName(), data};
-               errorMessage = AeMessages.format("AeMessageDataValidator.MissingTypeDocument", args); //$NON-NLS-1$
-            }
-         }
-         else
-         {
-            errorMessage = validator.validateSimpleType(part.getName(), data, part.getTypeName());
-         }
+       for (Object o : message.getParts().entrySet()) {
+           Entry entry = (Entry) o;
+           String partName = (String) entry.getKey();
+           Part part = (Part) entry.getValue();
 
-         if (errorMessage != null)
-         {
-            Object[] args = {partName, errorMessage};
-            return AeMessages.format("AeMessageDataValidator.InvalidPart", args); //$NON-NLS-1$
-         }
-      }
+           XMLType partType = getPartType(partName);
+           Object data = aMessageData.getData(partName);
+
+           if (data == null) {
+               if (isRelaxedValidation()) {
+                   continue;
+               } else {
+                   return AeMessages.format("AeMessageDataValidator.NullPart", partName); //$NON-NLS-1$
+               }
+           }
+
+           String errorMessage = null;
+
+           if (part.getElementName() != null) {
+               if (data instanceof Document) {
+                   errorMessage = validator.validateElement((Document) data, part.getElementName());
+               } else {
+                   Object[] args = {part.getElementName(), data};
+                   errorMessage = AeMessages.format("AeMessageDataValidator.MissingElementDocument", args); //$NON-NLS-1$
+               }
+           } else if (AeXmlUtil.isComplexOrAny(partType)) {
+               if (data instanceof Document) {
+                   errorMessage = validator.validateComplexType((Document) data, part.getTypeName());
+               } else {
+                   Object[] args = {part.getTypeName(), data};
+                   errorMessage = AeMessages.format("AeMessageDataValidator.MissingTypeDocument", args); //$NON-NLS-1$
+               }
+           } else {
+               errorMessage = validator.validateSimpleType(part.getName(), data, part.getTypeName());
+           }
+
+           if (errorMessage != null) {
+               Object[] args = {partName, errorMessage};
+               return AeMessages.format("AeMessageDataValidator.InvalidPart", args); //$NON-NLS-1$
+           }
+       }
       return null;
    }
 

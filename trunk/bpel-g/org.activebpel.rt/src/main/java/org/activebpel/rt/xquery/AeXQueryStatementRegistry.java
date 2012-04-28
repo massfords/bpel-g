@@ -129,13 +129,12 @@ public class AeXQueryStatementRegistry
       {
          String prefix = "aexq"; //$NON-NLS-1$
          List nodes = AeXPathUtil.selectNodes(aElement, "/aexq:statements/aexq:statement", prefix, STATEMENT_FILE_NS); //$NON-NLS-1$
-         for (Iterator iter = nodes.iterator(); iter.hasNext(); )
-         {
-            Element statementElem = (Element) iter.next();
-            String name = AeXPathUtil.selectText(statementElem, "aexq:name", prefix, STATEMENT_FILE_NS); //$NON-NLS-1$
-            String xquery = AeXPathUtil.selectText(statementElem, "aexq:xquery", prefix, STATEMENT_FILE_NS); //$NON-NLS-1$
-            getXQueries().put(name, xquery);
-         }
+          for (Object node : nodes) {
+              Element statementElem = (Element) node;
+              String name = AeXPathUtil.selectText(statementElem, "aexq:name", prefix, STATEMENT_FILE_NS); //$NON-NLS-1$
+              String xquery = AeXPathUtil.selectText(statementElem, "aexq:xquery", prefix, STATEMENT_FILE_NS); //$NON-NLS-1$
+              getXQueries().put(name, xquery);
+          }
       }
       catch (AeException ex)
       {

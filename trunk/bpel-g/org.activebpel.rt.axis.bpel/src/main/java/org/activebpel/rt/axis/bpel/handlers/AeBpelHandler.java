@@ -397,31 +397,26 @@ public abstract class AeBpelHandler extends AeHandler implements IAePolicyConsta
          try
          {
             // Create the SOAP Message attachments
-            for(Iterator<IAeWebServiceAttachment> attachmentItr = attachments.iterator(); attachmentItr.hasNext();)
-            {
-               IAeWebServiceAttachment attachment = attachmentItr.next();
-               AttachmentPart soapAttachment = soapMessage.createAttachmentPart();
-               String mimeType = attachment.getMimeType();
-               soapAttachment.setContent(attachment.getContent(),mimeType);
-               soapAttachment.setContentId(attachment.getContentId());
-               // add attachment headers
-               Map<String,String> headers = attachment.getMimeHeaders();
-               for (Iterator<Entry<String,String>> i = headers.entrySet().iterator(); i.hasNext();)
-               {
-                  Entry<String,String> pair = i.next();
-                  soapAttachment.addMimeHeader(pair.getKey(), pair.getValue());
-               }
-               soapMessage.addAttachmentPart(soapAttachment);
-            }
+             for (IAeWebServiceAttachment attachment : attachments) {
+                 AttachmentPart soapAttachment = soapMessage.createAttachmentPart();
+                 String mimeType = attachment.getMimeType();
+                 soapAttachment.setContent(attachment.getContent(), mimeType);
+                 soapAttachment.setContentId(attachment.getContentId());
+                 // add attachment headers
+                 Map<String, String> headers = attachment.getMimeHeaders();
+                 for (Entry<String, String> pair : headers.entrySet()) {
+                     soapAttachment.addMimeHeader(pair.getKey(), pair.getValue());
+                 }
+                 soapMessage.addAttachmentPart(soapAttachment);
+             }
             
          }
          finally
          {
             // Clean up temporary files for attachments.
-            for (Iterator<IAeWebServiceAttachment> i = attachments.iterator(); i.hasNext(); )
-            {
-               AeCloser.close(i.next().getContent());
-            }
+             for (IAeWebServiceAttachment attachment : attachments) {
+                 AeCloser.close(attachment.getContent());
+             }
          }
          
          // Save changes to the message we just populated

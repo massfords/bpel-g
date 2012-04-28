@@ -9,14 +9,6 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpel.server.engine;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Set;
-import java.util.TreeSet;
-
 import org.activebpel.rt.AeException;
 import org.activebpel.rt.bpel.AeBusinessProcessException;
 import org.activebpel.rt.bpel.AePreferences;
@@ -35,6 +27,8 @@ import org.activebpel.rt.bpel.server.engine.recovery.journal.IAeJournalEntry;
 import org.activebpel.rt.bpel.server.engine.storage.AeStorageException;
 import org.activebpel.rt.bpel.server.engine.storage.IAeProcessStateStorage;
 import org.activebpel.rt.util.AeUtil;
+
+import java.util.*;
 
 /**
  * Implements recovering processes from persistent process storage.
@@ -114,19 +108,15 @@ public class AePersistentProcessRecovery implements IAeProcessRecovery
    {
       Set<Long> result = new HashSet<Long>();
       boolean restartEnabled = AePreferences.isRestartEnabled();
-      for (Iterator i = aJournalEntries.iterator(); i.hasNext(); )
-      {
-         IAeJournalEntry entry = (IAeJournalEntry) i.next();
-         if (restartEnabled && isCreateInstance(entry))
-         {
-            // skip over the entry if it's the create instance one
-            // we flip this to a restart item instead of marking it as done.
-         }
-         else
-         {
-         result.add(entry.getJournalId());
-      }
-      }
+       for (Object je : aJournalEntries) {
+           IAeJournalEntry entry = (IAeJournalEntry) je;
+           if (restartEnabled && isCreateInstance(entry)) {
+               // skip over the entry if it's the create instance one
+               // we flip this to a restart item instead of marking it as done.
+           } else {
+               result.add(entry.getJournalId());
+           }
+       }
 
       return result;
    }
@@ -230,16 +220,14 @@ public class AePersistentProcessRecovery implements IAeProcessRecovery
    {
       AeInvokeRecoveryEvaluator evaluator = new AeInvokeRecoveryEvaluator();
 
-      for (Iterator i = aPendingInvokes.iterator(); i.hasNext(); )
-      {
-         AeActivityInvokeImpl invoke = (AeActivityInvokeImpl) i.next();
-         evaluator.setInvoke(invoke);
+       for (Object pi : aPendingInvokes) {
+           AeActivityInvokeImpl invoke = (AeActivityInvokeImpl) pi;
+           evaluator.setInvoke(invoke);
 
-         if (evaluator.isSuspendProcessRequired())
-         {
-            return invoke.getLocationPath();
-         }
-      }
+           if (evaluator.isSuspendProcessRequired()) {
+               return invoke.getLocationPath();
+           }
+       }
 
       return null;
    }
@@ -277,13 +265,12 @@ public class AePersistentProcessRecovery implements IAeProcessRecovery
          {
             // Grab mutexes for the processes that require recovery. We release
             // the mutexes in recover() as we recover individual processes.
-            for (Iterator i = ids.iterator(); i.hasNext(); )
-            {
-               long processId = ((Number) i.next()).longValue();
+             for (Object id : ids) {
+                 long processId = ((Number) id).longValue();
 
-               getProcessManager().acquireProcessMutex(processId);
-               getPreparedProcessIds().add(processId);
-            }
+                 getProcessManager().acquireProcessMutex(processId);
+                 getPreparedProcessIds().add(processId);
+             }
          }
          finally
          {
@@ -331,68 +318,55 @@ public class AePersistentProcessRecovery implements IAeProcessRecovery
       debug("Recovering " + n + " process" + ((n == 1) ? "" : "es")); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
 
       // Iterate over process ids that have been prepared for recovery.
-      for (Iterator i = ids.iterator(); i.hasNext(); )
-      {
-         long processId = ((Number) i.next()).longValue();
+       for (Long id : ids) {
+           long processId = id.longValue();
 
-         try
-         {
-            IAeBusinessProcess process;
+           try {
+               IAeBusinessProcess process;
 
-            try
-            {
-               // Fix defect 1527, "Getting an IllegalArgumentException when
-               // recovery is attempting to be done but the server is in the
-               // middle of shutting down," by performing recovery only while
-               // the engine is running. When someone tries to shut down the
-               // engine, AeBpelEngine transitions first to the state
-               // IAeEngineAdministration.STOPPING, which is not a running
-               // state. This gives us a chance to get out of recovery before
-               // the engine stops the timer manager (because we are running
-               // under a mutex that keeps the process manager from stopping
-               // while we are in this loop).
-               //
-               // This test also addresses defect 1475, "You cannot stop the
-               // ActiveBPEL engine while it is in the middle of recovery,"
-               // because recovery stops as soon as the engine starts to shut
-               // down.
-               if (isEngineRunning())
-               {
-                  process = getProcess(processId);
+               try {
+                   // Fix defect 1527, "Getting an IllegalArgumentException when
+                   // recovery is attempting to be done but the server is in the
+                   // middle of shutting down," by performing recovery only while
+                   // the engine is running. When someone tries to shut down the
+                   // engine, AeBpelEngine transitions first to the state
+                   // IAeEngineAdministration.STOPPING, which is not a running
+                   // state. This gives us a chance to get out of recovery before
+                   // the engine stops the timer manager (because we are running
+                   // under a mutex that keeps the process manager from stopping
+                   // while we are in this loop).
+                   //
+                   // This test also addresses defect 1475, "You cannot stop the
+                   // ActiveBPEL engine while it is in the middle of recovery,"
+                   // because recovery stops as soon as the engine starts to shut
+                   // down.
+                   if (isEngineRunning()) {
+                       process = getProcess(processId);
+                   } else {
+                       process = null;
+                   }
+               } finally {
+                   // Make sure to release the process mutex that we acquired in
+                   // prepareToRecover(), but remember that releaseProcess() has to
+                   // be the last call in order to persist the recovered state.
+                   getProcessManager().releaseProcessMutex(processId);
                }
-               else
-               {
-                  process = null;
-               }
-            }
-            finally
-            {
-               // Make sure to release the process mutex that we acquired in
-               // prepareToRecover(), but remember that releaseProcess() has to
-               // be the last call in order to persist the recovered state.
-               getProcessManager().releaseProcessMutex(processId);
-            }
 
-            if (process != null)
-            {
-               try
-               {
-                  recover(process);
+               if (process != null) {
+                   try {
+                       recover(process);
+                   } finally {
+                       releaseProcess(process);
+                   }
                }
-               finally
-               {
-                  releaseProcess(process);
-               }
-            }
-         }
-         // Catch even null pointer and other runtime exceptions here to
-         // prevent problems recovering one process from affecting other
-         // processes or engine startup.
-         catch (Throwable t)
-         {
-            AeException.logError(t, AeMessages.format("AePersistentProcessRecovery.ERROR_12", processId)); //$NON-NLS-1$
-         }
-      }
+           }
+           // Catch even null pointer and other runtime exceptions here to
+           // prevent problems recovering one process from affecting other
+           // processes or engine startup.
+           catch (Throwable t) {
+               AeException.logError(t, AeMessages.format("AePersistentProcessRecovery.ERROR_12", processId)); //$NON-NLS-1$
+           }
+       }
 
       long elapsed = System.currentTimeMillis() - millis;
       debug("Recovery done (" + elapsed + " millis)"); //$NON-NLS-1$ //$NON-NLS-2$
@@ -511,29 +485,24 @@ public class AePersistentProcessRecovery implements IAeProcessRecovery
     */
    protected void restartPendingInvokes(IAeBusinessProcess aProcess, Set aPendingInvokes) throws AeBusinessProcessException
    {
-      for (Iterator i = aPendingInvokes.iterator(); i.hasNext(); )
-      {
-         AeActivityInvokeImpl invoke = (AeActivityInvokeImpl) i.next();
-         if (invoke.isPending())
-         {
-            try
-            {
-               invoke.queueInvoke(null);
-            }
-            catch (AeBusinessProcessException e)
-            {
-               long processId = aProcess.getProcessId();
-               int locationId = invoke.getLocationId();
-               Object[] params = new Object[] { String.valueOf(processId), String.valueOf(locationId) };
+       for (Object pi : aPendingInvokes) {
+           AeActivityInvokeImpl invoke = (AeActivityInvokeImpl) pi;
+           if (invoke.isPending()) {
+               try {
+                   invoke.queueInvoke(null);
+               } catch (AeBusinessProcessException e) {
+                   long processId = aProcess.getProcessId();
+                   int locationId = invoke.getLocationId();
+                   Object[] params = new Object[]{String.valueOf(processId), String.valueOf(locationId)};
 
-               // Report the problem.
-               AeException.logError(e, AeMessages.format("AePersistentProcessRecovery.ERROR_RestartInvoke", params)); //$NON-NLS-1$
+                   // Report the problem.
+                   AeException.logError(e, AeMessages.format("AePersistentProcessRecovery.ERROR_RestartInvoke", params)); //$NON-NLS-1$
 
-               // Give the process a chance to handle the failed invoke.
-               aProcess.handleExecutableItemException(invoke, e);
-            }
-         }
-      }
+                   // Give the process a chance to handle the failed invoke.
+                   aProcess.handleExecutableItemException(invoke, e);
+               }
+           }
+       }
    }
 
    /**
@@ -560,15 +529,11 @@ public class AePersistentProcessRecovery implements IAeProcessRecovery
       List<IAeJournalEntry> entries = new ArrayList<IAeJournalEntry>(aEntries.size());
 
       // Add all but the restart process journal entry.
-      for (Iterator<IAeJournalEntry> i = aEntries.iterator(); i.hasNext(); )
-      {
-         IAeJournalEntry entry = i.next();
-
-         if (!(entry instanceof AeRestartProcessJournalEntry))
-         {
-            entries.add(entry);
-         }
-      }
+       for (IAeJournalEntry entry : aEntries) {
+           if (!(entry instanceof AeRestartProcessJournalEntry)) {
+               entries.add(entry);
+           }
+       }
 
       return entries;
    }

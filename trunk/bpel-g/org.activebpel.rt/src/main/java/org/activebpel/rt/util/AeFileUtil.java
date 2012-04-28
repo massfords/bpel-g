@@ -9,18 +9,13 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.util;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
+import org.activebpel.rt.AeMessages;
+
+import java.io.*;
 import java.text.MessageFormat;
 import java.util.StringTokenizer;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
-
-import org.activebpel.rt.AeMessages;
 
 /**
  * Common file utility methods.
@@ -129,17 +124,13 @@ public class AeFileUtil
 
       if( files != null )
       {
-         for( int i = 0; i < files.length; i++ )
-         {
-            if( files[i].isFile() )
-            {
-               files[i].delete();
-            }
-            else
-            {
-               recursivelyDelete( files[i] );
-            }
-         }
+          for (File file : files) {
+              if (file.isFile()) {
+                  file.delete();
+              } else {
+                  recursivelyDelete(file);
+              }
+          }
       }
       aDirectory.delete();
    }
@@ -405,7 +396,7 @@ public class AeFileUtil
             // Remove common root folders from the location.
             locationToken = new StringTokenizer(locationPath.trim(), "/"); //$NON-NLS-1$
             int x = 0;
-            StringBuffer buffer = new StringBuffer();
+            StringBuilder buffer = new StringBuilder();
             while ( locationToken.hasMoreTokens() )
             {
                String token = locationToken.nextToken();
@@ -421,7 +412,7 @@ public class AeFileUtil
             buffer.append("/").append(location.substring(location.lastIndexOf('/')+1)); //$NON-NLS-1$
             
             // insert parent path indicators "../" as needed.
-            StringBuffer parents = new StringBuffer();
+            StringBuilder parents = new StringBuilder();
             for(int i=0; i< (baseTokenCount-commonFolders); i++)
             {
                if (parents.length()>0)

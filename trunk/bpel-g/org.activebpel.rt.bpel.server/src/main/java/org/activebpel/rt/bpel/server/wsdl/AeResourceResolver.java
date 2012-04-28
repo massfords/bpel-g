@@ -9,16 +9,16 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpel.server.wsdl;
 
-import java.io.IOException;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
-
 import org.activebpel.rt.AeWSDLException;
 import org.activebpel.rt.bpel.server.catalog.AeCatalogMappings;
 import org.activebpel.rt.bpel.server.catalog.IAeCatalogMapping;
 import org.activebpel.rt.wsdl.def.AeBPELExtendedWSDLDef;
 import org.activebpel.rt.wsdl.def.AeStandardSchemaResolver;
 import org.xml.sax.InputSource;
+
+import java.io.IOException;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Contains a map of location hints to actual mappings
@@ -37,10 +37,9 @@ public class AeResourceResolver implements IAeResourceResolver
     */
    public void addEntries( IAeCatalogMapping[] aMappings, boolean aOverwriteFlag )
    {
-      for( int i = 0; i < aMappings.length; i++ )
-      {
-         addEntry( aMappings[i], aOverwriteFlag );
-      }
+       for (IAeCatalogMapping m : aMappings) {
+           addEntry(m, aOverwriteFlag);
+       }
    }
    
    /**

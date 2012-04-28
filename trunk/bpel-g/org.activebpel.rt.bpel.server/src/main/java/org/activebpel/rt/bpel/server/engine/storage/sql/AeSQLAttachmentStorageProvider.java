@@ -135,7 +135,7 @@ public class AeSQLAttachmentStorageProvider extends AeAbstractSQLStorageProvider
             {
                     aAttachmentGroupId,
                     attachmentId,
-               (aHeaders != null) ? (Object)AePairSerializer.serialize(aHeaders) : AeQueryRunner.NULL_CLOB,
+               (aHeaders != null) ? AePairSerializer.serialize(aHeaders) : AeQueryRunner.NULL_CLOB,
                content
             };
 

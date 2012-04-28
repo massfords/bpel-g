@@ -9,9 +9,6 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpel.server.engine.process;
 
-import java.util.Iterator;
-import java.util.Set;
-
 import org.activebpel.rt.bpel.AeBusinessProcessException;
 import org.activebpel.rt.bpel.IAeBusinessProcess;
 import org.activebpel.rt.bpel.impl.IAeBusinessProcessEngineInternal;
@@ -20,6 +17,8 @@ import org.activebpel.rt.bpel.server.engine.IAePersistentProcessManager;
 import org.activebpel.rt.bpel.server.engine.storage.IAeProcessStateConnection;
 import org.activebpel.rt.bpel.server.engine.storage.IAeProcessStateStorage;
 import org.w3c.dom.Document;
+
+import java.util.Set;
 
 /**
  * Reads process state from persistent storage.
@@ -113,24 +112,21 @@ public class AeProcessStateReader implements IAeProcessStateReader
          IAeProcessSnapshot snapshot = aProcess.getProcessSnapshot();
 
          // Iterate through all live variable location paths.
-         for (Iterator i = snapshot.getVariableLocationPaths().iterator(); i.hasNext(); )
-         {
-            String locationPath = (String) i.next();
-            int locationId = aProcess.getLocationId(locationPath);
-            Set versionNumbers = snapshot.getVariableVersionNumbers(locationPath);
+          for (Object o : snapshot.getVariableLocationPaths()) {
+              String locationPath = (String) o;
+              int locationId = aProcess.getLocationId(locationPath);
+              Set versionNumbers = snapshot.getVariableVersionNumbers(locationPath);
 
-            // Iterate through all version numbers for this location path.
-            for (Iterator j = versionNumbers.iterator(); j.hasNext(); )
-            {
-               int versionNumber = ((Number) j.next()).intValue();
-               Document variableDocument = aConnection.getVariableDocument(locationId, versionNumber);
+              // Iterate through all version numbers for this location path.
+              for (Object vn : versionNumbers) {
+                  int versionNumber = ((Number) vn).intValue();
+                  Document variableDocument = aConnection.getVariableDocument(locationId, versionNumber);
 
-               if (variableDocument != null)
-               {
-                  snapshot.setVariableData(locationPath, versionNumber, variableDocument);
-               }
-            }
-         }
+                  if (variableDocument != null) {
+                      snapshot.setVariableData(locationPath, versionNumber, variableDocument);
+                  }
+              }
+          }
       }
    }
 }
