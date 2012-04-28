@@ -21,11 +21,11 @@ import java.util.concurrent.ConcurrentHashMap;
 public class AeSpringManager extends AeManagerAdapter {
 
     /** map of contexts */
-    private Map<String,GenericApplicationContext> mContextMap = new ConcurrentHashMap<String, GenericApplicationContext>();
+    private final Map<String,GenericApplicationContext> mContextMap = new ConcurrentHashMap<String, GenericApplicationContext>();
     /** map of process qnames to their contexts */
-    private Map<QName,GenericApplicationContext> mQNameContextMap = new ConcurrentHashMap<QName, GenericApplicationContext>();
+    private final Map<QName,GenericApplicationContext> mQNameContextMap = new ConcurrentHashMap<QName, GenericApplicationContext>();
     /** map of keys to sets */
-    private Map<String,Set<QName>> mNameMap = new ConcurrentHashMap<String, Set<QName>>();
+    private final Map<String,Set<QName>> mNameMap = new ConcurrentHashMap<String, Set<QName>>();
 
     /* start all of the contexts upon manager start
      * @see org.activebpel.rt.bpel.impl.AeManagerAdapter#start()

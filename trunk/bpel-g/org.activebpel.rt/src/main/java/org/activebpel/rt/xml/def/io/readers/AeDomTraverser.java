@@ -26,11 +26,11 @@ import org.w3c.dom.NodeList;
 public class AeDomTraverser
 {
    /** registry for bpel element readers */
-   private IAeDefRegistry mRegistry;
+   private final IAeDefRegistry mRegistry;
    /** AeProcessDef result of deserialization */
    private AeBaseXmlDef mRootDef;
    /** preserves comments for bpel and extension element objects */
-   private AeCommentIO mCommentIO;
+   private final AeCommentIO mCommentIO;
    /** determines which DOM elements should be traversed */
    private IAeTraversalFilter mTraversalFilter;
    

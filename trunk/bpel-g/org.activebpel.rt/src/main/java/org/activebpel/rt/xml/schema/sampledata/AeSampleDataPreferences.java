@@ -33,7 +33,7 @@ public class AeSampleDataPreferences implements IAeSampleDataPreferences
    private int mElementRepeatCount = 1;
 
    /** The preferred namespace prefix map. */
-   private Map<String, String> mNamespaceMap = new HashMap<String, String>();
+   private final Map<String, String> mNamespaceMap = new HashMap<String, String>();
 
    /** The limit or depth of recursive structure references. */
    private int mRecursionLimit = 2;
@@ -57,7 +57,7 @@ public class AeSampleDataPreferences implements IAeSampleDataPreferences
    private AeSimpleTypeSampleDataProducer mDataProducer = new AeSimpleTypeSampleDataProducer();
    
    /** map of QNames to data to use for mixed complex types */
-   private Map mMixedDataMap = new HashMap();
+   private final Map mMixedDataMap = new HashMap();
    
    /** The preferred display prefix string. */
    private static final String PREFERRED_PREFIX = "ns"; //$NON-NLS-1$

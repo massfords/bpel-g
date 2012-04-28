@@ -30,7 +30,7 @@ import org.activebpel.rt.util.AeUtil;
 public class AeInMemoryCatalogListing
 {
    /** Sort by wsdl namespace. */
-   private static AeResourceSorter SORTER = new AeResourceSorter();
+   private static final AeResourceSorter SORTER = new AeResourceSorter();
 
    /**
     * Create the <code>AeCatalogListResult</code>.
@@ -38,9 +38,7 @@ public class AeInMemoryCatalogListing
     * @param aLocationHintsToMapping Used to for mapping list.
     * @throws AeWSDLException
     */
-   public static AeCatalogListResult extractListing(AeCatalogListingFilter aFilter, Map aLocationHintsToMapping)
-         throws AeWSDLException
-   {
+   public static AeCatalogListResult extractListing(AeCatalogListingFilter aFilter, Map aLocationHintsToMapping) {
       // create the container for the listing details
       List<AeCatalogItem> results = new ArrayList<AeCatalogItem>();
 

@@ -16,7 +16,7 @@ import static org.junit.Assert.assertEquals;
 
 @Ignore
 public class AeProcessServiceIntegrationTest {
-	AeProcessFixture pfix = new AeProcessFixture();
+	final AeProcessFixture pfix = new AeProcessFixture();
 
 	@Before
 	public void setUp() throws Exception {

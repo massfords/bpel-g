@@ -32,7 +32,7 @@ public class AeActivityPickImpl extends AeActivityImpl implements IAeEventParent
    /**
     * Container for the messages and alarms.
     */
-   private AeEventHandlers mEvents = new AeEventHandlers();
+   private final AeEventHandlers mEvents = new AeEventHandlers();
    
    /** default constructor for activity */
    public AeActivityPickImpl(AeActivityPickDef aActivityDef, IAeActivityParent aParent)

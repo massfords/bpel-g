@@ -31,9 +31,9 @@ import java.util.Properties;
 
 public class AeDebugConnection implements Connection
 {
-   private Connection mDelegate;
+   private final Connection mDelegate;
    private int mCloseCount;
-   private static Hashtable<AeDebugConnection, RuntimeException> sOpenConnections = new Hashtable<AeDebugConnection, RuntimeException>();
+   private static final Hashtable<AeDebugConnection, RuntimeException> sOpenConnections = new Hashtable<AeDebugConnection, RuntimeException>();
    
    public AeDebugConnection(Connection aDelegate)
    {

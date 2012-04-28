@@ -17,7 +17,7 @@ import org.activebpel.rt.bpel.def.activity.AeActivityInvokeDef;
 public class AePartnerLinkValidationVisitor extends AeAbstractSearchVisitor
 {
    /** The partner link name being validated */
-   private String mPartnerLinkName;
+   private final String mPartnerLinkName;
    /** Flag indicating if invoke reference was found */
    private boolean mReferenceFound;
 

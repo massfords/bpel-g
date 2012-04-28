@@ -24,11 +24,11 @@ import bpelg.services.deploy.types.pdd.PartnerRoleEndpointReferenceType;
  */
 public class AePartnerLinkDescriptor {
 
-	private PartnerLinkType mPlinkType;
+	private final PartnerLinkType mPlinkType;
 	/** Parnter endpoint reference. */
 	protected IAeEndpointReference mPartnerEndpointReference;
 	/** Partner link path. */
-	protected int mPartnerLinkId;
+	protected final int mPartnerLinkId;
 	
 	public AePartnerLinkDescriptor(PartnerLinkType aType, int aPartnerLinkId) throws AeBusinessProcessException {
 		mPlinkType = aType;

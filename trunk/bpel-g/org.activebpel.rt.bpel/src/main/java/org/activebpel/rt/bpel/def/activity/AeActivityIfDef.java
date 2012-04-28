@@ -31,7 +31,7 @@ public class AeActivityIfDef extends AeActivityDef implements IAeSingleActivityC
     /** A container for the condition and activity children of the if activity. */
    private AeIfDef mIfDef;
    /** The list of 'elseif' constructs in this if. */
-   private List<AeElseIfDef> mElseIfs = new ArrayList<AeElseIfDef>();
+   private final List<AeElseIfDef> mElseIfs = new ArrayList<AeElseIfDef>();
    /** The final else child. */
    private AeElseDef mElse;
 

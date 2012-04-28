@@ -19,10 +19,10 @@ import org.w3c.dom.Element;
 public class AeElementHolder
 {
    /** The xsi:type value for the element we're holding. */
-   private QName mType;
+   private final QName mType;
    
    /** element we're holding */
-   private Element mElement;
+   private final Element mElement;
    
    /**
     * Constructor

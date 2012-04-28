@@ -30,7 +30,7 @@ public class AeFault implements IAeFault
      */
     private static final long serialVersionUID = 6069907015589616523L;
 /** fault name */
-   private QName mName;
+   private final QName mName;
    /** fault message data */
    private IAeMessageData mMessageData;
    /** fault element data. */

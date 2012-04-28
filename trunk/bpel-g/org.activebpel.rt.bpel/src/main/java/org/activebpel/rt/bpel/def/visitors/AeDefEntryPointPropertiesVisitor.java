@@ -37,9 +37,9 @@ import org.activebpel.rt.message.AeMessagePartsMap;
 public class AeDefEntryPointPropertiesVisitor extends AeAbstractDefVisitor
 {
    /** map for correlation properties */
-   private Map<AePartnerLinkOpKey, Set<QName>> mPropertiesMap;
+   private final Map<AePartnerLinkOpKey, Set<QName>> mPropertiesMap;
    /** map of plink/op keys to messagePartsMaps */
-   private Map<AePartnerLinkOpKey, AeMessagePartsMap> mMessagePartsMap;
+   private final Map<AePartnerLinkOpKey, AeMessagePartsMap> mMessagePartsMap;
 
    /**
     * Constructor.

@@ -24,7 +24,7 @@ public class AeMissingReplyReceiver implements IAeReplyReceiver
    /**
     * Reply id of the associated inbound receive.
     */
-   private long mInboundReceiveReplyId;
+   private final long mInboundReceiveReplyId;
 
    /**
     * Contructs a missing reply receiver given reply id.

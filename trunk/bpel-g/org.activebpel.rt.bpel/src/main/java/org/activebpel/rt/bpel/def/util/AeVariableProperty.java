@@ -17,9 +17,9 @@ import javax.xml.namespace.QName;
 public class AeVariableProperty
 {
    /** The variable name parameter of the function call */
-   private String mVarName;
+   private final String mVarName;
    /** The variable property parameter of the function call */
-   private QName mProperty;
+   private final QName mProperty;
 
    /**
     * Constructor for variableProperty element which takes the parameter values

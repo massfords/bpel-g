@@ -50,7 +50,7 @@ public class AeCastorToAeStructure
    private AeStructure mCurrent;
    
    /** Stack for regulating recursion depth. */
-   private Stack mCastorStack = new Stack();
+   private final Stack mCastorStack = new Stack();
 
    /** Sample data preferences. */
    private IAeSampleDataPreferences mPreferences;

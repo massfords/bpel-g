@@ -25,9 +25,9 @@ public class AeThreadPool
    /** maximum number of free and working threads */
    private int mMaxPoolSize = 10;
    /** pooled threads that are available for work */
-   private Collection<AeWorkerThread> mFreeThreads = new LinkedList<AeWorkerThread>();
+   private final Collection<AeWorkerThread> mFreeThreads = new LinkedList<AeWorkerThread>();
    /** threads that are currently busy working */
-   private Set<AeWorkerThread> mWorkingThreads = new HashSet<AeWorkerThread>();
+   private final Set<AeWorkerThread> mWorkingThreads = new HashSet<AeWorkerThread>();
    /** increments with each thread we create, used for the thread name */
    private long mThreadCounter = 1;
    

@@ -37,7 +37,7 @@ import java.util.Map;
 public abstract class AeAbstractAttachmentManager extends AeManagerAdapter implements IAeAttachmentManager
 {
    /** A flag indicating whether we are in debug mode. */
-   private boolean mDebug = false;
+   private final boolean mDebug = false;
 
    public AeAbstractAttachmentManager()
    {

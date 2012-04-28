@@ -24,7 +24,7 @@ public class AeIdentityServiceBean extends AeAbstractAdminBean
    /** file config map. */
     //   protected AeIdentityFileConfig mFileConfig;
    /** Username or principal name to test the configuration. */
-   private String mTestPrincipalName = ""; //$NON-NLS-1$
+   private final String mTestPrincipalName = ""; //$NON-NLS-1$
 
 
    /**

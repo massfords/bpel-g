@@ -29,7 +29,7 @@ public class AeEventHandlersContainer extends AeAbstractBpelObject implements IA
    /**
     * provides storage for the messages and alarms.
     */
-   private AeEventHandlers mEvents = new AeEventHandlers();
+   private final AeEventHandlers mEvents = new AeEventHandlers();
 
    /**
     * @param aDef

@@ -27,9 +27,9 @@ public class AeEventHandlersDef extends AeBaseDef
 {
    private static final long serialVersionUID = 7489121643064264023L;
    /** The list of on message definitions, may be null */
-   private List<AeOnEventDef> mOnEventList = new ArrayList<AeOnEventDef>();
+   private final List<AeOnEventDef> mOnEventList = new ArrayList<AeOnEventDef>();
    /** The list of on alaram definitions, may be null */
-   private List<AeOnAlarmDef> mOnAlarmList = new ArrayList<AeOnAlarmDef>();
+   private final List<AeOnAlarmDef> mOnAlarmList = new ArrayList<AeOnAlarmDef>();
 
    /**
     * Default constructor

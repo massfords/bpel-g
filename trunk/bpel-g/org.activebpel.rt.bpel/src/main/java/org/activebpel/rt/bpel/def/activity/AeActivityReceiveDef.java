@@ -45,7 +45,7 @@ public class AeActivityReceiveDef extends AeActivityCreateInstanceBaseDef implem
    /** name of the strategy used to consumer the message data */
    private String mMessageDataConsumerStrategy;
    /** the type of activity for display in errors */
-   private static String sDisplayTypeText = AeMessages.getString("AeActivityReceiveDef.receive"); //$NON-NLS-1$
+   private static final String sDisplayTypeText = AeMessages.getString("AeActivityReceiveDef.receive"); //$NON-NLS-1$
 
    /**
     * Default constructor

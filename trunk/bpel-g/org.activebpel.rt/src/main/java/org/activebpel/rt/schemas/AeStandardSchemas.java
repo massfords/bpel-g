@@ -9,17 +9,17 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.schemas;
 
-import java.io.InputStream;
-import java.net.URL;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
-
 import org.activebpel.rt.AeException;
 import org.activebpel.rt.AeMessages;
 import org.activebpel.rt.xml.AeXMLParserBase;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
+
+import java.io.InputStream;
+import java.net.URL;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * This class provides access to a static list of "well known" schemas, accessed by the
@@ -29,7 +29,7 @@ import org.w3c.dom.NodeList;
 public class AeStandardSchemas
 {
    /** The static map of "well known" schemas (namespace -> resource name). */
-   static private Map<String,String> sSchemaMap;
+   static private final Map<String,String> sSchemaMap = new ConcurrentHashMap<String,String>();
 
    /*
     * Static initializer for loading the contents of the above schema map.
@@ -41,7 +41,6 @@ public class AeStandardSchemas
       {
          try
          {
-            sSchemaMap = new ConcurrentHashMap<String,String>();
             AeXMLParserBase parser = new AeXMLParserBase();
             parser.setValidating(false);
             parser.setNamespaceAware(false);

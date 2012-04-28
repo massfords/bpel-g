@@ -30,7 +30,7 @@ public class AeRPCEncodedDeserializerFactory implements DeserializerFactory
    /** Supported mechanisms is singleton list for axis only deserialization */
    private static final List<String> SUPPORTED_MECHANISMS = Collections.singletonList(Constants.AXIS_SAX);
    /** context provides access to the schema types that we need to handle deserialization */
-   private IAeTypesContext mTypesContext;
+   private final IAeTypesContext mTypesContext;
    
    /**
     * Constructor for deserializer factory is configured with all of the schemas

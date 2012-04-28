@@ -34,7 +34,7 @@ public class AeOnEventDef extends AeOnMessageDef
    /** The 'element' attribute. */
    private QName mElement;
    /** the type of activity for display in errors */
-   private static String sDisplayTypeText = AeMessages.getString("AeActivityReceiveDef.onEvent"); //$NON-NLS-1$
+   private static final String sDisplayTypeText = AeMessages.getString("AeActivityReceiveDef.onEvent"); //$NON-NLS-1$
    
    /**
     * Default c'tor.

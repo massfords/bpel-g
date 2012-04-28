@@ -20,8 +20,8 @@ import java.io.FileOutputStream;
 public class FilePreferences extends AbstractPreferences {
     private static final Logger log = Logger.getLogger(FilePreferences.class.getName());
 
-    private Map<String, String> root;
-    private Map<String, FilePreferences> children;
+    private final Map<String, String> root;
+    private final Map<String, FilePreferences> children;
     private boolean isRemoved = false;
 
     public FilePreferences(AbstractPreferences parent, String name) {

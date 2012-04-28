@@ -54,7 +54,7 @@ public class AeRecoveryQueueManager extends AeBaseQueueManager implements IAeRec
    private List<AeReply> mSentReplies;
    
    /** The BPEL receive handler */
-   private AeDefaultReceiveHandler mReceiveHandler = new AeDefaultReceiveHandler();
+   private final AeDefaultReceiveHandler mReceiveHandler = new AeDefaultReceiveHandler();
 
    /**
     * The invoke transmitted journal entries. These entries associate invoke

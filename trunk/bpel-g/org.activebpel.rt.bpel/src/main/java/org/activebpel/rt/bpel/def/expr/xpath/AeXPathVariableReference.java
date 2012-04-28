@@ -11,7 +11,7 @@ import org.activebpel.rt.bpel.AeMessages;
 public class AeXPathVariableReference
 {
    /** Regexp to match the variable reference. */
-   private static Pattern VARIABLE_REFERENCE_PATTERN = Pattern.compile("(.+?)(\\.(.*))?"); //$NON-NLS-1$
+   private static final Pattern VARIABLE_REFERENCE_PATTERN = Pattern.compile("(.+?)(\\.(.*))?"); //$NON-NLS-1$
 
    /** The variable reference's variable name. */
    private String mVariableName;

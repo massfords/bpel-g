@@ -31,7 +31,7 @@ public class AeAddressHandlingType implements Serializable
     private static final long serialVersionUID = -4617863103300522859L;
 
 /** value of the address handling directive */
-   private String mValue;
+   private final String mValue;
    
    /** wsa:Address will be ignored in favor of the soap:address found in the service definition provided by wsa:ServiceName */
    public static final AeAddressHandlingType SERVICE = new AeAddressHandlingType("Service"); //$NON-NLS-1$

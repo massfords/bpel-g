@@ -40,7 +40,7 @@ public class AeFaultDeserializer implements IAeImplStateNames
    private IAeBusinessProcess mProcess;
    
    /** needed for legacy check of deserialization of old faults */
-   private static QName FORCED_TERMINATION = new QName(IAeBPELConstants.BPWS_NAMESPACE_URI, "forcedTermination"); //$NON-NLS-1$
+   private static final QName FORCED_TERMINATION = new QName(IAeBPELConstants.BPWS_NAMESPACE_URI, "forcedTermination"); //$NON-NLS-1$
 
    /**
     * Creates an instance of {@link org.activebpel.rt.bpel.IAeFault} from its

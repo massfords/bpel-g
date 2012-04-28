@@ -26,7 +26,7 @@ import java.util.*;
  */
 public class AeDirectoryScanner {
 	/** The directory to watch. */
-	private File mScanDir;
+	private final File mScanDir;
 	/** The scan interval. */
 	private long mScanInterval;
 	/** Indicates if the scan should continue. */
@@ -47,7 +47,7 @@ public class AeDirectoryScanner {
 	 * A set of manually added files that should be skipped the next time a scan
 	 * happens.
 	 */
-	private Object mDeploymentMutex = new Object();
+	private final Object mDeploymentMutex = new Object();
 
 	/**
 	 * Constructor.

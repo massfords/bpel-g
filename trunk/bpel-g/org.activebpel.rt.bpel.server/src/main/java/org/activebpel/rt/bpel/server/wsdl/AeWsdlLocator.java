@@ -30,9 +30,9 @@ public class AeWsdlLocator implements WSDLLocator
    /** The last import file which was requested */
    private String mLastImportURI;
    /** the wsdl file location */
-   private String mLocation;
+   private final String mLocation;
    /** The factory for mapping import locations to local resources */
-   private IAeResourceResolver mResolver;
+   private final IAeResourceResolver mResolver;
 
    /**
     * Constructor.

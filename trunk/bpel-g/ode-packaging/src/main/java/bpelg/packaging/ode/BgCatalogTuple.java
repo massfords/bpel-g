@@ -7,10 +7,10 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 import javax.xml.XMLConstants;
 
 public class BgCatalogTuple {
-    public String logicalLocation;
-    public String physicalLocation;
-    public String namespace;
-    public String type;
+    public final String logicalLocation;
+    public final String physicalLocation;
+    public final String namespace;
+    public final String type;
     
     public BgCatalogTuple(String logicalLocation, String physicalLocation, String namespace, String type) {
         this.logicalLocation = logicalLocation;

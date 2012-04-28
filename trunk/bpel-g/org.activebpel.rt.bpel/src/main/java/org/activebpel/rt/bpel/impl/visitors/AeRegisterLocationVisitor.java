@@ -26,7 +26,7 @@ import java.util.Iterator;
  */
 public class AeRegisterLocationVisitor extends AeImplTraversingVisitor
 {
-   private AeBusinessProcess mProcess;
+   private final AeBusinessProcess mProcess;
 
    /**
     * Construct the register location visitr with the associated business process.

@@ -27,7 +27,7 @@ import org.w3c.dom.NodeList;
  */
 public class AeXQueryTypedExpressionResult
 {
-   private static QName RESULT_TEXT_QNAME = new QName("http://saxon.sf.net/xquery-results", "text"); //$NON-NLS-1$ //$NON-NLS-2$
+   private static final QName RESULT_TEXT_QNAME = new QName("http://saxon.sf.net/xquery-results", "text"); //$NON-NLS-1$ //$NON-NLS-2$
    
    /**
     * Creates a List of AeXQueryTypedExpressionResult objects from the given result Document.  The

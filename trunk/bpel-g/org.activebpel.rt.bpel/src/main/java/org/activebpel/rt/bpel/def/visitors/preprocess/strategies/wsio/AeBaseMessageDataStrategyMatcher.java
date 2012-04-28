@@ -22,9 +22,9 @@ import org.activebpel.rt.bpel.def.visitors.preprocess.strategies.AeBaseSpec;
 public abstract class AeBaseMessageDataStrategyMatcher implements IAeMessageDataStrategyMatcher
 {
    /** map of producer specs to strategy names */
-   private Map<AeBaseSpec, String> mProducerMap = new HashMap<AeBaseSpec, String>();
+   private final Map<AeBaseSpec, String> mProducerMap = new HashMap<AeBaseSpec, String>();
    /** map of consumer specs to strategy names */
-   private Map<AeBaseSpec, String> mConsumerMap = new HashMap<AeBaseSpec, String>();
+   private final Map<AeBaseSpec, String> mConsumerMap = new HashMap<AeBaseSpec, String>();
    
    /**
     * Ctor inits the maps 

@@ -28,7 +28,7 @@ import java.util.Map;
 public class AeMessageDataSerializer implements IAeImplStateNames
 {
    /** Type mapping for simple types. */
-   private AeTypeMapping mTypeMapping;
+   private final AeTypeMapping mTypeMapping;
 
    /** The message data to serialize. */
    private IAeMessageData mMessageData;

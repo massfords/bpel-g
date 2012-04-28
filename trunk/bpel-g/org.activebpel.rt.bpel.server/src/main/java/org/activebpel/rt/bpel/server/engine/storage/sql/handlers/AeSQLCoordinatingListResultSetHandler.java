@@ -25,7 +25,7 @@ import org.apache.commons.dbutils.ResultSetHandler;
 public class AeSQLCoordinatingListResultSetHandler implements ResultSetHandler<List<IAeCoordinating>>
 {
    /** The coordination manager. */
-   private IAeCoordinationManager mManager;
+   private final IAeCoordinationManager mManager;
 
    /**
     * Constructor.

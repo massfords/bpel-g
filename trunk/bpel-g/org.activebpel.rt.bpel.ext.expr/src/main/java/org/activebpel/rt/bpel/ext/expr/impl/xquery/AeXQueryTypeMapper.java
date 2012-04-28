@@ -54,7 +54,7 @@ import org.activebpel.rt.xml.schema.AeSchemaYearMonth;
 public class AeXQueryTypeMapper
 {
    /** The singleton instance. */
-   private static AeXQueryTypeMapper sInstance = new AeXQueryTypeMapper();
+   private static final AeXQueryTypeMapper sInstance = new AeXQueryTypeMapper();
    
    /** The map of Saxon types to specific convert methods. */
    private Map<Integer, Method> mMethodMap;

@@ -41,9 +41,9 @@ public class AeWSDLSchemaURILocation extends URILocation
    private static final String PATH_SEPARATOR = "/"; //$NON-NLS-1$
 
    /** A &lt;schema&gt; element extracted from the WSDL file. */
-   private Element mSchemaElement;
+   private final Element mSchemaElement;
    /** The URI location of the schema element (see class javadoc). */
-   private String mLocation;
+   private final String mLocation;
    /** The base URI - this is basically a cached value. */
    private String mBaseURI;
 

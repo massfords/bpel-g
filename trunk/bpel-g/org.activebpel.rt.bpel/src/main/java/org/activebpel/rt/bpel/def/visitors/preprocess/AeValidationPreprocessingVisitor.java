@@ -28,10 +28,10 @@ import org.activebpel.rt.xml.def.IAeExtensionObject;
 public class AeValidationPreprocessingVisitor extends AeAbstractDefVisitor
 {
    /** The expression language factory set during visitor creation. */
-   private IAeExpressionLanguageFactory mExpressionLanguageFactory;
+   private final IAeExpressionLanguageFactory mExpressionLanguageFactory;
    
    /** The WSDL provider used to located WSDL definitions */
-   IAeContextWSDLProvider mContextProvider;
+   final IAeContextWSDLProvider mContextProvider;
    
    /**
     * C'tor

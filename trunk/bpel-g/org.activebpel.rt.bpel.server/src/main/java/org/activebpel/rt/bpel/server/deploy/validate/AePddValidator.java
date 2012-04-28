@@ -37,9 +37,9 @@ public class AePddValidator extends AeAbstractPddIterator {
 	private class AePddErrorHandler implements
 			IAeResourceValidationErrorHandler {
 		/** The PDD info. */
-		private AePddResource mPdd;
+		private final AePddResource mPdd;
 		/** The error reporter to use when an error is handled. */
-		private IAeBaseErrorReporter mReporter;
+		private final IAeBaseErrorReporter mReporter;
 
 		/**
 		 * Constructor.

@@ -87,22 +87,22 @@ public class AeFallbackDataSource extends AeJNDIDataSource {
         	private int loginTimeout;
         	
 			@Override
-			public PrintWriter getLogWriter() throws SQLException {
+			public PrintWriter getLogWriter() {
 				return pw;
 			}
 
 			@Override
-			public void setLogWriter(PrintWriter aOut) throws SQLException {
+			public void setLogWriter(PrintWriter aOut) {
 				this.pw = aOut;
 			}
 
 			@Override
-			public void setLoginTimeout(int aSeconds) throws SQLException {
+			public void setLoginTimeout(int aSeconds) {
 				this.loginTimeout = aSeconds;
 			}
 
 			@Override
-			public int getLoginTimeout() throws SQLException {
+			public int getLoginTimeout() {
 				return loginTimeout;
 			}
 
@@ -112,7 +112,7 @@ public class AeFallbackDataSource extends AeJNDIDataSource {
 			}
 
 			@Override
-			public boolean isWrapperFor(Class<?> aIface) throws SQLException {
+			public boolean isWrapperFor(Class<?> aIface) {
 				return false;
 			}
 

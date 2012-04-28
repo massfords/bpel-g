@@ -35,10 +35,10 @@ public class BgPddBuilder {
     
     private File serviceUnitRoot;
     
-    private Map<QName, BgPddInfo> deployments = new HashMap<QName, BgPddInfo>();
-    private Map<String,BgPddInfo> pddFileNameToPddInfo = new HashMap<String,BgPddInfo>();
+    private final Map<QName, BgPddInfo> deployments = new HashMap<QName, BgPddInfo>();
+    private final Map<String,BgPddInfo> pddFileNameToPddInfo = new HashMap<String,BgPddInfo>();
     private Document deployXml;
-    private Set<BgCatalogTuple> referenced = new HashSet<BgCatalogTuple>();
+    private final Set<BgCatalogTuple> referenced = new HashSet<BgCatalogTuple>();
     
     public BgPddBuilder(File aServiceUnitRoot) throws AeException {
         assert aServiceUnitRoot.isDirectory();

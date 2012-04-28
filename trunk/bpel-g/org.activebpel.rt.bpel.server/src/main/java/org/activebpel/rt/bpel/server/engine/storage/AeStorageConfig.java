@@ -57,7 +57,7 @@ public abstract class AeStorageConfig
    /** The map of DB statement names/keys to DB statements. */
    private Map<String,String> mStatementMap = new HashMap<String, String>();
    /** map of constant names to values */
-   private Properties mConstantsFromFile = new Properties();
+   private final Properties mConstantsFromFile = new Properties();
    /** map of name value pairs used to override any constant values */
    private Properties mConstantOverrides = new Properties(mConstantsFromFile);
    /** The name of the xml element that is the root of a key/value pair. */
@@ -410,9 +410,9 @@ public abstract class AeStorageConfig
    protected class AeFilenameClassTuple
    {
       /** The filename of a config file to load. */
-      private String mFilename;
+      private final String mFilename;
       /** The class to use for finding the config resource. */
-      private Class mClassForLoad;
+      private final Class mClassForLoad;
 
       /**
        * Constructor.

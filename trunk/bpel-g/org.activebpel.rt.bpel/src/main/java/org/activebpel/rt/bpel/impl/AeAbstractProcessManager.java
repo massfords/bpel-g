@@ -23,10 +23,10 @@ public abstract class AeAbstractProcessManager extends AeManagerAdapter implemen
    public static final String CONFIG_DEBUG = "Debug"; //$NON-NLS-1$
 
    /** <code>true</code> if and only if showing debug output. */
-   private static boolean sDebug = false;
+   private static final boolean sDebug = false;
 
    /** Process purged listeners */
-   private Set<IAeProcessPurgedListener> mProcessPurgedListeners = new CopyOnWriteArraySet<IAeProcessPurgedListener>();
+   private final Set<IAeProcessPurgedListener> mProcessPurgedListeners = new CopyOnWriteArraySet<IAeProcessPurgedListener>();
 
    /**
     * @see org.activebpel.rt.bpel.impl.IAeProcessManager#addProcessPurgedListener(org.activebpel.rt.bpel.impl.IAeProcessPurgedListener)

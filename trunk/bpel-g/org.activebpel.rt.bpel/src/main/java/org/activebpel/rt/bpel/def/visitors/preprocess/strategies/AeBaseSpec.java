@@ -18,7 +18,7 @@ import java.util.BitSet;
 public class AeBaseSpec
 {
    /** used to record the bit flags */
-   protected BitSet mBits = new BitSet();
+   protected final BitSet mBits = new BitSet();
 
    /**
     * @see java.lang.Object#equals(java.lang.Object)

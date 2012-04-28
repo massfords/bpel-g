@@ -37,7 +37,7 @@ import java.util.Map;
 public class AeRegistryBasedBpelReader implements IAeBpelReader
 {
    /** bpel reader/writer registry */
-   private IAeDefRegistry mBpelRegistry;
+   private final IAeDefRegistry mBpelRegistry;
    
    /**
     * Ctor accepts BpelRegistry

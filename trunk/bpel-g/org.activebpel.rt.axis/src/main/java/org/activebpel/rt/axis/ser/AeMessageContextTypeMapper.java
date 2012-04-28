@@ -25,7 +25,7 @@ import org.apache.axis.encoding.TypeMappingRegistryImpl;
 public class AeMessageContextTypeMapper implements IAeTypeMapper
 {
    /** MessageContext that contains the type mapping information */
-   private MessageContext mContext;
+   private final MessageContext mContext;
    /** Gets set once we've installed our own type mapping registry */
    private TypeMapping mTypeMapping;
    

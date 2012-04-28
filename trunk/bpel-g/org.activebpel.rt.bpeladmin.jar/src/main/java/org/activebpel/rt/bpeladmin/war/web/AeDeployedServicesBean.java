@@ -23,7 +23,7 @@ import bpelg.services.processes.types.ServiceDeployment;
 public class AeDeployedServicesBean
 {
    /** Deployed service details. */   
-   protected List<ServiceDeployment> mDetails;
+   protected final List<ServiceDeployment> mDetails;
    /** Pointer to current index. */
    protected int mCurrentIndex;
    

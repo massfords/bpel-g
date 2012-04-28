@@ -34,7 +34,7 @@ import java.text.MessageFormat;
  */
 @Singleton
 public class AeDeploymentFileHandler implements IAeDeploymentFileHandler, IAeScannerListener {
-    private Log sLog = LogFactory.getLog(AeDeploymentFileHandler.class);
+    private final Log sLog = LogFactory.getLog(AeDeploymentFileHandler.class);
     private IAeDeploymentContainerFactory deploymentContainerFactory;
     /** The directory scanner. */
     protected AeDirectoryScanner scanner;

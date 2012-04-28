@@ -20,9 +20,9 @@ import org.w3c.dom.Node;
 public class AeResourceValidationErrorHandler implements IAeResourceValidationErrorHandler
 {
    /** The resource name. */
-   private String mName;
+   private final String mName;
    /** The error reporter to use when an error is handled. */
-   private IAeBaseErrorReporter mReporter;
+   private final IAeBaseErrorReporter mReporter;
 
    /**
     * Constructor.

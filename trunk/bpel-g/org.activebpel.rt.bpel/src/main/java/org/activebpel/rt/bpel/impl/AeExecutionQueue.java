@@ -38,7 +38,7 @@ public class AeExecutionQueue
    /** Number of pending calls to <code>executeObject</code>. */
    private int mExecuteObjectDepth = 0;
    /** The owner process. */
-   private IAeBusinessProcessInternal mProcess;
+   private final IAeBusinessProcessInternal mProcess;
    /** Location paths to be resumed. */
    private final Set<String> mPendingResumePaths = new HashSet<String>();
 
@@ -525,7 +525,7 @@ public class AeExecutionQueue
    public class AeRunnableObjectStub extends AeExecutableObjectStub
    {
       /** the Runnable that will be executed by the queue */
-      private Runnable mRunnable;
+      private final Runnable mRunnable;
 
       /**
        * Constructor.
@@ -561,7 +561,7 @@ public class AeExecutionQueue
    private abstract class AeBaseResumeObjectStub extends AeExecutableObjectStub
    {
       /** the object that generated the faulting condition */
-      private AeAbstractBpelObject mBpelObject;
+      private final AeAbstractBpelObject mBpelObject;
 
       /**
        * Constructor.
@@ -607,7 +607,7 @@ public class AeExecutionQueue
    private class AeResumeFaultedProcessToTerminationStub extends AeBaseResumeObjectStub
    {
       /** the uncaught fault */
-      private IAeFault mUncaughtFault;
+      private final IAeFault mUncaughtFault;
 
       /**
        * Constructor.

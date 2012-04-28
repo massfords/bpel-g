@@ -24,10 +24,10 @@ import org.activebpel.rt.message.IAeMessageData;
 public class AeCorrelationsImpl implements IAeCorrelations
 {
    /** correlations def */
-   private AeCorrelationsDef mDef;
+   private final AeCorrelationsDef mDef;
    
    /** reference to our parent activity */
-   private IAeBpelObject mParent;
+   private final IAeBpelObject mParent;
    
    /**
     * Ctor takes the ref to the parent wsio activity

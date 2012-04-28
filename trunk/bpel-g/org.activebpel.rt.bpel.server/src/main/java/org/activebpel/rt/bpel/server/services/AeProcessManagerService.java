@@ -32,7 +32,7 @@ import bpelg.services.processes.types.ServiceDeployments;
 public class AeProcessManagerService implements AeProcessManager {
 
     /** comparator for sorting the deployment detail objects */
-    private Comparator<ProcessDeployment> mDeploymentComparator = new Comparator<ProcessDeployment>() {
+    private final Comparator<ProcessDeployment> mDeploymentComparator = new Comparator<ProcessDeployment>() {
         public int compare(ProcessDeployment one, ProcessDeployment two) {
             return one.getProcess().getName().getLocalPart().compareToIgnoreCase(
                     two.getProcess().getName().getLocalPart());
@@ -40,7 +40,7 @@ public class AeProcessManagerService implements AeProcessManager {
     };
 
     /** comparator for service deployment objects */
-    private Comparator<ServiceDeployment> mServiceComparator = new Comparator<ServiceDeployment>() {
+    private final Comparator<ServiceDeployment> mServiceComparator = new Comparator<ServiceDeployment>() {
         public int compare(ServiceDeployment one, ServiceDeployment two) {
             return one.getService().compareTo(two.getService());
         }

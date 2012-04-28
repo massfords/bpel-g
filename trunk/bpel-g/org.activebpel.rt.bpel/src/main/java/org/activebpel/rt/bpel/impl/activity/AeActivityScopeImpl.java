@@ -69,7 +69,7 @@ public class AeActivityScopeImpl extends AeActivityImpl implements IAeActivityPa
    private boolean mSnapshotRecorded = false;
 
    /** Our map of associated partner links for this process. */
-   private Map<String, IAePartnerLink> mPartnerLinks = new HashMap<String, IAePartnerLink>();
+   private final Map<String, IAePartnerLink> mPartnerLinks = new HashMap<String, IAePartnerLink>();
    
    /** strategy to handle the termination of scopes */
    private IAeScopeTerminationStrategy mTerminationStrategy;
@@ -82,7 +82,7 @@ public class AeActivityScopeImpl extends AeActivityImpl implements IAeActivityPa
    /**
     * Links that have been deferred because they leave an isolated scope.
     */
-   private List<IAeLink> mDeferredLinks = new LinkedList<IAeLink>();
+   private final List<IAeLink> mDeferredLinks = new LinkedList<IAeLink>();
 
    /** default constructor for activity */
    public AeActivityScopeImpl(AeActivityScopeDef aActivityDef, IAeActivityParent aParent)
@@ -793,8 +793,7 @@ public class AeActivityScopeImpl extends AeActivityImpl implements IAeActivityPa
     * 
     * @param aCloneFlag
     */
-   private void clearPartnerLinkState(boolean aCloneFlag) throws AeBusinessProcessException
-   {
+   private void clearPartnerLinkState(boolean aCloneFlag) {
       if (aCloneFlag)
       {
           for (Entry<String, IAePartnerLink> entry : getPartnerLinks().entrySet()) {

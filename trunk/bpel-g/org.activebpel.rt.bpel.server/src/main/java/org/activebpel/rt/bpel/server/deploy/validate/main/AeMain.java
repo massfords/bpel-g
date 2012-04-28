@@ -27,7 +27,7 @@ import org.activebpel.rt.bpel.server.deploy.validate.IAePredeploymentValidator;
 public class AeMain
 {
    /** Hold the arg key value pairs */
-   private Map<String, String> mArgs;
+   private final Map<String, String> mArgs;
    
    /**
     * Main method.

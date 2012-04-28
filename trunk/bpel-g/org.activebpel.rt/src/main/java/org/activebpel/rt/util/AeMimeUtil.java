@@ -119,7 +119,7 @@ public class AeMimeUtil
    public static final String MULTIPART_PARALLEL_MIME = "multipart/parallel"; //$NON-NLS-1$
 
    /** Map of default content-type to file extensions. */
-   private static Map<String, String> sMimeToExtension;
+   private static final Map<String, String> sMimeToExtension;
    static
    {
       sMimeToExtension = new HashMap<String, String>();
@@ -165,7 +165,7 @@ public class AeMimeUtil
    }
 
    /** The extension map of well known Mime types */
-   protected static Map<String, String> sExtensionToMime;
+   protected static final Map<String, String> sExtensionToMime;
 
    static
    {
@@ -213,16 +213,16 @@ public class AeMimeUtil
    /**
     * Regular expression to match a valid Content-Id per RFC 2046
     */
-   private static Pattern sContentIdRegEx = Pattern.compile("<([^\\s]*)@([^\\s]*)>", Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE); //$NON-NLS-1$
+   private static final Pattern sContentIdRegEx = Pattern.compile("<([^\\s]*)@([^\\s]*)>", Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE); //$NON-NLS-1$
 
    /** Regular expression to match a valid file name */
-   private static Pattern sNameRegEx = Pattern.compile("([a-zA-Z0-9_\\-\\. ]+)", Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE); //$NON-NLS-1$
+   private static final Pattern sNameRegEx = Pattern.compile("([a-zA-Z0-9_\\-\\. ]+)", Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE); //$NON-NLS-1$
 
    /** regular expression to match a filename with an extension */
-   private static Pattern sNameExtRegEx = Pattern.compile("(.*)\\.([a-z][A-Z0-9_\\-]+)", Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE); //$NON-NLS-1$
+   private static final Pattern sNameExtRegEx = Pattern.compile("(.*)\\.([a-z][A-Z0-9_\\-]+)", Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE); //$NON-NLS-1$
 
    /** regular expression to match a filename ending with . */
-   private static Pattern sEndDotRegEx = Pattern.compile("(.*)\\.", Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE); //$NON-NLS-1$
+   private static final Pattern sEndDotRegEx = Pattern.compile("(.*)\\.", Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE); //$NON-NLS-1$
 
    /**
     * Return a reasonable file name for downloading the attachment

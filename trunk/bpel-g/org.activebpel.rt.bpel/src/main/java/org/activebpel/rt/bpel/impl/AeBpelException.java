@@ -23,7 +23,7 @@ public class AeBpelException extends AeBusinessProcessException
      */
     private static final long serialVersionUID = -1974097114673293953L;
 /** The BPEL fault which was created */
-   private IAeFault mFault;
+   private final IAeFault mFault;
    
    /**
     * Constructs a new BPEL exception with the given info and fault.

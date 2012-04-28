@@ -36,7 +36,7 @@ import java.net.URL;
 import java.util.List;
 
 public class AeProcessFixture extends Assert {
-    private AeXMLParserBase parser = new AeXMLParserBase();
+    private final AeXMLParserBase parser = new AeXMLParserBase();
     private AeDeployer deployer;
     private AeURNResolver resolver;
 	private AeProcessManager processManager;

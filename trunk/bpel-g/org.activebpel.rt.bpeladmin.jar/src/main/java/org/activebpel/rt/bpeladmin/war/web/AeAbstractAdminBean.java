@@ -9,15 +9,15 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpeladmin.war.web;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.activebpel.rt.bpel.server.admin.jmx.IAeEngineManagementMXBean;
 import org.activebpel.rt.bpeladmin.war.AeEngineManagementFactory;
 import org.activebpel.rt.util.AeUtil;
 import org.activebpel.rt.war.tags.IAeErrorAwareBean;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 // TODO (PJ) remove get and set statusDetail/Error methods and use addMessage/getMessageList instead. Impacts JSPs.
 /**
@@ -30,7 +30,7 @@ public class AeAbstractAdminBean implements IAeErrorAwareBean
    /** Indicates whether the status message is actually an error message */
    private boolean mErrorDetail;
    /** List of error or status detail messages. */
-   private List<String> mMessageList = new ArrayList<String>();
+   private final List<String> mMessageList = new ArrayList<String>();
 
    /**
     * Adds a error or detail message.

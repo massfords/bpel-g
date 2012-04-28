@@ -23,7 +23,7 @@ public class AeParticipantCompensator implements IAeCompensationCallback
    /**
     * Coordination id.
     */
-   private String mCoordinationId;
+   private final String mCoordinationId;
    
    /** Location path of this compensation activity. **/
    private String mLocationPath;

@@ -20,7 +20,7 @@ import org.activebpel.rt.bpel.IAeBusinessProcessEngine;
 public class AeSetVariableHandler extends AeVariableDeserializer
 {
    /** Validate document when 'true' */
-   private boolean mValidate;
+   private final boolean mValidate;
    
    /**
     * Constructor.

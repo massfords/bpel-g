@@ -32,7 +32,7 @@ public class AeEngineManagementFactory {
     private static String sObjectName;
     private static String sUser;
     private static String sPassword;
-    private static DisconnectedListener sNotificationlistener = new DisconnectedListener();
+    private static final DisconnectedListener sNotificationlistener = new DisconnectedListener();
     private static boolean sRemote;
     private static AeProcessManager sProcessManager;
     private static AeURNResolver sResolverService;

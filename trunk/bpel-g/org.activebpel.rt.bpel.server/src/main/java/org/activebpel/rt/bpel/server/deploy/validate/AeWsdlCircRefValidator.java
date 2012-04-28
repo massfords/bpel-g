@@ -33,7 +33,7 @@ import org.w3c.dom.NodeList;
 public class AeWsdlCircRefValidator implements IAePredeploymentValidator
 {
    /** Error message template. */
-   private String ERROR_MSG = 
+   private final String ERROR_MSG =
       AeMessages.getString("AeWsdlCircRefValidator.0"); //$NON-NLS-1$
    
    /**
@@ -135,7 +135,7 @@ public class AeWsdlCircRefValidator implements IAePredeploymentValidator
      */
     private static final long serialVersionUID = 1592449269844957157L;
     /** The offending import location */
-      private String mCircularRef;
+      private final String mCircularRef;
 
       /**
        * Constructor.

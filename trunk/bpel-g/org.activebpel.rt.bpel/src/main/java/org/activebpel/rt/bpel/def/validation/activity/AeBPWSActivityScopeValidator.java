@@ -48,7 +48,7 @@ public class AeBPWSActivityScopeValidator extends AeActivityScopeValidator
    protected static class AeNoNestedScopes extends AeChildScopeByNameVisitor
    {
       /** scoep that we start visiting from */
-      private AeActivityScopeDef mRoot;
+      private final AeActivityScopeDef mRoot;
       
       /**
        * Ctor

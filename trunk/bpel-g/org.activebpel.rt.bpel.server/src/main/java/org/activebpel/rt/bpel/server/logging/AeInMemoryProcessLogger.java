@@ -42,7 +42,7 @@ public class AeInMemoryProcessLogger implements IAeProcessLogger, PreferenceChan
     private IAeBusinessProcessEngineInternal mEngine;
 
     /** maps the process id to the string buffer */
-    protected Map<Long, StringBuffer> mPidToBuffer = Collections.synchronizedMap(new HashMap<Long, StringBuffer>());
+    protected final Map<Long, StringBuffer> mPidToBuffer = Collections.synchronizedMap(new HashMap<Long, StringBuffer>());
 
     /** used to filter out some log events */
     protected IAeLoggingFilter mFilter = null;

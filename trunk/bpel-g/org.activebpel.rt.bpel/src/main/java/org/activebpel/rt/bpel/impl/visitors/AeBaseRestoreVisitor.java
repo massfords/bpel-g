@@ -226,8 +226,7 @@ public class AeBaseRestoreVisitor extends AeImplTraversingVisitor implements IAe
     * @param aElement The variable's state <code>Element</code>
     * @param aVariable The variable to restore.
     */
-   protected static void restoreVariable(Element aElement, AeVariable aVariable) throws AeBusinessProcessException
-   {
+   protected static void restoreVariable(Element aElement, AeVariable aVariable) {
       // Restore the version number *after* setting other data, because
       // setting data may update the version number.
       int versionNumber = getAttributeInt(aElement, STATE_VERSION);

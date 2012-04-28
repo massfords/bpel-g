@@ -109,7 +109,7 @@ public class AeURNResolver implements IAeURNResolver
    protected static class AeURNTokenParsingMapFactory extends AeDeferredMapFactory<String, String>
    {
       /** urn we need to parse */
-      private String mURN;
+      private final String mURN;
       
       /**
        * @param aURN

@@ -18,9 +18,9 @@ import java.net.URLEncoder;
 public class AeURNMapping
 {
    /** value for the urn */
-   private String mURN;
+   private final String mURN;
    /** url that the urn maps to */
-   private String mURL;
+   private final String mURL;
    
    /**
     * Creates the tuple with the provided values.

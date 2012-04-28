@@ -29,7 +29,7 @@ import org.activebpel.rt.bpel.def.activity.support.AeOnMessageDef;
 public class AeCreateInstanceOperationVisitor extends AeAbstractDefVisitor
 {
    /** maps the plink and operation to a count of the number of IMA's using the plink/op */
-   private Map<String, Integer> mOperationCount = new HashMap<String, Integer>();
+   private final Map<String, Integer> mOperationCount = new HashMap<String, Integer>();
    /** key for the create instance IMA in the above map */
    private String mCreateInstanceKey;
    

@@ -108,8 +108,7 @@ public class AeStorageUtil
     * Creates XML document given the context.
     * @param aContext
     */
-   public static AeFastDocument createCoordinationContextDocument(AeCoordinationContext aContext) throws AeStorageException
-   {
+   public static AeFastDocument createCoordinationContextDocument(AeCoordinationContext aContext) {
       AeFastDocument fastDocument = new AeFastDocument();
       AeFastElement element = new AeFastElement("coordinationContext");//$NON-NLS-1$
       element.setAttribute("contextFactory", "AeCoordinationContext");   //$NON-NLS-1$  //$NON-NLS-2$      

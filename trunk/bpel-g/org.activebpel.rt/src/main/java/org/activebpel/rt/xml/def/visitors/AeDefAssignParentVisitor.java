@@ -27,7 +27,7 @@ import org.activebpel.rt.xml.def.AeBaseXmlDef;
 public class AeDefAssignParentVisitor extends AeTraversingXmlDefVisitor
 {
    /** Stores the stack of objects that we're visiting */
-   protected Stack<AeBaseXmlDef> mStack = new Stack<AeBaseXmlDef>();
+   protected final Stack<AeBaseXmlDef> mStack = new Stack<AeBaseXmlDef>();
 
    /**
     * Default c'tor.

@@ -138,7 +138,7 @@ public class AeWSBPELXQueryVariableResolver implements VariableResolver
    class AeWSBPELXQueryVariableResolverFunctionAdapter implements IAeFunction
    {
       /** Variable to resolve. */
-      private String mVariableName;
+      private final String mVariableName;
 
       /**
        * ctor.

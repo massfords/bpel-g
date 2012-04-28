@@ -44,7 +44,7 @@ public class AeInvokeRetryPolicy
    private int mRetries;
    
    /** Ref to the invoke activity */
-   private AeActivityInvokeImpl mInvoke;
+   private final AeActivityInvokeImpl mInvoke;
    
    /**
     * Ctor accepts the invoke

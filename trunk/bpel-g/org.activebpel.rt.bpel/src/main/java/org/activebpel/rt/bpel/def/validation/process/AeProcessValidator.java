@@ -35,16 +35,16 @@ import java.util.*;
 public class AeProcessValidator extends AeBaseScopeValidator
 {
    /** provides context for the validation including WSDL provider, error reporter ...etc  */
-   private IAeValidationContext mValidationContext;
+   private final IAeValidationContext mValidationContext;
    /** list o' models that are marked as create instances */
-   private List<IAeValidator> mCreateInstances = new LinkedList<IAeValidator>();
+   private final List<IAeValidator> mCreateInstances = new LinkedList<IAeValidator>();
    /** Link validation helper for this instance. */
-   private AeLinkValidator mLinkValidator; 
+   private final AeLinkValidator mLinkValidator;
    /** The extensions validator. */
    private AeExtensionsValidator mExtensionsValidator;
 
    /** XPath query validator. */
-   private AeXPathQueryValidator mXPathQueryValidator = new AeXPathQueryValidator() ;
+   private final AeXPathQueryValidator mXPathQueryValidator = new AeXPathQueryValidator() ;
    
    /**
     * ctor takes the context and def

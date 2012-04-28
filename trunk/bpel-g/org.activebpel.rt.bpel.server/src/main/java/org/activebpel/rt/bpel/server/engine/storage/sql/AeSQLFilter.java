@@ -28,10 +28,10 @@ abstract public class AeSQLFilter
    private final List<Object> mParams = new ArrayList<Object>();
 
    /** Config object used to load sql statements */
-   private AeSQLConfig mConfig;
+   private final AeSQLConfig mConfig;
 
    /** The prefix to use when retrieving keys from the SQL config. */
-   private String mConfigPrefix;
+   private final String mConfigPrefix;
 
    /** max number of rows that we'll read in order to determine the total number of rows in result set */
    public static final int REPORT_SCAN_LIMIT = 500;
@@ -51,9 +51,7 @@ abstract public class AeSQLFilter
    private final Integer mMaxReturn;
    private final Integer mListStart;
 
-   public AeSQLFilter(Integer aMaxReturn, Integer aListStart, AeSQLConfig aConfig, String aPrefix)
-   	throws AeStorageException
-   {
+   public AeSQLFilter(Integer aMaxReturn, Integer aListStart, AeSQLConfig aConfig, String aPrefix) {
       mConfig = aConfig;
       mConfigPrefix = aPrefix;
       this.mMaxReturn = aMaxReturn;

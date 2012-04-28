@@ -20,8 +20,8 @@ import java.io.StringReader;
  */
 @Ignore
 public class AeCamelJMSIntegrationTest extends CamelTestSupport {
-    private AeProcessFixture pfix = new AeProcessFixture();
-    private BrokerService brokerSvc = new BrokerService();
+    private final AeProcessFixture pfix = new AeProcessFixture();
+    private final BrokerService brokerSvc = new BrokerService();
     private CamelFixture cfix;
 
 

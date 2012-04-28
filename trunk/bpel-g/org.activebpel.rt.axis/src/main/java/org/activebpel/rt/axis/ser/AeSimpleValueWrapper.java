@@ -21,7 +21,7 @@ package org.activebpel.rt.axis.ser;
 public class AeSimpleValueWrapper
 {
    /** The type that we're wrapping */
-   private Object mDelegate; 
+   private final Object mDelegate;
 
    public AeSimpleValueWrapper(Object aSimpleType)
    {

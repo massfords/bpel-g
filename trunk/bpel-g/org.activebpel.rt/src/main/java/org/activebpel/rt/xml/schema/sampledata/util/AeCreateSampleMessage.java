@@ -36,7 +36,7 @@ import org.w3c.dom.Document;
 public class AeCreateSampleMessage
 {
    /** simple type data producer */
-   private static AeSimpleTypeSampleDataProducer sSimpleTypeDataProducer = new AeSimpleTypeSampleDataProducer();
+   private static final AeSimpleTypeSampleDataProducer sSimpleTypeDataProducer = new AeSimpleTypeSampleDataProducer();
 
    /** preferences used for generating samples */
    private AeSampleDataPreferences mSampleDataPreferences;

@@ -22,7 +22,7 @@ import commonj.work.WorkManager;
 public class AeRemoteWorkItem extends AeWorkItem implements RemoteWorkItem
 {
    /** work manager that executed the work */
-   private WorkManager mWorkManager;
+   private final WorkManager mWorkManager;
    
    /**
     * Constructor accepts the work manager and the work to be done.

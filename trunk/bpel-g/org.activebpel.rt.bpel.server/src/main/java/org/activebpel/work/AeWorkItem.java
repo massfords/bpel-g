@@ -25,7 +25,7 @@ import java.util.List;
 public class AeWorkItem implements WorkItem
 {
    /** work that was scheduled */
-   protected Work mWork;
+   protected final Work mWork;
    /** exception thrown during execution of work */
    protected WorkException mException;
    /** stores the status of the work that was scheduled */

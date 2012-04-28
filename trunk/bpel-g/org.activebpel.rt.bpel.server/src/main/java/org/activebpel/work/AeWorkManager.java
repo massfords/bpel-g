@@ -9,25 +9,15 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.work;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.prefs.PreferenceChangeEvent;
-import java.util.prefs.PreferenceChangeListener;
-
+import commonj.work.*;
 import org.activebpel.rt.bpel.AePreferences;
 import org.activebpel.rt.bpel.server.AeMessages;
 import org.activebpel.rt.util.AeBlockingQueue;
 
-import commonj.work.Work;
-import commonj.work.WorkEvent;
-import commonj.work.WorkItem;
-import commonj.work.WorkListener;
-import commonj.work.WorkManager;
+import java.io.Serializable;
+import java.util.*;
+import java.util.prefs.PreferenceChangeEvent;
+import java.util.prefs.PreferenceChangeListener;
 
 /**
  * Implementation of the WorkManager for Application Servers spec from IBM/BEA.
@@ -37,9 +27,9 @@ import commonj.work.WorkManager;
 public class AeWorkManager implements WorkManager, Runnable,
 		PreferenceChangeListener, IAeStoppableWorkManager {
 	/** work waiting to be executing because of a lack of threads */
-	private AeBlockingQueue<AeQueuedWork> mQueuedWork = new AeBlockingQueue<AeQueuedWork>();
+	private final AeBlockingQueue<AeQueuedWork> mQueuedWork = new AeBlockingQueue<AeQueuedWork>();
 	/** our pool of threads */
-	private AeThreadPool mPool = new AeThreadPool();
+	private final AeThreadPool mPool = new AeThreadPool();
 	/** our dispatch thread */
 	private Thread mDispatchThread;
 	/** flag to keep the dispatch thread running */
@@ -261,7 +251,7 @@ public class AeWorkManager implements WorkManager, Runnable,
 	 */
 	protected class AeWaitForAll implements IAeWorkDoneListener {
 		/** set of work items we're waiting to complete */
-		protected Collection mColl;
+		protected final Collection mColl;
 
 		/**
 		 * Creates a waiter that will notify its waiting objects when the

@@ -59,7 +59,7 @@ implements IAeAlarmParentDef, IAeFromParentDef, IAeConditionParentDef,
    private IAeExtensionObject mExtensionObject;
    
    /** Child Defs for the understood extension activity */
-   private List<AeBaseDef> mChildDefs = new ArrayList<AeBaseDef>();
+   private final List<AeBaseDef> mChildDefs = new ArrayList<AeBaseDef>();
    
     /** Maintains the order of elements added for serialization */
    private List<AeBaseXmlDef> mOrderedDefs;

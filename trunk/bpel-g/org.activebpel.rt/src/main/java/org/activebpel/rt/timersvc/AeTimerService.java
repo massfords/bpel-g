@@ -45,7 +45,7 @@ public class AeTimerService
    private java.util.Timer mTimer;
 
    /** The map of currently running alarm manager tasks, keyed by request ID. */
-   private Map<Long, AeTimerTask> mTimerTasks = new HashMap<Long, AeTimerTask>();
+   private final Map<Long, AeTimerTask> mTimerTasks = new HashMap<Long, AeTimerTask>();
 
    /**
     * Constructs a new timer service.
@@ -254,9 +254,9 @@ public class AeTimerService
    public class AeTimerTask extends TimerTask implements Timer
    {
       /** The timer service handler that will receive the timer event callback. */
-      private TimerListener mTimerListener;
+      private final TimerListener mTimerListener;
       /** The timer ID for this task. */
-      private Long mTimerId;
+      private final Long mTimerId;
       /** The period to use for computing a repeating interval if this is a repeating timer */
       private long mPeriod;
 

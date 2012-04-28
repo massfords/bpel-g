@@ -13,7 +13,7 @@ import org.junit.Test;
 public class AeEngineManagementAdapterTest {
 
     private static final String LOG = "1234567890";
-    private AeProcessLogPart part = new AeProcessLogPart();
+    private final AeProcessLogPart part = new AeProcessLogPart();
 
     @Test
     public void testSkipAndRead_allAtOnce() throws Exception {

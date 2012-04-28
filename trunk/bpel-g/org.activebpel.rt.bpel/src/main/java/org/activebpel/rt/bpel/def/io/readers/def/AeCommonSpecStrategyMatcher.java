@@ -27,9 +27,9 @@ import org.activebpel.rt.util.AeUtil;
 public class AeCommonSpecStrategyMatcher implements IAeCopyOperationStrategyMatcher
 {
    /** maps the spec object to the strategy name */
-   private Map<AeFromSpec, AeSpecStrategyKey> mFromStrategyMap = new HashMap<AeFromSpec, AeSpecStrategyKey>();
+   private final Map<AeFromSpec, AeSpecStrategyKey> mFromStrategyMap = new HashMap<AeFromSpec, AeSpecStrategyKey>();
    /** maps the spec object to the strategy name */
-   private Map<AeToSpec, AeSpecStrategyKey> mToStrategyMap = new HashMap<AeToSpec, AeSpecStrategyKey>();
+   private final Map<AeToSpec, AeSpecStrategyKey> mToStrategyMap = new HashMap<AeToSpec, AeSpecStrategyKey>();
 
    /**
     * No arg ctor inits the maps

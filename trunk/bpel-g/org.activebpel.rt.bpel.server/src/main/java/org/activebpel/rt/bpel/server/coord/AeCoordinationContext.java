@@ -28,7 +28,7 @@ public class AeCoordinationContext extends AeContextBase implements IAeCoordinat
 /**
     * Coordination instance id.
     */
-   private IAeCoordinationId mCoordinationId;
+   private final IAeCoordinationId mCoordinationId;
    
    /**
     * Constructs a coordination context given the id.

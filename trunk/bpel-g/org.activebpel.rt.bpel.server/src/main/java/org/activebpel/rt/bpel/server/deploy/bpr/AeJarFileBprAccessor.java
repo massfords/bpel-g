@@ -82,7 +82,7 @@ public class AeJarFileBprAccessor extends AeAbstractBprStrategy {
 	 * descriptor object.
 	 */
 	static class AeNameFilter implements FilenameFilter {
-		String mExt;
+		final String mExt;
 
 		/**
 		 * Constructor

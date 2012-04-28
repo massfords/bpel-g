@@ -191,9 +191,9 @@ public class AeActivityForEachImpl extends AeLoopActivity implements IAeActivity
      */
     private static final long serialVersionUID = 7303910224345551241L;
     /** result of executing the expression */
-      private Object mValue;
+      private final Object mValue;
       /** expression */
-      private String mExpression;
+      private final String mExpression;
       
       /**
        * @param aValue

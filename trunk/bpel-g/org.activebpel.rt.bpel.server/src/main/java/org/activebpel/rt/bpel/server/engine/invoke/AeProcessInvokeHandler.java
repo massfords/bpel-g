@@ -73,7 +73,7 @@ public class AeProcessInvokeHandler implements IAeTwoPhaseInvokeHandler, IAeMess
    private long mChildProcessId;
 
    /** Invoke web service response. */
-   private AeInvokeResponse mResponse = new AeInvokeResponse();
+   private final AeInvokeResponse mResponse = new AeInvokeResponse();
 
    /** Invoke object. */
    private IAeInvoke mInvoke;

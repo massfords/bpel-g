@@ -98,9 +98,9 @@ public abstract class AeAbstractBpelReaderRegistry extends AeDefReaderRegistry
    protected static class AeRegistryMapping
    {
       /** name of the element */
-      private QName mName;
+      private final QName mName;
       /** reader */
-      private IAeDefReader mReader;
+      private final IAeDefReader mReader;
 
       /**
        * Ctor

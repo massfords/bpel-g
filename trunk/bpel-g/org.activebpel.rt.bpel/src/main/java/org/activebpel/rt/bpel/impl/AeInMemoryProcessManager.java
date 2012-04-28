@@ -44,7 +44,7 @@ public class AeInMemoryProcessManager extends AeAbstractProcessManager
 	private long mNextProcessId = 1;
 
 	/** Maps process ids to processes */
-	private Hashtable<Long,IAeBusinessProcess> mProcesses = new Hashtable<Long,IAeBusinessProcess>();
+	private final Hashtable<Long,IAeBusinessProcess> mProcesses = new Hashtable<Long,IAeBusinessProcess>();
 
 	/**
 	 * The number of completed process to leave temporarily in
@@ -56,7 +56,7 @@ public class AeInMemoryProcessManager extends AeAbstractProcessManager
 	 * Process ids for completed processes temporarily left in
 	 * {@link #mProcesses}.
 	 */
-	private List<Long> mCompletedProcessIds = new LinkedList<Long>();
+	private final List<Long> mCompletedProcessIds = new LinkedList<Long>();
 
 	/** The next journal ID to use for journaling methods. */
 	private long mNextJournalId = 1;

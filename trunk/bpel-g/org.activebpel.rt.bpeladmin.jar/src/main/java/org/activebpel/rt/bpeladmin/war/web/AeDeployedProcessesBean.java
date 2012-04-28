@@ -22,7 +22,7 @@ import bpelg.services.processes.types.ProcessDeployments;
 public class AeDeployedProcessesBean
 {
    /** Deployed process details. */   
-   protected ProcessDeployments mDetails;
+   protected final ProcessDeployments mDetails;
    /** Pointer to current index. */
    protected int mCurrentIndex;
    

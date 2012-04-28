@@ -17,7 +17,7 @@ import java.util.Set;
 public class AeLockHolder
 {
    /** Current owners of the lock */
-   private Set<String> mOwners = new HashSet<String>();
+   private final Set<String> mOwners = new HashSet<String>();
    /** True if the lock holder is exclusive meaning that only 1 owner is allowed */
    private boolean mExclusive = false;
 

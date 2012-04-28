@@ -17,7 +17,7 @@ import org.activebpel.rt.bpeladmin.war.graph.AeGraphProperties;
 public class AeLayoutPrefs
 {  
    /** Indicates a vertical layout direction */   
-   public static int LAYOUT_VERTICAL   = 0;
+   public static final int LAYOUT_VERTICAL   = 0;
 
    /** Indicates a horizontal layout direction */
    public static int LAYOUT_HORIZONTAL = 1;
@@ -35,7 +35,7 @@ public class AeLayoutPrefs
    /** spacing between activity nodes */
    private int mInterNodeSpacing;
    /** layout direction (horizontal or vertical */
-   private int mLayoutDirection;
+   private final int mLayoutDirection;
    /** spacing between partner lanes */
    private int mInterLaneSpacing ;
    

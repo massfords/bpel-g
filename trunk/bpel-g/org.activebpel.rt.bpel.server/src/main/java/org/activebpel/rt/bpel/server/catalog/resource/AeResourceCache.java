@@ -45,7 +45,7 @@ import bpelg.services.deploy.types.pdd.ReferenceType;
 public class AeResourceCache implements IAeResourceCache, PreferenceChangeListener {
     /** Default max value. Default value is 50. */
     public static final int DEFAULT_MAX_VALUE = 50;
-    protected Cache mCache;
+    protected final Cache mCache;
 
     /**
      * Default contructor.

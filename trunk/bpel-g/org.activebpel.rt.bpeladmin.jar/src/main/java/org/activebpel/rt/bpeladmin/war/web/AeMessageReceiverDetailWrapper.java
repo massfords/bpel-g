@@ -19,7 +19,7 @@ import org.activebpel.rt.bpeladmin.war.AeEngineManagementFactory;
 public class AeMessageReceiverDetailWrapper
 {
    /** AeMessageReceiver detail object. */
-   protected AeMessageReceiverBean mDetail;
+   protected final AeMessageReceiverBean mDetail;
    
    /**
     * Constructor.

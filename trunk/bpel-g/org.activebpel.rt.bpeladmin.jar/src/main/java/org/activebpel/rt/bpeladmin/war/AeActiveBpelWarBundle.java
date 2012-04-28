@@ -35,7 +35,7 @@ public class AeActiveBpelWarBundle extends ResourceBundle
    private ResourceBundle mProxiedBundle;
    
    /** The first part of the resource bundle name */
-   private String[] mBundlePrefix;
+   private final String[] mBundlePrefix;
    
    /**
     * Constructs the resource bundle.

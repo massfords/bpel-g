@@ -24,10 +24,10 @@ import org.w3c.dom.Document;
 abstract public class AeAbstractCatalogMapping implements IAeCatalogMapping
 {
    /** Location hint. */
-   private String mLocationHint;
+   private final String mLocationHint;
 
    /** The catalog mapping type. */
-   private String mTypeURI;
+   private final String mTypeURI;
 
    /** The target namespace of this mapping item. */
    private String mTargetNamespace;

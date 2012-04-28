@@ -34,7 +34,7 @@ import bpelg.services.deploy.types.catalog.Catalog;
  */
 public abstract class AeAbstractBprStrategy implements IAeBprAccessor {
 	/** The deployment context. */
-	private IAeDeploymentContext mDeploymentContext;
+	private final IAeDeploymentContext mDeploymentContext;
 	/** The pdd resource names. */
 	private Collection<AePddResource> mPddResources;
 	/** XML parser. */

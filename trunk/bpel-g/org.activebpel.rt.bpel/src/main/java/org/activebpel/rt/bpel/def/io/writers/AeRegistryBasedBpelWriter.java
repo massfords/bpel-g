@@ -26,7 +26,7 @@ import org.w3c.dom.Document;
 public class AeRegistryBasedBpelWriter implements IAeBpelWriter
 {
    /** bpel registry */
-   private IAeDefRegistry mBpelRegistry;
+   private final IAeDefRegistry mBpelRegistry;
    
    /**
     * ctor accepts registries

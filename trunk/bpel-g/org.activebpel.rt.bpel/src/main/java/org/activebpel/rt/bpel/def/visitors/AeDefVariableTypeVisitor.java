@@ -30,7 +30,7 @@ import org.exolab.castor.xml.schema.ElementDecl;
 public class AeDefVariableTypeVisitor extends AeAbstractDefVisitor
 {
    /** The WSDL provider set during visitor creation. */
-   private IAeContextWSDLProvider mWSDLProvider;
+   private final IAeContextWSDLProvider mWSDLProvider;
    /** Flag used to track if errors have occurred. */
    private boolean mHasErrors;
    /** Flag indicating if errors should be reported during visit. */

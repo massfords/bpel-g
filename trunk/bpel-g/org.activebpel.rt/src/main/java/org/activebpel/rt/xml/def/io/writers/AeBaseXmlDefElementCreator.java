@@ -30,7 +30,7 @@ public class AeBaseXmlDefElementCreator
    private Element mSerializedElement;
 
    /** stack for maintaining parent elements */
-   private Stack<Element> mStack = new Stack<Element>();
+   private final Stack<Element> mStack = new Stack<Element>();
 
    /** Def registry */
    private IAeDefRegistry mRegistry;

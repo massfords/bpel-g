@@ -230,9 +230,9 @@ public class AeXmlNormalizer
    protected static class AeNamespaceManager
    {
       /** Map of prefix to namespace. */
-      private Map<String, String> mPrefixToNamespaceMap = new HashMap<String, String>();
+      private final Map<String, String> mPrefixToNamespaceMap = new HashMap<String, String>();
       /** Map of namespace to prefix. */
-      private Map<String, String> mNamespaceToPrefixMap = new HashMap<String, String>();
+      private final Map<String, String> mNamespaceToPrefixMap = new HashMap<String, String>();
 
       /**
        * C'tor.

@@ -37,7 +37,7 @@ import java.util.Stack;
 public class AeDefVariableUsageVisitor extends AeAbstractDefVisitor
 {
    /** Def objects are pushed and popped from the stack as we traverse the tree */
-   private Stack<AeBaseXmlDef> mStack = new Stack<AeBaseXmlDef>();
+   private final Stack<AeBaseXmlDef> mStack = new Stack<AeBaseXmlDef>();
    /** Set to true if come across a serializable scope which requires us to do resource locking */
    private boolean mResourceLockingRequired = false;
    /** The current compensation handler or <code>null</code> */

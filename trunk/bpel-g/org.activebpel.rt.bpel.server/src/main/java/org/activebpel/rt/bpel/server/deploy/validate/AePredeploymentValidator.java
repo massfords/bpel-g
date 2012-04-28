@@ -21,7 +21,7 @@ import org.activebpel.rt.bpel.server.deploy.bpr.IAeBpr;
 public class AePredeploymentValidator implements IAePredeploymentValidator
 {
    /** The default IAePredeploymentValidators */
-   private IAePredeploymentValidator[] mValidators;
+   private final IAePredeploymentValidator[] mValidators;
 
    /**
     * @param aValidators

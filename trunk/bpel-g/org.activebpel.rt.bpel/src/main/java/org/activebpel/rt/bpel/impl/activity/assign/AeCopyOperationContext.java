@@ -44,7 +44,7 @@ import org.jaxen.VariableContext;
 public class AeCopyOperationContext implements IAeCopyOperationContext
 {
    /** The base object we will be delegating through */
-   protected AeAbstractBpelObject mContextBase;
+   protected final AeAbstractBpelObject mContextBase;
    
    /**
     * Constructor

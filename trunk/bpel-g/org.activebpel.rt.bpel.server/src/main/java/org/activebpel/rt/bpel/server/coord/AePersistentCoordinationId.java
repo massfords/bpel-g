@@ -23,7 +23,7 @@ public class AePersistentCoordinationId implements IAeCoordinationId
    /**
     * primary key associated in the storage layer.
     */
-   private long mProcessId;
+   private final long mProcessId;
 
    /**
     * Default constructor 

@@ -18,9 +18,9 @@ import java.net.URL;
 abstract public class AeAbstractDeploymentContext implements IAeDeploymentContext
 {
    /** deployment location */
-   private URL mLocation;
+   private final URL mLocation;
    /** deployment id */
-   private IAeDeploymentId mDeploymentId;
+   private final IAeDeploymentId mDeploymentId;
    private String mShortName;
 
    /**

@@ -21,7 +21,7 @@ import org.activebpel.rt.wsdl.def.IAePartnerLinkType;
 public class AeDefPartnerLinkTypeVisitor extends AeAbstractDefVisitor
 {
    /** wsdl provider used to find partner link type definition elements */
-   private IAeContextWSDLProvider mProvider;
+   private final IAeContextWSDLProvider mProvider;
    
    /**
     * Creates the visitor with the default traverser 

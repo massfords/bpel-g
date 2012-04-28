@@ -27,9 +27,9 @@ import org.activebpel.rt.bpel.def.visitors.AeAbstractEntryPointVisitor;
 public class AeValidateIMAVisitor extends AeAbstractEntryPointVisitor
 {
    /** Operation name */
-   private String mOperation;
+   private final String mOperation;
    /** Partner link */
-   private AePartnerLinkDef mPartnerLink;
+   private final AePartnerLinkDef mPartnerLink;
    /** a flag which when set to true, indicates if an IMA was found */
    private boolean mIMAFoundFlag = false;
 

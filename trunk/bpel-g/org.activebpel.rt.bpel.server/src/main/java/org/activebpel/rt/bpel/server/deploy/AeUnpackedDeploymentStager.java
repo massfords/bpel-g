@@ -39,11 +39,11 @@ public class AeUnpackedDeploymentStager
    /** Temp deployment managet instance. */
    private static AeUnpackedDeploymentStager sInstance;
    /** Working dir. */   
-   private File mWorkingDir;
+   private final File mWorkingDir;
    /** Maps url to deployment dir. */
-   private Map<URL,AeTempResource> mTempResources;
+   private final Map<URL,AeTempResource> mTempResources;
    /** Logging object. */
-   private static Log sLog = LogFactory.getLog(AeUnpackedDeploymentStager.class);
+   private static final Log sLog = LogFactory.getLog(AeUnpackedDeploymentStager.class);
    
    /**
     * Static initialization of <code>AeUnpackedDeploymentStager</code> instance.
@@ -222,7 +222,7 @@ public class AeUnpackedDeploymentStager
    class AeTempResource
    {
       /** the root dir where the deployment file has been unpacked to */
-      private String mTempDir;
+      private final String mTempDir;
       
       /**
        * Constructor.

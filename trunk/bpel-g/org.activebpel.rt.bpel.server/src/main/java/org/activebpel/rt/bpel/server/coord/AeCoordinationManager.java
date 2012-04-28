@@ -593,9 +593,9 @@ public abstract class AeCoordinationManager extends AeManagerAdapter implements 
 class AeCoordinationMessageDispatchWork extends AeAbstractWork
 {
    /** Message to be dispatched. */
-   private IAeProtocolMessage mMessage;
+   private final IAeProtocolMessage mMessage;
    /** Coordination manager. */
-   private AeCoordinationManager mManager;
+   private final AeCoordinationManager mManager;
    
    /** Default ctor. */
    public AeCoordinationMessageDispatchWork(AeCoordinationManager aManager, IAeProtocolMessage aMessage)
@@ -683,9 +683,9 @@ class AeCoordinationMessageProcessEnqueueWork extends AeCoordinationMessageDispa
 class AeProcessExecutionQueueMessageWrapper implements Runnable
 {
    /** Message to be dispatched. */
-   private IAeProtocolMessage mMessage;
+   private final IAeProtocolMessage mMessage;
    /** Coordination manager. */
-   private AeCoordinationManager mManager;
+   private final AeCoordinationManager mManager;
    
    /** Ctor */
    public AeProcessExecutionQueueMessageWrapper(AeCoordinationManager aManager, IAeProtocolMessage aMessage)

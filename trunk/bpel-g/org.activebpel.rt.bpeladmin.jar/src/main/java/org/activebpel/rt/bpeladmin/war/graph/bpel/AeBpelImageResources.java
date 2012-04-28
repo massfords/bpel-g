@@ -37,11 +37,11 @@ public class AeBpelImageResources
    /**
     * Base path to the resource icons.
     */
-   private String mBasePath = "/org/activebpel/rt/bpeladmin/war/graph/bpel/icons/";  //$NON-NLS-1$
+   private final String mBasePath = "/org/activebpel/rt/bpeladmin/war/graph/bpel/icons/";  //$NON-NLS-1$
    /**
     * Cache for the images.
     */
-   private Map<String, Image> mImageCache = new Hashtable<String, Image>();
+   private final Map<String, Image> mImageCache = new Hashtable<String, Image>();
 
    /**
     * @return Returns the useLargeIcons.

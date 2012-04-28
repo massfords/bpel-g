@@ -36,7 +36,7 @@ public class AeGraphImageServlet extends HttpServlet
      */
     private static final long serialVersionUID = -3373104996323762328L;
 /** Key used to look up the http servlet session for the model cache. */
-   private static String CACHE_MODEL_SESSION_KEY = "org.activebpel.rt.bpeladmin.war.web.graph.AeProcessImageModelCache";  //$NON-NLS-1$
+   private static final String CACHE_MODEL_SESSION_KEY = "org.activebpel.rt.bpeladmin.war.web.graph.AeProcessImageModelCache";  //$NON-NLS-1$
 
    /**
     * Overrides method to ready imaging properties such as the buffered image's color depth.

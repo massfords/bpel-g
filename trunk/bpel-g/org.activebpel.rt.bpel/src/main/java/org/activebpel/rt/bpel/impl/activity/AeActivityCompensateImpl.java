@@ -47,7 +47,7 @@ public class AeActivityCompensateImpl extends AeActivityImpl implements IAeCompe
    private int mNextIndex = 0;
    
    /** If true, the compensate activity should run only the coordinated <code>AeCompInfo</code> objects. */
-   private boolean mMatchCoordinated; 
+   private final boolean mMatchCoordinated;
 
    /** 
     * default constructor for activity which compensates all compInfo objects  
@@ -208,8 +208,7 @@ public class AeActivityCompensateImpl extends AeActivityImpl implements IAeCompe
    /**
     * Gets the next comp info object for compensation
     */
-   private AeCompInfo getNextCompInfo() throws AeBusinessProcessException
-   {
+   private AeCompInfo getNextCompInfo() {
       int i = getNextIndex();
       setNextIndex(i + 1);
 
@@ -219,8 +218,7 @@ public class AeActivityCompensateImpl extends AeActivityImpl implements IAeCompe
    /**
     * returns true if there are more comp info objects that need executing
     */
-   private boolean hasMoreCompInfos() throws AeBusinessProcessException
-   {
+   private boolean hasMoreCompInfos() {
       return getNextIndex() < getIterationScopes().size();
    }
 

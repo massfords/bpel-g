@@ -50,13 +50,13 @@ public class AeOnMessageDef extends AeSingleActivityParentBaseDef implements IAe
    /** Message exchange value */
    private String mMessageExchange;
    /** delegate which handle the partner link and correlation information. */
-   private AePartnerLinkDelegate mDelegate = new AePartnerLinkDelegate();
+   private final AePartnerLinkDelegate mDelegate = new AePartnerLinkDelegate();
    /** The fromParts child def. */
    private AeFromPartsDef mFromPartsDef;
    /** name of the strategy used to consumer the message data */
    private String mMessageDataConsumerStrategy;
    /** the type of activity for display in errors */
-   private static String sDisplayTypeText = AeMessages.getString("AeActivityReceiveDef.onMessage"); //$NON-NLS-1$
+   private static final String sDisplayTypeText = AeMessages.getString("AeActivityReceiveDef.onMessage"); //$NON-NLS-1$
    
    /**
     * Default constructor

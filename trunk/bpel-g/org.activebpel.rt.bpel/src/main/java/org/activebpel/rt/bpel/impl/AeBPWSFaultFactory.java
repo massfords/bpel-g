@@ -56,7 +56,7 @@ public class AeBPWSFaultFactory extends AeBaseFaultFactory implements IAeBPWSFau
    /** Error message for trying to get a fault from the factory that isn't supported */
    private static final String INVALID_FAULT = AeMessages.getString("AeBPEL4WSFaultFactory.InvalidFault"); //$NON-NLS-1$
 
-   private static String[] STANDARD_FAULTS =
+   private static final String[] STANDARD_FAULTS =
    {
       SELECTION_FAILURE,
       CONFLICTING_RECEIVE,

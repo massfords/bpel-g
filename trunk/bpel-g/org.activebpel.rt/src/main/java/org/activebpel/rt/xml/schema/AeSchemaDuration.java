@@ -27,9 +27,9 @@ import org.activebpel.rt.util.AeUtil;
 public class AeSchemaDuration extends AeAbstractPatternBasedSchemaType
 {
    /** Pattern that matches a duration. */
-   private static Pattern INPUT_PATTERN = Pattern.compile("(-?P)([0-9]+Y)?([0-9]+M)?([0-9]+D)?(T([0-9]+H)?([0-9]+M)?([0-9]+(\\.[0-9]+)?S)?)?"); //$NON-NLS-1$
+   private static final Pattern INPUT_PATTERN = Pattern.compile("(-?P)([0-9]+Y)?([0-9]+M)?([0-9]+D)?(T([0-9]+H)?([0-9]+M)?([0-9]+(\\.[0-9]+)?S)?)?"); //$NON-NLS-1$
    /** The output pattern to use for toString(). */
-   private static String OUTPUT_PATTERN = "{0}P{1,number,#}Y{2,number,#}M{3,number,#}DT{4,number,#}H{5,number,#}M{6,number,#}{7,choice,0#|0<.{7,number,000}}S"; //$NON-NLS-1$
+   private static final String OUTPUT_PATTERN = "{0}P{1,number,#}Y{2,number,#}M{3,number,#}DT{4,number,#}H{5,number,#}M{6,number,#}{7,choice,0#|0<.{7,number,000}}S"; //$NON-NLS-1$
 
    /** A flag indicating if this duration is negative. */
    private boolean mNegative;

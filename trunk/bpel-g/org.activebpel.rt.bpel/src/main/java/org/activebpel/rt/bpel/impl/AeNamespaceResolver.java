@@ -24,7 +24,7 @@ import java.util.Set;
 public class AeNamespaceResolver implements IAeNamespaceContext
 {
    /** Property alias which contains the prefix to namespace mappings */
-   IAePropertyAlias mPropAlias;
+   final IAePropertyAlias mPropAlias;
 
    /**
     * Constructs a namespace resolver for use with the given property alias

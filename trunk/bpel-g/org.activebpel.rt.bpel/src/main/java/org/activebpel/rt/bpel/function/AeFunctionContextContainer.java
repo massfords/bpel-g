@@ -25,7 +25,7 @@ import java.util.*;
 public class AeFunctionContextContainer
 {
    /** Internal storage for mapping namespace to function contexts. */
-   private Map<String, AeFunctionContextInfo> mNamespaceToFunctionContextMap;
+   private final Map<String, AeFunctionContextInfo> mNamespaceToFunctionContextMap;
    /** Locator for creating function contexts. */
    private IAeFunctionContextLocator mLocator;
    /** bpel expression function context */

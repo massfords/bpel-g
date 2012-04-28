@@ -49,7 +49,7 @@ import org.jaxen.saxpath.Axis;
  */
 public class AeXPathSerializeNodeVisitor extends AeAbstractTraversingXPathNodeVisitor
 {
-   private static String [] AXIS_MAPPING = {
+   private static final String [] AXIS_MAPPING = {
       /* INVALID_AXIS       */  "??", //$NON-NLS-1$
       /* CHILD              */  "", //$NON-NLS-1$
       /* DESCENDANT         */  "descendant::", //$NON-NLS-1$
@@ -66,7 +66,7 @@ public class AeXPathSerializeNodeVisitor extends AeAbstractTraversingXPathNodeVi
       /* ANCESTOR_OR_SELF   */  "ancestor-or-self" //$NON-NLS-1$
    };
 
-   private static String [] OPERATOR_MAPPING = {
+   private static final String [] OPERATOR_MAPPING = {
       /* NO_OP               */ "??", //$NON-NLS-1$
       /* EQUALS              */ " = ", //$NON-NLS-1$
       /* NOT_EQUALS          */ " != ", //$NON-NLS-1$

@@ -32,7 +32,7 @@ import java.io.StringWriter;
 
 public class AeCamelInvokeHandlerFactory implements IAeInvokeHandlerFactory, IAeInvokeHandler {
 
-	private DefaultCamelContext mContext = new DefaultCamelContext();
+	private final DefaultCamelContext mContext = new DefaultCamelContext();
     @Inject
 	private AeSpringManager mSpringManager;
 	

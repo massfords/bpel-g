@@ -15,10 +15,10 @@ package org.activebpel.rt.bpel.def.faults;
 public class AeMatch implements IAeMatch
 {
    /** true if this curren match is the best match */
-   private boolean mBestMatch;
+   private final boolean mBestMatch;
 
    /** the priority order of this match. */
-   private int mPriority;
+   private final int mPriority;
 
    /** the substition group level of this match. */
    private int mSGLevel;

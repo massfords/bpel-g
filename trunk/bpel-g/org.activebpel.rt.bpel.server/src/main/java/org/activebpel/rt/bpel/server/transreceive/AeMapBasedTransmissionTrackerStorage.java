@@ -13,9 +13,9 @@ public class AeMapBasedTransmissionTrackerStorage implements
 		IAeTransmissionTrackerStorage {
 
 	/** In memory map of entries. */
-	private Map<Long,AeTransmissionTrackerEntry> mEntries = new ConcurrentHashMap<Long,AeTransmissionTrackerEntry>();
+	private final Map<Long,AeTransmissionTrackerEntry> mEntries = new ConcurrentHashMap<Long,AeTransmissionTrackerEntry>();
 	/** Next transmission id. */
-	private AtomicLong mNextId = new AtomicLong(0);
+	private final AtomicLong mNextId = new AtomicLong(0);
 
 	@Override
 	public long getNextTransmissionId() throws AeStorageException {

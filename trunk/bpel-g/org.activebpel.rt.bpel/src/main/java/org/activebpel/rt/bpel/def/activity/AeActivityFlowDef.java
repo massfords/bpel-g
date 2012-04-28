@@ -27,7 +27,7 @@ public class AeActivityFlowDef extends AeActivityDef implements IAeMultipleActiv
 {
    private static final long serialVersionUID = 55963937468851520L;
    /** The list of activities in the flow. */
-   private List<AeActivityDef> mActivities = new ArrayList<AeActivityDef>();  // Will always be at least one
+   private final List<AeActivityDef> mActivities = new ArrayList<AeActivityDef>();  // Will always be at least one
    /** Container used to store links for Flow. */
    private AeLinksDef mLinks;
 

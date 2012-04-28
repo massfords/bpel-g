@@ -23,7 +23,7 @@ import org.activebpel.rt.bpel.def.IAeBPELConstants;
 public class AeBpelDefConverterFactory
 {
    /** A map of converters. */
-   private static Map<AeBpelConverterKey, Class<? extends IAeBpelDefConverter>> sConverters;
+   private static final Map<AeBpelConverterKey, Class<? extends IAeBpelDefConverter>> sConverters;
    
    static
    {

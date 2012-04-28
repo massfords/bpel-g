@@ -21,13 +21,13 @@ import org.w3c.dom.Document;
 public class AeAttachmentItemEntry
 {
    /** Attachment group id. */
-   private long mAttachmentGroupId;
+   private final long mAttachmentGroupId;
    
    /** Attachment id. */
-   private long mAttachmentId;
+   private final long mAttachmentId;
 
    /** Serialized attachment headers <code>Document</code>. */
-   private Document mHeadersDocument;
+   private final Document mHeadersDocument;
 
    /** Deserialized attachment headers. */
    private Map<String,String> mHeaders;

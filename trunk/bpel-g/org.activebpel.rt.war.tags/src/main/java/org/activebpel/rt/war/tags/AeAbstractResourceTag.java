@@ -34,7 +34,7 @@ public abstract class AeAbstractResourceTag extends BodyTagSupport
 private static final String NOT_PRESENT = "none"; //$NON-NLS-1$
    
    /** Collection of bundles based on locale */
-   protected static Hashtable<String, ResourceBundle> sBundleTable = new Hashtable<String, ResourceBundle>();
+   protected static final Hashtable<String, ResourceBundle> sBundleTable = new Hashtable<String, ResourceBundle>();
 
    /**
     * Gets the resource bundle to use.

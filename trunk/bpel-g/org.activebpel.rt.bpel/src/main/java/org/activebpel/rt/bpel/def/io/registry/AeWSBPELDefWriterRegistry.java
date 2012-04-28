@@ -48,7 +48,7 @@ public class AeWSBPELDefWriterRegistry extends AeAbstractBpelWriterRegistry
    protected static class AeFeatureBasedDefWriterFactory implements IAeDefWriterFactory
    {
       /** Factory features map. */
-      private Map mFeatures;
+      private final Map mFeatures;
       
       /**
        * Constructor

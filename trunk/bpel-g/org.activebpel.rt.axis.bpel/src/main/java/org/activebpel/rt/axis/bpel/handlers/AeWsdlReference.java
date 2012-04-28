@@ -64,15 +64,15 @@ public class AeWsdlReference implements IAeWsdlReference, IAeCatalogListener
    /** Current cached wsdl def.  This will be updated on replacement deployment. */
    private AeBPELExtendedWSDLDef mWsdlDef;
    /** Transport url string from the message context.  Used to format wsdl imports. */
-   private String mTransportUrl;
+   private final String mTransportUrl;
    /** The ServiceDesc object we are attached to. */
-   private ServiceDesc mServiceDesc;
+   private final ServiceDesc mServiceDesc;
    /** The parnter link string. */
-   private String mPartnerLink;
+   private final String mPartnerLink;
    /** The process QName. */
-   private QName mProcessQName;
+   private final QName mProcessQName;
    /** The partner link type QName. */
-   private QName mPartnerLinkType;
+   private final QName mPartnerLinkType;
    /** The port type QName. */
    private QName mPortTypeQName;
    /** The partner link def object. */
@@ -80,9 +80,9 @@ public class AeWsdlReference implements IAeWsdlReference, IAeCatalogListener
    /** Allowed methods. */
    private List<String> mAllowedMethods;
    /** List of operations. */
-   private ArrayList<OperationDesc> mOperations;
+   private final ArrayList<OperationDesc> mOperations;
    /** Keeps track of overloaded methods. */
-   private Map<String, List<OperationDesc>> mNameToOperationsMap;
+   private final Map<String, List<OperationDesc>> mNameToOperationsMap;
    
    /**
     * Constructor.

@@ -32,10 +32,10 @@ import bpelg.services.processes.types.GetProcessDeployments;
 public class AeEngineConfigBean extends AeAbstractAdminBean
 {
    /** Build info information. */
-   protected AeBuildInfo[] mBuildInfos;
+   protected final AeBuildInfo[] mBuildInfos;
 
    // internal state
-   private Set<AeProcessEventType> mNewFilter = new HashSet<AeProcessEventType>();
+   private final Set<AeProcessEventType> mNewFilter = new HashSet<AeProcessEventType>();
    private boolean mAllowEmptyQuery;
    private boolean mValidateMessages;
    private boolean mCreateXPath;

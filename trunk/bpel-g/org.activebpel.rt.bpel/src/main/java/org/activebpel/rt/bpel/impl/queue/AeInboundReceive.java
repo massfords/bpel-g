@@ -34,7 +34,7 @@ public class AeInboundReceive extends AeCorrelatedReceive
    /** id given by the queue manager, currently only used for unmatched receives */
    private String mQueueId;
    /** The context that for the inbound message */
-   private IAeMessageContext mContext;
+   private final IAeMessageContext mContext;
    /** The date when this inbound receive should expire (if it hasn't been dispatched yet). */
    private Date mTimeoutDate;
    /** The Timer that has been created to timeout this inbound receive at the above timeout date. */

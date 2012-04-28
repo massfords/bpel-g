@@ -25,7 +25,7 @@ import org.apache.axis.utils.XMLUtils;
 public class AeResourceProvider extends FileProvider
 {
    /** The configuration we load. */
-   protected URL mConfigResource;
+   protected final URL mConfigResource;
 
    /** Input stream cache */
    protected InputStream mInputStreamCache;

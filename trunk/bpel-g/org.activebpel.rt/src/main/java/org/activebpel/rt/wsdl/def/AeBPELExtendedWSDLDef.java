@@ -96,13 +96,13 @@ public class AeBPELExtendedWSDLDef implements IAeBPELExtendedWSDLConst, IAeMutab
    protected static final QName ANY_TYPE = new QName(Schema.DEFAULT_SCHEMA_NS, SchemaNames.ANYTYPE);
 
    /** Map of schemas which have already been loaded and we are caching */
-   protected static Schema sDefaultSchema = new Schema(Schema.DEFAULT_SCHEMA_NS);
+   protected static final Schema sDefaultSchema = new Schema(Schema.DEFAULT_SCHEMA_NS);
 
    /** Default WSDL def for unnamed locations  */
-   protected static AeBPELExtendedWSDLDef sDefaultDef = new AeBPELExtendedWSDLDef();
+   protected static final AeBPELExtendedWSDLDef sDefaultDef = new AeBPELExtendedWSDLDef();
 
    /** Map of schemas which have already been loaded and we are caching */
-   protected Map<String, Schema> mSchemaDefs = new LinkedHashMap<String, Schema>(); // Use a linked hashmap because schema import order matters
+   protected final Map<String, Schema> mSchemaDefs = new LinkedHashMap<String, Schema>(); // Use a linked hashmap because schema import order matters
 
    /** List of Partner Link Type extensibility element implementations. */
    private List<IAePartnerLinkType> mPartnerLinkTypeExtElements;

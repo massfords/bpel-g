@@ -58,7 +58,7 @@ public class AeActivityScopeDef extends AeActivityDef
    /** The exit on standard fault override. */
    private Boolean mExitOnStandardFault;
    /** The scope def. */
-   private AeScopeDef mScope = new AeScopeDef();
+   private final AeScopeDef mScope = new AeScopeDef();
    /** optimization point for scope compensation. If this scope and none of its descendants have explicit 
     * compensation behavior then there's no reason to record a snapshot at the scope's completion. */
    private boolean mRecordSnapshot;

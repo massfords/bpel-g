@@ -30,7 +30,7 @@ import org.xml.sax.InputSource;
 public class AeXMLParserSchemaHandler extends AeXMLParserDefaultHandler
 {
    /** A map from namespace to <code>Schema</code> object. */
-   private HashMap<String,Schema> mSchemaMap = new HashMap<String,Schema>();
+   private final HashMap<String,Schema> mSchemaMap = new HashMap<String,Schema>();
 
    /**
     * Constructs a schema xml handler given the wsdl locator and schema list.

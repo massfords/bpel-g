@@ -30,10 +30,10 @@ import java.util.List;
 public class AeActivityForEachParallelImpl extends AeActivityForEachImpl implements IAeDynamicScopeParent
 {
    /** list of child scope instances created during execute routine */
-   private List<IAeActivity> mChildren = new ArrayList<IAeActivity>();
+   private final List<IAeActivity> mChildren = new ArrayList<IAeActivity>();
 
    /** list of child scope instances that have been restored for compensation purposes */
-   private List<IAeActivity> mCompensatableChildren = new ArrayList<IAeActivity>();
+   private final List<IAeActivity> mCompensatableChildren = new ArrayList<IAeActivity>();
 
    /** value for the next scope instance created for this parallel forEach */
    private int mInstanceValue = 1;

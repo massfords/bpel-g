@@ -21,9 +21,9 @@ import org.activebpel.rt.bpel.impl.AeSelectionFailureException;
 public class AeCopyStrategyFactory
 {
    /** The strategy factory for bpws. */
-   public static IAeCopyStrategyFactory mBPWSFactory = new AeBPWSCopyStrategyFactoryImpl();
+   public static final IAeCopyStrategyFactory mBPWSFactory = new AeBPWSCopyStrategyFactoryImpl();
    /** The strategy factory for ws-bpel. */
-   public static IAeCopyStrategyFactory mWSBPELFactory = new AeWSBPELCopyStrategyFactoryImpl();
+   public static final IAeCopyStrategyFactory mWSBPELFactory = new AeWSBPELCopyStrategyFactoryImpl();
    
    /**
     * Gets the strategy factory for the given bpel namespace.

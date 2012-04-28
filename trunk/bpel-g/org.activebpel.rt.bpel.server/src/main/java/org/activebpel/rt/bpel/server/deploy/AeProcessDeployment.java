@@ -70,15 +70,15 @@ public class AeProcessDeployment implements IAeProcessDeployment {
 	/** The process definition which was deployed */
 	private AeProcessDef mProcess;
 
-	private Pdd mPdd;
+	private final Pdd mPdd;
 
 	/** Plan id. */
-	protected int mPlanId;
+	protected final int mPlanId;
 
 	/** Map of partner link name to partner link descriptor object. */
-	protected Map<AePartnerLinkDefKey,AePartnerLinkDescriptor> mPartnerLinkDescriptors = new HashMap<AePartnerLinkDefKey, AePartnerLinkDescriptor>();
+	protected final Map<AePartnerLinkDefKey,AePartnerLinkDescriptor> mPartnerLinkDescriptors = new HashMap<AePartnerLinkDefKey, AePartnerLinkDescriptor>();
 
-	private Map<Integer,ServiceDeployment> mServices = new HashMap<Integer, ServiceDeployment>();
+	private final Map<Integer,ServiceDeployment> mServices = new HashMap<Integer, ServiceDeployment>();
 
 	private IAeExpressionLanguageFactory mExpressionLanguageFactory;
 	

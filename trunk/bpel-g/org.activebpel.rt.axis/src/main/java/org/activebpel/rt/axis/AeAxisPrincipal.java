@@ -18,7 +18,7 @@ import org.apache.axis.security.servlet.ServletAuthenticatedUser;
  */
 public class AeAxisPrincipal implements IAePrincipal
 {
-   private AuthenticatedUser mUser;
+   private final AuthenticatedUser mUser;
 
    /**
     * @param aUser authenticated user from Axis

@@ -26,11 +26,11 @@ public class AeMessageReceiverListResult implements Serializable
      */
     private static final long serialVersionUID = -956966022024432317L;
 /** Total rows that matched selection criteria.  This number may be greater than the number of results in this listing. */
-   protected int mTotalRows;
+   protected final int mTotalRows;
    /** The matching message receivers. */
-   protected AeMessageReceiver[] mResults;
+   protected final AeMessageReceiver[] mResults;
    /** Mapping of process ids to location paths. */
-   protected Map<Integer,String> mLocationIdtoLocationPathMap = new HashMap<Integer, String>();
+   protected final Map<Integer,String> mLocationIdtoLocationPathMap = new HashMap<Integer, String>();
    
    /**
     * Constructor.

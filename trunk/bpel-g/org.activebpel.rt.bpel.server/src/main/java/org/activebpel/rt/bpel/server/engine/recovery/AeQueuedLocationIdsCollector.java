@@ -45,7 +45,7 @@ public class AeQueuedLocationIdsCollector
    /** The set of location ids for queued activities. */
    private Set<Integer> mQueuedLocationIds;
    /** Maps location ids to the alarm object. Supports a one to many mapping. */
-   private Map<Integer,List<AeAlarm>> mAlarms = new HashMap<Integer,List<AeAlarm>>();
+   private final Map<Integer,List<AeAlarm>> mAlarms = new HashMap<Integer,List<AeAlarm>>();
 
    /**
     * Default constructor.

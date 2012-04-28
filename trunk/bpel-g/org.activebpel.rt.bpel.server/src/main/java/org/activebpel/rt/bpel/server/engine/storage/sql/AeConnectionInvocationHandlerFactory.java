@@ -29,7 +29,7 @@ public class AeConnectionInvocationHandlerFactory
    private static final String ROLLBACK = "rollback"; //$NON-NLS-1$
 
    /** Singleton instance. */
-   private static AeConnectionInvocationHandlerFactory sInstance = new AeConnectionInvocationHandlerFactory();
+   private static final AeConnectionInvocationHandlerFactory sInstance = new AeConnectionInvocationHandlerFactory();
 
    /**
     * The {@link java.lang.reflect.Method} instance representing the {@link

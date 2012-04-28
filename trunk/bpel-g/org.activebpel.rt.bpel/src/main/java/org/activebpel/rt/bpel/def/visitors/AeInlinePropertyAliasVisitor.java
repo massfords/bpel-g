@@ -37,7 +37,7 @@ import java.util.Iterator;
 public class AeInlinePropertyAliasVisitor extends AeAbstractDefVisitor
 {
    /** The WSDL provider set during visitor creation. */
-   private IAeContextWSDLProvider mWSDLProvider;
+   private final IAeContextWSDLProvider mWSDLProvider;
    /** The process def that we're visiting */
    private AeProcessDef mProcessDef;
    /** The expression language factory. */

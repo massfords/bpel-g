@@ -94,8 +94,7 @@ public class AeFunctionExceptions
    
    public static final IAeFunctionException VARIABLE_NOT_INITIALIZED = new IAeFunctionException()
    {
-      public void error(Object[] args) throws AeFunctionCallException
-      {
+      public void error(Object[] args) {
          throw new AeExpressionException(
                new AeBpelException(
                      AeMessages.format("AeFunctionExceptions.VARIABLE_NOT_INITIALIZED_ERROR", args[0]), ((IAeFunctionExecutionContext)args[1]).getFaultFactory().getUninitializedVariable())); //$NON-NLS-1$

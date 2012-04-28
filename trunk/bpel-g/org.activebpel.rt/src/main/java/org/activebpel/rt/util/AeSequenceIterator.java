@@ -22,7 +22,7 @@ import java.util.NoSuchElementException;
 public class AeSequenceIterator<T> implements Iterator<T>
 {
    /** Holds onto the iterators that we're joining */
-   private List<Iterator<? extends T>> mIters = new ArrayList<Iterator<? extends T>>();
+   private final List<Iterator<? extends T>> mIters = new ArrayList<Iterator<? extends T>>();
    
    /** Offset used to track where we are in the list of iterators */
    private int mOffset = 0;

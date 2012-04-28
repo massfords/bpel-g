@@ -19,10 +19,10 @@ import java.util.Map;
 public class AeWebServiceAttachment implements IAeWebServiceAttachment
 {
    /** Attachment Mime headers. stored as Strings. key=mimeId */
-   protected Map<String, String> mMimeHeaders;
+   protected final Map<String, String> mMimeHeaders;
 
    /** Attachment Data Content */
-   InputStream mDataContent;
+   final InputStream mDataContent;
 
    /**
     * Constructor.

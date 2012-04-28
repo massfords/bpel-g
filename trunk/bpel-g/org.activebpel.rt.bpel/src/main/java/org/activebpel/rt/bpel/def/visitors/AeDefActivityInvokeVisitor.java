@@ -22,7 +22,7 @@ import java.util.List;
 public class AeDefActivityInvokeVisitor extends AeAbstractDefVisitor
 {
    /** List of all the AeActivityInvokeDef objects found in the BPEL */
-   private List<AeActivityInvokeDef> mInvokes = new ArrayList<AeActivityInvokeDef>(); 
+   private final List<AeActivityInvokeDef> mInvokes = new ArrayList<AeActivityInvokeDef>();
    
    /**
     * Constructor

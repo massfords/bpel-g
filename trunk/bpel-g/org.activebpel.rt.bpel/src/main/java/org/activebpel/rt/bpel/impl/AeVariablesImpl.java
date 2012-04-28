@@ -29,11 +29,11 @@ import java.util.Map.Entry;
 public class AeVariablesImpl implements IAeVariableContainer
 {
    /** map of variable name to variable object */
-   private Map<String, IAeVariable> mMap = new HashMap<String, IAeVariable>();
+   private final Map<String, IAeVariable> mMap = new HashMap<String, IAeVariable>();
    /** def object */
-   private AeVariablesDef mVariablesDef;
+   private final AeVariablesDef mVariablesDef;
    /** scope parent */
-   private AeActivityScopeImpl mScope;
+   private final AeActivityScopeImpl mScope;
    /** virtual copy operations that contain variable initializations */
    private Collection<IAeCopyOperation> mCopyOperations;
    /** context used to initialize our variables */
