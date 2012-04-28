@@ -18,11 +18,11 @@ import org.activebpel.rt.util.AeUtil;
 public class AeFunctionContextInfo
 {
    /** function context grouping name */
-   protected String mName;
+   protected final String mName;
    /** namespace to match on */
-   protected String mNamespace;
+   protected final String mNamespace;
    /** function context impl */
-   protected IAeFunctionContext mFunctionContext;
+   protected final IAeFunctionContext mFunctionContext;
    
    /**
     * Constructor.

@@ -39,11 +39,11 @@ public abstract class AeAbstractReportingDefReader implements IAeReportingDefRea
    /** list of errors encountered during parse */
    private List<String> mErrors;
    /** A set of consumed attributes. */
-   private Set<Attr> mConsumedAttributes = new HashSet<Attr>();
+   private final Set<Attr> mConsumedAttributes = new HashSet<Attr>();
    /** current element being read */
-   private Element mCurrentElement;
+   private final Element mCurrentElement;
    /** Parent def object */
-   private AeBaseXmlDef mParentDef;
+   private final AeBaseXmlDef mParentDef;
    
    /**
     * ctor

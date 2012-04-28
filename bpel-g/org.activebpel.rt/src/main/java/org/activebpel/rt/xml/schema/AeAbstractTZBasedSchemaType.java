@@ -23,7 +23,7 @@ import java.util.TimeZone;
 public abstract class AeAbstractTZBasedSchemaType extends AeAbstractPatternBasedSchemaType
 {
    /** A standard time zone defined for UTC. */
-   protected static SimpleTimeZone sUTCTimeZone = new SimpleTimeZone(0, "UTC"); //$NON-NLS-1$
+   protected static final SimpleTimeZone sUTCTimeZone = new SimpleTimeZone(0, "UTC"); //$NON-NLS-1$
 
 
    /** The Timezone. */

@@ -50,7 +50,7 @@ public class AeServiceDesc implements ServiceDesc
    private boolean mUseSet;
 
    /** Our operations - a list of OperationDescs */
-   private ArrayList<OperationDesc> mOperations = new ArrayList<OperationDesc>();
+   private final ArrayList<OperationDesc> mOperations = new ArrayList<OperationDesc>();
 
    /** A collection of namespaces which will map to this service */
    private List<String> mNamespaceMappings;

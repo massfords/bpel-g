@@ -21,11 +21,11 @@ import org.activebpel.rt.bpel.server.AeMessages;
 public class AeWorkEvent implements WorkEvent
 {
    /** type of event */
-   private int mType;
+   private final int mType;
    /** WorkItem that event relates to */
    private WorkItem mWorkItem;
    /** exception, if any, that was a result of the work's execution */
-   private WorkException mException;
+   private final WorkException mException;
    
    /**
     * Creates a work event for the specified work object and type.  

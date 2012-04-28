@@ -119,9 +119,9 @@ public abstract class AeActivityThrowValidator extends AeActivityValidator
    private static class AeFaultTypeInfo implements IAeFaultTypeInfo
    {
       /** name of the fault */
-      private QName mFaultName;
+      private final QName mFaultName;
       /** variable being thrown */
-      private AeVariableValidator mVariableValidator;
+      private final AeVariableValidator mVariableValidator;
       
       /**
        * Ctor accepts fault name and variable

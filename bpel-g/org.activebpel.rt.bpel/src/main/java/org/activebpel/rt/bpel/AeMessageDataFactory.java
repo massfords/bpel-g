@@ -23,7 +23,7 @@ import org.activebpel.rt.message.IAeMessageData;
 public class AeMessageDataFactory
 {
    /** The singleton instance of the factory */
-   private static AeMessageDataFactory mFactory = new AeMessageDataFactory();
+   private static final AeMessageDataFactory mFactory = new AeMessageDataFactory();
 
    /**
     * Private constructor to force singleton.

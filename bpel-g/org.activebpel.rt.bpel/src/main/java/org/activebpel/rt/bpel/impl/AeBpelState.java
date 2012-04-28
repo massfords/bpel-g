@@ -180,13 +180,13 @@ public class AeBpelState
    }
    
    /** numeric value for state */
-   private int mCode;
+   private final int mCode;
    /** name of the state */
-   private String mName;
+   private final String mName;
    /** true if the state is final, meaning that it will not naturally transition to another state */
-   private boolean mFinal;
+   private final boolean mFinal;
    /** true if this state causes an activity's outbound links to resolve to false */
-   private boolean mLinksBecomeFalse;
+   private final boolean mLinksBecomeFalse;
 
    /**
     * Private ctor to prevent external instantiation.

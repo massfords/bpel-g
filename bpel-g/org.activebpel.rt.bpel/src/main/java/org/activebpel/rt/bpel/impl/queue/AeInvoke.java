@@ -52,13 +52,13 @@ public class AeInvoke extends AeAbstractQueuedObject implements IAeInvokeInterna
     */
    private String mLocationPath;
    /** The partner endpoint reference */
-   private IAeEndpointReference mPartnerReference;
+   private final IAeEndpointReference mPartnerReference;
    /** The my endpoint reference */
-   private IAeEndpointReference mMyReference;
+   private final IAeEndpointReference mMyReference;
    /** Receives the response for the invoke */
    private IAeInvokeActivity mInvokeActivity;
    /** process name */
-   private QName mProcessName;
+   private final QName mProcessName;
    /** Process id is needed to differentiate between queued objects */
    private long mProcessId;
    /** Location id for the activity that is waiting for the response. */

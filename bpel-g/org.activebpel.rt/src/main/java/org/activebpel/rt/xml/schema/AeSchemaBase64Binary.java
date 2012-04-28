@@ -10,7 +10,7 @@
 package org.activebpel.rt.xml.schema;
 
 import org.activebpel.rt.AeMessages;
-import org.activebpel.rt.base64.Base64;
+import org.apache.commons.codec.binary.Base64;
 
 /**
  * Wrapper object for xsd:base64Binary simple data type. This ensures that Axis serializes the data correctly
@@ -43,7 +43,7 @@ public class AeSchemaBase64Binary extends AeSchemaWrappedStringType
       // Decode the string here.  Keep it null if the decode fails.
       try
       {
-         data = Base64.decode(aBase64BinaryString);
+         data = Base64.decodeBase64(aBase64BinaryString);
       }
       catch (Throwable ex)
       {

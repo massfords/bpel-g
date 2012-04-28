@@ -9,12 +9,12 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpel.impl.function; 
 
-import java.io.UnsupportedEncodingException;
-import java.util.List;
-
-import org.activebpel.rt.base64.Base64;
 import org.activebpel.rt.bpel.function.AeFunctionCallException;
 import org.activebpel.rt.bpel.function.IAeFunctionExecutionContext;
+import org.apache.commons.codec.binary.Base64;
+
+import java.io.UnsupportedEncodingException;
+import java.util.List;
 
 /**
  * Implements the abx:base64Encode(stringValue,[charSet]) custom function.
@@ -50,7 +50,8 @@ public class AeBase64EncodeFunction extends AeAbstractBpelFunction
      
       try
       {
-         return Base64.encodeBytes(getStringArg(aArgs,0).getBytes(aArgs.size() == 2 ? getStringArg(aArgs,1) : DEFAULT_CHAR_SET));
+          byte[] bytes = getStringArg(aArgs, 0).getBytes(aArgs.size() == 2 ? getStringArg(aArgs, 1) : DEFAULT_CHAR_SET);
+          return Base64.encodeBase64String(bytes);
       }
       catch (UnsupportedEncodingException ex)
       {

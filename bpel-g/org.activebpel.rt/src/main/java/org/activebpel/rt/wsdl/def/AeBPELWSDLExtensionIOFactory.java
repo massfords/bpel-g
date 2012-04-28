@@ -19,9 +19,9 @@ import javax.xml.namespace.QName;
 public class AeBPELWSDLExtensionIOFactory
 {
    /** factory for BPEL4WS */
-   private static IAeBPELWSDLExtensionIOFactory BPEL4WS = new AeBPEL4WSImpl();
+   private static final IAeBPELWSDLExtensionIOFactory BPEL4WS = new AeBPEL4WSImpl();
    /** factory for WSBPEL */
-   private static IAeBPELWSDLExtensionIOFactory WSBPEL = new AeWSBPELImpl();
+   private static final IAeBPELWSDLExtensionIOFactory WSBPEL = new AeWSBPELImpl();
    
    /**
     * private ctor to force factory usage 
@@ -44,9 +44,9 @@ public class AeBPELWSDLExtensionIOFactory
     */
    private static class AeBaseImpl implements IAeBPELWSDLExtensionIOFactory
    {
-      private QName mPlinkTypeName;
-      private QName mPropertyName;
-      private QName mPropertyAliasName;
+      private final QName mPlinkTypeName;
+      private final QName mPropertyName;
+      private final QName mPropertyAliasName;
       private ExtensionSerializer mPLTSerializer;
       private ExtensionSerializer mPropertySerializer;
       private ExtensionSerializer mPropertyAliasSerializer;

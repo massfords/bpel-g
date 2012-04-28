@@ -27,11 +27,11 @@ public class AeExtensionAttributeDef extends AeBaseXmlDef implements IAeExtensio
      */
     private static final long serialVersionUID = 8396203096227613626L;
 /** The attribute's namespace. */
-   private String mNamespace;
+   private final String mNamespace;
    /** The attribute's qualified name. */
-   private String mQualifiedName;
+   private final String mQualifiedName;
    /** The attribute value. */
-   private String mValue;
+   private final String mValue;
 
    /** Extension element object */
    private IAeExtensionObject mExtensionObject;

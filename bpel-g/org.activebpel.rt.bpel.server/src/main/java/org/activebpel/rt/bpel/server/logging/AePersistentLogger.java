@@ -115,7 +115,7 @@ public class AePersistentLogger extends AeInMemoryProcessLogger implements IAePe
    private class AeProcessLogEntry implements IAeProcessLogEntry
    {
       /** process id for the entry */
-      private long mProcessId;
+      private final long mProcessId;
       /** The {@link java.lang.StringBuffer} for this log entry. */
       private StringBuffer mLogBuffer;
       /** contents of the log */

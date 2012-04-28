@@ -34,7 +34,7 @@ import java.text.MessageFormat;
  */
 public class AeBpelDeployer implements IAeDeploymentHandler {
 
-    private static Log sLog = LogFactory.getLog(AeBpelDeployer.class);
+    private static final Log sLog = LogFactory.getLog(AeBpelDeployer.class);
 
     @Inject
     private IAeExpressionLanguageFactory mExpressionLanguageFactory;

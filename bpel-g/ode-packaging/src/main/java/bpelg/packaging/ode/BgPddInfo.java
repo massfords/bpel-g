@@ -12,9 +12,9 @@ import java.util.Map;
 
 public class BgPddInfo {
     private PersistenceType persistenceType = PersistenceType.FULL;
-    private AeProcessDef processDef;
+    private final AeProcessDef processDef;
     private String location;
-    private Map<String,BgPlink> partnerLinks = new HashMap<String,BgPlink>();
+    private final Map<String,BgPlink> partnerLinks = new HashMap<String,BgPlink>();
     
     public BgPddInfo(AeProcessDef processDef, String location) {
         this.processDef = processDef;

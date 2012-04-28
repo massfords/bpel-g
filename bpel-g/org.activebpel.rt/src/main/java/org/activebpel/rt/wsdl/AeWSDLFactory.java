@@ -30,19 +30,19 @@ import org.xml.sax.InputSource;
 public class AeWSDLFactory implements IAeWSDLFactory
 {
    /** Tag in WSDL catalog which is the WSDL entry item */
-   private static String WSDL_ENTRY_TAG = "wsdlEntry"; //$NON-NLS-1$
+   private static final String WSDL_ENTRY_TAG = "wsdlEntry"; //$NON-NLS-1$
    /** Tag in WSDL catalog which is the URL for the WSDL entry */
-   private static String WSDL_URL_TAG = "url"; //$NON-NLS-1$
+   private static final String WSDL_URL_TAG = "url"; //$NON-NLS-1$
    /** Tag in WSDL catalog which is the classpath for the WSDL entry */
-   private static String WSDL_CLASSPATH_TAG = "classpath"; //$NON-NLS-1$
+   private static final String WSDL_CLASSPATH_TAG = "classpath"; //$NON-NLS-1$
    /** Tag in WSDL catalog which is the namespace for the WSDL entry */
-   private static String WSDL_NAMESPACE_TAG = "namespace"; //$NON-NLS-1$
+   private static final String WSDL_NAMESPACE_TAG = "namespace"; //$NON-NLS-1$
 
    /** Hash map of url to classpath locations for wsdl  */
-   private static HashMap<String, String> sUrl2Classpath = new HashMap<String, String>();
+   private static final HashMap<String, String> sUrl2Classpath = new HashMap<String, String>();
 
    /** Hash map of url to classpath locations for wsdl  */
-   private static HashMap<String, String> sNamespace2Url = new HashMap<String, String>();
+   private static final HashMap<String, String> sNamespace2Url = new HashMap<String, String>();
    
    /**
     * Creates a WSDL provider, given the stream for the catalog. The catalog

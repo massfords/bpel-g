@@ -51,7 +51,7 @@ import org.activebpel.rt.util.AeUtil;
  */
 public class AeRecoveryEngine extends AeAbstractServerEngine implements IAeRecoveryEngine
 {
-   private int mEngineId;
+   private final int mEngineId;
 
    /**
     * Constructs a recovery engine.

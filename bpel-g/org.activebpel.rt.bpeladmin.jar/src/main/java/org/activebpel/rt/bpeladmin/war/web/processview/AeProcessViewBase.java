@@ -9,12 +9,12 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpeladmin.war.web.processview;
 
-import java.text.MessageFormat;
-import java.util.Date;
-import java.util.List;
-
+import bpelg.services.processes.StorageErrorMessage;
+import bpelg.services.processes.types.GetProcessDeployments;
+import bpelg.services.processes.types.ProcessDeployment;
+import bpelg.services.processes.types.ProcessDeployments;
+import bpelg.services.processes.types.ProcessInstanceDetail;
 import org.activebpel.rt.AeException;
-import org.activebpel.rt.base64.BASE64Decoder;
 import org.activebpel.rt.bpel.def.AeProcessDef;
 import org.activebpel.rt.bpel.def.IAeBPELConstants;
 import org.activebpel.rt.bpel.def.io.readers.AeBpelLocationPathVisitor;
@@ -31,13 +31,12 @@ import org.activebpel.rt.xml.AeQName;
 import org.activebpel.rt.xml.AeXMLParserBase;
 import org.activebpel.rt.xml.def.AeBaseXmlDef;
 import org.activebpel.rt.xml.def.IAePathSegmentBuilder;
+import org.apache.commons.codec.binary.Base64;
 import org.w3c.dom.Document;
 
-import bpelg.services.processes.StorageErrorMessage;
-import bpelg.services.processes.types.GetProcessDeployments;
-import bpelg.services.processes.types.ProcessDeployment;
-import bpelg.services.processes.types.ProcessDeployments;
-import bpelg.services.processes.types.ProcessInstanceDetail;
+import java.text.MessageFormat;
+import java.util.Date;
+import java.util.List;
 
 /**
  * Base class for used by the presentation beans responsible for displaying process details.
@@ -46,10 +45,10 @@ import bpelg.services.processes.types.ProcessInstanceDetail;
 public class AeProcessViewBase
 {
    /** Mode to indicate the active process instance details **/
-   public static int ACTIVE_PROCESS_DETAIL = 0;
+   public static final int ACTIVE_PROCESS_DETAIL = 0;
 
    /** Mode to indicate the deploayed process details **/
-   public static int DEPLOYED_PROCESS_DETAIL = 1;
+   public static final int DEPLOYED_PROCESS_DETAIL = 1;
 
    /**
     * Indicates the which mode the process view is based on. The mode can be ACTIVE_PROCESS_DETAIL
@@ -83,7 +82,7 @@ public class AeProcessViewBase
    private Document mStateDoc = null;
 
    /** Map containing BPEL element tag name to image resource. */
-   private AeProcessViewImageResources mImagePaths = new AeProcessViewImageResources();
+   private final AeProcessViewImageResources mImagePaths = new AeProcessViewImageResources();
 
    /** Current process instance details. */
    private ProcessInstanceDetail mProcessDetails = null;
@@ -259,7 +258,7 @@ public class AeProcessViewBase
          AeWebBpelProcessLoader pl = new AeWebBpelProcessLoader(aBpelDoc, aStateDoc);
          AeQName aeQName = new AeQName(pl.getProcessDef().getQName());
          String compiledProcessDef = AeEngineManagementFactory.getBean().getCompiledProcessDef(mProcessId, aeQName);
-         byte[] b = new BASE64Decoder().decodeBuffer(compiledProcessDef);
+         byte[] b = Base64.decodeBase64(compiledProcessDef);
          AeProcessDef processDef = (AeProcessDef) AeUtil.deserializeObject(b);
          pl.setProcessDef(processDef);
 

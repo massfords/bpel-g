@@ -51,9 +51,9 @@ public class AeDate {
 	public final static int TIME = 2;
 
 	/** List of common date time format patterns. */
-	private static List<AeDate> sPatterns = new ArrayList<AeDate>();
+	private static final List<AeDate> sPatterns = new ArrayList<AeDate>();
 
-	private static DatatypeFactory dtf;
+	private static final DatatypeFactory dtf;
 
 	static {
 		try {
@@ -85,17 +85,17 @@ public class AeDate {
 	/**
 	 * Date format type. E.g. DATETIME, DATE or TIME.
 	 */
-	private int mType;
+	private final int mType;
 
 	/**
 	 * Date format pattern.
 	 */
-	private String mPattern;
+	private final String mPattern;
 
 	/**
 	 * Parsed Date object.
 	 */
-	private Date mDate;
+	private final Date mDate;
 
 	/**
 	 * Default ctor

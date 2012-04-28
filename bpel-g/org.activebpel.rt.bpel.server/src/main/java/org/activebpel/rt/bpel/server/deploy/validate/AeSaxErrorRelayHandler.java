@@ -21,7 +21,7 @@ import org.xml.sax.SAXParseException;
 public class AeSaxErrorRelayHandler extends AeXMLParserErrorHandler
 {
    /** The pdd validation error handler to relay the sax errors/warning to. */
-   private IAeResourceValidationErrorHandler mHandler;
+   private final IAeResourceValidationErrorHandler mHandler;
 
    /**
     * Constructor.

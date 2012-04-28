@@ -40,9 +40,7 @@ public class AeWsddBuilder implements IAeWsddConstants
     * Create an undeployment document for web service removal.
     * @param aServiceNames
     */
-   public static Document createUndeployDocument( Collection<String> aServiceNames )
-   throws AeDeploymentException
-   {
+   public static Document createUndeployDocument( Collection<String> aServiceNames ) {
       AeWsddBuilder builder = new AeWsddBuilder();
       
       // for undeployment build a list of service names to be removed

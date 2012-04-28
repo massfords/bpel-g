@@ -53,7 +53,7 @@ public class AeXPathParseHandler implements XPathHandler
    /** The namespace resolver to use while parsing. */
    private IAeNamespaceContext mNamespaceContext;
    /** The node stack. */
-   private Stack<AeAbstractXPathNode> mNodeStack = new Stack<AeAbstractXPathNode>();
+   private final Stack<AeAbstractXPathNode> mNodeStack = new Stack<AeAbstractXPathNode>();
    /** The full AST - set when endXPath() is called. */
    private AeXPathAST mAbstractSyntaxTree;
    /** A list of errors found while handling the jaxen parse. */

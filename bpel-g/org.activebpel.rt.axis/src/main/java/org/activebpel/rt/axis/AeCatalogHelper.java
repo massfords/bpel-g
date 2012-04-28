@@ -54,8 +54,7 @@ public class AeCatalogHelper
     * @param aRequestURL The url the catalog is being requested via for fixups.
     * @return The schema as a string.
     */
-   public static String getCatalogSchema(String aEntry, String aRequestURL) throws AeException
-   {
+   public static String getCatalogSchema(String aEntry, String aRequestURL) {
       AeCatalogItemDetail detail = AeEngineFactory.getEngineAdministration().getCatalogAdmin().getCatalogItemDetail(aEntry);
       if (detail != null)
       {

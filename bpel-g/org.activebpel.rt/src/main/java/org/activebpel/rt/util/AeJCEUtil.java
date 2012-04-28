@@ -10,6 +10,15 @@
 
 package org.activebpel.rt.util;
 
+import org.activebpel.rt.AeException;
+import org.activebpel.rt.AeMessages;
+import org.apache.commons.codec.binary.Base64;
+
+import javax.crypto.Cipher;
+import javax.crypto.KeyGenerator;
+import javax.crypto.SecretKey;
+import javax.crypto.SecretKeyFactory;
+import javax.crypto.spec.DESedeKeySpec;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
@@ -17,16 +26,6 @@ import java.net.URL;
 import java.security.Key;
 import java.security.MessageDigest;
 import java.util.Properties;
-
-import javax.crypto.Cipher;
-import javax.crypto.KeyGenerator;
-import javax.crypto.SecretKey;
-import javax.crypto.SecretKeyFactory;
-import javax.crypto.spec.DESedeKeySpec;
-
-import org.activebpel.rt.AeException;
-import org.activebpel.rt.AeMessages;
-import org.activebpel.rt.base64.Base64;
 
 /**
  *  Static utility methods supporting JCE encryption, decryption
@@ -49,7 +48,7 @@ public class AeJCEUtil
    private static final String CRYPTO_PROP_FILE = "crypto.properties"; //$NON-NLS-1$
 
    /** Default instance */
-   private static AeJCEUtil sDefaultInstance = new AeJCEUtil();   
+   private static final AeJCEUtil sDefaultInstance = new AeJCEUtil();
    
    /** Internal key */
    private SecretKey internalDesKey;
@@ -162,7 +161,7 @@ public class AeJCEUtil
          Cipher cipher = Cipher.getInstance(key.getAlgorithm());
          cipher.init(Cipher.ENCRYPT_MODE, key);
          byte[] encrypted = cipher.doFinal(input.getBytes());
-         return Base64.encodeBytes(encrypted);
+         return Base64.encodeBase64String(encrypted);
       }
       catch (Exception e)
       {
@@ -184,7 +183,7 @@ public class AeJCEUtil
       {
          Cipher cipher = Cipher.getInstance(key.getAlgorithm());
          cipher.init(Cipher.DECRYPT_MODE, key);
-         byte[] original = cipher.doFinal(Base64.decode(input));
+         byte[] original = cipher.doFinal(Base64.decodeBase64(input));
          return new String(original);
       }
       catch (Exception e)

@@ -234,7 +234,7 @@ public class AeWSBPELActivityScopeValidator extends AeActivityScopeValidator
       /** tracks the depth to avoid matching nested scopes by name */
       private int mLevel = 1;
       /** Set of matched isolated scopes */
-      private Set<AeActivityScopeDef> mMatchedScopes = new HashSet<AeActivityScopeDef>();
+      private final Set<AeActivityScopeDef> mMatchedScopes = new HashSet<AeActivityScopeDef>();
       
       /**
        * Visitor will match on any isolated scopes

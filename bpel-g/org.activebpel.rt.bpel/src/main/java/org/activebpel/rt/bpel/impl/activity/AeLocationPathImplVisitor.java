@@ -30,11 +30,11 @@ import java.util.Iterator;
 public class AeLocationPathImplVisitor extends AeImplTraversingVisitor
 {
    /** reference to the process since we might be asked to report all of the mappings */
-   protected AeBusinessProcess mProcess;
+   protected final AeBusinessProcess mProcess;
    /** reference to the scope instance from the forEach */
-   protected AeActivityScopeImpl mScope;
+   protected final AeActivityScopeImpl mScope;
    /** builds paths for the dynamic scopes */
-   private AeImplLocationPathBuilder mPathBuilder;
+   private final AeImplLocationPathBuilder mPathBuilder;
    
    /**
     * Creates the visitor and starts the process

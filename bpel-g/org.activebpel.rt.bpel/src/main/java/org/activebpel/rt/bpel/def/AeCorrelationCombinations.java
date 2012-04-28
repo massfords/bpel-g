@@ -15,9 +15,9 @@ public class AeCorrelationCombinations implements Serializable
 {
    private static final long serialVersionUID = -2634821001957232378L;
    /** the different correlationSets that are used by activities with this plink and operation */
-   private Collection<Set<AeCorrelationSetDef>> mCorrelationSetCombinations = new HashSet<Set<AeCorrelationSetDef>>();
+   private final Collection<Set<AeCorrelationSetDef>> mCorrelationSetCombinations = new HashSet<Set<AeCorrelationSetDef>>();
    /** provides a quick way of knowing which sets in our collection contain join style correlations */
-   private Set<Set<AeCorrelationSetDef>> mJoins = new HashSet<Set<AeCorrelationSetDef>>();
+   private final Set<Set<AeCorrelationSetDef>> mJoins = new HashSet<Set<AeCorrelationSetDef>>();
    /** flag that gets set to true if at least one IMA uses a correlationSet that is initiated at the time the IMA executes */
    private boolean mInitiated;
    /** the max number of correlationSets on a single activity that were join style */
@@ -320,9 +320,9 @@ public class AeCorrelationCombinations implements Serializable
       public static final int JOIN_OVER_MAX                                        = 4;
 
       /** coll of properties */
-      private Collection<Set<QName>> mCollection;
+      private final Collection<Set<QName>> mCollection;
       /** the max number of join style operations to allow on a single IMA before abandoning the correlated match hash strategy in favor of brute force */
-      private int mMaxCombinations;
+      private final int mMaxCombinations;
       
       /**
        * Ctor

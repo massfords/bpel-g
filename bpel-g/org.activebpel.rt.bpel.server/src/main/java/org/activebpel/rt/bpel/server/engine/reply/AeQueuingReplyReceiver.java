@@ -30,11 +30,11 @@ public class AeQueuingReplyReceiver extends AeReplyReceiverBase
    /**
     * Process Id of invoke.
     */
-   private long mProcessId;
+   private final long mProcessId;
    /**
     * LocationPath of invoke.
     */
-   private String mLocationPath;
+   private final String mLocationPath;
 
    /** invoke transmission id. */
    private long mTransmissionId = IAeTransmissionTracker.NULL_TRANSREC_ID;

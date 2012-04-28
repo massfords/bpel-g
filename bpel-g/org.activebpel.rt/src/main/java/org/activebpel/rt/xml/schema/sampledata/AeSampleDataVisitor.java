@@ -48,7 +48,7 @@ import org.w3c.dom.Text;
 public class AeSampleDataVisitor implements IAeSampleDataVisitor
 {
    /** The generated sample data document. */
-   private Document mDoc = AeXmlUtil.newDocument();
+   private final Document mDoc = AeXmlUtil.newDocument();
    /** The current node being processed. */
    private Node mCurrent = mDoc;
    /** Sample data preferences. */

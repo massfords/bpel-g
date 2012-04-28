@@ -24,8 +24,7 @@ public class AeAnonymousMessageVariable extends AeVariable
     *
     * @param aMessagePartsMap
     */
-   public AeAnonymousMessageVariable(AeMessagePartsMap aMessagePartsMap) throws AeBusinessProcessException
-   {
+   public AeAnonymousMessageVariable(AeMessagePartsMap aMessagePartsMap) {
       super(new AeAnonymousVariableContainer(), new AeVariableDef(aMessagePartsMap));
 
       getParent().addVariable(this);

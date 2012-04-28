@@ -485,11 +485,11 @@ public class AeSpParticipant extends AeSpCoordinatingBase implements IAeSpPartic
 class AeProcessTerminateWork extends AeAbstractWork
 {
    /** Message to be dispatched. */
-   private IAeProtocolMessage mMessage;
+   private final IAeProtocolMessage mMessage;
    /** Particiant. */
-   private AeSpParticipant mParticipant;
+   private final AeSpParticipant mParticipant;
    /** Flag to indicate that the process's compensation handler should be canceled. */
-   private boolean mCancelCompensationHandler;
+   private final boolean mCancelCompensationHandler;
 
    /** Default ctor. */
    public AeProcessTerminateWork(AeSpParticipant aParticipant, IAeProtocolMessage aMessage, boolean aCancelCompensationHandler)

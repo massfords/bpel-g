@@ -20,7 +20,7 @@ public class AeStateChangeDetail implements IAeStateChangeDetail
    public static final IAeStateChangeDetail NONE = new AeStateChangeDetail(null);
    
    /** The name of the fault */
-   private String mFaultName;
+   private final String mFaultName;
    
    /** Additional info associated with the fault. */
    private String mAdditionalInfo;

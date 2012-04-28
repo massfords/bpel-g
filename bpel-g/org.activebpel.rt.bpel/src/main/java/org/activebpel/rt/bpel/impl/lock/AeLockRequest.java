@@ -23,11 +23,11 @@ public abstract class AeLockRequest
 {
    protected final AeVariableLocker mVariableLocker;
    /** The set of variable paths that we want to lock */
-   protected Set<String> mVariablesToLock;
+   protected final Set<String> mVariablesToLock;
    /** The callback that gets used if we can't fulfill the request immediately */
-   protected IAeVariableLockCallback mCallback;
+   protected final IAeVariableLockCallback mCallback;
    /** The path of the object that will be the owner of the lock */
-   protected String mOwner;
+   protected final String mOwner;
 
    /**
     * Creates a lock request with all of its required data.

@@ -308,13 +308,13 @@ public class AeBpelEngine extends AeAbstractServerEngine {
          */
         private static final long serialVersionUID = -2262847462498470335L;
         /** process id */
-		private long mProcessId;
+		private final long mProcessId;
 		/** location id of message receiver */
-		private int mLocationId;
+		private final int mLocationId;
 		/** data for the receive */
 		private transient AeInboundReceive mInboundReceive;
 		/** process journal id of inbound message */
-		private long mJournalId;
+		private final long mJournalId;
 		/** current BPEL engine */
 		private transient AeBpelEngine mBpelEngine;
 
@@ -396,7 +396,7 @@ public class AeBpelEngine extends AeAbstractServerEngine {
          */
         private static final long serialVersionUID = 8508128496760923014L;
         /** pid for the process that we want to execute */
-		private long mProcessId;
+		private final long mProcessId;
 		/** current BPEL engine */
 		private transient AeBpelEngine mBpelEngine;
 

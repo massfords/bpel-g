@@ -31,7 +31,7 @@ public class AeSuspendReason
    
 
    /** The reason the process was suspended */
-   private int mReasonCode;
+   private final int mReasonCode;
    /** Location path where the process was suspended */
    private String mLocationPath;
    /** Variable from suspend activity */

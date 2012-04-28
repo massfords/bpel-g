@@ -35,7 +35,7 @@ public class AeDefEntryPointInitialVisitor extends AeAbstractEntryPointVisitor
    private int mCount = 0;
    
    /** list of keys for initial entry points into process */
-   private Set<AePartnerLinkOpKey> mCreateInstance = new HashSet<AePartnerLinkOpKey>();
+   private final Set<AePartnerLinkOpKey> mCreateInstance = new HashSet<AePartnerLinkOpKey>();
 
    /**
     * Default constructor.

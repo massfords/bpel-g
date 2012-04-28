@@ -106,10 +106,10 @@ public class AeProcessDefToWebModelVisitor extends AeProcessDefToWebVisitorBase
    private AeBpelProcessObject mBpelProcessModel;
 
    /** Stack for the current visual model parent. */
-   private Stack<AeBpelObjectBase> mStack;
+   private final Stack<AeBpelObjectBase> mStack;
 
    /** Stack for the holding links on per Flow basis. */
-   private Stack<Map<String, AeBpelLinkObject>> mLinkContainerStack;
+   private final Stack<Map<String, AeBpelLinkObject>> mLinkContainerStack;
 
    /** List of links visited */
    private List<AeBpelLinkObject> mLinksList;

@@ -51,14 +51,14 @@ import org.exolab.castor.xml.schema.XMLType;
 public class AeTypeMapping
 {
    /** Java to schema mappings. */
-   protected Map<Class<?>, IAeTypeMapper> mJava2SchemaMappings = new HashMap<Class<?>, IAeTypeMapper>();
+   protected final Map<Class<?>, IAeTypeMapper> mJava2SchemaMappings = new HashMap<Class<?>, IAeTypeMapper>();
    /** Schema to java mappings. */
-   protected Map<QName, IAeTypeMapper> mSchema2JavaMappings = new HashMap<QName, IAeTypeMapper>();
+   protected final Map<QName, IAeTypeMapper> mSchema2JavaMappings = new HashMap<QName, IAeTypeMapper>();
    /** The default mapper if we don't have a specific one. */
-   protected IAeTypeMapper defaultMapper = new AeBasicMapper();
+   protected final IAeTypeMapper defaultMapper = new AeBasicMapper();
    
    /** supported simple type Set */
-   private static Set<QName> sSimpleTypes;
+   private static final Set<QName> sSimpleTypes;
 
    public static final QName XSD_ANYURI = new QName(XMLConstants.W3C_XML_SCHEMA_NS_URI, "anyURI"); //$NON-NLS-1$
    public static final QName XSD_BASE64_BINARY = new QName(XMLConstants.W3C_XML_SCHEMA_NS_URI, "base64Binary"); //$NON-NLS-1$

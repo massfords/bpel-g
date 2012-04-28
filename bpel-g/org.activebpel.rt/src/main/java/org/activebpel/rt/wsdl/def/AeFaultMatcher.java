@@ -33,9 +33,9 @@ import org.w3c.dom.NodeList;
 public class AeFaultMatcher 
 {
    private String mOpName;
-   private QName mPortTypeQName;
+   private final QName mPortTypeQName;
    private Operation mOperation;
-   private Fault mFault;
+   private final Fault mFault;
    private QName mCode;
    private String mReason;
    private Element mDetail;

@@ -27,8 +27,8 @@ import org.activebpel.rt.wsdl.def.IAeBPELExtendedWSDLConst;
  */
 public class AeWSResourceStandardNamespaces implements IAeWSResourceStandardNamespaces
 {
-   private static Map<String, String> sPrefixToNamespaceMap = new HashMap<String, String>();
-   private static Map<String, String> sNamespaceToPrefixMap = new HashMap<String, String>();
+   private static final Map<String, String> sPrefixToNamespaceMap = new HashMap<String, String>();
+   private static final Map<String, String> sNamespaceToPrefixMap = new HashMap<String, String>();
 
    /**
     * Creates a prefix/namespace mapping in the maps.

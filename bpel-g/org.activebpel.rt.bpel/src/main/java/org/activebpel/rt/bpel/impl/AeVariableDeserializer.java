@@ -34,7 +34,7 @@ import org.w3c.dom.Node;
 public class AeVariableDeserializer implements IAeImplStateNames
 {
    /** The engine we are running inside of, supplys type mapper. */
-   protected IAeBusinessProcessEngine mEngine;
+   protected final IAeBusinessProcessEngine mEngine;
 
    /**
     * Constructs the deserializer with an engine since engine has type mapping info.

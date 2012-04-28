@@ -37,13 +37,13 @@ import org.activebpel.wsio.invoke.IAeTwoPhaseInvokeHandler;
 public class AeInvoker
 {
    /** The invoke data. */
-   private IAeInvokeInternal mInvoke;
+   private final IAeInvokeInternal mInvoke;
    /** The invoke handler. */
    private IAeInvokeHandler mInvokeHandler;
    /** Any query data. */
-   private String mQueryData;
+   private final String mQueryData;
    /** Reply receiver used to queue result back into the engine. */
-   private AeQueuingReplyReceiver mQueuingReplyReceiver;
+   private final AeQueuingReplyReceiver mQueuingReplyReceiver;
 
    /**
     * Constructs an invoker.

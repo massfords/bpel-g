@@ -36,7 +36,7 @@ public class AeActivityPickDef extends AeActivityDef implements IAeMessageContai
    private boolean mCreateInstance;
    
    /** The list of onMessage children. */
-   private List<AeOnMessageDef> mOnMessageList = new ArrayList<AeOnMessageDef>();  // Will always be at least one
+   private final List<AeOnMessageDef> mOnMessageList = new ArrayList<AeOnMessageDef>();  // Will always be at least one
    /** The list of onAlarm children. */
    private List<AeOnAlarmDef> mOnAlarmList;                      // May have zero or more elements
 

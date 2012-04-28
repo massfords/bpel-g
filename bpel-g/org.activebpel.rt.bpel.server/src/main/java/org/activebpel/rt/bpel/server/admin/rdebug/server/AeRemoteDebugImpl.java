@@ -52,13 +52,13 @@ public class AeRemoteDebugImpl implements IAeBpelAdmin
    private static String sEventHandlerLocator;
    
    /** Map of context Id to engine listener used for dispatching remote debug events. */
-   private static Hashtable<String, IAeEngineListener> sEngineListeners = new Hashtable<String, IAeEngineListener>();
+   private static final Hashtable<String, IAeEngineListener> sEngineListeners = new Hashtable<String, IAeEngineListener>();
    
    /** Map of context Id to process listener used for dispatching remote debug events. */
-   private static Hashtable<String, IAeProcessListener> sProcessListeners = new Hashtable<String, IAeProcessListener>();
+   private static final Hashtable<String, IAeProcessListener> sProcessListeners = new Hashtable<String, IAeProcessListener>();
 
    /** Map of context Id to breakpoint listener used for dispatching remote debug events. */
-   private static Hashtable<String, AeBreakpointListener> sBreakpointListeners = new Hashtable<String, AeBreakpointListener>();
+   private static final Hashtable<String, AeBreakpointListener> sBreakpointListeners = new Hashtable<String, AeBreakpointListener>();
 
 
    public void setEventHandlerLocator(String aEventHandlerLocator) {
@@ -511,8 +511,7 @@ public class AeRemoteDebugImpl implements IAeBpelAdmin
     * @param aEndpointURL The endpoint reference of the listener 
     * @throws RemoteException
     */
-   public static void doRemoveEngineListener(long aContextId, String aEndpointURL) throws RemoteException
-   {
+   public static void doRemoveEngineListener(long aContextId, String aEndpointURL) {
       IAeEngineListener listener = sEngineListeners.remove(getKey(aContextId, aEndpointURL));
       if (listener != null)
          AeEngineFactory.getEngine().removeEngineListener(listener);
@@ -545,8 +544,7 @@ public class AeRemoteDebugImpl implements IAeBpelAdmin
     * @param aEndpointURL The endpoint reference of the listener 
     * @throws RemoteException
     */
-   public static void doRemoveProcessListener(long aContextId, long aPid, String aEndpointURL) throws RemoteException
-   {
+   public static void doRemoveProcessListener(long aContextId, long aPid, String aEndpointURL) {
       IAeProcessListener listener = sProcessListeners.remove(getKey(aContextId, aEndpointURL));
       if (listener != null)
          AeEngineFactory.getEngine().removeProcessListener(listener, aPid);
@@ -578,8 +576,7 @@ public class AeRemoteDebugImpl implements IAeBpelAdmin
     * @param aEndpointURL The endpoint reference of the listener
     * @throws RemoteException
     */
-   public static void doRemoveBreakpointListener(long aContextId, String aEndpointURL) throws RemoteException
-   {
+   public static void doRemoveBreakpointListener(long aContextId, String aEndpointURL) {
       AeBreakpointListener listener = sBreakpointListeners.remove(getKey(aContextId, aEndpointURL));
       if (listener != null)
          AeEngineFactory.getEngine().removeProcessListener(listener);
@@ -591,9 +588,7 @@ public class AeRemoteDebugImpl implements IAeBpelAdmin
     * @param aEndpointURL The endpoint reference of the listener
     * @param aBreakpointList The list of breakpoints. 
     */
-   public static void doUpdateBreakpointList(long aContextId, String aEndpointURL, AeBreakpointList aBreakpointList)
-      throws RemoteException
-   {
+   public static void doUpdateBreakpointList(long aContextId, String aEndpointURL, AeBreakpointList aBreakpointList) {
       AeBreakpointListener listener = sBreakpointListeners.get(getKey(aContextId, aEndpointURL));
       if (listener != null)
          listener.updateBreakpointList(aBreakpointList);
@@ -635,7 +630,7 @@ public class AeRemoteDebugImpl implements IAeBpelAdmin
       private long mPid;
       
       /** error message to include along with any raised exception during the execution of the work */
-      private String mErrorMessage;
+      private final String mErrorMessage;
       
       /**
        * Constructor which required process id
@@ -767,7 +762,7 @@ public class AeRemoteDebugImpl implements IAeBpelAdmin
    protected static class AeRemoteResumeObjectWork extends AeRemoteWork
    {
       /** Path to resume. */
-      protected String mPath;
+      protected final String mPath;
       
       /**
        * Resume a process.
@@ -872,15 +867,8 @@ public class AeRemoteDebugImpl implements IAeBpelAdmin
          catch (RemoteException re)
          {
             AeException.logError(re, AeMessages.getString("AeRemoteDebugImpl.ERROR_23")); //$NON-NLS-1$
-            
-            try
-            {
-               AeRemoteDebugImpl.doRemoveProcessListener(mContextId, mProcessId, mEndpointURL);
-            }
-            catch (RemoteException e)
-            {
-               AeException.logError(e, AeMessages.getString("AeRemoteDebugImpl.ERROR_24")); //$NON-NLS-1$
-            }
+
+             AeRemoteDebugImpl.doRemoveProcessListener(mContextId, mProcessId, mEndpointURL);
          }
          return suspend;
       }
@@ -902,15 +890,8 @@ public class AeRemoteDebugImpl implements IAeBpelAdmin
          catch (RemoteException re)
          {
             AeException.logError(re, AeMessages.getString("AeRemoteDebugImpl.ERROR_23")); //$NON-NLS-1$
-            
-            try
-            {
-               AeRemoteDebugImpl.doRemoveProcessListener(mContextId, mProcessId, mEndpointURL);
-            }
-            catch (RemoteException e)
-            {
-               AeException.logError(e, AeMessages.getString("AeRemoteDebugImpl.ERROR_24")); //$NON-NLS-1$
-            }
+
+             AeRemoteDebugImpl.doRemoveProcessListener(mContextId, mProcessId, mEndpointURL);
          }
       }
    }
@@ -967,15 +948,8 @@ public class AeRemoteDebugImpl implements IAeBpelAdmin
          catch (RemoteException re)
          {
             AeException.logError(re, AeMessages.getString("AeRemoteDebugImpl.ERROR_26")); //$NON-NLS-1$
-            
-            try
-            {
-               AeRemoteDebugImpl.doRemoveEngineListener(mContextId, mEndpointURL);
-            }
-            catch (RemoteException e)
-            {
-               AeException.logError(e, AeMessages.getString("AeRemoteDebugImpl.ERROR_24")); //$NON-NLS-1$
-            }
+
+             AeRemoteDebugImpl.doRemoveEngineListener(mContextId, mEndpointURL);
          }
       }
       
@@ -995,15 +969,8 @@ public class AeRemoteDebugImpl implements IAeBpelAdmin
          catch (RemoteException re)
          {
             AeException.logError(re, AeMessages.getString("AeRemoteDebugImpl.ERROR_26")); //$NON-NLS-1$
-            
-            try
-            {
-               AeRemoteDebugImpl.doRemoveEngineListener(mContextId, mEndpointURL);
-            }
-            catch (RemoteException e)
-            {
-               AeException.logError(e, AeMessages.getString("AeRemoteDebugImpl.ERROR_24")); //$NON-NLS-1$
-            }
+
+             AeRemoteDebugImpl.doRemoveEngineListener(mContextId, mEndpointURL);
          }
          return false;
       }

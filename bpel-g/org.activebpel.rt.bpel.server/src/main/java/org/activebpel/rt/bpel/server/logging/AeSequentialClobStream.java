@@ -29,10 +29,10 @@ public class AeSequentialClobStream extends Reader implements ResultSetHandler<R
    private static final String SQL_GET_PROCESS_LOG_STREAM = "SequentialClobStream.GetProcessLogStream"; //$NON-NLS-1$
 
    /** query runner used to execute the queries */
-   private QueryRunner mQueryRunner;
+   private final QueryRunner mQueryRunner;
    
    /** process id */
-   private Long mProcessId;
+   private final Long mProcessId;
    
    /** value of the counter column for the last clob we read */
    private int mCounter;
@@ -41,7 +41,7 @@ public class AeSequentialClobStream extends Reader implements ResultSetHandler<R
    private Reader mCurrentStream;
    
    /** sql statement to execute to get our data */
-   private String mSqlStatement;
+   private final String mSqlStatement;
     
    /**
     * Creates the sequential clob stream with all of its required params

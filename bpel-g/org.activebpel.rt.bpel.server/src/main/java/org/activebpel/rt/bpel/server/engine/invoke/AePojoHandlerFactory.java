@@ -31,7 +31,7 @@ import org.activebpel.wsio.invoke.IAeInvokeHandler;
 public class AePojoHandlerFactory implements IAeInvokeHandlerFactory
 {
    /** map of class names to instances */
-   private Map<String, IAeInvokeHandler> mInvokers = new Hashtable<String, IAeInvokeHandler>();
+   private final Map<String, IAeInvokeHandler> mInvokers = new Hashtable<String, IAeInvokeHandler>();
    
    /**
     * @see org.activebpel.rt.bpel.server.engine.IAeInvokeHandlerFactory#createInvokeHandler(org.activebpel.wsio.invoke.IAeInvoke)

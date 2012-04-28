@@ -63,16 +63,16 @@ public abstract class AeDefToImplVisitor implements IAeDefToImplVisitor
    /** The process that we're creating implementations for */
    protected IAeBusinessProcessInternal mProcess;
    /** Stores the stack of objects that we're visiting */
-   protected Stack<Object> mStack = new Stack<Object>();
+   protected final Stack<Object> mStack = new Stack<Object>();
    /** Plan used to create the business process instance */
-   protected IAeProcessPlan mPlan;
+   protected final IAeProcessPlan mPlan;
 
    /** collection of variables we've created */
-   private Collection<AeVariable> mVariables = new ArrayList<AeVariable>();
+   private final Collection<AeVariable> mVariables = new ArrayList<AeVariable>();
    /** collection of bpel objects we've created */
-   private Collection<IAeBpelObject> mBpelObjects = new ArrayList<IAeBpelObject>();
+   private final Collection<IAeBpelObject> mBpelObjects = new ArrayList<IAeBpelObject>();
    /** collection of partner links we've created */
-   private Collection<AePartnerLink> mPartnerLinks = new ArrayList<AePartnerLink>();
+   private final Collection<AePartnerLink> mPartnerLinks = new ArrayList<AePartnerLink>();
 
    /** Strategy for matching faults */
    private IAeFaultMatchingStrategy mFaultMatchingStrategy;

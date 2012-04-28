@@ -27,11 +27,11 @@ import org.xml.sax.InputSource;
 public class AeBpelIO
 {
    /** IAeBpelFactory impl class for bpel 1.1. */
-   private static IAeBpelFactory mBPEL4WSFactory = new AeBPWSFactory();
+   private static final IAeBpelFactory mBPEL4WSFactory = new AeBPWSFactory();
    /** IAeBpelFactory impl class for bpel 2.0. */
-   private static IAeBpelFactory mWSBPEL20Factory = new AeWSBPELFactory();
+   private static final IAeBpelFactory mWSBPEL20Factory = new AeWSBPELFactory();
    /** IAeBpelFactory impl class for bpel 2.x abstract processes. */
-   private static IAeBpelFactory mWSBPEL20AbstractProcessFactory = new AeWSBPELAbstractProcessFactory();
+   private static final IAeBpelFactory mWSBPEL20AbstractProcessFactory = new AeWSBPELAbstractProcessFactory();
 
    /**
     * private x-tor - no instantiation 

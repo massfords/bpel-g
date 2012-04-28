@@ -66,7 +66,7 @@ public class AeRPCEncodedSerializer extends ElementSerializer
    public static final String TYPE_PREFIX = "abpel-ser"; //$NON-NLS-1$
 
    /** context for schema types resolution */
-   private IAeTypesContext mTypesContext;
+   private final IAeTypesContext mTypesContext;
 
    /** serializer factory used for just-in-time type mapping registration */
    private SerializerFactory mSerializerFactory = null;

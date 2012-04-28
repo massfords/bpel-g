@@ -47,7 +47,7 @@ public class AeEndpointReference implements IAeEndpointReference
      */
     private static final long serialVersionUID = 6740165848810518524L;
 /** factory that gives us a means to parse endpoint references from xml */
-   public static IAeEndpointFactory sEndpointFactory = new AeEndpointFactory();
+   public static final IAeEndpointFactory sEndpointFactory = new AeEndpointFactory();
    /** namespace we're using for identifying the credentials embedded in the endpoint properties */
    private static final String CREDENTIALS_NAMESPACE = "http://active-endpoints/endpoint-credentials"; //$NON-NLS-1$
    /** username qname */

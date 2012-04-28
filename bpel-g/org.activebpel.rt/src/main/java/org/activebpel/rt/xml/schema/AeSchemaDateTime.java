@@ -32,9 +32,9 @@ public class AeSchemaDateTime extends AeAbstractTZBasedSchemaType implements Ser
      */
     private static final long serialVersionUID = 7712867542301307949L;
 /** A regular expression for matching schema dateTime strings. */
-   private static Pattern INPUT_PATTERN = Pattern.compile("(-?)([1-9]*[0-9]{4})-([0-9]{2})-([0-9]{2})T([0-9]{2}):([0-9]{2}):([0-9]{2})(\\.([0-9]*))?(Z|(([\\+\\-])([0-9]{2}):([0-9]{2})))?"); //$NON-NLS-1$
+   private static final Pattern INPUT_PATTERN = Pattern.compile("(-?)([1-9]*[0-9]{4})-([0-9]{2})-([0-9]{2})T([0-9]{2}):([0-9]{2}):([0-9]{2})(\\.([0-9]*))?(Z|(([\\+\\-])([0-9]{2}):([0-9]{2})))?"); //$NON-NLS-1$
    /** The output format to use for toString(). */
-   private static String OUTPUT_PATTERN = "{0}{1,number,0000}-{2,number,00}-{3,number,00}T{4,number,00}:{5,number,00}:{6,number,00}{7,choice,0#|0<.{7,number,000}}Z"; //$NON-NLS-1$
+   private static final String OUTPUT_PATTERN = "{0}{1,number,0000}-{2,number,00}-{3,number,00}T{4,number,00}:{5,number,00}:{6,number,00}{7,choice,0#|0<.{7,number,000}}Z"; //$NON-NLS-1$
 
    /** A Gregorian Calendar object - holds all of the actual time and date info. */
    protected GregorianCalendar mCalendar;

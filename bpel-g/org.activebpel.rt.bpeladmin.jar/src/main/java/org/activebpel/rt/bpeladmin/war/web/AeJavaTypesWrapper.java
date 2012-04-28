@@ -26,7 +26,7 @@ public class AeJavaTypesWrapper implements Serializable
    private static final AeJavaTypesWrapper EMPTY = new AeJavaTypesWrapper(""); //$NON-NLS-1$
    
    /** Property value. */
-   protected String mString;
+   protected final String mString;
    
    /**
     * Utility method for wrapping a string array.

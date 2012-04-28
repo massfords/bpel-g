@@ -30,7 +30,7 @@ public class AeCommentIO
 {
 
    /** Accumulated comments awaiting an encounter with their corresponding comment-aware def element. */
-   private StringBuilder lastComments = new StringBuilder();
+   private final StringBuilder lastComments = new StringBuilder();
 
    /**
     * Comments precede activity node.  Check to see if any comment

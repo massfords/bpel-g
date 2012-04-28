@@ -32,7 +32,7 @@ public class AeXMLParserErrorHandler extends DefaultHandler
    private Exception mErrorException;
    
    /** Flag to indicate if parse errors and warnings should be logged. */
-   private boolean mLoggingEnabled;
+   private final boolean mLoggingEnabled;
 
    /**
     * Default Constructor.

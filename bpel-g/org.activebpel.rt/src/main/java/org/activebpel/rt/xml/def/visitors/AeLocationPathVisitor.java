@@ -38,11 +38,11 @@ public class AeLocationPathVisitor implements IAeDefPathVisitor
    /** Current path */
    private String mPath=""; //$NON-NLS-1$
    /** Path Maps */
-   private Set<String> mPaths = new HashSet<String>();
+   private final Set<String> mPaths = new HashSet<String>();
    /** Next available location id */
    private int mNextLocationId = 1;
    /** Maps location paths to location ids */
-   private Map<String, Integer> mLocationPathMap = new HashMap<String, Integer>();
+   private final Map<String, Integer> mLocationPathMap = new HashMap<String, Integer>();
    /** visitor to build a single segment of the path for a def */
    private IAePathSegmentBuilder mSegmentBuilder;
    /** visitor for traversing defs */

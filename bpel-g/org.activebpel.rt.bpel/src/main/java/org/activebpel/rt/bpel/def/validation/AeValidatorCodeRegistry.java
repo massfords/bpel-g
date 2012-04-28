@@ -32,11 +32,11 @@ import java.util.Map;
 public class AeValidatorCodeRegistry
 {
    /** schema for the validator severity file */
-   private static Schema sSeverityFileSchema;
+   private static final Schema sSeverityFileSchema;
    /** default namespace serverity map */
-   private static Map<String, String> sPrefixMap = new HashMap<String, String>();
+   private static final Map<String, String> sPrefixMap = new HashMap<String, String>();
    /** map of namespace to map of code/severity */
-   private static Map<String,Map<String,String>> sSeverityMap = new HashMap<String,Map<String,String>>();
+   private static final Map<String,Map<String,String>> sSeverityMap = new HashMap<String,Map<String,String>>();
    
    /** valid values for validator severity */
    public static final String ERROR = "ERROR";     //$NON-NLS-1$

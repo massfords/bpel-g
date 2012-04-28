@@ -35,11 +35,11 @@ import bpelg.services.processes.types.ServiceDeployments;
  * Wraps the deployment of a single pdd from the BPR archive.
  */
 public class AeBprDeploymentSource implements IAeDeploymentSource {
-	private Pdd mPdd;
+	private final Pdd mPdd;
 	/** deserialized process def */
 	private AeProcessDef mProcessDef;
 	/** deployment context */
-	private IAeDeploymentContext mContext;
+	private final IAeDeploymentContext mContext;
 	/** partner link data */
 	private Collection<AePartnerLinkDescriptor> mPartnerLinkData;
 

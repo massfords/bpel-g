@@ -76,7 +76,7 @@ public class AeWSBPELWriterVisitor extends AeWriterVisitor
    private static final Map<String,String> sPreferredPrefixes = Collections.singletonMap(IAeBPELConstants.WSBPEL_2_0_NAMESPACE_URI, "bpel"); //$NON-NLS-1$
    
    /** Flag indicating if the portType attribute for the WSIO activities should written. */
-   private boolean mWritePortTypeAttrib;
+   private final boolean mWritePortTypeAttrib;
    
    /**
     * Constructs a ws-bpel 2.0 writer visitor.

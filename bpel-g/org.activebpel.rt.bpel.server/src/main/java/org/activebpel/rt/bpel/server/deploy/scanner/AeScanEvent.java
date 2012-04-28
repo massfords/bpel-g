@@ -23,11 +23,11 @@ public class AeScanEvent
    public static final int ADDITION = 1;
    
    /** changed file url */
-   private URL mURL;
+   private final URL mURL;
    /** change type (either REMOVAL or ADDITION) */
-   private int mType;
+   private final int mType;
    /** Arbitrary user data included in the event. */
-   private Object mUserData;
+   private final Object mUserData;
 
    /**
     * Constructor.

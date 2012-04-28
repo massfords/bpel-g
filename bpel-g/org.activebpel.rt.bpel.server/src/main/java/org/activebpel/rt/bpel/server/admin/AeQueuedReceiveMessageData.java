@@ -21,9 +21,9 @@ public class AeQueuedReceiveMessageData
 {
 
    /** message data qname */
-   private QName mQName;
+   private final QName mQName;
    /** map of message data */
-   private Map<String, Object>  mPartData;
+   private final Map<String, Object>  mPartData;
    
    /**
     * Constructor.

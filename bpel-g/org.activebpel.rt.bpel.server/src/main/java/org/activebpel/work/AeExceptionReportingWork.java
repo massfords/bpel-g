@@ -27,7 +27,7 @@ import org.activebpel.rt.bpel.server.engine.AeEngineFactory;
 public class AeExceptionReportingWork extends AeDelegatingWork implements Work
 {
    /** The time the work was constructed. */
-   private long mStartTime = System.currentTimeMillis(); 
+   private final long mStartTime = System.currentTimeMillis();
 
    /**
     * Constructor.

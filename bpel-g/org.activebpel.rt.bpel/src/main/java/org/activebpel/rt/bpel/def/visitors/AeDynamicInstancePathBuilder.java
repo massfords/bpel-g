@@ -20,7 +20,7 @@ import org.activebpel.rt.xml.def.IAePathSegmentBuilder;
 public class AeDynamicInstancePathBuilder extends AeBpelLocationPathVisitor
 {
    /** our root node that gets the special instance path */
-   private AeBaseXmlDef mInstanceDef;
+   private final AeBaseXmlDef mInstanceDef;
    
    /** value used to construct the path information */
    private int mInstanceValue;

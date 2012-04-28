@@ -28,7 +28,7 @@ import org.activebpel.rt.util.AeUtil;
 public class AeCopyOperationStrategyVisitor extends AeAbstractDefVisitor implements IAeFromStrategyNames, IAeToStrategyNames
 {
    /** used to match the def to a prescribed strategy */
-   private IAeCopyOperationStrategyMatcher mStrategyMatcher;
+   private final IAeCopyOperationStrategyMatcher mStrategyMatcher;
    /** The expression language factory to use. */
    private IAeExpressionLanguageFactory mExpressionLanguageFactory;
    

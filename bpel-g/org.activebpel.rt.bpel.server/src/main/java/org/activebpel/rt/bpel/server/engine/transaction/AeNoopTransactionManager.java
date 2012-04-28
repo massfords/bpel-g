@@ -7,7 +7,7 @@ package org.activebpel.rt.bpel.server.engine.transaction;
    public class AeNoopTransactionManager implements IAeTransactionManager
    {
       /** Do-nothing transaction. */
-      private IAeTransaction mNoopTransaction = new AeNoopTransaction();
+      private final IAeTransaction mNoopTransaction = new AeNoopTransaction();
 
       /**
        * @see org.activebpel.rt.bpel.server.engine.transaction.IAeTransactionManager#begin()

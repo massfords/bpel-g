@@ -27,7 +27,7 @@ import org.activebpel.rt.bpel.AeMessages;
 public abstract class AeAbstractLockManager extends AeManagerAdapter implements IAeLockManager
 {
    /** Map of maps that tracks what threads own what locks. Outer map is thread to lock map. Inner map is simply lock to lock. */
-   private Map<Thread, Map<IAeLock, IAeLock>> mThreadsToLocks = new Hashtable<Thread, Map<IAeLock, IAeLock>>();
+   private final Map<Thread, Map<IAeLock, IAeLock>> mThreadsToLocks = new Hashtable<Thread, Map<IAeLock, IAeLock>>();
    
    /**
     * Template method that attempts to acquire the lock for the specified timeout period.

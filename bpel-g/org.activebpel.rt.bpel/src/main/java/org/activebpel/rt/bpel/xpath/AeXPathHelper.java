@@ -49,7 +49,7 @@ import org.w3c.dom.Node;
 public class AeXPathHelper
 {
    /** namespace for the version of BPEL we're executing expressions for, this affects the errors reported */
-   private String mNamespace;
+   private final String mNamespace;
    
    private static final AeXPathHelper BPEL4WS = new AeXPathHelper(IAeBPELConstants.BPWS_NAMESPACE_URI);
    private static final AeXPathHelper WSBPEL = new AeXPathHelper(IAeBPELConstants.WSBPEL_2_0_NAMESPACE_URI);

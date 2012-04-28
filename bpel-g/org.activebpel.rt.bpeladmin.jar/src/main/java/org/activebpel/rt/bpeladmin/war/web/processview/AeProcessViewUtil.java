@@ -27,8 +27,7 @@ public class AeProcessViewUtil
     * @param aDocument original document.
     * @return cloned document.
     */
-   public static Document cloneDocument(Document aDocument) throws AeException
-   {
+   public static Document cloneDocument(Document aDocument) {
       AeXMLParserBase parser = new AeXMLParserBase();
       parser.setNamespaceAware(false);
       parser.setValidating(false);

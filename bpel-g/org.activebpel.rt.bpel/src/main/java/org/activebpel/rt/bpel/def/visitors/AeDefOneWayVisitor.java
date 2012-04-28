@@ -32,7 +32,7 @@ import org.activebpel.rt.wsdl.def.AeBPELExtendedWSDLDef;
 public class AeDefOneWayVisitor extends AeAbstractDefVisitor
 {
    /** The WSDL provider. */
-   private IAeContextWSDLProvider mProvider;
+   private final IAeContextWSDLProvider mProvider;
    /** The process def. */
    private AeProcessDef mProcessDef;
 

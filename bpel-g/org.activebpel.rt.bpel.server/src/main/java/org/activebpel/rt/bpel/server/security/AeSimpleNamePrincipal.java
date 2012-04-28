@@ -14,7 +14,7 @@ package org.activebpel.rt.bpel.server.security;
  */
 public class AeSimpleNamePrincipal implements IAePrincipal
 {
-   private String mName;
+   private final String mName;
 
    /**
     * Constructor with name of user or group

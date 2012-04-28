@@ -22,7 +22,7 @@ import org.activebpel.rt.xml.def.AeBaseXmlDef;
 public class AeBpelObjectContainer extends AeBpelObjectBase
 {
    /** BPEL child model objects contained by this parent. */
-   private List<AeBpelObjectBase> mChildren = new ArrayList<AeBpelObjectBase>();
+   private final List<AeBpelObjectBase> mChildren = new ArrayList<AeBpelObjectBase>();
 
    /**
     *

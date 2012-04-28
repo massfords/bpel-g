@@ -18,13 +18,13 @@ import java.util.Map;
 public class AeExtensionActivityDurableInfo implements IAeDurableReplyInfo
 {
    /** Durable reply prototype that is used by the factory. */
-   public static String TYPE = "ExtensionActivityDurableInfo"; //$NON-NLS-1$
+   public static final String TYPE = "ExtensionActivityDurableInfo"; //$NON-NLS-1$
    /** Property key for invoke objects process id. */
-   public static String PROCESS_ID = "ProcessId"; //$NON-NLS-1$
+   public static final String PROCESS_ID = "ProcessId"; //$NON-NLS-1$
    /** Property key for invoke object's location path. */
-   public static String LOCATION_PATH = "LocationPath"; //$NON-NLS-1$
+   public static final String LOCATION_PATH = "LocationPath"; //$NON-NLS-1$
    /** Property key for transmission id */
-   public static String TRANSMISSION_ID = "TransmissionId";  //$NON-NLS-1$
+   public static final String TRANSMISSION_ID = "TransmissionId";  //$NON-NLS-1$
 
    /** Process Id of invoke */
    private long mProcessId;

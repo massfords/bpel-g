@@ -52,7 +52,7 @@ public class AeAutoCloseBlobInputStream extends AeBlobInputStream
    private boolean mStreamOpen = true;
 
    /** True if the stream closed itself. */
-   private boolean mSelfClosed = false;
+   private final boolean mSelfClosed = false;
 
    /**
     * Reads the next byte of data from the input stream.

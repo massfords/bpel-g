@@ -22,7 +22,7 @@ import org.activebpel.rt.util.AeXmlUtil;
 public abstract class AePrefixedExpressionAnalyzer extends AeAbstractExpressionAnalyzer
 {
    /** The pattern that <code>getNamespaces</code> will use to find prefixes. */
-   protected static Pattern sGetNamespacesPattern = Pattern.compile("(" + AeXmlUtil.NCNAME_PATTERN + "):"); //$NON-NLS-1$ //$NON-NLS-2$
+   protected static final Pattern sGetNamespacesPattern = Pattern.compile("(" + AeXmlUtil.NCNAME_PATTERN + "):"); //$NON-NLS-1$ //$NON-NLS-2$
    
    /**
     * @see org.activebpel.rt.expr.def.IAeExpressionAnalyzer#getNamespaces(org.activebpel.rt.expr.def.IAeExpressionAnalyzerContext, java.lang.String)

@@ -13,12 +13,13 @@ import java.util.LinkedList;
 import java.util.List;
 
 /**
- * Implementation of a blocking queue.  
+ * Implementation of a blocking queue. Differs from the java.util.concurrent.BlockingQueue in that it provides
+ * a blocking peek(). As such, this class will remain in favor of switching to the standard one.
  */
 public class AeBlockingQueue<T>
 {
    /** list of objects for our queue */
-   private List<T> mQueue = new LinkedList<T>();
+   private final List<T> mQueue = new LinkedList<T>();
    
    /**
     * Adds a new object to the queue, calling notify() on this object.

@@ -50,7 +50,7 @@ public class AeMessageContext implements IAeMessageContext
    /** version number that the message is intended for or null for the current version */
    private String mProcessVersion;
    /** container for the business process properties */
-   private Map<String, String> mBusinessProcessProperties = new HashMap<String, String>();
+   private final Map<String, String> mBusinessProcessProperties = new HashMap<String, String>();
    /** container for the message reference properties */
    private List<Element> mRefProps = new ArrayList<Element>();
    /** Collected WS-Addressing Headers from inbound message */

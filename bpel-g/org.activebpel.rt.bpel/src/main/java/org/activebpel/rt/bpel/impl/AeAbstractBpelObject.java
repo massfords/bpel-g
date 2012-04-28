@@ -57,13 +57,13 @@ abstract public class AeAbstractBpelObject implements IAeExecutableBpelObject, I
    private IAeFault mFault;
 
    /** The parent object. */
-   private IAeBpelObject mParent;
+   private final IAeBpelObject mParent;
 
    /** The process object. */
    private IAeBusinessProcessInternal mProcess;
 
    /** Base definition object. */
-   private AeBaseDef mDef;
+   private final AeBaseDef mDef;
 
    /** The state of the bpel object. */
    private AeBpelState mState = AeBpelState.INACTIVE;

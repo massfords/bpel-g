@@ -9,13 +9,7 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpel.impl.function.attachment;
 
-import java.io.ByteArrayInputStream;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.activebpel.rt.attachment.IAeAttachmentItem;
-import org.activebpel.rt.base64.Base64;
 import org.activebpel.rt.bpel.AeBusinessProcessException;
 import org.activebpel.rt.bpel.IAeVariable;
 import org.activebpel.rt.bpel.function.AeFunctionCallException;
@@ -24,6 +18,12 @@ import org.activebpel.rt.bpel.impl.IAeBusinessProcessInternal;
 import org.activebpel.rt.util.AeMimeUtil;
 import org.activebpel.rt.util.AeUtil;
 import org.activebpel.wsio.AeWebServiceAttachment;
+import org.apache.commons.codec.binary.Base64;
+
+import java.io.ByteArrayInputStream;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Class representing the function used by expression evaluators to handle the BPEL -
@@ -115,7 +115,7 @@ public class AeCreateAttachmentFunction extends AeAbstractAttachmentFunction
    {
       IAeVariable variable = getVariable(aContext.getAbstractBpelObject(), aVariableName);
       IAeBusinessProcessInternal process = aContext.getAbstractBpelObject().getProcess();
-      ByteArrayInputStream stream = new ByteArrayInputStream(Base64.decode(aContent));
+      ByteArrayInputStream stream = new ByteArrayInputStream(Base64.decodeBase64(aContent));
       AeWebServiceAttachment wsAttachment = new AeWebServiceAttachment(stream, aAttachmentProps);
       String variablePath = variable.getLocationPath();
       try

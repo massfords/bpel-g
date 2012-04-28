@@ -46,7 +46,7 @@ public class AeRecoveryCoordinationManager implements
 	/** The set of alarm and queue manager items generated during recovery. */
 	private IAeRecoveredItemsSet mRecoveredItemsSet;
 	private IAeBusinessProcessEngineInternal mEngine;
-	IAeCoordinationManagerInternal mDelegate;
+	final IAeCoordinationManagerInternal mDelegate;
 
 	/**
 	 * Ctor

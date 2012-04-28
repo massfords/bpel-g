@@ -42,12 +42,12 @@ public class BgCatalogBuilder {
     }
     
     private File serviceUnitRoot;
-    private Collection<BgCatalogTuple> collection = new ArrayList<BgCatalogTuple>();
+    private final Collection<BgCatalogTuple> collection = new ArrayList<BgCatalogTuple>();
     private String logicalPathPrefix;
     private Catalog catalog;
     private boolean replaceExisting;
     // location paths relative to the service unit root that are referenced directly or transitively by the bpel. These paths will be included in the deployment.
-    private Set<String> locations = new HashSet<String>();
+    private final Set<String> locations = new HashSet<String>();
     
     public BgCatalogBuilder(File root) {
         assert root.isDirectory();
@@ -199,7 +199,7 @@ public class BgCatalogBuilder {
         }
     }
 
-    private String toPhysicalLocation(File file) throws URISyntaxException {
+    private String toPhysicalLocation(File file) {
     	String uriStr = file.getPath().substring(serviceUnitRoot.getPath().length()+1);
     	uriStr = uriStr.replaceAll("\\\\", "/");
     	URI uri = URI.create(uriStr);

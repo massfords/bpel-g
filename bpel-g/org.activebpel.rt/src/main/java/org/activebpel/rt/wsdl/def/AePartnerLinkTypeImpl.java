@@ -38,7 +38,7 @@ public class AePartnerLinkTypeImpl implements ExtensibilityElement, IAePartnerLi
    private String mName;
 
    // List of Role's associated with this Partner Link Type.
-   private Map<String,IAeRole> mRolesMap = new HashMap<String, IAeRole>();
+   private final Map<String,IAeRole> mRolesMap = new HashMap<String, IAeRole>();
 
    /**
     * Constructor.  This contructor is generally used for modeling a new Partner

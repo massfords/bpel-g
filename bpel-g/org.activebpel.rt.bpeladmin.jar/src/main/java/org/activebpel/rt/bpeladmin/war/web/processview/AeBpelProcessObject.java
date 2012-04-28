@@ -33,13 +33,13 @@ public class AeBpelProcessObject extends AeBpelScopeObject implements
 	 * List of links found in this process, stored in a Map using the link's
 	 * name as the key.
 	 */
-	private Map<String, AeBpelLinkObject> mLinks = new LinkedHashMap<String, AeBpelLinkObject>();
+	private final Map<String, AeBpelLinkObject> mLinks = new LinkedHashMap<String, AeBpelLinkObject>();
 
 	/** XPath to all variables used by this process. */
-	private Set<String> mVariablePaths = new HashSet<String>();
+	private final Set<String> mVariablePaths = new HashSet<String>();
 
 	/** Map containing BPEL web model keyed by its location path. */
-	private Map<String, AeBpelObjectBase> mPathToWebModelMap = new HashMap<String, AeBpelObjectBase>();
+	private final Map<String, AeBpelObjectBase> mPathToWebModelMap = new HashMap<String, AeBpelObjectBase>();
 
 	/** The xml state document of the active process. */
 	private Document mStateDoc = null;

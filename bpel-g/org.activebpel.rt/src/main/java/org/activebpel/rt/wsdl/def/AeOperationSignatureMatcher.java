@@ -29,11 +29,11 @@ import org.w3c.dom.Document;
 public class AeOperationSignatureMatcher extends AeMessageMatcher
 {
    /** def that contains the port type - will have access to the messages either directly or through imports */
-   private AeBPELExtendedWSDLDef mDef;
+   private final AeBPELExtendedWSDLDef mDef;
    /** name of the operation or null if not found */
    private Operation mOperation;
    /** qname of the port type */
-   private QName mPortTypeName;
+   private final QName mPortTypeName;
    /** optionally provided in the ctor */
    private String mOperationName;
    

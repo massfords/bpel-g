@@ -66,8 +66,7 @@ public class AeMultiStartHelper
    /**
     * Returns true if the receive's data is queued by the process. 
     */
-   private static boolean isReceiveDataQueued(IAeMessageReceiverActivity aActivity) throws AeBusinessProcessException
-   {
+   private static boolean isReceiveDataQueued(IAeMessageReceiverActivity aActivity) {
       return aActivity.getProcess().isReceiveDataQueued(aActivity.getPartnerLinkOperationImplKey());
    }
 

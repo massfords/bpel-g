@@ -43,7 +43,7 @@ public class AeProcessDefToWebVisitorBase implements IAeDefVisitor
    private Document mStateDoc = null;
 	/** Map containing bpel state document's element node name and a
     * collection of location path to elements. */
-   private Map<String, Map<String, Element>> stateElementMap;
+   private final Map<String, Map<String, Element>> stateElementMap;
 
    /** Indicates the process is based on ws-bpel 1.1 */
    private boolean mBpelVersion11;

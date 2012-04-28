@@ -101,7 +101,7 @@ public class AeGraphProperties extends Properties
    /** Singleton instance */
    private static AeGraphProperties sInstance = null;
    /** Property file or resource name */
-   private String mResourceName = "graph.properties"; //$NON-NLS-1$
+   private final String mResourceName = "graph.properties"; //$NON-NLS-1$
 
    /**
     * private constructor.

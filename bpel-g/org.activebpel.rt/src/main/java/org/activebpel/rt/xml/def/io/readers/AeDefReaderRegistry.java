@@ -27,9 +27,9 @@ import org.activebpel.rt.xml.def.IAeBaseXmlDefConstants;
 public class AeDefReaderRegistry implements IAeDefReaderRegistry, IAeBaseXmlDefConstants
 {
    /** map of QNames to readers */
-   private Map<QName, IAeDefReader> mGenericReadersMap = new HashMap<QName, IAeDefReader>();
+   private final Map<QName, IAeDefReader> mGenericReadersMap = new HashMap<QName, IAeDefReader>();
    /** maps def class to map of child QName to reader  */
-   private Map<Class<?>, Map<QName, IAeDefReader>> mParentRegistryMap = new HashMap<Class<?>, Map<QName, IAeDefReader>>();
+   private final Map<Class<?>, Map<QName, IAeDefReader>> mParentRegistryMap = new HashMap<Class<?>, Map<QName, IAeDefReader>>();
    /** The reader def visitor factory that the dispatch reader will use to create readers. */
    private IAeReaderFactory mReaderFactory;
    /** A reader that can read in an extension element. */

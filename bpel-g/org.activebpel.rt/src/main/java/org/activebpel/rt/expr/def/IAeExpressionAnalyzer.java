@@ -117,13 +117,13 @@ public interface IAeExpressionAnalyzer
    public class AeExpressionToSpecDetails
    {
       /** The variable name. */
-      private String mVariableName;
+      private final String mVariableName;
       /** The part name. */
-      private String mPartName;
+      private final String mPartName;
       /** The query language. */
-      private String mQueryLanguage;
+      private final String mQueryLanguage;
       /** The query. */
-      private String mQuery;
+      private final String mQuery;
 
       /**
        * Constructor.

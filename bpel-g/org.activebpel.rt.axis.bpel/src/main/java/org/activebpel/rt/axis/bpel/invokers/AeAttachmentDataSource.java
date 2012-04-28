@@ -24,7 +24,7 @@ import org.activebpel.wsio.IAeWebServiceAttachment;
 public class AeAttachmentDataSource implements DataSource
 {
    /** WSIO attachments being sourced */
-   private IAeWebServiceAttachment mAeWebServiceAttachmentData;
+   private final IAeWebServiceAttachment mAeWebServiceAttachmentData;
   
    /**
     * Constructor 

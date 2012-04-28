@@ -23,10 +23,10 @@ import org.activebpel.rt.bpel.def.AeBaseDef;
 public class AeBpelActivityObject extends AeBpelObjectContainer
 {
    /** List containing source links. */
-   private List<AeBpelLinkObject> mSourceLinks = new ArrayList<AeBpelLinkObject>();
+   private final List<AeBpelLinkObject> mSourceLinks = new ArrayList<AeBpelLinkObject>();
    
    /** List of target links */
-   private List<AeBpelLinkObject> mTargetLinks = new ArrayList<AeBpelLinkObject>();
+   private final List<AeBpelLinkObject> mTargetLinks = new ArrayList<AeBpelLinkObject>();
    
    /** BPEL activity specific condition attribute. This attribute may be used to
     *  display text next to the activity (as an adornment).

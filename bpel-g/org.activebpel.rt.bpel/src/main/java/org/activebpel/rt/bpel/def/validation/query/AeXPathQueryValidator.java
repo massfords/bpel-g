@@ -40,7 +40,7 @@ public class AeXPathQueryValidator extends AeXPathSyntaxValidator
    /** The current parent within the context (null at start of validation). */   
    protected XMLType mCurrentParent = null;
    /** Stack of contexts for queries which use dot-dot (..) type constructs. */
-   protected Stack<XMLType> mContextStack = new Stack<XMLType>();
+   protected final Stack<XMLType> mContextStack = new Stack<XMLType>();
    /** Flag indicating whether we should validate the root. */
    protected boolean mValidateRoot = false;
    /** Namespace context for validating qualified elements. */

@@ -47,10 +47,10 @@ public class AeLogReader extends AeSQLObject
    private static final ResultSetHandler<String> SMALL_LOG_HANDLER = new AeSmallLogHandler(); 
    
    /** process id we're searching for */
-   private Long mProcessId;
+   private final Long mProcessId;
    
    /** contains the sql queries needed for this class */
-   private AeSQLConfig mSQLConfig;
+   private final AeSQLConfig mSQLConfig;
    
    /** list of log entries for the process */
    private List mLogEntries;
@@ -59,9 +59,9 @@ public class AeLogReader extends AeSQLObject
    private int mTotalLineCount;
    
    /** max number of lines to include in the head of the log */
-   private int mHeadLimit;
+   private final int mHeadLimit;
    /** max number of lines to include in the tail of the log */
-   private int mTailLimit;
+   private final int mTailLimit;
       
    /**
     * Ctor
@@ -271,9 +271,9 @@ public class AeLogReader extends AeSQLObject
    protected static class AeLogEntry implements Comparable
    {
       /** number of lines in the clob */
-      private int mLines;
+      private final int mLines;
       /** value of the counter for the row */
-      private int mCounter;
+      private final int mCounter;
       
       /**
        * Ctor

@@ -18,7 +18,7 @@ import org.activebpel.rt.bpel.server.engine.IAeReceiveHandlerFactory;
  */
 public class AeBPELReceiveHandlerFactory implements IAeReceiveHandlerFactory
 {
-   private static IAeReceiveHandler mHandler = new AeDefaultReceiveHandler();
+   private static final IAeReceiveHandler mHandler = new AeDefaultReceiveHandler();
    
    /**
     * @see org.activebpel.rt.bpel.server.engine.IAeReceiveHandlerFactory#createReceiveHandler(java.lang.String)

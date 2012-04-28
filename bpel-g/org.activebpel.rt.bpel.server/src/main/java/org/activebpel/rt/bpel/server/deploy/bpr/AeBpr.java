@@ -28,10 +28,10 @@ import bpelg.services.deploy.types.pdd.Pdd;
  */
 public class AeBpr implements IAeBpr {
 	/** bpr strategy */
-	private IAeBprAccessor mBprStrategy;
+	private final IAeBprAccessor mBprStrategy;
 	/** deployment context */
-	private IAeDeploymentContext mDeploymentContext;
-	private Map<Pdd,IAeDeploymentSource> mDeploymentSources = new HashMap<Pdd,IAeDeploymentSource>();
+	private final IAeDeploymentContext mDeploymentContext;
+	private final Map<Pdd,IAeDeploymentSource> mDeploymentSources = new HashMap<Pdd,IAeDeploymentSource>();
 
 	// ----------[ Static creation methods
 	// ]--------------------------------------

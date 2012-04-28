@@ -179,11 +179,11 @@ public abstract class AeDefToValidationVisitor extends AeAbstractDefVisitor
    /** root validator */
    private AeProcessValidator mProcessValidator;
    /** stack used for parenting */
-   private Stack<AeBaseValidator> mStack = new Stack<AeBaseValidator>();
+   private final Stack<AeBaseValidator> mStack = new Stack<AeBaseValidator>();
    /** context for the validation */
-   private IAeValidationContext mContext;
+   private final IAeValidationContext mContext;
    /** maps defs classes to their validators */
-   private Map<Class<?>, Class<? extends IAeValidator>> mDefToValidatorMap = new HashMap<Class<?>, Class<? extends IAeValidator>>();
+   private final Map<Class<?>, Class<? extends IAeValidator>> mDefToValidatorMap = new HashMap<Class<?>, Class<? extends IAeValidator>>();
    
    /**
     * Ctor accepts the validation context

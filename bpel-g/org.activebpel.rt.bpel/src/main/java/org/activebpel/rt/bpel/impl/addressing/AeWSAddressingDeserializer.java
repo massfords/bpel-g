@@ -37,7 +37,7 @@ public class AeWSAddressingDeserializer implements IAeAddressingDeserializer
    private String mNamespace = IAeConstants.WSA_NAMESPACE_URI;
 
    /** set of element names that may contain WS-Addressing information */
-   private static Set<String> mWSASoapHeaderElementNames = new HashSet<String>();
+   private static final Set<String> mWSASoapHeaderElementNames = new HashSet<String>();
    
    static
    {

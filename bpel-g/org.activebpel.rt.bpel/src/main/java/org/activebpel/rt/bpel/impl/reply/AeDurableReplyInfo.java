@@ -18,7 +18,7 @@ import java.util.Map;
 public class AeDurableReplyInfo implements IAeDurableReplyInfo
 {
    /** Durable reply type. */
-   private String mType;
+   private final String mType;
    /** Map containing reply information. */
    private Map<String, String> mProperties;
    

@@ -27,11 +27,11 @@ import org.activebpel.rt.util.AeUtil;
 public class AeBpelControllerBase extends AeGraphController
 {
    /** Indicates the acitvity is in Active state or Normal if the state information is not available.*/
-   public static int NORMAL_STATE = 0;
+   public static final int NORMAL_STATE = 0;
    /** Indicates an Inactive state */
-   public static int INACTIVE_STATE = 1;
+   public static final int INACTIVE_STATE = 1;
    /** Indicates a Dead path state */
-   public static int DEADPATH_STATE = 2;
+   public static final int DEADPATH_STATE = 2;
    
    /** Animation state (normal, inactive or dead path) */
    private int mAnimationState = NORMAL_STATE;

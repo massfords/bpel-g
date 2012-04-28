@@ -28,7 +28,7 @@ import org.activebpel.rt.xml.schema.AeSchemaDateTime;
 class AeXQueryStatementParamFormatter
 {
    /** Map of java Class to IAeXQueryStatementParamFormatter. */
-   private Map<Class<?>, IAeXQueryStatementParamFormatter> mFormatters = new HashMap<Class<?>, IAeXQueryStatementParamFormatter>();
+   private final Map<Class<?>, IAeXQueryStatementParamFormatter> mFormatters = new HashMap<Class<?>, IAeXQueryStatementParamFormatter>();
 
    /**
     * C'tor.
@@ -82,7 +82,7 @@ class AeXQueryStatementParamFormatter
    /**
     * Formatter for String data.
     */
-   private static IAeXQueryStatementParamFormatter STRING_FORMATTER = new IAeXQueryStatementParamFormatter()
+   private static final IAeXQueryStatementParamFormatter STRING_FORMATTER = new IAeXQueryStatementParamFormatter()
    {
       /**
        * @see org.activebpel.rt.xquery.AeXQueryStatementParamFormatter.IAeXQueryStatementParamFormatter#format(java.lang.Object)
@@ -99,7 +99,7 @@ class AeXQueryStatementParamFormatter
    /**
     * Formatter for AeSchemaDateTime values.
     */
-   private static IAeXQueryStatementParamFormatter DATETIME_FORMATTER = new IAeXQueryStatementParamFormatter()
+   private static final IAeXQueryStatementParamFormatter DATETIME_FORMATTER = new IAeXQueryStatementParamFormatter()
    {
       /**
        * @see org.activebpel.rt.xquery.AeXQueryStatementParamFormatter.IAeXQueryStatementParamFormatter#format(java.lang.Object)
@@ -115,7 +115,7 @@ class AeXQueryStatementParamFormatter
    /**
     * Formatter for Date values.
     */
-   private static IAeXQueryStatementParamFormatter DATE_FORMATTER = new IAeXQueryStatementParamFormatter()
+   private static final IAeXQueryStatementParamFormatter DATE_FORMATTER = new IAeXQueryStatementParamFormatter()
    {
       /**
        * @see org.activebpel.rt.xquery.AeXQueryStatementParamFormatter.IAeXQueryStatementParamFormatter#format(java.lang.Object)
@@ -132,7 +132,7 @@ class AeXQueryStatementParamFormatter
    /**
     * Formatter for QName values.
     */
-   private static IAeXQueryStatementParamFormatter QNAME_FORMATTER = new IAeXQueryStatementParamFormatter()
+   private static final IAeXQueryStatementParamFormatter QNAME_FORMATTER = new IAeXQueryStatementParamFormatter()
    {
       /**
        * @see org.activebpel.rt.xquery.AeXQueryStatementParamFormatter.IAeXQueryStatementParamFormatter#format(java.lang.Object)
@@ -148,7 +148,7 @@ class AeXQueryStatementParamFormatter
    /**
     * Formatter for boolean values.
     */
-   private static IAeXQueryStatementParamFormatter BOOLEAN_FORMATTER = new IAeXQueryStatementParamFormatter()
+   private static final IAeXQueryStatementParamFormatter BOOLEAN_FORMATTER = new IAeXQueryStatementParamFormatter()
    {
       /**
        * @see org.activebpel.rt.xquery.AeXQueryStatementParamFormatter.IAeXQueryStatementParamFormatter#format(java.lang.Object)
@@ -164,7 +164,7 @@ class AeXQueryStatementParamFormatter
    /**
     * Formatter for boolean values.
     */
-   private static IAeXQueryStatementParamFormatter CRITERIA_FORMATTER = new IAeXQueryStatementParamFormatter()
+   private static final IAeXQueryStatementParamFormatter CRITERIA_FORMATTER = new IAeXQueryStatementParamFormatter()
    {
       /**
        * @see org.activebpel.rt.xquery.AeXQueryStatementParamFormatter.IAeXQueryStatementParamFormatter#format(java.lang.Object)
@@ -179,7 +179,7 @@ class AeXQueryStatementParamFormatter
    /**
     * Formatter for simple types that can be formatted successfully using a simple toString().
     */
-   private static IAeXQueryStatementParamFormatter SIMPLE_FORMATTER = new IAeXQueryStatementParamFormatter()
+   private static final IAeXQueryStatementParamFormatter SIMPLE_FORMATTER = new IAeXQueryStatementParamFormatter()
    {
       /**
        * @see org.activebpel.rt.xquery.AeXQueryStatementParamFormatter.IAeXQueryStatementParamFormatter#format(java.lang.Object)

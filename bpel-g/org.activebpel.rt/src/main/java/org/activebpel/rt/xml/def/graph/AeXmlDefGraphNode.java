@@ -30,9 +30,9 @@ public class AeXmlDefGraphNode implements IAeXmlDefGraphNode
    /** Icon image file name */
    private String mIconName;
    /** definition  */
-   private AeBaseXmlDef mDef;
+   private final AeBaseXmlDef mDef;
    /** Optional name */
-   private String mName;
+   private final String mName;
    /** Flag to display only on outline */
    private boolean mDisplayOutlineOnly;
    

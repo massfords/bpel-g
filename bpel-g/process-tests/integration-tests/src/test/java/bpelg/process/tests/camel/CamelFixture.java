@@ -15,7 +15,7 @@ import java.util.concurrent.TimeUnit;
  *         Date: 4/7/12
  */
 public class CamelFixture {
-    DefaultCamelContext context = new DefaultCamelContext();
+    final DefaultCamelContext context = new DefaultCamelContext();
 
     private final String from;
 

@@ -32,11 +32,11 @@ import bpelg.services.deploy.types.catalog.OtherEntryType;
  */
 public class AeCatalogMappings {
 	/** The bpr file containing the catalog. */
-	private IAeBpr mBpr;
+	private final IAeBpr mBpr;
 	/** Store the AeCatalogBprMapping mappings. */
-	private Map<String, IAeCatalogMapping> mResources = new HashMap<String, IAeCatalogMapping>();
+	private final Map<String, IAeCatalogMapping> mResources = new HashMap<String, IAeCatalogMapping>();
 	/** Store the AeCatalogBprMapping of missing resources. */
-	private Map<String, IAeCatalogMapping> mMissingResources = new HashMap<String, IAeCatalogMapping>();
+	private final Map<String, IAeCatalogMapping> mMissingResources = new HashMap<String, IAeCatalogMapping>();
 	/** Replace any existing resource entries. */
 	private boolean mReplaceExistingResource;
 

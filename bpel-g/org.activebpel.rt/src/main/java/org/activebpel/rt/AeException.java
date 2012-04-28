@@ -35,7 +35,7 @@ public class AeException extends Exception
    private String mInfo;
 
    /** The logger to use for messages. */
-   private static Logger sLogger = AeLoggerFactory.createLogger("AeException"); //$NON-NLS-1$
+   private static final Logger sLogger = AeLoggerFactory.createLogger("AeException"); //$NON-NLS-1$
 
    /**
     * Construct a new runtime exception.

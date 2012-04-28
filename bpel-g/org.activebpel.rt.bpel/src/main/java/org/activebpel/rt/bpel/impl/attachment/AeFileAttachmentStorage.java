@@ -27,19 +27,19 @@ import java.util.*;
 public class AeFileAttachmentStorage implements IAeAttachmentStorage
 {
    /** Counter for attachment ids. */
-   private AeLongCounter mAttachmentIdCounter = new AeLongCounter();
+   private final AeLongCounter mAttachmentIdCounter = new AeLongCounter();
 
    /** Maps attachment ids to {@link AeAttachmentInfo} instances. */
-   private Map<Long,AeAttachmentInfo> mAttachmentInfoMap = Collections.synchronizedMap(new HashMap<Long,AeAttachmentInfo>());
+   private final Map<Long,AeAttachmentInfo> mAttachmentInfoMap = Collections.synchronizedMap(new HashMap<Long,AeAttachmentInfo>());
 
    /** Counter for attachment group ids. */
-   private AeLongCounter mGroupIdCounter = new AeLongCounter();
+   private final AeLongCounter mGroupIdCounter = new AeLongCounter();
 
    /** Maps attachment group ids to lists of {@link AeAttachmentInfo} instances. */
-   private Map<Long,List<AeAttachmentInfo>> mGroupInfosMap = Collections.synchronizedMap(new HashMap<Long,List<AeAttachmentInfo>>());
+   private final Map<Long,List<AeAttachmentInfo>> mGroupInfosMap = Collections.synchronizedMap(new HashMap<Long,List<AeAttachmentInfo>>());
 
    /** Maps process ids to lists of {@link AeAttachmentInfo} instances. */
-   private Map<Long,List<AeAttachmentInfo>> mProcessInfosMap = Collections.synchronizedMap(new HashMap<Long,List<AeAttachmentInfo>>());
+   private final Map<Long,List<AeAttachmentInfo>> mProcessInfosMap = Collections.synchronizedMap(new HashMap<Long,List<AeAttachmentInfo>>());
 
    /**
     * Overrides method to move the {@link AeAttachmentInfo} instances associated

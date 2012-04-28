@@ -19,9 +19,9 @@ public class AeXmlDefGraphNodeProperty implements IAeXmlDefGraphNodeProperty
 {
 
    /** Name of property */
-   private String mName;
+   private final String mName;
    /** Value of property */
-   private String mValue;
+   private final String mValue;
    /** is this a detail proeprty */
    private boolean mDetail;
    /** is this a variable */

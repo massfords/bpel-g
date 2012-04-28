@@ -28,7 +28,7 @@ import java.util.*;
 public class AeBPWSToWSBPELCorrelationInitiateVisitor extends AeAbstractEntryPointVisitor
 {
    /** A map of create instance activities.  The key is a correlation set def, the value is a list of correlation defs from create instance activities. */
-   private Map<AeCorrelationSetDef, List<AeCorrelationDef>> mCreateInstances = new HashMap<AeCorrelationSetDef, List<AeCorrelationDef>>();
+   private final Map<AeCorrelationSetDef, List<AeCorrelationDef>> mCreateInstances = new HashMap<AeCorrelationSetDef, List<AeCorrelationDef>>();
 
    /**
     * Constructor.

@@ -24,9 +24,9 @@ import org.activebpel.rt.util.AeUtil;
 public class AeBprContext extends AeAbstractDeploymentContext
 {
    /** deployment context (url) classloader */
-   private ClassLoader mContextLoader;
+   private final ClassLoader mContextLoader;
    /** temp/working url */
-   private URL mTempLocation;
+   private final URL mTempLocation;
    
    /**
     * Constructor.

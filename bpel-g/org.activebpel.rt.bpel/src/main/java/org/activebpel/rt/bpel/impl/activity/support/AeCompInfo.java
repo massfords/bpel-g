@@ -33,7 +33,7 @@ public class AeCompInfo
    /** reference to the parent comp info object - used to resolve variables */
    private AeCompInfo mParent;
    /** The scope that successfully completed execution */
-   private AeActivityScopeImpl mScope;
+   private final AeActivityScopeImpl mScope;
    /** Snapshot of the variable data at the time of completion */
    private AeScopeSnapshot mSnapshot;
    /** All completed enclosed scopes */

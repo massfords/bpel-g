@@ -35,7 +35,7 @@ public class AeAttachmentContainer extends ArrayList<IAeAttachmentItem> implemen
 {
     private static final long serialVersionUID = 3367155879963089013L;
     /** regular expression to match Content-Id unique postfix*/
-    private static Pattern sContentIdRegEx = Pattern.compile(
+    private static final Pattern sContentIdRegEx = Pattern.compile(
          "(.*)\\-([0-9]+)", Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE); //$NON-NLS-1$
    
    /**

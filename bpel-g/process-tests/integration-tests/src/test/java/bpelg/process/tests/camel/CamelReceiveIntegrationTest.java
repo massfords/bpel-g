@@ -18,7 +18,7 @@ import java.io.StringReader;
  *         Date: 4/7/12
  */
 public class CamelReceiveIntegrationTest extends Assert {
-    private AeProcessFixture pfix = new AeProcessFixture();
+    private final AeProcessFixture pfix = new AeProcessFixture();
     private CamelFixture cfix;
 
     @Before

@@ -9,23 +9,9 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpel.server.catalog;
 
-import java.io.IOException;
-import java.text.MessageFormat;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Set;
-
+import bpelg.services.deploy.types.pdd.ReferenceType;
 import net.sf.ehcache.Statistics;
-
 import org.activebpel.rt.AeException;
-import org.activebpel.rt.AeWSDLException;
 import org.activebpel.rt.bpel.impl.list.AeCatalogItemDetail;
 import org.activebpel.rt.bpel.impl.list.AeCatalogItemPlanReference;
 import org.activebpel.rt.bpel.impl.list.AeCatalogListResult;
@@ -46,7 +32,10 @@ import org.activebpel.rt.xml.AeQName;
 import org.activebpel.rt.xml.AeXMLParserBase;
 import org.xml.sax.InputSource;
 
-import bpelg.services.deploy.types.pdd.ReferenceType;
+import java.io.IOException;
+import java.text.MessageFormat;
+import java.util.*;
+import java.util.Map.Entry;
 
 /**
  * Default impl of the IAeCatalog.
@@ -68,7 +57,7 @@ public class AeCatalog implements IAeCatalog, IAeCatalogAdmin {
 	private Map<IAeDeploymentId, IAeCatalogMapping[]> mDeploymentMapping;
 
 	/** Catalog listeners */
-	private Collection<IAeCatalogListener> mListeners = new ArrayList<IAeCatalogListener>();
+	private final Collection<IAeCatalogListener> mListeners = new ArrayList<IAeCatalogListener>();
 
 	/**
 	 * Constructor.
@@ -452,14 +441,9 @@ public class AeCatalog implements IAeCatalog, IAeCatalogAdmin {
 	 */
 	public synchronized AeCatalogListResult getCatalogListing(
 			AeCatalogListingFilter aFilter) {
-		try {
-			return AeInMemoryCatalogListing.extractListing(aFilter,
-					getLocationToMapping());
-		} catch (AeWSDLException we) {
-			we.logError();
-			return null;
-		}
-	}
+        return AeInMemoryCatalogListing.extractListing(aFilter,
+                getLocationToMapping());
+    }
 
 	/**
 	 * @see org.activebpel.rt.bpel.server.catalog.report.IAeCatalogAdmin#getCatalogInputSource(java.lang.String)

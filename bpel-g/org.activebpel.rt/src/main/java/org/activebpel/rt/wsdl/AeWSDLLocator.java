@@ -23,11 +23,11 @@ import org.xml.sax.InputSource;
 public class AeWSDLLocator implements WSDLLocator
 {
    /** The base WSDL file given during contruction */
-   private String mBaseURI;
+   private final String mBaseURI;
    /** The last import file which was requested */
    private String mLastImportURI;
    /** The WSDL factory used to load */
-   private IAeWSDLFactory mWSDLFactory;
+   private final IAeWSDLFactory mWSDLFactory;
 
    /**
     * WSDL locator object used by WSDL reader to load WSDL files

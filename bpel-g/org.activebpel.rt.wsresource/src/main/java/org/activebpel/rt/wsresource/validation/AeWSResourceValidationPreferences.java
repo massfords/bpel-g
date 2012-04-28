@@ -36,11 +36,11 @@ import org.xml.sax.InputSource;
 public abstract class AeWSResourceValidationPreferences implements IAeWSResourceValidationPreferences
 {
    /** schema for the severity file */
-   private static Schema sSeveritySchema;
+   private static final Schema sSeveritySchema;
    /** prefix to namespace mapping*/
-   private static Map<String, String> sPrefixMap = new HashMap<String, String>();
+   private static final Map<String, String> sPrefixMap = new HashMap<String, String>();
    /** Map of rule ids -> severity */
-   private Map<QName, Integer> mSeverity = new HashMap<QName, Integer>();
+   private final Map<QName, Integer> mSeverity = new HashMap<QName, Integer>();
    
    static
    {

@@ -21,7 +21,7 @@ import java.util.Collection;
 public abstract class AeExtensionNotifier
 {
    /** Invokes the onExecute() on the adapter  */
-   private static AeExtensionNotifier sExecute = new AeExtensionNotifier()
+   private static final AeExtensionNotifier sExecute = new AeExtensionNotifier()
    {
       /**
        * @see org.activebpel.rt.bpel.impl.activity.AeExtensionNotifier#notifyExtension(org.activebpel.rt.bpel.impl.activity.AeActivityImpl, org.activebpel.rt.bpel.IAeFault, org.activebpel.rt.bpel.impl.activity.IAeExtensionLifecycleAdapter)
@@ -35,7 +35,7 @@ public abstract class AeExtensionNotifier
    };
    
    /** Invokes the onComplete() on the adapter */
-   private static AeExtensionNotifier sComplete = new AeExtensionNotifier()
+   private static final AeExtensionNotifier sComplete = new AeExtensionNotifier()
    {
       /**
        * @see org.activebpel.rt.bpel.impl.activity.AeExtensionNotifier#notifyExtension(org.activebpel.rt.bpel.impl.activity.AeActivityImpl, org.activebpel.rt.bpel.IAeFault, org.activebpel.rt.bpel.impl.activity.IAeExtensionLifecycleAdapter)
@@ -48,7 +48,7 @@ public abstract class AeExtensionNotifier
    };
 
    /** Invokes the onInitialize() on the adapter */
-   private static AeExtensionNotifier sInitialize = new AeExtensionNotifier()
+   private static final AeExtensionNotifier sInitialize = new AeExtensionNotifier()
    {
       /**
        * @see org.activebpel.rt.bpel.impl.activity.AeExtensionNotifier#notifyExtension(org.activebpel.rt.bpel.impl.activity.AeActivityImpl, org.activebpel.rt.bpel.IAeFault, org.activebpel.rt.bpel.impl.activity.IAeExtensionLifecycleAdapter)
@@ -61,7 +61,7 @@ public abstract class AeExtensionNotifier
    };
    
    /** Invokes the onFault on the adapter */
-   private static AeExtensionNotifier sFault = new AeExtensionNotifier()
+   private static final AeExtensionNotifier sFault = new AeExtensionNotifier()
    {
       /**
        * @see org.activebpel.rt.bpel.impl.activity.AeExtensionNotifier#notifyExtension(org.activebpel.rt.bpel.impl.activity.AeActivityImpl, org.activebpel.rt.bpel.IAeFault, org.activebpel.rt.bpel.impl.activity.IAeExtensionLifecycleAdapter)
@@ -74,7 +74,7 @@ public abstract class AeExtensionNotifier
    };
 
    /** Invokes the onTerminate() on the adapter */
-   private static AeExtensionNotifier sTerminate = new AeExtensionNotifier()
+   private static final AeExtensionNotifier sTerminate = new AeExtensionNotifier()
    {
       /**
        * @see org.activebpel.rt.bpel.impl.activity.AeExtensionNotifier#notifyExtension(org.activebpel.rt.bpel.impl.activity.AeActivityImpl, org.activebpel.rt.bpel.IAeFault, org.activebpel.rt.bpel.impl.activity.IAeExtensionLifecycleAdapter)

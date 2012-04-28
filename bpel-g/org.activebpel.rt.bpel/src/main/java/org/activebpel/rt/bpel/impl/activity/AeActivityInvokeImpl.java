@@ -43,7 +43,7 @@ public class AeActivityInvokeImpl extends AeWSIOActivityImpl implements IAeInvok
    private boolean mQueued;
 
    /** contains the code and state for implementing retries for invokes */
-   private AeInvokeRetryPolicy mRetryPolicy = new AeInvokeRetryPolicy(this);
+   private final AeInvokeRetryPolicy mRetryPolicy = new AeInvokeRetryPolicy(this);
 
    /**
     * Invoke transmission id used in durable invokes.

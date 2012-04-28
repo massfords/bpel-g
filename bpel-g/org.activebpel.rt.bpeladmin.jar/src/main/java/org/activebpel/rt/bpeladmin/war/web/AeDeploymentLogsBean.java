@@ -17,9 +17,9 @@ package org.activebpel.rt.bpeladmin.war.web;
 public class AeDeploymentLogsBean
 {
    /** Types wrapper around deployment log file names. */
-   protected AeJavaTypesWrapper[] mLogFiles;
+   protected final AeJavaTypesWrapper[] mLogFiles;
    /** A specific log file name. */
-   protected String mLogFile;
+   protected final String mLogFile;
 
    /**
     * Constructor.

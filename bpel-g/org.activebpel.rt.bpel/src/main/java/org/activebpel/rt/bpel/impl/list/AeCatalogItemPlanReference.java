@@ -20,7 +20,7 @@ import org.activebpel.rt.xml.AeQName;
 public class AeCatalogItemPlanReference
 {
     /** Plan QName. */
-    protected AeQName mPlanQName;
+    protected final AeQName mPlanQName;
     
     /**
      * Constructor.

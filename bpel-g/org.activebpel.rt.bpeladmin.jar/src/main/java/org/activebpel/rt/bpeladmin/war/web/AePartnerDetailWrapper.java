@@ -20,13 +20,13 @@ import org.activebpel.rt.util.AeUtil;
 public class AePartnerDetailWrapper
 {
    /** PartnerLinkType QName */
-   protected QName mPartnerLinkType;
+   protected final QName mPartnerLinkType;
    /** Role. */
-   protected String mRole;
+   protected final String mRole;
    /** Endpoint service QName. */
-   protected QName mEndpoint;
+   protected final QName mEndpoint;
    /** Comma delimited string a deployment short names. */
-   protected String mDeployments;
+   protected final String mDeployments;
    
    /**
     * Constructor.

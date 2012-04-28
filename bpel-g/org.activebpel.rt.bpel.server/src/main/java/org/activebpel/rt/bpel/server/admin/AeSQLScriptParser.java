@@ -24,7 +24,7 @@ import org.activebpel.rt.util.AeUtil;
 public class AeSQLScriptParser
 {
    /** Reader for the sql file source. */
-   protected BufferedReader mReader;
+   protected final BufferedReader mReader;
    /** Sql statement string. */
    String mNextStatement;
    

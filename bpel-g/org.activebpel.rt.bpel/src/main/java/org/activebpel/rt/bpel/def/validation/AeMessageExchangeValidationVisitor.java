@@ -48,13 +48,13 @@ public class AeMessageExchangeValidationVisitor extends AeAbstractDefVisitor
 
    /** set of plink.operation.messageExchange, all replies are matched against
     *  this set to assert that we have matched receives/replies */
-   private Set<String> mMessageExchangeReceives = new HashSet<String>();
+   private final Set<String> mMessageExchangeReceives = new HashSet<String>();
 
    /** Collection of replies that have been visited - used to assert a match w/ receives/replies for messageExchange */
-   private Collection<AeActivityReplyDef> mReplies = new LinkedList<AeActivityReplyDef>();
+   private final Collection<AeActivityReplyDef> mReplies = new LinkedList<AeActivityReplyDef>();
    
    /** collection of receives and onMessages, mapped to the context def used to resolve resources*/
-   private Map<IAeReceiveActivityDef, AeBaseDef> mReceiveDefsToContexts = new HashMap<IAeReceiveActivityDef, AeBaseDef>();
+   private final Map<IAeReceiveActivityDef, AeBaseDef> mReceiveDefsToContexts = new HashMap<IAeReceiveActivityDef, AeBaseDef>();
    
    /** process being visited */
    private AeProcessDef mProcessDef;

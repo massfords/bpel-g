@@ -61,7 +61,7 @@ public class AER
    public static final int ARG_COUNT = 16 ;
    
    /** Properties key for timestamp format. */
-   public static String sTSFormatKey = "MessageFormatting.Engine.Event.TimestampFormat"; //$NON-NLS-1$
+   public static final String sTSFormatKey = "MessageFormatting.Engine.Event.TimestampFormat"; //$NON-NLS-1$
    
    /**
     * Format the current time/instant using the format string provided.

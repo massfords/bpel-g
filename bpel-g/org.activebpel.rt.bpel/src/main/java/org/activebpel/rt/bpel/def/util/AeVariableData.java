@@ -15,13 +15,13 @@ package org.activebpel.rt.bpel.def.util;
 public class AeVariableData
 {
    /** The variable name parameter of the function call */
-   private String mVarName;
+   private final String mVarName;
 
    /** The part name parameter of the function call (optional) */
-   private String mPartName;
+   private final String mPartName;
 
    /** The query expression parameter of the function call (optional) */
-   private String mQueryName;
+   private final String mQueryName;
    
    /**
     * Constructor for variableData element which takes the parameter values as

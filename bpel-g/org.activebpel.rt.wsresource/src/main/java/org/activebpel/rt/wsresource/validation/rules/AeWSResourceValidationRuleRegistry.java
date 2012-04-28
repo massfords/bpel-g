@@ -40,8 +40,8 @@ import org.xml.sax.InputSource;
  */
 public class AeWSResourceValidationRuleRegistry implements IAeWSResourceValidationRuleRegistry
 {
-   private static Schema sRulesFileSchema;
-   private static Map<String, String> sPrefixMap = new HashMap<String, String>();
+   private static final Schema sRulesFileSchema;
+   private static final Map<String, String> sPrefixMap = new HashMap<String, String>();
 
    static
    {

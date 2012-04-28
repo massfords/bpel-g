@@ -43,10 +43,10 @@ import org.xml.sax.InputSource;
  */
 public class BgSchemaCollection {
 
-    private static Log log = LogFactory.getLog(BgSchemaCollection.class);
+    private static final Log log = LogFactory.getLog(BgSchemaCollection.class);
     
-    private Map<String,BgSchema> schemas;
-    private URI baseUri;
+    private final Map<String,BgSchema> schemas;
+    private final URI baseUri;
     
     public BgSchemaCollection() {
         this(null);

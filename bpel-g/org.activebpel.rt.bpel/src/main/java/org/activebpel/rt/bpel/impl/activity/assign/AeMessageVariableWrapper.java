@@ -17,7 +17,7 @@ import org.activebpel.rt.bpel.IAeVariable;
 public class AeMessageVariableWrapper implements IAeMessageVariableWrapper
 {
    /** our variable */
-   private IAeVariable mVariable;
+   private final IAeVariable mVariable;
    
    /**
     * Ctor accepts variable

@@ -17,10 +17,10 @@ import org.activebpel.rt.bpeladmin.war.AeMessages;
 public class AeCatalogItemType
 {
    /** The type number. */
-   private int mTypeNumber;
+   private final int mTypeNumber;
 
    /** True if this is the selected filter type. */
-   private boolean mSelected;
+   private final boolean mSelected;
    
    /**
     * Constructor.

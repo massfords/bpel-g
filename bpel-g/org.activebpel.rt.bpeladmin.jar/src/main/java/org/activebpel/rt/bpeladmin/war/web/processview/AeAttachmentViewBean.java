@@ -29,9 +29,9 @@ public class AeAttachmentViewBean
    private Map<String, String> mHeaders;
 
    /** attachment content id */
-   private long mAttachmentId;
+   private final long mAttachmentId;
    /** The index of the attachment */
-   private int mIndex;
+   private final int mIndex;
 
    /**
     * Constructor
@@ -140,8 +140,8 @@ public class AeAttachmentViewBean
     */
    protected static class AeAttachmentHeader
    {
-      private String mName;
-      private String mValue;
+      private final String mName;
+      private final String mValue;
 
       /**
        * Constructor

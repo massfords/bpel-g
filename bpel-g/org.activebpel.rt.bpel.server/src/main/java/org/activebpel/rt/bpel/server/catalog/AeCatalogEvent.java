@@ -15,9 +15,9 @@ package org.activebpel.rt.bpel.server.catalog;
 public class AeCatalogEvent
 {
    /** the location hint */
-   private String mLocationHint;
+   private final String mLocationHint;
    /** the replace boolean value */
-   private boolean mReplacementFlag;
+   private final boolean mReplacementFlag;
    
    /**
     * Factory create method.

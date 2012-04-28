@@ -48,7 +48,7 @@ public class AeTimerManager implements TimerManager, IAeStoppableTimerManager
    private short mTimerManagerState = STOPPED; 
    
    /** A list of timers which have been deferred. They will fire when timer manager is resumed. */
-   private ArrayList<Timer> mPendingTimers = new ArrayList<Timer>();
+   private final ArrayList<Timer> mPendingTimers = new ArrayList<Timer>();
    /** A count of timers which are currently executing. */
    private int mExecutingTimers;
    /** Synchronizes {@link #stop()} with {@link #waitForStop(long)}. */
@@ -421,7 +421,7 @@ public class AeTimerManager implements TimerManager, IAeStoppableTimerManager
    class AeTimerListener implements TimerListener
    {
       /** The timer listener we are wrappering */
-      private TimerListener mListener;
+      private final TimerListener mListener;
       
       /**
        * Constructor which takes a timer listener as input.

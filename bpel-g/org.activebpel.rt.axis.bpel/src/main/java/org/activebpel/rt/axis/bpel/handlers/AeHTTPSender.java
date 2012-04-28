@@ -96,7 +96,7 @@ private static final String KEY_IDLE_TIMEOUT = "org.activebpel.httpsender.idle.t
    private static final int DEFAULT_IDLE_CONNECTION_SWEEP_INTERVAL = 3000;
 
    /** Field log */
-   protected static Log log = LogFactory.getLog(CommonsHTTPSender.class.getName());
+   protected static final Log log = LogFactory.getLog(CommonsHTTPSender.class.getName());
 
    /** default value for the number of open connections per host */
    protected static final int DEFAULT_MAX_CONNECTIONS_PER_HOST = 100;

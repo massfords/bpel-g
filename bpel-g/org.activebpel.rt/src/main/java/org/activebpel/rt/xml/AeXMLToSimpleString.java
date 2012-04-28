@@ -34,13 +34,13 @@ import org.xml.sax.helpers.DefaultHandler;
 public class AeXMLToSimpleString extends DefaultHandler
 {
    /** Flag indicating if whitespace should be trimmed when parsing */
-   private boolean mTrimWhitespace;
+   private final boolean mTrimWhitespace;
    
    /** The buffer which holds the output of the parse */
    private StringBuffer mOutput;
    
    /** The map of namespace declarations */
-   private TreeMap<String,String> mNamespaces = new TreeMap<String,String>();
+   private final TreeMap<String,String> mNamespaces = new TreeMap<String,String>();
    
    /**
     * This method takes as input a stream which represents an XML document, and

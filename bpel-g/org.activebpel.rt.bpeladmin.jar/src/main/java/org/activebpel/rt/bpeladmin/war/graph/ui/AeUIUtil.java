@@ -30,9 +30,9 @@ import org.activebpel.rt.AeException;
 public class AeUIUtil
 {
    /** AWT component to act as a media observer */
-   private static Component sImageObserver = new Container();
+   private static final Component sImageObserver = new Container();
    /** Media tracker used when loading images */
-   private static MediaTracker sMediaTracker = new MediaTracker(sImageObserver);
+   private static final MediaTracker sMediaTracker = new MediaTracker(sImageObserver);
    
    private AeUIUtil()
    {
@@ -94,8 +94,7 @@ public class AeUIUtil
     * @return inputstream to the resource
     * @throws IOException
     */
-   public static InputStream getImageInputStream(Class aClass, String aResourceName) throws IOException
-   {
+   public static InputStream getImageInputStream(Class aClass, String aResourceName) {
          return aClass.getResourceAsStream(aResourceName);
    }
    

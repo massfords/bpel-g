@@ -42,13 +42,13 @@ import org.w3c.dom.Node;
 public class AeVariableLocker implements IAeVariableLocker
 {
    /** Map of variable paths to their lock holders */
-   private Map<String, AeLockHolder> mLockedPaths = new HashMap<String, AeLockHolder>();
+   private final Map<String, AeLockHolder> mLockedPaths = new HashMap<String, AeLockHolder>();
 
    /** Map of the failed lock requests that are awaiting an unlock to continue */
-   private Map<String, AeLockRequest> mFailedLockRequests = new HashMap<String, AeLockRequest>();
+   private final Map<String, AeLockRequest> mFailedLockRequests = new HashMap<String, AeLockRequest>();
 
    /** Map of the owner paths to the variables that they have locked. */
-   private Map<String, Set<String>> mOwnersToVariablesLocked = new HashMap<String, Set<String>>();
+   private final Map<String, Set<String>> mOwnersToVariablesLocked = new HashMap<String, Set<String>>();
 
    /**
     * Returns true if all of the variables in the set were able to be

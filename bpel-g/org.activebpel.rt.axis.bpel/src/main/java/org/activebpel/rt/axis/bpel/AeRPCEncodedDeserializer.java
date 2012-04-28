@@ -505,8 +505,7 @@ public class AeRPCEncodedDeserializer extends DeserializerImpl
     * complex type.
     * @param aType
     */
-   private boolean isElementDeclaration(QName aType) throws AeException
-   {
+   private boolean isElementDeclaration(QName aType) {
       return getTypesContext().findElement(aType) != null;
    }
 

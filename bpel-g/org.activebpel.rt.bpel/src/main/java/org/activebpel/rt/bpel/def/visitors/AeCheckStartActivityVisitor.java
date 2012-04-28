@@ -41,13 +41,13 @@ import java.util.Set;
 public class AeCheckStartActivityVisitor extends AeAbstractDefVisitor implements IAeDefVisitor
 {
    /** The error reporter specified during creation. */
-   private IAeValidationProblemReporter mErrorReporter ;
+   private final IAeValidationProblemReporter mErrorReporter ;
    /** The current activity being processed. */
    private AeActivityDef mCurrentActivity;
    /** Flag indicating current direction of traversal. */
    private boolean mAscending;
    /** Set of defs that are invalid */
-   private Set<AeBaseDef> mErrorDefs = new HashSet<AeBaseDef>();
+   private final Set<AeBaseDef> mErrorDefs = new HashSet<AeBaseDef>();
 
    /**
     * Constructor which requires an error reporter to be used during traversal.

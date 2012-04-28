@@ -26,7 +26,7 @@ import org.jaxen.UnresolvableException;
 public class AeFunctionContextWrapper extends AeAbstractFunctionContext
 {
    /** delegate <code>org.jaxen.FunctionContext</code> impl */
-   protected FunctionContext mDelegate;
+   protected final FunctionContext mDelegate;
    /** the function context's namespace */
    private String mNamespace;
 
@@ -90,7 +90,7 @@ public class AeFunctionContextWrapper extends AeAbstractFunctionContext
    protected class AeFunctionWrapper implements IAeFunction
    {
       /** delegate function */
-      protected Function mDelegate;
+      protected final Function mDelegate;
       
       /**
        * Constructor.

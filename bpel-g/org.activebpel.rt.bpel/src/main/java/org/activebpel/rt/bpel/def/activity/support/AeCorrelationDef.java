@@ -162,7 +162,7 @@ public class AeCorrelationDef extends AeBaseDef
     private static final long serialVersionUID = 1817062058030101506L;
 
     /** value of the pattern */
-      private String mValue;
+      private final String mValue;
       
       /** invoke will initiate/validate correlation set with its request messages */
       public static final AeCorrelationPatternType REQUEST = new AeCorrelationPatternType("request"); //$NON-NLS-1$

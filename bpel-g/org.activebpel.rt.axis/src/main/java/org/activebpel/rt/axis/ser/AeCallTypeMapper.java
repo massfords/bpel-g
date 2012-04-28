@@ -22,7 +22,7 @@ import org.apache.axis.client.Call;
 public class AeCallTypeMapper implements IAeTypeMapper
 {
    /** Call that contains the type mapping info */
-   private Call mCall;
+   private final Call mCall;
    
    /**
     * Ctor creates the mapper with the call object.

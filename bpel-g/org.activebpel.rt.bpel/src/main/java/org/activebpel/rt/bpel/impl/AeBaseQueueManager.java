@@ -40,11 +40,11 @@ public abstract class AeBaseQueueManager extends AeManagerAdapter implements IAe
    public static final int DEFAULT_UNMATCHED_RECEIVES_COUNT = 50;
 
    /** inbound receives that have not been matched to activities */ 
-   private List<AeUnmatchedReceive> mUnmatchedReceives = Collections.synchronizedList(new LinkedList<AeUnmatchedReceive>());
+   private final List<AeUnmatchedReceive> mUnmatchedReceives = Collections.synchronizedList(new LinkedList<AeUnmatchedReceive>());
    /** activites that are waiting to receive data */
-   private Collection<AeMessageReceiver> mMessageReceivers = Collections.synchronizedSet(new TreeSet<AeMessageReceiver>(sMessageReceiverComparator));
+   private final Collection<AeMessageReceiver> mMessageReceivers = Collections.synchronizedSet(new TreeSet<AeMessageReceiver>(sMessageReceiverComparator));
    /** contains the reply portion of an inbound receive that has been matched and is waiting to receive its response from its call */
-   private Map<Long, AeReply> mReplies = Collections.synchronizedMap(new HashMap<Long, AeReply>());
+   private final Map<Long, AeReply> mReplies = Collections.synchronizedMap(new HashMap<Long, AeReply>());
    /** next id for unmatched receives */
    private long mQueueId = 0;
    /** comparator used to keep the message receiver list sorted by # of correlated properties */
@@ -55,11 +55,11 @@ public abstract class AeBaseQueueManager extends AeManagerAdapter implements IAe
    /** flag that let's us know if we've been started */
    private boolean mStarted = false;
    /** Maps AeAlarm objects to the scheduled task's timer id. */
-   private Map<AeAlarm, Timer> mLookup = new HashMap<AeAlarm, Timer>();
+   private final Map<AeAlarm, Timer> mLookup = new HashMap<AeAlarm, Timer>();
    /** Saved map for in-memory starts and stops. */
    private Map<AeAlarm, Timer> mSavedLookup;
    /** Next journal id for non-persitent implementation of the queue manager. */
-   private static long NONPERSISTENT_QUEUEMANAGER_NEXT_ID = IAeProcessManager.NULL_JOURNAL_ID + 1;
+   private static final long NONPERSISTENT_QUEUEMANAGER_NEXT_ID = IAeProcessManager.NULL_JOURNAL_ID + 1;
 
    /**
     * Gets the next journal id.

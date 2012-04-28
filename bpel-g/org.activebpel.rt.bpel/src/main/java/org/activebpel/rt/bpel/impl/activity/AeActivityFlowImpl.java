@@ -28,7 +28,7 @@ public class AeActivityFlowImpl extends AeActivityImpl implements IAeActivityPar
    private Map<String, AeLink> mLinks;
    
    /** list of child activities. */
-   private List<IAeActivity> mChildActivities = new ArrayList<IAeActivity>();
+   private final List<IAeActivity> mChildActivities = new ArrayList<IAeActivity>();
    
    /** default constructor for activity */
    public AeActivityFlowImpl(AeActivityFlowDef aActivityDef, IAeActivityParent aParent)

@@ -71,7 +71,7 @@ public class AeEngineFactory {
 	 * 
 	 * @param aWork
 	 */
-	public static void schedule(Work aWork) throws AeBusinessProcessException {
+	public static void schedule(Work aWork) {
 		getBean(WorkManager.class).schedule(aWork);
 	}
 

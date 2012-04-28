@@ -30,7 +30,7 @@ import org.w3c.dom.Document;
 public class AeJournalEntryFactory implements IAeJournalEntryFactory
 {
    /** Singleton instance. */
-   private static IAeJournalEntryFactory sInstance = new AeJournalEntryFactory();
+   private static final IAeJournalEntryFactory sInstance = new AeJournalEntryFactory();
 
    /**
     * Private constructor for singleton instance.

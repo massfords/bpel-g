@@ -70,8 +70,7 @@ public class AeTypeMappingHelper implements IAeTypesContext
     * @param aOutputMessageDef
     * @param aOperation
     */
-   public AeTypeMappingHelper(AeBPELExtendedWSDLDef aInputMessageDef, AeBPELExtendedWSDLDef aOutputMessageDef, Operation aOperation) throws AeException
-   {
+   public AeTypeMappingHelper(AeBPELExtendedWSDLDef aInputMessageDef, AeBPELExtendedWSDLDef aOutputMessageDef, Operation aOperation) {
       setInputMessageDef(aInputMessageDef);
       setOutputMessageDef(aOutputMessageDef);
       setOperation(aOperation);

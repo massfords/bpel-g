@@ -10,29 +10,16 @@
 
 package org.activebpel.rt.xml.schema.sampledata; 
 
+import org.activebpel.rt.xml.schema.*;
+import org.apache.commons.codec.binary.Base64;
+
+import javax.xml.XMLConstants;
+import javax.xml.namespace.QName;
 import java.lang.reflect.Constructor;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-
-import javax.xml.XMLConstants;
-import javax.xml.namespace.QName;
-
-import org.activebpel.rt.base64.Base64;
-import org.activebpel.rt.xml.schema.AeSchemaAnyURI;
-import org.activebpel.rt.xml.schema.AeSchemaBase64Binary;
-import org.activebpel.rt.xml.schema.AeSchemaDate;
-import org.activebpel.rt.xml.schema.AeSchemaDateTime;
-import org.activebpel.rt.xml.schema.AeSchemaDay;
-import org.activebpel.rt.xml.schema.AeSchemaDuration;
-import org.activebpel.rt.xml.schema.AeSchemaHexBinary;
-import org.activebpel.rt.xml.schema.AeSchemaMonth;
-import org.activebpel.rt.xml.schema.AeSchemaMonthDay;
-import org.activebpel.rt.xml.schema.AeSchemaTime;
-import org.activebpel.rt.xml.schema.AeSchemaYear;
-import org.activebpel.rt.xml.schema.AeSchemaYearMonth;
-import org.activebpel.rt.xml.schema.AeTypeMapping;
 
 /**
  * Class for generating Sample data for each of the Schema built-in simple types.
@@ -213,7 +200,7 @@ public class AeSimpleTypeSampleDataProducer
       Map<QName, Object> map = getMap();
       map.put(AeTypeMapping.XSD_ANYURI, new AeSchemaAnyURI("anyURI")); //$NON-NLS-1$
       map.put(new QName(XMLConstants.W3C_XML_SCHEMA_NS_URI, "anyType"), "anyType"); //$NON-NLS-1$ //$NON-NLS-2$
-      map.put(AeTypeMapping.XSD_BASE64_BINARY, new AeSchemaBase64Binary(Base64.encodeBytes("base64-string".getBytes()))); //$NON-NLS-1$
+      map.put(AeTypeMapping.XSD_BASE64_BINARY, new AeSchemaBase64Binary(Base64.encodeBase64String("base64-string".getBytes()))); //$NON-NLS-1$
       map.put(AeTypeMapping.XSD_BOOLEAN, Boolean.TRUE);
       map.put(AeTypeMapping.XSD_BYTE, new Byte((byte)1));
       map.put(AeTypeMapping.XSD_DATE, new AeSchemaDate(getDate()));

@@ -9,23 +9,22 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.axis;
 
-import java.util.Iterator;
-import java.util.List;
+import org.activebpel.rt.bpel.server.engine.AeEngineFactory;
+import org.activebpel.rt.util.AeFileUtil;
+import org.activebpel.rt.util.AeUtil;
+import org.activebpel.rt.wsdl.def.AeBPELExtendedWSDLDef;
+import org.activebpel.rt.wsdl.def.castor.AeSchemaParserUtil;
+import org.apache.commons.codec.binary.Base64;
+import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
 
 import javax.wsdl.Definition;
 import javax.wsdl.Import;
 import javax.wsdl.Types;
 import javax.wsdl.extensions.ExtensibilityElement;
 import javax.wsdl.extensions.UnknownExtensibilityElement;
-
-import org.activebpel.rt.base64.Base64;
-import org.activebpel.rt.bpel.server.engine.AeEngineFactory;
-import org.activebpel.rt.util.AeFileUtil;
-import org.activebpel.rt.util.AeUtil;
-import org.activebpel.rt.wsdl.def.AeBPELExtendedWSDLDef;
-import org.activebpel.rt.wsdl.def.castor.AeSchemaParserUtil;
-import org.w3c.dom.Element;
-import org.w3c.dom.NodeList;
+import java.util.Iterator;
+import java.util.List;
 
 /**
  * Utility class that removes all WSDL elements which do not pertain to this service deployment.
@@ -120,11 +119,11 @@ public class AeWsdlImportFixup
    protected static class AeImportUrl
    {
       /** the import url template */
-      private String mTransportUrl;
+      private final String mTransportUrl;
       /** the import url template */
-      private String mImportUrl;
+      private final String mImportUrl;
       /** the parent location string */
-      private String mParentLocation;
+      private final String mParentLocation;
 
       /**
        * Constructor.
@@ -178,23 +177,23 @@ public class AeWsdlImportFixup
    // statics for catalog url encoding
    ///////////////////////////////////////////
    /** Static for double slash is for replace. */
-   public static String DOUBLE_SLASH = "//"; //$NON-NLS-1$
+   public static final String DOUBLE_SLASH = "//"; //$NON-NLS-1$
    /** Static for what a double slash is to be replaced with. */
-   public static String DOUBLE_SLASH_REPLACE = "_--_/"; //$NON-NLS-1$
+   public static final String DOUBLE_SLASH_REPLACE = "_--_/"; //$NON-NLS-1$
    /** Static for what a question mark is for replace. */
-   public static String QUESTION_MARK = "?"; //$NON-NLS-1$
+   public static final String QUESTION_MARK = "?"; //$NON-NLS-1$
    /** Static for what an escaped question mark is for replace. */
-   public static String QUESTION_MARK_PATTERN = "\\?"; //$NON-NLS-1$
+   public static final String QUESTION_MARK_PATTERN = "\\?"; //$NON-NLS-1$
    /** Static for what a double slash is to be replaced with. */
-   public static String QUESTION_MARK_REPLACE = "_-q-_"; //$NON-NLS-1$
+   public static final String QUESTION_MARK_REPLACE = "_-q-_"; //$NON-NLS-1$
    /** Static for what a colon is for replace. */
-   public static String COLON = ":"; //$NON-NLS-1$
+   public static final String COLON = ":"; //$NON-NLS-1$
    /** Static for what a double slash is to be replaced with. */
-   public static String COLON_REPLACE = "_-c-_"; //$NON-NLS-1$
+   public static final String COLON_REPLACE = "_-c-_"; //$NON-NLS-1$
    /** Static for what a temporary extension is preceded by. */
-   public static String TEMP_EXTENSION = "_-e-_"; //$NON-NLS-1$
+   public static final String TEMP_EXTENSION = "_-e-_"; //$NON-NLS-1$
    /** Static for what a temporary extension pattern is for removal. */
-   public static String TEMP_EXTENSION_PATTERN = TEMP_EXTENSION + ".*"; //$NON-NLS-1$
+   public static final String TEMP_EXTENSION_PATTERN = TEMP_EXTENSION + ".*"; //$NON-NLS-1$
 
    /**
     * Encode the passed import location for access via the catalog servlet.  Note that
@@ -254,7 +253,7 @@ public class AeWsdlImportFixup
    ///////////////////////////////////////////////////////////////////////////////
 
    /** Static for what a temporary extension pattern is for removal. */
-   public static String B64_PREFIX = "b64/"; //$NON-NLS-1$
+   public static final String B64_PREFIX = "b64/"; //$NON-NLS-1$
 
    /**
     * Encode the passed import location for access via the catalog servlet via base64 encoding.
@@ -266,7 +265,7 @@ public class AeWsdlImportFixup
    {
       try
       {
-         String encodedLoc = Base64.encodeBytes(aImportLocation.getBytes("UTF-8"), Base64.DONT_BREAK_LINES).trim(); //$NON-NLS-1$
+         String encodedLoc = Base64.encodeBase64URLSafeString(aImportLocation.getBytes("UTF-8")); //$NON-NLS-1$
          String filename = produceImportLocationFilename(aImportLocation, aExtension);
          return B64_PREFIX + encodedLoc + "/" + filename;  //$NON-NLS-1$
       }
@@ -313,7 +312,8 @@ public class AeWsdlImportFixup
       try
       {
          aLocation = aLocation.substring(B64_PREFIX.length(), aLocation.lastIndexOf('/'));
-         aLocation = new String(Base64.decode(aLocation), "UTF-8") ; //$NON-NLS-1$
+
+         aLocation = new String(Base64.decodeBase64(aLocation), "UTF-8") ; //$NON-NLS-1$
          return aLocation;
       }
       catch (Exception ex)

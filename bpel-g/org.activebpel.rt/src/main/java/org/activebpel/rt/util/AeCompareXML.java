@@ -33,7 +33,7 @@ public class AeCompareXML
    private static final String ATTR_SKIP_CONTENTS = "skipContents"; //$NON-NLS-1$
 
    /** list of errors */
-   private List<String> mErrors = new ArrayList<String>();
+   private final List<String> mErrors = new ArrayList<String>();
    /** flag for matching exact order of elements */
    private boolean mMatchOrder = false;
    /** Flag indicating whether wildcards are supported. */

@@ -32,7 +32,7 @@ import org.w3c.dom.Element;
 public class AeMessageMatcher
 {
    /** array of documents for our operation's input message */
-   private Document[] mData;
+   private final Document[] mData;
    
    /** The message that was found or null if not found */
    private Message mMessage;

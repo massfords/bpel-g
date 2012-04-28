@@ -23,7 +23,7 @@ public class AeJAASConfiguration extends Configuration {
 	public static final String LOGIN_MODULE_ENTRY = "LoginModule"; //$NON-NLS-1$
 
 	private String mAppName;
-	private Configuration mDelegateConfig;
+	private final Configuration mDelegateConfig;
 	private AppConfigurationEntry[] mEntry;
 	private String mLoginModule;
 

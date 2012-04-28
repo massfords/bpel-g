@@ -28,13 +28,13 @@ import org.activebpel.wsio.IAeMessageAcknowledgeCallback;
 public class AeDurableQueuingReplyReceiver extends AeQueuingReplyReceiver implements IAeMessageAcknowledgeCallback
 {
    /** Durable reply prototype that is used by the factory. */
-   public static String TYPE = "DurableQueuedInvoke"; //$NON-NLS-1$
+   public static final String TYPE = "DurableQueuedInvoke"; //$NON-NLS-1$
    /** Property key for invoke objects process id. */
-   public static String PROCESS_ID = "ProcessId"; //$NON-NLS-1$
+   public static final String PROCESS_ID = "ProcessId"; //$NON-NLS-1$
    /** Property key for invoke object's location path. */
-   public static String LOCATION_PATH = "LocationPath"; //$NON-NLS-1$
+   public static final String LOCATION_PATH = "LocationPath"; //$NON-NLS-1$
    /** Property key for transmission Id */
-   public static String TRANSMISSION_ID = "TransmissionId"; //$NON-NLS-1$   
+   public static final String TRANSMISSION_ID = "TransmissionId"; //$NON-NLS-1$
    /** Durable reply info. */
    private IAeDurableReplyInfo mDurableReplyInfo = null;
    

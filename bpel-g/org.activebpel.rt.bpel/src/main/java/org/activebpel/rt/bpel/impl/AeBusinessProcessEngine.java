@@ -67,23 +67,23 @@ public class AeBusinessProcessEngine implements IAeBusinessProcessEngineInternal
    protected AeMonitorStatus mMonitorStatus = AeMonitorStatus.Normal;
 
    /** Engine listeners */
-   protected Set<IAeEngineListener> mEngineListeners = new CopyOnWriteArraySet<IAeEngineListener>();
+   protected final Set<IAeEngineListener> mEngineListeners = new CopyOnWriteArraySet<IAeEngineListener>();
 
    /** Monitor listeners */
-   protected Set<IAeMonitorListener> mMonitorListeners = new CopyOnWriteArraySet<IAeMonitorListener>();
+   protected final Set<IAeMonitorListener> mMonitorListeners = new CopyOnWriteArraySet<IAeMonitorListener>();
 
    /** Global process listeners */
-   protected Set<IAeProcessListener> mGlobalProcessListeners = new CopyOnWriteArraySet<IAeProcessListener>();
+   protected final Set<IAeProcessListener> mGlobalProcessListeners = new CopyOnWriteArraySet<IAeProcessListener>();
 
    /** Map of listeners, keyed by the process ID */
-   protected Map<Long,CopyOnWriteArraySet<IAeProcessListener>> mProcessListeners = new HashMap<Long,CopyOnWriteArraySet<IAeProcessListener>>();
+   protected final Map<Long,CopyOnWriteArraySet<IAeProcessListener>> mProcessListeners = new HashMap<Long,CopyOnWriteArraySet<IAeProcessListener>>();
 
    /** Maps process QName to its process plan */
    @Inject
    protected IAePlanManager mPlanManager;
 
    /** The type mapping to use when converting from schema to java and back. */
-   private AeTypeMapping mTypeMapping = new AeTypeMapping();
+   private final AeTypeMapping mTypeMapping = new AeTypeMapping();
 
    /** The date the engine started */
    protected Date mStarted;
@@ -103,7 +103,7 @@ public class AeBusinessProcessEngine implements IAeBusinessProcessEngineInternal
    /**
     * Map containing process journal ids keyed by the process id.
     */
-   protected Map<Long,Long> mProcessJournalIdMap = Collections.synchronizedMap( new HashMap<Long,Long>() );
+   protected final Map<Long,Long> mProcessJournalIdMap = Collections.synchronizedMap( new HashMap<Long,Long>() );
 
    private Map<String,IAeManager> mManagers = new HashMap<String,IAeManager>();
 

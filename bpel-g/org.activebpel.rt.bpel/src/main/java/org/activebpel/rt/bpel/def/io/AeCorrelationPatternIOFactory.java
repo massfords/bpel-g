@@ -60,7 +60,7 @@ public abstract class AeCorrelationPatternIOFactory
       private static final int REQUEST_RESPONSE_PATTERN = 2;
       
       /** values for the correlation patterns */
-      private String[] mPatterns;
+      private final String[] mPatterns;
       
       /**
        * Ctor accepts patterns

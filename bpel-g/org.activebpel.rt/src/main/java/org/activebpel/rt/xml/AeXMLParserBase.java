@@ -84,7 +84,7 @@ public class AeXMLParserBase
    private WSDLLocator mWSDLLocator;
    
    /** map of features to enable / disable on the parser */
-   private Map<String,Object> mFeatures = new HashMap<String, Object>();
+   private final Map<String,Object> mFeatures = new HashMap<String, Object>();
 
    /**
     * Default constructor

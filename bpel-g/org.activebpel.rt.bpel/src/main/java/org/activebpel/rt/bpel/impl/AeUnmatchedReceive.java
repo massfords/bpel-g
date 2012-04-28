@@ -20,9 +20,9 @@ import org.activebpel.wsio.IAeMessageAcknowledgeCallback;
 public class AeUnmatchedReceive
 {
    /** The unmatched inbound receive. */ 
-   private AeInboundReceive mInboundReceive;
+   private final AeInboundReceive mInboundReceive;
    /** Durable message acknowlege callback. */
-   private IAeMessageAcknowledgeCallback mAckCallback;
+   private final IAeMessageAcknowledgeCallback mAckCallback;
    
    /**
     * Default ctor.

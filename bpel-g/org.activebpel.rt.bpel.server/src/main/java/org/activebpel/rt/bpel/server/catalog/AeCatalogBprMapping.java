@@ -20,9 +20,9 @@ import org.xml.sax.InputSource;
 public class AeCatalogBprMapping extends AeAbstractCatalogMapping
 {
    /** Bpr containing the entry. */
-   private IAeBpr mBpr;
+   private final IAeBpr mBpr;
    /** Classpath location from catalog deployment. */
-   private String mClasspath;
+   private final String mClasspath;
 
    /**
     * Constructor.

@@ -1,29 +1,14 @@
 package org.activebpel.rt.bpel.server.admin.jmx;
 
-import java.io.IOException;
-import java.io.Reader;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.xml.namespace.QName;
-
+import bpelg.services.processes.types.ProcessFilterType;
+import bpelg.services.processes.types.ProcessList;
 import org.activebpel.rt.AeException;
-import org.activebpel.rt.base64.Base64;
 import org.activebpel.rt.bpel.AeBusinessProcessException;
 import org.activebpel.rt.bpel.AePreferences;
 import org.activebpel.rt.bpel.coord.AeCoordinationDetail;
 import org.activebpel.rt.bpel.def.AeProcessDef;
 import org.activebpel.rt.bpel.impl.AeMonitorStatus;
-import org.activebpel.rt.bpel.impl.list.AeAlarmExt;
-import org.activebpel.rt.bpel.impl.list.AeAlarmFilter;
-import org.activebpel.rt.bpel.impl.list.AeCatalogItem;
-import org.activebpel.rt.bpel.impl.list.AeCatalogItemDetail;
-import org.activebpel.rt.bpel.impl.list.AeCatalogListingFilter;
-import org.activebpel.rt.bpel.impl.list.AeMessageReceiverFilter;
-import org.activebpel.rt.bpel.impl.list.AeMessageReceiverListResult;
+import org.activebpel.rt.bpel.impl.list.*;
 import org.activebpel.rt.bpel.impl.queue.AeMessageReceiver;
 import org.activebpel.rt.bpel.server.IAeDeploymentProvider;
 import org.activebpel.rt.bpel.server.admin.AeBuildInfo;
@@ -34,13 +19,16 @@ import org.activebpel.rt.bpel.server.engine.IAeProcessLogger;
 import org.activebpel.rt.util.AeCloser;
 import org.activebpel.rt.util.AeUtil;
 import org.activebpel.rt.xml.AeQName;
+import org.apache.commons.codec.binary.Base64;
 
-import bpelg.services.processes.types.ProcessFilterType;
-import bpelg.services.processes.types.ProcessList;
+import javax.xml.namespace.QName;
+import java.io.IOException;
+import java.io.Reader;
+import java.util.*;
 
 public class AeEngineManagementAdapter implements IAeEngineManagementMXBean {
     
-    private IAeEngineAdministration mAdmin;
+    private final IAeEngineAdministration mAdmin;
     
     public AeEngineManagementAdapter(IAeEngineAdministration aAdmin) {
         mAdmin = aAdmin;
@@ -341,7 +329,7 @@ public class AeEngineManagementAdapter implements IAeEngineManagementMXBean {
             def = AeEngineFactory.getBean(IAeDeploymentProvider.class).findDeploymentPlan(aProcessId, aName.toQName()).getProcessDef();
         }
         byte[] b = AeUtil.serializeObject(def);
-        String s = Base64.encodeBytes(b);
+        String s = Base64.encodeBase64String(b);
         return s;
     }
 

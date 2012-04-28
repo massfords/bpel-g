@@ -21,10 +21,10 @@ import org.activebpel.rt.bpel.impl.activity.AeActivityScopeImpl;
 public class AeScopedObject implements IAeLocatableObject
 {
    /** The scope containing the object. */
-   private AeActivityScopeImpl mScope;
+   private final AeActivityScopeImpl mScope;
 
    /** The object's definition. */
-   private AeNamedDef mDefinition;
+   private final AeNamedDef mDefinition;
 
    /** The object's location id. */
    private int mLocationId;

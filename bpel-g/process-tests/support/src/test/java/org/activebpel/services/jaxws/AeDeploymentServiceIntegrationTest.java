@@ -15,7 +15,7 @@ import java.io.FileInputStream;
 @Ignore
 public class AeDeploymentServiceIntegrationTest {
 
-	AeProcessFixture pfix = new AeProcessFixture();
+	final AeProcessFixture pfix = new AeProcessFixture();
 
 	@Before
 	public void setUp() throws Exception {

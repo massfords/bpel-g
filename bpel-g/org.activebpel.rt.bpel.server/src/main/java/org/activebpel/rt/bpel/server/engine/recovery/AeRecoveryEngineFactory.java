@@ -23,7 +23,7 @@ import org.activebpel.rt.bpel.server.engine.AeEngineFactory;
 public class AeRecoveryEngineFactory
 {
    /** Singleton instance. */
-   private static AeRecoveryEngineFactory sInstance = new AeRecoveryEngineFactory();
+   private static final AeRecoveryEngineFactory sInstance = new AeRecoveryEngineFactory();
 
    /**
     * Private constructor for singleton instance.

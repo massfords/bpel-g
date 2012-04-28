@@ -24,7 +24,7 @@ import org.activebpel.rt.attachment.IAeAttachmentContainer;
 public class AeEmptyMessage implements IAeMessageData
 {
    /** The type of message */
-   private QName mType;
+   private final QName mType;
    
    /** place holder for optional attachments */
    private IAeAttachmentContainer mAttachmentContainer;

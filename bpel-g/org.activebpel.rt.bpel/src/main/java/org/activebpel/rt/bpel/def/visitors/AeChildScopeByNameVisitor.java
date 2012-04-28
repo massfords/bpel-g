@@ -18,7 +18,7 @@ import org.activebpel.rt.bpel.def.activity.AeActivityScopeDef;
 public class AeChildScopeByNameVisitor extends AeAbstractSearchVisitor
 {
    /** name of the scope we're looking for */
-   private String mScopeName;
+   private final String mScopeName;
    /** the scope that we're looking for; <code>null</code> until it is found */
    private AeActivityScopeDef mScopeDef;
    

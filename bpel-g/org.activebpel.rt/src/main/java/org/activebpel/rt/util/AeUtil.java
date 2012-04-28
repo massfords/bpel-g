@@ -9,57 +9,26 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.util;
 
-import java.io.BufferedReader;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileFilter;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.OutputStream;
-import java.io.PrintWriter;
-import java.io.Reader;
-import java.io.Serializable;
-import java.io.StringReader;
-import java.io.UnsupportedEncodingException;
-import java.net.MalformedURLException;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.net.URL;
-import java.rmi.dgc.VMID;
-import java.security.CodeSource;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.security.ProtectionDomain;
-import java.security.SecureRandom;
-import java.text.MessageFormat;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.StringTokenizer;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-import javax.xml.XMLConstants;
-import javax.xml.namespace.QName;
-
 import org.activebpel.rt.AeException;
 import org.activebpel.rt.AeMessages;
 import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+
+import javax.xml.XMLConstants;
+import javax.xml.namespace.QName;
+import java.io.*;
+import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.rmi.dgc.VMID;
+import java.security.*;
+import java.text.MessageFormat;
+import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Utility methods
@@ -78,13 +47,13 @@ public class AeUtil
    /** Constant value indicating if the current platform file system is Unix. */
    public static final boolean UNIX_FS = java.io.File.separatorChar == '/';
    /** Unique ID of this VM **/
-   private static VMID sVmid = new VMID();
+   private static final VMID sVmid = new VMID();
    /** Generates cryptographically strong random numbers **/
    private static SecureRandom sRandom;
    /** SHA message digest */
    private static MessageDigest sShaDigest;
    /** Regular expression to match a number. */
-   private static Pattern sNumberRegEx =  Pattern.compile("\\s*[-+]?[0-9]*\\.?[0-9]+", Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE); //$NON-NLS-1$
+   private static final Pattern sNumberRegEx =  Pattern.compile("\\s*[-+]?[0-9]*\\.?[0-9]+", Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE); //$NON-NLS-1$
 
    /**
     * Private ctor to prevent instantiations

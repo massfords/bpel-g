@@ -25,7 +25,7 @@ import bpelg.services.queue.types.InboundMessages;
  */
 public class AeInboundReceivesBean {
 	/** Unmatched inbound queued receives */
-	protected List<List<InboundMessage>> mDetails;
+	protected final List<List<InboundMessage>> mDetails;
 	/** Current row index. */
 	protected int mCurrentIndex;
 

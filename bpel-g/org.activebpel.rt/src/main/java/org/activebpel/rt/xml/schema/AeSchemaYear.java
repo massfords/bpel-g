@@ -22,9 +22,9 @@ import org.activebpel.rt.util.AeUtil;
 public class AeSchemaYear extends AeAbstractTZBasedSchemaType
 {
    /** A regular expression for matching schema year strings. */
-   private static Pattern INPUT_PATTERN = Pattern.compile("(-?)([0-9]{4})(Z|(([+-])([0-9]{2}):([0-9]{2})))?"); //$NON-NLS-1$
+   private static final Pattern INPUT_PATTERN = Pattern.compile("(-?)([0-9]{4})(Z|(([+-])([0-9]{2}):([0-9]{2})))?"); //$NON-NLS-1$
    /** The output pattern. */
-   private static String OUTPUT_PATTERN = "{0,number,0000}{1}"; //$NON-NLS-1$
+   private static final String OUTPUT_PATTERN = "{0,number,0000}{1}"; //$NON-NLS-1$
 
    /** The year. */
    private int mYear;

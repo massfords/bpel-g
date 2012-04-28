@@ -27,7 +27,7 @@ import java.util.List;
 public class AeProcessSuspendResumeHandler
 {
    /** the business process object */
-   private AeBusinessProcess mProcess;
+   private final AeBusinessProcess mProcess;
    
    /**
     * Constructor.

@@ -29,7 +29,7 @@ public class AeFileUtil
 {
    /** Default buffer size. */
    public static final int DEFAULT_BUFFER = 1024 * 4;
-   public static String PARENT_DIRECTORY_INDICATOR = ".."; //$NON-NLS-1$
+   public static final String PARENT_DIRECTORY_INDICATOR = ".."; //$NON-NLS-1$
    public static String CURRENT_DIRECTORY_INDICATOR = "."; //$NON-NLS-1$
 
    /** prevent instantiation */

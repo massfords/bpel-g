@@ -34,7 +34,7 @@ public class AeDeploymentValidationUtil
 {
 
    /** XPath query validator for validating deployment description --> indexed property --> query validation. */
-   private static AeXPathQueryValidator mXPathQueryValidator = new AeXPathQueryValidator();
+   private static final AeXPathQueryValidator mXPathQueryValidator = new AeXPathQueryValidator();
 
    /**
     * Gets the xpath query validator.

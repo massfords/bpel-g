@@ -30,13 +30,13 @@ public class AeLinkValidator implements IAeValidationDefs
    private IAeValidationProblemReporter mReporter ;
 
    /** Map holding link composites to test for validity. */
-   private Map<AeLinkDef,AeLinkComposite> mLinkMap = new HashMap<AeLinkDef, AeLinkComposite>();
+   private final Map<AeLinkDef,AeLinkComposite> mLinkMap = new HashMap<AeLinkDef, AeLinkComposite>();
 
    /** Map of source composites to test for cycles. */
-   private Map<AeActivityDef, AeLinkSource> mLinkSourcesMap = new HashMap<AeActivityDef, AeLinkSource>();
+   private final Map<AeActivityDef, AeLinkSource> mLinkSourcesMap = new HashMap<AeActivityDef, AeLinkSource>();
    
    /** Process Def. */
-   private AeProcessDef mProcessDef;
+   private final AeProcessDef mProcessDef;
    
    /**
     * Ctor to set the error reporter.
@@ -513,10 +513,10 @@ public class AeLinkValidator implements IAeValidationDefs
    public static class AeLinkSource
    {
       /** List of link composites for which this instance is a source. */
-      private List<AeLinkComposite> mSources = new ArrayList<AeLinkComposite>();
+      private final List<AeLinkComposite> mSources = new ArrayList<AeLinkComposite>();
 
       /** Activity associated with this source. */
-      private AeActivityDef mSource ;
+      private final AeActivityDef mSource ;
 
       /**
        * Ctor to set the source def.

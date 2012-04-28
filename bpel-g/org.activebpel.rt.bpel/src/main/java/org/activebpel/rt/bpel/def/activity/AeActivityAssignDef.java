@@ -9,14 +9,14 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpel.def.activity;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-
 import org.activebpel.rt.bpel.def.AeActivityDef;
 import org.activebpel.rt.bpel.def.activity.support.AeAssignCopyDef;
 import org.activebpel.rt.bpel.def.activity.support.AeExtensibleAssignDef;
 import org.activebpel.rt.bpel.def.visitors.IAeDefVisitor;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 /**
  * Definition for bpel assign activity.
@@ -25,9 +25,9 @@ public class AeActivityAssignDef extends AeActivityDef
 {
    private static final long serialVersionUID = 7211150756018400233L;
    /** The assign's copy def children. */
-   private List<AeAssignCopyDef> mCopies = new ArrayList<AeAssignCopyDef>();
+   private final List<AeAssignCopyDef> mCopies = new ArrayList<AeAssignCopyDef>();
    /** The assign's extensibleAssign children. */
-   private List<AeExtensibleAssignDef> mExtensibleAssigns = new ArrayList<AeExtensibleAssignDef>();
+   private final List<AeExtensibleAssignDef> mExtensibleAssigns = new ArrayList<AeExtensibleAssignDef>();
    /** The assign's 'validate' attribute. */
    private boolean mValidate;
 

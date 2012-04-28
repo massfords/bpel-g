@@ -212,7 +212,7 @@ public void setReceiveHandlerFactory(
    class AeUnmatchedReceiveTimerHandler extends AeAbstractTimerWork
    {
       /** The queue id of the unmatched receive */
-      private String mQueueId;
+      private final String mQueueId;
 
       /**
        * Constructor which requires a queue id of the unmatched receive
@@ -293,7 +293,7 @@ public void setReceiveHandlerFactory(
    static class AeAlarmListener extends AeAbstractWork implements TimerListener
    {
       /** Alarm definition */
-      private AeAlarm mAlarm;
+      private final AeAlarm mAlarm;
       
       /**
        * Constructor which takes as input the alarm to be processed when the timer expires.

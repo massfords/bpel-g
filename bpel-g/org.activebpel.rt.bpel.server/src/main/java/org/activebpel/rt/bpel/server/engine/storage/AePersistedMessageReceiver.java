@@ -24,7 +24,7 @@ import org.activebpel.rt.bpel.impl.queue.AeMessageReceiver;
 public class AePersistedMessageReceiver extends AeMessageReceiver
 {
    /** The queued receive id from the database. */
-   protected int mQueuedReceiveId;
+   protected final int mQueuedReceiveId;
 
    /**
     * Constructs a SQL message receiver.

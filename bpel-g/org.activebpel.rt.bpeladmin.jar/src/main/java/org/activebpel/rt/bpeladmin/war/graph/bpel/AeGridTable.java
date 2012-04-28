@@ -10,17 +10,16 @@
 package org.activebpel.rt.bpeladmin.war.graph.bpel;
 
 
-import java.awt.Dimension;
-import java.awt.Point;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-
 import org.activebpel.rt.bpeladmin.war.graph.bpel.controller.AeBpelControllerBase;
 import org.activebpel.rt.bpeladmin.war.graph.bpel.figure.AeBpelSimpleActivityFigure;
 import org.activebpel.rt.bpeladmin.war.graph.ui.figure.AeGraphFigure;
 import org.activebpel.rt.bpeladmin.war.web.processview.AeBpelObjectBase;
+
+import java.awt.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
 
 
 /**
@@ -29,10 +28,10 @@ import org.activebpel.rt.bpeladmin.war.web.processview.AeBpelObjectBase;
 public class AeGridTable
 {
    /** Holds layout prefs used to set margins during layout */
-   private AeLayoutPrefs mLayoutPrefs;
+   private final AeLayoutPrefs mLayoutPrefs;
 
    /** Holds all members of the grid table */
-   private ArrayList<AeGridElement> mGridData;
+   private final ArrayList<AeGridElement> mGridData;
 
    /** Buckets which are used to group siblings together */
    private ArrayList<AeGridElement> mBuckets[];   
@@ -840,8 +839,8 @@ public class AeGridTable
  */
 class AeGridElement
 {
-   private AeBpelControllerBase mNode;
-   private List mParents;
+   private final AeBpelControllerBase mNode;
+   private final List mParents;
    private int mRow, mCol;   
 
    /**
@@ -922,10 +921,10 @@ class AeGridElement
  */
 class AeLayoutData
 {
-   private AeBpelControllerBase mNode;
-   private Dimension       mSize;
-   private Point           mLocation;
-   private HashMap         mConstraints;
+   private final AeBpelControllerBase mNode;
+   private final Dimension       mSize;
+   private final Point           mLocation;
+   private final HashMap         mConstraints;
    
    /**
     * Constructor which stores layout data for the visual model.

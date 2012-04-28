@@ -59,9 +59,9 @@ public class AeProcessDef extends AeScopeDef implements Serializable
    /** List of create instance activities. */
    private Collection<AePartnerLinkOpKey> mCreateInstances;
    /** Maps the partnerLinkOpKey to the collection of properties. */
-   private Map<AePartnerLinkOpKey,Collection<QName>> mCorrelatedReceivesProperties = new HashMap<AePartnerLinkOpKey,Collection<QName>>();
+   private final Map<AePartnerLinkOpKey,Collection<QName>> mCorrelatedReceivesProperties = new HashMap<AePartnerLinkOpKey,Collection<QName>>();
    /** Maps the partnerLinkOpKey to the message parts */
-   private Map<AePartnerLinkOpKey,AeMessagePartsMap> mCorrelatedReceivesMessagePartsMap = new HashMap<AePartnerLinkOpKey,AeMessagePartsMap>();
+   private final Map<AePartnerLinkOpKey,AeMessagePartsMap> mCorrelatedReceivesMessagePartsMap = new HashMap<AePartnerLinkOpKey,AeMessagePartsMap>();
    /** Process fully qualified name. */
    private QName mProcessName;
    /** indicates that this process has multiple start activities */
@@ -70,22 +70,22 @@ public class AeProcessDef extends AeScopeDef implements Serializable
    private boolean mContainsSerializableScopes;
    /** cache of property names and message types to property aliases */
    // TODO revisit: do we really need this map?
-   private Map<String,IAePropertyAlias> mPropertyAliasMap = new HashMap<String,IAePropertyAlias>();
+   private final Map<String,IAePropertyAlias> mPropertyAliasMap = new HashMap<String,IAePropertyAlias>();
    /** cache of property names to property types. */
-   private Map<QName,QName> mPropertyTypeMap = new HashMap<QName,QName>();
+   private final Map<QName,QName> mPropertyTypeMap = new HashMap<QName,QName>();
    /** Maps location paths to location ids */
    private final Map<String,Integer> mLocationPathsToIds = new HashMap<String,Integer>();
    /** Maps location ids to location paths */
    private final Map<Integer,String> mLocationIdsToPaths = new HashMap<Integer,String>();
    /** Collection of port types plus operations that are one-way receives. */
    // TODO revisit: do we really need this map?
-   private Set<String> mOneWayReceives = new HashSet<String>();
+   private final Set<String> mOneWayReceives = new HashSet<String>();
    /** maps partner link name and operation to a list of property sets that can be in the request */
    // TODO revisit: do we really need this map?
-   private transient Map<AePartnerLinkOpKey,AeCorrelationCombinations> mCorrelationPropertiesMap = new HashMap<AePartnerLinkOpKey,AeCorrelationCombinations>();
+   private final transient Map<AePartnerLinkOpKey,AeCorrelationCombinations> mCorrelationPropertiesMap = new HashMap<AePartnerLinkOpKey,AeCorrelationCombinations>();
    /** map of create instance activities and their message exchange values (if they're not-null) */
    // TODO revisit: do we really need this map?
-   private Map<AePartnerLinkOpKey,String> mMessageExchangeMap = new HashMap<AePartnerLinkOpKey,String>();
+   private final Map<AePartnerLinkOpKey,String> mMessageExchangeMap = new HashMap<AePartnerLinkOpKey,String>();
    /** List of the process's imports. */
    private List<AeImportDef> mImports = new LinkedList<AeImportDef>();
    /** The 'extensions' child. */

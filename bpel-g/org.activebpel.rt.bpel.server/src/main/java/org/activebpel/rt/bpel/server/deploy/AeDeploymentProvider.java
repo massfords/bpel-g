@@ -29,7 +29,7 @@ import java.util.Map;
 public class AeDeploymentProvider extends AeAbstractDeploymentProvider
 {
    /** The deployment plans which are currently deployed */
-   private Map<QName, IAeProcessDeployment> mDeploymentPlans = new HashMap<QName, IAeProcessDeployment>();
+   private final Map<QName, IAeProcessDeployment> mDeploymentPlans = new HashMap<QName, IAeProcessDeployment>();
 
    /**
     * @see org.activebpel.rt.bpel.server.IAeDeploymentProvider#findCurrentDeployment(javax.xml.namespace.QName)

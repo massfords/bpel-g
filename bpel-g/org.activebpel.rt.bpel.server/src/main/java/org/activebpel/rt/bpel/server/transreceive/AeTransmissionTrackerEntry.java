@@ -16,7 +16,7 @@ package org.activebpel.rt.bpel.server.transreceive;
 public class AeTransmissionTrackerEntry
 {
    /** Entry id */
-   private long mTransmissionId;
+   private final long mTransmissionId;
    /** Entry state */
    private int mState;
    /** Optional message id. */

@@ -30,12 +30,12 @@ import bpelg.services.processes.types.ProcessStateValueType;
  */
 public class AeProcessFilterAdapter {
 	/** Process filter instance. */
-	protected ProcessFilterType mFilter;
+	protected final ProcessFilterType mFilter;
 	/** Current row. */
 	protected int mCurrentRow;
 	/** Mapping of filter state to process states */
 	// FIXME disappointing that these values don't match up
-	private static Map<ProcessStateFilterValueType, ProcessStateValueType> sMappings = new HashMap<ProcessStateFilterValueType, ProcessStateValueType>();
+	private static final Map<ProcessStateFilterValueType, ProcessStateValueType> sMappings = new HashMap<ProcessStateFilterValueType, ProcessStateValueType>();
 
 	static {
 		sMappings.put(ProcessStateFilterValueType.Completed,

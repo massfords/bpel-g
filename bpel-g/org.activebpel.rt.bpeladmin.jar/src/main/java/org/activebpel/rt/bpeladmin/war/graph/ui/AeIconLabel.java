@@ -25,7 +25,7 @@ public class AeIconLabel extends AeContainer
 /** Icon to be displayed. */
    private AeIcon mIcon = null;
    /** Text label to be displayed. */
-   private AeTextLabel mLabel;
+   private final AeTextLabel mLabel;
 
    /**
     * Constructs an label with the given text and icon image.

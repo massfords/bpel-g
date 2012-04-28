@@ -75,11 +75,11 @@ public class AeBusinessProcess extends AeActivityScopeImpl implements IAeBusines
    /** Our process state (running, suspended, etc.) */
    private ProcessStateValueType mProcessState;
    /** Map of source location for the Bpel implementation objects. */
-   private Map<String, IAeBpelObject> mBpelObjects = new HashMap<String, IAeBpelObject>();
+   private final Map<String, IAeBpelObject> mBpelObjects = new HashMap<String, IAeBpelObject>();
    /** Map of source locations to process variables. */
-   private Map<String, IAeVariable> mProcessVariables = new HashMap<String, IAeVariable>();
+   private final Map<String, IAeVariable> mProcessVariables = new HashMap<String, IAeVariable>();
    /** Map of source locations to partner links. */
-   private Map<String, IAePartnerLink> mPartnerLinkMap = new HashMap<String, IAePartnerLink>();
+   private final Map<String, IAePartnerLink> mPartnerLinkMap = new HashMap<String, IAePartnerLink>();
    /**
     * Queue used to execute objects. Prevents multiple executes from happening
     * concurrently
@@ -89,23 +89,23 @@ public class AeBusinessProcess extends AeActivityScopeImpl implements IAeBusines
     * Used to control concurrent access to variables when there are isolated
     * scopes present
     */
-   private IAeVariableLocker mVariableLocker;
+   private final IAeVariableLocker mVariableLocker;
    /** The date/time that the process was started */
    private Date mDateStarted = new Date();
    /** The date/time that the process was ended */
    private Date mDateEnded;
    /** process plan */
-   protected IAeProcessPlan mProcessPlan;
+   protected final IAeProcessPlan mProcessPlan;
    /** business process instance properties */
    private Map<String, String> mBusinessProcessProperties;
    /** utility class for handling resume/suspend logic */
-   private AeProcessSuspendResumeHandler mProcessAdministrator;
+   private final AeProcessSuspendResumeHandler mProcessAdministrator;
    /** location paths for any activities that are in the faulting state */
-   private List<String> mFaultingActivityLocationPaths;
+   private final List<String> mFaultingActivityLocationPaths;
    /** maps location id to location path */
-   private Map<Integer,String> mLocationIdToPath = new HashMap<Integer,String>();
+   private final Map<Integer,String> mLocationIdToPath = new HashMap<Integer,String>();
    /** maps location path to location id */
-   private Map<String, Integer> mLocationPathToId = new HashMap<String, Integer>();
+   private final Map<String, Integer> mLocationPathToId = new HashMap<String, Integer>();
    /**
     * max location id used for creating new bpel objects dynamically as in
     * parallel forEach
@@ -133,7 +133,7 @@ public class AeBusinessProcess extends AeActivityScopeImpl implements IAeBusines
    /** Next alarm execution id. */
    private int mAlarmId;
    /** Map of queuedReceiveKeys to message receivers (receive, onMessage, onEvent) */
-   private Map<AeQueuedReceiveKey, IAeMessageReceiverActivity> mQueuedReceives = new HashMap<AeQueuedReceiveKey, IAeMessageReceiverActivity>();
+   private final Map<AeQueuedReceiveKey, IAeMessageReceiverActivity> mQueuedReceives = new HashMap<AeQueuedReceiveKey, IAeMessageReceiverActivity>();
 
    /** maps state change values to their engine event values.  */
    private static final  AeProcessEventType[] STATE_TO_EVENT_MAPPING =
@@ -3083,16 +3083,16 @@ public class AeBusinessProcess extends AeActivityScopeImpl implements IAeBusines
    protected class AeQueuedReceiveKey
    {
       /** The PLO key. */
-      private AePartnerLinkOpImplKey mPartnerLinkOpImplKey;
+      private final AePartnerLinkOpImplKey mPartnerLinkOpImplKey;
       /**
        * set comprised of location paths for the correlation sets used for the
        * receive
        */
-      private Set<String> mCorrelationSets = new HashSet<String>();
+      private final Set<String> mCorrelationSets = new HashSet<String>();
       /** cached value of the hashcode */
-      private int mHashcode;
+      private final int mHashcode;
       /** the location id for the activity */
-      private int mLocationId;
+      private final int mLocationId;
 
       /**
        * Constructor accepts all of the values for the key

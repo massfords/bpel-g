@@ -18,7 +18,7 @@ import java.net.URL;
 public class AeDeploymentId implements IAeDeploymentId
 {
    /** url string */
-   private String mId;
+   private final String mId;
    
    /**
     * Constructor.
