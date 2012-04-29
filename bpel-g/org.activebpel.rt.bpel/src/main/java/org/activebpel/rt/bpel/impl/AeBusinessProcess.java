@@ -506,7 +506,7 @@ public class AeBusinessProcess extends AeActivityScopeImpl implements IAeBusines
          {
             AeException.logError(bpe, bpe.getLocalizedMessage());
             String msg = MessageFormat.format(AeMessages.getString("AeBusinessProcess.ERROR_EXECUTING_ACTIVITY_ERROR"),  //$NON-NLS-1$
-                  new Object [] { activity.getLocationPath(), bpe.getLocalizedMessage() });
+                    activity.getLocationPath(), bpe.getLocalizedMessage());
             IAeFault fault = AeFaultFactory.getSystemErrorFault(bpe, msg);
             propagateFault(activity, fault);
          }
@@ -1583,7 +1583,7 @@ public class AeBusinessProcess extends AeActivityScopeImpl implements IAeBusines
       if ( variable == null)
          throw new AeBusinessProcessException(
             MessageFormat.format(AeMessages.getString("AeBusinessProcess.ERROR_FINDING_PROCESS_VARIABLE"),  //$NON-NLS-1$
-               new Object [] { aLocationPath })
+                    aLocationPath)
          );
 
       return serializeVariable(variable);

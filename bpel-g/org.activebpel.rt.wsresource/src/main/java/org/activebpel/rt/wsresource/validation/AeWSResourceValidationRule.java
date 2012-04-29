@@ -81,7 +81,7 @@ public class AeWSResourceValidationRule implements IAeWSResourceValidationRule
                   IAeWSResourceProblemReporter aErrorReporter)
             {
                String msg = MessageFormat.format(AeMessages.getString("AeWSResourceValidationRule.ErrorCreatingValidatorClass"), //$NON-NLS-1$
-                     new Object[] { getId().getLocalPart(), ex.getLocalizedMessage() } );
+                       getId().getLocalPart(), ex.getLocalizedMessage());
                aErrorReporter.reportProblem(msg, null);
             }
          };

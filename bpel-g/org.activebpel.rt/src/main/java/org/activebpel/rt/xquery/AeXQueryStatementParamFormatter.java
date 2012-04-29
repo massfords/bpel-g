@@ -92,7 +92,7 @@ class AeXQueryStatementParamFormatter
          String pattern = "''{0}''"; //$NON-NLS-1$
          if (((String) aValue).contains("'")) //$NON-NLS-1$
             pattern = "\"{0}\""; //$NON-NLS-1$
-         return MessageFormat.format(pattern, new Object[] { aValue });
+         return MessageFormat.format(pattern, aValue);
       }
    };
 
@@ -108,7 +108,7 @@ class AeXQueryStatementParamFormatter
       {
          AeSchemaDateTime dateTime = (AeSchemaDateTime) aValue;
          String pattern = "xsd:dateTime(''{0}'')"; //$NON-NLS-1$
-         return MessageFormat.format(pattern, new Object[] { dateTime.toString() });
+         return MessageFormat.format(pattern, dateTime.toString());
       }
    };
 
@@ -125,7 +125,7 @@ class AeXQueryStatementParamFormatter
          Date date = (Date) aValue;
          AeSchemaDateTime dateTime = new AeSchemaDateTime(date);
          String pattern = "xsd:dateTime(''{0}'')"; //$NON-NLS-1$
-         return MessageFormat.format(pattern, new Object[] { dateTime.toString() });
+         return MessageFormat.format(pattern, dateTime.toString());
       }
    };
 
@@ -141,7 +141,7 @@ class AeXQueryStatementParamFormatter
       {
          QName qname = (QName) aValue;
          String pattern = "QName(''{0}'', ''{1}'')"; //$NON-NLS-1$
-         return MessageFormat.format(pattern, new Object[] { qname.getNamespaceURI(), qname.getLocalPart() });
+         return MessageFormat.format(pattern, qname.getNamespaceURI(), qname.getLocalPart());
       }
    };
 
@@ -157,7 +157,7 @@ class AeXQueryStatementParamFormatter
       {
          Boolean bool = (Boolean) aValue;
          String pattern = "{0}()"; //$NON-NLS-1$
-         return MessageFormat.format(pattern, new Object[] { bool });
+         return MessageFormat.format(pattern, bool);
       }
    };
 

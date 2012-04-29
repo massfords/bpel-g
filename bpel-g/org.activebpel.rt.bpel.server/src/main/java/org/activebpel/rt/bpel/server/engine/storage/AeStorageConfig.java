@@ -123,7 +123,7 @@ public abstract class AeStorageConfig
       catch (NumberFormatException e)
       {
          throw new AeStorageException(MessageFormat.format(AeMessages.getString("AeDBResourceConfig.INVALID_INTEGER_VALUE_ERROR"), //$NON-NLS-1$
-               new Object[] { aKey }), e);
+                 aKey), e);
       }
    }
 

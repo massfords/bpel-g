@@ -94,7 +94,7 @@ public abstract class AeWSIInvokeHandlerBase implements IAeInvokeHandler
       {
          Method method = getClass().getMethod(aOperation,
                new Class[] { IAeWebServiceMessageData.class, AeInvokeResponse.class });
-         method.invoke(this, new Object[] { aMessageData, response });
+         method.invoke(this, aMessageData, response);
       }
       catch (NoSuchMethodException nsme)
       {

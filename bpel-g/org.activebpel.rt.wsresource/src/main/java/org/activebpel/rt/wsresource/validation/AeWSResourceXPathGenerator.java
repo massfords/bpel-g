@@ -65,7 +65,7 @@ public class AeWSResourceXPathGenerator
                String elemName = getElementName(elem);
                Integer elemPos = getElementPosition(elem);
                steps.add(0, MessageFormat.format(
-                     "{0}{1,choice,1#|1<[{1,number,integer}]}", new Object[] { elemName, elemPos })); //$NON-NLS-1$
+                     "{0}{1,choice,1#|1<[{1,number,integer}]}", elemName, elemPos)); //$NON-NLS-1$
                break;
             case Node.ATTRIBUTE_NODE:
                Attr attr = (Attr) node;

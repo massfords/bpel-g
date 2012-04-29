@@ -304,7 +304,7 @@ public class AeProcessViewBase {
             setValid(true);
         } catch (Throwable t) {
             String message = MessageFormat.format(AeMessages.getString("AeProcessViewBase.5"), //$NON-NLS-1$
-                    new Object[]{String.valueOf(mProcessId)});
+                    String.valueOf(mProcessId));
             AeException.logError(t, message);
             setMessage(message);
             setValid(false);
@@ -366,7 +366,7 @@ public class AeProcessViewBase {
 //         stateDoc = AeEngineFactory.getEngineAdministration().getProcessState(mProcessId);
         } catch (Throwable t) {
             String message = MessageFormat.format(AeMessages.getString("AeProcessViewBase.5"), //$NON-NLS-1$
-                    new Object[]{String.valueOf(mProcessId)});
+                    String.valueOf(mProcessId));
             AeException.logError(t, message);
             setMessage(message);
             setValid(false);
@@ -422,7 +422,7 @@ public class AeProcessViewBase {
      */
     protected void reportErrorLoadingBPEL() {
         setMessage(MessageFormat.format(AeMessages.getString("AeProcessViewBase.3"), //$NON-NLS-1$
-                new Object[]{String.valueOf(mProcessId)}));
+                String.valueOf(mProcessId)));
         setValid(false);
     }
 
@@ -432,7 +432,7 @@ public class AeProcessViewBase {
     protected void reportNoProcessDetail() {
         String id = String.valueOf(getMode() == ACTIVE_PROCESS_DETAIL ? getProcessId() : getProcessDeploymentId());
         setMessage(MessageFormat.format(AeMessages.getString("AeProcessViewBase.2"), //$NON-NLS-1$
-                new Object[]{id}));
+                id));
         setValid(false);
     }
 
@@ -447,7 +447,7 @@ public class AeProcessViewBase {
 
         if (processInstanceDetails == null) {
             setMessage(MessageFormat.format(AeMessages.getString("AeProcessViewBase.6"), //$NON-NLS-1$
-                    new Object[]{String.valueOf(mProcessId)}));
+                    String.valueOf(mProcessId)));
             setValid(false);
         }
         setProcessDetails(processInstanceDetails);
@@ -495,7 +495,7 @@ public class AeProcessViewBase {
         } catch (Exception e) {
             AeException.logError(e, e.getMessage());
             setMessage(MessageFormat.format(AeMessages.getString("AeProcessViewBase.6"), //$NON-NLS-1$
-                    new Object[]{String.valueOf(mProcessId)}));
+                    String.valueOf(mProcessId)));
             setValid(false);
         }
     }
@@ -529,7 +529,7 @@ public class AeProcessViewBase {
             setProcessDeploymentId(pdid);
         } catch (Exception e) {
             setMessage(MessageFormat.format(AeMessages.getString("AeProcessViewBase.6"), //$NON-NLS-1$
-                    new Object[]{aPdid}));
+                    aPdid));
             setValid(false);
         }
     }
@@ -708,7 +708,7 @@ public class AeProcessViewBase {
             setPartId(partId);
         } catch (Exception e) {
             setMessage(MessageFormat.format(AeMessages.getString("AeProcessViewBase.6"), //$NON-NLS-1$
-                    new Object[]{String.valueOf(mProcessId)}));
+                    String.valueOf(mProcessId)));
             setValid(false);
         }
     }

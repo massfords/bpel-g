@@ -72,7 +72,7 @@ public abstract class AeCopyOperationComponentFactory
          else
          {
             Constructor cons = clazz.getConstructor(new Class[] { aDef.getClass() });
-            return cons.newInstance(new Object[] { aDef });
+            return cons.newInstance(aDef);
          }
       }
       catch (Throwable t)

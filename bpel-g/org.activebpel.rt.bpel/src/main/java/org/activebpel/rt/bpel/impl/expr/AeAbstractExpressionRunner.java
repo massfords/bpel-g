@@ -9,9 +9,6 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpel.impl.expr;
 
-import java.text.MessageFormat;
-import java.util.Date;
-
 import org.activebpel.rt.AeException;
 import org.activebpel.rt.bpel.AeMessages;
 import org.activebpel.rt.bpel.IAeFault;
@@ -24,6 +21,9 @@ import org.activebpel.rt.xml.schema.AeSchemaDuration;
 import org.activebpel.rt.xml.schema.AeSchemaTypeParseException;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
+
+import java.text.MessageFormat;
+import java.util.Date;
 
 /**
  * This class defines some common functionality for all of our expression runners.
@@ -105,7 +105,7 @@ public abstract class AeAbstractExpressionRunner implements IAeExpressionRunner
 
       String msg = MessageFormat.format(
             AeMessages.getString("AeAbstractExpressionRunner.FAILED_TO_CONVERT_EXPRESSION_RVAL_ERROR"), //$NON-NLS-1$
-            new Object [] { aExpression, aNativeRval } );
+              aExpression, aNativeRval);
       throw new AeBpelException(msg, aContext.getFaultFactory().getInvalidExpressionValue(IAeFaultFactory.TYPE_BOOLEAN));
    }
 

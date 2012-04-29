@@ -63,7 +63,7 @@ public class AeXpathSelectNodeDateTag extends AeAbstractXpathNodeTextFormatterTa
          // NullPointerException - if the given pattern is null
          // IllegalArgumentException - if the given pattern is invalid
          String err = MessageFormat.format(AeMessages.getString("AePropertyDateFormatterTag.1"), //$NON-NLS-1$
-               new Object[] {e.getMessage()} );
+                 e.getMessage());
          throw new AeException(err);
 
       }

@@ -89,7 +89,7 @@ private Object getNumberBean()
          // NullPointerException - if the given pattern is null 
          // IllegalArgumentException - if the given pattern is invalid
          String err = MessageFormat.format(AeMessages.getString("AePropertyNumberFormatterTag.2"), //$NON-NLS-1$
-               new Object[] {e.getMessage()} );            
+                 e.getMessage());
          throw new AeException(err);                  
       }
    }   

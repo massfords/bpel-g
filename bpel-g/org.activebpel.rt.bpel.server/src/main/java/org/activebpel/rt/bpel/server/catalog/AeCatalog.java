@@ -458,7 +458,7 @@ public class AeCatalog implements IAeCatalog, IAeCatalogAdmin {
 					e,
 					MessageFormat.format(
 							AeMessages.getString("AeCatalog.ERROR_1"), //$NON-NLS-1$
-							new Object[] { aLocationHint }));
+                            aLocationHint));
 		}
 
 		return null;

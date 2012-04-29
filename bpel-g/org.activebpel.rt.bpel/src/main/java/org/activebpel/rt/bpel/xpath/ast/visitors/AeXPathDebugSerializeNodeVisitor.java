@@ -72,7 +72,7 @@ public class AeXPathDebugSerializeNodeVisitor extends AeAbstractTraversingXPathN
    public void visit(AeXPathFunctionNode aNode)
    {
       appendIndentString();
-      String msg = MessageFormat.format("Function: {0}()\n", new Object[] { aNode.getFunctionQName().getLocalPart() }); //$NON-NLS-1$
+      String msg = MessageFormat.format("Function: {0}()\n", aNode.getFunctionQName().getLocalPart()); //$NON-NLS-1$
       getBuffer().write(msg);
 
       traverse(aNode);
@@ -84,7 +84,7 @@ public class AeXPathDebugSerializeNodeVisitor extends AeAbstractTraversingXPathN
    public void visit(AeXPathVariableNode aNode)
    {
       appendIndentString();
-      String msg = MessageFormat.format("VarReference: {0}\n", new Object[] { aNode.getVariableQName().getLocalPart() }); //$NON-NLS-1$
+      String msg = MessageFormat.format("VarReference: {0}\n", aNode.getVariableQName().getLocalPart()); //$NON-NLS-1$
       getBuffer().write(msg);
 
       traverse(aNode);
@@ -96,7 +96,7 @@ public class AeXPathDebugSerializeNodeVisitor extends AeAbstractTraversingXPathN
    public void visit(AeXPathLiteralNode aNode)
    {
       appendIndentString();
-      String msg = MessageFormat.format("Literal[{0}]\n", new Object[] { aNode.getValue().toString() }); //$NON-NLS-1$
+      String msg = MessageFormat.format("Literal[{0}]\n", aNode.getValue().toString()); //$NON-NLS-1$
       getBuffer().write(msg);
 
       traverse(aNode);
@@ -110,7 +110,7 @@ public class AeXPathDebugSerializeNodeVisitor extends AeAbstractTraversingXPathN
       appendIndentString();
       String msg = MessageFormat.format(
             "NameStep[axis={0}, {1}:{2}]\n",  //$NON-NLS-1$
-            new Object[] {aNode.getAxis(), aNode.getPrefix(), aNode.getLocalName() });
+              aNode.getAxis(), aNode.getPrefix(), aNode.getLocalName());
       getBuffer().write(msg);
 
       traverse(aNode);
@@ -140,7 +140,7 @@ public class AeXPathDebugSerializeNodeVisitor extends AeAbstractTraversingXPathN
       appendIndentString();
       String msg = MessageFormat.format(
             "{0}[axis={1} name={2}]\n",  //$NON-NLS-1$
-            new Object[] { aNode.getType(), aNode.getAxis(), aNode.getName() });
+              aNode.getType(), aNode.getAxis(), aNode.getName());
       getBuffer().write(msg);
 
       traverse(aNode);
@@ -228,7 +228,7 @@ public class AeXPathDebugSerializeNodeVisitor extends AeAbstractTraversingXPathN
       appendIndentString();
       String msg = MessageFormat.format(
             "{0}[create={1}]\n",  //$NON-NLS-1$
-            new Object[] { aNode.getType(), aNode.isCreate()});
+              aNode.getType(), aNode.isCreate());
       getBuffer().write(msg);
 
       traverse(aNode);
@@ -244,7 +244,7 @@ public class AeXPathDebugSerializeNodeVisitor extends AeAbstractTraversingXPathN
       appendIndentString();
       String msg = MessageFormat.format(
             "{0}[operator={1}]\n",  //$NON-NLS-1$
-            new Object[] { aNode.getType(), aNode.getOperator()});
+              aNode.getType(), aNode.getOperator());
       getBuffer().write(msg);
 
       traverse(aNode);
@@ -260,7 +260,7 @@ public class AeXPathDebugSerializeNodeVisitor extends AeAbstractTraversingXPathN
       appendIndentString();
       String msg = MessageFormat.format(
             "{0}[axis={1}]\n",  //$NON-NLS-1$
-            new Object[] { aNode.getType(), aNode.getAxis()});
+              aNode.getType(), aNode.getAxis());
       getBuffer().write(msg);
 
       traverse(aNode);

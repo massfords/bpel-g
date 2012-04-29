@@ -9,40 +9,17 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpel.def.expr.xpath;
 
-import java.text.MessageFormat;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Stack;
-
 import org.activebpel.rt.bpel.AeMessages;
-import org.activebpel.rt.bpel.xpath.ast.AeAbstractXPathNode;
-import org.activebpel.rt.bpel.xpath.ast.AeXPathAST;
-import org.activebpel.rt.bpel.xpath.ast.AeXPathAbsLocPathNode;
-import org.activebpel.rt.bpel.xpath.ast.AeXPathAdditiveExprNode;
-import org.activebpel.rt.bpel.xpath.ast.AeXPathAllNodeStepNode;
-import org.activebpel.rt.bpel.xpath.ast.AeXPathAndExprNode;
-import org.activebpel.rt.bpel.xpath.ast.AeXPathCommentNodeStepNode;
-import org.activebpel.rt.bpel.xpath.ast.AeXPathEqualityExprNode;
-import org.activebpel.rt.bpel.xpath.ast.AeXPathFilterExprNode;
-import org.activebpel.rt.bpel.xpath.ast.AeXPathFunctionNode;
-import org.activebpel.rt.bpel.xpath.ast.AeXPathLiteralNode;
-import org.activebpel.rt.bpel.xpath.ast.AeXPathMultiplicativeExprNode;
-import org.activebpel.rt.bpel.xpath.ast.AeXPathNameStepNode;
-import org.activebpel.rt.bpel.xpath.ast.AeXPathOrExprNode;
-import org.activebpel.rt.bpel.xpath.ast.AeXPathPathExprNode;
-import org.activebpel.rt.bpel.xpath.ast.AeXPathPredicateNode;
-import org.activebpel.rt.bpel.xpath.ast.AeXPathProcessingInstructionNodeStepNode;
-import org.activebpel.rt.bpel.xpath.ast.AeXPathRelationalExprNode;
-import org.activebpel.rt.bpel.xpath.ast.AeXPathRelativeLocPathNode;
-import org.activebpel.rt.bpel.xpath.ast.AeXPathRootXpathNode;
-import org.activebpel.rt.bpel.xpath.ast.AeXPathTextNodeStepNode;
-import org.activebpel.rt.bpel.xpath.ast.AeXPathUnaryExprNode;
-import org.activebpel.rt.bpel.xpath.ast.AeXPathUnionExprNode;
-import org.activebpel.rt.bpel.xpath.ast.AeXPathVariableNode;
+import org.activebpel.rt.bpel.xpath.ast.*;
 import org.activebpel.rt.util.AeUtil;
 import org.activebpel.rt.xml.IAeNamespaceContext;
 import org.jaxen.saxpath.SAXPathException;
 import org.jaxen.saxpath.XPathHandler;
+
+import java.text.MessageFormat;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Stack;
 
 /**
  * This class listens to a Jaxen parse of an XPath and constructs a list of functions that are used in the
@@ -142,7 +119,7 @@ public class AeXPathParseHandler implements XPathHandler
       if (ns == null && AeUtil.notNullOrEmpty(aPrefix))
       {
          String msg = MessageFormat.format(AeMessages.getString("AeXPathParseHandler.PREFIX_NOT_DECLARED_FUNC_ERROR"), //$NON-NLS-1$
-               new Object [] { aPrefix, aPrefix, ":", aFunctionName }); //$NON-NLS-1$
+                 aPrefix, aPrefix, ":", aFunctionName); //$NON-NLS-1$
          getErrors().add(msg);
       }
       AeXPathFunctionNode node = new AeXPathFunctionNode(aPrefix, ns, aFunctionName);
@@ -166,7 +143,7 @@ public class AeXPathParseHandler implements XPathHandler
       if (ns == null && AeUtil.notNullOrEmpty(aPrefix))
       {
          String msg = MessageFormat.format(AeMessages.getString("AeXPathParseHandler.PREFIX_NOT_DECLARED_ERROR"), //$NON-NLS-1$
-               new Object [] { aPrefix, aPrefix, ":", aLocalName  }); //$NON-NLS-1$
+                 aPrefix, aPrefix, ":", aLocalName); //$NON-NLS-1$
          getErrors().add(msg);
       }
       pushNode(new AeXPathNameStepNode(aAxis, aPrefix, ns, aLocalName));
@@ -459,7 +436,7 @@ public class AeXPathParseHandler implements XPathHandler
       if (ns == null && AeUtil.notNullOrEmpty(aPrefix))
       {
          String msg = MessageFormat.format(AeMessages.getString("AeXPathParseHandler.PREFIX_NOT_DECLARED_VAR_ERROR"), //$NON-NLS-1$
-               new Object [] { aPrefix, aPrefix, ":", aVariableName  }); //$NON-NLS-1$
+                 aPrefix, aPrefix, ":", aVariableName); //$NON-NLS-1$
          getErrors().add(msg);
       }
 

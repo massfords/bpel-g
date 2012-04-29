@@ -103,8 +103,8 @@ public class AeSimpleTypeSampleDataProducer
                // larger of the two                
                if (aMinInclusive != null && aMinExclusive != null)
                {
-                  Number typeMinInc = (Number) ctor.newInstance(new Object[] {aMinInclusive});
-                  Number typeMinEx = (Number) ctor.newInstance(new Object[] {aMinExclusive});
+                  Number typeMinInc = (Number) ctor.newInstance(aMinInclusive);
+                  Number typeMinEx = (Number) ctor.newInstance(aMinExclusive);
                   if (typeMinInc.doubleValue() > typeMinEx.doubleValue())
                   {
                      typeMin = typeMinInc;
@@ -118,18 +118,18 @@ public class AeSimpleTypeSampleDataProducer
                }
                else if (aMinInclusive != null)
                {
-                  typeMin = (Number) ctor.newInstance(new Object[] {aMinInclusive});
+                  typeMin = (Number) ctor.newInstance(aMinInclusive);
                }
                else if (aMinExclusive != null)
                {
-                  typeMin = (Number) ctor.newInstance(new Object[] {aMinExclusive});
+                  typeMin = (Number) ctor.newInstance(aMinExclusive);
                }
                
                if (aMaxInclusive != null && aMaxExclusive != null)
                {
                   // pick the smaller of the two
-                  Number typeMaxInc = (Number) ctor.newInstance(new Object[] {aMaxInclusive});
-                  Number typeMaxEx = (Number) ctor.newInstance(new Object[] {aMaxExclusive});
+                  Number typeMaxInc = (Number) ctor.newInstance(aMaxInclusive);
+                  Number typeMaxEx = (Number) ctor.newInstance(aMaxExclusive);
                   if (typeMaxInc.doubleValue() < typeMaxEx.doubleValue())
                   {
                      typeMax = typeMaxInc;
@@ -142,9 +142,9 @@ public class AeSimpleTypeSampleDataProducer
                   }
                }
                else if (aMaxInclusive != null)
-                  typeMax = (Number) ctor.newInstance(new Object[] {aMaxInclusive});
+                  typeMax = (Number) ctor.newInstance(aMaxInclusive);
                else if (aMaxExclusive != null)
-                  typeMax = (Number) ctor.newInstance(new Object[] {aMaxExclusive});
+                  typeMax = (Number) ctor.newInstance(aMaxExclusive);
                
                // value will be the midpoint if both min and max are given
                if (typeMin != null && typeMax != null)
@@ -158,22 +158,22 @@ public class AeSimpleTypeSampleDataProducer
                        ((aMaxInclusive != null && midpointNoDecimal <= typeMax.doubleValue()) ||
                         (aMaxExclusive != null && midpointNoDecimal < typeMax.doubleValue())))
                   {
-                     type = ctor.newInstance(new Object[] {String.valueOf(midpointNoDecimal)});
+                     type = ctor.newInstance(String.valueOf(midpointNoDecimal));
                   }
                   else
                   {
-                     type = ctor.newInstance(new Object[] {String.valueOf(midpoint)});
+                     type = ctor.newInstance(String.valueOf(midpoint));
                   }
                }
                else if (typeMin != null)
                {
                   long value = typeMin.longValue() + 1;
-                  type = ctor.newInstance(new Object[] {String.valueOf(value)});
+                  type = ctor.newInstance(String.valueOf(value));
                }
                else if (typeMax != null)
                {
                   long value = typeMax.longValue() - 1;
-                  type = ctor.newInstance(new Object[] {String.valueOf(value)});
+                  type = ctor.newInstance(String.valueOf(value));
                }
             }
          }

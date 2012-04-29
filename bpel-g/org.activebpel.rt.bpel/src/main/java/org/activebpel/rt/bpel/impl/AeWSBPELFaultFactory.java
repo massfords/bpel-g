@@ -235,7 +235,7 @@ public class AeWSBPELFaultFactory extends AeBaseFaultFactory implements IAeFault
     */
    public IAeFault getSubLanguageExecutionFault(String aLanguage, Throwable aThrowable, String aErrorMessage)
    {
-      String info = MessageFormat.format("[{0}] {1}", new Object[] { aLanguage, aErrorMessage }); //$NON-NLS-1$
+      String info = MessageFormat.format("[{0}] {1}", aLanguage, aErrorMessage); //$NON-NLS-1$
 
       IAeFault fault = makeBpelFault(SUB_LANGUAGE_EXECUTION_FAULT);
       fault.setInfo(info);

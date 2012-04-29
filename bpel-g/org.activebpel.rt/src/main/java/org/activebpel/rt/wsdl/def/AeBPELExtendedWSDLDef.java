@@ -566,7 +566,7 @@ public class AeBPELExtendedWSDLDef implements IAeBPELExtendedWSDLConst, IAeMutab
       {
          String errMsg =
             MessageFormat.format( AeMessages.getString("AeBPELExtendedWSDLDef.ERROR_PROP_EXISTS"), //$NON-NLS-1$
-               new Object[] {aName, aTypeName, extFactory.getPropertyQName().getNamespaceURI()});
+                    aName, aTypeName, extFactory.getPropertyQName().getNamespaceURI());
 
          throw new AeWSDLException(errMsg);
       }
@@ -625,7 +625,7 @@ public class AeBPELExtendedWSDLDef implements IAeBPELExtendedWSDLConst, IAeMutab
       {
          String errMsg =
             MessageFormat.format( AeMessages.getString("AeBPELExtendedWSDLDef.ERROR_PROP_ALIAS_EXISTS"), //$NON-NLS-1$
-            new Object[] {aPropName, aTypeName, extFactory.getPropertyAliasQName().getNamespaceURI()});
+                    aPropName, aTypeName, extFactory.getPropertyAliasQName().getNamespaceURI());
 
          throw new AeWSDLException(errMsg);
       }

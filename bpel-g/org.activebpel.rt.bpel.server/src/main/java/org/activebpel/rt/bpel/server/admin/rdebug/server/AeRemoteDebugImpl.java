@@ -612,12 +612,12 @@ public class AeRemoteDebugImpl implements IAeBpelAdmin
          Class c = Class.forName(sEventHandlerLocator);
          @SuppressWarnings("unchecked")
 		 Constructor constructor = c.getConstructor( String.class );
-         return (IAeEventHandlerService) constructor.newInstance( new Object[] {aEndpointURL} );
+         return (IAeEventHandlerService) constructor.newInstance(aEndpointURL);
       }
       catch (Exception e)
       {
          throw new AeBusinessProcessException( MessageFormat.format(AeMessages.getString("AeRemoteDebugImpl.ERROR_13"), //$NON-NLS-1$
-                                                                    new Object[] {sEventHandlerLocator}), e);
+                 sEventHandlerLocator), e);
       }
    }
    

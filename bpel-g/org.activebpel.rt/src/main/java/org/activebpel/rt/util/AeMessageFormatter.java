@@ -304,8 +304,8 @@ public abstract class AeMessageFormatter
          catch ( IllegalArgumentException iae )
          {
             msg = MessageFormat.format(AeMessages.getString("AeMessageFormatter.0"), //$NON-NLS-1$
-                                       new Object[] {getFormatString( aFormatIndex ),
-                                                     Arrays.asList(aArguments).toString(), iae.getLocalizedMessage()});
+                    getFormatString( aFormatIndex ),
+                    Arrays.asList(aArguments).toString(), iae.getLocalizedMessage());
 
             AeException.logError( iae, AeMessages.getString("AeMessageFormatter.ERROR_16") + getClass().getName() ); //$NON-NLS-1$
          }

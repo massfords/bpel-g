@@ -58,14 +58,14 @@ public class AeBpelDeployer implements IAeDeploymentHandler {
                 if (!aLogger.hasErrors()) {
                     if (aLogger.hasWarnings()) {
                         sLog.warn(MessageFormat.format(
-                                AeMessages.getString("AeDeploymentHandler.4"), new Object[] { pddName })); //$NON-NLS-1$
+                                AeMessages.getString("AeDeploymentHandler.4"), pddName)); //$NON-NLS-1$
                     }
                     aLogger.addInfo(
                             AeMessages.getString("AeDeploymentHandler.SUCCESSFULLY_DEPLOYED_PDD"), new Object[] {}, null); //$NON-NLS-1$
                     success = true;
                 } else {
                     sLog.error(MessageFormat.format(
-                            AeMessages.getString("AeDeploymentHandler.ERROR_8"), new Object[] { pddName })); //$NON-NLS-1$
+                            AeMessages.getString("AeDeploymentHandler.ERROR_8"), pddName)); //$NON-NLS-1$
                 }
             } catch (Throwable t) {
                 AeException.logError(t, t.getLocalizedMessage());
@@ -91,7 +91,7 @@ public class AeBpelDeployer implements IAeDeploymentHandler {
             } catch (AeException e) {
                 sLog.error(
                         MessageFormat.format(
-                                AeMessages.getString("AeDeploymentHandler.ERROR_9"), new Object[] { pdd.getName() }), e); //$NON-NLS-1$
+                                AeMessages.getString("AeDeploymentHandler.ERROR_9"), pdd.getName()), e); //$NON-NLS-1$
             }
         }
 

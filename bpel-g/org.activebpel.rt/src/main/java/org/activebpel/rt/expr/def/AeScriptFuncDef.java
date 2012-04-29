@@ -171,7 +171,7 @@ public class AeScriptFuncDef
     */
    public String toString()
    {
-      return MessageFormat.format("{0}(args: {1})", new Object[] { getName(), getArgs().toString() }); //$NON-NLS-1$
+      return MessageFormat.format("{0}(args: {1})", getName(), getArgs().toString()); //$NON-NLS-1$
    }
    
    /**

@@ -62,7 +62,7 @@ public class AeSQLURNStorageProvider extends AeAbstractSQLStorageProvider implem
     */
    public void removeMapping(String aURN, IAeStorageConnection aConnection) throws AeStorageException
    {
-      update(getSQLConnection(aConnection), IAeURNSQLKeys.SQL_DELETE_MAPPING, new Object[] { aURN });
+      update(getSQLConnection(aConnection), IAeURNSQLKeys.SQL_DELETE_MAPPING, aURN);
    }
 
     public AeCounter getCounter() {

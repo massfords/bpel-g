@@ -47,7 +47,7 @@ public class AeXmlUtil
    public static final String NCNAME_CHAR_PATTERN = "\u002d\u005f\u002e" //$NON-NLS-1$
          + LETTER_PATTERN + DIGIT_PATTERN + COMBINING_CHAR_PATTERN + EXTENDER_PATTERN;
    public static final String NCNAME_PATTERN = MessageFormat.format("[{0}_][{1}]*",  //$NON-NLS-1$
-      new Object [] { LETTER_PATTERN, NCNAME_CHAR_PATTERN });
+           LETTER_PATTERN, NCNAME_CHAR_PATTERN);
 
    /** A regexp pattern to use to match an NCName. */
    public static final Pattern sNCNamePattern = Pattern.compile(NCNAME_PATTERN);
