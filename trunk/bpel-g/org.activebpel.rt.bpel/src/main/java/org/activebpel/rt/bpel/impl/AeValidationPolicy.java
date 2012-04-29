@@ -50,7 +50,7 @@ public class AeValidationPolicy
    {
       if (aPolicies != null)
       {
-         String exactMatch = MessageFormat.format("abp:Validation[@operation=''{0}'']", new Object[]{aOperation});  //$NON-NLS-1$
+         String exactMatch = MessageFormat.format("abp:Validation[@operation=''{0}'']", aOperation);  //$NON-NLS-1$
 
           for (Object aPolicy : aPolicies) {
               Element policyElement = (Element) aPolicy;

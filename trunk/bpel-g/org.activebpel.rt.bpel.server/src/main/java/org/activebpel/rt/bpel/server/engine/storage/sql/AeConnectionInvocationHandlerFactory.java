@@ -155,13 +155,13 @@ public class AeConnectionInvocationHandlerFactory
       {
          // This shouldn't happen, but if it does something is seriously wrong.
          throw new RuntimeException(MessageFormat.format(AeMessages.getString("AeVerifyCommitOrRollbackConnectionProxyFactory.ERROR_1"), //$NON-NLS-1$
-                                                         new Object[] {aName}), e);
+                 aName), e);
       }
       catch (NoSuchMethodException e)
       {
          // This shouldn't happen, but if it does something is seriously wrong.
          throw new RuntimeException(MessageFormat.format(AeMessages.getString("AeVerifyCommitOrRollbackConnectionProxyFactory.ERROR_1"),  //$NON-NLS-1$
-                                                         new Object[] {aName}), e);
+                 aName), e);
       }
    }
 

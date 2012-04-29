@@ -108,7 +108,7 @@ abstract public class AeAbstractBeanPropertyTag extends AeAbstractResourceTag
             String methodNameList[] = aProperty.split("\\."); //$NON-NLS-1$
              for (String m : methodNameList) {
                  Method method = AeBeanUtils.getAccessor(beanClass, m, aReturnType);
-                 retVal = method.invoke(aBean, new Object[0]);
+                 retVal = method.invoke(aBean);
                  if (retVal != null) {
                      aBean = retVal;
                      beanClass = aBean.getClass();

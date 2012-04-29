@@ -98,7 +98,7 @@ public class AeDeploymentFileHandler implements IAeDeploymentFileHandler, IAeSca
                     AeException.logError(
                             mru,
                             MessageFormat.format(
-                                    AeMessages.getString("AeDeploymentFileHandler.ERROR_0"), new Object[]{deploymentFile})); //$NON-NLS-1$
+                                    AeMessages.getString("AeDeploymentFileHandler.ERROR_0"), deploymentFile)); //$NON-NLS-1$
                 }
             }
         }
@@ -182,7 +182,7 @@ public class AeDeploymentFileHandler implements IAeDeploymentFileHandler, IAeSca
 			        handler.deploy(deployContainer, logger);
 			    } else {
 			        sLog.info(MessageFormat.format(AeMessages.getString("AeDeploymentFileHandler.1"), //$NON-NLS-1$
-			                new Object[] { url }));
+                            url));
 			    }
             } catch(MissingResourcesException e) {
                 throw e;
@@ -224,12 +224,12 @@ public class AeDeploymentFileHandler implements IAeDeploymentFileHandler, IAeSca
                 handler.deploy(deployContainer, logger);
             } else {
                 sLog.info(MessageFormat.format(AeMessages.getString("AeDeploymentFileHandler.1"), //$NON-NLS-1$
-                        new Object[] { deployContainer.getShortName() }));
+                        deployContainer.getShortName()));
             }
         } catch (Throwable t) {
             sLog.error(
                     MessageFormat.format(
-                            AeMessages.getString("AeDeploymentFileHandler.ERROR_2"), new Object[] {fileUrl}), t); //$NON-NLS-1$
+                            AeMessages.getString("AeDeploymentFileHandler.ERROR_2"), fileUrl), t); //$NON-NLS-1$
             if (logger != null) {
                 logger.addInfo(
                         AeMessages.getString("AeDeploymentFileHandler.ERROR_DEPLOYING_BPR"), new Object[] { fileUrl.toString(), t.getLocalizedMessage() }, null); //$NON-NLS-1$
@@ -256,7 +256,7 @@ public class AeDeploymentFileHandler implements IAeDeploymentFileHandler, IAeSca
         } catch (IOException ae) {
             sLog.error(
                     MessageFormat.format(
-                            AeMessages.getString("AeDeploymentFileHandler.ERROR_3"), new Object[] { fileUrl.getFile() }), ae); //$NON-NLS-1$
+                            AeMessages.getString("AeDeploymentFileHandler.ERROR_3"), fileUrl.getFile()), ae); //$NON-NLS-1$
             return null;
         }
     }
@@ -310,7 +310,7 @@ public class AeDeploymentFileHandler implements IAeDeploymentFileHandler, IAeSca
             }
         } catch (Exception ex) {
             sLog.error(MessageFormat.format(AeMessages.getString("AeDeploymentFileHandler.ERROR_6"), //$NON-NLS-1$
-                    new Object[] {url}), ex);
+                    url), ex);
             return false;
         }
     }

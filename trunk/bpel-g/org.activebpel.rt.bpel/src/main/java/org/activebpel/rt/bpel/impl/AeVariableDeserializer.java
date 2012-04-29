@@ -9,9 +9,6 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpel.impl;
 
-import java.text.MessageFormat;
-import java.util.List;
-
 import org.activebpel.rt.attachment.IAeAttachmentContainer;
 import org.activebpel.rt.bpel.AeBusinessProcessException;
 import org.activebpel.rt.bpel.AeMessages;
@@ -27,6 +24,9 @@ import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
+
+import java.text.MessageFormat;
+import java.util.List;
 
 /**
  * Restores the state of a variable from a serialized variable document.
@@ -127,7 +127,7 @@ public class AeVariableDeserializer implements IAeImplStateNames
       }
       catch (NumberFormatException e)
       {
-         throw new AeBusinessProcessException(MessageFormat.format(AeMessages.getString("AeVariableDeserializer.ERROR_1"), new Object[] {version}), e); //$NON-NLS-1$
+         throw new AeBusinessProcessException(MessageFormat.format(AeMessages.getString("AeVariableDeserializer.ERROR_1"), version), e); //$NON-NLS-1$
       }
    }
 

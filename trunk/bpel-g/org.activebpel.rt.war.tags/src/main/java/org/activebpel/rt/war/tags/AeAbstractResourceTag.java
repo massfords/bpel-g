@@ -9,16 +9,15 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.war.tags;
 
-import java.lang.reflect.Constructor;
-import java.util.Hashtable;
-import java.util.Locale;
-import java.util.ResourceBundle;
+import org.activebpel.rt.util.AeUtil;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletRequest;
 import javax.servlet.jsp.tagext.BodyTagSupport;
-
-import org.activebpel.rt.util.AeUtil;
+import java.lang.reflect.Constructor;
+import java.util.Hashtable;
+import java.util.Locale;
+import java.util.ResourceBundle;
 
 /**
  * An abstract class that implements the resource bundle management.  Extending this
@@ -61,7 +60,7 @@ private static final String NOT_PRESENT = "none"; //$NON-NLS-1$
             String bundlePrefix = aServletContext.getInitParameter("bundle-prefix"); //$NON-NLS-1$
             Class<?> c = Class.forName(bundleLoc);
             Constructor constructor = c.getConstructor( new Class[] { String.class, ServletContext.class, ServletRequest.class } );
-            bundle = (ResourceBundle) constructor.newInstance( new Object[] { bundlePrefix, aServletContext, aServletRequest } );
+            bundle = (ResourceBundle) constructor.newInstance(bundlePrefix, aServletContext, aServletRequest);
             sBundleTable.put(bundleKey, bundle);
          }
          catch (Exception e)

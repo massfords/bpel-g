@@ -10,11 +10,11 @@
 
 package org.activebpel.rt.xml.schema;
 
+import org.activebpel.rt.AeMessages;
+
 import java.text.MessageFormat;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import org.activebpel.rt.AeMessages;
 
 /**
  * Base class for any schema type that can be constructed from a String and parsed using a regular
@@ -51,7 +51,7 @@ public abstract class AeAbstractPatternBasedSchemaType implements IAeSchemaType
       if (!matcher.matches())
       {
          String msg = MessageFormat.format(AeMessages.getString("AeSchemaRegexParsedStringType.InvalidSchemaTypeFormat"), //$NON-NLS-1$
-               new Object[] { aValue, getSchemaTypeName() });
+                 aValue, getSchemaTypeName());
          throw new AeSchemaTypeParseException(msg);
       }
       processMatcher(matcher);

@@ -275,7 +275,7 @@ public class AeXPathHelper
       {
     	  ex.printStackTrace();
          throw new AeBpelException( MessageFormat.format(AeMessages.getString("AeXPathHelper.ERROR_1"), //$NON-NLS-1$
-                                                         new Object[] {aExpr, ex.getMessage()}), 
+                 aExpr, ex.getMessage()),
                                     getFaultFactory().getSubLanguageExecutionFault(IAeFaultFactory.XPATH_FUNCTION_ERROR, ex, ex.getLocalizedMessage()) );    
       }
       
@@ -295,7 +295,7 @@ public class AeXPathHelper
       if (aFunctionCallException.getCause() instanceof AeBusinessProcessException)
          throw new AeBpelException(
         		 MessageFormat.format(AeMessages.getString("AeXPathHelper.ERROR_1"), //$NON-NLS-1$
-        				 	new Object[] { aExpression, aFunctionCallException.getCause().getMessage() }),
+                         aExpression, aFunctionCallException.getCause().getMessage()),
         	     getFaultFactory().getSubLanguageExecutionFault(IAeFaultFactory.XPATH_FUNCTION_ERROR, aFunctionCallException, aFunctionCallException.getLocalizedMessage()),
         	     aFunctionCallException.getCause());
       else if (aFunctionCallException.getCause() instanceof AeFunctionCallException)
@@ -313,14 +313,14 @@ public class AeXPathHelper
          if (rootException instanceof AeBpelException)
             throw (AeBpelException) rootException;
          throw new AeBpelException(MessageFormat.format(AeMessages.getString("AeXPathHelper.ERROR_1"), //$NON-NLS-1$
-               new Object[] { aExpression, msg }),
+                 aExpression, msg),
                getFaultFactory().getSubLanguageExecutionFault(IAeFaultFactory.XPATH_FUNCTION_ERROR, aFunctionCallException, aFunctionCallException.getLocalizedMessage()),
                rootException);
          
       }
       else
          throw new AeBpelException( MessageFormat.format(AeMessages.getString("AeXPathHelper.ERROR_1"), //$NON-NLS-1$
-               new Object[] {aExpression, aFunctionCallException.getMessage()}), 
+                 aExpression, aFunctionCallException.getMessage()),
                getFaultFactory().getSubLanguageExecutionFault(IAeFaultFactory.XPATH_FUNCTION_ERROR, aFunctionCallException, aFunctionCallException.getLocalizedMessage()),
                aFunctionCallException.getCause());
    }

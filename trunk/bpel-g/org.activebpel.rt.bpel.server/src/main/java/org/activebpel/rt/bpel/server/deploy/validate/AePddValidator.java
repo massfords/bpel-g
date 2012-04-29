@@ -143,7 +143,7 @@ public class AePddValidator extends AeAbstractPddIterator {
 			e.printStackTrace();
 			String msg = MessageFormat
 					.format(AeMessages
-							.getString("AePddValidator.ERROR_DURING_STATIC_VALIDATION"), new Object[] { e.getLocalizedMessage() }); //$NON-NLS-1$
+							.getString("AePddValidator.ERROR_DURING_STATIC_VALIDATION"), e.getLocalizedMessage()); //$NON-NLS-1$
 			aHandler.fatalError(msg);
 		}
 	}

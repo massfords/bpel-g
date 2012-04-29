@@ -152,7 +152,7 @@ public class AeProcessViewPropertyBuilder extends AeProcessWebPropertyBuilder
          {
             // get "Log file not available for Process ID " message.
             log = MessageFormat.format(AeMessages.getString("AeProcessViewPropertyBuilder.1"), //$NON-NLS-1$
-                  new Object[] { String.valueOf(processId) });
+                    String.valueOf(processId));
             getPropertyViewBean().setHasLogData(false);
          }
          else
@@ -360,7 +360,7 @@ public class AeProcessViewPropertyBuilder extends AeProcessWebPropertyBuilder
       catch (Exception e)
       {
          String msg = MessageFormat.format(AeMessages.getString("AeProcessViewPropertyBuilder.5"), //$NON-NLS-1$
-               new Object[] { String.valueOf(aProcessId), aLocationPath } );
+                 String.valueOf(aProcessId), aLocationPath);
 
          AeException.logError(e,msg);
          xml.append(AeMessages.getString("AeProcessViewPropertyBuilder.4")); //$NON-NLS-1$

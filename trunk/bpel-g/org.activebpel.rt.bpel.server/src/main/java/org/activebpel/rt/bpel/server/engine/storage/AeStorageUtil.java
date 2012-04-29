@@ -244,7 +244,7 @@ public class AeStorageUtil
             // FIXME GENERICS -- looks like the serialization layer is supporting more than just strings although 
             //             the map is strings elsewhere. Could be something introduced with all the generics work 
             Constructor constructor = c.getConstructor( new Class[] { String.class } );
-            map.put(name, (String) constructor.newInstance(new Object[] { value }));
+            map.put(name, (String) constructor.newInstance(value));
          }
 
          return map;
