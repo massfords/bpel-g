@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<deploy xmlns="http://www.apache.org/ode/schemas/dd/2007/03"
+        xmlns:ex="http://www.example.org/betsy/" replace.existing="true">
+
+    <process name="proc:start-error" xmlns:proc="http://www.example.org/">
+        <provide partnerLink="plt">
+            <service name="ex:betsyStartErrorService" port="betsyStartError"/>
+        </provide>
+    </process>
+
+</deploy>

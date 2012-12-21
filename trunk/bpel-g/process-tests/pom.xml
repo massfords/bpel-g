@@ -20,6 +20,7 @@
         <module>camel-activemq-test</module>
         <module>process-with-errors</module>
         <module>invalid-container</module>
+        <module>betsy-bug-reports</module>
     </modules>
 
 </project>

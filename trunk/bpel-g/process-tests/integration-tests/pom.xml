@@ -20,6 +20,12 @@
         </dependency>
         <dependency>
             <groupId>bpel-g</groupId>
+            <artifactId>betsy-bug-reports</artifactId>
+            <version>${project.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>bpel-g</groupId>
             <artifactId>invalid-container</artifactId>
             <version>${project.version}</version>
             <scope>test</scope>
@@ -153,7 +159,7 @@
                             <goal>copy-dependencies</goal>
                         </goals>
                         <configuration>
-                            <includeArtifactIds>camel-invoke,camel-receive,correlation-test,camel-activemq,process-with-errors,invalid-container</includeArtifactIds>
+                            <includeArtifactIds>camel-invoke,camel-receive,correlation-test,camel-activemq,process-with-errors,invalid-container,betsy-bug-reports</includeArtifactIds>
                             <stripVersion>true</stripVersion>
                         </configuration>
                     </execution>
