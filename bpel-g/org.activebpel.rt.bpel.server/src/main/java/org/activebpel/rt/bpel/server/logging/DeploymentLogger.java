@@ -18,8 +18,8 @@ public class DeploymentLogger implements IAeDeploymentLogger {
     private final Map<String,DeploymentResponse.DeploymentInfo> infos = new LinkedHashMap<String,DeploymentResponse.DeploymentInfo>();
     private static final Logger log = LoggerFactory.getLogger(DeploymentLogger.class);
     private String currentPdd;
-    private final boolean hasErrors = false;
-    private final boolean hasWarnings = false;
+    private boolean hasErrors = false;
+    private boolean hasWarnings = false;
     private final List<Msg> messages = new ArrayList<Msg>();
 
     @Override
@@ -70,12 +70,14 @@ public class DeploymentLogger implements IAeDeploymentLogger {
 
     @Override
     public void addError(String errorCode, Object[] args, Object node) {
+        hasErrors=true;
         addMessage(errorCode, args, MessageType.ERROR);
         current().withNumberOfErrors(current().getNumberOfErrors() +1);
     }
 
     @Override
     public void addWarning(String warnCode, Object[] args, Object node) {
+        hasWarnings=true;
         addMessage(warnCode, args, MessageType.WARNING);
         current().withNumberOfWarnings(current().getNumberOfWarnings() +1);
     }
@@ -111,6 +113,15 @@ public class DeploymentLogger implements IAeDeploymentLogger {
     }
 
     private DeploymentResponse.DeploymentInfo current() {
-        return infos.get(currentPdd);
+        String key = currentPdd;
+        if (currentPdd == null) {
+            key = "_container";
+        }
+        DeploymentResponse.DeploymentInfo info = infos.get(key);
+        if (info == null) {
+            info = new DeploymentResponse.DeploymentInfo();
+            infos.put(key, info);
+        }
+        return info;
     }
 }

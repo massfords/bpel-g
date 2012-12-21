@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<process xmlns:abx="http://www.activebpel.org/bpel/extension"
+         xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+         xmlns:ns2="http://www.example.org/betsy/"
+         xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+         expressionLanguage="urn:active-endpoints:expression-language:xquery1.0"
+         name="start-error"
+         suppressJoinFailure="yes"
+         targetNamespace="http://www.example.org/">
+    <import importType="http://schemas.xmlsoap.org/wsdl/" location="betsy.wsdl" namespace="http://www.example.org/betsy/"/>
+    <partnerLinks>
+        <partnerLink myRole="process" name="plt" partnerLinkType="ns2:plt"/>
+    </partnerLinks>
+    <variables>
+        <variable element="ns2:createProcess" name="createProcess"/>
+        <variable element="ns2:processCreated" name="processCreated"/>
+    </variables>
+    <flow>
+        <links>
+            <link name="RecvToAssign"/>
+            <link name="AssignToReply"/>
+        </links>
+        <!--  this will cause an error since it can run in parallel with the start activity -->
+        <empty/>
+        <receive createInstance="yes" operation="createProcess" partnerLink="plt" variable="createProcess">
+            <sources>
+                <source linkName="RecvToAssign"/>
+            </sources>
+        </receive>
+        <assign name="ProcessCreated">
+            <targets>
+                <target linkName="RecvToAssign"/>
+            </targets>
+            <sources>
+                <source linkName="AssignToReply"/>
+            </sources>
+            <copy>
+                <from>
+                    <![CDATA[
+                <s:processCreated xmlns:s="http://www.example.org/simple/"
+                                  xmlns:abx='http://www.activebpel.org/bpel/extension'>
+                    <s:pid>{abx:getProcessId()}</s:pid>
+                    <s:message>{string($createProcess/s:message)}</s:message>
+                </s:processCreated>
+                ]]>
+                </from>
+                <to variable="processCreated"/>
+            </copy>
+        </assign>
+        <reply operation="createProcess" partnerLink="plt" variable="processCreated">
+            <targets>
+                <target linkName="AssignToReply"/>
+            </targets>
+        </reply>
+        <empty/>
+    </flow>
+</process>
