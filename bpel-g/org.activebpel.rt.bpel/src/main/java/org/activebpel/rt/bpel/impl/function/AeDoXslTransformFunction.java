@@ -9,17 +9,6 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpel.impl.function;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.xml.transform.Source;
-import javax.xml.transform.TransformerException;
-import javax.xml.transform.TransformerFactoryConfigurationError;
-import javax.xml.transform.URIResolver;
-import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamSource;
-
 import org.activebpel.rt.IAeConstants;
 import org.activebpel.rt.bpel.AeMessages;
 import org.activebpel.rt.bpel.IAeFault;
@@ -27,6 +16,7 @@ import org.activebpel.rt.bpel.function.AeFunctionCallException;
 import org.activebpel.rt.bpel.function.IAeFunctionExecutionContext;
 import org.activebpel.rt.bpel.impl.AeBpelException;
 import org.activebpel.rt.bpel.impl.IAeBusinessProcessEngineInternal;
+import org.activebpel.rt.bpel.impl.IAeBusinessProcessInternal;
 import org.activebpel.rt.bpel.impl.IAeFaultFactory;
 import org.activebpel.rt.util.AeUtil;
 import org.activebpel.rt.util.AeXmlUtil;
@@ -35,6 +25,16 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
+
+import javax.xml.transform.Source;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactoryConfigurationError;
+import javax.xml.transform.URIResolver;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamSource;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * An implementation of BPEL 2.0's doXslTransform() XPath function.  The doXslTransform function
@@ -196,9 +196,9 @@ public class AeDoXslTransformFunction extends AeAbstractBpelFunction
    {
       try
       {
-         IAeBusinessProcessEngineInternal engine = aContext.getAbstractBpelObject().getProcess().getEngine();
-         // TODO (cck) add type mapping for xsl?
-         InputSource isource = (InputSource)engine.loadResource(aXslUri, IAeConstants.XSL_NAMESPACE);
+          IAeBusinessProcessInternal process = aContext.getAbstractBpelObject().getProcess();
+          IAeBusinessProcessEngineInternal engine = process.getEngine();
+         InputSource isource = (InputSource)engine.loadResource( process.getProcessPlan().getContainerId(), aXslUri, IAeConstants.XSL_NAMESPACE);
          StreamSource source = new StreamSource(isource.getByteStream());
          source.setSystemId(isource.getSystemId());
          return source;

@@ -17,6 +17,7 @@ import org.activebpel.rt.bpel.coord.IAeCoordinationContext;
 import org.activebpel.rt.bpel.impl.AeBusinessProcessEngine;
 import org.activebpel.rt.bpel.impl.IAeProcessCoordination;
 import org.activebpel.rt.bpel.server.catalog.IAeCatalog;
+import org.activebpel.rt.bpel.server.catalog.resource.IAeResourceCache;
 import org.activebpel.rt.bpel.server.coord.subprocess.AeServerProcessCoordination;
 import org.activebpel.rt.util.AeUtil;
 import org.activebpel.wsio.receive.IAeMessageContext;
@@ -91,11 +92,16 @@ public abstract class AeAbstractServerEngine extends AeBusinessProcessEngine
 
    /**
     * Overrides to pull resource from catalog
-    * @see org.activebpel.rt.bpel.impl.AeBusinessProcessEngine#loadResourceInternal(java.lang.String, java.lang.String)
     */
-   protected final Object loadResourceInternal(String aLocation, String aTypeURI) throws AeException
+   protected final Object loadResourceInternal(String containerId, String aLocation, String aTypeURI) throws AeException
    {
-      return AeEngineFactory.getBean(IAeCatalog.class).getResourceCache().getResource(new ReferenceType().withLocation(aLocation).withTypeURI(aTypeURI));
+       IAeCatalog catalog = AeEngineFactory.getBean(IAeCatalog.class);
+       IAeResourceCache resourceCache = catalog.getResourceCache();
+       if (aLocation.startsWith("http:")||aLocation.startsWith("https:")||aLocation.startsWith("project:")||aLocation.startsWith("file:")) {
+           return resourceCache.getResource(new ReferenceType().withLocation(aLocation).withTypeURI(aTypeURI));
+       } else {
+           return resourceCache.getResource(new ReferenceType().withLocation("project:/"+containerId + "/" + aLocation).withTypeURI(aTypeURI));
+       }
    }
 }
  

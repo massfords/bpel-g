@@ -9,21 +9,8 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpel.impl;
 
-import java.util.Date;
-import java.util.Map;
-import java.util.Set;
-
 import org.activebpel.rt.AeException;
-import org.activebpel.rt.bpel.AeBusinessProcessException;
-import org.activebpel.rt.bpel.IAeBusinessProcess;
-import org.activebpel.rt.bpel.IAeBusinessProcessEngine;
-import org.activebpel.rt.bpel.IAeEngineAlert;
-import org.activebpel.rt.bpel.IAeEngineEvent;
-import org.activebpel.rt.bpel.IAeFault;
-import org.activebpel.rt.bpel.IAePlanManager;
-import org.activebpel.rt.bpel.IAeProcessEvent;
-import org.activebpel.rt.bpel.IAeProcessInfoEvent;
-import org.activebpel.rt.bpel.AeProcessInfoEventType;
+import org.activebpel.rt.bpel.*;
 import org.activebpel.rt.bpel.function.AeUnresolvableException;
 import org.activebpel.rt.bpel.function.IAeFunction;
 import org.activebpel.rt.bpel.impl.queue.AeMessageReceiver;
@@ -38,6 +25,10 @@ import org.activebpel.wsio.IAeMessageAcknowledgeCallback;
 import org.activebpel.wsio.IAeWebServiceResponse;
 import org.activebpel.wsio.receive.AeMessageContext;
 import org.activebpel.wsio.receive.IAeMessageContext;
+
+import java.util.Date;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * Internal extensions to business process engine allows classes within
@@ -335,11 +326,12 @@ public interface IAeBusinessProcessEngineInternal extends IAeBusinessProcessEngi
     * Retrieve an object for the passed URI, note that this object may be cached.  The 
     * returned object is dependent on the passed type, currently wsdl types return AeBPELExtendedWSDLDef
     * and all others return InputSource.
+    * @param aContainerId
     * @param aLocation 
     * @param aTypeURI 
     * @throws AeException wraps any type of exception thrown while getting the resource
     */
-   public Object loadResource( String aLocation, String aTypeURI ) throws AeException;
+   public Object loadResource(String aContainerId, String aLocation, String aTypeURI ) throws AeException;
 
    /**
     * Removes the waiting reply object.

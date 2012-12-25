@@ -50,6 +50,8 @@ public class BetsyBugReportsIntegrationTest extends Assert {
         assertCorrelation("http://localhost:8080/bpel-g/services/betsyEventUntilService");
         assertTrue(infos.get("termination.bpel.pdd").isDeployed());
         assertCorrelation("http://localhost:8080/bpel-g/services/betsyTermService");
+        assertTrue(infos.get("xform.bpel.pdd").isDeployed());
+        assertCorrelation("http://localhost:8080/bpel-g/services/betsyXformService");
     }
 
     private void assertWait() throws Exception {
@@ -73,7 +75,7 @@ public class BetsyBugReportsIntegrationTest extends Assert {
         Document quote = pfix.invoke(new StreamSource(new StringReader(request)), endpoint);
         assertNotNull(quote);
 
-        Thread.sleep(10*1000);
+        Thread.sleep(5*1000);
 
         // send another message checking on the status
         Map<String, String> nsMap = Collections.singletonMap("q", "http://www.example.org/correlation/");

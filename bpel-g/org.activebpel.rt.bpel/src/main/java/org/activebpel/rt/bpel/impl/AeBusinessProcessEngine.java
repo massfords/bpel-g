@@ -1905,13 +1905,9 @@ public class AeBusinessProcessEngine implements IAeBusinessProcessEngineInternal
       }
    }
 
-   /**
-    * TODO (cck) need a type uri to object type mapping factory.
-    * @see org.activebpel.rt.bpel.impl.IAeBusinessProcessEngineInternal#loadResource(java.lang.String, java.lang.String)
-    */
-   public final Object loadResource(String aLocation, String aTypeURI) throws AeException
+   public final Object loadResource(String containerId, String aLocation, String aTypeURI) throws AeException
    {
-      return loadResourceInternal(getURNResolver().getURL(aLocation), aTypeURI);
+      return loadResourceInternal(containerId, getURNResolver().getURL(aLocation), aTypeURI);
    }
 
    /**
@@ -1920,7 +1916,7 @@ public class AeBusinessProcessEngine implements IAeBusinessProcessEngineInternal
     * @param aTypeURI
     * @throws AeException
     */
-   protected Object loadResourceInternal(String aResolvedLocation, String aTypeURI) throws AeException
+   protected Object loadResourceInternal(String containerId, String aResolvedLocation, String aTypeURI) throws AeException
    {
       try
       {

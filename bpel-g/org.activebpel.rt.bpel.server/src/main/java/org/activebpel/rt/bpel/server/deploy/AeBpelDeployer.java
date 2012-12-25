@@ -53,7 +53,7 @@ public class AeBpelDeployer implements IAeDeploymentHandler {
             try {
                 IAeDeploymentSource source = aContainer.getDeploymentSource(pdd.getPdd());
                 sLog.debug("Deploying BPEL for " + source.getPdd().getName() + " from " + pddName); //$NON-NLS-1$ //$NON-NLS-2$
-                deployBpel(source, aLogger, skipValidation);
+                deployBpel(aContainer.getDeploymentId().getId(), source, aLogger, skipValidation);
 
                 if (!aLogger.hasErrors()) {
                     if (aLogger.hasWarnings()) {
@@ -97,9 +97,9 @@ public class AeBpelDeployer implements IAeDeploymentHandler {
 
     }
 
-    public void deployBpel(IAeDeploymentSource aSource, IAeBaseErrorReporter aReporter,
+    public void deployBpel(String containerId, IAeDeploymentSource aSource, IAeBaseErrorReporter aReporter,
             boolean aSkipValidation) throws AeException {
-        IAeProcessDeployment deployment = create(aSource);
+        IAeProcessDeployment deployment = create(containerId, aSource);
         if (!aSkipValidation) {
             AeDeploymentValidator deploymentValidator = new AeDeploymentValidator(
                     aSource.getPdd().getLocation(), deployment, aReporter);
@@ -118,8 +118,8 @@ public class AeBpelDeployer implements IAeDeploymentHandler {
      * @param aSource
      * @throws AeDeploymentException
      */
-    public IAeProcessDeployment create(IAeDeploymentSource aSource) throws AeDeploymentException {
-        return AeProcessDeploymentFactory.getInstance().newInstance(aSource,
+    public IAeProcessDeployment create(String containerId, IAeDeploymentSource aSource) throws AeDeploymentException {
+        return AeProcessDeploymentFactory.getInstance().newInstance(containerId, aSource,
                 getExpressionLanguageFactory());
     }
 
