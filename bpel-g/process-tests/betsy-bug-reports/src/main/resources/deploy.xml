@@ -25,5 +25,10 @@
         </provide>
     </process>
 
+    <process name="proc:wait" xmlns:proc="http://www.example.org/">
+        <provide partnerLink="plt">
+            <service name="ex:betsyWaitService" port="betsyWaitService"/>
+        </provide>
+    </process>
 
 </deploy>

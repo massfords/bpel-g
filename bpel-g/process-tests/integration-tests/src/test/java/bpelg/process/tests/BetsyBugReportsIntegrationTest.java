@@ -42,6 +42,17 @@ public class BetsyBugReportsIntegrationTest extends Assert {
         assertTrue(infos.get("pick-onAlarm-until.bpel.pdd").isDeployed());
         assertCorrelationFor();
         assertCorrelationUntil();
+        assertTrue(infos.get("wait.bpel.pdd").isDeployed());
+        assertWait();
+    }
+
+    private void assertWait() throws Exception {
+        String body = "<createProcess xmlns='http://www.example.org/betsy/'>" +
+                "   <message>hello from junit</message>" +
+                "</createProcess>";
+
+        Document quote = pfix.invoke(new StreamSource(new StringReader(body)), "http://localhost:8080/bpel-g/services/betsyWaitService");
+        assertNotNull(quote);
     }
 
     private void assertCorrelationFor() throws Exception {
