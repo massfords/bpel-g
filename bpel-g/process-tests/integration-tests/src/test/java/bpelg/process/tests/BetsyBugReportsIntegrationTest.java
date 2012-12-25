@@ -40,10 +40,14 @@ public class BetsyBugReportsIntegrationTest extends Assert {
         assertDupeVar(infos.get("dupe-variable.bpel.pdd"));
         assertTrue(infos.get("pick-onAlarm-for.bpel.pdd").isDeployed());
         assertTrue(infos.get("pick-onAlarm-until.bpel.pdd").isDeployed());
-        assertCorrelationFor();
-        assertCorrelationUntil();
+        assertCorrelation("http://localhost:8080/bpel-g/services/betsyQuoteService");
+        assertCorrelation("http://localhost:8080/bpel-g/services/betsyQuoteUntilService");
         assertTrue(infos.get("wait.bpel.pdd").isDeployed());
         assertWait();
+        assertTrue(infos.get("event-onAlarm-for.bpel.pdd").isDeployed());
+        assertTrue(infos.get("event-onAlarm-until.bpel.pdd").isDeployed());
+        assertCorrelation("http://localhost:8080/bpel-g/services/betsyEventService");
+        assertCorrelation("http://localhost:8080/bpel-g/services/betsyEventUntilService");
     }
 
     private void assertWait() throws Exception {
@@ -53,13 +57,6 @@ public class BetsyBugReportsIntegrationTest extends Assert {
 
         Document quote = pfix.invoke(new StreamSource(new StringReader(body)), "http://localhost:8080/bpel-g/services/betsyWaitService");
         assertNotNull(quote);
-    }
-
-    private void assertCorrelationFor() throws Exception {
-        assertCorrelation("http://localhost:8080/bpel-g/services/betsyQuoteService");
-    }
-    private void assertCorrelationUntil() throws Exception {
-        assertCorrelation("http://localhost:8080/bpel-g/services/betsyQuoteUntilService");
     }
 
     private void assertCorrelation(String endpoint) throws Exception {
