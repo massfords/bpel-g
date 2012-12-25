@@ -3,7 +3,7 @@
 	<parent>
 		<artifactId>bpel-g</artifactId>
 		<groupId>bpel-g</groupId>
-		<version>5.3-SNAPSHOT</version>
+		<version>5.3</version>
 	</parent>
 	<groupId>bpel-g</groupId>
 	<artifactId>bpel-g-ear</artifactId>
