@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions
+        xmlns:tns="http://www.example.org/camel-invoke/"
+        xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+        xmlns:xs="http://www.w3.org/2001/XMLSchema"
+        name="simple"
+        targetNamespace="http://www.example.org/camel-invoke/"
+        xmlns:plnk="http://docs.oasis-open.org/wsbpel/2.0/plnktype"
+        xmlns:vprop="http://docs.oasis-open.org/wsbpel/2.0/varprop">
+
+    <vprop:property name="pid" type="xs:string"/>
+
+    <vprop:propertyAlias propertyName="tns:id" element="tns:processCreated">
+        <vprop:query>string(tns:pid)</vprop:query>
+    </vprop:propertyAlias>
+
+    <plnk:partnerLinkType name="plt">
+        <plnk:role name="process" portType="tns:simple"/>
+    </plnk:partnerLinkType>
+
+    <plnk:partnerLinkType name="listener">
+        <plnk:role name="listener" portType="tns:notification"/>
+    </plnk:partnerLinkType>
+
+    <wsdl:types>
+        <xs:schema targetNamespace="http://www.example.org/camel-invoke/" elementFormDefault="qualified">
+            <xs:element name="processCreated">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="pid" type="xs:int"/>
+                        <xs:element name="message" type="xs:string"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="createProcess">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="message" type="xs:string"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+        </xs:schema>
+    </wsdl:types>
+
+    <wsdl:message name="CreateProcess">
+        <wsdl:part element="tns:createProcess" name="createProcess"/>
+    </wsdl:message>
+    <wsdl:message name="ProcessCreated">
+        <wsdl:part element="tns:processCreated" name="processCreated"/>
+    </wsdl:message>
+
+    <wsdl:portType name="simple">
+        <wsdl:operation name="createProcess">
+            <wsdl:input message="tns:CreateProcess"/>
+            <wsdl:output message="tns:ProcessCreated"/>
+        </wsdl:operation>
+    </wsdl:portType>
+    <wsdl:portType name="notification">
+        <wsdl:operation name="notify">
+            <wsdl:input message="tns:ProcessCreated"/>
+        </wsdl:operation>
+    </wsdl:portType>
+</wsdl:definitions>

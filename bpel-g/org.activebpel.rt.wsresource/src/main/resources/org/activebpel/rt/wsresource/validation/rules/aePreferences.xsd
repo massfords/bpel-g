@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema elementFormDefault="qualified" 
+   xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
+   targetNamespace="urn:activebpel:wsresource:validation:ruleSeverity"
+   xmlns:tns="urn:activebpel:wsresource:validation:ruleSeverity" >
+   
+	<xsd:simpleType name="tSeverity">
+	  <xsd:restriction base="xsd:string">
+	     <xsd:enumeration value="ERROR"/>
+        <xsd:enumeration value="WARNING"/>
+        <xsd:enumeration value="INFO"/>
+        <xsd:enumeration value="SKIP"/>
+	  </xsd:restriction>
+	</xsd:simpleType>
+   
+	<xsd:complexType name="tPreference">
+	  <xsd:sequence>
+	     <xsd:element name="ruleCode" type="xsd:NCName" />
+	     <xsd:element name="preferredSeverity" type="tns:tSeverity" />
+	  </xsd:sequence>
+	</xsd:complexType>
+
+  <xsd:element name="preferences">
+      <xsd:complexType>
+         <xsd:sequence>
+            <xsd:element name="preference" type="tns:tPreference" maxOccurs="unbounded" />
+         </xsd:sequence>
+         <xsd:attribute name="targetNamespace" type="xsd:anyURI" use="required" />
+      </xsd:complexType> 
+    </xsd:element>
+</xsd:schema>

@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<graph id="0" name="PROCESS">
+   <att name="processName" value="aeidentitysvc"/>
+   <att name="targetNamespace" value="http://identitysvc"/>
+   <att name="enableInstanceCompensation" value="false"/>
+   <att name="exitStandardFault" value="false"/>
+   <att name="disableSelectionFailure" value="false"/>
+   <att name="createXPath" value="false"/>
+   <att name="modelVersion" value="3"/>
+   <att name="processNamespace" value="http://docs.oasis-open.org/wsbpel/2.0/process/executable"/>
+   <att name="objectId" value="120173743221000665"/>
+   <att name="layoutNeeded" value="false"/>
+   <node id="1" name="EXTENSION_CONTAINER">
+      <att name="ExtensionCount" value="0"/>
+      <att name="BPELDocumentation" value=""/>
+   </node>
+   <att>
+      <graph id="2" name="IMPORTS">
+         <att name="ImportCount" value="1"/>
+         <node id="3" name="IMPORT">
+            <att name="ImportLocation" value="../wsdl/identity.wsdl;http://docs.active-endpoints/wsdl/identity/2007/03/identity.wsdl;http://schemas.xmlsoap.org/wsdl/"/>
+            <att name="ImportNamespace" value="http://docs.active-endpoints/wsdl/identity/2007/03/identity.wsdl"/>
+            <att name="ImportType" value="http://schemas.xmlsoap.org/wsdl/"/>
+            <att name="objectId" value="120173743222600691"/>
+         </node>
+      </graph>
+   </att>
+   <att>
+      <graph id="4" name="NAMESPACES">
+         <att name="NamespaceCount" value="3"/>
+         <node id="5" name="NAMESPACE">
+            <att name="Prefix" value="aeid"/>
+            <att name="Namespace" value="http://docs.active-endpoints/wsdl/identity/2007/03/identity.wsdl"/>
+            <att name="objectId" value="120173743222600693"/>
+         </node>
+         <node id="6" name="NAMESPACE">
+            <att name="Prefix" value="xsd"/>
+            <att name="Namespace" value="http://www.w3.org/2001/XMLSchema"/>
+            <att name="objectId" value="120173743222600695"/>
+         </node>
+         <node id="7" name="NAMESPACE">
+            <att name="Prefix" value="bpel"/>
+            <att name="Namespace" value="http://docs.oasis-open.org/wsbpel/2.0/process/executable"/>
+            <att name="objectId" value="120173743222600697"/>
+         </node>
+      </graph>
+   </att>
+   <att>
+      <graph id="8" name="PARTNER_LINKS">
+         <att name="PartnerLinkCount" value="2"/>
+         <node id="9" name="PARTNER_LINK">
+            <att name="PartnerLinkName" value="externalIdentityPLT"/>
+            <att name="PartnerLinkType" value="aeid:identityPLT"/>
+            <att name="MyRole" value="service"/>
+            <att name="visible" value="false,false,false,false,false,"/>
+            <att name="objectId" value="120173743222600699"/>
+            <att name="InitializePartnerRole" value=""/>
+         </node>
+         <node id="10" name="PARTNER_LINK">
+            <att name="PartnerLinkName" value="internalIdentityPLT"/>
+            <att name="PartnerLinkType" value="aeid:identityPLT"/>
+            <att name="PartnerRole" value="service"/>
+            <att name="visible" value="false,false,false,false,false,"/>
+            <att name="objectId" value="120173743222600711"/>
+            <att name="InitializePartnerRole" value=""/>
+         </node>
+      </graph>
+   </att>
+   <att>
+      <graph id="11" name="VARIABLE_CONTAINERS">
+         <att name="VariableCount" value="2"/>
+         <node id="12" name="VARIABLE_CONTAINER">
+            <att name="VariableName" value="emptyInput"/>
+            <att name="VariableSpecification" value="MessageType=aeid:emptyElemMsg"/>
+            <att name="objectId" value="120173743222600723"/>
+         </node>
+         <node id="13" name="VARIABLE_CONTAINER">
+            <att name="VariableName" value="roleListOutput"/>
+            <att name="VariableSpecification" value="MessageType=aeid:roleListOutput"/>
+            <att name="objectId" value="120173743222600725"/>
+         </node>
+      </graph>
+   </att>
+   <node id="14" name="CORRELATION_CONTAINERS">
+      <att name="CorrSetCount" value="0"/>
+   </node>
+   <att>
+      <graph id="15" name="SCOPE_ACTIVITY">
+         <att name="text" value="Process Activities"/>
+         <att>
+            <graph id="16" name="SEQUENCE">
+               <att name="objectId" value="120173743222600729"/>
+               <att name="location" value="LOC {3,3}"/>
+               <att name="size" value="DIM {360,429}"/>
+               <node id="17" name="RECEIVE">
+                  <att name="objectId" value="120173743222600731"/>
+                  <att name="size" value="DIM {163,56}"/>
+                  <att name="name" value="Receive_FindRoles"/>
+                  <att name="partnerLink" value="externalIdentityPLT"/>
+                  <att name="portType" value="aeid:IdentitySearchPortType"/>
+                  <att name="operation" value="findRoles"/>
+                  <att name="createInstance" value="true"/>
+                  <att name="variable" value="emptyInput"/>
+                  <att name="attachments" value=""/>
+                  <att name="fromParts" value="0"/>
+               </node>
+               <att>
+                  <graph id="18" name="SCOPE">
+                     <att name="objectId" value="120173743222600733"/>
+                     <att name="size" value="DIM {340,266}"/>
+                     <att name="exitStandardFaultScope" value=""/>
+                     <att name="showFaultHandler" value="true"/>
+                     <att name="showTerminationHandler" value="false"/>
+                     <node id="19" name="VARIABLE_CONTAINERS">
+                        <att name="VariableCount" value="0"/>
+                     </node>
+                     <node id="20" name="CORRELATION_CONTAINERS">
+                        <att name="CorrSetCount" value="0"/>
+                     </node>
+                     <node id="21" name="PARTNER_LINKS">
+                        <att name="PartnerLinkCount" value="0"/>
+                     </node>
+                     <att>
+                        <graph id="22" name="SCOPE_ACTIVITY">
+                           <att name="objectId" value="120173743222600741"/>
+                           <att name="size" value="DIM {170,198}"/>
+                           <node id="23" name="INVOKE">
+                              <att name="objectId" value="120173743224100759"/>
+                              <att name="location" value="LOC {3,3}"/>
+                              <att name="size" value="DIM {153,56}"/>
+                              <att name="name" value="Proxy_FindRoles"/>
+                              <att name="partnerLink" value="internalIdentityPLT"/>
+                              <att name="portType" value="aeid:IdentitySearchPortType"/>
+                              <att name="operation" value="findRoles"/>
+                              <att name="inputVariable" value="emptyInput"/>
+                              <att name="outputVariable" value="roleListOutput"/>
+                              <att name="fromParts" value="0"/>
+                              <att name="toParts" value="0"/>
+                              <att name="attachments" value=""/>
+                           </node>
+                           <node id="24" name="REPLY">
+                              <att name="objectId" value="120173743224100761"/>
+                              <att name="location" value="LOC {3,99}"/>
+                              <att name="size" value="DIM {132,56}"/>
+                              <att name="name" value="Reply_Roles"/>
+                              <att name="partnerLink" value="externalIdentityPLT"/>
+                              <att name="portType" value="aeid:IdentitySearchPortType"/>
+                              <att name="operation" value="findRoles"/>
+                              <att name="variable" value="roleListOutput"/>
+                              <att name="toParts" value="0"/>
+                           </node>
+                        </graph>
+                     </att>
+                     <att>
+                        <graph id="25" name="SCOPE_FAULTHANDLER">
+                           <att name="objectId" value="120173743222600745"/>
+                           <att name="size" value="DIM {140,159}"/>
+                           <att>
+                              <graph id="26" name="CATCH">
+                                 <att name="catchFaultName" value="aeid:searchFault faultType=0"/>
+                                 <att name="faultVariable" value="searchFault"/>
+                                 <att name="faultVariableText" value="searchFault"/>
+                                 <att name="catchFaultVariableDef" value="MessageType=aeid:searchFault"/>
+                                 <att name="BPELComment" value=""/>
+                                 <att name="text" value="Catch searchFault"/>
+                                 <att name="objectId" value="120173743224100751"/>
+                                 <att name="imageLocation" value="icons/activity/catch.png"/>
+                                 <att name="sizeToFit" value="true"/>
+                                 <att name="size" value="DIM {110,109}"/>
+                                 <node id="27" name="REPLY">
+                                    <att name="objectId" value="120173743224100755"/>
+                                    <att name="location" value="LOC {3,3}"/>
+                                    <att name="size" value="DIM {100,56}"/>
+                                    <att name="partnerLink" value="externalIdentityPLT"/>
+                                    <att name="operation" value="findRoles"/>
+                                    <att name="faultName" value="aeid:searchFault"/>
+                                    <att name="variable" value="searchFault"/>
+                                    <att name="toParts" value="0"/>
+                                 </node>
+                              </graph>
+                           </att>
+                        </graph>
+                     </att>
+                     <node id="28" name="SCOPE_EVENTHANDLER">
+                        <att name="objectId" value="120173743222600747"/>
+                     </node>
+                     <node id="29" name="SCOPE_TERMINATIONHANDLER">
+                        <att name="objectId" value="120173743224100749"/>
+                     </node>
+                     <node id="30" name="SCOPE_COMPENSATOR">
+                        <att name="objectId" value="120173743222600743"/>
+                     </node>
+                  </graph>
+               </att>
+            </graph>
+         </att>
+      </graph>
+   </att>
+   <node id="31" name="SCOPE_FAULTHANDLER"/>
+   <node id="32" name="SCOPE_EVENTHANDLER"/>
+   <edge id="0" source="17" target="18">
+      <att name="objectId" value="120173743222600727"/>
+      <att name="linkName" value="L2"/>
+   </edge>
+   <edge id="1" source="23" target="24">
+      <att name="objectId" value="120173743224100757"/>
+      <att name="linkName" value="L1"/>
+   </edge>
+</graph>

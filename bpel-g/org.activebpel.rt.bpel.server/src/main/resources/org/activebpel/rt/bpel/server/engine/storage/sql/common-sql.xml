@@ -1,0 +1,649 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+   This is the common SQL configuration file for the Active BPEL
+   engine.  This file contains SQL statements used by the Active
+   BPEL persistence layer that are common across multiple databases.
+   Configurations for specific databases can be found in their own
+   files (for example, the configuration for MySQL can be found in
+   the file mysql-sql.xml).  Values in the database-specific config
+   files will override values in this common file.
+
+   **********************
+   *** IMPORTANT NOTE ***
+   **********************
+
+   When defining INSERT statements be sure to leave a space between each VALUES item.
+   Specifically DB2 with European decimal format (,) chokes on these statements when this
+   is not the case.
+
+   For example: INSERT INTO AeURNValues (URN,URL) VALUES (?, ?)
+
+   **********************
+   *** IMPORTANT NOTE ***
+   **********************
+-->
+<sql-config>
+   <sql-statements>
+
+      <constants>
+         <constant name="TABLE_PREFIX"></constant>
+         <constant name="AeCoordinationColumns">CoordinationRole, CoordinationId, State, ProcessId, CoordinationDocument</constant>
+         <constant name="running">1</constant>
+         <constant name="JOURNAL_RESTART_PROCESS">0</constant>
+      </constants>
+
+      <parameter>
+         <name>HasCascadingDeletes</name>
+         <value>true</value>
+      </parameter>
+
+      <parameter>
+         <!-- For AeDataSource.configureConnection and AeSQLCounter.getNextValue. -->
+         <name>SetTransactionIsolationLevel</name>
+         <value>false</value>
+      </parameter>
+
+      <!-- MetaInfo Table SQL Statements -->
+      <sql-statement>
+         <name>MetaInfo.GetVersion</name>
+         <sql>
+            SELECT PropertyValue FROM %TABLE_PREFIX%AeMetaInfo WHERE PropertyName = 'Version'
+         </sql>
+      </sql-statement>
+
+      <sql-statement>
+         <name>MetaInfo.GetDatabaseType</name>
+         <sql>
+            SELECT PropertyValue FROM %TABLE_PREFIX%AeMetaInfo WHERE PropertyName = 'DatabaseType'
+         </sql>
+      </sql-statement>
+
+      <!-- Counter Table SQL Statements -->
+      <sql-statement>
+         <name>Counter.GetCounterValue</name>
+         <sql>
+            SELECT CounterValue FROM %TABLE_PREFIX%AeCounter WHERE CounterName = ?
+         </sql>
+      </sql-statement>
+
+      <sql-statement>
+         <name>Counter.UpdateCounterValue</name>
+         <sql>
+            UPDATE %TABLE_PREFIX%AeCounter SET CounterValue = CounterValue + ? WHERE CounterName = ?
+         </sql>
+      </sql-statement>
+
+      <sql-statement>
+         <name>Counter.InsertCounter</name>
+         <sql>
+            INSERT INTO %TABLE_PREFIX%AeCounter(CounterName, CounterValue)
+            VALUES (?, ?)
+         </sql>
+      </sql-statement>
+
+      <!-- Alarm Storage SQL Statements -->
+      <sql-statement>
+         <name>QueueStorage.InsertAlarm</name>
+         <sql>
+            INSERT INTO %TABLE_PREFIX%AeAlarm(ProcessId, LocationPathId, Deadline, DeadlineMillis, GroupId, AlarmId)
+            VALUES (?, ?, ?, ?, ?, ?)
+         </sql>
+      </sql-statement>
+
+      <sql-statement>
+         <name>QueueStorage.DeleteAlarm</name>
+         <sql>
+            DELETE FROM %TABLE_PREFIX%AeAlarm WHERE ProcessId = ? AND LocationPathId = ? AND AlarmId = ?
+         </sql>
+      </sql-statement>
+
+      <sql-statement>
+         <name>QueueStorage.DeleteAlarmsByGroup</name>
+         <sql>
+            DELETE FROM %TABLE_PREFIX%AeAlarm WHERE ProcessId = ? AND GroupId = ?
+         </sql>
+      </sql-statement>
+
+      <sql-statement>
+         <name>QueueStorage.GetAlarms</name>
+         <sql>
+            SELECT ProcessId, LocationPathId, DeadlineMillis, GroupId, AlarmId FROM %TABLE_PREFIX%AeAlarm
+         </sql>
+      </sql-statement>
+
+      <sql-statement>
+         <name>QueueStorage.GetAlarmsJoinProcess</name>
+         <sql>
+            SELECT %TABLE_PREFIX%AeProcess.ProcessName, %TABLE_PREFIX%AeProcess.ProcessNamespace, %TABLE_PREFIX%AeAlarm.*
+            FROM %TABLE_PREFIX%AeProcess JOIN %TABLE_PREFIX%AeAlarm ON %TABLE_PREFIX%AeProcess.ProcessId = %TABLE_PREFIX%AeAlarm.ProcessId
+         </sql>
+      </sql-statement>
+
+      <sql-statement>
+         <name>QueueStorage.GetAlarmsWhereClause</name>
+         <sql/>
+      </sql-statement>
+
+      <sql-statement>
+         <name>QueueStorage.GetAlarmsOrderBy</name>
+         <sql>
+            ORDER BY %TABLE_PREFIX%AeAlarm.ProcessId
+         </sql>
+      </sql-statement>
+
+      <!-- Process Storage SQL Statements -->
+      <sql-statement>
+         <name>ProcessStorage.DeleteProcess</name>
+         <sql>
+            DELETE FROM %TABLE_PREFIX%AeProcess WHERE ProcessId = ?
+         </sql>
+      </sql-statement>
+
+      <sql-statement>
+         <name>ProcessStorage.DeleteProcessVariables</name>
+         <sql>
+            DELETE FROM %TABLE_PREFIX%AeVariable WHERE ProcessId = ?
+         </sql>
+      </sql-statement>
+
+      <sql-statement>
+         <name>ProcessStorage.DeleteProcesses</name>
+         <sql>
+            DELETE FROM %TABLE_PREFIX%AeProcess
+         </sql>
+      </sql-statement>
+
+      <sql-statement>
+         <name>ProcessStorage.DeleteJournalEntries</name>
+         <sql>
+            DELETE FROM %TABLE_PREFIX%AeProcessJournal
+            WHERE JournalId IN (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+         </sql>
+      </sql-statement>
+
+      <sql-statement>
+         <name>ProcessStorage.DeleteJournalEntry</name>
+         <sql>
+            DELETE FROM %TABLE_PREFIX%AeProcessJournal
+            WHERE JournalId = ?
+         </sql>
+      </sql-statement>
+
+      <sql-statement>
+         <name>ProcessStorage.DeleteVariable</name>
+         <sql>
+            DELETE FROM %TABLE_PREFIX%AeVariable
+            WHERE ProcessId = ? AND LocationId = ? AND VersionNumber = ?
+         </sql>
+      </sql-statement>
+
+      <sql-statement>
+         <name>ProcessStorage.GetJournalEntries</name>
+         <sql>
+            SELECT JournalId, EntryType, LocationId, EntryDocument
+            FROM %TABLE_PREFIX%AeProcessJournal
+            WHERE ProcessId = ?
+            ORDER BY Counter
+         </sql>
+      </sql-statement>
+
+      <sql-statement>
+         <name>ProcessStorage.GetJournalEntriesLocationIds</name>
+         <sql>
+            SELECT JournalId, LocationId
+            FROM %TABLE_PREFIX%AeProcessJournal
+            WHERE ProcessId = ?
+         </sql>
+      </sql-statement>
+
+      <sql-statement>
+         <name>ProcessStorage.GetJournalEntry</name>
+         <sql>
+            SELECT JournalId, EntryType, LocationId, EntryDocument
+            FROM %TABLE_PREFIX%AeProcessJournal
+            WHERE JournalId = ?
+         </sql>
+      </sql-statement>
+
+      <sql-statement>
+         <name>ProcessStorage.GetProcessDocument</name>
+         <sql>
+            SELECT ProcessDocument FROM %TABLE_PREFIX%AeProcess WHERE ProcessId = ?
+         </sql>
+      </sql-statement>
+
+      <sql-statement>
+         <name>ProcessStorage.GetProcessInstanceDetail</name>
+         <sql>
+            SELECT ProcessId, ProcessNamespace, ProcessName, ProcessState, ProcessStateReason, StartDate, EndDate, PlanId
+            FROM %TABLE_PREFIX%AeProcess
+            WHERE ProcessId = ?
+         </sql>
+      </sql-statement>
+
+      <sql-statement>
+         <name>ProcessStorage.GetProcessIds</name>
+         <sql>
+            SELECT ProcessId
+            FROM %TABLE_PREFIX%AeProcess
+         </sql>
+      </sql-statement>
+      
+      <sql-statement>
+         <name>ProcessStorage.GetProcessList</name>
+         <sql>
+            SELECT ProcessId, ProcessNamespace, ProcessName, ProcessState, ProcessStateReason, StartDate, EndDate, PlanId
+            FROM %TABLE_PREFIX%AeProcess
+         </sql>
+      </sql-statement>
+
+      <sql-statement>
+         <name>ProcessStorage.GetProcessCount</name>
+         <sql>
+            SELECT count(ProcessId)
+            FROM %TABLE_PREFIX%AeProcess
+         </sql>
+      </sql-statement>
+
+      <sql-statement>
+         <name>ProcessStorage.GetProcessWhereClause</name>
+         <sql/>
+      </sql-statement>
+
+      <sql-statement>
+         <name>ProcessStorage.GetProcessName</name>
+         <sql>
+            SELECT ProcessNamespace, ProcessName FROM %TABLE_PREFIX%AeProcess WHERE ProcessId = ?
+         </sql>
+      </sql-statement>
+
+      <!--
+         Note: There is an override for ProcessStorage.GetProcessVariables in
+         oracle-sql.xml. The override uses an Oracle hint to guide execution.
+      -->
+      <sql-statement>
+         <name>ProcessStorage.GetProcessVariables</name>
+         <sql>
+            SELECT LocationId, VersionNumber FROM %TABLE_PREFIX%AeVariable WHERE ProcessId = ?
+         </sql>
+      </sql-statement>
+
+      <sql-statement>
+         <name>ProcessStorage.GetRecoveryProcessIds</name>
+         <sql>
+            SELECT ProcessId FROM %TABLE_PREFIX%AeProcess WHERE (PendingInvokesCount &gt; 0) AND (ProcessState = %running%)
+            UNION
+            SELECT ProcessId FROM %TABLE_PREFIX%AeProcessJournal WHERE EntryType &gt; %JOURNAL_RESTART_PROCESS%
+         </sql>
+      </sql-statement>
+
+      <sql-statement>
+         <name>ProcessStorage.GetRestartProcessJournalEntry</name>
+         <sql>
+            SELECT JournalId, EntryType, LocationId, EntryDocument
+            FROM %TABLE_PREFIX%AeProcessJournal
+            WHERE ProcessId = ? AND EntryType = %JOURNAL_RESTART_PROCESS%
+         </sql>
+      </sql-statement>
+
+      <sql-statement>
+         <name>ProcessStorage.GetVariableDocument</name>
+         <sql>
+            SELECT VariableDocument
+            FROM %TABLE_PREFIX%AeVariable
+            WHERE ProcessId = ? AND LocationId = ? AND VersionNumber = ?
+         </sql>
+      </sql-statement>
+
+      <sql-statement>
+         <name>JournalStorage.InsertJournalEntry</name>
+         <sql>
+            INSERT INTO %TABLE_PREFIX%AeProcessJournal(JournalId, ProcessId, EntryType, LocationId, EntryDocument)
+            VALUES (?, ?, ?, ?, ?)
+         </sql>
+      </sql-statement>
+
+      <sql-statement>
+         <name>ProcessStorage.InsertProcess</name>
+         <sql>
+            INSERT INTO %TABLE_PREFIX%AeProcess(ProcessId, PlanId, ProcessNamespace, ProcessName, ProcessState, ProcessStateReason, StartDate)
+            VALUES (?, ?, ?, ?, ?, ?, ?)
+         </sql>
+      </sql-statement>
+
+      <sql-statement>
+         <name>ProcessStorage.InsertVariable</name>
+         <sql>
+            INSERT INTO %TABLE_PREFIX%AeVariable(VariableDocument, ProcessId, LocationId, VersionNumber)
+            VALUES (?, ?, ?, ?)
+         </sql>
+      </sql-statement>
+
+      <sql-statement>
+         <name>ProcessStorage.UpdateJournalEntryType</name>
+         <sql>
+            UPDATE %TABLE_PREFIX%AeProcessJournal
+            SET EntryType = ?
+            WHERE JournalId = ?
+         </sql>
+      </sql-statement>
+
+      <sql-statement>
+         <name>ProcessStorage.UpdateProcess</name>
+         <sql>
+            UPDATE %TABLE_PREFIX%AeProcess
+            SET ProcessDocument = ?, ProcessState = ?, ProcessStateReason = ?, StartDate = ?, EndDate = ?,
+                PendingInvokesCount = ?, ModifiedDate = ?, ModifiedCount = ModifiedCount + 1
+            WHERE ProcessId = ?
+         </sql>
+      </sql-statement>
+
+      <sql-statement>
+         <name>ProcessStorage.InsertProcessLog</name>
+         <sql>
+            INSERT INTO %TABLE_PREFIX%AeProcessLog(ProcessId, ProcessLog, LineCount)
+            VALUES (?, ?, ?)
+         </sql>
+      </sql-statement>
+
+      <!--
+         Note: There is an override for SequentialClobStream.GetProcessLogStream
+         in sqlserver-sql.xml. The override uses syntax specific to SQL Server
+         to limit the result set to 1 row.
+      -->
+      <sql-statement>
+         <name>SequentialClobStream.GetProcessLogStream</name>
+         <sql>
+                SELECT ProcessLog, Counter FROM %TABLE_PREFIX%AeProcessLog WHERE ProcessId = ? AND Counter &gt; ? ORDER BY Counter ASC
+         </sql>
+      </sql-statement>
+
+      <sql-statement>
+         <name>LogReader.GetLogEntries</name>
+         <sql>
+            SELECT Counter, LineCount FROM %TABLE_PREFIX%AeProcessLog WHERE ProcessId = ?
+         </sql>
+      </sql-statement>
+
+      <sql-statement>
+         <name>LogReader.GetSmallLog</name>
+         <sql>
+            SELECT ProcessLog FROM %TABLE_PREFIX%AeProcessLog WHERE ProcessId = ? ORDER BY Counter ASC
+         </sql>
+      </sql-statement>
+
+      <sql-statement>
+         <name>LogReader.GetLogHead</name>
+         <sql>
+            SELECT ProcessLog FROM %TABLE_PREFIX%AeProcessLog WHERE ProcessId = ? AND Counter &lt;= ? ORDER BY Counter ASC
+         </sql>
+      </sql-statement>
+
+      <sql-statement>
+         <name>LogReader.GetLogTail</name>
+         <sql>
+            SELECT ProcessLog FROM %TABLE_PREFIX%AeProcessLog WHERE ProcessId = ? AND Counter &gt;= ? ORDER BY Counter ASC
+         </sql>
+      </sql-statement>
+
+      <sql-statement>
+         <name>ProcessStorage.DeleteProcessLog</name>
+         <sql>
+            DELETE FROM %TABLE_PREFIX%AeProcessLog WHERE ProcessId = ?
+         </sql>
+      </sql-statement>
+
+      <!-- Queue Storage SQL Statements -->
+      <sql-statement>
+         <name>QueueStorage.InsertQueuedReceive</name>
+         <sql>
+            INSERT INTO %TABLE_PREFIX%AeQueuedReceive(QueuedReceiveId, ProcessId, LocationPathId, Operation, PartnerLinkName, PortTypeNamespace, PortTypeLocalPart, CorrelationProperties, MatchHash, CorrelateHash, GroupId, PartnerLinkId, AllowsConcurrency)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+         </sql>
+      </sql-statement>
+
+      <sql-statement>
+         <name>QueueStorage.DeleteQueuedReceiveById</name>
+         <sql>
+            DELETE FROM %TABLE_PREFIX%AeQueuedReceive WHERE QueuedReceiveId = ?
+         </sql>
+      </sql-statement>
+
+      <sql-statement>
+         <name>QueueStorage.DeleteQueuedReceiveByLocId</name>
+         <sql>
+            DELETE FROM %TABLE_PREFIX%AeQueuedReceive WHERE ProcessId = ? AND LocationPathId = ?
+         </sql>
+      </sql-statement>
+
+      <sql-statement>
+         <name>QueueStorage.DeleteQueuedReceivesByGroup</name>
+         <sql>
+            DELETE FROM %TABLE_PREFIX%AeQueuedReceive WHERE ProcessId = ? AND GroupId = ?
+         </sql>
+      </sql-statement>
+
+      <sql-statement>
+         <name>QueueStorage.GetQueuedMessageReceivers</name>
+         <sql>
+            SELECT %TABLE_PREFIX%AeQueuedReceive.*, %TABLE_PREFIX%AeProcess.ProcessNamespace, %TABLE_PREFIX%AeProcess.ProcessName
+            FROM %TABLE_PREFIX%AeQueuedReceive INNER JOIN %TABLE_PREFIX%AeProcess ON %TABLE_PREFIX%AeProcess.ProcessId = %TABLE_PREFIX%AeQueuedReceive.ProcessId
+         </sql>
+      </sql-statement>
+
+      <sql-statement>
+         <name>QueueStorage.GetQueuedMessageReceiversOrderBy</name>
+         <sql>
+            ORDER BY %TABLE_PREFIX%AeQueuedReceive.QueuedReceiveId
+         </sql>
+      </sql-statement>
+
+      <sql-statement>
+         <name>QueueStorage.GetQueuedReceive</name>
+         <sql>
+            SELECT %TABLE_PREFIX%AeQueuedReceive.*, %TABLE_PREFIX%AeProcess.ProcessNamespace, %TABLE_PREFIX%AeProcess.ProcessName
+            FROM %TABLE_PREFIX%AeQueuedReceive INNER JOIN %TABLE_PREFIX%AeProcess ON %TABLE_PREFIX%AeProcess.ProcessId = %TABLE_PREFIX%AeQueuedReceive.ProcessId
+            WHERE %TABLE_PREFIX%AeQueuedReceive.ProcessId = ? AND %TABLE_PREFIX%AeQueuedReceive.LocationPathId = ?
+            ORDER BY %TABLE_PREFIX%AeQueuedReceive.QueuedReceiveId
+         </sql>
+      </sql-statement>
+
+      <sql-statement>
+         <name>QueueStorage.GetCorrelatedReceives</name>
+         <sql>
+            SELECT %TABLE_PREFIX%AeQueuedReceive.*, %TABLE_PREFIX%AeProcess.ProcessNamespace, %TABLE_PREFIX%AeProcess.ProcessName
+            FROM %TABLE_PREFIX%AeQueuedReceive INNER JOIN %TABLE_PREFIX%AeProcess ON %TABLE_PREFIX%AeProcess.ProcessId = %TABLE_PREFIX%AeQueuedReceive.ProcessId
+            WHERE %TABLE_PREFIX%AeQueuedReceive.MatchHash = ? AND %TABLE_PREFIX%AeQueuedReceive.CorrelateHash = ?
+            ORDER BY %TABLE_PREFIX%AeQueuedReceive.QueuedReceiveId
+         </sql>
+      </sql-statement>
+
+      <!-- URN mapping values -->
+      <sql-statement>
+         <name>URNStorage.GetMappings</name>
+         <sql>
+            SELECT URN, URL FROM AeURNValues
+         </sql>
+      </sql-statement>
+
+      <sql-statement>
+         <name>URNStorage.InsertMapping</name>
+         <sql>
+            INSERT INTO AeURNValues (URN,URL) VALUES (?, ?)
+         </sql>
+      </sql-statement>
+
+      <sql-statement>
+         <name>URNStorage.UpdateMapping</name>
+         <sql>
+            UPDATE AeURNValues SET URL=? WHERE URN=?
+         </sql>
+      </sql-statement>
+
+      <sql-statement>
+         <name>URNStorage.DeleteMapping</name>
+         <sql>
+            DELETE FROM AeURNValues WHERE URN=?
+         </sql>
+      </sql-statement>
+
+      <!-- SQL Storage Upgrader -->
+      <sql-statement>
+         <name>Upgrade.GetUpgradeDirectives</name>
+         <sql>
+            SELECT PropertyName, PropertyValue FROM %TABLE_PREFIX%AeMetaInfo WHERE PropertyName LIKE 'PATCH_%' ORDER BY PropertyName
+         </sql>
+      </sql-statement>
+
+      <sql-statement>
+         <name>Upgrade.DeleteUpgradeDirective</name>
+         <sql>
+            DELETE FROM %TABLE_PREFIX%AeMetaInfo WHERE PropertyName = ?
+         </sql>
+      </sql-statement>
+
+      <!-- Coordination Storage SQL Statements -->
+      <sql-statement>
+         <name>CoordinationStorage.InsertContext</name>
+         <sql>
+            INSERT INTO %TABLE_PREFIX%AeCoordination(CoordinationPk, CoordinationType, CoordinationRole, CoordinationId, State, ProcessId, LocationPath, CoordinationDocument, StartDate, ModifiedDate )
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+         </sql>
+      </sql-statement>
+      <sql-statement>
+         <name>CoordinationStorage.UpdateState</name>
+         <sql>
+            UPDATE %TABLE_PREFIX%AeCoordination SET State = ?, ModifiedDate = ? WHERE CoordinationId = ? and ProcessId = ?
+         </sql>
+      </sql-statement>
+      <sql-statement>
+         <name>CoordinationStorage.UpdateContext</name>
+         <sql>
+            UPDATE %TABLE_PREFIX%AeCoordination SET CoordinationDocument = ? WHERE CoordinationId = ? and ProcessId = ?
+         </sql>
+      </sql-statement>
+      <sql-statement>
+         <name>CoordinationStorage.ListByCoordinationId</name>
+         <sql>
+				SELECT %AeCoordinationColumns% FROM %TABLE_PREFIX%AeCoordination WHERE CoordinationId = ?
+         </sql>
+      </sql-statement>
+      <sql-statement>
+         <name>CoordinationStorage.ListByProcessId</name>
+         <sql>
+				SELECT %AeCoordinationColumns% FROM %TABLE_PREFIX%AeCoordination WHERE ProcessId = ?
+         </sql>
+      </sql-statement>
+      <sql-statement>
+         <name>CoordinationStorage.LookupCoordination</name>
+         <sql>
+				SELECT %AeCoordinationColumns% FROM %TABLE_PREFIX%AeCoordination WHERE CoordinationId = ? and ProcessId = ?
+         </sql>
+      </sql-statement>
+      <sql-statement>
+         <name>CoordinationStorage.DeleteCoordination</name>
+         <sql>
+            DELETE FROM %TABLE_PREFIX%AeCoordination WHERE CoordinationId = ? and ProcessId = ?
+         </sql>
+      </sql-statement>
+      <sql-statement>
+         <name>CoordinationStorage.DeleteByProcessId</name>
+         <sql>
+            DELETE FROM %TABLE_PREFIX%AeCoordination WHERE ProcessId = ?
+         </sql>
+      </sql-statement>
+      <sql-statement>
+         <name>CoordinationStorage.DeleteByCoordinationId</name>
+         <sql>
+            DELETE FROM %TABLE_PREFIX%AeCoordination WHERE CoordinationId = ?
+         </sql>
+      </sql-statement>
+      <sql-statement>
+         <name>CoordinationStorage.ListCoordinatorsForProcessId</name>
+         <sql>
+            SELECT a.CoordinationRole, a.CoordinationId, a.State, a.ProcessId, a.LocationPath FROM %TABLE_PREFIX%AeCoordination a, %TABLE_PREFIX%AeCoordination b WHERE a.CoordinationId = b.CoordinationId AND a.CoordinationRole = 0 AND b.CoordinationRole = 1 AND b.ProcessId = ?
+         </sql>
+      </sql-statement>
+      <sql-statement>
+         <name>CoordinationStorage.ListParticipantsForProcessId</name>
+         <sql>
+           SELECT b.CoordinationRole, b.CoordinationId, b.State, b.ProcessId, b.LocationPath FROM %TABLE_PREFIX%AeCoordination a, %TABLE_PREFIX%AeCoordination b WHERE a.CoordinationId = b.CoordinationId AND a.CoordinationRole = 0 AND b.CoordinationRole = 1 AND a.ProcessId = ?
+         </sql>
+      </sql-statement>
+
+      <!-- Begin TransmissionTracker table -->
+      <sql-statement>
+         <name>TransmissionTrackerStorage.GetEntry</name>
+         <sql>
+				SELECT State, TransmissionId, MessageId FROM %TABLE_PREFIX%AeTransmissionTracker WHERE TransmissionId = ?
+         </sql>
+      </sql-statement>
+      <sql-statement>
+         <name>TransmissionTrackerStorage.InsertEntry</name>
+         <sql>
+            INSERT INTO %TABLE_PREFIX%AeTransmissionTracker(TransmissionId, State, MessageId ) VALUES (?, ?, ?)
+         </sql>
+      </sql-statement>
+      <sql-statement>
+         <name>TransmissionTrackerStorage.UpdateEntry</name>
+         <sql>
+	         UPDATE %TABLE_PREFIX%AeTransmissionTracker SET State = ?, MessageId = ? WHERE TransmissionId = ?
+         </sql>
+      </sql-statement>
+      <sql-statement>
+         <name>TransmissionTrackerStorage.DeleteEntry</name>
+         <sql>
+            DELETE FROM %TABLE_PREFIX%AeTransmissionTracker WHERE TransmissionId = ?
+         </sql>
+      </sql-statement>
+      <!-- End TransmissionTracker table -->
+
+      <!-- Start Attachment Support Statements -->
+      <sql-statement>
+         <name>AttachmentStorage.InsertAttachmentGroup</name>
+         <sql>
+            INSERT INTO %TABLE_PREFIX%AeProcessAttachment(AttachmentGroupId)
+            VALUES (? )
+         </sql>
+      </sql-statement>
+      <sql-statement>
+         <name>AttachmentStorage.InsertAttachment</name>
+         <sql>
+            INSERT INTO %TABLE_PREFIX%AeAttachment(AttachmentGroupId, AttachmentItemId, AttachmentHeader, AttachmentContent)
+            VALUES (?, ?, ?, ? )
+         </sql>
+      </sql-statement>
+      <sql-statement>
+         <name>AttachmentStorage.RemoveAttachment</name>
+         <sql>
+            DELETE FROM %TABLE_PREFIX%AeAttachment WHERE AttachmentItemId = ?
+         </sql>
+      </sql-statement>
+      <sql-statement>
+         <name>AttachmentStorage.AttachProcess</name>
+         <sql>
+            UPDATE %TABLE_PREFIX%AeProcessAttachment SET ProcessId = ? WHERE AttachmentGroupId = ?
+         </sql>
+      </sql-statement>
+      <sql-statement>
+         <name>AttachmentStorage.QueryAttachmentHeaders</name>
+         <sql>
+				SELECT AttachmentGroupId, AttachmentItemId, AttachmentHeader FROM %TABLE_PREFIX%AeAttachment WHERE AttachmentItemId = ?
+         </sql>
+      </sql-statement>
+      <sql-statement>
+         <name>AttachmentStorage.QueryAttachmentContents</name>
+         <sql>
+				SELECT AttachmentContent FROM %TABLE_PREFIX%AeAttachment WHERE AttachmentItemId = ?
+         </sql>
+      </sql-statement>
+      <sql-statement>
+         <name>AttachmentStorage.CleanupAttachments</name>
+         <sql>
+            DELETE FROM %TABLE_PREFIX%AeProcessAttachment WHERE ProcessId IS NULL
+         </sql>
+      </sql-statement>
+      <!-- End Attachment Support Statements -->
+      
+   </sql-statements>
+</sql-config>

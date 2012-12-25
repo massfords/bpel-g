@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpel:process
+        xmlns:bpel="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+        xmlns:ns1="http://www.example.org/correlation/"
+        expressionLanguage="urn:active-endpoints:expression-language:xquery1.0" name="extra"
+        suppressJoinFailure="yes" targetNamespace="http://www.example.org/">
+    <bpel:import importType="http://schemas.xmlsoap.org/wsdl/" location="correlation.wsdl"
+                 namespace="http://www.example.org/correlation/"/>
+    <bpel:partnerLinks>
+        <bpel:partnerLink partnerRole="process" name="plt" partnerLinkType="ns1:plt"/>
+        <bpel:partnerLink myRole="driver" name="plt-driver" partnerLinkType="ns1:plt-driver"/>
+    </bpel:partnerLinks>
+    <bpel:variables>
+        <bpel:variable element="ns1:requestForQuote" name="requestForQuote"/>
+        <bpel:variable element="ns1:quote" name="quote"/>
+        <bpel:variable element="ns1:customerResponseToQuote" name="customerResponseToQuote"/>
+        <bpel:variable element="ns1:confirmation" name="confirmation"/>
+    </bpel:variables>
+    <bpel:correlationSets>
+        <bpel:correlationSet name="CS1" properties="ns1:quoteId"/>
+    </bpel:correlationSets>
+    <bpel:sequence>
+        <bpel:receive createInstance="yes" operation="drive" partnerLink="plt-driver" variable="requestForQuote"/>
+
+        <bpel:invoke operation="requestQuote" partnerLink="plt" outputVariable="quote" inputVariable="requestForQuote">
+            <bpel:correlations>
+                <bpel:correlation initiate="yes" set="CS1" pattern="response"/>
+            </bpel:correlations>
+        </bpel:invoke>
+
+        <bpel:assign name="PrepareResponseToQuote">
+            <bpel:copy>
+                <bpel:from>
+                    <![CDATA[
+                    <customerResponseToQuote xmlns='http://www.example.org/correlation/'>
+                        <quoteId>{string($quote/ns1:quoteId)}</quoteId>
+                        <accept>true</accept>
+                     </customerResponseToQuote>
+                ]]>
+                </bpel:from>
+                <bpel:to variable="customerResponseToQuote"/>
+            </bpel:copy>
+        </bpel:assign>
+
+        <bpel:invoke operation="respondToQuote" partnerLink="plt" outputVariable="confirmation" inputVariable="customerResponseToQuote">
+            <bpel:correlations>
+                <bpel:correlation initiate="no" set="CS1" pattern="request"/>
+            </bpel:correlations>
+        </bpel:invoke>
+
+        <bpel:reply operation="drive" partnerLink="plt-driver" variable="confirmation"/>
+
+    </bpel:sequence>
+</bpel:process>

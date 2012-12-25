@@ -1,0 +1,14 @@
+<bindings xmlns="http://java.sun.com/xml/ns/jaxws"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:jxb="http://java.sun.com/xml/ns/jaxb"
+    wsdlLocation="../../../target/dependency/processes.wsdl"
+    xsi:schemaLocation="http://java.sun.com/xml/ns/jaxws http://java.sun.com/xml/ns/jaxws/wsdl_customizationschema_2_0.xsd">
+    <bindings node="wsdl:definitions">
+        <package name="bpelg.services.processes"/>
+    </bindings>
+    <bindings node="wsdl:types/*">
+        <jxb:schemaBindings>
+            <jxb:package name="bpelg.services.processes.types"/>
+        </jxb:schemaBindings>
+    </bindings>
+</bindings>

@@ -1,0 +1,414 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions targetNamespace="urn:bpel-g:services:processes" xmlns:tns="urn:bpel-g:services:processes"
+   xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+   xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+   <wsdl:types>
+      <xs:schema elementFormDefault="qualified" targetNamespace="urn:bpel-g:services:processes"
+         xmlns:pdd="http://schemas.active-endpoints.com/pdd/2006/08/pdd.xsd"
+         xmlns:jaxb="http://java.sun.com/xml/ns/jaxb" jaxb:version="2.0">
+         
+         <xs:import namespace="http://schemas.active-endpoints.com/pdd/2006/08/pdd.xsd" schemaLocation="pdd.xsd"></xs:import>
+         
+         <xs:complexType name="listingFilter">
+            <xs:sequence>
+               <xs:element name="listStart" type="xs:int" minOccurs="0"/>
+               <xs:element name="maxReturn" type="xs:int" minOccurs="0"/>
+            </xs:sequence>
+         </xs:complexType>
+
+         <xs:simpleType name="processStateValueType">
+            <xs:annotation>
+               <xs:appinfo>
+                  <jaxb:typesafeEnumClass>
+                     <jaxb:typesafeEnumMember value="0" name="Loaded"/>
+                     <jaxb:typesafeEnumMember value="1" name="Running"/>
+                     <jaxb:typesafeEnumMember value="2" name="Suspended"/>
+                     <jaxb:typesafeEnumMember value="3" name="Complete"/>
+                     <jaxb:typesafeEnumMember value="4" name="Faulted"/>
+                     <jaxb:typesafeEnumMember value="5" name="Compensatable"/>
+                  </jaxb:typesafeEnumClass>
+               </xs:appinfo>
+            </xs:annotation>
+            <xs:restriction base="xs:int">
+               <xs:enumeration value="0"/>
+               <xs:enumeration value="1"/>
+               <xs:enumeration value="2"/>
+               <xs:enumeration value="3"/>
+               <xs:enumeration value="4"/>
+               <xs:enumeration value="5"/>
+            </xs:restriction>
+         </xs:simpleType>
+
+         <xs:simpleType name="suspendReasonType">
+            <xs:annotation>
+               <xs:appinfo>
+                  <jaxb:typesafeEnumClass>
+                     <jaxb:typesafeEnumMember value="-1" name="None"/>
+                     <jaxb:typesafeEnumMember value="0" name="Manual"/>
+                     <jaxb:typesafeEnumMember value="1" name="Automatic"/>
+                     <jaxb:typesafeEnumMember value="2" name="Logical"/>
+                     <jaxb:typesafeEnumMember value="3" name="Migrate"/>
+                     <jaxb:typesafeEnumMember value="4" name="InvokeRecovery"/>
+                     <jaxb:typesafeEnumMember value="5" name="InvokeRetry"/>
+                  </jaxb:typesafeEnumClass>
+               </xs:appinfo>
+            </xs:annotation>
+            <xs:restriction base="xs:int">
+               <xs:enumeration value="-1"/>
+               <xs:enumeration value="0"/>
+               <xs:enumeration value="1"/>
+               <xs:enumeration value="2"/>
+               <xs:enumeration value="3"/>
+               <xs:enumeration value="4"/>
+               <xs:enumeration value="5"/>
+            </xs:restriction>
+         </xs:simpleType>
+
+         <xs:element name="processInstanceDetail">
+            <xs:complexType >
+               <xs:sequence>
+                  <xs:element name="ended" minOccurs="0" type="xs:dateTime"/>
+                  <xs:element name="name" type="xs:QName"/>
+                  <xs:element name="processId" type="xs:long"/>
+                  <xs:element name="started" minOccurs="0" type="xs:dateTime"/>
+                  <xs:element name="state" type="tns:processStateValueType"/>
+                  <xs:element name="stateReason" type="tns:suspendReasonType" minOccurs="0"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+         
+         <xs:simpleType name="processStateFilterValueType">
+            <xs:annotation>
+               <xs:appinfo>
+                  <jaxb:typesafeEnumClass>
+                     <jaxb:typesafeEnumMember value="0" name="Any"/>
+                     <jaxb:typesafeEnumMember value="1" name="Running"/>
+                     <jaxb:typesafeEnumMember value="2" name="Completed"/>
+                     <jaxb:typesafeEnumMember value="3" name="Faulted"/>
+                     <jaxb:typesafeEnumMember value="4" name="CompletedOrFaulted"/>
+                     <jaxb:typesafeEnumMember value="5" name="Suspended"/>
+                     <jaxb:typesafeEnumMember value="6" name="SuspendedFaulting"/>
+                     <jaxb:typesafeEnumMember value="7" name="SuspendedProgrammatic"/>
+                     <jaxb:typesafeEnumMember value="8" name="SuspendedManual"/>
+                     <jaxb:typesafeEnumMember value="9" name="Compensatable"/>
+                     <jaxb:typesafeEnumMember value="10" name="SuspendedInvokeRecovery"/>
+                     <jaxb:typesafeEnumMember value="11" name="RunningOrSuspended"/>
+                  </jaxb:typesafeEnumClass>
+               </xs:appinfo>
+            </xs:annotation>
+            <xs:restriction base="xs:int">
+               <xs:enumeration value="0"/>
+               <xs:enumeration value="1"/>
+               <xs:enumeration value="2"/>
+               <xs:enumeration value="3"/>
+               <xs:enumeration value="4"/>
+               <xs:enumeration value="5"/>
+               <xs:enumeration value="6"/>
+               <xs:enumeration value="7"/>
+               <xs:enumeration value="8"/>
+               <xs:enumeration value="9"/>
+               <xs:enumeration value="10"/>
+               <xs:enumeration value="11"/>
+            </xs:restriction>
+         </xs:simpleType>
+
+         <xs:complexType name="processFilterType">
+            <xs:complexContent>
+               <xs:extension base="tns:listingFilter">
+                  <xs:sequence>
+                     <xs:element name="processCompleteEnd" minOccurs="0" type="xs:dateTime"/>
+                     <xs:element name="processCompleteStart" minOccurs="0" type="xs:dateTime"/>
+                     <xs:element name="processCreateEnd" minOccurs="0" type="xs:dateTime"/>
+                     <xs:element name="processCreateStart" minOccurs="0" type="xs:dateTime"/>
+                     <xs:element name="processName" minOccurs="0" type="xs:QName"/>
+                     <xs:element name="processState" type="tns:processStateFilterValueType" default="0" minOccurs="0"/>
+                     <xs:element name="processIdMin" minOccurs="0" type="xs:long"/>
+                     <xs:element name="processIdMax" minOccurs="0" type="xs:long"/>
+                     <xs:element name="processGroup" minOccurs="0" type="xs:string"/>
+                  </xs:sequence>
+               </xs:extension>
+            </xs:complexContent>
+         </xs:complexType>
+         <xs:element name="removeProcessByQuery" type="tns:processFilterType"/>
+         <xs:element name="removeProcessResult" type="xs:int"/>
+         <xs:element name="storageError" type="xs:string"/>
+         <xs:element name="getProcesses" type="tns:processFilterType"/>
+         <xs:element name="processList">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element ref="tns:processInstanceDetail" maxOccurs="unbounded" minOccurs="0"/>
+               </xs:sequence>
+               <xs:attribute name="complete" type="xs:boolean" use="required"/>
+               <xs:attribute name="totalRowCount" type="xs:int" use="required"/>
+            </xs:complexType>
+         </xs:element>
+         <xs:simpleType name="processIdType">
+            <xs:restriction base="xs:long"/>
+         </xs:simpleType>
+         <xs:element name="resumeProcess" type="tns:processIdType"/>
+         <xs:element name="suspendProcess" type="tns:processIdType"/>
+         <xs:element name="terminateProcess" type="tns:processIdType"/>
+         <xs:element name="restartProcess" type="tns:processIdType"/>
+         <xs:element name="getProcessDetail" type="tns:processIdType"/>
+         
+         <xs:element name="serviceDeployment">
+            <xs:complexType>
+               <xs:complexContent>
+                  <xs:extension base="pdd:myRoleType">
+                     <xs:sequence>
+                        <xs:element name="processName" type="xs:QName"/>
+                        <xs:element name="partnerLink" type="xs:string"/>
+                        <xs:element name="partnerLinkId" type="xs:int"/>
+                     </xs:sequence>
+                  </xs:extension>
+               </xs:complexContent>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="serviceDeployments">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element ref="tns:serviceDeployment" minOccurs="0" maxOccurs="unbounded"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="getServiceDeployments">
+            <xs:complexType/>
+         </xs:element>
+         
+         <xs:element name="processDeployment">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element ref="pdd:process"/>
+                  <xs:element name="source" type="xs:string"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="processDeployments">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element ref="tns:processDeployment" minOccurs="0" maxOccurs="unbounded"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="getProcessDeployments">
+            <xs:complexType/>
+         </xs:element>
+         <xs:element name="getProcessDeploymentByName" type="xs:QName"/>
+      </xs:schema>
+   </wsdl:types>
+
+   <wsdl:message name="getProcessDeploymentsRequest">
+      <wsdl:part name="body" element="tns:getProcessDeployments"/>
+   </wsdl:message>
+   <wsdl:message name="getProcessDeploymentsResponse">
+      <wsdl:part name="body" element="tns:processDeployments"/>
+   </wsdl:message>
+
+   <wsdl:message name="getProcessDeploymentByName">
+      <wsdl:part name="body" element="tns:getProcessDeploymentByName"/>
+   </wsdl:message>
+   <wsdl:message name="getProcessDeploymentByNameResponse">
+      <wsdl:part name="body" element="tns:processDeployment"/>
+   </wsdl:message>
+
+   <wsdl:message name="getServiceDeploymentsRequest">
+      <wsdl:part name="body" element="tns:getServiceDeployments"/>
+   </wsdl:message>
+   <wsdl:message name="getServiceDeploymentsResponse">
+      <wsdl:part name="body" element="tns:serviceDeployments"/>
+   </wsdl:message>
+
+   <wsdl:message name="removeProcessByQuery">
+      <wsdl:part name="name" element="tns:removeProcessByQuery"/>
+   </wsdl:message>
+   <wsdl:message name="removeProcessResult">
+      <wsdl:part name="body" element="tns:removeProcessResult"/>
+   </wsdl:message>
+   <wsdl:message name="storageErrorMessage">
+      <wsdl:part name="body" element="tns:storageError"/>
+   </wsdl:message>
+   
+   <wsdl:message name="getProcesses">
+      <wsdl:part name="body" element="tns:getProcesses"/>
+   </wsdl:message>
+   <wsdl:message name="processList">
+      <wsdl:part name="body" element="tns:processList"/>
+   </wsdl:message>
+   <wsdl:message name="resumeProcess">
+      <wsdl:part name="body" element="tns:resumeProcess"/>
+   </wsdl:message>
+   <wsdl:message name="suspendProcess">
+      <wsdl:part name="body" element="tns:suspendProcess"/>
+   </wsdl:message>
+   <wsdl:message name="terminateProcess">
+      <wsdl:part name="body" element="tns:terminateProcess"/>
+   </wsdl:message>
+   <wsdl:message name="restartProcess">
+      <wsdl:part name="body" element="tns:restartProcess"/>
+   </wsdl:message>
+   <wsdl:message name="voidMessage"/>
+   <wsdl:message name="processStateErrorMessage">
+      <wsdl:part name="body" element="tns:storageError"/>
+   </wsdl:message>
+   <wsdl:message name="getProcessDetail">
+      <wsdl:part name="body" element="tns:getProcessDetail"/>
+   </wsdl:message>
+   <wsdl:message name="processInstanceDetail">
+      <wsdl:part name="body" element="tns:processInstanceDetail"/>
+   </wsdl:message>
+   
+   
+   <wsdl:portType name="AeProcessManager">
+      <wsdl:operation name="removeProcessByQuery">
+         <wsdl:input message="tns:removeProcessByQuery"/>
+         <wsdl:output message="tns:removeProcessResult"/>
+         <wsdl:fault name="StorageError" message="tns:storageErrorMessage"/>
+      </wsdl:operation>
+      <wsdl:operation name="getProcesses">
+         <wsdl:input message="tns:getProcesses"/>
+         <wsdl:output message="tns:processList"/>
+         <wsdl:fault name="StorageError" message="tns:storageErrorMessage"/>
+      </wsdl:operation>
+      <wsdl:operation name="getProcessDetail">
+         <wsdl:input message="tns:getProcessDetail"/>
+         <wsdl:output message="tns:processInstanceDetail"/>
+         <wsdl:fault name="StorageError" message="tns:storageErrorMessage"/>
+      </wsdl:operation>
+      <wsdl:operation name="resumeProcess">
+         <wsdl:input message="tns:resumeProcess"/>
+         <wsdl:output message="tns:voidMessage"/>
+         <wsdl:fault name="ProcessStateError" message="tns:processStateErrorMessage"/>
+      </wsdl:operation>
+      <wsdl:operation name="suspendProcess">
+         <wsdl:input message="tns:suspendProcess"/>
+         <wsdl:output message="tns:voidMessage"/>
+         <wsdl:fault name="ProcessStateError" message="tns:processStateErrorMessage"/>
+      </wsdl:operation>
+      <wsdl:operation name="terminateProcess">
+         <wsdl:input message="tns:terminateProcess"/>
+         <wsdl:output message="tns:voidMessage"/>
+         <wsdl:fault name="ProcessStateError" message="tns:processStateErrorMessage"/>
+      </wsdl:operation>
+      <wsdl:operation name="restartProcess">
+         <wsdl:input message="tns:restartProcess"/>
+         <wsdl:output message="tns:voidMessage"/>
+         <wsdl:fault name="ProcessStateError" message="tns:processStateErrorMessage"/>
+      </wsdl:operation>
+      <wsdl:operation name="getServiceDeployments">
+         <wsdl:input message="tns:getServiceDeploymentsRequest"/>
+         <wsdl:output message="tns:getServiceDeploymentsResponse"/>
+      </wsdl:operation>
+      <wsdl:operation name="getProcessDeployments">
+         <wsdl:input message="tns:getProcessDeploymentsRequest"/>
+         <wsdl:output message="tns:getProcessDeploymentsResponse"/>
+      </wsdl:operation>
+      <wsdl:operation name="getProcessDeploymentByName">
+         <wsdl:input message="tns:getProcessDeploymentByName"/>
+         <wsdl:output message="tns:getProcessDeploymentByNameResponse"/>
+      </wsdl:operation>
+   </wsdl:portType>
+
+   <wsdl:binding name="AeProcessBinding" type="tns:AeProcessManager">
+      <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+      <wsdl:operation name="removeProcessByQuery">
+         <wsdl:input>
+            <soap:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output>
+            <soap:body use="literal"/>
+         </wsdl:output>
+         <wsdl:fault name="StorageError">
+            <soap:fault name="StorageError"/>
+         </wsdl:fault>
+      </wsdl:operation>
+      <wsdl:operation name="getProcesses">
+         <wsdl:input>
+            <soap:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output>
+            <soap:body use="literal"/>
+         </wsdl:output>
+         <wsdl:fault name="StorageError">
+            <soap:fault name="StorageError"/>
+         </wsdl:fault>
+      </wsdl:operation>
+      <wsdl:operation name="getProcessDetail">
+         <wsdl:input>
+            <soap:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output>
+            <soap:body use="literal"/>
+         </wsdl:output>
+         <wsdl:fault name="StorageError">
+            <soap:fault name="StorageError"/>
+         </wsdl:fault>
+      </wsdl:operation>
+      <wsdl:operation name="resumeProcess">
+         <wsdl:input>
+            <soap:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output>
+            <soap:body use="literal"/>
+         </wsdl:output>
+         <wsdl:fault name="ProcessStateError">
+            <soap:fault name="ProcessStateError"/>
+         </wsdl:fault>
+      </wsdl:operation>
+      <wsdl:operation name="suspendProcess">
+         <wsdl:input>
+            <soap:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output>
+            <soap:body use="literal"/>
+         </wsdl:output>
+         <wsdl:fault name="ProcessStateError">
+            <soap:fault name="ProcessStateError"/>
+         </wsdl:fault>
+      </wsdl:operation>
+      <wsdl:operation name="terminateProcess">
+         <wsdl:input>
+            <soap:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output>
+            <soap:body use="literal"/>
+         </wsdl:output>
+         <wsdl:fault name="ProcessStateError">
+            <soap:fault name="ProcessStateError"/>
+         </wsdl:fault>
+      </wsdl:operation>
+      <wsdl:operation name="restartProcess">
+         <wsdl:input>
+            <soap:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output>
+            <soap:body use="literal"/>
+         </wsdl:output>
+         <wsdl:fault name="ProcessStateError">
+            <soap:fault name="ProcessStateError"/>
+         </wsdl:fault>
+      </wsdl:operation>
+      <wsdl:operation name="getServiceDeployments">
+         <wsdl:input>
+            <soap:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output>
+            <soap:body use="literal"/>
+         </wsdl:output>
+      </wsdl:operation>
+      <wsdl:operation name="getProcessDeployments">
+         <wsdl:input>
+            <soap:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output>
+            <soap:body use="literal"/>
+         </wsdl:output>
+      </wsdl:operation>
+   </wsdl:binding>
+   
+   <wsdl:service name="ProcessManagerService">
+      <wsdl:port binding="tns:AeProcessBinding" name="AeProcessManager">
+         <soap:address location="http://localhost:8080/bpel-g/cxf/ProcessManagerService"/>
+      </wsdl:port>
+   </wsdl:service>
+</wsdl:definitions>

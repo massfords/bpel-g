@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<xs:schema
+   targetNamespace="http://schemas.active-endpoints.com/xqueryStatements/2008/03/xqueryStatements.xsd"
+   xmlns:tns="http://schemas.active-endpoints.com/xqueryStatements/2008/03/xqueryStatements.xsd"
+   xmlns:xs="http://www.w3.org/2001/XMLSchema"
+   xmlns:xml="http://www.w3.org/XML/1998/namespace"
+   elementFormDefault="qualified">
+
+   <xs:element name="statements">
+      <xs:complexType>
+         <xs:sequence>
+            <xs:element name="statement" maxOccurs="unbounded">
+               <xs:complexType>
+                  <xs:sequence>
+                     <xs:element name="name" type="xs:NCName" />
+                     <xs:element name="comment" type="xs:string" minOccurs="0" />
+                     <xs:element name="xquery" type="xs:string" />
+                  </xs:sequence>
+               </xs:complexType>
+            </xs:element>
+         </xs:sequence>
+      </xs:complexType>
+   </xs:element>
+
+</xs:schema>

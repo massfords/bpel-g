@@ -1,0 +1,350 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<con:soapui-project name="bpelg" soapui-version="3.6" abortOnError="false" runType="SEQUENTIAL" resourceRoot="" xmlns:con="http://eviware.com/soapui/config"><con:settings/><con:interface xsi:type="con:WsdlInterface" wsaVersion="NONE" name="testBinding" type="wsdl" bindingName="{http://www.example.org/test/}testBinding" soapVersion="1_1" anonymous="optional" definition="http://localhost:8192/bpelg-TestSimpleReceiveReply/main.wsdl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:settings/><con:definitionCache type="TEXT" rootPart="http://mark-fords-macbook-pro.local:8192/bpelg-TestSimpleReceiveReply/main.wsdl"><con:part><con:url>http://mark-fords-macbook-pro.local:8192/bpelg-TestSimpleReceiveReply/main.wsdl</con:url><con:content><![CDATA[<wsdl:definitions name="test" targetNamespace="http://www.example.org/test/" xmlns:plnk="http://docs.oasis-open.org/wsbpel/2.0/plnktype" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://www.example.org/test/" xmlns:vprop="http://docs.oasis-open.org/wsbpel/2.0/varprop" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:wsdlsoap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <wsdl:types>
+    <xs:schema elementFormDefault="qualified" targetNamespace="http://www.example.org/test/">
+      <xs:complexType name="testMessage">
+        <xs:sequence>
+          <xs:element name="value" type="xs:string"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:element name="SimpleFault" type="xs:string"/>
+      <xs:element name="OneWay" type="tns:testMessage"/>
+      <xs:element name="CreateProcessRequest" type="tns:testMessage"/>
+      <xs:element name="CreateProcessResponse" type="tns:testMessage"/>
+      <xs:element name="CreateProcessRequest2" type="tns:testMessage"/>
+      <xs:element name="CreateProcessResponse2" type="tns:testMessage"/>
+      <xs:element name="request" type="tns:testMessage"/>
+      <xs:element name="response" type="tns:testMessage"/>
+    </xs:schema>
+  </wsdl:types>
+  <wsdl:message name="CreateProcessRequest">
+    <wsdl:part element="tns:CreateProcessRequest" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="SimpleFaultMessage">
+    <wsdl:part element="tns:SimpleFault" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="request">
+    <wsdl:part element="tns:request" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="CreateProcessResponse2">
+    <wsdl:part element="tns:CreateProcessResponse2" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="response">
+    <wsdl:part element="tns:response" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="CreateProcessResponse">
+    <wsdl:part element="tns:CreateProcessResponse" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="OneWay">
+    <wsdl:part element="tns:OneWay" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="CreateProcessRequest2">
+    <wsdl:part element="tns:CreateProcessRequest2" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="test">
+    <wsdl:operation name="createProcess">
+      <wsdl:input message="tns:CreateProcessRequest"></wsdl:input>
+      <wsdl:output message="tns:CreateProcessResponse"></wsdl:output>
+      <wsdl:fault message="tns:SimpleFaultMessage" name="simpleFault"></wsdl:fault>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="testBinding" type="tns:test">
+    <wsdlsoap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="createProcess">
+      <wsdlsoap:operation soapAction=""/>
+      <wsdl:input>
+        <wsdlsoap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <wsdlsoap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="simpleFault">
+        <wsdlsoap:fault name="simpleFault" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="test">
+    <wsdl:port binding="tns:testBinding" name="test">
+      <wsdlsoap:address location="http://0.0.0.0:8192/bpelg-TestSimpleReceiveReply/"/>
+    </wsdl:port>
+  </wsdl:service>
+  <vprop:property name="id" type="xs:string"/>
+  <vprop:propertyAlias element="tns:OneWay" propertyName="tns:id">
+    <vprop:query>string(value)</vprop:query>
+  </vprop:propertyAlias>
+  <vprop:propertyAlias element="tns:CreateProcessResponse" propertyName="tns:id">
+    <vprop:query>string(value)</vprop:query>
+  </vprop:propertyAlias>
+  <plnk:partnerLinkType name="testPartnerLinkType">
+    <plnk:role name="proces" portType="tns:test"/>
+  </plnk:partnerLinkType>
+  <plnk:partnerLinkType name="testPartnerLinkType2">
+    <plnk:role name="proces" portType="tns:test2"/>
+  </plnk:partnerLinkType>
+  <plnk:partnerLinkType name="testPartnerLinkType3">
+    <plnk:role name="proces" portType="tns:test3"/>
+  </plnk:partnerLinkType>
+</wsdl:definitions>]]></con:content><con:type>http://schemas.xmlsoap.org/wsdl/</con:type></con:part></con:definitionCache><con:endpoints><con:endpoint>http://127.0.0.1:8192/bpelg-TestSimpleReceiveReply/</con:endpoint></con:endpoints><con:operation isOneWay="false" action="" name="createProcess" bindingOperationName="createProcess" type="Request-Response" inputName="" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call name="Request 1"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://127.0.0.1:8192/bpelg-TestSimpleReceiveReply/</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:test="http://www.example.org/test/">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <test:CreateProcessRequest>
+         <test:value>hello</test:value>
+      </test:CreateProcessRequest>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://www.example.org/test/test/createProcessRequest"/><con:wsrmConfig version="1.2"/></con:call></con:operation></con:interface><con:interface xsi:type="con:WsdlInterface" wsaVersion="NONE" name="testInvokeBinding" type="wsdl" bindingName="{http://www.example.org/test/}testInvokeBinding" soapVersion="1_1" anonymous="optional" definition="http://127.0.0.1:8192/bpelg-TestTwoWayInvoke/main.wsdl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:settings/><con:definitionCache type="TEXT" rootPart="http://127.0.0.1:8192/bpelg-TestTwoWayInvoke/main.wsdl"><con:part><con:url>http://127.0.0.1:8192/bpelg-TestTwoWayInvoke/main.wsdl</con:url><con:content><![CDATA[<wsdl:definitions name="test" targetNamespace="http://www.example.org/test/" xmlns:plnk="http://docs.oasis-open.org/wsbpel/2.0/plnktype" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://www.example.org/test/" xmlns:vprop="http://docs.oasis-open.org/wsbpel/2.0/varprop" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:wsdlsoap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <wsdl:types>
+    <xs:schema elementFormDefault="qualified" targetNamespace="http://www.example.org/test/">
+      <xs:complexType name="testMessage">
+        <xs:sequence>
+          <xs:element name="value" type="xs:string"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:element name="SimpleFault" type="xs:string"/>
+      <xs:element name="OneWay" type="tns:testMessage"/>
+      <xs:element name="CreateProcessRequest" type="tns:testMessage"/>
+      <xs:element name="CreateProcessResponse" type="tns:testMessage"/>
+      <xs:element name="CreateProcessRequest2" type="tns:testMessage"/>
+      <xs:element name="CreateProcessResponse2" type="tns:testMessage"/>
+      <xs:element name="request" type="tns:testMessage"/>
+      <xs:element name="response" type="tns:testMessage"/>
+    </xs:schema>
+  </wsdl:types>
+  <wsdl:message name="CreateProcessRequest">
+    <wsdl:part element="tns:CreateProcessRequest" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="SimpleFaultMessage">
+    <wsdl:part element="tns:SimpleFault" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="request">
+    <wsdl:part element="tns:request" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="CreateProcessResponse2">
+    <wsdl:part element="tns:CreateProcessResponse2" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="response">
+    <wsdl:part element="tns:response" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="CreateProcessResponse">
+    <wsdl:part element="tns:CreateProcessResponse" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="OneWay">
+    <wsdl:part element="tns:OneWay" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="CreateProcessRequest2">
+    <wsdl:part element="tns:CreateProcessRequest2" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="test">
+    <wsdl:operation name="createProcess">
+      <wsdl:input message="tns:CreateProcessRequest"></wsdl:input>
+      <wsdl:output message="tns:CreateProcessResponse"></wsdl:output>
+      <wsdl:fault message="tns:SimpleFaultMessage" name="simpleFault"></wsdl:fault>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="testInvokeBinding" type="tns:test">
+    <wsdlsoap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="createProcess">
+      <wsdlsoap:operation soapAction=""/>
+      <wsdl:input>
+        <wsdlsoap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <wsdlsoap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="simpleFault">
+        <wsdlsoap:fault name="simpleFault" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="test">
+    <wsdl:port binding="tns:testInvokeBinding" name="testInvoke">
+      <wsdlsoap:address location="http://0.0.0.0:8192/bpelg-TestTwoWayInvoke/"/>
+    </wsdl:port>
+  </wsdl:service>
+  <vprop:property name="id" type="xs:string"/>
+  <vprop:propertyAlias element="tns:OneWay" propertyName="tns:id">
+    <vprop:query>string(value)</vprop:query>
+  </vprop:propertyAlias>
+  <vprop:propertyAlias element="tns:CreateProcessResponse" propertyName="tns:id">
+    <vprop:query>string(value)</vprop:query>
+  </vprop:propertyAlias>
+  <plnk:partnerLinkType name="testPartnerLinkType">
+    <plnk:role name="proces" portType="tns:test"/>
+  </plnk:partnerLinkType>
+  <plnk:partnerLinkType name="testPartnerLinkType2">
+    <plnk:role name="proces" portType="tns:test2"/>
+  </plnk:partnerLinkType>
+  <plnk:partnerLinkType name="testPartnerLinkType3">
+    <plnk:role name="proces" portType="tns:test3"/>
+  </plnk:partnerLinkType>
+</wsdl:definitions>]]></con:content><con:type>http://schemas.xmlsoap.org/wsdl/</con:type></con:part></con:definitionCache><con:endpoints><con:endpoint>http://127.0.0.1:8192/bpelg-TestTwoWayInvoke/</con:endpoint></con:endpoints><con:operation isOneWay="false" action="" name="createProcess" bindingOperationName="createProcess" type="Request-Response" inputName="" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call name="Request 1"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://127.0.0.1:8192/bpelg-TestTwoWayInvoke/</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:test="http://www.example.org/test/">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <test:CreateProcessRequest>
+         <test:value>?</test:value>
+      </test:CreateProcessRequest>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://www.example.org/test/test/createProcessRequest"/><con:wsrmConfig version="1.2"/></con:call></con:operation></con:interface><con:interface xsi:type="con:WsdlInterface" wsaVersion="NONE" name="LoanProcessCompletedServiceBinding" type="wsdl" bindingName="{http://docs.active-endpoints.com/sample/wsdl/loanprocess/2008/02/loanProcess.wsdl}LoanProcessCompletedServiceBinding" soapVersion="1_1" anonymous="optional" definition="http://localhost:8080/bpel-g/services/LoanProcessCompletedService?wsdl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:settings/><con:definitionCache type="TEXT" rootPart="http://localhost:8080/bpel-g/services/LoanProcessCompletedService?wsdl"><con:part><con:url>http://localhost:8080/bpel-g/services/LoanProcessCompletedService?wsdl</con:url><con:content><![CDATA[<wsdl:definitions name="loanProcess" targetNamespace="http://docs.active-endpoints.com/sample/wsdl/loanprocess/2008/02/loanProcess.wsdl" xmlns:loan="http://schemas.active-endpoints.com/sample/LoanRequest/2008/02/loanRequest.xsd" xmlns:loanmsg="http://docs.active-endpoints.com/sample/wsdl/loanMessages/2008/02/loanMessages.wsdl" xmlns:plnk="http://docs.oasis-open.org/wsbpel/2.0/plnktype" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://docs.active-endpoints.com/sample/wsdl/loanprocess/2008/02/loanProcess.wsdl" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <wsdl:import location="../catalog/project_-c-_/loan_approval_integrated/wsdl/loanMessages.wsdl" namespace="http://docs.active-endpoints.com/sample/wsdl/loanMessages/2008/02/loanMessages.wsdl"></wsdl:import>
+  <wsdl:types>
+    <xsd:schema elementFormDefault="qualified">
+      <xsd:import namespace="http://schemas.active-endpoints.com/sample/LoanRequest/2008/02/loanRequest.xsd" schemaLocation="../catalog/project_-c-_/loan_approval_integrated/schema/loanRequest.xsd"></xsd:import>
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:portType name="LoanProcess">
+    <wsdl:operation name="request">
+      <wsdl:input message="loanmsg:creditInformationMessage"></wsdl:input>
+      <wsdl:output message="loanmsg:approvalMessage"></wsdl:output>
+      <wsdl:fault message="loanmsg:errorMessage" name="unableToHandleRequest"></wsdl:fault>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="LoanProcessCompletedServiceBinding" type="tns:LoanProcess">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="request">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="unableToHandleRequest">
+        <soap:fault name="unableToHandleRequest" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="LoanProcessCompletedService">
+    <wsdl:port binding="tns:LoanProcessCompletedServiceBinding" name="LoanProcessCompletedServicePort">
+      <soap:address location="http://localhost:8080/bpel-g/services/LoanProcessCompletedService"/>
+    </wsdl:port>
+  </wsdl:service>
+  <plnk:partnerLinkType name="LoanProcessLT">
+    <plnk:role name="loanProcessor" portType="tns:LoanProcess"/>
+  </plnk:partnerLinkType>
+</wsdl:definitions>]]></con:content><con:type>http://schemas.xmlsoap.org/wsdl/</con:type></con:part><con:part><con:url>http://localhost:8080/bpel-g/catalog/project_-c-_/loan_approval_integrated/wsdl/loanMessages.wsdl</con:url><con:content><![CDATA[<wsdl:definitions name="loanMessages" targetNamespace="http://docs.active-endpoints.com/sample/wsdl/loanMessages/2008/02/loanMessages.wsdl" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://docs.active-endpoints.com/sample/wsdl/loanMessages/2008/02/loanMessages.wsdl" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:loan="http://schemas.active-endpoints.com/sample/LoanRequest/2008/02/loanRequest.xsd">
+  <wsdl:types>
+    <xsd:schema elementFormDefault="qualified">
+      <xsd:import namespace="http://schemas.active-endpoints.com/sample/LoanRequest/2008/02/loanRequest.xsd" schemaLocation="../schema/loanRequest.xsd"></xsd:import>
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="approvalMessage">
+    <wsdl:part name="Document" element="loan:loanApprovalResponse"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="riskAssessmentResponse">
+    <wsdl:part name="Document" element="loan:riskAssessmentResponse"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="errorMessage">
+    <wsdl:part name="Document" element="loan:errorMessage"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="creditInformationMessage">
+    <wsdl:part name="Document" element="loan:loanProcessRequest"></wsdl:part>
+  </wsdl:message>
+</wsdl:definitions>]]></con:content><con:type>http://schemas.xmlsoap.org/wsdl/</con:type></con:part><con:part><con:url>http://localhost:8080/bpel-g/catalog/project_-c-_/loan_approval_integrated/schema/loanRequest.xsd</con:url><con:content><![CDATA[<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://schemas.active-endpoints.com/sample/LoanRequest/2008/02/loanRequest.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://schemas.active-endpoints.com/sample/LoanRequest/2008/02/loanRequest.xsd">
+  <xs:element name="loanProcessRequest" type="tns:LoanProcessRequest"/>
+  <xs:element name="riskAssessmentResponse" type="tns:RiskAssessmentResponse"/>
+  <xs:element name="loanApprovalResponse" type="tns:LoanApprovalResponse"/>
+  <xs:complexType name="LoanProcessRequest">
+    <xs:sequence>
+      <xs:element name="loanType" type="xs:string"/>
+      <xs:element name="firstName" type="xs:string"/>
+      <xs:element name="lastName">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:minLength value="1"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="dayPhone" type="xs:string"/>
+      <xs:element name="nightPhone" type="xs:string"/>
+      <xs:element name="socialSecurityNumber" type="xs:string"/>
+      <xs:element name="amountRequested">
+        <xs:simpleType>
+          <xs:restriction base="xs:int">
+            <xs:minExclusive value="1"/>
+            <xs:maxExclusive value="1000000"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="loanDescription" type="xs:string"/>
+      <xs:element minOccurs="0" name="otherInfo" type="xs:string"/>
+      <xs:element name="responseEmail" type="xs:string"/>
+      <xs:element minOccurs="0" name="firstApprovalTaskRef" type="xs:anyURI"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="loanRequestInfo" type="tns:LoanProcessRequest"/>
+  <xs:element name="assessmentInfo" type="tns:RiskAssessmentResponse"/>
+  <xs:complexType name="RiskAssessmentResponse">
+    <xs:sequence>
+      <xs:element name="riskAssessment" type="tns:RiskAssessment"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="LoanApprovalResponse">
+    <xs:sequence>
+      <xs:element name="responseToLoanRequest" type="tns:ResponseValue"/>
+      <xs:element minOccurs="0" name="responseDescription" type="xs:string"/>
+      <xs:element minOccurs="0" name="rejectionReason" type="tns:RejectionReason"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="RejectionReason">
+    <xs:sequence>
+      <xs:element name="reason" type="tns:Reason"/>
+      <xs:element name="description" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:simpleType name="Reason">
+    <xs:restriction base="xs:NMTOKEN">
+      <xs:enumeration value="lowCredit"/>
+      <xs:enumeration value="loanValue"/>
+      <xs:enumeration value="infoRequired"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="RiskAssessment">
+    <xs:restriction base="xs:NMTOKEN">
+      <xs:enumeration value="low"/>
+      <xs:enumeration value="high"/>
+      <xs:enumeration value="review"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="ResponseValue">
+    <xs:restriction base="xs:NMTOKEN">
+      <xs:enumeration value="approved"/>
+      <xs:enumeration value="declined"/>
+      <xs:enumeration value="underReview"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:element name="errorMessage" type="tns:ErrorMessage"/>
+  <xs:complexType name="ErrorMessage">
+    <xs:sequence>
+      <xs:element name="errorCode" type="xs:integer"/>
+      <xs:element name="reason" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+</xs:schema>]]></con:content><con:type>http://www.w3.org/2001/XMLSchema</con:type></con:part></con:definitionCache><con:endpoints><con:endpoint>http://localhost:8080/bpel-g/services/LoanProcessCompletedService</con:endpoint></con:endpoints><con:operation isOneWay="false" action="" name="request" bindingOperationName="request" type="Request-Response" inputName="" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call name="Request 1"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/bpel-g/services/LoanProcessCompletedService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:loan="http://schemas.active-endpoints.com/sample/LoanRequest/2008/02/loanRequest.xsd">
+   <soapenv:Header/>
+   <soapenv:Body>
+<loan:loanProcessRequest xmlns:loan="http://schemas.active-endpoints.com/sample/LoanRequest/2008/02/loanRequest.xsd">
+
+   <loan:loanType>Auto</loan:loanType>
+
+   <loan:firstName>Sammy</loan:firstName>
+
+   <loan:lastName>Smith</loan:lastName>
+
+   <loan:dayPhone>561</loan:dayPhone>
+
+   <loan:nightPhone>999</loan:nightPhone>
+
+   <loan:socialSecurityNumber>054871884</loan:socialSecurityNumber>
+
+   <loan:amountRequested>15001</loan:amountRequested>
+
+   <loan:loanDescription></loan:loanDescription>
+
+   <loan:responseEmail></loan:responseEmail>
+
+</loan:loanProcessRequest>
+
+
+
+
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://docs.active-endpoints.com/sample/wsdl/loanprocess/2008/02/loanProcess.wsdl/LoanProcess/requestRequest"/><con:wsrmConfig version="1.2"/></con:call></con:operation></con:interface><con:properties/><con:wssContainer/></con:soapui-project>

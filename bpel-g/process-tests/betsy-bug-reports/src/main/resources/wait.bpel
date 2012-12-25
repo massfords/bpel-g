@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<process
+        xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+        xmlns:ns2="http://www.example.org/betsy/"
+        expressionLanguage="urn:active-endpoints:expression-language:xquery1.0"
+        name="wait"
+        suppressJoinFailure="yes"
+        targetNamespace="http://www.example.org/">
+    <import importType="http://schemas.xmlsoap.org/wsdl/" location="betsy.wsdl" namespace="http://www.example.org/betsy/"/>
+    <partnerLinks>
+        <partnerLink myRole="process" name="plt" partnerLinkType="ns2:plt"/>
+    </partnerLinks>
+    <variables>
+        <variable element="ns2:createProcess" name="createProcess"/>
+        <variable element="ns2:processCreated" name="processCreated"/>
+    </variables>
+    <sequence>
+        <receive createInstance="yes" operation="createProcess" partnerLink="plt" variable="createProcess"/>
+        <wait>
+            <for>'P0Y0M0DT0H0M2.0S'</for>
+        </wait>
+        <assign name="ProcessCreated">
+            <copy>
+                <from>
+                    <![CDATA[
+                <s:processCreated xmlns:s="http://www.example.org/betsy/"
+                                  xmlns:abx='http://www.activebpel.org/bpel/extension'>
+                    <s:pid>{abx:getProcessId()}</s:pid>
+                    <s:message>{string($createProcess/s:message)}</s:message>
+                </s:processCreated>
+                ]]>
+                </from>
+                <to variable="processCreated"/>
+            </copy>
+        </assign>
+        <wait>
+            <until>current-dateTime() + xs:dayTimeDuration("P0DT0H0M2S")</until>
+        </wait>
+        <reply operation="createProcess" partnerLink="plt" variable="processCreated"/>
+    </sequence>
+</process>
