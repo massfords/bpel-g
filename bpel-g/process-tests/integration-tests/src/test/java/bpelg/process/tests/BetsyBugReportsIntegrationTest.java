@@ -3,11 +3,16 @@ package bpelg.process.tests;
 import bpelg.services.deploy.types.DeploymentResponse;
 import bpelg.services.deploy.types.MessageType;
 import bpelg.services.deploy.types.Msg;
+import org.activebpel.rt.util.AeXPathUtil;
 import org.activebpel.services.jaxws.AeProcessFixture;
 import org.junit.Assert;
 import org.junit.Test;
+import org.w3c.dom.Document;
 
+import javax.xml.transform.stream.StreamSource;
 import java.io.File;
+import java.io.StringReader;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -33,6 +38,39 @@ public class BetsyBugReportsIntegrationTest extends Assert {
 
         assertStartError(infos.get("start-error.bpel.pdd"));
         assertDupeVar(infos.get("dupe-variable.bpel.pdd"));
+        assertTrue(infos.get("pick-onAlarm-for.bpel.pdd").isDeployed());
+        assertCorrelation();
+    }
+
+    private void assertCorrelation() throws Exception {
+        String request =
+                "<requestForQuote xmlns='http://www.example.org/correlation/'>" +
+                        "    <customerId>junit</customerId>" +
+                        "    <productId>100</productId>" +
+                        "    <quantity>5</quantity>" +
+                        "</requestForQuote>";
+
+        // invoke the service and get our quote back
+        Document quote = pfix.invoke(new StreamSource(new StringReader(request)),
+                "http://localhost:8080/bpel-g/services/betsyQuoteService");
+        assertNotNull(quote);
+
+        Thread.sleep(10*1000);
+
+        // send another message checking on the status
+        Map<String, String> nsMap = Collections.singletonMap("q", "http://www.example.org/correlation/");
+        String quoteId = AeXPathUtil.selectText(quote, "//q:quoteId",
+                nsMap);
+
+        String xml = "<statusRequest xmlns='http://www.example.org/correlation/'>" +
+                "<quoteId>" + quoteId + "</quoteId>" +
+                "</statusRequest>";
+
+        Document status = pfix.invoke(new StreamSource(new StringReader(xml)),
+                "http://localhost:8080/bpel-g/services/betsyQuoteService");
+
+        int s = AeXPathUtil.selectInt(status, "//q:status", nsMap);
+        assertEquals(2, s);
     }
 
     private void assertStartError(DeploymentResponse.DeploymentInfo info) {

@@ -9,8 +9,9 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpel.server.engine;
 
-import java.util.Map;
-
+import commonj.timers.TimerManager;
+import commonj.work.Work;
+import commonj.work.WorkManager;
 import org.activebpel.rt.AeException;
 import org.activebpel.rt.bpel.AeBusinessProcessException;
 import org.activebpel.rt.bpel.impl.IAeBusinessProcessEngineInternal;
@@ -24,9 +25,7 @@ import org.activebpel.work.input.IAeInputMessageWork;
 import org.activebpel.work.input.IAeInputMessageWorkManager;
 import org.springframework.context.ApplicationContext;
 
-import commonj.timers.TimerManager;
-import commonj.work.Work;
-import commonj.work.WorkManager;
+import java.util.Map;
 
 /**
  * Maintains a singleton instance of the engine.
@@ -164,7 +163,7 @@ public class AeEngineFactory {
 	 * @return the child work manager with the given name
 	 */
 	public static WorkManager getChildWorkManager(String aName) {
-		return (WorkManager) sContext.getBean("ChildWorkManagers", Map.class)
+		return (WorkManager) sContext.getBean("childWorkManagers", Map.class)
 				.get(aName);
 	}
 
