@@ -9,9 +9,9 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpel.def.validation;
 
-import javax.xml.namespace.QName;
-
 import org.activebpel.rt.bpel.AeMessages;
+
+import javax.xml.namespace.QName;
 
 
 /**
@@ -57,6 +57,7 @@ public interface IAeValidationDefs
    public final static String ERROR_PLINK_ASSIGN_FROM_PARTNERROE = AeMessages.getString("IAeValidationDefs.Plink.From.NoPartnerRole"); //$NON-NLS-1$
    /** Error message for nesting an isolated scope */
    public final static String ERROR_NESTED_ISOLATED_SCOPE = AeMessages.getString("IAeValidationDefs.NestedIsolatedScope"); //$NON-NLS-1$
+   public final static String ERROR_DUPE_NAME = AeMessages.getString("IAeValidationDefs.DupeName");
    /** 
     * Error message for an isolated scope within an FCT handler that compensates 
     * an isolated scope. 

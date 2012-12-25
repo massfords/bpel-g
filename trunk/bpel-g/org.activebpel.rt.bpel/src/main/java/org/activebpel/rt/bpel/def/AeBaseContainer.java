@@ -9,9 +9,7 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpel.def;
 
-import java.util.Iterator;
-import java.util.LinkedHashMap;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Base class for def objects that have a collection of other objects which need
@@ -22,6 +20,17 @@ abstract public class AeBaseContainer<K,V> extends AeBaseDef
    private static final long serialVersionUID = 5943567398933667871L;
    /** HashMap used for associating names to objects */
    private LinkedHashMap<K,V>  mMap;
+   // keys are only used for static analysis
+   private List<K> dupes = new ArrayList<K>();
+
+   public List<K> consumeDupes() {
+       if (dupes == null) {
+           throw new IllegalStateException("dupes were already consumed");
+       }
+       List<K> d = dupes;
+       dupes = null;
+       return d;
+   }
 
    /**
     * Private getter forces subclasses to use the collection mutator methods below.
@@ -48,7 +57,9 @@ abstract public class AeBaseContainer<K,V> extends AeBaseDef
     */
    protected void add(K aKey, V aValue)
    {
-      getMap().put(aKey, aValue);
+      if (getMap().put(aKey, aValue) != null) {
+          dupes.add(aKey);
+      }
    }
    
    /**
@@ -58,7 +69,7 @@ abstract public class AeBaseContainer<K,V> extends AeBaseDef
    @SuppressWarnings("unchecked")
    protected void add(V aValue)
    {
-      getMap().put((K)aValue, aValue);
+       getMap().put((K)aValue, aValue);
    }
 
    /**

@@ -7,40 +7,47 @@
 //Active Endpoints, Inc. Removal of this PROPRIETARY RIGHTS STATEMENT 
 //is strictly forbidden. Copyright (c) 2002-2006 All rights reserved. 
 /////////////////////////////////////////////////////////////////////////////
-package org.activebpel.rt.bpel.def.validation.activity.scope; 
+package org.activebpel.rt.bpel.def.validation.activity.scope;
 
 import org.activebpel.rt.bpel.def.AeCorrelationSetsDef;
 import org.activebpel.rt.bpel.def.validation.AeBaseValidator;
+import org.activebpel.rt.bpel.def.validation.AeContainerValidatorUtil;
 
 import java.util.List;
 
 /**
  * model provides validation for the correlationSets def
  */
-public class AeCorrelationSetsValidator extends AeBaseValidator
-{
-   /**
-    * ctor
-    * @param aDef
-    */
-   public AeCorrelationSetsValidator(AeCorrelationSetsDef aDef)
-   {
-      super(aDef);
-   }
+public class AeCorrelationSetsValidator extends AeBaseValidator {
+    /**
+     * ctor
+     *
+     * @param aDef
+     */
+    public AeCorrelationSetsValidator(AeCorrelationSetsDef aDef) {
+        super(aDef);
+    }
 
-   /**
-    * Returns the correlationSet with the given name or null if not defined here
-    * @param aName
-    */
-   public AeCorrelationSetValidator getCorrelationSetModel(String aName)
-   {
-      List correlationSets = getChildren(AeCorrelationSetValidator.class);
-       for (Object correlationSet : correlationSets) {
-           AeCorrelationSetValidator corrSetModel = (AeCorrelationSetValidator) correlationSet;
-           if (corrSetModel.getName().equals(aName))
-               return corrSetModel;
-       }
-      return null;
-   }
+    @Override
+    public void validate() {
+        AeCorrelationSetsDef def = (AeCorrelationSetsDef) getDefinition();
+        AeContainerValidatorUtil.checkForDupes(getReporter(), "correlationSet", def);
+        super.validate();
+    }
+
+    /**
+     * Returns the correlationSet with the given name or null if not defined here
+     *
+     * @param aName
+     */
+    public AeCorrelationSetValidator getCorrelationSetModel(String aName) {
+        List correlationSets = getChildren(AeCorrelationSetValidator.class);
+        for (Object correlationSet : correlationSets) {
+            AeCorrelationSetValidator corrSetModel = (AeCorrelationSetValidator) correlationSet;
+            if (corrSetModel.getName().equals(aName))
+                return corrSetModel;
+        }
+        return null;
+    }
 }
  
