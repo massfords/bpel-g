@@ -31,4 +31,15 @@
         </provide>
     </process>
 
+    <process name="proc:event-onAlarm-for" xmlns:proc="http://www.example.org/">
+        <provide partnerLink="plt">
+            <service name="ex:betsyEventService" port="betsyEventService"/>
+        </provide>
+    </process>
+
+    <process name="proc:event-onAlarm-until" xmlns:proc="http://www.example.org/">
+        <provide partnerLink="plt">
+            <service name="ex:betsyEventUntilService" port="betsyEventUntilService"/>
+        </provide>
+    </process>
 </deploy>
