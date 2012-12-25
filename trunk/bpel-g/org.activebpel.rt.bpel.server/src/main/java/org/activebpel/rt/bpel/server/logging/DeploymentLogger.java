@@ -29,6 +29,8 @@ public class DeploymentLogger implements IAeDeploymentLogger {
 
     @Override
     public void setPddName(String pddName) {
+        hasErrors = false;
+        hasWarnings = false;
         currentPdd = pddName;
         log.debug("Processing deployment descriptor {}", currentPdd);
         infos.put(currentPdd, new DeploymentResponse.DeploymentInfo().withLog(new DeploymentResponse.DeploymentInfo.Log()));
