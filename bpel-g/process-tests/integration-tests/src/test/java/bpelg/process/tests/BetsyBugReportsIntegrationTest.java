@@ -39,10 +39,19 @@ public class BetsyBugReportsIntegrationTest extends Assert {
         assertStartError(infos.get("start-error.bpel.pdd"));
         assertDupeVar(infos.get("dupe-variable.bpel.pdd"));
         assertTrue(infos.get("pick-onAlarm-for.bpel.pdd").isDeployed());
-        assertCorrelation();
+        assertTrue(infos.get("pick-onAlarm-until.bpel.pdd").isDeployed());
+        assertCorrelationFor();
+        assertCorrelationUntil();
     }
 
-    private void assertCorrelation() throws Exception {
+    private void assertCorrelationFor() throws Exception {
+        assertCorrelation("http://localhost:8080/bpel-g/services/betsyQuoteService");
+    }
+    private void assertCorrelationUntil() throws Exception {
+        assertCorrelation("http://localhost:8080/bpel-g/services/betsyQuoteUntilService");
+    }
+
+    private void assertCorrelation(String endpoint) throws Exception {
         String request =
                 "<requestForQuote xmlns='http://www.example.org/correlation/'>" +
                         "    <customerId>junit</customerId>" +
@@ -51,8 +60,7 @@ public class BetsyBugReportsIntegrationTest extends Assert {
                         "</requestForQuote>";
 
         // invoke the service and get our quote back
-        Document quote = pfix.invoke(new StreamSource(new StringReader(request)),
-                "http://localhost:8080/bpel-g/services/betsyQuoteService");
+        Document quote = pfix.invoke(new StreamSource(new StringReader(request)), endpoint);
         assertNotNull(quote);
 
         Thread.sleep(10*1000);
@@ -67,7 +75,7 @@ public class BetsyBugReportsIntegrationTest extends Assert {
                 "</statusRequest>";
 
         Document status = pfix.invoke(new StreamSource(new StringReader(xml)),
-                "http://localhost:8080/bpel-g/services/betsyQuoteService");
+                endpoint);
 
         int s = AeXPathUtil.selectInt(status, "//q:status", nsMap);
         assertEquals(2, s);
