@@ -38,10 +38,10 @@ public class AeProcessDeploymentFactory
     * @param aSource
     * @throws AeDeploymentException
     */
-   public IAeProcessDeployment newInstance( IAeDeploymentSource aSource, IAeExpressionLanguageFactory aFactory )
+   public IAeProcessDeployment newInstance( String containerId, IAeDeploymentSource aSource, IAeExpressionLanguageFactory aFactory )
    throws AeDeploymentException
    {
-      AeProcessDeployment deployment = new AeProcessDeployment(aSource);
+      AeProcessDeployment deployment = new AeProcessDeployment(containerId, aSource);
       deployment.setExpressionLanguageFactory(aFactory);
       initProcessDef(aSource, deployment);
       initPartnerLinks(aSource, deployment);

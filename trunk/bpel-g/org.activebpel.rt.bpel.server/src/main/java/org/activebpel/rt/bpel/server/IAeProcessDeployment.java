@@ -9,24 +9,25 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpel.server;
 
-import java.util.Collection;
-
+import bpelg.services.deploy.types.pdd.PartnerRoleEndpointReferenceType;
+import bpelg.services.deploy.types.pdd.Pdd;
+import bpelg.services.deploy.types.pdd.ReferenceType;
+import bpelg.services.processes.types.ServiceDeployment;
 import org.activebpel.rt.bpel.AeBusinessProcessException;
 import org.activebpel.rt.bpel.IAeEndpointReference;
 import org.activebpel.rt.bpel.IAePartnerLink;
 import org.activebpel.rt.bpel.impl.IAeProcessPlan;
 import org.activebpel.wsio.receive.IAeMessageContext;
 
-import bpelg.services.deploy.types.pdd.PartnerRoleEndpointReferenceType;
-import bpelg.services.deploy.types.pdd.Pdd;
-import bpelg.services.deploy.types.pdd.ReferenceType;
-import bpelg.services.processes.types.ServiceDeployment;
+import java.util.Collection;
 
 /**
  * Interface of process deployment descriptor.
  */
 public interface IAeProcessDeployment extends IAeProcessPlan
 {
+    public String getContainerId();
+
    /**
     * Returns an endpoint reference for the given partner link for partnerRole, or null if not found.
     * 

@@ -9,26 +9,11 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpel.server.deploy;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-
-import javax.xml.XMLConstants;
-import javax.xml.namespace.QName;
-
+import bpelg.services.deploy.types.pdd.*;
+import bpelg.services.processes.types.ServiceDeployment;
 import org.activebpel.rt.AeException;
 import org.activebpel.rt.IAeConstants;
-import org.activebpel.rt.bpel.AeBusinessProcessException;
-import org.activebpel.rt.bpel.AeNamespaceFilteredWSDLIterator;
-import org.activebpel.rt.bpel.AePreferences;
-import org.activebpel.rt.bpel.IAeEndpointReference;
-import org.activebpel.rt.bpel.IAeExpressionLanguageFactory;
-import org.activebpel.rt.bpel.IAePartnerLink;
+import org.activebpel.rt.bpel.*;
 import org.activebpel.rt.bpel.def.AePartnerLinkDef;
 import org.activebpel.rt.bpel.def.AePartnerLinkDefKey;
 import org.activebpel.rt.bpel.def.AePartnerLinkOpKey;
@@ -56,12 +41,9 @@ import org.exolab.castor.xml.schema.Schema;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-import bpelg.services.deploy.types.pdd.PartnerLinkType;
-import bpelg.services.deploy.types.pdd.PartnerRoleEndpointReferenceType;
-import bpelg.services.deploy.types.pdd.Pdd;
-import bpelg.services.deploy.types.pdd.ReferenceType;
-import bpelg.services.deploy.types.pdd.SuspendFlag;
-import bpelg.services.processes.types.ServiceDeployment;
+import javax.xml.XMLConstants;
+import javax.xml.namespace.QName;
+import java.util.*;
 
 /**
  * Manages process deployment information for a BPEL deployment.
@@ -83,12 +65,14 @@ public class AeProcessDeployment implements IAeProcessDeployment {
 	private IAeExpressionLanguageFactory mExpressionLanguageFactory;
 	
 	private Element mExtensions;
+    private final String containerId;
 
 	/**
 	 * Constructs the deployment under the passed context.
 	 */
-	public AeProcessDeployment(IAeDeploymentSource aSource)
+	public AeProcessDeployment(String aContainerId, IAeDeploymentSource aSource)
 			throws AeDeploymentException {
+        this.containerId = aContainerId;
 		mPdd = aSource.getPdd();
 		mPlanId = aSource.getPlanId();
 		for (ServiceDeployment service : aSource.getServices().getServiceDeployment()) {
@@ -140,7 +124,12 @@ public class AeProcessDeployment implements IAeProcessDeployment {
 		return getProcessDef().getCorrelatedPropertyNames(aPartnerLinkOpKey);
 	}
 
-	/**
+    @Override
+    public String getContainerId() {
+        return containerId;
+    }
+
+    /**
 	 * Returns an endpoint reference for the given partner link for partnerRole,
 	 * or null if not found.
 	 * 

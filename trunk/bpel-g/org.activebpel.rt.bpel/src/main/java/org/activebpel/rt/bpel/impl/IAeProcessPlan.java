@@ -26,6 +26,9 @@ import java.util.List;
  */
 public interface IAeProcessPlan extends IAeContextWSDLProvider
 {
+
+   public String getContainerId();
+
    /**
     * Returns a flag indicating if this activity should create the process instance.
     * @param aPartnerLinkOpKey the partner link and operation key

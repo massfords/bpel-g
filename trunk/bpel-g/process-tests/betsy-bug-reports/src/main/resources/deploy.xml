@@ -48,4 +48,10 @@
             <service name="ex:betsyTermService" port="betsyTermService"/>
         </provide>
     </process>
+
+    <process name="proc:xform" xmlns:proc="http://www.example.org/">
+        <provide partnerLink="plt">
+            <service name="ex:betsyXformService" port="betsyXformService"/>
+        </provide>
+    </process>
 </deploy>
