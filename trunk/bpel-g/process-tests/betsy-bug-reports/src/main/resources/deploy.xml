@@ -42,4 +42,10 @@
             <service name="ex:betsyEventUntilService" port="betsyEventUntilService"/>
         </provide>
     </process>
+
+    <process name="proc:termination" xmlns:proc="http://www.example.org/">
+        <provide partnerLink="plt">
+            <service name="ex:betsyTermService" port="betsyTermService"/>
+        </provide>
+    </process>
 </deploy>

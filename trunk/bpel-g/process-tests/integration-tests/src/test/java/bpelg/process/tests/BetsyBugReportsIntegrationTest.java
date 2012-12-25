@@ -48,6 +48,8 @@ public class BetsyBugReportsIntegrationTest extends Assert {
         assertTrue(infos.get("event-onAlarm-until.bpel.pdd").isDeployed());
         assertCorrelation("http://localhost:8080/bpel-g/services/betsyEventService");
         assertCorrelation("http://localhost:8080/bpel-g/services/betsyEventUntilService");
+        assertTrue(infos.get("termination.bpel.pdd").isDeployed());
+        assertCorrelation("http://localhost:8080/bpel-g/services/betsyTermService");
     }
 
     private void assertWait() throws Exception {
