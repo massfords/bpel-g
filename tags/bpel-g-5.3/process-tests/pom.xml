@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>bpel-g</artifactId>
+        <groupId>bpel-g</groupId>
+        <version>5.3</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>process-tests</artifactId>
+    <packaging>pom</packaging>
+    <modules>
+        <module>support</module>
+        <module>correlation-test</module>
+        <module>camel-receive</module>
+        <module>camel-invoke</module>
+        <module>integration-tests</module>
+        <module>camel-activemq-test</module>
+        <module>process-with-errors</module>
+        <module>invalid-container</module>
+        <module>betsy-bug-reports</module>
+    </modules>
+
+</project>

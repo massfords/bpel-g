@@ -1,0 +1,404 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<deployment xmlns="http://xml.apache.org/axis/wsdd/"
+	xmlns:java="http://xml.apache.org/axis/wsdd/providers/java">
+
+  <!-- Used for BPR deployment -->
+  <service name="DeployBPRService" provider="java:RPC">
+      <parameter name="className" value="org.activebpel.rt.axis.bpel.rdebug.server.AeDeployBPRSkeleton"/>
+      <parameter name="allowedMethods" value="deployBpr"/>
+
+	  <typeMapping
+	    xmlns:ns="http://bpel.rt.activebpel.org"
+	    qname="ns:AeBusinessProcessException"
+	    type="java:org.activebpel.rt.bpel.AeBusinessProcessException"
+	    serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+	    deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+	    encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+
+	  <typeMapping
+	    xmlns:ns="http://rt.activebpel.org"
+	    qname="ns:AeException"
+	    type="java:org.activebpel.rt.AeException"
+	    serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+	    deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+	    encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </service>
+
+  <!-- Services from IAesEventHandlerService WSDL service -->
+  <service name="BpelEngineAdmin" provider="java:RPC">
+      <parameter name="className" value="org.activebpel.rt.axis.bpel.rdebug.server.AeRemoteDebugSkeleton"/>
+      <parameter name="allowedMethods" value="*"/>
+	
+	  <typeMapping
+	    xmlns:ns="http://list.impl.bpel.rt.activebpel.org"
+	    qname="ns:AeProcessListResult"
+	    type="java:org.activebpel.rt.bpel.impl.list.AeProcessListResult"
+	    serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+	    deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+	    encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+
+	  <typeMapping
+	    xmlns:ns="http://bpel.rt.activebpel.org"
+	    qname="ns:AeBusinessProcessException"
+	    type="java:org.activebpel.rt.bpel.AeBusinessProcessException"
+	    serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+	    deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+	    encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+	
+	  <typeMapping
+	    xmlns:ns="http://list.impl.bpel.rt.activebpel.org"
+	    qname="ns:AeProcessFilter"
+	    type="java:org.activebpel.rt.bpel.impl.list.AeProcessFilter"
+	    serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+	    deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+	    encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+	    
+	  <typeMapping
+	    xmlns:ns="urn:AeAdminServices"
+	    qname="ns:AeProcessInstanceDetailArray"
+	    type="java:org.activebpel.rt.bpel.impl.list.AeProcessInstanceDetail[]"
+	    serializer="org.apache.axis.encoding.ser.ArraySerializerFactory"
+	    deserializer="org.apache.axis.encoding.ser.ArrayDeserializerFactory"
+	    encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+	    
+	  <typeMapping
+	    xmlns:ns="http://list.impl.bpel.rt.activebpel.org"
+	    qname="ns:AeProcessInstanceDetail"
+	    type="java:org.activebpel.rt.bpel.impl.list.AeProcessInstanceDetail"
+	    serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+	    deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+	    encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+	    
+	  <typeMapping
+	    xmlns:ns="http://server.rdebug.admin.server.bpel.rt.activebpel.org"
+	    qname="ns:AeBreakpointList"
+	    type="java:org.activebpel.rt.bpel.server.admin.rdebug.server.AeBreakpointList"
+	    serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+	    deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+	    encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+	
+	  <typeMapping
+	    xmlns:ns="urn:AeAdminServices"
+	    qname="ns:AeBreakpointInstanceDetailArray"
+	    type="java:org.activebpel.rt.bpel.server.admin.rdebug.server.AeBreakpointInstanceDetail[]"
+	    serializer="org.apache.axis.encoding.ser.ArraySerializerFactory"
+	    deserializer="org.apache.axis.encoding.ser.ArrayDeserializerFactory"
+	    encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+	    
+	  <typeMapping
+	    xmlns:ns="http://server.rdebug.admin.server.bpel.rt.activebpel.org"
+	    qname="ns:AeBreakpointInstanceDetail"
+	    type="java:org.activebpel.rt.bpel.server.admin.rdebug.server.AeBreakpointInstanceDetail"
+	    serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+	    deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+	    encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </service>
+  
+  <!-- Used for BPR deployment -->
+  <service name="ActiveBpelDeployBPR" provider="java:RPC" style="document" use="literal">
+      <parameter name="wsdlTargetNamespace" value="http://docs.active-endpoints/wsdl/activebpeladmin/2007/01/activebpeladmin.wsdl"/>
+      <parameter name="wsdlServiceElement" value="ActiveBpelAdmin"/>
+      <parameter name="schemaQualified" value="http://schemas.active-endpoints.com/activebpeladmin/2007/01/activebpeladmin.xsd"/>
+      <parameter name="wsdlServicePort" value="ActiveBpelAdminPort"/>
+      <parameter name="className" value="org.activebpel.rt.axis.bpel.admin.server.AeActiveBpelDeployBPRSkeleton"/>
+      <parameter name="wsdlPortType" value="IAeActiveBpelAdmin"/>
+      <parameter name="typeMappingVersion" value="1.2"/>
+      <parameter name="allowedMethods" value="deployBpr"/>
+
+      <typeMapping
+        xmlns:ns="http://schemas.active-endpoints.com/activebpeladmin/2007/01/activebpeladmin.xsd"
+        qname="ns:AdminFault"
+        type="java:org.activebpel.rt.axis.bpel.admin.types.AdminFault"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle=""
+      />
+  </service>
+
+  <!-- Type mappings for ActiveBpelAdmin WSDL service -->
+  <service name="ActiveBpelAdmin" provider="java:RPC" style="document" use="literal">
+      <parameter name="wsdlTargetNamespace" value="http://docs.active-endpoints/wsdl/activebpeladmin/2007/01/activebpeladmin.wsdl"/>
+      <parameter name="wsdlServiceElement" value="ActiveBpelAdmin"/>
+      <parameter name="schemaQualified" value="http://schemas.active-endpoints.com/activebpeladmin/2007/01/activebpeladmin.xsd"/>
+      <parameter name="wsdlServicePort" value="ActiveBpelAdminPort"/>
+      <parameter name="className" value="org.activebpel.rt.axis.bpel.admin.server.AeActiveBpelAdminSkeleton"/>
+      <parameter name="wsdlPortType" value="IAeActiveBpelAdmin"/>
+      <parameter name="typeMappingVersion" value="1.2"/>
+      <parameter name="allowedMethods" value="*"/>
+
+       <typeMapping
+        xmlns:ns="http://schemas.active-endpoints.com/activebpeladmin/2007/01/activebpeladmin.xsd"
+        qname="ns:AesRemoveAttachmentDataType"
+        type="java:org.activebpel.rt.axis.bpel.admin.types.AesRemoveAttachmentDataType"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle=""
+      />
+      
+      <typeMapping
+        xmlns:ns="http://schemas.active-endpoints.com/activebpeladmin/2007/01/activebpeladmin.xsd"
+        qname="ns:AesProcessFilterType"
+        type="java:org.activebpel.rt.axis.bpel.admin.types.AesProcessFilterType"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle=""
+      />
+      <typeMapping
+        xmlns:ns="http://schemas.active-endpoints.com/activebpeladmin/2007/01/activebpeladmin.xsd"
+        qname="ns:AesStringResponseType"
+        type="java:org.activebpel.rt.axis.bpel.admin.types.AesStringResponseType"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle=""
+      />
+      <typeMapping
+        xmlns:ns="http://schemas.active-endpoints.com/activebpeladmin/2007/01/activebpeladmin.xsd"
+        qname="ns:AesAttachmentAttributeList"
+        type="java:org.activebpel.rt.axis.bpel.admin.types.AesAttachmentAttributeList"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle=""
+      />
+     <typeMapping
+        xmlns:ns="http://schemas.active-endpoints.com/activebpeladmin/2007/01/activebpeladmin.xsd"
+        qname="ns:AesAttachmentItemNumberList"
+        type="java:org.activebpel.rt.axis.bpel.admin.types.AesAttachmentItemNumberList"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle=""
+      />
+      <typeMapping
+        xmlns:ns="http://schemas.active-endpoints.com/activebpeladmin/2007/01/activebpeladmin.xsd"
+        qname="ns:AesAddAttachmentDataType"
+        type="java:org.activebpel.rt.axis.bpel.admin.types.AesAddAttachmentDataType"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle=""
+      />
+       <typeMapping
+        xmlns:ns="http://schemas.active-endpoints.com/activebpeladmin/2007/01/activebpeladmin.xsd"
+        qname="ns:AesAttachmentAttribute"
+        type="java:org.activebpel.rt.axis.bpel.admin.types.AesAttachmentAttribute"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle=""
+      />
+      <typeMapping
+        xmlns:ns="http://schemas.active-endpoints.com/activebpeladmin/2007/01/activebpeladmin.xsd"
+        qname="ns:AesSetVariableDataType"
+        type="java:org.activebpel.rt.axis.bpel.admin.types.AesSetVariableDataType"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle=""
+      />
+      <typeMapping
+        xmlns:ns="http://schemas.active-endpoints.com/activebpeladmin/2007/01/activebpeladmin.xsd"
+        qname="ns:AesRemoveBreakpointRequestType"
+        type="java:org.activebpel.rt.axis.bpel.admin.types.AesRemoveBreakpointRequestType"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle=""
+      />
+      <typeMapping
+        xmlns:ns="http://schemas.active-endpoints.com/activebpeladmin/2007/01/activebpeladmin.xsd"
+        qname="ns:AesBreakpointRequestType"
+        type="java:org.activebpel.rt.axis.bpel.admin.types.AesBreakpointRequestType"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle=""
+      />
+      <typeMapping
+        xmlns:ns="http://schemas.active-endpoints.com/activebpeladmin/2007/01/activebpeladmin.xsd"
+        qname="ns:AesCompleteActivityType"
+        type="java:org.activebpel.rt.axis.bpel.admin.types.AesCompleteActivityType"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle=""
+      />
+      <typeMapping
+        xmlns:ns="http://schemas.active-endpoints.com/activebpeladmin/2007/01/activebpeladmin.xsd"
+        qname="ns:AesProcessObjectType"
+        type="java:org.activebpel.rt.axis.bpel.admin.types.AesProcessObjectType"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle=""
+      />
+      <typeMapping
+        xmlns:ns="http://schemas.active-endpoints.com/activebpeladmin/2007/01/activebpeladmin.xsd"
+        qname="ns:AesListingFilter"
+        type="java:org.activebpel.rt.axis.bpel.admin.types.AesListingFilter"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle=""
+      />
+      <typeMapping
+        xmlns:ns="http://schemas.active-endpoints.com/activebpeladmin/2007/01/activebpeladmin.xsd"
+        qname="ns:AesBreakpointInstanceDetail"
+        type="java:org.activebpel.rt.axis.bpel.admin.types.AesBreakpointInstanceDetail"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle=""
+      />
+      <typeMapping
+        xmlns:ns="http://schemas.active-endpoints.com/activebpeladmin/2007/01/activebpeladmin.xsd"
+        qname="ns:AesProcessDetailType"
+        type="java:org.activebpel.rt.axis.bpel.admin.types.AesProcessDetailType"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle=""
+      />
+      <typeMapping
+        xmlns:ns="http://schemas.active-endpoints.com/activebpeladmin/2007/01/activebpeladmin.xsd"
+        qname="ns:AesBreakpointListRowDetails"
+        type="java:org.activebpel.rt.axis.bpel.admin.types.AesBreakpointListRowDetails"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle=""
+      />
+      <typeMapping
+        xmlns:ns="http://schemas.active-endpoints.com/activebpeladmin/2007/01/activebpeladmin.xsd"
+        qname="ns:AesSetPartnerLinkType"
+        type="java:org.activebpel.rt.axis.bpel.admin.types.AesSetPartnerLinkType"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle=""
+      />
+      <typeMapping
+        xmlns:ns="http://schemas.active-endpoints.com/activebpeladmin/2007/01/activebpeladmin.xsd"
+        qname="ns:AesProcessListResultRowDetails"
+        type="java:org.activebpel.rt.axis.bpel.admin.types.AesProcessListResultRowDetails"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle=""
+      />
+      <typeMapping
+        xmlns:ns="http://schemas.active-endpoints.com/activebpeladmin/2007/01/activebpeladmin.xsd"
+        qname="ns:AesVoidType"
+        type="java:org.activebpel.rt.axis.bpel.admin.types.AesVoidType"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle=""
+      />
+      <typeMapping
+        xmlns:ns="http://schemas.active-endpoints.com/activebpeladmin/2007/01/activebpeladmin.xsd"
+        qname="ns:AesDigestType"
+        type="java:org.activebpel.rt.axis.bpel.admin.types.AesDigestType"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle=""
+      />
+      <typeMapping
+        xmlns:ns="http://schemas.active-endpoints.com/activebpeladmin/2007/01/activebpeladmin.xsd"
+        qname="ns:AesProcessInstanceDetail"
+        type="java:org.activebpel.rt.axis.bpel.admin.types.AesProcessInstanceDetail"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle=""
+      />
+      <typeMapping
+        xmlns:ns="http://schemas.active-endpoints.com/activebpeladmin/2007/01/activebpeladmin.xsd"
+        qname="ns:AesConfigurationType"
+        type="java:org.activebpel.rt.axis.bpel.admin.types.AesConfigurationType"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle=""
+      />
+      <typeMapping
+        xmlns:ns="http://schemas.active-endpoints.com/activebpeladmin/2007/01/activebpeladmin.xsd"
+        qname="ns:AesProcessListType"
+        type="java:org.activebpel.rt.axis.bpel.admin.types.AesProcessListType"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle=""
+      />
+      <typeMapping
+        xmlns:ns="http://schemas.active-endpoints.com/activebpeladmin/2007/01/activebpeladmin.xsd"
+        qname="ns:AesProcessListResult"
+        type="java:org.activebpel.rt.axis.bpel.admin.types.AesProcessListResult"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle=""
+      />
+      <typeMapping
+        xmlns:ns="http://schemas.active-endpoints.com/activebpeladmin/2007/01/activebpeladmin.xsd"
+        qname="ns:AesProcessRequestType"
+        type="java:org.activebpel.rt.axis.bpel.admin.types.AesProcessRequestType"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle=""
+      />
+      <typeMapping
+        xmlns:ns="http://schemas.active-endpoints.com/activebpeladmin/2007/01/activebpeladmin.xsd"
+        qname="ns:AesProcessType"
+        type="java:org.activebpel.rt.axis.bpel.admin.types.AesProcessType"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle=""
+      />
+      <typeMapping
+        xmlns:ns="http://schemas.active-endpoints.com/activebpeladmin/2007/01/activebpeladmin.xsd"
+        qname="ns:AesDeployBprType"
+        type="java:org.activebpel.rt.axis.bpel.admin.types.AesDeployBprType"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle=""
+      />
+      <typeMapping
+        xmlns:ns="http://schemas.active-endpoints.com/activebpeladmin/2007/01/activebpeladmin.xsd"
+        qname="ns:AdminFault"
+        type="java:org.activebpel.rt.axis.bpel.admin.types.AdminFault"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle=""
+      />
+      <typeMapping
+        xmlns:ns="http://schemas.active-endpoints.com/activebpeladmin/2007/01/activebpeladmin.xsd"
+        qname="ns:AesEngineRequestType"
+        type="java:org.activebpel.rt.axis.bpel.admin.types.AesEngineRequestType"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle=""
+      />
+      <typeMapping
+        xmlns:ns="http://schemas.active-endpoints.com/activebpeladmin/2007/01/activebpeladmin.xsd"
+        qname="ns:AesGetVariableDataType"
+        type="java:org.activebpel.rt.axis.bpel.admin.types.AesGetVariableDataType"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle=""
+      />
+      <typeMapping
+        xmlns:ns="http://schemas.active-endpoints.com/activebpeladmin/2007/01/activebpeladmin.xsd"
+        qname="ns:AesRetryActivityType"
+        type="java:org.activebpel.rt.axis.bpel.admin.types.AesRetryActivityType"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle=""
+      />
+      <typeMapping
+        xmlns:ns="http://schemas.active-endpoints.com/activebpeladmin/2007/01/activebpeladmin.xsd"
+        qname="ns:AesBreakpointList"
+        type="java:org.activebpel.rt.axis.bpel.admin.types.AesBreakpointList"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle=""
+      />
+      <typeMapping
+        xmlns:ns="http://schemas.active-endpoints.com/activebpeladmin/2007/01/activebpeladmin.xsd"
+        qname="ns:AesSetCorrelationType"
+        type="java:org.activebpel.rt.axis.bpel.admin.types.AesSetCorrelationType"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle=""
+      />
+      <typeMapping
+        xmlns:ns="http://schemas.active-endpoints.com/activebpeladmin/2007/01/activebpeladmin.xsd"
+        qname="ns:AesProcessFilter"
+        type="java:org.activebpel.rt.axis.bpel.admin.types.AesProcessFilter"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle=""
+      />
+  </service>
+  
+</deployment>

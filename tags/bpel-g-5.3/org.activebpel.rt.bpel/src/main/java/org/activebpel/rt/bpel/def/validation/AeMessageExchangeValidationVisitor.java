@@ -1,0 +1,271 @@
+//$Header: /Development/AEDevelopment/projects/org.activebpel.rt.bpel/src/org/activebpel/rt/bpel/def/validation/AeMessageExchangeValidationVisitor.java,v 1.7 2008/03/20 16:01:32 dvilaverde Exp $
+/////////////////////////////////////////////////////////////////////////////
+//PROPRIETARY RIGHTS STATEMENT
+//The contents of this file represent confidential information that is the 
+//proprietary property of Active Endpoints, Inc.  Viewing or use of 
+//this information is prohibited without the express written consent of 
+//Active Endpoints, Inc. Removal of this PROPRIETARY RIGHTS STATEMENT 
+//is strictly forbidden. Copyright (c) 2002-2004 All rights reserved. 
+/////////////////////////////////////////////////////////////////////////////
+package org.activebpel.rt.bpel.def.validation; 
+
+import org.activebpel.rt.bpel.AeMessages;
+import org.activebpel.rt.bpel.def.*;
+import org.activebpel.rt.bpel.def.activity.AeActivityReceiveDef;
+import org.activebpel.rt.bpel.def.activity.AeActivityReplyDef;
+import org.activebpel.rt.bpel.def.activity.IAeReceiveActivityDef;
+import org.activebpel.rt.bpel.def.activity.support.AeOnEventDef;
+import org.activebpel.rt.bpel.def.activity.support.AeOnMessageDef;
+import org.activebpel.rt.bpel.def.util.AeDefUtil;
+import org.activebpel.rt.bpel.def.visitors.AeAbstractDefVisitor;
+import org.activebpel.rt.bpel.def.visitors.AeDefTraverser;
+import org.activebpel.rt.bpel.def.visitors.AeTraversalVisitor;
+import org.activebpel.rt.util.AeUtil;
+
+import java.util.*;
+import java.util.Map.Entry;
+
+/**
+ * Visits the receives and replies to ensure that they're matched up with their
+ * plink, operation, and message exchange values. 
+ */
+public class AeMessageExchangeValidationVisitor extends AeAbstractDefVisitor
+{
+   /** error message for unmatched message exchange value */
+   protected static final String UNMATCHED_MESSAGE_EXCHANGE = AeMessages.getString("AeMessageExchangeValidationVisitor.UnmatchedMessageExchange"); //$NON-NLS-1$
+   
+   /** error message for a missing reply */
+   protected static final String MISSING_REPLY = AeMessages.getString("AeMessageExchangeValidationVisitor.MissingReply"); //$NON-NLS-1$
+
+   /** error message for a receive/onMessage/reply that references a message exchange value that is not declared w/in the enclosing scope(s) */
+   protected static final String UNDECLARED_MESSAGE_EXCHANGE = AeMessages.getString("AeMessageExchangeValidationVisitor.UndeclaredMessageExchange"); //$NON-NLS-1$
+   
+   /** error message for a receive/onMessage/reply that references a message exchange value that is not declared w/in the enclosing scope(s) */
+   protected static final String MESSAGE_EXCHANGE_NOT_ALLOWED = AeMessages.getString("AeMessageExchangeValidationVisitor.MessageExchangeNotAllowed"); //$NON-NLS-1$
+
+   /** Error reporter used during validation process. */
+   private IAeValidationProblemReporter mReporter ;
+
+   /** set of plink.operation.messageExchange, all replies are matched against
+    *  this set to assert that we have matched receives/replies */
+   private final Set<String> mMessageExchangeReceives = new HashSet<String>();
+
+   /** Collection of replies that have been visited - used to assert a match w/ receives/replies for messageExchange */
+   private final Collection<AeActivityReplyDef> mReplies = new LinkedList<AeActivityReplyDef>();
+   
+   /** collection of receives and onMessages, mapped to the context def used to resolve resources*/
+   private final Map<IAeReceiveActivityDef, AeBaseDef> mReceiveDefsToContexts = new HashMap<IAeReceiveActivityDef, AeBaseDef>();
+   
+   /** process being visited */
+   private AeProcessDef mProcessDef;
+
+   /**
+    * Ctor
+    * @param aErrorReporter
+    */
+   public AeMessageExchangeValidationVisitor(IAeValidationProblemReporter aErrorReporter)
+   {
+      setTraversalVisitor( new AeTraversalVisitor( new AeDefTraverser(), this ) );
+      setReporter(aErrorReporter);
+   }
+
+   /**
+    * @see org.activebpel.rt.bpel.def.visitors.AeAbstractDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityReceiveDef)
+    */
+   public void visit(AeActivityReceiveDef def)
+   {
+      validateReceive(def, def);
+   }
+
+   /**
+    * @see org.activebpel.rt.bpel.def.visitors.AeAbstractDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeOnMessageDef)
+    */
+   public void visit(AeOnMessageDef def)
+   {
+      validateReceive(def, def);
+      super.visit(def);
+   }
+   
+   /**
+    * @see org.activebpel.rt.bpel.def.visitors.AeAbstractDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeOnEventDef)
+    */
+   public void visit(AeOnEventDef def)
+   {
+      if (IAeBPELConstants.BPWS_NAMESPACE_URI.equals(mProcessDef.getNamespace()))
+      {
+         validateReceive(def, def);
+      }
+      else
+      {
+         validateReceive(def, def.getActivityDef());
+      }
+      super.visit(def);
+   }
+
+   /**
+    * @see org.activebpel.rt.bpel.def.visitors.AeAbstractDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityReplyDef)
+    */
+   public void visit(AeActivityReplyDef def)
+   {
+      // Note: the message exchange values for replies are validated after the 
+      //       whole process has been visited.
+      mReplies.add(def);
+      super.visit(def);
+   }
+
+   /**
+    * @see org.activebpel.rt.bpel.def.visitors.AeAbstractDefVisitor#visit(org.activebpel.rt.bpel.def.AeProcessDef)
+    */
+   public void visit(AeProcessDef def)
+   {
+      mProcessDef = def;
+      super.visit(def);
+      validateMessageExchangeForReplies();
+   }
+   
+   /**
+    * Validates the message exchange for the receive, using the context def to resolve any resources.
+    * @param aDef - receive or onMessage or onEvent
+    * @param aContextDef - def to resolve references to partner links or message exchanges
+    */
+   protected void validateReceive(IAeReceiveActivityDef aDef, AeBaseDef aContextDef)
+   {
+      if (aDef.isOneWay() && AeUtil.notNullOrEmpty(aDef.getMessageExchange()))
+      {
+         Object[] args = { aDef.getLocationPath(), aDef.getMessageExchange() };
+         addError( MESSAGE_EXCHANGE_NOT_ALLOWED, args, aDef );
+      }
+      else if (!aDef.isOneWay())
+      {
+         String fullPath = getFullPathForMessageExchange(aDef.getMessageExchange(), aContextDef);
+         if (fullPath == null)
+         {
+            Object[] args = { aDef.getMessageExchange() };
+            addError( UNDECLARED_MESSAGE_EXCHANGE, args, aDef );
+         }
+         else
+         {
+            AePartnerLinkDef plinkDef = AeDefUtil.findPartnerLinkDef(aContextDef, aDef.getPartnerLink());
+            // if the plinkDef is null then we'll have reported an error elsewhere
+            if (plinkDef != null)
+               mMessageExchangeReceives.add(makeMessageExchangeKey(plinkDef.getLocationPath(), aDef.getOperation(), fullPath));
+            mReceiveDefsToContexts.put(aDef, aContextDef);
+         }
+      }
+   }
+   
+   /**
+    * Makes a key for the message exchange set.
+    * @param aPartnerLink
+    * @param aOperation
+    * @param aMessageExchange
+    */
+   protected String makeMessageExchangeKey(String aPartnerLink, String aOperation, String aMessageExchange)
+   {
+      StringBuilder buffer = new StringBuilder(aPartnerLink);
+      buffer.append('.');
+      buffer.append(aOperation);
+      buffer.append('.');
+      buffer.append(aMessageExchange);
+      return buffer.toString();
+   }
+
+   /**
+    * walks all of the replies and asserts that they're properly matched to receives.
+    */
+   protected void validateMessageExchangeForReplies()
+   {
+      // validates that the replies match to receives. This will find any replies that have invalid messageExchange values
+      Set<String> replyPaths = new HashSet<String>();
+       for (AeActivityReplyDef def : mReplies) {
+           String fullMessageExchangePath = getFullPathForMessageExchange(def.getMessageExchange(), def);
+           AePartnerLinkDef plinkDef = AeDefUtil.findPartnerLinkDef(def, def.getPartnerLink());
+           // if the plinkDef is null then we'll have reported an error elsewhere
+           if (plinkDef != null) {
+               String key = makeMessageExchangeKey(plinkDef.getLocationPath(), def.getOperation(), fullMessageExchangePath);
+               if (!mMessageExchangeReceives.contains(key)) {
+                   Object[] args = {def.getPartnerLink(), def.getOperation(), def.getMessageExchange()};
+                   addError(UNMATCHED_MESSAGE_EXCHANGE, args, def);
+               } else {
+                   replyPaths.add(key);
+               }
+           }
+       }
+      
+      // walk the receives that had valid messageExchange values and make sure that
+      // they match to replies
+       for (Entry<IAeReceiveActivityDef, AeBaseDef> iAeReceiveActivityDefAeBaseDefEntry : mReceiveDefsToContexts.entrySet()) {
+           Entry entry = (Entry) iAeReceiveActivityDefAeBaseDefEntry;
+           IAeReceiveActivityDef receiveDef = (IAeReceiveActivityDef) entry.getKey();
+           AeBaseDef contextDef = (AeBaseDef) entry.getValue();
+           String fullMessageExchangePath = getFullPathForMessageExchange(receiveDef.getMessageExchange(), contextDef);
+           AePartnerLinkDef plinkDef = AeDefUtil.findPartnerLinkDef(contextDef, receiveDef.getPartnerLink());
+           if (plinkDef != null) {
+               String key = makeMessageExchangeKey(plinkDef.getLocationPath(), receiveDef.getOperation(), fullMessageExchangePath);
+               if (!replyPaths.contains(key)) {
+                   Object[] args = {receiveDef.getPartnerLink(), receiveDef.getOperation(), receiveDef.getMessageExchange(), receiveDef.getTypeDisplayText()};
+                   addError(MISSING_REPLY, args, receiveDef);
+               }
+           }
+       }
+   }
+
+   /**
+    * @return Returns the reporter.
+    */
+   protected IAeValidationProblemReporter getReporter()
+   {
+      return mReporter;
+   }
+
+   /**
+    * @param aReporter The reporter to set.
+    */
+   protected void setReporter(IAeValidationProblemReporter aReporter)
+   {
+      mReporter = aReporter;
+   }
+   
+   /**
+    * Adds an error for ws-bpel and a warning for bpws
+    * @param aKey
+    * @param aArgs
+    * @param aDef
+    */
+   protected void addError(String aKey, Object[] aArgs, Object aDef)
+   {
+      if (mProcessDef.getNamespace().equals(IAeBPELConstants.BPWS_NAMESPACE_URI))
+      {
+         getReporter().reportProblem(IAeValidationProblemCodes.BPEL_BPWS_MESSAGE_EXCHANGE_CODE, aKey, aArgs, aDef);
+      }
+      else
+      {
+         getReporter().reportProblem(IAeValidationProblemCodes.BPEL_WSBPEL_MESSAGE_EXCHANGE_CODE, aKey, aArgs, aDef);
+      }
+   }
+
+   /**
+    * Gets the path for the scope (or process) that declares the message exchange value
+    * and appends the message exchange value to create a fully qualified path for
+    * the message exchange.
+    * @param aMessageExchange
+    * @param aDef - the def here is the receive, onMessage, or reply def
+    */
+   public static String getFullPathForMessageExchange(String aMessageExchange, AeBaseDef aDef)
+   {
+      // Search all enclosing scopes.
+      //
+      for(AeBaseDef current = aDef; current != null; current = current.getParent())
+      {
+         if (current instanceof IAeMessageExchangesParentDef)
+         {
+            AeMessageExchangesDef messageExchangesDef = ((IAeMessageExchangesParentDef)current).getMessageExchangesDef();
+            if (messageExchangesDef != null && messageExchangesDef.declaresMessageExchange(aMessageExchange))
+            {
+               return current.getLocationPath() + "/" + aMessageExchange; //$NON-NLS-1$
+            }
+         }
+      }
+      return null;
+   }
+}

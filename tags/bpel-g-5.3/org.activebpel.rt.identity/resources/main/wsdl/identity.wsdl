@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions targetNamespace="http://docs.active-endpoints/wsdl/identity/2007/03/identity.wsdl" xmlns:tns="http://docs.active-endpoints/wsdl/identity/2007/03/identity.wsdl" xmlns:plnk="http://schemas.xmlsoap.org/ws/2003/05/partner-link/" xmlns:aeids="http://schemas.active-endpoints.com/identity/2007/01/identity.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+
+   <plnk:partnerLinkType name="identityPLT" xmlns:plnk="http://docs.oasis-open.org/wsbpel/2.0/plnktype">
+      <plnk:role name="service" portType="tns:IdentitySearchPortType"/>
+   </plnk:partnerLinkType>
+
+  <wsdl:types>
+    <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" targetNamespace="http://docs.active-endpoints/wsdl/identity/2007/03/identity.wsdl">
+      <xs:import namespace="http://schemas.active-endpoints.com/identity/2007/01/identity.xsd" schemaLocation="../schema/identity.xsd"/>
+
+		<xs:element name="principalName" type="xs:string"/>
+		<xs:element name="roleName" type="xs:string"/>
+		<xs:element name="emptyElement" >
+         <xs:complexType>
+            <!-- no content model is specified here -->
+         </xs:complexType>
+		</xs:element>
+		<xs:element name="identitiesCount" type="xs:int"/>
+		
+		<xs:element name="assertionQueryResponse" type="xs:int"/>
+		
+      <xs:complexType name="tRoleList">
+         <xs:sequence>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="role" type="xs:string"/>
+         </xs:sequence>
+      </xs:complexType>
+      <xs:element name="roleList" type="tns:tRoleList"/>
+
+      <xs:complexType name="tIdentityList">
+         <xs:sequence>
+            <xs:element maxOccurs="unbounded" minOccurs="0" ref="aeids:identity"/>
+         </xs:sequence>
+      </xs:complexType>
+      <xs:element name="identityList" type="tns:tIdentityList"/>
+
+      <xs:complexType name="tIdentityFault">
+         <xs:sequence>
+	         <xs:element name="code" type="xs:int"/>
+   	      <xs:element name="message" type="xs:string"/>
+         </xs:sequence>
+      </xs:complexType>
+      <xs:element name="identityFault" type="tns:tIdentityFault"/>
+      
+      <xs:complexType name="tPrincipalQueryAssertion">
+         <xs:sequence>
+            <xs:element ref="tns:principalName"/>
+            <xs:element ref="aeids:identityQuery" maxOccurs="unbounded"/>
+         </xs:sequence>
+      </xs:complexType>
+      <xs:element name="principalQueryAssertion" type="tns:tPrincipalQueryAssertion"/>
+      <xs:element name="principalQueryAssertionWithResponse" type="tns:tPrincipalQueryAssertion"/>
+
+    </xs:schema>
+  </wsdl:types>
+  <wsdl:message name="searchFault">
+    <wsdl:part name="fault" element="tns:identityFault"/>
+  </wsdl:message>
+  <wsdl:message name="identityListOutput">
+    <wsdl:part name="identities" element="tns:identityList"/>
+  </wsdl:message>
+  <wsdl:message name="roleListOutput">
+    <wsdl:part name="roles" element="tns:roleList"/>
+  </wsdl:message>
+  <wsdl:message name="principalNameInput">
+    <wsdl:part name="principalName" element="tns:principalName"/>
+  </wsdl:message>
+  <wsdl:message name="identityQueryOutput">
+    <wsdl:part name="resultSet" element="aeids:identityResultSet"/>
+  </wsdl:message>
+  <wsdl:message name="assertionInput">
+    <wsdl:part name="assertion" element="tns:principalQueryAssertion"/>
+  </wsdl:message>
+  <wsdl:message name="assertionInputWithResponse">
+    <wsdl:part name="principalQueryAssertionWithResponse" element="tns:principalQueryAssertionWithResponse"/>
+  </wsdl:message>
+  <wsdl:message name="assertionQueryResponse">
+    <wsdl:part name="assertionQueryResponse" element="tns:assertionQueryResponse"/>
+  </wsdl:message>
+  <wsdl:message name="roleNameInput">
+    <wsdl:part name="roleName" element="tns:roleName"/>
+  </wsdl:message>
+  <wsdl:message name="emptyMessage"/>
+  <wsdl:message name="emptyElemMsg">
+    <wsdl:part name="empty" element="tns:emptyElement"/>
+  </wsdl:message>
+  <wsdl:message name="identityQueryInput">
+    <wsdl:part name="query" element="aeids:identityQuery"/>
+  </wsdl:message>
+  <wsdl:message name="countIdentitiesInput">
+    <wsdl:part name="countIdentitiesRequest"
+    	element="aeids:countIdentitiesRequest" />
+  </wsdl:message>
+  <wsdl:message name="countIdentitiesOutput">
+    <wsdl:part name="count" element="tns:identitiesCount"/>
+  </wsdl:message>  
+  <wsdl:portType name="IdentitySearchPortType">
+    <wsdl:operation name="findRolesByPrincipal">
+      <wsdl:input message="tns:principalNameInput"/>
+      <wsdl:output message="tns:roleListOutput"/>
+      <wsdl:fault name="searchFault" message="tns:searchFault"/>
+    </wsdl:operation>
+    <wsdl:operation name="findRoles">
+       <wsdl:input message="tns:emptyElemMsg" />
+       <wsdl:output message="tns:roleListOutput" />
+       <wsdl:fault name="searchFault" message="tns:searchFault" />
+    </wsdl:operation>
+    <wsdl:operation name="findIdentitiesByRole">
+      <wsdl:input message="tns:roleNameInput"/>
+      <wsdl:output message="tns:identityListOutput"/>
+      <wsdl:fault name="searchFault" message="tns:searchFault"/>
+    </wsdl:operation>
+    <wsdl:operation name="findIdentities">
+      <wsdl:input message="tns:identityQueryInput"/>
+      <wsdl:output message="tns:identityQueryOutput"/>
+      <wsdl:fault name="searchFault" message="tns:searchFault"/>
+    </wsdl:operation>
+    <wsdl:operation name="assertPrincipalInQueryResult">
+      <wsdl:input message="tns:assertionInput"/>
+      <wsdl:output message="tns:emptyMessage"/>
+      <wsdl:fault name="searchFault" message="tns:searchFault"/>
+    </wsdl:operation>
+    <wsdl:operation name="assertPrincipalInQueryResultWithResponse">
+      <wsdl:input message="tns:assertionInputWithResponse"/>
+      <wsdl:output message="tns:assertionQueryResponse"/>
+      <wsdl:fault name="searchFault" message="tns:searchFault"/>
+    </wsdl:operation>
+    <wsdl:operation name="countIdentities">
+      <wsdl:input message="tns:countIdentitiesInput"/>
+      <wsdl:output message="tns:countIdentitiesOutput"/>
+      <wsdl:fault name="searchFault" message="tns:searchFault"/>
+    </wsdl:operation>
+  </wsdl:portType>
+
+</wsdl:definitions>

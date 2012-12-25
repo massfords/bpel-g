@@ -1,0 +1,15 @@
+<aerule:rules xmlns:aerule="urn:activebpel:wsresource:validation:rules" 
+         targetNamespace="http://schemas.xmlsoap.org/wsdl/">
+
+   <aerule:rule>
+      <aerule:code>WSDL_WSI_R2003</aerule:code>
+      <aerule:defaultSeverity>ERROR</aerule:defaultSeverity>
+      <aerule:description>
+         A WSDL resource MUST use the XML Schema "import" statement only within the 
+         xsd:schema element of the types section.
+      </aerule:description>
+      <aerule:type>wsdl</aerule:type>
+      <aerule:validator>org.activebpel.rt.wsresource.validation.rules.wsdl.wsi.AeWSIRule2003WSDLValidator</aerule:validator>
+   </aerule:rule>
+
+</aerule:rules>

@@ -1,0 +1,1019 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+   This is the eXist XQuery configuration file for the Active BPEL
+   engine.  This file contains XQuery statements used by the Active
+   BPEL eXist XML DB based persistence layer.
+   
+   Note that many of the statements below use CDATA segments.  This
+   is because they often have embedded XML markup and for readability
+   we don't want to escape them.
+-->
+<tamino-config>
+   <xquery-statements>
+
+      <!-- =========================== -->
+      <!-- eXist Validator Statements -->
+      <!-- =========================== -->
+      <xquery-statement>
+         <name>Validator.GetVersion</name>
+         <comment>
+            Returns the databse version number.  The version number is stored as an instance
+            of the AeMetaInfo doc type.  The @name of the doc instance is "Version" and the
+            value is the version number.
+         </comment>
+         <xquery>
+            /AeResourceRoot/AeMetaInfo[@name = 'Version']
+         </xquery>
+      </xquery-statement>
+
+      <!-- ==================== -->
+      <!-- Installer Statements -->
+      <!-- ==================== -->
+      <xquery-statement>
+         <name>Installer.Clean</name>
+         <comment>
+            Cleans all doc instances from the database. (use with care)
+         </comment>
+         <xquery><![CDATA[
+            for $obj in /AeResourceRoot/* do delete $obj
+         ]]></xquery>
+      </xquery-statement>
+
+      <!-- ==================== -->
+      <!-- Upgrader Statements -->
+      <!-- ==================== -->
+      <xquery-statement>
+         <name>Upgrader.GetCurrentDBVersion</name>
+         <comment>
+            Cleans all doc instances from the database. (use with care)
+         </comment>
+         <xquery><![CDATA[
+            /AeResourceRoot/AeMetaInfo[@name = "Version"]
+         ]]></xquery>
+      </xquery-statement>
+      <xquery-statement>
+         <name>Upgrader.SetCurrentDBVersion</name>
+         <comment>
+            Updates the version number in the database.
+         </comment>
+         <xquery><![CDATA[
+            let $metaInfo := /AeResourceRoot/AeMetaInfo[ @name = "Version" ]
+            return (
+                  update replace $metaInfo with <AeMetaInfo name="Version">{0}</AeMetaInfo>,
+                  <Count>'{ count($metaInfo) }'</Count> )
+         ]]></xquery>
+      </xquery-statement>
+
+      <!-- ========================= -->
+      <!-- JournalStorage Statements -->
+      <!-- ========================= -->
+      <xquery-statement>
+         <name>JournalStorage.DeleteJournalEntry</name>
+         <comment>
+            Deletes a single journal entry given its id (ino:id).
+         </comment>
+         <xquery><![CDATA[
+            let $entries := (for $jnl in /AeResourceRoot/AeProcessJournal
+               let $journalId := $jnl/../@aeid
+               where $journalId = {0,number,#}
+               return $jnl)
+            return (update delete $entries, <Count>'{ count($entries) }'</Count>)
+         ]]></xquery>
+      </xquery-statement>
+
+      <!-- ======================= -->
+      <!-- QueueStorage Statements -->
+      <!-- ======================= -->
+      <xquery-statement>
+         <name>QueueStorage.InsertAlarm</name>
+         <comment>
+            Inserts an alarm in the database.  An alarm is stored as an instance of the 
+            AeAlarm doc type.
+         </comment>
+         <xquery><![CDATA[
+            <AeAlarm>
+               <ProcessID>{0,number,#}</ProcessID>
+               <LocationPathID>{1,number,#}</LocationPathID>
+               <GroupID>{2,number,#}</GroupID>
+               <AlarmID>{3,number,#}</AlarmID>
+               <Deadline>{4}</Deadline>
+            </AeAlarm>
+         ]]></xquery>
+      </xquery-statement>
+      <xquery-statement>
+         <name>QueueStorage.DeleteAlarm</name>
+         <comment>
+            Deletes an alarm from the database.  This is done by removing the doc instance
+            of type AeAlarm that has a given ProcessID, LocationPathID and AlarmID.
+         </comment>
+         <xquery><![CDATA[
+            let $alarms := (for $alarm in /AeResourceRoot/AeAlarm
+               where $alarm/ProcessID = {0,number,#}
+                  and $alarm/LocationPathID = {1,number,#}
+                  and $alarm/AlarmID = {2,number,#}
+               return $alarm)
+            return (update delete $alarms, <Count>'{ count($alarms) }'</Count>)
+         ]]></xquery>
+      </xquery-statement>
+      <xquery-statement>
+         <name>QueueStorage.DeleteAlarmsByGroupId</name>
+         <comment>
+            Deletes alarms from the database that are associated with a particular group id.
+            This is done by removing the doc instance(s) of type AeAlarm that have the given
+            ProcessID and GroupID.
+         </comment>
+         <xquery><![CDATA[
+            let $alarms := (for $alarm in /AeResourceRoot/AeAlarm
+               where $alarm/ProcessID = {0,number,#}
+                  and $alarm/GroupID = {1,number,#}
+               return $alarm)
+            return (update delete $alarms, <Count>'{ count($alarms) }'</Count>)
+         ]]></xquery>
+      </xquery-statement>
+      <xquery-statement>
+         <name>QueueStorage.GetAlarms</name>
+         <comment>
+            Gets all instances of the AeAlarm doc type.  This is typically used for recovery
+            purposes when the engine starts.
+         </comment>
+         <xquery><![CDATA[
+            /AeResourceRoot/AeAlarm
+         ]]></xquery>
+      </xquery-statement>
+      <xquery-statement>
+         <name>QueueStorage.GetAlarmsFiltered.decl</name>
+         <xquery><![CDATA[
+            declare namespace xsd = "http://www.w3.org/2001/XMLSchema";
+         ]]></xquery>
+      </xquery-statement>
+      <xquery-statement>
+         <name>QueueStorage.GetAlarmsFiltered.for</name>
+         <comment>
+            Gets a list of instances of the virtual AeAlarmExt doc type.  The 'where' 
+            clause of this FLWOR statement will be generated in Java code based on a 
+            query filter.
+         </comment>
+         <xquery><![CDATA[
+            for $alarm in /AeResourceRoot/AeAlarm
+            let $pid := $alarm/ProcessID
+            let $proc := /AeResourceRoot/AeProcess[ ../@aeid = $pid ]
+         ]]></xquery>
+      </xquery-statement>
+      <xquery-statement>
+         <name>QueueStorage.GetAlarmsFiltered.return</name>
+         <comment>
+            The return value for the above GetAlarmsFiltered query.
+         </comment>
+         <xquery><![CDATA[
+            return
+              <AeAlarmExt>
+                 { $alarm/* }
+                 { $proc/ProcessName }
+              </AeAlarmExt>
+         ]]></xquery>
+      </xquery-statement>
+      <xquery-statement>
+         <name>QueueStorage.GetCorrelatedReceives</name>
+         <comment>
+            Gets all of the correlated recieve instances given a match hash value and
+            correlation hash value.  The return value is a queued receive, which 
+            additionally includes the queued receive ID (ino:id) and associated process 
+            name.
+         </comment>
+         <xquery><![CDATA[
+            for $rec in /AeResourceRoot/AeQueuedReceive
+            let $procId := $rec/ProcessID
+            let $proc := /AeResourceRoot/AeProcess[ ../@aeid = $procId ]
+            where $rec/MatchHash = {0,number,#} and $rec/CorrelateHash = {1,number,#}
+            return 
+               <AeQueuedReceive>
+                  <QueuedReceiveID>'{ string($rec/../@aeid) }'</QueuedReceiveID>
+                  '{ $rec/* }'
+                  '{ $proc/ProcessName }'
+               </AeQueuedReceive>
+            ]]></xquery>
+      </xquery-statement>
+      <xquery-statement>
+         <name>QueueStorage.GetConflictingReceives</name>
+         <comment>
+            Gets a list of conflicting receive instances for a given process id.  The 
+            conflicting receives are any receive with the same process id and match 
+            hash.  The return value is a queued receive, which additionally includes 
+            the queued receive ID (ino:id) and associated process name.
+         </comment>
+         <xquery><![CDATA[
+            for $rec in /AeResourceRoot/AeQueuedReceive
+            let $procId := $rec/ProcessID
+            let $proc := /AeResourceRoot/AeProcess[ ../@aeid = $procId ]
+            where $rec/ProcessID = {0,number,#} and $rec/MatchHash = {1,number,#}
+            return 
+               <AeQueuedReceive>
+                  <QueuedReceiveID>'{ string($rec/../@aeid) }'</QueuedReceiveID>
+                  '{ $rec/* }'
+                  '{ $proc/ProcessName }'
+               </AeQueuedReceive>
+            ]]></xquery>
+      </xquery-statement>
+      <xquery-statement>
+         <name>QueueStorage.DeleteQueuedReceiveById</name>
+         <comment>
+            Deletes an AeQueuedReceive doc instances by its ino:id.
+         </comment>
+         <xquery><![CDATA[
+            let $recs := (for $rec in /AeResourceRoot/AeQueuedReceive
+               where $rec/../@aeid = {0,number,#}
+               return $rec)
+            return (
+                  update delete $recs, 
+                  <Count>'{ count($recs) }'</Count> )
+         ]]></xquery>
+      </xquery-statement>
+      <xquery-statement>
+         <name>QueueStorage.DeleteQueuedReceivesByGroup</name>
+         <comment>
+            Deletes queued receives in a given process by their group ID.
+         </comment>
+         <xquery><![CDATA[
+            let $recs := (for $rec in /AeResourceRoot/AeQueuedReceive
+               where $rec/ProcessID = {0,number,#}
+                  and $rec/GroupID = {1,number,#}
+               return $rec)
+            return (
+                  update delete $recs, 
+                  <Count>'{ count($recs) }'</Count> )
+         ]]></xquery>
+      </xquery-statement>
+      <xquery-statement>
+         <name>QueueStorage.GetQueuedReceive</name>
+         <comment>
+            Gets a single queued receive instance given the process id and location path id.
+            The return value additionally includes the queued receive id (ino:id) and the
+            process name.
+         </comment>
+         <xquery><![CDATA[
+            for $rec in /AeResourceRoot/AeQueuedReceive
+            let $procId := $rec/ProcessID
+            let $proc := /AeResourceRoot/AeProcess[ ../@aeid = $procId ]
+            where $rec/ProcessID = {0,number,#} and $rec/LocationPathID = {1,number,#}
+            return
+               <AeQueuedReceive>
+                  <QueuedReceiveID>'{ string($rec/../@aeid) }'</QueuedReceiveID>
+                  '{ $rec/* }'
+                  '{ $proc/ProcessName }'
+               </AeQueuedReceive>
+         ]]></xquery>
+      </xquery-statement>
+      <xquery-statement>
+         <name>QueueStorage.GetQueuedReceivesFiltered.for</name>
+         <comment>
+            Gets a filtered list of queued receive instances.  The return value additionally 
+            includes the queued receive id (ino:id) and the process name.  The 'where' clause
+            for this FLWOR expression will be generated in Java code based on a filter.
+         </comment>
+         <xquery><![CDATA[
+            for $rec in /AeResourceRoot/AeQueuedReceive
+            let $procId := $rec/ProcessID
+            let $proc := /AeResourceRoot/AeProcess[ ../@aeid = $procId ]
+         ]]></xquery>
+      </xquery-statement>
+      <xquery-statement>
+         <name>QueueStorage.GetQueuedReceivesFiltered.return</name>
+         <comment>
+            The return portion of the above GetQueuedReceivesFiltered FLWOR expression.
+         </comment>
+         <xquery><![CDATA[
+            return 
+               <AeQueuedReceive>
+                  <QueuedReceiveID>{ string($rec/../@aeid) }</QueuedReceiveID>
+                  { $rec/* }
+                  { $proc/ProcessName }
+               </AeQueuedReceive>
+         ]]></xquery>
+      </xquery-statement>
+
+      <!-- ========================= -->
+      <!-- ProcessStorage Statements -->
+      <!-- ========================= -->
+      <xquery-statement>
+         <name>ProcessStorage.GetJournalEntries</name>
+         <comment>This query returns a list of Journal Entries for the given ProcessID.</comment>
+         <xquery><![CDATA[
+            for $entry in /AeResourceRoot/AeProcessJournal
+            let $jid := $entry/../@aeid
+            where $entry/ProcessID = {0,number,#}
+            return
+               <JournalEntry>
+                 <JournalID>'{ string($jid) }'</JournalID>
+                 '{ $entry/* }'
+               </JournalEntry>
+         ]]></xquery>
+      </xquery-statement>
+      <xquery-statement>
+         <name>ProcessStorage.GetJournalEntriesLocationIds</name>
+         <comment>This query returns a list of Journal Entry location IDs.</comment>
+         <xquery><![CDATA[
+            for $entry in /AeResourceRoot/AeProcessJournal
+            let $jid := $entry/../@aeid
+            where $entry/ProcessID = {0,number,#}
+            return
+               <JournalEntry>
+                 <JournalID>'{ string($jid) }'</JournalID>
+                 '{ $entry/LocationPathID }'
+               </JournalEntry>
+         ]]></xquery>
+      </xquery-statement>
+      <xquery-statement>
+         <name>ProcessStorage.GetJournalEntry</name>
+         <comment>This query returns a single Journal Entry by its JournalID.</comment>
+         <xquery><![CDATA[
+            for $entry in /AeResourceRoot/AeProcessJournal
+            let $jid := $entry/../@aeid
+            where $jid = {0,number,#}
+            return
+               <JournalEntry>
+                 <JournalID>'{ string($jid) }'</JournalID>
+                 '{ $entry/* }'
+               </JournalEntry>
+         ]]></xquery>
+      </xquery-statement>
+      <xquery-statement>
+         <name>ProcessStorage.GetMaxProcessID</name>
+         <comment>This query returns the max process ID.</comment>
+         <xquery><![CDATA[
+            <MaxProcessID>{ max( for $proc in /AeResourceRoot/AeProcess return $proc/../@aeid ) }</MaxProcessID>
+         ]]></xquery>
+      </xquery-statement>
+      <xquery-statement>
+         <name>ProcessStorage.GetMinProcessID</name>
+         <comment>This query gets the min process ID.</comment>
+         <xquery><![CDATA[
+            <MinProcessID>{ min( for $proc in /AeResourceRoot/AeProcess return $proc/../@aeid ) }</MinProcessID>
+         ]]></xquery>
+      </xquery-statement>
+      <xquery-statement>
+         <name>ProcessStorage.GetProcessList.decl</name>
+         <xquery><![CDATA[
+            declare namespace xsd = "http://www.w3.org/2001/XMLSchema";
+         ]]></xquery>
+      </xquery-statement>
+      <xquery-statement>
+         <name>ProcessStorage.GetProcessList.for</name>
+         <comment>
+            Gets a filtered list of (virtual) process detail instances.  The return value includes
+            some elements from the AeProcess doc type as well as the process id (ino:id). The 
+            'where' clause for this FLWOR expression will be generated in Java code based on a 
+            filter.
+         </comment>
+         <xquery><![CDATA[
+            for $proc in /AeResourceRoot/AeProcess
+            let $procId := $proc/../@aeid
+         ]]></xquery>
+      </xquery-statement>
+      <xquery-statement>
+         <name>ProcessStorage.GetProcessList.return</name>
+         <comment>
+            The return portion of the above GetProcessList FLWOR expression.
+         </comment>
+         <xquery><![CDATA[
+            return
+               <AeProcessInstanceDetail>
+                  <ProcessID>{ string($proc/../@aeid) }</ProcessID>
+                  { $proc/ProcessName }
+                  { $proc/ProcessState }
+                  { $proc/ProcessStateReason }
+                  { $proc/StartDate }
+                  { $proc/EndDate }
+                  { $proc/PlanID }
+               </AeProcessInstanceDetail>
+         ]]></xquery>
+      </xquery-statement>
+      <xquery-statement>
+         <name>ProcessStorage.GetProcessList.update</name>
+         <comment>
+            This is the update portion of a Tamino XQuery update query.  The update query will be 
+            used to select all of the document instances that will be deleted.  The where clause,
+            once again, will be generated in code.
+         </comment>
+         <xquery><![CDATA[
+            update for $proc in /AeResourceRoot/AeProcess
+            let $procId := $proc/../@aeid
+            let $logs := for $log in /AeResourceRoot/AeProcessLog where $log/ProcessID = $procId return $log
+            let $vars := for $var in /AeResourceRoot/AeVariable where $var/ProcessID = $procId return $var
+            let $alarms := for $alarm in /AeResourceRoot/AeAlarm where $alarm/ProcessID = $procId return $alarm
+            let $recs := for $rec in /AeResourceRoot/AeQueuedReceive where $rec/ProcessID = $procId return $rec
+            let $jitems := for $jitem in /AeResourceRoot/AeProcessJournal where $jitem/ProcessID = $procId return $jitem
+            let $coords := for $coord in /AeResourceRoot/AeCoordination where $coord/ProcessID = $procId return $coord
+            let $attachments := (
+               for $procAttachment in /AeResourceRoot/AeProcessAttachment
+               let $procAttachmentId := $procAttachment/../@aeid
+               where $procAttachment/ProcessID = $procId 
+               return ($procAttachment, 
+                  for $attachment in /AeResourceRoot/AeAttachment
+                  let $nonXml := /AeResourceRoot/AeNonXMLContent[../@aeid = $attachment/AttachmentContentID]
+                  where $attachment/AttachmentGroupID = $procAttachmentId
+                  return ($attachment, $nonXml)
+               ))
+         ]]></xquery>
+      </xquery-statement>
+      <xquery-statement>
+         <name>ProcessStorage.GetProcessList.do</name>
+         <comment>
+            This is the 'do' portion of a Tamino XQuery update query.  This portion of the query
+            will specify in what way to update the selected doc instances.  In this case, it 
+            specifies which ones to delete.
+         </comment>
+         <xquery><![CDATA[
+            do (
+               delete $proc
+               delete $logs
+               delete $vars
+               delete $alarms
+               delete $recs
+               delete $jitems
+               delete $coords
+               delete $attachments
+            )
+         ]]></xquery>
+      </xquery-statement>
+
+      <xquery-statement>
+         <name>ProcessStorage.GetProcessIds.decl</name>
+         <xquery><![CDATA[
+            declare namespace xsd = "http://www.w3.org/2001/XMLSchema";
+         ]]></xquery>
+      </xquery-statement>
+      <xquery-statement>
+         <name>ProcessStorage.GetProcessIds.for</name>
+         <comment>
+            Gets a filtered list of (virtual) process detail instances.  The return value includes
+            some elements from the AeProcess doc type as well as the process id (ino:id). The 
+            'where' clause for this FLWOR expression will be generated in Java code based on a 
+            filter.
+         </comment>
+         <xquery><![CDATA[
+            for $proc in /AeResourceRoot/AeProcess
+         ]]></xquery>
+      </xquery-statement>
+      <xquery-statement>
+         <name>ProcessStorage.GetProcessIds.return</name>
+         <comment>
+            The return portion of the above GetProcessIds FLWOR expression.
+         </comment>
+         <xquery><![CDATA[
+            return
+               <ProcessID>{ string($proc/../@aeid) }</ProcessID>
+         ]]></xquery>
+      </xquery-statement>
+
+      <xquery-statement>
+         <name>ProcessStorage.GetProcessInstanceDetail</name>
+         <comment>
+            Gets a single instance of the (virtual) doc type AeProcessInstanceDetail.  The 
+            instance is selected by its process id (ino:id).
+         </comment>
+         <xquery><![CDATA[
+            for $proc in /AeResourceRoot/AeProcess
+            where $proc/../@aeid = {0,number,#}
+            return
+               <AeProcessInstanceDetail>
+                  <ProcessID>'{ string($proc/../@aeid) }'</ProcessID>
+                  '{ $proc/ProcessName }'
+                  '{ $proc/ProcessState }'
+                  '{ $proc/ProcessStateReason }'
+                  '{ $proc/StartDate }'
+                  '{ $proc/EndDate }'
+                  '{ $proc/PlanID }'
+               </AeProcessInstanceDetail>
+         ]]></xquery>
+      </xquery-statement>
+      <xquery-statement>
+         <name>ProcessStorage.GetProcessName</name>
+         <comment>
+            Gets the process name of a single instance of the AeProcess type.  The instance
+            is selected by its process id (ino:id).
+         </comment>
+         <xquery><![CDATA[
+            for $proc in /AeResourceRoot/AeProcess
+            where $proc/../@aeid = {0,number,#}
+            return
+               $proc/ProcessName
+         ]]></xquery>
+      </xquery-statement>
+      <xquery-statement>
+         <name>ProcessStorage.DeleteProcess</name>
+         <comment>
+            Deletes a single AeProcess instance by its process id.
+         </comment>
+         <xquery><![CDATA[
+            let $proc := /AeResourceRoot/AeProcess[ ../@aeid = {0,number,#} ]
+            let $procId := $proc/../@aeid
+            let $logs := for $log in /AeResourceRoot/AeProcessLog where $log/ProcessID = $procId return $log
+            let $vars := for $var in /AeResourceRoot/AeVariable where $var/ProcessID = $procId return $var
+            let $alarms := for $alarm in /AeResourceRoot/AeAlarm where $alarm/ProcessID = $procId return $alarm
+            let $recs := for $rec in /AeResourceRoot/AeQueuedReceive where $rec/ProcessID = $procId return $rec
+            let $jitems := for $jitem in /AeResourceRoot/AeProcessJournal where $jitem/ProcessID = $procId return $jitem
+            let $coords := for $coord in /AeResourceRoot/AeCoordination where $coord/ProcessID = $procId return $coord
+            return (
+               update delete $proc,
+               update delete $logs,
+               update delete $vars,
+               update delete $alarms,
+               update delete $recs,
+               update delete $jitems,
+               update delete $coords,
+               <Count>'{ count($proc) }'</Count> )
+         ]]></xquery>
+      </xquery-statement>
+      <xquery-statement>
+         <name>ProcessStorage.DeleteProcessLog</name>
+         <comment>
+            Deletes all process log instances for a given process (by ProcessID).
+         </comment>
+         <xquery><![CDATA[
+            let $logs := (for $log in /AeResourceRoot/AeProcessLog
+               where $log/ProcessID = {0,number,#}
+               return $log)
+            return (update delete $logs, <Count>'{ count($logs) }'</Count>)
+         ]]></xquery>
+      </xquery-statement>
+      <xquery-statement>
+         <name>ProcessStorage.GetRecoveryProcessIds</name>
+         <comment>
+            Gets a list of all recovery process ids.  This includes the process id for any 
+            AeProcess instance with pending invokes as well as the process id for any 
+            instance of AeProcessJournal.
+         </comment>
+         <xquery><![CDATA[
+            let $ids := distinct-values(
+                  (
+                     for $proc in /AeResourceRoot/AeProcess[PendingInvokesCount > 0 and ProcessState = 1]
+                     return 
+                        <ProcessID>{ string($proc/../@aeid) }</ProcessID>
+                  )
+                  union
+                  (
+                     /AeResourceRoot/AeProcessJournal[EntryType > 0]/ProcessID
+                  )
+               )
+            for $id in $ids
+            return <Id>{ $id }</Id>
+         ]]></xquery>
+      </xquery-statement>
+      <xquery-statement>
+         <name>ProcessStorage.GetLogEntries</name>
+         <comment>
+            Gets all instances of the (virtual) doc type LogItem for a given process id.  The
+            LogItem doc type is created from the LineCount of an AeProcessLog instance and the
+            ino:id of that instance.
+         </comment>
+         <xquery><![CDATA[
+            for $log in /AeResourceRoot/AeProcessLog
+            where $log/ProcessID = {0,number,#}
+            return
+               <LogItem>
+                  <LogID>'{ string($log/../@aeid) }'</LogID>
+                  '{ $log/LineCount }'
+               </LogItem>
+         ]]></xquery>
+      </xquery-statement>
+      <xquery-statement>
+         <name>ProcessStorage.GetSmallLog</name>
+         <comment>
+            Returns all LogItem instances for a given process id.  This is used when there are a
+            'small' number of instances of AeProcessLog for a given process.
+         </comment>
+         <xquery><![CDATA[
+            for $log in /AeResourceRoot/AeProcessLog
+            where $log/ProcessID = {0,number,#}
+            return
+               <LogItem>
+                  '{ $log/ProcessLog }'
+               </LogItem>
+         ]]></xquery>
+      </xquery-statement>
+      <xquery-statement>
+         <name>ProcessStorage.GetLogHead</name>
+         <comment>
+            Gets a list of LogItem instances for a given process id with an ino:id less than
+            a given value.  This is used when there are a lot of instances of AeProcessLog for
+            a given process.  In that case, only the HEAD and the TAIL of the log are returned.
+         </comment>
+         <xquery><![CDATA[
+            for $log in /AeResourceRoot/AeProcessLog
+            where $log/ProcessID = {0,number,#} and $log/../@aeid < {1,number,#}
+            return
+               <LogItem>
+                  '{ $log/ProcessLog }'
+               </LogItem>
+         ]]></xquery>
+      </xquery-statement>
+      <xquery-statement>
+         <name>ProcessStorage.GetLogTail</name>
+         <comment>
+            Gets a list of LogItem instances for a given process id with an ino:id less than
+            a given value.  This is used when there are a lot of instances of AeProcessLog for
+            a given process.  In that case, only the HEAD and the TAIL of the log are returned.
+         </comment>
+         <xquery><![CDATA[
+            for $log in /AeResourceRoot/AeProcessLog
+            where $log/ProcessID = {0,number,#} and $log/../@aeid > {1,number,#}
+            return
+               <LogItem>
+                  '{ $log/ProcessLog }'
+               </LogItem>
+         ]]></xquery>
+      </xquery-statement>
+      <xquery-statement>
+         <name>ProcessStorage.GetLogIDs</name>
+         <comment>
+            Gets a list of log ids for the instances of AeProcessLog for a given process.  This
+            list of IDs is then used to determine the parameters for the above HEAD/TAIL query
+            of the log (for large logs).
+         </comment>
+         <xquery><![CDATA[
+            for $log in /AeResourceRoot/AeProcessLog
+            where $log/ProcessID = {0,number,#}
+            return
+               <LogItem>
+                  <LogID>'{ string($log/../@aeid) }'</LogID>
+               </LogItem>
+         ]]></xquery>
+      </xquery-statement>
+      <xquery-statement>
+         <name>ProcessStorage.GetLog</name>
+         <comment>
+            Gets a single instance of AeProcessLog (only the ProcessLog element) by the log id (ino:id).
+         </comment>
+         <xquery><![CDATA[
+            for $log in /AeResourceRoot/AeProcessLog
+            where $log/../@aeid = {0,number,#}
+            return
+               <Log>
+                  '{ $log/ProcessLog }'
+               </Log>
+         ]]></xquery>
+      </xquery-statement>
+      <xquery-statement>
+         <name>ProcessStorage.GetRestartProcessJournalEntry</name>
+         <comment>This query returns a single Restart Process Journal Entry by its ProcessID.</comment>
+         <xquery><![CDATA[
+            for $entry in /AeResourceRoot/AeProcessJournal[EntryType = 0]
+            let $jid := $entry/../@aeid
+            where $entry/ProcessID = {0,number,#}
+            return
+               <JournalEntry>
+                 <JournalID>'{ string($jid) }'</JournalID>
+                 '{ $entry/* }'
+               </JournalEntry>
+         ]]></xquery>
+      </xquery-statement>
+
+      <!-- ================================= -->
+      <!-- ProcessStateConnection Statements -->
+      <!-- ================================= -->
+      <xquery-statement>
+         <name>ProcessStateConnection.DeleteJournalEntries</name>
+         <comment>
+            Deletes a number of journal entries from the process journal.
+         </comment>
+         <xquery><![CDATA[
+            let $jitems := (for $jitem in /AeResourceRoot/AeProcessJournal
+               let $journalid := $jitem/../@aeid
+               {0}
+               return $jitem)
+            return (update delete $jitems, <Count>'{ count($jitems) }'</Count>)
+         ]]></xquery>
+      </xquery-statement>
+      <xquery-statement>
+         <name>ProcessStateConnection.GetProcessDocument</name>
+         <comment>
+            Returns only the process document for a specific process.  This process is selected
+            by its ProcessID.
+         </comment>
+         <xquery><![CDATA[
+            /AeResourceRoot/AeProcess[../@aeid = {0,number,#}]/ProcessDocument
+         ]]></xquery>
+      </xquery-statement>
+      <xquery-statement>
+         <name>ProcessStateConnection.GetVariableDocument</name>
+         <comment>
+            Returns a single variable document.  The variable document to be returned is selected
+            by the ProcessID of the process it belongs to, the LocationPathID of the variable, 
+            and the VersionNumber of the variable.
+         </comment>
+         <xquery><![CDATA[
+            /AeResourceRoot/AeVariable[ProcessID = {0,number,#} and LocationPathID = {1,number,#} and VersionNumber = {2,number,#}]/VariableDocument
+         ]]></xquery>
+      </xquery-statement>
+      <xquery-statement>
+         <name>ProcessStateConnection.GetProcessVariables</name>
+         <comment>
+            Gets all of the process variables for a given process (selected by the ProcessID of
+            the process).  The LocationPathID and VersionNumber of each process variable is
+            returned, but not the ProcessDocument.
+         </comment>
+         <xquery><![CDATA[
+            for $var in /AeResourceRoot/AeVariable
+            where $var/ProcessID = {0,number,#}
+            return
+               <VariableInfo>
+                  '{ $var/LocationPathID }'
+                  '{ $var/VersionNumber }'
+               </VariableInfo>
+         ]]></xquery>
+      </xquery-statement>
+      <xquery-statement>
+         <name>ProcessStateConnection.DeleteVariable</name>
+         <comment>
+            Deletes a single variable from the database.  The variable is reference by its
+            ProcessID, LocationPathID, and VersionNumber (which is the AeVariable doc type's
+            unique key).
+         </comment>
+         <xquery><![CDATA[
+            let $vars := (for $var in /AeResourceRoot/AeVariable
+               where $var/ProcessID = {0,number,#}
+                  and $var/LocationPathID = {1,number,#}
+                  and $var/VersionNumber = {2,number,#}
+               return $var)
+            return (update delete $vars, <Count>'{ count($vars) }'</Count>)
+         ]]></xquery>
+      </xquery-statement>
+      <xquery-statement>
+         <name>ProcessStateConnection.UpdateProcess</name>
+         <comment>
+            Updates an existing process in the database.  The process to update is selected by
+            its id.
+         </comment>
+         <xquery><![CDATA[
+            let $proc := /AeResourceRoot/AeProcess[ ../@aeid = {0,number,#} ]
+            let $procId := $proc/../@aeid
+            let $procDoc := $proc/ProcessDocument
+            let $procState := $proc/ProcessState
+            let $procStateReason := $proc/ProcessStateReason
+            let $startDate := $proc/StartDate
+            let $modDate := $proc/ModifiedDate
+            let $piCount := $proc/PendingInvokesCount
+            return (
+                 update replace $procDoc with <ProcessDocument>{1}</ProcessDocument>,
+                 update replace $procState with <ProcessState>{2,number,#}</ProcessState>,
+                 update replace $procStateReason with <ProcessStateReason>{3,number,#}</ProcessStateReason>,
+                 update replace $startDate with <StartDate>{4}</StartDate>,
+                 update replace $modDate with <ModifiedDate>{5}</ModifiedDate>,
+                 update replace $piCount with <PendingInvokesCount>{6,number,#}</PendingInvokesCount>,
+                 <Count>'{ count($proc) }'</Count> )
+           ]]></xquery>
+      </xquery-statement>
+      <xquery-statement>
+         <name>ProcessStateConnection.UpdateProcessEndDate</name>
+         <comment>
+            Updates an existing process's end date in the database.
+         </comment>
+         <xquery><![CDATA[
+            let $proc := /AeResourceRoot[@aeid = {0,number,#}]/AeProcess
+            return (
+                  update replace $proc/EndDate with <EndDate>{1}</EndDate>, 
+                  <Count>'{ count($proc) }'</Count> )
+           ]]></xquery>
+      </xquery-statement>
+      <xquery-statement>
+         <name>ProcessStateConnection.UpdateJournalEntryType</name>
+         <comment>
+            Updates an existing process journal entry's type in the database.
+         </comment>
+         <xquery><![CDATA[
+            let $entry := /AeResourceRoot[@aeid = {0,number,#}]/AeProcessJournal
+            return (
+                  update replace $entry/EntryType with <EntryType>{1}</EntryType>, 
+                  <Count>'{ count($entry) }'</Count> )
+           ]]></xquery>
+      </xquery-statement>
+
+      <!-- ====================== -->
+      <!-- URN Storage Statements -->
+      <!-- ====================== -->
+      <xquery-statement>
+         <name>URNStorage.GetMappings</name>
+         <xquery><![CDATA[
+            /AeResourceRoot/AeURNValues
+         ]]></xquery>
+      </xquery-statement>
+      <xquery-statement>
+         <name>URNStorage.UpdateMapping</name>
+         <xquery><![CDATA[
+            let $urnVal := /AeResourceRoot/AeURNValues[URN = "{0}"]
+            return (
+                  update replace $urnVal/URL with <URL>{1}</URL,
+                  <Count>'{ count($urnVal) }'</Count> )
+         ]]></xquery>
+      </xquery-statement>
+      <xquery-statement>
+         <name>URNStorage.DeleteMapping</name>
+         <xquery><![CDATA[
+            let $urnVal := /AeResourceRoot/AeURNValues[URN = "{0}"]
+            return (
+                  update delete $urnVal,
+                  <Count>'{ count($urnVal) }'</Count> )
+         ]]></xquery>
+      </xquery-statement>
+
+      <!-- =============================== -->
+      <!-- Coordination Storage Statements -->
+      <!-- =============================== -->
+      <xquery-statement>
+         <name>CoordinationStorage.UpdateState</name>
+         <comment>Updates the state and modified date elements of a single AeCoordination instance.</comment>
+         <xquery><![CDATA[
+            let $coord := (for $coord in /AeResourceRoot/AeCoordination
+               where $coord/CoordinationID = "{0}"
+                  and $coord/ProcessID = {1,number,#}
+               return $coord)
+            return (
+                  update replace $coord/State with <State>{2}</State>,
+                  update replace $coord/ModifiedDate with <ModifiedDate>{3}</ModifiedDate>,
+                  <Count>'{ count($coord) }'</Count> )
+         ]]></xquery>
+      </xquery-statement>
+      <xquery-statement>
+         <name>CoordinationStorage.UpdateContext</name>
+         <comment>Updates the coordination document element of a single AeCoordination instance.</comment>
+         <xquery><![CDATA[
+            let $coord := (for $coord in /AeResourceRoot/AeCoordination
+               where $coord/CoordinationID = "{0}"
+                  and $coord/ProcessID = {1,number,#}
+               return $coord)
+            return (
+                  update replace $coord/CoordinationDocument with <CoordinationDocument>{2}</CoordinationDocument>,
+                  <Count>'{ count($coord) }'</Count> )
+         ]]></xquery>
+      </xquery-statement>
+      <xquery-statement>
+         <name>CoordinationStorage.ListByCoordinationId</name>
+         <comment>
+            Gets a list of all instances of the AeCoordination doc type that have the 
+            given coordination id.
+         </comment>
+         <xquery><![CDATA[
+            /AeResourceRoot/AeCoordination[ CoordinationID = "{0}" ]
+         ]]></xquery>
+      </xquery-statement>
+      <xquery-statement>
+         <name>CoordinationStorage.ListByProcessId</name>
+         <comment>
+            Gets a list of all instances of the AeCoordination doc type that have the 
+            given process id.
+         </comment>
+         <xquery><![CDATA[
+            /AeResourceRoot/AeCoordination[ ProcessID = {0,number,#} ]
+         ]]></xquery>
+      </xquery-statement>
+      <xquery-statement>
+         <name>CoordinationStorage.LookupCoordination</name>
+         <comment>
+            Gets a single coordination instance document identified by its coordination 
+            id and process id.
+         </comment>
+         <xquery><![CDATA[
+            /AeResourceRoot/AeCoordination[ CoordinationID = "{0}" and ProcessID = {1,number,#} ]
+         ]]></xquery>
+      </xquery-statement>
+      <xquery-statement>
+         <name>CoordinationStorage.DeleteCoordination</name>
+         <xquery><![CDATA[
+            let $coord := (for $coord in /AeResourceRoot/AeCoordination
+               where $coord/CoordinationID = "{0}"
+                  and $coord/ProcessID = {1,number,#}
+               return $coord)
+            return (
+                  update delete $coord,
+                  <Count>'{ count($coord) }'</Count> )
+         ]]></xquery>
+      </xquery-statement>
+      <xquery-statement>
+         <name>CoordinationStorage.DeleteByProcessId</name>
+         <xquery><![CDATA[
+            let $coords := (for $coord in /AeResourceRoot/AeCoordination
+               where $coord/ProcessID = {0,number,#}
+               return $coord)
+            return (
+                  update delete $coords,
+                  <Count>'{ count($coords) }'</Count> )
+         ]]></xquery>
+      </xquery-statement>
+      <xquery-statement>
+         <name>CoordinationStorage.DeleteByCoordinationId</name>
+         <xquery><![CDATA[
+            let $coords := (for $coord in /AeResourceRoot/AeCoordination
+               where $coord/CoordinationID = "{0}"
+               return $coord)
+            return (
+                  update delete $coords,
+                  <Count>'{ count($coords) }'</Count> )
+         ]]></xquery>
+      </xquery-statement>
+      <xquery-statement>
+         <name>CoordinationStorage.ListCoordinatorsForProcessId</name>
+         <xquery><![CDATA[
+            for $coordA in /AeResourceRoot/AeCoordination,
+                $coordB in /AeResourceRoot/AeCoordination
+            where $coordA/CoordinationID = $coordB/CoordinationID
+               and $coordA/CoordinationRole = 0
+               and $coordB/CoordinationRole = 1
+               and $coordB/ProcessID = {0,number,#}
+            return $coordA
+         ]]></xquery>
+      </xquery-statement>
+      <xquery-statement>
+         <name>CoordinationStorage.ListParticipantsForProcessId</name>
+         <xquery><![CDATA[
+            for $coordA in /AeResourceRoot/AeCoordination,
+                $coordB in /AeResourceRoot/AeCoordination
+            where $coordA/CoordinationID = $coordB/CoordinationID
+               and $coordA/CoordinationRole = 0
+               and $coordB/CoordinationRole = 1
+               and $coordA/ProcessID = {0,number,#}
+            return $coordB
+         ]]></xquery>
+      </xquery-statement>
+
+      <!-- ====================================== -->
+      <!-- TransmissionTracker Storage Statements -->
+      <!-- ====================================== -->
+      <xquery-statement>
+         <name>TransmissionTrackerStorage.GetEntry</name>
+         <comment>Retrieves an entry given transmission id</comment>
+         <xquery><![CDATA[
+            /AeResourceRoot/AeTransmissionTracker[ TransmissionId = {0,number,#} ]
+         ]]></xquery>
+      </xquery-statement>
+      <xquery-statement>
+         <name>TransmissionTrackerStorage.UpdateEntry</name>
+         <comment>Updates entry state and message id given transmission id</comment>
+         <xquery><![CDATA[
+            let $transrec := (for $transrec in /AeResourceRoot/AeTransmissionTracker
+               where $transrec/TransmissionId = {2,number,#}
+               return $transrec)
+            return (
+                  update replace $transrec/State with <State>{0,number,#}</State>,
+                  update replace $transrec/MessageId with <MessageId>{1}</MessageId>,
+                  <Count>'{ count($transrec) }'</Count> )
+         ]]></xquery>
+      </xquery-statement>
+      <xquery-statement>
+         <name>TransmissionTrackerStorage.DeleteEntry</name>
+         <comment>Deletes entry given transmission id</comment>
+         <xquery><![CDATA[
+            let $transrec := (for $transrec in /AeResourceRoot/AeTransmissionTracker
+               where $transrec/TransmissionId = {0,number,#}
+               return $transrec)
+            return (
+                  update delete $transrec,
+                  <Count>'{ count($transrec) }'</Count> )
+         ]]></xquery>
+      </xquery-statement>
+
+      <!-- ============================== -->
+      <!-- Attachment Storage Statements -->
+      <!-- ============================== -->
+      <xquery-statement>
+         <name>AttachmentStorage.AttachProcess</name>
+         <xquery><![CDATA[
+            let $processId := (
+               for $procAttachment in /AeResourceRoot/AeProcessAttachment
+               let $attachmentGroupId := $procAttachment/../@aeid
+               where $attachmentGroupId = {0,number,#}
+               return $procAttachment/ProcessID )
+            return (
+               update replace $processId with <ProcessID>{1,number,#}</ProcessID>,
+               <Count>'{ count($processId) }'</Count> )
+         ]]></xquery>
+      </xquery-statement>
+      <xquery-statement>
+         <name>AttachmentStorage.QueryAttachmentHeaders</name>
+         <xquery><![CDATA[
+            for $attachment in /AeResourceRoot/AeAttachment
+            let $attachmentItemId := $attachment/../@aeid
+            where $attachmentItemId = {0,number,#}
+            return $attachment/AttachmentHeader
+         ]]></xquery>
+      </xquery-statement>
+      <xquery-statement>
+         <name>AttachmentStorage.QueryAttachmentContentId</name>
+         <xquery><![CDATA[
+            for $attachment in /AeResourceRoot/AeAttachment
+            let $attachmentItemId := $attachment/../@aeid
+            where $attachmentItemId = {0,number,#}
+            return $attachment/AttachmentContentID
+         ]]></xquery>
+      </xquery-statement>
+      <xquery-statement>
+         <name>AttachmentStorage.CleanupAttachments</name>
+         <xquery><![CDATA[
+            let $procAttachments := /AeResourceRoot/AeProcessAttachment[ ProcessID/@ae-null = true() ]
+            return (
+               update delete $procAttachments,
+               <Count>{ count($procAttachments) }</Count> )
+         ]]></xquery>
+      </xquery-statement>
+
+   </xquery-statements>
+</tamino-config>

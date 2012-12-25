@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pdd:process xmlns:bpelns="http://aeidentitysvc" 
+	xmlns:pdd="http://schemas.active-endpoints.com/pdd/2006/08/pdd.xsd" 
+	location="bpel/org.activebpel.rt.identity/support/bpel/aeidentitysvc.bpel" 
+	name="bpelns:aeidentitysvc" platform="opensource" processGroup="$system" >
+  <pdd:partnerLinks>
+    <pdd:partnerLink name="externalIdentityPLT">
+      <pdd:myRole allowedRoles="" binding="MSG" service="AeIdentityService"/>
+    </pdd:partnerLink>
+    <pdd:partnerLink name="internalIdentityPLT">
+      <pdd:partnerRole endpointReference="dynamic" invokeHandler="identity"/>
+    </pdd:partnerLink>
+  </pdd:partnerLinks>
+  <pdd:references>
+    <pdd:wsdl location="project:/org.activebpel.rt.identity/support/wsdl/identity.wsdl" namespace="http://docs.active-endpoints/wsdl/identity/2007/03/identity.wsdl"/>
+  </pdd:references>
+</pdd:process>

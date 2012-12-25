@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project basedir="." default="run" name="Identity Service BPEL Process Archive">
+
+   <property name="taskdef.jar" value="../../../dist/bpr_tasks.jar"/>
+
+   <!-- Taskdefs required when running this script from the command line. -->
+   <taskdef classname="com.activee.ant.bpr.tasks.AeCreateCatalogTask" name="createcatalog">
+      <classpath location="${taskdef.jar}"/>
+   </taskdef>
+   <taskdef classname="com.activee.ant.bpr.tasks.AeValidateBPRTask" name="validatebpr">
+      <classpath location="${taskdef.jar}"/>
+   </taskdef>
+
+   <!-- Some properties used by the script. -->
+   <property name="archive.filename" value="${basedir}/aeidentitysvc.bpr"/>
+
+   <!-- The deployment location.  Typically a server/container deployment directory. -->
+   <property name="archive.deploypath" value=""/>
+
+   <!-- Build the BPR file from the following (generated) file set. -->
+   <target depends="" name="build">
+      <delete file="${archive.filename}"/>
+      <jar destfile="${archive.filename}">
+         <!-- ==== PDD Files ==== -->         
+         <zipfileset file="pdd\aeidentitysvc.pdd" fullpath="META-INF/pdd/org.activebpel.rt.identity/support/pdd/aeidentitysvc.pdd"/>
+      	
+         <!-- === BPEL Files === -->
+			<zipfileset file="bpel\aeidentitysvc.bpel" fullpath="bpel/org.activebpel.rt.identity/support/bpel/aeidentitysvc.bpel"/>         
+      	
+         <!-- === WSDL Files === -->
+      	<zipfileset file="wsdl\identity.wsdl" fullpath="wsdl/org.activebpel.rt.identity/support/wsdl/identity.wsdl"/>
+      	
+         <!-- === XSD Files === -->
+      	<zipfileset file="schema\identity.xsd" fullpath="wsdl/org.activebpel.rt.identity/support/schema/identity.xsd"/>         
+      </jar>
+      
+      <createcatalog file="${archive.filename}" replaceExisting="true">
+      	<!-- === WSDL Catalog === -->
+         <wsdlentry classpath="wsdl/org.activebpel.rt.identity/support/wsdl/identity.wsdl" location="project:/org.activebpel.rt.identity/support/wsdl/identity.wsdl"/>      	      	
+      	<!-- === Schema Catalog === -->
+         <schemaentry classpath="wsdl/org.activebpel.rt.identity/support/schema/identity.xsd" location="project:/org.activebpel.rt.identity/support/schema/identity.xsd"/>      	                           
+      </createcatalog>
+   </target>
+
+   <!-- Validate the BPR once it is built. -->
+   <target depends="" name="validate">
+      <echo message="Validating the Business Process Archive..."/>
+      <validatebpr file="${archive.filename}"/>
+      <echo message="Validation completed successfully."/>
+   </target>
+
+   <!-- Deploy the built BPR file to some kind of container/server. -->
+   <target depends="" name="deploy">
+      <echo message="Deploying Business Process Archive."/>
+      <!-- 
+         **** deploybpr task usage: **** 
+         @type: Either 'file' or 'webservice'.
+         @file: The path to the BPR file created by the build target.
+         @todir: The path to deploy the BPR to when @type is 'file'.
+         @tourl: The URL of the server to deploy the BPR to when @type is 'webservice'.
+         @username: A username to use to authenticate when @type is 'webservice'.
+         @password: A password to use to authenticate when @type is 'webservice'.
+      -->
+      <deploybpr file="${archive.filename}" todir="${archive.deploypath}" type="file"/>
+      <echo message="Business Process Archive deployed."/>
+   </target>
+
+   <!-- The main entry point into this script, the run target calls various other targets in turn. -->
+   <target depends="build,validate" name="run"/>
+
+   <target depends="run,deploy" name="runDeploy"/>
+
+</project>

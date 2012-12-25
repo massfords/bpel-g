@@ -1,0 +1,31 @@
+<xs:schema elementFormDefault="qualified" targetNamespace="urn:activebpel:wsresource:validation:rules"
+   xmlns:aerule="urn:activebpel:wsresource:validation:rules" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+   <xs:simpleType name="tSeverity">
+	  <xs:restriction base="xs:string">
+	     <xs:enumeration value="ERROR"/>
+        <xs:enumeration value="WARNING"/>
+        <xs:enumeration value="INFO"/>
+        <xs:enumeration value="SKIP"/>
+	  </xs:restriction>
+	</xs:simpleType>
+
+   <xs:element name="rules">
+      <xs:complexType>
+         <xs:sequence>
+            <xs:element name="rule" maxOccurs="unbounded">
+               <xs:complexType>
+                  <xs:sequence>
+                     <xs:element name="code" type="xs:NCName" />
+                     <xs:element name="defaultSeverity" type="aerule:tSeverity" />
+                     <xs:element name="description" type="xs:string" />
+                     <xs:element name="validator" type="xs:string" />
+                  </xs:sequence>
+               </xs:complexType>
+            </xs:element>
+         </xs:sequence>
+         <xs:attribute name="targetNamespace" type="xs:anyURI" use="required" />
+      </xs:complexType>
+   </xs:element>
+
+</xs:schema>

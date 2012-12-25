@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<deploy xmlns="http://www.apache.org/ode/schemas/dd/2007/03"
+    xmlns:ex="http://www.example.org/correlation/" replace.existing="true">
+    
+    <process name="proc:correlation" xmlns:proc="http://www.example.org/">
+        <provide partnerLink="plt">
+            <service name="ex:quoteService" port="quoteService"/>
+        </provide>
+    </process>
+
+    <!-- Intentionally commenting this out so we have a bpel file but nothing in the deploy.xml file for it. -->
+    <!--<process name="proc:extra" xmlns:proc="http://www.example.org/">-->
+        <!--<provide partnerLink="plt-driver">-->
+            <!--<service name="ex:driverService" port="drive"/>-->
+        <!--</provide>-->
+        <!--<invoke partnerLink="plt">-->
+            <!--<service name="ex:quoteService" port="quoteService">-->
+                <!--<wsa:EndpointReference xmlns:wsa='http://www.w3.org/2005/08/addressing'>-->
+                    <!--<wsa:Address>http://localhost:8080/bpel-g/services/quoteService</wsa:Address>-->
+                <!--</wsa:EndpointReference>-->
+            <!--</service>-->
+        <!--</invoke>-->
+    <!--</process>-->
+</deploy>
