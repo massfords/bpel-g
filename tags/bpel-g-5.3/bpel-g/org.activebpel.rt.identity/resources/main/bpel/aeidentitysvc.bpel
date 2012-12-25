@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+BPEL Process Definition
+Edited using ActiveBPEL(r) Designer Version 4.1.2 (http://www.active-endpoints.com)
+-->
+<bpel:process xmlns:aeid="http://docs.active-endpoints/wsdl/identity/2007/03/identity.wsdl" 
+	xmlns:bpel="http://docs.oasis-open.org/wsbpel/2.0/process/executable" 
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
+	name="aeidentitysvc" 
+	suppressJoinFailure="yes" targetNamespace="http://aeidentitysvc">
+   <bpel:import importType="http://schemas.xmlsoap.org/wsdl/" location="../wsdl/identity.wsdl" namespace="http://docs.active-endpoints/wsdl/identity/2007/03/identity.wsdl"/>
+   <bpel:partnerLinks>
+      <bpel:partnerLink myRole="service" name="externalIdentityPLT" partnerLinkType="aeid:identityPLT"/>
+      <bpel:partnerLink name="internalIdentityPLT" partnerLinkType="aeid:identityPLT" partnerRole="service"/>
+   </bpel:partnerLinks>
+   <bpel:variables>
+      <bpel:variable messageType="aeid:emptyElemMsg" name="emptyInput"/>
+      <bpel:variable messageType="aeid:roleListOutput" name="roleListOutput"/>
+   </bpel:variables>
+   <bpel:flow>
+      <bpel:links>
+         <bpel:link name="L2"/>
+      </bpel:links>
+      <bpel:sequence>
+         <bpel:receive createInstance="yes" name="Receive_FindRoles" operation="findRoles" partnerLink="externalIdentityPLT" portType="aeid:IdentitySearchPortType" variable="emptyInput">
+            <bpel:sources>
+               <bpel:source linkName="L2"/>
+            </bpel:sources>
+         </bpel:receive>
+         <bpel:scope>
+            <bpel:targets>
+               <bpel:target linkName="L2"/>
+            </bpel:targets>
+            <bpel:faultHandlers>
+               <bpel:catch faultMessageType="aeid:searchFault" faultName="aeid:searchFault" faultVariable="searchFault">
+                  <bpel:reply faultName="aeid:searchFault" operation="findRoles" partnerLink="externalIdentityPLT" variable="searchFault"/>
+               </bpel:catch>
+            </bpel:faultHandlers>
+            <bpel:flow>
+               <bpel:links>
+                  <bpel:link name="L1"/>
+               </bpel:links>
+               <bpel:invoke inputVariable="emptyInput" name="Proxy_FindRoles" operation="findRoles" outputVariable="roleListOutput" partnerLink="internalIdentityPLT" portType="aeid:IdentitySearchPortType">
+                  <bpel:sources>
+                     <bpel:source linkName="L1"/>
+                  </bpel:sources>
+               </bpel:invoke>
+               <bpel:reply name="Reply_Roles" operation="findRoles" partnerLink="externalIdentityPLT" portType="aeid:IdentitySearchPortType" variable="roleListOutput">
+                  <bpel:targets>
+                     <bpel:target linkName="L1"/>
+                  </bpel:targets>
+               </bpel:reply>
+            </bpel:flow>
+         </bpel:scope>
+      </bpel:sequence>
+   </bpel:flow>
+</bpel:process>

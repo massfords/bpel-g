@@ -1,0 +1,13 @@
+<?xml version='1.0' encoding="UTF-8"?>
+<schemas>
+   <schemaRef namespace="http://schemas.xmlsoap.org/soap/encoding/" location="soapEnc.xsd" />
+   <schemaRef namespace="http://www.w3.org/2001/XMLSchema" location="XMLSchema.xsd" />
+   <schemaRef namespace="http://schemas.xmlsoap.org/ws/2003/03/addressing" location="ws-addressing-2003-03.xsd" />
+   <schemaRef namespace="http://schemas.xmlsoap.org/ws/2004/08/addressing" location="ws-addressing-2004-08.xsd" />
+   <schemaRef namespace="http://schemas.xmlsoap.org/ws/2004/03/addressing" location="ws-addressing-2004-03.xsd" />   
+   <schemaRef namespace="http://www.w3.org/2005/08/addressing" location="ws-addressing-2005-08.xsd" />      
+   <schemaRef namespace="http://www.w3.org/XML/1998/namespace" location="xml.xsd" />
+   <schemaRef namespace="http://schemas.xmlsoap.org/wsdl/" location="wsdl11.xsd" />
+   <schemaRef namespace="http://docs.oasis-open.org/wsbpel/2.0/serviceref" location="ws-bpel_serviceref.xsd" />
+   <schemaRef namespace="http://schemas.xmlsoap.org/soap/envelope/" location="soap11.xsd" />
+</schemas>

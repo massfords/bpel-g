@@ -1,0 +1,12 @@
+<jxb:bindings 
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:jxb="http://java.sun.com/xml/ns/jaxb"
+    xsi:schemaLocation="http://java.sun.com/xml/ns/jaxb http://java.sun.com/xml/ns/jaxb/bindingschema_2_0.xsd"
+    version="2.0">
+    <jxb:bindings schemaLocation="../../../target/dependency/pddCatalog.xsd">
+        <jxb:schemaBindings>
+            <jxb:package name="bpelg.services.deploy.types.catalog"/>
+        </jxb:schemaBindings>
+    </jxb:bindings>
+</jxb:bindings>

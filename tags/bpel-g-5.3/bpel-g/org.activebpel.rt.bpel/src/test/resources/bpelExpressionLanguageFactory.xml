@@ -1,0 +1,16 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:bpelg="urn:bpel-g:spring-ext"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+       urn:bpel-g:spring-ext
+       http://bpel-g.googlecode.com/svn/trunk/bpel-g/org.activebpel.rt.bpel/src/main/resources/springext-bpel.xsd">
+
+    <bpelg:bpelExpressionLanguageFactory id="factory" defaultLanguage="http://www.w3.org/TR/1999/REC-xpath-19991116">
+        <bpelg:bundle
+                uri="http://www.w3.org/TR/1999/REC-xpath-19991116"
+                validator="org.activebpel.rt.bpel.def.validation.expr.xpath.AeBPWSXPathExpressionValidator"
+                runner="org.activebpel.rt.bpel.impl.expr.xpath.AeBPWSXPathExpressionRunner"
+                analyzer="org.activebpel.rt.bpel.def.expr.xpath.AeBPWSXPathExpressionAnalyzer"/>
+    </bpelg:bpelExpressionLanguageFactory>
+</beans>

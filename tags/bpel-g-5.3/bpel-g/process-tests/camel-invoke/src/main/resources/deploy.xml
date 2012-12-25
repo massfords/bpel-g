@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<deploy xmlns="http://www.apache.org/ode/schemas/dd/2007/03"
+    xmlns:ex="http://www.example.org/correlation/" replace.existing="true"
+    xmlns:wsa="http://www.w3.org/2005/08/addressing"
+        xmlns:ae="urn:org.activebpel.deploy">
+    
+    <process name="proc:camel-invoke" xmlns:proc="http://www.example.org/">
+        <provide partnerLink="plt">
+            <service name="ex:camelInvokeService" port="camelInvokeService"/>
+        </provide>
+        <invoke partnerLink="plt2">
+            <service name="proc:camel-invoke" port="notification">
+                <wsa:EndpointReference>
+                    <wsa:Address>netty:udp://localhost:60300?sync=false</wsa:Address>
+                    <ae:invokeHandler>camel</ae:invokeHandler>
+                </wsa:EndpointReference>
+            </service>
+        </invoke>
+    </process>
+</deploy>

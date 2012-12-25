@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+   This is the SQL configuration file for the Oracle implementation
+   of the Active BPEL engine.  This file contains only those SQL
+   statements that differ from the common SQL found in common-sql.xml.
+-->
+<sql-config>
+   <sql-statements>
+
+      <constants>
+         <constant name="TABLE_PREFIX"></constant>
+      </constants>
+
+      <parameter>
+         <!-- For AeDataSource.configureConnection and AeSQLCounter.getNextValue. -->
+         <name>SetTransactionIsolationLevel</name>
+         <value>false</value>
+      </parameter>
+
+      <sql-statement>
+         <name>JournalStorage.InsertJournalEntry</name>
+         <sql>
+            INSERT INTO %TABLE_PREFIX%AeProcessJournal(JournalId, ProcessId, Counter, EntryType, LocationId, EntryDocument)
+            VALUES (?, ?, %TABLE_PREFIX%AeProcessJournalSequence.nextval, ?, ?, ?)
+         </sql>
+      </sql-statement>
+
+      <sql-statement>
+         <name>ProcessStorage.GetProcessVariables</name>
+         <sql>
+            SELECT /*+ INDEX(%TABLE_PREFIX%AeVariable) */ LocationId, VersionNumber FROM %TABLE_PREFIX%AeVariable WHERE ProcessId = ?
+         </sql>
+      </sql-statement>
+
+      <sql-statement>
+         <name>ProcessStorage.InsertProcessLog</name>
+         <sql>
+            INSERT INTO %TABLE_PREFIX%AeProcessLog(ProcessId, ProcessLog, Counter, LineCount)
+            VALUES (?, ?, %TABLE_PREFIX%AeProcessLogSequence.nextval, ?)
+         </sql>
+      </sql-statement>
+   </sql-statements>
+</sql-config>

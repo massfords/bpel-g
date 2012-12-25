@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+   This is the SQL configuration file for the MySQL implementation
+   of the Active BPEL engine.  This file contains only those SQL
+   statements that differ from the common SQL found in common-sql.xml.
+-->
+<sql-config>
+   <sql-statements>
+
+      <sql-statement>
+         <name>Generic.Limit</name>
+         <sql>
+            LIMIT ?
+         </sql>
+      </sql-statement>
+
+   </sql-statements>
+</sql-config>

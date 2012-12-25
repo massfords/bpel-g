@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions
+        xmlns:tns="http://www.example.org/errors/"
+        xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+        xmlns:xs="http://www.w3.org/2001/XMLSchema"
+        name="process-with-errors"
+        targetNamespace="http://www.example.org/errors/"
+        xmlns:plnk="http://docs.oasis-open.org/wsbpel/2.0/plnktype"
+        xmlns:vprop="http://docs.oasis-open.org/wsbpel/2.0/varprop">
+
+    <vprop:property name="quoteId" type="xs:string"/>
+
+    <vprop:propertyAlias propertyName="tns:quoteId" element="tns:quote">
+        <vprop:query>string(tns:quoteId)</vprop:query>
+    </vprop:propertyAlias>
+    <vprop:propertyAlias propertyName="tns:quoteId" element="tns:customerResponseToQuote">
+        <vprop:query>string(tns:quoteId)</vprop:query>
+    </vprop:propertyAlias>
+
+    <plnk:partnerLinkType name="plt">
+        <plnk:role name="process" portType="tns:quote"/>
+    </plnk:partnerLinkType>
+
+    <wsdl:types>
+        <xs:schema targetNamespace="http://www.example.org/errors/" elementFormDefault="qualified">
+            <xs:element name="requestForQuote">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="customerId" type="xs:string"/>
+                        <xs:element name="productId" type="xs:string"/>
+                        <xs:element name="quantity" type="xs:int"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="quote">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="quoteId" type="xs:string"/>
+                        <xs:element name="amount" type="xs:double"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="customerResponseToQuote">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="quoteId" type="xs:string"/>
+                        <xs:element name="accept" type="xs:boolean"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="confirmation">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="accept" type="xs:boolean"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+        </xs:schema>
+    </wsdl:types>
+
+    <wsdl:message name="RequestForQuote">
+        <wsdl:part element="tns:requestForQuote" name="requestForQuote"/>
+    </wsdl:message>
+    <wsdl:message name="Quote">
+        <wsdl:part element="tns:quote" name="quote"/>
+    </wsdl:message>
+    <wsdl:message name="CustomerResponseToQuote">
+        <wsdl:part element="tns:customerResponseToQuote" name="customerResponseToQuote"/>
+    </wsdl:message>
+    <wsdl:message name="Confirmation">
+        <wsdl:part element="tns:confirmation" name="confirmation"/>
+    </wsdl:message>
+
+    <wsdl:portType name="quote">
+        <wsdl:operation name="requestQuote">
+            <wsdl:input message="tns:RequestForQuote"/>
+            <wsdl:output message="tns:Quote"/>
+        </wsdl:operation>
+        <wsdl:operation name="respondToQuote">
+            <wsdl:input message="tns:CustomerResponseToQuote"/>
+            <wsdl:output message="tns:Confirmation"/>
+        </wsdl:operation>
+    </wsdl:portType>
+</wsdl:definitions>

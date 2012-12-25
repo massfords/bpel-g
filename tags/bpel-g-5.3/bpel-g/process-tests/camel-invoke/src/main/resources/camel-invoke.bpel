@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpel:process xmlns:bpel="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+              xmlns:ns2="http://www.example.org/camel-invoke/"
+              expressionLanguage="urn:active-endpoints:expression-language:xquery1.0" name="camel-invoke"
+              suppressJoinFailure="yes" targetNamespace="http://www.example.org/">
+   <bpel:import importType="http://schemas.xmlsoap.org/wsdl/" location="camel-invoke.wsdl" namespace="http://www.example.org/camel-invoke/"/>
+   <bpel:partnerLinks>
+      <bpel:partnerLink myRole="process" name="plt" partnerLinkType="ns2:plt"/>
+       <bpel:partnerLink partnerRole="listener" name="plt2" partnerLinkType="ns2:listener"/>
+   </bpel:partnerLinks>
+   <bpel:variables>
+      <bpel:variable element="ns2:createProcess" name="createProcess"/>
+      <bpel:variable element="ns2:processCreated" name="processCreated"/>
+   </bpel:variables>
+   <bpel:sequence>
+      <bpel:receive createInstance="yes" operation="createProcess" partnerLink="plt" variable="createProcess"/>
+      <bpel:assign name="ProcessCreated">
+         <bpel:copy>
+            <bpel:from>
+                <![CDATA[
+                <s:processCreated xmlns:s="http://www.example.org/camel-invoke/"
+                                  xmlns:abx='http://www.activebpel.org/bpel/extension'>
+                    <s:pid>{abx:getProcessId()}</s:pid>
+                    <s:message>{string($createProcess/s:message)}</s:message>
+                </s:processCreated>
+                ]]>
+            </bpel:from>
+            <bpel:to variable="processCreated"/>
+         </bpel:copy>
+      </bpel:assign>
+       <bpel:invoke operation="notify" partnerLink="plt2" inputVariable="processCreated"/>
+       <bpel:reply operation="createProcess" partnerLink="plt" variable="processCreated"/>
+   </bpel:sequence>
+</bpel:process>

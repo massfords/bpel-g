@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<process
+        xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+        xmlns:ns1="http://www.example.org/correlation/"
+        expressionLanguage="urn:active-endpoints:expression-language:xquery1.0" name="pick-onAlarm-until"
+        suppressJoinFailure="yes" targetNamespace="http://www.example.org/">
+    <import importType="http://schemas.xmlsoap.org/wsdl/" location="correlation.wsdl"
+            namespace="http://www.example.org/correlation/"/>
+    <partnerLinks>
+        <partnerLink myRole="process" name="plt" partnerLinkType="ns1:plt"/>
+    </partnerLinks>
+    <variables>
+        <variable element="ns1:requestForQuote" name="requestForQuote"/>
+        <variable element="ns1:quote" name="quote"/>
+        <variable element="ns1:customerResponseToQuote" name="customerResponseToQuote"/>
+        <variable element="ns1:confirmation" name="confirmation"/>
+        <variable element="ns1:statusRequest" name="statusRequest"/>
+        <variable element="ns1:statusResponse" name="statusResponse"/>
+    </variables>
+    <correlationSets>
+        <correlationSet name="CS1" properties="ns1:quoteId"/>
+    </correlationSets>
+    <sequence>
+        <receive createInstance="yes" operation="requestQuote" partnerLink="plt" variable="requestForQuote"/>
+        <assign name="PrepareQuote">
+            <copy>
+                <from>
+                    <![CDATA[
+                    <quote xmlns="http://www.example.org/correlation/" xmlns:abx='http://www.activebpel.org/bpel/extension'>
+                        <quoteId>{abx:getProcessId()}</quoteId>
+                        <amount>1234.50</amount>
+                    </quote>
+                ]]>
+                </from>
+                <to variable="quote"/>
+            </copy>
+        </assign>
+        <reply operation="requestQuote" partnerLink="plt" variable="quote">
+            <correlations>
+                <correlation initiate="yes" set="CS1"/>
+            </correlations>
+        </reply>
+        <pick>
+            <onMessage operation="respondToQuote" partnerLink="plt" variable="customerResponseToQuote">
+                <correlations>
+                    <correlation initiate="no" set="CS1"/>
+                </correlations>
+                <sequence>
+                    <assign name="PrepareConfirmation">
+                        <copy>
+                            <from>
+                                <literal>
+                                    <confirmation xmlns="http://www.example.org/correlation/">
+                                        <accept>true</accept>
+                                    </confirmation>
+                                </literal>
+                            </from>
+                            <to variable="confirmation"/>
+                        </copy>
+                        <copy>
+                            <from>
+                                <literal>
+                                    <statusResponse xmlns="http://www.example.org/correlation/">
+                                        <status>1</status>
+                                    </statusResponse>
+                                </literal>
+                            </from>
+                            <to variable="statusResponse"/>
+                        </copy>
+                    </assign>
+                    <reply operation="respondToQuote" partnerLink="plt" variable="confirmation"/>
+                </sequence>
+            </onMessage>
+            <onAlarm>
+                <until>current-dateTime() + xs:dayTimeDuration("P0DT0H0M2S")</until>
+                <assign name="UpdateStatus">
+                    <copy>
+                        <from>
+                            <literal>
+                                <statusResponse xmlns="http://www.example.org/correlation/">
+                                    <status>2</status>
+                                </statusResponse>
+                            </literal>
+                        </from>
+                        <to variable="statusResponse"/>
+                    </copy>
+                </assign>
+            </onAlarm>
+        </pick>
+        <receive operation="status" partnerLink="plt" variable="statusRequest">
+            <correlations>
+                <correlation initiate="no" set="CS1"/>
+            </correlations>
+        </receive>
+        <reply operation="status" partnerLink="plt" variable="statusResponse"/>
+    </sequence>
+</process>

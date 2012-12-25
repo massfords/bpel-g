@@ -1,0 +1,9 @@
+<ae:preferences xmlns:ae="urn:activebpel:wsresource:validation:ruleSeverity" 
+         targetNamespace="http://schemas.xmlsoap.org/wsdl/">
+
+   <ae:preference>
+      <ae:ruleCode>WSDL_WSI_R2003</ae:ruleCode>
+      <ae:preferredSeverity>ERROR</ae:preferredSeverity>
+   </ae:preference>
+
+</ae:preferences>
