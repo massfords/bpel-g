@@ -19,6 +19,11 @@
             <service name="ex:betsyQuoteService" port="betsyQuoteService"/>
         </provide>
     </process>
+    <process name="proc:pick-onAlarm-until" xmlns:proc="http://www.example.org/">
+        <provide partnerLink="plt">
+            <service name="ex:betsyQuoteUntilService" port="betsyQuoteUntilService"/>
+        </provide>
+    </process>
 
 
 </deploy>
