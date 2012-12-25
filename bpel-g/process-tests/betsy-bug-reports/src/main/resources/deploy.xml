@@ -8,4 +8,10 @@
         </provide>
     </process>
 
+    <process name="proc:dupe-variable" xmlns:proc="http://www.example.org/">
+        <provide partnerLink="plt">
+            <service name="ex:betsyDupeVarService" port="betsyDupeVar"/>
+        </provide>
+    </process>
+
 </deploy>

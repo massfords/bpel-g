@@ -11,37 +11,43 @@ package org.activebpel.rt.bpel.def.validation.activity.scope;
 
 import org.activebpel.rt.bpel.def.AePartnerLinksDef;
 import org.activebpel.rt.bpel.def.validation.AeBaseValidator;
+import org.activebpel.rt.bpel.def.validation.AeContainerValidatorUtil;
 
 import java.util.List;
 
 /**
  * Model provides validation for the partnerlinks model
  */
-public class AePartnerLinksValidator extends AeBaseValidator
-{
+public class AePartnerLinksValidator extends AeBaseValidator {
 
-   /**
-    * ctor
-    * @param aDef
-    */
-   public AePartnerLinksValidator(AePartnerLinksDef aDef)
-   {
-      super(aDef);
-   }
-   
-   /**
-    * Gets the plink model by name
-    * @param aName
-    */
-   public AePartnerLinkValidator getPartnerLinkModel(String aName)
-   {
-      List plinks = getChildren(AePartnerLinkValidator.class);
-       for (Object plink : plinks) {
-           AePartnerLinkValidator plinkModel = (AePartnerLinkValidator) plink;
-           if (plinkModel.getName().equals(aName))
-               return plinkModel;
-       }
-      return null;
-   }
+    /**
+     * ctor
+     *
+     * @param aDef
+     */
+    public AePartnerLinksValidator(AePartnerLinksDef aDef) {
+        super(aDef);
+    }
+
+    @Override
+    public void validate() {
+        AeContainerValidatorUtil.checkForDupes(getReporter(), "partnerLink", (AePartnerLinksDef)getDefinition());
+        super.validate();
+    }
+
+    /**
+     * Gets the plink model by name
+     *
+     * @param aName
+     */
+    public AePartnerLinkValidator getPartnerLinkModel(String aName) {
+        List plinks = getChildren(AePartnerLinkValidator.class);
+        for (Object plink : plinks) {
+            AePartnerLinkValidator plinkModel = (AePartnerLinkValidator) plink;
+            if (plinkModel.getName().equals(aName))
+                return plinkModel;
+        }
+        return null;
+    }
 }
  

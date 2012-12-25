@@ -191,8 +191,9 @@ public interface IAeValidationProblemCodes
    public static String BPEL_MULTIPLE_CHILDREN_FOUND_CODE = "BPEL_MULTIPLE_CHILDREN_FOUND";           //$NON-NLS-1$
 
    public static String WSBPEL_NESTED_ISOLATED_SCOPE_CODE = "WSBPEL_NESTED_ISOLATED_SCOPE";           //$NON-NLS-1$
+   public static String DUPLICATE_NAME = "DUPLICATE_NAME";           //$NON-NLS-1$
 
-   public static String WSBPEL_NESTED_ISOLATED_SCOPE_FCT_SOURCE_CODE = "WSBPEL_NESTED_ISOLATED_SCOPE_FCT_SOURCE"; //$NON-NLS-1$
+    public static String WSBPEL_NESTED_ISOLATED_SCOPE_FCT_SOURCE_CODE = "WSBPEL_NESTED_ISOLATED_SCOPE_FCT_SOURCE"; //$NON-NLS-1$
    public static String WSBPEL_NESTED_ISOLATED_SCOPE_FCT_TARGET_CODE = "WSBPEL_NESTED_ISOLATED_SCOPE_FCT_TARGET"; //$NON-NLS-1$
 
    public static String BPEL_NO_COPY_CODE = "BPEL_NO_COPY";                                           //$NON-NLS-1$

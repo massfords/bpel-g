@@ -9,16 +9,16 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpel.def.activity.support;
 
-import java.util.Iterator;
-
 import org.activebpel.rt.bpel.def.AeBaseContainer;
 import org.activebpel.rt.bpel.def.visitors.IAeDefVisitor;
+
+import java.util.Iterator;
 
 /**
  * Container for the links within a Flow. Using this container as opposed to 
  * a collection so it can be visited.
  */
-public class AeLinksDef extends AeBaseContainer<AeLinkDef,AeLinkDef>
+public class AeLinksDef extends AeBaseContainer<String,AeLinkDef>
 {
    private static final long serialVersionUID = -7462005664763933604L;
 

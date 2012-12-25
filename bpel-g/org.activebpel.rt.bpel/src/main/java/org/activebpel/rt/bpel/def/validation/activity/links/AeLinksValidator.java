@@ -7,23 +7,29 @@
 //Active Endpoints, Inc. Removal of this PROPRIETARY RIGHTS STATEMENT 
 //is strictly forbidden. Copyright (c) 2002-2006 All rights reserved. 
 /////////////////////////////////////////////////////////////////////////////
-package org.activebpel.rt.bpel.def.validation.activity.links; 
+package org.activebpel.rt.bpel.def.validation.activity.links;
 
 import org.activebpel.rt.bpel.def.activity.support.AeLinksDef;
 import org.activebpel.rt.bpel.def.validation.AeBaseValidator;
+import org.activebpel.rt.bpel.def.validation.AeContainerValidatorUtil;
 
 /**
  * model provides validation for links model
  */
-public class AeLinksValidator extends AeBaseValidator
-{
-   /**
-    * ctor
-    * @param aDef
-    */
-   public AeLinksValidator(AeLinksDef aDef)
-   {
-      super(aDef);
-   }
+public class AeLinksValidator extends AeBaseValidator {
+    /**
+     * ctor
+     *
+     * @param aDef
+     */
+    public AeLinksValidator(AeLinksDef aDef) {
+        super(aDef);
+    }
+
+    @Override
+    public void validate() {
+        AeContainerValidatorUtil.checkForDupes(getReporter(), "link", (AeLinksDef) getDefinition());
+        super.validate();
+    }
 }
  
