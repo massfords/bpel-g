@@ -1,0 +1,32 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<name>Apache Axis Support</name>
+	<groupId>org.activebpel</groupId>
+	<artifactId>ae-axis</artifactId>
+
+	<parent>
+		<groupId>bpel-g</groupId>
+		<artifactId>bpel-g</artifactId>
+		<version>5.3</version>
+	</parent>
+
+	<description>Some supporting classes for modeling services and deployments within Axis. </description>
+	<dependencies>
+		<dependency>
+			<groupId>org.activebpel</groupId>
+			<artifactId>ae-bpelsrvr</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.axis</groupId>
+			<artifactId>axis</artifactId>
+			<version>1.4</version>
+		</dependency>
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>servlet-api</artifactId>
+			<version>2.5</version>
+			<scope>provided</scope>
+		</dependency>
+	</dependencies>
+</project>
