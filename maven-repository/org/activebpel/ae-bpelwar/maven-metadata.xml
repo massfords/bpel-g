@@ -3,10 +3,11 @@
   <groupId>org.activebpel</groupId>
   <artifactId>ae-bpelwar</artifactId>
   <versioning>
-    <release>5.2</release>
+    <release>5.3</release>
     <versions>
       <version>5.2</version>
+      <version>5.3</version>
     </versions>
-    <lastUpdated>20110713162740</lastUpdated>
+    <lastUpdated>20121226000509</lastUpdated>
   </versioning>
 </metadata>
