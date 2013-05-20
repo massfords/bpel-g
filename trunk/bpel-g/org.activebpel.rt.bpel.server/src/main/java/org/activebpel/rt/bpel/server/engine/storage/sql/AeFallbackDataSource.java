@@ -1,15 +1,5 @@
 package org.activebpel.rt.bpel.server.engine.storage.sql;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.PrintWriter;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-
-import javax.sql.DataSource;
-
 import org.activebpel.rt.bpel.server.deploy.scanner.AeDeploymentFileInfo;
 import org.activebpel.rt.bpel.server.engine.storage.AeStorageException;
 import org.apache.commons.logging.Log;
@@ -17,6 +7,17 @@ import org.apache.commons.logging.LogFactory;
 import org.h2.jdbcx.JdbcConnectionPool;
 import org.h2.tools.RunScript;
 import org.h2.util.IOUtils;
+
+import javax.sql.DataSource;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.PrintWriter;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.SQLFeatureNotSupportedException;
+import java.sql.Statement;
+import java.util.logging.Logger;
 
 public class AeFallbackDataSource extends AeJNDIDataSource {
     
@@ -106,7 +107,12 @@ public class AeFallbackDataSource extends AeJNDIDataSource {
 				return loginTimeout;
 			}
 
-			@Override
+            @Override
+            public Logger getParentLogger() throws SQLFeatureNotSupportedException {
+                throw new SQLFeatureNotSupportedException();
+            }
+
+            @Override
 			public <T> T unwrap(Class<T> aIface) throws SQLException {
 				throw new SQLException("not a wrapper for anything");
 			}

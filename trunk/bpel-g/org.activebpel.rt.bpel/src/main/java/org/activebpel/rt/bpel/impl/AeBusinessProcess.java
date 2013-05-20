@@ -304,7 +304,7 @@ public class AeBusinessProcess extends AeActivityScopeImpl implements IAeBusines
    }
 
    /**
-    * @see org.activebpel.rt.bpel.impl.IAeBusinessProcessInternal#setProcessState(int)
+    * @see org.activebpel.rt.bpel.impl.IAeBusinessProcessInternal#setProcessState(bpelg.services.processes.types.ProcessStateValueType)
     */
    public void setProcessState(ProcessStateValueType aState)
    {
@@ -845,10 +845,9 @@ public class AeBusinessProcess extends AeActivityScopeImpl implements IAeBusines
    {
       if (getCreateMessage() != null)
       {
-         AePartnerLinkOpKey activityPLOKey = aPartnerLinkOpKey;
-         AePartnerLinkOpKey startMsgPLOKey = getCreateMessage().getPartnerLinkOperationKey();
+          AePartnerLinkOpKey startMsgPLOKey = getCreateMessage().getPartnerLinkOperationKey();
 
-         return AeUtil.compareObjects(activityPLOKey, startMsgPLOKey);
+         return AeUtil.compareObjects(aPartnerLinkOpKey, startMsgPLOKey);
       }
       return false;
    }
@@ -1131,7 +1130,7 @@ public class AeBusinessProcess extends AeActivityScopeImpl implements IAeBusines
    }
 
    /**
-    * @see org.activebpel.rt.bpel.impl.IAeBusinessProcessInternal#addPartnerLinkMapping(org.activebpel.rt.bpel.impl.AePartnerLink)
+    * @see org.activebpel.rt.bpel.impl.IAeBusinessProcessInternal#addPartnerLinkMapping(org.activebpel.rt.bpel.IAePartnerLink)
     */
    public void addPartnerLinkMapping(IAePartnerLink aPartnerLink)
    {
@@ -1556,8 +1555,7 @@ public class AeBusinessProcess extends AeActivityScopeImpl implements IAeBusines
       serializer.setFault(aFault);
       serializer.setTypeMapping(getEngine().getTypeMapping());
 
-      AeFastElement faultElement = serializer.getFaultElement();
-      return faultElement;
+       return serializer.getFaultElement();
    }
 
    /**
@@ -2050,7 +2048,7 @@ public class AeBusinessProcess extends AeActivityScopeImpl implements IAeBusines
    {
       // there is no fault for BPWS
       if (!getFaultFactory().isAmbiguousReceiveFaultSupported())
-         return Collections.<IAeMessageReceiverActivity>emptyList();
+         return Collections.emptyList();
 
       List<IAeMessageReceiverActivity> list = null;
 
@@ -2071,7 +2069,7 @@ public class AeBusinessProcess extends AeActivityScopeImpl implements IAeBusines
        }
 
       if (list == null)
-         list = Collections.<IAeMessageReceiverActivity>emptyList();
+         list = Collections.emptyList();
       return list;
    }
 
@@ -2303,7 +2301,7 @@ public class AeBusinessProcess extends AeActivityScopeImpl implements IAeBusines
    {
       // Note: This non-interface method is public for AeRestoreImplStateVisitor.
       Object value = getBusinessProcessPropertiesMap().get(aName);
-      return (value instanceof String) ? (String) value : null;
+      return (value != null) ? (String) value : null;
    }
 
    /**
@@ -2486,7 +2484,7 @@ public class AeBusinessProcess extends AeActivityScopeImpl implements IAeBusines
          {
             IAeVariable variable = (IAeVariable) aDetails;
             // TODO (MF) defer serialization until we know someone is listening
-            if (variable != null && variable.hasData())
+            if (variable.hasData())
             {
                doc = serializeVariable(variable);
             }
@@ -2681,7 +2679,7 @@ public class AeBusinessProcess extends AeActivityScopeImpl implements IAeBusines
    }
 
    /**
-    * @see org.activebpel.rt.bpel.impl.IAeBusinessProcessInternal#initPartnerLink(org.activebpel.rt.bpel.impl.AePartnerLink)
+    * @see org.activebpel.rt.bpel.impl.IAeBusinessProcessInternal#initPartnerLink(org.activebpel.rt.bpel.IAePartnerLink)
     */
    public void initPartnerLink(IAePartnerLink aPartnerLink) throws AeBusinessProcessException
    {
@@ -3015,7 +3013,7 @@ public class AeBusinessProcess extends AeActivityScopeImpl implements IAeBusines
                   }
                });
             }
-            catch (AeBusinessProcessException e)
+            catch (AeBusinessProcessException ignored)
             {
             }
          }
@@ -3053,8 +3051,7 @@ public class AeBusinessProcess extends AeActivityScopeImpl implements IAeBusines
 
    /**
     * Finds the enclosing scope given the process and the locationPath
-    * @param aProcess
-    * @param aLocationPath 
+    * @param aLocationPath
     * @return enclosing scope or null if not found.
     */
    protected AeActivityScopeImpl findEnclosingScope(String aLocationPath)
@@ -3118,15 +3115,7 @@ public class AeBusinessProcess extends AeActivityScopeImpl implements IAeBusines
          return mCorrelationSets;
       }
 
-      /**
-       * @return Returns the hashcode.
-       */
-      protected int getHashcode()
-      {
-         return mHashcode;
-      }
-
-      /**
+       /**
        * @return Returns the PLO key.
        */
       protected AePartnerLinkOpImplKey getPartnerLinkOpImplKey()

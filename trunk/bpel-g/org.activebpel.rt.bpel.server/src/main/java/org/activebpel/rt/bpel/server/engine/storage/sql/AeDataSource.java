@@ -22,6 +22,8 @@ import java.io.PrintWriter;
 import java.lang.reflect.InvocationHandler;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.sql.SQLFeatureNotSupportedException;
+import java.util.logging.Logger;
 
 /**
  * Convenience class to centralize access to JDBC data sources. There is a
@@ -317,4 +319,12 @@ public abstract class AeDataSource implements DataSource
       getDelegate().setLogWriter(aWriter);
    }
 
+    @Override
+    public Logger getParentLogger() throws SQLFeatureNotSupportedException {
+        try {
+            return getDelegate().getParentLogger();
+        } catch (SQLException e) {
+            throw new SQLFeatureNotSupportedException(e);
+        }
+    }
 }

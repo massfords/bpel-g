@@ -9,11 +9,12 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpel.server.engine.storage.sql; 
 
+import javax.sql.DataSource;
 import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.SQLException;
-
-import javax.sql.DataSource;
+import java.sql.SQLFeatureNotSupportedException;
+import java.util.logging.Logger;
 
 /**
  * A delegating DataSource
@@ -65,7 +66,12 @@ public class AeDelegatingDataSource implements DataSource
       return getDelegate().getLoginTimeout();
    }
 
-   /**
+    @Override
+    public Logger getParentLogger() throws SQLFeatureNotSupportedException {
+        return getDelegate().getParentLogger();
+    }
+
+    /**
     * @see javax.sql.DataSource#setLogWriter(java.io.PrintWriter)
     */
    public void setLogWriter(PrintWriter aOut) throws SQLException

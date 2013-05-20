@@ -2,13 +2,23 @@ package bpelg.packaging.ode;
 
 import bpelg.packaging.ode.BgPddInfo.BgPlink;
 import bpelg.services.deploy.MissingResourcesException;
-import bpelg.services.deploy.types.pdd.*;
+import bpelg.services.deploy.types.pdd.MyRoleBindingType;
+import bpelg.services.deploy.types.pdd.MyRoleType;
+import bpelg.services.deploy.types.pdd.PartnerLinkType;
+import bpelg.services.deploy.types.pdd.PartnerRoleEndpointReferenceType;
+import bpelg.services.deploy.types.pdd.PartnerRoleType;
+import bpelg.services.deploy.types.pdd.Pdd;
 import bpelg.services.deploy.types.pdd.Pdd.PartnerLinks;
 import bpelg.services.deploy.types.pdd.Pdd.References;
+import bpelg.services.deploy.types.pdd.PersistenceType;
+import bpelg.services.deploy.types.pdd.PlatformType;
+import bpelg.services.deploy.types.pdd.ReferenceType;
 import org.activebpel.rt.AeException;
+import org.activebpel.rt.IAeConstants;
 import org.activebpel.rt.bpel.def.AeImportDef;
 import org.activebpel.rt.bpel.def.AeProcessDef;
 import org.activebpel.rt.bpel.def.io.AeBpelIO;
+import org.activebpel.rt.bpel.impl.AeEndpointReference;
 import org.activebpel.rt.bpel.server.deploy.bpr.AePddResource;
 import org.activebpel.rt.util.AeUtil;
 import org.activebpel.rt.util.AeXPathUtil;
@@ -19,7 +29,15 @@ import org.w3c.dom.Element;
 import javax.xml.namespace.QName;
 import java.io.File;
 import java.io.FileFilter;
-import java.util.*;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 public class BgPddBuilder {
     
@@ -97,10 +115,22 @@ public class BgPddBuilder {
 					.withEndpointReference(PartnerRoleEndpointReferenceType.STATIC)
 					.withInvokeHandler(AeXPathUtil.selectText(plink.epr, "//ae:invokeHandler", NAMESPACES))
 	                .withAny(plink.epr));
+//                } else {
+//                	partnerLink.withPartnerRole(new PartnerRoleType()
+//					.withEndpointReference(PartnerRoleEndpointReferenceType.DYNAMIC)
+//					.withInvokeHandler("default:Address"));
+//                }
                 } else {
+                    AeEndpointReference epr = new AeEndpointReference();
+                    epr.setServiceName(plink.partnerService);
+                    epr.setServicePort(plink.partnerEndpoint);
+                    epr.setSourceNamespace(IAeConstants.WSA_NAMESPACE_URI_2005_08);
+
                 	partnerLink.withPartnerRole(new PartnerRoleType()
-					.withEndpointReference(PartnerRoleEndpointReferenceType.DYNAMIC)
-					.withInvokeHandler("default:Address"));
+					.withEndpointReference(PartnerRoleEndpointReferenceType.STATIC)
+					.withInvokeHandler("default:Service")
+                    .withAny(epr.toDocument().getDocumentElement())
+                    );
                 }
                 // FIXME deploy - clean this up, need to rationalize the dropping of policies
             }
@@ -187,16 +217,14 @@ public class BgPddBuilder {
 
 	@SuppressWarnings("unchecked")
 	private List<Element> getPolicies(Element service) throws AeException {
-        List<Element> policies = AeXPathUtil.selectNodes(service, "wsp:Policy", NAMESPACES);
-        return policies;
+        return AeXPathUtil.selectNodes(service, "wsp:Policy", NAMESPACES);
     }
 
     @SuppressWarnings("unchecked")
 	private List<Element> getProcesses() throws AeException {
         if (deployXml == null)
-            return Collections.<Element>emptyList();
-        List<Element> processes = AeXPathUtil.selectNodes(deployXml, "/ode:deploy/ode:process", NAMESPACES);
-        return processes;
+            return Collections.emptyList();
+        return AeXPathUtil.selectNodes(deployXml, "/ode:deploy/ode:process", NAMESPACES);
     }
     
     /**
@@ -220,14 +248,13 @@ public class BgPddBuilder {
     }
 
     private File[] getBpelFiles() {
-        File[] files = serviceUnitRoot.listFiles(new FileFilter() {
+        return serviceUnitRoot.listFiles(new FileFilter() {
 
             @Override
             public boolean accept(File aFile) {
                 return aFile.getName().endsWith(".bpel");
             }
         });
-        return files;
     }
     
     protected Map<QName,BgPddInfo> getDeployments() {
