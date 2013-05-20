@@ -5,7 +5,6 @@ import bpelg.services.deploy.types.pdd.Pdd;
 import bpelg.services.deploy.types.pdd.PersistenceType;
 import org.activebpel.rt.util.AeXmlUtil;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.w3c.dom.Document;
 
@@ -17,7 +16,9 @@ import javax.xml.transform.dom.DOMResult;
 import java.io.File;
 import java.util.Map;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 public class BgPddBuilderTest {
     
@@ -57,7 +58,7 @@ public class BgPddBuilderTest {
         assertEquals("testInvoke", bgPlink.myEndpoint);
         bgPlink = testInvoke.getBgPlink("testPartnerLinkType2");
         assertEquals(new QName("http://www.example.org/test/", "test2"), bgPlink.partnerService);
-        assertEquals("testInvokeBpelReceiver", bgPlink.partnerEndpoint);
+        assertEquals("test2Port", bgPlink.partnerEndpoint);
 
         // testInvokeBpelReceiver
         BgPddInfo testInvokeBpelReceiver = deployments.get(new QName("urn:bpelg:test", "testInvokeBpelReceiver"));
@@ -103,14 +104,14 @@ public class BgPddBuilderTest {
         BgXmlAssert.assertXml(expected, actual, "/process[1]/partnerLinks[1]/partnerLink[1]/myRole[1]/@service", "/process[1]/@name");
     }
 
-    // FIXME deploy restore this test
-    @Ignore
+    @Test
     public void testGetPdd_testInvokeBpel() throws Exception {
         
         Pdd testPdd = builder.createPddDocument("testInvoke.bpel.pdd", catalogBuilder.getItems());
         
         String expectedXml = 
-            "<pdd:process xmlns:bpelns='test' xmlns:pdd='http://schemas.active-endpoints.com/pdd/2006/08/pdd.xsd' location='testInvoke.bpel' name='ns2:testInvoke' platform='opensource'>" + 
+            "<pdd:process xmlns:bpelns='test' xmlns:pdd='http://schemas.active-endpoints.com/pdd/2006/08/pdd.xsd' " +
+                    "location='testInvoke.bpel' name='ns2:testInvoke' platform='opensource' persistenceType='full'>" +
                 "<pdd:partnerLinks>" + 
                     "<pdd:partnerLink name='testPartnerLinkType'>" + 
                         "<pdd:myRole allowedRoles='' binding='MSG' service='testInvoke'>" +
@@ -120,18 +121,16 @@ public class BgPddBuilderTest {
                         "</pdd:myRole>" + 
                     "</pdd:partnerLink>" + 
                     "<pdd:partnerLink name='testPartnerLinkType2'>" + 
-                        "<pdd:partnerRole endpointReference='static' invokeHandler='default:Service'>" + 
-                            "<wsa:EndpointReference xmlns:wsa='http://www.w3.org/2005/08/addressing' xmlns:psvc='http://www.example.org/test/'>" + 
-                                "<wsa:Address>None</wsa:Address>" + 
-                                "<wsa:Metadata>" + 
-                                    "<wsa:ServiceName PortName='testInvokeBpelReceiver'>psvc:test2</wsa:ServiceName>" + 
-//                                    "<wsp:Policy xmlns:abp='http://schemas.active-endpoints.com/ws/2005/12/policy' xmlns:wsp='http://schemas.xmlsoap.org/ws/2004/09/policy'>" + 
-//                                        "<abp:Validation direction='both'/>" + 
-//                                    "</wsp:Policy>" + 
-                                "</wsa:Metadata>" + 
-                           "</wsa:EndpointReference>" + 
-                        "</pdd:partnerRole>" + 
-                    "</pdd:partnerLink>" + 
+                        "<pdd:partnerRole endpointReference='static' invokeHandler='default:Service'>" +
+                            // the xml assertion here is fragile because of the encoded qname ns5:test2
+                            "<wsa:EndpointReference xmlns:wsa='http://www.w3.org/2005/08/addressing' xmlns:ns5='http://www.example.org/test/'>" +
+                                "<wsa:Address/>" +
+                                "<wsa:Metadata>" +
+                                    "<wsa:ServiceName PortName='test2Port'>ns5:test2</wsa:ServiceName>" +
+                                "</wsa:Metadata>" +
+                           "</wsa:EndpointReference>" +
+                        "</pdd:partnerRole>" +
+                    "</pdd:partnerLink>" +
                 "</pdd:partnerLinks>" + 
                 "<pdd:references>" + 
                     "<pdd:wsdl location='project:/example-su/wsdl/example.wsdl' namespace='http://www.example.org/test/'/>" + 
@@ -145,7 +144,7 @@ public class BgPddBuilderTest {
     }
 
 	protected Document serialize(Pdd testPdd) throws JAXBException {
-		Document actual = null;
+		Document actual;
         JAXBContext context = JAXBContext.newInstance(Pdd.class);
         Marshaller m = context.createMarshaller();
         DOMResult result = new DOMResult();
