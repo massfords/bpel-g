@@ -308,13 +308,11 @@ public abstract class AeSOAPReceiveHandler extends AeAbstractReceiveHandler {
 			}
 
 			env = msg.getSOAPPart().getEnvelope();
-		} catch (IOException ie) {
+		} catch (IOException | SOAPException ie) {
 			throw new AeBusinessProcessException(ie.getMessage(), ie);
-		} catch (SOAPException se) {
-			throw new AeBusinessProcessException(se.getMessage(), se);
 		}
 
-		return env;
+        return env;
 	}
 
 	public MessageFactory getMessageFactory() {

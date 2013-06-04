@@ -123,13 +123,9 @@ public class AeXPathAST
          
          return handler.getAST();
       }
-      catch (SAXPathException ex)
+      catch (SAXPathException | NullPointerException ex)
       {
          throw new AeException(ex);
-      }
-      catch (NullPointerException npe)
-      {
-         throw new AeException(npe);
       }
    }
 }

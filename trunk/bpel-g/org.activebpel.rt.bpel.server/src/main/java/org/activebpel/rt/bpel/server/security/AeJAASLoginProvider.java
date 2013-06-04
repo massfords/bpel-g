@@ -54,12 +54,10 @@ public class AeJAASLoginProvider implements IAeLoginProvider {
 			LoginContext context = createLoginContext(aUsername, aPassword,
 					aSubject);
 			context.login();
-		} catch (SecurityException se) {
+		} catch (SecurityException | LoginException se) {
 			throw new AeSecurityException(se.getLocalizedMessage(), se);
-		} catch (LoginException le) {
-			throw new AeSecurityException(le.getLocalizedMessage(), le);
 		}
-	}
+    }
 
 	/**
 	 * @return the appName

@@ -40,15 +40,11 @@ public class AeMapBasedExtensionRegistry implements IAeExtensionRegistry
       {
          return (IAeExtensionObject) aClass.newInstance();
       }
-      catch (InstantiationException ex)
+      catch (InstantiationException | IllegalAccessException ex)
       {
          AeException.logError(ex, ex.getLocalizedMessage());
       }
-      catch (IllegalAccessException ex)
-      {
-         AeException.logError(ex, ex.getLocalizedMessage());
-      }
-      return null;
+       return null;
    }
 
    /**

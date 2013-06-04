@@ -97,16 +97,12 @@ public class AeDoXslTransformFunction extends AeAbstractBpelFunction
             AeXslUriResolver uriResolver = new AeXslUriResolver(aContext);
             result = AeXmlUtil.doTransform(xsltSource, xmlSource, parameters, uriResolver);
          }
-         catch (TransformerFactoryConfigurationError ex)
-         {
-            throwSubLanguageExecutionFault(aContext, ex);
-         }
-         catch (TransformerException ex)
+         catch (TransformerFactoryConfigurationError | TransformerException ex)
          {
             throwSubLanguageExecutionFault(aContext, ex);
          }
 
-         // Note: we could easily validate the return value here, since we could call
+          // Note: we could easily validate the return value here, since we could call
          // trans.getOutputProperty("method") to get the expected return type (EII or TII).
          // Not doing that right now, since it should "just work".
          return result;

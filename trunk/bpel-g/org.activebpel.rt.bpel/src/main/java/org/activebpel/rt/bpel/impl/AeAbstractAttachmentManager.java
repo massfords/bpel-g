@@ -191,16 +191,12 @@ public abstract class AeAbstractAttachmentManager extends AeManagerAdapter imple
               container.add(new AeStreamAttachmentItem(content, headers));
           }
       }
-      catch (FileNotFoundException ex)
-      {
-         throw new AeBusinessProcessException(ex.getLocalizedMessage());
-      }
-      catch (AeException ex)
+      catch (FileNotFoundException | AeException ex)
       {
          throw new AeBusinessProcessException(ex.getLocalizedMessage());
       }
 
-      return container;
+       return container;
    }
 
    /**

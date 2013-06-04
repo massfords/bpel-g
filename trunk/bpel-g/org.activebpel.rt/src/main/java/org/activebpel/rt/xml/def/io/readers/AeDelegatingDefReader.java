@@ -76,12 +76,7 @@ public class AeDelegatingDefReader extends AeBaseDefReader
       {
          return (AeBaseXmlDef)getChildClass().newInstance();
       }
-      catch (InstantiationException e)
-      {
-         throw new AeException(
-                  AeMessages.format("AeDelegatingDefReader.ERROR_0", getChildClass().getName()), e); //$NON-NLS-1$
-      }
-      catch (IllegalAccessException e)
+      catch (InstantiationException | IllegalAccessException e)
       {
          throw new AeException(
                   AeMessages.format("AeDelegatingDefReader.ERROR_0", getChildClass().getName()), e); //$NON-NLS-1$

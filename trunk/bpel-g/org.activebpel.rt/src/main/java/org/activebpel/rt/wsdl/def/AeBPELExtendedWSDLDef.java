@@ -334,15 +334,10 @@ public class AeBPELExtendedWSDLDef implements IAeBPELExtendedWSDLConst, IAeMutab
          // Save the WSDL definition.
          setWSDLDef(def);
       }
-      catch (IllegalArgumentException e)
+      catch (IllegalArgumentException | WSDLException e)
       {
          throw new AeWSDLException(e);
-      }
-      catch (WSDLException e)
-      {
-         throw new AeWSDLException(e);
-      }
-      finally
+      } finally
       {
          if( previousClassLoader != null )
             Thread.currentThread().setContextClassLoader(previousClassLoader);
@@ -372,11 +367,7 @@ public class AeBPELExtendedWSDLDef implements IAeBPELExtendedWSDLConst, IAeMutab
          // Save the WSDL definition.
          setWSDLDef(def);
       }
-      catch (IllegalArgumentException e)
-      {
-         throw new AeWSDLException(e);
-      }
-      catch (WSDLException e)
+      catch (IllegalArgumentException | WSDLException e)
       {
          throw new AeWSDLException(e);
       }
@@ -449,11 +440,7 @@ public class AeBPELExtendedWSDLDef implements IAeBPELExtendedWSDLConst, IAeMutab
          lWriter.writeWSDL(aDef, aWriter);
          aWriter.flush();
       }
-      catch (WSDLException e)
-      {
-         throw new AeWSDLException(e);
-      }
-      catch (IOException e)
+      catch (WSDLException | IOException e)
       {
          throw new AeWSDLException(e);
       }
