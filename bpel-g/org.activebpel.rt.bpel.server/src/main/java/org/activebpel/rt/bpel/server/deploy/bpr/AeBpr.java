@@ -9,19 +9,18 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpel.server.deploy.bpr;
 
-import java.io.InputStream;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
-
+import bpelg.services.deploy.types.catalog.Catalog;
+import bpelg.services.deploy.types.pdd.Pdd;
 import org.activebpel.rt.AeException;
 import org.activebpel.rt.bpel.server.deploy.AeDeploymentException;
 import org.activebpel.rt.bpel.server.deploy.IAeDeploymentContext;
 import org.activebpel.rt.bpel.server.deploy.IAeDeploymentSource;
 import org.w3c.dom.Document;
 
-import bpelg.services.deploy.types.catalog.Catalog;
-import bpelg.services.deploy.types.pdd.Pdd;
+import java.io.InputStream;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Standard IAeBpr impl for BPR archive file deployments.
@@ -31,7 +30,7 @@ public class AeBpr implements IAeBpr {
 	private final IAeBprAccessor mBprStrategy;
 	/** deployment context */
 	private final IAeDeploymentContext mDeploymentContext;
-	private final Map<Pdd,IAeDeploymentSource> mDeploymentSources = new HashMap<Pdd,IAeDeploymentSource>();
+	private final Map<Pdd,IAeDeploymentSource> mDeploymentSources = new HashMap<>();
 
 	// ----------[ Static creation methods
 	// ]--------------------------------------
@@ -105,7 +104,7 @@ public class AeBpr implements IAeBpr {
 			getBprStrategy().init();
 		} catch (AeException ae) {
 			throw new AeDeploymentException(ae.getLocalizedMessage(),
-					ae.getRootCause());
+					ae.getCause());
 		}
 	}
 

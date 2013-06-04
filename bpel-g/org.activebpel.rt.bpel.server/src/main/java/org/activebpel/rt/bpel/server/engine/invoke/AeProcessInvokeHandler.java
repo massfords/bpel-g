@@ -510,8 +510,7 @@ public class AeProcessInvokeHandler implements IAeTwoPhaseInvokeHandler, IAeMess
       catch (AeException e)
       {
          AeBusinessProcessException bpe = new AeBusinessProcessException(AeMessages.format(
-               "AeProcessInvokeHandler.ENDPOINT_PARSE_ERROR", e.getMessage())); //$NON-NLS-1$
-         bpe.setRootCause(e);
+               "AeProcessInvokeHandler.ENDPOINT_PARSE_ERROR", e.getMessage()), e); //$NON-NLS-1$
          throw bpe;
       }
    }

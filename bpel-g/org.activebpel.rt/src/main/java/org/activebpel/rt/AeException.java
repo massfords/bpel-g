@@ -9,13 +9,12 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt;
 
+import org.activebpel.rt.util.AeLoggerFactory;
+
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.sql.SQLException;
-import java.util.logging.Level;
 import java.util.logging.Logger;
-
-import org.activebpel.rt.util.AeLoggerFactory;
 
 /** Describes the standard exception  */
 public class AeException extends Exception
@@ -28,9 +27,6 @@ public class AeException extends Exception
 /** Flag indicating if stack trace enabled, on by default. */
    public static boolean sStackTraceOn = true;
    
-   /** The root cause of this exception */
-   protected Throwable mRootCause;
-
    /** Message associated with this exception - for serialization. */
    private String mInfo;
 
@@ -62,8 +58,7 @@ public class AeException extends Exception
    public AeException(Throwable aRootCause)
    {
       super(aRootCause);
-      setRootCause(aRootCause);
-      setInfo(aRootCause.getLocalizedMessage());
+       setInfo(aRootCause.getLocalizedMessage());
    }
 
    /**
@@ -74,80 +69,9 @@ public class AeException extends Exception
    public AeException(String aInfo, Throwable aRootCause)
    {
       super(aInfo, aRootCause);
-      setRootCause(aRootCause);
    }
 
-   /**
-    * Returns the exception which is the Root Cause of this all the exceptions.
-    * @return Exception causing this exception chain, or this if none.
-    */
-   public Throwable getRootRootCause()
-   {
-      if(getRootCause() == null)
-         return this;
-      else if(getRootCause() instanceof AeException)
-         return ((AeException)getRootCause()).getRootCause();
-      else
-         return getRootCause();
-   }
-
-   /**
-    * Returns the exception which is the Root Cause of this exception.
-    * @return Exception causing this exception, null if none.
-    */
-   public Throwable getRootCause()
-   {
-      return mRootCause;
-   }
-
-   /**
-    * Sets the exception which is the Root Cause of this exception.
-    * @param aRootCause The Root Cause to set
-    */
-   public void setRootCause(Throwable aRootCause)
-   {
-      // fixme (MF) review where this method is called. should use throwable ctor
-      mRootCause = aRootCause;
-   }
-
-   /**
-    * Sets the logging level to INFO or WARNING
-    * @param aFlag True sets level to INFO, false to WARNING
-    */
-   public static void setInfoOn(boolean aFlag)
-   {
-      if (aFlag)
-         sLogger.setLevel(Level.INFO);
-      else
-         sLogger.setLevel((Level.WARNING));
-   }
-
-   /**
-    * Returns true if info output is enabled.
-    */
-   public static boolean infoOn()
-   {
-      return sLogger.getLevel() == Level.INFO ;
-   }
-
-   /**
-    * Sets stack trace logging enabled or disabled based on flag.
-    * @param aFlag True enables logging and False disables stack trace logging
-    */
-   public static void setStackTraceOn(boolean aFlag)
-   {
-      sStackTraceOn = aFlag;
-   }
-
-   /**
-    * Returns true if stack trace output is enabled.
-    */
-   public static boolean stackTraceOn()
-   {
-      return sStackTraceOn ;
-   }
-
-   /**
+    /**
     * Utility method to write info to the console.
     * @param aInfo Informational message to be displayed.
     */
@@ -164,7 +88,8 @@ public class AeException extends Exception
    public static void logError(Throwable aThrowable, String aSummary)
    {
       StringWriter sw = new StringWriter();
-      PrintWriter pw = new PrintWriter(sw);
+       //noinspection IOResourceOpenedButNotSafelyClosed
+       PrintWriter pw = new PrintWriter(sw);
 
       // Collect everything into a single string before we log it to the logger.
       printError(pw, aThrowable, aSummary);
@@ -278,13 +203,5 @@ public class AeException extends Exception
    public void setInfo(String aInfo)
    {
       mInfo = aInfo;
-   }
-   
-   /**
-    * Returns the logger.
-    */
-   public static Logger getLogger()
-   {
-      return sLogger;
    }
 }

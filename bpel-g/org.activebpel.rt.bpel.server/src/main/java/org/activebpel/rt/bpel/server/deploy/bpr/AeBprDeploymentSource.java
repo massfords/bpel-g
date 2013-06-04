@@ -9,11 +9,9 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpel.server.deploy.bpr;
 
-import java.io.InputStream;
-import java.text.MessageFormat;
-import java.util.ArrayList;
-import java.util.Collection;
-
+import bpelg.services.deploy.types.pdd.PartnerLinkType;
+import bpelg.services.deploy.types.pdd.Pdd;
+import bpelg.services.processes.types.ServiceDeployments;
 import org.activebpel.rt.bpel.AeBusinessProcessException;
 import org.activebpel.rt.bpel.def.AeProcessDef;
 import org.activebpel.rt.bpel.def.io.AeBpelIO;
@@ -27,9 +25,10 @@ import org.activebpel.rt.bpel.server.deploy.pdd.AePartnerLinkDescriptorFactory;
 import org.activebpel.rt.util.AeCloser;
 import org.xml.sax.InputSource;
 
-import bpelg.services.deploy.types.pdd.PartnerLinkType;
-import bpelg.services.deploy.types.pdd.Pdd;
-import bpelg.services.processes.types.ServiceDeployments;
+import java.io.InputStream;
+import java.text.MessageFormat;
+import java.util.ArrayList;
+import java.util.Collection;
 
 /**
  * Wraps the deployment of a single pdd from the BPR archive.
@@ -78,7 +77,7 @@ public class AeBprDeploymentSource implements IAeDeploymentSource {
 	 * @throws AeDeploymentException
 	 */
 	protected void initPartnerLinkData() throws AeDeploymentException {
-		mPartnerLinkData = new ArrayList<AePartnerLinkDescriptor>();
+		mPartnerLinkData = new ArrayList<>();
 
 		// using the ns from the doc element here because it's possible that
 		// someone has
@@ -103,8 +102,8 @@ public class AeBprDeploymentSource implements IAeDeploymentSource {
 			mProcessDef = AeBpelIO.deserialize(new InputSource(in));
 		} catch (AeBusinessProcessException e) {
 			String rootMsg = ""; //$NON-NLS-1$
-			if (e.getRootCause() != null)
-				rootMsg = e.getRootCause().getLocalizedMessage();
+			if (e.getCause() != null)
+				rootMsg = e.getCause().getLocalizedMessage();
 			Object[] args = { location, getPdd().getName().getLocalPart(), rootMsg };
 			throw new AeDeploymentException(MessageFormat.format(CONSOLE_ERROR,
 					args), e);

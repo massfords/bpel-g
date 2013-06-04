@@ -1050,9 +1050,7 @@ public class AeUtil {
             }
             result = contents.toString();
         } catch (IOException iox) {
-            AeException aex = new AeException();
-            aex.setRootCause(iox);
-            throw aex;
+            throw new AeException(iox);
         } finally {
             AeCloser.close(aReader);
         }

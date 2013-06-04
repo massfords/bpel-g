@@ -68,13 +68,11 @@
         <dependency>
             <groupId>org.apache.camel</groupId>
             <artifactId>camel-netty</artifactId>
-            <version>${camel-version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
-            <version>1.2.122</version>
         </dependency>
 
         <dependency>
@@ -92,22 +90,18 @@
         <dependency>
             <groupId>org.apache.camel</groupId>
             <artifactId>camel-jms</artifactId>
-            <version>${camel-version}</version>
         </dependency>
         <dependency>
             <groupId>org.apache.camel</groupId>
             <artifactId>camel-activemq</artifactId>
-            <version>1.1.0</version>
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-context</artifactId>
-            <version>${spring-version}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-context-support</artifactId>
-            <version>${spring-version}</version>
         </dependency>
         <dependency>
             <groupId>org.apache.geronimo.specs</groupId>
@@ -117,12 +111,10 @@
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
-            <version>1.6.1</version>
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-beans</artifactId>
-            <version>${spring-version}</version>
         </dependency>
         <dependency>
             <groupId>org.apache.activemq</groupId>
@@ -133,14 +125,11 @@
         <dependency>
             <groupId>commons-pool</groupId>
             <artifactId>commons-pool</artifactId>
-            <version>1.5.6</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.apache.camel</groupId>
             <artifactId>camel-test</artifactId>
-            <version>${camel-version}</version>
-            <scope>test</scope>
         </dependency>
     </dependencies>
 
@@ -166,6 +155,7 @@
             <plugin>
                 <groupId>org.codehaus.cargo</groupId>
                 <artifactId>cargo-maven2-plugin</artifactId>
+                <version>1.2.4</version>
                 <configuration>
                     <!-- Container configuration -->
                     <container>
