@@ -9,18 +9,16 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpeladmin.war.web;
 
-import java.util.Date;
-
-import javax.xml.namespace.QName;
-
+import bpelg.services.processes.types.ProcessFilterType;
+import bpelg.services.processes.types.ProcessInstanceDetail;
+import bpelg.services.processes.types.ProcessStateFilterValueType;
 import org.activebpel.rt.AeException;
 import org.activebpel.rt.bpel.server.admin.jmx.AeProcessListResultBean;
 import org.activebpel.rt.bpeladmin.war.AeMessages;
 import org.activebpel.rt.util.AeDate;
 
-import bpelg.services.processes.types.ProcessFilterType;
-import bpelg.services.processes.types.ProcessInstanceDetail;
-import bpelg.services.processes.types.ProcessStateFilterValueType;
+import javax.xml.namespace.QName;
+import java.util.Date;
 
 /**
  * Controls the filtering/display of active process details.
@@ -222,7 +220,7 @@ public class AeProcessListingBean extends AeAbstractListingBean
             AeProcessListResultBean resultz = getAdmin().getProcessList(filter);
             ProcessInstanceDetail[] details = resultz.getResults().toArray(new ProcessInstanceDetail[resultz.getResults().size()]);
 
-            if( details != null && details.length > 0 )
+            if(details.length > 0)
             {
                int length = details.length < mRowCount ? details.length : mRowCount;
                AeProcessInstanceDetailWrapper[] wrappers = new AeProcessInstanceDetailWrapper[length];
@@ -250,7 +248,7 @@ public class AeProcessListingBean extends AeAbstractListingBean
             // on error clear the currently displayed list
             mDetails = new AeProcessInstanceDetailWrapper[0];
             // display message from the root of the exception trace which is probably the most meaningful info
-            setStatusDetail(AeMessages.format("AeProcessListingBean.ERROR_3", e.getRootRootCause().getLocalizedMessage())); //$NON-NLS-1$
+            setStatusDetail(AeMessages.format("AeProcessListingBean.ERROR_3", e.getCause().getLocalizedMessage())); //$NON-NLS-1$
          }
       }
    }
