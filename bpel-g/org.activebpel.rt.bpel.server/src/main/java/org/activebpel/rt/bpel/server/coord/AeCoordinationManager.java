@@ -353,12 +353,7 @@ public abstract class AeCoordinationManager extends AeManagerAdapter implements 
             String coordId = m.getCoordinationId();
             IAeCoordinating c = getCoordinating(coordId, pid);
             c.queueReceiveMessage(aMessage);
-         }
-         catch(AeCoordinationNotFoundException e)
-         {
-            AeException.logError(e,e.getMessage());
-         }         
-         catch(Throwable t)
+         } catch(Throwable t)
          {
             AeException.logError(t,t.getMessage());
          }

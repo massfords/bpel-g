@@ -65,9 +65,7 @@ public class AeStaticConstantsMap
 
                       mNamesToValuesMap.put(name, value);
                       mValuesToNamesMap.put(value, name);
-                  } catch (IllegalArgumentException e) {
-                      AeException.logError(e, AeMessages.getString("AeStaticConstantsMap.ERROR_0") + field); //$NON-NLS-1$
-                  } catch (IllegalAccessException e) {
+                  } catch (IllegalArgumentException | IllegalAccessException e) {
                       AeException.logError(e, AeMessages.getString("AeStaticConstantsMap.ERROR_0") + field); //$NON-NLS-1$
                   }
               }

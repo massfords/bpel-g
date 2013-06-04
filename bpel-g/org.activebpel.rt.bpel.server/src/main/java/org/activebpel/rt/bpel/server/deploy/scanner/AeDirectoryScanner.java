@@ -299,8 +299,6 @@ public class AeDirectoryScanner {
 
                 // Now fire an add event.
                 fireAddEvent(destFile.toURI().toURL(), aUserData);
-            } catch (MalformedURLException e) {
-                throw new UnhandledException(e.getMessage(), e);
             } catch (IOException e) {
                 throw new UnhandledException(e.getMessage(), e);
             }

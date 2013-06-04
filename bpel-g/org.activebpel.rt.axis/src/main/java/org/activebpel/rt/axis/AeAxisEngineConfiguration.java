@@ -75,20 +75,7 @@ public class AeAxisEngineConfiguration implements WSDDEngineConfiguration
          is = new ByteArrayInputStream(getConfig());
          WSDDDocument doc = new WSDDDocument(XMLUtils.newDocument(is));
          mDeployment = doc.getDeployment();
-      }
-      catch (WSDDException e)
-      {
-         mDeployment = null;
-      }
-      catch (ParserConfigurationException pce)
-      {
-         mDeployment = null;
-      }
-      catch (SAXException se)
-      {
-         mDeployment = null;
-      }
-      catch (IOException se)
+      } catch (IOException se)
       {
          mDeployment = null;
       }

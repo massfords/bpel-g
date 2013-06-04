@@ -78,17 +78,11 @@ public class AeProcessStateReader implements IAeProcessStateReader
          // rollback is required on the connection.
          connection.commit();
       }
-      catch (AeBusinessProcessException bpe)
+      catch (AeBusinessProcessException | RuntimeException bpe)
       {
          connection.rollback();
          throw bpe;
-      }
-      catch (RuntimeException re)
-      {
-         connection.rollback();
-         throw re;
-      }
-      finally
+      } finally
       {
          getStorage().releaseConnection(connection);
       }
