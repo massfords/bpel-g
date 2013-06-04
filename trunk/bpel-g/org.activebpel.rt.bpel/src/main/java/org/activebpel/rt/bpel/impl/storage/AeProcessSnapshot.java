@@ -90,7 +90,7 @@ public class AeProcessSnapshot implements IAeProcessSnapshot
    {
       if (mCorrelationSetLocationPathsMap == null)
       {
-         Map<String,Map<Integer,AeCorrelationSet>> locationPathsMap = new HashMap<String,Map<Integer,AeCorrelationSet>>();
+         Map<String,Map<Integer,AeCorrelationSet>> locationPathsMap = new HashMap<>();
 
          // Iterate through all correlation sets in the snapshot.
           for (Object o : getCorrelationSets()) {
@@ -101,7 +101,7 @@ public class AeProcessSnapshot implements IAeProcessSnapshot
               // add a new 2nd-level map for the location path.
               Map<Integer, AeCorrelationSet> versionNumbersMap = locationPathsMap.get(locationPath);
               if (versionNumbersMap == null) {
-                  versionNumbersMap = new HashMap<Integer, AeCorrelationSet>();
+                  versionNumbersMap = new HashMap<>();
                   locationPathsMap.put(locationPath, versionNumbersMap);
               }
 
@@ -187,7 +187,7 @@ public class AeProcessSnapshot implements IAeProcessSnapshot
    {
       if (mVariableLocationPathsMap == null)
       {
-         Map<String,Map<Integer,IAeVariable>> locationPathsMap = new HashMap<String,Map<Integer,IAeVariable>>();
+         Map<String,Map<Integer,IAeVariable>> locationPathsMap = new HashMap<>();
 
          // Iterate through all variables in the snapshot.
           for (Object o : getVariables()) {
@@ -198,7 +198,7 @@ public class AeProcessSnapshot implements IAeProcessSnapshot
               // add a new 2nd-level map for the location path.
               Map<Integer, IAeVariable> versionNumbersMap = locationPathsMap.get(locationPath);
               if (versionNumbersMap == null) {
-                  versionNumbersMap = new HashMap<Integer, IAeVariable>();
+                  versionNumbersMap = new HashMap<>();
                   locationPathsMap.put(locationPath, versionNumbersMap);
               }
 

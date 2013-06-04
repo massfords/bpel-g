@@ -129,7 +129,7 @@ public class AeRestoreCompInfoVisitor extends AeBaseRestoreVisitor
 
             String xpath = "./" + STATE_COMPINFO; //$NON-NLS-1$
             List enclosedScopeElements = selectNodes(aElement, xpath, "Error restoring enclosed compensation info"); //$NON-NLS-1$
-            LinkedList<AeCompInfo> enclosedScopes = new LinkedList<AeCompInfo>();
+            LinkedList<AeCompInfo> enclosedScopes = new LinkedList<>();
 
              for (Object enclosedScopeElement : enclosedScopeElements) {
                  Element element = (Element) enclosedScopeElement;
@@ -158,7 +158,7 @@ public class AeRestoreCompInfoVisitor extends AeBaseRestoreVisitor
    {
       String xpath = "./" + STATE_CORRSET; //$NON-NLS-1$
       List elements = selectNodes(aCompInfoElement, xpath, "Error restoring compensation info correlation sets"); //$NON-NLS-1$
-      Map<String, AeCorrelationSet> map = new HashMap<String, AeCorrelationSet>();
+      Map<String, AeCorrelationSet> map = new HashMap<>();
 
        for (Object element1 : elements) {
            Element element = (Element) element1;
@@ -193,7 +193,7 @@ public class AeRestoreCompInfoVisitor extends AeBaseRestoreVisitor
    {
       String xpath = "./" + STATE_VAR; //$NON-NLS-1$
       List elements = selectNodes(aCompInfoElement, xpath, "Error restoring compensation info variables"); //$NON-NLS-1$
-      Map<String,IAeVariable> map = new HashMap<String,IAeVariable>();
+      Map<String,IAeVariable> map = new HashMap<>();
 
        for (Object element1 : elements) {
            Element element = (Element) element1;
@@ -227,7 +227,7 @@ public class AeRestoreCompInfoVisitor extends AeBaseRestoreVisitor
    {
       String xpath = "./" + STATE_PLINK; //$NON-NLS-1$
       List elements = selectNodes(aCompInfoElement, xpath, "Error restoring compensation info partner links"); //$NON-NLS-1$
-      Map<String,IAePartnerLink> map = new HashMap<String,IAePartnerLink>();
+      Map<String,IAePartnerLink> map = new HashMap<>();
 
        for (Object element1 : elements) {
            Element element = (Element) element1;

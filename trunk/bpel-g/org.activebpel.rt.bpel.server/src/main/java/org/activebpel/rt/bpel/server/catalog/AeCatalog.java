@@ -57,7 +57,7 @@ public class AeCatalog implements IAeCatalog, IAeCatalogAdmin {
 	private Map<IAeDeploymentId, IAeCatalogMapping[]> mDeploymentMapping;
 
 	/** Catalog listeners */
-	private final Collection<IAeCatalogListener> mListeners = new ArrayList<IAeCatalogListener>();
+	private final Collection<IAeCatalogListener> mListeners = new ArrayList<>();
 
 	/**
 	 * Constructor.
@@ -90,7 +90,7 @@ public class AeCatalog implements IAeCatalog, IAeCatalogAdmin {
 
 		// create a list of booleans where true indicates a new entry based
 		// event for events below
-		List<Boolean> catalogEvents = new ArrayList<Boolean>();
+		List<Boolean> catalogEvents = new ArrayList<>();
 
 		// check each mapping for replacement or addition to current locations
         for (IAeCatalogMapping aMapping : aMappings) {
@@ -153,10 +153,10 @@ public class AeCatalog implements IAeCatalog, IAeCatalogAdmin {
 			if (obj instanceof HashMap) {
 				// rather than create a synchronized list for possible iterator
 				// usage we'll copy here
-				map = new HashMap<String, IAeCatalogMapping>((HashMap<String, IAeCatalogMapping>) obj);
+				map = new HashMap<>((HashMap<String, IAeCatalogMapping>) obj);
 				map.put(aMapping.getLocationHint(), aMapping);
 			} else {
-				map = new HashMap<String, IAeCatalogMapping>();
+				map = new HashMap<>();
 				map.put(((IAeCatalogMapping) obj).getLocationHint(), (IAeCatalogMapping)obj);
 				map.put(aMapping.getLocationHint(), aMapping);
 			}
@@ -213,7 +213,7 @@ public class AeCatalog implements IAeCatalog, IAeCatalogAdmin {
 	protected void addDisplacedCatalogEntry(Map<IAeDeploymentId, Set<String>> aMap, IAeDeploymentId aDeployId, String aLocationHint) {
 		Set<String> catalogLocations = aMap.get(aDeployId);
 		if (catalogLocations == null) {
-			catalogLocations = new HashSet<String>();
+			catalogLocations = new HashSet<>();
 			aMap.put(aDeployId, catalogLocations);
 		}
 
@@ -257,7 +257,7 @@ public class AeCatalog implements IAeCatalog, IAeCatalogAdmin {
 
 		// Check all mappings for this deployment to see if they are referenced
 		// by other deployments
-		Map<IAeDeploymentId, Set<String>> displacedMappings = new HashMap<IAeDeploymentId, Set<String>>();
+		Map<IAeDeploymentId, Set<String>> displacedMappings = new HashMap<>();
         for (IAeCatalogMapping mapping : mappings) {
             String location = mapping.getLocationHint();
             for (Entry<IAeDeploymentId, IAeCatalogMapping[]> entry : getDeploymentMapping().entrySet()) {
@@ -328,7 +328,7 @@ public class AeCatalog implements IAeCatalog, IAeCatalogAdmin {
 				// rather than create a synchronized list for possible iterator
 				// usage we'll copy here
 				// then find by location hint this entry and remove it
-				map = new HashMap<String, IAeCatalogMapping>((Map<String, IAeCatalogMapping>) obj);
+				map = new HashMap<>((Map<String, IAeCatalogMapping>) obj);
 				for (Iterator<IAeCatalogMapping> iter = map.values().iterator(); iter.hasNext();) {
 					IAeCatalogMapping mapping = iter.next();
 					if (AeUtil.compareObjects(aMapping.getLocationHint(), mapping.getLocationHint())) {
@@ -374,7 +374,7 @@ public class AeCatalog implements IAeCatalog, IAeCatalogAdmin {
 			// Create new list to avoid ConcurrenModificationException during
 			// traversal
 			@SuppressWarnings("unchecked")
-			List<IAeCatalogMapping> list = new ArrayList<IAeCatalogMapping>(((Map<String,IAeCatalogMapping>) obj).values());
+			List<IAeCatalogMapping> list = new ArrayList<>(((Map<String,IAeCatalogMapping>) obj).values());
 			return list.iterator();
 		} else if (obj != null)
 			return Collections.singleton(obj).iterator();
@@ -415,7 +415,7 @@ public class AeCatalog implements IAeCatalog, IAeCatalogAdmin {
 		List recipients = null;
 		synchronized (mListeners) {
 			if (!isListenerListEmpty()) {
-				recipients = new ArrayList<IAeCatalogListener>(mListeners);
+				recipients = new ArrayList<>(mListeners);
 			}
 		}
 
@@ -509,7 +509,7 @@ public class AeCatalog implements IAeCatalog, IAeCatalogAdmin {
 	protected AeCatalogItemPlanReference[] getPlanReferencesForLocation(
 			String aLocationHint) throws AeException {
 		// Loops through plans to cross reference the resource usage
-		List<AeCatalogItemPlanReference> details = new ArrayList<AeCatalogItemPlanReference>();
+		List<AeCatalogItemPlanReference> details = new ArrayList<>();
 		for (Iterator iter = AeEngineFactory.getBean(
 				IAeDeploymentProvider.class).getDeployedPlans(); iter.hasNext();) {
 			IAeProcessDeployment deployment = (IAeProcessDeployment) iter

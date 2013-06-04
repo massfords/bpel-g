@@ -311,7 +311,7 @@ public class AeActivityCompensateImpl extends AeActivityImpl implements IAeCompe
             matchingScopes = getMatchingScopes();
          }
 
-         mIterationScopes = new ArrayList<AeCompInfo>(matchingScopes);
+         mIterationScopes = new ArrayList<>(matchingScopes);
       }
 
       return mIterationScopes;

@@ -50,7 +50,7 @@ public class AeRestoreImplStateVisitor extends AeBaseRestoreVisitor
     * Maps compensation callback location paths to the compensation handlers
     * that need them.
     */
-   private final Map<String, AeCompensationHandler> mCompensationCallbackOwnersMap = new HashMap<String, AeCompensationHandler>();
+   private final Map<String, AeCompensationHandler> mCompensationCallbackOwnersMap = new HashMap<>();
    
    /** Flag to indicate if any of the scopes that were visited had any sub process invokes (coordinations). */
    private boolean mScopeHadCoordination = false;
@@ -338,7 +338,7 @@ public class AeRestoreImplStateVisitor extends AeBaseRestoreVisitor
          Collection extensionPropertyElements = getImplState().getBusinessProcessPropertiesElements();
          if( extensionPropertyElements != null )
          {
-            Map<String, String> properties = new HashMap<String, String>();
+            Map<String, String> properties = new HashMap<>();
              for (Object extensionPropertyElement : extensionPropertyElements) {
                  Element propertyExtEl = (Element) extensionPropertyElement;
                  AeBusinessProcessPropertyIO.extractBusinessProcessProperty(propertyExtEl, properties);

@@ -84,7 +84,7 @@ public class AeFileBasedURNStorage implements IAeURNStorage
             AeCloser.close(in);
          }
       }
-      Map<String,String> ret = new HashMap<String,String>();
+      Map<String,String> ret = new HashMap<>();
       for(Entry e : props.entrySet()) {
           ret.put(e.getKey().toString(), e.getValue().toString());
       }

@@ -32,7 +32,7 @@ public class AeQueuedReceiveMessageData
    public AeQueuedReceiveMessageData( QName aQName )
    {
       mQName = aQName;
-      mPartData = new HashMap<String, Object> ();
+      mPartData = new HashMap<>();
    }
    
    /**

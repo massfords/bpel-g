@@ -47,7 +47,7 @@ public abstract class AeFaultHandlersValidator extends AeBaseValidator
    {
       super.validate();
 
-      Set<IAeCatchValidatorSpec> noDupes = new HashSet<IAeCatchValidatorSpec>();
+      Set<IAeCatchValidatorSpec> noDupes = new HashSet<>();
       List<AeBaseCatchValidator> catchChildren = getChildren(AeBaseCatchValidator.class);
        for (AeBaseCatchValidator baseCatch : catchChildren) {
            IAeCatchValidatorSpec spec = createSpecValidator(baseCatch);

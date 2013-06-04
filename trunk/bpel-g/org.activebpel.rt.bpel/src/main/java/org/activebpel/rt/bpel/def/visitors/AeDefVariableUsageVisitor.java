@@ -37,7 +37,7 @@ import java.util.Stack;
 public class AeDefVariableUsageVisitor extends AeAbstractDefVisitor
 {
    /** Def objects are pushed and popped from the stack as we traverse the tree */
-   private final Stack<AeBaseXmlDef> mStack = new Stack<AeBaseXmlDef>();
+   private final Stack<AeBaseXmlDef> mStack = new Stack<>();
    /** Set to true if come across a serializable scope which requires us to do resource locking */
    private boolean mResourceLockingRequired = false;
    /** The current compensation handler or <code>null</code> */
@@ -249,7 +249,7 @@ public class AeDefVariableUsageVisitor extends AeAbstractDefVisitor
       Set<String> resourcesUsed = aActivityDef.getResourcesUsed();
       if (resourcesUsed == null)
       {
-         resourcesUsed = new HashSet<String>();
+         resourcesUsed = new HashSet<>();
          aActivityDef.setResourcesUsed(resourcesUsed);
       }
       return resourcesUsed;

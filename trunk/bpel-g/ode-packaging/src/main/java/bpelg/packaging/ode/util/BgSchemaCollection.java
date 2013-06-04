@@ -51,7 +51,7 @@ public class BgSchemaCollection {
             log.debug("Initializing schema collection with baseUri: " + baseUri);
         }
         this.baseUri = baseUri;
-        this.schemas = new HashMap<String,BgSchema>();
+        this.schemas = new HashMap<>();
     }
     
     public BgSchema getSchema(String namespaceURI) {
@@ -103,7 +103,7 @@ public class BgSchemaCollection {
     
     protected void handleImports(BgSchema schema) throws Exception {
         NodeList children = schema.getRoot().getChildNodes();
-        List<Element> imports = new ArrayList<Element>();
+        List<Element> imports = new ArrayList<>();
         for (int i = 0; i < children.getLength(); i++) {
             Node child = children.item(i);
             if (child instanceof Element) {

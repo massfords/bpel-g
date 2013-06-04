@@ -337,7 +337,7 @@ public class AeBpelGraphContainer extends AeGraphContainer
     */
    public List<AeBpelActivityCoordinates> getCoordinateList()
    {
-      List<AeBpelActivityCoordinates> list = new ArrayList<AeBpelActivityCoordinates>();
+      List<AeBpelActivityCoordinates> list = new ArrayList<>();
       AeBpelProcessRootController root = (AeBpelProcessRootController) getRootController();
       getCoordinates(root, list);
       return list;

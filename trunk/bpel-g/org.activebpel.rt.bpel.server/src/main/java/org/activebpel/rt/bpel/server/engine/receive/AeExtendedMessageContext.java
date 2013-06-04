@@ -178,7 +178,7 @@ public class AeExtendedMessageContext extends AeMessageContext implements IAeExt
    {
       if (mProperties == null)
       {
-         mProperties = new HashMap<Object, Object>();
+         mProperties = new HashMap<>();
       }
       return mProperties;
    }

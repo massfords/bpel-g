@@ -30,7 +30,7 @@ public class AePartnerLinkValidator extends AeBaseValidator
    /** used to determine if the plink is referenced */
    private boolean mReferenced = false;
    /** list of models that are using the plink */
-   private final List<IAePartnerLinkOperationUser> mUsers = new LinkedList<IAePartnerLinkOperationUser>();
+   private final List<IAePartnerLinkOperationUser> mUsers = new LinkedList<>();
    /** def that defines the myRole portType */
    private AeBPELExtendedWSDLDef mMyRolePortTypeDef;
    /** def that defines the partnerRole portType */

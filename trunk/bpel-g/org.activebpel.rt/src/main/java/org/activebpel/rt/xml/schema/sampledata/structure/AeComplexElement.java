@@ -22,7 +22,7 @@ import java.util.List;
 public class AeComplexElement extends AeBaseElement
 {
    /** List of Attributes for this complexType. */
-   private final List<AeBaseAttribute> mAttributes = new LinkedList<AeBaseAttribute>();
+   private final List<AeBaseAttribute> mAttributes = new LinkedList<>();
 
    /** QName for the xsi:type attribute. If set, then we should output the type with the element */
    private QName mXsiType;

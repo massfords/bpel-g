@@ -72,7 +72,7 @@ public class AeInboundReceiveDeserializer implements IAeImplStateNames
          IAeMessageData aData, IAeMessageContext aContext) throws AeBusinessProcessException
    {
       Collection<QName> names = aPlan.getCorrelatedPropertyNames(aPartnerLinkOpKey);
-      Map<QName, String> map = new HashMap<QName, String>();
+      Map<QName, String> map = new HashMap<>();
 
       // Note: aData would only be null if an inbound receive had no message data.  This only
       // happens when saving the state of an AeActivityOnEventScopeImpl.  For details, see 
@@ -290,7 +290,7 @@ public class AeInboundReceiveDeserializer implements IAeImplStateNames
             epr.setReferenceData(aHeaders.getRecipient());
             
          NodeList props = mappedHeaders.getChildNodes();
-         List<Element> extElements = new ArrayList<Element>();
+         List<Element> extElements = new ArrayList<>();
          extElements.addAll(AeUtil.toList(epr.getExtensibilityElements()));
          for (int i = 0; i < props.getLength(); i++)
          {
@@ -372,7 +372,7 @@ public class AeInboundReceiveDeserializer implements IAeImplStateNames
    protected Map<String, Node> getChildElementsMap(Element aElement)
    {
       NodeList nodes = aElement.getChildNodes();
-      Map<String, Node> result = new HashMap<String, Node>(nodes.getLength());
+      Map<String, Node> result = new HashMap<>(nodes.getLength());
 
       for (int i = 0; i < nodes.getLength(); ++i)
       {

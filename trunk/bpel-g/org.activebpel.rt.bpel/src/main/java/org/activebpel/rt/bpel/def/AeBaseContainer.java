@@ -21,7 +21,7 @@ abstract public class AeBaseContainer<K,V> extends AeBaseDef
    /** HashMap used for associating names to objects */
    private LinkedHashMap<K,V>  mMap;
    // keys are only used for static analysis
-   private List<K> dupes = new ArrayList<K>();
+   private List<K> dupes = new ArrayList<>();
 
    public List<K> consumeDupes() {
        if (dupes == null) {
@@ -39,7 +39,7 @@ abstract public class AeBaseContainer<K,V> extends AeBaseDef
    {
       if (mMap == null)
       {
-         mMap = new LinkedHashMap<K,V> ();
+         mMap = new LinkedHashMap<>();
       }
       return mMap;
    }

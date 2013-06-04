@@ -75,13 +75,13 @@ public class AeOnEvent extends AeOnMessage implements IAeDynamicScopeParent
    private AeActivityOnEventScopeImpl mCurrentScope;
    
    /** list of child scope instances created during execute routine */
-   private final List<IAeActivity> mChildren = new ArrayList<IAeActivity>();
+   private final List<IAeActivity> mChildren = new ArrayList<>();
 
    /** 
     * list of child scope instances that have been restored for compensation 
     * purposes 
     */
-   private final List<IAeActivity> mCompensatableChildren = new ArrayList<IAeActivity>();
+   private final List<IAeActivity> mCompensatableChildren = new ArrayList<>();
 
    /** value for the next scope instance created for this onEvent */
    private int mInstanceValue = 1;

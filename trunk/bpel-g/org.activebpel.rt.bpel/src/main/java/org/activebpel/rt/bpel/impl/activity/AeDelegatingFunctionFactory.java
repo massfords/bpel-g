@@ -28,7 +28,7 @@ public class AeDelegatingFunctionFactory implements IAeFunctionFactory
    public static final String NO_FUNCTION_FOUND_ERROR = AeMessages.getString("AeAbstractFunctionContext.0"); //$NON-NLS-1$
 
    /** contains a list of all functional factories that this factory can delegate getFunction() to */
-   private List<IAeFunctionFactory> mDelegates = new LinkedList<IAeFunctionFactory>();
+   private List<IAeFunctionFactory> mDelegates = new LinkedList<>();
    
    /**
     * C'tor that accepts two function factories 
@@ -70,7 +70,7 @@ public class AeDelegatingFunctionFactory implements IAeFunctionFactory
     */
    public Set<String> getFunctionContextNamespaceList()
    {
-      Set<String> namespacesList = new LinkedHashSet<String>();
+      Set<String> namespacesList = new LinkedHashSet<>();
        for (IAeFunctionFactory delegate : getDelegates()) {
            namespacesList.addAll(delegate.getFunctionContextNamespaceList());
        }

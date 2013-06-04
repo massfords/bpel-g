@@ -29,7 +29,7 @@ import java.util.List;
 public class AeActivityIfImpl extends AeActivityImpl
 {
    /** The list of 'else' children. */
-   private List<AeElseIf> mElseIfs = new ArrayList<AeElseIf>();
+   private List<AeElseIf> mElseIfs = new ArrayList<>();
    /** The optional 'else' child. */
    private AeElse mElse;
 

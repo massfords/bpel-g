@@ -166,7 +166,7 @@ public class AeRestoreImplState implements IAeImplStateNames
    {
       if (mExecutionQueuePaths == null)
       {
-         List<String> result = new LinkedList<String>();
+         List<String> result = new LinkedList<>();
 
          // Get execution queue nodes.
          List nodes;
@@ -204,8 +204,8 @@ public class AeRestoreImplState implements IAeImplStateNames
    {
       if (mLocationPathsMap == null)
       {
-         Map<String, Element> pathsToElements = new HashMap<String, Element>();
-         Map<Element, String> elementsToPaths = new HashMap<Element, String>();
+         Map<String, Element> pathsToElements = new HashMap<>();
+         Map<Element, String> elementsToPaths = new HashMap<>();
 
          // Get all nodes that have a locationId attribute.
          List nodes;
@@ -300,7 +300,7 @@ public class AeRestoreImplState implements IAeImplStateNames
    {
       if (mStateElementTags == null)
       {
-         mStateElementTags = Collections.unmodifiableSet(new HashSet<String>(Arrays.asList(sStateElementTagsArray)));
+         mStateElementTags = Collections.unmodifiableSet(new HashSet<>(Arrays.asList(sStateElementTagsArray)));
       }
 
       return mStateElementTags;

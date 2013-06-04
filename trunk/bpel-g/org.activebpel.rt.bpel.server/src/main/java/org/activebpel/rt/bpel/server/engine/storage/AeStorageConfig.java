@@ -48,7 +48,7 @@ public abstract class AeStorageConfig
    protected static final String ERROR_PARSING_DOCUMENT = AeMessages.getString("AeDBResourceConfig.FAILED_TO_PARSE_CONFIG_ERROR"); //$NON-NLS-1$
 
    /** The map of DB statement names/keys to DB statements. */
-   private Map<String,String> mStatementMap = new HashMap<String, String>();
+   private Map<String,String> mStatementMap = new HashMap<>();
    /** map of constant names to values */
    private final Properties mConstantsFromFile = new Properties();
    /** map of name value pairs used to override any constant values */
@@ -186,7 +186,7 @@ public abstract class AeStorageConfig
          // run through the sqlstmts and replace any constants with their values
           for (Entry<String, String> entry : aMap.entrySet()) {
               String stmt = entry.getValue();
-              Set<String> firstMatches = new HashSet<String>();
+              Set<String> firstMatches = new HashSet<>();
 
               // Loop until there are no more matches. This allows a constant to
               // make nested references to other constants.
@@ -311,7 +311,7 @@ public abstract class AeStorageConfig
     */
    private Map<String, String> extractStatementMap(Document aDocument)
    {
-      Map<String, String> rval = new HashMap<String, String>();
+      Map<String, String> rval = new HashMap<>();
 
       NodeList nl = aDocument.getElementsByTagName(getStatementRootName());
       for (int i = 0; i < nl.getLength(); i++)

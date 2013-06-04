@@ -79,7 +79,7 @@ public class AeCoordinationContainer extends AeAbstractBpelObject
    {
       if (mRegsiteredCoordinations == null)
       {
-         mRegsiteredCoordinations = new HashMap<String, String>();
+         mRegsiteredCoordinations = new HashMap<>();
       }
       return mRegsiteredCoordinations;
    }
@@ -91,7 +91,7 @@ public class AeCoordinationContainer extends AeAbstractBpelObject
    {
       if (mCompCoordinationsMap == null)
       {
-         mCompCoordinationsMap = new HashMap<String, AeCompensationHandler>();
+         mCompCoordinationsMap = new HashMap<>();
       }
       return mCompCoordinationsMap;
    }
@@ -103,7 +103,7 @@ public class AeCoordinationContainer extends AeAbstractBpelObject
    {
       if (mActiveCoordinations == null)
       {
-         mActiveCoordinations = new HashSet<String>();
+         mActiveCoordinations = new HashSet<>();
       }
       return mActiveCoordinations;
    }
@@ -252,7 +252,7 @@ public class AeCoordinationContainer extends AeAbstractBpelObject
  
       if (hasActiveCoordinations())
       {
-         Set<String> activeSet = new HashSet<String>(getActiveCoordinations());
+         Set<String> activeSet = new HashSet<>(getActiveCoordinations());
          Iterator<String>  coordIdIter = activeSet.iterator();
          while (coordIdIter.hasNext())
          {
@@ -386,7 +386,7 @@ public class AeCoordinationContainer extends AeAbstractBpelObject
     */
    protected List<AeCompensationHandler> getCompensationHandlers()
    {
-      List<AeCompensationHandler> list = new ArrayList<AeCompensationHandler>();
+      List<AeCompensationHandler> list = new ArrayList<>();
       Iterator<AeCompensationHandler> it = getCompCoordinationMap().values().iterator();
       while (it.hasNext())
       {

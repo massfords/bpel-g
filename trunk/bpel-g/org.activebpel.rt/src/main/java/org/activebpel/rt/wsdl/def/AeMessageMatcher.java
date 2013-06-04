@@ -117,7 +117,7 @@ public class AeMessageMatcher
          return null;
       }
       
-      Map<Part,Document> map = new HashMap<Part,Document>();
+      Map<Part,Document> map = new HashMap<>();
       List list = getMessage().getOrderedParts(null);
       if (list != null)
       {

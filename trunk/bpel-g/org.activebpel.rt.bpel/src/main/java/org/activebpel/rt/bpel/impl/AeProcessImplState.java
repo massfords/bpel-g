@@ -40,7 +40,7 @@ public class AeProcessImplState implements IAeImplStateNames
    private AeFastElement mCurrentNode ;
 
    /** Stack to keep track of current node parent. */
-   private final LinkedList<IAeFastParent> mParentStack = new LinkedList<IAeFastParent>();
+   private final LinkedList<IAeFastParent> mParentStack = new LinkedList<>();
 
    /** Visitor that traverses the implementation and populates this object. */
    private AeSaveImplStateVisitor mStateVisitor ;
@@ -49,7 +49,7 @@ public class AeProcessImplState implements IAeImplStateNames
    private boolean mForPersistence;
 
    /** <code>Map</code> from nodes in the state tree to associated location paths. */
-   private final Map<AeFastElement,String> mNodesToLocationPathsMap = new HashMap<AeFastElement,String>();
+   private final Map<AeFastElement,String> mNodesToLocationPathsMap = new HashMap<>();
 
    /**
     * Get the visitor used to record the current state.

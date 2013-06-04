@@ -99,7 +99,7 @@ public class AeAtomicCopyOperationContext extends AeCopyOperationContext
    {
       // If we were not provided a rollback map, create one now
       if (mRollbackMap == null)
-         mRollbackMap = new HashMap<Object, Object>();
+         mRollbackMap = new HashMap<>();
       
       return mRollbackMap;
    }

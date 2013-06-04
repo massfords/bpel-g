@@ -59,7 +59,7 @@ public class AeBSFAbxExtensionFunctionBean extends AeBSFAbstractExtensionFunctio
   {
      try
      {
-        List<Object> args = new ArrayList<Object>();
+        List<Object> args = new ArrayList<>();
         args.add(aArg1);
         args.add(aArg2);
         if (aArg3 != null) args.add(aArg3);

@@ -52,7 +52,7 @@ public class AeJavaScriptFunction extends AeScriptable implements Function
    public Object call(Context aCtx, Scriptable aScope, Scriptable aThisObj,
          Object[] aArgs)
    {
-      List<Object> args = new ArrayList<Object>();
+      List<Object> args = new ArrayList<>();
        for (Object arg : aArgs) {
            args.add(getFunctionExecutionContext().getTypeConverter().convertToEngineType(arg));
        }

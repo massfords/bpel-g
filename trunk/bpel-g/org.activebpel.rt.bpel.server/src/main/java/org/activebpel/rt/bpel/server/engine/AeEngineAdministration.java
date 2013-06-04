@@ -78,7 +78,7 @@ public class AeEngineAdministration implements IAeEngineAdministration {
 	public AeMessageReceiverListResult getMessageReceivers(
 			AeMessageReceiverFilter aFilter) {
 		try {
-			Map<Long, AeProcessDef> processDefMap = new HashMap<Long, AeProcessDef>();
+			Map<Long, AeProcessDef> processDefMap = new HashMap<>();
 
 			AeMessageReceiverListResult results = getBpelEngine()
 					.getQueueManager().getMessageReceivers(aFilter);
@@ -105,10 +105,10 @@ public class AeEngineAdministration implements IAeEngineAdministration {
 	 */
 	public AeAlarmListResult<AeAlarmExt> getAlarms(AeAlarmFilter aFilter) {
 		try {
-			Map<Long, AeProcessDef> processDefMap = new HashMap<Long, AeProcessDef>();
+			Map<Long, AeProcessDef> processDefMap = new HashMap<>();
 
 			AeListResult<? extends AeAlarm> results = getBpelEngine().getQueueManager().getAlarms(aFilter);
-			List<AeAlarmExt> extList = new ArrayList<AeAlarmExt>();
+			List<AeAlarmExt> extList = new ArrayList<>();
 			for (int i = 0; i < results.getResults().size(); i++) {
 				AeAlarm alarm = results.getResults().get(i);
 
@@ -126,7 +126,7 @@ public class AeEngineAdministration implements IAeEngineAdministration {
 				aeAlarmExt.setLocation(path);
 				extList.add(aeAlarmExt);
 			}
-			AeAlarmListResult<AeAlarmExt> result = new AeAlarmListResult<AeAlarmExt>(extList.size(), extList);
+			AeAlarmListResult<AeAlarmExt> result = new AeAlarmListResult<>(extList.size(), extList);
 			return result;
 		} catch (AeBusinessProcessException ex) {
 			ex.logError();
@@ -175,7 +175,7 @@ public class AeEngineAdministration implements IAeEngineAdministration {
 	 * Creates the list of build info objects.
 	 */
 	protected List<AeBuildInfo> createBuildInfo() {
-		List<AeBuildInfo> list = new ArrayList<AeBuildInfo>();
+		List<AeBuildInfo> list = new ArrayList<>();
 		list.add(new AeBuildInfo(
 				AeMessages.getString("AeEngineAdministration.RT"), org.activebpel.rt.AeBuildNumber.getBuildNumber(), org.activebpel.rt.AeBuildNumber.getBuildDate(), org.activebpel.rt.AeBuildNumber.getVersionNumber())); //$NON-NLS-1$
 		list.add(new AeBuildInfo(

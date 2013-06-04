@@ -24,7 +24,7 @@ public class AeGraphController implements IAeGraphController
    private IAeGraphController mParent = null;
    
    /** list of child controllers */
-   private final List<IAeGraphController> mChildren = new ArrayList<IAeGraphController>();
+   private final List<IAeGraphController> mChildren = new ArrayList<>();
    
    /** main figure container */
    private AeGraphFigure mFigure = null;
@@ -36,7 +36,7 @@ public class AeGraphController implements IAeGraphController
    private Object mModel = null;
    
    /** List children belonging to the model */
-   private final List<AeBpelObjectBase> mModelChildren = new ArrayList<AeBpelObjectBase>();
+   private final List<AeBpelObjectBase> mModelChildren = new ArrayList<>();
    
    /**
     * Default constructor.

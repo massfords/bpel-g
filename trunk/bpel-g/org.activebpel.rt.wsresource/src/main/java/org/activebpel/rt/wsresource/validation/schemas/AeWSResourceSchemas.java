@@ -28,7 +28,7 @@ import org.xml.sax.InputSource;
 public class AeWSResourceSchemas
 {
    /** set of the wsdl schemas */
-   private static final Set<Schema> WSDL_SCHEMAS = new HashSet<Schema>();
+   private static final Set<Schema> WSDL_SCHEMAS = new HashSet<>();
 
    static
    {

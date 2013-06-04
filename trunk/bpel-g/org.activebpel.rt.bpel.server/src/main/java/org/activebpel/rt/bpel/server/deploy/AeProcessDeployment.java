@@ -58,9 +58,9 @@ public class AeProcessDeployment implements IAeProcessDeployment {
 	protected final int mPlanId;
 
 	/** Map of partner link name to partner link descriptor object. */
-	protected final Map<AePartnerLinkDefKey,AePartnerLinkDescriptor> mPartnerLinkDescriptors = new HashMap<AePartnerLinkDefKey, AePartnerLinkDescriptor>();
+	protected final Map<AePartnerLinkDefKey,AePartnerLinkDescriptor> mPartnerLinkDescriptors = new HashMap<>();
 
-	private final Map<Integer,ServiceDeployment> mServices = new HashMap<Integer, ServiceDeployment>();
+	private final Map<Integer,ServiceDeployment> mServices = new HashMap<>();
 
 	private IAeExpressionLanguageFactory mExpressionLanguageFactory;
 	
@@ -376,7 +376,7 @@ public class AeProcessDeployment implements IAeProcessDeployment {
 	 * @return service map as array of IAeServiceDeploymentInfo
 	 */
 	public ServiceDeployment[] getServiceInfos() {
-		List<ServiceDeployment> list = new ArrayList<ServiceDeployment>(getServiceMap().values());
+		List<ServiceDeployment> list = new ArrayList<>(getServiceMap().values());
 		ServiceDeployment[] infos = new ServiceDeployment[list.size()];
 		return list.toArray(infos);
 	}
@@ -463,7 +463,7 @@ public class AeProcessDeployment implements IAeProcessDeployment {
 
 	@Override
 	public Collection<ReferenceType> getAllReferenceTypes() {
-		List<ReferenceType> list = new LinkedList<ReferenceType>();
+		List<ReferenceType> list = new LinkedList<>();
 		List<ReferenceType> wsdl = getPdd().getReferences().getWsdl();
 		for(ReferenceType ref : wsdl) {
 			ref.setTypeURI(IAeConstants.WSDL_NAMESPACE);

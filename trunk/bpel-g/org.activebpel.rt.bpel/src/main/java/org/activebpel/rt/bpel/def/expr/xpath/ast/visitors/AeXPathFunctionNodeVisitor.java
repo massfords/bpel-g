@@ -44,7 +44,7 @@ public class AeXPathFunctionNodeVisitor extends AeAbstractXPathNodeVisitor
    {
       AeScriptFuncDef funcDef = new AeScriptFuncDef(aNode.getFunctionQName());
       
-      List<Object> arguments = new ArrayList<Object>();
+      List<Object> arguments = new ArrayList<>();
        for (AeAbstractXPathNode child : aNode.getChildren()) {
            if (child instanceof AeXPathLiteralNode)
                arguments.add(((AeXPathLiteralNode) child).getValue());

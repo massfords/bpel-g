@@ -69,7 +69,7 @@ public class AeActivityScopeImpl extends AeActivityImpl implements IAeActivityPa
    private boolean mSnapshotRecorded = false;
 
    /** Our map of associated partner links for this process. */
-   private final Map<String, IAePartnerLink> mPartnerLinks = new HashMap<String, IAePartnerLink>();
+   private final Map<String, IAePartnerLink> mPartnerLinks = new HashMap<>();
    
    /** strategy to handle the termination of scopes */
    private IAeScopeTerminationStrategy mTerminationStrategy;
@@ -82,7 +82,7 @@ public class AeActivityScopeImpl extends AeActivityImpl implements IAeActivityPa
    /**
     * Links that have been deferred because they leave an isolated scope.
     */
-   private final List<IAeLink> mDeferredLinks = new LinkedList<IAeLink>();
+   private final List<IAeLink> mDeferredLinks = new LinkedList<>();
 
    /** default constructor for activity */
    public AeActivityScopeImpl(AeActivityScopeDef aActivityDef, IAeActivityParent aParent)
@@ -564,7 +564,7 @@ public class AeActivityScopeImpl extends AeActivityImpl implements IAeActivityPa
    {
       if (mCorrelationSets == null)
       {
-         mCorrelationSets = new HashMap<String,AeCorrelationSet>();
+         mCorrelationSets = new HashMap<>();
       }
       return mCorrelationSets;
    }
@@ -632,7 +632,7 @@ public class AeActivityScopeImpl extends AeActivityImpl implements IAeActivityPa
    {
       if (mFaultHandlers == null)
       {
-         mFaultHandlers = new ArrayList<IAeFaultHandler>();
+         mFaultHandlers = new ArrayList<>();
       }
       return mFaultHandlers;
    }
@@ -1067,7 +1067,7 @@ public class AeActivityScopeImpl extends AeActivityImpl implements IAeActivityPa
     */
    public Iterator<? extends IAeBpelObject> getChildrenForStateChange()
    {
-      AeSequenceIterator<IAeBpelObject> seqIterator = new AeSequenceIterator<IAeBpelObject>();
+      AeSequenceIterator<IAeBpelObject> seqIterator = new AeSequenceIterator<>();
       seqIterator.add(getActivity());
       seqIterator.add(mCompensationHandler);
       seqIterator.add(getFaultHandlersIterator());
@@ -1237,7 +1237,7 @@ public class AeActivityScopeImpl extends AeActivityImpl implements IAeActivityPa
     */
    public Iterator<? extends IAeBpelObject> getChildrenForTermination() throws AeBusinessProcessException
    {
-      LinkedList<IAeBpelObject> childrenToTerminate = new LinkedList<IAeBpelObject>();
+      LinkedList<IAeBpelObject> childrenToTerminate = new LinkedList<>();
       childrenToTerminate.add(getActivity());
       
       if (hasEvents() && getEventHandlersContainer().getState().isTerminatable())

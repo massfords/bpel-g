@@ -21,7 +21,7 @@ import org.activebpel.rt.bpel.def.activity.AeActivityScopeDef;
 public class AeAmbigousCompensateScopeVisitor extends AeChildScopeByNameVisitor
 {
    /** the scope that we're looking for; <code>null</code> until it is found */
-   private final List<AeActivityScopeDef> mScopeDef = new ArrayList<AeActivityScopeDef>();
+   private final List<AeActivityScopeDef> mScopeDef = new ArrayList<>();
    /**
     * @param aScopeName
     */

@@ -25,7 +25,7 @@ import bpelg.services.queue.types.InboundMessages;
 public class AeInboundReceiveDetailBean extends AeAbstractAdminBean {
 	/** The key identifying the receives to examine. */
 	private String mKey;
-	private final List<InboundMessage> mDetails = new ArrayList<InboundMessage>();;
+	private final List<InboundMessage> mDetails = new ArrayList<>();;
 
 	/**
 	 * Default constructor.

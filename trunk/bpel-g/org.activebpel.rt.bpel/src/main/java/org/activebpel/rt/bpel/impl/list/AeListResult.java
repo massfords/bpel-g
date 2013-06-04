@@ -28,7 +28,7 @@ public class AeListResult<T> implements Serializable
    protected boolean mCompleteRowCount = true;
 
    /** Container for the results. */
-   protected List<T> mResults = new ArrayList<T>();
+   protected List<T> mResults = new ArrayList<>();
 
    /**
     * Default constructor for WebLogic bean serializer.

@@ -221,7 +221,7 @@ public class AeWSBPELDefVariableUsageVisitor extends AeDefVariableUsageVisitor
          resourcesUsed = scope.getResourcesUsedByCompensationHandler();
          if (resourcesUsed == null)
          {
-            resourcesUsed = new HashSet<String>();
+            resourcesUsed = new HashSet<>();
             scope.setResourcesUsedByCompensationHandler(resourcesUsed);
          }
       }

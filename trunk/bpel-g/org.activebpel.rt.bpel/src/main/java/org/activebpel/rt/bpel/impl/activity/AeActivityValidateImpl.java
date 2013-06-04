@@ -66,7 +66,7 @@ public class AeActivityValidateImpl extends AeActivityImpl
             catch (AeInvalidVariableException invalidEx)
             {
                if (exceptions == null)
-                  exceptions = new LinkedList<String>();
+                  exceptions = new LinkedList<>();
                exceptions.add(invalidEx.getMessage());
             }
          }

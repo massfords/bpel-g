@@ -82,7 +82,7 @@ public class AeWsioPolicyMapper implements IAePolicyMapper
     */
    public Map<String, Object> getCallProperties(List<Element> aPolicyList) throws AeException
    {
-      Map<String, Object> map = new HashMap<String, Object>();
+      Map<String, Object> map = new HashMap<>();
       if (AeUtil.notNullOrEmpty(aPolicyList))
       {
          // Examine the list of policy assertions to determine the request handlers

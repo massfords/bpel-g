@@ -54,8 +54,8 @@ public class AeStaticConstantsMap
          mInited = true;
 
          Field[] fields = mClass.getDeclaredFields();
-         mNamesToValuesMap = new HashMap<String, Object>();
-         mValuesToNamesMap = new HashMap<Object, String>();
+         mNamesToValuesMap = new HashMap<>();
+         mValuesToNamesMap = new HashMap<>();
 
           for (Field field : fields) {
               if (Modifier.isStatic(field.getModifiers())) {

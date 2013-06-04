@@ -57,7 +57,7 @@ public class AeJarFileBprAccessor extends AeAbstractBprStrategy {
 		try {
 			jru = new AeJarReaderUtil(getDeploymentContext()
 					.getDeploymentLocation());
-			List<AePddResource> pddList = new LinkedList<AePddResource>();
+			List<AePddResource> pddList = new LinkedList<>();
 			JAXBContext context = JAXBContext.newInstance(Pdd.class);
 			Unmarshaller um = context.createUnmarshaller();
 			for (JarEntry entry : jru.getEntries(new AeNameFilter("*.pdd"))) {

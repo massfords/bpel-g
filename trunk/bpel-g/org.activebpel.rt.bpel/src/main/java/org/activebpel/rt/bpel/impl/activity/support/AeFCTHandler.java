@@ -90,7 +90,7 @@ public abstract class AeFCTHandler extends AeActivityParent implements IAeFCTHan
     */
    public Iterator<? extends IAeBpelObject> getChildrenForStateChange()
    {
-      List<IAeBpelObject> list = new ArrayList<IAeBpelObject>();
+      List<IAeBpelObject> list = new ArrayList<>();
       list.add(getActivity());
       if (hasCoordinatedCompensator())
       {

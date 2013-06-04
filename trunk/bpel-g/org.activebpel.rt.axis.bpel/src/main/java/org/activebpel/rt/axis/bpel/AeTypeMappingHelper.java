@@ -329,7 +329,7 @@ public class AeTypeMappingHelper implements IAeTypesContext
    {
       if (mQNameToTuple == null)
       {
-         mQNameToTuple = new HashMap<QName, AeTypeMappingTuple>();
+         mQNameToTuple = new HashMap<>();
       }
       return mQNameToTuple;
    }

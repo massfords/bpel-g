@@ -106,7 +106,7 @@ public class AePersistentProcessRecovery implements IAeProcessRecovery
     */
    protected Set<Long> getDoneJournalIds(List aJournalEntries)
    {
-      Set<Long> result = new HashSet<Long>();
+      Set<Long> result = new HashSet<>();
       boolean restartEnabled = AePreferences.isRestartEnabled();
        for (Object je : aJournalEntries) {
            IAeJournalEntry entry = (IAeJournalEntry) je;
@@ -138,7 +138,7 @@ public class AePersistentProcessRecovery implements IAeProcessRecovery
    {
       if (mPreparedProcessIds == null)
       {
-         mPreparedProcessIds = new TreeSet<Long>();
+         mPreparedProcessIds = new TreeSet<>();
       }
 
       return mPreparedProcessIds;
@@ -526,7 +526,7 @@ public class AePersistentProcessRecovery implements IAeProcessRecovery
     */
    protected List<IAeJournalEntry> removeRestartProcessJournalEntry(List<IAeJournalEntry> aEntries)
    {
-      List<IAeJournalEntry> entries = new ArrayList<IAeJournalEntry>(aEntries.size());
+      List<IAeJournalEntry> entries = new ArrayList<>(aEntries.size());
 
       // Add all but the restart process journal entry.
        for (IAeJournalEntry entry : aEntries) {

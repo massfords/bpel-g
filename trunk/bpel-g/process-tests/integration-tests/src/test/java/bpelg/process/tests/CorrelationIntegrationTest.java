@@ -47,7 +47,7 @@ public class CorrelationIntegrationTest extends Assert {
 
     @Parameterized.Parameters
     public static List<Object[]> params() throws Exception {
-        List<Object[]> p = new ArrayList<Object[]>();
+        List<Object[]> p = new ArrayList<>();
         // no sleep, process stays in memory
         p.add(new Object[] {TimeUnit.SECONDS.toMillis(10), 0});
         // some sleep, process stays in memory

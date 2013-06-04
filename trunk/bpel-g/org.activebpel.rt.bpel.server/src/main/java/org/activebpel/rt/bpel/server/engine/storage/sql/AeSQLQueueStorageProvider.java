@@ -331,7 +331,7 @@ public class AeSQLQueueStorageProvider extends AeAbstractSQLStorageProvider impl
       {
          AeAlarmListHandler handler = new AeAlarmListHandler(aFilter);
 		 List<AeAlarmExt> matches = getQueryRunner().query(connection, aSQLQuery, handler, aParams);
-         return new AeAlarmListResult<AeAlarmExt>(handler.getRowCount(), matches);
+         return new AeAlarmListResult<>(handler.getRowCount(), matches);
       }
       catch (SQLException ex)
       {

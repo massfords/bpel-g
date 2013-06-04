@@ -47,7 +47,7 @@ public class AeJournalEntriesResultSetHandler implements ResultSetHandler<List<I
    public List<IAeJournalEntry> handle(ResultSet rs) throws SQLException
    {
       IAeJournalEntryFactory factory = AeJournalEntryFactory.getInstance();
-      List<IAeJournalEntry> result = new LinkedList<IAeJournalEntry>();
+      List<IAeJournalEntry> result = new LinkedList<>();
 
       while (rs.next())
       {

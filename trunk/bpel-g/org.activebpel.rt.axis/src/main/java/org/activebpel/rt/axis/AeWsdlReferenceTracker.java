@@ -26,7 +26,7 @@ import org.activebpel.rt.bpel.server.engine.AeEngineFactory;
 public class AeWsdlReferenceTracker
 {
    /** Map of service names to <code>IAeWsdlReference</code> objects. */
-   private static final Map<String, IAeWsdlReference> mReferences = new HashMap<String, IAeWsdlReference>();
+   private static final Map<String, IAeWsdlReference> mReferences = new HashMap<>();
    
    /**
     * Register the <code>IAeWsdlReference</code> as a <code>IAeCatalogListener</code> with

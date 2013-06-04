@@ -32,7 +32,7 @@ public class AeWebServiceAttachment implements IAeWebServiceAttachment
    public AeWebServiceAttachment(InputStream aAttachmentData, Map<String, String> aMimeHeaders)
    {
       mDataContent = aAttachmentData;
-      mMimeHeaders = new HashMap<String, String>(aMimeHeaders);
+      mMimeHeaders = new HashMap<>(aMimeHeaders);
       addTimeStamp();
    }
 

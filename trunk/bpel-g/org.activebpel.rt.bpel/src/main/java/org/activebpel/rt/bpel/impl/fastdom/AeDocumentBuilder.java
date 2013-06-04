@@ -27,7 +27,7 @@ public class AeDocumentBuilder implements IAeVisitor
    private Document mDocument;
 
    /** Stack of nodes pending construction. */
-   private final LinkedList<Node> mNodeStack = new LinkedList<Node>();
+   private final LinkedList<Node> mNodeStack = new LinkedList<>();
 
    /**
     * Builds a standard XML <code>Document</code> from the specified

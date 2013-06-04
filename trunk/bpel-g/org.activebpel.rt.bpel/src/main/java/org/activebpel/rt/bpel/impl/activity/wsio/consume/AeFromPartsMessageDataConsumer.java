@@ -139,7 +139,7 @@ public class AeFromPartsMessageDataConsumer extends AeAbstractMessageDataConsume
    {
       if (mCopyOperations == null)
       {
-         mCopyOperations = new LinkedList<AeCopyOperationBase>();
+         mCopyOperations = new LinkedList<>();
 
          int partNumber = 0;
          for (Iterator i = aContext.getMessageConsumerDef().getFromPartsDef().getFromPartDefs(); i.hasNext(); partNumber++)

@@ -42,7 +42,7 @@ public abstract class AeBaseQueueManager extends AeManagerAdapter implements IAe
    /** inbound receives that have not been matched to activities */ 
    private final List<AeUnmatchedReceive> mUnmatchedReceives = Collections.synchronizedList(new LinkedList<AeUnmatchedReceive>());
    /** activites that are waiting to receive data */
-   private final Collection<AeMessageReceiver> mMessageReceivers = Collections.synchronizedSet(new TreeSet<AeMessageReceiver>(sMessageReceiverComparator));
+   private final Collection<AeMessageReceiver> mMessageReceivers = Collections.synchronizedSet(new TreeSet<>(sMessageReceiverComparator));
    /** contains the reply portion of an inbound receive that has been matched and is waiting to receive its response from its call */
    private final Map<Long, AeReply> mReplies = Collections.synchronizedMap(new HashMap<Long, AeReply>());
    /** next id for unmatched receives */
@@ -55,7 +55,7 @@ public abstract class AeBaseQueueManager extends AeManagerAdapter implements IAe
    /** flag that let's us know if we've been started */
    private boolean mStarted = false;
    /** Maps AeAlarm objects to the scheduled task's timer id. */
-   private final Map<AeAlarm, Timer> mLookup = new HashMap<AeAlarm, Timer>();
+   private final Map<AeAlarm, Timer> mLookup = new HashMap<>();
    /** Saved map for in-memory starts and stops. */
    private Map<AeAlarm, Timer> mSavedLookup;
    /** Next journal id for non-persitent implementation of the queue manager. */
@@ -903,7 +903,7 @@ public abstract class AeBaseQueueManager extends AeManagerAdapter implements IAe
     */
    protected void saveLookup()
    {
-      mSavedLookup = new HashMap<AeAlarm, Timer>(mLookup);
+      mSavedLookup = new HashMap<>(mLookup);
    }
 
    /**
@@ -925,7 +925,7 @@ public abstract class AeBaseQueueManager extends AeManagerAdapter implements IAe
       synchronized( mLookup )
       {
          // The keyset is a collection of AeAlarm objects
-         List<AeAlarm> list = new ArrayList<AeAlarm>(mLookup.keySet());
+         List<AeAlarm> list = new ArrayList<>(mLookup.keySet());
          return AeAlarmFilterManager.filter(getEngine(), filter, list);
       }
    }

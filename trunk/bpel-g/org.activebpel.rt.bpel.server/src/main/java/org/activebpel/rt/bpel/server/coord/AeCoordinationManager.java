@@ -451,7 +451,7 @@ public abstract class AeCoordinationManager extends AeManagerAdapter implements 
     */   
    public Iterator<? extends IAeCoordinating> getCoordinatorIterator(String aCoordinationId) throws AeCoordinationNotFoundException
    {
-      Set<IAeCoordinator> set = new HashSet<IAeCoordinator>();
+      Set<IAeCoordinator> set = new HashSet<>();
       Iterator it = getCoordinatingIterator(aCoordinationId);
       while (it.hasNext())
       {
@@ -489,7 +489,7 @@ public abstract class AeCoordinationManager extends AeManagerAdapter implements 
     */
    protected Iterator getParticipantIterator(String aCoordinationId) throws AeCoordinationNotFoundException
    {
-      Set<IAeParticipant> set = new HashSet<IAeParticipant>();
+      Set<IAeParticipant> set = new HashSet<>();
       Iterator<? extends IAeCoordinating> it = getCoordinatingIterator(aCoordinationId);
       while (it.hasNext())
       {

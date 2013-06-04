@@ -44,7 +44,7 @@ public class AeInMemoryProcessManager extends AeAbstractProcessManager
 	private long mNextProcessId = 1;
 
 	/** Maps process ids to processes */
-	private final Hashtable<Long,IAeBusinessProcess> mProcesses = new Hashtable<Long,IAeBusinessProcess>();
+	private final Hashtable<Long,IAeBusinessProcess> mProcesses = new Hashtable<>();
 
 	/**
 	 * The number of completed process to leave temporarily in
@@ -56,7 +56,7 @@ public class AeInMemoryProcessManager extends AeAbstractProcessManager
 	 * Process ids for completed processes temporarily left in
 	 * {@link #mProcesses}.
 	 */
-	private final List<Long> mCompletedProcessIds = new LinkedList<Long>();
+	private final List<Long> mCompletedProcessIds = new LinkedList<>();
 
 	/** The next journal ID to use for journaling methods. */
 	private long mNextJournalId = 1;
@@ -159,14 +159,14 @@ public class AeInMemoryProcessManager extends AeAbstractProcessManager
 	 * .processes.types.ProcessFilterType)
 	 */
 	public ProcessList getProcesses(ProcessFilterType aFilter) {
-		ArrayList<ProcessInstanceDetail> results = new ArrayList<ProcessInstanceDetail>();
+		ArrayList<ProcessInstanceDetail> results = new ArrayList<>();
 		int totalCount = aFilter == null ? 0 : aFilter.getListStart();
 		int matches = 0;
 
 		synchronized (getProcessMap()) {
 			AeProcessFilterAdapter filter = new AeProcessFilterAdapter(aFilter);
 
-			SortedMap<Long,IAeBusinessProcess> map = new TreeMap<Long,IAeBusinessProcess>(new AeReverseComparator());
+			SortedMap<Long,IAeBusinessProcess> map = new TreeMap<>(new AeReverseComparator());
 			map.putAll(getProcessMap());
 
             for (Long l : map.keySet()) {
@@ -228,7 +228,7 @@ public class AeInMemoryProcessManager extends AeAbstractProcessManager
 	 * @see org.activebpel.rt.bpel.impl.IAeProcessManager#removeProcess(long)
 	 */
 	public void removeProcess(long aProcessId) {
-		List<Long> purgedProcessIds = new ArrayList<Long>();
+		List<Long> purgedProcessIds = new ArrayList<>();
 
 		if (getCompletedProcessCount() <= 0) {
 			// If we're not caching completed processes, then just remove the
@@ -265,7 +265,7 @@ public class AeInMemoryProcessManager extends AeAbstractProcessManager
 	 */
 	public int removeProcesses(ProcessFilterType aFilter) {
 		synchronized (getProcessMap()) {
-			List<IAeBusinessProcess> processes = new ArrayList<IAeBusinessProcess>(getProcessMap().values());
+			List<IAeBusinessProcess> processes = new ArrayList<>(getProcessMap().values());
 			AeProcessFilterAdapter filter = new AeProcessFilterAdapter(aFilter);
 			int removed = 0;
 

@@ -30,7 +30,7 @@ public class AeMessagePartsMap implements Serializable
 {
    private static final long serialVersionUID = 9066805253378567206L;
    /** map of part names to AeMessagePartTypeInfo objects */
-   private final Map<String,AeMessagePartTypeInfo> mParts = new HashMap<String,AeMessagePartTypeInfo>();
+   private final Map<String,AeMessagePartTypeInfo> mParts = new HashMap<>();
    /** name of the message */
    private final QName mMessageType;
    

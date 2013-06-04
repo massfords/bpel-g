@@ -46,7 +46,7 @@ public class AeDate {
 	public final static int TIME = 2;
 
 	/** List of common date time format patterns. */
-	private static final List<AeDate> sPatterns = new ArrayList<AeDate>();
+	private static final List<AeDate> sPatterns = new ArrayList<>();
 
 	private static final DatatypeFactory dtf;
 

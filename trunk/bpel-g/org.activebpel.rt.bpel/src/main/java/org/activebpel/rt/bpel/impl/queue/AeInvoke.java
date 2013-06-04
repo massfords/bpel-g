@@ -108,7 +108,7 @@ public class AeInvoke extends AeAbstractQueuedObject implements IAeInvokeInterna
       setInputMessageData(aInputMessageData);
       mMessageReceiverPath = aInvokeActivity.getLocationPath();
       mLocationPath = aInvokeActivity.getLocationPath();
-      mProcessProperties = new HashMap<String,String>(aProcessProperties);
+      mProcessProperties = new HashMap<>(aProcessProperties);
       mLocationId = aInvokeActivity.getLocationId();
       mTransmissionId = aInvokeActivity.getTransmissionId();
       setInvokeActivity(aInvokeActivity);

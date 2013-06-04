@@ -31,7 +31,7 @@ import org.activebpel.rt.bpel.impl.visitors.IAeImplVisitor;
 public class AeActivityAssignImpl extends AeActivityImpl
 {
    /** list of copy operations to get executed */
-   private List<IAeAssignOperation> mCopyOperations = new LinkedList<IAeAssignOperation>();
+   private List<IAeAssignOperation> mCopyOperations = new LinkedList<>();
    
    /** Copy operation context used by assign activity */
    private IAeCopyOperationContext mCopyOperationContext;

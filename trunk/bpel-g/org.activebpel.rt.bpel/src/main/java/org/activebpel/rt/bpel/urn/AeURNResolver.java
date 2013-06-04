@@ -24,14 +24,14 @@ import java.util.StringTokenizer;
 public class AeURNResolver implements IAeURNResolver
 {
    /** Map of URN to URL values */
-   private Map<String, String> mMap = new HashMap<String, String>();
+   private Map<String, String> mMap = new HashMap<>();
 
    /**
     * @see org.activebpel.rt.bpel.urn.IAeURNResolver#getMappings()
     */
    public Map<String, String> getMappings()
    {
-      return new HashMap<String, String>(getMap());
+      return new HashMap<>(getMap());
    }
 
    /**
@@ -128,7 +128,7 @@ public class AeURNResolver implements IAeURNResolver
       protected Map<String, String> buildMap()
       {
          StringTokenizer stoker = new StringTokenizer(mURN, ":"); //$NON-NLS-1$
-         Map<String, String> map = new HashMap<String, String>();
+         Map<String, String> map = new HashMap<>();
          int counter = 1;
          while(stoker.hasMoreTokens())
          {

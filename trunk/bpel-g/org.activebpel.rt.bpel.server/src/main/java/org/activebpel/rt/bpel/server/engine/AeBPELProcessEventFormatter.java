@@ -31,7 +31,7 @@ public class AeBPELProcessEventFormatter extends AeEngineEventFormatter
    private static AeBPELProcessEventFormatter sFormatter ;
 
    /** Map of format IDs to format strings. */
-   private final Map<Integer, String> mEventFormatMap = new HashMap<Integer, String>();
+   private final Map<Integer, String> mEventFormatMap = new HashMap<>();
 
    /**
     * Private ctor.  Get the singleton instance with getInstance().

@@ -48,7 +48,7 @@ public class AeWorkItem implements WorkItem
    public synchronized void addWorkDoneListener(IAeWorkDoneListener aListener)
    {
       if (mListeners == null)
-         mListeners = new ArrayList<IAeWorkDoneListener>();
+         mListeners = new ArrayList<>();
       
       mListeners.add(aListener);
    }

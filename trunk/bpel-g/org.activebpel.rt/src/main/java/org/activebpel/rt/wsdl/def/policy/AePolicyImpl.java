@@ -157,7 +157,7 @@ public class AePolicyImpl implements IAePolicy, IAePolicyConstants
    {
       if (mExtElements == null)
       {
-         mExtElements = new ArrayList<ExtensibilityElement>();
+         mExtElements = new ArrayList<>();
       }
       return mExtElements;
    }

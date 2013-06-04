@@ -48,7 +48,7 @@ public class AeDurableReplyDeserializer implements IAeImplStateNames
          throw new IllegalStateException(AeMessages.getString("AeDurableReplyDeserializer.MISSING_DURABLE_REPLY_TYPE")); //$NON-NLS-1$         
       }
       // get the list of child property elements for the durable reply.
-      Map<String, String> properties = new HashMap<String, String>();
+      Map<String, String> properties = new HashMap<>();
       NodeList nl = aDurableReplyInfoElement.getElementsByTagName(STATE_PROPERTY);
       for (int i = 0; i < nl.getLength(); i++)
       {

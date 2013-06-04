@@ -157,7 +157,7 @@ public class AePddValidator extends AeAbstractPddIterator {
 	 */
 	private void checkPartnerLinks(AePddResource aPdd,
 			IAeResourceValidationErrorHandler aHandler) {
-		HashSet<String> names = new HashSet<String>();
+		HashSet<String> names = new HashSet<>();
 		// Make sure that every partner link has either a partner role, or a my
 		// role, or both.
 		for (PartnerLinkType partnerLink : aPdd.getPdd().getPartnerLinks()
@@ -183,7 +183,7 @@ public class AePddValidator extends AeAbstractPddIterator {
 		}
 
 		// check for duplicate my role services
-		HashSet<String> serviceNames = new HashSet<String>();
+		HashSet<String> serviceNames = new HashSet<>();
 		for (PartnerLinkType partnerLink : aPdd.getPdd().getPartnerLinks()
 				.getPartnerLink()) {
 			if (partnerLink.getMyRole() != null) {

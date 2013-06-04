@@ -59,9 +59,9 @@ public class AeProcessDef extends AeScopeDef implements Serializable
    /** List of create instance activities. */
    private Collection<AePartnerLinkOpKey> mCreateInstances;
    /** Maps the partnerLinkOpKey to the collection of properties. */
-   private final Map<AePartnerLinkOpKey,Collection<QName>> mCorrelatedReceivesProperties = new HashMap<AePartnerLinkOpKey,Collection<QName>>();
+   private final Map<AePartnerLinkOpKey,Collection<QName>> mCorrelatedReceivesProperties = new HashMap<>();
    /** Maps the partnerLinkOpKey to the message parts */
-   private final Map<AePartnerLinkOpKey,AeMessagePartsMap> mCorrelatedReceivesMessagePartsMap = new HashMap<AePartnerLinkOpKey,AeMessagePartsMap>();
+   private final Map<AePartnerLinkOpKey,AeMessagePartsMap> mCorrelatedReceivesMessagePartsMap = new HashMap<>();
    /** Process fully qualified name. */
    private QName mProcessName;
    /** indicates that this process has multiple start activities */
@@ -70,30 +70,30 @@ public class AeProcessDef extends AeScopeDef implements Serializable
    private boolean mContainsSerializableScopes;
    /** cache of property names and message types to property aliases */
    // TODO revisit: do we really need this map?
-   private final Map<String,IAePropertyAlias> mPropertyAliasMap = new HashMap<String,IAePropertyAlias>();
+   private final Map<String,IAePropertyAlias> mPropertyAliasMap = new HashMap<>();
    /** cache of property names to property types. */
-   private final Map<QName,QName> mPropertyTypeMap = new HashMap<QName,QName>();
+   private final Map<QName,QName> mPropertyTypeMap = new HashMap<>();
    /** Maps location paths to location ids */
-   private final Map<String,Integer> mLocationPathsToIds = new HashMap<String,Integer>();
+   private final Map<String,Integer> mLocationPathsToIds = new HashMap<>();
    /** Maps location ids to location paths */
-   private final Map<Integer,String> mLocationIdsToPaths = new HashMap<Integer,String>();
+   private final Map<Integer,String> mLocationIdsToPaths = new HashMap<>();
    /** Collection of port types plus operations that are one-way receives. */
    // TODO revisit: do we really need this map?
-   private final Set<String> mOneWayReceives = new HashSet<String>();
+   private final Set<String> mOneWayReceives = new HashSet<>();
    /** maps partner link name and operation to a list of property sets that can be in the request */
    // TODO revisit: do we really need this map?
-   private final transient Map<AePartnerLinkOpKey,AeCorrelationCombinations> mCorrelationPropertiesMap = new HashMap<AePartnerLinkOpKey,AeCorrelationCombinations>();
+   private final transient Map<AePartnerLinkOpKey,AeCorrelationCombinations> mCorrelationPropertiesMap = new HashMap<>();
    /** map of create instance activities and their message exchange values (if they're not-null) */
    // TODO revisit: do we really need this map?
-   private final Map<AePartnerLinkOpKey,String> mMessageExchangeMap = new HashMap<AePartnerLinkOpKey,String>();
+   private final Map<AePartnerLinkOpKey,String> mMessageExchangeMap = new HashMap<>();
    /** List of the process's imports. */
-   private List<AeImportDef> mImports = new LinkedList<AeImportDef>();
+   private List<AeImportDef> mImports = new LinkedList<>();
    /** The 'extensions' child. */
    private transient AeExtensionsDef mExtensionsDef;
    /** A map of partner link locations to partner link defs. */
-   private Map<String,AePartnerLinkDef> mPartnerLinkMap = new HashMap<String,AePartnerLinkDef>();
+   private Map<String,AePartnerLinkDef> mPartnerLinkMap = new HashMap<>();
    /** A map of partner link names to fully qualified partner link locations. */
-   private Map<String,Set<String>> mPartnerLinkNameMap = new HashMap<String,Set<String>>();
+   private Map<String,Set<String>> mPartnerLinkNameMap = new HashMap<>();
    /** set to true if no IMA apart from the lone createInstance IMA uses the createInstance IMA's plink/operation  */
    private boolean mCreateInstanceOnlyOperation;
    /** WSBPEL Abstract process profile URI. */
@@ -905,7 +905,7 @@ public class AeProcessDef extends AeScopeDef implements Serializable
       Set<String> locations = getPartnerLinkNameMap().get(aPartnerLink.getName());
       if (locations == null)
       {
-         locations = new HashSet<String>();
+         locations = new HashSet<>();
          getPartnerLinkNameMap().put(aPartnerLink.getName(), locations);
       }
       locations.add(aPartnerLink.getLocationPath());

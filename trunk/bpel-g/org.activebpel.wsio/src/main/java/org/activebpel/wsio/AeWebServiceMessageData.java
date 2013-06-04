@@ -27,7 +27,7 @@ public class AeWebServiceMessageData implements IAeWebServiceMessageData
 /** Message qname. */
    protected QName mMessageQName;
    /** Message part data. */
-   protected final Map<String,Object> mParts = new HashMap<String,Object>();
+   protected final Map<String,Object> mParts = new HashMap<>();
    /** Optional list of attachments */
    protected List<IAeWebServiceAttachment> mAttachments;
    

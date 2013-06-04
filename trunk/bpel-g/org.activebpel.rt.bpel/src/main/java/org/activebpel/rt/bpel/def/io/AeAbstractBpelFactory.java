@@ -24,7 +24,7 @@ public abstract class AeAbstractBpelFactory implements IAeBpelFactory
    private IAeDefRegistry mBpelRegistry;
    
    /** factory's features map. */
-   private final Map<String, Boolean> mFeatures = new HashMap<String, Boolean>();
+   private final Map<String, Boolean> mFeatures = new HashMap<>();
 
    /**
     * Default c'tor.

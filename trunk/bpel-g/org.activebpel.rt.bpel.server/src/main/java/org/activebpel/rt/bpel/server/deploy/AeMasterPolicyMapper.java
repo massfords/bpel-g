@@ -34,7 +34,7 @@ public class AeMasterPolicyMapper implements IAePolicyMapper, IAeWsddConstants
     */
    public List<Element> getServerRequestHandlers(List<Element> aPolicyList) throws AeException
    {
-      List<Element> handlers = new ArrayList<Element>();
+      List<Element> handlers = new ArrayList<>();
 
       if (AeUtil.notNullOrEmpty(aPolicyList))
       {
@@ -62,7 +62,7 @@ public class AeMasterPolicyMapper implements IAePolicyMapper, IAeWsddConstants
     */
    public List<Element> getServerResponseHandlers(List<Element> aPolicyList) throws AeException
    {
-      List<Element> handlers = new ArrayList<Element>();
+      List<Element> handlers = new ArrayList<>();
 
       if (AeUtil.notNullOrEmpty(aPolicyList))
       {
@@ -84,7 +84,7 @@ public class AeMasterPolicyMapper implements IAePolicyMapper, IAeWsddConstants
     */
    public List<Element> getClientRequestHandlers(List<Element> aPolicyList) throws AeException
    {
-      List<Element> handlers = new ArrayList<Element>();
+      List<Element> handlers = new ArrayList<>();
 
       if (AeUtil.notNullOrEmpty(aPolicyList))
       {
@@ -106,7 +106,7 @@ public class AeMasterPolicyMapper implements IAePolicyMapper, IAeWsddConstants
     */
    public List<Element> getClientResponseHandlers(List<Element> aPolicyList) throws AeException
    {
-      List<Element> handlers = new ArrayList<Element>();
+      List<Element> handlers = new ArrayList<>();
 
       if (AeUtil.notNullOrEmpty(aPolicyList))
       {
@@ -129,7 +129,7 @@ public class AeMasterPolicyMapper implements IAePolicyMapper, IAeWsddConstants
     */
    public List<Element> getServiceParameters(List<Element> aPolicyList) throws AeException
    {
-      List<Element> handlers = new ArrayList<Element>();
+      List<Element> handlers = new ArrayList<>();
 
       if (AeUtil.notNullOrEmpty(aPolicyList))
       {
@@ -151,7 +151,7 @@ public class AeMasterPolicyMapper implements IAePolicyMapper, IAeWsddConstants
     */
    public Map<String, Object> getCallProperties(List<Element> aPolicyList) throws AeException
    {
-      Map<String, Object> map = new HashMap<String, Object>();
+      Map<String, Object> map = new HashMap<>();
       
       if (AeUtil.notNullOrEmpty(aPolicyList))
       {

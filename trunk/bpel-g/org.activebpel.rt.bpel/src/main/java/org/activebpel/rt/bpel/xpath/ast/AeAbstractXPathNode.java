@@ -41,7 +41,7 @@ public abstract class AeAbstractXPathNode
    /** The node name. */
    private String mType;
    /** The node's children. */
-   private List<AeAbstractXPathNode> mChildren = new ArrayList<AeAbstractXPathNode>();
+   private List<AeAbstractXPathNode> mChildren = new ArrayList<>();
 
    /**
     * Simple constructor.
@@ -195,7 +195,7 @@ public abstract class AeAbstractXPathNode
     */
    protected void normalizeChildren()
    {
-      List<AeAbstractXPathNode> list = new ArrayList<AeAbstractXPathNode>();
+      List<AeAbstractXPathNode> list = new ArrayList<>();
        for (AeAbstractXPathNode node : getChildren()) {
            list.add(node.normalize());
        }

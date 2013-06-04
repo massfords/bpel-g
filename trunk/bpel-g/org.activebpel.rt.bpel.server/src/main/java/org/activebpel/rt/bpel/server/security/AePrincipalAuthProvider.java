@@ -58,7 +58,7 @@ public class AePrincipalAuthProvider implements IAeAuthorizationProvider
         	 roles = Collections.emptySet();
          } else {
         	 String[] rolls = service.getAllowedRoles().split(",");
-        	 roles = new HashSet<String>();
+        	 roles = new HashSet<>();
         	 for(String r : rolls) {
         		 roles.add(r.trim());
         	 }

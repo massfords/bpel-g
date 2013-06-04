@@ -124,7 +124,7 @@ public class AeBaseValidator implements IAeValidationDefs, IAeValidator, IAeVali
    private List<AeBaseValidator> getChildren()
    {
       if (mChildren == null)
-         mChildren = new ArrayList<AeBaseValidator>();
+         mChildren = new ArrayList<>();
       return mChildren;
    }
    
@@ -144,7 +144,7 @@ public class AeBaseValidator implements IAeValidationDefs, IAeValidator, IAeVali
    {
       if (hasChildren())
       {
-         List<T> list = new ArrayList<T>();
+         List<T> list = new ArrayList<>();
          for (int i =0; i<getChildren().size(); i++)
          {
             Object obj = getChildren().get(i);

@@ -76,7 +76,7 @@ public class AeFileAttachmentStorage implements IAeAttachmentStorage
       File[] tempFiles = AeAttachmentFile.listAttachmentFiles();
 
       // Construct the set of files to delete.
-      Set<File> deleteFiles = new HashSet<File>(Arrays.asList(tempFiles));
+      Set<File> deleteFiles = new HashSet<>(Arrays.asList(tempFiles));
 
       // Don't delete files that we are actively managing.
        for (AeAttachmentInfo info : getAttachmentInfoMap().values()) {
@@ -277,7 +277,7 @@ public class AeFileAttachmentStorage implements IAeAttachmentStorage
          if (processInfos == null)
          {
             // If an entry for the process doesn't exist yet, then create one.
-            processInfos = new ArrayList<AeAttachmentInfo>();
+            processInfos = new ArrayList<>();
             getProcessInfosMap().put(aProcessId, processInfos);
          }
 

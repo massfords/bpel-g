@@ -28,10 +28,10 @@ public class AeFastElement extends AeFastNode implements IAeFastParent
    private final String mName;
 
    /** Maps attribute names to attribute instances. */
-   private final Map<String,AeFastAttribute> mAttributesMap = new HashMap<String,AeFastAttribute>();
+   private final Map<String,AeFastAttribute> mAttributesMap = new HashMap<>();
 
    /** The element's child nodes. */
-   private final Collection<AeFastNode> mChildNodes = new LinkedHashSet<AeFastNode>();
+   private final Collection<AeFastNode> mChildNodes = new LinkedHashSet<>();
 
    /**
     * Constructs an element with the specified name.
@@ -70,7 +70,7 @@ public class AeFastElement extends AeFastNode implements IAeFastParent
     */
    public Collection getAttributes()
    {
-      return new TreeMap<String,AeFastAttribute>(getAttributesMap()).values();
+      return new TreeMap<>(getAttributesMap()).values();
    }
 
    /**
@@ -86,7 +86,7 @@ public class AeFastElement extends AeFastNode implements IAeFastParent
     */
    public List<AeFastNode> getChildNodes()
    {
-      return new ArrayList<AeFastNode>(internalGetChildNodes());
+      return new ArrayList<>(internalGetChildNodes());
    }
 
    /**

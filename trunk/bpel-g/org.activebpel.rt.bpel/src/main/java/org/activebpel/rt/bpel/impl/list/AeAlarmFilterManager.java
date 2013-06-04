@@ -40,7 +40,7 @@ public class AeAlarmFilterManager
     */
    public static AeAlarmListResult<? extends AeAlarm> filter( IAeBusinessProcessEngineInternal aEngine, AeAlarmFilter aFilter, List<AeAlarm> aAlarms )
    {
-      List<AeAlarmExt> matches = new ArrayList<AeAlarmExt>();
+      List<AeAlarmExt> matches = new ArrayList<>();
       // totalRows is the number of records that matched the filter query.
       int totalRows = 0;
       
@@ -71,7 +71,7 @@ public class AeAlarmFilterManager
          sort( matches );
       }
       
-      return new AeAlarmListResult<AeAlarmExt>(totalRows, matches);
+      return new AeAlarmListResult<>(totalRows, matches);
    }
    
    /**

@@ -42,7 +42,7 @@ public class AeUnpackedBprAccessor extends AeAbstractBprStrategy {
 		File rootDir = new File(getDeploymentContext()
 				.getTempDeploymentLocation().getFile());
 
-		ArrayList<AePddResource> resources = new ArrayList<AePddResource>();
+		ArrayList<AePddResource> resources = new ArrayList<>();
 		listFiles(resources, rootDir, "", new FileFilter() {
 			@Override
 			public boolean accept(File aFile) {

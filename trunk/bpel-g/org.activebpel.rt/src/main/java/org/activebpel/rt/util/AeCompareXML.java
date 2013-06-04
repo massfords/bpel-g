@@ -29,7 +29,7 @@ public class AeCompareXML
    private static final String ATTR_SKIP_CONTENTS = "skipContents"; //$NON-NLS-1$
 
    /** list of errors */
-   private final List<String> mErrors = new ArrayList<String>();
+   private final List<String> mErrors = new ArrayList<>();
    /** flag for matching exact order of elements */
    private boolean mMatchOrder = false;
    /** Flag indicating whether wildcards are supported. */
@@ -103,7 +103,7 @@ public class AeCompareXML
     */
    public boolean compareElements(Element aElement1, Element aElement2, String aPath)
    {
-      HashMap<Integer, Integer> usedChildren2 = new HashMap<Integer, Integer>();
+      HashMap<Integer, Integer> usedChildren2 = new HashMap<>();
       String path = aPath + "/" + aElement1.getNodeName(); //$NON-NLS-1$
 
       // check if element name matches first

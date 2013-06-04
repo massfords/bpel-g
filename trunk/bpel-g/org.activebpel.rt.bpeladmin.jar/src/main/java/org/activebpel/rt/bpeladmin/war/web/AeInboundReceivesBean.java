@@ -53,12 +53,12 @@ public class AeInboundReceivesBean {
 	 */
 	private static List<List<InboundMessage>> toListOfLists(
 			InboundMessages aDetails) {
-		Map<String, List<InboundMessage>> recs = new LinkedHashMap<String, List<InboundMessage>>();
+		Map<String, List<InboundMessage>> recs = new LinkedHashMap<>();
 
 		for (InboundMessage im : aDetails.getInboundMessage()) {
 			addToMap(recs, im);
 		}
-		return new ArrayList<List<InboundMessage>>(recs.values());
+		return new ArrayList<>(recs.values());
 	}
 
 	/**
@@ -72,7 +72,7 @@ public class AeInboundReceivesBean {
 		String key = makeKey(aDetail);
 		List<InboundMessage> matches = aHashMap.get(key);
 		if (matches == null) {
-			matches = new ArrayList<InboundMessage>();
+			matches = new ArrayList<>();
 			aHashMap.put(key, matches);
 		}
 		matches.add(aDetail);

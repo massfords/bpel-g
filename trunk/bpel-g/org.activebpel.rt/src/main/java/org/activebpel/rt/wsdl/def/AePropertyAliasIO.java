@@ -154,7 +154,7 @@ public class AePropertyAliasIO extends AeWSDLExtensionIO implements IAeBPELExten
       propAlias.setRequired(Boolean.TRUE);
       propAlias.setElementType(aQName);
 
-      Map<String, String> namespaces = new HashMap<String, String>();
+      Map<String, String> namespaces = new HashMap<>();
       AeXmlUtil.getDeclaredNamespaces(aPropertyElem, namespaces);
       propAlias.setNamespaces(namespaces);
 

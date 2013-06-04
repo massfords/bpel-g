@@ -39,10 +39,10 @@ public class AeWSDLFactory implements IAeWSDLFactory
    private static final String WSDL_NAMESPACE_TAG = "namespace"; //$NON-NLS-1$
 
    /** Hash map of url to classpath locations for wsdl  */
-   private static final HashMap<String, String> sUrl2Classpath = new HashMap<String, String>();
+   private static final HashMap<String, String> sUrl2Classpath = new HashMap<>();
 
    /** Hash map of url to classpath locations for wsdl  */
-   private static final HashMap<String, String> sNamespace2Url = new HashMap<String, String>();
+   private static final HashMap<String, String> sNamespace2Url = new HashMap<>();
    
    /**
     * Creates a WSDL provider, given the stream for the catalog. The catalog

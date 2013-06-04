@@ -35,7 +35,7 @@ import java.util.*;
 public class AeWSResourceValidationRuleRegistry implements IAeWSResourceValidationRuleRegistry
 {
    private static final Schema sRulesFileSchema;
-   private static final Map<String, String> sPrefixMap = new HashMap<String, String>();
+   private static final Map<String, String> sPrefixMap = new HashMap<>();
 
    static
    {
@@ -46,7 +46,7 @@ public class AeWSResourceValidationRuleRegistry implements IAeWSResourceValidati
    }
 
    /** Map of resource namespace -> List of rules. */
-   private Map<String, List<IAeWSResourceValidationRule>> mRules = new HashMap<String, List<IAeWSResourceValidationRule>>();
+   private Map<String, List<IAeWSResourceValidationRule>> mRules = new HashMap<>();
 
    /**
     * C'tor.
@@ -78,7 +78,7 @@ public class AeWSResourceValidationRuleRegistry implements IAeWSResourceValidati
 
          @SuppressWarnings("unchecked")
          List<Element> ruleNodes = AeXPathUtil.selectNodes(rulesDoc, "aerule:rules/aerule:rule", sPrefixMap); //$NON-NLS-1$
-         List<IAeWSResourceValidationRule> rules = new ArrayList<IAeWSResourceValidationRule>();
+         List<IAeWSResourceValidationRule> rules = new ArrayList<>();
          String targetNS = AeXPathUtil.selectSingleNode(rulesDoc, "aerule:rules/@targetNamespace", //$NON-NLS-1$
                sPrefixMap).getNodeValue();
           for (Element ruleElem : ruleNodes) {

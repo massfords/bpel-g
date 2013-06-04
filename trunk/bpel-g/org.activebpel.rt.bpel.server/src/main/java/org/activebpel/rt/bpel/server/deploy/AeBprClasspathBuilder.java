@@ -15,7 +15,7 @@ public class AeBprClasspathBuilder {
 	}
 	
 	public static URLClassLoader build(URL aURL, ClassLoader aParent) throws MalformedURLException {
-	   List<URL> urls = new LinkedList<URL>();
+	   List<URL> urls = new LinkedList<>();
 	   
 	   urls.add(new URL(aURL, "."));
 	   // add all of the *.jar files

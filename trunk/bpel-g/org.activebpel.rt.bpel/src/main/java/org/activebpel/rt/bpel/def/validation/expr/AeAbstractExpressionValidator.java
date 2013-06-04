@@ -38,7 +38,7 @@ public abstract class AeAbstractExpressionValidator implements IAeExpressionVali
    public final static String ACTIVE_BPEL_FUNCTION_NAMESPACE = "http://www.activebpel.org/bpel/extension"; //$NON-NLS-1$
 
    /** The set of functions allowed in join conditions. */
-   public static final Set<QName> sJoinConditionAllowedFunctions = new HashSet<QName>();
+   public static final Set<QName> sJoinConditionAllowedFunctions = new HashSet<>();
    /** The namespace that all built in functions are a part of. */
    public final static String BUILTIN_FUNCTION_NAMESPACE = null;
 

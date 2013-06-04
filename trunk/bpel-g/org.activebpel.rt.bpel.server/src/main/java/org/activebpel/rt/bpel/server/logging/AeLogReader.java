@@ -243,7 +243,7 @@ public class AeLogReader extends AeSQLObject
       @SuppressWarnings("unchecked")
       public List<AeLogEntry> handle(ResultSet rs) throws SQLException
       {
-         List<AeLogEntry> list = new ArrayList<AeLogEntry>();
+         List<AeLogEntry> list = new ArrayList<>();
          
          while(rs.next())
          {

@@ -29,7 +29,7 @@ import java.util.Map.Entry;
 public class AeVariablesImpl implements IAeVariableContainer
 {
    /** map of variable name to variable object */
-   private final Map<String, IAeVariable> mMap = new HashMap<String, IAeVariable>();
+   private final Map<String, IAeVariable> mMap = new HashMap<>();
    /** def object */
    private final AeVariablesDef mVariablesDef;
    /** scope parent */
@@ -130,7 +130,7 @@ public class AeVariablesImpl implements IAeVariableContainer
    protected Collection<IAeCopyOperation> getCopyOperationsCollection()
    {
       if (mCopyOperations == null)
-         mCopyOperations = new ArrayList<IAeCopyOperation>();
+         mCopyOperations = new ArrayList<>();
       
       return mCopyOperations;
    }

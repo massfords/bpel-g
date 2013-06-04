@@ -41,7 +41,7 @@ public class AeSampleDataTarget
    /** The context used when generating sample data. */
    private Object mContext;
    /** Map of prefix->namespace that should be used for sample data generation. */
-   private Map<String, String> mNamespaces = new HashMap<String, String>();
+   private Map<String, String> mNamespaces = new HashMap<>();
 
    /**
     * C'tor.
@@ -83,7 +83,7 @@ public class AeSampleDataTarget
    {
       IAeElementFilter filter = getElementFilter();
 
-      List<ElementDecl> list = new ArrayList<ElementDecl>();
+      List<ElementDecl> list = new ArrayList<>();
 
        for (Object o : getSchemas()) {
            Schema schema = (Schema) o;
@@ -129,7 +129,7 @@ public class AeSampleDataTarget
 
       IAeComplexTypeFilter filter = getComplexTypeFilter();
 
-      List<ComplexType> list = new ArrayList<ComplexType>();
+      List<ComplexType> list = new ArrayList<>();
 
        for (Object o : getSchemas()) {
            Schema schema = (Schema) o;

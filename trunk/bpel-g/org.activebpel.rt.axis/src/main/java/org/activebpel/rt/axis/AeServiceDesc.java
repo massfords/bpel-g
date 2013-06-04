@@ -50,7 +50,7 @@ public class AeServiceDesc implements ServiceDesc
    private boolean mUseSet;
 
    /** Our operations - a list of OperationDescs */
-   private final ArrayList<OperationDesc> mOperations = new ArrayList<OperationDesc>();
+   private final ArrayList<OperationDesc> mOperations = new ArrayList<>();
 
    /** A collection of namespaces which will map to this service */
    private List<String> mNamespaceMappings;
@@ -264,14 +264,14 @@ public class AeServiceDesc implements ServiceDesc
       mOperations.add(aOperation);
       aOperation.setParent(this);
       if (mNameToOperationsMap == null)
-         mNameToOperationsMap = new HashMap<String, List<OperationDesc>>();
+         mNameToOperationsMap = new HashMap<>();
 
       // Add name to nameToOperations Map
       String name = aOperation.getName();
       List<OperationDesc> overloads = mNameToOperationsMap.get(name);
       if (overloads == null)
       {
-         overloads = new ArrayList<OperationDesc>();
+         overloads = new ArrayList<>();
          mNameToOperationsMap.put(name, overloads);
       }
       overloads.add(aOperation);
@@ -287,7 +287,7 @@ public class AeServiceDesc implements ServiceDesc
 			mOperations.remove(aOperation);
 			aOperation.setParent(null);
 			if (mNameToOperationsMap == null)
-			   mNameToOperationsMap = new HashMap<String, List<OperationDesc>>();
+			   mNameToOperationsMap = new HashMap<>();
 			
 			// Remove name from nameToOperations Map
 			mNameToOperationsMap.remove(aOperation.getName());
@@ -395,7 +395,7 @@ public class AeServiceDesc implements ServiceDesc
    public void setDefaultNamespace(String aNamespace)
    {
       if (mNamespaceMappings == null)
-         mNamespaceMappings = new ArrayList<String>();
+         mNamespaceMappings = new ArrayList<>();
 
       mNamespaceMappings.add(0, aNamespace);
    }
@@ -406,7 +406,7 @@ public class AeServiceDesc implements ServiceDesc
    public void setProperty(String aName, Object aValue)
    {
       if (mProperties == null)
-         mProperties = new HashMap<String, Object>();
+         mProperties = new HashMap<>();
 
       mProperties.put(aName, aValue);
    }

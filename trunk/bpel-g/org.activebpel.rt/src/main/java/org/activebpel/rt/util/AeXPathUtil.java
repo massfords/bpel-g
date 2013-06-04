@@ -347,7 +347,7 @@ public class AeXPathUtil
          {
             return Collections.<String>emptyList();
          }
-         List<String> rval = new ArrayList<String>();
+         List<String> rval = new ArrayList<>();
          Iterator it = nodeList.iterator();
          while (it.hasNext())
          {

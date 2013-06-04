@@ -171,7 +171,7 @@ public class AeAttachmentContainer extends ArrayList<IAeAttachmentItem> implemen
      if (AeUtil.isNullOrEmpty(contentId))
         return aItem;     
      
-     Set<String> ids = new HashSet<String>();
+     Set<String> ids = new HashSet<>();
      for(Iterator<IAeAttachmentItem> itr = getAttachmentItems(); itr.hasNext();)
         ids.add((itr.next()).getHeaders().get(AeMimeUtil.CONTENT_ID_ATTRIBUTE));
      

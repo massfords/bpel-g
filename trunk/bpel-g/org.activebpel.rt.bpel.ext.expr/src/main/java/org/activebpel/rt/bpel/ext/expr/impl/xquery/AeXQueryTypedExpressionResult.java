@@ -37,7 +37,7 @@ public class AeXQueryTypedExpressionResult
     */
    public static List createResultList(Document aResultDoc)
    {
-      List<Object> rval = new ArrayList<Object>();
+      List<Object> rval = new ArrayList<>();
       
       Element rootElem = aResultDoc.getDocumentElement();
       NodeList children = rootElem.getChildNodes();

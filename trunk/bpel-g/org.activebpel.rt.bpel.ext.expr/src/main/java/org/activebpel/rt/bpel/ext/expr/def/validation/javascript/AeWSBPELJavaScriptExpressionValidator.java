@@ -47,7 +47,7 @@ public class AeWSBPELJavaScriptExpressionValidator extends AeAbstractJavaScriptE
    {
       if (sAllowedJoinConditionFunctions == null)
       {
-         Set<QName> set = new HashSet<QName>(super.getJoinConditionAllowedFunctions());
+         Set<QName> set = new HashSet<>(super.getJoinConditionAllowedFunctions());
          set.add(new QName(IAeBPELConstants.WSBPEL_2_0_NAMESPACE_URI, AeExpressionLanguageUtil.LINK_STATUS_FUNC_NAME));
          sAllowedJoinConditionFunctions = set;
       }

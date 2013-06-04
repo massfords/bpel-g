@@ -36,7 +36,7 @@ public class AeMessageData implements IAeMessageData, Externalizable
    /** The variable message type for which we are storing data */
    private QName mMsgType;
    /** Holds on to the part data, the name of the part is its key. */
-   private Map<String,Object> mPartData = new HashMap<String,Object>();
+   private Map<String,Object> mPartData = new HashMap<>();
    /** place holder for optional attachments */
    private IAeAttachmentContainer mAttachmentContainer;
 
@@ -112,7 +112,7 @@ public class AeMessageData implements IAeMessageData, Externalizable
       try
       {
          AeMessageData copy = (AeMessageData) super.clone();
-         copy.mPartData = new HashMap<String,Object>(mPartData);
+         copy.mPartData = new HashMap<>(mPartData);
          
          // walk the map and deep clone any Nodes
           for (Entry<String, Object> entry : copy.mPartData.entrySet()) {
@@ -200,7 +200,7 @@ public class AeMessageData implements IAeMessageData, Externalizable
    {
       mMsgType = (QName) aIn.readObject();
 
-      mPartData = new HashMap<String,Object>();
+      mPartData = new HashMap<>();
       int numParts = aIn.readInt();
       for (int i = 0; i < numParts; i++)
       {

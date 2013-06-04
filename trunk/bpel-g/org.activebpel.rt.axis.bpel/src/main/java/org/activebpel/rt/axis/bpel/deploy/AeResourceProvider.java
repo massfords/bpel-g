@@ -83,7 +83,7 @@ public class AeResourceProvider extends FileProvider
             if (getDeployment().getGlobalConfiguration() == null)
             {
                WSDDGlobalConfiguration config = new WSDDGlobalConfiguration();
-               config.setOptionsHashtable(new java.util.Hashtable<Object,Object>());
+               config.setOptionsHashtable(new java.util.Hashtable<>());
                getDeployment().setGlobalConfiguration(config);
             }
 

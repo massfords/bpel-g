@@ -34,16 +34,16 @@ import java.util.Set;
 public class AeProcessSnapshotVisitor extends AeImplTraversingVisitor
 {
    /** The <code>Set</code> of <code>AeCorrelationSet</code> instances. */
-   private final Set<AeCorrelationSet> mCorrelationSets = new HashSet<AeCorrelationSet>();
+   private final Set<AeCorrelationSet> mCorrelationSets = new HashSet<>();
 
    /** The <code>Set</code> of <code>IAeVariable</code> instances. */
-   private final Set<IAeVariable> mVariables = new HashSet<IAeVariable>();
+   private final Set<IAeVariable> mVariables = new HashSet<>();
    
    /** The <code>Set</code> of <code>AePartnerLink</code> instances. */
-   private final Set<IAePartnerLink> mPartnerLinks = new HashSet<IAePartnerLink>();
+   private final Set<IAePartnerLink> mPartnerLinks = new HashSet<>();
 
    /** The <code>Set</code> of pending <code>AeActivityInvokeImpl</code> instances. */
-   private final Set<AeActivityInvokeImpl> mPendingInvokes = new HashSet<AeActivityInvokeImpl>();
+   private final Set<AeActivityInvokeImpl> mPendingInvokes = new HashSet<>();
 
    /**
     * Adds all live variable and correlation set instances reachable from the

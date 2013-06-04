@@ -82,7 +82,7 @@ public abstract class AeAbstractJavaScriptParseResult extends AeAbstractExpressi
     */
    protected Set<AeScriptFuncDef> extractFunctions(Node aNode, AeScriptFuncDef aParentFunc)
    {
-      Set<AeScriptFuncDef> set = new LinkedHashSet<AeScriptFuncDef>();
+      Set<AeScriptFuncDef> set = new LinkedHashSet<>();
       AeScriptFuncDef parentFunc = aParentFunc;
 
       // If the Node is a Function Call, extract it and add it to the list.
@@ -115,7 +115,7 @@ public abstract class AeAbstractJavaScriptParseResult extends AeAbstractExpressi
     */
    protected Set<AeScriptVarDef> extractVariables(Node aNode)
    {
-      Set<AeScriptVarDef> set = new LinkedHashSet<AeScriptVarDef>();
+      Set<AeScriptVarDef> set = new LinkedHashSet<>();
 
       // Now process all of the node's children.
       Node child = aNode.getFirstChild();

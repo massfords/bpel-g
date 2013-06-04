@@ -75,7 +75,7 @@ public class AeCompInfo
     */
    public List<AeCompInfo> getEnclosedInfoByScopeName(String aScopeName)
    {
-      List<AeCompInfo> matchingScopes = new LinkedList<AeCompInfo>();
+      List<AeCompInfo> matchingScopes = new LinkedList<>();
 
       for (AeCompInfo enclosedScope : getEnclosedScopes() )
       {
@@ -200,7 +200,7 @@ public class AeCompInfo
    {
       if (mEnclosedScopes == null)
       {
-         mEnclosedScopes = new LinkedList<AeCompInfo>();
+         mEnclosedScopes = new LinkedList<>();
       }
       return mEnclosedScopes;
    }
@@ -210,7 +210,7 @@ public class AeCompInfo
     */
    public List<AeCompInfo> getCoordinatedEnclosedScopes()
    {
-      List<AeCompInfo> matchingScopes = new LinkedList<AeCompInfo>();
+      List<AeCompInfo> matchingScopes = new LinkedList<>();
       for (AeCompInfo childCompInfo : getEnclosedScopes() )
       {
          if (childCompInfo instanceof AeCoordinatorCompInfo)
@@ -245,7 +245,7 @@ public class AeCompInfo
     */
    public void setEnclosedScopes(List<AeCompInfo> aEnclosedScopes)
    {
-      mEnclosedScopes = new LinkedList<AeCompInfo>(aEnclosedScopes);
+      mEnclosedScopes = new LinkedList<>(aEnclosedScopes);
    }
 
    /**

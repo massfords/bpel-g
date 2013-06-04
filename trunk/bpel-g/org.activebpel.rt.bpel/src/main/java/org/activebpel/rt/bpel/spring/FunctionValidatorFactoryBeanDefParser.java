@@ -26,7 +26,7 @@ public class FunctionValidatorFactoryBeanDefParser extends AbstractSingleBeanDef
 
     protected void doParse(Element element, BeanDefinitionBuilder bean) {
 
-        Map<QName, IAeFunctionValidator> map = new HashMap<QName, IAeFunctionValidator>();
+        Map<QName, IAeFunctionValidator> map = new HashMap<>();
 
         try {
             List<Element> elements = AeXPathUtil.selectNodes(element, "./bpelg:validator", "bpelg", "urn:bpel-g:spring-ext");

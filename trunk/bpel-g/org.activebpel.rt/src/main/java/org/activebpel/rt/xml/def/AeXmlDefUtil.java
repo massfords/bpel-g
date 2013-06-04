@@ -42,7 +42,7 @@ public class AeXmlDefUtil
     */
    public static String generateUniqueName(String aPrefix, Collection<IAeNamedDef> aNamedDefsCollection, boolean aPreserveIfAlreadyUnique)
    {
-      Set<String> set = new HashSet<String>();
+      Set<String> set = new HashSet<>();
        for (IAeNamedDef def : aNamedDefsCollection) {
            set.add(def.getName());
        }

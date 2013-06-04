@@ -74,7 +74,7 @@ public class AeRecoveryEngine extends AeAbstractServerEngine implements IAeRecov
     */
    protected Map<String,IAeManager> createRecoveryVersionsOfCustomManagers(Map<String,IAeManager> aCustomManagersMap)
    {
-      Map<String,IAeManager> managersMap = new HashMap<String,IAeManager>(aCustomManagersMap);
+      Map<String,IAeManager> managersMap = new HashMap<>(aCustomManagersMap);
       for (Entry<String,IAeManager> entry : managersMap.entrySet())
       {
          IAeManager manager = entry.getValue();
@@ -225,7 +225,7 @@ public class AeRecoveryEngine extends AeAbstractServerEngine implements IAeRecov
     */
    protected Set<Integer> getStaleLocationIds(Set<Integer> aQueuedLocationIds, Set<Integer> aExecutingLocationIds)
    {
-      Set<Integer> staleLocationIds = new HashSet<Integer>(aQueuedLocationIds);
+      Set<Integer> staleLocationIds = new HashSet<>(aQueuedLocationIds);
       staleLocationIds.removeAll(aExecutingLocationIds);
 
       return staleLocationIds;
@@ -461,7 +461,7 @@ public class AeRecoveryEngine extends AeAbstractServerEngine implements IAeRecov
     */
    protected List<AeReply> getSentReplies(List aJournalEntries) throws AeBusinessProcessException
    {
-      List<AeReply> sentReplies = new LinkedList<AeReply>();
+      List<AeReply> sentReplies = new LinkedList<>();
 
        for (Object je : aJournalEntries) {
            IAeJournalEntry item = (IAeJournalEntry) je;
@@ -493,7 +493,7 @@ public class AeRecoveryEngine extends AeAbstractServerEngine implements IAeRecov
     */
    protected List<IAeJournalEntry> getInvokeTransmittedEntries(List<IAeJournalEntry> aJournalEntries) throws AeBusinessProcessException
    {
-      List<IAeJournalEntry> transmittedInvokeEntries = new LinkedList<IAeJournalEntry>();
+      List<IAeJournalEntry> transmittedInvokeEntries = new LinkedList<>();
 
        for (IAeJournalEntry entry : aJournalEntries) {
            if (entry instanceof AeInvokeTransmittedJournalEntry) {

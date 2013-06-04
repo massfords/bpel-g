@@ -54,7 +54,7 @@ public class AeEventHandlers
    {
       if (mAlarms == null)
       {
-         mAlarms = new ArrayList<AeOnAlarm>();
+         mAlarms = new ArrayList<>();
       }
       return mAlarms;
    }
@@ -66,7 +66,7 @@ public class AeEventHandlers
    {
       if (mMessages == null)
       {
-         mMessages = new ArrayList<AeOnMessage>();
+         mMessages = new ArrayList<>();
       }
       return mMessages;
    }

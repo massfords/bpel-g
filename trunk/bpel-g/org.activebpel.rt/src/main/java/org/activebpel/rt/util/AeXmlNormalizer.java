@@ -87,7 +87,7 @@ public class AeXmlNormalizer
            getNamespaceManager().addNamespaces(element);
        }
 
-      List<Element> newElements = new ArrayList<Element>();
+      List<Element> newElements = new ArrayList<>();
       // Now normalize each element using the configured namespace manager.
        for (Object e : aElements) {
            Element element = (Element) e;
@@ -222,9 +222,9 @@ public class AeXmlNormalizer
    protected static class AeNamespaceManager
    {
       /** Map of prefix to namespace. */
-      private final Map<String, String> mPrefixToNamespaceMap = new HashMap<String, String>();
+      private final Map<String, String> mPrefixToNamespaceMap = new HashMap<>();
       /** Map of namespace to prefix. */
-      private final Map<String, String> mNamespaceToPrefixMap = new HashMap<String, String>();
+      private final Map<String, String> mNamespaceToPrefixMap = new HashMap<>();
 
       /**
        * C'tor.

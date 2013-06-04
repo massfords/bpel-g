@@ -43,7 +43,7 @@ public class AeGridTable
    public AeGridTable(AeLayoutPrefs aPrefs)
    {
       mLayoutPrefs = aPrefs;
-      mGridData = new ArrayList<AeGridElement>(10);      
+      mGridData = new ArrayList<>(10);
       mBuckets  = new ArrayList[10];       
    }
 
@@ -401,7 +401,7 @@ public class AeGridTable
       {
          if (mBuckets[0] == null)
          {
-            mBuckets[0] = new ArrayList<AeGridElement>(10);
+            mBuckets[0] = new ArrayList<>(10);
          }  
          mBuckets[0].add(aElement);
          elementAdded = true;
@@ -465,7 +465,7 @@ public class AeGridTable
             }
             
             // Now create the list for the bucket and add the element to it
-            mBuckets[freeBucket] = new ArrayList<AeGridElement>(10);
+            mBuckets[freeBucket] = new ArrayList<>(10);
             mBuckets[freeBucket].add(aElement);            
          }
       }      

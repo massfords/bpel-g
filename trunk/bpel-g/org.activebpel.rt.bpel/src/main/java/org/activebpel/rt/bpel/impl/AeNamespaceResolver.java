@@ -50,7 +50,7 @@ public class AeNamespaceResolver implements IAeNamespaceContext
     */
    public Set<String> resolveNamespaceToPrefixes(String aNamespace)
    {
-      HashSet<String> set = new HashSet<String>();
+      HashSet<String> set = new HashSet<>();
       Map<String,String> map = mPropAlias.getNamespaces();
 
        for (Entry<String, String> entry : map.entrySet()) {

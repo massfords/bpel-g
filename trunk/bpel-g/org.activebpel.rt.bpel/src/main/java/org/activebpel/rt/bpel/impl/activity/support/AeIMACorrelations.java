@@ -80,7 +80,7 @@ public class AeIMACorrelations extends AeCorrelationsImpl implements IAeIMACorre
     */
    public Map<QName, String> getInitiatedProperties() throws AeCorrelationViolationException
    {
-      Map<QName, String> correlation = new HashMap<QName, String>();
+      Map<QName, String> correlation = new HashMap<>();
       for(Iterator iter = getInitiatedCorrelationDefs(); iter.hasNext(); )
       {
          AeCorrelationDef corrDef = (AeCorrelationDef)iter.next();
@@ -98,7 +98,7 @@ public class AeIMACorrelations extends AeCorrelationsImpl implements IAeIMACorre
     */
    public Set<String> getCSPathsForConflictingReceives()
    {
-      Set<String> set = new HashSet<String>();
+      Set<String> set = new HashSet<>();
       for(Iterator iter = getInitiatedCorrelationDefs(); iter.hasNext(); )
       {
          // The test for conflicting receives is based on duplicate receives

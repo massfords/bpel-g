@@ -136,7 +136,7 @@ public class AeMessageDataDeserializer implements IAeImplStateNames
            long processId = Long.parseLong(attachmentElement.getAttribute(STATE_PID));
 
            // deserialize headers
-           Map<String, String> headers = new HashMap<String, String>();
+           Map<String, String> headers = new HashMap<>();
            NodeList headerNodes = attachmentElement.getElementsByTagName(STATE_ATTACHMENT_HEADER);
 
            for (int h = 0; h < headerNodes.getLength(); h++) {

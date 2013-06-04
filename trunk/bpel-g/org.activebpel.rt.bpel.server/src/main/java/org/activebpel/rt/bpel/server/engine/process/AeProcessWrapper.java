@@ -34,7 +34,7 @@ public class AeProcessWrapper
    private final AeMutex mMutex = new AeMutex();
 
    /** Journal entry ids to delete when process state is next saved. */
-   private final Set<Long> mCompletedJournalIds = new HashSet<Long>();
+   private final Set<Long> mCompletedJournalIds = new HashSet<>();
 
    /** The process. */
    private IAeBusinessProcess mProcess;
@@ -55,7 +55,7 @@ public class AeProcessWrapper
    private TransactionType mTransactionType;
    
    /** Invoke transmission ids to delete when process state is next saved. */
-   private final Set<Long> mCompletedTransmissionIds = new HashSet<Long>();
+   private final Set<Long> mCompletedTransmissionIds = new HashSet<>();
 
    /** Journal entry id to set aside for restart when process state is next saved. */
    private long mJournalIdForRestart = IAeProcessManager.NULL_JOURNAL_ID;

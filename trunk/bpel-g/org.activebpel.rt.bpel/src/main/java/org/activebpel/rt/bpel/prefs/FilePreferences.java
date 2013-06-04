@@ -29,8 +29,8 @@ public class FilePreferences extends AbstractPreferences {
 
         log.finest("Instantiating node " + name);
 
-        root = new TreeMap<String, String>();
-        children = new TreeMap<String, FilePreferences>();
+        root = new TreeMap<>();
+        children = new TreeMap<>();
 
         try {
             sync();
@@ -141,7 +141,7 @@ public class FilePreferences extends AbstractPreferences {
                 if (file.exists()) {
                     p.load(new FileInputStream(file));
 
-                    List<String> toRemove = new ArrayList<String>();
+                    List<String> toRemove = new ArrayList<>();
 
                     // Make a list of all direct children of this node to be
                     // removed

@@ -80,7 +80,7 @@ public abstract class AeAbstractExpressionParseResult implements IAeExpressionPa
     */
    public List<AeScriptFuncDef> getLinkStatusFunctionList()
    {
-      List<AeScriptFuncDef> list = new LinkedList<AeScriptFuncDef>();
+      List<AeScriptFuncDef> list = new LinkedList<>();
       for (AeScriptFuncDef function : getFunctions())
       {
          if (isGetLinkStatusFunction(function))
@@ -96,7 +96,7 @@ public abstract class AeAbstractExpressionParseResult implements IAeExpressionPa
     */
    public List<AeScriptFuncDef> getDoXslTransformFunctionList()
    {
-      List<AeScriptFuncDef> list = new LinkedList<AeScriptFuncDef>();
+      List<AeScriptFuncDef> list = new LinkedList<>();
       for (AeScriptFuncDef function : getFunctions())
       {
          if (isDoXslTransformFunction(function))
@@ -112,7 +112,7 @@ public abstract class AeAbstractExpressionParseResult implements IAeExpressionPa
     */
    public List<AeScriptFuncDef> getVarDataFunctionList()
    {
-      List<AeScriptFuncDef> list = new LinkedList<AeScriptFuncDef>();
+      List<AeScriptFuncDef> list = new LinkedList<>();
       for (AeScriptFuncDef function : getFunctions())
       {
          if (isGetVariableDataFunction(function))
@@ -128,7 +128,7 @@ public abstract class AeAbstractExpressionParseResult implements IAeExpressionPa
     */
    public List<AeScriptFuncDef> getVarPropertyFunctionList()
    {
-      List<AeScriptFuncDef> list = new LinkedList<AeScriptFuncDef>();
+      List<AeScriptFuncDef> list = new LinkedList<>();
       for (AeScriptFuncDef function : getFunctions())
       {
          if (isGetVariablePropertyFunction(function))
@@ -144,7 +144,7 @@ public abstract class AeAbstractExpressionParseResult implements IAeExpressionPa
     */
    public List<AeScriptFuncDef> getAttachmentFunctionList()
    {
-      List<AeScriptFuncDef> list = new LinkedList<AeScriptFuncDef>();
+      List<AeScriptFuncDef> list = new LinkedList<>();
       for (AeScriptFuncDef function : getFunctions())
       {
          if (isAttachmentFunction(function))
@@ -158,7 +158,7 @@ public abstract class AeAbstractExpressionParseResult implements IAeExpressionPa
     */
    public List<AeScriptFuncDef> getMyRolePropertyFunctionList()
    {
-      List<AeScriptFuncDef> list = new LinkedList<AeScriptFuncDef>();
+      List<AeScriptFuncDef> list = new LinkedList<>();
       for (AeScriptFuncDef function : getFunctions())
       {
          if (AeExpressionLanguageUtil.isMyRolePropertyFunction(function))
@@ -174,7 +174,7 @@ public abstract class AeAbstractExpressionParseResult implements IAeExpressionPa
     */
    public List<AeVariableData> getVarDataList()
    {
-      List<AeVariableData> list = new LinkedList<AeVariableData>();
+      List<AeVariableData> list = new LinkedList<>();
       Collection<AeScriptFuncDef> functionList = getVarDataFunctionList();
       for (AeScriptFuncDef function : functionList)
       {
@@ -194,7 +194,7 @@ public abstract class AeAbstractExpressionParseResult implements IAeExpressionPa
     */
    public List<AeVariableProperty> getVarPropertyList()
    {
-      List<AeVariableProperty> list = new LinkedList<AeVariableProperty>();
+      List<AeVariableProperty> list = new LinkedList<>();
       Collection<AeScriptFuncDef> functionList = getFunctions();
       for (AeScriptFuncDef function : functionList)
       {
@@ -217,7 +217,7 @@ public abstract class AeAbstractExpressionParseResult implements IAeExpressionPa
     */
    public List<String> getVarAttachmentList()
    {
-      List<String> list = new LinkedList<String>();
+      List<String> list = new LinkedList<>();
       Collection<AeScriptFuncDef> functionList = getAttachmentFunctionList();
       for (AeScriptFuncDef function : functionList)
       {
@@ -270,7 +270,7 @@ public abstract class AeAbstractExpressionParseResult implements IAeExpressionPa
     */
    public Set<String> getVarNames()
    {
-      Set<String> rval = new LinkedHashSet<String>();
+      Set<String> rval = new LinkedHashSet<>();
       for (AeVariableData vd : getVarDataList())
       {
          rval.add(vd.getVarName());
@@ -291,7 +291,7 @@ public abstract class AeAbstractExpressionParseResult implements IAeExpressionPa
     */
    public List<String> getStylesheetURIList()
    {
-      List<String> list = new LinkedList<String>();
+      List<String> list = new LinkedList<>();
       
       for (AeScriptFuncDef function : getDoXslTransformFunctionList())
       {

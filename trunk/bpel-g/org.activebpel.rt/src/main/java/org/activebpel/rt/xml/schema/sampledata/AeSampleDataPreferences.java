@@ -33,7 +33,7 @@ public class AeSampleDataPreferences implements IAeSampleDataPreferences
    private int mElementRepeatCount = 1;
 
    /** The preferred namespace prefix map. */
-   private final Map<String, String> mNamespaceMap = new HashMap<String, String>();
+   private final Map<String, String> mNamespaceMap = new HashMap<>();
 
    /** The limit or depth of recursive structure references. */
    private int mRecursionLimit = 2;

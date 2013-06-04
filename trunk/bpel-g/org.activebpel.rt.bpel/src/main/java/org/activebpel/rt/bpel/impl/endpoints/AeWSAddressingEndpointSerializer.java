@@ -92,7 +92,7 @@ public class AeWSAddressingEndpointSerializer implements IAeEndpointSerializer
    {
       Document doc = AeXmlUtil.newDocument();
       
-      Map<String, String> qnameToPrefixMap = new HashMap<String, String>();
+      Map<String, String> qnameToPrefixMap = new HashMap<>();
          
       Element er = AeXmlUtil.addElementNS(doc, mNamespace, "wsa:EndpointReference", null); //$NON-NLS-1$
       

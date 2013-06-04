@@ -43,7 +43,7 @@ public class BgPddBuilder {
     
     private static final String WSP = "http://schemas.xmlsoap.org/ws/2004/09/policy";
     
-    private static final Map<String,String> NAMESPACES = new HashMap<String,String>();
+    private static final Map<String,String> NAMESPACES = new HashMap<>();
     static {
         NAMESPACES.put("ode", "http://www.apache.org/ode/schemas/dd/2007/03");
         NAMESPACES.put("wsp", WSP);
@@ -53,10 +53,10 @@ public class BgPddBuilder {
     
     private File serviceUnitRoot;
     
-    private final Map<QName, BgPddInfo> deployments = new HashMap<QName, BgPddInfo>();
-    private final Map<String,BgPddInfo> pddFileNameToPddInfo = new HashMap<String,BgPddInfo>();
+    private final Map<QName, BgPddInfo> deployments = new HashMap<>();
+    private final Map<String,BgPddInfo> pddFileNameToPddInfo = new HashMap<>();
     private Document deployXml;
-    private final Set<BgCatalogTuple> referenced = new HashSet<BgCatalogTuple>();
+    private final Set<BgCatalogTuple> referenced = new HashSet<>();
     
     public BgPddBuilder(File aServiceUnitRoot) throws AeException {
         assert aServiceUnitRoot.isDirectory();
@@ -77,7 +77,7 @@ public class BgPddBuilder {
     }
     
     public Collection<AePddResource> getPdds(BgCatalogBuilder catalogBuilder) {
-    	Collection<AePddResource> list = new LinkedList<AePddResource>();
+    	Collection<AePddResource> list = new LinkedList<>();
         for(String pddName : getPddNames()) {
         	Pdd pdd = createPddDocument(pddName, catalogBuilder.getItems());
         	list.add(new AePddResource(pddName, pdd));

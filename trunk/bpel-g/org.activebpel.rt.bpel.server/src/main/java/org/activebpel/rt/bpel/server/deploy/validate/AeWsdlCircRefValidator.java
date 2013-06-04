@@ -45,7 +45,7 @@ public class AeWsdlCircRefValidator implements IAePredeploymentValidator
        for (IAeCatalogMapping mapping : catalog.getResources().values()) {
            Document wsdlDom = mapping.getDocument();
 
-           HashSet<String> imports = new HashSet<String>();
+           HashSet<String> imports = new HashSet<>();
            imports.add(mapping.getLocationHint());
            try {
                searchForCircularRefs(wsdlDom, catalog.getResources(), imports, aBprFile);

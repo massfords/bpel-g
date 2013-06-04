@@ -53,7 +53,7 @@ public class AeXmlUtil
    public static final Pattern sNCNamePattern = Pattern.compile(NCNAME_PATTERN);
 
    /** The doc builder map. */
-   private static final Map<String, DocumentBuilder> sDocumentBuilderMap = new HashMap<String, DocumentBuilder>();
+   private static final Map<String, DocumentBuilder> sDocumentBuilderMap = new HashMap<>();
    /** A default AE prefix. */
    private static final String PREFIX = "aeaaanstmp";  //$NON-NLS-1$
 
@@ -280,9 +280,9 @@ public class AeXmlUtil
       if(aSource.getNodeType() == Node.ELEMENT_NODE &&
          aTarget.getNodeType() == Node.ELEMENT_NODE)
       {
-         HashMap<String, String> newNamespaceAttrs = new HashMap<String, String>();
-         HashMap<String, String> existingNamespaceAttrs = new HashMap<String, String>();
-         HashMap<String, String> changedNamespaceAttrs = new HashMap<String, String>();
+         HashMap<String, String> newNamespaceAttrs = new HashMap<>();
+         HashMap<String, String> existingNamespaceAttrs = new HashMap<>();
+         HashMap<String, String> changedNamespaceAttrs = new HashMap<>();
          getDeclaredNamespaces((Element)aSource, newNamespaceAttrs);
          getDeclaredNamespaces((Element)aTarget, existingNamespaceAttrs);
 
@@ -618,7 +618,7 @@ public class AeXmlUtil
     */
    public static void declareNamespacePrefixesLocally(Element aElement)
    {
-      Map<String, String> namespaceMap = new HashMap<String, String>();
+      Map<String, String> namespaceMap = new HashMap<>();
       AeXmlUtil.getDeclaredNamespaces(aElement, namespaceMap);
       declareNamespacePrefixes(aElement, namespaceMap);
    }
@@ -1096,7 +1096,7 @@ public class AeXmlUtil
          prefix = aPreferredPrefix;
 
          // find all of the prefixes in scope so we don't step on them
-         Map<String, String> existingPrefixesInScope = new HashMap<String, String>();
+         Map<String, String> existingPrefixesInScope = new HashMap<>();
          AeXmlUtil.getDeclaredNamespaces(aParentElement, existingPrefixesInScope);
          int counter = 1;
          while (existingPrefixesInScope.containsKey(prefix))
@@ -1405,7 +1405,7 @@ public class AeXmlUtil
       // List to hold the attributes we are going to remove - this is to
       // avoid changing the Node while we are iterating over it via the
       // NamedNodeMap object (some DOM impls simply proxy the source node).
-      List<Attr> attributesToRemove = new ArrayList<Attr>();
+      List<Attr> attributesToRemove = new ArrayList<>();
 
       // Iterate through all of the xmlns: attributes and save the ones
       // that are not necessary (because some parent node already declares
@@ -1413,7 +1413,7 @@ public class AeXmlUtil
       NamedNodeMap attrNodes = aElement.getAttributes();
       if (attrNodes != null && attrNodes.getLength() > 0)
       {
-         Map<String, String> declaredNamespaces = new HashMap<String, String>();
+         Map<String, String> declaredNamespaces = new HashMap<>();
          // Get all in-scope NS declarations from the parent.
          getDeclaredNamespaces((Element) aElement.getParentNode(), declaredNamespaces);
 

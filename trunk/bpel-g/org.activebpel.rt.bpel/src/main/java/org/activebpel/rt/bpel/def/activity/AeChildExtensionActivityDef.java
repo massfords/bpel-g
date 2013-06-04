@@ -59,7 +59,7 @@ implements IAeAlarmParentDef, IAeFromParentDef, IAeConditionParentDef,
    private IAeExtensionObject mExtensionObject;
    
    /** Child Defs for the understood extension activity */
-   private final List<AeBaseDef> mChildDefs = new ArrayList<AeBaseDef>();
+   private final List<AeBaseDef> mChildDefs = new ArrayList<>();
    
     /** Maintains the order of elements added for serialization */
    private List<AeBaseXmlDef> mOrderedDefs;
@@ -215,7 +215,7 @@ implements IAeAlarmParentDef, IAeFromParentDef, IAeConditionParentDef,
     */
    public <T> List<T> getChildren(Class<T> aClass)
    {
-      List<T> list = new ArrayList<T>();
+      List<T> list = new ArrayList<>();
       for (Iterator iter = getChildDefs(); iter.hasNext(); )
       {
          Object obj = iter.next();
@@ -297,7 +297,7 @@ implements IAeAlarmParentDef, IAeFromParentDef, IAeConditionParentDef,
    public List<AeBaseXmlDef> getOrderedDefs()
    {
       if(mOrderedDefs == null)
-         mOrderedDefs = new ArrayList<AeBaseXmlDef>();
+         mOrderedDefs = new ArrayList<>();
       return mOrderedDefs;
    }
    

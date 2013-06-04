@@ -563,7 +563,7 @@ public class AeBpelEngine extends AeAbstractServerEngine {
 		// Sort the keys - this ensures that the correlation set hash is always
 		// calculated the
 		// same, even if the data is in the map in a different order.
-		SortedSet<QName> ss = new TreeSet<QName>(new Comparator<QName>() {
+		SortedSet<QName> ss = new TreeSet<>(new Comparator<QName>() {
 			public int compare(QName o1, QName o2) {
 				String str1 = o1.toString();
 				String str2 = o2.toString();

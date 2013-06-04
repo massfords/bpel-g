@@ -127,7 +127,7 @@ public class AeWSBPELActivityScopeValidator extends AeActivityScopeValidator
        * set of scope names that are being targeted by <compensateScope/> 
        * activities 
        */
-      private Set<String> mScopeNames = new HashSet<String>();
+      private Set<String> mScopeNames = new HashSet<>();
       
       /** set to true if we encounter a <compensate/> */
       private boolean mCompensateFound = false;
@@ -234,7 +234,7 @@ public class AeWSBPELActivityScopeValidator extends AeActivityScopeValidator
       /** tracks the depth to avoid matching nested scopes by name */
       private int mLevel = 1;
       /** Set of matched isolated scopes */
-      private final Set<AeActivityScopeDef> mMatchedScopes = new HashSet<AeActivityScopeDef>();
+      private final Set<AeActivityScopeDef> mMatchedScopes = new HashSet<>();
       
       /**
        * Visitor will match on any isolated scopes

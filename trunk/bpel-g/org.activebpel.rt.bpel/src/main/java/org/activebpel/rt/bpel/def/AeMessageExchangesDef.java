@@ -83,7 +83,7 @@ public class AeMessageExchangesDef extends AeBaseContainer<AeMessageExchangeDef,
    {
       if (mValues == null)
       {
-         Set<String> set = new HashSet<String>();
+         Set<String> set = new HashSet<>();
          for (Iterator<? extends AeMessageExchangeDef> iter = getValues(); iter.hasNext(); )
          {
             AeMessageExchangeDef msgExchangeDef = iter.next();

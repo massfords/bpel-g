@@ -33,7 +33,7 @@ public class AeMessageReceiverFilterManager
     */
    public static AeMessageReceiverListResult filter(AeMessageReceiverFilter aFilter, Collection<AeMessageReceiver> aMessageReceivers )
    {
-      List<AeMessageReceiver> matches = new ArrayList<AeMessageReceiver>();
+      List<AeMessageReceiver> matches = new ArrayList<>();
       int totalRows = 0;
       
       if( aMessageReceivers != null && !aMessageReceivers.isEmpty() )

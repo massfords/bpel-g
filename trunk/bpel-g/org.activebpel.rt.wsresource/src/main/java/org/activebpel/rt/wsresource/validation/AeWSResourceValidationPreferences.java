@@ -36,9 +36,9 @@ public abstract class AeWSResourceValidationPreferences implements IAeWSResource
    /** schema for the severity file */
    private static final Schema sSeveritySchema;
    /** prefix to namespace mapping*/
-   private static final Map<String, String> sPrefixMap = new HashMap<String, String>();
+   private static final Map<String, String> sPrefixMap = new HashMap<>();
    /** Map of rule ids -> severity */
-   private final Map<QName, Integer> mSeverity = new HashMap<QName, Integer>();
+   private final Map<QName, Integer> mSeverity = new HashMap<>();
    
    static
    {

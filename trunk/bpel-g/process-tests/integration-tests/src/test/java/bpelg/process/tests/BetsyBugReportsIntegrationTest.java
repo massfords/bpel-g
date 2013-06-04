@@ -31,7 +31,7 @@ public class BetsyBugReportsIntegrationTest extends Assert {
         DeploymentResponse response = pfix.deploy(new File(pathname));
         assertNotNull(response);
 
-        Map<String,DeploymentResponse.DeploymentInfo> infos = new HashMap<String,DeploymentResponse.DeploymentInfo>();
+        Map<String,DeploymentResponse.DeploymentInfo> infos = new HashMap<>();
         for(DeploymentResponse.DeploymentInfo info : response.getDeploymentInfo()) {
             infos.put(info.getName(), info);
         }

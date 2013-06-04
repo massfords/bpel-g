@@ -117,7 +117,7 @@ public class AeMimeUtil
    private static final Map<String, String> sMimeToExtension;
    static
    {
-      sMimeToExtension = new HashMap<String, String>();
+      sMimeToExtension = new HashMap<>();
       sMimeToExtension.put("video/x-msvideo", "avi"); //$NON-NLS-1$ //$NON-NLS-2$
       sMimeToExtension.put("application/octet-stream", "bin"); //$NON-NLS-1$ //$NON-NLS-2$
       sMimeToExtension.put("image/bmp", "bmp"); //$NON-NLS-1$ //$NON-NLS-2$
@@ -164,7 +164,7 @@ public class AeMimeUtil
 
    static
    {
-      sExtensionToMime = new HashMap<String, String>();
+      sExtensionToMime = new HashMap<>();
 
       sExtensionToMime.put("bas", "text/plain"); //$NON-NLS-1$ //$NON-NLS-2$
       sExtensionToMime.put("java", "text/plain"); //$NON-NLS-1$ //$NON-NLS-2$
@@ -450,7 +450,7 @@ public class AeMimeUtil
     */
    public static boolean isXmlText(String aMime)
    {
-      Set<String> implicitMembers = new TreeSet<String>();
+      Set<String> implicitMembers = new TreeSet<>();
       implicitMembers.add(AeMimeUtil.ATOM_XML_MIME);
       return isXmlText(aMime,implicitMembers);
        
@@ -465,7 +465,7 @@ public class AeMimeUtil
    {
       // TODO (JB) for backwards compatibility - to be remove eventually when policy mime type dialog completed
       if (aMemberMimeTypes.size() == 0)
-         aMemberMimeTypes = new TreeSet<String>();
+         aMemberMimeTypes = new TreeSet<>();
       aMemberMimeTypes.add(AeMimeUtil.ATOM_XML_MIME);
       
       if ( AeUtil.notNullOrEmpty(aMime) && (aMime.trim().startsWith(AeMimeUtil.XML_MIME) || isMember(aMime,aMemberMimeTypes)) )

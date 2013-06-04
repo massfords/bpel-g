@@ -37,7 +37,7 @@ public class AeJournalEntriesLocationIdsResultSetHandler implements ResultSetHan
     */
    public Map<Long, Integer> handle(ResultSet rs) throws SQLException
    {
-      Map<Long,Integer> result = new HashMap<Long, Integer>();
+      Map<Long,Integer> result = new HashMap<>();
 
       while (rs.next())
       {

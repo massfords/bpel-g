@@ -29,7 +29,7 @@ import java.util.concurrent.ConcurrentHashMap;
 public class AeStandardSchemas
 {
    /** The static map of "well known" schemas (namespace -> resource name). */
-   static private final Map<String,String> sSchemaMap = new ConcurrentHashMap<String,String>();
+   static private final Map<String,String> sSchemaMap = new ConcurrentHashMap<>();
 
    /*
     * Static initializer for loading the contents of the above schema map.

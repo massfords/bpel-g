@@ -120,7 +120,7 @@ public class AeInMemoryCoordinationManager extends AeCoordinationManager
     */
    protected synchronized Iterator<? extends IAeCoordinating> getCoordinatingIterator(String aCoordinationId) throws AeCoordinationNotFoundException
    {
-      Set<IAeCoordinating> set = new HashSet<IAeCoordinating>();
+      Set<IAeCoordinating> set = new HashSet<>();
       Iterator<IAeCoordinating> it = getCoordinatingsPidMap().values().iterator();
       while (it.hasNext())
       {
@@ -138,7 +138,7 @@ public class AeInMemoryCoordinationManager extends AeCoordinationManager
     */
    protected synchronized Iterator<? extends IAeCoordinating> getCoordinatingIterator(long aProcessId) throws AeCoordinationNotFoundException
    {
-      Set<IAeCoordinating> set = new HashSet<IAeCoordinating>();
+      Set<IAeCoordinating> set = new HashSet<>();
       Iterator<IAeCoordinating> it = getCoordinatingsPidMap().values().iterator();
       while (it.hasNext())
       {
@@ -194,7 +194,7 @@ public class AeInMemoryCoordinationManager extends AeCoordinationManager
    {
       if (mCoordinatingsPidMap == null)
       {
-         mCoordinatingsPidMap = new HashMap<String,IAeCoordinating>();
+         mCoordinatingsPidMap = new HashMap<>();
       }
       return mCoordinatingsPidMap;
    }     
@@ -234,7 +234,7 @@ public class AeInMemoryCoordinationManager extends AeCoordinationManager
     */
    public List<AeCoordinationDetail> getParticipantDetail(long aParentProcessId) throws AeCoordinationNotFoundException
    {
-      List<AeCoordinationDetail> retList = new ArrayList<AeCoordinationDetail>();
+      List<AeCoordinationDetail> retList = new ArrayList<>();
       // find parent process coordinators given process id and get the coordination id.
       Iterator it = getCoordinatingIterator(aParentProcessId);  
       while (it.hasNext())

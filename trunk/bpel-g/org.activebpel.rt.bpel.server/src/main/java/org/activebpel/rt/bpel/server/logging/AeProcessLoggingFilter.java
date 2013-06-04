@@ -10,7 +10,7 @@ import org.activebpel.rt.bpel.IAeProcessInfoEvent;
 
 public class AeProcessLoggingFilter implements IAeLoggingFilter {
 
-	private final Set<AeProcessEventType> mProcessEventIds = new CopyOnWriteArraySet<AeProcessEventType>();
+	private final Set<AeProcessEventType> mProcessEventIds = new CopyOnWriteArraySet<>();
 	
 	@Override
 	public boolean accept(IAeProcessEvent aEvent) {

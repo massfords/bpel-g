@@ -58,7 +58,7 @@ public class AeDocumentStyleInvoker extends AeSOAPInvoker
       @SuppressWarnings("unchecked")
 	  List<Part> orderedParts = aInvokeContext.getOperation().getInput().getMessage().getOrderedParts(null);
       
-      ArrayList<SOAPBodyElement> list = new ArrayList<SOAPBodyElement>();
+      ArrayList<SOAPBodyElement> list = new ArrayList<>();
       Map<String,Object> messageData = getMessageData(aInvokeContext);
       List<IAeWebServiceAttachment> outboundAttachments = addAttachments(aInvokeContext);
       AeWebServiceMessageData outputMsg;

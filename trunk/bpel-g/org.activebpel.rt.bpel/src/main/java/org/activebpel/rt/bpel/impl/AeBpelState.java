@@ -308,7 +308,7 @@ public class AeBpelState
       // First time through, construct and populate the map.
       if (sStatesMap == null)
       {
-         Map<String, AeBpelState> map = new HashMap<String, AeBpelState>();
+         Map<String, AeBpelState> map = new HashMap<>();
          
          for (int i = sStates.length; --i >= 0; )
          {

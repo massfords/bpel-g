@@ -110,7 +110,7 @@ public abstract class AeAbstractAttachmentFunction extends AeAbstractBpelFunctio
    protected Collection<IAeVariable> resolveVariables(IAeFunctionExecutionContext aContext, String aVariableNames,
          String aToVariableName) throws AeFunctionCallException
    {
-      List<IAeVariable> variables = new ArrayList<IAeVariable>();
+      List<IAeVariable> variables = new ArrayList<>();
       
       for (StringTokenizer tokenizer = new StringTokenizer(aVariableNames); tokenizer.hasMoreTokens(); )
       {

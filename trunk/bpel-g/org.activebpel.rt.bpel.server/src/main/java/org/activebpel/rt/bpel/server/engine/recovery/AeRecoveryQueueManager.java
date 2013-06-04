@@ -526,7 +526,7 @@ public class AeRecoveryQueueManager extends AeBaseQueueManager implements IAeRec
    public void setSentReplies(List<AeReply> aSentReplies)
    {
       // Copy the list, so that we can modify it without affecting the caller.
-      mSentReplies = new LinkedList<AeReply>(aSentReplies);
+      mSentReplies = new LinkedList<>(aSentReplies);
    }
 
 }

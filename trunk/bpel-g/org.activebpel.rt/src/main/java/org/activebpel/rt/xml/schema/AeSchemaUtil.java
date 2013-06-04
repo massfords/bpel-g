@@ -393,10 +393,10 @@ public class AeSchemaUtil
    public static List<ComplexType> findDerivedTypes(List aSchemas, ComplexType aComplexType)
    {
       // list that we'll return
-      List<ComplexType> list = new ArrayList<ComplexType>();
+      List<ComplexType> list = new ArrayList<>();
       
       // keep a set of the schemas we've processed to avoid recursing forever
-      Set<Schema> alreadyProcessed = new HashSet<Schema>();
+      Set<Schema> alreadyProcessed = new HashSet<>();
 
        for (Object s : aSchemas) {
            Schema schema = (Schema) s;
@@ -446,10 +446,10 @@ public class AeSchemaUtil
    public static List<ElementDecl> findSubstitutionGroupElements(List aSchemas, ElementDecl aElement)
    {
       // the list we're going to return
-      List<ElementDecl> list = new ArrayList<ElementDecl>();
+      List<ElementDecl> list = new ArrayList<>();
 
       // set to avoid recursing forever
-      Set<Schema> alreadyProcessed = new HashSet<Schema>();
+      Set<Schema> alreadyProcessed = new HashSet<>();
       
       // walk all of the schemas
        for (Object s : aSchemas) {

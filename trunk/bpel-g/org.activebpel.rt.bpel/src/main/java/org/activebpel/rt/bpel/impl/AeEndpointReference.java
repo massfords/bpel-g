@@ -84,7 +84,7 @@ public class AeEndpointReference implements IAeEndpointReference
    /** List of extensibility element. */
    private List<Element> mExtElements;
    /** Optional list of reference property elements used by endpoint. */
-   private List<Element> mRefProps = new ArrayList<Element>();
+   private List<Element> mRefProps = new ArrayList<>();
    /** Internal document used for importing reference properties, policies, etc */
    private Element mMetadata;
 
@@ -263,7 +263,7 @@ public class AeEndpointReference implements IAeEndpointReference
       try
       {
          newRef.setReferenceData(toDocument().getDocumentElement());
-         newRef.setProperties(new HashMap<QName, String>(getProperties()));
+         newRef.setProperties(new HashMap<>(getProperties()));
       }
       catch (AeBusinessProcessException ex)
       {
@@ -287,7 +287,7 @@ public class AeEndpointReference implements IAeEndpointReference
    public List<Element> getPolicies()
    {
       if (mPolicies == null)
-         mPolicies = new ArrayList<Element>();
+         mPolicies = new ArrayList<>();
       return Collections.unmodifiableList(mPolicies);
    }
 
@@ -355,7 +355,7 @@ public class AeEndpointReference implements IAeEndpointReference
     */
    public List<Element> findPolicyElements(IAeContextWSDLProvider aWSDLProvider, QName aPortType, String aOperation, QName aPolicyName)
    {
-      List<Element> results = new ArrayList<Element>();
+      List<Element> results = new ArrayList<>();
        for (Element policyEl : getEffectivePolicies(aWSDLProvider, aPortType, aOperation)) {
            NodeList children = policyEl.getElementsByTagNameNS(aPolicyName.getNamespaceURI(), aPolicyName.getLocalPart());
 
@@ -413,7 +413,7 @@ public class AeEndpointReference implements IAeEndpointReference
       mPolicies    = null;
       mResolvedPolicies = null;
       mExtElements = null;
-      mRefProps = new ArrayList<Element>();
+      mRefProps = new ArrayList<>();
       mMetadata = null;
    }
 
@@ -476,7 +476,7 @@ public class AeEndpointReference implements IAeEndpointReference
    public void addProperty(QName aKey, String aValue)
    {
       if (mProperties == null)
-         mProperties = new HashMap<QName, String>();
+         mProperties = new HashMap<>();
 
       mProperties.put(aKey, aValue);
    }
@@ -592,7 +592,7 @@ public class AeEndpointReference implements IAeEndpointReference
    public void addPolicyElement(Element aPolicyElement)
    {
       if (mPolicies == null)
-         mPolicies = new ArrayList<Element>();
+         mPolicies = new ArrayList<>();
       mPolicies.add(cloneElement(aPolicyElement));
    }
 
@@ -603,7 +603,7 @@ public class AeEndpointReference implements IAeEndpointReference
    public void addReferenceProperty(Element aRefElement)
    {
       if (mRefProps == null)
-         mRefProps = new ArrayList<Element>();
+         mRefProps = new ArrayList<>();
 
       // create a clone of the element to detach from original parent
       Element element = cloneElement(aRefElement);

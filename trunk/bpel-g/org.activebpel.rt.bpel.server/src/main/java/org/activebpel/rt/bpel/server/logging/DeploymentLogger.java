@@ -15,12 +15,12 @@ import java.util.*;
  */
 public class DeploymentLogger implements IAeDeploymentLogger {
 
-    private final Map<String,DeploymentResponse.DeploymentInfo> infos = new LinkedHashMap<String,DeploymentResponse.DeploymentInfo>();
+    private final Map<String,DeploymentResponse.DeploymentInfo> infos = new LinkedHashMap<>();
     private static final Logger log = LoggerFactory.getLogger(DeploymentLogger.class);
     private String currentPdd;
     private boolean hasErrors = false;
     private boolean hasWarnings = false;
-    private final List<Msg> messages = new ArrayList<Msg>();
+    private final List<Msg> messages = new ArrayList<>();
 
     @Override
     public void setContainerName(String containerName) {

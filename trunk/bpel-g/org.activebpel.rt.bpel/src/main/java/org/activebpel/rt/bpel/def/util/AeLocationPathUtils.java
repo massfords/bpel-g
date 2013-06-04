@@ -105,7 +105,7 @@ public class AeLocationPathUtils
       Set<String> set = null;
       if (!AeUtil.isNullOrEmpty(aSetOfPaths))
       {
-         set = new HashSet<String>();
+         set = new HashSet<>();
 
          // split the acticity path into a list of paths that identify all of the
          // enclosed scopes.
@@ -122,7 +122,7 @@ public class AeLocationPathUtils
          // paths in the collection will NOT include any instance information
          // Using a map to avoid having to run removeInstanceInfo multiple times
          // for the same scope.
-         Map<String, String> scopePathsToNonInstancePaths = new HashMap<String, String>();
+         Map<String, String> scopePathsToNonInstancePaths = new HashMap<>();
           for (String path : scopePaths) {
               scopePathsToNonInstancePaths.put(path, removeInstanceInfo(path));
           }
@@ -175,7 +175,7 @@ public class AeLocationPathUtils
     */
    protected static List<String> splitScopes(String aActivityPath)
    {
-      LinkedList<String> list = new LinkedList<String>();
+      LinkedList<String> list = new LinkedList<>();
       int offset = -1;
 
       // We only care about variables declarations nested within parallel forEach's
@@ -553,7 +553,7 @@ public class AeLocationPathUtils
     */
    public static Map<String, Integer> createPathToInstanceNumberMap(String aNodePath)
    {
-      Map<String, Integer> pathMap = new HashMap<String, Integer>();
+      Map<String, Integer> pathMap = new HashMap<>();
       
       if ( AeLocationPathUtils.getNodePathInstanceNum(aNodePath) != -1 )
       {

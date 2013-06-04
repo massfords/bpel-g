@@ -19,7 +19,7 @@ import java.util.List;
 public class AeBlockingQueue<T>
 {
    /** list of objects for our queue */
-   private final List<T> mQueue = new LinkedList<T>();
+   private final List<T> mQueue = new LinkedList<>();
    
    /**
     * Adds a new object to the queue, calling notify() on this object.

@@ -36,9 +36,9 @@ public class AeCombinations<E> implements Iterator<List<E>> {
      * @param aObjects
      */
     public static <E> Iterator<List<E>> createAllCombinations(List<E> aObjects) {
-        AeSequenceIterator<List<E>> seqIter = new AeSequenceIterator<List<E>>();
+        AeSequenceIterator<List<E>> seqIter = new AeSequenceIterator<>();
         for (int i = aObjects.size(); i > 0; i--) {
-            seqIter.add(new AeCombinations<E>(aObjects, i));
+            seqIter.add(new AeCombinations<>(aObjects, i));
         }
         return seqIter;
     }
@@ -113,7 +113,7 @@ public class AeCombinations<E> implements Iterator<List<E>> {
      * Creates a combination of the array values using the current offsets.
      */
     protected List<E> getNext() {
-        List<E> next = new ArrayList<E>(getOffsets().length);
+        List<E> next = new ArrayList<>(getOffsets().length);
         for (int i = 0; i < getOffsets().length; i++) {
             next.add(getObjects().get(getOffsets()[i]));
         }
