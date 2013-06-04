@@ -74,7 +74,7 @@ public class AeCredentialPolicyMapper extends AeAxisPolicyMapper
     */
    public Map<String, Object> getCallProperties(List<Element> aPolicyList) throws AeException
    {
-      Map<String, Object> map = new HashMap<String, Object>();
+      Map<String, Object> map = new HashMap<>();
 
        for (Element pe : aPolicyList) {
            String username = null;

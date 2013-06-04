@@ -25,7 +25,7 @@ import java.util.Iterator;
 public class AeActivitySequenceImpl extends AeActivityImpl implements IAeActivityParent
 {
    /** activities to execute in sequence */
-   private final ArrayList<IAeActivity> mActivities = new ArrayList<IAeActivity>();
+   private final ArrayList<IAeActivity> mActivities = new ArrayList<>();
    
    /** constructor for sequence activity */
    public AeActivitySequenceImpl(AeActivitySequenceDef aActivityDef, IAeActivityParent aParent)

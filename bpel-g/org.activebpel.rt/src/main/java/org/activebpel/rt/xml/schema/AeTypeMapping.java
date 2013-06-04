@@ -51,9 +51,9 @@ import org.exolab.castor.xml.schema.XMLType;
 public class AeTypeMapping
 {
    /** Java to schema mappings. */
-   protected final Map<Class<?>, IAeTypeMapper> mJava2SchemaMappings = new HashMap<Class<?>, IAeTypeMapper>();
+   protected final Map<Class<?>, IAeTypeMapper> mJava2SchemaMappings = new HashMap<>();
    /** Schema to java mappings. */
-   protected final Map<QName, IAeTypeMapper> mSchema2JavaMappings = new HashMap<QName, IAeTypeMapper>();
+   protected final Map<QName, IAeTypeMapper> mSchema2JavaMappings = new HashMap<>();
    /** The default mapper if we don't have a specific one. */
    protected final IAeTypeMapper defaultMapper = new AeBasicMapper();
    
@@ -108,7 +108,7 @@ public class AeTypeMapping
     * Statically load the simple type Set.
     */
    static {
-      sSimpleTypes = new HashSet<QName>();
+      sSimpleTypes = new HashSet<>();
       sSimpleTypes.add(AeTypeMapping.XSD_ANYURI);
       sSimpleTypes.add(AeTypeMapping.XSD_BASE64_BINARY);
       sSimpleTypes.add(AeTypeMapping.XSD_BOOLEAN);

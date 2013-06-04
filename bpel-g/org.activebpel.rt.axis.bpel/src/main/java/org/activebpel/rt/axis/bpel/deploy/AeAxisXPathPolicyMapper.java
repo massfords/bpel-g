@@ -31,7 +31,7 @@ public class AeAxisXPathPolicyMapper extends AeAxisPolicyMapper
    public List<Element> getServerRequestHandlers( List<Element> aPolicyList )
    throws AeException
    {
-      List<Element> handlers = new ArrayList<Element>();
+      List<Element> handlers = new ArrayList<>();
       
       // Examine the list of policy assertions to determine the request handlers
        for (Element policy : aPolicyList) {
@@ -98,13 +98,13 @@ public class AeAxisXPathPolicyMapper extends AeAxisPolicyMapper
     */
    public Map<String, Object> getCallProperties(List<Element> aPolicyList) throws AeException
    {
-      Map<String, Object> map = new HashMap<String, Object>();
+      Map<String, Object> map = new HashMap<>();
       // Examine the list of policy assertions to determine the request handlers
        for (Element policy : aPolicyList) {
            NodeList children = policy.getElementsByTagNameNS(IAeConstants.ABP_NAMESPACE_URI, IAePolicyConstants.TAG_ASSERT_XPATH_RECEIVE);
            for (int i = 0, len = children.getLength(); i < len; i++) {
                map.put(IAePolicyConstants.XPATH_QUERY_SOURCE, IAePolicyConstants.XPATH_QUERY_SOURCE_CONTEXT);
-               Map<String, String> handlerParams = new HashMap<String, String>();
+               Map<String, String> handlerParams = new HashMap<>();
                Element assertion = (Element) children.item(i);
                NodeList params = assertion.getChildNodes();
                for (int j = 0; j < params.getLength(); j++) {

@@ -27,7 +27,7 @@ import java.util.prefs.PreferenceChangeListener;
 public class AeWorkManager implements WorkManager, Runnable,
 		PreferenceChangeListener, IAeStoppableWorkManager {
 	/** work waiting to be executing because of a lack of threads */
-	private final AeBlockingQueue<AeQueuedWork> mQueuedWork = new AeBlockingQueue<AeQueuedWork>();
+	private final AeBlockingQueue<AeQueuedWork> mQueuedWork = new AeBlockingQueue<>();
 	/** our pool of threads */
 	private final AeThreadPool mPool = new AeThreadPool();
 	/** our dispatch thread */
@@ -277,7 +277,7 @@ public class AeWorkManager implements WorkManager, Runnable,
 		 * @param aWorkItems
 		 */
 		private Collection<AeWorkItem> copyWorkItems(Collection aWorkItems) {
-			Collection<AeWorkItem> coll = new LinkedList<AeWorkItem>();
+			Collection<AeWorkItem> coll = new LinkedList<>();
             for (Object o : aWorkItems) {
                 if (o instanceof AeWorkItem) {
                     coll.add((AeWorkItem) o);

@@ -53,9 +53,9 @@ public class AeScopeSnapshot
     */
    public AeScopeSnapshot(Map<String, IAeVariable> aVariableMap, Map<String,AeCorrelationSet> aCorrelationSetMap, Map<String, IAePartnerLink> aPartnerLinkMap)
    {
-      mVariableMap = new HashMap<String, IAeVariable>(aVariableMap);
-      mCorrelationSetMap = new HashMap<String,AeCorrelationSet>(aCorrelationSetMap);
-      mPartnerLinkMap = new HashMap<String, IAePartnerLink>(aPartnerLinkMap);
+      mVariableMap = new HashMap<>(aVariableMap);
+      mCorrelationSetMap = new HashMap<>(aCorrelationSetMap);
+      mPartnerLinkMap = new HashMap<>(aPartnerLinkMap);
    }
 
    /**
@@ -98,7 +98,7 @@ public class AeScopeSnapshot
     */
    public Set<IAeVariable> getVariables()
    {
-      return new HashSet<IAeVariable>(mVariableMap.values());
+      return new HashSet<>(mVariableMap.values());
    }
 
    /**
@@ -115,7 +115,7 @@ public class AeScopeSnapshot
     */
    public Set<AeCorrelationSet> getCorrelationSets()
    {
-      return new HashSet<AeCorrelationSet>(mCorrelationSetMap.values());
+      return new HashSet<>(mCorrelationSetMap.values());
    }
    
    /**
@@ -133,7 +133,7 @@ public class AeScopeSnapshot
     */
    public Set<IAePartnerLink> getPartnerLinks()
    {
-      return new HashSet<IAePartnerLink>(mPartnerLinkMap.values());
+      return new HashSet<>(mPartnerLinkMap.values());
    }
    
    /**

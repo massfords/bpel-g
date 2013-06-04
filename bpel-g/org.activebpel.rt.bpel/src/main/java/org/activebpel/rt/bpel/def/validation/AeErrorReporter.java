@@ -211,7 +211,7 @@ public class AeErrorReporter implements IAeErrorReporter
    public Map<AeBaseXmlDef, List<String>> getErrors()
    {
       if ( mErrors == null )
-         mErrors = new HashMap<AeBaseXmlDef, List<String>>();
+         mErrors = new HashMap<>();
 
       return mErrors;
    }
@@ -224,7 +224,7 @@ public class AeErrorReporter implements IAeErrorReporter
    public Map<AeBaseXmlDef, List<String>> getWarnings()
    {
       if ( mWarnings == null )
-         mWarnings = new HashMap<AeBaseXmlDef, List<String>>();
+         mWarnings = new HashMap<>();
 
       return mWarnings;
    }
@@ -237,7 +237,7 @@ public class AeErrorReporter implements IAeErrorReporter
    public Map<AeBaseXmlDef, List<String>> getInfos()
    {
       if ( mInfos == null )
-         mInfos = new HashMap<AeBaseXmlDef, List<String>>();
+         mInfos = new HashMap<>();
 
       return mInfos;
    }

@@ -91,7 +91,7 @@ public abstract class AeActivityDef extends AeNamedDef
    {
       if (mTargetLinkNames == null)
       {
-         List<String> list = new ArrayList<String>();
+         List<String> list = new ArrayList<>();
          if (getTargetsDef() != null)
          {
             for (Iterator<? extends AeTargetDef> titer = getTargetsDef().getTargetDefs(); titer.hasNext(); )

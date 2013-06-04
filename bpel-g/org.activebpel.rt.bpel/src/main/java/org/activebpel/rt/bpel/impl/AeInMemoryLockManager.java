@@ -29,7 +29,7 @@ public class AeInMemoryLockManager extends AeAbstractLockManager
    {
       super.create();
       
-      mLocks = new HashSet<IAeLock>();
+      mLocks = new HashSet<>();
    }
    
    /**

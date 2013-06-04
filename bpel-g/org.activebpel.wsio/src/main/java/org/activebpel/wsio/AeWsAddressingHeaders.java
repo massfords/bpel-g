@@ -32,7 +32,7 @@ public class AeWsAddressingHeaders implements IAeWsAddressingHeaders
    /** Message ID URI */
    private String mMessageId;
    /** Collection of RelationshipType QName/MessageId pairs */
-   private Map<QName, String> mRelatesTo = new HashMap<QName, String>();
+   private Map<QName, String> mRelatesTo = new HashMap<>();
    /** From endpoint */
    private IAeWebServiceEndpointReference mFrom;
    /** ReplyTo endpoint */
@@ -228,7 +228,7 @@ public class AeWsAddressingHeaders implements IAeWsAddressingHeaders
    {
       if (mReferenceProperties == null)
       {
-         mReferenceProperties = new ArrayList<Element>();
+         mReferenceProperties = new ArrayList<>();
       }
       return mReferenceProperties;
    }

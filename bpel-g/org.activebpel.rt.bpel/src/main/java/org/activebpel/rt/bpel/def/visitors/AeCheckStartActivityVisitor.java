@@ -47,7 +47,7 @@ public class AeCheckStartActivityVisitor extends AeAbstractDefVisitor implements
    /** Flag indicating current direction of traversal. */
    private boolean mAscending;
    /** Set of defs that are invalid */
-   private final Set<AeBaseDef> mErrorDefs = new HashSet<AeBaseDef>();
+   private final Set<AeBaseDef> mErrorDefs = new HashSet<>();
 
    /**
     * Constructor which requires an error reporter to be used during traversal.

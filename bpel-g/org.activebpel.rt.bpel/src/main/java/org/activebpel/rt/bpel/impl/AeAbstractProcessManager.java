@@ -26,7 +26,7 @@ public abstract class AeAbstractProcessManager extends AeManagerAdapter implemen
    private static final boolean sDebug = false;
 
    /** Process purged listeners */
-   private final Set<IAeProcessPurgedListener> mProcessPurgedListeners = new CopyOnWriteArraySet<IAeProcessPurgedListener>();
+   private final Set<IAeProcessPurgedListener> mProcessPurgedListeners = new CopyOnWriteArraySet<>();
 
    /**
     * @see org.activebpel.rt.bpel.impl.IAeProcessManager#addProcessPurgedListener(org.activebpel.rt.bpel.impl.IAeProcessPurgedListener)

@@ -288,7 +288,7 @@ public class AeUtil {
      * @param aIterator
      */
     public static <T> List<T> toList(Iterator<T> aIterator) {
-        List<T> list = new ArrayList<T>();
+        List<T> list = new ArrayList<>();
         while (aIterator != null && aIterator.hasNext())
             list.add(aIterator.next());
         return list;
@@ -303,7 +303,7 @@ public class AeUtil {
      * @return List containing String objects.
      */
     public static List<String> toList(String aCsvList, String aSeparator) {
-        List<String> list = new ArrayList<String>();
+        List<String> list = new ArrayList<>();
         StringTokenizer st = new StringTokenizer(getSafeString(aCsvList), aSeparator);
         while (st.hasMoreTokens()) {
             list.add(st.nextToken().trim());
@@ -1333,7 +1333,7 @@ public class AeUtil {
      * @param aStringArray
      */
     public static Set<String> toSet(String[] aStringArray) {
-        Set<String> set = new LinkedHashSet<String>();
+        Set<String> set = new LinkedHashSet<>();
         if (aStringArray != null) {
             for (String sa : aStringArray) {
                 set.add(sa);
@@ -1448,7 +1448,7 @@ public class AeUtil {
      * @param aPreserveIfAlreadyUnique
      */
     public static String generateUniqueName(String aPrefix, Collection<String> aStringCollection, boolean aPreserveIfAlreadyUnique) {
-        Set<String> set = new HashSet<String>();
+        Set<String> set = new HashSet<>();
         set.addAll(aStringCollection);
 
         if (aPreserveIfAlreadyUnique && !set.contains(aPrefix))

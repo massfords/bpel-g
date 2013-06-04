@@ -63,7 +63,7 @@ public class AeExtensionActivityDurableInfo implements IAeDurableReplyInfo
     */
    public Map<String, String> getProperties()
    {
-      Map<String, String> props = new HashMap<String, String>();
+      Map<String, String> props = new HashMap<>();
       props.put( PROCESS_ID, String.valueOf( getProcessId() ) );
       props.put( LOCATION_PATH, String.valueOf( getLocationPath() ) );
       props.put( TRANSMISSION_ID, String.valueOf( getTransmissionId() ) );

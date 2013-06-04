@@ -22,7 +22,7 @@ import org.activebpel.rt.xml.def.AeBaseXmlDef;
 public class AeBpelObjectContainer extends AeBpelObjectBase
 {
    /** BPEL child model objects contained by this parent. */
-   private final List<AeBpelObjectBase> mChildren = new ArrayList<AeBpelObjectBase>();
+   private final List<AeBpelObjectBase> mChildren = new ArrayList<>();
 
    /**
     *
@@ -106,7 +106,7 @@ public class AeBpelObjectContainer extends AeBpelObjectBase
    public List<AeBpelObjectBase> getChildren(String aBpelTagName)
    {
       List<AeBpelObjectBase> children =  getChildren();
-      List<AeBpelObjectBase> rList = new ArrayList<AeBpelObjectBase>();
+      List<AeBpelObjectBase> rList = new ArrayList<>();
       Iterator<AeBpelObjectBase> iterator = children.iterator();
       while (iterator.hasNext())
       {

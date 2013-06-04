@@ -95,7 +95,7 @@ abstract public class AeListingResultSetHandler<L,T> implements ResultSetHandler
       
       try
       {
-         List<T> results = new ArrayList<T>();      
+         List<T> results = new ArrayList<>();
          // Set ResultSet for next().
          setResultSet(aResultSet);
          setRowCount(0);

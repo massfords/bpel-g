@@ -160,7 +160,7 @@ public class AeSQLProcessStateConnectionProvider extends AeAbstractSQLStoragePro
       // prevents deadlocks on DB2 between transactions that are deleting
       // multiple entries, because DB2 creates "next key" locks along
       // the way.
-      List<Long> ids = new ArrayList<Long>(aLongIds);
+      List<Long> ids = new ArrayList<>(aLongIds);
       Collections.sort(ids);
 
       Object[] params = new Object[DELETE_JOURNAL_ENTRIES_LENGTH];

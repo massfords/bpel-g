@@ -28,7 +28,7 @@ import java.util.List;
 public class AeXMLParserSchemaHandler extends AeXMLParserDefaultHandler
 {
    /** A map from namespace to <code>Schema</code> object. */
-   private final HashMap<String,Schema> mSchemaMap = new HashMap<String,Schema>();
+   private final HashMap<String,Schema> mSchemaMap = new HashMap<>();
 
    /**
     * Constructs a schema xml handler given the wsdl locator and schema list.

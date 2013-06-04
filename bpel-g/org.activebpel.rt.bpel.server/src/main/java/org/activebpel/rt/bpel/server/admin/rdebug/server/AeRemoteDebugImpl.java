@@ -52,13 +52,13 @@ public class AeRemoteDebugImpl implements IAeBpelAdmin
    private static String sEventHandlerLocator;
    
    /** Map of context Id to engine listener used for dispatching remote debug events. */
-   private static final Hashtable<String, IAeEngineListener> sEngineListeners = new Hashtable<String, IAeEngineListener>();
+   private static final Hashtable<String, IAeEngineListener> sEngineListeners = new Hashtable<>();
    
    /** Map of context Id to process listener used for dispatching remote debug events. */
-   private static final Hashtable<String, IAeProcessListener> sProcessListeners = new Hashtable<String, IAeProcessListener>();
+   private static final Hashtable<String, IAeProcessListener> sProcessListeners = new Hashtable<>();
 
    /** Map of context Id to breakpoint listener used for dispatching remote debug events. */
-   private static final Hashtable<String, AeBreakpointListener> sBreakpointListeners = new Hashtable<String, AeBreakpointListener>();
+   private static final Hashtable<String, AeBreakpointListener> sBreakpointListeners = new Hashtable<>();
 
 
    public void setEventHandlerLocator(String aEventHandlerLocator) {
@@ -1033,7 +1033,7 @@ public class AeRemoteDebugImpl implements IAeBpelAdmin
          }
          else
          {
-            HashMap<String, AeBreakpointInstanceDetail> breakpointList = new HashMap<String, AeBreakpointInstanceDetail>();
+            HashMap<String, AeBreakpointInstanceDetail> breakpointList = new HashMap<>();
             for (int i=0 ; i < aBreakpointList.getTotalRowCount() ; i++)
             {
                AeBreakpointInstanceDetail detail = aBreakpointList.getRowDetails()[i];

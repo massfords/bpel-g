@@ -95,7 +95,7 @@ public class AeXQueryFunction extends FunctionCall
    {
       try
       {
-         List<Object> args = new ArrayList<Object>();
+         List<Object> args = new ArrayList<>();
           for (Expression arg : argument) {
               ValueRepresentation valRep = ExpressionTool.eagerEvaluate(arg, aContext);
               Item item = Value.asItem(valRep);

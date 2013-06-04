@@ -41,7 +41,7 @@ public class BgSchema {
      */
     public void addImport(String namespace) {
         if (imports == null) {
-            imports = new ArrayList<String>();
+            imports = new ArrayList<>();
         }
         imports.add(namespace);
     }

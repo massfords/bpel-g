@@ -251,7 +251,7 @@ abstract public class AeActivityImpl extends AeAbstractBpelObject implements IAe
    {
       if (mSourceLinks == null)
       {
-         mSourceLinks = new ArrayList<AeLink>();
+         mSourceLinks = new ArrayList<>();
       }
       return mSourceLinks;
    }
@@ -275,7 +275,7 @@ abstract public class AeActivityImpl extends AeAbstractBpelObject implements IAe
    {
       if (mTargetLinks == null)
       {
-         mTargetLinks = new ArrayList<AeLink>();
+         mTargetLinks = new ArrayList<>();
       }
       return mTargetLinks;
    }

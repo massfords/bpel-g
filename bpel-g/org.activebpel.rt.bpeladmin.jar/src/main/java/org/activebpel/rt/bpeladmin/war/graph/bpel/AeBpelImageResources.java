@@ -41,7 +41,7 @@ public class AeBpelImageResources
    /**
     * Cache for the images.
     */
-   private final Map<String, Image> mImageCache = new Hashtable<String, Image>();
+   private final Map<String, Image> mImageCache = new Hashtable<>();
 
    /**
     * @return Returns the useLargeIcons.

@@ -33,7 +33,7 @@ public abstract class AeAbstractXpathTag extends AeAbstractBeanPropertyTag
 	  Map<String, String> map = (Map<String, String>) pageContext.getAttribute(NSMAP_KEY, PageContext.REQUEST_SCOPE );
       if (map == null)
       {
-         map = new HashMap<String, String>();
+         map = new HashMap<>();
          pageContext.setAttribute(NSMAP_KEY, map, PageContext.REQUEST_SCOPE );
       }
       return map;

@@ -34,9 +34,9 @@ public class AeValidatorCodeRegistry
    /** schema for the validator severity file */
    private static final Schema sSeverityFileSchema;
    /** default namespace serverity map */
-   private static final Map<String, String> sPrefixMap = new HashMap<String, String>();
+   private static final Map<String, String> sPrefixMap = new HashMap<>();
    /** map of namespace to map of code/severity */
-   private static final Map<String,Map<String,String>> sSeverityMap = new HashMap<String,Map<String,String>>();
+   private static final Map<String,Map<String,String>> sSeverityMap = new HashMap<>();
    
    /** valid values for validator severity */
    public static final String ERROR = "ERROR";     //$NON-NLS-1$
@@ -88,7 +88,7 @@ public class AeValidatorCodeRegistry
          
          List codeNodes = AeXPathUtil.selectNodes(severityDoc, "aeSeverity:codes/aeSeverity:code", sPrefixMap); //$NON-NLS-1$
          
-         Map<String,String> codeMap = new HashMap<String,String>();
+         Map<String,String> codeMap = new HashMap<>();
          String targetNS = AeXPathUtil.selectSingleNode(severityDoc, "aeSeverity:codes/@targetNamespace", sPrefixMap).getNodeValue();//$NON-NLS-1$
          
          // loop over the code nodes and load the map

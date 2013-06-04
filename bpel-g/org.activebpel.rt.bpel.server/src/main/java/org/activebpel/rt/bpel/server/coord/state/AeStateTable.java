@@ -22,7 +22,7 @@ public class AeStateTable
    /**
     * Map containing table row entry for a given state.
     */
-   private final Map<String, AeStateTableEntry> mStateMap = new Hashtable<String, AeStateTableEntry>();
+   private final Map<String, AeStateTableEntry> mStateMap = new Hashtable<>();
    
    /**
     * Default constructor.

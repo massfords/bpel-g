@@ -59,7 +59,7 @@ public class AeDurableReplyInfo implements IAeDurableReplyInfo
    {
       if (mProperties == null)
       {
-         mProperties = new HashMap<String, String>();
+         mProperties = new HashMap<>();
       }
       return mProperties;
    }

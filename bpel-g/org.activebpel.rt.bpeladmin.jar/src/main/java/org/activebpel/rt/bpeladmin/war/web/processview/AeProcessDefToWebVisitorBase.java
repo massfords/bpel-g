@@ -53,7 +53,7 @@ public class AeProcessDefToWebVisitorBase implements IAeDefVisitor
     */
    public AeProcessDefToWebVisitorBase()
    {
-      stateElementMap = new HashMap<String, Map<String, Element>>();
+      stateElementMap = new HashMap<>();
    }
 
    /**
@@ -131,7 +131,7 @@ public class AeProcessDefToWebVisitorBase implements IAeDefVisitor
     */
    protected void addElementList(List<Element> aElementList, String aElementName)
    {
-      Map<String, Element> map = new HashMap<String, Element>();
+      Map<String, Element> map = new HashMap<>();
       getStateElementMap().put(aElementName, map);
       Iterator<Element> it= aElementList.iterator();
       while (it.hasNext())

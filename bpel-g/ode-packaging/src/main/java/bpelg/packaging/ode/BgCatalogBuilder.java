@@ -35,19 +35,19 @@ public class BgCatalogBuilder {
     
     private static final Log sLog = LogFactory.getLog(BgCatalogBuilder.class);
     
-    private static final Map<String,String> NS = new HashMap<String,String>();
+    private static final Map<String,String> NS = new HashMap<>();
     static {
         NS.put("wsdl", IAeConstants.WSDL_NAMESPACE);
         NS.put("xs", XMLConstants.W3C_XML_SCHEMA_NS_URI);
     }
     
     private File serviceUnitRoot;
-    private final Collection<BgCatalogTuple> collection = new ArrayList<BgCatalogTuple>();
+    private final Collection<BgCatalogTuple> collection = new ArrayList<>();
     private String logicalPathPrefix;
     private Catalog catalog;
     private boolean replaceExisting;
     // location paths relative to the service unit root that are referenced directly or transitively by the bpel. These paths will be included in the deployment.
-    private final Set<String> locations = new HashSet<String>();
+    private final Set<String> locations = new HashSet<>();
     
     public BgCatalogBuilder(File root) {
         assert root.isDirectory();

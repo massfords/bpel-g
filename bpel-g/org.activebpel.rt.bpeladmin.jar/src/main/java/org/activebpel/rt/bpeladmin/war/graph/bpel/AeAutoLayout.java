@@ -280,7 +280,7 @@ public class AeAutoLayout
      
       // Loop through all components adding them to the grid based upon their
       // distance from the root node.
-      Map<AeBpelObjectBase,AeBpelObjectBase> traversedNodes = new HashMap<AeBpelObjectBase, AeBpelObjectBase>();
+      Map<AeBpelObjectBase,AeBpelObjectBase> traversedNodes = new HashMap<>();
       List children = aController.getChildren();
        for (Object c : children) {
            AeBpelControllerBase child = (AeBpelControllerBase) c;
@@ -356,7 +356,7 @@ public class AeAutoLayout
       {
          return Collections.EMPTY_LIST;
       } 
-      List<AeBpelActivityObject> parentList = new ArrayList<AeBpelActivityObject>();
+      List<AeBpelActivityObject> parentList = new ArrayList<>();
       AeBpelActivityObject activityObj = (AeBpelActivityObject) aChild;      
       List targetConnections = activityObj.getTargetLinks();
        for (Object targetConnection : targetConnections) {

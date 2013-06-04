@@ -32,7 +32,7 @@ public abstract class AeAbstractJavaScriptExpressionAnalyzer extends AeAbstractE
     */
    public Set<String> getNamespaces(IAeExpressionAnalyzerContext aContext, String aExpression)
    {
-      Set<String> set = new LinkedHashSet<String>();
+      Set<String> set = new LinkedHashSet<>();
 
       Pattern p = sGetNamespacesPattern;
       Matcher m = p.matcher(aExpression);

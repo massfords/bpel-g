@@ -47,7 +47,7 @@ public class BgWSDLFlattener {
         if (definition == null)
             throw new NullPointerException("Null definition!");
         this._definition = definition;
-        this._flattened = new ConcurrentHashMap<QName, Definition>();
+        this._flattened = new ConcurrentHashMap<>();
         this._schemas = schemas;
     }
     

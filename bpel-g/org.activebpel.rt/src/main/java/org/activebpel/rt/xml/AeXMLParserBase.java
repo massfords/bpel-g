@@ -71,7 +71,7 @@ public class AeXMLParserBase
    private WSDLLocator mWSDLLocator;
    
    /** map of features to enable / disable on the parser */
-   private final Map<String,Object> mFeatures = new HashMap<String, Object>();
+   private final Map<String,Object> mFeatures = new HashMap<>();
 
    /**
     * Default constructor
@@ -594,7 +594,7 @@ public class AeXMLParserBase
          return Collections.emptyList();
 
       // Build a list of all schemas being referenced by this variable
-      List<InputStream> schemaStreamList = new ArrayList<InputStream>();
+      List<InputStream> schemaStreamList = new ArrayList<>();
        for (Object schemaObj : aSchemas) {
            // stream for the serialized schema
            InputStream input = null;

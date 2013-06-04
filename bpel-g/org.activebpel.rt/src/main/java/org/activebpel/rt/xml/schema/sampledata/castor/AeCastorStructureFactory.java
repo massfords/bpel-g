@@ -196,7 +196,7 @@ public class AeCastorStructureFactory
     */
    private static void processEnumerations(AeSimpleElement aElement, SimpleType aType)
    {
-      List<String> enumerations = new ArrayList<String>();
+      List<String> enumerations = new ArrayList<>();
       Enumeration enumer = aType.getLocalFacets();
       if ( enumer != null )
       {
@@ -318,7 +318,7 @@ public class AeCastorStructureFactory
       aeAttr.setFixedValue(aAttrDecl.getFixedValue());
 
       // process enumerations.
-      List<String> enumerations = new ArrayList<String>();
+      List<String> enumerations = new ArrayList<>();
       if ( type != null )
       {
          SimpleType simpleType = type;
@@ -413,7 +413,7 @@ public class AeCastorStructureFactory
     */
    private static List<AeBaseAttribute> createAttributes(ComplexType aComplexType)
    {
-      List<AeBaseAttribute> attribs = new ArrayList<AeBaseAttribute>();
+      List<AeBaseAttribute> attribs = new ArrayList<>();
       Enumeration enumer = aComplexType.getAttributeDecls();
       while ( enumer.hasMoreElements() )
       {

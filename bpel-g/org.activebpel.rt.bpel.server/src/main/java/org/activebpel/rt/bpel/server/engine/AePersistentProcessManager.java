@@ -111,7 +111,7 @@ public class AePersistentProcessManager extends AeAbstractProcessManager
 	 * {@link java.util.LinkedHashMap} to allow us to remove processes from the
 	 * map in LRU order.
 	 */
-	private final Map<Long, Object> mProcessTimerMap = new LinkedHashMap<Long, Object>();
+	private final Map<Long, Object> mProcessTimerMap = new LinkedHashMap<>();
 
 	/** Process state reader for this process manager. */
 	private IAeProcessStateReader mProcessStateReader;
@@ -1362,7 +1362,7 @@ public class AePersistentProcessManager extends AeAbstractProcessManager
 			throws AeBusinessProcessException {
 		Map<Long, Integer> map = getStorage().getJournalEntriesLocationIdsMap(
 				aProcessId);
-		Set<Long> journalIds = new HashSet<Long>(map.keySet());
+		Set<Long> journalIds = new HashSet<>(map.keySet());
 		journalEntriesDone(aProcessId, journalIds);
 	}
 

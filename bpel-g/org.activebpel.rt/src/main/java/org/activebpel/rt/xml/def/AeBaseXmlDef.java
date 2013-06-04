@@ -131,7 +131,7 @@ public abstract class AeBaseXmlDef implements Cloneable, Serializable
       }
       else if (mNamespaceMap == null && aCreate)
       {
-         mNamespaceMap = new HashMap<String,String>();
+         mNamespaceMap = new HashMap<>();
          return mNamespaceMap;
       }
       else
@@ -239,7 +239,7 @@ public abstract class AeBaseXmlDef implements Cloneable, Serializable
       if (getNamespaceMap().isEmpty())
          return Collections.EMPTY_SET;
 
-      Set<String> prefixes = new HashSet<String>(getNamespaceMap().keySet());
+      Set<String> prefixes = new HashSet<>(getNamespaceMap().keySet());
       // remove the default ns
       prefixes.remove(""); //$NON-NLS-1$
       return prefixes;
@@ -254,11 +254,11 @@ public abstract class AeBaseXmlDef implements Cloneable, Serializable
    {
       if ( !AeUtil.isNullOrEmpty(aNamespace) )
       {
-         Set<String> set = new HashSet<String>();
+         Set<String> set = new HashSet<>();
          AeBaseXmlDef def = this;
 
          // We need to process the defs top-down, so put them all into a stack first.
-         Stack<AeBaseXmlDef> defStack = new Stack<AeBaseXmlDef>();
+         Stack<AeBaseXmlDef> defStack = new Stack<>();
          while (def != null)
          {
             defStack.push(def);
@@ -385,7 +385,7 @@ public abstract class AeBaseXmlDef implements Cloneable, Serializable
    public void addExtensionElementDef( AeExtensionElementDef aExtension )
    {
       if( mExtensionElementDefs == null )
-         mExtensionElementDefs = new ArrayList<AeExtensionElementDef>();
+         mExtensionElementDefs = new ArrayList<>();
       mExtensionElementDefs.add( aExtension );
       assignParent(aExtension);
    }
@@ -491,7 +491,7 @@ public abstract class AeBaseXmlDef implements Cloneable, Serializable
     */
    public List<AeExtensionElementDef> getAllExtensionElementDef(QName aElementQName)
    {
-      List<AeExtensionElementDef> list = new ArrayList<AeExtensionElementDef>();
+      List<AeExtensionElementDef> list = new ArrayList<>();
        for (AeExtensionElementDef def : getExtensionElementDefs()) {
            if (AeUtil.compareObjects(def.getElementQName(), aElementQName)) {
                list.add(def);
@@ -532,7 +532,7 @@ public abstract class AeBaseXmlDef implements Cloneable, Serializable
    public void addDocumentationDef(AeDocumentationDef aDocumentationDef)
    {
       if (mDocumentationDefs == null)
-         mDocumentationDefs = new ArrayList<AeDocumentationDef>();
+         mDocumentationDefs = new ArrayList<>();
       mDocumentationDefs.add(aDocumentationDef);
    }
 
@@ -544,7 +544,7 @@ public abstract class AeBaseXmlDef implements Cloneable, Serializable
    public void addExtensionAttributeDef(AeExtensionAttributeDef aDef)
    {
       if (mExtensionAttributeDefs == null)
-         mExtensionAttributeDefs = new LinkedList<AeExtensionAttributeDef>();
+         mExtensionAttributeDefs = new LinkedList<>();
       mExtensionAttributeDefs.add(aDef);
    }
 

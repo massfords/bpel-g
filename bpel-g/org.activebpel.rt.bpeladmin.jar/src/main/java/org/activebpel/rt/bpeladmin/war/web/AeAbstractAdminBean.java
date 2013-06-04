@@ -36,7 +36,7 @@ public class AeAbstractAdminBean implements IAeErrorAwareBean {
     /**
      * List of error or status detail messages.
      */
-    private final List<String> mMessageList = new ArrayList<String>();
+    private final List<String> mMessageList = new ArrayList<>();
 
     /**
      * Adds a error or detail message.
@@ -155,7 +155,7 @@ public class AeAbstractAdminBean implements IAeErrorAwareBean {
      */
     protected Map<String, String> getPropertyErrors() {
         if (mPropertyErrors == null) {
-            mPropertyErrors = new HashMap<String, String>();
+            mPropertyErrors = new HashMap<>();
         }
         return mPropertyErrors;
     }

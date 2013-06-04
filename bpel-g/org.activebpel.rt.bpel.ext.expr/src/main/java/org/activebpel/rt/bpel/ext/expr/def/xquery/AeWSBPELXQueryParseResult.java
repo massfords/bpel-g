@@ -56,7 +56,7 @@ public class AeWSBPELXQueryParseResult extends AeAbstractXQueryParseResult
     */
    protected Collection<AeVariableData> getVarDataFromXQueryVariables()
    {
-      List<AeVariableData> list = new LinkedList<AeVariableData>();
+      List<AeVariableData> list = new LinkedList<>();
        for (AeScriptVarDef varDef : getVariableReferences()) {
            // BPEL 2.0 variables are referenced using an unqualified XPath 1.0 variable reference.
            if (AeUtil.isNullOrEmpty(varDef.getNamespace())) {

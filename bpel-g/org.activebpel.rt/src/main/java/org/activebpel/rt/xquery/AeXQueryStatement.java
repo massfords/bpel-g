@@ -44,7 +44,7 @@ public class AeXQueryStatement
    /** The raw xquery (pre-replacement). */
    private String mXQuery;
    /** The query parameter values. */
-   private Map<Integer,Object> mQueryParameters = new HashMap<Integer,Object>();
+   private Map<Integer,Object> mQueryParameters = new HashMap<>();
 
    /**
     * C'tor.
@@ -94,7 +94,7 @@ public class AeXQueryStatement
 
       // Replace the parameters in the XQuery with the parameter values
       // set in the statement.
-      Set<Integer> paramKeys = new TreeSet<Integer>();
+      Set<Integer> paramKeys = new TreeSet<>();
       paramKeys.addAll(getQueryParameters().keySet());
        for (Integer paramIndex : paramKeys) {
            Object value = getQueryParameters().get(paramIndex);

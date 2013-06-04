@@ -339,7 +339,7 @@ public class AeQueueStorage extends AeAbstractStorage implements
 				// add engine managed correlation property to the set
 				propsForMap.add(IAePolicyConstants.CONVERSATION_ID_HEADER);
 			}
-			Map<QName,String> map = new HashMap<QName,String>(aInboundReceive.getCorrelation());
+			Map<QName,String> map = new HashMap<>(aInboundReceive.getCorrelation());
 			map.keySet().retainAll(propsForMap);
 
 			receives = getMatchingReceives(aInboundReceive, map);
@@ -368,9 +368,9 @@ public class AeQueueStorage extends AeAbstractStorage implements
 		AePersistedMessageReceiver found = null;
 		List receives = null;
 
-		Set<QName> propsForMap = new HashSet<QName>();
+		Set<QName> propsForMap = new HashSet<>();
 		propsForMap.add(IAePolicyConstants.CONVERSATION_ID_HEADER);
-		Map<QName,String> map = new HashMap<QName,String>(aInboundReceive.getCorrelation());
+		Map<QName,String> map = new HashMap<>(aInboundReceive.getCorrelation());
 		map.keySet().retainAll(propsForMap);
 
 		receives = getMatchingReceives(aInboundReceive, map);
@@ -441,7 +441,7 @@ public class AeQueueStorage extends AeAbstractStorage implements
 			getQueueStorageProvider().incrementHashCollisionCounter();
 		}
 
-		LinkedList<AePersistedMessageReceiver> rval = new LinkedList<AePersistedMessageReceiver>();
+		LinkedList<AePersistedMessageReceiver> rval = new LinkedList<>();
         for (Object qr : list) {
             AePersistedMessageReceiver queuedReceive = (AePersistedMessageReceiver) qr;
             if (queuedReceive.matches(aInboundReceive)) {

@@ -39,7 +39,7 @@ public abstract class AeAbstractReportingDefReader implements IAeReportingDefRea
    /** list of errors encountered during parse */
    private List<String> mErrors;
    /** A set of consumed attributes. */
-   private final Set<Attr> mConsumedAttributes = new HashSet<Attr>();
+   private final Set<Attr> mConsumedAttributes = new HashSet<>();
    /** current element being read */
    private final Element mCurrentElement;
    /** Parent def object */
@@ -70,7 +70,7 @@ public abstract class AeAbstractReportingDefReader implements IAeReportingDefRea
    public List<String> getErrors()
    {
       if (mErrors == null)
-         mErrors = new ArrayList<String>();
+         mErrors = new ArrayList<>();
       return mErrors;
    }
 
@@ -322,7 +322,7 @@ public abstract class AeAbstractReportingDefReader implements IAeReportingDefRea
     */
    protected List<Node> getChildrenForLiteral(Element aElement)
    {
-      List<Node> childNodes = new ArrayList<Node>();
+      List<Node> childNodes = new ArrayList<>();
       
       aElement.normalize();
       if (aElement.hasChildNodes())

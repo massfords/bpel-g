@@ -116,7 +116,7 @@ public class AeCoordinatorCompInfo extends AeCompInfo
     */
    public LinkedList<AeCompInfo> getEnclosedScopes()
    {
-      return new LinkedList<AeCompInfo>();
+      return new LinkedList<>();
    }
    
    /**

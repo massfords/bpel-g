@@ -30,11 +30,11 @@ public class AeXPathParseHandler implements XPathHandler
    /** The namespace resolver to use while parsing. */
    private IAeNamespaceContext mNamespaceContext;
    /** The node stack. */
-   private final Stack<AeAbstractXPathNode> mNodeStack = new Stack<AeAbstractXPathNode>();
+   private final Stack<AeAbstractXPathNode> mNodeStack = new Stack<>();
    /** The full AST - set when endXPath() is called. */
    private AeXPathAST mAbstractSyntaxTree;
    /** A list of errors found while handling the jaxen parse. */
-   private List<String> mErrors = new ArrayList<String>();
+   private List<String> mErrors = new ArrayList<>();
 
    /**
     * Constructor.

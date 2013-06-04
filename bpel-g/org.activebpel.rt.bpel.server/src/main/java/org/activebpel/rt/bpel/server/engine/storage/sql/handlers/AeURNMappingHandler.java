@@ -29,7 +29,7 @@ public class AeURNMappingHandler implements ResultSetHandler<Map<String,String>>
     */
    public Map<String,String> handle(ResultSet aRs) throws SQLException
    {
-      Map<String,String> map = new HashMap<String, String>();
+      Map<String,String> map = new HashMap<>();
       while(aRs.next())
       {
          String urn = aRs.getString(IAeURNColumns.COL_URN);

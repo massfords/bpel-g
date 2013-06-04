@@ -43,7 +43,7 @@ public class AeBpelScopeActivityController extends AeBpelBandedContainerControll
       // re-order the bpel model child such that Activity type objects appear first,
       // followed by others such as fault handlers.
       List<AeBpelObjectBase> children = getModelChildren();
-      List<AeBpelObjectBase> tempList = new ArrayList<AeBpelObjectBase>();
+      List<AeBpelObjectBase> tempList = new ArrayList<>();
       Iterator<AeBpelObjectBase> it = children.listIterator();
       // remove non-activity models
       while (it.hasNext())

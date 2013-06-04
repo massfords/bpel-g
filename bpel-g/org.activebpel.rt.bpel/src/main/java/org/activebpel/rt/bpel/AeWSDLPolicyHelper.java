@@ -47,7 +47,7 @@ public class AeWSDLPolicyHelper
    public static List<Element> getEffectiveWSDLPolicies(IAeContextWSDLProvider aProvider, IAeWebServiceEndpointReference aEndpoint, IAeBaseErrorReporter aReporter) 
    {
       // Resolve from the wsdl definition
-      List<IAePolicy> policies = new ArrayList<IAePolicy>();
+      List<IAePolicy> policies = new ArrayList<>();
       if (!AeUtil.isNullOrEmpty(aEndpoint.getServiceName()))
       {
          AeBPELExtendedWSDLDef def = AeWSDLDefHelper.getWSDLDefinitionForService( aProvider, aEndpoint.getServiceName() );
@@ -56,7 +56,7 @@ public class AeWSDLPolicyHelper
       
       // The policy mappers will expect an array of elements
       // TODO (KP) maybe treat all policy lists as IAePolicy, rather than converting back and forth
-      List<Element> policyElements = new ArrayList<Element>();
+      List<Element> policyElements = new ArrayList<>();
       if (!AeUtil.isNullOrEmpty(policies)) 
       {
           for (IAePolicy policy : policies) {
@@ -82,7 +82,7 @@ public class AeWSDLPolicyHelper
    public static List<Element> getEffectiveOperationPolicies(IAeContextWSDLProvider aProvider, IAeWebServiceEndpointReference aEndpoint, QName aPortType, String aOperation, IAeBaseErrorReporter aReporter)
    {
       // Resolve from the wsdl definition
-      List<IAePolicy> policies = new ArrayList<IAePolicy>();
+      List<IAePolicy> policies = new ArrayList<>();
       if (!AeUtil.isNullOrEmpty(aEndpoint.getServiceName()))
       {
          AeBPELExtendedWSDLDef def = AeWSDLDefHelper.getWSDLDefinitionForService( aProvider, aEndpoint.getServiceName() );
@@ -95,7 +95,7 @@ public class AeWSDLPolicyHelper
       }
       
       // The policy mappers will expect an array of elements
-      List<Element> policyElements = new ArrayList<Element>();
+      List<Element> policyElements = new ArrayList<>();
       if (!AeUtil.isNullOrEmpty(policies)) 
       {
           for (IAePolicy policy : policies) {
@@ -129,7 +129,7 @@ public class AeWSDLPolicyHelper
       if (aDef == null)
          return Collections.<IAePolicy>emptyList();
       
-      List<IAePolicy> policies = new ArrayList<IAePolicy>();
+      List<IAePolicy> policies = new ArrayList<>();
       
       Service service = aDef.getServices().get(aServiceName);
       if (service == null)
@@ -178,7 +178,7 @@ public class AeWSDLPolicyHelper
       if (aDef == null)
          return Collections.<IAePolicy>emptyList();
       
-      List<IAePolicy> policies = new ArrayList<IAePolicy>();
+      List<IAePolicy> policies = new ArrayList<>();
       
       PortType portType = aDef.getPortType(aPortType);
       Operation op = portType.getOperation(aOperationName, null, null);
@@ -204,7 +204,7 @@ public class AeWSDLPolicyHelper
     */
    public static List<IAePolicy> getEndpointSubjectPolicies(AeBPELExtendedWSDLDef aDef, Port aPort, IAeBaseErrorReporter aReporter)
    {
-      List<IAePolicy> policies = new ArrayList<IAePolicy>();
+      List<IAePolicy> policies = new ArrayList<>();
       
       if (aPort == null)
       {
@@ -236,7 +236,7 @@ public class AeWSDLPolicyHelper
     */
    public static List<IAePolicy> getOperationSubjectPolicies(AeBPELExtendedWSDLDef aDef, Binding aBinding, String aOperationName, IAeBaseErrorReporter aReporter)
    {
-      List<IAePolicy> policies = new ArrayList<IAePolicy>();
+      List<IAePolicy> policies = new ArrayList<>();
       
       if (aBinding == null)
       {
@@ -271,7 +271,7 @@ public class AeWSDLPolicyHelper
     */
    public static List<IAePolicy> getMessageSubjectPolicies(AeBPELExtendedWSDLDef aDef, Binding aBinding, String aOperationName, IAeBaseErrorReporter aReporter)
    {
-      List<IAePolicy> policies = new ArrayList<IAePolicy>();
+      List<IAePolicy> policies = new ArrayList<>();
       
       if (aBinding == null)
       {
@@ -321,7 +321,7 @@ public class AeWSDLPolicyHelper
          return Collections.<IAePolicy>emptyList();
       }
       
-      List<IAePolicy> policies = new ArrayList<IAePolicy>();
+      List<IAePolicy> policies = new ArrayList<>();
        for (ExtensibilityElement ext : elements) {
            IAePolicy policy = null;
 
@@ -362,7 +362,7 @@ public class AeWSDLPolicyHelper
          return Collections.<IAePolicy>emptyList();
       }
       
-      List<IAePolicy> policies = new ArrayList<IAePolicy>();
+      List<IAePolicy> policies = new ArrayList<>();
       // flag indicates if this policy has direct assertion children
       boolean hasAssertions = false;
        for (ExtensibilityElement ext : elements) {
@@ -458,7 +458,7 @@ public class AeWSDLPolicyHelper
          return null;
       }
     
-      List<IAePolicy> policyMatches = new ArrayList<IAePolicy>();
+      List<IAePolicy> policyMatches = new ArrayList<>();
       for (Iterator<?> it = aProvider.getWSDLIterator(aPolicyRef.getNamespaceURI()); it.hasNext();)
       {
          AeBPELExtendedWSDLDef def = aProvider.dereferenceIteration(it.next());
@@ -507,7 +507,7 @@ public class AeWSDLPolicyHelper
     */
    public static List<Element> resolvePolicyReferences(IAeContextWSDLProvider aProvider, List<Element> aPolicyElementList, IAeBaseErrorReporter aReporter)
    {
-      List<Element> resolved = new ArrayList<Element>();
+      List<Element> resolved = new ArrayList<>();
       if (AeUtil.isNullOrEmpty(aPolicyElementList))
       {
          return Collections.<Element>emptyList();
@@ -532,7 +532,7 @@ public class AeWSDLPolicyHelper
     */
    public static List<Element> getPolicyElements(List<Element> aPolicyList, QName aPolicyName)
    {
-      List<Element> elements = new ArrayList<Element>();
+      List<Element> elements = new ArrayList<>();
        for (Element anAPolicyList : aPolicyList) {
            Element e = AeXmlUtil.findSubElement(anAPolicyList, aPolicyName);
            if (e != null)

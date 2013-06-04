@@ -36,7 +36,7 @@ public class BgDeploymentContainer implements IAeDeploymentContainer {
     private final ClassLoader classLoader;
     private final BgCatalogBuilder catalogBuilder;
     private final BgPddBuilder pddBuilder;
-    private final Map<Pdd,IAeDeploymentSource> deploymentSources = new HashMap<Pdd,IAeDeploymentSource>();
+    private final Map<Pdd,IAeDeploymentSource> deploymentSources = new HashMap<>();
     private final Collection<AePddResource> pdds;
     
     public BgDeploymentContainer(File serviceUnitRoot, IAeDeploymentLogger logger) throws Exception {
@@ -56,7 +56,7 @@ public class BgDeploymentContainer implements IAeDeploymentContainer {
         catalogBuilder.setReferenced(referenced);
 
         // let's check to make sure there are no extra bpel's
-        Set<QName> bpels = new HashSet<QName>();
+        Set<QName> bpels = new HashSet<>();
         for(File file : serviceUnitRoot.listFiles()) {
             if (file.getName().endsWith(".bpel")) {
                 // add the name to the set

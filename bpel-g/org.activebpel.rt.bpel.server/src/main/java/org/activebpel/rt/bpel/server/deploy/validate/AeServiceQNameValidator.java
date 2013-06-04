@@ -183,7 +183,7 @@ public class AeServiceQNameValidator implements IAePredeploymentValidator {
 	protected Map<QName,Service> extractServices(IAeBpr aFile, IAeBaseErrorReporter aReporter, AeResourceResolver aResolver) {
 		// load all of the wsdl defs for each wsdl ref section of each pdd
 		// and create wsdl defs - ask each def for its service names
-		Map<QName,Service> services = new HashMap<QName,Service>();
+		Map<QName,Service> services = new HashMap<>();
 		String pddName = null;
 
 		try {

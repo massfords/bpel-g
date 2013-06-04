@@ -45,11 +45,11 @@ public class AeEngineManagementAdapter implements IAeEngineManagementMXBean {
         filter.setMaxReturn(aMaxReturn);
         filter.setListStart(aListStart);
         AeMessageReceiverListResult messageReceivers = mAdmin.getMessageReceivers(filter);
-        List<AeMessageReceiverBean> receivers = new ArrayList<AeMessageReceiverBean>();
+        List<AeMessageReceiverBean> receivers = new ArrayList<>();
         for(AeMessageReceiver receiver : messageReceivers.getResults()) {
             Map<AeQName,String> correlation = null;
             if (receiver.isCorrelated()) {
-                correlation = new HashMap<AeQName,String>();
+                correlation = new HashMap<>();
                 for(Map.Entry<QName,String> entry : receiver.getCorrelation().entrySet()) {
                     correlation.put(new AeQName(entry.getKey()), entry.getValue());
                 }

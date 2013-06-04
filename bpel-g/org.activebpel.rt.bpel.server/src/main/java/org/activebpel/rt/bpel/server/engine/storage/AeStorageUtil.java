@@ -229,7 +229,7 @@ public class AeStorageUtil
    {
       try
       {
-         Map<QName,String> map = new HashMap<QName,String>();
+         Map<QName,String> map = new HashMap<>();
 
          NodeList nl = aRootElement.getElementsByTagName(PROPERTY_TAGNAME);
          for (int i = 0; i < nl.getLength(); i++)
@@ -338,7 +338,7 @@ public class AeStorageUtil
       int count = 1;
       // Sort the keys - this ensures that the correlation set hash is always calculated the
       // same, even if the data is in the map in a different order.
-    SortedSet<QName> ss = new TreeSet<QName>(new Comparator<QName>()
+    SortedSet<QName> ss = new TreeSet<>(new Comparator<QName>()
       {
          public int compare(QName o1, QName o2)
          {

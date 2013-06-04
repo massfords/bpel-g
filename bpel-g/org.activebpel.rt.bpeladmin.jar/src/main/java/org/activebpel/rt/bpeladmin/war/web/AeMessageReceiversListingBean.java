@@ -63,7 +63,7 @@ public class AeMessageReceiversListingBean extends AeAbstractListingBean
          { 
             setTotalRowCount( results.size() );
             updateNextPageStatus();
-            mMessageReceivers = new ArrayList<AeMessageReceiverDetailWrapper>();
+            mMessageReceivers = new ArrayList<>();
 
             for(AeMessageReceiverBean bean : results)
                mMessageReceivers.add( new AeMessageReceiverDetailWrapper(bean));                 

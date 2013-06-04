@@ -22,7 +22,7 @@ import java.util.Map;
 public class AeRulesUtil
 {
    /** Mapping of string serverity codes to Integer objects */
-   private static final Map<String, Integer> sSeverityMap = new HashMap<String, Integer>();
+   private static final Map<String, Integer> sSeverityMap = new HashMap<>();
    
    /** load the severity mapping */
    static

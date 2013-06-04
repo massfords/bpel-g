@@ -107,7 +107,7 @@ public abstract class AeAbstractAttachmentManager extends AeManagerAdapter imple
     */
    public List<IAeWebServiceAttachment> bpel2wsio(IAeAttachmentContainer aBpelContainer) throws AeBusinessProcessException
    {
-      List<IAeWebServiceAttachment> wsAttachments = new ArrayList<IAeWebServiceAttachment>(aBpelContainer.size());
+      List<IAeWebServiceAttachment> wsAttachments = new ArrayList<>(aBpelContainer.size());
 
       // An AeAttachmentContainer can have 0..n attachment parts
       for (Iterator<IAeAttachmentItem> attachmentItr = aBpelContainer.getAttachmentItems(); attachmentItr.hasNext();)
@@ -307,7 +307,7 @@ public abstract class AeAbstractAttachmentManager extends AeManagerAdapter imple
          throws AeBusinessProcessException
    {
       long groupId = getStorage().createAttachmentGroup(aPlan);
-      List<IAeAttachmentItem> storedAttachments = new ArrayList<IAeAttachmentItem>(aContainer.size());
+      List<IAeAttachmentItem> storedAttachments = new ArrayList<>(aContainer.size());
 
        for (IAeAttachmentItem attachment : aContainer) {
            InputStream content;

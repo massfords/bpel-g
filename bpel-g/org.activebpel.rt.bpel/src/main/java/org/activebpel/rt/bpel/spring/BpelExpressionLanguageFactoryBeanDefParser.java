@@ -28,7 +28,7 @@ public class BpelExpressionLanguageFactoryBeanDefParser extends AbstractSingleBe
     protected void doParse(Element element, BeanDefinitionBuilder bean) {
         
         bean.addPropertyValue("bpelDefaultLanguage", element.getAttribute("defaultLanguage"));
-        Map<String,AeExpressionBundle> map = new HashMap<String,AeExpressionBundle>();
+        Map<String,AeExpressionBundle> map = new HashMap<>();
         
         try {
             List<Element> elements = AeXPathUtil.selectNodes(element, "./bpelg:bundle", "bpelg", "urn:bpel-g:spring-ext");

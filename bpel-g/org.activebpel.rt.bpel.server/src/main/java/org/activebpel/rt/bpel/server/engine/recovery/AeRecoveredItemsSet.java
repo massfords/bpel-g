@@ -42,7 +42,7 @@ public class AeRecoveredItemsSet extends LinkedHashMap<IAeRecoveredItem,IAeRecov
     */
    public List<IAeRecoveredItem> getRecoveredItems()
    {
-      return new LinkedList<IAeRecoveredItem>(this.values());
+      return new LinkedList<>(this.values());
    }
 
    /**

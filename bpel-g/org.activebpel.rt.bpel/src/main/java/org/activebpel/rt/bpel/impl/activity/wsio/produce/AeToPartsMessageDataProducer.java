@@ -98,7 +98,7 @@ public class AeToPartsMessageDataProducer extends AeAbstractMessageDataProducer
    {
       if (mCopyOperations == null)
       {
-         mCopyOperations = new LinkedList<IAeCopyOperation>();
+         mCopyOperations = new LinkedList<>();
 
          IAeMessageDataProducerDef def = aContext.getMessageDataProducerDef();
          for (Iterator i = def.getToPartsDef().getToPartDefs(); i.hasNext(); )

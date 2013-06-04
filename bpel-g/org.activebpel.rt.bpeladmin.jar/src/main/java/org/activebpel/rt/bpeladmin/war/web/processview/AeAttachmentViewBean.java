@@ -74,7 +74,7 @@ public class AeAttachmentViewBean
    public void setHeader(String aName, String aValue)
    {
       if (mHeaders == null)
-         mHeaders = new LinkedHashMap<String, String>();
+         mHeaders = new LinkedHashMap<>();
       
       mHeaders.put(aName, aValue);
    }
@@ -116,7 +116,7 @@ public class AeAttachmentViewBean
     */
    public List<AeAttachmentHeader> getHeaders()
    {
-      List<AeAttachmentHeader> headers = new ArrayList<AeAttachmentHeader>();
+      List<AeAttachmentHeader> headers = new ArrayList<>();
        for (Entry<String, String> entry : mHeaders.entrySet()) {
            headers.add(new AeAttachmentHeader(entry.getKey(), entry.getValue()));
        }

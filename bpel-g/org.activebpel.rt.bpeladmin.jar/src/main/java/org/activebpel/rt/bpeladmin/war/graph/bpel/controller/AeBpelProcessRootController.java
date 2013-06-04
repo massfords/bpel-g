@@ -163,7 +163,7 @@ public class AeBpelProcessRootController extends AeBpelControllerBase
    private void addLinks()
    {      
       List links = mBpelProcessModel.getLinks();
-      List<AeBpelLinkObject> tempList = new ArrayList<AeBpelLinkObject>();
+      List<AeBpelLinkObject> tempList = new ArrayList<>();
        for (Object l : links) {
            AeBpelLinkObject link = (AeBpelLinkObject) l;
            if (link.isEvaluated()) {

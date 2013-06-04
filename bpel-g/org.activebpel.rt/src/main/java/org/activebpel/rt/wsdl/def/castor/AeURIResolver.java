@@ -49,7 +49,7 @@ public class AeURIResolver implements URIResolver
    {
       mWSDLLocator = aLocator;
       mStandardResolver = aStandardResolver;
-      mResolvedReferences = new HashSet<String>();
+      mResolvedReferences = new HashSet<>();
    }
 
    /**

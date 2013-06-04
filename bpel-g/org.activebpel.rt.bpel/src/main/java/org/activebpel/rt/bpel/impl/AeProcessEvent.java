@@ -102,7 +102,7 @@ public class AeProcessEvent extends AeBaseProcessEvent implements IAeProcessEven
     */
    public String toString()
    {
-      Map<String, Object> map = new LinkedHashMap<String, Object>(); // LinkedHashMap to preserve order of insertions for toString()
+      Map<String, Object> map = new LinkedHashMap<>(); // LinkedHashMap to preserve order of insertions for toString()
 
       map.put("pid", String.valueOf(getPID())); //$NON-NLS-1$
       map.put("eventid", getEventIdName(getEventType())); //$NON-NLS-1$

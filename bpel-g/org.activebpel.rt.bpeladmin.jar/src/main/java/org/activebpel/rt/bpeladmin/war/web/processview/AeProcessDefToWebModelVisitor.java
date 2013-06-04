@@ -124,8 +124,8 @@ public class AeProcessDefToWebModelVisitor extends AeProcessDefToWebVisitorBase
    public AeProcessDefToWebModelVisitor(AeProcessDef aProcessDef)
    {
       setProcessDef(aProcessDef);
-      mStack = new Stack<AeBpelObjectBase>();
-      mLinkContainerStack = new Stack<Map<String, AeBpelLinkObject>>();
+      mStack = new Stack<>();
+      mLinkContainerStack = new Stack<>();
       init();
    }
 
@@ -168,7 +168,7 @@ public class AeProcessDefToWebModelVisitor extends AeProcessDefToWebVisitorBase
    {
       if (mLinksList == null)
       {
-         mLinksList = new ArrayList<AeBpelLinkObject>();
+         mLinksList = new ArrayList<>();
       }
       return mLinksList;
    }
@@ -229,7 +229,7 @@ public class AeProcessDefToWebModelVisitor extends AeProcessDefToWebVisitorBase
     */
    protected void pushLinksContainer()
    {
-      Map<String, AeBpelLinkObject> map = new HashMap<String, AeBpelLinkObject>();
+      Map<String, AeBpelLinkObject> map = new HashMap<>();
       mLinkContainerStack.push(map);
    }
 

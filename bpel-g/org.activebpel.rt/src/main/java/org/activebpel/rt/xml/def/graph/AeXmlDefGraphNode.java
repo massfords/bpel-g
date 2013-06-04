@@ -88,7 +88,7 @@ public class AeXmlDefGraphNode implements IAeXmlDefGraphNode
    {
       if (mChildren == null)
       {
-         mChildren = new ArrayList<IAeXmlDefGraphNode>();
+         mChildren = new ArrayList<>();
       }
       if (aChild != null && !mChildren.contains(aChild) )
       {

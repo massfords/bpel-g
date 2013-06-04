@@ -37,7 +37,7 @@ public abstract class AeAbstractExpressionTypeConverter implements IAeExpression
       {
          // Convert all of the items in the list.
          List list = (List) aEngineType;
-         List<Object> rvalList = new ArrayList<Object>();
+         List<Object> rvalList = new ArrayList<>();
          if (list.size() > 0)
          {
              for (Object item : list) {
@@ -59,7 +59,7 @@ public abstract class AeAbstractExpressionTypeConverter implements IAeExpression
       {
          // If it's a Node, wrap it in a List so that it can be used in sub-queries of the form:
          //   getVariableData('var')/sub/xpath/query
-         ArrayList<Node> list = new ArrayList<Node>();
+         ArrayList<Node> list = new ArrayList<>();
          list.add((Node)aEngineType);
          rval = list;
       }

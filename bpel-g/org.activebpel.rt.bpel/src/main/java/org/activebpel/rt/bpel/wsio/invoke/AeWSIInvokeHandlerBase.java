@@ -158,7 +158,7 @@ public abstract class AeWSIInvokeHandlerBase implements IAeInvokeHandler
     */
    protected AeWebServiceMessageData createWebServiceMessageData(QName aOutputMessageType)
    {
-      Map<String,Object> data = new HashMap<String,Object>();
+      Map<String,Object> data = new HashMap<>();
       AeWebServiceMessageData respMsgData = new AeWebServiceMessageData(aOutputMessageType, data);
       return respMsgData;
    }

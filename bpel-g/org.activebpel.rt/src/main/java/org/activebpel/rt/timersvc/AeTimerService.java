@@ -39,7 +39,7 @@ public class AeTimerService
    private java.util.Timer mTimer;
 
    /** The map of currently running alarm manager tasks, keyed by request ID. */
-   private final Map<Long, AeTimerTask> mTimerTasks = new HashMap<Long, AeTimerTask>();
+   private final Map<Long, AeTimerTask> mTimerTasks = new HashMap<>();
 
    /**
     * Constructs a new timer service.
@@ -205,7 +205,7 @@ public class AeTimerService
          // Iterate over a copy of the timer tasks collection, so that we don't
          // get a concurrent modification exception when AeTimerTask#cancel()
          // removes a task from the timer tasks map.
-         Collection<AeTimerTask> tasks = new ArrayList<AeTimerTask>(getTimerTasks().values());
+         Collection<AeTimerTask> tasks = new ArrayList<>(getTimerTasks().values());
 
           for (AeTimerTask task : tasks) task.cancel();
       }

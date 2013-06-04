@@ -148,7 +148,7 @@ public class AeProcessManagerService implements AeProcessManager {
     @Override
     public ProcessDeployments getProcessDeployments(GetProcessDeployments aBody) {
         IAeDeploymentProvider deploymentProvider = AeEngineFactory.getBean(IAeDeploymentProvider.class);
-        List<ProcessDeployment> list = new ArrayList<ProcessDeployment>();
+        List<ProcessDeployment> list = new ArrayList<>();
         for (Iterator iter = deploymentProvider.getDeployedPlans(); iter.hasNext();) {
             IAeProcessDeployment deployedProcess = (IAeProcessDeployment) iter.next();
             list.add(createProcessDetail(deployedProcess));

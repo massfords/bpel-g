@@ -10,7 +10,7 @@ import org.apache.camel.impl.DefaultEndpoint;
 
 public class AeBpelEndpoint extends DefaultEndpoint {
 	
-	private static final Set<String> sCommands = new HashSet<String>();
+	private static final Set<String> sCommands = new HashSet<>();
 	static {
 		sCommands.add("invoke");
 		sCommands.add("undeploy");

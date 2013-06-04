@@ -39,7 +39,7 @@ public class AeQueuedLocationIdsCollector
    /** The set of location ids for queued activities. */
    private Set<Integer> mQueuedLocationIds;
    /** Maps location ids to the alarm object. Supports a one to many mapping. */
-   private final Map<Integer,List<AeAlarm>> mAlarms = new HashMap<Integer,List<AeAlarm>>();
+   private final Map<Integer,List<AeAlarm>> mAlarms = new HashMap<>();
 
    /**
     * Default constructor.
@@ -111,7 +111,7 @@ public class AeQueuedLocationIdsCollector
       List<AeAlarm> list = getAlarms().get(aAlarm.getPathId());
       if (list == null)
       {
-         list = new ArrayList<AeAlarm>();
+         list = new ArrayList<>();
          getAlarms().put(aAlarm.getPathId(), list);
       }
       list.add(aAlarm);

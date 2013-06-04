@@ -96,8 +96,8 @@ public class AeWsdlReference implements IAeWsdlReference, IAeCatalogListener
       mProcessQName = aProcessQName;
       mPartnerLinkType = aPartnerLinkType;
       mTransportUrl = aTransportUrl;
-      mOperations = new ArrayList<OperationDesc>();
-      mNameToOperationsMap = new HashMap<String, List<OperationDesc>>();
+      mOperations = new ArrayList<>();
+      mNameToOperationsMap = new HashMap<>();
    }
 
    /**
@@ -209,7 +209,7 @@ public class AeWsdlReference implements IAeWsdlReference, IAeCatalogListener
    protected void initOperations() throws Exception
    {
       getOperationsInternal().clear();
-      List<String> allowedMethods = new ArrayList<String>();
+      List<String> allowedMethods = new ArrayList<>();
       for( Iterator<Operation> iter = getWsdlDef().getOperations( getPortTypeQName() ); iter.hasNext(); )
       {
          Operation operation = iter.next();
@@ -292,7 +292,7 @@ public class AeWsdlReference implements IAeWsdlReference, IAeCatalogListener
       List<OperationDesc> overloads = getNameToOperationsMap().get(name);
       if (overloads == null)
       {
-         overloads = new ArrayList<OperationDesc>();
+         overloads = new ArrayList<>();
          getNameToOperationsMap().put(name, overloads);
       }
       overloads.add(aOperation);

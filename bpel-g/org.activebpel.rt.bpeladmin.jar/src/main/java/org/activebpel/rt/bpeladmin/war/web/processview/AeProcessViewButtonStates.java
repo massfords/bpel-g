@@ -26,13 +26,13 @@ public class AeProcessViewButtonStates
 {
    // containers for valid states
    /** Set containing element names of Pick construct's children names (onMessage and onAlarm).*/
-   private static final ArrayList<String> EVENT_NAMES = new ArrayList<String>();
+   private static final ArrayList<String> EVENT_NAMES = new ArrayList<>();
    /** Set containing element names of Switch construct's children names (case and otherwise).*/
-   private static final ArrayList<String> SWITCH_CHILD_NAMES = new ArrayList<String>();
+   private static final ArrayList<String> SWITCH_CHILD_NAMES = new ArrayList<>();
    /** Valid states where an activity can be executed (stepped) via Process Exception Management UI. */
-   private static final ArrayList<String> EXECUTE_STATES = new ArrayList<String>();
+   private static final ArrayList<String> EXECUTE_STATES = new ArrayList<>();
    /** Valid states where an activity can be completed via Process Exception Management UI. */
-   private static final ArrayList<String> COMPLETE_STATES = new ArrayList<String>();
+   private static final ArrayList<String> COMPLETE_STATES = new ArrayList<>();
 
    static
    {

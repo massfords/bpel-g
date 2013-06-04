@@ -72,7 +72,7 @@ public class AeUnpackedDeploymentStager
       mWorkingDir = aWorkingDir;
       deleteOldDeployments();
       mWorkingDir.mkdirs();
-      mTempResources = new HashMap<URL,AeTempResource>();
+      mTempResources = new HashMap<>();
    }
    
    /**

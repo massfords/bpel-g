@@ -31,7 +31,7 @@ public class AePairDeserializer
 
    public static Map<String,String> deserialize(Document aDocument) throws AeBusinessProcessException
    {
-      Map<String,String> headers = new HashMap<String,String>();
+      Map<String,String> headers = new HashMap<>();
       
       Element root = aDocument.getDocumentElement();
       

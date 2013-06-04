@@ -72,7 +72,7 @@ public class AeRPCEncodedDeserializer extends DeserializerImpl
    private IAeTypesContext mTypesContext;
    
    /** namespaces for attributes that we will skip during the deserialization process */
-   protected static final Collection<String> sNamespacesToSkipColl = new HashSet<String>();
+   protected static final Collection<String> sNamespacesToSkipColl = new HashSet<>();
    
    static 
    {
@@ -189,7 +189,7 @@ public class AeRPCEncodedDeserializer extends DeserializerImpl
     */
    protected void addNSDeclarationsFromEnvelope(DeserializationContext aContext, Element aElement) throws SOAPException
    {
-      Map<String, Mapping> nsMap = new HashMap<String, Mapping>();
+      Map<String, Mapping> nsMap = new HashMap<>();
       MessageElement envelope = aContext.getEnvelope();
       if (envelope.namespaces != null)
       {

@@ -35,7 +35,7 @@ public class AeInMemoryCatalogListing
     */
    public static AeCatalogListResult extractListing(AeCatalogListingFilter aFilter, Map aLocationHintsToMapping) {
       // create the container for the listing details
-      List<AeCatalogItem> results = new ArrayList<AeCatalogItem>();
+      List<AeCatalogItem> results = new ArrayList<>();
 
       // walk the list of mapping in the catalog
        for (Object o : aLocationHintsToMapping.values()) {

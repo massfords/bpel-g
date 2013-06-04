@@ -49,7 +49,7 @@ public class AeURNResolverIntegrationTest {
 
 	protected Map<String, String> getMappings() {
 		Mappings mappings = resolver.getMappings(new GetMappingsRequest());
-	    Map<String,String> names = new HashMap<String,String>();
+	    Map<String,String> names = new HashMap<>();
 	    for(Mapping mapping : mappings.getMapping()) {
 	    	names.put(mapping.getName(), mapping.getValue());
 	    }

@@ -47,8 +47,8 @@ public class AeDefEntryPointPropertiesVisitor extends AeAbstractDefVisitor
    public AeDefEntryPointPropertiesVisitor()
    {
       setTraversalVisitor( new AeTraversalVisitor( new AeDefTraverser(), this ) );
-      mPropertiesMap = new HashMap<AePartnerLinkOpKey, Set<QName>>();
-      mMessagePartsMap = new HashMap<AePartnerLinkOpKey, AeMessagePartsMap>();
+      mPropertiesMap = new HashMap<>();
+      mMessagePartsMap = new HashMap<>();
    }
 
    /**
@@ -102,7 +102,7 @@ public class AeDefEntryPointPropertiesVisitor extends AeAbstractDefVisitor
     */
    protected Map<String, AeCorrelationSetDef> findCorrelationSets( AeBaseDef aDef )
    {
-      Map<String, AeCorrelationSetDef> map = new HashMap<String, AeCorrelationSetDef>();
+      Map<String, AeCorrelationSetDef> map = new HashMap<>();
       extractCorrelationSets( aDef, map );
       return map;
    }
@@ -185,7 +185,7 @@ public class AeDefEntryPointPropertiesVisitor extends AeAbstractDefVisitor
     */
    protected Set<QName> extractProperties( Map<String, AeCorrelationSetDef> aMap, AeCorrelationsDef aContainer )
    {
-      Set<QName> propertyQNames = new HashSet<QName>( aContainer.getSize() );
+      Set<QName> propertyQNames = new HashSet<>( aContainer.getSize() );
       for (Iterator<? extends AeCorrelationDef> iter = aContainer.getValues(); iter.hasNext();)
       {
          String name = iter.next().getCorrelationSetName();

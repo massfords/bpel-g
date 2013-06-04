@@ -23,7 +23,7 @@ public class ExtensionFunctionContextBeanDefParser extends AbstractSingleBeanDef
 
     protected void doParse(Element element, BeanDefinitionBuilder bean) {
 
-        Map<String,IAeFunction> map = new HashMap<String,IAeFunction>();
+        Map<String,IAeFunction> map = new HashMap<>();
 
         try {
             List<Element> elements = AeXPathUtil.selectNodes(element, "./bpelg:function", "bpelg", "urn:bpel-g:spring-ext");

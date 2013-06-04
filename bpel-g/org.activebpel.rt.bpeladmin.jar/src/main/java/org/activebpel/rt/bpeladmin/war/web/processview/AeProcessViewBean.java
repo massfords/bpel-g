@@ -53,13 +53,13 @@ public class AeProcessViewBean extends AeProcessViewBase
    private AeBpelObjectBase mBpelObj = null;
 
    /** Object display attributes */
-   private final Map<String,AePropertyNameValue> mProperties = new LinkedHashMap<String,AePropertyNameValue>();
+   private final Map<String,AePropertyNameValue> mProperties = new LinkedHashMap<>();
 
    /** Element attributes as an array to support Indexed JSPT tags. */
    private AePropertyNameValue mPropNvList [] = null;
 
    /** List of additional (String) data.*/
-   private final List<AePropertyNameValue> mDetails = new ArrayList<AePropertyNameValue>();
+   private final List<AePropertyNameValue> mDetails = new ArrayList<>();
 
    /** Indicates if log file is available for the process view. */
    private boolean mHasLogData = false;
@@ -73,7 +73,7 @@ public class AeProcessViewBean extends AeProcessViewBase
    private boolean mStateChanged = false;
 
    /** List of attachments (AeAttachmentViewBean objects) data.*/
-   private final List<AeAttachmentViewBean> mAttachments = new LinkedList<AeAttachmentViewBean>();
+   private final List<AeAttachmentViewBean> mAttachments = new LinkedList<>();
 
    /**
     * Constructs the basic bean.

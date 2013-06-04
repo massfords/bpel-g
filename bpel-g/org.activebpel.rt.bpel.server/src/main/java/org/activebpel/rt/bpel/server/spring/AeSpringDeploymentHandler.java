@@ -44,7 +44,7 @@ public class AeSpringDeploymentHandler implements IAeDeploymentHandler {
 			XmlBeanDefinitionReader xmlReader = new XmlBeanDefinitionReader(ac);
 			xmlReader.loadBeanDefinitions(new UrlResource(context));
 			ac.refresh();
-			Set<QName> processNames = new HashSet<QName>();
+			Set<QName> processNames = new HashSet<>();
 			for(AePddResource pdd : aContainer.getPddResources()) {
 			    processNames.add(pdd.getPdd().getName());
 			}

@@ -34,7 +34,7 @@ public class AeUtilityFunctionContext implements IAeFunctionContext
    private static final Object mReadlnMutex = new Object(); 
 
    /** <code>Map</code> from function names to function implementations. */
-   private final Map<String, IAeFunction> mFunctionMap = new HashMap<String, IAeFunction>();
+   private final Map<String, IAeFunction> mFunctionMap = new HashMap<>();
 
    /**
     * Constructs the function context.

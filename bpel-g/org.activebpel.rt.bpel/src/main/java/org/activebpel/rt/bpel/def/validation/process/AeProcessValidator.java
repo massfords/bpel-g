@@ -37,7 +37,7 @@ public class AeProcessValidator extends AeBaseScopeValidator
    /** provides context for the validation including WSDL provider, error reporter ...etc  */
    private final IAeValidationContext mValidationContext;
    /** list o' models that are marked as create instances */
-   private final List<IAeValidator> mCreateInstances = new LinkedList<IAeValidator>();
+   private final List<IAeValidator> mCreateInstances = new LinkedList<>();
    /** Link validation helper for this instance. */
    private final AeLinkValidator mLinkValidator;
    /** The extensions validator. */
@@ -104,7 +104,7 @@ public class AeProcessValidator extends AeBaseScopeValidator
          if (mCreateInstances.size() > 0)
          {
             AeCheckStartActivityVisitor viz = new AeCheckStartActivityVisitor(getReporter());
-            List<AeBaseXmlDef> createInstanceDefs = new ArrayList<AeBaseXmlDef>(mCreateInstances.size());
+            List<AeBaseXmlDef> createInstanceDefs = new ArrayList<>(mCreateInstances.size());
             for (IAeValidator model : mCreateInstances)
             {
                createInstanceDefs.add(model.getDefinition());
@@ -149,7 +149,7 @@ public class AeProcessValidator extends AeBaseScopeValidator
    protected void validateMultiStartCorrelation()
    {
       // fixme 2.0 static analysis should emit warning/error for multi-start that shares correlations that aren't initiate="join"
-      List<AeBaseValidator> wsioActivities = new LinkedList<AeBaseValidator>();
+      List<AeBaseValidator> wsioActivities = new LinkedList<>();
        for (IAeValidator mCreateInstance : mCreateInstances) {
            AeBaseValidator model = (AeBaseValidator) mCreateInstance;
            if (model instanceof AeActivityPickValidator) {
@@ -173,7 +173,7 @@ public class AeProcessValidator extends AeBaseScopeValidator
                reportError = true;
                break;
            } else if (acceptedSetPaths == null) {
-               acceptedSetPaths = new HashSet<String>(setPaths);
+               acceptedSetPaths = new HashSet<>(setPaths);
            } else if (!acceptedSetPaths.equals(setPaths) || acceptedSetPaths.isEmpty()) {
                // encountered a create instance that used different correlation paths then a
                // previously encountered create instance. Also detects if the two create instances
@@ -198,7 +198,7 @@ public class AeProcessValidator extends AeBaseScopeValidator
    protected Set<String> getCorrelationSetPaths(AeWSIOActivityValidator aWSIOActivityModel)
    {
       List correlationModels = aWSIOActivityModel.getCorrelations();
-      Set<String> setPaths = new HashSet<String>();
+      Set<String> setPaths = new HashSet<>();
        for (Object correlationModel : correlationModels) {
            AeCorrelationValidator corrModel = (AeCorrelationValidator) correlationModel;
            if (corrModel.getSetModel() == null) {

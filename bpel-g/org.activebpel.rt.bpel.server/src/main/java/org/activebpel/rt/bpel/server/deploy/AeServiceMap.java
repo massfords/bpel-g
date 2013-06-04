@@ -24,7 +24,7 @@ public class AeServiceMap
    private static final AeServiceMap INSTANCE = new AeServiceMap();
    
    /** maps the service name to the service data */
-   private Map<String,ServiceDeployment> mMap = new HashMap<String,ServiceDeployment>();
+   private Map<String,ServiceDeployment> mMap = new HashMap<>();
    
    /**
     * singleton getter
@@ -39,7 +39,7 @@ public class AeServiceMap
     */
    public static List<ServiceDeployment> getServiceEntries()
    {
-      return new LinkedList<ServiceDeployment>(getInstance().mMap.values());
+      return new LinkedList<>(getInstance().mMap.values());
    }
    
    /**
@@ -52,7 +52,7 @@ public class AeServiceMap
    public void addServiceData(ServiceDeployment[] aServiceData)
    {
       // work off of a copy of the map so we don't have to sync the reads.
-      Map<String,ServiceDeployment> copy = new HashMap<String,ServiceDeployment>(mMap);
+      Map<String,ServiceDeployment> copy = new HashMap<>(mMap);
        for (ServiceDeployment sd : aServiceData) {
            copy.put(sd.getService(), sd);
        }
@@ -78,7 +78,7 @@ public class AeServiceMap
    public void processUndeployed(QName aProcessQName)
    {
       // work off of a copy of the map so we don't have to sync the reads.
-      Map<String,ServiceDeployment> copy = new HashMap<String,ServiceDeployment>(mMap);
+      Map<String,ServiceDeployment> copy = new HashMap<>(mMap);
       for (Iterator<Entry<String,ServiceDeployment>> iter = copy.entrySet().iterator(); iter.hasNext();)
       {
          Entry<String,ServiceDeployment> entry = iter.next();

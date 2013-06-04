@@ -112,7 +112,7 @@ public class AeMain
     */
    public AeMain( String[] aArgs )
    {
-      mArgs = new HashMap<String, String>();
+      mArgs = new HashMap<>();
       mArgs.put( "-f", aArgs[0] ); //$NON-NLS-1$
       mArgs.put( "-v", "org.activebpel.rt.bpel.server.deploy.validate.AePredeploymentValidator" ); //$NON-NLS-1$ //$NON-NLS-2$
       mArgs.put( "-e", "org.activebpel.rt.bpel.server.deploy.validate.main.AeErrorReporterConsole" ); //$NON-NLS-1$ //$NON-NLS-2$

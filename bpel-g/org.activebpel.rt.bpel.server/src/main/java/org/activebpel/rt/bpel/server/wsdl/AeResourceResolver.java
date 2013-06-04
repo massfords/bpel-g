@@ -27,7 +27,7 @@ import java.util.concurrent.ConcurrentHashMap;
 public class AeResourceResolver implements IAeResourceResolver
 {
    /** Location hint key to catalog mapping resource location resolution. */
-   private Map<String, IAeCatalogMapping> mMap = new ConcurrentHashMap<String, IAeCatalogMapping>();
+   private Map<String, IAeCatalogMapping> mMap = new ConcurrentHashMap<>();
    
    /**
     * Add an array of entries into the resolver.

@@ -159,7 +159,7 @@ public class AeWSBPELDefReaderRegistry extends AeAbstractBpelReaderRegistry
     */
    protected List<Class<?>> getActivityContainers()
    {
-      List<Class<?>> list = new ArrayList<Class<?>>(super.getActivityContainers());
+      List<Class<?>> list = new ArrayList<>(super.getActivityContainers());
       list.add(TERMINATION_HANDLER_CLASS);
       list.add(ACTIVITY_REPEAT_UNTIL_CLASS);
       list.add(ACTIVITY_IF_CLASS);

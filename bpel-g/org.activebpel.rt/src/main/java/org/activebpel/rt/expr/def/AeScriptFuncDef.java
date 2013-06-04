@@ -49,7 +49,7 @@ public class AeScriptFuncDef
    {
       setNamespace(aNamespace);
       setName(aName);
-      setArgs(new ArrayList<Object>());
+      setArgs(new ArrayList<>());
    }
    
    /**

@@ -90,7 +90,7 @@ public abstract class AeAbstractJournalEntry implements IAeJournalEntry, IAeImpl
    protected Map<String,String> deserializeProcessProperties(Element aParentElement)
    {
       NodeList nodes = aParentElement.getChildNodes();
-      Map<String, String> properties = new HashMap<String, String>();
+      Map<String, String> properties = new HashMap<>();
 
       for (int i = nodes.getLength(); --i >= 0; )
       {

@@ -25,7 +25,7 @@ public class AeActivityValidateDef extends AeActivityDef
 {
    private static final long serialVersionUID = -9005669307414799092L;
    /** The activity's 'variables' attribute. */
-   private final List<String> mVariables = new ArrayList<String>();
+   private final List<String> mVariables = new ArrayList<>();
 
    /**
     * Default c'tor.

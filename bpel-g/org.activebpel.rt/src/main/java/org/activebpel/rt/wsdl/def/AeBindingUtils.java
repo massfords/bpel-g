@@ -44,7 +44,7 @@ public class AeBindingUtils
            if (aMessageQName.equals(msgQName)) {
                String partName = extElement.getElement().getAttribute("part"); //$NON-NLS-1$
                if (coll == null)
-                   coll = new HashSet<String>();
+                   coll = new HashSet<>();
                coll.add(partName);
            } else {
                Object[] args = new Object[2];
@@ -70,7 +70,7 @@ public class AeBindingUtils
                UnknownExtensibilityElement extElement = (UnknownExtensibilityElement) obj;
                if (aName.equals(extElement.getElementType())) {
                    if (values == null)
-                       values = new ArrayList<UnknownExtensibilityElement>();
+                       values = new ArrayList<>();
                    values.add(extElement);
                }
            }

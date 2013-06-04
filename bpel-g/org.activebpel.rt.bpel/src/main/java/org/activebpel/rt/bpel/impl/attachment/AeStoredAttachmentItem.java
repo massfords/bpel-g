@@ -95,7 +95,7 @@ public class AeStoredAttachmentItem implements IAeAttachmentItem
    {
       if (mHeaders == null)
       {
-         mHeaders = new HashMap<String, String>();
+         mHeaders = new HashMap<>();
       }
 
       return mHeaders;

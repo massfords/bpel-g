@@ -28,7 +28,7 @@ import org.activebpel.rt.xml.schema.AeSchemaDateTime;
 class AeXQueryStatementParamFormatter
 {
    /** Map of java Class to IAeXQueryStatementParamFormatter. */
-   private final Map<Class<?>, IAeXQueryStatementParamFormatter> mFormatters = new HashMap<Class<?>, IAeXQueryStatementParamFormatter>();
+   private final Map<Class<?>, IAeXQueryStatementParamFormatter> mFormatters = new HashMap<>();
 
    /**
     * C'tor.

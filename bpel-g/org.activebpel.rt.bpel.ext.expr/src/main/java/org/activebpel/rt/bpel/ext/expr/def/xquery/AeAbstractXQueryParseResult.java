@@ -90,7 +90,7 @@ public abstract class AeAbstractXQueryParseResult extends AeAbstractExpressionPa
     */
    protected Set<AeScriptFuncDef> extractFunctions(Expression aExpression, Configuration aConfig, AeScriptFuncDef aParentFunc)
    {
-      Set<AeScriptFuncDef> set = new LinkedHashSet<AeScriptFuncDef>();
+      Set<AeScriptFuncDef> set = new LinkedHashSet<>();
       AeScriptFuncDef parentFunc = aParentFunc;
       
       // If the expression is a function call, then extract it and add it to the list.
@@ -132,7 +132,7 @@ public abstract class AeAbstractXQueryParseResult extends AeAbstractExpressionPa
     */
    protected Set<AeScriptVarDef> extractVariables(Expression aExpression, Configuration aConfig)
    {
-      Set<AeScriptVarDef> set = new LinkedHashSet<AeScriptVarDef>();
+      Set<AeScriptVarDef> set = new LinkedHashSet<>();
       
       // If the expression is a variable reference, then extract it and add it to the list.
       if (aExpression instanceof VariableReference)

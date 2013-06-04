@@ -23,7 +23,7 @@ import java.util.Map;
  */
 @Singleton
 public class AeFunctionValidatorFactory implements IAeFunctionValidatorFactory {
-    private Map<QName, IAeFunctionValidator> mFunctionValidators = new HashMap<QName, IAeFunctionValidator>();
+    private Map<QName, IAeFunctionValidator> mFunctionValidators = new HashMap<>();
 
     public IAeFunctionValidator getValidator(QName aQName) {
         return getFunctionValidators().get(aQName);

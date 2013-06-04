@@ -56,7 +56,7 @@ public class AeCorrelationSetDef extends AeNamedDef
    public void addProperty(QName aProperty)
    {
       if (mProperties == null)
-         mProperties = new ArrayList<QName>();
+         mProperties = new ArrayList<>();
          
       mProperties.add(aProperty);
    }
@@ -67,7 +67,7 @@ public class AeCorrelationSetDef extends AeNamedDef
     */
    public void setProperties(Collection<QName> aCollection)
    {
-      mProperties = new ArrayList<QName>(aCollection);
+      mProperties = new ArrayList<>(aCollection);
    }
 
    /**

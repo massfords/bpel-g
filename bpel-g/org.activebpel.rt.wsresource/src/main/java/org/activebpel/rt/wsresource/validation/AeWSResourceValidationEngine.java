@@ -172,7 +172,7 @@ public class AeWSResourceValidationEngine
             // Create the set here if not already created.
             if (suppressedIds == null)
             {
-               suppressedIds = new HashSet<QName>();
+               suppressedIds = new HashSet<>();
             }
             
             // The value of the extension attribute is a list of encoded QNames

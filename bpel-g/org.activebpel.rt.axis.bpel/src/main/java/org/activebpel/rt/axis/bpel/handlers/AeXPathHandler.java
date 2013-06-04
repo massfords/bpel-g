@@ -92,7 +92,7 @@ public abstract class AeXPathHandler extends BasicHandler implements IAeConstant
    private Map<String, XPath> createXpathMap(Map<String,String> aXpathParams) throws JaxenException
    {
       // Create XPaths
-      Map<String, XPath> xpaths = new HashMap<String, XPath>();
+      Map<String, XPath> xpaths = new HashMap<>();
 
       // get namespace declarations
       NamespaceContext nsc = getNamespaceContext(aXpathParams);

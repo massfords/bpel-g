@@ -82,7 +82,7 @@ public class AeSQLConfig extends AeStorageConfig {
         String commonFileName = "common-sql.xml"; //$NON-NLS-1$
         String specificFileName = mType + "-sql.xml"; //$NON-NLS-1$
 
-        List<AeFilenameClassTuple> list = new LinkedList<AeFilenameClassTuple>();
+        List<AeFilenameClassTuple> list = new LinkedList<>();
         list.add(new AeFilenameClassTuple(commonFileName, AeSQLConfig.class));
         list.add(new AeFilenameClassTuple(specificFileName, AeSQLConfig.class));
 

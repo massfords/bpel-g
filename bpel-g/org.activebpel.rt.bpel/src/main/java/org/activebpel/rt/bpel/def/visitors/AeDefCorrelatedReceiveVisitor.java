@@ -44,7 +44,7 @@ public class AeDefCorrelatedReceiveVisitor extends AeAbstractDefVisitor
    private AeProcessDef mProcessDef;
    /** an internal map that uses the concat of the partner link and operation as its
     *  and maps to a Set of correlation sets. */
-   private final Map<AePartnerLinkOpKey, AeCorrelationCombinations> mPartnerLinkOperationToCorrSets = new HashMap<AePartnerLinkOpKey, AeCorrelationCombinations>();
+   private final Map<AePartnerLinkOpKey, AeCorrelationCombinations> mPartnerLinkOperationToCorrSets = new HashMap<>();
 
    /**
     * Constructs the visitor with the given WSDL provider.
@@ -113,7 +113,7 @@ public class AeDefCorrelatedReceiveVisitor extends AeAbstractDefVisitor
          if (!def.isInitiate() || corrSetDef.isJoinStyle())
          {
             if (corrSets == null)
-               corrSets = new HashSet<AeCorrelationSetDef>();
+               corrSets = new HashSet<>();
 
             corrSets.add(corrSetDef);
       }

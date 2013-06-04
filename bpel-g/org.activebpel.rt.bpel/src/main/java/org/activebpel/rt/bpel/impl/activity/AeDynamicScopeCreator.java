@@ -34,7 +34,7 @@ public class AeDynamicScopeCreator
    /** value of the final instance */
    private int mFinalInstance;
    /** list of scopes that were created */
-   private List<AeActivityScopeImpl> mScopes = new LinkedList<AeActivityScopeImpl>();
+   private List<AeActivityScopeImpl> mScopes = new LinkedList<>();
    /** reference to the parent object */
    private IAeDynamicScopeParent mParent;
    

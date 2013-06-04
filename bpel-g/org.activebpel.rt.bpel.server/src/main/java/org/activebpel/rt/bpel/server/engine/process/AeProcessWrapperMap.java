@@ -33,7 +33,7 @@ public class AeProcessWrapperMap implements IAeProcessWrapperMap
    private final IAePersistentProcessManager mProcessManager;
 
    /** Maps process ids to instances of {@link org.activebpel.rt.bpel.server.engine.process.AeProcessWrapper}. */
-   private final Map<Long,AeProcessWrapper> mInMemoryMap = new HashMap<Long,AeProcessWrapper>();
+   private final Map<Long,AeProcessWrapper> mInMemoryMap = new HashMap<>();
 
    /** Callback interface to the map owner. */
    private IAeProcessWrapperMapCallback mCallback;

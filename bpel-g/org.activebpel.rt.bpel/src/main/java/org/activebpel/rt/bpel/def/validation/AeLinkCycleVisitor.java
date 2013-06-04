@@ -43,7 +43,7 @@ public class AeLinkCycleVisitor extends AeAbstractDefVisitor
     * Maps each activity to the next activity in a sequence, or
     * <code>null</code> if there is no such activity.
     */
-   private final Map<AeActivityDef, AeActivityDef> mNextSequenceActivityMap = new HashMap<AeActivityDef, AeActivityDef>();
+   private final Map<AeActivityDef, AeActivityDef> mNextSequenceActivityMap = new HashMap<>();
 
    /** The <code>Set</code> of links that participate in control cycles. */
    private Set<AeLinkComposite> mCycleLinks;
@@ -347,7 +347,7 @@ public class AeLinkCycleVisitor extends AeAbstractDefVisitor
    protected void setSourceActivity(AeActivityDef aActivityDef)
    {
       // Create a set containing the source activity and its ancestors.
-      Set<AeBaseDef> set = new HashSet<AeBaseDef>();
+      Set<AeBaseDef> set = new HashSet<>();
 
       for (AeBaseDef def = aActivityDef; def != null; def = def.getParent())
       {

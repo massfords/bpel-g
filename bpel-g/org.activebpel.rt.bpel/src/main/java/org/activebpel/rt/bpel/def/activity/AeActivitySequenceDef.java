@@ -25,7 +25,7 @@ public class AeActivitySequenceDef extends AeActivityDef implements IAeMultipleA
 {
    private static final long serialVersionUID = -7811933358756143930L;
    // standard elements of the activity definition
-   private final List<AeActivityDef> mActivities = new ArrayList<AeActivityDef>();
+   private final List<AeActivityDef> mActivities = new ArrayList<>();
 
    /**
     * Default constructor

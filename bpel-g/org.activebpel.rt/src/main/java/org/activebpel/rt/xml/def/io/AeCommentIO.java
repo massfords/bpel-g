@@ -146,11 +146,11 @@ public class AeCommentIO
     */
    private static List<String> formatComments(String aComments)
    {
-      ArrayList<String> formattedList = new ArrayList<String>();
+      ArrayList<String> formattedList = new ArrayList<>();
       if ( ! AeUtil.isNullOrEmpty(aComments) )
       {
          int maxLen = 0;
-         List<String> commentList = new ArrayList<String>();
+         List<String> commentList = new ArrayList<>();
          String line;
          BufferedReader buffReader = new BufferedReader(new StringReader(aComments));
          try

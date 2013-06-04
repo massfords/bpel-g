@@ -93,7 +93,7 @@ public class AeCreateAttachmentFunction extends AeAbstractAttachmentFunction
       IAeBusinessProcessInternal process = aContext.getAbstractBpelObject().getProcess();
 
       long pid = process.getProcessId();
-      Map<String, String> attributes = new HashMap<String, String>();
+      Map<String, String> attributes = new HashMap<>();
       attributes.put(AeMimeUtil.CONTENT_TYPE_ATTRIBUTE, mimeType);
       attributes.put(AeMimeUtil.CONTENT_ID_ATTRIBUTE, numArgs == 4 ? getStringArg(aArgs,3) : AeMimeUtil.AE_DEFAULT_INLINE_CONTENT_ID + pid);
 

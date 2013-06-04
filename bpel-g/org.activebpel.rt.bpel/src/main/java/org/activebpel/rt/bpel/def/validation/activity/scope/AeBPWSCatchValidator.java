@@ -20,7 +20,7 @@ import org.activebpel.rt.bpel.def.AeCatchDef;
 public class AeBPWSCatchValidator extends AeBaseCatchValidator
 {
    /** valid catch def patterns for BPWS */
-   private static final Set<AeCatchSpec> BPWS_PATTERNS = new HashSet<AeCatchSpec>();
+   private static final Set<AeCatchSpec> BPWS_PATTERNS = new HashSet<>();
 
    static 
    {

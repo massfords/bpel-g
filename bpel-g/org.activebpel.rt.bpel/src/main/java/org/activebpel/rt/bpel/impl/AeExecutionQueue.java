@@ -40,7 +40,7 @@ public class AeExecutionQueue
    /** The owner process. */
    private final IAeBusinessProcessInternal mProcess;
    /** Location paths to be resumed. */
-   private final Set<String> mPendingResumePaths = new HashSet<String>();
+   private final Set<String> mPendingResumePaths = new HashSet<>();
 
    /**
     * Constructs empty queue.
@@ -63,7 +63,7 @@ public class AeExecutionQueue
    {
       mProcess = aProcess;
       mSuspended = aSuspended;
-      mExecutionQueue = new LinkedList<IAeExecutableQueueItem>(aQueue);
+      mExecutionQueue = new LinkedList<>(aQueue);
    }
 
    /**
@@ -228,7 +228,7 @@ public class AeExecutionQueue
     */
    public List<String> getLocationPaths()
    {
-      List<String> locationPaths = new LinkedList<String>();
+      List<String> locationPaths = new LinkedList<>();
 
        for (IAeExecutableQueueItem ex : mExecutionQueue) {
            String locationPath = ex.getLocationPath();

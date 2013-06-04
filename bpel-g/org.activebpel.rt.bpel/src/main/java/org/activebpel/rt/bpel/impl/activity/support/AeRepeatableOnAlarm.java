@@ -36,13 +36,13 @@ public class AeRepeatableOnAlarm extends AeOnAlarm implements IAeDynamicScopePar
    // TODO (MF) refactor the event classes to enable some code reuse between the repeatable alarms and onEvent. Perhaps make all events support the notion of concurrency but only enable for some?  
    
    /** list of child scope instances created during onAlarm routines */
-   private List<IAeActivity> mChildren = new ArrayList<IAeActivity>();
+   private List<IAeActivity> mChildren = new ArrayList<>();
 
    /** 
     * list of child scope instances that have been restored for compensation 
     * purposes 
     */
-   private List<IAeActivity> mCompensatableChildren = new ArrayList<IAeActivity>();
+   private List<IAeActivity> mCompensatableChildren = new ArrayList<>();
 
    /** value for the next scope instance created for this onAlarm */
    private int mInstanceValue = 1;

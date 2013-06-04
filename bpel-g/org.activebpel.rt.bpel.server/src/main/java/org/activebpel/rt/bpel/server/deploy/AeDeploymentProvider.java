@@ -29,7 +29,7 @@ import java.util.Map;
 public class AeDeploymentProvider extends AeAbstractDeploymentProvider
 {
    /** The deployment plans which are currently deployed */
-   private final Map<QName, IAeProcessDeployment> mDeploymentPlans = new HashMap<QName, IAeProcessDeployment>();
+   private final Map<QName, IAeProcessDeployment> mDeploymentPlans = new HashMap<>();
 
    /**
     * @see org.activebpel.rt.bpel.server.IAeDeploymentProvider#findCurrentDeployment(javax.xml.namespace.QName)
@@ -66,7 +66,7 @@ public class AeDeploymentProvider extends AeAbstractDeploymentProvider
    {
       synchronized(mDeploymentPlans)
       {
-         return new ArrayList<IAeProcessDeployment>(mDeploymentPlans.values()).iterator();
+         return new ArrayList<>(mDeploymentPlans.values()).iterator();
       }
    }
 

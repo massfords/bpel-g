@@ -55,7 +55,7 @@ public class AeAttachmentUtil
       {
          // Convert the Mime headers of the attachment part to a Map, add the map to the attachment
          AttachmentPart attachPart = attachmentItr.next();
-         Map<String, String> mimeHeaderPairs = new HashMap<String, String>();
+         Map<String, String> mimeHeaderPairs = new HashMap<>();
          for (@SuppressWarnings("unchecked")
         		 Iterator<MimeHeader> mimeItr = attachPart.getAllMimeHeaders(); mimeItr.hasNext();)
          {
@@ -75,7 +75,7 @@ public class AeAttachmentUtil
          // Add the attachment to the attachment list of the message
          if ( attachments == null )
          {
-            attachments = new LinkedList<IAeWebServiceAttachment>();
+            attachments = new LinkedList<>();
          }
          attachments.add(attachment);
       }

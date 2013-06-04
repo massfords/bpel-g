@@ -70,7 +70,7 @@ public class AeDirectoryScanner {
 		mScanInterval = aScanInterval;
 		mFilter = aFilter;
 		mComparator = aComparator;
-		mListeners = new ArrayList<IAeScannerListener>();
+		mListeners = new ArrayList<>();
 		setDeployments(new HashMap<String,Long>());
 	}
 
@@ -79,7 +79,7 @@ public class AeDirectoryScanner {
 	 * <code>File</code> objects that have been registered with the scanner.
 	 */
 	protected File[] prime() {
-		mDeployments = new HashMap<String,Long>();
+		mDeployments = new HashMap<>();
 		File scanDir = getScanDir();
 		if (!scanDir.isDirectory()) {
 			scanDir.mkdirs();
@@ -128,7 +128,7 @@ public class AeDirectoryScanner {
 					String[] fileNames = getFileList();
 
 					if (fileNames != null) {
-						Map<String,Long> currentDeployments = new HashMap<String,Long>();
+						Map<String,Long> currentDeployments = new HashMap<>();
                         for (String fileName : fileNames) {
                             boolean isNewDeployment = true;
                             File bprFile = new File(getScanDir(), fileName);

@@ -83,7 +83,7 @@ public class AeActiveBpelWarBundle extends ResourceBundle
    {
       // An enumeration must be passed to SequenceInputStream for concatenation. So we will use 
       // vector.elements()
-      Vector<InputStream> streamVector = new Vector<InputStream>();
+      Vector<InputStream> streamVector = new Vector<>();
 
        for (String prefix : mBundlePrefix) {
            streamVector.add(getLocalizedInputStream(prefix, aServletContext, aServletRequest));

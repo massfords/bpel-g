@@ -40,7 +40,7 @@ public class AeFunctionContextContainer
     */
    public AeFunctionContextContainer( )
    {
-      mNamespaceToFunctionContextMap = new HashMap<String, AeFunctionContextInfo>();
+      mNamespaceToFunctionContextMap = new HashMap<>();
    }
 
    /** 
@@ -65,7 +65,7 @@ public class AeFunctionContextContainer
     */
    public Set<String> getFunctionContextNamespaces()
    {
-      HashSet<String> set = new HashSet<String>(getNamespaceToFunctionContextMap().keySet());
+      HashSet<String> set = new HashSet<>(getNamespaceToFunctionContextMap().keySet());
       set.add(IAeBPELConstants.BPWS_NAMESPACE_URI);
       set.add(IAeBPELConstants.WSBPEL_2_0_NAMESPACE_URI);
       set.add(IAeBPELConstants.ABX_FUNCTIONS_NAMESPACE_URI);

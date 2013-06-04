@@ -137,7 +137,7 @@ public class AeQSWSDLHandler extends QSWSDLHandler
     */
    private Set<String> getDeployedServiceNames(MessageContext msgContext) throws ConfigurationException
    {
-      Set<String> serviceNames = new HashSet<String>();
+      Set<String> serviceNames = new HashSet<>();
 
       EngineConfiguration config = msgContext.getAxisEngine().getConfig();
       if (config instanceof AeResourceProvider)

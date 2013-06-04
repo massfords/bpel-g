@@ -34,9 +34,9 @@ public class AeCatalogMappings {
 	/** The bpr file containing the catalog. */
 	private final IAeBpr mBpr;
 	/** Store the AeCatalogBprMapping mappings. */
-	private final Map<String, IAeCatalogMapping> mResources = new HashMap<String, IAeCatalogMapping>();
+	private final Map<String, IAeCatalogMapping> mResources = new HashMap<>();
 	/** Store the AeCatalogBprMapping of missing resources. */
-	private final Map<String, IAeCatalogMapping> mMissingResources = new HashMap<String, IAeCatalogMapping>();
+	private final Map<String, IAeCatalogMapping> mMissingResources = new HashMap<>();
 	/** Replace any existing resource entries. */
 	private boolean mReplaceExistingResource;
 

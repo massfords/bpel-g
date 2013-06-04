@@ -21,7 +21,7 @@ import org.activebpel.rt.bpel.def.activity.AeActivityScopeDef;
 public class AeScopeSnapshotOptimizationVisitor extends AeAbstractDefVisitor
 {
    /** stack of scopes enclosed scopes */
-   private final Stack<AeActivityScopeDef> mEnclosedScopes = new Stack<AeActivityScopeDef>();
+   private final Stack<AeActivityScopeDef> mEnclosedScopes = new Stack<>();
    
    /**
     * Ctor

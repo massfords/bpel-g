@@ -26,7 +26,7 @@ import java.util.Map;
 public class AeJoinVisitor extends AeAbstractDefVisitor
 {
    /** maps the correlationSetDef to a object which describes its usage */
-   private final Map<AeCorrelationSetDef, AeCorrelationSetUsage> mCSToUsageMap = new HashMap<AeCorrelationSetDef, AeCorrelationSetUsage>();
+   private final Map<AeCorrelationSetDef, AeCorrelationSetUsage> mCSToUsageMap = new HashMap<>();
 
    /**
     * no arg ctor 

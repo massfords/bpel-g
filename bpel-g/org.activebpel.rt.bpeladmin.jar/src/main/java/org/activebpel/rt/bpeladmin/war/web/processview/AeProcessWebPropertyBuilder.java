@@ -96,7 +96,7 @@ import org.w3c.dom.Node;
 public abstract class AeProcessWebPropertyBuilder extends AeProcessDefToWebVisitorBase
 {
    /** Map containing non-activity container element name to display name. */
-   protected static final Map<String,String> NON_ACTIVITY_CONTAINERS = new HashMap<String,String>();
+   protected static final Map<String,String> NON_ACTIVITY_CONTAINERS = new HashMap<>();
 
    static
    {

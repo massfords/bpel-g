@@ -144,7 +144,7 @@ public class AeInvokeContext
     */
    public void setInputHeaderParts(Collection<String> aInputHeaderParts)
    {
-      mInputHeaderParts = aInputHeaderParts.isEmpty() ? null : new HashSet<String>(aInputHeaderParts);
+      mInputHeaderParts = aInputHeaderParts.isEmpty() ? null : new HashSet<>(aInputHeaderParts);
    }
 
    /**
@@ -164,7 +164,7 @@ public class AeInvokeContext
     */
    public void setOutputHeaderParts(Collection<String> aOutputHeaderParts)
    {
-      mOutputHeaderParts = aOutputHeaderParts.isEmpty() ? null : new HashSet<String>(aOutputHeaderParts);
+      mOutputHeaderParts = aOutputHeaderParts.isEmpty() ? null : new HashSet<>(aOutputHeaderParts);
    }
 
    /**

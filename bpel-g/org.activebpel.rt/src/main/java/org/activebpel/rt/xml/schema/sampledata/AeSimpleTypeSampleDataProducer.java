@@ -26,7 +26,7 @@ import java.util.Map;
  */
 public class AeSimpleTypeSampleDataProducer
 {
-   private Map<QName, Object> mMap = new HashMap<QName, Object>();
+   private Map<QName, Object> mMap = new HashMap<>();
    private Date mDate = new Date();
    
    /**

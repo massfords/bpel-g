@@ -38,7 +38,7 @@ public class AeXMLToSimpleString extends DefaultHandler
    private StringBuffer mOutput;
    
    /** The map of namespace declarations */
-   private final TreeMap<String,String> mNamespaces = new TreeMap<String,String>();
+   private final TreeMap<String,String> mNamespaces = new TreeMap<>();
    
    /**
     * This method takes as input a stream which represents an XML document, and
@@ -122,7 +122,7 @@ public class AeXMLToSimpleString extends DefaultHandler
       mOutput.append("<").append(aLocalName); //$NON-NLS-1$
       
       // Sort the attribute declarations and add to the element
-      TreeMap<String,String> map = new TreeMap<String,String>();
+      TreeMap<String,String> map = new TreeMap<>();
       for (int i=0, len = aAttrs.getLength(); i < len; i++)
          map.put(aAttrs.getQName(i), aAttrs.getValue(i));
        for (Entry<String, String> entry : map.entrySet()) {

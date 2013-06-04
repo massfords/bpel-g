@@ -70,7 +70,7 @@ public class AeBprDeployment extends WSDDDeployment
    protected synchronized Map<Object, ClassLoader> getServiceClassloaderMap()
    {
       if (mServiceClassloaderMap == null)
-         mServiceClassloaderMap = new HashMap<Object, ClassLoader>();
+         mServiceClassloaderMap = new HashMap<>();
       return mServiceClassloaderMap;
    }
 
@@ -179,7 +179,7 @@ public class AeBprDeployment extends WSDDDeployment
     */
    public Iterator<ServiceDesc> getDeployedServices() throws ConfigurationException
    {
-      List<ServiceDesc> serviceDescs = new ArrayList<ServiceDesc>();
+      List<ServiceDesc> serviceDescs = new ArrayList<>();
       WSDDService[] services = getServices();
 
       ClassLoader origClassLoader = Thread.currentThread().getContextClassLoader();

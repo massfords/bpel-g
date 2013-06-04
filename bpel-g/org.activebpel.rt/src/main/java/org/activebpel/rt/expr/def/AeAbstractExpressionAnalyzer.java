@@ -101,7 +101,7 @@ public abstract class AeAbstractExpressionAnalyzer implements IAeExpressionAnaly
          IAeExpressionParser parser = createExpressionParser(parserCtx);
          IAeExpressionParseResult parseResult = parser.parse(aExpression);
          List<String> stylesheetURIs = parseResult.getStylesheetURIList();
-         Set<String> set = new HashSet<String>();
+         Set<String> set = new HashSet<>();
          set.addAll(stylesheetURIs);
          return set;
       }

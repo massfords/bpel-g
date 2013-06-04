@@ -225,7 +225,7 @@ public class AeCastorToAeStructure
             }
             else
             {
-               List<Particle> particles = new ArrayList<Particle>();
+               List<Particle> particles = new ArrayList<>();
                
                addAllInheritedParticles(complexType, particles);
 
@@ -445,7 +445,7 @@ public class AeCastorToAeStructure
       }
 
       QName headQName = new QName(elementDecl.getSchema().getTargetNamespace(), elementDecl.getName());
-      List<ElementDecl> result = new LinkedList<ElementDecl>();
+      List<ElementDecl> result = new LinkedList<>();
       Enumeration enumeration = elementDecl.getSchema().getElementDecls();
       while (enumeration.hasMoreElements())
       {

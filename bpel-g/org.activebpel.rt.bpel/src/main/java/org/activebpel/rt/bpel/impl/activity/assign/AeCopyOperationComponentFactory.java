@@ -25,7 +25,7 @@ import org.activebpel.rt.bpel.def.io.readers.def.AeSpecStrategyKey;
 public abstract class AeCopyOperationComponentFactory
 {
    /**  */
-   private final Map<String, Class<?>> mMap = new HashMap<String, Class<?>>();
+   private final Map<String, Class<?>> mMap = new HashMap<>();
 
    /**
     * Inits the map

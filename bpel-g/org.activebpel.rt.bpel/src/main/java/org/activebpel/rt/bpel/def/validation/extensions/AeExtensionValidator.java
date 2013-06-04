@@ -22,7 +22,7 @@ import java.util.List;
 public class AeExtensionValidator extends AeBaseValidator
 {
    /** Users of this extension. */
-   private List<AeExtensionUsage> mExtensionUsers = new LinkedList<AeExtensionUsage>();
+   private List<AeExtensionUsage> mExtensionUsers = new LinkedList<>();
 
    /**
     * ctor

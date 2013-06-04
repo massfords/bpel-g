@@ -166,7 +166,7 @@ public class AeFileAttachmentManager extends AeAbstractAttachmentManager impleme
    protected static class AeCounterMap
    {
       /** The underlying map from <code>long</code> keys to counter objects. */
-      private final Map<Long,AeIntCounter> mLongMap = new HashMap<Long, AeIntCounter>();
+      private final Map<Long,AeIntCounter> mLongMap = new HashMap<>();
 
       /**
        * Decrements the count associated with the given key and returns the new

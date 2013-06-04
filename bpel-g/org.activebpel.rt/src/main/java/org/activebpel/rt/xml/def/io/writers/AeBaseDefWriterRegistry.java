@@ -31,7 +31,7 @@ public class AeBaseDefWriterRegistry implements IAeDefWriterRegistry
    public static final AeSkipWriter SKIP_WRITER = new AeSkipWriter();
 
    /** writer registry */
-   private Map<Class<?>, IAeDefWriter> mRegistry = new HashMap<Class<?>, IAeDefWriter>();
+   private Map<Class<?>, IAeDefWriter> mRegistry = new HashMap<>();
    /** The writer def visitor factory. */
    private IAeDefWriterFactory mWriterFactory;
    /** default namespace for elements if not specified */

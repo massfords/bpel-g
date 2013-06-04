@@ -85,7 +85,7 @@ public abstract class AeProcessImplStateAttributeCounts
    protected static class AeRealCounts extends AeProcessImplStateAttributeCounts
    {
       /** Maps attribute names to the map of values for that name. */
-      private final Map<String,Map<String, Integer>> mNamesMap = new HashMap<String,Map<String, Integer>>();
+      private final Map<String,Map<String, Integer>> mNamesMap = new HashMap<>();
 
       /**
        * @see org.activebpel.rt.bpel.impl.storage.AeProcessImplStateAttributeCounts#incrementCount(java.lang.String, java.lang.String)
@@ -102,7 +102,7 @@ public abstract class AeProcessImplStateAttributeCounts
             if (valuesMap == null)
             {
                // Haven't seen this name yet. Create a new values map.
-               valuesMap = new HashMap<String, Integer>();
+               valuesMap = new HashMap<>();
                mNamesMap.put(aName, valuesMap);
             }
          }
@@ -134,7 +134,7 @@ public abstract class AeProcessImplStateAttributeCounts
 
          synchronized (mNamesMap)
          {
-            sortedNamesMap = new TreeMap<String,Map<String, Integer>>(mNamesMap);
+            sortedNamesMap = new TreeMap<>(mNamesMap);
          }
 
           for (Entry<String, Map<String, Integer>> entry : sortedNamesMap.entrySet()) {
@@ -148,7 +148,7 @@ public abstract class AeProcessImplStateAttributeCounts
        */
       public void printCounts(String aName, Map<String, Integer> aValuesMap)
       {
-    	 Map<String, Integer> sortedValuesMap = new TreeMap<String, Integer>(new AeReverseCountComparator(aValuesMap));
+    	 Map<String, Integer> sortedValuesMap = new TreeMap<>(new AeReverseCountComparator(aValuesMap));
 
          synchronized (aValuesMap)
          {

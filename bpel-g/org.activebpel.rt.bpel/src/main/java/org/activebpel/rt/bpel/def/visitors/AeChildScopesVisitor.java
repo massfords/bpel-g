@@ -21,7 +21,7 @@ import org.activebpel.rt.bpel.def.activity.AeActivityScopeDef;
 public class AeChildScopesVisitor extends AeAbstractDefVisitor
 {
    /** the set of child scopes */
-   private final Set<AeActivityScopeDef> mChildScopeDefs = new LinkedHashSet<AeActivityScopeDef>();
+   private final Set<AeActivityScopeDef> mChildScopeDefs = new LinkedHashSet<>();
    
    /**
     * ctor

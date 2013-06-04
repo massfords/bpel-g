@@ -49,7 +49,7 @@ public class AeSequenceReader extends Reader
     */
    public AeSequenceReader(Iterator aIterOfReaders)
    {
-      List<Reader> list = new LinkedList<Reader>();
+      List<Reader> list = new LinkedList<>();
       while(aIterOfReaders.hasNext())
       {
          Reader reader = (Reader)aIterOfReaders.next();

@@ -67,16 +67,16 @@ public class AeBusinessProcessEngine implements IAeBusinessProcessEngineInternal
    protected AeMonitorStatus mMonitorStatus = AeMonitorStatus.Normal;
 
    /** Engine listeners */
-   protected final Set<IAeEngineListener> mEngineListeners = new CopyOnWriteArraySet<IAeEngineListener>();
+   protected final Set<IAeEngineListener> mEngineListeners = new CopyOnWriteArraySet<>();
 
    /** Monitor listeners */
-   protected final Set<IAeMonitorListener> mMonitorListeners = new CopyOnWriteArraySet<IAeMonitorListener>();
+   protected final Set<IAeMonitorListener> mMonitorListeners = new CopyOnWriteArraySet<>();
 
    /** Global process listeners */
-   protected final Set<IAeProcessListener> mGlobalProcessListeners = new CopyOnWriteArraySet<IAeProcessListener>();
+   protected final Set<IAeProcessListener> mGlobalProcessListeners = new CopyOnWriteArraySet<>();
 
    /** Map of listeners, keyed by the process ID */
-   protected final Map<Long,CopyOnWriteArraySet<IAeProcessListener>> mProcessListeners = new HashMap<Long,CopyOnWriteArraySet<IAeProcessListener>>();
+   protected final Map<Long,CopyOnWriteArraySet<IAeProcessListener>> mProcessListeners = new HashMap<>();
 
    /** Maps process QName to its process plan */
    @Inject
@@ -105,7 +105,7 @@ public class AeBusinessProcessEngine implements IAeBusinessProcessEngineInternal
     */
    protected final Map<Long,Long> mProcessJournalIdMap = Collections.synchronizedMap( new HashMap<Long,Long>() );
 
-   private Map<String,IAeManager> mManagers = new HashMap<String,IAeManager>();
+   private Map<String,IAeManager> mManagers = new HashMap<>();
 
    @Inject
    private IAeExpressionLanguageFactory mExpressionLanguageFactory;
@@ -863,7 +863,7 @@ public class AeBusinessProcessEngine implements IAeBusinessProcessEngineInternal
    private Map<QName, String> createCorrelationMap(IAeProcessPlan aDesc, IAeMessageData aData,
                                     IAeMessageContext aContext) throws AeBusinessProcessException
    {
-      Map<QName, String> map = new HashMap<QName, String>();
+      Map<QName, String> map = new HashMap<>();
       AePartnerLinkDef plDef = aDesc.getProcessDef().findPartnerLink(aContext.getPartnerLink());
       AePartnerLinkOpKey plOpKey = new AePartnerLinkOpKey(plDef, aContext.getOperation());
       AeMessagePartsMap messagePartsMap = aDesc.getProcessDef().getMessageForCorrelation(plOpKey);
@@ -1647,7 +1647,7 @@ public class AeBusinessProcessEngine implements IAeBusinessProcessEngineInternal
         	CopyOnWriteArraySet<IAeProcessListener> listeners = mProcessListeners.get(aPid);
             if (listeners == null)
                 mProcessListeners.put(aPid,
-                        (listeners = new CopyOnWriteArraySet<IAeProcessListener>()));
+                        (listeners = new CopyOnWriteArraySet<>()));
 
             listeners.add(aListener);
         }

@@ -138,7 +138,7 @@ public abstract class AeAbstractBpelReaderRegistry extends AeDefReaderRegistry
     */
    protected List<AeRegistryMapping> getBpelActivityMappings()
    {
-      List<AeRegistryMapping> list = new ArrayList<AeRegistryMapping>();
+      List<AeRegistryMapping> list = new ArrayList<>();
       list.add(new AeRegistryMapping(makeDefaultQName(TAG_ASSIGN), createReader(ACTIVITY_ASSIGN_CLASS)));
       list.add(new AeRegistryMapping(makeDefaultQName(TAG_EMPTY), createReader(ACTIVITY_EMPTY_CLASS)));
       list.add(new AeRegistryMapping(makeDefaultQName(TAG_FLOW), createReader(ACTIVITY_FLOW_CLASS) ));

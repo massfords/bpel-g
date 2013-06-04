@@ -317,7 +317,7 @@ public class AeInvokeRetryPolicy
    protected void setAlternateEndpoint(Element aServiceResponse) throws AeException
    {
       // XPath xmlns map & statement to select EndpointReference element in any of the supported wsa namespaces
-      Map<String, String> wsaNs = new HashMap<String, String>();
+      Map<String, String> wsaNs = new HashMap<>();
       wsaNs.put("wsa03", IAeConstants.WSA_NAMESPACE_URI); //$NON-NLS-1$
       wsaNs.put("wsa0403", IAeConstants.WSA_NAMESPACE_URI_2004_03); //$NON-NLS-1$
       wsaNs.put("wsa0408", IAeConstants.WSA_NAMESPACE_URI_2004_08); //$NON-NLS-1$

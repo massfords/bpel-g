@@ -39,7 +39,7 @@ public class AeCoordinationDetailListResultSetHandler implements ResultSetHandle
     */
    public List<AeCoordinationDetail> handle(ResultSet aResultSet) throws SQLException
    {
-       List<AeCoordinationDetail> results = new ArrayList<AeCoordinationDetail>();
+       List<AeCoordinationDetail> results = new ArrayList<>();
       // Iterate through rows
       while (aResultSet.next())
       {

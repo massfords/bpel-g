@@ -25,9 +25,9 @@ public class AeActivityAssignDef extends AeActivityDef
 {
    private static final long serialVersionUID = 7211150756018400233L;
    /** The assign's copy def children. */
-   private final List<AeAssignCopyDef> mCopies = new ArrayList<AeAssignCopyDef>();
+   private final List<AeAssignCopyDef> mCopies = new ArrayList<>();
    /** The assign's extensibleAssign children. */
-   private final List<AeExtensibleAssignDef> mExtensibleAssigns = new ArrayList<AeExtensibleAssignDef>();
+   private final List<AeExtensibleAssignDef> mExtensibleAssigns = new ArrayList<>();
    /** The assign's 'validate' attribute. */
    private boolean mValidate;
 

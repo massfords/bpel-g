@@ -27,7 +27,7 @@ public class AeBpelDefConverterFactory
    
    static
    {
-      sConverters = new HashMap<AeBpelConverterKey, Class<? extends IAeBpelDefConverter>>();
+      sConverters = new HashMap<>();
       // bpws 1.1 -> wsbpel 2.x
       sConverters.put(
             new AeBpelConverterKey(IAeBPELConstants.BPWS_NAMESPACE_URI, IAeBPELConstants.WSBPEL_2_0_NAMESPACE_URI),

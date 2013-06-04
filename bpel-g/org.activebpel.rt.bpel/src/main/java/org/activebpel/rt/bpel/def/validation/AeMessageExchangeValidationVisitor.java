@@ -48,13 +48,13 @@ public class AeMessageExchangeValidationVisitor extends AeAbstractDefVisitor
 
    /** set of plink.operation.messageExchange, all replies are matched against
     *  this set to assert that we have matched receives/replies */
-   private final Set<String> mMessageExchangeReceives = new HashSet<String>();
+   private final Set<String> mMessageExchangeReceives = new HashSet<>();
 
    /** Collection of replies that have been visited - used to assert a match w/ receives/replies for messageExchange */
-   private final Collection<AeActivityReplyDef> mReplies = new LinkedList<AeActivityReplyDef>();
+   private final Collection<AeActivityReplyDef> mReplies = new LinkedList<>();
    
    /** collection of receives and onMessages, mapped to the context def used to resolve resources*/
-   private final Map<IAeReceiveActivityDef, AeBaseDef> mReceiveDefsToContexts = new HashMap<IAeReceiveActivityDef, AeBaseDef>();
+   private final Map<IAeReceiveActivityDef, AeBaseDef> mReceiveDefsToContexts = new HashMap<>();
    
    /** process being visited */
    private AeProcessDef mProcessDef;
@@ -176,7 +176,7 @@ public class AeMessageExchangeValidationVisitor extends AeAbstractDefVisitor
    protected void validateMessageExchangeForReplies()
    {
       // validates that the replies match to receives. This will find any replies that have invalid messageExchange values
-      Set<String> replyPaths = new HashSet<String>();
+      Set<String> replyPaths = new HashSet<>();
        for (AeActivityReplyDef def : mReplies) {
            String fullMessageExchangePath = getFullPathForMessageExchange(def.getMessageExchange(), def);
            AePartnerLinkDef plinkDef = AeDefUtil.findPartnerLinkDef(def, def.getPartnerLink());

@@ -48,7 +48,7 @@ public class AeChildWorkItem implements RemoteWorkItem
     * Work completed listeners. Generally, the only listener will be the child
     * work manager that created this item.
     */
-   private final Collection<IAeChildWorkCompletedListener> mWorkCompletedListeners = new ArrayList<IAeChildWorkCompletedListener>(1);
+   private final Collection<IAeChildWorkCompletedListener> mWorkCompletedListeners = new ArrayList<>(1);
 
    /**
     * <code>true</code> if and only if the associated work is completed.

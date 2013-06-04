@@ -109,7 +109,7 @@ public class AeResultSetHandlers
    {
       public String[] handle(ResultSet rs) throws SQLException
       {
-         List<String> results = new ArrayList<String>();
+         List<String> results = new ArrayList<>();
 
          while( rs.next() )
          {
@@ -133,7 +133,7 @@ public class AeResultSetHandlers
    {
       public Map<Integer,Integer> handle(ResultSet rs) throws SQLException
       {
-         Map<Integer,Integer> results = new HashMap<Integer, Integer>();
+         Map<Integer,Integer> results = new HashMap<>();
 
          while ( rs.next() )
          {
@@ -270,7 +270,7 @@ public class AeResultSetHandlers
    {
       public Set<Long> handle(ResultSet rs) throws SQLException
       {
-         Set<Long> set = new HashSet<Long>();
+         Set<Long> set = new HashSet<>();
 
          while (rs.next())
          {
@@ -294,7 +294,7 @@ public class AeResultSetHandlers
    {
       public Set<Integer> handle(ResultSet rs) throws SQLException
       {
-         Set<Integer> set = new HashSet<Integer>();
+         Set<Integer> set = new HashSet<>();
 
          while (rs.next())
          {

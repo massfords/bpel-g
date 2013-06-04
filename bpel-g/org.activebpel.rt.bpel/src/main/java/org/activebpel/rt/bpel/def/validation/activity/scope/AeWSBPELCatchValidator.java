@@ -30,7 +30,7 @@ import org.activebpel.rt.xml.def.AeBaseXmlDef;
 public class AeWSBPELCatchValidator extends AeBaseCatchValidator
 {
    /** valid catch def patterns for WS-BPEL */
-   private static final Set<AeCatchSpec> WSBPEL_PATTERNS = new HashSet<AeCatchSpec>();
+   private static final Set<AeCatchSpec> WSBPEL_PATTERNS = new HashSet<>();
 
    static 
    {

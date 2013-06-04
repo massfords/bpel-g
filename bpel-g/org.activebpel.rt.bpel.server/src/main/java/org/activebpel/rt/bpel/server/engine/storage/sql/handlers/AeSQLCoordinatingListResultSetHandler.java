@@ -42,7 +42,7 @@ public class AeSQLCoordinatingListResultSetHandler implements ResultSetHandler<L
     */
    public List<IAeCoordinating> handle(ResultSet aResultSet) throws SQLException
    {
-      List<IAeCoordinating> results = new ArrayList<IAeCoordinating>();
+      List<IAeCoordinating> results = new ArrayList<>();
       // Iterate through rows
       while (aResultSet.next())
       {
