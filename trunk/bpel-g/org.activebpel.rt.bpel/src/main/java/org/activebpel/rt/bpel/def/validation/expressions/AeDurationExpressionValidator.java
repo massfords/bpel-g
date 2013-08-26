@@ -7,7 +7,7 @@
 //Active Endpoints, Inc. Removal of this PROPRIETARY RIGHTS STATEMENT 
 //is strictly forbidden. Copyright (c) 2002-2006 All rights reserved. 
 /////////////////////////////////////////////////////////////////////////////
-package org.activebpel.rt.bpel.def.validation.expressions; 
+package org.activebpel.rt.bpel.def.validation.expressions;
 
 import org.activebpel.rt.AeException;
 import org.activebpel.rt.bpel.def.IAeExpressionDef;
@@ -18,23 +18,21 @@ import org.activebpel.rt.expr.validation.IAeExpressionValidator;
 /**
  * model provides validation for duration expression defs like &lt;for&gt;
  */
-public class AeDurationExpressionValidator extends AeBaseExpressionValidator
-{
-   /**
-    * ctor
-    * @param aDef
-    */
-   public AeDurationExpressionValidator(IAeExpressionDef aDef)
-   {
-      super(aDef);
-   }
-   
-   /**
-    * @see org.activebpel.rt.bpel.def.validation.expressions.AeBaseExpressionValidator#validateExpression(java.lang.String, org.activebpel.rt.expr.validation.IAeExpressionValidator, org.activebpel.rt.expr.validation.IAeExpressionValidationContext)
-    */
-   protected IAeExpressionValidationResult validateExpression(String aExpression, IAeExpressionValidator aValidator, IAeExpressionValidationContext aContext) throws AeException
-   {
-      return aValidator.validateDurationExpression(aContext, aExpression);
-   }
+public class AeDurationExpressionValidator extends AeBaseExpressionValidator {
+    /**
+     * ctor
+     *
+     * @param aDef
+     */
+    public AeDurationExpressionValidator(IAeExpressionDef aDef) {
+        super(aDef);
+    }
+
+    /**
+     * @see org.activebpel.rt.bpel.def.validation.expressions.AeBaseExpressionValidator#validateExpression(java.lang.String, org.activebpel.rt.expr.validation.IAeExpressionValidator, org.activebpel.rt.expr.validation.IAeExpressionValidationContext)
+     */
+    protected IAeExpressionValidationResult validateExpression(String aExpression, IAeExpressionValidator aValidator, IAeExpressionValidationContext aContext) throws AeException {
+        return aValidator.validateDurationExpression(aContext, aExpression);
+    }
 }
  

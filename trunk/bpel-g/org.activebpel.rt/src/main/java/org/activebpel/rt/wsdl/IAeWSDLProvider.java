@@ -16,21 +16,20 @@ import java.util.Iterator;
 /**
  * Interface which defines a provider of WSDL definitions.
  */
-public interface IAeWSDLProvider
-{
-   /**
-    * Returns an iterator over the WSDLs known to this provider.
-    * 
-    * @return Iterator
-    */
-   public Iterator getWSDLIterator( String aNamespaceUri );
-   
-   /**
-    * The implementation will provide an iterator over a given type.  If that type
-    * needs to be dereferenced in any way, this method will provide that logic.  If
-    * not, then this method simply returns the passed argument.
-    * 
-    * @return AeBPELExtendedWSDLDef
-    */
-   public AeBPELExtendedWSDLDef dereferenceIteration( Object aIteration );
+public interface IAeWSDLProvider {
+    /**
+     * Returns an iterator over the WSDLs known to this provider.
+     *
+     * @return Iterator
+     */
+    public Iterator getWSDLIterator(String aNamespaceUri);
+
+    /**
+     * The implementation will provide an iterator over a given type.  If that type
+     * needs to be dereferenced in any way, this method will provide that logic.  If
+     * not, then this method simply returns the passed argument.
+     *
+     * @return AeBPELExtendedWSDLDef
+     */
+    public AeBPELExtendedWSDLDef dereferenceIteration(Object aIteration);
 }

@@ -16,31 +16,31 @@ import org.activebpel.rt.bpel.coord.IAeProtocolMessage;
  * This protocol is loosely based on Business Agreement protocol described in
  * the BPEL-4WS 1.1, appendix C.
  */
-public interface IAeSpProtocolMessage extends IAeProtocolMessage
-{
-   /**
-    * Returns the process id of the target.
-    */
-   public long getProcessId();
-   
-   /**
-    * Returns the process id of the source process.
-    */
-   public long getSourceProcessId();
-   
-   /**
-    * Returns the location path of the target.
-    */
-   public String getLocationPath();
-   
-   /**
-    * Getter for the journal id
-    */
-   public long getJournalId();
-   
-   /**
-    * Setter for the journal id
-    * @param aJournalId
-    */
-   public void setJournalId(long aJournalId);
+public interface IAeSpProtocolMessage extends IAeProtocolMessage {
+    /**
+     * Returns the process id of the target.
+     */
+    public long getProcessId();
+
+    /**
+     * Returns the process id of the source process.
+     */
+    public long getSourceProcessId();
+
+    /**
+     * Returns the location path of the target.
+     */
+    public String getLocationPath();
+
+    /**
+     * Getter for the journal id
+     */
+    public long getJournalId();
+
+    /**
+     * Setter for the journal id
+     *
+     * @param aJournalId
+     */
+    public void setJournalId(long aJournalId);
 }

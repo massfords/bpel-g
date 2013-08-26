@@ -16,70 +16,71 @@ import org.w3c.dom.Document;
 
 /**
  * Entry containing attachment group id, attachment item id, and serialized
- * attachment headers <code>Document</code> 
+ * attachment headers <code>Document</code>
  */
-public class AeAttachmentItemEntry
-{
-   /** Attachment group id. */
-   private final long mAttachmentGroupId;
-   
-   /** Attachment id. */
-   private final long mAttachmentId;
+public class AeAttachmentItemEntry {
+    /**
+     * Attachment group id.
+     */
+    private final long mAttachmentGroupId;
 
-   /** Serialized attachment headers <code>Document</code>. */
-   private final Document mHeadersDocument;
+    /**
+     * Attachment id.
+     */
+    private final long mAttachmentId;
 
-   /** Deserialized attachment headers. */
-   private Map<String,String> mHeaders;
+    /**
+     * Serialized attachment headers <code>Document</code>.
+     */
+    private final Document mHeadersDocument;
 
-   /**
-    * Constructs attachment item entry from specified values.
-    *
-    * @param aAttachmentGroupId
-    * @param aAttachmentId
-    * @param aHeadersDocument
-    */
-   public AeAttachmentItemEntry(long aAttachmentGroupId, long aAttachmentId, Document aHeadersDocument)
-   {
-      mAttachmentGroupId  = aAttachmentGroupId;
-      mAttachmentId = aAttachmentId;
-      mHeadersDocument = aHeadersDocument;
-   }
-   
-   /**
-    * @return attachment group id.
-    */
-   public long getAttachmentGroupId()
-   {
-      return mAttachmentGroupId;
-   }
+    /**
+     * Deserialized attachment headers.
+     */
+    private Map<String, String> mHeaders;
 
-   /**
-    * @return attachment item id.
-    */
-   public long getAttachmentId()
-   {
-      return mAttachmentId;
-   }
+    /**
+     * Constructs attachment item entry from specified values.
+     *
+     * @param aAttachmentGroupId
+     * @param aAttachmentId
+     * @param aHeadersDocument
+     */
+    public AeAttachmentItemEntry(long aAttachmentGroupId, long aAttachmentId, Document aHeadersDocument) {
+        mAttachmentGroupId = aAttachmentGroupId;
+        mAttachmentId = aAttachmentId;
+        mHeadersDocument = aHeadersDocument;
+    }
 
-   /**
-    * @return attachment headers.
-    */
-   public Map<String,String> getHeaders() throws AeBusinessProcessException
-   {
-      if ((mHeaders == null) && (getHeadersDocument() != null))
-      {
-         mHeaders = AePairDeserializer.deserialize(getHeadersDocument());
-      }
+    /**
+     * @return attachment group id.
+     */
+    public long getAttachmentGroupId() {
+        return mAttachmentGroupId;
+    }
 
-      return mHeaders;
-   }
+    /**
+     * @return attachment item id.
+     */
+    public long getAttachmentId() {
+        return mAttachmentId;
+    }
 
-   /**
-    * @return serialized attachment headers <code>Document</code>.
-    */
-   public Document getHeadersDocument()
-   {
-      return mHeadersDocument;
-   }
+    /**
+     * @return attachment headers.
+     */
+    public Map<String, String> getHeaders() throws AeBusinessProcessException {
+        if ((mHeaders == null) && (getHeadersDocument() != null)) {
+            mHeaders = AePairDeserializer.deserialize(getHeadersDocument());
+        }
+
+        return mHeaders;
+    }
+
+    /**
+     * @return serialized attachment headers <code>Document</code>.
+     */
+    public Document getHeadersDocument() {
+        return mHeadersDocument;
+    }
 }

@@ -13,20 +13,18 @@ package org.activebpel.rt.xml.def.visitors;
 import java.util.Set;
 
 
-
 /**
  * Defines an interface for a visitor that assigns location paths and ids to
  * all of the def objects in the model.
  */
-public interface IAeDefPathVisitor extends IAeBaseXmlDefVisitor
-{
-   /**
-    * Returns set of generated location paths.
-    */
-   public Set<String> getLocationPaths();
-   
-   /**
-    * Returns location id corresponding to a location path.
-    */
-   public int getLocationId(String aLocationPath);
+public interface IAeDefPathVisitor extends IAeBaseXmlDefVisitor {
+    /**
+     * Returns set of generated location paths.
+     */
+    public Set<String> getLocationPaths();
+
+    /**
+     * Returns location id corresponding to a location path.
+     */
+    public int getLocationId(String aLocationPath);
 }

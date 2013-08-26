@@ -21,36 +21,36 @@ import java.io.ByteArrayInputStream;
 public class AeDeploymentService implements AeDeployer {
 
     @Inject
-	private IAeDeploymentFileHandler mDeploymentHandler;
-	
-	private static Log sLog = LogFactory.getLog(AeDeploymentService.class);
+    private IAeDeploymentFileHandler mDeploymentHandler;
 
-	@Override
-	public DeploymentResponse deploy(String aName, byte[] aArchive) throws UnhandledException, MissingResourcesException {
+    private static Log sLog = LogFactory.getLog(AeDeploymentService.class);
+
+    @Override
+    public DeploymentResponse deploy(String aName, byte[] aArchive) throws UnhandledException, MissingResourcesException {
         DeploymentResponse response = new DeploymentResponse();
         IAeDeploymentLogger logger = new DeploymentLogger();
         try {
-			AeTempFileUploadHandler.handleUpload( aName, new ByteArrayInputStream(aArchive), logger );
-		} catch (AeException e) {
+            AeTempFileUploadHandler.handleUpload(aName, new ByteArrayInputStream(aArchive), logger);
+        } catch (AeException e) {
 //			sLog.error(e);
             response.withMsg(new Msg().withType(MessageType.ERROR).withValue(e.getMessage()));
-		}
+        }
         response.withDeploymentInfo(logger.getDeploymentInfos());
         response.setDeploymentContainerId(aName);
         response.withMsg(logger.getContainerMessages());
         return response;
-	}
+    }
 
-	@Override
-	public boolean undeploy(UndeploymentRequest aName) {
-		return getDeploymentHandler().undeploy(aName);
-	}
+    @Override
+    public boolean undeploy(UndeploymentRequest aName) {
+        return getDeploymentHandler().undeploy(aName);
+    }
 
-	public IAeDeploymentFileHandler getDeploymentHandler() {
-		return mDeploymentHandler;
-	}
+    public IAeDeploymentFileHandler getDeploymentHandler() {
+        return mDeploymentHandler;
+    }
 
-	public void setDeploymentHandler(IAeDeploymentFileHandler aDeploymentHandler) {
-		mDeploymentHandler = aDeploymentHandler;
-	}
+    public void setDeploymentHandler(IAeDeploymentFileHandler aDeploymentHandler) {
+        mDeploymentHandler = aDeploymentHandler;
+    }
 }

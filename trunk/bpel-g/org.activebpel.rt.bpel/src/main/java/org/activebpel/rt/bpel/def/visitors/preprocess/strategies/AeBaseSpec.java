@@ -7,7 +7,7 @@
 //Active Endpoints, Inc. Removal of this PROPRIETARY RIGHTS STATEMENT 
 //is strictly forbidden. Copyright (c) 2002-2006 All rights reserved. 
 /////////////////////////////////////////////////////////////////////////////
-package org.activebpel.rt.bpel.def.visitors.preprocess.strategies; 
+package org.activebpel.rt.bpel.def.visitors.preprocess.strategies;
 
 import java.util.BitSet;
 
@@ -15,38 +15,36 @@ import java.util.BitSet;
  * Provides a wrapper around a bit set for use in analyzing def objects and determining
  * the runtime strategy for some feature (i.e. copying data, receiving message data, producing message data..etc)
  */
-public class AeBaseSpec
-{
-   /** used to record the bit flags */
-   protected final BitSet mBits = new BitSet();
+public class AeBaseSpec {
+    /**
+     * used to record the bit flags
+     */
+    protected final BitSet mBits = new BitSet();
 
-   /**
-    * @see java.lang.Object#equals(java.lang.Object)
-    */
-   public boolean equals(Object aObject)
-   {
-      if (aObject instanceof AeBaseSpec)
-      {
-         AeBaseSpec other = (AeBaseSpec) aObject;
-         return mBits.equals(other.mBits);
-      }
-      return false;
-   }
+    /**
+     * @see java.lang.Object#equals(java.lang.Object)
+     */
+    public boolean equals(Object aObject) {
+        if (aObject instanceof AeBaseSpec) {
+            AeBaseSpec other = (AeBaseSpec) aObject;
+            return mBits.equals(other.mBits);
+        }
+        return false;
+    }
 
-   /**
-    * Setter for the given bit
-    * @param aConstant
-    */
-   public void set(int aConstant)
-   {
-      mBits.set(aConstant);
-   }
+    /**
+     * Setter for the given bit
+     *
+     * @param aConstant
+     */
+    public void set(int aConstant) {
+        mBits.set(aConstant);
+    }
 
-   /**
-    * @see java.lang.Object#hashCode()
-    */
-   public int hashCode()
-   {
-      return mBits.hashCode();
-   }
+    /**
+     * @see java.lang.Object#hashCode()
+     */
+    public int hashCode() {
+        return mBits.hashCode();
+    }
 }

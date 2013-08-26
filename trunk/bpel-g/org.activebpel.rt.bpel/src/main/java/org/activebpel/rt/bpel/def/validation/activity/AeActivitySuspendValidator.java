@@ -7,7 +7,7 @@
 //Active Endpoints, Inc. Removal of this PROPRIETARY RIGHTS STATEMENT 
 //is strictly forbidden. Copyright (c) 2002-2006 All rights reserved. 
 /////////////////////////////////////////////////////////////////////////////
-package org.activebpel.rt.bpel.def.validation.activity; 
+package org.activebpel.rt.bpel.def.validation.activity;
 
 import org.activebpel.rt.bpel.def.activity.AeActivitySuspendDef;
 import org.activebpel.rt.bpel.def.validation.AeVariableValidator;
@@ -15,49 +15,47 @@ import org.activebpel.rt.bpel.def.validation.AeVariableValidator;
 /**
  * model provides validation for the suspend activity
  */
-public class AeActivitySuspendValidator extends AeActivityValidator
-{
-   /** variable referenced by the variable */
-   private AeVariableValidator mVariable;
+public class AeActivitySuspendValidator extends AeActivityValidator {
+    /**
+     * variable referenced by the variable
+     */
+    private AeVariableValidator mVariable;
 
-   /**
-    * ctor
-    * @param aDef
-    */
-   public AeActivitySuspendValidator(AeActivitySuspendDef aDef)
-   {
-      super(aDef);
-   }
-   
-   /**
-    * Getter for the def
-    */
-   protected AeActivitySuspendDef getDef()
-   {
-      return (AeActivitySuspendDef) getDefinition();
-   }
-   
-   /**
-    * Getter for the variable
-    */
-   public AeVariableValidator getVariable()
-   {
-      return mVariable;
-   }
+    /**
+     * ctor
+     *
+     * @param aDef
+     */
+    public AeActivitySuspendValidator(AeActivitySuspendDef aDef) {
+        super(aDef);
+    }
 
-   /**
-    * Validates:
-    * 1. variable reference if provided
-    * @see org.activebpel.rt.bpel.def.validation.activity.AeActivityValidator#validate()
-    */
-   public void validate()
-   {
-      super.validate();
-      // Validate optional variable.
-      if ( !isUndefined( getDef().getVariable()) )
-      {
-         mVariable = getVariableValidator( getDef().getVariable(), AeActivitySuspendDef.TAG_VARIABLE, true, AeVariableValidator.VARIABLE_READ_OTHER );
-      }
-   }
+    /**
+     * Getter for the def
+     */
+    protected AeActivitySuspendDef getDef() {
+        return (AeActivitySuspendDef) getDefinition();
+    }
+
+    /**
+     * Getter for the variable
+     */
+    public AeVariableValidator getVariable() {
+        return mVariable;
+    }
+
+    /**
+     * Validates:
+     * 1. variable reference if provided
+     *
+     * @see org.activebpel.rt.bpel.def.validation.activity.AeActivityValidator#validate()
+     */
+    public void validate() {
+        super.validate();
+        // Validate optional variable.
+        if (!isUndefined(getDef().getVariable())) {
+            mVariable = getVariableValidator(getDef().getVariable(), AeActivitySuspendDef.TAG_VARIABLE, true, AeVariableValidator.VARIABLE_READ_OTHER);
+        }
+    }
 }
  

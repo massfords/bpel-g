@@ -27,52 +27,48 @@ import java.util.List;
  * Implements an expression validator for the XPath 1.0 expression language.  This class must be
  * extended by the BPEL 1.1 and BPEL 2.0 specific implementations.
  */
-public abstract class AeAbstractXPathExpressionValidator extends AeAbstractExpressionValidator
-{
-   /**
-    * Overrides method to do additional validation on the xpath parse tree for join conditions.  This
-    * method delegates to the superclass to do most of the validation, but then does a little bit extra.
-    * 
-    * @see org.activebpel.rt.bpel.def.validation.expr.AeAbstractExpressionValidator#doJoinConditionValidation(org.activebpel.rt.expr.def.IAeExpressionParseResult, org.activebpel.rt.expr.validation.AeExpressionValidationResult, org.activebpel.rt.expr.validation.IAeExpressionValidationContext)
-    */
-   protected void doJoinConditionValidation(IAeExpressionParseResult aParseResult,
-         AeExpressionValidationResult aValidationResult, IAeExpressionValidationContext aContext)
-   {
-      super.doJoinConditionValidation(aParseResult, aValidationResult, aContext);
+public abstract class AeAbstractXPathExpressionValidator extends AeAbstractExpressionValidator {
+    /**
+     * Overrides method to do additional validation on the xpath parse tree for join conditions.  This
+     * method delegates to the superclass to do most of the validation, but then does a little bit extra.
+     *
+     * @see org.activebpel.rt.bpel.def.validation.expr.AeAbstractExpressionValidator#doJoinConditionValidation(org.activebpel.rt.expr.def.IAeExpressionParseResult, org.activebpel.rt.expr.validation.AeExpressionValidationResult, org.activebpel.rt.expr.validation.IAeExpressionValidationContext)
+     */
+    protected void doJoinConditionValidation(IAeExpressionParseResult aParseResult,
+                                             AeExpressionValidationResult aValidationResult, IAeExpressionValidationContext aContext) {
+        super.doJoinConditionValidation(aParseResult, aValidationResult, aContext);
 
-      validateXPathASTForJoinCondition(aParseResult, aValidationResult);
-   }
-   
-   /**
-    * Validates the XPath parse result (using the xpath-only AST structure) for additional problems
-    * that might exist in the join condition, specifically invalid literal usage.
-    * 
-    * @param aParseResult
-    * @param aValidationResult
-    */
-   protected void validateXPathASTForJoinCondition(IAeExpressionParseResult aParseResult,
-         AeExpressionValidationResult aValidationResult)
-   {
-      AeXPathInvalidLiteralNodeVisitor visitor = new AeXPathInvalidLiteralNodeVisitor();
-      ((AeAbstractXPathParseResult) aParseResult).getXPathAST().visitAll(visitor);
-      List invalidLiterals = visitor.getLiterals();
+        validateXPathASTForJoinCondition(aParseResult, aValidationResult);
+    }
 
-       for (Object invalidLiteral : invalidLiterals) {
-           AeXPathLiteralNode literal = (AeXPathLiteralNode) invalidLiteral;
-           addError(aValidationResult,
-                   AeMessages.getString("AeXPathExpressionValidator.INVALID_LITERAL_IN_JOINCONDITION_ERROR"),  //$NON-NLS-1$
-                   new Object[]{literal.getValue(), aParseResult.getExpression()});
+    /**
+     * Validates the XPath parse result (using the xpath-only AST structure) for additional problems
+     * that might exist in the join condition, specifically invalid literal usage.
+     *
+     * @param aParseResult
+     * @param aValidationResult
+     */
+    protected void validateXPathASTForJoinCondition(IAeExpressionParseResult aParseResult,
+                                                    AeExpressionValidationResult aValidationResult) {
+        AeXPathInvalidLiteralNodeVisitor visitor = new AeXPathInvalidLiteralNodeVisitor();
+        ((AeAbstractXPathParseResult) aParseResult).getXPathAST().visitAll(visitor);
+        List invalidLiterals = visitor.getLiterals();
 
-       }
-   }
+        for (Object invalidLiteral : invalidLiterals) {
+            AeXPathLiteralNode literal = (AeXPathLiteralNode) invalidLiteral;
+            addError(aValidationResult,
+                    AeMessages.getString("AeXPathExpressionValidator.INVALID_LITERAL_IN_JOINCONDITION_ERROR"),  //$NON-NLS-1$
+                    new Object[]{literal.getValue(), aParseResult.getExpression()});
 
-   /**
-    * Overrides method to supply the xpath expression parser.
-    * 
-    * @see org.activebpel.rt.bpel.def.validation.expr.AeAbstractExpressionValidator#createExpressionParser(org.activebpel.rt.expr.def.IAeExpressionParserContext)
-    */
-   protected IAeExpressionParser createExpressionParser(IAeExpressionParserContext aContext)
-   {
-      return new AeBPWSXPathExpressionParser(aContext);
-   }
+        }
+    }
+
+    /**
+     * Overrides method to supply the xpath expression parser.
+     *
+     * @see org.activebpel.rt.bpel.def.validation.expr.AeAbstractExpressionValidator#createExpressionParser(org.activebpel.rt.expr.def.IAeExpressionParserContext)
+     */
+    protected IAeExpressionParser createExpressionParser(IAeExpressionParserContext aContext) {
+        return new AeBPWSXPathExpressionParser(aContext);
+    }
 }

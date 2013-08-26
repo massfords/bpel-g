@@ -7,7 +7,7 @@
 //Active Endpoints, Inc. Removal of this PROPRIETARY RIGHTS STATEMENT 
 //is strictly forbidden. Copyright (c) 2002-2004 All rights reserved. 
 /////////////////////////////////////////////////////////////////////////////
-package org.activebpel.rt.bpel.def.activity; 
+package org.activebpel.rt.bpel.def.activity;
 
 import org.activebpel.rt.bpel.def.AeActivityDef;
 import org.activebpel.rt.bpel.def.IAeBPELConstants;
@@ -15,62 +15,57 @@ import org.activebpel.rt.bpel.def.visitors.IAeDefVisitor;
 
 /**
  * Suspend activity suspends the process and passes the optional variable to the
- * notification layer. 
+ * notification layer.
  */
-public class AeActivitySuspendDef extends AeActivityDef implements IAeExtensionActivityDef
-{
-   /**
-     * 
+public class AeActivitySuspendDef extends AeActivityDef implements IAeExtensionActivityDef {
+    /**
+     *
      */
     private static final long serialVersionUID = 6163247028689090950L;
-/** name of the optional variable */
-   private String mVariable;
+    /**
+     * name of the optional variable
+     */
+    private String mVariable;
 
-   /**
-    * No-arg ctor
-    */
-   public AeActivitySuspendDef()
-   {
-   }
+    /**
+     * No-arg ctor
+     */
+    public AeActivitySuspendDef() {
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.def.activity.IAeExtensionActivityDef#isUnderstood()
-    */
-   public boolean isUnderstood()
-   {
-      return true;
-   }
-   
-   /**
-    * @see org.activebpel.rt.bpel.def.activity.IAeExtensionActivityDef#getNamespace()
-    */
-   public String getNamespace()
-   {
-      return IAeBPELConstants.AE_EXTENSION_NAMESPACE_URI_ACTIVITY;
-   }
+    /**
+     * @see org.activebpel.rt.bpel.def.activity.IAeExtensionActivityDef#isUnderstood()
+     */
+    public boolean isUnderstood() {
+        return true;
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.def.AeBaseDef#accept(org.activebpel.rt.bpel.def.visitors.IAeDefVisitor)
-    */
-   public void accept(IAeDefVisitor aVisitor)
-   {
-      aVisitor.visit(this);
-   }
-   
-   /**
-    * @return Returns the variable.
-    */
-   public String getVariable()
-   {
-      return mVariable;
-   }
-   
-   /**
-    * @param aVariable The variable to set.
-    */
-   public void setVariable(String aVariable)
-   {
-      mVariable = aVariable;
-   }
+    /**
+     * @see org.activebpel.rt.bpel.def.activity.IAeExtensionActivityDef#getNamespace()
+     */
+    public String getNamespace() {
+        return IAeBPELConstants.AE_EXTENSION_NAMESPACE_URI_ACTIVITY;
+    }
+
+    /**
+     * @see org.activebpel.rt.bpel.def.AeBaseDef#accept(org.activebpel.rt.bpel.def.visitors.IAeDefVisitor)
+     */
+    public void accept(IAeDefVisitor aVisitor) {
+        aVisitor.visit(this);
+    }
+
+    /**
+     * @return Returns the variable.
+     */
+    public String getVariable() {
+        return mVariable;
+    }
+
+    /**
+     * @param aVariable The variable to set.
+     */
+    public void setVariable(String aVariable) {
+        mVariable = aVariable;
+    }
 }
  

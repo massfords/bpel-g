@@ -18,59 +18,54 @@ import org.activebpel.rt.util.AeUtil;
 /**
  * Implements a recovered item to add a reply.
  */
-public class AeRecoveredAddReplyItem extends AeRecoveredReplyItem
-{
-   /** The previously queued message receiver that goes with the reply. */
-   private final AeMessageReceiver mMessageReceiver;
+public class AeRecoveredAddReplyItem extends AeRecoveredReplyItem {
+    /**
+     * The previously queued message receiver that goes with the reply.
+     */
+    private final AeMessageReceiver mMessageReceiver;
 
-   /**
-    * Constructs a recovered item to add a reply.
-    */
-   public AeRecoveredAddReplyItem(AeReply aReply, AeMessageReceiver aMessageReceiver)
-   {
-      super(aReply);
+    /**
+     * Constructs a recovered item to add a reply.
+     */
+    public AeRecoveredAddReplyItem(AeReply aReply, AeMessageReceiver aMessageReceiver) {
+        super(aReply);
 
-      mMessageReceiver = aMessageReceiver;
-   }
+        mMessageReceiver = aMessageReceiver;
+    }
 
-   /**
-    * @see java.lang.Object#equals(java.lang.Object)
-    */
-   public boolean equals(Object aOther)
-   {
-      return (aOther instanceof AeRecoveredAddReplyItem)
-         && AeUtil.compareObjects(((AeRecoveredAddReplyItem) aOther).getReply(), getReply());
-   }
+    /**
+     * @see java.lang.Object#equals(java.lang.Object)
+     */
+    public boolean equals(Object aOther) {
+        return (aOther instanceof AeRecoveredAddReplyItem)
+                && AeUtil.compareObjects(((AeRecoveredAddReplyItem) aOther).getReply(), getReply());
+    }
 
-   /**
-    * Returns the previously queued message receiver that goes with the reply.
-    */
-   protected AeMessageReceiver getMessageReceiver()
-   {
-      return mMessageReceiver;
-   }
+    /**
+     * Returns the previously queued message receiver that goes with the reply.
+     */
+    protected AeMessageReceiver getMessageReceiver() {
+        return mMessageReceiver;
+    }
 
-   /**
-    * @see java.lang.Object#hashCode()
-    */
-   public int hashCode()
-   {
-      return getReply().hashCode();
-   }
+    /**
+     * @see java.lang.Object#hashCode()
+     */
+    public int hashCode() {
+        return getReply().hashCode();
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.server.engine.recovery.recovered.IAeRecoveredItem#queueItem(org.activebpel.rt.bpel.impl.IAeBusinessProcessEngineInternal)
-    */
-   public void queueItem(IAeBusinessProcessEngineInternal aTargetEngine) throws AeBusinessProcessException
-   {
-      aTargetEngine.getQueueManager().addNonDurableReply(getReply(), getMessageReceiver());
-   }
+    /**
+     * @see org.activebpel.rt.bpel.server.engine.recovery.recovered.IAeRecoveredItem#queueItem(org.activebpel.rt.bpel.impl.IAeBusinessProcessEngineInternal)
+     */
+    public void queueItem(IAeBusinessProcessEngineInternal aTargetEngine) throws AeBusinessProcessException {
+        aTargetEngine.getQueueManager().addNonDurableReply(getReply(), getMessageReceiver());
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.server.engine.recovery.recovered.IAeRecoveredItem#isRemoval()
-    */
-   public boolean isRemoval()
-   {
-      return false;
-   }
+    /**
+     * @see org.activebpel.rt.bpel.server.engine.recovery.recovered.IAeRecoveredItem#isRemoval()
+     */
+    public boolean isRemoval() {
+        return false;
+    }
 }

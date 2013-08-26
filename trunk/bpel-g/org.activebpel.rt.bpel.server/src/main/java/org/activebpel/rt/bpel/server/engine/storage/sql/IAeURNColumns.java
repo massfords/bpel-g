@@ -12,8 +12,7 @@ package org.activebpel.rt.bpel.server.engine.storage.sql;
 /**
  * Constants that define the URN column names.
  */
-public interface IAeURNColumns
-{
-   public static final String COL_URL = "URL"; //$NON-NLS-1$
-   public static final String COL_URN = "URN"; //$NON-NLS-1$
+public interface IAeURNColumns {
+    public static final String COL_URL = "URL"; //$NON-NLS-1$
+    public static final String COL_URN = "URN"; //$NON-NLS-1$
 }

@@ -16,46 +16,47 @@ import java.net.URL;
  * Wraps information about a deployment and provides access to its
  * resources.
  */
-public interface IAeDeploymentContext
-{
-   /**
-    * Accessor for deployment id
-    */
-   public IAeDeploymentId getDeploymentId();
-   
-   /**
-    * Point to the deployment location.
-    */
-   public URL getDeploymentLocation();
-   
-   /**
-    * If the deployment is copied to a staging/temp
-    * dir, this will return a url pointing to the
-    * location, otherwise null.
-    */
-   public URL getTempDeploymentLocation();
-   
-   /**
-    * Short name of the deployment - the url resource without protocol and path info.
-    */
-   public String getShortName();
-   
-   /**
-    * Access the named resource.
-    * @param aResourceName
-    */
-   public InputStream getResourceAsStream( String aResourceName );
-   
-   /**
-    * Get the url for the context resource.
-    * @param aResourceName
-    * @return The url associated with the passed resource.
-    */
-   public URL getResourceURL( String aResourceName );
-   
-   /**
-    * Return the deployment classloader.  This is the classloader that has
-    * access to the resources necessary for bpr deployments.
-    */
-   public ClassLoader getResourceClassLoader();
+public interface IAeDeploymentContext {
+    /**
+     * Accessor for deployment id
+     */
+    public IAeDeploymentId getDeploymentId();
+
+    /**
+     * Point to the deployment location.
+     */
+    public URL getDeploymentLocation();
+
+    /**
+     * If the deployment is copied to a staging/temp
+     * dir, this will return a url pointing to the
+     * location, otherwise null.
+     */
+    public URL getTempDeploymentLocation();
+
+    /**
+     * Short name of the deployment - the url resource without protocol and path info.
+     */
+    public String getShortName();
+
+    /**
+     * Access the named resource.
+     *
+     * @param aResourceName
+     */
+    public InputStream getResourceAsStream(String aResourceName);
+
+    /**
+     * Get the url for the context resource.
+     *
+     * @param aResourceName
+     * @return The url associated with the passed resource.
+     */
+    public URL getResourceURL(String aResourceName);
+
+    /**
+     * Return the deployment classloader.  This is the classloader that has
+     * access to the resources necessary for bpr deployments.
+     */
+    public ClassLoader getResourceClassLoader();
 }

@@ -19,64 +19,59 @@ import org.activebpel.rt.bpel.impl.activity.support.AeOnMessage;
  * Implements access to an <code>onMessage</code> implementation object for a
  * message data consumer.
  */
-public class AeOnMessageConsumerContext implements IAeMessageDataConsumerContext
-{
-   /** The <code>onMessage</code> implementation object. */
-   private final AeOnMessage mOnMessage;
+public class AeOnMessageConsumerContext implements IAeMessageDataConsumerContext {
+    /**
+     * The <code>onMessage</code> implementation object.
+     */
+    private final AeOnMessage mOnMessage;
 
-   /**
-    * Constructs the context for the given <code>onMessage</code> implementation
-    * object.
-    *
-    * @param aOnMessage
-    */
-   public AeOnMessageConsumerContext(AeOnMessage aOnMessage)
-   {
-      mOnMessage = aOnMessage;
-   }
+    /**
+     * Constructs the context for the given <code>onMessage</code> implementation
+     * object.
+     *
+     * @param aOnMessage
+     */
+    public AeOnMessageConsumerContext(AeOnMessage aOnMessage) {
+        mOnMessage = aOnMessage;
+    }
 
-   /**
-    * Returns the <code>onMessage</code> definition object.
-    */
-   protected AeOnMessageDef getDef()
-   {
-      return (AeOnMessageDef) getOnMessage().getDefinition();
-   }
+    /**
+     * Returns the <code>onMessage</code> definition object.
+     */
+    protected AeOnMessageDef getDef() {
+        return (AeOnMessageDef) getOnMessage().getDefinition();
+    }
 
-   /**
-    * Returns the <code>onMessage</code> implementation object.
-    */
-   protected AeOnMessage getOnMessage()
-   {
-      return mOnMessage;
-   }
+    /**
+     * Returns the <code>onMessage</code> implementation object.
+     */
+    protected AeOnMessage getOnMessage() {
+        return mOnMessage;
+    }
 
    /*===========================================================================
     * IAeMessageDataConsumerContext methods
     *===========================================================================
     */
 
-   /**
-    * @see org.activebpel.rt.bpel.impl.activity.wsio.consume.IAeMessageDataConsumerContext#getBpelObject()
-    */
-   public AeAbstractBpelObject getBpelObject()
-   {
-      return getOnMessage();
-   }
+    /**
+     * @see org.activebpel.rt.bpel.impl.activity.wsio.consume.IAeMessageDataConsumerContext#getBpelObject()
+     */
+    public AeAbstractBpelObject getBpelObject() {
+        return getOnMessage();
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.impl.activity.wsio.consume.IAeMessageDataConsumerContext#getVariable()
-    */
-   public IAeVariable getVariable()
-   {
-      return getOnMessage().findVariable(getDef().getVariable()); 
-   }
+    /**
+     * @see org.activebpel.rt.bpel.impl.activity.wsio.consume.IAeMessageDataConsumerContext#getVariable()
+     */
+    public IAeVariable getVariable() {
+        return getOnMessage().findVariable(getDef().getVariable());
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.impl.activity.wsio.consume.IAeMessageDataConsumerContext#getMessageConsumerDef()
-    */
-   public IAeMessageDataConsumerDef getMessageConsumerDef()
-   {
-      return getDef();
-   }
+    /**
+     * @see org.activebpel.rt.bpel.impl.activity.wsio.consume.IAeMessageDataConsumerContext#getMessageConsumerDef()
+     */
+    public IAeMessageDataConsumerDef getMessageConsumerDef() {
+        return getDef();
+    }
 }

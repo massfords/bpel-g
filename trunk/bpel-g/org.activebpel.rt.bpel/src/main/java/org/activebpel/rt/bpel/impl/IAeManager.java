@@ -18,57 +18,58 @@ import org.activebpel.rt.bpel.impl.activity.IAeImplAdapter;
  * logic in these various implementations (e.g. IAeQueueManager, IAeAlarmManager ...etc)
  * we're able to provide different implementations without affecting the engine code proper.
  */
-public interface IAeManager
-{
-   /**
-    * Returns the engine for this queue manager.
-    */
-   public IAeBusinessProcessEngineInternal getEngine();
+public interface IAeManager {
+    /**
+     * Returns the engine for this queue manager.
+     */
+    public IAeBusinessProcessEngineInternal getEngine();
 
-   /**
-    * Sets the engine for this queue manager.
-    */
-   public void setEngine(IAeBusinessProcessEngineInternal aEngine);
+    /**
+     * Sets the engine for this queue manager.
+     */
+    public void setEngine(IAeBusinessProcessEngineInternal aEngine);
 
-   /**
-    * Gets called once after the manager has been instantiated. If the manager runs
-    * into any kind of fatal error during create then it should throw an exception which will 
-    * halt the startup of the application.
-    */
-   public void create() throws Exception;
-   
-   /**
-    * Called each time before the manager is going to start. 
-    */
-   public void prepareToStart() throws Exception;
+    /**
+     * Gets called once after the manager has been instantiated. If the manager runs
+     * into any kind of fatal error during create then it should throw an exception which will
+     * halt the startup of the application.
+     */
+    public void create() throws Exception;
 
-   /**
-    * Starts the manager running.
-    */
-   public void start() throws Exception;
-   
-   /**
-    * Stops the manager. It may be restarted or destroyed from this point.  Note that this method
-    * may be called by the engine even though a corresponding <code>start</code> method has not
-    * yet been called.  This can happen when some other manager fails to start.
-    */
-   public void stop();
-   
-   /**
-    * Destroys this instance of the manager. The manager should perform whatever cleanup 
-    * work is necessary to shut down. 
-    */
-   public void destroy();
-   
-   /**
-    * Used for the visitor pattern.
-    * @param aVisitor
-    */
-   public void accept(IAeManagerVisitor aVisitor) throws Exception;
-   
-   /**
-    * Provides a means for the engine to get an adapter from the manager.
-    * @param aAdapterInterface
-    */
-   public IAeImplAdapter getAdapter(Class aAdapterInterface);
+    /**
+     * Called each time before the manager is going to start.
+     */
+    public void prepareToStart() throws Exception;
+
+    /**
+     * Starts the manager running.
+     */
+    public void start() throws Exception;
+
+    /**
+     * Stops the manager. It may be restarted or destroyed from this point.  Note that this method
+     * may be called by the engine even though a corresponding <code>start</code> method has not
+     * yet been called.  This can happen when some other manager fails to start.
+     */
+    public void stop();
+
+    /**
+     * Destroys this instance of the manager. The manager should perform whatever cleanup
+     * work is necessary to shut down.
+     */
+    public void destroy();
+
+    /**
+     * Used for the visitor pattern.
+     *
+     * @param aVisitor
+     */
+    public void accept(IAeManagerVisitor aVisitor) throws Exception;
+
+    /**
+     * Provides a means for the engine to get an adapter from the manager.
+     *
+     * @param aAdapterInterface
+     */
+    public IAeImplAdapter getAdapter(Class aAdapterInterface);
 }

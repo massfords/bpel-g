@@ -7,7 +7,7 @@
 //Active Endpoints, Inc. Removal of this PROPRIETARY RIGHTS STATEMENT 
 //is strictly forbidden. Copyright (c) 2002-2007 All rights reserved. 
 /////////////////////////////////////////////////////////////////////////////
-package org.activebpel.rt.bpel.def.validation.expr.functions; 
+package org.activebpel.rt.bpel.def.validation.expr.functions;
 
 import org.activebpel.rt.bpel.AeMessages;
 import org.activebpel.rt.expr.def.AeScriptFuncDef;
@@ -15,20 +15,18 @@ import org.activebpel.rt.expr.validation.AeExpressionValidationResult;
 import org.activebpel.rt.expr.validation.IAeExpressionValidationContext;
 
 /**
- * Base class for all ActiveBPEL extension functions 
+ * Base class for all ActiveBPEL extension functions
  */
-public abstract class AeAbstractActiveBpelExtensionFunctionValidator extends AeAbstractFunctionValidator
-{
+public abstract class AeAbstractActiveBpelExtensionFunctionValidator extends AeAbstractFunctionValidator {
 
-   /**
-    * @see org.activebpel.rt.expr.validation.functions.IAeFunctionValidator#validate(org.activebpel.rt.expr.def.AeScriptFuncDef, org.activebpel.rt.expr.validation.AeExpressionValidationResult, org.activebpel.rt.expr.validation.IAeExpressionValidationContext)
-    */
-   public void validate(AeScriptFuncDef aScriptFunction, AeExpressionValidationResult aResult, IAeExpressionValidationContext aContext)
-   {
-      addInfo(aResult,
-            AeMessages.getString("AeAbstractActiveBpelExtensionFunctionValidator.ACTIVE_BPEL_EXT_FUNCTION"), //$NON-NLS-1$
-            new Object[] { aScriptFunction.getName() });
-   }
+    /**
+     * @see org.activebpel.rt.expr.validation.functions.IAeFunctionValidator#validate(org.activebpel.rt.expr.def.AeScriptFuncDef, org.activebpel.rt.expr.validation.AeExpressionValidationResult, org.activebpel.rt.expr.validation.IAeExpressionValidationContext)
+     */
+    public void validate(AeScriptFuncDef aScriptFunction, AeExpressionValidationResult aResult, IAeExpressionValidationContext aContext) {
+        addInfo(aResult,
+                AeMessages.getString("AeAbstractActiveBpelExtensionFunctionValidator.ACTIVE_BPEL_EXT_FUNCTION"), //$NON-NLS-1$
+                new Object[]{aScriptFunction.getName()});
+    }
 
 }
  

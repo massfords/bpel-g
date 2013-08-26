@@ -25,141 +25,134 @@ import java.util.List;
 /**
  * Provides filtering capability for the in-memory alarm manager listing.
  */
-public class AeAlarmFilterManager
-{
+public class AeAlarmFilterManager {
 
-   /** Default comparator for sorting the list of alarms. */
-   private static final AeAlarmComparator SORTER = new AeAlarmComparator();
+    /**
+     * Default comparator for sorting the list of alarms.
+     */
+    private static final AeAlarmComparator SORTER = new AeAlarmComparator();
 
-   /**
-    * Returns a filtered list of alarms.
-    * @param aEngine the bpel engine.
-    * @param aFilter Determines the selection criteria.
-    * @param aAlarms All of the available alarms on the queue.
-    * @return The filtered results.
-    */
-   public static AeAlarmListResult<? extends AeAlarm> filter( IAeBusinessProcessEngineInternal aEngine, AeAlarmFilter aFilter, List<AeAlarm> aAlarms )
-   {
-      List<AeAlarmExt> matches = new ArrayList<>();
-      // totalRows is the number of records that matched the filter query.
-      int totalRows = 0;
-      
-      if( aAlarms != null && !aAlarms.isEmpty() )
-      {
-         AeAlarm[] recs = aAlarms.toArray(new AeAlarm[aAlarms.size()]);
+    /**
+     * Returns a filtered list of alarms.
+     *
+     * @param aEngine the bpel engine.
+     * @param aFilter Determines the selection criteria.
+     * @param aAlarms All of the available alarms on the queue.
+     * @return The filtered results.
+     */
+    public static AeAlarmListResult<? extends AeAlarm> filter(IAeBusinessProcessEngineInternal aEngine, AeAlarmFilter aFilter, List<AeAlarm> aAlarms) {
+        List<AeAlarmExt> matches = new ArrayList<>();
+        // totalRows is the number of records that matched the filter query.
+        int totalRows = 0;
 
-          for (AeAlarm alarm : recs) {
-              try {
-                  QName processQName = aEngine.getProcessManager().getProcessQName(alarm.getProcessId());
-                  AeAlarmExt alarmExt = new AeAlarmExt(alarm.getProcessId(), alarm.getPathId(), alarm.getGroupId(), alarm.getAlarmId(), alarm.getDeadline(), processQName);
-                  if (accepts(aFilter, alarmExt)) {
-                      totalRows++;
-                      // add to 'matches' list if  [startPos]  <= [current matched record number] < [endPos]
-                      // where startPos = aFilter.getListStart(),  endPos = startPos + aFilter.getMaxReturn()
-                      if (aFilter.isWithinRange(totalRows)) {
-                          matches.add(alarmExt);
-                      }
-                  }
-              } catch (AeBusinessProcessException e) {
-                  AeException.logError(e, AeMessages.getString("AeAlarmFilterManager.ERROR_0") + alarm.getProcessId()); //$NON-NLS-1$
-              }
-          }
-      }
-      
-      if( ! matches.isEmpty() )
-      {
-         sort( matches );
-      }
-      
-      return new AeAlarmListResult<>(totalRows, matches);
-   }
-   
-   /**
-    * Returns true if the message alarm meets the filter criteria.
-    * @param aFilter The selection criteria.
-    * @param aAlarm A queued message alarm.
-    */
-   protected static boolean accepts( AeAlarmFilter aFilter, AeAlarmExt aAlarm )
-   {
-      return isPIDMatch( aFilter, aAlarm ) &&
-              isProcessNameMatch(aFilter, aAlarm) &&
-              isDeadlineMatch(aFilter, aAlarm);
-   }
-   
-   /**
-    * Match that the alarm matches the deadline between dates if filled in.
-    * @param aFilter The filter to match the start and end between from
-    * @param aAlarm The alarm to test.
-    * @return True if match of deadline with filter.
-    */
-   private static boolean isDeadlineMatch(AeAlarmFilter aFilter, AeAlarmExt aAlarm)
-   {
-      if(aFilter.getAlarmFilterStart() != null)
-         if(aAlarm.getDeadline().getTime() < aFilter.getAlarmFilterStart().getTime())
-            return false;
-      if(aFilter.getAlarmFilterEnd() != null)
-         if(aAlarm.getDeadline().getTime() > aFilter.getAlarmFilterEnd().getTime())
-            return false;
-      return true;
-   }
+        if (aAlarms != null && !aAlarms.isEmpty()) {
+            AeAlarm[] recs = aAlarms.toArray(new AeAlarm[aAlarms.size()]);
 
-   /**
-    * Match that the alarm matches the proess name in filter if filled in.
-    * @param aFilter The filter to match the process name
-    * @param aAlarm The alarm to test.
-    * @return True if the process name matches the passed name.
-    */
-   private static boolean isProcessNameMatch(AeAlarmFilter aFilter, AeAlarmExt aAlarm)
-   {
-      if(aFilter.getProcessName() != null)
-      {
-         if(! AeUtil.isNullOrEmpty(aFilter.getProcessName().getLocalPart()))
-            return AeUtil.compareObjects(aFilter.getProcessName().getLocalPart(), aAlarm.getProcessName());
-         if(! AeUtil.isNullOrEmpty(aFilter.getProcessName().getNamespaceURI()))
-            return AeUtil.compareObjects(aFilter.getProcessName().getNamespaceURI(), aAlarm.getProcessQName().getNamespaceURI());
-      }
-      
-      return true;
-   }
+            for (AeAlarm alarm : recs) {
+                try {
+                    QName processQName = aEngine.getProcessManager().getProcessQName(alarm.getProcessId());
+                    AeAlarmExt alarmExt = new AeAlarmExt(alarm.getProcessId(), alarm.getPathId(), alarm.getGroupId(), alarm.getAlarmId(), alarm.getDeadline(), processQName);
+                    if (accepts(aFilter, alarmExt)) {
+                        totalRows++;
+                        // add to 'matches' list if  [startPos]  <= [current matched record number] < [endPos]
+                        // where startPos = aFilter.getListStart(),  endPos = startPos + aFilter.getMaxReturn()
+                        if (aFilter.isWithinRange(totalRows)) {
+                            matches.add(alarmExt);
+                        }
+                    }
+                } catch (AeBusinessProcessException e) {
+                    AeException.logError(e, AeMessages.getString("AeAlarmFilterManager.ERROR_0") + alarm.getProcessId()); //$NON-NLS-1$
+                }
+            }
+        }
 
-   /**
-    * Returns true if there is no process id specified in the filter or
-    * if the process id in the filter mathes the receive's process id.
-    * @param aFilter The selection criteria.
-    * @param aAlarm A queued message alarm.
-    */
-   static boolean isPIDMatch( AeAlarmFilter aFilter, AeAlarmExt aAlarm )
-   {
-      if( !aFilter.isNullProcessId() )
-      {
-         return aFilter.getProcessId() == aAlarm.getProcessId();
-      }
-      else
-      {
-         return true;
-      }
-   }
-   
-   /**
-    * Sorts the matching queued alarm.
-    * @param aMatches
-    */
-   protected static void sort( List<AeAlarmExt> aMatches )
-   {
-      Collections.sort( aMatches, SORTER );
-   }
-   
-   /**
-    * Comparator impl compares on process id.
-    */
-   protected static class AeAlarmComparator implements Comparator<AeAlarmExt>
-   {
-      /**
-       * @see java.util.Comparator#compare(java.lang.Object, java.lang.Object)
-       */
-      public int compare(AeAlarmExt a1, AeAlarmExt a2)
-      {
-    	  return (int) (a1.getProcessId() - a2.getProcessId());
-      }
-   }
+        if (!matches.isEmpty()) {
+            sort(matches);
+        }
+
+        return new AeAlarmListResult<>(totalRows, matches);
+    }
+
+    /**
+     * Returns true if the message alarm meets the filter criteria.
+     *
+     * @param aFilter The selection criteria.
+     * @param aAlarm  A queued message alarm.
+     */
+    protected static boolean accepts(AeAlarmFilter aFilter, AeAlarmExt aAlarm) {
+        return isPIDMatch(aFilter, aAlarm) &&
+                isProcessNameMatch(aFilter, aAlarm) &&
+                isDeadlineMatch(aFilter, aAlarm);
+    }
+
+    /**
+     * Match that the alarm matches the deadline between dates if filled in.
+     *
+     * @param aFilter The filter to match the start and end between from
+     * @param aAlarm  The alarm to test.
+     * @return True if match of deadline with filter.
+     */
+    private static boolean isDeadlineMatch(AeAlarmFilter aFilter, AeAlarmExt aAlarm) {
+        if (aFilter.getAlarmFilterStart() != null)
+            if (aAlarm.getDeadline().getTime() < aFilter.getAlarmFilterStart().getTime())
+                return false;
+        if (aFilter.getAlarmFilterEnd() != null)
+            if (aAlarm.getDeadline().getTime() > aFilter.getAlarmFilterEnd().getTime())
+                return false;
+        return true;
+    }
+
+    /**
+     * Match that the alarm matches the proess name in filter if filled in.
+     *
+     * @param aFilter The filter to match the process name
+     * @param aAlarm  The alarm to test.
+     * @return True if the process name matches the passed name.
+     */
+    private static boolean isProcessNameMatch(AeAlarmFilter aFilter, AeAlarmExt aAlarm) {
+        if (aFilter.getProcessName() != null) {
+            if (!AeUtil.isNullOrEmpty(aFilter.getProcessName().getLocalPart()))
+                return AeUtil.compareObjects(aFilter.getProcessName().getLocalPart(), aAlarm.getProcessName());
+            if (!AeUtil.isNullOrEmpty(aFilter.getProcessName().getNamespaceURI()))
+                return AeUtil.compareObjects(aFilter.getProcessName().getNamespaceURI(), aAlarm.getProcessQName().getNamespaceURI());
+        }
+
+        return true;
+    }
+
+    /**
+     * Returns true if there is no process id specified in the filter or
+     * if the process id in the filter mathes the receive's process id.
+     *
+     * @param aFilter The selection criteria.
+     * @param aAlarm  A queued message alarm.
+     */
+    static boolean isPIDMatch(AeAlarmFilter aFilter, AeAlarmExt aAlarm) {
+        if (!aFilter.isNullProcessId()) {
+            return aFilter.getProcessId() == aAlarm.getProcessId();
+        } else {
+            return true;
+        }
+    }
+
+    /**
+     * Sorts the matching queued alarm.
+     *
+     * @param aMatches
+     */
+    protected static void sort(List<AeAlarmExt> aMatches) {
+        Collections.sort(aMatches, SORTER);
+    }
+
+    /**
+     * Comparator impl compares on process id.
+     */
+    protected static class AeAlarmComparator implements Comparator<AeAlarmExt> {
+        /**
+         * @see java.util.Comparator#compare(java.lang.Object, java.lang.Object)
+         */
+        public int compare(AeAlarmExt a1, AeAlarmExt a2) {
+            return (int) (a1.getProcessId() - a2.getProcessId());
+        }
+    }
 }

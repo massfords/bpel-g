@@ -7,22 +7,21 @@
 //Active Endpoints, Inc. Removal of this PROPRIETARY RIGHTS STATEMENT 
 //is strictly forbidden. Copyright (c) 2002-2006 All rights reserved. 
 /////////////////////////////////////////////////////////////////////////////
-package org.activebpel.rt.bpel.def.validation.activity; 
+package org.activebpel.rt.bpel.def.validation.activity;
 
 import org.activebpel.rt.bpel.def.activity.AeActivityBreakDef;
 
 /**
- * Model for the break activity. 
+ * Model for the break activity.
  */
-public class AeActivityBreakValidator extends AeActivityLoopControlValidator
-{
-   /**
-    * ctor
-    * @param aDef
-    */
-   public AeActivityBreakValidator(AeActivityBreakDef aDef)
-   {
-      super(aDef);
-   }
+public class AeActivityBreakValidator extends AeActivityLoopControlValidator {
+    /**
+     * ctor
+     *
+     * @param aDef
+     */
+    public AeActivityBreakValidator(AeActivityBreakDef aDef) {
+        super(aDef);
+    }
 }
  

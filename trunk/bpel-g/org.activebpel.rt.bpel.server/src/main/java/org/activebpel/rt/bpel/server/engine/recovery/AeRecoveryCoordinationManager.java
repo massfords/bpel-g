@@ -42,250 +42,252 @@ import javax.inject.Singleton;
  */
 @Singleton
 public class AeRecoveryCoordinationManager implements
-		IAeRecoveryCoordinationManager {
-	/** The set of alarm and queue manager items generated during recovery. */
-	private IAeRecoveredItemsSet mRecoveredItemsSet;
-	private IAeBusinessProcessEngineInternal mEngine;
-	final IAeCoordinationManagerInternal mDelegate;
+        IAeRecoveryCoordinationManager {
+    /**
+     * The set of alarm and queue manager items generated during recovery.
+     */
+    private IAeRecoveredItemsSet mRecoveredItemsSet;
+    private IAeBusinessProcessEngineInternal mEngine;
+    final IAeCoordinationManagerInternal mDelegate;
 
-	/**
-	 * Ctor
-	 * 
-	 * @param aBaseManager
-	 */
-	public AeRecoveryCoordinationManager(
-			IAeCoordinationManagerInternal aBaseManager) {
-		mDelegate = aBaseManager;
-	}
+    /**
+     * Ctor
+     *
+     * @param aBaseManager
+     */
+    public AeRecoveryCoordinationManager(
+            IAeCoordinationManagerInternal aBaseManager) {
+        mDelegate = aBaseManager;
+    }
 
-	/**
-	 * @see org.activebpel.rt.bpel.impl.IAeCoordinationManagerInternal#compensateOrCancel(java.lang.String)
-	 */
-	public void compensateOrCancel(String aCoordinationId) {
-		try {
-			getRecoveredItemsSet().addRecoveredItem(
-					new AeRecoveredCompensateOrCancelItem(aCoordinationId));
-		} catch (AeRecoveryConflictingRequestException e) {
-		}
-	}
+    /**
+     * @see org.activebpel.rt.bpel.impl.IAeCoordinationManagerInternal#compensateOrCancel(java.lang.String)
+     */
+    public void compensateOrCancel(String aCoordinationId) {
+        try {
+            getRecoveredItemsSet().addRecoveredItem(
+                    new AeRecoveredCompensateOrCancelItem(aCoordinationId));
+        } catch (AeRecoveryConflictingRequestException e) {
+        }
+    }
 
-	/**
-	 * @see org.activebpel.rt.bpel.coord.IAeCoordinationManager#cancel(java.lang.String)
-	 */
-	public void cancel(String aCoordinationId) throws AeCoordinationException {
-		try {
-			getRecoveredItemsSet().addRecoveredItem(
-					new AeRecoveredCancelItem(aCoordinationId));
-		} catch (AeRecoveryConflictingRequestException e) {
-		}
-	}
+    /**
+     * @see org.activebpel.rt.bpel.coord.IAeCoordinationManager#cancel(java.lang.String)
+     */
+    public void cancel(String aCoordinationId) throws AeCoordinationException {
+        try {
+            getRecoveredItemsSet().addRecoveredItem(
+                    new AeRecoveredCancelItem(aCoordinationId));
+        } catch (AeRecoveryConflictingRequestException e) {
+        }
+    }
 
-	/**
-	 * @see org.activebpel.rt.bpel.coord.IAeCoordinationManager#compensate(java.lang.String)
-	 */
-	public void compensate(String aCoordinationId)
-			throws AeCoordinationException {
-		try {
-			getRecoveredItemsSet().addRecoveredItem(
-					new AeRecoveredCompensateItem(aCoordinationId));
-		} catch (AeRecoveryConflictingRequestException e) {
-		}
-	}
+    /**
+     * @see org.activebpel.rt.bpel.coord.IAeCoordinationManager#compensate(java.lang.String)
+     */
+    public void compensate(String aCoordinationId)
+            throws AeCoordinationException {
+        try {
+            getRecoveredItemsSet().addRecoveredItem(
+                    new AeRecoveredCompensateItem(aCoordinationId));
+        } catch (AeRecoveryConflictingRequestException e) {
+        }
+    }
 
-	/**
-	 * @see org.activebpel.rt.bpel.coord.IAeCoordinationManager#compensationCompleted(java.lang.String,
-	 *      org.activebpel.rt.bpel.IAeFault)
-	 */
-	public void compensationCompleted(String aCoordinationId, IAeFault aFault)
-			throws AeBusinessProcessException {
-		getDelegate().compensationCompleted(aCoordinationId, aFault);
-	}
+    /**
+     * @see org.activebpel.rt.bpel.coord.IAeCoordinationManager#compensationCompleted(java.lang.String,
+     *      org.activebpel.rt.bpel.IAeFault)
+     */
+    public void compensationCompleted(String aCoordinationId, IAeFault aFault)
+            throws AeBusinessProcessException {
+        getDelegate().compensationCompleted(aCoordinationId, aFault);
+    }
 
-	/**
-	 * @see org.activebpel.rt.bpel.server.engine.recovery.IAeRecoveryAwareManager#setInvokeTransmittedEntries(java.util.List)
-	 */
-	public void setInvokeTransmittedEntries(List aInvokeTransmittedEntries) {
-		// don't care
-	}
+    /**
+     * @see org.activebpel.rt.bpel.server.engine.recovery.IAeRecoveryAwareManager#setInvokeTransmittedEntries(java.util.List)
+     */
+    public void setInvokeTransmittedEntries(List aInvokeTransmittedEntries) {
+        // don't care
+    }
 
-	/**
-	 * @see org.activebpel.rt.bpel.server.engine.recovery.IAeRecoveryAwareManager#setRecoveredItemsSet(org.activebpel.rt.bpel.server.engine.recovery.IAeRecoveredItemsSet)
-	 */
-	public void setRecoveredItemsSet(IAeRecoveredItemsSet aRecoveredItemsSet) {
-		mRecoveredItemsSet = aRecoveredItemsSet;
-	}
+    /**
+     * @see org.activebpel.rt.bpel.server.engine.recovery.IAeRecoveryAwareManager#setRecoveredItemsSet(org.activebpel.rt.bpel.server.engine.recovery.IAeRecoveredItemsSet)
+     */
+    public void setRecoveredItemsSet(IAeRecoveredItemsSet aRecoveredItemsSet) {
+        mRecoveredItemsSet = aRecoveredItemsSet;
+    }
 
-	/**
-	 * @see org.activebpel.rt.bpel.impl.IAeCoordinationManagerInternal#dispatch(org.activebpel.rt.bpel.coord.IAeProtocolMessage,
-	 *      boolean)
-	 */
-	public void dispatch(IAeProtocolMessage aMessage,
-			boolean aViaProcessExeQueue) {
-		getDelegate().dispatch(aMessage, aViaProcessExeQueue);
-	}
+    /**
+     * @see org.activebpel.rt.bpel.impl.IAeCoordinationManagerInternal#dispatch(org.activebpel.rt.bpel.coord.IAeProtocolMessage,
+     *      boolean)
+     */
+    public void dispatch(IAeProtocolMessage aMessage,
+                         boolean aViaProcessExeQueue) {
+        getDelegate().dispatch(aMessage, aViaProcessExeQueue);
+    }
 
-	/**
-	 * @see org.activebpel.rt.bpel.impl.IAeCoordinationManagerInternal#journalCoordinationQueueMessageReceived(long,
-	 *      org.activebpel.rt.bpel.coord.IAeProtocolMessage)
-	 */
-	public long journalCoordinationQueueMessageReceived(long aProcessId,
-			IAeProtocolMessage aMessage) {
-		return getDelegate().journalCoordinationQueueMessageReceived(
-				aProcessId, aMessage);
-	}
+    /**
+     * @see org.activebpel.rt.bpel.impl.IAeCoordinationManagerInternal#journalCoordinationQueueMessageReceived(long,
+     *      org.activebpel.rt.bpel.coord.IAeProtocolMessage)
+     */
+    public long journalCoordinationQueueMessageReceived(long aProcessId,
+                                                        IAeProtocolMessage aMessage) {
+        return getDelegate().journalCoordinationQueueMessageReceived(
+                aProcessId, aMessage);
+    }
 
-	/**
-	 * @see org.activebpel.rt.bpel.impl.IAeCoordinationManagerInternal#journalNotifyCoordinatorsParticipantClosed(long)
-	 */
-	public long journalNotifyCoordinatorsParticipantClosed(long aProcessId) {
-		return getDelegate().journalNotifyCoordinatorsParticipantClosed(
-				aProcessId);
-	}
+    /**
+     * @see org.activebpel.rt.bpel.impl.IAeCoordinationManagerInternal#journalNotifyCoordinatorsParticipantClosed(long)
+     */
+    public long journalNotifyCoordinatorsParticipantClosed(long aProcessId) {
+        return getDelegate().journalNotifyCoordinatorsParticipantClosed(
+                aProcessId);
+    }
 
-	/**
-	 * @see org.activebpel.rt.bpel.impl.IAeCoordinationManagerInternal#notifyCoordinatorsParticipantClosed(long,
-	 *      long)
-	 */
-	public void notifyCoordinatorsParticipantClosed(long aProcessId,
-			long aJournalId) {
-		getDelegate().notifyCoordinatorsParticipantClosed(aProcessId,
-				aJournalId);
-	}
+    /**
+     * @see org.activebpel.rt.bpel.impl.IAeCoordinationManagerInternal#notifyCoordinatorsParticipantClosed(long,
+     *      long)
+     */
+    public void notifyCoordinatorsParticipantClosed(long aProcessId,
+                                                    long aJournalId) {
+        getDelegate().notifyCoordinatorsParticipantClosed(aProcessId,
+                aJournalId);
+    }
 
-	/**
-	 * @see org.activebpel.rt.bpel.impl.IAeCoordinationManagerInternal#onProcessCompleted(long,
-	 *      org.activebpel.rt.bpel.IAeFault, boolean)
-	 */
-	public void onProcessCompleted(long aProcessId, IAeFault aFaultObject,
-			boolean aNormalCompletion) {
-		getDelegate().onProcessCompleted(aProcessId, aFaultObject,
-				aNormalCompletion);
-	}
+    /**
+     * @see org.activebpel.rt.bpel.impl.IAeCoordinationManagerInternal#onProcessCompleted(long,
+     *      org.activebpel.rt.bpel.IAeFault, boolean)
+     */
+    public void onProcessCompleted(long aProcessId, IAeFault aFaultObject,
+                                   boolean aNormalCompletion) {
+        getDelegate().onProcessCompleted(aProcessId, aFaultObject,
+                aNormalCompletion);
+    }
 
-	/**
-	 * @see org.activebpel.rt.bpel.impl.IAeCoordinationManagerInternal#persistState(org.activebpel.rt.bpel.coord.IAeCoordinating)
-	 */
-	public void persistState(IAeCoordinating aCoordinating)
-			throws AeCoordinationException {
-		getDelegate().persistState(aCoordinating);
-	}
+    /**
+     * @see org.activebpel.rt.bpel.impl.IAeCoordinationManagerInternal#persistState(org.activebpel.rt.bpel.coord.IAeCoordinating)
+     */
+    public void persistState(IAeCoordinating aCoordinating)
+            throws AeCoordinationException {
+        getDelegate().persistState(aCoordinating);
+    }
 
-	/**
-	 * @see org.activebpel.rt.bpel.coord.IAeCoordinationManager#createCoordinationContext(org.activebpel.rt.bpel.coord.IAeCreateContextRequest)
-	 */
-	public IAeCreateContextResponse createCoordinationContext(
-			IAeCreateContextRequest aCtxRequest) throws AeCoordinationException {
-		return getDelegate().createCoordinationContext(aCtxRequest);
-	}
+    /**
+     * @see org.activebpel.rt.bpel.coord.IAeCoordinationManager#createCoordinationContext(org.activebpel.rt.bpel.coord.IAeCreateContextRequest)
+     */
+    public IAeCreateContextResponse createCoordinationContext(
+            IAeCreateContextRequest aCtxRequest) throws AeCoordinationException {
+        return getDelegate().createCoordinationContext(aCtxRequest);
+    }
 
-	/**
-	 * @see org.activebpel.rt.bpel.coord.IAeCoordinationManager#getContext(java.lang.String)
-	 */
-	public IAeCoordinationContext getContext(String aCoordinationId)
-			throws AeCoordinationNotFoundException {
-		return getDelegate().getContext(aCoordinationId);
-	}
+    /**
+     * @see org.activebpel.rt.bpel.coord.IAeCoordinationManager#getContext(java.lang.String)
+     */
+    public IAeCoordinationContext getContext(String aCoordinationId)
+            throws AeCoordinationNotFoundException {
+        return getDelegate().getContext(aCoordinationId);
+    }
 
-	/**
-	 * @see org.activebpel.rt.bpel.coord.IAeCoordinationManager#getCoordinator(java.lang.String)
-	 */
-	public IAeCoordinator getCoordinator(String aCoordinationId)
-			throws AeCoordinationNotFoundException {
-		return getDelegate().getCoordinator(aCoordinationId);
-	}
+    /**
+     * @see org.activebpel.rt.bpel.coord.IAeCoordinationManager#getCoordinator(java.lang.String)
+     */
+    public IAeCoordinator getCoordinator(String aCoordinationId)
+            throws AeCoordinationNotFoundException {
+        return getDelegate().getCoordinator(aCoordinationId);
+    }
 
-	/**
-	 * @see org.activebpel.rt.bpel.coord.IAeCoordinationManager#getCoordinatorDetail(long)
-	 */
-	public AeCoordinationDetail getCoordinatorDetail(long aChildProcessId)
-			throws AeCoordinationNotFoundException {
-		return getDelegate().getCoordinatorDetail(aChildProcessId);
-	}
+    /**
+     * @see org.activebpel.rt.bpel.coord.IAeCoordinationManager#getCoordinatorDetail(long)
+     */
+    public AeCoordinationDetail getCoordinatorDetail(long aChildProcessId)
+            throws AeCoordinationNotFoundException {
+        return getDelegate().getCoordinatorDetail(aChildProcessId);
+    }
 
-	/**
-	 * @see org.activebpel.rt.bpel.coord.IAeCoordinationManager#getParticipant(java.lang.String)
-	 */
-	public IAeParticipant getParticipant(String aCoordinationId)
-			throws AeCoordinationNotFoundException {
-		return getDelegate().getParticipant(aCoordinationId);
-	}
+    /**
+     * @see org.activebpel.rt.bpel.coord.IAeCoordinationManager#getParticipant(java.lang.String)
+     */
+    public IAeParticipant getParticipant(String aCoordinationId)
+            throws AeCoordinationNotFoundException {
+        return getDelegate().getParticipant(aCoordinationId);
+    }
 
-	/**
-	 * @see org.activebpel.rt.bpel.coord.IAeCoordinationManager#getParticipantDetail(long)
-	 */
-	public List<AeCoordinationDetail> getParticipantDetail(long aParentProcessId)
-			throws AeCoordinationNotFoundException {
-		return getDelegate().getParticipantDetail(aParentProcessId);
-	}
+    /**
+     * @see org.activebpel.rt.bpel.coord.IAeCoordinationManager#getParticipantDetail(long)
+     */
+    public List<AeCoordinationDetail> getParticipantDetail(long aParentProcessId)
+            throws AeCoordinationNotFoundException {
+        return getDelegate().getParticipantDetail(aParentProcessId);
+    }
 
-	/**
-	 * @see org.activebpel.rt.bpel.coord.IAeCoordinationManager#register(org.activebpel.rt.bpel.coord.IAeRegistrationRequest)
-	 */
-	public IAeRegistrationResponse register(IAeRegistrationRequest aRegRequest)
-			throws AeCoordinationException {
-		return getDelegate().register(aRegRequest);
-	}
+    /**
+     * @see org.activebpel.rt.bpel.coord.IAeCoordinationManager#register(org.activebpel.rt.bpel.coord.IAeRegistrationRequest)
+     */
+    public IAeRegistrationResponse register(IAeRegistrationRequest aRegRequest)
+            throws AeCoordinationException {
+        return getDelegate().register(aRegRequest);
+    }
 
-	/**
-	 * @see org.activebpel.rt.bpel.server.engine.recovery.test.AeDelegatingManager#getEngine()
-	 */
-	public IAeBusinessProcessEngineInternal getEngine() {
-		return mEngine;
-	}
+    /**
+     * @see org.activebpel.rt.bpel.server.engine.recovery.test.AeDelegatingManager#getEngine()
+     */
+    public IAeBusinessProcessEngineInternal getEngine() {
+        return mEngine;
+    }
 
-	/**
-	 * @see org.activebpel.rt.bpel.server.engine.recovery.test.AeDelegatingManager#setEngine(org.activebpel.rt.bpel.impl.IAeBusinessProcessEngineInternal)
-	 */
-	public void setEngine(IAeBusinessProcessEngineInternal aEngine) {
-		mEngine = aEngine;
-	}
+    /**
+     * @see org.activebpel.rt.bpel.server.engine.recovery.test.AeDelegatingManager#setEngine(org.activebpel.rt.bpel.impl.IAeBusinessProcessEngineInternal)
+     */
+    public void setEngine(IAeBusinessProcessEngineInternal aEngine) {
+        mEngine = aEngine;
+    }
 
-	/**
-	 * Getter for the delegate manager
-	 */
-	protected IAeCoordinationManagerInternal getDelegate() {
-		return mDelegate;
-	}
+    /**
+     * Getter for the delegate manager
+     */
+    protected IAeCoordinationManagerInternal getDelegate() {
+        return mDelegate;
+    }
 
-	/**
-	 * Setter for the delegate manager
-	 */
-	protected IAeRecoveredItemsSet getRecoveredItemsSet() {
-		return mRecoveredItemsSet;
-	}
+    /**
+     * Setter for the delegate manager
+     */
+    protected IAeRecoveredItemsSet getRecoveredItemsSet() {
+        return mRecoveredItemsSet;
+    }
 
-	@Override
-	public void create() throws Exception {
-		getDelegate().create();
-	}
+    @Override
+    public void create() throws Exception {
+        getDelegate().create();
+    }
 
-	@Override
-	public void prepareToStart() throws Exception {
-		getDelegate().prepareToStart();
-	}
+    @Override
+    public void prepareToStart() throws Exception {
+        getDelegate().prepareToStart();
+    }
 
-	@Override
-	public void start() throws Exception {
-		getDelegate().start();
-	}
+    @Override
+    public void start() throws Exception {
+        getDelegate().start();
+    }
 
-	@Override
-	public void stop() {
-		getDelegate().stop();
-	}
+    @Override
+    public void stop() {
+        getDelegate().stop();
+    }
 
-	@Override
-	public void destroy() {
-		getDelegate().destroy();
-	}
+    @Override
+    public void destroy() {
+        getDelegate().destroy();
+    }
 
-	@Override
-	public void accept(IAeManagerVisitor aVisitor) throws Exception {
-		getDelegate().accept(aVisitor);
-	}
+    @Override
+    public void accept(IAeManagerVisitor aVisitor) throws Exception {
+        getDelegate().accept(aVisitor);
+    }
 
-	@Override
-	public IAeImplAdapter getAdapter(Class aAdapterInterface) {
-		return getDelegate().getAdapter(aAdapterInterface);
-	}
+    @Override
+    public IAeImplAdapter getAdapter(Class aAdapterInterface) {
+        return getDelegate().getAdapter(aAdapterInterface);
+    }
 }

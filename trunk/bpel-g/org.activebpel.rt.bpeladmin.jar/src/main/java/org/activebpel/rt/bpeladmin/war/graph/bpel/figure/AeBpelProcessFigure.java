@@ -15,29 +15,28 @@ import org.activebpel.rt.bpeladmin.war.graph.ui.AeIconLabel;
  * Figure to represent the root Process. This class overrides the addLabel()
  * method so that the label is not shown.
  */
-public class AeBpelProcessFigure extends AeBpelFigureBase
-{
+public class AeBpelProcessFigure extends AeBpelFigureBase {
 
-   /**
-     * 
+    /**
+     *
      */
     private static final long serialVersionUID = 4394297624475048274L;
 
-/**
-    * Constructs the figure with the given name
-    * @param aBpelName
-    */
-   public AeBpelProcessFigure(String aBpelName)
-   {
-      super(aBpelName);
-   }
+    /**
+     * Constructs the figure with the given name
+     *
+     * @param aBpelName
+     */
+    public AeBpelProcessFigure(String aBpelName) {
+        super(aBpelName);
+    }
 
-   /** 
-    * Overrides method so that the label is not added to this component. 
-    * @see org.activebpel.rt.bpeladmin.war.graph.bpel.figure.AeBpelFigureBase#addLabel(org.activebpel.rt.bpeladmin.war.graph.ui.AeIconLabel)
-    */
-   protected void addLabel(AeIconLabel aLabel)
-   {
-   }  
-     
+    /**
+     * Overrides method so that the label is not added to this component.
+     *
+     * @see org.activebpel.rt.bpeladmin.war.graph.bpel.figure.AeBpelFigureBase#addLabel(org.activebpel.rt.bpeladmin.war.graph.ui.AeIconLabel)
+     */
+    protected void addLabel(AeIconLabel aLabel) {
+    }
+
 }

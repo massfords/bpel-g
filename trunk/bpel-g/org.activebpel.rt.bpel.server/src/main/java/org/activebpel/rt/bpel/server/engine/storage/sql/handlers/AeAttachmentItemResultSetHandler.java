@@ -22,29 +22,25 @@ import org.w3c.dom.Document;
  * Implements a <code>ResultSetHandler</code> that returns the first row of a
  * <code>ResultSet</code> as a <code>AeAttachmentItemEntry</code>.
  */
-public class AeAttachmentItemResultSetHandler implements ResultSetHandler<AeAttachmentItemEntry>
-{
-   /**
-    * @see org.apache.commons.dbutils.ResultSetHandler#handle(java.sql.ResultSet)
-    */
-   public AeAttachmentItemEntry handle(ResultSet rs) throws SQLException
-   {
-      if (rs.next())
-      {
-         long attachmentGroupId = rs.getLong(1);
-         long attachmentItemId = rs.getLong(2);
+public class AeAttachmentItemResultSetHandler implements ResultSetHandler<AeAttachmentItemEntry> {
+    /**
+     * @see org.apache.commons.dbutils.ResultSetHandler#handle(java.sql.ResultSet)
+     */
+    public AeAttachmentItemEntry handle(ResultSet rs) throws SQLException {
+        if (rs.next()) {
+            long attachmentGroupId = rs.getLong(1);
+            long attachmentItemId = rs.getLong(2);
 
-         Clob clob = rs.getClob(3);
-         if (rs.wasNull())
-         {
-            clob = null;
-         }
+            Clob clob = rs.getClob(3);
+            if (rs.wasNull()) {
+                clob = null;
+            }
 
-         Document document = (clob == null) ? null : AeDbUtils.getDocument(clob);
-       
-         return new AeAttachmentItemEntry(attachmentGroupId, attachmentItemId, document); 
-      }
+            Document document = (clob == null) ? null : AeDbUtils.getDocument(clob);
 
-      return null;
-   }
+            return new AeAttachmentItemEntry(attachmentGroupId, attachmentItemId, document);
+        }
+
+        return null;
+    }
 }

@@ -15,16 +15,16 @@ import javax.xml.rpc.ServiceException;
 /**
  * The interface which defines the remote debug service.
  */
-public interface IAeEventHandlerService extends Service
-{
-   /**
-    * Returns the address of the remote debug service.
-    */
-   public String getRemoteDebugAddress();
+public interface IAeEventHandlerService extends Service {
+    /**
+     * Returns the address of the remote debug service.
+     */
+    public String getRemoteDebugAddress();
 
-   /**
-    * Returns the interface for the web service methods of the remote debugger. 
-    * @throws ServiceException
-    */
-   public IAeEventHandler getRemoteDebugService() throws ServiceException;
+    /**
+     * Returns the interface for the web service methods of the remote debugger.
+     *
+     * @throws ServiceException
+     */
+    public IAeEventHandler getRemoteDebugService() throws ServiceException;
 }

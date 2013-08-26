@@ -31,90 +31,84 @@ import java.util.Map;
 /**
  * Abstract class to provide functionality to load a validation preferences file to extending classes.
  */
-public abstract class AeWSResourceValidationPreferences implements IAeWSResourceValidationPreferences
-{
-   /** schema for the severity file */
-   private static final Schema sSeveritySchema;
-   /** prefix to namespace mapping*/
-   private static final Map<String, String> sPrefixMap = new HashMap<>();
-   /** Map of rule ids -> severity */
-   private final Map<QName, Integer> mSeverity = new HashMap<>();
-   
-   static
-   {
-      sPrefixMap.put("ae", IAeWSResourceConstants.SEVERITY_NAMESPACE); //$NON-NLS-1$
-      sSeveritySchema = AeSchemaParserUtil.loadSchema("aePreferences.xsd", AeRulesUtil.class); //$NON-NLS-1$
-   }
-   
-   /**
-    * Loads the rules found in the severity preferences file.
-    * 
-    * @param aSeverityFileURL
-    */
-   public void loadPreferencesFile(URL aSeverityFileURL)
-   {
-      try
-      {
-         AeXMLParserBase parser = new AeXMLParserBase(true, true);
-         InputSource severityIS = new InputSource(new InputStreamReader(aSeverityFileURL.openStream()));
-         severityIS.setSystemId(aSeverityFileURL.toString());
-         Document severityDoc = parser.loadDocument(severityIS, Collections.singleton(sSeveritySchema).iterator());
+public abstract class AeWSResourceValidationPreferences implements IAeWSResourceValidationPreferences {
+    /**
+     * schema for the severity file
+     */
+    private static final Schema sSeveritySchema;
+    /**
+     * prefix to namespace mapping
+     */
+    private static final Map<String, String> sPrefixMap = new HashMap<>();
+    /**
+     * Map of rule ids -> severity
+     */
+    private final Map<QName, Integer> mSeverity = new HashMap<>();
 
-         List ruleNodes = AeXPathUtil.selectNodes(
-                                                severityDoc, 
-                                                "ae:preferences/ae:preference", //$NON-NLS-1$
-                                                sPrefixMap); 
-         
-         String targetNS = AeXPathUtil.selectSingleNode(
-                                                severityDoc, 
-                                                "ae:preferences/@targetNamespace", //$NON-NLS-1$
-                                                sPrefixMap).getNodeValue();
+    static {
+        sPrefixMap.put("ae", IAeWSResourceConstants.SEVERITY_NAMESPACE); //$NON-NLS-1$
+        sSeveritySchema = AeSchemaParserUtil.loadSchema("aePreferences.xsd", AeRulesUtil.class); //$NON-NLS-1$
+    }
 
-          for (Object ruleNode : ruleNodes) {
-              Element ruleElem = (Element) ruleNode;
-              String code = AeXPathUtil.selectText(ruleElem, "ae:ruleCode", sPrefixMap); //$NON-NLS-1$
-              String severity = AeXPathUtil.selectText(ruleElem, "ae:preferredSeverity", sPrefixMap); //$NON-NLS-1$
-              QName id = new QName(targetNS, code);
+    /**
+     * Loads the rules found in the severity preferences file.
+     *
+     * @param aSeverityFileURL
+     */
+    public void loadPreferencesFile(URL aSeverityFileURL) {
+        try {
+            AeXMLParserBase parser = new AeXMLParserBase(true, true);
+            InputSource severityIS = new InputSource(new InputStreamReader(aSeverityFileURL.openStream()));
+            severityIS.setSystemId(aSeverityFileURL.toString());
+            Document severityDoc = parser.loadDocument(severityIS, Collections.singleton(sSeveritySchema).iterator());
 
-              getSeverityMap().put(id, AeRulesUtil.convertSeverity(severity));
-          }
-      }
-      catch (Exception ex)
-      {
-         throw new RuntimeException(ex);
-      }
-   }
-   
-   /** 
-    * @see org.activebpel.rt.wsresource.validation.IAeWSResourceValidationPreferences#getSeverity(org.activebpel.rt.wsresource.validation.IAeWSResourceValidationRule)
-    */
-   public int getSeverity(IAeWSResourceValidationRule aValidationRule)
-   {
-      int prefSeverity = getSeverityCode(aValidationRule.getId());
-      return prefSeverity != -1 ? prefSeverity : aValidationRule.getDefaultSeverity();
-   }
+            List ruleNodes = AeXPathUtil.selectNodes(
+                    severityDoc,
+                    "ae:preferences/ae:preference", //$NON-NLS-1$
+                    sPrefixMap);
 
-   /**
-    * @return Returns the int severity code.
-    */
-   protected int getSeverityCode(QName aRuleId)
-   {
-      if (getSeverityMap().containsKey(aRuleId))
-      {
-         return mSeverity.get(aRuleId);
-      }
-      else
-      {
-         return -1;
-      }
-   }
-   
-   /**
-    * @return Returns the severity Map.
-    */
-   protected Map<QName, Integer> getSeverityMap()
-   {
-      return mSeverity;
-   }
+            String targetNS = AeXPathUtil.selectSingleNode(
+                    severityDoc,
+                    "ae:preferences/@targetNamespace", //$NON-NLS-1$
+                    sPrefixMap).getNodeValue();
+
+            for (Object ruleNode : ruleNodes) {
+                Element ruleElem = (Element) ruleNode;
+                String code = AeXPathUtil.selectText(ruleElem, "ae:ruleCode", sPrefixMap); //$NON-NLS-1$
+                String severity = AeXPathUtil.selectText(ruleElem, "ae:preferredSeverity", sPrefixMap); //$NON-NLS-1$
+                QName id = new QName(targetNS, code);
+
+                getSeverityMap().put(id, AeRulesUtil.convertSeverity(severity));
+            }
+        } catch (Exception ex) {
+            throw new RuntimeException(ex);
+        }
+    }
+
+    /**
+     * @see org.activebpel.rt.wsresource.validation.IAeWSResourceValidationPreferences#getSeverity(org.activebpel.rt.wsresource.validation.IAeWSResourceValidationRule)
+     */
+    public int getSeverity(IAeWSResourceValidationRule aValidationRule) {
+        int prefSeverity = getSeverityCode(aValidationRule.getId());
+        return prefSeverity != -1 ? prefSeverity : aValidationRule.getDefaultSeverity();
+    }
+
+    /**
+     * @return Returns the int severity code.
+     */
+    protected int getSeverityCode(QName aRuleId) {
+        if (getSeverityMap().containsKey(aRuleId)) {
+            return mSeverity.get(aRuleId);
+        } else {
+            return -1;
+        }
+    }
+
+    /**
+     * @return Returns the severity Map.
+     */
+    protected Map<QName, Integer> getSeverityMap() {
+        return mSeverity;
+    }
 
 }

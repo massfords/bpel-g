@@ -14,16 +14,15 @@ import org.activebpel.rt.bpel.def.AeFaultHandlersDef;
 /**
  * BPEL model for the root level fault handlers.
  */
-public class AeBpelFaultHandlersObject extends AeBpelObjectContainer
-{
+public class AeBpelFaultHandlersObject extends AeBpelObjectContainer {
 
-   /**
-    * Ctor.
-    * @param aDef fault handler definition.
-    */
-   public AeBpelFaultHandlersObject(AeFaultHandlersDef aDef)
-   {
-      super(AeFaultHandlersDef.TAG_FAULT_HANDLERS, aDef);
-   }      
+    /**
+     * Ctor.
+     *
+     * @param aDef fault handler definition.
+     */
+    public AeBpelFaultHandlersObject(AeFaultHandlersDef aDef) {
+        super(AeFaultHandlersDef.TAG_FAULT_HANDLERS, aDef);
+    }
 
 }

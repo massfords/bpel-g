@@ -7,7 +7,7 @@
 //Active Endpoints, Inc. Removal of this PROPRIETARY RIGHTS STATEMENT 
 //is strictly forbidden. Copyright (c) 2002-2006 All rights reserved. 
 /////////////////////////////////////////////////////////////////////////////
-package org.activebpel.rt.bpel.impl.activity.assign.copy; 
+package org.activebpel.rt.bpel.impl.activity.assign.copy;
 
 import org.activebpel.rt.bpel.impl.AeBpelException;
 import org.activebpel.rt.bpel.impl.activity.assign.AeMismatchedAssignmentException;
@@ -17,13 +17,11 @@ import org.activebpel.rt.bpel.impl.activity.assign.IAeCopyStrategy;
 /**
  * Strategy that throws an error since the copy operation has detected a mismatched assignment
  */
-public class AeMismatchedAssignmentStrategy implements IAeCopyStrategy
-{
-   /**
-    * @see org.activebpel.rt.bpel.impl.activity.assign.IAeCopyStrategy#copy(org.activebpel.rt.bpel.impl.activity.assign.IAeCopyOperation, java.lang.Object, java.lang.Object)
-    */
-   public void copy(IAeCopyOperation aCopyOperation, Object aFromData, Object aToData) throws AeBpelException
-   {
-      throw new AeMismatchedAssignmentException(aCopyOperation.getContext().getBPELNamespace());
-   }
+public class AeMismatchedAssignmentStrategy implements IAeCopyStrategy {
+    /**
+     * @see org.activebpel.rt.bpel.impl.activity.assign.IAeCopyStrategy#copy(org.activebpel.rt.bpel.impl.activity.assign.IAeCopyOperation, java.lang.Object, java.lang.Object)
+     */
+    public void copy(IAeCopyOperation aCopyOperation, Object aFromData, Object aToData) throws AeBpelException {
+        throw new AeMismatchedAssignmentException(aCopyOperation.getContext().getBPELNamespace());
+    }
 }

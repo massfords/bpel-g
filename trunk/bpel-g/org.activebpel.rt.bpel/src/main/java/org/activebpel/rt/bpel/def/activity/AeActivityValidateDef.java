@@ -21,87 +21,79 @@ import java.util.StringTokenizer;
 /**
  * Models the validate activity introduced in WS-BPEL 2.0 (in section 8.1 of the spec).
  */
-public class AeActivityValidateDef extends AeActivityDef
-{
-   private static final long serialVersionUID = -9005669307414799092L;
-   /** The activity's 'variables' attribute. */
-   private final List<String> mVariables = new ArrayList<>();
+public class AeActivityValidateDef extends AeActivityDef {
+    private static final long serialVersionUID = -9005669307414799092L;
+    /**
+     * The activity's 'variables' attribute.
+     */
+    private final List<String> mVariables = new ArrayList<>();
 
-   /**
-    * Default c'tor.
-    */
-   public AeActivityValidateDef()
-   {
-      super();
-   }
+    /**
+     * Default c'tor.
+     */
+    public AeActivityValidateDef() {
+        super();
+    }
 
-   /**
-    * @return Returns the variables.
-    */
-   public String getVariablesAsString()
-   {
-      StringBuilder buff = new StringBuilder();
-      for (Iterator iter = getVariables(); iter.hasNext(); )
-      {
-         String variable = (String) iter.next();
-         buff.append(variable);
-         buff.append(" "); //$NON-NLS-1$
-      }
-      return buff.toString().trim();
-   }
+    /**
+     * @return Returns the variables.
+     */
+    public String getVariablesAsString() {
+        StringBuilder buff = new StringBuilder();
+        for (Iterator iter = getVariables(); iter.hasNext(); ) {
+            String variable = (String) iter.next();
+            buff.append(variable);
+            buff.append(" "); //$NON-NLS-1$
+        }
+        return buff.toString().trim();
+    }
 
-   /**
-    * Gets an iterator over the variables.
-    */
-   public Iterator getVariables()
-   {
-      return mVariables.iterator();
-   }
-   
-   /**
-    * Returns the number of variables being validated
-    */
-   public int getVariablesCount()
-   {
-      return mVariables.size();
-   }
+    /**
+     * Gets an iterator over the variables.
+     */
+    public Iterator getVariables() {
+        return mVariables.iterator();
+    }
 
-   /**
-    * @param aVariablesString The variables to set.
-    */
-   public void setVariables(String aVariablesString)
-   {
-      parseVariablesString(aVariablesString);
-   }
-   
-   /**
-    * Parses the variables string value into a list of variables.
-    * 
-    * @param aVariablesString
-    */
-   private void parseVariablesString(String aVariablesString)
-   {
-      for (StringTokenizer tokenizer = new StringTokenizer(aVariablesString); tokenizer.hasMoreTokens(); )
-      {
-         String variable = tokenizer.nextToken();
-         addVariable(variable);
-      }
-   }
+    /**
+     * Returns the number of variables being validated
+     */
+    public int getVariablesCount() {
+        return mVariables.size();
+    }
 
-   /**
-    * Adds a variable to the list of variables associated with this activity.
-    * @param aVariableName
-    */
-   public void addVariable(String aVariableName)
-   {
-      mVariables.add(aVariableName);
-   }
+    /**
+     * @param aVariablesString The variables to set.
+     */
+    public void setVariables(String aVariablesString) {
+        parseVariablesString(aVariablesString);
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.def.AeBaseDef#accept(org.activebpel.rt.bpel.def.visitors.IAeDefVisitor)
-    */
-   public void accept(IAeDefVisitor aVisitor)
-   {
-      aVisitor.visit(this);
-   }
+    /**
+     * Parses the variables string value into a list of variables.
+     *
+     * @param aVariablesString
+     */
+    private void parseVariablesString(String aVariablesString) {
+        for (StringTokenizer tokenizer = new StringTokenizer(aVariablesString); tokenizer.hasMoreTokens(); ) {
+            String variable = tokenizer.nextToken();
+            addVariable(variable);
+        }
+    }
+
+    /**
+     * Adds a variable to the list of variables associated with this activity.
+     *
+     * @param aVariableName
+     */
+    public void addVariable(String aVariableName) {
+        mVariables.add(aVariableName);
+    }
+
+    /**
+     * @see org.activebpel.rt.bpel.def.AeBaseDef#accept(org.activebpel.rt.bpel.def.visitors.IAeDefVisitor)
+     */
+    public void accept(IAeDefVisitor aVisitor) {
+        aVisitor.visit(this);
+    }
 }

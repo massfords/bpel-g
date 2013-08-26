@@ -19,154 +19,147 @@ import org.activebpel.rt.wsdl.def.IAeRole;
 /**
  * Definition for bpel partner link.
  */
-public class AePartnerLinkDef extends AeNamedDef
-{
-   /**
-     * 
+public class AePartnerLinkDef extends AeNamedDef {
+    /**
+     *
      */
     private static final long serialVersionUID = -8088234041577539129L;
-/** The partner link type name. */
-   private QName mPartnerLinkTypeName;
-   /** The my role. */
-   private String mMyRole;
-   /** The partner role. */
-   private String mPartnerRole;
-   /** The partner link type. */
-   private IAePartnerLinkType mPartnerLinkType;
-   /** The initialize partner role flag. */
-   private Boolean mInitializePartnerRole;
+    /**
+     * The partner link type name.
+     */
+    private QName mPartnerLinkTypeName;
+    /**
+     * The my role.
+     */
+    private String mMyRole;
+    /**
+     * The partner role.
+     */
+    private String mPartnerRole;
+    /**
+     * The partner link type.
+     */
+    private IAePartnerLinkType mPartnerLinkType;
+    /**
+     * The initialize partner role flag.
+     */
+    private Boolean mInitializePartnerRole;
 
-   /**
-    * Default constructor
-    */
-   public AePartnerLinkDef()
-   {
-      super();
-   }
+    /**
+     * Default constructor
+     */
+    public AePartnerLinkDef() {
+        super();
+    }
 
-   /**
-    * @return Returns the partnerLinkType.
-    */
-   public IAePartnerLinkType getPartnerLinkType()
-   {
-      return mPartnerLinkType;
-   }
+    /**
+     * @return Returns the partnerLinkType.
+     */
+    public IAePartnerLinkType getPartnerLinkType() {
+        return mPartnerLinkType;
+    }
 
-   /**
-    * @param aPartnerLinkType The partnerLinkType to set.
-    */
-   public void setPartnerLinkType(IAePartnerLinkType aPartnerLinkType)
-   {
-      mPartnerLinkType = aPartnerLinkType;
-   }
-   
-   /**
-    * Accessor method to obtain the Partner Link Type for this partner.
-    * 
-    * @return partner link type of the partner
-    */
-   public QName getPartnerLinkTypeName()
-   {
-      return mPartnerLinkTypeName;
-   }
+    /**
+     * @param aPartnerLinkType The partnerLinkType to set.
+     */
+    public void setPartnerLinkType(IAePartnerLinkType aPartnerLinkType) {
+        mPartnerLinkType = aPartnerLinkType;
+    }
 
-   /**
-    * Mutator method to set the Partner Link Type for this partner.
-    * 
-    * @param aPartnerLinkType the Partner Link Type for this partner
-    */
-   public void setPartnerLinkTypeName(QName aPartnerLinkType)
-   {
-      mPartnerLinkTypeName = aPartnerLinkType;
-   }
+    /**
+     * Accessor method to obtain the Partner Link Type for this partner.
+     *
+     * @return partner link type of the partner
+     */
+    public QName getPartnerLinkTypeName() {
+        return mPartnerLinkTypeName;
+    }
 
-   /**
-    * Accessor method to obtain my role for this partner link.
-    * 
-    * @return my role for this partner link
-    */
-   public String getMyRole()
-   {
-      return mMyRole;
-   }
-   
-   /**
-    * Mutator method to set myRole for this partner link.
-    * 
-    * @param aMyRole my role for this partner link
-    */
-   public void setMyRole(String aMyRole)
-   {
-      mMyRole = aMyRole;
-   }
-   
-   /**
-    * Getter for the myRole portType
-    */
-   public QName getMyRolePortType()
-   {
-      if (AeUtil.notNullOrEmpty(getMyRole()) && getPartnerLinkType() != null)
-      {
-         IAeRole role = getPartnerLinkType().findRole(getMyRole());
-         if (role != null)
-            return role.getPortType().getQName();
-      }
-      return null;
-   }
-   
-   /**
-    * Getter for the partnerRole portType
-    */
-   public QName getPartnerRolePortType()
-   {
-      if (AeUtil.notNullOrEmpty(getPartnerRole()) && getPartnerLinkType() != null)
-      {
-         return getPartnerLinkType().findRole(getPartnerRole()).getPortType().getQName();
-      }
-      return null;
-   }
+    /**
+     * Mutator method to set the Partner Link Type for this partner.
+     *
+     * @param aPartnerLinkType the Partner Link Type for this partner
+     */
+    public void setPartnerLinkTypeName(QName aPartnerLinkType) {
+        mPartnerLinkTypeName = aPartnerLinkType;
+    }
 
-   /**
-    * Accessor method to obtain the partner role for this partner link.
-    * 
-    * @return partner role for this partner link
-    */
-   public String getPartnerRole()
-   {
-      return mPartnerRole;
-   }
+    /**
+     * Accessor method to obtain my role for this partner link.
+     *
+     * @return my role for this partner link
+     */
+    public String getMyRole() {
+        return mMyRole;
+    }
 
-   /**
-    * Mutator method to set the partner role for this partner link.
-    * 
-    * @param aPartnerRole partner role for this partner link.
-    */
-   public void setPartnerRole(String aPartnerRole)
-   {
-      mPartnerRole = aPartnerRole;
-   }
+    /**
+     * Mutator method to set myRole for this partner link.
+     *
+     * @param aMyRole my role for this partner link
+     */
+    public void setMyRole(String aMyRole) {
+        mMyRole = aMyRole;
+    }
 
-   /**
-    * @return Returns the initializePartnerRole.
-    */
-   public Boolean getInitializePartnerRole()
-   {
-      return mInitializePartnerRole;
-   }
+    /**
+     * Getter for the myRole portType
+     */
+    public QName getMyRolePortType() {
+        if (AeUtil.notNullOrEmpty(getMyRole()) && getPartnerLinkType() != null) {
+            IAeRole role = getPartnerLinkType().findRole(getMyRole());
+            if (role != null)
+                return role.getPortType().getQName();
+        }
+        return null;
+    }
 
-   /**
-    * @param aInitializePartnerRole The initializePartnerRole to set.
-    */
-   public void setInitializePartnerRole(Boolean aInitializePartnerRole)
-   {
-      mInitializePartnerRole = aInitializePartnerRole;
-   }
+    /**
+     * Getter for the partnerRole portType
+     */
+    public QName getPartnerRolePortType() {
+        if (AeUtil.notNullOrEmpty(getPartnerRole()) && getPartnerLinkType() != null) {
+            return getPartnerLinkType().findRole(getPartnerRole()).getPortType().getQName();
+        }
+        return null;
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.def.AeBaseDef#accept(org.activebpel.rt.bpel.def.visitors.IAeDefVisitor)
-    */
-   public void accept(IAeDefVisitor aVisitor)
-   {
-      aVisitor.visit(this);
-   }
+    /**
+     * Accessor method to obtain the partner role for this partner link.
+     *
+     * @return partner role for this partner link
+     */
+    public String getPartnerRole() {
+        return mPartnerRole;
+    }
+
+    /**
+     * Mutator method to set the partner role for this partner link.
+     *
+     * @param aPartnerRole partner role for this partner link.
+     */
+    public void setPartnerRole(String aPartnerRole) {
+        mPartnerRole = aPartnerRole;
+    }
+
+    /**
+     * @return Returns the initializePartnerRole.
+     */
+    public Boolean getInitializePartnerRole() {
+        return mInitializePartnerRole;
+    }
+
+    /**
+     * @param aInitializePartnerRole The initializePartnerRole to set.
+     */
+    public void setInitializePartnerRole(Boolean aInitializePartnerRole) {
+        mInitializePartnerRole = aInitializePartnerRole;
+    }
+
+    /**
+     * @see org.activebpel.rt.bpel.def.AeBaseDef#accept(org.activebpel.rt.bpel.def.visitors.IAeDefVisitor)
+     */
+    public void accept(IAeDefVisitor aVisitor) {
+        aVisitor.visit(this);
+    }
 }

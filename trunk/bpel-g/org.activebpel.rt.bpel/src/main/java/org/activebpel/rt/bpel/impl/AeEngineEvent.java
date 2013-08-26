@@ -19,63 +19,65 @@ import org.activebpel.rt.bpel.IAeEngineEvent;
 /**
  * Implementation of bpel engine event.
  */
-public class AeEngineEvent extends AeEvent implements IAeEngineEvent
-{
-   /** The process ID of the event being triggered. */
-   private final long mProcessID; 
-   /** The ID of the event being triggered as defined in the interface. */
-   private final AeEngineEventType mEventID;   
-   /** The namespace qualified name of the process this event represents. */
-   private final QName mProcessName;
+public class AeEngineEvent extends AeEvent implements IAeEngineEvent {
+    /**
+     * The process ID of the event being triggered.
+     */
+    private final long mProcessID;
+    /**
+     * The ID of the event being triggered as defined in the interface.
+     */
+    private final AeEngineEventType mEventID;
+    /**
+     * The namespace qualified name of the process this event represents.
+     */
+    private final QName mProcessName;
 
-   /**
-    * Constructor for BPEL engine event.
-    * @param aProcessID The process ID of the event.
-    * @param aEventID The event id of the event.
-    * @param aProcessName The name of the process
-    */
-   public AeEngineEvent(long aProcessID, AeEngineEventType aEventID, QName aProcessName)
-   {
-      mProcessID   = aProcessID;
-      mEventID     = aEventID;
-      mProcessName = aProcessName;
-   }
-   
-   /**
-    * Constructor for BPEL engine event.
-    * 
-    * @param aProcessID The process ID of the event.
-    * @param aEventID The event id of the event.
-    * @param aProcessName The name of the process
-    * @param aTimestamp The event timestamp
-    */
-   public AeEngineEvent(long aProcessID, AeEngineEventType aEventID, QName aProcessName, Date aTimestamp)
-   {
-      super(aTimestamp);
-      
-      mProcessID   = aProcessID;
-      mEventID     = aEventID;
-      mProcessName = aProcessName;
-   }
-   
-   /**
-    * @see org.activebpel.rt.bpel.IAeEngineEvent#getPID()
-    */
-   public long getPID()
-   {
-      return mProcessID;
-   }
+    /**
+     * Constructor for BPEL engine event.
+     *
+     * @param aProcessID   The process ID of the event.
+     * @param aEventID     The event id of the event.
+     * @param aProcessName The name of the process
+     */
+    public AeEngineEvent(long aProcessID, AeEngineEventType aEventID, QName aProcessName) {
+        mProcessID = aProcessID;
+        mEventID = aEventID;
+        mProcessName = aProcessName;
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.IAeEngineEvent#getProcessName()
-    */
-   public QName getProcessName()
-   {
-      return mProcessName;
-   }
+    /**
+     * Constructor for BPEL engine event.
+     *
+     * @param aProcessID   The process ID of the event.
+     * @param aEventID     The event id of the event.
+     * @param aProcessName The name of the process
+     * @param aTimestamp   The event timestamp
+     */
+    public AeEngineEvent(long aProcessID, AeEngineEventType aEventID, QName aProcessName, Date aTimestamp) {
+        super(aTimestamp);
 
-	@Override
-	public AeEngineEventType getEventType() {
-		return mEventID;
-	}
+        mProcessID = aProcessID;
+        mEventID = aEventID;
+        mProcessName = aProcessName;
+    }
+
+    /**
+     * @see org.activebpel.rt.bpel.IAeEngineEvent#getPID()
+     */
+    public long getPID() {
+        return mProcessID;
+    }
+
+    /**
+     * @see org.activebpel.rt.bpel.IAeEngineEvent#getProcessName()
+     */
+    public QName getProcessName() {
+        return mProcessName;
+    }
+
+    @Override
+    public AeEngineEventType getEventType() {
+        return mEventID;
+    }
 }

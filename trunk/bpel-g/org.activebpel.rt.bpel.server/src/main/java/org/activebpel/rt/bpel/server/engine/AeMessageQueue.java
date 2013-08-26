@@ -7,7 +7,7 @@
 // Active Endpoints, Inc. Removal of this PROPRIETARY RIGHTS STATEMENT
 // is strictly forbidden. Copyright (c) 2002-2007 All rights reserved.
 /////////////////////////////////////////////////////////////////////////////
-package org.activebpel.rt.bpel.server.engine; 
+package org.activebpel.rt.bpel.server.engine;
 
 import java.rmi.RemoteException;
 import java.util.Map;
@@ -27,99 +27,80 @@ import org.activebpel.wsio.receive.IAeMessageQueue;
 import org.w3c.dom.Document;
 
 /**
- * Provides a method for dispatching messages into the engine. 
+ * Provides a method for dispatching messages into the engine.
  */
-public class AeMessageQueue implements IAeMessageQueue
-{
-   private static final AeMessageQueue INSTANCE = new AeMessageQueue();
-   
-   /**
-    * getter for the singleton
-    */
-   public static IAeMessageQueue getInstance()
-   {
-      return INSTANCE;
-   }
-   
-   /**
-    * private ctor to force singleton usage 
-    */
-   private AeMessageQueue()
-   {
-   }
+public class AeMessageQueue implements IAeMessageQueue {
+    private static final AeMessageQueue INSTANCE = new AeMessageQueue();
 
-   /**
-    * @see org.activebpel.wsio.receive.IAeMessageQueue#queueInvokeData(long, java.lang.String, long, org.activebpel.wsio.IAeWebServiceMessageData, java.util.Map)
-    */
-   public void queueInvokeData(long aProcessId, String aLocationPath, long aTransmissionId,
-         IAeWebServiceMessageData aMessageData, Map<String,String> aProcessProperties)
-         throws AeRequestException
-   {   
-      try
-      {        
-         IAeMessageData data = AeDataConverter.convert(aMessageData);
-         AeEngineFactory.getEngine().queueInvokeData(aProcessId, aLocationPath, aTransmissionId, data, aProcessProperties);
-      }
-      catch (AeBusinessProcessException e)
-      {
-         throw new AeRequestException(e.getMessage());
-      }
-   }
-   
-   /**
-    * @see org.activebpel.wsio.receive.IAeMessageQueue#queueInvokeFault(long, java.lang.String, long, javax.xml.namespace.QName, org.activebpel.wsio.IAeWebServiceMessageData, java.util.Map)
-    */
-   public void queueInvokeFault(long aProcessId, String aLocationPath, long aTransmissionId,
-         QName aFaultName, IAeWebServiceMessageData aFaultData,
-         Map<String,String> aProcessProperties) throws AeRequestException
-   {   
-      try
-      {
+    /**
+     * getter for the singleton
+     */
+    public static IAeMessageQueue getInstance() {
+        return INSTANCE;
+    }
+
+    /**
+     * private ctor to force singleton usage
+     */
+    private AeMessageQueue() {
+    }
+
+    /**
+     * @see org.activebpel.wsio.receive.IAeMessageQueue#queueInvokeData(long, java.lang.String, long, org.activebpel.wsio.IAeWebServiceMessageData, java.util.Map)
+     */
+    public void queueInvokeData(long aProcessId, String aLocationPath, long aTransmissionId,
+                                IAeWebServiceMessageData aMessageData, Map<String, String> aProcessProperties)
+            throws AeRequestException {
+        try {
+            IAeMessageData data = AeDataConverter.convert(aMessageData);
+            AeEngineFactory.getEngine().queueInvokeData(aProcessId, aLocationPath, aTransmissionId, data, aProcessProperties);
+        } catch (AeBusinessProcessException e) {
+            throw new AeRequestException(e.getMessage());
+        }
+    }
+
+    /**
+     * @see org.activebpel.wsio.receive.IAeMessageQueue#queueInvokeFault(long, java.lang.String, long, javax.xml.namespace.QName, org.activebpel.wsio.IAeWebServiceMessageData, java.util.Map)
+     */
+    public void queueInvokeFault(long aProcessId, String aLocationPath, long aTransmissionId,
+                                 QName aFaultName, IAeWebServiceMessageData aFaultData,
+                                 Map<String, String> aProcessProperties) throws AeRequestException {
+        try {
 //       AeDataConverter.convert handles nulls so no need to check here
-         IAeMessageData data = AeDataConverter.convert(aFaultData);
-         AeFault fault = new AeFault( aFaultName, data );
-         
-         AeEngineFactory.getEngine().queueInvokeFault(aProcessId, aLocationPath,  aTransmissionId, fault, aProcessProperties);
-      }
-      catch (AeBusinessProcessException e)
-      {
-         throw new AeRequestException(e.getMessage());
-      }
-   }
+            IAeMessageData data = AeDataConverter.convert(aFaultData);
+            AeFault fault = new AeFault(aFaultName, data);
 
-   /**
-    * @see org.activebpel.wsio.receive.IAeMessageQueue#queueReceiveData(org.activebpel.wsio.receive.IAeMessageContext, org.w3c.dom.Document[])
-    */
-   public IAeWebServiceResponse queueReceiveData(IAeMessageContext aContext,
-         Document[] aDocArray) throws RemoteException, AeRequestException
-   {
-      try
-      {
-         return AeEngineFactory.getEngine().queueReceiveData(aContext, aDocArray);         
-      }
-      catch(AeException e)
-      {
-         AeException.logError(e, e.getMessage());
-         throw new AeRequestException(e.getMessage());
-      }
-   }
-   
-   /**
-    * @see org.activebpel.wsio.receive.IAeMessageQueue#queueReceiveData(org.activebpel.wsio.IAeWebServiceMessageData, org.activebpel.wsio.receive.IAeMessageContext)
-    */
-   public IAeWebServiceResponse queueReceiveData(
-         IAeWebServiceMessageData aData, IAeMessageContext aContext)
-         throws RemoteException, AeRequestException
-   {
-      try
-      {
-         return AeEngineFactory.getEngine().queueReceiveData(aContext, aData);         
-      }
-      catch(AeBusinessProcessException e)
-      {
-         AeException.logError(e, e.getMessage());
-         throw new AeRequestException(e.getMessage());
-      }
-   }
+            AeEngineFactory.getEngine().queueInvokeFault(aProcessId, aLocationPath, aTransmissionId, fault, aProcessProperties);
+        } catch (AeBusinessProcessException e) {
+            throw new AeRequestException(e.getMessage());
+        }
+    }
+
+    /**
+     * @see org.activebpel.wsio.receive.IAeMessageQueue#queueReceiveData(org.activebpel.wsio.receive.IAeMessageContext, org.w3c.dom.Document[])
+     */
+    public IAeWebServiceResponse queueReceiveData(IAeMessageContext aContext,
+                                                  Document[] aDocArray) throws RemoteException, AeRequestException {
+        try {
+            return AeEngineFactory.getEngine().queueReceiveData(aContext, aDocArray);
+        } catch (AeException e) {
+            AeException.logError(e, e.getMessage());
+            throw new AeRequestException(e.getMessage());
+        }
+    }
+
+    /**
+     * @see org.activebpel.wsio.receive.IAeMessageQueue#queueReceiveData(org.activebpel.wsio.IAeWebServiceMessageData, org.activebpel.wsio.receive.IAeMessageContext)
+     */
+    public IAeWebServiceResponse queueReceiveData(
+            IAeWebServiceMessageData aData, IAeMessageContext aContext)
+            throws RemoteException, AeRequestException {
+        try {
+            return AeEngineFactory.getEngine().queueReceiveData(aContext, aData);
+        } catch (AeBusinessProcessException e) {
+            AeException.logError(e, e.getMessage());
+            throw new AeRequestException(e.getMessage());
+        }
+    }
 }
  

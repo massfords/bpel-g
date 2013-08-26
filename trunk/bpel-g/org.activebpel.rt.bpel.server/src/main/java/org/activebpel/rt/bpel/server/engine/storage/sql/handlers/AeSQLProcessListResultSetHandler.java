@@ -24,31 +24,27 @@ import bpelg.services.processes.types.ProcessList;
  * Helper class to convert a <code>ResultSet</code> to an
  * <code>AeProcessListResult</code>.
  */
-public class AeSQLProcessListResultSetHandler extends AeListingResultSetHandler<ProcessList, ProcessInstanceDetail>
-{
-   /**
-    * Constructor.
-    *
-    * @param aFilter
-    */
-   public AeSQLProcessListResultSetHandler(ProcessFilterType aFilter)
-   {
-      super(aFilter.getMaxReturn(), aFilter.getListStart());
-   }
+public class AeSQLProcessListResultSetHandler extends AeListingResultSetHandler<ProcessList, ProcessInstanceDetail> {
+    /**
+     * Constructor.
+     *
+     * @param aFilter
+     */
+    public AeSQLProcessListResultSetHandler(ProcessFilterType aFilter) {
+        super(aFilter.getMaxReturn(), aFilter.getListStart());
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.server.engine.storage.sql.AeListingResultSetHandler#readRow(java.sql.ResultSet)
-    */
-   protected ProcessInstanceDetail readRow(ResultSet aResultSet) throws SQLException
-   {
-      return AeSQLProcessInstanceResultSetHandler.createProcessInstanceDetail(aResultSet);
-   }
+    /**
+     * @see org.activebpel.rt.bpel.server.engine.storage.sql.AeListingResultSetHandler#readRow(java.sql.ResultSet)
+     */
+    protected ProcessInstanceDetail readRow(ResultSet aResultSet) throws SQLException {
+        return AeSQLProcessInstanceResultSetHandler.createProcessInstanceDetail(aResultSet);
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.server.engine.storage.sql.AeListingResultSetHandler#convertToType(java.util.List)
-    */
-   protected ProcessList convertToType(List<ProcessInstanceDetail> aResults)
-   {
-      return new ProcessList().withTotalRowCount(getRowCount()).withProcessInstanceDetail(aResults).withComplete(!isTruncated());
-   }
+    /**
+     * @see org.activebpel.rt.bpel.server.engine.storage.sql.AeListingResultSetHandler#convertToType(java.util.List)
+     */
+    protected ProcessList convertToType(List<ProcessInstanceDetail> aResults) {
+        return new ProcessList().withTotalRowCount(getRowCount()).withProcessInstanceDetail(aResults).withComplete(!isTruncated());
+    }
 }

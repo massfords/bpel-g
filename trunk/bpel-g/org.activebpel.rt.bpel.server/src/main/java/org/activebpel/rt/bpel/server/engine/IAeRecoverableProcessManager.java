@@ -18,52 +18,51 @@ import org.activebpel.rt.bpel.server.engine.storage.IAeProcessStateStorage;
 /**
  * Recoverable version of the process manager.
  */
-public interface IAeRecoverableProcessManager extends IAeProcessManager
-{
-   /**
-    * Acquires the process mutex for the given process.
-    *
-    * @param aProcessId
-    */
-   public void acquireProcessMutex(long aProcessId);
+public interface IAeRecoverableProcessManager extends IAeProcessManager {
+    /**
+     * Acquires the process mutex for the given process.
+     *
+     * @param aProcessId
+     */
+    public void acquireProcessMutex(long aProcessId);
 
-   /**
-    * Returns synchronization object that enforces mutually exclusive execution
-    * of recovery and the {@link AePersistentProcessManager#stop()} method.
-    */
-   public Object getRecoveryAndStopMutex();
+    /**
+     * Returns synchronization object that enforces mutually exclusive execution
+     * of recovery and the {@link AePersistentProcessManager#stop()} method.
+     */
+    public Object getRecoveryAndStopMutex();
 
-   /**
-    * Returns process state storage.
-    */
-   public IAeProcessStateStorage getStorage();
+    /**
+     * Returns process state storage.
+     */
+    public IAeProcessStateStorage getStorage();
 
-   /**
-    * Adds the given journal entry ids to the set of journal entries to delete
-    * when the process state is next saved.
-    */
-   public void journalEntriesDone(long aProcessId, Set<Long> aJournalIds);
+    /**
+     * Adds the given journal entry ids to the set of journal entries to delete
+     * when the process state is next saved.
+     */
+    public void journalEntriesDone(long aProcessId, Set<Long> aJournalIds);
 
-   /**
-    * Creates journal entry to recover an engine failure in the event that the
-    * current recovery engine itself fails. 
-    *
-    * @param aProcessId
-    * @param aDeadEngineId
-    */
-   public void journalEngineFailure(long aProcessId, int aDeadEngineId) throws AeBusinessProcessException;
+    /**
+     * Creates journal entry to recover an engine failure in the event that the
+     * current recovery engine itself fails.
+     *
+     * @param aProcessId
+     * @param aDeadEngineId
+     */
+    public void journalEngineFailure(long aProcessId, int aDeadEngineId) throws AeBusinessProcessException;
 
-   /**
-    * Releases the process mutex for the given process.
-    *
-    * @param aProcessId
-    */
-   public void releaseProcessMutex(long aProcessId);
+    /**
+     * Releases the process mutex for the given process.
+     *
+     * @param aProcessId
+     */
+    public void releaseProcessMutex(long aProcessId);
 
-   /**
-    * Sets the number of processes allowed in memory for recovery.
-    *
-    * @param aRecoveryProcessCount
-    */
-   public void setRecoveryProcessCount(int aRecoveryProcessCount);
+    /**
+     * Sets the number of processes allowed in memory for recovery.
+     *
+     * @param aRecoveryProcessCount
+     */
+    public void setRecoveryProcessCount(int aRecoveryProcessCount);
 }

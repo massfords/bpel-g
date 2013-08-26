@@ -12,34 +12,32 @@ package org.activebpel.rt.bpel.coord;
 import org.activebpel.rt.bpel.IAeFault;
 
 /**
- * Interface for a WS-Coordination protocol message that is exchanged between the 
- * coordinator and the participant. 
- * 
- * Note: This is an internal implementation tailored to be used with requirement 111. 
- * 
+ * Interface for a WS-Coordination protocol message that is exchanged between the
+ * coordinator and the participant.
+ * <p/>
+ * Note: This is an internal implementation tailored to be used with requirement 111.
  */
-public interface IAeProtocolMessage
-{
-   /** 
-    * @return Returns protocol specific message signal.
-    */
-   public String getSignal();
-   
-   /** 
-    * @return Returns the coordination id.
-    */
-   public String getCoordinationId();
-   
-   /**
-    * @return Returns the fault if any or null otherwise.
-    */
-   public IAeFault getFault();
-   
-   /** 
-    * Returns true if the signal of the IAeProtocolMessage being 
-    * compared with equals this instance's signal.
-    * 
-    * @see java.lang.Object#equals(java.lang.Object)
-    */
-   public boolean equalsSignal(IAeProtocolMessage aOther);   
+public interface IAeProtocolMessage {
+    /**
+     * @return Returns protocol specific message signal.
+     */
+    public String getSignal();
+
+    /**
+     * @return Returns the coordination id.
+     */
+    public String getCoordinationId();
+
+    /**
+     * @return Returns the fault if any or null otherwise.
+     */
+    public IAeFault getFault();
+
+    /**
+     * Returns true if the signal of the IAeProtocolMessage being
+     * compared with equals this instance's signal.
+     *
+     * @see java.lang.Object#equals(java.lang.Object)
+     */
+    public boolean equalsSignal(IAeProtocolMessage aOther);
 }

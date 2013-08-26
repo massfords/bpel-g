@@ -32,118 +32,119 @@ import java.util.Map;
  */
 public class AeAddAttachmentBean extends AeNewAttachmentUploader {
 
-	public static final String ATTRIBUTES_TAG = "attributes"; //$NON-NLS-1$
+    public static final String ATTRIBUTES_TAG = "attributes"; //$NON-NLS-1$
 
-	public static final String ATTRIBUTE_TAG = "attribute"; //$NON-NLS-1$
+    public static final String ATTRIBUTE_TAG = "attribute"; //$NON-NLS-1$
 
-	public static final String NAME_ATTR = "name"; //$NON-NLS-1$
+    public static final String NAME_ATTR = "name"; //$NON-NLS-1$
 
-	public static final String VALUE_ATTR = "value"; //$NON-NLS-1$
+    public static final String VALUE_ATTR = "value"; //$NON-NLS-1$
 
-	/**********************************************************************************************************
-	 * The requested operation. /** Default constructor.
-	 */
-	public AeAddAttachmentBean() {
-		setStatusCode(IGNORE);
-	}
+    /**
+     * *******************************************************************************************************
+     * The requested operation. /** Default constructor.
+     */
+    public AeAddAttachmentBean() {
+        setStatusCode(IGNORE);
+    }
 
-	/**
-	 * Adds an attachment to the process variable
-	 * 
-	 * @param aAttributes
-	 */
-	public void addAttachment(Map aAttributes) {
-		// BPELG-64 attachments
-		// try
-		// {
-		// getAdmin().addVariableAttachment(getPidAsLong(), getPath(), new
-		// AeWebServiceAttachment(getContent(), aAttributes));
-		// }
-		// catch (AeException ex)
-		// {
-		// setError(ex);
-		// }
-	}
+    /**
+     * Adds an attachment to the process variable
+     *
+     * @param aAttributes
+     */
+    public void addAttachment(Map aAttributes) {
+        // BPELG-64 attachments
+        // try
+        // {
+        // getAdmin().addVariableAttachment(getPidAsLong(), getPath(), new
+        // AeWebServiceAttachment(getContent(), aAttributes));
+        // }
+        // catch (AeException ex)
+        // {
+        // setError(ex);
+        // }
+    }
 
-	/**
-	 * @return true - when process is in a active state; otherwise returns false
-	 * @throws StorageErrorMessage 
-	 */
-	public boolean getEditable() throws StorageErrorMessage {
-		ProcessStateValueType state = AeEngineManagementFactory.getProcessManager().getProcessDetail(
-				getPidAsLong()).getState();
-		return state == ProcessStateValueType.Loaded
-				|| state == ProcessStateValueType.Suspended
-				|| state == ProcessStateValueType.Running
-				|| state == ProcessStateValueType.Compensatable;
-	}
+    /**
+     * @return true - when process is in a active state; otherwise returns false
+     * @throws StorageErrorMessage
+     */
+    public boolean getEditable() throws StorageErrorMessage {
+        ProcessStateValueType state = AeEngineManagementFactory.getProcessManager().getProcessDetail(
+                getPidAsLong()).getState();
+        return state == ProcessStateValueType.Loaded
+                || state == ProcessStateValueType.Suspended
+                || state == ProcessStateValueType.Running
+                || state == ProcessStateValueType.Compensatable;
+    }
 
-	/**
-	 * Sets the current HTTP/servlet request into this bean.
-	 */
-	public void setRequest(HttpServletRequest aRequest) throws Exception {
-		super.setRequest(aRequest);
+    /**
+     * Sets the current HTTP/servlet request into this bean.
+     */
+    public void setRequest(HttpServletRequest aRequest) throws Exception {
+        super.setRequest(aRequest);
 
-		if (isMultiPartContent(getRequest())) {
-			uploadFile(getRequest(), getResponse());
+        if (isMultiPartContent(getRequest())) {
+            uploadFile(getRequest(), getResponse());
 
-			if (!isErrorDetail()) {
-				Map attributes = convertXml(getAttributeXml());
-				if (!isErrorDetail()) {
-					addAttachment(attributes);
-					setStatusCode(SUCCESS);
-				}
-			}
-		} else {
-			setStatusCode(IGNORE);
-		}
-	}
+            if (!isErrorDetail()) {
+                Map attributes = convertXml(getAttributeXml());
+                if (!isErrorDetail()) {
+                    addAttachment(attributes);
+                    setStatusCode(SUCCESS);
+                }
+            }
+        } else {
+            setStatusCode(IGNORE);
+        }
+    }
 
-	/**
-	 * Converts xml attributes to a Map
-	 * 
-	 * @param aXml
-	 */
-	protected Map<String, String> convertXml(String aXml) {
-		Map<String, String> attributes = new HashMap<>();
-		attributes.put(AeMimeUtil.CONTENT_TYPE_ATTRIBUTE, getContentType());
+    /**
+     * Converts xml attributes to a Map
+     *
+     * @param aXml
+     */
+    protected Map<String, String> convertXml(String aXml) {
+        Map<String, String> attributes = new HashMap<>();
+        attributes.put(AeMimeUtil.CONTENT_TYPE_ATTRIBUTE, getContentType());
 
-		try {
-			Document aDoc = AeXmlUtil.toDoc(aXml);
+        try {
+            Document aDoc = AeXmlUtil.toDoc(aXml);
 
-			if (!aDoc.getDocumentElement().getTagName().equals(ATTRIBUTES_TAG)) {
-				throw new AeException(
-						MessageFormat.format(
-								AeMessages
-										.getString("AeAddAttachmentBean.ERROR_INVALID_RESPONSE_TAG"), new Object[] { ATTRIBUTES_TAG, aDoc.getDocumentElement().getTagName() })); //$NON-NLS-1$
+            if (!aDoc.getDocumentElement().getTagName().equals(ATTRIBUTES_TAG)) {
+                throw new AeException(
+                        MessageFormat.format(
+                                AeMessages
+                                        .getString("AeAddAttachmentBean.ERROR_INVALID_RESPONSE_TAG"), new Object[]{ATTRIBUTES_TAG, aDoc.getDocumentElement().getTagName()})); //$NON-NLS-1$
 
-			}
+            }
 
-			NodeList attributeNodes = aDoc.getDocumentElement()
-					.getElementsByTagName(ATTRIBUTE_TAG);
-			String attName;
-			String attValue;
+            NodeList attributeNodes = aDoc.getDocumentElement()
+                    .getElementsByTagName(ATTRIBUTE_TAG);
+            String attName;
+            String attValue;
 
-			for (int i = 0; i < attributeNodes.getLength(); i++) {
-				Element elem = (Element) attributeNodes.item(i);
-				attName = elem.getAttribute(NAME_ATTR);
-				attValue = elem.getAttribute(VALUE_ATTR);
-				attributes.put(attName, attValue);
-			}
-		} catch (AeException ex) {
-			setError(ex);
-		}
+            for (int i = 0; i < attributeNodes.getLength(); i++) {
+                Element elem = (Element) attributeNodes.item(i);
+                attName = elem.getAttribute(NAME_ATTR);
+                attValue = elem.getAttribute(VALUE_ATTR);
+                attributes.put(attName, attValue);
+            }
+        } catch (AeException ex) {
+            setError(ex);
+        }
 
-		// Assign a default Content-Id if none set
-		if (!attributes.containsKey(AeMimeUtil.CONTENT_ID_ATTRIBUTE)) {
-			attributes.put(AeMimeUtil.CONTENT_ID_ATTRIBUTE,
-					AeMimeUtil.AE_DEFAULT_ADMIN_CONTENT_ID);
-		}
-		// Assign a default Content-Location if none set
-		if (!attributes.containsKey(AeMimeUtil.CONTENT_LOCATION_ATTRIBUTE)) {
-			attributes
-					.put(AeMimeUtil.CONTENT_LOCATION_ATTRIBUTE, getFileName());
-		}
-		return attributes;
-	}
+        // Assign a default Content-Id if none set
+        if (!attributes.containsKey(AeMimeUtil.CONTENT_ID_ATTRIBUTE)) {
+            attributes.put(AeMimeUtil.CONTENT_ID_ATTRIBUTE,
+                    AeMimeUtil.AE_DEFAULT_ADMIN_CONTENT_ID);
+        }
+        // Assign a default Content-Location if none set
+        if (!attributes.containsKey(AeMimeUtil.CONTENT_LOCATION_ATTRIBUTE)) {
+            attributes
+                    .put(AeMimeUtil.CONTENT_LOCATION_ATTRIBUTE, getFileName());
+        }
+        return attributes;
+    }
 }

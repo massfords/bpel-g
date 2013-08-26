@@ -13,21 +13,18 @@ package org.activebpel.rt.bpel.xpath.ast;
 /**
  * An XPath node for a predicate.
  */
-public class AeXPathPredicateNode extends AeAbstractXPathNode
-{
-   /**
-    * Default c'tor.
-    */
-   public AeXPathPredicateNode()
-   {
-      super(AeAbstractXPathNode.NODE_TYPE_PREDICATE);
-   }
-   
-   /**
-    * @see org.activebpel.rt.bpel.xpath.ast.AeAbstractXPathNode#accept(org.activebpel.rt.bpel.xpath.ast.IAeXPathNodeVisitor)
-    */
-   public void accept(IAeXPathNodeVisitor aVisitor)
-   {
-      aVisitor.visit(this);
-   }
+public class AeXPathPredicateNode extends AeAbstractXPathNode {
+    /**
+     * Default c'tor.
+     */
+    public AeXPathPredicateNode() {
+        super(AeAbstractXPathNode.NODE_TYPE_PREDICATE);
+    }
+
+    /**
+     * @see org.activebpel.rt.bpel.xpath.ast.AeAbstractXPathNode#accept(org.activebpel.rt.bpel.xpath.ast.IAeXPathNodeVisitor)
+     */
+    public void accept(IAeXPathNodeVisitor aVisitor) {
+        aVisitor.visit(this);
+    }
 }

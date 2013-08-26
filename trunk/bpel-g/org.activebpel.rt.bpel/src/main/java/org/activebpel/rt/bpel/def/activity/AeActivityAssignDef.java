@@ -21,81 +21,78 @@ import java.util.List;
 /**
  * Definition for bpel assign activity.
  */
-public class AeActivityAssignDef extends AeActivityDef
-{
-   private static final long serialVersionUID = 7211150756018400233L;
-   /** The assign's copy def children. */
-   private final List<AeAssignCopyDef> mCopies = new ArrayList<>();
-   /** The assign's extensibleAssign children. */
-   private final List<AeExtensibleAssignDef> mExtensibleAssigns = new ArrayList<>();
-   /** The assign's 'validate' attribute. */
-   private boolean mValidate;
+public class AeActivityAssignDef extends AeActivityDef {
+    private static final long serialVersionUID = 7211150756018400233L;
+    /**
+     * The assign's copy def children.
+     */
+    private final List<AeAssignCopyDef> mCopies = new ArrayList<>();
+    /**
+     * The assign's extensibleAssign children.
+     */
+    private final List<AeExtensibleAssignDef> mExtensibleAssigns = new ArrayList<>();
+    /**
+     * The assign's 'validate' attribute.
+     */
+    private boolean mValidate;
 
-   /**
-    * Default constructor
-    */
-   public AeActivityAssignDef()
-   {
-      super();
-   }
+    /**
+     * Default constructor
+     */
+    public AeActivityAssignDef() {
+        super();
+    }
 
-   /**
-    * Provides the ability to add a copy element to the assign element.
-    *
-    * @param aCopy copy element to be added
-    */
-   public void addCopyDef(AeAssignCopyDef aCopy)
-   {
-      mCopies.add(aCopy);
-   }
+    /**
+     * Provides the ability to add a copy element to the assign element.
+     *
+     * @param aCopy copy element to be added
+     */
+    public void addCopyDef(AeAssignCopyDef aCopy) {
+        mCopies.add(aCopy);
+    }
 
-   /**
-    * Provide a list of the Copy objects for the user to iterate .
-    *
-    * @return iterator of AeAssignCopyDef objects
-    */
-   public Iterator<AeAssignCopyDef> getCopyDefs()
-   {
-      return mCopies.iterator();
-   }
+    /**
+     * Provide a list of the Copy objects for the user to iterate .
+     *
+     * @return iterator of AeAssignCopyDef objects
+     */
+    public Iterator<AeAssignCopyDef> getCopyDefs() {
+        return mCopies.iterator();
+    }
 
-   /**
-    * @return Returns the validate.
-    */
-   public boolean isValidate()
-   {
-      return mValidate;
-   }
+    /**
+     * @return Returns the validate.
+     */
+    public boolean isValidate() {
+        return mValidate;
+    }
 
-   /**
-    * @param aValidate The validate to set.
-    */
-   public void setValidate(boolean aValidate)
-   {
-      mValidate = aValidate;
-   }
+    /**
+     * @param aValidate The validate to set.
+     */
+    public void setValidate(boolean aValidate) {
+        mValidate = aValidate;
+    }
 
-   /**
-    * @return Returns the extensibleAssigns.
-    */
-   public Iterator<AeExtensibleAssignDef> getExtensibleAssignDefs()
-   {
-      return mExtensibleAssigns.iterator();
-   }
+    /**
+     * @return Returns the extensibleAssigns.
+     */
+    public Iterator<AeExtensibleAssignDef> getExtensibleAssignDefs() {
+        return mExtensibleAssigns.iterator();
+    }
 
-   /**
-    * @param aDef The extensibleAssigns to set.
-    */
-   public void addExtensibleAssignDef(AeExtensibleAssignDef aDef)
-   {
-      mExtensibleAssigns.add(aDef);
-   }
+    /**
+     * @param aDef The extensibleAssigns to set.
+     */
+    public void addExtensibleAssignDef(AeExtensibleAssignDef aDef) {
+        mExtensibleAssigns.add(aDef);
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.def.AeActivityDef#accept(org.activebpel.rt.bpel.def.visitors.IAeDefVisitor)
-    */
-   public void accept(IAeDefVisitor aVisitor)
-   {
-      aVisitor.visit(this);
-   }
+    /**
+     * @see org.activebpel.rt.bpel.def.AeActivityDef#accept(org.activebpel.rt.bpel.def.visitors.IAeDefVisitor)
+     */
+    public void accept(IAeDefVisitor aVisitor) {
+        aVisitor.visit(this);
+    }
 }

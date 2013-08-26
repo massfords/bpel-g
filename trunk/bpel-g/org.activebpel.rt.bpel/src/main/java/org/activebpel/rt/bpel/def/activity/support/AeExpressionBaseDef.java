@@ -17,62 +17,59 @@ import org.activebpel.rt.bpel.def.util.AeDefUtil;
 /**
  * Base class for all defs that specify an expression, such as transitionCondition, joinCondition, etc...
  */
-public abstract class AeExpressionBaseDef extends AeBaseDef implements IAeExpressionDef
-{
-   /**
-     * 
+public abstract class AeExpressionBaseDef extends AeBaseDef implements IAeExpressionDef {
+    /**
+     *
      */
     private static final long serialVersionUID = -7895968036775613991L;
-/** The join condition construct's 'expressionLanguage' attribute. */
-   private String mExpressionLanguage;
-   /** The value of the joinCondition, which is the boolean expression. */
-   private String mExpression;
+    /**
+     * The join condition construct's 'expressionLanguage' attribute.
+     */
+    private String mExpressionLanguage;
+    /**
+     * The value of the joinCondition, which is the boolean expression.
+     */
+    private String mExpression;
 
-   /**
-    * Default c'tor.
-    */
-   public AeExpressionBaseDef()
-   {
-      super();
-   }
-   
-   /**
-    * @return Returns the expressionLanguage.
-    */
-   public String getExpressionLanguage()
-   {
-      return mExpressionLanguage;
-   }
+    /**
+     * Default c'tor.
+     */
+    public AeExpressionBaseDef() {
+        super();
+    }
 
-   /**
-    * @param aExpressionLanguage The expressionLanguage to set.
-    */
-   public void setExpressionLanguage(String aExpressionLanguage)
-   {
-      mExpressionLanguage = aExpressionLanguage;
-   }
+    /**
+     * @return Returns the expressionLanguage.
+     */
+    public String getExpressionLanguage() {
+        return mExpressionLanguage;
+    }
 
-   /**
-    * @return Returns the expression.
-    */
-   public String getExpression()
-   {
-      return mExpression;
-   }
+    /**
+     * @param aExpressionLanguage The expressionLanguage to set.
+     */
+    public void setExpressionLanguage(String aExpressionLanguage) {
+        mExpressionLanguage = aExpressionLanguage;
+    }
 
-   /**
-    * @param aExpression The expression to set.
-    */
-   public void setExpression(String aExpression)
-   {
-      mExpression = aExpression;
-   }
-   
-   /**
-    * @see org.activebpel.rt.bpel.def.IAeExpressionDef#getBpelNamespace()
-    */
-   public String getBpelNamespace()
-   {
-      return AeDefUtil.getProcessDef(this).getNamespace();
-   }
+    /**
+     * @return Returns the expression.
+     */
+    public String getExpression() {
+        return mExpression;
+    }
+
+    /**
+     * @param aExpression The expression to set.
+     */
+    public void setExpression(String aExpression) {
+        mExpression = aExpression;
+    }
+
+    /**
+     * @see org.activebpel.rt.bpel.def.IAeExpressionDef#getBpelNamespace()
+     */
+    public String getBpelNamespace() {
+        return AeDefUtil.getProcessDef(this).getNamespace();
+    }
 }

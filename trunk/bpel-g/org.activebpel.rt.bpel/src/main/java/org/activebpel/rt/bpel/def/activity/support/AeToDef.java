@@ -18,43 +18,38 @@ import org.activebpel.rt.util.AeUtil;
  * own class since we want to visit it and to avoid any confusion with the <code>from</code>
  * portion of the copy.
  */
-public class AeToDef extends AeVarDef
-{
-   /**
-     * 
+public class AeToDef extends AeVarDef {
+    /**
+     *
      */
     private static final long serialVersionUID = 2068666836253754001L;
 
-/**
-    * Default constructor
-    */
-   public AeToDef()
-   {
-      super();
-   }
+    /**
+     * Default constructor
+     */
+    public AeToDef() {
+        super();
+    }
 
-   /**
-    * Returns true if this to is empty.  This is used during validation, since the to portion
-    * of an assign's copy child should never be empty.
-    */
-   public boolean isEmpty()
-   {
-      return AeUtil.isNullOrEmpty(getVariable()) && AeUtil.isNullOrEmpty(getPartnerLink());
-   }
+    /**
+     * Returns true if this to is empty.  This is used during validation, since the to portion
+     * of an assign's copy child should never be empty.
+     */
+    public boolean isEmpty() {
+        return AeUtil.isNullOrEmpty(getVariable()) && AeUtil.isNullOrEmpty(getPartnerLink());
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.def.IAeQueryDef#getBpelNamespace()
-    */
-   public String getBpelNamespace()
-   {
-      return AeDefUtil.getProcessDef(this).getNamespace();
-   }
+    /**
+     * @see org.activebpel.rt.bpel.def.IAeQueryDef#getBpelNamespace()
+     */
+    public String getBpelNamespace() {
+        return AeDefUtil.getProcessDef(this).getNamespace();
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.def.AeBaseDef#accept(org.activebpel.rt.bpel.def.visitors.IAeDefVisitor)
-    */
-   public void accept(IAeDefVisitor aVisitor)
-   {
-      aVisitor.visit(this);
-   }
+    /**
+     * @see org.activebpel.rt.bpel.def.AeBaseDef#accept(org.activebpel.rt.bpel.def.visitors.IAeDefVisitor)
+     */
+    public void accept(IAeDefVisitor aVisitor) {
+        aVisitor.visit(this);
+    }
 }

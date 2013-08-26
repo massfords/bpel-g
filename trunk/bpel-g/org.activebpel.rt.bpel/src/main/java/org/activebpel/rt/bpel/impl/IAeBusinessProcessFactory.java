@@ -14,10 +14,9 @@ import org.activebpel.rt.bpel.IAeBusinessProcess;
 /**
  * Factory for creating business process instances
  */
-public interface IAeBusinessProcessFactory
-{
-   /**
-    * Creates a new business process instance
-    */
-   public IAeBusinessProcess createProcess(long aPid, IAeProcessPlan aPlan);
+public interface IAeBusinessProcessFactory {
+    /**
+     * Creates a new business process instance
+     */
+    public IAeBusinessProcess createProcess(long aPid, IAeProcessPlan aPlan);
 }

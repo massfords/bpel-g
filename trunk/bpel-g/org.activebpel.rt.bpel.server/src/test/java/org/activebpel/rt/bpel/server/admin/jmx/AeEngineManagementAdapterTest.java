@@ -24,10 +24,10 @@ public class AeEngineManagementAdapterTest {
 
     @Test
     public void testSkipAndRead_inBits() throws Exception {
-        for(int i=0; i<10; i++) {
+        for (int i = 0; i < 10; i++) {
             part.setPart(i);
             read(1);
-            assertEquals(LOG.charAt(i)+"", part.getLog());
+            assertEquals(LOG.charAt(i) + "", part.getLog());
             assertTrue(part.isMoreAvailable());
         }
         // one final read where we get nothing
@@ -40,5 +40,5 @@ public class AeEngineManagementAdapterTest {
     private void read(int bufferSize) throws IOException {
         AeEngineManagementAdapter.skipAndRead(part, new StringReader(LOG), bufferSize);
     }
-    
+
 }

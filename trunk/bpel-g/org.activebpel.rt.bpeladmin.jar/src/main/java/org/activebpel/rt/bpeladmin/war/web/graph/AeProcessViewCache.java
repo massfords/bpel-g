@@ -18,28 +18,25 @@ import org.activebpel.rt.bpeladmin.war.web.processview.AeProcessViewBase;
  * Simple linked list map which removes the eldest entry when the number of
  * entries is &gt; 10.
  */
-public class AeProcessViewCache extends LinkedHashMap<String,AeProcessViewBase>
-{
-   /**
-     * 
+public class AeProcessViewCache extends LinkedHashMap<String, AeProcessViewBase> {
+    /**
+     *
      */
     private static final long serialVersionUID = -1201514635080984761L;
 
-/**
-    * Returns a process view object from the cache.
-    */
-   public AeProcessViewBase get(String aKey)
-   {
-      return super.get(aKey);
-   }
+    /**
+     * Returns a process view object from the cache.
+     */
+    public AeProcessViewBase get(String aKey) {
+        return super.get(aKey);
+    }
 
-   /**
-    * Overrides method to limit sessions to 10.
-    *
-    * @see java.util.LinkedHashMap#removeEldestEntry(java.util.Map.Entry)
-    */
-   protected boolean removeEldestEntry(Map.Entry eldest)
-   {
-      return size() > 10;
-   }
+    /**
+     * Overrides method to limit sessions to 10.
+     *
+     * @see java.util.LinkedHashMap#removeEldestEntry(java.util.Map.Entry)
+     */
+    protected boolean removeEldestEntry(Map.Entry eldest) {
+        return size() > 10;
+    }
 }

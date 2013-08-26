@@ -14,15 +14,14 @@ package org.activebpel.rt.bpeladmin.war.web.processview.attachment;
  * Bean responsible for deleteing a process variable attachment from the engine by request from the BpelAdmin
  * console.
  */
-public class AeDeleteAttachmentBean extends AeAttachmentBeanBase
-{
-   /**
-    * Delete the attachment item number from the process variable
-    * @param aItemNumber
-    */
-   public void setDeleteItem(String aItemNumber)
-   {
-       // BPELG-64 attachments
+public class AeDeleteAttachmentBean extends AeAttachmentBeanBase {
+    /**
+     * Delete the attachment item number from the process variable
+     *
+     * @param aItemNumber
+     */
+    public void setDeleteItem(String aItemNumber) {
+        // BPELG-64 attachments
 //      try
 //      {
 //         int[] itemNumber = new int[1];
@@ -35,5 +34,5 @@ public class AeDeleteAttachmentBean extends AeAttachmentBeanBase
 //      {
 //         setError(ex);
 //      }
-   }
+    }
 }

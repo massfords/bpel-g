@@ -15,11 +15,10 @@ import commonj.work.WorkManager;
  * Defines interface for work managers that can be stopped automatically when
  * the engine shuts down.
  */
-public interface IAeStoppableWorkManager extends WorkManager
-{
-   /**
-    * Signals the work manager to stop. If the dispatch thread is currently running
-    * it'll be interrupted. 
-    */
-   public void stop();
+public interface IAeStoppableWorkManager extends WorkManager {
+    /**
+     * Signals the work manager to stop. If the dispatch thread is currently running
+     * it'll be interrupted.
+     */
+    public void stop();
 }

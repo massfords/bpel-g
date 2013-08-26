@@ -7,7 +7,7 @@
 //Active Endpoints, Inc. Removal of this PROPRIETARY RIGHTS STATEMENT 
 //is strictly forbidden. Copyright (c) 2002-2007 All rights reserved. 
 /////////////////////////////////////////////////////////////////////////////
-package org.activebpel.rt.bpel.server.engine.receive; 
+package org.activebpel.rt.bpel.server.engine.receive;
 
 import org.activebpel.rt.bpel.AeBusinessProcessException;
 import org.activebpel.rt.bpel.impl.IAeReceiveHandler;
@@ -16,27 +16,25 @@ import org.activebpel.rt.bpel.server.engine.IAeReceiveHandlerFactory;
 import org.activebpel.wsio.receive.IAeMessageContext;
 
 /**
- * A receive handler factory that delegates to other factories based on the protocol in the URN. 
+ * A receive handler factory that delegates to other factories based on the protocol in the URN.
  */
-public class AeDelegatingReceiveHandlerFactory extends AeDelegatingHandlerFactory implements IAeReceiveHandlerFactory
-{
-   /**
-    * @see org.activebpel.rt.bpel.server.engine.IAeReceiveHandlerFactory#createReceiveHandler(java.lang.String)
-    */
-   public IAeReceiveHandler createReceiveHandler(String aProtocol) throws AeBusinessProcessException
-   {
-      IAeReceiveHandlerFactory delegate = (IAeReceiveHandlerFactory) getDelegate(aProtocol);
-      return delegate.createReceiveHandler(aProtocol);
-   }
+public class AeDelegatingReceiveHandlerFactory extends AeDelegatingHandlerFactory implements IAeReceiveHandlerFactory {
+    /**
+     * @see org.activebpel.rt.bpel.server.engine.IAeReceiveHandlerFactory#createReceiveHandler(java.lang.String)
+     */
+    public IAeReceiveHandler createReceiveHandler(String aProtocol) throws AeBusinessProcessException {
+        IAeReceiveHandlerFactory delegate = (IAeReceiveHandlerFactory) getDelegate(aProtocol);
+        return delegate.createReceiveHandler(aProtocol);
+    }
 
-   /**
-    * Gets the factory to delegate the requests to.
-    * @param aContext
-    */
-   protected IAeReceiveHandlerFactory getDelegate(IAeMessageContext aContext) throws AeBusinessProcessException 
-   {
-      return (IAeReceiveHandlerFactory) getDelegate(aContext.getReceiveHandler());
-   }
+    /**
+     * Gets the factory to delegate the requests to.
+     *
+     * @param aContext
+     */
+    protected IAeReceiveHandlerFactory getDelegate(IAeMessageContext aContext) throws AeBusinessProcessException {
+        return (IAeReceiveHandlerFactory) getDelegate(aContext.getReceiveHandler());
+    }
 
 }
  

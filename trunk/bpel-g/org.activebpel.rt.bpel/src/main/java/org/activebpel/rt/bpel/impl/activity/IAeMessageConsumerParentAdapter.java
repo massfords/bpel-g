@@ -7,7 +7,7 @@
 //Active Endpoints, Inc. Removal of this PROPRIETARY RIGHTS STATEMENT 
 //is strictly forbidden. Copyright (c) 2002-2007 All rights reserved. 
 /////////////////////////////////////////////////////////////////////////////
-package org.activebpel.rt.bpel.impl.activity; 
+package org.activebpel.rt.bpel.impl.activity;
 
 import org.activebpel.rt.bpel.def.activity.IAeMessageDataConsumerDef;
 import org.activebpel.rt.bpel.impl.activity.wsio.consume.IAeMessageDataConsumer;
@@ -15,26 +15,26 @@ import org.activebpel.rt.bpel.impl.activity.wsio.consume.IAeMessageDataConsumer;
 /**
  * Parent interface for an activity that consumes messages. Examples of this
  * are the standard IMA (inbound message activities) as well as request-response
- * invokes. Other examples may be extension activities that want to receive 
- * messages or responses from the outside world.  
+ * invokes. Other examples may be extension activities that want to receive
+ * messages or responses from the outside world.
  */
-public interface IAeMessageConsumerParentAdapter extends IAeImplAdapter
-{
-   /**
-    * Setter for the message data consumer.
-    * @param aMessageDataConsumer
-    */
-   public void setMessageDataConsumer(IAeMessageDataConsumer aMessageDataConsumer);
-   
-   /**
-    * Getter for the message consumer
-    */
-   public IAeMessageDataConsumer getMessageDataConsumer();
-   
-   /**
-    * Gets the def
-    */
-   public IAeMessageDataConsumerDef getMessageDataConsumerDef();
+public interface IAeMessageConsumerParentAdapter extends IAeImplAdapter {
+    /**
+     * Setter for the message data consumer.
+     *
+     * @param aMessageDataConsumer
+     */
+    public void setMessageDataConsumer(IAeMessageDataConsumer aMessageDataConsumer);
+
+    /**
+     * Getter for the message consumer
+     */
+    public IAeMessageDataConsumer getMessageDataConsumer();
+
+    /**
+     * Gets the def
+     */
+    public IAeMessageDataConsumerDef getMessageDataConsumerDef();
 
 }
  

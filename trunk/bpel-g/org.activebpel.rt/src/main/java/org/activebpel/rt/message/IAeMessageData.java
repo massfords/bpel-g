@@ -18,57 +18,60 @@ import org.activebpel.rt.attachment.IAeAttachmentContainer;
 /**
  * Interface describing the message data associated with a variable of type message.
  */
-public interface IAeMessageData extends Cloneable
-{
-   /**
-    * Returns the type of message this data is representing. 
-    */
-   public QName getMessageType();
+public interface IAeMessageData extends Cloneable {
+    /**
+     * Returns the type of message this data is representing.
+     */
+    public QName getMessageType();
 
-   /**
-    * Returns an iterator over the part names for which we are storing data.
-    */
-   public Iterator<String> getPartNames();
+    /**
+     * Returns an iterator over the part names for which we are storing data.
+     */
+    public Iterator<String> getPartNames();
 
-   /**
-    * Returns the data associated with a passed part. Null if none.
-    * @param aPartName The part name to get data for.
-    * @return The data associated with the passed part name. Can be null.
-    */
-   public Object getData(String aPartName);
-    
-   /**
-    * Sets the data associated with a passed part. Data can be null.
-    * @param aPartName The part to set the data for.
-    * @param aData The data to which the part is set.
-    */
-   public void setData(String aPartName, Object aData);
-   
-   /**
-    * Makes a deep copy of the part data 
-    */
-   public Object clone();
+    /**
+     * Returns the data associated with a passed part. Null if none.
+     *
+     * @param aPartName The part name to get data for.
+     * @return The data associated with the passed part name. Can be null.
+     */
+    public Object getData(String aPartName);
 
-   /**
-    * Returns the number of parts in this message data
-    */
-   public int getPartCount();
-   
-   /**
-    * Returns true if there are attachments associated with this MessageData object.
-    */
-   public boolean hasAttachments();
-   
-   /**
-    * Returns an attachment container associated with the message, if any.
-    * @return the  attachment container
-    * @see org.activebpel.rt.attachment#IAeAttachmentContainer
-    */
-   public IAeAttachmentContainer getAttachmentContainer();
-   
-   /**
-    * associates an optional attachment container to the message.
-    * @param aAttachmentContainer
-    */
-   public void setAttachmentContainer(IAeAttachmentContainer aAttachmentContainer);
+    /**
+     * Sets the data associated with a passed part. Data can be null.
+     *
+     * @param aPartName The part to set the data for.
+     * @param aData     The data to which the part is set.
+     */
+    public void setData(String aPartName, Object aData);
+
+    /**
+     * Makes a deep copy of the part data
+     */
+    public Object clone();
+
+    /**
+     * Returns the number of parts in this message data
+     */
+    public int getPartCount();
+
+    /**
+     * Returns true if there are attachments associated with this MessageData object.
+     */
+    public boolean hasAttachments();
+
+    /**
+     * Returns an attachment container associated with the message, if any.
+     *
+     * @return the  attachment container
+     * @see org.activebpel.rt.attachment#IAeAttachmentContainer
+     */
+    public IAeAttachmentContainer getAttachmentContainer();
+
+    /**
+     * associates an optional attachment container to the message.
+     *
+     * @param aAttachmentContainer
+     */
+    public void setAttachmentContainer(IAeAttachmentContainer aAttachmentContainer);
 }

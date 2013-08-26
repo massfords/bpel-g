@@ -45,87 +45,82 @@ import java.util.Map;
  * <em>Throws:</em> attachmentFault if there was a problem with passed attachment.
  * </p>
  */
-public class AeCreateAttachmentFunction extends AeAbstractAttachmentFunction
-{
+public class AeCreateAttachmentFunction extends AeAbstractAttachmentFunction {
 
-   /** The name of the function implemented */
-   public static final String FUNCTION_NAME = "createAttachment"; //$NON-NLS-1$
+    /**
+     * The name of the function implemented
+     */
+    public static final String FUNCTION_NAME = "createAttachment"; //$NON-NLS-1$
 
-   /**
-    * Constructor.
-    */
-   public AeCreateAttachmentFunction()
-   {
-      super(FUNCTION_NAME);
-   }
+    /**
+     * Constructor.
+     */
+    public AeCreateAttachmentFunction() {
+        super(FUNCTION_NAME);
+    }
 
-   /**
-    * Execution of XPath function.
-    * @see org.jaxen.Function#call(org.jaxen.Context, java.util.List)
-    */
-   public Object call(IAeFunctionExecutionContext aContext, List aArgs) throws AeFunctionCallException
-   {
-      Object result = false;
+    /**
+     * Execution of XPath function.
+     *
+     * @see org.jaxen.Function#call(org.jaxen.Context, java.util.List)
+     */
+    public Object call(IAeFunctionExecutionContext aContext, List aArgs) throws AeFunctionCallException {
+        Object result = false;
 
-      // Validate that we have the proper number of arguments
-      int numArgs = aArgs.size();
-      if ( numArgs < 3 || numArgs > 4)
-         throwFunctionException(INVALID_PARAMS, getFunctionName());
+        // Validate that we have the proper number of arguments
+        int numArgs = aArgs.size();
+        if (numArgs < 3 || numArgs > 4)
+            throwFunctionException(INVALID_PARAMS, getFunctionName());
 
-      // Get the variable name from the first function argument
-      String variableName = getStringArg(aArgs,0);
+        // Get the variable name from the first function argument
+        String variableName = getStringArg(aArgs, 0);
 
-      // Get the mime type from the second function argument
-      String mimeType = getStringArg(aArgs,1);
+        // Get the mime type from the second function argument
+        String mimeType = getStringArg(aArgs, 1);
 
-      if ( AeUtil.isNullOrEmpty(mimeType) )
-      {
-         throwFunctionException(MISSING_ATTACHMENT_MIME, getFunctionName());
-      }
+        if (AeUtil.isNullOrEmpty(mimeType)) {
+            throwFunctionException(MISSING_ATTACHMENT_MIME, getFunctionName());
+        }
 
-      // Get the attachment content from the third function argument
-      String encodedContent = getStringArg(aArgs,2);
-      if ( AeUtil.isNullOrEmpty(encodedContent) )
-      {
-         throwFunctionException(MISSING_ATTACHMENT_CONTENT, getFunctionName());
-      }
- 
-      IAeBusinessProcessInternal process = aContext.getAbstractBpelObject().getProcess();
+        // Get the attachment content from the third function argument
+        String encodedContent = getStringArg(aArgs, 2);
+        if (AeUtil.isNullOrEmpty(encodedContent)) {
+            throwFunctionException(MISSING_ATTACHMENT_CONTENT, getFunctionName());
+        }
 
-      long pid = process.getProcessId();
-      Map<String, String> attributes = new HashMap<>();
-      attributes.put(AeMimeUtil.CONTENT_TYPE_ATTRIBUTE, mimeType);
-      attributes.put(AeMimeUtil.CONTENT_ID_ATTRIBUTE, numArgs == 4 ? getStringArg(aArgs,3) : AeMimeUtil.AE_DEFAULT_INLINE_CONTENT_ID + pid);
+        IAeBusinessProcessInternal process = aContext.getAbstractBpelObject().getProcess();
 
-      addVariableAttachment(variableName, attributes, encodedContent, aContext);
+        long pid = process.getProcessId();
+        Map<String, String> attributes = new HashMap<>();
+        attributes.put(AeMimeUtil.CONTENT_TYPE_ATTRIBUTE, mimeType);
+        attributes.put(AeMimeUtil.CONTENT_ID_ATTRIBUTE, numArgs == 4 ? getStringArg(aArgs, 3) : AeMimeUtil.AE_DEFAULT_INLINE_CONTENT_ID + pid);
 
-      result = Boolean.TRUE;
-      return result;
-   }
-   
-   /**
-    * Adds given attachment to the variable(for the given variable name) and return the variable
-    * @param aVariableName
-    * @param aAttachmentProps
-    * @param aContent
-    * @param aContext
-    * @throws AeFunctionCallException
-    */
-   public IAeAttachmentItem addVariableAttachment(String aVariableName, Map<String, String> aAttachmentProps, String aContent, IAeFunctionExecutionContext aContext) throws AeFunctionCallException
-   {
-      IAeVariable variable = getVariable(aContext.getAbstractBpelObject(), aVariableName);
-      IAeBusinessProcessInternal process = aContext.getAbstractBpelObject().getProcess();
-      ByteArrayInputStream stream = new ByteArrayInputStream(Base64.decodeBase64(aContent));
-      AeWebServiceAttachment wsAttachment = new AeWebServiceAttachment(stream, aAttachmentProps);
-      String variablePath = variable.getLocationPath();
-      try
-      {
-         return process.addVariableAttachment(variablePath, wsAttachment);
-      }
-      catch (AeBusinessProcessException ex)
-      {
-         throwFunctionException(CREATE_ATTACHMENT_FAILED, getFunctionName());
-      }
-      return null;
-   }
+        addVariableAttachment(variableName, attributes, encodedContent, aContext);
+
+        result = Boolean.TRUE;
+        return result;
+    }
+
+    /**
+     * Adds given attachment to the variable(for the given variable name) and return the variable
+     *
+     * @param aVariableName
+     * @param aAttachmentProps
+     * @param aContent
+     * @param aContext
+     * @throws AeFunctionCallException
+     */
+    public IAeAttachmentItem addVariableAttachment(String aVariableName, Map<String, String> aAttachmentProps, String aContent, IAeFunctionExecutionContext aContext) throws AeFunctionCallException {
+        IAeVariable variable = getVariable(aContext.getAbstractBpelObject(), aVariableName);
+        IAeBusinessProcessInternal process = aContext.getAbstractBpelObject().getProcess();
+        ByteArrayInputStream stream = new ByteArrayInputStream(Base64.decodeBase64(aContent));
+        AeWebServiceAttachment wsAttachment = new AeWebServiceAttachment(stream, aAttachmentProps);
+        String variablePath = variable.getLocationPath();
+        try {
+            return process.addVariableAttachment(variablePath, wsAttachment);
+        } catch (AeBusinessProcessException ex) {
+            throwFunctionException(CREATE_ATTACHMENT_FAILED, getFunctionName());
+        }
+        return null;
+    }
 }

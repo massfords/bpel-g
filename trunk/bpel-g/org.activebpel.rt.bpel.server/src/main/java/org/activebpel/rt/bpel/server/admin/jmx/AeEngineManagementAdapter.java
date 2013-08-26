@@ -27,15 +27,15 @@ import java.io.Reader;
 import java.util.*;
 
 public class AeEngineManagementAdapter implements IAeEngineManagementMXBean {
-    
+
     private final IAeEngineAdministration mAdmin;
-    
+
     public AeEngineManagementAdapter(IAeEngineAdministration aAdmin) {
         mAdmin = aAdmin;
     }
 
     public List<AeMessageReceiverBean> getMessageReceivers(long aProcessId, String aPartnerLinkName, String aPortTypeNamespace, String aPortTypeLocalPart,
-            String aOperation, int aMaxReturn, int aListStart) {
+                                                           String aOperation, int aMaxReturn, int aListStart) {
         AeMessageReceiverFilter filter = new AeMessageReceiverFilter();
         filter.setProcessId(aProcessId);
         filter.setPartnerLinkName(aPartnerLinkName);
@@ -46,15 +46,15 @@ public class AeEngineManagementAdapter implements IAeEngineManagementMXBean {
         filter.setListStart(aListStart);
         AeMessageReceiverListResult messageReceivers = mAdmin.getMessageReceivers(filter);
         List<AeMessageReceiverBean> receivers = new ArrayList<>();
-        for(AeMessageReceiver receiver : messageReceivers.getResults()) {
-            Map<AeQName,String> correlation = null;
+        for (AeMessageReceiver receiver : messageReceivers.getResults()) {
+            Map<AeQName, String> correlation = null;
             if (receiver.isCorrelated()) {
                 correlation = new HashMap<>();
-                for(Map.Entry<QName,String> entry : receiver.getCorrelation().entrySet()) {
+                for (Map.Entry<QName, String> entry : receiver.getCorrelation().entrySet()) {
                     correlation.put(new AeQName(entry.getKey()), entry.getValue());
                 }
             }
-            receivers.add(new AeMessageReceiverBean(receiver.getProcessId(), 
+            receivers.add(new AeMessageReceiverBean(receiver.getProcessId(),
                     receiver.getPartnerLinkName(),
                     new AeQName(receiver.getPortType()),
                     receiver.getOperation(),
@@ -65,16 +65,16 @@ public class AeEngineManagementAdapter implements IAeEngineManagementMXBean {
     }
 
     public List<AeAlarmExt> getAlarms(long aProcessId, Date aAlarmFilterStart, Date aAlarmFilterEnd,
-            String aProcessNamespace, String aProcessLocalPart, int aMaxReturn, int aListStart) {
+                                      String aProcessNamespace, String aProcessLocalPart, int aMaxReturn, int aListStart) {
         AeAlarmFilter filter = new AeAlarmFilter();
         filter.setProcessId(aProcessId);
         filter.setAlarmFilterStart(aAlarmFilterStart);
         filter.setAlarmFilterEnd(aAlarmFilterEnd);
-        if (AeUtil.notNullOrEmpty(aProcessNamespace) &&  AeUtil.notNullOrEmpty(aProcessLocalPart))
+        if (AeUtil.notNullOrEmpty(aProcessNamespace) && AeUtil.notNullOrEmpty(aProcessLocalPart))
             filter.setProcessName(new QName(aProcessNamespace, aProcessLocalPart));
         filter.setMaxReturn(aMaxReturn);
         filter.setListStart(aListStart);
-        
+
         return mAdmin.getAlarms(filter).getResults();
     }
 
@@ -97,21 +97,22 @@ public class AeEngineManagementAdapter implements IAeEngineManagementMXBean {
     public String getProcessLog(long aProcessId) {
         return mAdmin.getProcessLog(aProcessId);
     }
-    
+
     public AeProcessLogPart getProcessLogPart(long aProcessId, int aPart) throws Exception {
 
         AeProcessLogPart part = new AeProcessLogPart();
         part.setPart(aPart);
-        
+
         // get a reader onto the log
         Reader reader = AeEngineFactory.getBean(IAeProcessLogger.class).getFullLog(aProcessId);
-        
+
         skipAndRead(part, reader, AeProcessLogPart.PART_SIZE);
         return part;
     }
 
     /**
      * Skips to where we want to be in the reader and starts reading til the buffer is filled.
+     *
      * @param aPart
      * @param aReader
      * @param aPartSize
@@ -124,7 +125,7 @@ public class AeEngineManagementAdapter implements IAeEngineManagementMXBean {
             // skip to where we want to be in the log
             int skipCount = aPart.getPart() * aPartSize;
             long skipped = aReader.skip(skipCount);
-            
+
             // if we don't skip to that point, then there's nothing to read here
             if (skipped != skipCount) {
                 aPart.setMoreAvailable(false);
@@ -220,7 +221,7 @@ public class AeEngineManagementAdapter implements IAeEngineManagementMXBean {
     }
 
     public int getAlarmMaxWorkCount() {
-    	return AePreferences.getAlarmMaxCount();
+        return AePreferences.getAlarmMaxCount();
     }
 
     public int getProcessWorkCount() {
@@ -268,15 +269,15 @@ public class AeEngineManagementAdapter implements IAeEngineManagementMXBean {
     }
 
     public void setAllowCreateXPath(boolean aAllowedCreateXPath) {
-    	AePreferences.setAllowCreateXpath(aAllowedCreateXPath);
+        AePreferences.setAllowCreateXpath(aAllowedCreateXPath);
     }
 
     public void setAllowEmptyQuerySelection(boolean aAllowedEmptyQuerySelection) {
-    	AePreferences.setAllowEmptyQuerySelection(aAllowedEmptyQuerySelection);
+        AePreferences.setAllowEmptyQuerySelection(aAllowedEmptyQuerySelection);
     }
 
     public void setCatalogCacheSize(int aSize) {
-    	AePreferences.setResourceCacheSize(aSize);
+        AePreferences.setResourceCacheSize(aSize);
     }
 
     public void setProcessWorkCount(int aValue) {
@@ -284,31 +285,31 @@ public class AeEngineManagementAdapter implements IAeEngineManagementMXBean {
     }
 
     public void setResourceReplaceEnabled(boolean aEnabled) {
-    	AePreferences.setResourceReplaceEnabled(aEnabled);
+        AePreferences.setResourceReplaceEnabled(aEnabled);
     }
 
     public void setThreadPoolMax(int aValue) {
-    	AePreferences.setThreadPoolMax(aValue);
+        AePreferences.setThreadPoolMax(aValue);
     }
 
     public void setThreadPoolMin(int aValue) {
-    	AePreferences.setThreadPoolMin(aValue);
+        AePreferences.setThreadPoolMin(aValue);
     }
 
     public void setUnmatchedCorrelatedReceiveTimeoutMillis(long aTimeout) {
-    	AePreferences.setUnmatchedCorrelatedReceiveTimeoutMillis(aTimeout);
+        AePreferences.setUnmatchedCorrelatedReceiveTimeoutMillis(aTimeout);
     }
 
     public void setValidateServiceMessages(boolean aValidateServiceMessages) {
-    	AePreferences.setValidateServiceMessages(aValidateServiceMessages);
+        AePreferences.setValidateServiceMessages(aValidateServiceMessages);
     }
 
     public void setWebServiceInvokeTimeout(int aTimeout) {
-    	AePreferences.setSendTimeout(aTimeout);
+        AePreferences.setSendTimeout(aTimeout);
     }
 
     public void setWebServiceReceiveTimeout(int aTimeout) {
-    	AePreferences.setReceiveTimeout(aTimeout);
+        AePreferences.setReceiveTimeout(aTimeout);
     }
 
     public int getProcessCount(ProcessFilterType aFilter)

@@ -31,8 +31,8 @@ public class BetsyBugReportsIntegrationTest extends Assert {
         DeploymentResponse response = pfix.deploy(new File(pathname));
         assertNotNull(response);
 
-        Map<String,DeploymentResponse.DeploymentInfo> infos = new HashMap<>();
-        for(DeploymentResponse.DeploymentInfo info : response.getDeploymentInfo()) {
+        Map<String, DeploymentResponse.DeploymentInfo> infos = new HashMap<>();
+        for (DeploymentResponse.DeploymentInfo info : response.getDeploymentInfo()) {
             infos.put(info.getName(), info);
         }
 
@@ -75,7 +75,7 @@ public class BetsyBugReportsIntegrationTest extends Assert {
         Document quote = pfix.invoke(new StreamSource(new StringReader(request)), endpoint);
         assertNotNull(quote);
 
-        Thread.sleep(5*1000);
+        Thread.sleep(5 * 1000);
 
         // send another message checking on the status
         Map<String, String> nsMap = Collections.singletonMap("q", "http://www.example.org/correlation/");
@@ -96,8 +96,8 @@ public class BetsyBugReportsIntegrationTest extends Assert {
     private void assertStartError(DeploymentResponse.DeploymentInfo info) {
         assertFalse(info.isDeployed());
         boolean foundError = false;
-        for(Msg m : info.getLog().getMsg()) {
-            if (m.getType()== MessageType.ERROR) {
+        for (Msg m : info.getLog().getMsg()) {
+            if (m.getType() == MessageType.ERROR) {
                 foundError |= m.getValue().contains("start activity");
             }
         }
@@ -107,9 +107,9 @@ public class BetsyBugReportsIntegrationTest extends Assert {
     private void assertDupeVar(DeploymentResponse.DeploymentInfo info) {
         assertFalse(info.isDeployed());
         boolean foundError = false;
-        for(Msg m : info.getLog().getMsg()) {
+        for (Msg m : info.getLog().getMsg()) {
 //            System.out.println(m.getValue());
-            if (m.getType()== MessageType.ERROR) {
+            if (m.getType() == MessageType.ERROR) {
                 foundError |= m.getValue().contains("A variable with name processCreated already exists");
             }
         }

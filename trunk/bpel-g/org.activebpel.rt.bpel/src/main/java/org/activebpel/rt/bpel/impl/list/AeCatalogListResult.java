@@ -15,8 +15,7 @@ import java.util.List;
 /**
  * Wraps the catalog listing results.
  */
-public class AeCatalogListResult extends AeListResult<AeCatalogItem>
-{
+public class AeCatalogListResult extends AeListResult<AeCatalogItem> {
     private static final long serialVersionUID = -8000001401672449712L;
 
     /**
@@ -24,17 +23,17 @@ public class AeCatalogListResult extends AeListResult<AeCatalogItem>
      */
     public AeCatalogListResult() {
     }
-    
+
     /**
      * Constructor.
+     *
      * @param aTotalRowCount
      * @param aResults
      * @param aCompleteRowCount
      */
     @ConstructorProperties({"totalRowCount", "results", "completeRowCount"})
     public AeCatalogListResult(int aTotalRowCount, List<AeCatalogItem> aResults,
-            boolean aCompleteRowCount)
-    {
+                               boolean aCompleteRowCount) {
         super(aTotalRowCount, aResults, aCompleteRowCount);
     }
 }

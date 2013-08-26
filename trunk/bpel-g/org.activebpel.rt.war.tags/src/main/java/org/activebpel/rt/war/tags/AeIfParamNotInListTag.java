@@ -15,20 +15,18 @@ package org.activebpel.rt.war.tags;
  * This class does a case-insensitve test against the given list of values.
  */
 
-public class AeIfParamNotInListTag extends AeIfParamInListTag
-{
+public class AeIfParamNotInListTag extends AeIfParamInListTag {
 
-   /**
-     * 
+    /**
+     *
      */
     private static final long serialVersionUID = -4626414277491951590L;
 
-/**
-    * Returns true if the request parameter is not in the given list of comma separated values.
-    */
-   protected boolean shouldEvaluateBody()
-   {
-      return !( super.shouldEvaluateBody() );
-   }
+    /**
+     * Returns true if the request parameter is not in the given list of comma separated values.
+     */
+    protected boolean shouldEvaluateBody() {
+        return !(super.shouldEvaluateBody());
+    }
 
 }

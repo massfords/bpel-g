@@ -13,13 +13,11 @@ package org.activebpel.rt.bpel.ext.expr.impl.javascript;
 /**
  * A BPEL 1.1 implementation of a JavaScript expression runner.
  */
-public class AeBPWSJavaScriptExpressionRunner extends AeAbstractJavaScriptExpressionRunner
-{
-   /**
-    * Default c'tor.
-    */
-   public AeBPWSJavaScriptExpressionRunner()
-   {
-      super();
-   }
+public class AeBPWSJavaScriptExpressionRunner extends AeAbstractJavaScriptExpressionRunner {
+    /**
+     * Default c'tor.
+     */
+    public AeBPWSJavaScriptExpressionRunner() {
+        super();
+    }
 }

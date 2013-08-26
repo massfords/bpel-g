@@ -7,7 +7,7 @@
 //Active Endpoints, Inc. Removal of this PROPRIETARY RIGHTS STATEMENT 
 //is strictly forbidden. Copyright (c) 2002-2006 All rights reserved. 
 /////////////////////////////////////////////////////////////////////////////
-package org.activebpel.rt.bpel.impl.activity.assign; 
+package org.activebpel.rt.bpel.impl.activity.assign;
 
 import java.lang.reflect.Constructor;
 import java.util.HashMap;
@@ -22,67 +22,58 @@ import org.activebpel.rt.bpel.def.io.readers.def.AeSpecStrategyKey;
  * Base class for creating copy operation impl objects like specific
  * versions of a &lt;from&gt; or &lt;to&gt; variant
  */
-public abstract class AeCopyOperationComponentFactory
-{
-   /**  */
-   private final Map<String, Class<?>> mMap = new HashMap<>();
+public abstract class AeCopyOperationComponentFactory {
+    /**  */
+    private final Map<String, Class<?>> mMap = new HashMap<>();
 
-   /**
-    * Inits the map
-    */
-   protected AeCopyOperationComponentFactory()
-   {
-      initMap();
-   }
+    /**
+     * Inits the map
+     */
+    protected AeCopyOperationComponentFactory() {
+        initMap();
+    }
 
-   /**
-    * The map of strategy names to Class is constructed here
-    */
-   protected abstract void initMap();
+    /**
+     * The map of strategy names to Class is constructed here
+     */
+    protected abstract void initMap();
 
-   /**
-    * Getter for the map
-    */
-   protected Map<String, Class<?>> getMap()
-   {
-      return mMap;
-   }
+    /**
+     * Getter for the map
+     */
+    protected Map<String, Class<?>> getMap() {
+        return mMap;
+    }
 
-   /**
-    * Factory method does a new instance on the class, passing the def in as a param
-    * @param aDef
-    */
-   protected Object create(AeVarDef aDef)
-   {
-      AeSpecStrategyKey strategy = aDef.getStrategyKey();
-      String strategyName = strategy.getStrategyName();
-      Class<?> clazz = getMap().get(strategyName);
-      try
-      {
-         if (strategy.hasArguments())
-         {
-            Object [] arguments = strategy.getStrategyArguments();
-            Class [] classes = new Class[arguments.length];
-            for (int i = 0; i < arguments.length; i++)
-               classes[i] = arguments[i].getClass();
+    /**
+     * Factory method does a new instance on the class, passing the def in as a param
+     *
+     * @param aDef
+     */
+    protected Object create(AeVarDef aDef) {
+        AeSpecStrategyKey strategy = aDef.getStrategyKey();
+        String strategyName = strategy.getStrategyName();
+        Class<?> clazz = getMap().get(strategyName);
+        try {
+            if (strategy.hasArguments()) {
+                Object[] arguments = strategy.getStrategyArguments();
+                Class[] classes = new Class[arguments.length];
+                for (int i = 0; i < arguments.length; i++)
+                    classes[i] = arguments[i].getClass();
 
-            Constructor cons = clazz.getConstructor(classes);
-            return cons.newInstance(arguments);
-         }
-         else
-         {
-            Constructor cons = clazz.getConstructor(new Class[] { aDef.getClass() });
-            return cons.newInstance(aDef);
-         }
-      }
-      catch (Throwable t)
-      {
-         Object[] args = {strategyName, aDef.getLocationPath()};
-         String message = AeMessages.format("AeCopyOperationComponentFactory.ErrorCreatingStrategy", args); //$NON-NLS-1$
-         AeException.logError(t, message);
-         throw new InternalError(message);
-      }
-   }
+                Constructor cons = clazz.getConstructor(classes);
+                return cons.newInstance(arguments);
+            } else {
+                Constructor cons = clazz.getConstructor(new Class[]{aDef.getClass()});
+                return cons.newInstance(aDef);
+            }
+        } catch (Throwable t) {
+            Object[] args = {strategyName, aDef.getLocationPath()};
+            String message = AeMessages.format("AeCopyOperationComponentFactory.ErrorCreatingStrategy", args); //$NON-NLS-1$
+            AeException.logError(t, message);
+            throw new InternalError(message);
+        }
+    }
 
 }
  

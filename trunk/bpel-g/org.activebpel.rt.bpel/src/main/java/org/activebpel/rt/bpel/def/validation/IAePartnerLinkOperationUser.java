@@ -7,7 +7,7 @@
 //Active Endpoints, Inc. Removal of this PROPRIETARY RIGHTS STATEMENT 
 //is strictly forbidden. Copyright (c) 2002-2006 All rights reserved. 
 /////////////////////////////////////////////////////////////////////////////
-package org.activebpel.rt.bpel.def.validation; 
+package org.activebpel.rt.bpel.def.validation;
 
 import javax.xml.namespace.QName;
 
@@ -16,26 +16,25 @@ import org.activebpel.rt.bpel.def.validation.activity.IAeCorrelationUser;
 /**
  * Interface for a model that uses a partner link.
  */
-public interface IAePartnerLinkOperationUser extends IAeValidator, IAeCorrelationUser
-{
-   /**
-    * True if the model makes use of the partnerRole of the plink
-    */
-   public boolean isPartnerRole();
-   
-   /**
-    * True if the model makes use of the myRole role of the plink
-    */
-   public boolean isMyRole();
+public interface IAePartnerLinkOperationUser extends IAeValidator, IAeCorrelationUser {
+    /**
+     * True if the model makes use of the partnerRole of the plink
+     */
+    public boolean isPartnerRole();
 
-   /**
-    * Getter for the portType of the model
-    */
-   public QName getPortType();
-   
-   /**
-    * Getter for the operation of the model
-    */
-   public String getOperation();
+    /**
+     * True if the model makes use of the myRole role of the plink
+     */
+    public boolean isMyRole();
+
+    /**
+     * Getter for the portType of the model
+     */
+    public QName getPortType();
+
+    /**
+     * Getter for the operation of the model
+     */
+    public String getOperation();
 }
  

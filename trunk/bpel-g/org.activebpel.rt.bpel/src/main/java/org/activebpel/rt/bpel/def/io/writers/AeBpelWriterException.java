@@ -12,27 +12,24 @@ package org.activebpel.rt.bpel.def.io.writers;
 /**
  * Generic exception for BPEL serialization.
  */
-public class AeBpelWriterException extends RuntimeException
-{
-   /**
-     * 
+public class AeBpelWriterException extends RuntimeException {
+    /**
+     *
      */
     private static final long serialVersionUID = 8131485659631576048L;
 
-/**
-    * @param message
-    */
-   public AeBpelWriterException(String message)
-   {
-      super(message);
-   }
+    /**
+     * @param message
+     */
+    public AeBpelWriterException(String message) {
+        super(message);
+    }
 
-   /**
-    * @param message
-    * @param cause
-    */
-   public AeBpelWriterException(String message, Throwable cause)
-   {
-      super(message, cause);
-   }
+    /**
+     * @param message
+     * @param cause
+     */
+    public AeBpelWriterException(String message, Throwable cause) {
+        super(message, cause);
+    }
 }

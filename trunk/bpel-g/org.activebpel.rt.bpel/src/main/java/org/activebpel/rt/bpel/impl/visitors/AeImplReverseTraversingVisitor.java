@@ -15,16 +15,14 @@ import org.activebpel.rt.bpel.impl.AeAbstractBpelObject;
 /**
  * A visitor that traverses a BPEL implementation object tree.
  */
-public class AeImplReverseTraversingVisitor extends AeImplTraversingVisitor
-{
-   /**
-    * Traverses the specified implementation object's children, if any.
-    *
-    * @param aImpl The implementation object to traverse.
-    */
-   protected void visitBase(AeAbstractBpelObject aImpl) throws AeBusinessProcessException
-   {
-      if (aImpl.getParent() != null && aImpl.getParent() instanceof IAeVisitable)
-         aImpl.getParent().accept(this);
-   }
+public class AeImplReverseTraversingVisitor extends AeImplTraversingVisitor {
+    /**
+     * Traverses the specified implementation object's children, if any.
+     *
+     * @param aImpl The implementation object to traverse.
+     */
+    protected void visitBase(AeAbstractBpelObject aImpl) throws AeBusinessProcessException {
+        if (aImpl.getParent() != null && aImpl.getParent() instanceof IAeVisitable)
+            aImpl.getParent().accept(this);
+    }
 }

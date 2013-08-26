@@ -6,21 +6,21 @@ import java.util.Map;
 import org.activebpel.rt.xml.AeQName;
 
 public class AeMessageReceiverBean {
-    
+
     private String mPartnerLinkName;
     private AeQName mPortType;
     private String mOperation;
     private long mProcessId;
-    private Map<AeQName,String> mCorrelationData;
+    private Map<AeQName, String> mCorrelationData;
     private int mLocationPathId;
-    
+
     public AeMessageReceiverBean() {
-        
+
     }
 
     @ConstructorProperties({"processId", "partnerLinkName", "portType", "operation", "correlationData", "locationPathId"})
     public AeMessageReceiverBean(long aProcessId, String aPartnerLinkName, AeQName aPortType,
-            String aOperation, Map<AeQName,String> aCorrelationData, int aLocationPathId) {
+                                 String aOperation, Map<AeQName, String> aCorrelationData, int aLocationPathId) {
         super();
         mProcessId = aProcessId;
         mPartnerLinkName = aPartnerLinkName;
@@ -62,11 +62,11 @@ public class AeMessageReceiverBean {
         mProcessId = aProcessId;
     }
 
-    public Map<AeQName,String> getCorrelationData() {
+    public Map<AeQName, String> getCorrelationData() {
         return mCorrelationData;
     }
 
-    public void setCorrelationData(Map<AeQName,String> aCorrelationData) {
+    public void setCorrelationData(Map<AeQName, String> aCorrelationData) {
         mCorrelationData = aCorrelationData;
     }
 

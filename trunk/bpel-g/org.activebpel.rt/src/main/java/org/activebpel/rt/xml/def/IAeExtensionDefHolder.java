@@ -7,28 +7,27 @@
 //Active Endpoints, Inc. Removal of this PROPRIETARY RIGHTS STATEMENT 
 //is strictly forbidden. Copyright (c) 2002-2007 All rights reserved. 
 /////////////////////////////////////////////////////////////////////////////
-package org.activebpel.rt.xml.def; 
+package org.activebpel.rt.xml.def;
 
 /**
  * Enables the xml IO layer to set the def which declared the extension
  * back on the extension object so it can read data from the def or create
  * its own internal representation of the data.
- * 
- * If the extension was an attribute, then the def will be an 
+ * <p/>
+ * If the extension was an attribute, then the def will be an
  * AeExtensionAttributeDef.
- * 
+ * <p/>
  * If the extension was an element, then it may be an AeExtensionElementDef.
  * In some cases (depending on the domain of the xml language) the def may
- * be a special type of extension. An example of this is the extension 
- * activity within ws-bpel 2.0. 
+ * be a special type of extension. An example of this is the extension
+ * activity within ws-bpel 2.0.
  */
-public interface IAeExtensionDefHolder extends IAeAdapter
-{
-   /**
-    * Setter for the def
-    * 
-    * @param aDef
-    */
-   public void setExtensionDef(AeBaseXmlDef aDef);
+public interface IAeExtensionDefHolder extends IAeAdapter {
+    /**
+     * Setter for the def
+     *
+     * @param aDef
+     */
+    public void setExtensionDef(AeBaseXmlDef aDef);
 }
  

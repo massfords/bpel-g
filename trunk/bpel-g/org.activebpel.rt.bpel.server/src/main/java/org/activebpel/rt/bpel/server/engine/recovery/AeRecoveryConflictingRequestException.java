@@ -7,20 +7,19 @@
 //Active Endpoints, Inc. Removal of this PROPRIETARY RIGHTS STATEMENT 
 //is strictly forbidden. Copyright (c) 2002-2006 All rights reserved. 
 /////////////////////////////////////////////////////////////////////////////
-package org.activebpel.rt.bpel.server.engine.recovery; 
+package org.activebpel.rt.bpel.server.engine.recovery;
 
 import org.activebpel.rt.AeException;
 
 /**
  * Exception thrown during the recovery process to signal a conflicting request.
  * This exception will get converted to an AeConflictingRequestException and
- * rethrown by the recovery engine/manager. 
+ * rethrown by the recovery engine/manager.
  */
-public class AeRecoveryConflictingRequestException extends AeException
-{
+public class AeRecoveryConflictingRequestException extends AeException {
 
     /**
-     * 
+     *
      */
     private static final long serialVersionUID = -7384862175427623208L;
 }

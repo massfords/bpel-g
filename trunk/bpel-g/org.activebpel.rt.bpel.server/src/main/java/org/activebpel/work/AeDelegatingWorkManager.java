@@ -20,58 +20,53 @@ import commonj.work.WorkManager;
  * Implements a <code>WorkManager</code> that delegates to another
  * <code>WorkManager</code>.
  */
-public class AeDelegatingWorkManager implements WorkManager
-{
-   /** The delegate <code>WorkManager</code>. */
-   private final WorkManager mDelegateWorkManager;
+public class AeDelegatingWorkManager implements WorkManager {
+    /**
+     * The delegate <code>WorkManager</code>.
+     */
+    private final WorkManager mDelegateWorkManager;
 
-   /**
-    * Constructor.
-    *
-    * @param aDelegateWorkManager
-    */
-   public AeDelegatingWorkManager(WorkManager aDelegateWorkManager)
-   {
-      mDelegateWorkManager = aDelegateWorkManager;
-   }
+    /**
+     * Constructor.
+     *
+     * @param aDelegateWorkManager
+     */
+    public AeDelegatingWorkManager(WorkManager aDelegateWorkManager) {
+        mDelegateWorkManager = aDelegateWorkManager;
+    }
 
-   /**
-    * Returns the delegate <code>WorkManager</code>.
-    */
-   protected WorkManager getDelegateWorkManager()
-   {
-      return mDelegateWorkManager;
-   }
+    /**
+     * Returns the delegate <code>WorkManager</code>.
+     */
+    protected WorkManager getDelegateWorkManager() {
+        return mDelegateWorkManager;
+    }
 
-   /**
-    * @see commonj.work.WorkManager#schedule(commonj.work.Work)
-    */
-   public WorkItem schedule(Work aWork) throws IllegalArgumentException
-   {
-      return getDelegateWorkManager().schedule(aWork);
-   }
+    /**
+     * @see commonj.work.WorkManager#schedule(commonj.work.Work)
+     */
+    public WorkItem schedule(Work aWork) throws IllegalArgumentException {
+        return getDelegateWorkManager().schedule(aWork);
+    }
 
-   /**
-    * @see commonj.work.WorkManager#schedule(commonj.work.Work, commonj.work.WorkListener)
-    */
-   public WorkItem schedule(Work aWork, WorkListener aWorkListener) throws IllegalArgumentException
-   {
-      return getDelegateWorkManager().schedule(aWork, aWorkListener);
-   }
+    /**
+     * @see commonj.work.WorkManager#schedule(commonj.work.Work, commonj.work.WorkListener)
+     */
+    public WorkItem schedule(Work aWork, WorkListener aWorkListener) throws IllegalArgumentException {
+        return getDelegateWorkManager().schedule(aWork, aWorkListener);
+    }
 
-   /**
-    * @see commonj.work.WorkManager#waitForAll(java.util.Collection, long)
-    */
-   public boolean waitForAll(Collection aWorkItems, long aTimeoutMillis) throws InterruptedException, IllegalArgumentException
-   {
-      return getDelegateWorkManager().waitForAll(aWorkItems, aTimeoutMillis);
-   }
+    /**
+     * @see commonj.work.WorkManager#waitForAll(java.util.Collection, long)
+     */
+    public boolean waitForAll(Collection aWorkItems, long aTimeoutMillis) throws InterruptedException, IllegalArgumentException {
+        return getDelegateWorkManager().waitForAll(aWorkItems, aTimeoutMillis);
+    }
 
-   /**
-    * @see commonj.work.WorkManager#waitForAny(java.util.Collection, long)
-    */
-   public Collection waitForAny(Collection aWorkItems, long aTimeoutMillis) throws InterruptedException, IllegalArgumentException
-   {
-      return getDelegateWorkManager().waitForAny(aWorkItems, aTimeoutMillis);
-   }
+    /**
+     * @see commonj.work.WorkManager#waitForAny(java.util.Collection, long)
+     */
+    public Collection waitForAny(Collection aWorkItems, long aTimeoutMillis) throws InterruptedException, IllegalArgumentException {
+        return getDelegateWorkManager().waitForAny(aWorkItems, aTimeoutMillis);
+    }
 }

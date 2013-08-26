@@ -27,69 +27,67 @@ import org.activebpel.rt.bpel.def.activity.IAeReceiveActivityDef;
  * with a createInstance attribute whose value is set to true.
  * <br />
  * If the activity is a pick activity, all of its onMessage
- * children are added to the list. 
+ * children are added to the list.
  */
-public class AeDefEntryPointInitialVisitor extends AeAbstractEntryPointVisitor
-{
-   /** number of individual activities that are marked as create instances */
-   private int mCount = 0;
-   
-   /** list of keys for initial entry points into process */
-   private final Set<AePartnerLinkOpKey> mCreateInstance = new HashSet<>();
+public class AeDefEntryPointInitialVisitor extends AeAbstractEntryPointVisitor {
+    /**
+     * number of individual activities that are marked as create instances
+     */
+    private int mCount = 0;
 
-   /**
-    * Default constructor.
-    */
-   public AeDefEntryPointInitialVisitor()
-   {
-   }
+    /**
+     * list of keys for initial entry points into process
+     */
+    private final Set<AePartnerLinkOpKey> mCreateInstance = new HashSet<>();
 
-   /**
-    * Accessor for key list.
-    * @return list of keys for initial entry points into the process
-    */
-   public Collection<AePartnerLinkOpKey> getCreateInstanceCollection()
-   {
-      return mCreateInstance;
-   }
+    /**
+     * Default constructor.
+     */
+    public AeDefEntryPointInitialVisitor() {
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.def.visitors.AeAbstractEntryPointVisitor#accept(org.activebpel.rt.bpel.def.activity.AeActivityPickDef)
-    */
-   protected boolean accept(AeActivityPickDef aDef)
-   {
-      boolean isCreateInstance = super.accept(aDef);
-      if (isCreateInstance)
-         mCount++;
-      return isCreateInstance;
-   }
+    /**
+     * Accessor for key list.
+     *
+     * @return list of keys for initial entry points into the process
+     */
+    public Collection<AePartnerLinkOpKey> getCreateInstanceCollection() {
+        return mCreateInstance;
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.def.visitors.AeAbstractEntryPointVisitor#accept(org.activebpel.rt.bpel.def.activity.AeActivityReceiveDef)
-    */
-   protected boolean accept(AeActivityReceiveDef aDef)
-   {
-      boolean isCreateInstance = super.accept(aDef);
-      if (isCreateInstance)
-         mCount++;
-      return isCreateInstance;
-   }
+    /**
+     * @see org.activebpel.rt.bpel.def.visitors.AeAbstractEntryPointVisitor#accept(org.activebpel.rt.bpel.def.activity.AeActivityPickDef)
+     */
+    protected boolean accept(AeActivityPickDef aDef) {
+        boolean isCreateInstance = super.accept(aDef);
+        if (isCreateInstance)
+            mCount++;
+        return isCreateInstance;
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.def.visitors.AeAbstractEntryPointVisitor#processEntryPoint(org.activebpel.rt.bpel.def.activity.IAeReceiveActivityDef)
-    */
-   protected void processEntryPoint(IAeReceiveActivityDef aDef)
-   {
-      mCreateInstance.add(aDef.getPartnerLinkOperationKey());
-   }
+    /**
+     * @see org.activebpel.rt.bpel.def.visitors.AeAbstractEntryPointVisitor#accept(org.activebpel.rt.bpel.def.activity.AeActivityReceiveDef)
+     */
+    protected boolean accept(AeActivityReceiveDef aDef) {
+        boolean isCreateInstance = super.accept(aDef);
+        if (isCreateInstance)
+            mCount++;
+        return isCreateInstance;
+    }
 
-   /**
-    * Returns the number of unique activities that can create an instance. May differ
-    * from getCreateInstanceList().size() since this method only counts pick's once
-    * instead of counting them for each onMessage occurence. 
-    */
-   public int getCreateInstanceActivityCount()
-   {
-      return mCount;
-   }
+    /**
+     * @see org.activebpel.rt.bpel.def.visitors.AeAbstractEntryPointVisitor#processEntryPoint(org.activebpel.rt.bpel.def.activity.IAeReceiveActivityDef)
+     */
+    protected void processEntryPoint(IAeReceiveActivityDef aDef) {
+        mCreateInstance.add(aDef.getPartnerLinkOperationKey());
+    }
+
+    /**
+     * Returns the number of unique activities that can create an instance. May differ
+     * from getCreateInstanceList().size() since this method only counts pick's once
+     * instead of counting them for each onMessage occurence.
+     */
+    public int getCreateInstanceActivityCount() {
+        return mCount;
+    }
 }

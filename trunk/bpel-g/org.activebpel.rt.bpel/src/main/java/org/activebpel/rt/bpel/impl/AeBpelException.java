@@ -16,50 +16,49 @@ import org.activebpel.rt.util.AeUtil;
 /**
  * An exception which is created as a result of a BPEL execution failure.
  */
-public class AeBpelException extends AeBusinessProcessException
-{
-   /**
-     * 
+public class AeBpelException extends AeBusinessProcessException {
+    /**
+     *
      */
     private static final long serialVersionUID = -1974097114673293953L;
-/** The BPEL fault which was created */
-   private final IAeFault mFault;
-   
-   /**
-    * Constructs a new BPEL exception with the given info and fault.
-    * @param aInfo informational message  
-    * @param aFault the BPEL fault responsible for this exception
-    */
-   public AeBpelException(String aInfo, IAeFault aFault)
-   {
-      super(aInfo);
-      
-      mFault = aFault;
-      mFault.setInfo( aInfo );
-   }
-   
-   /**
-    * Constructs a new BPEL exception with the info, fault, and a throwable
-    * who's stacktrace will be included in the fault.
-    * 
-    * @param aInfo
-    * @param aFault
-    * @param aThrowable
-    */
-   public AeBpelException(String aInfo, IAeFault aFault, Throwable aThrowable)
-   {
-      super(aInfo);
-      mFault = aFault;
-      mFault.setInfo(aInfo);
-      if (aThrowable != null)
-         mFault.setDetailedInfo(AeUtil.getStacktrace(aThrowable));
-   }
+    /**
+     * The BPEL fault which was created
+     */
+    private final IAeFault mFault;
 
-   /**
-    * Returns the BPEL fault which was the cause of this exception.
-    */
-   public IAeFault getFault()
-   {
-      return mFault;
-   }
+    /**
+     * Constructs a new BPEL exception with the given info and fault.
+     *
+     * @param aInfo  informational message
+     * @param aFault the BPEL fault responsible for this exception
+     */
+    public AeBpelException(String aInfo, IAeFault aFault) {
+        super(aInfo);
+
+        mFault = aFault;
+        mFault.setInfo(aInfo);
+    }
+
+    /**
+     * Constructs a new BPEL exception with the info, fault, and a throwable
+     * who's stacktrace will be included in the fault.
+     *
+     * @param aInfo
+     * @param aFault
+     * @param aThrowable
+     */
+    public AeBpelException(String aInfo, IAeFault aFault, Throwable aThrowable) {
+        super(aInfo);
+        mFault = aFault;
+        mFault.setInfo(aInfo);
+        if (aThrowable != null)
+            mFault.setDetailedInfo(AeUtil.getStacktrace(aThrowable));
+    }
+
+    /**
+     * Returns the BPEL fault which was the cause of this exception.
+     */
+    public IAeFault getFault() {
+        return mFault;
+    }
 }

@@ -14,22 +14,23 @@ import org.activebpel.rt.bpel.AeMessages;
 /**
  * models a bpws:conflictingRequest
  */
-public class AeConflictingRequestException extends AeBpelException
-{
-   /**
-     * 
+public class AeConflictingRequestException extends AeBpelException {
+    /**
+     *
      */
     private static final long serialVersionUID = -3813372982163587952L;
-/** error message */
-   private static final String ERROR_MESSAGE = AeMessages.getString("AeConflictingRequestException.0"); //$NON-NLS-1$
+    /**
+     * error message
+     */
+    private static final String ERROR_MESSAGE = AeMessages.getString("AeConflictingRequestException.0"); //$NON-NLS-1$
 
-   /**
-    * Creates the exception with a bpws:conflictingRequest fault. 
-    * @param aBpelNamespace
-    */
-   public AeConflictingRequestException(String aBpelNamespace)
-   {
-      super(ERROR_MESSAGE, 
-               AeFaultFactory.getFactory(aBpelNamespace).getConflictingRequest());
-   }
+    /**
+     * Creates the exception with a bpws:conflictingRequest fault.
+     *
+     * @param aBpelNamespace
+     */
+    public AeConflictingRequestException(String aBpelNamespace) {
+        super(ERROR_MESSAGE,
+                AeFaultFactory.getFactory(aBpelNamespace).getConflictingRequest());
+    }
 }

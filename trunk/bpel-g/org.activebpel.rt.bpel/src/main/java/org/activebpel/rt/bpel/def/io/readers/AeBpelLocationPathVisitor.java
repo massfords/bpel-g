@@ -7,7 +7,7 @@
 //Active Endpoints, Inc. Removal of this PROPRIETARY RIGHTS STATEMENT 
 //is strictly forbidden. Copyright (c) 2002-2007 All rights reserved. 
 /////////////////////////////////////////////////////////////////////////////
-package org.activebpel.rt.bpel.def.io.readers; 
+package org.activebpel.rt.bpel.def.io.readers;
 
 import org.activebpel.rt.bpel.def.visitors.AeDefTraverser;
 import org.activebpel.rt.bpel.def.visitors.AeTraversalVisitor;
@@ -15,20 +15,19 @@ import org.activebpel.rt.xml.def.IAePathSegmentBuilder;
 import org.activebpel.rt.xml.def.visitors.AeLocationPathVisitor;
 
 /**
- * Subclass that sets up the traversal in the ctor 
+ * Subclass that sets up the traversal in the ctor
  */
-public class AeBpelLocationPathVisitor extends AeLocationPathVisitor
-{
+public class AeBpelLocationPathVisitor extends AeLocationPathVisitor {
 
-   /**
-    * Set up the traverser
-    * @param aSegmentPathBuilder
-    */
-   public AeBpelLocationPathVisitor(IAePathSegmentBuilder aSegmentPathBuilder)
-   {
-      super(aSegmentPathBuilder);
-      setTraversalVisitor(new AeTraversalVisitor(new AeDefTraverser(), this));
-   }
+    /**
+     * Set up the traverser
+     *
+     * @param aSegmentPathBuilder
+     */
+    public AeBpelLocationPathVisitor(IAePathSegmentBuilder aSegmentPathBuilder) {
+        super(aSegmentPathBuilder);
+        setTraversalVisitor(new AeTraversalVisitor(new AeDefTraverser(), this));
+    }
 
 }
  

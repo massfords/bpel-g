@@ -15,78 +15,70 @@ import org.activebpel.rt.bpel.impl.activity.IAeImplAdapter;
 /**
  * A base class for managers that don't want to have to implement all of the manager methods.
  */
-public abstract class AeManagerAdapter implements IAeManager
-{
-   /** The engine for this manager. */
-   private IAeBusinessProcessEngineInternal mEngine;
+public abstract class AeManagerAdapter implements IAeManager {
+    /**
+     * The engine for this manager.
+     */
+    private IAeBusinessProcessEngineInternal mEngine;
 
-   /**
-    * @see org.activebpel.rt.bpel.impl.IAeQueueManager#getEngine()
-    */
-   public IAeBusinessProcessEngineInternal getEngine()
-   {
-      return mEngine;
-   }
+    /**
+     * @see org.activebpel.rt.bpel.impl.IAeQueueManager#getEngine()
+     */
+    public IAeBusinessProcessEngineInternal getEngine() {
+        return mEngine;
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.impl.IAeManager#setEngine(org.activebpel.rt.bpel.impl.IAeBusinessProcessEngineInternal)
-    */
-   public void setEngine(IAeBusinessProcessEngineInternal aEngine)
-   {
-      mEngine = aEngine;
-   }
+    /**
+     * @see org.activebpel.rt.bpel.impl.IAeManager#setEngine(org.activebpel.rt.bpel.impl.IAeBusinessProcessEngineInternal)
+     */
+    public void setEngine(IAeBusinessProcessEngineInternal aEngine) {
+        mEngine = aEngine;
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.impl.IAeManager#create()
-    */
-   public void create() throws Exception
-   {
-   }
-   
-   /**
-    * @see org.activebpel.rt.bpel.impl.IAeManager#prepareToStart()
-    */
-   public void prepareToStart() throws Exception
-   {
-   }
+    /**
+     * @see org.activebpel.rt.bpel.impl.IAeManager#create()
+     */
+    public void create() throws Exception {
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.impl.IAeManager#start()
-    */
-   public void start() throws Exception
-   {
-   }
+    /**
+     * @see org.activebpel.rt.bpel.impl.IAeManager#prepareToStart()
+     */
+    public void prepareToStart() throws Exception {
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.impl.IAeManager#stop()
-    */
-   public void stop()
-   {
-   }
+    /**
+     * @see org.activebpel.rt.bpel.impl.IAeManager#start()
+     */
+    public void start() throws Exception {
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.impl.IAeManager#destroy()
-    */
-   public void destroy()
-   {
-   }
+    /**
+     * @see org.activebpel.rt.bpel.impl.IAeManager#stop()
+     */
+    public void stop() {
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.impl.IAeManager#accept(org.activebpel.rt.bpel.impl.IAeManagerVisitor)
-    */
-   public void accept(IAeManagerVisitor aVisitor) throws Exception
-   {
-      aVisitor.visit(this);
-   }
+    /**
+     * @see org.activebpel.rt.bpel.impl.IAeManager#destroy()
+     */
+    public void destroy() {
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.impl.IAeManager#getAdapter(java.lang.Class)
-    */
-   @SuppressWarnings("unchecked")
-   public IAeImplAdapter getAdapter(Class aAdapterInterface)
-   {
-      if (aAdapterInterface.isAssignableFrom(getClass()))
-         return (IAeImplAdapter) this;
-      return null;
-   }
+    /**
+     * @see org.activebpel.rt.bpel.impl.IAeManager#accept(org.activebpel.rt.bpel.impl.IAeManagerVisitor)
+     */
+    public void accept(IAeManagerVisitor aVisitor) throws Exception {
+        aVisitor.visit(this);
+    }
+
+    /**
+     * @see org.activebpel.rt.bpel.impl.IAeManager#getAdapter(java.lang.Class)
+     */
+    @SuppressWarnings("unchecked")
+    public IAeImplAdapter getAdapter(Class aAdapterInterface) {
+        if (aAdapterInterface.isAssignableFrom(getClass()))
+            return (IAeImplAdapter) this;
+        return null;
+    }
 }

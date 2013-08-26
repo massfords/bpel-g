@@ -20,52 +20,49 @@ import org.activebpel.rt.bpel.server.engine.AeEngineFactory;
  * Implements factory object that constructs a recovery engine along with the
  * recovery engine's managers.
  */
-public class AeRecoveryEngineFactory
-{
-   /** Singleton instance. */
-   private static final AeRecoveryEngineFactory sInstance = new AeRecoveryEngineFactory();
+public class AeRecoveryEngineFactory {
+    /**
+     * Singleton instance.
+     */
+    private static final AeRecoveryEngineFactory sInstance = new AeRecoveryEngineFactory();
 
-   /**
-    * Private constructor for singleton instance.
-    */
-   private AeRecoveryEngineFactory()
-   {
-   }
+    /**
+     * Private constructor for singleton instance.
+     */
+    private AeRecoveryEngineFactory() {
+    }
 
-   /**
-    * Returns singleton instance.
-    */
-   public static AeRecoveryEngineFactory getInstance()
-   {
-      return sInstance;
-   }
+    /**
+     * Returns singleton instance.
+     */
+    public static AeRecoveryEngineFactory getInstance() {
+        return sInstance;
+    }
 
-   /**
-    * Constructs a recovery engine.
-    */
-   public IAeRecoveryEngine newRecoveryEngine()
-   {
-      return newRecoveryEngine(AeEngineFactory.getEngine());
-   }
+    /**
+     * Constructs a recovery engine.
+     */
+    public IAeRecoveryEngine newRecoveryEngine() {
+        return newRecoveryEngine(AeEngineFactory.getEngine());
+    }
 
-   /**
-    * Constructs a recovery engine using the engine configuration and partner
-    * link strategy from the given engine.
-    */
-   public IAeRecoveryEngine newRecoveryEngine(IAeBusinessProcessEngineInternal aBaseEngine)
-   {
-      Map<String,IAeManager> copy = new LinkedHashMap<>(aBaseEngine.getManagers());
-      copy.put(IAeBusinessProcessEngineInternal.QUEUE_MANAGER_KEY, new AeRecoveryQueueManager());
-      copy.put(IAeBusinessProcessEngineInternal.PROCESS_MANAGER_KEY, new AeRecoveryProcessManager());
-      copy.put(IAeBusinessProcessEngineInternal.LOCK_MANAGER_KEY, new AeRecoveryLockManager());
-      copy.put(IAeBusinessProcessEngineInternal.COORDINATION_MANAGER_KEY, new AeRecoveryCoordinationManager(aBaseEngine.getCoordinationManager()));
-      
-      return new AeRecoveryEngine(
-         aBaseEngine.getExpressionLanguageFactory(),
-         aBaseEngine.getPartnerLinkStrategy(),
-         aBaseEngine.getTransmissionTracker(),
-         copy,
-         aBaseEngine.getEngineId()
-      );
-   }
+    /**
+     * Constructs a recovery engine using the engine configuration and partner
+     * link strategy from the given engine.
+     */
+    public IAeRecoveryEngine newRecoveryEngine(IAeBusinessProcessEngineInternal aBaseEngine) {
+        Map<String, IAeManager> copy = new LinkedHashMap<>(aBaseEngine.getManagers());
+        copy.put(IAeBusinessProcessEngineInternal.QUEUE_MANAGER_KEY, new AeRecoveryQueueManager());
+        copy.put(IAeBusinessProcessEngineInternal.PROCESS_MANAGER_KEY, new AeRecoveryProcessManager());
+        copy.put(IAeBusinessProcessEngineInternal.LOCK_MANAGER_KEY, new AeRecoveryLockManager());
+        copy.put(IAeBusinessProcessEngineInternal.COORDINATION_MANAGER_KEY, new AeRecoveryCoordinationManager(aBaseEngine.getCoordinationManager()));
+
+        return new AeRecoveryEngine(
+                aBaseEngine.getExpressionLanguageFactory(),
+                aBaseEngine.getPartnerLinkStrategy(),
+                aBaseEngine.getTransmissionTracker(),
+                copy,
+                aBaseEngine.getEngineId()
+        );
+    }
 }

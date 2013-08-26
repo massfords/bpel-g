@@ -20,41 +20,36 @@ import org.activebpel.rt.bpel.impl.activity.support.AeLink;
 import org.activebpel.rt.bpel.impl.expr.AeExpressionException;
 
 /**
- * Class representing the XPath function used by expression evaluator to handle 
+ * Class representing the XPath function used by expression evaluator to handle
  * the BPEL getLinkStatus function call.
  */
-public class AeGetLinkStatusFunction extends AeAbstractBpelFunction
-{
-   public static final String FUNCTION_NAME = "getLinkStatus"; //$NON-NLS-1$
-   // error message constants
-   private static final String INVALID_ARGS        = AeMessages.getString( "AeAbstractBpelObject.ERROR_37" ); //$NON-NLS-1$
-   private static final String LINK_FAULT_MSG      = AeMessages.getString( "AeAbstractBpelObject.ERROR_38" ); //$NON-NLS-1$
-   
-   /**
-    * Constructor.
-    */
-   public AeGetLinkStatusFunction()
-   {
-      super(FUNCTION_NAME);
-   }
+public class AeGetLinkStatusFunction extends AeAbstractBpelFunction {
+    public static final String FUNCTION_NAME = "getLinkStatus"; //$NON-NLS-1$
+    // error message constants
+    private static final String INVALID_ARGS = AeMessages.getString("AeAbstractBpelObject.ERROR_37"); //$NON-NLS-1$
+    private static final String LINK_FAULT_MSG = AeMessages.getString("AeAbstractBpelObject.ERROR_38"); //$NON-NLS-1$
 
-   /**
-    * @see org.activebpel.rt.bpel.function.IAeFunction#call(org.activebpel.rt.bpel.function.IAeFunctionExecutionContext, java.util.List)
-    */
-   public Object call(IAeFunctionExecutionContext aContext, List aArgs) throws AeFunctionCallException
-   {
-      if (aArgs.size() != 1)
-      {
-         throw new AeFunctionCallException( INVALID_ARGS );
-      }
+    /**
+     * Constructor.
+     */
+    public AeGetLinkStatusFunction() {
+        super(FUNCTION_NAME);
+    }
 
-      AeLink link = aContext.getAbstractBpelObject().findTargetLink(getStringArg(aArgs,0));
-      if (link == null)
-      {
-         AeBpelException e = new AeBpelException(LINK_FAULT_MSG, AeFaultFactory.getBadProcess());
-         throw new AeExpressionException(e);
-      }
-      
-      return link.getStatus();
-   }
+    /**
+     * @see org.activebpel.rt.bpel.function.IAeFunction#call(org.activebpel.rt.bpel.function.IAeFunctionExecutionContext, java.util.List)
+     */
+    public Object call(IAeFunctionExecutionContext aContext, List aArgs) throws AeFunctionCallException {
+        if (aArgs.size() != 1) {
+            throw new AeFunctionCallException(INVALID_ARGS);
+        }
+
+        AeLink link = aContext.getAbstractBpelObject().findTargetLink(getStringArg(aArgs, 0));
+        if (link == null) {
+            AeBpelException e = new AeBpelException(LINK_FAULT_MSG, AeFaultFactory.getBadProcess());
+            throw new AeExpressionException(e);
+        }
+
+        return link.getStatus();
+    }
 }

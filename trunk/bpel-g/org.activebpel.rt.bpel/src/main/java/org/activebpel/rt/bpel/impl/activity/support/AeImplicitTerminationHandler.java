@@ -7,7 +7,7 @@
 //Active Endpoints, Inc. Removal of this PROPRIETARY RIGHTS STATEMENT 
 //is strictly forbidden. Copyright (c) 2002-2006 All rights reserved. 
 /////////////////////////////////////////////////////////////////////////////
-package org.activebpel.rt.bpel.impl.activity.support; 
+package org.activebpel.rt.bpel.impl.activity.support;
 
 import org.activebpel.rt.bpel.AeBusinessProcessException;
 import org.activebpel.rt.bpel.AeMessages;
@@ -20,63 +20,58 @@ import org.activebpel.rt.bpel.impl.visitors.IAeImplVisitor;
 /**
  * Implicit version of termination handler that contains the default compensate activity
  */
-public class AeImplicitTerminationHandler extends AeTerminationHandler
-{
-   /**
-    * ctor accepts the def
-    * @param aParent
-    */
-   public AeImplicitTerminationHandler(AeActivityScopeImpl aParent)
-   {
-      super(null, aParent);
-      addActivity(AeActivityCompensateImpl.createImplicitCompensation(this, aParent.getDefinition()));
-   }
-   
-   /**
-    * @see org.activebpel.rt.bpel.impl.activity.support.AeTerminationHandler#isEnableCoordinatedActivityCompensation()
-    */
-   protected boolean isEnableCoordinatedActivityCompensation()
-   {
-      return false;
-   }
+public class AeImplicitTerminationHandler extends AeTerminationHandler {
+    /**
+     * ctor accepts the def
+     *
+     * @param aParent
+     */
+    public AeImplicitTerminationHandler(AeActivityScopeImpl aParent) {
+        super(null, aParent);
+        addActivity(AeActivityCompensateImpl.createImplicitCompensation(this, aParent.getDefinition()));
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.impl.activity.support.AeImplicitCompensationHandler#accept(org.activebpel.rt.bpel.impl.visitors.IAeImplVisitor)
-    */
-   public void accept(IAeImplVisitor aVisitor) throws AeBusinessProcessException
-   {
-      aVisitor.visit(this);
-   }
+    /**
+     * @see org.activebpel.rt.bpel.impl.activity.support.AeTerminationHandler#isEnableCoordinatedActivityCompensation()
+     */
+    protected boolean isEnableCoordinatedActivityCompensation() {
+        return false;
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.impl.activity.support.AeImplicitCompensationHandler#getLocationPath()
-    */
-   public String getLocationPath()
-   {
-      IAeBpelObject parent = getParent();
-      StringBuilder buffer = new StringBuilder(parent.getLocationPath());
-      return buffer.append(AeSupportActivityLocationPathSuffix.IMPLICIT_TERMINATION_HANDLER).toString(); 
-   }
+    /**
+     * @see org.activebpel.rt.bpel.impl.activity.support.AeImplicitCompensationHandler#accept(org.activebpel.rt.bpel.impl.visitors.IAeImplVisitor)
+     */
+    public void accept(IAeImplVisitor aVisitor) throws AeBusinessProcessException {
+        aVisitor.visit(this);
+    }
 
-   /**
-    * This object gets created because there was no compensation handler defined for the scope.
-    * As such, there is no definition object and calling this method results in an exception.
-    * @see org.activebpel.rt.bpel.impl.AeAbstractBpelObject#getDefinition()
-    */
-   public AeBaseDef getDefinition()
-   {
-      throw new UnsupportedOperationException(AeMessages.getString("AeImplicitTerminationHandler.ERROR_1")); //$NON-NLS-1$
-   }
+    /**
+     * @see org.activebpel.rt.bpel.impl.activity.support.AeImplicitCompensationHandler#getLocationPath()
+     */
+    public String getLocationPath() {
+        IAeBpelObject parent = getParent();
+        StringBuilder buffer = new StringBuilder(parent.getLocationPath());
+        return buffer.append(AeSupportActivityLocationPathSuffix.IMPLICIT_TERMINATION_HANDLER).toString();
+    }
 
-   /**
-    * Overrides method to return <code>false</code>, since {@link
-    * #getDefinition()} will fail. 
-    * 
-    * @see org.activebpel.rt.bpel.impl.IAeBpelObject#hasLocationId()
-    */
-   public boolean hasLocationId()
-   {
-      return false;
-   }
+    /**
+     * This object gets created because there was no compensation handler defined for the scope.
+     * As such, there is no definition object and calling this method results in an exception.
+     *
+     * @see org.activebpel.rt.bpel.impl.AeAbstractBpelObject#getDefinition()
+     */
+    public AeBaseDef getDefinition() {
+        throw new UnsupportedOperationException(AeMessages.getString("AeImplicitTerminationHandler.ERROR_1")); //$NON-NLS-1$
+    }
+
+    /**
+     * Overrides method to return <code>false</code>, since {@link
+     * #getDefinition()} will fail.
+     *
+     * @see org.activebpel.rt.bpel.impl.IAeBpelObject#hasLocationId()
+     */
+    public boolean hasLocationId() {
+        return false;
+    }
 }
  

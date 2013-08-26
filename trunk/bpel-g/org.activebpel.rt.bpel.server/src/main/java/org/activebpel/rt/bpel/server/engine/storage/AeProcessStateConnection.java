@@ -27,150 +27,131 @@ import org.w3c.dom.Document;
  * to an instance of IAeProcessStateConnectionDelegate. The purpose of this class is to encapsulate storage
  * 'logic' so that it can be shared across multiple storage implementations (such as SQL and Tamino).
  */
-public class AeProcessStateConnection extends AeAbstractStorage implements IAeProcessStateConnection
-{
-   /** Set of stored variables. */
-   private IAeLocationVersionSet mStoredVariablesSet;
+public class AeProcessStateConnection extends AeAbstractStorage implements IAeProcessStateConnection {
+    /**
+     * Set of stored variables.
+     */
+    private IAeLocationVersionSet mStoredVariablesSet;
 
-   /**
-    * Convenience method to get the storage provider cast to a process state connection provider.
-    */
-   protected IAeProcessStateConnectionProvider getProcessStateConnectionProvider()
-   {
-      return (IAeProcessStateConnectionProvider) getProvider();
-   }
+    /**
+     * Convenience method to get the storage provider cast to a process state connection provider.
+     */
+    protected IAeProcessStateConnectionProvider getProcessStateConnectionProvider() {
+        return (IAeProcessStateConnectionProvider) getProvider();
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.server.engine.storage.IAeProcessStateConnection#close()
-    */
-   public void close() throws AeStorageException
-   {
-      getProcessStateConnectionProvider().close();
-   }
+    /**
+     * @see org.activebpel.rt.bpel.server.engine.storage.IAeProcessStateConnection#close()
+     */
+    public void close() throws AeStorageException {
+        getProcessStateConnectionProvider().close();
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.server.engine.storage.IAeProcessStateConnection#commit()
-    */
-   public void commit() throws AeStorageException
-   {
-      getProcessStateConnectionProvider().commit();
-   }
+    /**
+     * @see org.activebpel.rt.bpel.server.engine.storage.IAeProcessStateConnection#commit()
+     */
+    public void commit() throws AeStorageException {
+        getProcessStateConnectionProvider().commit();
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.server.engine.storage.IAeProcessStateConnection#getProcessDocument()
-    */
-   public Document getProcessDocument() throws AeStorageException
-   {
-      return getProcessStateConnectionProvider().getProcessDocument();
-   }
+    /**
+     * @see org.activebpel.rt.bpel.server.engine.storage.IAeProcessStateConnection#getProcessDocument()
+     */
+    public Document getProcessDocument() throws AeStorageException {
+        return getProcessStateConnectionProvider().getProcessDocument();
+    }
 
-   /**
-    * Returns set of stored variable location ids.
-    *
-    */
-   protected IAeLocationVersionSet getStoredVariablesSet() throws AeStorageException
-   {
-      if (mStoredVariablesSet == null)
-      {
-         // Run the query and save the set.
-         mStoredVariablesSet = getProcessStateConnectionProvider().getProcessVariables();
-      }
+    /**
+     * Returns set of stored variable location ids.
+     */
+    protected IAeLocationVersionSet getStoredVariablesSet() throws AeStorageException {
+        if (mStoredVariablesSet == null) {
+            // Run the query and save the set.
+            mStoredVariablesSet = getProcessStateConnectionProvider().getProcessVariables();
+        }
 
-      return mStoredVariablesSet;
-   }
+        return mStoredVariablesSet;
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.server.engine.storage.IAeProcessStateConnection#getVariableDocument(long, int)
-    */
-   public Document getVariableDocument(long aLocationId, int aVersionNumber) throws AeStorageException
-   {
-      return getProcessStateConnectionProvider().getVariableDocument(aLocationId, aVersionNumber);
-   }
+    /**
+     * @see org.activebpel.rt.bpel.server.engine.storage.IAeProcessStateConnection#getVariableDocument(long, int)
+     */
+    public Document getVariableDocument(long aLocationId, int aVersionNumber) throws AeStorageException {
+        return getProcessStateConnectionProvider().getVariableDocument(aLocationId, aVersionNumber);
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.server.engine.storage.IAeProcessStateConnection#isStoredVariable(long, int)
-    */
-   public boolean isStoredVariable(long aLocationId, int aVersionNumber) throws AeStorageException
-   {
-      return getStoredVariablesSet().contains(aLocationId, aVersionNumber);
-   }
+    /**
+     * @see org.activebpel.rt.bpel.server.engine.storage.IAeProcessStateConnection#isStoredVariable(long, int)
+     */
+    public boolean isStoredVariable(long aLocationId, int aVersionNumber) throws AeStorageException {
+        return getStoredVariablesSet().contains(aLocationId, aVersionNumber);
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.server.engine.storage.IAeProcessStateConnection#removeJournalEntries(org.activebpel.rt.util.AeLongSet)
-    */
-   public void removeJournalEntries(Set<Long> aJournalIds) throws AeStorageException
-   {
-      getProcessStateConnectionProvider().removeJournalEntries(aJournalIds);
-   }
+    /**
+     * @see org.activebpel.rt.bpel.server.engine.storage.IAeProcessStateConnection#removeJournalEntries(org.activebpel.rt.util.AeLongSet)
+     */
+    public void removeJournalEntries(Set<Long> aJournalIds) throws AeStorageException {
+        getProcessStateConnectionProvider().removeJournalEntries(aJournalIds);
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.server.engine.storage.IAeProcessStateConnection#rollback()
-    */
-   public void rollback() throws AeStorageException
-   {
-      getProcessStateConnectionProvider().rollback();
-   }
+    /**
+     * @see org.activebpel.rt.bpel.server.engine.storage.IAeProcessStateConnection#rollback()
+     */
+    public void rollback() throws AeStorageException {
+        getProcessStateConnectionProvider().rollback();
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.server.engine.storage.IAeProcessStateConnection#saveProcess(org.activebpel.rt.bpel.impl.fastdom.AeFastDocument, int, int,  java.util.Date, java.util.Date, int)
-    */
-   public void saveProcess(AeFastDocument aDocument, int aProcessState, int aProcessStateReason, Date aStartDate, Date aEndDate, int aPendingInvokesCount) throws AeStorageException
-   {
-      getProcessStateConnectionProvider().saveProcess(aDocument, aProcessState, aProcessStateReason, aStartDate, aEndDate, aPendingInvokesCount);
-   }
+    /**
+     * @see org.activebpel.rt.bpel.server.engine.storage.IAeProcessStateConnection#saveProcess(org.activebpel.rt.bpel.impl.fastdom.AeFastDocument, int, int, java.util.Date, java.util.Date, int)
+     */
+    public void saveProcess(AeFastDocument aDocument, int aProcessState, int aProcessStateReason, Date aStartDate, Date aEndDate, int aPendingInvokesCount) throws AeStorageException {
+        getProcessStateConnectionProvider().saveProcess(aDocument, aProcessState, aProcessStateReason, aStartDate, aEndDate, aPendingInvokesCount);
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.server.engine.storage.IAeProcessStateConnection#saveVariable(org.activebpel.rt.bpel.IAeBusinessProcess, org.activebpel.rt.bpel.IAeVariable, org.activebpel.rt.bpel.impl.fastdom.AeFastDocument)
-    */
-   public void saveVariable(IAeBusinessProcess aProcess, IAeVariable aVariable, AeFastDocument aDocument) throws AeStorageException
-   {
-      int locationId = aVariable.getLocationId();
-      int versionNumber = aVariable.getVersionNumber();
-      if (isStoredVariable(locationId, versionNumber))
-      {
-         Object[] errorParams = {
-                 aProcess.getProcessId(),
-                 (long) locationId,
-                 versionNumber
-         };
-         throw new AeStorageException(AeMessages.format("AeDelegatingProcessStateConnection.VARIABLE_ALREADY_EXISTS_ERROR", //$NON-NLS-1$
-               errorParams));
-      }
+    /**
+     * @see org.activebpel.rt.bpel.server.engine.storage.IAeProcessStateConnection#saveVariable(org.activebpel.rt.bpel.IAeBusinessProcess, org.activebpel.rt.bpel.IAeVariable, org.activebpel.rt.bpel.impl.fastdom.AeFastDocument)
+     */
+    public void saveVariable(IAeBusinessProcess aProcess, IAeVariable aVariable, AeFastDocument aDocument) throws AeStorageException {
+        int locationId = aVariable.getLocationId();
+        int versionNumber = aVariable.getVersionNumber();
+        if (isStoredVariable(locationId, versionNumber)) {
+            Object[] errorParams = {
+                    aProcess.getProcessId(),
+                    (long) locationId,
+                    versionNumber
+            };
+            throw new AeStorageException(AeMessages.format("AeDelegatingProcessStateConnection.VARIABLE_ALREADY_EXISTS_ERROR", //$NON-NLS-1$
+                    errorParams));
+        }
 
-      getProcessStateConnectionProvider().saveVariable(aDocument, locationId, versionNumber);
-   }
+        getProcessStateConnectionProvider().saveVariable(aDocument, locationId, versionNumber);
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.server.engine.storage.IAeProcessStateConnection#trimStoredVariables(org.activebpel.rt.bpel.server.engine.storage.IAeLocationVersionSet)
-    */
-   public void trimStoredVariables(IAeLocationVersionSet aKeepSet) throws AeStorageException
-   {
-      for (Iterator i = getStoredVariablesSet().iterator(); i.hasNext(); )
-      {
-         IAeLocationVersionSet.IEntry entry = (IAeLocationVersionSet.IEntry) i.next();
-         if (!aKeepSet.contains(entry))
-         {
-            getProcessStateConnectionProvider().trimStoredVariable(entry.getLocationId(), entry.getVersionNumber());
-         }
-      }
-   }
+    /**
+     * @see org.activebpel.rt.bpel.server.engine.storage.IAeProcessStateConnection#trimStoredVariables(org.activebpel.rt.bpel.server.engine.storage.IAeLocationVersionSet)
+     */
+    public void trimStoredVariables(IAeLocationVersionSet aKeepSet) throws AeStorageException {
+        for (Iterator i = getStoredVariablesSet().iterator(); i.hasNext(); ) {
+            IAeLocationVersionSet.IEntry entry = (IAeLocationVersionSet.IEntry) i.next();
+            if (!aKeepSet.contains(entry)) {
+                getProcessStateConnectionProvider().trimStoredVariable(entry.getLocationId(), entry.getVersionNumber());
+            }
+        }
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.server.engine.storage.IAeProcessStateConnection#saveLog(org.activebpel.rt.bpel.server.logging.IAeProcessLogEntry)
-    */
-   public void saveLog(IAeProcessLogEntry aLogEntry) throws AeStorageException
-   {
-      if ((aLogEntry != null) && AeUtil.notNullOrEmpty(aLogEntry.getLog()))
-      {
-         getProcessStateConnectionProvider().saveLog(aLogEntry.getLog(), aLogEntry.getLineCount());
-      }
-   }
+    /**
+     * @see org.activebpel.rt.bpel.server.engine.storage.IAeProcessStateConnection#saveLog(org.activebpel.rt.bpel.server.logging.IAeProcessLogEntry)
+     */
+    public void saveLog(IAeProcessLogEntry aLogEntry) throws AeStorageException {
+        if ((aLogEntry != null) && AeUtil.notNullOrEmpty(aLogEntry.getLog())) {
+            getProcessStateConnectionProvider().saveLog(aLogEntry.getLog(), aLogEntry.getLineCount());
+        }
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.server.engine.storage.IAeProcessStateConnection#updateJournalEntryType(long, int)
-    */
-   public void updateJournalEntryType(long aJournalId, int aEntryType) throws AeStorageException
-   {
-      getProcessStateConnectionProvider().updateJournalEntryType(aJournalId, aEntryType);
-   }
+    /**
+     * @see org.activebpel.rt.bpel.server.engine.storage.IAeProcessStateConnection#updateJournalEntryType(long, int)
+     */
+    public void updateJournalEntryType(long aJournalId, int aEntryType) throws AeStorageException {
+        getProcessStateConnectionProvider().updateJournalEntryType(aJournalId, aEntryType);
+    }
 }

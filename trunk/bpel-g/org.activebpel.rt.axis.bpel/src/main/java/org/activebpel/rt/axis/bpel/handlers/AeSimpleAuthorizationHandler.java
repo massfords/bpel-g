@@ -31,85 +31,74 @@ import org.apache.axis.utils.Messages;
  * If the admin for the server didn't configure security in for the axis WAR then
  * we'll allow everything through.
  */
-public class AeSimpleAuthorizationHandler extends BasicHandler
-{
-   /**
-     * 
+public class AeSimpleAuthorizationHandler extends BasicHandler {
+    /**
+     *
      */
     private static final long serialVersionUID = -145502166338487674L;
 
-/**
-    * @see org.apache.axis.Handler#invoke(org.apache.axis.MessageContext)
-    */
-   public void invoke(MessageContext msgContext) throws AxisFault
-   {
-      String allowedRoles = getAllowedRoles(msgContext);
-      
-      if (AeUtil.notNullOrEmpty(allowedRoles))
-      {
-         // there are roles defined for this service, we need to make sure that 
-         // the caller has those roles.
+    /**
+     * @see org.apache.axis.Handler#invoke(org.apache.axis.MessageContext)
+     */
+    public void invoke(MessageContext msgContext) throws AxisFault {
+        String allowedRoles = getAllowedRoles(msgContext);
 
-         AuthenticatedUser user = (AuthenticatedUser) msgContext.getProperty(MessageContext.AUTHUSER);
-         
-         // if the user was null then the server was not configured w/ security so
-         // we'll ignore the allowed roles unless the engine config tells us differently
-         
-         if (user != null)
-         {
-            SecurityProvider provider = getSecurityProvider(msgContext);
-   
-            StringTokenizer st = new StringTokenizer(allowedRoles, ","); //$NON-NLS-1$
-            while (st.hasMoreTokens())
-            {
-               String thisRole = st.nextToken();
-               if (provider.userMatches(user, thisRole))
-               {
-                  return;
-               }
+        if (AeUtil.notNullOrEmpty(allowedRoles)) {
+            // there are roles defined for this service, we need to make sure that
+            // the caller has those roles.
+
+            AuthenticatedUser user = (AuthenticatedUser) msgContext.getProperty(MessageContext.AUTHUSER);
+
+            // if the user was null then the server was not configured w/ security so
+            // we'll ignore the allowed roles unless the engine config tells us differently
+
+            if (user != null) {
+                SecurityProvider provider = getSecurityProvider(msgContext);
+
+                StringTokenizer st = new StringTokenizer(allowedRoles, ","); //$NON-NLS-1$
+                while (st.hasMoreTokens()) {
+                    String thisRole = st.nextToken();
+                    if (provider.userMatches(user, thisRole)) {
+                        return;
+                    }
+                }
+
+                // if we get here then we've tried every role on the service and the
+                // user didn't match to any of them. ergo, throw.
+                throw new SecurityException(MessageFormat.format("AeSimpleAuthorizationHandler.ERROR_0", //$NON-NLS-1$
+                        new Object[]{user.getName(), msgContext.getService().getName()}));
+            } else if (AePreferences.isAllowedRolesEnforced()) {
+                // there was no user and the allowed roles is being enforced so we need to throw.
+                throw new SecurityException(AeMessages.format("AeSimpleAuthorizationHandler.ERROR_1", msgContext.getService().getName())); //$NON-NLS-1$
             }
+        }
+    }
 
-            // if we get here then we've tried every role on the service and the
-            // user didn't match to any of them. ergo, throw.
-            throw new SecurityException(MessageFormat.format("AeSimpleAuthorizationHandler.ERROR_0", //$NON-NLS-1$
-                                                             new Object[] {user.getName(), msgContext.getService().getName()})); 
-         }
-         else if (AePreferences.isAllowedRolesEnforced())
-         {
-            // there was no user and the allowed roles is being enforced so we need to throw.
-            throw new SecurityException(AeMessages.format("AeSimpleAuthorizationHandler.ERROR_1", msgContext.getService().getName())); //$NON-NLS-1$
-         }
-      }
-   }
+    /**
+     * Gets the allowedRoles option from the service being hit.
+     *
+     * @param aMsgContext
+     * @throws AxisFault thrown if there is no service bound to the context (meaning something went horribly wrong in axis).
+     */
+    protected String getAllowedRoles(MessageContext aMsgContext) throws AxisFault {
+        if (aMsgContext.getService() == null) {
+            throw new AxisFault(Messages.getMessage("needService00")); //$NON-NLS-1$
+        }
 
-   /**
-    * Gets the allowedRoles option from the service being hit.
-    * 
-    * @param aMsgContext
-    * @throws AxisFault thrown if there is no service bound to the context (meaning something went horribly wrong in axis).
-    */
-   protected String getAllowedRoles(MessageContext aMsgContext) throws AxisFault
-   {
-      if (aMsgContext.getService() == null)
-      {
-         throw new AxisFault(Messages.getMessage("needService00")); //$NON-NLS-1$
-      }
+        return (String) aMsgContext.getService().getOption("allowedRoles"); //$NON-NLS-1$
+    }
 
-      return (String) aMsgContext.getService().getOption("allowedRoles"); //$NON-NLS-1$
-   }
-
-   /**
-    * Gets the security provider from the context
-    * 
-    * @param aMsgContext
-    * @throws AxisFault thrown if it isn't present (default should have been set by authentication handler)
-    */
-   protected SecurityProvider getSecurityProvider(MessageContext aMsgContext) throws AxisFault
-   {
-      SecurityProvider provider = (SecurityProvider) aMsgContext.getProperty(MessageContext.SECURITY_PROVIDER);
-      if (provider == null)
-         throw new AxisFault(Messages.getMessage("noSecurity00")); //$NON-NLS-1$
-      return provider;
-   }
+    /**
+     * Gets the security provider from the context
+     *
+     * @param aMsgContext
+     * @throws AxisFault thrown if it isn't present (default should have been set by authentication handler)
+     */
+    protected SecurityProvider getSecurityProvider(MessageContext aMsgContext) throws AxisFault {
+        SecurityProvider provider = (SecurityProvider) aMsgContext.getProperty(MessageContext.SECURITY_PROVIDER);
+        if (provider == null)
+            throw new AxisFault(Messages.getMessage("noSecurity00")); //$NON-NLS-1$
+        return provider;
+    }
 
 }

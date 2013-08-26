@@ -21,18 +21,24 @@ import org.activebpel.rt.AeMessages;
  * array of objects.
  */
 public class AeCombinations<E> implements Iterator<List<E>> {
-    /** array of objects from which to extract combinations */
+    /**
+     * array of objects from which to extract combinations
+     */
     private List<E> mObjects;
-    /** number of objects wanted in each combination */
+    /**
+     * number of objects wanted in each combination
+     */
     private int[] mOffsets;
-    /** true if the iterator has more elements to return */
+    /**
+     * true if the iterator has more elements to return
+     */
     private boolean mHasNext = true;
 
     /**
      * Creates an array of all of the non-repeating combinations of the objects
-     * within the array. The total number of iterations will be 
+     * within the array. The total number of iterations will be
      * (2 ^ aObjects.length) - 1
-     * 
+     *
      * @param aObjects
      */
     public static <E> Iterator<List<E>> createAllCombinations(List<E> aObjects) {
@@ -45,11 +51,9 @@ public class AeCombinations<E> implements Iterator<List<E>> {
 
     /**
      * Ctor - initializes the iterator
-     * 
-     * @param aObjects
-     *            - array of objects from which to extract combinations
-     * @param aCount
-     *            - number of objects wanted in each combination
+     *
+     * @param aObjects - array of objects from which to extract combinations
+     * @param aCount   - number of objects wanted in each combination
      */
     public AeCombinations(List<E> aObjects, int aCount) {
         if (aCount > aObjects.size() || aCount == 0) {
@@ -87,7 +91,7 @@ public class AeCombinations<E> implements Iterator<List<E>> {
 
     /**
      * Setter for the hasNext flag of iteration
-     * 
+     *
      * @param aFlag
      */
     protected void setHasNext(boolean aFlag) {
@@ -123,7 +127,7 @@ public class AeCombinations<E> implements Iterator<List<E>> {
     /**
      * Returns true if the next iteration can be prepared. False means that no
      * more unique combinations can be produced from this array.
-     * 
+     * <p/>
      * The search for combinations begins with initializing the offet array to
      * 0..(count-1). This will always be the first iteration returned from the
      * combinations. The algorithm then proceeds to increment the right-most
@@ -131,22 +135,22 @@ public class AeCombinations<E> implements Iterator<List<E>> {
      * bounds of the src array. All subsequent offsets increment by 1 following
      * the incremented value. All iterations are complete when there are no more
      * offsets that can be incremented w/o going out of bounds.
-     * 
-     *  For example:
-     *  
-     *  Given the set of 5 values with desired subset of 3 values, the following combinations 
-     *  will be returned:
-     *  
-     *  0 1 2
-     *  0 1 3
-     *  0 1 4
-     *  0 2 3
-     *  0 2 4
-     *  0 3 4
-     *  1 2 3
-     *  1 2 4
-     *  1 3 4
-     *  2 3 4
+     * <p/>
+     * For example:
+     * <p/>
+     * Given the set of 5 values with desired subset of 3 values, the following combinations
+     * will be returned:
+     * <p/>
+     * 0 1 2
+     * 0 1 3
+     * 0 1 4
+     * 0 2 3
+     * 0 2 4
+     * 0 3 4
+     * 1 2 3
+     * 1 2 4
+     * 1 3 4
+     * 2 3 4
      */
     protected boolean prepareNextIteration() {
         int offsetToIncrement = calculateOffsetToIncrement();

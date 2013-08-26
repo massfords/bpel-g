@@ -17,59 +17,59 @@ import org.activebpel.rt.util.AeUtil;
  * Tag which allows one to set a namespace prefix to uri mapping on the request context.
  * &lt;ae:SetNamespaceMapping prefix="" uri="" /&gt;
  */
-public class AeSetNamespaceMappingTag extends AeAbstractXpathTag
-{
-   private static final long serialVersionUID = -7340703954585459481L;
-   /** NS prefix. */
-   private String mPrefix;
-   /** NS uri */
-   private String mUri;
-   
-   /** 
-    * Overrides method to set the prefix to uri mapping in the request context so that it can 
-    * be accessed by other beans. 
-    * @see javax.servlet.jsp.tagext.BodyTagSupport#doStartTag()
-    */
-   public int doStartTag() throws JspException
-   {
-      if (AeUtil.notNullOrEmpty( getPrefix()) && AeUtil.notNullOrEmpty( getUri() ))
-      {
-         getNamespaceMap().put(getPrefix().trim(), getUri().trim() );
-      }
-      return SKIP_BODY;
-   }
-   
-   /** 
-    * @return Returns NS prefix.
-    */
-   public String getPrefix()
-   {
-      return mPrefix;
-   }
-   
-   /**
-    * Sets the NS prefix.
-    * @param aPrefix prefix
-    */
-   public void setPrefix(String aPrefix)
-   {
-      mPrefix = aPrefix;
-   }
-   
-   /** 
-    * @return Returns NS URI.
-    */
-   public String getUri()
-   {
-      return mUri;
-   }
-   
-   /**
-    * Sets the NS uri.
-    * @param aUri
-    */
-   public void setUri(String aUri)
-   {
-      mUri = aUri;
-   }
+public class AeSetNamespaceMappingTag extends AeAbstractXpathTag {
+    private static final long serialVersionUID = -7340703954585459481L;
+    /**
+     * NS prefix.
+     */
+    private String mPrefix;
+    /**
+     * NS uri
+     */
+    private String mUri;
+
+    /**
+     * Overrides method to set the prefix to uri mapping in the request context so that it can
+     * be accessed by other beans.
+     *
+     * @see javax.servlet.jsp.tagext.BodyTagSupport#doStartTag()
+     */
+    public int doStartTag() throws JspException {
+        if (AeUtil.notNullOrEmpty(getPrefix()) && AeUtil.notNullOrEmpty(getUri())) {
+            getNamespaceMap().put(getPrefix().trim(), getUri().trim());
+        }
+        return SKIP_BODY;
+    }
+
+    /**
+     * @return Returns NS prefix.
+     */
+    public String getPrefix() {
+        return mPrefix;
+    }
+
+    /**
+     * Sets the NS prefix.
+     *
+     * @param aPrefix prefix
+     */
+    public void setPrefix(String aPrefix) {
+        mPrefix = aPrefix;
+    }
+
+    /**
+     * @return Returns NS URI.
+     */
+    public String getUri() {
+        return mUri;
+    }
+
+    /**
+     * Sets the NS uri.
+     *
+     * @param aUri
+     */
+    public void setUri(String aUri) {
+        mUri = aUri;
+    }
 }

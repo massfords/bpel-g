@@ -21,82 +21,77 @@ import org.activebpel.rt.bpel.impl.queue.AeReply;
  * org.activebpel.rt.bpel.impl.fastdom.AeFastElement} or {@link
  * org.activebpel.rt.bpel.impl.fastdom.AeFastDocument}.
  */
-public class AeReplySerializer implements IAeImplStateNames
-{
-   /** The reply to serialize. */
-   private AeReply mReply;
+public class AeReplySerializer implements IAeImplStateNames {
+    /**
+     * The reply to serialize.
+     */
+    private AeReply mReply;
 
-   /** The resulting serialization. */
-   private AeFastElement mReplyElement;
+    /**
+     * The resulting serialization.
+     */
+    private AeFastElement mReplyElement;
 
-   /**
-    * Serializes the specified reply to an instance of {@link
-    * org.activebpel.rt.bpel.impl.fastdom.AeFastElement}.
-    *
-    * @param aReply
-    */
-   protected AeFastElement createReplyElement(AeReply aReply) throws AeBusinessProcessException
-   {
-      AeFastElement replyElement = new AeFastElement(STATE_REPLY);
-      replyElement.setAttribute(STATE_PID      , String.valueOf(aReply.getProcessId()));
-      replyElement.setAttribute(STATE_REPLY_ID , String.valueOf(aReply.getReplyId()) );
-      return replyElement;
-   }
+    /**
+     * Serializes the specified reply to an instance of {@link
+     * org.activebpel.rt.bpel.impl.fastdom.AeFastElement}.
+     *
+     * @param aReply
+     */
+    protected AeFastElement createReplyElement(AeReply aReply) throws AeBusinessProcessException {
+        AeFastElement replyElement = new AeFastElement(STATE_REPLY);
+        replyElement.setAttribute(STATE_PID, String.valueOf(aReply.getProcessId()));
+        replyElement.setAttribute(STATE_REPLY_ID, String.valueOf(aReply.getReplyId()));
+        return replyElement;
+    }
 
-   /**
-    * Returns the reply to serialize.
-    */
-   protected AeReply getReply()
-   {
-      return mReply;
-   }
+    /**
+     * Returns the reply to serialize.
+     */
+    protected AeReply getReply() {
+        return mReply;
+    }
 
-   /**
-    * Returns an instance of {@link
-    * org.activebpel.rt.bpel.impl.fastdom.AeFastDocument} representing the
-    * reply.
-    */
-   public AeFastDocument getReplyDocument() throws AeBusinessProcessException
-   {
-      return new AeFastDocument(getReplyElement());
-   }
+    /**
+     * Returns an instance of {@link
+     * org.activebpel.rt.bpel.impl.fastdom.AeFastDocument} representing the
+     * reply.
+     */
+    public AeFastDocument getReplyDocument() throws AeBusinessProcessException {
+        return new AeFastDocument(getReplyElement());
+    }
 
-   /**
-    * Returns an instance of {@link
-    * org.activebpel.rt.bpel.impl.fastdom.AeFastElement} representing the reply.
-    */
-   public AeFastElement getReplyElement() throws AeBusinessProcessException
-   {
-      if (mReplyElement == null)
-      {
-         if (getReply() == null)
-         {
-            throw new IllegalStateException(AeMessages.getString("AeReplySerializer.ERROR_0")); //$NON-NLS-1$
-         }
+    /**
+     * Returns an instance of {@link
+     * org.activebpel.rt.bpel.impl.fastdom.AeFastElement} representing the reply.
+     */
+    public AeFastElement getReplyElement() throws AeBusinessProcessException {
+        if (mReplyElement == null) {
+            if (getReply() == null) {
+                throw new IllegalStateException(AeMessages.getString("AeReplySerializer.ERROR_0")); //$NON-NLS-1$
+            }
 
-         mReplyElement = createReplyElement(getReply());
-      }
+            mReplyElement = createReplyElement(getReply());
+        }
 
-      return mReplyElement;
-   }
+        return mReplyElement;
+    }
 
-   /**
-    * Resets all output variables.
-    */
-   protected void reset()
-   {
-      mReplyElement = null;
-   }
+    /**
+     * Resets all output variables.
+     */
+    protected void reset() {
+        mReplyElement = null;
+    }
 
-   /**
-    * Sets the reply to serialize.
-    *
-    * @param aReply
-    */
-   public void setReply(AeReply aReply)
-   {
-      reset();
+    /**
+     * Sets the reply to serialize.
+     *
+     * @param aReply
+     */
+    public void setReply(AeReply aReply) {
+        reset();
 
-      mReply = aReply;
-   }
+        mReply = aReply;
+    }
 }

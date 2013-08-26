@@ -38,469 +38,430 @@ import java.util.Map.Entry;
  * {@link org.activebpel.rt.bpel.server.engine.recovery.journal.IAeJournalEntry}
  * instances.
  */
-public class AeRecoveryEngine extends AeAbstractServerEngine implements IAeRecoveryEngine
-{
-   private final int mEngineId;
+public class AeRecoveryEngine extends AeAbstractServerEngine implements IAeRecoveryEngine {
+    private final int mEngineId;
 
-   /**
-    * Constructs a recovery engine.
-    *
-    * @param aPartnerLinkStrategy
-    * @param aTransmissionTracker
-    * @param aManagersMap
-    * @param aEngineId
-    */
-   public AeRecoveryEngine(
-      IAeExpressionLanguageFactory aFactory,
-      IAeEnginePartnerLinkStrategy aPartnerLinkStrategy,
-      IAeTransmissionTracker aTransmissionTracker,
-      Map<String,IAeManager> aManagersMap,
-      int aEngineId)
-   {
-      setExpressionLanguageFactory(aFactory);
-      setPartnerLinkStrategy(aPartnerLinkStrategy);
-      setTransmissionTracker(aTransmissionTracker);
-      Map<String,IAeManager> managersMap = createRecoveryVersionsOfCustomManagers(aManagersMap);
-      setManagers(managersMap);
-      // Since recovery engine extends BusiProcEngine, engine id will always be 1.
-      // We need to get the engine id from the underlying engine.      
-      mEngineId = aEngineId;
-   }
+    /**
+     * Constructs a recovery engine.
+     *
+     * @param aPartnerLinkStrategy
+     * @param aTransmissionTracker
+     * @param aManagersMap
+     * @param aEngineId
+     */
+    public AeRecoveryEngine(
+            IAeExpressionLanguageFactory aFactory,
+            IAeEnginePartnerLinkStrategy aPartnerLinkStrategy,
+            IAeTransmissionTracker aTransmissionTracker,
+            Map<String, IAeManager> aManagersMap,
+            int aEngineId) {
+        setExpressionLanguageFactory(aFactory);
+        setPartnerLinkStrategy(aPartnerLinkStrategy);
+        setTransmissionTracker(aTransmissionTracker);
+        Map<String, IAeManager> managersMap = createRecoveryVersionsOfCustomManagers(aManagersMap);
+        setManagers(managersMap);
+        // Since recovery engine extends BusiProcEngine, engine id will always be 1.
+        // We need to get the engine id from the underlying engine.
+        mEngineId = aEngineId;
+    }
 
-   /**
-    * Walks the map of custom managers and creates recovery versions of whatever
-    * managers provide adapters for {@link IAeRecoveryAwareManager}.
-    * @param aCustomManagersMap
-    */
-   protected Map<String,IAeManager> createRecoveryVersionsOfCustomManagers(Map<String,IAeManager> aCustomManagersMap)
-   {
-      Map<String,IAeManager> managersMap = new HashMap<>(aCustomManagersMap);
-      for (Entry<String,IAeManager> entry : managersMap.entrySet())
-      {
-         IAeManager manager = entry.getValue();
-         IAeRecoveryAwareManager recoveryAwareManager = (IAeRecoveryAwareManager) manager.getAdapter(IAeRecoveryAwareManager.class);
-         if (recoveryAwareManager != null)
-         {
-            entry.setValue(recoveryAwareManager);
-         }
-      }
-      return managersMap;
-   }
+    /**
+     * Walks the map of custom managers and creates recovery versions of whatever
+     * managers provide adapters for {@link IAeRecoveryAwareManager}.
+     *
+     * @param aCustomManagersMap
+     */
+    protected Map<String, IAeManager> createRecoveryVersionsOfCustomManagers(Map<String, IAeManager> aCustomManagersMap) {
+        Map<String, IAeManager> managersMap = new HashMap<>(aCustomManagersMap);
+        for (Entry<String, IAeManager> entry : managersMap.entrySet()) {
+            IAeManager manager = entry.getValue();
+            IAeRecoveryAwareManager recoveryAwareManager = (IAeRecoveryAwareManager) manager.getAdapter(IAeRecoveryAwareManager.class);
+            if (recoveryAwareManager != null) {
+                entry.setValue(recoveryAwareManager);
+            }
+        }
+        return managersMap;
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.impl.IAeBusinessProcessEngineInternal#getEngineId()
-    */
-   public int getEngineId()
-   {
-      return mEngineId;
-   }   
-   
-   /**
-    * Adds recovered items to the given list that will remove queued requests
-    * that are now stale (meaning that the corresponding activities are no
-    * longer executing in the process).
-    *
-    * @param aRecoveredItems
-    * @param aProcess
-    * @param aStaleLocationIds
-    */
-   protected void addStaleRequestRemovalItems(List<IAeRecoveredItem> aRecoveredItems, IAeBusinessProcess aProcess, Set<Integer> aStaleLocationIds)
-   {
-      long processId = aProcess.getProcessId();
+    /**
+     * @see org.activebpel.rt.bpel.impl.IAeBusinessProcessEngineInternal#getEngineId()
+     */
+    public int getEngineId() {
+        return mEngineId;
+    }
 
-       for (Integer locationId : aStaleLocationIds) {
-           IAeBpelObject aImpl = aProcess.findBpelObject(locationId);
+    /**
+     * Adds recovered items to the given list that will remove queued requests
+     * that are now stale (meaning that the corresponding activities are no
+     * longer executing in the process).
+     *
+     * @param aRecoveredItems
+     * @param aProcess
+     * @param aStaleLocationIds
+     */
+    protected void addStaleRequestRemovalItems(List<IAeRecoveredItem> aRecoveredItems, IAeBusinessProcess aProcess, Set<Integer> aStaleLocationIds) {
+        long processId = aProcess.getProcessId();
 
-           if (aImpl instanceof IAeAlarmReceiver) {
-               IAeAlarmReceiver alarmRec = (IAeAlarmReceiver) aImpl;
-               IAeRecoveredItem removeAlarmItem = new AeRecoveredRemoveAlarmItem(processId, locationId, alarmRec.getAlarmId());
-               aRecoveredItems.add(removeAlarmItem);
-           } else if (aImpl instanceof IAeMessageReceiverActivity) {
-               IAeRecoveredItem removeReceiverItem = new AeRecoveredRemoveReceiverItem(processId, locationId);
-               aRecoveredItems.add(removeReceiverItem);
-           }
-       }
-   }
+        for (Integer locationId : aStaleLocationIds) {
+            IAeBpelObject aImpl = aProcess.findBpelObject(locationId);
 
-   /**
-    * Dispatches the journal entries to the given process.
-    *
-    * @param aJournalEntries
-    * @param aProcess
-    * @throws AeBusinessProcessException
-    */
-   protected void dispatchJournalEntries(List<IAeJournalEntry> aJournalEntries, IAeBusinessProcess aProcess) throws AeBusinessProcessException
-   {
-      // Loop until we dispatch all of the journal entries or the process
-      // completes.
-      Iterator<? extends IAeJournalEntry> i = aJournalEntries.iterator();
+            if (aImpl instanceof IAeAlarmReceiver) {
+                IAeAlarmReceiver alarmRec = (IAeAlarmReceiver) aImpl;
+                IAeRecoveredItem removeAlarmItem = new AeRecoveredRemoveAlarmItem(processId, locationId, alarmRec.getAlarmId());
+                aRecoveredItems.add(removeAlarmItem);
+            } else if (aImpl instanceof IAeMessageReceiverActivity) {
+                IAeRecoveredItem removeReceiverItem = new AeRecoveredRemoveReceiverItem(processId, locationId);
+                aRecoveredItems.add(removeReceiverItem);
+            }
+        }
+    }
 
-      while (i.hasNext())
-      {
-         IAeJournalEntry entry = i.next();
-         
-         // This code used to stop looping as soon as the process reached a final
-         // state but it was changed to ask the journal entry if it should be
-         // dispatched given the state of the process.
-         // This change was necessary to support the recovery of the coordination
-         // messages. Our recovery is process-centric but in the case we're really
-         // recovering work for the coordination manager. As such, there could
-         // be journal entries which should be dispatched despite the process
-         // being in a final state.
-         if (entry.canDispatch(aProcess.getProcessState()))
-         {
-            entry.dispatchToProcess(aProcess);
-         }
-         else
-         {
-            // put the entry back into the iterator
-            i = AeUtil.join(entry, i);
-            break;
-         }
-      }
+    /**
+     * Dispatches the journal entries to the given process.
+     *
+     * @param aJournalEntries
+     * @param aProcess
+     * @throws AeBusinessProcessException
+     */
+    protected void dispatchJournalEntries(List<IAeJournalEntry> aJournalEntries, IAeBusinessProcess aProcess) throws AeBusinessProcessException {
+        // Loop until we dispatch all of the journal entries or the process
+        // completes.
+        Iterator<? extends IAeJournalEntry> i = aJournalEntries.iterator();
 
-      // If there are still journal entries to consume, then the process
-      // probably faulted. Count the number of remaining entries and emit a
-      // warning.
-      if (i.hasNext())
-      {
-         int remaining = 0;
-
-         while (i.hasNext())
-         {
+        while (i.hasNext()) {
             IAeJournalEntry entry = i.next();
 
-            if (entry instanceof AeEngineFailureJournalEntry)
-            {
-               // This doesn't count as an entry that the process would consume.
+            // This code used to stop looping as soon as the process reached a final
+            // state but it was changed to ask the journal entry if it should be
+            // dispatched given the state of the process.
+            // This change was necessary to support the recovery of the coordination
+            // messages. Our recovery is process-centric but in the case we're really
+            // recovering work for the coordination manager. As such, there could
+            // be journal entries which should be dispatched despite the process
+            // being in a final state.
+            if (entry.canDispatch(aProcess.getProcessState())) {
+                entry.dispatchToProcess(aProcess);
+            } else {
+                // put the entry back into the iterator
+                i = AeUtil.join(entry, i);
+                break;
             }
-            else if (entry instanceof AeSentReplyJournalEntry)
-            {
-               // This doesn't count as an entry that the process would consume.
+        }
+
+        // If there are still journal entries to consume, then the process
+        // probably faulted. Count the number of remaining entries and emit a
+        // warning.
+        if (i.hasNext()) {
+            int remaining = 0;
+
+            while (i.hasNext()) {
+                IAeJournalEntry entry = i.next();
+
+                if (entry instanceof AeEngineFailureJournalEntry) {
+                    // This doesn't count as an entry that the process would consume.
+                } else if (entry instanceof AeSentReplyJournalEntry) {
+                    // This doesn't count as an entry that the process would consume.
+                } else {
+                    ++remaining;
+                }
             }
-            else
-            {
-               ++remaining;
+
+            if (remaining > 0) {
+                AeException.logWarning(AeMessages.format("AeRecoveryEngine.WARNING_ENTRIES_REMAINING", //$NON-NLS-1$
+                        new Object[]{aProcess.getProcessId(), remaining}));
             }
-         }
+        }
+    }
 
-         if (remaining > 0)
-         {
-            AeException.logWarning(AeMessages.format("AeRecoveryEngine.WARNING_ENTRIES_REMAINING", //$NON-NLS-1$
-                                                     new Object[] {aProcess.getProcessId(), remaining}));
-         }
-      }
-   }
+    /**
+     * Returns the location ids for activities that are currently executing in
+     * the given process.
+     */
+    protected Set<Integer> getExecutingLocationIds(IAeBusinessProcess aProcess) throws AeBusinessProcessException {
+        AeQueuedExecutingLocationIdsCollector collector = new AeQueuedExecutingLocationIdsCollector();
+        return collector.getExecutingLocationIds(aProcess);
+    }
 
-   /**
-    * Returns the location ids for activities that are currently executing in
-    * the given process.
-    */
-   protected Set<Integer> getExecutingLocationIds(IAeBusinessProcess aProcess) throws AeBusinessProcessException
-   {
-      AeQueuedExecutingLocationIdsCollector collector = new AeQueuedExecutingLocationIdsCollector();
-      return collector.getExecutingLocationIds(aProcess);
-   }
+    /**
+     * Returns the process manager to use during recovery.
+     *
+     * @see org.activebpel.rt.bpel.server.engine.recovery.IAeRecoveryEngine#getRecoveryProcessManager()
+     */
+    public IAeRecoveryProcessManager getRecoveryProcessManager() {
+        return (IAeRecoveryProcessManager) getProcessManager();
+    }
 
-   /**
-    * Returns the process manager to use during recovery.
-    * @see org.activebpel.rt.bpel.server.engine.recovery.IAeRecoveryEngine#getRecoveryProcessManager()
-    */
-   public IAeRecoveryProcessManager getRecoveryProcessManager()
-   {
-      return (IAeRecoveryProcessManager) getProcessManager();
-   }
+    /**
+     * Returns the queue manager to use during recovery.
+     */
+    protected IAeRecoveryQueueManager getRecoveryQueueManager() {
+        return (IAeRecoveryQueueManager) getQueueManager();
+    }
 
-   /**
-    * Returns the queue manager to use during recovery.
-    */
-   protected IAeRecoveryQueueManager getRecoveryQueueManager()
-   {
-      return (IAeRecoveryQueueManager) getQueueManager();
-   }
+    /**
+     * Returns location ids of requests that are currently queued but should no
+     * longer be queued, because the corresponding activity is not executing.
+     */
+    protected Set<Integer> getStaleLocationIds(Set<Integer> aQueuedLocationIds, Set<Integer> aExecutingLocationIds) {
+        Set<Integer> staleLocationIds = new HashSet<>(aQueuedLocationIds);
+        staleLocationIds.removeAll(aExecutingLocationIds);
 
-   /**
-    * Returns location ids of requests that are currently queued but should no
-    * longer be queued, because the corresponding activity is not executing.
-    */
-   protected Set<Integer> getStaleLocationIds(Set<Integer> aQueuedLocationIds, Set<Integer> aExecutingLocationIds)
-   {
-      Set<Integer> staleLocationIds = new HashSet<>(aQueuedLocationIds);
-      staleLocationIds.removeAll(aExecutingLocationIds);
+        return staleLocationIds;
+    }
 
-      return staleLocationIds;
-   }
+    /**
+     * Queues the recovered items to the given engine.
+     *
+     * @param aRecoveredItems
+     * @param aProcess
+     */
+    protected void queueRecoveredItems(List aRecoveredItems, IAeBusinessProcess aProcess) {
+        for (Object aRecoveredItem : aRecoveredItems) {
+            IAeRecoveredItem recoveredItem = (IAeRecoveredItem) aRecoveredItem;
 
-   /**
-    * Queues the recovered items to the given engine.
-    *
-    * @param aRecoveredItems
-    * @param aProcess
-    */
-   protected void queueRecoveredItems(List aRecoveredItems, IAeBusinessProcess aProcess)
-   {
-       for (Object aRecoveredItem : aRecoveredItems) {
-           IAeRecoveredItem recoveredItem = (IAeRecoveredItem) aRecoveredItem;
+            try {
+                recoveredItem.queueItem(aProcess.getEngine());
+            } catch (AeBusinessProcessException e) {
+                // Report the name of the recovered item's class.
+                String name = recoveredItem.getClass().getName();
 
-           try {
-               recoveredItem.queueItem(aProcess.getEngine());
-           } catch (AeBusinessProcessException e) {
-               // Report the name of the recovered item's class.
-               String name = recoveredItem.getClass().getName();
+                // Report just the name without the package.
+                int n = name.lastIndexOf('.');
+                if (n > 0) {
+                    name = name.substring(n + 1);
+                }
 
-               // Report just the name without the package.
-               int n = name.lastIndexOf('.');
-               if (n > 0) {
-                   name = name.substring(n + 1);
-               }
+                Object[] params = new Object[]{name, aProcess.getProcessId(), recoveredItem.getLocationId()};
+                AeException.logError(e, AeMessages.format("AeRecoveryEngine.ERROR_QUEUE_RECOVERED_ITEM", params)); //$NON-NLS-1$
+            }
+        }
+    }
 
-               Object[] params = new Object[]{name, aProcess.getProcessId(), recoveredItem.getLocationId()};
-               AeException.logError(e, AeMessages.format("AeRecoveryEngine.ERROR_QUEUE_RECOVERED_ITEM", params)); //$NON-NLS-1$
-           }
-       }
-   }
+    /**
+     * @see org.activebpel.rt.bpel.server.engine.recovery.IAeRecoveryEngine#recover(org.activebpel.rt.bpel.IAeBusinessProcess, java.util.List, boolean)
+     */
+    public List recover(IAeBusinessProcess aProcess, List<IAeJournalEntry> aJournalEntries, boolean aQueueRecoveredItems) throws AeBusinessProcessException {
+        // Extract sent reply objects.
+        List<AeReply> sentReplies = getSentReplies(aJournalEntries);
 
-   /**
-    * @see org.activebpel.rt.bpel.server.engine.recovery.IAeRecoveryEngine#recover(org.activebpel.rt.bpel.IAeBusinessProcess, java.util.List, boolean)
-    */
-   public List recover(IAeBusinessProcess aProcess, List<IAeJournalEntry> aJournalEntries, boolean aQueueRecoveredItems) throws AeBusinessProcessException
-   {
-      // Extract sent reply objects.
-      List<AeReply> sentReplies = getSentReplies(aJournalEntries);
+        // Extract invoke transmitted journal entries.
+        List invokeTransmittedEntries = getInvokeTransmittedEntries(aJournalEntries);
 
-      // Extract invoke transmitted journal entries.
-      List invokeTransmittedEntries = getInvokeTransmittedEntries(aJournalEntries);
+        // Recover the process state and generate a complete list of recovered
+        // alarm and queue manager requests.
+        List<IAeRecoveredItem> recoveredItems = recover(aProcess, aJournalEntries, sentReplies, invokeTransmittedEntries);
 
-      // Recover the process state and generate a complete list of recovered
-      // alarm and queue manager requests.
-      List<IAeRecoveredItem> recoveredItems = recover(aProcess, aJournalEntries, sentReplies, invokeTransmittedEntries);
+        // Get location ids for requests that are already queued.
+        AeQueuedLocationIdsCollector collector = new AeQueuedLocationIdsCollector();
+        collector.getQueuedLocationIds(aProcess, aJournalEntries);
 
-      // Get location ids for requests that are already queued.
-      AeQueuedLocationIdsCollector collector = new AeQueuedLocationIdsCollector();
-      collector.getQueuedLocationIds(aProcess, aJournalEntries);
+        // Remove recovered items that are already queued.
+        removeQueuedItems(recoveredItems, collector);
 
-      // Remove recovered items that are already queued.
-      removeQueuedItems(recoveredItems, collector);
+        // Get location ids for executing activities.
+        Set<Integer> executingLocationIds = getExecutingLocationIds(aProcess);
 
-      // Get location ids for executing activities.
-      Set<Integer> executingLocationIds = getExecutingLocationIds(aProcess);
+        // Get location ids for queued requests that should be removed.
+        Set<Integer> staleLocationIds = getStaleLocationIds(collector.getQueuedLocationIds(), executingLocationIds);
 
-      // Get location ids for queued requests that should be removed.
-      Set<Integer> staleLocationIds = getStaleLocationIds(collector.getQueuedLocationIds(), executingLocationIds);
+        // Add recovered items to remove stale requests.
+        addStaleRequestRemovalItems(recoveredItems, aProcess, staleLocationIds);
 
-      // Add recovered items to remove stale requests.
-      addStaleRequestRemovalItems(recoveredItems, aProcess, staleLocationIds);
+        // Queue the recovered items if requested.
+        if (aQueueRecoveredItems) {
+            queueRecoveredItems(recoveredItems, aProcess);
+        }
 
-      // Queue the recovered items if requested.
-      if (aQueueRecoveredItems)
-      {
-         queueRecoveredItems(recoveredItems, aProcess);
-      }
+        return recoveredItems;
+    }
 
-      return recoveredItems;
-   }
-   
-   /**
-    * Recovers the state of the specified process from the given list of {@link
-    * org.activebpel.rt.bpel.server.engine.recovery.journal.IAeJournalEntry}
-    * instances.
-    *
-    * @param aProcess
-    * @param aJournalEntries
-    * @param aSentReplies
-    * @param aInvokeTransmittedEntries
-    * @return A list of {@link org.activebpel.rt.bpel.server.engine.recovery.recovered.IAeRecoveredItem} instances.
-    * @throws AeBusinessProcessException
-    */
-   protected synchronized List<IAeRecoveredItem> recover(IAeBusinessProcess aProcess, List<IAeJournalEntry> aJournalEntries, List<AeReply> aSentReplies, List aInvokeTransmittedEntries) throws AeBusinessProcessException
-   {
-      // The whole method is synchronized, because we can only recover one
-      // process at a time.
-      setRecoveryProcess(aProcess);
+    /**
+     * Recovers the state of the specified process from the given list of {@link
+     * org.activebpel.rt.bpel.server.engine.recovery.journal.IAeJournalEntry}
+     * instances.
+     *
+     * @param aProcess
+     * @param aJournalEntries
+     * @param aSentReplies
+     * @param aInvokeTransmittedEntries
+     * @return A list of {@link org.activebpel.rt.bpel.server.engine.recovery.recovered.IAeRecoveredItem} instances.
+     * @throws AeBusinessProcessException
+     */
+    protected synchronized List<IAeRecoveredItem> recover(IAeBusinessProcess aProcess, List<IAeJournalEntry> aJournalEntries, List<AeReply> aSentReplies, List aInvokeTransmittedEntries) throws AeBusinessProcessException {
+        // The whole method is synchronized, because we can only recover one
+        // process at a time.
+        setRecoveryProcess(aProcess);
 
-      // Create a set to hold the recovered alarm and queue manager requests.
-      IAeRecoveredItemsSet recoveredItemsSet = new AeRecoveredItemsSet();
-      
-      // Prepare the queue manager to match recovered send reply requests
-      // against replies that were already sent by the process.
-      getRecoveryQueueManager().setSentReplies(aSentReplies);
+        // Create a set to hold the recovered alarm and queue manager requests.
+        IAeRecoveredItemsSet recoveredItemsSet = new AeRecoveredItemsSet();
 
-      // Prepare the queue manager to match invoke location ids to transmission
-      // ids.
-      getRecoveryQueueManager().setInvokeTransmittedEntries(aInvokeTransmittedEntries);
-      
-      setRecoveryDataOnManagers(recoveredItemsSet, aInvokeTransmittedEntries);
+        // Prepare the queue manager to match recovered send reply requests
+        // against replies that were already sent by the process.
+        getRecoveryQueueManager().setSentReplies(aSentReplies);
 
-      // Switch the process from its current engine to this recovery engine.
-      IAeBusinessProcessEngineInternal oldEngine = aProcess.getEngine();
-      aProcess.setEngine(this);
-      try
-      {
-         // Restore queued items so we can match correlated requests
-         restoreQueuedItems(aProcess);
+        // Prepare the queue manager to match invoke location ids to transmission
+        // ids.
+        getRecoveryQueueManager().setInvokeTransmittedEntries(aInvokeTransmittedEntries);
 
-         // Dispatch the journal entries to the process.
-         dispatchJournalEntries(aJournalEntries, aProcess);
-      }
-      finally
-      {
-         // Restore the original engine for the process.
-         aProcess.setEngine(oldEngine);
-      }
+        setRecoveryDataOnManagers(recoveredItemsSet, aInvokeTransmittedEntries);
 
-      // Return the list of recovered alarm and queue manager requests.
-      return recoveredItemsSet.getRecoveredItems();
-   }
+        // Switch the process from its current engine to this recovery engine.
+        IAeBusinessProcessEngineInternal oldEngine = aProcess.getEngine();
+        aProcess.setEngine(this);
+        try {
+            // Restore queued items so we can match correlated requests
+            restoreQueuedItems(aProcess);
 
-   /**
-    * Sets all of the recovery data on the recovery aware managers
-    * @param aRecoveredItemsSet
-    * @param aInvokeTransmittedEntries
-    */
-   protected void setRecoveryDataOnManagers(IAeRecoveredItemsSet aRecoveredItemsSet, List aInvokeTransmittedEntries)
-   {
-      getRecoveryQueueManager().setRecoveredItemsSet(aRecoveredItemsSet);
+            // Dispatch the journal entries to the process.
+            dispatchJournalEntries(aJournalEntries, aProcess);
+        } finally {
+            // Restore the original engine for the process.
+            aProcess.setEngine(oldEngine);
+        }
 
-       for (IAeManager manager : getManagers().values()) {
-           if (manager instanceof IAeRecoveryAwareManager) {
-               // fixme (MF-recovery) introduce some kind of context interface here
-               IAeRecoveryAwareManager recoveryManager = (IAeRecoveryAwareManager) manager;
-               recoveryManager.setRecoveredItemsSet(aRecoveredItemsSet);
-               recoveryManager.setInvokeTransmittedEntries(aInvokeTransmittedEntries);
-           }
-       }
-   }
+        // Return the list of recovered alarm and queue manager requests.
+        return recoveredItemsSet.getRecoveredItems();
+    }
 
-   /**
-    * Removes recovered items from the given list for requests that are already
-    * queued.
-    *
-    * @param aRecoveredItems
-    * @param aCollector
-    */
-   protected void removeQueuedItems(List aRecoveredItems, AeQueuedLocationIdsCollector aCollector)
-   {
-      Set<Integer> queuedLocationIds = aCollector.getQueuedLocationIds();
-      
-      // loop over all of the recovered items and see which ones we should
-      // remove because they've already been queued.
-      for (Iterator i = aRecoveredItems.iterator(); i.hasNext(); )
-      {
-         IAeRecoveredItem recoveredItem = (IAeRecoveredItem) i.next();
-         int locationId = recoveredItem.getLocationId();
-         
-         boolean alreadyQueued = false;
-         
-         if (recoveredItem.isRemoval())
-         {
-            // Skip over the removal items. 
-            alreadyQueued = false;
-         }
-         else if (recoveredItem instanceof AeRecoveredScheduleAlarmItem)
-         {
-            // fixme (MF-Defect-3260) The real fix here is to add some journaling for alarms.
-            // The lack of journaling (Defect 3260) means that we don't know if 
-            // the alarm was really scheduled. This is why we're forced to 
-            // requeue the alarms during recovery. The result of this requeuing
-            // is needing to do some special checks like here as well as having
-            // duration based times slip as the duration is essentially reset 
-            // during recovery.
+    /**
+     * Sets all of the recovery data on the recovery aware managers
+     *
+     * @param aRecoveredItemsSet
+     * @param aInvokeTransmittedEntries
+     */
+    protected void setRecoveryDataOnManagers(IAeRecoveredItemsSet aRecoveredItemsSet, List aInvokeTransmittedEntries) {
+        getRecoveryQueueManager().setRecoveredItemsSet(aRecoveredItemsSet);
 
-            AeRecoveredScheduleAlarmItem recoveredAlarm = (AeRecoveredScheduleAlarmItem) recoveredItem;
-            alreadyQueued = aCollector.isQueued(locationId, recoveredAlarm.getAlarmId());
-         }
-         // Note that some recovered items (namely, invokes and replies) report
-         // 0 for location id to indicate that they don't have a location id.
-         else if ((locationId > 0) && queuedLocationIds.contains(locationId))
-         {
-            alreadyQueued = true;
-         }
-         
-         if (alreadyQueued)
-            i.remove();
-      }
-   }
+        for (IAeManager manager : getManagers().values()) {
+            if (manager instanceof IAeRecoveryAwareManager) {
+                // fixme (MF-recovery) introduce some kind of context interface here
+                IAeRecoveryAwareManager recoveryManager = (IAeRecoveryAwareManager) manager;
+                recoveryManager.setRecoveredItemsSet(aRecoveredItemsSet);
+                recoveryManager.setInvokeTransmittedEntries(aInvokeTransmittedEntries);
+            }
+        }
+    }
 
-   /**
-    * Restores the executing items that are flagged as queued in the recovery queue manager
-    * so we can match correlated requests
-    *  
-    * @param aProcess
-    * @throws AeBusinessProcessException
-    */
-   protected void restoreQueuedItems(IAeBusinessProcess aProcess) throws AeBusinessProcessException
-   {
-      // Get location ids for executing items 
-      Set executingLocationIds = getExecutingLocationIds(aProcess);
-       for (Object executingLocationId : executingLocationIds) {
-           int locationId = ((Long) executingLocationId).intValue();
-           IAeBpelObject item = aProcess.findBpelObject(locationId);
+    /**
+     * Removes recovered items from the given list for requests that are already
+     * queued.
+     *
+     * @param aRecoveredItems
+     * @param aCollector
+     */
+    protected void removeQueuedItems(List aRecoveredItems, AeQueuedLocationIdsCollector aCollector) {
+        Set<Integer> queuedLocationIds = aCollector.getQueuedLocationIds();
 
-           // re-queue any previously queued message or alarm receivers
-           if (item instanceof IAeMessageReceiverActivity) {
-               IAeMessageReceiverActivity receiver = (IAeMessageReceiverActivity) item;
-               if (receiver.isQueued()) {
-                   receiver.requeue();
-               }
-           }
-           // we reset the state before re-queue to suppress a state transition warning that is
-           // entirely appropriate in the normal engine, but not during recovery
-           else if (item instanceof IAeAlarmReceiver) {
-               IAeAlarmReceiver receiver = (IAeAlarmReceiver) item;
-               if (receiver.isQueued()) {
-                   item.setState(AeBpelState.INACTIVE);
-                   aProcess.queueObjectToExecute(item);
-               }
-           }
-       }
-   }
+        // loop over all of the recovered items and see which ones we should
+        // remove because they've already been queued.
+        for (Iterator i = aRecoveredItems.iterator(); i.hasNext(); ) {
+            IAeRecoveredItem recoveredItem = (IAeRecoveredItem) i.next();
+            int locationId = recoveredItem.getLocationId();
 
-   /**
-    * Returns sent reply objects from the sent reply journal entries in the
-    * given list of journal entries.
-    */
-   protected List<AeReply> getSentReplies(List aJournalEntries) throws AeBusinessProcessException
-   {
-      List<AeReply> sentReplies = new LinkedList<>();
+            boolean alreadyQueued = false;
 
-       for (Object je : aJournalEntries) {
-           IAeJournalEntry item = (IAeJournalEntry) je;
+            if (recoveredItem.isRemoval()) {
+                // Skip over the removal items.
+                alreadyQueued = false;
+            } else if (recoveredItem instanceof AeRecoveredScheduleAlarmItem) {
+                // fixme (MF-Defect-3260) The real fix here is to add some journaling for alarms.
+                // The lack of journaling (Defect 3260) means that we don't know if
+                // the alarm was really scheduled. This is why we're forced to
+                // requeue the alarms during recovery. The result of this requeuing
+                // is needing to do some special checks like here as well as having
+                // duration based times slip as the duration is essentially reset
+                // during recovery.
 
-           if (item instanceof AeSentReplyJournalEntry) {
-               // Unwrap the actual reply object.
-               AeReply sentReply = ((AeSentReplyJournalEntry) item).getReply();
-               sentReplies.add(sentReply);
-           }
-       }
+                AeRecoveredScheduleAlarmItem recoveredAlarm = (AeRecoveredScheduleAlarmItem) recoveredItem;
+                alreadyQueued = aCollector.isQueued(locationId, recoveredAlarm.getAlarmId());
+            }
+            // Note that some recovered items (namely, invokes and replies) report
+            // 0 for location id to indicate that they don't have a location id.
+            else if ((locationId > 0) && queuedLocationIds.contains(locationId)) {
+                alreadyQueued = true;
+            }
 
-      return sentReplies;
-   }
+            if (alreadyQueued)
+                i.remove();
+        }
+    }
 
-   /**
-    * Sets the process to recover on all the managers.
-    *
-    * @param aProcess
-    */
-   protected void setRecoveryProcess(IAeBusinessProcess aProcess)
-   {
-      getRecoveryProcessManager().setRecoveryProcess(aProcess);
-      getRecoveryQueueManager().setRecoveryProcess(aProcess);
-   }
-   
-   /**
-    * Returns invoke transmitted journal entries from the given list of journal
-    * entries.
-    */
-   protected List<IAeJournalEntry> getInvokeTransmittedEntries(List<IAeJournalEntry> aJournalEntries) throws AeBusinessProcessException
-   {
-      List<IAeJournalEntry> transmittedInvokeEntries = new LinkedList<>();
+    /**
+     * Restores the executing items that are flagged as queued in the recovery queue manager
+     * so we can match correlated requests
+     *
+     * @param aProcess
+     * @throws AeBusinessProcessException
+     */
+    protected void restoreQueuedItems(IAeBusinessProcess aProcess) throws AeBusinessProcessException {
+        // Get location ids for executing items
+        Set executingLocationIds = getExecutingLocationIds(aProcess);
+        for (Object executingLocationId : executingLocationIds) {
+            int locationId = ((Long) executingLocationId).intValue();
+            IAeBpelObject item = aProcess.findBpelObject(locationId);
 
-       for (IAeJournalEntry entry : aJournalEntries) {
-           if (entry instanceof AeInvokeTransmittedJournalEntry) {
-               transmittedInvokeEntries.add(entry);
-           }
-       }
+            // re-queue any previously queued message or alarm receivers
+            if (item instanceof IAeMessageReceiverActivity) {
+                IAeMessageReceiverActivity receiver = (IAeMessageReceiverActivity) item;
+                if (receiver.isQueued()) {
+                    receiver.requeue();
+                }
+            }
+            // we reset the state before re-queue to suppress a state transition warning that is
+            // entirely appropriate in the normal engine, but not during recovery
+            else if (item instanceof IAeAlarmReceiver) {
+                IAeAlarmReceiver receiver = (IAeAlarmReceiver) item;
+                if (receiver.isQueued()) {
+                    item.setState(AeBpelState.INACTIVE);
+                    aProcess.queueObjectToExecute(item);
+                }
+            }
+        }
+    }
 
-      return transmittedInvokeEntries;
-   }
+    /**
+     * Returns sent reply objects from the sent reply journal entries in the
+     * given list of journal entries.
+     */
+    protected List<AeReply> getSentReplies(List aJournalEntries) throws AeBusinessProcessException {
+        List<AeReply> sentReplies = new LinkedList<>();
+
+        for (Object je : aJournalEntries) {
+            IAeJournalEntry item = (IAeJournalEntry) je;
+
+            if (item instanceof AeSentReplyJournalEntry) {
+                // Unwrap the actual reply object.
+                AeReply sentReply = ((AeSentReplyJournalEntry) item).getReply();
+                sentReplies.add(sentReply);
+            }
+        }
+
+        return sentReplies;
+    }
+
+    /**
+     * Sets the process to recover on all the managers.
+     *
+     * @param aProcess
+     */
+    protected void setRecoveryProcess(IAeBusinessProcess aProcess) {
+        getRecoveryProcessManager().setRecoveryProcess(aProcess);
+        getRecoveryQueueManager().setRecoveryProcess(aProcess);
+    }
+
+    /**
+     * Returns invoke transmitted journal entries from the given list of journal
+     * entries.
+     */
+    protected List<IAeJournalEntry> getInvokeTransmittedEntries(List<IAeJournalEntry> aJournalEntries) throws AeBusinessProcessException {
+        List<IAeJournalEntry> transmittedInvokeEntries = new LinkedList<>();
+
+        for (IAeJournalEntry entry : aJournalEntries) {
+            if (entry instanceof AeInvokeTransmittedJournalEntry) {
+                transmittedInvokeEntries.add(entry);
+            }
+        }
+
+        return transmittedInvokeEntries;
+    }
 }

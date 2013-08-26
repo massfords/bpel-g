@@ -22,84 +22,78 @@ import org.activebpel.rt.bpel.def.visitors.IAeDefVisitor;
  * This is the container for event handlers for a scope.  Event handlers
  * include onMessage and onAlarm activity containers.
  */
-public class AeEventHandlersDef extends AeBaseDef 
-      implements IAeEventContainerDef, IAeUncrossableLinkBoundary
-{
-   private static final long serialVersionUID = 7489121643064264023L;
-   /** The list of on message definitions, may be null */
-   private final List<AeOnEventDef> mOnEventList = new ArrayList<>();
-   /** The list of on alaram definitions, may be null */
-   private final List<AeOnAlarmDef> mOnAlarmList = new ArrayList<>();
+public class AeEventHandlersDef extends AeBaseDef
+        implements IAeEventContainerDef, IAeUncrossableLinkBoundary {
+    private static final long serialVersionUID = 7489121643064264023L;
+    /**
+     * The list of on message definitions, may be null
+     */
+    private final List<AeOnEventDef> mOnEventList = new ArrayList<>();
+    /**
+     * The list of on alaram definitions, may be null
+     */
+    private final List<AeOnAlarmDef> mOnAlarmList = new ArrayList<>();
 
-   /**
-    * Default constructor
-    */
-   public AeEventHandlersDef()
-   {
-      super();
-   }
+    /**
+     * Default constructor
+     */
+    public AeEventHandlersDef() {
+        super();
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.def.activity.IAeEventContainerDef#addOnEventDef(org.activebpel.rt.bpel.def.activity.support.AeOnEventDef)
-    */
-   public void addOnEventDef(AeOnEventDef aEvent)
-   {
-      mOnEventList.add(aEvent);
-   }
+    /**
+     * @see org.activebpel.rt.bpel.def.activity.IAeEventContainerDef#addOnEventDef(org.activebpel.rt.bpel.def.activity.support.AeOnEventDef)
+     */
+    public void addOnEventDef(AeOnEventDef aEvent) {
+        mOnEventList.add(aEvent);
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.def.activity.IAeEventContainerDef#getOnEventDefs()
-    */
-   public Iterator getOnEventDefs()
-   {
-      return mOnEventList.iterator();
-   }
+    /**
+     * @see org.activebpel.rt.bpel.def.activity.IAeEventContainerDef#getOnEventDefs()
+     */
+    public Iterator getOnEventDefs() {
+        return mOnEventList.iterator();
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.def.activity.IAeAlarmParentDef#addAlarmDef(org.activebpel.rt.bpel.def.activity.support.AeOnAlarmDef)
-    */
-   public void addAlarmDef(AeOnAlarmDef aAlarm)
-   {
-      mOnAlarmList.add(aAlarm);
-   }
+    /**
+     * @see org.activebpel.rt.bpel.def.activity.IAeAlarmParentDef#addAlarmDef(org.activebpel.rt.bpel.def.activity.support.AeOnAlarmDef)
+     */
+    public void addAlarmDef(AeOnAlarmDef aAlarm) {
+        mOnAlarmList.add(aAlarm);
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.def.activity.IAeAlarmParentDef#getAlarmDefs()
-    */
-   public Iterator<AeOnAlarmDef> getAlarmDefs()
-   {
-      return mOnAlarmList.iterator();
-   }
+    /**
+     * @see org.activebpel.rt.bpel.def.activity.IAeAlarmParentDef#getAlarmDefs()
+     */
+    public Iterator<AeOnAlarmDef> getAlarmDefs() {
+        return mOnAlarmList.iterator();
+    }
 
-   /**
-    * Returns true if has any onAlarm or onEvent defined.
-    */
-   public boolean hasEventHandler()
-   {
-      return getOnEventDefs().hasNext() || getAlarmDefs().hasNext();
-   }
+    /**
+     * Returns true if has any onAlarm or onEvent defined.
+     */
+    public boolean hasEventHandler() {
+        return getOnEventDefs().hasNext() || getAlarmDefs().hasNext();
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.def.AeBaseDef#accept(org.activebpel.rt.bpel.def.visitors.IAeDefVisitor)
-    */
-   public void accept(IAeDefVisitor aVisitor)
-   {
-      aVisitor.visit(this);
-   }
+    /**
+     * @see org.activebpel.rt.bpel.def.AeBaseDef#accept(org.activebpel.rt.bpel.def.visitors.IAeDefVisitor)
+     */
+    public void accept(IAeDefVisitor aVisitor) {
+        aVisitor.visit(this);
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.def.IAeUncrossableLinkBoundary#canCrossInbound()
-    */
-   public boolean canCrossInbound()
-   {
-      return false;
-   }
+    /**
+     * @see org.activebpel.rt.bpel.def.IAeUncrossableLinkBoundary#canCrossInbound()
+     */
+    public boolean canCrossInbound() {
+        return false;
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.def.IAeUncrossableLinkBoundary#canCrossOutbound()
-    */
-   public boolean canCrossOutbound()
-   {
-      return false;
-   }
+    /**
+     * @see org.activebpel.rt.bpel.def.IAeUncrossableLinkBoundary#canCrossOutbound()
+     */
+    public boolean canCrossOutbound() {
+        return false;
+    }
 }

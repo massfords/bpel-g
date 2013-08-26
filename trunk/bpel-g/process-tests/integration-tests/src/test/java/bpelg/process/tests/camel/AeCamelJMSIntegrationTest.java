@@ -36,10 +36,10 @@ public class AeCamelJMSIntegrationTest extends CamelTestSupport {
 
         cfix = new CamelFixture("activemq:queue:bpel-outbound");
         cfix.start();
-    	
+
         // deploy the zip
         pfix.deploySingle(new File("target/dependency/camel-activemq-test-bundle.zip"));
-	}
+    }
 
     /**
      * @throws Exception

@@ -18,52 +18,45 @@ import org.activebpel.rt.bpel.def.visitors.IAeDefVisitor;
 /**
  * Definition for bpel compensate activity.
  */
-public class AeActivityCompensateDef extends AeActivityDef
-{
-   /**
-     * 
+public class AeActivityCompensateDef extends AeActivityDef {
+    /**
+     *
      */
     private static final long serialVersionUID = 151492980420664687L;
 
-/**
-    * Default constructor
-    */
-   public AeActivityCompensateDef()
-   {
-      super();
-   }
+    /**
+     * Default constructor
+     */
+    public AeActivityCompensateDef() {
+        super();
+    }
 
-   /**
-    * Walks up the parent hierarchy until it comes across a catch/catchAll or compensationHandler
-    * and then it returns that object's enclosing scope.
-    */
-   public AeScopeDef findRootScopeForCompensation()
-   {
-      boolean foundFCTDef = false;
-      for ( AeBaseDef parent = getParent(); parent != null; parent = parent.getParent())
-      {
-         // skip over scopes til u find a catch/catchAll or compensation handler
-         if (foundFCTDef && parent instanceof AeScopeDef )
-         {
-            return (AeScopeDef) parent;
-         }
-         // we found a catch/catchAll
-         else if (parent instanceof IAeFCTHandlerDef)
-         {
-            foundFCTDef = true;
-         }
-      }
+    /**
+     * Walks up the parent hierarchy until it comes across a catch/catchAll or compensationHandler
+     * and then it returns that object's enclosing scope.
+     */
+    public AeScopeDef findRootScopeForCompensation() {
+        boolean foundFCTDef = false;
+        for (AeBaseDef parent = getParent(); parent != null; parent = parent.getParent()) {
+            // skip over scopes til u find a catch/catchAll or compensation handler
+            if (foundFCTDef && parent instanceof AeScopeDef) {
+                return (AeScopeDef) parent;
+            }
+            // we found a catch/catchAll
+            else if (parent instanceof IAeFCTHandlerDef) {
+                foundFCTDef = true;
+            }
+        }
 
-      // should never get here unless the process is invalid, at which point we
-      // should have caught it during static analysis.
-      return null ;
-   }
+        // should never get here unless the process is invalid, at which point we
+        // should have caught it during static analysis.
+        return null;
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.def.AeActivityDef#accept(org.activebpel.rt.bpel.def.visitors.IAeDefVisitor)
-    */
-   public void accept(IAeDefVisitor aVisitor)
-   {
-      aVisitor.visit(this);
-   }
+    /**
+     * @see org.activebpel.rt.bpel.def.AeActivityDef#accept(org.activebpel.rt.bpel.def.visitors.IAeDefVisitor)
+     */
+    public void accept(IAeDefVisitor aVisitor) {
+        aVisitor.visit(this);
+    }
 }

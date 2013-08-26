@@ -26,154 +26,149 @@ import java.util.Map.Entry;
 /**
  * impl for the variables object that contains a map of the variables and behavior for variable initialization
  */
-public class AeVariablesImpl implements IAeVariableContainer
-{
-   /** map of variable name to variable object */
-   private final Map<String, IAeVariable> mMap = new HashMap<>();
-   /** def object */
-   private final AeVariablesDef mVariablesDef;
-   /** scope parent */
-   private final AeActivityScopeImpl mScope;
-   /** virtual copy operations that contain variable initializations */
-   private Collection<IAeCopyOperation> mCopyOperations;
-   /** context used to initialize our variables */
-   private IAeCopyOperationContext mContext;
-   
-   /**
-    * Ctor accepts the def and scope parent
-    * @param aDef
-    * @param aScopeParent
-    */
-   public AeVariablesImpl(AeVariablesDef aDef, AeActivityScopeImpl aScopeParent)
-   {
-      mVariablesDef = aDef;
-      mScope = aScopeParent;
-   }
-   
-   /**
-    * @see org.activebpel.rt.bpel.impl.activity.IAeVariableContainer#iterator()
-    */
-   public Iterator<IAeVariable> iterator()
-   {
-      return getMap().values().iterator();
-   }
+public class AeVariablesImpl implements IAeVariableContainer {
+    /**
+     * map of variable name to variable object
+     */
+    private final Map<String, IAeVariable> mMap = new HashMap<>();
+    /**
+     * def object
+     */
+    private final AeVariablesDef mVariablesDef;
+    /**
+     * scope parent
+     */
+    private final AeActivityScopeImpl mScope;
+    /**
+     * virtual copy operations that contain variable initializations
+     */
+    private Collection<IAeCopyOperation> mCopyOperations;
+    /**
+     * context used to initialize our variables
+     */
+    private IAeCopyOperationContext mContext;
 
-   /**
-    * Getter for the variable by name
-    * @param aVariableName
-    */
-   public IAeVariable findVariable(String aVariableName)
-   {
-      return getMap().get(aVariableName);
-   }
+    /**
+     * Ctor accepts the def and scope parent
+     *
+     * @param aDef
+     * @param aScopeParent
+     */
+    public AeVariablesImpl(AeVariablesDef aDef, AeActivityScopeImpl aScopeParent) {
+        mVariablesDef = aDef;
+        mScope = aScopeParent;
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.impl.activity.IAeVariableContainer#addVariable(org.activebpel.rt.bpel.IAeVariable)
-    */
-   public void addVariable(IAeVariable aVariable)
-   {
-      getMap().put(aVariable.getDefinition().getName(), aVariable);
-   }
-   
-   /**
-    * @see org.activebpel.rt.bpel.impl.activity.IAeVariableContainer#getParent()
-    */
-   public IAeBpelObject getParent()
-   {
-      return getScope();
-   }
+    /**
+     * @see org.activebpel.rt.bpel.impl.activity.IAeVariableContainer#iterator()
+     */
+    public Iterator<IAeVariable> iterator() {
+        return getMap().values().iterator();
+    }
 
-   /**
-    * Getter for the variables map
-    */
-   public Map<String, IAeVariable> getMap()
-   {
-      return mMap;
-   }
-   
-   /**
-    * Getter for the def
-    */
-   protected AeVariablesDef getDef()
-   {
-      return mVariablesDef;
-   }
-   
-   /**
-    * Getter for the scope
-    */
-   protected AeActivityScopeImpl getScope()
-   {
-      return mScope; 
-   }
+    /**
+     * Getter for the variable by name
+     *
+     * @param aVariableName
+     */
+    public IAeVariable findVariable(String aVariableName) {
+        return getMap().get(aVariableName);
+    }
 
-   /**
-    * Variables get re-initialized each time the scope executes.
-    */
-   public void clearVariableState(boolean aCloneFlag)
-   {
-       for (Entry<String, IAeVariable> entry : getMap().entrySet()) {
-           IAeVariable var = entry.getValue();
-           if (aCloneFlag) {
-               var = (AeVariable) var.clone();
-               entry.setValue(var);
-           }
-           if (!var.getDefinition().isImplicit()) {
-               var.clear();
-           }
-       }
-   }
-   
-   /**
-    * Getter for the copy operations collection.
-    */
-   protected Collection<IAeCopyOperation> getCopyOperationsCollection()
-   {
-      if (mCopyOperations == null)
-         mCopyOperations = new ArrayList<>();
-      
-      return mCopyOperations;
-   }
+    /**
+     * @see org.activebpel.rt.bpel.impl.activity.IAeVariableContainer#addVariable(org.activebpel.rt.bpel.IAeVariable)
+     */
+    public void addVariable(IAeVariable aVariable) {
+        getMap().put(aVariable.getDefinition().getName(), aVariable);
+    }
 
-   /**
-    * Add a virtual copy operation to the scope.
-    * @param aCopyOp
-    */
-   public void addCopyOperation(IAeCopyOperation aCopyOp)
-   {
-      getCopyOperationsCollection().add(aCopyOp);
-   }
+    /**
+     * @see org.activebpel.rt.bpel.impl.activity.IAeVariableContainer#getParent()
+     */
+    public IAeBpelObject getParent() {
+        return getScope();
+    }
 
-   /**
-    * Initialize variable values which specify a from-spec.
-    */
-   public void initialize() throws AeBpelException
-   {
-      try
-      {
-          for (IAeCopyOperation copyOp : getCopyOperationsCollection()) {
-              copyOp.setContext(getContext());
-              copyOp.execute();
-          }
-      }
-      catch (Exception e)
-      {
-         AeException.logError(e);
-         IAeFault fault = getScope().getFaultFactory().getScopeInitializationFailure();
-         throw new AeBpelException(AeMessages.getString("AeVariablesImpl.InitializationError"), fault); //$NON-NLS-1$
-      }
-   }
-  
-   /**
-    * Getter for the context, lazily creating if null
-    */
-   protected IAeCopyOperationContext getContext()
-   {
-      if (mContext == null)
-      {
-         mContext = new AeCopyOperationContext(getScope());
-      }
-      return mContext;
-   }
+    /**
+     * Getter for the variables map
+     */
+    public Map<String, IAeVariable> getMap() {
+        return mMap;
+    }
+
+    /**
+     * Getter for the def
+     */
+    protected AeVariablesDef getDef() {
+        return mVariablesDef;
+    }
+
+    /**
+     * Getter for the scope
+     */
+    protected AeActivityScopeImpl getScope() {
+        return mScope;
+    }
+
+    /**
+     * Variables get re-initialized each time the scope executes.
+     */
+    public void clearVariableState(boolean aCloneFlag) {
+        for (Entry<String, IAeVariable> entry : getMap().entrySet()) {
+            IAeVariable var = entry.getValue();
+            if (aCloneFlag) {
+                var = (AeVariable) var.clone();
+                entry.setValue(var);
+            }
+            if (!var.getDefinition().isImplicit()) {
+                var.clear();
+            }
+        }
+    }
+
+    /**
+     * Getter for the copy operations collection.
+     */
+    protected Collection<IAeCopyOperation> getCopyOperationsCollection() {
+        if (mCopyOperations == null)
+            mCopyOperations = new ArrayList<>();
+
+        return mCopyOperations;
+    }
+
+    /**
+     * Add a virtual copy operation to the scope.
+     *
+     * @param aCopyOp
+     */
+    public void addCopyOperation(IAeCopyOperation aCopyOp) {
+        getCopyOperationsCollection().add(aCopyOp);
+    }
+
+    /**
+     * Initialize variable values which specify a from-spec.
+     */
+    public void initialize() throws AeBpelException {
+        try {
+            for (IAeCopyOperation copyOp : getCopyOperationsCollection()) {
+                copyOp.setContext(getContext());
+                copyOp.execute();
+            }
+        } catch (Exception e) {
+            AeException.logError(e);
+            IAeFault fault = getScope().getFaultFactory().getScopeInitializationFailure();
+            throw new AeBpelException(AeMessages.getString("AeVariablesImpl.InitializationError"), fault); //$NON-NLS-1$
+        }
+    }
+
+    /**
+     * Getter for the context, lazily creating if null
+     */
+    protected IAeCopyOperationContext getContext() {
+        if (mContext == null) {
+            mContext = new AeCopyOperationContext(getScope());
+        }
+        return mContext;
+    }
 }
  

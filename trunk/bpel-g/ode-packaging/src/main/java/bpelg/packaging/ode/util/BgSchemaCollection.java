@@ -32,20 +32,20 @@ import java.util.*;
 
 /**
  * Collection of schemas.
- *  
+ *
  * @author gnodet
  */
 public class BgSchemaCollection {
 
     private static final Log log = LogFactory.getLog(BgSchemaCollection.class);
-    
-    private final Map<String,BgSchema> schemas;
+
+    private final Map<String, BgSchema> schemas;
     private final URI baseUri;
-    
+
     public BgSchemaCollection() {
         this(null);
     }
-    
+
     public BgSchemaCollection(URI baseUri) {
         if (log.isDebugEnabled()) {
             log.debug("Initializing schema collection with baseUri: " + baseUri);
@@ -53,11 +53,11 @@ public class BgSchemaCollection {
         this.baseUri = baseUri;
         this.schemas = new HashMap<>();
     }
-    
+
     public BgSchema getSchema(String namespaceURI) {
         return schemas.get(namespaceURI);
     }
-    
+
     public void read(Element elem, URI sourceUri) throws Exception {
         BgSchema schema = new BgSchema();
         schema.setSourceUri(sourceUri);
@@ -66,7 +66,7 @@ public class BgSchemaCollection {
         schemas.put(schema.getNamespace(), schema);
         handleImports(schema);
     }
-    
+
     public void read(String location, URI baseUri) throws Exception {
         if (log.isDebugEnabled()) {
             log.debug("Reading schema at '" + location + "' with baseUri '" + baseUri + "'");
@@ -91,16 +91,16 @@ public class BgSchemaCollection {
         inputSource.setSystemId(loc.toString());
         read(inputSource);
     }
-    
+
     public void read(InputSource inputSource) throws Exception {
-        DocumentBuilderFactory docFac = DocumentBuilderFactory.newInstance(); 
+        DocumentBuilderFactory docFac = DocumentBuilderFactory.newInstance();
         docFac.setNamespaceAware(true);
         DocumentBuilder builder = docFac.newDocumentBuilder();
         Document doc = builder.parse(inputSource);
-        read(doc.getDocumentElement(), 
-             inputSource.getSystemId() != null ? new URI(inputSource.getSystemId()) : null);
+        read(doc.getDocumentElement(),
+                inputSource.getSystemId() != null ? new URI(inputSource.getSystemId()) : null);
     }
-    
+
     protected void handleImports(BgSchema schema) throws Exception {
         NodeList children = schema.getRoot().getChildNodes();
         List<Element> imports = new ArrayList<>();
@@ -109,7 +109,7 @@ public class BgSchemaCollection {
             if (child instanceof Element) {
                 Element ce = (Element) child;
                 if ("http://www.w3.org/2001/XMLSchema".equals(ce.getNamespaceURI()) &&
-                    "import".equals(ce.getLocalName())) {
+                        "import".equals(ce.getLocalName())) {
                     imports.add(ce);
                 }
             }
@@ -126,7 +126,7 @@ public class BgSchemaCollection {
             schema.getRoot().removeChild(ce);
         }
     }
-    
+
     protected static URI resolve(URI base, String location) {
         if ("jar".equals(base.getScheme())) {
             String str = base.toString();
@@ -139,17 +139,17 @@ public class BgSchemaCollection {
 
     public int getSize() {
         if (schemas != null) {
-           return schemas.size();
+            return schemas.size();
         } else {
-           return 0;
+            return 0;
         }
-     }
-     
-     public Collection getSchemas() {
+    }
+
+    public Collection getSchemas() {
         if (schemas != null) {
-           return schemas.values();
+            return schemas.values();
         } else {
-           return java.util.Collections.EMPTY_SET;
+            return java.util.Collections.EMPTY_SET;
         }
-     }
+    }
 }

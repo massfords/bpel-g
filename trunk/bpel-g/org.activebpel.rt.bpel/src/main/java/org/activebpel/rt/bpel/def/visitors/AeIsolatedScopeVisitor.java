@@ -18,79 +18,69 @@ import org.activebpel.rt.xml.def.AeBaseXmlDef;
  * Visitor that sets {@link AeActivityDef#setIsolatedScope(AeActivityScopeDef)}
  * for all activities.
  */
-public class AeIsolatedScopeVisitor extends AeAbstractDefVisitor
-{
-   /**
-    * The isolated scope that we are currently traversing, or
-    * <code>null</code> if we are not within an isolated scope.
-    */
-   private AeActivityScopeDef mIsolatedScope;
+public class AeIsolatedScopeVisitor extends AeAbstractDefVisitor {
+    /**
+     * The isolated scope that we are currently traversing, or
+     * <code>null</code> if we are not within an isolated scope.
+     */
+    private AeActivityScopeDef mIsolatedScope;
 
-   /**
-    * Constructs the visitor with the default traversal implementation. 
-    */
-   public AeIsolatedScopeVisitor()
-   {
-      setTraversalVisitor(new AeTraversalVisitor(new AeDefTraverser(), this));
-   }
-   
-   /**
-    * Returns the isolated scope that we are currently traversing or
-    * <code>null</code> if we are not within an isolated scope.
-    */
-   protected AeActivityScopeDef getIsolatedScope()
-   {
-      return mIsolatedScope;
-   }
+    /**
+     * Constructs the visitor with the default traversal implementation.
+     */
+    public AeIsolatedScopeVisitor() {
+        setTraversalVisitor(new AeTraversalVisitor(new AeDefTraverser(), this));
+    }
 
-   /**
-    * Sets the isolated scope that we are currently traversing.
-    *
-    * @param aIsolatedScope
-    */
-   protected void setIsolatedScope(AeActivityScopeDef aIsolatedScope)
-   {
-      mIsolatedScope = aIsolatedScope;
-   }
+    /**
+     * Returns the isolated scope that we are currently traversing or
+     * <code>null</code> if we are not within an isolated scope.
+     */
+    protected AeActivityScopeDef getIsolatedScope() {
+        return mIsolatedScope;
+    }
 
-   /**
-    * Overrides method to save the current isolated scope to activities.
-    * 
-    * @see org.activebpel.rt.bpel.def.visitors.AeAbstractDefVisitor#traverse(org.activebpel.rt.xml.def.AeBaseXmlDef)
-    */
-   protected void traverse(AeBaseXmlDef aDef)
-   {
-      if (aDef instanceof AeActivityDef)
-      {
-         ((AeActivityDef) aDef).setIsolatedScope(getIsolatedScope());
-      }
+    /**
+     * Sets the isolated scope that we are currently traversing.
+     *
+     * @param aIsolatedScope
+     */
+    protected void setIsolatedScope(AeActivityScopeDef aIsolatedScope) {
+        mIsolatedScope = aIsolatedScope;
+    }
 
-      super.traverse(aDef);
-   }
+    /**
+     * Overrides method to save the current isolated scope to activities.
+     *
+     * @see org.activebpel.rt.bpel.def.visitors.AeAbstractDefVisitor#traverse(org.activebpel.rt.xml.def.AeBaseXmlDef)
+     */
+    protected void traverse(AeBaseXmlDef aDef) {
+        if (aDef instanceof AeActivityDef) {
+            ((AeActivityDef) aDef).setIsolatedScope(getIsolatedScope());
+        }
 
-   /**
-    * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityScopeDef)
-    */
-   public void visit(AeActivityScopeDef def)
-   {
-      if (def.isIsolated())
-      {
-         AeDefUtil.getProcessDef(def).setContainsSerializableScopes(true);
-          
-         // Save (and restore) the current isolated scope in case we have an
-         // nested isolated scope (which should never happen).
-         AeActivityScopeDef oldIsolatedScope = getIsolatedScope();
-         
-         // Set the current isolated scope.
-         setIsolatedScope(def);
+        super.traverse(aDef);
+    }
 
-         super.visit(def);
+    /**
+     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityScopeDef)
+     */
+    public void visit(AeActivityScopeDef def) {
+        if (def.isIsolated()) {
+            AeDefUtil.getProcessDef(def).setContainsSerializableScopes(true);
 
-         setIsolatedScope(oldIsolatedScope);
-      }
-      else
-      {
-         super.visit(def);
-      }
-   }
+            // Save (and restore) the current isolated scope in case we have an
+            // nested isolated scope (which should never happen).
+            AeActivityScopeDef oldIsolatedScope = getIsolatedScope();
+
+            // Set the current isolated scope.
+            setIsolatedScope(def);
+
+            super.visit(def);
+
+            setIsolatedScope(oldIsolatedScope);
+        } else {
+            super.visit(def);
+        }
+    }
 }

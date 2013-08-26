@@ -19,14 +19,14 @@ import org.activebpel.rt.bpel.AePreferences;
  * configuration whenever configuration changes.
  */
 public class AeConfigAwareChildWorkManager extends AeChildWorkManager implements PreferenceChangeListener {
-    
+
     public void init() {
-    	AePreferences.childWorkManagers().addPreferenceChangeListener(this);
-    	setMaxWorkCount(AePreferences.getAlarmMaxCount());
+        AePreferences.childWorkManagers().addPreferenceChangeListener(this);
+        setMaxWorkCount(AePreferences.getAlarmMaxCount());
     }
 
-	@Override
-	public void preferenceChange(PreferenceChangeEvent aEvt) {
-    	setMaxWorkCount(AePreferences.getAlarmMaxCount());
-	}
+    @Override
+    public void preferenceChange(PreferenceChangeEvent aEvt) {
+        setMaxWorkCount(AePreferences.getAlarmMaxCount());
+    }
 }

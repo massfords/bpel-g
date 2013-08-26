@@ -32,47 +32,47 @@ import java.util.List;
  * <em>Return:</em> Integer, containing the number of attachments copied.
  * </p>
  */
-public class AeCopyAllAttachmentsFunction extends AeAbstractAttachmentFunction
-{
-   /** The name of the function implemented */
-   public static final String FUNCTION_NAME = "copyAllAttachments"; //$NON-NLS-1$
+public class AeCopyAllAttachmentsFunction extends AeAbstractAttachmentFunction {
+    /**
+     * The name of the function implemented
+     */
+    public static final String FUNCTION_NAME = "copyAllAttachments"; //$NON-NLS-1$
 
-   /**
-    * Constructor.
-    */
-   public AeCopyAllAttachmentsFunction()
-   {
-      super(FUNCTION_NAME);
-   }
+    /**
+     * Constructor.
+     */
+    public AeCopyAllAttachmentsFunction() {
+        super(FUNCTION_NAME);
+    }
 
-   /**
-    * Execution of XPath function.
-    * @see org.jaxen.Function#call(org.jaxen.Context, java.util.List)
-    */
-   public Object call(IAeFunctionExecutionContext aContext, List aArgs) throws AeFunctionCallException
-   {
-      // Validate that we have the proper number of arguments
-      int numArgs = aArgs.size();
-      if (numArgs != 2)
-         throwFunctionException(INVALID_PARAMS, getFunctionName());
+    /**
+     * Execution of XPath function.
+     *
+     * @see org.jaxen.Function#call(org.jaxen.Context, java.util.List)
+     */
+    public Object call(IAeFunctionExecutionContext aContext, List aArgs) throws AeFunctionCallException {
+        // Validate that we have the proper number of arguments
+        int numArgs = aArgs.size();
+        if (numArgs != 2)
+            throwFunctionException(INVALID_PARAMS, getFunctionName());
 
-      // Get the from and to variable object from the first and second function argument
-      String fromVariableNames = getStringArg(aArgs,0);
-      String toVariableName = getStringArg(aArgs,1);
+        // Get the from and to variable object from the first and second function argument
+        String fromVariableNames = getStringArg(aArgs, 0);
+        String toVariableName = getStringArg(aArgs, 1);
 
-      // Resolve the toVariable first.
-      IAeVariable toVariable = getVariable(aContext.getAbstractBpelObject(), toVariableName);
+        // Resolve the toVariable first.
+        IAeVariable toVariable = getVariable(aContext.getAbstractBpelObject(), toVariableName);
 
-      // Now get the list of from variables
-      Collection fromVariables = resolveVariables(aContext, fromVariableNames, toVariableName);
+        // Now get the list of from variables
+        Collection fromVariables = resolveVariables(aContext, fromVariableNames, toVariableName);
 
-      int preCopyCount = toVariable.getAttachmentData().size();
-      int count = 0;
-       for (Object fromVariable1 : fromVariables) {
-           IAeVariable fromVariable = (IAeVariable) fromVariable1;
-           toVariable.getAttachmentData().addAll(fromVariable.getAttachmentData());
-           count += toVariable.getAttachmentData().size();
-       }
-      return count - preCopyCount;
-   }
+        int preCopyCount = toVariable.getAttachmentData().size();
+        int count = 0;
+        for (Object fromVariable1 : fromVariables) {
+            IAeVariable fromVariable = (IAeVariable) fromVariable1;
+            toVariable.getAttachmentData().addAll(fromVariable.getAttachmentData());
+            count += toVariable.getAttachmentData().size();
+        }
+        return count - preCopyCount;
+    }
 }

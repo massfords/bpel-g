@@ -20,196 +20,192 @@ import org.activebpel.rt.bpel.def.io.readers.def.AeSpecStrategyKey;
  * abstract class so we can subclass for the explicit <code>from</code>
  * and <code>to</code> copy operations.
  */
-abstract public class AeVarDef extends AeBaseDef implements IAeQueryParentDef, IAeExpressionDef
-{
-   /**
-     * 
+abstract public class AeVarDef extends AeBaseDef implements IAeQueryParentDef, IAeExpressionDef {
+    /**
+     *
      */
     private static final long serialVersionUID = 2521138425885899117L;
-/** The 'variable' attribute. */
-   private String mVariable;
-   /** The 'part' attribute. */
-   private String mPart;
-   /** The 'property' attribute. */
-   private QName mProperty;
-   /** The 'partnerLink' attribute. */
-   private String mPartnerLink;
-   /** The value of the expressionLanguage attribute (if any). */
-   private String mExpressionLanguage;
-   /** The expression (if any). */
-   private String mExpression;
-   /** The query def. */
-   private AeQueryDef mQueryDef;
-   
-   /** The strategy to use to model this element */
-   private AeSpecStrategyKey mStrategyKey;
+    /**
+     * The 'variable' attribute.
+     */
+    private String mVariable;
+    /**
+     * The 'part' attribute.
+     */
+    private String mPart;
+    /**
+     * The 'property' attribute.
+     */
+    private QName mProperty;
+    /**
+     * The 'partnerLink' attribute.
+     */
+    private String mPartnerLink;
+    /**
+     * The value of the expressionLanguage attribute (if any).
+     */
+    private String mExpressionLanguage;
+    /**
+     * The expression (if any).
+     */
+    private String mExpression;
+    /**
+     * The query def.
+     */
+    private AeQueryDef mQueryDef;
 
-   /**
-    * Default constructor
-    */
-   public AeVarDef()
-   {
-      super();
-   }
+    /**
+     * The strategy to use to model this element
+     */
+    private AeSpecStrategyKey mStrategyKey;
 
-   /**
-    * Return the variable value for the operation, null if none.
-    */
-   public String getVariable()
-   {
-      return mVariable;
-   }
+    /**
+     * Default constructor
+     */
+    public AeVarDef() {
+        super();
+    }
 
-   /**
-    * Set the variable value for the operation.
-    */
-   public void setVariable(String aVariable)
-   {
-      mVariable = aVariable;
-   }
+    /**
+     * Return the variable value for the operation, null if none.
+     */
+    public String getVariable() {
+        return mVariable;
+    }
 
-   /**
-    * Accessor method to obtain the property for the object.
-    * 
-    * @return name of the property for the object
-    */
-   public QName getProperty()
-   {
-      return mProperty;
-   }
+    /**
+     * Set the variable value for the operation.
+     */
+    public void setVariable(String aVariable) {
+        mVariable = aVariable;
+    }
 
-   /**
-    * Mutator method to set the property for the object.
-    * 
-    * @param aProperty the property value to be set
-    */
-   public void setProperty(QName aProperty)
-   {
-      mProperty = aProperty;
-   }
+    /**
+     * Accessor method to obtain the property for the object.
+     *
+     * @return name of the property for the object
+     */
+    public QName getProperty() {
+        return mProperty;
+    }
 
-   /**
-    * Accessor method to obtain the part name for the object.
-    * 
-    * @return name of the part name for the object
-    */
-   public String getPart()
-   {
-      return mPart;
-   }
+    /**
+     * Mutator method to set the property for the object.
+     *
+     * @param aProperty the property value to be set
+     */
+    public void setProperty(QName aProperty) {
+        mProperty = aProperty;
+    }
 
-   /**
-    * Mutator method to set the part for the object.
-    * 
-    * @param aPart the part value to be set
-    */
-   public void setPart(String aPart)
-   {
-      mPart = aPart;
-   }
+    /**
+     * Accessor method to obtain the part name for the object.
+     *
+     * @return name of the part name for the object
+     */
+    public String getPart() {
+        return mPart;
+    }
 
-   /**
-    * Accessor method to obtain the query string for the object.
-    * 
-    * @return query string for the object
-    */
-   public String getQuery()
-   {
-      if (getQueryDef() != null)
-         return getQueryDef().getQuery();
-      else
-         return null;
-   }
+    /**
+     * Mutator method to set the part for the object.
+     *
+     * @param aPart the part value to be set
+     */
+    public void setPart(String aPart) {
+        mPart = aPart;
+    }
 
-   /**
-    * Return the partner link associated with this operation, null if none.
-    */
-   public String getPartnerLink()
-   {
-      return mPartnerLink;
-   }
+    /**
+     * Accessor method to obtain the query string for the object.
+     *
+     * @return query string for the object
+     */
+    public String getQuery() {
+        if (getQueryDef() != null)
+            return getQueryDef().getQuery();
+        else
+            return null;
+    }
 
-   /**
-    * Sets the partner link associated with this operation, null if none.
-    */
-   public void setPartnerLink(String aPartnerLink)
-   {
-      mPartnerLink = aPartnerLink;
-   }
+    /**
+     * Return the partner link associated with this operation, null if none.
+     */
+    public String getPartnerLink() {
+        return mPartnerLink;
+    }
 
-   /**
-    * Accessor method to obtain the expression for the object.
-    * 
-    * @return name of the expression for the object
-    */
-   public String getExpression()
-   {
-      return mExpression;
-   }
+    /**
+     * Sets the partner link associated with this operation, null if none.
+     */
+    public void setPartnerLink(String aPartnerLink) {
+        mPartnerLink = aPartnerLink;
+    }
 
-   /**
-    * Mutator method to set the expression for the object.
-    * 
-    * @param aExpression the expression value to be set
-    */
-   public void setExpression(String aExpression)
-   {
-      mExpression = aExpression;
-   }
+    /**
+     * Accessor method to obtain the expression for the object.
+     *
+     * @return name of the expression for the object
+     */
+    public String getExpression() {
+        return mExpression;
+    }
 
-   /**
-    * @return Returns the expressionLanguage.
-    */
-   public String getExpressionLanguage()
-   {
-      return mExpressionLanguage;
-   }
+    /**
+     * Mutator method to set the expression for the object.
+     *
+     * @param aExpression the expression value to be set
+     */
+    public void setExpression(String aExpression) {
+        mExpression = aExpression;
+    }
 
-   /**
-    * @param aExpressionLanguage The expressionLanguage to set.
-    */
-   public void setExpressionLanguage(String aExpressionLanguage)
-   {
-      mExpressionLanguage = aExpressionLanguage;
-   }
+    /**
+     * @return Returns the expressionLanguage.
+     */
+    public String getExpressionLanguage() {
+        return mExpressionLanguage;
+    }
 
-   /**
-    * @return Returns the strategy.
-    */
-   public AeSpecStrategyKey getStrategyKey()
-   {
-      return mStrategyKey;
-   }
+    /**
+     * @param aExpressionLanguage The expressionLanguage to set.
+     */
+    public void setExpressionLanguage(String aExpressionLanguage) {
+        mExpressionLanguage = aExpressionLanguage;
+    }
 
-   /**
-    * @param aStrategyKey The strategy to set.
-    */
-   public void setStrategyKey(AeSpecStrategyKey aStrategyKey)
-   {
-      mStrategyKey = aStrategyKey;
-   }
-   
-   /**
-    * @see org.activebpel.rt.bpel.def.activity.support.IAeQueryParentDef#setQueryDef(org.activebpel.rt.bpel.def.activity.support.AeQueryDef)
-    */
-   public void setQueryDef(AeQueryDef aQueryDef)
-   {
-      mQueryDef = aQueryDef;
-   }
-   
-   /**
-    * @see org.activebpel.rt.bpel.def.activity.support.IAeQueryParentDef#removeQueryDef()
-    */
-   public void removeQueryDef()
-   {
-      mQueryDef = null;
-   }
+    /**
+     * @return Returns the strategy.
+     */
+    public AeSpecStrategyKey getStrategyKey() {
+        return mStrategyKey;
+    }
 
-   /**
-    * @return Returns the queryDef.
-    */
-   public AeQueryDef getQueryDef()
-   {
-      return mQueryDef;
-   }
+    /**
+     * @param aStrategyKey The strategy to set.
+     */
+    public void setStrategyKey(AeSpecStrategyKey aStrategyKey) {
+        mStrategyKey = aStrategyKey;
+    }
+
+    /**
+     * @see org.activebpel.rt.bpel.def.activity.support.IAeQueryParentDef#setQueryDef(org.activebpel.rt.bpel.def.activity.support.AeQueryDef)
+     */
+    public void setQueryDef(AeQueryDef aQueryDef) {
+        mQueryDef = aQueryDef;
+    }
+
+    /**
+     * @see org.activebpel.rt.bpel.def.activity.support.IAeQueryParentDef#removeQueryDef()
+     */
+    public void removeQueryDef() {
+        mQueryDef = null;
+    }
+
+    /**
+     * @return Returns the queryDef.
+     */
+    public AeQueryDef getQueryDef() {
+        return mQueryDef;
+    }
 }

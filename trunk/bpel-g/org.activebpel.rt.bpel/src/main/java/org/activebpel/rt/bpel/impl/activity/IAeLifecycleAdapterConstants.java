@@ -7,16 +7,15 @@
 //Active Endpoints, Inc. Removal of this PROPRIETARY RIGHTS STATEMENT 
 //is strictly forbidden. Copyright (c) 2002-2007 All rights reserved. 
 /////////////////////////////////////////////////////////////////////////////
-package org.activebpel.rt.bpel.impl.activity; 
+package org.activebpel.rt.bpel.impl.activity;
 
 /**
  * Constants for the lifecycle adapter extension objects
  */
-public interface IAeLifecycleAdapterConstants
-{
-   public static final String EXTENSION_STATE_NAMESPACE="urn:extension:state"; //$NON-NLS-1$
-   public static final String EXTENSION_NAMESPACE_PREFIX="aeExt"; //$NON-NLS-1$
-   public static final String EXTENSION_STATE_ELEMENT="ExtState"; //$NON-NLS-1$
+public interface IAeLifecycleAdapterConstants {
+    public static final String EXTENSION_STATE_NAMESPACE = "urn:extension:state"; //$NON-NLS-1$
+    public static final String EXTENSION_NAMESPACE_PREFIX = "aeExt"; //$NON-NLS-1$
+    public static final String EXTENSION_STATE_ELEMENT = "ExtState"; //$NON-NLS-1$
 
 }
  

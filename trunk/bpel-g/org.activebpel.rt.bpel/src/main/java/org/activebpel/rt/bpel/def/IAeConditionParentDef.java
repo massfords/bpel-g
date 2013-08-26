@@ -15,15 +15,14 @@ import org.activebpel.rt.bpel.def.activity.support.AeConditionDef;
 /**
  * All constructs that can have a condition child should implement this interface.
  */
-public interface IAeConditionParentDef
-{
-   /**
-    * @return Returns the condition.
-    */
-   public AeConditionDef getConditionDef();
+public interface IAeConditionParentDef {
+    /**
+     * @return Returns the condition.
+     */
+    public AeConditionDef getConditionDef();
 
-   /**
-    * @param aCondition The condition to set.
-    */
-   public void setConditionDef(AeConditionDef aCondition);
+    /**
+     * @param aCondition The condition to set.
+     */
+    public void setConditionDef(AeConditionDef aCondition);
 }

@@ -7,7 +7,7 @@
 //Active Endpoints, Inc. Removal of this PROPRIETARY RIGHTS STATEMENT 
 //is strictly forbidden. Copyright (c) 2002-2006 All rights reserved. 
 /////////////////////////////////////////////////////////////////////////////
-package org.activebpel.rt.bpel.def.validation.process; 
+package org.activebpel.rt.bpel.def.validation.process;
 
 import org.activebpel.rt.bpel.def.AePartnersDef;
 import org.activebpel.rt.bpel.def.validation.AeBaseValidator;
@@ -15,17 +15,16 @@ import org.activebpel.rt.bpel.def.validation.AeBaseValidator;
 /**
  * validates the partners def
  */
-public class AePartnersValidator extends AeBaseValidator
-{
+public class AePartnersValidator extends AeBaseValidator {
 
-   /**
-    * ctor
-    * @param aDef
-    */
-   public AePartnersValidator(AePartnersDef aDef)
-   {
-      super(aDef);
-   }
+    /**
+     * ctor
+     *
+     * @param aDef
+     */
+    public AePartnersValidator(AePartnersDef aDef) {
+        super(aDef);
+    }
 
 }
  

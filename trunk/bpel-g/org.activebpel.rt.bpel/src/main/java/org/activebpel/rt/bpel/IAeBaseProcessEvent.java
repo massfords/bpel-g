@@ -7,31 +7,30 @@
 //Active Endpoints, Inc. Removal of this PROPRIETARY RIGHTS STATEMENT 
 //is strictly forbidden. Copyright (c) 2002-2004 All rights reserved. 
 /////////////////////////////////////////////////////////////////////////////
-package org.activebpel.rt.bpel; 
+package org.activebpel.rt.bpel;
 
 /**
- * A base interface for process events. 
+ * A base interface for process events.
  */
-public interface IAeBaseProcessEvent extends IAeEvent
-{
-   /**
-    * Returns the node path related to this event.
-    */
-   public String getNodePath();
-   
-   /**
-    * Returns the name of the Fault associated with this event, or empty string.
-    */
-   public String getFaultName();
-   
-   /**
-    * Returns ancilliary information which may have been specified for the process event.
-    */
-   public String getAncillaryInfo();
-   
-   /**
-    * Returns the process ID of the engine instance that broadcast this event.
-    */
-   public long getPID();
+public interface IAeBaseProcessEvent extends IAeEvent {
+    /**
+     * Returns the node path related to this event.
+     */
+    public String getNodePath();
+
+    /**
+     * Returns the name of the Fault associated with this event, or empty string.
+     */
+    public String getFaultName();
+
+    /**
+     * Returns ancilliary information which may have been specified for the process event.
+     */
+    public String getAncillaryInfo();
+
+    /**
+     * Returns the process ID of the engine instance that broadcast this event.
+     */
+    public long getPID();
 }
  

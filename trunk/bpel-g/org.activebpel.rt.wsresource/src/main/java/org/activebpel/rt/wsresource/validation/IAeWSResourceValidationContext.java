@@ -21,31 +21,32 @@ import org.activebpel.rt.wsdl.def.AeBPELExtendedWSDLDef;
  * The web service resource validation context is the context that
  * web resource validators use when validating a web service resource.
  */
-public interface IAeWSResourceValidationContext
-{
-   /**
-    * Gets the classloader that should be used to load a rule.
-    */
-   public ClassLoader getRuleClassLoader();
-   
-   /** Returns an iterator over the WSDLs known to this context. */
-   public IAeContextWSDLProvider getWSDLProvider();
+public interface IAeWSResourceValidationContext {
+    /**
+     * Gets the classloader that should be used to load a rule.
+     */
+    public ClassLoader getRuleClassLoader();
 
-   /**
-    * Returns a javax.wsdl.Operation object from a portType and operation name.
-    *
-    * An AeException is thrown if either the portType or operation can not be resolved.
-    *
-    * @param aPortType
-    * @param aOperation
-    * @throws AeException
-    */
-   public Operation getOperation(QName aPortType, String aOperation) throws AeException;
+    /**
+     * Returns an iterator over the WSDLs known to this context.
+     */
+    public IAeContextWSDLProvider getWSDLProvider();
 
-   /**
-    * Search and return a WSDL containing the port type from the IAeContextWSDLProvider, null if none found.
-    *
-    * @param aPortType
-    */
-   public AeBPELExtendedWSDLDef findWsdlByPortType(QName aPortType);
+    /**
+     * Returns a javax.wsdl.Operation object from a portType and operation name.
+     * <p/>
+     * An AeException is thrown if either the portType or operation can not be resolved.
+     *
+     * @param aPortType
+     * @param aOperation
+     * @throws AeException
+     */
+    public Operation getOperation(QName aPortType, String aOperation) throws AeException;
+
+    /**
+     * Search and return a WSDL containing the port type from the IAeContextWSDLProvider, null if none found.
+     *
+     * @param aPortType
+     */
+    public AeBPELExtendedWSDLDef findWsdlByPortType(QName aPortType);
 }

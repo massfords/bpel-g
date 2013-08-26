@@ -12,36 +12,35 @@ package org.activebpel.rt.war.tags;
 /**
  * Base class used to set form parameters into a bean
  */
-public class AeAbstractFormPropertyTag extends AeAbstractBeanPropertyTag
-{
-   /**
-     * 
+public class AeAbstractFormPropertyTag extends AeAbstractBeanPropertyTag {
+    /**
+     *
      */
     private static final long serialVersionUID = -884442486020851146L;
-/** Name of the param to read from the request */
-   private String mParam;
-   
-   /**
-    * Gets the param value that's converted to a date.
-    */
-   protected String getParamValue()
-   {
-      return pageContext.getRequest().getParameter(getParam());
-   }
+    /**
+     * Name of the param to read from the request
+     */
+    private String mParam;
 
-   /**
-    * @return Returns the param.
-    */
-   public String getParam()
-   {
-      return mParam;
-   }
-   /**
-    * @param aParam The param to set.
-    */
-   public void setParam(String aParam)
-   {
-      mParam = aParam;
-   }   
+    /**
+     * Gets the param value that's converted to a date.
+     */
+    protected String getParamValue() {
+        return pageContext.getRequest().getParameter(getParam());
+    }
+
+    /**
+     * @return Returns the param.
+     */
+    public String getParam() {
+        return mParam;
+    }
+
+    /**
+     * @param aParam The param to set.
+     */
+    public void setParam(String aParam) {
+        mParam = aParam;
+    }
 
 }

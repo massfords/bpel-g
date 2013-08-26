@@ -26,13 +26,13 @@ public class BpelExpressionLanguageFactoryBeanDefParser extends AbstractSingleBe
     }
 
     protected void doParse(Element element, BeanDefinitionBuilder bean) {
-        
+
         bean.addPropertyValue("bpelDefaultLanguage", element.getAttribute("defaultLanguage"));
-        Map<String,AeExpressionBundle> map = new HashMap<>();
-        
+        Map<String, AeExpressionBundle> map = new HashMap<>();
+
         try {
             List<Element> elements = AeXPathUtil.selectNodes(element, "./bpelg:bundle", "bpelg", "urn:bpel-g:spring-ext");
-            for(Element e : elements) {
+            for (Element e : elements) {
                 String uri = e.getAttribute("uri");
                 Class validator = Class.forName(e.getAttribute("validator"));
                 Class runner = Class.forName(e.getAttribute("runner"));

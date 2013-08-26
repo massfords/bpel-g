@@ -14,64 +14,66 @@ import java.io.Serializable;
 /**
  * JavaBean for holding some data for a single attachment attribute definition.
  */
-public class AeAttachmentAttribute implements Serializable
-{
+public class AeAttachmentAttribute implements Serializable {
 
-   /**
-     * 
+    /**
+     *
      */
     private static final long serialVersionUID = 7470970179669228049L;
 
-/** name of the attachment attribute */
-   private String mAttributeName;
+    /**
+     * name of the attachment attribute
+     */
+    private String mAttributeName;
 
-   /** value of the attachment attribute */
-   private String mAttributeValue;
+    /**
+     * value of the attachment attribute
+     */
+    private String mAttributeValue;
 
-   /**
-    * 
-    * Constructor
-    */
-   public AeAttachmentAttribute() {
-   }
+    /**
+     * Constructor
+     */
+    public AeAttachmentAttribute() {
+    }
 
-   /**
-    * Gets the attributeName value for this AeAttachmentAttribute.
-    * 
-    * @return attributeName
-    */
-   public String getAttributeName() {
-       return mAttributeName;
-   }
-
-
-   /**
-    * Sets the attributeName value for this AeAttachmentAttribute.
-    * 
-    * @param aAttributeName
-    */
-   public void setAttributeName(String aAttributeName) {
-       mAttributeName = aAttributeName;
-   }
+    /**
+     * Gets the attributeName value for this AeAttachmentAttribute.
+     *
+     * @return attributeName
+     */
+    public String getAttributeName() {
+        return mAttributeName;
+    }
 
 
-   /**
-    * Gets the attributeValue value for this AeAttachmentAttribute.
-    * 
-    * @return attributeValue
-    */
-   public String getAttributeValue() {
-       return mAttributeValue;
-   }
+    /**
+     * Sets the attributeName value for this AeAttachmentAttribute.
+     *
+     * @param aAttributeName
+     */
+    public void setAttributeName(String aAttributeName) {
+        mAttributeName = aAttributeName;
+    }
 
 
-   /**
-    * Sets the attributeValue value for this AeAttachmentAttribute.
-    * 
-    * @param aAttributeValue
-    */
-   public void setAttributeValue(String aAttributeValue) {
-      mAttributeValue = aAttributeValue;
-   }
+    /**
+     * Gets the attributeValue value for this AeAttachmentAttribute.
+     *
+     * @return attributeValue
+     */
+    public String getAttributeValue() {
+        return mAttributeValue;
+    }
+
+
+    /**
+     * Sets the attributeValue value for this AeAttachmentAttribute.
+     *
+     * @param aAttributeValue
+     */
+    public void setAttributeValue(String aAttributeValue) {
+        mAttributeValue = aAttributeValue;
+    }
 
 }

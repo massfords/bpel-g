@@ -14,23 +14,22 @@ import org.activebpel.rt.bpel.coord.IAeCoordinating;
 /**
  * Interface indicating a AE subprocess protocol type coordinating activity.
  * The AE subprocess protocol is loosely based on Business Agreement protocol described in
- * the BPEL-4WS 1.1, appendix C. 
+ * the BPEL-4WS 1.1, appendix C.
  */
-public interface IAeSpCoordinating extends IAeCoordinating
-{
-   /**
-    * Indicates to use AE subprocess Participant Completion coordination protocol.
-    */
-   public static final String AESP_PARTICIPANT_COMPLETION_PROTOCOL = "activebpel:coord:aesp:ParticipantCompletion"; //$NON-NLS-1$
-   
-   /**
-    * Protocol message target process id .
-    */
-   public static final String PROTOCOL_DESTINATION_PROCESS_ID = "activebpel:coord:aesp:TargetProcessId"; //$NON-NLS-1$
+public interface IAeSpCoordinating extends IAeCoordinating {
+    /**
+     * Indicates to use AE subprocess Participant Completion coordination protocol.
+     */
+    public static final String AESP_PARTICIPANT_COMPLETION_PROTOCOL = "activebpel:coord:aesp:ParticipantCompletion"; //$NON-NLS-1$
 
-   /**
-    * Protocol message target location path .
-    */
-   public static final String PROTOCOL_DESTINATION_LOCATION_PATH = "activebpel:coord:aesp:TargetLocationPath"; //$NON-NLS-1$   
+    /**
+     * Protocol message target process id .
+     */
+    public static final String PROTOCOL_DESTINATION_PROCESS_ID = "activebpel:coord:aesp:TargetProcessId"; //$NON-NLS-1$
+
+    /**
+     * Protocol message target location path .
+     */
+    public static final String PROTOCOL_DESTINATION_LOCATION_PATH = "activebpel:coord:aesp:TargetLocationPath"; //$NON-NLS-1$
 
 }

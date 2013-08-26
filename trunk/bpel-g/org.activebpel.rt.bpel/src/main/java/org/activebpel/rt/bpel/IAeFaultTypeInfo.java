@@ -7,50 +7,50 @@
 //Active Endpoints, Inc. Removal of this PROPRIETARY RIGHTS STATEMENT 
 //is strictly forbidden. Copyright (c) 2002-2006 All rights reserved. 
 /////////////////////////////////////////////////////////////////////////////
-package org.activebpel.rt.bpel; 
+package org.activebpel.rt.bpel;
 
 import javax.xml.namespace.QName;
 
 /**
  * Provides the type info for the fault
  */
-public interface IAeFaultTypeInfo
-{
-   /**
-    * Getter for the fault name
-    * @return QName
-    */
-   public QName getFaultName();
-   
-   /**
-    * returns the QName of the message if the data is a message type
-    */
-   public QName getMessageType();
-   
-   /**
-    * returns the QName of the element data if the data is an element type
-    */
-   public QName getElementType();
-   
-   /**
-    * returns the QName of the single part element if the data is a message
-    * and the message has a single element part.
-    */
-   public QName getSinglePartElementType();
+public interface IAeFaultTypeInfo {
+    /**
+     * Getter for the fault name
+     *
+     * @return QName
+     */
+    public QName getFaultName();
 
-   /**
-    * Returns true if the fault contains message data.
-    */
-   public boolean hasMessageData();
+    /**
+     * returns the QName of the message if the data is a message type
+     */
+    public QName getMessageType();
 
-   /**
-    * Returns true if the fault has element data.
-    */
-   public boolean hasElementData();
-   
-   /**
-    * Returns true if the fault has element or message data 
-    */
-   public boolean hasData();
+    /**
+     * returns the QName of the element data if the data is an element type
+     */
+    public QName getElementType();
+
+    /**
+     * returns the QName of the single part element if the data is a message
+     * and the message has a single element part.
+     */
+    public QName getSinglePartElementType();
+
+    /**
+     * Returns true if the fault contains message data.
+     */
+    public boolean hasMessageData();
+
+    /**
+     * Returns true if the fault has element data.
+     */
+    public boolean hasElementData();
+
+    /**
+     * Returns true if the fault has element or message data
+     */
+    public boolean hasData();
 }
  

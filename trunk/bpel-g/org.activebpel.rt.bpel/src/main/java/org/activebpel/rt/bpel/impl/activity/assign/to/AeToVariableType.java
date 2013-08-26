@@ -7,7 +7,7 @@
 // Active Endpoints, Inc. Removal of this PROPRIETARY RIGHTS STATEMENT
 // is strictly forbidden. Copyright (c) 2002-2007 All rights reserved.
 /////////////////////////////////////////////////////////////////////////////
-package org.activebpel.rt.bpel.impl.activity.assign.to; 
+package org.activebpel.rt.bpel.impl.activity.assign.to;
 
 import org.activebpel.rt.attachment.IAeAttachmentContainer;
 import org.activebpel.rt.bpel.def.activity.support.AeToDef;
@@ -16,54 +16,46 @@ import org.activebpel.rt.util.AeXmlUtil;
 import org.exolab.castor.xml.schema.XMLType;
 
 /**
- * Gets the type value to receive the data  
+ * Gets the type value to receive the data
  */
-public class AeToVariableType extends AeToBase
-{
-   /**
-    * Ctor accepts def 
-    * 
-    * @param aToDef
-    */
-   public AeToVariableType(AeToDef aToDef)
-   {
-      super(aToDef);
-   }
-   
-   /**
-    * Ctor accepts variable type
-    * 
-    * @param aVariable
-    */
-   public AeToVariableType(String aVariable)
-   {
-      setVariableName(aVariable);
-   }
+public class AeToVariableType extends AeToBase {
+    /**
+     * Ctor accepts def
+     *
+     * @param aToDef
+     */
+    public AeToVariableType(AeToDef aToDef) {
+        super(aToDef);
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.impl.activity.assign.IAeTo#getTarget()
-    */
-   public Object getTarget() throws AeBpelException
-   {
-      XMLType varType = getVariable().getDefinition().getXMLType();
-      if (AeXmlUtil.isComplexOrAny(varType))
-      {
-         return new AeVariableComplexTypeDataWrapper(getVariable());
-      }
-      else
-      {
-         return new AeVariableSimpleTypeDataWrapper(getVariable());
-      }
-   }
-   
-   /**
-    * @see org.activebpel.rt.bpel.impl.activity.assign.to.AeToBase#getAttachmentsTarget()
-    */
-   public IAeAttachmentContainer getAttachmentsTarget()
-   {
-      IAeAttachmentContainer toContainer = getVariable().getAttachmentData();
-      toContainer.clear();
-      return toContainer;  
-   }
+    /**
+     * Ctor accepts variable type
+     *
+     * @param aVariable
+     */
+    public AeToVariableType(String aVariable) {
+        setVariableName(aVariable);
+    }
+
+    /**
+     * @see org.activebpel.rt.bpel.impl.activity.assign.IAeTo#getTarget()
+     */
+    public Object getTarget() throws AeBpelException {
+        XMLType varType = getVariable().getDefinition().getXMLType();
+        if (AeXmlUtil.isComplexOrAny(varType)) {
+            return new AeVariableComplexTypeDataWrapper(getVariable());
+        } else {
+            return new AeVariableSimpleTypeDataWrapper(getVariable());
+        }
+    }
+
+    /**
+     * @see org.activebpel.rt.bpel.impl.activity.assign.to.AeToBase#getAttachmentsTarget()
+     */
+    public IAeAttachmentContainer getAttachmentsTarget() {
+        IAeAttachmentContainer toContainer = getVariable().getAttachmentData();
+        toContainer.clear();
+        return toContainer;
+    }
 }
  

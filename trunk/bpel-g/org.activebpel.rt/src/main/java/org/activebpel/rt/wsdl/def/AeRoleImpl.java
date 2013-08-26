@@ -14,60 +14,62 @@ package org.activebpel.rt.wsdl.def;
  * This class represents a Partner Link Type's Role element. Roles contain Port
  * Types elements.
  */
-public class AeRoleImpl implements IAeRole, IAeBPELExtendedWSDLConst
-{
-   /**
-     * 
+public class AeRoleImpl implements IAeRole, IAeBPELExtendedWSDLConst {
+    /**
+     *
      */
     private static final long serialVersionUID = 7070323707500297297L;
 
-/** The name of this Role */
-   private String mName;
+    /**
+     * The name of this Role
+     */
+    private String mName;
 
-   /** The port type for this role which has a 1 to 1 relationship */
-   private IAePortType mPortType;
+    /**
+     * The port type for this role which has a 1 to 1 relationship
+     */
+    private IAePortType mPortType;
 
-   /**
-    * Constructor. Creates a new Role with the given name. 
-    * @param aName
-    */
-   public AeRoleImpl(String aName)
-   {
-      setName(aName);
-   }
+    /**
+     * Constructor. Creates a new Role with the given name.
+     *
+     * @param aName
+     */
+    public AeRoleImpl(String aName) {
+        setName(aName);
+    }
 
-   /**
-    * Get the name attribute value of this Role
-    * @return String
-    */
-   public String getName()
-   {
-      return mName;
-   }
-   
-   /**
-    * Set the name attribute value of this Role
-    * @param aName
-    */
-   public void setName(String aName)
-   {
-      mName = aName;
-   }
+    /**
+     * Get the name attribute value of this Role
+     *
+     * @return String
+     */
+    public String getName() {
+        return mName;
+    }
 
-   /**
-    * Sets the PortType for this Role
-    * @param aPortType the port type to be set
-    */
-   public void setPortType(IAePortType aPortType)
-   {
-      mPortType = aPortType;
-   }
+    /**
+     * Set the name attribute value of this Role
+     *
+     * @param aName
+     */
+    public void setName(String aName) {
+        mName = aName;
+    }
 
-   /**
-    * Gets the PortType for this Role.
-    */
-   public IAePortType getPortType()
-   {
-      return mPortType;
-   }
+    /**
+     * Sets the PortType for this Role
+     *
+     * @param aPortType the port type to be set
+     */
+    public void setPortType(IAePortType aPortType) {
+        mPortType = aPortType;
+    }
+
+    /**
+     * Gets the PortType for this Role.
+     */
+    public IAePortType getPortType() {
+        return mPortType;
+    }
 }

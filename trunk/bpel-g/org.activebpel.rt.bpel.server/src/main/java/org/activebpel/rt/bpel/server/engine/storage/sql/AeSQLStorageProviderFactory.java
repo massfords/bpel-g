@@ -30,127 +30,117 @@ import javax.inject.Inject;
  * This factory instantiates SQL versions of the queue, and process state
  * storage objects.
  */
-public class AeSQLStorageProviderFactory implements IAeStorageProviderFactory
-{
-   /** The default database type if one is not specified in the config. */
-   protected static final String DEFAULT_DATABASE_TYPE = "h2"; //$NON-NLS-1$
-   
-   private AeDataSource mDataSource;
+public class AeSQLStorageProviderFactory implements IAeStorageProviderFactory {
+    /**
+     * The default database type if one is not specified in the config.
+     */
+    protected static final String DEFAULT_DATABASE_TYPE = "h2"; //$NON-NLS-1$
 
-   /** The SQL Config object. */
-   @Inject
-   protected AeSQLConfig mSQLConfig;
-   
-   private String mVersion;
-   private IAeQueueStorageProvider mQueueStorageProvider;
-   private IAeProcessStateStorageProvider mProcessStateStorageProvider;
-   private IAeCoordinationStorageProvider mCoordinationStorageProvider;
-   private IAeURNStorageProvider mURNStorageProvider;
-   private IAeTransmissionTrackerStorageProvider mTransmissionTrackerStorageProvider;
-   private IAeAttachmentStorageProvider mAttachmentStorageProvider;
-   
-   public IAeQueueStorageProvider createQueueStorageProvider()
-   {
-      return mQueueStorageProvider;
-   }
+    private AeDataSource mDataSource;
 
-   public IAeProcessStateStorageProvider createProcessStateStorageProvider()
-   {
-      return mProcessStateStorageProvider;
-   }
+    /**
+     * The SQL Config object.
+     */
+    @Inject
+    protected AeSQLConfig mSQLConfig;
 
-   public IAeCoordinationStorageProvider createCoordinationStorageProvider()
-   {
-      return mCoordinationStorageProvider;
-   }
+    private String mVersion;
+    private IAeQueueStorageProvider mQueueStorageProvider;
+    private IAeProcessStateStorageProvider mProcessStateStorageProvider;
+    private IAeCoordinationStorageProvider mCoordinationStorageProvider;
+    private IAeURNStorageProvider mURNStorageProvider;
+    private IAeTransmissionTrackerStorageProvider mTransmissionTrackerStorageProvider;
+    private IAeAttachmentStorageProvider mAttachmentStorageProvider;
 
-   public IAeURNStorageProvider createURNStorageProvider()
-   {
-      return mURNStorageProvider;
-   }
-   
-   public IAeTransmissionTrackerStorageProvider createTransmissionTrackerStorageProvider()
-   {
-      return mTransmissionTrackerStorageProvider;
-   }
-   
-   public IAeAttachmentStorageProvider createAttachmentStorageProvider()
-   {
-      return mAttachmentStorageProvider;
-   }
+    public IAeQueueStorageProvider createQueueStorageProvider() {
+        return mQueueStorageProvider;
+    }
 
-   /**
-    * Initializes the SQL store.  Checks for required upgrades to the schema and performs
-    * each upgrade in sequence.
-    * 
-    * @see org.activebpel.rt.bpel.server.engine.storage.IAeStorageFactory#init()
-    */
-   public void init() throws AeException
-   {
-       // validate the database schema type (mysql, sqlserver, etc...)
-       validateDatabaseType();
+    public IAeProcessStateStorageProvider createProcessStateStorageProvider() {
+        return mProcessStateStorageProvider;
+    }
 
-       // validate the database connection and schema (table structure) version
-       validateVersion();
-   }
-   
-   /**
-    * Validates the database is configured for the correct database type.
-    *
-    * @param aSource The datasource to check.
-    * @param aType the type the database tables should be configured with.
-    * @throws AeStorageException
-    */
-   private void validateDatabaseType() throws AeStorageException
-   {
-      String type = AeSQLDatabaseType.getInstance().getDatabaseType();
-      if (!AeUtil.compareObjects(type, getSQLConfig().getDatabaseType()))
-      {
-         throw new AeStorageException(MessageFormat.format(AeMessages.getString("AeSQLStoreFactory.ERROR_1"), //$NON-NLS-1$
-                                                           new Object[] {type, getSQLConfig().getDatabaseType()}));
-      }
-   }
+    public IAeCoordinationStorageProvider createCoordinationStorageProvider() {
+        return mCoordinationStorageProvider;
+    }
 
-   /**
-    * Validates the database is configured correctly for ActiveBPEL handling.
-    */
-   private void validateVersion() throws AeStorageException
-   {
-      String version = AeSQLVersion.getInstance().getVersion();
-      if(! AeUtil.compareObjects(version, getVersion()))
-         throw new AeStorageException(MessageFormat.format(AeMessages.getString("AeSQLStoreFactory.ERROR_0"), //$NON-NLS-1$
-                                                           new Object[] {version, getVersion()}));
-   }
+    public IAeURNStorageProvider createURNStorageProvider() {
+        return mURNStorageProvider;
+    }
+
+    public IAeTransmissionTrackerStorageProvider createTransmissionTrackerStorageProvider() {
+        return mTransmissionTrackerStorageProvider;
+    }
+
+    public IAeAttachmentStorageProvider createAttachmentStorageProvider() {
+        return mAttachmentStorageProvider;
+    }
+
+    /**
+     * Initializes the SQL store.  Checks for required upgrades to the schema and performs
+     * each upgrade in sequence.
+     *
+     * @see org.activebpel.rt.bpel.server.engine.storage.IAeStorageFactory#init()
+     */
+    public void init() throws AeException {
+        // validate the database schema type (mysql, sqlserver, etc...)
+        validateDatabaseType();
+
+        // validate the database connection and schema (table structure) version
+        validateVersion();
+    }
+
+    /**
+     * Validates the database is configured for the correct database type.
+     *
+     * @param aSource The datasource to check.
+     * @param aType   the type the database tables should be configured with.
+     * @throws AeStorageException
+     */
+    private void validateDatabaseType() throws AeStorageException {
+        String type = AeSQLDatabaseType.getInstance().getDatabaseType();
+        if (!AeUtil.compareObjects(type, getSQLConfig().getDatabaseType())) {
+            throw new AeStorageException(MessageFormat.format(AeMessages.getString("AeSQLStoreFactory.ERROR_1"), //$NON-NLS-1$
+                    new Object[]{type, getSQLConfig().getDatabaseType()}));
+        }
+    }
+
+    /**
+     * Validates the database is configured correctly for ActiveBPEL handling.
+     */
+    private void validateVersion() throws AeStorageException {
+        String version = AeSQLVersion.getInstance().getVersion();
+        if (!AeUtil.compareObjects(version, getVersion()))
+            throw new AeStorageException(MessageFormat.format(AeMessages.getString("AeSQLStoreFactory.ERROR_0"), //$NON-NLS-1$
+                    new Object[]{version, getVersion()}));
+    }
 
 
-   /**
-    * Sets the sql configuration.
-    */
-   public void setSQLConfig(AeSQLConfig sQLConfig)
-   {
-      mSQLConfig = sQLConfig;
-   }
+    /**
+     * Sets the sql configuration.
+     */
+    public void setSQLConfig(AeSQLConfig sQLConfig) {
+        mSQLConfig = sQLConfig;
+    }
 
-   /**
-    * Returns the sql configuration.
-    */
-   public AeSQLConfig getSQLConfig()
-   {
-      return mSQLConfig;
-   }
+    /**
+     * Returns the sql configuration.
+     */
+    public AeSQLConfig getSQLConfig() {
+        return mSQLConfig;
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.server.engine.storage.IAeStorageProviderFactory#getDBConfig()
-    */
-   public AeStorageConfig getDBConfig()
-   {
-      return getSQLConfig();
-   }
+    /**
+     * @see org.activebpel.rt.bpel.server.engine.storage.IAeStorageProviderFactory#getDBConfig()
+     */
+    public AeStorageConfig getDBConfig() {
+        return getSQLConfig();
+    }
 
     public String getVersion() {
         return mVersion;
     }
-    
+
     public void setVersion(String aVersion) {
         mVersion = aVersion;
     }

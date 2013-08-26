@@ -17,69 +17,60 @@ import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
 
 /**
- * This class is a proxy between the IAeWSResourceProblemHandler and an 
+ * This class is a proxy between the IAeWSResourceProblemHandler and an
  * AeXMLParserErrorHandler to allow the SAX Parser to report parse problems
  * through the IAeWSResourceProblemHandler instance.
  */
-public class AeSaxProblemRelayHandler extends AeXMLParserErrorHandler
-{
-   /** instance of the WSResource problem handler used for reporting rule violations */
-   private IAeWSResourceProblemHandler mProblem;
-   
-   /**
-    * C'tor
-    * 
-    * @param aProblem
-    */
-   public AeSaxProblemRelayHandler(IAeWSResourceProblemHandler aProblem)
-   {
-      setProblem(aProblem);
-   }
+public class AeSaxProblemRelayHandler extends AeXMLParserErrorHandler {
+    /**
+     * instance of the WSResource problem handler used for reporting rule violations
+     */
+    private IAeWSResourceProblemHandler mProblem;
 
-   /**
-    * 
-    * @see org.activebpel.rt.xml.AeXMLParserErrorHandler#error(org.xml.sax.SAXParseException)
-    */
-   public void error(SAXParseException aException)
-   {
-      getProblemHandler().reportParseProblem(aException, IAeWSResourceValidationPreferences.SEVERITY_ERROR);
-   }
+    /**
+     * C'tor
+     *
+     * @param aProblem
+     */
+    public AeSaxProblemRelayHandler(IAeWSResourceProblemHandler aProblem) {
+        setProblem(aProblem);
+    }
 
-   /**
-    * 
-    * @see org.activebpel.rt.xml.AeXMLParserErrorHandler#fatalError(org.xml.sax.SAXParseException)
-    */
-   public void fatalError(SAXParseException aException) throws SAXException
-   {
-      getProblemHandler().reportParseProblem(aException, IAeWSResourceValidationPreferences.SEVERITY_ERROR);
-   }
+    /**
+     * @see org.activebpel.rt.xml.AeXMLParserErrorHandler#error(org.xml.sax.SAXParseException)
+     */
+    public void error(SAXParseException aException) {
+        getProblemHandler().reportParseProblem(aException, IAeWSResourceValidationPreferences.SEVERITY_ERROR);
+    }
 
-   /**
-    * 
-    * @see org.activebpel.rt.xml.AeXMLParserErrorHandler#warning(org.xml.sax.SAXParseException)
-    */
-   public void warning(SAXParseException aException)
-   {
-      getProblemHandler().reportParseProblem(aException, IAeWSResourceValidationPreferences.SEVERITY_WARNING);
-   }
+    /**
+     * @see org.activebpel.rt.xml.AeXMLParserErrorHandler#fatalError(org.xml.sax.SAXParseException)
+     */
+    public void fatalError(SAXParseException aException) throws SAXException {
+        getProblemHandler().reportParseProblem(aException, IAeWSResourceValidationPreferences.SEVERITY_ERROR);
+    }
 
-   /**
-    * 
-    * @return return the IAeWSResourceProblemHandler this class was constructed with.
-    */
-   protected IAeWSResourceProblemHandler getProblemHandler()
-   {
-      return mProblem;
-   }
+    /**
+     * @see org.activebpel.rt.xml.AeXMLParserErrorHandler#warning(org.xml.sax.SAXParseException)
+     */
+    public void warning(SAXParseException aException) {
+        getProblemHandler().reportParseProblem(aException, IAeWSResourceValidationPreferences.SEVERITY_WARNING);
+    }
 
-   /**
-    * Set the IAeWSResourceProblemHandler
-    * 
-    * @param aProblem
-    */
-   protected void setProblem(IAeWSResourceProblemHandler aProblem)
-   {
-      mProblem = aProblem;
-   }
-   
+    /**
+     * @return return the IAeWSResourceProblemHandler this class was constructed with.
+     */
+    protected IAeWSResourceProblemHandler getProblemHandler() {
+        return mProblem;
+    }
+
+    /**
+     * Set the IAeWSResourceProblemHandler
+     *
+     * @param aProblem
+     */
+    protected void setProblem(IAeWSResourceProblemHandler aProblem) {
+        mProblem = aProblem;
+    }
+
 }

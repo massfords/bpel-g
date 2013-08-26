@@ -15,21 +15,21 @@ import java.util.Set;
 import org.junit.Test;
 
 public class AeBprClasspathBuilderTest {
-	@Test
-	public void build() throws Exception {
-		File dir = new File("src/test/resources/dummy-project/");
-		URL url = dir.toURI().toURL();
-		URLClassLoader cl = AeBprClasspathBuilder.build(url, getClass().getClassLoader());
-		assertNotNull(cl);
-		URL[] path = cl.getURLs();
-		assertEquals(3, path.length);
-		Set<URL> urls = new HashSet<>();
-		urls.addAll(Arrays.asList(path));
-		assertEquals(3, urls.size());
-		assertTrue(urls.contains(new File(dir, "foo.jar").toURI().toURL()));
-		assertTrue(urls.contains(new File(dir, "bar.jar").toURI().toURL()));
-		assertTrue(urls.contains(new URL(dir.toURI().toURL(), ".")));
-		
-		assertSame(Thread.currentThread().getContextClassLoader(), cl.getParent());
-	}
+    @Test
+    public void build() throws Exception {
+        File dir = new File("src/test/resources/dummy-project/");
+        URL url = dir.toURI().toURL();
+        URLClassLoader cl = AeBprClasspathBuilder.build(url, getClass().getClassLoader());
+        assertNotNull(cl);
+        URL[] path = cl.getURLs();
+        assertEquals(3, path.length);
+        Set<URL> urls = new HashSet<>();
+        urls.addAll(Arrays.asList(path));
+        assertEquals(3, urls.size());
+        assertTrue(urls.contains(new File(dir, "foo.jar").toURI().toURL()));
+        assertTrue(urls.contains(new File(dir, "bar.jar").toURI().toURL()));
+        assertTrue(urls.contains(new URL(dir.toURI().toURL(), ".")));
+
+        assertSame(Thread.currentThread().getContextClassLoader(), cl.getParent());
+    }
 }

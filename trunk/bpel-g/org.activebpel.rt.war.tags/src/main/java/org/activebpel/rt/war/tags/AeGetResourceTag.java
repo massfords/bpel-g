@@ -29,56 +29,49 @@ import org.activebpel.rt.util.AeUtil;
  * E.g.  &lt;ae:GetResource name="bean_name" property="bean_property" /&gt;.
  * </p>
  */
-public class AeGetResourceTag extends AeAbstractBeanPropertyTag
-{
-   /**
-     * 
+public class AeGetResourceTag extends AeAbstractBeanPropertyTag {
+    /**
+     *
      */
     private static final long serialVersionUID = 4456753313373201888L;
-/** Indirect method to access the key name via request attribute. */
-   protected String mAttributeName;
+    /**
+     * Indirect method to access the key name via request attribute.
+     */
+    protected String mAttributeName;
 
-   /**
-    * @see javax.servlet.jsp.tagext.Tag#doStartTag()
-    */
-   public int doStartTag() throws JspException
-   {
-      String key = null;
-      // first check to see if the request attribute name is specified
-      if (AeUtil.notNullOrEmpty(getAttributeName()))
-      {
-         key = (String)pageContext.getRequest().getAttribute( getAttributeName());
-      }
-      else if (AeUtil.notNullOrEmpty(getName()) && AeUtil.notNullOrEmpty(getProperty()))
-      {
-         // check if key name is from bean property
-         key = String.valueOf( getPropertyFromBean() );
-      }
-      else
-      {
-         // default case.
-         key = getName();
-      }
-      String value = getResourceString( AeUtil.getSafeString(key));
-      write(AeUtil.getSafeString(value));
-      return SKIP_BODY;
-   }
+    /**
+     * @see javax.servlet.jsp.tagext.Tag#doStartTag()
+     */
+    public int doStartTag() throws JspException {
+        String key = null;
+        // first check to see if the request attribute name is specified
+        if (AeUtil.notNullOrEmpty(getAttributeName())) {
+            key = (String) pageContext.getRequest().getAttribute(getAttributeName());
+        } else if (AeUtil.notNullOrEmpty(getName()) && AeUtil.notNullOrEmpty(getProperty())) {
+            // check if key name is from bean property
+            key = String.valueOf(getPropertyFromBean());
+        } else {
+            // default case.
+            key = getName();
+        }
+        String value = getResourceString(AeUtil.getSafeString(key));
+        write(AeUtil.getSafeString(value));
+        return SKIP_BODY;
+    }
 
-   /**
-    * @return the attributeName
-    */
-   public String getAttributeName()
-   {
-      return mAttributeName;
-   }
+    /**
+     * @return the attributeName
+     */
+    public String getAttributeName() {
+        return mAttributeName;
+    }
 
-   /**
-    * @param aAttributeName the attributeName to set
-    */
-   public void setAttributeName(String aAttributeName)
-   {
-      mAttributeName = aAttributeName;
-   }
+    /**
+     * @param aAttributeName the attributeName to set
+     */
+    public void setAttributeName(String aAttributeName) {
+        mAttributeName = aAttributeName;
+    }
 
 
 }

@@ -16,59 +16,46 @@ import org.apache.axis.security.servlet.ServletAuthenticatedUser;
 /**
  * Principal wrapper for Axis AuthenticatedUser principal
  */
-public class AeAxisPrincipal implements IAePrincipal
-{
-   private final AuthenticatedUser mUser;
+public class AeAxisPrincipal implements IAePrincipal {
+    private final AuthenticatedUser mUser;
 
-   /**
-    * @param aUser authenticated user from Axis
-    */
-   public AeAxisPrincipal(AuthenticatedUser aUser)
-   {
-      mUser = aUser;
-   }
+    /**
+     * @param aUser authenticated user from Axis
+     */
+    public AeAxisPrincipal(AuthenticatedUser aUser) {
+        mUser = aUser;
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.server.security.IAePrincipal#isUserInRole(java.lang.String)
-    */
-   public boolean isUserInRole(String aRolename)
-   {
-      AuthenticatedUser user = getUser();
-      if (user == null)
-      {
-         return false;
-      }
-      else if (user instanceof ServletAuthenticatedUser)
-      {
-         // Use the servlet request to check user role
-         ServletAuthenticatedUser servletUser = (ServletAuthenticatedUser) user;
-         if (servletUser.getRequest() != null)
-         {
-            return servletUser.getRequest().isUserInRole(aRolename);
-         }
-         else
-         {
+    /**
+     * @see org.activebpel.rt.bpel.server.security.IAePrincipal#isUserInRole(java.lang.String)
+     */
+    public boolean isUserInRole(String aRolename) {
+        AuthenticatedUser user = getUser();
+        if (user == null) {
             return false;
-         }
-      }
-      else
-      {
-         // just do a simple name match
-         return user.getName().equals(aRolename);
-      }
-   }
+        } else if (user instanceof ServletAuthenticatedUser) {
+            // Use the servlet request to check user role
+            ServletAuthenticatedUser servletUser = (ServletAuthenticatedUser) user;
+            if (servletUser.getRequest() != null) {
+                return servletUser.getRequest().isUserInRole(aRolename);
+            } else {
+                return false;
+            }
+        } else {
+            // just do a simple name match
+            return user.getName().equals(aRolename);
+        }
+    }
 
-   public String getName()
-   {
-      return getUser().getName();
-   }
-   
-   /**
-    * @return the user
-    */
-   public AuthenticatedUser getUser()
-   {
-      return mUser;
-   }
+    public String getName() {
+        return getUser().getName();
+    }
+
+    /**
+     * @return the user
+     */
+    public AuthenticatedUser getUser() {
+        return mUser;
+    }
 
 }

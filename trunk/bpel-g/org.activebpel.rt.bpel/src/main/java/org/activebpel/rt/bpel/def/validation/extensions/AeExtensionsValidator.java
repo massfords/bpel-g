@@ -7,7 +7,7 @@
 //Active Endpoints, Inc. Removal of this PROPRIETARY RIGHTS STATEMENT 
 //is strictly forbidden. Copyright (c) 2002-2006 All rights reserved. 
 /////////////////////////////////////////////////////////////////////////////
-package org.activebpel.rt.bpel.def.validation.extensions; 
+package org.activebpel.rt.bpel.def.validation.extensions;
 
 import org.activebpel.rt.bpel.def.AeExtensionsDef;
 import org.activebpel.rt.bpel.def.validation.AeBaseValidator;
@@ -15,15 +15,14 @@ import org.activebpel.rt.bpel.def.validation.AeBaseValidator;
 /**
  * model provides validation for the extensions def
  */
-public class AeExtensionsValidator extends AeBaseValidator
-{
-   /**
-    * ctor
-    * @param aDef
-    */
-   public AeExtensionsValidator(AeExtensionsDef aDef)
-   {
-      super(aDef);
-   }
+public class AeExtensionsValidator extends AeBaseValidator {
+    /**
+     * ctor
+     *
+     * @param aDef
+     */
+    public AeExtensionsValidator(AeExtensionsDef aDef) {
+        super(aDef);
+    }
 }
  

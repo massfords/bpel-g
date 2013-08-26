@@ -7,22 +7,21 @@
 //Active Endpoints, Inc. Removal of this PROPRIETARY RIGHTS STATEMENT 
 //is strictly forbidden. Copyright (c) 2002-2007 All rights reserved. 
 /////////////////////////////////////////////////////////////////////////////
-package org.activebpel.rt.bpel.def.validation; 
+package org.activebpel.rt.bpel.def.validation;
 
 import java.util.List;
 
 import org.activebpel.rt.xml.def.IAeAdapter;
 
 /**
- * adapter for extension attributes and declarations that can report which 
+ * adapter for extension attributes and declarations that can report which
  * extension declarations they require and whether they must be understood.
  */
-public interface IAeExtensionUsageAdapter extends IAeAdapter
-{
-   /**
-    * Returns the list of extensions required for this extension attribute or
-    * element.
-    */
-   public List getRequiredExtensions();
+public interface IAeExtensionUsageAdapter extends IAeAdapter {
+    /**
+     * Returns the list of extensions required for this extension attribute or
+     * element.
+     */
+    public List getRequiredExtensions();
 }
  

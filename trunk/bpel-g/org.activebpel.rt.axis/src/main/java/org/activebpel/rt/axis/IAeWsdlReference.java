@@ -24,58 +24,61 @@ import org.apache.axis.description.OperationDesc;
  * Container class for wsdl properties that are accessed via <code>AeMutableServiceDesc</code>.
  * Will update its properties if the underlying wsdl is replaced.
  */
-public interface IAeWsdlReference extends IAeCatalogListener
-{
-   /**
-    * Set the initial state of this object.  This method should be called before
-    * the wsdl reference is made available to the <code>AeServiceDesc</code>.
-    * @throws AeException
-    */
-   public void init() throws AeException;
-   
-   /**
-    * Getter for the port type <code>QName</code>.
-    */
-   public QName getPortTypeQName();
-   
-   /**
-    * Getter for the partner link definition object.
-    */
-   public AePartnerLinkDef getPartnerLinkDef();
-   
-   /**
-    * Return the list of all available <code>OperationDesc</code> objects.
-    */
-   public ArrayList<OperationDesc> getOperations();
-   
-   /**
-    * Remove the given operation.
-    * @param aOperation
-    */
-   public void removeOperationDesc(OperationDesc aOperation);
-   
-   /**
-    * Get all overloaded operations by name.
-    * @param aMethodName
-    * @return null for no match, or an array of OperationDesc objects
-    */
-   public OperationDesc[] getOperationsByName(String aMethodName);
-   
-   /**
-    * Return an operation matching the given method name.  Note that if we
-    * have multiple overloads for this method, we will return the first one.
-    * @return null for no match
-    */
-   public OperationDesc getOperationByName(String methodName);
+public interface IAeWsdlReference extends IAeCatalogListener {
+    /**
+     * Set the initial state of this object.  This method should be called before
+     * the wsdl reference is made available to the <code>AeServiceDesc</code>.
+     *
+     * @throws AeException
+     */
+    public void init() throws AeException;
 
-   /**
-    * Return the list of allowed method names.
-    */
-   public List<String> getAllowedMethods();
-   
-   /**
-    * Getter for the current global wsdl def mapped to this wsdl reference.
-    */
-   public AeBPELExtendedWSDLDef getWsdlDef();
-   
+    /**
+     * Getter for the port type <code>QName</code>.
+     */
+    public QName getPortTypeQName();
+
+    /**
+     * Getter for the partner link definition object.
+     */
+    public AePartnerLinkDef getPartnerLinkDef();
+
+    /**
+     * Return the list of all available <code>OperationDesc</code> objects.
+     */
+    public ArrayList<OperationDesc> getOperations();
+
+    /**
+     * Remove the given operation.
+     *
+     * @param aOperation
+     */
+    public void removeOperationDesc(OperationDesc aOperation);
+
+    /**
+     * Get all overloaded operations by name.
+     *
+     * @param aMethodName
+     * @return null for no match, or an array of OperationDesc objects
+     */
+    public OperationDesc[] getOperationsByName(String aMethodName);
+
+    /**
+     * Return an operation matching the given method name.  Note that if we
+     * have multiple overloads for this method, we will return the first one.
+     *
+     * @return null for no match
+     */
+    public OperationDesc getOperationByName(String methodName);
+
+    /**
+     * Return the list of allowed method names.
+     */
+    public List<String> getAllowedMethods();
+
+    /**
+     * Getter for the current global wsdl def mapped to this wsdl reference.
+     */
+    public AeBPELExtendedWSDLDef getWsdlDef();
+
 }

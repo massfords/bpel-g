@@ -15,22 +15,22 @@ import org.activebpel.rt.bpel.AeBusinessProcessException;
  * Interface for the factory which is responsible for recreating reply receivers
  * using the prototype pattern.
  */
-public interface IAeDurableReplyFactory
-{
-   
-   /**
-    * Creates a durable reply given the reply type and its properties.
-    * @param aReplyId replyId of the corresponding inbound receive.
-    * @param aInfo durable reply properties.
-    * @return durable reply receiver or AeMissingReplyReceiver if the type is not supported.
-    */ 
-   public IAeReplyReceiver createReplyReceiver(long aReplyId, IAeDurableReplyInfo aInfo) throws AeBusinessProcessException;
-   
-   /**
-    * Creates and returns the default missing reply receiver implementation.
-    * 
-    * @param aReplyId
-    * @return AeMissingReplyReceiver class.
-    */
-   public IAeReplyReceiver createMissingReplyReceiver(long aReplyId);
+public interface IAeDurableReplyFactory {
+
+    /**
+     * Creates a durable reply given the reply type and its properties.
+     *
+     * @param aReplyId replyId of the corresponding inbound receive.
+     * @param aInfo    durable reply properties.
+     * @return durable reply receiver or AeMissingReplyReceiver if the type is not supported.
+     */
+    public IAeReplyReceiver createReplyReceiver(long aReplyId, IAeDurableReplyInfo aInfo) throws AeBusinessProcessException;
+
+    /**
+     * Creates and returns the default missing reply receiver implementation.
+     *
+     * @param aReplyId
+     * @return AeMissingReplyReceiver class.
+     */
+    public IAeReplyReceiver createMissingReplyReceiver(long aReplyId);
 }

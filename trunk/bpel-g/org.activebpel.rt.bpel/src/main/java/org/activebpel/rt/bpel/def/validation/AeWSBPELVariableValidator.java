@@ -14,41 +14,38 @@ import org.activebpel.rt.bpel.def.AeVariableDef;
 /**
  * Extens base validtor to check that import exists for message type variables.
  */
-public class AeWSBPELVariableValidator extends AeVariableValidator
-{
+public class AeWSBPELVariableValidator extends AeVariableValidator {
 
-   /**
-    * Constructs validator for passed def.
-    * @param aDef
-    */
-   public AeWSBPELVariableValidator(AeVariableDef aDef)
-   {
-      super(aDef);
-   }
+    /**
+     * Constructs validator for passed def.
+     *
+     * @param aDef
+     */
+    public AeWSBPELVariableValidator(AeVariableDef aDef) {
+        super(aDef);
+    }
 
-   /**
-    * Extends method to check that the import exists for the namespace. 
-    * @see org.activebpel.rt.bpel.def.validation.AeVariableValidator#validateMessageType()
-    */
-   protected void validateMessageType()
-   {
-      super.validateMessageType();
-      
-      // if the wsdl was found make sure it is in the imports
-      if ( getDef().getMessageType() != null && getWsdlDef() != null )
-      {
-         // check that the namespace for the partnerlink type was imported if this is a WS-BPEL 2.0 process
-         String namespaceURI = getDef().getMessageType().getNamespaceURI();
-         if (getProcessDef().findImportDef(namespaceURI) == null)
-         {
-            String name = getDef().getMessageType().getLocalPart();
-            getReporter().reportProblem(WSBPEL_VARIABLE_MISSING_IMPORT_CODE,
-                                     WARNING_MISSING_IMPORT,
-                                     new String[] { namespaceURI, name },
-                                     getDef() );
-         }
-         
-      }
-   }
+    /**
+     * Extends method to check that the import exists for the namespace.
+     *
+     * @see org.activebpel.rt.bpel.def.validation.AeVariableValidator#validateMessageType()
+     */
+    protected void validateMessageType() {
+        super.validateMessageType();
+
+        // if the wsdl was found make sure it is in the imports
+        if (getDef().getMessageType() != null && getWsdlDef() != null) {
+            // check that the namespace for the partnerlink type was imported if this is a WS-BPEL 2.0 process
+            String namespaceURI = getDef().getMessageType().getNamespaceURI();
+            if (getProcessDef().findImportDef(namespaceURI) == null) {
+                String name = getDef().getMessageType().getLocalPart();
+                getReporter().reportProblem(WSBPEL_VARIABLE_MISSING_IMPORT_CODE,
+                        WARNING_MISSING_IMPORT,
+                        new String[]{namespaceURI, name},
+                        getDef());
+            }
+
+        }
+    }
 
 }

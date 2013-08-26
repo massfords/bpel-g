@@ -14,42 +14,38 @@ import org.activebpel.rt.xml.def.IAeNamedDef;
 /**
  * Definition base for all named definition elements
  */
-public abstract class AeNamedDef extends AeBaseDef implements IAeNamedDef
-{
-   /**
-     * 
+public abstract class AeNamedDef extends AeBaseDef implements IAeNamedDef {
+    /**
+     *
      */
     private static final long serialVersionUID = -7194070584181259906L;
-// persistent attributes of the definition
-   private String mName = ""; //$NON-NLS-1$
+    // persistent attributes of the definition
+    private String mName = ""; //$NON-NLS-1$
 
-   /**
-    * Default constructor
-    */
-   public AeNamedDef()
-   {
-      super();
-   }
+    /**
+     * Default constructor
+     */
+    public AeNamedDef() {
+        super();
+    }
 
-   /**
-    * Accessor method to obtain name of this object.
-    * 
-    * @return name of object
-    * @see org.activebpel.rt.xml.def.IAeNamedDef#getName()
-    */
-   public String getName()
-   {
-      return mName;
-   }
+    /**
+     * Accessor method to obtain name of this object.
+     *
+     * @return name of object
+     * @see org.activebpel.rt.xml.def.IAeNamedDef#getName()
+     */
+    public String getName() {
+        return mName;
+    }
 
-   /**
-    * Mutator method to set name of this object.
-    * 
-    * @param aName of object, ignored if null, use empty string to clear
-    */
-   public void setName(String aName)
-   {
-      if(aName != null)
-        mName = aName;
-   }
+    /**
+     * Mutator method to set name of this object.
+     *
+     * @param aName of object, ignored if null, use empty string to clear
+     */
+    public void setName(String aName) {
+        if (aName != null)
+            mName = aName;
+    }
 }

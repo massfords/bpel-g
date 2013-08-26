@@ -10,23 +10,24 @@
 package org.activebpel.wsio;
 
 /**
- * Callback interface that is used to acknowledge a receipt of a inbound 
+ * Callback interface that is used to acknowledge a receipt of a inbound
  * or out bound message.
  */
-public interface IAeMessageAcknowledgeCallback
-{
+public interface IAeMessageAcknowledgeCallback {
 
-   /**
-    * Called after a message has been to handed over to another module.
-    * @param aMessageId unique id such as a transmission or journal id. This parameter maybe null.
-    */
-   public void onAcknowledge(String aMessageId) throws AeMessageAcknowledgeException;
-   
-   /**
-    * Called if the message cannot be delivered. A typical use case if a one-way correlated message
-    * was queued to the engine and the engine did not find matching message receiver with in a
-    * predetermined time.
-    * @param aReason Optional exception that was the root cause of non-delivery. This parameter may be null.
-    */
-   public void onNotAcknowledge(Throwable aReason);
+    /**
+     * Called after a message has been to handed over to another module.
+     *
+     * @param aMessageId unique id such as a transmission or journal id. This parameter maybe null.
+     */
+    public void onAcknowledge(String aMessageId) throws AeMessageAcknowledgeException;
+
+    /**
+     * Called if the message cannot be delivered. A typical use case if a one-way correlated message
+     * was queued to the engine and the engine did not find matching message receiver with in a
+     * predetermined time.
+     *
+     * @param aReason Optional exception that was the root cause of non-delivery. This parameter may be null.
+     */
+    public void onNotAcknowledge(Throwable aReason);
 }

@@ -34,302 +34,283 @@ import java.util.Map.Entry;
 /**
  * Models a <code>correlationSet</code> defined as part of a scope or process.
  */
-public class AeCorrelationSet extends AeScopedObject implements Cloneable
-{
-   /** Records whether or not this correlation set has been initialized. */
-   private boolean mInitialized = false;
-   
-   /** The set of data associated with an initialized correlation set. */
-   private Map<QName, String> mPropertyValues;
-   
-   /** maintains list of listeners waiting to queue themselves once we're initialized */
-   private Collection<IAeCorrelationListener> mListeners;
+public class AeCorrelationSet extends AeScopedObject implements Cloneable {
+    /**
+     * Records whether or not this correlation set has been initialized.
+     */
+    private boolean mInitialized = false;
 
-   /** The version number of the variable. Increments with each change */
-   private int mVersionNumber;
+    /**
+     * The set of data associated with an initialized correlation set.
+     */
+    private Map<QName, String> mPropertyValues;
 
-   /**
-    * Ctor requires def and parent impl.
-    * @param aDef
-    * @param aParent
-    */
-   public AeCorrelationSet(AeCorrelationSetDef aDef, AeActivityScopeImpl aParent)
-   {
-      super(aParent, aDef);
-   }
+    /**
+     * maintains list of listeners waiting to queue themselves once we're initialized
+     */
+    private Collection<IAeCorrelationListener> mListeners;
 
-   /**
-    * Converts a Map of Correlation Set property data into XML formatted string.
-    * @param aCorrSetData map of Correlation Propert data 
-    */
-   public static String convertCorrSetDataToString(Map<QName, String> aCorrSetData)
-   {
-      Document crsDoc = AeXmlUtil.newDocument();
-      Element root = crsDoc.createElement("corrSet");  //$NON-NLS-1$
-      crsDoc.appendChild(root);
-      
-      for (Entry<QName, String> entry : aCorrSetData.entrySet())
-      {
-         QName propQName = entry.getKey();
-         Element ele = crsDoc.createElement("property");  //$NON-NLS-1$  
-         root.appendChild(ele);
-         ele.setAttribute("name", propQName.getLocalPart());  //$NON-NLS-1$  
-         ele.setAttribute("namespaceURI", propQName.getNamespaceURI());  //$NON-NLS-1$  
-         ele.setAttribute("value", entry.getValue());  //$NON-NLS-1$ 
-      }
-      
-      return AeXMLParserBase.documentToString(crsDoc, true);
-   }
+    /**
+     * The version number of the variable. Increments with each change
+     */
+    private int mVersionNumber;
 
-   /**
-    * Converts an XML document containing Correlation Set property values to a Map of
-    * property name to values. 
-    * @param aCorrSetData the XML document to process if null returns an empty map
-    * @throws AeException if document is invalid
-    */
-   public static Map<QName, String> convertCorrSetDataToMap(Document aCorrSetData) throws AeException
-   {
-      Map<QName, String> correlationData = new HashMap<>();
-      if(aCorrSetData != null)
-      {
-         List propertyNodeList = AeXPathUtil.selectNodes(aCorrSetData.getDocumentElement(), "//property"); //$NON-NLS-1$
-          for (Object aPropertyNodeList : propertyNodeList) {
-              Element ele = (Element) aPropertyNodeList;
-              QName propQName = new QName(ele.getAttribute("namespaceURI"), ele.getAttribute("name")); //$NON-NLS-1$ //$NON-NLS-2$
-              correlationData.put(propQName, ele.getAttribute("value"));  //$NON-NLS-1$
-          }
-      }      
-      return correlationData;
-   }
-   
-   /**
-    * Returns the property values for this correlation set. If the set is not
-    * initialized then you'll get an exception here. 
-    */
-   public Map<QName, String> getPropertyValues() throws AeCorrelationViolationException
-   {
-      if( ! isInitialized())
-         throw new AeCorrelationViolationException(getBPELNamespace(), AeCorrelationViolationException.UNINITIALIZED_CORRELATION_SET);
+    /**
+     * Ctor requires def and parent impl.
+     *
+     * @param aDef
+     * @param aParent
+     */
+    public AeCorrelationSet(AeCorrelationSetDef aDef, AeActivityScopeImpl aParent) {
+        super(aParent, aDef);
+    }
 
-      return getPropertyValuesMap();
-   }
+    /**
+     * Converts a Map of Correlation Set property data into XML formatted string.
+     *
+     * @param aCorrSetData map of Correlation Propert data
+     */
+    public static String convertCorrSetDataToString(Map<QName, String> aCorrSetData) {
+        Document crsDoc = AeXmlUtil.newDocument();
+        Element root = crsDoc.createElement("corrSet");  //$NON-NLS-1$
+        crsDoc.appendChild(root);
 
-   /**
-    * Getter for the property values map with lazy load.
-    */
-   protected Map<QName, String> getPropertyValuesMap()
-   {
-      if(mPropertyValues == null)
-         mPropertyValues = new HashMap<>();
-      return mPropertyValues;
-   }
-   
-   /**
-    * Initializes the correlation set by extracting its values from the variable 
-    * passed in. 
-    * @param aMessageData
-    */
-   protected void initiate(IAeMessageData aMessageData, AeMessagePartsMap aMessagePartsMap) throws AeBusinessProcessException
-   {
-      Map<QName, String> map = getPropertyValuesMap();
-      buildPropertyMap(aMessageData, aMessagePartsMap, map);
-      setInitialized(true);
-      notifyListeners();
-   }
-   
-   /**
-    * Convenience method that either initiates or validates the correlation set
-    * based on the initiate flag passed in.
-    * @param aMessageData
-    * @param aMessagePartsMap
-    * @param aInitiateValue
-    * @throws AeBusinessProcessException
-    */
-   public void initiateOrValidate(IAeMessageData aMessageData, AeMessagePartsMap aMessagePartsMap, String aInitiateValue) throws AeBusinessProcessException
-   {
-      if (AeCorrelationDef.INITIATE_YES.equals(aInitiateValue) && !isInitialized())
-         initiate(aMessageData, aMessagePartsMap);
-      else
-         validate(aMessageData, aMessagePartsMap);
-   }
-   
-   /**
-    * Validates that the correlation values that have already been initialized for 
-    * this set have not changed in this variable.
-    * @param aMessageData
-    * @throws AeBusinessProcessException
-    */
-   protected void validate(IAeMessageData aMessageData, AeMessagePartsMap aMessagePartsMap) throws AeBusinessProcessException
-   {
-      if (!isInitialized())
-         throw new AeCorrelationViolationException(getBPELNamespace(), AeCorrelationViolationException.UNINITIALIZED_CORRELATION_SET);
-      
-      Map<QName, String> map = new HashMap<>();
-      buildPropertyMap(aMessageData, aMessagePartsMap, map);
-      
-      if (!getPropertyValuesMap().equals(map))
-      {
-         throw new AeCorrelationViolationException(getBPELNamespace(), AeCorrelationViolationException.IMMUTABLE);
-      }
-   }
+        for (Entry<QName, String> entry : aCorrSetData.entrySet()) {
+            QName propQName = entry.getKey();
+            Element ele = crsDoc.createElement("property");  //$NON-NLS-1$
+            root.appendChild(ele);
+            ele.setAttribute("name", propQName.getLocalPart());  //$NON-NLS-1$
+            ele.setAttribute("namespaceURI", propQName.getNamespaceURI());  //$NON-NLS-1$
+            ele.setAttribute("value", entry.getValue());  //$NON-NLS-1$
+        }
 
-   /**
-    * Builds a correlation property map.
-    * 
-    * @param aMessageData Contents of message
-    * @param aMap An empty correlation map.
-    * @throws AeBusinessProcessException
-    * @throws AeBpelException
-    */
-   private void buildPropertyMap(IAeMessageData aMessageData, AeMessagePartsMap aMessagePartsMap, Map<QName, String> aMap)
-      throws AeBusinessProcessException, AeBpelException
-   {
-      for (Iterator it=getDefinition().getPropertiesList(); it.hasNext();)
-      {
-         QName propName = (QName) it.next();
-         IAePropertyAlias propAlias = getProcess().getProcessDefinition().getPropertyAliasForCorrelation(aMessagePartsMap, propName);
-         
-         AeTypeMapping typeMapping = getProcess().getEngine().getTypeMapping();
-         QName propType = getProcess().getProcessDefinition().getPropertyType(propAlias.getPropertyName());
-         String simpleType = AeXPathHelper.getInstance(getBPELNamespace()).extractCorrelationPropertyValue(
-                     propAlias, aMessageData, typeMapping, propType);
-         aMap.put(propName, simpleType);
-      }
-   }
+        return AeXMLParserBase.documentToString(crsDoc, true);
+    }
 
-   /**
-    * Notifies the listeners that the correlation set has been initialized. 
-    */
-   private void notifyListeners() throws AeBusinessProcessException
-   {
-      if (mListeners != null)
-      {
-         List<IAeCorrelationListener> list = new ArrayList<>(getListeners());
-          for (IAeCorrelationListener listener : list) {
-              listener.correlationSetInitialized(this);
-          }
-      }
-   }
+    /**
+     * Converts an XML document containing Correlation Set property values to a Map of
+     * property name to values.
+     *
+     * @param aCorrSetData the XML document to process if null returns an empty map
+     * @throws AeException if document is invalid
+     */
+    public static Map<QName, String> convertCorrSetDataToMap(Document aCorrSetData) throws AeException {
+        Map<QName, String> correlationData = new HashMap<>();
+        if (aCorrSetData != null) {
+            List propertyNodeList = AeXPathUtil.selectNodes(aCorrSetData.getDocumentElement(), "//property"); //$NON-NLS-1$
+            for (Object aPropertyNodeList : propertyNodeList) {
+                Element ele = (Element) aPropertyNodeList;
+                QName propQName = new QName(ele.getAttribute("namespaceURI"), ele.getAttribute("name")); //$NON-NLS-1$ //$NON-NLS-2$
+                correlationData.put(propQName, ele.getAttribute("value"));  //$NON-NLS-1$
+            }
+        }
+        return correlationData;
+    }
 
-   /**
-    * Convenience method to cast the def to our specific class
-    */
-   public AeCorrelationSetDef getDefinition()
-   {
-      return (AeCorrelationSetDef) getBaseDef();
-   }
-   
-   /**
-    * Returns true if this correlation sett has been initialized.
-    */
-   public boolean isInitialized()
-   {
-      return mInitialized;
-   }
+    /**
+     * Returns the property values for this correlation set. If the set is not
+     * initialized then you'll get an exception here.
+     */
+    public Map<QName, String> getPropertyValues() throws AeCorrelationViolationException {
+        if (!isInitialized())
+            throw new AeCorrelationViolationException(getBPELNamespace(), AeCorrelationViolationException.UNINITIALIZED_CORRELATION_SET);
 
-   /**
-    * Set this correlation sets intialized state flag. 
-    */
-   public void setInitialized(boolean aInitialized)
-   {
-      // Increment the version number unless we're clearing an already cleared correlation set
-      // (i.e. don't increment if (!aInitialized && !mInitialized)).
-      if (aInitialized || mInitialized)
-      {
-         setVersionNumber(getVersionNumber() + 1);
-      }
+        return getPropertyValuesMap();
+    }
 
-      mInitialized = aInitialized;
-   }
+    /**
+     * Getter for the property values map with lazy load.
+     */
+    protected Map<QName, String> getPropertyValuesMap() {
+        if (mPropertyValues == null)
+            mPropertyValues = new HashMap<>();
+        return mPropertyValues;
+    }
 
-   /**
-    * Adds a listener to receive a callback when this correlation set is initialized  
-    */
-   public void addCorrelationListener(IAeCorrelationListener aCorrelationListener)
-   {
-      getListeners().add(aCorrelationListener);
-   }
-   
-   /**
-    * Adds a listener to receive a callback when this correlation set is initialized  
-    */
-   public void removeCorrelationListener(IAeCorrelationListener aCorrelationListener)
-   {
-      getListeners().remove(aCorrelationListener);
-   }
+    /**
+     * Initializes the correlation set by extracting its values from the variable
+     * passed in.
+     *
+     * @param aMessageData
+     */
+    protected void initiate(IAeMessageData aMessageData, AeMessagePartsMap aMessagePartsMap) throws AeBusinessProcessException {
+        Map<QName, String> map = getPropertyValuesMap();
+        buildPropertyMap(aMessageData, aMessagePartsMap, map);
+        setInitialized(true);
+        notifyListeners();
+    }
 
-   /**
-    * Getter for the listeners collection. 
-    */
-   private Collection<IAeCorrelationListener> getListeners()
-   {
-      if (mListeners == null)
-      {
-         mListeners = new ArrayList<>();
-      }
-      return mListeners;
-   }
-   
-   /**
-    * Clears the values for the correlation set. Called from the correlation 
-    * set's declaring scope each time the scope is going to execute since the 
-    * correlation set's state is not preserved across invocations.
-    */
-   public void clear()
-   {
-      setInitialized(false);
-      if(mPropertyValues != null)
-	     getPropertyValuesMap().clear();
-   }
+    /**
+     * Convenience method that either initiates or validates the correlation set
+     * based on the initiate flag passed in.
+     *
+     * @param aMessageData
+     * @param aMessagePartsMap
+     * @param aInitiateValue
+     * @throws AeBusinessProcessException
+     */
+    public void initiateOrValidate(IAeMessageData aMessageData, AeMessagePartsMap aMessagePartsMap, String aInitiateValue) throws AeBusinessProcessException {
+        if (AeCorrelationDef.INITIATE_YES.equals(aInitiateValue) && !isInitialized())
+            initiate(aMessageData, aMessagePartsMap);
+        else
+            validate(aMessageData, aMessagePartsMap);
+    }
 
-   /**
-    * Returns a copy of this corr set so it can be persisted in our snapshot for 
-    * any future compensation logic.  
-    */
-   public Object clone()
-   {
-      try
-      {
-         return super.clone();
-      }
-      catch (CloneNotSupportedException e)
-      {
-         throw new InternalError("y no clone work?"); //$NON-NLS-1$
-      }
-   }
-   
-   /**
-    * Sets property values map.
-    *
-    * @param aMap the map of name-value pairs to set
-    */
-   public void setPropertyValues(Map<QName, String> aMap) throws AeBpelException
-   {
-      setInitialized(true);
-      mPropertyValues = new HashMap<>(aMap);
-   }
+    /**
+     * Validates that the correlation values that have already been initialized for
+     * this set have not changed in this variable.
+     *
+     * @param aMessageData
+     * @throws AeBusinessProcessException
+     */
+    protected void validate(IAeMessageData aMessageData, AeMessagePartsMap aMessagePartsMap) throws AeBusinessProcessException {
+        if (!isInitialized())
+            throw new AeCorrelationViolationException(getBPELNamespace(), AeCorrelationViolationException.UNINITIALIZED_CORRELATION_SET);
 
-   /**
-    * Getter for the version number
-    */
-   public int getVersionNumber()
-   {
-      return mVersionNumber;
-   }
+        Map<QName, String> map = new HashMap<>();
+        buildPropertyMap(aMessageData, aMessagePartsMap, map);
 
-   /**
-    * Setter for the version number
-    */
-   public void setVersionNumber(int aVersionNumber)
-   {
-      mVersionNumber = aVersionNumber;
-   }
+        if (!getPropertyValuesMap().equals(map)) {
+            throw new AeCorrelationViolationException(getBPELNamespace(), AeCorrelationViolationException.IMMUTABLE);
+        }
+    }
 
-   /**
-    * Returns the BPEL namespace.
-    */
-   protected String getBPELNamespace()
-   {
-      return getProcess().getProcessDefinition().getNamespace();
-   }
+    /**
+     * Builds a correlation property map.
+     *
+     * @param aMessageData Contents of message
+     * @param aMap         An empty correlation map.
+     * @throws AeBusinessProcessException
+     * @throws AeBpelException
+     */
+    private void buildPropertyMap(IAeMessageData aMessageData, AeMessagePartsMap aMessagePartsMap, Map<QName, String> aMap)
+            throws AeBusinessProcessException, AeBpelException {
+        for (Iterator it = getDefinition().getPropertiesList(); it.hasNext(); ) {
+            QName propName = (QName) it.next();
+            IAePropertyAlias propAlias = getProcess().getProcessDefinition().getPropertyAliasForCorrelation(aMessagePartsMap, propName);
+
+            AeTypeMapping typeMapping = getProcess().getEngine().getTypeMapping();
+            QName propType = getProcess().getProcessDefinition().getPropertyType(propAlias.getPropertyName());
+            String simpleType = AeXPathHelper.getInstance(getBPELNamespace()).extractCorrelationPropertyValue(
+                    propAlias, aMessageData, typeMapping, propType);
+            aMap.put(propName, simpleType);
+        }
+    }
+
+    /**
+     * Notifies the listeners that the correlation set has been initialized.
+     */
+    private void notifyListeners() throws AeBusinessProcessException {
+        if (mListeners != null) {
+            List<IAeCorrelationListener> list = new ArrayList<>(getListeners());
+            for (IAeCorrelationListener listener : list) {
+                listener.correlationSetInitialized(this);
+            }
+        }
+    }
+
+    /**
+     * Convenience method to cast the def to our specific class
+     */
+    public AeCorrelationSetDef getDefinition() {
+        return (AeCorrelationSetDef) getBaseDef();
+    }
+
+    /**
+     * Returns true if this correlation sett has been initialized.
+     */
+    public boolean isInitialized() {
+        return mInitialized;
+    }
+
+    /**
+     * Set this correlation sets intialized state flag.
+     */
+    public void setInitialized(boolean aInitialized) {
+        // Increment the version number unless we're clearing an already cleared correlation set
+        // (i.e. don't increment if (!aInitialized && !mInitialized)).
+        if (aInitialized || mInitialized) {
+            setVersionNumber(getVersionNumber() + 1);
+        }
+
+        mInitialized = aInitialized;
+    }
+
+    /**
+     * Adds a listener to receive a callback when this correlation set is initialized
+     */
+    public void addCorrelationListener(IAeCorrelationListener aCorrelationListener) {
+        getListeners().add(aCorrelationListener);
+    }
+
+    /**
+     * Adds a listener to receive a callback when this correlation set is initialized
+     */
+    public void removeCorrelationListener(IAeCorrelationListener aCorrelationListener) {
+        getListeners().remove(aCorrelationListener);
+    }
+
+    /**
+     * Getter for the listeners collection.
+     */
+    private Collection<IAeCorrelationListener> getListeners() {
+        if (mListeners == null) {
+            mListeners = new ArrayList<>();
+        }
+        return mListeners;
+    }
+
+    /**
+     * Clears the values for the correlation set. Called from the correlation
+     * set's declaring scope each time the scope is going to execute since the
+     * correlation set's state is not preserved across invocations.
+     */
+    public void clear() {
+        setInitialized(false);
+        if (mPropertyValues != null)
+            getPropertyValuesMap().clear();
+    }
+
+    /**
+     * Returns a copy of this corr set so it can be persisted in our snapshot for
+     * any future compensation logic.
+     */
+    public Object clone() {
+        try {
+            return super.clone();
+        } catch (CloneNotSupportedException e) {
+            throw new InternalError("y no clone work?"); //$NON-NLS-1$
+        }
+    }
+
+    /**
+     * Sets property values map.
+     *
+     * @param aMap the map of name-value pairs to set
+     */
+    public void setPropertyValues(Map<QName, String> aMap) throws AeBpelException {
+        setInitialized(true);
+        mPropertyValues = new HashMap<>(aMap);
+    }
+
+    /**
+     * Getter for the version number
+     */
+    public int getVersionNumber() {
+        return mVersionNumber;
+    }
+
+    /**
+     * Setter for the version number
+     */
+    public void setVersionNumber(int aVersionNumber) {
+        mVersionNumber = aVersionNumber;
+    }
+
+    /**
+     * Returns the BPEL namespace.
+     */
+    protected String getBPELNamespace() {
+        return getProcess().getProcessDefinition().getNamespace();
+    }
 }

@@ -14,7 +14,6 @@ package org.activebpel.work;
  * is used to implement the WorkManager.waitForAll() and WorkManager.waitForAny()
  * calls.
  */
-public interface IAeWorkDoneListener
-{
-   public void workDone();
+public interface IAeWorkDoneListener {
+    public void workDone();
 }

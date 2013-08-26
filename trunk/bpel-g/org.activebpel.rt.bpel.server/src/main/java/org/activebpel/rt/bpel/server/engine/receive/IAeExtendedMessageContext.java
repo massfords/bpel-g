@@ -18,50 +18,50 @@ import org.activebpel.wsio.receive.IAeMessageContext;
 import org.w3c.dom.Element;
 
 /**
- * Extended Message Context interface supporting the additional information required 
+ * Extended Message Context interface supporting the additional information required
  * by our pluggable receive handlers such as those for SOAP messages, including WSRM
  */
-public interface IAeExtendedMessageContext extends IAeMessageContext
-{
-   /**
-    * @return the url request came in on, as determined by the inbound transport handler
-    */
-   public String getTransportUrl();
-   
-   /**
-    * @return the encoding style (Encoded or Literal)
-    */
-   public String getEncodingStyle();
-   
-   /**
-    * @return Element containing selected header elements mapped from the inbound message
-    */
-   public Element getMappedHeaders();
-   
-   /**
-    * @return Information required to support creation of a durable reply for this request
-    */
-   public IAeDurableReplyInfo getDurableReplyInfo();
-   
-   /**
-    * @param aKey
-    * @return property object associated with the key
-    */
-   public Object getProperty(Object aKey);
-   
-   /**
-    * @return map of properties
-    */
-   public Map<Object,Object> getProperties();   
-   
-   /**
-    * Add a reference property to be serialied as a SOAPHeaderElement
-    * @param aRefProp
-    */
-   public void addReferenceProperty(Element aRefProp);
+public interface IAeExtendedMessageContext extends IAeMessageContext {
+    /**
+     * @return the url request came in on, as determined by the inbound transport handler
+     */
+    public String getTransportUrl();
 
-   /**
-    * @return the subject containing the principals used to authorize a request
-    */
-   public Subject getSubject();
+    /**
+     * @return the encoding style (Encoded or Literal)
+     */
+    public String getEncodingStyle();
+
+    /**
+     * @return Element containing selected header elements mapped from the inbound message
+     */
+    public Element getMappedHeaders();
+
+    /**
+     * @return Information required to support creation of a durable reply for this request
+     */
+    public IAeDurableReplyInfo getDurableReplyInfo();
+
+    /**
+     * @param aKey
+     * @return property object associated with the key
+     */
+    public Object getProperty(Object aKey);
+
+    /**
+     * @return map of properties
+     */
+    public Map<Object, Object> getProperties();
+
+    /**
+     * Add a reference property to be serialied as a SOAPHeaderElement
+     *
+     * @param aRefProp
+     */
+    public void addReferenceProperty(Element aRefProp);
+
+    /**
+     * @return the subject containing the principals used to authorize a request
+     */
+    public Subject getSubject();
 }

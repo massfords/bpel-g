@@ -23,104 +23,94 @@ import java.util.Set;
 /**
  * Reads process state from persistent storage.
  */
-public class AeProcessStateReader implements IAeProcessStateReader
-{
-   /** The process manager that owns this process state reader. */
-   private final IAePersistentProcessManager mProcessManager;
+public class AeProcessStateReader implements IAeProcessStateReader {
+    /**
+     * The process manager that owns this process state reader.
+     */
+    private final IAePersistentProcessManager mProcessManager;
 
-   /**
-    * Constructs the process state reader for the given process manager.
-    *
-    * @param aProcessManager
-    */
-   public AeProcessStateReader(IAePersistentProcessManager aProcessManager)
-   {
-      mProcessManager = aProcessManager;
-   }
+    /**
+     * Constructs the process state reader for the given process manager.
+     *
+     * @param aProcessManager
+     */
+    public AeProcessStateReader(IAePersistentProcessManager aProcessManager) {
+        mProcessManager = aProcessManager;
+    }
 
-   /**
-    * Returns the engine for this process state writer.
-    */
-   protected IAeBusinessProcessEngineInternal getEngine()
-   {
-      return getProcessManager().getEngine();
-   }
+    /**
+     * Returns the engine for this process state writer.
+     */
+    protected IAeBusinessProcessEngineInternal getEngine() {
+        return getProcessManager().getEngine();
+    }
 
-   /**
-    * Returns the process manager that owns this process state writer.
-    */
-   protected IAePersistentProcessManager getProcessManager()
-   {
-      return mProcessManager;
-   }
+    /**
+     * Returns the process manager that owns this process state writer.
+     */
+    protected IAePersistentProcessManager getProcessManager() {
+        return mProcessManager;
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.server.engine.IAePersistentProcessManager#getStorage()
-    */
-   public IAeProcessStateStorage getStorage()
-   {
-      return getProcessManager().getStorage();
-   }
+    /**
+     * @see org.activebpel.rt.bpel.server.engine.IAePersistentProcessManager#getStorage()
+     */
+    public IAeProcessStateStorage getStorage() {
+        return getProcessManager().getStorage();
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.server.engine.process.IAeProcessStateReader#readProcess(org.activebpel.rt.bpel.IAeBusinessProcess)
-    */
-   public void readProcess(IAeBusinessProcess aProcess) throws AeBusinessProcessException
-   {
-      long processId = aProcess.getProcessId();
-      IAeProcessStateConnection connection = getStorage().getConnection(processId, false);
+    /**
+     * @see org.activebpel.rt.bpel.server.engine.process.IAeProcessStateReader#readProcess(org.activebpel.rt.bpel.IAeBusinessProcess)
+     */
+    public void readProcess(IAeBusinessProcess aProcess) throws AeBusinessProcessException {
+        long processId = aProcess.getProcessId();
+        IAeProcessStateConnection connection = getStorage().getConnection(processId, false);
 
-      try
-      {
-         restoreState(aProcess, connection);
+        try {
+            restoreState(aProcess, connection);
 
-         // restoreState() shouldn't make any changes, but either commit or
-         // rollback is required on the connection.
-         connection.commit();
-      }
-      catch (AeBusinessProcessException | RuntimeException bpe)
-      {
-         connection.rollback();
-         throw bpe;
-      } finally
-      {
-         getStorage().releaseConnection(connection);
-      }
-   }
+            // restoreState() shouldn't make any changes, but either commit or
+            // rollback is required on the connection.
+            connection.commit();
+        } catch (AeBusinessProcessException | RuntimeException bpe) {
+            connection.rollback();
+            throw bpe;
+        } finally {
+            getStorage().releaseConnection(connection);
+        }
+    }
 
-   /**
-    * Restores process state and variables from the specified storage.
-    *
-    * @param aProcess
-    * @param aConnection
-    */
-   protected void restoreState(IAeBusinessProcess aProcess, IAeProcessStateConnection aConnection) throws AeBusinessProcessException
-   {
-      Document document = aConnection.getProcessDocument();
-      if (document != null)
-      {
-         // Restore process state.
-         aProcess.setProcessData(document);
+    /**
+     * Restores process state and variables from the specified storage.
+     *
+     * @param aProcess
+     * @param aConnection
+     */
+    protected void restoreState(IAeBusinessProcess aProcess, IAeProcessStateConnection aConnection) throws AeBusinessProcessException {
+        Document document = aConnection.getProcessDocument();
+        if (document != null) {
+            // Restore process state.
+            aProcess.setProcessData(document);
 
-         // Get a process snapshot.
-         IAeProcessSnapshot snapshot = aProcess.getProcessSnapshot();
+            // Get a process snapshot.
+            IAeProcessSnapshot snapshot = aProcess.getProcessSnapshot();
 
-         // Iterate through all live variable location paths.
-          for (Object o : snapshot.getVariableLocationPaths()) {
-              String locationPath = (String) o;
-              int locationId = aProcess.getLocationId(locationPath);
-              Set versionNumbers = snapshot.getVariableVersionNumbers(locationPath);
+            // Iterate through all live variable location paths.
+            for (Object o : snapshot.getVariableLocationPaths()) {
+                String locationPath = (String) o;
+                int locationId = aProcess.getLocationId(locationPath);
+                Set versionNumbers = snapshot.getVariableVersionNumbers(locationPath);
 
-              // Iterate through all version numbers for this location path.
-              for (Object vn : versionNumbers) {
-                  int versionNumber = ((Number) vn).intValue();
-                  Document variableDocument = aConnection.getVariableDocument(locationId, versionNumber);
+                // Iterate through all version numbers for this location path.
+                for (Object vn : versionNumbers) {
+                    int versionNumber = ((Number) vn).intValue();
+                    Document variableDocument = aConnection.getVariableDocument(locationId, versionNumber);
 
-                  if (variableDocument != null) {
-                      snapshot.setVariableData(locationPath, versionNumber, variableDocument);
-                  }
-              }
-          }
-      }
-   }
+                    if (variableDocument != null) {
+                        snapshot.setVariableData(locationPath, versionNumber, variableDocument);
+                    }
+                }
+            }
+        }
+    }
 }

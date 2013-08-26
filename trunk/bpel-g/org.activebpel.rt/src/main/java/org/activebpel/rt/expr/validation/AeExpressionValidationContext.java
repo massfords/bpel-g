@@ -15,80 +15,78 @@ import org.activebpel.rt.xml.def.AeBaseXmlDef;
 /**
  * A simple implementation of an expression validation context.
  */
-public class AeExpressionValidationContext implements IAeExpressionValidationContext
-{
-   /** The base def. */
-   private AeBaseXmlDef mDef;
-   /** Factory used to create validators for functions found in the expression */
-   private IAeFunctionValidatorFactory mFunctionFactory;
-   /** the bpel namespace */
-   private String mBpelNamespace;
-   /**
-    * Simple constructor.
-    * 
-    * @param aDef
-    */
-   public AeExpressionValidationContext(AeBaseXmlDef aDef, IAeFunctionValidatorFactory aFactory, String aBpelNamespace)
-   {
-      setDef(aDef);
-      setFunctionFactory(aFactory);
-      setBpelNamespace(aBpelNamespace);
-   }
+public class AeExpressionValidationContext implements IAeExpressionValidationContext {
+    /**
+     * The base def.
+     */
+    private AeBaseXmlDef mDef;
+    /**
+     * Factory used to create validators for functions found in the expression
+     */
+    private IAeFunctionValidatorFactory mFunctionFactory;
+    /**
+     * the bpel namespace
+     */
+    private String mBpelNamespace;
 
-   /**
-    * @see org.activebpel.rt.expr.validation.IAeExpressionValidationContext#getBaseDef()
-    */
-   public AeBaseXmlDef getBaseDef()
-   {
-      return getDef();
-   }
-   
-   /**
-    * @return Returns the def.
-    */
-   protected AeBaseXmlDef getDef()
-   {
-      return mDef;
-   }
-   
-   /**
-    * @param aDef The def to set.
-    */
-   protected void setDef(AeBaseXmlDef aDef)
-   {
-      mDef = aDef;
-   }
+    /**
+     * Simple constructor.
+     *
+     * @param aDef
+     */
+    public AeExpressionValidationContext(AeBaseXmlDef aDef, IAeFunctionValidatorFactory aFactory, String aBpelNamespace) {
+        setDef(aDef);
+        setFunctionFactory(aFactory);
+        setBpelNamespace(aBpelNamespace);
+    }
 
-   /**
-    * @return the functionFactory
-    */
-   public IAeFunctionValidatorFactory getFunctionFactory()
-   {
-      return mFunctionFactory;
-   }
+    /**
+     * @see org.activebpel.rt.expr.validation.IAeExpressionValidationContext#getBaseDef()
+     */
+    public AeBaseXmlDef getBaseDef() {
+        return getDef();
+    }
 
-   /**
-    * @param aFunctionFactory the functionFactory to set
-    */
-   protected void setFunctionFactory(IAeFunctionValidatorFactory aFunctionFactory)
-   {
-      mFunctionFactory = aFunctionFactory;
-   }
+    /**
+     * @return Returns the def.
+     */
+    protected AeBaseXmlDef getDef() {
+        return mDef;
+    }
 
-   /**
-    * @return Returns the bpelNamespace.
-    */
-   public String getBpelNamespace()
-   {
-      return mBpelNamespace;
-   }
+    /**
+     * @param aDef The def to set.
+     */
+    protected void setDef(AeBaseXmlDef aDef) {
+        mDef = aDef;
+    }
 
-   /**
-    * @param aBpelNamespace the bpelNamespace to set
-    */
-   protected void setBpelNamespace(String aBpelNamespace)
-   {
-      mBpelNamespace = aBpelNamespace;
-   }
+    /**
+     * @return the functionFactory
+     */
+    public IAeFunctionValidatorFactory getFunctionFactory() {
+        return mFunctionFactory;
+    }
+
+    /**
+     * @param aFunctionFactory the functionFactory to set
+     */
+    protected void setFunctionFactory(IAeFunctionValidatorFactory aFunctionFactory) {
+        mFunctionFactory = aFunctionFactory;
+    }
+
+    /**
+     * @return Returns the bpelNamespace.
+     */
+    public String getBpelNamespace() {
+        return mBpelNamespace;
+    }
+
+    /**
+     * @param aBpelNamespace the bpelNamespace to set
+     */
+    protected void setBpelNamespace(String aBpelNamespace) {
+        mBpelNamespace = aBpelNamespace;
+    }
 
 }

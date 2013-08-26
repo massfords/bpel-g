@@ -17,26 +17,26 @@ import org.activebpel.rt.xml.AeQName;
  * Wraps the plan detail information (QName) for plans
  * that are associated with a catalog item detail object.
  */
-public class AeCatalogItemPlanReference
-{
-    /** Plan QName. */
+public class AeCatalogItemPlanReference {
+    /**
+     * Plan QName.
+     */
     protected final AeQName mPlanQName;
-    
+
     /**
      * Constructor.
+     *
      * @param aQName
      */
     @ConstructorProperties({"planQName"})
-    public AeCatalogItemPlanReference( AeQName aQName )
-    {
+    public AeCatalogItemPlanReference(AeQName aQName) {
         mPlanQName = aQName;
     }
-    
+
     /**
      * Accessor for the plan QName.
      */
-    public AeQName getPlanQName()
-    {
+    public AeQName getPlanQName() {
         return mPlanQName;
     }
 }

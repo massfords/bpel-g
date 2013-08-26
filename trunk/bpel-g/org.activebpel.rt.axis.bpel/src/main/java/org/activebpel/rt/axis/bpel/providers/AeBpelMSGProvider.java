@@ -19,21 +19,18 @@ import org.apache.axis.deployment.wsdd.WSDDService;
 /**
  * Defines a provider for the BPEL MSG invocations.
  */
-public class AeBpelMSGProvider extends WSDDProvider
-{
-   /**
-    * @see org.apache.axis.deployment.wsdd.WSDDProvider#newProviderInstance(org.apache.axis.deployment.wsdd.WSDDService, org.apache.axis.EngineConfiguration)
-    */
-   public Handler newProviderInstance(WSDDService service, EngineConfiguration registry) throws Exception
-   {
-      return new AeBpelDocumentHandler();
-   }
+public class AeBpelMSGProvider extends WSDDProvider {
+    /**
+     * @see org.apache.axis.deployment.wsdd.WSDDProvider#newProviderInstance(org.apache.axis.deployment.wsdd.WSDDService, org.apache.axis.EngineConfiguration)
+     */
+    public Handler newProviderInstance(WSDDService service, EngineConfiguration registry) throws Exception {
+        return new AeBpelDocumentHandler();
+    }
 
-   /**
-    * @see org.apache.axis.deployment.wsdd.WSDDProvider#getName()
-    */
-   public String getName()
-   {
-      return IAeWsddConstants.NAME_MSG_BINDING;
-   }
+    /**
+     * @see org.apache.axis.deployment.wsdd.WSDDProvider#getName()
+     */
+    public String getName() {
+        return IAeWsddConstants.NAME_MSG_BINDING;
+    }
 }

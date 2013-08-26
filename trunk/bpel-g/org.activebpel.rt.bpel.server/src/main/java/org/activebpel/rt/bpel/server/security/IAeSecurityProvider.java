@@ -14,16 +14,15 @@ import org.activebpel.wsio.receive.IAeMessageContext;
 /**
  * Security manager interface for Authentication and Authorization of service requests
  */
-public interface IAeSecurityProvider extends IAeLoginProvider, IAeAuthorizationProvider
-{
-   /**
-    * Authenticates and authorizes a set of user credentials for a request described in 
-    * the message context
-    * 
-    * @param aUsername
-    * @param aPassword
-    * @param aContext
-    */
-   public void login(String aUsername, String aPassword, IAeMessageContext aContext) throws AeSecurityException;
-   
+public interface IAeSecurityProvider extends IAeLoginProvider, IAeAuthorizationProvider {
+    /**
+     * Authenticates and authorizes a set of user credentials for a request described in
+     * the message context
+     *
+     * @param aUsername
+     * @param aPassword
+     * @param aContext
+     */
+    public void login(String aUsername, String aPassword, IAeMessageContext aContext) throws AeSecurityException;
+
 }

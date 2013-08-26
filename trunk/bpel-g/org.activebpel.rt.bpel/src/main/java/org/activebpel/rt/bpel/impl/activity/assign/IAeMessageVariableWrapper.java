@@ -7,18 +7,17 @@
 //Active Endpoints, Inc. Removal of this PROPRIETARY RIGHTS STATEMENT 
 //is strictly forbidden. Copyright (c) 2002-2006 All rights reserved. 
 /////////////////////////////////////////////////////////////////////////////
-package org.activebpel.rt.bpel.impl.activity.assign; 
+package org.activebpel.rt.bpel.impl.activity.assign;
 
 import org.activebpel.rt.bpel.IAeVariable;
 
 /**
- * Wrapper interface for a message variable returned from a &lt;from&gt; or targeted by a &lt;to&gt; 
+ * Wrapper interface for a message variable returned from a &lt;from&gt; or targeted by a &lt;to&gt;
  */
-public interface IAeMessageVariableWrapper
-{
-   /**
-    * Getter for the variable
-    */
-   public IAeVariable getVariable();
+public interface IAeMessageVariableWrapper {
+    /**
+     * Getter for the variable
+     */
+    public IAeVariable getVariable();
 }
  

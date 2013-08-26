@@ -15,36 +15,29 @@ import org.activebpel.rt.bpel.function.IAeFunction;
 /**
  * A <code>IAeFunctionContext</code> implementation that handles returning
  * standard BPEL 1.1 functions.
- * 
+ * <p/>
  * Currently supported function are:
- * 
- * <pre>getVariableData</pre> 
- * <pre>getVariableProperty</pre> 
- * <pre>getLinkStatus</pre> 
+ * <p/>
+ * <pre>getVariableData</pre>
+ * <pre>getVariableProperty</pre>
+ * <pre>getLinkStatus</pre>
  */
-public class AeBPWSBpelFunctionContext extends AeAbstractBpelFunctionContext
-{
-   // Constant for getVariableData bpel function. */
-   public static final String GET_VARIABLE_DATA     = "getVariableData"; //$NON-NLS-1$
-   // Constant for getLinkStatus bpel function. */
-   public static final String GET_LINK_STATUS       = "getLinkStatus"; //$NON-NLS-1$
+public class AeBPWSBpelFunctionContext extends AeAbstractBpelFunctionContext {
+    // Constant for getVariableData bpel function. */
+    public static final String GET_VARIABLE_DATA = "getVariableData"; //$NON-NLS-1$
+    // Constant for getLinkStatus bpel function. */
+    public static final String GET_LINK_STATUS = "getLinkStatus"; //$NON-NLS-1$
 
-   /**
-    * @see org.activebpel.rt.bpel.function.IAeFunctionContext#getFunction(java.lang.String)
-    */
-   public IAeFunction getFunction(String aLocalName) throws AeUnresolvableException
-   {
-      if (GET_VARIABLE_DATA.equals(aLocalName))
-      {
-         return new AeGetVariableDataFunction();
-      }
-      else if (GET_LINK_STATUS.equals(aLocalName))
-      {
-         return new AeGetLinkStatusFunction();
-      }
-      else
-      {
-         return super.getFunction(aLocalName);
-      }
-   }
+    /**
+     * @see org.activebpel.rt.bpel.function.IAeFunctionContext#getFunction(java.lang.String)
+     */
+    public IAeFunction getFunction(String aLocalName) throws AeUnresolvableException {
+        if (GET_VARIABLE_DATA.equals(aLocalName)) {
+            return new AeGetVariableDataFunction();
+        } else if (GET_LINK_STATUS.equals(aLocalName)) {
+            return new AeGetLinkStatusFunction();
+        } else {
+            return super.getFunction(aLocalName);
+        }
+    }
 }

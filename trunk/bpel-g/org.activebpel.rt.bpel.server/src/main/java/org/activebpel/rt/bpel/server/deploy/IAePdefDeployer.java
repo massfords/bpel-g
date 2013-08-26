@@ -14,23 +14,24 @@ import org.activebpel.rt.AeException;
 /**
  * Handles the details of deploying/undeploying partner definitions.
  */
-public interface IAePdefDeployer
-{
+public interface IAePdefDeployer {
 
-   /**
-    * Deploy any partner definitions in the deployment container.
-    * @param aContainer
-    * @throws AeException
-    */
-   public void deployPdefs( IAeDeploymentContainer aContainer )
-   throws AeException;
-   
-   /**
-    * Undeploy any partner definitions in the deployment container.
-    * @param aContainer
-    * @throws AeException
-    */
-   public void undeployPdefs( IAeDeploymentContainer aContainer )
-   throws AeException;
+    /**
+     * Deploy any partner definitions in the deployment container.
+     *
+     * @param aContainer
+     * @throws AeException
+     */
+    public void deployPdefs(IAeDeploymentContainer aContainer)
+            throws AeException;
+
+    /**
+     * Undeploy any partner definitions in the deployment container.
+     *
+     * @param aContainer
+     * @throws AeException
+     */
+    public void undeployPdefs(IAeDeploymentContainer aContainer)
+            throws AeException;
 
 }

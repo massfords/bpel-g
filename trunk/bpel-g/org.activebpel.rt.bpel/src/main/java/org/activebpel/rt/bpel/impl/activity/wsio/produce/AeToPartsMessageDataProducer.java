@@ -31,118 +31,108 @@ import java.util.List;
  * Implements a message data producer that copies data according to a series of
  * <code>toPart</code> definitions.
  */
-public class AeToPartsMessageDataProducer extends AeAbstractMessageDataProducer
-{
-   /** The list of copy operations. */
-   private List<IAeCopyOperation> mCopyOperations;
+public class AeToPartsMessageDataProducer extends AeAbstractMessageDataProducer {
+    /**
+     * The list of copy operations.
+     */
+    private List<IAeCopyOperation> mCopyOperations;
 
-   /**
-    * Constructs a <code>toParts</code> message data producer for the given
-    * context.
-    */
-   public AeToPartsMessageDataProducer()
-   {
-      super();
-   }
+    /**
+     * Constructs a <code>toParts</code> message data producer for the given
+     * context.
+     */
+    public AeToPartsMessageDataProducer() {
+        super();
+    }
 
-   /**
-    * Returns an {@link IAeFrom} instance that copies from the BPEL variable
-    * specified by the given <code>toPart</code> definition.
-    *
-    * @param aToPartDef
-    * @param aContext
-    * @throws AeBusinessProcessException
-    */
-   protected IAeFrom createCopyFrom(AeToPartDef aToPartDef, IAeMessageDataProducerContext aContext) throws AeBusinessProcessException
-   {
-      String variableName = aToPartDef.getFromVariable();
+    /**
+     * Returns an {@link IAeFrom} instance that copies from the BPEL variable
+     * specified by the given <code>toPart</code> definition.
+     *
+     * @param aToPartDef
+     * @param aContext
+     * @throws AeBusinessProcessException
+     */
+    protected IAeFrom createCopyFrom(AeToPartDef aToPartDef, IAeMessageDataProducerContext aContext) throws AeBusinessProcessException {
+        String variableName = aToPartDef.getFromVariable();
 
-      IAeVariable variable = aContext.getBpelObject().findVariable(variableName);
-      IAeFrom from = null;
-      
-      // By the time we get here, we know that the variable is either an element
-      // variable or a schema type variable.
-      if (variable.isElement())
-      {
-         from = new AeFromVariableElement(variableName);
-      }
-      else
-      {
-         from = new AeFromVariableType(variableName);
-      }
+        IAeVariable variable = aContext.getBpelObject().findVariable(variableName);
+        IAeFrom from = null;
 
-      return from;
-   }
+        // By the time we get here, we know that the variable is either an element
+        // variable or a schema type variable.
+        if (variable.isElement()) {
+            from = new AeFromVariableElement(variableName);
+        } else {
+            from = new AeFromVariableType(variableName);
+        }
 
-   /**
-    * Returns an {@link IAeTo} instance that copies to a part in the anonymous
-    * variable that will wrap the outgoing message data.
-    *
-    * @param aToPartDef
-    */
-   protected IAeTo createCopyTo(AeMessagePartsMap aMap, AeToPartDef aToPartDef) throws AeBusinessProcessException
-   {
-      IAeVariable variable = getAnonymousVariable(aMap);
-      String partName = aToPartDef.getPart();
-      
-      return new AeToVariableMessagePart(variable, partName);
-   }
+        return from;
+    }
 
-   /**
-    * Returns a list of copy operations that copy from the
-    * <code>fromVariable</code> variables defined by the <code>toPart</code>
-    * definitions to an anonymous variable that will wrap the outgoing message
-    * data.
-    */
-   protected List<IAeCopyOperation> getCopyOperations(IAeMessageDataProducerContext aContext) throws AeBusinessProcessException
-   {
-      if (mCopyOperations == null)
-      {
-         mCopyOperations = new LinkedList<>();
+    /**
+     * Returns an {@link IAeTo} instance that copies to a part in the anonymous
+     * variable that will wrap the outgoing message data.
+     *
+     * @param aToPartDef
+     */
+    protected IAeTo createCopyTo(AeMessagePartsMap aMap, AeToPartDef aToPartDef) throws AeBusinessProcessException {
+        IAeVariable variable = getAnonymousVariable(aMap);
+        String partName = aToPartDef.getPart();
 
-         IAeMessageDataProducerDef def = aContext.getMessageDataProducerDef();
-         for (Iterator i = def.getToPartsDef().getToPartDefs(); i.hasNext(); )
-         {
-            AeToPartDef toPartDef = (AeToPartDef) i.next();
-            IAeFrom from = createCopyFrom(toPartDef, aContext);
-            IAeTo to = createCopyTo(def.getProducerMessagePartsMap(), toPartDef);
+        return new AeToVariableMessagePart(variable, partName);
+    }
 
-            AeVirtualCopyOperation copyOperation = AeVirtualCopyOperation.createFromPartToPartOperation();
-            copyOperation.setContext(getCopyOperationContext(aContext));
-            copyOperation.setFrom(from);
-            copyOperation.setTo(to);
+    /**
+     * Returns a list of copy operations that copy from the
+     * <code>fromVariable</code> variables defined by the <code>toPart</code>
+     * definitions to an anonymous variable that will wrap the outgoing message
+     * data.
+     */
+    protected List<IAeCopyOperation> getCopyOperations(IAeMessageDataProducerContext aContext) throws AeBusinessProcessException {
+        if (mCopyOperations == null) {
+            mCopyOperations = new LinkedList<>();
 
-            mCopyOperations.add(copyOperation);
-         }
-      }
+            IAeMessageDataProducerDef def = aContext.getMessageDataProducerDef();
+            for (Iterator i = def.getToPartsDef().getToPartDefs(); i.hasNext(); ) {
+                AeToPartDef toPartDef = (AeToPartDef) i.next();
+                IAeFrom from = createCopyFrom(toPartDef, aContext);
+                IAeTo to = createCopyTo(def.getProducerMessagePartsMap(), toPartDef);
 
-      return mCopyOperations;
-   }
+                AeVirtualCopyOperation copyOperation = AeVirtualCopyOperation.createFromPartToPartOperation();
+                copyOperation.setContext(getCopyOperationContext(aContext));
+                copyOperation.setFrom(from);
+                copyOperation.setTo(to);
 
-   /**
-    * @see org.activebpel.rt.bpel.impl.activity.wsio.produce.IAeMessageDataProducer#produceMessageData(org.activebpel.rt.bpel.impl.activity.wsio.produce.IAeMessageDataProducerContext)
-    */
-   public IAeMessageData produceMessageData(IAeMessageDataProducerContext aContext) throws AeBusinessProcessException
-   {
-      IAeMessageDataProducerDef def = aContext.getMessageDataProducerDef();
-      AeMessagePartsMap map = def.getProducerMessagePartsMap();
-      
-      // Initialize the anonymous variable to wrap a new message data.
-      IAeMessageData messageData = createMessageData(map);
-      getAnonymousVariable(map).setMessageData(messageData);
-      
-      // initialize all of the outgoing message parts
-      for (Iterator iter = map.getPartNames(); iter.hasNext();)
-      {
-         String partName = (String) iter.next();
-         getAnonymousVariable(map).initializeForAssign(partName);
-      }
+                mCopyOperations.add(copyOperation);
+            }
+        }
 
-      // Copy to the message data parts.
-       for (IAeCopyOperation copyOperation : getCopyOperations(aContext)) {
-           copyOperation.execute();
-       }
+        return mCopyOperations;
+    }
 
-      return messageData;
-   }
+    /**
+     * @see org.activebpel.rt.bpel.impl.activity.wsio.produce.IAeMessageDataProducer#produceMessageData(org.activebpel.rt.bpel.impl.activity.wsio.produce.IAeMessageDataProducerContext)
+     */
+    public IAeMessageData produceMessageData(IAeMessageDataProducerContext aContext) throws AeBusinessProcessException {
+        IAeMessageDataProducerDef def = aContext.getMessageDataProducerDef();
+        AeMessagePartsMap map = def.getProducerMessagePartsMap();
+
+        // Initialize the anonymous variable to wrap a new message data.
+        IAeMessageData messageData = createMessageData(map);
+        getAnonymousVariable(map).setMessageData(messageData);
+
+        // initialize all of the outgoing message parts
+        for (Iterator iter = map.getPartNames(); iter.hasNext(); ) {
+            String partName = (String) iter.next();
+            getAnonymousVariable(map).initializeForAssign(partName);
+        }
+
+        // Copy to the message data parts.
+        for (IAeCopyOperation copyOperation : getCopyOperations(aContext)) {
+            copyOperation.execute();
+        }
+
+        return messageData;
+    }
 }

@@ -7,24 +7,23 @@
 //Active Endpoints, Inc. Removal of this PROPRIETARY RIGHTS STATEMENT 
 //is strictly forbidden. Copyright (c) 2002-2004 All rights reserved. 
 /////////////////////////////////////////////////////////////////////////////
-package org.activebpel.rt.bpel.def; 
+package org.activebpel.rt.bpel.def;
 
 
 /**
  * Parents of 'messageExchanges' constructs must implement this interface.
  */
-public interface IAeMessageExchangesParentDef
-{
-   /**
-    * Gets the message exchanges def.
-    */
-   public AeMessageExchangesDef getMessageExchangesDef();
+public interface IAeMessageExchangesParentDef {
+    /**
+     * Gets the message exchanges def.
+     */
+    public AeMessageExchangesDef getMessageExchangesDef();
 
-   /**
-    * Sets the message exchanges def.
-    * 
-    * @param aDef
-    */
-   public void setMessageExchangesDef(AeMessageExchangesDef aDef);
+    /**
+     * Sets the message exchanges def.
+     *
+     * @param aDef
+     */
+    public void setMessageExchangesDef(AeMessageExchangesDef aDef);
 }
  

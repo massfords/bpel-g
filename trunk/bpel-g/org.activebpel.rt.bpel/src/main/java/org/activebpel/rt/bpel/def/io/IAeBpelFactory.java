@@ -12,36 +12,37 @@ package org.activebpel.rt.bpel.def.io;
 import org.activebpel.rt.xml.def.io.IAeDefRegistry;
 
 /**
- * Factory for reading and writing BPEL. Each factory deals with a specific version of 
+ * Factory for reading and writing BPEL. Each factory deals with a specific version of
  * BPEL. The factories also contain a registry that maps elements to def objects and
- * def objects to element names. These registries can be overridden if desired. 
+ * def objects to element names. These registries can be overridden if desired.
  */
-public interface IAeBpelFactory
-{
-   /** Feature ID for writing the portType attribute for WSIO activities. */
-   public static final String FEATURE_ID_WRITE_PORTTYPE = "org.activebpel.rt.bpel_writePortType"; //$NON-NLS-1$
-   
-   /**
-    * Gets an object capable of reading BPEL xml into our definition objects.
-    */
-   public IAeBpelReader createBpelReader();
-   
-   /**
-    * Gets an object capable of writing our def objects into BPEL xml.
-    */
-   public IAeBpelWriter createBpelWriter();
-   
-   /**
-    * Getter for the currently installed BPEL registry
-    */
-   public IAeDefRegistry getBpelRegistry();
-   
-   /**
-    * Sets a feature name/value pair.
-    * 
-    * @param aName feature name key.
-    * @param aFlag feature boolean value.
-    */
-   public void setFeature(String aName, boolean aFlag);
+public interface IAeBpelFactory {
+    /**
+     * Feature ID for writing the portType attribute for WSIO activities.
+     */
+    public static final String FEATURE_ID_WRITE_PORTTYPE = "org.activebpel.rt.bpel_writePortType"; //$NON-NLS-1$
+
+    /**
+     * Gets an object capable of reading BPEL xml into our definition objects.
+     */
+    public IAeBpelReader createBpelReader();
+
+    /**
+     * Gets an object capable of writing our def objects into BPEL xml.
+     */
+    public IAeBpelWriter createBpelWriter();
+
+    /**
+     * Getter for the currently installed BPEL registry
+     */
+    public IAeDefRegistry getBpelRegistry();
+
+    /**
+     * Sets a feature name/value pair.
+     *
+     * @param aName feature name key.
+     * @param aFlag feature boolean value.
+     */
+    public void setFeature(String aName, boolean aFlag);
 }
  

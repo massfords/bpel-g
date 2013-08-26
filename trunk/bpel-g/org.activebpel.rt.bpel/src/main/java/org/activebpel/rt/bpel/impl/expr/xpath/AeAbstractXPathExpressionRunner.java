@@ -26,96 +26,78 @@ import org.jaxen.VariableContext;
 /**
  * A base class for implementations of xpath expression runners.
  */
-public abstract class AeAbstractXPathExpressionRunner extends AeAbstractExpressionRunner
-{
-   /**
-    * @see org.activebpel.rt.bpel.impl.expr.AeAbstractExpressionRunner#doExecuteExpression(java.lang.String, org.activebpel.rt.bpel.impl.expr.IAeExpressionRunnerContext)
-    */
-   protected Object doExecuteExpression(String aExpression, IAeExpressionRunnerContext aContext)
-         throws AeBpelException
-   {
-      try
-      {
-         IAeExpressionTypeConverter typeConverter = createExpressionTypeConverter(aContext);
-         IAeFunctionExecutionContext funcExecContext = new AeExprFunctionExecutionContext(aContext, typeConverter);
-         
-         NamespaceContext xpathNSContext = new AeXPathNamespaceContext(aContext.getNamespaceContext());
-         FunctionContext xpathFuncContext = new AeXPathFunctionContext(funcExecContext);
-         VariableContext xpathVarContext = createVariableContext(funcExecContext, aContext.getVariableResolver());
+public abstract class AeAbstractXPathExpressionRunner extends AeAbstractExpressionRunner {
+    /**
+     * @see org.activebpel.rt.bpel.impl.expr.AeAbstractExpressionRunner#doExecuteExpression(java.lang.String, org.activebpel.rt.bpel.impl.expr.IAeExpressionRunnerContext)
+     */
+    protected Object doExecuteExpression(String aExpression, IAeExpressionRunnerContext aContext)
+            throws AeBpelException {
+        try {
+            IAeExpressionTypeConverter typeConverter = createExpressionTypeConverter(aContext);
+            IAeFunctionExecutionContext funcExecContext = new AeExprFunctionExecutionContext(aContext, typeConverter);
 
-         AeXPathHelper xpathHelper = AeXPathHelper.getInstance(aContext.getBpelNamespace());
-         return xpathHelper.executeXPathExpression(aExpression, aContext.getEvaluationContext(),
-               xpathFuncContext, xpathVarContext, xpathNSContext);
-      }
-      catch (AeBpelException ex)
-      {
-         throw ex;
-      }
-      catch (AeExpressionException ee)
-      {
-         throw ee.getWrappedException();
-      }
-      catch (Throwable t)
-      {
-         throwSubLangExecutionFault(aExpression, t, aContext);
-         return null; // Will never get here - the above call will always throw.
-      }
-   }
+            NamespaceContext xpathNSContext = new AeXPathNamespaceContext(aContext.getNamespaceContext());
+            FunctionContext xpathFuncContext = new AeXPathFunctionContext(funcExecContext);
+            VariableContext xpathVarContext = createVariableContext(funcExecContext, aContext.getVariableResolver());
 
-   /**
-    * @see org.activebpel.rt.bpel.impl.expr.AeAbstractExpressionRunner#doExecuteJoinConditionExpression(java.lang.String, org.activebpel.rt.bpel.impl.expr.IAeExpressionRunnerContext)
-    */
-   protected Object doExecuteJoinConditionExpression(String aExpression, IAeExpressionRunnerContext aContext) throws AeBpelException
-   {
-      try
-      {
-         IAeExpressionTypeConverter typeConverter = createExpressionTypeConverter(aContext);
-         IAeFunctionExecutionContext funcExecContext = new AeExprFunctionExecutionContext(aContext, typeConverter);
-         
-         NamespaceContext xpathNSContext = new AeXPathNamespaceContext(aContext.getNamespaceContext());
-         FunctionContext xpathFuncContext = new AeXPathFunctionContext(funcExecContext);
-         VariableContext xpathVarContext = createJoinConditionVariableContext(funcExecContext);
+            AeXPathHelper xpathHelper = AeXPathHelper.getInstance(aContext.getBpelNamespace());
+            return xpathHelper.executeXPathExpression(aExpression, aContext.getEvaluationContext(),
+                    xpathFuncContext, xpathVarContext, xpathNSContext);
+        } catch (AeBpelException ex) {
+            throw ex;
+        } catch (AeExpressionException ee) {
+            throw ee.getWrappedException();
+        } catch (Throwable t) {
+            throwSubLangExecutionFault(aExpression, t, aContext);
+            return null; // Will never get here - the above call will always throw.
+        }
+    }
 
-         AeXPathHelper xpathHelper = AeXPathHelper.getInstance(aContext.getBpelNamespace());
-         return xpathHelper.executeXPathExpression(aExpression, aContext.getEvaluationContext(),
-               xpathFuncContext, xpathVarContext, xpathNSContext);
-      }
-      catch (AeBpelException ex)
-      {
-         throw ex;
-      }
-      catch (AeExpressionException ee)
-      {
-         throw ee.getWrappedException();
-      }
-      catch (Throwable t)
-      {
-         throwSubLangExecutionFault(aExpression, t, aContext);
-         return null; // Will never get here - the above call will always throw.
-      }
-   }
+    /**
+     * @see org.activebpel.rt.bpel.impl.expr.AeAbstractExpressionRunner#doExecuteJoinConditionExpression(java.lang.String, org.activebpel.rt.bpel.impl.expr.IAeExpressionRunnerContext)
+     */
+    protected Object doExecuteJoinConditionExpression(String aExpression, IAeExpressionRunnerContext aContext) throws AeBpelException {
+        try {
+            IAeExpressionTypeConverter typeConverter = createExpressionTypeConverter(aContext);
+            IAeFunctionExecutionContext funcExecContext = new AeExprFunctionExecutionContext(aContext, typeConverter);
 
-   /**
-    * @see org.activebpel.rt.bpel.impl.expr.AeAbstractExpressionRunner#createExpressionTypeConverter(org.activebpel.rt.bpel.impl.expr.IAeExpressionRunnerContext)
-    */
-   protected IAeExpressionTypeConverter createExpressionTypeConverter(IAeExpressionRunnerContext aContext)
-   {
-      AeXPathHelper xpathHelper = AeXPathHelper.getInstance(aContext.getBpelNamespace());
-      return new AeXPathExpressionTypeConverter(xpathHelper);
-   }
+            NamespaceContext xpathNSContext = new AeXPathNamespaceContext(aContext.getNamespaceContext());
+            FunctionContext xpathFuncContext = new AeXPathFunctionContext(funcExecContext);
+            VariableContext xpathVarContext = createJoinConditionVariableContext(funcExecContext);
 
-   /**
-    * Base class does not supply a variable context (BPEL4WS version).
-    * 
-    * @param aContext
-    * @param aVariableResolver
-    */
-   protected abstract VariableContext createVariableContext(IAeFunctionExecutionContext aContext, IAeExpressionRunnerVariableResolver aVariableResolver);
+            AeXPathHelper xpathHelper = AeXPathHelper.getInstance(aContext.getBpelNamespace());
+            return xpathHelper.executeXPathExpression(aExpression, aContext.getEvaluationContext(),
+                    xpathFuncContext, xpathVarContext, xpathNSContext);
+        } catch (AeBpelException ex) {
+            throw ex;
+        } catch (AeExpressionException ee) {
+            throw ee.getWrappedException();
+        } catch (Throwable t) {
+            throwSubLangExecutionFault(aExpression, t, aContext);
+            return null; // Will never get here - the above call will always throw.
+        }
+    }
 
-   /**
-    * Base class does not supply a variable context (BPEL4WS version).
-    * 
-    * @param aContext
-    */
-   protected abstract VariableContext createJoinConditionVariableContext(IAeFunctionExecutionContext aContext);
+    /**
+     * @see org.activebpel.rt.bpel.impl.expr.AeAbstractExpressionRunner#createExpressionTypeConverter(org.activebpel.rt.bpel.impl.expr.IAeExpressionRunnerContext)
+     */
+    protected IAeExpressionTypeConverter createExpressionTypeConverter(IAeExpressionRunnerContext aContext) {
+        AeXPathHelper xpathHelper = AeXPathHelper.getInstance(aContext.getBpelNamespace());
+        return new AeXPathExpressionTypeConverter(xpathHelper);
+    }
+
+    /**
+     * Base class does not supply a variable context (BPEL4WS version).
+     *
+     * @param aContext
+     * @param aVariableResolver
+     */
+    protected abstract VariableContext createVariableContext(IAeFunctionExecutionContext aContext, IAeExpressionRunnerVariableResolver aVariableResolver);
+
+    /**
+     * Base class does not supply a variable context (BPEL4WS version).
+     *
+     * @param aContext
+     */
+    protected abstract VariableContext createJoinConditionVariableContext(IAeFunctionExecutionContext aContext);
 }

@@ -25,45 +25,45 @@ import bpelg.services.deploy.types.catalog.Catalog;
  * wsdlCatalog.xml) file are present in the bpr file.
  */
 public class AeCatalogValidator implements IAePredeploymentValidator {
-	/**
-	 * @see org.activebpel.rt.bpel.server.deploy.validate.IAePredeploymentValidator#validate(org.activebpel.rt.bpel.server.deploy.bpr.IAeBpr,
-	 *      org.activebpel.rt.bpel.def.validation.IAeBaseErrorReporter)
-	 */
-	public void validate(IAeBpr aBprFile, IAeBaseErrorReporter aReporter)
-			throws AeException {
-		Catalog catalogDoc = aBprFile.getCatalogDocument();
-		if (catalogDoc == null) {
-			aReporter
-					.addWarning(
-							AeMessages.getString("AeCatalogValidator.1"), new String[] { aBprFile.getBprFileName() }, null); //$NON-NLS-1$
-		} else {
-			List<BaseCatalogEntryType> toValidate = new LinkedList<>();
-			toValidate.addAll(catalogDoc.getWsdlEntry());
-			toValidate.addAll(catalogDoc.getSchemaEntry());
-			toValidate.addAll(catalogDoc.getOtherEntry());
-			validate(aBprFile, toValidate, aReporter);
-		}
-	}
+    /**
+     * @see org.activebpel.rt.bpel.server.deploy.validate.IAePredeploymentValidator#validate(org.activebpel.rt.bpel.server.deploy.bpr.IAeBpr,
+     *      org.activebpel.rt.bpel.def.validation.IAeBaseErrorReporter)
+     */
+    public void validate(IAeBpr aBprFile, IAeBaseErrorReporter aReporter)
+            throws AeException {
+        Catalog catalogDoc = aBprFile.getCatalogDocument();
+        if (catalogDoc == null) {
+            aReporter
+                    .addWarning(
+                            AeMessages.getString("AeCatalogValidator.1"), new String[]{aBprFile.getBprFileName()}, null); //$NON-NLS-1$
+        } else {
+            List<BaseCatalogEntryType> toValidate = new LinkedList<>();
+            toValidate.addAll(catalogDoc.getWsdlEntry());
+            toValidate.addAll(catalogDoc.getSchemaEntry());
+            toValidate.addAll(catalogDoc.getOtherEntry());
+            validate(aBprFile, toValidate, aReporter);
+        }
+    }
 
-	/**
-	 * Validates the classpath attributes for the entries
-	 * name.
-	 * 
-	 * @param aBprFile
-	 * @param aEntries
-	 * @param aReporter
-	 * @throws AeException
-	 */
-	protected void validate(IAeBpr aBprFile,
-			List<BaseCatalogEntryType> aEntries,
-			IAeBaseErrorReporter aReporter) throws AeException {
-		
-		for(BaseCatalogEntryType entry : aEntries) {
-			if (!aBprFile.exists(entry.getClasspath())) {
-				aReporter
-						.addError(
-								AeMessages.getString("AeCatalogValidator.0"), new String[] { entry.getClasspath(), aBprFile.getBprFileName().toString() }, null); //$NON-NLS-1$
-			}
-		}
-	}
+    /**
+     * Validates the classpath attributes for the entries
+     * name.
+     *
+     * @param aBprFile
+     * @param aEntries
+     * @param aReporter
+     * @throws AeException
+     */
+    protected void validate(IAeBpr aBprFile,
+                            List<BaseCatalogEntryType> aEntries,
+                            IAeBaseErrorReporter aReporter) throws AeException {
+
+        for (BaseCatalogEntryType entry : aEntries) {
+            if (!aBprFile.exists(entry.getClasspath())) {
+                aReporter
+                        .addError(
+                                AeMessages.getString("AeCatalogValidator.0"), new String[]{entry.getClasspath(), aBprFile.getBprFileName().toString()}, null); //$NON-NLS-1$
+            }
+        }
+    }
 }

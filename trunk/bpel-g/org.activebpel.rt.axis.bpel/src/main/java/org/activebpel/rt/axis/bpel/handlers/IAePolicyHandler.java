@@ -15,15 +15,15 @@ import org.apache.axis.EngineConfiguration;
 import org.apache.axis.deployment.wsdd.WSDDService;
 
 /**
- * Interface for Policy driven handlers acting as pivots.  
+ * Interface for Policy driven handlers acting as pivots.
  */
-public interface IAePolicyHandler extends IAePolicyConstants
-{
-   /**
-    * Initializes pivot handler with service and engine configuration
-    * @param aService  Service deployment
-    * @param aConfig   Engine configuration
-    * @throws AeException
-    */
-   public abstract void init(WSDDService aService, EngineConfiguration aConfig) throws AeException;
+public interface IAePolicyHandler extends IAePolicyConstants {
+    /**
+     * Initializes pivot handler with service and engine configuration
+     *
+     * @param aService Service deployment
+     * @param aConfig  Engine configuration
+     * @throws AeException
+     */
+    public abstract void init(WSDDService aService, EngineConfiguration aConfig) throws AeException;
 }

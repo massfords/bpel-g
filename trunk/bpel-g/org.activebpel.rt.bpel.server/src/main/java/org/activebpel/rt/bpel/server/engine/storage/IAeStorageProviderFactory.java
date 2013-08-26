@@ -21,46 +21,46 @@ import org.activebpel.rt.bpel.server.engine.storage.providers.IAeURNStorageProvi
 /**
  * Defines methods needed to create storage providers (Database i/o classes).
  */
-public interface IAeStorageProviderFactory
-{
-   /**
-    * Returns the DB config that the storage provider will use.
-    */
-   public AeStorageConfig getDBConfig();
+public interface IAeStorageProviderFactory {
+    /**
+     * Returns the DB config that the storage provider will use.
+     */
+    public AeStorageConfig getDBConfig();
 
-   /**
-    * Called after the storage provider factory has been created.
-    * 
-    * @throws AeException
-    */
-   public void init() throws AeException;
+    /**
+     * Called after the storage provider factory has been created.
+     *
+     * @throws AeException
+     */
+    public void init() throws AeException;
 
-   /**
-    * Creates the queue storage provider.
-    */
-   public IAeQueueStorageProvider createQueueStorageProvider();
+    /**
+     * Creates the queue storage provider.
+     */
+    public IAeQueueStorageProvider createQueueStorageProvider();
 
-   /**
-    * Creates the process state storage object.
-    */
-   public IAeProcessStateStorageProvider createProcessStateStorageProvider();
-   /**
-    * Creates the coordination storage object.
-    */
-   public IAeCoordinationStorageProvider createCoordinationStorageProvider();
-   
-   /**
-    * Creates the URN storage object.
-    */
-   public IAeURNStorageProvider createURNStorageProvider();
-   
-   /**
-    * Creates and returns the storage provider for the TransmissionTracker manager store.
-    */
-   public IAeTransmissionTrackerStorageProvider createTransmissionTrackerStorageProvider();
-   
-   /**
-    * Creates and returns the storage provider for the attachment manager store.
-    */
-   public IAeAttachmentStorageProvider createAttachmentStorageProvider();
+    /**
+     * Creates the process state storage object.
+     */
+    public IAeProcessStateStorageProvider createProcessStateStorageProvider();
+
+    /**
+     * Creates the coordination storage object.
+     */
+    public IAeCoordinationStorageProvider createCoordinationStorageProvider();
+
+    /**
+     * Creates the URN storage object.
+     */
+    public IAeURNStorageProvider createURNStorageProvider();
+
+    /**
+     * Creates and returns the storage provider for the TransmissionTracker manager store.
+     */
+    public IAeTransmissionTrackerStorageProvider createTransmissionTrackerStorageProvider();
+
+    /**
+     * Creates and returns the storage provider for the attachment manager store.
+     */
+    public IAeAttachmentStorageProvider createAttachmentStorageProvider();
 }

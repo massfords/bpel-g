@@ -7,7 +7,7 @@
 //Active Endpoints, Inc. Removal of this PROPRIETARY RIGHTS STATEMENT 
 //is strictly forbidden. Copyright (c) 2002-2006 All rights reserved. 
 /////////////////////////////////////////////////////////////////////////////
-package org.activebpel.rt.bpel.def.validation.expressions; 
+package org.activebpel.rt.bpel.def.validation.expressions;
 
 import org.activebpel.rt.AeException;
 import org.activebpel.rt.bpel.def.IAeExpressionDef;
@@ -18,23 +18,21 @@ import org.activebpel.rt.expr.validation.IAeExpressionValidator;
 /**
  * model provides validation of boolean expression defs like conditions or elseifs
  */
-public class AeBooleanExpressionValidator extends AeBaseExpressionValidator
-{
-   /**
-    * ctor
-    * @param aDef
-    */
-   public AeBooleanExpressionValidator(IAeExpressionDef aDef)
-   {
-      super(aDef);
-   }
+public class AeBooleanExpressionValidator extends AeBaseExpressionValidator {
+    /**
+     * ctor
+     *
+     * @param aDef
+     */
+    public AeBooleanExpressionValidator(IAeExpressionDef aDef) {
+        super(aDef);
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.def.validation.expressions.AeBaseExpressionValidator#validateExpression(java.lang.String, org.activebpel.rt.expr.validation.IAeExpressionValidator, org.activebpel.rt.expr.validation.IAeExpressionValidationContext)
-    */
-   protected IAeExpressionValidationResult validateExpression(String aExpression, IAeExpressionValidator aValidator, IAeExpressionValidationContext aContext) throws AeException
-   {
-      return aValidator.validateBooleanExpression(aContext, aExpression);
-   }
+    /**
+     * @see org.activebpel.rt.bpel.def.validation.expressions.AeBaseExpressionValidator#validateExpression(java.lang.String, org.activebpel.rt.expr.validation.IAeExpressionValidator, org.activebpel.rt.expr.validation.IAeExpressionValidationContext)
+     */
+    protected IAeExpressionValidationResult validateExpression(String aExpression, IAeExpressionValidator aValidator, IAeExpressionValidationContext aContext) throws AeException {
+        return aValidator.validateBooleanExpression(aContext, aExpression);
+    }
 }
  

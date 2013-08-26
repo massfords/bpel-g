@@ -16,13 +16,12 @@ import org.activebpel.rt.xml.def.AeBaseXmlDef;
  * Interface that is passed to WS Resource validators when they
  * are asked to validate a resource.
  */
-public interface IAeWSResourceProblemReporter
-{
-   /**
-    * Called by the validators when they find a problem.
-    * 
-    * @param aMessage
-    * @param aDef
-    */
-   public void reportProblem(String aMessage, AeBaseXmlDef aDef);
+public interface IAeWSResourceProblemReporter {
+    /**
+     * Called by the validators when they find a problem.
+     *
+     * @param aMessage
+     * @param aDef
+     */
+    public void reportProblem(String aMessage, AeBaseXmlDef aDef);
 }

@@ -15,62 +15,67 @@ import java.net.URL;
  * Event fired by the <code>AeDirectoryScanner</code> to indicate
  * that there has been a change in the watch list.
  */
-public class AeScanEvent
-{
-   /** File has been removed constant.*/
-   public static final int REMOVAL = 0;
-   /** File has been added constant.*/
-   public static final int ADDITION = 1;
-   
-   /** changed file url */
-   private final URL mURL;
-   /** change type (either REMOVAL or ADDITION) */
-   private final int mType;
-   /** Arbitrary user data included in the event. */
-   private final Object mUserData;
+public class AeScanEvent {
+    /**
+     * File has been removed constant.
+     */
+    public static final int REMOVAL = 0;
+    /**
+     * File has been added constant.
+     */
+    public static final int ADDITION = 1;
 
-   /**
-    * Constructor.
-    * @param aURL The file url.
-    * @param aType The change type. See constants.
-    * @param aUserData Any data to include in the event.
-    */
-   public AeScanEvent( URL aURL, int aType, Object aUserData )
-   {
-      mURL = aURL;
-      mType = aType;
-      mUserData = aUserData;
-   }
-   
-   /**
-    * Accessor for the file url.
-    */
-   public URL getURL()
-   {
-      return mURL;
-   }
-   
-   /**
-    * Return true if this is a remove event.
-    */
-   public boolean isRemoveEvent()
-   {
-      return mType == REMOVAL;
-   }
-   
-   /**
-    * Return true if this is a add event.
-    */
-   public boolean isAddEvent()
-   {
-      return mType == ADDITION;
-   }
+    /**
+     * changed file url
+     */
+    private final URL mURL;
+    /**
+     * change type (either REMOVAL or ADDITION)
+     */
+    private final int mType;
+    /**
+     * Arbitrary user data included in the event.
+     */
+    private final Object mUserData;
 
-   /**
-    * Returns the user data that was attached to this event when it was created.
-    */
-   public Object getUserData()
-   {
-      return mUserData;
-   }
+    /**
+     * Constructor.
+     *
+     * @param aURL      The file url.
+     * @param aType     The change type. See constants.
+     * @param aUserData Any data to include in the event.
+     */
+    public AeScanEvent(URL aURL, int aType, Object aUserData) {
+        mURL = aURL;
+        mType = aType;
+        mUserData = aUserData;
+    }
+
+    /**
+     * Accessor for the file url.
+     */
+    public URL getURL() {
+        return mURL;
+    }
+
+    /**
+     * Return true if this is a remove event.
+     */
+    public boolean isRemoveEvent() {
+        return mType == REMOVAL;
+    }
+
+    /**
+     * Return true if this is a add event.
+     */
+    public boolean isAddEvent() {
+        return mType == ADDITION;
+    }
+
+    /**
+     * Returns the user data that was attached to this event when it was created.
+     */
+    public Object getUserData() {
+        return mUserData;
+    }
 }

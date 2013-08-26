@@ -21,23 +21,25 @@ public class AeEngineFactoryStarter implements ServletContextListener {
 //	private static final long DEFAULT_DELAY = 15000;
 //	/** The default scan interval */
 
-	private IAeDeploymentFileHandler mFileHandler;
-	/** for deployment logging purposes */
-	protected static final Log log = LogFactory
-			.getLog(AeEngineFactoryStarter.class);
+    private IAeDeploymentFileHandler mFileHandler;
+    /**
+     * for deployment logging purposes
+     */
+    protected static final Log log = LogFactory
+            .getLog(AeEngineFactoryStarter.class);
 
-	@Override
-	public void contextInitialized(ServletContextEvent aEvent) {
-		
-		ApplicationContext ac = WebApplicationContextUtils.getWebApplicationContext(aEvent.getServletContext());
-		mFileHandler = ac.getBean(IAeDeploymentFileHandler.class);
-		AeEngineFactory.setApplicationContext(ac);
-		
+    @Override
+    public void contextInitialized(ServletContextEvent aEvent) {
+
+        ApplicationContext ac = WebApplicationContextUtils.getWebApplicationContext(aEvent.getServletContext());
+        mFileHandler = ac.getBean(IAeDeploymentFileHandler.class);
+        AeEngineFactory.setApplicationContext(ac);
+
 //		long delay = getLongValue(aEvent.getServletContext(), SCAN_DELAY_PARAM,
 //				DEFAULT_DELAY);
 
 
-		doStart();
+        doStart();
 
 //		if (delay <= 0) {
 //			doStart();
@@ -51,58 +53,58 @@ public class AeEngineFactoryStarter implements ServletContextListener {
 //
 //			AeEngineFactory.getBean(TimerManager.class).schedule(timerWork,delay);
 //		}
-	}
+    }
 
-	@Override
-	public void contextDestroyed(ServletContextEvent aEvent) {
-		mFileHandler.stopScanning();
-		try {
-			AeEngineFactory.getEngine().stop();
-		} catch (AeBusinessProcessException e1) {
-			e1.printStackTrace();
-		}
-		try {
-			AeEngineFactory.getEngine().shutDown();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		mFileHandler = null;
-	}
+    @Override
+    public void contextDestroyed(ServletContextEvent aEvent) {
+        mFileHandler.stopScanning();
+        try {
+            AeEngineFactory.getEngine().stop();
+        } catch (AeBusinessProcessException e1) {
+            e1.printStackTrace();
+        }
+        try {
+            AeEngineFactory.getEngine().shutDown();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        mFileHandler = null;
+    }
 
-	/**
-	 * Start the server if the storage is ready.
-	 */
-	protected void doStart() {
-		boolean startScanning = true;
+    /**
+     * Start the server if the storage is ready.
+     */
+    protected void doStart() {
+        boolean startScanning = true;
 
-		// if the initial deployments fail then
-		// something is wrong with the bpr dir
-		try {
-			mFileHandler.handleInitialDeployments();
-		} catch (Throwable t) {
-			startScanning = false;
-			AeException.logError(t, AeMessages
-					.getString("AeEngineLifecycleWrapper.ERROR_3")); //$NON-NLS-1$
-		}
+        // if the initial deployments fail then
+        // something is wrong with the bpr dir
+        try {
+            mFileHandler.handleInitialDeployments();
+        } catch (Throwable t) {
+            startScanning = false;
+            AeException.logError(t, AeMessages
+                    .getString("AeEngineLifecycleWrapper.ERROR_3")); //$NON-NLS-1$
+        }
 
-		startBpelEngine();
+        startBpelEngine();
 
-		// don't scan if initial deployments failed
-		if (startScanning) {
-			mFileHandler.startScanning();
-		}
-	}
+        // don't scan if initial deployments failed
+        if (startScanning) {
+            mFileHandler.startScanning();
+        }
+    }
 
-	/**
-	 * Start the BPEL engine.
-	 */
-	protected void startBpelEngine() {
-		try {
-			AeEngineFactory.getEngine().start();
-		} catch (AeException ae) {
-			ae.logError();
-		}
-	}
+    /**
+     * Start the BPEL engine.
+     */
+    protected void startBpelEngine() {
+        try {
+            AeEngineFactory.getEngine().start();
+        } catch (AeException ae) {
+            ae.logError();
+        }
+    }
 
 //	/**
 //	 * Return the long value for an init param.

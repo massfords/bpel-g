@@ -18,95 +18,96 @@ import javax.xml.namespace.QName;
 /**
  * Standard impl of <code>IAeWebServiceMessageData</code>.
  */
-public class AeWebServiceMessageData implements IAeWebServiceMessageData
-{
-   /**
-     * 
+public class AeWebServiceMessageData implements IAeWebServiceMessageData {
+    /**
+     *
      */
     private static final long serialVersionUID = -3852795336489774885L;
-/** Message qname. */
-   protected QName mMessageQName;
-   /** Message part data. */
-   protected final Map<String,Object> mParts = new HashMap<>();
-   /** Optional list of attachments */
-   protected List<IAeWebServiceAttachment> mAttachments;
-   
-   /**
-    * no arg ctor.
-    */
-   public AeWebServiceMessageData()
-   {
-   }
-
-   /**
-    * Constructor.
-    * @param aQName
-    */
-   public AeWebServiceMessageData( QName aQName )
-   {
-      mMessageQName = aQName;
-   }
-   
-   /**
-    * Constructor.
-    * @param aQName
-    * @param aData
-    */
-   public AeWebServiceMessageData( QName aQName, Map<String,Object> aData )
-   {
-      this( aQName );
-      mParts.putAll( aData );
-   }
-   
     /**
-    * @see org.activebpel.wsio.IAeWebServiceMessageData#getMessageData()
-    */
-   public Map<String,Object> getMessageData()
-   {
-      return mParts;
-   }
-   
-   /**
-    * Setter for message data.
-    * @param aPartName
-    * @param aMessageData
-    */
-   public void setData( String aPartName, Object aMessageData )
-   {
-      mParts.put( aPartName, aMessageData );
-   }
-   
-   /**
-    * Setter for name
-    * @param aName
-    */
-   public void setName(QName aName)
-   {
-      mMessageQName = aName;
-   }
-   
-   /**
-    * Setter for attachments.
-    * @param aAttachments
-    */
-   public void setAttachments( List<IAeWebServiceAttachment> aAttachments )
-   {
-      mAttachments = aAttachments;
-   }
+     * Message qname.
+     */
+    protected QName mMessageQName;
+    /**
+     * Message part data.
+     */
+    protected final Map<String, Object> mParts = new HashMap<>();
+    /**
+     * Optional list of attachments
+     */
+    protected List<IAeWebServiceAttachment> mAttachments;
 
-   /**
-    * @see org.activebpel.wsio.IAeWebServiceMessageData#getMessageType()
-    */
-   public QName getMessageType()
-   {
-      return mMessageQName;
-   }
+    /**
+     * no arg ctor.
+     */
+    public AeWebServiceMessageData() {
+    }
 
-   /**
-    * @see org.activebpel.wsio.IAeWebServiceMessageData#getAttachments()
-    */
-   public List<IAeWebServiceAttachment> getAttachments()
-   {
-      return mAttachments;
-   }
+    /**
+     * Constructor.
+     *
+     * @param aQName
+     */
+    public AeWebServiceMessageData(QName aQName) {
+        mMessageQName = aQName;
+    }
+
+    /**
+     * Constructor.
+     *
+     * @param aQName
+     * @param aData
+     */
+    public AeWebServiceMessageData(QName aQName, Map<String, Object> aData) {
+        this(aQName);
+        mParts.putAll(aData);
+    }
+
+    /**
+     * @see org.activebpel.wsio.IAeWebServiceMessageData#getMessageData()
+     */
+    public Map<String, Object> getMessageData() {
+        return mParts;
+    }
+
+    /**
+     * Setter for message data.
+     *
+     * @param aPartName
+     * @param aMessageData
+     */
+    public void setData(String aPartName, Object aMessageData) {
+        mParts.put(aPartName, aMessageData);
+    }
+
+    /**
+     * Setter for name
+     *
+     * @param aName
+     */
+    public void setName(QName aName) {
+        mMessageQName = aName;
+    }
+
+    /**
+     * Setter for attachments.
+     *
+     * @param aAttachments
+     */
+    public void setAttachments(List<IAeWebServiceAttachment> aAttachments) {
+        mAttachments = aAttachments;
+    }
+
+    /**
+     * @see org.activebpel.wsio.IAeWebServiceMessageData#getMessageType()
+     */
+    public QName getMessageType() {
+        return mMessageQName;
+    }
+
+    /**
+     * @see org.activebpel.wsio.IAeWebServiceMessageData#getAttachments()
+     */
+    public List<IAeWebServiceAttachment> getAttachments() {
+        return mAttachments;
+    }
 }

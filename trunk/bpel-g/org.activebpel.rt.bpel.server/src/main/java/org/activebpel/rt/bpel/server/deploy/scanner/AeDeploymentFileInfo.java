@@ -15,68 +15,69 @@ import java.net.URL;
 /**
  * Container class for file deployment info.
  */
-public class AeDeploymentFileInfo
-{
-   // file extension constants
-   public static final String BPR_SUFFIX = ".bpr"; //$NON-NLS-1$
+public class AeDeploymentFileInfo {
+    // file extension constants
+    public static final String BPR_SUFFIX = ".bpr"; //$NON-NLS-1$
 
-   /** The deployment directory. */
-   private static String mDeployDirectory;
-   /** The staging directory. */
-   private static String mStagingDirectory;
-   private static File mInstallDir;
-   
-   public static void setInstallDir(File aInstallDir) {
-       mInstallDir = aInstallDir;
-   }
-   
-   /**
-    * Setter for the staging directory.
-    * @param aStagingDir
-    */
-   public static void setStagingDirectory( String aStagingDir )
-   {
-      mStagingDirectory = aStagingDir;
-   }
-   
-   /**
-    * Getter for the staging directory.
-    */
-   public static File getStagingDirectory()
-   {
-       if (mInstallDir == null)
-           return new File(mStagingDirectory);
-       else
-           return new File(mInstallDir, mStagingDirectory);
-   }
+    /**
+     * The deployment directory.
+     */
+    private static String mDeployDirectory;
+    /**
+     * The staging directory.
+     */
+    private static String mStagingDirectory;
+    private static File mInstallDir;
 
-   /**
-    * Setter for the deployment directory.
-    * @param aDeploymentDir
-    */
-   public static void setDeploymentDirectory( String aDeploymentDir )
-   {
-      mDeployDirectory = aDeploymentDir;
-   }
-   
-   /**
-    * Getter for the deployment directory.
-    */
-   public static File getDeploymentDirectory()
-   {
-       if (mInstallDir == null)
-           return new File(mDeployDirectory);
-       else 
-           return new File(mInstallDir, mDeployDirectory);
-   }
-   
-   /**
-    * Return true if the URL is point to a BPEL deployment archive file.
-    * @param aFileUrl
-    */
-   public static boolean isBprFile( URL aFileUrl )
-   {
-      return aFileUrl.getFile().endsWith( BPR_SUFFIX ) || aFileUrl.getFile().endsWith( ".zip" )
-              || aFileUrl.getFile().endsWith(".jar");
-   }
+    public static void setInstallDir(File aInstallDir) {
+        mInstallDir = aInstallDir;
+    }
+
+    /**
+     * Setter for the staging directory.
+     *
+     * @param aStagingDir
+     */
+    public static void setStagingDirectory(String aStagingDir) {
+        mStagingDirectory = aStagingDir;
+    }
+
+    /**
+     * Getter for the staging directory.
+     */
+    public static File getStagingDirectory() {
+        if (mInstallDir == null)
+            return new File(mStagingDirectory);
+        else
+            return new File(mInstallDir, mStagingDirectory);
+    }
+
+    /**
+     * Setter for the deployment directory.
+     *
+     * @param aDeploymentDir
+     */
+    public static void setDeploymentDirectory(String aDeploymentDir) {
+        mDeployDirectory = aDeploymentDir;
+    }
+
+    /**
+     * Getter for the deployment directory.
+     */
+    public static File getDeploymentDirectory() {
+        if (mInstallDir == null)
+            return new File(mDeployDirectory);
+        else
+            return new File(mInstallDir, mDeployDirectory);
+    }
+
+    /**
+     * Return true if the URL is point to a BPEL deployment archive file.
+     *
+     * @param aFileUrl
+     */
+    public static boolean isBprFile(URL aFileUrl) {
+        return aFileUrl.getFile().endsWith(BPR_SUFFIX) || aFileUrl.getFile().endsWith(".zip")
+                || aFileUrl.getFile().endsWith(".jar");
+    }
 }

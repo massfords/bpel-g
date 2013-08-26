@@ -15,15 +15,14 @@ import org.activebpel.rt.message.IAeMessageData;
 /**
  * Defines interface for producing outgoing message data.
  */
-public interface IAeMessageDataProducer
-{
-   /**
-    * Produces outgoing message data. The data produced must not be modifiable
-    * by any of the other activities within the process. As such, it should be
-    * a clone of any data that was used to construct the message data. 
-    * 
-    * @param aContext
-    * @return IAeMessageData 
-    */
-   public IAeMessageData produceMessageData(IAeMessageDataProducerContext aContext) throws AeBusinessProcessException;
+public interface IAeMessageDataProducer {
+    /**
+     * Produces outgoing message data. The data produced must not be modifiable
+     * by any of the other activities within the process. As such, it should be
+     * a clone of any data that was used to construct the message data.
+     *
+     * @param aContext
+     * @return IAeMessageData
+     */
+    public IAeMessageData produceMessageData(IAeMessageDataProducerContext aContext) throws AeBusinessProcessException;
 }

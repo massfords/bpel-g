@@ -20,37 +20,36 @@ import org.xml.sax.SAXParseException;
  * handlers.  The problem handler is called when a web service resource
  * validator identifies a problem.
  */
-public interface IAeWSResourceProblemHandler
-{
-   /**
-    * Called to report a problem with a web service resource.  The
-    * problem includes a human readable problem message and an xpath 
-    * that identifies the XML node in the web service resource that
-    * caused the problem.
-    * 
-    * @param aProblemId
-    * @param aSeverity
-    * @param aProblemMessage
-    * @param aXPath
-    */
-   public void reportProblem(QName aProblemId, int aSeverity, String aProblemMessage, String aXPath);
-   
-   /** 
-    * Called to report a parse problem with a web service resource.
-    * The parse problem includes a <code>Exception</code> and
-    * the severity of the problem. 
-    * 
-    * @param aException - 
-    * @param aSeverity
-    */
-   public void reportParseProblem(SAXParseException aException, int aSeverity);
-   
-   /**
-    * Called to report any other fatal error during Resource validation, which doesn't
-    * fall into a parse problem or rules validation issue. 
-    * 
-    * @param aException
-    */
-   public void reportFatalError(Exception aException);
-   
+public interface IAeWSResourceProblemHandler {
+    /**
+     * Called to report a problem with a web service resource.  The
+     * problem includes a human readable problem message and an xpath
+     * that identifies the XML node in the web service resource that
+     * caused the problem.
+     *
+     * @param aProblemId
+     * @param aSeverity
+     * @param aProblemMessage
+     * @param aXPath
+     */
+    public void reportProblem(QName aProblemId, int aSeverity, String aProblemMessage, String aXPath);
+
+    /**
+     * Called to report a parse problem with a web service resource.
+     * The parse problem includes a <code>Exception</code> and
+     * the severity of the problem.
+     *
+     * @param aException -
+     * @param aSeverity
+     */
+    public void reportParseProblem(SAXParseException aException, int aSeverity);
+
+    /**
+     * Called to report any other fatal error during Resource validation, which doesn't
+     * fall into a parse problem or rules validation issue.
+     *
+     * @param aException
+     */
+    public void reportFatalError(Exception aException);
+
 }

@@ -7,26 +7,24 @@
 //Active Endpoints, Inc. Removal of this PROPRIETARY RIGHTS STATEMENT 
 //is strictly forbidden. Copyright (c) 2002-2006 All rights reserved. 
 /////////////////////////////////////////////////////////////////////////////
-package org.activebpel.rt.axis.ser; 
+package org.activebpel.rt.axis.ser;
 
 import javax.xml.namespace.QName;
 
 import org.apache.axis.encoding.ser.BaseSerializerFactory;
 
-public class AeBaseSerializerFactory extends BaseSerializerFactory
-{
-   /**
-     * 
+public class AeBaseSerializerFactory extends BaseSerializerFactory {
+    /**
+     *
      */
     private static final long serialVersionUID = 2194915300957669430L;
 
-/**
-    * Creates a serializer factory with the given java type and xml type.
-    */
-   public AeBaseSerializerFactory(Class<?> javaType, QName xmlType)
-   {
-      super(AeBaseSerializer.class, xmlType, javaType);
-   }
+    /**
+     * Creates a serializer factory with the given java type and xml type.
+     */
+    public AeBaseSerializerFactory(Class<?> javaType, QName xmlType) {
+        super(AeBaseSerializer.class, xmlType, javaType);
+    }
 
 }
  

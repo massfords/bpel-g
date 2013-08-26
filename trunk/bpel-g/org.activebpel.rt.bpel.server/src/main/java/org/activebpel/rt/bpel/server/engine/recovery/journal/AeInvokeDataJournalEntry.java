@@ -31,201 +31,189 @@ import org.w3c.dom.Element;
 /**
  * Implements journal entry for invoke data.
  */
-public class AeInvokeDataJournalEntry extends AeAbstractJournalEntry
-{
-   /** XML tag name for serialization. */
-   private static final String TAG_RECEIVED_INVOKE_DATA = "receivedInvokeData"; //$NON-NLS-1$
+public class AeInvokeDataJournalEntry extends AeAbstractJournalEntry {
+    /**
+     * XML tag name for serialization.
+     */
+    private static final String TAG_RECEIVED_INVOKE_DATA = "receivedInvokeData"; //$NON-NLS-1$
 
-   /** The message data. */
-   private IAeMessageData mMessageData;
+    /**
+     * The message data.
+     */
+    private IAeMessageData mMessageData;
 
-   /** The associated process properties. */
-   private Map<String,String> mProcessProperties;
+    /**
+     * The associated process properties.
+     */
+    private Map<String, String> mProcessProperties;
 
-   /** The invoke activity implementation object. */
-   private IAeInvokeActivity mInvoke;
+    /**
+     * The invoke activity implementation object.
+     */
+    private IAeInvokeActivity mInvoke;
 
-   /** The process to use to deserialize the storage document. */
-   private IAeBusinessProcess mProcess;
-   
-   /** Invoke activity transmissiond id. */
-   private long mTransmissionId; 
+    /**
+     * The process to use to deserialize the storage document.
+     */
+    private IAeBusinessProcess mProcess;
 
-   /**
-    * Constructs journal entry to persist to storage.
-    */
-   public AeInvokeDataJournalEntry(int aLocationId, long aTransmissionId, IAeMessageData aMessageData, Map<String,String> aProcessProperties)
-   {
-      super(JOURNAL_INVOKE_DATA, aLocationId);
+    /**
+     * Invoke activity transmissiond id.
+     */
+    private long mTransmissionId;
 
-      mMessageData = aMessageData;
-      mProcessProperties = aProcessProperties;
-      mTransmissionId = aTransmissionId;
-   }
+    /**
+     * Constructs journal entry to persist to storage.
+     */
+    public AeInvokeDataJournalEntry(int aLocationId, long aTransmissionId, IAeMessageData aMessageData, Map<String, String> aProcessProperties) {
+        super(JOURNAL_INVOKE_DATA, aLocationId);
 
-   /**
-    * Constructs journal entry to restore from storage.
-    */
-   public AeInvokeDataJournalEntry(int aLocationId, long aJournalId, Document aStorageDocument)
-   {
-      super(JOURNAL_INVOKE_DATA, aLocationId, aJournalId, aStorageDocument);
-   }
+        mMessageData = aMessageData;
+        mProcessProperties = aProcessProperties;
+        mTransmissionId = aTransmissionId;
+    }
 
-   /**
-    * Overrides method to dispatch the invoke data to the specified process
-    * through the recovery engine.
-    *
-    * @see org.activebpel.rt.bpel.server.engine.recovery.journal.IAeJournalEntry#dispatchToProcess(org.activebpel.rt.bpel.IAeBusinessProcess)
-    */
-   public void dispatchToProcess(IAeBusinessProcess aProcess) throws AeBusinessProcessException
-   {
-      // Set process to use to deserialize the storage document.
-      setProcess(aProcess);
-      
-      // If we have a journal item for an invoke (one-way or request-response) then
-      // we should dispatch that message to the invoke activity. The previous impl
-      // of this code was not doing the dispatch for a one-way invoke and instead
-      // relied on the one-way invoke re-executing. The problem with this is that
-      // any downstream invokes or activities (alarms or receives) that had journal
-      // entries would fail to get their journal entries dispatched since the invoke's
-      // state would remain in the executing state.
-      IAeBusinessProcessEngineInternal engine = aProcess.getEngine();
-      long processId = aProcess.getProcessId();
-      String locationPath = getInvoke().getLocationPath();
-      IAeMessageData messageData = getMessageData();
-      Map<String,String> processProperties = getProcessProperties();
-      engine.queueInvokeData(processId, locationPath,  getTransmissionId() , messageData, processProperties);
-   }
+    /**
+     * Constructs journal entry to restore from storage.
+     */
+    public AeInvokeDataJournalEntry(int aLocationId, long aJournalId, Document aStorageDocument) {
+        super(JOURNAL_INVOKE_DATA, aLocationId, aJournalId, aStorageDocument);
+    }
 
-   /**
-    * Returns the invoke activity implementation object.
-    */
-   protected IAeInvokeActivity getInvoke() throws AeBusinessProcessException
-   {
-      if (mInvoke == null)
-      {
-         IAeBpelObject object = getProcess().findBpelObject(getLocationId());
+    /**
+     * Overrides method to dispatch the invoke data to the specified process
+     * through the recovery engine.
+     *
+     * @see org.activebpel.rt.bpel.server.engine.recovery.journal.IAeJournalEntry#dispatchToProcess(org.activebpel.rt.bpel.IAeBusinessProcess)
+     */
+    public void dispatchToProcess(IAeBusinessProcess aProcess) throws AeBusinessProcessException {
+        // Set process to use to deserialize the storage document.
+        setProcess(aProcess);
 
-         if (!(object instanceof IAeInvokeActivity))
-         {
-            throw new AeBusinessProcessException(AeMessages.format("AeInvokeDataJournalEntry.ERROR_0", getLocationId())); //$NON-NLS-1$
-         }
+        // If we have a journal item for an invoke (one-way or request-response) then
+        // we should dispatch that message to the invoke activity. The previous impl
+        // of this code was not doing the dispatch for a one-way invoke and instead
+        // relied on the one-way invoke re-executing. The problem with this is that
+        // any downstream invokes or activities (alarms or receives) that had journal
+        // entries would fail to get their journal entries dispatched since the invoke's
+        // state would remain in the executing state.
+        IAeBusinessProcessEngineInternal engine = aProcess.getEngine();
+        long processId = aProcess.getProcessId();
+        String locationPath = getInvoke().getLocationPath();
+        IAeMessageData messageData = getMessageData();
+        Map<String, String> processProperties = getProcessProperties();
+        engine.queueInvokeData(processId, locationPath, getTransmissionId(), messageData, processProperties);
+    }
 
-         mInvoke = (IAeInvokeActivity) object;
-      }
+    /**
+     * Returns the invoke activity implementation object.
+     */
+    protected IAeInvokeActivity getInvoke() throws AeBusinessProcessException {
+        if (mInvoke == null) {
+            IAeBpelObject object = getProcess().findBpelObject(getLocationId());
 
-      return mInvoke;
-   }
+            if (!(object instanceof IAeInvokeActivity)) {
+                throw new AeBusinessProcessException(AeMessages.format("AeInvokeDataJournalEntry.ERROR_0", getLocationId())); //$NON-NLS-1$
+            }
 
-   /**
-    * Returns the message data.
-    */
-   protected IAeMessageData getMessageData() throws AeBusinessProcessException
-   {
-      deserialize();
-      return mMessageData;
-   }
+            mInvoke = (IAeInvokeActivity) object;
+        }
 
-   /**
-    * Returns the process to use to deserialize the storage document.
-    */
-   protected IAeBusinessProcess getProcess()
-   {
-      if (mProcess == null)
-      {
-         throw new IllegalStateException(AeMessages.getString("AeInvokeDataJournalEntry.ERROR_1")); //$NON-NLS-1$
-      }
+        return mInvoke;
+    }
 
-      return mProcess;
-   }
+    /**
+     * Returns the message data.
+     */
+    protected IAeMessageData getMessageData() throws AeBusinessProcessException {
+        deserialize();
+        return mMessageData;
+    }
 
-   /**
-    * Returns the associated process properties.
-    */
-   protected Map<String,String> getProcessProperties() throws AeBusinessProcessException
-   {
-      deserialize();
-      return mProcessProperties;
-   }
+    /**
+     * Returns the process to use to deserialize the storage document.
+     */
+    protected IAeBusinessProcess getProcess() {
+        if (mProcess == null) {
+            throw new IllegalStateException(AeMessages.getString("AeInvokeDataJournalEntry.ERROR_1")); //$NON-NLS-1$
+        }
 
-   /**
-    * @see org.activebpel.rt.bpel.server.engine.recovery.journal.AeAbstractJournalEntry#internalDeserialize(org.w3c.dom.Document)
-    */
-   protected void internalDeserialize(Document aStorageDocument) throws AeBusinessProcessException
-   {
-      Element root = aStorageDocument.getDocumentElement();
-      String txIdString = root.getAttribute( STATE_TRANSMISSION_ID );
-      mTransmissionId = 0;
-      if ( AeUtil.notNullOrEmpty(txIdString) )
-      {
-         try
-         {
-            mTransmissionId = Long.parseLong(txIdString); 
-         }
-         catch(Exception e)
-         {            
-         }
-      }
-      Element messageDataElement = AeXmlUtil.findSubElement(root, STATE_MESSAGEDATA);
+        return mProcess;
+    }
 
-      if (messageDataElement == null)
-      {
-         mMessageData = null;
-      }
-      else
-      {
-         // Deserialize the message data.
-         AeMessageDataDeserializer deserializer = new AeMessageDataDeserializer();
-         deserializer.setMessageDataElement(messageDataElement);
-         // no need to set variable or type mapping on deserializer since the invoke will use type mappings when the message is consumed.
+    /**
+     * Returns the associated process properties.
+     */
+    protected Map<String, String> getProcessProperties() throws AeBusinessProcessException {
+        deserialize();
+        return mProcessProperties;
+    }
 
-         mMessageData = deserializer.getMessageData();
-      }
+    /**
+     * @see org.activebpel.rt.bpel.server.engine.recovery.journal.AeAbstractJournalEntry#internalDeserialize(org.w3c.dom.Document)
+     */
+    protected void internalDeserialize(Document aStorageDocument) throws AeBusinessProcessException {
+        Element root = aStorageDocument.getDocumentElement();
+        String txIdString = root.getAttribute(STATE_TRANSMISSION_ID);
+        mTransmissionId = 0;
+        if (AeUtil.notNullOrEmpty(txIdString)) {
+            try {
+                mTransmissionId = Long.parseLong(txIdString);
+            } catch (Exception e) {
+            }
+        }
+        Element messageDataElement = AeXmlUtil.findSubElement(root, STATE_MESSAGEDATA);
 
-      mProcessProperties = deserializeProcessProperties(root);
-   }
+        if (messageDataElement == null) {
+            mMessageData = null;
+        } else {
+            // Deserialize the message data.
+            AeMessageDataDeserializer deserializer = new AeMessageDataDeserializer();
+            deserializer.setMessageDataElement(messageDataElement);
+            // no need to set variable or type mapping on deserializer since the invoke will use type mappings when the message is consumed.
 
-   /**
-    * @see org.activebpel.rt.bpel.server.engine.recovery.journal.AeAbstractJournalEntry#internalSerialize(org.activebpel.rt.xml.schema.AeTypeMapping)
-    */
-   protected AeFastDocument internalSerialize(AeTypeMapping aTypeMapping) throws AeBusinessProcessException
-   {
-      if (aTypeMapping == null)
-      {
-         throw new IllegalStateException(AeMessages.getString("AeInvokeDataJournalEntry.ERROR_2")); //$NON-NLS-1$
-      }
+            mMessageData = deserializer.getMessageData();
+        }
 
-      AeFastElement root = new AeFastElement(TAG_RECEIVED_INVOKE_DATA);
-      root.setAttribute( STATE_TRANSMISSION_ID, String.valueOf( getTransmissionId() ) );
-      serializeProcessProperties(root, getProcessProperties());
+        mProcessProperties = deserializeProcessProperties(root);
+    }
 
-      if (getMessageData() != null)
-      {
-         AeMessageDataSerializer serializer = new AeMessageDataSerializer(aTypeMapping);
-         serializer.setMessageData(getMessageData());
+    /**
+     * @see org.activebpel.rt.bpel.server.engine.recovery.journal.AeAbstractJournalEntry#internalSerialize(org.activebpel.rt.xml.schema.AeTypeMapping)
+     */
+    protected AeFastDocument internalSerialize(AeTypeMapping aTypeMapping) throws AeBusinessProcessException {
+        if (aTypeMapping == null) {
+            throw new IllegalStateException(AeMessages.getString("AeInvokeDataJournalEntry.ERROR_2")); //$NON-NLS-1$
+        }
 
-         AeFastElement messageDataElement = serializer.getMessageDataElement();
-         root.appendChild(messageDataElement);
-      }
+        AeFastElement root = new AeFastElement(TAG_RECEIVED_INVOKE_DATA);
+        root.setAttribute(STATE_TRANSMISSION_ID, String.valueOf(getTransmissionId()));
+        serializeProcessProperties(root, getProcessProperties());
 
-      return new AeFastDocument(root);
-   }
+        if (getMessageData() != null) {
+            AeMessageDataSerializer serializer = new AeMessageDataSerializer(aTypeMapping);
+            serializer.setMessageData(getMessageData());
 
-   /**
-    * Sets the process to use to deserialize the storage document.
-    */
-   protected void setProcess(IAeBusinessProcess aProcess)
-   {
-      mProcess = aProcess;
-   }
+            AeFastElement messageDataElement = serializer.getMessageDataElement();
+            root.appendChild(messageDataElement);
+        }
 
-   /**
-    * @return Returns the transmission id.
-    */
-   protected long getTransmissionId() throws AeBusinessProcessException
-   {
-      deserialize();
-      return mTransmissionId;
-   }
-   
+        return new AeFastDocument(root);
+    }
+
+    /**
+     * Sets the process to use to deserialize the storage document.
+     */
+    protected void setProcess(IAeBusinessProcess aProcess) {
+        mProcess = aProcess;
+    }
+
+    /**
+     * @return Returns the transmission id.
+     */
+    protected long getTransmissionId() throws AeBusinessProcessException {
+        deserialize();
+        return mTransmissionId;
+    }
+
 }

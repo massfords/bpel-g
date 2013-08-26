@@ -24,67 +24,69 @@ import java.util.Collection;
 /**
  * Interface of process deployment descriptor.
  */
-public interface IAeProcessDeployment extends IAeProcessPlan
-{
+public interface IAeProcessDeployment extends IAeProcessPlan {
     public String getContainerId();
 
-   /**
-    * Returns an endpoint reference for the given partner link for partnerRole, or null if not found.
-    * 
-    * @param aPartnerLink the partner link we are looking for
- * @throws AeBusinessProcessException 
-    */
-   public IAeEndpointReference getPartnerEndpointRef(String aPartnerLink);
+    /**
+     * Returns an endpoint reference for the given partner link for partnerRole, or null if not found.
+     *
+     * @param aPartnerLink the partner link we are looking for
+     * @throws AeBusinessProcessException
+     */
+    public IAeEndpointReference getPartnerEndpointRef(String aPartnerLink);
 
-   public Pdd getPdd();
-   
-   public Collection<ReferenceType> getAllReferenceTypes();
+    public Pdd getPdd();
 
-   /**
-    * Updates the partner link with any endpoint reference data available from the
-    * partner addressing layer or from the message context's headers. If the partner link
-    * was deployed with the principal source, then it'll use the principal.
-    * If the endpoint source was set to invoker then it'll use the embedded endpoint
-    * that was extracted from the transport layer. If neither, then no changes are
-    * made to the partner link.
-    *
-    * @param aPartnerLink
-    * @param aMessageContext
-    */
-   public void updatePartnerLink(IAePartnerLink aPartnerLink, IAeMessageContext aMessageContext) throws AeBusinessProcessException;
+    public Collection<ReferenceType> getAllReferenceTypes();
 
-   /**
-    * Returns the source for the specified partner link name.
-    *
-    * @param aPartnerLink
-    */
-   public PartnerRoleEndpointReferenceType getEndpointSourceType(String aPartnerLink);
+    /**
+     * Updates the partner link with any endpoint reference data available from the
+     * partner addressing layer or from the message context's headers. If the partner link
+     * was deployed with the principal source, then it'll use the principal.
+     * If the endpoint source was set to invoker then it'll use the embedded endpoint
+     * that was extracted from the transport layer. If neither, then no changes are
+     * made to the partner link.
+     *
+     * @param aPartnerLink
+     * @param aMessageContext
+     */
+    public void updatePartnerLink(IAePartnerLink aPartnerLink, IAeMessageContext aMessageContext) throws AeBusinessProcessException;
 
-   /**
-    * Gets the source xml for the bpel process.
-    */
-   public String getBpelSource();
+    /**
+     * Returns the source for the specified partner link name.
+     *
+     * @param aPartnerLink
+     */
+    public PartnerRoleEndpointReferenceType getEndpointSourceType(String aPartnerLink);
 
-   /**
-    * Accessor for the plan id.
-    */
-   public int getPlanId();
+    /**
+     * Gets the source xml for the bpel process.
+     */
+    public String getBpelSource();
 
-   /**
-    * Set up the def object's initial state.
-    * @throws AeBusinessProcessException
-    */
-   public void preProcessDefinition() throws AeBusinessProcessException;
+    /**
+     * Accessor for the plan id.
+     */
+    public int getPlanId();
 
-   /**
-    * Return the custom invoke handler uri string for this partner link or null if none is found.
-    * @param aPartnerLink
-    */
-   public String getInvokeHandler(String aPartnerLink);
-   
-   /**
-    * Gets the info for the partner link
-    * @param aPartnerLink
-    */
-   public ServiceDeployment getServiceInfo(String aPartnerLink);
+    /**
+     * Set up the def object's initial state.
+     *
+     * @throws AeBusinessProcessException
+     */
+    public void preProcessDefinition() throws AeBusinessProcessException;
+
+    /**
+     * Return the custom invoke handler uri string for this partner link or null if none is found.
+     *
+     * @param aPartnerLink
+     */
+    public String getInvokeHandler(String aPartnerLink);
+
+    /**
+     * Gets the info for the partner link
+     *
+     * @param aPartnerLink
+     */
+    public ServiceDeployment getServiceInfo(String aPartnerLink);
 }

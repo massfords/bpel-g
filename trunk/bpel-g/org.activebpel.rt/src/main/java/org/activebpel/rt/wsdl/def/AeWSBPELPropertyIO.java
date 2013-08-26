@@ -7,7 +7,7 @@
 //Active Endpoints, Inc. Removal of this PROPRIETARY RIGHTS STATEMENT 
 //is strictly forbidden. Copyright (c) 2002-2006 All rights reserved. 
 /////////////////////////////////////////////////////////////////////////////
-package org.activebpel.rt.wsdl.def; 
+package org.activebpel.rt.wsdl.def;
 
 import javax.wsdl.Definition;
 
@@ -17,37 +17,29 @@ import org.w3c.dom.Element;
 /**
  * Reads and writes WS BPEL property elements
  */
-public class AeWSBPELPropertyIO extends AePropertyIO
-{
-   /**
-    * @see org.activebpel.rt.wsdl.def.AePropertyIO#readPropertyData(org.w3c.dom.Element, org.activebpel.rt.wsdl.def.AePropertyImpl)
-    */
-   protected void readPropertyData(Element aPropertyElem, AePropertyImpl aProp)
-   {
-      if (aPropertyElem.hasAttribute(ELEMENT_TYPE_ATTRIB))
-      {
-         aProp.setElementName(AeXmlUtil.createQName(aPropertyElem, aPropertyElem.getAttribute(ELEMENT_TYPE_ATTRIB)));
-      }
-      else
-      {
-         super.readPropertyData(aPropertyElem, aProp);
-      }
-   }
+public class AeWSBPELPropertyIO extends AePropertyIO {
+    /**
+     * @see org.activebpel.rt.wsdl.def.AePropertyIO#readPropertyData(org.w3c.dom.Element, org.activebpel.rt.wsdl.def.AePropertyImpl)
+     */
+    protected void readPropertyData(Element aPropertyElem, AePropertyImpl aProp) {
+        if (aPropertyElem.hasAttribute(ELEMENT_TYPE_ATTRIB)) {
+            aProp.setElementName(AeXmlUtil.createQName(aPropertyElem, aPropertyElem.getAttribute(ELEMENT_TYPE_ATTRIB)));
+        } else {
+            super.readPropertyData(aPropertyElem, aProp);
+        }
+    }
 
-   /**
-    * Writes the property's type or element QName to 
-    * @see org.activebpel.rt.wsdl.def.AePropertyIO#writePropertyData(org.activebpel.rt.wsdl.def.IAeProperty, javax.wsdl.Definition, org.w3c.dom.Element)
-    */
-   protected void writePropertyData(IAeProperty aProperty, Definition aDefinition, Element aPropElement)
-   {
-      if (aProperty.getElementName() != null)
-      {
-         aPropElement.setAttribute(ELEMENT_TYPE_ATTRIB, toString(aDefinition, aProperty.getElementName()));
-      }
-      else
-      {
-         super.writePropertyData(aProperty, aDefinition, aPropElement);
-      }
-   }
+    /**
+     * Writes the property's type or element QName to
+     *
+     * @see org.activebpel.rt.wsdl.def.AePropertyIO#writePropertyData(org.activebpel.rt.wsdl.def.IAeProperty, javax.wsdl.Definition, org.w3c.dom.Element)
+     */
+    protected void writePropertyData(IAeProperty aProperty, Definition aDefinition, Element aPropElement) {
+        if (aProperty.getElementName() != null) {
+            aPropElement.setAttribute(ELEMENT_TYPE_ATTRIB, toString(aDefinition, aProperty.getElementName()));
+        } else {
+            super.writePropertyData(aProperty, aDefinition, aPropElement);
+        }
+    }
 }
  

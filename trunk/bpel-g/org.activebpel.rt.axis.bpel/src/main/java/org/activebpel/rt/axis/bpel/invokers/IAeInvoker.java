@@ -14,12 +14,11 @@ import java.rmi.RemoteException;
 import org.activebpel.rt.AeException;
 
 /**
- * Interface for Axis invokers.  
+ * Interface for Axis invokers.
  * Implementations handle the various binding styles for RPC and document
  */
-public interface IAeInvoker
-{
-   
-   public void invoke( AeAxisInvokeContext aContext ) throws AeException, RemoteException;
+public interface IAeInvoker {
+
+    public void invoke(AeAxisInvokeContext aContext) throws AeException, RemoteException;
 
 }

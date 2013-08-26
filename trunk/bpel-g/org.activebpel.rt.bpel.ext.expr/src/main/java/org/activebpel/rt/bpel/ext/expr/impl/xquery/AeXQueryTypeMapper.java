@@ -51,267 +51,242 @@ import org.activebpel.rt.xml.schema.AeSchemaYearMonth;
 /**
  * This class is used to convert Saxon AtomicValue instances to Jave/Ae objects.
  */
-public class AeXQueryTypeMapper
-{
-   /** The singleton instance. */
-   private static final AeXQueryTypeMapper sInstance = new AeXQueryTypeMapper();
-   
-   /** The map of Saxon types to specific convert methods. */
-   private Map<Integer, Method> mMethodMap;
+public class AeXQueryTypeMapper {
+    /**
+     * The singleton instance.
+     */
+    private static final AeXQueryTypeMapper sInstance = new AeXQueryTypeMapper();
 
-   /**
-    * Private c'tor.
-    */
-   private AeXQueryTypeMapper()
-   {
-      setMethodMap(new HashMap<Integer, Method>());
-      createMapping(Type.ANY_URI, "convertAnyURI"); //$NON-NLS-1$
-      createMapping(Type.BASE64_BINARY, "convertBase64Binary"); //$NON-NLS-1$
-      createMapping(Type.DATE, "convertDate"); //$NON-NLS-1$
-      createMapping(Type.DATE_TIME, "convertDateTime"); //$NON-NLS-1$
-      createMapping(Type.DURATION, "convertDuration"); //$NON-NLS-1$
-      createMapping(Type.G_DAY, "convertGDay"); //$NON-NLS-1$
-      createMapping(Type.G_MONTH, "convertGMonth"); //$NON-NLS-1$
-      createMapping(Type.G_MONTH_DAY, "convertGMonthDay"); //$NON-NLS-1$
-      createMapping(Type.G_YEAR, "convertGYear"); //$NON-NLS-1$
-      createMapping(Type.G_YEAR_MONTH, "convertGYearMonth"); //$NON-NLS-1$
-      createMapping(Type.HEX_BINARY, "convertHexBinary"); //$NON-NLS-1$
-      createMapping(Type.TIME, "convertTime"); //$NON-NLS-1$
-   }
-   
-   /**
-    * Creates a mapping from a Saxon type to a Method to use to do the conversion.
-    * 
-    * @param aType
-    * @param aMethodName
-    */
-   protected void createMapping(int aType, String aMethodName)
-   {
-      Integer key = aType;
-      Method value = getMethod(aMethodName);
-      getMethodMap().put(key, value);
-   }
+    /**
+     * The map of Saxon types to specific convert methods.
+     */
+    private Map<Integer, Method> mMethodMap;
 
-   /**
-    * Convenience method to get the method with the given name.
-    * 
-    * @param aMethodName
-    */
-   protected Method getMethod(String aMethodName)
-   {
-      try
-      {
-         return AeXQueryTypeMapper.class.getMethod(aMethodName, new Class [] { AtomicValue.class });
-      }
-      catch (Exception ex)
-      {
-         throw new RuntimeException("Failed to find method: " + aMethodName); //$NON-NLS-1$
-      }
-   }
+    /**
+     * Private c'tor.
+     */
+    private AeXQueryTypeMapper() {
+        setMethodMap(new HashMap<Integer, Method>());
+        createMapping(Type.ANY_URI, "convertAnyURI"); //$NON-NLS-1$
+        createMapping(Type.BASE64_BINARY, "convertBase64Binary"); //$NON-NLS-1$
+        createMapping(Type.DATE, "convertDate"); //$NON-NLS-1$
+        createMapping(Type.DATE_TIME, "convertDateTime"); //$NON-NLS-1$
+        createMapping(Type.DURATION, "convertDuration"); //$NON-NLS-1$
+        createMapping(Type.G_DAY, "convertGDay"); //$NON-NLS-1$
+        createMapping(Type.G_MONTH, "convertGMonth"); //$NON-NLS-1$
+        createMapping(Type.G_MONTH_DAY, "convertGMonthDay"); //$NON-NLS-1$
+        createMapping(Type.G_YEAR, "convertGYear"); //$NON-NLS-1$
+        createMapping(Type.G_YEAR_MONTH, "convertGYearMonth"); //$NON-NLS-1$
+        createMapping(Type.HEX_BINARY, "convertHexBinary"); //$NON-NLS-1$
+        createMapping(Type.TIME, "convertTime"); //$NON-NLS-1$
+    }
 
-   /**
-    * Returns true if this type mapper has a mapping for the given AtomicValue.
-    * 
-    * @param aValue
-    */
-   public static boolean canConvert(AtomicValue aValue)
-   {
-	  Integer key = aValue.getItemType(null).getPrimitiveType();
-      return sInstance.getMethodMap().containsKey(key);
-   }
+    /**
+     * Creates a mapping from a Saxon type to a Method to use to do the conversion.
+     *
+     * @param aType
+     * @param aMethodName
+     */
+    protected void createMapping(int aType, String aMethodName) {
+        Integer key = aType;
+        Method value = getMethod(aMethodName);
+        getMethodMap().put(key, value);
+    }
 
-   /**
-    * Converts a Saxon atomic value to a Java object.  Note that users of this class should call
-    * canConvert prior to calling convert.  If canConvert returns false, then convert should not
-    * be called (otherwise it will throw an IllegalArgumentException).
-    * 
-    * @param aValue
-    */
-   public static Object convert(AtomicValue aValue)
-   {
-      Object rval = null;
+    /**
+     * Convenience method to get the method with the given name.
+     *
+     * @param aMethodName
+     */
+    protected Method getMethod(String aMethodName) {
+        try {
+            return AeXQueryTypeMapper.class.getMethod(aMethodName, new Class[]{AtomicValue.class});
+        } catch (Exception ex) {
+            throw new RuntimeException("Failed to find method: " + aMethodName); //$NON-NLS-1$
+        }
+    }
 
-      AeXQueryTypeMapper mapper = sInstance;
-      Integer key = aValue.getItemType(null).getPrimitiveType();
-      Method method = mapper.getMethodMap().get(key);
-      if (method == null)
-         throw new IllegalArgumentException();
-      Object [] args = new Object[] { aValue };
-      try
-      {
-         rval = method.invoke(mapper, args);
-      }
-      catch (Exception ex)
-      {
-         throw new IllegalArgumentException(ex.getLocalizedMessage());
-      }
-      return rval;
-   }
+    /**
+     * Returns true if this type mapper has a mapping for the given AtomicValue.
+     *
+     * @param aValue
+     */
+    public static boolean canConvert(AtomicValue aValue) {
+        Integer key = aValue.getItemType(null).getPrimitiveType();
+        return sInstance.getMethodMap().containsKey(key);
+    }
 
-   /**
-    * Converts a Saxon native type to its corresponding Java/Ae type.
-    * 
-    * @param aValue
-    */
-   public Object convertAnyURI(AtomicValue aValue)
-   {
-      return new AeSchemaAnyURI(aValue.getStringValue());
-   }
+    /**
+     * Converts a Saxon atomic value to a Java object.  Note that users of this class should call
+     * canConvert prior to calling convert.  If canConvert returns false, then convert should not
+     * be called (otherwise it will throw an IllegalArgumentException).
+     *
+     * @param aValue
+     */
+    public static Object convert(AtomicValue aValue) {
+        Object rval = null;
 
-   /**
-    * Converts a Saxon native type to its corresponding Java/Ae type.
-    * 
-    * @param aValue
-    */
-   public Object convertBase64Binary(AtomicValue aValue)
-   {
-      return new AeSchemaBase64Binary(aValue.getStringValue());
-   }
+        AeXQueryTypeMapper mapper = sInstance;
+        Integer key = aValue.getItemType(null).getPrimitiveType();
+        Method method = mapper.getMethodMap().get(key);
+        if (method == null)
+            throw new IllegalArgumentException();
+        Object[] args = new Object[]{aValue};
+        try {
+            rval = method.invoke(mapper, args);
+        } catch (Exception ex) {
+            throw new IllegalArgumentException(ex.getLocalizedMessage());
+        }
+        return rval;
+    }
 
-   /**
-    * Converts a Saxon native type to its corresponding Java/Ae type.
-    * 
-    * @param aValue
-    */
-   public Object convertDate(AtomicValue aValue)
-   {
-      return new AeSchemaDate(((DateValue) aValue).getCalendar());
-   }
+    /**
+     * Converts a Saxon native type to its corresponding Java/Ae type.
+     *
+     * @param aValue
+     */
+    public Object convertAnyURI(AtomicValue aValue) {
+        return new AeSchemaAnyURI(aValue.getStringValue());
+    }
 
-   /**
-    * Converts a Saxon native type to its corresponding Java/Ae type.
-    * 
-    * @param aValue
-    */
-   public Object convertDateTime(AtomicValue aValue)
-   {
-      return new AeSchemaDateTime(((DateTimeValue) aValue).getCalendar());
-   }
+    /**
+     * Converts a Saxon native type to its corresponding Java/Ae type.
+     *
+     * @param aValue
+     */
+    public Object convertBase64Binary(AtomicValue aValue) {
+        return new AeSchemaBase64Binary(aValue.getStringValue());
+    }
 
-   /**
-    * Converts a Saxon native type to its corresponding Java/Ae type.
-    * 
-    * @param aValue
-    */
-   public Object convertDuration(AtomicValue aValue)
-   {
-      DurationValue durationValue = (DurationValue) aValue;
-      try
-      {
-         boolean isNegative = false;
-         int years = (int) ((IntegerValue) durationValue.getComponent(Component.YEAR)).longValue();
-         if (years < 0)
-            isNegative = true;
-         years = Math.abs(years);
-         int months = (int) Math.abs(((IntegerValue) durationValue.getComponent(Component.MONTH)).longValue());
-         int days = (int) Math.abs(((IntegerValue) durationValue.getComponent(Component.DAY)).longValue());
-         int hours = (int) Math.abs(((IntegerValue) durationValue.getComponent(Component.HOURS)).longValue());
-         int minutes = (int) Math.abs(((IntegerValue) durationValue.getComponent(Component.MINUTES)).longValue());
-         BigDecimal secondsBD = ((DecimalValue) durationValue.getComponent(Component.SECONDS)).getValue();
-         // Convert from seconds to millis.
-         // TODO (EPW) There is a potential loss of precision here.
-         BigDecimal millisBD = secondsBD.multiply(BigDecimal.valueOf(1000L));
-         int millis = Math.abs(millisBD.intValue());
-         int seconds = millis / 1000;
-         millis = millis % 1000;
+    /**
+     * Converts a Saxon native type to its corresponding Java/Ae type.
+     *
+     * @param aValue
+     */
+    public Object convertDate(AtomicValue aValue) {
+        return new AeSchemaDate(((DateValue) aValue).getCalendar());
+    }
 
-         return new AeSchemaDuration(isNegative, years, months, days, hours, minutes, seconds, millis);
-      }
-      catch (XPathException ex)
-      {
-         AeException.logError(ex);
-         return new AeSchemaDuration((durationValue).getStringValue());
-      }
-   }
+    /**
+     * Converts a Saxon native type to its corresponding Java/Ae type.
+     *
+     * @param aValue
+     */
+    public Object convertDateTime(AtomicValue aValue) {
+        return new AeSchemaDateTime(((DateTimeValue) aValue).getCalendar());
+    }
 
-   /**
-    * Converts a Saxon native type to its corresponding Java/Ae type.
-    * 
-    * @param aValue
-    */
-   public Object convertGDay(AtomicValue aValue)
-   {
-      GDayValue dayVal = (GDayValue) aValue;
-      return new AeSchemaDay(dayVal.getDay(), dayVal.getTimezoneInMinutes());
-   }
+    /**
+     * Converts a Saxon native type to its corresponding Java/Ae type.
+     *
+     * @param aValue
+     */
+    public Object convertDuration(AtomicValue aValue) {
+        DurationValue durationValue = (DurationValue) aValue;
+        try {
+            boolean isNegative = false;
+            int years = (int) ((IntegerValue) durationValue.getComponent(Component.YEAR)).longValue();
+            if (years < 0)
+                isNegative = true;
+            years = Math.abs(years);
+            int months = (int) Math.abs(((IntegerValue) durationValue.getComponent(Component.MONTH)).longValue());
+            int days = (int) Math.abs(((IntegerValue) durationValue.getComponent(Component.DAY)).longValue());
+            int hours = (int) Math.abs(((IntegerValue) durationValue.getComponent(Component.HOURS)).longValue());
+            int minutes = (int) Math.abs(((IntegerValue) durationValue.getComponent(Component.MINUTES)).longValue());
+            BigDecimal secondsBD = ((DecimalValue) durationValue.getComponent(Component.SECONDS)).getValue();
+            // Convert from seconds to millis.
+            // TODO (EPW) There is a potential loss of precision here.
+            BigDecimal millisBD = secondsBD.multiply(BigDecimal.valueOf(1000L));
+            int millis = Math.abs(millisBD.intValue());
+            int seconds = millis / 1000;
+            millis = millis % 1000;
 
-   /**
-    * Converts a Saxon native type to its corresponding Java/Ae type.
-    * 
-    * @param aValue
-    */
-   public Object convertGMonth(AtomicValue aValue)
-   {
-      GMonthValue monthValue = (GMonthValue) aValue;
-      return new AeSchemaMonth(monthValue.getMonth(), monthValue.getTimezoneInMinutes());
-   }
+            return new AeSchemaDuration(isNegative, years, months, days, hours, minutes, seconds, millis);
+        } catch (XPathException ex) {
+            AeException.logError(ex);
+            return new AeSchemaDuration((durationValue).getStringValue());
+        }
+    }
 
-   /**
-    * Converts a Saxon native type to its corresponding Java/Ae type.
-    * 
-    * @param aValue
-    */
-   public Object convertGMonthDay(AtomicValue aValue)
-   {
-      GMonthDayValue monthDayValue = (GMonthDayValue) aValue;
-      return new AeSchemaMonthDay(monthDayValue.getMonth(), monthDayValue.getDay(), monthDayValue.getTimezoneInMinutes());
-   }
+    /**
+     * Converts a Saxon native type to its corresponding Java/Ae type.
+     *
+     * @param aValue
+     */
+    public Object convertGDay(AtomicValue aValue) {
+        GDayValue dayVal = (GDayValue) aValue;
+        return new AeSchemaDay(dayVal.getDay(), dayVal.getTimezoneInMinutes());
+    }
 
-   /**
-    * Converts a Saxon native type to its corresponding Java/Ae type.
-    * 
-    * @param aValue
-    */
-   public Object convertGYear(AtomicValue aValue)
-   {
-      GYearValue yearValue = (GYearValue) aValue;
-      return new AeSchemaYear(yearValue.getYear(), yearValue.getTimezoneInMinutes());
-   }
+    /**
+     * Converts a Saxon native type to its corresponding Java/Ae type.
+     *
+     * @param aValue
+     */
+    public Object convertGMonth(AtomicValue aValue) {
+        GMonthValue monthValue = (GMonthValue) aValue;
+        return new AeSchemaMonth(monthValue.getMonth(), monthValue.getTimezoneInMinutes());
+    }
 
-   /**
-    * Converts a Saxon native type to its corresponding Java/Ae type.
-    * 
-    * @param aValue
-    */
-   public Object convertGYearMonth(AtomicValue aValue)
-   {
-      GYearMonthValue yearMonthValue = (GYearMonthValue) aValue;
-      return new AeSchemaYearMonth(yearMonthValue.getYear(), yearMonthValue.getMonth(), yearMonthValue.getTimezoneInMinutes());
-   }
+    /**
+     * Converts a Saxon native type to its corresponding Java/Ae type.
+     *
+     * @param aValue
+     */
+    public Object convertGMonthDay(AtomicValue aValue) {
+        GMonthDayValue monthDayValue = (GMonthDayValue) aValue;
+        return new AeSchemaMonthDay(monthDayValue.getMonth(), monthDayValue.getDay(), monthDayValue.getTimezoneInMinutes());
+    }
 
-   /**
-    * Converts a Saxon native type to its corresponding Java/Ae type.
-    * 
-    * @param aValue
-    */
-   public Object convertHexBinary(AtomicValue aValue)
-   {
-      return new AeSchemaHexBinary(aValue.getStringValue());
-   }
+    /**
+     * Converts a Saxon native type to its corresponding Java/Ae type.
+     *
+     * @param aValue
+     */
+    public Object convertGYear(AtomicValue aValue) {
+        GYearValue yearValue = (GYearValue) aValue;
+        return new AeSchemaYear(yearValue.getYear(), yearValue.getTimezoneInMinutes());
+    }
 
-   /**
-    * Converts a Saxon native type to its corresponding Java/Ae type.
-    * 
-    * @param aValue
-    */
-   public Object convertTime(AtomicValue aValue)
-   {
-      return new AeSchemaTime(((TimeValue) aValue).getCalendar());
-   }
+    /**
+     * Converts a Saxon native type to its corresponding Java/Ae type.
+     *
+     * @param aValue
+     */
+    public Object convertGYearMonth(AtomicValue aValue) {
+        GYearMonthValue yearMonthValue = (GYearMonthValue) aValue;
+        return new AeSchemaYearMonth(yearMonthValue.getYear(), yearMonthValue.getMonth(), yearMonthValue.getTimezoneInMinutes());
+    }
 
-   /**
-    * @return Returns the methodMap.
-    */
-   public Map<Integer, Method> getMethodMap()
-   {
-      return mMethodMap;
-   }
+    /**
+     * Converts a Saxon native type to its corresponding Java/Ae type.
+     *
+     * @param aValue
+     */
+    public Object convertHexBinary(AtomicValue aValue) {
+        return new AeSchemaHexBinary(aValue.getStringValue());
+    }
 
-   /**
-    * @param aMethodMap The methodMap to set.
-    */
-   public void setMethodMap(Map<Integer, Method> aMethodMap)
-   {
-      mMethodMap = aMethodMap;
-   }
+    /**
+     * Converts a Saxon native type to its corresponding Java/Ae type.
+     *
+     * @param aValue
+     */
+    public Object convertTime(AtomicValue aValue) {
+        return new AeSchemaTime(((TimeValue) aValue).getCalendar());
+    }
+
+    /**
+     * @return Returns the methodMap.
+     */
+    public Map<Integer, Method> getMethodMap() {
+        return mMethodMap;
+    }
+
+    /**
+     * @param aMethodMap The methodMap to set.
+     */
+    public void setMethodMap(Map<Integer, Method> aMethodMap) {
+        mMethodMap = aMethodMap;
+    }
 }

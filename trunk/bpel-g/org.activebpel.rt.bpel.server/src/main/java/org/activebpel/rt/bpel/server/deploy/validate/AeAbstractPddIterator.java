@@ -19,28 +19,28 @@ import org.activebpel.rt.bpel.server.deploy.bpr.IAeBpr;
  * bpr.
  */
 public abstract class AeAbstractPddIterator implements
-		IAePredeploymentValidator {
+        IAePredeploymentValidator {
 
-	/**
-	 * @see org.activebpel.rt.bpel.server.deploy.validate.IAePredeploymentValidator#validate(org.activebpel.rt.bpel.server.deploy.bpr.IAeBpr,
-	 *      org.activebpel.rt.bpel.def.validation.IAeBaseErrorReporter)
-	 */
-	public void validate(IAeBpr aBprFile, IAeBaseErrorReporter aReporter)
-			throws AeException {
-		for (AePddResource pdd : aBprFile.getPddResources()) {
-			validateImpl(pdd, aBprFile, aReporter);
-		}
-	}
+    /**
+     * @see org.activebpel.rt.bpel.server.deploy.validate.IAePredeploymentValidator#validate(org.activebpel.rt.bpel.server.deploy.bpr.IAeBpr,
+     *      org.activebpel.rt.bpel.def.validation.IAeBaseErrorReporter)
+     */
+    public void validate(IAeBpr aBprFile, IAeBaseErrorReporter aReporter)
+            throws AeException {
+        for (AePddResource pdd : aBprFile.getPddResources()) {
+            validateImpl(pdd, aBprFile, aReporter);
+        }
+    }
 
-	/**
-	 * Perform the actual validation logic.
-	 * 
-	 * @param aPdd
-	 * @param aBprFile
-	 * @param aReporter
-	 * @throws AeException
-	 */
-	protected abstract void validateImpl(AePddResource aPdd, IAeBpr aBprFile,
-			IAeBaseErrorReporter aReporter) throws AeException;
+    /**
+     * Perform the actual validation logic.
+     *
+     * @param aPdd
+     * @param aBprFile
+     * @param aReporter
+     * @throws AeException
+     */
+    protected abstract void validateImpl(AePddResource aPdd, IAeBpr aBprFile,
+                                         IAeBaseErrorReporter aReporter) throws AeException;
 
 }

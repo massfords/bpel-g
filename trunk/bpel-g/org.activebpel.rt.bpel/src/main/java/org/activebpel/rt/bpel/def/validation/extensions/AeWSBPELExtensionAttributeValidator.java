@@ -19,52 +19,45 @@ import org.activebpel.rt.xml.def.IAeExtensionObject;
 /**
  * Class that validates an extension attribute def.
  */
-public class AeWSBPELExtensionAttributeValidator extends AeAbstractExtensionAttributeValidator
-{
-   /**
-    * Constructor.
-    * 
-    * @param aDef
-    */
-   public AeWSBPELExtensionAttributeValidator(AeExtensionAttributeDef aDef)
-   {
-      super(aDef);
-   }
+public class AeWSBPELExtensionAttributeValidator extends AeAbstractExtensionAttributeValidator {
+    /**
+     * Constructor.
+     *
+     * @param aDef
+     */
+    public AeWSBPELExtensionAttributeValidator(AeExtensionAttributeDef aDef) {
+        super(aDef);
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.def.validation.AeBaseValidator#validate()
-    */
-   public void validate()
-   {
-      super.validate();
-      // If the parent of extension attribute is a people activity then the attributes will not be qualified
-      // so ignore validation when the parent is AeChildExtensionActivityDef
-      // sample People Activity element in process
-      // <b4p:peopleActivity inputVariable="inputVar" isSkipable="no" name="testPeopleActivity" outputVariable="outputVar"/>
-      if (getDef().getParentXmlDef() instanceof AeChildExtensionActivityDef)
-         return;
-         
-      String extNamespace = getDef().getNamespace();
-      if (AeUtil.isNullOrEmpty(extNamespace))
-      {
-         getReporter().reportProblem(WSBPEL_UNEXPECTED_ATTRIBUTE_CODE, 
-                                    ERROR_UNEXPECTED_ATTRIBUTE, 
-                                    new String[] { getDef().getQualifiedName() },
-                                    getDefinition());
-      }
-      else
-      {
-         IAeExtensionObject extensionObject = getDef().getExtensionObject();
-         // If a IAeExtensionUsageAdapter is available, skip the extension validation
-         // check here - it will happen later when we use the IAeExtensionUsageAdapter.
-         if (extensionObject == null || extensionObject.getAdapter(IAeExtensionUsageAdapter.class) == null)
-         {
-            AeExtensionValidator extensionValidator = findExtensionValidator(extNamespace);
-            processExtensionValidator(extensionValidator, getDef().isUnderstood(), extNamespace);
-         }
-      }
-      
-      IAeExtensionObject extObject = getDef().getExtensionObject();
-      doExtensionObjectValidation(extObject);
-   }
+    /**
+     * @see org.activebpel.rt.bpel.def.validation.AeBaseValidator#validate()
+     */
+    public void validate() {
+        super.validate();
+        // If the parent of extension attribute is a people activity then the attributes will not be qualified
+        // so ignore validation when the parent is AeChildExtensionActivityDef
+        // sample People Activity element in process
+        // <b4p:peopleActivity inputVariable="inputVar" isSkipable="no" name="testPeopleActivity" outputVariable="outputVar"/>
+        if (getDef().getParentXmlDef() instanceof AeChildExtensionActivityDef)
+            return;
+
+        String extNamespace = getDef().getNamespace();
+        if (AeUtil.isNullOrEmpty(extNamespace)) {
+            getReporter().reportProblem(WSBPEL_UNEXPECTED_ATTRIBUTE_CODE,
+                    ERROR_UNEXPECTED_ATTRIBUTE,
+                    new String[]{getDef().getQualifiedName()},
+                    getDefinition());
+        } else {
+            IAeExtensionObject extensionObject = getDef().getExtensionObject();
+            // If a IAeExtensionUsageAdapter is available, skip the extension validation
+            // check here - it will happen later when we use the IAeExtensionUsageAdapter.
+            if (extensionObject == null || extensionObject.getAdapter(IAeExtensionUsageAdapter.class) == null) {
+                AeExtensionValidator extensionValidator = findExtensionValidator(extNamespace);
+                processExtensionValidator(extensionValidator, getDef().isUnderstood(), extNamespace);
+            }
+        }
+
+        IAeExtensionObject extObject = getDef().getExtensionObject();
+        doExtensionObjectValidation(extObject);
+    }
 }

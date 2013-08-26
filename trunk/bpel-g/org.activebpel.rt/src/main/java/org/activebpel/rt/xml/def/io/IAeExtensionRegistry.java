@@ -14,14 +14,14 @@ import javax.xml.namespace.QName;
 import org.activebpel.rt.xml.def.IAeExtensionObject;
 
 /**
- * Interface for retrieving IAeExtensionObject object for extension elements,  
+ * Interface for retrieving IAeExtensionObject object for extension elements,
  * attributes and activities
  */
-public interface IAeExtensionRegistry
-{
-   /**
-    * Given an extension's QName, return the extension object for it.
-    * @param aQName
-    */
-   public IAeExtensionObject getExtensionObject(QName aQName);
+public interface IAeExtensionRegistry {
+    /**
+     * Given an extension's QName, return the extension object for it.
+     *
+     * @param aQName
+     */
+    public IAeExtensionObject getExtensionObject(QName aQName);
 }

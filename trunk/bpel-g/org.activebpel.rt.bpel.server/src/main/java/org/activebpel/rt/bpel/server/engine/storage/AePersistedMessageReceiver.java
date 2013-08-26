@@ -21,37 +21,37 @@ import org.activebpel.rt.bpel.impl.queue.AeMessageReceiver;
  * return AeMessageReceiver objects with a database ID attached.  This database
  * ID is often used to delete the receive object from the database.
  */
-public class AePersistedMessageReceiver extends AeMessageReceiver
-{
-   /** The queued receive id from the database. */
-   protected final int mQueuedReceiveId;
+public class AePersistedMessageReceiver extends AeMessageReceiver {
+    /**
+     * The queued receive id from the database.
+     */
+    protected final int mQueuedReceiveId;
 
-   /**
-    * Constructs a SQL message receiver.
-    * @param aQueuedReceiveId The database ID.
-    * @param aProcessId The process id.
-    * @param aProcessName Qualified name of the process
-    * @param aPartnerLinkOpKey The partner link op key.
-    * @param aPortType The port type.
-    * @param aCorrelation The correlation set.
-    * @param aMessageReceiverPathId The message receiver path id.
-    * @param aGroupId The group id of the message receiver.
-    * @param aConcurrent True if message receiver supports concurrent messages
-    */
-   public AePersistedMessageReceiver(int aQueuedReceiveId, long aProcessId, QName aProcessName,
-         AePartnerLinkOpKey aPartnerLinkOpKey, QName aPortType, Map<QName,String> aCorrelation,
-         int aMessageReceiverPathId, int aGroupId, boolean aConcurrent)
-   {
-      super(aProcessId, aProcessName, aPartnerLinkOpKey, aPortType, aCorrelation,
-            aMessageReceiverPathId, aGroupId, aConcurrent);
-      mQueuedReceiveId = aQueuedReceiveId;
-   }
+    /**
+     * Constructs a SQL message receiver.
+     *
+     * @param aQueuedReceiveId       The database ID.
+     * @param aProcessId             The process id.
+     * @param aProcessName           Qualified name of the process
+     * @param aPartnerLinkOpKey      The partner link op key.
+     * @param aPortType              The port type.
+     * @param aCorrelation           The correlation set.
+     * @param aMessageReceiverPathId The message receiver path id.
+     * @param aGroupId               The group id of the message receiver.
+     * @param aConcurrent            True if message receiver supports concurrent messages
+     */
+    public AePersistedMessageReceiver(int aQueuedReceiveId, long aProcessId, QName aProcessName,
+                                      AePartnerLinkOpKey aPartnerLinkOpKey, QName aPortType, Map<QName, String> aCorrelation,
+                                      int aMessageReceiverPathId, int aGroupId, boolean aConcurrent) {
+        super(aProcessId, aProcessName, aPartnerLinkOpKey, aPortType, aCorrelation,
+                aMessageReceiverPathId, aGroupId, aConcurrent);
+        mQueuedReceiveId = aQueuedReceiveId;
+    }
 
-   /**
-    * Returns the queued receive database id.
-    */
-   public int getQueuedReceiveId()
-   {
-      return mQueuedReceiveId;
-   }
+    /**
+     * Returns the queued receive database id.
+     */
+    public int getQueuedReceiveId() {
+        return mQueuedReceiveId;
+    }
 }

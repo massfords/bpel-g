@@ -7,35 +7,34 @@
 //Active Endpoints, Inc. Removal of this PROPRIETARY RIGHTS STATEMENT 
 //is strictly forbidden. Copyright (c) 2002-2004 All rights reserved. 
 /////////////////////////////////////////////////////////////////////////////
-package org.activebpel.rt.bpel.server.engine.storage; 
+package org.activebpel.rt.bpel.server.engine.storage;
 
 import java.util.Map;
 
 
 /**
  * Defines the methods for storing and retrieving URN mappings. The interface resembles
- * a Map.   
+ * a Map.
  */
-public interface IAeURNStorage extends IAeStorage
-{
-   /**
-    * Gets all of the mappings for URN to URL
-    */
-   public Map<String,String> getMappings() throws AeStorageException;
-   
-   /**
-    * Adds the mapping. If the mapping already exists in the db then it is updated.
-    * 
-    * @param aURN
-    * @param aURL
-    */
-   public void addMapping(String aURN, String aURL) throws AeStorageException;
-   
-   /**
-    * Removes the mapping. 
-    * 
-    * @param aURNArray
-    */
-   public void removeMappings(String[] aURNArray) throws AeStorageException;
+public interface IAeURNStorage extends IAeStorage {
+    /**
+     * Gets all of the mappings for URN to URL
+     */
+    public Map<String, String> getMappings() throws AeStorageException;
+
+    /**
+     * Adds the mapping. If the mapping already exists in the db then it is updated.
+     *
+     * @param aURN
+     * @param aURL
+     */
+    public void addMapping(String aURN, String aURL) throws AeStorageException;
+
+    /**
+     * Removes the mapping.
+     *
+     * @param aURNArray
+     */
+    public void removeMappings(String[] aURNArray) throws AeStorageException;
 }
  

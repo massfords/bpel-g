@@ -15,31 +15,27 @@ import org.activebpel.rt.bpel.def.AeVariableDef;
 import org.activebpel.rt.bpel.def.util.AeDefUtil;
 
 /**
- * This is a visitor used by the BPEL 1.1 -> BPEL 2.0 converter.  It is responsible for adding 
+ * This is a visitor used by the BPEL 1.1 -> BPEL 2.0 converter.  It is responsible for adding
  * a scope child to all onEvent constructs.
  */
-public class AeBPWSToWSBPELCatchVisitor extends AeAbstractBPWSToWSBPELVisitor
-{
-   /**
-    * Constructor.
-    */
-   public AeBPWSToWSBPELCatchVisitor()
-   {
-      super();
-   }
+public class AeBPWSToWSBPELCatchVisitor extends AeAbstractBPWSToWSBPELVisitor {
+    /**
+     * Constructor.
+     */
+    public AeBPWSToWSBPELCatchVisitor() {
+        super();
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.def.visitors.AeAbstractDefVisitor#visit(org.activebpel.rt.bpel.def.AeCatchDef)
-    */
-   public void visit(AeCatchDef def)
-   {
-      String variable = def.getFaultVariable();
-      AeVariableDef varDef = AeDefUtil.getVariableByName(variable, def);
-      if (varDef != null)
-      {
-         def.setFaultMessageType(varDef.getMessageType());
-      }
+    /**
+     * @see org.activebpel.rt.bpel.def.visitors.AeAbstractDefVisitor#visit(org.activebpel.rt.bpel.def.AeCatchDef)
+     */
+    public void visit(AeCatchDef def) {
+        String variable = def.getFaultVariable();
+        AeVariableDef varDef = AeDefUtil.getVariableByName(variable, def);
+        if (varDef != null) {
+            def.setFaultMessageType(varDef.getMessageType());
+        }
 
-      super.visit(def);
-   }
+        super.visit(def);
+    }
 }

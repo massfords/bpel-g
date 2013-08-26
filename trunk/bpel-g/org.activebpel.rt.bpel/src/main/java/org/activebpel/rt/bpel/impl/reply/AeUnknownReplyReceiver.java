@@ -15,38 +15,34 @@ import org.activebpel.rt.bpel.AeBusinessProcessException;
  * Exception that is used to indicate that a <code>IAeReplyReceiver</code>
  * implementation for a given durable reply type was not found.
  */
-public class AeUnknownReplyReceiver extends AeBusinessProcessException
-{
+public class AeUnknownReplyReceiver extends AeBusinessProcessException {
 
-   /**
-     * 
+    /**
+     *
      */
     private static final long serialVersionUID = 8180806993059621609L;
 
-/**
-    * Default ctor.
-    */
-   public AeUnknownReplyReceiver()
-   {
-      super();
-   }
+    /**
+     * Default ctor.
+     */
+    public AeUnknownReplyReceiver() {
+        super();
+    }
 
-   /**
-    * Constructs the exception given the reply type.
-    * @param aInfo
-    */
-   public AeUnknownReplyReceiver(String aInfo)
-   {
-      super(aInfo);
-   }
+    /**
+     * Constructs the exception given the reply type.
+     *
+     * @param aInfo
+     */
+    public AeUnknownReplyReceiver(String aInfo) {
+        super(aInfo);
+    }
 
-   /**
-    * 
-    * @param aInfo
-    * @param aRootCause
-    */
-   public AeUnknownReplyReceiver(String aInfo, Throwable aRootCause)
-   {
-      super(aInfo, aRootCause);
-   }
+    /**
+     * @param aInfo
+     * @param aRootCause
+     */
+    public AeUnknownReplyReceiver(String aInfo, Throwable aRootCause) {
+        super(aInfo, aRootCause);
+    }
 }

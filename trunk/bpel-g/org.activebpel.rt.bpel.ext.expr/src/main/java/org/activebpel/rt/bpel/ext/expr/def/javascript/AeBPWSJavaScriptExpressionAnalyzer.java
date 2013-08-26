@@ -14,26 +14,23 @@ import org.activebpel.rt.expr.def.IAeExpressionParser;
 import org.activebpel.rt.expr.def.IAeExpressionParserContext;
 
 /**
- * A concrete implementation of an expression analyzer for JavaScript (BPEL 1.1).  This class helps the 
+ * A concrete implementation of an expression analyzer for JavaScript (BPEL 1.1).  This class helps the
  * Designer perform analysis and manipulation of expressions written in JavaScript.
  */
-public class AeBPWSJavaScriptExpressionAnalyzer extends AeAbstractJavaScriptExpressionAnalyzer
-{
-   /**
-    * Overrides method to supply a javascript impl for the expression parser.
-    * 
-    * @see org.activebpel.rt.expr.def.AeAbstractExpressionAnalyzer#createExpressionParser(org.activebpel.rt.expr.def.IAeExpressionParserContext)
-    */
-   protected IAeExpressionParser createExpressionParser(IAeExpressionParserContext aContext)
-   {
-      return new AeBPWSJavaScriptExpressionParser(aContext);
-   }
-   
-   /**
-    * @see org.activebpel.rt.expr.def.IAeExpressionAnalyzer#parseExpressionToSpec(org.activebpel.rt.expr.def.IAeExpressionAnalyzerContext, java.lang.String)
-    */
-   public AeExpressionToSpecDetails parseExpressionToSpec(IAeExpressionAnalyzerContext aContext, String aExpression)
-   {
-      throw new UnsupportedOperationException();
-   }
+public class AeBPWSJavaScriptExpressionAnalyzer extends AeAbstractJavaScriptExpressionAnalyzer {
+    /**
+     * Overrides method to supply a javascript impl for the expression parser.
+     *
+     * @see org.activebpel.rt.expr.def.AeAbstractExpressionAnalyzer#createExpressionParser(org.activebpel.rt.expr.def.IAeExpressionParserContext)
+     */
+    protected IAeExpressionParser createExpressionParser(IAeExpressionParserContext aContext) {
+        return new AeBPWSJavaScriptExpressionParser(aContext);
+    }
+
+    /**
+     * @see org.activebpel.rt.expr.def.IAeExpressionAnalyzer#parseExpressionToSpec(org.activebpel.rt.expr.def.IAeExpressionAnalyzerContext, java.lang.String)
+     */
+    public AeExpressionToSpecDetails parseExpressionToSpec(IAeExpressionAnalyzerContext aContext, String aExpression) {
+        throw new UnsupportedOperationException();
+    }
 }

@@ -20,61 +20,58 @@ import org.activebpel.rt.bpel.IAeBusinessProcess;
  * Implements an attachment item that has not yet been stored by the attachment
  * manager.
  */
-public class AeStreamAttachmentItem implements IAeAttachmentItem
-{
-   /** <code>InputStream</code> to the attachment's content. */
-   private final InputStream mContent;
-   
-   /** <code>Map</code> of attachment's MIME headers. */
-   private final Map<String, String> mHeaders;
+public class AeStreamAttachmentItem implements IAeAttachmentItem {
+    /**
+     * <code>InputStream</code> to the attachment's content.
+     */
+    private final InputStream mContent;
 
-   /**
-    * Default constructor.
-    */
-   public AeStreamAttachmentItem(InputStream aContent, Map<String, String> aHeaders)
-   {
-      mContent = aContent;
-      mHeaders = aHeaders;
-   }
+    /**
+     * <code>Map</code> of attachment's MIME headers.
+     */
+    private final Map<String, String> mHeaders;
 
-   /**
-    * @see org.activebpel.rt.attachment.IAeAttachmentItem#getAttachmentId()
-    */
-   public long getAttachmentId()
-   {
-      throw new IllegalStateException(AeMessages.getString("AeStreamAttachmentItem.ERROR_AttachmentId")); //$NON-NLS-1$
-   }
+    /**
+     * Default constructor.
+     */
+    public AeStreamAttachmentItem(InputStream aContent, Map<String, String> aHeaders) {
+        mContent = aContent;
+        mHeaders = aHeaders;
+    }
 
-   /**
-    * Return the <code>InputStream</code> to the attachment's content.
-    */
-   public InputStream getContent()
-   {
-      return mContent;
-   }
+    /**
+     * @see org.activebpel.rt.attachment.IAeAttachmentItem#getAttachmentId()
+     */
+    public long getAttachmentId() {
+        throw new IllegalStateException(AeMessages.getString("AeStreamAttachmentItem.ERROR_AttachmentId")); //$NON-NLS-1$
+    }
 
-   /**
-    * @see org.activebpel.rt.attachment.IAeAttachmentItem#getHeader(java.lang.String)
-    */
-   public String getHeader(String aHeaderName)
-   {
-      return getHeaders().get(aHeaderName);
-   }
+    /**
+     * Return the <code>InputStream</code> to the attachment's content.
+     */
+    public InputStream getContent() {
+        return mContent;
+    }
 
-   /**
-    * @see org.activebpel.rt.attachment.IAeAttachmentItem#getHeaders()
-    */
-   public Map<String, String> getHeaders()
-   {
-      return mHeaders;
-   }
+    /**
+     * @see org.activebpel.rt.attachment.IAeAttachmentItem#getHeader(java.lang.String)
+     */
+    public String getHeader(String aHeaderName) {
+        return getHeaders().get(aHeaderName);
+    }
 
-   /**
-    * @see org.activebpel.rt.attachment.IAeAttachmentItem#getProcessId()
-    */
-   public long getProcessId()
-   {
-      // Not associated with a process.
-      return IAeBusinessProcess.NULL_PROCESS_ID;
-   }
+    /**
+     * @see org.activebpel.rt.attachment.IAeAttachmentItem#getHeaders()
+     */
+    public Map<String, String> getHeaders() {
+        return mHeaders;
+    }
+
+    /**
+     * @see org.activebpel.rt.attachment.IAeAttachmentItem#getProcessId()
+     */
+    public long getProcessId() {
+        // Not associated with a process.
+        return IAeBusinessProcess.NULL_PROCESS_ID;
+    }
 }

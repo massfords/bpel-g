@@ -16,28 +16,30 @@ import org.activebpel.rt.bpel.impl.AeUninitializedVariableException;
  * Defines a common interface for finding variables and variable
  * data with in a expression runner implementation.
  */
-public interface IAeExpressionRunnerVariableResolver
-{
-   /**
-    * Finds and returns variable given name or returns <code>null</code> if not found.
-    * @param aName variable name.
-    * @return variable instance or null.
-    */
-   public IAeVariableView findVariable(String aName);
+public interface IAeExpressionRunnerVariableResolver {
+    /**
+     * Finds and returns variable given name or returns <code>null</code> if not found.
+     *
+     * @param aName variable name.
+     * @return variable instance or null.
+     */
+    public IAeVariableView findVariable(String aName);
 
-   /**
-    * Returns true if the variable exists.
-    * @param aName
-    * @return true if variable is found.
-    */
-   public boolean variableExists(String aName);
+    /**
+     * Returns true if the variable exists.
+     *
+     * @param aName
+     * @return true if variable is found.
+     */
+    public boolean variableExists(String aName);
 
 
-   /**
-    * Returns variable data.
-    * @param aName
-    * @return variable data.
-    */
-   public Object getVariableData(String aName) throws AeUninitializedVariableException;
+    /**
+     * Returns variable data.
+     *
+     * @param aName
+     * @return variable data.
+     */
+    public Object getVariableData(String aName) throws AeUninitializedVariableException;
 
 }

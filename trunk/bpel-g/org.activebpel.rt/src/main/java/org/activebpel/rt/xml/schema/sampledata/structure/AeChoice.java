@@ -8,37 +8,33 @@
 //is strictly forbidden. Copyright (c) 2002-2007 All rights reserved. 
 ////////////////////////////////////////////////////////////////////////////
 
-package org.activebpel.rt.xml.schema.sampledata.structure; 
+package org.activebpel.rt.xml.schema.sampledata.structure;
 
 import org.activebpel.rt.xml.schema.sampledata.IAeSampleDataVisitor;
 
 /**
- *  Model of a Schema choice group.
+ * Model of a Schema choice group.
  */
-public class AeChoice extends AeStructure
-{
-   /**
-    * Constructor.
-    */
-   public AeChoice()
-   {
-   }
+public class AeChoice extends AeStructure {
+    /**
+     * Constructor.
+     */
+    public AeChoice() {
+    }
 
-   /**
-    * @see org.activebpel.rt.xml.schema.sampledata.structure.AeStructure#accept(org.activebpel.rt.xml.schema.sampledata.IAeSampleDataVisitor)
-    */
-   public void accept(IAeSampleDataVisitor aVisitor)
-   {
-      aVisitor.visit(this);
-   }
+    /**
+     * @see org.activebpel.rt.xml.schema.sampledata.structure.AeStructure#accept(org.activebpel.rt.xml.schema.sampledata.IAeSampleDataVisitor)
+     */
+    public void accept(IAeSampleDataVisitor aVisitor) {
+        aVisitor.visit(this);
+    }
 
-   /**
-    * @see org.activebpel.rt.xml.schema.sampledata.structure.AeStructure#getType()
-    */
-   public int getType()
-   {
-      return AeStructure.CHOICE_TYPE;
-   }
+    /**
+     * @see org.activebpel.rt.xml.schema.sampledata.structure.AeStructure#getType()
+     */
+    public int getType() {
+        return AeStructure.CHOICE_TYPE;
+    }
 
 }
  

@@ -14,17 +14,24 @@ import java.beans.ConstructorProperties;
 /**
  * Item for display in listing of the catalog.
  */
-public class AeCatalogItem
-{
-    /** The catalog item file name. */
+public class AeCatalogItem {
+    /**
+     * The catalog item file name.
+     */
     private String mFormattedName;
-    /** The catalog item location. */
+    /**
+     * The catalog item location.
+     */
     private String mLocation;
-    /** The catalog item namespace. */
+    /**
+     * The catalog item namespace.
+     */
     private String mNamespace;
-    /** The catalog item type. */
+    /**
+     * The catalog item type.
+     */
     private String mTypeURI;
-    
+
     public AeCatalogItem() {
     }
 
@@ -32,48 +39,43 @@ public class AeCatalogItem
      * Default constructor.
      */
     @ConstructorProperties({"location", "namespace", "typeURI", "formattedName"})
-    public AeCatalogItem(String aLocation, String aNamespace, String aTypeURI, String aFormattedName)
-    {
-       mLocation = aLocation;
-       mNamespace = aNamespace;
-       mTypeURI = aTypeURI;
-       mFormattedName = aFormattedName;
+    public AeCatalogItem(String aLocation, String aNamespace, String aTypeURI, String aFormattedName) {
+        mLocation = aLocation;
+        mNamespace = aNamespace;
+        mTypeURI = aTypeURI;
+        mFormattedName = aFormattedName;
 
     }
 
     /**
      * Getter for the location.
      */
-    public String getLocation()
-    {
-       return mLocation;
+    public String getLocation() {
+        return mLocation;
     }
-    
+
     /**
      * Getter for the namespace.
      */
-    public String getNamespace()
-    {
-       return mNamespace;
+    public String getNamespace() {
+        return mNamespace;
     }
-    
+
     /**
      * @return Returns the typeURI.
      */
-    public String getTypeURI()
-    {
-       return mTypeURI;
+    public String getTypeURI() {
+        return mTypeURI;
     }
-    
+
     /**
      * Return the short name of the file.
      * Strips off any preceeding path information from the location.
      */
-    public String getFormattedName()
-    {
-       return mFormattedName;
+    public String getFormattedName() {
+        return mFormattedName;
     }
-    
+
     public void setFormattedName(String aFormattedName) {
         mFormattedName = aFormattedName;
     }

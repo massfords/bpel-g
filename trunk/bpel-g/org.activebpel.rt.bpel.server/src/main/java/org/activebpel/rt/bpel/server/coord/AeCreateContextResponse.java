@@ -15,32 +15,29 @@ import org.activebpel.rt.bpel.coord.IAeCreateContextResponse;
 /**
  * Basic implementation of a create context response.
  */
-public class AeCreateContextResponse extends AeContextBase implements IAeCreateContextResponse
-{
+public class AeCreateContextResponse extends AeContextBase implements IAeCreateContextResponse {
 
-   /**
-     * 
+    /**
+     *
      */
     private static final long serialVersionUID = 6334563643784341580L;
-/**
-    * Coordination context.
-    */
-   private IAeCoordinationContext mContext = null;
-   
-   /**
-    * Creates a response given the context. 
-    */
-   public AeCreateContextResponse(IAeCoordinationContext aContext)
-   {
-      super();
-      mContext = aContext;
-   }
+    /**
+     * Coordination context.
+     */
+    private IAeCoordinationContext mContext = null;
 
-   /**
-    * @return coordination context.
-    */
-   public IAeCoordinationContext getContext()
-   {
-      return mContext;
-   }
+    /**
+     * Creates a response given the context.
+     */
+    public AeCreateContextResponse(IAeCoordinationContext aContext) {
+        super();
+        mContext = aContext;
+    }
+
+    /**
+     * @return coordination context.
+     */
+    public IAeCoordinationContext getContext() {
+        return mContext;
+    }
 }

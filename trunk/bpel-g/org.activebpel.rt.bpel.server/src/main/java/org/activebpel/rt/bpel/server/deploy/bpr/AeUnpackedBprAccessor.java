@@ -26,49 +26,45 @@ import java.util.Collection;
  * unpacked copy of the original bpr file.
  */
 public class AeUnpackedBprAccessor extends AeAbstractBprStrategy {
-	/**
-	 * Constructor.
-	 * 
-	 * @param aDeploymentContext
-	 */
-	public AeUnpackedBprAccessor(IAeDeploymentContext aDeploymentContext) {
-		super(aDeploymentContext);
-	}
+    /**
+     * Constructor.
+     *
+     * @param aDeploymentContext
+     */
+    public AeUnpackedBprAccessor(IAeDeploymentContext aDeploymentContext) {
+        super(aDeploymentContext);
+    }
 
-	/**
-	 * @see org.activebpel.rt.bpel.server.deploy.bpr.IAeBprAccessor#init()
-	 */
-	public void init() throws AeDeploymentException {
-		File rootDir = new File(getDeploymentContext()
-				.getTempDeploymentLocation().getFile());
+    /**
+     * @see org.activebpel.rt.bpel.server.deploy.bpr.IAeBprAccessor#init()
+     */
+    public void init() throws AeDeploymentException {
+        File rootDir = new File(getDeploymentContext()
+                .getTempDeploymentLocation().getFile());
 
-		ArrayList<AePddResource> resources = new ArrayList<>();
-		listFiles(resources, rootDir, "", new FileFilter() {
-			@Override
-			public boolean accept(File aFile) {
-				return aFile.isDirectory() || aFile.getName().endsWith(".pdd");
-			}
-		});
-		setPddResources(resources);
-	}
+        ArrayList<AePddResource> resources = new ArrayList<>();
+        listFiles(resources, rootDir, "", new FileFilter() {
+            @Override
+            public boolean accept(File aFile) {
+                return aFile.isDirectory() || aFile.getName().endsWith(".pdd");
+            }
+        });
+        setPddResources(resources);
+    }
 
-	/**
-	 * Extract the appropriate files from the directory.
-	 * 
-	 * @param aMatches
-	 *            Container collection for holding matched resources.
-	 * @param aDir
-	 *            The directory in which to look for matches (recurses).
-	 * @param aPath
-	 *            Path prefix to add to file names.
-	 * @param aFilter
-	 *            FileFilter instance.
-	 * @throws AeDeploymentException 
-	 */
-	protected void listFiles(Collection<AePddResource> aMatches, File aDir,
-			String aPath, FileFilter aFilter) throws AeDeploymentException {
-		File[] files = aDir.listFiles(aFilter);
-		if (files != null) {
+    /**
+     * Extract the appropriate files from the directory.
+     *
+     * @param aMatches Container collection for holding matched resources.
+     * @param aDir     The directory in which to look for matches (recurses).
+     * @param aPath    Path prefix to add to file names.
+     * @param aFilter  FileFilter instance.
+     * @throws AeDeploymentException
+     */
+    protected void listFiles(Collection<AePddResource> aMatches, File aDir,
+                             String aPath, FileFilter aFilter) throws AeDeploymentException {
+        File[] files = aDir.listFiles(aFilter);
+        if (files != null) {
             for (File file : files) {
                 if (file.isFile()) {
                     try {
@@ -88,6 +84,6 @@ public class AeUnpackedBprAccessor extends AeAbstractBprStrategy {
                     listFiles(aMatches, file, aPath + name, aFilter);
                 }
             }
-		}
-	}
+        }
+    }
 }

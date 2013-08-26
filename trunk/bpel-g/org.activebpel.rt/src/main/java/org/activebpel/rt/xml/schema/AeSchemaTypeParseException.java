@@ -14,18 +14,16 @@ package org.activebpel.rt.xml.schema;
 /**
  * An exception that is thrown when a schema type fails to parse.
  */
-public class AeSchemaTypeParseException extends RuntimeException
-{
-   /**
-     * 
+public class AeSchemaTypeParseException extends RuntimeException {
+    /**
+     *
      */
     private static final long serialVersionUID = -5042435978903385887L;
 
-/**
-    * Constructor.
-    */
-   public AeSchemaTypeParseException(String aMessage)
-   {
-      super(aMessage);
-   }
+    /**
+     * Constructor.
+     */
+    public AeSchemaTypeParseException(String aMessage) {
+        super(aMessage);
+    }
 }

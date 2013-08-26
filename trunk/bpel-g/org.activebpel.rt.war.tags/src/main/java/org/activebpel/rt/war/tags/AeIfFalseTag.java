@@ -14,27 +14,22 @@ import javax.servlet.jsp.JspException;
 /**
  * A simple tag that will only include its body content
  * if the named property on the specified bean evaluates
- * to false. 
+ * to false.
  */
-public class AeIfFalseTag extends AeIfTrueTag
-{
-   /**
-     * 
+public class AeIfFalseTag extends AeIfTrueTag {
+    /**
+     *
      */
     private static final long serialVersionUID = 3239767290461412155L;
 
-/**
-    * @see javax.servlet.jsp.tagext.Tag#doStartTag()
-    */
-   public int doStartTag() throws JspException
-   {
-      if( !isPropertyTrue() )
-      {
-         return EVAL_BODY_INCLUDE;
-      }
-      else
-      {
-         return SKIP_BODY;
-      }
-   }
+    /**
+     * @see javax.servlet.jsp.tagext.Tag#doStartTag()
+     */
+    public int doStartTag() throws JspException {
+        if (!isPropertyTrue()) {
+            return EVAL_BODY_INCLUDE;
+        } else {
+            return SKIP_BODY;
+        }
+    }
 }

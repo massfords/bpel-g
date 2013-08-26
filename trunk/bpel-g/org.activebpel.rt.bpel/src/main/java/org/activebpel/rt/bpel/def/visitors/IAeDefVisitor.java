@@ -95,491 +95,571 @@ import org.activebpel.rt.xml.def.visitors.IAeBaseXmlDefVisitor;
 /**
  * Visitor interface for BPEL Definition classes.
  */
-public interface IAeDefVisitor extends IAeBaseXmlDefVisitor
-{
-   /**
-    * Visits the specified type of definition object.
-    * @param def
-    */
-   public void visit(AeProcessDef def);
-
-   /**
-    * Visits the specified type of definition object.
-    * @param def
-    */
-   public void visit(AeActivityAssignDef def);
-
-   /**
-    * Visits the specified type of definition object.
-    * @param def
-    */
-   public void visit(AeActivityCompensateDef def);
-
-   /**
-    * Visits the specified type of definition object.
-    * @param def
-    */
-   public void visit(AeActivityCompensateScopeDef def);
-
-   /**
-    * Visits the specified type of definition object.
-    * @param def
-    */
-   public void visit(AeActivityEmptyDef def);
-
-   /**
-    * Visits the specified type of definition object.
-    * @param def
-    */
-   public void visit(AeActivityFlowDef def);
-
-   /**
-    * Visits the specified type of definition object.
-    * @param def
-    */
-   public void visit(AeActivityInvokeDef def);
-
-   /**
-    * Visits the specified type of definition object.
-    * @param def
-    */
-   public void visit(AeActivityPickDef def);
-
-   /**
-    * Visits the specified type of definition object.
-    * @param def
-    */
-   public void visit(AeActivityReceiveDef def);
-
-   /**
-    * Visits the specified type of definition object.
-    * @param def
-    */
-   public void visit(AeActivityReplyDef def);
-   
-   /**
-    * Visits the specified type of definition object.
-    * @param def
-    */
-   public void visit(AeActivitySuspendDef def);
-
-   /**
-    * Visits the specified type of definition object.
-    * @param def
-    */
-   public void visit(AeActivityScopeDef def);
-   
-   /**
-    * Visits the continue definition.
-    * @param def
-    */
-   public void visit(AeActivityContinueDef def);
-   
-   /**
-    * Visits the break definition.
-    * @param def
-    */
-   public void visit(AeActivityBreakDef def);
-
-   /**
-    * Visits the specified type of definition object.
-    * @param aDef
-    */
-   public void visit(AeCorrelationSetDef aDef);
-
-   /**
-    * Visits the specified type of definition object.
-    * @param def
-    */
-   public void visit(AeCatchDef def);
-
-   /**
-    * Visits the specified type of definition object.
-    * @param def
-    */
-   public void visit(AeCatchAllDef def);
-
-   /**
-    * Visits the specified type of definition object.
-    * @param def
-    */
-   public void visit(AeVariableDef def);
-
-   /**
-    * Visits the specified type of definition object.
-    * @param def
-    */
-   public void visit(AeVariablesDef def);
-
-   /**
-    * Visits the specified type of definition object.
-    * @param def
-    */
-   public void visit(AeEventHandlersDef def);
-
-   /**
-    * Visits the specified type of definition object.
-    * @param def
-    */
-   public void visit(AeCompensationHandlerDef def);
-
-   /**
-    * Visits the specified type of definition object.
-    * @param def
-    */
-   public void visit(AeCorrelationSetsDef def);
-
-   /**
-    * Visits the specified type of definition object.
-    * @param def
-    */
-   public void visit(AeFaultHandlersDef def);
-
-   /**
-    * Visits the specified type of definition object.
-    * @param def
-    */
-   public void visit(AeOnMessageDef def);
-
-   /**
-    * Visits the specified type of definition object.
-    * @param def
-    */
-   public void visit(AeOnEventDef def);
-
-   /**
-    * Visits the specified type of definition object.
-    * @param def
-    */
-   public void visit(AeOnAlarmDef def);
-
-   /**
-    * Visits the specified type of definition object.
-    * @param def
-    */
-   public void visit(AeActivitySequenceDef def);
-
-   /**
-    * Visits the specified type of definition object.
-    * @param def
-    */
-   public void visit(AeActivityExitDef def);
-
-   /**
-    * Visits the specified type of definition object.
-    * @param def
-    */
-   public void visit(AeActivityThrowDef def);
-
-   /**
-    * Visits the specified type of definition object.
-    * @param def
-    */
-   public void visit(AeActivityWaitDef def);
-
-   /**
-    * Visits the specified type of definition object.
-    * @param def
-    */
-   public void visit(AeActivityWhileDef def);
-
-   /**
-    * Visits the specified type of definition object.
-    * @param def
-    */
-   public void visit(AeActivityRepeatUntilDef def);
-   
-   /**
-    * Visits the specified type of definition object.
-    * @param def
-    */
-   public void visit(AeActivityForEachDef def);
-   
-   /**
-    * Visits the specified type of definition object.
-    * @param def
-    */
-   public void visit(AeForEachCompletionConditionDef def);
-
-   /**
-    * Visits the specified type of definition object.
-    * @param aDef
-    */
-   public void visit(AeForEachStartDef aDef);
-   
-   /**
-    * Visits the specified type of definition object.
-    * @param def
-    */
-   public void visit(AeForEachFinalDef def);
-   
-   /**
-    * Visits the specified type of definition object.
-    * @param def
-    */
-   public void visit(AeForEachBranchesDef def);
-
-   /**
-    * Visits the specified type of definition object.
-    * @param def
-    */
-   public void visit(AePartnerDef def);
-
-   /**
-    * Visits the specified type of definition object.
-    * @param def
-    */
-   public void visit(AePartnerLinkDef def);
-
-   /**
-    * Visits the specified type of definition object.
-    * @param def
-    */
-   public void visit(AeScopeDef def);
-
-   /**
-    * Visits the specified type of definition object.
-    * @param def
-    */
-   public void visit(AeMessageExchangesDef def);
-
-   /**
-    * Visits the specified type of definition object.
-    * @param def
-    */
-   public void visit(AeMessageExchangeDef def);
-
-   /**
-    * Visits the specified type of definition object.
-    * @param def
-    */
-   public void visit(AeAssignCopyDef def);
-
-   /**
-    * Visits the specified type of definition object.
-    * @param def
-    */
-   public void visit(AeCorrelationDef def);
-
-   /**
-    * Visits the specified type of definition object.
-    * @param def
-    */
-   public void visit(AeLinkDef def);
-
-   /**
-    * Visits the specified type of definition object.
-    * @param def
-    */
-   public void visit(AeSourceDef def);
-
-   /**
-    * Visits the specified type of definition object.
-    * @param def
-    */
-   public void visit(AeTargetDef def);
-
-   /**
-    * Visits the specified type of definition object.
-    * @param def
-    */
-   public void visit(AePartnerLinksDef def);
-
-   /**
-    * Visits the specified type of definition object.
-    * @param def
-    */
-   public void visit(AePartnersDef def);
-
-   /**
-    * Visits the specified type of definition object.
-    * @param def
-    */
-   public void visit(AeLinksDef def);
-
-   /**
-    * Visits the specified type of definition object.
-    * @param def
-    */
-   public void visit(AeCorrelationsDef def);
-
-   /**
-    * Visits the specified type of definition object.
-    * @param def
-    */
-   public void visit(AeFromDef def);
-
-   /**
-    * Visits the specified type of definition object.
-    * @param def
-    */
-   public void visit(AeToDef def);
-      
-   /**
-    * Visits the specified type of definition object.
-    * @param def
-    */
-   public void visit(AeQueryDef def);
-
-   /**
-    * Visits the specified type of definition object.
-    * @param def
-    */
-   public void visit(AeImportDef def);
-
-   /**
-    * Visits the specified type of definition object.
-    * @param def
-    */
-   public void visit(AeActivityValidateDef def);
-
-   /**
-    * Visits the specified type of definition object.
-    * @param def
-    */
-   public void visit(AeExtensibleAssignDef def);
-
-   /**
-    * Visits the specified type of definition object.
-    * @param def
-    */
-   public void visit(AeExtensionsDef def);
-
-   /**
-    * Visits the specified type of definition object.
-    * @param def
-    */
-   public void visit(AeExtensionDef def);
-
-   /**
-    * Visits the specified type of definition object.
-    * @param def
-    */
-   public void visit(AeFromPartsDef def);
-
-   /**
-    * Visits the specified type of definition object.
-    * @param def
-    */
-   public void visit(AeToPartsDef def);
-
-   /**
-    * Visits the specified type of definition object.
-    * @param def
-    */
-   public void visit(AeFromPartDef def);
-
-   /**
-    * Visits the specified type of definition object.
-    * @param def
-    */
-   public void visit(AeToPartDef def);
-   
-   /**
-    * Visits the specified type of definition object.
-    * @param def
-    */
-   public void visit(AeSourcesDef def);
-
-   /**
-    * Visits the specified type of definition object.
-    * @param def
-    */
-   public void visit(AeTargetsDef def);
-
-   /**
-    * Visits the specified type of definition object.
-    * @param def
-    */
-   public void visit(AeTransitionConditionDef def);
-
-   /**
-    * Visits the specified type of definition object.
-    * @param def
-    */
-   public void visit(AeJoinConditionDef def);
-
-   /**
-    * Visits the specified type of definition object.
-    * @param def
-    */
-   public void visit(AeForDef def);
-
-   /**
-    * Visits the specified type of definition object.
-    * @param def
-    */
-   public void visit(AeUntilDef def);
-
-   /**
-    * Visits the specified type of definition object.
-    * @param def
-    */
-   public void visit(AeExtensionActivityDef def);
-
-   /**
-    * Visits the specified type of definition object.
-    * @param def
-    */
-   public void visit(AeChildExtensionActivityDef def);
-
-   /**
-    * Visits the specified type of definition object.
-    * @param def
-    */
-   public void visit(AeActivityIfDef def);
-
-   /**
-    * Visits the specified type of definition object.
-    * @param def
-    */
-   public void visit(AeIfDef def);
-
-   /**
-    * Visits the specified type of definition object.
-    * @param def
-    */
-   public void visit(AeElseIfDef def);
-
-   /**
-    * Visits the specified type of definition object.
-    * @param def
-    */
-   public void visit(AeElseDef def);
-
-   /**
-    * Visits the specified type of definition object.
-    * @param def
-    */
-   public void visit(AeConditionDef def);
-
-   /**
-    * Visits the specified type of definition object.
-    * @param def
-    */
-   public void visit(AeActivityRethrowDef def);
-
-   /**
-    * Visits the specified type of definition object.
-    * @param def
-    */
-   public void visit(AeRepeatEveryDef def);
-
-   /**
-    * Visits the specified type of definition object.
-    * @param def
-    */
-   public void visit(AeTerminationHandlerDef def);
-
-   /**
-    * Visits the specified type of definition object.
-    * @param def
-    */
-   public void visit(AeLiteralDef def);
-
-   /**
-    * Visits the specified type of definition object.
-    * @param def
-    */
-   public void visit(AeActivityOpaqueDef def);
+public interface IAeDefVisitor extends IAeBaseXmlDefVisitor {
+    /**
+     * Visits the specified type of definition object.
+     *
+     * @param def
+     */
+    public void visit(AeProcessDef def);
+
+    /**
+     * Visits the specified type of definition object.
+     *
+     * @param def
+     */
+    public void visit(AeActivityAssignDef def);
+
+    /**
+     * Visits the specified type of definition object.
+     *
+     * @param def
+     */
+    public void visit(AeActivityCompensateDef def);
+
+    /**
+     * Visits the specified type of definition object.
+     *
+     * @param def
+     */
+    public void visit(AeActivityCompensateScopeDef def);
+
+    /**
+     * Visits the specified type of definition object.
+     *
+     * @param def
+     */
+    public void visit(AeActivityEmptyDef def);
+
+    /**
+     * Visits the specified type of definition object.
+     *
+     * @param def
+     */
+    public void visit(AeActivityFlowDef def);
+
+    /**
+     * Visits the specified type of definition object.
+     *
+     * @param def
+     */
+    public void visit(AeActivityInvokeDef def);
+
+    /**
+     * Visits the specified type of definition object.
+     *
+     * @param def
+     */
+    public void visit(AeActivityPickDef def);
+
+    /**
+     * Visits the specified type of definition object.
+     *
+     * @param def
+     */
+    public void visit(AeActivityReceiveDef def);
+
+    /**
+     * Visits the specified type of definition object.
+     *
+     * @param def
+     */
+    public void visit(AeActivityReplyDef def);
+
+    /**
+     * Visits the specified type of definition object.
+     *
+     * @param def
+     */
+    public void visit(AeActivitySuspendDef def);
+
+    /**
+     * Visits the specified type of definition object.
+     *
+     * @param def
+     */
+    public void visit(AeActivityScopeDef def);
+
+    /**
+     * Visits the continue definition.
+     *
+     * @param def
+     */
+    public void visit(AeActivityContinueDef def);
+
+    /**
+     * Visits the break definition.
+     *
+     * @param def
+     */
+    public void visit(AeActivityBreakDef def);
+
+    /**
+     * Visits the specified type of definition object.
+     *
+     * @param aDef
+     */
+    public void visit(AeCorrelationSetDef aDef);
+
+    /**
+     * Visits the specified type of definition object.
+     *
+     * @param def
+     */
+    public void visit(AeCatchDef def);
+
+    /**
+     * Visits the specified type of definition object.
+     *
+     * @param def
+     */
+    public void visit(AeCatchAllDef def);
+
+    /**
+     * Visits the specified type of definition object.
+     *
+     * @param def
+     */
+    public void visit(AeVariableDef def);
+
+    /**
+     * Visits the specified type of definition object.
+     *
+     * @param def
+     */
+    public void visit(AeVariablesDef def);
+
+    /**
+     * Visits the specified type of definition object.
+     *
+     * @param def
+     */
+    public void visit(AeEventHandlersDef def);
+
+    /**
+     * Visits the specified type of definition object.
+     *
+     * @param def
+     */
+    public void visit(AeCompensationHandlerDef def);
+
+    /**
+     * Visits the specified type of definition object.
+     *
+     * @param def
+     */
+    public void visit(AeCorrelationSetsDef def);
+
+    /**
+     * Visits the specified type of definition object.
+     *
+     * @param def
+     */
+    public void visit(AeFaultHandlersDef def);
+
+    /**
+     * Visits the specified type of definition object.
+     *
+     * @param def
+     */
+    public void visit(AeOnMessageDef def);
+
+    /**
+     * Visits the specified type of definition object.
+     *
+     * @param def
+     */
+    public void visit(AeOnEventDef def);
+
+    /**
+     * Visits the specified type of definition object.
+     *
+     * @param def
+     */
+    public void visit(AeOnAlarmDef def);
+
+    /**
+     * Visits the specified type of definition object.
+     *
+     * @param def
+     */
+    public void visit(AeActivitySequenceDef def);
+
+    /**
+     * Visits the specified type of definition object.
+     *
+     * @param def
+     */
+    public void visit(AeActivityExitDef def);
+
+    /**
+     * Visits the specified type of definition object.
+     *
+     * @param def
+     */
+    public void visit(AeActivityThrowDef def);
+
+    /**
+     * Visits the specified type of definition object.
+     *
+     * @param def
+     */
+    public void visit(AeActivityWaitDef def);
+
+    /**
+     * Visits the specified type of definition object.
+     *
+     * @param def
+     */
+    public void visit(AeActivityWhileDef def);
+
+    /**
+     * Visits the specified type of definition object.
+     *
+     * @param def
+     */
+    public void visit(AeActivityRepeatUntilDef def);
+
+    /**
+     * Visits the specified type of definition object.
+     *
+     * @param def
+     */
+    public void visit(AeActivityForEachDef def);
+
+    /**
+     * Visits the specified type of definition object.
+     *
+     * @param def
+     */
+    public void visit(AeForEachCompletionConditionDef def);
+
+    /**
+     * Visits the specified type of definition object.
+     *
+     * @param aDef
+     */
+    public void visit(AeForEachStartDef aDef);
+
+    /**
+     * Visits the specified type of definition object.
+     *
+     * @param def
+     */
+    public void visit(AeForEachFinalDef def);
+
+    /**
+     * Visits the specified type of definition object.
+     *
+     * @param def
+     */
+    public void visit(AeForEachBranchesDef def);
+
+    /**
+     * Visits the specified type of definition object.
+     *
+     * @param def
+     */
+    public void visit(AePartnerDef def);
+
+    /**
+     * Visits the specified type of definition object.
+     *
+     * @param def
+     */
+    public void visit(AePartnerLinkDef def);
+
+    /**
+     * Visits the specified type of definition object.
+     *
+     * @param def
+     */
+    public void visit(AeScopeDef def);
+
+    /**
+     * Visits the specified type of definition object.
+     *
+     * @param def
+     */
+    public void visit(AeMessageExchangesDef def);
+
+    /**
+     * Visits the specified type of definition object.
+     *
+     * @param def
+     */
+    public void visit(AeMessageExchangeDef def);
+
+    /**
+     * Visits the specified type of definition object.
+     *
+     * @param def
+     */
+    public void visit(AeAssignCopyDef def);
+
+    /**
+     * Visits the specified type of definition object.
+     *
+     * @param def
+     */
+    public void visit(AeCorrelationDef def);
+
+    /**
+     * Visits the specified type of definition object.
+     *
+     * @param def
+     */
+    public void visit(AeLinkDef def);
+
+    /**
+     * Visits the specified type of definition object.
+     *
+     * @param def
+     */
+    public void visit(AeSourceDef def);
+
+    /**
+     * Visits the specified type of definition object.
+     *
+     * @param def
+     */
+    public void visit(AeTargetDef def);
+
+    /**
+     * Visits the specified type of definition object.
+     *
+     * @param def
+     */
+    public void visit(AePartnerLinksDef def);
+
+    /**
+     * Visits the specified type of definition object.
+     *
+     * @param def
+     */
+    public void visit(AePartnersDef def);
+
+    /**
+     * Visits the specified type of definition object.
+     *
+     * @param def
+     */
+    public void visit(AeLinksDef def);
+
+    /**
+     * Visits the specified type of definition object.
+     *
+     * @param def
+     */
+    public void visit(AeCorrelationsDef def);
+
+    /**
+     * Visits the specified type of definition object.
+     *
+     * @param def
+     */
+    public void visit(AeFromDef def);
+
+    /**
+     * Visits the specified type of definition object.
+     *
+     * @param def
+     */
+    public void visit(AeToDef def);
+
+    /**
+     * Visits the specified type of definition object.
+     *
+     * @param def
+     */
+    public void visit(AeQueryDef def);
+
+    /**
+     * Visits the specified type of definition object.
+     *
+     * @param def
+     */
+    public void visit(AeImportDef def);
+
+    /**
+     * Visits the specified type of definition object.
+     *
+     * @param def
+     */
+    public void visit(AeActivityValidateDef def);
+
+    /**
+     * Visits the specified type of definition object.
+     *
+     * @param def
+     */
+    public void visit(AeExtensibleAssignDef def);
+
+    /**
+     * Visits the specified type of definition object.
+     *
+     * @param def
+     */
+    public void visit(AeExtensionsDef def);
+
+    /**
+     * Visits the specified type of definition object.
+     *
+     * @param def
+     */
+    public void visit(AeExtensionDef def);
+
+    /**
+     * Visits the specified type of definition object.
+     *
+     * @param def
+     */
+    public void visit(AeFromPartsDef def);
+
+    /**
+     * Visits the specified type of definition object.
+     *
+     * @param def
+     */
+    public void visit(AeToPartsDef def);
+
+    /**
+     * Visits the specified type of definition object.
+     *
+     * @param def
+     */
+    public void visit(AeFromPartDef def);
+
+    /**
+     * Visits the specified type of definition object.
+     *
+     * @param def
+     */
+    public void visit(AeToPartDef def);
+
+    /**
+     * Visits the specified type of definition object.
+     *
+     * @param def
+     */
+    public void visit(AeSourcesDef def);
+
+    /**
+     * Visits the specified type of definition object.
+     *
+     * @param def
+     */
+    public void visit(AeTargetsDef def);
+
+    /**
+     * Visits the specified type of definition object.
+     *
+     * @param def
+     */
+    public void visit(AeTransitionConditionDef def);
+
+    /**
+     * Visits the specified type of definition object.
+     *
+     * @param def
+     */
+    public void visit(AeJoinConditionDef def);
+
+    /**
+     * Visits the specified type of definition object.
+     *
+     * @param def
+     */
+    public void visit(AeForDef def);
+
+    /**
+     * Visits the specified type of definition object.
+     *
+     * @param def
+     */
+    public void visit(AeUntilDef def);
+
+    /**
+     * Visits the specified type of definition object.
+     *
+     * @param def
+     */
+    public void visit(AeExtensionActivityDef def);
+
+    /**
+     * Visits the specified type of definition object.
+     *
+     * @param def
+     */
+    public void visit(AeChildExtensionActivityDef def);
+
+    /**
+     * Visits the specified type of definition object.
+     *
+     * @param def
+     */
+    public void visit(AeActivityIfDef def);
+
+    /**
+     * Visits the specified type of definition object.
+     *
+     * @param def
+     */
+    public void visit(AeIfDef def);
+
+    /**
+     * Visits the specified type of definition object.
+     *
+     * @param def
+     */
+    public void visit(AeElseIfDef def);
+
+    /**
+     * Visits the specified type of definition object.
+     *
+     * @param def
+     */
+    public void visit(AeElseDef def);
+
+    /**
+     * Visits the specified type of definition object.
+     *
+     * @param def
+     */
+    public void visit(AeConditionDef def);
+
+    /**
+     * Visits the specified type of definition object.
+     *
+     * @param def
+     */
+    public void visit(AeActivityRethrowDef def);
+
+    /**
+     * Visits the specified type of definition object.
+     *
+     * @param def
+     */
+    public void visit(AeRepeatEveryDef def);
+
+    /**
+     * Visits the specified type of definition object.
+     *
+     * @param def
+     */
+    public void visit(AeTerminationHandlerDef def);
+
+    /**
+     * Visits the specified type of definition object.
+     *
+     * @param def
+     */
+    public void visit(AeLiteralDef def);
+
+    /**
+     * Visits the specified type of definition object.
+     *
+     * @param def
+     */
+    public void visit(AeActivityOpaqueDef def);
 }

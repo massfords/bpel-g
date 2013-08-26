@@ -17,54 +17,48 @@ import org.xml.sax.SAXException;
 /**
  * Custom deserializer for handling complex types over RPC literal. These types will be
  * deserialized into their literal xml.
- * 
+ * <p/>
  * RPC Literal deserialization is simpler than Encoded since the inbound message
  * should be complete with namespaces which identify the types. There is also
  * no flattening of the document structure through multiRef encoding. As such,
  * it's a pretty straightforward implementation of copying the SOAP MessageElements
  * into a new DOM.
- * 
+ * <p/>
  * One might think that this would be as simple as importing the MessageElement
  * into a new Document but this unfortunately does not copy all of the namespace
  * declarations over. As such, we walk the MessageElements recursively and copy
  * their attributes and namespace declarations manually, relying on some facilities
  * in the base class for copying attributes and such.
- * 
  */
-public class AeRPCLiteralDeserializer extends AeRPCEncodedDeserializer
-{
-   /**
-     * 
+public class AeRPCLiteralDeserializer extends AeRPCEncodedDeserializer {
+    /**
+     *
      */
     private static final long serialVersionUID = 2323846492927151161L;
 
 // TODO (MF) This class no longer needs to extend AeRPCEncodedDeserializer
-   /**
-    * Constructor for deserializer.
-    */
-   public AeRPCLiteralDeserializer(IAeTypesContext aTypesContext)
-   {
-      super(aTypesContext);
-   }
-   
-   /**
-    * @see org.apache.axis.encoding.Deserializer#onEndElement(java.lang.String, java.lang.String, org.apache.axis.encoding.DeserializationContext)
-    */
-   public void onEndElement(String aNamespace, String aLocalName,
-                                  DeserializationContext aContext)
-       throws SAXException
-   {
-      MessageElement msgElem = aContext.getCurElement();
-      try
-      {
-         value = msgElem.getAsDOM().getOwnerDocument();
-      }
-      catch (Throwable t)
-      {
-         AeException.logError(t, AeMessages.getString("AeLiteralDeserializer.ERROR_10")); //$NON-NLS-1$
-         if (t instanceof Exception)
-            throw new SAXException((Exception)t);
-         throw new SAXException(t.getLocalizedMessage());
-      }
-   }
+
+    /**
+     * Constructor for deserializer.
+     */
+    public AeRPCLiteralDeserializer(IAeTypesContext aTypesContext) {
+        super(aTypesContext);
+    }
+
+    /**
+     * @see org.apache.axis.encoding.Deserializer#onEndElement(java.lang.String, java.lang.String, org.apache.axis.encoding.DeserializationContext)
+     */
+    public void onEndElement(String aNamespace, String aLocalName,
+                             DeserializationContext aContext)
+            throws SAXException {
+        MessageElement msgElem = aContext.getCurElement();
+        try {
+            value = msgElem.getAsDOM().getOwnerDocument();
+        } catch (Throwable t) {
+            AeException.logError(t, AeMessages.getString("AeLiteralDeserializer.ERROR_10")); //$NON-NLS-1$
+            if (t instanceof Exception)
+                throw new SAXException((Exception) t);
+            throw new SAXException(t.getLocalizedMessage());
+        }
+    }
 }

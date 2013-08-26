@@ -7,7 +7,7 @@
 //Active Endpoints, Inc. Removal of this PROPRIETARY RIGHTS STATEMENT 
 //is strictly forbidden. Copyright (c) 2002-2006 All rights reserved. 
 /////////////////////////////////////////////////////////////////////////////
-package org.activebpel.rt.bpel.def.validation.process; 
+package org.activebpel.rt.bpel.def.validation.process;
 
 import java.net.URI;
 
@@ -19,59 +19,50 @@ import org.activebpel.rt.util.AeUtil;
 /**
  * Validates the &lt;imports&gt; for the process.
  */
-public class AeImportValidator extends AeBaseValidator
-{
-   /**
-    * ctor takes the def
-    * @param aDef
-    */
-   public AeImportValidator(AeImportDef aDef)
-   {
-      super(aDef);
-   }
-   
-   /**
-    * @see org.activebpel.rt.bpel.def.validation.AeBaseValidator#validate()
-    */
-   public void validate()
-   {
-      super.validate();
-      
-      AeImportDef importDef =  (AeImportDef)getDefinition();
-      
-      if(AeUtil.isNullOrEmpty(importDef.getImportType()))
-      {
-         getReporter().reportProblem( BPEL_NO_IMPORT_TYPE_CODE,
-                                       AeMessages.getString("AeImportValidator.NO_IMPORT_TYPE"), //$NON-NLS-1$
-                                       null, 
-                                       getDefinition() ); 
-      }
-      else
-      {
-         try
-         {
-            URI uri = new URI(importDef.getImportType());
-            if(! uri.isAbsolute())
-               getReporter().reportProblem( BPEL_IMPORT_TYPE_NOT_ABSOLUTE_CODE,
-                                           AeMessages.getString("AeImportValidator.IMPORT_TYPE_NOT_ABSOLUTE"), //$NON-NLS-1$
-                                           new Object[] {importDef.getImportType() }, 
-                                           getDefinition() ); 
-         }
-         catch (Exception ex)
-         {
-            getReporter().reportProblem( BPEL_IMPORT_TYPE_INVALID_URI_CODE,
-                                         AeMessages.getString("AeImportValidator.IMPORT_TYPE_INVALID_URI"), //$NON-NLS-1$
-                                         new Object[] {importDef.getImportType() }, 
-                                         getDefinition() ); 
-         }
-      }
-      
-      // if the import references a namespace then validate that the location is associated with that namespace
-      if(AeUtil.notNullOrEmpty(importDef.getNamespace()) && AeUtil.notNullOrEmpty(importDef.getLocation()))
-      {
-         // TODO (cck) add check that location matches namespace
-      }
-   }
+public class AeImportValidator extends AeBaseValidator {
+    /**
+     * ctor takes the def
+     *
+     * @param aDef
+     */
+    public AeImportValidator(AeImportDef aDef) {
+        super(aDef);
+    }
+
+    /**
+     * @see org.activebpel.rt.bpel.def.validation.AeBaseValidator#validate()
+     */
+    public void validate() {
+        super.validate();
+
+        AeImportDef importDef = (AeImportDef) getDefinition();
+
+        if (AeUtil.isNullOrEmpty(importDef.getImportType())) {
+            getReporter().reportProblem(BPEL_NO_IMPORT_TYPE_CODE,
+                    AeMessages.getString("AeImportValidator.NO_IMPORT_TYPE"), //$NON-NLS-1$
+                    null,
+                    getDefinition());
+        } else {
+            try {
+                URI uri = new URI(importDef.getImportType());
+                if (!uri.isAbsolute())
+                    getReporter().reportProblem(BPEL_IMPORT_TYPE_NOT_ABSOLUTE_CODE,
+                            AeMessages.getString("AeImportValidator.IMPORT_TYPE_NOT_ABSOLUTE"), //$NON-NLS-1$
+                            new Object[]{importDef.getImportType()},
+                            getDefinition());
+            } catch (Exception ex) {
+                getReporter().reportProblem(BPEL_IMPORT_TYPE_INVALID_URI_CODE,
+                        AeMessages.getString("AeImportValidator.IMPORT_TYPE_INVALID_URI"), //$NON-NLS-1$
+                        new Object[]{importDef.getImportType()},
+                        getDefinition());
+            }
+        }
+
+        // if the import references a namespace then validate that the location is associated with that namespace
+        if (AeUtil.notNullOrEmpty(importDef.getNamespace()) && AeUtil.notNullOrEmpty(importDef.getLocation())) {
+            // TODO (cck) add check that location matches namespace
+        }
+    }
 
 }
  

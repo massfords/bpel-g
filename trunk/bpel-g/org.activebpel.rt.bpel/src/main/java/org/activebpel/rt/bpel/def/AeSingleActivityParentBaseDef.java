@@ -14,50 +14,47 @@ package org.activebpel.rt.bpel.def;
 /**
  * A base class for any def that has a single activity as its child.
  */
-public abstract class AeSingleActivityParentBaseDef extends AeBaseDef implements IAeSingleActivityContainerDef
-{
-   /**
-     * 
+public abstract class AeSingleActivityParentBaseDef extends AeBaseDef implements IAeSingleActivityContainerDef {
+    /**
+     *
      */
     private static final long serialVersionUID = -4659397635974933532L;
-/** Activity to execute if this fault handler is called */
-   private AeActivityDef mActivity;
+    /**
+     * Activity to execute if this fault handler is called
+     */
+    private AeActivityDef mActivity;
 
-   /**
-    * Default c'tor.
-    */
-   public AeSingleActivityParentBaseDef()
-   {
-      super();
-   }
+    /**
+     * Default c'tor.
+     */
+    public AeSingleActivityParentBaseDef() {
+        super();
+    }
 
-   /**
-    * Accessor method to obtain the activity to be executed upon for
-    * the fault condition.
-    * 
-    * @return the activity associated with the fault condition
-    */
-   public AeActivityDef getActivityDef()
-   {
-      return mActivity;
-   }
+    /**
+     * Accessor method to obtain the activity to be executed upon for
+     * the fault condition.
+     *
+     * @return the activity associated with the fault condition
+     */
+    public AeActivityDef getActivityDef() {
+        return mActivity;
+    }
 
-   /**
-    * Mutator method to set the activity which will be executed for 
-    * the fault condition.
-    * 
-    * @param aActivity the activity to be executed
-    */
-   public void setActivityDef(AeActivityDef aActivity)
-   {
-      mActivity = aActivity;
-   }
-   
-   /**
-    * @see org.activebpel.rt.bpel.def.IAeActivityContainerDef#replaceActivityDef(org.activebpel.rt.bpel.def.AeActivityDef, org.activebpel.rt.bpel.def.AeActivityDef)
-    */
-   public void replaceActivityDef(AeActivityDef aOldActivityDef, AeActivityDef aNewActivityDef)
-   {
-      setActivityDef(aNewActivityDef);
-   }
+    /**
+     * Mutator method to set the activity which will be executed for
+     * the fault condition.
+     *
+     * @param aActivity the activity to be executed
+     */
+    public void setActivityDef(AeActivityDef aActivity) {
+        mActivity = aActivity;
+    }
+
+    /**
+     * @see org.activebpel.rt.bpel.def.IAeActivityContainerDef#replaceActivityDef(org.activebpel.rt.bpel.def.AeActivityDef, org.activebpel.rt.bpel.def.AeActivityDef)
+     */
+    public void replaceActivityDef(AeActivityDef aOldActivityDef, AeActivityDef aNewActivityDef) {
+        setActivityDef(aNewActivityDef);
+    }
 }

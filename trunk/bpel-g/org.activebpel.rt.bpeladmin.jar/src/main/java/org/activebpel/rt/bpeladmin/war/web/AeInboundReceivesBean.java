@@ -24,99 +24,103 @@ import bpelg.services.queue.types.InboundMessages;
  * Top level listing of unmatched inbound queued receives.
  */
 public class AeInboundReceivesBean {
-	/** Unmatched inbound queued receives */
-	protected final List<List<InboundMessage>> mDetails;
-	/** Current row index. */
-	protected int mCurrentIndex;
+    /**
+     * Unmatched inbound queued receives
+     */
+    protected final List<List<InboundMessage>> mDetails;
+    /**
+     * Current row index.
+     */
+    protected int mCurrentIndex;
 
-	/**
-	 * Default constructor. Intializes the unmatched inbound queued receives
-	 * list.
-	 */
-	public AeInboundReceivesBean() {
-		mDetails = toListOfLists(AeEngineManagementFactory.getQueueManager()
-				.getInboundMessages(new GetInboundMessages()));
-	}
+    /**
+     * Default constructor. Intializes the unmatched inbound queued receives
+     * list.
+     */
+    public AeInboundReceivesBean() {
+        mDetails = toListOfLists(AeEngineManagementFactory.getQueueManager()
+                .getInboundMessages(new GetInboundMessages()));
+    }
 
-	/**
-	 * Returns true if the row details are empty.
-	 */
-	public boolean isEmpty() {
-		return mDetails.isEmpty();
-	}
+    /**
+     * Returns true if the row details are empty.
+     */
+    public boolean isEmpty() {
+        return mDetails.isEmpty();
+    }
 
-	/**
-	 * Maps the partner link, port type, operation key to one or more
-	 * AeQueuedReceiveDetail objects.
-	 * 
-	 * @param aDetails
-	 */
-	private static List<List<InboundMessage>> toListOfLists(
-			InboundMessages aDetails) {
-		Map<String, List<InboundMessage>> recs = new LinkedHashMap<>();
+    /**
+     * Maps the partner link, port type, operation key to one or more
+     * AeQueuedReceiveDetail objects.
+     *
+     * @param aDetails
+     */
+    private static List<List<InboundMessage>> toListOfLists(
+            InboundMessages aDetails) {
+        Map<String, List<InboundMessage>> recs = new LinkedHashMap<>();
 
-		for (InboundMessage im : aDetails.getInboundMessage()) {
-			addToMap(recs, im);
-		}
-		return new ArrayList<>(recs.values());
-	}
+        for (InboundMessage im : aDetails.getInboundMessage()) {
+            addToMap(recs, im);
+        }
+        return new ArrayList<>(recs.values());
+    }
 
-	/**
-	 * Convenience method for adding details to the map.
-	 * 
-	 * @param aHashMap
-	 * @param aDetail
-	 */
-	private static void addToMap(Map<String, List<InboundMessage>> aHashMap,
-			InboundMessage aDetail) {
-		String key = makeKey(aDetail);
-		List<InboundMessage> matches = aHashMap.get(key);
-		if (matches == null) {
-			matches = new ArrayList<>();
-			aHashMap.put(key, matches);
-		}
-		matches.add(aDetail);
-	}
+    /**
+     * Convenience method for adding details to the map.
+     *
+     * @param aHashMap
+     * @param aDetail
+     */
+    private static void addToMap(Map<String, List<InboundMessage>> aHashMap,
+                                 InboundMessage aDetail) {
+        String key = makeKey(aDetail);
+        List<InboundMessage> matches = aHashMap.get(key);
+        if (matches == null) {
+            matches = new ArrayList<>();
+            aHashMap.put(key, matches);
+        }
+        matches.add(aDetail);
+    }
 
-	/**
-	 * Create a key based on the partner link, port type and operation.
-	 * 
-	 * @param aDetail
-	 */
-	protected static String makeKey(InboundMessage aDetail) {
-		return aDetail.getPartnerLinkName() + ":" + aDetail.getPortType() + //$NON-NLS-1$
-				":" + aDetail.getOperation(); //$NON-NLS-1$
-	}
+    /**
+     * Create a key based on the partner link, port type and operation.
+     *
+     * @param aDetail
+     */
+    protected static String makeKey(InboundMessage aDetail) {
+        return aDetail.getPartnerLinkName() + ":" + aDetail.getPortType() + //$NON-NLS-1$
+                ":" + aDetail.getOperation(); //$NON-NLS-1$
+    }
 
-	/**
-	 * Indexed accessor for the queued receive detail.
-	 * 
-	 * @param aIndex
-	 */
-	public InboundMessage getDetail(int aIndex) {
-		mCurrentIndex = aIndex;
-		return mDetails.get(aIndex).get(0);
-	}
+    /**
+     * Indexed accessor for the queued receive detail.
+     *
+     * @param aIndex
+     */
+    public InboundMessage getDetail(int aIndex) {
+        mCurrentIndex = aIndex;
+        return mDetails.get(aIndex).get(0);
+    }
 
-	/**
-	 * Returns the number of queued receives for the current row.
-	 */
-	public int getQueuedReceiveCount() {
-		return mDetails.get(mCurrentIndex).size();
-	}
+    /**
+     * Returns the number of queued receives for the current row.
+     */
+    public int getQueuedReceiveCount() {
+        return mDetails.get(mCurrentIndex).size();
+    }
 
-	/**
-	 * Creates a unique key to identify this row.
-	 */
-	public String getIdentifier() {
-		List<InboundMessage> detailList = mDetails.get(mCurrentIndex);
-		return makeKey(detailList.get(0));
-	}
+    /**
+     * Creates a unique key to identify this row.
+     */
+    public String getIdentifier() {
+        List<InboundMessage> detailList = mDetails.get(mCurrentIndex);
+        return makeKey(detailList.get(0));
+    }
 
-	/**
-	 * Returns the number of details rows available.
-	 */
-	public int getDetailSize() {
-		return mDetails.size();
-	}
+    /**
+     * Returns the number of details rows available.
+     */
+    public int getDetailSize() {
+        return mDetails.size();
+    }
 }

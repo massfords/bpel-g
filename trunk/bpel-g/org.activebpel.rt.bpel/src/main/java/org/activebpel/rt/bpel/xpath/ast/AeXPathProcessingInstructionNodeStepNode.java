@@ -13,42 +13,39 @@ package org.activebpel.rt.bpel.xpath.ast;
 /**
  * An XPath node for a processing instruction node step.
  */
-public class AeXPathProcessingInstructionNodeStepNode extends AeAbstractXPathAxisNode
-{
-   /** The processing instruction name. */
-   private String mName;
+public class AeXPathProcessingInstructionNodeStepNode extends AeAbstractXPathAxisNode {
+    /**
+     * The processing instruction name.
+     */
+    private String mName;
 
-   /**
-    * Default c'tor.
-    */
-   public AeXPathProcessingInstructionNodeStepNode(int aAxis, String aName)
-   {
-      super(AeAbstractXPathNode.NODE_TYPE_PROCESSING_INSTRUCTION_NODE_STEP, aAxis);
+    /**
+     * Default c'tor.
+     */
+    public AeXPathProcessingInstructionNodeStepNode(int aAxis, String aName) {
+        super(AeAbstractXPathNode.NODE_TYPE_PROCESSING_INSTRUCTION_NODE_STEP, aAxis);
 
-      setName(aName);
-   }
+        setName(aName);
+    }
 
-   /**
-    * @return Returns the name.
-    */
-   public String getName()
-   {
-      return mName;
-   }
+    /**
+     * @return Returns the name.
+     */
+    public String getName() {
+        return mName;
+    }
 
-   /**
-    * @param aName The name to set.
-    */
-   protected void setName(String aName)
-   {
-      mName = aName;
-   }
+    /**
+     * @param aName The name to set.
+     */
+    protected void setName(String aName) {
+        mName = aName;
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.xpath.ast.AeAbstractXPathNode#accept(org.activebpel.rt.bpel.xpath.ast.IAeXPathNodeVisitor)
-    */
-   public void accept(IAeXPathNodeVisitor aVisitor)
-   {
-      aVisitor.visit(this);
-   }
+    /**
+     * @see org.activebpel.rt.bpel.xpath.ast.AeAbstractXPathNode#accept(org.activebpel.rt.bpel.xpath.ast.IAeXPathNodeVisitor)
+     */
+    public void accept(IAeXPathNodeVisitor aVisitor) {
+        aVisitor.visit(this);
+    }
 }

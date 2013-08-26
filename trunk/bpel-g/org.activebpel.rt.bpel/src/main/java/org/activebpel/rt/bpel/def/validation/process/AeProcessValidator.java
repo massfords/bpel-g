@@ -32,266 +32,251 @@ import java.util.*;
 /**
  * Root validator for the process.
  */
-public class AeProcessValidator extends AeBaseScopeValidator
-{
-   /** provides context for the validation including WSDL provider, error reporter ...etc  */
-   private final IAeValidationContext mValidationContext;
-   /** list o' models that are marked as create instances */
-   private final List<IAeValidator> mCreateInstances = new LinkedList<>();
-   /** Link validation helper for this instance. */
-   private final AeLinkValidator mLinkValidator;
-   /** The extensions validator. */
-   private AeExtensionsValidator mExtensionsValidator;
+public class AeProcessValidator extends AeBaseScopeValidator {
+    /**
+     * provides context for the validation including WSDL provider, error reporter ...etc
+     */
+    private final IAeValidationContext mValidationContext;
+    /**
+     * list o' models that are marked as create instances
+     */
+    private final List<IAeValidator> mCreateInstances = new LinkedList<>();
+    /**
+     * Link validation helper for this instance.
+     */
+    private final AeLinkValidator mLinkValidator;
+    /**
+     * The extensions validator.
+     */
+    private AeExtensionsValidator mExtensionsValidator;
 
-   /** XPath query validator. */
-   private final AeXPathQueryValidator mXPathQueryValidator = new AeXPathQueryValidator() ;
-   
-   /**
-    * ctor takes the context and def
-    * @param aContext
-    * @param aDef
-    */
-   public AeProcessValidator(IAeValidationContext aContext, AeProcessDef aDef)
-   {
-      super(aDef);
-      mValidationContext = aContext;
-      mLinkValidator = new AeLinkValidator( aDef, getReporter() );
-      
-   }
-   
-   /**
-    * Report an exception among the validation errors.
-    *
-    * @param aDef The node involved.
-    * @param aCause The cause of the exception, i.e., what was being validated.
-    * @param aThrowable The exception thrown.
-    */
-   protected void reportException( AeBaseDef aDef, String aCause, Throwable aThrowable )
-   {
-      String[] args = new String[] { aCause, aThrowable.getLocalizedMessage()};
-      getReporter().reportProblem( BPEL_EXCEPTION_DURING_VALIDATION_CODE, EXCEPTION_DURING_VALIDATION, args, aDef );
-      MessageFormat form = new MessageFormat( EXCEPTION_DURING_VALIDATION );
-      String msg = form.format( args );
-      AeException.logError( aThrowable, msg );
-   }
-   
-   /**
-    * @see org.activebpel.rt.bpel.def.validation.activity.AeActivityScopeValidator#validate()
-    */
-   public void validate()
-   {
-      if ( getValidationContext().getContextWSDLProvider() == null )
-      {
-         // Can't do anything w/o WSDL Provider
-         //
-         String cause = AeMessages.getString("AeDefValidationVisitor.ERROR_4"); //$NON-NLS-1$
-         AeException ae = new AeException(AeMessages.getString("AeDefValidationVisitor.5")); //$NON-NLS-1$
-         reportException( getProcessDef(), cause, ae );
-         AeException.logError( ae, cause );
-         return ;
-      }
+    /**
+     * XPath query validator.
+     */
+    private final AeXPathQueryValidator mXPathQueryValidator = new AeXPathQueryValidator();
 
-      try
-      {
-         super.validate();
-         
-         // Check for create instance found during traversal.
-         //
-         if ( !getProcessDef().isAbstractProcess() && mCreateInstances.size() == 0 )
-            getReporter().reportProblem( BPEL_NO_CREATE_CODE, ERROR_NO_CREATE, null, getProcessDef() );
-   
-         // Validate that the process definition conforms to BPEL spec when CreateInstance specified
-         if (mCreateInstances.size() > 0)
-         {
-            AeCheckStartActivityVisitor viz = new AeCheckStartActivityVisitor(getReporter());
-            List<AeBaseXmlDef> createInstanceDefs = new ArrayList<>(mCreateInstances.size());
-            for (IAeValidator model : mCreateInstances)
-            {
-               createInstanceDefs.add(model.getDefinition());
+    /**
+     * ctor takes the context and def
+     *
+     * @param aContext
+     * @param aDef
+     */
+    public AeProcessValidator(IAeValidationContext aContext, AeProcessDef aDef) {
+        super(aDef);
+        mValidationContext = aContext;
+        mLinkValidator = new AeLinkValidator(aDef, getReporter());
+
+    }
+
+    /**
+     * Report an exception among the validation errors.
+     *
+     * @param aDef       The node involved.
+     * @param aCause     The cause of the exception, i.e., what was being validated.
+     * @param aThrowable The exception thrown.
+     */
+    protected void reportException(AeBaseDef aDef, String aCause, Throwable aThrowable) {
+        String[] args = new String[]{aCause, aThrowable.getLocalizedMessage()};
+        getReporter().reportProblem(BPEL_EXCEPTION_DURING_VALIDATION_CODE, EXCEPTION_DURING_VALIDATION, args, aDef);
+        MessageFormat form = new MessageFormat(EXCEPTION_DURING_VALIDATION);
+        String msg = form.format(args);
+        AeException.logError(aThrowable, msg);
+    }
+
+    /**
+     * @see org.activebpel.rt.bpel.def.validation.activity.AeActivityScopeValidator#validate()
+     */
+    public void validate() {
+        if (getValidationContext().getContextWSDLProvider() == null) {
+            // Can't do anything w/o WSDL Provider
+            //
+            String cause = AeMessages.getString("AeDefValidationVisitor.ERROR_4"); //$NON-NLS-1$
+            AeException ae = new AeException(AeMessages.getString("AeDefValidationVisitor.5")); //$NON-NLS-1$
+            reportException(getProcessDef(), cause, ae);
+            AeException.logError(ae, cause);
+            return;
+        }
+
+        try {
+            super.validate();
+
+            // Check for create instance found during traversal.
+            //
+            if (!getProcessDef().isAbstractProcess() && mCreateInstances.size() == 0)
+                getReporter().reportProblem(BPEL_NO_CREATE_CODE, ERROR_NO_CREATE, null, getProcessDef());
+
+            // Validate that the process definition conforms to BPEL spec when CreateInstance specified
+            if (mCreateInstances.size() > 0) {
+                AeCheckStartActivityVisitor viz = new AeCheckStartActivityVisitor(getReporter());
+                List<AeBaseXmlDef> createInstanceDefs = new ArrayList<>(mCreateInstances.size());
+                for (IAeValidator model : mCreateInstances) {
+                    createInstanceDefs.add(model.getDefinition());
+                }
+                viz.doValidation(createInstanceDefs);
             }
-            viz.doValidation(createInstanceDefs);
-         }
-   
-         // Check for invalid expression language override.
-         IAeExpressionLanguageFactory exprLangFactory = getValidationContext().getExpressionLanguageFactory();
-         if (!exprLangFactory.supportsLanguage(getProcessDef().getNamespace(), getProcessDef().getExpressionLanguage()))
-         {
-            getReporter().reportProblem( BPEL_UNSUPPORTED_EXPRESSION_LANGUAGE_CODE,
-                                    AeMessages.getString("AeDefValidationVisitor.EXPR_LANGUAGE_NOT_SUPPORTED_ERROR"), //$NON-NLS-1$
-                                    new String[] { getProcessDef().getExpressionLanguage() }, getProcessDef());
-         }
-         else if (AeUtil.notNullOrEmpty(getProcessDef().getExpressionLanguage()) && !exprLangFactory.isBpelDefaultLanguage(getProcessDef().getNamespace(), getProcessDef().getExpressionLanguage()))
-         {
-            getReporter().reportProblem(BPEL_NON_STANDARD_EXPRESSION_LANGUAGE_CODE,
-                                 AeMessages.getString("AeDefValidationVisitor.EXPR_LANGUAGE_NONSTANDARD_WARNING"), //$NON-NLS-1$
-                                 new String[] { getProcessDef().getExpressionLanguage() }, getProcessDef());
-         }
 
-         new AeMessageExchangeValidationVisitor(getReporter()).visit(getProcessDef());
+            // Check for invalid expression language override.
+            IAeExpressionLanguageFactory exprLangFactory = getValidationContext().getExpressionLanguageFactory();
+            if (!exprLangFactory.supportsLanguage(getProcessDef().getNamespace(), getProcessDef().getExpressionLanguage())) {
+                getReporter().reportProblem(BPEL_UNSUPPORTED_EXPRESSION_LANGUAGE_CODE,
+                        AeMessages.getString("AeDefValidationVisitor.EXPR_LANGUAGE_NOT_SUPPORTED_ERROR"), //$NON-NLS-1$
+                        new String[]{getProcessDef().getExpressionLanguage()}, getProcessDef());
+            } else if (AeUtil.notNullOrEmpty(getProcessDef().getExpressionLanguage()) && !exprLangFactory.isBpelDefaultLanguage(getProcessDef().getNamespace(), getProcessDef().getExpressionLanguage())) {
+                getReporter().reportProblem(BPEL_NON_STANDARD_EXPRESSION_LANGUAGE_CODE,
+                        AeMessages.getString("AeDefValidationVisitor.EXPR_LANGUAGE_NONSTANDARD_WARNING"), //$NON-NLS-1$
+                        new String[]{getProcessDef().getExpressionLanguage()}, getProcessDef());
+            }
 
-         if (getExtensionsValidator() != null)
-            getExtensionsValidator().validate();
-         
-         if (mCreateInstances.size() > 1)
-            validateMultiStartCorrelation();
-         
-         getLinkValidator().checkLinks();
-      }
-      catch(Throwable t)
-      {
-         reportException( getProcessDef(), getProcessDef().getName(), t );
-      }
-   }
-   
-   /**
-    * special validation for processes with multiple start activities
-    */
-   protected void validateMultiStartCorrelation()
-   {
-      // fixme 2.0 static analysis should emit warning/error for multi-start that shares correlations that aren't initiate="join"
-      List<AeBaseValidator> wsioActivities = new LinkedList<>();
-       for (IAeValidator mCreateInstance : mCreateInstances) {
-           AeBaseValidator model = (AeBaseValidator) mCreateInstance;
-           if (model instanceof AeActivityPickValidator) {
-               for (AeOnMessageValidator validator : model.getChildren(AeOnMessageValidator.class)) {
-                   wsioActivities.add(validator);
-               }
-           } else {
-               wsioActivities.add(model);
-           }
-       }
-      
-      Set<String> acceptedSetPaths = null;
-      boolean reportError = false;
-       for (AeBaseValidator next : wsioActivities) {
-           AeWSIOActivityValidator model = (AeWSIOActivityValidator) next;
-           Set<String> setPaths = getCorrelationSetPaths(model);
+            new AeMessageExchangeValidationVisitor(getReporter()).visit(getProcessDef());
 
-           if (setPaths == null) {
-               // an activity referenced a correlationSet that wasn't in scope, no point in continuing
-               // the validation here since they'll already have error messages for the correlation
-               reportError = true;
-               break;
-           } else if (acceptedSetPaths == null) {
-               acceptedSetPaths = new HashSet<>(setPaths);
-           } else if (!acceptedSetPaths.equals(setPaths) || acceptedSetPaths.isEmpty()) {
-               // encountered a create instance that used different correlation paths then a
-               // previously encountered create instance. Also detects if the two create instances
-               // are empty which is not valid for 1.1 or 2.0 (at least until we impl engine managed correlation)
-               reportError = true;
-               break;
-           }
-       }
-      
-      if (reportError || acceptedSetPaths == null)
-      {
-          for (IAeValidator model : mCreateInstances) {
-              getReporter().reportProblem(BPEL_CORR_SET_MISMATCH_CODE, ERROR_CS_MISMATCH, null, model.getDefinition());
-          }
-      }
-   }
+            if (getExtensionsValidator() != null)
+                getExtensionsValidator().validate();
 
-   /**
-    * Gets the paths for the correlation sets used by the wsio activity
-    * @param aWSIOActivityModel
-    */
-   protected Set<String> getCorrelationSetPaths(AeWSIOActivityValidator aWSIOActivityModel)
-   {
-      List correlationModels = aWSIOActivityModel.getCorrelations();
-      Set<String> setPaths = new HashSet<>();
-       for (Object correlationModel : correlationModels) {
-           AeCorrelationValidator corrModel = (AeCorrelationValidator) correlationModel;
-           if (corrModel.getSetModel() == null) {
-               // an activity referenced a correlationSet that wasn't in scope, no point in continuing
-               // the validation here since they'll already have error messages for the correlation
-               return null;
-           }
-           setPaths.add(corrModel.getSetModel().getDef().getLocationPath());
-       }
-      return setPaths;
-   }
+            if (mCreateInstances.size() > 1)
+                validateMultiStartCorrelation();
 
-   /**
-    * @see org.activebpel.rt.bpel.def.validation.activity.AeActivityScopeValidator#add(org.activebpel.rt.bpel.def.validation.AeBaseValidator)
-    */
-   public void add(AeBaseValidator aModel)
-   {
-      if (aModel instanceof AeExtensionsValidator)
-      {
-         setExtensionsValidator((AeExtensionsValidator) aModel);
-      }
-      else
-      {
-         super.add(aModel);
-      }
-   }
-   
-   /**
-    * @see org.activebpel.rt.bpel.def.validation.AeBaseValidator#getProcessDef()
-    */
-   public AeProcessDef getProcessDef()
-   {
-      return (AeProcessDef) super.getDefinition();
-   }
+            getLinkValidator().checkLinks();
+        } catch (Throwable t) {
+            reportException(getProcessDef(), getProcessDef().getName(), t);
+        }
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.def.validation.AeBaseValidator#getProcessValidator()
-    */
-   public AeProcessValidator getProcessValidator()
-   {
-      return this;
-   }
-   
-   /**
-    * records the model as a create instance activity
-    * @param aModel
-    */
-   public void addCreateInstance(AeBaseValidator aModel)
-   {
-      mCreateInstances.add(aModel);
-   }
+    /**
+     * special validation for processes with multiple start activities
+     */
+    protected void validateMultiStartCorrelation() {
+        // fixme 2.0 static analysis should emit warning/error for multi-start that shares correlations that aren't initiate="join"
+        List<AeBaseValidator> wsioActivities = new LinkedList<>();
+        for (IAeValidator mCreateInstance : mCreateInstances) {
+            AeBaseValidator model = (AeBaseValidator) mCreateInstance;
+            if (model instanceof AeActivityPickValidator) {
+                for (AeOnMessageValidator validator : model.getChildren(AeOnMessageValidator.class)) {
+                    wsioActivities.add(validator);
+                }
+            } else {
+                wsioActivities.add(model);
+            }
+        }
 
-   /**
-    * Getter for the class that validates our links for cycles and such
-    */
-   public AeLinkValidator getLinkValidator()
-   {
-      return mLinkValidator;
-   }
-   
-   /**
-    * @see org.activebpel.rt.bpel.def.validation.AeBaseValidator#getValidationContext()
-    */
-   public IAeValidationContext getValidationContext()
-   {
-      return mValidationContext;
-   }
-   
-   /**
-    * Validator for xpath queries
-    * 
-    * TODO (EPW) can't assume xpath - change if we implement a pluggable query framework
-    */
-   public AeXPathQueryValidator getXPathQueryValidator()
-   {
-      return mXPathQueryValidator;
-   }
+        Set<String> acceptedSetPaths = null;
+        boolean reportError = false;
+        for (AeBaseValidator next : wsioActivities) {
+            AeWSIOActivityValidator model = (AeWSIOActivityValidator) next;
+            Set<String> setPaths = getCorrelationSetPaths(model);
 
-   /**
-    * @return Returns the extensionsValidator.
-    */
-   public AeExtensionsValidator getExtensionsValidator()
-   {
-      return mExtensionsValidator;
-   }
+            if (setPaths == null) {
+                // an activity referenced a correlationSet that wasn't in scope, no point in continuing
+                // the validation here since they'll already have error messages for the correlation
+                reportError = true;
+                break;
+            } else if (acceptedSetPaths == null) {
+                acceptedSetPaths = new HashSet<>(setPaths);
+            } else if (!acceptedSetPaths.equals(setPaths) || acceptedSetPaths.isEmpty()) {
+                // encountered a create instance that used different correlation paths then a
+                // previously encountered create instance. Also detects if the two create instances
+                // are empty which is not valid for 1.1 or 2.0 (at least until we impl engine managed correlation)
+                reportError = true;
+                break;
+            }
+        }
 
-   /**
-    * @param aExtensionsValidator The extensionsValidator to set.
-    */
-   protected void setExtensionsValidator(AeExtensionsValidator aExtensionsValidator)
-   {
-      mExtensionsValidator = aExtensionsValidator;
-      mExtensionsValidator.setParent(this);
-   }
+        if (reportError || acceptedSetPaths == null) {
+            for (IAeValidator model : mCreateInstances) {
+                getReporter().reportProblem(BPEL_CORR_SET_MISMATCH_CODE, ERROR_CS_MISMATCH, null, model.getDefinition());
+            }
+        }
+    }
+
+    /**
+     * Gets the paths for the correlation sets used by the wsio activity
+     *
+     * @param aWSIOActivityModel
+     */
+    protected Set<String> getCorrelationSetPaths(AeWSIOActivityValidator aWSIOActivityModel) {
+        List correlationModels = aWSIOActivityModel.getCorrelations();
+        Set<String> setPaths = new HashSet<>();
+        for (Object correlationModel : correlationModels) {
+            AeCorrelationValidator corrModel = (AeCorrelationValidator) correlationModel;
+            if (corrModel.getSetModel() == null) {
+                // an activity referenced a correlationSet that wasn't in scope, no point in continuing
+                // the validation here since they'll already have error messages for the correlation
+                return null;
+            }
+            setPaths.add(corrModel.getSetModel().getDef().getLocationPath());
+        }
+        return setPaths;
+    }
+
+    /**
+     * @see org.activebpel.rt.bpel.def.validation.activity.AeActivityScopeValidator#add(org.activebpel.rt.bpel.def.validation.AeBaseValidator)
+     */
+    public void add(AeBaseValidator aModel) {
+        if (aModel instanceof AeExtensionsValidator) {
+            setExtensionsValidator((AeExtensionsValidator) aModel);
+        } else {
+            super.add(aModel);
+        }
+    }
+
+    /**
+     * @see org.activebpel.rt.bpel.def.validation.AeBaseValidator#getProcessDef()
+     */
+    public AeProcessDef getProcessDef() {
+        return (AeProcessDef) super.getDefinition();
+    }
+
+    /**
+     * @see org.activebpel.rt.bpel.def.validation.AeBaseValidator#getProcessValidator()
+     */
+    public AeProcessValidator getProcessValidator() {
+        return this;
+    }
+
+    /**
+     * records the model as a create instance activity
+     *
+     * @param aModel
+     */
+    public void addCreateInstance(AeBaseValidator aModel) {
+        mCreateInstances.add(aModel);
+    }
+
+    /**
+     * Getter for the class that validates our links for cycles and such
+     */
+    public AeLinkValidator getLinkValidator() {
+        return mLinkValidator;
+    }
+
+    /**
+     * @see org.activebpel.rt.bpel.def.validation.AeBaseValidator#getValidationContext()
+     */
+    public IAeValidationContext getValidationContext() {
+        return mValidationContext;
+    }
+
+    /**
+     * Validator for xpath queries
+     * <p/>
+     * TODO (EPW) can't assume xpath - change if we implement a pluggable query framework
+     */
+    public AeXPathQueryValidator getXPathQueryValidator() {
+        return mXPathQueryValidator;
+    }
+
+    /**
+     * @return Returns the extensionsValidator.
+     */
+    public AeExtensionsValidator getExtensionsValidator() {
+        return mExtensionsValidator;
+    }
+
+    /**
+     * @param aExtensionsValidator The extensionsValidator to set.
+     */
+    protected void setExtensionsValidator(AeExtensionsValidator aExtensionsValidator) {
+        mExtensionsValidator = aExtensionsValidator;
+        mExtensionsValidator.setParent(this);
+    }
 }
  

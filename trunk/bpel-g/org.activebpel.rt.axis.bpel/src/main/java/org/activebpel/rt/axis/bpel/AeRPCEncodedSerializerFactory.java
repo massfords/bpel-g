@@ -1,4 +1,5 @@
 package org.activebpel.rt.axis.bpel;
+
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
@@ -19,58 +20,61 @@ import org.apache.axis.encoding.SerializerFactory;
 /////////////////////////////////////////////////////////////////////////////
 
 /**
- * Factory for creating rpc-encoded serializers 
+ * Factory for creating rpc-encoded serializers
  */
-public class AeRPCEncodedSerializerFactory implements SerializerFactory
-{
-   /**
-     * 
+public class AeRPCEncodedSerializerFactory implements SerializerFactory {
+    /**
+     *
      */
     private static final long serialVersionUID = 1088250809846876228L;
 
-/** Supported mechanisms is singleton list for axis only deserialization */
-   private static final List<String> SUPPORTED_MECHANISMS = Collections.singletonList(Constants.AXIS_SAX);
+    /**
+     * Supported mechanisms is singleton list for axis only deserialization
+     */
+    private static final List<String> SUPPORTED_MECHANISMS = Collections.singletonList(Constants.AXIS_SAX);
 
-   /** context contains the Schemas needed to serialize the Document correctly */
-   private IAeTypesContext mTypesContext;
-   
-   /** The cached serializer in case we're called multiple times */
-   private AeRPCEncodedSerializer mSerializer;
-   
-   /**
-    * Constructor
-    * @param aTypesContext
-    */
-   public AeRPCEncodedSerializerFactory(IAeTypesContext aTypesContext)
-   {
-      mTypesContext = aTypesContext;
-   }
-   
-   /**
-    * Creates the factory with an existing serializer all set.
-    * @param aSerializer
-    */
-   public AeRPCEncodedSerializerFactory(AeRPCEncodedSerializer aSerializer)
-   {
-      mSerializer = aSerializer;
-   }
-   
-   /**
-    * @see javax.xml.rpc.encoding.SerializerFactory#getSerializerAs(java.lang.String)
-    */
-   public Serializer getSerializerAs(String mechanismType)
-   {
-      if (mSerializer == null)
-         mSerializer = new AeRPCEncodedSerializer(mTypesContext);
-      return mSerializer;
-   }
+    /**
+     * context contains the Schemas needed to serialize the Document correctly
+     */
+    private IAeTypesContext mTypesContext;
 
-   /**
-    * @see javax.xml.rpc.encoding.SerializerFactory#getSupportedMechanismTypes()
-    */
-   public Iterator<String> getSupportedMechanismTypes()
-   {
-      return SUPPORTED_MECHANISMS.iterator();
-   }
+    /**
+     * The cached serializer in case we're called multiple times
+     */
+    private AeRPCEncodedSerializer mSerializer;
+
+    /**
+     * Constructor
+     *
+     * @param aTypesContext
+     */
+    public AeRPCEncodedSerializerFactory(IAeTypesContext aTypesContext) {
+        mTypesContext = aTypesContext;
+    }
+
+    /**
+     * Creates the factory with an existing serializer all set.
+     *
+     * @param aSerializer
+     */
+    public AeRPCEncodedSerializerFactory(AeRPCEncodedSerializer aSerializer) {
+        mSerializer = aSerializer;
+    }
+
+    /**
+     * @see javax.xml.rpc.encoding.SerializerFactory#getSerializerAs(java.lang.String)
+     */
+    public Serializer getSerializerAs(String mechanismType) {
+        if (mSerializer == null)
+            mSerializer = new AeRPCEncodedSerializer(mTypesContext);
+        return mSerializer;
+    }
+
+    /**
+     * @see javax.xml.rpc.encoding.SerializerFactory#getSupportedMechanismTypes()
+     */
+    public Iterator<String> getSupportedMechanismTypes() {
+        return SUPPORTED_MECHANISMS.iterator();
+    }
 
 }

@@ -21,46 +21,39 @@ import org.activebpel.rt.util.AeUtil;
 /**
  * A WS-BPEL implementation of a XQuery expression analyser.
  */
-public class AeWSBPELXQueryExpressionAnalyzer extends AePrefixedExpressionAnalyzer
-{
-   /**
-    * @see org.activebpel.rt.bpel.ext.expr.def.xquery.AeBPWSXQueryExpressionAnalyzer#createExpressionParser(org.activebpel.rt.expr.def.IAeExpressionParserContext)
-    */
-   protected IAeExpressionParser createExpressionParser(IAeExpressionParserContext aContext)
-   {
-      return new AeWSBPELXQueryExpressionParser(aContext);
-   }
+public class AeWSBPELXQueryExpressionAnalyzer extends AePrefixedExpressionAnalyzer {
+    /**
+     * @see org.activebpel.rt.bpel.ext.expr.def.xquery.AeBPWSXQueryExpressionAnalyzer#createExpressionParser(org.activebpel.rt.expr.def.IAeExpressionParserContext)
+     */
+    protected IAeExpressionParser createExpressionParser(IAeExpressionParserContext aContext) {
+        return new AeWSBPELXQueryExpressionParser(aContext);
+    }
 
-   /**
-    * @see org.activebpel.rt.expr.def.AeAbstractExpressionAnalyzer#renameVariable(org.activebpel.rt.expr.def.IAeExpressionAnalyzerContext, java.lang.String, java.lang.String, java.lang.String)
-    */
-   public String renameVariable(IAeExpressionAnalyzerContext aContext, String aExpression, String aOldVarName, String aNewVarName)
-   {
-      if (AeUtil.isNullOrEmpty(aExpression))
-         return null;
-      
-      String expression = super.renameVariable(aContext, aExpression, aOldVarName, aNewVarName);
-      if (expression == null)
-         expression = aExpression;
-      
-      // Use the same logic as the XPath impl for renaming $varName variables.
-      String newExpr = AeWSBPELXPathExpressionAnalyzer.renameExpressionVariable(aContext, expression, aOldVarName, aNewVarName);
-      
-      if (aExpression.equals(newExpr))
-      {
-         return null;
-      }
-      else
-      {
-         return newExpr;
-      }
-   }
-   
-   /**
-    * @see org.activebpel.rt.expr.def.IAeExpressionAnalyzer#parseExpressionToSpec(org.activebpel.rt.expr.def.IAeExpressionAnalyzerContext, java.lang.String)
-    */
-   public AeExpressionToSpecDetails parseExpressionToSpec(IAeExpressionAnalyzerContext aContext, String aExpression)
-   {
-      return AeWSBPELXPathExpressionToSpecUtil.parseExpressionToSpec(aContext, aExpression);
-   }
+    /**
+     * @see org.activebpel.rt.expr.def.AeAbstractExpressionAnalyzer#renameVariable(org.activebpel.rt.expr.def.IAeExpressionAnalyzerContext, java.lang.String, java.lang.String, java.lang.String)
+     */
+    public String renameVariable(IAeExpressionAnalyzerContext aContext, String aExpression, String aOldVarName, String aNewVarName) {
+        if (AeUtil.isNullOrEmpty(aExpression))
+            return null;
+
+        String expression = super.renameVariable(aContext, aExpression, aOldVarName, aNewVarName);
+        if (expression == null)
+            expression = aExpression;
+
+        // Use the same logic as the XPath impl for renaming $varName variables.
+        String newExpr = AeWSBPELXPathExpressionAnalyzer.renameExpressionVariable(aContext, expression, aOldVarName, aNewVarName);
+
+        if (aExpression.equals(newExpr)) {
+            return null;
+        } else {
+            return newExpr;
+        }
+    }
+
+    /**
+     * @see org.activebpel.rt.expr.def.IAeExpressionAnalyzer#parseExpressionToSpec(org.activebpel.rt.expr.def.IAeExpressionAnalyzerContext, java.lang.String)
+     */
+    public AeExpressionToSpecDetails parseExpressionToSpec(IAeExpressionAnalyzerContext aContext, String aExpression) {
+        return AeWSBPELXPathExpressionToSpecUtil.parseExpressionToSpec(aContext, aExpression);
+    }
 }

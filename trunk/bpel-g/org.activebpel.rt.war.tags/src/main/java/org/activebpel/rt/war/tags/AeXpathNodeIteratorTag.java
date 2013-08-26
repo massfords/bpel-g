@@ -28,99 +28,81 @@ import org.w3c.dom.Node;
  * &lt;/ae:XpathNodeIterator &gt;
  * </pre>
  */
-public class AeXpathNodeIteratorTag extends AeAbstractXpathSelectionTag
-{
-   /**
-     * 
+public class AeXpathNodeIteratorTag extends AeAbstractXpathSelectionTag {
+    /**
+     *
      */
     private static final long serialVersionUID = -7669788317975945535L;
-/**
-    * Node list iterator.
-    */
-   private Iterator mNodeListIterator = null;
+    /**
+     * Node list iterator.
+     */
+    private Iterator mNodeListIterator = null;
 
-   public int doStartTag() throws JspException
-   {
-      if (getNodeListIterator() == null)
-      {
-         try
-         {
-            Node contextNode = getContextNode();
-            List list = AeXPathUtil.selectNodes(contextNode, getQuery(), getNamespaceMap());
-            setNodeListIterator(list.iterator());
-         }
-         catch(AeException aex)
-         {
-            throw new JspException(aex);
-         }
-      }
+    public int doStartTag() throws JspException {
+        if (getNodeListIterator() == null) {
+            try {
+                Node contextNode = getContextNode();
+                List list = AeXPathUtil.selectNodes(contextNode, getQuery(), getNamespaceMap());
+                setNodeListIterator(list.iterator());
+            } catch (AeException aex) {
+                throw new JspException(aex);
+            }
+        }
 
-      if( getNodeListIterator() != null && getNodeListIterator().hasNext() )
-      {
-         setPageContextValue();
-         return EVAL_BODY_INCLUDE;
-      }
-      else
-      {
-         return SKIP_BODY;
-      }
-   }
+        if (getNodeListIterator() != null && getNodeListIterator().hasNext()) {
+            setPageContextValue();
+            return EVAL_BODY_INCLUDE;
+        } else {
+            return SKIP_BODY;
+        }
+    }
 
-   /**
-    * @return the node list iterator
-    */
-   protected Iterator getNodeListIterator()
-   {
-      return mNodeListIterator;
-   }
+    /**
+     * @return the node list iterator
+     */
+    protected Iterator getNodeListIterator() {
+        return mNodeListIterator;
+    }
 
-   /**
-    * @param aNodeListIterator the aNodeListIterator to set
-    */
-   protected void setNodeListIterator(Iterator aNodeListIterator)
-   {
-      mNodeListIterator = aNodeListIterator;
-   }
+    /**
+     * @param aNodeListIterator the aNodeListIterator to set
+     */
+    protected void setNodeListIterator(Iterator aNodeListIterator) {
+        mNodeListIterator = aNodeListIterator;
+    }
 
-   /**
-    * @see javax.servlet.jsp.tagext.BodyTagSupport#doEndTag()
-    */
-   public int doEndTag() throws JspException
-   {
-      if (getId() != null)
-      {
-         pageContext.removeAttribute(getId(), PageContext.PAGE_SCOPE);
-      }
-      setName(null);
-      setId(null);
-      setProperty(null);
-      setNodeListIterator(null);
-      return super.doEndTag();
-   }
+    /**
+     * @see javax.servlet.jsp.tagext.BodyTagSupport#doEndTag()
+     */
+    public int doEndTag() throws JspException {
+        if (getId() != null) {
+            pageContext.removeAttribute(getId(), PageContext.PAGE_SCOPE);
+        }
+        setName(null);
+        setId(null);
+        setProperty(null);
+        setNodeListIterator(null);
+        return super.doEndTag();
+    }
 
-   /**
-    * @see javax.servlet.jsp.tagext.IterationTag#doAfterBody()
-    */
-   public int doAfterBody() throws JspTagException
-   {
-      if( getNodeListIterator() != null && getNodeListIterator().hasNext() )
-      {
-         setPageContextValue();
-         return EVAL_BODY_AGAIN;
-      }
-      else
-      {
-         return SKIP_BODY;
-      }
-   }
+    /**
+     * @see javax.servlet.jsp.tagext.IterationTag#doAfterBody()
+     */
+    public int doAfterBody() throws JspTagException {
+        if (getNodeListIterator() != null && getNodeListIterator().hasNext()) {
+            setPageContextValue();
+            return EVAL_BODY_AGAIN;
+        } else {
+            return SKIP_BODY;
+        }
+    }
 
-   /**
-    * Sets the current iterator value in the page context.
-    */
-   protected void setPageContextValue()
-   {
-      Object obj = getNodeListIterator().next();
-      pageContext.setAttribute(getId(), obj);
-   }
+    /**
+     * Sets the current iterator value in the page context.
+     */
+    protected void setPageContextValue() {
+        Object obj = getNodeListIterator().next();
+        pageContext.setAttribute(getId(), obj);
+    }
 
 }

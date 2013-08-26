@@ -14,16 +14,16 @@ import org.activebpel.rt.bpel.impl.IAeMessageValidator;
 /**
  * Parent adapter for an extension activity that validates messages
  */
-public interface IAeMessageValidationAdapter extends IAeImplAdapter
-{
-   /**
-    * Sets message validator
-    * @param aMessageValidator
-    */
-   public void setMessageValidator(IAeMessageValidator aMessageValidator);
-   
-   /**
-    * Returns message validator
-    */
-   public IAeMessageValidator getMessageValidator();
+public interface IAeMessageValidationAdapter extends IAeImplAdapter {
+    /**
+     * Sets message validator
+     *
+     * @param aMessageValidator
+     */
+    public void setMessageValidator(IAeMessageValidator aMessageValidator);
+
+    /**
+     * Returns message validator
+     */
+    public IAeMessageValidator getMessageValidator();
 }

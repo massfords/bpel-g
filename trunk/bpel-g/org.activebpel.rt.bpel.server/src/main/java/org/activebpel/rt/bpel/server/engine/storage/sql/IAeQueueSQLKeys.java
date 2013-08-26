@@ -12,29 +12,50 @@ package org.activebpel.rt.bpel.server.engine.storage.sql;
 /**
  * Constants for the Queue storage SQL keys (keys into the SQLConfig object).
  */
-public interface IAeQueueSQLKeys
-{
-   /** The SQL statement key for deleting an alarm. */
-   public static final String DELETE_ALARM = "DeleteAlarm"; //$NON-NLS-1$
-   /** The SQL statement key for deleting an alarm by its group id. */
-   public static final String DELETE_ALARMS_IN_GROUP = "DeleteAlarmsByGroup"; //$NON-NLS-1$
-   /** The SQL statement key for inserting an alarm. */
-   public static final String INSERT_ALARM = "InsertAlarm"; //$NON-NLS-1$
-   /** The SQL statement key for getting the list of alarms. */
-   public static final String GET_ALARMS = "GetAlarms"; //$NON-NLS-1$
+public interface IAeQueueSQLKeys {
+    /**
+     * The SQL statement key for deleting an alarm.
+     */
+    public static final String DELETE_ALARM = "DeleteAlarm"; //$NON-NLS-1$
+    /**
+     * The SQL statement key for deleting an alarm by its group id.
+     */
+    public static final String DELETE_ALARMS_IN_GROUP = "DeleteAlarmsByGroup"; //$NON-NLS-1$
+    /**
+     * The SQL statement key for inserting an alarm.
+     */
+    public static final String INSERT_ALARM = "InsertAlarm"; //$NON-NLS-1$
+    /**
+     * The SQL statement key for getting the list of alarms.
+     */
+    public static final String GET_ALARMS = "GetAlarms"; //$NON-NLS-1$
 
-   /** The SQL statement key for getting queued receives. */
-   public static final String GET_QUEUED_RECEIVE = "GetQueuedReceive"; //$NON-NLS-1$
-   /** The SQL statement key for deleting queued receives by queued receive ID. */
-   public static final String DELETE_QUEUED_RECEIVE_BYID = "DeleteQueuedReceiveById"; //$NON-NLS-1$
-   /** The SQL statement key for deleting queued receives by location ID. */
-   public static final String DELETE_QUEUED_RECEIVES_BY_LOCID = "DeleteQueuedReceiveByLocId"; //$NON-NLS-1$
-   /** The SQL statement key for deleting queued receives. */
-   public static final String DELETE_QUEUED_RECEIVE = "DeleteQueuedReceive"; //$NON-NLS-1$
-   /** The SQL statement key for deleting queued receives by queued receive ID. */
-   public static final String DELETE_QUEUED_RECEIVES_BY_GROUP = "DeleteQueuedReceivesByGroup"; //$NON-NLS-1$
-   /** The SQL statement key for inserting queued receives. */
-   public static final String INSERT_QUEUED_RECEIVE = "InsertQueuedReceive"; //$NON-NLS-1$
-   /** The SQL statement key for getting correlated receives. */
-   public static final String GET_CORRELATED_RECEIVES = "GetCorrelatedReceives"; //$NON-NLS-1$
+    /**
+     * The SQL statement key for getting queued receives.
+     */
+    public static final String GET_QUEUED_RECEIVE = "GetQueuedReceive"; //$NON-NLS-1$
+    /**
+     * The SQL statement key for deleting queued receives by queued receive ID.
+     */
+    public static final String DELETE_QUEUED_RECEIVE_BYID = "DeleteQueuedReceiveById"; //$NON-NLS-1$
+    /**
+     * The SQL statement key for deleting queued receives by location ID.
+     */
+    public static final String DELETE_QUEUED_RECEIVES_BY_LOCID = "DeleteQueuedReceiveByLocId"; //$NON-NLS-1$
+    /**
+     * The SQL statement key for deleting queued receives.
+     */
+    public static final String DELETE_QUEUED_RECEIVE = "DeleteQueuedReceive"; //$NON-NLS-1$
+    /**
+     * The SQL statement key for deleting queued receives by queued receive ID.
+     */
+    public static final String DELETE_QUEUED_RECEIVES_BY_GROUP = "DeleteQueuedReceivesByGroup"; //$NON-NLS-1$
+    /**
+     * The SQL statement key for inserting queued receives.
+     */
+    public static final String INSERT_QUEUED_RECEIVE = "InsertQueuedReceive"; //$NON-NLS-1$
+    /**
+     * The SQL statement key for getting correlated receives.
+     */
+    public static final String GET_CORRELATED_RECEIVES = "GetCorrelatedReceives"; //$NON-NLS-1$
 }

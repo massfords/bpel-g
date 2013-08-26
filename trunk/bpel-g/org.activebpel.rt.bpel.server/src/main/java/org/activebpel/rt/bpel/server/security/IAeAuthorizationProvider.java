@@ -18,29 +18,27 @@ import org.activebpel.wsio.receive.IAeMessageContext;
 /**
  * Interface for pluggable authorization providers
  */
-public interface IAeAuthorizationProvider
-{
-      
-   /**
-    * Determines if a subject is authorized to invoke the service 
-    * described by the message context
-    * 
-    * @param aSubject Authenticated Subject
-    * @param aContext Message Context for request
-    * @return true if authorized
-    * @throws AeSecurityException unable to authorize request
-    */
-   public boolean authorize(Subject aSubject, IAeMessageContext aContext ) throws AeSecurityException;
+public interface IAeAuthorizationProvider {
 
-   /**
-    * Determines if a subject is authorized to perform an action on a resource by checking
-    * if the principals are in the comma-separated list of allowed roles 
-    * 
-    * @param aSubject Authenticated Subject
-    * @param aAllowedRoles Set of allowed role strings
-    * 
-    * @return true if authorized
-    * @throws AeSecurityException unable to authorize request
-    */
-   public boolean authorize(Subject aSubject, Set aAllowedRoles ) throws AeSecurityException;
+    /**
+     * Determines if a subject is authorized to invoke the service
+     * described by the message context
+     *
+     * @param aSubject Authenticated Subject
+     * @param aContext Message Context for request
+     * @return true if authorized
+     * @throws AeSecurityException unable to authorize request
+     */
+    public boolean authorize(Subject aSubject, IAeMessageContext aContext) throws AeSecurityException;
+
+    /**
+     * Determines if a subject is authorized to perform an action on a resource by checking
+     * if the principals are in the comma-separated list of allowed roles
+     *
+     * @param aSubject      Authenticated Subject
+     * @param aAllowedRoles Set of allowed role strings
+     * @return true if authorized
+     * @throws AeSecurityException unable to authorize request
+     */
+    public boolean authorize(Subject aSubject, Set aAllowedRoles) throws AeSecurityException;
 }

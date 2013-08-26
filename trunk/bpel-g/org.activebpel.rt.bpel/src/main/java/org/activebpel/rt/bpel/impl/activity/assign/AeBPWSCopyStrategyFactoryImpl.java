@@ -13,7 +13,6 @@ package org.activebpel.rt.bpel.impl.activity.assign;
 /**
  * BPWS version of a copy strategy factory.
  */
-public class AeBPWSCopyStrategyFactoryImpl extends AeAbstractCopyStrategyFactoryImpl
-{
+public class AeBPWSCopyStrategyFactoryImpl extends AeAbstractCopyStrategyFactoryImpl {
 
 }

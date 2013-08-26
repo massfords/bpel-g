@@ -7,7 +7,7 @@
 //Active Endpoints, Inc. Removal of this PROPRIETARY RIGHTS STATEMENT 
 //is strictly forbidden. Copyright (c) 2002-2006 All rights reserved. 
 /////////////////////////////////////////////////////////////////////////////
-package org.activebpel.rt.bpel.def.validation.expressions; 
+package org.activebpel.rt.bpel.def.validation.expressions;
 
 import org.activebpel.rt.bpel.def.IAeExpressionDef;
 import org.activebpel.rt.bpel.def.validation.IAeValidator;
@@ -15,11 +15,10 @@ import org.activebpel.rt.bpel.def.validation.IAeValidator;
 /**
  * interface for models that contain expression defs
  */
-public interface IAeExpressionModelValidator extends IAeValidator
-{
-   /**
-    * Getter for the expression def
-    */
-   public IAeExpressionDef getExpressionDef();
+public interface IAeExpressionModelValidator extends IAeValidator {
+    /**
+     * Getter for the expression def
+     */
+    public IAeExpressionDef getExpressionDef();
 }
  

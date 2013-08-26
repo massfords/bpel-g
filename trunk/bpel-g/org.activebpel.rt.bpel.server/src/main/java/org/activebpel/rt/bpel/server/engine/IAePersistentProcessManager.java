@@ -20,80 +20,81 @@ import org.activebpel.rt.bpel.server.engine.storage.IAeProcessStateStorage;
 /**
  * Persistent version of the process manager.
  */
-public interface IAePersistentProcessManager extends IAeProcessManager
-{
-   /**
-    * Gets a Reader to the process's log.
-    * @param aProcessId
-    * @throws AeBusinessProcessException
-    */
-   public Reader dumpLog(long aProcessId) throws AeBusinessProcessException;
+public interface IAePersistentProcessManager extends IAeProcessManager {
+    /**
+     * Gets a Reader to the process's log.
+     *
+     * @param aProcessId
+     * @throws AeBusinessProcessException
+     */
+    public Reader dumpLog(long aProcessId) throws AeBusinessProcessException;
 
-   /**
-    * Returns number of times to retry deadlocked transactions.
-    */
-   public int getDeadlockTryCount();
+    /**
+     * Returns number of times to retry deadlocked transactions.
+     */
+    public int getDeadlockTryCount();
 
-   /**
-    * Returns the effective process limit, which is the greater of the
-    * configured maximum process count or the number of processes required for
-    * recovery.
-    */
-   public int getEffectiveProcessLimit();
+    /**
+     * Returns the effective process limit, which is the greater of the
+     * configured maximum process count or the number of processes required for
+     * recovery.
+     */
+    public int getEffectiveProcessLimit();
 
-   /**
-    * Returns the journal entry with the given journal id.
-    */
-   public IAeJournalEntry getJournalEntry(long aJournalId) throws AeBusinessProcessException;
+    /**
+     * Returns the journal entry with the given journal id.
+     */
+    public IAeJournalEntry getJournalEntry(long aJournalId) throws AeBusinessProcessException;
 
-   /**
-    * Returns the maximum number of processes allowed in memory.
-    */
-   public int getMaxProcessCount();
+    /**
+     * Returns the maximum number of processes allowed in memory.
+     */
+    public int getMaxProcessCount();
 
-   /**
-    * Gets the process log for the given pid.
-    * @param aProcessId
-    */
-   public String getProcessLog(long aProcessId) throws AeBusinessProcessException;
+    /**
+     * Gets the process log for the given pid.
+     *
+     * @param aProcessId
+     */
+    public String getProcessLog(long aProcessId) throws AeBusinessProcessException;
 
-   /**
-    * Returns process state storage.
-    */
-   public IAeProcessStateStorage getStorage();
+    /**
+     * Returns process state storage.
+     */
+    public IAeProcessStateStorage getStorage();
 
-   /**
-    * Returns <code>true</code> if and only if process is container-managed.
-    */
-   public boolean isContainerManaged(long aProcessId);
+    /**
+     * Returns <code>true</code> if and only if process is container-managed.
+     */
+    public boolean isContainerManaged(long aProcessId);
 
-   /**
-    * Returns <code>true</code> if and only if the given process id currently
-    * resident in memory.
-    *
-    * @param aProcessId
-    */
-   public boolean isLoaded(long aProcessId);
-   
-   /**
-    * Returns <code>true</code> if and only if process is persistent.
-    */
-   public boolean isPersistent(long aProcessId);
+    /**
+     * Returns <code>true</code> if and only if the given process id currently
+     * resident in memory.
+     *
+     * @param aProcessId
+     */
+    public boolean isLoaded(long aProcessId);
 
-   /**
-    * Returns the restart process journal entry for the given process.
-    *
-    * @param aProcessId
-    * @throws AeBusinessProcessException
-    */
-   public AeInboundReceiveJournalEntry getRestartProcessJournalEntry(long aProcessId) throws AeBusinessProcessException;
+    /**
+     * Returns <code>true</code> if and only if process is persistent.
+     */
+    public boolean isPersistent(long aProcessId);
 
-   /**
-    * Indicates that the process manager should delete all existing journal
-    * entries for the given process when the process is next persisted.
-    *
-    * @param aProcessId
-    * @throws AeBusinessProcessException
-    */
-   public void journalAllEntriesDone(long aProcessId) throws AeBusinessProcessException;
+    /**
+     * Returns the restart process journal entry for the given process.
+     *
+     * @param aProcessId
+     * @throws AeBusinessProcessException
+     */
+    public AeInboundReceiveJournalEntry getRestartProcessJournalEntry(long aProcessId) throws AeBusinessProcessException;
+
+    /**
+     * Indicates that the process manager should delete all existing journal
+     * entries for the given process when the process is next persisted.
+     *
+     * @param aProcessId
+     * @throws AeBusinessProcessException
+     */
+    public void journalAllEntriesDone(long aProcessId) throws AeBusinessProcessException;
 }

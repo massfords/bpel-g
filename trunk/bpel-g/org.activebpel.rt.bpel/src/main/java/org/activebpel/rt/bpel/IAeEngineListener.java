@@ -12,18 +12,19 @@ package org.activebpel.rt.bpel;
 /**
  * Interface for engine listeners.
  */
-public interface IAeEngineListener
-{
-   /**
-    * Handle an event fired by the BPEL Engine.
-    * @param aEvent The event to handle.
-    * @return boolean indicating whether to suspend the process the engine event is for during STARTED handling. True means suspend. 
-    */
-   public boolean handleEngineEvent(IAeEngineEvent aEvent);
-   
-   /**
-    * Handle an alert event fired by the BPEL Engine.
-    * @param aEvent
-    */
-   public void handleAlert(IAeEngineAlert aEvent);
+public interface IAeEngineListener {
+    /**
+     * Handle an event fired by the BPEL Engine.
+     *
+     * @param aEvent The event to handle.
+     * @return boolean indicating whether to suspend the process the engine event is for during STARTED handling. True means suspend.
+     */
+    public boolean handleEngineEvent(IAeEngineEvent aEvent);
+
+    /**
+     * Handle an alert event fired by the BPEL Engine.
+     *
+     * @param aEvent
+     */
+    public void handleAlert(IAeEngineAlert aEvent);
 }

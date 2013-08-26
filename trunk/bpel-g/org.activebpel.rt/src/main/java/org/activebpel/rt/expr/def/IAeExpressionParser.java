@@ -16,13 +16,12 @@ import org.activebpel.rt.AeException;
  * This interface must be implemented by expression parsers.  There will be an implementation of this
  * interface for each expression language supported.
  */
-public interface IAeExpressionParser
-{
-   /**
-    * This method is called to parse a given expression into its parse result object.
-    * 
-    * @param aExpression
-    * @throws AeException
-    */
-   public IAeExpressionParseResult parse(String aExpression) throws AeException;
+public interface IAeExpressionParser {
+    /**
+     * This method is called to parse a given expression into its parse result object.
+     *
+     * @param aExpression
+     * @throws AeException
+     */
+    public IAeExpressionParseResult parse(String aExpression) throws AeException;
 }

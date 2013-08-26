@@ -30,26 +30,26 @@ import java.util.*;
 public class BgDeploymentContainer implements IAeDeploymentContainer {
 
     private static final Logger log = LoggerFactory.getLogger(BgDeploymentContainer.class);
-    
+
     private final File serviceUnitRoot;
     private ServiceDeployments serviceDeploymentInfos;
     private final ClassLoader classLoader;
     private final BgCatalogBuilder catalogBuilder;
     private final BgPddBuilder pddBuilder;
-    private final Map<Pdd,IAeDeploymentSource> deploymentSources = new HashMap<>();
+    private final Map<Pdd, IAeDeploymentSource> deploymentSources = new HashMap<>();
     private final Collection<AePddResource> pdds;
-    
+
     public BgDeploymentContainer(File serviceUnitRoot, IAeDeploymentLogger logger) throws Exception {
         this.serviceUnitRoot = serviceUnitRoot;
         classLoader = AeBprClasspathBuilder.build(serviceUnitRoot.toURI().toURL());
-        
+
         catalogBuilder = new BgCatalogBuilder(this.serviceUnitRoot);
         catalogBuilder.build();
 
         pddBuilder = new BgPddBuilder(this.serviceUnitRoot);
         pddBuilder.build();
         pdds = pddBuilder.getPdds(catalogBuilder);
-        
+
         // now that we've written all of the pdd's, we know what each bpel is importing
         // we're now able to build a collection of just those tuples that are referenced
         Set<BgCatalogTuple> referenced = pddBuilder.getReferenced();
@@ -57,7 +57,7 @@ public class BgDeploymentContainer implements IAeDeploymentContainer {
 
         // let's check to make sure there are no extra bpel's
         Set<QName> bpels = new HashSet<>();
-        for(File file : serviceUnitRoot.listFiles()) {
+        for (File file : serviceUnitRoot.listFiles()) {
             if (file.getName().endsWith(".bpel")) {
                 // add the name to the set
                 try {
@@ -78,22 +78,22 @@ public class BgDeploymentContainer implements IAeDeploymentContainer {
             }
 
             // anything left over is an extra bpel
-            for(QName name : bpels) {
+            for (QName name : bpels) {
                 logger.addContainerMessage(
                         new Msg().withType(MessageType.WARNING)
-                                 .withValue("Extra bpel file without an entry in deploy.xml:" + name.getLocalPart()));
+                                .withValue("Extra bpel file without an entry in deploy.xml:" + name.getLocalPart()));
             }
         }
 
     }
-    
+
     public BgPlink getPlink(QName processName, String plinkName) {
-     return pddBuilder.getDeployments().get(processName).getBgPlink(plinkName);
+        return pddBuilder.getDeployments().get(processName).getBgPlink(plinkName);
     }
 
     @Override
     public IAeDeploymentSource getDeploymentSource(Pdd pdd) throws AeException {
-    	// FIXME this looks wrong
+        // FIXME this looks wrong
         IAeDeploymentSource source = deploymentSources.get(pdd);
         if (source == null) {
             source = new AeBprDeploymentSource(pdd, this);
@@ -101,7 +101,7 @@ public class BgDeploymentContainer implements IAeDeploymentContainer {
         }
         return source;
     }
-    
+
     @Override
     public String getShortName() {
         return serviceUnitRoot.getName();
@@ -109,28 +109,29 @@ public class BgDeploymentContainer implements IAeDeploymentContainer {
 
     @Override
     public ServiceDeployments getServiceDeploymentInfo() throws AeException {
-    	if (serviceDeploymentInfos == null) {
-    		serviceDeploymentInfos = new ServiceDeployments();
-    		for(AePddResource pddr : pdds) {
-    			IAeDeploymentSource source = getDeploymentSource(pddr.getPdd());
-				serviceDeploymentInfos.withServiceDeployment(getServiceInfo(source).getServiceDeployment());
-    		}
-    	}
+        if (serviceDeploymentInfos == null) {
+            serviceDeploymentInfos = new ServiceDeployments();
+            for (AePddResource pddr : pdds) {
+                IAeDeploymentSource source = getDeploymentSource(pddr.getPdd());
+                serviceDeploymentInfos.withServiceDeployment(getServiceInfo(source).getServiceDeployment());
+            }
+        }
         return new ServiceDeployments().withServiceDeployment(serviceDeploymentInfos.getServiceDeployment());
     }
-	/**
-	 * Gets the service deployment info from a source
-	 * 
-	 * @param source
-	 * @throws AeDeploymentException
-	 */
-	protected ServiceDeployments getServiceInfo(
-			IAeDeploymentSource source) throws AeDeploymentException {
-		// Get the service info
-		AeProcessDef processDef = source.getProcessDef();
-		return AeServiceDeploymentUtil
-				.getServices(processDef, source.getPdd());
-	}
+
+    /**
+     * Gets the service deployment info from a source
+     *
+     * @param source
+     * @throws AeDeploymentException
+     */
+    protected ServiceDeployments getServiceInfo(
+            IAeDeploymentSource source) throws AeDeploymentException {
+        // Get the service info
+        AeProcessDef processDef = source.getProcessDef();
+        return AeServiceDeploymentUtil
+                .getServices(processDef, source.getPdd());
+    }
 
     @Override
     public boolean exists(String resourceName) {

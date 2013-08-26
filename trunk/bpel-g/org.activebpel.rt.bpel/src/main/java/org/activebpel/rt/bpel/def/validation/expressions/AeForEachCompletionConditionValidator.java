@@ -7,7 +7,7 @@
 //Active Endpoints, Inc. Removal of this PROPRIETARY RIGHTS STATEMENT 
 //is strictly forbidden. Copyright (c) 2002-2006 All rights reserved. 
 /////////////////////////////////////////////////////////////////////////////
-package org.activebpel.rt.bpel.def.validation.expressions; 
+package org.activebpel.rt.bpel.def.validation.expressions;
 
 import org.activebpel.rt.bpel.def.activity.support.AeForEachCompletionConditionDef;
 import org.activebpel.rt.bpel.def.validation.AeBaseValidator;
@@ -15,15 +15,14 @@ import org.activebpel.rt.bpel.def.validation.AeBaseValidator;
 /**
  * model provides validation for completionCondition def
  */
-public class AeForEachCompletionConditionValidator extends AeBaseValidator
-{
-   /**
-    * ctor
-    * @param aDef
-    */
-   public AeForEachCompletionConditionValidator(AeForEachCompletionConditionDef aDef)
-   {
-      super(aDef);
-   }
+public class AeForEachCompletionConditionValidator extends AeBaseValidator {
+    /**
+     * ctor
+     *
+     * @param aDef
+     */
+    public AeForEachCompletionConditionValidator(AeForEachCompletionConditionDef aDef) {
+        super(aDef);
+    }
 }
  

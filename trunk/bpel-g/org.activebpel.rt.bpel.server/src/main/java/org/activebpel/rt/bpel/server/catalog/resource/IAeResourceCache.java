@@ -14,33 +14,35 @@ import bpelg.services.deploy.types.pdd.ReferenceType;
 
 
 /**
- *  Resource cache interface.
+ * Resource cache interface.
  */
-public interface IAeResourceCache
-{
-   /**
-    * Locate a specific object via a key.
-    * @param aKey
-    */
-   public Object getResource( ReferenceType aKey ) throws AeResourceException;
-   
-   /**
-    * Remove the resource from the cache.
-    * @param aKey
-    */
-   public boolean removeResource( ReferenceType aKey );
-   
-   /**
-    * Replace any existing entries mapped to the given key with the new object.
-    * @param aKey
-    * @param aObject
-    */
-   public void updateResource( ReferenceType aKey, Object aObject);
-   
-   /**
-    * Clear entries out of the cache.
-    */
-   public void clear();
-   
-   public Statistics getStatistics();
+public interface IAeResourceCache {
+    /**
+     * Locate a specific object via a key.
+     *
+     * @param aKey
+     */
+    public Object getResource(ReferenceType aKey) throws AeResourceException;
+
+    /**
+     * Remove the resource from the cache.
+     *
+     * @param aKey
+     */
+    public boolean removeResource(ReferenceType aKey);
+
+    /**
+     * Replace any existing entries mapped to the given key with the new object.
+     *
+     * @param aKey
+     * @param aObject
+     */
+    public void updateResource(ReferenceType aKey, Object aObject);
+
+    /**
+     * Clear entries out of the cache.
+     */
+    public void clear();
+
+    public Statistics getStatistics();
 }

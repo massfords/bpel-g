@@ -22,82 +22,78 @@ import org.activebpel.rt.util.AeUtil;
 /**
  * Factory to create objects needed for the coordination framework.
  */
-public class AeCoordinationFactory
-{
-   /** Singleton instance. */
-   private static AeCoordinationFactory sInstance = null;
-   
-   /** Static accessor. */
-   public static synchronized AeCoordinationFactory getInstance()
-   {
-      if (sInstance == null)
-      {
-         sInstance = new AeCoordinationFactory();
-      }
-      return sInstance;
-   }
+public class AeCoordinationFactory {
+    /**
+     * Singleton instance.
+     */
+    private static AeCoordinationFactory sInstance = null;
 
-   /**
-    * Creates and returns a Coordination object.
-    * @param aManager coordination manager.
-    * @param aContext coordination context.
-    * @param aRole role.
-    * @return coordinating object.
-    * @throws AeCoordinationException
-    */
-   public IAeCoordinating createCoordination(IAeCoordinationManagerInternal aManager, 
-         IAeCoordinationContext aContext, int aRole) throws AeCoordinationException
-   {
-      IAeProtocolState protocolState = null;
-      return createCoordination(aManager, aContext, protocolState, aRole);      
-   }   
-   
-   /**
-    * Creates and returns a Coordination object.
-    * @param aManager coordination manager.
-    * @param aContext coordination context.
-    * @param aState state.
-    * @param aRole role.
-    * @return coordinating object.
-    * @throws AeCoordinationException
-    */
-   public IAeCoordinating createCoordination(IAeCoordinationManagerInternal aManager, 
-         IAeCoordinationContext aContext, String aState, int aRole) throws AeCoordinationException
-   {
-      IAeProtocolState protocolState = null;
-      if (AeUtil.notNullOrEmpty(aState))
-      {
-         protocolState = new AeProtocolState(aState);
-      }
-      return createCoordination(aManager, aContext, protocolState, aRole);      
-   }
-   
-   /**
-    * Creates and returns a Coordination object.
-    * @param aManager coordination manager.
-    * @param aContext coordination context.
-    * @param aState state.
-    * @param aRole role.
-    * @return coordinating object.
-    * @throws AeCoordinationException
-    */
-   public IAeCoordinating createCoordination(IAeCoordinationManagerInternal aManager, 
-         IAeCoordinationContext aContext, IAeProtocolState aState, int aRole) throws AeCoordinationException
-   {
-      AeCoordinatingBase coordinating = null;
-      if (aRole == IAeCoordinating.COORDINATOR_ROLE)
-      {
-         coordinating = new AeSpCoordinator(aContext, aManager);            
-      }
-      else
-      {
-         coordinating = new AeSpParticipant(aContext, aManager);            
-      }
-      if (aState != null)
-      {
-         coordinating.setState(aState);
-      }
-      return coordinating;
-   }
-   
+    /**
+     * Static accessor.
+     */
+    public static synchronized AeCoordinationFactory getInstance() {
+        if (sInstance == null) {
+            sInstance = new AeCoordinationFactory();
+        }
+        return sInstance;
+    }
+
+    /**
+     * Creates and returns a Coordination object.
+     *
+     * @param aManager coordination manager.
+     * @param aContext coordination context.
+     * @param aRole    role.
+     * @return coordinating object.
+     * @throws AeCoordinationException
+     */
+    public IAeCoordinating createCoordination(IAeCoordinationManagerInternal aManager,
+                                              IAeCoordinationContext aContext, int aRole) throws AeCoordinationException {
+        IAeProtocolState protocolState = null;
+        return createCoordination(aManager, aContext, protocolState, aRole);
+    }
+
+    /**
+     * Creates and returns a Coordination object.
+     *
+     * @param aManager coordination manager.
+     * @param aContext coordination context.
+     * @param aState   state.
+     * @param aRole    role.
+     * @return coordinating object.
+     * @throws AeCoordinationException
+     */
+    public IAeCoordinating createCoordination(IAeCoordinationManagerInternal aManager,
+                                              IAeCoordinationContext aContext, String aState, int aRole) throws AeCoordinationException {
+        IAeProtocolState protocolState = null;
+        if (AeUtil.notNullOrEmpty(aState)) {
+            protocolState = new AeProtocolState(aState);
+        }
+        return createCoordination(aManager, aContext, protocolState, aRole);
+    }
+
+    /**
+     * Creates and returns a Coordination object.
+     *
+     * @param aManager coordination manager.
+     * @param aContext coordination context.
+     * @param aState   state.
+     * @param aRole    role.
+     * @return coordinating object.
+     * @throws AeCoordinationException
+     */
+    public IAeCoordinating createCoordination(IAeCoordinationManagerInternal aManager,
+                                              IAeCoordinationContext aContext, IAeProtocolState aState, int aRole) throws AeCoordinationException {
+        AeCoordinatingBase coordinating = null;
+        if (aRole == IAeCoordinating.COORDINATOR_ROLE) {
+            coordinating = new AeSpCoordinator(aContext, aManager);
+        } else {
+            coordinating = new AeSpParticipant(aContext, aManager);
+        }
+        if (aState != null) {
+            coordinating.setState(aState);
+        }
+        return coordinating;
+    }
+
 }

@@ -18,41 +18,36 @@ import org.activebpel.rt.bpel.def.visitors.IAeDefVisitor;
 /**
  * Models the BPEL 2.0 'toParts' construct.
  */
-public class AeToPartsDef extends AeBaseContainer<AeToPartDef,AeToPartDef>
-{
-   private static final long serialVersionUID = 7649526241910343097L;
+public class AeToPartsDef extends AeBaseContainer<AeToPartDef, AeToPartDef> {
+    private static final long serialVersionUID = 7649526241910343097L;
 
-   /**
-    * Default c'tor.
-    */
-   public AeToPartsDef()
-   {
-      super();
-   }
+    /**
+     * Default c'tor.
+     */
+    public AeToPartsDef() {
+        super();
+    }
 
-   /**
-    * Adds a toPart def to the container.
-    * 
-    * @param aDef
-    */
-   public void addToPartDef(AeToPartDef aDef)
-   {
-      add(aDef);
-   }
-   
-   /**
-    * Gets an iterator over all of the toPart defs.
-    */
-   public Iterator<? extends AeToPartDef> getToPartDefs()
-   {
-      return getValues();
-   }
+    /**
+     * Adds a toPart def to the container.
+     *
+     * @param aDef
+     */
+    public void addToPartDef(AeToPartDef aDef) {
+        add(aDef);
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.def.AeBaseDef#accept(org.activebpel.rt.bpel.def.visitors.IAeDefVisitor)
-    */
-   public void accept(IAeDefVisitor aVisitor)
-   {
-      aVisitor.visit(this);
-   }
+    /**
+     * Gets an iterator over all of the toPart defs.
+     */
+    public Iterator<? extends AeToPartDef> getToPartDefs() {
+        return getValues();
+    }
+
+    /**
+     * @see org.activebpel.rt.bpel.def.AeBaseDef#accept(org.activebpel.rt.bpel.def.visitors.IAeDefVisitor)
+     */
+    public void accept(IAeDefVisitor aVisitor) {
+        aVisitor.visit(this);
+    }
 }

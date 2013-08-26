@@ -17,63 +17,56 @@ import org.activebpel.rt.util.AeUtil;
 /**
  * Base class for simple property based context implementations.
  */
-public class AeContextBase implements Serializable
-{
-   /**
-     * 
+public class AeContextBase implements Serializable {
+    /**
+     *
      */
     private static final long serialVersionUID = 8557647981628942510L;
-/**
-    * Properties.
-    */
-   private Properties mProperties = null;
-   
-   /**
-    * Default constructor.
-    *
-    */
-   public AeContextBase()
-   {      
-   }
+    /**
+     * Properties.
+     */
+    private Properties mProperties = null;
 
-   /**
-    * Returns the property value.
-    * @param aName name of property.
-    * @return property value or null if not found.
-    */
-   public String getProperty(String aName)
-   {
-      String rVal = null;
-      if (AeUtil.notNullOrEmpty(aName))
-      {
-         rVal = getProperties().getProperty(aName);
-      }
-      return rVal;
-   }
-   
-   /**
-    * Sets the property.
-    * @param aName name of property.
-    * @param aValue value of property. This should not be null.
-    */
-   public void setProperty(String aName, String aValue)
-   {
-      if (AeUtil.notNullOrEmpty(aName) && aValue != null)
-      {
-         getProperties().setProperty(aName, aValue.trim());
-      }
-   }
-   
-   /**
-    * @return Returns the properties.
-    */
-   public Properties getProperties()
-   {
-      if (mProperties == null)
-      {
-         mProperties = new Properties();
-      }
-      return mProperties;
-   }
-   
+    /**
+     * Default constructor.
+     */
+    public AeContextBase() {
+    }
+
+    /**
+     * Returns the property value.
+     *
+     * @param aName name of property.
+     * @return property value or null if not found.
+     */
+    public String getProperty(String aName) {
+        String rVal = null;
+        if (AeUtil.notNullOrEmpty(aName)) {
+            rVal = getProperties().getProperty(aName);
+        }
+        return rVal;
+    }
+
+    /**
+     * Sets the property.
+     *
+     * @param aName  name of property.
+     * @param aValue value of property. This should not be null.
+     */
+    public void setProperty(String aName, String aValue) {
+        if (AeUtil.notNullOrEmpty(aName) && aValue != null) {
+            getProperties().setProperty(aName, aValue.trim());
+        }
+    }
+
+    /**
+     * @return Returns the properties.
+     */
+    public Properties getProperties() {
+        if (mProperties == null) {
+            mProperties = new Properties();
+        }
+        return mProperties;
+    }
+
 }

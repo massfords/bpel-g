@@ -21,63 +21,60 @@ import org.activebpel.rt.bpeladmin.war.graph.ui.figure.AeGraphFigure;
 /**
  * Base controller for BPEL container type definitions.
  */
-public abstract class AeBpelContainerController extends AeBpelControllerBase
-{
-   /**
-    * Default constructor.
-    */
-   public AeBpelContainerController()
-   {
-      super();
-   }
-        
-   /** 
-    * Overrides method to Activity container which has its icon label in the top (North)
-    * and the content (container) in the bottom (Center). 
-    * @see org.activebpel.rt.bpeladmin.war.graph.ui.controller.AeGraphController#createFigure()
-    */
-   protected AeGraphFigure createFigure()
-   {      
-      AeGraphFigure figure = createContainerFigure();
-      if (getStateAdornmentIconImage() != null)
-      {
-         AeIcon stateIcon = new AeIcon(getStateAdornmentIconImage());
-         setStateImageIcon(stateIcon);
-         ((AeBpelFigureBase)figure).getLabel().add(stateIcon);
-      }
-      
-      AeGraphFigure contents = createContentFigure();
-      contents.setLayout(getContentLayoutManager(contents) );      
-      setContentFigure(contents);      
-      figure.add(contents, BorderLayout.CENTER);
-      return figure;
-   }  
-  
-   /**
-    * Creates and returns the main figure for this controller.
-    */
-   protected AeGraphFigure createContainerFigure()
-   {
-      AeBpelActivityContainerFigure figure = new AeBpelActivityContainerFigure(getLabelText(), getActivityIconImage());
-      figure.setEvaluated(isExecuted());
-      return figure;
-   }
-   
-   /**
-    * Creates and returns the container which holds the children.
-    * @return contents figure.
-    */
-   protected AeGraphFigure createContentFigure()
-   {
-      AeGraphFigure contents = new AeContainerFigure("CONTENTS_" + getLabelText());  //$NON-NLS-1$      
-      return contents;
-   }
-   
-   /**
-    * Returns the layout manager used for the contents figure.
-    * @param aForFigure the content figure for which the layout manager is used.
-    * @return layout manager
-    */
-   protected abstract LayoutManager getContentLayoutManager(AeGraphFigure aForFigure);
+public abstract class AeBpelContainerController extends AeBpelControllerBase {
+    /**
+     * Default constructor.
+     */
+    public AeBpelContainerController() {
+        super();
+    }
+
+    /**
+     * Overrides method to Activity container which has its icon label in the top (North)
+     * and the content (container) in the bottom (Center).
+     *
+     * @see org.activebpel.rt.bpeladmin.war.graph.ui.controller.AeGraphController#createFigure()
+     */
+    protected AeGraphFigure createFigure() {
+        AeGraphFigure figure = createContainerFigure();
+        if (getStateAdornmentIconImage() != null) {
+            AeIcon stateIcon = new AeIcon(getStateAdornmentIconImage());
+            setStateImageIcon(stateIcon);
+            ((AeBpelFigureBase) figure).getLabel().add(stateIcon);
+        }
+
+        AeGraphFigure contents = createContentFigure();
+        contents.setLayout(getContentLayoutManager(contents));
+        setContentFigure(contents);
+        figure.add(contents, BorderLayout.CENTER);
+        return figure;
+    }
+
+    /**
+     * Creates and returns the main figure for this controller.
+     */
+    protected AeGraphFigure createContainerFigure() {
+        AeBpelActivityContainerFigure figure = new AeBpelActivityContainerFigure(getLabelText(), getActivityIconImage());
+        figure.setEvaluated(isExecuted());
+        return figure;
+    }
+
+    /**
+     * Creates and returns the container which holds the children.
+     *
+     * @return contents figure.
+     */
+    protected AeGraphFigure createContentFigure() {
+        AeGraphFigure contents = new AeContainerFigure("CONTENTS_" + getLabelText());  //$NON-NLS-1$
+        return contents;
+    }
+
+    /**
+     * Returns the layout manager used for the contents figure.
+     *
+     * @param aForFigure the content figure for which the layout manager is used.
+     * @return layout manager
+     */
+    protected abstract LayoutManager getContentLayoutManager(AeGraphFigure aForFigure);
 
 }

@@ -31,7 +31,9 @@ import bpelg.services.processes.types.ServiceDeployments;
 
 public class AeProcessManagerService implements AeProcessManager {
 
-    /** comparator for sorting the deployment detail objects */
+    /**
+     * comparator for sorting the deployment detail objects
+     */
     private final Comparator<ProcessDeployment> mDeploymentComparator = new Comparator<ProcessDeployment>() {
         public int compare(ProcessDeployment one, ProcessDeployment two) {
             return one.getProcess().getName().getLocalPart().compareToIgnoreCase(
@@ -39,7 +41,9 @@ public class AeProcessManagerService implements AeProcessManager {
         }
     };
 
-    /** comparator for service deployment objects */
+    /**
+     * comparator for service deployment objects
+     */
     private final Comparator<ServiceDeployment> mServiceComparator = new Comparator<ServiceDeployment>() {
         public int compare(ServiceDeployment one, ServiceDeployment two) {
             return one.getService().compareTo(two.getService());
@@ -149,7 +153,7 @@ public class AeProcessManagerService implements AeProcessManager {
     public ProcessDeployments getProcessDeployments(GetProcessDeployments aBody) {
         IAeDeploymentProvider deploymentProvider = AeEngineFactory.getBean(IAeDeploymentProvider.class);
         List<ProcessDeployment> list = new ArrayList<>();
-        for (Iterator iter = deploymentProvider.getDeployedPlans(); iter.hasNext();) {
+        for (Iterator iter = deploymentProvider.getDeployedPlans(); iter.hasNext(); ) {
             IAeProcessDeployment deployedProcess = (IAeProcessDeployment) iter.next();
             list.add(createProcessDetail(deployedProcess));
         }
@@ -160,7 +164,7 @@ public class AeProcessManagerService implements AeProcessManager {
     /**
      * Create the <code>AeProcessDeploymentDetail</code> from the given
      * <code>IAeProcessDeployment</code>.
-     * 
+     *
      * @param aDeployment
      */
     protected ProcessDeployment createProcessDetail(

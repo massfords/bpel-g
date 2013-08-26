@@ -15,26 +15,23 @@ import org.activebpel.rt.bpel.def.visitors.IAeDefVisitor;
 /**
  * Models the 'wait' | 'onAlarm' constructs 'for' child element introduced in WS-BPEL 2.0.
  */
-public class AeForDef extends AeExpressionBaseDef
-{
-   /**
-     * 
+public class AeForDef extends AeExpressionBaseDef {
+    /**
+     *
      */
     private static final long serialVersionUID = -6157902004276684564L;
 
-/**
-    * Default c'tor.
-    */
-   public AeForDef()
-   {
-      super();
-   }
+    /**
+     * Default c'tor.
+     */
+    public AeForDef() {
+        super();
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.def.AeBaseDef#accept(org.activebpel.rt.bpel.def.visitors.IAeDefVisitor)
-    */
-   public void accept(IAeDefVisitor aVisitor)
-   {
-      aVisitor.visit(this);
-   }
+    /**
+     * @see org.activebpel.rt.bpel.def.AeBaseDef#accept(org.activebpel.rt.bpel.def.visitors.IAeDefVisitor)
+     */
+    public void accept(IAeDefVisitor aVisitor) {
+        aVisitor.visit(this);
+    }
 }

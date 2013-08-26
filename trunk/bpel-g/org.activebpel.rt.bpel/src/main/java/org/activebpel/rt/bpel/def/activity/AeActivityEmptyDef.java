@@ -15,26 +15,23 @@ import org.activebpel.rt.bpel.def.visitors.IAeDefVisitor;
 /**
  * Reads bpel empty activity definition.
  */
-public class AeActivityEmptyDef extends AeActivityDef
-{
-   /**
-     * 
+public class AeActivityEmptyDef extends AeActivityDef {
+    /**
+     *
      */
     private static final long serialVersionUID = -1772129221702377857L;
 
-/**
-    * Default constructor
-    */
-   public AeActivityEmptyDef()
-   {
-      super();
-   }
+    /**
+     * Default constructor
+     */
+    public AeActivityEmptyDef() {
+        super();
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.def.AeActivityDef#accept(org.activebpel.rt.bpel.def.visitors.IAeDefVisitor)
-    */
-   public void accept(IAeDefVisitor aVisitor)
-   {
-      aVisitor.visit(this);
-   }
+    /**
+     * @see org.activebpel.rt.bpel.def.AeActivityDef#accept(org.activebpel.rt.bpel.def.visitors.IAeDefVisitor)
+     */
+    public void accept(IAeDefVisitor aVisitor) {
+        aVisitor.visit(this);
+    }
 }

@@ -13,15 +13,14 @@ import java.util.Iterator;
 
 
 /**
- *  Provides access to all WSDL available to a 
- *  deployment context.
+ * Provides access to all WSDL available to a
+ * deployment context.
  */
-public interface IAeContextWSDLProvider extends IAeWSDLProvider
-{
-   /**
-    * Returns an iterator over the WSDLs known to this provider.
-    * 
-    * @return Iterator
-    */
-   public Iterator getWSDLIterator();
+public interface IAeContextWSDLProvider extends IAeWSDLProvider {
+    /**
+     * Returns an iterator over the WSDLs known to this provider.
+     *
+     * @return Iterator
+     */
+    public Iterator getWSDLIterator();
 }

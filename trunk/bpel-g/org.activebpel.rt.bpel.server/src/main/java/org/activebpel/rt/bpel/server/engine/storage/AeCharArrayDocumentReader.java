@@ -27,99 +27,85 @@ import org.w3c.dom.Document;
  * <code>Document</code> as a fixed-length character stream using an in-memory
  * character array.
  */
-public class AeCharArrayDocumentReader extends AeDocumentReader
-{
-   /** Serialization of XML document. */
-   private final char[] mCharArray;
+public class AeCharArrayDocumentReader extends AeDocumentReader {
+    /**
+     * Serialization of XML document.
+     */
+    private final char[] mCharArray;
 
-   /**
-    * Constructor.
-    *
-    * @param aDocument The <code>AeFastDocument</code>.
-    */
-   protected AeCharArrayDocumentReader(AeFastDocument aDocument)
-   {
-      mCharArray = toCharArray(aDocument);
-   }
+    /**
+     * Constructor.
+     *
+     * @param aDocument The <code>AeFastDocument</code>.
+     */
+    protected AeCharArrayDocumentReader(AeFastDocument aDocument) {
+        mCharArray = toCharArray(aDocument);
+    }
 
-   /**
-    * Constructor.
-    *
-    * @param aDocument The standard XML <code>Document</code>.
-    */
-   protected AeCharArrayDocumentReader(Document aDocument)
-   {
-      mCharArray = toCharArray(aDocument);
-   }
+    /**
+     * Constructor.
+     *
+     * @param aDocument The standard XML <code>Document</code>.
+     */
+    protected AeCharArrayDocumentReader(Document aDocument) {
+        mCharArray = toCharArray(aDocument);
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.server.engine.storage.AeDocumentReader#createReader()
-    */
-   protected Reader createReader()
-   {
-      return new CharArrayReader(getCharArray());
-   }
+    /**
+     * @see org.activebpel.rt.bpel.server.engine.storage.AeDocumentReader#createReader()
+     */
+    protected Reader createReader() {
+        return new CharArrayReader(getCharArray());
+    }
 
-   /**
-    * Returns character array containing serialization of the XML document.
-    */
-   protected char[] getCharArray()
-   {
-      return mCharArray;
-   }
+    /**
+     * Returns character array containing serialization of the XML document.
+     */
+    protected char[] getCharArray() {
+        return mCharArray;
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.server.engine.storage.AeDocumentReader#getLength()
-    */
-   public int getLength()
-   {
-      return getCharArray().length;
-   }
+    /**
+     * @see org.activebpel.rt.bpel.server.engine.storage.AeDocumentReader#getLength()
+     */
+    public int getLength() {
+        return getCharArray().length;
+    }
 
-   /**
-    * Returns character array containing serialization of the specified
-    * <code>AeFastDocument</code>.
-    *
-    * @param aDocument The <code>AeFastDocument</code>.
-    */
-   protected char[] toCharArray(AeFastDocument aDocument)
-   {
-      CharArrayWriter out = new AeUnsynchronizedCharArrayWriter();
+    /**
+     * Returns character array containing serialization of the specified
+     * <code>AeFastDocument</code>.
+     *
+     * @param aDocument The <code>AeFastDocument</code>.
+     */
+    protected char[] toCharArray(AeFastDocument aDocument) {
+        CharArrayWriter out = new AeUnsynchronizedCharArrayWriter();
 
-      try
-      {
-         new AeXMLFormatter().format(aDocument, out);
-         return out.toCharArray();
-      }
-      finally
-      {
-         AeCloser.close(out);
-      }
-   }
+        try {
+            new AeXMLFormatter().format(aDocument, out);
+            return out.toCharArray();
+        } finally {
+            AeCloser.close(out);
+        }
+    }
 
-   /**
-    * Returns character array containing serialization of the specified
-    * standard XML <code>Document</code>.
-    *
-    * @param aDocument The standard XML <code>Document</code>.
-    */
-   protected char[] toCharArray(Document aDocument)
-   {
-      CharArrayWriter out = new AeUnsynchronizedCharArrayWriter();
+    /**
+     * Returns character array containing serialization of the specified
+     * standard XML <code>Document</code>.
+     *
+     * @param aDocument The standard XML <code>Document</code>.
+     */
+    protected char[] toCharArray(Document aDocument) {
+        CharArrayWriter out = new AeUnsynchronizedCharArrayWriter();
 
-      try
-      {
-         AeXMLParserBase.saveDocument(aDocument, out);
-         return out.toCharArray();
-      }
-      catch (AeException e)
-      {
-         AeException.logError(e, AeMessages.getString("AeCharArrayDocumentReader.ERROR_0")); //$NON-NLS-1$
-         return new char[0];
-      }
-      finally
-      {
-         AeCloser.close(out);
-      }
-   }
+        try {
+            AeXMLParserBase.saveDocument(aDocument, out);
+            return out.toCharArray();
+        } catch (AeException e) {
+            AeException.logError(e, AeMessages.getString("AeCharArrayDocumentReader.ERROR_0")); //$NON-NLS-1$
+            return new char[0];
+        } finally {
+            AeCloser.close(out);
+        }
+    }
 }

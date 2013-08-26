@@ -13,29 +13,25 @@ package org.activebpel.rt.bpel.xpath.ast;
 /**
  * An XPath node for a multiplicative expression.
  */
-public class AeXPathMultiplicativeExprNode extends AeAbstractXPathOperatorNode
-{
-   /**
-    * Default c'tor.
-    */
-   public AeXPathMultiplicativeExprNode()
-   {
-      super(AeAbstractXPathNode.NODE_TYPE_MULTIPLICATIVE_EXPR);
-   }
+public class AeXPathMultiplicativeExprNode extends AeAbstractXPathOperatorNode {
+    /**
+     * Default c'tor.
+     */
+    public AeXPathMultiplicativeExprNode() {
+        super(AeAbstractXPathNode.NODE_TYPE_MULTIPLICATIVE_EXPR);
+    }
 
-   /**
-    * @return Returns the multiplicativeOperator.
-    */
-   public int getMultiplicativeOperator()
-   {
-      return getOperator();
-   }
+    /**
+     * @return Returns the multiplicativeOperator.
+     */
+    public int getMultiplicativeOperator() {
+        return getOperator();
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.xpath.ast.AeAbstractXPathNode#accept(org.activebpel.rt.bpel.xpath.ast.IAeXPathNodeVisitor)
-    */
-   public void accept(IAeXPathNodeVisitor aVisitor)
-   {
-      aVisitor.visit(this);
-   }
+    /**
+     * @see org.activebpel.rt.bpel.xpath.ast.AeAbstractXPathNode#accept(org.activebpel.rt.bpel.xpath.ast.IAeXPathNodeVisitor)
+     */
+    public void accept(IAeXPathNodeVisitor aVisitor) {
+        aVisitor.visit(this);
+    }
 }

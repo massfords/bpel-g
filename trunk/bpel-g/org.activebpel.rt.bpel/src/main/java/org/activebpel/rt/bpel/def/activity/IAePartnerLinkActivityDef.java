@@ -17,25 +17,24 @@ import org.activebpel.rt.bpel.def.AePartnerLinkOpKey;
  * Provides interface for defs that model a partner link operation like a <code>receive</code>,
  * <code>onMessage</code>, <code>invoke</code>, and <code>reply</code>.
  */
-public interface IAePartnerLinkActivityDef
-{
-   /**
-    * Gets the name of the partner link.
-    */
-   public String getPartnerLink();
+public interface IAePartnerLinkActivityDef {
+    /**
+     * Gets the name of the partner link.
+     */
+    public String getPartnerLink();
 
-   /**
-    * Gets the port type.
-    */
-   public QName getPortType();
+    /**
+     * Gets the port type.
+     */
+    public QName getPortType();
 
-   /**
-    * Gets the operation
-    */
-   public String getOperation();
+    /**
+     * Gets the operation
+     */
+    public String getOperation();
 
-   /**
-    * Returns the partnerlink:operation key for this activity.
-    */
-   public AePartnerLinkOpKey getPartnerLinkOperationKey();
+    /**
+     * Returns the partnerlink:operation key for this activity.
+     */
+    public AePartnerLinkOpKey getPartnerLinkOperationKey();
 }

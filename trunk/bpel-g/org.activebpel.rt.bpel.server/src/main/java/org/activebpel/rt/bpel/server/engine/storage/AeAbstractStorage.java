@@ -18,85 +18,73 @@ import org.activebpel.rt.bpel.server.engine.transaction.AeTransactionManager;
 /**
  * An abstract base class that is extended by all delegating storage impls.
  */
-public abstract class AeAbstractStorage
-{
-   /** The storage delegate. */
-   private IAeStorageProvider mProvider;
+public abstract class AeAbstractStorage {
+    /**
+     * The storage delegate.
+     */
+    private IAeStorageProvider mProvider;
 
-   /**
-    * @return Returns the provider.
-    */
-   public IAeStorageProvider getProvider()
-   {
-      return mProvider;
-   }
+    /**
+     * @return Returns the provider.
+     */
+    public IAeStorageProvider getProvider() {
+        return mProvider;
+    }
 
-   /**
-    * @param aProvider The provider to set.
-    */
-   public void setProvider(IAeStorageProvider aProvider)
-   {
-      mProvider = aProvider;
-   }
-   
-   /**
-    * Gets an auto-commit DB connection.
-    */
-   protected IAeStorageConnection getDBConnection() throws AeStorageException
-   {
-      return getProvider().getDBConnection();
-   }
+    /**
+     * @param aProvider The provider to set.
+     */
+    public void setProvider(IAeStorageProvider aProvider) {
+        mProvider = aProvider;
+    }
 
-   /**
-    * Gets a commit control DB connection.
-    */
-   protected IAeStorageConnection getCommitControlDBConnection() throws AeStorageException
-   {
-      return getProvider().getCommitControlDBConnection();
-   }
-   
-   /**
-    * Gets a transaction based DB connection.
-    * 
-    * @throws AeStorageException
-    */
-   protected IAeStorageConnection getTxCommitControlDBConnection() throws AeStorageException
-   {
-      return getProvider().getTxCommitControlDBConnection();
-   }
+    /**
+     * Gets an auto-commit DB connection.
+     */
+    protected IAeStorageConnection getDBConnection() throws AeStorageException {
+        return getProvider().getDBConnection();
+    }
 
-   /**
-    * Starts a transaction.
-    * 
-    * @throws AeStorageException
-    */
-   protected void beginTransaction() throws AeStorageException
-   {
-      try
-      {
-         AeTransactionManager.getInstance().begin();
-      }
-      catch (AeTransactionException ex)
-      {
-         throw new AeStorageException(ex);
-      }
-   }
+    /**
+     * Gets a commit control DB connection.
+     */
+    protected IAeStorageConnection getCommitControlDBConnection() throws AeStorageException {
+        return getProvider().getCommitControlDBConnection();
+    }
 
-   /**
-    * Rolls back the current transaction, wrapping the exception in a storage
-    * exception.
-    * 
-    * @throws AeStorageException
-    */
-   protected void rollbackTransaction() throws AeStorageException
-   {
-      try
-      {
-         AeTransactionManager.getInstance().rollback();
-      }
-      catch (AeTransactionException ex)
-      {
-         throw new AeStorageException(ex);
-      }
-   }
+    /**
+     * Gets a transaction based DB connection.
+     *
+     * @throws AeStorageException
+     */
+    protected IAeStorageConnection getTxCommitControlDBConnection() throws AeStorageException {
+        return getProvider().getTxCommitControlDBConnection();
+    }
+
+    /**
+     * Starts a transaction.
+     *
+     * @throws AeStorageException
+     */
+    protected void beginTransaction() throws AeStorageException {
+        try {
+            AeTransactionManager.getInstance().begin();
+        } catch (AeTransactionException ex) {
+            throw new AeStorageException(ex);
+        }
+    }
+
+    /**
+     * Rolls back the current transaction, wrapping the exception in a storage
+     * exception.
+     *
+     * @throws AeStorageException
+     */
+    protected void rollbackTransaction() throws AeStorageException {
+        try {
+            AeTransactionManager.getInstance().rollback();
+        } catch (AeTransactionException ex) {
+            throw new AeStorageException(ex);
+        }
+    }
 }

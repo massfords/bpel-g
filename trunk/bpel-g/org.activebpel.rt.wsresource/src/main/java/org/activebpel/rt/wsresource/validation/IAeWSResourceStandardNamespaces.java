@@ -19,25 +19,24 @@ import org.activebpel.rt.xml.IAeNamespaceContext;
  * Interface used to resolve standard WS-Resource namespace mappings. It can do
  * both prefix-to-namespace <b>and</b> namespace-to-prefix.
  */
-public interface IAeWSResourceStandardNamespaces extends IAeNamespaceContext
-{
-   /**
-    * Resolves a namespace prefix into a namespace URI. This method should
-    * return null if the namespace could not be found.
-    *
-    * @param aPrefix The prefix to resolve.
-    */
-   public String resolvePrefixToNamespace(String aPrefix);
+public interface IAeWSResourceStandardNamespaces extends IAeNamespaceContext {
+    /**
+     * Resolves a namespace prefix into a namespace URI. This method should
+     * return null if the namespace could not be found.
+     *
+     * @param aPrefix The prefix to resolve.
+     */
+    public String resolvePrefixToNamespace(String aPrefix);
 
-   /**
-    * Resolves a namespace to its prefix.
-    *
-    * @param aNamespace
-    */
-   public String resolveNamespaceToPrefix(String aNamespace);
+    /**
+     * Resolves a namespace to its prefix.
+     *
+     * @param aNamespace
+     */
+    public String resolveNamespaceToPrefix(String aNamespace);
 
-   /**
-    * Gets all of the standard namespaces.
-    */
-   public Collection<String> getAllNamespaces();
+    /**
+     * Gets all of the standard namespaces.
+     */
+    public Collection<String> getAllNamespaces();
 }

@@ -25,159 +25,152 @@ import org.activebpel.rt.bpel.def.visitors.IAeDefVisitor;
 /**
  * Definition for bpel reply activity.
  */
-public class AeActivityReplyDef extends AeActivityPartnerLinkBaseDef implements IAeToPartsParentDef, IAeMessageDataProducerDef
-{
-   /**
-     * 
+public class AeActivityReplyDef extends AeActivityPartnerLinkBaseDef implements IAeToPartsParentDef, IAeMessageDataProducerDef {
+    /**
+     *
      */
     private static final long serialVersionUID = 6950113877808733780L;
-/** The variable attribute. */
-   private String mVariable;
-   /** The fault name attribute. */
-   private QName mFaultName;
-   /** The message exchange attribute. */
-   private String mMessageExchange;
-   /** The 'toParts' child def. */
-   private AeToPartsDef mToPartsDef;
-   /** The strategy hint for producing the message data for the reply */
-   private String mMessageDataProducerStrategy;
+    /**
+     * The variable attribute.
+     */
+    private String mVariable;
+    /**
+     * The fault name attribute.
+     */
+    private QName mFaultName;
+    /**
+     * The message exchange attribute.
+     */
+    private String mMessageExchange;
+    /**
+     * The 'toParts' child def.
+     */
+    private AeToPartsDef mToPartsDef;
+    /**
+     * The strategy hint for producing the message data for the reply
+     */
+    private String mMessageDataProducerStrategy;
 
-   /**
-    * Default constructor
-    */
-   public AeActivityReplyDef()
-   {
-      super();
-   }
+    /**
+     * Default constructor
+     */
+    public AeActivityReplyDef() {
+        super();
+    }
 
-   /**
-    * Accessor method to obtain the name of the variable associated with this activity.
-    * 
-    * @return name of the variable
-    */
-   public String getVariable()
-   {
-      return mVariable;
-   }
+    /**
+     * Accessor method to obtain the name of the variable associated with this activity.
+     *
+     * @return name of the variable
+     */
+    public String getVariable() {
+        return mVariable;
+    }
 
-   /**
-    * Mutator method to set the name of the variable for this activity.
-    * 
-    * @param aVariable name of variable
-    */
-   public void setVariable(String aVariable)
-   {
-      mVariable = aVariable;
-   }
+    /**
+     * Mutator method to set the name of the variable for this activity.
+     *
+     * @param aVariable name of variable
+     */
+    public void setVariable(String aVariable) {
+        mVariable = aVariable;
+    }
 
-   /**
-    * Accessor method to obtain the name of the fault associated with this activity.
-    * 
-    * @return name of the fault
-    */
-   public QName getFaultName()
-   {
-      return mFaultName;
-   }
+    /**
+     * Accessor method to obtain the name of the fault associated with this activity.
+     *
+     * @return name of the fault
+     */
+    public QName getFaultName() {
+        return mFaultName;
+    }
 
-   /**
-    * Mutator method to set the name of the fault for this activity.
-    * 
-    * @param aFaultName name of fault
-    */
-   public void setFaultName(QName aFaultName)
-   {
-      mFaultName = aFaultName;
-   }
+    /**
+     * Mutator method to set the name of the fault for this activity.
+     *
+     * @param aFaultName name of fault
+     */
+    public void setFaultName(QName aFaultName) {
+        mFaultName = aFaultName;
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.def.AeActivityDef#accept(org.activebpel.rt.bpel.def.visitors.IAeDefVisitor)
-    */
-   public void accept(IAeDefVisitor aVisitor)
-   {
-      aVisitor.visit(this);
-   }
+    /**
+     * @see org.activebpel.rt.bpel.def.AeActivityDef#accept(org.activebpel.rt.bpel.def.visitors.IAeDefVisitor)
+     */
+    public void accept(IAeDefVisitor aVisitor) {
+        aVisitor.visit(this);
+    }
 
-   /**
-    * @return Returns the messageExchange.
-    */
-   public String getMessageExchange()
-   {
-      return mMessageExchange;
-   }
+    /**
+     * @return Returns the messageExchange.
+     */
+    public String getMessageExchange() {
+        return mMessageExchange;
+    }
 
-   /**
-    * @param aMessageExchange The messageExchange to set.
-    */
-   public void setMessageExchange(String aMessageExchange)
-   {
-      mMessageExchange = aMessageExchange;
-   }
+    /**
+     * @param aMessageExchange The messageExchange to set.
+     */
+    public void setMessageExchange(String aMessageExchange) {
+        mMessageExchange = aMessageExchange;
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.def.IAeFromPartsParentDef#getFromPartDefs()
-    */
-   public Iterator<? extends AeToPartDef> getToPartDefs()
-   {
-      if (getToPartsDef() == null)
-         return Collections.<AeToPartDef>emptyList().iterator();
-      else
-         return getToPartsDef().getToPartDefs();
-   }
-   
-   /**
-    * @see org.activebpel.rt.bpel.def.IAeToPartsParentDef#getToPartsDef()
-    */
-   public AeToPartsDef getToPartsDef()
-   {
-      return mToPartsDef;
-   }
+    /**
+     * @see org.activebpel.rt.bpel.def.IAeFromPartsParentDef#getFromPartDefs()
+     */
+    public Iterator<? extends AeToPartDef> getToPartDefs() {
+        if (getToPartsDef() == null)
+            return Collections.<AeToPartDef>emptyList().iterator();
+        else
+            return getToPartsDef().getToPartDefs();
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.def.IAeToPartsParentDef#setToPartsDef(AeToPartsDef)
-    */
-   public void setToPartsDef(AeToPartsDef aDef)
-   {
-      mToPartsDef = aDef;
-   }
+    /**
+     * @see org.activebpel.rt.bpel.def.IAeToPartsParentDef#getToPartsDef()
+     */
+    public AeToPartsDef getToPartsDef() {
+        return mToPartsDef;
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.def.activity.IAeMessageDataProducerDef#getMessageDataProducerVariable()
-    */
-   public AeVariableDef getMessageDataProducerVariable()
-   {
-      return AeDefUtil.getVariableByName(getVariable(), this);
-   }
+    /**
+     * @see org.activebpel.rt.bpel.def.IAeToPartsParentDef#setToPartsDef(AeToPartsDef)
+     */
+    public void setToPartsDef(AeToPartsDef aDef) {
+        mToPartsDef = aDef;
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.def.activity.IAeMessageDataProducerDef#getMessageDataProducerStrategy()
-    */
-   public String getMessageDataProducerStrategy()
-   {
-      return mMessageDataProducerStrategy;
-   }
+    /**
+     * @see org.activebpel.rt.bpel.def.activity.IAeMessageDataProducerDef#getMessageDataProducerVariable()
+     */
+    public AeVariableDef getMessageDataProducerVariable() {
+        return AeDefUtil.getVariableByName(getVariable(), this);
+    }
 
-   /**
-    * @param aMessageDataProducerStrategy The messageDataProducerStrategy to set.
-    */
-   public void setMessageDataProducerStrategy(String aMessageDataProducerStrategy)
-   {
-      mMessageDataProducerStrategy = aMessageDataProducerStrategy;
-   }
+    /**
+     * @see org.activebpel.rt.bpel.def.activity.IAeMessageDataProducerDef#getMessageDataProducerStrategy()
+     */
+    public String getMessageDataProducerStrategy() {
+        return mMessageDataProducerStrategy;
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.def.activity.IAeMessageDataProducerDef#getProducerOperation()
-    */
-   public String getProducerOperation()
-   {
-      return getOperation();
-   }
+    /**
+     * @param aMessageDataProducerStrategy The messageDataProducerStrategy to set.
+     */
+    public void setMessageDataProducerStrategy(String aMessageDataProducerStrategy) {
+        mMessageDataProducerStrategy = aMessageDataProducerStrategy;
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.def.activity.IAeMessageDataProducerDef#getProducerPortType()
-    */
-   public QName getProducerPortType()
-   {
-      return getPortType();
-   }
+    /**
+     * @see org.activebpel.rt.bpel.def.activity.IAeMessageDataProducerDef#getProducerOperation()
+     */
+    public String getProducerOperation() {
+        return getOperation();
+    }
+
+    /**
+     * @see org.activebpel.rt.bpel.def.activity.IAeMessageDataProducerDef#getProducerPortType()
+     */
+    public QName getProducerPortType() {
+        return getPortType();
+    }
 }

@@ -7,22 +7,20 @@
 //Active Endpoints, Inc. Removal of this PROPRIETARY RIGHTS STATEMENT 
 //is strictly forbidden. Copyright (c) 2002-2007 All rights reserved. 
 /////////////////////////////////////////////////////////////////////////////
-package org.activebpel.rt.xml.schema.sampledata.structure; 
+package org.activebpel.rt.xml.schema.sampledata.structure;
 
 import org.activebpel.rt.xml.schema.sampledata.IAeSampleDataVisitor;
 
 /**
  * Models a schema element of type xs:anyType
  */
-public class AeAnyTypeElement extends AeBaseElement
-{
-   /**
-    * @see org.activebpel.rt.xml.schema.sampledata.structure.AeBaseElement#accept(org.activebpel.rt.xml.schema.sampledata.IAeSampleDataVisitor)
-    */
-   public void accept(IAeSampleDataVisitor aVisitor)
-   {
-      aVisitor.visit(this);
-   }
+public class AeAnyTypeElement extends AeBaseElement {
+    /**
+     * @see org.activebpel.rt.xml.schema.sampledata.structure.AeBaseElement#accept(org.activebpel.rt.xml.schema.sampledata.IAeSampleDataVisitor)
+     */
+    public void accept(IAeSampleDataVisitor aVisitor) {
+        aVisitor.visit(this);
+    }
 
 }
  

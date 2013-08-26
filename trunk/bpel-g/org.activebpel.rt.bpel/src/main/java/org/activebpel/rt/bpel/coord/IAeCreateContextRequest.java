@@ -11,39 +11,41 @@ package org.activebpel.rt.bpel.coord;
 
 
 /**
- * Interface for a WS-Coordination CreateCoordinationContext 
- * 
+ * Interface for a WS-Coordination CreateCoordinationContext
+ * <p/>
  * Note: This is an internal implementation tailored to be used with requirement 111
- * ie - the interface provides a simple property getter and setter. 
- * 
+ * ie - the interface provides a simple property getter and setter.
+ * <p/>
  * The final implementation should follow something close to CreateCoordinationContext
  * as per http://schemas.xmlsoap.org/ws/2004/10/wsoor.
- * Maybe refactor this interface to wsio.IWebServiceCoordCreateContextRequest.  
+ * Maybe refactor this interface to wsio.IWebServiceCoordCreateContextRequest.
  */
-public interface IAeCreateContextRequest
-{
-   /**
-    * Returns the coordination type.
-    */
-   public String getCoordinationType();
-   
-   /**
-    * Sets the coordination type.
-    * @param aCoordinationType
-    */
-   public void setCoordinationType(String aCoordinationType);
-   
-   /**
-    * Returns a property value.
-    * @param aName name of the property.
-    * @return value if the property is found or null otherwise.
-    */
-   public String getProperty(String aName);
-   
-   /**
-    * Sets a custom property.
-    * @param aName name of the property.
-    * @param aValue value of the property.
-    */
-   public void setProperty(String aName, String aValue);
+public interface IAeCreateContextRequest {
+    /**
+     * Returns the coordination type.
+     */
+    public String getCoordinationType();
+
+    /**
+     * Sets the coordination type.
+     *
+     * @param aCoordinationType
+     */
+    public void setCoordinationType(String aCoordinationType);
+
+    /**
+     * Returns a property value.
+     *
+     * @param aName name of the property.
+     * @return value if the property is found or null otherwise.
+     */
+    public String getProperty(String aName);
+
+    /**
+     * Sets a custom property.
+     *
+     * @param aName  name of the property.
+     * @param aValue value of the property.
+     */
+    public void setProperty(String aName, String aValue);
 }

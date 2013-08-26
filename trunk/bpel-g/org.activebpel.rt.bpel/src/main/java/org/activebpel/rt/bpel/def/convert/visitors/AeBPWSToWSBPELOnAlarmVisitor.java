@@ -16,37 +16,32 @@ import org.activebpel.rt.bpel.def.activity.AeActivityScopeDef;
 import org.activebpel.rt.bpel.def.activity.support.AeOnAlarmDef;
 
 /**
- * This is a visitor used by the BPEL 1.1 -> BPEL 2.0 converter.  It is responsible for adding 
+ * This is a visitor used by the BPEL 1.1 -> BPEL 2.0 converter.  It is responsible for adding
  * a scope child to onAlarm constructs within event handlers.
  */
-public class AeBPWSToWSBPELOnAlarmVisitor extends AeAbstractBPWSToWSBPELVisitor
-{
-   /**
-    * Constructor.
-    */
-   public AeBPWSToWSBPELOnAlarmVisitor()
-   {
-      super();
-   }
-   
-   /**
-    * @see org.activebpel.rt.bpel.def.visitors.AeAbstractDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeOnAlarmDef)
-    */
-   public void visit(AeOnAlarmDef def)
-   {
-      if (def.getParent() instanceof AeEventHandlersDef)
-      {
-         AeActivityDef oldChild = def.getActivityDef();
-         if (!(oldChild instanceof AeActivityScopeDef))
-         {
-            AeActivityScopeDef newScopeChild = new AeActivityScopeDef();
-            newScopeChild.setActivityDef(oldChild);
-            newScopeChild.setParentXmlDef(oldChild.getParent());
-            oldChild.setParentXmlDef(newScopeChild);
-            def.setActivityDef(newScopeChild);
-         }
-      }
+public class AeBPWSToWSBPELOnAlarmVisitor extends AeAbstractBPWSToWSBPELVisitor {
+    /**
+     * Constructor.
+     */
+    public AeBPWSToWSBPELOnAlarmVisitor() {
+        super();
+    }
 
-      super.visit(def);
-   }
+    /**
+     * @see org.activebpel.rt.bpel.def.visitors.AeAbstractDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeOnAlarmDef)
+     */
+    public void visit(AeOnAlarmDef def) {
+        if (def.getParent() instanceof AeEventHandlersDef) {
+            AeActivityDef oldChild = def.getActivityDef();
+            if (!(oldChild instanceof AeActivityScopeDef)) {
+                AeActivityScopeDef newScopeChild = new AeActivityScopeDef();
+                newScopeChild.setActivityDef(oldChild);
+                newScopeChild.setParentXmlDef(oldChild.getParent());
+                oldChild.setParentXmlDef(newScopeChild);
+                def.setActivityDef(newScopeChild);
+            }
+        }
+
+        super.visit(def);
+    }
 }

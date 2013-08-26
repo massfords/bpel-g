@@ -16,25 +16,22 @@ import org.activebpel.rt.bpel.function.IAeFunction;
 /**
  * A BPEL 2.0 version of the standard bpel function context.
  */
-public class AeWSBPELBpelFunctionContext extends AeAbstractBpelFunctionContext
-{
-   /** Constant for doXslTransform bpel function. */
-   public static final String DO_XSL_TRANSFORM = "doXslTransform"; //$NON-NLS-1$
+public class AeWSBPELBpelFunctionContext extends AeAbstractBpelFunctionContext {
+    /**
+     * Constant for doXslTransform bpel function.
+     */
+    public static final String DO_XSL_TRANSFORM = "doXslTransform"; //$NON-NLS-1$
 
-   /**
-    * Overrides method to disallow the getVariableData() function.
-    * 
-    * @see org.activebpel.rt.bpel.impl.function.AeAbstractBpelFunctionContext#getFunction(java.lang.String)
-    */
-   public IAeFunction getFunction(String aLocalName) throws AeUnresolvableException
-   {
-      if (DO_XSL_TRANSFORM.equals(aLocalName))
-      {
-         return new AeDoXslTransformFunction();
-      }
-      else
-      {
-         return super.getFunction(aLocalName);
-      }
-   }
+    /**
+     * Overrides method to disallow the getVariableData() function.
+     *
+     * @see org.activebpel.rt.bpel.impl.function.AeAbstractBpelFunctionContext#getFunction(java.lang.String)
+     */
+    public IAeFunction getFunction(String aLocalName) throws AeUnresolvableException {
+        if (DO_XSL_TRANSFORM.equals(aLocalName)) {
+            return new AeDoXslTransformFunction();
+        } else {
+            return super.getFunction(aLocalName);
+        }
+    }
 }

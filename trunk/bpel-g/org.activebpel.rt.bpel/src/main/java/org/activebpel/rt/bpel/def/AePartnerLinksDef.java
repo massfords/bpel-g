@@ -16,50 +16,45 @@ import org.activebpel.rt.bpel.def.visitors.IAeDefVisitor;
 /**
  * Container for partnerLinks. Broken out as a separate class so we can visit it.
  */
-public class AePartnerLinksDef extends AeBaseContainer<String, AePartnerLinkDef> implements IAePartnerLinkParentDef
-{
-   private static final long serialVersionUID = 7730533760835909396L;
+public class AePartnerLinksDef extends AeBaseContainer<String, AePartnerLinkDef> implements IAePartnerLinkParentDef {
+    private static final long serialVersionUID = 7730533760835909396L;
 
-   /**
-    * Default c'tor.
-    */
-   public AePartnerLinksDef()
-   {
-      super();
-   }
+    /**
+     * Default c'tor.
+     */
+    public AePartnerLinksDef() {
+        super();
+    }
 
-   /**
-    * Adds a new partnerLinkDef to the collection.
-    * @param aPartnerLink
-    */
-   public void addPartnerLinkDef(AePartnerLinkDef aPartnerLink)
-   {
-      add(aPartnerLink.getName(), aPartnerLink);
-   }
-   
-   /**
-    * Gets a single partner link by its name.
-    * 
-    * @param aPartnerLinkName
-    */
-   public AePartnerLinkDef getPartnerLinkDef(String aPartnerLinkName)
-   {
-      return get(aPartnerLinkName);
-   }
-   
-   /**
-    * Gets an iterator over the list of all partner link defs.
-    */
-   public Iterator<? extends AePartnerLinkDef> getPartnerLinkDefs()
-   {
-      return getValues();
-   }
+    /**
+     * Adds a new partnerLinkDef to the collection.
+     *
+     * @param aPartnerLink
+     */
+    public void addPartnerLinkDef(AePartnerLinkDef aPartnerLink) {
+        add(aPartnerLink.getName(), aPartnerLink);
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.def.AeBaseDef#accept(org.activebpel.rt.bpel.def.visitors.IAeDefVisitor)
-    */
-   public void accept(IAeDefVisitor aVisitor)
-   {
-      aVisitor.visit(this);
-   }
+    /**
+     * Gets a single partner link by its name.
+     *
+     * @param aPartnerLinkName
+     */
+    public AePartnerLinkDef getPartnerLinkDef(String aPartnerLinkName) {
+        return get(aPartnerLinkName);
+    }
+
+    /**
+     * Gets an iterator over the list of all partner link defs.
+     */
+    public Iterator<? extends AePartnerLinkDef> getPartnerLinkDefs() {
+        return getValues();
+    }
+
+    /**
+     * @see org.activebpel.rt.bpel.def.AeBaseDef#accept(org.activebpel.rt.bpel.def.visitors.IAeDefVisitor)
+     */
+    public void accept(IAeDefVisitor aVisitor) {
+        aVisitor.visit(this);
+    }
 }

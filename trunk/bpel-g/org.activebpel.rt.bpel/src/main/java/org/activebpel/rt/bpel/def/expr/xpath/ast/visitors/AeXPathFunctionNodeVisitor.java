@@ -24,51 +24,48 @@ import java.util.Set;
 /**
  * This visitor will visit the xpath AST looking for functions.
  */
-public class AeXPathFunctionNodeVisitor extends AeAbstractXPathNodeVisitor
-{
-   /** The functions founds by the visitor. */
-   private Set<AeScriptFuncDef> mFunctions;
+public class AeXPathFunctionNodeVisitor extends AeAbstractXPathNodeVisitor {
+    /**
+     * The functions founds by the visitor.
+     */
+    private Set<AeScriptFuncDef> mFunctions;
 
-   /**
-    * Default c'tor.
-    */
-   public AeXPathFunctionNodeVisitor()
-   {
-      setFunctions(new LinkedHashSet<AeScriptFuncDef>());
-   }
+    /**
+     * Default c'tor.
+     */
+    public AeXPathFunctionNodeVisitor() {
+        setFunctions(new LinkedHashSet<AeScriptFuncDef>());
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.xpath.ast.IAeXPathNodeVisitor#visit(org.activebpel.rt.bpel.xpath.ast.AeXPathFunctionNode)
-    */
-   public void visit(AeXPathFunctionNode aNode)
-   {
-      AeScriptFuncDef funcDef = new AeScriptFuncDef(aNode.getFunctionQName());
-      
-      List<Object> arguments = new ArrayList<>();
-       for (AeAbstractXPathNode child : aNode.getChildren()) {
-           if (child instanceof AeXPathLiteralNode)
-               arguments.add(((AeXPathLiteralNode) child).getValue());
-           else
-               arguments.add(AeScriptFuncDef.__EXPRESSION__);
-       }
-      funcDef.setArgs(arguments);
-      
-      getFunctions().add(funcDef);
-   }
+    /**
+     * @see org.activebpel.rt.bpel.xpath.ast.IAeXPathNodeVisitor#visit(org.activebpel.rt.bpel.xpath.ast.AeXPathFunctionNode)
+     */
+    public void visit(AeXPathFunctionNode aNode) {
+        AeScriptFuncDef funcDef = new AeScriptFuncDef(aNode.getFunctionQName());
 
-   /**
-    * @return Returns the functions.
-    */
-   public Set<AeScriptFuncDef> getFunctions()
-   {
-      return mFunctions;
-   }
+        List<Object> arguments = new ArrayList<>();
+        for (AeAbstractXPathNode child : aNode.getChildren()) {
+            if (child instanceof AeXPathLiteralNode)
+                arguments.add(((AeXPathLiteralNode) child).getValue());
+            else
+                arguments.add(AeScriptFuncDef.__EXPRESSION__);
+        }
+        funcDef.setArgs(arguments);
 
-   /**
-    * @param aFunctions The functions to set.
-    */
-   protected void setFunctions(Set<AeScriptFuncDef> aFunctions)
-   {
-      mFunctions = aFunctions;
-   }
+        getFunctions().add(funcDef);
+    }
+
+    /**
+     * @return Returns the functions.
+     */
+    public Set<AeScriptFuncDef> getFunctions() {
+        return mFunctions;
+    }
+
+    /**
+     * @param aFunctions The functions to set.
+     */
+    protected void setFunctions(Set<AeScriptFuncDef> aFunctions) {
+        mFunctions = aFunctions;
+    }
 }

@@ -16,19 +16,18 @@ import java.sql.Connection;
 /**
  * Generic factory for wrapping JDBC connections in their proxy instances.
  */
-public class AeConnectionProxyFactory
-{
-   /**
-    * Wrap the <code>Connection</code> in the <code>InvocationHandler</code>
-    * instance.
-    * @param aConn
-    * @param aHandler
-    */
-   public static Connection getConnectionProxy( Connection aConn, InvocationHandler aHandler )
-   {
-      return (Connection) Proxy.newProxyInstance(
-            aConn.getClass().getClassLoader(),
-            new Class[] { Connection.class },
-            aHandler );
-   }
+public class AeConnectionProxyFactory {
+    /**
+     * Wrap the <code>Connection</code> in the <code>InvocationHandler</code>
+     * instance.
+     *
+     * @param aConn
+     * @param aHandler
+     */
+    public static Connection getConnectionProxy(Connection aConn, InvocationHandler aHandler) {
+        return (Connection) Proxy.newProxyInstance(
+                aConn.getClass().getClassLoader(),
+                new Class[]{Connection.class},
+                aHandler);
+    }
 }

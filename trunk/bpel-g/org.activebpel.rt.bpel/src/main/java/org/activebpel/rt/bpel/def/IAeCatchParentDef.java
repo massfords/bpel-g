@@ -7,7 +7,7 @@
 //Active Endpoints, Inc. Removal of this PROPRIETARY RIGHTS STATEMENT 
 //is strictly forbidden. Copyright (c) 2002-2006 All rights reserved. 
 /////////////////////////////////////////////////////////////////////////////
-package org.activebpel.rt.bpel.def; 
+package org.activebpel.rt.bpel.def;
 
 import java.util.Iterator;
 
@@ -15,28 +15,29 @@ import java.util.Iterator;
 /**
  * Interface for adding a catch or catchAll to a fault handler container.
  */
-public interface IAeCatchParentDef
-{
-   /**
-    * Gets an iterator of the list of 'catch' defs.
-    */
-   public Iterator getCatchDefs();
-   
-   /**
-    * Gets the 'catchall' def.
-    */
-   public AeCatchAllDef getCatchAllDef();
-   
-   /**
-    * Adds the fault handler (catch) to the collection.
-    * @param aDef
-    */
-   public void addCatchDef(AeCatchDef aDef);
+public interface IAeCatchParentDef {
+    /**
+     * Gets an iterator of the list of 'catch' defs.
+     */
+    public Iterator getCatchDefs();
 
-   /**
-    * Setter for the default fault handler (catchall).
-    * @param aDef
-    */
-   public void setCatchAllDef(AeCatchAllDef aDef);
+    /**
+     * Gets the 'catchall' def.
+     */
+    public AeCatchAllDef getCatchAllDef();
+
+    /**
+     * Adds the fault handler (catch) to the collection.
+     *
+     * @param aDef
+     */
+    public void addCatchDef(AeCatchDef aDef);
+
+    /**
+     * Setter for the default fault handler (catchall).
+     *
+     * @param aDef
+     */
+    public void setCatchAllDef(AeCatchAllDef aDef);
 }
  

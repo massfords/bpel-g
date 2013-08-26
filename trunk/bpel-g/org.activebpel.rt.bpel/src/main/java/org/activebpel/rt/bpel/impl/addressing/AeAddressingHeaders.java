@@ -28,264 +28,226 @@ import javax.xml.namespace.QName;
 import java.util.List;
 
 /**
- *  Holder for the values from a set of WS-Addressing Headers
+ * Holder for the values from a set of WS-Addressing Headers
  */
-public class AeAddressingHeaders extends AeWsAddressingHeaders implements IAeAddressingHeaders
-{
-   /**
-     * 
+public class AeAddressingHeaders extends AeWsAddressingHeaders implements IAeAddressingHeaders {
+    /**
+     *
      */
     private static final long serialVersionUID = -5809842109938806654L;
-/** factory that gives us a means to parse endpoint references from xml */
-   private static final IAeEndpointFactory sEndpointFactory = new AeEndpointFactory();
-   
-   /**
-    * Constructor 
-    * @param aNamespace WS-Addressing namespace URI for this instance
-    */
-   public AeAddressingHeaders(String aNamespace)
-   {
-      super(aNamespace);
-   }
-   
-   /**
-    * Copy constructor
-    * @param aHeaders
-    */
-   public AeAddressingHeaders(IAeWsAddressingHeaders aHeaders)
-   {
-      super(aHeaders.getSourceNamespace());
-      this.setAction(aHeaders.getAction());
-      this.setConversationId(aHeaders.getConversationId());
-      this.setFaultTo(aHeaders.getFaultTo());
-      this.setFrom(aHeaders.getFrom());
-      this.setMessageId(aHeaders.getMessageId());
-      this.setRecipient(aHeaders.getRecipient());
-      this.setRelatesTo(aHeaders.getRelatesTo());
-      this.setReplyTo(aHeaders.getReplyTo());
-      this.setTo(aHeaders.getTo());
-      try
-      {
-         this.setReferenceProperties(aHeaders.getReferenceProperties());
-      }
-      catch (AeWsAddressingException ex)
-      {
-         AeException.logError(ex);
-      }
-   }
-   
-   /**
-    * Converts headers to an instance of this class
-    * @param aHeaders
-    * @return converted headers
-    */
-   public static AeAddressingHeaders convert(IAeWsAddressingHeaders aHeaders)
-   {
-      if (aHeaders instanceof AeAddressingHeaders)
-      {
-         return (AeAddressingHeaders) aHeaders;
-      }
-      else
-      {
-         return new AeAddressingHeaders(aHeaders);
-      }
-   }
+    /**
+     * factory that gives us a means to parse endpoint references from xml
+     */
+    private static final IAeEndpointFactory sEndpointFactory = new AeEndpointFactory();
 
-   /**
-    * Adds a WS-Addressing header element to this instance
-    * If the element is a WS-Addressing Header, the element will set the appropriate member variable
-    * Adding headers this way prevents accidentally duplicating an addressing header if someone 
-    * adds, for example, a ReplyTo element to reference properties
-    * 
-    * @see org.activebpel.rt.bpel.impl.addressing.IAeAddressingHeaders#addHeaderElement(org.w3c.dom.Element)
-    */
-   public void addHeaderElement(Element aElement) throws AeWsAddressingException
-   {
-      try
-      {
-         if (IAePolicyConstants.CONVERSATION_ID_HEADER.getLocalPart().equals(aElement.getLocalName()))
-         {
-            if (!aElement.hasChildNodes())
-               throw new AeWsAddressingException(AeMessages.format("AeWsAddressingHeaders.2", aElement.getLocalName())); //$NON-NLS-1$
-            setConversationId(aElement.getFirstChild().getNodeValue());
-         }
-         else if (IAeAddressingHeaders.WSA_TO.equals(aElement.getLocalName()))
-         {
-            if (!aElement.hasChildNodes())
-            {
-               setTo(""); //$NON-NLS-1$
+    /**
+     * Constructor
+     *
+     * @param aNamespace WS-Addressing namespace URI for this instance
+     */
+    public AeAddressingHeaders(String aNamespace) {
+        super(aNamespace);
+    }
+
+    /**
+     * Copy constructor
+     *
+     * @param aHeaders
+     */
+    public AeAddressingHeaders(IAeWsAddressingHeaders aHeaders) {
+        super(aHeaders.getSourceNamespace());
+        this.setAction(aHeaders.getAction());
+        this.setConversationId(aHeaders.getConversationId());
+        this.setFaultTo(aHeaders.getFaultTo());
+        this.setFrom(aHeaders.getFrom());
+        this.setMessageId(aHeaders.getMessageId());
+        this.setRecipient(aHeaders.getRecipient());
+        this.setRelatesTo(aHeaders.getRelatesTo());
+        this.setReplyTo(aHeaders.getReplyTo());
+        this.setTo(aHeaders.getTo());
+        try {
+            this.setReferenceProperties(aHeaders.getReferenceProperties());
+        } catch (AeWsAddressingException ex) {
+            AeException.logError(ex);
+        }
+    }
+
+    /**
+     * Converts headers to an instance of this class
+     *
+     * @param aHeaders
+     * @return converted headers
+     */
+    public static AeAddressingHeaders convert(IAeWsAddressingHeaders aHeaders) {
+        if (aHeaders instanceof AeAddressingHeaders) {
+            return (AeAddressingHeaders) aHeaders;
+        } else {
+            return new AeAddressingHeaders(aHeaders);
+        }
+    }
+
+    /**
+     * Adds a WS-Addressing header element to this instance
+     * If the element is a WS-Addressing Header, the element will set the appropriate member variable
+     * Adding headers this way prevents accidentally duplicating an addressing header if someone
+     * adds, for example, a ReplyTo element to reference properties
+     *
+     * @see org.activebpel.rt.bpel.impl.addressing.IAeAddressingHeaders#addHeaderElement(org.w3c.dom.Element)
+     */
+    public void addHeaderElement(Element aElement) throws AeWsAddressingException {
+        try {
+            if (IAePolicyConstants.CONVERSATION_ID_HEADER.getLocalPart().equals(aElement.getLocalName())) {
+                if (!aElement.hasChildNodes())
+                    throw new AeWsAddressingException(AeMessages.format("AeWsAddressingHeaders.2", aElement.getLocalName())); //$NON-NLS-1$
+                setConversationId(aElement.getFirstChild().getNodeValue());
+            } else if (IAeAddressingHeaders.WSA_TO.equals(aElement.getLocalName())) {
+                if (!aElement.hasChildNodes()) {
+                    setTo(""); //$NON-NLS-1$
+                } else {
+                    setTo(aElement.getFirstChild().getNodeValue());
+                }
+            } else if (IAeAddressingHeaders.WSA_FROM.equals(aElement.getLocalName()))
+                setFrom(parseEndpoint(aElement));
+            else if (IAeAddressingHeaders.WSA_RECIPIENT.equals(aElement.getLocalName()))
+                setRecipient(parseEndpoint(aElement));
+            else if (IAeAddressingHeaders.WSA_REPLY_TO.equals(aElement.getLocalName()))
+                setReplyTo(parseEndpoint(aElement));
+            else if (IAeAddressingHeaders.WSA_FAULT_TO.equals(aElement.getLocalName()))
+                setFaultTo(parseEndpoint(aElement));
+            else if (IAeAddressingHeaders.WSA_ACTION.equals(aElement.getLocalName())) {
+                setAction(AeXmlUtil.getText(aElement));
+            } else if (IAeAddressingHeaders.WSA_MESSAGE_ID.equals(aElement.getLocalName())) {
+                setMessageId(AeXmlUtil.getText(aElement));
+            } else if (IAeAddressingHeaders.WSA_RELATES_TO.equals(aElement.getLocalName())) {
+                addRelatesTo(AeXmlUtil.getText(aElement), getReplyRelationshipName());
+            } else {
+                Element element = AeSOAPElementUtil.convertToDOM(aElement);
+                getReferenceProperties().add(element);
             }
-            else
-            {
-               setTo(aElement.getFirstChild().getNodeValue());
+        } catch (AeBusinessProcessException bpe) {
+            throw new AeWsAddressingException(AeMessages.getString("AeWsAddressingHeaders.0"), bpe);  //$NON-NLS-1$
+        }
+    }
+
+    /**
+     * Sets the wsa:ReplyTo endpoint. Mandatory wsa:MessageID for this request is generated if not already set.
+     *
+     * @see org.activebpel.wsio.IAeWsAddressingHeaders#setReplyTo(org.activebpel.wsio.IAeWebServiceEndpointReference)
+     */
+    public void setReplyTo(IAeWebServiceEndpointReference aReplyTo) {
+        super.setReplyTo(aReplyTo);
+        // MessageID is mandatory with a ReplyTo
+        if (aReplyTo != null) {
+            if (getMessageId() == null) {
+                setMessageId(AeUtil.getNewUUID());
             }
-         }
-         else if (IAeAddressingHeaders.WSA_FROM.equals(aElement.getLocalName()))
-            setFrom(parseEndpoint(aElement));
-         else if (IAeAddressingHeaders.WSA_RECIPIENT.equals(aElement.getLocalName()))
-            setRecipient(parseEndpoint(aElement));
-         else if (IAeAddressingHeaders.WSA_REPLY_TO.equals(aElement.getLocalName()))
-            setReplyTo(parseEndpoint(aElement));
-         else if (IAeAddressingHeaders.WSA_FAULT_TO.equals(aElement.getLocalName()))
-            setFaultTo(parseEndpoint(aElement));
-         else if (IAeAddressingHeaders.WSA_ACTION.equals(aElement.getLocalName()))
-         {
-            setAction(AeXmlUtil.getText(aElement));
-         }
-         else if (IAeAddressingHeaders.WSA_MESSAGE_ID.equals(aElement.getLocalName()))
-         {
-            setMessageId(AeXmlUtil.getText(aElement));
-         }
-         else if (IAeAddressingHeaders.WSA_RELATES_TO.equals(aElement.getLocalName()))
-         {
-            addRelatesTo(AeXmlUtil.getText(aElement), getReplyRelationshipName()); 
-         }
-         else
-         {
-            Element element = AeSOAPElementUtil.convertToDOM(aElement);
-            getReferenceProperties().add(element);
-         }
-      }
-      catch (AeBusinessProcessException bpe)
-      {
-         throw new AeWsAddressingException(AeMessages.getString("AeWsAddressingHeaders.0"), bpe);  //$NON-NLS-1$
-      }
-   }
-   
-   /**
-    * Sets the wsa:ReplyTo endpoint. Mandatory wsa:MessageID for this request is generated if not already set. 
-    * @see org.activebpel.wsio.IAeWsAddressingHeaders#setReplyTo(org.activebpel.wsio.IAeWebServiceEndpointReference)
-    */
-   public void setReplyTo(IAeWebServiceEndpointReference aReplyTo)
-   {
-      super.setReplyTo(aReplyTo);
-      // MessageID is mandatory with a ReplyTo
-      if (aReplyTo != null)
-      {
-         if (getMessageId() == null)
-         {
-            setMessageId(AeUtil.getNewUUID());
-         }
-      }
-   }
-   
-   /**
-    * Parses an endpoint from the element passed in. 
-    * @param aElement
-    */
-   private IAeEndpointReference parseEndpoint(Element aElement) throws AeBusinessProcessException
-   {
-      // use endpoint factory to deserialize from element
-      IAeEndpointReference ref = null;
-      // copy all of the child nodes over to the new endpoint ref element
-      try
-      {
-         ref = sEndpointFactory.getDeserializer(aElement.getNamespaceURI()).deserializeEndpoint(aElement);
-      }
-      catch (AeException e)
-      {
-         throw new AeBusinessProcessException(AeMessages.getString("AeWsAddressingHeaders.1"), e); //$NON-NLS-1$
-      }
-      return ref;
-   }
+        }
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.impl.addressing.IAeAddressingHeaders#getTo()
-    */
-   public String getTo()
-   {
-      IAeWebServiceEndpointReference epr = getRecipient();
-      if (epr != null)
-         return epr.getAddress();
-      else
-         return null;
-   }
+    /**
+     * Parses an endpoint from the element passed in.
+     *
+     * @param aElement
+     */
+    private IAeEndpointReference parseEndpoint(Element aElement) throws AeBusinessProcessException {
+        // use endpoint factory to deserialize from element
+        IAeEndpointReference ref = null;
+        // copy all of the child nodes over to the new endpoint ref element
+        try {
+            ref = sEndpointFactory.getDeserializer(aElement.getNamespaceURI()).deserializeEndpoint(aElement);
+        } catch (AeException e) {
+            throw new AeBusinessProcessException(AeMessages.getString("AeWsAddressingHeaders.1"), e); //$NON-NLS-1$
+        }
+        return ref;
+    }
 
-   /**
-    * Sets the address of the intended recipient.
-    * @see org.activebpel.wsio.IAeWsAddressingHeaders#setTo(java.lang.String)
-    */
-   public void setTo(String aTo)
-   {
-      AeEndpointReference epr = new AeEndpointReference();
-      if (getRecipient() != null)
-         epr.setReferenceData(getRecipient());
-      epr.setAddress(aTo);   
-      setRecipient(epr);
-   }
+    /**
+     * @see org.activebpel.rt.bpel.impl.addressing.IAeAddressingHeaders#getTo()
+     */
+    public String getTo() {
+        IAeWebServiceEndpointReference epr = getRecipient();
+        if (epr != null)
+            return epr.getAddress();
+        else
+            return null;
+    }
 
-   /**
-    * Sets the list of additional headers to be included when serializing to a SOAP Envelope
-    * If the list contains any embedded WS-Addressing headers, these will be used to set the 
-    * appropriate member value of this instance 
-    *  
-    * @see org.activebpel.rt.bpel.impl.addressing.IAeAddressingHeaders#setReferenceProperties(java.util.List)
-    */
-   public void setReferenceProperties(List<Element> aElementList) throws AeWsAddressingException
-   {
-      // clear old stuff
-      List<Element> props = getReferenceProperties();
-      props.clear();
-      addReferenceProperties(aElementList);
-   }
-   
-   /**
-    * Adds to the list of additional headers to be included when serializing to a SOAP Envelope
-    * If the list contains any embedded WS-Addressing headers, these will be used to set the 
-    * appropriate member value of this instance 
-    *  
-    * @see org.activebpel.rt.bpel.impl.addressing.IAeAddressingHeaders#setReferenceProperties(java.util.List)
-    */
-   public void addReferenceProperties(List aElementList) throws AeWsAddressingException
-   {
-      try
-      {
-         // Add all the properties
-          for (Object o : aElementList) {
-              // This method figures out if an element is an
-              // embedded WSA header
-              addHeaderElement((Element) o);
-          }
-      }
-      catch (Exception e)
-      {
-         throw new AeWsAddressingException(AeMessages.getString("AeAddressingHeaders.0"), e); //$NON-NLS-1$
-      }
-   }
+    /**
+     * Sets the address of the intended recipient.
+     *
+     * @see org.activebpel.wsio.IAeWsAddressingHeaders#setTo(java.lang.String)
+     */
+    public void setTo(String aTo) {
+        AeEndpointReference epr = new AeEndpointReference();
+        if (getRecipient() != null)
+            epr.setReferenceData(getRecipient());
+        epr.setAddress(aTo);
+        setRecipient(epr);
+    }
 
-   /**
-    * Gets the Reply relationship type QName
-    * 
-    * @return relationship type attribute
-    */
-   public QName getReplyRelationshipName()
-   {
-      String namespace = getSourceNamespace();
-      if (IAeConstants.WSA_NAMESPACE_URI.equals(namespace))
-      {
-         return new QName(namespace, IAeWsAddressingConstants.WSA_RESPONSE_RELATION);
-      }
-      else
-      {
-         return new QName(namespace, IAeWsAddressingConstants.WSA_REPLY_RELATION);
-      }
-   }
+    /**
+     * Sets the list of additional headers to be included when serializing to a SOAP Envelope
+     * If the list contains any embedded WS-Addressing headers, these will be used to set the
+     * appropriate member value of this instance
+     *
+     * @see org.activebpel.rt.bpel.impl.addressing.IAeAddressingHeaders#setReferenceProperties(java.util.List)
+     */
+    public void setReferenceProperties(List<Element> aElementList) throws AeWsAddressingException {
+        // clear old stuff
+        List<Element> props = getReferenceProperties();
+        props.clear();
+        addReferenceProperties(aElementList);
+    }
 
-   /**
-    * Returns the fully qualified fault action uri
-    * @return fault action uri
-    */
-   public String getFaultAction()
-   {
-      return getSourceNamespace().concat(IAeWsAddressingConstants.WSA_FAULT_ACTION_);
-   }
-   
-   /**
-    * Returns the WSA anonymous role URI
-    * @return anonymous role uri
-    */
-   public String getAnonymousRole()
-   {
-      return getSourceNamespace().concat(IAeWsAddressingConstants.WSA_ANONYMOUS_ROLE);
-   }
+    /**
+     * Adds to the list of additional headers to be included when serializing to a SOAP Envelope
+     * If the list contains any embedded WS-Addressing headers, these will be used to set the
+     * appropriate member value of this instance
+     *
+     * @see org.activebpel.rt.bpel.impl.addressing.IAeAddressingHeaders#setReferenceProperties(java.util.List)
+     */
+    public void addReferenceProperties(List aElementList) throws AeWsAddressingException {
+        try {
+            // Add all the properties
+            for (Object o : aElementList) {
+                // This method figures out if an element is an
+                // embedded WSA header
+                addHeaderElement((Element) o);
+            }
+        } catch (Exception e) {
+            throw new AeWsAddressingException(AeMessages.getString("AeAddressingHeaders.0"), e); //$NON-NLS-1$
+        }
+    }
+
+    /**
+     * Gets the Reply relationship type QName
+     *
+     * @return relationship type attribute
+     */
+    public QName getReplyRelationshipName() {
+        String namespace = getSourceNamespace();
+        if (IAeConstants.WSA_NAMESPACE_URI.equals(namespace)) {
+            return new QName(namespace, IAeWsAddressingConstants.WSA_RESPONSE_RELATION);
+        } else {
+            return new QName(namespace, IAeWsAddressingConstants.WSA_REPLY_RELATION);
+        }
+    }
+
+    /**
+     * Returns the fully qualified fault action uri
+     *
+     * @return fault action uri
+     */
+    public String getFaultAction() {
+        return getSourceNamespace().concat(IAeWsAddressingConstants.WSA_FAULT_ACTION_);
+    }
+
+    /**
+     * Returns the WSA anonymous role URI
+     *
+     * @return anonymous role uri
+     */
+    public String getAnonymousRole() {
+        return getSourceNamespace().concat(IAeWsAddressingConstants.WSA_ANONYMOUS_ROLE);
+    }
 }

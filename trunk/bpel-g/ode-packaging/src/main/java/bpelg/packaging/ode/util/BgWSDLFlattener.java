@@ -37,12 +37,12 @@ public class BgWSDLFlattener {
     private BgSchemaCollection _schemas;
     private Map<QName, Definition> _flattened;
     private boolean _initialized;
-    
+
 
     public BgWSDLFlattener(Definition definition) {
         this(definition, null);
     }
-        
+
     public BgWSDLFlattener(Definition definition, BgSchemaCollection schemas) {
         if (definition == null)
             throw new NullPointerException("Null definition!");
@@ -50,9 +50,10 @@ public class BgWSDLFlattener {
         this._flattened = new ConcurrentHashMap<>();
         this._schemas = schemas;
     }
-    
+
     /**
      * Parse the schemas referenced by the definition.
+     *
      * @throws Exception if an error occurs
      */
     public void initialize() throws Exception {
@@ -64,9 +65,10 @@ public class BgWSDLFlattener {
             _initialized = true;
         }
     }
-    
+
     /**
      * Retrieve a flattened definition for a given port type name.
+     *
      * @param portType the port type to create a flat definition for
      * @return a flat definition for the port type
      * @throws Exception if an error occurs
@@ -107,7 +109,7 @@ public class BgWSDLFlattener {
     public void setSchemas(BgSchemaCollection schemas) {
         this._schemas = schemas;
     }
-    
+
     private Definition flattenDefinition(QName name) throws Exception {
         // Check that schemas have been loaded
         initialize();
@@ -160,23 +162,23 @@ public class BgWSDLFlattener {
             }
             flatPort.addOperation(flatOper);
         }
-        
+
         // Import schemas in definition
         if (_schemas.getSize() > 0) {
-           Types types = flat.createTypes();
+            Types types = flat.createTypes();
             for (Object o : _schemas.getSchemas()) {
                 Schema imp = new SchemaImpl();
                 imp.setElement(((BgSchema) o).getRoot());
                 imp.setElementType(new QName("http://www.w3.org/2001/XMLSchema", "schema"));
                 types.addExtensibilityElement(imp);
             }
-           flat.setTypes(types);
+            flat.setTypes(types);
         }
-        
+
         flat.addPortType(flatPort);
         return flat;
     }
-    
+
     private void parseSchemas(Definition def) throws Exception {
         if (def.getTypes() != null && def.getTypes().getExtensibilityElements() != null) {
             for (Object o : def.getTypes().getExtensibilityElements()) {
@@ -221,7 +223,7 @@ public class BgWSDLFlattener {
             flat.addNamespace(key, val);
         }
     }
-    
+
     private Message copyMessage(Message defMessage, Definition flat) {
         Message flatMsg = flat.createMessage();
         flatMsg.setUndefined(false);

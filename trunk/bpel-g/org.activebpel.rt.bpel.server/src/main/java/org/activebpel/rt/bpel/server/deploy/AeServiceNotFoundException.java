@@ -7,29 +7,28 @@
 //Active Endpoints, Inc. Removal of this PROPRIETARY RIGHTS STATEMENT 
 //is strictly forbidden. Copyright (c) 2002-2007 All rights reserved. 
 /////////////////////////////////////////////////////////////////////////////
-package org.activebpel.rt.bpel.server.deploy; 
+package org.activebpel.rt.bpel.server.deploy;
 
 import org.activebpel.rt.AeException;
 import org.activebpel.rt.bpel.server.AeMessages;
 
 /**
- * Exception for a service that wasn't found 
+ * Exception for a service that wasn't found
  */
-public class AeServiceNotFoundException extends AeException
-{
-   /**
-     * 
+public class AeServiceNotFoundException extends AeException {
+    /**
+     *
      */
     private static final long serialVersionUID = 1740712831017462429L;
 
-/**
-    * Ctor
-    * @param aServiceName
-    * @param aRoot
-    */
-   public AeServiceNotFoundException(String aServiceName, Throwable aRoot)
-   {
-      super(AeMessages.format("AeServiceNotFoundException.Message", aServiceName), aRoot); //$NON-NLS-1$
-   }
+    /**
+     * Ctor
+     *
+     * @param aServiceName
+     * @param aRoot
+     */
+    public AeServiceNotFoundException(String aServiceName, Throwable aRoot) {
+        super(AeMessages.format("AeServiceNotFoundException.Message", aServiceName), aRoot); //$NON-NLS-1$
+    }
 }
  

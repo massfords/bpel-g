@@ -15,26 +15,23 @@ import org.activebpel.rt.bpel.def.visitors.IAeDefVisitor;
 /**
  * Models the 'repeatEvery' bpel construct introduced in WS-BPEL 2.0.
  */
-public class AeRepeatEveryDef extends AeForDef
-{
-   /**
-     * 
+public class AeRepeatEveryDef extends AeForDef {
+    /**
+     *
      */
     private static final long serialVersionUID = 4711215155231474012L;
 
-/**
-    * Default c'tor.
-    */
-   public AeRepeatEveryDef()
-   {
-      super();
-   }
-   
-   /**
-    * @see org.activebpel.rt.bpel.def.AeBaseDef#accept(org.activebpel.rt.bpel.def.visitors.IAeDefVisitor)
-    */
-   public void accept(IAeDefVisitor aVisitor)
-   {
-      aVisitor.visit(this);
-   }
+    /**
+     * Default c'tor.
+     */
+    public AeRepeatEveryDef() {
+        super();
+    }
+
+    /**
+     * @see org.activebpel.rt.bpel.def.AeBaseDef#accept(org.activebpel.rt.bpel.def.visitors.IAeDefVisitor)
+     */
+    public void accept(IAeDefVisitor aVisitor) {
+        aVisitor.visit(this);
+    }
 }

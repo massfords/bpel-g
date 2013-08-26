@@ -19,150 +19,147 @@ import org.activebpel.rt.xml.def.AeBaseXmlDef;
 /**
  * Basic implementation of a xml def graph node.
  */
-public class AeXmlDefGraphNode implements IAeXmlDefGraphNode
-{
-   /** Parent */
-   private IAeXmlDefGraphNode mParent;
-   /** List of children.**/
-   private List<IAeXmlDefGraphNode> mChildren;
-   /** Display name. */
-   private String mDisplayName;
-   /** Icon image file name */
-   private String mIconName;
-   /** definition  */
-   private final AeBaseXmlDef mDef;
-   /** Optional name */
-   private final String mName;
-   /** Flag to display only on outline */
-   private boolean mDisplayOutlineOnly;
-   
-   /**
-    * Ctor.
-    * @param aName def element name.
-    * @param aDef element def
-    * @param aDisplayName optional display name.
-    * @param aIconName optional icon image name.
-    * @param aDisplayOutlineOnly
-    */
-   public AeXmlDefGraphNode(String aName, AeBaseXmlDef aDef, String aDisplayName, String aIconName, boolean aDisplayOutlineOnly)
-   {
-      mName = aName;
-      if (AeUtil.notNullOrEmpty(aDisplayName))
-      {
-         mDisplayName = aDisplayName;
-      }
-      else
-      {
-         aDisplayName = aName;
-      }
-      mDef = aDef;      
-      mIconName = aIconName;
-      mDisplayOutlineOnly = aDisplayOutlineOnly;
-   }
+public class AeXmlDefGraphNode implements IAeXmlDefGraphNode {
+    /**
+     * Parent
+     */
+    private IAeXmlDefGraphNode mParent;
+    /**
+     * List of children.*
+     */
+    private List<IAeXmlDefGraphNode> mChildren;
+    /**
+     * Display name.
+     */
+    private String mDisplayName;
+    /**
+     * Icon image file name
+     */
+    private String mIconName;
+    /**
+     * definition
+     */
+    private final AeBaseXmlDef mDef;
+    /**
+     * Optional name
+     */
+    private final String mName;
+    /**
+     * Flag to display only on outline
+     */
+    private boolean mDisplayOutlineOnly;
 
-   /**
-    * C'tor
-    * @param aName
-    * @param aDef
-    * @param aDisplayName
-    */
-   public AeXmlDefGraphNode(String aName, AeBaseXmlDef aDef, String aDisplayName)
-   {
-      mName = aName;
-      if (AeUtil.notNullOrEmpty(aDisplayName))
-      {
-         mDisplayName = aDisplayName;
-      }
-      else
-      {
-         aDisplayName = aName;
-      }
-      mDef = aDef;      
-   }
-   
-   /**
-    * Adds a child node.
-    * @param aChild
-    */
-   public void addChild(IAeXmlDefGraphNode aChild)
-   {
-      if (mChildren == null)
-      {
-         mChildren = new ArrayList<>();
-      }
-      if (aChild != null && !mChildren.contains(aChild) )
-      {
-         mChildren.add(aChild);
-         aChild.setParent(this);
-      }
-   }
+    /**
+     * Ctor.
+     *
+     * @param aName               def element name.
+     * @param aDef                element def
+     * @param aDisplayName        optional display name.
+     * @param aIconName           optional icon image name.
+     * @param aDisplayOutlineOnly
+     */
+    public AeXmlDefGraphNode(String aName, AeBaseXmlDef aDef, String aDisplayName, String aIconName, boolean aDisplayOutlineOnly) {
+        mName = aName;
+        if (AeUtil.notNullOrEmpty(aDisplayName)) {
+            mDisplayName = aDisplayName;
+        } else {
+            aDisplayName = aName;
+        }
+        mDef = aDef;
+        mIconName = aIconName;
+        mDisplayOutlineOnly = aDisplayOutlineOnly;
+    }
 
-   /**
-    * @see org.activebpel.rt.xml.def.graph.IAeXmlDefGraphNode#getChildren()
-    */
-   public List<IAeXmlDefGraphNode> getChildren()
-   {
-      if (mChildren != null)
-      {
-         return mChildren;
-      }
-      return Collections.<IAeXmlDefGraphNode>emptyList();
-   }
+    /**
+     * C'tor
+     *
+     * @param aName
+     * @param aDef
+     * @param aDisplayName
+     */
+    public AeXmlDefGraphNode(String aName, AeBaseXmlDef aDef, String aDisplayName) {
+        mName = aName;
+        if (AeUtil.notNullOrEmpty(aDisplayName)) {
+            mDisplayName = aDisplayName;
+        } else {
+            aDisplayName = aName;
+        }
+        mDef = aDef;
+    }
 
-   /**
-    * @see org.activebpel.rt.xml.def.graph.IAeXmlDefGraphNode#getDisplayName()
-    */
-   public String getDisplayName()
-   {      
-      return mDisplayName;
-   }
+    /**
+     * Adds a child node.
+     *
+     * @param aChild
+     */
+    public void addChild(IAeXmlDefGraphNode aChild) {
+        if (mChildren == null) {
+            mChildren = new ArrayList<>();
+        }
+        if (aChild != null && !mChildren.contains(aChild)) {
+            mChildren.add(aChild);
+            aChild.setParent(this);
+        }
+    }
 
-   /**
-    * @see org.activebpel.rt.xml.def.graph.IAeXmlDefGraphNode#getIcon()
-    */
-   public String getIcon()
-   {
-      return mIconName;
-   }
+    /**
+     * @see org.activebpel.rt.xml.def.graph.IAeXmlDefGraphNode#getChildren()
+     */
+    public List<IAeXmlDefGraphNode> getChildren() {
+        if (mChildren != null) {
+            return mChildren;
+        }
+        return Collections.<IAeXmlDefGraphNode>emptyList();
+    }
 
-   /**
-    * @see org.activebpel.rt.xml.def.graph.IAeXmlDefGraphNode#getDef()
-    */
-   public AeBaseXmlDef getDef()
-   {
-      return mDef;
-   }
+    /**
+     * @see org.activebpel.rt.xml.def.graph.IAeXmlDefGraphNode#getDisplayName()
+     */
+    public String getDisplayName() {
+        return mDisplayName;
+    }
 
-   /**
-    * @see org.activebpel.rt.xml.def.graph.IAeXmlDefGraphNode#getName()
-    */
-   public String getName()
-   {
-      return mName;
-   }
+    /**
+     * @see org.activebpel.rt.xml.def.graph.IAeXmlDefGraphNode#getIcon()
+     */
+    public String getIcon() {
+        return mIconName;
+    }
 
-   /**
-    * @see org.activebpel.rt.xml.def.graph.IAeXmlDefGraphNode#getParent()
-    */
-   public IAeXmlDefGraphNode getParent()
-   {
-      return mParent;
-   }
+    /**
+     * @see org.activebpel.rt.xml.def.graph.IAeXmlDefGraphNode#getDef()
+     */
+    public AeBaseXmlDef getDef() {
+        return mDef;
+    }
 
-   /**
-    * Sets the parent.
-    * @param aParent
-    */
-   public void setParent(IAeXmlDefGraphNode aParent)
-   {
-      mParent = aParent;
-   }
+    /**
+     * @see org.activebpel.rt.xml.def.graph.IAeXmlDefGraphNode#getName()
+     */
+    public String getName() {
+        return mName;
+    }
 
-   /**
-    * @see org.activebpel.rt.xml.def.graph.IAeXmlDefGraphNode#isDisplayOutlineOnly()
-    */
-   public boolean isDisplayOutlineOnly()
-   {
-      return mDisplayOutlineOnly;
-   }
+    /**
+     * @see org.activebpel.rt.xml.def.graph.IAeXmlDefGraphNode#getParent()
+     */
+    public IAeXmlDefGraphNode getParent() {
+        return mParent;
+    }
+
+    /**
+     * Sets the parent.
+     *
+     * @param aParent
+     */
+    public void setParent(IAeXmlDefGraphNode aParent) {
+        mParent = aParent;
+    }
+
+    /**
+     * @see org.activebpel.rt.xml.def.graph.IAeXmlDefGraphNode#isDisplayOutlineOnly()
+     */
+    public boolean isDisplayOutlineOnly() {
+        return mDisplayOutlineOnly;
+    }
 }

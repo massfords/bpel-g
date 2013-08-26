@@ -25,222 +25,188 @@ import org.w3c.dom.NodeList;
 
 /**
  * Creates an IAeEndpointReference instance based on the xml format defined in
- * the WS-Addressing spec. 
+ * the WS-Addressing spec.
  */
-public class AeWSAddressingEndpointDeserializer implements IAeEndpointDeserializer
-{
-   /** default singleton instance */
-   private static final AeWSAddressingEndpointDeserializer sSingleton = new AeWSAddressingEndpointDeserializer();
-   private static final AeWSAddressingEndpointDeserializer sSingleton_2004_08 = new AeWSAddressingEndpointDeserializer(IAeConstants.WSA_NAMESPACE_URI_2004_08);   
-   private static final AeWSAddressingEndpointDeserializer sSingleton_2004_03 = new AeWSAddressingEndpointDeserializer(IAeConstants.WSA_NAMESPACE_URI_2004_03);
-   private static final AeWSAddressingEndpointDeserializer sSingleton_2005_08 = new AeWSAddressingEndpointDeserializer(IAeConstants.WSA_NAMESPACE_URI_2005_08);   
-   
-   private String mNamespace = IAeConstants.WSA_NAMESPACE_URI;
-   
-   /**
-    * Private ctor for singleton pattern 
-    */
-   private AeWSAddressingEndpointDeserializer()
-   {
-   }
+public class AeWSAddressingEndpointDeserializer implements IAeEndpointDeserializer {
+    /**
+     * default singleton instance
+     */
+    private static final AeWSAddressingEndpointDeserializer sSingleton = new AeWSAddressingEndpointDeserializer();
+    private static final AeWSAddressingEndpointDeserializer sSingleton_2004_08 = new AeWSAddressingEndpointDeserializer(IAeConstants.WSA_NAMESPACE_URI_2004_08);
+    private static final AeWSAddressingEndpointDeserializer sSingleton_2004_03 = new AeWSAddressingEndpointDeserializer(IAeConstants.WSA_NAMESPACE_URI_2004_03);
+    private static final AeWSAddressingEndpointDeserializer sSingleton_2005_08 = new AeWSAddressingEndpointDeserializer(IAeConstants.WSA_NAMESPACE_URI_2005_08);
 
-   /**
-    * ctor for singleton pattern
-    */
-   protected AeWSAddressingEndpointDeserializer(String aNamespace)
-   {
-      mNamespace = aNamespace;
-   }
-   
-   /**
-    * Getter for the singleton instance
-    */
-   public static AeWSAddressingEndpointDeserializer getInstance()
-   {
-      return sSingleton;
-   }
-   
-   /**
-    * Getter for the singleton instance
-    */
-   public static AeWSAddressingEndpointDeserializer getInstance(String aNamespace)
-   {
-      if (IAeConstants.WSA_NAMESPACE_URI_2004_08.equals(aNamespace))
-      {
-         return sSingleton_2004_08;
-      }
-      else if (IAeConstants.WSA_NAMESPACE_URI_2004_03.equals(aNamespace))
-      {
-         return sSingleton_2004_03;
-      }
-      else if (IAeConstants.WSA_NAMESPACE_URI_2005_08.equals(aNamespace))
-      {
-         return sSingleton_2005_08;
-      }
-      else
-      {
-         return sSingleton;
-      }
-   }   
-   
-   /**
-    * @see org.activebpel.rt.bpel.impl.endpoints.IAeEndpointDeserializer#deserializeEndpoint(org.w3c.dom.Element)
-    */
-   public IAeEndpointReference deserializeEndpoint(Element aData)
-      throws AeBusinessProcessException
-   {
-      return deserializeEndpoint(aData, null);
-   }
+    private String mNamespace = IAeConstants.WSA_NAMESPACE_URI;
 
-   /**
-    * @see org.activebpel.rt.bpel.impl.endpoints.IAeEndpointDeserializer#deserializeEndpoint(org.w3c.dom.Element, org.activebpel.rt.bpel.IAeEndpointReference)
-    */
-   public IAeEndpointReference deserializeEndpoint(Element aData, IAeEndpointReference aRef)
-      throws AeBusinessProcessException
-   {
-      IAeEndpointReference ref = aRef == null ? new AeEndpointReference() : aRef;
-      
-      ref.setSourceNamespace(mNamespace);
-      
-      NodeList children = aData.getChildNodes();
-      for (int i=0, len=children.getLength(); i < len; i++)
-      {
-         Node child = children.item(i);
-         if (child.getNodeType() != Node.ELEMENT_NODE)
-            continue;
-         deserializeChildElement(ref, (Element) child);
-      }
-      return ref;
-   }
+    /**
+     * Private ctor for singleton pattern
+     */
+    private AeWSAddressingEndpointDeserializer() {
+    }
 
-   /**
-    * Determines the EPR property for a given child element
-    * @param aRef
-    * @param aChild
-    * @throws AeBusinessProcessException
-    */
-   protected void deserializeChildElement(IAeEndpointReference aRef, Element aChild) throws AeBusinessProcessException
-   {
-      if (mNamespace.equals(aChild.getNamespaceURI()))
-      {
-         if ("Address".equals(aChild.getLocalName())) //$NON-NLS-1$
-         {
-            String address = AeXmlUtil.getText(aChild); 
-            aRef.setAddress(address.trim());
-         }
-         else if ("PortType".equals(aChild.getLocalName())) //$NON-NLS-1$
-            aRef.setPortType(extractQNameData(aChild));
-         else if ("ReferenceProperties".equals(aChild.getLocalName())) //$NON-NLS-1$
-         {
-            deserializeProperties(aRef, aChild.getChildNodes());
-         }
-         else if ("ReferenceParameters".equals(aChild.getLocalName())) //$NON-NLS-1$
-         {
-            deserializeProperties(aRef, aChild.getChildNodes());
-         }
-         else if ("ServiceName".equals(aChild.getLocalName())) //$NON-NLS-1$
-         {
-            String portName = (aChild).getAttribute("PortName"); //$NON-NLS-1$
-            if (! AeUtil.isNullOrEmpty(portName))
-               aRef.setServicePort(portName);
-            
-            aRef.setServiceName(extractQNameData(aChild));
-         }
-         else if ("Metadata".equals(aChild.getLocalName())) //$NON-NLS-1$
-         {
-            NodeList children = aChild.getChildNodes();
-            for (int i=0, len=children.getLength(); i < len; i++)
+    /**
+     * ctor for singleton pattern
+     */
+    protected AeWSAddressingEndpointDeserializer(String aNamespace) {
+        mNamespace = aNamespace;
+    }
+
+    /**
+     * Getter for the singleton instance
+     */
+    public static AeWSAddressingEndpointDeserializer getInstance() {
+        return sSingleton;
+    }
+
+    /**
+     * Getter for the singleton instance
+     */
+    public static AeWSAddressingEndpointDeserializer getInstance(String aNamespace) {
+        if (IAeConstants.WSA_NAMESPACE_URI_2004_08.equals(aNamespace)) {
+            return sSingleton_2004_08;
+        } else if (IAeConstants.WSA_NAMESPACE_URI_2004_03.equals(aNamespace)) {
+            return sSingleton_2004_03;
+        } else if (IAeConstants.WSA_NAMESPACE_URI_2005_08.equals(aNamespace)) {
+            return sSingleton_2005_08;
+        } else {
+            return sSingleton;
+        }
+    }
+
+    /**
+     * @see org.activebpel.rt.bpel.impl.endpoints.IAeEndpointDeserializer#deserializeEndpoint(org.w3c.dom.Element)
+     */
+    public IAeEndpointReference deserializeEndpoint(Element aData)
+            throws AeBusinessProcessException {
+        return deserializeEndpoint(aData, null);
+    }
+
+    /**
+     * @see org.activebpel.rt.bpel.impl.endpoints.IAeEndpointDeserializer#deserializeEndpoint(org.w3c.dom.Element, org.activebpel.rt.bpel.IAeEndpointReference)
+     */
+    public IAeEndpointReference deserializeEndpoint(Element aData, IAeEndpointReference aRef)
+            throws AeBusinessProcessException {
+        IAeEndpointReference ref = aRef == null ? new AeEndpointReference() : aRef;
+
+        ref.setSourceNamespace(mNamespace);
+
+        NodeList children = aData.getChildNodes();
+        for (int i = 0, len = children.getLength(); i < len; i++) {
+            Node child = children.item(i);
+            if (child.getNodeType() != Node.ELEMENT_NODE)
+                continue;
+            deserializeChildElement(ref, (Element) child);
+        }
+        return ref;
+    }
+
+    /**
+     * Determines the EPR property for a given child element
+     *
+     * @param aRef
+     * @param aChild
+     * @throws AeBusinessProcessException
+     */
+    protected void deserializeChildElement(IAeEndpointReference aRef, Element aChild) throws AeBusinessProcessException {
+        if (mNamespace.equals(aChild.getNamespaceURI())) {
+            if ("Address".equals(aChild.getLocalName())) //$NON-NLS-1$
             {
-               Node child = children.item(i);
-               if (child.getNodeType() == Node.ELEMENT_NODE)
-                  deserializeChildElement(aRef, (Element) child);
+                String address = AeXmlUtil.getText(aChild);
+                aRef.setAddress(address.trim());
+            } else if ("PortType".equals(aChild.getLocalName())) //$NON-NLS-1$
+                aRef.setPortType(extractQNameData(aChild));
+            else if ("ReferenceProperties".equals(aChild.getLocalName())) //$NON-NLS-1$
+            {
+                deserializeProperties(aRef, aChild.getChildNodes());
+            } else if ("ReferenceParameters".equals(aChild.getLocalName())) //$NON-NLS-1$
+            {
+                deserializeProperties(aRef, aChild.getChildNodes());
+            } else if ("ServiceName".equals(aChild.getLocalName())) //$NON-NLS-1$
+            {
+                String portName = (aChild).getAttribute("PortName"); //$NON-NLS-1$
+                if (!AeUtil.isNullOrEmpty(portName))
+                    aRef.setServicePort(portName);
+
+                aRef.setServiceName(extractQNameData(aChild));
+            } else if ("Metadata".equals(aChild.getLocalName())) //$NON-NLS-1$
+            {
+                NodeList children = aChild.getChildNodes();
+                for (int i = 0, len = children.getLength(); i < len; i++) {
+                    Node child = children.item(i);
+                    if (child.getNodeType() == Node.ELEMENT_NODE)
+                        deserializeChildElement(aRef, (Element) child);
+                }
+            } else {
+                // Extensibility element
+                aRef.addExtensibilityElement(aChild);
             }
-         }
-         else
-         {
+        } else if (IAeBPELConstants.WSP_NAMESPACE_URI.equals(aChild.getNamespaceURI())) {
+            if ("Policy".equals(aChild.getLocalName())) //$NON-NLS-1$
+                aRef.addPolicyElement(aChild);
+        } else {
             // Extensibility element
             aRef.addExtensibilityElement(aChild);
-         }
-      }
-      else if (IAeBPELConstants.WSP_NAMESPACE_URI.equals(aChild.getNamespaceURI()))
-      {
-         if ("Policy".equals(aChild.getLocalName())) //$NON-NLS-1$
-            aRef.addPolicyElement(aChild);
-      }
-      else
-      {
-         // Extensibility element
-         aRef.addExtensibilityElement(aChild);
-      }
-   }
-   
-   /**
-    * This will deserialize a list of Nodes to ReferenceProperties
-    * @param aRef
-    * @param aList
-    */
-   protected void deserializeProperties(IAeEndpointReference aRef, NodeList aList)
-   {
-      for (int j=0, length=aList.getLength(); j < length; j++)
-      {
+        }
+    }
 
-         Node prop = aList.item(j);                  
-         
-         if (prop.getNodeType() == Node.ELEMENT_NODE)
-         {
-            deserializeProperty(aRef, (Element) prop);
-         }
-      }
-   }
-   
-   /**
-    * This will deserialize a property to ReferenceProperties
-    * @param aRef
-    * @param aProp
-    */
-   protected void deserializeProperty(IAeEndpointReference aRef, Element aProp)
-   {
-      // add element to reference properties for header propagation
-      aRef.addReferenceProperty(aProp);
-   }
+    /**
+     * This will deserialize a list of Nodes to ReferenceProperties
+     *
+     * @param aRef
+     * @param aList
+     */
+    protected void deserializeProperties(IAeEndpointReference aRef, NodeList aList) {
+        for (int j = 0, length = aList.getLength(); j < length; j++) {
 
-   
-   /**
-    * Extracts the text value from this element which is expected to be a QName. 
-    * @param aElement
-    * @throws AeBusinessProcessException
-    */
-   protected QName extractQNameData(Element aElement) throws AeBusinessProcessException
-   {
-      String qname  = AeXmlUtil.getText(aElement);
-      if (AeUtil.isNullOrEmpty(qname) && aElement instanceof SOAPElement)
-         qname = ((SOAPElement)aElement).getValue();
-      
-      // check for standard {namespace}name syntax
-      if (qname.charAt(0) == '{')
-      {
-         return QName.valueOf(qname);
-      }
-      
-      String prefix = AeXmlUtil.extractPrefix(qname);
-      String nsURI  = null;
-      if (prefix != null)
-      {
-         if (aElement instanceof SOAPElement)
-         {
-            SOAPElement soapEl = (SOAPElement) aElement;
-            nsURI = soapEl.getNamespaceURI(prefix);
-         }
-         else
-         {
-            nsURI = AeXmlUtil.getNamespaceForPrefix(aElement, prefix);
-         }
-      }
-      else
-      {
-         nsURI = AeXmlUtil.findDefaultNamespace(aElement); 
-      }
-      
-      return new QName(nsURI, AeXmlUtil.extractLocalPart(qname));
-   }
+            Node prop = aList.item(j);
+
+            if (prop.getNodeType() == Node.ELEMENT_NODE) {
+                deserializeProperty(aRef, (Element) prop);
+            }
+        }
+    }
+
+    /**
+     * This will deserialize a property to ReferenceProperties
+     *
+     * @param aRef
+     * @param aProp
+     */
+    protected void deserializeProperty(IAeEndpointReference aRef, Element aProp) {
+        // add element to reference properties for header propagation
+        aRef.addReferenceProperty(aProp);
+    }
+
+
+    /**
+     * Extracts the text value from this element which is expected to be a QName.
+     *
+     * @param aElement
+     * @throws AeBusinessProcessException
+     */
+    protected QName extractQNameData(Element aElement) throws AeBusinessProcessException {
+        String qname = AeXmlUtil.getText(aElement);
+        if (AeUtil.isNullOrEmpty(qname) && aElement instanceof SOAPElement)
+            qname = ((SOAPElement) aElement).getValue();
+
+        // check for standard {namespace}name syntax
+        if (qname.charAt(0) == '{') {
+            return QName.valueOf(qname);
+        }
+
+        String prefix = AeXmlUtil.extractPrefix(qname);
+        String nsURI = null;
+        if (prefix != null) {
+            if (aElement instanceof SOAPElement) {
+                SOAPElement soapEl = (SOAPElement) aElement;
+                nsURI = soapEl.getNamespaceURI(prefix);
+            } else {
+                nsURI = AeXmlUtil.getNamespaceForPrefix(aElement, prefix);
+            }
+        } else {
+            nsURI = AeXmlUtil.findDefaultNamespace(aElement);
+        }
+
+        return new QName(nsURI, AeXmlUtil.extractLocalPart(qname));
+    }
 }

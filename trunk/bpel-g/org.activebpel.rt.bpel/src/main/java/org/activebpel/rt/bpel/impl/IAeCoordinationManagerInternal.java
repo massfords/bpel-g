@@ -18,55 +18,61 @@ import org.activebpel.rt.bpel.coord.IAeProtocolMessage;
 /**
  * Extension to the coordination manager implementation.
  */
-public interface IAeCoordinationManagerInternal extends IAeCoordinationManager
-{
-   /**
-    * Callback from the process manager when a process completes.
-    * @param aProcessId
-    * @param aFaultObject fault object if the process completed with a fault.
-    * @param aNormalCompletion indiciates that the process completed normally and is eligible fo compensation.
-    */
-   public void onProcessCompleted(long aProcessId, IAeFault aFaultObject, boolean aNormalCompletion);
+public interface IAeCoordinationManagerInternal extends IAeCoordinationManager {
+    /**
+     * Callback from the process manager when a process completes.
+     *
+     * @param aProcessId
+     * @param aFaultObject      fault object if the process completed with a fault.
+     * @param aNormalCompletion indiciates that the process completed normally and is eligible fo compensation.
+     */
+    public void onProcessCompleted(long aProcessId, IAeFault aFaultObject, boolean aNormalCompletion);
 
-   /**
-    * Dispatches the message to the destination.
-    * @param aMessage
-    * @param aViaProcessExeQueue
-    */
-   public void dispatch(IAeProtocolMessage aMessage, boolean aViaProcessExeQueue);
+    /**
+     * Dispatches the message to the destination.
+     *
+     * @param aMessage
+     * @param aViaProcessExeQueue
+     */
+    public void dispatch(IAeProtocolMessage aMessage, boolean aViaProcessExeQueue);
 
-   /**
-    * Save the current state information.
-    * @param aCoordinating
-    */
-   public void persistState(IAeCoordinating aCoordinating) throws AeCoordinationException;
+    /**
+     * Save the current state information.
+     *
+     * @param aCoordinating
+     */
+    public void persistState(IAeCoordinating aCoordinating) throws AeCoordinationException;
 
-   /**
-    * Sends a COMPENSATE_OR_COMPENSATE signal to participants.
-    * @param aCoordinationId id
-    */
-   public void compensateOrCancel(String aCoordinationId);
+    /**
+     * Sends a COMPENSATE_OR_COMPENSATE signal to participants.
+     *
+     * @param aCoordinationId id
+     */
+    public void compensateOrCancel(String aCoordinationId);
 
-   /**
-    * Notifies the coordinators that a subprocess particpant has closed and 
-    * therefore the coordinators are no longer reachable through compensation.
-    * @param aProcessId
-    * @param aJournalId
-    */
-   public void notifyCoordinatorsParticipantClosed(long aProcessId, long aJournalId);
+    /**
+     * Notifies the coordinators that a subprocess particpant has closed and
+     * therefore the coordinators are no longer reachable through compensation.
+     *
+     * @param aProcessId
+     * @param aJournalId
+     */
+    public void notifyCoordinatorsParticipantClosed(long aProcessId, long aJournalId);
 
-   /**
-    * Journals the receipt of a message by the coordination manager. This journal 
-    * entry will be marked as done once the coordinator or participant processes 
-    * the message and dispatches the behavior to the process. 
-    * @param aProcessId
-    * @param aMessage
-    */
-   public long journalCoordinationQueueMessageReceived(long aProcessId, IAeProtocolMessage aMessage);
+    /**
+     * Journals the receipt of a message by the coordination manager. This journal
+     * entry will be marked as done once the coordinator or participant processes
+     * the message and dispatches the behavior to the process.
+     *
+     * @param aProcessId
+     * @param aMessage
+     */
+    public long journalCoordinationQueueMessageReceived(long aProcessId, IAeProtocolMessage aMessage);
 
-   /**
-    * Journals the notification that gets sent to 
-    * @param aProcessId
-    */
-   public long journalNotifyCoordinatorsParticipantClosed(long aProcessId);
+    /**
+     * Journals the notification that gets sent to
+     *
+     * @param aProcessId
+     */
+    public long journalNotifyCoordinatorsParticipantClosed(long aProcessId);
 }

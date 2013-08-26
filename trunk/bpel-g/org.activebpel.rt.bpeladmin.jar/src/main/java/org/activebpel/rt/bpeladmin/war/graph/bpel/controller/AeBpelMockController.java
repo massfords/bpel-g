@@ -13,28 +13,26 @@ import org.activebpel.rt.bpeladmin.war.graph.bpel.figure.AeBpelFigureBase;
 import org.activebpel.rt.bpeladmin.war.graph.ui.figure.AeGraphFigure;
 
 /**
- * A simple controller used for testing. This controller simply returns a 
+ * A simple controller used for testing. This controller simply returns a
  * AeBpelFigureBase figure.
  */
-public class AeBpelMockController extends AeBpelControllerBase
-{
+public class AeBpelMockController extends AeBpelControllerBase {
 
-   /**
-    * Default constructor.
-    */
-   public AeBpelMockController()
-   {
-      super();
-   }
-   
-   /** 
-    * Overrides method to AeBpelFigureBase.
-    * @see org.activebpel.rt.bpeladmin.war.graph.ui.controller.AeGraphController#createFigure()
-    */
-   protected AeGraphFigure createFigure()
-   {
-      AeGraphFigure fig = new AeBpelFigureBase(getLabelText());
-      return fig;
-   }   
+    /**
+     * Default constructor.
+     */
+    public AeBpelMockController() {
+        super();
+    }
+
+    /**
+     * Overrides method to AeBpelFigureBase.
+     *
+     * @see org.activebpel.rt.bpeladmin.war.graph.ui.controller.AeGraphController#createFigure()
+     */
+    protected AeGraphFigure createFigure() {
+        AeGraphFigure fig = new AeBpelFigureBase(getLabelText());
+        return fig;
+    }
 
 }

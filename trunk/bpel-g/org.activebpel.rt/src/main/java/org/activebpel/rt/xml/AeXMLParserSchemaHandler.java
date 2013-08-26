@@ -25,88 +25,79 @@ import java.util.List;
  * This class implements an XML parser default handler.  It extends the AE default handler
  * and simply adds the ability to resolve schema entities from a list of schemas.
  */
-public class AeXMLParserSchemaHandler extends AeXMLParserDefaultHandler
-{
-   /** A map from namespace to <code>Schema</code> object. */
-   private final HashMap<String,Schema> mSchemaMap = new HashMap<>();
+public class AeXMLParserSchemaHandler extends AeXMLParserDefaultHandler {
+    /**
+     * A map from namespace to <code>Schema</code> object.
+     */
+    private final HashMap<String, Schema> mSchemaMap = new HashMap<>();
 
-   /**
-    * Constructs a schema xml handler given the wsdl locator and schema list.
-    * 
-    * @param aWSDLLocator
-    * @param aSchemaList
-    */
-   // fixme (MF) change to accept a map of namespaces to byte[]
-   public AeXMLParserSchemaHandler(WSDLLocator aWSDLLocator, List<Schema> aSchemaList)
-   {
-      this(aWSDLLocator, null, aSchemaList);
-   }
+    /**
+     * Constructs a schema xml handler given the wsdl locator and schema list.
+     *
+     * @param aWSDLLocator
+     * @param aSchemaList
+     */
+    // fixme (MF) change to accept a map of namespaces to byte[]
+    public AeXMLParserSchemaHandler(WSDLLocator aWSDLLocator, List<Schema> aSchemaList) {
+        this(aWSDLLocator, null, aSchemaList);
+    }
 
-   /**
-    * Constructs a schema xml handler given the wsdl locator, error handler, and list
-    * of schemas.
-    * 
-    * @param aWSDLLocator
-    * @param aErrorHandler
-    */
-   // fixme (MF) change to accept a map of namespaces to byte[]
-   public AeXMLParserSchemaHandler(WSDLLocator aWSDLLocator, ErrorHandler aErrorHandler, List<Schema> aSchemaList)
-   {
-      super(aWSDLLocator, aErrorHandler);
-      
-      buildSchemaMap(aSchemaList);
-   }
+    /**
+     * Constructs a schema xml handler given the wsdl locator, error handler, and list
+     * of schemas.
+     *
+     * @param aWSDLLocator
+     * @param aErrorHandler
+     */
+    // fixme (MF) change to accept a map of namespaces to byte[]
+    public AeXMLParserSchemaHandler(WSDLLocator aWSDLLocator, ErrorHandler aErrorHandler, List<Schema> aSchemaList) {
+        super(aWSDLLocator, aErrorHandler);
 
-   /**
-    * Overrides method to resolve schema imports with no location.  The schema will be looked up
-    * by its namespace from the list of schemas passed in to the handler during construction.
-    * 
-    * @see org.activebpel.rt.xml.AeXMLParserDefaultHandler#resolveEntity(java.lang.String, java.lang.String)
-    */
-   public InputSource resolveEntity(String aPublicId, String aSystemId)
-   {
-      if (aPublicId == null)
-      {
-         Schema schema = findSchema(aSystemId);
-         if (schema != null)
-         {
-            try
-            {
-               String schemaStr = AeSchemaUtil.serializeSchema(schema, false);
-               InputSource is = new InputSource(new StringReader(schemaStr));
-               is.setSystemId(aSystemId);
-               
-               return is;
+        buildSchemaMap(aSchemaList);
+    }
+
+    /**
+     * Overrides method to resolve schema imports with no location.  The schema will be looked up
+     * by its namespace from the list of schemas passed in to the handler during construction.
+     *
+     * @see org.activebpel.rt.xml.AeXMLParserDefaultHandler#resolveEntity(java.lang.String, java.lang.String)
+     */
+    public InputSource resolveEntity(String aPublicId, String aSystemId) {
+        if (aPublicId == null) {
+            Schema schema = findSchema(aSystemId);
+            if (schema != null) {
+                try {
+                    String schemaStr = AeSchemaUtil.serializeSchema(schema, false);
+                    InputSource is = new InputSource(new StringReader(schemaStr));
+                    is.setSystemId(aSystemId);
+
+                    return is;
+                } catch (Exception e) {
+                    AeException.logError(e, AeMessages.getString("AeXMLParserSchemaHandler.ERROR_0")); //$NON-NLS-1$
+                }
             }
-            catch (Exception e)
-            {
-               AeException.logError(e, AeMessages.getString("AeXMLParserSchemaHandler.ERROR_0")); //$NON-NLS-1$
-            }
-         }
-      }
-      return super.resolveEntity(aPublicId, aSystemId);
-   }
+        }
+        return super.resolveEntity(aPublicId, aSystemId);
+    }
 
-   /**
-    * This method builds the internal schema map, which is a map from schema target namespace
-    * to Schema object.
-    * 
-    * @param aSchemaList
-    */
-   protected void buildSchemaMap(List<Schema> aSchemaList)
-   {
-       for (Schema schema : aSchemaList) {
-           mSchemaMap.put(schema.getTargetNamespace(), schema);
-       }
-   }
+    /**
+     * This method builds the internal schema map, which is a map from schema target namespace
+     * to Schema object.
+     *
+     * @param aSchemaList
+     */
+    protected void buildSchemaMap(List<Schema> aSchemaList) {
+        for (Schema schema : aSchemaList) {
+            mSchemaMap.put(schema.getTargetNamespace(), schema);
+        }
+    }
 
-   /**
-    * Returns a schema for a given namespace or null if not found.
-    * 
-    * @param aNamespace
-    */
-   protected Schema findSchema(String aNamespace)
-   {
-      return mSchemaMap.get(aNamespace);
-   }
+    /**
+     * Returns a schema for a given namespace or null if not found.
+     *
+     * @param aNamespace
+     */
+    protected Schema findSchema(String aNamespace) {
+        return mSchemaMap.get(aNamespace);
+    }
 }

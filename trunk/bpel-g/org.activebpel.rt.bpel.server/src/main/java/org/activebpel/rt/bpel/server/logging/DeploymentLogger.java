@@ -15,7 +15,7 @@ import java.util.*;
  */
 public class DeploymentLogger implements IAeDeploymentLogger {
 
-    private final Map<String,DeploymentResponse.DeploymentInfo> infos = new LinkedHashMap<>();
+    private final Map<String, DeploymentResponse.DeploymentInfo> infos = new LinkedHashMap<>();
     private static final Logger log = LoggerFactory.getLogger(DeploymentLogger.class);
     private String currentPdd;
     private boolean hasErrors = false;
@@ -40,7 +40,7 @@ public class DeploymentLogger implements IAeDeploymentLogger {
     @Override
     public void processDeploymentFinished(boolean success) {
 
-        if (current()!=null) {
+        if (current() != null) {
             current().withDeployed(success && current().getNumberOfErrors() == 0);
         }
         if (success) {
@@ -72,16 +72,16 @@ public class DeploymentLogger implements IAeDeploymentLogger {
 
     @Override
     public void addError(String errorCode, Object[] args, Object node) {
-        hasErrors=true;
+        hasErrors = true;
         addMessage(errorCode, args, MessageType.ERROR);
-        current().withNumberOfErrors(current().getNumberOfErrors() +1);
+        current().withNumberOfErrors(current().getNumberOfErrors() + 1);
     }
 
     @Override
     public void addWarning(String warnCode, Object[] args, Object node) {
-        hasWarnings=true;
+        hasWarnings = true;
         addMessage(warnCode, args, MessageType.WARNING);
-        current().withNumberOfWarnings(current().getNumberOfWarnings() +1);
+        current().withNumberOfWarnings(current().getNumberOfWarnings() + 1);
     }
 
     @Override
@@ -97,13 +97,16 @@ public class DeploymentLogger implements IAeDeploymentLogger {
     private void addMessage(String infoCode, Object[] args, MessageType type) {
         String message = MessageFormat.format(infoCode, args);
 
-        switch(type) {
+        switch (type) {
             case ERROR:
-                log.error(message); break;
+                log.error(message);
+                break;
             case INFO:
-                log.info(message); break;
+                log.info(message);
+                break;
             case WARNING:
-                log.warn(message); break;
+                log.warn(message);
+                break;
         }
 
         DeploymentResponse.DeploymentInfo info = current();

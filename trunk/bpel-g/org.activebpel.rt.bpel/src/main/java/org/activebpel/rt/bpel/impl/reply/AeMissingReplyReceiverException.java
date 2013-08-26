@@ -15,20 +15,19 @@ import org.activebpel.rt.bpel.AeMessages;
 /**
  * Implements an exception that reports a missing reply receiver.
  */
-public class AeMissingReplyReceiverException extends AeBusinessProcessException
-{  
-   /**
-     * 
+public class AeMissingReplyReceiverException extends AeBusinessProcessException {
+    /**
+     *
      */
     private static final long serialVersionUID = 440645650352821956L;
 
-/**
-    * Constructs the exception with reply id.
-    * @param aReplyId
-    */
-   public AeMissingReplyReceiverException(long aReplyId)
-   {
-      super(AeMessages.format("AeMissingReplyReceiverException.REPLY_NOT_AVAIALBLE", aReplyId)); //$NON-NLS-1$
-   }
+    /**
+     * Constructs the exception with reply id.
+     *
+     * @param aReplyId
+     */
+    public AeMissingReplyReceiverException(long aReplyId) {
+        super(AeMessages.format("AeMissingReplyReceiverException.REPLY_NOT_AVAIALBLE", aReplyId)); //$NON-NLS-1$
+    }
 
 }

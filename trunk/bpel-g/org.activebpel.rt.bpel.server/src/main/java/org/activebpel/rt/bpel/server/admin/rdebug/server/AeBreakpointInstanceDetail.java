@@ -16,58 +16,57 @@ import javax.xml.namespace.QName;
 /**
  * JavaBean for holding some data for a single breakpoint definition.
  */
-public class AeBreakpointInstanceDetail implements Serializable
-{
-   /**
-     * 
+public class AeBreakpointInstanceDetail implements Serializable {
+    /**
+     *
      */
     private static final long serialVersionUID = 8236027627006956801L;
-/** name of the process */
-   private QName mProcessName;
-   /** node path of this breakpoint */
-   private String mNodePath;
+    /**
+     * name of the process
+     */
+    private QName mProcessName;
+    /**
+     * node path of this breakpoint
+     */
+    private String mNodePath;
 
-   /**
-    * No-arg constructor
-    */
-   public AeBreakpointInstanceDetail()
-   {
-   }
-   
-   /**
-    * Getter for the process name
-    */
-   public QName getProcessName()
-   {
-      return mProcessName;
-   }
+    /**
+     * No-arg constructor
+     */
+    public AeBreakpointInstanceDetail() {
+    }
 
-   /**
-    * Setter for the name
-    * @param aName
-    */
-   public void setProcessName(QName aName)
-   {
-      mProcessName = aName;
-   }
-   
-   /**
-    * Getter for the node path where this breakpoint is defined.
-    * 
-    * @return String
-    */
-   public String getNodePath()
-   {
-      return mNodePath;
-   }
+    /**
+     * Getter for the process name
+     */
+    public QName getProcessName() {
+        return mProcessName;
+    }
 
-   /**
-    * Setter for the node path.
-    * 
-    * @param aNodePath The node path to set.
-    */
-   public void setNodePath(String aNodePath)
-   {
-      mNodePath = aNodePath;
-   }
+    /**
+     * Setter for the name
+     *
+     * @param aName
+     */
+    public void setProcessName(QName aName) {
+        mProcessName = aName;
+    }
+
+    /**
+     * Getter for the node path where this breakpoint is defined.
+     *
+     * @return String
+     */
+    public String getNodePath() {
+        return mNodePath;
+    }
+
+    /**
+     * Setter for the node path.
+     *
+     * @param aNodePath The node path to set.
+     */
+    public void setNodePath(String aNodePath) {
+        mNodePath = aNodePath;
+    }
 }

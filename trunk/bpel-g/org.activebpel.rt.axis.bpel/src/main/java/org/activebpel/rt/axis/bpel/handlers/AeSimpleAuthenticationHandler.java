@@ -24,114 +24,105 @@ import org.apache.axis.security.simple.SimpleSecurityProvider;
  * A slight change on Axis's authentication handler. The default Axis handler was
  * throwing a fault if it was in the request flow and a request came in without
  * authentication information. This implementation differs in that it allows
- * unauthenticated requests to pass through. 
- * 
+ * unauthenticated requests to pass through.
+ * <p/>
  * We are not doing any authentication here. Instead, it is up to the admin to
  * secure the web.xml if they want to have security enabled. This allows us to
- * run out of the box easily without any configuration. 
+ * run out of the box easily without any configuration.
  */
-public class AeSimpleAuthenticationHandler extends BasicHandler
-{
-   /**
-     * 
+public class AeSimpleAuthenticationHandler extends BasicHandler {
+    /**
+     *
      */
     private static final long serialVersionUID = 1526300256068366347L;
-protected static final String AUTH_SUBJECT_PROPERTY = Subject.class.getName();
+    protected static final String AUTH_SUBJECT_PROPERTY = Subject.class.getName();
 
-   /**
-    * Pretty much the Axis's implementation except to allow
-    * the passing of unauthenticated requests after clearing the user name from
-    * the context.
-    * 
-    * @see org.apache.axis.Handler#invoke(org.apache.axis.MessageContext)
-    */
-   public void invoke(MessageContext aMsgContext) throws AxisFault
-   {
-      if (hasCredentials(aMsgContext))
-      {
-         authenticate(aMsgContext);
-      }
-   }
+    /**
+     * Pretty much the Axis's implementation except to allow
+     * the passing of unauthenticated requests after clearing the user name from
+     * the context.
+     *
+     * @see org.apache.axis.Handler#invoke(org.apache.axis.MessageContext)
+     */
+    public void invoke(MessageContext aMsgContext) throws AxisFault {
+        if (hasCredentials(aMsgContext)) {
+            authenticate(aMsgContext);
+        }
+    }
 
-   /**
-    * Implements the authentication routine by way of the SecurityProvider that's
-    * installed on the context. 
-    * 
-    * @param aMsgContext
-    * @return true if the user was authenticated, false otherwise.
-    * @throws AxisFault thrown if the user was not authenticated
-    */
-   protected boolean authenticate(MessageContext aMsgContext) throws AxisFault
-   {
-      SecurityProvider provider = getProvider(aMsgContext);
+    /**
+     * Implements the authentication routine by way of the SecurityProvider that's
+     * installed on the context.
+     *
+     * @param aMsgContext
+     * @return true if the user was authenticated, false otherwise.
+     * @throws AxisFault thrown if the user was not authenticated
+     */
+    protected boolean authenticate(MessageContext aMsgContext) throws AxisFault {
+        SecurityProvider provider = getProvider(aMsgContext);
 
-      AuthenticatedUser authUser = provider.authenticate(aMsgContext);
+        AuthenticatedUser authUser = provider.authenticate(aMsgContext);
 
-      aMsgContext.setProperty(MessageContext.AUTHUSER, authUser);
-      
-      // Add the subject to the message context for engine authorization
-      Subject subject = getSubject(aMsgContext);
-      updateSubject(authUser, subject);
-      aMsgContext.setProperty(AUTH_SUBJECT_PROPERTY, subject);
-      
-      return authUser != null;
-   }
+        aMsgContext.setProperty(MessageContext.AUTHUSER, authUser);
 
-   /**
-    * Returns true if the user name or password are present on the context. It's possible that	
-    * the authentication scheme only requires one of these values in order to authenticate the
-    * user.
-    *
-    * @param aMsgContext
-    */
-   protected boolean hasCredentials(MessageContext aMsgContext)
-   {
-      return AeUtil.notNullOrEmpty(aMsgContext.getUsername()) || 
-            AeUtil.notNullOrEmpty(aMsgContext.getPassword());
-   }
+        // Add the subject to the message context for engine authorization
+        Subject subject = getSubject(aMsgContext);
+        updateSubject(authUser, subject);
+        aMsgContext.setProperty(AUTH_SUBJECT_PROPERTY, subject);
 
-   /**
-    * The security provider will have been set on the context if the inbound
-    * request passed through a security layer, otherwise we'll fallback on Axis's
-    * default which is file based.
-    * 
-    * @param aMsgContext
-    */
-   protected SecurityProvider getProvider(MessageContext aMsgContext)
-   {
-      SecurityProvider provider = (SecurityProvider) aMsgContext
-            .getProperty(MessageContext.SECURITY_PROVIDER);
-      if (provider == null)
-      {
-         provider = new SimpleSecurityProvider();
-         aMsgContext.setProperty(MessageContext.SECURITY_PROVIDER, provider);
-      }
-      return provider;
-   }
-   
-   /**
-    * Gets the cached subject from the message context or creates a new one
-    * @param aMsgContext
-    */
-   protected Subject getSubject(MessageContext aMsgContext)
-   {
-      Subject subject = (Subject) aMsgContext.getProperty(AUTH_SUBJECT_PROPERTY);
-      if (subject == null)
-      {
-         subject = new Subject();
-      }
-      return subject;
-   }
-   
-   /**
-    * Adds the Axis authenticated user principal to the subject
-    * 
-    * @param aUser
-    * @param aSubject
-    */
-   protected void updateSubject(AuthenticatedUser aUser, Subject aSubject)
-   {
-      AeAxisPrincipal principal = new AeAxisPrincipal(aUser);
-      aSubject.getPrincipals().add(principal);
-   }
+        return authUser != null;
+    }
+
+    /**
+     * Returns true if the user name or password are present on the context. It's possible that
+     * the authentication scheme only requires one of these values in order to authenticate the
+     * user.
+     *
+     * @param aMsgContext
+     */
+    protected boolean hasCredentials(MessageContext aMsgContext) {
+        return AeUtil.notNullOrEmpty(aMsgContext.getUsername()) ||
+                AeUtil.notNullOrEmpty(aMsgContext.getPassword());
+    }
+
+    /**
+     * The security provider will have been set on the context if the inbound
+     * request passed through a security layer, otherwise we'll fallback on Axis's
+     * default which is file based.
+     *
+     * @param aMsgContext
+     */
+    protected SecurityProvider getProvider(MessageContext aMsgContext) {
+        SecurityProvider provider = (SecurityProvider) aMsgContext
+                .getProperty(MessageContext.SECURITY_PROVIDER);
+        if (provider == null) {
+            provider = new SimpleSecurityProvider();
+            aMsgContext.setProperty(MessageContext.SECURITY_PROVIDER, provider);
+        }
+        return provider;
+    }
+
+    /**
+     * Gets the cached subject from the message context or creates a new one
+     *
+     * @param aMsgContext
+     */
+    protected Subject getSubject(MessageContext aMsgContext) {
+        Subject subject = (Subject) aMsgContext.getProperty(AUTH_SUBJECT_PROPERTY);
+        if (subject == null) {
+            subject = new Subject();
+        }
+        return subject;
+    }
+
+    /**
+     * Adds the Axis authenticated user principal to the subject
+     *
+     * @param aUser
+     * @param aSubject
+     */
+    protected void updateSubject(AuthenticatedUser aUser, Subject aSubject) {
+        AeAxisPrincipal principal = new AeAxisPrincipal(aUser);
+        aSubject.getPrincipals().add(principal);
+    }
 }

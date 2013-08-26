@@ -7,55 +7,52 @@
 //Active Endpoints, Inc. Removal of this PROPRIETARY RIGHTS STATEMENT 
 //is strictly forbidden. Copyright (c) 2002-2004 All rights reserved. 
 /////////////////////////////////////////////////////////////////////////////
-package org.activebpel.rt.bpel.def.activity.support; 
+package org.activebpel.rt.bpel.def.activity.support;
 
 import org.activebpel.rt.bpel.def.visitors.IAeDefVisitor;
 
 /**
  * Branches def resides under the optional completionCondition for the
- * serial and parallel forEach. It contains an expression that determines the 
+ * serial and parallel forEach. It contains an expression that determines the
  * number of iterations of the loop required in order for the loop to complete
  * without an error.
  */
-public class AeForEachBranchesDef extends AeExpressionBaseDef
-{
-   /**
-     * 
+public class AeForEachBranchesDef extends AeExpressionBaseDef {
+    /**
+     *
      */
     private static final long serialVersionUID = -1296760189458241709L;
-/** true limits the completion count to scopes that completed normally */
-   private boolean mCountCompletedBranchesOnly = false;
-   
-   /**
-    * Default c'tor.
-    */
-   public AeForEachBranchesDef()
-   {
-      super();
-   }
-   
-   /**
-    * @see org.activebpel.rt.bpel.def.AeBaseDef#accept(org.activebpel.rt.bpel.def.visitors.IAeDefVisitor)
-    */
-   public void accept(IAeDefVisitor aVisitor)
-   {
-      aVisitor.visit(this);
-   }
-   
-   /**
-    * @return Returns the countCompletedBranchesOnly.
-    */
-   public boolean isCountCompletedBranchesOnly()
-   {
-      return mCountCompletedBranchesOnly;
-   }
-   
-   /**
-    * @param aCountCompletedBranchesOnly The countCompletedBranchesOnly to set.
-    */
-   public void setCountCompletedBranchesOnly(boolean aCountCompletedBranchesOnly)
-   {
-      mCountCompletedBranchesOnly = aCountCompletedBranchesOnly;
-   }
+    /**
+     * true limits the completion count to scopes that completed normally
+     */
+    private boolean mCountCompletedBranchesOnly = false;
+
+    /**
+     * Default c'tor.
+     */
+    public AeForEachBranchesDef() {
+        super();
+    }
+
+    /**
+     * @see org.activebpel.rt.bpel.def.AeBaseDef#accept(org.activebpel.rt.bpel.def.visitors.IAeDefVisitor)
+     */
+    public void accept(IAeDefVisitor aVisitor) {
+        aVisitor.visit(this);
+    }
+
+    /**
+     * @return Returns the countCompletedBranchesOnly.
+     */
+    public boolean isCountCompletedBranchesOnly() {
+        return mCountCompletedBranchesOnly;
+    }
+
+    /**
+     * @param aCountCompletedBranchesOnly The countCompletedBranchesOnly to set.
+     */
+    public void setCountCompletedBranchesOnly(boolean aCountCompletedBranchesOnly) {
+        mCountCompletedBranchesOnly = aCountCompletedBranchesOnly;
+    }
 }
  

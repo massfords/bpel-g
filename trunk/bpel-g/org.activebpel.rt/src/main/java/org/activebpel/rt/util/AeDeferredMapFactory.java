@@ -7,7 +7,7 @@
 //Active Endpoints, Inc. Removal of this PROPRIETARY RIGHTS STATEMENT 
 //is strictly forbidden. Copyright (c) 2002-2004 All rights reserved. 
 /////////////////////////////////////////////////////////////////////////////
-package org.activebpel.rt.util; 
+package org.activebpel.rt.util;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
@@ -16,84 +16,79 @@ import java.util.Map;
 
 /**
  * A base class for building a {@link java.util.Map} whose contents won't be loaded
- * until the map is accessed. 
+ * until the map is accessed.
  */
-public abstract class AeDeferredMapFactory<K,V> implements InvocationHandler
-{
-   /** init flag to avoid building the map multiple times */
-   private boolean mInitialized;
-   /** map that we're delegating to */
-   private Map<K,V> mMap;
-   
-   /**
-    * Method to be overridden by subclass to return our delegate map.
-    */
-   protected abstract Map<K,V> buildMap();
-   
-   /**
-    * Creates a proxy for the map. Invoking any method on the proxy will cause
-    * the delegate map to get built.
-    */
-   @SuppressWarnings("unchecked")
-   public Map<K,V> getMapProxy()
-   {
-      return (Map<K,V>) Proxy.newProxyInstance(getClass().getClassLoader(), new Class[] { Map.class }, this );
-   }
-   
-   /**
-    * Override the invoke method to ensure that our delegate map gets built.
-    * 
-    * @see java.lang.reflect.InvocationHandler#invoke(java.lang.Object, java.lang.reflect.Method, java.lang.Object[])
-    */
-   public Object invoke(Object aProxy, Method aMethod, Object[] args) throws Throwable
-   {
-      init();
-      return aMethod.invoke(getMap(), args);
-   }
-   
-   /**
-    * If we're not initialized, then <code>buildMap()</code> is called and the 
-    * resulting map becomes our delegate. 
-    */
-   protected void init()
-   {
-      if (!isInitialized())
-      {
-         setMap(buildMap());
-         setInitialized(true);
-      }
-   }
-   
-   /**
-    * @return Returns the initialized.
-    */
-   protected boolean isInitialized()
-   {
-      return mInitialized;
-   }
+public abstract class AeDeferredMapFactory<K, V> implements InvocationHandler {
+    /**
+     * init flag to avoid building the map multiple times
+     */
+    private boolean mInitialized;
+    /**
+     * map that we're delegating to
+     */
+    private Map<K, V> mMap;
 
-   /**
-    * @param aInitialized The initialized to set.
-    */
-   protected void setInitialized(boolean aInitialized)
-   {
-      mInitialized = aInitialized;
-   }
-   
-   /**
-    * @return Returns the map.
-    */
-   protected Map<K,V> getMap()
-   {
-      return mMap;
-   }
+    /**
+     * Method to be overridden by subclass to return our delegate map.
+     */
+    protected abstract Map<K, V> buildMap();
 
-   /**
-    * @param aMap The map to set.
-    */
-   protected void setMap(Map<K,V> aMap)
-   {
-      mMap = aMap;
-   }
+    /**
+     * Creates a proxy for the map. Invoking any method on the proxy will cause
+     * the delegate map to get built.
+     */
+    @SuppressWarnings("unchecked")
+    public Map<K, V> getMapProxy() {
+        return (Map<K, V>) Proxy.newProxyInstance(getClass().getClassLoader(), new Class[]{Map.class}, this);
+    }
+
+    /**
+     * Override the invoke method to ensure that our delegate map gets built.
+     *
+     * @see java.lang.reflect.InvocationHandler#invoke(java.lang.Object, java.lang.reflect.Method, java.lang.Object[])
+     */
+    public Object invoke(Object aProxy, Method aMethod, Object[] args) throws Throwable {
+        init();
+        return aMethod.invoke(getMap(), args);
+    }
+
+    /**
+     * If we're not initialized, then <code>buildMap()</code> is called and the
+     * resulting map becomes our delegate.
+     */
+    protected void init() {
+        if (!isInitialized()) {
+            setMap(buildMap());
+            setInitialized(true);
+        }
+    }
+
+    /**
+     * @return Returns the initialized.
+     */
+    protected boolean isInitialized() {
+        return mInitialized;
+    }
+
+    /**
+     * @param aInitialized The initialized to set.
+     */
+    protected void setInitialized(boolean aInitialized) {
+        mInitialized = aInitialized;
+    }
+
+    /**
+     * @return Returns the map.
+     */
+    protected Map<K, V> getMap() {
+        return mMap;
+    }
+
+    /**
+     * @param aMap The map to set.
+     */
+    protected void setMap(Map<K, V> aMap) {
+        mMap = aMap;
+    }
 }
  

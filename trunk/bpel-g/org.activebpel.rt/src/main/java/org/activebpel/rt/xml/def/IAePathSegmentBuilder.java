@@ -7,21 +7,21 @@
 //Active Endpoints, Inc. Removal of this PROPRIETARY RIGHTS STATEMENT 
 //is strictly forbidden. Copyright (c) 2002-2007 All rights reserved. 
 /////////////////////////////////////////////////////////////////////////////
-package org.activebpel.rt.xml.def; 
+package org.activebpel.rt.xml.def;
 
 
 /**
  * Interface for building a single segment in a location path. The def objects
  * use an XPath like location path to uniquely identify their location within
  * the object model. This interface will construct a single segment within the
- * location path. 
+ * location path.
  */
-public interface IAePathSegmentBuilder
-{
-   /**
-    * Returns a string to use for this def's segment in the path. 
-    * @param aDef
-    */
-   public String createPathSegment(AeBaseXmlDef aDef);
+public interface IAePathSegmentBuilder {
+    /**
+     * Returns a string to use for this def's segment in the path.
+     *
+     * @param aDef
+     */
+    public String createPathSegment(AeBaseXmlDef aDef);
 }
  

@@ -16,62 +16,62 @@ import bpelg.services.processes.types.ProcessDeployment;
 import bpelg.services.processes.types.ProcessDeployments;
 
 /**
- * Wraps the AeProcessDeploymentDetail array for the 
+ * Wraps the AeProcessDeploymentDetail array for the
  * deployed processes listing.
  */
-public class AeDeployedProcessesBean
-{
-   /** Deployed process details. */   
-   protected final ProcessDeployments mDetails;
-   /** Pointer to current index. */
-   protected int mCurrentIndex;
-   
-   /**
-    * Constructor.  Initializes the
-    * deployment details array.
-    */
-   public AeDeployedProcessesBean()
-   {
-      mDetails = AeEngineManagementFactory.getProcessManager().getProcessDeployments(new GetProcessDeployments());      
-   }
-   
-   /**
-    * Size accessor.
-    * @return The number of detail rows.
-    */
-   public int getDetailSize()
-   {
-      if( mDetails == null )
-      {
-         return 0;
-      }
-      return mDetails.getProcessDeployment().size();
-   }
-   
-   /**
-    * Indexed accessor.
-    * @param aIndex
-    */
-   public ProcessDeployment getDetail( int aIndex )
-   {
-      setCurrentIndex( aIndex );
-      return mDetails.getProcessDeployment().get(aIndex);
-   }
-   
-   /**
-    * Setter for the current index.
-    * @param aIndex
-    */
-   protected void setCurrentIndex( int aIndex )
-   {
-      mCurrentIndex = aIndex;
-   }
+public class AeDeployedProcessesBean {
+    /**
+     * Deployed process details.
+     */
+    protected final ProcessDeployments mDetails;
+    /**
+     * Pointer to current index.
+     */
+    protected int mCurrentIndex;
 
-   /**
-    * Accessor for the current index.
-    */
-   public int getCurrentIndex()
-   {
-      return mCurrentIndex;
-   }
+    /**
+     * Constructor.  Initializes the
+     * deployment details array.
+     */
+    public AeDeployedProcessesBean() {
+        mDetails = AeEngineManagementFactory.getProcessManager().getProcessDeployments(new GetProcessDeployments());
+    }
+
+    /**
+     * Size accessor.
+     *
+     * @return The number of detail rows.
+     */
+    public int getDetailSize() {
+        if (mDetails == null) {
+            return 0;
+        }
+        return mDetails.getProcessDeployment().size();
+    }
+
+    /**
+     * Indexed accessor.
+     *
+     * @param aIndex
+     */
+    public ProcessDeployment getDetail(int aIndex) {
+        setCurrentIndex(aIndex);
+        return mDetails.getProcessDeployment().get(aIndex);
+    }
+
+    /**
+     * Setter for the current index.
+     *
+     * @param aIndex
+     */
+    protected void setCurrentIndex(int aIndex) {
+        mCurrentIndex = aIndex;
+    }
+
+    /**
+     * Accessor for the current index.
+     */
+    public int getCurrentIndex() {
+        return mCurrentIndex;
+    }
 }

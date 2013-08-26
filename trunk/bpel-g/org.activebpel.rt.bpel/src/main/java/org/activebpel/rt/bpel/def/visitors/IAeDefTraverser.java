@@ -98,660 +98,735 @@ import org.activebpel.rt.xml.def.visitors.IAeBaseXmlDefVisitor;
  * visitation. Each traverse method below accepts a definition object and
  * a visitor object. The method's responsibility is to decide how to traverse the
  * given definition object so each of its child objects (if any) will get
- * visited. 
+ * visited.
  */
-public interface IAeDefTraverser extends IAeBaseXmlDefTraverser
-{
-   /**
-    * Traverses the definition object, calling <code>accept</code> on each
-    * of the object's child objects that can be visited.
-    * @param aDef
-    * @param aVisitor
-    */
-   public void traverse(AeProcessDef aDef, IAeBaseXmlDefVisitor aVisitor);
-
-   /**
-    * Traverses the definition object, calling <code>accept</code> on each
-    * of the object's child objects that can be visited.
-    * @param aDef
-    * @param aVisitor
-    */
-   public void traverse(AeActivityAssignDef aDef, IAeBaseXmlDefVisitor aVisitor);
-
-   /**
-    * Traverses the definition object, calling <code>accept</code> on each
-    * of the object's child objects that can be visited.
-    * @param aDef
-    * @param aVisitor
-    */
-   public void traverse(AeActivityCompensateDef aDef, IAeBaseXmlDefVisitor aVisitor);
-
-   /**
-    * Traverses the definition object, calling <code>accept</code> on each
-    * of the object's child objects that can be visited.
-    * @param aDef
-    * @param aVisitor
-    */
-   public void traverse(AeActivityCompensateScopeDef aDef, IAeBaseXmlDefVisitor aVisitor);
-
-   /**
-    * Traverses the definition object, calling <code>accept</code> on each
-    * of the object's child objects that can be visited.
-    * @param aDef
-    * @param aVisitor
-    */
-   public void traverse(AeActivityEmptyDef aDef, IAeBaseXmlDefVisitor aVisitor);
-
-   /**
-    * Traverses the definition object, calling <code>accept</code> on each
-    * of the object's child objects that can be visited.
-    * @param aDef
-    * @param aVisitor
-    */
-   public void traverse(AeActivityFlowDef aDef, IAeBaseXmlDefVisitor aVisitor);
-
-   /**
-    * Traverses the definition object, calling <code>accept</code> on each
-    * of the object's child objects that can be visited.
-    * @param aDef
-    * @param aVisitor
-    */
-   public void traverse(AeActivityInvokeDef aDef, IAeBaseXmlDefVisitor aVisitor);
-
-   /**
-    * Traverses the definition object, calling <code>accept</code> on each
-    * of the object's child objects that can be visited.
-    * @param aDef
-    * @param aVisitor
-    */
-   public void traverse(AeActivityPickDef aDef, IAeBaseXmlDefVisitor aVisitor);
-
-   /**
-    * Traverses the definition object, calling <code>accept</code> on each
-    * of the object's child objects that can be visited.
-    * @param aDef
-    * @param aVisitor
-    */
-   public void traverse(AeActivityReceiveDef aDef, IAeBaseXmlDefVisitor aVisitor);
-
-   /**
-    * Traverses the definition object, calling <code>accept</code> on each
-    * of the object's child objects that can be visited.
-    * @param aDef
-    * @param aVisitor
-    */
-   public void traverse(AeActivityReplyDef aDef, IAeBaseXmlDefVisitor aVisitor);
-
-   /**
-    * Traverses the definition object, calling <code>accept</code> on each
-    * of the object's child objects that can be visited.
-    * @param aDef
-    * @param aVisitor
-    */
-   public void traverse(AeActivityScopeDef aDef, IAeBaseXmlDefVisitor aVisitor);
-
-   /**
-    * Traverses the definition object, calling <code>accept</code> on each
-    * of the object's child objects that can be visited.
-    * @param aDef
-    * @param aVisitor
-    */
-   public void traverse(AeVariablesDef aDef, IAeBaseXmlDefVisitor aVisitor);
-
-   /**
-    * Traverses the definition object, calling <code>accept</code> on each
-    * of the object's child objects that can be visited.
-    * @param aDef
-    * @param aVisitor
-    */
-   public void traverse(AeVariableDef aDef, IAeBaseXmlDefVisitor aVisitor);
-
-   /**
-    * Traverses the definition object, calling <code>accept</code> on each
-    * of the object's child objects that can be visited.
-    * @param aDef
-    * @param aVisitor
-    */
-   public void traverse(AeCorrelationSetsDef aDef, IAeBaseXmlDefVisitor aVisitor);
-
-   /**
-    * Traverses the definition object, calling <code>accept</code> on each
-    * of the object's child objects that can be visited.
-    * @param aDef
-    * @param aVisitor
-    */
-   public void traverse(AeCorrelationSetDef aDef, IAeBaseXmlDefVisitor aVisitor);
-
-   /**
-    * Traverses the definition object, calling <code>accept</code> on each
-    * of the object's child objects that can be visited.
-    * @param aDef
-    * @param aVisitor
-    */
-   public void traverse(AeFaultHandlersDef aDef, IAeBaseXmlDefVisitor aVisitor);
-
-   /**
-    * Traverses the definition object, calling <code>accept</code> on each
-    * of the object's child objects that can be visited.
-    * @param aDef
-    * @param aVisitor
-    */
-   public void traverse(AeCatchDef aDef, IAeBaseXmlDefVisitor aVisitor);
-
-   /**
-    * Traverses the definition object, calling <code>accept</code> on each
-    * of the object's child objects that can be visited.
-    * @param aDef
-    * @param aVisitor
-    */
-   public void traverse(AeCompensationHandlerDef aDef, IAeBaseXmlDefVisitor aVisitor);
-
-   /**
-    * Traverses the definition object, calling <code>accept</code> on each
-    * of the object's child objects that can be visited.
-    * @param aDef
-    * @param aVisitor
-    */
-   public void traverse(AeEventHandlersDef aDef, IAeBaseXmlDefVisitor aVisitor);
-
-   /**
-    * Traverses the definition object, calling <code>accept</code> on each
-    * of the object's child objects that can be visited.
-    * @param aDef
-    * @param aVisitor
-    */
-   public void traverse(AeOnAlarmDef aDef, IAeBaseXmlDefVisitor aVisitor);
-
-   /**
-    * Traverses the definition object, calling <code>accept</code> on each
-    * of the object's child objects that can be visited.
-    * @param aDef
-    * @param aVisitor
-    */
-   public void traverse(AeOnMessageDef aDef, IAeBaseXmlDefVisitor aVisitor);
-
-   /**
-    * Traverses the definition object, calling <code>accept</code> on each
-    * of the object's child objects that can be visited.
-    * @param aDef
-    * @param aVisitor
-    */
-   public void traverse(AeOnEventDef aDef, IAeBaseXmlDefVisitor aVisitor);
-
-   /**
-    * Traverses the definition object, calling <code>accept</code> on each
-    * of the object's child objects that can be visited.
-    * @param aDef
-    * @param aVisitor
-    */
-   public void traverse(AeActivitySequenceDef aDef, IAeBaseXmlDefVisitor aVisitor);
-
-   /**
-    * Traverses the definition object, calling <code>accept</code> on each
-    * of the object's child objects that can be visited.
-    * @param aDef
-    * @param aVisitor
-    */
-   public void traverse(AeActivityExitDef aDef, IAeBaseXmlDefVisitor aVisitor);
-
-   /**
-    * Traverses the definition object, calling <code>accept</code> on each
-    * of the object's child objects that can be visited.
-    * @param aDef
-    * @param aVisitor
-    */
-   public void traverse(AeActivityThrowDef aDef, IAeBaseXmlDefVisitor aVisitor);
-
-   /**
-    * Traverses the definition object, calling <code>accept</code> on each
-    * of the object's child objects that can be visited.
-    * @param aDef
-    * @param aVisitor
-    */
-   public void traverse(AeActivityWaitDef aDef, IAeBaseXmlDefVisitor aVisitor);
-   
-   /**
-    * Traverses the definition objects, calling <code>accept</code> on each
-    * of the object's child objects that can be visited.
-    * 
-    * @param aDef
-    * @param aVisitor
-    */
-   public void traverse(AeActivityForEachDef aDef, IAeBaseXmlDefVisitor aVisitor);
-   
-   /**
-    * Traverses the definition objects, calling <code>accept</code> on each
-    * of the object's child objects that can be visited.
-    * 
-    * @param aDef
-    * @param aVisitor
-    */
-   public void traverse(AeForEachFinalDef aDef, IAeBaseXmlDefVisitor aVisitor);
-   
-   /**
-    * Traverses the definition objects, calling <code>accept</code> on each
-    * of the object's child objects that can be visited.
-    * 
-    * @param aDef
-    * @param aVisitor
-    */
-   public void traverse(AeForEachStartDef aDef, IAeBaseXmlDefVisitor aVisitor);
-
-   /**
-    * Traverses the definition objects, calling <code>accept</code> on each
-    * of the object's child objects that can be visited.
-    * 
-    * @param aDef
-    * @param aVisitor
-    */
-   public void traverse(AeForEachBranchesDef aDef, IAeBaseXmlDefVisitor aVisitor);
-
-   /**
-    * Traverses the definition objects, calling <code>accept</code> on each
-    * of the object's child objects that can be visited.
-    * 
-    * @param aDef
-    * @param aVisitor
-    */
-   public void traverse(AeForEachCompletionConditionDef aDef, IAeBaseXmlDefVisitor aVisitor);
-
-   /**
-    * Traverses the definition object, calling <code>accept</code> on each
-    * of the object's child objects that can be visited.
-    * @param aDef
-    * @param aVisitor
-    */
-   public void traverse(AeActivityWhileDef aDef, IAeBaseXmlDefVisitor aVisitor);
-   
-   /**
-    * Traverses the definition object, calling <code>accept</code> on each
-    * of the object's child objects that can be visited.
-    * @param aDef
-    * @param aVisitor
-    */
-   public void traverse(AeActivityRepeatUntilDef aDef, IAeBaseXmlDefVisitor aVisitor);
-
-   /**
-    * Traverses the definition object, calling <code>accept</code> on each
-    * of the object's child objects that can be visited.
-    * @param aDef
-    * @param aVisitor
-    */
-   public void traverse(AeActivityContinueDef aDef, IAeBaseXmlDefVisitor aVisitor);
-   
-   /**
-    * Traverses the definition object, calling <code>accept</code> on each
-    * of the object's child objects that can be visited.
-    * @param aDef
-    * @param aVisitor
-    */
-   public void traverse(AeActivityBreakDef aDef, IAeBaseXmlDefVisitor aVisitor);
-   
-   /**
-    * Traverses the definition object, calling <code>accept</code> on each
-    * of the object's child objects that can be visited.
-    * @param aDef
-    * @param aVisitor
-    */
-   public void traverse(AeActivitySuspendDef aDef, IAeBaseXmlDefVisitor aVisitor);
-
-   /**
-    * Traverses the definition object, calling <code>accept</code> on each
-    * of the object's child objects that can be visited.
-    * @param aDef
-    * @param aVisitor
-    */
-   public void traverse(AeCatchAllDef aDef, IAeBaseXmlDefVisitor aVisitor);
-
-   /**
-    * Traverses the definition object, calling <code>accept</code> on each
-    * of the object's child objects that can be visited.
-    * @param aDef
-    * @param aVisitor
-    */
-   public void traverse(AeAssignCopyDef aDef, IAeBaseXmlDefVisitor aVisitor);
-
-   /**
-    * Traverses the definition object, calling <code>accept</code> on each
-    * of the object's child objects that can be visited.
-    * @param aDef
-    * @param aVisitor
-    */
-   public void traverse(AeCorrelationDef aDef, IAeBaseXmlDefVisitor aVisitor);
-
-   /**
-    * Traverses the definition object, calling <code>accept</code> on each
-    * of the object's child objects that can be visited.
-    * @param aDef
-    * @param aVisitor
-    */
-   public void traverse(AeLinkDef aDef, IAeBaseXmlDefVisitor aVisitor);
-
-   /**
-    * Traverses the definition object, calling <code>accept</code> on each
-    * of the object's child objects that can be visited.
-    * @param aDef
-    * @param aVisitor
-    */
-   public void traverse(AePartnerDef aDef, IAeBaseXmlDefVisitor aVisitor);
-
-   /**
-    * Traverses the definition object, calling <code>accept</code> on each
-    * of the object's child objects that can be visited.
-    * @param aDef
-    * @param aVisitor
-    */
-   public void traverse(AePartnerLinkDef aDef, IAeBaseXmlDefVisitor aVisitor);
-
-   /**
-    * Traverses the definition object, calling <code>accept</code> on each
-    * of the object's child objects that can be visited.
-    * @param aDef
-    * @param aVisitor
-    */
-   public void traverse(AeScopeDef aDef, IAeBaseXmlDefVisitor aVisitor);
-   
-   /**
-    * Traverses the definition object, calling <code>accept</code> on each
-    * of the object's child objects that can be visited.
-    * @param aDef
-    * @param aVisitor
-    */
-   public void traverse(AeMessageExchangesDef aDef, IAeBaseXmlDefVisitor aVisitor);
-
-   /**
-    * Traverses the definition object, calling <code>accept</code> on each
-    * of the object's child objects that can be visited.
-    * @param aDef
-    * @param aVisitor
-    */
-   public void traverse(AeMessageExchangeDef aDef, IAeBaseXmlDefVisitor aVisitor);
-
-   /**
-    * Traverses the definition object, calling <code>accept</code> on each
-    * of the object's child objects that can be visited.
-    * @param aDef
-    * @param aVisitor
-    */
-   public void traverse(AeSourcesDef aDef, IAeBaseXmlDefVisitor aVisitor);
-
-   /**
-    * Traverses the definition object, calling <code>accept</code> on each
-    * of the object's child objects that can be visited.
-    * @param aDef
-    * @param aVisitor
-    */
-   public void traverse(AeSourceDef aDef, IAeBaseXmlDefVisitor aVisitor);
-
-   /**
-    * Traverses the definition object, calling <code>accept</code> on each
-    * of the object's child objects that can be visited.
-    * @param aDef
-    * @param aVisitor
-    */
-   public void traverse(AeTargetsDef aDef, IAeBaseXmlDefVisitor aVisitor);
-
-   /**
-    * Traverses the definition object, calling <code>accept</code> on each
-    * of the object's child objects that can be visited.
-    * @param aDef
-    * @param aVisitor
-    */
-   public void traverse(AeTargetDef aDef, IAeBaseXmlDefVisitor aVisitor);
-
-   /**
-    * Traverses the definition object, calling <code>accept</code> on each
-    * of the object's child objects that can be visited.
-    * @param aDef
-    * @param aVisitor
-    */
-   public void traverse(AePartnerLinksDef aDef, IAeBaseXmlDefVisitor aVisitor);
-
-   /**
-    * Traverses the definition object, calling <code>accept</code> on each
-    * of the object's child objects that can be visited.
-    * @param aDef
-    * @param aVisitor
-    */
-   public void traverse(AePartnersDef aDef, IAeBaseXmlDefVisitor aVisitor);
-
-   /**
-    * Traverses the definition object, calling <code>accept</code> on each
-    * of the object's child objects that can be visited.
-    * @param aDef
-    * @param aVisitor
-    */
-   public void traverse(AeLinksDef aDef, IAeBaseXmlDefVisitor aVisitor);
-
-   /**
-    * Traverses the definition object, calling <code>accept</code> on each
-    * of the object's child objects that can be visited.
-    * @param aDef
-    * @param aVisitor
-    */
-   public void traverse(AeCorrelationsDef aDef, IAeBaseXmlDefVisitor aVisitor);
-
-   /**
-    * Traverses the definition object, calling <code>accept</code> on each
-    * of the object's child objects that can be visited.
-    * @param aDef
-    * @param aVisitor
-    */
-   public void traverse(AeFromDef aDef, IAeBaseXmlDefVisitor aVisitor);
-
-   /**
-    * Traverses the definition object, calling <code>accept</code> on each
-    * of the object's child objects that can be visited.
-    * @param aDef
-    * @param aVisitor
-    */
-   public void traverse(AeToDef aDef, IAeBaseXmlDefVisitor aVisitor);
-   
-   /**
-    * Traverses the definition object, calling <code>accept</code> on each
-    * of the object's child objects that can be visited.
-    * @param aDef
-    * @param aVisitor
-    */
-   public void traverse(AeQueryDef aDef, IAeBaseXmlDefVisitor aVisitor);
-
-   /**
-    * Traverses the definition object, calling <code>accept</code> on each
-    * of the object's child objects that can be visited.
-    * @param aDef
-    * @param aVisitor
-    */
-   public void traverse(AeImportDef aDef, IAeBaseXmlDefVisitor aVisitor);
-
-   /**
-    * Traverses the definition object, calling <code>accept</code> on each
-    * of the object's child objects that can be visited.
-    * @param aDef
-    * @param aVisitor
-    */
-   public void traverse(AeActivityValidateDef aDef, IAeBaseXmlDefVisitor aVisitor);
-
-   /**
-    * Traverses the definition object, calling <code>accept</code> on each
-    * of the object's child objects that can be visited.
-    * @param aDef
-    * @param aVisitor
-    */
-   public void traverse(AeExtensibleAssignDef aDef, IAeBaseXmlDefVisitor aVisitor);
-   
-   /**
-    * Traverses the definition object, calling <code>accept</code> on each
-    * of the object's child objects that can be visited.
-    * @param aDef
-    * @param aVisitor
-    */
-   public void traverse(AeExtensionsDef aDef, IAeBaseXmlDefVisitor aVisitor);
-
-   /**
-    * Traverses the definition object, calling <code>accept</code> on each
-    * of the object's child objects that can be visited.
-    * @param aDef
-    * @param aVisitor
-    */
-   public void traverse(AeExtensionDef aDef, IAeBaseXmlDefVisitor aVisitor);
-
-   /**
-    * Traverses the definition object, calling <code>accept</code> on each
-    * of the object's child objects that can be visited.
-    * @param aDef
-    * @param aVisitor
-    */
-   public void traverse(AeFromPartsDef aDef, IAeBaseXmlDefVisitor aVisitor);
-
-   /**
-    * Traverses the definition object, calling <code>accept</code> on each
-    * of the object's child objects that can be visited.
-    * @param aDef
-    * @param aVisitor
-    */
-   public void traverse(AeToPartsDef aDef, IAeBaseXmlDefVisitor aVisitor);
-
-   /**
-    * Traverses the definition object, calling <code>accept</code> on each
-    * of the object's child objects that can be visited.
-    * @param aDef
-    * @param aVisitor
-    */
-   public void traverse(AeFromPartDef aDef, IAeBaseXmlDefVisitor aVisitor);
-
-   /**
-    * Traverses the definition object, calling <code>accept</code> on each
-    * of the object's child objects that can be visited.
-    * @param aDef
-    * @param aVisitor
-    */
-   public void traverse(AeToPartDef aDef, IAeBaseXmlDefVisitor aVisitor);
-
-   /**
-    * Traverses the definition object, calling <code>accept</code> on each
-    * of the object's child objects that can be visited.
-    * @param aDef
-    * @param aVisitor
-    */
-   public void traverse(AeTransitionConditionDef aDef, IAeBaseXmlDefVisitor aVisitor);
-
-   /**
-    * Traverses the definition object, calling <code>accept</code> on each
-    * of the object's child objects that can be visited.
-    * @param aDef
-    * @param aVisitor
-    */
-   public void traverse(AeJoinConditionDef aDef, IAeBaseXmlDefVisitor aVisitor);
-
-   /**
-    * Traverses the definition object, calling <code>accept</code> on each
-    * of the object's child objects that can be visited.
-    * @param aDef
-    * @param aVisitor
-    */
-   public void traverse(AeForDef aDef, IAeBaseXmlDefVisitor aVisitor);
-
-   /**
-    * Traverses the definition object, calling <code>accept</code> on each
-    * of the object's child objects that can be visited.
-    * @param aDef
-    * @param aVisitor
-    */
-   public void traverse(AeUntilDef aDef, IAeBaseXmlDefVisitor aVisitor);
-
-   /**
-    * Traverses the definition object, calling <code>accept</code> on each
-    * of the object's child objects that can be visited.
-    * @param aDef
-    * @param aVisitor
-    */
-   public void traverse(AeExtensionActivityDef aDef, IAeBaseXmlDefVisitor aVisitor);
-
-   /**
-    * Traverses the definition object, calling <code>accept</code> on each
-    * of the object's child objects that can be visited.
-    * @param aDef
-    * @param aVisitor
-    */
-   public void traverse(AeChildExtensionActivityDef aDef, IAeBaseXmlDefVisitor aVisitor);
-
-   /**
-    * Traverses the definition object, calling <code>accept</code> on each
-    * of the object's child objects that can be visited.
-    * @param aDef
-    * @param aVisitor
-    */
-   public void traverse(AeActivityIfDef aDef, IAeBaseXmlDefVisitor aVisitor);
-
-   /**
-    * Traverses the definition object, calling <code>accept</code> on each
-    * of the object's child objects that can be visited.
-    * @param aDef
-    * @param aVisitor
-    */
-   public void traverse(AeConditionDef aDef, IAeBaseXmlDefVisitor aVisitor);
-
-   /**
-    * Traverses the definition object, calling <code>accept</code> on each
-    * of the object's child objects that can be visited.
-    * @param aDef
-    * @param aVisitor
-    */
-   public void traverse(AeElseIfDef aDef, IAeBaseXmlDefVisitor aVisitor);
-
-   /**
-    * Traverses the definition object, calling <code>accept</code> on each
-    * of the object's child objects that can be visited.
-    * @param aDef
-    * @param aVisitor
-    */
-   public void traverse(AeIfDef aDef, IAeBaseXmlDefVisitor aVisitor);
-
-   /**
-    * Traverses the definition object, calling <code>accept</code> on each
-    * of the object's child objects that can be visited.
-    * @param aDef
-    * @param aVisitor
-    */
-   public void traverse(AeElseDef aDef, IAeBaseXmlDefVisitor aVisitor);
-
-   /**
-    * Traverses the definition object, calling <code>accept</code> on each
-    * of the object's child objects that can be visited.
-    * @param aDef
-    * @param aVisitor
-    */
-   public void traverse(AeActivityRethrowDef aDef, IAeBaseXmlDefVisitor aVisitor);
-
-   /**
-    * Traverses the definition object, calling <code>accept</code> on each
-    * of the object's child objects that can be visited.
-    * @param aDef
-    * @param aVisitor
-    */
-   public void traverse(AeRepeatEveryDef aDef, IAeBaseXmlDefVisitor aVisitor);
-
-   /**
-    * Traverses the definition object, calling <code>accept</code> on each
-    * of the object's child objects that can be visited.
-    * @param aDef
-    * @param aVisitor
-    */
-   public void traverse(AeTerminationHandlerDef aDef, IAeBaseXmlDefVisitor aVisitor);
-
-   /**
-    * Traverses the definition object, calling <code>accept</code> on each
-    * of the object's child objects that can be visited.
-    * @param aDef
-    * @param aVisitor
-    */
-   public void traverse(AeLiteralDef aDef, IAeBaseXmlDefVisitor aVisitor);
-   
-   /**
-    * Traverses the definition object, calling <code>accept</code> on each
-    * of the object's child objects that can be visited.
-    * @param aDef
-    * @param aVisitor
-    */
-   public void traverse(AeActivityOpaqueDef  aDef, IAeBaseXmlDefVisitor aVisitor);
+public interface IAeDefTraverser extends IAeBaseXmlDefTraverser {
+    /**
+     * Traverses the definition object, calling <code>accept</code> on each
+     * of the object's child objects that can be visited.
+     *
+     * @param aDef
+     * @param aVisitor
+     */
+    public void traverse(AeProcessDef aDef, IAeBaseXmlDefVisitor aVisitor);
+
+    /**
+     * Traverses the definition object, calling <code>accept</code> on each
+     * of the object's child objects that can be visited.
+     *
+     * @param aDef
+     * @param aVisitor
+     */
+    public void traverse(AeActivityAssignDef aDef, IAeBaseXmlDefVisitor aVisitor);
+
+    /**
+     * Traverses the definition object, calling <code>accept</code> on each
+     * of the object's child objects that can be visited.
+     *
+     * @param aDef
+     * @param aVisitor
+     */
+    public void traverse(AeActivityCompensateDef aDef, IAeBaseXmlDefVisitor aVisitor);
+
+    /**
+     * Traverses the definition object, calling <code>accept</code> on each
+     * of the object's child objects that can be visited.
+     *
+     * @param aDef
+     * @param aVisitor
+     */
+    public void traverse(AeActivityCompensateScopeDef aDef, IAeBaseXmlDefVisitor aVisitor);
+
+    /**
+     * Traverses the definition object, calling <code>accept</code> on each
+     * of the object's child objects that can be visited.
+     *
+     * @param aDef
+     * @param aVisitor
+     */
+    public void traverse(AeActivityEmptyDef aDef, IAeBaseXmlDefVisitor aVisitor);
+
+    /**
+     * Traverses the definition object, calling <code>accept</code> on each
+     * of the object's child objects that can be visited.
+     *
+     * @param aDef
+     * @param aVisitor
+     */
+    public void traverse(AeActivityFlowDef aDef, IAeBaseXmlDefVisitor aVisitor);
+
+    /**
+     * Traverses the definition object, calling <code>accept</code> on each
+     * of the object's child objects that can be visited.
+     *
+     * @param aDef
+     * @param aVisitor
+     */
+    public void traverse(AeActivityInvokeDef aDef, IAeBaseXmlDefVisitor aVisitor);
+
+    /**
+     * Traverses the definition object, calling <code>accept</code> on each
+     * of the object's child objects that can be visited.
+     *
+     * @param aDef
+     * @param aVisitor
+     */
+    public void traverse(AeActivityPickDef aDef, IAeBaseXmlDefVisitor aVisitor);
+
+    /**
+     * Traverses the definition object, calling <code>accept</code> on each
+     * of the object's child objects that can be visited.
+     *
+     * @param aDef
+     * @param aVisitor
+     */
+    public void traverse(AeActivityReceiveDef aDef, IAeBaseXmlDefVisitor aVisitor);
+
+    /**
+     * Traverses the definition object, calling <code>accept</code> on each
+     * of the object's child objects that can be visited.
+     *
+     * @param aDef
+     * @param aVisitor
+     */
+    public void traverse(AeActivityReplyDef aDef, IAeBaseXmlDefVisitor aVisitor);
+
+    /**
+     * Traverses the definition object, calling <code>accept</code> on each
+     * of the object's child objects that can be visited.
+     *
+     * @param aDef
+     * @param aVisitor
+     */
+    public void traverse(AeActivityScopeDef aDef, IAeBaseXmlDefVisitor aVisitor);
+
+    /**
+     * Traverses the definition object, calling <code>accept</code> on each
+     * of the object's child objects that can be visited.
+     *
+     * @param aDef
+     * @param aVisitor
+     */
+    public void traverse(AeVariablesDef aDef, IAeBaseXmlDefVisitor aVisitor);
+
+    /**
+     * Traverses the definition object, calling <code>accept</code> on each
+     * of the object's child objects that can be visited.
+     *
+     * @param aDef
+     * @param aVisitor
+     */
+    public void traverse(AeVariableDef aDef, IAeBaseXmlDefVisitor aVisitor);
+
+    /**
+     * Traverses the definition object, calling <code>accept</code> on each
+     * of the object's child objects that can be visited.
+     *
+     * @param aDef
+     * @param aVisitor
+     */
+    public void traverse(AeCorrelationSetsDef aDef, IAeBaseXmlDefVisitor aVisitor);
+
+    /**
+     * Traverses the definition object, calling <code>accept</code> on each
+     * of the object's child objects that can be visited.
+     *
+     * @param aDef
+     * @param aVisitor
+     */
+    public void traverse(AeCorrelationSetDef aDef, IAeBaseXmlDefVisitor aVisitor);
+
+    /**
+     * Traverses the definition object, calling <code>accept</code> on each
+     * of the object's child objects that can be visited.
+     *
+     * @param aDef
+     * @param aVisitor
+     */
+    public void traverse(AeFaultHandlersDef aDef, IAeBaseXmlDefVisitor aVisitor);
+
+    /**
+     * Traverses the definition object, calling <code>accept</code> on each
+     * of the object's child objects that can be visited.
+     *
+     * @param aDef
+     * @param aVisitor
+     */
+    public void traverse(AeCatchDef aDef, IAeBaseXmlDefVisitor aVisitor);
+
+    /**
+     * Traverses the definition object, calling <code>accept</code> on each
+     * of the object's child objects that can be visited.
+     *
+     * @param aDef
+     * @param aVisitor
+     */
+    public void traverse(AeCompensationHandlerDef aDef, IAeBaseXmlDefVisitor aVisitor);
+
+    /**
+     * Traverses the definition object, calling <code>accept</code> on each
+     * of the object's child objects that can be visited.
+     *
+     * @param aDef
+     * @param aVisitor
+     */
+    public void traverse(AeEventHandlersDef aDef, IAeBaseXmlDefVisitor aVisitor);
+
+    /**
+     * Traverses the definition object, calling <code>accept</code> on each
+     * of the object's child objects that can be visited.
+     *
+     * @param aDef
+     * @param aVisitor
+     */
+    public void traverse(AeOnAlarmDef aDef, IAeBaseXmlDefVisitor aVisitor);
+
+    /**
+     * Traverses the definition object, calling <code>accept</code> on each
+     * of the object's child objects that can be visited.
+     *
+     * @param aDef
+     * @param aVisitor
+     */
+    public void traverse(AeOnMessageDef aDef, IAeBaseXmlDefVisitor aVisitor);
+
+    /**
+     * Traverses the definition object, calling <code>accept</code> on each
+     * of the object's child objects that can be visited.
+     *
+     * @param aDef
+     * @param aVisitor
+     */
+    public void traverse(AeOnEventDef aDef, IAeBaseXmlDefVisitor aVisitor);
+
+    /**
+     * Traverses the definition object, calling <code>accept</code> on each
+     * of the object's child objects that can be visited.
+     *
+     * @param aDef
+     * @param aVisitor
+     */
+    public void traverse(AeActivitySequenceDef aDef, IAeBaseXmlDefVisitor aVisitor);
+
+    /**
+     * Traverses the definition object, calling <code>accept</code> on each
+     * of the object's child objects that can be visited.
+     *
+     * @param aDef
+     * @param aVisitor
+     */
+    public void traverse(AeActivityExitDef aDef, IAeBaseXmlDefVisitor aVisitor);
+
+    /**
+     * Traverses the definition object, calling <code>accept</code> on each
+     * of the object's child objects that can be visited.
+     *
+     * @param aDef
+     * @param aVisitor
+     */
+    public void traverse(AeActivityThrowDef aDef, IAeBaseXmlDefVisitor aVisitor);
+
+    /**
+     * Traverses the definition object, calling <code>accept</code> on each
+     * of the object's child objects that can be visited.
+     *
+     * @param aDef
+     * @param aVisitor
+     */
+    public void traverse(AeActivityWaitDef aDef, IAeBaseXmlDefVisitor aVisitor);
+
+    /**
+     * Traverses the definition objects, calling <code>accept</code> on each
+     * of the object's child objects that can be visited.
+     *
+     * @param aDef
+     * @param aVisitor
+     */
+    public void traverse(AeActivityForEachDef aDef, IAeBaseXmlDefVisitor aVisitor);
+
+    /**
+     * Traverses the definition objects, calling <code>accept</code> on each
+     * of the object's child objects that can be visited.
+     *
+     * @param aDef
+     * @param aVisitor
+     */
+    public void traverse(AeForEachFinalDef aDef, IAeBaseXmlDefVisitor aVisitor);
+
+    /**
+     * Traverses the definition objects, calling <code>accept</code> on each
+     * of the object's child objects that can be visited.
+     *
+     * @param aDef
+     * @param aVisitor
+     */
+    public void traverse(AeForEachStartDef aDef, IAeBaseXmlDefVisitor aVisitor);
+
+    /**
+     * Traverses the definition objects, calling <code>accept</code> on each
+     * of the object's child objects that can be visited.
+     *
+     * @param aDef
+     * @param aVisitor
+     */
+    public void traverse(AeForEachBranchesDef aDef, IAeBaseXmlDefVisitor aVisitor);
+
+    /**
+     * Traverses the definition objects, calling <code>accept</code> on each
+     * of the object's child objects that can be visited.
+     *
+     * @param aDef
+     * @param aVisitor
+     */
+    public void traverse(AeForEachCompletionConditionDef aDef, IAeBaseXmlDefVisitor aVisitor);
+
+    /**
+     * Traverses the definition object, calling <code>accept</code> on each
+     * of the object's child objects that can be visited.
+     *
+     * @param aDef
+     * @param aVisitor
+     */
+    public void traverse(AeActivityWhileDef aDef, IAeBaseXmlDefVisitor aVisitor);
+
+    /**
+     * Traverses the definition object, calling <code>accept</code> on each
+     * of the object's child objects that can be visited.
+     *
+     * @param aDef
+     * @param aVisitor
+     */
+    public void traverse(AeActivityRepeatUntilDef aDef, IAeBaseXmlDefVisitor aVisitor);
+
+    /**
+     * Traverses the definition object, calling <code>accept</code> on each
+     * of the object's child objects that can be visited.
+     *
+     * @param aDef
+     * @param aVisitor
+     */
+    public void traverse(AeActivityContinueDef aDef, IAeBaseXmlDefVisitor aVisitor);
+
+    /**
+     * Traverses the definition object, calling <code>accept</code> on each
+     * of the object's child objects that can be visited.
+     *
+     * @param aDef
+     * @param aVisitor
+     */
+    public void traverse(AeActivityBreakDef aDef, IAeBaseXmlDefVisitor aVisitor);
+
+    /**
+     * Traverses the definition object, calling <code>accept</code> on each
+     * of the object's child objects that can be visited.
+     *
+     * @param aDef
+     * @param aVisitor
+     */
+    public void traverse(AeActivitySuspendDef aDef, IAeBaseXmlDefVisitor aVisitor);
+
+    /**
+     * Traverses the definition object, calling <code>accept</code> on each
+     * of the object's child objects that can be visited.
+     *
+     * @param aDef
+     * @param aVisitor
+     */
+    public void traverse(AeCatchAllDef aDef, IAeBaseXmlDefVisitor aVisitor);
+
+    /**
+     * Traverses the definition object, calling <code>accept</code> on each
+     * of the object's child objects that can be visited.
+     *
+     * @param aDef
+     * @param aVisitor
+     */
+    public void traverse(AeAssignCopyDef aDef, IAeBaseXmlDefVisitor aVisitor);
+
+    /**
+     * Traverses the definition object, calling <code>accept</code> on each
+     * of the object's child objects that can be visited.
+     *
+     * @param aDef
+     * @param aVisitor
+     */
+    public void traverse(AeCorrelationDef aDef, IAeBaseXmlDefVisitor aVisitor);
+
+    /**
+     * Traverses the definition object, calling <code>accept</code> on each
+     * of the object's child objects that can be visited.
+     *
+     * @param aDef
+     * @param aVisitor
+     */
+    public void traverse(AeLinkDef aDef, IAeBaseXmlDefVisitor aVisitor);
+
+    /**
+     * Traverses the definition object, calling <code>accept</code> on each
+     * of the object's child objects that can be visited.
+     *
+     * @param aDef
+     * @param aVisitor
+     */
+    public void traverse(AePartnerDef aDef, IAeBaseXmlDefVisitor aVisitor);
+
+    /**
+     * Traverses the definition object, calling <code>accept</code> on each
+     * of the object's child objects that can be visited.
+     *
+     * @param aDef
+     * @param aVisitor
+     */
+    public void traverse(AePartnerLinkDef aDef, IAeBaseXmlDefVisitor aVisitor);
+
+    /**
+     * Traverses the definition object, calling <code>accept</code> on each
+     * of the object's child objects that can be visited.
+     *
+     * @param aDef
+     * @param aVisitor
+     */
+    public void traverse(AeScopeDef aDef, IAeBaseXmlDefVisitor aVisitor);
+
+    /**
+     * Traverses the definition object, calling <code>accept</code> on each
+     * of the object's child objects that can be visited.
+     *
+     * @param aDef
+     * @param aVisitor
+     */
+    public void traverse(AeMessageExchangesDef aDef, IAeBaseXmlDefVisitor aVisitor);
+
+    /**
+     * Traverses the definition object, calling <code>accept</code> on each
+     * of the object's child objects that can be visited.
+     *
+     * @param aDef
+     * @param aVisitor
+     */
+    public void traverse(AeMessageExchangeDef aDef, IAeBaseXmlDefVisitor aVisitor);
+
+    /**
+     * Traverses the definition object, calling <code>accept</code> on each
+     * of the object's child objects that can be visited.
+     *
+     * @param aDef
+     * @param aVisitor
+     */
+    public void traverse(AeSourcesDef aDef, IAeBaseXmlDefVisitor aVisitor);
+
+    /**
+     * Traverses the definition object, calling <code>accept</code> on each
+     * of the object's child objects that can be visited.
+     *
+     * @param aDef
+     * @param aVisitor
+     */
+    public void traverse(AeSourceDef aDef, IAeBaseXmlDefVisitor aVisitor);
+
+    /**
+     * Traverses the definition object, calling <code>accept</code> on each
+     * of the object's child objects that can be visited.
+     *
+     * @param aDef
+     * @param aVisitor
+     */
+    public void traverse(AeTargetsDef aDef, IAeBaseXmlDefVisitor aVisitor);
+
+    /**
+     * Traverses the definition object, calling <code>accept</code> on each
+     * of the object's child objects that can be visited.
+     *
+     * @param aDef
+     * @param aVisitor
+     */
+    public void traverse(AeTargetDef aDef, IAeBaseXmlDefVisitor aVisitor);
+
+    /**
+     * Traverses the definition object, calling <code>accept</code> on each
+     * of the object's child objects that can be visited.
+     *
+     * @param aDef
+     * @param aVisitor
+     */
+    public void traverse(AePartnerLinksDef aDef, IAeBaseXmlDefVisitor aVisitor);
+
+    /**
+     * Traverses the definition object, calling <code>accept</code> on each
+     * of the object's child objects that can be visited.
+     *
+     * @param aDef
+     * @param aVisitor
+     */
+    public void traverse(AePartnersDef aDef, IAeBaseXmlDefVisitor aVisitor);
+
+    /**
+     * Traverses the definition object, calling <code>accept</code> on each
+     * of the object's child objects that can be visited.
+     *
+     * @param aDef
+     * @param aVisitor
+     */
+    public void traverse(AeLinksDef aDef, IAeBaseXmlDefVisitor aVisitor);
+
+    /**
+     * Traverses the definition object, calling <code>accept</code> on each
+     * of the object's child objects that can be visited.
+     *
+     * @param aDef
+     * @param aVisitor
+     */
+    public void traverse(AeCorrelationsDef aDef, IAeBaseXmlDefVisitor aVisitor);
+
+    /**
+     * Traverses the definition object, calling <code>accept</code> on each
+     * of the object's child objects that can be visited.
+     *
+     * @param aDef
+     * @param aVisitor
+     */
+    public void traverse(AeFromDef aDef, IAeBaseXmlDefVisitor aVisitor);
+
+    /**
+     * Traverses the definition object, calling <code>accept</code> on each
+     * of the object's child objects that can be visited.
+     *
+     * @param aDef
+     * @param aVisitor
+     */
+    public void traverse(AeToDef aDef, IAeBaseXmlDefVisitor aVisitor);
+
+    /**
+     * Traverses the definition object, calling <code>accept</code> on each
+     * of the object's child objects that can be visited.
+     *
+     * @param aDef
+     * @param aVisitor
+     */
+    public void traverse(AeQueryDef aDef, IAeBaseXmlDefVisitor aVisitor);
+
+    /**
+     * Traverses the definition object, calling <code>accept</code> on each
+     * of the object's child objects that can be visited.
+     *
+     * @param aDef
+     * @param aVisitor
+     */
+    public void traverse(AeImportDef aDef, IAeBaseXmlDefVisitor aVisitor);
+
+    /**
+     * Traverses the definition object, calling <code>accept</code> on each
+     * of the object's child objects that can be visited.
+     *
+     * @param aDef
+     * @param aVisitor
+     */
+    public void traverse(AeActivityValidateDef aDef, IAeBaseXmlDefVisitor aVisitor);
+
+    /**
+     * Traverses the definition object, calling <code>accept</code> on each
+     * of the object's child objects that can be visited.
+     *
+     * @param aDef
+     * @param aVisitor
+     */
+    public void traverse(AeExtensibleAssignDef aDef, IAeBaseXmlDefVisitor aVisitor);
+
+    /**
+     * Traverses the definition object, calling <code>accept</code> on each
+     * of the object's child objects that can be visited.
+     *
+     * @param aDef
+     * @param aVisitor
+     */
+    public void traverse(AeExtensionsDef aDef, IAeBaseXmlDefVisitor aVisitor);
+
+    /**
+     * Traverses the definition object, calling <code>accept</code> on each
+     * of the object's child objects that can be visited.
+     *
+     * @param aDef
+     * @param aVisitor
+     */
+    public void traverse(AeExtensionDef aDef, IAeBaseXmlDefVisitor aVisitor);
+
+    /**
+     * Traverses the definition object, calling <code>accept</code> on each
+     * of the object's child objects that can be visited.
+     *
+     * @param aDef
+     * @param aVisitor
+     */
+    public void traverse(AeFromPartsDef aDef, IAeBaseXmlDefVisitor aVisitor);
+
+    /**
+     * Traverses the definition object, calling <code>accept</code> on each
+     * of the object's child objects that can be visited.
+     *
+     * @param aDef
+     * @param aVisitor
+     */
+    public void traverse(AeToPartsDef aDef, IAeBaseXmlDefVisitor aVisitor);
+
+    /**
+     * Traverses the definition object, calling <code>accept</code> on each
+     * of the object's child objects that can be visited.
+     *
+     * @param aDef
+     * @param aVisitor
+     */
+    public void traverse(AeFromPartDef aDef, IAeBaseXmlDefVisitor aVisitor);
+
+    /**
+     * Traverses the definition object, calling <code>accept</code> on each
+     * of the object's child objects that can be visited.
+     *
+     * @param aDef
+     * @param aVisitor
+     */
+    public void traverse(AeToPartDef aDef, IAeBaseXmlDefVisitor aVisitor);
+
+    /**
+     * Traverses the definition object, calling <code>accept</code> on each
+     * of the object's child objects that can be visited.
+     *
+     * @param aDef
+     * @param aVisitor
+     */
+    public void traverse(AeTransitionConditionDef aDef, IAeBaseXmlDefVisitor aVisitor);
+
+    /**
+     * Traverses the definition object, calling <code>accept</code> on each
+     * of the object's child objects that can be visited.
+     *
+     * @param aDef
+     * @param aVisitor
+     */
+    public void traverse(AeJoinConditionDef aDef, IAeBaseXmlDefVisitor aVisitor);
+
+    /**
+     * Traverses the definition object, calling <code>accept</code> on each
+     * of the object's child objects that can be visited.
+     *
+     * @param aDef
+     * @param aVisitor
+     */
+    public void traverse(AeForDef aDef, IAeBaseXmlDefVisitor aVisitor);
+
+    /**
+     * Traverses the definition object, calling <code>accept</code> on each
+     * of the object's child objects that can be visited.
+     *
+     * @param aDef
+     * @param aVisitor
+     */
+    public void traverse(AeUntilDef aDef, IAeBaseXmlDefVisitor aVisitor);
+
+    /**
+     * Traverses the definition object, calling <code>accept</code> on each
+     * of the object's child objects that can be visited.
+     *
+     * @param aDef
+     * @param aVisitor
+     */
+    public void traverse(AeExtensionActivityDef aDef, IAeBaseXmlDefVisitor aVisitor);
+
+    /**
+     * Traverses the definition object, calling <code>accept</code> on each
+     * of the object's child objects that can be visited.
+     *
+     * @param aDef
+     * @param aVisitor
+     */
+    public void traverse(AeChildExtensionActivityDef aDef, IAeBaseXmlDefVisitor aVisitor);
+
+    /**
+     * Traverses the definition object, calling <code>accept</code> on each
+     * of the object's child objects that can be visited.
+     *
+     * @param aDef
+     * @param aVisitor
+     */
+    public void traverse(AeActivityIfDef aDef, IAeBaseXmlDefVisitor aVisitor);
+
+    /**
+     * Traverses the definition object, calling <code>accept</code> on each
+     * of the object's child objects that can be visited.
+     *
+     * @param aDef
+     * @param aVisitor
+     */
+    public void traverse(AeConditionDef aDef, IAeBaseXmlDefVisitor aVisitor);
+
+    /**
+     * Traverses the definition object, calling <code>accept</code> on each
+     * of the object's child objects that can be visited.
+     *
+     * @param aDef
+     * @param aVisitor
+     */
+    public void traverse(AeElseIfDef aDef, IAeBaseXmlDefVisitor aVisitor);
+
+    /**
+     * Traverses the definition object, calling <code>accept</code> on each
+     * of the object's child objects that can be visited.
+     *
+     * @param aDef
+     * @param aVisitor
+     */
+    public void traverse(AeIfDef aDef, IAeBaseXmlDefVisitor aVisitor);
+
+    /**
+     * Traverses the definition object, calling <code>accept</code> on each
+     * of the object's child objects that can be visited.
+     *
+     * @param aDef
+     * @param aVisitor
+     */
+    public void traverse(AeElseDef aDef, IAeBaseXmlDefVisitor aVisitor);
+
+    /**
+     * Traverses the definition object, calling <code>accept</code> on each
+     * of the object's child objects that can be visited.
+     *
+     * @param aDef
+     * @param aVisitor
+     */
+    public void traverse(AeActivityRethrowDef aDef, IAeBaseXmlDefVisitor aVisitor);
+
+    /**
+     * Traverses the definition object, calling <code>accept</code> on each
+     * of the object's child objects that can be visited.
+     *
+     * @param aDef
+     * @param aVisitor
+     */
+    public void traverse(AeRepeatEveryDef aDef, IAeBaseXmlDefVisitor aVisitor);
+
+    /**
+     * Traverses the definition object, calling <code>accept</code> on each
+     * of the object's child objects that can be visited.
+     *
+     * @param aDef
+     * @param aVisitor
+     */
+    public void traverse(AeTerminationHandlerDef aDef, IAeBaseXmlDefVisitor aVisitor);
+
+    /**
+     * Traverses the definition object, calling <code>accept</code> on each
+     * of the object's child objects that can be visited.
+     *
+     * @param aDef
+     * @param aVisitor
+     */
+    public void traverse(AeLiteralDef aDef, IAeBaseXmlDefVisitor aVisitor);
+
+    /**
+     * Traverses the definition object, calling <code>accept</code> on each
+     * of the object's child objects that can be visited.
+     *
+     * @param aDef
+     * @param aVisitor
+     */
+    public void traverse(AeActivityOpaqueDef aDef, IAeBaseXmlDefVisitor aVisitor);
 }

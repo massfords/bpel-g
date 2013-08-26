@@ -27,140 +27,130 @@ import org.w3c.dom.Element;
 /**
  * Implements journal entry for invoke fault.
  */
-public class AeInvokeFaultJournalEntry extends AeAbstractJournalEntry
-{
-   /** The fault object. */
-   private IAeFault mFault;
+public class AeInvokeFaultJournalEntry extends AeAbstractJournalEntry {
+    /**
+     * The fault object.
+     */
+    private IAeFault mFault;
 
-   /** The associated process properties. */
-   private Map<String,String> mProcessProperties;
+    /**
+     * The associated process properties.
+     */
+    private Map<String, String> mProcessProperties;
 
-   /** Invoke activity transmission id. */
-   private long mTransmissionId; 
-      
-   /**
-    * Constructs journal entry to persist to storage.
-    */
-   public AeInvokeFaultJournalEntry(int aLocationId, long aTransmissionId, IAeFault aFault, Map<String,String> aProcessProperties)
-   {
-      super(JOURNAL_INVOKE_FAULT, aLocationId);
+    /**
+     * Invoke activity transmission id.
+     */
+    private long mTransmissionId;
 
-      mFault = aFault;
-      mProcessProperties = aProcessProperties;
-      mTransmissionId = aTransmissionId;
-   }
+    /**
+     * Constructs journal entry to persist to storage.
+     */
+    public AeInvokeFaultJournalEntry(int aLocationId, long aTransmissionId, IAeFault aFault, Map<String, String> aProcessProperties) {
+        super(JOURNAL_INVOKE_FAULT, aLocationId);
 
-   /**
-    * Constructs journal entry to restore from storage.
-    */
-   public AeInvokeFaultJournalEntry(int aLocationId, long aJournalId, Document aStorageDocument) throws AeMissingStorageDocumentException
-   {
-      super(JOURNAL_INVOKE_FAULT, aLocationId, aJournalId, aStorageDocument);
+        mFault = aFault;
+        mProcessProperties = aProcessProperties;
+        mTransmissionId = aTransmissionId;
+    }
 
-      if (aStorageDocument == null)
-      {
-         throw new AeMissingStorageDocumentException(aLocationId); 
-      }
-   }
+    /**
+     * Constructs journal entry to restore from storage.
+     */
+    public AeInvokeFaultJournalEntry(int aLocationId, long aJournalId, Document aStorageDocument) throws AeMissingStorageDocumentException {
+        super(JOURNAL_INVOKE_FAULT, aLocationId, aJournalId, aStorageDocument);
 
-   /**
-    * Overrides method to dispatch the fault to the specified process through
-    * the recovery engine.
-    *
-    * @see org.activebpel.rt.bpel.server.engine.recovery.journal.IAeJournalEntry#dispatchToProcess(org.activebpel.rt.bpel.IAeBusinessProcess)
-    */
-   public void dispatchToProcess(IAeBusinessProcess aProcess) throws AeBusinessProcessException
-   {
-      String locationPath = aProcess.getLocationPath(getLocationId());
+        if (aStorageDocument == null) {
+            throw new AeMissingStorageDocumentException(aLocationId);
+        }
+    }
 
-      if (locationPath == null)
-      {
-         throw new AeBusinessProcessException(AeMessages.format("AeInvokeFaultJournalEntry.ERROR_0", getLocationId())); //$NON-NLS-1$
-      }
+    /**
+     * Overrides method to dispatch the fault to the specified process through
+     * the recovery engine.
+     *
+     * @see org.activebpel.rt.bpel.server.engine.recovery.journal.IAeJournalEntry#dispatchToProcess(org.activebpel.rt.bpel.IAeBusinessProcess)
+     */
+    public void dispatchToProcess(IAeBusinessProcess aProcess) throws AeBusinessProcessException {
+        String locationPath = aProcess.getLocationPath(getLocationId());
 
-      IAeBusinessProcessEngineInternal engine = aProcess.getEngine();
-      long processId = aProcess.getProcessId();
-      IAeFault fault = getFault();
-      Map<String,String> processProperties = getProcessProperties();
-      engine.queueInvokeFault(processId, locationPath, getTransmissionId(), fault, processProperties);
-   }
+        if (locationPath == null) {
+            throw new AeBusinessProcessException(AeMessages.format("AeInvokeFaultJournalEntry.ERROR_0", getLocationId())); //$NON-NLS-1$
+        }
 
-   /**
-    * Returns the fault object.
-    */
-   protected IAeFault getFault() throws AeBusinessProcessException
-   {
-      deserialize();
-      return mFault;
-   }
+        IAeBusinessProcessEngineInternal engine = aProcess.getEngine();
+        long processId = aProcess.getProcessId();
+        IAeFault fault = getFault();
+        Map<String, String> processProperties = getProcessProperties();
+        engine.queueInvokeFault(processId, locationPath, getTransmissionId(), fault, processProperties);
+    }
 
-   /**
-    * Returns the associated process properties.
-    */
-   protected Map<String,String> getProcessProperties() throws AeBusinessProcessException
-   {
-      deserialize();
-      return mProcessProperties;
-   }
+    /**
+     * Returns the fault object.
+     */
+    protected IAeFault getFault() throws AeBusinessProcessException {
+        deserialize();
+        return mFault;
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.server.engine.recovery.journal.AeAbstractJournalEntry#internalDeserialize(org.w3c.dom.Document)
-    */
-   protected void internalDeserialize(Document aStorageDocument) throws AeBusinessProcessException
-   {
-      Element root = aStorageDocument.getDocumentElement();
+    /**
+     * Returns the associated process properties.
+     */
+    protected Map<String, String> getProcessProperties() throws AeBusinessProcessException {
+        deserialize();
+        return mProcessProperties;
+    }
 
-      String txIdString = root.getAttribute( STATE_TRANSMISSION_ID );
-      mTransmissionId = 0;
-      if ( AeUtil.notNullOrEmpty(txIdString) )
-      {
-         try
-         {
-            mTransmissionId = Long.parseLong(txIdString); 
-         }
-         catch(Exception e)
-         {            
-         }
-      }      
-      
-      AeFaultDeserializer deserializer = new AeFaultDeserializer();
-      deserializer.setFaultElement(root);
+    /**
+     * @see org.activebpel.rt.bpel.server.engine.recovery.journal.AeAbstractJournalEntry#internalDeserialize(org.w3c.dom.Document)
+     */
+    protected void internalDeserialize(Document aStorageDocument) throws AeBusinessProcessException {
+        Element root = aStorageDocument.getDocumentElement();
 
-      // Note: Don't need to call deserializer.setProcess() here, because an
-      // invoke fault won't have a source object yet (the invoke object will
-      // become the fault's source).
+        String txIdString = root.getAttribute(STATE_TRANSMISSION_ID);
+        mTransmissionId = 0;
+        if (AeUtil.notNullOrEmpty(txIdString)) {
+            try {
+                mTransmissionId = Long.parseLong(txIdString);
+            } catch (Exception e) {
+            }
+        }
 
-      mFault = deserializer.getFault();
-      mProcessProperties = deserializeProcessProperties(root);
-   }
+        AeFaultDeserializer deserializer = new AeFaultDeserializer();
+        deserializer.setFaultElement(root);
 
-   /**
-    * @see org.activebpel.rt.bpel.server.engine.recovery.journal.AeAbstractJournalEntry#internalSerialize(org.activebpel.rt.xml.schema.AeTypeMapping)
-    */
-   protected AeFastDocument internalSerialize(AeTypeMapping aTypeMapping) throws AeBusinessProcessException
-   {
-      if (aTypeMapping == null)
-      {
-         throw new IllegalStateException(AeMessages.getString("AeInvokeFaultJournalEntry.ERROR_1")); //$NON-NLS-1$
-      }
+        // Note: Don't need to call deserializer.setProcess() here, because an
+        // invoke fault won't have a source object yet (the invoke object will
+        // become the fault's source).
 
-      AeFaultSerializer serializer = new AeFaultSerializer();
-      serializer.setFault(getFault());
-      serializer.setTypeMapping(aTypeMapping);
+        mFault = deserializer.getFault();
+        mProcessProperties = deserializeProcessProperties(root);
+    }
 
-      AeFastDocument result = serializer.getFaultDocument();
-      serializeProcessProperties(result.getRootElement(), getProcessProperties());
-      result.getRootElement().setAttribute( STATE_TRANSMISSION_ID, String.valueOf( getTransmissionId() ) );
+    /**
+     * @see org.activebpel.rt.bpel.server.engine.recovery.journal.AeAbstractJournalEntry#internalSerialize(org.activebpel.rt.xml.schema.AeTypeMapping)
+     */
+    protected AeFastDocument internalSerialize(AeTypeMapping aTypeMapping) throws AeBusinessProcessException {
+        if (aTypeMapping == null) {
+            throw new IllegalStateException(AeMessages.getString("AeInvokeFaultJournalEntry.ERROR_1")); //$NON-NLS-1$
+        }
 
-      return result;
-   }
-   
-   /**
-    * @return Returns the transmission id.
-    */
-   protected long getTransmissionId() throws AeBusinessProcessException
-   {
-      deserialize();
-      return mTransmissionId;
-}
+        AeFaultSerializer serializer = new AeFaultSerializer();
+        serializer.setFault(getFault());
+        serializer.setTypeMapping(aTypeMapping);
+
+        AeFastDocument result = serializer.getFaultDocument();
+        serializeProcessProperties(result.getRootElement(), getProcessProperties());
+        result.getRootElement().setAttribute(STATE_TRANSMISSION_ID, String.valueOf(getTransmissionId()));
+
+        return result;
+    }
+
+    /**
+     * @return Returns the transmission id.
+     */
+    protected long getTransmissionId() throws AeBusinessProcessException {
+        deserialize();
+        return mTransmissionId;
+    }
 }

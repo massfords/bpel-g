@@ -20,42 +20,41 @@ import org.activebpel.rt.message.IAeMessageData;
  * The factory for creating message data implementations which contain the data
  * for variables in a bpel process.
  */
-public class AeMessageDataFactory
-{
-   /** The singleton instance of the factory */
-   private static final AeMessageDataFactory mFactory = new AeMessageDataFactory();
+public class AeMessageDataFactory {
+    /**
+     * The singleton instance of the factory
+     */
+    private static final AeMessageDataFactory mFactory = new AeMessageDataFactory();
 
-   /**
-    * Private constructor to force singleton.
-    */
-   private AeMessageDataFactory()
-   {
-   }
+    /**
+     * Private constructor to force singleton.
+     */
+    private AeMessageDataFactory() {
+    }
 
-   /**
-    * Returns the singleton instance of the Win32 Service factory.
-    */
-   public static AeMessageDataFactory instance()
-   {
-      return mFactory;
-   }
+    /**
+     * Returns the singleton instance of the Win32 Service factory.
+     */
+    public static AeMessageDataFactory instance() {
+        return mFactory;
+    }
 
-   /**
-    * Creates a message to be used during BPEL process execution.
-    * @param aMsgName The qualified name of the message we are creating
-    */
-   public IAeMessageData createMessageData(QName aMsgName)
-   {
-      return new AeMessageData(aMsgName);
-   }
-   
-   /**
-    * Create a message with the given QName and message data.
-    * @param aMsgName
-    * @param aMessageData
-    */
-   public IAeMessageData createMessageData( QName aMsgName, Map<String,Object> aMessageData )
-   {
-      return new AeMessageData( aMsgName, aMessageData );
-   }
+    /**
+     * Creates a message to be used during BPEL process execution.
+     *
+     * @param aMsgName The qualified name of the message we are creating
+     */
+    public IAeMessageData createMessageData(QName aMsgName) {
+        return new AeMessageData(aMsgName);
+    }
+
+    /**
+     * Create a message with the given QName and message data.
+     *
+     * @param aMsgName
+     * @param aMessageData
+     */
+    public IAeMessageData createMessageData(QName aMsgName, Map<String, Object> aMessageData) {
+        return new AeMessageData(aMsgName, aMessageData);
+    }
 }

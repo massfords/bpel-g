@@ -15,40 +15,36 @@ import javax.servlet.jsp.tagext.VariableInfo;
 
 /**
  * TagExtraInfo impl for setting indexed property values as
- * scripting objects on the JSP page. 
+ * scripting objects on the JSP page.
  */
-public class AeIndexedPropertyTEI extends TagExtraInfo
-{
-   /**
-    * @see javax.servlet.jsp.tagext.TagExtraInfo#getVariableInfo(javax.servlet.jsp.tagext.TagData)
-    */
-   public VariableInfo[] getVariableInfo( TagData aData )
-   {
-      String name = aData.getId();
+public class AeIndexedPropertyTEI extends TagExtraInfo {
+    /**
+     * @see javax.servlet.jsp.tagext.TagExtraInfo#getVariableInfo(javax.servlet.jsp.tagext.TagData)
+     */
+    public VariableInfo[] getVariableInfo(TagData aData) {
+        String name = aData.getId();
 
-      return new VariableInfo[] {
-         newVariableInfo(name, aData.getAttributeString("indexedClassName")), //$NON-NLS-1$
-         newVariableInfo(name + "Index", AeIndexedPropertyTag.class.getName()) //$NON-NLS-1$
-      };
-   }
+        return new VariableInfo[]{
+                newVariableInfo(name, aData.getAttributeString("indexedClassName")), //$NON-NLS-1$
+                newVariableInfo(name + "Index", AeIndexedPropertyTag.class.getName()) //$NON-NLS-1$
+        };
+    }
 
-   /**
-    * Returns new <code>VariableInfo</code> instance for the given name and
-    * class name.
-    *
-    * @param aName
-    * @param aClassName
-    */
-   protected VariableInfo newVariableInfo(String aName, String aClassName)
-   {
-      return new VariableInfo(aName, aClassName, true, VariableInfo.NESTED);
-   }
+    /**
+     * Returns new <code>VariableInfo</code> instance for the given name and
+     * class name.
+     *
+     * @param aName
+     * @param aClassName
+     */
+    protected VariableInfo newVariableInfo(String aName, String aClassName) {
+        return new VariableInfo(aName, aClassName, true, VariableInfo.NESTED);
+    }
 
-   /**
-    * Always returns true.
-    */
-   public boolean isValid()
-   {
-      return true;
-   }
+    /**
+     * Always returns true.
+     */
+    public boolean isValid() {
+        return true;
+    }
 }

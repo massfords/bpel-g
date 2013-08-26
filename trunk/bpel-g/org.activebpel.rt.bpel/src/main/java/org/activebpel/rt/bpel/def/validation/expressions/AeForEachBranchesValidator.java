@@ -7,22 +7,21 @@
 //Active Endpoints, Inc. Removal of this PROPRIETARY RIGHTS STATEMENT 
 //is strictly forbidden. Copyright (c) 2002-2006 All rights reserved. 
 /////////////////////////////////////////////////////////////////////////////
-package org.activebpel.rt.bpel.def.validation.expressions; 
+package org.activebpel.rt.bpel.def.validation.expressions;
 
 import org.activebpel.rt.bpel.def.activity.support.AeForEachBranchesDef;
 
 /**
  * model provides validation for branches def
  */
-public class AeForEachBranchesValidator extends AeUnsignedIntExpressionValidator
-{
-   /**
-    * ctor
-    * @param aDef
-    */
-   public AeForEachBranchesValidator(AeForEachBranchesDef aDef)
-   {
-      super(aDef);
-   }
+public class AeForEachBranchesValidator extends AeUnsignedIntExpressionValidator {
+    /**
+     * ctor
+     *
+     * @param aDef
+     */
+    public AeForEachBranchesValidator(AeForEachBranchesDef aDef) {
+        super(aDef);
+    }
 }
  

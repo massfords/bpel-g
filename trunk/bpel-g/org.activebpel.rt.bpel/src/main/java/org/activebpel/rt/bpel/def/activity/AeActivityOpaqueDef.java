@@ -15,25 +15,22 @@ import org.activebpel.rt.bpel.def.visitors.IAeDefVisitor;
 /**
  * Reads abstract bpel process's opaque activity definition.
  */
-public class AeActivityOpaqueDef extends AeActivityDef
-{
+public class AeActivityOpaqueDef extends AeActivityDef {
 
-   /**
-     * 
+    /**
+     *
      */
     private static final long serialVersionUID = 1929930792371833992L;
 
-public AeActivityOpaqueDef()
-   {
-      super();
-   }
-   
-   /**
-    * @see org.activebpel.rt.bpel.def.AeActivityDef#accept(org.activebpel.rt.bpel.def.visitors.IAeDefVisitor)
-    */
-   public void accept(IAeDefVisitor aVisitor)
-   {
-      aVisitor.visit(this);
-   }   
+    public AeActivityOpaqueDef() {
+        super();
+    }
+
+    /**
+     * @see org.activebpel.rt.bpel.def.AeActivityDef#accept(org.activebpel.rt.bpel.def.visitors.IAeDefVisitor)
+     */
+    public void accept(IAeDefVisitor aVisitor) {
+        aVisitor.visit(this);
+    }
 
 }

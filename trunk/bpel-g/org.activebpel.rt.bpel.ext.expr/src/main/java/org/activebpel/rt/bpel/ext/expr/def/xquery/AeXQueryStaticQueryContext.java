@@ -22,52 +22,49 @@ import org.activebpel.rt.xml.IAeNamespaceContext;
  * the function library to bind a prefixed function to a function impl. During static syntax validation, we
  * install a function library that always returns a no-op XQuery function. Therefore, the
  */
-public class AeXQueryStaticQueryContext extends StaticQueryContext
-{
-   /** A namespace context to use for resolving namespaces. */
-   private IAeNamespaceContext mNamespaceContext;
+public class AeXQueryStaticQueryContext extends StaticQueryContext {
+    /**
+     * A namespace context to use for resolving namespaces.
+     */
+    private IAeNamespaceContext mNamespaceContext;
 
-   /**
-    * Simple constructor for the custom static query context.
-    * @param aConfig
-    */
-   public AeXQueryStaticQueryContext(Configuration aConfig, IAeNamespaceContext aNamespaceContext)
-   {
-      super(aConfig);
-      setNamespaceContext(aNamespaceContext);
-   }
+    /**
+     * Simple constructor for the custom static query context.
+     *
+     * @param aConfig
+     */
+    public AeXQueryStaticQueryContext(Configuration aConfig, IAeNamespaceContext aNamespaceContext) {
+        super(aConfig);
+        setNamespaceContext(aNamespaceContext);
+    }
 
-   /**
-    * Overrides method to lookup the namespace from within our own namespace context before
-    * delegating to Saxon.
-    * 
-    * @see net.sf.saxon.query.StaticQueryContext#checkURIForPrefix(java.lang.String)
-    */
-   public String checkURIForPrefix(String aPrefix) 
-   {
-      String rval = getNamespaceContext().resolvePrefixToNamespace(aPrefix);
-      if (AeUtil.isNullOrEmpty(rval))
-      {
-         rval = super.checkURIForPrefix(aPrefix);
-      }
-      return rval;
-   }
+    /**
+     * Overrides method to lookup the namespace from within our own namespace context before
+     * delegating to Saxon.
+     *
+     * @see net.sf.saxon.query.StaticQueryContext#checkURIForPrefix(java.lang.String)
+     */
+    public String checkURIForPrefix(String aPrefix) {
+        String rval = getNamespaceContext().resolvePrefixToNamespace(aPrefix);
+        if (AeUtil.isNullOrEmpty(rval)) {
+            rval = super.checkURIForPrefix(aPrefix);
+        }
+        return rval;
+    }
 
-   
-   /**
-    * @return Returns the namespaceContext.
-    */
-   protected IAeNamespaceContext getNamespaceContext()
-   {
-      return mNamespaceContext;
-   }
-   
-   /**
-    * @param aNamespaceContext The namespaceContext to set.
-    */
-   protected void setNamespaceContext(IAeNamespaceContext aNamespaceContext)
-   {
-      mNamespaceContext = aNamespaceContext;
-   }
+
+    /**
+     * @return Returns the namespaceContext.
+     */
+    protected IAeNamespaceContext getNamespaceContext() {
+        return mNamespaceContext;
+    }
+
+    /**
+     * @param aNamespaceContext The namespaceContext to set.
+     */
+    protected void setNamespaceContext(IAeNamespaceContext aNamespaceContext) {
+        mNamespaceContext = aNamespaceContext;
+    }
 }
 

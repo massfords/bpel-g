@@ -7,7 +7,7 @@
 //Active Endpoints, Inc. Removal of this PROPRIETARY RIGHTS STATEMENT 
 //is strictly forbidden. Copyright (c) 2002-2007 All rights reserved. 
 /////////////////////////////////////////////////////////////////////////////
-package org.activebpel.rt.bpel.def.activity; 
+package org.activebpel.rt.bpel.def.activity;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -42,309 +42,280 @@ import org.activebpel.rt.xml.def.IAeExtensionObjectParentDef;
 /**
  * Def used to model the contents of an extension activity that is understood
  * by the engine. These extension activities will have been registered with the
- * engine prior to loading the process into a def. 
- * 
+ * engine prior to loading the process into a def.
+ * <p/>
  * An extension activity can be a basic activity or a structured activity. As a
  * structured activity the def may contain other activities as children, including
  * other extension activities.
  */
-public class AeChildExtensionActivityDef extends AeAbstractExtensionActivityDef 
-implements IAeAlarmParentDef, IAeFromParentDef, IAeConditionParentDef, 
-      IAeFromPartsParentDef, IAeToPartsParentDef, IAeVariableParentDef,
-      IAeExtensionObjectParentDef
-{
-   private static final long serialVersionUID = -2568383809225427232L;
+public class AeChildExtensionActivityDef extends AeAbstractExtensionActivityDef
+        implements IAeAlarmParentDef, IAeFromParentDef, IAeConditionParentDef,
+        IAeFromPartsParentDef, IAeToPartsParentDef, IAeVariableParentDef,
+        IAeExtensionObjectParentDef {
+    private static final long serialVersionUID = -2568383809225427232L;
 
-   /** Extension element object */
-   private IAeExtensionObject mExtensionObject;
-   
-   /** Child Defs for the understood extension activity */
-   private final List<AeBaseDef> mChildDefs = new ArrayList<>();
-   
-    /** Maintains the order of elements added for serialization */
-   private List<AeBaseXmlDef> mOrderedDefs;
-   
-   /**
-    * Default c'tor.
-    */
-   public AeChildExtensionActivityDef()
-   {
-      super();
-   }
-   
-   /*
-    * @see org.activebpel.rt.bpel.def.AeBaseDef#accept(org.activebpel.rt.bpel.def.visitors.IAeDefVisitor)
-    */
-   public void accept(IAeDefVisitor aVisitor)
-   {
-      aVisitor.visit(this);
-   }
+    /**
+     * Extension element object
+     */
+    private IAeExtensionObject mExtensionObject;
 
-   /**
-    * @see org.activebpel.rt.bpel.def.activity.IAeAlarmParentDef#addAlarmDef(org.activebpel.rt.bpel.def.activity.support.AeOnAlarmDef)
-    */
-   public void addAlarmDef(AeOnAlarmDef aAlarm)
-   {
-      addChildDef(aAlarm);
-   }
+    /**
+     * Child Defs for the understood extension activity
+     */
+    private final List<AeBaseDef> mChildDefs = new ArrayList<>();
 
-   /**
-    * @see org.activebpel.rt.bpel.def.activity.IAeAlarmParentDef#getAlarmDefs()
-    */
-   public Iterator<AeOnAlarmDef> getAlarmDefs()
-   {
-      return getChildren(AeOnAlarmDef.class).iterator();
-   }
+    /**
+     * Maintains the order of elements added for serialization
+     */
+    private List<AeBaseXmlDef> mOrderedDefs;
 
-   /**
-    * @see org.activebpel.rt.bpel.def.IAeFromParentDef#getFromDef()
-    */
-   public AeFromDef getFromDef()
-   {
-      return getChild(AeFromDef.class);
-   }
+    /**
+     * Default c'tor.
+     */
+    public AeChildExtensionActivityDef() {
+        super();
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.def.IAeFromParentDef#setFromDef(org.activebpel.rt.bpel.def.activity.support.AeFromDef)
-    */
-   public void setFromDef(AeFromDef aFrom)
-   {
-      addChildDef(aFrom);
-   }
+    /*
+     * @see org.activebpel.rt.bpel.def.AeBaseDef#accept(org.activebpel.rt.bpel.def.visitors.IAeDefVisitor)
+     */
+    public void accept(IAeDefVisitor aVisitor) {
+        aVisitor.visit(this);
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.def.IAeConditionParentDef#getConditionDef()
-    */
-   public AeConditionDef getConditionDef()
-   {
-      return getChild(AeConditionDef.class);
-   }
+    /**
+     * @see org.activebpel.rt.bpel.def.activity.IAeAlarmParentDef#addAlarmDef(org.activebpel.rt.bpel.def.activity.support.AeOnAlarmDef)
+     */
+    public void addAlarmDef(AeOnAlarmDef aAlarm) {
+        addChildDef(aAlarm);
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.def.IAeConditionParentDef#setConditionDef(org.activebpel.rt.bpel.def.activity.support.AeConditionDef)
-    */
-   public void setConditionDef(AeConditionDef aCondition)
-   {
-      addChildDef(aCondition);
-   }
+    /**
+     * @see org.activebpel.rt.bpel.def.activity.IAeAlarmParentDef#getAlarmDefs()
+     */
+    public Iterator<AeOnAlarmDef> getAlarmDefs() {
+        return getChildren(AeOnAlarmDef.class).iterator();
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.def.IAeFromPartsParentDef#getFromPartDefs()
-    */
-   public Iterator<? extends AeFromPartDef> getFromPartDefs()
-   {
-      return getChildren(AeFromPartDef.class).iterator();
-   }
+    /**
+     * @see org.activebpel.rt.bpel.def.IAeFromParentDef#getFromDef()
+     */
+    public AeFromDef getFromDef() {
+        return getChild(AeFromDef.class);
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.def.IAeFromPartsParentDef#getFromPartsDef()
-    */
-   public AeFromPartsDef getFromPartsDef()
-   {
-      return getChild(AeFromPartsDef.class);
-   }
+    /**
+     * @see org.activebpel.rt.bpel.def.IAeFromParentDef#setFromDef(org.activebpel.rt.bpel.def.activity.support.AeFromDef)
+     */
+    public void setFromDef(AeFromDef aFrom) {
+        addChildDef(aFrom);
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.def.IAeFromPartsParentDef#setFromPartsDef(org.activebpel.rt.bpel.def.activity.support.AeFromPartsDef)
-    */
-   public void setFromPartsDef(AeFromPartsDef aDef)
-   {
-      addChildDef(aDef);
-   }
+    /**
+     * @see org.activebpel.rt.bpel.def.IAeConditionParentDef#getConditionDef()
+     */
+    public AeConditionDef getConditionDef() {
+        return getChild(AeConditionDef.class);
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.def.IAeToPartsParentDef#getToPartDefs()
-    */
-   public Iterator<? extends AeToPartDef> getToPartDefs()
-   {
-      return getChildren(AeToPartDef.class).iterator();
-   }
+    /**
+     * @see org.activebpel.rt.bpel.def.IAeConditionParentDef#setConditionDef(org.activebpel.rt.bpel.def.activity.support.AeConditionDef)
+     */
+    public void setConditionDef(AeConditionDef aCondition) {
+        addChildDef(aCondition);
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.def.IAeToPartsParentDef#getToPartsDef()
-    */
-   public AeToPartsDef getToPartsDef()
-   {
-      return getChild(AeToPartsDef.class);
-   }
+    /**
+     * @see org.activebpel.rt.bpel.def.IAeFromPartsParentDef#getFromPartDefs()
+     */
+    public Iterator<? extends AeFromPartDef> getFromPartDefs() {
+        return getChildren(AeFromPartDef.class).iterator();
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.def.IAeToPartsParentDef#setToPartsDef(org.activebpel.rt.bpel.def.activity.support.AeToPartsDef)
-    */
-   public void setToPartsDef(AeToPartsDef aDef)
-   {
-      addChildDef(aDef);
-   }
+    /**
+     * @see org.activebpel.rt.bpel.def.IAeFromPartsParentDef#getFromPartsDef()
+     */
+    public AeFromPartsDef getFromPartsDef() {
+        return getChild(AeFromPartsDef.class);
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.def.IAeVariableParentDef#getVariableDef(java.lang.String)
-    */
-   public AeVariableDef getVariableDef(String aVariableName)
-   {
-      return getChild(AeVariableDef.class);
-   }
+    /**
+     * @see org.activebpel.rt.bpel.def.IAeFromPartsParentDef#setFromPartsDef(org.activebpel.rt.bpel.def.activity.support.AeFromPartsDef)
+     */
+    public void setFromPartsDef(AeFromPartsDef aDef) {
+        addChildDef(aDef);
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.def.activity.IAeExtensionActivityDef#isUnderstood()
-    */
-   public boolean isUnderstood()
-   {
-      return (getExtensionObject() != null);
-   }
+    /**
+     * @see org.activebpel.rt.bpel.def.IAeToPartsParentDef#getToPartDefs()
+     */
+    public Iterator<? extends AeToPartDef> getToPartDefs() {
+        return getChildren(AeToPartDef.class).iterator();
+    }
 
-   /**
-    * @return the childDefs
-    */
-   public Iterator getChildDefs()
-   {
-      return mChildDefs.iterator();
-   }
+    /**
+     * @see org.activebpel.rt.bpel.def.IAeToPartsParentDef#getToPartsDef()
+     */
+    public AeToPartsDef getToPartsDef() {
+        return getChild(AeToPartsDef.class);
+    }
 
-   /**
-    * @param aChildDefs the childDefs to set
-    */
-   public void addChildDef(AeBaseDef aChildDefs)
-   {
-      mChildDefs.add(aChildDefs);
-      getOrderedDefs().add(aChildDefs);
-   }
+    /**
+     * @see org.activebpel.rt.bpel.def.IAeToPartsParentDef#setToPartsDef(org.activebpel.rt.bpel.def.activity.support.AeToPartsDef)
+     */
+    public void setToPartsDef(AeToPartsDef aDef) {
+        addChildDef(aDef);
+    }
 
-   /**
-    * Returns all of the children that can be assigned to the class or interface passed in
-    * @param aClass
-    */
-   public <T> List<T> getChildren(Class<T> aClass)
-   {
-      List<T> list = new ArrayList<>();
-      for (Iterator iter = getChildDefs(); iter.hasNext(); )
-      {
-         Object obj = iter.next();
-         if (aClass.isAssignableFrom(obj.getClass()))
-         {
-            list.add(aClass.cast(obj));
-         }
-      }
-      return list;
-   }
+    /**
+     * @see org.activebpel.rt.bpel.def.IAeVariableParentDef#getVariableDef(java.lang.String)
+     */
+    public AeVariableDef getVariableDef(String aVariableName) {
+        return getChild(AeVariableDef.class);
+    }
 
-   /**
-    * Gets the single child that can be assigned to the class or interface passed in.
-    * If there are more than one then return the first child
-    * @param aClass
-    */
-   public <T> T getChild(Class<T> aClass)
-   {
-      List<T> list = getChildren(aClass);
-      if (list.size() >= 1)
-         return list.get(0);
-      else 
-         return null;
-   }
+    /**
+     * @see org.activebpel.rt.bpel.def.activity.IAeExtensionActivityDef#isUnderstood()
+     */
+    public boolean isUnderstood() {
+        return (getExtensionObject() != null);
+    }
 
-   /**
-    * @see org.activebpel.rt.xml.def.IAeExtensionObjectParentDef#getExtensionObject()
-    */
-   public IAeExtensionObject getExtensionObject()
-   {
-      return mExtensionObject;
-   }
+    /**
+     * @return the childDefs
+     */
+    public Iterator getChildDefs() {
+        return mChildDefs.iterator();
+    }
 
-   /**
-    * @see org.activebpel.rt.xml.def.IAeExtensionObjectParentDef#setExtensionObject(org.activebpel.rt.xml.def.IAeExtensionObject)
-    */
-   public void setExtensionObject(IAeExtensionObject aExtensionObject)
-   {
-      mExtensionObject = aExtensionObject;
-      AeXmlDefUtil.installDef(mExtensionObject, this);
-   }
+    /**
+     * @param aChildDefs the childDefs to set
+     */
+    public void addChildDef(AeBaseDef aChildDefs) {
+        mChildDefs.add(aChildDefs);
+        getOrderedDefs().add(aChildDefs);
+    }
 
-   /**
-    * @see org.activebpel.rt.xml.def.AeBaseXmlDef#isExtensionUnderstood(org.activebpel.rt.xml.def.AeExtensionElementDef)
-    */
-   public boolean isExtensionUnderstood(AeExtensionElementDef aExtensionElementDef)
-   {
-      if (getExtensionObject() != null)
-      {
-         IAeExtensionDefUnderstoodAdapter validator = (IAeExtensionDefUnderstoodAdapter) getExtensionObject().getAdapter(IAeExtensionDefUnderstoodAdapter.class);
-         if (validator != null)
-         {
-            return validator.isUnderstood(aExtensionElementDef);
-         }
-      }
-      return false;
-   }
+    /**
+     * Returns all of the children that can be assigned to the class or interface passed in
+     *
+     * @param aClass
+     */
+    public <T> List<T> getChildren(Class<T> aClass) {
+        List<T> list = new ArrayList<>();
+        for (Iterator iter = getChildDefs(); iter.hasNext(); ) {
+            Object obj = iter.next();
+            if (aClass.isAssignableFrom(obj.getClass())) {
+                list.add(aClass.cast(obj));
+            }
+        }
+        return list;
+    }
 
-   /**
-    * @see org.activebpel.rt.xml.def.AeBaseXmlDef#isExtensionUnderstood(org.activebpel.rt.xml.def.AeExtensionAttributeDef)
-    */
-   public boolean isExtensionUnderstood(
-         AeExtensionAttributeDef aExtensionAttributeDef)
-   {
-      if (getExtensionObject() != null)
-      {
-         IAeExtensionDefUnderstoodAdapter validator = (IAeExtensionDefUnderstoodAdapter) getExtensionObject().getAdapter(IAeExtensionDefUnderstoodAdapter.class);
-         if (validator != null)
-         {
-            return validator.isUnderstood(aExtensionAttributeDef);
-         }
-      }
-      return false;
-   }
+    /**
+     * Gets the single child that can be assigned to the class or interface passed in.
+     * If there are more than one then return the first child
+     *
+     * @param aClass
+     */
+    public <T> T getChild(Class<T> aClass) {
+        List<T> list = getChildren(aClass);
+        if (list.size() >= 1)
+            return list.get(0);
+        else
+            return null;
+    }
 
-   /**
-    * @return the elementOrder
-    */
-   public List<AeBaseXmlDef> getOrderedDefs()
-   {
-      if(mOrderedDefs == null)
-         mOrderedDefs = new ArrayList<>();
-      return mOrderedDefs;
-   }
-   
-   /**
-    * @see org.activebpel.rt.bpel.def.AeActivityDef#setTargetsDef(org.activebpel.rt.bpel.def.activity.support.AeTargetsDef)
-    */
-   public void setTargetsDef(AeTargetsDef aTargetsDef)
-   {
-     super.setTargetsDef(aTargetsDef);
-     getOrderedDefs().add(aTargetsDef);
-   }
-   
+    /**
+     * @see org.activebpel.rt.xml.def.IAeExtensionObjectParentDef#getExtensionObject()
+     */
+    public IAeExtensionObject getExtensionObject() {
+        return mExtensionObject;
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.def.AeActivityDef#setSourcesDef(org.activebpel.rt.bpel.def.activity.support.AeSourcesDef)
-    */
-   public void setSourcesDef(AeSourcesDef aSourcesDef)
-   {
-      super.setSourcesDef( aSourcesDef);
-      getOrderedDefs().add(aSourcesDef);
-   }
+    /**
+     * @see org.activebpel.rt.xml.def.IAeExtensionObjectParentDef#setExtensionObject(org.activebpel.rt.xml.def.IAeExtensionObject)
+     */
+    public void setExtensionObject(IAeExtensionObject aExtensionObject) {
+        mExtensionObject = aExtensionObject;
+        AeXmlDefUtil.installDef(mExtensionObject, this);
+    }
 
-   /**
-    * @see org.activebpel.rt.xml.def.AeBaseXmlDef#addDocumentationDef(org.activebpel.rt.xml.def.AeDocumentationDef)
-    */
-   public void addDocumentationDef(AeDocumentationDef aDocumentationDef)
-   {
-      super.addDocumentationDef(aDocumentationDef);
-      getOrderedDefs().add(aDocumentationDef);
-   }
+    /**
+     * @see org.activebpel.rt.xml.def.AeBaseXmlDef#isExtensionUnderstood(org.activebpel.rt.xml.def.AeExtensionElementDef)
+     */
+    public boolean isExtensionUnderstood(AeExtensionElementDef aExtensionElementDef) {
+        if (getExtensionObject() != null) {
+            IAeExtensionDefUnderstoodAdapter validator = (IAeExtensionDefUnderstoodAdapter) getExtensionObject().getAdapter(IAeExtensionDefUnderstoodAdapter.class);
+            if (validator != null) {
+                return validator.isUnderstood(aExtensionElementDef);
+            }
+        }
+        return false;
+    }
 
-   /**
-    * @see org.activebpel.rt.xml.def.AeBaseXmlDef#addExtensionAttributeDef(org.activebpel.rt.xml.def.AeExtensionAttributeDef)
-    */
-   public void addExtensionAttributeDef( AeExtensionAttributeDef aExtension )
-   {
-      super.addExtensionAttributeDef( aExtension );
-      getOrderedDefs().add( aExtension );
-   }
-   
-   /**
-    * @see org.activebpel.rt.xml.def.AeBaseXmlDef#addExtensionElementDef(org.activebpel.rt.xml.def.AeExtensionElementDef)
-    */
-   public void addExtensionElementDef( AeExtensionElementDef aExtension )
-   {
-      super.addExtensionElementDef( aExtension );
-      getOrderedDefs().add( aExtension );
-   }
-   
+    /**
+     * @see org.activebpel.rt.xml.def.AeBaseXmlDef#isExtensionUnderstood(org.activebpel.rt.xml.def.AeExtensionAttributeDef)
+     */
+    public boolean isExtensionUnderstood(
+            AeExtensionAttributeDef aExtensionAttributeDef) {
+        if (getExtensionObject() != null) {
+            IAeExtensionDefUnderstoodAdapter validator = (IAeExtensionDefUnderstoodAdapter) getExtensionObject().getAdapter(IAeExtensionDefUnderstoodAdapter.class);
+            if (validator != null) {
+                return validator.isUnderstood(aExtensionAttributeDef);
+            }
+        }
+        return false;
+    }
+
+    /**
+     * @return the elementOrder
+     */
+    public List<AeBaseXmlDef> getOrderedDefs() {
+        if (mOrderedDefs == null)
+            mOrderedDefs = new ArrayList<>();
+        return mOrderedDefs;
+    }
+
+    /**
+     * @see org.activebpel.rt.bpel.def.AeActivityDef#setTargetsDef(org.activebpel.rt.bpel.def.activity.support.AeTargetsDef)
+     */
+    public void setTargetsDef(AeTargetsDef aTargetsDef) {
+        super.setTargetsDef(aTargetsDef);
+        getOrderedDefs().add(aTargetsDef);
+    }
+
+
+    /**
+     * @see org.activebpel.rt.bpel.def.AeActivityDef#setSourcesDef(org.activebpel.rt.bpel.def.activity.support.AeSourcesDef)
+     */
+    public void setSourcesDef(AeSourcesDef aSourcesDef) {
+        super.setSourcesDef(aSourcesDef);
+        getOrderedDefs().add(aSourcesDef);
+    }
+
+    /**
+     * @see org.activebpel.rt.xml.def.AeBaseXmlDef#addDocumentationDef(org.activebpel.rt.xml.def.AeDocumentationDef)
+     */
+    public void addDocumentationDef(AeDocumentationDef aDocumentationDef) {
+        super.addDocumentationDef(aDocumentationDef);
+        getOrderedDefs().add(aDocumentationDef);
+    }
+
+    /**
+     * @see org.activebpel.rt.xml.def.AeBaseXmlDef#addExtensionAttributeDef(org.activebpel.rt.xml.def.AeExtensionAttributeDef)
+     */
+    public void addExtensionAttributeDef(AeExtensionAttributeDef aExtension) {
+        super.addExtensionAttributeDef(aExtension);
+        getOrderedDefs().add(aExtension);
+    }
+
+    /**
+     * @see org.activebpel.rt.xml.def.AeBaseXmlDef#addExtensionElementDef(org.activebpel.rt.xml.def.AeExtensionElementDef)
+     */
+    public void addExtensionElementDef(AeExtensionElementDef aExtension) {
+        super.addExtensionElementDef(aExtension);
+        getOrderedDefs().add(aExtension);
+    }
+
 }

@@ -11,14 +11,19 @@
 package org.activebpel.rt.xml;
 
 /**
- * Supported Xerces features 
+ * Supported Xerces features
  */
-public interface IAeXercesFeatures
-{
-   /** Enable XInclude processing. */
-   public static final String XINCLUDE_FEATURE = "http://apache.org/xml/features/xinclude"; //$NON-NLS-1$
-   /** Perform base URI fixup as specified by the XInclude Recommendation. */
-   public static final String XINCLUDE_FIXUP_BASE_URI_FEATURE = "http://apache.org/xml/features/xinclude/fixup-base-uris"; //$NON-NLS-1$
-   /** Perform language fixup as specified by the XInclude Recommendation. */
-   public static final String XINCLUDE_FIXUP_LANG_FEATURE = "http://apache.org/xml/features/xinclude/fixup-language"; //$NON-NLS-1$
+public interface IAeXercesFeatures {
+    /**
+     * Enable XInclude processing.
+     */
+    public static final String XINCLUDE_FEATURE = "http://apache.org/xml/features/xinclude"; //$NON-NLS-1$
+    /**
+     * Perform base URI fixup as specified by the XInclude Recommendation.
+     */
+    public static final String XINCLUDE_FIXUP_BASE_URI_FEATURE = "http://apache.org/xml/features/xinclude/fixup-base-uris"; //$NON-NLS-1$
+    /**
+     * Perform language fixup as specified by the XInclude Recommendation.
+     */
+    public static final String XINCLUDE_FIXUP_LANG_FEATURE = "http://apache.org/xml/features/xinclude/fixup-language"; //$NON-NLS-1$
 }

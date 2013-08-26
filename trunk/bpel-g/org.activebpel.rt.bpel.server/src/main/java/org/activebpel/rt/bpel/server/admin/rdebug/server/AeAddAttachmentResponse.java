@@ -11,57 +11,55 @@ package org.activebpel.rt.bpel.server.admin.rdebug.server;
 
 
 /**
- * Java bean to hold the response of an add attachment request 
+ * Java bean to hold the response of an add attachment request
  */
-public class AeAddAttachmentResponse
-{
-   private long mAttachmentId;
+public class AeAddAttachmentResponse {
+    private long mAttachmentId;
 
-   private AeAttachmentAttributeList mAttachmentAttributes;
-   
-   
-   /**
-    * No-arg constructor
-    */
-   public AeAddAttachmentResponse()
-   {     
-   }
-   
-   /**
-    * Gets the attachmentId value for this AeAddAttachmentResponse.
-    * 
-    * @return mAttachmentId
-    */
-   public long getAttachmentId() {
-       return mAttachmentId;
-   }
+    private AeAttachmentAttributeList mAttachmentAttributes;
 
-   /**
-    * Sets the attachmentId value for this AeAddAttachmentResponse.
-    * 
-    * @param aAttachmentId
-    */
-   public void setAttachmentId(long aAttachmentId) {
-      mAttachmentId = aAttachmentId;
-   }
 
-   /**
-    * Gets the attachmentAttributes value for this AeAddAttachmentResponse.
-    * 
-    * @return attachmentAttributes 
-    */
-   public AeAttachmentAttributeList getAttachmentAttributes() {
-       return mAttachmentAttributes;
-   }
+    /**
+     * No-arg constructor
+     */
+    public AeAddAttachmentResponse() {
+    }
 
-   /**
-    * Sets the attachmentAttributes value for this AeAddAttachmentResponse.
-    * 
-    * @param aAttachmentAttributes 
-    */
-   public void setAttachmentAttributes(AeAttachmentAttributeList aAttachmentAttributes) {
-       mAttachmentAttributes = aAttachmentAttributes;
-   }
+    /**
+     * Gets the attachmentId value for this AeAddAttachmentResponse.
+     *
+     * @return mAttachmentId
+     */
+    public long getAttachmentId() {
+        return mAttachmentId;
+    }
+
+    /**
+     * Sets the attachmentId value for this AeAddAttachmentResponse.
+     *
+     * @param aAttachmentId
+     */
+    public void setAttachmentId(long aAttachmentId) {
+        mAttachmentId = aAttachmentId;
+    }
+
+    /**
+     * Gets the attachmentAttributes value for this AeAddAttachmentResponse.
+     *
+     * @return attachmentAttributes
+     */
+    public AeAttachmentAttributeList getAttachmentAttributes() {
+        return mAttachmentAttributes;
+    }
+
+    /**
+     * Sets the attachmentAttributes value for this AeAddAttachmentResponse.
+     *
+     * @param aAttachmentAttributes
+     */
+    public void setAttachmentAttributes(AeAttachmentAttributeList aAttachmentAttributes) {
+        mAttachmentAttributes = aAttachmentAttributes;
+    }
 
 
 }

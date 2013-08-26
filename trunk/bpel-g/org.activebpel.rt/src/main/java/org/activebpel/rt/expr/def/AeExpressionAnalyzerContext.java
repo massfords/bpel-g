@@ -14,34 +14,32 @@ import org.activebpel.rt.xml.IAeNamespaceContext;
 /**
  * An implementation of the expression util context.
  */
-public class AeExpressionAnalyzerContext implements IAeExpressionAnalyzerContext
-{
-   /** The namespace context. */
-   private IAeNamespaceContext mNamespaceContext;
-   
-   /**
-    * Constructs an expression util context given the namespace context.
-    * 
-    * @param aNamespaceContext
-    */
-   public AeExpressionAnalyzerContext(IAeNamespaceContext aNamespaceContext)
-   {
-      setNamespaceContext(aNamespaceContext);
-   }
-   
-   /**
-    * @see org.activebpel.rt.expr.def.IAeExpressionAnalyzerContext#getNamespaceContext()
-    */
-   public IAeNamespaceContext getNamespaceContext()
-   {
-      return mNamespaceContext;
-   }
+public class AeExpressionAnalyzerContext implements IAeExpressionAnalyzerContext {
+    /**
+     * The namespace context.
+     */
+    private IAeNamespaceContext mNamespaceContext;
 
-   /**
-    * @param aNamespaceContext The namespaceContext to set.
-    */
-   protected void setNamespaceContext(IAeNamespaceContext aNamespaceContext)
-   {
-      mNamespaceContext = aNamespaceContext;
-   }
+    /**
+     * Constructs an expression util context given the namespace context.
+     *
+     * @param aNamespaceContext
+     */
+    public AeExpressionAnalyzerContext(IAeNamespaceContext aNamespaceContext) {
+        setNamespaceContext(aNamespaceContext);
+    }
+
+    /**
+     * @see org.activebpel.rt.expr.def.IAeExpressionAnalyzerContext#getNamespaceContext()
+     */
+    public IAeNamespaceContext getNamespaceContext() {
+        return mNamespaceContext;
+    }
+
+    /**
+     * @param aNamespaceContext The namespaceContext to set.
+     */
+    protected void setNamespaceContext(IAeNamespaceContext aNamespaceContext) {
+        mNamespaceContext = aNamespaceContext;
+    }
 }

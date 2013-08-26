@@ -27,117 +27,106 @@ import java.sql.Connection;
  * A SQL journal storage.  Used to write journal entries to a SQL database.
  */
 @Singleton
-public class AeSQLJournalStorage extends AeAbstractSQLStorage
-{
-   /** The SQL statement prefix for all SQL statements used in this class. */
-   public static final String SQLSTATEMENT_PREFIX = "JournalStorage."; //$NON-NLS-1$
-   
-   private AeCounter mCounter;
+public class AeSQLJournalStorage extends AeAbstractSQLStorage {
+    /**
+     * The SQL statement prefix for all SQL statements used in this class.
+     */
+    public static final String SQLSTATEMENT_PREFIX = "JournalStorage."; //$NON-NLS-1$
 
-   /**
-    * Constructs the journal storage given the SQL config to use to resolve SQL statements.
-    */
-   protected AeSQLJournalStorage()
-   {
-      setPrefix(SQLSTATEMENT_PREFIX);
-   }
+    private AeCounter mCounter;
 
-   /**
-    * Returns next available journal id.
-    *
-    * @throws AeStorageException
-    */
-   public long getNextJournalId() throws AeStorageException
-   {
-      return getCounter().getNextValue();
-   }
+    /**
+     * Constructs the journal storage given the SQL config to use to resolve SQL statements.
+     */
+    protected AeSQLJournalStorage() {
+        setPrefix(SQLSTATEMENT_PREFIX);
+    }
 
-   /**
-    * Returns the engine for this process state writer.
-    */
-   protected IAeBusinessProcessEngineInternal getEngine()
-   {
-      return AeEngineFactory.getEngine();
-   }
+    /**
+     * Returns next available journal id.
+     *
+     * @throws AeStorageException
+     */
+    public long getNextJournalId() throws AeStorageException {
+        return getCounter().getNextValue();
+    }
 
-   /**
-    * Saves given {@link IAeJournalEntry} instance for possible recovery in the
-    * event of engine failure.
-    * 
-    * @param aProcessId
-    * @param aJournalEntry
-    * @param aConnection
-    */
-   public long writeJournalEntry(long aProcessId, IAeJournalEntry aJournalEntry, Connection aConnection) throws AeStorageException
-   {
-      return saveJournalEntry(aProcessId, aJournalEntry, getEngine().getTypeMapping(), aConnection);
-   }
+    /**
+     * Returns the engine for this process state writer.
+     */
+    protected IAeBusinessProcessEngineInternal getEngine() {
+        return AeEngineFactory.getEngine();
+    }
 
-   /**
-    * Saves given {@link IAeJournalEntry} instance for possible recovery in the
-    * event of engine failure.
-    * 
-    * @param aProcessId
-    * @param aJournalEntry
-    */
-   public long saveJournalEntry(long aProcessId, IAeJournalEntry aJournalEntry, AeTypeMapping aTypeMapping)
-         throws AeStorageException
-   {
-      Connection connection = getConnection();
-      
-      try
-      {
-         return saveJournalEntry(aProcessId, aJournalEntry, aTypeMapping, connection);
-      }
-      finally
-      {
-         AeCloser.close(connection);
-      }
-   }
+    /**
+     * Saves given {@link IAeJournalEntry} instance for possible recovery in the
+     * event of engine failure.
+     *
+     * @param aProcessId
+     * @param aJournalEntry
+     * @param aConnection
+     */
+    public long writeJournalEntry(long aProcessId, IAeJournalEntry aJournalEntry, Connection aConnection) throws AeStorageException {
+        return saveJournalEntry(aProcessId, aJournalEntry, getEngine().getTypeMapping(), aConnection);
+    }
 
-   /**
-    * Saves the journal entry to the DB.
-    * 
-    * @param aProcessId
-    * @param aJournalEntry
-    * @param aTypeMapping
-    * @param aConnection
-    * @throws AeStorageException
-    */
-   public long saveJournalEntry(long aProcessId, IAeJournalEntry aJournalEntry, AeTypeMapping aTypeMapping,
-         Connection aConnection) throws AeStorageException
-   {
-      long journalId = getNextJournalId();
-      AeFastDocument document;
-      
-      try
-      {
-         document = aJournalEntry.serialize(aTypeMapping);
-      }
-      catch (AeBusinessProcessException e)
-      {
-         throw new AeStorageException(AeMessages.getString(AeMessages.getString("AeSQLJournalStorage.ERROR_SERIALIZING_JOURNAL_ENTRY")), e); //$NON-NLS-1$
-      }
+    /**
+     * Saves given {@link IAeJournalEntry} instance for possible recovery in the
+     * event of engine failure.
+     *
+     * @param aProcessId
+     * @param aJournalEntry
+     */
+    public long saveJournalEntry(long aProcessId, IAeJournalEntry aJournalEntry, AeTypeMapping aTypeMapping)
+            throws AeStorageException {
+        Connection connection = getConnection();
 
-      Object[] params = new Object[]
-      {
-              journalId,
-              aProcessId,
-              aJournalEntry.getEntryType(),
-              aJournalEntry.getLocationId(),
-         (document == null) ? AeQueryRunner.NULL_CLOB : document
-      };
+        try {
+            return saveJournalEntry(aProcessId, aJournalEntry, aTypeMapping, connection);
+        } finally {
+            AeCloser.close(connection);
+        }
+    }
 
-      update(aConnection, IAeJournalSQLKeys.INSERT_JOURNAL_ENTRY, params);
-      return journalId;
-   }
+    /**
+     * Saves the journal entry to the DB.
+     *
+     * @param aProcessId
+     * @param aJournalEntry
+     * @param aTypeMapping
+     * @param aConnection
+     * @throws AeStorageException
+     */
+    public long saveJournalEntry(long aProcessId, IAeJournalEntry aJournalEntry, AeTypeMapping aTypeMapping,
+                                 Connection aConnection) throws AeStorageException {
+        long journalId = getNextJournalId();
+        AeFastDocument document;
 
-public AeCounter getCounter() {
-    return mCounter;
-}
+        try {
+            document = aJournalEntry.serialize(aTypeMapping);
+        } catch (AeBusinessProcessException e) {
+            throw new AeStorageException(AeMessages.getString(AeMessages.getString("AeSQLJournalStorage.ERROR_SERIALIZING_JOURNAL_ENTRY")), e); //$NON-NLS-1$
+        }
 
-public void setCounter(AeCounter aCounter) {
-    mCounter = aCounter;
-}
+        Object[] params = new Object[]
+                {
+                        journalId,
+                        aProcessId,
+                        aJournalEntry.getEntryType(),
+                        aJournalEntry.getLocationId(),
+                        (document == null) ? AeQueryRunner.NULL_CLOB : document
+                };
+
+        update(aConnection, IAeJournalSQLKeys.INSERT_JOURNAL_ENTRY, params);
+        return journalId;
+    }
+
+    public AeCounter getCounter() {
+        return mCounter;
+    }
+
+    public void setCounter(AeCounter aCounter) {
+        mCounter = aCounter;
+    }
 
 }

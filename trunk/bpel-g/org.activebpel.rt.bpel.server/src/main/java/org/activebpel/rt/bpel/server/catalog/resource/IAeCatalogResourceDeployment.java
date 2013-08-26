@@ -14,15 +14,14 @@ import org.activebpel.rt.bpel.server.deploy.IAeDeploymentId;
 /**
  * Wraps a catalog deployment.
  */
-public interface IAeCatalogResourceDeployment
-{
-   /**
-    * Getter for the location hint.
-    */
-   public String getLocationHint();
-   
-   /**
-    * Getter for the deployment id.
-    */
-   public IAeDeploymentId getDeploymentId();
+public interface IAeCatalogResourceDeployment {
+    /**
+     * Getter for the location hint.
+     */
+    public String getLocationHint();
+
+    /**
+     * Getter for the deployment id.
+     */
+    public IAeDeploymentId getDeploymentId();
 }

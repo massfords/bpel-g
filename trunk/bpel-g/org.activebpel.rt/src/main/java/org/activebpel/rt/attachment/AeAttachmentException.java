@@ -14,48 +14,46 @@ import org.activebpel.rt.AeException;
 /**
  * Base class for attachment related exceptions.
  */
-public class AeAttachmentException extends AeException
-{
+public class AeAttachmentException extends AeException {
 
-   /**
-     * 
+    /**
+     *
      */
     private static final long serialVersionUID = 567548431918285398L;
 
-/**
-    * Default constructor.
-    */
-   public AeAttachmentException()
-   {
-      super();
-   }
+    /**
+     * Default constructor.
+     */
+    public AeAttachmentException() {
+        super();
+    }
 
-   /**
-    * Creates an exception given the message.
-    * @param aInfo message
-    */
-   public AeAttachmentException(String aInfo)
-   {
-      super(aInfo);
-   }
+    /**
+     * Creates an exception given the message.
+     *
+     * @param aInfo message
+     */
+    public AeAttachmentException(String aInfo) {
+        super(aInfo);
+    }
 
-   /**
-    * Creates an exception given the root cause.
-    * @param aRootCause 
-    */
-   public AeAttachmentException(Throwable aRootCause)
-   {
-      super(aRootCause);
-   }
+    /**
+     * Creates an exception given the root cause.
+     *
+     * @param aRootCause
+     */
+    public AeAttachmentException(Throwable aRootCause) {
+        super(aRootCause);
+    }
 
-   /**
-    * Creates an exception given the root cause and the message.
-    * @param aInfo
-    * @param aRootCause
-    */
-   public AeAttachmentException(String aInfo, Throwable aRootCause)
-   {
-      super(aInfo, aRootCause);
-   }
+    /**
+     * Creates an exception given the root cause and the message.
+     *
+     * @param aInfo
+     * @param aRootCause
+     */
+    public AeAttachmentException(String aInfo, Throwable aRootCause) {
+        super(aInfo, aRootCause);
+    }
 
 }

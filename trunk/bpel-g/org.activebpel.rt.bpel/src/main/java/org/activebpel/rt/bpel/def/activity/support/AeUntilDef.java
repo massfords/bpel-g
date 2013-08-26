@@ -15,26 +15,23 @@ import org.activebpel.rt.bpel.def.visitors.IAeDefVisitor;
 /**
  * Models the 'wait' | 'onAlarm' constructs 'until' child element introduced in WS-BPEL 2.0.
  */
-public class AeUntilDef extends AeExpressionBaseDef
-{
-   /**
-     * 
+public class AeUntilDef extends AeExpressionBaseDef {
+    /**
+     *
      */
     private static final long serialVersionUID = -5866068251744353509L;
 
-/**
-    * Default c'tor.
-    */
-   public AeUntilDef()
-   {
-      super();
-   }
+    /**
+     * Default c'tor.
+     */
+    public AeUntilDef() {
+        super();
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.def.AeBaseDef#accept(org.activebpel.rt.bpel.def.visitors.IAeDefVisitor)
-    */
-   public void accept(IAeDefVisitor aVisitor)
-   {
-      aVisitor.visit(this);
-   }
+    /**
+     * @see org.activebpel.rt.bpel.def.AeBaseDef#accept(org.activebpel.rt.bpel.def.visitors.IAeDefVisitor)
+     */
+    public void accept(IAeDefVisitor aVisitor) {
+        aVisitor.visit(this);
+    }
 }

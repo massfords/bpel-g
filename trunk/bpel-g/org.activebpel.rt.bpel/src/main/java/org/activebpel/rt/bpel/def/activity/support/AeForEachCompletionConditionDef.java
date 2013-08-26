@@ -7,7 +7,7 @@
 //Active Endpoints, Inc. Removal of this PROPRIETARY RIGHTS STATEMENT 
 //is strictly forbidden. Copyright (c) 2002-2004 All rights reserved. 
 /////////////////////////////////////////////////////////////////////////////
-package org.activebpel.rt.bpel.def.activity.support; 
+package org.activebpel.rt.bpel.def.activity.support;
 
 import org.activebpel.rt.bpel.def.AeBaseDef;
 import org.activebpel.rt.bpel.def.IAeExpressionDef;
@@ -19,105 +19,94 @@ import org.activebpel.rt.bpel.def.visitors.IAeDefVisitor;
  * parallel forEach. This def contains pass throughs to the underlying
  * branches def and mainly exists as a container for extension elements.
  */
-public class AeForEachCompletionConditionDef extends AeBaseDef implements IAeExpressionDef
-{
-   /**
-     * 
+public class AeForEachCompletionConditionDef extends AeBaseDef implements IAeExpressionDef {
+    /**
+     *
      */
     private static final long serialVersionUID = -7974326429816299462L;
-/** delegate branches */
-   private AeForEachBranchesDef mBranches;
-   
-   /**
-    * @see org.activebpel.rt.bpel.def.AeBaseDef#accept(org.activebpel.rt.bpel.def.visitors.IAeDefVisitor)
-    */
-   public void accept(IAeDefVisitor aVisitor)
-   {
-      aVisitor.visit(this);
-   }
-   
-   /**
-    * @return Returns the branches.
-    */
-   public AeForEachBranchesDef getBranches()
-   {
-      return mBranches;
-   }
+    /**
+     * delegate branches
+     */
+    private AeForEachBranchesDef mBranches;
 
-   /**
-    * @param aBranches The branches to set.
-    */
-   public void setBranches(AeForEachBranchesDef aBranches)
-   {
-      mBranches = aBranches;
-   }
-   
-   /**
-    * Returns true if there is a branches child.
-    */
-   protected boolean hasBranches()
-   {
-      return mBranches != null;
-   }
+    /**
+     * @see org.activebpel.rt.bpel.def.AeBaseDef#accept(org.activebpel.rt.bpel.def.visitors.IAeDefVisitor)
+     */
+    public void accept(IAeDefVisitor aVisitor) {
+        aVisitor.visit(this);
+    }
 
-   /**
-    * Pass through to the branches def if it exists or false
-    */
-   public boolean isCountCompletedBranchesOnly()
-   {
-      if (hasBranches())
-         return getBranches().isCountCompletedBranchesOnly();
-      return false;
-   }
-   
-   /**
-    * Pass through to the branches def if it exists or empty string
-    */
-   public String getExpression()
-   {
-      if (hasBranches())
-         return getBranches().getExpression();
-      return ""; //$NON-NLS-1$
-   }
-   
-   /**
-    * Pass through to the branches def if it exists or empty string
-    */
-   public String getExpressionLanguage()
-   {
-      if (hasBranches())
-         return getBranches().getExpressionLanguage();
-      return ""; //$NON-NLS-1$
-   }
-   
-   /**
-    * @see org.activebpel.rt.bpel.def.IAeExpressionDef#getBpelNamespace()
-    */
-   public String getBpelNamespace()
-   {
-      return AeDefUtil.getProcessDef(this).getNamespace();
-   }
+    /**
+     * @return Returns the branches.
+     */
+    public AeForEachBranchesDef getBranches() {
+        return mBranches;
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.def.IAeExpressionDef#setExpression(java.lang.String)
-    */
-   public void setExpression(String aExpression)
-   {
-      if (hasBranches())
-      {
-         getBranches().setExpression(aExpression);
-      }
-   }
-   
-   /**
-    * @see org.activebpel.rt.bpel.def.IAeExpressionDef#setExpressionLanguage(java.lang.String)
-    */
-   public void setExpressionLanguage(String aLanguageURI)
-   {
-      if (hasBranches())
-      {
-         getBranches().setExpressionLanguage(aLanguageURI);
-      }
-   }
+    /**
+     * @param aBranches The branches to set.
+     */
+    public void setBranches(AeForEachBranchesDef aBranches) {
+        mBranches = aBranches;
+    }
+
+    /**
+     * Returns true if there is a branches child.
+     */
+    protected boolean hasBranches() {
+        return mBranches != null;
+    }
+
+    /**
+     * Pass through to the branches def if it exists or false
+     */
+    public boolean isCountCompletedBranchesOnly() {
+        if (hasBranches())
+            return getBranches().isCountCompletedBranchesOnly();
+        return false;
+    }
+
+    /**
+     * Pass through to the branches def if it exists or empty string
+     */
+    public String getExpression() {
+        if (hasBranches())
+            return getBranches().getExpression();
+        return ""; //$NON-NLS-1$
+    }
+
+    /**
+     * Pass through to the branches def if it exists or empty string
+     */
+    public String getExpressionLanguage() {
+        if (hasBranches())
+            return getBranches().getExpressionLanguage();
+        return ""; //$NON-NLS-1$
+    }
+
+    /**
+     * @see org.activebpel.rt.bpel.def.IAeExpressionDef#getBpelNamespace()
+     */
+    public String getBpelNamespace() {
+        return AeDefUtil.getProcessDef(this).getNamespace();
+    }
+
+    /**
+     * @see org.activebpel.rt.bpel.def.IAeExpressionDef#setExpression(java.lang.String)
+     */
+    public void setExpression(String aExpression) {
+        if (hasBranches()) {
+            getBranches().setExpression(aExpression);
+        }
+    }
+
+    /**
+     * @see org.activebpel.rt.bpel.def.IAeExpressionDef#setExpressionLanguage(java.lang.String)
+     */
+    public void setExpressionLanguage(String aLanguageURI) {
+        if (hasBranches()) {
+            getBranches().setExpressionLanguage(aLanguageURI);
+        }
+    }
 }
  

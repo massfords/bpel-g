@@ -14,32 +14,30 @@ import org.activebpel.rt.xml.IAeNamespaceContext;
 /**
  * A simple expression parser.
  */
-public class AeExpressionParserContext implements IAeExpressionParserContext
-{
-   /** The namespace context. */
-   private IAeNamespaceContext mNamespaceContext;
+public class AeExpressionParserContext implements IAeExpressionParserContext {
+    /**
+     * The namespace context.
+     */
+    private IAeNamespaceContext mNamespaceContext;
 
-   /**
-    * Constructor.
-    */
-   public AeExpressionParserContext(IAeNamespaceContext aNamespaceContext)
-   {
-      setNamespaceContext(aNamespaceContext);
-   }
+    /**
+     * Constructor.
+     */
+    public AeExpressionParserContext(IAeNamespaceContext aNamespaceContext) {
+        setNamespaceContext(aNamespaceContext);
+    }
 
-   /**
-    * @see org.activebpel.rt.expr.def.IAeExpressionParserContext#getNamespaceContext()
-    */
-   public IAeNamespaceContext getNamespaceContext()
-   {
-      return mNamespaceContext;
-   }
-   
-   /**
-    * @param aNamespaceContext The namespaceContext to set.
-    */
-   protected void setNamespaceContext(IAeNamespaceContext aNamespaceContext)
-   {
-      mNamespaceContext = aNamespaceContext;
-   }
+    /**
+     * @see org.activebpel.rt.expr.def.IAeExpressionParserContext#getNamespaceContext()
+     */
+    public IAeNamespaceContext getNamespaceContext() {
+        return mNamespaceContext;
+    }
+
+    /**
+     * @param aNamespaceContext The namespaceContext to set.
+     */
+    protected void setNamespaceContext(IAeNamespaceContext aNamespaceContext) {
+        mNamespaceContext = aNamespaceContext;
+    }
 }

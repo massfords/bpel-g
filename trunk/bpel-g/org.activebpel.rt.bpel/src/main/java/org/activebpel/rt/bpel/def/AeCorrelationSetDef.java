@@ -21,86 +21,85 @@ import org.activebpel.rt.bpel.def.visitors.IAeDefVisitor;
 /**
  * Definition for bpel correlation set.
  */
-public class AeCorrelationSetDef extends AeNamedDef
-{
-   private static final long serialVersionUID = 4635602438406610972L;
-   /** The properties of the correlation set. */
-   private Collection<QName> mProperties;
-   /** Flag for whether this correlationSet has multiple points of initiation */
-   private boolean mJoinStyle;
+public class AeCorrelationSetDef extends AeNamedDef {
+    private static final long serialVersionUID = 4635602438406610972L;
+    /**
+     * The properties of the correlation set.
+     */
+    private Collection<QName> mProperties;
+    /**
+     * Flag for whether this correlationSet has multiple points of initiation
+     */
+    private boolean mJoinStyle;
 
-   /**
-    * Default constructor
-    */
-   public AeCorrelationSetDef()
-   {
-      super();
-   }
+    /**
+     * Default constructor
+     */
+    public AeCorrelationSetDef() {
+        super();
+    }
 
-   /**
-    * Provides a list of correlation set properties for the user to iterate.
-    * @return Iterator of property of object.
-    */
-   public Iterator<QName> getPropertiesList()
-   {
-      if (mProperties == null)
-         return Collections.<QName>emptyList().iterator();
-      else
-         return mProperties.iterator();
-   }
-   
-   /**
-    * Adds the given property to the list property list.
-    * @param aProperty property to be added
-    */
-   public void addProperty(QName aProperty)
-   {
-      if (mProperties == null)
-         mProperties = new ArrayList<>();
-         
-      mProperties.add(aProperty);
-   }
-   
-   /**
-    * Setter for the properties
-    * @param aCollection
-    */
-   public void setProperties(Collection<QName> aCollection)
-   {
-      mProperties = new ArrayList<>(aCollection);
-   }
+    /**
+     * Provides a list of correlation set properties for the user to iterate.
+     *
+     * @return Iterator of property of object.
+     */
+    public Iterator<QName> getPropertiesList() {
+        if (mProperties == null)
+            return Collections.<QName>emptyList().iterator();
+        else
+            return mProperties.iterator();
+    }
 
-   /**
-    * Getter for the properties
-    */
-   public Collection<QName> getProperties()
-   {
-      return mProperties;
-   }
-   
-   /**
-    * Returns true if the correlationSet is a "join" style which means that it has multiple initiation points
-    */
-   public boolean isJoinStyle()
-   {
-      return mJoinStyle;
-   }
-   
-   /**
-    * Sets the join style flag
-    * @param aFlag
-    */
-   public void setJoinStyle(boolean aFlag)
-   {
-      mJoinStyle = aFlag;
-   }
+    /**
+     * Adds the given property to the list property list.
+     *
+     * @param aProperty property to be added
+     */
+    public void addProperty(QName aProperty) {
+        if (mProperties == null)
+            mProperties = new ArrayList<>();
 
-   /**
-    * @param aVisitor 
-    * @see org.activebpel.rt.bpel.def.AeBaseDef#accept(org.activebpel.rt.bpel.def.visitors.IAeDefVisitor)
-    */
-   public void accept(IAeDefVisitor aVisitor)
-   {
-      aVisitor.visit(this);
-   }
+        mProperties.add(aProperty);
+    }
+
+    /**
+     * Setter for the properties
+     *
+     * @param aCollection
+     */
+    public void setProperties(Collection<QName> aCollection) {
+        mProperties = new ArrayList<>(aCollection);
+    }
+
+    /**
+     * Getter for the properties
+     */
+    public Collection<QName> getProperties() {
+        return mProperties;
+    }
+
+    /**
+     * Returns true if the correlationSet is a "join" style which means that it has multiple initiation points
+     */
+    public boolean isJoinStyle() {
+        return mJoinStyle;
+    }
+
+    /**
+     * Sets the join style flag
+     *
+     * @param aFlag
+     */
+    public void setJoinStyle(boolean aFlag) {
+        mJoinStyle = aFlag;
+    }
+
+    /**
+     * @param aVisitor
+     * @see org.activebpel.rt.bpel.def.AeBaseDef#accept(org.activebpel.rt.bpel.def.visitors.IAeDefVisitor)
+     */
+    public void accept(IAeDefVisitor aVisitor) {
+        aVisitor.visit(this);
+    }
 }

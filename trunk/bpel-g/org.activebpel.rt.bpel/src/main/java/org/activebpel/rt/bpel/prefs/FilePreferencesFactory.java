@@ -13,7 +13,7 @@ import java.util.prefs.PreferencesFactory;
  * <p/>
  * The file defaults to [user.home]/.fileprefs, but may be overridden with the
  * system property <tt>org.activebpel.rt.bpel.prefs.FilePreferencesFactory.file</tt>
- * 
+ *
  * @author David Croft (<a href="http://www.davidc.net">www.davidc.net</a>)
  * @version $Id: FilePreferencesFactory.java 282 2009-06-18 17:05:18Z david $
  */

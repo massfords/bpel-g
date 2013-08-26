@@ -7,35 +7,35 @@
 //Active Endpoints, Inc. Removal of this PROPRIETARY RIGHTS STATEMENT 
 //is strictly forbidden. Copyright (c) 2002-2006 All rights reserved. 
 /////////////////////////////////////////////////////////////////////////////
-package org.activebpel.rt.bpel.def.faults; 
+package org.activebpel.rt.bpel.def.faults;
 
 import org.activebpel.rt.bpel.def.IAeBPELConstants;
 
 /**
- * Strategy that implements the fault matching rules for the version of BPEL we're executing/validating 
+ * Strategy that implements the fault matching rules for the version of BPEL we're executing/validating
  */
-public class AeFaultMatchingStrategyFactory
-{
-   /** strategy for fault matching for a 1.1 scope */
-   private static final IAeFaultMatchingStrategy BPEL4WS_FaultMatchingStrategy = new AeBPWSFaultMatchingStrategy();
+public class AeFaultMatchingStrategyFactory {
+    /**
+     * strategy for fault matching for a 1.1 scope
+     */
+    private static final IAeFaultMatchingStrategy BPEL4WS_FaultMatchingStrategy = new AeBPWSFaultMatchingStrategy();
 
-   /** strategy for fault matching for a 2.0 scope */
-   private static final IAeFaultMatchingStrategy WSBPEL_FaultMatchingStrategy = new AeWSBPELFaultMatchingStrategy();
+    /**
+     * strategy for fault matching for a 2.0 scope
+     */
+    private static final IAeFaultMatchingStrategy WSBPEL_FaultMatchingStrategy = new AeWSBPELFaultMatchingStrategy();
 
-   /**
-    * Returns an instance of the strategy for the given namespace
-    * @param aBPELNamespace
-    */
-   public static IAeFaultMatchingStrategy getInstance(String aBPELNamespace)
-   {
-      if (aBPELNamespace.equals(IAeBPELConstants.BPWS_NAMESPACE_URI))
-      {
-         return BPEL4WS_FaultMatchingStrategy;
-      }
-      else
-      {
-         return WSBPEL_FaultMatchingStrategy;
-      }
-   }
+    /**
+     * Returns an instance of the strategy for the given namespace
+     *
+     * @param aBPELNamespace
+     */
+    public static IAeFaultMatchingStrategy getInstance(String aBPELNamespace) {
+        if (aBPELNamespace.equals(IAeBPELConstants.BPWS_NAMESPACE_URI)) {
+            return BPEL4WS_FaultMatchingStrategy;
+        } else {
+            return WSBPEL_FaultMatchingStrategy;
+        }
+    }
 }
  

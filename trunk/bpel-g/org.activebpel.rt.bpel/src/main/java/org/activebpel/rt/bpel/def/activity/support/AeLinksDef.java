@@ -15,43 +15,39 @@ import org.activebpel.rt.bpel.def.visitors.IAeDefVisitor;
 import java.util.Iterator;
 
 /**
- * Container for the links within a Flow. Using this container as opposed to 
+ * Container for the links within a Flow. Using this container as opposed to
  * a collection so it can be visited.
  */
-public class AeLinksDef extends AeBaseContainer<String,AeLinkDef>
-{
-   private static final long serialVersionUID = -7462005664763933604L;
+public class AeLinksDef extends AeBaseContainer<String, AeLinkDef> {
+    private static final long serialVersionUID = -7462005664763933604L;
 
-   /**
-    * Default c'tor.
-    */
-   public AeLinksDef()
-   {
-      super();
-   }
-   
-   /**
-    * Adds a link to the collection.
-    * @param aDef
-    */
-   public void addLinkDef(AeLinkDef aDef)
-   {
-      super.add(aDef);
-   }
+    /**
+     * Default c'tor.
+     */
+    public AeLinksDef() {
+        super();
+    }
 
-   /**
-    * Gets the iterator for the collection of links.
-    */
-   public Iterator<? extends AeLinkDef> getLinkDefs()
-   {
-      return getValues();
-   }
+    /**
+     * Adds a link to the collection.
+     *
+     * @param aDef
+     */
+    public void addLinkDef(AeLinkDef aDef) {
+        super.add(aDef);
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.def.AeBaseDef#accept(org.activebpel.rt.bpel.def.visitors.IAeDefVisitor)
-    */
-   public void accept(IAeDefVisitor aVisitor)
-   {
-      aVisitor.visit(this);
-   }
+    /**
+     * Gets the iterator for the collection of links.
+     */
+    public Iterator<? extends AeLinkDef> getLinkDefs() {
+        return getValues();
+    }
+
+    /**
+     * @see org.activebpel.rt.bpel.def.AeBaseDef#accept(org.activebpel.rt.bpel.def.visitors.IAeDefVisitor)
+     */
+    public void accept(IAeDefVisitor aVisitor) {
+        aVisitor.visit(this);
+    }
 }

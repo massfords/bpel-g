@@ -26,149 +26,138 @@ import java.util.List;
 /**
  * Implementation of the bpel 2.0 if activity.
  */
-public class AeActivityIfImpl extends AeActivityImpl
-{
-   /** The list of 'else' children. */
-   private List<AeElseIf> mElseIfs = new ArrayList<>();
-   /** The optional 'else' child. */
-   private AeElse mElse;
+public class AeActivityIfImpl extends AeActivityImpl {
+    /**
+     * The list of 'else' children.
+     */
+    private List<AeElseIf> mElseIfs = new ArrayList<>();
+    /**
+     * The optional 'else' child.
+     */
+    private AeElse mElse;
 
-   /**
-    * Constructs the activity if impl.
-    *
-    * @param aIfDef
-    * @param aParent
-    */
-   public AeActivityIfImpl(AeActivityIfDef aIfDef, IAeActivityParent aParent)
-   {
-      super(aIfDef, aParent);
-   }
+    /**
+     * Constructs the activity if impl.
+     *
+     * @param aIfDef
+     * @param aParent
+     */
+    public AeActivityIfImpl(AeActivityIfDef aIfDef, IAeActivityParent aParent) {
+        super(aIfDef, aParent);
+    }
 
-   /**
-    * Adds an 'elseif' child to the list.
-    *
-    * @param aElseIf
-    */
-   public void addElseIf(AeElseIf aElseIf)
-   {
-      getElseIfs().add(aElseIf);
-   }
+    /**
+     * Adds an 'elseif' child to the list.
+     *
+     * @param aElseIf
+     */
+    public void addElseIf(AeElseIf aElseIf) {
+        getElseIfs().add(aElseIf);
+    }
 
-   /**
-    * Sets the optional 'else' child.
-    *
-    * @param aElse
-    */
-   public void setElse(AeElse aElse)
-   {
-      mElse = aElse;
-   }
+    /**
+     * Sets the optional 'else' child.
+     *
+     * @param aElse
+     */
+    public void setElse(AeElse aElse) {
+        mElse = aElse;
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.impl.IAeBpelObject#getChildrenForStateChange()
-    */
-   public Iterator<? extends IAeBpelObject> getChildrenForStateChange()
-   {
-      return AeUtil.join(getElseIfs().iterator(), getElse());
-   }
+    /**
+     * @see org.activebpel.rt.bpel.impl.IAeBpelObject#getChildrenForStateChange()
+     */
+    public Iterator<? extends IAeBpelObject> getChildrenForStateChange() {
+        return AeUtil.join(getElseIfs().iterator(), getElse());
+    }
 
-   /**
-    * Switch activity checks all cases and executes the applicable case container or default if none are true.
-    *
-    * @see org.activebpel.rt.bpel.impl.IAeExecutableBpelObject#execute()
-    */
-   public void execute() throws AeBusinessProcessException
-   {
-      super.execute();
-      IAeBpelObject child = findTrueClause();
+    /**
+     * Switch activity checks all cases and executes the applicable case container or default if none are true.
+     *
+     * @see org.activebpel.rt.bpel.impl.IAeExecutableBpelObject#execute()
+     */
+    public void execute() throws AeBusinessProcessException {
+        super.execute();
+        IAeBpelObject child = findTrueClause();
 
-      // note if child is null then calling this will complete execution
-      // as all cases will be dead paths
-      setAllOtherChildrenToDeadPath(child);
+        // note if child is null then calling this will complete execution
+        // as all cases will be dead paths
+        setAllOtherChildrenToDeadPath(child);
 
-      if (child != null)
-      {
-         getProcess().queueObjectToExecute(child);
-      }
-   }
+        if (child != null) {
+            getProcess().queueObjectToExecute(child);
+        }
+    }
 
-   /**
-    * Sets all of the other child objects to dead path except for the one passed in which will be executed.
-    *
-    * @param aChild can be null
-    */
-   private void setAllOtherChildrenToDeadPath(IAeBpelObject aChild) throws AeBusinessProcessException
-   {
-      setAllOtherToDeadPath(aChild, getChildrenForStateChange());
-   }
+    /**
+     * Sets all of the other child objects to dead path except for the one passed in which will be executed.
+     *
+     * @param aChild can be null
+     */
+    private void setAllOtherChildrenToDeadPath(IAeBpelObject aChild) throws AeBusinessProcessException {
+        setAllOtherToDeadPath(aChild, getChildrenForStateChange());
+    }
 
-   /**
-    * Walks the elseif list looking for a case that evaluates to true. If a case evaluates to false then it
-    * becomes a dead path. If it evaluates to true, we'll return it. If none of the cases eval to true, then
-    * we'll fall back on the else.  If there is no else, then we'll return null.
-    *
-    * @return IAeBpelObject a case that eval'd to true, the else, or null if none eval'd to true.
-    * @throws AeBusinessProcessException
-    */
-   private IAeBpelObject findTrueClause() throws AeBusinessProcessException
-   {
-      IAeBpelObject foundClause = null;
-       for (AeElseIf elseIf : getElseIfs()) {
-           if (elseIf.isEvalTrue()) {
-               foundClause = elseIf;
-               break;
-           }
-       }
+    /**
+     * Walks the elseif list looking for a case that evaluates to true. If a case evaluates to false then it
+     * becomes a dead path. If it evaluates to true, we'll return it. If none of the cases eval to true, then
+     * we'll fall back on the else.  If there is no else, then we'll return null.
+     *
+     * @return IAeBpelObject a case that eval'd to true, the else, or null if none eval'd to true.
+     * @throws AeBusinessProcessException
+     */
+    private IAeBpelObject findTrueClause() throws AeBusinessProcessException {
+        IAeBpelObject foundClause = null;
+        for (AeElseIf elseIf : getElseIfs()) {
+            if (elseIf.isEvalTrue()) {
+                foundClause = elseIf;
+                break;
+            }
+        }
 
-      // If nothing evaluated to true, use the else.
-      if (foundClause == null)
-         foundClause = getElse();
+        // If nothing evaluated to true, use the else.
+        if (foundClause == null)
+            foundClause = getElse();
 
-      return foundClause;
-   }
+        return foundClause;
+    }
 
-   /**
-    * Handles a child completion by completing switch activity.
-    *
-    * @see org.activebpel.rt.bpel.impl.IAeExecutableBpelObject#childComplete(org.activebpel.rt.bpel.impl.IAeBpelObject)
-    */
-   public void childComplete(IAeBpelObject aChild) throws AeBusinessProcessException
-   {
-      if (childrenAreDone())
-      {
-         objectCompleted();
-      }
-   }
+    /**
+     * Handles a child completion by completing switch activity.
+     *
+     * @see org.activebpel.rt.bpel.impl.IAeExecutableBpelObject#childComplete(org.activebpel.rt.bpel.impl.IAeBpelObject)
+     */
+    public void childComplete(IAeBpelObject aChild) throws AeBusinessProcessException {
+        if (childrenAreDone()) {
+            objectCompleted();
+        }
+    }
 
-   /**
-    * @return Returns the elseIfs.
-    */
-   protected List<AeElseIf> getElseIfs()
-   {
-      return mElseIfs;
-   }
+    /**
+     * @return Returns the elseIfs.
+     */
+    protected List<AeElseIf> getElseIfs() {
+        return mElseIfs;
+    }
 
-   /**
-    * @param aElseIfs The elseIfs to set.
-    */
-   protected void setElseIfs(List<AeElseIf> aElseIfs)
-   {
-      mElseIfs = aElseIfs;
-   }
+    /**
+     * @param aElseIfs The elseIfs to set.
+     */
+    protected void setElseIfs(List<AeElseIf> aElseIfs) {
+        mElseIfs = aElseIfs;
+    }
 
-   /**
-    * @return Returns the else.
-    */
-   protected AeElse getElse()
-   {
-      return mElse;
-   }
+    /**
+     * @return Returns the else.
+     */
+    protected AeElse getElse() {
+        return mElse;
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.impl.visitors.IAeVisitable#accept(org.activebpel.rt.bpel.impl.visitors.IAeImplVisitor)
-    */
-   public void accept(IAeImplVisitor aVisitor) throws AeBusinessProcessException
-   {
-      aVisitor.visit(this);
-   }
+    /**
+     * @see org.activebpel.rt.bpel.impl.visitors.IAeVisitable#accept(org.activebpel.rt.bpel.impl.visitors.IAeImplVisitor)
+     */
+    public void accept(IAeImplVisitor aVisitor) throws AeBusinessProcessException {
+        aVisitor.visit(this);
+    }
 }

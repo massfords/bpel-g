@@ -14,33 +14,30 @@ import org.activebpel.rt.bpeladmin.war.graph.ui.AeIcon;
 import org.activebpel.rt.bpeladmin.war.graph.ui.figure.AeGraphFigure;
 
 /**
- * Controller responsible for creating AeBpelSimpleActivityFigure.  
+ * Controller responsible for creating AeBpelSimpleActivityFigure.
  */
-public class AeBpelSimpleActivityController extends AeBpelControllerBase
-{
+public class AeBpelSimpleActivityController extends AeBpelControllerBase {
 
-   /**
-    * Default constructor.
-    */
-   public AeBpelSimpleActivityController()
-   {
-      super();
-   }
-   
-   /** 
-    * Overrides method to AeBpelSimpleActivityFigure.
-    * @see org.activebpel.rt.bpeladmin.war.graph.ui.controller.AeGraphController#createFigure()
-    */
-   protected AeGraphFigure createFigure()
-   {
-      AeBpelSimpleActivityFigure fig = new AeBpelSimpleActivityFigure(getLabelText(), getActivityIconImage());
-      fig.setEvaluated(isExecuted());
-      if (getStateAdornmentIconImage() != null)
-      {
-         AeIcon stateIcon = new AeIcon(getStateAdornmentIconImage());
-         setStateImageIcon(stateIcon);
-         fig.getLabel().add(stateIcon);
-      }
-      return fig;
-   }   
+    /**
+     * Default constructor.
+     */
+    public AeBpelSimpleActivityController() {
+        super();
+    }
+
+    /**
+     * Overrides method to AeBpelSimpleActivityFigure.
+     *
+     * @see org.activebpel.rt.bpeladmin.war.graph.ui.controller.AeGraphController#createFigure()
+     */
+    protected AeGraphFigure createFigure() {
+        AeBpelSimpleActivityFigure fig = new AeBpelSimpleActivityFigure(getLabelText(), getActivityIconImage());
+        fig.setEvaluated(isExecuted());
+        if (getStateAdornmentIconImage() != null) {
+            AeIcon stateIcon = new AeIcon(getStateAdornmentIconImage());
+            setStateImageIcon(stateIcon);
+            fig.getLabel().add(stateIcon);
+        }
+        return fig;
+    }
 }

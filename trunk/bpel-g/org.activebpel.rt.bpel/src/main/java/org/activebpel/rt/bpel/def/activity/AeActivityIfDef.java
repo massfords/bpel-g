@@ -25,127 +25,119 @@ import org.activebpel.rt.bpel.def.visitors.IAeDefVisitor;
 /**
  * Definition for bpel if/switch activity.
  */
-public class AeActivityIfDef extends AeActivityDef implements IAeSingleActivityContainerDef, IAeConditionParentDef
-{
-   private static final long serialVersionUID = -1829020082919496754L;
-    /** A container for the condition and activity children of the if activity. */
-   private AeIfDef mIfDef;
-   /** The list of 'elseif' constructs in this if. */
-   private final List<AeElseIfDef> mElseIfs = new ArrayList<>();
-   /** The final else child. */
-   private AeElseDef mElse;
+public class AeActivityIfDef extends AeActivityDef implements IAeSingleActivityContainerDef, IAeConditionParentDef {
+    private static final long serialVersionUID = -1829020082919496754L;
+    /**
+     * A container for the condition and activity children of the if activity.
+     */
+    private AeIfDef mIfDef;
+    /**
+     * The list of 'elseif' constructs in this if.
+     */
+    private final List<AeElseIfDef> mElseIfs = new ArrayList<>();
+    /**
+     * The final else child.
+     */
+    private AeElseDef mElse;
 
-   /**
-    * Default constructor
-    */
-   public AeActivityIfDef()
-   {
-      super();
-   }
+    /**
+     * Default constructor
+     */
+    public AeActivityIfDef() {
+        super();
+    }
 
-   /**
-    * @return Returns the activity.
-    */
-   public AeActivityDef getActivityDef()
-   {
-      if (getIfDef() == null)
-         return null;
-      return getIfDef().getActivityDef();
-   }
+    /**
+     * @return Returns the activity.
+     */
+    public AeActivityDef getActivityDef() {
+        if (getIfDef() == null)
+            return null;
+        return getIfDef().getActivityDef();
+    }
 
-   /**
-    * @param aActivity The activity to set.
-    */
-   public void setActivityDef(AeActivityDef aActivity)
-   {
-      if (getIfDef() == null)
-         setIfDef(new AeIfDef());
-      getIfDef().setActivityDef(aActivity);
-   }
-   
-   /**
-    * @see org.activebpel.rt.bpel.def.IAeActivityContainerDef#replaceActivityDef(org.activebpel.rt.bpel.def.AeActivityDef, org.activebpel.rt.bpel.def.AeActivityDef)
-    */
-   public void replaceActivityDef(AeActivityDef aOldActivityDef, AeActivityDef aNewActivityDef)
-   {
-      setActivityDef(aNewActivityDef);
-   }
+    /**
+     * @param aActivity The activity to set.
+     */
+    public void setActivityDef(AeActivityDef aActivity) {
+        if (getIfDef() == null)
+            setIfDef(new AeIfDef());
+        getIfDef().setActivityDef(aActivity);
+    }
 
-   /**
-    * @return Returns the condition.
-    */
-   public AeConditionDef getConditionDef()
-   {
-      if (getIfDef() == null)
-         return null;
-      return getIfDef().getConditionDef();
-   }
+    /**
+     * @see org.activebpel.rt.bpel.def.IAeActivityContainerDef#replaceActivityDef(org.activebpel.rt.bpel.def.AeActivityDef, org.activebpel.rt.bpel.def.AeActivityDef)
+     */
+    public void replaceActivityDef(AeActivityDef aOldActivityDef, AeActivityDef aNewActivityDef) {
+        setActivityDef(aNewActivityDef);
+    }
 
-   /**
-    * @param aCondition The condition to set.
-    */
-   public void setConditionDef(AeConditionDef aCondition)
-   {
-      if (getIfDef() == null)
-         setIfDef(new AeIfDef());
-      getIfDef().setConditionDef(aCondition);
-   }
+    /**
+     * @return Returns the condition.
+     */
+    public AeConditionDef getConditionDef() {
+        if (getIfDef() == null)
+            return null;
+        return getIfDef().getConditionDef();
+    }
 
-   /**
-    * @return Returns the else.
-    */
-   public AeElseDef getElseDef()
-   {
-      return mElse;
-   }
+    /**
+     * @param aCondition The condition to set.
+     */
+    public void setConditionDef(AeConditionDef aCondition) {
+        if (getIfDef() == null)
+            setIfDef(new AeIfDef());
+        getIfDef().setConditionDef(aCondition);
+    }
 
-   /**
-    * @param aElse The else to set.
-    */
-   public void setElseDef(AeElseDef aElse)
-   {
-      mElse = aElse;
-   }
-   
-   /**
-    * Adds an elseif construct to the def.
-    * 
-    * @param aElseIf
-    */
-   public void addElseIfDef(AeElseIfDef aElseIf)
-   {
-      mElseIfs.add(aElseIf);
-   }
-   
-   /**
-    * Gets an iterator over all the AeElseIfDefs.
-    */
-   public Iterator getElseIfDefs()
-   {
-      return mElseIfs.iterator();
-   }
+    /**
+     * @return Returns the else.
+     */
+    public AeElseDef getElseDef() {
+        return mElse;
+    }
 
-   /**
-    * @return Returns the ifDef.
-    */
-   public AeIfDef getIfDef()
-   {
-      return mIfDef;
-   }
+    /**
+     * @param aElse The else to set.
+     */
+    public void setElseDef(AeElseDef aElse) {
+        mElse = aElse;
+    }
 
-   /**
-    * @param aIfDef The ifDef to set.
-    */
-   public void setIfDef(AeIfDef aIfDef)
-   {
-      mIfDef = aIfDef;
-   }
+    /**
+     * Adds an elseif construct to the def.
+     *
+     * @param aElseIf
+     */
+    public void addElseIfDef(AeElseIfDef aElseIf) {
+        mElseIfs.add(aElseIf);
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.def.AeActivityDef#accept(org.activebpel.rt.bpel.def.visitors.IAeDefVisitor)
-    */
-   public void accept(IAeDefVisitor aVisitor)
-   {
-      aVisitor.visit(this);
-   }
+    /**
+     * Gets an iterator over all the AeElseIfDefs.
+     */
+    public Iterator getElseIfDefs() {
+        return mElseIfs.iterator();
+    }
+
+    /**
+     * @return Returns the ifDef.
+     */
+    public AeIfDef getIfDef() {
+        return mIfDef;
+    }
+
+    /**
+     * @param aIfDef The ifDef to set.
+     */
+    public void setIfDef(AeIfDef aIfDef) {
+        mIfDef = aIfDef;
+    }
+
+    /**
+     * @see org.activebpel.rt.bpel.def.AeActivityDef#accept(org.activebpel.rt.bpel.def.visitors.IAeDefVisitor)
+     */
+    public void accept(IAeDefVisitor aVisitor) {
+        aVisitor.visit(this);
+    }
 }

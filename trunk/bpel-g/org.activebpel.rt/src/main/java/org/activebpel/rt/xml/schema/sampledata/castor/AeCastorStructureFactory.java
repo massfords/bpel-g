@@ -51,476 +51,428 @@ import org.exolab.castor.xml.schema.XMLType;
 /**
  * Factory class for creating AE schema structure objects from Castor schema objects.
  */
-public class AeCastorStructureFactory
-{
-   /** The name for the wildcard anyAttribute. */
-   final static String WILDCARD_ATTR_NAME = "ANY-ATTRIBUTE"; //$NON-NLS-1$
+public class AeCastorStructureFactory {
+    /**
+     * The name for the wildcard anyAttribute.
+     */
+    final static String WILDCARD_ATTR_NAME = "ANY-ATTRIBUTE"; //$NON-NLS-1$
 
-   /** The name for the wildcard element any. */
-   final static String WILDCARD_ELEMENT_NAME = "ANY-ELEMENT"; //$NON-NLS-1$
+    /**
+     * The name for the wildcard element any.
+     */
+    final static String WILDCARD_ELEMENT_NAME = "ANY-ELEMENT"; //$NON-NLS-1$
 
-   /**
-    * Returns the appropriate element type based on the nature of the element decl
-    * passed in.
-    * @param aElementDecl
-    */
-   public static AeBaseElement createElement(ElementDecl aElementDecl)
-   {
-      AeBaseElement element;
+    /**
+     * Returns the appropriate element type based on the nature of the element decl
+     * passed in.
+     *
+     * @param aElementDecl
+     */
+    public static AeBaseElement createElement(ElementDecl aElementDecl) {
+        AeBaseElement element;
 
-      if (aElementDecl.getType() == null)
-      {
-         // The type could be null if the schema wasn't defined properly. We'll fall back to generate a string type.
-         // fixme (MF) should do a preprocess of the schema elements to detect this in advance
-         element = createSimpleElementModel(aElementDecl);
-      }
-      else if (isAbstract(aElementDecl))
-      {
-         element = createAbstractElementModel(aElementDecl);
-      }
-      else if (aElementDecl.getType().isComplexType() && ((ComplexType)aElementDecl.getType()).isAbstract())
-      {
-         element = new AeAbstractType();
-         buildElementBase(element, aElementDecl);
-      }
-      else if (aElementDecl.getType() instanceof ComplexType)
-      {
-         // complexType element.
-         element = createComplexElementModel(aElementDecl);
-      }
-      else if (aElementDecl.getType() instanceof AnyType)
-      {
-         element = createAnyTypeElement(aElementDecl);
-      }
-      else
-      {
-         // simpleType element.
-         element = createSimpleElementModel(aElementDecl);
-      }
-      return element;
-   }
+        if (aElementDecl.getType() == null) {
+            // The type could be null if the schema wasn't defined properly. We'll fall back to generate a string type.
+            // fixme (MF) should do a preprocess of the schema elements to detect this in advance
+            element = createSimpleElementModel(aElementDecl);
+        } else if (isAbstract(aElementDecl)) {
+            element = createAbstractElementModel(aElementDecl);
+        } else if (aElementDecl.getType().isComplexType() && ((ComplexType) aElementDecl.getType()).isAbstract()) {
+            element = new AeAbstractType();
+            buildElementBase(element, aElementDecl);
+        } else if (aElementDecl.getType() instanceof ComplexType) {
+            // complexType element.
+            element = createComplexElementModel(aElementDecl);
+        } else if (aElementDecl.getType() instanceof AnyType) {
+            element = createAnyTypeElement(aElementDecl);
+        } else {
+            // simpleType element.
+            element = createSimpleElementModel(aElementDecl);
+        }
+        return element;
+    }
 
-   /**
-    * Creates a structure for the given complex type. There are no minOccurs
-    * or other facets to read. The name of the structure will be the name of the
-    * type in the default namespace.
-    * @param aComplexType
-    */
-   public static AeBaseElement createElement(ComplexType aComplexType)
-   {
-      AeBaseElement element = null;
-      if (aComplexType.isAbstract())
-      {
-         element = new AeAbstractType();
-      }
-      else
-      {
-         // complexType element.
-         AeComplexElement e = new AeComplexElement();
-         populateComplexElement(e, aComplexType);
-         e.setXsiType(new QName(aComplexType.getSchema().getTargetNamespace(), aComplexType.getName()));
-         element = e;
-      }
-      element.setName(new QName("", aComplexType.getName())); //$NON-NLS-1$
-      return element;
-   }
+    /**
+     * Creates a structure for the given complex type. There are no minOccurs
+     * or other facets to read. The name of the structure will be the name of the
+     * type in the default namespace.
+     *
+     * @param aComplexType
+     */
+    public static AeBaseElement createElement(ComplexType aComplexType) {
+        AeBaseElement element = null;
+        if (aComplexType.isAbstract()) {
+            element = new AeAbstractType();
+        } else {
+            // complexType element.
+            AeComplexElement e = new AeComplexElement();
+            populateComplexElement(e, aComplexType);
+            e.setXsiType(new QName(aComplexType.getSchema().getTargetNamespace(), aComplexType.getName()));
+            element = e;
+        }
+        element.setName(new QName("", aComplexType.getName())); //$NON-NLS-1$
+        return element;
+    }
 
-   /**
-    * Convenience method to check if the element is an abstract element. This
-    * accounts for Castor's failure to see if the element is a ref and follow that
-    * ref to resolve the element's abstract facet.
-    * @param aElementDecl
-    */
-   protected static boolean isAbstract(ElementDecl aElementDecl)
-   {
-      return aElementDecl.isAbstract() || (aElementDecl.getReference() != null && aElementDecl.getReference().isAbstract());
-   }
+    /**
+     * Convenience method to check if the element is an abstract element. This
+     * accounts for Castor's failure to see if the element is a ref and follow that
+     * ref to resolve the element's abstract facet.
+     *
+     * @param aElementDecl
+     */
+    protected static boolean isAbstract(ElementDecl aElementDecl) {
+        return aElementDecl.isAbstract() || (aElementDecl.getReference() != null && aElementDecl.getReference().isAbstract());
+    }
 
-   /**
-    * Constructs a model that for an element of xs:anyType
-    * @param aElementDecl
-    */
-   private static AeAnyTypeElement createAnyTypeElement(ElementDecl aElementDecl)
-   {
-      AeAnyTypeElement aeElement = new AeAnyTypeElement();
+    /**
+     * Constructs a model that for an element of xs:anyType
+     *
+     * @param aElementDecl
+     */
+    private static AeAnyTypeElement createAnyTypeElement(ElementDecl aElementDecl) {
+        AeAnyTypeElement aeElement = new AeAnyTypeElement();
 
-      buildElementBase(aeElement, aElementDecl);
-      return aeElement;
+        buildElementBase(aeElement, aElementDecl);
+        return aeElement;
 
-   }
+    }
 
-   /**
-    * Creates a model for the given Schema simpleType definition.
-    *
-    * @param aElementDecl
-    * @return AeSimpleElement
-    */
-   private static AeSimpleElement createSimpleElementModel(ElementDecl aElementDecl)
-   {
-      AeSimpleElement aeElement = new AeSimpleElement();
+    /**
+     * Creates a model for the given Schema simpleType definition.
+     *
+     * @param aElementDecl
+     * @return AeSimpleElement
+     */
+    private static AeSimpleElement createSimpleElementModel(ElementDecl aElementDecl) {
+        AeSimpleElement aeElement = new AeSimpleElement();
 
-      buildElementBase(aeElement, aElementDecl);
-      aeElement.setDefaultValue(aElementDecl.getDefaultValue());
-      aeElement.setFixedValue(aElementDecl.getFixedValue());
+        buildElementBase(aeElement, aElementDecl);
+        aeElement.setDefaultValue(aElementDecl.getDefaultValue());
+        aeElement.setFixedValue(aElementDecl.getFixedValue());
 
-      // Set the type.
-      SimpleType type;
-      if ( aElementDecl.getReference() != null )
-         type = (SimpleType) aElementDecl.getReference().getType();
-      else
-         type = (SimpleType) aElementDecl.getType();
+        // Set the type.
+        SimpleType type;
+        if (aElementDecl.getReference() != null)
+            type = (SimpleType) aElementDecl.getReference().getType();
+        else
+            type = (SimpleType) aElementDecl.getType();
 
-      if (type != null)
-      {
-         QName dataType = new QName( type.getSchema().getSchemaNamespace(), type.getBuiltInBaseType().getName() );
+        if (type != null) {
+            QName dataType = new QName(type.getSchema().getSchemaNamespace(), type.getBuiltInBaseType().getName());
 
-      // use the built in simple type for the QName
-         aeElement.setDataType(dataType);
+            // use the built in simple type for the QName
+            aeElement.setDataType(dataType);
 
-      // process enumerations.
-         processEnumerations(aeElement, type);
-      }
-      else
-      {
-         // Handle a missing type with a string
-         aeElement.setDataType(AeTypeMapping.XSD_STRING);
-      }
+            // process enumerations.
+            processEnumerations(aeElement, type);
+        } else {
+            // Handle a missing type with a string
+            aeElement.setDataType(AeTypeMapping.XSD_STRING);
+        }
 
-      return aeElement;
-   }
+        return aeElement;
+    }
 
-   /**
-    * Walk the type and record any enumeration values 
-    * @param aElement
-    * @param aType
-    */
-   private static void processEnumerations(AeSimpleElement aElement, SimpleType aType)
-   {
-      List<String> enumerations = new ArrayList<>();
-      Enumeration enumer = aType.getLocalFacets();
-      if ( enumer != null )
-      {
-         while ( enumer.hasMoreElements() )
-         {
-            Facet facet = (Facet)enumer.nextElement();
-            if ( facet.getName().equals(Facet.ENUMERATION) )
-               enumerations.add(facet.getValue());
-            else if ( facet.getName().equals(Facet.MIN_EXCLUSIVE) )
-               aElement.setMinExclusive(facet.getValue());
-            else if ( facet.getName().equals(Facet.MAX_EXCLUSIVE) )
-               aElement.setMaxExclusive(facet.getValue());
-            else if ( facet.getName().equals(Facet.MIN_INCLUSIVE) )
-               aElement.setMinInclusive(facet.getValue());
-            else if ( facet.getName().equals(Facet.MAX_INCLUSIVE) )
-               aElement.setMaxInclusive(facet.getValue());
-         }
-      }
-      aElement.setEnumRestrictions(enumerations);
-   }
-
-   /**
-    * Creates a model for the given Schema abstract complexType definition.
-    *
-    * @param aElementDecl
-    * @return AeAbstractElement
-    */
-   private static AeAbstractElement createAbstractElementModel(ElementDecl aElementDecl)
-   {
-      AeAbstractElement aeElement = new AeAbstractElement();
-      buildElementBase(aeElement, aElementDecl);
-      return aeElement;
-   }
-
-   /**
-    * Creates a model for the given Schema complexType definition.
-    *
-    * @param aElementDecl
-    * @return AeComplexElement
-    */
-   private static AeComplexElement createComplexElementModel(ElementDecl aElementDecl)
-   {
-      AeComplexElement aeElement = new AeComplexElement();
-
-      buildElementBase(aeElement, aElementDecl);
-      ComplexType complexType = (ComplexType)aElementDecl.getType();
-      populateComplexElement(aeElement, complexType);
-
-      return aeElement;
-   }
-
-   /**
-    * Populates the complex element with the attributes and mixed properties.
-    * @param aeElement
-    * @param aComplexType
-    */
-   protected static void populateComplexElement(AeComplexElement aeElement, ComplexType aComplexType)
-   {
-      if (!aComplexType.isAbstract())
-         aeElement.setAttributes( createAttributes(aComplexType) );
-      aeElement.setMixed( aComplexType.getContentType().getType() == ContentType.MIXED );
-
-      if ( aComplexType.isSimpleContent() )
-      {
-         SimpleContent simpleContent = (SimpleContent)aComplexType.getContentType();
-         if (  simpleContent.getType() == ContentType.SIMPLE )
-         {
-            aeElement.setSimpleContentType(true);
-            XMLType type = simpleContent.getSimpleType();
-            aeElement.setDataType(new QName(type.getSchema().getSchemaNamespace(), type.getName()) );
-         }
-      }
-
-   }
-
-   /**
-    * Create a model for the given Schema attribute declaration.
-    *
-    * @param aAttrDecl
-    * @return AeAttribute
-    */
-   public static AeAttribute createAttributeModel(AttributeDecl aAttrDecl)
-   {
-      AeAttribute aeAttr = new AeAttribute();
-
-      // Set the type.
-
-      SimpleType type;
-      if ( aAttrDecl.getReference() != null )
-         type = aAttrDecl.getReference().getSimpleType();
-      else
-         type = aAttrDecl.getSimpleType();
-
-      SimpleType baseType;
-      if ( type instanceof Union)
-      {
-         Union union = (Union)type;
-         baseType = (SimpleType)union.getMemberTypes().nextElement();
-      }
-      else if (type == null)
-      {
-         // If the type is null, then the type is xsd:anySimpleType
-         baseType = aAttrDecl.getSchema().getSimpleType("anySimpleType", XMLConstants.W3C_XML_SCHEMA_NS_URI); //$NON-NLS-1$
-      }
-      else
-      {
-         baseType = type.getBuiltInBaseType();
-      }
-
-      aeAttr.setDataType(new QName( baseType.getSchema().getSchemaNamespace(), baseType.getName() ));
-
-      String namespace = AeSchemaUtil.getNamespaceURI(aAttrDecl);
-
-      aeAttr.setName( new QName(namespace, aAttrDecl.getName()) );
-
-      aeAttr.setRequired(aAttrDecl.isRequired());
-      aeAttr.setOptional(aAttrDecl.isOptional());
-      aeAttr.setDefaultValue(aAttrDecl.getDefaultValue());
-      aeAttr.setFixedValue(aAttrDecl.getFixedValue());
-
-      // process enumerations.
-      List<String> enumerations = new ArrayList<>();
-      if ( type != null )
-      {
-         SimpleType simpleType = type;
-         Enumeration enumer = simpleType.getLocalFacets();
-         if ( enumer != null )
-         {
-            while ( enumer.hasMoreElements() )
-            {
-               Facet facet = (Facet)enumer.nextElement();
-               if ( facet.getName().equals(Facet.ENUMERATION) )
-                  enumerations.add(facet.getValue());
+    /**
+     * Walk the type and record any enumeration values
+     *
+     * @param aElement
+     * @param aType
+     */
+    private static void processEnumerations(AeSimpleElement aElement, SimpleType aType) {
+        List<String> enumerations = new ArrayList<>();
+        Enumeration enumer = aType.getLocalFacets();
+        if (enumer != null) {
+            while (enumer.hasMoreElements()) {
+                Facet facet = (Facet) enumer.nextElement();
+                if (facet.getName().equals(Facet.ENUMERATION))
+                    enumerations.add(facet.getValue());
+                else if (facet.getName().equals(Facet.MIN_EXCLUSIVE))
+                    aElement.setMinExclusive(facet.getValue());
+                else if (facet.getName().equals(Facet.MAX_EXCLUSIVE))
+                    aElement.setMaxExclusive(facet.getValue());
+                else if (facet.getName().equals(Facet.MIN_INCLUSIVE))
+                    aElement.setMinInclusive(facet.getValue());
+                else if (facet.getName().equals(Facet.MAX_INCLUSIVE))
+                    aElement.setMaxInclusive(facet.getValue());
             }
-         }
-      }
-      aeAttr.setEnumRestrictions(enumerations);
+        }
+        aElement.setEnumRestrictions(enumerations);
+    }
 
-      return aeAttr;
-   }
+    /**
+     * Creates a model for the given Schema abstract complexType definition.
+     *
+     * @param aElementDecl
+     * @return AeAbstractElement
+     */
+    private static AeAbstractElement createAbstractElementModel(ElementDecl aElementDecl) {
+        AeAbstractElement aeElement = new AeAbstractElement();
+        buildElementBase(aeElement, aElementDecl);
+        return aeElement;
+    }
 
-   /**
-    * Create a model for the given Schema Group model.
-    *
-    * @param aGroup
-    * @return AeGroup
-    */
-   public static AeGroup createGroupModel(Group aGroup)
-   {
-      return new AeGroup();
-   }
+    /**
+     * Creates a model for the given Schema complexType definition.
+     *
+     * @param aElementDecl
+     * @return AeComplexElement
+     */
+    private static AeComplexElement createComplexElementModel(ElementDecl aElementDecl) {
+        AeComplexElement aeElement = new AeComplexElement();
 
-   /**
-    * Create a model for the Schema sequence model group.
-    *
-    * @param aGroup
-    * @return AeSequence
-    */
-   public static AeSequence createSequenceModel(Group aGroup)
-   {
-      AeSequence sequence = new AeSequence();
-      sequence.setMinOccurs( aGroup.getMinOccurs() );
-      sequence.setMaxOccurs( aGroup.getMaxOccurs() );
-      return sequence;
-   }
+        buildElementBase(aeElement, aElementDecl);
+        ComplexType complexType = (ComplexType) aElementDecl.getType();
+        populateComplexElement(aeElement, complexType);
 
-   /**
-    * Create a model for the Schema choice model group.
-    *
-    * @param aGroup
-    * @return AeChoice
-    */
-   public static AeChoice creatChoiceModel(Group aGroup)
-   {
-      AeChoice choice = new AeChoice();
-      choice.setMinOccurs( aGroup.getMinOccurs() );
-      choice.setMaxOccurs( aGroup.getMaxOccurs() );
-      return choice;
-   }
+        return aeElement;
+    }
 
-   /**
-    * Create a model for the Schema all model group.
-    *
-    * @param aGroup
-    * @return AeAll
-    */
-   public static AeAll createAllModel(Group aGroup)
-   {
-      AeAll all = new AeAll();
-      all.setMinOccurs( aGroup.getMinOccurs() );
-      all.setMaxOccurs( aGroup.getMaxOccurs() );
-      return all;
-   }
+    /**
+     * Populates the complex element with the attributes and mixed properties.
+     *
+     * @param aeElement
+     * @param aComplexType
+     */
+    protected static void populateComplexElement(AeComplexElement aeElement, ComplexType aComplexType) {
+        if (!aComplexType.isAbstract())
+            aeElement.setAttributes(createAttributes(aComplexType));
+        aeElement.setMixed(aComplexType.getContentType().getType() == ContentType.MIXED);
 
-   /**
-    * Create a model for the Schema any element wildcard (any).
-    *
-    * @param aWildcard
-    * @return AeAny
-    */
-   public static AeAny createAnyModel(Wildcard aWildcard)
-   {
-      AeAny any = new AeAny();
-      any.setMinOccurs( aWildcard.getMinOccurs() );
-      any.setMaxOccurs( aWildcard.getMaxOccurs() );
-      any.setName( new QName(getWildcardNamespace(aWildcard), WILDCARD_ELEMENT_NAME) );
-      return any;
-   }
-
-   /**
-    * Returns a list of AeAttributes and AeAnyAttributes defined by the given complex type.
-    * @param aComplexType
-    * @return List
-    */
-   private static List<AeBaseAttribute> createAttributes(ComplexType aComplexType)
-   {
-      List<AeBaseAttribute> attribs = new ArrayList<>();
-      Enumeration enumer = aComplexType.getAttributeDecls();
-      while ( enumer.hasMoreElements() )
-      {
-         AttributeDecl attr = (AttributeDecl) enumer.nextElement();
-         // Do not create prohibited attributes.
-         if ( ! attr.isProhibited() )
-         {
-            AeAttribute attrib = createAttributeModel(attr);
-            QName dataType = attrib.getDataType();
-            // Skip attributes of build-in types ID and IDREF.
-            if ( ! dataType.equals(AeTypeMapping.XSD_ID) &&
-                 ! dataType.equals(AeTypeMapping.XSD_IDREF) )
-            {
-               attribs.add( createAttributeModel(attr) );
+        if (aComplexType.isSimpleContent()) {
+            SimpleContent simpleContent = (SimpleContent) aComplexType.getContentType();
+            if (simpleContent.getType() == ContentType.SIMPLE) {
+                aeElement.setSimpleContentType(true);
+                XMLType type = simpleContent.getSimpleType();
+                aeElement.setDataType(new QName(type.getSchema().getSchemaNamespace(), type.getName()));
             }
-         }
-      }
+        }
 
-      Wildcard attrAny = aComplexType.getAnyAttribute();
-      if ( attrAny != null )
-         attribs.add( createAnyAttributeModel(attrAny) );
+    }
 
-      return attribs;
-   }
+    /**
+     * Create a model for the given Schema attribute declaration.
+     *
+     * @param aAttrDecl
+     * @return AeAttribute
+     */
+    public static AeAttribute createAttributeModel(AttributeDecl aAttrDecl) {
+        AeAttribute aeAttr = new AeAttribute();
 
-   /**
-    * Create a model for the Schema anyAttribute wildcard.
-    *
-    * @param aWildcard
-    * @return AeAnyAttribute
-    */
-   private static AeAnyAttribute createAnyAttributeModel(Wildcard aWildcard)
-   {
-      AeAnyAttribute anyAttrib = new AeAnyAttribute();
-      anyAttrib.setMinOccurs( aWildcard.getMinOccurs() );
-      anyAttrib.setMaxOccurs( aWildcard.getMaxOccurs() );
-      anyAttrib.setNamespace( getWildcardNamespace(aWildcard) );
-      return anyAttrib;
-   }
+        // Set the type.
 
-   /**
-    * Helper method to set the ae element model details that are common to both complexType and
-    * simpleType elements.
-    *
-    * @param aAeElement
-    * @param aElementDecl
-    */
-   private static void buildElementBase(AeBaseElement aAeElement, ElementDecl aElementDecl)
-   {
-      handleElementName(aAeElement, aElementDecl);
-      aAeElement.setMinOccurs( aElementDecl.getMinOccurs() );
-      aAeElement.setMaxOccurs( aElementDecl.getMaxOccurs() );
-      aAeElement.setNillable( aElementDecl.isNillable() );
-   }
+        SimpleType type;
+        if (aAttrDecl.getReference() != null)
+            type = aAttrDecl.getReference().getSimpleType();
+        else
+            type = aAttrDecl.getSimpleType();
 
-   /**
-    * Helper method to get the QName for the given castor element decl.
-    *
-    * @param aAeElement The element to set the element name and isQualified flag.
-    * @param aElementDecl the Element decl source.
-    */
-   private static void handleElementName(AeBaseElement aAeElement, ElementDecl aElementDecl)
-   {
-      String namespace = AeSchemaUtil.getNamespaceURI(aElementDecl);
-      aAeElement.setName(new QName(namespace, aElementDecl.getName()));
-   }
+        SimpleType baseType;
+        if (type instanceof Union) {
+            Union union = (Union) type;
+            baseType = (SimpleType) union.getMemberTypes().nextElement();
+        } else if (type == null) {
+            // If the type is null, then the type is xsd:anySimpleType
+            baseType = aAttrDecl.getSchema().getSimpleType("anySimpleType", XMLConstants.W3C_XML_SCHEMA_NS_URI); //$NON-NLS-1$
+        } else {
+            baseType = type.getBuiltInBaseType();
+        }
 
-   /**
-    * Helper method to return a valid replacement namespace for the given wildcard
-    * (any or anyAttribute).
-    *
-    * @param aWildcard
-    * @return String namespace URI.
-    */
-   private static String getWildcardNamespace(Wildcard aWildcard)
-   {
-      //todo work in progress, punting for now on wildcards.
-      String namespace = null;
-      if ( aWildcard.getNamespaces().hasMoreElements() )
-      {
-         // For now just look at the first namespace if more than one.
-         String nsURI = (String)aWildcard.getNamespaces().nextElement();
-         if ( AeUtil.notNullOrEmpty(nsURI) )
-         {
-            if ( ! nsURI.startsWith("##") )                                        //$NON-NLS-1$
-            {
-               namespace = nsURI;
+        aeAttr.setDataType(new QName(baseType.getSchema().getSchemaNamespace(), baseType.getName()));
+
+        String namespace = AeSchemaUtil.getNamespaceURI(aAttrDecl);
+
+        aeAttr.setName(new QName(namespace, aAttrDecl.getName()));
+
+        aeAttr.setRequired(aAttrDecl.isRequired());
+        aeAttr.setOptional(aAttrDecl.isOptional());
+        aeAttr.setDefaultValue(aAttrDecl.getDefaultValue());
+        aeAttr.setFixedValue(aAttrDecl.getFixedValue());
+
+        // process enumerations.
+        List<String> enumerations = new ArrayList<>();
+        if (type != null) {
+            SimpleType simpleType = type;
+            Enumeration enumer = simpleType.getLocalFacets();
+            if (enumer != null) {
+                while (enumer.hasMoreElements()) {
+                    Facet facet = (Facet) enumer.nextElement();
+                    if (facet.getName().equals(Facet.ENUMERATION))
+                        enumerations.add(facet.getValue());
+                }
             }
-            else if ( nsURI.equals("##any") )                                     //$NON-NLS-1$
-            {
-               namespace = aWildcard.getSchema().getTargetNamespace();
-            }
-            else if ( nsURI.equals("##targetNamespace" ))                         //$NON-NLS-1$
-            {
+        }
+        aeAttr.setEnumRestrictions(enumerations);
 
+        return aeAttr;
+    }
+
+    /**
+     * Create a model for the given Schema Group model.
+     *
+     * @param aGroup
+     * @return AeGroup
+     */
+    public static AeGroup createGroupModel(Group aGroup) {
+        return new AeGroup();
+    }
+
+    /**
+     * Create a model for the Schema sequence model group.
+     *
+     * @param aGroup
+     * @return AeSequence
+     */
+    public static AeSequence createSequenceModel(Group aGroup) {
+        AeSequence sequence = new AeSequence();
+        sequence.setMinOccurs(aGroup.getMinOccurs());
+        sequence.setMaxOccurs(aGroup.getMaxOccurs());
+        return sequence;
+    }
+
+    /**
+     * Create a model for the Schema choice model group.
+     *
+     * @param aGroup
+     * @return AeChoice
+     */
+    public static AeChoice creatChoiceModel(Group aGroup) {
+        AeChoice choice = new AeChoice();
+        choice.setMinOccurs(aGroup.getMinOccurs());
+        choice.setMaxOccurs(aGroup.getMaxOccurs());
+        return choice;
+    }
+
+    /**
+     * Create a model for the Schema all model group.
+     *
+     * @param aGroup
+     * @return AeAll
+     */
+    public static AeAll createAllModel(Group aGroup) {
+        AeAll all = new AeAll();
+        all.setMinOccurs(aGroup.getMinOccurs());
+        all.setMaxOccurs(aGroup.getMaxOccurs());
+        return all;
+    }
+
+    /**
+     * Create a model for the Schema any element wildcard (any).
+     *
+     * @param aWildcard
+     * @return AeAny
+     */
+    public static AeAny createAnyModel(Wildcard aWildcard) {
+        AeAny any = new AeAny();
+        any.setMinOccurs(aWildcard.getMinOccurs());
+        any.setMaxOccurs(aWildcard.getMaxOccurs());
+        any.setName(new QName(getWildcardNamespace(aWildcard), WILDCARD_ELEMENT_NAME));
+        return any;
+    }
+
+    /**
+     * Returns a list of AeAttributes and AeAnyAttributes defined by the given complex type.
+     *
+     * @param aComplexType
+     * @return List
+     */
+    private static List<AeBaseAttribute> createAttributes(ComplexType aComplexType) {
+        List<AeBaseAttribute> attribs = new ArrayList<>();
+        Enumeration enumer = aComplexType.getAttributeDecls();
+        while (enumer.hasMoreElements()) {
+            AttributeDecl attr = (AttributeDecl) enumer.nextElement();
+            // Do not create prohibited attributes.
+            if (!attr.isProhibited()) {
+                AeAttribute attrib = createAttributeModel(attr);
+                QName dataType = attrib.getDataType();
+                // Skip attributes of build-in types ID and IDREF.
+                if (!dataType.equals(AeTypeMapping.XSD_ID) &&
+                        !dataType.equals(AeTypeMapping.XSD_IDREF)) {
+                    attribs.add(createAttributeModel(attr));
+                }
             }
-            else if ( nsURI.equals("##other") ) //$NON-NLS-1$
-            {
-               namespace = aWildcard.getSchema().getTargetNamespace() + "_other"; //$NON-NLS-1$
+        }
+
+        Wildcard attrAny = aComplexType.getAnyAttribute();
+        if (attrAny != null)
+            attribs.add(createAnyAttributeModel(attrAny));
+
+        return attribs;
+    }
+
+    /**
+     * Create a model for the Schema anyAttribute wildcard.
+     *
+     * @param aWildcard
+     * @return AeAnyAttribute
+     */
+    private static AeAnyAttribute createAnyAttributeModel(Wildcard aWildcard) {
+        AeAnyAttribute anyAttrib = new AeAnyAttribute();
+        anyAttrib.setMinOccurs(aWildcard.getMinOccurs());
+        anyAttrib.setMaxOccurs(aWildcard.getMaxOccurs());
+        anyAttrib.setNamespace(getWildcardNamespace(aWildcard));
+        return anyAttrib;
+    }
+
+    /**
+     * Helper method to set the ae element model details that are common to both complexType and
+     * simpleType elements.
+     *
+     * @param aAeElement
+     * @param aElementDecl
+     */
+    private static void buildElementBase(AeBaseElement aAeElement, ElementDecl aElementDecl) {
+        handleElementName(aAeElement, aElementDecl);
+        aAeElement.setMinOccurs(aElementDecl.getMinOccurs());
+        aAeElement.setMaxOccurs(aElementDecl.getMaxOccurs());
+        aAeElement.setNillable(aElementDecl.isNillable());
+    }
+
+    /**
+     * Helper method to get the QName for the given castor element decl.
+     *
+     * @param aAeElement   The element to set the element name and isQualified flag.
+     * @param aElementDecl the Element decl source.
+     */
+    private static void handleElementName(AeBaseElement aAeElement, ElementDecl aElementDecl) {
+        String namespace = AeSchemaUtil.getNamespaceURI(aElementDecl);
+        aAeElement.setName(new QName(namespace, aElementDecl.getName()));
+    }
+
+    /**
+     * Helper method to return a valid replacement namespace for the given wildcard
+     * (any or anyAttribute).
+     *
+     * @param aWildcard
+     * @return String namespace URI.
+     */
+    private static String getWildcardNamespace(Wildcard aWildcard) {
+        //todo work in progress, punting for now on wildcards.
+        String namespace = null;
+        if (aWildcard.getNamespaces().hasMoreElements()) {
+            // For now just look at the first namespace if more than one.
+            String nsURI = (String) aWildcard.getNamespaces().nextElement();
+            if (AeUtil.notNullOrEmpty(nsURI)) {
+                if (!nsURI.startsWith("##"))                                        //$NON-NLS-1$
+                {
+                    namespace = nsURI;
+                } else if (nsURI.equals("##any"))                                     //$NON-NLS-1$
+                {
+                    namespace = aWildcard.getSchema().getTargetNamespace();
+                } else if (nsURI.equals("##targetNamespace"))                         //$NON-NLS-1$
+                {
+
+                } else if (nsURI.equals("##other")) //$NON-NLS-1$
+                {
+                    namespace = aWildcard.getSchema().getTargetNamespace() + "_other"; //$NON-NLS-1$
+                } else if (nsURI.equals("##local"))                                  //$NON-NLS-1$
+                {
+                    namespace = null;  // unqualified elements may appear.
+                }
             }
-            else if ( nsURI.equals("##local") )                                  //$NON-NLS-1$
-            {
-               namespace = null;  // unqualified elements may appear.
-            }
-         }
-      }
-      return namespace;
-   }
+        }
+        return namespace;
+    }
 }
 

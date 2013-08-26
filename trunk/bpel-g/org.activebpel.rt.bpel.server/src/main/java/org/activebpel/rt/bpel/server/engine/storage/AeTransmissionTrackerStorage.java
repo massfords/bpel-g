@@ -16,64 +16,56 @@ import org.activebpel.rt.bpel.server.engine.storage.providers.IAeTransmissionTra
 import org.activebpel.rt.bpel.server.transreceive.AeTransmissionTrackerEntry;
 
 /**
- * A delegating implementation of a transmission/receive storage. 
+ * A delegating implementation of a transmission/receive storage.
  */
-public class AeTransmissionTrackerStorage extends AeAbstractStorage implements IAeTransmissionTrackerStorage
-{
-   /**
-    * Convenience method to get the storage provider cast to a TransmissionTracker storage provider.
-    */
-   protected IAeTransmissionTrackerStorageProvider getTransmissionTrackerStorageProvider()
-   {
-      return (IAeTransmissionTrackerStorageProvider) getProvider();
-   }   
-  
-   /**
-    * @see org.activebpel.rt.bpel.server.engine.storage.IAeTransmissionTrackerStorage#getNextTransmissionId()
-    */
-   public long getNextTransmissionId() throws AeStorageException
-   {
-      return  getTransmissionTrackerStorageProvider().getNextTransmissionId();
-   }
-   
-   /**
-    * @see org.activebpel.rt.bpel.server.engine.storage.IAeTransmissionTrackerStorage#add(org.activebpel.rt.bpel.server.transreceive.AeTransmissionTrackerEntry)
-    */
-   public void add(AeTransmissionTrackerEntry aEntry) throws AeStorageException
-   {   
-      getTransmissionTrackerStorageProvider().add(aEntry);
-   }
+public class AeTransmissionTrackerStorage extends AeAbstractStorage implements IAeTransmissionTrackerStorage {
+    /**
+     * Convenience method to get the storage provider cast to a TransmissionTracker storage provider.
+     */
+    protected IAeTransmissionTrackerStorageProvider getTransmissionTrackerStorageProvider() {
+        return (IAeTransmissionTrackerStorageProvider) getProvider();
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.server.engine.storage.IAeTransmissionTrackerStorage#get(long)
-    */
-   public AeTransmissionTrackerEntry get(long aTransmissionId) throws AeStorageException
-   {
-      return getTransmissionTrackerStorageProvider().get(aTransmissionId);
-   }
+    /**
+     * @see org.activebpel.rt.bpel.server.engine.storage.IAeTransmissionTrackerStorage#getNextTransmissionId()
+     */
+    public long getNextTransmissionId() throws AeStorageException {
+        return getTransmissionTrackerStorageProvider().getNextTransmissionId();
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.server.engine.storage.IAeTransmissionTrackerStorage#update(org.activebpel.rt.bpel.server.transreceive.AeTransmissionTrackerEntry)
-    */
-   public void update(AeTransmissionTrackerEntry aEntry) throws AeStorageException
-   {     
-      getTransmissionTrackerStorageProvider().update(aEntry);
-   }
-   
-   /**
-    * @see org.activebpel.rt.bpel.server.engine.storage.IAeTransmissionTrackerStorage#remove(long)
-    */
-   public void remove(long aTransmissionId) throws AeStorageException
-   {
-      remove(Collections.singleton(aTransmissionId));
-   }
-   
-   /**
-    * @see org.activebpel.rt.bpel.server.engine.storage.IAeTransmissionTrackerStorage#remove(org.activebpel.rt.util.AeLongSet)
-    */
-   public void remove(Set<Long> aTransmissionIds) throws AeStorageException
-   {
-      getTransmissionTrackerStorageProvider().remove(aTransmissionIds);
-   }
+    /**
+     * @see org.activebpel.rt.bpel.server.engine.storage.IAeTransmissionTrackerStorage#add(org.activebpel.rt.bpel.server.transreceive.AeTransmissionTrackerEntry)
+     */
+    public void add(AeTransmissionTrackerEntry aEntry) throws AeStorageException {
+        getTransmissionTrackerStorageProvider().add(aEntry);
+    }
+
+    /**
+     * @see org.activebpel.rt.bpel.server.engine.storage.IAeTransmissionTrackerStorage#get(long)
+     */
+    public AeTransmissionTrackerEntry get(long aTransmissionId) throws AeStorageException {
+        return getTransmissionTrackerStorageProvider().get(aTransmissionId);
+    }
+
+    /**
+     * @see org.activebpel.rt.bpel.server.engine.storage.IAeTransmissionTrackerStorage#update(org.activebpel.rt.bpel.server.transreceive.AeTransmissionTrackerEntry)
+     */
+    public void update(AeTransmissionTrackerEntry aEntry) throws AeStorageException {
+        getTransmissionTrackerStorageProvider().update(aEntry);
+    }
+
+    /**
+     * @see org.activebpel.rt.bpel.server.engine.storage.IAeTransmissionTrackerStorage#remove(long)
+     */
+    public void remove(long aTransmissionId) throws AeStorageException {
+        remove(Collections.singleton(aTransmissionId));
+    }
+
+    /**
+     * @see org.activebpel.rt.bpel.server.engine.storage.IAeTransmissionTrackerStorage#remove(org.activebpel.rt.util.AeLongSet)
+     */
+    public void remove(Set<Long> aTransmissionIds) throws AeStorageException {
+        getTransmissionTrackerStorageProvider().remove(aTransmissionIds);
+    }
 
 }

@@ -23,44 +23,44 @@ import javax.inject.Inject;
  */
 public class AeProcessHandlerFactory implements IAeInvokeHandlerFactory {
     @Inject
-	private IAeCoordinationManager mCoordinationManager;
+    private IAeCoordinationManager mCoordinationManager;
 
-	/**
-	 * @see org.activebpel.rt.bpel.server.engine.IAeInvokeHandlerFactory#createInvokeHandler(org.activebpel.wsio.invoke.IAeInvoke)
-	 */
-	public IAeInvokeHandler createInvokeHandler(IAeInvoke aInvoke)
-			throws AeBusinessProcessException {
-		IAeInvokeHandler rHandler = null;
-		String invokerType = AeInvokeHandlerUri.getInvokerString(aInvoke
-				.getInvokeHandler());
-		// create new handler objects based on the invoke type.
-		// process/subprocess handlers are stateful (not re-entrant), hence new
-		// instances are created.
-		if ("subprocess".equals(invokerType)) //$NON-NLS-1$
-		{
-			AeSubprocessInvokeHandler sub = new AeSubprocessInvokeHandler();
-			sub.setCoordinationManager(getCoordinationManager());
-			rHandler = sub;
-		} else {
-			rHandler = new AeProcessInvokeHandler();
-		}
-		return rHandler;
-	}
+    /**
+     * @see org.activebpel.rt.bpel.server.engine.IAeInvokeHandlerFactory#createInvokeHandler(org.activebpel.wsio.invoke.IAeInvoke)
+     */
+    public IAeInvokeHandler createInvokeHandler(IAeInvoke aInvoke)
+            throws AeBusinessProcessException {
+        IAeInvokeHandler rHandler = null;
+        String invokerType = AeInvokeHandlerUri.getInvokerString(aInvoke
+                .getInvokeHandler());
+        // create new handler objects based on the invoke type.
+        // process/subprocess handlers are stateful (not re-entrant), hence new
+        // instances are created.
+        if ("subprocess".equals(invokerType)) //$NON-NLS-1$
+        {
+            AeSubprocessInvokeHandler sub = new AeSubprocessInvokeHandler();
+            sub.setCoordinationManager(getCoordinationManager());
+            rHandler = sub;
+        } else {
+            rHandler = new AeProcessInvokeHandler();
+        }
+        return rHandler;
+    }
 
-	/**
-	 * @see org.activebpel.rt.bpel.server.engine.IAeInvokeHandlerFactory#getQueryData(org.activebpel.wsio.invoke.IAeInvoke)
-	 */
-	public String getQueryData(IAeInvoke aInvoke) {
-		return AeInvokeHandlerUri.getQueryString(aInvoke.getInvokeHandler());
-	}
+    /**
+     * @see org.activebpel.rt.bpel.server.engine.IAeInvokeHandlerFactory#getQueryData(org.activebpel.wsio.invoke.IAeInvoke)
+     */
+    public String getQueryData(IAeInvoke aInvoke) {
+        return AeInvokeHandlerUri.getQueryString(aInvoke.getInvokeHandler());
+    }
 
-	public IAeCoordinationManager getCoordinationManager() {
-		return mCoordinationManager;
-	}
+    public IAeCoordinationManager getCoordinationManager() {
+        return mCoordinationManager;
+    }
 
-	public void setCoordinationManager(
-			IAeCoordinationManager aCoordinationManager) {
-		mCoordinationManager = aCoordinationManager;
-	}
+    public void setCoordinationManager(
+            IAeCoordinationManager aCoordinationManager) {
+        mCoordinationManager = aCoordinationManager;
+    }
 
 }

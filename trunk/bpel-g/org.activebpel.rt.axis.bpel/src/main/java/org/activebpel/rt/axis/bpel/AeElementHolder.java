@@ -16,37 +16,38 @@ import org.w3c.dom.Element;
 /**
  * A wrapper for an element so Axis won't think we're trying to serialize a primitive type.
  */
-public class AeElementHolder
-{
-   /** The xsi:type value for the element we're holding. */
-   private final QName mType;
-   
-   /** element we're holding */
-   private final Element mElement;
-   
-   /**
-    * Constructor
-    * @param aElement
-    */
-   public AeElementHolder(QName aType, Element aElement)
-   {
-      mType = aType;
-      mElement = aElement;
-   }
-   
-   /**
-    * Getter for the element.
-    */
-   public Element getElement()
-   {
-      return mElement;
-   }
-   
-   /**
-    * Getter for the type that we're holding.
-    */
-   public QName getType()
-   {
-      return mType;
-   }
+public class AeElementHolder {
+    /**
+     * The xsi:type value for the element we're holding.
+     */
+    private final QName mType;
+
+    /**
+     * element we're holding
+     */
+    private final Element mElement;
+
+    /**
+     * Constructor
+     *
+     * @param aElement
+     */
+    public AeElementHolder(QName aType, Element aElement) {
+        mType = aType;
+        mElement = aElement;
+    }
+
+    /**
+     * Getter for the element.
+     */
+    public Element getElement() {
+        return mElement;
+    }
+
+    /**
+     * Getter for the type that we're holding.
+     */
+    public QName getType() {
+        return mType;
+    }
 }

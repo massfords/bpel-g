@@ -21,51 +21,49 @@ import java.util.Iterator;
 /**
  * Base class for implementation objects that are parents for a single activity.
  */
-abstract public class AeActivityParent extends AeAbstractBpelObject implements IAeActivityParent
-{
-   /** Child activity */
-   protected IAeActivity mChild;
+abstract public class AeActivityParent extends AeAbstractBpelObject implements IAeActivityParent {
+    /**
+     * Child activity
+     */
+    protected IAeActivity mChild;
 
-   /**
-    * Takes the base def and parent object.
-    * @param aDef
-    * @param aParent
-    */
-   public AeActivityParent(AeBaseDef aDef, IAeBpelObject aParent)
-   {
-      super(aDef, aParent);
-   }
+    /**
+     * Takes the base def and parent object.
+     *
+     * @param aDef
+     * @param aParent
+     */
+    public AeActivityParent(AeBaseDef aDef, IAeBpelObject aParent) {
+        super(aDef, aParent);
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.impl.IAeActivityParent#addActivity(org.activebpel.rt.bpel.IAeActivity)
-    */
-   public void addActivity(IAeActivity aActivity)
-   {
-      setActivity(aActivity);
-   }
-   
-   /**
-    * @see org.activebpel.rt.bpel.impl.IAeBpelObject#getChildrenForStateChange()
-    */
-   public Iterator<? extends IAeBpelObject> getChildrenForStateChange()
-   {
-      return Collections.<IAeBpelObject>singleton(getActivity()).iterator();
-   }
+    /**
+     * @see org.activebpel.rt.bpel.impl.IAeActivityParent#addActivity(org.activebpel.rt.bpel.IAeActivity)
+     */
+    public void addActivity(IAeActivity aActivity) {
+        setActivity(aActivity);
+    }
 
-   /**
-    * Getter for the activity.
-    */
-   public IAeActivity getActivity()
-   {
-      return mChild;
-   }
+    /**
+     * @see org.activebpel.rt.bpel.impl.IAeBpelObject#getChildrenForStateChange()
+     */
+    public Iterator<? extends IAeBpelObject> getChildrenForStateChange() {
+        return Collections.<IAeBpelObject>singleton(getActivity()).iterator();
+    }
 
-   /**
-    * Setter for the activity
-    * @param aActivity
-    */
-   protected void setActivity(IAeActivity aActivity)
-   {
-      mChild = aActivity;
-   }
+    /**
+     * Getter for the activity.
+     */
+    public IAeActivity getActivity() {
+        return mChild;
+    }
+
+    /**
+     * Setter for the activity
+     *
+     * @param aActivity
+     */
+    protected void setActivity(IAeActivity aActivity) {
+        mChild = aActivity;
+    }
 }

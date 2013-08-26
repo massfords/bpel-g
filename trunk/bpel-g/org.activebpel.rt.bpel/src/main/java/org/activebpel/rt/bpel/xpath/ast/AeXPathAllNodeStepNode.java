@@ -14,21 +14,18 @@ package org.activebpel.rt.bpel.xpath.ast;
 /**
  * An XPath node for the all node step.
  */
-public class AeXPathAllNodeStepNode extends AeAbstractXPathAxisNode
-{
-   /**
-    * Default c'tor.
-    */
-   public AeXPathAllNodeStepNode(int aAxis)
-   {
-      super(AeAbstractXPathNode.NODE_TYPE_ALL_NODE_STEP, aAxis);
-   }
-   
-   /**
-    * @see org.activebpel.rt.bpel.xpath.ast.AeAbstractXPathNode#accept(org.activebpel.rt.bpel.xpath.ast.IAeXPathNodeVisitor)
-    */
-   public void accept(IAeXPathNodeVisitor aVisitor)
-   {
-      aVisitor.visit(this);
-   }
+public class AeXPathAllNodeStepNode extends AeAbstractXPathAxisNode {
+    /**
+     * Default c'tor.
+     */
+    public AeXPathAllNodeStepNode(int aAxis) {
+        super(AeAbstractXPathNode.NODE_TYPE_ALL_NODE_STEP, aAxis);
+    }
+
+    /**
+     * @see org.activebpel.rt.bpel.xpath.ast.AeAbstractXPathNode#accept(org.activebpel.rt.bpel.xpath.ast.IAeXPathNodeVisitor)
+     */
+    public void accept(IAeXPathNodeVisitor aVisitor) {
+        aVisitor.visit(this);
+    }
 }

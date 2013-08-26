@@ -16,20 +16,19 @@ import org.activebpel.rt.bpel.server.engine.storage.AeStorageException;
  * The base interface for all storage delegates.  This interface will be extended by the more
  * concrete storage delegates, such as Queue, Process, etc.
  */
-public interface IAeStorageProvider
-{
-   /**
-    * Gets an auto-commit DB connection.
-    */
-   public IAeStorageConnection getDBConnection() throws AeStorageException;
+public interface IAeStorageProvider {
+    /**
+     * Gets an auto-commit DB connection.
+     */
+    public IAeStorageConnection getDBConnection() throws AeStorageException;
 
-   /**
-    * Gets a commit control DB connection.
-    */
-   public IAeStorageConnection getCommitControlDBConnection() throws AeStorageException;
+    /**
+     * Gets a commit control DB connection.
+     */
+    public IAeStorageConnection getCommitControlDBConnection() throws AeStorageException;
 
-   /**
-    * Gets a transaction DB connection.
-    */
-   public IAeStorageConnection getTxCommitControlDBConnection() throws AeStorageException;
+    /**
+     * Gets a transaction DB connection.
+     */
+    public IAeStorageConnection getTxCommitControlDBConnection() throws AeStorageException;
 }

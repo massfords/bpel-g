@@ -19,28 +19,24 @@ import org.apache.commons.dbutils.ResultSetHandler;
 /**
  * Creates a <code>AeTransmissionTrackerEntry</code> from the SQL result set.
  */
-public class AeTransmissionTrackerResultSetHandler implements ResultSetHandler<AeTransmissionTrackerEntry>
-{
-   /**
-    * 
-    * Overrides method to create and return a AeTransmissionTrackerEntry object.
-    * @see org.apache.commons.dbutils.ResultSetHandler#handle(java.sql.ResultSet)
-    */
-   public AeTransmissionTrackerEntry handle(ResultSet aResultSet) throws SQLException
-   {
-      AeTransmissionTrackerEntry rval = null;
-      if (aResultSet.next())
-      {         
-         int state = aResultSet.getInt(IAeTransmissionTrackerColumns.STATE);
-         long transmissionId = aResultSet.getLong(IAeTransmissionTrackerColumns.TRANSMISSION_ID);
-         String messageId = aResultSet.getString(IAeTransmissionTrackerColumns.MESSAGE_ID);   
-         if (aResultSet.wasNull())
-         {
-            messageId = null;
-         }
-         rval = new AeTransmissionTrackerEntry(transmissionId, state, messageId);
-      }
-      return rval;   
-   }
+public class AeTransmissionTrackerResultSetHandler implements ResultSetHandler<AeTransmissionTrackerEntry> {
+    /**
+     * Overrides method to create and return a AeTransmissionTrackerEntry object.
+     *
+     * @see org.apache.commons.dbutils.ResultSetHandler#handle(java.sql.ResultSet)
+     */
+    public AeTransmissionTrackerEntry handle(ResultSet aResultSet) throws SQLException {
+        AeTransmissionTrackerEntry rval = null;
+        if (aResultSet.next()) {
+            int state = aResultSet.getInt(IAeTransmissionTrackerColumns.STATE);
+            long transmissionId = aResultSet.getLong(IAeTransmissionTrackerColumns.TRANSMISSION_ID);
+            String messageId = aResultSet.getString(IAeTransmissionTrackerColumns.MESSAGE_ID);
+            if (aResultSet.wasNull()) {
+                messageId = null;
+            }
+            rval = new AeTransmissionTrackerEntry(transmissionId, state, messageId);
+        }
+        return rval;
+    }
 
 }

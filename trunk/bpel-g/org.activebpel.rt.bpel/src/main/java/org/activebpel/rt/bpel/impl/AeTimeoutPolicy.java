@@ -18,36 +18,35 @@ import org.w3c.dom.Element;
 /**
  * Helper class to handle timeout policy interactions.
  */
-public class AeTimeoutPolicy
-{
-   /** The Tag which identifies a Timeout assertion */
-   public static final String TAG_ASSERT_TIMEOUT = "Timeout"; //$NON-NLS-1$
-   public static final String TAG_TIMEOUT_LENGTH = "seconds"; //$NON-NLS-1$   
+public class AeTimeoutPolicy {
+    /**
+     * The Tag which identifies a Timeout assertion
+     */
+    public static final String TAG_ASSERT_TIMEOUT = "Timeout"; //$NON-NLS-1$
+    public static final String TAG_TIMEOUT_LENGTH = "seconds"; //$NON-NLS-1$
 
-   /** The qualified name for the timeout policy */
-   public static final QName TIMEOUT_ID = new QName(IAeConstants.ABP_NAMESPACE_URI, TAG_ASSERT_TIMEOUT);
+    /**
+     * The qualified name for the timeout policy
+     */
+    public static final QName TIMEOUT_ID = new QName(IAeConstants.ABP_NAMESPACE_URI, TAG_ASSERT_TIMEOUT);
 
-   /**
-    * Private constructor
-    */
-   private AeTimeoutPolicy()
-   {
-   }
-   
-   /**
-    * Returns the timeout configured by the policy. 
-    * @param aTimeoutPolicy the policy element
-    */
-   public static int getTimeoutValue(Element aTimeoutPolicy)
-   {
-      try
-      {
-         return Integer.parseInt(aTimeoutPolicy.getAttribute(TAG_TIMEOUT_LENGTH).trim());
-      }
-      catch (NumberFormatException nfe)
-      {
-         AeException.logError(nfe);
-         return 0;
-      }
-   }
+    /**
+     * Private constructor
+     */
+    private AeTimeoutPolicy() {
+    }
+
+    /**
+     * Returns the timeout configured by the policy.
+     *
+     * @param aTimeoutPolicy the policy element
+     */
+    public static int getTimeoutValue(Element aTimeoutPolicy) {
+        try {
+            return Integer.parseInt(aTimeoutPolicy.getAttribute(TAG_TIMEOUT_LENGTH).trim());
+        } catch (NumberFormatException nfe) {
+            AeException.logError(nfe);
+            return 0;
+        }
+    }
 }

@@ -14,15 +14,15 @@ import java.util.Map;
 import org.activebpel.rt.AeException;
 
 /**
- * Factory that creates a reply receiver given its properties. 
+ * Factory that creates a reply receiver given its properties.
  */
-public interface IAeReplyReceiverFactory
-{
+public interface IAeReplyReceiverFactory {
 
-   /**
-    * Creates a reply receiver given its properties. This method is assumed to be thread safe.
-    * @param aProperties
-    * @throws AeException
-    */
-   public IAeReplyReceiver createReplyReceiver(Map aProperties) throws AeException;
+    /**
+     * Creates a reply receiver given its properties. This method is assumed to be thread safe.
+     *
+     * @param aProperties
+     * @throws AeException
+     */
+    public IAeReplyReceiver createReplyReceiver(Map aProperties) throws AeException;
 }

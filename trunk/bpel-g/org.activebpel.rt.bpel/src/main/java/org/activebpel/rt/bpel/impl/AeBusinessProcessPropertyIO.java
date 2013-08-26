@@ -21,39 +21,36 @@ import org.w3c.dom.Element;
  * <code>AeFastElement</code> and deserializing from the element back to the
  * object.
  */
-public class AeBusinessProcessPropertyIO implements IAeImplStateNames
-{
-   
-   //----------[ serialization methods ]----------------------------------------
-   
-   /**
-    * Serialize to <code>AeFastElement</code>.
-    * 
-    * @param aName
-    * @param aValue
-    */
-   public static AeFastElement getBusinessProcessPropertyElement( String aName, String aValue )
-   {
-      AeFastElement propertyElement = new AeFastElement( STATE_PROCESSPROPERTY );
-      propertyElement.setAttribute( STATE_NAME, aName );
-      AeFastText valueNode = new AeFastText( aValue );
-      propertyElement.appendChild( valueNode );
-      return propertyElement;
-   }
-   
-   //----------[ deserialization methods ]--------------------------------------
+public class AeBusinessProcessPropertyIO implements IAeImplStateNames {
 
-   /**
-    * Deserialize the element to it's name/value pair and add it to the 
-    * given <code>Map</code> arg.
-    * 
-    * @param aElement
-    * @param aMap
-    */
-   public static void extractBusinessProcessProperty( Element aElement, Map<String, String> aMap )
-   {
-      String name = aElement.getAttribute( STATE_NAME );
-      String value = AeXmlUtil.getText( aElement );
-      aMap.put( name, value );
-   }
+    //----------[ serialization methods ]----------------------------------------
+
+    /**
+     * Serialize to <code>AeFastElement</code>.
+     *
+     * @param aName
+     * @param aValue
+     */
+    public static AeFastElement getBusinessProcessPropertyElement(String aName, String aValue) {
+        AeFastElement propertyElement = new AeFastElement(STATE_PROCESSPROPERTY);
+        propertyElement.setAttribute(STATE_NAME, aName);
+        AeFastText valueNode = new AeFastText(aValue);
+        propertyElement.appendChild(valueNode);
+        return propertyElement;
+    }
+
+    //----------[ deserialization methods ]--------------------------------------
+
+    /**
+     * Deserialize the element to it's name/value pair and add it to the
+     * given <code>Map</code> arg.
+     *
+     * @param aElement
+     * @param aMap
+     */
+    public static void extractBusinessProcessProperty(Element aElement, Map<String, String> aMap) {
+        String name = aElement.getAttribute(STATE_NAME);
+        String value = AeXmlUtil.getText(aElement);
+        aMap.put(name, value);
+    }
 }

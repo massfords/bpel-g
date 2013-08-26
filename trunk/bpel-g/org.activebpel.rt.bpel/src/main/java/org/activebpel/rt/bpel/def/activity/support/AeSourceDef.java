@@ -15,83 +15,76 @@ import org.activebpel.rt.bpel.def.visitors.IAeDefVisitor;
 /**
  * Definition base for all named definition elements
  */
-public class AeSourceDef extends AeBaseDef
-{
-   /**
-     * 
+public class AeSourceDef extends AeBaseDef {
+    /**
+     *
      */
     private static final long serialVersionUID = -8022126210044815845L;
-/** The 'linkName' attribute. */
-   private String mLinkName;
-   /** The 'transitionCondition' child construct. */
-   private AeTransitionConditionDef mTransitionConditionDef;
+    /**
+     * The 'linkName' attribute.
+     */
+    private String mLinkName;
+    /**
+     * The 'transitionCondition' child construct.
+     */
+    private AeTransitionConditionDef mTransitionConditionDef;
 
-   /**
-    * Default constructor
-    */
-   public AeSourceDef()
-   {
-      super();
-   }
+    /**
+     * Default constructor
+     */
+    public AeSourceDef() {
+        super();
+    }
 
-   /**
-    * Accessor method to obtain link name of this object.
-    * 
-    * @return name of link
-    */
-   public String getLinkName()
-   {
-      return mLinkName;
-   }
+    /**
+     * Accessor method to obtain link name of this object.
+     *
+     * @return name of link
+     */
+    public String getLinkName() {
+        return mLinkName;
+    }
 
-   /**
-    * Mutator method to set the link name of this object.
-    * 
-    * @param aLinkName name of the link
-    */
-   public void setLinkName(String aLinkName)
-   {
-      mLinkName = aLinkName;
-   }
-   
-   /**
-    * Accessor method to obtain transitionCondition property of this object.
-    * 
-    * @return transitionCondition expression
-    */
-   public String getTransitionCondition()
-   {
-      if (getTransitionConditionDef() != null)
-      {
-         return getTransitionConditionDef().getExpression();
-      }
-      else
-      {
-         return null;
-      }
-   }
+    /**
+     * Mutator method to set the link name of this object.
+     *
+     * @param aLinkName name of the link
+     */
+    public void setLinkName(String aLinkName) {
+        mLinkName = aLinkName;
+    }
 
-   /**
-    * @return Returns the transitionConditionDef.
-    */
-   public AeTransitionConditionDef getTransitionConditionDef()
-   {
-      return mTransitionConditionDef;
-   }
+    /**
+     * Accessor method to obtain transitionCondition property of this object.
+     *
+     * @return transitionCondition expression
+     */
+    public String getTransitionCondition() {
+        if (getTransitionConditionDef() != null) {
+            return getTransitionConditionDef().getExpression();
+        } else {
+            return null;
+        }
+    }
 
-   /**
-    * @param aTransitionConditionDef The transitionConditionDef to set.
-    */
-   public void setTransitionConditionDef(AeTransitionConditionDef aTransitionConditionDef)
-   {
-      mTransitionConditionDef = aTransitionConditionDef;
-   }
-   
-   /**
-    * @see org.activebpel.rt.bpel.def.AeBaseDef#accept(org.activebpel.rt.bpel.def.visitors.IAeDefVisitor)
-    */
-   public void accept(IAeDefVisitor aVisitor)
-   {
-      aVisitor.visit(this);
-   }
+    /**
+     * @return Returns the transitionConditionDef.
+     */
+    public AeTransitionConditionDef getTransitionConditionDef() {
+        return mTransitionConditionDef;
+    }
+
+    /**
+     * @param aTransitionConditionDef The transitionConditionDef to set.
+     */
+    public void setTransitionConditionDef(AeTransitionConditionDef aTransitionConditionDef) {
+        mTransitionConditionDef = aTransitionConditionDef;
+    }
+
+    /**
+     * @see org.activebpel.rt.bpel.def.AeBaseDef#accept(org.activebpel.rt.bpel.def.visitors.IAeDefVisitor)
+     */
+    public void accept(IAeDefVisitor aVisitor) {
+        aVisitor.visit(this);
+    }
 }

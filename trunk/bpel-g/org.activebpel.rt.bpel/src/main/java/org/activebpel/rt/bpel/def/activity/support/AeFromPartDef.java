@@ -16,62 +16,59 @@ import org.activebpel.rt.bpel.def.visitors.IAeDefVisitor;
 /**
  * Models the invoke|receive|onMessage|onEvent 'fromPart' bpel construct introduced in WS-BPEL 2.0.
  */
-public class AeFromPartDef extends AeBaseDef
-{
-   /**
-     * 
+public class AeFromPartDef extends AeBaseDef {
+    /**
+     *
      */
     private static final long serialVersionUID = 7343413653852978003L;
-/** The 'part' attribute. */
-   private String mPart;
-   /** The 'toVariable' attribute. */
-   private String mToVariable;
+    /**
+     * The 'part' attribute.
+     */
+    private String mPart;
+    /**
+     * The 'toVariable' attribute.
+     */
+    private String mToVariable;
 
-   /**
-    * Default c'tor.
-    */
-   public AeFromPartDef()
-   {
-      super();
-   }
+    /**
+     * Default c'tor.
+     */
+    public AeFromPartDef() {
+        super();
+    }
 
-   /**
-    * @return Returns the part.
-    */
-   public String getPart()
-   {
-      return mPart;
-   }
+    /**
+     * @return Returns the part.
+     */
+    public String getPart() {
+        return mPart;
+    }
 
-   /**
-    * @param aPart The part to set.
-    */
-   public void setPart(String aPart)
-   {
-      mPart = aPart;
-   }
+    /**
+     * @param aPart The part to set.
+     */
+    public void setPart(String aPart) {
+        mPart = aPart;
+    }
 
-   /**
-    * @return Returns the toVariable.
-    */
-   public String getToVariable()
-   {
-      return mToVariable;
-   }
+    /**
+     * @return Returns the toVariable.
+     */
+    public String getToVariable() {
+        return mToVariable;
+    }
 
-   /**
-    * @param aToVariable The toVariable to set.
-    */
-   public void setToVariable(String aToVariable)
-   {
-      mToVariable = aToVariable;
-   }
-   
-   /**
-    * @see org.activebpel.rt.bpel.def.AeBaseDef#accept(org.activebpel.rt.bpel.def.visitors.IAeDefVisitor)
-    */
-   public void accept(IAeDefVisitor aVisitor)
-   {
-      aVisitor.visit(this);
-   }
+    /**
+     * @param aToVariable The toVariable to set.
+     */
+    public void setToVariable(String aToVariable) {
+        mToVariable = aToVariable;
+    }
+
+    /**
+     * @see org.activebpel.rt.bpel.def.AeBaseDef#accept(org.activebpel.rt.bpel.def.visitors.IAeDefVisitor)
+     */
+    public void accept(IAeDefVisitor aVisitor) {
+        aVisitor.visit(this);
+    }
 }

@@ -7,15 +7,14 @@
 //Active Endpoints, Inc. Removal of this PROPRIETARY RIGHTS STATEMENT 
 //is strictly forbidden. Copyright (c) 2002-2006 All rights reserved. 
 /////////////////////////////////////////////////////////////////////////////
-package org.activebpel.rt.bpel.def; 
+package org.activebpel.rt.bpel.def;
 
 /**
  * Tagging interface for defs that model a fault, compensation, or termination
  * handler. This interface is used for locating the enclosing scope of an
  * activity that is embedded within an FCT handler.
  */
-public interface IAeFCTHandlerDef
-{
+public interface IAeFCTHandlerDef {
 
 }
  

@@ -15,62 +15,59 @@ import org.activebpel.rt.bpel.def.visitors.IAeDefVisitor;
 /**
  * Models the 'extension' bpel construct introduced in WS-BPEL 2.0.
  */
-public class AeExtensionDef extends AeBaseDef
-{
-   /**
-     * 
+public class AeExtensionDef extends AeBaseDef {
+    /**
+     *
      */
     private static final long serialVersionUID = -484092730421253235L;
-/** The extension's 'namespace' attribute. */
-   private String mNamespace;
-   /** The extension's 'mustUnderstand' attribute. */
-   private boolean mMustUnderstand;
-   
-   /**
-    * Default c'tor.
-    */
-   public AeExtensionDef()
-   {
-      super();
-   }
+    /**
+     * The extension's 'namespace' attribute.
+     */
+    private String mNamespace;
+    /**
+     * The extension's 'mustUnderstand' attribute.
+     */
+    private boolean mMustUnderstand;
 
-   /**
-    * @return Returns the mustUnderstand.
-    */
-   public boolean isMustUnderstand()
-   {
-      return mMustUnderstand;
-   }
+    /**
+     * Default c'tor.
+     */
+    public AeExtensionDef() {
+        super();
+    }
 
-   /**
-    * @param aMustUnderstand The mustUnderstand to set.
-    */
-   public void setMustUnderstand(boolean aMustUnderstand)
-   {
-      mMustUnderstand = aMustUnderstand;
-   }
+    /**
+     * @return Returns the mustUnderstand.
+     */
+    public boolean isMustUnderstand() {
+        return mMustUnderstand;
+    }
 
-   /**
-    * @return Returns the namespace.
-    */
-   public String getNamespace()
-   {
-      return mNamespace;
-   }
+    /**
+     * @param aMustUnderstand The mustUnderstand to set.
+     */
+    public void setMustUnderstand(boolean aMustUnderstand) {
+        mMustUnderstand = aMustUnderstand;
+    }
 
-   /**
-    * @param aNamespace The namespace to set.
-    */
-   public void setNamespace(String aNamespace)
-   {
-      mNamespace = aNamespace;
-   }
+    /**
+     * @return Returns the namespace.
+     */
+    public String getNamespace() {
+        return mNamespace;
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.def.AeBaseDef#accept(org.activebpel.rt.bpel.def.visitors.IAeDefVisitor)
-    */
-   public void accept(IAeDefVisitor aVisitor)
-   {
-      aVisitor.visit(this);
-   }
+    /**
+     * @param aNamespace The namespace to set.
+     */
+    public void setNamespace(String aNamespace) {
+        mNamespace = aNamespace;
+    }
+
+    /**
+     * @see org.activebpel.rt.bpel.def.AeBaseDef#accept(org.activebpel.rt.bpel.def.visitors.IAeDefVisitor)
+     */
+    public void accept(IAeDefVisitor aVisitor) {
+        aVisitor.visit(this);
+    }
 }

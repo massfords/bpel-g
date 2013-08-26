@@ -7,7 +7,7 @@
 //Active Endpoints, Inc. Removal of this PROPRIETARY RIGHTS STATEMENT 
 //is strictly forbidden. Copyright (c) 2002-2007 All rights reserved. 
 /////////////////////////////////////////////////////////////////////////////
-package org.activebpel.rt.bpel.impl.function; 
+package org.activebpel.rt.bpel.impl.function;
 
 import org.activebpel.rt.bpel.function.AeFunctionCallException;
 import org.activebpel.rt.bpel.function.IAeFunctionExecutionContext;
@@ -25,37 +25,35 @@ import java.util.List;
  * <li>charSet optional named charset. When omitted, the default charset used is UTF-8</li>
  * </ul>
  */
-public class AeBase64EncodeFunction extends AeAbstractBpelFunction
-{
-   /** Default character set encoding */
-   public final static String DEFAULT_CHAR_SET = "UTF-8"; //$NON-NLS-1$
-   /** The name of the function implemented */
-   public static final String FUNCTION_NAME = "base64Encode"; //$NON-NLS-1$
+public class AeBase64EncodeFunction extends AeAbstractBpelFunction {
+    /**
+     * Default character set encoding
+     */
+    public final static String DEFAULT_CHAR_SET = "UTF-8"; //$NON-NLS-1$
+    /**
+     * The name of the function implemented
+     */
+    public static final String FUNCTION_NAME = "base64Encode"; //$NON-NLS-1$
 
-   /**
-    * Constructor
-    */
-   public AeBase64EncodeFunction()
-   {
-      super(FUNCTION_NAME);
-   }
-  
-   /**
-    * @see org.activebpel.rt.bpel.function.IAeFunction#call(org.activebpel.rt.bpel.function.IAeFunctionExecutionContext, java.util.List)
-    */
-   public Object call(IAeFunctionExecutionContext aContext, List aArgs) throws AeFunctionCallException
-   {
-      if(aArgs.size() < 1 || aArgs.size() > 2)
-         throwFunctionException(INVALID_PARAMS, FUNCTION_NAME);
-     
-      try
-      {
-          byte[] bytes = getStringArg(aArgs, 0).getBytes(aArgs.size() == 2 ? getStringArg(aArgs, 1) : DEFAULT_CHAR_SET);
-          return Base64.encodeBase64String(bytes);
-      }
-      catch (UnsupportedEncodingException ex)
-      {
-        throw new AeFunctionCallException(ex);
-      }
-   }
+    /**
+     * Constructor
+     */
+    public AeBase64EncodeFunction() {
+        super(FUNCTION_NAME);
+    }
+
+    /**
+     * @see org.activebpel.rt.bpel.function.IAeFunction#call(org.activebpel.rt.bpel.function.IAeFunctionExecutionContext, java.util.List)
+     */
+    public Object call(IAeFunctionExecutionContext aContext, List aArgs) throws AeFunctionCallException {
+        if (aArgs.size() < 1 || aArgs.size() > 2)
+            throwFunctionException(INVALID_PARAMS, FUNCTION_NAME);
+
+        try {
+            byte[] bytes = getStringArg(aArgs, 0).getBytes(aArgs.size() == 2 ? getStringArg(aArgs, 1) : DEFAULT_CHAR_SET);
+            return Base64.encodeBase64String(bytes);
+        } catch (UnsupportedEncodingException ex) {
+            throw new AeFunctionCallException(ex);
+        }
+    }
 }

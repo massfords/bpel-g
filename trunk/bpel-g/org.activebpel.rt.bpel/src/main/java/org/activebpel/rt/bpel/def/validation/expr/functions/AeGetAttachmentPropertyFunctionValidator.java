@@ -17,34 +17,29 @@ import org.activebpel.rt.expr.validation.IAeExpressionValidationContext;
 /**
  * Validates the ActiveBPEL extension function getAttachmentProperty(variableName, itemNumber, propertyName)
  */
-public class AeGetAttachmentPropertyFunctionValidator extends AeAbstractActiveBpelExtensionFunctionValidator
-{
+public class AeGetAttachmentPropertyFunctionValidator extends AeAbstractActiveBpelExtensionFunctionValidator {
 
-   /**
-    * @see org.activebpel.rt.expr.validation.functions.IAeFunctionValidator#validate(org.activebpel.rt.expr.def.AeScriptFuncDef,
-    *      org.activebpel.rt.expr.validation.AeExpressionValidationResult,
-    *      org.activebpel.rt.expr.validation.IAeExpressionValidationContext)
-    */
-   public void validate(AeScriptFuncDef aScriptFunction, AeExpressionValidationResult aResult, IAeExpressionValidationContext aContext)
-   {
-      super.validate(aScriptFunction, aResult, aContext);
-      
-      int numArgs = aScriptFunction.getArgs().size();
-      if ( numArgs != 3 )
-      {
-         addError(aResult, AeMessages.getString("AeAbstractActiveBpelExtensionFunctionValidator.ERROR_INCORRECT_ARGS_NUMBER"), //$NON-NLS-1$
-               new Object[] { aScriptFunction.getName(), 3, numArgs, aResult.getParseResult().getExpression() });
-      }
-      else
-      {
-         if ( !(aScriptFunction.getArgument(0) instanceof String) )
-            addError(aResult, AeMessages.getString("AeAbstractActiveBpelExtensionFunctionValidator.ERROR_INCORRECT_ARG_TYPE"), //$NON-NLS-1$
-                  new Object[] { aScriptFunction.getName(), "1", "String", aResult.getParseResult().getExpression() });//$NON-NLS-1$//$NON-NLS-2$
+    /**
+     * @see org.activebpel.rt.expr.validation.functions.IAeFunctionValidator#validate(org.activebpel.rt.expr.def.AeScriptFuncDef,
+     *      org.activebpel.rt.expr.validation.AeExpressionValidationResult,
+     *      org.activebpel.rt.expr.validation.IAeExpressionValidationContext)
+     */
+    public void validate(AeScriptFuncDef aScriptFunction, AeExpressionValidationResult aResult, IAeExpressionValidationContext aContext) {
+        super.validate(aScriptFunction, aResult, aContext);
 
-         if ( !(aScriptFunction.getArgument(2) instanceof String) )
-            addError(aResult, AeMessages.getString("AeAbstractActiveBpelExtensionFunctionValidator.ERROR_INCORRECT_ARG_TYPE"), //$NON-NLS-1$
-                  new Object[] { aScriptFunction.getName(), "3", "String", aResult.getParseResult().getExpression() });//$NON-NLS-1$//$NON-NLS-2$
-      }
-   }
+        int numArgs = aScriptFunction.getArgs().size();
+        if (numArgs != 3) {
+            addError(aResult, AeMessages.getString("AeAbstractActiveBpelExtensionFunctionValidator.ERROR_INCORRECT_ARGS_NUMBER"), //$NON-NLS-1$
+                    new Object[]{aScriptFunction.getName(), 3, numArgs, aResult.getParseResult().getExpression()});
+        } else {
+            if (!(aScriptFunction.getArgument(0) instanceof String))
+                addError(aResult, AeMessages.getString("AeAbstractActiveBpelExtensionFunctionValidator.ERROR_INCORRECT_ARG_TYPE"), //$NON-NLS-1$
+                        new Object[]{aScriptFunction.getName(), "1", "String", aResult.getParseResult().getExpression()});//$NON-NLS-1$//$NON-NLS-2$
+
+            if (!(aScriptFunction.getArgument(2) instanceof String))
+                addError(aResult, AeMessages.getString("AeAbstractActiveBpelExtensionFunctionValidator.ERROR_INCORRECT_ARG_TYPE"), //$NON-NLS-1$
+                        new Object[]{aScriptFunction.getName(), "3", "String", aResult.getParseResult().getExpression()});//$NON-NLS-1$//$NON-NLS-2$
+        }
+    }
 
 }

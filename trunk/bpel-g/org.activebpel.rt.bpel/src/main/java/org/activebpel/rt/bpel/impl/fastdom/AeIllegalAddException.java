@@ -13,39 +13,35 @@ package org.activebpel.rt.bpel.impl.fastdom;
  * Implements the exception that reports violations when adding a node to the
  * fast, lightweight DOM.
  */
-public class AeIllegalAddException extends RuntimeException
-{
-   /**
-     * 
+public class AeIllegalAddException extends RuntimeException {
+    /**
+     *
      */
     private static final long serialVersionUID = 5061652256740874764L;
 
-/**
-    * Default constructor.
-    */
-   public AeIllegalAddException()
-   {
-      super();
-   }
+    /**
+     * Default constructor.
+     */
+    public AeIllegalAddException() {
+        super();
+    }
 
-   /**
-    * Constructs an exception with the specified message.
-    *
-    * @param aMessage
-    */
-   public AeIllegalAddException(String aMessage)
-   {
-      super(aMessage);
-   }
+    /**
+     * Constructs an exception with the specified message.
+     *
+     * @param aMessage
+     */
+    public AeIllegalAddException(String aMessage) {
+        super(aMessage);
+    }
 
-   /**
-    * Constructs an exception with the specified message and root cause.
-    *
-    * @param aMessage
-    * @param aCause
-    */
-   public AeIllegalAddException(String aMessage, Throwable aCause)
-   {
-      super(aMessage, aCause);
-   }
+    /**
+     * Constructs an exception with the specified message and root cause.
+     *
+     * @param aMessage
+     * @param aCause
+     */
+    public AeIllegalAddException(String aMessage, Throwable aCause) {
+        super(aMessage, aCause);
+    }
 }

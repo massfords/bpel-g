@@ -7,19 +7,18 @@
 //Active Endpoints, Inc. Removal of this PROPRIETARY RIGHTS STATEMENT 
 //is strictly forbidden. Copyright (c) 2002-2006 All rights reserved. 
 /////////////////////////////////////////////////////////////////////////////
-package org.activebpel.rt.bpel.impl; 
+package org.activebpel.rt.bpel.impl;
 
 import org.activebpel.rt.bpel.IAeFault;
 
 /**
- * Fault factory for BPEL4WS 1.1 
+ * Fault factory for BPEL4WS 1.1
  */
-public interface IAeBPWSFaultFactory extends IAeFaultFactory
-{
-   /**
-    * Special fault thrown when a scope in 1.1 terminates. This was replaced with 
-    * terminationHandlers in 2.0
-    */
-   public IAeFault getForcedTermination();
+public interface IAeBPWSFaultFactory extends IAeFaultFactory {
+    /**
+     * Special fault thrown when a scope in 1.1 terminates. This was replaced with
+     * terminationHandlers in 2.0
+     */
+    public IAeFault getForcedTermination();
 }
  

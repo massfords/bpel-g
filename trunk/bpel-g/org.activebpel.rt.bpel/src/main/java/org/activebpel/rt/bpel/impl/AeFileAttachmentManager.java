@@ -25,215 +25,198 @@ import org.activebpel.rt.bpel.impl.attachment.IAeAttachmentStorage;
 /**
  * This class implements a file-based attachment manager.
  */
-public class AeFileAttachmentManager extends AeAbstractAttachmentManager implements IAeProcessPurgedListener
-{
-   /** The file-based storage object. */
-   private AeFileAttachmentStorage mFileStorage;
+public class AeFileAttachmentManager extends AeAbstractAttachmentManager implements IAeProcessPurgedListener {
+    /**
+     * The file-based storage object.
+     */
+    private AeFileAttachmentStorage mFileStorage;
 
-   /** The set of process ids that are waiting to be purged. */
-   private Set<Long> mDeferredPurges;
+    /**
+     * The set of process ids that are waiting to be purged.
+     */
+    private Set<Long> mDeferredPurges;
 
-   /** Maps process ids to the number of pending responses for each process. */
-   private AeCounterMap mPendingResponses;
+    /**
+     * Maps process ids to the number of pending responses for each process.
+     */
+    private AeCounterMap mPendingResponses;
 
-   /**
-    * Returns the file-based storage object.
-    */
-   protected AeFileAttachmentStorage getFileStorage()
-   {
-      if (mFileStorage == null)
-      {
-         mFileStorage = new AeFileAttachmentStorage();
-      }
+    /**
+     * Returns the file-based storage object.
+     */
+    protected AeFileAttachmentStorage getFileStorage() {
+        if (mFileStorage == null) {
+            mFileStorage = new AeFileAttachmentStorage();
+        }
 
-      return mFileStorage;
-   }
+        return mFileStorage;
+    }
 
-   /**
-    * Returns the set of process ids that are waiting to be purged.
-    */
-   protected Set<Long> getDeferredPurges()
-   {
-      if (mDeferredPurges == null)
-      {
-         mDeferredPurges = Collections.synchronizedSet(new HashSet<Long>());
-      }
+    /**
+     * Returns the set of process ids that are waiting to be purged.
+     */
+    protected Set<Long> getDeferredPurges() {
+        if (mDeferredPurges == null) {
+            mDeferredPurges = Collections.synchronizedSet(new HashSet<Long>());
+        }
 
-      return mDeferredPurges;
-   }
+        return mDeferredPurges;
+    }
 
-   /**
-    * Returns the map of process ids to the number of responses pending for each
-    * process.
-    */
-   protected AeCounterMap getPendingResponses()
-   {
-      if (mPendingResponses == null)
-      {
-         mPendingResponses = new AeCounterMap();
-      }
+    /**
+     * Returns the map of process ids to the number of responses pending for each
+     * process.
+     */
+    protected AeCounterMap getPendingResponses() {
+        if (mPendingResponses == null) {
+            mPendingResponses = new AeCounterMap();
+        }
 
-      return mPendingResponses;
-   }
+        return mPendingResponses;
+    }
 
-   /**
-    * Overrides method to return file-based storage implementation.
-    * 
-    * @see org.activebpel.rt.bpel.impl.AeAbstractAttachmentManager#getStorage()
-    */
-   protected IAeAttachmentStorage getStorage() throws AeBusinessProcessException
-   {
-      return getFileStorage();
-   }
+    /**
+     * Overrides method to return file-based storage implementation.
+     *
+     * @see org.activebpel.rt.bpel.impl.AeAbstractAttachmentManager#getStorage()
+     */
+    protected IAeAttachmentStorage getStorage() throws AeBusinessProcessException {
+        return getFileStorage();
+    }
 
-   /**
-    * Overrides method to add this attachment manager as a process purged
-    * listener.
-    * 
-    * @see org.activebpel.rt.bpel.impl.AeAbstractAttachmentManager#prepareToStart()
-    */
-   public void prepareToStart() throws Exception
-   {
-      super.prepareToStart();
+    /**
+     * Overrides method to add this attachment manager as a process purged
+     * listener.
+     *
+     * @see org.activebpel.rt.bpel.impl.AeAbstractAttachmentManager#prepareToStart()
+     */
+    public void prepareToStart() throws Exception {
+        super.prepareToStart();
 
-      getEngine().getProcessManager().addProcessPurgedListener(this);
-   }
+        getEngine().getProcessManager().addProcessPurgedListener(this);
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.impl.IAeProcessPurgedListener#processPurged(long)
-    */
-   public void processPurged(long aProcessId)
-   {
-      // If there are responses pending for this process, then defer process
-      // purging.
-      if (getPendingResponses().getCount(aProcessId) > 0)
-      {
-         getDeferredPurges().add(aProcessId);
-      }
-      // Otherwise, purge the process now.
-      else
-      {
-         removeProcess(aProcessId);
-      }
-   }
+    /**
+     * @see org.activebpel.rt.bpel.impl.IAeProcessPurgedListener#processPurged(long)
+     */
+    public void processPurged(long aProcessId) {
+        // If there are responses pending for this process, then defer process
+        // purging.
+        if (getPendingResponses().getCount(aProcessId) > 0) {
+            getDeferredPurges().add(aProcessId);
+        }
+        // Otherwise, purge the process now.
+        else {
+            removeProcess(aProcessId);
+        }
+    }
 
-   /**
-    * Removes the given process and its attachments from file storage.
-    *
-    * @param aProcessId
-    */
-   protected void removeProcess(long aProcessId)
-   {
-      getFileStorage().removeProcess(aProcessId);
-   }
+    /**
+     * Removes the given process and its attachments from file storage.
+     *
+     * @param aProcessId
+     */
+    protected void removeProcess(long aProcessId) {
+        getFileStorage().removeProcess(aProcessId);
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.impl.IAeAttachmentManager#responsePending(long)
-    */
-   public void responsePending(long aProcessId)
-   {
-      if (aProcessId == IAeBusinessProcess.NULL_PROCESS_ID)
-      {
-         AeException.logError(new IllegalStateException(AeMessages.getString("AeFileAttachmentManager.ERROR_InvalidProcessId"))); //$NON-NLS-1$
-      }
-      else
-      {
-         // This method gets called to prevent the attachment manager from
-         // purging a process before the engine can deserialize the process's
-         // attachments.
-         getPendingResponses().increment(aProcessId);
-      }
-   }
+    /**
+     * @see org.activebpel.rt.bpel.impl.IAeAttachmentManager#responsePending(long)
+     */
+    public void responsePending(long aProcessId) {
+        if (aProcessId == IAeBusinessProcess.NULL_PROCESS_ID) {
+            AeException.logError(new IllegalStateException(AeMessages.getString("AeFileAttachmentManager.ERROR_InvalidProcessId"))); //$NON-NLS-1$
+        } else {
+            // This method gets called to prevent the attachment manager from
+            // purging a process before the engine can deserialize the process's
+            // attachments.
+            getPendingResponses().increment(aProcessId);
+        }
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.impl.IAeAttachmentManager#responseFilled(long)
-    */
-   public void responseFilled(long aProcessId)
-   {
-      // If there are no more pending responses for the given process, and the
-      // process purge was defered, then remove the process from storage now.
-      int count = getPendingResponses().decrement(aProcessId);
-      if ((count == 0) && getDeferredPurges().remove(aProcessId))
-      {
-         removeProcess(aProcessId);
-      }
-   }
+    /**
+     * @see org.activebpel.rt.bpel.impl.IAeAttachmentManager#responseFilled(long)
+     */
+    public void responseFilled(long aProcessId) {
+        // If there are no more pending responses for the given process, and the
+        // process purge was defered, then remove the process from storage now.
+        int count = getPendingResponses().decrement(aProcessId);
+        if ((count == 0) && getDeferredPurges().remove(aProcessId)) {
+            removeProcess(aProcessId);
+        }
+    }
 
-   /**
-    * Implements a map of from <code>long</code> keys to positive
-    * <code>int</code> counter values.
-    */
-   protected static class AeCounterMap
-   {
-      /** The underlying map from <code>long</code> keys to counter objects. */
-      private final Map<Long,AeIntCounter> mLongMap = new HashMap<>();
+    /**
+     * Implements a map of from <code>long</code> keys to positive
+     * <code>int</code> counter values.
+     */
+    protected static class AeCounterMap {
+        /**
+         * The underlying map from <code>long</code> keys to counter objects.
+         */
+        private final Map<Long, AeIntCounter> mLongMap = new HashMap<>();
 
-      /**
-       * Decrements the count associated with the given key and returns the new
-       * count value. If the new count value is not positive, then removes the
-       * counter from the underlying map.
-       *
-       * @param aKey
-       * @return decremented count value
-       */
-      public synchronized int decrement(long aKey)
-      {
-         AeIntCounter counter = getLongMap().get(aKey);
-         int count = (counter == null) ? -1 : --counter.mCount;
+        /**
+         * Decrements the count associated with the given key and returns the new
+         * count value. If the new count value is not positive, then removes the
+         * counter from the underlying map.
+         *
+         * @param aKey
+         * @return decremented count value
+         */
+        public synchronized int decrement(long aKey) {
+            AeIntCounter counter = getLongMap().get(aKey);
+            int count = (counter == null) ? -1 : --counter.mCount;
 
-         if (count <= 0)
-         {
-            getLongMap().remove(aKey);
-         }
+            if (count <= 0) {
+                getLongMap().remove(aKey);
+            }
 
-         return count;
-      }
+            return count;
+        }
 
-      /**
-       * Returns the count currently associated with the given key.
-       * 
-       * @param aKey
-       * @return current count value
-       */
-      public synchronized int getCount(long aKey)
-      {
-         AeIntCounter counter = getLongMap().get(aKey);
-         return (counter == null) ? 0 : counter.mCount;
-      }
+        /**
+         * Returns the count currently associated with the given key.
+         *
+         * @param aKey
+         * @return current count value
+         */
+        public synchronized int getCount(long aKey) {
+            AeIntCounter counter = getLongMap().get(aKey);
+            return (counter == null) ? 0 : counter.mCount;
+        }
 
-      /**
-       * Returns the underlying map from <code>long</code> keys to counters.
-       */
-      protected Map<Long,AeIntCounter> getLongMap()
-      {
-         return mLongMap;
-      }
+        /**
+         * Returns the underlying map from <code>long</code> keys to counters.
+         */
+        protected Map<Long, AeIntCounter> getLongMap() {
+            return mLongMap;
+        }
 
-      /**
-       * Increments the count associated with the given key and returns the new
-       * count value.
-       *
-       * @param aKey
-       * @return incremented count value
-       */
-      public synchronized int increment(long aKey)
-      {
-         AeIntCounter counter = getLongMap().get(aKey);
-         if (counter == null)
-         {
-            counter = new AeIntCounter();
-            getLongMap().put(aKey, counter);
-         }
-         return ++counter.mCount;
-      }
+        /**
+         * Increments the count associated with the given key and returns the new
+         * count value.
+         *
+         * @param aKey
+         * @return incremented count value
+         */
+        public synchronized int increment(long aKey) {
+            AeIntCounter counter = getLongMap().get(aKey);
+            if (counter == null) {
+                counter = new AeIntCounter();
+                getLongMap().put(aKey, counter);
+            }
+            return ++counter.mCount;
+        }
 
-      /**
-       * Implements a simple counter that holds an <code>int</code> count field.
-       */
-      protected static class AeIntCounter
-      {
-         /** The current count for this counter. */
-         private int mCount;
-      }
-   }
+        /**
+         * Implements a simple counter that holds an <code>int</code> count field.
+         */
+        protected static class AeIntCounter {
+            /**
+             * The current count for this counter.
+             */
+            private int mCount;
+        }
+    }
 }

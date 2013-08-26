@@ -18,96 +18,91 @@ import org.activebpel.rt.wsdl.def.IAeBPELExtendedWSDLConst;
 /**
  * Definition of a ws-bpel 2.0 import.
  */
-public class AeImportDef extends AeBaseDef
-{
-   /**
-     * 
+public class AeImportDef extends AeBaseDef {
+    /**
+     *
      */
     private static final long serialVersionUID = 4454316846197375614L;
-/** The import's 'namespace' attribute. */
-   private String mNamespace;
-   /** The import's 'location' attribute. */
-   private String mLocation;
-   /** The import's 'importType' attribute. */
-   private String mImportType;
-   
-   /**
-    * Default c'tor.
-    */
-   public AeImportDef()
-   {
-      super();
-   }
+    /**
+     * The import's 'namespace' attribute.
+     */
+    private String mNamespace;
+    /**
+     * The import's 'location' attribute.
+     */
+    private String mLocation;
+    /**
+     * The import's 'importType' attribute.
+     */
+    private String mImportType;
 
-   /**
-    * @return Returns the importType.
-    */
-   public String getImportType()
-   {
-      return mImportType;
-   }
+    /**
+     * Default c'tor.
+     */
+    public AeImportDef() {
+        super();
+    }
 
-   /**
-    * @param aImportType The importType to set.
-    */
-   public void setImportType(String aImportType)
-   {
-      mImportType = aImportType;
-   }
+    /**
+     * @return Returns the importType.
+     */
+    public String getImportType() {
+        return mImportType;
+    }
 
-   /**
-    * @return Returns the location.
-    */
-   public String getLocation()
-   {
-      return mLocation;
-   }
+    /**
+     * @param aImportType The importType to set.
+     */
+    public void setImportType(String aImportType) {
+        mImportType = aImportType;
+    }
 
-   /**
-    * @param aLocation The location to set.
-    */
-   public void setLocation(String aLocation)
-   {
-      mLocation = aLocation;
-   }
+    /**
+     * @return Returns the location.
+     */
+    public String getLocation() {
+        return mLocation;
+    }
 
-   /**
-    * @return Returns the namespace.
-    */
-   public String getNamespace()
-   {
-      return mNamespace;
-   }
+    /**
+     * @param aLocation The location to set.
+     */
+    public void setLocation(String aLocation) {
+        mLocation = aLocation;
+    }
 
-   /**
-    * @param aNamespace The namespace to set.
-    */
-   public void setNamespace(String aNamespace)
-   {
-      mNamespace = aNamespace;
-   }
+    /**
+     * @return Returns the namespace.
+     */
+    public String getNamespace() {
+        return mNamespace;
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.def.AeBaseDef#accept(org.activebpel.rt.bpel.def.visitors.IAeDefVisitor)
-    */
-   public void accept(IAeDefVisitor aVisitor)
-   {
-      aVisitor.visit(this);
-   }
-   
-   /**
-    * Convenience method to check if the import is a wsdl import.
-    */
-   public boolean isWSDL()
-   {
-      return IAeBPELExtendedWSDLConst.WSDL_NAMESPACE.equals(getImportType());
-   }
-   
-   /**
-    * Convenience method to check if the import is a schema import.
-    */
-   public boolean isSchema()
-   {
-      return XMLConstants.W3C_XML_SCHEMA_NS_URI.equals(getImportType());
-   }
+    /**
+     * @param aNamespace The namespace to set.
+     */
+    public void setNamespace(String aNamespace) {
+        mNamespace = aNamespace;
+    }
+
+    /**
+     * @see org.activebpel.rt.bpel.def.AeBaseDef#accept(org.activebpel.rt.bpel.def.visitors.IAeDefVisitor)
+     */
+    public void accept(IAeDefVisitor aVisitor) {
+        aVisitor.visit(this);
+    }
+
+    /**
+     * Convenience method to check if the import is a wsdl import.
+     */
+    public boolean isWSDL() {
+        return IAeBPELExtendedWSDLConst.WSDL_NAMESPACE.equals(getImportType());
+    }
+
+    /**
+     * Convenience method to check if the import is a schema import.
+     */
+    public boolean isSchema() {
+        return XMLConstants.W3C_XML_SCHEMA_NS_URI.equals(getImportType());
+    }
 }

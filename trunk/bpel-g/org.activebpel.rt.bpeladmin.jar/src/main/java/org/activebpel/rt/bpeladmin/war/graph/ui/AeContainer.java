@@ -16,82 +16,78 @@ import java.awt.Point;
 
 /**
  * AeContainer UI widget acts as a container to hold AeComponent objects using
- * the composite pattern. This class is also responsible for delegating the 
+ * the composite pattern. This class is also responsible for delegating the
  * paint calls to its children.
  */
-public class AeContainer extends AeComponent
-{
-   /**
-     * 
+public class AeContainer extends AeComponent {
+    /**
+     *
      */
     private static final long serialVersionUID = -2007403598459452086L;
 
-/**
-    * Default constructor.
-    */
-   public AeContainer()
-   {
-      this(null);
-   }
-   
-   /**
-    * Constructs the container with the given name.
-    * @param aName container name.
-    */
-   public AeContainer(String aName)
-   {
-      super(aName);      
-   }
+    /**
+     * Default constructor.
+     */
+    public AeContainer() {
+        this(null);
+    }
 
-   /** 
-    * Overrides method to delegate paint calls to paintComponent(), paintBorder and paintChildren.
-    * It is not recomended that subclasses override this method.
-    * @see java.awt.Component#paint(java.awt.Graphics)
-    */
-   public void paint(Graphics g) 
-   {
-      if (!isVisible())
-      {
-         return;
-      }      
-      Point p = getLocation();
-      int x = p.x;
-      int y = p.y;
-      g.translate(x, y);
-      paintComponent(g);
-      paintBorder(g);
-      paintChildren(g);
-      g.translate(-x,-y);
-   }
+    /**
+     * Constructs the container with the given name.
+     *
+     * @param aName container name.
+     */
+    public AeContainer(String aName) {
+        super(aName);
+    }
 
-   /**
-    * Paints this component. Subclasses should over ride this method to render itself.
-    * @param g graphics context
-    */
-   public void paintComponent(Graphics g) 
-   {
-   } 
-   
-   /**
-    * Paints this component. Subclasses should over ride this method to render it's border.
-    * @param g graphics context
-    */   
-   public void paintBorder(Graphics g) 
-   {
-   } 
-   
-   /**
-    * Paints the children contained in this component.
-    * @param g graphics context
-    */   
-   
-   public void paintChildren(Graphics g) 
-   {
-      int n = getComponentCount();
-      for (int i = 0; i < n; i++)
-      {
-         Component c = getComponent(i);
-         c.paint(g);
-      }         
-   }      
+    /**
+     * Overrides method to delegate paint calls to paintComponent(), paintBorder and paintChildren.
+     * It is not recomended that subclasses override this method.
+     *
+     * @see java.awt.Component#paint(java.awt.Graphics)
+     */
+    public void paint(Graphics g) {
+        if (!isVisible()) {
+            return;
+        }
+        Point p = getLocation();
+        int x = p.x;
+        int y = p.y;
+        g.translate(x, y);
+        paintComponent(g);
+        paintBorder(g);
+        paintChildren(g);
+        g.translate(-x, -y);
+    }
+
+    /**
+     * Paints this component. Subclasses should over ride this method to render itself.
+     *
+     * @param g graphics context
+     */
+    public void paintComponent(Graphics g) {
+    }
+
+    /**
+     * Paints this component. Subclasses should over ride this method to render it's border.
+     *
+     * @param g graphics context
+     */
+    public void paintBorder(Graphics g) {
+    }
+
+    /**
+     * Paints the children contained in this component.
+     *
+     * @param g graphics context
+     */
+
+    public void paintChildren(Graphics g) {
+        int n = getComponentCount();
+        for (int i = 0; i < n; i++) {
+            Component c = getComponent(i);
+            c.paint(g);
+        }
+    }
 }

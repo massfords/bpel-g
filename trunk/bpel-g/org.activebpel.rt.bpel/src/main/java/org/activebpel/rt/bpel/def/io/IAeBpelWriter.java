@@ -17,15 +17,15 @@ import org.w3c.dom.Document;
 /**
  * Interface for working with BPEL serializers.
  */
-public interface IAeBpelWriter
-{
-   /**
-    * Serializes the <code>AeProcessDef</code> to it's xml
-    * representation.
-    * @param aProcessDef
-    * @return BPEL dom
-    * @throws AeBpelException
-    */
-   public Document writeBPEL(AeProcessDef aProcessDef, boolean aUsePrefixes)
-         throws AeBusinessProcessException;
+public interface IAeBpelWriter {
+    /**
+     * Serializes the <code>AeProcessDef</code> to it's xml
+     * representation.
+     *
+     * @param aProcessDef
+     * @return BPEL dom
+     * @throws AeBpelException
+     */
+    public Document writeBPEL(AeProcessDef aProcessDef, boolean aUsePrefixes)
+            throws AeBusinessProcessException;
 }

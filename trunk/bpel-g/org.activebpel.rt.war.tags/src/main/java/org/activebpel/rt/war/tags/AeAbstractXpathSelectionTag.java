@@ -18,58 +18,48 @@ import org.w3c.dom.Node;
 /**
  * Base class used by xpath selection query tags.
  */
-public abstract class AeAbstractXpathSelectionTag extends AeAbstractXpathTag
-{
-   /**
-     * 
+public abstract class AeAbstractXpathSelectionTag extends AeAbstractXpathTag {
+    /**
+     *
      */
     private static final long serialVersionUID = -519657779232252197L;
-/** Xpath selection path query. */
-   private String mQuery;
+    /**
+     * Xpath selection path query.
+     */
+    private String mQuery;
 
-   /**
-    * @return the query
-    */
-   public String getQuery()
-   {
-      return mQuery;
-   }
+    /**
+     * @return the query
+     */
+    public String getQuery() {
+        return mQuery;
+    }
 
-   /**
-    * @param aQuery the query to set
-    */
-   public void setQuery(String aQuery)
-   {
-      mQuery = aQuery;
-   }
+    /**
+     * @param aQuery the query to set
+     */
+    public void setQuery(String aQuery) {
+        mQuery = aQuery;
+    }
 
-   /**
-    * Returns the xpath context node or <code>null</code> if not available.
-    */
-   protected Node getContextNode() throws JspException
-   {
-      Object contextObject;
-      // if the propery name is given, then use the bean property as the context,
-      // otherwise, use the bean (i.e. self) as the context.
-      if (AeUtil.notNullOrEmpty( getProperty() ))
-      {
-         contextObject = getPropertyFromBean();
-      }
-      else
-      {
-         contextObject = getBean();
-      }
-      if (contextObject instanceof Node)
-      {
-         return (Node) contextObject;
-      }
-      else if (contextObject != null)
-      {
-         throw new JspException(AeMessages.format("AeAbstractXpathSelectionTag.INVALID_CONTEXT_NODE", contextObject.getClass().getName() ) ); //$NON-NLS-1$
-      }
-      else
-      {
-         throw new JspException(AeMessages.getString("AeAbstractXpathSelectionTag.NO_CONTEXT_NODE")); //$NON-NLS-1$
-      }
-   }
+    /**
+     * Returns the xpath context node or <code>null</code> if not available.
+     */
+    protected Node getContextNode() throws JspException {
+        Object contextObject;
+        // if the propery name is given, then use the bean property as the context,
+        // otherwise, use the bean (i.e. self) as the context.
+        if (AeUtil.notNullOrEmpty(getProperty())) {
+            contextObject = getPropertyFromBean();
+        } else {
+            contextObject = getBean();
+        }
+        if (contextObject instanceof Node) {
+            return (Node) contextObject;
+        } else if (contextObject != null) {
+            throw new JspException(AeMessages.format("AeAbstractXpathSelectionTag.INVALID_CONTEXT_NODE", contextObject.getClass().getName())); //$NON-NLS-1$
+        } else {
+            throw new JspException(AeMessages.getString("AeAbstractXpathSelectionTag.NO_CONTEXT_NODE")); //$NON-NLS-1$
+        }
+    }
 }

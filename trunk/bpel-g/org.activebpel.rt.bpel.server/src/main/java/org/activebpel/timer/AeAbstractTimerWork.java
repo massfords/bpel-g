@@ -19,20 +19,19 @@ import commonj.work.WorkManager;
 /**
  * This abstract class is an adapter used to facilitate scheduling work using the timer facility.
  */
-public abstract class AeAbstractTimerWork extends AeAbstractWork implements TimerListener 
-{
-   /**
-    * Called when the timer we scheduled has expired so that we may perform the appropriate work. 
-    * @see commonj.timers.TimerListener#timerExpired(commonj.timers.Timer)
-    */
-   public void timerExpired(Timer aTimer)
-   {
-     AeEngineFactory.getBean(WorkManager.class).schedule(this);
-   }
-   
-   /** 
-    * The actual timer work to be performed.  
-    * Note this work is executed via the engine's work manager.
-    */
-   abstract public void run();
+public abstract class AeAbstractTimerWork extends AeAbstractWork implements TimerListener {
+    /**
+     * Called when the timer we scheduled has expired so that we may perform the appropriate work.
+     *
+     * @see commonj.timers.TimerListener#timerExpired(commonj.timers.Timer)
+     */
+    public void timerExpired(Timer aTimer) {
+        AeEngineFactory.getBean(WorkManager.class).schedule(this);
+    }
+
+    /**
+     * The actual timer work to be performed.
+     * Note this work is executed via the engine's work manager.
+     */
+    abstract public void run();
 }

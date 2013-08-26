@@ -15,14 +15,13 @@ import org.activebpel.rt.message.IAeMessageData;
 /**
  * Defines interface for consuming incoming message data.
  */
-public interface IAeMessageDataConsumer
-{
-   /**
-    * Consumes the given incoming message data.
-    *
-    * @param aMessageData
-    * @param aContext
-    * @throws AeBusinessProcessException
-    */
-   public void consumeMessageData(IAeMessageData aMessageData, IAeMessageDataConsumerContext aContext) throws AeBusinessProcessException;
+public interface IAeMessageDataConsumer {
+    /**
+     * Consumes the given incoming message data.
+     *
+     * @param aMessageData
+     * @param aContext
+     * @throws AeBusinessProcessException
+     */
+    public void consumeMessageData(IAeMessageData aMessageData, IAeMessageDataConsumerContext aContext) throws AeBusinessProcessException;
 }

@@ -7,24 +7,23 @@
 //Active Endpoints, Inc. Removal of this PROPRIETARY RIGHTS STATEMENT 
 //is strictly forbidden. Copyright (c) 2002-2006 All rights reserved. 
 /////////////////////////////////////////////////////////////////////////////
-package org.activebpel.rt.bpel.def.visitors; 
+package org.activebpel.rt.bpel.def.visitors;
 
 import org.activebpel.rt.bpel.AeBusinessProcessException;
 import org.activebpel.rt.bpel.def.AeProcessDef;
 
 /**
- * visits each node and inlines the message parts info used for the wsio operation 
+ * visits each node and inlines the message parts info used for the wsio operation
  */
-public interface IAeDefMessagePartsMapVisitor
-{
-   /**
-    * Traverses the given process definition and assigns message parts maps to
-    * web service activities.
-    *
-    * @param aDef
-    * @param aThrowOnErrorsFlag
-    * @throws AeBusinessProcessException
-    */
-   public void assignMessagePartsMaps(AeProcessDef aDef, boolean aThrowOnErrorsFlag) throws AeBusinessProcessException;
+public interface IAeDefMessagePartsMapVisitor {
+    /**
+     * Traverses the given process definition and assigns message parts maps to
+     * web service activities.
+     *
+     * @param aDef
+     * @param aThrowOnErrorsFlag
+     * @throws AeBusinessProcessException
+     */
+    public void assignMessagePartsMaps(AeProcessDef aDef, boolean aThrowOnErrorsFlag) throws AeBusinessProcessException;
 }
  

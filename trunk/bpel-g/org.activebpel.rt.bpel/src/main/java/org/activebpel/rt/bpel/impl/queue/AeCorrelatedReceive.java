@@ -21,76 +21,74 @@ import org.activebpel.rt.bpel.def.AePartnerLinkOpKey;
  * Base class for correlated queue objects. No behavior here, just providing
  * the common fields and getters and setters.
  */
-public class AeCorrelatedReceive extends AeAbstractQueuedObject
-{
-   /** Correlation data of message queue entry */
-   protected Map<QName,String> mCorrelation;
-   /** Identifies the process QName that this queued object belongs to */
-   protected QName mProcessName;
-   
-   public AeCorrelatedReceive() {
-       
-   }
+public class AeCorrelatedReceive extends AeAbstractQueuedObject {
+    /**
+     * Correlation data of message queue entry
+     */
+    protected Map<QName, String> mCorrelation;
+    /**
+     * Identifies the process QName that this queued object belongs to
+     */
+    protected QName mProcessName;
 
-   /**
-    * Accepts the common data required for a correlated exchange.
-    *
-    * @param aPartnerLinkOpKey
-    * @param aProcessQName
-    * @param aCorrelation
-    */
-   @ConstructorProperties({"partnerLinkOperationKey", "processName", "correlation"})
-   public AeCorrelatedReceive(AePartnerLinkOpKey aPartnerLinkOpKey, QName aProcessQName, Map<QName,String> aCorrelation)
-   {
-      super(aPartnerLinkOpKey);
-      setCorrelation(aCorrelation);
-      setProcessName(aProcessQName);
-   }
+    public AeCorrelatedReceive() {
 
-   /**
-    * Setter for the process name
-    *
-    * @param aProcessName
-    */
-   public void setProcessName(QName aProcessName)
-   {
-      mProcessName = aProcessName;
-   }
+    }
 
-   /**
-    * Getter for the process name
-    */
-   public QName getProcessName()
-   {
-      return mProcessName;
-   }
+    /**
+     * Accepts the common data required for a correlated exchange.
+     *
+     * @param aPartnerLinkOpKey
+     * @param aProcessQName
+     * @param aCorrelation
+     */
+    @ConstructorProperties({"partnerLinkOperationKey", "processName", "correlation"})
+    public AeCorrelatedReceive(AePartnerLinkOpKey aPartnerLinkOpKey, QName aProcessQName, Map<QName, String> aCorrelation) {
+        super(aPartnerLinkOpKey);
+        setCorrelation(aCorrelation);
+        setProcessName(aProcessQName);
+    }
 
-   /**
-    * @return Map The correlation map for this entry.
-    */
-   public Map<QName,String> getCorrelation()
-   {
-      if (mCorrelation == null)
-         setCorrelation(new HashMap<QName,String>());
-      return mCorrelation;
-   }
+    /**
+     * Setter for the process name
+     *
+     * @param aProcessName
+     */
+    public void setProcessName(QName aProcessName) {
+        mProcessName = aProcessName;
+    }
 
-   /**
-    * Setter for the correlation map
-    * @param aMap
-    */
-   public void setCorrelation(Map<QName,String> aMap)
-   {
-      mCorrelation = aMap;
-   }
+    /**
+     * Getter for the process name
+     */
+    public QName getProcessName() {
+        return mProcessName;
+    }
 
-   /**
-    * A queue object that is correlated has its correlation data participate in
-    * the evaluation of equality. Queue objects that are not correlated will
-    * only perform the comparison against the plink, port type, and operation.
-    */
-   public boolean isCorrelated()
-   {
-      return mCorrelation != null && !getCorrelation().isEmpty();
-   }
+    /**
+     * @return Map The correlation map for this entry.
+     */
+    public Map<QName, String> getCorrelation() {
+        if (mCorrelation == null)
+            setCorrelation(new HashMap<QName, String>());
+        return mCorrelation;
+    }
+
+    /**
+     * Setter for the correlation map
+     *
+     * @param aMap
+     */
+    public void setCorrelation(Map<QName, String> aMap) {
+        mCorrelation = aMap;
+    }
+
+    /**
+     * A queue object that is correlated has its correlation data participate in
+     * the evaluation of equality. Queue objects that are not correlated will
+     * only perform the comparison against the plink, port type, and operation.
+     */
+    public boolean isCorrelated() {
+        return mCorrelation != null && !getCorrelation().isEmpty();
+    }
 }

@@ -7,16 +7,15 @@
 //Active Endpoints, Inc. Removal of this PROPRIETARY RIGHTS STATEMENT 
 //is strictly forbidden. Copyright (c) 2002-2007 All rights reserved. 
 /////////////////////////////////////////////////////////////////////////////
-package org.activebpel.rt.bpel.server.engine.recovery; 
+package org.activebpel.rt.bpel.server.engine.recovery;
 
 import org.activebpel.rt.bpel.impl.IAeCoordinationManagerInternal;
 
 /**
- * Interface for the recovery coordination manager. 
+ * Interface for the recovery coordination manager.
  */
 public interface IAeRecoveryCoordinationManager extends
-      IAeCoordinationManagerInternal, IAeRecoveryAwareManager
-{
+        IAeCoordinationManagerInternal, IAeRecoveryAwareManager {
 
 }
  

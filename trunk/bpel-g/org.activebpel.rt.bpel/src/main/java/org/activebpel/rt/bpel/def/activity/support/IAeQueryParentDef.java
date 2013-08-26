@@ -13,17 +13,16 @@ package org.activebpel.rt.bpel.def.activity.support;
 /**
  * All defs that can parent a <code>query</code> construct should implement this interface.
  */
-public interface IAeQueryParentDef
-{
-   /**
-    * Called to set the query def child on the parent.
-    * 
-    * @param aQueryDef
-    */
-   public void setQueryDef(AeQueryDef aQueryDef);
-   
-   /**
-    * Called to remove the query def from the parent.
-    */
-   public void removeQueryDef();
+public interface IAeQueryParentDef {
+    /**
+     * Called to set the query def child on the parent.
+     *
+     * @param aQueryDef
+     */
+    public void setQueryDef(AeQueryDef aQueryDef);
+
+    /**
+     * Called to remove the query def from the parent.
+     */
+    public void removeQueryDef();
 }

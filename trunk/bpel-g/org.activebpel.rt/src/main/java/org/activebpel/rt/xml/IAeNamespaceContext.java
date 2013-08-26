@@ -15,21 +15,20 @@ import java.util.Set;
  * This interface defines a standard expression namespace context.  This namespace context
  * is used by expression runners during expression execution.
  */
-public interface IAeNamespaceContext
-{
-   /**
-    * Resolves a namespace prefix into a namespace URI.  This method should return null if the namespace
-    * could not be found.
-    * 
-    * @param aPrefix The prefix to resolve.
-    */
-   public String resolvePrefixToNamespace(String aPrefix);
+public interface IAeNamespaceContext {
+    /**
+     * Resolves a namespace prefix into a namespace URI.  This method should return null if the namespace
+     * could not be found.
+     *
+     * @param aPrefix The prefix to resolve.
+     */
+    public String resolvePrefixToNamespace(String aPrefix);
 
-   /**
-    * Resolves a namespace to its list of prefixes (each namespace could be mapped to 0 or more prefix).
-    * 
-    * @param aNamespace
-    */
-   public Set<String> resolveNamespaceToPrefixes(String aNamespace);
+    /**
+     * Resolves a namespace to its list of prefixes (each namespace could be mapped to 0 or more prefix).
+     *
+     * @param aNamespace
+     */
+    public Set<String> resolveNamespaceToPrefixes(String aNamespace);
 
 }

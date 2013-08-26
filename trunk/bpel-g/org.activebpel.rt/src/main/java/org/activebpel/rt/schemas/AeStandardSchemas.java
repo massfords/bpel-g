@@ -26,92 +26,81 @@ import java.util.concurrent.ConcurrentHashMap;
  * targetNamespace of the schema.  Given a schema namespace, this class will give back an
  * InputStream to the content of the schema, or null if it is not a "well known" one.
  */
-public class AeStandardSchemas
-{
-   /** The static map of "well known" schemas (namespace -> resource name). */
-   static private final Map<String,String> sSchemaMap = new ConcurrentHashMap<>();
+public class AeStandardSchemas {
+    /**
+     * The static map of "well known" schemas (namespace -> resource name).
+     */
+    static private final Map<String, String> sSchemaMap = new ConcurrentHashMap<>();
 
-   /*
-    * Static initializer for loading the contents of the above schema map.
-    */
-   static 
-   {
-      URL schemasURL = AeStandardSchemas.class.getResource("standardSchemas.xml"); //$NON-NLS-1$
-      if (schemasURL != null)
-      {
-         try
-         {
-            AeXMLParserBase parser = new AeXMLParserBase();
-            parser.setValidating(false);
-            parser.setNamespaceAware(false);
-            Document schemasDoc = parser.loadDocument(schemasURL.openStream(), null);
-            NodeList nl = schemasDoc.getDocumentElement().getElementsByTagName("schemaRef"); //$NON-NLS-1$
-            if (nl != null)
-            {
-               for (int i = 0; i < nl.getLength(); i++)
-               {
-                  Element schemaRef = (Element) nl.item(i);
-                  String ns = schemaRef.getAttribute("namespace"); //$NON-NLS-1$
-                  String loc = schemaRef.getAttribute("location"); //$NON-NLS-1$
-                  sSchemaMap.put(ns, loc);
-               }
+    /*
+     * Static initializer for loading the contents of the above schema map.
+     */
+    static {
+        URL schemasURL = AeStandardSchemas.class.getResource("standardSchemas.xml"); //$NON-NLS-1$
+        if (schemasURL != null) {
+            try {
+                AeXMLParserBase parser = new AeXMLParserBase();
+                parser.setValidating(false);
+                parser.setNamespaceAware(false);
+                Document schemasDoc = parser.loadDocument(schemasURL.openStream(), null);
+                NodeList nl = schemasDoc.getDocumentElement().getElementsByTagName("schemaRef"); //$NON-NLS-1$
+                if (nl != null) {
+                    for (int i = 0; i < nl.getLength(); i++) {
+                        Element schemaRef = (Element) nl.item(i);
+                        String ns = schemaRef.getAttribute("namespace"); //$NON-NLS-1$
+                        String loc = schemaRef.getAttribute("location"); //$NON-NLS-1$
+                        sSchemaMap.put(ns, loc);
+                    }
+                }
+            } catch (Throwable t) {
+                AeException.logError(t, AeMessages.getString("AeStandardSchemas.ERROR_0")); //$NON-NLS-1$
             }
-         }
-         catch (Throwable t)
-         {
-            AeException.logError(t, AeMessages.getString("AeStandardSchemas.ERROR_0")); //$NON-NLS-1$
-         }
-      }
-   }
-   
-   /**
-    * Added for unit testing only
-    * @param aSchemaNamespace
-    * @param aLocation
-    */
-   protected static void addStandardSchema(String aSchemaNamespace, String aLocation)
-   {
-      sSchemaMap.put(aSchemaNamespace, aLocation);
-   }
-   
-   /**
-    * Added for junit testing only
-    * @param aSchemaNamespace
-    * @param aLocation
-    */
-   protected static void removeStandardSchema(String aSchemaNamespace, String aLocation)
-   {
-      sSchemaMap.put(aSchemaNamespace, aLocation);
-   }
+        }
+    }
 
-   /**
-    * This method returns the input stream for a standard schema given the schema namespace.
-    * 
-    * @param aNamespace
-    */
-   public static InputStream getStandardSchema(String aNamespace)
-   {
-      try
-      {
-         String location = sSchemaMap.get(aNamespace);
-         if (location != null)
-         {
-            return AeStandardSchemas.class.getResourceAsStream(location);
-         }
-      }
-      catch (Exception e)
-      {
-         AeException.logError(e, AeMessages.getString("AeStandardSchemas.ERROR_1") + aNamespace); //$NON-NLS-1$
-      }
-      return null;
-   }
-   
-   /**
-    * Returns true if the standard schemas has an entry for the namespace.
-    * @param aNamespace
-    */
-   public static boolean canResolve(String aNamespace)
-   {
-      return sSchemaMap.containsKey(aNamespace);
-   }
+    /**
+     * Added for unit testing only
+     *
+     * @param aSchemaNamespace
+     * @param aLocation
+     */
+    protected static void addStandardSchema(String aSchemaNamespace, String aLocation) {
+        sSchemaMap.put(aSchemaNamespace, aLocation);
+    }
+
+    /**
+     * Added for junit testing only
+     *
+     * @param aSchemaNamespace
+     * @param aLocation
+     */
+    protected static void removeStandardSchema(String aSchemaNamespace, String aLocation) {
+        sSchemaMap.put(aSchemaNamespace, aLocation);
+    }
+
+    /**
+     * This method returns the input stream for a standard schema given the schema namespace.
+     *
+     * @param aNamespace
+     */
+    public static InputStream getStandardSchema(String aNamespace) {
+        try {
+            String location = sSchemaMap.get(aNamespace);
+            if (location != null) {
+                return AeStandardSchemas.class.getResourceAsStream(location);
+            }
+        } catch (Exception e) {
+            AeException.logError(e, AeMessages.getString("AeStandardSchemas.ERROR_1") + aNamespace); //$NON-NLS-1$
+        }
+        return null;
+    }
+
+    /**
+     * Returns true if the standard schemas has an entry for the namespace.
+     *
+     * @param aNamespace
+     */
+    public static boolean canResolve(String aNamespace) {
+        return sSchemaMap.containsKey(aNamespace);
+    }
 }

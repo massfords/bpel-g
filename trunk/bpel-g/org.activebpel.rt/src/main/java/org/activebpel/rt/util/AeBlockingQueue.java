@@ -16,50 +16,44 @@ import java.util.List;
  * Implementation of a blocking queue. Differs from the java.util.concurrent.BlockingQueue in that it provides
  * a blocking peek(). As such, this class will remain in favor of switching to the standard one.
  */
-public class AeBlockingQueue<T>
-{
-   /** list of objects for our queue */
-   private final List<T> mQueue = new LinkedList<>();
-   
-   /**
-    * Adds a new object to the queue, calling notify() on this object.
-    * @param aObject
-    */
-   public synchronized void add(T aObject)
-   {
-      mQueue.add(aObject);
-      notify();
-   }
-   
-   /**
-    * Waits for the queue to not be empty. 
-    */
-   public synchronized void waitForObject()
-   {
-      while(mQueue.isEmpty())
-      {
-         try
-         {
-            wait();
-         }
-         catch (InterruptedException e)
-         {
-            // interrupted means we are shutting down
-            break;
-         }
-      }
-   }
-   
-   /**
-    * Gets the first object from the queue
-    */
-   public synchronized T getNextObjectOrWait()
-   {
-      waitForObject();
-      if (!mQueue.isEmpty())
-      {
-         return mQueue.remove(0);
-      }
-      return null;
-   }
+public class AeBlockingQueue<T> {
+    /**
+     * list of objects for our queue
+     */
+    private final List<T> mQueue = new LinkedList<>();
+
+    /**
+     * Adds a new object to the queue, calling notify() on this object.
+     *
+     * @param aObject
+     */
+    public synchronized void add(T aObject) {
+        mQueue.add(aObject);
+        notify();
+    }
+
+    /**
+     * Waits for the queue to not be empty.
+     */
+    public synchronized void waitForObject() {
+        while (mQueue.isEmpty()) {
+            try {
+                wait();
+            } catch (InterruptedException e) {
+                // interrupted means we are shutting down
+                break;
+            }
+        }
+    }
+
+    /**
+     * Gets the first object from the queue
+     */
+    public synchronized T getNextObjectOrWait() {
+        waitForObject();
+        if (!mQueue.isEmpty()) {
+            return mQueue.remove(0);
+        }
+        return null;
+    }
 }

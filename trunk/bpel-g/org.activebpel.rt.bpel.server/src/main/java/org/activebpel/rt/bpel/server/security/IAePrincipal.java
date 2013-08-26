@@ -15,15 +15,15 @@ import java.security.Principal;
  * Extension of the java.security.Principal interface for principal implementations that
  * a) do not implement Principal and/or
  * b) support role checks directly
- * 
+ * <p/>
  * .NET and Axis principals fall into both categories above
  */
-public interface IAePrincipal extends Principal
-{
-   /**
-    * Checks if a user is in a given role
-    * @param aRolename
-    * @return true if user in role
-    */
-   public boolean isUserInRole(String aRolename);
+public interface IAePrincipal extends Principal {
+    /**
+     * Checks if a user is in a given role
+     *
+     * @param aRolename
+     * @return true if user in role
+     */
+    public boolean isUserInRole(String aRolename);
 }

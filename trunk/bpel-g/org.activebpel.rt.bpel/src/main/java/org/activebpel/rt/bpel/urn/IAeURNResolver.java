@@ -7,7 +7,7 @@
 //Active Endpoints, Inc. Removal of this PROPRIETARY RIGHTS STATEMENT 
 //is strictly forbidden. Copyright (c) 2002-2004 All rights reserved. 
 /////////////////////////////////////////////////////////////////////////////
-package org.activebpel.rt.bpel.urn; 
+package org.activebpel.rt.bpel.urn;
 
 import java.util.Map;
 
@@ -15,41 +15,40 @@ import java.util.Map;
 /**
  * Used to resolve URN values to a URL.
  */
-public interface IAeURNResolver
-{
-   /**
-    * Gets the URL mapped to the URN.
-    * 
-    * @param aURN
-    * @return URL value or the original URN if nothing was mapped to the URN.
-    */
-   public String getURL(String aURN);
-   
-   /**
-    * Removes all of the mappings in the array.
-    * 
-    * @param aURNArray
-    */
-   public void removeMappings(String[] aURNArray);
-   
-   /**
-    * Adds the urn to url mapping.
-    * 
-    * @param aURN
-    * @param aURL
-    */
-   public void addMapping(String aURN, String aURL);
-   
-   /**
-    * Checks if the resolver has the url mapping.
-    * 
-    * @param aURN
-    */
-   public boolean hasMapping(String aURN);
-   
-   /**
-    * Gets all of the mappings.
-    */
-   public Map<String,String> getMappings();
+public interface IAeURNResolver {
+    /**
+     * Gets the URL mapped to the URN.
+     *
+     * @param aURN
+     * @return URL value or the original URN if nothing was mapped to the URN.
+     */
+    public String getURL(String aURN);
+
+    /**
+     * Removes all of the mappings in the array.
+     *
+     * @param aURNArray
+     */
+    public void removeMappings(String[] aURNArray);
+
+    /**
+     * Adds the urn to url mapping.
+     *
+     * @param aURN
+     * @param aURL
+     */
+    public void addMapping(String aURN, String aURL);
+
+    /**
+     * Checks if the resolver has the url mapping.
+     *
+     * @param aURN
+     */
+    public boolean hasMapping(String aURN);
+
+    /**
+     * Gets all of the mappings.
+     */
+    public Map<String, String> getMappings();
 }
  

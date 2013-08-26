@@ -27,50 +27,41 @@ import org.w3c.dom.Element;
  * Handles copying one element to another. In this strategy, the src element's attributes and children replace
  * all of the content of the target elements.
  */
-public class AeReplaceElementStrategy implements IAeCopyStrategy
-{
-   /**
-    * @see org.activebpel.rt.bpel.impl.activity.assign.IAeCopyStrategy#copy(org.activebpel.rt.bpel.impl.activity.assign.IAeCopyOperation,
-    *      java.lang.Object, java.lang.Object)
-    */
-   public void copy(IAeCopyOperation aCopyOperation, Object aFromData, Object aToData) throws AeBpelException
-   {
-      Element src = (Element)aFromData;
-      Element target = null;
-      if ( aToData instanceof IAeVariableDataWrapper )
-      {
-         target = (Element)((IAeVariableDataWrapper)aToData).getValue();
-      }
-      else
-         target = (Element)aToData;
+public class AeReplaceElementStrategy implements IAeCopyStrategy {
+    /**
+     * @see org.activebpel.rt.bpel.impl.activity.assign.IAeCopyStrategy#copy(org.activebpel.rt.bpel.impl.activity.assign.IAeCopyOperation,
+     *      java.lang.Object, java.lang.Object)
+     */
+    public void copy(IAeCopyOperation aCopyOperation, Object aFromData, Object aToData) throws AeBpelException {
+        Element src = (Element) aFromData;
+        Element target = null;
+        if (aToData instanceof IAeVariableDataWrapper) {
+            target = (Element) ((IAeVariableDataWrapper) aToData).getValue();
+        } else
+            target = (Element) aToData;
 
-      boolean isIdenticalElement = AeUtil.compareObjects(new QName(AeUtil.getSafeString(src.getNamespaceURI()), src.getLocalName()), new QName(target.getNamespaceURI(), target.getLocalName()));
-      if ( aCopyOperation.isKeepSrcElementName() && !isIdenticalElement )
-      {
-         if ( target.getOwnerDocument().getDocumentElement() == target )
-         {
-            IAeContextWSDLProvider provider = aCopyOperation.getContext().getContextWSDLProvider();
-            QName aMemberElementName = AeXmlUtil.getElementType(src);
-            QName aHeadElementName = AeXmlUtil.getElementType(target);
-            AeBPELExtendedWSDLDef wsdlDef = AeWSDLDefHelper.getWSDLDefinitionForElement(provider, aMemberElementName);
-            if ( wsdlDef == null || !wsdlDef.isCompatibleSGElement(aHeadElementName, aMemberElementName) )
-            {
-               throw new AeMismatchedAssignmentException(aCopyOperation.getContext().getBPELNamespace());
+        boolean isIdenticalElement = AeUtil.compareObjects(new QName(AeUtil.getSafeString(src.getNamespaceURI()), src.getLocalName()), new QName(target.getNamespaceURI(), target.getLocalName()));
+        if (aCopyOperation.isKeepSrcElementName() && !isIdenticalElement) {
+            if (target.getOwnerDocument().getDocumentElement() == target) {
+                IAeContextWSDLProvider provider = aCopyOperation.getContext().getContextWSDLProvider();
+                QName aMemberElementName = AeXmlUtil.getElementType(src);
+                QName aHeadElementName = AeXmlUtil.getElementType(target);
+                AeBPELExtendedWSDLDef wsdlDef = AeWSDLDefHelper.getWSDLDefinitionForElement(provider, aMemberElementName);
+                if (wsdlDef == null || !wsdlDef.isCompatibleSGElement(aHeadElementName, aMemberElementName)) {
+                    throw new AeMismatchedAssignmentException(aCopyOperation.getContext().getBPELNamespace());
+                }
             }
-         }
 
-         // create a new element using the QName of the src
-         Element e = target.getOwnerDocument().createElementNS(src.getNamespaceURI(), src.getNodeName());
-         // replace the old node
-         target.getParentNode().replaceChild(e, target);
-         // set our new target in place
-         target = e;
-      }
-      else
-      {
-         AeXmlUtil.removeNodeContents(target, true);
-      }
-      AeXmlUtil.copyNodeContents(src, target);
-   }
+            // create a new element using the QName of the src
+            Element e = target.getOwnerDocument().createElementNS(src.getNamespaceURI(), src.getNodeName());
+            // replace the old node
+            target.getParentNode().replaceChild(e, target);
+            // set our new target in place
+            target = e;
+        } else {
+            AeXmlUtil.removeNodeContents(target, true);
+        }
+        AeXmlUtil.copyNodeContents(src, target);
+    }
 
 }

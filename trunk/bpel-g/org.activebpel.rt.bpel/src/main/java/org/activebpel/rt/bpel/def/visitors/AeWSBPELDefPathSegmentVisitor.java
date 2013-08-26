@@ -13,6 +13,5 @@ package org.activebpel.rt.bpel.def.visitors;
 /**
  * No behavior here for this class. Exists simply to avoid having to derive the bpws impl from the ws-bpel impl
  */
-public class AeWSBPELDefPathSegmentVisitor extends AeAbstractDefPathSegmentVisitor
-{
+public class AeWSBPELDefPathSegmentVisitor extends AeAbstractDefPathSegmentVisitor {
 }

@@ -15,32 +15,30 @@ import org.activebpel.rt.bpel.def.activity.AeActivityOpaqueDef;
 /**
  * Model for validating ws-bpel 2.x abstract process's opaque activity.
  */
-public class AeActivityOpaqueValidator extends AeActivityValidator
-{
+public class AeActivityOpaqueValidator extends AeActivityValidator {
 
-   /**
-    * Ctor.
-    * @param aDef
-    */
-   public AeActivityOpaqueValidator(AeActivityOpaqueDef aDef)
-   {
-      super(aDef);
-   }
-   
-   /** 
-    * Overrides method to report error if the opaque activity is not part of the abstract process namespace. 
-    * @see org.activebpel.rt.bpel.def.validation.IAeValidator#validate()
-    */
-   public void validate()
-   {
-      super.validate();
-      if (!IAeBPELConstants.WSBPEL_2_0_ABSTRACT_NAMESPACE_URI.equals(getBpelNamespace()) )
-      {
-         getReporter().reportProblem( BPEL_OPAQUE_ACTIVITY_NOT_ALLOWED_CODE, 
-                                       ERROR_OPAQUE_ACTIVITY_NOT_ALLOWED, 
-                                       null, 
-                                       getDefinition() );         
-      }
-   }
+    /**
+     * Ctor.
+     *
+     * @param aDef
+     */
+    public AeActivityOpaqueValidator(AeActivityOpaqueDef aDef) {
+        super(aDef);
+    }
+
+    /**
+     * Overrides method to report error if the opaque activity is not part of the abstract process namespace.
+     *
+     * @see org.activebpel.rt.bpel.def.validation.IAeValidator#validate()
+     */
+    public void validate() {
+        super.validate();
+        if (!IAeBPELConstants.WSBPEL_2_0_ABSTRACT_NAMESPACE_URI.equals(getBpelNamespace())) {
+            getReporter().reportProblem(BPEL_OPAQUE_ACTIVITY_NOT_ALLOWED_CODE,
+                    ERROR_OPAQUE_ACTIVITY_NOT_ALLOWED,
+                    null,
+                    getDefinition());
+        }
+    }
 
 }

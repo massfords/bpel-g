@@ -22,232 +22,212 @@ import java.util.*;
  * Container for custom function contexts.
  */
 @Singleton
-public class AeFunctionContextContainer
-{
-   /** Internal storage for mapping namespace to function contexts. */
-   private final Map<String, AeFunctionContextInfo> mNamespaceToFunctionContextMap;
-   /** Locator for creating function contexts. */
-   private IAeFunctionContextLocator mLocator;
-   /** bpel expression function context */
-   private IAeFunctionContext mBpelFunctionContext;
-   /** bpel 2.0 expression function context */
-   private IAeFunctionContext mBpel20FunctionContext;
-   /** bpel extension function context */
-   private IAeFunctionContext mBpelExtFunctionContext;
+public class AeFunctionContextContainer {
+    /**
+     * Internal storage for mapping namespace to function contexts.
+     */
+    private final Map<String, AeFunctionContextInfo> mNamespaceToFunctionContextMap;
+    /**
+     * Locator for creating function contexts.
+     */
+    private IAeFunctionContextLocator mLocator;
+    /**
+     * bpel expression function context
+     */
+    private IAeFunctionContext mBpelFunctionContext;
+    /**
+     * bpel 2.0 expression function context
+     */
+    private IAeFunctionContext mBpel20FunctionContext;
+    /**
+     * bpel extension function context
+     */
+    private IAeFunctionContext mBpelExtFunctionContext;
 
-   /**
-    * Constructor.
-    */
-   public AeFunctionContextContainer( )
-   {
-      mNamespaceToFunctionContextMap = new HashMap<>();
-   }
+    /**
+     * Constructor.
+     */
+    public AeFunctionContextContainer() {
+        mNamespaceToFunctionContextMap = new HashMap<>();
+    }
 
-   /** 
-    * @return Returns ns to function context map.
-    */
-   protected Map<String, AeFunctionContextInfo> getNamespaceToFunctionContextMap()
-   {
-      return mNamespaceToFunctionContextMap;
-   }
-   
-   /**
-    * Return all of the custom <code>AeFunctionContextInfo</code> objects registered
-    * with the container.
-    */
-   public Collection<AeFunctionContextInfo> getFunctionContexts()
-   {
-      return getNamespaceToFunctionContextMap().values();
-   }
+    /**
+     * @return Returns ns to function context map.
+     */
+    protected Map<String, AeFunctionContextInfo> getNamespaceToFunctionContextMap() {
+        return mNamespaceToFunctionContextMap;
+    }
 
-   /**
-    * Gets a list of all the function context namespaces.
-    */
-   public Set<String> getFunctionContextNamespaces()
-   {
-      HashSet<String> set = new HashSet<>(getNamespaceToFunctionContextMap().keySet());
-      set.add(IAeBPELConstants.BPWS_NAMESPACE_URI);
-      set.add(IAeBPELConstants.WSBPEL_2_0_NAMESPACE_URI);
-      set.add(IAeBPELConstants.ABX_FUNCTIONS_NAMESPACE_URI);
-      return set;
-   }
+    /**
+     * Return all of the custom <code>AeFunctionContextInfo</code> objects registered
+     * with the container.
+     */
+    public Collection<AeFunctionContextInfo> getFunctionContexts() {
+        return getNamespaceToFunctionContextMap().values();
+    }
 
-   /**
-    * Remove the context with the given name from the container.
-    * 
-    * @param aName
-    */
-   public void remove( String aName )
-   {
-      for (Iterator<Map.Entry<String, AeFunctionContextInfo>> iter = getNamespaceToFunctionContextMap().entrySet().iterator(); iter.hasNext(); )
-      {
-         Map.Entry<String, AeFunctionContextInfo> entry = iter.next();
-         AeFunctionContextInfo info = entry.getValue();
-         if (aName.equals(info.getName()))
-         {
-            iter.remove();
-         }
-      }
-   }
+    /**
+     * Gets a list of all the function context namespaces.
+     */
+    public Set<String> getFunctionContextNamespaces() {
+        HashSet<String> set = new HashSet<>(getNamespaceToFunctionContextMap().keySet());
+        set.add(IAeBPELConstants.BPWS_NAMESPACE_URI);
+        set.add(IAeBPELConstants.WSBPEL_2_0_NAMESPACE_URI);
+        set.add(IAeBPELConstants.ABX_FUNCTIONS_NAMESPACE_URI);
+        return set;
+    }
 
-   /**
-    * Find <code>IAeFunctionContext</code> based on the given namespace.
-    * 
-    * @param aNamespace
-    */
-   public IAeFunctionContext getFunctionContext(String aNamespace)
-   {
-      IAeFunctionContext found = null;
+    /**
+     * Remove the context with the given name from the container.
+     *
+     * @param aName
+     */
+    public void remove(String aName) {
+        for (Iterator<Map.Entry<String, AeFunctionContextInfo>> iter = getNamespaceToFunctionContextMap().entrySet().iterator(); iter.hasNext(); ) {
+            Map.Entry<String, AeFunctionContextInfo> entry = iter.next();
+            AeFunctionContextInfo info = entry.getValue();
+            if (aName.equals(info.getName())) {
+                iter.remove();
+            }
+        }
+    }
 
-      // TODO (EPW) treat these contexts the same as custom function contexts.
-      if (IAeBPELConstants.BPWS_NAMESPACE_URI.equals(aNamespace))
-      {
-         found = getBpelContext();
-      }
-      else if (IAeBPELConstants.WSBPEL_2_0_NAMESPACE_URI.equals(aNamespace))
-      {
-         found = getBpel20Context();
-      }
-      else if (IAeBPELConstants.ABX_FUNCTIONS_NAMESPACE_URI.equals(aNamespace))
-      {
-         found = getBpelExtContext();
-      }
-      else
-      {
-         AeFunctionContextInfo info = getNamespaceToFunctionContextMap().get(aNamespace);
-         if (info != null)
-         {
-            found = info.getFunctionContext();
-         }
-      }
-      
-      return found;
-   }
-   
-   /**
-    * Clear out all registered custom function contexts. 
-    */
-   public void clearCustomFunctions()
-   {
-      getNamespaceToFunctionContextMap().clear();
-   }
+    /**
+     * Find <code>IAeFunctionContext</code> based on the given namespace.
+     *
+     * @param aNamespace
+     */
+    public IAeFunctionContext getFunctionContext(String aNamespace) {
+        IAeFunctionContext found = null;
 
-   /**
-    * Add the function context to the container.
-    * 
-    * @param aName The user specified name for the grouping
-    * @param aNamespace Namespace to match on.
-    * @param aClassName IAeExpressionFunctionContext impl class name.
-    * @throws AeException Throw if there is a problem finding/creating the <code>IAeFunctionContext</code> impl.
-    */
-   public void addFunctionContext(String aName, String aNamespace, String aClassName) throws AeException
-   {
-      if (AeUtil.isNullOrEmpty(aClassName))
-      {
-         throw new AeException(AeMessages.getString("AeFunctionContextContainer.ERROR_0") + aNamespace); //$NON-NLS-1$
-      }
-      if (AeUtil.isNullOrEmpty(aNamespace))
-      {
-         throw new AeException(AeMessages.getString("AeFunctionContextContainer.FUNCTION_CONTEXT_WITHOUT_NAMESPACE_ERROR")); //$NON-NLS-1$
-      }
+        // TODO (EPW) treat these contexts the same as custom function contexts.
+        if (IAeBPELConstants.BPWS_NAMESPACE_URI.equals(aNamespace)) {
+            found = getBpelContext();
+        } else if (IAeBPELConstants.WSBPEL_2_0_NAMESPACE_URI.equals(aNamespace)) {
+            found = getBpel20Context();
+        } else if (IAeBPELConstants.ABX_FUNCTIONS_NAMESPACE_URI.equals(aNamespace)) {
+            found = getBpelExtContext();
+        } else {
+            AeFunctionContextInfo info = getNamespaceToFunctionContextMap().get(aNamespace);
+            if (info != null) {
+                found = info.getFunctionContext();
+            }
+        }
 
-      IAeFunctionContext functionContext = loadFunctionContext(aNamespace, null, aClassName);
-      addFunctionContext(aName, aNamespace, functionContext);
-   }
-   
-   /**
-    * Add the function context to the container.
-    * 
-    * @param aName The user specified name for the grouping
-    * @param aNamespace Namespace to match on.
-    * @param aContext
-    */
-   public void addFunctionContext( String aName, String aNamespace, IAeFunctionContext aContext )
-   {
-      AeFunctionContextInfo context = new AeFunctionContextInfo(aName, aNamespace, aContext);
-      store(context);
-   }
-   
-   /**
-    * Load the <code>IAeFunctionContext</code>.
-    * 
-    * @param aNamespace
-    * @param aLocation
-    * @param aClassName
-    * @throws AeInvalidFunctionContextException
-    */
-   public IAeFunctionContext loadFunctionContext(String aNamespace, String aLocation, String aClassName) throws AeInvalidFunctionContextException
-   {
-      return getLocator().locate(aNamespace, aLocation, aClassName);
-   }
+        return found;
+    }
 
-   /**
-    * Store the <code>AeFunctionContextInfo</code> in the container.
-    * 
-    * @param aContextInfo
-    */
-   protected void store(AeFunctionContextInfo aContextInfo)
-   {
-      getNamespaceToFunctionContextMap().put(aContextInfo.getNamespace(), aContextInfo);
-   }
-   
-   /**
-    * Accessor for <code>IAeFunctionContextLocator</code>.
-    */
-   public IAeFunctionContextLocator getLocator()
-   {
-      return mLocator;
-   }
-   
-   public void setLocator(IAeFunctionContextLocator aLocator) {
-       mLocator = aLocator;
-   }
+    /**
+     * Clear out all registered custom function contexts.
+     */
+    public void clearCustomFunctions() {
+        getNamespaceToFunctionContextMap().clear();
+    }
 
-   /**
-    * @return Returns the bpelContext.
-    */
-   protected IAeFunctionContext getBpelContext()
-   {
-      return mBpelFunctionContext;
-   }
+    /**
+     * Add the function context to the container.
+     *
+     * @param aName      The user specified name for the grouping
+     * @param aNamespace Namespace to match on.
+     * @param aClassName IAeExpressionFunctionContext impl class name.
+     * @throws AeException Throw if there is a problem finding/creating the <code>IAeFunctionContext</code> impl.
+     */
+    public void addFunctionContext(String aName, String aNamespace, String aClassName) throws AeException {
+        if (AeUtil.isNullOrEmpty(aClassName)) {
+            throw new AeException(AeMessages.getString("AeFunctionContextContainer.ERROR_0") + aNamespace); //$NON-NLS-1$
+        }
+        if (AeUtil.isNullOrEmpty(aNamespace)) {
+            throw new AeException(AeMessages.getString("AeFunctionContextContainer.FUNCTION_CONTEXT_WITHOUT_NAMESPACE_ERROR")); //$NON-NLS-1$
+        }
 
-   /**
-    * @return Returns the bpelContext.
-    */
-   protected IAeFunctionContext getBpel20Context()
-   {
-      return mBpel20FunctionContext;
-   }
+        IAeFunctionContext functionContext = loadFunctionContext(aNamespace, null, aClassName);
+        addFunctionContext(aName, aNamespace, functionContext);
+    }
 
-   /**
-    * Setter for bpel function context.
-    */
-   public void setBpelContext(IAeFunctionContext aContext)
-   {
-      mBpelFunctionContext = aContext;
-   }
+    /**
+     * Add the function context to the container.
+     *
+     * @param aName      The user specified name for the grouping
+     * @param aNamespace Namespace to match on.
+     * @param aContext
+     */
+    public void addFunctionContext(String aName, String aNamespace, IAeFunctionContext aContext) {
+        AeFunctionContextInfo context = new AeFunctionContextInfo(aName, aNamespace, aContext);
+        store(context);
+    }
 
-   /**
-    * Setter for bpel function context.
-    */
-   public void setBpel20Context(IAeFunctionContext aContext)
-   {
-      mBpel20FunctionContext = aContext;
-   }
+    /**
+     * Load the <code>IAeFunctionContext</code>.
+     *
+     * @param aNamespace
+     * @param aLocation
+     * @param aClassName
+     * @throws AeInvalidFunctionContextException
+     *
+     */
+    public IAeFunctionContext loadFunctionContext(String aNamespace, String aLocation, String aClassName) throws AeInvalidFunctionContextException {
+        return getLocator().locate(aNamespace, aLocation, aClassName);
+    }
 
-   /**
-    * @return Returns the bpelExtContext.
-    */
-   protected IAeFunctionContext getBpelExtContext()
-   {
-      return  mBpelExtFunctionContext;
-   }
+    /**
+     * Store the <code>AeFunctionContextInfo</code> in the container.
+     *
+     * @param aContextInfo
+     */
+    protected void store(AeFunctionContextInfo aContextInfo) {
+        getNamespaceToFunctionContextMap().put(aContextInfo.getNamespace(), aContextInfo);
+    }
 
-   /**
-    * Setter for bpel extension function context info.
-    */
-   public void setBpelExtContext(IAeFunctionContext aContext)
-   {
-      mBpelExtFunctionContext = aContext;
-   }
+    /**
+     * Accessor for <code>IAeFunctionContextLocator</code>.
+     */
+    public IAeFunctionContextLocator getLocator() {
+        return mLocator;
+    }
+
+    public void setLocator(IAeFunctionContextLocator aLocator) {
+        mLocator = aLocator;
+    }
+
+    /**
+     * @return Returns the bpelContext.
+     */
+    protected IAeFunctionContext getBpelContext() {
+        return mBpelFunctionContext;
+    }
+
+    /**
+     * @return Returns the bpelContext.
+     */
+    protected IAeFunctionContext getBpel20Context() {
+        return mBpel20FunctionContext;
+    }
+
+    /**
+     * Setter for bpel function context.
+     */
+    public void setBpelContext(IAeFunctionContext aContext) {
+        mBpelFunctionContext = aContext;
+    }
+
+    /**
+     * Setter for bpel function context.
+     */
+    public void setBpel20Context(IAeFunctionContext aContext) {
+        mBpel20FunctionContext = aContext;
+    }
+
+    /**
+     * @return Returns the bpelExtContext.
+     */
+    protected IAeFunctionContext getBpelExtContext() {
+        return mBpelExtFunctionContext;
+    }
+
+    /**
+     * Setter for bpel extension function context info.
+     */
+    public void setBpelExtContext(IAeFunctionContext aContext) {
+        mBpelExtFunctionContext = aContext;
+    }
 }

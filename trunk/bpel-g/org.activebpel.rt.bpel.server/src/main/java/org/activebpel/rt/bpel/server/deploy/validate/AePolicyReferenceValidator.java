@@ -28,84 +28,74 @@ import bpelg.services.processes.types.ServiceDeployment;
  * Emit a warning for myRole and static endpoint references with policy references that
  * can't be resolved from WSDL.
  */
-public class AePolicyReferenceValidator
-{
-   /**
-    * Emits warnings if partner endpoints or services have policy references that can't be resolved
-    * from the context WSDL
-    * 
-    * @param aReporter
-    * @param aDeployment
-    */
-   public static void validate(IAeBaseErrorReporter aReporter, IAeProcessDeployment aDeployment)
-   {
-      for (Iterator it = aDeployment.getProcessDef().getAllPartnerLinkDefs(); it.hasNext(); )
-      {
-         AePartnerLinkDef plinkDef = (AePartnerLinkDef) it.next();
-         IAeEndpointReference partnerRef = aDeployment.getPartnerEndpointRef(plinkDef.getLocationPath());
-         if (partnerRef != null)
-            validatePartnerReference(aReporter, aDeployment, partnerRef);
-         ServiceDeployment service = aDeployment.getServiceInfo(plinkDef.getLocationPath());
-         if (service != null)
-            validateServiceReferences(aReporter, aDeployment, service);
-      }
-   }
-   
-   /**
-    * Emits warnings if partner endpoints or services have policy references that can't be resolved 
-    * from the context WSDL
-    * 
-    * @param aReporter
-    * @param aProvider
-    * @param aSource
-    */
-   public static void validate(IAeBaseErrorReporter aReporter, IAeContextWSDLProvider aProvider,
-         IAeDeploymentSource aSource)
-   {
-      // check partner role endpoints 
-       for (AePartnerLinkDescriptor desc : aSource.getPartnerLinkDescriptors()) {
-           IAeEndpointReference partnerRef = desc.getPartnerEndpointReference();
-           if (partnerRef != null)
-               validatePartnerReference(aReporter, aProvider, partnerRef);
-       }
-      
-      // check myRole services
-      try
-      {
-         for (ServiceDeployment service : aSource.getServices().getServiceDeployment())
-         {
-            validateServiceReferences(aReporter, aProvider, service);            
-         }
-      }
-      catch (AeDeploymentException ex)
-      {
-         AeException.logError(ex);
-      }
-   }
+public class AePolicyReferenceValidator {
+    /**
+     * Emits warnings if partner endpoints or services have policy references that can't be resolved
+     * from the context WSDL
+     *
+     * @param aReporter
+     * @param aDeployment
+     */
+    public static void validate(IAeBaseErrorReporter aReporter, IAeProcessDeployment aDeployment) {
+        for (Iterator it = aDeployment.getProcessDef().getAllPartnerLinkDefs(); it.hasNext(); ) {
+            AePartnerLinkDef plinkDef = (AePartnerLinkDef) it.next();
+            IAeEndpointReference partnerRef = aDeployment.getPartnerEndpointRef(plinkDef.getLocationPath());
+            if (partnerRef != null)
+                validatePartnerReference(aReporter, aDeployment, partnerRef);
+            ServiceDeployment service = aDeployment.getServiceInfo(plinkDef.getLocationPath());
+            if (service != null)
+                validateServiceReferences(aReporter, aDeployment, service);
+        }
+    }
 
-   /**
-    * Validates policy references for a service deployment against the WSDL
-    * 
-    * @param aReporter
-    * @param aPartnerReference
-    * @param aWsdlProvider
-    * @param aProcessName
-    */
-   private static void validateServiceReferences(IAeBaseErrorReporter aReporter, IAeContextWSDLProvider aWsdlProvider, ServiceDeployment aServiceInfo)
-   {
-      AeWSDLPolicyHelper.resolvePolicyReferences(aWsdlProvider, aServiceInfo.getAny(), aReporter);      
-   }
-   
-   /**
-    * Validates policy references for a partner endpoint against the WSDL
-    * 
-    * @param aReporter
-    * @param aPartnerReference
-    * @param aWsdlProvider
-    * @param aProcessName
-    */
-   private static void validatePartnerReference(IAeBaseErrorReporter aReporter, IAeContextWSDLProvider aWsdlProvider, IAeEndpointReference aPartnerReference)
-   {
-      AeWSDLPolicyHelper.getEffectiveWSDLPolicies(aWsdlProvider, aPartnerReference, aReporter);      
-   }
+    /**
+     * Emits warnings if partner endpoints or services have policy references that can't be resolved
+     * from the context WSDL
+     *
+     * @param aReporter
+     * @param aProvider
+     * @param aSource
+     */
+    public static void validate(IAeBaseErrorReporter aReporter, IAeContextWSDLProvider aProvider,
+                                IAeDeploymentSource aSource) {
+        // check partner role endpoints
+        for (AePartnerLinkDescriptor desc : aSource.getPartnerLinkDescriptors()) {
+            IAeEndpointReference partnerRef = desc.getPartnerEndpointReference();
+            if (partnerRef != null)
+                validatePartnerReference(aReporter, aProvider, partnerRef);
+        }
+
+        // check myRole services
+        try {
+            for (ServiceDeployment service : aSource.getServices().getServiceDeployment()) {
+                validateServiceReferences(aReporter, aProvider, service);
+            }
+        } catch (AeDeploymentException ex) {
+            AeException.logError(ex);
+        }
+    }
+
+    /**
+     * Validates policy references for a service deployment against the WSDL
+     *
+     * @param aReporter
+     * @param aPartnerReference
+     * @param aWsdlProvider
+     * @param aProcessName
+     */
+    private static void validateServiceReferences(IAeBaseErrorReporter aReporter, IAeContextWSDLProvider aWsdlProvider, ServiceDeployment aServiceInfo) {
+        AeWSDLPolicyHelper.resolvePolicyReferences(aWsdlProvider, aServiceInfo.getAny(), aReporter);
+    }
+
+    /**
+     * Validates policy references for a partner endpoint against the WSDL
+     *
+     * @param aReporter
+     * @param aPartnerReference
+     * @param aWsdlProvider
+     * @param aProcessName
+     */
+    private static void validatePartnerReference(IAeBaseErrorReporter aReporter, IAeContextWSDLProvider aWsdlProvider, IAeEndpointReference aPartnerReference) {
+        AeWSDLPolicyHelper.getEffectiveWSDLPolicies(aWsdlProvider, aPartnerReference, aReporter);
+    }
 }

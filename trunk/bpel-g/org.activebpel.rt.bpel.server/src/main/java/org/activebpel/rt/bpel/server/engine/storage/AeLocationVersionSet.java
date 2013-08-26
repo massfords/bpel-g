@@ -16,133 +16,126 @@ import java.util.Set;
 /**
  * Implements a set of location id + version number pairs.
  */
-public class AeLocationVersionSet implements IAeLocationVersionSet
-{
-   /** Set of <code>AeLocationVersionEntry</code> instances. */
-   private final Set<AeLocationVersionEntry> mLocationVersionSet;
+public class AeLocationVersionSet implements IAeLocationVersionSet {
+    /**
+     * Set of <code>AeLocationVersionEntry</code> instances.
+     */
+    private final Set<AeLocationVersionEntry> mLocationVersionSet;
 
-   /**
-    * Default constructor.
-    */
-   public AeLocationVersionSet()
-   {
-      this(new HashSet<AeLocationVersionEntry>());
-   }
+    /**
+     * Default constructor.
+     */
+    public AeLocationVersionSet() {
+        this(new HashSet<AeLocationVersionEntry>());
+    }
 
-   /**
-    * Constructor.
-    *
-    * @param aSet The set to use.
-    */
-   public AeLocationVersionSet(Set<AeLocationVersionEntry> aSet)
-   {
-      mLocationVersionSet = aSet;
-   }
+    /**
+     * Constructor.
+     *
+     * @param aSet The set to use.
+     */
+    public AeLocationVersionSet(Set<AeLocationVersionEntry> aSet) {
+        mLocationVersionSet = aSet;
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.server.engine.storage.IAeLocationVersionSet#add(long, int)
-    */
-   public void add(long aLocationId, int aVersionNumber)
-   {
-      getLocationVersionSet().add(new AeLocationVersionEntry(aLocationId, aVersionNumber));
-   }
+    /**
+     * @see org.activebpel.rt.bpel.server.engine.storage.IAeLocationVersionSet#add(long, int)
+     */
+    public void add(long aLocationId, int aVersionNumber) {
+        getLocationVersionSet().add(new AeLocationVersionEntry(aLocationId, aVersionNumber));
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.server.engine.storage.IAeLocationVersionSet#contains(long, int)
-    */
-   public boolean contains(long aLocationId, int aVersionNumber)
-   {
-      return contains(new AeLocationVersionEntry(aLocationId, aVersionNumber));
-   }
+    /**
+     * @see org.activebpel.rt.bpel.server.engine.storage.IAeLocationVersionSet#contains(long, int)
+     */
+    public boolean contains(long aLocationId, int aVersionNumber) {
+        return contains(new AeLocationVersionEntry(aLocationId, aVersionNumber));
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.server.engine.storage.IAeLocationVersionSet#contains(org.activebpel.rt.bpel.server.engine.storage.IAeLocationVersionSet.IEntry)
-    */
-   public boolean contains(IEntry aEntry)
-   {
-      return getLocationVersionSet().contains(aEntry);
-   }
+    /**
+     * @see org.activebpel.rt.bpel.server.engine.storage.IAeLocationVersionSet#contains(org.activebpel.rt.bpel.server.engine.storage.IAeLocationVersionSet.IEntry)
+     */
+    public boolean contains(IEntry aEntry) {
+        return getLocationVersionSet().contains(aEntry);
+    }
 
-   /**
-    * Returns the underlying Java <code>Set</code>.
-    */
-   protected Set<AeLocationVersionEntry> getLocationVersionSet()
-   {
-      return mLocationVersionSet;
-   }
+    /**
+     * Returns the underlying Java <code>Set</code>.
+     */
+    protected Set<AeLocationVersionEntry> getLocationVersionSet() {
+        return mLocationVersionSet;
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.server.engine.storage.IAeLocationVersionSet#iterator()
-    */
-   public Iterator iterator()
-   {
-      return getLocationVersionSet().iterator();
-   }
+    /**
+     * @see org.activebpel.rt.bpel.server.engine.storage.IAeLocationVersionSet#iterator()
+     */
+    public Iterator iterator() {
+        return getLocationVersionSet().iterator();
+    }
 
-   /**
-    * Combines a location id and version number for use as a key in a Java
-    * <code>Set</code> or <code>Map</code>
-    */
-   protected static class AeLocationVersionEntry implements IEntry
-   {
-      /** The variable or correlation set location id. */
-      private final long mLocationId;
+    /**
+     * Combines a location id and version number for use as a key in a Java
+     * <code>Set</code> or <code>Map</code>
+     */
+    protected static class AeLocationVersionEntry implements IEntry {
+        /**
+         * The variable or correlation set location id.
+         */
+        private final long mLocationId;
 
-      /** The variable or correlation set version number. */
-      private final int mVersionNumber;
+        /**
+         * The variable or correlation set version number.
+         */
+        private final int mVersionNumber;
 
-      /** Hash code. */
-      private final int mHashCode;
+        /**
+         * Hash code.
+         */
+        private final int mHashCode;
 
-      /**
-       * Constructor.
-       *
-       * @param aLocationId
-       * @param aVersionNumber
-       */
-      public AeLocationVersionEntry(long aLocationId, int aVersionNumber)
-      {
-         mLocationId = aLocationId;
-         mVersionNumber = aVersionNumber;
-         mHashCode = new Long(aLocationId).hashCode() + aVersionNumber;
-      }
+        /**
+         * Constructor.
+         *
+         * @param aLocationId
+         * @param aVersionNumber
+         */
+        public AeLocationVersionEntry(long aLocationId, int aVersionNumber) {
+            mLocationId = aLocationId;
+            mVersionNumber = aVersionNumber;
+            mHashCode = new Long(aLocationId).hashCode() + aVersionNumber;
+        }
 
-      /**
-       * @see java.lang.Object#equals(java.lang.Object)
-       */
-      public boolean equals(Object aObject)
-      {
-         if (aObject instanceof AeLocationVersionEntry)
-         {
-            AeLocationVersionEntry other = (AeLocationVersionEntry) aObject;
-            return (getLocationId() == other.getLocationId()) && (getVersionNumber() == other.getVersionNumber());
-         }
+        /**
+         * @see java.lang.Object#equals(java.lang.Object)
+         */
+        public boolean equals(Object aObject) {
+            if (aObject instanceof AeLocationVersionEntry) {
+                AeLocationVersionEntry other = (AeLocationVersionEntry) aObject;
+                return (getLocationId() == other.getLocationId()) && (getVersionNumber() == other.getVersionNumber());
+            }
 
-         return false;
-      }
+            return false;
+        }
 
-      /**
-       * Returns the location id.
-       */
-      public long getLocationId()
-      {
-         return mLocationId;
-      }
+        /**
+         * Returns the location id.
+         */
+        public long getLocationId() {
+            return mLocationId;
+        }
 
-      /**
-       * Returns the version number.
-       */
-      public int getVersionNumber()
-      {
-         return mVersionNumber;
-      }
+        /**
+         * Returns the version number.
+         */
+        public int getVersionNumber() {
+            return mVersionNumber;
+        }
 
-      /**
-       * @see java.lang.Object#hashCode()
-       */
-      public int hashCode()
-      {
-         return mHashCode;
-      }
-   }
+        /**
+         * @see java.lang.Object#hashCode()
+         */
+        public int hashCode() {
+            return mHashCode;
+        }
+    }
 }

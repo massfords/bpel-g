@@ -7,7 +7,7 @@
 //Active Endpoints, Inc. Removal of this PROPRIETARY RIGHTS STATEMENT 
 //is strictly forbidden. Copyright (c) 2002-2004 All rights reserved. 
 /////////////////////////////////////////////////////////////////////////////
-package org.activebpel.rt.bpel.impl.activity; 
+package org.activebpel.rt.bpel.impl.activity;
 
 import org.activebpel.rt.bpel.AeMessages;
 import org.activebpel.rt.bpel.AeStaticAnalysisException;
@@ -17,39 +17,36 @@ import org.activebpel.rt.bpel.impl.IAeBpelObject;
 import org.activebpel.rt.bpel.impl.activity.support.IAeLoopActivity;
 
 /**
- * A base class for the loop control activities "break" and "continue" 
+ * A base class for the loop control activities "break" and "continue"
  */
-public abstract class AeLoopControl extends AeActivityImpl implements IAeLoopControl
-{
-   /**
-    * Constructor for subclasses to pass their specific activity def and parent.
-    * @param aActivityDef
-    * @param aParent
-    */
-   public AeLoopControl(AeActivityDef aActivityDef, IAeActivityParent aParent)
-   {
-      super(aActivityDef, aParent);
-   }
-   
-   /**
-    * Walks up the parent axis looking for the enclosing loop container.
-    * @throws AeStaticAnalysisException
-    */
-   protected IAeLoopActivity getEnclosedLoopContainer() throws AeStaticAnalysisException
-   {
-      IAeBpelObject parent = getParent();
-      while(parent != null && !(parent instanceof IAeLoopActivity))
-      {
-         parent = parent.getParent();
-      }
-      
-      if (parent == null)
-      {
-         staticAnalysisFailure(AeMessages.format("AeActivityContinueImpl.NO_LOOP_CONTAINER", getLocationPath())); //$NON-NLS-1$
-      }
-      return (IAeLoopActivity)parent;
-   }
-   
+public abstract class AeLoopControl extends AeActivityImpl implements IAeLoopControl {
+    /**
+     * Constructor for subclasses to pass their specific activity def and parent.
+     *
+     * @param aActivityDef
+     * @param aParent
+     */
+    public AeLoopControl(AeActivityDef aActivityDef, IAeActivityParent aParent) {
+        super(aActivityDef, aParent);
+    }
+
+    /**
+     * Walks up the parent axis looking for the enclosing loop container.
+     *
+     * @throws AeStaticAnalysisException
+     */
+    protected IAeLoopActivity getEnclosedLoopContainer() throws AeStaticAnalysisException {
+        IAeBpelObject parent = getParent();
+        while (parent != null && !(parent instanceof IAeLoopActivity)) {
+            parent = parent.getParent();
+        }
+
+        if (parent == null) {
+            staticAnalysisFailure(AeMessages.format("AeActivityContinueImpl.NO_LOOP_CONTAINER", getLocationPath())); //$NON-NLS-1$
+        }
+        return (IAeLoopActivity) parent;
+    }
+
 
 }
  

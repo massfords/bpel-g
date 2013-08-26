@@ -7,7 +7,7 @@
 //Active Endpoints, Inc. Removal of this PROPRIETARY RIGHTS STATEMENT 
 //is strictly forbidden. Copyright (c) 2002-2006 All rights reserved. 
 /////////////////////////////////////////////////////////////////////////////
-package org.activebpel.rt.bpel.def.validation.activity.scope; 
+package org.activebpel.rt.bpel.def.validation.activity.scope;
 
 import org.activebpel.rt.bpel.def.AeEventHandlersDef;
 import org.activebpel.rt.bpel.def.validation.AeBaseValidator;
@@ -15,37 +15,34 @@ import org.activebpel.rt.bpel.def.validation.AeBaseValidator;
 /**
  * model provides validation for the event handlers def
  */
-public class AeEventHandlersValidator extends AeBaseValidator
-{
-   /**
-    * ctor
-    * @param aDef
-    */
-   public AeEventHandlersValidator(AeEventHandlersDef aDef)
-   {
-      super(aDef);
-   }
-   
-   /**
-    * Gets the event handlers def.
-    */
-   protected AeEventHandlersDef getDef()
-   {
-      return (AeEventHandlersDef) getDefinition();
-   }
+public class AeEventHandlersValidator extends AeBaseValidator {
+    /**
+     * ctor
+     *
+     * @param aDef
+     */
+    public AeEventHandlersValidator(AeEventHandlersDef aDef) {
+        super(aDef);
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.def.validation.AeBaseValidator#validate()
-    */
-   public void validate()
-   {
-      if (!getDef().hasEventHandler())
-         getReporter().reportProblem( BPEL_EMPTY_EVENT_HANDLER_CODE,
-                                 ERROR_EMPTY_EVENT_HANDLER, 
-                                 new String[]{ getDef().getLocationPath() }, 
-                                 getDefinition() );
+    /**
+     * Gets the event handlers def.
+     */
+    protected AeEventHandlersDef getDef() {
+        return (AeEventHandlersDef) getDefinition();
+    }
 
-      super.validate();
-   }
+    /**
+     * @see org.activebpel.rt.bpel.def.validation.AeBaseValidator#validate()
+     */
+    public void validate() {
+        if (!getDef().hasEventHandler())
+            getReporter().reportProblem(BPEL_EMPTY_EVENT_HANDLER_CODE,
+                    ERROR_EMPTY_EVENT_HANDLER,
+                    new String[]{getDef().getLocationPath()},
+                    getDefinition());
+
+        super.validate();
+    }
 }
  

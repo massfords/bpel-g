@@ -13,13 +13,12 @@ package org.activebpel.rt.bpel.impl;
  * Defines interface for listeners that are notified when a process is purged by
  * the process manager.
  */
-public interface IAeProcessPurgedListener
-{
-   /**
-    * Notifies the listener that the given process has been purged by the
-    * process manager.
-    *
-    * @param aProcessId
-    */
-   public void processPurged(long aProcessId);
+public interface IAeProcessPurgedListener {
+    /**
+     * Notifies the listener that the given process has been purged by the
+     * process manager.
+     *
+     * @param aProcessId
+     */
+    public void processPurged(long aProcessId);
 }

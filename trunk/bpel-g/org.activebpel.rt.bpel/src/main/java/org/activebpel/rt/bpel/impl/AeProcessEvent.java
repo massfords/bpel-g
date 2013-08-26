@@ -23,108 +23,105 @@ import org.activebpel.rt.util.AeUtil;
 /**
  * Implementation of bpel process events.
  */
-public class AeProcessEvent extends AeBaseProcessEvent implements IAeProcessEvent
-{
-   /** Maps names and values of static constants declared in {@link IAeProcessEvent}. **/
-   private static final AeStaticConstantsMap mIAeProcessEventConstantsMap = new AeStaticConstantsMap(IAeProcessEvent.class);
+public class AeProcessEvent extends AeBaseProcessEvent implements IAeProcessEvent {
+    /**
+     * Maps names and values of static constants declared in {@link IAeProcessEvent}. *
+     */
+    private static final AeStaticConstantsMap mIAeProcessEventConstantsMap = new AeStaticConstantsMap(IAeProcessEvent.class);
 
-   /** The process' QName. */
-   private final QName mName; 
-   private final AeProcessEventType mEventType;
+    /**
+     * The process' QName.
+     */
+    private final QName mName;
+    private final AeProcessEventType mEventType;
 
-   /**
-    * Constructor with all members specified.
-    * @param aPID The process ID of the event.
-    * @param aPath The path of the object trigerring the event.
-    * @param aEventID The event id of the event.
-    * @param aFault The Fault associated with this event, or empty.
-    * @param aInfo Extra info to register with the event.
-    * @param aName The process' QName.
-    */
-   public AeProcessEvent(long aPID, String aPath, AeProcessEventType aEventID, String aFault, String aInfo, QName aName)
-   {
-      super(aPID, aPath, aFault, aInfo);
-      mName = aName;
-      mEventType = aEventID;
-   }
-   
-   /**
-    * Constructor with all members specified (including timestamp).
-    * 
-    * @param aPID
-    * @param aPath
-    * @param aEventID
-    * @param aFault
-    * @param aInfo
-    * @param aName
-    * @param aTimestamp
-    */
-   public AeProcessEvent(long aPID, String aPath, AeProcessEventType aEventID, String aFault, String aInfo, QName aName, Date aTimestamp)
-   {
-      super(aPID, aPath, aFault, aInfo, aTimestamp);
-      mName = aName;
-      mEventType = aEventID;
-   }
+    /**
+     * Constructor with all members specified.
+     *
+     * @param aPID     The process ID of the event.
+     * @param aPath    The path of the object trigerring the event.
+     * @param aEventID The event id of the event.
+     * @param aFault   The Fault associated with this event, or empty.
+     * @param aInfo    Extra info to register with the event.
+     * @param aName    The process' QName.
+     */
+    public AeProcessEvent(long aPID, String aPath, AeProcessEventType aEventID, String aFault, String aInfo, QName aName) {
+        super(aPID, aPath, aFault, aInfo);
+        mName = aName;
+        mEventType = aEventID;
+    }
 
-   /**
-    * Constructor with no Fault or Ancillary Info.
-    * @param aPID The process ID of the event.
-    * @param aPath The path of the object trigerring the event.
-    * @param aEventID The event id of the event.
-    * @param aName The process' QName.
-    */
-   public AeProcessEvent(long aPID, String aPath, AeProcessEventType aEventID, QName aName)
-   {
-      this( aPID, aPath, aEventID, "", "", aName ); //$NON-NLS-1$ //$NON-NLS-2$
-   }
+    /**
+     * Constructor with all members specified (including timestamp).
+     *
+     * @param aPID
+     * @param aPath
+     * @param aEventID
+     * @param aFault
+     * @param aInfo
+     * @param aName
+     * @param aTimestamp
+     */
+    public AeProcessEvent(long aPID, String aPath, AeProcessEventType aEventID, String aFault, String aInfo, QName aName, Date aTimestamp) {
+        super(aPID, aPath, aFault, aInfo, aTimestamp);
+        mName = aName;
+        mEventType = aEventID;
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.IAeProcessEvent#getQName()
-    */
-   public QName getQName()
-   {
-      return mName;
-   }
+    /**
+     * Constructor with no Fault or Ancillary Info.
+     *
+     * @param aPID     The process ID of the event.
+     * @param aPath    The path of the object trigerring the event.
+     * @param aEventID The event id of the event.
+     * @param aName    The process' QName.
+     */
+    public AeProcessEvent(long aPID, String aPath, AeProcessEventType aEventID, QName aName) {
+        this(aPID, aPath, aEventID, "", "", aName); //$NON-NLS-1$ //$NON-NLS-2$
+    }
 
-   /**
-    * Returns the name of the specified event id.
-    */
-   protected static String getEventIdName(AeProcessEventType aEventId)
-   {
-      String name = mIAeProcessEventConstantsMap.getName(aEventId.code());
+    /**
+     * @see org.activebpel.rt.bpel.IAeProcessEvent#getQName()
+     */
+    public QName getQName() {
+        return mName;
+    }
 
-      // Use the name if we have it; otherwise, show the value itself.
-      return (name != null) ? name : String.valueOf(aEventId);
-   }
+    /**
+     * Returns the name of the specified event id.
+     */
+    protected static String getEventIdName(AeProcessEventType aEventId) {
+        String name = mIAeProcessEventConstantsMap.getName(aEventId.code());
 
-   /**
-    * @see java.lang.Object#toString()
-    */
-   public String toString()
-   {
-      Map<String, Object> map = new LinkedHashMap<>(); // LinkedHashMap to preserve order of insertions for toString()
+        // Use the name if we have it; otherwise, show the value itself.
+        return (name != null) ? name : String.valueOf(aEventId);
+    }
 
-      map.put("pid", String.valueOf(getPID())); //$NON-NLS-1$
-      map.put("eventid", getEventIdName(getEventType())); //$NON-NLS-1$
-      map.put("path", getNodePath()); //$NON-NLS-1$
+    /**
+     * @see java.lang.Object#toString()
+     */
+    public String toString() {
+        Map<String, Object> map = new LinkedHashMap<>(); // LinkedHashMap to preserve order of insertions for toString()
 
-      if (!AeUtil.isNullOrEmpty(getFaultName()))
-      {
-         map.put("fault", getFaultName()); //$NON-NLS-1$
-      }
+        map.put("pid", String.valueOf(getPID())); //$NON-NLS-1$
+        map.put("eventid", getEventIdName(getEventType())); //$NON-NLS-1$
+        map.put("path", getNodePath()); //$NON-NLS-1$
 
-      if (!AeUtil.isNullOrEmpty(getAncillaryInfo()))
-      {
-         map.put("info", getAncillaryInfo()); //$NON-NLS-1$
-      }
+        if (!AeUtil.isNullOrEmpty(getFaultName())) {
+            map.put("fault", getFaultName()); //$NON-NLS-1$
+        }
 
-      map.put("qname", getQName()); //$NON-NLS-1$
+        if (!AeUtil.isNullOrEmpty(getAncillaryInfo())) {
+            map.put("info", getAncillaryInfo()); //$NON-NLS-1$
+        }
 
-      return "AeProcessEvent" + map.toString(); //$NON-NLS-1$
-   }
+        map.put("qname", getQName()); //$NON-NLS-1$
 
-	@Override
-	public AeProcessEventType getEventType() {
-		return mEventType;
-	}
+        return "AeProcessEvent" + map.toString(); //$NON-NLS-1$
+    }
+
+    @Override
+    public AeProcessEventType getEventType() {
+        return mEventType;
+    }
 }

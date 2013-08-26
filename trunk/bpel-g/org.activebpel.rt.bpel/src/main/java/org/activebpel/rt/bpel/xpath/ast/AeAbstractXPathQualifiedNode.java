@@ -13,76 +13,74 @@ package org.activebpel.rt.bpel.xpath.ast;
 /**
  * A simple base class for XPath nodes that are potentially namespace qualified.
  */
-public abstract class AeAbstractXPathQualifiedNode extends AeAbstractXPathNode implements IAeXPathQualifiedNode
-{
-   /** The prefix used to resolve the namespace. */
-   private String mPrefix;
-   /** The namespace. */
-   private String mNamespace;
-   /** The local name. */
-   private String mLocalName;
+public abstract class AeAbstractXPathQualifiedNode extends AeAbstractXPathNode implements IAeXPathQualifiedNode {
+    /**
+     * The prefix used to resolve the namespace.
+     */
+    private String mPrefix;
+    /**
+     * The namespace.
+     */
+    private String mNamespace;
+    /**
+     * The local name.
+     */
+    private String mLocalName;
 
-   /**
-    * Simple constructor.
-    * 
-    * @param aType
-    * @param aPrefix
-    * @param aNamespace
-    * @param aLocalName
-    */
-   public AeAbstractXPathQualifiedNode(String aType, String aPrefix, String aNamespace, String aLocalName)
-   {
-      super(aType);
-      setPrefix(aPrefix);
-      setNamespace(aNamespace);
-      setLocalName(aLocalName);
-   }
+    /**
+     * Simple constructor.
+     *
+     * @param aType
+     * @param aPrefix
+     * @param aNamespace
+     * @param aLocalName
+     */
+    public AeAbstractXPathQualifiedNode(String aType, String aPrefix, String aNamespace, String aLocalName) {
+        super(aType);
+        setPrefix(aPrefix);
+        setNamespace(aNamespace);
+        setLocalName(aLocalName);
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.xpath.ast.IAeXPathQualifiedNode#getLocalName()
-    */
-   public String getLocalName()
-   {
-      return mLocalName;
-   }
+    /**
+     * @see org.activebpel.rt.bpel.xpath.ast.IAeXPathQualifiedNode#getLocalName()
+     */
+    public String getLocalName() {
+        return mLocalName;
+    }
 
-   /**
-    * @param aLocalName The localName to set.
-    */
-   public void setLocalName(String aLocalName)
-   {
-      mLocalName = aLocalName;
-   }
+    /**
+     * @param aLocalName The localName to set.
+     */
+    public void setLocalName(String aLocalName) {
+        mLocalName = aLocalName;
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.xpath.ast.IAeXPathQualifiedNode#getNamespace()
-    */
-   public String getNamespace()
-   {
-      return mNamespace;
-   }
+    /**
+     * @see org.activebpel.rt.bpel.xpath.ast.IAeXPathQualifiedNode#getNamespace()
+     */
+    public String getNamespace() {
+        return mNamespace;
+    }
 
-   /**
-    * @param aNamespace The namespace to set.
-    */
-   public void setNamespace(String aNamespace)
-   {
-      mNamespace = aNamespace;
-   }
+    /**
+     * @param aNamespace The namespace to set.
+     */
+    public void setNamespace(String aNamespace) {
+        mNamespace = aNamespace;
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.xpath.ast.IAeXPathQualifiedNode#getPrefix()
-    */
-   public String getPrefix()
-   {
-      return mPrefix;
-   }
+    /**
+     * @see org.activebpel.rt.bpel.xpath.ast.IAeXPathQualifiedNode#getPrefix()
+     */
+    public String getPrefix() {
+        return mPrefix;
+    }
 
-   /**
-    * @param aPrefix The prefix to set.
-    */
-   public void setPrefix(String aPrefix)
-   {
-      mPrefix = aPrefix;
-   }
+    /**
+     * @param aPrefix The prefix to set.
+     */
+    public void setPrefix(String aPrefix) {
+        mPrefix = aPrefix;
+    }
 }

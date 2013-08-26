@@ -18,22 +18,21 @@ import org.activebpel.rt.bpel.server.engine.storage.AeStorageException;
  * A URN storage delegate. This interface defines methods that the delegating URN storage will call in order
  * to store/read date in the underlying database.
  */
-public interface IAeURNStorageProvider extends IAeStorageProvider
-{
-   /**
-    * @see org.activebpel.rt.bpel.server.engine.storage.IAeURNStorage#getMappings()
-    */
-   public Map<String,String> getMappings() throws AeStorageException;
-   
-   /**
-    * @see org.activebpel.rt.bpel.server.engine.storage.IAeURNStorage#addMapping(java.lang.String, java.lang.String)
-    */
-   public void addMapping(String aURN, String aURL, IAeStorageConnection aConnection) throws AeStorageException;
+public interface IAeURNStorageProvider extends IAeStorageProvider {
+    /**
+     * @see org.activebpel.rt.bpel.server.engine.storage.IAeURNStorage#getMappings()
+     */
+    public Map<String, String> getMappings() throws AeStorageException;
 
-   /**
-    * Removes a single URN mapping from the database.
-    * 
-    * @see org.activebpel.rt.bpel.server.engine.storage.IAeURNStorage#removeMappings(java.lang.String[])
-    */
-   public void removeMapping(String aURN, IAeStorageConnection aConnection) throws AeStorageException;
+    /**
+     * @see org.activebpel.rt.bpel.server.engine.storage.IAeURNStorage#addMapping(java.lang.String, java.lang.String)
+     */
+    public void addMapping(String aURN, String aURL, IAeStorageConnection aConnection) throws AeStorageException;
+
+    /**
+     * Removes a single URN mapping from the database.
+     *
+     * @see org.activebpel.rt.bpel.server.engine.storage.IAeURNStorage#removeMappings(java.lang.String[])
+     */
+    public void removeMapping(String aURN, IAeStorageConnection aConnection) throws AeStorageException;
 }

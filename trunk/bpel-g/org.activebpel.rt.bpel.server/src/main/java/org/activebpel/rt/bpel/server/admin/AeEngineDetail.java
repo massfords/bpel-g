@@ -17,96 +17,94 @@ import org.activebpel.rt.bpel.impl.AeMonitorStatus;
 /**
  * This class contains details about a currently running engine.
  */
-public class AeEngineDetail implements Serializable
-{
-   /**
-     * 
+public class AeEngineDetail implements Serializable {
+    /**
+     *
      */
     private static final long serialVersionUID = -6604156295241504873L;
-/** The current engine state. */
-   protected AeEngineStatus mState;
-   /** The current monitor status. */
-   protected AeMonitorStatus mMonitorStatus;
-   /** The error message if the state of the engine is "ERROR". */
-   protected String mErrorMessage;
-   /** The current engine's start time (null if stopped). */
-   protected Date mStartTime;
+    /**
+     * The current engine state.
+     */
+    protected AeEngineStatus mState;
+    /**
+     * The current monitor status.
+     */
+    protected AeMonitorStatus mMonitorStatus;
+    /**
+     * The error message if the state of the engine is "ERROR".
+     */
+    protected String mErrorMessage;
+    /**
+     * The current engine's start time (null if stopped).
+     */
+    protected Date mStartTime;
 
-   /**
-    * Default constructor.
-    */
-   public AeEngineDetail()
-   {
-      mErrorMessage = ""; //$NON-NLS-1$
-   }
+    /**
+     * Default constructor.
+     */
+    public AeEngineDetail() {
+        mErrorMessage = ""; //$NON-NLS-1$
+    }
 
-   /**
-    * Getter for the engine state property.
-    */
-   public AeEngineStatus getState()
-   {
-      return mState;
-   }
-   
-   /**
-    * Setter for the engine state.
-    * 
-    * @param aEngineState The engine state.
-    */
-   public void setState(AeEngineStatus aEngineState)
-   {
-      mState = aEngineState;
-   }
+    /**
+     * Getter for the engine state property.
+     */
+    public AeEngineStatus getState() {
+        return mState;
+    }
 
-   /**
-    * Getter for the monitor status property.
-    */
-   public AeMonitorStatus getMonitorStatus()
-   {
-      return mMonitorStatus;
-   }
-   
-   /**
-    * Setter for the monitor status.
-    * 
-    * @param aMonitorStatus The monitor status
-    */
-   public void setMonitorStatus(AeMonitorStatus aMonitorStatus)
-   {
-      mMonitorStatus = aMonitorStatus;
-   }
+    /**
+     * Setter for the engine state.
+     *
+     * @param aEngineState The engine state.
+     */
+    public void setState(AeEngineStatus aEngineState) {
+        mState = aEngineState;
+    }
 
-   /**
-    * Getter for the engine start time property.
-    */
-   public Date getStartTime()
-   {
-      return mStartTime;
-   }
-   
-   /**
-    * Setter for the engine start time property.
-    * 
-    * @param aStartTime The engine start time.
-    */
-   public void setStartTime(Date aStartTime)
-   {
-      mStartTime = aStartTime;
-   }
+    /**
+     * Getter for the monitor status property.
+     */
+    public AeMonitorStatus getMonitorStatus() {
+        return mMonitorStatus;
+    }
 
-   /**
-    * Getter for the engine error message property.
-    */
-   public String getErrorMessage()
-   {
-      return mErrorMessage;
-   }
+    /**
+     * Setter for the monitor status.
+     *
+     * @param aMonitorStatus The monitor status
+     */
+    public void setMonitorStatus(AeMonitorStatus aMonitorStatus) {
+        mMonitorStatus = aMonitorStatus;
+    }
 
-   /**
-    * Setter for the engine error message property.
-    */
-   public void setErrorMessage(String aErrorMessage)
-   {
-      mErrorMessage = aErrorMessage;
-   }
+    /**
+     * Getter for the engine start time property.
+     */
+    public Date getStartTime() {
+        return mStartTime;
+    }
+
+    /**
+     * Setter for the engine start time property.
+     *
+     * @param aStartTime The engine start time.
+     */
+    public void setStartTime(Date aStartTime) {
+        mStartTime = aStartTime;
+    }
+
+    /**
+     * Getter for the engine error message property.
+     */
+    public String getErrorMessage() {
+        return mErrorMessage;
+    }
+
+    /**
+     * Setter for the engine error message property.
+     */
+    public void setErrorMessage(String aErrorMessage) {
+        mErrorMessage = aErrorMessage;
+    }
 }

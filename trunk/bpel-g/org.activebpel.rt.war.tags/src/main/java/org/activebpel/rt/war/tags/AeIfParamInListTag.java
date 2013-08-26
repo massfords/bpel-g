@@ -16,21 +16,19 @@ import org.activebpel.rt.util.AeUtil;
  * in the given list of strings. The list of strings are separated by a comma.
  * This class does a case-insensitve test against the given list of values.
  */
-public class AeIfParamInListTag extends AeIfParamMatchesTag
-{
-   
-   /**
-     * 
+public class AeIfParamInListTag extends AeIfParamMatchesTag {
+
+    /**
+     *
      */
     private static final long serialVersionUID = 5986794074438275675L;
 
-/**
-    * Returns true if the request parameter is in the given list of comma separated values.
-    */
-   protected boolean shouldEvaluateBody()
-   {
-      String paramValue = pageContext.getRequest().getParameter( getProperty() );
-      return AeUtil.isStringInCsvList(paramValue, getValue(), false);
-   }   
+    /**
+     * Returns true if the request parameter is in the given list of comma separated values.
+     */
+    protected boolean shouldEvaluateBody() {
+        String paramValue = pageContext.getRequest().getParameter(getProperty());
+        return AeUtil.isStringInCsvList(paramValue, getValue(), false);
+    }
 
 }

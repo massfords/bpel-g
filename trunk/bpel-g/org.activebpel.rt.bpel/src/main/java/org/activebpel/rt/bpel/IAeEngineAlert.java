@@ -19,32 +19,32 @@ import org.w3c.dom.Document;
  * uncaught faults in a process which would lead to its termination.
  */
 public interface IAeEngineAlert extends IAeEvent {
-	/**
-	 * Returns the process id for the engine event.
-	 */
-	public long getPID();
+    /**
+     * Returns the process id for the engine event.
+     */
+    public long getPID();
 
-	/**
-	 * Returns the namespace qualified name of the process this event
-	 * represents.
-	 */
-	public QName getProcessName();
+    /**
+     * Returns the namespace qualified name of the process this event
+     * represents.
+     */
+    public QName getProcessName();
 
-	/**
-	 * Location of the activity generating the alert.
-	 */
-	public String getLocation();
+    /**
+     * Location of the activity generating the alert.
+     */
+    public String getLocation();
 
-	/**
-	 * Alert events (like those from the suspend activity) may have some extra
-	 * details in the form of an xml document.
-	 */
-	public Document getDetails();
+    /**
+     * Alert events (like those from the suspend activity) may have some extra
+     * details in the form of an xml document.
+     */
+    public Document getDetails();
 
-	/**
-	 * Gets the fault name.
-	 */
-	public QName getFaultName();
+    /**
+     * Gets the fault name.
+     */
+    public QName getFaultName();
 
-	public AeEngineAlertEventType getAlertType();
+    public AeEngineAlertEventType getAlertType();
 }

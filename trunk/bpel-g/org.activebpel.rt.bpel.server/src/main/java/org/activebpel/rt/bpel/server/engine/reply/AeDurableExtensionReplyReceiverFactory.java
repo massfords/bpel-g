@@ -20,17 +20,15 @@ import org.activebpel.rt.bpel.server.engine.AeEngineFactory;
 /**
  * ReplyReceiver factory that is responsible for recreating ExtensionReplyReceivers.
  */
-public class AeDurableExtensionReplyReceiverFactory implements IAeReplyReceiverFactory
-{
-   /**
-    * @see org.activebpel.rt.bpel.impl.reply.IAeReplyReceiverFactory#createReplyReceiver(java.util.Map)
-    */
-   public IAeReplyReceiver createReplyReceiver(Map aProperties) throws AeException
-   {
-      AeDurableExtensionReplyReceiver replyReceiver = new AeDurableExtensionReplyReceiver(new AeExtensionActivityDurableInfo(aProperties));
-      // fixme (MF-recovery) don't propagate this static getter. Instead, make the setting of the engine something that happens by the loading of this factory
-      replyReceiver.setEngine(AeEngineFactory.getEngine());
-      return replyReceiver;
-   }
+public class AeDurableExtensionReplyReceiverFactory implements IAeReplyReceiverFactory {
+    /**
+     * @see org.activebpel.rt.bpel.impl.reply.IAeReplyReceiverFactory#createReplyReceiver(java.util.Map)
+     */
+    public IAeReplyReceiver createReplyReceiver(Map aProperties) throws AeException {
+        AeDurableExtensionReplyReceiver replyReceiver = new AeDurableExtensionReplyReceiver(new AeExtensionActivityDurableInfo(aProperties));
+        // fixme (MF-recovery) don't propagate this static getter. Instead, make the setting of the engine something that happens by the loading of this factory
+        replyReceiver.setEngine(AeEngineFactory.getEngine());
+        return replyReceiver;
+    }
 
 }

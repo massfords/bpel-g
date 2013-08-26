@@ -19,36 +19,34 @@ import org.activebpel.rt.bpel.coord.IAeProtocolState;
  * This class contains a map associating various coordination signals (messages) with states.
  * This object is used as a entry of each of the entries in the AeStateTable.
  */
-public class AeStateTableEntry
-{
-   /**
-    * Map containing various states, keyed by message.
-    */
-   private final Map<String, IAeProtocolState> mMessageStateMap = new Hashtable<>();
-   
-   /**
-    * Default construct.
-    */
-   public AeStateTableEntry()
-   {     
-   }
-   
-   /**
-    * Adds and associates the given message with the state (that should be transitioned to).
-    * @param aMessage
-    * @param aState
-    */
-   public void add(IAeProtocolMessage aMessage, IAeProtocolState aState)
-   {
-      mMessageStateMap.put(aMessage.getSignal(), aState);
-   }
-   
-   /**
-    * Returns the state (which should be transitioned to), given the message signal.
-    * @param aMessage
-    */
-   public IAeProtocolState get(IAeProtocolMessage aMessage)
-   {
-     return mMessageStateMap.get(aMessage.getSignal());  
-   }    
+public class AeStateTableEntry {
+    /**
+     * Map containing various states, keyed by message.
+     */
+    private final Map<String, IAeProtocolState> mMessageStateMap = new Hashtable<>();
+
+    /**
+     * Default construct.
+     */
+    public AeStateTableEntry() {
+    }
+
+    /**
+     * Adds and associates the given message with the state (that should be transitioned to).
+     *
+     * @param aMessage
+     * @param aState
+     */
+    public void add(IAeProtocolMessage aMessage, IAeProtocolState aState) {
+        mMessageStateMap.put(aMessage.getSignal(), aState);
+    }
+
+    /**
+     * Returns the state (which should be transitioned to), given the message signal.
+     *
+     * @param aMessage
+     */
+    public IAeProtocolState get(IAeProtocolMessage aMessage) {
+        return mMessageStateMap.get(aMessage.getSignal());
+    }
 }

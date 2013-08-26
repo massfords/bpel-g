@@ -16,36 +16,31 @@ import javax.servlet.jsp.JspException;
  * if the named property on the specified bean evaluates
  * to true.
  */
-public class AeIfTrueTag extends AeAbstractBeanPropertyTag
-{
-   /**
-     * 
+public class AeIfTrueTag extends AeAbstractBeanPropertyTag {
+    /**
+     *
      */
     private static final long serialVersionUID = -6471454159348391501L;
 
-/**
-    * @see javax.servlet.jsp.tagext.Tag#doStartTag()
-    */
-   public int doStartTag() throws JspException
-   {
-      if( isPropertyTrue() )
-      {
-         return EVAL_BODY_INCLUDE;
-      }
-      else
-      {
-         return SKIP_BODY;
-      }
-   }
+    /**
+     * @see javax.servlet.jsp.tagext.Tag#doStartTag()
+     */
+    public int doStartTag() throws JspException {
+        if (isPropertyTrue()) {
+            return EVAL_BODY_INCLUDE;
+        } else {
+            return SKIP_BODY;
+        }
+    }
 
-   /**
-    * Returns true if the named property of the bean
-    * object evaluates to true.
-    * @throws JspException
-    */
-   protected boolean isPropertyTrue() throws JspException
-   {
-      Boolean b = (Boolean) getPropertyFromBean();
-      return (b != null && b);
-   }
+    /**
+     * Returns true if the named property of the bean
+     * object evaluates to true.
+     *
+     * @throws JspException
+     */
+    protected boolean isPropertyTrue() throws JspException {
+        Boolean b = (Boolean) getPropertyFromBean();
+        return (b != null && b);
+    }
 }

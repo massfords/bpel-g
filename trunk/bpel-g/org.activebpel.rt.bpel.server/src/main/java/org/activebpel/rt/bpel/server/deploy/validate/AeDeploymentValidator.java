@@ -26,181 +26,184 @@ import org.activebpel.rt.expr.validation.functions.IAeFunctionValidatorFactory;
  * delegating to the IAeBaseErrorReporter passed in the constructor.
  */
 public class AeDeploymentValidator implements IAeBaseErrorReporter {
-	private static final String ABSTRACT_PROCESS_ERROR = AeMessages
-			.getString("AeDeploymentValidator.ABSTRACT_PROCESS_ERROR"); //$NON-NLS-1$
+    private static final String ABSTRACT_PROCESS_ERROR = AeMessages
+            .getString("AeDeploymentValidator.ABSTRACT_PROCESS_ERROR"); //$NON-NLS-1$
 
-	/** The process deployment to validate. */
-	private IAeProcessDeployment mDeployment;
-	/** The source of the deployment. */
-	private String mPddResource;
-	/** The error reporter. */
-	private IAeBaseErrorReporter mReporter;
-	private IAeFunctionValidatorFactory mFunctionValidatorFactory;
-	private IAeExpressionLanguageFactory mExpressionLanguageFactory;
+    /**
+     * The process deployment to validate.
+     */
+    private IAeProcessDeployment mDeployment;
+    /**
+     * The source of the deployment.
+     */
+    private String mPddResource;
+    /**
+     * The error reporter.
+     */
+    private IAeBaseErrorReporter mReporter;
+    private IAeFunctionValidatorFactory mFunctionValidatorFactory;
+    private IAeExpressionLanguageFactory mExpressionLanguageFactory;
 
-	/**
-	 * Constructor.
-	 * 
-	 * @param aPddResource
-	 *            The deployment source.
-	 * @param aDeployment
-	 *            The deployment object.
-	 * @param aReporter
-	 *            The error handler.
-	 */
-	public AeDeploymentValidator(String aPddResource,
-			IAeProcessDeployment aDeployment, IAeBaseErrorReporter aReporter) {
-		setPddResource(aPddResource);
-		setDeployment(aDeployment);
-		setReporter(aReporter);
-	}
+    /**
+     * Constructor.
+     *
+     * @param aPddResource The deployment source.
+     * @param aDeployment  The deployment object.
+     * @param aReporter    The error handler.
+     */
+    public AeDeploymentValidator(String aPddResource,
+                                 IAeProcessDeployment aDeployment, IAeBaseErrorReporter aReporter) {
+        setPddResource(aPddResource);
+        setDeployment(aDeployment);
+        setReporter(aReporter);
+    }
 
-	/**
-	 * Validate the deployment.
-	 */
-	public void validate() {
-		// defect 1360: check for abstract process.
-		if (getDeployment().getProcessDef().isAbstractProcess()) {
-			addError(ABSTRACT_PROCESS_ERROR, null, null);
-		} else {
-			IAeExpressionLanguageFactory expressionLanguageFactory = getExpressionLanguageFactory();
-			IAeFunctionValidatorFactory functionValidatorFactory = getFunctionValidatorFactory();
+    /**
+     * Validate the deployment.
+     */
+    public void validate() {
+        // defect 1360: check for abstract process.
+        if (getDeployment().getProcessDef().isAbstractProcess()) {
+            addError(ABSTRACT_PROCESS_ERROR, null, null);
+        } else {
+            IAeExpressionLanguageFactory expressionLanguageFactory = getExpressionLanguageFactory();
+            IAeFunctionValidatorFactory functionValidatorFactory = getFunctionValidatorFactory();
 
-			AeValidationProblemReporter errorReporter = new AeValidationProblemReporter(
-					this, getDeployment().getProcessDef().getNamespace());
-			IAeValidationContext validationContext = new AeValidationContext(
-					errorReporter, getDeployment(),
-					expressionLanguageFactory, functionValidatorFactory);
+            AeValidationProblemReporter errorReporter = new AeValidationProblemReporter(
+                    this, getDeployment().getProcessDef().getNamespace());
+            IAeValidationContext validationContext = new AeValidationContext(
+                    errorReporter, getDeployment(),
+                    expressionLanguageFactory, functionValidatorFactory);
 
-			getDeployment().getProcessDef().preProcessForValidation(
-					getDeployment(), expressionLanguageFactory);
-			IAeDefVisitor validator = AeDefVisitorFactory.getInstance(
-					getDeployment().getProcessDef().getNamespace())
-					.createValidationVisitor(validationContext);
-			validator.visit(getDeployment().getProcessDef());
+            getDeployment().getProcessDef().preProcessForValidation(
+                    getDeployment(), expressionLanguageFactory);
+            IAeDefVisitor validator = AeDefVisitorFactory.getInstance(
+                    getDeployment().getProcessDef().getNamespace())
+                    .createValidationVisitor(validationContext);
+            validator.visit(getDeployment().getProcessDef());
 
-			AeStaticEndpointReferenceValidator.validate(
-					validationContext.getErrorReporter(), getDeployment());
-			AePolicyReferenceValidator.validate(
-					validationContext.getErrorReporter(), getDeployment());
+            AeStaticEndpointReferenceValidator.validate(
+                    validationContext.getErrorReporter(), getDeployment());
+            AePolicyReferenceValidator.validate(
+                    validationContext.getErrorReporter(), getDeployment());
 
-			// defect 1793: validate persistent/container managed typed
-			// process
-			AePersistentTypeDeploymentValidator persistentValidator = new AePersistentTypeDeploymentValidator(
-					validationContext.getErrorReporter(), getDeployment());
-			persistentValidator.validate();
-		}
-	}
+            // defect 1793: validate persistent/container managed typed
+            // process
+            AePersistentTypeDeploymentValidator persistentValidator = new AePersistentTypeDeploymentValidator(
+                    validationContext.getErrorReporter(), getDeployment());
+            persistentValidator.validate();
+        }
+    }
 
-	public IAeFunctionValidatorFactory getFunctionValidatorFactory() {
-		return mFunctionValidatorFactory;
-	}
+    public IAeFunctionValidatorFactory getFunctionValidatorFactory() {
+        return mFunctionValidatorFactory;
+    }
 
-	public IAeExpressionLanguageFactory getExpressionLanguageFactory() {
-		return mExpressionLanguageFactory;
-	}
+    public IAeExpressionLanguageFactory getExpressionLanguageFactory() {
+        return mExpressionLanguageFactory;
+    }
 
-	/**
-	 * @see org.activebpel.rt.bpel.def.validation.IAeBaseErrorReporter#addError(java.lang.String,
-	 *      java.lang.Object[], java.lang.Object)
-	 */
-	public void addError(String aErrorCode, Object[] aArgs, Object aNode) {
-		getReporter().addError(aErrorCode + getLocationHint(), aArgs, aNode);
-	}
+    /**
+     * @see org.activebpel.rt.bpel.def.validation.IAeBaseErrorReporter#addError(java.lang.String,
+     *      java.lang.Object[], java.lang.Object)
+     */
+    public void addError(String aErrorCode, Object[] aArgs, Object aNode) {
+        getReporter().addError(aErrorCode + getLocationHint(), aArgs, aNode);
+    }
 
-	/**
-	 * Returns a string that contains the bpel source location and the pdd
-	 * resource name.
-	 */
-	protected String getLocationHint() {
-		return ": in " + getPddResource(); //$NON-NLS-1$
-	}
+    /**
+     * Returns a string that contains the bpel source location and the pdd
+     * resource name.
+     */
+    protected String getLocationHint() {
+        return ": in " + getPddResource(); //$NON-NLS-1$
+    }
 
-	/**
-	 * @see org.activebpel.rt.bpel.def.validation.IAeBaseErrorReporter#addWarning(java.lang.String,
-	 *      java.lang.Object[], java.lang.Object)
-	 */
-	public void addWarning(String aWarnCode, Object[] aArgs, Object aNode) {
-		getReporter().addWarning(aWarnCode + getLocationHint(), aArgs, aNode);
-	}
+    /**
+     * @see org.activebpel.rt.bpel.def.validation.IAeBaseErrorReporter#addWarning(java.lang.String,
+     *      java.lang.Object[], java.lang.Object)
+     */
+    public void addWarning(String aWarnCode, Object[] aArgs, Object aNode) {
+        getReporter().addWarning(aWarnCode + getLocationHint(), aArgs, aNode);
+    }
 
-	/**
-	 * @see org.activebpel.rt.bpel.def.validation.IAeBaseErrorReporter#hasErrors()
-	 */
-	public boolean hasErrors() {
-		return getReporter().hasErrors();
-	}
+    /**
+     * @see org.activebpel.rt.bpel.def.validation.IAeBaseErrorReporter#hasErrors()
+     */
+    public boolean hasErrors() {
+        return getReporter().hasErrors();
+    }
 
-	/**
-	 * @see org.activebpel.rt.bpel.def.validation.IAeBaseErrorReporter#hasWarnings()
-	 */
-	public boolean hasWarnings() {
-		return getReporter().hasWarnings();
-	}
+    /**
+     * @see org.activebpel.rt.bpel.def.validation.IAeBaseErrorReporter#hasWarnings()
+     */
+    public boolean hasWarnings() {
+        return getReporter().hasWarnings();
+    }
 
-	/**
-	 * @see org.activebpel.rt.bpel.def.validation.IAeBaseErrorReporter#addInfo(java.lang.String,
-	 *      java.lang.Object[], java.lang.Object)
-	 */
-	public void addInfo(String aInfoCode, Object[] aArgs, Object aNode) {
-		getReporter().addInfo(aInfoCode + getLocationHint(), aArgs, aNode);
-	}
+    /**
+     * @see org.activebpel.rt.bpel.def.validation.IAeBaseErrorReporter#addInfo(java.lang.String,
+     *      java.lang.Object[], java.lang.Object)
+     */
+    public void addInfo(String aInfoCode, Object[] aArgs, Object aNode) {
+        getReporter().addInfo(aInfoCode + getLocationHint(), aArgs, aNode);
+    }
 
-	/**
-	 * Setter for the deployment
-	 * 
-	 * @param aDeployment
-	 */
-	protected void setDeployment(IAeProcessDeployment aDeployment) {
-		mDeployment = aDeployment;
-	}
+    /**
+     * Setter for the deployment
+     *
+     * @param aDeployment
+     */
+    protected void setDeployment(IAeProcessDeployment aDeployment) {
+        mDeployment = aDeployment;
+    }
 
-	/**
-	 * Getter for the deployment
-	 */
-	protected IAeProcessDeployment getDeployment() {
-		return mDeployment;
-	}
+    /**
+     * Getter for the deployment
+     */
+    protected IAeProcessDeployment getDeployment() {
+        return mDeployment;
+    }
 
-	/**
-	 * Setter for the pdd resource
-	 * 
-	 * @param aPddResource
-	 */
-	protected void setPddResource(String aPddResource) {
-		mPddResource = aPddResource;
-	}
+    /**
+     * Setter for the pdd resource
+     *
+     * @param aPddResource
+     */
+    protected void setPddResource(String aPddResource) {
+        mPddResource = aPddResource;
+    }
 
-	/**
-	 * Getter for the pdd resource
-	 */
-	protected String getPddResource() {
-		return mPddResource;
-	}
+    /**
+     * Getter for the pdd resource
+     */
+    protected String getPddResource() {
+        return mPddResource;
+    }
 
-	/**
-	 * Setter for the error reporter
-	 * 
-	 * @param aReporter
-	 */
-	protected void setReporter(IAeBaseErrorReporter aReporter) {
-		mReporter = aReporter;
-	}
+    /**
+     * Setter for the error reporter
+     *
+     * @param aReporter
+     */
+    protected void setReporter(IAeBaseErrorReporter aReporter) {
+        mReporter = aReporter;
+    }
 
-	/**
-	 * Getter for the error reporter
-	 */
-	protected IAeBaseErrorReporter getReporter() {
-		return mReporter;
-	}
+    /**
+     * Getter for the error reporter
+     */
+    protected IAeBaseErrorReporter getReporter() {
+        return mReporter;
+    }
 
-	public void setFunctionValidatorFactory(
-			IAeFunctionValidatorFactory aFunctionValidatorFactory) {
-		mFunctionValidatorFactory = aFunctionValidatorFactory;
-	}
+    public void setFunctionValidatorFactory(
+            IAeFunctionValidatorFactory aFunctionValidatorFactory) {
+        mFunctionValidatorFactory = aFunctionValidatorFactory;
+    }
 
-	public void setExpressionLanguageFactory(
-			IAeExpressionLanguageFactory aExpressionLanguageFactory) {
-		mExpressionLanguageFactory = aExpressionLanguageFactory;
-	}
+    public void setExpressionLanguageFactory(
+            IAeExpressionLanguageFactory aExpressionLanguageFactory) {
+        mExpressionLanguageFactory = aExpressionLanguageFactory;
+    }
 }

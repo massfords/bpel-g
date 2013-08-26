@@ -7,46 +7,42 @@
 //Active Endpoints, Inc. Removal of this PROPRIETARY RIGHTS STATEMENT 
 //is strictly forbidden. Copyright (c) 2002-2006 All rights reserved. 
 /////////////////////////////////////////////////////////////////////////////
-package org.activebpel.rt.bpel.def.validation.activity; 
+package org.activebpel.rt.bpel.def.validation.activity;
 
 import org.activebpel.rt.bpel.def.activity.AeActivitySequenceDef;
 
 /**
  * model provides validation for the sequence activity
  */
-public class AeActivitySequenceValidator extends AeActivityValidator
-{
-   /**
-    * ctor
-    * @param aDef
-    */
-   public AeActivitySequenceValidator(AeActivitySequenceDef aDef)
-   {
-      super(aDef);
-   }
-   
-   /**
-    * Getter for the def
-    */
-   protected AeActivitySequenceDef getDef()
-   {
-      return (AeActivitySequenceDef) getDefinition();
-   }
+public class AeActivitySequenceValidator extends AeActivityValidator {
+    /**
+     * ctor
+     *
+     * @param aDef
+     */
+    public AeActivitySequenceValidator(AeActivitySequenceDef aDef) {
+        super(aDef);
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.def.validation.activity.AeActivityValidator#validate()
-    */
-   public void validate()
-   {
-      super.validate();
-      
-      if (getChildren(AeActivityValidator.class).size() == 0)
-      {
-         getReporter().reportProblem( BPEL_SEQ_ACTIVITY_MISSING_CODE, ERROR_ACTIVITY_MISSING,
-               new String[] { getDef().getLocationPath() },
-               getDef() );
-         
-      }
-   }
+    /**
+     * Getter for the def
+     */
+    protected AeActivitySequenceDef getDef() {
+        return (AeActivitySequenceDef) getDefinition();
+    }
+
+    /**
+     * @see org.activebpel.rt.bpel.def.validation.activity.AeActivityValidator#validate()
+     */
+    public void validate() {
+        super.validate();
+
+        if (getChildren(AeActivityValidator.class).size() == 0) {
+            getReporter().reportProblem(BPEL_SEQ_ACTIVITY_MISSING_CODE, ERROR_ACTIVITY_MISSING,
+                    new String[]{getDef().getLocationPath()},
+                    getDef());
+
+        }
+    }
 }
  

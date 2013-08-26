@@ -7,50 +7,49 @@
 //Active Endpoints, Inc. Removal of this PROPRIETARY RIGHTS STATEMENT 
 //is strictly forbidden. Copyright (c) 2002-2006 All rights reserved. 
 /////////////////////////////////////////////////////////////////////////////
-package org.activebpel.rt.xml.schema; 
+package org.activebpel.rt.xml.schema;
 
 
 /**
  * Base class for schema types that have little or no parsing and simply wrap a string.
- * No validation is done on the string method. 
+ * No validation is done on the string method.
  */
-public abstract class AeSchemaWrappedStringType implements IAeSchemaType
-{
-   /** uri that we're wrapping */
-   protected String mValue;
-   
-   /**
-    * Ctor takes its wrapped value
-    * @param aValue
-    */
-   public AeSchemaWrappedStringType(String aValue)
-   {
-      mValue = aValue;
-   }
+public abstract class AeSchemaWrappedStringType implements IAeSchemaType {
+    /**
+     * uri that we're wrapping
+     */
+    protected String mValue;
 
-   /**
-    * Return the URI
-    * @see java.lang.Object#toString()
-    */
-   public String toString()
-   {
-      return mValue;
-   }
+    /**
+     * Ctor takes its wrapped value
+     *
+     * @param aValue
+     */
+    public AeSchemaWrappedStringType(String aValue) {
+        mValue = aValue;
+    }
 
-   /**
-    * @return Returns the value.
-    */
-   protected String getValue()
-   {
-      return mValue;
-   }
+    /**
+     * Return the URI
+     *
+     * @see java.lang.Object#toString()
+     */
+    public String toString() {
+        return mValue;
+    }
 
-   /**
-    * @param aValue The value to set.
-    */
-   protected void setValue(String aValue)
-   {
-      mValue = aValue;
-   }
+    /**
+     * @return Returns the value.
+     */
+    protected String getValue() {
+        return mValue;
+    }
+
+    /**
+     * @param aValue The value to set.
+     */
+    protected void setValue(String aValue) {
+        mValue = aValue;
+    }
 }
  

@@ -18,14 +18,14 @@ import org.junit.Test;
 import bpelg.services.deploy.types.catalog.Catalog;
 
 public class BgCatalogBuilderTest {
-    
+
     BgCatalogBuilder builder;
 
     @Before
     public void setUp() throws Exception {
         File file = new File("src/test/resources/example-su");
         assertTrue(file.isDirectory());
-        
+
         builder = new BgCatalogBuilder(file);
         builder.build();
     }
@@ -34,9 +34,9 @@ public class BgCatalogBuilderTest {
     public void testBuild() throws Exception {
         Collection<BgCatalogTuple> items = builder.getItems();
         assertEquals(4, items.size());
-        
+
         Set<BgCatalogTuple> actual = new HashSet<>(items);
-        
+
         Set<BgCatalogTuple> expected = new HashSet<>();
         expected.add(new BgCatalogTuple("project:/example-su/wsdl/example.wsdl", "wsdl/example.wsdl", "http://www.example.org/test/", IAeConstants.WSDL_NAMESPACE));
         expected.add(new BgCatalogTuple("project:/example-su/xsd/example.xsd", "xsd/example.xsd", "http://www.example.org/test/", XMLConstants.W3C_XML_SCHEMA_NS_URI));
@@ -45,15 +45,15 @@ public class BgCatalogBuilderTest {
 
         assertTrue(expected.containsAll(actual));
     }
-    
+
     @Test
     public void testGetCatalog() throws Exception {
-        
+
         // record the files that are imported into the bpel's directly
         Set<BgCatalogTuple> referenced = new HashSet<>();
         referenced.add(new BgCatalogTuple("project:/example-su/wsdl/example.wsdl", "wsdl/example.wsdl", "http://www.example.org/test/", IAeConstants.WSDL_NAMESPACE));
         builder.setReferenced(referenced);
-        
+
         Catalog catalog = builder.getCatalog();
         assertNotNull(catalog);
         assertEquals(1, catalog.getOtherEntry().size());
@@ -66,17 +66,17 @@ public class BgCatalogBuilderTest {
         assertEquals(1, catalog.getSchemaEntry().size());
         assertEquals("project:/example-su/xsd/example.xsd", catalog.getSchemaEntry().get(0).getLocation());
         assertEquals("xsd/example.xsd", catalog.getSchemaEntry().get(0).getClasspath());
-        
+
     }
-    
+
     @Test
     public void testGetCatalog_nothingReferenced() throws Exception {
-    	Catalog catalog = builder.getCatalog();
+        Catalog catalog = builder.getCatalog();
         assertNotNull(catalog);
-        
+
         // if nothing is referenced at all, deploy everything 
-        
+
         assertEquals(4, catalog.getOtherEntry().size() + catalog.getWsdlEntry().size() + catalog.getSchemaEntry().size());
     }
-    
+
 }

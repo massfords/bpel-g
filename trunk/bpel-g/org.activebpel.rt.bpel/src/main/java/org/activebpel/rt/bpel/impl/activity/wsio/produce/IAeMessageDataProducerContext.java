@@ -17,21 +17,20 @@ import org.activebpel.rt.bpel.impl.AeAbstractBpelObject;
  * Defines the interface for a message data producer to interact with a BPEL
  * implementation object.
  */
-public interface IAeMessageDataProducerContext
-{
-   /**
-    * Returns the BPEL implementation object.
-    */
-   public AeAbstractBpelObject getBpelObject();
-   
-   /**
-    * Returns the variable that contains the data if this is a variable
-    * interaction.
-    */
-   public IAeVariable getVariable();
-   
-   /**
-    * Getter for the def
-    */
-   public IAeMessageDataProducerDef getMessageDataProducerDef();
+public interface IAeMessageDataProducerContext {
+    /**
+     * Returns the BPEL implementation object.
+     */
+    public AeAbstractBpelObject getBpelObject();
+
+    /**
+     * Returns the variable that contains the data if this is a variable
+     * interaction.
+     */
+    public IAeVariable getVariable();
+
+    /**
+     * Getter for the def
+     */
+    public IAeMessageDataProducerDef getMessageDataProducerDef();
 }

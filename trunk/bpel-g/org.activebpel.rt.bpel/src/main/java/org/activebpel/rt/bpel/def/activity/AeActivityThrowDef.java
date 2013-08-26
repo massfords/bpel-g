@@ -17,72 +17,69 @@ import org.activebpel.rt.bpel.def.visitors.IAeDefVisitor;
 /**
  * Definition for bpel throw activity.
  */
-public class AeActivityThrowDef extends AeActivityDef
-{
-   /**
-     * 
+public class AeActivityThrowDef extends AeActivityDef {
+    /**
+     *
      */
     private static final long serialVersionUID = -1218508980800868436L;
-/** fault name for the throw */
-   private QName mFaultName;
-   /** name of variable for throw */
-   private String mFaultVariable;
+    /**
+     * fault name for the throw
+     */
+    private QName mFaultName;
+    /**
+     * name of variable for throw
+     */
+    private String mFaultVariable;
 
-   // standard element names of the activity definition
-   public static final String TAG_THROW = "throw"; //$NON-NLS-1$
+    // standard element names of the activity definition
+    public static final String TAG_THROW = "throw"; //$NON-NLS-1$
 
-   /**
-    * Default constructor
-    */
-   public AeActivityThrowDef()
-   {
-   }
+    /**
+     * Default constructor
+     */
+    public AeActivityThrowDef() {
+    }
 
-   /**
-    * Accessor method to obtain the name of the fault for the throw activity.
-    * 
-    * @return name of fault
-    */
-   public QName getFaultName()
-   {
-      return mFaultName;
-   }
+    /**
+     * Accessor method to obtain the name of the fault for the throw activity.
+     *
+     * @return name of fault
+     */
+    public QName getFaultName() {
+        return mFaultName;
+    }
 
-   /**
-    * Mutator method to set the fault name.
-    * 
-    * @param aFaultName name of fault to be set
-    */
-   public void setFaultName(QName aFaultName)
-   {
-      mFaultName = aFaultName;
-   }
+    /**
+     * Mutator method to set the fault name.
+     *
+     * @param aFaultName name of fault to be set
+     */
+    public void setFaultName(QName aFaultName) {
+        mFaultName = aFaultName;
+    }
 
-   /**
-    * Accessor method to obtain the name of the fault variable for the throw activity.
-    * 
-    * @return name of fault variable
-    */
-   public String getFaultVariable()
-   {
-      return mFaultVariable;
-   }
+    /**
+     * Accessor method to obtain the name of the fault variable for the throw activity.
+     *
+     * @return name of fault variable
+     */
+    public String getFaultVariable() {
+        return mFaultVariable;
+    }
 
-   /**
-    * Mutator method to set the fault variable name.
-    * 
-    * @param aFaultVariable name of fault variable to be set
-    */ 
-   public void setFaultVariable(String aFaultVariable)
-   {
-      mFaultVariable = aFaultVariable;
-   }
+    /**
+     * Mutator method to set the fault variable name.
+     *
+     * @param aFaultVariable name of fault variable to be set
+     */
+    public void setFaultVariable(String aFaultVariable) {
+        mFaultVariable = aFaultVariable;
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.def.AeActivityDef#accept(org.activebpel.rt.bpel.def.visitors.IAeDefVisitor)
-    */
-   public void accept(IAeDefVisitor aVisitor)
-   {
-      aVisitor.visit(this);
-   }
+    /**
+     * @see org.activebpel.rt.bpel.def.AeActivityDef#accept(org.activebpel.rt.bpel.def.visitors.IAeDefVisitor)
+     */
+    public void accept(IAeDefVisitor aVisitor) {
+        aVisitor.visit(this);
+    }
 }

@@ -7,17 +7,17 @@
 //Active Endpoints, Inc. Removal of this PROPRIETARY RIGHTS STATEMENT 
 //is strictly forbidden. Copyright (c) 2002-2006 All rights reserved. 
 /////////////////////////////////////////////////////////////////////////////
-package org.activebpel.rt.bpel.def; 
+package org.activebpel.rt.bpel.def;
 
 /**
- * interface for a def that defines a variable 
+ * interface for a def that defines a variable
  */
-public interface IAeVariableParentDef
-{
-   /**
-    * Returns the var def if this parent has the variable.
-    * @param aVariableName
-    */
-   public AeVariableDef getVariableDef(String aVariableName);
+public interface IAeVariableParentDef {
+    /**
+     * Returns the var def if this parent has the variable.
+     *
+     * @param aVariableName
+     */
+    public AeVariableDef getVariableDef(String aVariableName);
 }
  

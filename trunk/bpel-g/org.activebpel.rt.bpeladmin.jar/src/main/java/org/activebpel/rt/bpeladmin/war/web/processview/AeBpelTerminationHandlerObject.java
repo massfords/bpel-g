@@ -14,15 +14,14 @@ import org.activebpel.rt.bpel.def.AeTerminationHandlerDef;
 /**
  * BPEL model for the root level terminationHandler.
  */
-public class AeBpelTerminationHandlerObject extends AeBpelObjectContainer
-{
+public class AeBpelTerminationHandlerObject extends AeBpelObjectContainer {
 
-   /**
-    * Ctor
-    * @param aDef activity definition.
-    */
-   public AeBpelTerminationHandlerObject(AeTerminationHandlerDef aDef)
-   {
-      super(AeTerminationHandlerDef.TAG_TERMINATION_HANDLER, aDef);
-   }   
+    /**
+     * Ctor
+     *
+     * @param aDef activity definition.
+     */
+    public AeBpelTerminationHandlerObject(AeTerminationHandlerDef aDef) {
+        super(AeTerminationHandlerDef.TAG_TERMINATION_HANDLER, aDef);
+    }
 }

@@ -13,8 +13,7 @@ package org.activebpel.rt.wsresource;
 /**
  * Some web service resource constants.
  */
-public interface IAeWSResourceConstants
-{
-   public static final String RULES_NAMESPACE = "urn:activebpel:wsresource:validation:rules"; //$NON-NLS-1$
-   public static final String SEVERITY_NAMESPACE = "urn:activebpel:wsresource:validation:ruleSeverity"; //$NON-NLS-1$
+public interface IAeWSResourceConstants {
+    public static final String RULES_NAMESPACE = "urn:activebpel:wsresource:validation:rules"; //$NON-NLS-1$
+    public static final String SEVERITY_NAMESPACE = "urn:activebpel:wsresource:validation:ruleSeverity"; //$NON-NLS-1$
 }

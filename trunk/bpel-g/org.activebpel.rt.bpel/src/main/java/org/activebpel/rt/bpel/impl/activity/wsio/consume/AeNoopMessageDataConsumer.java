@@ -14,21 +14,18 @@ import org.activebpel.rt.message.IAeMessageData;
 /**
  * Implements a message data consumer that does nothing.
  */
-public class AeNoopMessageDataConsumer implements IAeMessageDataConsumer
-{
-   /**
-    * Constructs a noop message data consumer for the given BPEL implementation
-    * object.
-    */
-   public AeNoopMessageDataConsumer()
-   {
-   }
+public class AeNoopMessageDataConsumer implements IAeMessageDataConsumer {
+    /**
+     * Constructs a noop message data consumer for the given BPEL implementation
+     * object.
+     */
+    public AeNoopMessageDataConsumer() {
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.impl.activity.wsio.consume.IAeMessageDataConsumer#consumeMessageData(org.activebpel.rt.message.IAeMessageData, org.activebpel.rt.bpel.impl.activity.wsio.consume.IAeMessageDataConsumerContext)
-    */
-   public void consumeMessageData(IAeMessageData aMessageData, IAeMessageDataConsumerContext aContext)
-   {
-      // Do nothing.
-   }
+    /**
+     * @see org.activebpel.rt.bpel.impl.activity.wsio.consume.IAeMessageDataConsumer#consumeMessageData(org.activebpel.rt.message.IAeMessageData, org.activebpel.rt.bpel.impl.activity.wsio.consume.IAeMessageDataConsumerContext)
+     */
+    public void consumeMessageData(IAeMessageData aMessageData, IAeMessageDataConsumerContext aContext) {
+        // Do nothing.
+    }
 }

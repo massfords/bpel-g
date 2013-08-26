@@ -13,37 +13,33 @@ import org.apache.axis.constants.Style;
 import org.apache.axis.constants.Use;
 
 /**
- * The BPEL handler for web services under an Axis framework for document/literal style binding. 
+ * The BPEL handler for web services under an Axis framework for document/literal style binding.
  */
-public class AeBpelDocumentHandler extends AeBpelHandler
-{
-   /**
-     * 
+public class AeBpelDocumentHandler extends AeBpelHandler {
+    /**
+     *
      */
     private static final long serialVersionUID = -8580745774161051475L;
 
-/**
-    * @see org.activebpel.rt.axis.bpel.handlers.AeBpelHandler#getStyle()
-    */
-   protected Style getStyle()
-   {
-      return Style.DOCUMENT;
-   }
-   
-   /**
-    * @see org.activebpel.rt.axis.bpel.handlers.AeBpelHandler#getUse()
-    */
-   protected Use getUse()
-   {
-      return Use.LITERAL;
-   }
+    /**
+     * @see org.activebpel.rt.axis.bpel.handlers.AeBpelHandler#getStyle()
+     */
+    protected Style getStyle() {
+        return Style.DOCUMENT;
+    }
 
-   /**
-    * @see org.activebpel.rt.axis.bpel.handlers.AeBpelHandler#getReceiveHandler()
-    */
-   public String getReceiveHandler()
-   {
-      return "soap:MSG"; //$NON-NLS-1$
-   }
+    /**
+     * @see org.activebpel.rt.axis.bpel.handlers.AeBpelHandler#getUse()
+     */
+    protected Use getUse() {
+        return Use.LITERAL;
+    }
+
+    /**
+     * @see org.activebpel.rt.axis.bpel.handlers.AeBpelHandler#getReceiveHandler()
+     */
+    public String getReceiveHandler() {
+        return "soap:MSG"; //$NON-NLS-1$
+    }
 
 }

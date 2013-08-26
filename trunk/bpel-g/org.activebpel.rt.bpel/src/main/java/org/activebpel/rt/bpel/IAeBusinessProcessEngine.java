@@ -31,354 +31,384 @@ import org.activebpel.wsio.receive.AeTimeoutException;
 import org.activebpel.wsio.receive.IAeMessageContext;
 import org.w3c.dom.Document;
 
-/** Describes the interface used for interacting with a business process engine */
-public interface IAeBusinessProcessEngine
-{
-   /**
-    * Gets the expression language factory configured in the engine config.  Defaults to the standard
-    * AeExpressionLanguageFactory which includes support for XPath 1.0 as required by the BPEL spec.
-    */
-   public IAeExpressionLanguageFactory getExpressionLanguageFactory();
-   
-   /**
-    * Sets the monitor health status of the engine
-    * @param aStatus The status to be set (MONITOR_NORMAL, MONITOR_WARNING, MONITOR_ERROR)
-    */
-   public void setMonitorStatus(AeMonitorStatus aStatus);
-   
-   /**
-    * Returns the monitor health status of the engine 
-    */
-   public AeMonitorStatus getMonitorStatus();
-   
-   /**
-    * Return the partner role endpoint reference for the partnerLink 
-    * identified by the path or null if none is found.
-    * @param aPid
-    * @param aPartnerLinkPath
-    * @throws AeBusinessProcessException
-    */
-   public IAeEndpointReference getPartnerRoleEndpointReference( long aPid, String aPartnerLinkPath ) 
-   throws AeBusinessProcessException;
-   
-   /**
-    * Set the variable data for the given suspended process and variable path.
-    * @param aPid
-    * @param aVariablePath
-    * @param aVariableData
-    * @throws AeBusinessProcessException
-    */
-   public void setVariableData( long aPid, String aVariablePath, Document aVariableData )
-   throws AeBusinessProcessException;
-  
-   /**
-    * Add the variable attachment for the given suspended process and variable path.
-    * @param aPid
-    * @param aVariablePath
-    * @param aWsioAttachment
-    * @throws AeBusinessProcessException
-    */
-   public IAeAttachmentItem addVariableAttachment( long aPid, String aVariablePath, AeWebServiceAttachment aWsioAttachment )
-   throws AeBusinessProcessException;
-   
-  /**
-   * Remove the variable attachments for the given suspended process and variable path.
-   * @param aPid
-   * @param aVariablePath
-   * @param aAttachmentItemNumbers
-   * @throws AeBusinessProcessException
-   */
-  public void removeVariableAttachments( long aPid, String aVariablePath, int[] aAttachmentItemNumbers )
-  throws AeBusinessProcessException;
+/**
+ * Describes the interface used for interacting with a business process engine
+ */
+public interface IAeBusinessProcessEngine {
+    /**
+     * Gets the expression language factory configured in the engine config.  Defaults to the standard
+     * AeExpressionLanguageFactory which includes support for XPath 1.0 as required by the BPEL spec.
+     */
+    public IAeExpressionLanguageFactory getExpressionLanguageFactory();
 
-   
-   /**
-    * Returns the correlation data for the given process and correlation path.
-    * @param aPid
-    * @param aCorrsetPath
-    * @throws AeBusinessProcessException
-    */
-   public Map getCorrelationData( long aPid, String aCorrsetPath)
-   throws AeBusinessProcessException;
-   
-   /**
-    * Set the correlation data for the given suspended process and correlation path.
-    * @param aPid
-    * @param aCorrsetPath
-    * @param aCorrelationData
-    * @throws AeBusinessProcessException
-    */
-   public void setCorrelationData( long aPid, String aCorrsetPath, Map<QName, String> aCorrelationData )
-   throws AeBusinessProcessException;
-   
-   /**
-    * Set the endpoint ref data for a partnerRole partner link.
-    * @param aPid
-    * @param aIsPartnerRole
-    * @param aPartnerLinkPath
-    * @param aPartnerEndpointRef
-    * @throws AeBusinessProcessException
-    */
-   public void setPartnerLinkData( long aPid, boolean aIsPartnerRole, String aPartnerLinkPath, Document aPartnerEndpointRef )
-   throws AeBusinessProcessException;
-   
-   /**
-    * Suspends the business process identified by the passed pid.
-    * @param aPid The process id of the process to suspend.
-    * @throws AeBusinessProcessException
-    */
-   public void suspendProcess(long aPid) throws AeBusinessProcessException;
+    /**
+     * Sets the monitor health status of the engine
+     *
+     * @param aStatus The status to be set (MONITOR_NORMAL, MONITOR_WARNING, MONITOR_ERROR)
+     */
+    public void setMonitorStatus(AeMonitorStatus aStatus);
 
-   /**
-    * Resumes the business process identified by the passed pid.
-    * @param aPid The process id of the process to resume.
-    * @throws AeBusinessProcessException
-    */
-   public void resumeProcess(long aPid) throws AeBusinessProcessException;
+    /**
+     * Returns the monitor health status of the engine
+     */
+    public AeMonitorStatus getMonitorStatus();
 
-   /**
-    * Resumes the business process identified by the passed pid for the passed
-    * suspended location.
-    * @param aPid The process id of the process to resume.
-    * @param aLocation A location path for a suspended bpel object.
-    * @throws AeBusinessProcessException
-    */
-   public void resumeProcessObject(long aPid, String aLocation) throws AeBusinessProcessException;
-   
-   /**
-    * Step resumes the business process identified by the passed pid. The activity
-    * identified by the location arg (or its enclosing scope) will be re-executed.
-    * @param aPid The process id of the process to resume.
-    * @param aLocation A location path for a suspended bpel object.
-    * @throws AeBusinessProcessException
-    */
-   public void retryActivity( long aPid, String aLocation, boolean aAtScope )
-   throws AeBusinessProcessException;
-   
-   /**
-    * Step resumes the business process identified by the passed pid. The activity
-    * identified by the location arg (or its enclosing scope) will be treated as
-    * if it had completed normally.  
-    * It is up to the use to ensure that the process is a "good state" before
-    * executing this method. 
-    * @param aPid
-    * @param aLocation
-    * @throws AeBusinessProcessException
-    */
-   public void completeActivity( long aPid, String aLocation )
-   throws AeBusinessProcessException;
-   
+    /**
+     * Return the partner role endpoint reference for the partnerLink
+     * identified by the path or null if none is found.
+     *
+     * @param aPid
+     * @param aPartnerLinkPath
+     * @throws AeBusinessProcessException
+     */
+    public IAeEndpointReference getPartnerRoleEndpointReference(long aPid, String aPartnerLinkPath)
+            throws AeBusinessProcessException;
 
-   /**
-    * Terminates the business process identified by the passed pid.
-    * @param aPid The process id of the process to terminate.
-    * @throws AeBusinessProcessException
-    */
-   public void terminateProcess(long aPid) throws AeBusinessProcessException;
+    /**
+     * Set the variable data for the given suspended process and variable path.
+     *
+     * @param aPid
+     * @param aVariablePath
+     * @param aVariableData
+     * @throws AeBusinessProcessException
+     */
+    public void setVariableData(long aPid, String aVariablePath, Document aVariableData)
+            throws AeBusinessProcessException;
 
-   /**
-    * Add a listener for engine notification events.
-    * @param aListener The listener to be added
-    */
-   public void addEngineListener(IAeEngineListener aListener);
-   
-   /**
-    * Remove the given listener from receiving engine notification events.
-    * @param aListener The listener to be added
-    */
-   public void removeEngineListener(IAeEngineListener aListener);
+    /**
+     * Add the variable attachment for the given suspended process and variable path.
+     *
+     * @param aPid
+     * @param aVariablePath
+     * @param aWsioAttachment
+     * @throws AeBusinessProcessException
+     */
+    public IAeAttachmentItem addVariableAttachment(long aPid, String aVariablePath, AeWebServiceAttachment aWsioAttachment)
+            throws AeBusinessProcessException;
 
-   /**
-    * Add a listener for monitor notification events.
-    * @param aListener The listener to be added
-    */
-   public void addMonitorListener(IAeMonitorListener aListener);
-   
-   /**
-    * Remove the given listener from receiving monitor notification events.
-    * @param aListener The listener to be removed
-    */
-   public void removeMonitorListener(IAeMonitorListener aListener);
-   
-   /**
-    * Add a listener to those notified of process events for all executing processes.
-    * @param aListener The listener instance to add.
-    */
-   public void addProcessListener(IAeProcessListener aListener);
-
-   /**
-    * Add a listener to those notified of process events for the given process ID.
-    * @param aListener The listener instance to add.
-    * @param aPid the process id we are being installed for
-    */
-   public void addProcessListener(IAeProcessListener aListener, long aPid);
-
-   /**
-    * Removes the passed listener from list of those notified of process events
-    * for all executing processes.
-    * @param aListener The listener instance to remove.
-    */
-   public void removeProcessListener(IAeProcessListener aListener);
-
-   /**
-    * Removes the passed listener from list of those notified of process events
-    * for the given process ID.
-    * @param aListener The listener instance to remove.
-    * @param aPid the process id we are being removed for
-    */
-   public void removeProcessListener(IAeProcessListener aListener, long aPid);
-
-   /**
-    * Accepts an inbound message which will either create a new process instance or get dispatched to
-    * an existing message receiver from an already executing process.
-    * If a new process is created, it will be queued for execution.
-    *  
-    * @param aProcessPlan
-    * @param aMessageData
-    * @param aReply
-    * @param aContext
-    * @return the PID the receive was routed to
-    * @throws AeBusinessProcessException
-    */
-   public long queueReceiveData(IAeProcessPlan aProcessPlan, IAeMessageData aMessageData, IAeReplyReceiver aReply, IAeMessageContext aContext)
-      throws AeBusinessProcessException;
-
-   /**
-    * Accepts an inbound message which will either create a new process instance or get dispatched to
-    * an existing message receiver from an already executing process.  
-    * If a new process was created, then this method returns the newly created process id
-    * otherwise, returns <code>IAeBusinessProcess.NULL_PROCESS_ID</code>.
-    * 
-    * If the <code>aQueueForExecution</code> was false, then the newly created process is not
-    * queued for execution.
-    *  
-    * @param aInboundReceive
-    * @param aAckCallback message acknowledgement callback.
-    * @param aQueueForExecution if true and if a process was created, the process is queued for execution.
-    * @throws AeCorrelationViolationException
-    * @throws AeConflictingRequestException
-    * @throws AeBusinessProcessException
-    * @return If a process was created, then the process id is returned, else returns <code>IAeBusinessProcess.NULL_PROCESS_ID</code>.
-    */
-   public long queueReceiveData(AeInboundReceive aInboundReceive, IAeMessageAcknowledgeCallback aAckCallback, boolean aQueueForExecution)
-         throws AeCorrelationViolationException, AeConflictingRequestException, AeBusinessProcessException;
-
-   /**
-    * Primary interface for dispatching messages from web services.
-    * 
-    * @param aContext Provides contextual information about what process and operation are being targeted.
-    * @param aData The data for the operation being invoked
-    * @throws AeBusinessProcessException
-    * @throws AeTimeoutException
-    */
-   public IAeWebServiceResponse queueReceiveData(IAeMessageContext aContext, IAeWebServiceMessageData aData) 
-      throws AeBusinessProcessException;
-   
-   /**
-    * Specialized doc-literal invocation method for the engine. At a minimum, the user must pass
-    * a context that contains the service name for the invoke and the engine will determine the
-    * process, partnerlink, and operation by using the data to find the matching signature
-    * for the port type.
-    * 
-    * @param aContext Provides contextual information about what process and operation are being targeted.
-    * @param aDataArray The data for the operation being invoked
-    * @throws AeTimeoutException
-    * @throws AeBusinessProcessException
-    */
-   public IAeWebServiceResponse queueReceiveData(IAeMessageContext aContext, Document...aDataArray) throws AeBusinessProcessException;
-   
-   /**
-    * Allows an externally invoked operation data to dispatch to a queued invoke.
-    * @param aProcessId The id of the process expecting the response from the invoke
-    * @param aLocationPath The path to the location awaiting the response
-    * @param aTransmissionId invoke activity's transmission id.
-    * @param aMessageData The data we have received from invoke.
-    * @param aProcessProperties Any string name/value pairs we received back from the invoke.
-    * @throws AeBusinessProcessException Thrown if error occurs setting the receiver.
-    */
-   public void queueInvokeData(long aProcessId, String aLocationPath, long aTransmissionId, IAeMessageData aMessageData, Map<String,String> aProcessProperties)
-         throws AeBusinessProcessException;
-   
-   /**
-    * Allows an externally invoked operation data to dispatch to a queued invoke.
-    * @param aProcessId The id of the process expecting the response from the invoke
-    * @param aLocationPath The path to the location awaiting the response
-    * @param aTransmissionId invoke activity's transmission id.  
-    * @param aMessageData The data we have received from invoke.
-    * @param aProcessProperties Any string name/value pairs we received back from the invoke.
-    * @param aAckCallback optional callback to acknowledge the receipt of data.
-    * @throws AeBusinessProcessException Thrown if error occurs setting the receiver.
-    */
-   public void queueInvokeData(long aProcessId, String aLocationPath, long aTransmissionId, IAeMessageData aMessageData, Map<String, String> aProcessProperties, IAeMessageAcknowledgeCallback aAckCallback)
-         throws AeBusinessProcessException;
+    /**
+     * Remove the variable attachments for the given suspended process and variable path.
+     *
+     * @param aPid
+     * @param aVariablePath
+     * @param aAttachmentItemNumbers
+     * @throws AeBusinessProcessException
+     */
+    public void removeVariableAttachments(long aPid, String aVariablePath, int[] aAttachmentItemNumbers)
+            throws AeBusinessProcessException;
 
 
-   /**
-    * Allows an externally invoked operation fault to dispatch to a queued invoke.
-    * @param aProcessId The process that's expecting the invoke response
-    * @param aLocationPath The path to the location awaiting the response
-    * @param aTransmissionId invoke activity's transmission id. 
-    * @param aFault The fault we received from invoke.
-    * @param aProcessProperties Any string name/value pairs we received back from the invoke.
-    * @throws AeBusinessProcessException Thrown if error occurs setting the receiver.
-    */   
-   public void queueInvokeFault(long aProcessId, String aLocationPath, long aTransmissionId, IAeFault aFault, Map<String,String> aProcessProperties)
-      throws AeBusinessProcessException;
-   
-   /**
-    * Allows an externally invoked operation fault to dispatch to a queued invoke.
-    * @param aProcessId The process that's expecting the invoke response
-    * @param aLocationPath The path to the location awaiting the response
-    * @param aTransmissionId invoke activity's transmission id.
-    * @param aFault The fault we received from invoke.
-    * @param aProcessProperties Any string name/value pairs we received back from the invoke.
-    * @param aAckCallback optional callback to acknowledge the receipt of data.
-    * @throws AeBusinessProcessException Thrown if error occurs setting the receiver.
-    */   
-   public void queueInvokeFault(long aProcessId, String aLocationPath, long aTransmissionId, IAeFault aFault, Map<String,String> aProcessProperties, IAeMessageAcknowledgeCallback aAckCallback)
-      throws AeBusinessProcessException;
-   
-   /**
-    * Gets the date/time that the engine started.
-    */
-   public Date getStartDate();
+    /**
+     * Returns the correlation data for the given process and correlation path.
+     *
+     * @param aPid
+     * @param aCorrsetPath
+     * @throws AeBusinessProcessException
+     */
+    public Map getCorrelationData(long aPid, String aCorrsetPath)
+            throws AeBusinessProcessException;
 
-   /**
-    * Gets the serialized state of a process, by ID.
-    * @param aProcessId ID of the process.
-    * @return Document containing the XML serialized state of the process.
-    * @throws AeBusinessProcessException
-    */
-   public Document getProcessState( long aProcessId ) throws AeBusinessProcessException;
+    /**
+     * Set the correlation data for the given suspended process and correlation path.
+     *
+     * @param aPid
+     * @param aCorrsetPath
+     * @param aCorrelationData
+     * @throws AeBusinessProcessException
+     */
+    public void setCorrelationData(long aPid, String aCorrsetPath, Map<QName, String> aCorrelationData)
+            throws AeBusinessProcessException;
 
-   /**
-    * Gets the serialized variable for a process, by ID and location.
-    * @param aProcessId ID of the process.
-    * @param aLocationPath The location XPath for the variable's enclosing scope (?)
-    * @return Document containing the XML serialized variable data.
-    * @throws AeBusinessProcessException
-    */
-   public Document getProcessVariable( long aProcessId, String aLocationPath ) throws AeBusinessProcessException;
+    /**
+     * Set the endpoint ref data for a partnerRole partner link.
+     *
+     * @param aPid
+     * @param aIsPartnerRole
+     * @param aPartnerLinkPath
+     * @param aPartnerEndpointRef
+     * @throws AeBusinessProcessException
+     */
+    public void setPartnerLinkData(long aPid, boolean aIsPartnerRole, String aPartnerLinkPath, Document aPartnerEndpointRef)
+            throws AeBusinessProcessException;
 
-   /**
-    * Returns the type mapping helper for the engine for schema to java and back.
-    */
-   public AeTypeMapping getTypeMapping();
+    /**
+     * Suspends the business process identified by the passed pid.
+     *
+     * @param aPid The process id of the process to suspend.
+     * @throws AeBusinessProcessException
+     */
+    public void suspendProcess(long aPid) throws AeBusinessProcessException;
 
-   /**
-    * Returns <code>true</code> if and only if the process with the given
-    * process id is restartable.
-    *
-    * @param aProcessId The process id of the process to restart.
-    * @throws AeBusinessProcessException
-    */
-   public boolean isRestartable(long aProcessId) throws AeBusinessProcessException;
+    /**
+     * Resumes the business process identified by the passed pid.
+     *
+     * @param aPid The process id of the process to resume.
+     * @throws AeBusinessProcessException
+     */
+    public void resumeProcess(long aPid) throws AeBusinessProcessException;
 
-   /**
-    * Restarts the business process identified by the given process id.
-    *
-    * @param aProcessId The process id of the process to restart.
-    * @throws AeBusinessProcessException
-    */
-   public void restartProcess(long aProcessId) throws AeBusinessProcessException;
+    /**
+     * Resumes the business process identified by the passed pid for the passed
+     * suspended location.
+     *
+     * @param aPid      The process id of the process to resume.
+     * @param aLocation A location path for a suspended bpel object.
+     * @throws AeBusinessProcessException
+     */
+    public void resumeProcessObject(long aPid, String aLocation) throws AeBusinessProcessException;
+
+    /**
+     * Step resumes the business process identified by the passed pid. The activity
+     * identified by the location arg (or its enclosing scope) will be re-executed.
+     *
+     * @param aPid      The process id of the process to resume.
+     * @param aLocation A location path for a suspended bpel object.
+     * @throws AeBusinessProcessException
+     */
+    public void retryActivity(long aPid, String aLocation, boolean aAtScope)
+            throws AeBusinessProcessException;
+
+    /**
+     * Step resumes the business process identified by the passed pid. The activity
+     * identified by the location arg (or its enclosing scope) will be treated as
+     * if it had completed normally.
+     * It is up to the use to ensure that the process is a "good state" before
+     * executing this method.
+     *
+     * @param aPid
+     * @param aLocation
+     * @throws AeBusinessProcessException
+     */
+    public void completeActivity(long aPid, String aLocation)
+            throws AeBusinessProcessException;
+
+
+    /**
+     * Terminates the business process identified by the passed pid.
+     *
+     * @param aPid The process id of the process to terminate.
+     * @throws AeBusinessProcessException
+     */
+    public void terminateProcess(long aPid) throws AeBusinessProcessException;
+
+    /**
+     * Add a listener for engine notification events.
+     *
+     * @param aListener The listener to be added
+     */
+    public void addEngineListener(IAeEngineListener aListener);
+
+    /**
+     * Remove the given listener from receiving engine notification events.
+     *
+     * @param aListener The listener to be added
+     */
+    public void removeEngineListener(IAeEngineListener aListener);
+
+    /**
+     * Add a listener for monitor notification events.
+     *
+     * @param aListener The listener to be added
+     */
+    public void addMonitorListener(IAeMonitorListener aListener);
+
+    /**
+     * Remove the given listener from receiving monitor notification events.
+     *
+     * @param aListener The listener to be removed
+     */
+    public void removeMonitorListener(IAeMonitorListener aListener);
+
+    /**
+     * Add a listener to those notified of process events for all executing processes.
+     *
+     * @param aListener The listener instance to add.
+     */
+    public void addProcessListener(IAeProcessListener aListener);
+
+    /**
+     * Add a listener to those notified of process events for the given process ID.
+     *
+     * @param aListener The listener instance to add.
+     * @param aPid      the process id we are being installed for
+     */
+    public void addProcessListener(IAeProcessListener aListener, long aPid);
+
+    /**
+     * Removes the passed listener from list of those notified of process events
+     * for all executing processes.
+     *
+     * @param aListener The listener instance to remove.
+     */
+    public void removeProcessListener(IAeProcessListener aListener);
+
+    /**
+     * Removes the passed listener from list of those notified of process events
+     * for the given process ID.
+     *
+     * @param aListener The listener instance to remove.
+     * @param aPid      the process id we are being removed for
+     */
+    public void removeProcessListener(IAeProcessListener aListener, long aPid);
+
+    /**
+     * Accepts an inbound message which will either create a new process instance or get dispatched to
+     * an existing message receiver from an already executing process.
+     * If a new process is created, it will be queued for execution.
+     *
+     * @param aProcessPlan
+     * @param aMessageData
+     * @param aReply
+     * @param aContext
+     * @return the PID the receive was routed to
+     * @throws AeBusinessProcessException
+     */
+    public long queueReceiveData(IAeProcessPlan aProcessPlan, IAeMessageData aMessageData, IAeReplyReceiver aReply, IAeMessageContext aContext)
+            throws AeBusinessProcessException;
+
+    /**
+     * Accepts an inbound message which will either create a new process instance or get dispatched to
+     * an existing message receiver from an already executing process.
+     * If a new process was created, then this method returns the newly created process id
+     * otherwise, returns <code>IAeBusinessProcess.NULL_PROCESS_ID</code>.
+     * <p/>
+     * If the <code>aQueueForExecution</code> was false, then the newly created process is not
+     * queued for execution.
+     *
+     * @param aInboundReceive
+     * @param aAckCallback       message acknowledgement callback.
+     * @param aQueueForExecution if true and if a process was created, the process is queued for execution.
+     * @return If a process was created, then the process id is returned, else returns <code>IAeBusinessProcess.NULL_PROCESS_ID</code>.
+     * @throws AeCorrelationViolationException
+     *
+     * @throws AeConflictingRequestException
+     * @throws AeBusinessProcessException
+     */
+    public long queueReceiveData(AeInboundReceive aInboundReceive, IAeMessageAcknowledgeCallback aAckCallback, boolean aQueueForExecution)
+            throws AeCorrelationViolationException, AeConflictingRequestException, AeBusinessProcessException;
+
+    /**
+     * Primary interface for dispatching messages from web services.
+     *
+     * @param aContext Provides contextual information about what process and operation are being targeted.
+     * @param aData    The data for the operation being invoked
+     * @throws AeBusinessProcessException
+     * @throws AeTimeoutException
+     */
+    public IAeWebServiceResponse queueReceiveData(IAeMessageContext aContext, IAeWebServiceMessageData aData)
+            throws AeBusinessProcessException;
+
+    /**
+     * Specialized doc-literal invocation method for the engine. At a minimum, the user must pass
+     * a context that contains the service name for the invoke and the engine will determine the
+     * process, partnerlink, and operation by using the data to find the matching signature
+     * for the port type.
+     *
+     * @param aContext   Provides contextual information about what process and operation are being targeted.
+     * @param aDataArray The data for the operation being invoked
+     * @throws AeTimeoutException
+     * @throws AeBusinessProcessException
+     */
+    public IAeWebServiceResponse queueReceiveData(IAeMessageContext aContext, Document... aDataArray) throws AeBusinessProcessException;
+
+    /**
+     * Allows an externally invoked operation data to dispatch to a queued invoke.
+     *
+     * @param aProcessId         The id of the process expecting the response from the invoke
+     * @param aLocationPath      The path to the location awaiting the response
+     * @param aTransmissionId    invoke activity's transmission id.
+     * @param aMessageData       The data we have received from invoke.
+     * @param aProcessProperties Any string name/value pairs we received back from the invoke.
+     * @throws AeBusinessProcessException Thrown if error occurs setting the receiver.
+     */
+    public void queueInvokeData(long aProcessId, String aLocationPath, long aTransmissionId, IAeMessageData aMessageData, Map<String, String> aProcessProperties)
+            throws AeBusinessProcessException;
+
+    /**
+     * Allows an externally invoked operation data to dispatch to a queued invoke.
+     *
+     * @param aProcessId         The id of the process expecting the response from the invoke
+     * @param aLocationPath      The path to the location awaiting the response
+     * @param aTransmissionId    invoke activity's transmission id.
+     * @param aMessageData       The data we have received from invoke.
+     * @param aProcessProperties Any string name/value pairs we received back from the invoke.
+     * @param aAckCallback       optional callback to acknowledge the receipt of data.
+     * @throws AeBusinessProcessException Thrown if error occurs setting the receiver.
+     */
+    public void queueInvokeData(long aProcessId, String aLocationPath, long aTransmissionId, IAeMessageData aMessageData, Map<String, String> aProcessProperties, IAeMessageAcknowledgeCallback aAckCallback)
+            throws AeBusinessProcessException;
+
+
+    /**
+     * Allows an externally invoked operation fault to dispatch to a queued invoke.
+     *
+     * @param aProcessId         The process that's expecting the invoke response
+     * @param aLocationPath      The path to the location awaiting the response
+     * @param aTransmissionId    invoke activity's transmission id.
+     * @param aFault             The fault we received from invoke.
+     * @param aProcessProperties Any string name/value pairs we received back from the invoke.
+     * @throws AeBusinessProcessException Thrown if error occurs setting the receiver.
+     */
+    public void queueInvokeFault(long aProcessId, String aLocationPath, long aTransmissionId, IAeFault aFault, Map<String, String> aProcessProperties)
+            throws AeBusinessProcessException;
+
+    /**
+     * Allows an externally invoked operation fault to dispatch to a queued invoke.
+     *
+     * @param aProcessId         The process that's expecting the invoke response
+     * @param aLocationPath      The path to the location awaiting the response
+     * @param aTransmissionId    invoke activity's transmission id.
+     * @param aFault             The fault we received from invoke.
+     * @param aProcessProperties Any string name/value pairs we received back from the invoke.
+     * @param aAckCallback       optional callback to acknowledge the receipt of data.
+     * @throws AeBusinessProcessException Thrown if error occurs setting the receiver.
+     */
+    public void queueInvokeFault(long aProcessId, String aLocationPath, long aTransmissionId, IAeFault aFault, Map<String, String> aProcessProperties, IAeMessageAcknowledgeCallback aAckCallback)
+            throws AeBusinessProcessException;
+
+    /**
+     * Gets the date/time that the engine started.
+     */
+    public Date getStartDate();
+
+    /**
+     * Gets the serialized state of a process, by ID.
+     *
+     * @param aProcessId ID of the process.
+     * @return Document containing the XML serialized state of the process.
+     * @throws AeBusinessProcessException
+     */
+    public Document getProcessState(long aProcessId) throws AeBusinessProcessException;
+
+    /**
+     * Gets the serialized variable for a process, by ID and location.
+     *
+     * @param aProcessId    ID of the process.
+     * @param aLocationPath The location XPath for the variable's enclosing scope (?)
+     * @return Document containing the XML serialized variable data.
+     * @throws AeBusinessProcessException
+     */
+    public Document getProcessVariable(long aProcessId, String aLocationPath) throws AeBusinessProcessException;
+
+    /**
+     * Returns the type mapping helper for the engine for schema to java and back.
+     */
+    public AeTypeMapping getTypeMapping();
+
+    /**
+     * Returns <code>true</code> if and only if the process with the given
+     * process id is restartable.
+     *
+     * @param aProcessId The process id of the process to restart.
+     * @throws AeBusinessProcessException
+     */
+    public boolean isRestartable(long aProcessId) throws AeBusinessProcessException;
+
+    /**
+     * Restarts the business process identified by the given process id.
+     *
+     * @param aProcessId The process id of the process to restart.
+     * @throws AeBusinessProcessException
+     */
+    public void restartProcess(long aProcessId) throws AeBusinessProcessException;
 }

@@ -12,41 +12,40 @@ package org.activebpel.rt.bpel.function;
 import org.activebpel.rt.AeException;
 
 /**
- * Thrown if <code>IAeFunctionContext</code> impl is unable to find the 
+ * Thrown if <code>IAeFunctionContext</code> impl is unable to find the
  * appropriate <code>IAeExpressionFunction</code>.
  */
-public class AeUnresolvableException extends AeException
-{
-   /**
-     * 
+public class AeUnresolvableException extends AeException {
+    /**
+     *
      */
     private static final long serialVersionUID = -6570080275035743365L;
 
-/**
-    * Constructor.
-    * @param aInfo
-    */
-   public AeUnresolvableException(String aInfo)
-   {
-      super(aInfo);
-   }
+    /**
+     * Constructor.
+     *
+     * @param aInfo
+     */
+    public AeUnresolvableException(String aInfo) {
+        super(aInfo);
+    }
 
-   /**
-    * Constructor.
-    * @param aInfo
-    * @param aRootCause
-    */
-   public AeUnresolvableException(String aInfo, Throwable aRootCause)
-   {
-      super(aInfo, aRootCause);
-   }
-   
-   /**
-    * Constructor.
-    * @param aRootCause
-    */
-   public AeUnresolvableException(Throwable aRootCause)
-   {
-      super(aRootCause);
-   }
+    /**
+     * Constructor.
+     *
+     * @param aInfo
+     * @param aRootCause
+     */
+    public AeUnresolvableException(String aInfo, Throwable aRootCause) {
+        super(aInfo, aRootCause);
+    }
+
+    /**
+     * Constructor.
+     *
+     * @param aRootCause
+     */
+    public AeUnresolvableException(Throwable aRootCause) {
+        super(aRootCause);
+    }
 }

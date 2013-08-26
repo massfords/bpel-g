@@ -20,130 +20,111 @@ import org.apache.axis.description.OperationDesc;
  * properties to an <code>IAeWsdlReference</code>.  This allows the wsdl reference
  * to cache/update its properties as the catalog is updated.
  */
-public class AeMutableServiceDesc extends AeServiceDesc
-{
-   /**
-     * 
+public class AeMutableServiceDesc extends AeServiceDesc {
+    /**
+     *
      */
     private static final long serialVersionUID = -7356824642863040857L;
-/**
-    * The <code>IAeWsdlReference</code> impl.
-    */
-   private IAeWsdlReference mWsdlReference;
-   
-   /**
-    * Constructor.
-    */
-   public AeMutableServiceDesc()
-   {
-      super();
-   }
-   
-   /**
-    * @see org.apache.axis.description.ServiceDesc#getProperty(java.lang.String)
-    */
-   public Object getProperty(String aName)
-   {
-      return getWsdlReferenceProperty( aName, getWsdlReference(), getProperties() );
-   }
-   
-   /**
-    * Look for wsdl related properties in the <code>IAeWsdlReference</code> member,
-    * otherwise use the standard properties map. 
-    * @param aPropertyKey
-    * @param aReference
-    * @param aServiceDescProps
-    */
-   protected Object getWsdlReferenceProperty( String aPropertyKey, IAeWsdlReference aReference, Map<String, Object> aServiceDescProps )
-   {
-      Object propertyObj = null;
-      
-      if( AeHandler.WSDL_DEF_ENTRY.equals( aPropertyKey ) )
-      {
-         propertyObj = aReference.getWsdlDef();
-      }
-      else if( AeHandler.PARTNER_LINK_ENTRY.equals( aPropertyKey ) )
-      {
-         propertyObj = aReference.getPartnerLinkDef();
-      }
-      else if( AeHandler.PORT_TYPE_ENTRY.equals( aPropertyKey) )
-      {
-         propertyObj = aReference.getPortTypeQName();
-      }
-      else if( aServiceDescProps != null )
-      {
-         propertyObj = aServiceDescProps.get( aPropertyKey );
-      }
-      
-      return propertyObj;
-   }
-   
-   /**
-    * @see org.apache.axis.description.ServiceDesc#getOperations()
-    */
-   public ArrayList<OperationDesc> getOperations()
-   {
-      return getWsdlReference().getOperations();
-   }
+    /**
+     * The <code>IAeWsdlReference</code> impl.
+     */
+    private IAeWsdlReference mWsdlReference;
 
-   /**
-    * @see org.apache.axis.description.ServiceDesc#getOperationsByName(java.lang.String)
-    */
-   public OperationDesc[] getOperationsByName(String aMethodName)
-   {
-      return getWsdlReference().getOperationsByName( aMethodName );
-   }
+    /**
+     * Constructor.
+     */
+    public AeMutableServiceDesc() {
+        super();
+    }
 
-   /**
-    * @see org.apache.axis.description.ServiceDesc#getOperationByName(java.lang.String)
-    */
-   public OperationDesc getOperationByName(String aMethodName)
-   {
-      return getWsdlReference().getOperationByName( aMethodName );
-   }
+    /**
+     * @see org.apache.axis.description.ServiceDesc#getProperty(java.lang.String)
+     */
+    public Object getProperty(String aName) {
+        return getWsdlReferenceProperty(aName, getWsdlReference(), getProperties());
+    }
 
-   /**
-    * @see org.apache.axis.description.ServiceDesc#removeOperationDesc(org.apache.axis.description.OperationDesc)
-    */
-   public void removeOperationDesc(OperationDesc aOperation)
-   {
-      getWsdlReference().removeOperationDesc( aOperation );
-   }
+    /**
+     * Look for wsdl related properties in the <code>IAeWsdlReference</code> member,
+     * otherwise use the standard properties map.
+     *
+     * @param aPropertyKey
+     * @param aReference
+     * @param aServiceDescProps
+     */
+    protected Object getWsdlReferenceProperty(String aPropertyKey, IAeWsdlReference aReference, Map<String, Object> aServiceDescProps) {
+        Object propertyObj = null;
 
-   /**
-    * @see org.apache.axis.description.ServiceDesc#getAllowedMethods()
-    */
-   public List<String> getAllowedMethods()
-   {
-      return getWsdlReference().getAllowedMethods();
-   }
-   
-   /**
-    * @param aWsdlReference The wsdlReference to set.
-    */
-   public void setWsdlReference(IAeWsdlReference aWsdlReference)
-   {
-      mWsdlReference = aWsdlReference;
-   }
-   
-   /**
-    * @see org.activebpel.rt.axis.AeServiceDesc#setInitialized(boolean)
-    */
-   public void setInitialized(boolean aFlag)
-   {
-      super.setInitialized(aFlag);
+        if (AeHandler.WSDL_DEF_ENTRY.equals(aPropertyKey)) {
+            propertyObj = aReference.getWsdlDef();
+        } else if (AeHandler.PARTNER_LINK_ENTRY.equals(aPropertyKey)) {
+            propertyObj = aReference.getPartnerLinkDef();
+        } else if (AeHandler.PORT_TYPE_ENTRY.equals(aPropertyKey)) {
+            propertyObj = aReference.getPortTypeQName();
+        } else if (aServiceDescProps != null) {
+            propertyObj = aServiceDescProps.get(aPropertyKey);
+        }
 
-      if( aFlag )
-      {
-         AeWsdlReferenceTracker.registerReference( getName(), getWsdlReference() );
-      }
-   }
+        return propertyObj;
+    }
 
-   /**
-    * @return Returns the wsdlReference.
-    */
-   public IAeWsdlReference getWsdlReference()
-   {
-      return mWsdlReference;
-   }
+    /**
+     * @see org.apache.axis.description.ServiceDesc#getOperations()
+     */
+    public ArrayList<OperationDesc> getOperations() {
+        return getWsdlReference().getOperations();
+    }
+
+    /**
+     * @see org.apache.axis.description.ServiceDesc#getOperationsByName(java.lang.String)
+     */
+    public OperationDesc[] getOperationsByName(String aMethodName) {
+        return getWsdlReference().getOperationsByName(aMethodName);
+    }
+
+    /**
+     * @see org.apache.axis.description.ServiceDesc#getOperationByName(java.lang.String)
+     */
+    public OperationDesc getOperationByName(String aMethodName) {
+        return getWsdlReference().getOperationByName(aMethodName);
+    }
+
+    /**
+     * @see org.apache.axis.description.ServiceDesc#removeOperationDesc(org.apache.axis.description.OperationDesc)
+     */
+    public void removeOperationDesc(OperationDesc aOperation) {
+        getWsdlReference().removeOperationDesc(aOperation);
+    }
+
+    /**
+     * @see org.apache.axis.description.ServiceDesc#getAllowedMethods()
+     */
+    public List<String> getAllowedMethods() {
+        return getWsdlReference().getAllowedMethods();
+    }
+
+    /**
+     * @param aWsdlReference The wsdlReference to set.
+     */
+    public void setWsdlReference(IAeWsdlReference aWsdlReference) {
+        mWsdlReference = aWsdlReference;
+    }
+
+    /**
+     * @see org.activebpel.rt.axis.AeServiceDesc#setInitialized(boolean)
+     */
+    public void setInitialized(boolean aFlag) {
+        super.setInitialized(aFlag);
+
+        if (aFlag) {
+            AeWsdlReferenceTracker.registerReference(getName(), getWsdlReference());
+        }
+    }
+
+    /**
+     * @return Returns the wsdlReference.
+     */
+    public IAeWsdlReference getWsdlReference() {
+        return mWsdlReference;
+    }
 }

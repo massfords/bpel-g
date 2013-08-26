@@ -19,32 +19,25 @@ import org.w3c.dom.Node;
  * and so is basically just a pass-through converter.  It passes through common types and converts
  * unknown types to String.
  */
-public class AeDefaultBSFExpressionTypeConverter implements IAeExpressionTypeConverter
-{
-   /**
-    * @see org.activebpel.rt.bpel.impl.expr.IAeExpressionTypeConverter#convertToEngineType(java.lang.Object)
-    */
-   public Object convertToEngineType(Object aExpressionType)
-   {
-      if (aExpressionType instanceof Integer || aExpressionType instanceof Double || aExpressionType instanceof String || aExpressionType instanceof Boolean)
-      {
-         return aExpressionType;
-      }
-      if (aExpressionType instanceof Node || aExpressionType instanceof List)
-      {
-         return aExpressionType;
-      }
-      else
-      {
-         return aExpressionType.toString();
-      }
-   }
+public class AeDefaultBSFExpressionTypeConverter implements IAeExpressionTypeConverter {
+    /**
+     * @see org.activebpel.rt.bpel.impl.expr.IAeExpressionTypeConverter#convertToEngineType(java.lang.Object)
+     */
+    public Object convertToEngineType(Object aExpressionType) {
+        if (aExpressionType instanceof Integer || aExpressionType instanceof Double || aExpressionType instanceof String || aExpressionType instanceof Boolean) {
+            return aExpressionType;
+        }
+        if (aExpressionType instanceof Node || aExpressionType instanceof List) {
+            return aExpressionType;
+        } else {
+            return aExpressionType.toString();
+        }
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.impl.expr.AeAbstractExpressionTypeConverter#convertToExpressionType(java.lang.Object)
-    */
-   public Object convertToExpressionType(Object aEngineType)
-   {
-      return aEngineType;
-   }
+    /**
+     * @see org.activebpel.rt.bpel.impl.expr.AeAbstractExpressionTypeConverter#convertToExpressionType(java.lang.Object)
+     */
+    public Object convertToExpressionType(Object aEngineType) {
+        return aEngineType;
+    }
 }

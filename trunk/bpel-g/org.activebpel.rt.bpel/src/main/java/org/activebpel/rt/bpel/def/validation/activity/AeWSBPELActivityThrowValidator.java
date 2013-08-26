@@ -7,37 +7,34 @@
 //Active Endpoints, Inc. Removal of this PROPRIETARY RIGHTS STATEMENT 
 //is strictly forbidden. Copyright (c) 2002-2006 All rights reserved. 
 /////////////////////////////////////////////////////////////////////////////
-package org.activebpel.rt.bpel.def.validation.activity; 
+package org.activebpel.rt.bpel.def.validation.activity;
 
 import org.activebpel.rt.bpel.def.activity.AeActivityThrowDef;
 
 /**
  * Validates the throw activity for WS-BPEL 2.0
  */
-public class AeWSBPELActivityThrowValidator extends AeActivityThrowValidator
-{
+public class AeWSBPELActivityThrowValidator extends AeActivityThrowValidator {
 
-   /**
-    * Ctor accepts def
-    * @param aDef
-    */
-   public AeWSBPELActivityThrowValidator(AeActivityThrowDef aDef)
-   {
-      super(aDef);
-   }
+    /**
+     * Ctor accepts def
+     *
+     * @param aDef
+     */
+    public AeWSBPELActivityThrowValidator(AeActivityThrowDef aDef) {
+        super(aDef);
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.def.validation.activity.AeActivityThrowValidator#validateVariable()
-    */
-   protected void validateVariable()
-   {
-      if (getVariable().getDef().isType())
-      {
-         getReporter().reportProblem( WSBPEL_INVALID_FAULT_TYPE_CODE, 
-               ERROR_FAULT_TYPE,
-               new String[] { getVariable().getDef().getName() },
-               getDef() );
-      }
-   }
+    /**
+     * @see org.activebpel.rt.bpel.def.validation.activity.AeActivityThrowValidator#validateVariable()
+     */
+    protected void validateVariable() {
+        if (getVariable().getDef().isType()) {
+            getReporter().reportProblem(WSBPEL_INVALID_FAULT_TYPE_CODE,
+                    ERROR_FAULT_TYPE,
+                    new String[]{getVariable().getDef().getName()},
+                    getDef());
+        }
+    }
 }
  

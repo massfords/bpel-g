@@ -10,12 +10,11 @@
 package org.activebpel.rt.bpeladmin.war.graph.ui.figure;
 
 /**
- * Interface to tag an UI container as a graph figure. 
+ * Interface to tag an UI container as a graph figure.
  */
-public interface IAeGraphFigure
-{
-   /** 
-    * @return name of figure
-    */
-   public String getName();
+public interface IAeGraphFigure {
+    /**
+     * @return name of figure
+     */
+    public String getName();
 }

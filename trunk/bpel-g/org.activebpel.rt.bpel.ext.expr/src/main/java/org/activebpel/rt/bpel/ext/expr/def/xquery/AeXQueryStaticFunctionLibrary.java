@@ -20,65 +20,60 @@ import org.activebpel.rt.xml.IAeNamespaceContext;
  * library does not contain any real functions - it will return a simple no-op function
  * for all function lookups.
  */
-public class AeXQueryStaticFunctionLibrary implements FunctionLibrary
-{
-   /**
-     * 
+public class AeXQueryStaticFunctionLibrary implements FunctionLibrary {
+    /**
+     *
      */
     private static final long serialVersionUID = -1891437605537740600L;
-/** A namespace context. */
-   private IAeNamespaceContext mNamespaceContext;
+    /**
+     * A namespace context.
+     */
+    private IAeNamespaceContext mNamespaceContext;
 
-   /**
-    * Constructor.
-    * 
-    * @param aNamespaceContext
-    */
-   public AeXQueryStaticFunctionLibrary(IAeNamespaceContext aNamespaceContext)
-   {
-      setNamespaceContext(aNamespaceContext);
-   }
+    /**
+     * Constructor.
+     *
+     * @param aNamespaceContext
+     */
+    public AeXQueryStaticFunctionLibrary(IAeNamespaceContext aNamespaceContext) {
+        setNamespaceContext(aNamespaceContext);
+    }
 
-   /**
-    * @see net.sf.saxon.functions.FunctionLibrary#isAvailable(int, java.lang.String, java.lang.String, int)
-    */
-   public boolean isAvailable(int aFingerprint, String aUri, String aLocal, int arity)
-   {
-      return true;
-   }
+    /**
+     * @see net.sf.saxon.functions.FunctionLibrary#isAvailable(int, java.lang.String, java.lang.String, int)
+     */
+    public boolean isAvailable(int aFingerprint, String aUri, String aLocal, int arity) {
+        return true;
+    }
 
-   /**
-    * @see net.sf.saxon.functions.FunctionLibrary#bind(int, java.lang.String, java.lang.String, net.sf.saxon.expr.Expression[])
-    */
-   public Expression bind(int aNameCode, String aUri, String aLocal, Expression[] aStaticArgs)
-         throws XPathException
-   {
-      AeNoOpFunctionCall func = new AeNoOpFunctionCall(aUri, aLocal);
-      func.setArguments(aStaticArgs);
-      return func;
-   }
+    /**
+     * @see net.sf.saxon.functions.FunctionLibrary#bind(int, java.lang.String, java.lang.String, net.sf.saxon.expr.Expression[])
+     */
+    public Expression bind(int aNameCode, String aUri, String aLocal, Expression[] aStaticArgs)
+            throws XPathException {
+        AeNoOpFunctionCall func = new AeNoOpFunctionCall(aUri, aLocal);
+        func.setArguments(aStaticArgs);
+        return func;
+    }
 
-   /**
-    * @see net.sf.saxon.functions.FunctionLibrary#copy()
-    */
-   public FunctionLibrary copy()
-   {
-      return new AeXQueryStaticFunctionLibrary(getNamespaceContext());
-   }
+    /**
+     * @see net.sf.saxon.functions.FunctionLibrary#copy()
+     */
+    public FunctionLibrary copy() {
+        return new AeXQueryStaticFunctionLibrary(getNamespaceContext());
+    }
 
-   /**
-    * @return Returns the namespaceContext.
-    */
-   protected IAeNamespaceContext getNamespaceContext()
-   {
-      return mNamespaceContext;
-   }
+    /**
+     * @return Returns the namespaceContext.
+     */
+    protected IAeNamespaceContext getNamespaceContext() {
+        return mNamespaceContext;
+    }
 
-   /**
-    * @param aNamespaceContext The namespaceContext to set.
-    */
-   protected void setNamespaceContext(IAeNamespaceContext aNamespaceContext)
-   {
-      mNamespaceContext = aNamespaceContext;
-   }
+    /**
+     * @param aNamespaceContext The namespaceContext to set.
+     */
+    protected void setNamespaceContext(IAeNamespaceContext aNamespaceContext) {
+        mNamespaceContext = aNamespaceContext;
+    }
 }

@@ -35,45 +35,45 @@ import org.activebpel.rt.bpel.function.IAeFunctionExecutionContext;
  * <em>Throws:</em> attachmentFault if there was a problem with passed attachment.
  * </p>AeGetAttachmentSizeFunction
  */
-public class AeGetAttachmentPropertyFunction extends AeAbstractAttachmentFunction
-{
-   /** The name of the function implemented */
-   public static final String FUNCTION_NAME = "getAttachmentProperty"; //$NON-NLS-1$
+public class AeGetAttachmentPropertyFunction extends AeAbstractAttachmentFunction {
+    /**
+     * The name of the function implemented
+     */
+    public static final String FUNCTION_NAME = "getAttachmentProperty"; //$NON-NLS-1$
 
-   /**
-    * Constructor.
-    */
-   public AeGetAttachmentPropertyFunction()
-   {
-      super(FUNCTION_NAME);
-   }
+    /**
+     * Constructor.
+     */
+    public AeGetAttachmentPropertyFunction() {
+        super(FUNCTION_NAME);
+    }
 
-   /**
-    * Execution of XPath function.
-    * @see org.jaxen.Function#call(org.jaxen.Context, java.util.List)
-    */
-   public Object call(IAeFunctionExecutionContext aContext, List aArgs) throws AeFunctionCallException
-   {
-      Object result = null;
+    /**
+     * Execution of XPath function.
+     *
+     * @see org.jaxen.Function#call(org.jaxen.Context, java.util.List)
+     */
+    public Object call(IAeFunctionExecutionContext aContext, List aArgs) throws AeFunctionCallException {
+        Object result = null;
 
-      // Validate that we have the proper number of arguments
-      int numArgs = aArgs.size();
-      if ( numArgs != 3 )
-         throwFunctionException(INVALID_PARAMS, getFunctionName());
+        // Validate that we have the proper number of arguments
+        int numArgs = aArgs.size();
+        if (numArgs != 3)
+            throwFunctionException(INVALID_PARAMS, getFunctionName());
 
-      // Get the variable name from the first function argument
-      String variableName = getStringArg(aArgs,0);
-      // Get the attachment item number from the second function argument
-      IAeAttachmentItem item = getAttachment(aContext, variableName, getPositiveIntArg(aArgs,1));
+        // Get the variable name from the first function argument
+        String variableName = getStringArg(aArgs, 0);
+        // Get the attachment item number from the second function argument
+        IAeAttachmentItem item = getAttachment(aContext, variableName, getPositiveIntArg(aArgs, 1));
 
-      // Get the header property name from the third function argument
-      String propertyName = getStringArg(aArgs,2);
-      
-      result = item.getHeader(propertyName);
+        // Get the header property name from the third function argument
+        String propertyName = getStringArg(aArgs, 2);
 
-      if ( result == null )
-         throwFunctionException(NULL_RESULT_ERROR, getFunctionName());
+        result = item.getHeader(propertyName);
 
-      return result;
-   }
+        if (result == null)
+            throwFunctionException(NULL_RESULT_ERROR, getFunctionName());
+
+        return result;
+    }
 }

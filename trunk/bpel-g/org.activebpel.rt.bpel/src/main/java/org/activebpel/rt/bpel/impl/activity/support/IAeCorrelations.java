@@ -19,19 +19,19 @@ import org.activebpel.rt.message.IAeMessageData;
  * Interface that encapsulates the initiation or validation of an activity's
  * correlations from a message.
  */
-public interface IAeCorrelations
-{
-   /**
-    * Initiates or validates the correlation sets with the message data
-    * @param aData the data for the message
-    * @param aMessagePartsMap the definition of the message parts
-    * @throws AeBusinessProcessException
-    */
-   public void initiateOrValidate(IAeMessageData aData, AeMessagePartsMap aMessagePartsMap)
-         throws AeBusinessProcessException;
-   
-   /**
-    * Getter for the correlation defs
-    */
-   public Iterator getCorrelationDefs();
+public interface IAeCorrelations {
+    /**
+     * Initiates or validates the correlation sets with the message data
+     *
+     * @param aData            the data for the message
+     * @param aMessagePartsMap the definition of the message parts
+     * @throws AeBusinessProcessException
+     */
+    public void initiateOrValidate(IAeMessageData aData, AeMessagePartsMap aMessagePartsMap)
+            throws AeBusinessProcessException;
+
+    /**
+     * Getter for the correlation defs
+     */
+    public Iterator getCorrelationDefs();
 }

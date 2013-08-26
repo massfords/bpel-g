@@ -32,94 +32,85 @@ import java.util.*;
  * Default rules registry.  Loads rules from the rules.xml config
  * file.
  */
-public class AeWSResourceValidationRuleRegistry implements IAeWSResourceValidationRuleRegistry
-{
-   private static final Schema sRulesFileSchema;
-   private static final Map<String, String> sPrefixMap = new HashMap<>();
+public class AeWSResourceValidationRuleRegistry implements IAeWSResourceValidationRuleRegistry {
+    private static final Schema sRulesFileSchema;
+    private static final Map<String, String> sPrefixMap = new HashMap<>();
 
-   static
-   {
-      sPrefixMap.put("aerule", IAeWSResourceConstants.RULES_NAMESPACE); //$NON-NLS-1$
+    static {
+        sPrefixMap.put("aerule", IAeWSResourceConstants.RULES_NAMESPACE); //$NON-NLS-1$
 
-      sRulesFileSchema = AeSchemaParserUtil.loadSchema("aeRules.xsd", AeWSResourceValidationRuleRegistry.class); //$NON-NLS-1$
+        sRulesFileSchema = AeSchemaParserUtil.loadSchema("aeRules.xsd", AeWSResourceValidationRuleRegistry.class); //$NON-NLS-1$
 
-   }
+    }
 
-   /** Map of resource namespace -> List of rules. */
-   private Map<String, List<IAeWSResourceValidationRule>> mRules = new HashMap<>();
+    /**
+     * Map of resource namespace -> List of rules.
+     */
+    private Map<String, List<IAeWSResourceValidationRule>> mRules = new HashMap<>();
 
-   /**
-    * C'tor.
-    */
-   public AeWSResourceValidationRuleRegistry()
-   {
-   }
+    /**
+     * C'tor.
+     */
+    public AeWSResourceValidationRuleRegistry() {
+    }
 
-   /**
-    * Loads the rules found in the rules config file.
-    *
-    * @param aRulesFilesURL
-    */
-   public void loadRules(URL aRulesFilesURL)
-   {
-      try
-      {
-         AeXMLParserBase parser = new AeXMLParserBase(true, true);
-         parser.setErrorHandler(new AeXMLParserErrorHandler());
-         InputSource rulesIS = new InputSource(new InputStreamReader(aRulesFilesURL.openStream()));
-         rulesIS.setSystemId(aRulesFilesURL.toString());
-         Document rulesDoc = parser.loadDocument(rulesIS, Collections.singleton(sRulesFileSchema).iterator());
+    /**
+     * Loads the rules found in the rules config file.
+     *
+     * @param aRulesFilesURL
+     */
+    public void loadRules(URL aRulesFilesURL) {
+        try {
+            AeXMLParserBase parser = new AeXMLParserBase(true, true);
+            parser.setErrorHandler(new AeXMLParserErrorHandler());
+            InputSource rulesIS = new InputSource(new InputStreamReader(aRulesFilesURL.openStream()));
+            rulesIS.setSystemId(aRulesFilesURL.toString());
+            Document rulesDoc = parser.loadDocument(rulesIS, Collections.singleton(sRulesFileSchema).iterator());
 
-         // Fail if the rules file is not schema valid.
-         if (parser.getErrorHandler().hasParseWarnings())
-         {
-            throw parser.getErrorHandler().getParseException();
-         }
+            // Fail if the rules file is not schema valid.
+            if (parser.getErrorHandler().hasParseWarnings()) {
+                throw parser.getErrorHandler().getParseException();
+            }
 
-         @SuppressWarnings("unchecked")
-         List<Element> ruleNodes = AeXPathUtil.selectNodes(rulesDoc, "aerule:rules/aerule:rule", sPrefixMap); //$NON-NLS-1$
-         List<IAeWSResourceValidationRule> rules = new ArrayList<>();
-         String targetNS = AeXPathUtil.selectSingleNode(rulesDoc, "aerule:rules/@targetNamespace", //$NON-NLS-1$
-               sPrefixMap).getNodeValue();
-          for (Element ruleElem : ruleNodes) {
-              String code = AeXPathUtil.selectText(ruleElem, "aerule:code", sPrefixMap); //$NON-NLS-1$
-              Integer defaultSeverity = AeRulesUtil.convertSeverity(AeXPathUtil.selectText(ruleElem,
-                      "aerule:defaultSeverity", sPrefixMap)); //$NON-NLS-1$
-              String description = AeXPathUtil.selectText(ruleElem, "aerule:description", sPrefixMap); //$NON-NLS-1$
-              String validator = AeXPathUtil.selectText(ruleElem, "aerule:validator", sPrefixMap); //$NON-NLS-1$
-              QName id = new QName(targetNS, code);
-              rules.add(new AeWSResourceValidationRule(id, defaultSeverity, description, validator));
-          }
-         getRules().put(targetNS, rules);
-      }
-      catch (Exception ex)
-      {
-         throw new RuntimeException(ex);
-      }
-   }
+            @SuppressWarnings("unchecked")
+            List<Element> ruleNodes = AeXPathUtil.selectNodes(rulesDoc, "aerule:rules/aerule:rule", sPrefixMap); //$NON-NLS-1$
+            List<IAeWSResourceValidationRule> rules = new ArrayList<>();
+            String targetNS = AeXPathUtil.selectSingleNode(rulesDoc, "aerule:rules/@targetNamespace", //$NON-NLS-1$
+                    sPrefixMap).getNodeValue();
+            for (Element ruleElem : ruleNodes) {
+                String code = AeXPathUtil.selectText(ruleElem, "aerule:code", sPrefixMap); //$NON-NLS-1$
+                Integer defaultSeverity = AeRulesUtil.convertSeverity(AeXPathUtil.selectText(ruleElem,
+                        "aerule:defaultSeverity", sPrefixMap)); //$NON-NLS-1$
+                String description = AeXPathUtil.selectText(ruleElem, "aerule:description", sPrefixMap); //$NON-NLS-1$
+                String validator = AeXPathUtil.selectText(ruleElem, "aerule:validator", sPrefixMap); //$NON-NLS-1$
+                QName id = new QName(targetNS, code);
+                rules.add(new AeWSResourceValidationRule(id, defaultSeverity, description, validator));
+            }
+            getRules().put(targetNS, rules);
+        } catch (Exception ex) {
+            throw new RuntimeException(ex);
+        }
+    }
 
-   /**
-    * @see org.activebpel.rt.wsresource.validation.IAeWSResourceValidationRuleRegistry#getRules(java.lang.String)
-    */
-   public List<IAeWSResourceValidationRule> getRules(String aWSResourceType)
-   {
-      return getRules().get(aWSResourceType);
-   }
+    /**
+     * @see org.activebpel.rt.wsresource.validation.IAeWSResourceValidationRuleRegistry#getRules(java.lang.String)
+     */
+    public List<IAeWSResourceValidationRule> getRules(String aWSResourceType) {
+        return getRules().get(aWSResourceType);
+    }
 
-   /**
-    * @return Returns the rules.
-    */
-   protected Map<String, List<IAeWSResourceValidationRule>> getRules()
-   {
-      return mRules;
-   }
+    /**
+     * @return Returns the rules.
+     */
+    protected Map<String, List<IAeWSResourceValidationRule>> getRules() {
+        return mRules;
+    }
 
-   /**
-    * @param aRules the rules to set
-    */
-   protected void setRules(Map<String, List<IAeWSResourceValidationRule>> aRules)
-   {
-      mRules = aRules;
-   }
+    /**
+     * @param aRules the rules to set
+     */
+    protected void setRules(Map<String, List<IAeWSResourceValidationRule>> aRules) {
+        mRules = aRules;
+    }
 
 }

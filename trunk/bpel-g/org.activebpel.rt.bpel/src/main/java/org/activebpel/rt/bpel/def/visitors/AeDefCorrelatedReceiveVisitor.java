@@ -27,7 +27,7 @@ import java.util.Map.Entry;
  * This visitor walks the process def collecting information about correlated receives.
  * It is possible to have multiple activities receiving data for the same partner link,
  * operation but with different correlation sets.
- *
+ * <p/>
  * In order to ensure that the engine routes the inbound receive to the correct
  * activity, we need to know about all of the possible correlation sets in play
  * for the given partner link and operation. The matching algorithm will pass
@@ -36,99 +36,91 @@ import java.util.Map.Entry;
  * by size since we want to attempt to match against the correlation sets with
  * the most specific information - this being determined by the number of properties
  * within the set.
- *
  */
-public class AeDefCorrelatedReceiveVisitor extends AeAbstractDefVisitor
-{
-   /** The process def we're visiting */
-   private AeProcessDef mProcessDef;
-   /** an internal map that uses the concat of the partner link and operation as its
-    *  and maps to a Set of correlation sets. */
-   private final Map<AePartnerLinkOpKey, AeCorrelationCombinations> mPartnerLinkOperationToCorrSets = new HashMap<>();
+public class AeDefCorrelatedReceiveVisitor extends AeAbstractDefVisitor {
+    /**
+     * The process def we're visiting
+     */
+    private AeProcessDef mProcessDef;
+    /**
+     * an internal map that uses the concat of the partner link and operation as its
+     * and maps to a Set of correlation sets.
+     */
+    private final Map<AePartnerLinkOpKey, AeCorrelationCombinations> mPartnerLinkOperationToCorrSets = new HashMap<>();
 
-   /**
-    * Constructs the visitor with the given WSDL provider.
-    */
-   public AeDefCorrelatedReceiveVisitor()
-   {
-      setTraversalVisitor(new AeTraversalVisitor(new AeDefTraverser(), this));
-   }
+    /**
+     * Constructs the visitor with the given WSDL provider.
+     */
+    public AeDefCorrelatedReceiveVisitor() {
+        setTraversalVisitor(new AeTraversalVisitor(new AeDefTraverser(), this));
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.AeProcessDef)
-    */
-   public void visit(AeProcessDef def)
-   {
-      mProcessDef = def;
-      def.accept(new AeJoinVisitor());
-      super.visit(def);
+    /**
+     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.AeProcessDef)
+     */
+    public void visit(AeProcessDef def) {
+        mProcessDef = def;
+        def.accept(new AeJoinVisitor());
+        super.visit(def);
 
-      // walk the map and set all of the plink/operation sets on the def
-       for (Entry<AePartnerLinkOpKey, AeCorrelationCombinations> entry : mPartnerLinkOperationToCorrSets.entrySet()) {
-           mProcessDef.setCorrelationProperties(entry.getKey(), entry.getValue());
-       }
-   }
+        // walk the map and set all of the plink/operation sets on the def
+        for (Entry<AePartnerLinkOpKey, AeCorrelationCombinations> entry : mPartnerLinkOperationToCorrSets.entrySet()) {
+            mProcessDef.setCorrelationProperties(entry.getKey(), entry.getValue());
+        }
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityReceiveDef)
-    */
-   public void visit(AeActivityReceiveDef def)
-   {
-      addCorrProps(def, def.getCorrelationList());
-      super.visit(def);
-   }
+    /**
+     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityReceiveDef)
+     */
+    public void visit(AeActivityReceiveDef def) {
+        addCorrProps(def, def.getCorrelationList());
+        super.visit(def);
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeOnMessageDef)
-    */
-   public void visit(AeOnMessageDef def)
-   {
-      addCorrProps(def, def.getCorrelationDefs());
-      super.visit(def);
-   }
+    /**
+     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeOnMessageDef)
+     */
+    public void visit(AeOnMessageDef def) {
+        addCorrProps(def, def.getCorrelationDefs());
+        super.visit(def);
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.def.visitors.AeAbstractDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeOnEventDef)
-    */
-   public void visit(AeOnEventDef def)
-   {
-      visit((AeOnMessageDef) def);
-   }
+    /**
+     * @see org.activebpel.rt.bpel.def.visitors.AeAbstractDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeOnEventDef)
+     */
+    public void visit(AeOnEventDef def) {
+        visit((AeOnMessageDef) def);
+    }
 
-   /**
-    * Adds all of the correlation properties used for the given def object
-    *
-    * @param aDef
-    * @param aCorrelationIterator
-    */
-   protected void addCorrProps(IAeReceiveActivityDef aDef, Iterator aCorrelationIterator)
-   {
-      Set<AeCorrelationSetDef> corrSets = null;
-      for (Iterator it = aCorrelationIterator; it.hasNext();)
-      {
-         AeCorrelationDef def = (AeCorrelationDef) it.next();
-         AeCorrelationSetDef corrSetDef = AeDefUtil.findCorrSetByName(def.getCorrelationSetName(), aDef.getContext());
+    /**
+     * Adds all of the correlation properties used for the given def object
+     *
+     * @param aDef
+     * @param aCorrelationIterator
+     */
+    protected void addCorrProps(IAeReceiveActivityDef aDef, Iterator aCorrelationIterator) {
+        Set<AeCorrelationSetDef> corrSets = null;
+        for (Iterator it = aCorrelationIterator; it.hasNext(); ) {
+            AeCorrelationDef def = (AeCorrelationDef) it.next();
+            AeCorrelationSetDef corrSetDef = AeDefUtil.findCorrSetByName(def.getCorrelationSetName(), aDef.getContext());
 
-         // if the correlation is initiate="no" or if it's a "join" style correlation, then we should include the properties
-         if (!def.isInitiate() || corrSetDef.isJoinStyle())
-         {
-            if (corrSets == null)
-               corrSets = new HashSet<>();
+            // if the correlation is initiate="no" or if it's a "join" style correlation, then we should include the properties
+            if (!def.isInitiate() || corrSetDef.isJoinStyle()) {
+                if (corrSets == null)
+                    corrSets = new HashSet<>();
 
-            corrSets.add(corrSetDef);
-      }
-      }
+                corrSets.add(corrSetDef);
+            }
+        }
 
-      if (corrSets != null)
-      {
-         AePartnerLinkOpKey key = aDef.getPartnerLinkOperationKey();
-         AeCorrelationCombinations combos = mPartnerLinkOperationToCorrSets.get(key);
-         if (combos == null)
-         {
-            combos = new AeCorrelationCombinations();
-            mPartnerLinkOperationToCorrSets.put(key, combos);
-         }
-         combos.add(corrSets);
-      }
-   }
+        if (corrSets != null) {
+            AePartnerLinkOpKey key = aDef.getPartnerLinkOperationKey();
+            AeCorrelationCombinations combos = mPartnerLinkOperationToCorrSets.get(key);
+            if (combos == null) {
+                combos = new AeCorrelationCombinations();
+                mPartnerLinkOperationToCorrSets.put(key, combos);
+            }
+            combos.add(corrSets);
+        }
+    }
 }

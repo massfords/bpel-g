@@ -17,19 +17,20 @@ import org.xml.sax.InputSource;
  * Interface for defining a resource resolver.  A resource resolver is
  * responsible for finding and loading resources by location hints.
  */
-public interface IAeResourceResolver
-{
-   /**
-    * Return the InputSource for the resource deployment (or null if none is
-    * found).
-    * @param aLocationHint
-    */
-   public InputSource getInputSource(String aLocationHint) throws IOException;
+public interface IAeResourceResolver {
+    /**
+     * Return the InputSource for the resource deployment (or null if none is
+     * found).
+     *
+     * @param aLocationHint
+     */
+    public InputSource getInputSource(String aLocationHint) throws IOException;
 
-   /**
-    * Returns true if the resolver contains a mapping for the location hint.
-    * @param aLocationHint
-    */
-   public boolean hasMapping(String aLocationHint);
+    /**
+     * Returns true if the resolver contains a mapping for the location hint.
+     *
+     * @param aLocationHint
+     */
+    public boolean hasMapping(String aLocationHint);
 
 }

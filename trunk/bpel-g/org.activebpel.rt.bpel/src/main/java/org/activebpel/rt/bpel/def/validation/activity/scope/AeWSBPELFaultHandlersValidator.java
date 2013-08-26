@@ -7,32 +7,30 @@
 //Active Endpoints, Inc. Removal of this PROPRIETARY RIGHTS STATEMENT 
 //is strictly forbidden. Copyright (c) 2002-2006 All rights reserved. 
 /////////////////////////////////////////////////////////////////////////////
-package org.activebpel.rt.bpel.def.validation.activity.scope; 
+package org.activebpel.rt.bpel.def.validation.activity.scope;
 
 import org.activebpel.rt.bpel.def.AeFaultHandlersDef;
 
 /**
  * model provides validation for the WSBPEL faultHandlers def
  */
-public class AeWSBPELFaultHandlersValidator extends AeFaultHandlersValidator
-{
-   /**
-    * ctor
-    * @param aDef
-    */
-   public AeWSBPELFaultHandlersValidator(AeFaultHandlersDef aDef)
-   {
-      super(aDef);
-   }
-      
-/**
- * 
- * Overrides method to 
- * @see org.activebpel.rt.bpel.def.validation.activity.scope.AeFaultHandlersValidator#reportDuplicateCatch(org.activebpel.rt.bpel.def.validation.activity.scope.AeBaseCatchValidator)
- */
-   protected void reportDuplicateCatch(AeBaseCatchValidator baseCatch)
-   {
-      getReporter().reportProblem(WSBPEL_ILLEGAL_FH_CONSTRUCTS_CODE, ERROR_ILLEGAL_FH_CONSTRUCTS, null, baseCatch.getDefinition());
-   }
+public class AeWSBPELFaultHandlersValidator extends AeFaultHandlersValidator {
+    /**
+     * ctor
+     *
+     * @param aDef
+     */
+    public AeWSBPELFaultHandlersValidator(AeFaultHandlersDef aDef) {
+        super(aDef);
+    }
+
+    /**
+     * Overrides method to
+     *
+     * @see org.activebpel.rt.bpel.def.validation.activity.scope.AeFaultHandlersValidator#reportDuplicateCatch(org.activebpel.rt.bpel.def.validation.activity.scope.AeBaseCatchValidator)
+     */
+    protected void reportDuplicateCatch(AeBaseCatchValidator baseCatch) {
+        getReporter().reportProblem(WSBPEL_ILLEGAL_FH_CONSTRUCTS_CODE, ERROR_ILLEGAL_FH_CONSTRUCTS, null, baseCatch.getDefinition());
+    }
 }
  

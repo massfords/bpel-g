@@ -14,19 +14,18 @@ import org.activebpel.wsio.invoke.IAeInvoke;
 /**
  * Extension of the IAeInvoke.
  */
-public interface IAeInvokeInternal extends IAeInvoke
-{
-   /**
-    * Returns true if the underlying BPEL invoke activity is current. That is,
-    * it has not moved onto a next iteration (for example in a While loop).
-    * 
-    * The backed invoke activity is considered current if its transmission id
-    * (use as execution iteration reference id) has not changed.
-    */
-   public boolean isCurrent();
+public interface IAeInvokeInternal extends IAeInvoke {
+    /**
+     * Returns true if the underlying BPEL invoke activity is current. That is,
+     * it has not moved onto a next iteration (for example in a While loop).
+     * <p/>
+     * The backed invoke activity is considered current if its transmission id
+     * (use as execution iteration reference id) has not changed.
+     */
+    public boolean isCurrent();
 
-   /**
-    * Clean up code to dereference the underlying invoke activity.
-    */
-   public void dereferenceInvokeActivity();
+    /**
+     * Clean up code to dereference the underlying invoke activity.
+     */
+    public void dereferenceInvokeActivity();
 }

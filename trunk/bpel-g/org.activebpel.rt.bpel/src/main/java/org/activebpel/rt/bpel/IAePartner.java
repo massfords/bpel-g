@@ -9,8 +9,9 @@
 /////////////////////////////////////////////////////////////////////////////
 package org.activebpel.rt.bpel;
 
-/** Describes the interface used for interacting with business process partners */
-public interface IAePartner
-{
+/**
+ * Describes the interface used for interacting with business process partners
+ */
+public interface IAePartner {
 
 }

@@ -60,278 +60,322 @@ import org.activebpel.rt.bpel.impl.activity.support.AeWSBPELFaultHandler;
 /**
  * Visitor interface specification for BPEL Implementation classes.
  */
-public interface IAeImplVisitor
-{
-   /**
-    * Visits the specified implementation object
-    * @param aImpl
-    */
-   public void visit(AeActivityAssignImpl aImpl) throws AeBusinessProcessException;
+public interface IAeImplVisitor {
+    /**
+     * Visits the specified implementation object
+     *
+     * @param aImpl
+     */
+    public void visit(AeActivityAssignImpl aImpl) throws AeBusinessProcessException;
 
-   /**
-    * Visits the specified implementation object
-    * @param aImpl
-    */
-   public void visit(AeActivityCompensateImpl aImpl) throws AeBusinessProcessException;
+    /**
+     * Visits the specified implementation object
+     *
+     * @param aImpl
+     */
+    public void visit(AeActivityCompensateImpl aImpl) throws AeBusinessProcessException;
 
-   /**
-    * Visits the specified implementation object
-    * @param aImpl
-    */
-   public void visit(AeActivityCompensateScopeImpl aImpl) throws AeBusinessProcessException;
+    /**
+     * Visits the specified implementation object
+     *
+     * @param aImpl
+     */
+    public void visit(AeActivityCompensateScopeImpl aImpl) throws AeBusinessProcessException;
 
-   /**
-    * Visits the specified implementation object
-    * @param aImpl
-    */
-   public void visit(AeActivityEmptyImpl aImpl) throws AeBusinessProcessException;
+    /**
+     * Visits the specified implementation object
+     *
+     * @param aImpl
+     */
+    public void visit(AeActivityEmptyImpl aImpl) throws AeBusinessProcessException;
 
-   /**
-    * Visits the specified implementation object
-    * @param aImpl
-    */
-   public void visit(AeActivityRethrowImpl aImpl) throws AeBusinessProcessException;
+    /**
+     * Visits the specified implementation object
+     *
+     * @param aImpl
+     */
+    public void visit(AeActivityRethrowImpl aImpl) throws AeBusinessProcessException;
 
-   /**
-    * Visits the specified implementation object
-    * @param aImpl
-    */
-   public void visit(AeActivityFlowImpl aImpl) throws AeBusinessProcessException;
+    /**
+     * Visits the specified implementation object
+     *
+     * @param aImpl
+     */
+    public void visit(AeActivityFlowImpl aImpl) throws AeBusinessProcessException;
 
-   /**
-    * Visits the specified implementation object
-    * @param aImpl
-    */
-   public void visit(AeActivityInvokeImpl aImpl) throws AeBusinessProcessException;
+    /**
+     * Visits the specified implementation object
+     *
+     * @param aImpl
+     */
+    public void visit(AeActivityInvokeImpl aImpl) throws AeBusinessProcessException;
 
-   /**
-    * Visits the specified implementation object
-    * @param aImpl
-    */
-   public void visit(AeActivityPickImpl aImpl) throws AeBusinessProcessException;
+    /**
+     * Visits the specified implementation object
+     *
+     * @param aImpl
+     */
+    public void visit(AeActivityPickImpl aImpl) throws AeBusinessProcessException;
 
-   /**
-    * Visits the specified implementation object
-    * @param aImpl
-    */
-   public void visit(AeActivityReceiveImpl aImpl) throws AeBusinessProcessException;
+    /**
+     * Visits the specified implementation object
+     *
+     * @param aImpl
+     */
+    public void visit(AeActivityReceiveImpl aImpl) throws AeBusinessProcessException;
 
-   /**
-    * Visits the specified implementation object
-    * @param aImpl
-    */
-   public void visit(AeActivityReplyImpl aImpl) throws AeBusinessProcessException;
+    /**
+     * Visits the specified implementation object
+     *
+     * @param aImpl
+     */
+    public void visit(AeActivityReplyImpl aImpl) throws AeBusinessProcessException;
 
-   /**
-    * Visits the specified implementation object
-    * @param aImpl
-    */
-   public void visit(AeActivitySuspendImpl aImpl) throws AeBusinessProcessException;
+    /**
+     * Visits the specified implementation object
+     *
+     * @param aImpl
+     */
+    public void visit(AeActivitySuspendImpl aImpl) throws AeBusinessProcessException;
 
-   /**
-    * Visits the specified implementation object
-    * @param aImpl
-    */
-   public void visit(AeActivityScopeImpl aImpl) throws AeBusinessProcessException;
-   
-   /**
-    * Visits the specified implementation object
-    * @param aImpl
-    */
-   public void visit(AeActivityOnEventScopeImpl aImpl) throws AeBusinessProcessException;
+    /**
+     * Visits the specified implementation object
+     *
+     * @param aImpl
+     */
+    public void visit(AeActivityScopeImpl aImpl) throws AeBusinessProcessException;
 
-   /**
-    * Visits the specified implementation object
-    * @param aImpl
-    */
-   public void visit(AeBusinessProcess aImpl) throws AeBusinessProcessException;
+    /**
+     * Visits the specified implementation object
+     *
+     * @param aImpl
+     */
+    public void visit(AeActivityOnEventScopeImpl aImpl) throws AeBusinessProcessException;
 
-   /**
-    * Visits the specified implementation object
-    * @param aImpl
-    */
-   public void visit(AeActivitySequenceImpl aImpl) throws AeBusinessProcessException;
+    /**
+     * Visits the specified implementation object
+     *
+     * @param aImpl
+     */
+    public void visit(AeBusinessProcess aImpl) throws AeBusinessProcessException;
 
-   /**
-    * Visits the specified implementation object
-    * @param aImpl
-    */
-   public void visit(AeActivityTerminateImpl aImpl) throws AeBusinessProcessException;
+    /**
+     * Visits the specified implementation object
+     *
+     * @param aImpl
+     */
+    public void visit(AeActivitySequenceImpl aImpl) throws AeBusinessProcessException;
 
-   /**
-    * Visits the specified implementation object
-    * @param aImpl
-    */
-   public void visit(AeActivityThrowImpl aImpl) throws AeBusinessProcessException;
+    /**
+     * Visits the specified implementation object
+     *
+     * @param aImpl
+     */
+    public void visit(AeActivityTerminateImpl aImpl) throws AeBusinessProcessException;
 
-   /**
-    * Visits the specified implementation object
-    * @param aImpl
-    */
-   public void visit(AeActivityValidateImpl aImpl) throws AeBusinessProcessException;
-   
-   /**
-    * Visits the specified implementation object
-    * @param aImpl
-    */
-   public void visit(AeActivityWaitImpl aImpl) throws AeBusinessProcessException;
+    /**
+     * Visits the specified implementation object
+     *
+     * @param aImpl
+     */
+    public void visit(AeActivityThrowImpl aImpl) throws AeBusinessProcessException;
 
-   /**
-    * Visits the specified implementation object
-    * @param aImpl
-    */
-   public void visit(AeActivityForEachImpl aImpl) throws AeBusinessProcessException;
+    /**
+     * Visits the specified implementation object
+     *
+     * @param aImpl
+     */
+    public void visit(AeActivityValidateImpl aImpl) throws AeBusinessProcessException;
 
-   /**
-    * Visits the specified implementation object
-    * @param aImpl
-    */
-   public void visit(AeActivityForEachParallelImpl aImpl) throws AeBusinessProcessException;
+    /**
+     * Visits the specified implementation object
+     *
+     * @param aImpl
+     */
+    public void visit(AeActivityWaitImpl aImpl) throws AeBusinessProcessException;
 
-   /**
-    * Visits the specified implementation object
-    * @param aImpl
-    */
-   public void visit(AeActivityWhileImpl aImpl) throws AeBusinessProcessException;
+    /**
+     * Visits the specified implementation object
+     *
+     * @param aImpl
+     */
+    public void visit(AeActivityForEachImpl aImpl) throws AeBusinessProcessException;
 
-   /**
-    * Visits the specified implementation object
-    * @param aImpl
-    */
-   public void visit(AeActivityRepeatUntilImpl aImpl) throws AeBusinessProcessException;
+    /**
+     * Visits the specified implementation object
+     *
+     * @param aImpl
+     */
+    public void visit(AeActivityForEachParallelImpl aImpl) throws AeBusinessProcessException;
 
-   /**
-    * Visits the specified implementation object
-    * @param aImpl
-    */
-   public void visit(AeActivityContinueImpl aImpl) throws AeBusinessProcessException;
+    /**
+     * Visits the specified implementation object
+     *
+     * @param aImpl
+     */
+    public void visit(AeActivityWhileImpl aImpl) throws AeBusinessProcessException;
 
-   /**
-    * Visits the specified implementation object
-    * @param aImpl
-    * @throws AeBusinessProcessException
-    */
-   public void visit(AeActivityBreakImpl aImpl) throws AeBusinessProcessException;
+    /**
+     * Visits the specified implementation object
+     *
+     * @param aImpl
+     */
+    public void visit(AeActivityRepeatUntilImpl aImpl) throws AeBusinessProcessException;
 
-   /////////  Activity Support
+    /**
+     * Visits the specified implementation object
+     *
+     * @param aImpl
+     */
+    public void visit(AeActivityContinueImpl aImpl) throws AeBusinessProcessException;
 
-   /**
-    * Visits the specified implementation object
-    * @param aImpl
-    */
-   public void visit(AeOnAlarm aImpl) throws AeBusinessProcessException;
-   
-   /**
-    * Visits the specified implementation object
-    * @param aImpl
-    */
-   public void visit(AeRepeatableOnAlarm aImpl) throws AeBusinessProcessException;
+    /**
+     * Visits the specified implementation object
+     *
+     * @param aImpl
+     * @throws AeBusinessProcessException
+     */
+    public void visit(AeActivityBreakImpl aImpl) throws AeBusinessProcessException;
 
-   /**
-    * Visits the specified implementation object
-    * @param aImpl
-    */
-   public void visit(AeOnMessage aImpl) throws AeBusinessProcessException;
-   
-   /**
-    * Visits the specified implementation object
-    * @param aImpl
-    */
-   public void visit(AeOnEvent aImpl) throws AeBusinessProcessException;
+    /////////  Activity Support
 
-   /**
-    * Visits the specified implementation object
-    * @param aImpl
-    */
-   public void visit(AeCompensationHandler aImpl) throws AeBusinessProcessException;
+    /**
+     * Visits the specified implementation object
+     *
+     * @param aImpl
+     */
+    public void visit(AeOnAlarm aImpl) throws AeBusinessProcessException;
 
-   /**
-    * Visits the specified implementation object
-    * @param aImpl
-    */
-   public void visit(AeImplicitCompensationHandler aImpl) throws AeBusinessProcessException;
-   
-   /**
-    * Visits the specified implementation object
-    * @param aImpl
-    */
-   public void visit(AeImplicitTerminationHandler aImpl) throws AeBusinessProcessException;
-   
-   /**
-    * Visits the specified implmentation object
-    * @param aImpl
-    */
-   public void visit(AeTerminationHandler aImpl) throws AeBusinessProcessException;
+    /**
+     * Visits the specified implementation object
+     *
+     * @param aImpl
+     */
+    public void visit(AeRepeatableOnAlarm aImpl) throws AeBusinessProcessException;
 
-   /**
-    * Visits the specified implementation object
-    * @param aImpl
-    */
-   public void visit(AeDefaultFaultHandler aImpl) throws AeBusinessProcessException;
+    /**
+     * Visits the specified implementation object
+     *
+     * @param aImpl
+     */
+    public void visit(AeOnMessage aImpl) throws AeBusinessProcessException;
 
-   /**
-    * Visits the specified implementation object
-    * @param aImpl
-    */
-   public void visit(AeFaultHandler aImpl) throws AeBusinessProcessException;
-   
-   /**
-    * Visits the specified implementation object
-    * @param aImpl
-    */
-   public void visit(AeWSBPELFaultHandler aImpl) throws AeBusinessProcessException;
+    /**
+     * Visits the specified implementation object
+     *
+     * @param aImpl
+     */
+    public void visit(AeOnEvent aImpl) throws AeBusinessProcessException;
 
-   /**
-    * Visits the specified implementation object
-    * @param aImpl
-    */
-   public void visit(AeImplicitFaultHandler aImpl) throws AeBusinessProcessException;
+    /**
+     * Visits the specified implementation object
+     *
+     * @param aImpl
+     */
+    public void visit(AeCompensationHandler aImpl) throws AeBusinessProcessException;
 
-   /**
-    * Visits the specified implementation object
-    * @param aImpl
-    */
-   public void visit(AeEventHandlersContainer aImpl) throws AeBusinessProcessException;
+    /**
+     * Visits the specified implementation object
+     *
+     * @param aImpl
+     */
+    public void visit(AeImplicitCompensationHandler aImpl) throws AeBusinessProcessException;
 
-   /**
-    * Visits the specified implementation object
-    * @param aImpl
-    */
-   public void visit(AeLink aImpl) throws AeBusinessProcessException;
+    /**
+     * Visits the specified implementation object
+     *
+     * @param aImpl
+     */
+    public void visit(AeImplicitTerminationHandler aImpl) throws AeBusinessProcessException;
 
-   /**
-    * Visits the specified implementation object
-    * @param aImpl
-    */
-   public void visit(AeCoordinationContainer aImpl) throws AeBusinessProcessException;
+    /**
+     * Visits the specified implmentation object
+     *
+     * @param aImpl
+     */
+    public void visit(AeTerminationHandler aImpl) throws AeBusinessProcessException;
 
-   /**
-    * Visits the specified implementation object
-    * @param aImpl
-    */
-   public void visit(AeCoordinatorCompensationHandler aImpl) throws AeBusinessProcessException;
+    /**
+     * Visits the specified implementation object
+     *
+     * @param aImpl
+     */
+    public void visit(AeDefaultFaultHandler aImpl) throws AeBusinessProcessException;
 
-   /**
-    * Visits the specified implementation object
-    * @param aImpl
-    */
-   public void visit(AeActivityIfImpl aImpl) throws AeBusinessProcessException;
+    /**
+     * Visits the specified implementation object
+     *
+     * @param aImpl
+     */
+    public void visit(AeFaultHandler aImpl) throws AeBusinessProcessException;
 
-   /**
-    * Visits the specified implementation object
-    * @param aImpl
-    */
-   public void visit(AeElseIf aImpl) throws AeBusinessProcessException;
+    /**
+     * Visits the specified implementation object
+     *
+     * @param aImpl
+     */
+    public void visit(AeWSBPELFaultHandler aImpl) throws AeBusinessProcessException;
 
-   /**
-    * Visits the specified implementation object
-    * @param aImpl
-    */
-   public void visit(AeElse aImpl) throws AeBusinessProcessException;
-   
-   /**
-    * Visits the specified implementation object
-    * @param aImpl
-    */
-   public void visit(AeActivityChildExtensionActivityImpl aImpl) throws AeBusinessProcessException;
+    /**
+     * Visits the specified implementation object
+     *
+     * @param aImpl
+     */
+    public void visit(AeImplicitFaultHandler aImpl) throws AeBusinessProcessException;
+
+    /**
+     * Visits the specified implementation object
+     *
+     * @param aImpl
+     */
+    public void visit(AeEventHandlersContainer aImpl) throws AeBusinessProcessException;
+
+    /**
+     * Visits the specified implementation object
+     *
+     * @param aImpl
+     */
+    public void visit(AeLink aImpl) throws AeBusinessProcessException;
+
+    /**
+     * Visits the specified implementation object
+     *
+     * @param aImpl
+     */
+    public void visit(AeCoordinationContainer aImpl) throws AeBusinessProcessException;
+
+    /**
+     * Visits the specified implementation object
+     *
+     * @param aImpl
+     */
+    public void visit(AeCoordinatorCompensationHandler aImpl) throws AeBusinessProcessException;
+
+    /**
+     * Visits the specified implementation object
+     *
+     * @param aImpl
+     */
+    public void visit(AeActivityIfImpl aImpl) throws AeBusinessProcessException;
+
+    /**
+     * Visits the specified implementation object
+     *
+     * @param aImpl
+     */
+    public void visit(AeElseIf aImpl) throws AeBusinessProcessException;
+
+    /**
+     * Visits the specified implementation object
+     *
+     * @param aImpl
+     */
+    public void visit(AeElse aImpl) throws AeBusinessProcessException;
+
+    /**
+     * Visits the specified implementation object
+     *
+     * @param aImpl
+     */
+    public void visit(AeActivityChildExtensionActivityImpl aImpl) throws AeBusinessProcessException;
 }

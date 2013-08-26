@@ -14,30 +14,29 @@ import org.activebpel.rt.bpel.AeBusinessProcessException;
 /**
  * Indicates an exception having to do with the deployment of the application.
  */
-public class AeDeploymentException extends AeBusinessProcessException
-{
-   /**
-     * 
+public class AeDeploymentException extends AeBusinessProcessException {
+    /**
+     *
      */
     private static final long serialVersionUID = -2450295449155338645L;
 
-/**
-    * Constructs the exception with a string message
-    * @param aInfo
-    */
-   public AeDeploymentException(String aInfo)
-   {
-      super(aInfo);
-   }
+    /**
+     * Constructs the exception with a string message
+     *
+     * @param aInfo
+     */
+    public AeDeploymentException(String aInfo) {
+        super(aInfo);
+    }
 
-   /**
-    * Constructs the exception with a string message and root cause
-    * @param aInfo
-    * @param aRootCause
-    */
-   public AeDeploymentException(String aInfo, Throwable aRootCause)
-   {
-      super(aInfo, aRootCause);
-   }
+    /**
+     * Constructs the exception with a string message and root cause
+     *
+     * @param aInfo
+     * @param aRootCause
+     */
+    public AeDeploymentException(String aInfo, Throwable aRootCause) {
+        super(aInfo, aRootCause);
+    }
 
 }

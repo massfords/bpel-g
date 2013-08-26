@@ -13,21 +13,18 @@ package org.activebpel.rt.bpel.xpath.ast;
 /**
  * An XPath node for a union expression.
  */
-public class AeXPathUnionExprNode extends AeAbstractXPathBooleanNode
-{
-   /**
-    * Default c'tor.
-    */
-   public AeXPathUnionExprNode()
-   {
-      super(AeAbstractXPathNode.NODE_TYPE_UNION_EXPR);
-   }
+public class AeXPathUnionExprNode extends AeAbstractXPathBooleanNode {
+    /**
+     * Default c'tor.
+     */
+    public AeXPathUnionExprNode() {
+        super(AeAbstractXPathNode.NODE_TYPE_UNION_EXPR);
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.xpath.ast.AeAbstractXPathNode#accept(org.activebpel.rt.bpel.xpath.ast.IAeXPathNodeVisitor)
-    */
-   public void accept(IAeXPathNodeVisitor aVisitor)
-   {
-      aVisitor.visit(this);
-   }
+    /**
+     * @see org.activebpel.rt.bpel.xpath.ast.AeAbstractXPathNode#accept(org.activebpel.rt.bpel.xpath.ast.IAeXPathNodeVisitor)
+     */
+    public void accept(IAeXPathNodeVisitor aVisitor) {
+        aVisitor.visit(this);
+    }
 }

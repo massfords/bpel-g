@@ -16,56 +16,51 @@ import org.activebpel.rt.bpel.xpath.AeXPathHelper;
  * An implementation of a type converter for jaxen.  This class is necessary because Jaxen doesn't like
  * certain Java types.  So we convert those types to other types that Jaxen DOES like.
  */
-public class AeXPathExpressionTypeConverter extends AeAbstractExpressionTypeConverter
-{
-   /** The XPath Helper to use. */
-   private AeXPathHelper mXPathHelper;
+public class AeXPathExpressionTypeConverter extends AeAbstractExpressionTypeConverter {
+    /**
+     * The XPath Helper to use.
+     */
+    private AeXPathHelper mXPathHelper;
 
-   /**
-    * Constructor.
-    * 
-    * @param aXPathHelper
-    */
-   public AeXPathExpressionTypeConverter(AeXPathHelper aXPathHelper)
-   {
-      setXPathHelper(aXPathHelper);
-   }
+    /**
+     * Constructor.
+     *
+     * @param aXPathHelper
+     */
+    public AeXPathExpressionTypeConverter(AeXPathHelper aXPathHelper) {
+        setXPathHelper(aXPathHelper);
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.impl.expr.IAeExpressionTypeConverter#convertToExpressionType(java.lang.Object)
-    */
-   public Object convertToExpressionType(Object aEngineType)
-   {
-      Object type = super.convertToExpressionType(aEngineType);
-      if (type instanceof Number)
-      {
-         // jaxen likes doubles, but not floats, big integers, so convert to double here
-         type = ((Number) aEngineType).doubleValue();
-      }
-      return type;
-   }
+    /**
+     * @see org.activebpel.rt.bpel.impl.expr.IAeExpressionTypeConverter#convertToExpressionType(java.lang.Object)
+     */
+    public Object convertToExpressionType(Object aEngineType) {
+        Object type = super.convertToExpressionType(aEngineType);
+        if (type instanceof Number) {
+            // jaxen likes doubles, but not floats, big integers, so convert to double here
+            type = ((Number) aEngineType).doubleValue();
+        }
+        return type;
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.impl.expr.IAeExpressionTypeConverter#convertToEngineType(java.lang.Object)
-    */
-   public Object convertToEngineType(Object aExpressionType)
-   {
-      return getXPathHelper().unwrapXPathValue(aExpressionType);
-   }
+    /**
+     * @see org.activebpel.rt.bpel.impl.expr.IAeExpressionTypeConverter#convertToEngineType(java.lang.Object)
+     */
+    public Object convertToEngineType(Object aExpressionType) {
+        return getXPathHelper().unwrapXPathValue(aExpressionType);
+    }
 
-   /**
-    * @return Returns the xPathHelper.
-    */
-   protected AeXPathHelper getXPathHelper()
-   {
-      return mXPathHelper;
-   }
+    /**
+     * @return Returns the xPathHelper.
+     */
+    protected AeXPathHelper getXPathHelper() {
+        return mXPathHelper;
+    }
 
-   /**
-    * @param aPathHelper The xPathHelper to set.
-    */
-   protected void setXPathHelper(AeXPathHelper aPathHelper)
-   {
-      mXPathHelper = aPathHelper;
-   }
+    /**
+     * @param aPathHelper The xPathHelper to set.
+     */
+    protected void setXPathHelper(AeXPathHelper aPathHelper) {
+        mXPathHelper = aPathHelper;
+    }
 }

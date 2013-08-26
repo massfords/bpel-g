@@ -12,47 +12,45 @@ package org.activebpel.wsio.invoke;
 /**
  * Exception that is thrown during <code>IAeTwoPhaseInvokeHandler::prepare</code> method.
  */
-public class AeInvokePrepareException extends Exception
-{
+public class AeInvokePrepareException extends Exception {
 
-   /**
-     * 
+    /**
+     *
      */
     private static final long serialVersionUID = -7537261524574747008L;
 
-/**
-    * Default constructor. 
-    */
-   public AeInvokePrepareException()
-   {
-   }
+    /**
+     * Default constructor.
+     */
+    public AeInvokePrepareException() {
+    }
 
-   /**
-    * Creates exception given messsage. 
-    * @param aMessage
-    */
-   public AeInvokePrepareException(String aMessage)
-   {
-      super(aMessage);
-   }
+    /**
+     * Creates exception given messsage.
+     *
+     * @param aMessage
+     */
+    public AeInvokePrepareException(String aMessage) {
+        super(aMessage);
+    }
 
-   /**
-    * Creates exception given root cause.
-    * @param aCause
-    */
-   public AeInvokePrepareException(Throwable aCause)
-   {
-      super(aCause);
-   }
+    /**
+     * Creates exception given root cause.
+     *
+     * @param aCause
+     */
+    public AeInvokePrepareException(Throwable aCause) {
+        super(aCause);
+    }
 
-   /**
-    * Creates the exception given message and root cause.
-    * @param aMessage
-    * @param aCause
-    */
-   public AeInvokePrepareException(String aMessage, Throwable aCause)
-   {
-      super(aMessage, aCause);
-   }
+    /**
+     * Creates the exception given message and root cause.
+     *
+     * @param aMessage
+     * @param aCause
+     */
+    public AeInvokePrepareException(String aMessage, Throwable aCause) {
+        super(aMessage, aCause);
+    }
 
 }

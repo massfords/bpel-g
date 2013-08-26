@@ -15,54 +15,52 @@ import java.io.Serializable;
  * Exposes well known java types via bean propery accessors.
  * Current impl supports only strings.
  */
-public class AeJavaTypesWrapper implements Serializable
-{
-   /**
-     * 
+public class AeJavaTypesWrapper implements Serializable {
+    /**
+     *
      */
     private static final long serialVersionUID = -700105203046345726L;
 
-/** Null types wrapper. */
-   private static final AeJavaTypesWrapper EMPTY = new AeJavaTypesWrapper(""); //$NON-NLS-1$
-   
-   /** Property value. */
-   protected final String mString;
-   
-   /**
-    * Utility method for wrapping a string array.
-    * @param aArray
-    */
-   public static AeJavaTypesWrapper[] wrap( String[] aArray )
-   {
-      if( aArray == null )
-      {
-         return new AeJavaTypesWrapper[]{EMPTY};
-      }
-      else
-      {
-         AeJavaTypesWrapper[] wrapper = new AeJavaTypesWrapper[aArray.length];
-         for( int i = 0; i < aArray.length; i++ )
-         {
-            wrapper[i] = new AeJavaTypesWrapper( aArray[i] );
-         }
-         return wrapper;
-      }
-   }
+    /**
+     * Null types wrapper.
+     */
+    private static final AeJavaTypesWrapper EMPTY = new AeJavaTypesWrapper(""); //$NON-NLS-1$
 
-   /**
-    * Constructor.
-    * @param aString 
-    */
-   public AeJavaTypesWrapper( String aString )
-   {
-      mString = aString;
-   }
-   
-   /**
-    * Returns the string value of the property.
-    */
-   public String getString()
-   {
-      return mString;
-   }
+    /**
+     * Property value.
+     */
+    protected final String mString;
+
+    /**
+     * Utility method for wrapping a string array.
+     *
+     * @param aArray
+     */
+    public static AeJavaTypesWrapper[] wrap(String[] aArray) {
+        if (aArray == null) {
+            return new AeJavaTypesWrapper[]{EMPTY};
+        } else {
+            AeJavaTypesWrapper[] wrapper = new AeJavaTypesWrapper[aArray.length];
+            for (int i = 0; i < aArray.length; i++) {
+                wrapper[i] = new AeJavaTypesWrapper(aArray[i]);
+            }
+            return wrapper;
+        }
+    }
+
+    /**
+     * Constructor.
+     *
+     * @param aString
+     */
+    public AeJavaTypesWrapper(String aString) {
+        mString = aString;
+    }
+
+    /**
+     * Returns the string value of the property.
+     */
+    public String getString() {
+        return mString;
+    }
 }

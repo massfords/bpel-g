@@ -20,48 +20,42 @@ import org.jaxen.saxpath.helpers.XPathReaderFactory;
 /**
  * A base implementation of an XPath expression parser.
  */
-public abstract class AeAbstractXPathExpressionParser extends AeAbstractExpressionParser
-{
-   /**
-    * Constructs an xpath parser given the context.
-    * 
-    * @param aParserContext
-    */
-   public AeAbstractXPathExpressionParser(IAeExpressionParserContext aParserContext)
-   {
-      super(aParserContext);
-   }
+public abstract class AeAbstractXPathExpressionParser extends AeAbstractExpressionParser {
+    /**
+     * Constructs an xpath parser given the context.
+     *
+     * @param aParserContext
+     */
+    public AeAbstractXPathExpressionParser(IAeExpressionParserContext aParserContext) {
+        super(aParserContext);
+    }
 
-   /**
-    * Uses Jaxen to parse the XPath expression.  This implementation installs a custom Jaxen XPath 
-    * parser event handler which will build a parse tree of the expression.  This parse tree is then
-    * walked by the AeXPathParseResult object.
-    * 
-    * @see org.activebpel.rt.expr.def.IAeExpressionParser#parse(java.lang.String)
-    */
-   public IAeExpressionParseResult parse(String aExpression) throws AeException
-   {
-      AeXPathParseHandler handler = new AeXPathParseHandler(getParserContext().getNamespaceContext());
-      try
-      {
-         // parse the passed xpath and validate through our handler implementation
-         XPathReader reader = XPathReaderFactory.createReader();
-         reader.setXPathHandler(handler);
-         reader.parse(aExpression);
+    /**
+     * Uses Jaxen to parse the XPath expression.  This implementation installs a custom Jaxen XPath
+     * parser event handler which will build a parse tree of the expression.  This parse tree is then
+     * walked by the AeXPathParseResult object.
+     *
+     * @see org.activebpel.rt.expr.def.IAeExpressionParser#parse(java.lang.String)
+     */
+    public IAeExpressionParseResult parse(String aExpression) throws AeException {
+        AeXPathParseHandler handler = new AeXPathParseHandler(getParserContext().getNamespaceContext());
+        try {
+            // parse the passed xpath and validate through our handler implementation
+            XPathReader reader = XPathReaderFactory.createReader();
+            reader.setXPathHandler(handler);
+            reader.parse(aExpression);
 
-         return createParseResult(aExpression, handler);
-      }
-      catch (Exception e)
-      {
-         throw new AeException(e.getMessage(), e);
-      }
-   }
+            return createParseResult(aExpression, handler);
+        } catch (Exception e) {
+            throw new AeException(e.getMessage(), e);
+        }
+    }
 
-   /**
-    * Creates the parse result object from the expression and xpath parse handler.
-    * 
-    * @param aExpression
-    * @param aHandler
-    */
-   protected abstract IAeExpressionParseResult createParseResult(String aExpression, AeXPathParseHandler aHandler);
+    /**
+     * Creates the parse result object from the expression and xpath parse handler.
+     *
+     * @param aExpression
+     * @param aHandler
+     */
+    protected abstract IAeExpressionParseResult createParseResult(String aExpression, AeXPathParseHandler aHandler);
 }

@@ -24,24 +24,21 @@ import org.apache.commons.dbutils.ResultSetHandler;
  * Implements a query handler that can transform a result set into a list of
  * persisted alarm objects.
  */
-public class AeAlarmListQueryHandler implements ResultSetHandler<List<AePersistedAlarm>>
-{
-   /**
-    * @see org.apache.commons.dbutils.ResultSetHandler#handle(java.sql.ResultSet)
-    */
-   public List<AePersistedAlarm> handle(ResultSet aResultSet) throws SQLException
-   {
-      List<AePersistedAlarm> list = new LinkedList<>();
-      while (aResultSet.next())
-      {
-         long processId = aResultSet.getLong(IAeQueueColumns.PROCESS_ID);
-         int locationPathId = aResultSet.getInt(IAeQueueColumns.LOCATION_PATH_ID);
-         Date deadline = new Date(aResultSet.getLong(IAeQueueColumns.DEADLINE_MILLIS));
-         int groupId = aResultSet.getInt(IAeQueueColumns.GROUP_ID);
-         int alarmId = aResultSet.getInt(IAeQueueColumns.ALARM_ID);
-         list.add(new AePersistedAlarm(processId, locationPathId, deadline, groupId, alarmId));
-      }
+public class AeAlarmListQueryHandler implements ResultSetHandler<List<AePersistedAlarm>> {
+    /**
+     * @see org.apache.commons.dbutils.ResultSetHandler#handle(java.sql.ResultSet)
+     */
+    public List<AePersistedAlarm> handle(ResultSet aResultSet) throws SQLException {
+        List<AePersistedAlarm> list = new LinkedList<>();
+        while (aResultSet.next()) {
+            long processId = aResultSet.getLong(IAeQueueColumns.PROCESS_ID);
+            int locationPathId = aResultSet.getInt(IAeQueueColumns.LOCATION_PATH_ID);
+            Date deadline = new Date(aResultSet.getLong(IAeQueueColumns.DEADLINE_MILLIS));
+            int groupId = aResultSet.getInt(IAeQueueColumns.GROUP_ID);
+            int alarmId = aResultSet.getInt(IAeQueueColumns.ALARM_ID);
+            list.add(new AePersistedAlarm(processId, locationPathId, deadline, groupId, alarmId));
+        }
 
-      return list;
-   }
+        return list;
+    }
 }

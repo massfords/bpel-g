@@ -18,38 +18,33 @@ import org.activebpel.rt.bpel.def.activity.AeChildExtensionActivityDef;
 /**
  * Class that validates an child extension activity def.
  */
-public class AeBPWSChildExtensionActivityValidator extends AeAbstractChildExtensionActivityValidator
-{
+public class AeBPWSChildExtensionActivityValidator extends AeAbstractChildExtensionActivityValidator {
 
-   /**
-    * Constructor
-    * @param aBaseDef
-    */
-   public AeBPWSChildExtensionActivityValidator(AeChildExtensionActivityDef aBaseDef)
-   {
-      super(aBaseDef);
-      // TODO Auto-generated constructor stub
-   }
+    /**
+     * Constructor
+     *
+     * @param aBaseDef
+     */
+    public AeBPWSChildExtensionActivityValidator(AeChildExtensionActivityDef aBaseDef) {
+        super(aBaseDef);
+        // TODO Auto-generated constructor stub
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.def.validation.AeBaseValidator#validate()
-    */
-   public void validate()
-   {
-      super.validate();
+    /**
+     * @see org.activebpel.rt.bpel.def.validation.AeBaseValidator#validate()
+     */
+    public void validate() {
+        super.validate();
 
-      QName extQName = getDef().getElementName();
-      Object[] args = { extQName.getNamespaceURI(), extQName.getLocalPart(),
-            getDefinition().getParentXmlDef().getLocationPath() };
-      String warningMessage = null;
-      if (IAeBPELConstants.BPWS_NAMESPACE_URI.equals(extQName.getNamespaceURI()))
-      {
-         warningMessage = AeMessages.getString("AeBPWSChildExtensionActivityValidator.AddedBPELConstructAsExtensibilityActivity"); //$NON-NLS-1$
-      }
-      else
-      {
-         warningMessage = AeMessages.getString("AeBPWSChildExtensionActivityValidator.ExtensibilityActivityWarning"); //$NON-NLS-1$
-      }
-      getReporter().reportProblem(BPWS_EXTENSIBILITY_ACTIVITY_CODE, warningMessage, args, getDefinition());
-   }
+        QName extQName = getDef().getElementName();
+        Object[] args = {extQName.getNamespaceURI(), extQName.getLocalPart(),
+                getDefinition().getParentXmlDef().getLocationPath()};
+        String warningMessage = null;
+        if (IAeBPELConstants.BPWS_NAMESPACE_URI.equals(extQName.getNamespaceURI())) {
+            warningMessage = AeMessages.getString("AeBPWSChildExtensionActivityValidator.AddedBPELConstructAsExtensibilityActivity"); //$NON-NLS-1$
+        } else {
+            warningMessage = AeMessages.getString("AeBPWSChildExtensionActivityValidator.ExtensibilityActivityWarning"); //$NON-NLS-1$
+        }
+        getReporter().reportProblem(BPWS_EXTENSIBILITY_ACTIVITY_CODE, warningMessage, args, getDefinition());
+    }
 }

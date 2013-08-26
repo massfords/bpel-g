@@ -16,23 +16,20 @@ import org.activebpel.rt.expr.def.IAeExpressionParserContext;
 /**
  * An implementation of an expression parser for the xpath language for BPEL 2.0.
  */
-public class AeWSBPELXPathExpressionParser extends AeAbstractXPathExpressionParser
-{
-   /**
-    * Constructs an xpath parser given the context.
-    * 
-    * @param aParserContext
-    */
-   public AeWSBPELXPathExpressionParser(IAeExpressionParserContext aParserContext)
-   {
-      super(aParserContext);
-   }
+public class AeWSBPELXPathExpressionParser extends AeAbstractXPathExpressionParser {
+    /**
+     * Constructs an xpath parser given the context.
+     *
+     * @param aParserContext
+     */
+    public AeWSBPELXPathExpressionParser(IAeExpressionParserContext aParserContext) {
+        super(aParserContext);
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.def.expr.xpath.AeAbstractXPathExpressionParser#createParseResult(java.lang.String, org.activebpel.rt.bpel.def.expr.xpath.AeXPathParseHandler)
-    */
-   protected IAeExpressionParseResult createParseResult(String aExpression, AeXPathParseHandler aHandler)
-   {
-      return new AeWSBPELXPathParseResult(aExpression, aHandler.getAST(), aHandler.getErrors(), getParserContext());
-   }
+    /**
+     * @see org.activebpel.rt.bpel.def.expr.xpath.AeAbstractXPathExpressionParser#createParseResult(java.lang.String, org.activebpel.rt.bpel.def.expr.xpath.AeXPathParseHandler)
+     */
+    protected IAeExpressionParseResult createParseResult(String aExpression, AeXPathParseHandler aHandler) {
+        return new AeWSBPELXPathParseResult(aExpression, aHandler.getAST(), aHandler.getErrors(), getParserContext());
+    }
 }

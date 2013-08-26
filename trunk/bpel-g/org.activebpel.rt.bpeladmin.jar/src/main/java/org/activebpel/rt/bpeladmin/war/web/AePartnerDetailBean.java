@@ -12,51 +12,51 @@ package org.activebpel.rt.bpeladmin.war.web;
 import java.io.Serializable;
 
 /**
- *  Wraps the info for a specific pdef.
+ * Wraps the info for a specific pdef.
  */
-public class AePartnerDetailBean implements Serializable
-{
-   /**
-     * 
+public class AePartnerDetailBean implements Serializable {
+    /**
+     *
      */
     private static final long serialVersionUID = 312778240592886737L;
-/** The specific principal */
-   protected String mPrincipal;
-   /** The pdef details associated with the principal. */
-   protected AePartnerDetailWrapper[] mDetails;
-   
-   /**
-    * Constructor.
-    */
-   public AePartnerDetailBean()
-   {
-      
-   }
-   
-   /**
-    * Setter for the principal.
-    * @param aPrincipal
-    */
-   public void setPrincipal( String aPrincipal )
-   {
-      mPrincipal = aPrincipal;
-      initDetails();
-   }
-   
-   /**
-    * Getter for the principal.
-    */
-   public String getPrincipal()
-   {
-      return mPrincipal;
-   }
-   
-   /**
-    * Load up the partner def details.
-    */
-   protected void initDetails()
-   {
-       // FIXME clean this up or remove it
+    /**
+     * The specific principal
+     */
+    protected String mPrincipal;
+    /**
+     * The pdef details associated with the principal.
+     */
+    protected AePartnerDetailWrapper[] mDetails;
+
+    /**
+     * Constructor.
+     */
+    public AePartnerDetailBean() {
+
+    }
+
+    /**
+     * Setter for the principal.
+     *
+     * @param aPrincipal
+     */
+    public void setPrincipal(String aPrincipal) {
+        mPrincipal = aPrincipal;
+        initDetails();
+    }
+
+    /**
+     * Getter for the principal.
+     */
+    public String getPrincipal() {
+        return mPrincipal;
+    }
+
+    /**
+     * Load up the partner def details.
+     */
+    protected void initDetails() {
+        // FIXME clean this up or remove it
 //      IAePartnerDefInfo info = 
 //         AeEngineFactory.getEngineAdministration().getPartnerAddressingAdmin().getPartnerInfo( getPrincipal() );
 //
@@ -73,34 +73,31 @@ public class AePartnerDetailBean implements Serializable
 //         details.add( new AePartnerDetailWrapper(partnerLinkType,role,endpoint,contexts) );
 //         mDetails = (AePartnerDetailWrapper[])details.toArray( new AePartnerDetailWrapper[details.size()]); 
 //      }
-   }
-   
-   /**
-    * Indexed accessor for the partner detail rows wrapper.
-    * @param aIndex
-    */
-   public AePartnerDetailWrapper getDetail( int aIndex )
-   {
-      return mDetails[aIndex];
-   }
-   
-   /**
-    * Accessor for the size of the detail rows.
-    */
-   public int getDetailSize()
-   {
-      if( mDetails == null )
-      {
-         return 0;
-      }
-      return mDetails.length;
-   }
-   
-   /**
-    * Returns true if there are details available.
-    */
-   public boolean isHasDetails()
-   {
-      return getDetailSize() > 0;
-   }
+    }
+
+    /**
+     * Indexed accessor for the partner detail rows wrapper.
+     *
+     * @param aIndex
+     */
+    public AePartnerDetailWrapper getDetail(int aIndex) {
+        return mDetails[aIndex];
+    }
+
+    /**
+     * Accessor for the size of the detail rows.
+     */
+    public int getDetailSize() {
+        if (mDetails == null) {
+            return 0;
+        }
+        return mDetails.length;
+    }
+
+    /**
+     * Returns true if there are details available.
+     */
+    public boolean isHasDetails() {
+        return getDetailSize() > 0;
+    }
 }

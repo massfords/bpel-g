@@ -93,1265 +93,1131 @@ import org.w3c.dom.Node;
 /**
  * Base class which builds the properties for the selected BPEL activity in the admin console.
  */
-public abstract class AeProcessWebPropertyBuilder extends AeProcessDefToWebVisitorBase
-{
-   /** Map containing non-activity container element name to display name. */
-   protected static final Map<String,String> NON_ACTIVITY_CONTAINERS = new HashMap<>();
+public abstract class AeProcessWebPropertyBuilder extends AeProcessDefToWebVisitorBase {
+    /**
+     * Map containing non-activity container element name to display name.
+     */
+    protected static final Map<String, String> NON_ACTIVITY_CONTAINERS = new HashMap<>();
 
-   static
-   {
-      NON_ACTIVITY_CONTAINERS.put("partnerLinks", "partnerLink"); //$NON-NLS-1$ //$NON-NLS-2$
-      NON_ACTIVITY_CONTAINERS.put("partners", "partner"); //$NON-NLS-1$ //$NON-NLS-2$
-      NON_ACTIVITY_CONTAINERS.put("variables", "variable"); //$NON-NLS-1$ //$NON-NLS-2$
-      NON_ACTIVITY_CONTAINERS.put("correlationSets", "correlationSet"); //$NON-NLS-1$ //$NON-NLS-2$
-      NON_ACTIVITY_CONTAINERS.put("correlations", "correlations"); //$NON-NLS-1$ //$NON-NLS-2$
-      NON_ACTIVITY_CONTAINERS.put("fromParts", "fromPart"); //$NON-NLS-1$ //$NON-NLS-2$
-      NON_ACTIVITY_CONTAINERS.put("toParts", "toPart"); //$NON-NLS-1$ //$NON-NLS-2$
-      NON_ACTIVITY_CONTAINERS.put("messageExchanges", "messageExchange"); //$NON-NLS-1$ //$NON-NLS-2$
-   }
+    static {
+        NON_ACTIVITY_CONTAINERS.put("partnerLinks", "partnerLink"); //$NON-NLS-1$ //$NON-NLS-2$
+        NON_ACTIVITY_CONTAINERS.put("partners", "partner"); //$NON-NLS-1$ //$NON-NLS-2$
+        NON_ACTIVITY_CONTAINERS.put("variables", "variable"); //$NON-NLS-1$ //$NON-NLS-2$
+        NON_ACTIVITY_CONTAINERS.put("correlationSets", "correlationSet"); //$NON-NLS-1$ //$NON-NLS-2$
+        NON_ACTIVITY_CONTAINERS.put("correlations", "correlations"); //$NON-NLS-1$ //$NON-NLS-2$
+        NON_ACTIVITY_CONTAINERS.put("fromParts", "fromPart"); //$NON-NLS-1$ //$NON-NLS-2$
+        NON_ACTIVITY_CONTAINERS.put("toParts", "toPart"); //$NON-NLS-1$ //$NON-NLS-2$
+        NON_ACTIVITY_CONTAINERS.put("messageExchanges", "messageExchange"); //$NON-NLS-1$ //$NON-NLS-2$
+    }
 
-   /** Currently selected BPEL web model. */
-   private AeBpelObjectBase mBpelModel;
-   /** Web process model. */
-   private AeBpelProcessObject mBpelProcessModel;
+    /**
+     * Currently selected BPEL web model.
+     */
+    private AeBpelObjectBase mBpelModel;
+    /**
+     * Web process model.
+     */
+    private AeBpelProcessObject mBpelProcessModel;
 
-   /**
-    * ctor.
-    * @param aBpelModel selected BPEL web model.
-    */
-   public AeProcessWebPropertyBuilder(AeBpelObjectBase aBpelModel)
-   {
-      setBpelModel(aBpelModel);
-   }
+    /**
+     * ctor.
+     *
+     * @param aBpelModel selected BPEL web model.
+     */
+    public AeProcessWebPropertyBuilder(AeBpelObjectBase aBpelModel) {
+        setBpelModel(aBpelModel);
+    }
 
-   /**
-    * Overrides method to return the state document from the BPEL process web model.
-    * @see org.activebpel.rt.bpeladmin.war.web.processview.AeProcessDefToWebVisitorBase#getStateDocument()
-    */
-   public Document getStateDocument()
-   {
-      if (getBpelProcessModel().isHasState())
-      {
-         return getBpelProcessModel().getStateDoc();
-      }
-      else
-      {
-         return null;
-      }
-   }
+    /**
+     * Overrides method to return the state document from the BPEL process web model.
+     *
+     * @see org.activebpel.rt.bpeladmin.war.web.processview.AeProcessDefToWebVisitorBase#getStateDocument()
+     */
+    public Document getStateDocument() {
+        if (getBpelProcessModel().isHasState()) {
+            return getBpelProcessModel().getStateDoc();
+        } else {
+            return null;
+        }
+    }
 
-   /**
-    * Adds a name value detailed property.
-    * @param aName
-    * @param aValue
-    * @param aEditFlag
-    */
-   protected void addDetails(String aName, String aValue,  boolean aEditFlag)
-   {
-      AePropertyNameValue pd = new AePropertyNameValue(aName, aValue, aEditFlag);
-      addDetails(pd);
-   }
+    /**
+     * Adds a name value detailed property.
+     *
+     * @param aName
+     * @param aValue
+     * @param aEditFlag
+     */
+    protected void addDetails(String aName, String aValue, boolean aEditFlag) {
+        AePropertyNameValue pd = new AePropertyNameValue(aName, aValue, aEditFlag);
+        addDetails(pd);
+    }
 
-   /**
-    * Adds the given name value property. Subclasses should implement this method to display this property.
-    * @param aDetails
-    */
-   protected abstract void addDetails(AePropertyNameValue aDetails);
+    /**
+     * Adds the given name value property. Subclasses should implement this method to display this property.
+     *
+     * @param aDetails
+     */
+    protected abstract void addDetails(AePropertyNameValue aDetails);
 
-   /**
-    * Removes the named property.
-    * @param aName property name.
-    */
-   protected abstract void removeProperty(String aName);
+    /**
+     * Removes the named property.
+     *
+     * @param aName property name.
+     */
+    protected abstract void removeProperty(String aName);
 
-   /**
-    * Adds a simple property.
-    * @param aName
-    * @param aValue
-    */
-   protected void addProperty(String aName, String aValue)
-   {
-      addProperty(aName, aName, aValue, false, null, false);
-   }
+    /**
+     * Adds a simple property.
+     *
+     * @param aName
+     * @param aValue
+     */
+    protected void addProperty(String aName, String aValue) {
+        addProperty(aName, aName, aValue, false, null, false);
+    }
 
-   /**
-    * Adds a list of simple properties.
-    * @param aNames
-    * @param aValues
-    * @param aIsDate
-    */
-   protected void addProperties(String aNames[], String aValues[], boolean aIsDate)
-   {
-      for (int i = 0; i < aNames.length; i++)
-      {
-         addProperty(aNames[i], aValues[i], aIsDate, null, false);
-      }
-   }
+    /**
+     * Adds a list of simple properties.
+     *
+     * @param aNames
+     * @param aValues
+     * @param aIsDate
+     */
+    protected void addProperties(String aNames[], String aValues[], boolean aIsDate) {
+        for (int i = 0; i < aNames.length; i++) {
+            addProperty(aNames[i], aValues[i], aIsDate, null, false);
+        }
+    }
 
-   /**
-    * Adds a simple property.
-    * @param aName
-    * @param aValue
-    * @param aLocationPath
-    */
-   protected void addProperty(String aName, String aValue, String aLocationPath)
-   {
-      addProperty(aName, aName, aValue, aLocationPath);
-   }
+    /**
+     * Adds a simple property.
+     *
+     * @param aName
+     * @param aValue
+     * @param aLocationPath
+     */
+    protected void addProperty(String aName, String aValue, String aLocationPath) {
+        addProperty(aName, aName, aValue, aLocationPath);
+    }
 
-   /**
-    * Adds the property with the key
-    * @param aKey
-    * @param aName
-    * @param aValue
-    * @param aLocationPath
-    */
-   protected void addProperty(String aKey, String aName, String aValue, String aLocationPath)
-   {
-      addProperty(aKey, aName, aValue, false, aLocationPath, false);
-   }
-
-
-   /**
-    * Adds a simple property.
-    * @param aName property name
-    * @param aValue property value
-    * @param aIsDate indicates that the property is a date.
-    * @param aLocationPath location path of the activity
-    * @param aEditFlag indicates that the property is editiable.
-    */
-   protected void addProperty(String aName, String aValue, boolean aIsDate, String aLocationPath, boolean aEditFlag)
-   {
-      addProperty(aName, aName, aValue, aIsDate, aLocationPath, aEditFlag);
-   }
-
-   /**
-    * Adds a simple property.
-    * @param aKey property key
-    * @param aName property name
-    * @param aValue property value
-    * @param aIsDate indicates that the property is a date.
-    * @param aLocationPath location path of the activity
-    * @param aEditFlag indicates that the property is editiable.
-    */
-   protected void addProperty(String aKey, String aName, String aValue, boolean aIsDate, String aLocationPath, boolean aEditFlag)
-   {
-      if (AeUtil.notNullOrEmpty(aValue))
-      {
-         AePropertyNameValue nv = new AePropertyNameValue(aKey, aName, aValue, aIsDate, aLocationPath, aEditFlag);
-         addProperty(nv);
-      }
-   }
-
-   /**
-    * Adds a simple property.
-    * @param aNameValue
-    */
-   protected abstract void addProperty(AePropertyNameValue aNameValue);
-
-   /**
-    * Returns the string literal 'yes' or 'no' based on the boolean value.
-    * @param aValue
-    */
-   protected String getYesNo(boolean aValue)
-   {
-      return aValue ? "yes" : "no"; //$NON-NLS-1$ //$NON-NLS-2$
-   }
-
-   /**
-    * Returns the location path of the current model.
-    */
-   public String getLocationPath()
-   {
-      return getBpelModel().getLocationPath();
-   }
-
-   /**
-    * @return Returns the bpelProcessModel.
-    */
-   public AeBpelProcessObject getBpelProcessModel()
-   {
-      if (mBpelProcessModel == null)
-      {
-         mBpelProcessModel = getBpelModel().getRootProcess();
-      }
-      return mBpelProcessModel;
-   }
-
-   /**
-    * @return Returns the bpelModel.
-    */
-   public AeBpelObjectBase getBpelModel()
-   {
-      return mBpelModel;
-   }
-
-   /**
-    * @param aBpelModel The bpelModel to set.
-    */
-   public void setBpelModel(AeBpelObjectBase aBpelModel)
-   {
-      mBpelModel = aBpelModel;
-   }
-
-   /**
-    * @return Returns the hasState.
-    */
-   public boolean isHasState()
-   {
-      return getBpelProcessModel().isHasState();
-   }
-
-   /**
-    * Returns the location path to a variable given its name.
-    * @param aVariableName name of variable.
-    * @return location path of variable if found, or null otherwise.
-    */
-   protected String findVariableLocationPath(String aVariableName)
-   {
-      AeBpelObjectBase bpelObj = getBpelModel();
-      AeBpelObjectBase bpelVariable = bpelObj.findVariable(aVariableName);
-      if (bpelVariable != null)
-      {
-         return bpelVariable.getLocationPath();
-      }
-      else
-      {
-         return null;
-      }
-   }
-
-   /**
-    * Returns the location path of a correlation set given the set name.
-    * @param aSetName
-    * @return location path of set or null if not found.
-    */
-   protected String findCorrelationSetLocationPath(String aSetName)
-   {
-      String rVal = null;
-      AeBpelObjectBase corrSet = getBpelModel().findCorrelationSet(aSetName);
-      if (corrSet != null)
-      {
-         rVal = corrSet.getLocationPath();
-      }
-      return rVal;
-   }
+    /**
+     * Adds the property with the key
+     *
+     * @param aKey
+     * @param aName
+     * @param aValue
+     * @param aLocationPath
+     */
+    protected void addProperty(String aKey, String aName, String aValue, String aLocationPath) {
+        addProperty(aKey, aName, aValue, false, aLocationPath, false);
+    }
 
 
-   /**
-    * Returns the location path to a partner link given its  name.
-    * @param aPartnerLinkName name of partner link.
-    * @return location path of partner link if found, or null otherwise.
-    */
-   protected String findPartnerLinkLocationPath(String aPartnerLinkName)
-   {
-      AeBpelObjectBase bpelObj = getBpelModel();
-      AeBpelObjectBase partnerLink = bpelObj.findPartnerLink(aPartnerLinkName);
-      if (partnerLink != null)
-      {
-         return partnerLink.getLocationPath();
-      }
-      else
-      {
-         return null;
-      }
-   }
+    /**
+     * Adds a simple property.
+     *
+     * @param aName         property name
+     * @param aValue        property value
+     * @param aIsDate       indicates that the property is a date.
+     * @param aLocationPath location path of the activity
+     * @param aEditFlag     indicates that the property is editiable.
+     */
+    protected void addProperty(String aName, String aValue, boolean aIsDate, String aLocationPath, boolean aEditFlag) {
+        addProperty(aName, aName, aValue, aIsDate, aLocationPath, aEditFlag);
+    }
 
-   /**
-    * Builds the properties associated with the current model.
-    */
-   public void build()
-   {
-      // build common properties such as name and state.
-      buildCommonProperties();
-      
-      // get Adapter from the model and if there is an adapter ask it for the properties
-      if (getBpelModel().getAdapter() != null)
-      {
-         buildPropertiesFromAdapter();
-      }
-      else
-      {
-         // get the definition for the current web model and let it visit this class.
-         AeBaseXmlDef def = getBpelModel().getDef();
-         if (def != null)
-         {
-            try
-            {
-               setBpelVersion11(def);
-               def.accept(this);
+    /**
+     * Adds a simple property.
+     *
+     * @param aKey          property key
+     * @param aName         property name
+     * @param aValue        property value
+     * @param aIsDate       indicates that the property is a date.
+     * @param aLocationPath location path of the activity
+     * @param aEditFlag     indicates that the property is editiable.
+     */
+    protected void addProperty(String aKey, String aName, String aValue, boolean aIsDate, String aLocationPath, boolean aEditFlag) {
+        if (AeUtil.notNullOrEmpty(aValue)) {
+            AePropertyNameValue nv = new AePropertyNameValue(aKey, aName, aValue, aIsDate, aLocationPath, aEditFlag);
+            addProperty(nv);
+        }
+    }
+
+    /**
+     * Adds a simple property.
+     *
+     * @param aNameValue
+     */
+    protected abstract void addProperty(AePropertyNameValue aNameValue);
+
+    /**
+     * Returns the string literal 'yes' or 'no' based on the boolean value.
+     *
+     * @param aValue
+     */
+    protected String getYesNo(boolean aValue) {
+        return aValue ? "yes" : "no"; //$NON-NLS-1$ //$NON-NLS-2$
+    }
+
+    /**
+     * Returns the location path of the current model.
+     */
+    public String getLocationPath() {
+        return getBpelModel().getLocationPath();
+    }
+
+    /**
+     * @return Returns the bpelProcessModel.
+     */
+    public AeBpelProcessObject getBpelProcessModel() {
+        if (mBpelProcessModel == null) {
+            mBpelProcessModel = getBpelModel().getRootProcess();
+        }
+        return mBpelProcessModel;
+    }
+
+    /**
+     * @return Returns the bpelModel.
+     */
+    public AeBpelObjectBase getBpelModel() {
+        return mBpelModel;
+    }
+
+    /**
+     * @param aBpelModel The bpelModel to set.
+     */
+    public void setBpelModel(AeBpelObjectBase aBpelModel) {
+        mBpelModel = aBpelModel;
+    }
+
+    /**
+     * @return Returns the hasState.
+     */
+    public boolean isHasState() {
+        return getBpelProcessModel().isHasState();
+    }
+
+    /**
+     * Returns the location path to a variable given its name.
+     *
+     * @param aVariableName name of variable.
+     * @return location path of variable if found, or null otherwise.
+     */
+    protected String findVariableLocationPath(String aVariableName) {
+        AeBpelObjectBase bpelObj = getBpelModel();
+        AeBpelObjectBase bpelVariable = bpelObj.findVariable(aVariableName);
+        if (bpelVariable != null) {
+            return bpelVariable.getLocationPath();
+        } else {
+            return null;
+        }
+    }
+
+    /**
+     * Returns the location path of a correlation set given the set name.
+     *
+     * @param aSetName
+     * @return location path of set or null if not found.
+     */
+    protected String findCorrelationSetLocationPath(String aSetName) {
+        String rVal = null;
+        AeBpelObjectBase corrSet = getBpelModel().findCorrelationSet(aSetName);
+        if (corrSet != null) {
+            rVal = corrSet.getLocationPath();
+        }
+        return rVal;
+    }
+
+
+    /**
+     * Returns the location path to a partner link given its  name.
+     *
+     * @param aPartnerLinkName name of partner link.
+     * @return location path of partner link if found, or null otherwise.
+     */
+    protected String findPartnerLinkLocationPath(String aPartnerLinkName) {
+        AeBpelObjectBase bpelObj = getBpelModel();
+        AeBpelObjectBase partnerLink = bpelObj.findPartnerLink(aPartnerLinkName);
+        if (partnerLink != null) {
+            return partnerLink.getLocationPath();
+        } else {
+            return null;
+        }
+    }
+
+    /**
+     * Builds the properties associated with the current model.
+     */
+    public void build() {
+        // build common properties such as name and state.
+        buildCommonProperties();
+
+        // get Adapter from the model and if there is an adapter ask it for the properties
+        if (getBpelModel().getAdapter() != null) {
+            buildPropertiesFromAdapter();
+        } else {
+            // get the definition for the current web model and let it visit this class.
+            AeBaseXmlDef def = getBpelModel().getDef();
+            if (def != null) {
+                try {
+                    setBpelVersion11(def);
+                    def.accept(this);
+                } catch (Throwable t) {
+                    AeException.logError(t, t.getMessage());
+                }
             }
-            catch(Throwable t)
-            {
-               AeException.logError(t, t.getMessage());
+        }
+    }
+
+    /**
+     * This method delegates to adapter
+     */
+    protected void buildPropertiesFromAdapter() {
+        IAeXmlDefGraphNodeProperty[] props = getBpelModel().getAdapter().getProperties(getBpelModel().getDef(), getStateDocument(), getBpelModel().getLocationPath());
+        if (props == null)
+            return;
+
+        for (IAeXmlDefGraphNodeProperty prop : props) {
+            if (prop.isRemove()) {
+                removeProperty(prop.getName());
+            } else {
+                AePropertyNameValue nv = new AePropertyNameValue(prop.getName(), prop.getValue(), false);
+                // Set location path if this is a variable
+                if (prop.isVariable())
+                    nv.setLocationPath(findVariableLocationPath(prop.getValue()));
+
+                // Set location path if present in node property
+                if (prop.isHasLocationPath())
+                    nv.setLocationPath(prop.getLocationPath());
+
+                if (prop.isDetail())
+                    addDetails(nv);
+                else
+                    addProperty(nv);
             }
-         }
-      }
-   }
+        }
+    }
 
-   /**
-    * This method delegates to adapter  
-    */
-   protected void buildPropertiesFromAdapter()
-   {
-      IAeXmlDefGraphNodeProperty[] props =  getBpelModel().getAdapter().getProperties(getBpelModel().getDef(), getStateDocument(), getBpelModel().getLocationPath());
-      if (props == null)
-         return;
+    /**
+     * Builds the common properties such as name and state.
+     */
+    protected void buildCommonProperties() {
+        String name = AeUtil.notNullOrEmpty(getBpelModel().getName()) ? getBpelModel().getName() : AeMessages.getString("AeProcessViewPropertyBuilder.0"); //$NON-NLS-1$
+        // activity name
+        AePropertyNameValue nv = new AePropertyNameValue("name", name, null); //$NON-NLS-1$
+        addProperty(nv);
+        // location path
+        nv = new AePropertyNameValue("path", getBpelModel().getLocationPath(), null); //$NON-NLS-1$
+        addProperty(nv);
+        // add state
+        if (isHasState() && AeUtil.notNullOrEmpty(getBpelModel().getDisplayStateKey())) {
+            addProperty(IAeImplStateNames.STATE_STATE, getBpelModel().getDisplayStateKey());
+        }
+    }
 
-       for (IAeXmlDefGraphNodeProperty prop : props) {
-           if (prop.isRemove()) {
-               removeProperty(prop.getName());
-           } else {
-               AePropertyNameValue nv = new AePropertyNameValue(prop.getName(), prop.getValue(), false);
-               // Set location path if this is a variable
-               if (prop.isVariable())
-                   nv.setLocationPath(findVariableLocationPath(prop.getValue()));
+    /**
+     * Builds the non-activity container properties.
+     *
+     * @param aDef
+     */
+    protected void buildNonActivityContainerProperties(AeBaseContainer aDef) {
+        // non-activity containers do not need to show the activity name.
+        removeProperty("name"); //$NON-NLS-1$
+        String name = ""; //$NON-NLS-1$
+        if (NON_ACTIVITY_CONTAINERS.keySet().contains(getBpelModel().getTagName())) {
+            name = (NON_ACTIVITY_CONTAINERS.get(getBpelModel().getTagName())) + "Count";  //$NON-NLS-1$
+        }
+        String value = String.valueOf(aDef.getSize());
+        addProperty(name, value);
+    }
 
-               // Set location path if present in node property
-               if (prop.isHasLocationPath())
-                   nv.setLocationPath(prop.getLocationPath());
+    /**
+     * Builds the common properties associated with a BPEL activity.
+     *
+     * @param aDef
+     */
+    protected void buildActivityBase(AeActivityDef aDef) {
+        // add base activity properties.
+        buildExpressionProperty("joinCondition", aDef.getJoinConditionDef());  //$NON-NLS-1$
+        if (aDef.getSuppressFailure() != null) {
+            addProperty("suppressJoinFailure", getYesNo(aDef.getSuppressFailure())); //$NON-NLS-1$
+        }
+    }
 
-               if (prop.isDetail())
-                   addDetails(nv);
-               else
-                   addProperty(nv);
-           }
-       }
-   }
-   
-   /**
-    * Builds the common properties such as name and state.
-    */
-   protected void buildCommonProperties()
-   {
-      String name = AeUtil.notNullOrEmpty(getBpelModel().getName())? getBpelModel().getName() : AeMessages.getString("AeProcessViewPropertyBuilder.0"); //$NON-NLS-1$
-      // activity name
-      AePropertyNameValue nv = new AePropertyNameValue("name", name, null); //$NON-NLS-1$
-      addProperty(nv);
-      // location path
-      nv = new AePropertyNameValue("path", getBpelModel().getLocationPath(), null); //$NON-NLS-1$
-      addProperty(nv);
-      // add state
-      if (isHasState() && AeUtil.notNullOrEmpty(getBpelModel().getDisplayStateKey()))
-      {
-         addProperty(IAeImplStateNames.STATE_STATE, getBpelModel().getDisplayStateKey());
-      }
-   }
+    /**
+     * Builds the common properties for activities which have partner link information (e.g. Receive, Reply, Invoke).
+     *
+     * @param aDef
+     */
+    protected void build(AeActivityPartnerLinkBaseDef aDef, boolean aMyRoleFlag) {
+        addProperty("operation", aDef.getOperation()); //$NON-NLS-1$
+        addProperty("partnerLink", aDef.getPartnerLink(), findPartnerLinkLocationPath(aDef.getPartnerLink())); //$NON-NLS-1$
+        if (aMyRoleFlag) {
+            addProperty("portType", getLocalName(aDef.getPartnerLinkDef().getMyRolePortType())); //$NON-NLS-1$
+        } else {
+            addProperty("portType", getLocalName(aDef.getPartnerLinkDef().getPartnerRolePortType())); //$NON-NLS-1$
+        }
+    }
 
-   /**
-    * Builds the non-activity container properties.
-    * @param aDef
-    */
-   protected void buildNonActivityContainerProperties(AeBaseContainer aDef)
-   {
-      // non-activity containers do not need to show the activity name.
-      removeProperty("name"); //$NON-NLS-1$
-      String name = ""; //$NON-NLS-1$
-      if (NON_ACTIVITY_CONTAINERS.keySet().contains(getBpelModel().getTagName()))
-      {
-         name = (NON_ACTIVITY_CONTAINERS.get(getBpelModel().getTagName())) + "Count";  //$NON-NLS-1$
-      }
-      String value = String.valueOf( aDef.getSize());
-      addProperty(name, value);
-   }
-
-   /**
-    * Builds the common properties associated with a BPEL activity.
-    * @param aDef
-    */
-   protected void buildActivityBase(AeActivityDef aDef)
-   {
-      // add base activity properties.
-      buildExpressionProperty("joinCondition", aDef.getJoinConditionDef());  //$NON-NLS-1$
-      if (aDef.getSuppressFailure() != null)
-      {
-         addProperty("suppressJoinFailure", getYesNo(aDef.getSuppressFailure())); //$NON-NLS-1$
-      }
-   }
-
-   /**
-    * Builds the common properties for activities which have partner link information (e.g. Receive, Reply, Invoke).
-    * @param aDef
-    */
-   protected void build(AeActivityPartnerLinkBaseDef aDef, boolean aMyRoleFlag)
-   {
-      addProperty("operation", aDef.getOperation()); //$NON-NLS-1$
-      addProperty("partnerLink", aDef.getPartnerLink(), findPartnerLinkLocationPath(aDef.getPartnerLink())); //$NON-NLS-1$
-      if (aMyRoleFlag)
-      {
-         addProperty("portType", getLocalName(aDef.getPartnerLinkDef().getMyRolePortType())); //$NON-NLS-1$
-      }
-      else
-      {
-         addProperty("portType", getLocalName(aDef.getPartnerLinkDef().getPartnerRolePortType())); //$NON-NLS-1$
-      }
-   }
-
-   /**
-    * Builds the fault information based on the data in the state document.
-    * @param aDef process def.
-    */
-   protected void buildFault(AeBaseXmlDef aDef)
-   {
-      try
-      {
-         // get fault element
-         Element ele = selectElement("//" + IAeImplStateNames.STATE_FAULT); //$NON-NLS-1$
-         if (ele != null)
-         {
-            // getPrefixesForNamespace
-            String faultNs = ele.getAttribute(IAeImplStateNames.STATE_NAMESPACEURI);
-            String faultName = ele.getAttribute(IAeImplStateNames.STATE_NAME);
-            Iterator it = aDef.findPrefixesForNamespace(faultNs).iterator();
-            if (it.hasNext())
-            {
-               faultName = it.next() + ":" + faultName;  //$NON-NLS-1$
+    /**
+     * Builds the fault information based on the data in the state document.
+     *
+     * @param aDef process def.
+     */
+    protected void buildFault(AeBaseXmlDef aDef) {
+        try {
+            // get fault element
+            Element ele = selectElement("//" + IAeImplStateNames.STATE_FAULT); //$NON-NLS-1$
+            if (ele != null) {
+                // getPrefixesForNamespace
+                String faultNs = ele.getAttribute(IAeImplStateNames.STATE_NAMESPACEURI);
+                String faultName = ele.getAttribute(IAeImplStateNames.STATE_NAME);
+                Iterator it = aDef.findPrefixesForNamespace(faultNs).iterator();
+                if (it.hasNext()) {
+                    faultName = it.next() + ":" + faultName;  //$NON-NLS-1$
+                }
+                addProperty("faultName", faultName); //$NON-NLS-1$
+                addProperty(IAeImplStateNames.STATE_NAMESPACEURI, faultNs);
+                String faultSourcePath = ele.getAttribute(IAeImplStateNames.STATE_SOURCE);
+                if (AeUtil.notNullOrEmpty(faultSourcePath)) {
+                    addProperty(IAeImplStateNames.STATE_SOURCE, faultSourcePath, faultSourcePath);
+                }
+                if ("true".equalsIgnoreCase(ele.getAttribute(IAeImplStateNames.STATE_HASMESSAGEDATA))) //$NON-NLS-1$
+                {
+                    Element msgDataEle = selectElement(IAeImplStateNames.STATE_MESSAGEDATA, ele);
+                    AePropertyNameValue pd = createNameValuePair(msgDataEle, false);
+                    if (pd != null) {
+                        addDetails(pd);
+                    }
+                }
             }
-            addProperty("faultName",  faultName); //$NON-NLS-1$
-            addProperty(IAeImplStateNames.STATE_NAMESPACEURI, faultNs);
-            String faultSourcePath = ele.getAttribute(IAeImplStateNames.STATE_SOURCE);
-            if (AeUtil.notNullOrEmpty(faultSourcePath))
-            {
-               addProperty(IAeImplStateNames.STATE_SOURCE, faultSourcePath,faultSourcePath);
-            }
-            if ("true".equalsIgnoreCase(ele.getAttribute(IAeImplStateNames.STATE_HASMESSAGEDATA))) //$NON-NLS-1$
-            {
-               Element msgDataEle = selectElement(IAeImplStateNames.STATE_MESSAGEDATA, ele);
-               AePropertyNameValue pd = createNameValuePair(msgDataEle,false);
-               if (pd != null)
-               {
-                  addDetails(pd);
-               }
-            }
-         }
-      }
-      catch(Exception e)
-      {
-         AeException.logError(e, e.getLocalizedMessage());
-      }
-   }
-
-   /**
-    * Builds simple property for a "for",  "until" or "repeatEvery" attributes.
-    * @param aForDef
-    * @param aUntilDef
-    * @param aRepeatEveryDef
-    */
-   protected void buildForUntilRepeat(IAeExpressionDef aForDef, IAeExpressionDef aUntilDef, IAeExpressionDef aRepeatEveryDef)
-   {
-      if (aForDef != null)
-      {
-         buildExpressionProperty("for", aForDef);  //$NON-NLS-1$
-      }
-      else if (aUntilDef != null)
-      {
-         buildExpressionProperty("until", aUntilDef);  //$NON-NLS-1$
-      }
-	  if (aRepeatEveryDef != null)
-      {
-         buildExpressionProperty("repeatEvery", aRepeatEveryDef);  //$NON-NLS-1$
-      }
-   }
-
-   /**
-    * Builds the expression and expression language properties.
-    * @param aPropertyKey
-    * @param aExrDef
-    */
-   protected void buildExpressionProperty(String aPropertyKey, IAeExpressionDef aExrDef)
-   {
-      if (aExrDef != null)
-      {
-         addProperty(aPropertyKey, aExrDef.getExpression().trim());
-         if (AeUtil.notNullOrEmpty(aExrDef.getExpressionLanguage()))
-         {
-            addProperty("expressionLanguage", aExrDef.getExpressionLanguage()); //$NON-NLS-1$
-         }
-      }
-   }
-
-   /**
-    * Convenience method that returns the first child element.
-    * @param aNode
-    * @return first child element or null if not found.
-    */
-   protected Element getFirstChildElement(Node aNode)
-   {
-      Node node = aNode.getFirstChild();
-      while (node != null)
-      {
-         if ( node.getNodeType() == Node.ELEMENT_NODE )
-         {
-            return (Element)node;
-         }
-      }
-      return null;
-   }
-
-   /**
-    * Adds additional properties based on the element.
-    * @param aNode current element
-    */
-   protected void buildDetail(Node aNode)
-   {
-      Node node = aNode;
-      while (node != null)
-      {
-         if ( node.getNodeType() == Node.ELEMENT_NODE )
-         {
-            AePropertyNameValue pd = createNameValuePair( (Element)node, false);
-            if (pd != null)
-            {
-               addDetails(pd);
-            }
-         }
-         node = node.getNextSibling();
-      }
-   }
-
-   /**
-    * Constructs a <code>AePropertyNaveValue</code> from the the given
-    * <code>Element</code>.
-    * @param aElement
-    * @param aEditFlag
-    */
-   protected AePropertyNameValue createNameValuePair(Element aElement, boolean aEditFlag )
-   {
-      AePropertyNameValue pd = null;
-      if (aElement != null)
-      {
-         String name = aElement.getNodeName();
-         String value = AeXMLParserBase.documentToString(aElement, true);
-         pd = new AePropertyNameValue(name, value, aEditFlag);
-      }
-      return pd;
-   }
-
-   /**
-    * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.AeProcessDef)
-    */
-   public void visit(AeProcessDef def)
-   {
-      super.visit(def);
-      addProperty("bpelNamespace", def.getNamespace()); //$NON-NLS-1$
-      addProperty("targetNamespace", def.getTargetNamespace()); //$NON-NLS-1$
-      addProperty("queryLanguage", def.getQueryLanguage()); //$NON-NLS-1$
-      addProperty("expressionLanguage", def.getExpressionLanguage()); //$NON-NLS-1$
-      addProperty("suppressJoinFailure", getYesNo(def.getSuppressJoinFailure())); //$NON-NLS-1$
-
-      if (isHasState())
-      {
-         String attrs[] = {IAeImplStateNames.STATE_STARTDATE,IAeImplStateNames.STATE_ENDDATE};
-         String values[] = selectAttributes(def.getLocationPath(),IAeImplStateNames.STATE_PROCESSSTATE, attrs);
-         addProperties(attrs, values,true);
-         // build fault info
-         buildFault(def);
-      }
-   }
-
-   /**
-    * Convenience method to append name and value strings to the given buffer.
-    * @param aName
-    * @param aValue
-    * @param aBuffer
-    */
-   protected void appendData(String aName, String aValue, StringBuffer aBuffer)
-   {
-      if (AeUtil.notNullOrEmpty(aValue))
-      {
-         aBuffer.append(aName + "=" + aValue + " "); //$NON-NLS-1$ //$NON-NLS-2$
-      }
-   }
-
-   /**
-    * Builds the variable, property, part and query of a Assign activity.
-    * @param aDef
-    * @param aBuffer
-    */
-   protected void buildAssignVarData(AeVarDef aDef, StringBuffer aBuffer)
-   {
-      appendData(IAeBPELConstants.TAG_VARIABLE, aDef.getVariable(), aBuffer);
-      if (aDef.getProperty() != null)
-      {
-         appendData(IAeBPELConstants.TAG_PROPERTY, AeXmlDefUtil.formatQName(aDef, aDef.getProperty()), aBuffer);
-      }
-      appendData(IAeBPELConstants.TAG_PART, aDef.getPart(), aBuffer);
-      appendData(IAeBPELConstants.TAG_QUERY, aDef.getQuery(), aBuffer);
-      appendData(IAeBPELConstants.TAG_PARTNER_LINK, aDef.getPartnerLink(), aBuffer);
-      appendData(IAeBPELConstants.TAG_EXPRESSION, aDef.getExpression(), aBuffer);
-   }
-
-   /**
-    * Builds the property data associated with a From definition.
-    * @param aDef
-    * @param aBuffer
-    */
-   protected void buildFromData(AeFromDef aDef, StringBuffer aBuffer)
-   {
-      buildAssignVarData(aDef, aBuffer);
-      appendData(IAeBPELConstants.TAG_ENDPOINT_REFERENCE, aDef.getEndpointReference(), aBuffer);
-      if (aDef.getLiteral() != null)
-      {
-         aBuffer.append("\n"); //$NON-NLS-1$
-         aBuffer.append(AeXMLParserBase.documentToString(aDef.getLiteral(), true));
-         aBuffer.append("\n"); //$NON-NLS-1$
-      }
-      if (aDef.isOpaque())
-      {
-         appendData(IAeBPELConstants.TAG_OPAQUE_ATTR, getYesNo(aDef.isOpaque()), aBuffer);
-      }
-      
-      if (IAeFromStrategyKeys.KEY_FROM_EXTENSION.getStrategyName().equals(aDef.getStrategyKey().getStrategyName()))
-      {
-         IAeSpecExtension adapter = (IAeSpecExtension) aDef.getAdapterFromAttributes(IAeSpecExtension.class);
-         appendData(adapter.getPropertyName(), adapter.getPropertyValue(aDef), aBuffer);
-      }
-   }
-
-   /**
-    * Builds the property data associated with a To definition.
-    * @param aDef
-    * @param aBuffer
-    */
-   protected void buildToData(AeToDef aDef, StringBuffer aBuffer)
-   {
-      buildAssignVarData(aDef, aBuffer);
-      
-      if (IAeToStrategyKeys.KEY_TO_EXTENSION.getStrategyName().equals(aDef.getStrategyKey().getStrategyName()))
-      {
-         IAeSpecExtension adapter = (IAeSpecExtension) aDef.getAdapterFromAttributes(IAeSpecExtension.class);
-         appendData(adapter.getPropertyName(), adapter.getPropertyValue(aDef), aBuffer);
-      }
-   }
-
-   /**
-    * Overrides method to build the list of Copy definition properties.
-    * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityAssignDef)
-    */
-   public void visit(AeActivityAssignDef def)
-   {
-      removeProperty("name"); //$NON-NLS-1$
-      buildActivityBase(def);
-      addProperty("validate", String.valueOf(def.isValidate())); //$NON-NLS-1$
-      StringBuffer sb = new StringBuffer();
-      Iterator iter = def.getCopyDefs();
-      while (iter.hasNext())
-      {
-         AeAssignCopyDef copyDef = (AeAssignCopyDef) iter.next();
-         AeFromDef fromDef = copyDef.getFromDef();
-         AeToDef toDef = copyDef.getToDef();
-         sb.setLength(0);
-         sb.append(AeMessages.getString("AeProcessWebPropertyBuilder.copyfrom") + "\n"); //$NON-NLS-1$ //$NON-NLS-2$  //
-         buildFromData(fromDef, sb);
-         sb.append("\n" + AeMessages.getString("AeProcessWebPropertyBuilder.copyto") + "\n"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //
-         buildToData(toDef, sb);
-         sb.append("\n"); //$NON-NLS-1$
-         addDetails(AeAssignCopyDef.TAG_COPY, sb.toString().trim(), false);
-      }
-   }
-
-   /**
-    * Overrides method to build the Copy from and to values.
-    * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeAssignCopyDef)
-    */
-   public void visit(AeAssignCopyDef def)
-   {
-      removeProperty("name"); //$NON-NLS-1$
-      addProperty("keepSrcElementName", getYesNo( def.isKeepSrcElementName())); //$NON-NLS-1$
-      addProperty("ignoreMissingFromData", getYesNo( def.isIgnoreMissingFromData())); //$NON-NLS-1$
-      // FROM construct.
-      AeFromDef fromDef = def.getFromDef();
-      StringBuffer sb = new StringBuffer();
-      buildFromData(fromDef, sb);
-      addDetails(AeFromDef.TAG_FROM, sb.toString().trim(), false);
-      // TO construct
-      sb.setLength(0);
-      AeToDef toDef = def.getToDef();
-      buildToData(toDef, sb);
-      addDetails(AeToDef.TAG_TO, sb.toString().trim(), false);
-   }
-
-   /**
-    * Overrides method to add a simple property for named scope (if available).
-    * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityCompensateDef)
-    */
-   public void visit(AeActivityCompensateDef def)
-   {
-      buildActivityBase(def);
-   }
-
-   /**
-    * @see org.activebpel.rt.bpeladmin.war.web.processview.AeProcessDefToWebVisitorBase#visit(org.activebpel.rt.bpel.def.activity.AeActivityCompensateScopeDef)
-    */
-   public void visit(AeActivityCompensateScopeDef def)
-   {
-      buildActivityBase(def);
-      if (AeUtil.notNullOrEmpty(def.getTarget()))
-      {
-         addProperty("target", def.getTarget()); //$NON-NLS-1$
-      }
-   }
-
-   /**
-    * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityInvokeDef)
-    */
-   public void visit(AeActivityInvokeDef def)
-   {
-      buildActivityBase(def);
-      build(def, false);
-      addProperty("oneWay", getYesNo(isOneWay(def))); //$NON-NLS-1$
-      addProperty("inputVariable", def.getInputVariable(), findVariableLocationPath(def.getInputVariable())); //$NON-NLS-1$
-      if (AeUtil.notNullOrEmpty(def.getOutputVariable()))
-      {
-         addProperty("outputVariable", def.getOutputVariable(), findVariableLocationPath(def.getOutputVariable())); //$NON-NLS-1$
-      }
-   }
-
-   /**
-    * Returns true if this is a one-way invoke.
-    */
-   public boolean isOneWay(AeActivityInvokeDef aDef)
-   {
-      return aDef.getConsumerMessagePartsMap() == null;
-   }
-
-   /**
-    * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityPickDef)
-    */
-   public void visit(AeActivityPickDef def)
-   {
-      buildActivityBase(def);
-      addProperty("createInstance", getYesNo(def.isCreateInstance()));       //$NON-NLS-1$
-   }
-
-   /**
-    * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityReceiveDef)
-    */
-   public void visit(AeActivityReceiveDef def)
-   {
-      buildActivityBase(def);
-      build(def, true);
-      addProperty("createInstance", getYesNo(def.isCreateInstance())); //$NON-NLS-1$
-      if (AeUtil.notNullOrEmpty(def.getMessageExchange()))
-      {
-         addProperty("messageExchange", def.getMessageExchange()); //$NON-NLS-1$
-      }
-      addProperty("variable", def.getVariable(), findVariableLocationPath(def.getVariable()));       //$NON-NLS-1$
-   }
-
-   /**
-    * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityReplyDef)
-    */
-   public void visit(AeActivityReplyDef def)
-   {
-      buildActivityBase(def);
-      build(def, true);
-      if (AeUtil.notNullOrEmpty(def.getMessageExchange()))
-      {
-         addProperty("messageExchange", def.getMessageExchange()); //$NON-NLS-1$
-      }
-
-      addProperty("variable", def.getVariable(), findVariableLocationPath(def.getVariable())); //$NON-NLS-1$
-      if (def.getFaultName()!= null)
-      {
-         addProperty("faultName", getLocalName(def.getFaultName())); //$NON-NLS-1$
-      }
-   }
-
-   /**
-    * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivitySuspendDef)
-    */
-   public void visit(AeActivitySuspendDef def)
-   {
-      buildActivityBase(def);
-   }
-
-   /**
-    * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityScopeDef)
-    */
-   public void visit(AeActivityScopeDef def)
-   {
-      buildActivityBase(def);
-      if ( isBpelVersion11() )
-      {
-         addProperty("variableAccessSerializable", getYesNo(def.isIsolated()) ); //$NON-NLS-1$
-      }
-      else
-      {
-         addProperty("isolated", getYesNo(def.isIsolated()) ); //$NON-NLS-1$
-      }
-      if (def.getScopeDef().hasMessageExchanges())
-      {
-         Set messageExSet = def.getScopeDef().getMessageExchangesDef().getMessageExchangeValues();
-         StringBuilder buffer = new StringBuilder();
-         int size = messageExSet.size();
-         int i = 0;
-         Iterator it = messageExSet.iterator();
-         while (it.hasNext())
-         {
-            buffer.append( (String) it.next() );
-            buffer.append( i < (size-1)? ", " : ""); //$NON-NLS-1$ //$NON-NLS-2$
-         }
-         addProperty("messageExchange", buffer.toString()); //$NON-NLS-1$
-      }
-
-   }
-
-   /**
-    * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityContinueDef)
-    */
-   public void visit(AeActivityContinueDef def)
-   {
-      removeProperty("name"); //$NON-NLS-1$
-      buildActivityBase(def);
-   }
-
-   /**
-    * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityBreakDef)
-    */
-   public void visit(AeActivityBreakDef def)
-   {
-      removeProperty("name"); //$NON-NLS-1$
-      buildActivityBase(def);
-   }
-
-   /**
-    * Implements the visit of the corr set by getting the definition properties.
-    * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.AeCorrelationSetDef)
-    */
-   public void visit(AeCorrelationSetDef aDef)
-   {
-      // properties.
-      if (!isHasState() && aDef.getProperties().size() > 0)
-      {
-         StringBuilder sb = new StringBuilder();
-         Iterator it = aDef.getPropertiesList();
-         while (it.hasNext())
-         {
-            QName property = (QName) it.next();
-            sb.append(getLocalName(property) + "\n"); //$NON-NLS-1$
-         }
-         addDetails("properties", sb.toString(), false); //$NON-NLS-1$
-      }
-   }
-
-   /**
-    * Add correlation set details.
-    * @param aNvPair
-    */
-   protected void addCorrelationSetProperty(AePropertyNameValue aNvPair)
-   {
-      addDetails(aNvPair);
-   }
-
-   /**
-    * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.AeCatchDef)
-    */
-   public void visit(AeCatchDef def)
-   {
-      // catch
-      if (def.getFaultName() != null)
-      {
-         String faultName = getPrefixedName(def, def.getFaultName());
-         addProperty("faultName",  faultName); //$NON-NLS-1$
-         addProperty(IAeImplStateNames.STATE_NAMESPACEURI, def.getFaultName().getNamespaceURI());
-      }
-      if (AeUtil.notNullOrEmpty(def.getFaultVariable()))
-      {
-         addProperty("variable", def.getFaultVariable(),   //$NON-NLS-1$
-               def.getFaultVariableDef() != null? def.getFaultVariableDef().getLocationPath() : findVariableLocationPath(def.getFaultVariable()));
-      }
-   }
-
-
-   /**
-    * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.AeVariableDef)
-    */
-   public void visit(AeVariableDef def)
-   {
-      String propertyName = null;
-      QName typeQName = null;
-      if (def.isMessageType())
-      {
-         propertyName = "messageType"; //$NON-NLS-1$
-         typeQName =  def.getMessageType();
-      }
-      else if (def.isElement())
-      {
-         propertyName = "elementType"; //$NON-NLS-1$
-         typeQName =  def.getElement();
-      }
-      else if (def.isType())
-      {
-         propertyName = "variableType"; //$NON-NLS-1$
-         typeQName = def.getType();
-      }
-
-      if (typeQName != null)
-      {
-         addProperty(propertyName,  getPrefixedName(def, typeQName));
-         addProperty("typeNamespace",  typeQName.getNamespaceURI()); //$NON-NLS-1$
-      }
-   }
-
-   /**
-    * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.AeVariablesDef)
-    */
-   public void visit(AeVariablesDef def)
-   {
-      buildNonActivityContainerProperties(def);
-   }
-
-
-   /**
-    * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.AeCorrelationSetsDef)
-    */
-   public void visit(AeCorrelationSetsDef def)
-   {
-      buildNonActivityContainerProperties(def);
-   }
-
-   /**
-    * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.AeMessageExchangesDef)
-    */
-   public void visit(AeMessageExchangesDef def)
-   {
-      buildNonActivityContainerProperties(def);
-   }
-
-   /**
-    * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.AeMessageExchangeDef)
-    */
-   public void visit(AeMessageExchangeDef def)
-   {
-      addProperty("name", def.getName()); //$NON-NLS-1$
-   }
-
-   /**
-    * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeOnMessageDef)
-    */
-   public void visit(AeOnMessageDef def)
-   {
-      addProperty("operation", def.getOperation()); //$NON-NLS-1$
-      addProperty("partnerLink", def.getPartnerLink(), findPartnerLinkLocationPath(def.getPartnerLink())); //$NON-NLS-1$
-      addProperty("portType", getLocalName(def.getPartnerLinkDef().getMyRolePortType())); //$NON-NLS-1$
-      addProperty("variable", def.getVariable(), findVariableLocationPath(def.getVariable()));  //$NON-NLS-1$
-      if (AeUtil.notNullOrEmpty(def.getMessageExchange()))
-      {
-         addProperty("messageExchange", def.getMessageExchange()); //$NON-NLS-1$
-      }
-   }
-
-   /**
-    * @see org.activebpel.rt.bpeladmin.war.web.processview.AeProcessDefToWebVisitorBase#visit(org.activebpel.rt.bpel.def.activity.support.AeOnEventDef)
-    */
-   public void visit(AeOnEventDef def)
-   {
-      visit((AeOnMessageDef) def);
-   }
-
-   /**
-    * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeOnAlarmDef)
-    */
-   public void visit(AeOnAlarmDef def)
-   {
-      buildForUntilRepeat(def.getForDef(), def.getUntilDef(), def.getRepeatEveryDef());
-   }
-
-   /**
-    * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivitySequenceDef)
-    */
-   public void visit(AeActivitySequenceDef def)
-   {
-      buildActivityBase(def);
-   }
-
-   /**
-    * @see org.activebpel.rt.bpeladmin.war.web.processview.AeProcessDefToWebVisitorBase#visit(org.activebpel.rt.bpel.def.activity.AeActivityIfDef)
-    */
-   public void visit(AeActivityIfDef def)
-   {
-      buildActivityBase(def);
-   }
-
-   /**
-    * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityExitDef)
-    */
-   public void visit(AeActivityExitDef def)
-   {
-      buildActivityBase(def);
-   }
-
-   /**
-    * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityThrowDef)
-    */
-   public void visit(AeActivityThrowDef def)
-   {
-      buildActivityBase(def);
-      addProperty("faultName", getLocalName(def.getFaultName()) ); //$NON-NLS-1$
-      if (AeUtil.notNullOrEmpty(def.getFaultVariable()))
-      {
-         addProperty("faultVariable", def.getFaultVariable(), findVariableLocationPath(def.getFaultVariable())); //$NON-NLS-1$
-      }
-   }
-
-   /**
-    * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityValidateDef)
-    */
-   public void visit(AeActivityValidateDef def)
-   {
-      buildActivityBase(def);
-      //hyperlink space separated list of variables - one per row.
-      int count = 0;
-      for (Iterator iter = def.getVariables(); iter.hasNext(); )
-      {
-         String var = (String) iter.next();
-         addProperty("variables" + count, "variable", var, findVariableLocationPath(var) ); //$NON-NLS-1$ //$NON-NLS-2$
-         count++;
-      }
-   }
-
-   /**
-    * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityWaitDef)
-    */
-   public void visit(AeActivityWaitDef def)
-   {
-      buildActivityBase(def);
-      buildForUntilRepeat(def.getForDef(), def.getUntilDef(), null);
-   }
-
-   /**
-    * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityWhileDef)
-    */
-   public void visit(AeActivityWhileDef def)
-   {
-      buildActivityBase(def);
-      buildExpressionProperty("condition", def.getConditionDef());  //$NON-NLS-1$
-   }
-
-   /**
-    * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityRepeatUntilDef)
-    */
-   public void visit(AeActivityRepeatUntilDef def)
-   {
-      buildActivityBase(def);
-      buildExpressionProperty("condition", def.getConditionDef());  //$NON-NLS-1$
-   }
-
-   /**
-    * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityForEachDef)
-    */
-   public void visit(AeActivityForEachDef def)
-   {
-      buildActivityBase(def);
-      addProperty("counterName", def.getCounterName()); //$NON-NLS-1$
-      addProperty("startCounterExpression", def.getStartDef().getExpression()); //$NON-NLS-1$
-      addProperty("finalCounterExpression", def.getFinalDef().getExpression()); //$NON-NLS-1$
-      addProperty("parallelExecution", getYesNo(def.isParallel())); //$NON-NLS-1$
-      if (def.hasCompletionCondition())
-      {
-         addProperty("completionCondition", def.getCompletionCondition().getExpression()); //$NON-NLS-1$
-         addProperty("countCompletedBranchesOnly", getYesNo(def.getCompletionCondition().isCountCompletedBranchesOnly())); //$NON-NLS-1$
-      }
-      if (def.isParallel() && isHasState())
-      {
-         String attrs[] = {IAeImplStateNames.STATE_FOREACH_START,IAeImplStateNames.STATE_FOREACH_FINAL, IAeImplStateNames.STATE_FOREACH_COUNTER};
-         String values[] = selectAttributes(getLocationPath(),IAeImplStateNames.STATE_ACTY, attrs);
-         for (int i = 0; i < attrs.length; i++)
-         {
-            // if the counter values are -1, then display string 'Not initialized'.
-            values[i] = "-1".equals(values[i]) ? AeMessages.getString("AeProcessViewPropertyBuilder.7") : values[i];  //$NON-NLS-1$//$NON-NLS-2$
-         }
-         addProperties(attrs, values,false);
-      }
-   }
-
-
-   /**
-    * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeToPartDef)
-    */
-   public void visit(AeToPartDef def)
-   {
-      addProperty("part", def.getPart()); //$NON-NLS-1$
-      addProperty("fromVariable", def.getFromVariable()); //$NON-NLS-1$
-   }
-
-   /**
-    * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeFromPartDef)
-    */
-   public void visit(AeFromPartDef def)
-   {
-      addProperty("part", def.getPart()); //$NON-NLS-1$
-      addProperty("toVariable", def.getToVariable()); //$NON-NLS-1$
-   }
-
-   /**
-    * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeFromPartsDef)
-    */
-   public void visit(AeFromPartsDef def)
-   {
-      buildNonActivityContainerProperties(def);
-   }
-
-   /**
-    * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeToPartsDef)
-    */
-   public void visit(AeToPartsDef def)
-   {
-      buildNonActivityContainerProperties(def);
-   }
-
-   /**
-    * @see org.activebpel.rt.bpeladmin.war.web.processview.AeProcessDefToWebVisitorBase#visit(org.activebpel.rt.bpel.def.activity.support.AeElseIfDef)
-    */
-   public void visit(AeElseIfDef def)
-   {
-      removeProperty("name"); //$NON-NLS-1$
-      buildExpressionProperty("condition", def.getConditionDef());  //$NON-NLS-1$
-   }
-
-   /**
-    * @see org.activebpel.rt.bpeladmin.war.web.processview.AeProcessDefToWebVisitorBase#visit(org.activebpel.rt.bpel.def.activity.support.AeIfDef)
-    */
-   public void visit(AeIfDef def)
-   {
-      visit((AeElseIfDef) def);
-   }
-
-   /**
-    * @see org.activebpel.rt.bpeladmin.war.web.processview.AeProcessDefToWebVisitorBase#visit(org.activebpel.rt.bpel.def.activity.support.AeElseDef)
-    */
-   public void visit(AeElseDef def)
-   {
-      removeProperty("name"); //$NON-NLS-1$
-   }
-
-   /**
-    * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.AePartnerDef)
-    */
-   public void visit(AePartnerDef def)
-   {
-      Iterator iter = def.getPartnerLinks();
-      while (iter.hasNext())
-      {
-         String partnerLink = (String) iter.next();
-         String plLocationPath = findPartnerLinkLocationPath(partnerLink);
-         addProperty("parnerLink", partnerLink, plLocationPath); //$NON-NLS-1$
-      }
-   }
-
-   /**
-    * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.AePartnerLinkDef)
-    */
-   public void visit(AePartnerLinkDef def)
-   {
-      addProperty("myRole", def.getMyRole()); //$NON-NLS-1$
-      addProperty("partnerRole", def.getPartnerRole()); //$NON-NLS-1$
-      addProperty("partnerLinkType", getLocalName(def.getPartnerLinkTypeName())); //$NON-NLS-1$
-      if (isHasState())
-      {
-         try
-         {
-            Element ele = selectSingleElement(def, IAeImplStateNames.STATE_PLINK);
-            if (ele != null)
-            {
-               Element myRoleEle = selectElement(IAeImplStateNames.STATE_ROLE, ele);
-               AePropertyNameValue pd = createNameValuePair(myRoleEle,false);
-               if (pd != null)
-               {
-                  addPartnerLinkRole(pd,IAeImplStateNames.STATE_ROLE);
-               }
-               Element partnerRoleEle = selectElement(IAeImplStateNames.STATE_PROLE, ele);
-               pd = createNameValuePair(partnerRoleEle,false);
-               if (pd != null)
-               {
-                  addPartnerLinkRole(pd,IAeImplStateNames.STATE_PROLE);
-               }
-            }
-         }
-         catch(Exception e)
-         {
+        } catch (Exception e) {
             AeException.logError(e, e.getLocalizedMessage());
-         }
-      }
-   }
+        }
+    }
 
-   /**
-    * Adds a partnerRole or myRole data.
-    * @param aNvPair
-    */
-   protected void addPartnerLinkRole(AePropertyNameValue aNvPair, String aRole)
-   {
-      addDetails(aNvPair);
-   }
+    /**
+     * Builds simple property for a "for",  "until" or "repeatEvery" attributes.
+     *
+     * @param aForDef
+     * @param aUntilDef
+     * @param aRepeatEveryDef
+     */
+    protected void buildForUntilRepeat(IAeExpressionDef aForDef, IAeExpressionDef aUntilDef, IAeExpressionDef aRepeatEveryDef) {
+        if (aForDef != null) {
+            buildExpressionProperty("for", aForDef);  //$NON-NLS-1$
+        } else if (aUntilDef != null) {
+            buildExpressionProperty("until", aUntilDef);  //$NON-NLS-1$
+        }
+        if (aRepeatEveryDef != null) {
+            buildExpressionProperty("repeatEvery", aRepeatEveryDef);  //$NON-NLS-1$
+        }
+    }
+
+    /**
+     * Builds the expression and expression language properties.
+     *
+     * @param aPropertyKey
+     * @param aExrDef
+     */
+    protected void buildExpressionProperty(String aPropertyKey, IAeExpressionDef aExrDef) {
+        if (aExrDef != null) {
+            addProperty(aPropertyKey, aExrDef.getExpression().trim());
+            if (AeUtil.notNullOrEmpty(aExrDef.getExpressionLanguage())) {
+                addProperty("expressionLanguage", aExrDef.getExpressionLanguage()); //$NON-NLS-1$
+            }
+        }
+    }
+
+    /**
+     * Convenience method that returns the first child element.
+     *
+     * @param aNode
+     * @return first child element or null if not found.
+     */
+    protected Element getFirstChildElement(Node aNode) {
+        Node node = aNode.getFirstChild();
+        while (node != null) {
+            if (node.getNodeType() == Node.ELEMENT_NODE) {
+                return (Element) node;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Adds additional properties based on the element.
+     *
+     * @param aNode current element
+     */
+    protected void buildDetail(Node aNode) {
+        Node node = aNode;
+        while (node != null) {
+            if (node.getNodeType() == Node.ELEMENT_NODE) {
+                AePropertyNameValue pd = createNameValuePair((Element) node, false);
+                if (pd != null) {
+                    addDetails(pd);
+                }
+            }
+            node = node.getNextSibling();
+        }
+    }
+
+    /**
+     * Constructs a <code>AePropertyNaveValue</code> from the the given
+     * <code>Element</code>.
+     *
+     * @param aElement
+     * @param aEditFlag
+     */
+    protected AePropertyNameValue createNameValuePair(Element aElement, boolean aEditFlag) {
+        AePropertyNameValue pd = null;
+        if (aElement != null) {
+            String name = aElement.getNodeName();
+            String value = AeXMLParserBase.documentToString(aElement, true);
+            pd = new AePropertyNameValue(name, value, aEditFlag);
+        }
+        return pd;
+    }
+
+    /**
+     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.AeProcessDef)
+     */
+    public void visit(AeProcessDef def) {
+        super.visit(def);
+        addProperty("bpelNamespace", def.getNamespace()); //$NON-NLS-1$
+        addProperty("targetNamespace", def.getTargetNamespace()); //$NON-NLS-1$
+        addProperty("queryLanguage", def.getQueryLanguage()); //$NON-NLS-1$
+        addProperty("expressionLanguage", def.getExpressionLanguage()); //$NON-NLS-1$
+        addProperty("suppressJoinFailure", getYesNo(def.getSuppressJoinFailure())); //$NON-NLS-1$
+
+        if (isHasState()) {
+            String attrs[] = {IAeImplStateNames.STATE_STARTDATE, IAeImplStateNames.STATE_ENDDATE};
+            String values[] = selectAttributes(def.getLocationPath(), IAeImplStateNames.STATE_PROCESSSTATE, attrs);
+            addProperties(attrs, values, true);
+            // build fault info
+            buildFault(def);
+        }
+    }
+
+    /**
+     * Convenience method to append name and value strings to the given buffer.
+     *
+     * @param aName
+     * @param aValue
+     * @param aBuffer
+     */
+    protected void appendData(String aName, String aValue, StringBuffer aBuffer) {
+        if (AeUtil.notNullOrEmpty(aValue)) {
+            aBuffer.append(aName + "=" + aValue + " "); //$NON-NLS-1$ //$NON-NLS-2$
+        }
+    }
+
+    /**
+     * Builds the variable, property, part and query of a Assign activity.
+     *
+     * @param aDef
+     * @param aBuffer
+     */
+    protected void buildAssignVarData(AeVarDef aDef, StringBuffer aBuffer) {
+        appendData(IAeBPELConstants.TAG_VARIABLE, aDef.getVariable(), aBuffer);
+        if (aDef.getProperty() != null) {
+            appendData(IAeBPELConstants.TAG_PROPERTY, AeXmlDefUtil.formatQName(aDef, aDef.getProperty()), aBuffer);
+        }
+        appendData(IAeBPELConstants.TAG_PART, aDef.getPart(), aBuffer);
+        appendData(IAeBPELConstants.TAG_QUERY, aDef.getQuery(), aBuffer);
+        appendData(IAeBPELConstants.TAG_PARTNER_LINK, aDef.getPartnerLink(), aBuffer);
+        appendData(IAeBPELConstants.TAG_EXPRESSION, aDef.getExpression(), aBuffer);
+    }
+
+    /**
+     * Builds the property data associated with a From definition.
+     *
+     * @param aDef
+     * @param aBuffer
+     */
+    protected void buildFromData(AeFromDef aDef, StringBuffer aBuffer) {
+        buildAssignVarData(aDef, aBuffer);
+        appendData(IAeBPELConstants.TAG_ENDPOINT_REFERENCE, aDef.getEndpointReference(), aBuffer);
+        if (aDef.getLiteral() != null) {
+            aBuffer.append("\n"); //$NON-NLS-1$
+            aBuffer.append(AeXMLParserBase.documentToString(aDef.getLiteral(), true));
+            aBuffer.append("\n"); //$NON-NLS-1$
+        }
+        if (aDef.isOpaque()) {
+            appendData(IAeBPELConstants.TAG_OPAQUE_ATTR, getYesNo(aDef.isOpaque()), aBuffer);
+        }
+
+        if (IAeFromStrategyKeys.KEY_FROM_EXTENSION.getStrategyName().equals(aDef.getStrategyKey().getStrategyName())) {
+            IAeSpecExtension adapter = (IAeSpecExtension) aDef.getAdapterFromAttributes(IAeSpecExtension.class);
+            appendData(adapter.getPropertyName(), adapter.getPropertyValue(aDef), aBuffer);
+        }
+    }
+
+    /**
+     * Builds the property data associated with a To definition.
+     *
+     * @param aDef
+     * @param aBuffer
+     */
+    protected void buildToData(AeToDef aDef, StringBuffer aBuffer) {
+        buildAssignVarData(aDef, aBuffer);
+
+        if (IAeToStrategyKeys.KEY_TO_EXTENSION.getStrategyName().equals(aDef.getStrategyKey().getStrategyName())) {
+            IAeSpecExtension adapter = (IAeSpecExtension) aDef.getAdapterFromAttributes(IAeSpecExtension.class);
+            appendData(adapter.getPropertyName(), adapter.getPropertyValue(aDef), aBuffer);
+        }
+    }
+
+    /**
+     * Overrides method to build the list of Copy definition properties.
+     *
+     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityAssignDef)
+     */
+    public void visit(AeActivityAssignDef def) {
+        removeProperty("name"); //$NON-NLS-1$
+        buildActivityBase(def);
+        addProperty("validate", String.valueOf(def.isValidate())); //$NON-NLS-1$
+        StringBuffer sb = new StringBuffer();
+        Iterator iter = def.getCopyDefs();
+        while (iter.hasNext()) {
+            AeAssignCopyDef copyDef = (AeAssignCopyDef) iter.next();
+            AeFromDef fromDef = copyDef.getFromDef();
+            AeToDef toDef = copyDef.getToDef();
+            sb.setLength(0);
+            sb.append(AeMessages.getString("AeProcessWebPropertyBuilder.copyfrom") + "\n"); //$NON-NLS-1$ //$NON-NLS-2$  //
+            buildFromData(fromDef, sb);
+            sb.append("\n" + AeMessages.getString("AeProcessWebPropertyBuilder.copyto") + "\n"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //
+            buildToData(toDef, sb);
+            sb.append("\n"); //$NON-NLS-1$
+            addDetails(AeAssignCopyDef.TAG_COPY, sb.toString().trim(), false);
+        }
+    }
+
+    /**
+     * Overrides method to build the Copy from and to values.
+     *
+     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeAssignCopyDef)
+     */
+    public void visit(AeAssignCopyDef def) {
+        removeProperty("name"); //$NON-NLS-1$
+        addProperty("keepSrcElementName", getYesNo(def.isKeepSrcElementName())); //$NON-NLS-1$
+        addProperty("ignoreMissingFromData", getYesNo(def.isIgnoreMissingFromData())); //$NON-NLS-1$
+        // FROM construct.
+        AeFromDef fromDef = def.getFromDef();
+        StringBuffer sb = new StringBuffer();
+        buildFromData(fromDef, sb);
+        addDetails(AeFromDef.TAG_FROM, sb.toString().trim(), false);
+        // TO construct
+        sb.setLength(0);
+        AeToDef toDef = def.getToDef();
+        buildToData(toDef, sb);
+        addDetails(AeToDef.TAG_TO, sb.toString().trim(), false);
+    }
+
+    /**
+     * Overrides method to add a simple property for named scope (if available).
+     *
+     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityCompensateDef)
+     */
+    public void visit(AeActivityCompensateDef def) {
+        buildActivityBase(def);
+    }
+
+    /**
+     * @see org.activebpel.rt.bpeladmin.war.web.processview.AeProcessDefToWebVisitorBase#visit(org.activebpel.rt.bpel.def.activity.AeActivityCompensateScopeDef)
+     */
+    public void visit(AeActivityCompensateScopeDef def) {
+        buildActivityBase(def);
+        if (AeUtil.notNullOrEmpty(def.getTarget())) {
+            addProperty("target", def.getTarget()); //$NON-NLS-1$
+        }
+    }
+
+    /**
+     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityInvokeDef)
+     */
+    public void visit(AeActivityInvokeDef def) {
+        buildActivityBase(def);
+        build(def, false);
+        addProperty("oneWay", getYesNo(isOneWay(def))); //$NON-NLS-1$
+        addProperty("inputVariable", def.getInputVariable(), findVariableLocationPath(def.getInputVariable())); //$NON-NLS-1$
+        if (AeUtil.notNullOrEmpty(def.getOutputVariable())) {
+            addProperty("outputVariable", def.getOutputVariable(), findVariableLocationPath(def.getOutputVariable())); //$NON-NLS-1$
+        }
+    }
+
+    /**
+     * Returns true if this is a one-way invoke.
+     */
+    public boolean isOneWay(AeActivityInvokeDef aDef) {
+        return aDef.getConsumerMessagePartsMap() == null;
+    }
+
+    /**
+     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityPickDef)
+     */
+    public void visit(AeActivityPickDef def) {
+        buildActivityBase(def);
+        addProperty("createInstance", getYesNo(def.isCreateInstance()));       //$NON-NLS-1$
+    }
+
+    /**
+     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityReceiveDef)
+     */
+    public void visit(AeActivityReceiveDef def) {
+        buildActivityBase(def);
+        build(def, true);
+        addProperty("createInstance", getYesNo(def.isCreateInstance())); //$NON-NLS-1$
+        if (AeUtil.notNullOrEmpty(def.getMessageExchange())) {
+            addProperty("messageExchange", def.getMessageExchange()); //$NON-NLS-1$
+        }
+        addProperty("variable", def.getVariable(), findVariableLocationPath(def.getVariable()));       //$NON-NLS-1$
+    }
+
+    /**
+     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityReplyDef)
+     */
+    public void visit(AeActivityReplyDef def) {
+        buildActivityBase(def);
+        build(def, true);
+        if (AeUtil.notNullOrEmpty(def.getMessageExchange())) {
+            addProperty("messageExchange", def.getMessageExchange()); //$NON-NLS-1$
+        }
+
+        addProperty("variable", def.getVariable(), findVariableLocationPath(def.getVariable())); //$NON-NLS-1$
+        if (def.getFaultName() != null) {
+            addProperty("faultName", getLocalName(def.getFaultName())); //$NON-NLS-1$
+        }
+    }
+
+    /**
+     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivitySuspendDef)
+     */
+    public void visit(AeActivitySuspendDef def) {
+        buildActivityBase(def);
+    }
+
+    /**
+     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityScopeDef)
+     */
+    public void visit(AeActivityScopeDef def) {
+        buildActivityBase(def);
+        if (isBpelVersion11()) {
+            addProperty("variableAccessSerializable", getYesNo(def.isIsolated())); //$NON-NLS-1$
+        } else {
+            addProperty("isolated", getYesNo(def.isIsolated())); //$NON-NLS-1$
+        }
+        if (def.getScopeDef().hasMessageExchanges()) {
+            Set messageExSet = def.getScopeDef().getMessageExchangesDef().getMessageExchangeValues();
+            StringBuilder buffer = new StringBuilder();
+            int size = messageExSet.size();
+            int i = 0;
+            Iterator it = messageExSet.iterator();
+            while (it.hasNext()) {
+                buffer.append((String) it.next());
+                buffer.append(i < (size - 1) ? ", " : ""); //$NON-NLS-1$ //$NON-NLS-2$
+            }
+            addProperty("messageExchange", buffer.toString()); //$NON-NLS-1$
+        }
+
+    }
+
+    /**
+     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityContinueDef)
+     */
+    public void visit(AeActivityContinueDef def) {
+        removeProperty("name"); //$NON-NLS-1$
+        buildActivityBase(def);
+    }
+
+    /**
+     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityBreakDef)
+     */
+    public void visit(AeActivityBreakDef def) {
+        removeProperty("name"); //$NON-NLS-1$
+        buildActivityBase(def);
+    }
+
+    /**
+     * Implements the visit of the corr set by getting the definition properties.
+     *
+     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.AeCorrelationSetDef)
+     */
+    public void visit(AeCorrelationSetDef aDef) {
+        // properties.
+        if (!isHasState() && aDef.getProperties().size() > 0) {
+            StringBuilder sb = new StringBuilder();
+            Iterator it = aDef.getPropertiesList();
+            while (it.hasNext()) {
+                QName property = (QName) it.next();
+                sb.append(getLocalName(property) + "\n"); //$NON-NLS-1$
+            }
+            addDetails("properties", sb.toString(), false); //$NON-NLS-1$
+        }
+    }
+
+    /**
+     * Add correlation set details.
+     *
+     * @param aNvPair
+     */
+    protected void addCorrelationSetProperty(AePropertyNameValue aNvPair) {
+        addDetails(aNvPair);
+    }
+
+    /**
+     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.AeCatchDef)
+     */
+    public void visit(AeCatchDef def) {
+        // catch
+        if (def.getFaultName() != null) {
+            String faultName = getPrefixedName(def, def.getFaultName());
+            addProperty("faultName", faultName); //$NON-NLS-1$
+            addProperty(IAeImplStateNames.STATE_NAMESPACEURI, def.getFaultName().getNamespaceURI());
+        }
+        if (AeUtil.notNullOrEmpty(def.getFaultVariable())) {
+            addProperty("variable", def.getFaultVariable(),   //$NON-NLS-1$
+                    def.getFaultVariableDef() != null ? def.getFaultVariableDef().getLocationPath() : findVariableLocationPath(def.getFaultVariable()));
+        }
+    }
 
 
-   /**
-    * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeCorrelationDef)
-    */
-   public void visit(AeCorrelationDef def)
-   {
-      IAeCorrelationPatternIO patternIO = AeCorrelationPatternIOFactory.getInstance(AeDefUtil.getProcessDef(def).getNamespace());
+    /**
+     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.AeVariableDef)
+     */
+    public void visit(AeVariableDef def) {
+        String propertyName = null;
+        QName typeQName = null;
+        if (def.isMessageType()) {
+            propertyName = "messageType"; //$NON-NLS-1$
+            typeQName = def.getMessageType();
+        } else if (def.isElement()) {
+            propertyName = "elementType"; //$NON-NLS-1$
+            typeQName = def.getElement();
+        } else if (def.isType()) {
+            propertyName = "variableType"; //$NON-NLS-1$
+            typeQName = def.getType();
+        }
 
-      removeProperty("name"); //$NON-NLS-1$
-      addProperty("pattern",  def.getPattern() != null? patternIO.toString(def.getPattern()) : ""); //$NON-NLS-1$ //$NON-NLS-2$
-      addProperty("set",  def.getCorrelationSetName(), findCorrelationSetLocationPath(def.getCorrelationSetName())); //$NON-NLS-1$
-      addProperty("initiate",  def.getInitiate()); //$NON-NLS-1$
-   }
+        if (typeQName != null) {
+            addProperty(propertyName, getPrefixedName(def, typeQName));
+            addProperty("typeNamespace", typeQName.getNamespaceURI()); //$NON-NLS-1$
+        }
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeLinkDef)
-    */
-   public void visit(AeLinkDef def)
-   {
-      AeBpelLinkObject linkModel = (AeBpelLinkObject) getBpelModel();
-      if (isHasState())
-      {
-         addProperty("linkStatus", AeProcessViewUtil.formatLabel(linkModel.getStatus()) ); //$NON-NLS-1$
-      }
+    /**
+     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.AeVariablesDef)
+     */
+    public void visit(AeVariablesDef def) {
+        buildNonActivityContainerProperties(def);
+    }
 
-      addProperty("transitionCondition", linkModel.getCondition()); //$NON-NLS-1$
-      addProperty("link.source", linkModel.getSource().getLocationPath(), linkModel.getSource().getLocationPath()); //$NON-NLS-1$
-      addProperty("link.target", linkModel.getTarget().getLocationPath(), linkModel.getTarget().getLocationPath()); //$NON-NLS-1$
-   }
 
-   /**
-    * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.AePartnerLinksDef)
-    */
-   public void visit(AePartnerLinksDef def)
-   {
-      buildNonActivityContainerProperties(def);
-   }
+    /**
+     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.AeCorrelationSetsDef)
+     */
+    public void visit(AeCorrelationSetsDef def) {
+        buildNonActivityContainerProperties(def);
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.AePartnersDef)
-    */
-   public void visit(AePartnersDef def)
-   {
-      buildNonActivityContainerProperties(def);
-   }
+    /**
+     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.AeMessageExchangesDef)
+     */
+    public void visit(AeMessageExchangesDef def) {
+        buildNonActivityContainerProperties(def);
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.AeCorrelationsDef)
-    */
-   public void visit(AeCorrelationsDef def)
-   {
-      buildNonActivityContainerProperties(def);
-   }
+    /**
+     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.AeMessageExchangeDef)
+     */
+    public void visit(AeMessageExchangeDef def) {
+        addProperty("name", def.getName()); //$NON-NLS-1$
+    }
 
-   /**
-    * @see org.activebpel.rt.bpeladmin.war.web.processview.AeProcessDefToWebVisitorBase#visit(org.activebpel.rt.bpel.def.activity.AeChildExtensionActivityDef)
-    */
-   public void visit(AeChildExtensionActivityDef def)
-   {
-      // Ignore - since if adapter is present then build() will handle it via buildPropertiesFromAdapter()
-   }
+    /**
+     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeOnMessageDef)
+     */
+    public void visit(AeOnMessageDef def) {
+        addProperty("operation", def.getOperation()); //$NON-NLS-1$
+        addProperty("partnerLink", def.getPartnerLink(), findPartnerLinkLocationPath(def.getPartnerLink())); //$NON-NLS-1$
+        addProperty("portType", getLocalName(def.getPartnerLinkDef().getMyRolePortType())); //$NON-NLS-1$
+        addProperty("variable", def.getVariable(), findVariableLocationPath(def.getVariable()));  //$NON-NLS-1$
+        if (AeUtil.notNullOrEmpty(def.getMessageExchange())) {
+            addProperty("messageExchange", def.getMessageExchange()); //$NON-NLS-1$
+        }
+    }
 
-   /**
-    * @see org.activebpel.rt.bpeladmin.war.web.processview.AeProcessDefToWebVisitorBase#visit(org.activebpel.rt.xml.def.AeExtensionElementDef)
-    */
-   public void visit(AeExtensionElementDef aDef)
-   {
-      // Ignore - since if adapter is present then build() will handle it via buildPropertiesFromAdapter()
-   }
+    /**
+     * @see org.activebpel.rt.bpeladmin.war.web.processview.AeProcessDefToWebVisitorBase#visit(org.activebpel.rt.bpel.def.activity.support.AeOnEventDef)
+     */
+    public void visit(AeOnEventDef def) {
+        visit((AeOnMessageDef) def);
+    }
+
+    /**
+     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeOnAlarmDef)
+     */
+    public void visit(AeOnAlarmDef def) {
+        buildForUntilRepeat(def.getForDef(), def.getUntilDef(), def.getRepeatEveryDef());
+    }
+
+    /**
+     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivitySequenceDef)
+     */
+    public void visit(AeActivitySequenceDef def) {
+        buildActivityBase(def);
+    }
+
+    /**
+     * @see org.activebpel.rt.bpeladmin.war.web.processview.AeProcessDefToWebVisitorBase#visit(org.activebpel.rt.bpel.def.activity.AeActivityIfDef)
+     */
+    public void visit(AeActivityIfDef def) {
+        buildActivityBase(def);
+    }
+
+    /**
+     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityExitDef)
+     */
+    public void visit(AeActivityExitDef def) {
+        buildActivityBase(def);
+    }
+
+    /**
+     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityThrowDef)
+     */
+    public void visit(AeActivityThrowDef def) {
+        buildActivityBase(def);
+        addProperty("faultName", getLocalName(def.getFaultName())); //$NON-NLS-1$
+        if (AeUtil.notNullOrEmpty(def.getFaultVariable())) {
+            addProperty("faultVariable", def.getFaultVariable(), findVariableLocationPath(def.getFaultVariable())); //$NON-NLS-1$
+        }
+    }
+
+    /**
+     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityValidateDef)
+     */
+    public void visit(AeActivityValidateDef def) {
+        buildActivityBase(def);
+        //hyperlink space separated list of variables - one per row.
+        int count = 0;
+        for (Iterator iter = def.getVariables(); iter.hasNext(); ) {
+            String var = (String) iter.next();
+            addProperty("variables" + count, "variable", var, findVariableLocationPath(var)); //$NON-NLS-1$ //$NON-NLS-2$
+            count++;
+        }
+    }
+
+    /**
+     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityWaitDef)
+     */
+    public void visit(AeActivityWaitDef def) {
+        buildActivityBase(def);
+        buildForUntilRepeat(def.getForDef(), def.getUntilDef(), null);
+    }
+
+    /**
+     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityWhileDef)
+     */
+    public void visit(AeActivityWhileDef def) {
+        buildActivityBase(def);
+        buildExpressionProperty("condition", def.getConditionDef());  //$NON-NLS-1$
+    }
+
+    /**
+     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityRepeatUntilDef)
+     */
+    public void visit(AeActivityRepeatUntilDef def) {
+        buildActivityBase(def);
+        buildExpressionProperty("condition", def.getConditionDef());  //$NON-NLS-1$
+    }
+
+    /**
+     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityForEachDef)
+     */
+    public void visit(AeActivityForEachDef def) {
+        buildActivityBase(def);
+        addProperty("counterName", def.getCounterName()); //$NON-NLS-1$
+        addProperty("startCounterExpression", def.getStartDef().getExpression()); //$NON-NLS-1$
+        addProperty("finalCounterExpression", def.getFinalDef().getExpression()); //$NON-NLS-1$
+        addProperty("parallelExecution", getYesNo(def.isParallel())); //$NON-NLS-1$
+        if (def.hasCompletionCondition()) {
+            addProperty("completionCondition", def.getCompletionCondition().getExpression()); //$NON-NLS-1$
+            addProperty("countCompletedBranchesOnly", getYesNo(def.getCompletionCondition().isCountCompletedBranchesOnly())); //$NON-NLS-1$
+        }
+        if (def.isParallel() && isHasState()) {
+            String attrs[] = {IAeImplStateNames.STATE_FOREACH_START, IAeImplStateNames.STATE_FOREACH_FINAL, IAeImplStateNames.STATE_FOREACH_COUNTER};
+            String values[] = selectAttributes(getLocationPath(), IAeImplStateNames.STATE_ACTY, attrs);
+            for (int i = 0; i < attrs.length; i++) {
+                // if the counter values are -1, then display string 'Not initialized'.
+                values[i] = "-1".equals(values[i]) ? AeMessages.getString("AeProcessViewPropertyBuilder.7") : values[i];  //$NON-NLS-1$//$NON-NLS-2$
+            }
+            addProperties(attrs, values, false);
+        }
+    }
+
+
+    /**
+     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeToPartDef)
+     */
+    public void visit(AeToPartDef def) {
+        addProperty("part", def.getPart()); //$NON-NLS-1$
+        addProperty("fromVariable", def.getFromVariable()); //$NON-NLS-1$
+    }
+
+    /**
+     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeFromPartDef)
+     */
+    public void visit(AeFromPartDef def) {
+        addProperty("part", def.getPart()); //$NON-NLS-1$
+        addProperty("toVariable", def.getToVariable()); //$NON-NLS-1$
+    }
+
+    /**
+     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeFromPartsDef)
+     */
+    public void visit(AeFromPartsDef def) {
+        buildNonActivityContainerProperties(def);
+    }
+
+    /**
+     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeToPartsDef)
+     */
+    public void visit(AeToPartsDef def) {
+        buildNonActivityContainerProperties(def);
+    }
+
+    /**
+     * @see org.activebpel.rt.bpeladmin.war.web.processview.AeProcessDefToWebVisitorBase#visit(org.activebpel.rt.bpel.def.activity.support.AeElseIfDef)
+     */
+    public void visit(AeElseIfDef def) {
+        removeProperty("name"); //$NON-NLS-1$
+        buildExpressionProperty("condition", def.getConditionDef());  //$NON-NLS-1$
+    }
+
+    /**
+     * @see org.activebpel.rt.bpeladmin.war.web.processview.AeProcessDefToWebVisitorBase#visit(org.activebpel.rt.bpel.def.activity.support.AeIfDef)
+     */
+    public void visit(AeIfDef def) {
+        visit((AeElseIfDef) def);
+    }
+
+    /**
+     * @see org.activebpel.rt.bpeladmin.war.web.processview.AeProcessDefToWebVisitorBase#visit(org.activebpel.rt.bpel.def.activity.support.AeElseDef)
+     */
+    public void visit(AeElseDef def) {
+        removeProperty("name"); //$NON-NLS-1$
+    }
+
+    /**
+     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.AePartnerDef)
+     */
+    public void visit(AePartnerDef def) {
+        Iterator iter = def.getPartnerLinks();
+        while (iter.hasNext()) {
+            String partnerLink = (String) iter.next();
+            String plLocationPath = findPartnerLinkLocationPath(partnerLink);
+            addProperty("parnerLink", partnerLink, plLocationPath); //$NON-NLS-1$
+        }
+    }
+
+    /**
+     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.AePartnerLinkDef)
+     */
+    public void visit(AePartnerLinkDef def) {
+        addProperty("myRole", def.getMyRole()); //$NON-NLS-1$
+        addProperty("partnerRole", def.getPartnerRole()); //$NON-NLS-1$
+        addProperty("partnerLinkType", getLocalName(def.getPartnerLinkTypeName())); //$NON-NLS-1$
+        if (isHasState()) {
+            try {
+                Element ele = selectSingleElement(def, IAeImplStateNames.STATE_PLINK);
+                if (ele != null) {
+                    Element myRoleEle = selectElement(IAeImplStateNames.STATE_ROLE, ele);
+                    AePropertyNameValue pd = createNameValuePair(myRoleEle, false);
+                    if (pd != null) {
+                        addPartnerLinkRole(pd, IAeImplStateNames.STATE_ROLE);
+                    }
+                    Element partnerRoleEle = selectElement(IAeImplStateNames.STATE_PROLE, ele);
+                    pd = createNameValuePair(partnerRoleEle, false);
+                    if (pd != null) {
+                        addPartnerLinkRole(pd, IAeImplStateNames.STATE_PROLE);
+                    }
+                }
+            } catch (Exception e) {
+                AeException.logError(e, e.getLocalizedMessage());
+            }
+        }
+    }
+
+    /**
+     * Adds a partnerRole or myRole data.
+     *
+     * @param aNvPair
+     */
+    protected void addPartnerLinkRole(AePropertyNameValue aNvPair, String aRole) {
+        addDetails(aNvPair);
+    }
+
+
+    /**
+     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeCorrelationDef)
+     */
+    public void visit(AeCorrelationDef def) {
+        IAeCorrelationPatternIO patternIO = AeCorrelationPatternIOFactory.getInstance(AeDefUtil.getProcessDef(def).getNamespace());
+
+        removeProperty("name"); //$NON-NLS-1$
+        addProperty("pattern", def.getPattern() != null ? patternIO.toString(def.getPattern()) : ""); //$NON-NLS-1$ //$NON-NLS-2$
+        addProperty("set", def.getCorrelationSetName(), findCorrelationSetLocationPath(def.getCorrelationSetName())); //$NON-NLS-1$
+        addProperty("initiate", def.getInitiate()); //$NON-NLS-1$
+    }
+
+    /**
+     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeLinkDef)
+     */
+    public void visit(AeLinkDef def) {
+        AeBpelLinkObject linkModel = (AeBpelLinkObject) getBpelModel();
+        if (isHasState()) {
+            addProperty("linkStatus", AeProcessViewUtil.formatLabel(linkModel.getStatus())); //$NON-NLS-1$
+        }
+
+        addProperty("transitionCondition", linkModel.getCondition()); //$NON-NLS-1$
+        addProperty("link.source", linkModel.getSource().getLocationPath(), linkModel.getSource().getLocationPath()); //$NON-NLS-1$
+        addProperty("link.target", linkModel.getTarget().getLocationPath(), linkModel.getTarget().getLocationPath()); //$NON-NLS-1$
+    }
+
+    /**
+     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.AePartnerLinksDef)
+     */
+    public void visit(AePartnerLinksDef def) {
+        buildNonActivityContainerProperties(def);
+    }
+
+    /**
+     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.AePartnersDef)
+     */
+    public void visit(AePartnersDef def) {
+        buildNonActivityContainerProperties(def);
+    }
+
+    /**
+     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.AeCorrelationsDef)
+     */
+    public void visit(AeCorrelationsDef def) {
+        buildNonActivityContainerProperties(def);
+    }
+
+    /**
+     * @see org.activebpel.rt.bpeladmin.war.web.processview.AeProcessDefToWebVisitorBase#visit(org.activebpel.rt.bpel.def.activity.AeChildExtensionActivityDef)
+     */
+    public void visit(AeChildExtensionActivityDef def) {
+        // Ignore - since if adapter is present then build() will handle it via buildPropertiesFromAdapter()
+    }
+
+    /**
+     * @see org.activebpel.rt.bpeladmin.war.web.processview.AeProcessDefToWebVisitorBase#visit(org.activebpel.rt.xml.def.AeExtensionElementDef)
+     */
+    public void visit(AeExtensionElementDef aDef) {
+        // Ignore - since if adapter is present then build() will handle it via buildPropertiesFromAdapter()
+    }
 }

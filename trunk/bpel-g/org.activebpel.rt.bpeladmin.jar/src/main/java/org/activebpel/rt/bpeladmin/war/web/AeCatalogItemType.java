@@ -14,54 +14,52 @@ import org.activebpel.rt.bpeladmin.war.AeMessages;
 /**
  * Simple class for wrapping a type for display in catalog filter.
  */
-public class AeCatalogItemType
-{
-   /** The type number. */
-   private final int mTypeNumber;
+public class AeCatalogItemType {
+    /**
+     * The type number.
+     */
+    private final int mTypeNumber;
 
-   /** True if this is the selected filter type. */
-   private final boolean mSelected;
-   
-   /**
-    * Constructor.
-    */
-   public AeCatalogItemType(int aTypeNumber, boolean aSelected)
-   {
-      mTypeNumber = aTypeNumber;
-      mSelected = aSelected;
-   }
+    /**
+     * True if this is the selected filter type.
+     */
+    private final boolean mSelected;
 
-   /**
-    * @return Returns the typeNumber.
-    */
-   public int getTypeNumber()
-   {
-      return mTypeNumber;
-   }
+    /**
+     * Constructor.
+     */
+    public AeCatalogItemType(int aTypeNumber, boolean aSelected) {
+        mTypeNumber = aTypeNumber;
+        mSelected = aSelected;
+    }
 
-   /**
-    * @return Returns the true if selected type for filtered, false otherwise.
-    */
-   public boolean isSelected()
-   {
-      return mSelected;
-   }
-   
-   /**
-    * @return Returns the typeDisplay.
-    */
-   public String getTypeDisplay()
-   {
-      String prop = "AeCatalogItemType.CATALOG_FILTER_TYPE." + getTypeNumber(); //$NON-NLS-1$ 
-      return AeMessages.getString(prop);
-   }
+    /**
+     * @return Returns the typeNumber.
+     */
+    public int getTypeNumber() {
+        return mTypeNumber;
+    }
 
-   /**
-    * @return Returns the typeDisplay.
-    */
-   public String getTypeURI()
-   {
-      String prop = "AeCatalogItemType.CATALOG_FILTER_TYPE_URI." + getTypeNumber(); //$NON-NLS-1$ 
-      return AeMessages.getString(prop);
-   }
+    /**
+     * @return Returns the true if selected type for filtered, false otherwise.
+     */
+    public boolean isSelected() {
+        return mSelected;
+    }
+
+    /**
+     * @return Returns the typeDisplay.
+     */
+    public String getTypeDisplay() {
+        String prop = "AeCatalogItemType.CATALOG_FILTER_TYPE." + getTypeNumber(); //$NON-NLS-1$
+        return AeMessages.getString(prop);
+    }
+
+    /**
+     * @return Returns the typeDisplay.
+     */
+    public String getTypeURI() {
+        String prop = "AeCatalogItemType.CATALOG_FILTER_TYPE_URI." + getTypeNumber(); //$NON-NLS-1$
+        return AeMessages.getString(prop);
+    }
 }

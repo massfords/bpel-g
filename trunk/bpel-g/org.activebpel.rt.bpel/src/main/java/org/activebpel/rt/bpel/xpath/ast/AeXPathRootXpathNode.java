@@ -13,29 +13,25 @@ package org.activebpel.rt.bpel.xpath.ast;
 /**
  * An XPath node for a root XPath.
  */
-public class AeXPathRootXpathNode extends AeAbstractXPathNode
-{
-   /**
-    * Default c'tor.
-    */
-   public AeXPathRootXpathNode()
-   {
-      super(AeAbstractXPathNode.NODE_TYPE_XPATH);
-   }
-   
-   /**
-    * @see org.activebpel.rt.bpel.xpath.ast.AeAbstractXPathNode#normalize()
-    */
-   public AeAbstractXPathNode normalize()
-   {
-      return normalizeOmitSelf();
-   }
+public class AeXPathRootXpathNode extends AeAbstractXPathNode {
+    /**
+     * Default c'tor.
+     */
+    public AeXPathRootXpathNode() {
+        super(AeAbstractXPathNode.NODE_TYPE_XPATH);
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.xpath.ast.AeAbstractXPathNode#accept(org.activebpel.rt.bpel.xpath.ast.IAeXPathNodeVisitor)
-    */
-   public void accept(IAeXPathNodeVisitor aVisitor)
-   {
-      aVisitor.visit(this);
-   }
+    /**
+     * @see org.activebpel.rt.bpel.xpath.ast.AeAbstractXPathNode#normalize()
+     */
+    public AeAbstractXPathNode normalize() {
+        return normalizeOmitSelf();
+    }
+
+    /**
+     * @see org.activebpel.rt.bpel.xpath.ast.AeAbstractXPathNode#accept(org.activebpel.rt.bpel.xpath.ast.IAeXPathNodeVisitor)
+     */
+    public void accept(IAeXPathNodeVisitor aVisitor) {
+        aVisitor.visit(this);
+    }
 }

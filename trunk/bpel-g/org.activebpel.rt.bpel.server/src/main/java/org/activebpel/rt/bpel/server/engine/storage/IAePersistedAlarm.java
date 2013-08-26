@@ -15,38 +15,37 @@ import java.util.Date;
  * Represents an alarm that was stored in the persistent store.  This class
  * provides access to the details about the alarm that were persisted.
  */
-public interface IAePersistedAlarm
-{
-   /**
-    * Gets the process ID associated with this alarm.
-    * 
-    * @return The process ID.
-    */
-   public long getProcessId();
+public interface IAePersistedAlarm {
+    /**
+     * Gets the process ID associated with this alarm.
+     *
+     * @return The process ID.
+     */
+    public long getProcessId();
 
-   /**
-    * Gets the location path ID associated with this alarm.
-    * 
-    * @return The location path ID.
-    */
-   public int getLocationPathId();
+    /**
+     * Gets the location path ID associated with this alarm.
+     *
+     * @return The location path ID.
+     */
+    public int getLocationPathId();
 
-   /**
-    * Gets the alarm's deadline.
-    * 
-    * @return The alarm's deadline.
-    */
-   public Date getDeadline();
-   
-   /**
-    * Gets the alarm's group id.
-    * 
-    * @return The alarm's group id.
-    */
-   public int getGroupId();
-   
-   /** 
-    * @return The alarm id.
-    */
-   public int getAlarmId();
+    /**
+     * Gets the alarm's deadline.
+     *
+     * @return The alarm's deadline.
+     */
+    public Date getDeadline();
+
+    /**
+     * Gets the alarm's group id.
+     *
+     * @return The alarm's group id.
+     */
+    public int getGroupId();
+
+    /**
+     * @return The alarm id.
+     */
+    public int getAlarmId();
 }

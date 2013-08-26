@@ -16,27 +16,26 @@ import org.activebpel.rt.bpel.function.IAeFunctionExecutionContext;
 
 
 /**
- * Class representing the XPath function used by the expression evaluator to handle 
+ * Class representing the XPath function used by the expression evaluator to handle
  * the BPEL extension function call getProcessName().
  */
-public class AeGetProcessNameFunction extends AeAbstractBpelFunction
-{
-   /** The name of the function implemented */
-   public static final String FUNCTION_NAME = "getProcessName"; //$NON-NLS-1$
+public class AeGetProcessNameFunction extends AeAbstractBpelFunction {
+    /**
+     * The name of the function implemented
+     */
+    public static final String FUNCTION_NAME = "getProcessName"; //$NON-NLS-1$
 
-   /**
-    * Constructor.
-    */
-   public AeGetProcessNameFunction()
-   {
-       super(FUNCTION_NAME);
-   }
-   
-   /**
-    * Execution of XPath getProcessId function. 
-    */
-   public Object call(IAeFunctionExecutionContext aContext, List aArgs) throws AeFunctionCallException
-   {
-      return aContext.getAbstractBpelObject().getProcess().getName().getLocalPart();
-   }
+    /**
+     * Constructor.
+     */
+    public AeGetProcessNameFunction() {
+        super(FUNCTION_NAME);
+    }
+
+    /**
+     * Execution of XPath getProcessId function.
+     */
+    public Object call(IAeFunctionExecutionContext aContext, List aArgs) throws AeFunctionCallException {
+        return aContext.getAbstractBpelObject().getProcess().getName().getLocalPart();
+    }
 }

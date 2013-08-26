@@ -22,92 +22,89 @@ import org.activebpel.rt.AeException;
  * content of the stream passed in the constructor. The file length is the length of the stream. The close
  * method removes the temporary file.
  */
-public class AeBlobInputStream extends FileInputStream
-{
-   /** Default temporary file name prefix. */
-   public static final String DEFAULT_TEMP_STREAM_FILE_PREFIX = "aeblob"; //$NON-NLS-1$
+public class AeBlobInputStream extends FileInputStream {
+    /**
+     * Default temporary file name prefix.
+     */
+    public static final String DEFAULT_TEMP_STREAM_FILE_PREFIX = "aeblob"; //$NON-NLS-1$
 
-   /** The temporary file name prefix for WSIO outbound binary streams. */
-   public static final String WSIO_BINARY_STREAM_FILE_PREFIX = "aewsio"; //$NON-NLS-1$
+    /**
+     * The temporary file name prefix for WSIO outbound binary streams.
+     */
+    public static final String WSIO_BINARY_STREAM_FILE_PREFIX = "aewsio"; //$NON-NLS-1$
 
-   /** Default temporary file name suffix. */
-   public static final String DEFAULT_TEMP_STREAM_FILE_SUFFIX = ".bin"; //$NON-NLS-1$
+    /**
+     * Default temporary file name suffix.
+     */
+    public static final String DEFAULT_TEMP_STREAM_FILE_SUFFIX = ".bin"; //$NON-NLS-1$
 
-   /**
-    * File holding the contents of the stream.
-    */
-   private File mBlobFile;
-   
-   /**
-    * Constructor
-    * @param aInputStream the stream for which the length can be returned
-    * @throws AeException
-    */
-   public AeBlobInputStream(InputStream aInputStream) throws AeException, FileNotFoundException
-   {
-      this(aInputStream, DEFAULT_TEMP_STREAM_FILE_PREFIX, DEFAULT_TEMP_STREAM_FILE_SUFFIX);
-   }
+    /**
+     * File holding the contents of the stream.
+     */
+    private File mBlobFile;
 
-   /**
-    * Constructor allows setting the prefix and suffix of the temporary file name
-    * @param aInputStream
-    * @param aFilePrefix
-    * @param aFileSuffix
-    * @throws AeException
-    */
-   public AeBlobInputStream(InputStream aInputStream, String aFilePrefix, String aFileSuffix) throws AeException, FileNotFoundException
-   {
-      this(AeUtil.createTempFile(aInputStream, aFilePrefix, aFileSuffix));
-   }
+    /**
+     * Constructor
+     *
+     * @param aInputStream the stream for which the length can be returned
+     * @throws AeException
+     */
+    public AeBlobInputStream(InputStream aInputStream) throws AeException, FileNotFoundException {
+        this(aInputStream, DEFAULT_TEMP_STREAM_FILE_PREFIX, DEFAULT_TEMP_STREAM_FILE_SUFFIX);
+    }
 
-   /**
-    * Constructs an input stream on the given file without automatically
-    * deleting the file when the stream is closed.
-    *
-    * @param aBlobFile
-    * @throws FileNotFoundException
-    */
-   public AeBlobInputStream(File aBlobFile) throws FileNotFoundException
-   {
-      super(aBlobFile);
+    /**
+     * Constructor allows setting the prefix and suffix of the temporary file name
+     *
+     * @param aInputStream
+     * @param aFilePrefix
+     * @param aFileSuffix
+     * @throws AeException
+     */
+    public AeBlobInputStream(InputStream aInputStream, String aFilePrefix, String aFileSuffix) throws AeException, FileNotFoundException {
+        this(AeUtil.createTempFile(aInputStream, aFilePrefix, aFileSuffix));
+    }
 
-      mBlobFile = aBlobFile;
-   }
+    /**
+     * Constructs an input stream on the given file without automatically
+     * deleting the file when the stream is closed.
+     *
+     * @param aBlobFile
+     * @throws FileNotFoundException
+     */
+    public AeBlobInputStream(File aBlobFile) throws FileNotFoundException {
+        super(aBlobFile);
 
-   /**
-    * Overrides method to delete temporary file.
-    * 
-    * @see java.io.FilterInputStream#close()
-    */
-   public void close() throws IOException 
-   {
-      try
-      {
-         super.close();
-      }
-      finally
-      {
-         if ( mBlobFile != null )
-         {
-            mBlobFile.delete();
-            mBlobFile = null;
-         }
-      }
-   }
+        mBlobFile = aBlobFile;
+    }
 
-   /**
-    * Returns the <code>File</code> object corresponding to the underlying file.
-    */
-   public File getBlobFile()
-   {
-      return mBlobFile;
-   }
+    /**
+     * Overrides method to delete temporary file.
+     *
+     * @see java.io.FilterInputStream#close()
+     */
+    public void close() throws IOException {
+        try {
+            super.close();
+        } finally {
+            if (mBlobFile != null) {
+                mBlobFile.delete();
+                mBlobFile = null;
+            }
+        }
+    }
 
-   /**
-    * Returns the length of the underlying file.
-    */
-   public int length()
-   {
-      return (int) getBlobFile().length();
-   }
+    /**
+     * Returns the <code>File</code> object corresponding to the underlying file.
+     */
+    public File getBlobFile() {
+        return mBlobFile;
+    }
+
+    /**
+     * Returns the length of the underlying file.
+     */
+    public int length() {
+        return (int) getBlobFile().length();
+    }
 }

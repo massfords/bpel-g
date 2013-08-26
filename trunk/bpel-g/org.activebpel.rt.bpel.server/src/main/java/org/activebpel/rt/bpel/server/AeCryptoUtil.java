@@ -15,67 +15,61 @@ import org.activebpel.rt.bpel.AePreferences;
 import org.activebpel.rt.util.AeJCEUtil;
 
 /**
- *  Static utility methods supporting encryption, decryption, and keystore management using
- *  configuration settings from the engine configuration
+ * Static utility methods supporting encryption, decryption, and keystore management using
+ * configuration settings from the engine configuration
  */
-public class AeCryptoUtil
-{
-   /** JCE Util */
-   private static AeJCEUtil sJCEUtil;
-   
-   /**
-    * Initialize provider and load static key information
-    */
-   static
-   {
-      loadKey();
-   }
+public class AeCryptoUtil {
+    /**
+     * JCE Util
+     */
+    private static AeJCEUtil sJCEUtil;
 
-   /**
-    * Decrypts a string using our internal key
-    * @param aInput String to decrypt
-    * @return String decrypted
-    */
-   public static String decryptString(String aInput)
-   {
-      return sJCEUtil.decryptString(aInput);
-   }
+    /**
+     * Initialize provider and load static key information
+     */
+    static {
+        loadKey();
+    }
 
-   /**
-    * Encrypts a string using our internal key
-    * 
-    * @param aInput String to encrypt
-    * @return decrypted string
-    */
-   public static String encryptString(String aInput)
-   {
-      return sJCEUtil.encryptString(aInput);
-   }
+    /**
+     * Decrypts a string using our internal key
+     *
+     * @param aInput String to decrypt
+     * @return String decrypted
+     */
+    public static String decryptString(String aInput) {
+        return sJCEUtil.decryptString(aInput);
+    }
 
-   /**
-    * Generates the internal key from the config entry
-    */
-   public static void loadKey()
-   {
-      try
-      {
-         // Get the string from the engine config to use to generate the key
-         // Don't try anything if we can't get the config. 
+    /**
+     * Encrypts a string using our internal key
+     *
+     * @param aInput String to encrypt
+     * @return decrypted string
+     */
+    public static String encryptString(String aInput) {
+        return sJCEUtil.encryptString(aInput);
+    }
 
-         String password = AePreferences.getSharedSecret();
-         loadKey(password);
-      }
-      catch (Exception e)
-      {
-         AeException.logWarning(AeMessages.getString("AeCryptoUtil.2")); //$NON-NLS-1$
-      }
-   }
+    /**
+     * Generates the internal key from the config entry
+     */
+    public static void loadKey() {
+        try {
+            // Get the string from the engine config to use to generate the key
+            // Don't try anything if we can't get the config.
 
-   /**
-    * Generates the internal key using the seed passed in
-    */
-   public static synchronized void loadKey(String aSeed)
-   {
-      sJCEUtil = AeJCEUtil.getInstance(aSeed);
-   }
+            String password = AePreferences.getSharedSecret();
+            loadKey(password);
+        } catch (Exception e) {
+            AeException.logWarning(AeMessages.getString("AeCryptoUtil.2")); //$NON-NLS-1$
+        }
+    }
+
+    /**
+     * Generates the internal key using the seed passed in
+     */
+    public static synchronized void loadKey(String aSeed) {
+        sJCEUtil = AeJCEUtil.getInstance(aSeed);
+    }
 }

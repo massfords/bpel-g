@@ -19,28 +19,26 @@ import org.activebpel.rt.util.AeUtil;
  * The property value must be a string.
  */
 
-public class AeIfPropertyInListTag extends AeIfPropertyMatchesTag
-{
+public class AeIfPropertyInListTag extends AeIfPropertyMatchesTag {
 
-   /**
-     * 
+    /**
+     *
      */
     private static final long serialVersionUID = 196598160167326259L;
 
-/**
-    * Returns true if the string representation of <code>aActualValue</code> is in a given list of
-    * comma separated strings.
-    * @param aActualValue property object to compared to
-    * @return true if property is in the comma separated list of values.
-    */
-   protected boolean handleCompareValue(Object aActualValue)
-   {
-      boolean rVal = false;
-      if (aActualValue != null) 
-      {
-         rVal = AeUtil.isStringInCsvList(aActualValue.toString(), getValue(), false);
-      }
-      return rVal;
-   }
-   
+    /**
+     * Returns true if the string representation of <code>aActualValue</code> is in a given list of
+     * comma separated strings.
+     *
+     * @param aActualValue property object to compared to
+     * @return true if property is in the comma separated list of values.
+     */
+    protected boolean handleCompareValue(Object aActualValue) {
+        boolean rVal = false;
+        if (aActualValue != null) {
+            rVal = AeUtil.isStringInCsvList(aActualValue.toString(), getValue(), false);
+        }
+        return rVal;
+    }
+
 }

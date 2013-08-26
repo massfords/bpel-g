@@ -21,70 +21,50 @@ import org.python.core.PyObject;
 import org.w3c.dom.Element;
 
 /**
- * Implements a python/Jython type converter.  This class converts values returned by Jython into 
+ * Implements a python/Jython type converter.  This class converts values returned by Jython into
  * native Java types.
  */
-public class AeBSFPythonExpressionTypeConverter extends AeAbstractExpressionTypeConverter
-{
-   /**
-    * @see org.activebpel.rt.bpel.impl.expr.xpath.AeXPathExpressionTypeConverter#convertToEngineType(java.lang.Object)
-    */
-   public Object convertToEngineType(Object aExpressionType)
-   {
-      if (aExpressionType instanceof PyInteger)
-      {
-         return ((PyInteger) aExpressionType).getValue();
-      }
-      else if (aExpressionType instanceof PyFloat)
-      {
-         return new Float(((PyFloat) aExpressionType).getValue());
-      }
-      else if (aExpressionType instanceof PyLong)
-      {
-         return ((PyLong) aExpressionType).doubleValue();
-      }
-      else if (aExpressionType instanceof PyObject)
-      {
-         return aExpressionType.toString();
-      }
-      else
-      {
-         return aExpressionType;
-      }
-   }
+public class AeBSFPythonExpressionTypeConverter extends AeAbstractExpressionTypeConverter {
+    /**
+     * @see org.activebpel.rt.bpel.impl.expr.xpath.AeXPathExpressionTypeConverter#convertToEngineType(java.lang.Object)
+     */
+    public Object convertToEngineType(Object aExpressionType) {
+        if (aExpressionType instanceof PyInteger) {
+            return ((PyInteger) aExpressionType).getValue();
+        } else if (aExpressionType instanceof PyFloat) {
+            return new Float(((PyFloat) aExpressionType).getValue());
+        } else if (aExpressionType instanceof PyLong) {
+            return ((PyLong) aExpressionType).doubleValue();
+        } else if (aExpressionType instanceof PyObject) {
+            return aExpressionType.toString();
+        } else {
+            return aExpressionType;
+        }
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.impl.expr.xpath.AeXPathExpressionTypeConverter#convertToExpressionType(java.lang.Object)
-    */
-   public Object convertToExpressionType(Object aEngineType)
-   {
-      Object rval = super.convertToExpressionType(aEngineType);
-      if (rval instanceof Number)
-      {
-         rval = ((Number) aEngineType).doubleValue();
-      }
+    /**
+     * @see org.activebpel.rt.bpel.impl.expr.xpath.AeXPathExpressionTypeConverter#convertToExpressionType(java.lang.Object)
+     */
+    public Object convertToExpressionType(Object aEngineType) {
+        Object rval = super.convertToExpressionType(aEngineType);
+        if (rval instanceof Number) {
+            rval = ((Number) aEngineType).doubleValue();
+        }
 
-      // Unwrap the return value if necessary.
-      if (aEngineType instanceof List)
-      {
-         if (((List) aEngineType).size() == 1)
-         {
-            Object val = ((List) aEngineType).get(0);
-            if (val instanceof Element)
-            {
-               rval = AeXmlUtil.getText((Element) val);
+        // Unwrap the return value if necessary.
+        if (aEngineType instanceof List) {
+            if (((List) aEngineType).size() == 1) {
+                Object val = ((List) aEngineType).get(0);
+                if (val instanceof Element) {
+                    rval = AeXmlUtil.getText((Element) val);
+                } else {
+                    rval = val;
+                }
             }
-            else
-            {
-               rval = val;
-            }
-         }
-      }
-      else if (aEngineType instanceof IAeSchemaType)
-      {
-         rval = aEngineType.toString();
-      }
+        } else if (aEngineType instanceof IAeSchemaType) {
+            rval = aEngineType.toString();
+        }
 
-      return rval;
-   }
+        return rval;
+    }
 }

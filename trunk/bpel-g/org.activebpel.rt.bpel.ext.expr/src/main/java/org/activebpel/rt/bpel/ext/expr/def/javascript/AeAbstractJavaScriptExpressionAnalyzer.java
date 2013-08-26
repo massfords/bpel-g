@@ -22,60 +22,53 @@ import org.activebpel.rt.util.AeXmlUtil;
 /**
  * A base class for javascript expression analyzers.
  */
-public abstract class AeAbstractJavaScriptExpressionAnalyzer extends AeAbstractExpressionAnalyzer
-{
-   /** The pattern that <code>getNamespaces</code> will use to find prefixes. */
-   protected static final Pattern sGetNamespacesPattern = Pattern.compile("(" + AeXmlUtil.NCNAME_PATTERN + ")[:\\.]"); //$NON-NLS-1$ //$NON-NLS-2$
-   
-   /**
-    * @see org.activebpel.rt.expr.def.IAeExpressionAnalyzer#getNamespaces(org.activebpel.rt.expr.def.IAeExpressionAnalyzerContext, java.lang.String)
-    */
-   public Set<String> getNamespaces(IAeExpressionAnalyzerContext aContext, String aExpression)
-   {
-      Set<String> set = new LinkedHashSet<>();
+public abstract class AeAbstractJavaScriptExpressionAnalyzer extends AeAbstractExpressionAnalyzer {
+    /**
+     * The pattern that <code>getNamespaces</code> will use to find prefixes.
+     */
+    protected static final Pattern sGetNamespacesPattern = Pattern.compile("(" + AeXmlUtil.NCNAME_PATTERN + ")[:\\.]"); //$NON-NLS-1$ //$NON-NLS-2$
 
-      Pattern p = sGetNamespacesPattern;
-      Matcher m = p.matcher(aExpression);
-      while (m.find())
-      {
-         String prefix = m.group(1);
-         String ns = aContext.getNamespaceContext().resolvePrefixToNamespace(prefix);
-         if (ns != null)
-            set.add(ns);
-      }
+    /**
+     * @see org.activebpel.rt.expr.def.IAeExpressionAnalyzer#getNamespaces(org.activebpel.rt.expr.def.IAeExpressionAnalyzerContext, java.lang.String)
+     */
+    public Set<String> getNamespaces(IAeExpressionAnalyzerContext aContext, String aExpression) {
+        Set<String> set = new LinkedHashSet<>();
 
-      return set;
-   }
+        Pattern p = sGetNamespacesPattern;
+        Matcher m = p.matcher(aExpression);
+        while (m.find()) {
+            String prefix = m.group(1);
+            String ns = aContext.getNamespaceContext().resolvePrefixToNamespace(prefix);
+            if (ns != null)
+                set.add(ns);
+        }
 
-   /**
-    * @see org.activebpel.rt.expr.def.IAeExpressionAnalyzer#renameNamespacePrefix(org.activebpel.rt.expr.def.IAeExpressionAnalyzerContext, java.lang.String, java.lang.String, java.lang.String)
-    */
-   public String renameNamespacePrefix(IAeExpressionAnalyzerContext aContext, String aExpression, String aOldPrefix,
-         String aNewPrefix)
-   {
-      // First do ', ", and / cases
-      String pattern = "(['\"/\\s\\(])" + aOldPrefix + "([:\\.])"; //$NON-NLS-1$ //$NON-NLS-2$
-      String replacement = "$1" + aNewPrefix + "$2"; //$NON-NLS-1$ //$NON-NLS-2$
-      String rval = aExpression.replaceAll(pattern, replacement);
-      // Then do /@ case
-      pattern = "([/@])" + aOldPrefix + "([:\\.])"; //$NON-NLS-1$ //$NON-NLS-2$
-      rval = rval.replaceAll(pattern, replacement);
-      // Now the special case where it's at the beginning of the line
-      if (rval.startsWith(aOldPrefix))
-      {
-         char ch = rval.charAt(aOldPrefix.length());
-         if (ch == ':' || ch == '.')
-         {
-            rval = aNewPrefix + rval.substring(aOldPrefix.length());
-         }
-      }
-      if (aExpression.equals(rval))
-      {
-         return null;
-      }
-      else
-      {
-         return rval;
-      }
-   }
+        return set;
+    }
+
+    /**
+     * @see org.activebpel.rt.expr.def.IAeExpressionAnalyzer#renameNamespacePrefix(org.activebpel.rt.expr.def.IAeExpressionAnalyzerContext, java.lang.String, java.lang.String, java.lang.String)
+     */
+    public String renameNamespacePrefix(IAeExpressionAnalyzerContext aContext, String aExpression, String aOldPrefix,
+                                        String aNewPrefix) {
+        // First do ', ", and / cases
+        String pattern = "(['\"/\\s\\(])" + aOldPrefix + "([:\\.])"; //$NON-NLS-1$ //$NON-NLS-2$
+        String replacement = "$1" + aNewPrefix + "$2"; //$NON-NLS-1$ //$NON-NLS-2$
+        String rval = aExpression.replaceAll(pattern, replacement);
+        // Then do /@ case
+        pattern = "([/@])" + aOldPrefix + "([:\\.])"; //$NON-NLS-1$ //$NON-NLS-2$
+        rval = rval.replaceAll(pattern, replacement);
+        // Now the special case where it's at the beginning of the line
+        if (rval.startsWith(aOldPrefix)) {
+            char ch = rval.charAt(aOldPrefix.length());
+            if (ch == ':' || ch == '.') {
+                rval = aNewPrefix + rval.substring(aOldPrefix.length());
+            }
+        }
+        if (aExpression.equals(rval)) {
+            return null;
+        } else {
+            return rval;
+        }
+    }
 }

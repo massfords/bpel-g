@@ -13,79 +13,75 @@ package org.activebpel.rt.bpel.def.io.readers.def;
 import java.io.Serializable;
 
 /**
- * A simple key that is used to indicate the strategy to use for the From/To portion of a 
+ * A simple key that is used to indicate the strategy to use for the From/To portion of a
  * copy operation.
  */
-public class AeSpecStrategyKey implements Serializable
-{
-   /**
-     * 
+public class AeSpecStrategyKey implements Serializable {
+    /**
+     *
      */
     private static final long serialVersionUID = -4858012092196758892L;
-/** The name of the strategy. */
-   private String mStrategyName;
-   /** Optional arguments that will get passed to the strategy when it is created. */
-   private Object [] mStrategyArguments;
+    /**
+     * The name of the strategy.
+     */
+    private String mStrategyName;
+    /**
+     * Optional arguments that will get passed to the strategy when it is created.
+     */
+    private Object[] mStrategyArguments;
 
-   /**
-    * Constructs a strategy key with the given name.
-    * 
-    * @param aStrategyName
-    */
-   public AeSpecStrategyKey(String aStrategyName)
-   {
-      this(aStrategyName, null);
-   }
-   
-   /**
-    * Constructs a strategy key with the given name and arguments.
-    * 
-    * @param aStrategyName
-    * @param aStrategyArguments
-    */
-   protected AeSpecStrategyKey(String aStrategyName, Object [] aStrategyArguments)
-   {
-      setStrategyName(aStrategyName);
-      setStrategyArguments(aStrategyArguments);
-   }
-   
-   /**
-    * Returns true if the key contains some arguments.
-    */
-   public boolean hasArguments()
-   {
-      return getStrategyArguments() != null;
-   }
+    /**
+     * Constructs a strategy key with the given name.
+     *
+     * @param aStrategyName
+     */
+    public AeSpecStrategyKey(String aStrategyName) {
+        this(aStrategyName, null);
+    }
 
-   /**
-    * @return Returns the strategyName.
-    */
-   public String getStrategyName()
-   {
-      return mStrategyName;
-   }
+    /**
+     * Constructs a strategy key with the given name and arguments.
+     *
+     * @param aStrategyName
+     * @param aStrategyArguments
+     */
+    protected AeSpecStrategyKey(String aStrategyName, Object[] aStrategyArguments) {
+        setStrategyName(aStrategyName);
+        setStrategyArguments(aStrategyArguments);
+    }
 
-   /**
-    * @param aStrategyName The strategyName to set.
-    */
-   protected void setStrategyName(String aStrategyName)
-   {
-      mStrategyName = aStrategyName;
-   }
+    /**
+     * Returns true if the key contains some arguments.
+     */
+    public boolean hasArguments() {
+        return getStrategyArguments() != null;
+    }
 
-   /**
-    * @return Returns the strategyArguments.
-    */
-   public Object[] getStrategyArguments()
-   {
-      return mStrategyArguments;
-   }
+    /**
+     * @return Returns the strategyName.
+     */
+    public String getStrategyName() {
+        return mStrategyName;
+    }
 
-   /**
-    * @param aStrategyArguments The strategyArguments to set.
-    */
-   protected void setStrategyArguments(Object[] aStrategyArguments)
-   {
-      mStrategyArguments = aStrategyArguments;
-   }
+    /**
+     * @param aStrategyName The strategyName to set.
+     */
+    protected void setStrategyName(String aStrategyName) {
+        mStrategyName = aStrategyName;
+    }
+
+    /**
+     * @return Returns the strategyArguments.
+     */
+    public Object[] getStrategyArguments() {
+        return mStrategyArguments;
+    }
+
+    /**
+     * @param aStrategyArguments The strategyArguments to set.
+     */
+    protected void setStrategyArguments(Object[] aStrategyArguments) {
+        mStrategyArguments = aStrategyArguments;
+    }
 }

@@ -20,46 +20,40 @@ import org.activebpel.rt.xml.def.IAePathSegmentBuilder;
 /**
  * Factory for creating def visitors for WS-BPEL 2.0 abstract process defs.
  */
-public class AeWSBPELAbstractProcessDefVisitorFactory extends AeWSBPELDefVisitorFactory
-{ 
-   /**
-    * Default ctor.
-    */
-   public AeWSBPELAbstractProcessDefVisitorFactory()
-   {
-      super();
-   }
+public class AeWSBPELAbstractProcessDefVisitorFactory extends AeWSBPELDefVisitorFactory {
+    /**
+     * Default ctor.
+     */
+    public AeWSBPELAbstractProcessDefVisitorFactory() {
+        super();
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitorFactory#createPathSegmentBuilder()
-    */
-   public IAePathSegmentBuilder createPathSegmentBuilder()
-   {
-      return new AeWSBPELDefPathSegmentVisitor();
-   }
-   
-   /**
-    * @param aProcess
-    * @param aParent
-    */
-   public IAeDefToImplVisitor createImplVisitor(IAeBusinessProcessInternal aProcess, IAeBpelObject aParent)
-   {
-      throw new UnsupportedOperationException();
-   }
+    /**
+     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitorFactory#createPathSegmentBuilder()
+     */
+    public IAePathSegmentBuilder createPathSegmentBuilder() {
+        return new AeWSBPELDefPathSegmentVisitor();
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitorFactory#createImplVisitor(long, org.activebpel.rt.bpel.impl.IAeBusinessProcessEngineInternal, org.activebpel.rt.bpel.impl.IAeProcessPlan)
-    */
-   public IAeDefToImplVisitor createImplVisitor(long aPid, IAeBusinessProcessEngineInternal aEngine, IAeProcessPlan aPlan)
-   {
-      throw new UnsupportedOperationException();
-   }
+    /**
+     * @param aProcess
+     * @param aParent
+     */
+    public IAeDefToImplVisitor createImplVisitor(IAeBusinessProcessInternal aProcess, IAeBpelObject aParent) {
+        throw new UnsupportedOperationException();
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitorFactory#createValidationVisitor(org.activebpel.rt.bpel.def.validation.IAeValidationContext)
-    */
-   public IAeDefVisitor createValidationVisitor(IAeValidationContext aContext)
-   {
-      return new AeWSBPELAbstractProcessDefToValidationVisitor(aContext);
-   }
+    /**
+     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitorFactory#createImplVisitor(long, org.activebpel.rt.bpel.impl.IAeBusinessProcessEngineInternal, org.activebpel.rt.bpel.impl.IAeProcessPlan)
+     */
+    public IAeDefToImplVisitor createImplVisitor(long aPid, IAeBusinessProcessEngineInternal aEngine, IAeProcessPlan aPlan) {
+        throw new UnsupportedOperationException();
+    }
+
+    /**
+     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitorFactory#createValidationVisitor(org.activebpel.rt.bpel.def.validation.IAeValidationContext)
+     */
+    public IAeDefVisitor createValidationVisitor(IAeValidationContext aContext) {
+        return new AeWSBPELAbstractProcessDefToValidationVisitor(aContext);
+    }
 }

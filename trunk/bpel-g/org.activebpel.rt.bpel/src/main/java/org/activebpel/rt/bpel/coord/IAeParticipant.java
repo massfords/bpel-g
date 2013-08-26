@@ -15,17 +15,17 @@ import org.activebpel.rt.bpel.IAeFault;
 /**
  * Interface to indicate the participant in a coordinated activity.
  */
-public interface IAeParticipant extends IAeCoordinating
-{
+public interface IAeParticipant extends IAeCoordinating {
 
-   /**
-    * Called by a process under coordination when its compensation has completed.
-    */
-   public void compensationComplete() throws AeBusinessProcessException;
+    /**
+     * Called by a process under coordination when its compensation has completed.
+     */
+    public void compensationComplete() throws AeBusinessProcessException;
 
-   /**
-    * Called when the compensation was interrupted by a fault.
-    * @param aFault
-    */
-   public void compensationCompleteWithFault(IAeFault aFault) throws AeBusinessProcessException;   
+    /**
+     * Called when the compensation was interrupted by a fault.
+     *
+     * @param aFault
+     */
+    public void compensationCompleteWithFault(IAeFault aFault) throws AeBusinessProcessException;
 }

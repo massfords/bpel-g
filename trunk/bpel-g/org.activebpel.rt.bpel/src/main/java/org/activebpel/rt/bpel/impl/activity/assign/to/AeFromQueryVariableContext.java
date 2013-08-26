@@ -26,94 +26,81 @@ import org.w3c.dom.Document;
  * Implements a Jaxen variable context using the copy operation context for
  * variable resolution.
  */
-public class AeFromQueryVariableContext implements VariableContext
-{
-   /** The copy operation context to use to resolve variables. */
-   private IAeCopyOperationContext mCopyOperationContext;
-   
-   /**
-    * Creates a variable context for the to-query to-spec impl.
-    * 
-    * @param aCopyOpContext
-    */
-   public AeFromQueryVariableContext(IAeCopyOperationContext aCopyOpContext)
-   {
-      setCopyOperationContext(aCopyOpContext);
-   }
+public class AeFromQueryVariableContext implements VariableContext {
+    /**
+     * The copy operation context to use to resolve variables.
+     */
+    private IAeCopyOperationContext mCopyOperationContext;
 
-   /**
-    * @see org.jaxen.VariableContext#getVariableValue(java.lang.String, java.lang.String, java.lang.String)
-    */
-   public Object getVariableValue(String aNamespaceURI, String aPrefix, String aLocalName)
-         throws UnresolvableException
-   {
-      Object result = null;
+    /**
+     * Creates a variable context for the to-query to-spec impl.
+     *
+     * @param aCopyOpContext
+     */
+    public AeFromQueryVariableContext(IAeCopyOperationContext aCopyOpContext) {
+        setCopyOperationContext(aCopyOpContext);
+    }
 
-      try
-      {
-         // The variable must be unqualified.
-         if (AeUtil.isNullOrEmpty(aNamespaceURI))
-         {
-            AeXPathVariableReference varRef = new AeXPathVariableReference(aLocalName);
-            
-            // Find the variable with the given name.
-            String variableName = varRef.getVariableName();
-            String partName = varRef.getPartName();
-            IAeVariable variable = getVariable(variableName, partName);
+    /**
+     * @see org.jaxen.VariableContext#getVariableValue(java.lang.String, java.lang.String, java.lang.String)
+     */
+    public Object getVariableValue(String aNamespaceURI, String aPrefix, String aLocalName)
+            throws UnresolvableException {
+        Object result = null;
 
-            // Is the variable a message variable?
-            if (variable.isMessageType())
-            {
-               result = variable.getMessageData().getData(partName);
-               // Note: always return an Element rather than a Document so that a relative path
-               // can then be applied to it.
-               if (result instanceof Document)
-                  result = ((Document) result).getDocumentElement();
+        try {
+            // The variable must be unqualified.
+            if (AeUtil.isNullOrEmpty(aNamespaceURI)) {
+                AeXPathVariableReference varRef = new AeXPathVariableReference(aLocalName);
+
+                // Find the variable with the given name.
+                String variableName = varRef.getVariableName();
+                String partName = varRef.getPartName();
+                IAeVariable variable = getVariable(variableName, partName);
+
+                // Is the variable a message variable?
+                if (variable.isMessageType()) {
+                    result = variable.getMessageData().getData(partName);
+                    // Note: always return an Element rather than a Document so that a relative path
+                    // can then be applied to it.
+                    if (result instanceof Document)
+                        result = ((Document) result).getDocumentElement();
+                } else if (variable.isType()) {
+                    result = variable.getTypeData();
+                } else if (variable.isElement()) {
+                    result = variable.getElementData();
+                }
             }
-            else if (variable.isType())
-            {
-               result = variable.getTypeData();
-            }
-            else if (variable.isElement())
-            {
-               result = variable.getElementData();
-            }
-         }
-      }
-      catch (AeBpelException ex)
-      {
-         throw new AeExpressionException(ex);
-      }
-      
-      AeXPathExpressionTypeConverter converter = new AeXPathExpressionTypeConverter(AeXPathHelper.getInstance(getCopyOperationContext().getBPELNamespace()));
-      return converter.convertToExpressionType(result);
-   }
+        } catch (AeBpelException ex) {
+            throw new AeExpressionException(ex);
+        }
 
-   /**
-    * Gets the variable/part.
-    * 
-    * @param aVariableName
-    * @param aPartName
-    */
-   protected IAeVariable getVariable(String aVariableName, String aPartName)
-   {
-      return getCopyOperationContext().getVariable(aVariableName);
-   }
+        AeXPathExpressionTypeConverter converter = new AeXPathExpressionTypeConverter(AeXPathHelper.getInstance(getCopyOperationContext().getBPELNamespace()));
+        return converter.convertToExpressionType(result);
+    }
 
-   /**
-    * @return Returns the copyOperationContext.
-    */
-   public IAeCopyOperationContext getCopyOperationContext()
-   {
-      return mCopyOperationContext;
-   }
+    /**
+     * Gets the variable/part.
+     *
+     * @param aVariableName
+     * @param aPartName
+     */
+    protected IAeVariable getVariable(String aVariableName, String aPartName) {
+        return getCopyOperationContext().getVariable(aVariableName);
+    }
 
-   /**
-    * @param aCopyOperationContext The copyOperationContext to set.
-    */
-   public void setCopyOperationContext(IAeCopyOperationContext aCopyOperationContext)
-   {
-      mCopyOperationContext = aCopyOperationContext;
-   }
+    /**
+     * @return Returns the copyOperationContext.
+     */
+    public IAeCopyOperationContext getCopyOperationContext() {
+        return mCopyOperationContext;
+    }
+
+    /**
+     * @param aCopyOperationContext The copyOperationContext to set.
+     */
+    public void setCopyOperationContext(IAeCopyOperationContext aCopyOperationContext) {
+        mCopyOperationContext = aCopyOperationContext;
+    }
 
 }

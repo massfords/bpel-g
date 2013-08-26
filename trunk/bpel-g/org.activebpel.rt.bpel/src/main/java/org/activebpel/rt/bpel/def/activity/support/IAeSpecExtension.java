@@ -15,17 +15,16 @@ import org.activebpel.rt.xml.def.IAeAdapter;
 /**
  * Base interface for From and To spec adapters.
  */
-public interface IAeSpecExtension extends IAeAdapter
-{
+public interface IAeSpecExtension extends IAeAdapter {
 
-   /**
-    * Gets the spec extension attribute name.
-    */
-   public String getPropertyName();
+    /**
+     * Gets the spec extension attribute name.
+     */
+    public String getPropertyName();
 
-   /**
-    * Gets the spec extension attribute value.
-    */
-   public String getPropertyValue(AeBaseXmlDef aDef);
+    /**
+     * Gets the spec extension attribute value.
+     */
+    public String getPropertyValue(AeBaseXmlDef aDef);
 
 }

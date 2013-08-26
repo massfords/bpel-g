@@ -13,42 +13,39 @@ package org.activebpel.rt.bpel.xpath.ast;
 /**
  * A base class that boolean xpath nodes extend (or, and, union, unary).
  */
-public abstract class AeAbstractXPathBooleanNode extends AeAbstractXPathNode
-{
-   /** The create flag. */
-   private boolean mCreate;
+public abstract class AeAbstractXPathBooleanNode extends AeAbstractXPathNode {
+    /**
+     * The create flag.
+     */
+    private boolean mCreate;
 
-   /**
-    * Constructor.
-    * 
-    * @param aType
-    */
-   public AeAbstractXPathBooleanNode(String aType)
-   {
-      super(aType);
-   }
+    /**
+     * Constructor.
+     *
+     * @param aType
+     */
+    public AeAbstractXPathBooleanNode(String aType) {
+        super(aType);
+    }
 
-   /**
-    * @return Returns the create.
-    */
-   public boolean isCreate()
-   {
-      return mCreate;
-   }
+    /**
+     * @return Returns the create.
+     */
+    public boolean isCreate() {
+        return mCreate;
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.xpath.ast.AeAbstractXPathNode#normalize()
-    */
-   public AeAbstractXPathNode normalize()
-   {
-      return normalizeOmitSelf();
-   }
+    /**
+     * @see org.activebpel.rt.bpel.xpath.ast.AeAbstractXPathNode#normalize()
+     */
+    public AeAbstractXPathNode normalize() {
+        return normalizeOmitSelf();
+    }
 
-   /**
-    * @param aCreate The create to set.
-    */
-   public void setCreate(boolean aCreate)
-   {
-      mCreate = aCreate;
-   }
+    /**
+     * @param aCreate The create to set.
+     */
+    public void setCreate(boolean aCreate) {
+        mCreate = aCreate;
+    }
 }

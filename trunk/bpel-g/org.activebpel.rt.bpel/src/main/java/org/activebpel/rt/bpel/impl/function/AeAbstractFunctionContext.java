@@ -13,22 +13,20 @@ import org.activebpel.rt.bpel.AeMessages;
 import org.activebpel.rt.bpel.function.IAeFunctionContext;
 
 
-
 /**
- * Base class for implementing <code>FunctionContext</code> impls that 
+ * Base class for implementing <code>FunctionContext</code> impls that
  * implement the <code>IAeFunctionContext</code> interface.
  */
-public abstract class AeAbstractFunctionContext implements IAeFunctionContext
-{
-   // common error messages
-   public static final String NO_FUNCTION_FOUND_ERROR = AeMessages.getString("AeAbstractFunctionContext.0"); //$NON-NLS-1$
+public abstract class AeAbstractFunctionContext implements IAeFunctionContext {
+    // common error messages
+    public static final String NO_FUNCTION_FOUND_ERROR = AeMessages.getString("AeAbstractFunctionContext.0"); //$NON-NLS-1$
 
-   /**
-    * Convenience method for no function found error message.
-    * @param aLocalName
-    */
-   protected String formatFunctionNotFoundErrorMsg( String aLocalName )
-   {
-      return org.activebpel.rt.bpel.AeMessages.format(NO_FUNCTION_FOUND_ERROR, aLocalName );      
-   }
+    /**
+     * Convenience method for no function found error message.
+     *
+     * @param aLocalName
+     */
+    protected String formatFunctionNotFoundErrorMsg(String aLocalName) {
+        return org.activebpel.rt.bpel.AeMessages.format(NO_FUNCTION_FOUND_ERROR, aLocalName);
+    }
 }

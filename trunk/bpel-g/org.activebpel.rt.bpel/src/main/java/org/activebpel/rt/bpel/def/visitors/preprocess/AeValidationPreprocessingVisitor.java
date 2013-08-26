@@ -25,54 +25,53 @@ import org.activebpel.rt.xml.def.IAeExtensionObject;
  * <p>
  * Applies an extension adapter to a bpel extension element.</p>
  */
-public class AeValidationPreprocessingVisitor extends AeAbstractDefVisitor
-{
-   /** The expression language factory set during visitor creation. */
-   private final IAeExpressionLanguageFactory mExpressionLanguageFactory;
-   
-   /** The WSDL provider used to located WSDL definitions */
-   final IAeContextWSDLProvider mContextProvider;
-   
-   /**
-    * C'tor
-    */
-   public AeValidationPreprocessingVisitor(IAeContextWSDLProvider aContextProvider, IAeExpressionLanguageFactory aExpressionLanguageFactory)
-   {
-      mExpressionLanguageFactory = aExpressionLanguageFactory;
-      mContextProvider = aContextProvider;
-      setTraversalVisitor(new AeTraversalVisitor(new AeDefTraverser(), this));
-   }
+public class AeValidationPreprocessingVisitor extends AeAbstractDefVisitor {
+    /**
+     * The expression language factory set during visitor creation.
+     */
+    private final IAeExpressionLanguageFactory mExpressionLanguageFactory;
 
-   /**
-    * @see org.activebpel.rt.xml.def.visitors.AeBaseXmlDefVisitor#visit(org.activebpel.rt.xml.def.AeExtensionElementDef)
-    */
-   public void visit(AeExtensionElementDef aDef)
-   {
-      IAeExtensionObject extObj = aDef.getExtensionObject();
-      preprocessForValidation(extObj);
-   }
+    /**
+     * The WSDL provider used to located WSDL definitions
+     */
+    final IAeContextWSDLProvider mContextProvider;
 
-   /**
-    * @see org.activebpel.rt.bpel.def.visitors.AeAbstractDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeChildExtensionActivityDef)
-    */
-   public void visit(AeChildExtensionActivityDef def)
-   {
-      IAeExtensionObject extObj = def.getExtensionObject();
-      preprocessForValidation(extObj);
-      super.visit(def);
-   }
-   
-   /**
-    * Gets adapter from ext object and does preprocessing for validation
-    * @param aExtObj
-    */
-   protected void preprocessForValidation(IAeExtensionObject aExtObj)
-   {
-      if ( aExtObj != null )
-      {
-         IAeAdapter adapter = aExtObj.getAdapter(IAeValidationPreprocessingAdapter.class);
-         if ( adapter != null )
-            ((IAeValidationPreprocessingAdapter)adapter).preprocessForValidation(mContextProvider, mExpressionLanguageFactory);
-      }
-   }
+    /**
+     * C'tor
+     */
+    public AeValidationPreprocessingVisitor(IAeContextWSDLProvider aContextProvider, IAeExpressionLanguageFactory aExpressionLanguageFactory) {
+        mExpressionLanguageFactory = aExpressionLanguageFactory;
+        mContextProvider = aContextProvider;
+        setTraversalVisitor(new AeTraversalVisitor(new AeDefTraverser(), this));
+    }
+
+    /**
+     * @see org.activebpel.rt.xml.def.visitors.AeBaseXmlDefVisitor#visit(org.activebpel.rt.xml.def.AeExtensionElementDef)
+     */
+    public void visit(AeExtensionElementDef aDef) {
+        IAeExtensionObject extObj = aDef.getExtensionObject();
+        preprocessForValidation(extObj);
+    }
+
+    /**
+     * @see org.activebpel.rt.bpel.def.visitors.AeAbstractDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeChildExtensionActivityDef)
+     */
+    public void visit(AeChildExtensionActivityDef def) {
+        IAeExtensionObject extObj = def.getExtensionObject();
+        preprocessForValidation(extObj);
+        super.visit(def);
+    }
+
+    /**
+     * Gets adapter from ext object and does preprocessing for validation
+     *
+     * @param aExtObj
+     */
+    protected void preprocessForValidation(IAeExtensionObject aExtObj) {
+        if (aExtObj != null) {
+            IAeAdapter adapter = aExtObj.getAdapter(IAeValidationPreprocessingAdapter.class);
+            if (adapter != null)
+                ((IAeValidationPreprocessingAdapter) adapter).preprocessForValidation(mContextProvider, mExpressionLanguageFactory);
+        }
+    }
 }

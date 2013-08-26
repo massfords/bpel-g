@@ -12,49 +12,50 @@ package org.activebpel.rt.bpel.impl;
 import org.activebpel.rt.bpel.AeBusinessProcessException;
 
 /**
- * Defines an onAlarm callback.  An alarm receiver is used when an bpel 
+ * Defines an onAlarm callback.  An alarm receiver is used when an bpel
  * executable object wishes to be called back when an alarm time has been reached.
  */
-public interface IAeAlarmReceiver
-{
-   /**
-    * Callback when an alarm time has been reached.
-    * @throws AeBusinessProcessException Allows the receiver to throw an exception.
-    */
-   public void onAlarm() throws AeBusinessProcessException;
+public interface IAeAlarmReceiver {
+    /**
+     * Callback when an alarm time has been reached.
+     *
+     * @throws AeBusinessProcessException Allows the receiver to throw an exception.
+     */
+    public void onAlarm() throws AeBusinessProcessException;
 
-   /**
-    * Returns the unique location path within the process for this receiver.
-    */
-   public String getLocationPath();
+    /**
+     * Returns the unique location path within the process for this receiver.
+     */
+    public String getLocationPath();
 
-   /**
-    * Returns the unique location id within the process for this receiver.
-    */
-   public int getLocationId();
+    /**
+     * Returns the unique location id within the process for this receiver.
+     */
+    public int getLocationId();
 
-   /**
-    * Returns the location path of the group this alarm is a part of.  An alarm's group is
-    * determined by the activity it is associated with.  This could be a Wait activity, While,
-    * or Pick.
-    */
-   public int getGroupId();
-   
-   /** 
-    * @return The alarm execution instance id.
-    */
-   public int getAlarmId();
+    /**
+     * Returns the location path of the group this alarm is a part of.  An alarm's group is
+     * determined by the activity it is associated with.  This could be a Wait activity, While,
+     * or Pick.
+     */
+    public int getGroupId();
 
-   /** 
-    * Sets the alarm execution instance id.
-    * @param aAlarmId alarm id.
-    */
-   public void setAlarmId(int aAlarmId);
-   
-   /**
-    * Returns <code>true</code> if and only if this object is expecting to
-    * receive an alarm.
-    */
-   public boolean isQueued();
-   
+    /**
+     * @return The alarm execution instance id.
+     */
+    public int getAlarmId();
+
+    /**
+     * Sets the alarm execution instance id.
+     *
+     * @param aAlarmId alarm id.
+     */
+    public void setAlarmId(int aAlarmId);
+
+    /**
+     * Returns <code>true</code> if and only if this object is expecting to
+     * receive an alarm.
+     */
+    public boolean isQueued();
+
 }

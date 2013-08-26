@@ -7,36 +7,34 @@
 //Active Endpoints, Inc. Removal of this PROPRIETARY RIGHTS STATEMENT 
 //is strictly forbidden. Copyright (c) 2002-2006 All rights reserved. 
 /////////////////////////////////////////////////////////////////////////////
-package org.activebpel.rt.bpel.def.validation.activity; 
+package org.activebpel.rt.bpel.def.validation.activity;
 
 import org.activebpel.rt.bpel.def.activity.AeActivityFlowDef;
 
 /**
  * model for validating a flow activity
  */
-public class AeActivityFlowValidator extends AeActivityValidator
-{
-   /**
-    * ctor
-    * @param aDef
-    */
-   public AeActivityFlowValidator(AeActivityFlowDef aDef)
-   {
-      super(aDef);
-   }
+public class AeActivityFlowValidator extends AeActivityValidator {
+    /**
+     * ctor
+     *
+     * @param aDef
+     */
+    public AeActivityFlowValidator(AeActivityFlowDef aDef) {
+        super(aDef);
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.def.validation.activity.AeActivityValidator#validate()
-    */
-   public void validate()
-   {
-      super.validate();
-      
-      if ( getChildren(AeActivityValidator.class).size() == 0 )
-         getReporter().reportProblem( BPEL_FLOW_ACTIVITY_MISSING_CODE, 
-                              ERROR_ACTIVITY_MISSING,
-                              new String[] { getDefinition().getLocationPath() },
-                              getDefinition() );
-   }
+    /**
+     * @see org.activebpel.rt.bpel.def.validation.activity.AeActivityValidator#validate()
+     */
+    public void validate() {
+        super.validate();
+
+        if (getChildren(AeActivityValidator.class).size() == 0)
+            getReporter().reportProblem(BPEL_FLOW_ACTIVITY_MISSING_CODE,
+                    ERROR_ACTIVITY_MISSING,
+                    new String[]{getDefinition().getLocationPath()},
+                    getDefinition());
+    }
 }
  

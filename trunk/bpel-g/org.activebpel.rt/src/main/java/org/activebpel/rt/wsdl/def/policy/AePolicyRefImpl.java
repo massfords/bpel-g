@@ -18,163 +18,142 @@ import org.w3c.dom.Element;
 /**
  * Implementation representing a wsp:PolicyReference extensibility element in a WSDL document
  */
-public class AePolicyRefImpl implements IAePolicyReference
-{
-   private static final String ID_SEPARATOR = "#"; //$NON-NLS-1$
-   
-   private String mBaseURI;
-   private String mReferenceId;
-   private Boolean mRequired;
-   private QName mElementType = POLICY_REF_QNAME;
-   private String mTargetNamespace;
+public class AePolicyRefImpl implements IAePolicyReference {
+    private static final String ID_SEPARATOR = "#"; //$NON-NLS-1$
 
-   /**
-    * No-arg constructor
-    */
-   public AePolicyRefImpl()
-   {
-      
-   }
-   
-   /**
-    * Create a new instance from an element
-    * @param aElement
-    */
-   public AePolicyRefImpl(Element aElement)
-   {
-      setReferenceURI(aElement.getAttribute(IAePolicyReference.URI_ATTRIBUTE)); 
-      Document owner = aElement.getOwnerDocument();
-      if (owner != null)
-      {
-         // get the targetNamespace attribute from the owner document in case
-         // we need to lookup the wsdl for a local reference 
-         setTargetNamespace(owner.getDocumentElement().getAttribute("targetNamespace")); //$NON-NLS-1$
-      }
-   }
-   
-   /**
-    * @see org.activebpel.rt.wsdl.def.policy.IAePolicyReference#getNamespaceURI()
-    */
-   public String getNamespaceURI()
-   {
-      return mBaseURI;
-   }
+    private String mBaseURI;
+    private String mReferenceId;
+    private Boolean mRequired;
+    private QName mElementType = POLICY_REF_QNAME;
+    private String mTargetNamespace;
 
-   /**
-    * @see org.activebpel.rt.wsdl.def.policy.IAePolicyReference#getReferenceId()
-    */
-   public String getReferenceId()
-   {
-      return mReferenceId;
-   }
+    /**
+     * No-arg constructor
+     */
+    public AePolicyRefImpl() {
 
-   /**
-    * @see org.activebpel.rt.wsdl.def.policy.IAePolicyReference#getReferenceURI()
-    */
-   public String getReferenceURI()
-   {
-      return getNamespaceURI() + ID_SEPARATOR + getReferenceId();
-   }
+    }
 
-   /**
-    * @see org.activebpel.rt.wsdl.def.policy.IAePolicyReference#setNamespaceURI(java.lang.String)
-    */
-   public void setNamespaceURI(String aBaseURI)
-   {
-      mBaseURI = aBaseURI;
-   }
+    /**
+     * Create a new instance from an element
+     *
+     * @param aElement
+     */
+    public AePolicyRefImpl(Element aElement) {
+        setReferenceURI(aElement.getAttribute(IAePolicyReference.URI_ATTRIBUTE));
+        Document owner = aElement.getOwnerDocument();
+        if (owner != null) {
+            // get the targetNamespace attribute from the owner document in case
+            // we need to lookup the wsdl for a local reference
+            setTargetNamespace(owner.getDocumentElement().getAttribute("targetNamespace")); //$NON-NLS-1$
+        }
+    }
 
-   /**
-    * @see org.activebpel.rt.wsdl.def.policy.IAePolicyReference#setReferenceId(java.lang.String)
-    */
-   public void setReferenceId(String aId)
-   {
-      mReferenceId = aId;
-   }
+    /**
+     * @see org.activebpel.rt.wsdl.def.policy.IAePolicyReference#getNamespaceURI()
+     */
+    public String getNamespaceURI() {
+        return mBaseURI;
+    }
 
-   /**
-    * @see org.activebpel.rt.wsdl.def.policy.IAePolicyReference#setReferenceURI(java.lang.String)
-    */
-   public void setReferenceURI(String aURI)
-   {
-      if (aURI == null)
-      {
-         setNamespaceURI(null);
-         setReferenceId(null);
-         return;
-      }
-      
-      int index = aURI.indexOf(ID_SEPARATOR);
-      if (index == 0)
-      {
-         setNamespaceURI(null);
-         setReferenceId(aURI.substring(index + 1));
-      }
-      if (index == -1)
-      {
-         setNamespaceURI(null);
-         setReferenceId(aURI);
-      }
-      else
-      {
-         setNamespaceURI(aURI.substring(0, index));
-         setReferenceId(aURI.substring(index + 1));
-      }
-   }
+    /**
+     * @see org.activebpel.rt.wsdl.def.policy.IAePolicyReference#getReferenceId()
+     */
+    public String getReferenceId() {
+        return mReferenceId;
+    }
 
-   /**
-    * @see javax.wsdl.extensions.ExtensibilityElement#getElementType()
-    */
-   public QName getElementType()
-   {
-      return mElementType;
-   }
+    /**
+     * @see org.activebpel.rt.wsdl.def.policy.IAePolicyReference#getReferenceURI()
+     */
+    public String getReferenceURI() {
+        return getNamespaceURI() + ID_SEPARATOR + getReferenceId();
+    }
 
-   /**
-    * @see javax.wsdl.extensions.ExtensibilityElement#getRequired()
-    */
-   public Boolean getRequired()
-   {
-      return mRequired;
-   }
+    /**
+     * @see org.activebpel.rt.wsdl.def.policy.IAePolicyReference#setNamespaceURI(java.lang.String)
+     */
+    public void setNamespaceURI(String aBaseURI) {
+        mBaseURI = aBaseURI;
+    }
 
-   /**
-    * @see javax.wsdl.extensions.ExtensibilityElement#setElementType(javax.xml.namespace.QName)
-    */
-   public void setElementType(QName aElementType)
-   {
-      mElementType = aElementType;
-   }
+    /**
+     * @see org.activebpel.rt.wsdl.def.policy.IAePolicyReference#setReferenceId(java.lang.String)
+     */
+    public void setReferenceId(String aId) {
+        mReferenceId = aId;
+    }
 
-   /**
-    * @see javax.wsdl.extensions.ExtensibilityElement#setRequired(java.lang.Boolean)
-    */
-   public void setRequired(Boolean aRequired)
-   {
-      mRequired = aRequired;
-   }
+    /**
+     * @see org.activebpel.rt.wsdl.def.policy.IAePolicyReference#setReferenceURI(java.lang.String)
+     */
+    public void setReferenceURI(String aURI) {
+        if (aURI == null) {
+            setNamespaceURI(null);
+            setReferenceId(null);
+            return;
+        }
 
-   /**
-    * @see org.activebpel.rt.wsdl.def.policy.IAePolicyReference#isLocalReference()
-    */
-   public boolean isLocalReference()
-   {
-      return AeUtil.isNullOrEmpty(getNamespaceURI());
-   }
+        int index = aURI.indexOf(ID_SEPARATOR);
+        if (index == 0) {
+            setNamespaceURI(null);
+            setReferenceId(aURI.substring(index + 1));
+        }
+        if (index == -1) {
+            setNamespaceURI(null);
+            setReferenceId(aURI);
+        } else {
+            setNamespaceURI(aURI.substring(0, index));
+            setReferenceId(aURI.substring(index + 1));
+        }
+    }
 
-   /**
-    * @see org.activebpel.rt.wsdl.def.policy.IAePolicyReference#getTargetNamespace()
-    */
-   public String getTargetNamespace()
-   {
-      return mTargetNamespace;
-   }
-   
-   /**
-    * @param aNamespace
-    */
-   public void setTargetNamespace(String aNamespace)
-   {
-      mTargetNamespace = aNamespace;
-   }
+    /**
+     * @see javax.wsdl.extensions.ExtensibilityElement#getElementType()
+     */
+    public QName getElementType() {
+        return mElementType;
+    }
+
+    /**
+     * @see javax.wsdl.extensions.ExtensibilityElement#getRequired()
+     */
+    public Boolean getRequired() {
+        return mRequired;
+    }
+
+    /**
+     * @see javax.wsdl.extensions.ExtensibilityElement#setElementType(javax.xml.namespace.QName)
+     */
+    public void setElementType(QName aElementType) {
+        mElementType = aElementType;
+    }
+
+    /**
+     * @see javax.wsdl.extensions.ExtensibilityElement#setRequired(java.lang.Boolean)
+     */
+    public void setRequired(Boolean aRequired) {
+        mRequired = aRequired;
+    }
+
+    /**
+     * @see org.activebpel.rt.wsdl.def.policy.IAePolicyReference#isLocalReference()
+     */
+    public boolean isLocalReference() {
+        return AeUtil.isNullOrEmpty(getNamespaceURI());
+    }
+
+    /**
+     * @see org.activebpel.rt.wsdl.def.policy.IAePolicyReference#getTargetNamespace()
+     */
+    public String getTargetNamespace() {
+        return mTargetNamespace;
+    }
+
+    /**
+     * @param aNamespace
+     */
+    public void setTargetNamespace(String aNamespace) {
+        mTargetNamespace = aNamespace;
+    }
 }

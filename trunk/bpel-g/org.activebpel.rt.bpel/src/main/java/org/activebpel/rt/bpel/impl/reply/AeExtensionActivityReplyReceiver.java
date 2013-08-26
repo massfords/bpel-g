@@ -19,132 +19,127 @@ import org.activebpel.rt.message.IAeMessageData;
 /**
  * Base class for extension reply receiver
  */
-public class AeExtensionActivityReplyReceiver implements IAeExtensionReplyReceiver
-{
-   /** Reference to the Engine */
-   private IAeBusinessProcessEngineInternal mEngine;
-   /** The message data returned from this response receiver */
-   private IAeMessageData mMessageData;
-   /** Process Id of invoke */
-   private long mProcessId;
-   /** LocationPath of invoke */
-   private String mLocationPath;
-   /** transmission id */
-   private long mTransmissionId;
-   
-   /**
-    * @param aProcessId
-    * @param aLocationPath
-    */
-   public AeExtensionActivityReplyReceiver(long aProcessId, String aLocationPath, long aTransmissionId)
-   {
-      setProcessId(aProcessId);
-      setLocationPath(aLocationPath);
-      setTransmissionId(aTransmissionId);
-   }
+public class AeExtensionActivityReplyReceiver implements IAeExtensionReplyReceiver {
+    /**
+     * Reference to the Engine
+     */
+    private IAeBusinessProcessEngineInternal mEngine;
+    /**
+     * The message data returned from this response receiver
+     */
+    private IAeMessageData mMessageData;
+    /**
+     * Process Id of invoke
+     */
+    private long mProcessId;
+    /**
+     * LocationPath of invoke
+     */
+    private String mLocationPath;
+    /**
+     * transmission id
+     */
+    private long mTransmissionId;
 
-   /**
-    * @see org.activebpel.rt.bpel.impl.reply.IAeExtensionReplyReceiver#setEngine(org.activebpel.rt.bpel.impl.IAeBusinessProcessEngineInternal)
-    */
-   public void setEngine(IAeBusinessProcessEngineInternal aEngine)
-   {
-      mEngine = aEngine;
-   }
+    /**
+     * @param aProcessId
+     * @param aLocationPath
+     */
+    public AeExtensionActivityReplyReceiver(long aProcessId, String aLocationPath, long aTransmissionId) {
+        setProcessId(aProcessId);
+        setLocationPath(aLocationPath);
+        setTransmissionId(aTransmissionId);
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.impl.reply.IAeReplyReceiver#getDurableReplyInfo()
-    */
-   public IAeDurableReplyInfo getDurableReplyInfo()
-   {
-      return null;
-   }
+    /**
+     * @see org.activebpel.rt.bpel.impl.reply.IAeExtensionReplyReceiver#setEngine(org.activebpel.rt.bpel.impl.IAeBusinessProcessEngineInternal)
+     */
+    public void setEngine(IAeBusinessProcessEngineInternal aEngine) {
+        mEngine = aEngine;
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.impl.reply.IAeReplyReceiver#onFault(org.activebpel.rt.bpel.IAeFault, java.util.Map)
-    */
-   public void onFault(IAeFault aFault, Map<String,String> aProcessProperties) throws AeBusinessProcessException
-   {
-      getEngine().queueInvokeFault(getProcessId(), getLocationPath(), getTransmissionId(), aFault, aProcessProperties);
-   }
+    /**
+     * @see org.activebpel.rt.bpel.impl.reply.IAeReplyReceiver#getDurableReplyInfo()
+     */
+    public IAeDurableReplyInfo getDurableReplyInfo() {
+        return null;
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.impl.reply.IAeReplyReceiver#onMessage(org.activebpel.rt.message.IAeMessageData, java.util.Map)
-    */
-   public void onMessage(IAeMessageData aMessage, Map<String,String> aProcessProperties) throws AeBusinessProcessException
-   {
-      getEngine().queueInvokeData(getProcessId(), getLocationPath(), getTransmissionId(), aMessage, aProcessProperties);
-   }
-   
-   /**
-    * @return IAeBusinessProcessEngineInternal engine
-    */
-   protected IAeBusinessProcessEngineInternal getEngine()
-   {
-      return mEngine;
-   }
+    /**
+     * @see org.activebpel.rt.bpel.impl.reply.IAeReplyReceiver#onFault(org.activebpel.rt.bpel.IAeFault, java.util.Map)
+     */
+    public void onFault(IAeFault aFault, Map<String, String> aProcessProperties) throws AeBusinessProcessException {
+        getEngine().queueInvokeFault(getProcessId(), getLocationPath(), getTransmissionId(), aFault, aProcessProperties);
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.impl.reply.IAeExtensionReplyReceiver#getLocationPath()
-    */
-   public String getLocationPath()
-   {
-      return mLocationPath;
-   }
+    /**
+     * @see org.activebpel.rt.bpel.impl.reply.IAeReplyReceiver#onMessage(org.activebpel.rt.message.IAeMessageData, java.util.Map)
+     */
+    public void onMessage(IAeMessageData aMessage, Map<String, String> aProcessProperties) throws AeBusinessProcessException {
+        getEngine().queueInvokeData(getProcessId(), getLocationPath(), getTransmissionId(), aMessage, aProcessProperties);
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.impl.reply.IAeExtensionReplyReceiver#getProcessId()
-    */
-   public long getProcessId()
-   {
-      return mProcessId;
-   }
+    /**
+     * @return IAeBusinessProcessEngineInternal engine
+     */
+    protected IAeBusinessProcessEngineInternal getEngine() {
+        return mEngine;
+    }
 
-   /**
-    * @return the messageData
-    */
-   public IAeMessageData getMessageData()
-   {
-      return mMessageData;
-   }
+    /**
+     * @see org.activebpel.rt.bpel.impl.reply.IAeExtensionReplyReceiver#getLocationPath()
+     */
+    public String getLocationPath() {
+        return mLocationPath;
+    }
 
-   /**
-    * @param aMessageData the messageData to set
-    */
-   public void setMessageData(IAeMessageData aMessageData)
-   {
-      mMessageData = aMessageData;
-   }
+    /**
+     * @see org.activebpel.rt.bpel.impl.reply.IAeExtensionReplyReceiver#getProcessId()
+     */
+    public long getProcessId() {
+        return mProcessId;
+    }
 
-   /**
-    * @return the transmissionId
-    */
-   protected long getTransmissionId()
-   {
-      return mTransmissionId;
-   }
+    /**
+     * @return the messageData
+     */
+    public IAeMessageData getMessageData() {
+        return mMessageData;
+    }
 
-   /**
-    * @param aTransmissionId the transmissionId to set
-    */
-   protected void setTransmissionId(long aTransmissionId)
-   {
-      mTransmissionId = aTransmissionId;
-   }
+    /**
+     * @param aMessageData the messageData to set
+     */
+    public void setMessageData(IAeMessageData aMessageData) {
+        mMessageData = aMessageData;
+    }
 
-   /**
-    * @param aProcessId the processId to set
-    */
-   protected void setProcessId(long aProcessId)
-   {
-      mProcessId = aProcessId;
-   }
+    /**
+     * @return the transmissionId
+     */
+    protected long getTransmissionId() {
+        return mTransmissionId;
+    }
 
-   /**
-    * @param aLocationPath the locationPath to set
-    */
-   protected void setLocationPath(String aLocationPath)
-   {
-      mLocationPath = aLocationPath;
-   }
+    /**
+     * @param aTransmissionId the transmissionId to set
+     */
+    protected void setTransmissionId(long aTransmissionId) {
+        mTransmissionId = aTransmissionId;
+    }
+
+    /**
+     * @param aProcessId the processId to set
+     */
+    protected void setProcessId(long aProcessId) {
+        mProcessId = aProcessId;
+    }
+
+    /**
+     * @param aLocationPath the locationPath to set
+     */
+    protected void setLocationPath(String aLocationPath) {
+        mLocationPath = aLocationPath;
+    }
 
 }

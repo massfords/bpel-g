@@ -12,18 +12,17 @@ package org.activebpel.rt.bpel.server.engine.storage.sql;
 /**
  * SQL table column names.
  */
-public interface IAeCoordinationColumns
-{
-   public static final String COORDINATION_PK   = "CoordinationPk"; //$NON-NLS-1$
-   public static final String ENGINE_ID         = "EngineId"; //$NON-NLS-1$
-   public static final String COORDINATION_TYPE = "CoordinationType"; //$NON-NLS-1$
-   public static final String COORDINATION_ROLE = "CoordinationRole"; //$NON-NLS-1$
-   public static final String COORDINATION_ID   = "CoordinationId"; //$NON-NLS-1$   
-   public static final String STATE             = "State"; //$NON-NLS-1$
-   public static final String PROCESS_ID        = "ProcessId"; //$NON-NLS-1$
-   public static final String LOCATION_PATH     = "LocationPath"; //$NON-NLS-1$
-   public static final String COORDINATION_DOC  = "CoordinationDocument"; //$NON-NLS-1$
-   public static final String START_DATE        = "StartDate"; //$NON-NLS-1$   
-   public static final String MODIFIED_DATE     = "ModifiedDate"; //$NON-NLS-1$
+public interface IAeCoordinationColumns {
+    public static final String COORDINATION_PK = "CoordinationPk"; //$NON-NLS-1$
+    public static final String ENGINE_ID = "EngineId"; //$NON-NLS-1$
+    public static final String COORDINATION_TYPE = "CoordinationType"; //$NON-NLS-1$
+    public static final String COORDINATION_ROLE = "CoordinationRole"; //$NON-NLS-1$
+    public static final String COORDINATION_ID = "CoordinationId"; //$NON-NLS-1$
+    public static final String STATE = "State"; //$NON-NLS-1$
+    public static final String PROCESS_ID = "ProcessId"; //$NON-NLS-1$
+    public static final String LOCATION_PATH = "LocationPath"; //$NON-NLS-1$
+    public static final String COORDINATION_DOC = "CoordinationDocument"; //$NON-NLS-1$
+    public static final String START_DATE = "StartDate"; //$NON-NLS-1$
+    public static final String MODIFIED_DATE = "ModifiedDate"; //$NON-NLS-1$
 
 }

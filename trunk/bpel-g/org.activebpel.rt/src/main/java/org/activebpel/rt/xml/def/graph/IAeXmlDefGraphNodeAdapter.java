@@ -17,25 +17,27 @@ import org.w3c.dom.Document;
  * Extension adapter that is used by the process view graph and property
  * builder.
  */
-public interface IAeXmlDefGraphNodeAdapter extends IAeAdapter
-{
-   /**
-    * Returns icon image name or <code>null</code> if icon is not available.
-    * @return icon image name.
-    */
-   public String getIcon();
-   
-   /**
-    * Builds and returns a (sub)tree represented by this extension.
-    * Return <code>null</code> if not supported.
-    * @return subtree root node.
-    */
-   public IAeXmlDefGraphNode getTreeNode();
-   
-   /**
-    * Returns list of properties.
-    * @param aDef
-    * @param aStateDoc
-    */
-   public IAeXmlDefGraphNodeProperty[] getProperties(AeBaseXmlDef aDef, Document aStateDoc, String aInstancePath);
+public interface IAeXmlDefGraphNodeAdapter extends IAeAdapter {
+    /**
+     * Returns icon image name or <code>null</code> if icon is not available.
+     *
+     * @return icon image name.
+     */
+    public String getIcon();
+
+    /**
+     * Builds and returns a (sub)tree represented by this extension.
+     * Return <code>null</code> if not supported.
+     *
+     * @return subtree root node.
+     */
+    public IAeXmlDefGraphNode getTreeNode();
+
+    /**
+     * Returns list of properties.
+     *
+     * @param aDef
+     * @param aStateDoc
+     */
+    public IAeXmlDefGraphNodeProperty[] getProperties(AeBaseXmlDef aDef, Document aStateDoc, String aInstancePath);
 }

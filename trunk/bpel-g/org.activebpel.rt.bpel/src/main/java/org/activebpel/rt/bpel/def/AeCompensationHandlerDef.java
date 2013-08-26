@@ -12,47 +12,42 @@ package org.activebpel.rt.bpel.def;
 import org.activebpel.rt.bpel.def.visitors.IAeDefVisitor;
 
 
-/** 
+/**
  * Models the 'compensationHandler' bpel construct.
  */
-public class AeCompensationHandlerDef extends AeSingleActivityParentBaseDef 
-   implements IAeSingleActivityContainerDef, IAeCompensateParentDef, 
-              IAeFCTHandlerDef, IAeUncrossableLinkBoundary
-{
-   /**
-     * 
+public class AeCompensationHandlerDef extends AeSingleActivityParentBaseDef
+        implements IAeSingleActivityContainerDef, IAeCompensateParentDef,
+        IAeFCTHandlerDef, IAeUncrossableLinkBoundary {
+    /**
+     *
      */
     private static final long serialVersionUID = -1071237621129347062L;
 
-/**
-    * Default c'tor.
-    */
-   public AeCompensationHandlerDef()
-   {
-      super();
-   }
+    /**
+     * Default c'tor.
+     */
+    public AeCompensationHandlerDef() {
+        super();
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.def.AeBaseDef#accept(org.activebpel.rt.bpel.def.visitors.IAeDefVisitor)
-    */
-   public void accept(IAeDefVisitor aVisitor)
-   {
-      aVisitor.visit(this);
-   }
+    /**
+     * @see org.activebpel.rt.bpel.def.AeBaseDef#accept(org.activebpel.rt.bpel.def.visitors.IAeDefVisitor)
+     */
+    public void accept(IAeDefVisitor aVisitor) {
+        aVisitor.visit(this);
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.def.IAeUncrossableLinkBoundary#canCrossInbound()
-    */
-   public boolean canCrossInbound()
-   {
-      return false;
-   }
+    /**
+     * @see org.activebpel.rt.bpel.def.IAeUncrossableLinkBoundary#canCrossInbound()
+     */
+    public boolean canCrossInbound() {
+        return false;
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.def.IAeUncrossableLinkBoundary#canCrossOutbound()
-    */
-   public boolean canCrossOutbound()
-   {
-      return false;
-   }
+    /**
+     * @see org.activebpel.rt.bpel.def.IAeUncrossableLinkBoundary#canCrossOutbound()
+     */
+    public boolean canCrossOutbound() {
+        return false;
+    }
 }

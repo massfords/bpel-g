@@ -7,7 +7,7 @@
 //Active Endpoints, Inc. Removal of this PROPRIETARY RIGHTS STATEMENT 
 //is strictly forbidden. Copyright (c) 2002-2006 All rights reserved. 
 /////////////////////////////////////////////////////////////////////////////
-package org.activebpel.rt.bpel.def.validation.activity.scope; 
+package org.activebpel.rt.bpel.def.validation.activity.scope;
 
 import org.activebpel.rt.bpel.def.AeTerminationHandlerDef;
 import org.activebpel.rt.bpel.def.validation.AeBaseValidator;
@@ -15,36 +15,33 @@ import org.activebpel.rt.bpel.def.validation.AeBaseValidator;
 /**
  * model provides validation for termination handler
  */
-public class AeTerminationHandlerValidator extends AeBaseValidator
-{
-   /**
-    * ctor
-    * @param aDef
-    */
-   public AeTerminationHandlerValidator(AeTerminationHandlerDef aDef)
-   {
-      super(aDef);
-   }
+public class AeTerminationHandlerValidator extends AeBaseValidator {
+    /**
+     * ctor
+     *
+     * @param aDef
+     */
+    public AeTerminationHandlerValidator(AeTerminationHandlerDef aDef) {
+        super(aDef);
+    }
 
-   /**
-    * Getter for the def
-    */
-   protected AeTerminationHandlerDef getDef()
-   {
-      return (AeTerminationHandlerDef) getDefinition();
-   }
+    /**
+     * Getter for the def
+     */
+    protected AeTerminationHandlerDef getDef() {
+        return (AeTerminationHandlerDef) getDefinition();
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.def.validation.AeBaseValidator#validate()
-    */
-   public void validate()
-   {
-      super.validate();
-      if (getDef().getActivityDef() == null)
-         getReporter().reportProblem(BPEL_TERM_EMPTY_CONTAINER_CODE,
-                                    ERROR_EMPTY_CONTAINER, 
-                                    new String[] { getDef().getLocationPath() },
-                                    getDefinition());
-   }
+    /**
+     * @see org.activebpel.rt.bpel.def.validation.AeBaseValidator#validate()
+     */
+    public void validate() {
+        super.validate();
+        if (getDef().getActivityDef() == null)
+            getReporter().reportProblem(BPEL_TERM_EMPTY_CONTAINER_CODE,
+                    ERROR_EMPTY_CONTAINER,
+                    new String[]{getDef().getLocationPath()},
+                    getDefinition());
+    }
 }
  

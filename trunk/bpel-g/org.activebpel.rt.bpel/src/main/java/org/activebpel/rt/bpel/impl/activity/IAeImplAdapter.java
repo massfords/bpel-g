@@ -7,14 +7,13 @@
 //Active Endpoints, Inc. Removal of this PROPRIETARY RIGHTS STATEMENT 
 //is strictly forbidden. Copyright (c) 2002-2007 All rights reserved. 
 /////////////////////////////////////////////////////////////////////////////
-package org.activebpel.rt.bpel.impl.activity; 
+package org.activebpel.rt.bpel.impl.activity;
 
 
 /**
- * interface for adapters which provide behavior for impl objects 
+ * interface for adapters which provide behavior for impl objects
  */
-public interface IAeImplAdapter
-{
+public interface IAeImplAdapter {
 
 }
  

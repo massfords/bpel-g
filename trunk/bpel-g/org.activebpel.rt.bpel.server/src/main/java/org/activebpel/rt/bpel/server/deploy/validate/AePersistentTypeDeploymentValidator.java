@@ -38,329 +38,334 @@ import bpelg.services.deploy.types.pdd.TransactionType;
  * used.
  */
 public class AePersistentTypeDeploymentValidator extends AeAbstractDefVisitor
-		implements IAeValidationDefs {
-	/** Subprocess invoke handler type . */
-	public static final String INVOKE_HANDLER_PROCESS_SUB = "process:subprocess"; //$NON-NLS-1$
-	/** Retry policy tag name. */
-	public static final String RETRY_POLICY_TAG = "retry"; //$NON-NLS-1$   
-	/** Validation replorter */
-	private IAeBaseErrorReporter mReporter;
-	/** Process deployment plan. */
-	private IAeProcessDeployment mProcessDeployment;
-	/** Number of receive activities found during validation. */
-	private int mReceiveActivityRefCount;
-	/**
-	 * Indicates that a request-response style Receive activity (with
-	 * CreateInstance) was found.
-	 */
-	private boolean mCreateActivityFound;
+        implements IAeValidationDefs {
+    /**
+     * Subprocess invoke handler type .
+     */
+    public static final String INVOKE_HANDLER_PROCESS_SUB = "process:subprocess"; //$NON-NLS-1$
+    /**
+     * Retry policy tag name.
+     */
+    public static final String RETRY_POLICY_TAG = "retry"; //$NON-NLS-1$
+    /**
+     * Validation replorter
+     */
+    private IAeBaseErrorReporter mReporter;
+    /**
+     * Process deployment plan.
+     */
+    private IAeProcessDeployment mProcessDeployment;
+    /**
+     * Number of receive activities found during validation.
+     */
+    private int mReceiveActivityRefCount;
+    /**
+     * Indicates that a request-response style Receive activity (with
+     * CreateInstance) was found.
+     */
+    private boolean mCreateActivityFound;
 
-	/**
-	 * Constructs the validator.
-	 * 
-	 * @param aErrorReporter
-	 * @param aProcessDeployment
-	 */
-	public AePersistentTypeDeploymentValidator(
-			IAeBaseErrorReporter aErrorReporter,
-			IAeProcessDeployment aProcessDeployment) {
-		setReporter(aErrorReporter);
-		setProcessDeployment(aProcessDeployment);
-		init();
-	}
+    /**
+     * Constructs the validator.
+     *
+     * @param aErrorReporter
+     * @param aProcessDeployment
+     */
+    public AePersistentTypeDeploymentValidator(
+            IAeBaseErrorReporter aErrorReporter,
+            IAeProcessDeployment aProcessDeployment) {
+        setReporter(aErrorReporter);
+        setProcessDeployment(aProcessDeployment);
+        init();
+    }
 
-	/**
-	 * Initializes the traversing visitor.
-	 */
-	protected void init() {
-		setTraversalVisitor(new AeTraversalVisitor(new AeDefTraverser(), this));
-	}
+    /**
+     * Initializes the traversing visitor.
+     */
+    protected void init() {
+        setTraversalVisitor(new AeTraversalVisitor(new AeDefTraverser(), this));
+    }
 
-	/**
-	 * @return Returns the reporter.
-	 */
-	protected IAeBaseErrorReporter getReporter() {
-		return mReporter;
-	}
+    /**
+     * @return Returns the reporter.
+     */
+    protected IAeBaseErrorReporter getReporter() {
+        return mReporter;
+    }
 
-	/**
-	 * @param aReporter
-	 *            The reporter to set.
-	 */
-	protected void setReporter(IAeBaseErrorReporter aReporter) {
-		mReporter = aReporter;
-	}
+    /**
+     * @param aReporter The reporter to set.
+     */
+    protected void setReporter(IAeBaseErrorReporter aReporter) {
+        mReporter = aReporter;
+    }
 
-	/**
-	 * @return Returns the processDeployment.
-	 */
-	private IAeProcessDeployment getProcessDeployment() {
-		return mProcessDeployment;
-	}
+    /**
+     * @return Returns the processDeployment.
+     */
+    private IAeProcessDeployment getProcessDeployment() {
+        return mProcessDeployment;
+    }
 
-	/**
-	 * @param aProcessDeployment
-	 *            The processDeployment to set.
-	 */
-	private void setProcessDeployment(IAeProcessDeployment aProcessDeployment) {
-		mProcessDeployment = aProcessDeployment;
-	}
+    /**
+     * @param aProcessDeployment The processDeployment to set.
+     */
+    private void setProcessDeployment(IAeProcessDeployment aProcessDeployment) {
+        mProcessDeployment = aProcessDeployment;
+    }
 
-	/**
-	 * @return true if the process is deployed with persistent type of FULL.
-	 */
-	protected boolean isPersistentType() {
-		return PersistenceType.FULL == getPersistentType();
-	}
+    /**
+     * @return true if the process is deployed with persistent type of FULL.
+     */
+    protected boolean isPersistentType() {
+        return PersistenceType.FULL == getPersistentType();
+    }
 
-	/**
-	 * @return Returns the persistent type.
-	 */
-	protected PersistenceType getPersistentType() {
-		return getProcessDeployment().getPdd().getPersistenceType();
-	}
+    /**
+     * @return Returns the persistent type.
+     */
+    protected PersistenceType getPersistentType() {
+        return getProcessDeployment().getPdd().getPersistenceType();
+    }
 
-	/**
-	 * @return true if the process deployment uses container managed transaction
-	 *         types.
-	 */
-	protected boolean isContainerTransactionType() {
-		return TransactionType.CONTAINER == getTransactionType();
-	}
+    /**
+     * @return true if the process deployment uses container managed transaction
+     *         types.
+     */
+    protected boolean isContainerTransactionType() {
+        return TransactionType.CONTAINER == getTransactionType();
+    }
 
-	/**
-	 * @return the transaction type.
-	 */
-	protected TransactionType getTransactionType() {
-		return getProcessDeployment().getPdd().getTransactionType();
-	}
+    /**
+     * @return the transaction type.
+     */
+    protected TransactionType getTransactionType() {
+        return getProcessDeployment().getPdd().getTransactionType();
+    }
 
-	/**
-	 * Gets the process definition.
-	 */
-	protected AeProcessDef getProcessDef() {
-		return getProcessDeployment().getProcessDef();
-	}
+    /**
+     * Gets the process definition.
+     */
+    protected AeProcessDef getProcessDef() {
+        return getProcessDeployment().getProcessDef();
+    }
 
-	/**
-	 * Validates the process and partner links as per requirment 98.
-	 * Non-persistent processes must implement a request-response style
-	 * operation with a createInstance activity. No other inbound message
-	 * activities (&lt;receive&gt;, &lt;onMessage&gt;, &lt;onEvent&gt;) or
-	 * alarms are permitted. The prohibition of alarms applies to BPEL
-	 * &lt;onAlarm&gt;�s as well as alarms used to track features like retry
-	 * policies for invokes.
-	 */
-	public void validate() {
-		if (isPersistentType()) {
-			// Short return if the process is a persistent type deployment
-			// Non-persistent store uses the in-memory managers.
-			// subprocess invoke is also supported via in-memory configuration.
-			return;
-		}
-		setCreateActivityFound(false);
-		resetReceiveActivityRefCount();
-		validateProcess();
-	}
+    /**
+     * Validates the process and partner links as per requirment 98.
+     * Non-persistent processes must implement a request-response style
+     * operation with a createInstance activity. No other inbound message
+     * activities (&lt;receive&gt;, &lt;onMessage&gt;, &lt;onEvent&gt;) or
+     * alarms are permitted. The prohibition of alarms applies to BPEL
+     * &lt;onAlarm&gt;�s as well as alarms used to track features like retry
+     * policies for invokes.
+     */
+    public void validate() {
+        if (isPersistentType()) {
+            // Short return if the process is a persistent type deployment
+            // Non-persistent store uses the in-memory managers.
+            // subprocess invoke is also supported via in-memory configuration.
+            return;
+        }
+        setCreateActivityFound(false);
+        resetReceiveActivityRefCount();
+        validateProcess();
+    }
 
-	/**
-	 * Validates the process and its constructs as per requirement 98 (for
-	 * non-persistent processes).
-	 */
-	protected void validateProcess() {
-		getProcessDef().accept(this);
-		if (!isCreateActivityFound()) {
-			addError(ERROR_NONPERSISTENT_CREATE_INSTANCE_NOT_FOUND, null);
-		}
+    /**
+     * Validates the process and its constructs as per requirement 98 (for
+     * non-persistent processes).
+     */
+    protected void validateProcess() {
+        getProcessDef().accept(this);
+        if (!isCreateActivityFound()) {
+            addError(ERROR_NONPERSISTENT_CREATE_INSTANCE_NOT_FOUND, null);
+        }
 
-		if (getReceiveActivityRefCount() > 1) {
-			addError(
-					ERROR_NONPERSISTENT_MULTIPLE_RECEIVES_NOT_ALLOWED,
-					new String[] { String.valueOf(getReceiveActivityRefCount()) });
-		}
-	}
+        if (getReceiveActivityRefCount() > 1) {
+            addError(
+                    ERROR_NONPERSISTENT_MULTIPLE_RECEIVES_NOT_ALLOWED,
+                    new String[]{String.valueOf(getReceiveActivityRefCount())});
+        }
+    }
 
-	/**
-	 * @return Returns the receiveActivityRefCount.
-	 */
-	protected int getReceiveActivityRefCount() {
-		return mReceiveActivityRefCount;
-	}
+    /**
+     * @return Returns the receiveActivityRefCount.
+     */
+    protected int getReceiveActivityRefCount() {
+        return mReceiveActivityRefCount;
+    }
 
-	/**
-	 * Resets the receive activity reference counter to zero.
-	 */
-	protected void resetReceiveActivityRefCount() {
-		mReceiveActivityRefCount = 0;
-	}
+    /**
+     * Resets the receive activity reference counter to zero.
+     */
+    protected void resetReceiveActivityRefCount() {
+        mReceiveActivityRefCount = 0;
+    }
 
-	/**
-	 * @return Returns the twoWayCreateActivityFound.
-	 */
-	protected boolean isCreateActivityFound() {
-		return mCreateActivityFound;
-	}
+    /**
+     * @return Returns the twoWayCreateActivityFound.
+     */
+    protected boolean isCreateActivityFound() {
+        return mCreateActivityFound;
+    }
 
-	/**
-	 * @param aTwoWayCreateActivityFound
-	 *            The twoWayCreateActivityFound to set.
-	 */
-	protected void setCreateActivityFound(boolean aTwoWayCreateActivityFound) {
-		mCreateActivityFound = aTwoWayCreateActivityFound;
-	}
+    /**
+     * @param aTwoWayCreateActivityFound The twoWayCreateActivityFound to set.
+     */
+    protected void setCreateActivityFound(boolean aTwoWayCreateActivityFound) {
+        mCreateActivityFound = aTwoWayCreateActivityFound;
+    }
 
-	/**
-	 * Returns true if the EPR has one or more retry policies.
-	 * 
-	 * @param aEpr
-	 */
-	protected boolean hasRetryPolicy(IAeEndpointReference aEpr) {
-		if (aEpr == null)
-			return false;
+    /**
+     * Returns true if the EPR has one or more retry policies.
+     *
+     * @param aEpr
+     */
+    protected boolean hasRetryPolicy(IAeEndpointReference aEpr) {
+        if (aEpr == null)
+            return false;
 
-		return (aEpr.findPolicyElements(getProcessDeployment(),
-				RETRY_POLICY_TAG).size() > 0);
-	}
+        return (aEpr.findPolicyElements(getProcessDeployment(),
+                RETRY_POLICY_TAG).size() > 0);
+    }
 
-	/**
-	 * Returns the invoke handler type string for the given partner link.
-	 * 
-	 * @param aDef
-	 * 
-	 */
-	protected String getInvokeHandlerType(AePartnerLinkDef aDef) {
-		return getProcessDeployment().getInvokeHandler(aDef.getName());
-	}
+    /**
+     * Returns the invoke handler type string for the given partner link.
+     *
+     * @param aDef
+     */
+    protected String getInvokeHandlerType(AePartnerLinkDef aDef) {
+        return getProcessDeployment().getInvokeHandler(aDef.getName());
+    }
 
-	/**
-	 * Returns the end point reference for the given partnerlink.
-	 * 
-	 * @param aDef
-	 * @throws AeBusinessProcessException
-	 * 
-	 */
-	protected IAeEndpointReference getEndpointReference(AePartnerLinkDef aDef) {
-		return getProcessDeployment().getPartnerEndpointRef(aDef.getName());
-	}
+    /**
+     * Returns the end point reference for the given partnerlink.
+     *
+     * @param aDef
+     * @throws AeBusinessProcessException
+     */
+    protected IAeEndpointReference getEndpointReference(AePartnerLinkDef aDef) {
+        return getProcessDeployment().getPartnerEndpointRef(aDef.getName());
+    }
 
-	/**
-	 * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.AePartnerLinkDef)
-	 */
-	public void visit(AePartnerLinkDef def) {
-		String invokeHandlerType = getInvokeHandlerType(def);
-		if (INVOKE_HANDLER_PROCESS_SUB.equalsIgnoreCase(invokeHandlerType)) {
-			addWarning(WARNING_NONPERSISTENT_SUBPROCESS_NOT_ALLOWED,
-					new String[] { def.getName() });
-		}
-		IAeEndpointReference epr = getEndpointReference(def);
-		if (epr != null && hasRetryPolicy(epr)) {
-			addError(ERROR_NONPERSISTENT_RETRYPOLICY_NOT_ALLOWED,
-					new String[] { def.getName() });
-		}
-	}
+    /**
+     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.AePartnerLinkDef)
+     */
+    public void visit(AePartnerLinkDef def) {
+        String invokeHandlerType = getInvokeHandlerType(def);
+        if (INVOKE_HANDLER_PROCESS_SUB.equalsIgnoreCase(invokeHandlerType)) {
+            addWarning(WARNING_NONPERSISTENT_SUBPROCESS_NOT_ALLOWED,
+                    new String[]{def.getName()});
+        }
+        IAeEndpointReference epr = getEndpointReference(def);
+        if (epr != null && hasRetryPolicy(epr)) {
+            addError(ERROR_NONPERSISTENT_RETRYPOLICY_NOT_ALLOWED,
+                    new String[]{def.getName()});
+        }
+    }
 
-	/**
-	 * Checks to see if the definition is a create instance activity def.
-	 * 
-	 * @param aDef
-	 * @return true if the activity is of create instance.
-	 */
-	protected boolean checkCreateInstance(AeBaseDef aDef) {
-		boolean rVal = false;
-		if (aDef instanceof IAeActivityCreateInstanceDef) {
-			// OnMessage, Receive and Pick.
-			if (((IAeActivityCreateInstanceDef) aDef).isCreateInstance()) {
-				setCreateActivityFound(true);
-				rVal = true;
-			}
-		}
-		return rVal;
-	}
+    /**
+     * Checks to see if the definition is a create instance activity def.
+     *
+     * @param aDef
+     * @return true if the activity is of create instance.
+     */
+    protected boolean checkCreateInstance(AeBaseDef aDef) {
+        boolean rVal = false;
+        if (aDef instanceof IAeActivityCreateInstanceDef) {
+            // OnMessage, Receive and Pick.
+            if (((IAeActivityCreateInstanceDef) aDef).isCreateInstance()) {
+                setCreateActivityFound(true);
+                rVal = true;
+            }
+        }
+        return rVal;
+    }
 
-	/**
-	 * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityReceiveDef)
-	 */
-	public void visit(AeActivityReceiveDef def) {
-		mReceiveActivityRefCount++;
-		if (!checkCreateInstance(def)) {
-			addError(ERROR_NONPERSISTENT_ACTIVITY_NOT_ALLOWED,
-					new String[] { AeActivityReceiveDef.TAG_RECEIVE });
-		}
-		super.visit(def);
-	}
+    /**
+     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityReceiveDef)
+     */
+    public void visit(AeActivityReceiveDef def) {
+        mReceiveActivityRefCount++;
+        if (!checkCreateInstance(def)) {
+            addError(ERROR_NONPERSISTENT_ACTIVITY_NOT_ALLOWED,
+                    new String[]{AeActivityReceiveDef.TAG_RECEIVE});
+        }
+        super.visit(def);
+    }
 
-	/**
-	 * @see org.activebpel.rt.bpel.def.visitors.AeAbstractDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityPickDef)
-	 */
-	public void visit(AeActivityPickDef def) {
-		// fixme (MF) add tests for this class
-		mReceiveActivityRefCount++;
-		if (!checkCreateInstance(def)) {
-			addError(ERROR_NONPERSISTENT_ACTIVITY_NOT_ALLOWED,
-					new String[] { AeActivityPickDef.TAG_RECEIVE });
-		}
-		super.visit(def);
-	}
+    /**
+     * @see org.activebpel.rt.bpel.def.visitors.AeAbstractDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityPickDef)
+     */
+    public void visit(AeActivityPickDef def) {
+        // fixme (MF) add tests for this class
+        mReceiveActivityRefCount++;
+        if (!checkCreateInstance(def)) {
+            addError(ERROR_NONPERSISTENT_ACTIVITY_NOT_ALLOWED,
+                    new String[]{AeActivityPickDef.TAG_RECEIVE});
+        }
+        super.visit(def);
+    }
 
-	/**
-	 * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeOnMessageDef)
-	 */
-	public void visit(AeOnMessageDef def) {
-		// parent could be a 1.1 scope
-		if (!(def.getParent() instanceof AeActivityPickDef)) {
-			mReceiveActivityRefCount++;
-		}
-		if (!checkCreateInstance(def)) {
-			addError(ERROR_NONPERSISTENT_ACTIVITY_NOT_ALLOWED,
-					new String[] { AeOnMessageDef.TAG_ON_MESSAGE });
-		}
-		super.visit(def);
-	}
+    /**
+     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeOnMessageDef)
+     */
+    public void visit(AeOnMessageDef def) {
+        // parent could be a 1.1 scope
+        if (!(def.getParent() instanceof AeActivityPickDef)) {
+            mReceiveActivityRefCount++;
+        }
+        if (!checkCreateInstance(def)) {
+            addError(ERROR_NONPERSISTENT_ACTIVITY_NOT_ALLOWED,
+                    new String[]{AeOnMessageDef.TAG_ON_MESSAGE});
+        }
+        super.visit(def);
+    }
 
-	/**
-	 * @see org.activebpel.rt.bpel.def.visitors.AeAbstractDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeOnEventDef)
-	 */
-	public void visit(AeOnEventDef def) {
-		addError(ERROR_NONPERSISTENT_ACTIVITY_NOT_ALLOWED,
-				new String[] { AeOnEventDef.TAG_ON_MESSAGE });
-		super.visit(def);
-	}
+    /**
+     * @see org.activebpel.rt.bpel.def.visitors.AeAbstractDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeOnEventDef)
+     */
+    public void visit(AeOnEventDef def) {
+        addError(ERROR_NONPERSISTENT_ACTIVITY_NOT_ALLOWED,
+                new String[]{AeOnEventDef.TAG_ON_MESSAGE});
+        super.visit(def);
+    }
 
-	/**
-	 * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityWaitDef)
-	 */
-	public void visit(AeActivityWaitDef def) {
-		addError(ERROR_NONPERSISTENT_ACTIVITY_NOT_ALLOWED,
-				new String[] { AeActivityWaitDef.TAG_WAIT });
-		super.visit(def);
-	}
+    /**
+     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityWaitDef)
+     */
+    public void visit(AeActivityWaitDef def) {
+        addError(ERROR_NONPERSISTENT_ACTIVITY_NOT_ALLOWED,
+                new String[]{AeActivityWaitDef.TAG_WAIT});
+        super.visit(def);
+    }
 
-	/**
-	 * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeOnAlarmDef)
-	 */
-	public void visit(AeOnAlarmDef def) {
-		addError(ERROR_NONPERSISTENT_ACTIVITY_NOT_ALLOWED,
-				new String[] { AeOnAlarmDef.TAG_ON_ALARM });
-		super.visit(def);
-	}
+    /**
+     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeOnAlarmDef)
+     */
+    public void visit(AeOnAlarmDef def) {
+        addError(ERROR_NONPERSISTENT_ACTIVITY_NOT_ALLOWED,
+                new String[]{AeOnAlarmDef.TAG_ON_ALARM});
+        super.visit(def);
+    }
 
-	/**
-	 * Adds the error message to the error reporter
-	 * 
-	 * @param aErrorCode
-	 * @param aArgs
-	 */
-	protected void addError(String aErrorCode, Object[] aArgs) {
-		getReporter().addError(aErrorCode, aArgs, null);
-	}
+    /**
+     * Adds the error message to the error reporter
+     *
+     * @param aErrorCode
+     * @param aArgs
+     */
+    protected void addError(String aErrorCode, Object[] aArgs) {
+        getReporter().addError(aErrorCode, aArgs, null);
+    }
 
-	/**
-	 * Adds the warning message to the error reporter
-	 * 
-	 * @param aWarnCode
-	 * @param aArgs
-	 */
-	protected void addWarning(String aWarnCode, Object[] aArgs) {
-		getReporter().addWarning(aWarnCode, aArgs, null);
-	}
+    /**
+     * Adds the warning message to the error reporter
+     *
+     * @param aWarnCode
+     * @param aArgs
+     */
+    protected void addWarning(String aWarnCode, Object[] aArgs) {
+        getReporter().addWarning(aWarnCode, aArgs, null);
+    }
 }

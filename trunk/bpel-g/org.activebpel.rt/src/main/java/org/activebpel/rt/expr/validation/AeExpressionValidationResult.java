@@ -19,138 +19,138 @@ import org.activebpel.rt.expr.def.IAeExpressionParseResult;
  * <code>IAeExpressionValidationResult</code> interface is basically just a container for the various lists
  * required by the interface.
  */
-public class AeExpressionValidationResult implements IAeExpressionValidationResult
-{
-   /** List of info messages. */
-   private List<String> mInfoList;
-   /** The list of errors. */
-   private List<String> mErrors;
-   /** The list of warnings. */
-   private List<String> mWarnings;
-   /** Results of the parsing, will be null if the expression wasn't parsed */
-   private IAeExpressionParseResult mParseResult;
+public class AeExpressionValidationResult implements IAeExpressionValidationResult {
+    /**
+     * List of info messages.
+     */
+    private List<String> mInfoList;
+    /**
+     * The list of errors.
+     */
+    private List<String> mErrors;
+    /**
+     * The list of warnings.
+     */
+    private List<String> mWarnings;
+    /**
+     * Results of the parsing, will be null if the expression wasn't parsed
+     */
+    private IAeExpressionParseResult mParseResult;
 
-   /**
-    * Default constructor.
-    */
-   public AeExpressionValidationResult()
-   {
-      setInfoList(new LinkedList<String>());
-      setErrors(new LinkedList<String>());
-      setWarnings(new LinkedList<String>());
-   }
-   
-   /**
-    * @return Returns the infoList.
-    */
-   public List<String> getInfoList()
-   {
-      return mInfoList;
-   }
+    /**
+     * Default constructor.
+     */
+    public AeExpressionValidationResult() {
+        setInfoList(new LinkedList<String>());
+        setErrors(new LinkedList<String>());
+        setWarnings(new LinkedList<String>());
+    }
 
-   /**
-    * @param aInfoList The infoList to set.
-    */
-   public void setInfoList(List<String> aInfoList)
-   {
-      mInfoList = aInfoList;
-   }
+    /**
+     * @return Returns the infoList.
+     */
+    public List<String> getInfoList() {
+        return mInfoList;
+    }
 
-   /**
-    * @see org.activebpel.rt.expr.validation.IAeExpressionValidationResult#getErrors()
-    */
-   public List<String> getErrors()
-   {
-      return mErrors;
-   }
+    /**
+     * @param aInfoList The infoList to set.
+     */
+    public void setInfoList(List<String> aInfoList) {
+        mInfoList = aInfoList;
+    }
 
-   /**
-    * Setter for the errors.
-    * @param aErrors
-    */
-   protected void setErrors(List<String> aErrors)
-   {
-      mErrors = aErrors;
-   }
+    /**
+     * @see org.activebpel.rt.expr.validation.IAeExpressionValidationResult#getErrors()
+     */
+    public List<String> getErrors() {
+        return mErrors;
+    }
 
-   /**
-    * Adds an info to the info list.
-    * @param aInfo
-    */
-   public void addInfo(String aInfo)
-   {
-      getInfoList().add(aInfo);
-   }
+    /**
+     * Setter for the errors.
+     *
+     * @param aErrors
+     */
+    protected void setErrors(List<String> aErrors) {
+        mErrors = aErrors;
+    }
 
-   /**
-    * Adds a list of info messages to the internal info list.
-    * @param aInfoList
-    */
-   public void addInfo(List<String> aInfoList)
-   {
-      getInfoList().addAll(aInfoList);
-   }   
-   
-   /**
-    * Adds an error to the list of errors.
-    * @param aError
-    */
-   public void addError(String aError)
-   {
-      getErrors().add(aError);
-   }
+    /**
+     * Adds an info to the info list.
+     *
+     * @param aInfo
+     */
+    public void addInfo(String aInfo) {
+        getInfoList().add(aInfo);
+    }
 
-   /**
-    * Adds a list of errors to the internal error list.
-    * @param aErrors
-    */
-   public void addErrors(List<String> aErrors)
-   {
-      getErrors().addAll(aErrors);
-   }
+    /**
+     * Adds a list of info messages to the internal info list.
+     *
+     * @param aInfoList
+     */
+    public void addInfo(List<String> aInfoList) {
+        getInfoList().addAll(aInfoList);
+    }
 
-   /**
-    * Adds a warning to the list of errors.
-    * @param aWarning
-    */
-   public void addWarning(String aWarning)
-   {
-      getWarnings().add(aWarning);
-   }
+    /**
+     * Adds an error to the list of errors.
+     *
+     * @param aError
+     */
+    public void addError(String aError) {
+        getErrors().add(aError);
+    }
 
-   /**
-    * Gets the list of warnings.
-    */
-   public List<String> getWarnings()
-   {
-      return mWarnings;
-   }
+    /**
+     * Adds a list of errors to the internal error list.
+     *
+     * @param aErrors
+     */
+    public void addErrors(List<String> aErrors) {
+        getErrors().addAll(aErrors);
+    }
 
-   /**
-    * Sets the list of warnings.
-    * 
-    * @param aWarnings
-    */
-   protected void setWarnings(List<String> aWarnings)
-   {
-      mWarnings = aWarnings;
-   }
+    /**
+     * Adds a warning to the list of errors.
+     *
+     * @param aWarning
+     */
+    public void addWarning(String aWarning) {
+        getWarnings().add(aWarning);
+    }
 
-   /**
-    * @see org.activebpel.rt.expr.validation.IAeExpressionValidationResult#getParseResult()
-    */
-   public IAeExpressionParseResult getParseResult()
-   {
-      return mParseResult;
-   }
-   
-   /**
-    * Setter for the parse result
-    * @param aResult
-    */
-   public void setParseResult(IAeExpressionParseResult aResult)
-   {
-      mParseResult = aResult;
-   }
+    /**
+     * Gets the list of warnings.
+     */
+    public List<String> getWarnings() {
+        return mWarnings;
+    }
+
+    /**
+     * Sets the list of warnings.
+     *
+     * @param aWarnings
+     */
+    protected void setWarnings(List<String> aWarnings) {
+        mWarnings = aWarnings;
+    }
+
+    /**
+     * @see org.activebpel.rt.expr.validation.IAeExpressionValidationResult#getParseResult()
+     */
+    public IAeExpressionParseResult getParseResult() {
+        return mParseResult;
+    }
+
+    /**
+     * Setter for the parse result
+     *
+     * @param aResult
+     */
+    public void setParseResult(IAeExpressionParseResult aResult) {
+        mParseResult = aResult;
+    }
 
 }

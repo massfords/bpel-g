@@ -21,76 +21,69 @@ import org.jaxen.XPathFunctionContext;
  * This class implements a jaxen function context from an ActiveBPEL function context.  This class
  * basically wraps a generic ActiveBPEL function context and delegates calls to it.
  */
-public class AeXPathFunctionContext implements FunctionContext
-{
-   /** The expression runner context. */
-   private IAeFunctionExecutionContext mFunctionExecContext;
-   /** The default Jaxen function context to use. */
-   private FunctionContext mDefaultContext;
+public class AeXPathFunctionContext implements FunctionContext {
+    /**
+     * The expression runner context.
+     */
+    private IAeFunctionExecutionContext mFunctionExecContext;
+    /**
+     * The default Jaxen function context to use.
+     */
+    private FunctionContext mDefaultContext;
 
-   /**
-    * Constructs an xpath function context from the given the expression runner context.
-    * 
-    * @param aFuncExecContext
-    */
-   public AeXPathFunctionContext(IAeFunctionExecutionContext aFuncExecContext)
-   {
-      setFunctionExecContext(aFuncExecContext);
-      setDefaultContext(XPathFunctionContext.getInstance());
-   }
+    /**
+     * Constructs an xpath function context from the given the expression runner context.
+     *
+     * @param aFuncExecContext
+     */
+    public AeXPathFunctionContext(IAeFunctionExecutionContext aFuncExecContext) {
+        setFunctionExecContext(aFuncExecContext);
+        setDefaultContext(XPathFunctionContext.getInstance());
+    }
 
-   /**
-    * @see org.jaxen.FunctionContext#getFunction(java.lang.String, java.lang.String, java.lang.String)
-    */
-   public Function getFunction(String aNamespaceURI, String aPrefix, String aLocalName)
-         throws UnresolvableException
-   {
-      try
-      {
-         IAeFunction function = getFunctionExecContext().getFunctionFactory().getFunction(aNamespaceURI, aLocalName);
-         if (function != null)
-         {
-            return new AeXPathFunction(function, getFunctionExecContext());
-         }
-      }
-      catch (AeUnresolvableException aException)
-      {
-         aException.logError();
-         throw new UnresolvableException(aException.getLocalizedMessage());
-      }
+    /**
+     * @see org.jaxen.FunctionContext#getFunction(java.lang.String, java.lang.String, java.lang.String)
+     */
+    public Function getFunction(String aNamespaceURI, String aPrefix, String aLocalName)
+            throws UnresolvableException {
+        try {
+            IAeFunction function = getFunctionExecContext().getFunctionFactory().getFunction(aNamespaceURI, aLocalName);
+            if (function != null) {
+                return new AeXPathFunction(function, getFunctionExecContext());
+            }
+        } catch (AeUnresolvableException aException) {
+            aException.logError();
+            throw new UnresolvableException(aException.getLocalizedMessage());
+        }
 
-      return getDefaultContext().getFunction(aNamespaceURI, aPrefix, aLocalName);
-   }
+        return getDefaultContext().getFunction(aNamespaceURI, aPrefix, aLocalName);
+    }
 
-   /**
-    * @return Returns the defaultContext.
-    */
-   protected FunctionContext getDefaultContext()
-   {
-      return mDefaultContext;
-   }
+    /**
+     * @return Returns the defaultContext.
+     */
+    protected FunctionContext getDefaultContext() {
+        return mDefaultContext;
+    }
 
-   /**
-    * @param aDefaultContext The defaultContext to set.
-    */
-   protected void setDefaultContext(FunctionContext aDefaultContext)
-   {
-      mDefaultContext = aDefaultContext;
-   }
+    /**
+     * @param aDefaultContext The defaultContext to set.
+     */
+    protected void setDefaultContext(FunctionContext aDefaultContext) {
+        mDefaultContext = aDefaultContext;
+    }
 
-   /**
-    * @return Returns the runnerContext.
-    */
-   protected IAeFunctionExecutionContext getFunctionExecContext()
-   {
-      return mFunctionExecContext;
-   }
+    /**
+     * @return Returns the runnerContext.
+     */
+    protected IAeFunctionExecutionContext getFunctionExecContext() {
+        return mFunctionExecContext;
+    }
 
-   /**
-    * @param aFuncExecContext The function execution context to set.
-    */
-   protected void setFunctionExecContext(IAeFunctionExecutionContext aFuncExecContext)
-   {
-      mFunctionExecContext = aFuncExecContext;
-   }
+    /**
+     * @param aFuncExecContext The function execution context to set.
+     */
+    protected void setFunctionExecContext(IAeFunctionExecutionContext aFuncExecContext) {
+        mFunctionExecContext = aFuncExecContext;
+    }
 }

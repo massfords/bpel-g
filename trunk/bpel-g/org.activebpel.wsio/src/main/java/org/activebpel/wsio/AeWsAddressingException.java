@@ -11,51 +11,48 @@ package org.activebpel.wsio;
 
 /**
  * Exception thrown by addressing layer when a set of headers
- * violates the rules set by WS-Addressing  
+ * violates the rules set by WS-Addressing
  */
-public class AeWsAddressingException extends Exception
-{
+public class AeWsAddressingException extends Exception {
 
-   /**
-     * 
+    /**
+     *
      */
     private static final long serialVersionUID = -3519843891720068498L;
 
-/**
-    * Default Constructor
-    *
-    */
-   public AeWsAddressingException()
-   {
-      super();
-   }
+    /**
+     * Default Constructor
+     */
+    public AeWsAddressingException() {
+        super();
+    }
 
-   /**
-    * Constructor with additional message text
-    * @param aMessage
-    */
-   public AeWsAddressingException(String aMessage)
-   {
-      super(aMessage);
-   }
+    /**
+     * Constructor with additional message text
+     *
+     * @param aMessage
+     */
+    public AeWsAddressingException(String aMessage) {
+        super(aMessage);
+    }
 
-   /**
-    * Constructor with additional message text and root cause
-    * @param aMessage
-    * @param aCause
-    */
-   public AeWsAddressingException(String aMessage, Throwable aCause)
-   {
-      super(aMessage, aCause);
-   }
+    /**
+     * Constructor with additional message text and root cause
+     *
+     * @param aMessage
+     * @param aCause
+     */
+    public AeWsAddressingException(String aMessage, Throwable aCause) {
+        super(aMessage, aCause);
+    }
 
-   /**
-    * Constructor with a root cause only
-    * @param aCause
-    */
-   public AeWsAddressingException(Throwable aCause)
-   {
-      super(aCause);
-   }
+    /**
+     * Constructor with a root cause only
+     *
+     * @param aCause
+     */
+    public AeWsAddressingException(Throwable aCause) {
+        super(aCause);
+    }
 
 }

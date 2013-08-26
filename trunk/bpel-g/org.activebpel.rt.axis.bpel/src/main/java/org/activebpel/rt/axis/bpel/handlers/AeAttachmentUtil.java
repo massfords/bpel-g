@@ -26,59 +26,54 @@ import org.apache.axis.Message;
 /**
  * Attachment utilities for common attachment related functions
  */
-public class AeAttachmentUtil
-{
+public class AeAttachmentUtil {
 
-   public static List<IAeWebServiceAttachment> soap2wsioAttachments(Message aMessage) throws Exception
-   {
-      return soap2wsioAttachments(aMessage, null);
-   }
-   /**
-    * Extracts inbound SOAP Attachments and converts them to WSIO attachments
-    * @param aMessage axis soap message
-    * @param aPrincipalName principal name -may be null.
-    * @return List of attachments
-    * @see IAeWebServiceAttachment
-    */
-   public static List<IAeWebServiceAttachment> soap2wsioAttachments(Message aMessage, String aPrincipalName) throws Exception
-   {
-      //todo: only AeBpelHandler passes in the principalname from the message context. Check
-      // if the following needs to pass in principal name as well:
-      // AeSOAPInvoker::receiveAttachments(), AeActiveBpelAdminImpl::addAttachment() and AeActiveBPELAdminEndpointImpl::addAttachment()
-      
-      @SuppressWarnings("unchecked")
-      Iterator<AttachmentPart> attachmentItr = aMessage.getAttachments();
-      List<IAeWebServiceAttachment> attachments = null;
+    public static List<IAeWebServiceAttachment> soap2wsioAttachments(Message aMessage) throws Exception {
+        return soap2wsioAttachments(aMessage, null);
+    }
 
-      // A soap message can have 0..n attachment parts
-      while (attachmentItr.hasNext())
-      {
-         // Convert the Mime headers of the attachment part to a Map, add the map to the attachment
-         AttachmentPart attachPart = attachmentItr.next();
-         Map<String, String> mimeHeaderPairs = new HashMap<>();
-         for (@SuppressWarnings("unchecked")
-        		 Iterator<MimeHeader> mimeItr = attachPart.getAllMimeHeaders(); mimeItr.hasNext();)
-         {
-            MimeHeader pair = mimeItr.next();
-            mimeHeaderPairs.put(pair.getName(), pair.getValue());
-         }
-         // add principal if available
-         if (AeUtil.notNullOrEmpty(aPrincipalName))
-         {
-            mimeHeaderPairs.put(IAeWebServiceAttachment.AE_ATTACHED_BY, aPrincipalName);
-         }
+    /**
+     * Extracts inbound SOAP Attachments and converts them to WSIO attachments
+     *
+     * @param aMessage       axis soap message
+     * @param aPrincipalName principal name -may be null.
+     * @return List of attachments
+     * @see IAeWebServiceAttachment
+     */
+    public static List<IAeWebServiceAttachment> soap2wsioAttachments(Message aMessage, String aPrincipalName) throws Exception {
+        //todo: only AeBpelHandler passes in the principalname from the message context. Check
+        // if the following needs to pass in principal name as well:
+        // AeSOAPInvoker::receiveAttachments(), AeActiveBpelAdminImpl::addAttachment() and AeActiveBPELAdminEndpointImpl::addAttachment()
 
-         // create an attachment with headers and content
-         AeWebServiceAttachment attachment = new AeWebServiceAttachment(attachPart.getDataHandler()
-               .getInputStream(), mimeHeaderPairs);
+        @SuppressWarnings("unchecked")
+        Iterator<AttachmentPart> attachmentItr = aMessage.getAttachments();
+        List<IAeWebServiceAttachment> attachments = null;
 
-         // Add the attachment to the attachment list of the message
-         if ( attachments == null )
-         {
-            attachments = new LinkedList<>();
-         }
-         attachments.add(attachment);
-      }
-      return attachments;
-   }
+        // A soap message can have 0..n attachment parts
+        while (attachmentItr.hasNext()) {
+            // Convert the Mime headers of the attachment part to a Map, add the map to the attachment
+            AttachmentPart attachPart = attachmentItr.next();
+            Map<String, String> mimeHeaderPairs = new HashMap<>();
+            for (@SuppressWarnings("unchecked")
+                 Iterator<MimeHeader> mimeItr = attachPart.getAllMimeHeaders(); mimeItr.hasNext(); ) {
+                MimeHeader pair = mimeItr.next();
+                mimeHeaderPairs.put(pair.getName(), pair.getValue());
+            }
+            // add principal if available
+            if (AeUtil.notNullOrEmpty(aPrincipalName)) {
+                mimeHeaderPairs.put(IAeWebServiceAttachment.AE_ATTACHED_BY, aPrincipalName);
+            }
+
+            // create an attachment with headers and content
+            AeWebServiceAttachment attachment = new AeWebServiceAttachment(attachPart.getDataHandler()
+                    .getInputStream(), mimeHeaderPairs);
+
+            // Add the attachment to the attachment list of the message
+            if (attachments == null) {
+                attachments = new LinkedList<>();
+            }
+            attachments.add(attachment);
+        }
+        return attachments;
+    }
 }

@@ -7,23 +7,22 @@
 //Active Endpoints, Inc. Removal of this PROPRIETARY RIGHTS STATEMENT 
 //is strictly forbidden. Copyright (c) 2002-2004 All rights reserved. 
 /////////////////////////////////////////////////////////////////////////////
-package org.activebpel.rt.bpel.impl.list; 
+package org.activebpel.rt.bpel.impl.list;
 
 /**
  * Describes the methods necessary for a filter to be used with the <code>AeListingResultSetHandler</code>
  */
-public interface IAeListingFilter
-{
+public interface IAeListingFilter {
 
-   /**
-    * The position within the result set to start reading rows.
-    */
-   public int getListStart();
+    /**
+     * The position within the result set to start reading rows.
+     */
+    public int getListStart();
 
-   /**
-    * The max number of rows to return for display in the ui.
-    */
-   public int getMaxReturn();
+    /**
+     * The max number of rows to return for display in the ui.
+     */
+    public int getMaxReturn();
 
 }
  

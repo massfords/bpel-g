@@ -15,13 +15,12 @@ import java.util.List;
 /**
  *
  */
-public interface IAeWSResourceValidationRuleRegistry
-{
-   /**
-    * Returns a list of IAeWSResourceValidationRule instances for the
-    * given web service resource type (wsdl, xsd, etc...).
-    * 
-    * @param aWSResourceType
-    */
-   public List<IAeWSResourceValidationRule> getRules(String aWSResourceType);
+public interface IAeWSResourceValidationRuleRegistry {
+    /**
+     * Returns a list of IAeWSResourceValidationRule instances for the
+     * given web service resource type (wsdl, xsd, etc...).
+     *
+     * @param aWSResourceType
+     */
+    public List<IAeWSResourceValidationRule> getRules(String aWSResourceType);
 }

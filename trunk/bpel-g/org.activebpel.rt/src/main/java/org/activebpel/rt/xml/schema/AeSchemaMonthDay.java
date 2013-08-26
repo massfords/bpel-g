@@ -7,7 +7,7 @@
 //Active Endpoints, Inc. Removal of this PROPRIETARY RIGHTS STATEMENT 
 //is strictly forbidden. Copyright (c) 2002-2006 All rights reserved. 
 /////////////////////////////////////////////////////////////////////////////
-package org.activebpel.rt.xml.schema; 
+package org.activebpel.rt.xml.schema;
 
 import java.util.SimpleTimeZone;
 import java.util.regex.Matcher;
@@ -17,136 +17,129 @@ import org.activebpel.rt.util.AeUtil;
 
 
 /**
- * Schema type for calendar field: gMonthDay  
+ * Schema type for calendar field: gMonthDay
  */
-public class AeSchemaMonthDay extends AeAbstractTZBasedSchemaType
-{
-   /** A regular expression for matching schema month-day strings. */
-   private static final Pattern INPUT_PATTERN = Pattern.compile("--([0-9]{2})-([0-9]{2})(Z|(([+-])([0-9]{2}):([0-9]{2})))?"); //$NON-NLS-1$
-   /** The output pattern. */
-   private static final String OUTPUT_PATTERN = "--{0,number,00}-{1,number,00}{2}"; //$NON-NLS-1$
+public class AeSchemaMonthDay extends AeAbstractTZBasedSchemaType {
+    /**
+     * A regular expression for matching schema month-day strings.
+     */
+    private static final Pattern INPUT_PATTERN = Pattern.compile("--([0-9]{2})-([0-9]{2})(Z|(([+-])([0-9]{2}):([0-9]{2})))?"); //$NON-NLS-1$
+    /**
+     * The output pattern.
+     */
+    private static final String OUTPUT_PATTERN = "--{0,number,00}-{1,number,00}{2}"; //$NON-NLS-1$
 
-   /** The month. */
-   private int mMonth;
-   /** The day. */
-   private int mDay;
+    /**
+     * The month.
+     */
+    private int mMonth;
+    /**
+     * The day.
+     */
+    private int mDay;
 
-   /**
-    * Creates the schema monthDay object.
-    * 
-    * @param aMonth
-    * @param aDay
-    * @param aTimezoneOffset The timezone offset (in minutes from UTC)
-    */
-   public AeSchemaMonthDay(int aMonth, int aDay, int aTimezoneOffset)
-   {
-      setMonth(aMonth);
-      setDay(aDay);
-      setTimeZone(new SimpleTimeZone(aTimezoneOffset * 60000, "")); //$NON-NLS-1$
-   }
-   
-   /**
-    * Ctor takes string: --MM-DD where MM is 1-12 and DD is 1-31
-    * @param aValue
-    */
-   public AeSchemaMonthDay(String aValue)
-   {
-      super(aValue);
-   }
+    /**
+     * Creates the schema monthDay object.
+     *
+     * @param aMonth
+     * @param aDay
+     * @param aTimezoneOffset The timezone offset (in minutes from UTC)
+     */
+    public AeSchemaMonthDay(int aMonth, int aDay, int aTimezoneOffset) {
+        setMonth(aMonth);
+        setDay(aDay);
+        setTimeZone(new SimpleTimeZone(aTimezoneOffset * 60000, "")); //$NON-NLS-1$
+    }
 
-   /**
-    * @see org.activebpel.rt.xml.schema.AeAbstractPatternBasedSchemaType#getInputPattern()
-    */
-   protected Pattern getInputPattern()
-   {
-      return INPUT_PATTERN;
-   }
+    /**
+     * Ctor takes string: --MM-DD where MM is 1-12 and DD is 1-31
+     *
+     * @param aValue
+     */
+    public AeSchemaMonthDay(String aValue) {
+        super(aValue);
+    }
 
-   /**
-    * @see org.activebpel.rt.xml.schema.AeAbstractPatternBasedSchemaType#processMatcher(java.util.regex.Matcher)
-    */
-   protected void processMatcher(Matcher aMatcher)
-   {
-      String monthStr = aMatcher.group(1);
-      String dayStr = aMatcher.group(2);
-      setMonth(Integer.parseInt(monthStr));
-      setDay(Integer.parseInt(dayStr));
+    /**
+     * @see org.activebpel.rt.xml.schema.AeAbstractPatternBasedSchemaType#getInputPattern()
+     */
+    protected Pattern getInputPattern() {
+        return INPUT_PATTERN;
+    }
 
-      boolean isUTC = (AeUtil.isNullOrEmpty(aMatcher.group(3))) || ("Z".equals(aMatcher.group(3))); //$NON-NLS-1$
-      if (!isUTC)
-      {
-         char tzDir = aMatcher.group(5).charAt(0);
-         String tzHr = aMatcher.group(6);
-         String tzMin = aMatcher.group(7);
-         setTimeZone(createTimeZone(tzHr, tzMin, tzDir));
-      }
-      else
-      {
-         setTimeZone(sUTCTimeZone);
-      }
-   }
+    /**
+     * @see org.activebpel.rt.xml.schema.AeAbstractPatternBasedSchemaType#processMatcher(java.util.regex.Matcher)
+     */
+    protected void processMatcher(Matcher aMatcher) {
+        String monthStr = aMatcher.group(1);
+        String dayStr = aMatcher.group(2);
+        setMonth(Integer.parseInt(monthStr));
+        setDay(Integer.parseInt(dayStr));
 
-   /**
-    * @see org.activebpel.rt.xml.schema.AeAbstractPatternBasedSchemaType#getSchemaTypeName()
-    */
-   protected String getSchemaTypeName()
-   {
-      return "xsd:gMonthDay"; //$NON-NLS-1$
-   }
+        boolean isUTC = (AeUtil.isNullOrEmpty(aMatcher.group(3))) || ("Z".equals(aMatcher.group(3))); //$NON-NLS-1$
+        if (!isUTC) {
+            char tzDir = aMatcher.group(5).charAt(0);
+            String tzHr = aMatcher.group(6);
+            String tzMin = aMatcher.group(7);
+            setTimeZone(createTimeZone(tzHr, tzMin, tzDir));
+        } else {
+            setTimeZone(sUTCTimeZone);
+        }
+    }
 
-   /**
-    * @see org.activebpel.rt.xml.schema.AeAbstractPatternBasedSchemaType#getOutputPatternArguments()
-    */
-   protected Object[] getOutputPatternArguments()
-   {
-      return new Object[] {getMonth(), getDay(), formatTimeZone() };
-   }
+    /**
+     * @see org.activebpel.rt.xml.schema.AeAbstractPatternBasedSchemaType#getSchemaTypeName()
+     */
+    protected String getSchemaTypeName() {
+        return "xsd:gMonthDay"; //$NON-NLS-1$
+    }
 
-   /**
-    * @see org.activebpel.rt.xml.schema.AeAbstractPatternBasedSchemaType#getOutputPattern()
-    */
-   protected String getOutputPattern()
-   {
-      return OUTPUT_PATTERN;
-   }
+    /**
+     * @see org.activebpel.rt.xml.schema.AeAbstractPatternBasedSchemaType#getOutputPatternArguments()
+     */
+    protected Object[] getOutputPatternArguments() {
+        return new Object[]{getMonth(), getDay(), formatTimeZone()};
+    }
 
-   /**
-    * @return Returns the month.
-    */
-   public int getMonth()
-   {
-      return mMonth;
-   }
+    /**
+     * @see org.activebpel.rt.xml.schema.AeAbstractPatternBasedSchemaType#getOutputPattern()
+     */
+    protected String getOutputPattern() {
+        return OUTPUT_PATTERN;
+    }
 
-   /**
-    * @param aMonth The month to set.
-    */
-   protected void setMonth(int aMonth)
-   {
-      mMonth = aMonth;
-   }
+    /**
+     * @return Returns the month.
+     */
+    public int getMonth() {
+        return mMonth;
+    }
 
-   /**
-    * @return Returns the day.
-    */
-   public int getDay()
-   {
-      return mDay;
-   }
+    /**
+     * @param aMonth The month to set.
+     */
+    protected void setMonth(int aMonth) {
+        mMonth = aMonth;
+    }
 
-   /**
-    * @param aDay The day to set.
-    */
-   protected void setDay(int aDay)
-   {
-      mDay = aDay;
-   }
+    /**
+     * @return Returns the day.
+     */
+    public int getDay() {
+        return mDay;
+    }
 
-   /**
-    * @see org.activebpel.rt.xml.schema.IAeSchemaType#accept(org.activebpel.rt.xml.schema.IAeSchemaTypeVisitor)
-    */
-   public void accept(IAeSchemaTypeVisitor aVisitor)
-   {
-      aVisitor.visit(this);
-   }
+    /**
+     * @param aDay The day to set.
+     */
+    protected void setDay(int aDay) {
+        mDay = aDay;
+    }
+
+    /**
+     * @see org.activebpel.rt.xml.schema.IAeSchemaType#accept(org.activebpel.rt.xml.schema.IAeSchemaTypeVisitor)
+     */
+    public void accept(IAeSchemaTypeVisitor aVisitor) {
+        aVisitor.visit(this);
+    }
 }

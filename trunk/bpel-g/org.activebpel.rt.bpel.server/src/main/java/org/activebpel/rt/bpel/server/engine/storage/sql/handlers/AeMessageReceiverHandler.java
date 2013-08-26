@@ -19,18 +19,15 @@ import org.apache.commons.dbutils.ResultSetHandler;
 /**
  * Creates a result set handler that returns an <code>AeSQLMessageReceiver</code> object.
  */
-public class AeMessageReceiverHandler implements ResultSetHandler<AePersistedMessageReceiver>
-{
-   /**
-    * @see org.apache.commons.dbutils.ResultSetHandler#handle(java.sql.ResultSet)
-    */
-   public AePersistedMessageReceiver handle(ResultSet aResultSet) throws SQLException
-   {
-      AePersistedMessageReceiver rval = null;
-      if (aResultSet.next())
-      {
-         rval = AeSQLQueueStorageProvider.readSQLMessageReceiver(aResultSet);
-      }
-      return rval;
-   }
+public class AeMessageReceiverHandler implements ResultSetHandler<AePersistedMessageReceiver> {
+    /**
+     * @see org.apache.commons.dbutils.ResultSetHandler#handle(java.sql.ResultSet)
+     */
+    public AePersistedMessageReceiver handle(ResultSet aResultSet) throws SQLException {
+        AePersistedMessageReceiver rval = null;
+        if (aResultSet.next()) {
+            rval = AeSQLQueueStorageProvider.readSQLMessageReceiver(aResultSet);
+        }
+        return rval;
+    }
 }

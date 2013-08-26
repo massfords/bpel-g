@@ -29,69 +29,62 @@ import java.util.Iterator;
  * Emit a warning for static endpoint references with service names if
  * we can't find a matching port in the catalog.
  */
-public class AeStaticEndpointReferenceValidator
-{
-   // WARNING constants
-   private static final String COULD_NOT_FIND_PORT = AeMessages.getString("AeStaticEndpointReferenceValidator.NO_PORT_FOUND"); //$NON-NLS-1$
+public class AeStaticEndpointReferenceValidator {
+    // WARNING constants
+    private static final String COULD_NOT_FIND_PORT = AeMessages.getString("AeStaticEndpointReferenceValidator.NO_PORT_FOUND"); //$NON-NLS-1$
 
-   /**
-    * Validates a partner reference against the WSDL.
-    * 
-    * @param aReporter
-    * @param aPartnerReference
-    * @param aWsdlProvider
-    * @param aProcessName
-    */
-   private static void validatePartnerReference(IAeBaseErrorReporter aReporter,
-         IAeEndpointReference aPartnerReference, IAeWSDLProvider aWsdlProvider, String aProcessName)
-   {
-      if (aPartnerReference != null && aPartnerReference.getServiceName() != null)
-      {
-         AeBPELExtendedWSDLDef wsdlDef = AeWSDLDefHelper.getWSDLDefinitionForService( aWsdlProvider, aPartnerReference.getServiceName() );
-         if( wsdlDef != null )
-         {
-            Service wsdlService = wsdlDef.getServices().get( aPartnerReference.getServiceName() );
-            
-            if( wsdlService != null && wsdlService.getPort( aPartnerReference.getServicePort() ) == null )
-            {
-               String[] args = { aProcessName, aPartnerReference.getServicePort(), AeUtil.qNameToString(aPartnerReference.getServiceName()) };
-               aReporter.addWarning( COULD_NOT_FIND_PORT, args, null );
+    /**
+     * Validates a partner reference against the WSDL.
+     *
+     * @param aReporter
+     * @param aPartnerReference
+     * @param aWsdlProvider
+     * @param aProcessName
+     */
+    private static void validatePartnerReference(IAeBaseErrorReporter aReporter,
+                                                 IAeEndpointReference aPartnerReference, IAeWSDLProvider aWsdlProvider, String aProcessName) {
+        if (aPartnerReference != null && aPartnerReference.getServiceName() != null) {
+            AeBPELExtendedWSDLDef wsdlDef = AeWSDLDefHelper.getWSDLDefinitionForService(aWsdlProvider, aPartnerReference.getServiceName());
+            if (wsdlDef != null) {
+                Service wsdlService = wsdlDef.getServices().get(aPartnerReference.getServiceName());
+
+                if (wsdlService != null && wsdlService.getPort(aPartnerReference.getServicePort()) == null) {
+                    String[] args = {aProcessName, aPartnerReference.getServicePort(), AeUtil.qNameToString(aPartnerReference.getServiceName())};
+                    aReporter.addWarning(COULD_NOT_FIND_PORT, args, null);
+                }
             }
-         }
-      }
-   }
-   
-   /**
-    * Emit a warning for static endpoint references with service names if
-    * we can't find a matching port in the catalog.
-    * @param aReporter
-    * @param aDeployment
-    */
-   public static void validate(IAeBaseErrorReporter aReporter, IAeProcessDeployment aDeployment)
-   {
-      for (Iterator it = aDeployment.getProcessDef().getAllPartnerLinkDefs(); it.hasNext(); )
-      {
-         AePartnerLinkDef plinkDef = (AePartnerLinkDef) it.next();
+        }
+    }
 
-         IAeEndpointReference partnerRef = aDeployment.getPartnerEndpointRef(plinkDef.getLocationPath());
-         validatePartnerReference(aReporter, partnerRef,  aDeployment, aDeployment.getProcessDef().getName());
-      }
-   }
-   
-   /**
-    * Emit a warning for static endpoint references with service names if
-    * we can't find a matching port in the catalog.
-    * 
-    * @param aReporter
-    * @param aProvider
-    * @param aSource
-    */
-   public static void validate(IAeBaseErrorReporter aReporter, IAeContextWSDLProvider aProvider,
-         IAeDeploymentSource aSource)
-   {
-       for (AePartnerLinkDescriptor desc : aSource.getPartnerLinkDescriptors()) {
-           IAeEndpointReference partnerRef = desc.getPartnerEndpointReference();
-           validatePartnerReference(aReporter, partnerRef, aProvider, aSource.getProcessDef().getName());
-       }
-   }
+    /**
+     * Emit a warning for static endpoint references with service names if
+     * we can't find a matching port in the catalog.
+     *
+     * @param aReporter
+     * @param aDeployment
+     */
+    public static void validate(IAeBaseErrorReporter aReporter, IAeProcessDeployment aDeployment) {
+        for (Iterator it = aDeployment.getProcessDef().getAllPartnerLinkDefs(); it.hasNext(); ) {
+            AePartnerLinkDef plinkDef = (AePartnerLinkDef) it.next();
+
+            IAeEndpointReference partnerRef = aDeployment.getPartnerEndpointRef(plinkDef.getLocationPath());
+            validatePartnerReference(aReporter, partnerRef, aDeployment, aDeployment.getProcessDef().getName());
+        }
+    }
+
+    /**
+     * Emit a warning for static endpoint references with service names if
+     * we can't find a matching port in the catalog.
+     *
+     * @param aReporter
+     * @param aProvider
+     * @param aSource
+     */
+    public static void validate(IAeBaseErrorReporter aReporter, IAeContextWSDLProvider aProvider,
+                                IAeDeploymentSource aSource) {
+        for (AePartnerLinkDescriptor desc : aSource.getPartnerLinkDescriptors()) {
+            IAeEndpointReference partnerRef = desc.getPartnerEndpointReference();
+            validatePartnerReference(aReporter, partnerRef, aProvider, aSource.getProcessDef().getName());
+        }
+    }
 }

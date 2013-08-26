@@ -18,76 +18,73 @@ import org.activebpel.rt.bpel.server.AeMessages;
 /**
  * Implements a recovered item to schedule an alarm.
  */
-public class AeRecoveredScheduleAlarmItem extends AeRecoveredLocationIdItem
-{
-   /** The alarm's group id. */
-   private final int mGroupId;
-   /** The alarm deadline. */
-   private final Date mDeadline;
-   /** The alarm execution id. */
-   private final int mAlarmId;
+public class AeRecoveredScheduleAlarmItem extends AeRecoveredLocationIdItem {
+    /**
+     * The alarm's group id.
+     */
+    private final int mGroupId;
+    /**
+     * The alarm deadline.
+     */
+    private final Date mDeadline;
+    /**
+     * The alarm execution id.
+     */
+    private final int mAlarmId;
 
-   /**
-    * Constructs a recovered item to schedule an alarm.
-    */
-   public AeRecoveredScheduleAlarmItem(long aProcessId, int aLocationId, int aGroupId, int aAlarmId, Date aDeadline)
-   {
-      super(aProcessId, aLocationId);
-      mGroupId = aGroupId;
-      mDeadline = aDeadline;
-      mAlarmId = aAlarmId;
-   }
+    /**
+     * Constructs a recovered item to schedule an alarm.
+     */
+    public AeRecoveredScheduleAlarmItem(long aProcessId, int aLocationId, int aGroupId, int aAlarmId, Date aDeadline) {
+        super(aProcessId, aLocationId);
+        mGroupId = aGroupId;
+        mDeadline = aDeadline;
+        mAlarmId = aAlarmId;
+    }
 
-   /**
-    * Constructs a recovered item to match another schedule alarm item by
-    * location id.
-    */
-   public AeRecoveredScheduleAlarmItem(int aLocationId, int aAlarmId)
-   {
-      this(0, aLocationId, 0, aAlarmId, null);
-   }
+    /**
+     * Constructs a recovered item to match another schedule alarm item by
+     * location id.
+     */
+    public AeRecoveredScheduleAlarmItem(int aLocationId, int aAlarmId) {
+        this(0, aLocationId, 0, aAlarmId, null);
+    }
 
-   /**
-    * Returns the alarm deadline;
-    */
-   protected Date getDeadline()
-   {
-      return mDeadline;
-   }
+    /**
+     * Returns the alarm deadline;
+     */
+    protected Date getDeadline() {
+        return mDeadline;
+    }
 
-   /**
-    * Returns the alarm's group id.
-    */
-   protected int getGroupId()
-   {
-      return mGroupId;
-   }
-   
-   /**
-    * Returns the alarm id.
-    */
-   public int getAlarmId()
-   {
-      return mAlarmId;
-   }   
-   
-   /**
-    * @see org.activebpel.rt.bpel.server.engine.recovery.recovered.IAeRecoveredItem#queueItem(org.activebpel.rt.bpel.impl.IAeBusinessProcessEngineInternal)
-    */
-   public void queueItem(IAeBusinessProcessEngineInternal aTargetEngine) throws AeBusinessProcessException
-   {
-      if (getDeadline() == null)
-      {
-         throw new IllegalStateException(AeMessages.getString("AeRecoveredScheduleAlarmItem.ERROR_0")); //$NON-NLS-1$
-      }
-      aTargetEngine.scheduleAlarm(getProcessId(), getLocationId(), getGroupId(), getAlarmId(), getDeadline());
-   }
+    /**
+     * Returns the alarm's group id.
+     */
+    protected int getGroupId() {
+        return mGroupId;
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.server.engine.recovery.recovered.IAeRecoveredItem#isRemoval()
-    */
-   public boolean isRemoval()
-   {
-      return false;
-   }
+    /**
+     * Returns the alarm id.
+     */
+    public int getAlarmId() {
+        return mAlarmId;
+    }
+
+    /**
+     * @see org.activebpel.rt.bpel.server.engine.recovery.recovered.IAeRecoveredItem#queueItem(org.activebpel.rt.bpel.impl.IAeBusinessProcessEngineInternal)
+     */
+    public void queueItem(IAeBusinessProcessEngineInternal aTargetEngine) throws AeBusinessProcessException {
+        if (getDeadline() == null) {
+            throw new IllegalStateException(AeMessages.getString("AeRecoveredScheduleAlarmItem.ERROR_0")); //$NON-NLS-1$
+        }
+        aTargetEngine.scheduleAlarm(getProcessId(), getLocationId(), getGroupId(), getAlarmId(), getDeadline());
+    }
+
+    /**
+     * @see org.activebpel.rt.bpel.server.engine.recovery.recovered.IAeRecoveredItem#isRemoval()
+     */
+    public boolean isRemoval() {
+        return false;
+    }
 }

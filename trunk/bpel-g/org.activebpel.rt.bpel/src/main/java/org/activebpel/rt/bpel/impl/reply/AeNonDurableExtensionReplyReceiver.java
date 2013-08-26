@@ -12,36 +12,34 @@ package org.activebpel.rt.bpel.impl.reply;
 import org.activebpel.rt.bpel.impl.IAeBusinessProcessEngineInternal;
 
 /**
- * Non Durable reply receiver for extensions 
+ * Non Durable reply receiver for extensions
  */
-public class AeNonDurableExtensionReplyReceiver extends AeExtensionActivityReplyReceiver
-{
-   /** Reference to Engine */
-   private IAeBusinessProcessEngineInternal mEngine;
+public class AeNonDurableExtensionReplyReceiver extends AeExtensionActivityReplyReceiver {
+    /**
+     * Reference to Engine
+     */
+    private IAeBusinessProcessEngineInternal mEngine;
 
-   /**
-    * @param aProcessId
-    * @param aLocationPath
-    * @param aTransmissionId
-    */
-   public AeNonDurableExtensionReplyReceiver(long aProcessId, String aLocationPath, long aTransmissionId)
-   {
-      super(aProcessId, aLocationPath, aTransmissionId);
-   }
+    /**
+     * @param aProcessId
+     * @param aLocationPath
+     * @param aTransmissionId
+     */
+    public AeNonDurableExtensionReplyReceiver(long aProcessId, String aLocationPath, long aTransmissionId) {
+        super(aProcessId, aLocationPath, aTransmissionId);
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.impl.reply.AeExtensionActivityReplyReceiver#setEngine(org.activebpel.rt.bpel.impl.IAeBusinessProcessEngineInternal)
-    */
-   public void setEngine(IAeBusinessProcessEngineInternal aEngine)
-   {
-      mEngine = aEngine;
-   }
-   
-   /**
-    * @see org.activebpel.rt.bpel.impl.reply.AeExtensionActivityReplyReceiver#getEngine()
-    */
-   protected IAeBusinessProcessEngineInternal getEngine()
-   {
-      return mEngine;
-   }
+    /**
+     * @see org.activebpel.rt.bpel.impl.reply.AeExtensionActivityReplyReceiver#setEngine(org.activebpel.rt.bpel.impl.IAeBusinessProcessEngineInternal)
+     */
+    public void setEngine(IAeBusinessProcessEngineInternal aEngine) {
+        mEngine = aEngine;
+    }
+
+    /**
+     * @see org.activebpel.rt.bpel.impl.reply.AeExtensionActivityReplyReceiver#getEngine()
+     */
+    protected IAeBusinessProcessEngineInternal getEngine() {
+        return mEngine;
+    }
 }

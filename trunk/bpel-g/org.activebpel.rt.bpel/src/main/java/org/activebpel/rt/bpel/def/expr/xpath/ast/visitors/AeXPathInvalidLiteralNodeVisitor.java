@@ -20,64 +20,59 @@ import org.activebpel.rt.bpel.xpath.ast.visitors.AeAbstractXPathNodeVisitor;
 
 /**
  * This visitor will visit all of the nodes in the xpath AST and return a list of literals that
- * are not contained within functions.  This is used specifically for validating joing 
+ * are not contained within functions.  This is used specifically for validating joing
  * conditions, where literals cannot be used unless they are params to a function.
  */
-public class AeXPathInvalidLiteralNodeVisitor extends AeAbstractXPathNodeVisitor
-{
-   /** The list of invalid literals found during the visit. */
-   private List<AeXPathLiteralNode> mLiterals;
-   
-   /**
-    * Default c'tor.
-    */
-   public AeXPathInvalidLiteralNodeVisitor()
-   {
-      setLiterals(new LinkedList<AeXPathLiteralNode>());
-   }
+public class AeXPathInvalidLiteralNodeVisitor extends AeAbstractXPathNodeVisitor {
+    /**
+     * The list of invalid literals found during the visit.
+     */
+    private List<AeXPathLiteralNode> mLiterals;
 
-   /**
-    * @see org.activebpel.rt.bpel.xpath.ast.IAeXPathNodeVisitor#visit(org.activebpel.rt.bpel.xpath.ast.AeXPathLiteralNode)
-    */
-   public void visit(AeXPathLiteralNode aNode)
-   {
-      if (!hasFunctionParent(aNode))
-         getLiterals().add(aNode);
-   }
-   
-   /**
-    * Walks up the tree and returns true if it finds an instance of AeXPathFunctionNode.
-    * 
-    * @param aNode
-    */
-   protected boolean hasFunctionParent(AeAbstractXPathNode aNode)
-   {
-      AeAbstractXPathNode node = aNode.getParent();
-      
-      while (node != null)
-      {
-         if (node instanceof AeXPathFunctionNode)
-            return true;
-         else
-            node = node.getParent();
-      }
-      
-      return false;
-   }
+    /**
+     * Default c'tor.
+     */
+    public AeXPathInvalidLiteralNodeVisitor() {
+        setLiterals(new LinkedList<AeXPathLiteralNode>());
+    }
 
-   /**
-    * @return Returns the literals.
-    */
-   public List<AeXPathLiteralNode> getLiterals()
-   {
-      return mLiterals;
-   }
+    /**
+     * @see org.activebpel.rt.bpel.xpath.ast.IAeXPathNodeVisitor#visit(org.activebpel.rt.bpel.xpath.ast.AeXPathLiteralNode)
+     */
+    public void visit(AeXPathLiteralNode aNode) {
+        if (!hasFunctionParent(aNode))
+            getLiterals().add(aNode);
+    }
 
-   /**
-    * @param aLiterals The literals to set.
-    */
-   protected void setLiterals(List<AeXPathLiteralNode> aLiterals)
-   {
-      mLiterals = aLiterals;
-   }
+    /**
+     * Walks up the tree and returns true if it finds an instance of AeXPathFunctionNode.
+     *
+     * @param aNode
+     */
+    protected boolean hasFunctionParent(AeAbstractXPathNode aNode) {
+        AeAbstractXPathNode node = aNode.getParent();
+
+        while (node != null) {
+            if (node instanceof AeXPathFunctionNode)
+                return true;
+            else
+                node = node.getParent();
+        }
+
+        return false;
+    }
+
+    /**
+     * @return Returns the literals.
+     */
+    public List<AeXPathLiteralNode> getLiterals() {
+        return mLiterals;
+    }
+
+    /**
+     * @param aLiterals The literals to set.
+     */
+    protected void setLiterals(List<AeXPathLiteralNode> aLiterals) {
+        mLiterals = aLiterals;
+    }
 }

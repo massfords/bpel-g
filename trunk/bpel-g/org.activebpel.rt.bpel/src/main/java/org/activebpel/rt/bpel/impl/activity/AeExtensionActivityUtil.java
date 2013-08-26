@@ -26,120 +26,111 @@ import org.activebpel.wsio.receive.AeMessageContext;
 /**
  * Utility methods for use in the extension activities.
  */
-public class AeExtensionActivityUtil
-{
-   /**
-    * Queue some receive data onto the engine for extension activities.
-    * 
-    * @param aBpelObject
-    * @param aMessageData
-    * @param aMessageContext
-    * @param aOneway
-    * @throws AeBusinessProcessException
-    */
-   public static void queueReceiveData(IAeBpelObject aBpelObject, IAeMessageData aMessageData, AeMessageContext aMessageContext, boolean aOneway, long aTransmissionId) throws AeBusinessProcessException
-   {
-      IAeExtensionReplyReceiver replyReceiver = null;
-      IAeBusinessProcessEngineInternal engine = aBpelObject.getProcess().getEngine();
-      if (!aOneway)
-      {
-         long pid = aBpelObject.getProcess().getProcessId();
-         String locationPath = aBpelObject.getLocationPath();
+public class AeExtensionActivityUtil {
+    /**
+     * Queue some receive data onto the engine for extension activities.
+     *
+     * @param aBpelObject
+     * @param aMessageData
+     * @param aMessageContext
+     * @param aOneway
+     * @throws AeBusinessProcessException
+     */
+    public static void queueReceiveData(IAeBpelObject aBpelObject, IAeMessageData aMessageData, AeMessageContext aMessageContext, boolean aOneway, long aTransmissionId) throws AeBusinessProcessException {
+        IAeExtensionReplyReceiver replyReceiver = null;
+        IAeBusinessProcessEngineInternal engine = aBpelObject.getProcess().getEngine();
+        if (!aOneway) {
+            long pid = aBpelObject.getProcess().getProcessId();
+            String locationPath = aBpelObject.getLocationPath();
 
-         IAeDurableReplyInfo durableInfo = new AeExtensionActivityDurableInfo(pid, locationPath, aTransmissionId);
+            IAeDurableReplyInfo durableInfo = new AeExtensionActivityDurableInfo(pid, locationPath, aTransmissionId);
 
-         replyReceiver = (IAeExtensionReplyReceiver) engine.getTransmissionTracker().getDurableReplyFactory().createReplyReceiver(IAeTransmissionTracker.NULL_TRANSREC_ID, durableInfo);
-         replyReceiver.setEngine(engine);
-      }
-      IAeMessageAcknowledgeCallback callback = new AeTransmissionAcknowledged(aBpelObject.getProcess().getEngine().getTransmissionTracker(), aTransmissionId);
-      engine.queueReceiveData(aMessageData, replyReceiver, aMessageContext, callback, true);
-   }
-   
-   
-   /**
-    * Marks the message as having been transmitted when it is received by the 
-    * b4p impl process. 
-    */
-   protected static class AeTransmissionAcknowledged implements IAeMessageAcknowledgeCallback
-   {
-      /** transmission id */
-      private long mTransmissionId;
-      /** tracker */
-      private IAeTransmissionTracker mTracker;
-      
-      /**
-       * Ctor
-       * @param aTracker
-       * @param aTransmissionId
-       */
-      public AeTransmissionAcknowledged(IAeTransmissionTracker aTracker, long aTransmissionId)
-      {
-         setTransmissionId(aTransmissionId);
-         setTracker(aTracker);
-      }
+            replyReceiver = (IAeExtensionReplyReceiver) engine.getTransmissionTracker().getDurableReplyFactory().createReplyReceiver(IAeTransmissionTracker.NULL_TRANSREC_ID, durableInfo);
+            replyReceiver.setEngine(engine);
+        }
+        IAeMessageAcknowledgeCallback callback = new AeTransmissionAcknowledged(aBpelObject.getProcess().getEngine().getTransmissionTracker(), aTransmissionId);
+        engine.queueReceiveData(aMessageData, replyReceiver, aMessageContext, callback, true);
+    }
 
-      /**
-       * @see org.activebpel.wsio.IAeMessageAcknowledgeCallback#onAcknowledge(java.lang.String)
-       */
-      public void onAcknowledge(String aMessageId) throws AeMessageAcknowledgeException
-      {
-         recordTransmission(aMessageId);
-      }
 
-      /**
-       * @see org.activebpel.wsio.IAeMessageAcknowledgeCallback#onNotAcknowledge(java.lang.Throwable)
-       */
-      public void onNotAcknowledge(Throwable aReason)
-      {
-         recordTransmission(null);
-      }
-      
-      /**
-       * Records that the message was transmitted successfully
-       * @param aMessageId
-       */
-      protected void recordTransmission(String aMessageId)
-      {
-         try
-         {
-            getTracker().add(getTransmissionId(), aMessageId, IAeTransmissionTracker.TRANSMITTED_STATE);
-         }
-         catch (AeException e)
-         {
-            e.logError();
-         }
-      }
+    /**
+     * Marks the message as having been transmitted when it is received by the
+     * b4p impl process.
+     */
+    protected static class AeTransmissionAcknowledged implements IAeMessageAcknowledgeCallback {
+        /**
+         * transmission id
+         */
+        private long mTransmissionId;
+        /**
+         * tracker
+         */
+        private IAeTransmissionTracker mTracker;
 
-      /**
-       * @return the transmissionId
-       */
-      protected long getTransmissionId()
-      {
-         return mTransmissionId;
-      }
+        /**
+         * Ctor
+         *
+         * @param aTracker
+         * @param aTransmissionId
+         */
+        public AeTransmissionAcknowledged(IAeTransmissionTracker aTracker, long aTransmissionId) {
+            setTransmissionId(aTransmissionId);
+            setTracker(aTracker);
+        }
 
-      /**
-       * @param aTransmissionId the transmissionId to set
-       */
-      protected void setTransmissionId(long aTransmissionId)
-      {
-         mTransmissionId = aTransmissionId;
-      }
+        /**
+         * @see org.activebpel.wsio.IAeMessageAcknowledgeCallback#onAcknowledge(java.lang.String)
+         */
+        public void onAcknowledge(String aMessageId) throws AeMessageAcknowledgeException {
+            recordTransmission(aMessageId);
+        }
 
-      /**
-       * @return the tracker
-       */
-      protected IAeTransmissionTracker getTracker()
-      {
-         return mTracker;
-      }
+        /**
+         * @see org.activebpel.wsio.IAeMessageAcknowledgeCallback#onNotAcknowledge(java.lang.Throwable)
+         */
+        public void onNotAcknowledge(Throwable aReason) {
+            recordTransmission(null);
+        }
 
-      /**
-       * @param aTracker the tracker to set
-       */
-      protected void setTracker(IAeTransmissionTracker aTracker)
-      {
-         mTracker = aTracker;
-      }
-   }
+        /**
+         * Records that the message was transmitted successfully
+         *
+         * @param aMessageId
+         */
+        protected void recordTransmission(String aMessageId) {
+            try {
+                getTracker().add(getTransmissionId(), aMessageId, IAeTransmissionTracker.TRANSMITTED_STATE);
+            } catch (AeException e) {
+                e.logError();
+            }
+        }
+
+        /**
+         * @return the transmissionId
+         */
+        protected long getTransmissionId() {
+            return mTransmissionId;
+        }
+
+        /**
+         * @param aTransmissionId the transmissionId to set
+         */
+        protected void setTransmissionId(long aTransmissionId) {
+            mTransmissionId = aTransmissionId;
+        }
+
+        /**
+         * @return the tracker
+         */
+        protected IAeTransmissionTracker getTracker() {
+            return mTracker;
+        }
+
+        /**
+         * @param aTracker the tracker to set
+         */
+        protected void setTracker(IAeTransmissionTracker aTracker) {
+            mTracker = aTracker;
+        }
+    }
 }

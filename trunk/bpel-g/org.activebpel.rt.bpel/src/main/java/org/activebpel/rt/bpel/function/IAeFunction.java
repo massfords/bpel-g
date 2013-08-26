@@ -15,14 +15,13 @@ import java.util.List;
 /**
  * No op extension of <code>Function</code> interface.
  */
-public interface IAeFunction
-{
-   /**
-    * Call this function.
-    * 
-    * @param aContext The context at the point in the expression when the function is called.
-    * @param aArgs List of arguments provided during the call of the function.
-    * @see org.jaxen.Function#call(org.jaxen.Context, java.util.List)
-    */
-   public Object call(IAeFunctionExecutionContext aContext, List aArgs) throws AeFunctionCallException;
+public interface IAeFunction {
+    /**
+     * Call this function.
+     *
+     * @param aContext The context at the point in the expression when the function is called.
+     * @param aArgs    List of arguments provided during the call of the function.
+     * @see org.jaxen.Function#call(org.jaxen.Context, java.util.List)
+     */
+    public Object call(IAeFunctionExecutionContext aContext, List aArgs) throws AeFunctionCallException;
 }

@@ -12,14 +12,12 @@ package org.activebpel.rt.bpeladmin.war.graph.bpel.controller;
 /**
  * The AeBpelIfElseActivityController creates "container" figure for the if-elseif-else parts.
  */
-public class AeBpelIfElseActivityController extends AeBpelSwitchActivityController
-{
-   /**
-    * Default ctor.
-    */
-   public AeBpelIfElseActivityController()
-   {
-      super();
-   }
+public class AeBpelIfElseActivityController extends AeBpelSwitchActivityController {
+    /**
+     * Default ctor.
+     */
+    public AeBpelIfElseActivityController() {
+        super();
+    }
 
 }

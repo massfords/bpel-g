@@ -7,7 +7,7 @@
 //Active Endpoints, Inc. Removal of this PROPRIETARY RIGHTS STATEMENT 
 //is strictly forbidden. Copyright (c) 2002-2006 All rights reserved. 
 /////////////////////////////////////////////////////////////////////////////
-package org.activebpel.rt.bpel.def.validation.activity.scope; 
+package org.activebpel.rt.bpel.def.validation.activity.scope;
 
 import org.activebpel.rt.bpel.def.activity.support.AeRepeatEveryDef;
 import org.activebpel.rt.bpel.def.validation.expressions.AeDurationExpressionValidator;
@@ -15,15 +15,14 @@ import org.activebpel.rt.bpel.def.validation.expressions.AeDurationExpressionVal
 /**
  * model provides validation for repeatEvery activity
  */
-public class AeRepeatEveryValidator extends AeDurationExpressionValidator
-{
-   /**
-    * ctor
-    * @param aDef
-    */
-   public AeRepeatEveryValidator(AeRepeatEveryDef aDef)
-   {
-      super(aDef);
-   }
+public class AeRepeatEveryValidator extends AeDurationExpressionValidator {
+    /**
+     * ctor
+     *
+     * @param aDef
+     */
+    public AeRepeatEveryValidator(AeRepeatEveryDef aDef) {
+        super(aDef);
+    }
 }
  

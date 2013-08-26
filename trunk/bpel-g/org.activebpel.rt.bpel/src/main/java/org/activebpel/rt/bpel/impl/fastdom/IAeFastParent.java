@@ -14,23 +14,22 @@ import java.util.List;
 /**
  * Defines the interface for nodes that can be parents of other nodes.
  */
-public interface IAeFastParent
-{
-   /**
-    * Appends the specified child node to this node's child nodes.
-    */
-   public void appendChild(AeFastNode aChild);
+public interface IAeFastParent {
+    /**
+     * Appends the specified child node to this node's child nodes.
+     */
+    public void appendChild(AeFastNode aChild);
 
-   /**
-    * Returns <code>List</code> of this nodes's child nodes.
-    */
-   public List getChildNodes();
+    /**
+     * Returns <code>List</code> of this nodes's child nodes.
+     */
+    public List getChildNodes();
 
-   /**
-    * Removes the specified node from this node's child nodes.
-    *
-    * @param aChild
-    * @return <code>true</code> if and only if the removal occurred.
-    */
-   public boolean removeChild(AeFastNode aChild);
+    /**
+     * Removes the specified node from this node's child nodes.
+     *
+     * @param aChild
+     * @return <code>true</code> if and only if the removal occurred.
+     */
+    public boolean removeChild(AeFastNode aChild);
 }

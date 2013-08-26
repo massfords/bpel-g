@@ -19,126 +19,135 @@ import javax.xml.namespace.QName;
  * contains information about operations associated with this Property
  * Alias element.
  */
-public interface IAePropertyAlias extends Serializable
-{
-   /** constant indicates that this property alias is for a wsdl message */
-   public static final int MESSAGE_TYPE = 0;
-   /** constant indicates that this property alias is for a schema element */
-   public static final int ELEMENT_TYPE = 1;
-   /** constant indicates that this property alias is for a schema type */
-   public static final int TYPE = 2;
-   
-   /**
-    * Get the Property Name value.
-    * 
-    * @return QName the propertyName value.
-    */
-   public QName getPropertyName();
+public interface IAePropertyAlias extends Serializable {
+    /**
+     * constant indicates that this property alias is for a wsdl message
+     */
+    public static final int MESSAGE_TYPE = 0;
+    /**
+     * constant indicates that this property alias is for a schema element
+     */
+    public static final int ELEMENT_TYPE = 1;
+    /**
+     * constant indicates that this property alias is for a schema type
+     */
+    public static final int TYPE = 2;
 
-   /**
-    * Set the Property Name value.
-    * 
-    * @param aPropName QName propertyName.
-    */
-   public void setPropertyName(QName aPropName);
-   
-   /**
-    * Gets the QName of the underlying variable type without regard to whether its
-    * message, element, or a complex type. 
-    */
-   public QName getQName();
+    /**
+     * Get the Property Name value.
+     *
+     * @return QName the propertyName value.
+     */
+    public QName getPropertyName();
 
-   /**
-    * Get the Message name value.
-    * 
-    * @return QName the messageType value or null if not a prop alias for message type
-    */
-   public QName getMessageName();
-   
-   /**
-    * Set the Message name value.
-    * 
-    * @param aMsgType
-    */
-   public void setMessageName(QName aMsgType);
-   
-   /**
-    * Setter for the element name
-    * @param aElementName
-    */
-   public void setElementName(QName aElementName);
-   
-   /**
-    * Getter for the element name.
-    * @return QName or null if not a prop alias for element type
-    */
-   public QName getElementName();
-   
-   /**
-    * Setter for the type name
-    * 
-    * @param aTypeName
-    */
-   public void setTypeName(QName aTypeName);
-   
-   /**
-    * Getter for the type name
-    * @return QName or null if not a prop alias for a complex type
-    */
-   public QName getTypeName();
-   
-   /**
-    * Returns one of the constants above which indicate what type of variable this 
-    * prop alias is for (message, element, complex type)
-    */
-   public int getType();
+    /**
+     * Set the Property Name value.
+     *
+     * @param aPropName QName propertyName.
+     */
+    public void setPropertyName(QName aPropName);
 
-   /**
-    * Get the Part value.
-    * 
-    * @return String
-    */
-   public String getPart();
+    /**
+     * Gets the QName of the underlying variable type without regard to whether its
+     * message, element, or a complex type.
+     */
+    public QName getQName();
 
-   /**
-    * Set the Part value.
-    * 
-    * @param aPart
-    */
-   public void setPart(String aPart);
+    /**
+     * Get the Message name value.
+     *
+     * @return QName the messageType value or null if not a prop alias for message type
+     */
+    public QName getMessageName();
 
-   /**
-    * Get the Query value.
-    * 
-    * @return String
-    */
-   public String getQuery();
+    /**
+     * Set the Message name value.
+     *
+     * @param aMsgType
+     */
+    public void setMessageName(QName aMsgType);
 
-   /**
-    * Set the Query value.
-    * 
-    * @param aQuery
-    */
-   public void setQuery(String aQuery);
-   
-   /**
-    * Getter for the query language
-    */
-   public String getQueryLanguage();
-   
-   /**
-    * Setter for the query language
-    * @param aLanguage
-    */
-   public void setQueryLanguage(String aLanguage);
+    /**
+     * Setter for the element name
+     *
+     * @param aElementName
+     */
+    public void setElementName(QName aElementName);
 
-   /**
-    * Returns a hashtable of namespaces in use by this property alias.
-    */
-   public Map<String,String> getNamespaces();
+    /**
+     * Getter for the element name.
+     *
+     * @return QName or null if not a prop alias for element type
+     */
+    public QName getElementName();
 
-   /**
-    * Sets the namespaces in use by this property alias.
-    */
-   public void setNamespaces(Map<String,String> aNamespaces);
+    /**
+     * Setter for the type name
+     *
+     * @param aTypeName
+     */
+    public void setTypeName(QName aTypeName);
+
+    /**
+     * Getter for the type name
+     *
+     * @return QName or null if not a prop alias for a complex type
+     */
+    public QName getTypeName();
+
+    /**
+     * Returns one of the constants above which indicate what type of variable this
+     * prop alias is for (message, element, complex type)
+     */
+    public int getType();
+
+    /**
+     * Get the Part value.
+     *
+     * @return String
+     */
+    public String getPart();
+
+    /**
+     * Set the Part value.
+     *
+     * @param aPart
+     */
+    public void setPart(String aPart);
+
+    /**
+     * Get the Query value.
+     *
+     * @return String
+     */
+    public String getQuery();
+
+    /**
+     * Set the Query value.
+     *
+     * @param aQuery
+     */
+    public void setQuery(String aQuery);
+
+    /**
+     * Getter for the query language
+     */
+    public String getQueryLanguage();
+
+    /**
+     * Setter for the query language
+     *
+     * @param aLanguage
+     */
+    public void setQueryLanguage(String aLanguage);
+
+    /**
+     * Returns a hashtable of namespaces in use by this property alias.
+     */
+    public Map<String, String> getNamespaces();
+
+    /**
+     * Sets the namespaces in use by this property alias.
+     */
+    public void setNamespaces(Map<String, String> aNamespaces);
 }

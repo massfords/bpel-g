@@ -11,15 +11,17 @@ package org.activebpel.rt.bpel;
 
 import org.activebpel.rt.bpel.impl.IAeBpelObject;
 
-/** Describes the interface used for interacting with business process activities */
-public interface IAeActivity extends IAeBpelObject
-{
-   /**
-    * Terminates the activity without the activity completing abnormally or 
-    * executing its fault handler. This is used for the root activity within
-    * a loop activity that gets terminated as a result of a continue or break
-    * activity executing within the loop. 
-    * @throws AeBusinessProcessException
-    */
-   public void terminateEarly() throws AeBusinessProcessException;
+/**
+ * Describes the interface used for interacting with business process activities
+ */
+public interface IAeActivity extends IAeBpelObject {
+    /**
+     * Terminates the activity without the activity completing abnormally or
+     * executing its fault handler. This is used for the root activity within
+     * a loop activity that gets terminated as a result of a continue or break
+     * activity executing within the loop.
+     *
+     * @throws AeBusinessProcessException
+     */
+    public void terminateEarly() throws AeBusinessProcessException;
 }

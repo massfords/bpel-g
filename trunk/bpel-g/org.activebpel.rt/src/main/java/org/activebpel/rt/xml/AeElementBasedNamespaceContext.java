@@ -18,76 +18,69 @@ import org.activebpel.rt.util.AeXmlUtil;
 import org.w3c.dom.Element;
 
 /**
- * A mutable namespace context implementation that uses a DOM Element to lookup and 
+ * A mutable namespace context implementation that uses a DOM Element to lookup and
  * create namespace mappings.
  */
-public class AeElementBasedNamespaceContext implements IAeMutableNamespaceContext
-{
-   /** The DOM Element. */
-   private Element mElement;
+public class AeElementBasedNamespaceContext implements IAeMutableNamespaceContext {
+    /**
+     * The DOM Element.
+     */
+    private Element mElement;
 
-   /**
-    * Constructor.
-    * 
-    * @param aElement
-    */
-   public AeElementBasedNamespaceContext(Element aElement)
-   {
-      setElement(aElement);
-   }
+    /**
+     * Constructor.
+     *
+     * @param aElement
+     */
+    public AeElementBasedNamespaceContext(Element aElement) {
+        setElement(aElement);
+    }
 
-   /**
-    * @return Returns the element.
-    */
-   protected Element getElement()
-   {
-      return mElement;
-   }
+    /**
+     * @return Returns the element.
+     */
+    protected Element getElement() {
+        return mElement;
+    }
 
-   /**
-    * @param aElement The element to set.
-    */
-   protected void setElement(Element aElement)
-   {
-      mElement = aElement;
-   }
+    /**
+     * @param aElement The element to set.
+     */
+    protected void setElement(Element aElement) {
+        mElement = aElement;
+    }
 
-   /**
-    * @see org.activebpel.rt.xml.IAeMutableNamespaceContext#getOrCreatePrefixForNamespace(java.lang.String, java.lang.String)
-    */
-   public String getOrCreatePrefixForNamespace(String aPreferredPrefix, String aNamespace)
-   {
-      return getOrCreatePrefixForNamespace(aPreferredPrefix, aNamespace, false);
-   }
+    /**
+     * @see org.activebpel.rt.xml.IAeMutableNamespaceContext#getOrCreatePrefixForNamespace(java.lang.String, java.lang.String)
+     */
+    public String getOrCreatePrefixForNamespace(String aPreferredPrefix, String aNamespace) {
+        return getOrCreatePrefixForNamespace(aPreferredPrefix, aNamespace, false);
+    }
 
-   /**
-    * @see org.activebpel.rt.xml.IAeMutableNamespaceContext#getOrCreatePrefixForNamespace(java.lang.String, java.lang.String, boolean)
-    */
-   public String getOrCreatePrefixForNamespace(String aPreferredPrefix, String aNamespace, boolean aAllowDefaultNamespace)
-   {
-      return AeXmlUtil.getOrCreatePrefix(getElement(), aNamespace, aPreferredPrefix, false, aAllowDefaultNamespace);
-   }
+    /**
+     * @see org.activebpel.rt.xml.IAeMutableNamespaceContext#getOrCreatePrefixForNamespace(java.lang.String, java.lang.String, boolean)
+     */
+    public String getOrCreatePrefixForNamespace(String aPreferredPrefix, String aNamespace, boolean aAllowDefaultNamespace) {
+        return AeXmlUtil.getOrCreatePrefix(getElement(), aNamespace, aPreferredPrefix, false, aAllowDefaultNamespace);
+    }
 
-   /**
-    * @see org.activebpel.rt.xml.IAeNamespaceContext#resolvePrefixToNamespace(java.lang.String)
-    */
-   public String resolvePrefixToNamespace(String aPrefix)
-   {
-      return AeXmlUtil.getNamespaceForPrefix(getElement(), aPrefix);
-   }
+    /**
+     * @see org.activebpel.rt.xml.IAeNamespaceContext#resolvePrefixToNamespace(java.lang.String)
+     */
+    public String resolvePrefixToNamespace(String aPrefix) {
+        return AeXmlUtil.getNamespaceForPrefix(getElement(), aPrefix);
+    }
 
-   /**
-    * @see org.activebpel.rt.xml.IAeNamespaceContext#resolveNamespaceToPrefixes(java.lang.String)
-    */
-   public Set<String> resolveNamespaceToPrefixes(String aNamespace)
-   {
-      // TODO (EPW) improve this implementation to actually return all of the prefixes.
-      Set<String> rval = new HashSet<>();
-      String prefix = AeXmlUtil.getPrefixForNamespace(getElement(), aNamespace);
-      if (AeUtil.notNullOrEmpty(prefix))
-      {
-         rval.add(prefix);
-      }
-      return rval;
-   }
+    /**
+     * @see org.activebpel.rt.xml.IAeNamespaceContext#resolveNamespaceToPrefixes(java.lang.String)
+     */
+    public Set<String> resolveNamespaceToPrefixes(String aNamespace) {
+        // TODO (EPW) improve this implementation to actually return all of the prefixes.
+        Set<String> rval = new HashSet<>();
+        String prefix = AeXmlUtil.getPrefixForNamespace(getElement(), aNamespace);
+        if (AeUtil.notNullOrEmpty(prefix)) {
+            rval.add(prefix);
+        }
+        return rval;
+    }
 }

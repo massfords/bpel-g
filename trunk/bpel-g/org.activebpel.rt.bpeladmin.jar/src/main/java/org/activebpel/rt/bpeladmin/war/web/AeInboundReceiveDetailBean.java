@@ -23,78 +23,80 @@ import bpelg.services.queue.types.InboundMessages;
  * message receivers depending on how the bean is configured.
  */
 public class AeInboundReceiveDetailBean extends AeAbstractAdminBean {
-	/** The key identifying the receives to examine. */
-	private String mKey;
-	private final List<InboundMessage> mDetails = new ArrayList<>();;
+    /**
+     * The key identifying the receives to examine.
+     */
+    private String mKey;
+    private final List<InboundMessage> mDetails = new ArrayList<>();
+    ;
 
-	/**
-	 * Default constructor.
-	 */
-	public AeInboundReceiveDetailBean() {
-	}
+    /**
+     * Default constructor.
+     */
+    public AeInboundReceiveDetailBean() {
+    }
 
-	/**
-	 * Setter for the unique key value.
-	 * 
-	 * @param aKey
-	 *            Uniquely identifies a queued item (via partner link, port type
-	 *            and operation).
-	 */
-	public void setKey(String aKey) {
-		mKey = aKey;
-		
-		InboundMessages ims = AeEngineManagementFactory.getQueueManager().getInboundMessages(new GetInboundMessages());
-		for(InboundMessage im : ims.getInboundMessage()) {
-			if (AeInboundReceivesBean.makeKey(im).equals(mKey)) {
-				mDetails.add(im);
-			}
-		}
-	}
+    /**
+     * Setter for the unique key value.
+     *
+     * @param aKey Uniquely identifies a queued item (via partner link, port type
+     *             and operation).
+     */
+    public void setKey(String aKey) {
+        mKey = aKey;
 
-	/**
-	 * Returns true if there are no queue details.
-	 */
-	public boolean isEmpty() {
-		return mDetails == null || mDetails.size() == 0;
-	}
+        InboundMessages ims = AeEngineManagementFactory.getQueueManager().getInboundMessages(new GetInboundMessages());
+        for (InboundMessage im : ims.getInboundMessage()) {
+            if (AeInboundReceivesBean.makeKey(im).equals(mKey)) {
+                mDetails.add(im);
+            }
+        }
+    }
 
-	/**
-	 * Getter for the partner link name.
-	 */
-	public String getPartnerLinkName() {
-		return getDetail(0).getPartnerLinkName();
-	}
+    /**
+     * Returns true if there are no queue details.
+     */
+    public boolean isEmpty() {
+        return mDetails == null || mDetails.size() == 0;
+    }
 
-	/**
-	 * Getter for the port type qname as a string.
-	 */
-	public String getPortTypeAsString() {
-		return getDetail(0).getPortType().toString();
-	}
+    /**
+     * Getter for the partner link name.
+     */
+    public String getPartnerLinkName() {
+        return getDetail(0).getPartnerLinkName();
+    }
 
-	/**
-	 * Getter for the operation.
-	 */
-	public String getOperation() {
-		return getDetail(0).getOperation();
-	}
+    /**
+     * Getter for the port type qname as a string.
+     */
+    public String getPortTypeAsString() {
+        return getDetail(0).getPortType().toString();
+    }
 
-	/**
-	 * Indexed accessor for the detail row.
-	 * 
-	 * @param aIndex
-	 */
-	public InboundMessage getDetail(int aIndex) {
-		return mDetails.get(aIndex);
-	}
+    /**
+     * Getter for the operation.
+     */
+    public String getOperation() {
+        return getDetail(0).getOperation();
+    }
 
-	/**
-	 * Returns the size of the detail rows.
-	 */
-	public int getDetailSize() {
-		if (mDetails == null) {
-			return 0;
-		}
-		return mDetails.size();
-	}
+    /**
+     * Indexed accessor for the detail row.
+     *
+     * @param aIndex
+     */
+    public InboundMessage getDetail(int aIndex) {
+        return mDetails.get(aIndex);
+    }
+
+    /**
+     * Returns the size of the detail rows.
+     */
+    public int getDetailSize() {
+        if (mDetails == null) {
+            return 0;
+        }
+        return mDetails.size();
+    }
 }

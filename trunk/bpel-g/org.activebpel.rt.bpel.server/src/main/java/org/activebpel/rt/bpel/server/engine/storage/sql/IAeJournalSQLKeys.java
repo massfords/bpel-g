@@ -13,7 +13,6 @@ package org.activebpel.rt.bpel.server.engine.storage.sql;
  * Constants for the Journal storage SQL keys (keys into the {@link
  * org.activebpel.rt.bpel.server.engine.storage.sql.AeSQLConfig} object).
  */
-public interface IAeJournalSQLKeys
-{
-   public static final String INSERT_JOURNAL_ENTRY = "InsertJournalEntry"; //$NON-NLS-1$
+public interface IAeJournalSQLKeys {
+    public static final String INSERT_JOURNAL_ENTRY = "InsertJournalEntry"; //$NON-NLS-1$
 }

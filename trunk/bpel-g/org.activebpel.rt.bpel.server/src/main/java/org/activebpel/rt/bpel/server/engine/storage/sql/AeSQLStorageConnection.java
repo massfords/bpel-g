@@ -18,76 +18,65 @@ import org.activebpel.rt.bpel.server.engine.storage.providers.IAeStorageConnecti
 import org.activebpel.rt.util.AeCloser;
 
 /**
- * A SQL implementation of the delegating DB connection interface.  This class is created with 
+ * A SQL implementation of the delegating DB connection interface.  This class is created with
  * a SQL connection that it will delegate its calls to.
  */
-public class AeSQLStorageConnection implements IAeStorageConnection
-{
-   /** The SQL Connection. */
-   private Connection mConnection;
+public class AeSQLStorageConnection implements IAeStorageConnection {
+    /**
+     * The SQL Connection.
+     */
+    private Connection mConnection;
 
-   /**
-    * Constructs a SQL DB Connection that will delegate to the given SQL Connection.
-    * 
-    * @param aConnection
-    */
-   public AeSQLStorageConnection(Connection aConnection)
-   {
-      setConnection(aConnection);
-   }
-   
-   /**
-    * @see org.activebpel.rt.bpel.server.engine.storage.providers.IAeStorageConnection#commit()
-    */
-   public void commit() throws AeStorageException
-   {
-      try
-      {
-         getConnection().commit();
-      }
-      catch (SQLException ex)
-      {
-         throw new AeStorageException(ex);
-      }
-   }
+    /**
+     * Constructs a SQL DB Connection that will delegate to the given SQL Connection.
+     *
+     * @param aConnection
+     */
+    public AeSQLStorageConnection(Connection aConnection) {
+        setConnection(aConnection);
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.server.engine.storage.providers.IAeStorageConnection#rollback()
-    */
-   public void rollback() throws AeStorageException
-   {
-      try
-      {
-         getConnection().rollback();
-      }
-      catch (SQLException ex)
-      {
-         throw new AeStorageException(ex);
-      }
-   }
+    /**
+     * @see org.activebpel.rt.bpel.server.engine.storage.providers.IAeStorageConnection#commit()
+     */
+    public void commit() throws AeStorageException {
+        try {
+            getConnection().commit();
+        } catch (SQLException ex) {
+            throw new AeStorageException(ex);
+        }
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.server.engine.storage.providers.IAeStorageConnection#close()
-    */
-   public void close()
-   {
-      AeCloser.close(getConnection());
-   }
+    /**
+     * @see org.activebpel.rt.bpel.server.engine.storage.providers.IAeStorageConnection#rollback()
+     */
+    public void rollback() throws AeStorageException {
+        try {
+            getConnection().rollback();
+        } catch (SQLException ex) {
+            throw new AeStorageException(ex);
+        }
+    }
 
-   /**
-    * @return Returns the connection.
-    */
-   public Connection getConnection()
-   {
-      return mConnection;
-   }
+    /**
+     * @see org.activebpel.rt.bpel.server.engine.storage.providers.IAeStorageConnection#close()
+     */
+    public void close() {
+        AeCloser.close(getConnection());
+    }
 
-   /**
-    * @param aConnection The connection to set.
-    */
-   protected void setConnection(Connection aConnection)
-   {
-      mConnection = aConnection;
-   }
+    /**
+     * @return Returns the connection.
+     */
+    public Connection getConnection() {
+        return mConnection;
+    }
+
+    /**
+     * @param aConnection The connection to set.
+     */
+    protected void setConnection(Connection aConnection) {
+        mConnection = aConnection;
+    }
 
 }

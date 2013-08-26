@@ -7,7 +7,7 @@
 //Active Endpoints, Inc. Removal of this PROPRIETARY RIGHTS STATEMENT 
 //is strictly forbidden. Copyright (c) 2002-2006 All rights reserved. 
 /////////////////////////////////////////////////////////////////////////////
-package org.activebpel.rt.bpel.impl.activity.assign; 
+package org.activebpel.rt.bpel.impl.activity.assign;
 
 import org.activebpel.rt.bpel.AeMessages;
 import org.activebpel.rt.bpel.impl.AeBpelException;
@@ -16,29 +16,28 @@ import org.activebpel.rt.bpel.impl.AeFaultFactory;
 /**
  * Exception for the standard BPEL fault bpel:mismatchedAssignmentFailure
  */
-public class AeMismatchedAssignmentException extends AeBpelException
-{
-   /**
-     * 
+public class AeMismatchedAssignmentException extends AeBpelException {
+    /**
+     *
      */
     private static final long serialVersionUID = 4858490639056143087L;
-/** Error message for the exception */
-   private static final String ERROR_MESSAGE = AeMessages.getString("AeMismatchedAssignmentException.Message"); //$NON-NLS-1$
+    /**
+     * Error message for the exception
+     */
+    private static final String ERROR_MESSAGE = AeMessages.getString("AeMismatchedAssignmentException.Message"); //$NON-NLS-1$
 
-   /**
-    * Creates the exception with a bpws:mismatchedAssignmentFailure fault. 
-    */
-   public AeMismatchedAssignmentException(String aNamespace)
-   {
-      this(aNamespace, null);
-   }
-   
-   /**
-    * Creates the exception with a bpws:mismatchedAssignmentFailure fault. 
-    */
-   public AeMismatchedAssignmentException(String aNamespace, Throwable aThrowable)
-   {
-      super(ERROR_MESSAGE, AeFaultFactory.getFactory(aNamespace).getMismatchedAssignmentFailure(), aThrowable);
-   }
+    /**
+     * Creates the exception with a bpws:mismatchedAssignmentFailure fault.
+     */
+    public AeMismatchedAssignmentException(String aNamespace) {
+        this(aNamespace, null);
+    }
+
+    /**
+     * Creates the exception with a bpws:mismatchedAssignmentFailure fault.
+     */
+    public AeMismatchedAssignmentException(String aNamespace, Throwable aThrowable) {
+        super(ERROR_MESSAGE, AeFaultFactory.getFactory(aNamespace).getMismatchedAssignmentFailure(), aThrowable);
+    }
 }
  

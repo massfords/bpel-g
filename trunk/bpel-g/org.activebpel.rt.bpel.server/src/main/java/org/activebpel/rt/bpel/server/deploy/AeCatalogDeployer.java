@@ -46,12 +46,12 @@ public class AeCatalogDeployer implements IAeDeploymentHandler {
 
     /**
      * Create the <code>IAeCatalogMapping</code> impl.
-     * 
+     *
      * @param aCatalog
      * @param aContext
      */
     protected IAeCatalogMapping[] createCatalogMappings(AeCatalogMappings aCatalog,
-            IAeDeploymentContext aContext) {
+                                                        IAeDeploymentContext aContext) {
         return aCatalog.getResources().values().toArray(
                 new IAeCatalogMapping[aCatalog.getResources().values().size()]);
     }
@@ -68,8 +68,8 @@ class AeCatalogDeploymentLogger implements IAeCatalogListener {
      * @see org.activebpel.rt.bpel.server.catalog.IAeCatalogListener#onDeployment(org.activebpel.rt.bpel.server.catalog.AeCatalogEvent)
      */
     public void onDeployment(AeCatalogEvent aEvent) {
-        Object[] objs = { AeUtil.getShortNameForLocation(aEvent.getLocationHint()),
-                aEvent.getLocationHint() };
+        Object[] objs = {AeUtil.getShortNameForLocation(aEvent.getLocationHint()),
+                aEvent.getLocationHint()};
         log.info(AeMessages.format("AeCatalogDeployer.ADDED_RESOURCE", objs)); //$NON-NLS-1$
     }
 
@@ -77,8 +77,8 @@ class AeCatalogDeploymentLogger implements IAeCatalogListener {
      * @see org.activebpel.rt.bpel.server.catalog.IAeCatalogListener#onDuplicateDeployment(org.activebpel.rt.bpel.server.catalog.AeCatalogEvent)
      */
     public void onDuplicateDeployment(AeCatalogEvent aEvent) {
-        Object[] objs = { AeUtil.getShortNameForLocation(aEvent.getLocationHint()),
-                aEvent.getLocationHint() };
+        Object[] objs = {AeUtil.getShortNameForLocation(aEvent.getLocationHint()),
+                aEvent.getLocationHint()};
         if (aEvent.isReplacement())
             log.info(AeMessages.format("AeCatalogDeployer.REPLACED_RESOURCE", objs)); //$NON-NLS-1$
         else
@@ -89,8 +89,8 @@ class AeCatalogDeploymentLogger implements IAeCatalogListener {
      * @see org.activebpel.rt.bpel.server.catalog.IAeCatalogListener#onRemoval(org.activebpel.rt.bpel.server.catalog.AeCatalogEvent)
      */
     public void onRemoval(AeCatalogEvent aEvent) {
-        Object[] objs = { AeUtil.getShortNameForLocation(aEvent.getLocationHint()),
-                aEvent.getLocationHint() };
+        Object[] objs = {AeUtil.getShortNameForLocation(aEvent.getLocationHint()),
+                aEvent.getLocationHint()};
         log.info(AeMessages.format("AeCatalogDeployer.REMOVED_RESOURCE", objs)); //$NON-NLS-1$
     }
 }

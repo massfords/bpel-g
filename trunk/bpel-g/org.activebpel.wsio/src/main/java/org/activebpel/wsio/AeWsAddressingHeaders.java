@@ -19,234 +19,231 @@ import javax.xml.namespace.QName;
 import org.w3c.dom.Element;
 
 /**
- *  Holder for the values from a set of WS-Addressing Headers
+ * Holder for the values from a set of WS-Addressing Headers
  */
-public class AeWsAddressingHeaders implements IAeWsAddressingHeaders
-{
-   /**
-     * 
+public class AeWsAddressingHeaders implements IAeWsAddressingHeaders {
+    /**
+     *
      */
     private static final long serialVersionUID = 2519402239643483982L;
-/** Action URI */
-   private String mAction;
-   /** Message ID URI */
-   private String mMessageId;
-   /** Collection of RelationshipType QName/MessageId pairs */
-   private Map<QName, String> mRelatesTo = new HashMap<>();
-   /** From endpoint */
-   private IAeWebServiceEndpointReference mFrom;
-   /** ReplyTo endpoint */
-   private IAeWebServiceEndpointReference mReplyTo;
-   /** FaultTo endpoint */
-   private IAeWebServiceEndpointReference mFaultTo;
-   /** Endpoint containing To address URI */
-   private IAeWebServiceEndpointReference mTo;
-   /** List of additional header elements to serialize */
-   private List<Element> mReferenceProperties;
-   /** WSA Namespace URI */ 
-   private String mNamespace;   
-   /** WSA To URI */ 
-   private String mToURI;   
-   /** abx:conversationId */
-   private String mConversationId;
-   
-   /**
-    * Constructor 
-    * @param aNamespace WS-Addressing namespace URI for this instance
-    */
-   public AeWsAddressingHeaders(String aNamespace)
-   {
-      setSourceNamespace(aNamespace);
-   }
-   
-   /**
-    * @see org.activebpel.wsio.IAeWsAddressingHeaders#getMessageId()
-    */
-   public String getMessageId()
-   {
-      return mMessageId;
-   }
+    /**
+     * Action URI
+     */
+    private String mAction;
+    /**
+     * Message ID URI
+     */
+    private String mMessageId;
+    /**
+     * Collection of RelationshipType QName/MessageId pairs
+     */
+    private Map<QName, String> mRelatesTo = new HashMap<>();
+    /**
+     * From endpoint
+     */
+    private IAeWebServiceEndpointReference mFrom;
+    /**
+     * ReplyTo endpoint
+     */
+    private IAeWebServiceEndpointReference mReplyTo;
+    /**
+     * FaultTo endpoint
+     */
+    private IAeWebServiceEndpointReference mFaultTo;
+    /**
+     * Endpoint containing To address URI
+     */
+    private IAeWebServiceEndpointReference mTo;
+    /**
+     * List of additional header elements to serialize
+     */
+    private List<Element> mReferenceProperties;
+    /**
+     * WSA Namespace URI
+     */
+    private String mNamespace;
+    /**
+     * WSA To URI
+     */
+    private String mToURI;
+    /**
+     * abx:conversationId
+     */
+    private String mConversationId;
 
-   /**
-    * @see org.activebpel.wsio.IAeWsAddressingHeaders#setMessageId(java.lang.String)
-    */
-   public void setMessageId(String aMessageId)
-   {
-      mMessageId = aMessageId;
-   }
+    /**
+     * Constructor
+     *
+     * @param aNamespace WS-Addressing namespace URI for this instance
+     */
+    public AeWsAddressingHeaders(String aNamespace) {
+        setSourceNamespace(aNamespace);
+    }
 
-   /**
-    * @see org.activebpel.wsio.IAeWsAddressingHeaders#getAction()
-    */
-   public String getAction()
-   {
-      return mAction;
-   }
+    /**
+     * @see org.activebpel.wsio.IAeWsAddressingHeaders#getMessageId()
+     */
+    public String getMessageId() {
+        return mMessageId;
+    }
 
-   /**
-    * @see org.activebpel.wsio.IAeWsAddressingHeaders#setAction(java.lang.String)
-    */
-   public void setAction(String aAction)
-   {
-      mAction = aAction;
-   }
+    /**
+     * @see org.activebpel.wsio.IAeWsAddressingHeaders#setMessageId(java.lang.String)
+     */
+    public void setMessageId(String aMessageId) {
+        mMessageId = aMessageId;
+    }
 
-   /**
-    * @see org.activebpel.wsio.IAeWsAddressingHeaders#getFaultTo()
-    */
-   public IAeWebServiceEndpointReference getFaultTo()
-   {
-      return mFaultTo;
-   }
+    /**
+     * @see org.activebpel.wsio.IAeWsAddressingHeaders#getAction()
+     */
+    public String getAction() {
+        return mAction;
+    }
 
-   /**
-    * @see org.activebpel.wsio.IAeWsAddressingHeaders#setFaultTo(org.activebpel.wsio.IAeWebServiceEndpointReference)
-    */
-   public void setFaultTo(IAeWebServiceEndpointReference aFaultTo)
-   {
-      mFaultTo = aFaultTo;
-   }
+    /**
+     * @see org.activebpel.wsio.IAeWsAddressingHeaders#setAction(java.lang.String)
+     */
+    public void setAction(String aAction) {
+        mAction = aAction;
+    }
 
-   /**
-    * @see org.activebpel.wsio.IAeWsAddressingHeaders#getFrom()
-    */
-   public IAeWebServiceEndpointReference getFrom()
-   {
-      return mFrom;
-   }
+    /**
+     * @see org.activebpel.wsio.IAeWsAddressingHeaders#getFaultTo()
+     */
+    public IAeWebServiceEndpointReference getFaultTo() {
+        return mFaultTo;
+    }
 
-   /**
-    * @see org.activebpel.wsio.IAeWsAddressingHeaders#setFrom(org.activebpel.wsio.IAeWebServiceEndpointReference)
-    */
-   public void setFrom(IAeWebServiceEndpointReference aFrom)
-   {
-      mFrom = aFrom;
-   }
+    /**
+     * @see org.activebpel.wsio.IAeWsAddressingHeaders#setFaultTo(org.activebpel.wsio.IAeWebServiceEndpointReference)
+     */
+    public void setFaultTo(IAeWebServiceEndpointReference aFaultTo) {
+        mFaultTo = aFaultTo;
+    }
 
-   /**
-    * @see org.activebpel.wsio.IAeWsAddressingHeaders#getRelatesTo()
-    */
-   public Map<QName, String> getRelatesTo()
-   {
-      return mRelatesTo;
-   }
+    /**
+     * @see org.activebpel.wsio.IAeWsAddressingHeaders#getFrom()
+     */
+    public IAeWebServiceEndpointReference getFrom() {
+        return mFrom;
+    }
 
-   /**
-    * @see org.activebpel.wsio.IAeWsAddressingHeaders#getRelatesTo(javax.xml.namespace.QName)
-    */
-   public String getRelatesTo(QName aRelation)
-   {
-      return mRelatesTo.get(aRelation);
-   }
-   
-   
-   /**
-    * @see org.activebpel.wsio.IAeWsAddressingHeaders#setRelatesTo(java.util.Map)
-    */
-   public void setRelatesTo(Map<QName, String> aRelatesTo)
-   {
-      mRelatesTo = aRelatesTo;
-   }
+    /**
+     * @see org.activebpel.wsio.IAeWsAddressingHeaders#setFrom(org.activebpel.wsio.IAeWebServiceEndpointReference)
+     */
+    public void setFrom(IAeWebServiceEndpointReference aFrom) {
+        mFrom = aFrom;
+    }
 
-   /**
-    * @see org.activebpel.wsio.IAeWsAddressingHeaders#addRelatesTo(java.lang.String, javax.xml.namespace.QName)
-    */
-   public void addRelatesTo(String aMessageId, QName aRelation)
-   {
-      getRelatesTo().put(aRelation, aMessageId);
-   }
+    /**
+     * @see org.activebpel.wsio.IAeWsAddressingHeaders#getRelatesTo()
+     */
+    public Map<QName, String> getRelatesTo() {
+        return mRelatesTo;
+    }
 
-   /**
-    * @see org.activebpel.wsio.IAeWsAddressingHeaders#getReplyTo()
-    */
-   public IAeWebServiceEndpointReference getReplyTo()
-   {
-      return mReplyTo;
-   }
+    /**
+     * @see org.activebpel.wsio.IAeWsAddressingHeaders#getRelatesTo(javax.xml.namespace.QName)
+     */
+    public String getRelatesTo(QName aRelation) {
+        return mRelatesTo.get(aRelation);
+    }
 
-   /**
-    * @see org.activebpel.wsio.IAeWsAddressingHeaders#setReplyTo(org.activebpel.wsio.IAeWebServiceEndpointReference)
-    */
-   public void setReplyTo(IAeWebServiceEndpointReference aReplyTo)
-   {
-      mReplyTo = aReplyTo;
-   }
 
-   /**
-    * @see org.activebpel.wsio.IAeWsAddressingHeaders#getTo()
-    */
-   public String getTo()
-   {
-      return mToURI;
-   }
+    /**
+     * @see org.activebpel.wsio.IAeWsAddressingHeaders#setRelatesTo(java.util.Map)
+     */
+    public void setRelatesTo(Map<QName, String> aRelatesTo) {
+        mRelatesTo = aRelatesTo;
+    }
 
-   /**
-    * @see org.activebpel.wsio.IAeWsAddressingHeaders#setTo(java.lang.String)
-    */
-   public void setTo(String aTo)
-   {
-      mToURI = aTo;
-   }
-   
-   /**
-    * @see org.activebpel.wsio.IAeWsAddressingHeaders#setSourceNamespace(java.lang.String)
-    */
-   public void setSourceNamespace(String aNamespace)
-   {
-      mNamespace = aNamespace;      
-   }
+    /**
+     * @see org.activebpel.wsio.IAeWsAddressingHeaders#addRelatesTo(java.lang.String, javax.xml.namespace.QName)
+     */
+    public void addRelatesTo(String aMessageId, QName aRelation) {
+        getRelatesTo().put(aRelation, aMessageId);
+    }
 
-   /**
-    * @see org.activebpel.wsio.IAeWsAddressingHeaders#getSourceNamespace()
-    */
-   public String getSourceNamespace()
-   {
-      return mNamespace;
-   }
+    /**
+     * @see org.activebpel.wsio.IAeWsAddressingHeaders#getReplyTo()
+     */
+    public IAeWebServiceEndpointReference getReplyTo() {
+        return mReplyTo;
+    }
 
-   /**
-    * @see org.activebpel.wsio.IAeWsAddressingHeaders#getRecipient()
-    */
-   public IAeWebServiceEndpointReference getRecipient()
-   {
-      return mTo;
-   }
+    /**
+     * @see org.activebpel.wsio.IAeWsAddressingHeaders#setReplyTo(org.activebpel.wsio.IAeWebServiceEndpointReference)
+     */
+    public void setReplyTo(IAeWebServiceEndpointReference aReplyTo) {
+        mReplyTo = aReplyTo;
+    }
 
-   /**
-    * @see org.activebpel.wsio.IAeWsAddressingHeaders#setRecipient(org.activebpel.wsio.IAeWebServiceEndpointReference)
-    */
-   public void setRecipient(IAeWebServiceEndpointReference aEndpoint)
-   {
-      mTo = aEndpoint;
-   }
-   
-   
-   /**
-    * @see org.activebpel.wsio.IAeWsAddressingHeaders#getReferenceProperties()
-    */
-   public List<Element> getReferenceProperties()
-   {
-      if (mReferenceProperties == null)
-      {
-         mReferenceProperties = new ArrayList<>();
-      }
-      return mReferenceProperties;
-   }
+    /**
+     * @see org.activebpel.wsio.IAeWsAddressingHeaders#getTo()
+     */
+    public String getTo() {
+        return mToURI;
+    }
 
-   /**
-    * @see org.activebpel.wsio.IAeWsAddressingHeaders#setConversationId(java.lang.String)
-    */
-   public void setConversationId(String aId)
-   {
-      mConversationId = aId;
-   }
+    /**
+     * @see org.activebpel.wsio.IAeWsAddressingHeaders#setTo(java.lang.String)
+     */
+    public void setTo(String aTo) {
+        mToURI = aTo;
+    }
 
-   /**
-    * @see org.activebpel.wsio.IAeWsAddressingHeaders#getConversationId()
-    */
-   public String getConversationId()
-   {
-      return mConversationId;
-   }
+    /**
+     * @see org.activebpel.wsio.IAeWsAddressingHeaders#setSourceNamespace(java.lang.String)
+     */
+    public void setSourceNamespace(String aNamespace) {
+        mNamespace = aNamespace;
+    }
+
+    /**
+     * @see org.activebpel.wsio.IAeWsAddressingHeaders#getSourceNamespace()
+     */
+    public String getSourceNamespace() {
+        return mNamespace;
+    }
+
+    /**
+     * @see org.activebpel.wsio.IAeWsAddressingHeaders#getRecipient()
+     */
+    public IAeWebServiceEndpointReference getRecipient() {
+        return mTo;
+    }
+
+    /**
+     * @see org.activebpel.wsio.IAeWsAddressingHeaders#setRecipient(org.activebpel.wsio.IAeWebServiceEndpointReference)
+     */
+    public void setRecipient(IAeWebServiceEndpointReference aEndpoint) {
+        mTo = aEndpoint;
+    }
+
+
+    /**
+     * @see org.activebpel.wsio.IAeWsAddressingHeaders#getReferenceProperties()
+     */
+    public List<Element> getReferenceProperties() {
+        if (mReferenceProperties == null) {
+            mReferenceProperties = new ArrayList<>();
+        }
+        return mReferenceProperties;
+    }
+
+    /**
+     * @see org.activebpel.wsio.IAeWsAddressingHeaders#setConversationId(java.lang.String)
+     */
+    public void setConversationId(String aId) {
+        mConversationId = aId;
+    }
+
+    /**
+     * @see org.activebpel.wsio.IAeWsAddressingHeaders#getConversationId()
+     */
+    public String getConversationId() {
+        return mConversationId;
+    }
 
 }

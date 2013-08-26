@@ -13,22 +13,22 @@ import org.xml.sax.InputSource;
 
 /**
  * Implementors of this interface will resolve "standard" or "well known" schemas given
- * the namespace of the schema.  For example, the Soap Encoding schema found at 
+ * the namespace of the schema.  For example, the Soap Encoding schema found at
  * "http://schemas.xmlsoap.org/soap/encoding/" will be resolved to a valid URL object.
  * The list of well known schemas is dynamic and implementation dependent.
  */
-public interface IAeStandardSchemaResolver
-{
-   /**
-    * Resolves a "standard" schema by namespace.
-    * 
-    * @param aNamespace
-    */
-   public InputSource resolve(String aNamespace);
-   
-   /**
-    * Returns true if the resolver is capable of resolving the namespace
-    * @param aNamespace
-    */
-   public boolean canResolve(String aNamespace);
+public interface IAeStandardSchemaResolver {
+    /**
+     * Resolves a "standard" schema by namespace.
+     *
+     * @param aNamespace
+     */
+    public InputSource resolve(String aNamespace);
+
+    /**
+     * Returns true if the resolver is capable of resolving the namespace
+     *
+     * @param aNamespace
+     */
+    public boolean canResolve(String aNamespace);
 }

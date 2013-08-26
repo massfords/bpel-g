@@ -7,7 +7,7 @@
 //Active Endpoints, Inc. Removal of this PROPRIETARY RIGHTS STATEMENT 
 //is strictly forbidden. Copyright (c) 2002-2006 All rights reserved. 
 /////////////////////////////////////////////////////////////////////////////
-package org.activebpel.rt.bpel.impl.activity.support; 
+package org.activebpel.rt.bpel.impl.activity.support;
 
 import org.activebpel.rt.AeException;
 import org.activebpel.rt.bpel.AeBusinessProcessException;
@@ -30,146 +30,127 @@ import org.activebpel.rt.xml.schema.AeSchemaDuration;
 import java.util.Date;
 
 /**
- * Schedules the alarm for an activity. Handles the exeuction of an expression 
- * to produce a duration or deadline. 
+ * Schedules the alarm for an activity. Handles the exeuction of an expression
+ * to produce a duration or deadline.
  */
-public abstract class AeAlarmCalculator
-{
-   /**
-    * Ctor accepts ref to parent and event id value
-    */
-   protected AeAlarmCalculator()
-   {
-   }
-   
-   /**
-    * Calculates a deadline given a for/until/repeatEvery expression def
-    * 
-    * @param aBpelObject
-    * @param aTimedDef
-    * @param aEventId
-    * @throws AeBusinessProcessException
-    */
-   public static Date calculateDeadline(AeAbstractBpelObject aBpelObject, IAeTimedDef aTimedDef, AeProcessInfoEventType aEventId) throws AeBusinessProcessException
-   {
-      if (aTimedDef.getForDef() != null)
-      {
-         return calculateDeadline(aBpelObject, aTimedDef.getForDef(), aEventId);
-      }
-      else if (aTimedDef.getUntilDef() != null)
-      {
-         return calculateDeadline(aBpelObject, aTimedDef.getUntilDef(), aEventId);
-      }
-      else
-      {
-         return calculateDeadline(aBpelObject, aTimedDef.getRepeatEveryDef(), aEventId);
-      }
-   }
+public abstract class AeAlarmCalculator {
+    /**
+     * Ctor accepts ref to parent and event id value
+     */
+    protected AeAlarmCalculator() {
+    }
 
-   /**
-    * Calculates a deadline given a for/until/repeatEvery expression def
-    * @param aBpelObject
-    * @param aExpressionDef
-    * @param aEventId
-    * @throws AeBusinessProcessException
-    */
-   private static Date calculateDeadline(AeAbstractBpelObject aBpelObject, IAeExpressionDef aExpressionDef, AeProcessInfoEventType aEventId) throws AeBusinessProcessException
-   {
-      StringBuilder alarmInfo = new StringBuilder();
-      alarmInfo.append('\n');
-      alarmInfo.append(aBpelObject.getClass().getName());
-      alarmInfo.append(AeMessages.getString("AeAbstractBpelObject.0")); //$NON-NLS-1$
-      alarmInfo.append(AeMessages.getString("AeAbstractBpelObject.1")).append((new Date()).toString()).append('\n'); //$NON-NLS-1$ 
+    /**
+     * Calculates a deadline given a for/until/repeatEvery expression def
+     *
+     * @param aBpelObject
+     * @param aTimedDef
+     * @param aEventId
+     * @throws AeBusinessProcessException
+     */
+    public static Date calculateDeadline(AeAbstractBpelObject aBpelObject, IAeTimedDef aTimedDef, AeProcessInfoEventType aEventId) throws AeBusinessProcessException {
+        if (aTimedDef.getForDef() != null) {
+            return calculateDeadline(aBpelObject, aTimedDef.getForDef(), aEventId);
+        } else if (aTimedDef.getUntilDef() != null) {
+            return calculateDeadline(aBpelObject, aTimedDef.getUntilDef(), aEventId);
+        } else {
+            return calculateDeadline(aBpelObject, aTimedDef.getRepeatEveryDef(), aEventId);
+        }
+    }
 
-      String expression = aExpressionDef.getExpression();
-      Object value = executeExpression(aBpelObject, aExpressionDef);
-      Date deadline = null;
-      if (value instanceof AeSchemaDuration)
-         deadline = ((AeSchemaDuration)value).toDeadline();
-      else
-         deadline = (Date) value;
+    /**
+     * Calculates a deadline given a for/until/repeatEvery expression def
+     *
+     * @param aBpelObject
+     * @param aExpressionDef
+     * @param aEventId
+     * @throws AeBusinessProcessException
+     */
+    private static Date calculateDeadline(AeAbstractBpelObject aBpelObject, IAeExpressionDef aExpressionDef, AeProcessInfoEventType aEventId) throws AeBusinessProcessException {
+        StringBuilder alarmInfo = new StringBuilder();
+        alarmInfo.append('\n');
+        alarmInfo.append(aBpelObject.getClass().getName());
+        alarmInfo.append(AeMessages.getString("AeAbstractBpelObject.0")); //$NON-NLS-1$
+        alarmInfo.append(AeMessages.getString("AeAbstractBpelObject.1")).append((new Date()).toString()).append('\n'); //$NON-NLS-1$
 
-      alarmInfo.append(AeMessages.getString("AeAbstractBpelObject.8")).append(deadline.toString()).append('\n'); //$NON-NLS-1$ 
-      aBpelObject.getProcess().getEngine().fireEvaluationEvent(
-            aBpelObject.getProcess().getProcessId(), expression, aEventId,
-            aBpelObject.getLocationPath(), deadline.toString());
+        String expression = aExpressionDef.getExpression();
+        Object value = executeExpression(aBpelObject, aExpressionDef);
+        Date deadline = null;
+        if (value instanceof AeSchemaDuration)
+            deadline = ((AeSchemaDuration) value).toDeadline();
+        else
+            deadline = (Date) value;
 
-      AeException.info(alarmInfo.toString());
-      return deadline;
-   }
-   
-   /**
-    * Executes an expression that returns a schema duration
-    * @param aBpelObject
-    * @param aExpressionDef
-    * @throws AeBusinessProcessException
-    */
-   public static AeSchemaDuration calculateRepeatInterval(AeAbstractBpelObject aBpelObject, IAeExpressionDef aExpressionDef) throws AeBusinessProcessException
-   {
-      return (AeSchemaDuration) executeExpression(aBpelObject, aExpressionDef);
-   }
-   
-   /**
-    * Executes an XPath expression that we expect to return a deadline/duration. 
-    * Any other return value from the evaluation will result in an exception 
-    * being thrown since there is something terribly wrong.
-    * 
-    * @param aBpelObject
-    * @param aExpressionDef
-    * @return Object Date or AeSchemaDuration
-    * @throws AeBusinessProcessException if not a duration return or other error
-    */
-   private static Object executeExpression(AeAbstractBpelObject aBpelObject, IAeExpressionDef aExpressionDef) throws AeBusinessProcessException
-   {
-      String expressionLanguage = getExpressionLanguage(aExpressionDef);
-      try
-      {
-         IAeExpressionLanguageFactory factory = aBpelObject.getProcess().getExpressionLanguageFactory();
-         IAeExpressionRunner runner = factory.createExpressionRunner(aExpressionDef.getBpelNamespace(), expressionLanguage);
-         IAeExpressionRunnerContext context = createExpressionRunnerContext(expressionLanguage, aBpelObject);
-         if (aExpressionDef instanceof AeForDef)
-         {
-            AeSchemaDuration duration = runner.executeDurationExpression(context, aExpressionDef.getExpression());
-            return duration;
-         }
-         else
-         {
-            return runner.executeDeadlineExpression(context, aExpressionDef.getExpression());
-         }
-      }
-      catch (AeBusinessProcessException e)
-      {
-         throw e;
-      }
-      catch (Exception e)
-      {
-         // was previously checking for ParseException but that should be caught 
-         // in the factory and rethrown as AeBpelException
-         throw new AeBusinessProcessException(e.getLocalizedMessage(), e);
-      }
-   }
+        alarmInfo.append(AeMessages.getString("AeAbstractBpelObject.8")).append(deadline.toString()).append('\n'); //$NON-NLS-1$
+        aBpelObject.getProcess().getEngine().fireEvaluationEvent(
+                aBpelObject.getProcess().getProcessId(), expression, aEventId,
+                aBpelObject.getLocationPath(), deadline.toString());
 
-   /**
-    * Creates an expression runner context when running an expression.
-    * 
-    * @param aLanguageURI
-    * @param aObject
-    */
-   protected static IAeExpressionRunnerContext createExpressionRunnerContext(String aLanguageURI, AeAbstractBpelObject aObject)
-   {
-      return new AeExpressionRunnerContext(aObject, null, aLanguageURI, aObject, aObject, new AeExpressionRunnerVariableResolver(aObject));
-   }
+        AeException.info(alarmInfo.toString());
+        return deadline;
+    }
 
-   /**
-    * Gets the expression language that should be used when executing the 
-    * expression found in the given IAeExpressionDef object.
-    * 
-    * @param aExpressionDef
-    */
-   protected static String getExpressionLanguage(IAeExpressionDef aExpressionDef)
-   {
-      AeProcessDef processDef = AeDefUtil.getProcessDef((AeBaseDef) aExpressionDef);
-      return AeDefUtil.getExpressionLanguage(aExpressionDef, processDef);
-   }
+    /**
+     * Executes an expression that returns a schema duration
+     *
+     * @param aBpelObject
+     * @param aExpressionDef
+     * @throws AeBusinessProcessException
+     */
+    public static AeSchemaDuration calculateRepeatInterval(AeAbstractBpelObject aBpelObject, IAeExpressionDef aExpressionDef) throws AeBusinessProcessException {
+        return (AeSchemaDuration) executeExpression(aBpelObject, aExpressionDef);
+    }
+
+    /**
+     * Executes an XPath expression that we expect to return a deadline/duration.
+     * Any other return value from the evaluation will result in an exception
+     * being thrown since there is something terribly wrong.
+     *
+     * @param aBpelObject
+     * @param aExpressionDef
+     * @return Object Date or AeSchemaDuration
+     * @throws AeBusinessProcessException if not a duration return or other error
+     */
+    private static Object executeExpression(AeAbstractBpelObject aBpelObject, IAeExpressionDef aExpressionDef) throws AeBusinessProcessException {
+        String expressionLanguage = getExpressionLanguage(aExpressionDef);
+        try {
+            IAeExpressionLanguageFactory factory = aBpelObject.getProcess().getExpressionLanguageFactory();
+            IAeExpressionRunner runner = factory.createExpressionRunner(aExpressionDef.getBpelNamespace(), expressionLanguage);
+            IAeExpressionRunnerContext context = createExpressionRunnerContext(expressionLanguage, aBpelObject);
+            if (aExpressionDef instanceof AeForDef) {
+                AeSchemaDuration duration = runner.executeDurationExpression(context, aExpressionDef.getExpression());
+                return duration;
+            } else {
+                return runner.executeDeadlineExpression(context, aExpressionDef.getExpression());
+            }
+        } catch (AeBusinessProcessException e) {
+            throw e;
+        } catch (Exception e) {
+            // was previously checking for ParseException but that should be caught
+            // in the factory and rethrown as AeBpelException
+            throw new AeBusinessProcessException(e.getLocalizedMessage(), e);
+        }
+    }
+
+    /**
+     * Creates an expression runner context when running an expression.
+     *
+     * @param aLanguageURI
+     * @param aObject
+     */
+    protected static IAeExpressionRunnerContext createExpressionRunnerContext(String aLanguageURI, AeAbstractBpelObject aObject) {
+        return new AeExpressionRunnerContext(aObject, null, aLanguageURI, aObject, aObject, new AeExpressionRunnerVariableResolver(aObject));
+    }
+
+    /**
+     * Gets the expression language that should be used when executing the
+     * expression found in the given IAeExpressionDef object.
+     *
+     * @param aExpressionDef
+     */
+    protected static String getExpressionLanguage(IAeExpressionDef aExpressionDef) {
+        AeProcessDef processDef = AeDefUtil.getProcessDef((AeBaseDef) aExpressionDef);
+        return AeDefUtil.getExpressionLanguage(aExpressionDef, processDef);
+    }
 }
  

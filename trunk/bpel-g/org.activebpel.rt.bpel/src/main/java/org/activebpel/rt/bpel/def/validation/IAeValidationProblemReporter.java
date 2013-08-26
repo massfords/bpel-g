@@ -11,19 +11,18 @@
 package org.activebpel.rt.bpel.def.validation;
 
 /**
- * Interface for reporting errors, warnings and informational messages found 
+ * Interface for reporting errors, warnings and informational messages found
  * during the analysis a bpel process.
  */
-public interface IAeValidationProblemReporter extends IAeBaseErrorReporter
-{
-   /**
-    * Report a problem to the error reporter.
-    * 
-    * @param aProblemCode - A problem code that identifies the error.
-    * @param aMessage - The problem message text
-    * @param aArgs - Object array containing substitution args for '{n}'s. 
-    * @param aNode - The node on which the error occurred.
-    */
-   public void reportProblem(String aProblemCode, String aMessage, Object[] aArgs, Object aNode);
-   
+public interface IAeValidationProblemReporter extends IAeBaseErrorReporter {
+    /**
+     * Report a problem to the error reporter.
+     *
+     * @param aProblemCode - A problem code that identifies the error.
+     * @param aMessage     - The problem message text
+     * @param aArgs        - Object array containing substitution args for '{n}'s.
+     * @param aNode        - The node on which the error occurred.
+     */
+    public void reportProblem(String aProblemCode, String aMessage, Object[] aArgs, Object aNode);
+
 }

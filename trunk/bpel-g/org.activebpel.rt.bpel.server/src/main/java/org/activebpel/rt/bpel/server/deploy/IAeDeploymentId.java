@@ -12,11 +12,10 @@ package org.activebpel.rt.bpel.server.deploy;
 /**
  * Identifies deployment.
  */
-public interface IAeDeploymentId
-{
-   /**
-    * Accessor for id.
-    */
-   public String getId();
+public interface IAeDeploymentId {
+    /**
+     * Accessor for id.
+     */
+    public String getId();
 
 }

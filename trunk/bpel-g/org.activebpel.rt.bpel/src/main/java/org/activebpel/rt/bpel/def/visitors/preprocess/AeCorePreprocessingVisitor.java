@@ -26,78 +26,68 @@ import org.activebpel.rt.xml.def.IAeExtensionObject;
  * </p>
  * <p>Applies an extension adapter to a bpel extension element.</p>
  */
-public class AeCorePreprocessingVisitor extends AeAbstractDefVisitor
-{
-   /** An exception caught during the preprocessing */
-   private AeException mException; 
+public class AeCorePreprocessingVisitor extends AeAbstractDefVisitor {
+    /**
+     * An exception caught during the preprocessing
+     */
+    private AeException mException;
 
-   /**
-    * C'tor
-    */
-   public AeCorePreprocessingVisitor()
-   {
-      setTraversalVisitor(new AeTraversalVisitor(new AeDefTraverser(), this));
-   }
+    /**
+     * C'tor
+     */
+    public AeCorePreprocessingVisitor() {
+        setTraversalVisitor(new AeTraversalVisitor(new AeDefTraverser(), this));
+    }
 
-   /**
-    * @see org.activebpel.rt.xml.def.visitors.AeBaseXmlDefVisitor#visit(org.activebpel.rt.xml.def.AeExtensionElementDef)
-    */
-   public void visit(AeExtensionElementDef aDef)
-   {
-      IAeExtensionObject extObj = aDef.getExtensionObject();
-      if ( extObj != null )
-      {
-         preprocess(aDef, extObj);
-      }
-   }
-   
-   /**
-    * @see org.activebpel.rt.bpel.def.visitors.AeAbstractDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeChildExtensionActivityDef)
-    */
-   public void visit(AeChildExtensionActivityDef def)
-   {
-      IAeExtensionObject extObj = def.getExtensionObject();
-      if ( extObj != null )
-      {
-         preprocess(def, extObj);
-      }
-   }
+    /**
+     * @see org.activebpel.rt.xml.def.visitors.AeBaseXmlDefVisitor#visit(org.activebpel.rt.xml.def.AeExtensionElementDef)
+     */
+    public void visit(AeExtensionElementDef aDef) {
+        IAeExtensionObject extObj = aDef.getExtensionObject();
+        if (extObj != null) {
+            preprocess(aDef, extObj);
+        }
+    }
 
-   /**
-    * Runs the preprocessing visitor on the extension object
-    * @param aDef
-    * @param aExtObj
-    */
-   private void preprocess(AeBaseXmlDef aDef, IAeExtensionObject aExtObj)
-   {
-      IAeAdapter adapter = aExtObj.getAdapter(IAeCorePreprocessingAdapter.class);
-      if ( adapter != null )
-      {
-         try
-         {
-            ((IAeCorePreprocessingAdapter)adapter).preprocessForCore(aDef);
-         }
-         catch (AeException e)
-         {
-            if (getException() == null)
-               setException(e);
-         }
-      }
-   }
+    /**
+     * @see org.activebpel.rt.bpel.def.visitors.AeAbstractDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeChildExtensionActivityDef)
+     */
+    public void visit(AeChildExtensionActivityDef def) {
+        IAeExtensionObject extObj = def.getExtensionObject();
+        if (extObj != null) {
+            preprocess(def, extObj);
+        }
+    }
 
-   /**
-    * @return the exception
-    */
-   public AeException getException()
-   {
-      return mException;
-   }
+    /**
+     * Runs the preprocessing visitor on the extension object
+     *
+     * @param aDef
+     * @param aExtObj
+     */
+    private void preprocess(AeBaseXmlDef aDef, IAeExtensionObject aExtObj) {
+        IAeAdapter adapter = aExtObj.getAdapter(IAeCorePreprocessingAdapter.class);
+        if (adapter != null) {
+            try {
+                ((IAeCorePreprocessingAdapter) adapter).preprocessForCore(aDef);
+            } catch (AeException e) {
+                if (getException() == null)
+                    setException(e);
+            }
+        }
+    }
 
-   /**
-    * @param aException the exception to set
-    */
-   protected void setException(AeException aException)
-   {
-      mException = aException;
-   }
+    /**
+     * @return the exception
+     */
+    public AeException getException() {
+        return mException;
+    }
+
+    /**
+     * @param aException the exception to set
+     */
+    protected void setException(AeException aException) {
+        mException = aException;
+    }
 }

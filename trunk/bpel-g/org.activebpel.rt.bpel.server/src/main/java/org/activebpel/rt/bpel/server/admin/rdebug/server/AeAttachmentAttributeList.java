@@ -14,56 +14,57 @@ import java.io.Serializable;
 /**
  * Wrapper for the list of attachment attributes sent by the designer during remote debugging.
  */
-public class AeAttachmentAttributeList implements Serializable
-{
-   
-   /**
-     * 
+public class AeAttachmentAttributeList implements Serializable {
+
+    /**
+     *
      */
     private static final long serialVersionUID = -5927828292499730467L;
-/** The attributes associated with the attachment. */
-   private AeAttachmentAttribute[] mAttachmentAttribute;
-   
-   /**
-    * No-arg constructor
-    */
-   public AeAttachmentAttributeList()
-   {     
-   }
-   
-   /**
-    * Gets the attributeName value for this AeAttachmentAttributeList.
-    * 
-    * @return attributeName
-    */
-   public AeAttachmentAttribute[] getAttributeName() {
-       return mAttachmentAttribute;
-   }
+    /**
+     * The attributes associated with the attachment.
+     */
+    private AeAttachmentAttribute[] mAttachmentAttribute;
 
-   /**
-    * Sets the attributeName value for this AesAttachmentAttributeList.
-    * 
-    * @param attributeName
-    */
-   public void setAttributeName(AeAttachmentAttribute[] attributeName) {
-      mAttachmentAttribute = attributeName;
-   }
+    /**
+     * No-arg constructor
+     */
+    public AeAttachmentAttributeList() {
+    }
 
-   /**
-    * Returns the indexed attributeName value of this AesAttachmentAttributeList.
-    * @param i
-    *
-    */
-   public AeAttachmentAttribute getAttributeName(int i) {
-       return mAttachmentAttribute[i];
-   }
+    /**
+     * Gets the attributeName value for this AeAttachmentAttributeList.
+     *
+     * @return attributeName
+     */
+    public AeAttachmentAttribute[] getAttributeName() {
+        return mAttachmentAttribute;
+    }
 
-   /**
-    * Sets the indexed attributeName value for this AesAttachmentAttributeList.
-    * @param i
-    * @param aAttachmentAttribute
-    */
-   public void setAttributeName(int i, AeAttachmentAttribute aAttachmentAttribute) {
-      mAttachmentAttribute[i] = aAttachmentAttribute;
-   }
+    /**
+     * Sets the attributeName value for this AesAttachmentAttributeList.
+     *
+     * @param attributeName
+     */
+    public void setAttributeName(AeAttachmentAttribute[] attributeName) {
+        mAttachmentAttribute = attributeName;
+    }
+
+    /**
+     * Returns the indexed attributeName value of this AesAttachmentAttributeList.
+     *
+     * @param i
+     */
+    public AeAttachmentAttribute getAttributeName(int i) {
+        return mAttachmentAttribute[i];
+    }
+
+    /**
+     * Sets the indexed attributeName value for this AesAttachmentAttributeList.
+     *
+     * @param i
+     * @param aAttachmentAttribute
+     */
+    public void setAttributeName(int i, AeAttachmentAttribute aAttachmentAttribute) {
+        mAttachmentAttribute[i] = aAttachmentAttribute;
+    }
 }

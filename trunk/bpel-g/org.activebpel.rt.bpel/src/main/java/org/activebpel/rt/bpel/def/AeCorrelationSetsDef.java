@@ -12,43 +12,40 @@ package org.activebpel.rt.bpel.def;
 import org.activebpel.rt.bpel.def.visitors.IAeDefVisitor;
 
 /**
- * Container for <code>correlationSets</code>. 
+ * Container for <code>correlationSets</code>.
  */
-public class AeCorrelationSetsDef extends AeBaseContainer<String, AeCorrelationSetDef>
-{
+public class AeCorrelationSetsDef extends AeBaseContainer<String, AeCorrelationSetDef> {
     private static final long serialVersionUID = 3229780929643955636L;
 
-   /**
-    * Default c'tor.
-    */
-   public AeCorrelationSetsDef()
-   {
-      super();
-   }
+    /**
+     * Default c'tor.
+     */
+    public AeCorrelationSetsDef() {
+        super();
+    }
 
-   /**
-    * Adds a correlation set to the collection.
-    * @param aCorrelationSetDef
-    */
-   public void addCorrelationSetDef(AeCorrelationSetDef aCorrelationSetDef)
-   {
-      add(aCorrelationSetDef.getName(), aCorrelationSetDef);
-   }
+    /**
+     * Adds a correlation set to the collection.
+     *
+     * @param aCorrelationSetDef
+     */
+    public void addCorrelationSetDef(AeCorrelationSetDef aCorrelationSetDef) {
+        add(aCorrelationSetDef.getName(), aCorrelationSetDef);
+    }
 
-   /**
-    * Gets the correlation set by name
-    * @param aName
-    */
-   public AeCorrelationSetDef getCorrelationSetDef(String aName)
-   {
-      return super.get(aName);
-   }
+    /**
+     * Gets the correlation set by name
+     *
+     * @param aName
+     */
+    public AeCorrelationSetDef getCorrelationSetDef(String aName) {
+        return super.get(aName);
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.def.AeBaseDef#accept(org.activebpel.rt.bpel.def.visitors.IAeDefVisitor)
-    */
-   public void accept(IAeDefVisitor aVisitor)
-   {
-      aVisitor.visit(this);      
-   }
+    /**
+     * @see org.activebpel.rt.bpel.def.AeBaseDef#accept(org.activebpel.rt.bpel.def.visitors.IAeDefVisitor)
+     */
+    public void accept(IAeDefVisitor aVisitor) {
+        aVisitor.visit(this);
+    }
 }

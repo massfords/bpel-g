@@ -23,88 +23,81 @@ import java.util.List;
 /**
  * This class implements a Rhino Function.
  */
-public class AeJavaScriptFunction extends AeScriptable implements Function
-{
-   /** The generic function to delegate to. */
-   private IAeFunction mDelegate;
-   /** The function execution context. */
-   private IAeFunctionExecutionContext mFunctionExecutionContext;
+public class AeJavaScriptFunction extends AeScriptable implements Function {
+    /**
+     * The generic function to delegate to.
+     */
+    private IAeFunction mDelegate;
+    /**
+     * The function execution context.
+     */
+    private IAeFunctionExecutionContext mFunctionExecutionContext;
 
-   /**
-    * Constructs this xpath function given the generic delegate function.
-    * 
-    * @param aParentScope
-    * @param aFunction
-    * @param aFunctionExecutionContext
-    */
-   public AeJavaScriptFunction(Scriptable aParentScope, IAeFunction aFunction, IAeFunctionExecutionContext aFunctionExecutionContext)
-   {
-      super(aParentScope);
-      setDelegate(aFunction);
-      setFunctionExecutionContext(aFunctionExecutionContext);
-   }
+    /**
+     * Constructs this xpath function given the generic delegate function.
+     *
+     * @param aParentScope
+     * @param aFunction
+     * @param aFunctionExecutionContext
+     */
+    public AeJavaScriptFunction(Scriptable aParentScope, IAeFunction aFunction, IAeFunctionExecutionContext aFunctionExecutionContext) {
+        super(aParentScope);
+        setDelegate(aFunction);
+        setFunctionExecutionContext(aFunctionExecutionContext);
+    }
 
-   /**
-    * Overrides method to delegate the call to the underlying IAeExpressionFunction object.
-    * 
-    * @see org.mozilla.javascript.Function#call(org.mozilla.javascript.Context, org.mozilla.javascript.Scriptable, org.mozilla.javascript.Scriptable, java.lang.Object[])
-    */
-   public Object call(Context aCtx, Scriptable aScope, Scriptable aThisObj,
-         Object[] aArgs)
-   {
-      List<Object> args = new ArrayList<>();
-       for (Object arg : aArgs) {
-           args.add(getFunctionExecutionContext().getTypeConverter().convertToEngineType(arg));
-       }
-      try
-      {
-         // Call the function and convert the result to something Rhino will like.
-         Object rval = getDelegate().call(getFunctionExecutionContext(), args);
-         return getFunctionExecutionContext().getTypeConverter().convertToExpressionType(rval);
-      }
-      catch (AeFunctionCallException fce)
-      {
-         throw new RuntimeException(fce.getLocalizedMessage());
-      }
-   }
+    /**
+     * Overrides method to delegate the call to the underlying IAeExpressionFunction object.
+     *
+     * @see org.mozilla.javascript.Function#call(org.mozilla.javascript.Context, org.mozilla.javascript.Scriptable, org.mozilla.javascript.Scriptable, java.lang.Object[])
+     */
+    public Object call(Context aCtx, Scriptable aScope, Scriptable aThisObj,
+                       Object[] aArgs) {
+        List<Object> args = new ArrayList<>();
+        for (Object arg : aArgs) {
+            args.add(getFunctionExecutionContext().getTypeConverter().convertToEngineType(arg));
+        }
+        try {
+            // Call the function and convert the result to something Rhino will like.
+            Object rval = getDelegate().call(getFunctionExecutionContext(), args);
+            return getFunctionExecutionContext().getTypeConverter().convertToExpressionType(rval);
+        } catch (AeFunctionCallException fce) {
+            throw new RuntimeException(fce.getLocalizedMessage());
+        }
+    }
 
-   /**
-    * @see org.mozilla.javascript.Function#construct(org.mozilla.javascript.Context, org.mozilla.javascript.Scriptable, java.lang.Object[])
-    */
-   public Scriptable construct(Context cx, Scriptable scope, Object[] args)
-   {
-      throw new RuntimeException("Attempted to call the constructor on a function - invalid."); //$NON-NLS-1$
-   }
+    /**
+     * @see org.mozilla.javascript.Function#construct(org.mozilla.javascript.Context, org.mozilla.javascript.Scriptable, java.lang.Object[])
+     */
+    public Scriptable construct(Context cx, Scriptable scope, Object[] args) {
+        throw new RuntimeException("Attempted to call the constructor on a function - invalid."); //$NON-NLS-1$
+    }
 
-   /**
-    * @return Returns the delegate.
-    */
-   protected IAeFunction getDelegate()
-   {
-      return mDelegate;
-   }
-   
-   /**
-    * @param aDelegate The delegate to set.
-    */
-   protected void setDelegate(IAeFunction aDelegate)
-   {
-      mDelegate = aDelegate;
-   }
+    /**
+     * @return Returns the delegate.
+     */
+    protected IAeFunction getDelegate() {
+        return mDelegate;
+    }
 
-   /**
-    * @return Returns the functionExecutionContext.
-    */
-   protected IAeFunctionExecutionContext getFunctionExecutionContext()
-   {
-      return mFunctionExecutionContext;
-   }
+    /**
+     * @param aDelegate The delegate to set.
+     */
+    protected void setDelegate(IAeFunction aDelegate) {
+        mDelegate = aDelegate;
+    }
 
-   /**
-    * @param aFunctionExecutionContext The functionExecutionContext to set.
-    */
-   protected void setFunctionExecutionContext(IAeFunctionExecutionContext aFunctionExecutionContext)
-   {
-      mFunctionExecutionContext = aFunctionExecutionContext;
-   }
+    /**
+     * @return Returns the functionExecutionContext.
+     */
+    protected IAeFunctionExecutionContext getFunctionExecutionContext() {
+        return mFunctionExecutionContext;
+    }
+
+    /**
+     * @param aFunctionExecutionContext The functionExecutionContext to set.
+     */
+    protected void setFunctionExecutionContext(IAeFunctionExecutionContext aFunctionExecutionContext) {
+        mFunctionExecutionContext = aFunctionExecutionContext;
+    }
 }

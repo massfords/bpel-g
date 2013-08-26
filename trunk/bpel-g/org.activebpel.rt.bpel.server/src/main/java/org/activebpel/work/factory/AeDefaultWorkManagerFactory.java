@@ -27,80 +27,82 @@ import commonj.work.WorkManager;
  * process work manager.
  */
 public class AeDefaultWorkManagerFactory implements IAeWorkManagerFactory {
-	/**
-	 * The CommonJ <code>WorkManager</code> for scheduling CommonJ
-	 * <code>Work</code> items.
-	 */
-	private WorkManager mWorkManager = null;
+    /**
+     * The CommonJ <code>WorkManager</code> for scheduling CommonJ
+     * <code>Work</code> items.
+     */
+    private WorkManager mWorkManager = null;
 
-	/**
-	 * <code>true</code> if and only if {@link #mWorkManager} is our internal
-	 * <code>WorkManager</code> implementation.
-	 */
-	private boolean mIsInternalWorkManager = false;
+    /**
+     * <code>true</code> if and only if {@link #mWorkManager} is our internal
+     * <code>WorkManager</code> implementation.
+     */
+    private boolean mIsInternalWorkManager = false;
 
-	/** The default input message work manager. */
-	private final IAeInputMessageWorkManager mDefaultInputMessageWorkManager = new AeDefaultInputMessageWorkManager();
-	private String mJNDILocation;
+    /**
+     * The default input message work manager.
+     */
+    private final IAeInputMessageWorkManager mDefaultInputMessageWorkManager = new AeDefaultInputMessageWorkManager();
+    private String mJNDILocation;
 
-	public void init() throws AeException {
-		if (getJNDILocation() != null) {
-			try {
-				// Look up the work manager from the JNDI location specified
-				// in
-				// engine config.
-				InitialContext ic = new InitialContext();
-				mWorkManager = (WorkManager) ic.lookup(getJNDILocation());
-				AeException
-						.info(AeMessages
-								.format("AeDefaultWorkManagerFactory.INFO_WorkManagerLocation", getJNDILocation())); //$NON-NLS-1$
-			} catch (Exception e) {
-				AeException
-						.info(AeMessages
-								.format("AeDefaultWorkManagerFactory.ERROR_WorkManagerLocation", getJNDILocation())); //$NON-NLS-1$
-			}
-		}
+    public void init() throws AeException {
+        if (getJNDILocation() != null) {
+            try {
+                // Look up the work manager from the JNDI location specified
+                // in
+                // engine config.
+                InitialContext ic = new InitialContext();
+                mWorkManager = (WorkManager) ic.lookup(getJNDILocation());
+                AeException
+                        .info(AeMessages
+                                .format("AeDefaultWorkManagerFactory.INFO_WorkManagerLocation", getJNDILocation())); //$NON-NLS-1$
+            } catch (Exception e) {
+                AeException
+                        .info(AeMessages
+                                .format("AeDefaultWorkManagerFactory.ERROR_WorkManagerLocation", getJNDILocation())); //$NON-NLS-1$
+            }
+        }
 
-		// If the work manager location was not specified or was invalid, then
-		// construct our internal implementation.
-		if (mWorkManager == null) {
-			AeException
-					.info(AeMessages
-							.getString("AeDefaultWorkManagerFactory.INFO_DefaultWorkManager")); //$NON-NLS-1$
-			mWorkManager = new AeWorkManager();
-			mIsInternalWorkManager = true;
-		}
-	}
+        // If the work manager location was not specified or was invalid, then
+        // construct our internal implementation.
+        if (mWorkManager == null) {
+            AeException
+                    .info(AeMessages
+                            .getString("AeDefaultWorkManagerFactory.INFO_DefaultWorkManager")); //$NON-NLS-1$
+            mWorkManager = new AeWorkManager();
+            mIsInternalWorkManager = true;
+        }
+    }
 
-	/**
-	 * @see org.activebpel.work.factory.IAeWorkManagerFactory#getWorkManager()
-	 */
-	public WorkManager getWorkManager() {
-		return mWorkManager;
-	}
+    /**
+     * @see org.activebpel.work.factory.IAeWorkManagerFactory#getWorkManager()
+     */
+    public WorkManager getWorkManager() {
+        return mWorkManager;
+    }
 
-	/**
-	 * @see org.activebpel.work.factory.IAeWorkManagerFactory#isInternalWorkManager()
-	 */
-	public boolean isInternalWorkManager() {
-		return mIsInternalWorkManager;
-	}
+    /**
+     * @see org.activebpel.work.factory.IAeWorkManagerFactory#isInternalWorkManager()
+     */
+    public boolean isInternalWorkManager() {
+        return mIsInternalWorkManager;
+    }
 
-	/**
-	 * Overrides method to return an {@link IAeInputMessageWorkManager} that
-	 * delegates to {@link AeEngineFactory#schedule(long, commonj.work.Work)}.
-	 * 
-	 * @see org.activebpel.work.factory.IAeWorkManagerFactory#getInputMessageWorkManager()
-	 */
-	public IAeInputMessageWorkManager getInputMessageWorkManager() {
-		return mDefaultInputMessageWorkManager;
-	}
+    /**
+     * Overrides method to return an {@link IAeInputMessageWorkManager} that
+     * delegates to {@link AeEngineFactory#schedule(long, commonj.work.Work)}.
+     *
+     * @see org.activebpel.work.factory.IAeWorkManagerFactory#getInputMessageWorkManager()
+     */
+    public IAeInputMessageWorkManager getInputMessageWorkManager() {
+        return mDefaultInputMessageWorkManager;
+    }
 
-	public String getJNDILocation() {
-		return mJNDILocation;
-	}
+    public String getJNDILocation() {
+        return mJNDILocation;
+    }
 
-	public void setJNDILocation(String aJNDILocation) {
-		mJNDILocation = aJNDILocation;
-	}
+    public void setJNDILocation(String aJNDILocation) {
+        mJNDILocation = aJNDILocation;
+    }
 }

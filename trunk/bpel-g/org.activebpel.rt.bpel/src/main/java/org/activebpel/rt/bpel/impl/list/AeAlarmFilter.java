@@ -18,102 +18,104 @@ import javax.xml.namespace.QName;
  * Wraps selection criteria for selecting message receivers
  * off of the queue.
  */
-public class AeAlarmFilter extends AeListingFilter implements Serializable
-{
-   private static final long serialVersionUID = 4987805669869939244L;
-   /** No selection criteria specified. */
-   public static final AeAlarmFilter NULL_FILTER = new AeAlarmFilter();
-   /** Default 'null' value for process id. */
-   public static final long NULL_ID = -1;
-   
-   /** Process id. */
-   private long mProcessId = NULL_ID;
-   /** Specifies the process creation starting date range to be included in the results */
-   private Date mAlarmFilterStart;
-   /** Specifies the process creation ending date range to be included in the results */
-   private Date mAlarmFilterEnd;
-   /** The namespace qualified name of process we are looking for. */
-   private QName mProcessName;
-   
-   /**
-    * Constructor.
-    */
-   public AeAlarmFilter()
-   {
-      super();
-   }
-   
-   /**
-    * Accessor for process id.
-    */
-   public long getProcessId()
-   {
-      return mProcessId;
-   }
-   
-   /**
-    * Returns true if the process id criteria has not been set.
-    */
-   public boolean isNullProcessId()
-   {
-      return mProcessId == NULL_ID;
-   }
+public class AeAlarmFilter extends AeListingFilter implements Serializable {
+    private static final long serialVersionUID = 4987805669869939244L;
+    /**
+     * No selection criteria specified.
+     */
+    public static final AeAlarmFilter NULL_FILTER = new AeAlarmFilter();
+    /**
+     * Default 'null' value for process id.
+     */
+    public static final long NULL_ID = -1;
 
-   /**
-    * Setter for the process id.
-    * @param aId
-    */
-   public void setProcessId(long aId)
-   {
-      mProcessId = aId;
-   }
-   
-   /**
-    * Returns the alarm filter end date (or null if not set).
-    */
-   public Date getAlarmFilterEnd()
-   {
-      return mAlarmFilterEnd;
-   }
+    /**
+     * Process id.
+     */
+    private long mProcessId = NULL_ID;
+    /**
+     * Specifies the process creation starting date range to be included in the results
+     */
+    private Date mAlarmFilterStart;
+    /**
+     * Specifies the process creation ending date range to be included in the results
+     */
+    private Date mAlarmFilterEnd;
+    /**
+     * The namespace qualified name of process we are looking for.
+     */
+    private QName mProcessName;
 
-   /**
-    * Returns the alarm filter start date (or null if not set).
-    */
-   public Date getAlarmFilterStart()
-   {
-      return mAlarmFilterStart;
-   }
+    /**
+     * Constructor.
+     */
+    public AeAlarmFilter() {
+        super();
+    }
 
-   /**
-    * Sets the alarm filter end date (or null if not set).
-    */
-   public void setAlarmFilterEnd(Date aDate)
-   {
-      mAlarmFilterEnd = aDate;
-   }
+    /**
+     * Accessor for process id.
+     */
+    public long getProcessId() {
+        return mProcessId;
+    }
 
-   /**
-    * Sets the alarm filter start date (or null if not set).
-    */
-   public void setAlarmFilterStart(Date aDate)
-   {
-      mAlarmFilterStart = aDate;
-   }
+    /**
+     * Returns true if the process id criteria has not been set.
+     */
+    public boolean isNullProcessId() {
+        return mProcessId == NULL_ID;
+    }
 
-   /**
-    * Get the name of the process we are filtering on, null if none.
-    */
-   public QName getProcessName()
-   {
-      return mProcessName;
-   }
+    /**
+     * Setter for the process id.
+     *
+     * @param aId
+     */
+    public void setProcessId(long aId) {
+        mProcessId = aId;
+    }
 
-   /**
-    * Sets the name of the process we are filtering on, null if none.
-    */
-   public void setProcessName(QName aName)
-   {
-      mProcessName = aName;
-   }
+    /**
+     * Returns the alarm filter end date (or null if not set).
+     */
+    public Date getAlarmFilterEnd() {
+        return mAlarmFilterEnd;
+    }
+
+    /**
+     * Returns the alarm filter start date (or null if not set).
+     */
+    public Date getAlarmFilterStart() {
+        return mAlarmFilterStart;
+    }
+
+    /**
+     * Sets the alarm filter end date (or null if not set).
+     */
+    public void setAlarmFilterEnd(Date aDate) {
+        mAlarmFilterEnd = aDate;
+    }
+
+    /**
+     * Sets the alarm filter start date (or null if not set).
+     */
+    public void setAlarmFilterStart(Date aDate) {
+        mAlarmFilterStart = aDate;
+    }
+
+    /**
+     * Get the name of the process we are filtering on, null if none.
+     */
+    public QName getProcessName() {
+        return mProcessName;
+    }
+
+    /**
+     * Sets the name of the process we are filtering on, null if none.
+     */
+    public void setProcessName(QName aName) {
+        mProcessName = aName;
+    }
 
 }

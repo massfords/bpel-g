@@ -19,48 +19,43 @@ import org.activebpel.rt.war.AeMessages;
 
 /**
  * Writes out the value of the named request parameter to
- * the <code>JspWriter</code>. 
+ * the <code>JspWriter</code>.
  */
-public class AeRequestParamTag extends TagSupport
-{
-   /**
-     * 
+public class AeRequestParamTag extends TagSupport {
+    /**
+     *
      */
     private static final long serialVersionUID = 4105228777078652399L;
-/** The key value for the request parameter. */
-   protected String mParameterName;
+    /**
+     * The key value for the request parameter.
+     */
+    protected String mParameterName;
 
-   /**
-    * @see javax.servlet.jsp.tagext.Tag#doStartTag()
-    */
-   public int doStartTag() throws JspException
-   {
-      String value = pageContext.getRequest().getParameter( getParameterName() );
-      try
-      {
-         pageContext.getOut().write( AeUtil.getSafeString(value) );
-         pageContext.getOut().flush();
-      }
-      catch (IOException e)
-      {
-         throw new JspException(AeMessages.getString("AeRequestParamTag.ERROR_0") + e.getMessage() ); //$NON-NLS-1$
-      }      
-      return SKIP_BODY;
-   }
-   
-   /**
-    * Getter for the parameter name.
-    */
-   protected String getParameterName()
-   {
-      return mParameterName;
-   }
-   
-   /**
-    * Setter for the parameter name.
-    */
-   public void setParameterName( String aName )
-   {
-      mParameterName = aName;
-   }
+    /**
+     * @see javax.servlet.jsp.tagext.Tag#doStartTag()
+     */
+    public int doStartTag() throws JspException {
+        String value = pageContext.getRequest().getParameter(getParameterName());
+        try {
+            pageContext.getOut().write(AeUtil.getSafeString(value));
+            pageContext.getOut().flush();
+        } catch (IOException e) {
+            throw new JspException(AeMessages.getString("AeRequestParamTag.ERROR_0") + e.getMessage()); //$NON-NLS-1$
+        }
+        return SKIP_BODY;
+    }
+
+    /**
+     * Getter for the parameter name.
+     */
+    protected String getParameterName() {
+        return mParameterName;
+    }
+
+    /**
+     * Setter for the parameter name.
+     */
+    public void setParameterName(String aName) {
+        mParameterName = aName;
+    }
 }

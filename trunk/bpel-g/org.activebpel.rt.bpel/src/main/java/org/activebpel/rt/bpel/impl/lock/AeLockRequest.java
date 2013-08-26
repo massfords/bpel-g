@@ -19,126 +19,124 @@ import java.util.Set;
  * request is added to the failed request collection in the outter class for
  * an attempt at a later time.
  */
-public abstract class AeLockRequest
-{
-   protected final AeVariableLocker mVariableLocker;
-   /** The set of variable paths that we want to lock */
-   protected final Set<String> mVariablesToLock;
-   /** The callback that gets used if we can't fulfill the request immediately */
-   protected final IAeVariableLockCallback mCallback;
-   /** The path of the object that will be the owner of the lock */
-   protected final String mOwner;
+public abstract class AeLockRequest {
+    protected final AeVariableLocker mVariableLocker;
+    /**
+     * The set of variable paths that we want to lock
+     */
+    protected final Set<String> mVariablesToLock;
+    /**
+     * The callback that gets used if we can't fulfill the request immediately
+     */
+    protected final IAeVariableLockCallback mCallback;
+    /**
+     * The path of the object that will be the owner of the lock
+     */
+    protected final String mOwner;
 
-   /**
-    * Creates a lock request with all of its required data.
-    * @param aVariablesToLock - The set of variable paths that we want to lock
-    * @param aOwner - The path of the object that will be the owner of the lock
-    * @param aCallback - The callback that gets used if we can't fulfill the request immediately
-    */
-   public AeLockRequest(AeVariableLocker aVariableLocker, Set<String> aVariablesToLock, String aOwner, IAeVariableLockCallback aCallback)
-   {
-      mVariableLocker = aVariableLocker;
-      mVariablesToLock = aVariablesToLock;
-      mCallback = aCallback;
-      mOwner = aOwner;
-   }
+    /**
+     * Creates a lock request with all of its required data.
+     *
+     * @param aVariablesToLock - The set of variable paths that we want to lock
+     * @param aOwner           - The path of the object that will be the owner of the lock
+     * @param aCallback        - The callback that gets used if we can't fulfill the request immediately
+     */
+    public AeLockRequest(AeVariableLocker aVariableLocker, Set<String> aVariablesToLock, String aOwner, IAeVariableLockCallback aCallback) {
+        mVariableLocker = aVariableLocker;
+        mVariablesToLock = aVariablesToLock;
+        mCallback = aCallback;
+        mOwner = aOwner;
+    }
 
-   /**
-    * Returns the object that's trying to own the lock on the variables.
-    */
-   public String getOwner()
-   {
-      return mOwner;
-   }
+    /**
+     * Returns the object that's trying to own the lock on the variables.
+     */
+    public String getOwner() {
+        return mOwner;
+    }
 
-   /** Returns true if all of the requested variables can be immediately locked */
-   protected abstract boolean canLock();
+    /**
+     * Returns true if all of the requested variables can be immediately locked
+     */
+    protected abstract boolean canLock();
 
-   /** Returns true if the request is for an exclusive lock */
-   public abstract boolean isExclusiveRequest();
+    /**
+     * Returns true if the request is for an exclusive lock
+     */
+    public abstract boolean isExclusiveRequest();
 
-   /**
-    * Template method that dictates the structure of acquiring a lock. First we
-    * see if it's possible to lock all of the variables in question. If so,
-    * the locks are added otherwise we add ourselves to the failed requests collection.
-    */
-   protected boolean acquireLock()
-   {
-      boolean immediatelyAvailable = canLock();
+    /**
+     * Template method that dictates the structure of acquiring a lock. First we
+     * see if it's possible to lock all of the variables in question. If so,
+     * the locks are added otherwise we add ourselves to the failed requests collection.
+     */
+    protected boolean acquireLock() {
+        boolean immediatelyAvailable = canLock();
 
-      if (immediatelyAvailable)
-      {
-         addLockHolders();
-      }
-      else
-      {
-         mVariableLocker.addLockRequest(getOwner(), this);
-      }
+        if (immediatelyAvailable) {
+            addLockHolders();
+        } else {
+            mVariableLocker.addLockRequest(getOwner(), this);
+        }
 
-      return immediatelyAvailable;
-   }
+        return immediatelyAvailable;
+    }
 
-   /**
-    * Walks the set of variables to lock and adds the owner as a lock
-    * holder for each of the variables. If there is no lock holder installed
-    * for the variable then one is created.
-    */
-   protected void addLockHolders()
-   {
-       for (String variablePath : mVariablesToLock) {
-           mVariableLocker.addLockHolder(variablePath, getOwner(), isExclusiveRequest());
-       }
-   }
+    /**
+     * Walks the set of variables to lock and adds the owner as a lock
+     * holder for each of the variables. If there is no lock holder installed
+     * for the variable then one is created.
+     */
+    protected void addLockHolders() {
+        for (String variablePath : mVariablesToLock) {
+            mVariableLocker.addLockHolder(variablePath, getOwner(), isExclusiveRequest());
+        }
+    }
 
-   /** Getter for the callback */
-   public IAeVariableLockCallback getCallback()
-   {
-      return mCallback;
-   }
+    /**
+     * Getter for the callback
+     */
+    public IAeVariableLockCallback getCallback() {
+        return mCallback;
+    }
 
-   /**
-    * @see java.lang.Object#equals(java.lang.Object)
-    */
-   public boolean equals(Object o)
-   {
-      if (!(o instanceof AeLockRequest))
-      {
-         return false;
-      }
+    /**
+     * @see java.lang.Object#equals(java.lang.Object)
+     */
+    public boolean equals(Object o) {
+        if (!(o instanceof AeLockRequest)) {
+            return false;
+        }
 
-      AeLockRequest other = (AeLockRequest) o;
+        AeLockRequest other = (AeLockRequest) o;
 
-      if (isExclusiveRequest() != other.isExclusiveRequest())
-      {
-         return false;
-      }
+        if (isExclusiveRequest() != other.isExclusiveRequest()) {
+            return false;
+        }
 
-      if ((getCallback() == null) && (other.getCallback() != null))
-      {
-         return false;
-      }
+        if ((getCallback() == null) && (other.getCallback() != null)) {
+            return false;
+        }
 
-      return getVariablesToLock().equals(other.getVariablesToLock())
-          && getCallback().equals(other.getCallback())
-          && getOwner().equals(other.getOwner());
-   }
+        return getVariablesToLock().equals(other.getVariablesToLock())
+                && getCallback().equals(other.getCallback())
+                && getOwner().equals(other.getOwner());
+    }
 
-   /**
-    * Returns set of paths of variables to lock.
-    */
-   public Set<String> getVariablesToLock()
-   {
-      return Collections.unmodifiableSet(mVariablesToLock);
-   }
+    /**
+     * Returns set of paths of variables to lock.
+     */
+    public Set<String> getVariablesToLock() {
+        return Collections.unmodifiableSet(mVariablesToLock);
+    }
 
-   /**
-    * @see java.lang.Object#hashCode()
-    */
-   public int hashCode()
-   {
-      return getVariablesToLock().hashCode()
-           + ((getCallback() != null) ? getCallback().hashCode() : 0)
-           + getOwner().hashCode()
-           + (isExclusiveRequest() ? 1 : 0);
-   }
+    /**
+     * @see java.lang.Object#hashCode()
+     */
+    public int hashCode() {
+        return getVariablesToLock().hashCode()
+                + ((getCallback() != null) ? getCallback().hashCode() : 0)
+                + getOwner().hashCode()
+                + (isExclusiveRequest() ? 1 : 0);
+    }
 }

@@ -18,6 +18,5 @@ import java.io.Serializable;
  * <code>java.io.Serializable</code>, so that input message work can potentially
  * be moved to a remote work manager for execution.
  */
-public interface IAeInputMessageWork extends Work, Serializable
-{
+public interface IAeInputMessageWork extends Work, Serializable {
 }

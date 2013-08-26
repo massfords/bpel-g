@@ -15,38 +15,36 @@ import javax.servlet.jsp.JspException;
  * Tag to set the resource bundle value on a bean.
  * E.g &lt;ae:SetResource key="bundle_key" name="bean_name" property="bean_property" /&gt;
  */
-public class AeSetResourceTag extends AeAbstractBeanPropertyTag
-{
-   /**
-     * 
+public class AeSetResourceTag extends AeAbstractBeanPropertyTag {
+    /**
+     *
      */
     private static final long serialVersionUID = -2624227904606529178L;
-/** Key name. */
-   private String mKey;
+    /**
+     * Key name.
+     */
+    private String mKey;
 
-   /**
-    * @see javax.servlet.jsp.tagext.Tag#doStartTag()
-    */
-   public int doStartTag() throws JspException
-   {
-      String value = getResourceString( getKey() );
-      setPropertyOnBean( value, String.class);
-      return SKIP_BODY;
-   }
-      
-   /**
-    * @return the key
-    */
-   public String getKey()
-   {
-      return mKey;
-   }
+    /**
+     * @see javax.servlet.jsp.tagext.Tag#doStartTag()
+     */
+    public int doStartTag() throws JspException {
+        String value = getResourceString(getKey());
+        setPropertyOnBean(value, String.class);
+        return SKIP_BODY;
+    }
 
-   /**
-    * @param aKey the key to set
-    */
-   public void setKey(String aKey)
-   {
-      mKey = aKey;
-   }
+    /**
+     * @return the key
+     */
+    public String getKey() {
+        return mKey;
+    }
+
+    /**
+     * @param aKey the key to set
+     */
+    public void setKey(String aKey) {
+        mKey = aKey;
+    }
 }

@@ -9,27 +9,21 @@ import org.activebpel.rt.xml.def.visitors.IAeBaseXmlDefVisitor;
  * activities. These definitions will be visited during the activity's execution
  * or during its state restoration.
  */
-public class AeImplementationTraverser extends AeDefTraverser
-{
-   /**
-    * @see org.activebpel.rt.bpel.def.visitors.AeDefTraverser#traverse(org.activebpel.rt.bpel.def.activity.AeActivityForEachDef, org.activebpel.rt.xml.def.visitors.IAeBaseXmlDefVisitor)
-    */
-   public void traverse(AeActivityForEachDef aDef, IAeBaseXmlDefVisitor aVisitor)
-   {
-      if (!aDef.isParallel())
-      {
-         super.traverse(aDef, aVisitor);
-      }
-      else
-      {
-         traverseSourceAndTargetLinks(aDef, aVisitor);
-      }
-   }
+public class AeImplementationTraverser extends AeDefTraverser {
+    /**
+     * @see org.activebpel.rt.bpel.def.visitors.AeDefTraverser#traverse(org.activebpel.rt.bpel.def.activity.AeActivityForEachDef, org.activebpel.rt.xml.def.visitors.IAeBaseXmlDefVisitor)
+     */
+    public void traverse(AeActivityForEachDef aDef, IAeBaseXmlDefVisitor aVisitor) {
+        if (!aDef.isParallel()) {
+            super.traverse(aDef, aVisitor);
+        } else {
+            traverseSourceAndTargetLinks(aDef, aVisitor);
+        }
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.def.visitors.AeDefTraverser#traverse(org.activebpel.rt.xml.def.AeDocumentationDef, org.activebpel.rt.xml.def.visitors.IAeBaseXmlDefVisitor)
-    */
-   public void traverse(AeDocumentationDef aDef, IAeBaseXmlDefVisitor aVisitor)
-   {
-   }
+    /**
+     * @see org.activebpel.rt.bpel.def.visitors.AeDefTraverser#traverse(org.activebpel.rt.xml.def.AeDocumentationDef, org.activebpel.rt.xml.def.visitors.IAeBaseXmlDefVisitor)
+     */
+    public void traverse(AeDocumentationDef aDef, IAeBaseXmlDefVisitor aVisitor) {
+    }
 }

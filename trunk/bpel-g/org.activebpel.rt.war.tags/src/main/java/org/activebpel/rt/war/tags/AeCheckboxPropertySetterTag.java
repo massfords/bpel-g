@@ -14,25 +14,23 @@ import javax.servlet.jsp.JspException;
 /**
  * Tag that allows ones to set the boolean value of a html form checkbox.
  */
-public class AeCheckboxPropertySetterTag extends AeAbstractFormPropertyTag
-{
+public class AeCheckboxPropertySetterTag extends AeAbstractFormPropertyTag {
 
-   /**
-     * 
+    /**
+     *
      */
     private static final long serialVersionUID = -409669424770928224L;
 
-/**
-    * Sets boolean value on the property for the given check box form parameter.
-    * A value of boolean true is used if the form data parameter exists,
-    * otherwise, false value is assign.
-    * 
-    * @see javax.servlet.jsp.tagext.Tag#doStartTag()
-    */
-   public int doStartTag() throws JspException
-   {
-      setPropertyOnBean(getParamValue() != null, boolean.class);
-      return SKIP_BODY;
-   }
-   
+    /**
+     * Sets boolean value on the property for the given check box form parameter.
+     * A value of boolean true is used if the form data parameter exists,
+     * otherwise, false value is assign.
+     *
+     * @see javax.servlet.jsp.tagext.Tag#doStartTag()
+     */
+    public int doStartTag() throws JspException {
+        setPropertyOnBean(getParamValue() != null, boolean.class);
+        return SKIP_BODY;
+    }
+
 }

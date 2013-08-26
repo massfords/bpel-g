@@ -13,20 +13,19 @@ import java.util.Map;
 
 /**
  * Contains durable reply information.
- *
  */
-public interface IAeDurableReplyInfo
-{
+public interface IAeDurableReplyInfo {
 
-   /** 
-    * Returns the prototype for the durable reply. The prototype is used to create an 
-    * concrete instance of a durable reply receiver.
-    * @return the durable reply type.
-    */
-   public String getType();
-   
-   /**
-    * Returns properties associated with a specific durable reply.
-    */
-   public Map<String, String> getProperties();
+    /**
+     * Returns the prototype for the durable reply. The prototype is used to create an
+     * concrete instance of a durable reply receiver.
+     *
+     * @return the durable reply type.
+     */
+    public String getType();
+
+    /**
+     * Returns properties associated with a specific durable reply.
+     */
+    public Map<String, String> getProperties();
 }

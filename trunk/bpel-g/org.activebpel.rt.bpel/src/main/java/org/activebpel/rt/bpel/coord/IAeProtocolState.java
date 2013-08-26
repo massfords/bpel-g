@@ -10,13 +10,12 @@
 package org.activebpel.rt.bpel.coord;
 
 /**
- * Interface to indicate WS-Coordination protocol state.  
+ * Interface to indicate WS-Coordination protocol state.
  * Note: This is an internal implementation tailored to be used with requirement 111.
  */
-public interface IAeProtocolState
-{
-   /**
-    * @return Returns the protocol specific state.
-    */
-   public String getState();
+public interface IAeProtocolState {
+    /**
+     * @return Returns the protocol specific state.
+     */
+    public String getState();
 }

@@ -15,22 +15,21 @@ import org.activebpel.rt.bpel.server.logging.IAeDeploymentLogger;
 /**
  * Course grained deployment interface.
  */
-public interface IAeDeploymentHandler
-{
-   /**
-    * Deploy container resources to the system.
-    * 
-    * @param aContainer
-    * @param aLogger
-    * @throws AeException
-    */
-   public void deploy(IAeDeploymentContainer aContainer, IAeDeploymentLogger aLogger) throws AeException;
-   
-   /**
-    * Undeploy container resources from the system.
-    * 
-    * @param aContainer
-    * @throws AeException
-    */
-   public void undeploy( IAeDeploymentContainer aContainer ) throws AeException;
+public interface IAeDeploymentHandler {
+    /**
+     * Deploy container resources to the system.
+     *
+     * @param aContainer
+     * @param aLogger
+     * @throws AeException
+     */
+    public void deploy(IAeDeploymentContainer aContainer, IAeDeploymentLogger aLogger) throws AeException;
+
+    /**
+     * Undeploy container resources from the system.
+     *
+     * @param aContainer
+     * @throws AeException
+     */
+    public void undeploy(IAeDeploymentContainer aContainer) throws AeException;
 }

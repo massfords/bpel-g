@@ -27,136 +27,124 @@ import java.util.List;
  * Implements a message data consumer that copies data according to a series of
  * <code>fromPart</code> definitions.
  */
-public class AeFromPartsMessageDataConsumer extends AeAbstractMessageDataConsumer
-{
-   /** The list of copy operations. */
-   private List<AeCopyOperationBase> mCopyOperations;
-   
-   /**
-    * Constructs a <code>fromParts</code> message data consumer for the given
-    * context
-    */
-   public AeFromPartsMessageDataConsumer()
-   {
-      super();
-   }
+public class AeFromPartsMessageDataConsumer extends AeAbstractMessageDataConsumer {
+    /**
+     * The list of copy operations.
+     */
+    private List<AeCopyOperationBase> mCopyOperations;
 
-   /**
-    * @see org.activebpel.rt.bpel.impl.activity.wsio.consume.IAeMessageDataConsumer#consumeMessageData(org.activebpel.rt.message.IAeMessageData, org.activebpel.rt.bpel.impl.activity.wsio.consume.IAeMessageDataConsumerContext)
-    */
-   public void consumeMessageData(IAeMessageData aMessageData, IAeMessageDataConsumerContext aContext) throws AeBusinessProcessException
-   {
-      // Create an anonymous variable that wraps the incoming message data.
-      IAeVariable anonymousVariable = createAnonymousVariable(aMessageData, aContext.getMessageConsumerDef().getConsumerMessagePartsMap());
+    /**
+     * Constructs a <code>fromParts</code> message data consumer for the given
+     * context
+     */
+    public AeFromPartsMessageDataConsumer() {
+        super();
+    }
 
-      // Prepare the copy operation context.
-      AeAtomicCopyOperationContext copyContext = getAtomicCopyOperationContext(aContext);
-      copyContext.clearRollback();
-      
-      try
-      {
-          for (AeCopyOperationBase copyOperation : getCopyOperations(aContext)) {
+    /**
+     * @see org.activebpel.rt.bpel.impl.activity.wsio.consume.IAeMessageDataConsumer#consumeMessageData(org.activebpel.rt.message.IAeMessageData, org.activebpel.rt.bpel.impl.activity.wsio.consume.IAeMessageDataConsumerContext)
+     */
+    public void consumeMessageData(IAeMessageData aMessageData, IAeMessageDataConsumerContext aContext) throws AeBusinessProcessException {
+        // Create an anonymous variable that wraps the incoming message data.
+        IAeVariable anonymousVariable = createAnonymousVariable(aMessageData, aContext.getMessageConsumerDef().getConsumerMessagePartsMap());
 
-              // Update the virtual copy operation to copy from the anonymous
-              // variable.
-              AeFromVariableMessagePart from = (AeFromVariableMessagePart) copyOperation.getFrom();
-              from.setVariable(anonymousVariable);
+        // Prepare the copy operation context.
+        AeAtomicCopyOperationContext copyContext = getAtomicCopyOperationContext(aContext);
+        copyContext.clearRollback();
 
-              // Execute the copy operation.
-              copyOperation.execute();
-          }
-      }
-      catch (Throwable t)
-      {
-         // Note: The only way that we should fault here is if validation is
-         // turned off and we are consuming an incomplete message.
-         //
-         // Restore data to the initial state.
-         copyContext.rollback();
+        try {
+            for (AeCopyOperationBase copyOperation : getCopyOperations(aContext)) {
 
-         if (t instanceof AeBusinessProcessException)
-         {
-            throw (AeBusinessProcessException) t;
-         }
-         
-         throw new AeBusinessProcessException(t.getLocalizedMessage(), t);
-      }
-   }
+                // Update the virtual copy operation to copy from the anonymous
+                // variable.
+                AeFromVariableMessagePart from = (AeFromVariableMessagePart) copyOperation.getFrom();
+                from.setVariable(anonymousVariable);
 
-   /**
-    * Returns an {@link IAeFrom} instance that will copy from the anonymous
-    * variable that will wrap the incoming message data.
-    *
-    * @param aFromPartDef
-    */
-   protected IAeFrom createCopyFrom(AeFromPartDef aFromPartDef,int aPartNumber) throws AeBusinessProcessException
-   {
-      String partName = aFromPartDef.getPart();
+                // Execute the copy operation.
+                copyOperation.execute();
+            }
+        } catch (Throwable t) {
+            // Note: The only way that we should fault here is if validation is
+            // turned off and we are consuming an incomplete message.
+            //
+            // Restore data to the initial state.
+            copyContext.rollback();
 
-      // Specify null for the variable here. We will set the variable to be the
-      // anonymous variable that wraps the incoming message data just before
-      // executing the copy operation.
-      return (aPartNumber == 0)? new AeFromVariableMessagePartWithAttachments((IAeVariable) null, partName) : new AeFromVariableMessagePart((IAeVariable) null, partName);
-   }
-   
-   /**
-    * Returns an {@link IAeTo} instance that copies to the BPEL variable
-    * specified by the given <code>fromPart</code> definition.
-    *
-    * @param aContext
-    * @param aFromPartDef
-    * @throws AeBusinessProcessException
-    */
-   protected IAeTo createCopyTo(IAeMessageDataConsumerContext aContext, AeFromPartDef aFromPartDef) throws AeBusinessProcessException
-   {
-      String variableName = aFromPartDef.getToVariable();
-      IAeVariable variable = aContext.getBpelObject().findVariable(variableName);
-      IAeTo to = null;
+            if (t instanceof AeBusinessProcessException) {
+                throw (AeBusinessProcessException) t;
+            }
 
-      // By the time we get here, we know that the variable is either an element
-      // variable or schema type variable.
-      if (variable.isElement())
-      {
-         to = new AeToVariableElement(variableName);
-      }
-      else
-      {
-         to = new AeToVariableType(variableName);
-      }
+            throw new AeBusinessProcessException(t.getLocalizedMessage(), t);
+        }
+    }
 
-      return to;
-   }
+    /**
+     * Returns an {@link IAeFrom} instance that will copy from the anonymous
+     * variable that will wrap the incoming message data.
+     *
+     * @param aFromPartDef
+     */
+    protected IAeFrom createCopyFrom(AeFromPartDef aFromPartDef, int aPartNumber) throws AeBusinessProcessException {
+        String partName = aFromPartDef.getPart();
 
-   /**
-    * Returns a list of copy operations that will copy from an anonymous
-    * variable that wraps the incoming message data to the
-    * <code>toVariable</code> variables defined by the <code>fromPart</code>
-    * definitions.
-    * @param aContext
-    * @throws AeBusinessProcessException
-    */
-   protected List<AeCopyOperationBase> getCopyOperations(IAeMessageDataConsumerContext aContext) throws AeBusinessProcessException
-   {
-      if (mCopyOperations == null)
-      {
-         mCopyOperations = new LinkedList<>();
+        // Specify null for the variable here. We will set the variable to be the
+        // anonymous variable that wraps the incoming message data just before
+        // executing the copy operation.
+        return (aPartNumber == 0) ? new AeFromVariableMessagePartWithAttachments((IAeVariable) null, partName) : new AeFromVariableMessagePart((IAeVariable) null, partName);
+    }
 
-         int partNumber = 0;
-         for (Iterator i = aContext.getMessageConsumerDef().getFromPartsDef().getFromPartDefs(); i.hasNext(); partNumber++)
-         {
-            AeFromPartDef fromPartDef = (AeFromPartDef) i.next();
-            IAeFrom from = createCopyFrom(fromPartDef,partNumber);
-            IAeTo to = createCopyTo(aContext, fromPartDef);
+    /**
+     * Returns an {@link IAeTo} instance that copies to the BPEL variable
+     * specified by the given <code>fromPart</code> definition.
+     *
+     * @param aContext
+     * @param aFromPartDef
+     * @throws AeBusinessProcessException
+     */
+    protected IAeTo createCopyTo(IAeMessageDataConsumerContext aContext, AeFromPartDef aFromPartDef) throws AeBusinessProcessException {
+        String variableName = aFromPartDef.getToVariable();
+        IAeVariable variable = aContext.getBpelObject().findVariable(variableName);
+        IAeTo to = null;
 
-            AeVirtualCopyOperation copyOperation = AeVirtualCopyOperation.createFromPartToPartOperation();
-            copyOperation.setContext(getAtomicCopyOperationContext(aContext));
-            copyOperation.setFrom(from);
-            copyOperation.setTo(to);
+        // By the time we get here, we know that the variable is either an element
+        // variable or schema type variable.
+        if (variable.isElement()) {
+            to = new AeToVariableElement(variableName);
+        } else {
+            to = new AeToVariableType(variableName);
+        }
 
-            mCopyOperations.add(copyOperation);
-         }
-      }
+        return to;
+    }
 
-      return mCopyOperations;
-   }
+    /**
+     * Returns a list of copy operations that will copy from an anonymous
+     * variable that wraps the incoming message data to the
+     * <code>toVariable</code> variables defined by the <code>fromPart</code>
+     * definitions.
+     *
+     * @param aContext
+     * @throws AeBusinessProcessException
+     */
+    protected List<AeCopyOperationBase> getCopyOperations(IAeMessageDataConsumerContext aContext) throws AeBusinessProcessException {
+        if (mCopyOperations == null) {
+            mCopyOperations = new LinkedList<>();
+
+            int partNumber = 0;
+            for (Iterator i = aContext.getMessageConsumerDef().getFromPartsDef().getFromPartDefs(); i.hasNext(); partNumber++) {
+                AeFromPartDef fromPartDef = (AeFromPartDef) i.next();
+                IAeFrom from = createCopyFrom(fromPartDef, partNumber);
+                IAeTo to = createCopyTo(aContext, fromPartDef);
+
+                AeVirtualCopyOperation copyOperation = AeVirtualCopyOperation.createFromPartToPartOperation();
+                copyOperation.setContext(getAtomicCopyOperationContext(aContext));
+                copyOperation.setFrom(from);
+                copyOperation.setTo(to);
+
+                mCopyOperations.add(copyOperation);
+            }
+        }
+
+        return mCopyOperations;
+    }
 }

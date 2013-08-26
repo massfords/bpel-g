@@ -12,15 +12,14 @@ package org.activebpel.rt.bpel.impl;
 /**
  * Contains additional information regarding an object's state change.
  */
-public interface IAeStateChangeDetail
-{
-   /**
-    * Returns non-null if the object's change was due to a fault
-    */
-   public String getFaultName();
-   
-   /**
-    * Returns any additional info related to the state change.
-    */
-   public String getAdditionalInfo();
+public interface IAeStateChangeDetail {
+    /**
+     * Returns non-null if the object's change was due to a fault
+     */
+    public String getFaultName();
+
+    /**
+     * Returns any additional info related to the state change.
+     */
+    public String getAdditionalInfo();
 }

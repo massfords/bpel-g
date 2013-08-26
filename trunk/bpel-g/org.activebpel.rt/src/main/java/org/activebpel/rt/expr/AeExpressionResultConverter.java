@@ -18,46 +18,37 @@ import org.w3c.dom.Element;
 /**
  * Utility used to convert expression results to specific expected types.
  */
-public class AeExpressionResultConverter
-{
-   /**
-    * Converts the given String value to a non negative number.
-    * 
-    * @param aValue
-    */
-   public static int toNonNegativeInt(Object aValue) throws IllegalArgumentException
-   {
-      Object value = aValue;
-      if (value instanceof Element)
-         value = AeXmlUtil.getText((Element) value);
-      if (value instanceof Attr)
-         value = ((Attr) value).getValue();
-      
-      double result = -1;
+public class AeExpressionResultConverter {
+    /**
+     * Converts the given String value to a non negative number.
+     *
+     * @param aValue
+     */
+    public static int toNonNegativeInt(Object aValue) throws IllegalArgumentException {
+        Object value = aValue;
+        if (value instanceof Element)
+            value = AeXmlUtil.getText((Element) value);
+        if (value instanceof Attr)
+            value = ((Attr) value).getValue();
 
-      if (value instanceof Number)
-      {
-         result = ((Number) value).doubleValue();
-      }
-      else if (value instanceof String)
-      {
-         try
-         {
-            result = Double.parseDouble(value.toString());
-         }
-         catch (NumberFormatException e)
-         {
-            // we'll throw below
-            result = -1;
-         }
-      }
+        double result = -1;
 
-      // check to make sure that the value is >=0 AND that there is no floating point number
-      if (result >= 0 && Double.compare(result, Math.ceil(result)) == 0)
-      {
-         return (int) result;
-      }
+        if (value instanceof Number) {
+            result = ((Number) value).doubleValue();
+        } else if (value instanceof String) {
+            try {
+                result = Double.parseDouble(value.toString());
+            } catch (NumberFormatException e) {
+                // we'll throw below
+                result = -1;
+            }
+        }
 
-      throw new IllegalArgumentException();
-   }
+        // check to make sure that the value is >=0 AND that there is no floating point number
+        if (result >= 0 && Double.compare(result, Math.ceil(result)) == 0) {
+            return (int) result;
+        }
+
+        throw new IllegalArgumentException();
+    }
 }

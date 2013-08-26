@@ -22,185 +22,168 @@ import org.activebpel.rt.message.AeMessagePartsMap;
  * Definition for bpel partner link based activity
  */
 public abstract class AeActivityPartnerLinkBaseDef extends AeActivityDef implements
-      IAePartnerLinkActivityDef, IAeCorrelationsParentDef
-{
-   /**
-     * 
+        IAePartnerLinkActivityDef, IAeCorrelationsParentDef {
+    /**
+     *
      */
     private static final long serialVersionUID = 3930397707726410228L;
-/** delegate which handle the partner link and correlation information. */
-   private final AePartnerLinkDelegate mDelegate = new AePartnerLinkDelegate();
-   
-   /**
-    * Returns the delegate.
-    */
-   protected AePartnerLinkDelegate getDelegate()
-   {
-      return mDelegate;
-   }
+    /**
+     * delegate which handle the partner link and correlation information.
+     */
+    private final AePartnerLinkDelegate mDelegate = new AePartnerLinkDelegate();
 
-   /**
-    * Provides the ability to add a correlation element to the correlation list.
-    * 
-    * @param aCorrelation the correlation to be added
-    */
-   public void addCorrelation(AeCorrelationDef aCorrelation)
-   {
-      getDelegate().addCorrelation(aCorrelation);
-   }
-   
-   /**
-    * Provide a list of the Correlation objects for the user to iterate .
-    * 
-    * @return iterator of AeCorrelationDef object
-    */
-   public Iterator getCorrelationList()
-   {
-      return getDelegate().getCorrelationDefs();
-   }
-   
-   /**
-    * Utility method to determine if a message has a correlation list 
-    * @return true if there are elements in the correlation list.
-    */
-   public boolean hasCorrelationList()
-   {
-      return getDelegate().hasCorrelationList();
-   }
-   
-   /**
-    * Returns the name of the partner link associated with this activity.
-    */
-   public String getPartnerLink()
-   {
-      return getDelegate().getPartnerLink();
-   }
+    /**
+     * Returns the delegate.
+     */
+    protected AePartnerLinkDelegate getDelegate() {
+        return mDelegate;
+    }
 
-   /**
-    * Set the name of the partner link associated with this activity.
-    */
-   public void setPartnerLink(String aPartnerLink)
-   {
-      getDelegate().setPartnerLink(aPartnerLink);
-   }
+    /**
+     * Provides the ability to add a correlation element to the correlation list.
+     *
+     * @param aCorrelation the correlation to be added
+     */
+    public void addCorrelation(AeCorrelationDef aCorrelation) {
+        getDelegate().addCorrelation(aCorrelation);
+    }
 
-   /**
-    * Accessor method to obtain the port type for the object.
-    * 
-    * @return QName of the port type for the object
-    */
-   public QName getPortType()
-   {
-      return getDelegate().getPortType();
-   }
+    /**
+     * Provide a list of the Correlation objects for the user to iterate .
+     *
+     * @return iterator of AeCorrelationDef object
+     */
+    public Iterator getCorrelationList() {
+        return getDelegate().getCorrelationDefs();
+    }
 
-   /**
-    * Mutator method to set the port type for the object.
-    * 
-    * @param aPortType the port type value to be set
-    */
-   public void setPortType(QName aPortType)
-   {
-      getDelegate().setPortType(aPortType);
-   }
+    /**
+     * Utility method to determine if a message has a correlation list
+     *
+     * @return true if there are elements in the correlation list.
+     */
+    public boolean hasCorrelationList() {
+        return getDelegate().hasCorrelationList();
+    }
 
-   /**
-    * Accessor method to obtain the operation for the object.
-    * 
-    * @return name of the operation for the object
-    */
-   public String getOperation()
-   {
-      return getDelegate().getOperation();
-   }
+    /**
+     * Returns the name of the partner link associated with this activity.
+     */
+    public String getPartnerLink() {
+        return getDelegate().getPartnerLink();
+    }
 
-   /**
-    * Mutator method to set the operation for the object.
-    * 
-    * @param aOperation the operation value to be set
-    */
-   public void setOperation(String aOperation)
-   {
-      getDelegate().setOperation(aOperation);
-   }
+    /**
+     * Set the name of the partner link associated with this activity.
+     */
+    public void setPartnerLink(String aPartnerLink) {
+        getDelegate().setPartnerLink(aPartnerLink);
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.def.IAeCorrelationsParentDef#setCorrelationsDef(org.activebpel.rt.bpel.def.AeCorrelationsDef)
-    */
-   public void setCorrelationsDef(AeCorrelationsDef aDef)
-   {
-      getDelegate().setCorrelationsDef(aDef);
-   }
+    /**
+     * Accessor method to obtain the port type for the object.
+     *
+     * @return QName of the port type for the object
+     */
+    public QName getPortType() {
+        return getDelegate().getPortType();
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.def.IAeCorrelationsParentDef#getCorrelationsDef()
-    */
-   public AeCorrelationsDef getCorrelationsDef()
-   {
-      return getDelegate().getCorrelationsDef();
-   }
-   
-   /**
-    * Gets the partner link key.
-    */
-   private AePartnerLinkDefKey getPartnerLinkKey()
-   {
-      AePartnerLinkDef plinkDef = getPartnerLinkDef();
-      if (plinkDef == null)
-         return null;
+    /**
+     * Mutator method to set the port type for the object.
+     *
+     * @param aPortType the port type value to be set
+     */
+    public void setPortType(QName aPortType) {
+        getDelegate().setPortType(aPortType);
+    }
 
-      return new AePartnerLinkDefKey(plinkDef);
-   }
-   
-   /**
-    * Gets the partner link def referenced by this activity
-    */
-   public AePartnerLinkDef getPartnerLinkDef()
-   {
-      return AeDefUtil.findPartnerLinkDef(this, getPartnerLink());
-   }
+    /**
+     * Accessor method to obtain the operation for the object.
+     *
+     * @return name of the operation for the object
+     */
+    public String getOperation() {
+        return getDelegate().getOperation();
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.def.activity.IAePartnerLinkActivityDef#getPartnerLinkOperationKey()
-    */
-   public AePartnerLinkOpKey getPartnerLinkOperationKey()
-   {
-      AePartnerLinkDefKey defKey = getPartnerLinkKey();
-      if (defKey == null)
-         return null;
+    /**
+     * Mutator method to set the operation for the object.
+     *
+     * @param aOperation the operation value to be set
+     */
+    public void setOperation(String aOperation) {
+        getDelegate().setOperation(aOperation);
+    }
 
-      return new AePartnerLinkOpKey(defKey, getOperation());
-   }
+    /**
+     * @see org.activebpel.rt.bpel.def.IAeCorrelationsParentDef#setCorrelationsDef(org.activebpel.rt.bpel.def.AeCorrelationsDef)
+     */
+    public void setCorrelationsDef(AeCorrelationsDef aDef) {
+        getDelegate().setCorrelationsDef(aDef);
+    }
 
-   /**
-    * Sets the message parts map for the request message.
-    */
-   public void setConsumerMessagePartsMap(AeMessagePartsMap aInputMessagePartsMap)
-   {
-      getDelegate().setConsumerMessagePartsMap(aInputMessagePartsMap);
-   }
+    /**
+     * @see org.activebpel.rt.bpel.def.IAeCorrelationsParentDef#getCorrelationsDef()
+     */
+    public AeCorrelationsDef getCorrelationsDef() {
+        return getDelegate().getCorrelationsDef();
+    }
 
-   /**
-    * Returns the message parts map for the request message.
-    */
-   public AeMessagePartsMap getConsumerMessagePartsMap()
-   {
-      return getDelegate().getConsumerMessagePartsMap();
-   }
+    /**
+     * Gets the partner link key.
+     */
+    private AePartnerLinkDefKey getPartnerLinkKey() {
+        AePartnerLinkDef plinkDef = getPartnerLinkDef();
+        if (plinkDef == null)
+            return null;
 
-   /**
-    * Sets the message parts map for the response message.
-    */
-   public void setProducerMessagePartsMap(AeMessagePartsMap aOutputMessagePartsMap)
-   {
-      getDelegate().setProducerMessagePartsMap(aOutputMessagePartsMap);
-   }
+        return new AePartnerLinkDefKey(plinkDef);
+    }
 
-   /**
-    * Returns the message parts map for the response message.
-    */
-   public AeMessagePartsMap getProducerMessagePartsMap()
-   {
-      return getDelegate().getProducerMessagePartsMap();
-   }
+    /**
+     * Gets the partner link def referenced by this activity
+     */
+    public AePartnerLinkDef getPartnerLinkDef() {
+        return AeDefUtil.findPartnerLinkDef(this, getPartnerLink());
+    }
+
+    /**
+     * @see org.activebpel.rt.bpel.def.activity.IAePartnerLinkActivityDef#getPartnerLinkOperationKey()
+     */
+    public AePartnerLinkOpKey getPartnerLinkOperationKey() {
+        AePartnerLinkDefKey defKey = getPartnerLinkKey();
+        if (defKey == null)
+            return null;
+
+        return new AePartnerLinkOpKey(defKey, getOperation());
+    }
+
+    /**
+     * Sets the message parts map for the request message.
+     */
+    public void setConsumerMessagePartsMap(AeMessagePartsMap aInputMessagePartsMap) {
+        getDelegate().setConsumerMessagePartsMap(aInputMessagePartsMap);
+    }
+
+    /**
+     * Returns the message parts map for the request message.
+     */
+    public AeMessagePartsMap getConsumerMessagePartsMap() {
+        return getDelegate().getConsumerMessagePartsMap();
+    }
+
+    /**
+     * Sets the message parts map for the response message.
+     */
+    public void setProducerMessagePartsMap(AeMessagePartsMap aOutputMessagePartsMap) {
+        getDelegate().setProducerMessagePartsMap(aOutputMessagePartsMap);
+    }
+
+    /**
+     * Returns the message parts map for the response message.
+     */
+    public AeMessagePartsMap getProducerMessagePartsMap() {
+        return getDelegate().getProducerMessagePartsMap();
+    }
 }

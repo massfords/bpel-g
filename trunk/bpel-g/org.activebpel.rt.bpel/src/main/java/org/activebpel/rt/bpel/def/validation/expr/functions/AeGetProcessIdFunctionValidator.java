@@ -7,7 +7,7 @@
 //Active Endpoints, Inc. Removal of this PROPRIETARY RIGHTS STATEMENT 
 //is strictly forbidden. Copyright (c) 2002-2007 All rights reserved. 
 /////////////////////////////////////////////////////////////////////////////
-package org.activebpel.rt.bpel.def.validation.expr.functions; 
+package org.activebpel.rt.bpel.def.validation.expr.functions;
 
 import org.activebpel.rt.bpel.AeMessages;
 import org.activebpel.rt.expr.def.AeScriptFuncDef;
@@ -17,23 +17,20 @@ import org.activebpel.rt.expr.validation.IAeExpressionValidationContext;
 /**
  * Validates the ActiveBPEL extension function getProcessId().
  */
-public class AeGetProcessIdFunctionValidator extends AeAbstractActiveBpelExtensionFunctionValidator
-{   
-   /**
-    * @see org.activebpel.rt.bpel.def.validation.expr.functions.AeAbstractActiveBpelExtensionFunctionValidator#validate(org.activebpel.rt.expr.def.AeScriptFuncDef, org.activebpel.rt.expr.validation.AeExpressionValidationResult, org.activebpel.rt.expr.validation.IAeExpressionValidationContext)
-    */
-   public void validate(AeScriptFuncDef aScriptFunction,
-         AeExpressionValidationResult aResult,
-         IAeExpressionValidationContext aValidationContext)
-   {
-      super.validate(aScriptFunction, aResult, aValidationContext);         
+public class AeGetProcessIdFunctionValidator extends AeAbstractActiveBpelExtensionFunctionValidator {
+    /**
+     * @see org.activebpel.rt.bpel.def.validation.expr.functions.AeAbstractActiveBpelExtensionFunctionValidator#validate(org.activebpel.rt.expr.def.AeScriptFuncDef, org.activebpel.rt.expr.validation.AeExpressionValidationResult, org.activebpel.rt.expr.validation.IAeExpressionValidationContext)
+     */
+    public void validate(AeScriptFuncDef aScriptFunction,
+                         AeExpressionValidationResult aResult,
+                         IAeExpressionValidationContext aValidationContext) {
+        super.validate(aScriptFunction, aResult, aValidationContext);
 
-      int numArgs = aScriptFunction.getArgs().size();
-      if (numArgs != 0)
-      {
-         addError(aResult, AeMessages.getString("AeAbstractActiveBpelExtensionFunctionValidator.ERROR_INCORRECT_ARGS_NUMBER"), //$NON-NLS-1$
-               new Object[] { aScriptFunction.getName(), 0, numArgs, aResult.getParseResult().getExpression() });
-      }
-   }
+        int numArgs = aScriptFunction.getArgs().size();
+        if (numArgs != 0) {
+            addError(aResult, AeMessages.getString("AeAbstractActiveBpelExtensionFunctionValidator.ERROR_INCORRECT_ARGS_NUMBER"), //$NON-NLS-1$
+                    new Object[]{aScriptFunction.getName(), 0, numArgs, aResult.getParseResult().getExpression()});
+        }
+    }
 }
  

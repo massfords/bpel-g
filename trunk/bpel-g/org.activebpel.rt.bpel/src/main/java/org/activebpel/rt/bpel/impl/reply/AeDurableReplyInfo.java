@@ -15,53 +15,55 @@ import java.util.Map;
 /**
  * Basic implementation of a durable reply info.
  */
-public class AeDurableReplyInfo implements IAeDurableReplyInfo
-{
-   /** Durable reply type. */
-   private final String mType;
-   /** Map containing reply information. */
-   private Map<String, String> mProperties;
-   
-   /**
-    * Constructs a reply info for the given type and properties.
-    * @param aType durable reply type.
-    * @param aProperties reply properties.
-    */
-   public AeDurableReplyInfo(String aType, Map<String, String> aProperties)
-   {
-      mType = aType;
-      mProperties = aProperties;
-   }
-   
-   /**
-    * Constructs a reply info for the given type..
-    * @param aType durable reply type.
-    */
-   public AeDurableReplyInfo(String aType)
-   {
-      this(aType, null);
-   }
-   
-   /** 
-    * Overrides method to return reply type. 
-    * @see org.activebpel.rt.bpel.impl.reply.IAeDurableReplyInfo#getType()
-    */
-   public String getType()
-   {
-      return mType;
-   }
+public class AeDurableReplyInfo implements IAeDurableReplyInfo {
+    /**
+     * Durable reply type.
+     */
+    private final String mType;
+    /**
+     * Map containing reply information.
+     */
+    private Map<String, String> mProperties;
 
-   /** 
-    * Overrides method to reply context properties. 
-    * @see org.activebpel.rt.bpel.impl.reply.IAeDurableReplyInfo#getProperties()
-    */
-   public Map<String, String> getProperties()
-   {
-      if (mProperties == null)
-      {
-         mProperties = new HashMap<>();
-      }
-      return mProperties;
-   }
+    /**
+     * Constructs a reply info for the given type and properties.
+     *
+     * @param aType       durable reply type.
+     * @param aProperties reply properties.
+     */
+    public AeDurableReplyInfo(String aType, Map<String, String> aProperties) {
+        mType = aType;
+        mProperties = aProperties;
+    }
+
+    /**
+     * Constructs a reply info for the given type..
+     *
+     * @param aType durable reply type.
+     */
+    public AeDurableReplyInfo(String aType) {
+        this(aType, null);
+    }
+
+    /**
+     * Overrides method to return reply type.
+     *
+     * @see org.activebpel.rt.bpel.impl.reply.IAeDurableReplyInfo#getType()
+     */
+    public String getType() {
+        return mType;
+    }
+
+    /**
+     * Overrides method to reply context properties.
+     *
+     * @see org.activebpel.rt.bpel.impl.reply.IAeDurableReplyInfo#getProperties()
+     */
+    public Map<String, String> getProperties() {
+        if (mProperties == null) {
+            mProperties = new HashMap<>();
+        }
+        return mProperties;
+    }
 
 }

@@ -22,86 +22,84 @@ import java.util.Iterator;
 /**
  * Implementation of the bpel sequence activity.
  */
-public class AeActivitySequenceImpl extends AeActivityImpl implements IAeActivityParent
-{
-   /** activities to execute in sequence */
-   private final ArrayList<IAeActivity> mActivities = new ArrayList<>();
-   
-   /** constructor for sequence activity */
-   public AeActivitySequenceImpl(AeActivitySequenceDef aActivityDef, IAeActivityParent aParent)
-   {
-      super(aActivityDef, aParent);
-   }
+public class AeActivitySequenceImpl extends AeActivityImpl implements IAeActivityParent {
+    /**
+     * activities to execute in sequence
+     */
+    private final ArrayList<IAeActivity> mActivities = new ArrayList<>();
 
-   /**
-    * @see org.activebpel.rt.bpel.impl.visitors.IAeVisitable#accept(org.activebpel.rt.bpel.impl.visitors.IAeImplVisitor)
-    */
-   public void accept( IAeImplVisitor aVisitor ) throws AeBusinessProcessException
-   {
-      aVisitor.visit(this);
-   }
-   
-   /** Adds an activity definition to the list of activities to execute */
-   public void addActivity(IAeActivity aActivity)
-   {
-      mActivities.add(aActivity);
-   }
+    /**
+     * constructor for sequence activity
+     */
+    public AeActivitySequenceImpl(AeActivitySequenceDef aActivityDef, IAeActivityParent aParent) {
+        super(aActivityDef, aParent);
+    }
 
-   /** returns an iterator of activity objects to be executed in sequence */
-   public Iterator<IAeActivity> getChildrenForStateChange()
-   {
-      return mActivities.iterator();
-   }
-   
-   /**
-    * Kicks off the sequence running, we'll queue the first eligible child to
-    * execute
-    * @see org.activebpel.rt.bpel.impl.IAeExecutableBpelObject#execute()
-    */
-   public void execute() throws AeBusinessProcessException
-   {
-      super.execute();
-      queueNextChild();
-   }
+    /**
+     * @see org.activebpel.rt.bpel.impl.visitors.IAeVisitable#accept(org.activebpel.rt.bpel.impl.visitors.IAeImplVisitor)
+     */
+    public void accept(IAeImplVisitor aVisitor) throws AeBusinessProcessException {
+        aVisitor.visit(this);
+    }
 
-   /**
-    * Queues the next child to execute or completes if all of the child objects
-    * have either executed or reached dead path
-    */
-   private void queueNextChild() throws AeBusinessProcessException
-   {
-      // Queues the first activity to execute
-      IAeBpelObject child = getNextObject();
-      if (child != null)
-      {
-         getProcess().queueObjectToExecute(child);
-      }
-      else
-      {
-         objectCompleted();
-      }
-   }
+    /**
+     * Adds an activity definition to the list of activities to execute
+     */
+    public void addActivity(IAeActivity aActivity) {
+        mActivities.add(aActivity);
+    }
 
-   /**
-    * The completed child is either FINISHED or DEAD_PATH. We don't care which 
-    * case it is, as long as the child complete is the one that we queued to execute.
-    * @see org.activebpel.rt.bpel.impl.IAeExecutableBpelObject#childComplete(org.activebpel.rt.bpel.impl.IAeBpelObject)
-    */
-   public void childComplete(IAeBpelObject aChild) throws AeBusinessProcessException
-   {
-      queueNextChild();
-   }
-   
-   /**
-    * Walks the child array looking for the first non-final object to execute
-    */
-   protected IAeBpelObject getNextObject()
-   {
-       for (IAeActivity activity : mActivities) {
-           if (!activity.getState().isFinal()) {
-               return activity;
-           }
-       }
-      return null;
-   }
+    /**
+     * returns an iterator of activity objects to be executed in sequence
+     */
+    public Iterator<IAeActivity> getChildrenForStateChange() {
+        return mActivities.iterator();
+    }
+
+    /**
+     * Kicks off the sequence running, we'll queue the first eligible child to
+     * execute
+     *
+     * @see org.activebpel.rt.bpel.impl.IAeExecutableBpelObject#execute()
+     */
+    public void execute() throws AeBusinessProcessException {
+        super.execute();
+        queueNextChild();
+    }
+
+    /**
+     * Queues the next child to execute or completes if all of the child objects
+     * have either executed or reached dead path
+     */
+    private void queueNextChild() throws AeBusinessProcessException {
+        // Queues the first activity to execute
+        IAeBpelObject child = getNextObject();
+        if (child != null) {
+            getProcess().queueObjectToExecute(child);
+        } else {
+            objectCompleted();
+        }
+    }
+
+    /**
+     * The completed child is either FINISHED or DEAD_PATH. We don't care which
+     * case it is, as long as the child complete is the one that we queued to execute.
+     *
+     * @see org.activebpel.rt.bpel.impl.IAeExecutableBpelObject#childComplete(org.activebpel.rt.bpel.impl.IAeBpelObject)
+     */
+    public void childComplete(IAeBpelObject aChild) throws AeBusinessProcessException {
+        queueNextChild();
+    }
+
+    /**
+     * Walks the child array looking for the first non-final object to execute
+     */
+    protected IAeBpelObject getNextObject() {
+        for (IAeActivity activity : mActivities) {
+            if (!activity.getState().isFinal()) {
+                return activity;
+            }
+        }
+        return null;
+    }
 }

@@ -28,166 +28,157 @@ import org.w3c.dom.Element;
 /**
  * Deserializes a fault from its serialization.
  */
-public class AeFaultDeserializer implements IAeImplStateNames
-{
-   /** The fault once deserialized. */
-   private IAeFault mFault;
+public class AeFaultDeserializer implements IAeImplStateNames {
+    /**
+     * The fault once deserialized.
+     */
+    private IAeFault mFault;
 
-   /** The fault's serialization. */
-   private Element mFaultElement;
+    /**
+     * The fault's serialization.
+     */
+    private Element mFaultElement;
 
-   /** The fault's process: used to locate the fault's source object. */
-   private IAeBusinessProcess mProcess;
-   
-   /** needed for legacy check of deserialization of old faults */
-   private static final QName FORCED_TERMINATION = new QName(IAeBPELConstants.BPWS_NAMESPACE_URI, "forcedTermination"); //$NON-NLS-1$
+    /**
+     * The fault's process: used to locate the fault's source object.
+     */
+    private IAeBusinessProcess mProcess;
 
-   /**
-    * Creates an instance of {@link org.activebpel.rt.bpel.IAeFault} from its
-    * serialization.
-    * 
-    * @param aFaultElement
-    * @throws AeBusinessProcessException
-    */
-   protected IAeFault createFault(Element aFaultElement) throws AeBusinessProcessException
-   {
-      String localPart = aFaultElement.getAttribute(STATE_NAME);
-      String namespace = aFaultElement.getAttribute(STATE_NAMESPACEURI);
-      QName faultName = new QName(namespace, localPart);
-      
-      AeFault result;
+    /**
+     * needed for legacy check of deserialization of old faults
+     */
+    private static final QName FORCED_TERMINATION = new QName(IAeBPELConstants.BPWS_NAMESPACE_URI, "forcedTermination"); //$NON-NLS-1$
 
-      // If there's message data, then create the fault object from scratch
-      // with the message data.
-      String hasMessageData = aFaultElement.getAttribute(STATE_HASMESSAGEDATA);
-      String hasElementData = aFaultElement.getAttribute(STATE_HASELEMENTDATA);
-      if ("true".equals(hasMessageData)) //$NON-NLS-1$
-      {
-         AeMessageDataDeserializer deserializer = new AeMessageDataDeserializer();
-         deserializer.setMessageDataElement(AeXmlUtil.getFirstSubElement(aFaultElement));
+    /**
+     * Creates an instance of {@link org.activebpel.rt.bpel.IAeFault} from its
+     * serialization.
+     *
+     * @param aFaultElement
+     * @throws AeBusinessProcessException
+     */
+    protected IAeFault createFault(Element aFaultElement) throws AeBusinessProcessException {
+        String localPart = aFaultElement.getAttribute(STATE_NAME);
+        String namespace = aFaultElement.getAttribute(STATE_NAMESPACEURI);
+        QName faultName = new QName(namespace, localPart);
 
-         IAeMessageData messageData = deserializer.getMessageData();
-         result = new AeFault(faultName, messageData);
-      }
-      else if ("true".equals(hasElementData)) //$NON-NLS-1$
-      {
-         result = new AeFault(faultName, AeXmlUtil.getFirstSubElement(aFaultElement));
-      }
-      // Otherwise, try getting the fault from the fault factory.
-      else
-      {
-         result = new AeFault(faultName, (IAeMessageData)null);
-      }
-      
-      result.setSuspendable( readBooleanAttribute(aFaultElement, STATE_SUSPENDABLE, true) );
+        AeFault result;
 
-      // FYI - this check for forcedTermination is for backwards compatability since the flag for whether a fault
-      //       was rethrowable was not always stored with the fault's state.
-      boolean faultIsForcedTermination = faultName.equals(FORCED_TERMINATION);
-      result.setRethrowable( readBooleanAttribute(aFaultElement, STATE_RETHROWABLE, !faultIsForcedTermination) );
+        // If there's message data, then create the fault object from scratch
+        // with the message data.
+        String hasMessageData = aFaultElement.getAttribute(STATE_HASMESSAGEDATA);
+        String hasElementData = aFaultElement.getAttribute(STATE_HASELEMENTDATA);
+        if ("true".equals(hasMessageData)) //$NON-NLS-1$
+        {
+            AeMessageDataDeserializer deserializer = new AeMessageDataDeserializer();
+            deserializer.setMessageDataElement(AeXmlUtil.getFirstSubElement(aFaultElement));
 
-      String sourceLocationPath = aFaultElement.getAttribute(STATE_SOURCE);
-      if (!AeUtil.isNullOrEmpty(sourceLocationPath))
-      {
-         if (getProcess() == null)
-         {
-            throw new IllegalStateException(AeMessages.getString("AeFaultDeserializer.ERROR_0")); //$NON-NLS-1$
-         }
+            IAeMessageData messageData = deserializer.getMessageData();
+            result = new AeFault(faultName, messageData);
+        } else if ("true".equals(hasElementData)) //$NON-NLS-1$
+        {
+            result = new AeFault(faultName, AeXmlUtil.getFirstSubElement(aFaultElement));
+        }
+        // Otherwise, try getting the fault from the fault factory.
+        else {
+            result = new AeFault(faultName, (IAeMessageData) null);
+        }
 
-         IAeBpelObject source = getProcess().findBpelObject(sourceLocationPath);
-         result.setSource(source);
-      }
+        result.setSuspendable(readBooleanAttribute(aFaultElement, STATE_SUSPENDABLE, true));
 
-      return result;
-   }
+        // FYI - this check for forcedTermination is for backwards compatability since the flag for whether a fault
+        //       was rethrowable was not always stored with the fault's state.
+        boolean faultIsForcedTermination = faultName.equals(FORCED_TERMINATION);
+        result.setRethrowable(readBooleanAttribute(aFaultElement, STATE_RETHROWABLE, !faultIsForcedTermination));
 
-   /**
-    * Reads the boolean attribute from the element, defaulting to the value provided if not 
-    * available from the element.
-    * @param aFaultElement
-    * @param aAttributeName
-    * @param aDefaultValue
-    */
-   protected boolean readBooleanAttribute(Element aFaultElement, String aAttributeName, boolean aDefaultValue)
-   {
-      String flag = aFaultElement.getAttribute( aAttributeName );
+        String sourceLocationPath = aFaultElement.getAttribute(STATE_SOURCE);
+        if (!AeUtil.isNullOrEmpty(sourceLocationPath)) {
+            if (getProcess() == null) {
+                throw new IllegalStateException(AeMessages.getString("AeFaultDeserializer.ERROR_0")); //$NON-NLS-1$
+            }
 
-      // if this fault was serialized before this feature was available,
-      // then use the default value
-      if( AeUtil.isNullOrEmpty(flag) )
-      {
-         return aDefaultValue;
-      }
-      else
-      {
-         return AeUtil.toBoolean( flag );
-      }
-   }
+            IAeBpelObject source = getProcess().findBpelObject(sourceLocationPath);
+            result.setSource(source);
+        }
 
-   /**
-    * Returns the fault deserialized from the serialization that was set with
-    * {@link #setFaultElement}.
-    */
-   public IAeFault getFault() throws AeBusinessProcessException
-   {
-      if (mFault == null)
-      {
-         if (getFaultElement() == null)
-         {
-            throw new IllegalStateException(AeMessages.getString("AeFaultDeserializer.ERROR_1")); //$NON-NLS-1$
-         }
+        return result;
+    }
 
-         mFault = createFault(getFaultElement());
-      }
+    /**
+     * Reads the boolean attribute from the element, defaulting to the value provided if not
+     * available from the element.
+     *
+     * @param aFaultElement
+     * @param aAttributeName
+     * @param aDefaultValue
+     */
+    protected boolean readBooleanAttribute(Element aFaultElement, String aAttributeName, boolean aDefaultValue) {
+        String flag = aFaultElement.getAttribute(aAttributeName);
 
-      return mFault;
-   }
+        // if this fault was serialized before this feature was available,
+        // then use the default value
+        if (AeUtil.isNullOrEmpty(flag)) {
+            return aDefaultValue;
+        } else {
+            return AeUtil.toBoolean(flag);
+        }
+    }
 
-   /**
-    * Returns the fault serialization to use.
-    */
-   protected Element getFaultElement()
-   {
-      return mFaultElement;
-   }
+    /**
+     * Returns the fault deserialized from the serialization that was set with
+     * {@link #setFaultElement}.
+     */
+    public IAeFault getFault() throws AeBusinessProcessException {
+        if (mFault == null) {
+            if (getFaultElement() == null) {
+                throw new IllegalStateException(AeMessages.getString("AeFaultDeserializer.ERROR_1")); //$NON-NLS-1$
+            }
 
-   /**
-    * Returns the process to use to locate fault source objects.
-    */
-   protected IAeBusinessProcess getProcess()
-   {
-      return mProcess;
-   }
+            mFault = createFault(getFaultElement());
+        }
 
-   /**
-    * Resets all output variables.
-    */
-   protected void reset()
-   {
-      mFault = null;
-   }
+        return mFault;
+    }
 
-   /**
-    * Sets the fault serialization to use.
-    *
-    * @param aFaultElement
-    */
-   public void setFaultElement(Element aFaultElement)
-   {
-      reset();
+    /**
+     * Returns the fault serialization to use.
+     */
+    protected Element getFaultElement() {
+        return mFaultElement;
+    }
 
-      mFaultElement = aFaultElement;
-   }
+    /**
+     * Returns the process to use to locate fault source objects.
+     */
+    protected IAeBusinessProcess getProcess() {
+        return mProcess;
+    }
 
-   /**
-    * Sets the process to use to locate fault source objects.
-    * 
-    * @param aProcess
-    */
-   public void setProcess(IAeBusinessProcess aProcess)
-   {
-      reset();
+    /**
+     * Resets all output variables.
+     */
+    protected void reset() {
+        mFault = null;
+    }
 
-      mProcess = aProcess;
-   }
+    /**
+     * Sets the fault serialization to use.
+     *
+     * @param aFaultElement
+     */
+    public void setFaultElement(Element aFaultElement) {
+        reset();
+
+        mFaultElement = aFaultElement;
+    }
+
+    /**
+     * Sets the process to use to locate fault source objects.
+     *
+     * @param aProcess
+     */
+    public void setProcess(IAeBusinessProcess aProcess) {
+        reset();
+
+        mProcess = aProcess;
+    }
 }

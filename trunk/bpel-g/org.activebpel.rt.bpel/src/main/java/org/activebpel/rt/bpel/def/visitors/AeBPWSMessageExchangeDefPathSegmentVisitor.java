@@ -16,26 +16,24 @@ import org.activebpel.rt.bpel.def.IAeBPELConstants;
 /**
  * A def path visitor extension for BPEL4WS 1.1 which also assigns paths for message exchanges.
  */
-public class AeBPWSMessageExchangeDefPathSegmentVisitor extends AeBPWSDefPathSegmentVisitor
-{
+public class AeBPWSMessageExchangeDefPathSegmentVisitor extends AeBPWSDefPathSegmentVisitor {
 
-   /**
-    * Overrides method to assign a segment path.
-    * @see org.activebpel.rt.bpel.def.visitors.AeBPWSDefPathSegmentVisitor#visit(org.activebpel.rt.bpel.def.AeMessageExchangesDef)
-    */
-   public void visit(AeMessageExchangesDef def)
-   {
-      setPathSegment(IAeBPELConstants.TAG_MESSAGE_EXCHANGES);
-   }
+    /**
+     * Overrides method to assign a segment path.
+     *
+     * @see org.activebpel.rt.bpel.def.visitors.AeBPWSDefPathSegmentVisitor#visit(org.activebpel.rt.bpel.def.AeMessageExchangesDef)
+     */
+    public void visit(AeMessageExchangesDef def) {
+        setPathSegment(IAeBPELConstants.TAG_MESSAGE_EXCHANGES);
+    }
 
-   /**
-    *
-    * Overrides method to assign a segment path.
-    * @see org.activebpel.rt.bpel.def.visitors.AeBPWSDefPathSegmentVisitor#visit(org.activebpel.rt.bpel.def.AeMessageExchangeDef)
-    */
-   public void visit(AeMessageExchangeDef def)
-   {
-      setPathSegment(IAeBPELConstants.TAG_MESSAGE_EXCHANGE);
-   }
+    /**
+     * Overrides method to assign a segment path.
+     *
+     * @see org.activebpel.rt.bpel.def.visitors.AeBPWSDefPathSegmentVisitor#visit(org.activebpel.rt.bpel.def.AeMessageExchangeDef)
+     */
+    public void visit(AeMessageExchangeDef def) {
+        setPathSegment(IAeBPELConstants.TAG_MESSAGE_EXCHANGE);
+    }
 
 }

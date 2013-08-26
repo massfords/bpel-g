@@ -22,65 +22,73 @@ import org.activebpel.rt.util.AeUtil;
  * criteria to format the select statement and the matching
  * criteria parameters.
  */
-public class AeSQLAlarmFilter extends AeSQLFilter
-{
-   /** Query key. */
-   private static final String SQL_GET_ALARMS = "GetAlarmsJoinProcess"; //$NON-NLS-1$
-   /** Where clause that always gets appended to the query if its not empty from the sql config file. */
-   private static final String SQL_GET_ALARMS_WHERE_CLAUSE = "GetAlarmsWhereClause"; //$NON-NLS-1$
-   /** Group By clause. */
-   private static final String SQL_ALARMS_ORDER_BY = "GetAlarmsOrderBy"; //$NON-NLS-1$
-   /** Column constants. */
-   private static final String SQL_PROCESS_ID = "AeAlarm.ProcessId"; //$NON-NLS-1$
-   /** Column constants. */
-   private static final String SQL_PROCESS_NAME = "AeProcess.ProcessName"; //$NON-NLS-1$
-   /** Column constants. */
-   private static final String SQL_PROCESS_NAMESPACE = "AeProcess.ProcessNamespace"; //$NON-NLS-1$
-   /** Column constants. */
-   private static final String SQL_DEADLINE_MILLIS = "AeAlarm.DeadlineMillis"; //$NON-NLS-1$
-   
-   /**
-    * Constructor.
-    * @param aFilter The selection criteria.
-    */
-   public AeSQLAlarmFilter( AeAlarmFilter aFilter, AeSQLConfig aConfig ) throws AeStorageException
-   {
-      super( aFilter.getMaxReturn(), aFilter.getListStart(), aConfig, AeSQLQueueStorageProvider.SQLSTATEMENT_PREFIX );
-      setSelectClause(getSQLStatement(SQL_GET_ALARMS));
-      setOrderBy(getSQLStatement(SQL_ALARMS_ORDER_BY));
-      processFilter(aFilter);
-   }
+public class AeSQLAlarmFilter extends AeSQLFilter {
+    /**
+     * Query key.
+     */
+    private static final String SQL_GET_ALARMS = "GetAlarmsJoinProcess"; //$NON-NLS-1$
+    /**
+     * Where clause that always gets appended to the query if its not empty from the sql config file.
+     */
+    private static final String SQL_GET_ALARMS_WHERE_CLAUSE = "GetAlarmsWhereClause"; //$NON-NLS-1$
+    /**
+     * Group By clause.
+     */
+    private static final String SQL_ALARMS_ORDER_BY = "GetAlarmsOrderBy"; //$NON-NLS-1$
+    /**
+     * Column constants.
+     */
+    private static final String SQL_PROCESS_ID = "AeAlarm.ProcessId"; //$NON-NLS-1$
+    /**
+     * Column constants.
+     */
+    private static final String SQL_PROCESS_NAME = "AeProcess.ProcessName"; //$NON-NLS-1$
+    /**
+     * Column constants.
+     */
+    private static final String SQL_PROCESS_NAMESPACE = "AeProcess.ProcessNamespace"; //$NON-NLS-1$
+    /**
+     * Column constants.
+     */
+    private static final String SQL_DEADLINE_MILLIS = "AeAlarm.DeadlineMillis"; //$NON-NLS-1$
 
-   /**
-    * Builds the sql statement.
-    */
-   private void processFilter(AeAlarmFilter filter)
-   {
-      // the static where clause is included as part of the query if it's been
-      // set in the sql config class
-      appendCondition(getSQLStatement(SQL_GET_ALARMS_WHERE_CLAUSE));
+    /**
+     * Constructor.
+     *
+     * @param aFilter The selection criteria.
+     */
+    public AeSQLAlarmFilter(AeAlarmFilter aFilter, AeSQLConfig aConfig) throws AeStorageException {
+        super(aFilter.getMaxReturn(), aFilter.getListStart(), aConfig, AeSQLQueueStorageProvider.SQLSTATEMENT_PREFIX);
+        setSelectClause(getSQLStatement(SQL_GET_ALARMS));
+        setOrderBy(getSQLStatement(SQL_ALARMS_ORDER_BY));
+        processFilter(aFilter);
+    }
 
-     if( !filter.isNullProcessId() )
-     {
-        appendCondition( SQL_PROCESS_ID + " = ?", filter.getProcessId()); //$NON-NLS-1$
-     }
+    /**
+     * Builds the sql statement.
+     */
+    private void processFilter(AeAlarmFilter filter) {
+        // the static where clause is included as part of the query if it's been
+        // set in the sql config class
+        appendCondition(getSQLStatement(SQL_GET_ALARMS_WHERE_CLAUSE));
 
-     if( filter.getProcessName() != null )
-     {
-        if( ! AeUtil.isNullOrEmpty(filter.getProcessName().getLocalPart()) )
-           appendCondition( SQL_PROCESS_NAME + " = ?", filter.getProcessName().getLocalPart() ); //$NON-NLS-1$
-        if( ! AeUtil.isNullOrEmpty(filter.getProcessName().getNamespaceURI()) )
-           appendCondition( SQL_PROCESS_NAMESPACE + " = ?", filter.getProcessName().getNamespaceURI() ); //$NON-NLS-1$
-     }
+        if (!filter.isNullProcessId()) {
+            appendCondition(SQL_PROCESS_ID + " = ?", filter.getProcessId()); //$NON-NLS-1$
+        }
 
-     if( filter.getAlarmFilterStart() != null )
-     {
-        appendCondition( SQL_DEADLINE_MILLIS + " >= ?", filter.getAlarmFilterStart().getTime()); //$NON-NLS-1$
-     }
+        if (filter.getProcessName() != null) {
+            if (!AeUtil.isNullOrEmpty(filter.getProcessName().getLocalPart()))
+                appendCondition(SQL_PROCESS_NAME + " = ?", filter.getProcessName().getLocalPart()); //$NON-NLS-1$
+            if (!AeUtil.isNullOrEmpty(filter.getProcessName().getNamespaceURI()))
+                appendCondition(SQL_PROCESS_NAMESPACE + " = ?", filter.getProcessName().getNamespaceURI()); //$NON-NLS-1$
+        }
 
-     if( filter.getAlarmFilterEnd() != null )
-     {
-        appendCondition( SQL_DEADLINE_MILLIS + " <= ?", filter.getAlarmFilterEnd().getTime()); //$NON-NLS-1$
-     }
-   }
+        if (filter.getAlarmFilterStart() != null) {
+            appendCondition(SQL_DEADLINE_MILLIS + " >= ?", filter.getAlarmFilterStart().getTime()); //$NON-NLS-1$
+        }
+
+        if (filter.getAlarmFilterEnd() != null) {
+            appendCondition(SQL_DEADLINE_MILLIS + " <= ?", filter.getAlarmFilterEnd().getTime()); //$NON-NLS-1$
+        }
+    }
 }

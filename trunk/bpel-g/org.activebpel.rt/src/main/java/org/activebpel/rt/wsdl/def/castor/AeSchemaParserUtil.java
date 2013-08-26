@@ -43,199 +43,178 @@ import org.xml.sax.InputSource;
  * Utility methods for fixing up schema imports (either from wsdl files or
  * from nested imports) so that schemas are accessible via URL.
  */
-public class AeSchemaParserUtil
-{
-   // constants for schema parsing
-   private static final QName SCHEMA_QNAME = new QName(XMLConstants.W3C_XML_SCHEMA_NS_URI, "schema");  //$NON-NLS-1$ 
-   private static final String IMPORT = "import"; //$NON-NLS-1$
-   public static final String SCHEMA_LOCATION = "schemaLocation"; //$NON-NLS-1$
+public class AeSchemaParserUtil {
+    // constants for schema parsing
+    private static final QName SCHEMA_QNAME = new QName(XMLConstants.W3C_XML_SCHEMA_NS_URI, "schema");  //$NON-NLS-1$
+    private static final String IMPORT = "import"; //$NON-NLS-1$
+    public static final String SCHEMA_LOCATION = "schemaLocation"; //$NON-NLS-1$
 
-   /**
-    * Given the schema location, load the schema object and serialize it to a string.
-    * @param aDef
-    * @throws IOException
-    */
-   public static String getSchemaAsString(AeBPELExtendedWSDLDef aDef, String aSchemaLocation) throws IOException
-   {
-      Schema schema = loadSchema(aDef.getWSDLDef(), aDef.getLocator(), aSchemaLocation);
-      return (schema == null ? null : AeSchemaUtil.serializeSchema(schema, false));
-   }
-   
-   /**
-    * Return a <code>NodeList</code> of schema import elements.
-    * @param aElement
-    */
-   public static NodeList getSchemaImportNodeList( Element aElement )
-   {
-      return aElement.getElementsByTagNameNS( SCHEMA_QNAME.getNamespaceURI(), IMPORT );
-   }
-   
-   /**
-    * Return true if the qname arg matches the {http://www.w3.org/2001/XMLSchema}schema qname.
-    * @param aType
-    */
-   public static boolean isSchemaQName( QName aType )
-   {
-      return SCHEMA_QNAME.equals( aType );
-   }
+    /**
+     * Given the schema location, load the schema object and serialize it to a string.
+     *
+     * @param aDef
+     * @throws IOException
+     */
+    public static String getSchemaAsString(AeBPELExtendedWSDLDef aDef, String aSchemaLocation) throws IOException {
+        Schema schema = loadSchema(aDef.getWSDLDef(), aDef.getLocator(), aSchemaLocation);
+        return (schema == null ? null : AeSchemaUtil.serializeSchema(schema, false));
+    }
 
-   /**
-    * Load the schema object given the import schema location.
-    * @param aWsdlDef
-    * @param aWsdlLocator
-    * @param aSchemaLocation
-    * @throws IOException
-    */
-   protected static Schema loadSchema(Definition aWsdlDef, WSDLLocator aWsdlLocator, String aSchemaLocation)
-         throws IOException
-   {
-      Schema schema = null;
-      Types types = aWsdlDef.getTypes();
-      if( (types != null) && !types.getExtensibilityElements().isEmpty() )
-      {
-         InputSource importInputSrc = aWsdlLocator.getImportInputSource(aWsdlDef.getDocumentBaseURI(), aSchemaLocation);
-         SchemaReader reader = new SchemaReader(importInputSrc);
+    /**
+     * Return a <code>NodeList</code> of schema import elements.
+     *
+     * @param aElement
+     */
+    public static NodeList getSchemaImportNodeList(Element aElement) {
+        return aElement.getElementsByTagNameNS(SCHEMA_QNAME.getNamespaceURI(), IMPORT);
+    }
 
-         URIResolver resolver = new AeWSDLSchemaResolver(aWsdlLocator, aWsdlDef, AeStandardSchemaResolver.newInstance());
-         reader.setURIResolver(resolver);
-         schema = reader.read();
-      }
+    /**
+     * Return true if the qname arg matches the {http://www.w3.org/2001/XMLSchema}schema qname.
+     *
+     * @param aType
+     */
+    public static boolean isSchemaQName(QName aType) {
+        return SCHEMA_QNAME.equals(aType);
+    }
 
-      return schema;
-   }
+    /**
+     * Load the schema object given the import schema location.
+     *
+     * @param aWsdlDef
+     * @param aWsdlLocator
+     * @param aSchemaLocation
+     * @throws IOException
+     */
+    protected static Schema loadSchema(Definition aWsdlDef, WSDLLocator aWsdlLocator, String aSchemaLocation)
+            throws IOException {
+        Schema schema = null;
+        Types types = aWsdlDef.getTypes();
+        if ((types != null) && !types.getExtensibilityElements().isEmpty()) {
+            InputSource importInputSrc = aWsdlLocator.getImportInputSource(aWsdlDef.getDocumentBaseURI(), aSchemaLocation);
+            SchemaReader reader = new SchemaReader(importInputSrc);
 
-   /**
-    * Loads a schema relative to a class's packaging.
-    * 
-    * @param aPath
-    * @param aClass
-    */
-   public static Schema loadSchema(String aPath, Class aClass)
-   {
-      InputStream in = null;
-      try
-      {
-         in = aClass.getResourceAsStream(aPath);
-         return loadSchema(new InputSource(in));
-      }
-      catch(IOException e)
-      {
-         AeException.logError( e, AeMessages.getString("AeSchemaParserUtil.SchemaError") + aPath ); //$NON-NLS-1$
-         throw new InternalError(AeMessages.getString("AeSchemaParserUtil.SchemaNotPackagedWithProject") + aPath); //$NON-NLS-1$
-      }
-      finally
-      {
-         AeCloser.close(in);
-      }
-   }
+            URIResolver resolver = new AeWSDLSchemaResolver(aWsdlLocator, aWsdlDef, AeStandardSchemaResolver.newInstance());
+            reader.setURIResolver(resolver);
+            schema = reader.read();
+        }
 
-   /**
-    * Loads a castor schema object
-    * @param aSchemaFile
-    * @return castor schema
-    * @throws IOException
-    */
-   public static Schema loadSchema(File aSchemaFile) throws IOException
-   {
-      FileInputStream in = null;
-      try
-      {
-         in =  new FileInputStream(aSchemaFile);
-         return loadSchema(new InputSource(in));
-      }
-      catch(IOException e)
-      {
-         AeException.logError( e, AeMessages.getString("AeSchemaParserUtil.SchemaError") + aSchemaFile.getAbsolutePath() ); //$NON-NLS-1$
-         throw e;
-      }
-      finally
-      {
-         AeCloser.close(in);
-      }      
-   } 
-   
-   /**
-    * Load schema from given input source
-    * @param aInputSource
-    * @return castor Schema object
-    */
-   public static Schema loadSchema(InputSource aInputSource) throws IOException
-   {
-      SchemaReader schemaReader = new SchemaReader(aInputSource);         
-      return schemaReader.read();
-   }   
-   
-   /**
-    * Extract schema definition from passed extensibility element for parsing by
-    * castor.
-    * 
-    * @param aExtElement the schema extensibility element.
-    * @return Element the extracted schema element.
-    */
-   public static Element extractSchemaElement(
-         UnknownExtensibilityElement aExtElement)
-   {
-      // copy all namespace attributes from parents to schema root if they don't
-      // exist
-      Node parent = aExtElement.getElement();
-      Element element = (Element) parent.cloneNode(true);
-      while ((parent = parent.getParentNode()) != null)
-      {
-         if( parent.getNodeType() == Node.ELEMENT_NODE )
-         {
-            NamedNodeMap attrs = parent.getAttributes();
-            for( int i = 0; i < attrs.getLength(); ++i )
-            {
-               Attr attr = (Attr) attrs.item(i);
-               if( XMLConstants.XMLNS_ATTRIBUTE_NS_URI.equals(attr.getNamespaceURI()) )
-               {
-                  if( !element.hasAttribute(attr.getNodeName()) )
-                     element.setAttributeNS(XMLConstants.XMLNS_ATTRIBUTE_NS_URI, attr
-                           .getNodeName(), attr.getNodeValue());
-               }
+        return schema;
+    }
+
+    /**
+     * Loads a schema relative to a class's packaging.
+     *
+     * @param aPath
+     * @param aClass
+     */
+    public static Schema loadSchema(String aPath, Class aClass) {
+        InputStream in = null;
+        try {
+            in = aClass.getResourceAsStream(aPath);
+            return loadSchema(new InputSource(in));
+        } catch (IOException e) {
+            AeException.logError(e, AeMessages.getString("AeSchemaParserUtil.SchemaError") + aPath); //$NON-NLS-1$
+            throw new InternalError(AeMessages.getString("AeSchemaParserUtil.SchemaNotPackagedWithProject") + aPath); //$NON-NLS-1$
+        } finally {
+            AeCloser.close(in);
+        }
+    }
+
+    /**
+     * Loads a castor schema object
+     *
+     * @param aSchemaFile
+     * @return castor schema
+     * @throws IOException
+     */
+    public static Schema loadSchema(File aSchemaFile) throws IOException {
+        FileInputStream in = null;
+        try {
+            in = new FileInputStream(aSchemaFile);
+            return loadSchema(new InputSource(in));
+        } catch (IOException e) {
+            AeException.logError(e, AeMessages.getString("AeSchemaParserUtil.SchemaError") + aSchemaFile.getAbsolutePath()); //$NON-NLS-1$
+            throw e;
+        } finally {
+            AeCloser.close(in);
+        }
+    }
+
+    /**
+     * Load schema from given input source
+     *
+     * @param aInputSource
+     * @return castor Schema object
+     */
+    public static Schema loadSchema(InputSource aInputSource) throws IOException {
+        SchemaReader schemaReader = new SchemaReader(aInputSource);
+        return schemaReader.read();
+    }
+
+    /**
+     * Extract schema definition from passed extensibility element for parsing by
+     * castor.
+     *
+     * @param aExtElement the schema extensibility element.
+     * @return Element the extracted schema element.
+     */
+    public static Element extractSchemaElement(
+            UnknownExtensibilityElement aExtElement) {
+        // copy all namespace attributes from parents to schema root if they don't
+        // exist
+        Node parent = aExtElement.getElement();
+        Element element = (Element) parent.cloneNode(true);
+        while ((parent = parent.getParentNode()) != null) {
+            if (parent.getNodeType() == Node.ELEMENT_NODE) {
+                NamedNodeMap attrs = parent.getAttributes();
+                for (int i = 0; i < attrs.getLength(); ++i) {
+                    Attr attr = (Attr) attrs.item(i);
+                    if (XMLConstants.XMLNS_ATTRIBUTE_NS_URI.equals(attr.getNamespaceURI())) {
+                        if (!element.hasAttribute(attr.getNodeName()))
+                            element.setAttributeNS(XMLConstants.XMLNS_ATTRIBUTE_NS_URI, attr
+                                    .getNodeName(), attr.getNodeValue());
+                    }
+                }
             }
-         }
-      }
+        }
 
-      // castor has an issue dealing with imports that don't have namespaces
-      // prefixes
-      // so this will fix them up
-      int prefixCount = 1;
-      for( Node child = element.getFirstChild(); child != null; child = child
-            .getNextSibling() )
-      {
-         if( child.getNodeType() == Node.ELEMENT_NODE
-               && "import".equals(child.getLocalName()) ) //$NON-NLS-1$
-         {
-            Element schema = (Element) child;
-            String namespace = schema.getAttribute("namespace"); //$NON-NLS-1$
-            if( !AeUtil.isNullOrEmpty(namespace) )
+        // castor has an issue dealing with imports that don't have namespaces
+        // prefixes
+        // so this will fix them up
+        int prefixCount = 1;
+        for (Node child = element.getFirstChild(); child != null; child = child
+                .getNextSibling()) {
+            if (child.getNodeType() == Node.ELEMENT_NODE
+                    && "import".equals(child.getLocalName())) //$NON-NLS-1$
             {
-               String prefix = AeXmlUtil.getPrefixForNamespace(schema,
-                     namespace);
-               if( AeUtil.isNullOrEmpty(prefix) )
-               {
-                  prefix = "ae__temp_ns" + prefixCount++; //$NON-NLS-1$
-                  element.setAttributeNS(XMLConstants.XMLNS_ATTRIBUTE_NS_URI,
-                        "xmlns:" + prefix, namespace); //$NON-NLS-1$
-               }
+                Element schema = (Element) child;
+                String namespace = schema.getAttribute("namespace"); //$NON-NLS-1$
+                if (!AeUtil.isNullOrEmpty(namespace)) {
+                    String prefix = AeXmlUtil.getPrefixForNamespace(schema,
+                            namespace);
+                    if (AeUtil.isNullOrEmpty(prefix)) {
+                        prefix = "ae__temp_ns" + prefixCount++; //$NON-NLS-1$
+                        element.setAttributeNS(XMLConstants.XMLNS_ATTRIBUTE_NS_URI,
+                                "xmlns:" + prefix, namespace); //$NON-NLS-1$
+                    }
+                }
             }
-         }
-      }
-      return element;
-   }
-   
-   /**
-    * Reads the schema from the input source.
-    * @param aInputSource contains the src xml for the schema
-    * @param aURIResolver optional uri resolver or null to use castor's default 
-    * @throws IOException
-    */
-   public static Schema readSchema(InputSource aInputSource, URIResolver aURIResolver) throws IOException
-   {
-      SchemaReader reader = new SchemaReader(aInputSource);
-      if (aURIResolver != null)
-         reader.setURIResolver(aURIResolver);
-      return reader.read();
-   }
+        }
+        return element;
+    }
+
+    /**
+     * Reads the schema from the input source.
+     *
+     * @param aInputSource contains the src xml for the schema
+     * @param aURIResolver optional uri resolver or null to use castor's default
+     * @throws IOException
+     */
+    public static Schema readSchema(InputSource aInputSource, URIResolver aURIResolver) throws IOException {
+        SchemaReader reader = new SchemaReader(aInputSource);
+        if (aURIResolver != null)
+            reader.setURIResolver(aURIResolver);
+        return reader.read();
+    }
 }

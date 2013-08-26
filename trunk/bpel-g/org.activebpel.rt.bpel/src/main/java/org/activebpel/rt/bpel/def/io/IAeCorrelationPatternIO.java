@@ -7,25 +7,26 @@
 //Active Endpoints, Inc. Removal of this PROPRIETARY RIGHTS STATEMENT 
 //is strictly forbidden. Copyright (c) 2002-2006 All rights reserved. 
 /////////////////////////////////////////////////////////////////////////////
-package org.activebpel.rt.bpel.def.io; 
+package org.activebpel.rt.bpel.def.io;
 
 import org.activebpel.rt.bpel.def.activity.support.AeCorrelationDef;
 
 /**
- * Provides the legal values for the correlation initiation/validation patterns 
+ * Provides the legal values for the correlation initiation/validation patterns
  */
-public interface IAeCorrelationPatternIO
-{
-   /**
-    * Converts the string to a pattern type
-    * @param aValue
-    */
-   public AeCorrelationDef.AeCorrelationPatternType fromString(String aValue);
-   
-   /**
-    * Converts a pattern type to a string
-    * @param aType
-    */
-   public String toString(AeCorrelationDef.AeCorrelationPatternType aType);
+public interface IAeCorrelationPatternIO {
+    /**
+     * Converts the string to a pattern type
+     *
+     * @param aValue
+     */
+    public AeCorrelationDef.AeCorrelationPatternType fromString(String aValue);
+
+    /**
+     * Converts a pattern type to a string
+     *
+     * @param aType
+     */
+    public String toString(AeCorrelationDef.AeCorrelationPatternType aType);
 }
  

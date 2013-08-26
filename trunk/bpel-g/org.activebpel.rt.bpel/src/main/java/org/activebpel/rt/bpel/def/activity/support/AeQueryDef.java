@@ -16,73 +16,69 @@ import org.activebpel.rt.bpel.def.util.AeDefUtil;
 import org.activebpel.rt.bpel.def.visitors.IAeDefVisitor;
 
 /**
- * Models the <code>query</code> construct that was introduced in WS-BPEL 2.0 as a child of the 
+ * Models the <code>query</code> construct that was introduced in WS-BPEL 2.0 as a child of the
  * <code>from</code> and <code>to</code> constructs.
  */
-public class AeQueryDef extends AeBaseDef implements IAeQueryDef
-{
-   /**
-     * 
+public class AeQueryDef extends AeBaseDef implements IAeQueryDef {
+    /**
+     *
      */
     private static final long serialVersionUID = -932345675803601079L;
-/** The query language. */
-   private String mQueryLanguage;
-   /** The query. */
-   private String mQuery;
-   
-   /**
-    * Default c'tor.
-    */
-   public AeQueryDef()
-   {
-      super();
-   }
+    /**
+     * The query language.
+     */
+    private String mQueryLanguage;
+    /**
+     * The query.
+     */
+    private String mQuery;
 
-   /**
-    * @return Returns the query.
-    */
-   public String getQuery()
-   {
-      return mQuery;
-   }
+    /**
+     * Default c'tor.
+     */
+    public AeQueryDef() {
+        super();
+    }
 
-   /**
-    * @param aQuery The query to set.
-    */
-   public void setQuery(String aQuery)
-   {
-      mQuery = aQuery;
-   }
+    /**
+     * @return Returns the query.
+     */
+    public String getQuery() {
+        return mQuery;
+    }
 
-   /**
-    * @return Returns the queryLanguage.
-    */
-   public String getQueryLanguage()
-   {
-      return mQueryLanguage;
-   }
+    /**
+     * @param aQuery The query to set.
+     */
+    public void setQuery(String aQuery) {
+        mQuery = aQuery;
+    }
 
-   /**
-    * @param aQueryLanguage The queryLanguage to set.
-    */
-   public void setQueryLanguage(String aQueryLanguage)
-   {
-      mQueryLanguage = aQueryLanguage;
-   }
+    /**
+     * @return Returns the queryLanguage.
+     */
+    public String getQueryLanguage() {
+        return mQueryLanguage;
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.def.IAeQueryDef#getBpelNamespace()
-    */
-   public String getBpelNamespace()
-   {
-      return AeDefUtil.getProcessDef(this).getNamespace();
-   }
+    /**
+     * @param aQueryLanguage The queryLanguage to set.
+     */
+    public void setQueryLanguage(String aQueryLanguage) {
+        mQueryLanguage = aQueryLanguage;
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.def.AeBaseDef#accept(org.activebpel.rt.bpel.def.visitors.IAeDefVisitor)
-    */
-   public void accept(IAeDefVisitor aVisitor)
-   {
-      aVisitor.visit(this);
-   }
+    /**
+     * @see org.activebpel.rt.bpel.def.IAeQueryDef#getBpelNamespace()
+     */
+    public String getBpelNamespace() {
+        return AeDefUtil.getProcessDef(this).getNamespace();
+    }
+
+    /**
+     * @see org.activebpel.rt.bpel.def.AeBaseDef#accept(org.activebpel.rt.bpel.def.visitors.IAeDefVisitor)
+     */
+    public void accept(IAeDefVisitor aVisitor) {
+        aVisitor.visit(this);
+    }
 }

@@ -15,16 +15,16 @@ import org.activebpel.rt.bpel.def.activity.support.AeFromDef;
 /**
  * Defs that can have a 'from' child will implement this interface.
  */
-public interface IAeFromParentDef
-{
-   /**
-    * Accessor method to obtain the From def.
-    */
-   public AeFromDef getFromDef();
+public interface IAeFromParentDef {
+    /**
+     * Accessor method to obtain the From def.
+     */
+    public AeFromDef getFromDef();
 
-   /**
-    * Mutator method to set the From def.
-    * @param aFrom the From def
-    */
-   public void setFromDef(AeFromDef aFrom);
+    /**
+     * Mutator method to set the From def.
+     *
+     * @param aFrom the From def
+     */
+    public void setFromDef(AeFromDef aFrom);
 }

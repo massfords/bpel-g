@@ -17,10 +17,9 @@ import org.activebpel.rt.bpel.server.engine.transaction.IAeTransaction;
 /**
  * Defines interface for transactions that can return database connections.
  */
-public interface IAeSQLTransaction extends IAeTransaction
-{
-   /**
-    * Return database connection for current transaction.
-    */
-   public Connection getConnection() throws SQLException;
+public interface IAeSQLTransaction extends IAeTransaction {
+    /**
+     * Return database connection for current transaction.
+     */
+    public Connection getConnection() throws SQLException;
 }

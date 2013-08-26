@@ -19,57 +19,53 @@ import java.util.List;
 /**
  * A def visitor that will find all invokes.
  */
-public class AeDefActivityInvokeVisitor extends AeAbstractDefVisitor
-{
-   /** List of all the AeActivityInvokeDef objects found in the BPEL */
-   private final List<AeActivityInvokeDef> mInvokes = new ArrayList<>();
-   
-   /**
-    * Constructor
-    */
-   public AeDefActivityInvokeVisitor()
-   {
-      setTraversalVisitor( new AeTraversalVisitor( new AeDefTraverser(), this ) );
-   }
+public class AeDefActivityInvokeVisitor extends AeAbstractDefVisitor {
+    /**
+     * List of all the AeActivityInvokeDef objects found in the BPEL
+     */
+    private final List<AeActivityInvokeDef> mInvokes = new ArrayList<>();
 
-   /**
-    * 
-    * @see org.activebpel.rt.bpel.def.visitors.AeAbstractDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityInvokeDef)
-    */
-   public void visit(AeActivityInvokeDef def)
-   {
-      mInvokes.add(def);
-      super.visit(def);
-   }
+    /**
+     * Constructor
+     */
+    public AeDefActivityInvokeVisitor() {
+        setTraversalVisitor(new AeTraversalVisitor(new AeDefTraverser(), this));
+    }
 
-   /**
-    * Returns all invokes within a BPEL process
-    * 
-    * @return List of AeActivityInvokeDef objects
-    */
-   public List getInvokes()
-   {
-      return Collections.unmodifiableList(mInvokes);
-   }
-   
-   /**
-    * Returns all invokes within a BPEL process with a specified name
-    * 
-    * @param aName
-    * @return List of AeActivityInvokeDef objects
-    */
-   public List<AeActivityInvokeDef> getInvokes(String aName)
-   {
-      List<AeActivityInvokeDef> retList = new ArrayList<>();
+    /**
+     * @see org.activebpel.rt.bpel.def.visitors.AeAbstractDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityInvokeDef)
+     */
+    public void visit(AeActivityInvokeDef def) {
+        mInvokes.add(def);
+        super.visit(def);
+    }
 
-       for (AeActivityInvokeDef def : mInvokes) {
-           if (def.getName().equals(aName)) {
-               retList.add(def);
-           }
+    /**
+     * Returns all invokes within a BPEL process
+     *
+     * @return List of AeActivityInvokeDef objects
+     */
+    public List getInvokes() {
+        return Collections.unmodifiableList(mInvokes);
+    }
 
-       }
-      
-      return Collections.unmodifiableList(retList);
-   }
-   
+    /**
+     * Returns all invokes within a BPEL process with a specified name
+     *
+     * @param aName
+     * @return List of AeActivityInvokeDef objects
+     */
+    public List<AeActivityInvokeDef> getInvokes(String aName) {
+        List<AeActivityInvokeDef> retList = new ArrayList<>();
+
+        for (AeActivityInvokeDef def : mInvokes) {
+            if (def.getName().equals(aName)) {
+                retList.add(def);
+            }
+
+        }
+
+        return Collections.unmodifiableList(retList);
+    }
+
 }

@@ -13,15 +13,15 @@ import org.activebpel.rt.bpel.AeBusinessProcessException;
 import org.activebpel.rt.bpel.impl.IAeReceiveHandler;
 
 /**
- *  Factory interface for the creation of <code>IAeReceiveHandler</code> impls.
+ * Factory interface for the creation of <code>IAeReceiveHandler</code> impls.
  */
-public interface IAeReceiveHandlerFactory
-{
-   /**
-    * Create a new <code>IAeReceiveHandler</code> instance.
-    * @param aProtocol
-    * @throws AeBusinessProcessException
-    */
-   public IAeReceiveHandler createReceiveHandler( String aProtocol ) throws AeBusinessProcessException;
+public interface IAeReceiveHandlerFactory {
+    /**
+     * Create a new <code>IAeReceiveHandler</code> instance.
+     *
+     * @param aProtocol
+     * @throws AeBusinessProcessException
+     */
+    public IAeReceiveHandler createReceiveHandler(String aProtocol) throws AeBusinessProcessException;
 
 }

@@ -17,19 +17,17 @@ import org.activebpel.rt.expr.def.IAeExpressionParserContext;
 /**
  * A concrete implementation of a parse result for the xpath language for BPEL 1.1 processes.
  */
-public class AeBPWSXPathParseResult extends AeAbstractXPathParseResult
-{
-   /**
-    * Creates the xpath parse result.
-    * 
-    * @param aExpression
-    * @param aXPathAST
-    * @param aErrors
-    * @param aParserContext
-    */
-   public AeBPWSXPathParseResult(String aExpression, AeXPathAST aXPathAST, List<String> aErrors,
-         IAeExpressionParserContext aParserContext)
-   {
-      super(aExpression, aXPathAST, aErrors, aParserContext);
-   }
+public class AeBPWSXPathParseResult extends AeAbstractXPathParseResult {
+    /**
+     * Creates the xpath parse result.
+     *
+     * @param aExpression
+     * @param aXPathAST
+     * @param aErrors
+     * @param aParserContext
+     */
+    public AeBPWSXPathParseResult(String aExpression, AeXPathAST aXPathAST, List<String> aErrors,
+                                  IAeExpressionParserContext aParserContext) {
+        super(aExpression, aXPathAST, aErrors, aParserContext);
+    }
 }

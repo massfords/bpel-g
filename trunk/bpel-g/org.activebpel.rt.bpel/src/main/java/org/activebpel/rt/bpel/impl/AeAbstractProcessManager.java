@@ -18,95 +18,89 @@ import java.util.concurrent.CopyOnWriteArraySet;
 /**
  * Implements a simple in-memory process manager.
  */
-public abstract class AeAbstractProcessManager extends AeManagerAdapter implements IAeProcessManager
-{
-   public static final String CONFIG_DEBUG = "Debug"; //$NON-NLS-1$
+public abstract class AeAbstractProcessManager extends AeManagerAdapter implements IAeProcessManager {
+    public static final String CONFIG_DEBUG = "Debug"; //$NON-NLS-1$
 
-   /** <code>true</code> if and only if showing debug output. */
-   private static final boolean sDebug = false;
+    /**
+     * <code>true</code> if and only if showing debug output.
+     */
+    private static final boolean sDebug = false;
 
-   /** Process purged listeners */
-   private final Set<IAeProcessPurgedListener> mProcessPurgedListeners = new CopyOnWriteArraySet<>();
+    /**
+     * Process purged listeners
+     */
+    private final Set<IAeProcessPurgedListener> mProcessPurgedListeners = new CopyOnWriteArraySet<>();
 
-   /**
-    * @see org.activebpel.rt.bpel.impl.IAeProcessManager#addProcessPurgedListener(org.activebpel.rt.bpel.impl.IAeProcessPurgedListener)
-    */
-   public void addProcessPurgedListener(IAeProcessPurgedListener aListener)
-   {
-      getProcessPurgedListeners().add(aListener);
-   }
+    /**
+     * @see org.activebpel.rt.bpel.impl.IAeProcessManager#addProcessPurgedListener(org.activebpel.rt.bpel.impl.IAeProcessPurgedListener)
+     */
+    public void addProcessPurgedListener(IAeProcessPurgedListener aListener) {
+        getProcessPurgedListeners().add(aListener);
+    }
 
-   /**
-    * Writes debugging output.
-    */
-   public void debug(String aMessage)
-   {
-      if (isDebug())
-      {
-         System.out.println(aMessage);
-      }
-   }
+    /**
+     * Writes debugging output.
+     */
+    public void debug(String aMessage) {
+        if (isDebug()) {
+            System.out.println(aMessage);
+        }
+    }
 
-   /**
-    * Writes formatted debugging output.
-    */
-   public void debug(String aPattern, long aArgument)
-   {
-      debug(aPattern, new Object[] {aArgument});
-   }
+    /**
+     * Writes formatted debugging output.
+     */
+    public void debug(String aPattern, long aArgument) {
+        debug(aPattern, new Object[]{aArgument});
+    }
 
-   /**
-    * Writes formatted debugging output.
-    */
-   public void debug(String aPattern, Object[] aArguments)
-   {
-      if (isDebug()) // test for debugging before formatting
-      {
-         debug(MessageFormat.format(aPattern, aArguments));
-      }
-   }
+    /**
+     * Writes formatted debugging output.
+     */
+    public void debug(String aPattern, Object[] aArguments) {
+        if (isDebug()) // test for debugging before formatting
+        {
+            debug(MessageFormat.format(aPattern, aArguments));
+        }
+    }
 
-   /**
-    * Notifies all process purged listeners that the given process has been
-    * purged by this process manager.
-    *
-    * @param aProcessId
-    */
-   protected void fireProcessPurged(long aProcessId)
-   {
-       for (IAeProcessPurgedListener iAeProcessPurgedListener : getProcessPurgedListeners()) {
-           try {
-               (iAeProcessPurgedListener).processPurged(aProcessId);
-           } catch (Throwable t) {
-               // Just log exception from listeners, because we should not let them
-               // impact us in any way.
-               AeException.logError(t);
-           }
-       }
-   }
+    /**
+     * Notifies all process purged listeners that the given process has been
+     * purged by this process manager.
+     *
+     * @param aProcessId
+     */
+    protected void fireProcessPurged(long aProcessId) {
+        for (IAeProcessPurgedListener iAeProcessPurgedListener : getProcessPurgedListeners()) {
+            try {
+                (iAeProcessPurgedListener).processPurged(aProcessId);
+            } catch (Throwable t) {
+                // Just log exception from listeners, because we should not let them
+                // impact us in any way.
+                AeException.logError(t);
+            }
+        }
+    }
 
-   /**
-    * Returns the process purged listeners for this process manager.
-    */
-   protected Set<IAeProcessPurgedListener> getProcessPurgedListeners()
-   {
-      return mProcessPurgedListeners;
-   }
+    /**
+     * Returns the process purged listeners for this process manager.
+     */
+    protected Set<IAeProcessPurgedListener> getProcessPurgedListeners() {
+        return mProcessPurgedListeners;
+    }
 
-   /**
-    * @return <code>true</code> if and only if the process manager is in debug
-    * mode.
-    */
-   public static boolean isDebug()
-   {
-      return sDebug;
-   }
+    /**
+     * @return <code>true</code> if and only if the process manager is in debug
+     *         mode.
+     */
+    public static boolean isDebug() {
+        return sDebug;
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.impl.IAeProcessManager#removeProcessPurgedListener(org.activebpel.rt.bpel.impl.IAeProcessPurgedListener)
-    */
-   public void removeProcessPurgedListener(IAeProcessPurgedListener aListener)
-   {
-      getProcessPurgedListeners().remove(aListener);
-   }
+    /**
+     * @see org.activebpel.rt.bpel.impl.IAeProcessManager#removeProcessPurgedListener(org.activebpel.rt.bpel.impl.IAeProcessPurgedListener)
+     */
+    public void removeProcessPurgedListener(IAeProcessPurgedListener aListener) {
+        getProcessPurgedListeners().remove(aListener);
+    }
 }

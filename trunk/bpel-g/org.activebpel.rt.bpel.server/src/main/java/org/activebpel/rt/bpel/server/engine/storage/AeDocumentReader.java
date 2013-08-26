@@ -21,104 +21,96 @@ import org.w3c.dom.Document;
  * <code>Reader</code>). Subclasses implement the <code>createReader</code> and
  * <code>getLength</code> methods.
  */
-public abstract class AeDocumentReader extends Reader
-{
-   /** The underlying character stream that serializes the XML document. */
-   private Reader mReader;
+public abstract class AeDocumentReader extends Reader {
+    /**
+     * The underlying character stream that serializes the XML document.
+     */
+    private Reader mReader;
 
-   /**
-    * Creates the underlying character stream.
-    *
-    * @return Reader
-    */
-   protected abstract Reader createReader();
+    /**
+     * Creates the underlying character stream.
+     *
+     * @return Reader
+     */
+    protected abstract Reader createReader();
 
-   /**
-    * Returns a character stream that serializes the specified
-    * <code>AeFastDocument</code>.
-    *
-    * @param aDocument The document to serialize.
-    * @return AeDocumentReader
-    */
-   public static AeDocumentReader getDocumentReader(AeFastDocument aDocument)
-   {
-      return new AeCharArrayDocumentReader(aDocument);
-   }
+    /**
+     * Returns a character stream that serializes the specified
+     * <code>AeFastDocument</code>.
+     *
+     * @param aDocument The document to serialize.
+     * @return AeDocumentReader
+     */
+    public static AeDocumentReader getDocumentReader(AeFastDocument aDocument) {
+        return new AeCharArrayDocumentReader(aDocument);
+    }
 
-   /**
-    * Returns a character stream that serializes the specified standard XML
-    * document.
-    *
-    * @param aDocument The document to serialize.
-    * @return AeDocumentReader
-    */
-   public static AeDocumentReader getDocumentReader(Document aDocument)
-   {
-      return new AeCharArrayDocumentReader(aDocument);
-   }
+    /**
+     * Returns a character stream that serializes the specified standard XML
+     * document.
+     *
+     * @param aDocument The document to serialize.
+     * @return AeDocumentReader
+     */
+    public static AeDocumentReader getDocumentReader(Document aDocument) {
+        return new AeCharArrayDocumentReader(aDocument);
+    }
 
-   /**
-    * Returns the underlying character stream.
-    */
-   public Reader getReader()
-   {
-      if (mReader == null)
-      {
-         mReader = createReader();
-      }
+    /**
+     * Returns the underlying character stream.
+     */
+    public Reader getReader() {
+        if (mReader == null) {
+            mReader = createReader();
+        }
 
-      return mReader;
-   }
+        return mReader;
+    }
 
-   /**
-    * Returns the length of the serialized document.
-    *
-    * @return int
-    */
-   public abstract int getLength();
+    /**
+     * Returns the length of the serialized document.
+     *
+     * @return int
+     */
+    public abstract int getLength();
 
    /*======================================================================
     * java.io.Reader methods
     *======================================================================
     */
 
-   /**
-    * @see java.io.Reader#close()
-    */
-   public void close() throws IOException
-   {
-      getReader().close();
-   }
+    /**
+     * @see java.io.Reader#close()
+     */
+    public void close() throws IOException {
+        getReader().close();
+    }
 
-   /**
-    * @see java.io.Reader#read()
-    */
-   public int read() throws IOException
-   {
-      return getReader().read();
-   }
+    /**
+     * @see java.io.Reader#read()
+     */
+    public int read() throws IOException {
+        return getReader().read();
+    }
 
-   /**
-    * @see java.io.Reader#read(char[])
-    */
-   public int read(char[] aBuffer) throws IOException
-   {
-      return getReader().read(aBuffer);
-   }
+    /**
+     * @see java.io.Reader#read(char[])
+     */
+    public int read(char[] aBuffer) throws IOException {
+        return getReader().read(aBuffer);
+    }
 
-   /**
-    * @see java.io.Reader#read(char[], int, int)
-    */
-   public int read(char[] aBuffer, int aOffset, int aLength) throws IOException
-   {
-      return getReader().read(aBuffer, aOffset, aLength);
-   }
+    /**
+     * @see java.io.Reader#read(char[], int, int)
+     */
+    public int read(char[] aBuffer, int aOffset, int aLength) throws IOException {
+        return getReader().read(aBuffer, aOffset, aLength);
+    }
 
-   /**
-    * @see java.io.Reader#skip(long)
-    */
-   public long skip(long aCount) throws IOException
-   {
-      return getReader().skip(aCount);
-   }
+    /**
+     * @see java.io.Reader#skip(long)
+     */
+    public long skip(long aCount) throws IOException {
+        return getReader().skip(aCount);
+    }
 }

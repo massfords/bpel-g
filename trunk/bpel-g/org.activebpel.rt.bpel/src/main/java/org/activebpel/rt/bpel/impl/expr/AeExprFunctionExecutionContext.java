@@ -16,114 +16,105 @@ import org.activebpel.rt.bpel.impl.IAeFaultFactory;
 import org.activebpel.rt.xml.IAeNamespaceContext;
 
 /**
- * Implements an IAeExpressionContext.  This implementation basically wraps the current expression 
+ * Implements an IAeExpressionContext.  This implementation basically wraps the current expression
  * <b>runner</b> context.
  */
-public class AeExprFunctionExecutionContext implements IAeFunctionExecutionContext
-{
-   /** The expression runner context. */
-   private IAeExpressionRunnerContext mRunnerContext;
-   /** The type converter. */
-   private IAeExpressionTypeConverter mExpressionTypeConverter;
+public class AeExprFunctionExecutionContext implements IAeFunctionExecutionContext {
+    /**
+     * The expression runner context.
+     */
+    private IAeExpressionRunnerContext mRunnerContext;
+    /**
+     * The type converter.
+     */
+    private IAeExpressionTypeConverter mExpressionTypeConverter;
 
-   /**
-    * Constructs an expression context from the given expression runner context.
-    * 
-    * @param aRunnerContext
-    * @param aExpressionTypeConverter
-    */
-   public AeExprFunctionExecutionContext(IAeExpressionRunnerContext aRunnerContext,
-         IAeExpressionTypeConverter aExpressionTypeConverter)
-   {
-      setRunnerContext(aRunnerContext);
-      setExpressionTypeConverter(aExpressionTypeConverter);
-   }
+    /**
+     * Constructs an expression context from the given expression runner context.
+     *
+     * @param aRunnerContext
+     * @param aExpressionTypeConverter
+     */
+    public AeExprFunctionExecutionContext(IAeExpressionRunnerContext aRunnerContext,
+                                          IAeExpressionTypeConverter aExpressionTypeConverter) {
+        setRunnerContext(aRunnerContext);
+        setExpressionTypeConverter(aExpressionTypeConverter);
+    }
 
-   /**
-    * @return Returns the runnerContext.
-    */
-   protected IAeExpressionRunnerContext getRunnerContext()
-   {
-      return mRunnerContext;
-   }
+    /**
+     * @return Returns the runnerContext.
+     */
+    protected IAeExpressionRunnerContext getRunnerContext() {
+        return mRunnerContext;
+    }
 
-   /**
-    * @param aRunnerContext The runnerContext to set.
-    */
-   protected void setRunnerContext(IAeExpressionRunnerContext aRunnerContext)
-   {
-      mRunnerContext = aRunnerContext;
-   }
+    /**
+     * @param aRunnerContext The runnerContext to set.
+     */
+    protected void setRunnerContext(IAeExpressionRunnerContext aRunnerContext) {
+        mRunnerContext = aRunnerContext;
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.impl.expr.IAeExpressionRunnerContext#getAbstractBpelObject()
-    */
-   public AeAbstractBpelObject getAbstractBpelObject()
-   {
-      return getRunnerContext().getAbstractBpelObject();
-   }
+    /**
+     * @see org.activebpel.rt.bpel.impl.expr.IAeExpressionRunnerContext#getAbstractBpelObject()
+     */
+    public AeAbstractBpelObject getAbstractBpelObject() {
+        return getRunnerContext().getAbstractBpelObject();
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.impl.expr.IAeExpressionRunnerContext#getEvaluationContext()
-    */
-   public Object getEvaluationContext()
-   {
-      return getRunnerContext().getEvaluationContext();
-   }
-   
-   /**
-    * @see org.activebpel.rt.bpel.impl.expr.IAeExpressionRunnerContext#getFunctionContext()
-    */
-   public IAeFunctionFactory getFunctionFactory()
-   {
-      return getRunnerContext().getFunctionContext();
-   }
+    /**
+     * @see org.activebpel.rt.bpel.impl.expr.IAeExpressionRunnerContext#getEvaluationContext()
+     */
+    public Object getEvaluationContext() {
+        return getRunnerContext().getEvaluationContext();
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.impl.expr.IAeExpressionRunnerContext#getNamespaceContext()
-    */
-   public IAeNamespaceContext getNamespaceContext()
-   {
-      return getRunnerContext().getNamespaceContext();
-   }
+    /**
+     * @see org.activebpel.rt.bpel.impl.expr.IAeExpressionRunnerContext#getFunctionContext()
+     */
+    public IAeFunctionFactory getFunctionFactory() {
+        return getRunnerContext().getFunctionContext();
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.function.IAeFunctionExecutionContext#getFaultFactory()
-    */
-   public IAeFaultFactory getFaultFactory()
-   {
-      return getRunnerContext().getFaultFactory();
-   }
-   
-   /**
-    * @see org.activebpel.rt.bpel.function.IAeFunctionExecutionContext#getBpelNamespace()
-    */
-   public String getBpelNamespace()
-   {
-      return getFaultFactory().getNamespace();
-   }
-   
-   /**
-    * @see org.activebpel.rt.bpel.function.IAeFunctionExecutionContext#getTypeConverter()
-    */
-   public IAeExpressionTypeConverter getTypeConverter()
-   {
-      return getExpressionTypeConverter();
-   }
+    /**
+     * @see org.activebpel.rt.bpel.impl.expr.IAeExpressionRunnerContext#getNamespaceContext()
+     */
+    public IAeNamespaceContext getNamespaceContext() {
+        return getRunnerContext().getNamespaceContext();
+    }
 
-   /**
-    * @return Returns the expressionTypeConverter.
-    */
-   protected IAeExpressionTypeConverter getExpressionTypeConverter()
-   {
-      return mExpressionTypeConverter;
-   }
+    /**
+     * @see org.activebpel.rt.bpel.function.IAeFunctionExecutionContext#getFaultFactory()
+     */
+    public IAeFaultFactory getFaultFactory() {
+        return getRunnerContext().getFaultFactory();
+    }
 
-   /**
-    * @param aExpressionTypeConverter The expressionTypeConverter to set.
-    */
-   protected void setExpressionTypeConverter(IAeExpressionTypeConverter aExpressionTypeConverter)
-   {
-      mExpressionTypeConverter = aExpressionTypeConverter;
-   }
+    /**
+     * @see org.activebpel.rt.bpel.function.IAeFunctionExecutionContext#getBpelNamespace()
+     */
+    public String getBpelNamespace() {
+        return getFaultFactory().getNamespace();
+    }
+
+    /**
+     * @see org.activebpel.rt.bpel.function.IAeFunctionExecutionContext#getTypeConverter()
+     */
+    public IAeExpressionTypeConverter getTypeConverter() {
+        return getExpressionTypeConverter();
+    }
+
+    /**
+     * @return Returns the expressionTypeConverter.
+     */
+    protected IAeExpressionTypeConverter getExpressionTypeConverter() {
+        return mExpressionTypeConverter;
+    }
+
+    /**
+     * @param aExpressionTypeConverter The expressionTypeConverter to set.
+     */
+    protected void setExpressionTypeConverter(IAeExpressionTypeConverter aExpressionTypeConverter) {
+        mExpressionTypeConverter = aExpressionTypeConverter;
+    }
 }

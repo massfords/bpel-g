@@ -12,20 +12,21 @@ package org.activebpel.rt.bpel.def;
 /**
  * Interface for all containers of single activities.
  */
-public interface IAeSingleActivityContainerDef extends IAeActivityContainerDef
-{
-   /**
-    * Obtains the current activity associated with this activity container.
-    * @return an activity associated with this object
-    * @see AeActivityDef
-    */
-   public AeActivityDef getActivityDef();
+public interface IAeSingleActivityContainerDef extends IAeActivityContainerDef {
+    /**
+     * Obtains the current activity associated with this activity container.
+     *
+     * @return an activity associated with this object
+     * @see AeActivityDef
+     */
+    public AeActivityDef getActivityDef();
 
-   /**
-    * Set the activity to execute in this activity container.
-    * @param aActivity activity to set
-    * @see AeActivityDef
-    */
-   public void setActivityDef(AeActivityDef aActivity);
+    /**
+     * Set the activity to execute in this activity container.
+     *
+     * @param aActivity activity to set
+     * @see AeActivityDef
+     */
+    public void setActivityDef(AeActivityDef aActivity);
 
 }

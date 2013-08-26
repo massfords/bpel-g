@@ -25,89 +25,80 @@ import java.util.*;
  * This is a visitor used by the BPEL 1.1 -> BPEL 2.0 converter.  It is responsible for changing
  * the value of the 'initiate' flag of multi-start activities from 'yes' to 'join'.
  */
-public class AeBPWSToWSBPELCorrelationInitiateVisitor extends AeAbstractEntryPointVisitor
-{
-   /** A map of create instance activities.  The key is a correlation set def, the value is a list of correlation defs from create instance activities. */
-   private final Map<AeCorrelationSetDef, List<AeCorrelationDef>> mCreateInstances = new HashMap<>();
+public class AeBPWSToWSBPELCorrelationInitiateVisitor extends AeAbstractEntryPointVisitor {
+    /**
+     * A map of create instance activities.  The key is a correlation set def, the value is a list of correlation defs from create instance activities.
+     */
+    private final Map<AeCorrelationSetDef, List<AeCorrelationDef>> mCreateInstances = new HashMap<>();
 
-   /**
-    * Constructor.
-    */
-   public AeBPWSToWSBPELCorrelationInitiateVisitor()
-   {
-      super();
-   }
+    /**
+     * Constructor.
+     */
+    public AeBPWSToWSBPELCorrelationInitiateVisitor() {
+        super();
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.def.visitors.AeAbstractDefVisitor#visit(org.activebpel.rt.bpel.def.AeProcessDef)
-    */
-   public void visit(AeProcessDef def)
-   {
-      super.visit(def);
-      
-      processCorrelationMap();
-   }
+    /**
+     * @see org.activebpel.rt.bpel.def.visitors.AeAbstractDefVisitor#visit(org.activebpel.rt.bpel.def.AeProcessDef)
+     */
+    public void visit(AeProcessDef def) {
+        super.visit(def);
 
-   /**
-    * @see org.activebpel.rt.bpel.def.visitors.AeAbstractEntryPointVisitor#processEntryPoint(org.activebpel.rt.bpel.def.activity.IAeReceiveActivityDef)
-    */
-   protected void processEntryPoint(IAeReceiveActivityDef aDef)
-   {
-      IAeCorrelationsParentDef def = (IAeCorrelationsParentDef) aDef;
-      AeCorrelationsDef correlations = def.getCorrelationsDef();
-      if (correlations != null)
-      {
-         for (Iterator iter = correlations.getValues(); iter.hasNext(); )
-         {
-            AeCorrelationDef corrDef = (AeCorrelationDef) iter.next();
-            if (AeCorrelationDef.INITIATE_YES.equals(corrDef.getInitiate()))
-            {
-               AeCorrelationSetDef corrSetDef = AeDefUtil.findCorrSetByName(corrDef.getCorrelationSetName(), aDef.getContext());
-               addCorrelationMapping(corrSetDef, corrDef);
+        processCorrelationMap();
+    }
+
+    /**
+     * @see org.activebpel.rt.bpel.def.visitors.AeAbstractEntryPointVisitor#processEntryPoint(org.activebpel.rt.bpel.def.activity.IAeReceiveActivityDef)
+     */
+    protected void processEntryPoint(IAeReceiveActivityDef aDef) {
+        IAeCorrelationsParentDef def = (IAeCorrelationsParentDef) aDef;
+        AeCorrelationsDef correlations = def.getCorrelationsDef();
+        if (correlations != null) {
+            for (Iterator iter = correlations.getValues(); iter.hasNext(); ) {
+                AeCorrelationDef corrDef = (AeCorrelationDef) iter.next();
+                if (AeCorrelationDef.INITIATE_YES.equals(corrDef.getInitiate())) {
+                    AeCorrelationSetDef corrSetDef = AeDefUtil.findCorrSetByName(corrDef.getCorrelationSetName(), aDef.getContext());
+                    addCorrelationMapping(corrSetDef, corrDef);
+                }
             }
-         }
-      }
-   }
-   
-   /**
-    * Adds a mapping from correlation set def to correlation def.
-    * 
-    * @param aCorrelationSetDef
-    * @param aCorrelationDef
-    */
-   protected void addCorrelationMapping(AeCorrelationSetDef aCorrelationSetDef, AeCorrelationDef aCorrelationDef)
-   {
-      List<AeCorrelationDef> list = getCreateInstances().get(aCorrelationSetDef);
-      if (list == null)
-      {
-         list = new ArrayList<>();
-         getCreateInstances().put(aCorrelationSetDef, list);
-      }
-      list.add(aCorrelationDef);
-   }
+        }
+    }
 
-   /**
-    * Process the map of correlation sets to correlation defs.  Each entry in the map
-    * will be a map from a correlation set def to a list of correlation defs.  If the
-    * list has more than one correlation def, then all of the items in that list must
-    * be changed to JOIN from YES (only YES correlation defs will be in the list).
-    */
-   protected void processCorrelationMap()
-   {
-       for (List<AeCorrelationDef> corrDefs : getCreateInstances().values()) {
-           if (corrDefs.size() > 1) {
-               for (AeCorrelationDef corrDef : corrDefs) {
-                   corrDef.setInitiate(AeCorrelationDef.INITIATE_JOIN);
-               }
-           }
-       }
-   }
+    /**
+     * Adds a mapping from correlation set def to correlation def.
+     *
+     * @param aCorrelationSetDef
+     * @param aCorrelationDef
+     */
+    protected void addCorrelationMapping(AeCorrelationSetDef aCorrelationSetDef, AeCorrelationDef aCorrelationDef) {
+        List<AeCorrelationDef> list = getCreateInstances().get(aCorrelationSetDef);
+        if (list == null) {
+            list = new ArrayList<>();
+            getCreateInstances().put(aCorrelationSetDef, list);
+        }
+        list.add(aCorrelationDef);
+    }
 
-   /**
-    * @return Returns the createInstances.
-    */
-   public Map<AeCorrelationSetDef, List<AeCorrelationDef>> getCreateInstances()
-   {
-      return mCreateInstances;
-   }
+    /**
+     * Process the map of correlation sets to correlation defs.  Each entry in the map
+     * will be a map from a correlation set def to a list of correlation defs.  If the
+     * list has more than one correlation def, then all of the items in that list must
+     * be changed to JOIN from YES (only YES correlation defs will be in the list).
+     */
+    protected void processCorrelationMap() {
+        for (List<AeCorrelationDef> corrDefs : getCreateInstances().values()) {
+            if (corrDefs.size() > 1) {
+                for (AeCorrelationDef corrDef : corrDefs) {
+                    corrDef.setInitiate(AeCorrelationDef.INITIATE_JOIN);
+                }
+            }
+        }
+    }
+
+    /**
+     * @return Returns the createInstances.
+     */
+    public Map<AeCorrelationSetDef, List<AeCorrelationDef>> getCreateInstances() {
+        return mCreateInstances;
+    }
 }

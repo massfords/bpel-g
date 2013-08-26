@@ -23,31 +23,30 @@ import org.activebpel.rt.bpel.server.engine.recovery.journal.IAeJournalEntry;
  * {@link org.activebpel.rt.bpel.server.engine.recovery.journal.IAeJournalEntry}
  * instances.
  */
-public interface IAeRecoveryEngine extends IAeBusinessProcessEngineInternal
-{
-   /**
-    * Recovers the state of the specified process from the given list of {@link
-    * org.activebpel.rt.bpel.server.engine.recovery.journal.IAeJournalEntry}
-    * instances and returns a list of {@link
-    * org.activebpel.rt.bpel.server.engine.recovery.recovered.IAeRecoveredItem}
-    * instances representing recovered requests. Queues the recovered items if
-    * <code>aQueueRecoveredItems</code> is <code>true</code>.
-    * 
-    * <p>Note that the list of recovered items does not include invoke requests.
-    * Pending invokes are handled separately, because Suspend Process on Invoke
-    * Recovery may require suspending the process instead of restarting the
-    * invokes.</p>
-    *
-    * @param aProcess
-    * @param aJournalEntries
-    * @param aQueueRecoveredItems
-    * @return A list of {@link org.activebpel.rt.bpel.server.engine.recovery.recovered.IAeRecoveredItem} instances.
-    * @throws AeBusinessProcessException
-    */
-   public List recover(IAeBusinessProcess aProcess, List<IAeJournalEntry> aJournalEntries, boolean aQueueRecoveredItems) throws AeBusinessProcessException;
+public interface IAeRecoveryEngine extends IAeBusinessProcessEngineInternal {
+    /**
+     * Recovers the state of the specified process from the given list of {@link
+     * org.activebpel.rt.bpel.server.engine.recovery.journal.IAeJournalEntry}
+     * instances and returns a list of {@link
+     * org.activebpel.rt.bpel.server.engine.recovery.recovered.IAeRecoveredItem}
+     * instances representing recovered requests. Queues the recovered items if
+     * <code>aQueueRecoveredItems</code> is <code>true</code>.
+     * <p/>
+     * <p>Note that the list of recovered items does not include invoke requests.
+     * Pending invokes are handled separately, because Suspend Process on Invoke
+     * Recovery may require suspending the process instead of restarting the
+     * invokes.</p>
+     *
+     * @param aProcess
+     * @param aJournalEntries
+     * @param aQueueRecoveredItems
+     * @return A list of {@link org.activebpel.rt.bpel.server.engine.recovery.recovered.IAeRecoveredItem} instances.
+     * @throws AeBusinessProcessException
+     */
+    public List recover(IAeBusinessProcess aProcess, List<IAeJournalEntry> aJournalEntries, boolean aQueueRecoveredItems) throws AeBusinessProcessException;
 
-   /**
-    * Type safe getter for the specialized recovery process manager
-    */
-   public IAeRecoveryProcessManager getRecoveryProcessManager();
+    /**
+     * Type safe getter for the specialized recovery process manager
+     */
+    public IAeRecoveryProcessManager getRecoveryProcessManager();
 }

@@ -13,38 +13,36 @@ package org.activebpel.rt.bpel.ext.expr.impl.xquery;
 import org.w3c.dom.Document;
 
 /**
- * This class wraps the Document that is produced when an XQuery expression is executed using 
+ * This class wraps the Document that is produced when an XQuery expression is executed using
  * Saxon.  The result is an XML Document that contains a root node and a sequence of nodes that
  * may be either atomic values or elements.
  */
-public class AeXQueryExpressionResult
-{
-   /** The Saxon result document. */
-   private Document mDocument;
+public class AeXQueryExpressionResult {
+    /**
+     * The Saxon result document.
+     */
+    private Document mDocument;
 
-   /**
-    * Constructs the result.
-    * 
-    * @param aDocument
-    */
-   public AeXQueryExpressionResult(Document aDocument)
-   {
-      setDocument(aDocument);
-   }
+    /**
+     * Constructs the result.
+     *
+     * @param aDocument
+     */
+    public AeXQueryExpressionResult(Document aDocument) {
+        setDocument(aDocument);
+    }
 
-   /**
-    * @return Returns the document.
-    */
-   public Document getDocument()
-   {
-      return mDocument;
-   }
+    /**
+     * @return Returns the document.
+     */
+    public Document getDocument() {
+        return mDocument;
+    }
 
-   /**
-    * @param aDocument The document to set.
-    */
-   protected void setDocument(Document aDocument)
-   {
-      mDocument = aDocument;
-   }
+    /**
+     * @param aDocument The document to set.
+     */
+    protected void setDocument(Document aDocument) {
+        mDocument = aDocument;
+    }
 }

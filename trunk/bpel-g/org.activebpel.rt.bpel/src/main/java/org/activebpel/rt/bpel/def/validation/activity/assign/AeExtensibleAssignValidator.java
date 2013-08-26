@@ -7,7 +7,7 @@
 //Active Endpoints, Inc. Removal of this PROPRIETARY RIGHTS STATEMENT 
 //is strictly forbidden. Copyright (c) 2002-2006 All rights reserved. 
 /////////////////////////////////////////////////////////////////////////////
-package org.activebpel.rt.bpel.def.validation.activity.assign; 
+package org.activebpel.rt.bpel.def.validation.activity.assign;
 
 import org.activebpel.rt.bpel.def.activity.support.AeExtensibleAssignDef;
 import org.activebpel.rt.bpel.def.validation.AeBaseValidator;
@@ -15,15 +15,14 @@ import org.activebpel.rt.bpel.def.validation.AeBaseValidator;
 /**
  * model provides validation for the extensibleAssignOperation within a copy operation
  */
-public class AeExtensibleAssignValidator extends AeBaseValidator
-{
-   /**
-    * ctor
-    * @param aDef
-    */
-   public AeExtensibleAssignValidator(AeExtensibleAssignDef aDef)
-   {
-      super(aDef);
-   }
+public class AeExtensibleAssignValidator extends AeBaseValidator {
+    /**
+     * ctor
+     *
+     * @param aDef
+     */
+    public AeExtensibleAssignValidator(AeExtensibleAssignDef aDef) {
+        super(aDef);
+    }
 }
  

@@ -21,57 +21,51 @@ import org.activebpel.rt.xml.def.IAeExtensionObject;
  * of extension element, attribute and activity Qnames to their class names that implement
  * IAeExtensionObject interface
  */
-public class AeMapBasedExtensionRegistry implements IAeExtensionRegistry
-{
-   
-   /** map of QNames to extension object class */
-   private Map mExtensionObjectMap;
-   
-   /**
-    * @see org.activebpel.rt.xml.def.io.IAeExtensionRegistry#getExtensionObject(javax.xml.namespace.QName)
-    */
-   public IAeExtensionObject getExtensionObject(QName aQName)
-   {
-      Class aClass = getExtensionObjectClass(aQName);
-      if (aClass == null)
-         return null;
-      
-      try
-      {
-         return (IAeExtensionObject) aClass.newInstance();
-      }
-      catch (InstantiationException | IllegalAccessException ex)
-      {
-         AeException.logError(ex, ex.getLocalizedMessage());
-      }
-       return null;
-   }
+public class AeMapBasedExtensionRegistry implements IAeExtensionRegistry {
 
-   /**
-    * @return the extensionObjectMap
-    */
-   public Map getExtensionObjectMap()
-   {
-      return mExtensionObjectMap;
-   }
+    /**
+     * map of QNames to extension object class
+     */
+    private Map mExtensionObjectMap;
 
-   /**
-    * @param aExtensionObjectMap the extensionObjectMap to set
-    */
-   public void setExtensionObjectMap(Map aExtensionObjectMap)
-   {
-      mExtensionObjectMap = aExtensionObjectMap;
-   }
+    /**
+     * @see org.activebpel.rt.xml.def.io.IAeExtensionRegistry#getExtensionObject(javax.xml.namespace.QName)
+     */
+    public IAeExtensionObject getExtensionObject(QName aQName) {
+        Class aClass = getExtensionObjectClass(aQName);
+        if (aClass == null)
+            return null;
 
-   /**
-    * @param aQName
-    * @return aClass ExtensionObject class that is mapped to aQName
-    */
-   private Class getExtensionObjectClass(QName aQName)
-   {
-      if (AeUtil.notNullOrEmpty(getExtensionObjectMap()) && getExtensionObjectMap().containsKey(aQName))
-         return (Class) getExtensionObjectMap().get(aQName);
-      else
-         return null;
-   }
+        try {
+            return (IAeExtensionObject) aClass.newInstance();
+        } catch (InstantiationException | IllegalAccessException ex) {
+            AeException.logError(ex, ex.getLocalizedMessage());
+        }
+        return null;
+    }
+
+    /**
+     * @return the extensionObjectMap
+     */
+    public Map getExtensionObjectMap() {
+        return mExtensionObjectMap;
+    }
+
+    /**
+     * @param aExtensionObjectMap the extensionObjectMap to set
+     */
+    public void setExtensionObjectMap(Map aExtensionObjectMap) {
+        mExtensionObjectMap = aExtensionObjectMap;
+    }
+
+    /**
+     * @param aQName
+     * @return aClass ExtensionObject class that is mapped to aQName
+     */
+    private Class getExtensionObjectClass(QName aQName) {
+        if (AeUtil.notNullOrEmpty(getExtensionObjectMap()) && getExtensionObjectMap().containsKey(aQName))
+            return (Class) getExtensionObjectMap().get(aQName);
+        else
+            return null;
+    }
 }

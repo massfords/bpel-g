@@ -12,12 +12,12 @@ package org.activebpel.rt.xml.def;
 /**
  * Interface for extension objects to extension elements
  */
-public interface IAeExtensionObject
-{
-   /**
-    * Constructs and returns an Adapter when present for aClass
-    * @param aClass
-    * @return IAeAdapter 
-    */
-   public IAeAdapter getAdapter(Class aClass);
+public interface IAeExtensionObject {
+    /**
+     * Constructs and returns an Adapter when present for aClass
+     *
+     * @param aClass
+     * @return IAeAdapter
+     */
+    public IAeAdapter getAdapter(Class aClass);
 }

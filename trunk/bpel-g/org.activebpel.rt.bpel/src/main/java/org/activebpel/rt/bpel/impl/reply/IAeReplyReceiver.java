@@ -16,36 +16,40 @@ import org.activebpel.rt.bpel.IAeFault;
 import org.activebpel.rt.message.IAeMessageData;
 
 /**
- *  The callback object for Reply activities.
+ * The callback object for Reply activities.
  */
-public interface IAeReplyReceiver
-{
-   /** Constant to indicate an unassigned reply id. */
-   public static int NULL_REPLY_ID = 0;
-   /**
-    * Callback when a message arrives for a message receiver.
-    * @param aMessage The message which has been received.
-    * @param aProcessProperties Business Process properties.
-    * @throws AeBusinessProcessException Allows the receiver to throw an exception.
-    */
-   public void onMessage(IAeMessageData aMessage, Map<String,String> aProcessProperties) throws AeBusinessProcessException;
+public interface IAeReplyReceiver {
+    /**
+     * Constant to indicate an unassigned reply id.
+     */
+    public static int NULL_REPLY_ID = 0;
 
-   /**
-    * Callback when a fault arrives instead of the expected message.
-    * @param aFault The fault which has been received.
-    * @param aProcessProperties Business Process properties.  This map will be
-    * null if the fault was generated from a correlation violation or an
-    * unmatched receive.
-    * @throws AeBusinessProcessException Allows the receiver to throw an exception.
-    */
-   public void onFault(IAeFault aFault, Map<String,String> aProcessProperties ) throws AeBusinessProcessException;
-      
-   /**
-    * Returns the durable reply information if the reply receiver is supports durable
-    * replies. Otherwise, returns <code>null</code>. Implementations that are durable
-    * must return an instance of <code>IAeDurableReplyInfo</code>.
-    * 
-    * @return Durable reply information if available or <code>null</code> if not available.
-    */
-   public IAeDurableReplyInfo getDurableReplyInfo();
+    /**
+     * Callback when a message arrives for a message receiver.
+     *
+     * @param aMessage           The message which has been received.
+     * @param aProcessProperties Business Process properties.
+     * @throws AeBusinessProcessException Allows the receiver to throw an exception.
+     */
+    public void onMessage(IAeMessageData aMessage, Map<String, String> aProcessProperties) throws AeBusinessProcessException;
+
+    /**
+     * Callback when a fault arrives instead of the expected message.
+     *
+     * @param aFault             The fault which has been received.
+     * @param aProcessProperties Business Process properties.  This map will be
+     *                           null if the fault was generated from a correlation violation or an
+     *                           unmatched receive.
+     * @throws AeBusinessProcessException Allows the receiver to throw an exception.
+     */
+    public void onFault(IAeFault aFault, Map<String, String> aProcessProperties) throws AeBusinessProcessException;
+
+    /**
+     * Returns the durable reply information if the reply receiver is supports durable
+     * replies. Otherwise, returns <code>null</code>. Implementations that are durable
+     * must return an instance of <code>IAeDurableReplyInfo</code>.
+     *
+     * @return Durable reply information if available or <code>null</code> if not available.
+     */
+    public IAeDurableReplyInfo getDurableReplyInfo();
 }

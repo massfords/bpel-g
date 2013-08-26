@@ -16,30 +16,27 @@ import org.activebpel.rt.bpel.server.AeMessages;
  * Implements an exception that reports a missing storage document for a
  * journal entry.
  */
-public class AeMissingStorageDocumentException extends AeException
-{
-   /**
-     * 
+public class AeMissingStorageDocumentException extends AeException {
+    /**
+     *
      */
     private static final long serialVersionUID = -8779216249457981893L;
 
-/**
-    * Constructs an exception that reports a missing storage document for a
-    * journal entry.
-    */
-   public AeMissingStorageDocumentException()
-   {
-      super(AeMessages.getString("AeMissingStorageDocumentException.ERROR_0")); //$NON-NLS-1$
-   }
+    /**
+     * Constructs an exception that reports a missing storage document for a
+     * journal entry.
+     */
+    public AeMissingStorageDocumentException() {
+        super(AeMessages.getString("AeMissingStorageDocumentException.ERROR_0")); //$NON-NLS-1$
+    }
 
-   /**
-    * Constructs an exception that reports a missing storage document for a
-    * journal entry with data from the given location.
-    *
-    * @param aLocationId
-    */
-   public AeMissingStorageDocumentException(int aLocationId)
-   {
-      super(AeMessages.format("AeMissingStorageDocumentException.ERROR_1", aLocationId)); //$NON-NLS-1$
-   }
+    /**
+     * Constructs an exception that reports a missing storage document for a
+     * journal entry with data from the given location.
+     *
+     * @param aLocationId
+     */
+    public AeMissingStorageDocumentException(int aLocationId) {
+        super(AeMessages.format("AeMissingStorageDocumentException.ERROR_1", aLocationId)); //$NON-NLS-1$
+    }
 }

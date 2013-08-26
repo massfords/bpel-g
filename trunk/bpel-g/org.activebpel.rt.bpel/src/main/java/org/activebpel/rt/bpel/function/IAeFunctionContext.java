@@ -13,23 +13,22 @@ package org.activebpel.rt.bpel.function;
 /**
  * Interface for <code>IAeFunctionContext</code> impls.
  */
-public interface IAeFunctionContext
-{
-   /**
-    * An implementation should return a <code>IAeFunction</code> implementation object
-    * based on the name of the function requested.
-    *
-    * <p>
-    * It must not use the prefix parameter to select an implementation,
-    * because a prefix could be bound to any namespace; the prefix parameter
-    * could be used in debugging output or other generated information.
-    * The prefix may otherwise be completely ignored.
-    * </p>
-    * 
-    * @param aFunctionName The name of the function
-    * @return  a IAeFunction implementation object.
-    * @throws AeUnresolvableException when the function cannot be found.
-    */
-   public IAeFunction getFunction(String aFunctionName) throws AeUnresolvableException;
+public interface IAeFunctionContext {
+    /**
+     * An implementation should return a <code>IAeFunction</code> implementation object
+     * based on the name of the function requested.
+     * <p/>
+     * <p>
+     * It must not use the prefix parameter to select an implementation,
+     * because a prefix could be bound to any namespace; the prefix parameter
+     * could be used in debugging output or other generated information.
+     * The prefix may otherwise be completely ignored.
+     * </p>
+     *
+     * @param aFunctionName The name of the function
+     * @return a IAeFunction implementation object.
+     * @throws AeUnresolvableException when the function cannot be found.
+     */
+    public IAeFunction getFunction(String aFunctionName) throws AeUnresolvableException;
 
 }

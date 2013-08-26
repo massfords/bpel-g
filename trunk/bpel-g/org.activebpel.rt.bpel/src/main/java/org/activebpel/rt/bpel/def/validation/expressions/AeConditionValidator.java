@@ -7,22 +7,21 @@
 //Active Endpoints, Inc. Removal of this PROPRIETARY RIGHTS STATEMENT 
 //is strictly forbidden. Copyright (c) 2002-2006 All rights reserved. 
 /////////////////////////////////////////////////////////////////////////////
-package org.activebpel.rt.bpel.def.validation.expressions; 
+package org.activebpel.rt.bpel.def.validation.expressions;
 
 import org.activebpel.rt.bpel.def.activity.support.AeConditionDef;
 
 /**
  * model provides validation for the condition def
  */
-public class AeConditionValidator extends AeBooleanExpressionValidator
-{
-   /**
-    * ctor
-    * @param aDef
-    */
-   public AeConditionValidator(AeConditionDef aDef)
-   {
-      super(aDef);
-   }
+public class AeConditionValidator extends AeBooleanExpressionValidator {
+    /**
+     * ctor
+     *
+     * @param aDef
+     */
+    public AeConditionValidator(AeConditionDef aDef) {
+        super(aDef);
+    }
 }
  

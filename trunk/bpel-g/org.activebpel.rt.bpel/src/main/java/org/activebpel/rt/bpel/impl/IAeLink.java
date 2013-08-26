@@ -12,35 +12,35 @@ package org.activebpel.rt.bpel.impl;
 import org.activebpel.rt.bpel.IAeActivity;
 
 /**
- * Interface for Bpel Link object implementations. 
+ * Interface for Bpel Link object implementations.
  */
-public interface IAeLink
-{
-   /**
-    * Returns a bpel path unqiue within the process for event processing.
-    */
-   public String getLocationPath();
-   
-   /**
-    * Returns true if the status of this link is known.
-    */
-   public boolean isStatusKnown();
-   
-   /**
-    * Returns the status. If the status of this link is unknown then it'll 
-    * generate an exception since the spec dictates that you don't evaluate join
-    * conditions until the status of all inbound links is known.
-    * @return true if transition condition met, false if not, exception if not known
-    */
-   public boolean getStatus();
-   
-   /**
-    * Getter for the target activity.
-    */
-   public IAeActivity getTargetActivity();
-   
-   /**
-    * Getter for the source activity.
-    */
-   public IAeActivity getSourceActivity();
+public interface IAeLink {
+    /**
+     * Returns a bpel path unqiue within the process for event processing.
+     */
+    public String getLocationPath();
+
+    /**
+     * Returns true if the status of this link is known.
+     */
+    public boolean isStatusKnown();
+
+    /**
+     * Returns the status. If the status of this link is unknown then it'll
+     * generate an exception since the spec dictates that you don't evaluate join
+     * conditions until the status of all inbound links is known.
+     *
+     * @return true if transition condition met, false if not, exception if not known
+     */
+    public boolean getStatus();
+
+    /**
+     * Getter for the target activity.
+     */
+    public IAeActivity getTargetActivity();
+
+    /**
+     * Getter for the source activity.
+     */
+    public IAeActivity getSourceActivity();
 }

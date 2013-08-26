@@ -12,8 +12,8 @@ import org.activebpel.rt.util.AeUtil;
 public class BpelExpressionLanguageFactory implements IAeBpelExpressionLanguageFactory {
 
     private String mBpelDefaultLanguage;
-    private Map<String,AeExpressionBundle> mBundles;
-    
+    private Map<String, AeExpressionBundle> mBundles;
+
     @Override
     public IAeExpressionValidator createExpressionValidator(String aLanguageUri) throws AeException {
         return getBundle(aLanguageUri).getValidator();
@@ -44,7 +44,7 @@ public class BpelExpressionLanguageFactory implements IAeBpelExpressionLanguageF
     public String getBpelDefaultLanguage() {
         return mBpelDefaultLanguage;
     }
-    
+
     public void setBpelDefaultLanguage(String aDefaultLanguage) {
         mBpelDefaultLanguage = aDefaultLanguage;
     }
@@ -60,23 +60,22 @@ public class BpelExpressionLanguageFactory implements IAeBpelExpressionLanguageF
      * This method resolves a language into a language URI.  The value that is passed in
      * to this method is whatever is in the 'expressionLanguage' attribute of the BPEL
      * 'process' element.  In most cases, the value of this attribute will be the URI of
-     * the language itself, so nothing is done.  However, an implementation of this 
+     * the language itself, so nothing is done.  However, an implementation of this
      * factory could map short names to URIs, for example.  In addition, this method is
      * used to determine the default expression language if no value is specified in the
      * 'expressionLanguage' attribute.  By default (and unless overridden in the engine
      * config), the default language will be XPath 1.0 (as written in the BPEL spec).
-     * 
+     *
      * @param aLanguage
      */
-    private String resolveLanguageUri(String aLanguage)
-    {
-       if (AeUtil.isNullOrEmpty(aLanguage))
-          return getBpelDefaultLanguage();
-       else
-          return aLanguage;
+    private String resolveLanguageUri(String aLanguage) {
+        if (AeUtil.isNullOrEmpty(aLanguage))
+            return getBpelDefaultLanguage();
+        else
+            return aLanguage;
     }
-    
-    public void setBundles(Map<String,AeExpressionBundle> aBundles) {
+
+    public void setBundles(Map<String, AeExpressionBundle> aBundles) {
         mBundles = aBundles;
     }
 }

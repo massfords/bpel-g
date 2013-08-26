@@ -16,58 +16,53 @@ import org.activebpel.rt.xml.def.visitors.IAeBaseXmlDefVisitor;
 /**
  * Base definition object for bpel definitions
  */
-public abstract class AeBaseDef extends AeBaseXmlDef implements IAeBPELConstants
-{
-   /**
-     * 
+public abstract class AeBaseDef extends AeBaseXmlDef implements IAeBPELConstants {
+    /**
+     *
      */
     private static final long serialVersionUID = -349063609928249516L;
 
-/**
-    * Default constructor
-    */
-   public AeBaseDef()
-   {
-      super();
-   }
+    /**
+     * Default constructor
+     */
+    public AeBaseDef() {
+        super();
+    }
 
-   /**
-    * <p>Get this instance's parent def.</p>
-    * <p>
-    * N.B.: the AeDefAssignParentVisitor must be used before assuming that
-    * parent-child def relationships are valid.  These relationships are NOT
-    * updated automatically (e.g., during modification by the process design user,
-    * etc.).
-    * </p>
-    * @return AeBaseDef if parent exists, null otherwise.
-    */
-   public AeBaseDef getParent()
-   {
-      return (AeBaseDef) getParentXmlDef();
-   }
+    /**
+     * <p>Get this instance's parent def.</p>
+     * <p>
+     * N.B.: the AeDefAssignParentVisitor must be used before assuming that
+     * parent-child def relationships are valid.  These relationships are NOT
+     * updated automatically (e.g., during modification by the process design user,
+     * etc.).
+     * </p>
+     *
+     * @return AeBaseDef if parent exists, null otherwise.
+     */
+    public AeBaseDef getParent() {
+        return (AeBaseDef) getParentXmlDef();
+    }
 
-   /**
-    * Accepts a def visitor to perform an operation on the model.
-    * @param aVisitor
-    */
-   public abstract void accept(IAeDefVisitor aVisitor);
+    /**
+     * Accepts a def visitor to perform an operation on the model.
+     *
+     * @param aVisitor
+     */
+    public abstract void accept(IAeDefVisitor aVisitor);
 
-   /**
-    * @see org.activebpel.rt.xml.def.AeBaseXmlDef#accept(IAeBaseXmlDefVisitor)
-    */
-   public void accept(IAeBaseXmlDefVisitor aVisitor)
-   {
-      // This instanceof check is necessary in order to handle visitors that 
-      // reference the object via its AeBaseDefXml type. If the visitor is 
-      // actually a domain specific visitor then it'll dispatch accordingly.
-      // Otherwise it'll use the standard visit method.
-      if (aVisitor instanceof IAeDefVisitor)
-      {
-         accept((IAeDefVisitor)aVisitor);
-      }
-      else
-      {
-         aVisitor.visit(this);
-      }
-   }
+    /**
+     * @see org.activebpel.rt.xml.def.AeBaseXmlDef#accept(IAeBaseXmlDefVisitor)
+     */
+    public void accept(IAeBaseXmlDefVisitor aVisitor) {
+        // This instanceof check is necessary in order to handle visitors that
+        // reference the object via its AeBaseDefXml type. If the visitor is
+        // actually a domain specific visitor then it'll dispatch accordingly.
+        // Otherwise it'll use the standard visit method.
+        if (aVisitor instanceof IAeDefVisitor) {
+            accept((IAeDefVisitor) aVisitor);
+        } else {
+            aVisitor.visit(this);
+        }
+    }
 }

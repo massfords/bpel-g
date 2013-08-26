@@ -15,31 +15,29 @@ import org.apache.axis.client.Call;
 /**
  * Context information necessary to execute and invoke.
  */
-public class AeAxisInvokeContext extends AeInvokeContext
-{
-   /** The client Call object. */
-   private Call mCall;
-   
-   /**
-    * Default Constructor.
-    */
-   public AeAxisInvokeContext()
-   {
-   }
-   
-   /**
-    * @return Returns the call.
-    */
-   public Call getCall()
-   {
-      return mCall;
-   }
+public class AeAxisInvokeContext extends AeInvokeContext {
+    /**
+     * The client Call object.
+     */
+    private Call mCall;
 
-   /**
-    * @param aCall The call to set.
-    */
-   public void setCall(Call aCall)
-   {
-      mCall = aCall;
-   }
+    /**
+     * Default Constructor.
+     */
+    public AeAxisInvokeContext() {
+    }
+
+    /**
+     * @return Returns the call.
+     */
+    public Call getCall() {
+        return mCall;
+    }
+
+    /**
+     * @param aCall The call to set.
+     */
+    public void setCall(Call aCall) {
+        mCall = aCall;
+    }
 }

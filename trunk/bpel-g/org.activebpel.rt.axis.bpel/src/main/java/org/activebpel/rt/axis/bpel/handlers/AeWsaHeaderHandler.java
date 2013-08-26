@@ -29,49 +29,43 @@ import org.apache.axis.message.SOAPHeaderElement;
 /**
  * Axis handler that flags all WS-Addressing headers as understood
  */
-public class AeWsaHeaderHandler extends BasicHandler
-{
-   /**
-     * 
+public class AeWsaHeaderHandler extends BasicHandler {
+    /**
+     *
      */
     private static final long serialVersionUID = 3657010884787063650L;
 
-/**
-    * Overrides method to flag all wsa headers as understood 
-    * @see org.apache.axis.Handler#invoke(org.apache.axis.MessageContext)
-    */
-   public void invoke(MessageContext aMsgContext) throws AxisFault
-   {
-      try
-      {
-         if (aMsgContext.getCurrentMessage() == null)
-         {
-            return;
-         }
+    /**
+     * Overrides method to flag all wsa headers as understood
+     *
+     * @see org.apache.axis.Handler#invoke(org.apache.axis.MessageContext)
+     */
+    public void invoke(MessageContext aMsgContext) throws AxisFault {
+        try {
+            if (aMsgContext.getCurrentMessage() == null) {
+                return;
+            }
 
-         IAeAddressingHeaders wsa = (IAeAddressingHeaders) aMsgContext.getProperty(IAeAddressingHeaders.AE_WSA_HEADERS_PROPERTY);
-         SOAPHeader axisHeader = aMsgContext.getCurrentMessage().getSOAPHeader();
-         if (wsa == null)
-         {
-            wsa = deserializeHeaders(axisHeader);
-            aMsgContext.setProperty(IAeAddressingHeaders.AE_WSA_HEADERS_PROPERTY, wsa);
-         }
-         setMustUnderstand(axisHeader);
-      }
-      catch (SOAPException ex)
-      {
-         throw new AxisFault(ex.getLocalizedMessage(), ex);
-      }
-   }
-   
-   /**
-    * Deserializes the WSA headers from SOAPHeader element
-    * @param aHeader
-    * @throws AxisFault
-    * @throws SOAPException
-    */
-   protected IAeAddressingHeaders deserializeHeaders(SOAPHeader aHeader) throws AxisFault, SOAPException
-   {
+            IAeAddressingHeaders wsa = (IAeAddressingHeaders) aMsgContext.getProperty(IAeAddressingHeaders.AE_WSA_HEADERS_PROPERTY);
+            SOAPHeader axisHeader = aMsgContext.getCurrentMessage().getSOAPHeader();
+            if (wsa == null) {
+                wsa = deserializeHeaders(axisHeader);
+                aMsgContext.setProperty(IAeAddressingHeaders.AE_WSA_HEADERS_PROPERTY, wsa);
+            }
+            setMustUnderstand(axisHeader);
+        } catch (SOAPException ex) {
+            throw new AxisFault(ex.getLocalizedMessage(), ex);
+        }
+    }
+
+    /**
+     * Deserializes the WSA headers from SOAPHeader element
+     *
+     * @param aHeader
+     * @throws AxisFault
+     * @throws SOAPException
+     */
+    protected IAeAddressingHeaders deserializeHeaders(SOAPHeader aHeader) throws AxisFault, SOAPException {
       /*
        * Note: we proxy the message context here in order to fix some problems with Axis DOM interface 
        * implementations.  Specifically, we need to convert Axis Elements to DOM Elements for
@@ -79,40 +73,34 @@ public class AeWsaHeaderHandler extends BasicHandler
        * The org.activebpel.rt.axis.bpel.handlers.soap package contains some proxies around the
        * various Axis objects that help with this.
        */
-      IAeAddressingDeserializer des = AeWsAddressingFactory.getInstance().getDeserializer(IAeConstants.WSA_NAMESPACE_URI);
-      IAeAddressingHeaders wsa = new AeAddressingHeaders(IAeConstants.WSA_NAMESPACE_URI);
-      if (aHeader.getChildNodes().getLength() > 0)
-      {
-         SOAPHeader hdr = AeAxisObjectProxyFactory.getSOAPHeaderProxy((org.apache.axis.message.SOAPHeader) aHeader, SOAPHeader.class);
-         try
-         {
-            wsa = des.deserializeHeaders(hdr, wsa);
-         }
-         catch (AeBusinessProcessException ex)
-         {
-            throw new AxisFault(ex.getLocalizedMessage(), ex);
-         }
-      }
-      return wsa;
-   }
-   
-   /**
-    * Sets all wsa headers as processed for the mustUnderstand check
-    * @param aHeader
-    */
-   protected void setMustUnderstand(SOAPHeader aHeader)
-   {
-      IAeAddressingDeserializer des = AeWsAddressingFactory.getInstance().getDeserializer(IAeConstants.WSA_NAMESPACE_URI);
-      // Set the mustUnderstand flag
-      for (@SuppressWarnings("unchecked")
-    		  Iterator<SOAPHeaderElement> it = aHeader.getChildElements(); it.hasNext(); )
-      {
-         SOAPHeaderElement element = it.next();
-         if (des.isEndpointHeader(element))
-         {
-            element.setProcessed(true);
-         }
-      }
-   }
+        IAeAddressingDeserializer des = AeWsAddressingFactory.getInstance().getDeserializer(IAeConstants.WSA_NAMESPACE_URI);
+        IAeAddressingHeaders wsa = new AeAddressingHeaders(IAeConstants.WSA_NAMESPACE_URI);
+        if (aHeader.getChildNodes().getLength() > 0) {
+            SOAPHeader hdr = AeAxisObjectProxyFactory.getSOAPHeaderProxy((org.apache.axis.message.SOAPHeader) aHeader, SOAPHeader.class);
+            try {
+                wsa = des.deserializeHeaders(hdr, wsa);
+            } catch (AeBusinessProcessException ex) {
+                throw new AxisFault(ex.getLocalizedMessage(), ex);
+            }
+        }
+        return wsa;
+    }
+
+    /**
+     * Sets all wsa headers as processed for the mustUnderstand check
+     *
+     * @param aHeader
+     */
+    protected void setMustUnderstand(SOAPHeader aHeader) {
+        IAeAddressingDeserializer des = AeWsAddressingFactory.getInstance().getDeserializer(IAeConstants.WSA_NAMESPACE_URI);
+        // Set the mustUnderstand flag
+        for (@SuppressWarnings("unchecked")
+             Iterator<SOAPHeaderElement> it = aHeader.getChildElements(); it.hasNext(); ) {
+            SOAPHeaderElement element = it.next();
+            if (des.isEndpointHeader(element)) {
+                element.setProcessed(true);
+            }
+        }
+    }
 
 }

@@ -17,41 +17,34 @@ import org.activebpel.rt.message.IAeMessageData;
 /**
  * Implements a message data producer that copies data from a variable.
  */
-public class AeVariableMessageDataProducer extends AeAbstractMessageDataProducer
-{
-   /**
-    * Constructs a variable message data producer for the given
-    * context activity.
-    *
-    */
-   public AeVariableMessageDataProducer()
-   {
-      super();
-   }
+public class AeVariableMessageDataProducer extends AeAbstractMessageDataProducer {
+    /**
+     * Constructs a variable message data producer for the given
+     * context activity.
+     */
+    public AeVariableMessageDataProducer() {
+        super();
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.impl.activity.wsio.produce.IAeMessageDataProducer#produceMessageData(org.activebpel.rt.bpel.impl.activity.wsio.produce.IAeMessageDataProducerContext)
-    */
-   public IAeMessageData produceMessageData(IAeMessageDataProducerContext aContext) throws AeBusinessProcessException
-   {
-      IAeVariable variable = aContext.getVariable();
-      IAeMessageData result = null;
+    /**
+     * @see org.activebpel.rt.bpel.impl.activity.wsio.produce.IAeMessageDataProducer#produceMessageData(org.activebpel.rt.bpel.impl.activity.wsio.produce.IAeMessageDataProducerContext)
+     */
+    public IAeMessageData produceMessageData(IAeMessageDataProducerContext aContext) throws AeBusinessProcessException {
+        IAeVariable variable = aContext.getVariable();
+        IAeMessageData result = null;
 
-      // By the time we get here, we know that this is either a message type
-      // variable or an element variable.
-      if (variable.isMessageType())
-      {
-         result = variable.getMessageData();
-      }
-      else
-      {
-         AeMessagePartsMap partsMap = aContext.getMessageDataProducerDef().getProducerMessagePartsMap();
-         String partName = (String) partsMap.getPartNames().next();
-         result = createMessageData(partsMap);
-         result.setData(partName, variable.getElementData().getOwnerDocument());
-         result.setAttachmentContainer(variable.getAttachmentData());
-      }
+        // By the time we get here, we know that this is either a message type
+        // variable or an element variable.
+        if (variable.isMessageType()) {
+            result = variable.getMessageData();
+        } else {
+            AeMessagePartsMap partsMap = aContext.getMessageDataProducerDef().getProducerMessagePartsMap();
+            String partName = (String) partsMap.getPartNames().next();
+            result = createMessageData(partsMap);
+            result.setData(partName, variable.getElementData().getOwnerDocument());
+            result.setAttachmentContainer(variable.getAttachmentData());
+        }
 
-      return (IAeMessageData) result.clone();
-   }
+        return (IAeMessageData) result.clone();
+    }
 }

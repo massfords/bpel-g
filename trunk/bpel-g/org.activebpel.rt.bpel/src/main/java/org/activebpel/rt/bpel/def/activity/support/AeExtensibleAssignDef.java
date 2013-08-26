@@ -16,26 +16,23 @@ import org.activebpel.rt.bpel.def.visitors.IAeDefVisitor;
 /**
  * Models the extensibleAssign construct introduced in WS-BPEL 2.0.
  */
-public class AeExtensibleAssignDef extends AeBaseDef
-{
-   /**
-     * 
+public class AeExtensibleAssignDef extends AeBaseDef {
+    /**
+     *
      */
     private static final long serialVersionUID = -1539201909914126508L;
 
-/**
-    * Default c'tor.
-    */
-   public AeExtensibleAssignDef()
-   {
-      super();
-   }
+    /**
+     * Default c'tor.
+     */
+    public AeExtensibleAssignDef() {
+        super();
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.def.AeBaseDef#accept(org.activebpel.rt.bpel.def.visitors.IAeDefVisitor)
-    */
-   public void accept(IAeDefVisitor aVisitor)
-   {
-      aVisitor.visit(this);
-   }
+    /**
+     * @see org.activebpel.rt.bpel.def.AeBaseDef#accept(org.activebpel.rt.bpel.def.visitors.IAeDefVisitor)
+     */
+    public void accept(IAeDefVisitor aVisitor) {
+        aVisitor.visit(this);
+    }
 }

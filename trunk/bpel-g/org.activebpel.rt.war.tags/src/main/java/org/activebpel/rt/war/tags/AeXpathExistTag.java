@@ -23,42 +23,34 @@ import org.w3c.dom.Node;
  *  &lt;/ae:XpathExists &gt;
  * </pre>
  */
-public class AeXpathExistTag extends AeAbstractXpathSelectionTag
-{
-   /**
-     * 
+public class AeXpathExistTag extends AeAbstractXpathSelectionTag {
+    /**
+     *
      */
     private static final long serialVersionUID = -4374301473266165322L;
 
-/**
-    * @see javax.servlet.jsp.tagext.BodyTagSupport#doStartTag()
-    */
-   public int doStartTag() throws JspException
-   {
-      if ( pathExists() )
-      {
-         return EVAL_BODY_INCLUDE;
-      }
-      else
-      {
-         return SKIP_BODY;
-      }
-   }
+    /**
+     * @see javax.servlet.jsp.tagext.BodyTagSupport#doStartTag()
+     */
+    public int doStartTag() throws JspException {
+        if (pathExists()) {
+            return EVAL_BODY_INCLUDE;
+        } else {
+            return SKIP_BODY;
+        }
+    }
 
-   /**
-    * Returns true if the xpath exists.
-    * @throws JspException
-    */
-   protected boolean pathExists() throws JspException
-   {
-      try
-      {
-         Node contextNode = getContextNode();
-         return AeXPathUtil.selectSingleNode(contextNode, getQuery(), getNamespaceMap()) != null;
-      }
-      catch(AeException aex)
-      {
-         throw new JspException(aex);
-      }
-   }
+    /**
+     * Returns true if the xpath exists.
+     *
+     * @throws JspException
+     */
+    protected boolean pathExists() throws JspException {
+        try {
+            Node contextNode = getContextNode();
+            return AeXPathUtil.selectSingleNode(contextNode, getQuery(), getNamespaceMap()) != null;
+        } catch (AeException aex) {
+            throw new JspException(aex);
+        }
+    }
 }

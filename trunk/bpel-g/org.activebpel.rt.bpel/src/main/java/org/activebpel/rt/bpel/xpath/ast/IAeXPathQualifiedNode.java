@@ -13,19 +13,19 @@ package org.activebpel.rt.bpel.xpath.ast;
 /**
  * Interface implemented by xpath nodes that are qualified.
  */
-public interface IAeXPathQualifiedNode
-{
-   /**
-    * @return Returns the localName.
-    */
-   public String getLocalName();
-   /**
-    * @return Returns the namespace.
-    */
-   public String getNamespace();
+public interface IAeXPathQualifiedNode {
+    /**
+     * @return Returns the localName.
+     */
+    public String getLocalName();
 
-   /**
-    * @return Returns the prefix.
-    */
-   public String getPrefix();
+    /**
+     * @return Returns the namespace.
+     */
+    public String getNamespace();
+
+    /**
+     * @return Returns the prefix.
+     */
+    public String getPrefix();
 }

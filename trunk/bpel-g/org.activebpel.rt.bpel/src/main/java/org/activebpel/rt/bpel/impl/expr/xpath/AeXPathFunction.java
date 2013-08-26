@@ -22,75 +22,69 @@ import java.util.List;
 /**
  * Implements an xpath function given the generic ActiveBPEL <code>IAeExpressionFunction</code>.
  */
-public class AeXPathFunction implements Function
-{
-   /** The generic function to delegate to. */
-   private IAeFunction mDelegate;
-   /** The expression runner context. */
-   private IAeFunctionExecutionContext mFunctionExecContext;
+public class AeXPathFunction implements Function {
+    /**
+     * The generic function to delegate to.
+     */
+    private IAeFunction mDelegate;
+    /**
+     * The expression runner context.
+     */
+    private IAeFunctionExecutionContext mFunctionExecContext;
 
-   /**
-    * Constructs this xpath function given the generic delegate function.
-    * 
-    * @param aFunction
-    * @param aFunctionExecContext
-    */
-   public AeXPathFunction(IAeFunction aFunction, IAeFunctionExecutionContext aFunctionExecContext)
-   {
-      setDelegate(aFunction);
-      setFunctionExecContext(aFunctionExecContext);
-   }
+    /**
+     * Constructs this xpath function given the generic delegate function.
+     *
+     * @param aFunction
+     * @param aFunctionExecContext
+     */
+    public AeXPathFunction(IAeFunction aFunction, IAeFunctionExecutionContext aFunctionExecContext) {
+        setDelegate(aFunction);
+        setFunctionExecContext(aFunctionExecContext);
+    }
 
-   /**
-    * @see org.jaxen.Function#call(org.jaxen.Context, java.util.List)
-    */
-   public Object call(Context aContext, List aArgs) throws FunctionCallException
-   {
-      try
-      {
-         List<Object> args = new ArrayList<>();
-         // Convert the arguments (which were created by Jaxen) to Engine Types (Java Types) so that
-         // the custom function only needs to deal with standard Java/Ae types.
-          for (Object aArg : aArgs) args.add(getFunctionExecContext().getTypeConverter().convertToEngineType(aArg));
+    /**
+     * @see org.jaxen.Function#call(org.jaxen.Context, java.util.List)
+     */
+    public Object call(Context aContext, List aArgs) throws FunctionCallException {
+        try {
+            List<Object> args = new ArrayList<>();
+            // Convert the arguments (which were created by Jaxen) to Engine Types (Java Types) so that
+            // the custom function only needs to deal with standard Java/Ae types.
+            for (Object aArg : aArgs) args.add(getFunctionExecContext().getTypeConverter().convertToEngineType(aArg));
 
-         Object rval = getDelegate().call(new AeXPathContext(aContext, getFunctionExecContext()), args);
-         return getFunctionExecContext().getTypeConverter().convertToExpressionType(rval);
-      }
-      catch (AeFunctionCallException aef)
-      {
-         throw new FunctionCallException(aef);
-      }
-   }
+            Object rval = getDelegate().call(new AeXPathContext(aContext, getFunctionExecContext()), args);
+            return getFunctionExecContext().getTypeConverter().convertToExpressionType(rval);
+        } catch (AeFunctionCallException aef) {
+            throw new FunctionCallException(aef);
+        }
+    }
 
-   /**
-    * @return Returns the delegate.
-    */
-   protected IAeFunction getDelegate()
-   {
-      return mDelegate;
-   }
-   
-   /**
-    * @param aDelegate The delegate to set.
-    */
-   protected void setDelegate(IAeFunction aDelegate)
-   {
-      mDelegate = aDelegate;
-   }
+    /**
+     * @return Returns the delegate.
+     */
+    protected IAeFunction getDelegate() {
+        return mDelegate;
+    }
 
-   /**
-    * @return Returns the function exec context.
-    */
-   protected IAeFunctionExecutionContext getFunctionExecContext()
-   {
-      return mFunctionExecContext;
-   }
+    /**
+     * @param aDelegate The delegate to set.
+     */
+    protected void setDelegate(IAeFunction aDelegate) {
+        mDelegate = aDelegate;
+    }
 
-   /**
-    * @param aFunctionExecContext The function exec context to set.
-    */
-   protected void setFunctionExecContext(IAeFunctionExecutionContext aFunctionExecContext)
-   {
-      mFunctionExecContext = aFunctionExecContext;
-   }
+    /**
+     * @return Returns the function exec context.
+     */
+    protected IAeFunctionExecutionContext getFunctionExecContext() {
+        return mFunctionExecContext;
+    }
+
+    /**
+     * @param aFunctionExecContext The function exec context to set.
+     */
+    protected void setFunctionExecContext(IAeFunctionExecutionContext aFunctionExecContext) {
+        mFunctionExecContext = aFunctionExecContext;
+    }
 }

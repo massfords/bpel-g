@@ -14,28 +14,26 @@ import org.activebpel.rt.bpeladmin.war.graph.ui.AeContainer;
 /**
  * Basic implementation of a figure.
  */
-public class AeGraphFigure extends AeContainer implements IAeGraphFigure
-{
+public class AeGraphFigure extends AeContainer implements IAeGraphFigure {
 
-   /**
-     * 
+    /**
+     *
      */
     private static final long serialVersionUID = -3171622772333355503L;
 
-/**
-    * Default constructor.
-    */
-   public AeGraphFigure()
-   {
-      this(null);
-   }
+    /**
+     * Default constructor.
+     */
+    public AeGraphFigure() {
+        this(null);
+    }
 
-   /**
-    * Constructor a figure with the given name.
-    * @param aName figure or component name.
-    */   
-   public AeGraphFigure(String aName)  
-   {
-      super(aName);
-   }   
+    /**
+     * Constructor a figure with the given name.
+     *
+     * @param aName figure or component name.
+     */
+    public AeGraphFigure(String aName) {
+        super(aName);
+    }
 }

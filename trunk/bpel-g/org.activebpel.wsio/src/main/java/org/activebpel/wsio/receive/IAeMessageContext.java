@@ -20,64 +20,65 @@ import org.activebpel.wsio.IAeWsAddressingHeaders;
 /**
  * Provides the context for an inbound message to the bpel engine.
  */
-public interface IAeMessageContext extends Serializable
-{
-   /**
-    * Gets the name of the process being invoked.
-    * Should return a null value if getServiceName returns the
-    * process service name.
-    */
-   public QName getProcessName();
+public interface IAeMessageContext extends Serializable {
+    /**
+     * Gets the name of the process being invoked.
+     * Should return a null value if getServiceName returns the
+     * process service name.
+     */
+    public QName getProcessName();
 
-   /**
-    * Return the service name of the process being invoked.
-    * Should return a null value if getProcessName returns
-    * the process QName.
-    */
-   public String getServiceName();
+    /**
+     * Return the service name of the process being invoked.
+     * Should return a null value if getProcessName returns
+     * the process QName.
+     */
+    public String getServiceName();
 
-   /**
-    * Gets the name of the partner link that the request arrived on.
-    */
-   public String getPartnerLink();
+    /**
+     * Gets the name of the partner link that the request arrived on.
+     */
+    public String getPartnerLink();
 
-   /**
-    * Gets the name of the operation that the request invoked.
-    */
-   public String getOperation();
+    /**
+     * Gets the name of the operation that the request invoked.
+     */
+    public String getOperation();
 
-   /**
-    * Gets the authenticated principal value or null if the request wasn't authenticated.
-    */
-   public String getPrincipal();
+    /**
+     * Gets the authenticated principal value or null if the request wasn't authenticated.
+     */
+    public String getPrincipal();
 
-   /**
-    * Gets the version of the process that the message is targeting. A null or
-    * empty string indicates that the message should be routed to the current
-    * version of the process.
-    */
-   public String getProcessVersion();
+    /**
+     * Gets the version of the process that the message is targeting. A null or
+     * empty string indicates that the message should be routed to the current
+     * version of the process.
+     */
+    public String getProcessVersion();
 
-   /**
-    * Accessor for name/value properties that will be passed to the business
-    * process instance.
-    */
-   public Map<String, String> getBusinessProcessProperties();
+    /**
+     * Accessor for name/value properties that will be passed to the business
+     * process instance.
+     */
+    public Map<String, String> getBusinessProcessProperties();
 
-   /**
-    * Gets an Iterator of all reference property elements associated with the inbound message.
-    * @return Iterator for reference property elements.
-    */
-   public Iterator getReferenceProperties();
-   
-   /**
-    * Gets collected WS-Addressing headers associated with the inbound message.
-    * @return container for WSA headers.
-    */
-   public IAeWsAddressingHeaders getWsAddressingHeaders();
-   
-   /**
-    * @return name of the intended receive handler
-    */
-   public String getReceiveHandler();
+    /**
+     * Gets an Iterator of all reference property elements associated with the inbound message.
+     *
+     * @return Iterator for reference property elements.
+     */
+    public Iterator getReferenceProperties();
+
+    /**
+     * Gets collected WS-Addressing headers associated with the inbound message.
+     *
+     * @return container for WSA headers.
+     */
+    public IAeWsAddressingHeaders getWsAddressingHeaders();
+
+    /**
+     * @return name of the intended receive handler
+     */
+    public String getReceiveHandler();
 }

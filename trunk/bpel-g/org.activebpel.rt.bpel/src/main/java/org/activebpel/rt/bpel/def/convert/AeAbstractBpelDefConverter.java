@@ -15,71 +15,67 @@ import org.activebpel.rt.bpel.def.AeProcessDef;
 /**
  * An abstract base class that contains some common functionality for all BPEL Def converters.
  */
-public abstract class AeAbstractBpelDefConverter implements IAeBpelDefConverter
-{
-   /** The process def we are converting. */
-   private AeProcessDef mProcessDef;
+public abstract class AeAbstractBpelDefConverter implements IAeBpelDefConverter {
+    /**
+     * The process def we are converting.
+     */
+    private AeProcessDef mProcessDef;
 
-   /**
-    * Default c'tor.
-    */
-   public AeAbstractBpelDefConverter()
-   {
-   }
+    /**
+     * Default c'tor.
+     */
+    public AeAbstractBpelDefConverter() {
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.def.convert.IAeBpelDefConverter#convert(org.activebpel.rt.bpel.def.AeProcessDef)
-    */
-   public void convert(AeProcessDef aProcessDef)
-   {
-      setProcessDef(aProcessDef);
-      convertProcessNamespace();
-      doConversion();
-   }
-   
-   /**
-    * Converts the namespace.
-    */
-   protected void convertProcessNamespace()
-   {
-      String newNamespace = getNewBpelNamespace();
-      String preferredPrefix = getNewBpelNamespacePrefix();
-      getProcessDef().setNamespace(newNamespace);
-      getProcessDef().addNamespace("", newNamespace); //$NON-NLS-1$
-      getProcessDef().allocateNamespace(preferredPrefix, newNamespace);      
-   }
+    /**
+     * @see org.activebpel.rt.bpel.def.convert.IAeBpelDefConverter#convert(org.activebpel.rt.bpel.def.AeProcessDef)
+     */
+    public void convert(AeProcessDef aProcessDef) {
+        setProcessDef(aProcessDef);
+        convertProcessNamespace();
+        doConversion();
+    }
 
-   /**
-    * Returns the BPEL namespace of the target format (the BPEL version we are converting TO).
-    */
-   protected abstract String getNewBpelNamespace();
+    /**
+     * Converts the namespace.
+     */
+    protected void convertProcessNamespace() {
+        String newNamespace = getNewBpelNamespace();
+        String preferredPrefix = getNewBpelNamespacePrefix();
+        getProcessDef().setNamespace(newNamespace);
+        getProcessDef().addNamespace("", newNamespace); //$NON-NLS-1$
+        getProcessDef().allocateNamespace(preferredPrefix, newNamespace);
+    }
 
-   /**
-    * Returns the <strong>preferred</strong> BPEL namespace prefix for the BPEL namespace 
-    * we are converting TO.  For example, if we are converting to WS-BPEL 2.0, this would 
-    * return "bpel".  If we are converting to BPEL4WS 1.1, this would return "bpws".
-    */
-   protected abstract String getNewBpelNamespacePrefix();
-   
-   /**
-    * Called to actually do the conversion steps that will be specific to a particular type of
-    * conversion (e.g. from 1.1 to 2.0).
-    */
-   protected abstract void doConversion();
+    /**
+     * Returns the BPEL namespace of the target format (the BPEL version we are converting TO).
+     */
+    protected abstract String getNewBpelNamespace();
 
-   /**
-    * @return Returns the processDef.
-    */
-   protected AeProcessDef getProcessDef()
-   {
-      return mProcessDef;
-   }
+    /**
+     * Returns the <strong>preferred</strong> BPEL namespace prefix for the BPEL namespace
+     * we are converting TO.  For example, if we are converting to WS-BPEL 2.0, this would
+     * return "bpel".  If we are converting to BPEL4WS 1.1, this would return "bpws".
+     */
+    protected abstract String getNewBpelNamespacePrefix();
 
-   /**
-    * @param aProcessDef The processDef to set.
-    */
-   protected void setProcessDef(AeProcessDef aProcessDef)
-   {
-      mProcessDef = aProcessDef;
-   }
+    /**
+     * Called to actually do the conversion steps that will be specific to a particular type of
+     * conversion (e.g. from 1.1 to 2.0).
+     */
+    protected abstract void doConversion();
+
+    /**
+     * @return Returns the processDef.
+     */
+    protected AeProcessDef getProcessDef() {
+        return mProcessDef;
+    }
+
+    /**
+     * @param aProcessDef The processDef to set.
+     */
+    protected void setProcessDef(AeProcessDef aProcessDef) {
+        mProcessDef = aProcessDef;
+    }
 }

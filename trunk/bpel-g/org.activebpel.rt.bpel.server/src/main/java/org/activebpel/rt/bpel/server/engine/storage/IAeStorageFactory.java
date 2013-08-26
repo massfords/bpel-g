@@ -16,45 +16,44 @@ import org.activebpel.rt.bpel.impl.attachment.IAeAttachmentStorage;
  * This interface defines an Active BPEL engine store factory. The storage factory is responsible for
  * creating storage objects for the generic persistent versions of the engine managers.
  */
-public interface IAeStorageFactory
-{
-   /**
-    * The init method is called after the store factory has been created.  The factory
-    * should do any initialization of its internal values in the init method.
-    *
-    * @throws AeException
-    */
-   public void init() throws AeException;
+public interface IAeStorageFactory {
+    /**
+     * The init method is called after the store factory has been created.  The factory
+     * should do any initialization of its internal values in the init method.
+     *
+     * @throws AeException
+     */
+    public void init() throws AeException;
 
-   /**
-    * Gets the queue storage.
-    */
-   public IAeQueueStorage getQueueStorage();
+    /**
+     * Gets the queue storage.
+     */
+    public IAeQueueStorage getQueueStorage();
 
-   /**
-    * Gets the process state storage.
-    */
-   public IAeProcessStateStorage getProcessStateStorage();
+    /**
+     * Gets the process state storage.
+     */
+    public IAeProcessStateStorage getProcessStateStorage();
 
-   /**
-    * Gets the coordination storage.
-    */
-   public IAeCoordinationStorage getCoordinationStorage();
+    /**
+     * Gets the coordination storage.
+     */
+    public IAeCoordinationStorage getCoordinationStorage();
 
-   /**
-    * Gets the URN storage.
-    */
-   public IAeURNStorage getURNStorage();
+    /**
+     * Gets the URN storage.
+     */
+    public IAeURNStorage getURNStorage();
 
-   /**
-    * Returns persistent transmission manager store.
-    */
-   public IAeTransmissionTrackerStorage getTransmissionTrackerStorage();
-     
-   /**
-    * Returns attachment storage. 
-    */
-   public IAeAttachmentStorage getAttachmentStorage();
+    /**
+     * Returns persistent transmission manager store.
+     */
+    public IAeTransmissionTrackerStorage getTransmissionTrackerStorage();
 
-   public boolean isReady();
+    /**
+     * Returns attachment storage.
+     */
+    public IAeAttachmentStorage getAttachmentStorage();
+
+    public boolean isReady();
 }

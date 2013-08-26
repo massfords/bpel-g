@@ -14,21 +14,22 @@ import org.activebpel.wsio.invoke.IAeInvoke;
 import org.activebpel.wsio.invoke.IAeInvokeHandler;
 
 /**
- *  Factory interface for the creation of <code>IAeInvokeHandler</code> impls.
+ * Factory interface for the creation of <code>IAeInvokeHandler</code> impls.
  */
-public interface IAeInvokeHandlerFactory
-{
-   /**
-    * Create an new <code>IAeInvokeHandler</code> instance.
-    * @param aInvoke
-    * @throws AeBusinessProcessException
-    */
-   public IAeInvokeHandler createInvokeHandler( IAeInvoke aInvoke ) throws AeBusinessProcessException;
-   
-   /**
-    * Return any custom query data that should be passed into the invoke 
-    * handler.  This will be null if none was specified.
-    * @param aInvoke
-    */
-   public String getQueryData( IAeInvoke aInvoke );
+public interface IAeInvokeHandlerFactory {
+    /**
+     * Create an new <code>IAeInvokeHandler</code> instance.
+     *
+     * @param aInvoke
+     * @throws AeBusinessProcessException
+     */
+    public IAeInvokeHandler createInvokeHandler(IAeInvoke aInvoke) throws AeBusinessProcessException;
+
+    /**
+     * Return any custom query data that should be passed into the invoke
+     * handler.  This will be null if none was specified.
+     *
+     * @param aInvoke
+     */
+    public String getQueryData(IAeInvoke aInvoke);
 }

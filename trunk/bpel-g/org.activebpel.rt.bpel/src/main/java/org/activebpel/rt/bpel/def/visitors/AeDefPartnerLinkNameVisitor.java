@@ -17,52 +17,48 @@ import org.activebpel.rt.bpel.def.AeProcessDef;
  * This visitor is responsible for visiting all of the partner links and adding mappings for them
  * in the process def.
  */
-public class AeDefPartnerLinkNameVisitor extends AeAbstractDefVisitor
-{
-   /** The process def. */
-   private AeProcessDef mProcessDef;
+public class AeDefPartnerLinkNameVisitor extends AeAbstractDefVisitor {
+    /**
+     * The process def.
+     */
+    private AeProcessDef mProcessDef;
 
-   /**
-    * Default c'tor.
-    */
-   public AeDefPartnerLinkNameVisitor()
-   {
-      setTraversalVisitor( new AeTraversalVisitor( new AeDefTraverser(), this ) );
-   }
+    /**
+     * Default c'tor.
+     */
+    public AeDefPartnerLinkNameVisitor() {
+        setTraversalVisitor(new AeTraversalVisitor(new AeDefTraverser(), this));
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.def.visitors.AeAbstractDefVisitor#visit(org.activebpel.rt.bpel.def.AeProcessDef)
-    */
-   public void visit(AeProcessDef def)
-   {
-      setProcessDef(def);
+    /**
+     * @see org.activebpel.rt.bpel.def.visitors.AeAbstractDefVisitor#visit(org.activebpel.rt.bpel.def.AeProcessDef)
+     */
+    public void visit(AeProcessDef def) {
+        setProcessDef(def);
 
-      super.visit(def);
-   }
+        super.visit(def);
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.def.visitors.AeAbstractDefVisitor#visit(org.activebpel.rt.bpel.def.AePartnerLinkDef)
-    */
-   public void visit(AePartnerLinkDef def)
-   {
-      getProcessDef().addPartnerLinkMapping(def);
+    /**
+     * @see org.activebpel.rt.bpel.def.visitors.AeAbstractDefVisitor#visit(org.activebpel.rt.bpel.def.AePartnerLinkDef)
+     */
+    public void visit(AePartnerLinkDef def) {
+        getProcessDef().addPartnerLinkMapping(def);
 
-      super.visit(def);
-   }
+        super.visit(def);
+    }
 
-   /**
-    * @return Returns the processDef.
-    */
-   protected AeProcessDef getProcessDef()
-   {
-      return mProcessDef;
-   }
+    /**
+     * @return Returns the processDef.
+     */
+    protected AeProcessDef getProcessDef() {
+        return mProcessDef;
+    }
 
-   /**
-    * @param aProcessDef The processDef to set.
-    */
-   protected void setProcessDef(AeProcessDef aProcessDef)
-   {
-      mProcessDef = aProcessDef;
-   }
+    /**
+     * @param aProcessDef The processDef to set.
+     */
+    protected void setProcessDef(AeProcessDef aProcessDef) {
+        mProcessDef = aProcessDef;
+    }
 }

@@ -13,28 +13,25 @@ package org.activebpel.rt.bpel.def.activity;
 import org.activebpel.rt.bpel.def.visitors.IAeDefVisitor;
 
 /**
- * Models the 'repeateUntil' bpel construct introduced in WS-BPEL 2.0. 
+ * Models the 'repeateUntil' bpel construct introduced in WS-BPEL 2.0.
  */
-public class AeActivityRepeatUntilDef extends AeActivityWhileDef
-{
-   /**
-     * 
+public class AeActivityRepeatUntilDef extends AeActivityWhileDef {
+    /**
+     *
      */
     private static final long serialVersionUID = 6086587087261386528L;
 
-/**
-    * Default c'tor.
-    */
-   public AeActivityRepeatUntilDef()
-   {
-      super();
-   }
+    /**
+     * Default c'tor.
+     */
+    public AeActivityRepeatUntilDef() {
+        super();
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.def.activity.AeActivityWhileDef#accept(org.activebpel.rt.bpel.def.visitors.IAeDefVisitor)
-    */
-   public void accept(IAeDefVisitor aVisitor)
-   {
-      aVisitor.visit(this);
-   }
+    /**
+     * @see org.activebpel.rt.bpel.def.activity.AeActivityWhileDef#accept(org.activebpel.rt.bpel.def.visitors.IAeDefVisitor)
+     */
+    public void accept(IAeDefVisitor aVisitor) {
+        aVisitor.visit(this);
+    }
 }

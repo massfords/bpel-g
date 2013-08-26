@@ -7,7 +7,7 @@
 //Active Endpoints, Inc. Removal of this PROPRIETARY RIGHTS STATEMENT 
 //is strictly forbidden. Copyright (c) 2002-2006 All rights reserved. 
 /////////////////////////////////////////////////////////////////////////////
-package org.activebpel.rt.bpel.def.validation.activity; 
+package org.activebpel.rt.bpel.def.validation.activity;
 
 import org.activebpel.rt.bpel.def.IAeCatchParentDef;
 import org.activebpel.rt.bpel.def.activity.AeActivityRethrowDef;
@@ -15,31 +15,29 @@ import org.activebpel.rt.bpel.def.activity.AeActivityRethrowDef;
 /**
  * model provides validation for the rethrow activity
  */
-public class AeActivityRethrowValidator extends AeActivityValidator
-{
-   /**
-    * ctor
-    * @param aDef
-    */
-   public AeActivityRethrowValidator(AeActivityRethrowDef aDef)
-   {
-      super(aDef);
-   }
+public class AeActivityRethrowValidator extends AeActivityValidator {
+    /**
+     * ctor
+     *
+     * @param aDef
+     */
+    public AeActivityRethrowValidator(AeActivityRethrowDef aDef) {
+        super(aDef);
+    }
 
-   /**
-    * Validates:
-    * 1. we're enclosed within a catch or catchAll
-    * @see org.activebpel.rt.bpel.def.validation.activity.AeActivityValidator#validate()
-    */
-   public void validate()
-   {
-      super.validate();
-      
-      // TODO (MF) add an interface for AeCatchDef and AeCatchAllDef instead of checking for the <faultHandlers>
-      if (!enclosedWithinDef(IAeCatchParentDef.class))
-      {
-         getReporter().reportProblem( BPEL_MISPLACED_RETHROW_CODE, ERROR_MISPLACED_RETHROW, null, getDefinition() );
-      }
-   }
+    /**
+     * Validates:
+     * 1. we're enclosed within a catch or catchAll
+     *
+     * @see org.activebpel.rt.bpel.def.validation.activity.AeActivityValidator#validate()
+     */
+    public void validate() {
+        super.validate();
+
+        // TODO (MF) add an interface for AeCatchDef and AeCatchAllDef instead of checking for the <faultHandlers>
+        if (!enclosedWithinDef(IAeCatchParentDef.class)) {
+            getReporter().reportProblem(BPEL_MISPLACED_RETHROW_CODE, ERROR_MISPLACED_RETHROW, null, getDefinition());
+        }
+    }
 }
  

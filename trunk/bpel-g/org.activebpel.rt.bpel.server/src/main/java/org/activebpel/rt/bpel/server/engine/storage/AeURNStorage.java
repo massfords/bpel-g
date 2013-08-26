@@ -21,71 +21,56 @@ import java.util.Map;
  * storage 'logic' so that it can be shared across multiple storage implementations (such as SQL
  * and Tamino).
  */
-public class AeURNStorage extends AeAbstractStorage implements IAeURNStorage
-{
-   /**
-    * Convenience method to get the storage provider cast to a URN storage provider.
-    */
-   protected IAeURNStorageProvider getURNStorageProvider()
-   {
-      return (IAeURNStorageProvider) getProvider();
-   }
+public class AeURNStorage extends AeAbstractStorage implements IAeURNStorage {
+    /**
+     * Convenience method to get the storage provider cast to a URN storage provider.
+     */
+    protected IAeURNStorageProvider getURNStorageProvider() {
+        return (IAeURNStorageProvider) getProvider();
+    }
 
 
-   /**
-    * @see org.activebpel.rt.bpel.server.engine.storage.IAeURNStorage#getMappings()
-    */
-   public Map<String,String> getMappings() throws AeStorageException
-   {
-      return getURNStorageProvider().getMappings();
-   }
-   
-   /**
-    * @see org.activebpel.rt.bpel.server.engine.storage.IAeURNStorage#addMapping(java.lang.String, java.lang.String)
-    */
-   public void addMapping(String aURN, String aURL) throws AeStorageException
-   {
-      IAeStorageConnection connection = getCommitControlDBConnection();
+    /**
+     * @see org.activebpel.rt.bpel.server.engine.storage.IAeURNStorage#getMappings()
+     */
+    public Map<String, String> getMappings() throws AeStorageException {
+        return getURNStorageProvider().getMappings();
+    }
 
-      try
-      {
-         getURNStorageProvider().removeMapping(aURN, connection);
-         getURNStorageProvider().addMapping(aURN, aURL, connection);
+    /**
+     * @see org.activebpel.rt.bpel.server.engine.storage.IAeURNStorage#addMapping(java.lang.String, java.lang.String)
+     */
+    public void addMapping(String aURN, String aURL) throws AeStorageException {
+        IAeStorageConnection connection = getCommitControlDBConnection();
 
-         connection.commit();
-      }
-      catch (AeStorageException se)
-      {
-         AeStorageUtil.rollback(connection);
-         throw se;
-      }
-      finally
-      {
-         connection.close();
-      }
-   }
+        try {
+            getURNStorageProvider().removeMapping(aURN, connection);
+            getURNStorageProvider().addMapping(aURN, aURL, connection);
 
-   /**
-    * @see org.activebpel.rt.bpel.server.engine.storage.IAeURNStorage#removeMappings(java.lang.String[])
-    */
-   public void removeMappings(String[] aURNArray) throws AeStorageException
-   {
-      IAeStorageConnection connection = getCommitControlDBConnection();
-      try
-      {
-          for (String arr : aURNArray) {
-              getURNStorageProvider().removeMapping(arr, connection);
-          }
-         connection.commit();
-      }
-      catch (AeStorageException e)
-      {
-         AeStorageUtil.rollback(connection);
-         throw e;
-      }
-      finally
-      {
-         connection.close();
-      }
-   }
+            connection.commit();
+        } catch (AeStorageException se) {
+            AeStorageUtil.rollback(connection);
+            throw se;
+        } finally {
+            connection.close();
+        }
+    }
+
+    /**
+     * @see org.activebpel.rt.bpel.server.engine.storage.IAeURNStorage#removeMappings(java.lang.String[])
+     */
+    public void removeMappings(String[] aURNArray) throws AeStorageException {
+        IAeStorageConnection connection = getCommitControlDBConnection();
+        try {
+            for (String arr : aURNArray) {
+                getURNStorageProvider().removeMapping(arr, connection);
+            }
+            connection.commit();
+        } catch (AeStorageException e) {
+            AeStorageUtil.rollback(connection);
+            throw e;
+        } finally {
+            connection.close();
+        }
+    }
 }

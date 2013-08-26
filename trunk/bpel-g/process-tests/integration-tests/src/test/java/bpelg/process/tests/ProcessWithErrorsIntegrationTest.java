@@ -22,7 +22,7 @@ public class ProcessWithErrorsIntegrationTest extends Assert {
         assertNotNull(response);
         DeploymentResponse.DeploymentInfo info = response.getDeploymentInfo().get(0);
         assertFalse(info.isDeployed());
-        for(Msg m : info.getLog().getMsg()) {
+        for (Msg m : info.getLog().getMsg()) {
             System.out.println(m.getType());
             System.out.println(m.getValue());
         }

@@ -19,79 +19,75 @@ import org.w3c.dom.Element;
  * does not correspond to an actual to-spec.  It is generated in BPEL 2.0 processes for certain
  * forms of the query to-spec.
  */
-public class AeToVariableTypeWithQuery extends AeToBase
-{
-   /** query for the element */
-   private String mQuery;
-   /** query language for the type */
-   private String mQueryLanguage;
-   
-   /**
-    * Ctor accepts the to def.
-    * 
-    * @param aToDef
-    */
-   public AeToVariableTypeWithQuery(AeToDef aToDef)
-   {
-      this(aToDef.getVariable(), aToDef.getQuery(), aToDef.getQueryDef().getQueryLanguage());
-   }
-   
-   /**
-    * Ctor accepts variable type and query
-    * 
-    * @param aVariable
-    * @param aQuery
-    * @param aQueryLanguage
-    */
-   public AeToVariableTypeWithQuery(String aVariable, String aQuery, String aQueryLanguage)
-   {
-      setVariableName(aVariable);
-      setQuery(aQuery);
-      setQueryLanguage(aQueryLanguage);
-   }
+public class AeToVariableTypeWithQuery extends AeToBase {
+    /**
+     * query for the element
+     */
+    private String mQuery;
+    /**
+     * query language for the type
+     */
+    private String mQueryLanguage;
 
-   /**
-    * @see org.activebpel.rt.bpel.impl.activity.assign.IAeTo#getTarget()
-    */
-   public Object getTarget() throws AeBpelException
-   {
-      AeVariableComplexTypeDataWrapper wrapper = new AeVariableComplexTypeDataWrapper(getVariable());
+    /**
+     * Ctor accepts the to def.
+     *
+     * @param aToDef
+     */
+    public AeToVariableTypeWithQuery(AeToDef aToDef) {
+        this(aToDef.getVariable(), aToDef.getQuery(), aToDef.getQueryDef().getQueryLanguage());
+    }
 
-      // this will initialize the type for us if it's null
-      Element element = (Element) wrapper.getValue();
-      
-      return AeToQueryRunner.selectValue(getCopyOperation(), getQuery(), element);
-   }
+    /**
+     * Ctor accepts variable type and query
+     *
+     * @param aVariable
+     * @param aQuery
+     * @param aQueryLanguage
+     */
+    public AeToVariableTypeWithQuery(String aVariable, String aQuery, String aQueryLanguage) {
+        setVariableName(aVariable);
+        setQuery(aQuery);
+        setQueryLanguage(aQueryLanguage);
+    }
 
-   /**
-    * @return Returns the query.
-    */
-   public String getQuery()
-   {
-      return mQuery;
-   }
+    /**
+     * @see org.activebpel.rt.bpel.impl.activity.assign.IAeTo#getTarget()
+     */
+    public Object getTarget() throws AeBpelException {
+        AeVariableComplexTypeDataWrapper wrapper = new AeVariableComplexTypeDataWrapper(getVariable());
 
-   /**
-    * @param aQuery The query to set.
-    */
-   public void setQuery(String aQuery)
-   {
-      mQuery = aQuery;
-   }
+        // this will initialize the type for us if it's null
+        Element element = (Element) wrapper.getValue();
 
-   /**
-    * @return Returns the queryLanguage.
-    */
-   protected String getQueryLanguage()
-   {
-      return mQueryLanguage;
-   }
+        return AeToQueryRunner.selectValue(getCopyOperation(), getQuery(), element);
+    }
 
-   /**
-    * @param aQueryLanguage The queryLanguage to set.
-    */
-   protected void setQueryLanguage(String aQueryLanguage)
-   {
-      mQueryLanguage = aQueryLanguage;
-   }
+    /**
+     * @return Returns the query.
+     */
+    public String getQuery() {
+        return mQuery;
+    }
+
+    /**
+     * @param aQuery The query to set.
+     */
+    public void setQuery(String aQuery) {
+        mQuery = aQuery;
+    }
+
+    /**
+     * @return Returns the queryLanguage.
+     */
+    protected String getQueryLanguage() {
+        return mQueryLanguage;
+    }
+
+    /**
+     * @param aQueryLanguage The queryLanguage to set.
+     */
+    protected void setQueryLanguage(String aQueryLanguage) {
+        mQueryLanguage = aQueryLanguage;
+    }
 }

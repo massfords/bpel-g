@@ -16,20 +16,18 @@ import javax.servlet.jsp.JspException;
  * nest property names. For example, property "address.city" is equivalent
  * to getAddress().getCity()
  */
-public class AeGetPropertyTag extends AeAbstractBeanPropertyTag
-{
-   /**
-     * 
+public class AeGetPropertyTag extends AeAbstractBeanPropertyTag {
+    /**
+     *
      */
     private static final long serialVersionUID = -8580620996146225360L;
 
-/**
-    * @see javax.servlet.jsp.tagext.BodyTagSupport#doStartTag()
-    */
-   public int doStartTag() throws JspException
-   {
-      write(String.valueOf( getPropertyFromBean() ));
-      return SKIP_BODY;
-   }
+    /**
+     * @see javax.servlet.jsp.tagext.BodyTagSupport#doStartTag()
+     */
+    public int doStartTag() throws JspException {
+        write(String.valueOf(getPropertyFromBean()));
+        return SKIP_BODY;
+    }
 
 }

@@ -17,23 +17,20 @@ import org.mozilla.javascript.ScriptOrFnNode;
 /**
  * A BPEL 2.0 JavaScript implementation of an expression parse.
  */
-public class AeWSBPELJavaScriptExpressionParser extends AeAbstractJavaScriptExpressionParser
-{
-   /**
-    * Constructs a javascript parser given the context.
-    * 
-    * @param aParserContext
-    */
-   public AeWSBPELJavaScriptExpressionParser(IAeExpressionParserContext aParserContext)
-   {
-      super(aParserContext);
-   }
-   
-   /**
-    * @see org.activebpel.rt.bpel.ext.expr.def.javascript.AeAbstractJavaScriptExpressionParser#createParseResult(java.lang.String, org.mozilla.javascript.ScriptOrFnNode)
-    */
-   protected IAeExpressionParseResult createParseResult(String aExpression, ScriptOrFnNode aTree)
-   {
-      return new AeWSBPELJavaScriptParseResult(aExpression, aTree, getParserContext());
-   }
+public class AeWSBPELJavaScriptExpressionParser extends AeAbstractJavaScriptExpressionParser {
+    /**
+     * Constructs a javascript parser given the context.
+     *
+     * @param aParserContext
+     */
+    public AeWSBPELJavaScriptExpressionParser(IAeExpressionParserContext aParserContext) {
+        super(aParserContext);
+    }
+
+    /**
+     * @see org.activebpel.rt.bpel.ext.expr.def.javascript.AeAbstractJavaScriptExpressionParser#createParseResult(java.lang.String, org.mozilla.javascript.ScriptOrFnNode)
+     */
+    protected IAeExpressionParseResult createParseResult(String aExpression, ScriptOrFnNode aTree) {
+        return new AeWSBPELJavaScriptParseResult(aExpression, aTree, getParserContext());
+    }
 }

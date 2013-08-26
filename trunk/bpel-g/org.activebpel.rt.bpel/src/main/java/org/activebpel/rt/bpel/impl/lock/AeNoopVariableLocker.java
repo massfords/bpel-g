@@ -16,47 +16,41 @@ import org.w3c.dom.DocumentFragment;
 import org.w3c.dom.Node;
 
 /**
- * Noop variable locker, does nothing and is used when no serializable scopes 
+ * Noop variable locker, does nothing and is used when no serializable scopes
  * are present.
  */
-public class AeNoopVariableLocker implements IAeVariableLocker
-{
-   /**
-    * @see org.activebpel.rt.bpel.impl.lock.IAeVariableLocker#addExclusiveLock(java.util.Set, java.lang.String, org.activebpel.rt.bpel.impl.lock.IAeVariableLockCallback)
-    */
-   public boolean addExclusiveLock(Set aSetOfVariablePaths, String aOwnerXPath, IAeVariableLockCallback aCallback)
-   {
-      return true;
-   }
+public class AeNoopVariableLocker implements IAeVariableLocker {
+    /**
+     * @see org.activebpel.rt.bpel.impl.lock.IAeVariableLocker#addExclusiveLock(java.util.Set, java.lang.String, org.activebpel.rt.bpel.impl.lock.IAeVariableLockCallback)
+     */
+    public boolean addExclusiveLock(Set aSetOfVariablePaths, String aOwnerXPath, IAeVariableLockCallback aCallback) {
+        return true;
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.impl.lock.IAeVariableLocker#addSharedLock(java.util.Set, java.lang.String, org.activebpel.rt.bpel.impl.lock.IAeVariableLockCallback)
-    */
-   public boolean addSharedLock(Set aSetOfVariablePaths, String aOwnerXPath, IAeVariableLockCallback aCallback)
-   {
-      return true;
-   }
+    /**
+     * @see org.activebpel.rt.bpel.impl.lock.IAeVariableLocker#addSharedLock(java.util.Set, java.lang.String, org.activebpel.rt.bpel.impl.lock.IAeVariableLockCallback)
+     */
+    public boolean addSharedLock(Set aSetOfVariablePaths, String aOwnerXPath, IAeVariableLockCallback aCallback) {
+        return true;
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.impl.lock.IAeVariableLocker#releaseLocks(java.lang.String)
-    */
-   public void releaseLocks(String aOwner) throws AeBusinessProcessException
-   {
-   }
+    /**
+     * @see org.activebpel.rt.bpel.impl.lock.IAeVariableLocker#releaseLocks(java.lang.String)
+     */
+    public void releaseLocks(String aOwner) throws AeBusinessProcessException {
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.impl.lock.IAeVariableLocker#getLockerData(org.activebpel.rt.bpel.impl.lock.IAeVariableLockCallback)
-    */
-   public DocumentFragment getLockerData(IAeVariableLockCallback aProcess) throws AeBusinessProcessException
-   {
-      return null;
-   }
+    /**
+     * @see org.activebpel.rt.bpel.impl.lock.IAeVariableLocker#getLockerData(org.activebpel.rt.bpel.impl.lock.IAeVariableLockCallback)
+     */
+    public DocumentFragment getLockerData(IAeVariableLockCallback aProcess) throws AeBusinessProcessException {
+        return null;
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.impl.lock.IAeVariableLocker#setLockerData(org.w3c.dom.Node, org.activebpel.rt.bpel.impl.lock.IAeVariableLockCallback)
-    */
-   public void setLockerData(Node aNode, IAeVariableLockCallback aProcess) throws AeBusinessProcessException
-   {
-   }
+    /**
+     * @see org.activebpel.rt.bpel.impl.lock.IAeVariableLocker#setLockerData(org.w3c.dom.Node, org.activebpel.rt.bpel.impl.lock.IAeVariableLockCallback)
+     */
+    public void setLockerData(Node aNode, IAeVariableLockCallback aProcess) throws AeBusinessProcessException {
+    }
 
 }

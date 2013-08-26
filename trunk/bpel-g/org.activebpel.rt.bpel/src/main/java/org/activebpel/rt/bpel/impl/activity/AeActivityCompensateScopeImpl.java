@@ -22,48 +22,43 @@ import org.activebpel.rt.bpel.impl.activity.support.AeCompInfo;
  * is to identify the scope that is getting compensated and then to
  * queue the identified scope's compensation handlers.
  */
-public class AeActivityCompensateScopeImpl extends AeActivityCompensateImpl
-{
-   /** 
-    * Constructor for activity.
-    * 
-    * @param aActivityDef
-    * @param aParent
-    */
-   public AeActivityCompensateScopeImpl(AeActivityCompensateScopeDef aActivityDef, IAeActivityParent aParent)
-   {
-      this(aActivityDef, aParent, false);
-   }
+public class AeActivityCompensateScopeImpl extends AeActivityCompensateImpl {
+    /**
+     * Constructor for activity.
+     *
+     * @param aActivityDef
+     * @param aParent
+     */
+    public AeActivityCompensateScopeImpl(AeActivityCompensateScopeDef aActivityDef, IAeActivityParent aParent) {
+        this(aActivityDef, aParent, false);
+    }
 
-   /**
-    * Constructor for activity.
-    * 
-    * @param aActivityDef activity definition
-    * @param aParent enclosing scope or fault handler
-    */
-   public AeActivityCompensateScopeImpl(AeActivityCompensateScopeDef aActivityDef, IAeActivityParent aParent,
-         boolean aMatchCoordinated)
-   {
-      super(aActivityDef, aParent, aMatchCoordinated);
-   }
+    /**
+     * Constructor for activity.
+     *
+     * @param aActivityDef activity definition
+     * @param aParent      enclosing scope or fault handler
+     */
+    public AeActivityCompensateScopeImpl(AeActivityCompensateScopeDef aActivityDef, IAeActivityParent aParent,
+                                         boolean aMatchCoordinated) {
+        super(aActivityDef, aParent, aMatchCoordinated);
+    }
 
-   /**
-    * Gets the name of the scope that we're targeting for compensation.
-    */
-   protected String getScopeNameForCompensation()
-   {
-      AeActivityCompensateScopeDef def = (AeActivityCompensateScopeDef) getDefinition();
-      return def.getTarget();
-   }
+    /**
+     * Gets the name of the scope that we're targeting for compensation.
+     */
+    protected String getScopeNameForCompensation() {
+        AeActivityCompensateScopeDef def = (AeActivityCompensateScopeDef) getDefinition();
+        return def.getTarget();
+    }
 
-   /**
-    * Overrides in order to return only scopes matching the 'target' scope name.
-    * 
-    * @see org.activebpel.rt.bpel.impl.activity.AeActivityCompensateImpl#getMatchingScopes()
-    */
-   protected List<AeCompInfo> getMatchingScopes()
-   {
-      String scopeName = getScopeNameForCompensation();
-      return getCompInfo().getEnclosedInfoByScopeName(scopeName);
-   }
+    /**
+     * Overrides in order to return only scopes matching the 'target' scope name.
+     *
+     * @see org.activebpel.rt.bpel.impl.activity.AeActivityCompensateImpl#getMatchingScopes()
+     */
+    protected List<AeCompInfo> getMatchingScopes() {
+        String scopeName = getScopeNameForCompensation();
+        return getCompInfo().getEnclosedInfoByScopeName(scopeName);
+    }
 }

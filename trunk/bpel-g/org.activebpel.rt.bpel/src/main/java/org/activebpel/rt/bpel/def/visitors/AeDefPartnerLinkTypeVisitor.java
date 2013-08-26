@@ -7,7 +7,7 @@
 //Active Endpoints, Inc. Removal of this PROPRIETARY RIGHTS STATEMENT 
 //is strictly forbidden. Copyright (c) 2002-2004 All rights reserved. 
 /////////////////////////////////////////////////////////////////////////////
-package org.activebpel.rt.bpel.def.visitors; 
+package org.activebpel.rt.bpel.def.visitors;
 
 import org.activebpel.rt.bpel.AeWSDLDefHelper;
 import org.activebpel.rt.bpel.def.AePartnerLinkDef;
@@ -16,36 +16,34 @@ import org.activebpel.rt.wsdl.def.AeBPELExtendedWSDLDef;
 import org.activebpel.rt.wsdl.def.IAePartnerLinkType;
 
 /**
- * Sets the IAePartnerLinkType reference on each of the partner link def objects. 
+ * Sets the IAePartnerLinkType reference on each of the partner link def objects.
  */
-public class AeDefPartnerLinkTypeVisitor extends AeAbstractDefVisitor
-{
-   /** wsdl provider used to find partner link type definition elements */
-   private final IAeContextWSDLProvider mProvider;
-   
-   /**
-    * Creates the visitor with the default traverser 
-    */
-   public AeDefPartnerLinkTypeVisitor(IAeContextWSDLProvider aProvider)
-   {
-      setTraversalVisitor( new AeTraversalVisitor(new AeDefTraverser(), this));
-      mProvider = aProvider;
-   }
-   
-   /**
-    * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.AePartnerLinkDef)
-    */
-   public void visit(AePartnerLinkDef def)
-   {
-      AeBPELExtendedWSDLDef wsdlDef = AeWSDLDefHelper.getWSDLDefinitionForPLT(mProvider, def.getPartnerLinkTypeName());
-      // Note: if the wsdlDef is null then the plink is unresolved. This is caught during static analysis.
-      if (wsdlDef != null)
-      {
-         IAePartnerLinkType plType = wsdlDef.getPartnerLinkType(def.getPartnerLinkTypeName().getLocalPart());
-         // Note: if the plType is null then the plink is unresolved. This is caught during static analysis.
-         def.setPartnerLinkType(plType);
-      }
-      super.visit(def);
-   }
+public class AeDefPartnerLinkTypeVisitor extends AeAbstractDefVisitor {
+    /**
+     * wsdl provider used to find partner link type definition elements
+     */
+    private final IAeContextWSDLProvider mProvider;
+
+    /**
+     * Creates the visitor with the default traverser
+     */
+    public AeDefPartnerLinkTypeVisitor(IAeContextWSDLProvider aProvider) {
+        setTraversalVisitor(new AeTraversalVisitor(new AeDefTraverser(), this));
+        mProvider = aProvider;
+    }
+
+    /**
+     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.AePartnerLinkDef)
+     */
+    public void visit(AePartnerLinkDef def) {
+        AeBPELExtendedWSDLDef wsdlDef = AeWSDLDefHelper.getWSDLDefinitionForPLT(mProvider, def.getPartnerLinkTypeName());
+        // Note: if the wsdlDef is null then the plink is unresolved. This is caught during static analysis.
+        if (wsdlDef != null) {
+            IAePartnerLinkType plType = wsdlDef.getPartnerLinkType(def.getPartnerLinkTypeName().getLocalPart());
+            // Note: if the plType is null then the plink is unresolved. This is caught during static analysis.
+            def.setPartnerLinkType(plType);
+        }
+        super.visit(def);
+    }
 }
  

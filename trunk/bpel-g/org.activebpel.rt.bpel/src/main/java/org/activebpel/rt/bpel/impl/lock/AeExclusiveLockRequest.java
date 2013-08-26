@@ -16,42 +16,37 @@ import java.util.Set;
  * Extension of the base lock request that will only acquire the lock if it's
  * the only lock holder present.
  */
-class AeExclusiveLockRequest extends AeLockRequest
-{
-   /**
-    * Creates a lock request with all of its required data.
-    * @param aVariablesToLock - The set of variable paths that we want to lock
-    * @param aOwner - The path of the object that will be the owner of the lock
-    * @param aCallback - The callback that gets used if we can't fulfill the request immediately
-    */
-   public AeExclusiveLockRequest(AeVariableLocker aVariableLocker, Set<String> aVariablesToLock, String aOwner, IAeVariableLockCallback aCallback)
-   {
-      super(aVariableLocker, aVariablesToLock, aOwner, aCallback);
-   }
+class AeExclusiveLockRequest extends AeLockRequest {
+    /**
+     * Creates a lock request with all of its required data.
+     *
+     * @param aVariablesToLock - The set of variable paths that we want to lock
+     * @param aOwner           - The path of the object that will be the owner of the lock
+     * @param aCallback        - The callback that gets used if we can't fulfill the request immediately
+     */
+    public AeExclusiveLockRequest(AeVariableLocker aVariableLocker, Set<String> aVariablesToLock, String aOwner, IAeVariableLockCallback aCallback) {
+        super(aVariableLocker, aVariablesToLock, aOwner, aCallback);
+    }
 
-   /**
-    * Returns true if all of the requested variables can be locked immediately
-    * and exclusively
-    */
-   protected boolean canLock()
-   {
-      boolean immediatelyAvailable = true;
-      for (Iterator iter = mVariablesToLock.iterator(); iter.hasNext() && immediatelyAvailable; )
-      {
-         String path = (String) iter.next();
-         if (mVariableLocker.isLocked(path))
-         {
-            immediatelyAvailable = false;
-         }
-      }
-      return immediatelyAvailable;
-   }
+    /**
+     * Returns true if all of the requested variables can be locked immediately
+     * and exclusively
+     */
+    protected boolean canLock() {
+        boolean immediatelyAvailable = true;
+        for (Iterator iter = mVariablesToLock.iterator(); iter.hasNext() && immediatelyAvailable; ) {
+            String path = (String) iter.next();
+            if (mVariableLocker.isLocked(path)) {
+                immediatelyAvailable = false;
+            }
+        }
+        return immediatelyAvailable;
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.impl.lock.AeLockRequest#isExclusiveRequest()
-    */
-   public boolean isExclusiveRequest()
-   {
-      return true;
-   }
+    /**
+     * @see org.activebpel.rt.bpel.impl.lock.AeLockRequest#isExclusiveRequest()
+     */
+    public boolean isExclusiveRequest() {
+        return true;
+    }
 }

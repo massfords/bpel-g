@@ -13,21 +13,18 @@ package org.activebpel.rt.bpel.xpath.ast;
 /**
  * An XPath node for an absolute location path.
  */
-public class AeXPathAbsLocPathNode extends AeAbstractXPathNode
-{
-   /**
-    * Default c'tor.
-    */
-   public AeXPathAbsLocPathNode()
-   {
-      super(AeAbstractXPathNode.NODE_TYPE_ABSOLUTE_LOCATION_PATH);
-   }
-   
-   /**
-    * @see org.activebpel.rt.bpel.xpath.ast.AeAbstractXPathNode#accept(org.activebpel.rt.bpel.xpath.ast.IAeXPathNodeVisitor)
-    */
-   public void accept(IAeXPathNodeVisitor aVisitor)
-   {
-      aVisitor.visit(this);
-   }
+public class AeXPathAbsLocPathNode extends AeAbstractXPathNode {
+    /**
+     * Default c'tor.
+     */
+    public AeXPathAbsLocPathNode() {
+        super(AeAbstractXPathNode.NODE_TYPE_ABSOLUTE_LOCATION_PATH);
+    }
+
+    /**
+     * @see org.activebpel.rt.bpel.xpath.ast.AeAbstractXPathNode#accept(org.activebpel.rt.bpel.xpath.ast.IAeXPathNodeVisitor)
+     */
+    public void accept(IAeXPathNodeVisitor aVisitor) {
+        aVisitor.visit(this);
+    }
 }

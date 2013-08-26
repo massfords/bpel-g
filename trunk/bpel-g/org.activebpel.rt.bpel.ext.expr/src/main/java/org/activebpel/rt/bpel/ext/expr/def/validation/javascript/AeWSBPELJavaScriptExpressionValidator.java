@@ -24,34 +24,32 @@ import org.activebpel.rt.expr.def.IAeExpressionParserContext;
 /**
  * A BPEL 2.0 implementation of a JavaScript expression validator.
  */
-public class AeWSBPELJavaScriptExpressionValidator extends AeAbstractJavaScriptExpressionValidator
-{
-   /** The Set of allowed join condition functions for WSBPEL Javascript expressions. */
-   private static Set<QName> sAllowedJoinConditionFunctions;
+public class AeWSBPELJavaScriptExpressionValidator extends AeAbstractJavaScriptExpressionValidator {
+    /**
+     * The Set of allowed join condition functions for WSBPEL Javascript expressions.
+     */
+    private static Set<QName> sAllowedJoinConditionFunctions;
 
-   /**
-    * @see org.activebpel.rt.bpel.ext.expr.def.validation.javascript.AeAbstractJavaScriptExpressionValidator#createExpressionParser(org.activebpel.rt.expr.def.IAeExpressionParserContext)
-    */
-   protected IAeExpressionParser createExpressionParser(IAeExpressionParserContext aContext)
-   {
-      return new AeWSBPELJavaScriptExpressionParser(aContext);
-   }
+    /**
+     * @see org.activebpel.rt.bpel.ext.expr.def.validation.javascript.AeAbstractJavaScriptExpressionValidator#createExpressionParser(org.activebpel.rt.expr.def.IAeExpressionParserContext)
+     */
+    protected IAeExpressionParser createExpressionParser(IAeExpressionParserContext aContext) {
+        return new AeWSBPELJavaScriptExpressionParser(aContext);
+    }
 
-   /**
-    * Override this in order to supply the bpel.getLinkStatus() function as a valid function
-    * for JavaScript join conditions.
-    * 
-    * @see org.activebpel.rt.bpel.def.validation.expr.AeAbstractExpressionValidator#getJoinConditionAllowedFunctions()
-    */
-   protected Set<QName> getJoinConditionAllowedFunctions()
-   {
-      if (sAllowedJoinConditionFunctions == null)
-      {
-         Set<QName> set = new HashSet<>(super.getJoinConditionAllowedFunctions());
-         set.add(new QName(IAeBPELConstants.WSBPEL_2_0_NAMESPACE_URI, AeExpressionLanguageUtil.LINK_STATUS_FUNC_NAME));
-         sAllowedJoinConditionFunctions = set;
-      }
+    /**
+     * Override this in order to supply the bpel.getLinkStatus() function as a valid function
+     * for JavaScript join conditions.
+     *
+     * @see org.activebpel.rt.bpel.def.validation.expr.AeAbstractExpressionValidator#getJoinConditionAllowedFunctions()
+     */
+    protected Set<QName> getJoinConditionAllowedFunctions() {
+        if (sAllowedJoinConditionFunctions == null) {
+            Set<QName> set = new HashSet<>(super.getJoinConditionAllowedFunctions());
+            set.add(new QName(IAeBPELConstants.WSBPEL_2_0_NAMESPACE_URI, AeExpressionLanguageUtil.LINK_STATUS_FUNC_NAME));
+            sAllowedJoinConditionFunctions = set;
+        }
 
-      return sAllowedJoinConditionFunctions;
-   }
+        return sAllowedJoinConditionFunctions;
+    }
 }

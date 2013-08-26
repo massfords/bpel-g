@@ -7,7 +7,7 @@
 //Active Endpoints, Inc. Removal of this PROPRIETARY RIGHTS STATEMENT 
 //is strictly forbidden. Copyright (c) 2002-2007 All rights reserved. 
 /////////////////////////////////////////////////////////////////////////////
-package org.activebpel.rt.bpel.impl.activity.assign.to; 
+package org.activebpel.rt.bpel.impl.activity.assign.to;
 
 import org.activebpel.rt.bpel.AeBusinessProcessException;
 import org.activebpel.rt.bpel.def.activity.support.AeToDef;
@@ -16,47 +16,45 @@ import org.activebpel.rt.bpel.def.activity.support.IAeToSpecExtension;
 /**
  * Impl object for an extension that handles copying the data.
  */
-public class AeToExtension extends AeToBase
-{
-   /** def */
-   private AeToDef mDef;
-   
-   /**
-    * Public ctor with this signature is required since the factory uses
-    * reflection to load the instances.
-    * @param aToDef
-    */
-   public AeToExtension(AeToDef aToDef)
-   {
-      setDef(aToDef);
-   }
-   
-   /**
-    * Delegates the production of the target to an adapter in the extension object
-    * 
-    * @see org.activebpel.rt.bpel.impl.activity.assign.IAeTo#getTarget()
-    */
-   public Object getTarget() throws AeBusinessProcessException
-   {
-      AeToDef def = getDef();
-      IAeToSpecExtension extension = (IAeToSpecExtension) def.getAdapterFromAttributes(IAeToSpecExtension.class);
-      return extension.createCopyStrategy(getCopyOperation(), def);
-   }
+public class AeToExtension extends AeToBase {
+    /**
+     * def
+     */
+    private AeToDef mDef;
 
-   /**
-    * @return the def
-    */
-   public AeToDef getDef()
-   {
-      return mDef;
-   }
+    /**
+     * Public ctor with this signature is required since the factory uses
+     * reflection to load the instances.
+     *
+     * @param aToDef
+     */
+    public AeToExtension(AeToDef aToDef) {
+        setDef(aToDef);
+    }
 
-   /**
-    * @param aDef the def to set
-    */
-   public void setDef(AeToDef aDef)
-   {
-      mDef = aDef;
-   }
+    /**
+     * Delegates the production of the target to an adapter in the extension object
+     *
+     * @see org.activebpel.rt.bpel.impl.activity.assign.IAeTo#getTarget()
+     */
+    public Object getTarget() throws AeBusinessProcessException {
+        AeToDef def = getDef();
+        IAeToSpecExtension extension = (IAeToSpecExtension) def.getAdapterFromAttributes(IAeToSpecExtension.class);
+        return extension.createCopyStrategy(getCopyOperation(), def);
+    }
+
+    /**
+     * @return the def
+     */
+    public AeToDef getDef() {
+        return mDef;
+    }
+
+    /**
+     * @param aDef the def to set
+     */
+    public void setDef(AeToDef aDef) {
+        mDef = aDef;
+    }
 }
  

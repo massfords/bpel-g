@@ -7,28 +7,29 @@
 //Active Endpoints, Inc. Removal of this PROPRIETARY RIGHTS STATEMENT 
 //is strictly forbidden. Copyright (c) 2002-2006 All rights reserved. 
 /////////////////////////////////////////////////////////////////////////////
-package org.activebpel.rt.bpel.impl.activity.assign; 
+package org.activebpel.rt.bpel.impl.activity.assign;
 
 import org.activebpel.rt.bpel.AeBusinessProcessException;
 import org.activebpel.rt.wsdl.def.IAePropertyAlias;
 
 /**
  * Interface for copy operation components that use property aliases to select the data for the
- * source or target. 
+ * source or target.
  */
-public interface IAePropertyAliasCopyOperation
-{
-   /**
-    * Gets the property alias for use in selecting the property
-    * @throws AeBusinessProcessException
-    */
-   public IAePropertyAlias getPropertyAlias() throws AeBusinessProcessException;
-   
-   /**
-    * Gets the data to use for the property alias query.
-    * @param aPropAlias
-    * @throws AeBusinessProcessException 
-    */
-   public Object getDataForQueryContext(IAePropertyAlias aPropAlias) throws AeBusinessProcessException;
+public interface IAePropertyAliasCopyOperation {
+    /**
+     * Gets the property alias for use in selecting the property
+     *
+     * @throws AeBusinessProcessException
+     */
+    public IAePropertyAlias getPropertyAlias() throws AeBusinessProcessException;
+
+    /**
+     * Gets the data to use for the property alias query.
+     *
+     * @param aPropAlias
+     * @throws AeBusinessProcessException
+     */
+    public Object getDataForQueryContext(IAePropertyAlias aPropAlias) throws AeBusinessProcessException;
 }
  

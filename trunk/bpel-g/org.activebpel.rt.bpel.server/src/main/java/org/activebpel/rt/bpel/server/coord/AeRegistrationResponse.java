@@ -15,37 +15,35 @@ import org.activebpel.rt.bpel.coord.IAeRegistrationResponse;
 /**
  * Basic implementation of a registration response.
  */
-public class AeRegistrationResponse extends AeContextBase implements IAeRegistrationResponse
-{
+public class AeRegistrationResponse extends AeContextBase implements IAeRegistrationResponse {
 
-   /**
-     * 
+    /**
+     *
      */
     private static final long serialVersionUID = -3294981009242005306L;
 
-/**
-    * Default constructor.
-    */
-   public AeRegistrationResponse()
-   {
-      super();
-   }
+    /**
+     * Default constructor.
+     */
+    public AeRegistrationResponse() {
+        super();
+    }
 
-   /**
-    * Overrides method to 
-    * @see org.activebpel.rt.bpel.coord.IAeRegistrationRequest#getProtocolIdentifier()
-    */
-   public String getProtocolIdentifier()
-   {
-      return getProperty(IAeCoordinating.WSCOORD_PROTOCOL);
-   }
+    /**
+     * Overrides method to
+     *
+     * @see org.activebpel.rt.bpel.coord.IAeRegistrationRequest#getProtocolIdentifier()
+     */
+    public String getProtocolIdentifier() {
+        return getProperty(IAeCoordinating.WSCOORD_PROTOCOL);
+    }
 
-   /**
-    * Overrides method to 
-    * @see org.activebpel.rt.bpel.coord.IAeRegistrationRequest#setProtocolIdentifier(java.lang.String)
-    */
-   public void setProtocolIdentifier(String aProtocolId)
-   {
-      setProperty(IAeCoordinating.WSCOORD_PROTOCOL, aProtocolId);
-   }   
+    /**
+     * Overrides method to
+     *
+     * @see org.activebpel.rt.bpel.coord.IAeRegistrationRequest#setProtocolIdentifier(java.lang.String)
+     */
+    public void setProtocolIdentifier(String aProtocolId) {
+        setProperty(IAeCoordinating.WSCOORD_PROTOCOL, aProtocolId);
+    }
 }

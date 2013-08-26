@@ -15,25 +15,26 @@ import javax.servlet.http.HttpServletResponse;
 /**
  * Interface for client view of file uploads from the web perspective.
  */
-public interface IAeFileUploader
-{
+public interface IAeFileUploader {
 
-   // constants for query string params
-   public static final String THRESHOLD_BYTES = "threshold-size"; //$NON-NLS-1$
+    // constants for query string params
+    public static final String THRESHOLD_BYTES = "threshold-size"; //$NON-NLS-1$
 
-   public static final String MAX_SIZE = "max-size"; //$NON-NLS-1$
+    public static final String MAX_SIZE = "max-size"; //$NON-NLS-1$
 
-   /**
-    * Return true if the request contains multipart content.
-    * @param aRequest
-    */
-   public boolean isMultiPartContent( HttpServletRequest aRequest );
-   
-   /**
-    * Handle the details of parsing the upload data from the request. 
-    * @param aRequest
-    * @param aResponse
-    */
-   public void uploadFile( HttpServletRequest aRequest, HttpServletResponse aResponse );
-   
+    /**
+     * Return true if the request contains multipart content.
+     *
+     * @param aRequest
+     */
+    public boolean isMultiPartContent(HttpServletRequest aRequest);
+
+    /**
+     * Handle the details of parsing the upload data from the request.
+     *
+     * @param aRequest
+     * @param aResponse
+     */
+    public void uploadFile(HttpServletRequest aRequest, HttpServletResponse aResponse);
+
 }

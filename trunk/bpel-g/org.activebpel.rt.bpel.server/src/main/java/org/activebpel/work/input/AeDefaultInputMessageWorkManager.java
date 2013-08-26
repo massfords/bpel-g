@@ -16,28 +16,25 @@ import org.activebpel.rt.bpel.server.engine.AeEngineFactory;
  * Implements an {@link IAeInputMessageWorkManager} that delegates to
  * {@link AeEngineFactory#schedule(long, commonj.work.Work)}.
  */
-public class AeDefaultInputMessageWorkManager implements IAeInputMessageWorkManager
-{
-   /**
-    * Overrides method to delegate to
-    * {@link AeEngineFactory#schedule(long, commonj.work.Work)} thus treating
-    * the given input message work just like any other work scheduled for the
-    * given process.
-    *
-    * @see org.activebpel.work.input.IAeInputMessageWorkManager#schedule(long, org.activebpel.work.input.IAeInputMessageWork)
-    */
-   public void schedule(long aProcessId, IAeInputMessageWork aInputMessageWork) throws AeBusinessProcessException
-   {
-      AeEngineFactory.schedule(aProcessId, aInputMessageWork);
-   }
+public class AeDefaultInputMessageWorkManager implements IAeInputMessageWorkManager {
+    /**
+     * Overrides method to delegate to
+     * {@link AeEngineFactory#schedule(long, commonj.work.Work)} thus treating
+     * the given input message work just like any other work scheduled for the
+     * given process.
+     *
+     * @see org.activebpel.work.input.IAeInputMessageWorkManager#schedule(long, org.activebpel.work.input.IAeInputMessageWork)
+     */
+    public void schedule(long aProcessId, IAeInputMessageWork aInputMessageWork) throws AeBusinessProcessException {
+        AeEngineFactory.schedule(aProcessId, aInputMessageWork);
+    }
 
-   /**
-    * Overrides method to ignore stop request.
-    *  
-    * @see org.activebpel.work.input.IAeInputMessageWorkManager#stop()
-    */
-   public void stop()
-   {
-      // Nothing to do.
-   }
+    /**
+     * Overrides method to ignore stop request.
+     *
+     * @see org.activebpel.work.input.IAeInputMessageWorkManager#stop()
+     */
+    public void stop() {
+        // Nothing to do.
+    }
 }

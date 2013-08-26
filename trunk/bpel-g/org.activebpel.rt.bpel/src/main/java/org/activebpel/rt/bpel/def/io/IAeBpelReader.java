@@ -14,16 +14,16 @@ import org.activebpel.rt.bpel.def.AeProcessDef;
 import org.w3c.dom.Document;
 
 /**
- * Interface for working with BPEL deserializers. 
+ * Interface for working with BPEL deserializers.
  */
-public interface IAeBpelReader
-{
-   /**
-    * Deserializes the BPEL xml into its corresponding
-    * AeDef object model.
-    * @param aBpelDoc validated BPEL is expected
-    * @return <code>AeProcessDef</code>
-    * @throws AeException 
-    */
-   public AeProcessDef readBPEL( Document aBpelDoc ) throws AeException;
+public interface IAeBpelReader {
+    /**
+     * Deserializes the BPEL xml into its corresponding
+     * AeDef object model.
+     *
+     * @param aBpelDoc validated BPEL is expected
+     * @return <code>AeProcessDef</code>
+     * @throws AeException
+     */
+    public AeProcessDef readBPEL(Document aBpelDoc) throws AeException;
 }

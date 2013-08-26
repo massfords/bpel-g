@@ -15,26 +15,23 @@ import org.activebpel.rt.bpel.def.visitors.IAeDefVisitor;
 /**
  * Models the 'terminationHandler' bpel construct introduced in WS-BPEL 2.0.
  */
-public class AeTerminationHandlerDef extends AeSingleActivityParentBaseDef implements IAeSingleActivityContainerDef, IAeCompensateParentDef, IAeFCTHandlerDef
-{
-   /**
-     * 
+public class AeTerminationHandlerDef extends AeSingleActivityParentBaseDef implements IAeSingleActivityContainerDef, IAeCompensateParentDef, IAeFCTHandlerDef {
+    /**
+     *
      */
     private static final long serialVersionUID = 6119565490102992381L;
 
-/**
-    * Default c'tor.
-    */
-   public AeTerminationHandlerDef()
-   {
-      super();
-   }
+    /**
+     * Default c'tor.
+     */
+    public AeTerminationHandlerDef() {
+        super();
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.def.AeBaseDef#accept(org.activebpel.rt.bpel.def.visitors.IAeDefVisitor)
-    */
-   public void accept(IAeDefVisitor aVisitor)
-   {
-      aVisitor.visit(this);
-   }
+    /**
+     * @see org.activebpel.rt.bpel.def.AeBaseDef#accept(org.activebpel.rt.bpel.def.visitors.IAeDefVisitor)
+     */
+    public void accept(IAeDefVisitor aVisitor) {
+        aVisitor.visit(this);
+    }
 }

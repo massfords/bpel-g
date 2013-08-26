@@ -17,40 +17,36 @@ import org.apache.axis.client.Service;
 /**
  * This is a simple extension of the Axis Service object.
  */
-public class AeService extends Service
-{
-   /**
-     * 
+public class AeService extends Service {
+    /**
+     *
      */
     private static final long serialVersionUID = 6912645261729889910L;
-/** cached copy of the AxisClient to avoid creating one-off instances for each invoke */
-   private static AxisClient sClient = null;
-   
-   /**
-    * @see org.apache.axis.client.Service#getEngineConfiguration()
-    */
-   protected EngineConfiguration getEngineConfiguration() 
-   {
-      return new AeAxisEngineConfiguration();
-   }
-   
-   /**
-    * Overrides the base class to return a cached instance of the client.
-    * 
-    * @see org.apache.axis.client.Service#getAxisClient()
-    */
-   protected AxisClient getAxisClient() 
-   {
-      if (sClient == null)
-      {
-         synchronized(AeService.class)
-         {
-            if (sClient == null)
-            {
-               sClient = super.getAxisClient(); 
+    /**
+     * cached copy of the AxisClient to avoid creating one-off instances for each invoke
+     */
+    private static AxisClient sClient = null;
+
+    /**
+     * @see org.apache.axis.client.Service#getEngineConfiguration()
+     */
+    protected EngineConfiguration getEngineConfiguration() {
+        return new AeAxisEngineConfiguration();
+    }
+
+    /**
+     * Overrides the base class to return a cached instance of the client.
+     *
+     * @see org.apache.axis.client.Service#getAxisClient()
+     */
+    protected AxisClient getAxisClient() {
+        if (sClient == null) {
+            synchronized (AeService.class) {
+                if (sClient == null) {
+                    sClient = super.getAxisClient();
+                }
             }
-         }
-      }
-      return sClient;
-   }
+        }
+        return sClient;
+    }
 }

@@ -16,25 +16,24 @@ import java.io.OutputStream;
  * Defines interface for sending the response from an instance of
  * {@link AeGraphImageDriver}.
  */
-public interface IAeGraphImageResponse
-{
-   /**
-    * Adds a header to the response.
-    *
-    * @param aHeaderName
-    * @param aHeaderValue
-    */
-   public void addHeader(String aHeaderName, String aHeaderValue);
+public interface IAeGraphImageResponse {
+    /**
+     * Adds a header to the response.
+     *
+     * @param aHeaderName
+     * @param aHeaderValue
+     */
+    public void addHeader(String aHeaderName, String aHeaderValue);
 
-   /**
-    * Returns the response output stream.
-    */
-   public OutputStream getOutputStream() throws IOException;
+    /**
+     * Returns the response output stream.
+     */
+    public OutputStream getOutputStream() throws IOException;
 
-   /**
-    * Sets the response content type.
-    *
-    * @param aContentType
-    */
-   public void setContentType(String aContentType);
+    /**
+     * Sets the response content type.
+     *
+     * @param aContentType
+     */
+    public void setContentType(String aContentType);
 }

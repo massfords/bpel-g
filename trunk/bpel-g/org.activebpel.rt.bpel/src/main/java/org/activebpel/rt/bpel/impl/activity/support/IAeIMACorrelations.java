@@ -7,7 +7,7 @@
 //Active Endpoints, Inc. Removal of this PROPRIETARY RIGHTS STATEMENT 
 //is strictly forbidden. Copyright (c) 2002-2006 All rights reserved. 
 /////////////////////////////////////////////////////////////////////////////
-package org.activebpel.rt.bpel.impl.activity.support; 
+package org.activebpel.rt.bpel.impl.activity.support;
 
 import java.util.Map;
 import java.util.Set;
@@ -17,24 +17,25 @@ import javax.xml.namespace.QName;
 import org.activebpel.rt.bpel.impl.AeCorrelationViolationException;
 
 /**
- * Provides additional methods for correlations used for inbound message 
- * activities. Inbound message activities include <code>receive</code>, 
+ * Provides additional methods for correlations used for inbound message
+ * activities. Inbound message activities include <code>receive</code>,
  * <code>onMessage</code>, and <code>onEvent</code>
  */
-public interface IAeIMACorrelations extends IAeCorrelations
-{
-   /**
-    * Creates a map of correlation properties. These properties and values are 
-    * used to correlate inbound messages to the activity. 
-    * @throws AeCorrelationViolationException thrown if the one or more 
-    *         correlation sets were supposed to initiated but weren't
-    */
-   public Map<QName, String> getInitiatedProperties() throws AeCorrelationViolationException;
-   
-   /**
-    * Creates a set of location paths for the correlationSets used for the 
-    * activity. This is used in order to detect conflicting receives.
-    */
-   public Set<String> getCSPathsForConflictingReceives();
+public interface IAeIMACorrelations extends IAeCorrelations {
+    /**
+     * Creates a map of correlation properties. These properties and values are
+     * used to correlate inbound messages to the activity.
+     *
+     * @throws AeCorrelationViolationException
+     *          thrown if the one or more
+     *          correlation sets were supposed to initiated but weren't
+     */
+    public Map<QName, String> getInitiatedProperties() throws AeCorrelationViolationException;
+
+    /**
+     * Creates a set of location paths for the correlationSets used for the
+     * activity. This is used in order to detect conflicting receives.
+     */
+    public Set<String> getCSPathsForConflictingReceives();
 }
  

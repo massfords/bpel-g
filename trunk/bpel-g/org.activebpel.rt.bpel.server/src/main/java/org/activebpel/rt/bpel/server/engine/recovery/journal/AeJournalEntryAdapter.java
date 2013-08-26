@@ -7,7 +7,7 @@
 //Active Endpoints, Inc. Removal of this PROPRIETARY RIGHTS STATEMENT 
 //is strictly forbidden. Copyright (c) 2002-2007 All rights reserved. 
 /////////////////////////////////////////////////////////////////////////////
-package org.activebpel.rt.bpel.server.engine.recovery.journal; 
+package org.activebpel.rt.bpel.server.engine.recovery.journal;
 
 import org.activebpel.rt.bpel.AeBusinessProcessException;
 import org.activebpel.rt.bpel.impl.IAeProcessManager;
@@ -16,68 +16,65 @@ import org.activebpel.rt.xml.schema.AeTypeMapping;
 import org.w3c.dom.Document;
 
 /**
- * Adapter for the journal entry to simplify subclassing. 
+ * Adapter for the journal entry to simplify subclassing.
  */
-public abstract class AeJournalEntryAdapter extends AeAbstractJournalEntry
-{
-   /**
-    * Ctor that's called by the code that is executing the behavior associated
-    * with the journal entry. The values here will be serialized and stored in
-    * the db for replay during recovery.
-    * @param aEntryType
-    */
-   public AeJournalEntryAdapter(int aEntryType)
-   {
-      this(aEntryType, 0);
-   }
-   
-   /**
-    * Ctor for entries which only provide an entry type and location id 
-    * @param aEntryType
-    * @param aLocationId
-    */
-   public AeJournalEntryAdapter(int aEntryType, int aLocationId)
-   {
-      this(aEntryType, aLocationId, IAeProcessManager.NULL_JOURNAL_ID, null);
-   }
-   
-   /**
-    * Ctor for use by the journal factory when the entry is being deserialized
-    * @param aEntryType
-    * @param aJournalId
-    * @param aStorageDocument
-    */
-   public AeJournalEntryAdapter(int aEntryType, long aJournalId, Document aStorageDocument)
-   {
-      this(aEntryType, 0, aJournalId, aStorageDocument);
-   }
+public abstract class AeJournalEntryAdapter extends AeAbstractJournalEntry {
+    /**
+     * Ctor that's called by the code that is executing the behavior associated
+     * with the journal entry. The values here will be serialized and stored in
+     * the db for replay during recovery.
+     *
+     * @param aEntryType
+     */
+    public AeJournalEntryAdapter(int aEntryType) {
+        this(aEntryType, 0);
+    }
 
-   /**
-    * Ctor for use by the journal factory when the entry is being deserialized
-    * @param aEntryType
-    * @param aLocationId
-    * @param aJournalId
-    * @param aStorageDocument
-    */
-   public AeJournalEntryAdapter(int aEntryType, int aLocationId, long aJournalId, Document aStorageDocument)
-   {
-      super(aEntryType, aLocationId, aJournalId, aStorageDocument);
-   }
+    /**
+     * Ctor for entries which only provide an entry type and location id
+     *
+     * @param aEntryType
+     * @param aLocationId
+     */
+    public AeJournalEntryAdapter(int aEntryType, int aLocationId) {
+        this(aEntryType, aLocationId, IAeProcessManager.NULL_JOURNAL_ID, null);
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.server.engine.recovery.journal.AeAbstractJournalEntry#internalDeserialize(org.w3c.dom.Document)
-    */
-   protected void internalDeserialize(Document aStorageDocument)
-         throws AeBusinessProcessException
-   {
-      // no-op here
-   }
+    /**
+     * Ctor for use by the journal factory when the entry is being deserialized
+     *
+     * @param aEntryType
+     * @param aJournalId
+     * @param aStorageDocument
+     */
+    public AeJournalEntryAdapter(int aEntryType, long aJournalId, Document aStorageDocument) {
+        this(aEntryType, 0, aJournalId, aStorageDocument);
+    }
 
-   protected AeFastDocument internalSerialize(AeTypeMapping aTypeMapping)
-         throws AeBusinessProcessException
-   {
-      // no-op here
-      return null;
-   }
+    /**
+     * Ctor for use by the journal factory when the entry is being deserialized
+     *
+     * @param aEntryType
+     * @param aLocationId
+     * @param aJournalId
+     * @param aStorageDocument
+     */
+    public AeJournalEntryAdapter(int aEntryType, int aLocationId, long aJournalId, Document aStorageDocument) {
+        super(aEntryType, aLocationId, aJournalId, aStorageDocument);
+    }
+
+    /**
+     * @see org.activebpel.rt.bpel.server.engine.recovery.journal.AeAbstractJournalEntry#internalDeserialize(org.w3c.dom.Document)
+     */
+    protected void internalDeserialize(Document aStorageDocument)
+            throws AeBusinessProcessException {
+        // no-op here
+    }
+
+    protected AeFastDocument internalSerialize(AeTypeMapping aTypeMapping)
+            throws AeBusinessProcessException {
+        // no-op here
+        return null;
+    }
 }
  

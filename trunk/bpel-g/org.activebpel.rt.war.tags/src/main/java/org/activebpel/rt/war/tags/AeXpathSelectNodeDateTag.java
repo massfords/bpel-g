@@ -27,65 +27,54 @@ import org.activebpel.rt.xml.schema.AeSchemaDateTime;
  *         query="xpath" patternKey="resource_bundle_key_to_date_time_pattern"  /&gt;
  * </pre>
  */
-public class AeXpathSelectNodeDateTag extends AeAbstractXpathNodeTextFormatterTag
-{
-   /**
-     * 
+public class AeXpathSelectNodeDateTag extends AeAbstractXpathNodeTextFormatterTag {
+    /**
+     *
      */
     private static final long serialVersionUID = -1081892307812561412L;
 
-/**
-    * Creates and returns the concrete DateFormat object.
-    *
-    * @param aPattern
-    * @return DateFormat object.
-    * @throws AeException if unable to create and return a DateFormat object.
-    */
-   protected Format createFormatter(String aPattern) throws AeException
-   {
-      try
-      {
-         Format formatter = null;
-         if (!AeUtil.isNullOrEmpty(aPattern) )
-         {
-            formatter = new SimpleDateFormat(aPattern);
-         }
-         else
-         {
-            // pattern not given - use default locale
-            formatter = new SimpleDateFormat();
-         }
-         return formatter;
-      }
-      catch(Exception e)
-      {
-         // Catch:
-         // NullPointerException - if the given pattern is null
-         // IllegalArgumentException - if the given pattern is invalid
-         String err = MessageFormat.format(AeMessages.getString("AePropertyDateFormatterTag.1"), //$NON-NLS-1$
-                 e.getMessage());
-         throw new AeException(err);
+    /**
+     * Creates and returns the concrete DateFormat object.
+     *
+     * @param aPattern
+     * @return DateFormat object.
+     * @throws AeException if unable to create and return a DateFormat object.
+     */
+    protected Format createFormatter(String aPattern) throws AeException {
+        try {
+            Format formatter = null;
+            if (!AeUtil.isNullOrEmpty(aPattern)) {
+                formatter = new SimpleDateFormat(aPattern);
+            } else {
+                // pattern not given - use default locale
+                formatter = new SimpleDateFormat();
+            }
+            return formatter;
+        } catch (Exception e) {
+            // Catch:
+            // NullPointerException - if the given pattern is null
+            // IllegalArgumentException - if the given pattern is invalid
+            String err = MessageFormat.format(AeMessages.getString("AePropertyDateFormatterTag.1"), //$NON-NLS-1$
+                    e.getMessage());
+            throw new AeException(err);
 
-      }
-   }
+        }
+    }
 
-   /**
-    * Overrides method to format the text as a date time.
-    * @see org.activebpel.rt.war.tags.AeAbstractXpathNodeTextFormatterTag#formatText(java.lang.String)
-    */
-   protected String formatText(String aText) throws AeException, JspException
-   {
-      if (AeUtil.notNullOrEmpty( aText ))
-      {
-         AeSchemaDateTime dt = new AeSchemaDateTime(aText);
-         // call base class to get the appropriate text formatter.
-         return getResolvedFormatter().format(dt.getCalendar().getTime());
-      }
-      else
-      {
-         // if property is null, then display empty string.
-         return "";  //$NON-NLS-1$
-      }
-   }
+    /**
+     * Overrides method to format the text as a date time.
+     *
+     * @see org.activebpel.rt.war.tags.AeAbstractXpathNodeTextFormatterTag#formatText(java.lang.String)
+     */
+    protected String formatText(String aText) throws AeException, JspException {
+        if (AeUtil.notNullOrEmpty(aText)) {
+            AeSchemaDateTime dt = new AeSchemaDateTime(aText);
+            // call base class to get the appropriate text formatter.
+            return getResolvedFormatter().format(dt.getCalendar().getTime());
+        } else {
+            // if property is null, then display empty string.
+            return "";  //$NON-NLS-1$
+        }
+    }
 
 }

@@ -15,73 +15,66 @@ import org.activebpel.rt.bpel.def.visitors.IAeDefVisitor;
 
 
 /**
- * Models the <code>variables</code> element from BPEL.  
+ * Models the <code>variables</code> element from BPEL.
  */
-public class AeVariablesDef extends AeBaseContainer<String,AeVariableDef>
-{
-   private static final long serialVersionUID = 821570063127891317L;
+public class AeVariablesDef extends AeBaseContainer<String, AeVariableDef> {
+    private static final long serialVersionUID = 821570063127891317L;
 
-   /**
-    * Default c'tor.
-    */
-   public AeVariablesDef()
-   {
-      super();
-   }
+    /**
+     * Default c'tor.
+     */
+    public AeVariablesDef() {
+        super();
+    }
 
-   /**
-    * Add a variable
-    * @param aVariableDef
-    */
-   public void addVariableDef(AeVariableDef aVariableDef)
-   {
-      add(aVariableDef.getName(), aVariableDef);
-   }
-   
-   /**
-    * Gets a variable by name.
-    * @param aName
-    */
-   public AeVariableDef getVariableDef(String aName)
-   {
-      return get(aName);
-   }
-   
-   /**
-    * @see org.activebpel.rt.bpel.def.AeBaseContainer#isEmpty()
-    */
-   public boolean isEmpty()
-   {
-      boolean empty = super.isEmpty();
-      if (!empty)
-      {
-         boolean foundExplicit = false;
-         // we might still be empty if the container only has dynamic variables
-         for (Iterator<? extends AeVariableDef> it = getValues(); it.hasNext(); )
-         {
-            AeVariableDef def = it.next();
-            if (!def.isImplicit())
-            {
-               foundExplicit = true;
-               break;
+    /**
+     * Add a variable
+     *
+     * @param aVariableDef
+     */
+    public void addVariableDef(AeVariableDef aVariableDef) {
+        add(aVariableDef.getName(), aVariableDef);
+    }
+
+    /**
+     * Gets a variable by name.
+     *
+     * @param aName
+     */
+    public AeVariableDef getVariableDef(String aName) {
+        return get(aName);
+    }
+
+    /**
+     * @see org.activebpel.rt.bpel.def.AeBaseContainer#isEmpty()
+     */
+    public boolean isEmpty() {
+        boolean empty = super.isEmpty();
+        if (!empty) {
+            boolean foundExplicit = false;
+            // we might still be empty if the container only has dynamic variables
+            for (Iterator<? extends AeVariableDef> it = getValues(); it.hasNext(); ) {
+                AeVariableDef def = it.next();
+                if (!def.isImplicit()) {
+                    foundExplicit = true;
+                    break;
+                }
             }
-         }
-         
-         // TODO (MF) should use a different means of testing for explicit only
 
-         // if the variable container only had implicit variables then we consider
-         // it empty in terms of writing xml since these defs will get recreated
-         // during the read.
-         empty = !foundExplicit;
-      }
-      return empty;
-   }
-   
-   /**
-    * @see org.activebpel.rt.bpel.def.AeBaseDef#accept(org.activebpel.rt.bpel.def.visitors.IAeDefVisitor)
-    */
-   public void accept(IAeDefVisitor aVisitor)
-   {
-      aVisitor.visit(this);      
-   }
+            // TODO (MF) should use a different means of testing for explicit only
+
+            // if the variable container only had implicit variables then we consider
+            // it empty in terms of writing xml since these defs will get recreated
+            // during the read.
+            empty = !foundExplicit;
+        }
+        return empty;
+    }
+
+    /**
+     * @see org.activebpel.rt.bpel.def.AeBaseDef#accept(org.activebpel.rt.bpel.def.visitors.IAeDefVisitor)
+     */
+    public void accept(IAeDefVisitor aVisitor) {
+        aVisitor.visit(this);
+    }
 }

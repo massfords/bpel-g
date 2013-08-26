@@ -20,34 +20,29 @@ import org.apache.commons.dbutils.ResultSetHandler;
 /**
  * A SQL result set handler that returns a set of location id/version number tuples.
  */
-public class AeLocationVersionResultSetHandler implements ResultSetHandler<IAeLocationVersionSet>
-{
-   /**
-    * @see org.apache.commons.dbutils.ResultSetHandler#handle(java.sql.ResultSet)
-    */
-   public IAeLocationVersionSet handle(ResultSet rs) throws SQLException
-   {
-      IAeLocationVersionSet set = new AeLocationVersionSet();
+public class AeLocationVersionResultSetHandler implements ResultSetHandler<IAeLocationVersionSet> {
+    /**
+     * @see org.apache.commons.dbutils.ResultSetHandler#handle(java.sql.ResultSet)
+     */
+    public IAeLocationVersionSet handle(ResultSet rs) throws SQLException {
+        IAeLocationVersionSet set = new AeLocationVersionSet();
 
-      while (rs.next())
-      {
-         long locationId = rs.getLong(1);
+        while (rs.next()) {
+            long locationId = rs.getLong(1);
 
-         if (rs.wasNull())
-         {
-            continue;
-         }
+            if (rs.wasNull()) {
+                continue;
+            }
 
-         int versionNumber = rs.getInt(2);
+            int versionNumber = rs.getInt(2);
 
-         if (rs.wasNull())
-         {
-            continue;
-         }
+            if (rs.wasNull()) {
+                continue;
+            }
 
-         set.add(locationId, versionNumber);
-      }
+            set.add(locationId, versionNumber);
+        }
 
-      return set;
-   }
+        return set;
+    }
 }

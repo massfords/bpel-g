@@ -16,26 +16,24 @@ import org.activebpel.rt.bpeladmin.war.graph.ui.figure.AeGraphFigure;
  * Controller responsible for creating choice part figures such as Case, Otherwise,
  * OnMessage, OnAlarm, Catch and CatchAll.
  */
-public class AeBpelChoicePartController extends AeBpelContainerActivityController
-{
+public class AeBpelChoicePartController extends AeBpelContainerActivityController {
 
-   /**
-    * Default constructor.
-    */
-   public AeBpelChoicePartController()
-   {
-      super();
-   }
+    /**
+     * Default constructor.
+     */
+    public AeBpelChoicePartController() {
+        super();
+    }
 
-   /** 
-    * Overrides method to AeBpelActivityContainerFigure with an empty label (since we do not want to
-    * display the label).
-    * @see org.activebpel.rt.bpeladmin.war.graph.bpel.controller.AeBpelContainerController#createContainerFigure()
-    */
-   protected AeGraphFigure createContainerFigure()
-   {
-      AeBpelActivityContainerFigure figure = new AeBpelActivityContainerFigure(" ", getActivityIconImage());  //$NON-NLS-1$
-      figure.setEvaluated(isExecuted());
-      return figure;
-   }   
+    /**
+     * Overrides method to AeBpelActivityContainerFigure with an empty label (since we do not want to
+     * display the label).
+     *
+     * @see org.activebpel.rt.bpeladmin.war.graph.bpel.controller.AeBpelContainerController#createContainerFigure()
+     */
+    protected AeGraphFigure createContainerFigure() {
+        AeBpelActivityContainerFigure figure = new AeBpelActivityContainerFigure(" ", getActivityIconImage());  //$NON-NLS-1$
+        figure.setEvaluated(isExecuted());
+        return figure;
+    }
 }

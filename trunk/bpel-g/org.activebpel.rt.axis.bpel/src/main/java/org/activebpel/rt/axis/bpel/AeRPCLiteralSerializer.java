@@ -22,39 +22,33 @@ import org.xml.sax.Attributes;
 /**
  * Custom serializer for axis that handles complex types over rpc literal.
  */
-public class AeRPCLiteralSerializer extends ElementSerializer
-{
-   /**
-     * 
+public class AeRPCLiteralSerializer extends ElementSerializer {
+    /**
+     *
      */
     private static final long serialVersionUID = -701865705230521418L;
 
-/**
-    * Constructor
-    */
-   public AeRPCLiteralSerializer()
-   {
-   }
+    /**
+     * Constructor
+     */
+    public AeRPCLiteralSerializer() {
+    }
 
-   /**
-    * @see org.apache.axis.encoding.Serializer#serialize(javax.xml.namespace.QName, org.xml.sax.Attributes, java.lang.Object, org.apache.axis.encoding.SerializationContext)
-    */
-   public void serialize(QName aName, Attributes aAttributes, Object aValue, SerializationContext aContext)
-      throws IOException
-   {
-      try
-      {
-         Document document = (Document) aValue;
-         aContext.setWriteXMLType(null);
-         aContext.writeDOMElement(document.getDocumentElement());
-      }
-      catch(Throwable t)
-      {
-         AeException.logError(t, t.getLocalizedMessage());
-         if (t instanceof IOException)
-            throw (IOException)t;
-         else
-            throw new IOException(t.getLocalizedMessage());
-      }
-   }
+    /**
+     * @see org.apache.axis.encoding.Serializer#serialize(javax.xml.namespace.QName, org.xml.sax.Attributes, java.lang.Object, org.apache.axis.encoding.SerializationContext)
+     */
+    public void serialize(QName aName, Attributes aAttributes, Object aValue, SerializationContext aContext)
+            throws IOException {
+        try {
+            Document document = (Document) aValue;
+            aContext.setWriteXMLType(null);
+            aContext.writeDOMElement(document.getDocumentElement());
+        } catch (Throwable t) {
+            AeException.logError(t, t.getLocalizedMessage());
+            if (t instanceof IOException)
+                throw (IOException) t;
+            else
+                throw new IOException(t.getLocalizedMessage());
+        }
+    }
 }

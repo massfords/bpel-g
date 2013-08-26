@@ -24,10 +24,10 @@ public class InvalidContainerIntegrationTest extends Assert {
         assertNotNull(response);
         DeploymentResponse.DeploymentInfo info = response.getDeploymentInfo().get(0);
         assertTrue(info.isDeployed());
-        for(Msg m : info.getLog().getMsg()) {
+        for (Msg m : info.getLog().getMsg()) {
             System.out.println(m.getType() + ": " + m.getValue());
         }
-        for(Msg m : response.getMsg()) {
+        for (Msg m : response.getMsg()) {
             System.out.println(m.getType() + ": " + m.getValue());
         }
         assertEquals(1, response.getMsg().size());

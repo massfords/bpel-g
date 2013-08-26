@@ -17,17 +17,18 @@ import javax.xml.namespace.QName;
  * This interface represents a Role's PortType element.  This PortType
  * element references a WSDL PortType.
  */
-public interface IAePortType extends Serializable
-{
-   /**
-    * Get the name of this PortType.
-    * @return QName
-    */
-   public QName getQName();
+public interface IAePortType extends Serializable {
+    /**
+     * Get the name of this PortType.
+     *
+     * @return QName
+     */
+    public QName getQName();
 
-   /**
-    * Set the name of this port type.
-    * @param aQName
-    */
-   public void setQName(QName aQName);
+    /**
+     * Set the name of this port type.
+     *
+     * @param aQName
+     */
+    public void setQName(QName aQName);
 }

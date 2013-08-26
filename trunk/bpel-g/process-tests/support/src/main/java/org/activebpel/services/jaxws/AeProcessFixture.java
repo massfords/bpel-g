@@ -39,7 +39,7 @@ public class AeProcessFixture extends Assert {
     private final AeXMLParserBase parser = new AeXMLParserBase();
     private AeDeployer deployer;
     private AeURNResolver resolver;
-	private AeProcessManager processManager;
+    private AeProcessManager processManager;
     private AePreferences preferencesService;
 
     public AePreferences getPreferencesService() throws Exception {
@@ -52,70 +52,70 @@ public class AeProcessFixture extends Assert {
     }
 
     public AeURNResolver getResolver() throws MalformedURLException {
-		if (resolver == null) {
-	    	String catalina_port = getCatalinaPort();
-	    	URL url = new URL(
-					"http://localhost:" + catalina_port + "/bpel-g/cxf/URNResolver?wsdl");
-			Service svc = Service.create(url, new QName("urn:bpel-g:services:urn-resolver", "URNResolver"));
-			resolver = svc.getPort(AeURNResolver.class);
-		}
-		return resolver;
-	}
-	
-	public String getCatalinaPort() {
-    	String catalina_port = System.getProperty("CATALINA_PORT", "8080");
-    	return catalina_port;
-	}
-	
-	public AeDeployer getDeployer() throws Exception {
-		if (deployer == null) {
-	    	String catalina_port = getCatalinaPort();
-			DeploymentService ds = new DeploymentService(new URL(
-					"http://localhost:" + catalina_port + "/bpel-g/cxf/DeploymentService?wsdl"));
-			deployer = ds.getPort(AeDeployer.class);
-		}
-		return deployer;
-	}
-	
-	public AeProcessManager getProcessManager() throws Exception {
-		if (processManager == null) {
-	    	String catalina_port = getCatalinaPort();
-			processManager = new ProcessManagerService(new URL(
-					"http://localhost:" + catalina_port + "/bpel-g/cxf/ProcessManagerService?wsdl")).getPort(AeProcessManager.class);
-		}
-		return processManager;
-	}
-	
-	public Document invoke(File file, String endpoint) throws Exception {
+        if (resolver == null) {
+            String catalina_port = getCatalinaPort();
+            URL url = new URL(
+                    "http://localhost:" + catalina_port + "/bpel-g/cxf/URNResolver?wsdl");
+            Service svc = Service.create(url, new QName("urn:bpel-g:services:urn-resolver", "URNResolver"));
+            resolver = svc.getPort(AeURNResolver.class);
+        }
+        return resolver;
+    }
+
+    public String getCatalinaPort() {
+        String catalina_port = System.getProperty("CATALINA_PORT", "8080");
+        return catalina_port;
+    }
+
+    public AeDeployer getDeployer() throws Exception {
+        if (deployer == null) {
+            String catalina_port = getCatalinaPort();
+            DeploymentService ds = new DeploymentService(new URL(
+                    "http://localhost:" + catalina_port + "/bpel-g/cxf/DeploymentService?wsdl"));
+            deployer = ds.getPort(AeDeployer.class);
+        }
+        return deployer;
+    }
+
+    public AeProcessManager getProcessManager() throws Exception {
+        if (processManager == null) {
+            String catalina_port = getCatalinaPort();
+            processManager = new ProcessManagerService(new URL(
+                    "http://localhost:" + catalina_port + "/bpel-g/cxf/ProcessManagerService?wsdl")).getPort(AeProcessManager.class);
+        }
+        return processManager;
+    }
+
+    public Document invoke(File file, String endpoint) throws Exception {
         Source request = new DOMSource(parser.loadDocument(new FileInputStream(file), null));
-		return invoke(request, endpoint);
-	}
+        return invoke(request, endpoint);
+    }
 
     public Document invoke(Source request, String endpoint) throws Exception {
         return invoke(request, createDispatch(endpoint));
     }
 
     public Document invoke(Source request, Dispatch<Source> dispatch) throws Exception {
-		Source response = dispatch.invoke(request);
-		Node actualNode = toNode(response);
-		return (Document) actualNode;
-	}
-	
-	public Dispatch<Source> createDispatch(String endpoint) {
-		String ns = "urn:bpel-g:generic";
-		QName serviceName = new QName(ns, "DOCLitService");
-		Service service = Service.create(serviceName);
+        Source response = dispatch.invoke(request);
+        Node actualNode = toNode(response);
+        return (Document) actualNode;
+    }
 
-		QName portName = new QName(ns, "DOCLitPortType");
-		service.addPort(portName, SOAPBinding.SOAP11HTTP_BINDING, endpoint);
-		Dispatch<Source> dispatch = service.createDispatch(portName,
-				Source.class, Service.Mode.PAYLOAD);
-		return dispatch;
-	}
-	
+    public Dispatch<Source> createDispatch(String endpoint) {
+        String ns = "urn:bpel-g:generic";
+        QName serviceName = new QName(ns, "DOCLitService");
+        Service service = Service.create(serviceName);
 
-	public DeploymentResponse deploySingle(File file) throws Exception {
-		DeploymentResponse resp = deployAll(file);
+        QName portName = new QName(ns, "DOCLitPortType");
+        service.addPort(portName, SOAPBinding.SOAP11HTTP_BINDING, endpoint);
+        Dispatch<Source> dispatch = service.createDispatch(portName,
+                Source.class, Service.Mode.PAYLOAD);
+        return dispatch;
+    }
+
+
+    public DeploymentResponse deploySingle(File file) throws Exception {
+        DeploymentResponse resp = deployAll(file);
         List<DeploymentInfo> infos = resp.getDeploymentInfo();
         try {
             assertEquals(1, infos.size());
@@ -126,86 +126,86 @@ public class AeProcessFixture extends Assert {
             }
         }
         return resp;
-	}
+    }
 
-	public DeploymentResponse deployAll(File file) throws Exception {
-		DeploymentResponse response = deploy(file);
+    public DeploymentResponse deployAll(File file) throws Exception {
+        DeploymentResponse response = deploy(file);
         dumpResponse(response);
-		for(DeploymentInfo info : response.getDeploymentInfo()) {
-			assertTrue(info.isDeployed());
-			assertEquals(0, info.getNumberOfErrors());
-		}
-		return response;
-	}
+        for (DeploymentInfo info : response.getDeploymentInfo()) {
+            assertTrue(info.isDeployed());
+            assertEquals(0, info.getNumberOfErrors());
+        }
+        return response;
+    }
 
     private void dumpResponse(DeploymentResponse response) {
-        for(DeploymentInfo info :  response.getDeploymentInfo()) {
+        for (DeploymentInfo info : response.getDeploymentInfo()) {
             System.out.println(info.getName());
-            for(Msg m : info.getLog().getMsg()) {
+            for (Msg m : info.getLog().getMsg()) {
                 System.out.println(m.getType() + " " + m.getValue());
             }
         }
     }
 
     public DeploymentResponse deploy(File file) throws Exception {
-		byte[] raw = IOUtils.toByteArray(new FileInputStream(file));
-		DeploymentResponse response = getDeployer().deploy(file.getName(), raw);
-		return response;
-	}
+        byte[] raw = IOUtils.toByteArray(new FileInputStream(file));
+        DeploymentResponse response = getDeployer().deploy(file.getName(), raw);
+        return response;
+    }
 
-	public Node toNode(Source expected) throws TransformerException {
-		Node expectedNode;
-		if (expected instanceof DOMSource) {
-			expectedNode = ((DOMSource) expected).getNode();
-		} else {
-			DOMResult result = new DOMResult();
-			TransformerFactory tf = TransformerFactory.newInstance();
-			tf.newTransformer().transform(expected, result);
-			expectedNode = result.getNode();
-		}
-		return expectedNode;
-	}
+    public Node toNode(Source expected) throws TransformerException {
+        Node expectedNode;
+        if (expected instanceof DOMSource) {
+            expectedNode = ((DOMSource) expected).getNode();
+        } else {
+            DOMResult result = new DOMResult();
+            TransformerFactory tf = TransformerFactory.newInstance();
+            tf.newTransformer().transform(expected, result);
+            expectedNode = result.getNode();
+        }
+        return expectedNode;
+    }
 
-	public void assertXMLIgnorePrefix(String message, Node expected,
-			Node actual) throws Exception {
-		XMLUnit.setIgnoreComments(true);
-		XMLUnit.setIgnoreWhitespace(true);
-		XMLUnit.setIgnoreAttributeOrder(true);
+    public void assertXMLIgnorePrefix(String message, Node expected,
+                                      Node actual) throws Exception {
+        XMLUnit.setIgnoreComments(true);
+        XMLUnit.setIgnoreWhitespace(true);
+        XMLUnit.setIgnoreAttributeOrder(true);
 
-		Document expectedDoc = toDocument(expected);
-		Document actualDoc = toDocument(actual);
-		Diff diff = new Diff(expectedDoc, actualDoc);
-		diff.overrideDifferenceListener(new DifferenceListener() {
-			public int differenceFound(Difference aDifference) {
-				if (aDifference.getId() == DifferenceConstants.NAMESPACE_PREFIX_ID)
-					return DifferenceListener.RETURN_IGNORE_DIFFERENCE_NODES_IDENTICAL;
-				return DifferenceListener.RETURN_ACCEPT_DIFFERENCE;
-			}
+        Document expectedDoc = toDocument(expected);
+        Document actualDoc = toDocument(actual);
+        Diff diff = new Diff(expectedDoc, actualDoc);
+        diff.overrideDifferenceListener(new DifferenceListener() {
+            public int differenceFound(Difference aDifference) {
+                if (aDifference.getId() == DifferenceConstants.NAMESPACE_PREFIX_ID)
+                    return DifferenceListener.RETURN_IGNORE_DIFFERENCE_NODES_IDENTICAL;
+                return DifferenceListener.RETURN_ACCEPT_DIFFERENCE;
+            }
 
-			public void skippedComparison(Node aControl, Node aTest) {
-			}
-		});
-		XMLAssert.assertXMLEqual(message, diff, true);
-	}
+            public void skippedComparison(Node aControl, Node aTest) {
+            }
+        });
+        XMLAssert.assertXMLEqual(message, diff, true);
+    }
 
-	/**
-	 * Convenience method that converts an Element into a Document or returns
-	 * the arg passed if already a Document
-	 * 
-	 * @param docOrElement
-	 * @throws ParserConfigurationException
-	 */
-	public static Document toDocument(Node docOrElement) throws Exception {
-		Document doc = null;
-		if (docOrElement instanceof Element) {
-			doc = AeXmlUtil.newDocument();
-			Node node = doc.importNode(docOrElement, true);
-			doc.appendChild(node);
-		} else if (docOrElement instanceof Document)
-			doc = (Document) docOrElement;
-		else
-			throw new IllegalArgumentException("expected a Document or Element");
-		return doc;
-	}
+    /**
+     * Convenience method that converts an Element into a Document or returns
+     * the arg passed if already a Document
+     *
+     * @param docOrElement
+     * @throws ParserConfigurationException
+     */
+    public static Document toDocument(Node docOrElement) throws Exception {
+        Document doc = null;
+        if (docOrElement instanceof Element) {
+            doc = AeXmlUtil.newDocument();
+            Node node = doc.importNode(docOrElement, true);
+            doc.appendChild(node);
+        } else if (docOrElement instanceof Document)
+            doc = (Document) docOrElement;
+        else
+            throw new IllegalArgumentException("expected a Document or Element");
+        return doc;
+    }
 
 }

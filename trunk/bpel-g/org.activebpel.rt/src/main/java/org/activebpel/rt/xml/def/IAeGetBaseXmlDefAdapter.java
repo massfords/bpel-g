@@ -7,17 +7,16 @@
 //Active Endpoints, Inc. Removal of this PROPRIETARY RIGHTS STATEMENT 
 //is strictly forbidden. Copyright (c) 2002-2007 All rights reserved. 
 /////////////////////////////////////////////////////////////////////////////
-package org.activebpel.rt.xml.def; 
+package org.activebpel.rt.xml.def;
 
 /**
  * Adapter interface for extension objects that convert their extension content
  * into a def object.
  */
-public interface IAeGetBaseXmlDefAdapter extends IAeAdapter
-{
-   /**
-    * Getter for extension object content as a def.
-    */
-   public AeBaseXmlDef getExtensionAsBaseXmlDef();
+public interface IAeGetBaseXmlDefAdapter extends IAeAdapter {
+    /**
+     * Getter for extension object content as a def.
+     */
+    public AeBaseXmlDef getExtensionAsBaseXmlDef();
 }
  

@@ -15,17 +15,16 @@ import org.activebpel.rt.bpel.IAeFault;
 /**
  * An interface for fault handlers.
  */
-public interface IAeFaultHandler extends IAeActivityParent, IAeFCTHandler
-{
-   /**
-    * Called to set the fault on the fault handler.
-    * 
-    * @param aHandledFault The handledFault to set.
-    */
-   public void setHandledFault(IAeFault aHandledFault);
+public interface IAeFaultHandler extends IAeActivityParent, IAeFCTHandler {
+    /**
+     * Called to set the fault on the fault handler.
+     *
+     * @param aHandledFault The handledFault to set.
+     */
+    public void setHandledFault(IAeFault aHandledFault);
 
-   /**
-    * Gets the fault that this handler is handling.
-    */
-   public IAeFault getHandledFault();
+    /**
+     * Gets the fault that this handler is handling.
+     */
+    public IAeFault getHandledFault();
 }

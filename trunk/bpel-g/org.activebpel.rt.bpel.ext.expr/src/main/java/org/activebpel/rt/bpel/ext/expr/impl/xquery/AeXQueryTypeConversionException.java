@@ -14,20 +14,18 @@ package org.activebpel.rt.bpel.ext.expr.impl.xquery;
  * A runtime exception that can be thrown when there is a problem converting a type in the XQuery
  * type conversion layer.
  */
-public class AeXQueryTypeConversionException extends RuntimeException
-{
-   /**
-     * 
+public class AeXQueryTypeConversionException extends RuntimeException {
+    /**
+     *
      */
     private static final long serialVersionUID = -2128758287325222196L;
 
-/**
-    * Constructs the type conversion exception.
-    * 
-    * @param aException
-    */
-   public AeXQueryTypeConversionException(Exception aException)
-   {
-      super(aException);
-   }
+    /**
+     * Constructs the type conversion exception.
+     *
+     * @param aException
+     */
+    public AeXQueryTypeConversionException(Exception aException) {
+        super(aException);
+    }
 }

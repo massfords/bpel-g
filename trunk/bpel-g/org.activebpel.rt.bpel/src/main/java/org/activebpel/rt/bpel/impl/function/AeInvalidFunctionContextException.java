@@ -14,46 +14,44 @@ import org.activebpel.rt.AeException;
 /**
  * Generated when the addition of a function context fails.
  */
-public class AeInvalidFunctionContextException extends AeException
-{
-   /**
-     * 
+public class AeInvalidFunctionContextException extends AeException {
+    /**
+     *
      */
     private static final long serialVersionUID = 6586348928682354215L;
 
-/**
-    * Constructor. 
-    */
-   public AeInvalidFunctionContextException()
-   {
-      super();
-   }
+    /**
+     * Constructor.
+     */
+    public AeInvalidFunctionContextException() {
+        super();
+    }
 
-   /**
-    * Constructor. 
-    * @param aInfo
-    */
-   public AeInvalidFunctionContextException(String aInfo)
-   {
-      super(aInfo);
-   }
+    /**
+     * Constructor.
+     *
+     * @param aInfo
+     */
+    public AeInvalidFunctionContextException(String aInfo) {
+        super(aInfo);
+    }
 
-   /**
-    * Constructor. 
-    * @param aInfo
-    * @param aRootCause
-    */
-   public AeInvalidFunctionContextException(String aInfo, Throwable aRootCause)
-   {
-      super(aInfo, aRootCause);
-   }
+    /**
+     * Constructor.
+     *
+     * @param aInfo
+     * @param aRootCause
+     */
+    public AeInvalidFunctionContextException(String aInfo, Throwable aRootCause) {
+        super(aInfo, aRootCause);
+    }
 
-   /**
-    * Constructor. 
-    * @param aRootCause
-    */
-   public AeInvalidFunctionContextException(Throwable aRootCause)
-   {
-      super(aRootCause);
-   }
+    /**
+     * Constructor.
+     *
+     * @param aRootCause
+     */
+    public AeInvalidFunctionContextException(Throwable aRootCause) {
+        super(aRootCause);
+    }
 }

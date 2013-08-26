@@ -18,21 +18,18 @@ import org.apache.axis.deployment.wsdd.WSDDService;
 /**
  * Defines a provider for the BPEL RPC invocations.
  */
-public class AeBpelRPCLiteralProvider extends WSDDProvider
-{
-   /**
-    * @see org.apache.axis.deployment.wsdd.WSDDProvider#newProviderInstance(org.apache.axis.deployment.wsdd.WSDDService, org.apache.axis.EngineConfiguration)
-    */
-   public Handler newProviderInstance(WSDDService service, EngineConfiguration registry) throws Exception
-   {
-      return new org.activebpel.rt.axis.bpel.handlers.AeBpelRPCLiteralHandler();
-   }
+public class AeBpelRPCLiteralProvider extends WSDDProvider {
+    /**
+     * @see org.apache.axis.deployment.wsdd.WSDDProvider#newProviderInstance(org.apache.axis.deployment.wsdd.WSDDService, org.apache.axis.EngineConfiguration)
+     */
+    public Handler newProviderInstance(WSDDService service, EngineConfiguration registry) throws Exception {
+        return new org.activebpel.rt.axis.bpel.handlers.AeBpelRPCLiteralHandler();
+    }
 
-   /**
-    * @see org.apache.axis.deployment.wsdd.WSDDProvider#getName()
-    */
-   public String getName()
-   {
-      return IAeWsddConstants.NAME_RPC_LIT_BINDING;
-   }
+    /**
+     * @see org.apache.axis.deployment.wsdd.WSDDProvider#getName()
+     */
+    public String getName() {
+        return IAeWsddConstants.NAME_RPC_LIT_BINDING;
+    }
 }

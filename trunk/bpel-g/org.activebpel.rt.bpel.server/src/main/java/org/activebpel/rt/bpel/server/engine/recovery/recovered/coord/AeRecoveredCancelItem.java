@@ -7,31 +7,29 @@
 //Active Endpoints, Inc. Removal of this PROPRIETARY RIGHTS STATEMENT 
 //is strictly forbidden. Copyright (c) 2002-2007 All rights reserved. 
 /////////////////////////////////////////////////////////////////////////////
-package org.activebpel.rt.bpel.server.engine.recovery.recovered.coord; 
+package org.activebpel.rt.bpel.server.engine.recovery.recovered.coord;
 
 import org.activebpel.rt.bpel.coord.AeCoordinationException;
 import org.activebpel.rt.bpel.impl.IAeCoordinationManagerInternal;
 
 /**
- * Recovered item that sends the cancel signal to the participant. 
+ * Recovered item that sends the cancel signal to the participant.
  */
-public class AeRecoveredCancelItem extends AeAbstractRecoveredCoordinationItem
-{
-   /**
-    * Ctor
-    * @param aCoordId
-    */
-   public AeRecoveredCancelItem(String aCoordId)
-   {
-      super(aCoordId);
-   }
-   
-   /**
-    * @see org.activebpel.rt.bpel.server.engine.recovery.recovered.coord.AeAbstractRecoveredCoordinationItem#queueCoordinationSignal(org.activebpel.rt.bpel.impl.IAeCoordinationManagerInternal)
-    */
-   protected void queueCoordinationSignal(IAeCoordinationManagerInternal aCoordManager) throws AeCoordinationException
-   {
-      aCoordManager.cancel(getCoordId());
-   }
+public class AeRecoveredCancelItem extends AeAbstractRecoveredCoordinationItem {
+    /**
+     * Ctor
+     *
+     * @param aCoordId
+     */
+    public AeRecoveredCancelItem(String aCoordId) {
+        super(aCoordId);
+    }
+
+    /**
+     * @see org.activebpel.rt.bpel.server.engine.recovery.recovered.coord.AeAbstractRecoveredCoordinationItem#queueCoordinationSignal(org.activebpel.rt.bpel.impl.IAeCoordinationManagerInternal)
+     */
+    protected void queueCoordinationSignal(IAeCoordinationManagerInternal aCoordManager) throws AeCoordinationException {
+        aCoordManager.cancel(getCoordId());
+    }
 }
  

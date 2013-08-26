@@ -13,18 +13,19 @@ package org.activebpel.rt.bpel;
 /**
  * Interface for process listeners.
  */
-public interface IAeProcessListener
-{
-   /**
-    * Handle an event fired by the BPEL Engine for a process.
-    * @param aEvent The event to handle.
-    * @return boolean true if suspend needed, otherwise false.
-    */
-   public boolean handleProcessEvent(IAeProcessEvent aEvent);
-   
-   /**
-    * Log an information message for the process.
-    * @param aEvent The information event to handle.
-    */
-   public void handleProcessInfoEvent(IAeProcessInfoEvent aEvent);
+public interface IAeProcessListener {
+    /**
+     * Handle an event fired by the BPEL Engine for a process.
+     *
+     * @param aEvent The event to handle.
+     * @return boolean true if suspend needed, otherwise false.
+     */
+    public boolean handleProcessEvent(IAeProcessEvent aEvent);
+
+    /**
+     * Log an information message for the process.
+     *
+     * @param aEvent The information event to handle.
+     */
+    public void handleProcessInfoEvent(IAeProcessInfoEvent aEvent);
 }

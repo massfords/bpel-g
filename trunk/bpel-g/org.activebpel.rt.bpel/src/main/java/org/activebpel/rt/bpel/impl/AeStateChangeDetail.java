@@ -12,53 +12,57 @@ package org.activebpel.rt.bpel.impl;
 /**
  * Provides additional information regarding the object's state change. This is
  * currently only used to convey the fault name during an object's entering into
- * the faulted state. In all other cases, we're simply using the NONE static field. 
+ * the faulted state. In all other cases, we're simply using the NONE static field.
  */
-public class AeStateChangeDetail implements IAeStateChangeDetail
-{
-   /** constant used to report no additional information regarding the state change */
-   public static final IAeStateChangeDetail NONE = new AeStateChangeDetail(null);
-   
-   /** The name of the fault */
-   private final String mFaultName;
-   
-   /** Additional info associated with the fault. */
-   private String mAdditionalInfo;
-   
-   /**
-    * Creates a detail object with just the fault name
-    * @param aFaultName
-    */
-   public AeStateChangeDetail(String aFaultName)
-   {
-      mFaultName = aFaultName;
-   }
-   
-   /**
-    * Creates a detail object with the fault name and additional info
-    * @param aFaultName
-    * @param aInfo
-    */
-   public AeStateChangeDetail(String aFaultName, String aInfo)
-   {
-      mFaultName = aFaultName;
-      mAdditionalInfo = aInfo ;
-   }
-   
-   /**
-    * Return additional information regarding a state change.
-    * @see org.activebpel.rt.bpel.impl.IAeStateChangeDetail#getAdditionalInfo()
-    */
-   public String getAdditionalInfo()
-   {
-      return mAdditionalInfo;
-   }
+public class AeStateChangeDetail implements IAeStateChangeDetail {
+    /**
+     * constant used to report no additional information regarding the state change
+     */
+    public static final IAeStateChangeDetail NONE = new AeStateChangeDetail(null);
 
-   /**
-    * @see org.activebpel.rt.bpel.impl.IAeStateChangeDetail#getFaultName()
-    */
-   public String getFaultName()
-   {
-      return mFaultName;
-   }
+    /**
+     * The name of the fault
+     */
+    private final String mFaultName;
+
+    /**
+     * Additional info associated with the fault.
+     */
+    private String mAdditionalInfo;
+
+    /**
+     * Creates a detail object with just the fault name
+     *
+     * @param aFaultName
+     */
+    public AeStateChangeDetail(String aFaultName) {
+        mFaultName = aFaultName;
+    }
+
+    /**
+     * Creates a detail object with the fault name and additional info
+     *
+     * @param aFaultName
+     * @param aInfo
+     */
+    public AeStateChangeDetail(String aFaultName, String aInfo) {
+        mFaultName = aFaultName;
+        mAdditionalInfo = aInfo;
+    }
+
+    /**
+     * Return additional information regarding a state change.
+     *
+     * @see org.activebpel.rt.bpel.impl.IAeStateChangeDetail#getAdditionalInfo()
+     */
+    public String getAdditionalInfo() {
+        return mAdditionalInfo;
+    }
+
+    /**
+     * @see org.activebpel.rt.bpel.impl.IAeStateChangeDetail#getFaultName()
+     */
+    public String getFaultName() {
+        return mFaultName;
+    }
 }

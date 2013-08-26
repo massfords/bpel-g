@@ -24,70 +24,74 @@ import bpelg.services.deploy.types.pdd.PartnerRoleEndpointReferenceType;
  */
 public class AePartnerLinkDescriptor {
 
-	private final PartnerLinkType mPlinkType;
-	/** Parnter endpoint reference. */
-	protected IAeEndpointReference mPartnerEndpointReference;
-	/** Partner link path. */
-	protected final int mPartnerLinkId;
-	
-	public AePartnerLinkDescriptor(PartnerLinkType aType, int aPartnerLinkId) throws AeBusinessProcessException {
-		mPlinkType = aType;
-		mPartnerLinkId = aPartnerLinkId;
-		initPartnerEndpointReference();
-	}
+    private final PartnerLinkType mPlinkType;
+    /**
+     * Parnter endpoint reference.
+     */
+    protected IAeEndpointReference mPartnerEndpointReference;
+    /**
+     * Partner link path.
+     */
+    protected final int mPartnerLinkId;
 
-	/**
-	 * @return Returns the <code>IAeEndpointReference</code> impl.
-	 * @throws AeBusinessProcessException 
-	 */
-	public IAeEndpointReference getPartnerEndpointReference() {
-		return mPartnerEndpointReference;
-	}
+    public AePartnerLinkDescriptor(PartnerLinkType aType, int aPartnerLinkId) throws AeBusinessProcessException {
+        mPlinkType = aType;
+        mPartnerLinkId = aPartnerLinkId;
+        initPartnerEndpointReference();
+    }
 
-	private void initPartnerEndpointReference() throws AeBusinessProcessException {
-		if (mPlinkType.getPartnerRole() != null && 
-				mPlinkType.getPartnerRole().getEndpointReference() == PartnerRoleEndpointReferenceType.STATIC) {
-			for (Element e : mPlinkType.getPartnerRole().getAny()) {
-				if (e.getLocalName().equals("EndpointReference")) {
-					mPartnerEndpointReference = new AeEndpointReference();
-					mPartnerEndpointReference.setReferenceData(e);
-					break;
-				}
-			}
-		}
-	}
+    /**
+     * @return Returns the <code>IAeEndpointReference</code> impl.
+     * @throws AeBusinessProcessException
+     */
+    public IAeEndpointReference getPartnerEndpointReference() {
+        return mPartnerEndpointReference;
+    }
 
-	/**
-	 * @return Returns the invoke handler
-	 */
-	public String getInvokeHandler() {
-		if (mPlinkType.getPartnerRole() != null)
-			return mPlinkType.getPartnerRole().getInvokeHandler();
-		return null;
-	}
+    private void initPartnerEndpointReference() throws AeBusinessProcessException {
+        if (mPlinkType.getPartnerRole() != null &&
+                mPlinkType.getPartnerRole().getEndpointReference() == PartnerRoleEndpointReferenceType.STATIC) {
+            for (Element e : mPlinkType.getPartnerRole().getAny()) {
+                if (e.getLocalName().equals("EndpointReference")) {
+                    mPartnerEndpointReference = new AeEndpointReference();
+                    mPartnerEndpointReference.setReferenceData(e);
+                    break;
+                }
+            }
+        }
+    }
 
-	/**
-	 * @return Returns the partnerLinkName.
-	 */
-	public String getPartnerLinkName() {
-		return mPlinkType.getName();
-	}
+    /**
+     * @return Returns the invoke handler
+     */
+    public String getInvokeHandler() {
+        if (mPlinkType.getPartnerRole() != null)
+            return mPlinkType.getPartnerRole().getInvokeHandler();
+        return null;
+    }
 
-	/**
-	 * @return Returns the partnerLinkId.
-	 */
-	public int getPartnerLinkId() {
-		return mPartnerLinkId;
-	}
+    /**
+     * @return Returns the partnerLinkName.
+     */
+    public String getPartnerLinkName() {
+        return mPlinkType.getName();
+    }
 
-	/**
-	 * Returns a new partner link def key for this partner link.
-	 */
-	public AePartnerLinkDefKey getPartnerLinkDefKey() {
-		return new AePartnerLinkDefKey(getPartnerLinkName(), getPartnerLinkId());
-	}
-	
-	public PartnerLinkType getPartnerLinkType() {
-		return mPlinkType;
-	}
+    /**
+     * @return Returns the partnerLinkId.
+     */
+    public int getPartnerLinkId() {
+        return mPartnerLinkId;
+    }
+
+    /**
+     * Returns a new partner link def key for this partner link.
+     */
+    public AePartnerLinkDefKey getPartnerLinkDefKey() {
+        return new AePartnerLinkDefKey(getPartnerLinkName(), getPartnerLinkId());
+    }
+
+    public PartnerLinkType getPartnerLinkType() {
+        return mPlinkType;
+    }
 }

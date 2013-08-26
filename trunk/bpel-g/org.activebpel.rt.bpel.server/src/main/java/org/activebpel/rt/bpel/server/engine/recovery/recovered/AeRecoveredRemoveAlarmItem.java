@@ -15,48 +15,45 @@ import org.activebpel.rt.bpel.impl.IAeBusinessProcessEngineInternal;
 /**
  * Implements a recovered item to remove an alarm.
  */
-public class AeRecoveredRemoveAlarmItem extends AeRecoveredLocationIdItem
-{
-   /** Alarm Id. */
-   private int mAlarmId;
-   /**
-    * Constructs a recovered item to remove an alarm.
-    */
-   public AeRecoveredRemoveAlarmItem(long aProcessId, int aLocationId, int aAlarmId)
-   {
-      super(aProcessId, aLocationId);
-      setAlarmId(aAlarmId);
-   }
+public class AeRecoveredRemoveAlarmItem extends AeRecoveredLocationIdItem {
+    /**
+     * Alarm Id.
+     */
+    private int mAlarmId;
 
-   /**
-    * @return Returns the alarmId.
-    */
-   protected int getAlarmId()
-   {
-      return mAlarmId;
-   }
+    /**
+     * Constructs a recovered item to remove an alarm.
+     */
+    public AeRecoveredRemoveAlarmItem(long aProcessId, int aLocationId, int aAlarmId) {
+        super(aProcessId, aLocationId);
+        setAlarmId(aAlarmId);
+    }
 
-   /**
-    * @param aAlarmId The alarmId to set.
-    */
-   protected void setAlarmId(int aAlarmId)
-   {
-      mAlarmId = aAlarmId;
-   }
+    /**
+     * @return Returns the alarmId.
+     */
+    protected int getAlarmId() {
+        return mAlarmId;
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.server.engine.recovery.recovered.IAeRecoveredItem#queueItem(org.activebpel.rt.bpel.impl.IAeBusinessProcessEngineInternal)
-    */
-   public void queueItem(IAeBusinessProcessEngineInternal aTargetEngine) throws AeBusinessProcessException
-   {
-      aTargetEngine.getQueueManager().removeAlarm(getProcessId(), getLocationId(), getAlarmId());
-   }
+    /**
+     * @param aAlarmId The alarmId to set.
+     */
+    protected void setAlarmId(int aAlarmId) {
+        mAlarmId = aAlarmId;
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.server.engine.recovery.recovered.IAeRecoveredItem#isRemoval()
-    */
-   public boolean isRemoval()
-   {
-      return true;
-   }
+    /**
+     * @see org.activebpel.rt.bpel.server.engine.recovery.recovered.IAeRecoveredItem#queueItem(org.activebpel.rt.bpel.impl.IAeBusinessProcessEngineInternal)
+     */
+    public void queueItem(IAeBusinessProcessEngineInternal aTargetEngine) throws AeBusinessProcessException {
+        aTargetEngine.getQueueManager().removeAlarm(getProcessId(), getLocationId(), getAlarmId());
+    }
+
+    /**
+     * @see org.activebpel.rt.bpel.server.engine.recovery.recovered.IAeRecoveredItem#isRemoval()
+     */
+    public boolean isRemoval() {
+        return true;
+    }
 }

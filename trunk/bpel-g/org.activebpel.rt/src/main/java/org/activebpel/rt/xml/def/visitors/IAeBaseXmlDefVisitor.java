@@ -7,7 +7,7 @@
 //Active Endpoints, Inc. Removal of this PROPRIETARY RIGHTS STATEMENT 
 //is strictly forbidden. Copyright (c) 2002-2007 All rights reserved. 
 /////////////////////////////////////////////////////////////////////////////
-package org.activebpel.rt.xml.def.visitors; 
+package org.activebpel.rt.xml.def.visitors;
 
 import org.activebpel.rt.xml.def.AeBaseXmlDef;
 import org.activebpel.rt.xml.def.AeDocumentationDef;
@@ -17,31 +17,33 @@ import org.activebpel.rt.xml.def.AeExtensionElementDef;
 /**
  * Interface for performing operations on base def objects
  */
-public interface IAeBaseXmlDefVisitor
-{
-   /**
-    * Generic method for all base defs
-    * 
-    * @param aDef
-    */
-   public void visit(AeBaseXmlDef aDef);
-   
-   /**
-    * Visits extension elements
-    * @param aDef
-    */
-   public void visit(AeExtensionElementDef aDef);
-   
-   /**
-    * Visits extension attributes
-    * @param aDef
-    */
-   public void visit(AeExtensionAttributeDef aDef);
-   
-   /**
-    * Visits documentation defs
-    * @param aDef
-    */
-   public void visit(AeDocumentationDef aDef);
+public interface IAeBaseXmlDefVisitor {
+    /**
+     * Generic method for all base defs
+     *
+     * @param aDef
+     */
+    public void visit(AeBaseXmlDef aDef);
+
+    /**
+     * Visits extension elements
+     *
+     * @param aDef
+     */
+    public void visit(AeExtensionElementDef aDef);
+
+    /**
+     * Visits extension attributes
+     *
+     * @param aDef
+     */
+    public void visit(AeExtensionAttributeDef aDef);
+
+    /**
+     * Visits documentation defs
+     *
+     * @param aDef
+     */
+    public void visit(AeDocumentationDef aDef);
 }
  

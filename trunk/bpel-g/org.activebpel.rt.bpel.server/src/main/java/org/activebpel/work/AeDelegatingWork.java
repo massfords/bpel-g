@@ -15,50 +15,46 @@ import commonj.work.Work;
  * Implements a <code>Work</code> object that delegates to another
  * <code>Work</code> object.
  */
-public class AeDelegatingWork implements Work
-{
-   /** The delegate <code>Work</code> object. */
-   private final Work mDelegateWork;
+public class AeDelegatingWork implements Work {
+    /**
+     * The delegate <code>Work</code> object.
+     */
+    private final Work mDelegateWork;
 
-   /**
-    * Constructor.
-    *
-    * @param aDelegateWork
-    */
-   public AeDelegatingWork(Work aDelegateWork)
-   {
-      mDelegateWork = aDelegateWork;
-   }
+    /**
+     * Constructor.
+     *
+     * @param aDelegateWork
+     */
+    public AeDelegatingWork(Work aDelegateWork) {
+        mDelegateWork = aDelegateWork;
+    }
 
-   /**
-    * Returns the delegate <code>Work</code> object.
-    */
-   public Work getDelegateWork()
-   {
-      return mDelegateWork;
-   }
+    /**
+     * Returns the delegate <code>Work</code> object.
+     */
+    public Work getDelegateWork() {
+        return mDelegateWork;
+    }
 
-   /**
-    * @see commonj.work.Work#isDaemon()
-    */
-   public boolean isDaemon()
-   {
-      return getDelegateWork().isDaemon();
-   }
+    /**
+     * @see commonj.work.Work#isDaemon()
+     */
+    public boolean isDaemon() {
+        return getDelegateWork().isDaemon();
+    }
 
-   /**
-    * @see commonj.work.Work#release()
-    */
-   public void release()
-   {
-      getDelegateWork().release();
-   }
+    /**
+     * @see commonj.work.Work#release()
+     */
+    public void release() {
+        getDelegateWork().release();
+    }
 
-   /**
-    * @see java.lang.Runnable#run()
-    */
-   public void run()
-   {
-      getDelegateWork().run();
-   }
+    /**
+     * @see java.lang.Runnable#run()
+     */
+    public void run() {
+        getDelegateWork().run();
+    }
 }

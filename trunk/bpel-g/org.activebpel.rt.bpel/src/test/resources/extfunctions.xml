@@ -9,7 +9,7 @@
 
     <bpelg:extensionFunctionContext id="factory">
         <bpelg:function class="org.activebpel.rt.bpel.impl.function.AeGetProcessIdFunction"
-             name="getProcessId"/>
+                        name="getProcessId"/>
     </bpelg:extensionFunctionContext>
 
 </beans>

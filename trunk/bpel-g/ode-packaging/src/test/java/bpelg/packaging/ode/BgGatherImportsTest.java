@@ -17,9 +17,9 @@ public class BgGatherImportsTest {
         BgCatalogBuilder builder = new BgCatalogBuilder(root);
         builder.findLocations(new File(root, "wsdl/example.wsdl"));
         Set<String> actual = builder.getLocations();
-        
+
         System.out.println(actual);
-        
+
         Set<String> expected = new HashSet<>();
         expected.add("wsdl/example.wsdl");
         expected.add("wsdl/messages.wsdl");
@@ -29,6 +29,6 @@ public class BgGatherImportsTest {
         expected.add("xsd/example-included.xsd");
         assertTrue(expected.containsAll(actual));
         assertEquals(expected.size(), actual.size());
-        
+
     }
 }

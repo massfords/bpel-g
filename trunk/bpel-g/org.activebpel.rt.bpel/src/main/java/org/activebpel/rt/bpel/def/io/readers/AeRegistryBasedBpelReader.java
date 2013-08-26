@@ -34,153 +34,144 @@ import java.util.Map;
 /**
  * Base class for readers that use the registry to drive the deserialization process.
  */
-public class AeRegistryBasedBpelReader implements IAeBpelReader
-{
-   /** bpel reader/writer registry */
-   private final IAeDefRegistry mBpelRegistry;
-   
-   /**
-    * Ctor accepts BpelRegistry
-    * @param aBpelRegistry
-    */
-   public AeRegistryBasedBpelReader(IAeDefRegistry aBpelRegistry)
-   {
-      mBpelRegistry = aBpelRegistry;
-   }
+public class AeRegistryBasedBpelReader implements IAeBpelReader {
+    /**
+     * bpel reader/writer registry
+     */
+    private final IAeDefRegistry mBpelRegistry;
 
-   /**
-    * @see org.activebpel.rt.bpel.def.io.IAeBpelReader#readBPEL(org.w3c.dom.Document)
-    */
-   public AeProcessDef readBPEL(Document aBpelDoc) throws AeException
-   {
-      Element processElement = aBpelDoc.getDocumentElement();
+    /**
+     * Ctor accepts BpelRegistry
+     *
+     * @param aBpelRegistry
+     */
+    public AeRegistryBasedBpelReader(IAeDefRegistry aBpelRegistry) {
+        mBpelRegistry = aBpelRegistry;
+    }
 
-      AeDomTraverser traverser = createBpelDomTraverser(processElement,
-            getBpelRegistry());
-      traverser.traverseRootElement( processElement );
+    /**
+     * @see org.activebpel.rt.bpel.def.io.IAeBpelReader#readBPEL(org.w3c.dom.Document)
+     */
+    public AeProcessDef readBPEL(Document aBpelDoc) throws AeException {
+        Element processElement = aBpelDoc.getDocumentElement();
 
-      AeProcessDef def = (AeProcessDef) traverser.getRootDef();
-      def.setNamespace(processElement.getNamespaceURI());
-      runCoreVisitors(def);
-      return def;
-   }
+        AeDomTraverser traverser = createBpelDomTraverser(processElement,
+                getBpelRegistry());
+        traverser.traverseRootElement(processElement);
 
-   /**
-    * Factory method used to create a bpel dom traverser.
-    * 
-    * @param aProcessElement
-    * @param aReg
-    */
-   public static AeDomTraverser createBpelDomTraverser(Element aProcessElement, IAeDefRegistry aReg)
-   {
-      String ns = aProcessElement.getNamespaceURI();
-      IAeTraversalFilter filter = null;
-      if (IAeBPELConstants.WSBPEL_2_0_NAMESPACE_URI.equals(ns))
-      {
-         filter = new IAeTraversalFilter()
-         {
-            /**
-             * @see org.activebpel.rt.xml.def.io.readers.AeDomTraverser.IAeTraversalFilter#shouldTraverseChildren(org.activebpel.rt.xml.def.AeBaseXmlDef, org.w3c.dom.Element)
-             */
-            public boolean shouldTraverseChildren(AeBaseXmlDef aDef, Element aElement)
-            {
-               return !(aDef instanceof AeLiteralDef) && !(aDef instanceof AeExpressionBaseDef);
-            }
-         };
-      }
-      else
-      {
-         filter = new IAeTraversalFilter()
-         {
-            /**
-             * @see org.activebpel.rt.xml.def.io.readers.AeDomTraverser.IAeTraversalFilter#shouldTraverseChildren(org.activebpel.rt.xml.def.AeBaseXmlDef, org.w3c.dom.Element)
-             */
-            public boolean shouldTraverseChildren(AeBaseXmlDef aDef, Element aElement)
-            {
-               return !(aDef instanceof AeFromDef) && !(aDef instanceof AeExpressionBaseDef);
-            }
-            
-         };
-      }
-      AeDomTraverser traverser = new AeDomTraverser(aReg);
-      traverser.setTraversalFilter(filter);
-      return traverser;
-   }
+        AeProcessDef def = (AeProcessDef) traverser.getRootDef();
+        def.setNamespace(processElement.getNamespaceURI());
+        runCoreVisitors(def);
+        return def;
+    }
 
-   /**
-    * This is a post load step that assigns parents to all child defs and also gives each child a unique path.
-    * It also pulls up Invoke "implicit" scopes.
-    *
-    * @throws AeBusinessProcessException
-    */
-   public void runCoreVisitors(AeProcessDef aDef) throws AeException
-   {
-      // assign parents for definitions -- needed here so we can resolve resources up through the model
-      AeDefAssignParentVisitor parentVisitor = new AeDefAssignParentVisitor();
-      parentVisitor.setTraversalVisitor( new AeTraversalVisitor(new AeDefTraverser(), parentVisitor));
-      aDef.accept(parentVisitor);
+    /**
+     * Factory method used to create a bpel dom traverser.
+     *
+     * @param aProcessElement
+     * @param aReg
+     */
+    public static AeDomTraverser createBpelDomTraverser(Element aProcessElement, IAeDefRegistry aReg) {
+        String ns = aProcessElement.getNamespaceURI();
+        IAeTraversalFilter filter = null;
+        if (IAeBPELConstants.WSBPEL_2_0_NAMESPACE_URI.equals(ns)) {
+            filter = new IAeTraversalFilter() {
+                /**
+                 * @see org.activebpel.rt.xml.def.io.readers.AeDomTraverser.IAeTraversalFilter#shouldTraverseChildren(org.activebpel.rt.xml.def.AeBaseXmlDef, org.w3c.dom.Element)
+                 */
+                public boolean shouldTraverseChildren(AeBaseXmlDef aDef, Element aElement) {
+                    return !(aDef instanceof AeLiteralDef) && !(aDef instanceof AeExpressionBaseDef);
+                }
+            };
+        } else {
+            filter = new IAeTraversalFilter() {
+                /**
+                 * @see org.activebpel.rt.xml.def.io.readers.AeDomTraverser.IAeTraversalFilter#shouldTraverseChildren(org.activebpel.rt.xml.def.AeBaseXmlDef, org.w3c.dom.Element)
+                 */
+                public boolean shouldTraverseChildren(AeBaseXmlDef aDef, Element aElement) {
+                    return !(aDef instanceof AeFromDef) && !(aDef instanceof AeExpressionBaseDef);
+                }
 
-      // assign extension objects on extension elements, attributes and activities if they are present
-      // give the extension activities a chance to contribute implicit variables
-      IAeDefVisitor assignExtObjVisitor= AeDefVisitorFactory.getInstance(aDef.getNamespace()).createAssignExtensionVisitor();
-      aDef.accept(assignExtObjVisitor);
+            };
+        }
+        AeDomTraverser traverser = new AeDomTraverser(aReg);
+        traverser.setTraversalFilter(filter);
+        return traverser;
+    }
 
-      // create any implicit defs prior to assigning parents
-      IAeDefVisitor implicitVisitor = AeDefVisitorFactory.getInstance(aDef.getNamespace()).createImplicitVariableVisitor();
-      aDef.accept(implicitVisitor);
+    /**
+     * This is a post load step that assigns parents to all child defs and also gives each child a unique path.
+     * It also pulls up Invoke "implicit" scopes.
+     *
+     * @throws AeBusinessProcessException
+     */
+    public void runCoreVisitors(AeProcessDef aDef) throws AeException {
+        // assign parents for definitions -- needed here so we can resolve resources up through the model
+        AeDefAssignParentVisitor parentVisitor = new AeDefAssignParentVisitor();
+        parentVisitor.setTraversalVisitor(new AeTraversalVisitor(new AeDefTraverser(), parentVisitor));
+        aDef.accept(parentVisitor);
 
-      // assign parents (again) for definitions
-      // need to run through the parents again to ensure that the implicit variables are parented
-      parentVisitor.setTraversalVisitor( new AeTraversalVisitor(new AeDefTraverser(), parentVisitor));
-      aDef.accept(parentVisitor);
+        // assign extension objects on extension elements, attributes and activities if they are present
+        // give the extension activities a chance to contribute implicit variables
+        IAeDefVisitor assignExtObjVisitor = AeDefVisitorFactory.getInstance(aDef.getNamespace()).createAssignExtensionVisitor();
+        aDef.accept(assignExtObjVisitor);
 
-      // pull up any invoke scopes (for invokes that have implicit scopes)
-      AeDefCreateInvokeScopeVisitor invokeScopeVizzy = new AeDefCreateInvokeScopeVisitor();
-      aDef.accept(invokeScopeVizzy);
+        // create any implicit defs prior to assigning parents
+        IAeDefVisitor implicitVisitor = AeDefVisitorFactory.getInstance(aDef.getNamespace()).createImplicitVariableVisitor();
+        aDef.accept(implicitVisitor);
 
-      IAeDefVisitor messageExchangeVisitor = AeDefVisitorFactory.getInstance(aDef.getNamespace()).createMessageExchangeVisitor();
-      aDef.accept(messageExchangeVisitor);
+        // assign parents (again) for definitions
+        // need to run through the parents again to ensure that the implicit variables are parented
+        parentVisitor.setTraversalVisitor(new AeTraversalVisitor(new AeDefTraverser(), parentVisitor));
+        aDef.accept(parentVisitor);
 
-      assignPaths(aDef);
+        // pull up any invoke scopes (for invokes that have implicit scopes)
+        AeDefCreateInvokeScopeVisitor invokeScopeVizzy = new AeDefCreateInvokeScopeVisitor();
+        aDef.accept(invokeScopeVizzy);
 
-      AeDefPartnerLinkNameVisitor plNameVisitor = new AeDefPartnerLinkNameVisitor();
-      aDef.accept(plNameVisitor);
-      
-      // Perform extension core preprocessing
-      AeCorePreprocessingVisitor  corePreprocessingVisitor = new AeCorePreprocessingVisitor();
-      aDef.accept(corePreprocessingVisitor);
-      
-      if (corePreprocessingVisitor.getException() != null)
-         throw corePreprocessingVisitor.getException();
-   }
+        IAeDefVisitor messageExchangeVisitor = AeDefVisitorFactory.getInstance(aDef.getNamespace()).createMessageExchangeVisitor();
+        aDef.accept(messageExchangeVisitor);
 
-   /**
-    * Assigns location paths (and ids) to each of the def objects and records these
-    * paths on the process def.
-    * @param aDef
-    */
-   protected void assignPaths(AeProcessDef aDef)
-   {
-      // assign location paths for definitions
-      IAeDefPathVisitor pathVisitor = AeDefVisitorFactory.getInstance(aDef.getNamespace()).createDefPathVisitor();
-      pathVisitor.visit(aDef);
+        assignPaths(aDef);
 
-      // populate bidirectional maps between location paths and location ids
-      Map<String,Integer> locationPathsToIds = new HashMap<>();
-       for (String locationPath : pathVisitor.getLocationPaths()) {
-           int locationId = pathVisitor.getLocationId(locationPath);
-           locationPathsToIds.put(locationPath, locationId);
-       }
-      aDef.setLocationPathsToIds(locationPathsToIds);
-   }
+        AeDefPartnerLinkNameVisitor plNameVisitor = new AeDefPartnerLinkNameVisitor();
+        aDef.accept(plNameVisitor);
 
-   /**
-    * Internal accessor for bpel registry
-    * @return bpel registry
-    */
-   protected IAeDefRegistry getBpelRegistry()
-   {
-      return mBpelRegistry;
-   }
+        // Perform extension core preprocessing
+        AeCorePreprocessingVisitor corePreprocessingVisitor = new AeCorePreprocessingVisitor();
+        aDef.accept(corePreprocessingVisitor);
+
+        if (corePreprocessingVisitor.getException() != null)
+            throw corePreprocessingVisitor.getException();
+    }
+
+    /**
+     * Assigns location paths (and ids) to each of the def objects and records these
+     * paths on the process def.
+     *
+     * @param aDef
+     */
+    protected void assignPaths(AeProcessDef aDef) {
+        // assign location paths for definitions
+        IAeDefPathVisitor pathVisitor = AeDefVisitorFactory.getInstance(aDef.getNamespace()).createDefPathVisitor();
+        pathVisitor.visit(aDef);
+
+        // populate bidirectional maps between location paths and location ids
+        Map<String, Integer> locationPathsToIds = new HashMap<>();
+        for (String locationPath : pathVisitor.getLocationPaths()) {
+            int locationId = pathVisitor.getLocationId(locationPath);
+            locationPathsToIds.put(locationPath, locationId);
+        }
+        aDef.setLocationPathsToIds(locationPathsToIds);
+    }
+
+    /**
+     * Internal accessor for bpel registry
+     *
+     * @return bpel registry
+     */
+    protected IAeDefRegistry getBpelRegistry() {
+        return mBpelRegistry;
+    }
 
 }

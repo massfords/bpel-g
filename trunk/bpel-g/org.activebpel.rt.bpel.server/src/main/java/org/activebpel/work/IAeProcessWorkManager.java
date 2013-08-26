@@ -17,13 +17,12 @@ import commonj.work.Work;
  * Defines the interface for a work manager that limits the amount of work
  * scheduled per process.
  */
-public interface IAeProcessWorkManager
-{
-   /**
-    * Schedules the given work for the given process.
-    *
-    * @param aProcessId
-    * @param aWork
-    */
-   public void schedule(long aProcessId, Work aWork) throws AeBusinessProcessException;
+public interface IAeProcessWorkManager {
+    /**
+     * Schedules the given work for the given process.
+     *
+     * @param aProcessId
+     * @param aWork
+     */
+    public void schedule(long aProcessId, Work aWork) throws AeBusinessProcessException;
 }

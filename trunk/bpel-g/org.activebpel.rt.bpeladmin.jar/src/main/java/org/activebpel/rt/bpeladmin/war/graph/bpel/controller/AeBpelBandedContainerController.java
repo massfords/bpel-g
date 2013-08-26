@@ -19,33 +19,31 @@ import org.activebpel.rt.bpeladmin.war.graph.ui.figure.AeGraphFigure;
  * Base controller for creating banded figures. A Scope activity's controller uses
  * an implementation of this controller.
  */
-public class AeBpelBandedContainerController extends AeBpelContainerController
-{
+public class AeBpelBandedContainerController extends AeBpelContainerController {
 
-   /**
-    * Default constructor.
-    */
-   public AeBpelBandedContainerController()
-   {
-      super();      
-   }
-   
-   /** 
-    * Overrides method to return flow layout manager. 
-    * @see org.activebpel.rt.bpeladmin.war.graph.bpel.controller.AeBpelContainerController#getContentLayoutManager(org.activebpel.rt.bpeladmin.war.graph.ui.figure.AeGraphFigure)
-    */
-   protected LayoutManager getContentLayoutManager(AeGraphFigure aForFigure)
-   {
-      return new AeFlowLayoutManager(true);
-   }
-   
-   /** 
-    * Overrides method to a AeBandedContainerFigure. 
-    * @see org.activebpel.rt.bpeladmin.war.graph.bpel.controller.AeBpelContainerController#createContentFigure()
-    */
-   protected AeGraphFigure createContentFigure()
-   {
-      AeBandedContainerFigure contents = new AeBandedContainerFigure("BANDEDCONTENTS_" + getLabelText());  //$NON-NLS-1$      
-      return contents;
-   }
+    /**
+     * Default constructor.
+     */
+    public AeBpelBandedContainerController() {
+        super();
+    }
+
+    /**
+     * Overrides method to return flow layout manager.
+     *
+     * @see org.activebpel.rt.bpeladmin.war.graph.bpel.controller.AeBpelContainerController#getContentLayoutManager(org.activebpel.rt.bpeladmin.war.graph.ui.figure.AeGraphFigure)
+     */
+    protected LayoutManager getContentLayoutManager(AeGraphFigure aForFigure) {
+        return new AeFlowLayoutManager(true);
+    }
+
+    /**
+     * Overrides method to a AeBandedContainerFigure.
+     *
+     * @see org.activebpel.rt.bpeladmin.war.graph.bpel.controller.AeBpelContainerController#createContentFigure()
+     */
+    protected AeGraphFigure createContentFigure() {
+        AeBandedContainerFigure contents = new AeBandedContainerFigure("BANDEDCONTENTS_" + getLabelText());  //$NON-NLS-1$
+        return contents;
+    }
 }

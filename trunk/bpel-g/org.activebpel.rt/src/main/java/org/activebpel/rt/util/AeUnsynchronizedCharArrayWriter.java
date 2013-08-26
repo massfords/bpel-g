@@ -14,71 +14,63 @@ import java.io.CharArrayWriter;
 /**
  * Extends <code>CharArrayWriter</code> with unsynchronized write methods.
  */
-public class AeUnsynchronizedCharArrayWriter extends CharArrayWriter
-{
-   private static final int DEFAULT_CAPACITY = 8192;
+public class AeUnsynchronizedCharArrayWriter extends CharArrayWriter {
+    private static final int DEFAULT_CAPACITY = 8192;
 
-   /**
-    * Default constructor.
-    */
-   public AeUnsynchronizedCharArrayWriter()
-   {
-      super(DEFAULT_CAPACITY);
-   }
+    /**
+     * Default constructor.
+     */
+    public AeUnsynchronizedCharArrayWriter() {
+        super(DEFAULT_CAPACITY);
+    }
 
-   /**
-    * Ensures that <code>mBuffer</code> has at least the specified capacity.
-    *
-    * @param aCapacity
-    */
-   protected void ensureCapacity(int aCapacity)
-   {
-      if (aCapacity > buf.length)
-      {
-         char[] newBuffer = new char[aCapacity + buf.length];
-         System.arraycopy(buf, 0, newBuffer, 0, count);
-         buf = newBuffer;
-      }
-   }
+    /**
+     * Ensures that <code>mBuffer</code> has at least the specified capacity.
+     *
+     * @param aCapacity
+     */
+    protected void ensureCapacity(int aCapacity) {
+        if (aCapacity > buf.length) {
+            char[] newBuffer = new char[aCapacity + buf.length];
+            System.arraycopy(buf, 0, newBuffer, 0, count);
+            buf = newBuffer;
+        }
+    }
 
-   /**
-    * @see java.io.Writer#write(int)
-    */
-   public void write(int c)
-   {
-      int newCount = count + 1;
-      ensureCapacity(newCount);
-      buf[count] = (char) c;
-      count = newCount;
-   }
+    /**
+     * @see java.io.Writer#write(int)
+     */
+    public void write(int c) {
+        int newCount = count + 1;
+        ensureCapacity(newCount);
+        buf[count] = (char) c;
+        count = newCount;
+    }
 
-   /**
-    * @see java.io.Writer#write(char[], int, int)
-    */
-   public void write(char[] cbuf, int off, int len)
-   {
-      int newCount = count + len;
-      ensureCapacity(newCount);
-      System.arraycopy(cbuf, off, buf, count, len);
-      count = newCount;
-   }
+    /**
+     * @see java.io.Writer#write(char[], int, int)
+     */
+    public void write(char[] cbuf, int off, int len) {
+        int newCount = count + len;
+        ensureCapacity(newCount);
+        System.arraycopy(cbuf, off, buf, count, len);
+        count = newCount;
+    }
 
-   /**
-    * @see java.io.Writer#write(java.lang.String, int, int)
-    */
-   public void write(String str, int off, int len)
-   {
-      int newCount = count + len;
-      ensureCapacity(newCount);
-      str.getChars(off, off + len, buf, count);
-      count = newCount;
-   }
-   
-   /**
-    * @see java.io.Writer#write(java.lang.String)
-    */
-   public void write(String aStr)
-   {
-      write(aStr, 0, aStr.length());
-   }
+    /**
+     * @see java.io.Writer#write(java.lang.String, int, int)
+     */
+    public void write(String str, int off, int len) {
+        int newCount = count + len;
+        ensureCapacity(newCount);
+        str.getChars(off, off + len, buf, count);
+        count = newCount;
+    }
+
+    /**
+     * @see java.io.Writer#write(java.lang.String)
+     */
+    public void write(String aStr) {
+        write(aStr, 0, aStr.length());
+    }
 }

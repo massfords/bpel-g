@@ -25,59 +25,54 @@ import org.activebpel.rt.bpel.impl.visitors.AeImplTraversingVisitor;
  * Determines the location ids for activities that are currently executing by
  * visiting the tree of BPEL implementation objects.
  */
-public class AeQueuedExecutingLocationIdsCollector extends AeImplTraversingVisitor
-{
-   /** The executing location ids set. */
-   private Set<Integer> mExecutingLocationIds;
+public class AeQueuedExecutingLocationIdsCollector extends AeImplTraversingVisitor {
+    /**
+     * The executing location ids set.
+     */
+    private Set<Integer> mExecutingLocationIds;
 
-   /**
-    * Returns the executing location ids set.
-    */
-   protected Set<Integer> getExecutingLocationIds()
-   {
-      return mExecutingLocationIds;
-   }
+    /**
+     * Returns the executing location ids set.
+     */
+    protected Set<Integer> getExecutingLocationIds() {
+        return mExecutingLocationIds;
+    }
 
-   /**
-    * Returns the location ids for activities that are currently executing in
-    * the given process.
-    *
-    * @param aProcess
-    */
-   public Set<Integer> getExecutingLocationIds(IAeBusinessProcess aProcess) throws AeBusinessProcessException
-   {
-      setExecutingLocationIds(new HashSet<Integer>());
-      
-      if (aProcess instanceof AeBusinessProcess)
-      {
-         ((AeBusinessProcess) aProcess).accept(this);
-      }
+    /**
+     * Returns the location ids for activities that are currently executing in
+     * the given process.
+     *
+     * @param aProcess
+     */
+    public Set<Integer> getExecutingLocationIds(IAeBusinessProcess aProcess) throws AeBusinessProcessException {
+        setExecutingLocationIds(new HashSet<Integer>());
 
-      return getExecutingLocationIds();
-   }
+        if (aProcess instanceof AeBusinessProcess) {
+            ((AeBusinessProcess) aProcess).accept(this);
+        }
 
-   /**
-    * Sets the executing location ids set.
-    */
-   protected void setExecutingLocationIds(Set<Integer> aExecutingLocationIds)
-   {
-      mExecutingLocationIds = aExecutingLocationIds;
-   }
+        return getExecutingLocationIds();
+    }
 
-   /**
-    * Overrides method to save an activity's location id if the activity is
-    * executing.
-    * 
-    * @see org.activebpel.rt.bpel.impl.visitors.AeImplTraversingVisitor#visitBase(org.activebpel.rt.bpel.impl.AeAbstractBpelObject)
-    */
-   protected void visitBase(AeAbstractBpelObject aImpl) throws AeBusinessProcessException
-   {
-      super.visitBase(aImpl);
+    /**
+     * Sets the executing location ids set.
+     */
+    protected void setExecutingLocationIds(Set<Integer> aExecutingLocationIds) {
+        mExecutingLocationIds = aExecutingLocationIds;
+    }
 
-      // If this activity is executing, then save its location id.
-      if (aImpl.getState() == AeBpelState.EXECUTING && (aImpl instanceof IAeAlarmReceiver || aImpl instanceof IAeMessageReceiverActivity) )
-      {
-         getExecutingLocationIds().add(aImpl.getLocationId());
-      }
-   }
+    /**
+     * Overrides method to save an activity's location id if the activity is
+     * executing.
+     *
+     * @see org.activebpel.rt.bpel.impl.visitors.AeImplTraversingVisitor#visitBase(org.activebpel.rt.bpel.impl.AeAbstractBpelObject)
+     */
+    protected void visitBase(AeAbstractBpelObject aImpl) throws AeBusinessProcessException {
+        super.visitBase(aImpl);
+
+        // If this activity is executing, then save its location id.
+        if (aImpl.getState() == AeBpelState.EXECUTING && (aImpl instanceof IAeAlarmReceiver || aImpl instanceof IAeMessageReceiverActivity)) {
+            getExecutingLocationIds().add(aImpl.getLocationId());
+        }
+    }
 }

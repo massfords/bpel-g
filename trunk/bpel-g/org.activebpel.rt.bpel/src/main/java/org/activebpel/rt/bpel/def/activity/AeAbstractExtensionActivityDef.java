@@ -7,7 +7,7 @@
 //Active Endpoints, Inc. Removal of this PROPRIETARY RIGHTS STATEMENT 
 //is strictly forbidden. Copyright (c) 2002-2007 All rights reserved. 
 /////////////////////////////////////////////////////////////////////////////
-package org.activebpel.rt.bpel.def.activity; 
+package org.activebpel.rt.bpel.def.activity;
 
 
 import javax.xml.namespace.QName;
@@ -22,37 +22,35 @@ import org.activebpel.rt.bpel.def.AeActivityDef;
  * (assuming that they were marked as "mustUnderstand") or convert to empty
  * activities and are essentially no-ops.
  */
-public abstract class AeAbstractExtensionActivityDef extends AeActivityDef implements IAeExtensionActivityDef
-{
-   /**
-     * 
+public abstract class AeAbstractExtensionActivityDef extends AeActivityDef implements IAeExtensionActivityDef {
+    /**
+     *
      */
     private static final long serialVersionUID = -4613677423555493778L;
-/** The activity's element name. */
-   private QName mElementName;
+    /**
+     * The activity's element name.
+     */
+    private QName mElementName;
 
-   /**
-    * @return Returns the elementName.
-    */
-   public QName getElementName()
-   {
-      return mElementName;
-   }
+    /**
+     * @return Returns the elementName.
+     */
+    public QName getElementName() {
+        return mElementName;
+    }
 
-   /**
-    * @param aElementName The elementName to set.
-    */
-   public void setElementName(QName aElementName)
-   {
-      mElementName = aElementName;
-   }
+    /**
+     * @param aElementName The elementName to set.
+     */
+    public void setElementName(QName aElementName) {
+        mElementName = aElementName;
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.def.activity.IAeExtensionActivityDef#getNamespace()
-    */
-   public String getNamespace()
-   {
-      return getElementName().getNamespaceURI();
-   }
+    /**
+     * @see org.activebpel.rt.bpel.def.activity.IAeExtensionActivityDef#getNamespace()
+     */
+    public String getNamespace() {
+        return getElementName().getNamespaceURI();
+    }
 }
  

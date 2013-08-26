@@ -16,20 +16,19 @@ import org.activebpel.rt.util.AeUtil;
 /**
  * Tag that allows ones to set string values, including empty strings..
  */
-public class AeStringPropertySetterTag extends AeAbstractFormPropertyTag
-{
-   /**
-     * 
+public class AeStringPropertySetterTag extends AeAbstractFormPropertyTag {
+    /**
+     *
      */
     private static final long serialVersionUID = -4229105998920925246L;
 
-/**
-    * Sets string value on the property for the given form parameter.
-    * @see javax.servlet.jsp.tagext.Tag#doStartTag()
-    */
-   public int doStartTag() throws JspException
-   {
-      setPropertyOnBean(AeUtil.getSafeString( getParamValue() ), String.class);
-      return SKIP_BODY;
-   }
+    /**
+     * Sets string value on the property for the given form parameter.
+     *
+     * @see javax.servlet.jsp.tagext.Tag#doStartTag()
+     */
+    public int doStartTag() throws JspException {
+        setPropertyOnBean(AeUtil.getSafeString(getParamValue()), String.class);
+        return SKIP_BODY;
+    }
 }

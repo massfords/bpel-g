@@ -18,56 +18,48 @@ import org.activebpel.rt.bpel.function.IAeFunctionExecutionContext;
 
 /**
  * This class provides convenient access to the set of ActiveBPEL extension functions, such
- * as abx:getProcessId().  This is a simple bean that exposes 
+ * as abx:getProcessId().  This is a simple bean that exposes
  */
-public class AeBSFAbxExtensionFunctionBean extends AeBSFAbstractExtensionFunctionBean
-{
-   /**
-    * Constructs the bean with the given function context.
-    * 
-    * @param aFunctionExecutionContext
-    */
-   public AeBSFAbxExtensionFunctionBean(IAeFunctionExecutionContext aFunctionExecutionContext)
-   {
-      super(aFunctionExecutionContext);
-   }
+public class AeBSFAbxExtensionFunctionBean extends AeBSFAbstractExtensionFunctionBean {
+    /**
+     * Constructs the bean with the given function context.
+     *
+     * @param aFunctionExecutionContext
+     */
+    public AeBSFAbxExtensionFunctionBean(IAeFunctionExecutionContext aFunctionExecutionContext) {
+        super(aFunctionExecutionContext);
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.ext.expr.bsf.impl.AeBSFAbstractExtensionFunctionBean#getNamespace()
-    */
-   protected String getNamespace()
-   {
-      return IAeBPELConstants.ABX_FUNCTIONS_NAMESPACE_URI;
-   }
+    /**
+     * @see org.activebpel.rt.bpel.ext.expr.bsf.impl.AeBSFAbstractExtensionFunctionBean#getNamespace()
+     */
+    protected String getNamespace() {
+        return IAeBPELConstants.ABX_FUNCTIONS_NAMESPACE_URI;
+    }
 
-   /**
-    * Implements the abx:getProcessId() method.
-    */
-   public Object getProcessId()
-   {
-      return callFunction("getProcessId", Collections.EMPTY_LIST); //$NON-NLS-1$
-   }
-   
-   /**
-   * An implementation of abx:getMyRoleProperty().
-   * 
-   * @param aArg1
-   * @param aArg2
-   * @param aArg3
-   */
-  public Object getMyRoleProperty(Object aArg1, Object aArg2, Object aArg3)
-  {
-     try
-     {
-        List<Object> args = new ArrayList<>();
-        args.add(aArg1);
-        args.add(aArg2);
-        if (aArg3 != null) args.add(aArg3);
-        return callFunction("getMyRoleProperty", args); //$NON-NLS-1$
-     }
-     catch (Exception e)
-     {
-        throw new RuntimeException(e);
-     }
-  }
+    /**
+     * Implements the abx:getProcessId() method.
+     */
+    public Object getProcessId() {
+        return callFunction("getProcessId", Collections.EMPTY_LIST); //$NON-NLS-1$
+    }
+
+    /**
+     * An implementation of abx:getMyRoleProperty().
+     *
+     * @param aArg1
+     * @param aArg2
+     * @param aArg3
+     */
+    public Object getMyRoleProperty(Object aArg1, Object aArg2, Object aArg3) {
+        try {
+            List<Object> args = new ArrayList<>();
+            args.add(aArg1);
+            args.add(aArg2);
+            if (aArg3 != null) args.add(aArg3);
+            return callFunction("getMyRoleProperty", args); //$NON-NLS-1$
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
 }

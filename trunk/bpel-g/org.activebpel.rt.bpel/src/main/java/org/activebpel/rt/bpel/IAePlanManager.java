@@ -16,14 +16,14 @@ import org.activebpel.rt.bpel.impl.IAeProcessPlan;
 /**
  * Provides a mechanism to map/cache a process QName to its description which
  * contains the required information to dispatch an inbound request to a
- * specific process instance or create a new process. 
+ * specific process instance or create a new process.
  */
-public interface IAePlanManager
-{
-   /**
-    * Looks up the process plan for a process by its QName. 
-    * @param aProcessName
-    * @throws AeBusinessProcessException if the plan is not found
-    */
-   public IAeProcessPlan findCurrentPlan(QName aProcessName) throws AeBusinessProcessException;
+public interface IAePlanManager {
+    /**
+     * Looks up the process plan for a process by its QName.
+     *
+     * @param aProcessName
+     * @throws AeBusinessProcessException if the plan is not found
+     */
+    public IAeProcessPlan findCurrentPlan(QName aProcessName) throws AeBusinessProcessException;
 }

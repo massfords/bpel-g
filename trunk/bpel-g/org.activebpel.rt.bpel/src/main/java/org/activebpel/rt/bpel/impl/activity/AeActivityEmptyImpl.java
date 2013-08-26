@@ -17,34 +17,30 @@ import org.activebpel.rt.bpel.impl.visitors.IAeImplVisitor;
 /**
  * Implementation of the bpel empty activity.
  */
-public class AeActivityEmptyImpl extends AeActivityImpl
-{
-   /**
-    * Constructor.
-    * 
-    * @param aActivityDef
-    * @param aParent
-    */
-   public AeActivityEmptyImpl(AeActivityDef aActivityDef, IAeActivityParent aParent)
-   {
-      super(aActivityDef, aParent);
-   }
-   
-   /**
-    * @see org.activebpel.rt.bpel.impl.visitors.IAeVisitable#accept(org.activebpel.rt.bpel.impl.visitors.IAeImplVisitor)
-    */
-   public void accept( IAeImplVisitor aVisitor ) throws AeBusinessProcessException
-   {
-      aVisitor.visit(this);
-   }
-   
-   /**
-    * @see org.activebpel.rt.bpel.impl.IAeExecutableBpelObject#execute()
-    */
-   public void execute() throws AeBusinessProcessException
-   {
-      super.execute();
-      objectCompleted();      
-   }
+public class AeActivityEmptyImpl extends AeActivityImpl {
+    /**
+     * Constructor.
+     *
+     * @param aActivityDef
+     * @param aParent
+     */
+    public AeActivityEmptyImpl(AeActivityDef aActivityDef, IAeActivityParent aParent) {
+        super(aActivityDef, aParent);
+    }
+
+    /**
+     * @see org.activebpel.rt.bpel.impl.visitors.IAeVisitable#accept(org.activebpel.rt.bpel.impl.visitors.IAeImplVisitor)
+     */
+    public void accept(IAeImplVisitor aVisitor) throws AeBusinessProcessException {
+        aVisitor.visit(this);
+    }
+
+    /**
+     * @see org.activebpel.rt.bpel.impl.IAeExecutableBpelObject#execute()
+     */
+    public void execute() throws AeBusinessProcessException {
+        super.execute();
+        objectCompleted();
+    }
 
 }

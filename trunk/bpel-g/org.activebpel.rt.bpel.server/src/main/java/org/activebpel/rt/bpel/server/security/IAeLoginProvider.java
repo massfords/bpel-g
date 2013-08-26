@@ -14,30 +14,29 @@ import javax.security.auth.Subject;
 /**
  * Interface for pluggable login providers
  */
-public interface IAeLoginProvider
-{
-   
-   public static final String USERNAME_ENTRY = "Username"; //$NON-NLS-1$
-   public static final String PASSWORD_ENTRY = "Password"; //$NON-NLS-1$
-   
-   /**
-    * Authenticates a user with a set of username/password credentials
-    * 
-    * @param aUsername
-    * @param aPassword
-    * @throws AeSecurityException if user not authenticated
-    */
-   public void authenticate(String aUsername, String aPassword) throws AeSecurityException;
+public interface IAeLoginProvider {
 
-   /**
-    * Authenticates a user with a set of username/password credentials, updating the subject
-    * given in the parameters.
-    * 
-    * @param aUsername
-    * @param aPassword
-    * @param aSubject
-    * @throws AeSecurityException if user not authenticated
-    */
-   public void authenticate(String aUsername, String aPassword, Subject aSubject) throws AeSecurityException;
-   
+    public static final String USERNAME_ENTRY = "Username"; //$NON-NLS-1$
+    public static final String PASSWORD_ENTRY = "Password"; //$NON-NLS-1$
+
+    /**
+     * Authenticates a user with a set of username/password credentials
+     *
+     * @param aUsername
+     * @param aPassword
+     * @throws AeSecurityException if user not authenticated
+     */
+    public void authenticate(String aUsername, String aPassword) throws AeSecurityException;
+
+    /**
+     * Authenticates a user with a set of username/password credentials, updating the subject
+     * given in the parameters.
+     *
+     * @param aUsername
+     * @param aPassword
+     * @param aSubject
+     * @throws AeSecurityException if user not authenticated
+     */
+    public void authenticate(String aUsername, String aPassword, Subject aSubject) throws AeSecurityException;
+
 }

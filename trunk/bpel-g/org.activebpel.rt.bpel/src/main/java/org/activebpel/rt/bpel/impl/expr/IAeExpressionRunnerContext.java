@@ -16,49 +16,48 @@ import org.activebpel.rt.xml.IAeNamespaceContext;
 
 /**
  * This interface is used by expression runners during execution of expressions.  The
- * expression runner can interrogate the expression runner context for various 
+ * expression runner can interrogate the expression runner context for various
  * pieces of information needed during execution of the expression.
  */
-public interface IAeExpressionRunnerContext
-{
-   /**
-    * Returns the namespace context to use when executing an expression.
-    */
-   public IAeNamespaceContext getNamespaceContext();
-   
-   /**
-    * Returns the function context to use when executing an expression.
-    */
-   public IAeFunctionFactory getFunctionContext();
+public interface IAeExpressionRunnerContext {
+    /**
+     * Returns the namespace context to use when executing an expression.
+     */
+    public IAeNamespaceContext getNamespaceContext();
 
-   /**
-    * Returns the object to use as the evaluation context.
-    */
-   public Object getEvaluationContext();
-   
-   /**
-    * Returns interface responsible for resolving a context variable by name.
-    */
-   public IAeExpressionRunnerVariableResolver getVariableResolver();
+    /**
+     * Returns the function context to use when executing an expression.
+     */
+    public IAeFunctionFactory getFunctionContext();
 
-   /**
-    * Returns the abstract bpel object that will be used during expression execution.
-    */
-   // TODO (MF) see where this is used and replace with interface
-   public AeAbstractBpelObject getAbstractBpelObject();
-   
-   /**
-    * Getter for the fault factory
-    */
-   public IAeFaultFactory getFaultFactory();
-   
-   /**
-    * Gets the BPEL namespace of the process that this expression is contained within.
-    */
-   public String getBpelNamespace();
-   
-   /**
-    * Gets the URI of the language being used to execute the expression.
-    */
-   public String getLanguageURI();
+    /**
+     * Returns the object to use as the evaluation context.
+     */
+    public Object getEvaluationContext();
+
+    /**
+     * Returns interface responsible for resolving a context variable by name.
+     */
+    public IAeExpressionRunnerVariableResolver getVariableResolver();
+
+    /**
+     * Returns the abstract bpel object that will be used during expression execution.
+     */
+    // TODO (MF) see where this is used and replace with interface
+    public AeAbstractBpelObject getAbstractBpelObject();
+
+    /**
+     * Getter for the fault factory
+     */
+    public IAeFaultFactory getFaultFactory();
+
+    /**
+     * Gets the BPEL namespace of the process that this expression is contained within.
+     */
+    public String getBpelNamespace();
+
+    /**
+     * Gets the URI of the language being used to execute the expression.
+     */
+    public String getLanguageURI();
 }

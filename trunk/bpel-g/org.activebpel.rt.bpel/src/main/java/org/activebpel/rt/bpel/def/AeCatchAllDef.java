@@ -15,26 +15,23 @@ import org.activebpel.rt.bpel.def.visitors.IAeDefVisitor;
 /**
  * Definition for bpel default fault handler activity.
  */
-public class AeCatchAllDef extends AeSingleActivityParentBaseDef implements IAeFCTHandlerDef
-{
-   /**
-     * 
+public class AeCatchAllDef extends AeSingleActivityParentBaseDef implements IAeFCTHandlerDef {
+    /**
+     *
      */
     private static final long serialVersionUID = 3824270965219586982L;
 
-/**
-    * Default constructor
-    */
-   public AeCatchAllDef()
-   {
-      super();
-   }
+    /**
+     * Default constructor
+     */
+    public AeCatchAllDef() {
+        super();
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.def.AeBaseDef#accept(org.activebpel.rt.bpel.def.visitors.IAeDefVisitor)
-    */
-   public void accept(IAeDefVisitor aVisitor)
-   {
-      aVisitor.visit(this);
-   }
+    /**
+     * @see org.activebpel.rt.bpel.def.AeBaseDef#accept(org.activebpel.rt.bpel.def.visitors.IAeDefVisitor)
+     */
+    public void accept(IAeDefVisitor aVisitor) {
+        aVisitor.visit(this);
+    }
 }

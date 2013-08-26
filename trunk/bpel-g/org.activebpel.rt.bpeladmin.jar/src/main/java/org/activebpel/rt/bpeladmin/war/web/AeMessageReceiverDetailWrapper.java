@@ -16,101 +16,90 @@ import org.activebpel.rt.bpeladmin.war.AeEngineManagementFactory;
 /**
  * Wraps single AeMessageReceiver for bean access.
  */
-public class AeMessageReceiverDetailWrapper
-{
-   /** AeMessageReceiver detail object. */
-   protected final AeMessageReceiverBean mDetail;
-   
-   /**
-    * Constructor.
-    * @param aReceiver The delegate AeMessageReceiver.
-    */
-   public AeMessageReceiverDetailWrapper(AeMessageReceiverBean aReceiver)
-   {
-      mDetail = aReceiver;
-   }
-   
-   /**
-    * Getter for partner link type name.
-    */
-   public String getPartnerLinkTypeName()
-   {
-      return mDetail.getPartnerLinkName();
-   }
-   
-   /**
-    * Getter for port type qname string.
-    */
-   public String getPortType()
-   {
-      return AeWebUtil.toString( mDetail.getPortType().toQName() );
-   }
-   
-   /**
-    * Getter for the local portion of the port type qname.
-    */
-   public String getPortTypeLocal()
-   {
-      return mDetail.getPortType().getLocalPart();
-   }
-   
-   /**
-    * Getter for operation string.
-    */
-   public String getOperation()
-   {
-      return mDetail.getOperation();
-   }
-   
-   /**
-    * Getter for process id.
-    */
-   public int getProcessId()
-   {
-      return (int)mDetail.getProcessId();
-   }
-   
-   /**
-    * Returns true if receiver contains correlation data.
-    */
-   public boolean isCorrelated()
-   {
-      return mDetail.getCorrelationData() != null && 
-         !mDetail.getCorrelationData().isEmpty();
-   }
-   
-   /**
-    * Returns correlation data as a string.  Each line represents a name value pair.
-    */
-   public String getCorrelationData()
-   {
-      String data = AeWebUtil.escapeSingleQuotes( AeWebUtil.toString(mDetail.getCorrelationData()) ); 
-      return data;
-   }
-   
-   /**
-    * Returns the location path string.
-    */
-   public String getLocationPath()
-   {
-      try
-      {
-         // NOTE: May acquire process lock, not to be used on listing pages
-         String path = AeEngineManagementFactory.getBean().getLocationPathById(getProcessId(), getLocationPathId()); 
-         return path.replace('\'',' ');
-      }
-      catch (AeBusinessProcessException e)
-      {
-         // ignore
-         return ""; //$NON-NLS-1$
-      }
-   }
-   
-   /**
-    * Returns the message receiver location path id
-    */
-   public int getLocationPathId()
-   {
-      return mDetail.getLocationPathId();
-   }
+public class AeMessageReceiverDetailWrapper {
+    /**
+     * AeMessageReceiver detail object.
+     */
+    protected final AeMessageReceiverBean mDetail;
+
+    /**
+     * Constructor.
+     *
+     * @param aReceiver The delegate AeMessageReceiver.
+     */
+    public AeMessageReceiverDetailWrapper(AeMessageReceiverBean aReceiver) {
+        mDetail = aReceiver;
+    }
+
+    /**
+     * Getter for partner link type name.
+     */
+    public String getPartnerLinkTypeName() {
+        return mDetail.getPartnerLinkName();
+    }
+
+    /**
+     * Getter for port type qname string.
+     */
+    public String getPortType() {
+        return AeWebUtil.toString(mDetail.getPortType().toQName());
+    }
+
+    /**
+     * Getter for the local portion of the port type qname.
+     */
+    public String getPortTypeLocal() {
+        return mDetail.getPortType().getLocalPart();
+    }
+
+    /**
+     * Getter for operation string.
+     */
+    public String getOperation() {
+        return mDetail.getOperation();
+    }
+
+    /**
+     * Getter for process id.
+     */
+    public int getProcessId() {
+        return (int) mDetail.getProcessId();
+    }
+
+    /**
+     * Returns true if receiver contains correlation data.
+     */
+    public boolean isCorrelated() {
+        return mDetail.getCorrelationData() != null &&
+                !mDetail.getCorrelationData().isEmpty();
+    }
+
+    /**
+     * Returns correlation data as a string.  Each line represents a name value pair.
+     */
+    public String getCorrelationData() {
+        String data = AeWebUtil.escapeSingleQuotes(AeWebUtil.toString(mDetail.getCorrelationData()));
+        return data;
+    }
+
+    /**
+     * Returns the location path string.
+     */
+    public String getLocationPath() {
+        try {
+            // NOTE: May acquire process lock, not to be used on listing pages
+            String path = AeEngineManagementFactory.getBean().getLocationPathById(getProcessId(), getLocationPathId());
+            return path.replace('\'', ' ');
+        } catch (AeBusinessProcessException e) {
+            // ignore
+            return ""; //$NON-NLS-1$
+        }
+    }
+
+    /**
+     * Returns the message receiver location path id
+     */
+    public int getLocationPathId() {
+        return mDetail.getLocationPathId();
+    }
 }

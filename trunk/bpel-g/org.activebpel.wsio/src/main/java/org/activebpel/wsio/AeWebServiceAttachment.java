@@ -16,74 +16,70 @@ import java.util.Map;
 /**
  * Reference implementation of <code>IAeWebServiceAttachment</code>.
  */
-public class AeWebServiceAttachment implements IAeWebServiceAttachment
-{
-   /** Attachment Mime headers. stored as Strings. key=mimeId */
-   protected final Map<String, String> mMimeHeaders;
+public class AeWebServiceAttachment implements IAeWebServiceAttachment {
+    /**
+     * Attachment Mime headers. stored as Strings. key=mimeId
+     */
+    protected final Map<String, String> mMimeHeaders;
 
-   /** Attachment Data Content */
-   final InputStream mDataContent;
+    /**
+     * Attachment Data Content
+     */
+    final InputStream mDataContent;
 
-   /**
-    * Constructor.
-    * @param aAttachmentData
-    * @param aMimeHeaders
-    */
-   public AeWebServiceAttachment(InputStream aAttachmentData, Map<String, String> aMimeHeaders)
-   {
-      mDataContent = aAttachmentData;
-      mMimeHeaders = new HashMap<>(aMimeHeaders);
-      addTimeStamp();
-   }
+    /**
+     * Constructor.
+     *
+     * @param aAttachmentData
+     * @param aMimeHeaders
+     */
+    public AeWebServiceAttachment(InputStream aAttachmentData, Map<String, String> aMimeHeaders) {
+        mDataContent = aAttachmentData;
+        mMimeHeaders = new HashMap<>(aMimeHeaders);
+        addTimeStamp();
+    }
 
-  /**
-   * @see org.activebpel.wsio.IAeWebServiceAttachment#getContent()
-   */
-   public InputStream getContent()
-   {
-      return mDataContent;
-   }
+    /**
+     * @see org.activebpel.wsio.IAeWebServiceAttachment#getContent()
+     */
+    public InputStream getContent() {
+        return mDataContent;
+    }
 
-   /**
-    * @see org.activebpel.wsio.IAeWebServiceAttachment#getMimeHeaders()
-    */
-   public Map<String, String> getMimeHeaders()
-   {
-      return mMimeHeaders;
-   }
+    /**
+     * @see org.activebpel.wsio.IAeWebServiceAttachment#getMimeHeaders()
+     */
+    public Map<String, String> getMimeHeaders() {
+        return mMimeHeaders;
+    }
 
-   /**
-    * @see org.activebpel.wsio.IAeWebServiceAttachment#getMimeType()
-    */
-   public String getMimeType()
-   {
-      return mMimeHeaders.get(AE_CONTENT_TYPE_MIME);
-   }
+    /**
+     * @see org.activebpel.wsio.IAeWebServiceAttachment#getMimeType()
+     */
+    public String getMimeType() {
+        return mMimeHeaders.get(AE_CONTENT_TYPE_MIME);
+    }
 
-   /**
-    * @see org.activebpel.wsio.IAeWebServiceAttachment#getLocation()
-    */
-   public String getLocation()
-   {
-      return mMimeHeaders.get(AE_CONTENT_LOCATION_MIME);
-   }
+    /**
+     * @see org.activebpel.wsio.IAeWebServiceAttachment#getLocation()
+     */
+    public String getLocation() {
+        return mMimeHeaders.get(AE_CONTENT_LOCATION_MIME);
+    }
 
-   /**
-    * @see org.activebpel.wsio.IAeWebServiceAttachment#getContentId()
-    */
-   public String getContentId()
-   {
-      return mMimeHeaders.get(AE_CONTENT_ID_MIME);
-   }
-   
-   /**
-    * Adds create time stamp header to attachment headers map if it is not already present
-    */
-   private void addTimeStamp()
-   {
-      if (!getMimeHeaders().containsKey(ATTACHED_AT))
-      {
-         getMimeHeaders().put(ATTACHED_AT, String.valueOf(System.currentTimeMillis()));
-      }
-   }
+    /**
+     * @see org.activebpel.wsio.IAeWebServiceAttachment#getContentId()
+     */
+    public String getContentId() {
+        return mMimeHeaders.get(AE_CONTENT_ID_MIME);
+    }
+
+    /**
+     * Adds create time stamp header to attachment headers map if it is not already present
+     */
+    private void addTimeStamp() {
+        if (!getMimeHeaders().containsKey(ATTACHED_AT)) {
+            getMimeHeaders().put(ATTACHED_AT, String.valueOf(System.currentTimeMillis()));
+        }
+    }
 }

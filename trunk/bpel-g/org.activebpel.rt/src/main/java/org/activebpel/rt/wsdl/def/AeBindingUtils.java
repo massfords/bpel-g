@@ -7,7 +7,7 @@
 //Active Endpoints, Inc. Removal of this PROPRIETARY RIGHTS STATEMENT 
 //is strictly forbidden. Copyright (c) 2002-2006 All rights reserved. 
 /////////////////////////////////////////////////////////////////////////////
-package org.activebpel.rt.wsdl.def; 
+package org.activebpel.rt.wsdl.def;
 
 import org.activebpel.rt.AeException;
 import org.activebpel.rt.AeMessages;
@@ -19,72 +19,72 @@ import javax.xml.namespace.QName;
 import java.util.*;
 
 /**
- * Utilities for extracting info from WSDL bindings 
+ * Utilities for extracting info from WSDL bindings
  */
-public class AeBindingUtils
-{
-   private static final UnknownExtensibilityElement[] EMPTY = new UnknownExtensibilityElement[0];
-   /** constant for soap:header */
-   public static final QName SOAP_HEADER = new QName(IAeBPELExtendedWSDLConst.SOAP_NAMESPACE, "header"); //$NON-NLS-1$
-   /** constant for soap:body */
-   public static final QName SOAP_BODY = new QName(IAeBPELExtendedWSDLConst.SOAP_NAMESPACE, "body"); //$NON-NLS-1$
-   
-   /**
-    * Gets a collection of part names that are destined for the header
-    * @param aElementExtensible an input or output binding
-    * @param aMessageQName name of the message, we only support parts from the same message going in the header
-    */
-   public static Collection<String> getPartsForHeader(ElementExtensible aElementExtensible, QName aMessageQName)
-   {
-      Collection<String> coll = null;
-      UnknownExtensibilityElement[] headerExtElements = getUnknownExtensibilityElementsByName(aElementExtensible, SOAP_HEADER);
-       for (UnknownExtensibilityElement extElement : headerExtElements) {
-           // found a header, make sure the message matches
-           QName msgQName = AeXmlUtil.createQName(extElement.getElement(), extElement.getElement().getAttribute("message")); //$NON-NLS-1$
-           if (aMessageQName.equals(msgQName)) {
-               String partName = extElement.getElement().getAttribute("part"); //$NON-NLS-1$
-               if (coll == null)
-                   coll = new HashSet<>();
-               coll.add(partName);
-           } else {
-               Object[] args = new Object[2];
-               args[0] = aMessageQName;
-               args[1] = msgQName;
-               AeException.logWarning(AeMessages.format("AeBindingUtils.DifferentMessageInHeader", args)); //$NON-NLS-1$
-           }
-       }
-      return coll == null? Collections.<String>emptyList() : coll;
-   }
-   
-   /**
-    * Walks the extensibility elements and returns that that match the name passed in.
-    * @param aElement extensible element (either an input or output binding)
-    * @param aName name of the element we're looking for (e.g. soap:header, soap:body)
-    */
-   public static UnknownExtensibilityElement[] getUnknownExtensibilityElementsByName(ElementExtensible aElement, QName aName)
-   {
-      List<UnknownExtensibilityElement> values = null;
+public class AeBindingUtils {
+    private static final UnknownExtensibilityElement[] EMPTY = new UnknownExtensibilityElement[0];
+    /**
+     * constant for soap:header
+     */
+    public static final QName SOAP_HEADER = new QName(IAeBPELExtendedWSDLConst.SOAP_NAMESPACE, "header"); //$NON-NLS-1$
+    /**
+     * constant for soap:body
+     */
+    public static final QName SOAP_BODY = new QName(IAeBPELExtendedWSDLConst.SOAP_NAMESPACE, "body"); //$NON-NLS-1$
 
-       for (Object obj : aElement.getExtensibilityElements()) {
-           if (obj instanceof UnknownExtensibilityElement) {
-               UnknownExtensibilityElement extElement = (UnknownExtensibilityElement) obj;
-               if (aName.equals(extElement.getElementType())) {
-                   if (values == null)
-                       values = new ArrayList<>();
-                   values.add(extElement);
-               }
-           }
-       }
+    /**
+     * Gets a collection of part names that are destined for the header
+     *
+     * @param aElementExtensible an input or output binding
+     * @param aMessageQName      name of the message, we only support parts from the same message going in the header
+     */
+    public static Collection<String> getPartsForHeader(ElementExtensible aElementExtensible, QName aMessageQName) {
+        Collection<String> coll = null;
+        UnknownExtensibilityElement[] headerExtElements = getUnknownExtensibilityElementsByName(aElementExtensible, SOAP_HEADER);
+        for (UnknownExtensibilityElement extElement : headerExtElements) {
+            // found a header, make sure the message matches
+            QName msgQName = AeXmlUtil.createQName(extElement.getElement(), extElement.getElement().getAttribute("message")); //$NON-NLS-1$
+            if (aMessageQName.equals(msgQName)) {
+                String partName = extElement.getElement().getAttribute("part"); //$NON-NLS-1$
+                if (coll == null)
+                    coll = new HashSet<>();
+                coll.add(partName);
+            } else {
+                Object[] args = new Object[2];
+                args[0] = aMessageQName;
+                args[1] = msgQName;
+                AeException.logWarning(AeMessages.format("AeBindingUtils.DifferentMessageInHeader", args)); //$NON-NLS-1$
+            }
+        }
+        return coll == null ? Collections.<String>emptyList() : coll;
+    }
 
-      if (values == null)
-      {
-         return EMPTY;
-      }
-      else
-      {
-         UnknownExtensibilityElement[] elements = new UnknownExtensibilityElement[values.size()];
-         return values.toArray(elements);
-      }
-   }
+    /**
+     * Walks the extensibility elements and returns that that match the name passed in.
+     *
+     * @param aElement extensible element (either an input or output binding)
+     * @param aName    name of the element we're looking for (e.g. soap:header, soap:body)
+     */
+    public static UnknownExtensibilityElement[] getUnknownExtensibilityElementsByName(ElementExtensible aElement, QName aName) {
+        List<UnknownExtensibilityElement> values = null;
+
+        for (Object obj : aElement.getExtensibilityElements()) {
+            if (obj instanceof UnknownExtensibilityElement) {
+                UnknownExtensibilityElement extElement = (UnknownExtensibilityElement) obj;
+                if (aName.equals(extElement.getElementType())) {
+                    if (values == null)
+                        values = new ArrayList<>();
+                    values.add(extElement);
+                }
+            }
+        }
+
+        if (values == null) {
+            return EMPTY;
+        } else {
+            UnknownExtensibilityElement[] elements = new UnknownExtensibilityElement[values.size()];
+            return values.toArray(elements);
+        }
+    }
 }
  

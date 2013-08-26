@@ -14,17 +14,16 @@ package org.activebpel.rt.bpel.def;
 /**
  * Any activity that can have a 'correlations' child must implement this interface.
  */
-public interface IAeCorrelationsParentDef
-{
-   /**
-    * Gets the correlations def.
-    */
-   public AeCorrelationsDef getCorrelationsDef();
-   
-   /**
-    * Sets the 'correlations' container.
-    * 
-    * @param aDef
-    */
-   public void setCorrelationsDef(AeCorrelationsDef aDef);
+public interface IAeCorrelationsParentDef {
+    /**
+     * Gets the correlations def.
+     */
+    public AeCorrelationsDef getCorrelationsDef();
+
+    /**
+     * Sets the 'correlations' container.
+     *
+     * @param aDef
+     */
+    public void setCorrelationsDef(AeCorrelationsDef aDef);
 }

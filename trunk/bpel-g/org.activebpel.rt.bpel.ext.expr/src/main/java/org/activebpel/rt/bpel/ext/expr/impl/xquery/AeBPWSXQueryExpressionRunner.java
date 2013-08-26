@@ -18,24 +18,22 @@ import org.activebpel.rt.bpel.impl.expr.IAeExpressionRunnerVariableResolver;
  * Implements an XQuery 1.0 expression runner. This implementation is capable of executing expression that
  * conform to the XQuery 1.0 specification for BPEL 1.1 processes.
  */
-public class AeBPWSXQueryExpressionRunner extends AeAbstractXQueryExpressionRunner
-{
-   /**
-    * There is no $varName support in BPEL 1.1.
-    * 
-    * @see org.activebpel.rt.bpel.ext.expr.impl.xquery.AeAbstractXQueryExpressionRunner#createVariableResolver(org.activebpel.rt.bpel.function.IAeFunctionExecutionContext, org.activebpel.rt.bpel.impl.expr.IAeExpressionRunnerVariableResolver)
-    */
-   protected VariableResolver createVariableResolver(IAeFunctionExecutionContext aFunctionExecContext, IAeExpressionRunnerVariableResolver aVariableResolver)
-   {
-      return null;
-   }
+public class AeBPWSXQueryExpressionRunner extends AeAbstractXQueryExpressionRunner {
+    /**
+     * There is no $varName support in BPEL 1.1.
+     *
+     * @see org.activebpel.rt.bpel.ext.expr.impl.xquery.AeAbstractXQueryExpressionRunner#createVariableResolver(org.activebpel.rt.bpel.function.IAeFunctionExecutionContext, org.activebpel.rt.bpel.impl.expr.IAeExpressionRunnerVariableResolver)
+     */
+    protected VariableResolver createVariableResolver(IAeFunctionExecutionContext aFunctionExecContext, IAeExpressionRunnerVariableResolver aVariableResolver) {
+        return null;
+    }
 
-   /**
-    * There is no $linkName support in BPEL 1.1.
-    * @see org.activebpel.rt.bpel.ext.expr.impl.xquery.AeAbstractXQueryExpressionRunner#createLinkVariableResolver(org.activebpel.rt.bpel.function.IAeFunctionExecutionContext, org.activebpel.rt.bpel.impl.expr.IAeExpressionRunnerVariableResolver)
-    */
-   protected VariableResolver createLinkVariableResolver(IAeFunctionExecutionContext aFunctionExecContext, IAeExpressionRunnerVariableResolver aVariableResolver)
-   {
-      return null;
-   }
+    /**
+     * There is no $linkName support in BPEL 1.1.
+     *
+     * @see org.activebpel.rt.bpel.ext.expr.impl.xquery.AeAbstractXQueryExpressionRunner#createLinkVariableResolver(org.activebpel.rt.bpel.function.IAeFunctionExecutionContext, org.activebpel.rt.bpel.impl.expr.IAeExpressionRunnerVariableResolver)
+     */
+    protected VariableResolver createLinkVariableResolver(IAeFunctionExecutionContext aFunctionExecContext, IAeExpressionRunnerVariableResolver aVariableResolver) {
+        return null;
+    }
 }

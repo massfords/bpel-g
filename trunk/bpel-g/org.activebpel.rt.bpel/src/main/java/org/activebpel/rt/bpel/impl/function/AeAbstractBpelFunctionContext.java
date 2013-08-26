@@ -15,28 +15,23 @@ import org.activebpel.rt.bpel.function.IAeFunction;
 /**
  * A <code>IAeFunctionContext</code> implementation that handles returning
  * common BPEL functions.
- * 
+ * <p/>
  * Currently supported functions are:
- * 
- * <pre>getVariableProperty</pre> 
+ * <p/>
+ * <pre>getVariableProperty</pre>
  */
-public abstract class AeAbstractBpelFunctionContext extends AeAbstractFunctionContext
-{
-   // Constant for getVariableProperty bpel function. */
-   public static final String GET_VARIABLE_PROPERTY = "getVariableProperty"; //$NON-NLS-1$
+public abstract class AeAbstractBpelFunctionContext extends AeAbstractFunctionContext {
+    // Constant for getVariableProperty bpel function. */
+    public static final String GET_VARIABLE_PROPERTY = "getVariableProperty"; //$NON-NLS-1$
 
-   /**
-    * @see org.activebpel.rt.bpel.function.IAeFunctionContext#getFunction(java.lang.String)
-    */
-   public IAeFunction getFunction(String aLocalName) throws AeUnresolvableException
-   {
-      if (GET_VARIABLE_PROPERTY.equals(aLocalName))
-      {
-         return new AeGetVariablePropertyFunction();
-      }
-      else
-      {
-         throw new AeUnresolvableException(formatFunctionNotFoundErrorMsg(aLocalName));
-      }
-   }
+    /**
+     * @see org.activebpel.rt.bpel.function.IAeFunctionContext#getFunction(java.lang.String)
+     */
+    public IAeFunction getFunction(String aLocalName) throws AeUnresolvableException {
+        if (GET_VARIABLE_PROPERTY.equals(aLocalName)) {
+            return new AeGetVariablePropertyFunction();
+        } else {
+            throw new AeUnresolvableException(formatFunctionNotFoundErrorMsg(aLocalName));
+        }
+    }
 }

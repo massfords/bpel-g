@@ -24,118 +24,110 @@ import java.util.jar.JarFile;
 /**
  * Utilty class for reading jar files.
  */
-public class AeJarReaderUtil
-{
-   /** jar file being read */
-   private JarFile mJarFile;
+public class AeJarReaderUtil {
+    /**
+     * jar file being read
+     */
+    private JarFile mJarFile;
 
-   /**
-    * Constructor.
-    * @param aUrl points to a jar resource.
-    * @throws IOException
-    */
-   public AeJarReaderUtil( URL aUrl ) throws IOException
-   {
-      mJarFile = new JarFile( aUrl.getFile() );
-   }
+    /**
+     * Constructor.
+     *
+     * @param aUrl points to a jar resource.
+     * @throws IOException
+     */
+    public AeJarReaderUtil(URL aUrl) throws IOException {
+        mJarFile = new JarFile(aUrl.getFile());
+    }
 
-   /**
-    * C'tor.
-    *
-    * @param aFile
-    * @throws IOException
-    */
-   public AeJarReaderUtil(File aFile) throws IOException
-   {
-      mJarFile = new JarFile( aFile );
-   }
+    /**
+     * C'tor.
+     *
+     * @param aFile
+     * @throws IOException
+     */
+    public AeJarReaderUtil(File aFile) throws IOException {
+        mJarFile = new JarFile(aFile);
+    }
 
-   /**
-    * Return the JarEntry with the given name.
-    * @param aName
-    * @return named entry or null if none is found
-    */
-   public JarEntry getEntry( String aName )
-   {
-      for( Enumeration e = mJarFile.entries(); e.hasMoreElements(); )
-      {
-         JarEntry jarEntry = (JarEntry)e.nextElement();
+    /**
+     * Return the JarEntry with the given name.
+     *
+     * @param aName
+     * @return named entry or null if none is found
+     */
+    public JarEntry getEntry(String aName) {
+        for (Enumeration e = mJarFile.entries(); e.hasMoreElements(); ) {
+            JarEntry jarEntry = (JarEntry) e.nextElement();
 
-         if( aName.equals(jarEntry.getName())  )
-         {
-            return jarEntry;
-         }
-      }
-      return null;
-   }
+            if (aName.equals(jarEntry.getName())) {
+                return jarEntry;
+            }
+        }
+        return null;
+    }
 
-   /**
-    * Collection of JarEntry names acceptable by the filter.
-    * @param aFilter select entries based on filename
-    * @return matching jar entry file names
-    */
-   public Collection<String> getEntryNames( FilenameFilter aFilter )
-   {
-      List<String> matches = new ArrayList<>();
-      for( Enumeration e = mJarFile.entries(); e.hasMoreElements(); )
-      {
-         JarEntry jarEntry = (JarEntry)e.nextElement();
+    /**
+     * Collection of JarEntry names acceptable by the filter.
+     *
+     * @param aFilter select entries based on filename
+     * @return matching jar entry file names
+     */
+    public Collection<String> getEntryNames(FilenameFilter aFilter) {
+        List<String> matches = new ArrayList<>();
+        for (Enumeration e = mJarFile.entries(); e.hasMoreElements(); ) {
+            JarEntry jarEntry = (JarEntry) e.nextElement();
 
-         if( aFilter.accept(null, jarEntry.getName() )  )
-         {
-            matches.add(jarEntry.getName());
-         }
-      }
-      return matches;
-   }
+            if (aFilter.accept(null, jarEntry.getName())) {
+                matches.add(jarEntry.getName());
+            }
+        }
+        return matches;
+    }
 
-   /**
-    * Return collection of JarEntry objects acceptable by the filter.
-    * @param aFilter select entries based on filename
-    * @return match jar etnry objects
-    */
-   public Collection<JarEntry> getEntries( FilenameFilter aFilter )
-   {
-      List<JarEntry> matches = new ArrayList<>();
-      for( Enumeration e = mJarFile.entries(); e.hasMoreElements(); )
-      {
-         JarEntry jarEntry = (JarEntry)e.nextElement();
+    /**
+     * Return collection of JarEntry objects acceptable by the filter.
+     *
+     * @param aFilter select entries based on filename
+     * @return match jar etnry objects
+     */
+    public Collection<JarEntry> getEntries(FilenameFilter aFilter) {
+        List<JarEntry> matches = new ArrayList<>();
+        for (Enumeration e = mJarFile.entries(); e.hasMoreElements(); ) {
+            JarEntry jarEntry = (JarEntry) e.nextElement();
 
-         if( aFilter.accept(null, jarEntry.getName() )  )
-         {
-            matches.add(jarEntry);
-         }
-      }
-      return matches;
-   }
+            if (aFilter.accept(null, jarEntry.getName())) {
+                matches.add(jarEntry);
+            }
+        }
+        return matches;
+    }
 
-   /**
-    * Access input stream to jar entry
-    * @param aEntry jar entry to read
-    * @return input stream to jar entry
-    * @throws IOException
-    */
-   public InputStream getInputStream( JarEntry aEntry ) throws IOException
-   {
-      return mJarFile.getInputStream( aEntry );
-   }
+    /**
+     * Access input stream to jar entry
+     *
+     * @param aEntry jar entry to read
+     * @return input stream to jar entry
+     * @throws IOException
+     */
+    public InputStream getInputStream(JarEntry aEntry) throws IOException {
+        return mJarFile.getInputStream(aEntry);
+    }
 
-   /**
-    * Gets an input stream for a particular name.
-    *
-    * @param aName
-    * @throws IOException
-    */
-   public InputStream getInputStream( String aName ) throws IOException
-   {
-      return getInputStream(getEntry(aName));
-   }
+    /**
+     * Gets an input stream for a particular name.
+     *
+     * @param aName
+     * @throws IOException
+     */
+    public InputStream getInputStream(String aName) throws IOException {
+        return getInputStream(getEntry(aName));
+    }
 
-   /**
-    * Release any open resources.
-    */
-   public void close()
-   {
-      AeCloser.close(mJarFile);
-   }
+    /**
+     * Release any open resources.
+     */
+    public void close() {
+        AeCloser.close(mJarFile);
+    }
 }

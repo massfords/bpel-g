@@ -26,661 +26,630 @@ import java.util.Map.Entry;
 /**
  * Base definition object for xml definitions
  */
-public abstract class AeBaseXmlDef implements Cloneable, Serializable
-{
-   private static final long serialVersionUID = -272041132121213519L;
-   /** A map of all referenced namespaces referenced at the current node level */
-   protected Map<String,String> mNamespaceMap;
-   /** Default namespace or null if not set */
-   private String mDefaultNamespace;
-   /** Path that uniquely identifies this element in the model hierarchy. */
-   private String mLocationPath ;
-   /** Unique location identifier for this element in the model hierarchy. */
-   private int mLocationId ;
-   /** Optional comment from the xml source */
-   private String mComment;
-   /** List of documentation children of any construct. */
-   private List<AeDocumentationDef> mDocumentationDefs;
-   /** Parent def, if any. */
-   private AeBaseXmlDef mParent;
-   /** A list of extension elements */
-   private transient List<AeExtensionElementDef> mExtensionElementDefs;
-   /** The extension attributes for the element. */
-   private transient List<AeExtensionAttributeDef> mExtensionAttributeDefs;
+public abstract class AeBaseXmlDef implements Cloneable, Serializable {
+    private static final long serialVersionUID = -272041132121213519L;
+    /**
+     * A map of all referenced namespaces referenced at the current node level
+     */
+    protected Map<String, String> mNamespaceMap;
+    /**
+     * Default namespace or null if not set
+     */
+    private String mDefaultNamespace;
+    /**
+     * Path that uniquely identifies this element in the model hierarchy.
+     */
+    private String mLocationPath;
+    /**
+     * Unique location identifier for this element in the model hierarchy.
+     */
+    private int mLocationId;
+    /**
+     * Optional comment from the xml source
+     */
+    private String mComment;
+    /**
+     * List of documentation children of any construct.
+     */
+    private List<AeDocumentationDef> mDocumentationDefs;
+    /**
+     * Parent def, if any.
+     */
+    private AeBaseXmlDef mParent;
+    /**
+     * A list of extension elements
+     */
+    private transient List<AeExtensionElementDef> mExtensionElementDefs;
+    /**
+     * The extension attributes for the element.
+     */
+    private transient List<AeExtensionAttributeDef> mExtensionAttributeDefs;
 
-   /**
-    * Default constructor
-    */
-   public AeBaseXmlDef()
-   {
-      super();
-   }
+    /**
+     * Default constructor
+     */
+    public AeBaseXmlDef() {
+        super();
+    }
 
-   /**
-    * Set this instance's parent def.
-    *
-    * @param aParent The parent to set.
-    */
-   public void setParentXmlDef( AeBaseXmlDef aParent )
-   {
-      mParent = aParent ;
-   }
+    /**
+     * Set this instance's parent def.
+     *
+     * @param aParent The parent to set.
+     */
+    public void setParentXmlDef(AeBaseXmlDef aParent) {
+        mParent = aParent;
+    }
 
-   /**
-    * <p>Get this instance's parent def.</p>
-    * 
-    * <p>
-    * N.B.: the AeDefAssignParentVisitor must be used before assuming that
-    * parent-child def relationships are valid.  These relationships are NOT
-    * updated automatically (e.g., during modification by the process design user,
-    * etc.).
-    * </p>
-    * @return AeBaseDef if parent exists, null otherwise.
-    */
-   public AeBaseXmlDef getParentXmlDef()
-   {
-      return mParent ;
-   }
+    /**
+     * <p>Get this instance's parent def.</p>
+     * <p/>
+     * <p>
+     * N.B.: the AeDefAssignParentVisitor must be used before assuming that
+     * parent-child def relationships are valid.  These relationships are NOT
+     * updated automatically (e.g., during modification by the process design user,
+     * etc.).
+     * </p>
+     *
+     * @return AeBaseDef if parent exists, null otherwise.
+     */
+    public AeBaseXmlDef getParentXmlDef() {
+        return mParent;
+    }
 
-   /**
-    * Returns the default namespace for this def, or null if one is not
-    * declared.
-    */
-   public String getDefaultNamespace()
-   {
-      return mDefaultNamespace;
-   }
+    /**
+     * Returns the default namespace for this def, or null if one is not
+     * declared.
+     */
+    public String getDefaultNamespace() {
+        return mDefaultNamespace;
+    }
 
-   /**
-    * Sets the default namespace declaration for this def.
-    *
-    * @param aNamespace
-    */
-   public void setDefaultNamespace(String aNamespace)
-   {
-      mDefaultNamespace = aNamespace;
-   }
+    /**
+     * Sets the default namespace declaration for this def.
+     *
+     * @param aNamespace
+     */
+    public void setDefaultNamespace(String aNamespace) {
+        mDefaultNamespace = aNamespace;
+    }
 
-   /**
-    * Removes the default namespace declaration, if any.
-    */
-   public void removeDefaultNamespace()
-   {
-      mDefaultNamespace = null;
-   }
+    /**
+     * Removes the default namespace declaration, if any.
+     */
+    public void removeDefaultNamespace() {
+        mDefaultNamespace = null;
+    }
 
-   /**
-    * @return Returns the namespace map.
-    */
-   public Map<String,String> getNamespaceMap()
-   {
-      return getNamespaceMap(false);
-   }
+    /**
+     * @return Returns the namespace map.
+     */
+    public Map<String, String> getNamespaceMap() {
+        return getNamespaceMap(false);
+    }
 
-   /**
-    * Returns the namespacemap. If a map has not been created and
-    * <code>aCreate=true</code> then a map is created, otherwise returns
-    * <code>Collections.EMPTY_MAP</code>.
-    * @param aCreate
-    */
-   protected Map<String,String> getNamespaceMap(boolean aCreate)
-   {
-      if (mNamespaceMap != null)
-      {
-         return mNamespaceMap;
-      }
-      else if (mNamespaceMap == null && aCreate)
-      {
-         mNamespaceMap = new HashMap<>();
-         return mNamespaceMap;
-      }
-      else
-      {
-         return Collections.<String,String>emptyMap();
-      }
-   }
+    /**
+     * Returns the namespacemap. If a map has not been created and
+     * <code>aCreate=true</code> then a map is created, otherwise returns
+     * <code>Collections.EMPTY_MAP</code>.
+     *
+     * @param aCreate
+     */
+    protected Map<String, String> getNamespaceMap(boolean aCreate) {
+        if (mNamespaceMap != null) {
+            return mNamespaceMap;
+        } else if (mNamespaceMap == null && aCreate) {
+            mNamespaceMap = new HashMap<>();
+            return mNamespaceMap;
+        } else {
+            return Collections.<String, String>emptyMap();
+        }
+    }
 
-   /**
-    * Provides the ability to add a namespace to the list.
-    *
-    * @param aPrefix  name of the namespace to be added (e.g. bpws) If null or
-    *                 empty then this sets the default namespace for the def.
-    * @param aNamespace value of the namespace to be added
-    */
-   public void addNamespace(String aPrefix, String aNamespace)
-   {
-      if ("xmlns".equals(aPrefix) || AeUtil.isNullOrEmpty(aPrefix)) //$NON-NLS-1$
-      {
-         setDefaultNamespace(aNamespace);
-      }
-      else
-      {
-         getNamespaceMap(true).put(aPrefix, aNamespace);
-      }
-   }
+    /**
+     * Provides the ability to add a namespace to the list.
+     *
+     * @param aPrefix    name of the namespace to be added (e.g. bpws) If null or
+     *                   empty then this sets the default namespace for the def.
+     * @param aNamespace value of the namespace to be added
+     */
+    public void addNamespace(String aPrefix, String aNamespace) {
+        if ("xmlns".equals(aPrefix) || AeUtil.isNullOrEmpty(aPrefix)) //$NON-NLS-1$
+        {
+            setDefaultNamespace(aNamespace);
+        } else {
+            getNamespaceMap(true).put(aPrefix, aNamespace);
+        }
+    }
 
-   /**
-    * Provides the ability to add all namespaces in scope to the namespacemap
-    */
-   public void addNamespacesInScope()
-   {
-     addNamespacesInScope(getParentXmlDef());
-   }
+    /**
+     * Provides the ability to add all namespaces in scope to the namespacemap
+     */
+    public void addNamespacesInScope() {
+        addNamespacesInScope(getParentXmlDef());
+    }
 
-   /**
-    * Provides the ability to add all namespaces in scope to the namespacemap
-    * @param def
-    */
-   public void addNamespacesInScope(AeBaseXmlDef def)
-   {
-      if (def != null)
-      {
-          for (Entry<String, String> entry : def.getNamespaceMap().entrySet()) {
-              if (!(getNamespaceMap(true).containsKey(entry.getKey()))) {
-                  getNamespaceMap(true).put(entry.getKey(), entry.getValue());
-              }
-          }
-        addNamespacesInScope(def.getParentXmlDef());
-      }
-   }
-   
-   /**
-    * Adds all of the namespace declarations to the def
-    * @param aNamespaceMap
-    */
-   public void addNamespaces(Map<String,String> aNamespaceMap)
-   {
-      getNamespaceMap(true).putAll(aNamespaceMap);
-   }
-   
-   /**
-    * Converts a string to a QName
-    * @param aEncodedQName
-    */
-   public QName toQName(String aEncodedQName)
-   {
-      String prefix = AeXmlUtil.extractPrefix(aEncodedQName);
-      String localPart = AeXmlUtil.extractLocalPart(aEncodedQName);
-      return new QName(findNamespace(prefix), localPart);
-   }
+    /**
+     * Provides the ability to add all namespaces in scope to the namespacemap
+     *
+     * @param def
+     */
+    public void addNamespacesInScope(AeBaseXmlDef def) {
+        if (def != null) {
+            for (Entry<String, String> entry : def.getNamespaceMap().entrySet()) {
+                if (!(getNamespaceMap(true).containsKey(entry.getKey()))) {
+                    getNamespaceMap(true).put(entry.getKey(), entry.getValue());
+                }
+            }
+            addNamespacesInScope(def.getParentXmlDef());
+        }
+    }
 
-   /**
-    * Provides the ability to find a namespace given a prefix.
-    *
-    * @param aPrefix the prefix to search for.
-    * @return the value of the namespace if found or null if not found
-    */
-   public String getNamespace(String aPrefix)
-   {
-      return getNamespaceMap().get(aPrefix);
-   }
+    /**
+     * Adds all of the namespace declarations to the def
+     *
+     * @param aNamespaceMap
+     */
+    public void addNamespaces(Map<String, String> aNamespaceMap) {
+        getNamespaceMap(true).putAll(aNamespaceMap);
+    }
 
-   /**
-    * Walks up the parent hierarchy to resolve the prefix to a namespace
-    * @param aPrefix
-    */
-   public String findNamespace(String aPrefix)
-   {
-      String ns = null;
-      AeBaseXmlDef def = this;
-      while (def != null && (ns = def.getNamespace(aPrefix)) == null)
-      {
-         def = def.getParentXmlDef();
-      }
-      return ns;
-   }
+    /**
+     * Converts a string to a QName
+     *
+     * @param aEncodedQName
+     */
+    public QName toQName(String aEncodedQName) {
+        String prefix = AeXmlUtil.extractPrefix(aEncodedQName);
+        String localPart = AeXmlUtil.extractLocalPart(aEncodedQName);
+        return new QName(findNamespace(prefix), localPart);
+    }
 
-   /**
-    * Returns a list of the namespace prefixes. This will not include a mapping
-    * for the default namespace.
-    */
-   public Set getNamespacePrefixList()
-   {
-      if (getNamespaceMap().isEmpty())
-         return Collections.EMPTY_SET;
+    /**
+     * Provides the ability to find a namespace given a prefix.
+     *
+     * @param aPrefix the prefix to search for.
+     * @return the value of the namespace if found or null if not found
+     */
+    public String getNamespace(String aPrefix) {
+        return getNamespaceMap().get(aPrefix);
+    }
 
-      Set<String> prefixes = new HashSet<>(getNamespaceMap().keySet());
-      // remove the default ns
-      prefixes.remove(""); //$NON-NLS-1$
-      return prefixes;
-   }
-
-   /**
-    * Gets a set of in-scope prefixes mapped to the given namespace.
-    *
-    * @param aNamespace
-    */
-   public Set<String> findPrefixesForNamespace(String aNamespace)
-   {
-      if ( !AeUtil.isNullOrEmpty(aNamespace) )
-      {
-         Set<String> set = new HashSet<>();
-         AeBaseXmlDef def = this;
-
-         // We need to process the defs top-down, so put them all into a stack first.
-         Stack<AeBaseXmlDef> defStack = new Stack<>();
-         while (def != null)
-         {
-            defStack.push(def);
+    /**
+     * Walks up the parent hierarchy to resolve the prefix to a namespace
+     *
+     * @param aPrefix
+     */
+    public String findNamespace(String aPrefix) {
+        String ns = null;
+        AeBaseXmlDef def = this;
+        while (def != null && (ns = def.getNamespace(aPrefix)) == null) {
             def = def.getParentXmlDef();
-         }
+        }
+        return ns;
+    }
 
-         // Now go through the stack and process each def.
-         while (!defStack.isEmpty())
-         {
-            def = defStack.pop();
-            getPrefixesForNamespace(def, aNamespace, set);
-         }
+    /**
+     * Returns a list of the namespace prefixes. This will not include a mapping
+     * for the default namespace.
+     */
+    public Set getNamespacePrefixList() {
+        if (getNamespaceMap().isEmpty())
+            return Collections.EMPTY_SET;
 
-         return set;
-      }
-      else
-      {
-         return Collections.<String>emptySet();
-      }
-   }
+        Set<String> prefixes = new HashSet<>(getNamespaceMap().keySet());
+        // remove the default ns
+        prefixes.remove(""); //$NON-NLS-1$
+        return prefixes;
+    }
 
-   /**
-    * Finds an in-scope prefix for the given namespace.
-    *
-    * @param aNamespace
-    */
-   public String findPrefixForNamespace(String aNamespace)
-   {
-      Set prefixes = findPrefixesForNamespace(aNamespace);
-      if (AeUtil.notNullOrEmpty(prefixes))
-         return (String) prefixes.iterator().next();
-      return null;
-   }
+    /**
+     * Gets a set of in-scope prefixes mapped to the given namespace.
+     *
+     * @param aNamespace
+     */
+    public Set<String> findPrefixesForNamespace(String aNamespace) {
+        if (!AeUtil.isNullOrEmpty(aNamespace)) {
+            Set<String> set = new HashSet<>();
+            AeBaseXmlDef def = this;
 
-   /**
-    * Finds the prefixes for the given namespace URI in the given def.
-    *
-    * @param aDef
-    * @param aNamespace
-    * @param aResultSet
-    */
-   private void getPrefixesForNamespace(AeBaseXmlDef aDef, String aNamespace, Set<String> aResultSet)
-   {
-       for (Entry<String, String> entry : aDef.getNamespaceMap().entrySet()) {
-           // Either add the prefix to the set (if it matches the NS) or
-           // remove the prefix (since it doesn't match).  The code works
-           // this way because this method is called from "findPrefixesForNamespace"
-           // which walks DOWN the def tree gathering up prefixes.  The else
-           // clause here exists for the case of shadowed prefix declarations.
-           // In other words, if a prefix is redeclared at a lower level, and
-           // the namespace it is bound to is NOT the namespace we are looking
-           // for, then we need to remove it from the collection (because it
-           // may have been bound to a matching namespace higher in the def
-           // tree, and therefore it would be in the Set).
-           if (aNamespace.equals(entry.getValue()) && AeUtil.notNullOrEmpty(entry.getKey())) {
-               aResultSet.add(entry.getKey());
-           } else if (AeUtil.notNullOrEmpty(entry.getKey())) {
-               aResultSet.remove(entry.getKey());
-           }
-       }
-   }
+            // We need to process the defs top-down, so put them all into a stack first.
+            Stack<AeBaseXmlDef> defStack = new Stack<>();
+            while (def != null) {
+                defStack.push(def);
+                def = def.getParentXmlDef();
+            }
 
-   /**
-    * Get the unique location path for this element.
-    *
-    * @return String
-    */
-   public String getLocationPath()
-   {
-      return mLocationPath;
-   }
+            // Now go through the stack and process each def.
+            while (!defStack.isEmpty()) {
+                def = defStack.pop();
+                getPrefixesForNamespace(def, aNamespace, set);
+            }
 
-   /**
-    * Set the unique location path for this element.
-    *
-    * @param aString
-    */
-   public final void setLocationPath(String aString)
-   {
-      mLocationPath = aString;
-   }
+            return set;
+        } else {
+            return Collections.<String>emptySet();
+        }
+    }
 
-   /**
-    * Get the unique location id for this element.
-    *
-    * @return int
-    */
-   public int getLocationId()
-   {
-      return mLocationId;
-   }
+    /**
+     * Finds an in-scope prefix for the given namespace.
+     *
+     * @param aNamespace
+     */
+    public String findPrefixForNamespace(String aNamespace) {
+        Set prefixes = findPrefixesForNamespace(aNamespace);
+        if (AeUtil.notNullOrEmpty(prefixes))
+            return (String) prefixes.iterator().next();
+        return null;
+    }
 
-   /**
-    * Set the unique location id for this element.
-    *
-    * @param aLocationId
-    */
-   public void setLocationId(int aLocationId)
-   {
-      mLocationId = aLocationId;
-   }
+    /**
+     * Finds the prefixes for the given namespace URI in the given def.
+     *
+     * @param aDef
+     * @param aNamespace
+     * @param aResultSet
+     */
+    private void getPrefixesForNamespace(AeBaseXmlDef aDef, String aNamespace, Set<String> aResultSet) {
+        for (Entry<String, String> entry : aDef.getNamespaceMap().entrySet()) {
+            // Either add the prefix to the set (if it matches the NS) or
+            // remove the prefix (since it doesn't match).  The code works
+            // this way because this method is called from "findPrefixesForNamespace"
+            // which walks DOWN the def tree gathering up prefixes.  The else
+            // clause here exists for the case of shadowed prefix declarations.
+            // In other words, if a prefix is redeclared at a lower level, and
+            // the namespace it is bound to is NOT the namespace we are looking
+            // for, then we need to remove it from the collection (because it
+            // may have been bound to a matching namespace higher in the def
+            // tree, and therefore it would be in the Set).
+            if (aNamespace.equals(entry.getValue()) && AeUtil.notNullOrEmpty(entry.getKey())) {
+                aResultSet.add(entry.getKey());
+            } else if (AeUtil.notNullOrEmpty(entry.getKey())) {
+                aResultSet.remove(entry.getKey());
+            }
+        }
+    }
 
-   /**
-    * Gets the BPEL comment.
-    */
-   public String getComment()
-   {
-      return mComment;
-   }
+    /**
+     * Get the unique location path for this element.
+     *
+     * @return String
+     */
+    public String getLocationPath() {
+        return mLocationPath;
+    }
 
-   /**
-    * Sets the comment.
-    * @param aString
-    */
-   public void setComment(String aString)
-   {
-      mComment = aString;
-   }
+    /**
+     * Set the unique location path for this element.
+     *
+     * @param aString
+     */
+    public final void setLocationPath(String aString) {
+        mLocationPath = aString;
+    }
 
-   /**
-    * Mutator for adding an extension element.
-    * @param aExtension the IAeExtensionElement impl to be added
-    */
-   public void addExtensionElementDef( AeExtensionElementDef aExtension )
-   {
-      if( mExtensionElementDefs == null )
-         mExtensionElementDefs = new ArrayList<>();
-      mExtensionElementDefs.add( aExtension );
-      assignParent(aExtension);
-   }
+    /**
+     * Get the unique location id for this element.
+     *
+     * @return int
+     */
+    public int getLocationId() {
+        return mLocationId;
+    }
 
-   /**
-    * Mutator for removing an extension element.
-    * @param aExtension the IAeExtensionElement impl to be added
-    */
-   public void removeExtensionElementDef( AeExtensionElementDef aExtension )
-   {
-      if (mExtensionElementDefs != null)
-         mExtensionElementDefs.remove(aExtension);
-   }
+    /**
+     * Set the unique location id for this element.
+     *
+     * @param aLocationId
+     */
+    public void setLocationId(int aLocationId) {
+        mLocationId = aLocationId;
+    }
 
-   /**
-    * Creates a new extension element def with the given QName and
-    * adds it to the collection of extension element defs.
-    *
-    * @param aQName
-    */
-   public AeExtensionElementDef createExtensionElementDef(QName aQName)
-   {
-      return createExtensionElementDef(aQName, "ns"); //$NON-NLS-1$
-   }
+    /**
+     * Gets the BPEL comment.
+     */
+    public String getComment() {
+        return mComment;
+    }
 
-   /**
-    * Creates a new extension element def with the given QName and
-    * adds it to the collection of extension element defs.
-    *
-    * @param aQName
-    * @param aPreferredPrefix
-    */
-   public AeExtensionElementDef createExtensionElementDef(QName aQName, String aPreferredPrefix)
-   {
-      Document doc = AeXmlUtil.newDocument();
-      Element element;
-      if (AeUtil.notNullOrEmpty(aQName.getNamespaceURI()))
-      {
-         Set<String> prefixes = findPrefixesForNamespace(aQName.getNamespaceURI());
-         String prefix = aPreferredPrefix;
-         if (AeUtil.notNullOrEmpty(prefixes))
-            prefix = prefixes.iterator().next();
-         element = doc.createElementNS(aQName.getNamespaceURI(), prefix + ":" + aQName.getLocalPart()); //$NON-NLS-1$
-         element.setAttributeNS(XMLConstants.XMLNS_ATTRIBUTE_NS_URI, "xmlns:" + prefix, aQName.getNamespaceURI()); //$NON-NLS-1$
-      }
-      else
-      {
-         element = doc.createElementNS("", aQName.getLocalPart()); //$NON-NLS-1$
-      }
-      doc.appendChild(element);
-      AeExtensionElementDef extElemDef = new AeExtensionElementDef(element);
+    /**
+     * Sets the comment.
+     *
+     * @param aString
+     */
+    public void setComment(String aString) {
+        mComment = aString;
+    }
 
-      addExtensionElementDef(extElemDef);
-      return extElemDef;
-   }
+    /**
+     * Mutator for adding an extension element.
+     *
+     * @param aExtension the IAeExtensionElement impl to be added
+     */
+    public void addExtensionElementDef(AeExtensionElementDef aExtension) {
+        if (mExtensionElementDefs == null)
+            mExtensionElementDefs = new ArrayList<>();
+        mExtensionElementDefs.add(aExtension);
+        assignParent(aExtension);
+    }
 
-   /**
-    * Returns an iterator for any extension elements
-    * (or any empty iterator if none are present).
-    * @return iterator over any extension element
-    */
-   public List<AeExtensionElementDef> getExtensionElementDefs()
-   {
-      if( mExtensionElementDefs == null )
-         return Collections.<AeExtensionElementDef>emptyList();
-      return mExtensionElementDefs;
-   }
+    /**
+     * Mutator for removing an extension element.
+     *
+     * @param aExtension the IAeExtensionElement impl to be added
+     */
+    public void removeExtensionElementDef(AeExtensionElementDef aExtension) {
+        if (mExtensionElementDefs != null)
+            mExtensionElementDefs.remove(aExtension);
+    }
 
-   /**
-    * Convenience method to get the first extension element def or null if there
-    * are no extensions.
-    */
-   public AeExtensionElementDef getFirstExtensionElementDef()
-   {
-      Iterator<AeExtensionElementDef> iter = getExtensionElementDefs().iterator();
-      if (iter.hasNext())
-      {
-         return iter.next();
-      }
-      return null;
-   }
+    /**
+     * Creates a new extension element def with the given QName and
+     * adds it to the collection of extension element defs.
+     *
+     * @param aQName
+     */
+    public AeExtensionElementDef createExtensionElementDef(QName aQName) {
+        return createExtensionElementDef(aQName, "ns"); //$NON-NLS-1$
+    }
 
-   /**
-    * Gets a single extension element by QName.  Returns null if no extension
-    * element with the given QName is found.  If multiple extension elements with
-    * the given QName exist, only the first one is returned.
-    *
-    * @param aElementQName
-    */
-   public AeExtensionElementDef getExtensionElementDef(QName aElementQName)
-   {
-       for (AeExtensionElementDef def : getExtensionElementDefs()) {
-           if (AeUtil.compareObjects(def.getElementQName(), aElementQName)) {
-               return def;
-           }
-       }
-      return null;
-   }
+    /**
+     * Creates a new extension element def with the given QName and
+     * adds it to the collection of extension element defs.
+     *
+     * @param aQName
+     * @param aPreferredPrefix
+     */
+    public AeExtensionElementDef createExtensionElementDef(QName aQName, String aPreferredPrefix) {
+        Document doc = AeXmlUtil.newDocument();
+        Element element;
+        if (AeUtil.notNullOrEmpty(aQName.getNamespaceURI())) {
+            Set<String> prefixes = findPrefixesForNamespace(aQName.getNamespaceURI());
+            String prefix = aPreferredPrefix;
+            if (AeUtil.notNullOrEmpty(prefixes))
+                prefix = prefixes.iterator().next();
+            element = doc.createElementNS(aQName.getNamespaceURI(), prefix + ":" + aQName.getLocalPart()); //$NON-NLS-1$
+            element.setAttributeNS(XMLConstants.XMLNS_ATTRIBUTE_NS_URI, "xmlns:" + prefix, aQName.getNamespaceURI()); //$NON-NLS-1$
+        } else {
+            element = doc.createElementNS("", aQName.getLocalPart()); //$NON-NLS-1$
+        }
+        doc.appendChild(element);
+        AeExtensionElementDef extElemDef = new AeExtensionElementDef(element);
 
-   /**
-    * Convenience method to get all extension elements
-    * @param aElementQName
-    */
-   public List<AeExtensionElementDef> getAllExtensionElementDef(QName aElementQName)
-   {
-      List<AeExtensionElementDef> list = new ArrayList<>();
-       for (AeExtensionElementDef def : getExtensionElementDefs()) {
-           if (AeUtil.compareObjects(def.getElementQName(), aElementQName)) {
-               list.add(def);
-           }
-       }
-      return list;
-   }
+        addExtensionElementDef(extElemDef);
+        return extElemDef;
+    }
 
-   /**
-    * Gets a single extension attribute by QName.  Returns null if no extension
-    * attribute with the given QName is found.  If multiple extension attributes with
-    * the given QName exist, only the first one is returned.
-    * @param aAttributeQName
-    */
-   public AeExtensionAttributeDef getExtensionAttributeDef(QName aAttributeQName)
-   {
-       for (AeExtensionAttributeDef attrDef : getExtensionAttributeDefs()) {
-           if (AeUtil.compareObjects(attrDef.getQName(), aAttributeQName)) {
-               return attrDef;
-           }
-       }
-      return null;
-   }
+    /**
+     * Returns an iterator for any extension elements
+     * (or any empty iterator if none are present).
+     *
+     * @return iterator over any extension element
+     */
+    public List<AeExtensionElementDef> getExtensionElementDefs() {
+        if (mExtensionElementDefs == null)
+            return Collections.<AeExtensionElementDef>emptyList();
+        return mExtensionElementDefs;
+    }
 
-   /**
-    * @return Returns the documentation defs.
-    */
-   public List<AeDocumentationDef> getDocumentationDefs()
-   {
-      if (mDocumentationDefs == null)
-         return Collections.<AeDocumentationDef>emptyList();
-      return mDocumentationDefs;
-   }
+    /**
+     * Convenience method to get the first extension element def or null if there
+     * are no extensions.
+     */
+    public AeExtensionElementDef getFirstExtensionElementDef() {
+        Iterator<AeExtensionElementDef> iter = getExtensionElementDefs().iterator();
+        if (iter.hasNext()) {
+            return iter.next();
+        }
+        return null;
+    }
 
-   /**
-    * @param aDocumentationDef The documentation def to add.
-    */
-   public void addDocumentationDef(AeDocumentationDef aDocumentationDef)
-   {
-      if (mDocumentationDefs == null)
-         mDocumentationDefs = new ArrayList<>();
-      mDocumentationDefs.add(aDocumentationDef);
-   }
+    /**
+     * Gets a single extension element by QName.  Returns null if no extension
+     * element with the given QName is found.  If multiple extension elements with
+     * the given QName exist, only the first one is returned.
+     *
+     * @param aElementQName
+     */
+    public AeExtensionElementDef getExtensionElementDef(QName aElementQName) {
+        for (AeExtensionElementDef def : getExtensionElementDefs()) {
+            if (AeUtil.compareObjects(def.getElementQName(), aElementQName)) {
+                return def;
+            }
+        }
+        return null;
+    }
 
-   /**
-    * Adds an extension attribute to the def.
-    *
-    * @param aDef
-    */
-   public void addExtensionAttributeDef(AeExtensionAttributeDef aDef)
-   {
-      if (mExtensionAttributeDefs == null)
-         mExtensionAttributeDefs = new LinkedList<>();
-      mExtensionAttributeDefs.add(aDef);
-   }
+    /**
+     * Convenience method to get all extension elements
+     *
+     * @param aElementQName
+     */
+    public List<AeExtensionElementDef> getAllExtensionElementDef(QName aElementQName) {
+        List<AeExtensionElementDef> list = new ArrayList<>();
+        for (AeExtensionElementDef def : getExtensionElementDefs()) {
+            if (AeUtil.compareObjects(def.getElementQName(), aElementQName)) {
+                list.add(def);
+            }
+        }
+        return list;
+    }
 
-   /**
-    * @return Returns the extensionAttributes.
-    */
-   public List<AeExtensionAttributeDef> getExtensionAttributeDefs()
-   {
-      if( mExtensionAttributeDefs == null )
-         return Collections.<AeExtensionAttributeDef>emptyList();
-      return mExtensionAttributeDefs;
-   }
+    /**
+     * Gets a single extension attribute by QName.  Returns null if no extension
+     * attribute with the given QName is found.  If multiple extension attributes with
+     * the given QName exist, only the first one is returned.
+     *
+     * @param aAttributeQName
+     */
+    public AeExtensionAttributeDef getExtensionAttributeDef(QName aAttributeQName) {
+        for (AeExtensionAttributeDef attrDef : getExtensionAttributeDefs()) {
+            if (AeUtil.compareObjects(attrDef.getQName(), aAttributeQName)) {
+                return attrDef;
+            }
+        }
+        return null;
+    }
 
-   /**
-    * Walks all of the attributes looking for an attribute that can produce the
-    * given adapter.
-    * @param aClass
-    */
-   public IAeAdapter getAdapterFromAttributes(Class aClass)
-   {
-       for (AeExtensionAttributeDef attribDef : getExtensionAttributeDefs()) {
-           if (attribDef.getExtensionObject() != null) {
-               IAeExtensionObject extObject = attribDef.getExtensionObject();
-               IAeAdapter adapter = extObject.getAdapter(aClass);
-               if (adapter != null) {
-                   return adapter;
-               }
-           }
-       }
-      return null;
-   }
+    /**
+     * @return Returns the documentation defs.
+     */
+    public List<AeDocumentationDef> getDocumentationDefs() {
+        if (mDocumentationDefs == null)
+            return Collections.<AeDocumentationDef>emptyList();
+        return mDocumentationDefs;
+    }
 
-   /**
-    * Abstract method for visitor pattern
-    * @param aVisitor
-    */
-   public abstract void accept(IAeBaseXmlDefVisitor aVisitor);
+    /**
+     * @param aDocumentationDef The documentation def to add.
+     */
+    public void addDocumentationDef(AeDocumentationDef aDocumentationDef) {
+        if (mDocumentationDefs == null)
+            mDocumentationDefs = new ArrayList<>();
+        mDocumentationDefs.add(aDocumentationDef);
+    }
 
-   /**
-    * Note: The parent reference is explicitly not set and top level clone operation is
-    *       expected to run a visitor to set the parentage.
-    * @see java.lang.Object#clone()
-    */
-   public Object clone()
-   {
-      try
-      {
-         AeBaseXmlDef baseDef = (AeBaseXmlDef)super.clone();
-         baseDef.setParentXmlDef(null);
+    /**
+     * Adds an extension attribute to the def.
+     *
+     * @param aDef
+     */
+    public void addExtensionAttributeDef(AeExtensionAttributeDef aDef) {
+        if (mExtensionAttributeDefs == null)
+            mExtensionAttributeDefs = new LinkedList<>();
+        mExtensionAttributeDefs.add(aDef);
+    }
 
-         baseDef.mDocumentationDefs = AeCloneUtil.deepClone(mDocumentationDefs);
-         baseDef.mExtensionElementDefs = AeCloneUtil.deepClone(mExtensionElementDefs);
-         baseDef.mExtensionAttributeDefs = AeCloneUtil.deepClone(mExtensionAttributeDefs);
-         baseDef.mNamespaceMap = AeCloneUtil.deepClone(mNamespaceMap);
+    /**
+     * @return Returns the extensionAttributes.
+     */
+    public List<AeExtensionAttributeDef> getExtensionAttributeDefs() {
+        if (mExtensionAttributeDefs == null)
+            return Collections.<AeExtensionAttributeDef>emptyList();
+        return mExtensionAttributeDefs;
+    }
 
-         return baseDef;
-      }
-      catch (CloneNotSupportedException e)
-      {
-         AeException.logError(e);
-         return null;
-      }
-   }
+    /**
+     * Walks all of the attributes looking for an attribute that can produce the
+     * given adapter.
+     *
+     * @param aClass
+     */
+    public IAeAdapter getAdapterFromAttributes(Class aClass) {
+        for (AeExtensionAttributeDef attribDef : getExtensionAttributeDefs()) {
+            if (attribDef.getExtensionObject() != null) {
+                IAeExtensionObject extObject = attribDef.getExtensionObject();
+                IAeAdapter adapter = extObject.getAdapter(aClass);
+                if (adapter != null) {
+                    return adapter;
+                }
+            }
+        }
+        return null;
+    }
 
-   /**
-    * We want to have a comparison operator, but do not want to override the equals for this base
-    * since BPEL base defs also inherit from us.
-    * @param aOther
-    */
-   public boolean compare(Object aOther)
-   {
-      if (! (aOther instanceof AeBaseXmlDef))
-         return false;
+    /**
+     * Abstract method for visitor pattern
+     *
+     * @param aVisitor
+     */
+    public abstract void accept(IAeBaseXmlDefVisitor aVisitor);
 
-      AeBaseXmlDef otherDef = (AeBaseXmlDef)aOther;
-      boolean same = AeUtil.compareObjects(otherDef.getDocumentationDefs(), getDocumentationDefs());
-      same &= AeUtil.compareObjects(otherDef.getExtensionElementDefs(), getExtensionElementDefs());
-      same &= AeUtil.compareObjects(otherDef.getExtensionAttributeDefs(), getExtensionAttributeDefs());
-      same &= AeUtil.compareObjects(otherDef.getComment(), getComment());
-      same &= (otherDef.getLocationId() == getLocationId());
+    /**
+     * Note: The parent reference is explicitly not set and top level clone operation is
+     * expected to run a visitor to set the parentage.
+     *
+     * @see java.lang.Object#clone()
+     */
+    public Object clone() {
+        try {
+            AeBaseXmlDef baseDef = (AeBaseXmlDef) super.clone();
+            baseDef.setParentXmlDef(null);
 
-      return same;
-   }
+            baseDef.mDocumentationDefs = AeCloneUtil.deepClone(mDocumentationDefs);
+            baseDef.mExtensionElementDefs = AeCloneUtil.deepClone(mExtensionElementDefs);
+            baseDef.mExtensionAttributeDefs = AeCloneUtil.deepClone(mExtensionAttributeDefs);
+            baseDef.mNamespaceMap = AeCloneUtil.deepClone(mNamespaceMap);
 
-   /**
-    * We want to have an implementation of the hash code method, but do not want to override
-    * hashCode from base class since BPEL defs also inherit from us.
-    */
-   public int getHashCode()
-   {
-      // not using the location id here since there are some cases where the id
-      // might not be unique. for example, b4p defs within a bpel process.
-      return AeUtil.getSafeString(getLocationPath()).hashCode();
-   }
+            return baseDef;
+        } catch (CloneNotSupportedException e) {
+            AeException.logError(e);
+            return null;
+        }
+    }
 
-   /**
-    * Returns true if the def understands the extension element.
-    * @param aAeExtensionElementDef
-    */
-   public boolean isExtensionUnderstood(AeExtensionElementDef aAeExtensionElementDef)
-   {
-      return false;
-   }
+    /**
+     * We want to have a comparison operator, but do not want to override the equals for this base
+     * since BPEL base defs also inherit from us.
+     *
+     * @param aOther
+     */
+    public boolean compare(Object aOther) {
+        if (!(aOther instanceof AeBaseXmlDef))
+            return false;
 
-   /**
-    * Returns true if the def understands the extension attribute.
-    * @param aExtensionAttributeDef
-    */
-   public boolean isExtensionUnderstood(AeExtensionAttributeDef aExtensionAttributeDef)
-   {
-      return false;
-   }
-   
-   /**
-    * Sets def as the parent of the passed def
-    * @param aChildDef
-    */
-   protected void assignParent(AeBaseXmlDef aChildDef)
-   {
-      if (aChildDef != null)
-         aChildDef.setParentXmlDef(this);
-   }
-   
-   /**
-    * Walks the list and assigns this def as the parent to each of the defs
-    * in the list.
-    * @param aList
-    */
-   protected void assignParent(List aList)
-   {
-      if (AeUtil.notNullOrEmpty(aList))
-      {
-          for (Object d : aList) {
-              AeBaseXmlDef def = (AeBaseXmlDef) d;
-              assignParent(def);
-          }
-      }
-   }
+        AeBaseXmlDef otherDef = (AeBaseXmlDef) aOther;
+        boolean same = AeUtil.compareObjects(otherDef.getDocumentationDefs(), getDocumentationDefs());
+        same &= AeUtil.compareObjects(otherDef.getExtensionElementDefs(), getExtensionElementDefs());
+        same &= AeUtil.compareObjects(otherDef.getExtensionAttributeDefs(), getExtensionAttributeDefs());
+        same &= AeUtil.compareObjects(otherDef.getComment(), getComment());
+        same &= (otherDef.getLocationId() == getLocationId());
+
+        return same;
+    }
+
+    /**
+     * We want to have an implementation of the hash code method, but do not want to override
+     * hashCode from base class since BPEL defs also inherit from us.
+     */
+    public int getHashCode() {
+        // not using the location id here since there are some cases where the id
+        // might not be unique. for example, b4p defs within a bpel process.
+        return AeUtil.getSafeString(getLocationPath()).hashCode();
+    }
+
+    /**
+     * Returns true if the def understands the extension element.
+     *
+     * @param aAeExtensionElementDef
+     */
+    public boolean isExtensionUnderstood(AeExtensionElementDef aAeExtensionElementDef) {
+        return false;
+    }
+
+    /**
+     * Returns true if the def understands the extension attribute.
+     *
+     * @param aExtensionAttributeDef
+     */
+    public boolean isExtensionUnderstood(AeExtensionAttributeDef aExtensionAttributeDef) {
+        return false;
+    }
+
+    /**
+     * Sets def as the parent of the passed def
+     *
+     * @param aChildDef
+     */
+    protected void assignParent(AeBaseXmlDef aChildDef) {
+        if (aChildDef != null)
+            aChildDef.setParentXmlDef(this);
+    }
+
+    /**
+     * Walks the list and assigns this def as the parent to each of the defs
+     * in the list.
+     *
+     * @param aList
+     */
+    protected void assignParent(List aList) {
+        if (AeUtil.notNullOrEmpty(aList)) {
+            for (Object d : aList) {
+                AeBaseXmlDef def = (AeBaseXmlDef) d;
+                assignParent(def);
+            }
+        }
+    }
 }

@@ -15,10 +15,9 @@ import org.activebpel.rt.xml.IAeNamespaceContext;
  * This interface defines a context used by expression parsers.  This context will provide all of the
  * objects and data necessary for parsing expressions.
  */
-public interface IAeExpressionParserContext
-{
-   /**
-    * Gets the namespace context configured for this parser context.
-    */
-   public IAeNamespaceContext getNamespaceContext();
+public interface IAeExpressionParserContext {
+    /**
+     * Gets the namespace context configured for this parser context.
+     */
+    public IAeNamespaceContext getNamespaceContext();
 }

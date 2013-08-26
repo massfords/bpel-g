@@ -12,28 +12,33 @@ public class AeProcessListResultBean {
 
     @ConstructorProperties({"totalCount", "results", "completeCount"})
     public AeProcessListResultBean(int aTotalCount, List<ProcessInstanceDetail> aResults,
-            boolean aCompleteCount) {
+                                   boolean aCompleteCount) {
         super();
         mTotalCount = aTotalCount;
         mResults = aResults;
         mCompleteCount = aCompleteCount;
     }
-    
+
     public void setTotalCount(int totalCount) {
         mTotalCount = totalCount;
     }
+
     public int getTotalCount() {
         return mTotalCount;
     }
+
     public void setCompleteCount(boolean completeCount) {
         mCompleteCount = completeCount;
     }
+
     public boolean isCompleteCount() {
         return mCompleteCount;
     }
+
     public void setResults(List<ProcessInstanceDetail> results) {
         mResults = results;
     }
+
     public List<ProcessInstanceDetail> getResults() {
         return mResults;
     }

@@ -16,28 +16,25 @@ import org.activebpel.rt.bpel.def.validation.AeBaseValidator;
 /**
  * Model that provides validation of the fromParts.
  */
-public class AeFromPartsValidator extends AeBaseValidator
-{
+public class AeFromPartsValidator extends AeBaseValidator {
 
-   /**
-    * Constructor.
-    */
-   public AeFromPartsValidator(AeFromPartsDef aDef)
-   {
-      super(aDef);
-   }
-   
-   /**
-    * @see org.activebpel.rt.bpel.def.validation.AeBaseValidator#validate()
-    */
-   public void validate()
-   {
-      super.validate();
-      
-      AeFromPartsDef fromPartsDef = (AeFromPartsDef) getDefinition();
-      
-      // Must have at least one fromPart
-      if (!fromPartsDef.getFromPartDefs().hasNext())
-         getReporter().reportProblem( BPEL_FROM_EMPTY_CONTAINER_CODE, ERROR_EMPTY_CONTAINER, new String[]{ fromPartsDef.getLocationPath() }, getDefinition() );
-   }
+    /**
+     * Constructor.
+     */
+    public AeFromPartsValidator(AeFromPartsDef aDef) {
+        super(aDef);
+    }
+
+    /**
+     * @see org.activebpel.rt.bpel.def.validation.AeBaseValidator#validate()
+     */
+    public void validate() {
+        super.validate();
+
+        AeFromPartsDef fromPartsDef = (AeFromPartsDef) getDefinition();
+
+        // Must have at least one fromPart
+        if (!fromPartsDef.getFromPartDefs().hasNext())
+            getReporter().reportProblem(BPEL_FROM_EMPTY_CONTAINER_CODE, ERROR_EMPTY_CONTAINER, new String[]{fromPartsDef.getLocationPath()}, getDefinition());
+    }
 }

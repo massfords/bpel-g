@@ -7,26 +7,27 @@
 //Active Endpoints, Inc. Removal of this PROPRIETARY RIGHTS STATEMENT 
 //is strictly forbidden. Copyright (c) 2002-2007 All rights reserved. 
 /////////////////////////////////////////////////////////////////////////////
-package org.activebpel.rt.xml.def; 
+package org.activebpel.rt.xml.def;
 
 
 /**
  * Allows the extension object to report whether it understands the elements
- * and attributes that have been set on it. 
+ * and attributes that have been set on it.
  */
-public interface IAeExtensionDefUnderstoodAdapter extends IAeAdapter
-{
-   /**
-    * Returns true if the element is understood
-    * @param aExtensionElementDef
-    */
-   public boolean isUnderstood(AeExtensionElementDef aExtensionElementDef);
+public interface IAeExtensionDefUnderstoodAdapter extends IAeAdapter {
+    /**
+     * Returns true if the element is understood
+     *
+     * @param aExtensionElementDef
+     */
+    public boolean isUnderstood(AeExtensionElementDef aExtensionElementDef);
 
-   /**
-    * Returns true if the attribute is understood
-    * @param aExtensionAttributeDef
-    */
-   public boolean isUnderstood(AeExtensionAttributeDef aExtensionAttributeDef);
+    /**
+     * Returns true if the attribute is understood
+     *
+     * @param aExtensionAttributeDef
+     */
+    public boolean isUnderstood(AeExtensionAttributeDef aExtensionAttributeDef);
 
 }
  

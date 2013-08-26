@@ -15,24 +15,22 @@ import org.activebpel.rt.bpel.def.validation.activity.AeActivityValidator;
 /**
  * Base class for validating child extension activity def
  */
-public class AeAbstractChildExtensionActivityValidator extends AeActivityValidator
-{
+public class AeAbstractChildExtensionActivityValidator extends AeActivityValidator {
 
-   /**
-    * Constructor.
-    * @param aBaseDef
-    */
-   public AeAbstractChildExtensionActivityValidator(AeChildExtensionActivityDef aBaseDef)
-   {
-      super(aBaseDef);
-   }
-   
-   /**
-    * Convenience method for getting the def already cast.
-    */
-   protected AeChildExtensionActivityDef getDef()
-   {
-      return (AeChildExtensionActivityDef) getDefinition();
-   }
+    /**
+     * Constructor.
+     *
+     * @param aBaseDef
+     */
+    public AeAbstractChildExtensionActivityValidator(AeChildExtensionActivityDef aBaseDef) {
+        super(aBaseDef);
+    }
+
+    /**
+     * Convenience method for getting the def already cast.
+     */
+    protected AeChildExtensionActivityDef getDef() {
+        return (AeChildExtensionActivityDef) getDefinition();
+    }
 
 }

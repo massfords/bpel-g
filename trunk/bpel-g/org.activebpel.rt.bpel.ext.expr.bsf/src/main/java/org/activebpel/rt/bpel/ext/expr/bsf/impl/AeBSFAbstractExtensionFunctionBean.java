@@ -20,74 +20,67 @@ import org.activebpel.rt.bpel.function.IAeFunctionExecutionContext;
  * or custom extension functions such as myprfx:myFunction().  This class provides a set of
  * common methods needed by the concrete beans.
  */
-public abstract class AeBSFAbstractExtensionFunctionBean
-{
-   /** The function execution context to use. */
-   private IAeFunctionExecutionContext mFunctionExecutionContext;
+public abstract class AeBSFAbstractExtensionFunctionBean {
+    /**
+     * The function execution context to use.
+     */
+    private IAeFunctionExecutionContext mFunctionExecutionContext;
 
-   /**
-    * Constructs the bean with the given function context.
-    * 
-    * @param aFunctionExecutionContext
-    */
-   public AeBSFAbstractExtensionFunctionBean(IAeFunctionExecutionContext aFunctionExecutionContext)
-   {
-      setFunctionExecutionContext(aFunctionExecutionContext);
-   }
+    /**
+     * Constructs the bean with the given function context.
+     *
+     * @param aFunctionExecutionContext
+     */
+    public AeBSFAbstractExtensionFunctionBean(IAeFunctionExecutionContext aFunctionExecutionContext) {
+        setFunctionExecutionContext(aFunctionExecutionContext);
+    }
 
-   /**
-    * Returns the namespace used for the bean - must be implemented by children.
-    */
-   protected abstract String getNamespace();
+    /**
+     * Returns the namespace used for the bean - must be implemented by children.
+     */
+    protected abstract String getNamespace();
 
-   /**
-    * Calls the given function.
-    * 
-    * @param aFunctionName
-    * @param aArgs
-    */
-   protected Object callFunction(String aFunctionName, List aArgs)
-   {
-      String namespace = getNamespace();
-      return callFunction(namespace, aFunctionName, aArgs);
-   }
-   
-   /**
-    * Calls the given function with the given arguments.  The function is identified by its
-    * namespace, and name.
-    * 
-    * @param aNamespace
-    * @param aFunctionName
-    * @param aArgs
-    */
-   protected Object callFunction(String aNamespace, String aFunctionName, List aArgs)
-   {
-      try
-      {
-         IAeFunction function = getFunctionExecutionContext().getFunctionFactory().getFunction(aNamespace, aFunctionName);
-         Object rval = function.call(getFunctionExecutionContext(), aArgs);
-         rval = getFunctionExecutionContext().getTypeConverter().convertToExpressionType(rval);
-         return rval;
-      }
-      catch (Exception e)
-      {
-         throw new RuntimeException(e);
-      }
-   }
+    /**
+     * Calls the given function.
+     *
+     * @param aFunctionName
+     * @param aArgs
+     */
+    protected Object callFunction(String aFunctionName, List aArgs) {
+        String namespace = getNamespace();
+        return callFunction(namespace, aFunctionName, aArgs);
+    }
 
-   /**
-    * @return Returns the functionExecutionContext.
-    */
-   protected IAeFunctionExecutionContext getFunctionExecutionContext()
-   {
-      return mFunctionExecutionContext;
-   }
+    /**
+     * Calls the given function with the given arguments.  The function is identified by its
+     * namespace, and name.
+     *
+     * @param aNamespace
+     * @param aFunctionName
+     * @param aArgs
+     */
+    protected Object callFunction(String aNamespace, String aFunctionName, List aArgs) {
+        try {
+            IAeFunction function = getFunctionExecutionContext().getFunctionFactory().getFunction(aNamespace, aFunctionName);
+            Object rval = function.call(getFunctionExecutionContext(), aArgs);
+            rval = getFunctionExecutionContext().getTypeConverter().convertToExpressionType(rval);
+            return rval;
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
 
-   /**
-    * @param aFunctionExecutionContext The functionExecutionContext to set.
-    */
-   protected void setFunctionExecutionContext(IAeFunctionExecutionContext aFunctionExecutionContext)
-   {
-      mFunctionExecutionContext = aFunctionExecutionContext;
-   }
+    /**
+     * @return Returns the functionExecutionContext.
+     */
+    protected IAeFunctionExecutionContext getFunctionExecutionContext() {
+        return mFunctionExecutionContext;
+    }
+
+    /**
+     * @param aFunctionExecutionContext The functionExecutionContext to set.
+     */
+    protected void setFunctionExecutionContext(IAeFunctionExecutionContext aFunctionExecutionContext) {
+        mFunctionExecutionContext = aFunctionExecutionContext;
+    }
 }

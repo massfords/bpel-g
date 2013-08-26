@@ -7,34 +7,33 @@
 //Active Endpoints, Inc. Removal of this PROPRIETARY RIGHTS STATEMENT 
 //is strictly forbidden. Copyright (c) 2002-2006 All rights reserved. 
 /////////////////////////////////////////////////////////////////////////////
-package org.activebpel.rt.bpel.impl.activity.assign; 
+package org.activebpel.rt.bpel.impl.activity.assign;
 
 import org.activebpel.rt.bpel.IAeVariable;
 
 /**
- * Wrapper object for the message variable. 
+ * Wrapper object for the message variable.
  */
-public class AeMessageVariableWrapper implements IAeMessageVariableWrapper
-{
-   /** our variable */
-   private final IAeVariable mVariable;
-   
-   /**
-    * Ctor accepts variable
-    *  
-    * @param aVariable
-    */
-   public AeMessageVariableWrapper(IAeVariable aVariable)
-   {
-      mVariable = aVariable;
-   }
+public class AeMessageVariableWrapper implements IAeMessageVariableWrapper {
+    /**
+     * our variable
+     */
+    private final IAeVariable mVariable;
 
-   /**
-    * @see org.activebpel.rt.bpel.impl.activity.assign.IAeMessageVariableWrapper#getVariable()
-    */
-   public IAeVariable getVariable()
-   {
-      return mVariable;
-   }
+    /**
+     * Ctor accepts variable
+     *
+     * @param aVariable
+     */
+    public AeMessageVariableWrapper(IAeVariable aVariable) {
+        mVariable = aVariable;
+    }
+
+    /**
+     * @see org.activebpel.rt.bpel.impl.activity.assign.IAeMessageVariableWrapper#getVariable()
+     */
+    public IAeVariable getVariable() {
+        return mVariable;
+    }
 }
  

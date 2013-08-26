@@ -16,44 +16,41 @@ import org.jaxen.NamespaceContext;
  * Implements a namespace context that can be used during XPath expression execution.  It uses
  * the generic AE namespace context to do the actual translation.
  */
-public class AeXPathNamespaceContext implements NamespaceContext
-{
-   /** The generic namespace context to use. */
-   private IAeNamespaceContext mNamespaceContext;
+public class AeXPathNamespaceContext implements NamespaceContext {
+    /**
+     * The generic namespace context to use.
+     */
+    private IAeNamespaceContext mNamespaceContext;
 
-   /**
-    * Constructs an xpath namespace context from the generic namespace context.
-    * 
-    * @param aNamespaceContext
-    */
-   public AeXPathNamespaceContext(IAeNamespaceContext aNamespaceContext)
-   {
-      setNamespaceContext(aNamespaceContext);
-   }
+    /**
+     * Constructs an xpath namespace context from the generic namespace context.
+     *
+     * @param aNamespaceContext
+     */
+    public AeXPathNamespaceContext(IAeNamespaceContext aNamespaceContext) {
+        setNamespaceContext(aNamespaceContext);
+    }
 
-   /**
-    * @see org.jaxen.NamespaceContext#translateNamespacePrefixToUri(java.lang.String)
-    */
-   public String translateNamespacePrefixToUri(String aPrefix)
-   {
-      return getNamespaceContext().resolvePrefixToNamespace(aPrefix);
-   }
+    /**
+     * @see org.jaxen.NamespaceContext#translateNamespacePrefixToUri(java.lang.String)
+     */
+    public String translateNamespacePrefixToUri(String aPrefix) {
+        return getNamespaceContext().resolvePrefixToNamespace(aPrefix);
+    }
 
-   /**
-    * Getter for the namespace context.
-    */
-   protected IAeNamespaceContext getNamespaceContext()
-   {
-      return mNamespaceContext;
-   }
+    /**
+     * Getter for the namespace context.
+     */
+    protected IAeNamespaceContext getNamespaceContext() {
+        return mNamespaceContext;
+    }
 
-   /**
-    * Setter for the namespace context.
-    * 
-    * @param aContext
-    */
-   protected void setNamespaceContext(IAeNamespaceContext aContext)
-   {
-      mNamespaceContext = aContext;
-   }
+    /**
+     * Setter for the namespace context.
+     *
+     * @param aContext
+     */
+    protected void setNamespaceContext(IAeNamespaceContext aContext) {
+        mNamespaceContext = aContext;
+    }
 }

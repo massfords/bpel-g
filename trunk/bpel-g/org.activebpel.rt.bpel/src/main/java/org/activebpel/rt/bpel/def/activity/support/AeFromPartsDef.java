@@ -18,41 +18,36 @@ import org.activebpel.rt.bpel.def.visitors.IAeDefVisitor;
 /**
  * Models the BPEL 2.0 'fromParts' construct.
  */
-public class AeFromPartsDef extends AeBaseContainer<AeFromPartDef,AeFromPartDef>
-{
+public class AeFromPartsDef extends AeBaseContainer<AeFromPartDef, AeFromPartDef> {
     private static final long serialVersionUID = 1659540461858410972L;
 
-   /**
-    * Default c'tor.
-    */
-   public AeFromPartsDef()
-   {
-      super();
-   }
+    /**
+     * Default c'tor.
+     */
+    public AeFromPartsDef() {
+        super();
+    }
 
-   /**
-    * Adds a fromPart def to the container.
-    * 
-    * @param aDef
-    */
-   public void addFromPartDef(AeFromPartDef aDef)
-   {
-      super.add(aDef);
-   }
-   
-   /**
-    * Gets an iterator over all of the fromPart defs.
-    */
-   public Iterator<? extends AeFromPartDef> getFromPartDefs()
-   {
-      return getValues();
-   }
+    /**
+     * Adds a fromPart def to the container.
+     *
+     * @param aDef
+     */
+    public void addFromPartDef(AeFromPartDef aDef) {
+        super.add(aDef);
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.def.AeBaseDef#accept(org.activebpel.rt.bpel.def.visitors.IAeDefVisitor)
-    */
-   public void accept(IAeDefVisitor aVisitor)
-   {
-      aVisitor.visit(this);
-   }
+    /**
+     * Gets an iterator over all of the fromPart defs.
+     */
+    public Iterator<? extends AeFromPartDef> getFromPartDefs() {
+        return getValues();
+    }
+
+    /**
+     * @see org.activebpel.rt.bpel.def.AeBaseDef#accept(org.activebpel.rt.bpel.def.visitors.IAeDefVisitor)
+     */
+    public void accept(IAeDefVisitor aVisitor) {
+        aVisitor.visit(this);
+    }
 }

@@ -18,51 +18,48 @@ import org.activebpel.rt.bpel.def.visitors.IAeDefVisitor;
 /**
  * Definition for bpel partner.
  */
-public class AePartnerDef extends AeNamedDef implements IAePartnerLinkParentDef
-{
-   private static final long serialVersionUID = 1300863792945266946L;
-   /** List of strings which are the names of the associated partner links. */
-   private final List<String> mPartnerLinks = new ArrayList<>();
+public class AePartnerDef extends AeNamedDef implements IAePartnerLinkParentDef {
+    private static final long serialVersionUID = 1300863792945266946L;
+    /**
+     * List of strings which are the names of the associated partner links.
+     */
+    private final List<String> mPartnerLinks = new ArrayList<>();
 
-   /**
-    * Default constructor
-    */
-   public AePartnerDef()
-   {
-      super();
-   }
+    /**
+     * Default constructor
+     */
+    public AePartnerDef() {
+        super();
+    }
 
-   /**
-    * Returns an iterator for the list of partnerLink names (String) associated
-    * with this partner.
-    */
-   public Iterator<String> getPartnerLinks()
-   {
-      return mPartnerLinks.iterator();
-   }
-   
-   /**
-    * @see org.activebpel.rt.bpel.def.IAePartnerLinkParentDef#addPartnerLinkDef(org.activebpel.rt.bpel.def.AePartnerLinkDef)
-    */
-   public void addPartnerLinkDef(AePartnerLinkDef aPartnerLink)
-   {
-      addPartnerLink(aPartnerLink.getName());
-   }
+    /**
+     * Returns an iterator for the list of partnerLink names (String) associated
+     * with this partner.
+     */
+    public Iterator<String> getPartnerLinks() {
+        return mPartnerLinks.iterator();
+    }
 
-   /**
-    * Adds a partnerLink to the list associated with this partner.
-    * @param aPartnerLink
-    */
-   public void addPartnerLink(String aPartnerLink)
-   {
-      mPartnerLinks.add(aPartnerLink);
-   }
+    /**
+     * @see org.activebpel.rt.bpel.def.IAePartnerLinkParentDef#addPartnerLinkDef(org.activebpel.rt.bpel.def.AePartnerLinkDef)
+     */
+    public void addPartnerLinkDef(AePartnerLinkDef aPartnerLink) {
+        addPartnerLink(aPartnerLink.getName());
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.def.AeBaseDef#accept(org.activebpel.rt.bpel.def.visitors.IAeDefVisitor)
-    */
-   public void accept(IAeDefVisitor aVisitor)
-   {
-      aVisitor.visit(this);
-   }
+    /**
+     * Adds a partnerLink to the list associated with this partner.
+     *
+     * @param aPartnerLink
+     */
+    public void addPartnerLink(String aPartnerLink) {
+        mPartnerLinks.add(aPartnerLink);
+    }
+
+    /**
+     * @see org.activebpel.rt.bpel.def.AeBaseDef#accept(org.activebpel.rt.bpel.def.visitors.IAeDefVisitor)
+     */
+    public void accept(IAeDefVisitor aVisitor) {
+        aVisitor.visit(this);
+    }
 }

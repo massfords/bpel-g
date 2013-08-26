@@ -26,46 +26,42 @@ import org.activebpel.rt.bpel.server.engine.storage.sql.IAeQueueColumns;
  * Creates a result set handler that returns a list of matching AeAlarms.
  * Has the ability to filter the selected alarms based on the filter criteria.
  */
-public class AeAlarmListHandler extends AeListingResultSetHandler<List<AeAlarmExt>, AeAlarmExt>
-{
-   /**
-    * Default constructor.
-    */
-   public AeAlarmListHandler()
-   {
-      this( AeAlarmFilter.NULL_FILTER );
-   }
+public class AeAlarmListHandler extends AeListingResultSetHandler<List<AeAlarmExt>, AeAlarmExt> {
+    /**
+     * Default constructor.
+     */
+    public AeAlarmListHandler() {
+        this(AeAlarmFilter.NULL_FILTER);
+    }
 
-   /**
-    * Constructor.
-    * @param aFilter The selection criteria.
-    */
-   public AeAlarmListHandler( AeAlarmFilter aFilter )
-   {
-      super(aFilter.getMaxReturn(), aFilter.getListStart());
-   }
+    /**
+     * Constructor.
+     *
+     * @param aFilter The selection criteria.
+     */
+    public AeAlarmListHandler(AeAlarmFilter aFilter) {
+        super(aFilter.getMaxReturn(), aFilter.getListStart());
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.server.engine.storage.sql.AeListingResultSetHandler#convertToType(java.util.List)
-    */
-   protected List<AeAlarmExt> convertToType(List<AeAlarmExt> aResults)
-   {
-      return aResults;
-   }
+    /**
+     * @see org.activebpel.rt.bpel.server.engine.storage.sql.AeListingResultSetHandler#convertToType(java.util.List)
+     */
+    protected List<AeAlarmExt> convertToType(List<AeAlarmExt> aResults) {
+        return aResults;
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.server.engine.storage.sql.AeListingResultSetHandler#readRow(java.sql.ResultSet)
-    */
-   protected AeAlarmExt readRow(ResultSet aResultSet) throws SQLException
-   {
-      long processId = aResultSet.getLong(IAeQueueColumns.PROCESS_ID);
-      String processName = aResultSet.getString(IAeQueueColumns.PROCESS_NAME);
-      String processNamespace = aResultSet.getString(IAeQueueColumns.PROCESS_NAMESPACE);
-      int locationPathId = aResultSet.getInt(IAeQueueColumns.LOCATION_PATH_ID);
-      Date deadline = new Date(aResultSet.getLong(IAeQueueColumns.DEADLINE_MILLIS));
-      QName processQName = new QName(processNamespace, processName);
-      int groupId = aResultSet.getInt(IAeQueueColumns.GROUP_ID);
-      int alarmId = aResultSet.getInt(IAeQueueColumns.ALARM_ID);
-      return new AeAlarmExt(processId, locationPathId, groupId, alarmId, deadline, processQName);
-   }
+    /**
+     * @see org.activebpel.rt.bpel.server.engine.storage.sql.AeListingResultSetHandler#readRow(java.sql.ResultSet)
+     */
+    protected AeAlarmExt readRow(ResultSet aResultSet) throws SQLException {
+        long processId = aResultSet.getLong(IAeQueueColumns.PROCESS_ID);
+        String processName = aResultSet.getString(IAeQueueColumns.PROCESS_NAME);
+        String processNamespace = aResultSet.getString(IAeQueueColumns.PROCESS_NAMESPACE);
+        int locationPathId = aResultSet.getInt(IAeQueueColumns.LOCATION_PATH_ID);
+        Date deadline = new Date(aResultSet.getLong(IAeQueueColumns.DEADLINE_MILLIS));
+        QName processQName = new QName(processNamespace, processName);
+        int groupId = aResultSet.getInt(IAeQueueColumns.GROUP_ID);
+        int alarmId = aResultSet.getInt(IAeQueueColumns.ALARM_ID);
+        return new AeAlarmExt(processId, locationPathId, groupId, alarmId, deadline, processQName);
+    }
 }

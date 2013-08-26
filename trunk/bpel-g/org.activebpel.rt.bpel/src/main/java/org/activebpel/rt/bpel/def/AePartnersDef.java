@@ -14,31 +14,27 @@ import org.activebpel.rt.bpel.def.visitors.IAeDefVisitor;
 /**
  * Container def for AePartnerDef objects.
  */
-public class AePartnersDef extends AeBaseContainer<String, AePartnerDef>
-{
-   private static final long serialVersionUID = 6248312283070864489L;
+public class AePartnersDef extends AeBaseContainer<String, AePartnerDef> {
+    private static final long serialVersionUID = 6248312283070864489L;
 
-   /**
-    * Default c'tor.
-    */
-   public AePartnersDef()
-   {
-      super();
-   }
-   
-   /**
-    * @see org.activebpel.rt.bpel.def.AeBaseDef#accept(org.activebpel.rt.bpel.def.visitors.IAeDefVisitor)
-    */
-   public void accept(IAeDefVisitor aVisitor)
-   {
-      aVisitor.visit(this);
-   }
+    /**
+     * Default c'tor.
+     */
+    public AePartnersDef() {
+        super();
+    }
 
-   /**
-    * @param aPartner
-    */
-   public void addPartnerDef(AePartnerDef aPartner)
-   {
-      add(aPartner.getName(), aPartner);      
-   }
+    /**
+     * @see org.activebpel.rt.bpel.def.AeBaseDef#accept(org.activebpel.rt.bpel.def.visitors.IAeDefVisitor)
+     */
+    public void accept(IAeDefVisitor aVisitor) {
+        aVisitor.visit(this);
+    }
+
+    /**
+     * @param aPartner
+     */
+    public void addPartnerDef(AePartnerDef aPartner) {
+        add(aPartner.getName(), aPartner);
+    }
 }

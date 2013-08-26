@@ -24,82 +24,77 @@ import org.activebpel.rt.bpel.def.visitors.AeAbstractEntryPointVisitor;
 /**
  * Visitor to check the IMA of a Process exists for a given plink and operation
  */
-public class AeValidateIMAVisitor extends AeAbstractEntryPointVisitor
-{
-   /** Operation name */
-   private final String mOperation;
-   /** Partner link */
-   private final AePartnerLinkDef mPartnerLink;
-   /** a flag which when set to true, indicates if an IMA was found */
-   private boolean mIMAFoundFlag = false;
+public class AeValidateIMAVisitor extends AeAbstractEntryPointVisitor {
+    /**
+     * Operation name
+     */
+    private final String mOperation;
+    /**
+     * Partner link
+     */
+    private final AePartnerLinkDef mPartnerLink;
+    /**
+     * a flag which when set to true, indicates if an IMA was found
+     */
+    private boolean mIMAFoundFlag = false;
 
-   /**
-    *
-    * @param aOperation
-    * @param aPartnerLink
-    */
-   public AeValidateIMAVisitor(String aOperation, AePartnerLinkDef aPartnerLink)
-   {
-      mOperation = aOperation;
-      mPartnerLink = aPartnerLink;
-   }
+    /**
+     * @param aOperation
+     * @param aPartnerLink
+     */
+    public AeValidateIMAVisitor(String aOperation, AePartnerLinkDef aPartnerLink) {
+        mOperation = aOperation;
+        mPartnerLink = aPartnerLink;
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.def.visitors.AeAbstractEntryPointVisitor#processEntryPoint(org.activebpel.rt.bpel.def.activity.IAeReceiveActivityDef)
-    */
-   protected void processEntryPoint(IAeReceiveActivityDef aDef)
-   {
-      AeBaseDef plinkContextDef = (AeBaseDef) aDef;
-      // If this is an onEvent, then the onEvent's child scope should be the
-      // context for the partner link lookup (i.e. peek down to find it)
-      if (aDef instanceof AeOnEventDef)
-      {
-         AeOnEventDef onEventDef = (AeOnEventDef) aDef;
-         AeActivityDef onEventActivityDef = onEventDef.getActivityDef();
-         if (onEventActivityDef instanceof AeActivityScopeDef)
-         {
-            plinkContextDef = onEventActivityDef;
-         }
-      }
-      AePartnerLinkDef referencedPartnerLinkDef = AeDefUtil.findPartnerLinkDef(plinkContextDef, aDef.getPartnerLink());
-      
-      if( aDef.getOperation().equals(mOperation) && referencedPartnerLinkDef == mPartnerLink)
-      {
-         mIMAFoundFlag = true;
-      }
-   }
+    /**
+     * @see org.activebpel.rt.bpel.def.visitors.AeAbstractEntryPointVisitor#processEntryPoint(org.activebpel.rt.bpel.def.activity.IAeReceiveActivityDef)
+     */
+    protected void processEntryPoint(IAeReceiveActivityDef aDef) {
+        AeBaseDef plinkContextDef = (AeBaseDef) aDef;
+        // If this is an onEvent, then the onEvent's child scope should be the
+        // context for the partner link lookup (i.e. peek down to find it)
+        if (aDef instanceof AeOnEventDef) {
+            AeOnEventDef onEventDef = (AeOnEventDef) aDef;
+            AeActivityDef onEventActivityDef = onEventDef.getActivityDef();
+            if (onEventActivityDef instanceof AeActivityScopeDef) {
+                plinkContextDef = onEventActivityDef;
+            }
+        }
+        AePartnerLinkDef referencedPartnerLinkDef = AeDefUtil.findPartnerLinkDef(plinkContextDef, aDef.getPartnerLink());
 
-   /**
-    * @see org.activebpel.rt.bpel.def.visitors.AeAbstractEntryPointVisitor#accept(org.activebpel.rt.bpel.def.activity.AeActivityPickDef)
-    */
-   protected boolean accept(AeActivityPickDef aDef)
-   {
-      return true;
-   }
+        if (aDef.getOperation().equals(mOperation) && referencedPartnerLinkDef == mPartnerLink) {
+            mIMAFoundFlag = true;
+        }
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.def.visitors.AeAbstractEntryPointVisitor#accept(org.activebpel.rt.bpel.def.activity.AeActivityReceiveDef)
-    */
-   protected boolean accept(AeActivityReceiveDef aDef)
-   {
-      return true;
-   }
+    /**
+     * @see org.activebpel.rt.bpel.def.visitors.AeAbstractEntryPointVisitor#accept(org.activebpel.rt.bpel.def.activity.AeActivityPickDef)
+     */
+    protected boolean accept(AeActivityPickDef aDef) {
+        return true;
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.def.visitors.AeAbstractEntryPointVisitor#accept(org.activebpel.rt.bpel.def.activity.support.AeOnEventDef)
-    */
-   protected boolean accept(AeOnEventDef aDef)
-   {
-      return true;
-   }
+    /**
+     * @see org.activebpel.rt.bpel.def.visitors.AeAbstractEntryPointVisitor#accept(org.activebpel.rt.bpel.def.activity.AeActivityReceiveDef)
+     */
+    protected boolean accept(AeActivityReceiveDef aDef) {
+        return true;
+    }
 
-   /**
-    * Returns true if this visitor found an IMA
-    *
-    * @return
-    */
-   public boolean foundIMA()
-   {
-      return mIMAFoundFlag;
-   }
+    /**
+     * @see org.activebpel.rt.bpel.def.visitors.AeAbstractEntryPointVisitor#accept(org.activebpel.rt.bpel.def.activity.support.AeOnEventDef)
+     */
+    protected boolean accept(AeOnEventDef aDef) {
+        return true;
+    }
+
+    /**
+     * Returns true if this visitor found an IMA
+     *
+     * @return
+     */
+    public boolean foundIMA() {
+        return mIMAFoundFlag;
+    }
 }

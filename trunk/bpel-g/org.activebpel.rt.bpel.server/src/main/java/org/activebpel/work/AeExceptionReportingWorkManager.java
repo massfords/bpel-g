@@ -19,42 +19,36 @@ import commonj.work.WorkListener;
  * Extends {@link org.activebpel.work.AeDelegatingWorkManager} to wrap scheduled
  * work in instances of {@link org.activebpel.work.AeExceptionReportingWork}.
  */
-public class AeExceptionReportingWorkManager extends AeDelegatingWorkManager implements IAeStoppableWorkManager
-{
-   /**
-    * Constructor.
-    *
-    * @param aDelegateWorkManager
-    */
-   public AeExceptionReportingWorkManager(IAeWorkManagerFactory aWorkManagerFactory)
-   {
-      super(aWorkManagerFactory.getWorkManager());
-   }
+public class AeExceptionReportingWorkManager extends AeDelegatingWorkManager implements IAeStoppableWorkManager {
+    /**
+     * Constructor.
+     *
+     * @param aDelegateWorkManager
+     */
+    public AeExceptionReportingWorkManager(IAeWorkManagerFactory aWorkManagerFactory) {
+        super(aWorkManagerFactory.getWorkManager());
+    }
 
-   /**
-    * @see commonj.work.WorkManager#schedule(commonj.work.Work)
-    */
-   public WorkItem schedule(Work aWork) throws IllegalArgumentException
-   {
-      return super.schedule(new AeExceptionReportingWork(aWork));
-   }
+    /**
+     * @see commonj.work.WorkManager#schedule(commonj.work.Work)
+     */
+    public WorkItem schedule(Work aWork) throws IllegalArgumentException {
+        return super.schedule(new AeExceptionReportingWork(aWork));
+    }
 
-   /**
-    * @see commonj.work.WorkManager#schedule(commonj.work.Work, commonj.work.WorkListener)
-    */
-   public WorkItem schedule(Work aWork, WorkListener aWorkListener) throws IllegalArgumentException
-   {
-      return super.schedule(new AeExceptionReportingWork(aWork), aWorkListener);
-   }
+    /**
+     * @see commonj.work.WorkManager#schedule(commonj.work.Work, commonj.work.WorkListener)
+     */
+    public WorkItem schedule(Work aWork, WorkListener aWorkListener) throws IllegalArgumentException {
+        return super.schedule(new AeExceptionReportingWork(aWork), aWorkListener);
+    }
 
-   /**
-    * @see org.activebpel.work.IAeStoppableWorkManager#stop() 
-    */
-   public void stop()
-   {
-      if (getDelegateWorkManager() instanceof IAeStoppableWorkManager)
-      {
-         ((IAeStoppableWorkManager) getDelegateWorkManager()).stop();
-      }
-   }
+    /**
+     * @see org.activebpel.work.IAeStoppableWorkManager#stop()
+     */
+    public void stop() {
+        if (getDelegateWorkManager() instanceof IAeStoppableWorkManager) {
+            ((IAeStoppableWorkManager) getDelegateWorkManager()).stop();
+        }
+    }
 }

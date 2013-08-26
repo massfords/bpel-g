@@ -15,18 +15,16 @@ import org.mozilla.javascript.ScriptOrFnNode;
 /**
  * A concrete BPEL 1.1 implementation of a parse result for the javascript language.
  */
-public class AeBPWSJavaScriptParseResult extends AeAbstractJavaScriptParseResult
-{
-   /**
-    * Constructor.
-    * 
-    * @param aExpression
-    * @param aRootNode
-    * @param aParserContext
-    */
-   public AeBPWSJavaScriptParseResult(String aExpression, ScriptOrFnNode aRootNode,
-         IAeExpressionParserContext aParserContext)
-   {
-      super(aExpression, aRootNode, aParserContext);
-   }
+public class AeBPWSJavaScriptParseResult extends AeAbstractJavaScriptParseResult {
+    /**
+     * Constructor.
+     *
+     * @param aExpression
+     * @param aRootNode
+     * @param aParserContext
+     */
+    public AeBPWSJavaScriptParseResult(String aExpression, ScriptOrFnNode aRootNode,
+                                       IAeExpressionParserContext aParserContext) {
+        super(aExpression, aRootNode, aParserContext);
+    }
 }

@@ -19,92 +19,86 @@ import org.activebpel.rt.bpel.def.visitors.IAeDefVisitor;
 /**
  * Definition bpel while activity.
  */
-public class AeActivityWhileDef extends AeActivityDef 
-   implements IAeSingleActivityContainerDef, IAeLoopActivityDef, 
-              IAeConditionParentDef, IAeUncrossableLinkBoundary
-{
-   /**
-     * 
+public class AeActivityWhileDef extends AeActivityDef
+        implements IAeSingleActivityContainerDef, IAeLoopActivityDef,
+        IAeConditionParentDef, IAeUncrossableLinkBoundary {
+    /**
+     *
      */
     private static final long serialVersionUID = -7921431230413995398L;
-/** The while activity's 'condition' child construct. */
-   private AeConditionDef mCondition;
-   /** The while activity's child activity. */
-   private AeActivityDef mActivity;
+    /**
+     * The while activity's 'condition' child construct.
+     */
+    private AeConditionDef mCondition;
+    /**
+     * The while activity's child activity.
+     */
+    private AeActivityDef mActivity;
 
-   /**
-    * Default constructor
-    */
-   public AeActivityWhileDef()
-   {
-      super();
-   }
+    /**
+     * Default constructor
+     */
+    public AeActivityWhileDef() {
+        super();
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.def.IAeConditionParentDef#getConditionDef()
-    */
-   public AeConditionDef getConditionDef()
-   {
-      return mCondition;
-   }
+    /**
+     * @see org.activebpel.rt.bpel.def.IAeConditionParentDef#getConditionDef()
+     */
+    public AeConditionDef getConditionDef() {
+        return mCondition;
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.def.IAeConditionParentDef#setConditionDef(org.activebpel.rt.bpel.def.activity.support.AeConditionDef)
-    */
-   public void setConditionDef(AeConditionDef aCondition)
-   {
-      mCondition = aCondition;
-   }
+    /**
+     * @see org.activebpel.rt.bpel.def.IAeConditionParentDef#setConditionDef(org.activebpel.rt.bpel.def.activity.support.AeConditionDef)
+     */
+    public void setConditionDef(AeConditionDef aCondition) {
+        mCondition = aCondition;
+    }
 
-   /**
-    * Accessor method to get the activity associated with the while loop.
-    * 
-    * @return activity associated with while loop
-    */
-   public AeActivityDef getActivityDef()
-   {
-      return mActivity;
-   }
+    /**
+     * Accessor method to get the activity associated with the while loop.
+     *
+     * @return activity associated with while loop
+     */
+    public AeActivityDef getActivityDef() {
+        return mActivity;
+    }
 
-   /**
-    * Mutator method to set the activity associated with the while loop.
-    * 
-    * @param aActivity the activity to be set
-    */
-   public void setActivityDef(AeActivityDef aActivity)
-   {
-      mActivity = aActivity;
-   }
-   
-   /**
-    * @see org.activebpel.rt.bpel.def.IAeActivityContainerDef#replaceActivityDef(org.activebpel.rt.bpel.def.AeActivityDef, org.activebpel.rt.bpel.def.AeActivityDef)
-    */
-   public void replaceActivityDef(AeActivityDef aOldActivityDef, AeActivityDef aNewActivityDef)
-   {
-      setActivityDef(aNewActivityDef);
-   }
+    /**
+     * Mutator method to set the activity associated with the while loop.
+     *
+     * @param aActivity the activity to be set
+     */
+    public void setActivityDef(AeActivityDef aActivity) {
+        mActivity = aActivity;
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.def.AeActivityDef#accept(org.activebpel.rt.bpel.def.visitors.IAeDefVisitor)
-    */
-   public void accept(IAeDefVisitor aVisitor)
-   {
-      aVisitor.visit(this);
-   }
+    /**
+     * @see org.activebpel.rt.bpel.def.IAeActivityContainerDef#replaceActivityDef(org.activebpel.rt.bpel.def.AeActivityDef, org.activebpel.rt.bpel.def.AeActivityDef)
+     */
+    public void replaceActivityDef(AeActivityDef aOldActivityDef, AeActivityDef aNewActivityDef) {
+        setActivityDef(aNewActivityDef);
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.def.IAeUncrossableLinkBoundary#canCrossInbound()
-    */
-   public boolean canCrossInbound()
-   {
-      return false;
-   }
+    /**
+     * @see org.activebpel.rt.bpel.def.AeActivityDef#accept(org.activebpel.rt.bpel.def.visitors.IAeDefVisitor)
+     */
+    public void accept(IAeDefVisitor aVisitor) {
+        aVisitor.visit(this);
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.def.IAeUncrossableLinkBoundary#canCrossOutbound()
-    */
-   public boolean canCrossOutbound()
-   {
-      return false;
-   }
+    /**
+     * @see org.activebpel.rt.bpel.def.IAeUncrossableLinkBoundary#canCrossInbound()
+     */
+    public boolean canCrossInbound() {
+        return false;
+    }
+
+    /**
+     * @see org.activebpel.rt.bpel.def.IAeUncrossableLinkBoundary#canCrossOutbound()
+     */
+    public boolean canCrossOutbound() {
+        return false;
+    }
 }

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xs:schema xmlns="urn:bpel-g:spring-ext"
-            xmlns:xs="http://www.w3.org/2001/XMLSchema"
-            xmlns:beans="http://www.springframework.org/schema/beans"
-            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-            targetNamespace="urn:bpel-g:spring-ext"
-            elementFormDefault="qualified"
-            xsi:schemaLocation="http://www.springframework.org/schema/beans
+           xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           xmlns:beans="http://www.springframework.org/schema/beans"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           targetNamespace="urn:bpel-g:spring-ext"
+           elementFormDefault="qualified"
+           xsi:schemaLocation="http://www.springframework.org/schema/beans
                                 http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 
     <xs:import namespace="http://www.springframework.org/schema/beans"/>

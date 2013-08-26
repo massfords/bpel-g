@@ -15,48 +15,43 @@ import org.activebpel.rt.bpel.def.visitors.IAeDefVisitor;
 /**
  * Definition base for all named definition elements
  */
-public class AeTargetDef extends AeBaseDef
-{
-   /**
-     * 
+public class AeTargetDef extends AeBaseDef {
+    /**
+     *
      */
     private static final long serialVersionUID = -2638884439914650804L;
-// persistent attributes of the definition
-   private String mLinkName;
+    // persistent attributes of the definition
+    private String mLinkName;
 
-   /**
-    * Default constructor
-    */
-   public AeTargetDef()
-   {
-      super();
-   }
+    /**
+     * Default constructor
+     */
+    public AeTargetDef() {
+        super();
+    }
 
-   /**
-    * Accessor method to obtain link name of this object.
-    * 
-    * @return name of link
-    */
-   public String getLinkName()
-   {
-      return mLinkName;
-   }
+    /**
+     * Accessor method to obtain link name of this object.
+     *
+     * @return name of link
+     */
+    public String getLinkName() {
+        return mLinkName;
+    }
 
-   /**
-    * Mutator method to set the link name of this object.
-    * 
-    * @param aLinkName name of the link
-    */
-   public void setLinkName(String aLinkName)
-   {
-      mLinkName = aLinkName;
-   }
-   
-   /**
-    * @see org.activebpel.rt.bpel.def.AeBaseDef#accept(org.activebpel.rt.bpel.def.visitors.IAeDefVisitor)
-    */
-   public void accept(IAeDefVisitor aVisitor)
-   {
-      aVisitor.visit(this);
-   }
+    /**
+     * Mutator method to set the link name of this object.
+     *
+     * @param aLinkName name of the link
+     */
+    public void setLinkName(String aLinkName) {
+        mLinkName = aLinkName;
+    }
+
+    /**
+     * @see org.activebpel.rt.bpel.def.AeBaseDef#accept(org.activebpel.rt.bpel.def.visitors.IAeDefVisitor)
+     */
+    public void accept(IAeDefVisitor aVisitor) {
+        aVisitor.visit(this);
+    }
 }

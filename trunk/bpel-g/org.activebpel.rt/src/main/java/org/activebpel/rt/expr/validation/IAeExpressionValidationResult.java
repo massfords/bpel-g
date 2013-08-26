@@ -18,28 +18,27 @@ import org.activebpel.rt.expr.def.IAeExpressionParseResult;
  * includes a list of error messages, if any, as well as a list of <code>AeVariableData</code>
  * and <code>AeVariableProperty</code> objects used by the expression.
  */
-public interface IAeExpressionValidationResult
-{
-   /**
-    * Returns list of information (INFO) messages found during parsing. This method should never return
-    * null.  In cases where there are no errors, an empty list should be returned.
-    */
-   public List<String> getInfoList();
-   
-   /**
-    * Returns the list of errors found during parsing.  This method should never return
-    * null.  In cases where there are no errors, an empty list should be returned.
-    */
-   public List<String> getErrors();
+public interface IAeExpressionValidationResult {
+    /**
+     * Returns list of information (INFO) messages found during parsing. This method should never return
+     * null.  In cases where there are no errors, an empty list should be returned.
+     */
+    public List<String> getInfoList();
 
-   /**
-    * Returns the list of warnings found during parsing.This method should never return
-    * null.  In cases where there are no warnings, an empty list should be returned.
-    */
-   public List<String> getWarnings();
+    /**
+     * Returns the list of errors found during parsing.  This method should never return
+     * null.  In cases where there are no errors, an empty list should be returned.
+     */
+    public List<String> getErrors();
 
-   /**
-    * Gets the result from parsing the expression.
-    */
-   public IAeExpressionParseResult getParseResult();
+    /**
+     * Returns the list of warnings found during parsing.This method should never return
+     * null.  In cases where there are no warnings, an empty list should be returned.
+     */
+    public List<String> getWarnings();
+
+    /**
+     * Gets the result from parsing the expression.
+     */
+    public IAeExpressionParseResult getParseResult();
 }

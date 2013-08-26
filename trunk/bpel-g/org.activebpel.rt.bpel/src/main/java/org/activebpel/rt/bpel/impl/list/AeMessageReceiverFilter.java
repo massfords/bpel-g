@@ -17,107 +17,112 @@ import javax.xml.namespace.QName;
  * Wraps selection criteria for selecting message receivers
  * off of the queue.
  */
-public class AeMessageReceiverFilter extends AeListingFilter implements Serializable
-{
-   /**
-     * 
+public class AeMessageReceiverFilter extends AeListingFilter implements Serializable {
+    /**
+     *
      */
     private static final long serialVersionUID = -6961169569858978932L;
-/** No selection criteria specified. */
-   public static final AeMessageReceiverFilter NULL_FILTER = new AeMessageReceiverFilter();
-   /** Default 'null' value for process id. */
-   public static final long NULL_ID = -1;
-   
-   /** Process id. */
-   protected long mProcessId = NULL_ID;
-   /** PartnerLink name. */
-   protected String mPartnerLinkName;
-   /** Port type qname. */
-   protected QName mPortType;
-   /** Operation name. */
-   protected String mOperation;
-   
-   /**
-    * Constructor.
-    */
-   public AeMessageReceiverFilter()
-   {
-      super();
-   }
-   
-   /**
-    * Accessor for operation.
-    */
-   public String getOperation()
-   {
-      return mOperation;
-   }
+    /**
+     * No selection criteria specified.
+     */
+    public static final AeMessageReceiverFilter NULL_FILTER = new AeMessageReceiverFilter();
+    /**
+     * Default 'null' value for process id.
+     */
+    public static final long NULL_ID = -1;
 
-   /**
-    * Accessor for partner link name.
-    */
-   public String getPartnerLinkName()
-   {
-      return mPartnerLinkName;
-   }
+    /**
+     * Process id.
+     */
+    protected long mProcessId = NULL_ID;
+    /**
+     * PartnerLink name.
+     */
+    protected String mPartnerLinkName;
+    /**
+     * Port type qname.
+     */
+    protected QName mPortType;
+    /**
+     * Operation name.
+     */
+    protected String mOperation;
 
-   /**
-    * Accessor for port type.
-    */
-   public QName getPortType()
-   {
-      return mPortType;
-   }
+    /**
+     * Constructor.
+     */
+    public AeMessageReceiverFilter() {
+        super();
+    }
 
-   /**
-    * Setter for operation.
-    * @param aString
-    */
-   public void setOperation(String aString)
-   {
-      mOperation = aString;
-   }
+    /**
+     * Accessor for operation.
+     */
+    public String getOperation() {
+        return mOperation;
+    }
 
-   /**
-    * Setter for the partner link name.
-    * @param aString
-    */
-   public void setPartnerLinkName(String aString)
-   {
-      mPartnerLinkName = aString;
-   }
+    /**
+     * Accessor for partner link name.
+     */
+    public String getPartnerLinkName() {
+        return mPartnerLinkName;
+    }
 
-   /**
-    * Setter for the port type qname.
-    * @param aName
-    */
-   public void setPortType(QName aName)
-   {
-      mPortType = aName;
-   }
-   
-   /**
-    * Accessor for process id.
-    */
-   public long getProcessId()
-   {
-      return mProcessId;
-   }
-   
-   /**
-    * Returns true if the process id criteria has not been set.
-    */
-   public boolean isNullProcessId()
-   {
-      return mProcessId == NULL_ID;
-   }
+    /**
+     * Accessor for port type.
+     */
+    public QName getPortType() {
+        return mPortType;
+    }
 
-   /**
-    * Setter for the process id.
-    * @param aId
-    */
-   public void setProcessId(long aId)
-   {
-      mProcessId = aId;
-   }
+    /**
+     * Setter for operation.
+     *
+     * @param aString
+     */
+    public void setOperation(String aString) {
+        mOperation = aString;
+    }
+
+    /**
+     * Setter for the partner link name.
+     *
+     * @param aString
+     */
+    public void setPartnerLinkName(String aString) {
+        mPartnerLinkName = aString;
+    }
+
+    /**
+     * Setter for the port type qname.
+     *
+     * @param aName
+     */
+    public void setPortType(QName aName) {
+        mPortType = aName;
+    }
+
+    /**
+     * Accessor for process id.
+     */
+    public long getProcessId() {
+        return mProcessId;
+    }
+
+    /**
+     * Returns true if the process id criteria has not been set.
+     */
+    public boolean isNullProcessId() {
+        return mProcessId == NULL_ID;
+    }
+
+    /**
+     * Setter for the process id.
+     *
+     * @param aId
+     */
+    public void setProcessId(long aId) {
+        mProcessId = aId;
+    }
 }

@@ -22,53 +22,52 @@ import org.apache.commons.dbutils.ResultSetHandler;
 /**
  * A SQL implementation of a URN storage provider.
  */
-public class AeSQLURNStorageProvider extends AeAbstractSQLStorageProvider implements IAeURNStorageProvider
-{
-   /** The SQL statement prefix for all SQL statements used in this class. */
-   protected static final String SQLSTATEMENT_PREFIX = "URNStorage."; //$NON-NLS-1$
+public class AeSQLURNStorageProvider extends AeAbstractSQLStorageProvider implements IAeURNStorageProvider {
+    /**
+     * The SQL statement prefix for all SQL statements used in this class.
+     */
+    protected static final String SQLSTATEMENT_PREFIX = "URNStorage."; //$NON-NLS-1$
 
-   /** resultset handler used to read the urn mappings into a map */
-   private static final ResultSetHandler<Map<String,String>> URN_MAPPING_HANDLER = new AeURNMappingHandler();
-   
-   private AeCounter mCounter;
+    /**
+     * resultset handler used to read the urn mappings into a map
+     */
+    private static final ResultSetHandler<Map<String, String>> URN_MAPPING_HANDLER = new AeURNMappingHandler();
 
-   /**
-    * Creates the SQL URN storage delegate with the given sql config.
-    */
-   public AeSQLURNStorageProvider()
-   {
-      setPrefix(SQLSTATEMENT_PREFIX);
-   }
+    private AeCounter mCounter;
 
-   /**
-    * @see org.activebpel.rt.bpel.server.engine.storage.providers.IAeURNStorageProvider#getMappings()
-    */
-   public Map<String,String> getMappings() throws AeStorageException
-   {
-      return query(IAeURNSQLKeys.SQL_GET_MAPPINGS, URN_MAPPING_HANDLER);
-   }
+    /**
+     * Creates the SQL URN storage delegate with the given sql config.
+     */
+    public AeSQLURNStorageProvider() {
+        setPrefix(SQLSTATEMENT_PREFIX);
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.server.engine.storage.providers.IAeURNStorageProvider#addMapping(java.lang.String, java.lang.String, org.activebpel.rt.bpel.server.engine.storage.providers.IAeStorageConnection)
-    */
-   public void addMapping(String aURN, String aURL, IAeStorageConnection aConnection) throws AeStorageException
-   {
-      Object[] args = new Object[] { aURN, aURL.toCharArray()};
-      update(getSQLConnection(aConnection), IAeURNSQLKeys.SQL_INSERT_MAPPING, args);
-   }
+    /**
+     * @see org.activebpel.rt.bpel.server.engine.storage.providers.IAeURNStorageProvider#getMappings()
+     */
+    public Map<String, String> getMappings() throws AeStorageException {
+        return query(IAeURNSQLKeys.SQL_GET_MAPPINGS, URN_MAPPING_HANDLER);
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.server.engine.storage.providers.IAeURNStorageProvider#removeMapping(java.lang.String, org.activebpel.rt.bpel.server.engine.storage.providers.IAeStorageConnection)
-    */
-   public void removeMapping(String aURN, IAeStorageConnection aConnection) throws AeStorageException
-   {
-      update(getSQLConnection(aConnection), IAeURNSQLKeys.SQL_DELETE_MAPPING, aURN);
-   }
+    /**
+     * @see org.activebpel.rt.bpel.server.engine.storage.providers.IAeURNStorageProvider#addMapping(java.lang.String, java.lang.String, org.activebpel.rt.bpel.server.engine.storage.providers.IAeStorageConnection)
+     */
+    public void addMapping(String aURN, String aURL, IAeStorageConnection aConnection) throws AeStorageException {
+        Object[] args = new Object[]{aURN, aURL.toCharArray()};
+        update(getSQLConnection(aConnection), IAeURNSQLKeys.SQL_INSERT_MAPPING, args);
+    }
+
+    /**
+     * @see org.activebpel.rt.bpel.server.engine.storage.providers.IAeURNStorageProvider#removeMapping(java.lang.String, org.activebpel.rt.bpel.server.engine.storage.providers.IAeStorageConnection)
+     */
+    public void removeMapping(String aURN, IAeStorageConnection aConnection) throws AeStorageException {
+        update(getSQLConnection(aConnection), IAeURNSQLKeys.SQL_DELETE_MAPPING, aURN);
+    }
 
     public AeCounter getCounter() {
         return mCounter;
     }
-    
+
     public void setCounter(AeCounter aCounter) {
         mCounter = aCounter;
     }

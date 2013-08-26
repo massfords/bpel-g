@@ -25,54 +25,50 @@ import org.activebpel.rt.xml.def.AeExtensionAttributeDef;
 import org.activebpel.rt.xml.def.AeExtensionElementDef;
 
 /**
- *  BPEL4WS validation visitor
+ * BPEL4WS validation visitor
  */
-public class AeBPWSDefToValidationVisitor extends AeDefToValidationVisitor
-{
-   /**
-    * Ctor
-    * @param aContext
-    */
-   public AeBPWSDefToValidationVisitor(IAeValidationContext aContext)
-   {
-      super(aContext);
-   }
+public class AeBPWSDefToValidationVisitor extends AeDefToValidationVisitor {
+    /**
+     * Ctor
+     *
+     * @param aContext
+     */
+    public AeBPWSDefToValidationVisitor(IAeValidationContext aContext) {
+        super(aContext);
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.def.validation.AeDefToValidationVisitor#initMap()
-    */
-   protected void initMap()
-   {
-      super.initMap();
-      getDefToValidatorMap().put(AeProcessDef.class, AeBPWSProcessValidator.class);
-      getDefToValidatorMap().put(AeOnEventDef.class, AeBPWSOnEventValidator.class);
-      getDefToValidatorMap().put(AeCatchDef.class, AeBPWSCatchValidator.class);
-      getDefToValidatorMap().put(AeActivityThrowDef.class, AeBPWSActivityThrowValidator.class);
-      getDefToValidatorMap().put(AeFaultHandlersDef.class, AeBPWSFaultHandlersValidator.class);
-      getDefToValidatorMap().put(AeActivityScopeDef.class, AeBPWSActivityScopeValidator.class);
-      getDefToValidatorMap().put(AeExtensionAttributeDef.class, AeBPWSExtensionAttributeValidator.class);
-      getDefToValidatorMap().put(AeExtensionElementDef.class, AeBPWSExtensionElementValidator.class);
-      getDefToValidatorMap().put(AeChildExtensionActivityDef.class, AeBPWSChildExtensionActivityValidator.class);
-      
-   }
+    /**
+     * @see org.activebpel.rt.bpel.def.validation.AeDefToValidationVisitor#initMap()
+     */
+    protected void initMap() {
+        super.initMap();
+        getDefToValidatorMap().put(AeProcessDef.class, AeBPWSProcessValidator.class);
+        getDefToValidatorMap().put(AeOnEventDef.class, AeBPWSOnEventValidator.class);
+        getDefToValidatorMap().put(AeCatchDef.class, AeBPWSCatchValidator.class);
+        getDefToValidatorMap().put(AeActivityThrowDef.class, AeBPWSActivityThrowValidator.class);
+        getDefToValidatorMap().put(AeFaultHandlersDef.class, AeBPWSFaultHandlersValidator.class);
+        getDefToValidatorMap().put(AeActivityScopeDef.class, AeBPWSActivityScopeValidator.class);
+        getDefToValidatorMap().put(AeExtensionAttributeDef.class, AeBPWSExtensionAttributeValidator.class);
+        getDefToValidatorMap().put(AeExtensionElementDef.class, AeBPWSExtensionElementValidator.class);
+        getDefToValidatorMap().put(AeChildExtensionActivityDef.class, AeBPWSChildExtensionActivityValidator.class);
 
-   /**
-    * @see org.activebpel.rt.bpel.def.visitors.AeAbstractDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeElseDef)
-    */
-   public void visit(AeElseDef def)
-   {
-      AeElseValidator elseModel = new AeElseValidator(def);
-      elseModel.setTagName(IAeBpelLegacyConstants.TAG_OTHERWISE);
-      traverse(def, elseModel);
-   }
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityIfDef)
-    */
-   public void visit(AeActivityIfDef def)
-   {
-      AeActivityIfValidator ifModel = new AeActivityIfValidator(def);
-      ifModel.setMissingConditionError(IAeValidationDefs.SWITCH_MISSING_CASE);
-      traverse(def, ifModel);
-   }
+    /**
+     * @see org.activebpel.rt.bpel.def.visitors.AeAbstractDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeElseDef)
+     */
+    public void visit(AeElseDef def) {
+        AeElseValidator elseModel = new AeElseValidator(def);
+        elseModel.setTagName(IAeBpelLegacyConstants.TAG_OTHERWISE);
+        traverse(def, elseModel);
+    }
+
+    /**
+     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityIfDef)
+     */
+    public void visit(AeActivityIfDef def) {
+        AeActivityIfValidator ifModel = new AeActivityIfValidator(def);
+        ifModel.setMissingConditionError(IAeValidationDefs.SWITCH_MISSING_CASE);
+        traverse(def, ifModel);
+    }
 }

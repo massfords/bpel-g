@@ -13,48 +13,42 @@ package org.activebpel.rt.bpel.xpath.ast;
 /**
  * A base class for xpath nodes that have operators (equality, relational, additive, multiplicative).
  */
-public abstract class AeAbstractXPathOperatorNode extends AeAbstractXPathNode
-{
-   /** The operator. */
-   private int mOperator;
+public abstract class AeAbstractXPathOperatorNode extends AeAbstractXPathNode {
+    /**
+     * The operator.
+     */
+    private int mOperator;
 
-   /**
-    * Default c'tor.
-    */
-   public AeAbstractXPathOperatorNode(String aType)
-   {
-      super(aType);
-   }
+    /**
+     * Default c'tor.
+     */
+    public AeAbstractXPathOperatorNode(String aType) {
+        super(aType);
+    }
 
-   /**
-    * @return Returns the operator.
-    */
-   public int getOperator()
-   {
-      return mOperator;
-   }
+    /**
+     * @return Returns the operator.
+     */
+    public int getOperator() {
+        return mOperator;
+    }
 
-   /**
-    * @param aOperator The operator to set.
-    */
-   public void setOperator(int aOperator)
-   {
-      mOperator = aOperator;
-   }
-   
-   /**
-    * @see org.activebpel.rt.bpel.xpath.ast.AeAbstractXPathNode#normalize()
-    */
-   public AeAbstractXPathNode normalize()
-   {
-      // Omit this node if it doesn't have a valid operator.
-      if (getOperator() == 0)
-      {
-         return normalizeOmitSelf();
-      }
-      else
-      {
-         return super.normalize();
-      }
-   }
+    /**
+     * @param aOperator The operator to set.
+     */
+    public void setOperator(int aOperator) {
+        mOperator = aOperator;
+    }
+
+    /**
+     * @see org.activebpel.rt.bpel.xpath.ast.AeAbstractXPathNode#normalize()
+     */
+    public AeAbstractXPathNode normalize() {
+        // Omit this node if it doesn't have a valid operator.
+        if (getOperator() == 0) {
+            return normalizeOmitSelf();
+        } else {
+            return super.normalize();
+        }
+    }
 }

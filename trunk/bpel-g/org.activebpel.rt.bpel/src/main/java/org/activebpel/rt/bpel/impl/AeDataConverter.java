@@ -28,91 +28,79 @@ import org.activebpel.wsio.IAeWebServiceMessageData;
  * external web services. In order to simplify the packaging, the wsio project does not have ties to the rest
  * of the activebpel codebase. One side effect is that we're left with two different interfaces
  */
-public class AeDataConverter
-{
-   private static IAeAttachmentManager sAttachmentManager = null;
+public class AeDataConverter {
+    private static IAeAttachmentManager sAttachmentManager = null;
 
-   /**
-    * Sets the attachment manager to use to convert attachments that may be
-    * associated with incoming or outgoing message data.
-    *
-    * @param aAttachmentManager
-    */
-   public static void setAttachmentManager(IAeAttachmentManager aAttachmentManager)
-   {
-      sAttachmentManager = aAttachmentManager;
-   }
+    /**
+     * Sets the attachment manager to use to convert attachments that may be
+     * associated with incoming or outgoing message data.
+     *
+     * @param aAttachmentManager
+     */
+    public static void setAttachmentManager(IAeAttachmentManager aAttachmentManager) {
+        sAttachmentManager = aAttachmentManager;
+    }
 
-   /**
-    * Converts a message data object to a WSIO message data. Returns <code>null</code> if input is
-    * <code>null</code>. Does not convert attachments.
-    * @param aData
-    */
-   public static IAeWebServiceMessageData convert(IAeMessageData aData) throws AeBusinessProcessException
-   {
-      AeWebServiceMessageData wsMsg;
+    /**
+     * Converts a message data object to a WSIO message data. Returns <code>null</code> if input is
+     * <code>null</code>. Does not convert attachments.
+     *
+     * @param aData
+     */
+    public static IAeWebServiceMessageData convert(IAeMessageData aData) throws AeBusinessProcessException {
+        AeWebServiceMessageData wsMsg;
 
-      if ( aData == null )
-      {
-         wsMsg = null;
-      }
-      else
-      {
-         wsMsg = new AeWebServiceMessageData(aData.getMessageType());
+        if (aData == null) {
+            wsMsg = null;
+        } else {
+            wsMsg = new AeWebServiceMessageData(aData.getMessageType());
 
-         for (Iterator iter = aData.getPartNames(); iter.hasNext();)
-         {
-            String partName = (String)iter.next();
-            wsMsg.setData(partName, aData.getData(partName));
-         }
+            for (Iterator iter = aData.getPartNames(); iter.hasNext(); ) {
+                String partName = (String) iter.next();
+                wsMsg.setData(partName, aData.getData(partName));
+            }
 
-         if (aData.hasAttachments())
-            wsMsg.setAttachments(sAttachmentManager.bpel2wsio(aData.getAttachmentContainer()));
-      }
+            if (aData.hasAttachments())
+                wsMsg.setAttachments(sAttachmentManager.bpel2wsio(aData.getAttachmentContainer()));
+        }
 
-      return wsMsg;
-   }
+        return wsMsg;
+    }
 
-   /**
-    * Converts the message data for the given fault, silently consuming any
-    * exception that may arise.
-    *
-    * @param aFault
-    */
-   public static IAeWebServiceMessageData convertFaultDataNoException(IAeFault aFault)
-   {
-      try
-      {
-         return convert(aFault.getMessageData());
-      }
-      catch (AeBusinessProcessException e)
-      {
-         // TODO (JB) Try AeDataConvert.convert() again without the attachments.
-         AeException.logError(e);
-         return null;
-      }
-   }
+    /**
+     * Converts the message data for the given fault, silently consuming any
+     * exception that may arise.
+     *
+     * @param aFault
+     */
+    public static IAeWebServiceMessageData convertFaultDataNoException(IAeFault aFault) {
+        try {
+            return convert(aFault.getMessageData());
+        } catch (AeBusinessProcessException e) {
+            // TODO (JB) Try AeDataConvert.convert() again without the attachments.
+            AeException.logError(e);
+            return null;
+        }
+    }
 
-   /**
-    * Converts a WSIO message to a message data. Returns <code>null</code> if input is <code>null</code>.
-    * @param aData
-    */
-   public static IAeMessageData convert(IAeWebServiceMessageData aData)  throws AeBusinessProcessException
-   {
-      IAeMessageData bpelMsg = null;
+    /**
+     * Converts a WSIO message to a message data. Returns <code>null</code> if input is <code>null</code>.
+     *
+     * @param aData
+     */
+    public static IAeMessageData convert(IAeWebServiceMessageData aData) throws AeBusinessProcessException {
+        IAeMessageData bpelMsg = null;
 
-      if ( aData != null )
-      {
-         bpelMsg = AeMessageDataFactory.instance().createMessageData(aData.getMessageType(),
-               aData.getMessageData());
+        if (aData != null) {
+            bpelMsg = AeMessageDataFactory.instance().createMessageData(aData.getMessageType(),
+                    aData.getMessageData());
 
-         List<IAeWebServiceAttachment> attachments = aData.getAttachments();
-         if ((attachments != null) && !attachments.isEmpty())
-         {
-            IAeAttachmentContainer container = sAttachmentManager.wsio2bpel(attachments);
-            bpelMsg.setAttachmentContainer(container);
-         }
-      }
-      return bpelMsg;
-   }
+            List<IAeWebServiceAttachment> attachments = aData.getAttachments();
+            if ((attachments != null) && !attachments.isEmpty()) {
+                IAeAttachmentContainer container = sAttachmentManager.wsio2bpel(attachments);
+                bpelMsg.setAttachmentContainer(container);
+            }
+        }
+        return bpelMsg;
+    }
 }

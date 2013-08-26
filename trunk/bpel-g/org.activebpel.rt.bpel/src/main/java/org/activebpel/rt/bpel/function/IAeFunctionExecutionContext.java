@@ -17,41 +17,40 @@ import org.activebpel.rt.xml.IAeNamespaceContext;
 /**
  * This context is passed to a function when it is executed.
  */
-public interface IAeFunctionExecutionContext
-{
-   /**
-    * Returns the namespace context to use when executing an expression.
-    */
-   public IAeNamespaceContext getNamespaceContext();
+public interface IAeFunctionExecutionContext {
+    /**
+     * Returns the namespace context to use when executing an expression.
+     */
+    public IAeNamespaceContext getNamespaceContext();
 
-   /**
-    * Returns the function factory to use when executing an expression.
-    */
-   public IAeFunctionFactory getFunctionFactory();
+    /**
+     * Returns the function factory to use when executing an expression.
+     */
+    public IAeFunctionFactory getFunctionFactory();
 
-   /**
-    * Returns the object to use as the evaluation context.
-    */
-   public Object getEvaluationContext();
+    /**
+     * Returns the object to use as the evaluation context.
+     */
+    public Object getEvaluationContext();
 
-   /**
-    * Returns the abstract bpel object that will be used during expression execution.
-    */
-   // TODO (EPW) see where this is used and replace with an interface
-   public AeAbstractBpelObject getAbstractBpelObject();
+    /**
+     * Returns the abstract bpel object that will be used during expression execution.
+     */
+    // TODO (EPW) see where this is used and replace with an interface
+    public AeAbstractBpelObject getAbstractBpelObject();
 
-   /**
-    * Provides getter for the fault factory
-    */
-   public IAeFaultFactory getFaultFactory();
+    /**
+     * Provides getter for the fault factory
+     */
+    public IAeFaultFactory getFaultFactory();
 
-   /**
-    * Returns the namespace of the BPEL process that this expression is contained within.
-    */
-   public String getBpelNamespace();
+    /**
+     * Returns the namespace of the BPEL process that this expression is contained within.
+     */
+    public String getBpelNamespace();
 
-   /**
-    * Returns the expression language-specific type converter.
-    */
-   public IAeExpressionTypeConverter getTypeConverter();
+    /**
+     * Returns the expression language-specific type converter.
+     */
+    public IAeExpressionTypeConverter getTypeConverter();
 }

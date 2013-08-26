@@ -15,133 +15,135 @@ import org.activebpel.rt.util.AeUtil;
 /**
  * This is a light weight implementation for represeting properties of HI extension element
  */
-public class AeXmlDefGraphNodeProperty implements IAeXmlDefGraphNodeProperty
-{
+public class AeXmlDefGraphNodeProperty implements IAeXmlDefGraphNodeProperty {
 
-   /** Name of property */
-   private final String mName;
-   /** Value of property */
-   private final String mValue;
-   /** is this a detail proeprty */
-   private boolean mDetail;
-   /** is this a variable */
-   private boolean mVariable;
-   /** location path */
-   private String mLocationPath;
-   /** remove flag */
-   private boolean mRemove;
-   
-   /**
-    * C'tor
-    * @param aName
-    * @param aValue
-    * @param aDetail
-    */
-   public AeXmlDefGraphNodeProperty(String aName, String aValue, boolean aDetail)
-   {
-      mName = aName;
-      mValue = aValue;
-      mDetail = aDetail;
-   }
+    /**
+     * Name of property
+     */
+    private final String mName;
+    /**
+     * Value of property
+     */
+    private final String mValue;
+    /**
+     * is this a detail proeprty
+     */
+    private boolean mDetail;
+    /**
+     * is this a variable
+     */
+    private boolean mVariable;
+    /**
+     * location path
+     */
+    private String mLocationPath;
+    /**
+     * remove flag
+     */
+    private boolean mRemove;
 
-   /**
-    * C'tor
-    * @param aName
-    * @param aValue
-    * @param aLocationPath
-    */
-   public AeXmlDefGraphNodeProperty(String aName, String aValue, String aLocationPath)
-   {
-      mName = aName;
-      mValue = aValue;
-      mLocationPath = aLocationPath;
-   }
-   
-   /**
-    * C'tor
-    * @param aName
-    * @param aValue
-    * @param aVariable
-    * @param aDetail
-    */
-   public AeXmlDefGraphNodeProperty(String aName, String aValue, boolean aVariable, boolean aDetail)
-   {
-      mName = aName;
-      mValue = aValue;
-      mDetail = aDetail;
-      mVariable = aVariable;
-   }
-   
-   /**
-    * @see org.activebpel.rt.xml.def.graph.IAeXmlDefGraphNodeProperty#getName()
-    */
-   public String getName()
-   {
-      return mName;
-   }
+    /**
+     * C'tor
+     *
+     * @param aName
+     * @param aValue
+     * @param aDetail
+     */
+    public AeXmlDefGraphNodeProperty(String aName, String aValue, boolean aDetail) {
+        mName = aName;
+        mValue = aValue;
+        mDetail = aDetail;
+    }
 
-   /**
-    * @see org.activebpel.rt.xml.def.graph.IAeXmlDefGraphNodeProperty#getValue()
-    */
-   public String getValue()
-   {
-      return mValue;
-   }
+    /**
+     * C'tor
+     *
+     * @param aName
+     * @param aValue
+     * @param aLocationPath
+     */
+    public AeXmlDefGraphNodeProperty(String aName, String aValue, String aLocationPath) {
+        mName = aName;
+        mValue = aValue;
+        mLocationPath = aLocationPath;
+    }
 
-   /**
-    * @see org.activebpel.rt.xml.def.graph.IAeXmlDefGraphNodeProperty#isDetail()
-    */
-   public boolean isDetail()
-   {
-      return mDetail;
-   }
+    /**
+     * C'tor
+     *
+     * @param aName
+     * @param aValue
+     * @param aVariable
+     * @param aDetail
+     */
+    public AeXmlDefGraphNodeProperty(String aName, String aValue, boolean aVariable, boolean aDetail) {
+        mName = aName;
+        mValue = aValue;
+        mDetail = aDetail;
+        mVariable = aVariable;
+    }
 
-   /**
-    * @see org.activebpel.rt.xml.def.graph.IAeXmlDefGraphNodeProperty#isHasLocationPath()
-    */
-   public boolean isHasLocationPath()
-   {
-      return AeUtil.notNullOrEmpty(getLocationPath());
-   }
+    /**
+     * @see org.activebpel.rt.xml.def.graph.IAeXmlDefGraphNodeProperty#getName()
+     */
+    public String getName() {
+        return mName;
+    }
 
-   /**
-    * @see org.activebpel.rt.xml.def.graph.IAeXmlDefGraphNodeProperty#isVariable()
-    */
-   public boolean isVariable()
-   {
-      return mVariable;
-   }
+    /**
+     * @see org.activebpel.rt.xml.def.graph.IAeXmlDefGraphNodeProperty#getValue()
+     */
+    public String getValue() {
+        return mValue;
+    }
 
-   /**
-    * @see org.activebpel.rt.xml.def.graph.IAeXmlDefGraphNodeProperty#getLocationPath()
-    */
-   public String getLocationPath()
-   {
-      return mLocationPath;
-   }
+    /**
+     * @see org.activebpel.rt.xml.def.graph.IAeXmlDefGraphNodeProperty#isDetail()
+     */
+    public boolean isDetail() {
+        return mDetail;
+    }
 
-   /**
-    * @param aLocationPath the locationPath to set
-    */
-   protected void setLocationPath(String aLocationPath)
-   {
-      mLocationPath = aLocationPath;
-   }
+    /**
+     * @see org.activebpel.rt.xml.def.graph.IAeXmlDefGraphNodeProperty#isHasLocationPath()
+     */
+    public boolean isHasLocationPath() {
+        return AeUtil.notNullOrEmpty(getLocationPath());
+    }
 
-   /**
-    * @return the remove
-    */
-   public boolean isRemove()
-   {
-      return mRemove;
-   }
+    /**
+     * @see org.activebpel.rt.xml.def.graph.IAeXmlDefGraphNodeProperty#isVariable()
+     */
+    public boolean isVariable() {
+        return mVariable;
+    }
 
-   /**
-    * @param aRemove the remove to set
-    */
-   public void setRemove(boolean aRemove)
-   {
-      mRemove = aRemove;
-   }
+    /**
+     * @see org.activebpel.rt.xml.def.graph.IAeXmlDefGraphNodeProperty#getLocationPath()
+     */
+    public String getLocationPath() {
+        return mLocationPath;
+    }
+
+    /**
+     * @param aLocationPath the locationPath to set
+     */
+    protected void setLocationPath(String aLocationPath) {
+        mLocationPath = aLocationPath;
+    }
+
+    /**
+     * @return the remove
+     */
+    public boolean isRemove() {
+        return mRemove;
+    }
+
+    /**
+     * @param aRemove the remove to set
+     */
+    public void setRemove(boolean aRemove) {
+        mRemove = aRemove;
+    }
 
 }

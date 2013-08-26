@@ -23,120 +23,109 @@ import java.util.Set;
  * Creates an instance of the def and delegates the reading of its attributes
  * to a def reader returned from the given factory.
  */
-public class AeDelegatingDefReader extends AeBaseDefReader
-{
-   /** The AeBaseDef class type to create */
-   private Class mChildClass;
-   /** The reader factory - creates a reader to dispatch to. */
-   private IAeReaderFactory mReaderVisitorFactory;
+public class AeDelegatingDefReader extends AeBaseDefReader {
+    /**
+     * The AeBaseDef class type to create
+     */
+    private Class mChildClass;
+    /**
+     * The reader factory - creates a reader to dispatch to.
+     */
+    private IAeReaderFactory mReaderVisitorFactory;
 
-   /**
-    * Constructor.
-    * 
-    * @param aChildClass the AeBaseDef type to create
-    * @param aReaderVisitorFactory
-    */
-   public AeDelegatingDefReader(Class aChildClass, IAeReaderFactory aReaderVisitorFactory)
-   {
-      setChildClass(aChildClass);
-      setReaderVisitorFactory(aReaderVisitorFactory);
-   }
+    /**
+     * Constructor.
+     *
+     * @param aChildClass           the AeBaseDef type to create
+     * @param aReaderVisitorFactory
+     */
+    public AeDelegatingDefReader(Class aChildClass, IAeReaderFactory aReaderVisitorFactory) {
+        setChildClass(aChildClass);
+        setReaderVisitorFactory(aReaderVisitorFactory);
+    }
 
-   /**
-    * Dispatch newly created AeBaseDef to an instance of the AeReaderVisitor to set its properties based on
-    * the current element.
-    * 
-    * @see org.activebpel.rt.xml.def.io.readers.AeBaseDefReader#configureChild(org.activebpel.rt.xml.def.AeBaseXmlDef, org.activebpel.rt.xml.def.AeBaseXmlDef, org.w3c.dom.Element)
-    */
-   protected boolean configureChild(AeBaseXmlDef aParentDef, AeBaseXmlDef aNewDef, Element aElement)
-      throws AeException
-   {
-      IAeReportingDefReader delegate = getReaderFactory().createReportingDefReader(aParentDef, aNewDef, aElement);
-      delegate.read(aNewDef, aElement);
-      readExtensionAttributes(aNewDef, aElement, delegate.getConsumedAttributes());
-      if (delegate.hasErrors())
-      {
-         // report any errors to the console
-          for (Object o : delegate.getErrors()) {
-              String error = (String) o;
-              AeException.logWarning(error);
-          }
-      }
-      return !delegate.hasErrors();
-   }
-
-   /**
-    * Returns a mChildClass.newInstance()
-    * @see org.activebpel.rt.xml.def.io.readers.AeBaseDefReader#createChild(org.activebpel.rt.xml.def.AeBaseXmlDef, org.w3c.dom.Element)
-    */
-   protected AeBaseXmlDef createChild(AeBaseXmlDef aParent, Element aElement)
-      throws AeException
-   {
-      try
-      {
-         return (AeBaseXmlDef)getChildClass().newInstance();
-      }
-      catch (InstantiationException | IllegalAccessException e)
-      {
-         throw new AeException(
-                  AeMessages.format("AeDelegatingDefReader.ERROR_0", getChildClass().getName()), e); //$NON-NLS-1$
-      }
-   }
-
-   /**
-    * Reads any extension attributes into the def.
-    * 
-    * @param aDef
-    * @param aElement
-    * @param aConsumedAttributes
-    */
-   protected void readExtensionAttributes(AeBaseXmlDef aDef, Element aElement, Set aConsumedAttributes)
-   {
-      if (aElement.hasAttributes())
-      {
-         // Loop through and add all attributes which are qualified but not part of the 
-         // xmlns namespace
-         NamedNodeMap attrNodes = aElement.getAttributes();
-         for (int i = 0, length = attrNodes.getLength(); i < length; i++)
-         {
-            Attr attr = (Attr) attrNodes.item(i);
-            if (!aConsumedAttributes.contains(attr))
-            {
-               aDef.addExtensionAttributeDef( new AeExtensionAttributeDef(attr.getNamespaceURI(), attr.getNodeName(), attr.getNodeValue()));
+    /**
+     * Dispatch newly created AeBaseDef to an instance of the AeReaderVisitor to set its properties based on
+     * the current element.
+     *
+     * @see org.activebpel.rt.xml.def.io.readers.AeBaseDefReader#configureChild(org.activebpel.rt.xml.def.AeBaseXmlDef, org.activebpel.rt.xml.def.AeBaseXmlDef, org.w3c.dom.Element)
+     */
+    protected boolean configureChild(AeBaseXmlDef aParentDef, AeBaseXmlDef aNewDef, Element aElement)
+            throws AeException {
+        IAeReportingDefReader delegate = getReaderFactory().createReportingDefReader(aParentDef, aNewDef, aElement);
+        delegate.read(aNewDef, aElement);
+        readExtensionAttributes(aNewDef, aElement, delegate.getConsumedAttributes());
+        if (delegate.hasErrors()) {
+            // report any errors to the console
+            for (Object o : delegate.getErrors()) {
+                String error = (String) o;
+                AeException.logWarning(error);
             }
-         }
-      }
-   }
+        }
+        return !delegate.hasErrors();
+    }
 
-   /**
-    * @return Returns the readerVisitorFactory.
-    */
-   protected IAeReaderFactory getReaderFactory()
-   {
-      return mReaderVisitorFactory;
-   }
+    /**
+     * Returns a mChildClass.newInstance()
+     *
+     * @see org.activebpel.rt.xml.def.io.readers.AeBaseDefReader#createChild(org.activebpel.rt.xml.def.AeBaseXmlDef, org.w3c.dom.Element)
+     */
+    protected AeBaseXmlDef createChild(AeBaseXmlDef aParent, Element aElement)
+            throws AeException {
+        try {
+            return (AeBaseXmlDef) getChildClass().newInstance();
+        } catch (InstantiationException | IllegalAccessException e) {
+            throw new AeException(
+                    AeMessages.format("AeDelegatingDefReader.ERROR_0", getChildClass().getName()), e); //$NON-NLS-1$
+        }
+    }
 
-   /**
-    * @param aReaderVisitorFactory The readerVisitorFactory to set.
-    */
-   protected void setReaderVisitorFactory(IAeReaderFactory aReaderVisitorFactory)
-   {
-      mReaderVisitorFactory = aReaderVisitorFactory;
-   }
+    /**
+     * Reads any extension attributes into the def.
+     *
+     * @param aDef
+     * @param aElement
+     * @param aConsumedAttributes
+     */
+    protected void readExtensionAttributes(AeBaseXmlDef aDef, Element aElement, Set aConsumedAttributes) {
+        if (aElement.hasAttributes()) {
+            // Loop through and add all attributes which are qualified but not part of the
+            // xmlns namespace
+            NamedNodeMap attrNodes = aElement.getAttributes();
+            for (int i = 0, length = attrNodes.getLength(); i < length; i++) {
+                Attr attr = (Attr) attrNodes.item(i);
+                if (!aConsumedAttributes.contains(attr)) {
+                    aDef.addExtensionAttributeDef(new AeExtensionAttributeDef(attr.getNamespaceURI(), attr.getNodeName(), attr.getNodeValue()));
+                }
+            }
+        }
+    }
 
-   /**
-    * @return Returns the childClass.
-    */
-   protected Class getChildClass()
-   {
-      return mChildClass;
-   }
+    /**
+     * @return Returns the readerVisitorFactory.
+     */
+    protected IAeReaderFactory getReaderFactory() {
+        return mReaderVisitorFactory;
+    }
 
-   /**
-    * @param aChildClass The childClass to set.
-    */
-   protected void setChildClass(Class aChildClass)
-   {
-      mChildClass = aChildClass;
-   }
+    /**
+     * @param aReaderVisitorFactory The readerVisitorFactory to set.
+     */
+    protected void setReaderVisitorFactory(IAeReaderFactory aReaderVisitorFactory) {
+        mReaderVisitorFactory = aReaderVisitorFactory;
+    }
+
+    /**
+     * @return Returns the childClass.
+     */
+    protected Class getChildClass() {
+        return mChildClass;
+    }
+
+    /**
+     * @param aChildClass The childClass to set.
+     */
+    protected void setChildClass(Class aChildClass) {
+        mChildClass = aChildClass;
+    }
 }

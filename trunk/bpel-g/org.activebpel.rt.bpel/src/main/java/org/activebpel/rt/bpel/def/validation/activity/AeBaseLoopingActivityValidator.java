@@ -7,40 +7,37 @@
 //Active Endpoints, Inc. Removal of this PROPRIETARY RIGHTS STATEMENT 
 //is strictly forbidden. Copyright (c) 2002-2006 All rights reserved. 
 /////////////////////////////////////////////////////////////////////////////
-package org.activebpel.rt.bpel.def.validation.activity; 
+package org.activebpel.rt.bpel.def.validation.activity;
 
 import org.activebpel.rt.bpel.def.AeBaseDef;
 import org.activebpel.rt.bpel.def.validation.expressions.IAeExpressionModelValidator;
 
 /**
- * Base class for validating looping activities like while and repeatUntil 
+ * Base class for validating looping activities like while and repeatUntil
  */
-public class AeBaseLoopingActivityValidator extends AeActivityValidator
-{
-   /**
-    * Ctor
-    * @param aDef
-    */
-   protected AeBaseLoopingActivityValidator(AeBaseDef aDef)
-   {
-      super(aDef);
-   }
+public class AeBaseLoopingActivityValidator extends AeActivityValidator {
+    /**
+     * Ctor
+     *
+     * @param aDef
+     */
+    protected AeBaseLoopingActivityValidator(AeBaseDef aDef) {
+        super(aDef);
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.def.validation.activity.AeActivityValidator#validate()
-    */
-   public void validate()
-   {
-      super.validate();
+    /**
+     * @see org.activebpel.rt.bpel.def.validation.activity.AeActivityValidator#validate()
+     */
+    public void validate() {
+        super.validate();
 
-      IAeExpressionModelValidator expression = getChild(IAeExpressionModelValidator.class);
-      if (isNullOrEmpty(expression))
-      {
-         getReporter().reportProblem( BPEL_LOOP_FIELD_MISSING_CODE,
-                                       ERROR_FIELD_MISSING, 
-                                       new String[] { AeBaseDef.TAG_CONDITION }, 
-                                       getDefinition() ); 
-      }
-   }
+        IAeExpressionModelValidator expression = getChild(IAeExpressionModelValidator.class);
+        if (isNullOrEmpty(expression)) {
+            getReporter().reportProblem(BPEL_LOOP_FIELD_MISSING_CODE,
+                    ERROR_FIELD_MISSING,
+                    new String[]{AeBaseDef.TAG_CONDITION},
+                    getDefinition());
+        }
+    }
 }
  

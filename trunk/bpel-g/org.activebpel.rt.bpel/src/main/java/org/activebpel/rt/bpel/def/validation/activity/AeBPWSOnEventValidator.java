@@ -7,22 +7,21 @@
 //Active Endpoints, Inc. Removal of this PROPRIETARY RIGHTS STATEMENT 
 //is strictly forbidden. Copyright (c) 2002-2006 All rights reserved. 
 /////////////////////////////////////////////////////////////////////////////
-package org.activebpel.rt.bpel.def.validation.activity; 
+package org.activebpel.rt.bpel.def.validation.activity;
 
 import org.activebpel.rt.bpel.def.activity.support.AeOnEventDef;
 
 /**
- * Performs the same validation as the onMessage model 
+ * Performs the same validation as the onMessage model
  */
-public class AeBPWSOnEventValidator extends AeOnMessageValidator
-{
-   /**
-    * Ctor accepts def
-    * @param aDef
-    */
-   public AeBPWSOnEventValidator(AeOnEventDef aDef)
-   {
-      super(aDef);
-   }
+public class AeBPWSOnEventValidator extends AeOnMessageValidator {
+    /**
+     * Ctor accepts def
+     *
+     * @param aDef
+     */
+    public AeBPWSOnEventValidator(AeOnEventDef aDef) {
+        super(aDef);
+    }
 }
  

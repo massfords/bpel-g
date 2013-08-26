@@ -12,19 +12,20 @@ package org.activebpel.rt.bpel.impl.endpoints;
 
 /**
  * Factory provides getters for serializers and deserializers for the endpoint
- * references based on the provided namespace.  
+ * references based on the provided namespace.
  */
-public interface IAeEndpointFactory
-{
-   /**
-    * Gets a serializer for the specified namespace
-    * @param aNamespace
-    */
-   public IAeEndpointSerializer getSerializer(String aNamespace);
+public interface IAeEndpointFactory {
+    /**
+     * Gets a serializer for the specified namespace
+     *
+     * @param aNamespace
+     */
+    public IAeEndpointSerializer getSerializer(String aNamespace);
 
-   /**
-    * Gets a deserializer for the specified namespace
-    * @param aNamespace
-    */
-   public IAeEndpointDeserializer getDeserializer(String aNamespace);
+    /**
+     * Gets a deserializer for the specified namespace
+     *
+     * @param aNamespace
+     */
+    public IAeEndpointDeserializer getDeserializer(String aNamespace);
 }

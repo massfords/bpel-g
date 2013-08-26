@@ -21,39 +21,37 @@ import org.activebpel.rt.AeException;
  * earlier declarations.  When that happens, the full path to the partner link must be used.  If
  * the partner link name alone is used in that case, this exception is thrown.
  */
-public class AeAmbiguousPartnerLinkException extends AeException
-{
-   /**
-     * 
+public class AeAmbiguousPartnerLinkException extends AeException {
+    /**
+     *
      */
     private static final long serialVersionUID = 7284457159502214719L;
-/** The list of locations that map to the partner link name. */
-   private Set mPartnerLinkLocations;
+    /**
+     * The list of locations that map to the partner link name.
+     */
+    private Set mPartnerLinkLocations;
 
-   /**
-    * Constructs the exception.
-    *
-    * @param aPartnerLinkLocations
-    */
-   public AeAmbiguousPartnerLinkException(Set aPartnerLinkLocations)
-   {
-      super();
-      setPartnerLinkLocations(aPartnerLinkLocations);
-   }
+    /**
+     * Constructs the exception.
+     *
+     * @param aPartnerLinkLocations
+     */
+    public AeAmbiguousPartnerLinkException(Set aPartnerLinkLocations) {
+        super();
+        setPartnerLinkLocations(aPartnerLinkLocations);
+    }
 
-   /**
-    * @return Returns the partnerLinkLocations.
-    */
-   public Set getPartnerLinkLocations()
-   {
-      return mPartnerLinkLocations;
-   }
+    /**
+     * @return Returns the partnerLinkLocations.
+     */
+    public Set getPartnerLinkLocations() {
+        return mPartnerLinkLocations;
+    }
 
-   /**
-    * @param aPartnerLinkLocations The partnerLinkLocations to set.
-    */
-   protected void setPartnerLinkLocations(Set aPartnerLinkLocations)
-   {
-      mPartnerLinkLocations = aPartnerLinkLocations;
-   }
+    /**
+     * @param aPartnerLinkLocations The partnerLinkLocations to set.
+     */
+    protected void setPartnerLinkLocations(Set aPartnerLinkLocations) {
+        mPartnerLinkLocations = aPartnerLinkLocations;
+    }
 }

@@ -24,324 +24,301 @@ import java.util.*;
  * Implements an attachment storage that stores the contents of attachments in
  * temporary files.
  */
-public class AeFileAttachmentStorage implements IAeAttachmentStorage
-{
-   /** Counter for attachment ids. */
-   private final AeLongCounter mAttachmentIdCounter = new AeLongCounter();
+public class AeFileAttachmentStorage implements IAeAttachmentStorage {
+    /**
+     * Counter for attachment ids.
+     */
+    private final AeLongCounter mAttachmentIdCounter = new AeLongCounter();
 
-   /** Maps attachment ids to {@link AeAttachmentInfo} instances. */
-   private final Map<Long,AeAttachmentInfo> mAttachmentInfoMap = Collections.synchronizedMap(new HashMap<Long,AeAttachmentInfo>());
+    /**
+     * Maps attachment ids to {@link AeAttachmentInfo} instances.
+     */
+    private final Map<Long, AeAttachmentInfo> mAttachmentInfoMap = Collections.synchronizedMap(new HashMap<Long, AeAttachmentInfo>());
 
-   /** Counter for attachment group ids. */
-   private final AeLongCounter mGroupIdCounter = new AeLongCounter();
+    /**
+     * Counter for attachment group ids.
+     */
+    private final AeLongCounter mGroupIdCounter = new AeLongCounter();
 
-   /** Maps attachment group ids to lists of {@link AeAttachmentInfo} instances. */
-   private final Map<Long,List<AeAttachmentInfo>> mGroupInfosMap = Collections.synchronizedMap(new HashMap<Long,List<AeAttachmentInfo>>());
+    /**
+     * Maps attachment group ids to lists of {@link AeAttachmentInfo} instances.
+     */
+    private final Map<Long, List<AeAttachmentInfo>> mGroupInfosMap = Collections.synchronizedMap(new HashMap<Long, List<AeAttachmentInfo>>());
 
-   /** Maps process ids to lists of {@link AeAttachmentInfo} instances. */
-   private final Map<Long,List<AeAttachmentInfo>> mProcessInfosMap = Collections.synchronizedMap(new HashMap<Long,List<AeAttachmentInfo>>());
+    /**
+     * Maps process ids to lists of {@link AeAttachmentInfo} instances.
+     */
+    private final Map<Long, List<AeAttachmentInfo>> mProcessInfosMap = Collections.synchronizedMap(new HashMap<Long, List<AeAttachmentInfo>>());
 
-   /**
-    * Overrides method to move the {@link AeAttachmentInfo} instances associated
-    * with an attachment group to the list of {@link AeAttachmentInfo} instances
-    * associated with a process.
-    *
-    * @see org.activebpel.rt.bpel.impl.attachment.IAeAttachmentStorage#associateProcess(long, long)
-    */
-   public void associateProcess(long aAttachmentGroupId, long aProcessId) throws AeBusinessProcessException
-   {
-      // Remove the group's entry from the group map.
-      List<AeAttachmentInfo> groupInfos = getGroupInfosMap().remove(aAttachmentGroupId);
-      if (groupInfos != null)
-      {
-         List<AeAttachmentInfo> processInfos = getProcessInfos(aProcessId);
-   
-         synchronized (processInfos)
-         {
-            // Add the group's attachments to the process's attachments.
-            processInfos.addAll(groupInfos);
-         }
-      }
-   }
+    /**
+     * Overrides method to move the {@link AeAttachmentInfo} instances associated
+     * with an attachment group to the list of {@link AeAttachmentInfo} instances
+     * associated with a process.
+     *
+     * @see org.activebpel.rt.bpel.impl.attachment.IAeAttachmentStorage#associateProcess(long, long)
+     */
+    public void associateProcess(long aAttachmentGroupId, long aProcessId) throws AeBusinessProcessException {
+        // Remove the group's entry from the group map.
+        List<AeAttachmentInfo> groupInfos = getGroupInfosMap().remove(aAttachmentGroupId);
+        if (groupInfos != null) {
+            List<AeAttachmentInfo> processInfos = getProcessInfos(aProcessId);
 
-   /**
-    * Overrides method to remove any pre-existing temporary attachment files
-    * from previous engine executions.
-    * 
-    * @see org.activebpel.rt.bpel.impl.attachment.IAeAttachmentStorage#cleanup()
-    */
-   public void cleanup() throws AeBusinessProcessException
-   {
-      // Get a listing of temporary attachment files.
-      File[] tempFiles = AeAttachmentFile.listAttachmentFiles();
+            synchronized (processInfos) {
+                // Add the group's attachments to the process's attachments.
+                processInfos.addAll(groupInfos);
+            }
+        }
+    }
 
-      // Construct the set of files to delete.
-      Set<File> deleteFiles = new HashSet<>(Arrays.asList(tempFiles));
+    /**
+     * Overrides method to remove any pre-existing temporary attachment files
+     * from previous engine executions.
+     *
+     * @see org.activebpel.rt.bpel.impl.attachment.IAeAttachmentStorage#cleanup()
+     */
+    public void cleanup() throws AeBusinessProcessException {
+        // Get a listing of temporary attachment files.
+        File[] tempFiles = AeAttachmentFile.listAttachmentFiles();
 
-      // Don't delete files that we are actively managing.
-       for (AeAttachmentInfo info : getAttachmentInfoMap().values()) {
-           deleteFiles.remove(info.mAttachmentFile);
-       }
+        // Construct the set of files to delete.
+        Set<File> deleteFiles = new HashSet<>(Arrays.asList(tempFiles));
 
-      // Delete any remaining temporary attachment files.
-       for (File deleteFile : deleteFiles) {
-           (deleteFile).delete();
-       }
-   }
+        // Don't delete files that we are actively managing.
+        for (AeAttachmentInfo info : getAttachmentInfoMap().values()) {
+            deleteFiles.remove(info.mAttachmentFile);
+        }
 
-   /**
-    * Overrides method to create a new attachment group represented by an entry
-    * in the attachment groups map.
-    * 
-    * @see org.activebpel.rt.bpel.impl.attachment.IAeAttachmentStorage#createAttachmentGroup(org.activebpel.rt.bpel.impl.IAeProcessPlan)
-    */
-   public long createAttachmentGroup(IAeProcessPlan aPlan) throws AeBusinessProcessException
-   {
-      long groupId = getNextGroupId();
+        // Delete any remaining temporary attachment files.
+        for (File deleteFile : deleteFiles) {
+            (deleteFile).delete();
+        }
+    }
 
-      getGroupInfosMap().put(groupId, new ArrayList<AeAttachmentInfo>());
+    /**
+     * Overrides method to create a new attachment group represented by an entry
+     * in the attachment groups map.
+     *
+     * @see org.activebpel.rt.bpel.impl.attachment.IAeAttachmentStorage#createAttachmentGroup(org.activebpel.rt.bpel.impl.IAeProcessPlan)
+     */
+    public long createAttachmentGroup(IAeProcessPlan aPlan) throws AeBusinessProcessException {
+        long groupId = getNextGroupId();
 
-      return groupId;
-   }
+        getGroupInfosMap().put(groupId, new ArrayList<AeAttachmentInfo>());
 
-   /**
-    * Overrides method to return a new input stream on the temporary file for
-    * the given attachment.
-    *
-    * @see org.activebpel.rt.bpel.impl.attachment.IAeAttachmentStorage#getContent(long)
-    */
-   public InputStream getContent(long aAttachmentId) throws AeBusinessProcessException
-   {
-      AeAttachmentInfo info = getAttachmentInfo(aAttachmentId);
+        return groupId;
+    }
 
-      try
-      {
-         return new AeAttachmentFileInputStream(info.mAttachmentFile);
-      }
-      catch (FileNotFoundException e)
-      {
-         throw new AeBusinessProcessException(e.getLocalizedMessage(), e);
-      }
-   }
+    /**
+     * Overrides method to return a new input stream on the temporary file for
+     * the given attachment.
+     *
+     * @see org.activebpel.rt.bpel.impl.attachment.IAeAttachmentStorage#getContent(long)
+     */
+    public InputStream getContent(long aAttachmentId) throws AeBusinessProcessException {
+        AeAttachmentInfo info = getAttachmentInfo(aAttachmentId);
 
-   /**
-    * Overrides method to return the headers for the given attachment.
-    * 
-    * @see org.activebpel.rt.bpel.impl.attachment.IAeAttachmentStorage#getHeaders(long)
-    */
-   public Map getHeaders(long aAttachmentId) throws AeBusinessProcessException
-   {
-      AeAttachmentInfo info = getAttachmentInfo(aAttachmentId);
-      return info.mHeaders;
-   }
+        try {
+            return new AeAttachmentFileInputStream(info.mAttachmentFile);
+        } catch (FileNotFoundException e) {
+            throw new AeBusinessProcessException(e.getLocalizedMessage(), e);
+        }
+    }
 
-   /**
-    * Removes the attachments associated with the given process, including the
-    * temporary files for those attachments.
-    *
-    * @param aProcessId
-    */
-   public void removeProcess(long aProcessId)
-   {
-      // Remove the process's entry from the process map.
-      List<AeAttachmentInfo> processInfos = getProcessInfosMap().remove(aProcessId);
-      if (processInfos != null)
-      {
-         // Remove the attachments from the attachment map.
-         synchronized (getAttachmentInfoMap())
-         {
-             for (AeAttachmentInfo processInfo : processInfos) {
-                 getAttachmentInfoMap().remove(processInfo.mAttachmentId);
-             }
-         }
-         
-         // Delete the associated temporary files. Do this outside of the
-         // synchronized block to avoid blocking other threads during these
-         // relatively expensive I/O operations.
-          for (Object processInfo : processInfos) {
-              AeAttachmentInfo info = (AeAttachmentInfo) processInfo;
-              info.mAttachmentFile.delete();
-          }
-      }
-   }
+    /**
+     * Overrides method to return the headers for the given attachment.
+     *
+     * @see org.activebpel.rt.bpel.impl.attachment.IAeAttachmentStorage#getHeaders(long)
+     */
+    public Map getHeaders(long aAttachmentId) throws AeBusinessProcessException {
+        AeAttachmentInfo info = getAttachmentInfo(aAttachmentId);
+        return info.mHeaders;
+    }
 
-   /**
-    * Overrides method to store an attachment stream into a temporary file and
-    * to create an {@link AeAttachmentInfo} instance associated with the given
-    * group.
-    * 
-    * @see org.activebpel.rt.bpel.impl.attachment.IAeAttachmentStorage#storeAttachment(long, java.io.InputStream, java.util.Map)
-    */
-   public long storeAttachment(long aAttachmentGroupId, InputStream aInputStream, Map aHeaders) throws AeBusinessProcessException
-   {
-      // Verify that the specified group exists.
-	  List<AeAttachmentInfo> groupInfos = getGroupInfosMap().get(aAttachmentGroupId);
-      if (groupInfos == null)
-      {
-         throw new AeBusinessProcessException(AeMessages.format("AeFileAttachmentStorage.ERROR_IllegalGroupId", String.valueOf(aAttachmentGroupId))); //$NON-NLS-1$
-      }
+    /**
+     * Removes the attachments associated with the given process, including the
+     * temporary files for those attachments.
+     *
+     * @param aProcessId
+     */
+    public void removeProcess(long aProcessId) {
+        // Remove the process's entry from the process map.
+        List<AeAttachmentInfo> processInfos = getProcessInfosMap().remove(aProcessId);
+        if (processInfos != null) {
+            // Remove the attachments from the attachment map.
+            synchronized (getAttachmentInfoMap()) {
+                for (AeAttachmentInfo processInfo : processInfos) {
+                    getAttachmentInfoMap().remove(processInfo.mAttachmentId);
+                }
+            }
 
-      long attachmentId = getNextAttachmentId();
-      AeAttachmentFile attachmentFile = new AeAttachmentFile(aInputStream);
-      AeAttachmentInfo info = new AeAttachmentInfo(attachmentId, attachmentFile, aHeaders);
+            // Delete the associated temporary files. Do this outside of the
+            // synchronized block to avoid blocking other threads during these
+            // relatively expensive I/O operations.
+            for (Object processInfo : processInfos) {
+                AeAttachmentInfo info = (AeAttachmentInfo) processInfo;
+                info.mAttachmentFile.delete();
+            }
+        }
+    }
 
-      // Save the attachment info indexed by attachment id.
-      getAttachmentInfoMap().put(attachmentId, info);
+    /**
+     * Overrides method to store an attachment stream into a temporary file and
+     * to create an {@link AeAttachmentInfo} instance associated with the given
+     * group.
+     *
+     * @see org.activebpel.rt.bpel.impl.attachment.IAeAttachmentStorage#storeAttachment(long, java.io.InputStream, java.util.Map)
+     */
+    public long storeAttachment(long aAttachmentGroupId, InputStream aInputStream, Map aHeaders) throws AeBusinessProcessException {
+        // Verify that the specified group exists.
+        List<AeAttachmentInfo> groupInfos = getGroupInfosMap().get(aAttachmentGroupId);
+        if (groupInfos == null) {
+            throw new AeBusinessProcessException(AeMessages.format("AeFileAttachmentStorage.ERROR_IllegalGroupId", String.valueOf(aAttachmentGroupId))); //$NON-NLS-1$
+        }
 
-      // Add the attachment info to the group as well.
-      groupInfos.add(info);
+        long attachmentId = getNextAttachmentId();
+        AeAttachmentFile attachmentFile = new AeAttachmentFile(aInputStream);
+        AeAttachmentInfo info = new AeAttachmentInfo(attachmentId, attachmentFile, aHeaders);
 
-      return attachmentId;
-   }
-   
-   /**
-    * @see org.activebpel.rt.bpel.impl.attachment.IAeAttachmentStorage#removeAttachment(long)
-    */
-   public void removeAttachment(long aAttachmentId) throws AeBusinessProcessException
-   {
-      AeAttachmentInfo info = getAttachmentInfo(aAttachmentId);
-      info.mAttachmentFile.delete();
-      getAttachmentInfoMap().remove(aAttachmentId);
-   }
+        // Save the attachment info indexed by attachment id.
+        getAttachmentInfoMap().put(attachmentId, info);
 
-   /**
-    * Returns the {@link AeAttachmentInfo} instance for the given attachment.
-    *
-    * @param aAttachmentId
-    * @throws AeBusinessProcessException
-    */
-   protected AeAttachmentInfo getAttachmentInfo(long aAttachmentId) throws AeBusinessProcessException
-   {
-      AeAttachmentInfo info = getAttachmentInfoMap().get(aAttachmentId);
-      if (info == null)
-      {
-         throw new AeBusinessProcessException(AeMessages.format("AeFileAttachmentStorage.ERROR_IllegalAttachmentId", String.valueOf(aAttachmentId))); //$NON-NLS-1$
-      }
+        // Add the attachment info to the group as well.
+        groupInfos.add(info);
 
-      return info;
-   }
+        return attachmentId;
+    }
 
-   /**
-    * Returns the map from attachment ids to {@link AeAttachmentInfo} instances.
-    */
-   protected Map<Long,AeAttachmentInfo> getAttachmentInfoMap()
-   {
-      return mAttachmentInfoMap;
-   }
+    /**
+     * @see org.activebpel.rt.bpel.impl.attachment.IAeAttachmentStorage#removeAttachment(long)
+     */
+    public void removeAttachment(long aAttachmentId) throws AeBusinessProcessException {
+        AeAttachmentInfo info = getAttachmentInfo(aAttachmentId);
+        info.mAttachmentFile.delete();
+        getAttachmentInfoMap().remove(aAttachmentId);
+    }
 
-   /**
-    * Returns the map from group ids to lists of {@link AeAttachmentInfo}
-    * instances.
-    */
-   protected Map<Long,List<AeAttachmentInfo>> getGroupInfosMap()
-   {
-      return mGroupInfosMap;
-   }
+    /**
+     * Returns the {@link AeAttachmentInfo} instance for the given attachment.
+     *
+     * @param aAttachmentId
+     * @throws AeBusinessProcessException
+     */
+    protected AeAttachmentInfo getAttachmentInfo(long aAttachmentId) throws AeBusinessProcessException {
+        AeAttachmentInfo info = getAttachmentInfoMap().get(aAttachmentId);
+        if (info == null) {
+            throw new AeBusinessProcessException(AeMessages.format("AeFileAttachmentStorage.ERROR_IllegalAttachmentId", String.valueOf(aAttachmentId))); //$NON-NLS-1$
+        }
 
-   /**
-    * Returns the next attachment id.
-    */
-   protected long getNextAttachmentId()
-   {
-      return mAttachmentIdCounter.getNextValue();
-   }
+        return info;
+    }
 
-   /**
-    * Returns the next attachment group id.
-    */
-   protected long getNextGroupId()
-   {
-      return mGroupIdCounter.getNextValue();
-   }
+    /**
+     * Returns the map from attachment ids to {@link AeAttachmentInfo} instances.
+     */
+    protected Map<Long, AeAttachmentInfo> getAttachmentInfoMap() {
+        return mAttachmentInfoMap;
+    }
 
-   /**
-    * Returns the map from process ids to lists of {@link AeAttachmentInfo}
-    * instances.
-    */
-   protected Map<Long,List<AeAttachmentInfo>> getProcessInfosMap()
-   {
-      return mProcessInfosMap;
-   }
+    /**
+     * Returns the map from group ids to lists of {@link AeAttachmentInfo}
+     * instances.
+     */
+    protected Map<Long, List<AeAttachmentInfo>> getGroupInfosMap() {
+        return mGroupInfosMap;
+    }
 
-   /**
-    * Returns the list of {@link AeAttachmentInfo} instances associated with the
-    * given process.
-    *
-    * @param aProcessId
-    */
-   protected List<AeAttachmentInfo> getProcessInfos(long aProcessId)
-   {
-      synchronized (getProcessInfosMap())
-      {
-    	 List<AeAttachmentInfo> processInfos = getProcessInfosMap().get(aProcessId);
-         if (processInfos == null)
-         {
-            // If an entry for the process doesn't exist yet, then create one.
-            processInfos = new ArrayList<>();
-            getProcessInfosMap().put(aProcessId, processInfos);
-         }
+    /**
+     * Returns the next attachment id.
+     */
+    protected long getNextAttachmentId() {
+        return mAttachmentIdCounter.getNextValue();
+    }
 
-         return processInfos;
-      }
-   }
+    /**
+     * Returns the next attachment group id.
+     */
+    protected long getNextGroupId() {
+        return mGroupIdCounter.getNextValue();
+    }
 
-   /**
-    * Convenience method that calls {@link AeUtil#listTempFiles(String, String)}
-    * and converts <code>AeException</code> to
-    * <code>AeBusinessProcessException</code>.
-    * @param aPrefix
-    * @param aSuffix
-    */
-   protected static File[] listTempFiles(String aPrefix, String aSuffix) throws AeBusinessProcessException
-   {
-      try
-      {
-         return AeUtil.listTempFiles(aPrefix, aSuffix);
-      }
-      catch (AeException e)
-      {
-         throw new AeBusinessProcessException(e.getLocalizedMessage(), e);
-      }
-   }
+    /**
+     * Returns the map from process ids to lists of {@link AeAttachmentInfo}
+     * instances.
+     */
+    protected Map<Long, List<AeAttachmentInfo>> getProcessInfosMap() {
+        return mProcessInfosMap;
+    }
 
-   /**
-    * Defines a simple struct of attachment information.
-    */
-   protected static class AeAttachmentInfo
-   {
-      public final long mAttachmentId;
-      public final AeAttachmentFile mAttachmentFile;
-      public final Map mHeaders;
+    /**
+     * Returns the list of {@link AeAttachmentInfo} instances associated with the
+     * given process.
+     *
+     * @param aProcessId
+     */
+    protected List<AeAttachmentInfo> getProcessInfos(long aProcessId) {
+        synchronized (getProcessInfosMap()) {
+            List<AeAttachmentInfo> processInfos = getProcessInfosMap().get(aProcessId);
+            if (processInfos == null) {
+                // If an entry for the process doesn't exist yet, then create one.
+                processInfos = new ArrayList<>();
+                getProcessInfosMap().put(aProcessId, processInfos);
+            }
 
-      public AeAttachmentInfo(long aAttachmentId, AeAttachmentFile aAttachmentFile, Map aHeaders)
-      {
-         mAttachmentId = aAttachmentId;
-         mAttachmentFile = aAttachmentFile;
-         mHeaders = aHeaders;
-      }
-   }
+            return processInfos;
+        }
+    }
 
-   /**
-    * Implements a simple counter.
-    */
-   protected static class AeLongCounter
-   {
-      /** Next available counter value. */
-      private long mNextValue = 1L;
+    /**
+     * Convenience method that calls {@link AeUtil#listTempFiles(String, String)}
+     * and converts <code>AeException</code> to
+     * <code>AeBusinessProcessException</code>.
+     *
+     * @param aPrefix
+     * @param aSuffix
+     */
+    protected static File[] listTempFiles(String aPrefix, String aSuffix) throws AeBusinessProcessException {
+        try {
+            return AeUtil.listTempFiles(aPrefix, aSuffix);
+        } catch (AeException e) {
+            throw new AeBusinessProcessException(e.getLocalizedMessage(), e);
+        }
+    }
 
-      /**
-       * Default constructor.
-       */
-      public AeLongCounter()
-      {
-      }
-      
-      /**
-       * Returns next available counter value.
-       */
-      public synchronized long getNextValue()
-      {
-         return mNextValue++;
-      }
-   }
+    /**
+     * Defines a simple struct of attachment information.
+     */
+    protected static class AeAttachmentInfo {
+        public final long mAttachmentId;
+        public final AeAttachmentFile mAttachmentFile;
+        public final Map mHeaders;
+
+        public AeAttachmentInfo(long aAttachmentId, AeAttachmentFile aAttachmentFile, Map aHeaders) {
+            mAttachmentId = aAttachmentId;
+            mAttachmentFile = aAttachmentFile;
+            mHeaders = aHeaders;
+        }
+    }
+
+    /**
+     * Implements a simple counter.
+     */
+    protected static class AeLongCounter {
+        /**
+         * Next available counter value.
+         */
+        private long mNextValue = 1L;
+
+        /**
+         * Default constructor.
+         */
+        public AeLongCounter() {
+        }
+
+        /**
+         * Returns next available counter value.
+         */
+        public synchronized long getNextValue() {
+            return mNextValue++;
+        }
+    }
 }

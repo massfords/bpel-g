@@ -13,89 +13,88 @@ package org.activebpel.rt.xml.schema;
 /**
  * Visitor interface for schema types.
  */
-public interface IAeSchemaTypeVisitor
-{
-   /**
-    * Visit the given schema type.
-    * 
-    * @param aSchemaType
-    */
-   public void visit(AeSchemaAnyURI aSchemaType);
+public interface IAeSchemaTypeVisitor {
+    /**
+     * Visit the given schema type.
+     *
+     * @param aSchemaType
+     */
+    public void visit(AeSchemaAnyURI aSchemaType);
 
-   /**
-    * Visit the given schema type.
-    * 
-    * @param aSchemaType
-    */
-   public void visit(AeSchemaDate aSchemaType);
+    /**
+     * Visit the given schema type.
+     *
+     * @param aSchemaType
+     */
+    public void visit(AeSchemaDate aSchemaType);
 
-   /**
-    * Visit the given schema type.
-    * 
-    * @param aSchemaType
-    */
-   public void visit(AeSchemaDateTime aSchemaType);
+    /**
+     * Visit the given schema type.
+     *
+     * @param aSchemaType
+     */
+    public void visit(AeSchemaDateTime aSchemaType);
 
-   /**
-    * Visit the given schema type.
-    * 
-    * @param aSchemaType
-    */
-   public void visit(AeSchemaDay aSchemaType);
+    /**
+     * Visit the given schema type.
+     *
+     * @param aSchemaType
+     */
+    public void visit(AeSchemaDay aSchemaType);
 
-   /**
-    * Visit the given schema type.
-    * 
-    * @param aSchemaType
-    */
-   public void visit(AeSchemaDuration aSchemaType);
+    /**
+     * Visit the given schema type.
+     *
+     * @param aSchemaType
+     */
+    public void visit(AeSchemaDuration aSchemaType);
 
-   /**
-    * Visit the given schema type.
-    * 
-    * @param aSchemaType
-    */
-   public void visit(AeSchemaMonth aSchemaType);
+    /**
+     * Visit the given schema type.
+     *
+     * @param aSchemaType
+     */
+    public void visit(AeSchemaMonth aSchemaType);
 
-   /**
-    * Visit the given schema type.
-    * 
-    * @param aSchemaType
-    */
-   public void visit(AeSchemaMonthDay aSchemaType);
+    /**
+     * Visit the given schema type.
+     *
+     * @param aSchemaType
+     */
+    public void visit(AeSchemaMonthDay aSchemaType);
 
-   /**
-    * Visit the given schema type.
-    * 
-    * @param aSchemaType
-    */
-   public void visit(AeSchemaTime aSchemaType);
+    /**
+     * Visit the given schema type.
+     *
+     * @param aSchemaType
+     */
+    public void visit(AeSchemaTime aSchemaType);
 
-   /**
-    * Visit the given schema type.
-    * 
-    * @param aSchemaType
-    */
-   public void visit(AeSchemaYear aSchemaType);
+    /**
+     * Visit the given schema type.
+     *
+     * @param aSchemaType
+     */
+    public void visit(AeSchemaYear aSchemaType);
 
-   /**
-    * Visit the given schema type.
-    * 
-    * @param aSchemaType
-    */
-   public void visit(AeSchemaYearMonth aSchemaType);
+    /**
+     * Visit the given schema type.
+     *
+     * @param aSchemaType
+     */
+    public void visit(AeSchemaYearMonth aSchemaType);
 
-   /**
-    * Visit the given schema type.
-    * 
-    * @param aSchemaType
-    */
-   public void visit(AeSchemaHexBinary aSchemaType);
+    /**
+     * Visit the given schema type.
+     *
+     * @param aSchemaType
+     */
+    public void visit(AeSchemaHexBinary aSchemaType);
 
-   /**
-    * Visit the given schema type.
-    * 
-    * @param aSchemaType
-    */
-   public void visit(AeSchemaBase64Binary aSchemaType);
+    /**
+     * Visit the given schema type.
+     *
+     * @param aSchemaType
+     */
+    public void visit(AeSchemaBase64Binary aSchemaType);
 }

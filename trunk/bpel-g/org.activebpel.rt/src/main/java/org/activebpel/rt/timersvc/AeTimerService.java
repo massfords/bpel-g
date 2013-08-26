@@ -18,327 +18,307 @@ import java.util.*;
  * A Simple Timer service.  This class uses a standard Java <code>java.util.Timer</code>
  * object to manage timer events.
  */
-public class AeTimerService
-{
-   /** This is the singleton instance of the timer service. */
-   private static AeTimerService instance = null;
+public class AeTimerService {
+    /**
+     * This is the singleton instance of the timer service.
+     */
+    private static AeTimerService instance = null;
 
-   /** Get the singleton instance of the timer service. */
-   public static AeTimerService getInstance()
-   {
-      if (instance == null)
-         instance = new AeTimerService();
+    /**
+     * Get the singleton instance of the timer service.
+     */
+    public static AeTimerService getInstance() {
+        if (instance == null)
+            instance = new AeTimerService();
 
-      return instance;
-   }
+        return instance;
+    }
 
-   /** Holds the next task id. */
-   private long mNextId = 1;
+    /**
+     * Holds the next task id.
+     */
+    private long mNextId = 1;
 
-   /** The java timer used by this manager. */
-   private java.util.Timer mTimer;
+    /**
+     * The java timer used by this manager.
+     */
+    private java.util.Timer mTimer;
 
-   /** The map of currently running alarm manager tasks, keyed by request ID. */
-   private final Map<Long, AeTimerTask> mTimerTasks = new HashMap<>();
+    /**
+     * The map of currently running alarm manager tasks, keyed by request ID.
+     */
+    private final Map<Long, AeTimerTask> mTimerTasks = new HashMap<>();
 
-   /**
-    * Constructs a new timer service.
-    */
-   private AeTimerService()
-   {
-   }
+    /**
+     * Constructs a new timer service.
+     */
+    private AeTimerService() {
+    }
 
-   /**
-    * Schedule and record a timing request. Deadline version.
-    * 
-    * @param aTimerListener The timer listener callback.
-    * @param aDeadline The instant at which the client wants the event to fire.
-    * 
-    * @return The Timer object created by the scheduling request.
-    */
-   public Timer schedule(TimerListener aTimerListener, Date aDeadline)
-   {
-      AeTimerTask task = new AeTimerTask(aTimerListener);
-      synchronized (getTimerTasks())
-      {
-         getTimerTasks().put(task.getId(), task);
-      }
-      mTimer.schedule(task, aDeadline);
-      
-      return task;
-   }
+    /**
+     * Schedule and record a timing request. Deadline version.
+     *
+     * @param aTimerListener The timer listener callback.
+     * @param aDeadline      The instant at which the client wants the event to fire.
+     * @return The Timer object created by the scheduling request.
+     */
+    public Timer schedule(TimerListener aTimerListener, Date aDeadline) {
+        AeTimerTask task = new AeTimerTask(aTimerListener);
+        synchronized (getTimerTasks()) {
+            getTimerTasks().put(task.getId(), task);
+        }
+        mTimer.schedule(task, aDeadline);
 
-   /**
-    * Schedule and record a timing request. Duration version. Granularity is 1 millisecond.
-    * 
-    * @param aTimerListener The timer listener callback.
-    * @param aDelay The number of milliseconds to wait.
-    * @return The Timer object created by the scheduling request.
-    */
-   public Timer schedule(TimerListener aTimerListener, long aDelay)
-   {
-      AeTimerTask task = new AeTimerTask(aTimerListener);
-      synchronized (getTimerTasks())
-      {
-         getTimerTasks().put(task.getId(), task);
-      }
-      mTimer.schedule(task, aDelay);
-      
-      return task;
-   }
+        return task;
+    }
 
-   /**
-    * Schedule and record a repeating timing request.
-    * 
-    * @param aTimerListener The timer listener callback.
-    * @param aDelay The time to wait before executing task in milliseconds. 
-    * @param aPeriod The interval at which this task recurs in milliseconds.
-    * @return The Timer object created by the scheduling request.
-    */
-   public Timer schedule(TimerListener aTimerListener, long aDelay, long aPeriod)
-   {
-      AeTimerTask task = new AeTimerTask(aTimerListener, aPeriod);
-      synchronized (getTimerTasks())
-      {
-         getTimerTasks().put(task.getId(), task);
-      }
-      mTimer.schedule(task, aDelay, aPeriod);
-      
-      return task;
-   }
+    /**
+     * Schedule and record a timing request. Duration version. Granularity is 1 millisecond.
+     *
+     * @param aTimerListener The timer listener callback.
+     * @param aDelay         The number of milliseconds to wait.
+     * @return The Timer object created by the scheduling request.
+     */
+    public Timer schedule(TimerListener aTimerListener, long aDelay) {
+        AeTimerTask task = new AeTimerTask(aTimerListener);
+        synchronized (getTimerTasks()) {
+            getTimerTasks().put(task.getId(), task);
+        }
+        mTimer.schedule(task, aDelay);
 
-   /**
-    * Schedule and record a repeating timing request.
-    * 
-    * @param aTimerListener The timer listener callback.
-    * @param aFirstTime First time at which task is to be executed.
-    * @param aPeriod The interval at which this task recurs in miliseconds.
-    * @return The Timer object created by the scheduling request.
-    */
-   public Timer schedule(TimerListener aTimerListener, Date aFirstTime, long aPeriod)
-   {
-      AeTimerTask task = new AeTimerTask(aTimerListener, aPeriod);
-      synchronized (getTimerTasks())
-      {
-         getTimerTasks().put(task.getId(), task);
-      }
-      mTimer.schedule(task, aFirstTime, aPeriod);
-      
-      return task;
-   }
+        return task;
+    }
 
-   /**
-    * Schedules the specified task for repeated fixed-rate execution, beginning after the specified delay. 
-    * Subsequent executions take place at approximately regular intervals, separated by the specified period.
-    * 
-    * @param aTimerListener The timer listener callback.
-    * @param aFirstTime First time at which task is to be executed.
-    * @param aPeriod The interval at which this task recurs in miliseconds.
-    * @return The Timer object created by the scheduling request.
-    */
-   public Timer scheduleAtFixedRate(TimerListener aTimerListener, Date aFirstTime, long aPeriod)
-   {
-      AeTimerTask task = new AeTimerTask(aTimerListener, aPeriod);
-      synchronized (getTimerTasks())
-      {
-         getTimerTasks().put(task.getId(), task);
-      }
-      mTimer.schedule(task, aFirstTime, aPeriod);
-      
-      return task;
-   }
+    /**
+     * Schedule and record a repeating timing request.
+     *
+     * @param aTimerListener The timer listener callback.
+     * @param aDelay         The time to wait before executing task in milliseconds.
+     * @param aPeriod        The interval at which this task recurs in milliseconds.
+     * @return The Timer object created by the scheduling request.
+     */
+    public Timer schedule(TimerListener aTimerListener, long aDelay, long aPeriod) {
+        AeTimerTask task = new AeTimerTask(aTimerListener, aPeriod);
+        synchronized (getTimerTasks()) {
+            getTimerTasks().put(task.getId(), task);
+        }
+        mTimer.schedule(task, aDelay, aPeriod);
 
-   /**
-    * Schedules the specified task for repeated fixed-rate execution, beginning at the specified time. 
-    * Subsequent executions take place at approximately regular intervals, separated by the specified period.
-    * 
-    * @param aTimerListener The timer listener callback.
-    * @param aDelay The time to wait before executing task in miliseconds 
-    * @param aPeriod The interval at which this task recurs in miliseconds.
-    * @return The Timer object created by the scheduling request.
-    */
-   public Timer scheduleAtFixedRate(TimerListener aTimerListener, long aDelay, long aPeriod)
-   {
-      AeTimerTask task = new AeTimerTask(aTimerListener, aPeriod);
-      synchronized (getTimerTasks())
-      {
-         getTimerTasks().put(task.getId(), task);
-      }
-      mTimer.schedule(task, aDelay, aPeriod);
-      
-      return task;
-   }
-   
-   /**
-    * Cancel a scheduled request given the timer object created from the scheduling request.
-    *
-    * @param aTimer the timer object, returned previously by schedule();
-    * @return True if request was cancelled, false otherwise
-    * @see java.util.Timer#cancel()
-    */
-   public boolean cancel(Timer aTimer)
-   {
-      boolean cancelled = true;
-      synchronized (getTimerTasks())
-      {
-         Long key = ((AeTimerTask)aTimer).getId();
-         AeTimerTask task = getTimerTasks().get(key);
-         if (task == null)
-            cancelled = false;
-         else
-         {
-            task.cancel();
-         }
-      }
-      
-      return cancelled;
-   }
+        return task;
+    }
 
-   /**
-    * Shut down the alarm manager.  This will cancel all currently running notification requests.
-    */
-   public void shutDown()
-   {
-      // Cancel all currently running timer tasks.
-      synchronized (getTimerTasks())
-      {
-         // Iterate over a copy of the timer tasks collection, so that we don't
-         // get a concurrent modification exception when AeTimerTask#cancel()
-         // removes a task from the timer tasks map.
-         Collection<AeTimerTask> tasks = new ArrayList<>(getTimerTasks().values());
+    /**
+     * Schedule and record a repeating timing request.
+     *
+     * @param aTimerListener The timer listener callback.
+     * @param aFirstTime     First time at which task is to be executed.
+     * @param aPeriod        The interval at which this task recurs in miliseconds.
+     * @return The Timer object created by the scheduling request.
+     */
+    public Timer schedule(TimerListener aTimerListener, Date aFirstTime, long aPeriod) {
+        AeTimerTask task = new AeTimerTask(aTimerListener, aPeriod);
+        synchronized (getTimerTasks()) {
+            getTimerTasks().put(task.getId(), task);
+        }
+        mTimer.schedule(task, aFirstTime, aPeriod);
 
-          for (AeTimerTask task : tasks) task.cancel();
-      }
+        return task;
+    }
 
-      // Cancel myself.
-      mTimer.cancel();
-      mTimer = null;
-   }
+    /**
+     * Schedules the specified task for repeated fixed-rate execution, beginning after the specified delay.
+     * Subsequent executions take place at approximately regular intervals, separated by the specified period.
+     *
+     * @param aTimerListener The timer listener callback.
+     * @param aFirstTime     First time at which task is to be executed.
+     * @param aPeriod        The interval at which this task recurs in miliseconds.
+     * @return The Timer object created by the scheduling request.
+     */
+    public Timer scheduleAtFixedRate(TimerListener aTimerListener, Date aFirstTime, long aPeriod) {
+        AeTimerTask task = new AeTimerTask(aTimerListener, aPeriod);
+        synchronized (getTimerTasks()) {
+            getTimerTasks().put(task.getId(), task);
+        }
+        mTimer.schedule(task, aFirstTime, aPeriod);
 
-   /**
-    * On startUp of the timer service, create a java timer.
-    */
-   public void startUp()
-   {
-      // Test to see if there is already a timer, if so then startup was already called.
-      if (mTimer == null)
-         mTimer = new java.util.Timer();
-   }
+        return task;
+    }
 
-   /**
-    * Gets the next available id for a scheduled timer task.
-    */
-   protected synchronized long getNextId()
-   {
-      return mNextId++;
-   }
+    /**
+     * Schedules the specified task for repeated fixed-rate execution, beginning at the specified time.
+     * Subsequent executions take place at approximately regular intervals, separated by the specified period.
+     *
+     * @param aTimerListener The timer listener callback.
+     * @param aDelay         The time to wait before executing task in miliseconds
+     * @param aPeriod        The interval at which this task recurs in miliseconds.
+     * @return The Timer object created by the scheduling request.
+     */
+    public Timer scheduleAtFixedRate(TimerListener aTimerListener, long aDelay, long aPeriod) {
+        AeTimerTask task = new AeTimerTask(aTimerListener, aPeriod);
+        synchronized (getTimerTasks()) {
+            getTimerTasks().put(task.getId(), task);
+        }
+        mTimer.schedule(task, aDelay, aPeriod);
 
-   /**
-    * Returns the collection of timer events which are currently scheduled. 
-    */
-   protected Map<Long, AeTimerTask> getTimerTasks()
-   {
-      return mTimerTasks;
-   }
+        return task;
+    }
 
-   /**
-    * Inner class to provide specialized timer task functionality.
-    */
-   public class AeTimerTask extends TimerTask implements Timer
-   {
-      /** The timer service handler that will receive the timer event callback. */
-      private final TimerListener mTimerListener;
-      /** The timer ID for this task. */
-      private final Long mTimerId;
-      /** The period to use for computing a repeating interval if this is a repeating timer */
-      private long mPeriod;
-
-      /**
-       * Constructor to create a timer task object given the listener.
-       * @param aTimerListener The client to be notified when the task triggers.
-       */
-      public AeTimerTask(TimerListener aTimerListener)
-      {
-         mTimerListener = aTimerListener ;
-         mTimerId = getNextId();
-      }
-
-      /**
-       * Constructor to create a timer task object given the listener and schedule info.
-       * @param aTimerListener The client to be notified when the task triggers.
-       * @param aPeriod The period to use for computing a repeating interval if this is a repeating timer
-       */
-      public AeTimerTask(TimerListener aTimerListener, long aPeriod)
-      {
-         this(aTimerListener);
-         mPeriod = aPeriod;
-      }
-
-      /** 
-       * Returns the internal id associated with this timer task
-       */
-      public Long getId()
-      {
-         return mTimerId;
-      }
-
-      /**
-       * Notify the client that the timer event is triggered.
-       * 
-       * @see java.lang.Runnable#run()
-       */      
-      public void run()
-      {
-         try
-         {
-            mTimerListener.timerExpired(this);
-         }
-         finally
-         {
-            if (mPeriod == 0)
-            {
-               cancel();
+    /**
+     * Cancel a scheduled request given the timer object created from the scheduling request.
+     *
+     * @param aTimer the timer object, returned previously by schedule();
+     * @return True if request was cancelled, false otherwise
+     * @see java.util.Timer#cancel()
+     */
+    public boolean cancel(Timer aTimer) {
+        boolean cancelled = true;
+        synchronized (getTimerTasks()) {
+            Long key = ((AeTimerTask) aTimer).getId();
+            AeTimerTask task = getTimerTasks().get(key);
+            if (task == null)
+                cancelled = false;
+            else {
+                task.cancel();
             }
-         }
-      }
+        }
 
-      /**
-       * @see commonj.timers.Timer#getTimerListener()
-       */
-      public TimerListener getTimerListener()
-      {
-         return mTimerListener;
-      }
+        return cancelled;
+    }
 
-      /**
-       * @see commonj.timers.Timer#getScheduledExecutionTime()
-       */
-      public long getScheduledExecutionTime() throws IllegalStateException
-      {
-         return scheduledExecutionTime();
-      }
+    /**
+     * Shut down the alarm manager.  This will cancel all currently running notification requests.
+     */
+    public void shutDown() {
+        // Cancel all currently running timer tasks.
+        synchronized (getTimerTasks()) {
+            // Iterate over a copy of the timer tasks collection, so that we don't
+            // get a concurrent modification exception when AeTimerTask#cancel()
+            // removes a task from the timer tasks map.
+            Collection<AeTimerTask> tasks = new ArrayList<>(getTimerTasks().values());
 
-      /**
-       * @see commonj.timers.Timer#getPeriod()
-       */
-      public long getPeriod()
-      {
-         return mPeriod;
-      }
+            for (AeTimerTask task : tasks) task.cancel();
+        }
 
-      /**
-       * Overrides method to remove this timer task from timer service map.
-       *
-       * @see java.util.TimerTask#cancel()
-       */
-      public boolean cancel()
-      {
-         synchronized (getTimerTasks())
-         {
-            getTimerTasks().remove(getId());
-         }
+        // Cancel myself.
+        mTimer.cancel();
+        mTimer = null;
+    }
 
-         return super.cancel();
-      }
-   }
+    /**
+     * On startUp of the timer service, create a java timer.
+     */
+    public void startUp() {
+        // Test to see if there is already a timer, if so then startup was already called.
+        if (mTimer == null)
+            mTimer = new java.util.Timer();
+    }
+
+    /**
+     * Gets the next available id for a scheduled timer task.
+     */
+    protected synchronized long getNextId() {
+        return mNextId++;
+    }
+
+    /**
+     * Returns the collection of timer events which are currently scheduled.
+     */
+    protected Map<Long, AeTimerTask> getTimerTasks() {
+        return mTimerTasks;
+    }
+
+    /**
+     * Inner class to provide specialized timer task functionality.
+     */
+    public class AeTimerTask extends TimerTask implements Timer {
+        /**
+         * The timer service handler that will receive the timer event callback.
+         */
+        private final TimerListener mTimerListener;
+        /**
+         * The timer ID for this task.
+         */
+        private final Long mTimerId;
+        /**
+         * The period to use for computing a repeating interval if this is a repeating timer
+         */
+        private long mPeriod;
+
+        /**
+         * Constructor to create a timer task object given the listener.
+         *
+         * @param aTimerListener The client to be notified when the task triggers.
+         */
+        public AeTimerTask(TimerListener aTimerListener) {
+            mTimerListener = aTimerListener;
+            mTimerId = getNextId();
+        }
+
+        /**
+         * Constructor to create a timer task object given the listener and schedule info.
+         *
+         * @param aTimerListener The client to be notified when the task triggers.
+         * @param aPeriod        The period to use for computing a repeating interval if this is a repeating timer
+         */
+        public AeTimerTask(TimerListener aTimerListener, long aPeriod) {
+            this(aTimerListener);
+            mPeriod = aPeriod;
+        }
+
+        /**
+         * Returns the internal id associated with this timer task
+         */
+        public Long getId() {
+            return mTimerId;
+        }
+
+        /**
+         * Notify the client that the timer event is triggered.
+         *
+         * @see java.lang.Runnable#run()
+         */
+        public void run() {
+            try {
+                mTimerListener.timerExpired(this);
+            } finally {
+                if (mPeriod == 0) {
+                    cancel();
+                }
+            }
+        }
+
+        /**
+         * @see commonj.timers.Timer#getTimerListener()
+         */
+        public TimerListener getTimerListener() {
+            return mTimerListener;
+        }
+
+        /**
+         * @see commonj.timers.Timer#getScheduledExecutionTime()
+         */
+        public long getScheduledExecutionTime() throws IllegalStateException {
+            return scheduledExecutionTime();
+        }
+
+        /**
+         * @see commonj.timers.Timer#getPeriod()
+         */
+        public long getPeriod() {
+            return mPeriod;
+        }
+
+        /**
+         * Overrides method to remove this timer task from timer service map.
+         *
+         * @see java.util.TimerTask#cancel()
+         */
+        public boolean cancel() {
+            synchronized (getTimerTasks()) {
+                getTimerTasks().remove(getId());
+            }
+
+            return super.cancel();
+        }
+    }
 }

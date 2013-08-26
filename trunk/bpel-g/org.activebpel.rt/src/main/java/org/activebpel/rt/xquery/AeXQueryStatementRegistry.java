@@ -29,132 +29,120 @@ import org.xml.sax.InputSource;
  * This class loads and manages a set of XQuery statements configured
  * in an XML configuration file.
  */
-public class AeXQueryStatementRegistry
-{
-   /** The statement file's namespace. */
-   private static final String STATEMENT_FILE_NS = "http://schemas.active-endpoints.com/xqueryStatements/2008/03/xqueryStatements.xsd"; //$NON-NLS-1$
+public class AeXQueryStatementRegistry {
+    /**
+     * The statement file's namespace.
+     */
+    private static final String STATEMENT_FILE_NS = "http://schemas.active-endpoints.com/xqueryStatements/2008/03/xqueryStatements.xsd"; //$NON-NLS-1$
 
-   /** The xqueries loaded from the XML config file. */
-   private Map<String,String> mXQueries;
+    /**
+     * The xqueries loaded from the XML config file.
+     */
+    private Map<String, String> mXQueries;
 
-   /**
-    * C'tor.
-    */
-   protected AeXQueryStatementRegistry()
-   {
-      setXQueries(new HashMap<String,String>());
-   }
+    /**
+     * C'tor.
+     */
+    protected AeXQueryStatementRegistry() {
+        setXQueries(new HashMap<String, String>());
+    }
 
-   /**
-    * C'tor.
-    *
-    * @param aDocument
-    */
-   public AeXQueryStatementRegistry(Document aDocument)
-   {
-      this();
-      loadStatements(aDocument.getDocumentElement());
-   }
+    /**
+     * C'tor.
+     *
+     * @param aDocument
+     */
+    public AeXQueryStatementRegistry(Document aDocument) {
+        this();
+        loadStatements(aDocument.getDocumentElement());
+    }
 
-   /**
-    * C'tor.
-    *
-    * @param aElement
-    */
-   public AeXQueryStatementRegistry(Element aElement)
-   {
-      this();
-      loadStatements(aElement);
-   }
+    /**
+     * C'tor.
+     *
+     * @param aElement
+     */
+    public AeXQueryStatementRegistry(Element aElement) {
+        this();
+        loadStatements(aElement);
+    }
 
-   /**
-    * C'tor.
-    *
-    * @param aClass class to use to find and load the named XML resource
-    * @param aResourceName name of an XML file resource on the classpath
-    */
-   public AeXQueryStatementRegistry(URL aResourceUrl)
-   {
-      this();
-      InputSource iSource = new InputSource(aResourceUrl.toExternalForm());
-      try
-      {
-         Document document = new AeXMLParserBase(true, false).loadDocument(iSource, null);
-         loadStatements(document.getDocumentElement());
-      }
-      catch (AeException ex)
-      {
-         AeException.logError(ex);
-      }
-   }
+    /**
+     * C'tor.
+     *
+     * @param aClass        class to use to find and load the named XML resource
+     * @param aResourceName name of an XML file resource on the classpath
+     */
+    public AeXQueryStatementRegistry(URL aResourceUrl) {
+        this();
+        InputSource iSource = new InputSource(aResourceUrl.toExternalForm());
+        try {
+            Document document = new AeXMLParserBase(true, false).loadDocument(iSource, null);
+            loadStatements(document.getDocumentElement());
+        } catch (AeException ex) {
+            AeException.logError(ex);
+        }
+    }
 
-   /**
-    * Returns a new xquery statement for the given key into the map
-    * of xqueries.
-    *
-    * @param aXQueryKey
-    */
-   public AeXQueryStatement getXQueryStatement(String aXQueryKey)
-   {
-      String query = getXQueries().get(aXQueryKey);
-      if (query == null)
-         throw new AssertionError(MessageFormat.format(AeMessages.getString("AeXQueryStatementRegistry.StatementNotFound"), new Object[] { aXQueryKey })); //$NON-NLS-1$
-      else
-         return new AeXQueryStatement(query);
-   }
+    /**
+     * Returns a new xquery statement for the given key into the map
+     * of xqueries.
+     *
+     * @param aXQueryKey
+     */
+    public AeXQueryStatement getXQueryStatement(String aXQueryKey) {
+        String query = getXQueries().get(aXQueryKey);
+        if (query == null)
+            throw new AssertionError(MessageFormat.format(AeMessages.getString("AeXQueryStatementRegistry.StatementNotFound"), new Object[]{aXQueryKey})); //$NON-NLS-1$
+        else
+            return new AeXQueryStatement(query);
+    }
 
-   /**
-    * Returns a new xquery statement (with the parameters set to those
-    * given) for the given key into the map of xqueries.
-    *
-    * @param aXQueryKey
-    * @param aParameters
-    */
-   public AeXQueryStatement getXQueryStatement(String aXQueryKey, Object [] aParameters)
-   {
-      AeXQueryStatement statement = getXQueryStatement(aXQueryKey);
-      if (aParameters != null)
-         statement.setParameters(aParameters);
-      return statement;
-   }
+    /**
+     * Returns a new xquery statement (with the parameters set to those
+     * given) for the given key into the map of xqueries.
+     *
+     * @param aXQueryKey
+     * @param aParameters
+     */
+    public AeXQueryStatement getXQueryStatement(String aXQueryKey, Object[] aParameters) {
+        AeXQueryStatement statement = getXQueryStatement(aXQueryKey);
+        if (aParameters != null)
+            statement.setParameters(aParameters);
+        return statement;
+    }
 
-   /**
-    * Loads all of the statements from the given DOM.
-    *
-    * @param aElement
-    */
-   protected void loadStatements(Element aElement)
-   {
-      try
-      {
-         String prefix = "aexq"; //$NON-NLS-1$
-         List nodes = AeXPathUtil.selectNodes(aElement, "/aexq:statements/aexq:statement", prefix, STATEMENT_FILE_NS); //$NON-NLS-1$
-          for (Object node : nodes) {
-              Element statementElem = (Element) node;
-              String name = AeXPathUtil.selectText(statementElem, "aexq:name", prefix, STATEMENT_FILE_NS); //$NON-NLS-1$
-              String xquery = AeXPathUtil.selectText(statementElem, "aexq:xquery", prefix, STATEMENT_FILE_NS); //$NON-NLS-1$
-              getXQueries().put(name, xquery);
-          }
-      }
-      catch (AeException ex)
-      {
-         AeException.logError(ex);
-      }
-   }
+    /**
+     * Loads all of the statements from the given DOM.
+     *
+     * @param aElement
+     */
+    protected void loadStatements(Element aElement) {
+        try {
+            String prefix = "aexq"; //$NON-NLS-1$
+            List nodes = AeXPathUtil.selectNodes(aElement, "/aexq:statements/aexq:statement", prefix, STATEMENT_FILE_NS); //$NON-NLS-1$
+            for (Object node : nodes) {
+                Element statementElem = (Element) node;
+                String name = AeXPathUtil.selectText(statementElem, "aexq:name", prefix, STATEMENT_FILE_NS); //$NON-NLS-1$
+                String xquery = AeXPathUtil.selectText(statementElem, "aexq:xquery", prefix, STATEMENT_FILE_NS); //$NON-NLS-1$
+                getXQueries().put(name, xquery);
+            }
+        } catch (AeException ex) {
+            AeException.logError(ex);
+        }
+    }
 
-   /**
-    * @return Returns the xQueries.
-    */
-   protected Map<String,String> getXQueries()
-   {
-      return mXQueries;
-   }
+    /**
+     * @return Returns the xQueries.
+     */
+    protected Map<String, String> getXQueries() {
+        return mXQueries;
+    }
 
-   /**
-    * @param aQueries the xQueries to set
-    */
-   protected void setXQueries(Map<String,String> aQueries)
-   {
-      mXQueries = aQueries;
-   }
+    /**
+     * @param aQueries the xQueries to set
+     */
+    protected void setXQueries(Map<String, String> aQueries) {
+        mXQueries = aQueries;
+    }
 }

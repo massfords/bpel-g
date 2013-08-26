@@ -12,13 +12,13 @@ package org.activebpel.rt.bpel.def.visitors;
 import org.activebpel.rt.xml.def.io.IAeExtensionRegistry;
 
 /**
- * Interface to set extension registry for WSBPEL 2.0 visitor factories 
+ * Interface to set extension registry for WSBPEL 2.0 visitor factories
  */
-public interface IAeExtensionAwareDefVisitorFactory extends IAeDefVisitorFactory
-{
-   /** 
-    * Sets the extension registry
-    * @param aExtensionRegistry
-    */
-   public void setExtensionRegistry(IAeExtensionRegistry aExtensionRegistry);
+public interface IAeExtensionAwareDefVisitorFactory extends IAeDefVisitorFactory {
+    /**
+     * Sets the extension registry
+     *
+     * @param aExtensionRegistry
+     */
+    public void setExtensionRegistry(IAeExtensionRegistry aExtensionRegistry);
 }

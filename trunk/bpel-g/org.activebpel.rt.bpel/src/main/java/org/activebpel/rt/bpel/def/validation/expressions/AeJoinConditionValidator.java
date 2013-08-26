@@ -7,7 +7,7 @@
 //Active Endpoints, Inc. Removal of this PROPRIETARY RIGHTS STATEMENT 
 //is strictly forbidden. Copyright (c) 2002-2006 All rights reserved. 
 /////////////////////////////////////////////////////////////////////////////
-package org.activebpel.rt.bpel.def.validation.expressions; 
+package org.activebpel.rt.bpel.def.validation.expressions;
 
 import org.activebpel.rt.AeException;
 import org.activebpel.rt.bpel.def.IAeExpressionDef;
@@ -19,31 +19,28 @@ import org.activebpel.rt.expr.validation.IAeExpressionValidator;
 /**
  * model provides validation for the joinCondition def
  */
-public class AeJoinConditionValidator extends AeBaseExpressionValidator
-{
-   /**
-    * ctor
-    * @param aDef
-    */
-   public AeJoinConditionValidator(AeJoinConditionDef aDef)
-   {
-      super((IAeExpressionDef)aDef);
-   }
+public class AeJoinConditionValidator extends AeBaseExpressionValidator {
+    /**
+     * ctor
+     *
+     * @param aDef
+     */
+    public AeJoinConditionValidator(AeJoinConditionDef aDef) {
+        super((IAeExpressionDef) aDef);
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.def.validation.expressions.AeBaseExpressionValidator#validateExpression(java.lang.String, org.activebpel.rt.expr.validation.IAeExpressionValidator, org.activebpel.rt.expr.validation.IAeExpressionValidationContext)
-    */
-   protected IAeExpressionValidationResult validateExpression(String aExpression, IAeExpressionValidator aValidator, IAeExpressionValidationContext aContext) throws AeException
-   {
-      return aValidator.validateJoinConditionExpression(aContext, aExpression);
-   }
+    /**
+     * @see org.activebpel.rt.bpel.def.validation.expressions.AeBaseExpressionValidator#validateExpression(java.lang.String, org.activebpel.rt.expr.validation.IAeExpressionValidator, org.activebpel.rt.expr.validation.IAeExpressionValidationContext)
+     */
+    protected IAeExpressionValidationResult validateExpression(String aExpression, IAeExpressionValidator aValidator, IAeExpressionValidationContext aContext) throws AeException {
+        return aValidator.validateJoinConditionExpression(aContext, aExpression);
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.def.validation.expressions.AeBaseExpressionValidator#recordVariablesInExpression(org.activebpel.rt.expr.validation.IAeExpressionValidationResult)
-    */
-   protected void recordVariablesInExpression(IAeExpressionValidationResult aResult)
-   {
-      // fixme (MF) no-op for now since the variables here are actually links
-   }
+    /**
+     * @see org.activebpel.rt.bpel.def.validation.expressions.AeBaseExpressionValidator#recordVariablesInExpression(org.activebpel.rt.expr.validation.IAeExpressionValidationResult)
+     */
+    protected void recordVariablesInExpression(IAeExpressionValidationResult aResult) {
+        // fixme (MF) no-op for now since the variables here are actually links
+    }
 }
  

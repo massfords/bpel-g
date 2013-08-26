@@ -7,7 +7,7 @@
 //Active Endpoints, Inc. Removal of this PROPRIETARY RIGHTS STATEMENT 
 //is strictly forbidden. Copyright (c) 2002-2006 All rights reserved. 
 /////////////////////////////////////////////////////////////////////////////
-package org.activebpel.rt.bpel.def.validation.extensions; 
+package org.activebpel.rt.bpel.def.validation.extensions;
 
 import org.activebpel.rt.bpel.def.AeExtensionActivityDef;
 import org.activebpel.rt.bpel.def.validation.activity.AeActivityValidator;
@@ -15,23 +15,21 @@ import org.activebpel.rt.bpel.def.validation.activity.AeActivityValidator;
 /**
  * Model provides validation for an extension activity element.
  */
-public class AeExtensionActivityValidator extends AeActivityValidator
-{
-   /**
-    * ctor
-    * @param aDef
-    */
-   public AeExtensionActivityValidator(AeExtensionActivityDef aDef)
-   {
-      super(aDef);
-   }
-   
-   /**
-    * Returns the definition.
-    */
-   protected AeExtensionActivityDef getDef()
-   {
-      return (AeExtensionActivityDef) getDefinition();
-   }
+public class AeExtensionActivityValidator extends AeActivityValidator {
+    /**
+     * ctor
+     *
+     * @param aDef
+     */
+    public AeExtensionActivityValidator(AeExtensionActivityDef aDef) {
+        super(aDef);
+    }
+
+    /**
+     * Returns the definition.
+     */
+    protected AeExtensionActivityDef getDef() {
+        return (AeExtensionActivityDef) getDefinition();
+    }
 }
  

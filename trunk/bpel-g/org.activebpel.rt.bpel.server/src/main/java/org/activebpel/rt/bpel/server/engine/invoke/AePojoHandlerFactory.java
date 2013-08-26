@@ -7,7 +7,7 @@
 //Active Endpoints, Inc. Removal of this PROPRIETARY RIGHTS STATEMENT 
 //is strictly forbidden. Copyright (c) 2002-2004 All rights reserved. 
 /////////////////////////////////////////////////////////////////////////////
-package org.activebpel.rt.bpel.server.engine.invoke; 
+package org.activebpel.rt.bpel.server.engine.invoke;
 
 import java.util.Hashtable;
 import java.util.Map;
@@ -23,53 +23,47 @@ import org.activebpel.wsio.invoke.IAeInvokeHandler;
  * Handles the java protocol where the invoke handlers are "plain old java objects"
  * or POJO. The fully qualified class names appear in the custom invoker uri immediately
  * following the protocol but before any query params.
- * 
- * i.e. java:com.my.custom.InvokerHandler?name=value 
- * 
- * The objects are instantiated and cached so they should be reentrant. 
+ * <p/>
+ * i.e. java:com.my.custom.InvokerHandler?name=value
+ * <p/>
+ * The objects are instantiated and cached so they should be reentrant.
  */
-public class AePojoHandlerFactory implements IAeInvokeHandlerFactory
-{
-   /** map of class names to instances */
-   private final Map<String, IAeInvokeHandler> mInvokers = new Hashtable<>();
-   
-   /**
-    * @see org.activebpel.rt.bpel.server.engine.IAeInvokeHandlerFactory#createInvokeHandler(org.activebpel.wsio.invoke.IAeInvoke)
-    */
-   public IAeInvokeHandler createInvokeHandler(IAeInvoke aInvoke)
-         throws AeBusinessProcessException
-   {
-      String clazz = AeInvokeHandlerUri.getInvokerString(aInvoke.getInvokeHandler());
-      IAeInvokeHandler handler = getInvokers().get(clazz);
-      if (handler == null)
-      {
-         try
-         {
-            handler = (IAeInvokeHandler) Class.forName(clazz).newInstance();
-            getInvokers().put(clazz, handler);
-         }
-         catch(Exception e)
-         {
-            throw new AeBusinessProcessException( AeMessages.format("AePojoHandlerFactory.ERROR_CREATING_HANDLER", clazz), e ); //$NON-NLS-1$
-         }
-      }
-      return handler;
-   }
-   
-   /**
-    * @see org.activebpel.rt.bpel.server.engine.IAeInvokeHandlerFactory#getQueryData(org.activebpel.wsio.invoke.IAeInvoke)
-    */
-   public String getQueryData(IAeInvoke aInvoke)
-   {
-      return AeInvokeHandlerUri.getQueryString(aInvoke.getInvokeHandler());
-   }
-   
-   /**
-    * @return Returns the invokers.
-    */
-   protected Map<String, IAeInvokeHandler> getInvokers()
-   {
-      return mInvokers;
-   }
+public class AePojoHandlerFactory implements IAeInvokeHandlerFactory {
+    /**
+     * map of class names to instances
+     */
+    private final Map<String, IAeInvokeHandler> mInvokers = new Hashtable<>();
+
+    /**
+     * @see org.activebpel.rt.bpel.server.engine.IAeInvokeHandlerFactory#createInvokeHandler(org.activebpel.wsio.invoke.IAeInvoke)
+     */
+    public IAeInvokeHandler createInvokeHandler(IAeInvoke aInvoke)
+            throws AeBusinessProcessException {
+        String clazz = AeInvokeHandlerUri.getInvokerString(aInvoke.getInvokeHandler());
+        IAeInvokeHandler handler = getInvokers().get(clazz);
+        if (handler == null) {
+            try {
+                handler = (IAeInvokeHandler) Class.forName(clazz).newInstance();
+                getInvokers().put(clazz, handler);
+            } catch (Exception e) {
+                throw new AeBusinessProcessException(AeMessages.format("AePojoHandlerFactory.ERROR_CREATING_HANDLER", clazz), e); //$NON-NLS-1$
+            }
+        }
+        return handler;
+    }
+
+    /**
+     * @see org.activebpel.rt.bpel.server.engine.IAeInvokeHandlerFactory#getQueryData(org.activebpel.wsio.invoke.IAeInvoke)
+     */
+    public String getQueryData(IAeInvoke aInvoke) {
+        return AeInvokeHandlerUri.getQueryString(aInvoke.getInvokeHandler());
+    }
+
+    /**
+     * @return Returns the invokers.
+     */
+    protected Map<String, IAeInvokeHandler> getInvokers() {
+        return mInvokers;
+    }
 }
  

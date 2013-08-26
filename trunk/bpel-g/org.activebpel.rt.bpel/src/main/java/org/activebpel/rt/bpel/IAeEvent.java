@@ -15,10 +15,9 @@ import java.util.Date;
 /**
  * An interface for a generic event.
  */
-public interface IAeEvent
-{
-   /**
-    * Returns the event's timestamp.
-    */
-   public Date getTimestamp();
+public interface IAeEvent {
+    /**
+     * Returns the event's timestamp.
+     */
+    public Date getTimestamp();
 }

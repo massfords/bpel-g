@@ -17,63 +17,57 @@ import java.util.List;
 /**
  * Represents a web visual model for a BPEL scope activity.
  */
-public class AeBpelScopeObject extends AeBpelActivityObject
-{
+public class AeBpelScopeObject extends AeBpelActivityObject {
 
-   /**
-    * Ctor.
-    * @param aTagName tag name
-    * @param aDef scope or process tag name.
-    */
-   protected AeBpelScopeObject(String aTagName, AeBaseDef aDef)
-   {
-      super(aTagName, aDef);
-   }
+    /**
+     * Ctor.
+     *
+     * @param aTagName tag name
+     * @param aDef     scope or process tag name.
+     */
+    protected AeBpelScopeObject(String aTagName, AeBaseDef aDef) {
+        super(aTagName, aDef);
+    }
 
-   /**
-    * Ctor.
-    * @param aDef scope definition.
-    */
-   public AeBpelScopeObject(AeActivityScopeDef aDef)
-   {
-      this(AeActivityScopeDef.TAG_SCOPE, aDef);
-   }
-   
-   /**
-    * @see org.activebpel.rt.bpeladmin.war.web.processview.AeBpelObjectBase#findPartnerLink(java.lang.String)
-    */
-   public AeBpelObjectBase findPartnerLink(String aPartnerLinkName)
-   {
-      AeBpelObjectBase  rVal = getPartnerLink(aPartnerLinkName);
-      if (rVal != null)
-      {
-         return rVal;
-      }
-      else
-      {
-         return super.findPartnerLink(aPartnerLinkName);
-      }
-   }    
-   
-   /**
-    * Returns the partnerlink contained in this scope or null if not found.
-    * @param aPartnerLinkName
-    * @return partner link.
-    */
-   protected AeBpelObjectBase getPartnerLink(String aPartnerLinkName)
-   {
-      AeBpelObjectBase rVal = null;
-      List<AeBpelObjectBase> partnerLinks = getChildren("partnerLinks");//$NON-NLS-1$
-      if (partnerLinks.size() > 0)
-      {
-         List<AeBpelObjectBase> partners = ((AeBpelObjectContainer)partnerLinks.get(0)).getChildren();
-          for (AeBpelObjectBase partnerLink : partners) {
-              if (partnerLink.getName().equals(aPartnerLinkName)) {
-                  rVal = partnerLink;
-                  break;
-              }
-          }         
-      }
-      return rVal;
-   }   
+    /**
+     * Ctor.
+     *
+     * @param aDef scope definition.
+     */
+    public AeBpelScopeObject(AeActivityScopeDef aDef) {
+        this(AeActivityScopeDef.TAG_SCOPE, aDef);
+    }
+
+    /**
+     * @see org.activebpel.rt.bpeladmin.war.web.processview.AeBpelObjectBase#findPartnerLink(java.lang.String)
+     */
+    public AeBpelObjectBase findPartnerLink(String aPartnerLinkName) {
+        AeBpelObjectBase rVal = getPartnerLink(aPartnerLinkName);
+        if (rVal != null) {
+            return rVal;
+        } else {
+            return super.findPartnerLink(aPartnerLinkName);
+        }
+    }
+
+    /**
+     * Returns the partnerlink contained in this scope or null if not found.
+     *
+     * @param aPartnerLinkName
+     * @return partner link.
+     */
+    protected AeBpelObjectBase getPartnerLink(String aPartnerLinkName) {
+        AeBpelObjectBase rVal = null;
+        List<AeBpelObjectBase> partnerLinks = getChildren("partnerLinks");//$NON-NLS-1$
+        if (partnerLinks.size() > 0) {
+            List<AeBpelObjectBase> partners = ((AeBpelObjectContainer) partnerLinks.get(0)).getChildren();
+            for (AeBpelObjectBase partnerLink : partners) {
+                if (partnerLink.getName().equals(aPartnerLinkName)) {
+                    rVal = partnerLink;
+                    break;
+                }
+            }
+        }
+        return rVal;
+    }
 }

@@ -11,26 +11,26 @@ public class BgCatalogTuple {
     public final String physicalLocation;
     public final String namespace;
     public final String type;
-    
+
     public BgCatalogTuple(String logicalLocation, String physicalLocation, String namespace, String type) {
         this.logicalLocation = logicalLocation;
         this.physicalLocation = physicalLocation;
         this.namespace = namespace;
         this.type = type;
     }
-    
+
     public boolean isWsdl() {
         return IAeConstants.WSDL_NAMESPACE.equals(type);
     }
-    
+
     public boolean isXsd() {
         return XMLConstants.W3C_XML_SCHEMA_NS_URI.equals(type);
     }
-    
+
     public boolean isOther() {
         return !isWsdl() && !isXsd();
     }
-    
+
     public boolean equals(Object aOther) {
         if (aOther instanceof BgCatalogTuple) {
             BgCatalogTuple other = (BgCatalogTuple) aOther;
@@ -42,17 +42,17 @@ public class BgCatalogTuple {
         }
         return super.equals(aOther);
     }
-    
+
     public int hashCode() {
         return logicalLocation.hashCode();
     }
-    
+
     public String toString() {
         return new ToStringBuilder(this).
-          append("logical", logicalLocation).
-          append("physical", physicalLocation).
-          append("namespace", namespace).
-          append("type", type).
-          toString();
+                append("logical", logicalLocation).
+                append("physical", physicalLocation).
+                append("namespace", namespace).
+                append("type", type).
+                toString();
     }
 }

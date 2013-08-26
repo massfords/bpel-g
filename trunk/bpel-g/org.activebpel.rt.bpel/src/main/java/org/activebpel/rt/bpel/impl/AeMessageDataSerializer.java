@@ -25,158 +25,148 @@ import java.util.Map;
  * Serializes a message data object to an <code>AeFastElement</code> or
  * <code>AeFastDocument</code>.
  */
-public class AeMessageDataSerializer implements IAeImplStateNames
-{
-   /** Type mapping for simple types. */
-   private final AeTypeMapping mTypeMapping;
+public class AeMessageDataSerializer implements IAeImplStateNames {
+    /**
+     * Type mapping for simple types.
+     */
+    private final AeTypeMapping mTypeMapping;
 
-   /** The message data to serialize. */
-   private IAeMessageData mMessageData;
+    /**
+     * The message data to serialize.
+     */
+    private IAeMessageData mMessageData;
 
-   /** The resulting serialization. */
-   private AeFastElement mMessageDataElement;
+    /**
+     * The resulting serialization.
+     */
+    private AeFastElement mMessageDataElement;
 
-   /**
-    * Constructor.
-    *
-    * @param aTypeMapping The type mapping for simple types.
-    */
-   public AeMessageDataSerializer(AeTypeMapping aTypeMapping)
-   {
-      mTypeMapping = aTypeMapping;
-   }
+    /**
+     * Constructor.
+     *
+     * @param aTypeMapping The type mapping for simple types.
+     */
+    public AeMessageDataSerializer(AeTypeMapping aTypeMapping) {
+        mTypeMapping = aTypeMapping;
+    }
 
-   /**
-    * Appends elements for message data parts to specified parent element.
-    *
-    * @param aParentElement
-    * @param aMessageData
-    */
-   protected void appendMessageDataParts(AeFastElement aParentElement, IAeMessageData aMessageData)
-   {
-      for (Iterator i = aMessageData.getPartNames(); i.hasNext(); )
-      {
-         String name = (String) i.next();
-         Object value = aMessageData.getData(name);
+    /**
+     * Appends elements for message data parts to specified parent element.
+     *
+     * @param aParentElement
+     * @param aMessageData
+     */
+    protected void appendMessageDataParts(AeFastElement aParentElement, IAeMessageData aMessageData) {
+        for (Iterator i = aMessageData.getPartNames(); i.hasNext(); ) {
+            String name = (String) i.next();
+            Object value = aMessageData.getData(name);
 
-         AeFastElement partElement = new AeFastElement(STATE_PART);
-         partElement.setAttribute(STATE_NAME, name);
+            AeFastElement partElement = new AeFastElement(STATE_PART);
+            partElement.setAttribute(STATE_NAME, name);
 
-         AeFastNode dataElement;
+            AeFastNode dataElement;
 
-         if (value instanceof Document)
-         {
-            dataElement = new AeForeignNode(((Document) value).getDocumentElement());
-         }
-         else
-         {
-            String str = getTypeMapping().serialize(value);
-            dataElement = new AeFastText(str);
-         }
+            if (value instanceof Document) {
+                dataElement = new AeForeignNode(((Document) value).getDocumentElement());
+            } else {
+                String str = getTypeMapping().serialize(value);
+                dataElement = new AeFastText(str);
+            }
 
-         partElement.appendChild(dataElement);
-         aParentElement.appendChild(partElement);
-      }
-   }
-   
-   /**
-    * Appends elements for Attachment items to specified parent element.
-    * 
-    * @param aParentElement
-    * @param aAttachmentContainer
-    */
-   protected void appendMessageAttachmentItems(AeFastElement aParentElement, IAeAttachmentContainer aAttachmentContainer)
-   {
-      // Append all attribute items as elements with a token value attribute and headers as child elements
-      for (Iterator i = aAttachmentContainer.getAttachmentItems(); i.hasNext(); )
-      {
-         AeStoredAttachmentItem item = (AeStoredAttachmentItem) i.next();
-         long attachmentId = item.getAttachmentId();
-         long groupId = item.getGroupId();
-         long processId = item.getProcessId();
-      
-         AeFastElement itemElement = new AeFastElement(STATE_ATTACHMENT);
-         itemElement.setAttribute(STATE_ID, String.valueOf(attachmentId));
-         itemElement.setAttribute(STATE_GID, String.valueOf(groupId));
-         itemElement.setAttribute(STATE_PID, String.valueOf(processId));
+            partElement.appendChild(dataElement);
+            aParentElement.appendChild(partElement);
+        }
+    }
 
-          for (Map.Entry<String, String> stringStringEntry : item.getHeaders().entrySet()) {
-              Map.Entry pair = (Map.Entry) stringStringEntry;
-              AeFastElement pairElement = new AeFastElement(STATE_ATTACHMENT_HEADER);
-              pairElement.setAttribute(STATE_NAME, (String) pair.getKey());
-              AeFastText value = new AeFastText((String) pair.getValue());
-              pairElement.appendChild(value);
-              itemElement.appendChild(pairElement);
-          }
-         
-         aParentElement.appendChild(itemElement);
-      }
-   }
+    /**
+     * Appends elements for Attachment items to specified parent element.
+     *
+     * @param aParentElement
+     * @param aAttachmentContainer
+     */
+    protected void appendMessageAttachmentItems(AeFastElement aParentElement, IAeAttachmentContainer aAttachmentContainer) {
+        // Append all attribute items as elements with a token value attribute and headers as child elements
+        for (Iterator i = aAttachmentContainer.getAttachmentItems(); i.hasNext(); ) {
+            AeStoredAttachmentItem item = (AeStoredAttachmentItem) i.next();
+            long attachmentId = item.getAttachmentId();
+            long groupId = item.getGroupId();
+            long processId = item.getProcessId();
 
-   /**
-    * Serializes the specified message data object to an
-    * <code>AeFastElement</code>.
-    *
-    * @param aMessageData
-    */
-   protected AeFastElement createMessageDataElement(IAeMessageData aMessageData)
-   {
-      AeFastElement messageDataElement = new AeFastElement(STATE_MESSAGEDATA);
+            AeFastElement itemElement = new AeFastElement(STATE_ATTACHMENT);
+            itemElement.setAttribute(STATE_ID, String.valueOf(attachmentId));
+            itemElement.setAttribute(STATE_GID, String.valueOf(groupId));
+            itemElement.setAttribute(STATE_PID, String.valueOf(processId));
 
-      QName messageType = aMessageData.getMessageType();
-      messageDataElement.setAttribute(STATE_NAME, messageType.getLocalPart());
-      messageDataElement.setAttribute(STATE_NAMESPACEURI, messageType.getNamespaceURI());
+            for (Map.Entry<String, String> stringStringEntry : item.getHeaders().entrySet()) {
+                Map.Entry pair = (Map.Entry) stringStringEntry;
+                AeFastElement pairElement = new AeFastElement(STATE_ATTACHMENT_HEADER);
+                pairElement.setAttribute(STATE_NAME, (String) pair.getKey());
+                AeFastText value = new AeFastText((String) pair.getValue());
+                pairElement.appendChild(value);
+                itemElement.appendChild(pairElement);
+            }
 
-      appendMessageDataParts(messageDataElement, aMessageData);
-      
-      if (aMessageData.hasAttachments())
-         appendMessageAttachmentItems(messageDataElement, aMessageData.getAttachmentContainer());
-      
-      return messageDataElement;
-   }
+            aParentElement.appendChild(itemElement);
+        }
+    }
 
-   /**
-    * Returns an <code>AeFastDocument</code> representing the message data object.
-    */
-   public AeFastDocument getMessageDataDocument()
-   {
-      return new AeFastDocument(getMessageDataElement());
-   }
+    /**
+     * Serializes the specified message data object to an
+     * <code>AeFastElement</code>.
+     *
+     * @param aMessageData
+     */
+    protected AeFastElement createMessageDataElement(IAeMessageData aMessageData) {
+        AeFastElement messageDataElement = new AeFastElement(STATE_MESSAGEDATA);
 
-   /**
-    * Returns an <code>AeFastElement</code> representing the message data object.
-    */
-   public AeFastElement getMessageDataElement()
-   {
-      if (mMessageDataElement == null)
-      {
-         if (mMessageData == null)
-         {
-            throw new IllegalStateException(AeMessages.getString("AeMessageDataSerializer.ERROR_0")); //$NON-NLS-1$
-         }
+        QName messageType = aMessageData.getMessageType();
+        messageDataElement.setAttribute(STATE_NAME, messageType.getLocalPart());
+        messageDataElement.setAttribute(STATE_NAMESPACEURI, messageType.getNamespaceURI());
 
-         mMessageDataElement = createMessageDataElement(mMessageData);
-      }
+        appendMessageDataParts(messageDataElement, aMessageData);
 
-      return mMessageDataElement;
-   }
+        if (aMessageData.hasAttachments())
+            appendMessageAttachmentItems(messageDataElement, aMessageData.getAttachmentContainer());
 
-   /**
-    * Sets the message data object to serialize.
-    *
-    * @param aMessageData
-    */
-   public void setMessageData(IAeMessageData aMessageData)
-   {
-      mMessageData = aMessageData;
-      mMessageDataElement = null;
-   }
+        return messageDataElement;
+    }
 
-   /**
-    * @return the type mapping for simple types.
-    */
-   protected AeTypeMapping getTypeMapping()
-   {
-      return mTypeMapping;
-   }
+    /**
+     * Returns an <code>AeFastDocument</code> representing the message data object.
+     */
+    public AeFastDocument getMessageDataDocument() {
+        return new AeFastDocument(getMessageDataElement());
+    }
+
+    /**
+     * Returns an <code>AeFastElement</code> representing the message data object.
+     */
+    public AeFastElement getMessageDataElement() {
+        if (mMessageDataElement == null) {
+            if (mMessageData == null) {
+                throw new IllegalStateException(AeMessages.getString("AeMessageDataSerializer.ERROR_0")); //$NON-NLS-1$
+            }
+
+            mMessageDataElement = createMessageDataElement(mMessageData);
+        }
+
+        return mMessageDataElement;
+    }
+
+    /**
+     * Sets the message data object to serialize.
+     *
+     * @param aMessageData
+     */
+    public void setMessageData(IAeMessageData aMessageData) {
+        mMessageData = aMessageData;
+        mMessageDataElement = null;
+    }
+
+    /**
+     * @return the type mapping for simple types.
+     */
+    protected AeTypeMapping getTypeMapping() {
+        return mTypeMapping;
+    }
 }

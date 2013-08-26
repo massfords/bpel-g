@@ -27,98 +27,91 @@ import java.util.Iterator;
 /**
  * Implementation of the bpel pick activity.
  */
-public class AeActivityPickImpl extends AeActivityImpl implements IAeEventParent
-{
-   /**
-    * Container for the messages and alarms.
-    */
-   private final AeEventHandlers mEvents = new AeEventHandlers();
-   
-   /** default constructor for activity */
-   public AeActivityPickImpl(AeActivityPickDef aActivityDef, IAeActivityParent aParent)
-   {
-      super(aActivityDef, aParent);
-   }
+public class AeActivityPickImpl extends AeActivityImpl implements IAeEventParent {
+    /**
+     * Container for the messages and alarms.
+     */
+    private final AeEventHandlers mEvents = new AeEventHandlers();
 
-   /**
-    * @see org.activebpel.rt.bpel.impl.visitors.IAeVisitable#accept(org.activebpel.rt.bpel.impl.visitors.IAeImplVisitor)
-    */
-   public void accept( IAeImplVisitor aVisitor ) throws AeBusinessProcessException
-   {
-      aVisitor.visit(this);
-   }
-   
-   /**
-    * @see org.activebpel.rt.bpel.impl.activity.IAeEventParent#addAlarm(org.activebpel.rt.bpel.impl.activity.support.AeOnAlarm)
-    */
-   public void addAlarm(AeOnAlarm aAlarm)
-   {
-      mEvents.addAlarm(aAlarm);
-   }
+    /**
+     * default constructor for activity
+     */
+    public AeActivityPickImpl(AeActivityPickDef aActivityDef, IAeActivityParent aParent) {
+        super(aActivityDef, aParent);
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.impl.activity.IAeEventParent#addMessage(org.activebpel.rt.bpel.impl.activity.support.AeOnMessage)
-    */
-   public void addMessage(AeOnMessage aMessage)
-   {
-      mEvents.addMessage(aMessage);
-   }
+    /**
+     * @see org.activebpel.rt.bpel.impl.visitors.IAeVisitable#accept(org.activebpel.rt.bpel.impl.visitors.IAeImplVisitor)
+     */
+    public void accept(IAeImplVisitor aVisitor) throws AeBusinessProcessException {
+        aVisitor.visit(this);
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.impl.IAeBpelObject#getChildrenForStateChange()
-    */
-   public Iterator<? extends IAeBpelObject> getChildrenForStateChange()
-   {
-      return AeUtil.joinIter(mEvents.getAlarms(), mEvents.getMessages());
-   }
+    /**
+     * @see org.activebpel.rt.bpel.impl.activity.IAeEventParent#addAlarm(org.activebpel.rt.bpel.impl.activity.support.AeOnAlarm)
+     */
+    public void addAlarm(AeOnAlarm aAlarm) {
+        mEvents.addAlarm(aAlarm);
+    }
 
-   /**
-    * Pick execution queues all child event objects to execute.
-    * @see org.activebpel.rt.bpel.impl.IAeExecutableBpelObject#execute()
-    */
-   public void execute() throws AeBusinessProcessException
-   {
-      super.execute();
-      for(Iterator<? extends IAeBpelObject> iter=getChildrenForStateChange(); iter.hasNext(); )
-      {
-         IAeBpelObject bpelObject = iter.next();
-         if (!bpelObject.getState().isFinal())
-            getProcess().queueObjectToExecute(bpelObject); 
-      }
-   }
+    /**
+     * @see org.activebpel.rt.bpel.impl.activity.IAeEventParent#addMessage(org.activebpel.rt.bpel.impl.activity.support.AeOnMessage)
+     */
+    public void addMessage(AeOnMessage aMessage) {
+        mEvents.addMessage(aMessage);
+    }
 
-   /**
-    * If not child dead path callback then handle by completing ourselves.
-    * @see org.activebpel.rt.bpel.impl.IAeExecutableBpelObject#childComplete(org.activebpel.rt.bpel.impl.IAeBpelObject)
-    */
-   public void childComplete(IAeBpelObject aChild) throws AeBusinessProcessException
-   {
-      // if this is not a dead path call back then set our execution as complete
-      if( ! AeBpelState.DEAD_PATH.equals(aChild.getState()) )
-         objectCompleted();
-   }
+    /**
+     * @see org.activebpel.rt.bpel.impl.IAeBpelObject#getChildrenForStateChange()
+     */
+    public Iterator<? extends IAeBpelObject> getChildrenForStateChange() {
+        return AeUtil.joinIter(mEvents.getAlarms(), mEvents.getMessages());
+    }
 
-   /**
-    * Handles a child becoming active by setting the non-active children to dead paths.
-    * @see org.activebpel.rt.bpel.impl.activity.IAeEventParent#childActive(org.activebpel.rt.bpel.impl.IAeBpelObject)
-    */
-   public void childActive(IAeBpelObject aChild) throws AeBusinessProcessException
-   {
-      // just in case throw an exception here
-      //
-      if(aChild.getState().isFinal())
-         throw new AeBusinessProcessException(AeMessages.getString("AeActivityPickImpl.ERROR_0")); //$NON-NLS-1$
-         
-      // loop through children for non-active children and set to dead path
-      for(Iterator<? extends IAeBpelObject> iter=getChildrenForStateChange(); iter.hasNext(); )
-      {
-         IAeBpelObject bpelObject = iter.next();
-         if(bpelObject != aChild)
-         {
-	        if(bpelObject.getState().isFinal() || ((AeBaseEvent)bpelObject).isActive())
-    	        throw new AeBusinessProcessException(AeMessages.getString("AeActivityPickImpl.ERROR_1")); //$NON-NLS-1$
-            bpelObject.setState(AeBpelState.DEAD_PATH);
-         }
-      }
-   }
+    /**
+     * Pick execution queues all child event objects to execute.
+     *
+     * @see org.activebpel.rt.bpel.impl.IAeExecutableBpelObject#execute()
+     */
+    public void execute() throws AeBusinessProcessException {
+        super.execute();
+        for (Iterator<? extends IAeBpelObject> iter = getChildrenForStateChange(); iter.hasNext(); ) {
+            IAeBpelObject bpelObject = iter.next();
+            if (!bpelObject.getState().isFinal())
+                getProcess().queueObjectToExecute(bpelObject);
+        }
+    }
+
+    /**
+     * If not child dead path callback then handle by completing ourselves.
+     *
+     * @see org.activebpel.rt.bpel.impl.IAeExecutableBpelObject#childComplete(org.activebpel.rt.bpel.impl.IAeBpelObject)
+     */
+    public void childComplete(IAeBpelObject aChild) throws AeBusinessProcessException {
+        // if this is not a dead path call back then set our execution as complete
+        if (!AeBpelState.DEAD_PATH.equals(aChild.getState()))
+            objectCompleted();
+    }
+
+    /**
+     * Handles a child becoming active by setting the non-active children to dead paths.
+     *
+     * @see org.activebpel.rt.bpel.impl.activity.IAeEventParent#childActive(org.activebpel.rt.bpel.impl.IAeBpelObject)
+     */
+    public void childActive(IAeBpelObject aChild) throws AeBusinessProcessException {
+        // just in case throw an exception here
+        //
+        if (aChild.getState().isFinal())
+            throw new AeBusinessProcessException(AeMessages.getString("AeActivityPickImpl.ERROR_0")); //$NON-NLS-1$
+
+        // loop through children for non-active children and set to dead path
+        for (Iterator<? extends IAeBpelObject> iter = getChildrenForStateChange(); iter.hasNext(); ) {
+            IAeBpelObject bpelObject = iter.next();
+            if (bpelObject != aChild) {
+                if (bpelObject.getState().isFinal() || ((AeBaseEvent) bpelObject).isActive())
+                    throw new AeBusinessProcessException(AeMessages.getString("AeActivityPickImpl.ERROR_1")); //$NON-NLS-1$
+                bpelObject.setState(AeBpelState.DEAD_PATH);
+            }
+        }
+    }
 }

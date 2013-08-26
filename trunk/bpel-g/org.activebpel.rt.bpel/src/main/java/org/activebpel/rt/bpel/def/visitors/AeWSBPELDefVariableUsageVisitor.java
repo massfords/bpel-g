@@ -28,313 +28,279 @@ import java.util.Set;
 
 /**
  * Def visitor that records resources that need to be locked for WS-BPEL 2.0 rules.
- * 
+ * <p/>
  * Note that the visitor that assigns To Strategies to the ToDef must be run before
  * this visitor runs.
  */
-public class AeWSBPELDefVariableUsageVisitor extends AeDefVariableUsageVisitor
-{
-   /**
-    * The scope that owns the compensation handler for the current isolation
-    * domain or <code>null</code> if we are not traversing an isolated domain
-    * for a compensation handler.
-    */
-   private AeActivityScopeDef mIsolatedCompensationHandlerScope;
+public class AeWSBPELDefVariableUsageVisitor extends AeDefVariableUsageVisitor {
+    /**
+     * The scope that owns the compensation handler for the current isolation
+     * domain or <code>null</code> if we are not traversing an isolated domain
+     * for a compensation handler.
+     */
+    private AeActivityScopeDef mIsolatedCompensationHandlerScope;
 
-   /**
-    * Constructs a BPEL 2.0 def variable visitor.
-    * 
-    * @param aExpressionLanguageFactory
-    */
-   protected AeWSBPELDefVariableUsageVisitor(IAeExpressionLanguageFactory aExpressionLanguageFactory)
-   {
-      super(aExpressionLanguageFactory);
-   }
+    /**
+     * Constructs a BPEL 2.0 def variable visitor.
+     *
+     * @param aExpressionLanguageFactory
+     */
+    protected AeWSBPELDefVariableUsageVisitor(IAeExpressionLanguageFactory aExpressionLanguageFactory) {
+        super(aExpressionLanguageFactory);
+    }
 
-   /**
-    * Returns the scope that owns the compensation handler for the current
-    * isolation domain or <code>null</code> if we are not traversing an isolated
-    * domain for a compensation handler.
-    */
-   protected AeActivityScopeDef getIsolatedCompensationHandlerScope()
-   {
-      return mIsolatedCompensationHandlerScope;
-   }
+    /**
+     * Returns the scope that owns the compensation handler for the current
+     * isolation domain or <code>null</code> if we are not traversing an isolated
+     * domain for a compensation handler.
+     */
+    protected AeActivityScopeDef getIsolatedCompensationHandlerScope() {
+        return mIsolatedCompensationHandlerScope;
+    }
 
-   /**
-    * Returns <code>true</code> if and only if we are traversing an isolated
-    * domain for a compensation handler.
-    */
-   protected boolean isInIsolatedCompensationHandler()
-   {
-      return getIsolatedCompensationHandlerScope() != null;
-   }
+    /**
+     * Returns <code>true</code> if and only if we are traversing an isolated
+     * domain for a compensation handler.
+     */
+    protected boolean isInIsolatedCompensationHandler() {
+        return getIsolatedCompensationHandlerScope() != null;
+    }
 
-   /**
-    * Sets the scope that owns the compensation handler for the current
-    * isolation domain.
-    */
-   protected void setIsolatedCompensationHandlerScope(AeActivityScopeDef aIsolatedCompensationHandlerScope)
-   {
-      mIsolatedCompensationHandlerScope = aIsolatedCompensationHandlerScope;
-   }
+    /**
+     * Sets the scope that owns the compensation handler for the current
+     * isolation domain.
+     */
+    protected void setIsolatedCompensationHandlerScope(AeActivityScopeDef aIsolatedCompensationHandlerScope) {
+        mIsolatedCompensationHandlerScope = aIsolatedCompensationHandlerScope;
+    }
 
-   /**
-    * No variable locks necessary for the onEvent since its variables will be private.
-    *  
-    * @see org.activebpel.rt.bpel.def.visitors.AeDefVariableUsageVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeOnEventDef)
-    */
-   public void visit(AeOnEventDef def)
-   {
-      traverse(def);
-   }
+    /**
+     * No variable locks necessary for the onEvent since its variables will be private.
+     *
+     * @see org.activebpel.rt.bpel.def.visitors.AeDefVariableUsageVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeOnEventDef)
+     */
+    public void visit(AeOnEventDef def) {
+        traverse(def);
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeFromDef)
-    */
-   public void visit(AeFromDef def)
-   {
-      addPartnerLinkLock(findParentActivityDef(), def.getPartnerLink(), AeLockType.Read);
-      super.visit(def);
-   }
+    /**
+     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeFromDef)
+     */
+    public void visit(AeFromDef def) {
+        addPartnerLinkLock(findParentActivityDef(), def.getPartnerLink(), AeLockType.Read);
+        super.visit(def);
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.def.visitors.AeDefVariableUsageVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeToDef)
-    */
-   public void visit(AeToDef def)
-   {
-      if (def.getStrategyKey() instanceof AeExpressionSpecStrategyKey)
-      {
-         AeExpressionSpecStrategyKey strategy = (AeExpressionSpecStrategyKey) def.getStrategyKey();
-         AeActivityDef parent = findParentActivityDef();
-         addVariableLock(parent, strategy.getVariableName(), AeLockType.Write);
-      }
+    /**
+     * @see org.activebpel.rt.bpel.def.visitors.AeDefVariableUsageVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeToDef)
+     */
+    public void visit(AeToDef def) {
+        if (def.getStrategyKey() instanceof AeExpressionSpecStrategyKey) {
+            AeExpressionSpecStrategyKey strategy = (AeExpressionSpecStrategyKey) def.getStrategyKey();
+            AeActivityDef parent = findParentActivityDef();
+            addVariableLock(parent, strategy.getVariableName(), AeLockType.Write);
+        }
 
-      addPartnerLinkLock(findParentActivityDef(), def.getPartnerLink(), AeLockType.Write);
+        addPartnerLinkLock(findParentActivityDef(), def.getPartnerLink(), AeLockType.Write);
 
-      // Note: super.visit will parse the query and acquire read locks for each variable it finds.
-      // We have already acquired a Write lock for one of the variables, so the attempt to acquire a 
-      // Read lock for that same variable will be a no-op.
-      super.visit(def);
-   }
+        // Note: super.visit will parse the query and acquire read locks for each variable it finds.
+        // We have already acquired a Write lock for one of the variables, so the attempt to acquire a
+        // Read lock for that same variable will be a no-op.
+        super.visit(def);
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeFromPartDef)
-    */
-   public void visit(AeFromPartDef def)
-   {
-      addVariableLock(findParentActivityDef(), def.getToVariable(), AeLockType.Write);
+    /**
+     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeFromPartDef)
+     */
+    public void visit(AeFromPartDef def) {
+        addVariableLock(findParentActivityDef(), def.getToVariable(), AeLockType.Write);
 
-      super.visit(def);
-   }
+        super.visit(def);
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeFromPartsDef)
-    */
-   public void visit(AeFromPartsDef def)
-   {
-      // If this is a fromParts element for an onEvent, then we don't need to
-      // visit the individual fromPart elements, because onEvent variables are
-      // private to the onEvent's scope.
-      if (!(def.getParent() instanceof AeOnEventDef))
-      {
-         super.visit(def);
-      }
-   }
+    /**
+     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeFromPartsDef)
+     */
+    public void visit(AeFromPartsDef def) {
+        // If this is a fromParts element for an onEvent, then we don't need to
+        // visit the individual fromPart elements, because onEvent variables are
+        // private to the onEvent's scope.
+        if (!(def.getParent() instanceof AeOnEventDef)) {
+            super.visit(def);
+        }
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeToPartDef)
-    */
-   public void visit(AeToPartDef def)
-   {
-      addVariableLock(findParentActivityDef(), def.getFromVariable(), AeLockType.Read);
+    /**
+     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.support.AeToPartDef)
+     */
+    public void visit(AeToPartDef def) {
+        addVariableLock(findParentActivityDef(), def.getFromVariable(), AeLockType.Read);
 
-      super.visit(def);
-   }
+        super.visit(def);
+    }
 
-   /**
-    * Walks up the stack looking for an AeScopeDef that defines the partner link passed in.
-    * We should ALWAYS find one or we have a bad bpel file.
-    * @param aPartnerLinkName
-    */
-   private String getPathForPartnerLink(AeActivityDef aDef, String aPartnerLinkName)
-   {
-      AePartnerLinkDef plDef = AeDefUtil.findPartnerLinkDef(aDef, aPartnerLinkName);
-      if (plDef == null)
-         throw new RuntimeException( AeMessages.format( "AeWSBPELDefVariableUsageVisitor.ERROR_0", new Object[] {aPartnerLinkName, getCurrentLocationPath()} ) ); //$NON-NLS-1$
+    /**
+     * Walks up the stack looking for an AeScopeDef that defines the partner link passed in.
+     * We should ALWAYS find one or we have a bad bpel file.
+     *
+     * @param aPartnerLinkName
+     */
+    private String getPathForPartnerLink(AeActivityDef aDef, String aPartnerLinkName) {
+        AePartnerLinkDef plDef = AeDefUtil.findPartnerLinkDef(aDef, aPartnerLinkName);
+        if (plDef == null)
+            throw new RuntimeException(AeMessages.format("AeWSBPELDefVariableUsageVisitor.ERROR_0", new Object[]{aPartnerLinkName, getCurrentLocationPath()})); //$NON-NLS-1$
 
-      return plDef.getLocationPath();
-   }
+        return plDef.getLocationPath();
+    }
 
-   /**
-    * We'll record the usage of the partner link based on the lock type and whether or not the activity 
-    * is nested within a serializable scope. In all cases, we record a lock if it's a write lock. This 
-    * is because the rules for a serializable scope say that a variable should not change once the scope
-    * is entered. If an activity outside of the serializable scope wants to write to a partner link then 
-    * it must obtain a write lock and as such, we're recording that requirement here. If we're in a 
-    * serializable scope however, we acquire a lock irrespective of the lock flag since the serializable 
-    * scope acquires locks on all of the partner links its using to prevent another serializable scope 
-    * from accessing these same partner links until the locks are released. This prevents the issue
-    * of dirty reads and non-repeatable reads.
-    *   
-    * @param aDef - the def that uses the variable
-    * @param aPartnerLinkName - the name of the partner link
-    * @param aLockType - true if we're adding a write lock
-    */
-   protected void addPartnerLinkLock(AeActivityDef aDef, String aPartnerLinkName, AeLockType aLockType)
-   {
-      // if def is null we must be a child of the main process, which
-      // doesn't lock its event handlers or fault handler variables.
-      if (aDef != null && (! AeUtil.isNullOrEmpty(aPartnerLinkName)) )
-      {
-         if (aLockType == AeLockType.Write || isInIsolatedScope(aDef))
-         {
-            String plLocationPath = getPathForPartnerLink(aDef, aPartnerLinkName);
-            AeActivityDef targetForLock = getTargetForLock(aDef);
-            
-            // if the partner link in question is defined locally within the activity, then there
-            // is no need to acquire a lock since the partner link is not accessible to other scopes.
-            if (! plLocationPath.startsWith(targetForLock.getLocationPath()))
-               getResourcesUsedSet(targetForLock).add(plLocationPath);
-         }
-      }
-   }
+    /**
+     * We'll record the usage of the partner link based on the lock type and whether or not the activity
+     * is nested within a serializable scope. In all cases, we record a lock if it's a write lock. This
+     * is because the rules for a serializable scope say that a variable should not change once the scope
+     * is entered. If an activity outside of the serializable scope wants to write to a partner link then
+     * it must obtain a write lock and as such, we're recording that requirement here. If we're in a
+     * serializable scope however, we acquire a lock irrespective of the lock flag since the serializable
+     * scope acquires locks on all of the partner links its using to prevent another serializable scope
+     * from accessing these same partner links until the locks are released. This prevents the issue
+     * of dirty reads and non-repeatable reads.
+     *
+     * @param aDef             - the def that uses the variable
+     * @param aPartnerLinkName - the name of the partner link
+     * @param aLockType        - true if we're adding a write lock
+     */
+    protected void addPartnerLinkLock(AeActivityDef aDef, String aPartnerLinkName, AeLockType aLockType) {
+        // if def is null we must be a child of the main process, which
+        // doesn't lock its event handlers or fault handler variables.
+        if (aDef != null && (!AeUtil.isNullOrEmpty(aPartnerLinkName))) {
+            if (aLockType == AeLockType.Write || isInIsolatedScope(aDef)) {
+                String plLocationPath = getPathForPartnerLink(aDef, aPartnerLinkName);
+                AeActivityDef targetForLock = getTargetForLock(aDef);
 
-   /**
-    * Overrides method to return the resources used by the compensation handler
-    * for the current isolation domain if we are traversing an isolated domain
-    * for a compensation handler. Otherwise, returns the resources used by the
-    * given activity.
-    * 
-    * @see org.activebpel.rt.bpel.def.visitors.AeDefVariableUsageVisitor#getResourcesUsedSet(org.activebpel.rt.bpel.def.AeActivityDef)
-    */
-   protected Set<String> getResourcesUsedSet(AeActivityDef aActivityDef)
-   {
-      Set<String> resourcesUsed;
+                // if the partner link in question is defined locally within the activity, then there
+                // is no need to acquire a lock since the partner link is not accessible to other scopes.
+                if (!plLocationPath.startsWith(targetForLock.getLocationPath()))
+                    getResourcesUsedSet(targetForLock).add(plLocationPath);
+            }
+        }
+    }
 
-      // If we are traversing an isolated domain for a compensation handler,
-      // then return the set stored for the compensation handler in its scope.
-      if (isInIsolatedCompensationHandler())
-      {
-         AeActivityScopeDef scope = (AeActivityScopeDef) aActivityDef;
+    /**
+     * Overrides method to return the resources used by the compensation handler
+     * for the current isolation domain if we are traversing an isolated domain
+     * for a compensation handler. Otherwise, returns the resources used by the
+     * given activity.
+     *
+     * @see org.activebpel.rt.bpel.def.visitors.AeDefVariableUsageVisitor#getResourcesUsedSet(org.activebpel.rt.bpel.def.AeActivityDef)
+     */
+    protected Set<String> getResourcesUsedSet(AeActivityDef aActivityDef) {
+        Set<String> resourcesUsed;
 
-         resourcesUsed = scope.getResourcesUsedByCompensationHandler();
-         if (resourcesUsed == null)
-         {
-            resourcesUsed = new HashSet<>();
-            scope.setResourcesUsedByCompensationHandler(resourcesUsed);
-         }
-      }
-      // Otherwise, delegate to the base class implementation.
-      else
-      {
-         resourcesUsed = super.getResourcesUsedSet(aActivityDef);
-      }
+        // If we are traversing an isolated domain for a compensation handler,
+        // then return the set stored for the compensation handler in its scope.
+        if (isInIsolatedCompensationHandler()) {
+            AeActivityScopeDef scope = (AeActivityScopeDef) aActivityDef;
 
-      return resourcesUsed;
-   }
-   
-   /**
-    * Overrides method to return the scope that owns the compensation handler of
-    * the current isolation domain if we are traversing the isolation domain for
-    * a compensation handler. In WS-BPEL, the compensation handler of an
-    * isolated scope forms an isolation domain separate from the isolation
-    * domain of the rest of the scope.
-    * 
-    * @see org.activebpel.rt.bpel.def.visitors.AeDefVariableUsageVisitor#getTargetForLock(org.activebpel.rt.bpel.def.AeActivityDef)
-    */
-   protected AeActivityDef getTargetForLock(AeActivityDef aDef)
-   {
-      AeActivityDef target = aDef;
+            resourcesUsed = scope.getResourcesUsedByCompensationHandler();
+            if (resourcesUsed == null) {
+                resourcesUsed = new HashSet<>();
+                scope.setResourcesUsedByCompensationHandler(resourcesUsed);
+            }
+        }
+        // Otherwise, delegate to the base class implementation.
+        else {
+            resourcesUsed = super.getResourcesUsedSet(aActivityDef);
+        }
 
-      if (isInIsolatedCompensationHandler())
-      {
-         target = getIsolatedCompensationHandlerScope();
-      }
-      else if (isInIsolatedScope(aDef))
-      {
-         target = aDef.getIsolatedScope();
-      }
+        return resourcesUsed;
+    }
 
-      return target;
-   }
+    /**
+     * Overrides method to return the scope that owns the compensation handler of
+     * the current isolation domain if we are traversing the isolation domain for
+     * a compensation handler. In WS-BPEL, the compensation handler of an
+     * isolated scope forms an isolation domain separate from the isolation
+     * domain of the rest of the scope.
+     *
+     * @see org.activebpel.rt.bpel.def.visitors.AeDefVariableUsageVisitor#getTargetForLock(org.activebpel.rt.bpel.def.AeActivityDef)
+     */
+    protected AeActivityDef getTargetForLock(AeActivityDef aDef) {
+        AeActivityDef target = aDef;
 
-   /**
-    * Overrides method to return <code>true</code> if we are in an isolated
-    * scope whether or not we are in a compensation handler.
-    * 
-    * @see org.activebpel.rt.bpel.def.visitors.AeDefVariableUsageVisitor#isInIsolatedScope(org.activebpel.rt.bpel.def.AeActivityDef)
-    */
-   protected boolean isInIsolatedScope(AeActivityDef aDef)
-   {
-      return aDef.getIsolatedScope() != null;      
-   }
+        if (isInIsolatedCompensationHandler()) {
+            target = getIsolatedCompensationHandlerScope();
+        } else if (isInIsolatedScope(aDef)) {
+            target = aDef.getIsolatedScope();
+        }
 
-   /**
-    * Traverses the compensation handlers for all of the child scopes of the
-    * given scope.
-    *
-    * @param aScope
-    */
-   protected void traverseChildScopeCompensationHandlers(AeScopeDef aScope)
-   {
-      Set childScopes = AeChildScopesVisitor.findChildScopes(aScope);
+        return target;
+    }
 
-       for (Object childScope1 : childScopes) {
-           AeActivityScopeDef childScope = (AeActivityScopeDef) childScope1;
-           traverseCompensationHandler(childScope);
-       }
-   }
+    /**
+     * Overrides method to return <code>true</code> if we are in an isolated
+     * scope whether or not we are in a compensation handler.
+     *
+     * @see org.activebpel.rt.bpel.def.visitors.AeDefVariableUsageVisitor#isInIsolatedScope(org.activebpel.rt.bpel.def.AeActivityDef)
+     */
+    protected boolean isInIsolatedScope(AeActivityDef aDef) {
+        return aDef.getIsolatedScope() != null;
+    }
 
-   /**
-    * Traverses the compensation handler of the given scope.
-    *
-    * @param aScope
-    */
-   protected void traverseCompensationHandler(AeActivityScopeDef aScope)
-   {
-      AeCompensationHandlerDef compensationHandler = aScope.getCompensationHandlerDef();
+    /**
+     * Traverses the compensation handlers for all of the child scopes of the
+     * given scope.
+     *
+     * @param aScope
+     */
+    protected void traverseChildScopeCompensationHandlers(AeScopeDef aScope) {
+        Set childScopes = AeChildScopesVisitor.findChildScopes(aScope);
 
-      if (aScope.isIsolated())
-      {
-         setIsolatedCompensationHandlerScope(aScope);
-      }
+        for (Object childScope1 : childScopes) {
+            AeActivityScopeDef childScope = (AeActivityScopeDef) childScope1;
+            traverseCompensationHandler(childScope);
+        }
+    }
 
-      if (compensationHandler != null)
-      {
-         // The scope has an explicit compensation handler. Visit it.
-         visit(compensationHandler);
-      }
-      else
-      {
-         // The scope has a default compensation handler. Traverse the
-         // compensation handlers for all of the child scopes.
-         traverseChildScopeCompensationHandlers(aScope.getScopeDef());
-      }
+    /**
+     * Traverses the compensation handler of the given scope.
+     *
+     * @param aScope
+     */
+    protected void traverseCompensationHandler(AeActivityScopeDef aScope) {
+        AeCompensationHandlerDef compensationHandler = aScope.getCompensationHandlerDef();
 
-      if (aScope.isIsolated())
-      {
-         setIsolatedCompensationHandlerScope(null);
-      }
-   }
+        if (aScope.isIsolated()) {
+            setIsolatedCompensationHandlerScope(aScope);
+        }
 
-   /**
-    * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityCompensateDef)
-    */
-   public void visit(AeActivityCompensateDef def)
-   {
-      AeScopeDef rootScope = def.findRootScopeForCompensation();
-      traverseChildScopeCompensationHandlers(rootScope);
-   }
+        if (compensationHandler != null) {
+            // The scope has an explicit compensation handler. Visit it.
+            visit(compensationHandler);
+        } else {
+            // The scope has a default compensation handler. Traverse the
+            // compensation handlers for all of the child scopes.
+            traverseChildScopeCompensationHandlers(aScope.getScopeDef());
+        }
 
-   /**
-    * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityCompensateScopeDef)
-    */
-   public void visit(AeActivityCompensateScopeDef def)
-   {
-      AeScopeDef rootScope = def.findRootScopeForCompensation();
-      String targetName = def.getTarget();
-      AeActivityScopeDef targetScope = AeChildScopeByNameVisitor.findChildScopeByName(rootScope, targetName);
-      traverseCompensationHandler(targetScope);
-   }
+        if (aScope.isIsolated()) {
+            setIsolatedCompensationHandlerScope(null);
+        }
+    }
+
+    /**
+     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityCompensateDef)
+     */
+    public void visit(AeActivityCompensateDef def) {
+        AeScopeDef rootScope = def.findRootScopeForCompensation();
+        traverseChildScopeCompensationHandlers(rootScope);
+    }
+
+    /**
+     * @see org.activebpel.rt.bpel.def.visitors.IAeDefVisitor#visit(org.activebpel.rt.bpel.def.activity.AeActivityCompensateScopeDef)
+     */
+    public void visit(AeActivityCompensateScopeDef def) {
+        AeScopeDef rootScope = def.findRootScopeForCompensation();
+        String targetName = def.getTarget();
+        AeActivityScopeDef targetScope = AeChildScopeByNameVisitor.findChildScopeByName(rootScope, targetName);
+        traverseCompensationHandler(targetScope);
+    }
 }

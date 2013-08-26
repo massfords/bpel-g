@@ -19,64 +19,59 @@ import org.activebpel.rt.bpel.impl.activity.AeActivityReplyImpl;
  * Implements access to an <code>reply</code> activity for a message data
  * producer.
  */
-public class AeActivityReplyProducerContext implements IAeMessageDataProducerContext
-{
-   /** The <code>reply</code> activity implementation object. */
-   private final AeActivityReplyImpl mReplyImpl;
+public class AeActivityReplyProducerContext implements IAeMessageDataProducerContext {
+    /**
+     * The <code>reply</code> activity implementation object.
+     */
+    private final AeActivityReplyImpl mReplyImpl;
 
-   /**
-    * Constructs the context for the given <code>reply</code> activity
-    * implementation object.
-    *
-    * @param aReplyImpl
-    */
-   public AeActivityReplyProducerContext(AeActivityReplyImpl aReplyImpl)
-   {
-      mReplyImpl = aReplyImpl;
-   }
+    /**
+     * Constructs the context for the given <code>reply</code> activity
+     * implementation object.
+     *
+     * @param aReplyImpl
+     */
+    public AeActivityReplyProducerContext(AeActivityReplyImpl aReplyImpl) {
+        mReplyImpl = aReplyImpl;
+    }
 
-   /**
-    * Returns the <code>reply</code> activity definition object.
-    */
-   protected AeActivityReplyDef getDef()
-   {
-      return (AeActivityReplyDef) getReplyImpl().getDefinition();
-   }
+    /**
+     * Returns the <code>reply</code> activity definition object.
+     */
+    protected AeActivityReplyDef getDef() {
+        return (AeActivityReplyDef) getReplyImpl().getDefinition();
+    }
 
-   /**
-    * Returns the <code>reply</code> activity implementation object.
-    */
-   protected AeActivityReplyImpl getReplyImpl()
-   {
-      return mReplyImpl;
-   }
+    /**
+     * Returns the <code>reply</code> activity implementation object.
+     */
+    protected AeActivityReplyImpl getReplyImpl() {
+        return mReplyImpl;
+    }
 
    /*===========================================================================
     * IAeMessageDataProducerContext methods
     *===========================================================================
     */
 
-   /**
-    * @see org.activebpel.rt.bpel.impl.activity.wsio.produce.IAeMessageDataProducerContext#getBpelObject()
-    */
-   public AeAbstractBpelObject getBpelObject()
-   {
-      return getReplyImpl();
-   }
+    /**
+     * @see org.activebpel.rt.bpel.impl.activity.wsio.produce.IAeMessageDataProducerContext#getBpelObject()
+     */
+    public AeAbstractBpelObject getBpelObject() {
+        return getReplyImpl();
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.impl.activity.wsio.produce.IAeMessageDataProducerContext#getVariable()
-    */
-   public IAeVariable getVariable()
-   {
-      return getReplyImpl().findVariable(getDef().getVariable());
-   }
+    /**
+     * @see org.activebpel.rt.bpel.impl.activity.wsio.produce.IAeMessageDataProducerContext#getVariable()
+     */
+    public IAeVariable getVariable() {
+        return getReplyImpl().findVariable(getDef().getVariable());
+    }
 
-   /**
-    * @see org.activebpel.rt.bpel.impl.activity.wsio.produce.IAeMessageDataProducerContext#getMessageDataProducerDef()
-    */
-   public IAeMessageDataProducerDef getMessageDataProducerDef()
-   {
-      return getDef();
-   }
+    /**
+     * @see org.activebpel.rt.bpel.impl.activity.wsio.produce.IAeMessageDataProducerContext#getMessageDataProducerDef()
+     */
+    public IAeMessageDataProducerDef getMessageDataProducerDef() {
+        return getDef();
+    }
 }

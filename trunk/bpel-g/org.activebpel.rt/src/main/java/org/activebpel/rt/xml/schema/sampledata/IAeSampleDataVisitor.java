@@ -8,7 +8,7 @@
 //is strictly forbidden. Copyright (c) 2002-2007 All rights reserved. 
 ////////////////////////////////////////////////////////////////////////////
 
-package org.activebpel.rt.xml.schema.sampledata; 
+package org.activebpel.rt.xml.schema.sampledata;
 
 import org.activebpel.rt.xml.schema.sampledata.structure.AeAbstractElement;
 import org.activebpel.rt.xml.schema.sampledata.structure.AeAbstractType;
@@ -26,67 +26,66 @@ import org.activebpel.rt.xml.schema.sampledata.structure.AeSimpleElement;
 /**
  * Interface for the schema to XML sample document generation visitor.
  */
-public interface IAeSampleDataVisitor
-{
-   
-   /**
-    * @param aAll
-    */
-   public void visit(AeAll aAll);
-   
-   /**
-    * @param aAny
-    */
-   public void visit(AeAny aAny);
-   
-   /**
-    * @param aAttribute
-    */
-   public void visit(AeAttribute aAttribute);
-   
-   /**
-    * @param aChoice
-    */
-   public void visit(AeChoice aChoice);
-   
-   /**
-    * @param aComplexElement
-    */
-   public void visit(AeComplexElement aComplexElement);
-   
-   /**
-    * @param aSimpleElement
-    */
-   public void visit(AeSimpleElement aSimpleElement);
-   
-   /**
-    * @param aAnyTypeElement
-    */
-   public void visit(AeAnyTypeElement aAnyTypeElement);
-   
-   /**
-    * @param aGroup
-    */
-   public void visit(AeGroup aGroup);
-   
-   /**
-    * @param aSequence
-    */
-   public void visit(AeSequence aSequence);
-   
-   /**
-    * @param aAnyAttribuite
-    */
-   public void visit(AeAnyAttribute aAnyAttribuite);
-   
-   /**
-    * @param aAbstractElement
-    */
-   public void visit(AeAbstractElement aAbstractElement);
+public interface IAeSampleDataVisitor {
 
-   /**
-    * @param aType
-    */
-   public void visit(AeAbstractType aType);
+    /**
+     * @param aAll
+     */
+    public void visit(AeAll aAll);
+
+    /**
+     * @param aAny
+     */
+    public void visit(AeAny aAny);
+
+    /**
+     * @param aAttribute
+     */
+    public void visit(AeAttribute aAttribute);
+
+    /**
+     * @param aChoice
+     */
+    public void visit(AeChoice aChoice);
+
+    /**
+     * @param aComplexElement
+     */
+    public void visit(AeComplexElement aComplexElement);
+
+    /**
+     * @param aSimpleElement
+     */
+    public void visit(AeSimpleElement aSimpleElement);
+
+    /**
+     * @param aAnyTypeElement
+     */
+    public void visit(AeAnyTypeElement aAnyTypeElement);
+
+    /**
+     * @param aGroup
+     */
+    public void visit(AeGroup aGroup);
+
+    /**
+     * @param aSequence
+     */
+    public void visit(AeSequence aSequence);
+
+    /**
+     * @param aAnyAttribuite
+     */
+    public void visit(AeAnyAttribute aAnyAttribuite);
+
+    /**
+     * @param aAbstractElement
+     */
+    public void visit(AeAbstractElement aAbstractElement);
+
+    /**
+     * @param aType
+     */
+    public void visit(AeAbstractType aType);
 }
  

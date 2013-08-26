@@ -19,16 +19,14 @@ import org.activebpel.rt.bpel.server.engine.transaction.IAeTransactionManager;
  * to implement a transaction manager that manages instances of
  * {@link org.activebpel.rt.bpel.server.engine.transaction.sql.AeSQLTransaction}.
  */
-public class AeSQLTransactionManager extends AeTransactionManager implements IAeTransactionManager
-{
-   /**
-    * Overrides method to return an instance of <code>AeSQLTransaction</code>
-    *
-    * @see org.activebpel.rt.bpel.server.engine.transaction.AeTransactionManager#createTransaction()
-    */
-   public IAeTransaction createTransaction()
-   {
-      return new AeSQLTransaction();
-   }
+public class AeSQLTransactionManager extends AeTransactionManager implements IAeTransactionManager {
+    /**
+     * Overrides method to return an instance of <code>AeSQLTransaction</code>
+     *
+     * @see org.activebpel.rt.bpel.server.engine.transaction.AeTransactionManager#createTransaction()
+     */
+    public IAeTransaction createTransaction() {
+        return new AeSQLTransaction();
+    }
 }
 

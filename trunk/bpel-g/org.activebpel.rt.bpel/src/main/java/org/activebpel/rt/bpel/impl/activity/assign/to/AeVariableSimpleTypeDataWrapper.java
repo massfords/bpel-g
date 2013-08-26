@@ -7,22 +7,20 @@
 //Active Endpoints, Inc. Removal of this PROPRIETARY RIGHTS STATEMENT 
 //is strictly forbidden. Copyright (c) 2002-2006 All rights reserved. 
 /////////////////////////////////////////////////////////////////////////////
-package org.activebpel.rt.bpel.impl.activity.assign.to; 
+package org.activebpel.rt.bpel.impl.activity.assign.to;
 
 import org.activebpel.rt.bpel.IAeVariable;
 
 /**
- * Wraps a simple type variable 
+ * Wraps a simple type variable
  */
-public class AeVariableSimpleTypeDataWrapper extends AeVariableBaseTypeDataWrapper
-{
-   /**
-    * Ctor accepts variable 
-    * 
-    * @param aVariable
-    */
-   public AeVariableSimpleTypeDataWrapper(IAeVariable aVariable)
-   {
-      super(aVariable);
-   }
+public class AeVariableSimpleTypeDataWrapper extends AeVariableBaseTypeDataWrapper {
+    /**
+     * Ctor accepts variable
+     *
+     * @param aVariable
+     */
+    public AeVariableSimpleTypeDataWrapper(IAeVariable aVariable) {
+        super(aVariable);
+    }
 }

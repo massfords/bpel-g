@@ -7,26 +7,24 @@
 //Active Endpoints, Inc. Removal of this PROPRIETARY RIGHTS STATEMENT 
 //is strictly forbidden. Copyright (c) 2002-2007 All rights reserved. 
 /////////////////////////////////////////////////////////////////////////////
-package org.activebpel.rt.bpel.server.engine.receive; 
+package org.activebpel.rt.bpel.server.engine.receive;
 
 import org.activebpel.rt.bpel.AeBusinessProcessException;
 import org.activebpel.rt.bpel.impl.IAeReceiveHandler;
 import org.activebpel.rt.bpel.server.engine.IAeReceiveHandlerFactory;
 
 /**
- * A receive handler factory for the BPEL Receive handler. 
+ * A receive handler factory for the BPEL Receive handler.
  */
-public class AeBPELReceiveHandlerFactory implements IAeReceiveHandlerFactory
-{
-   private static final IAeReceiveHandler mHandler = new AeDefaultReceiveHandler();
-   
-   /**
-    * @see org.activebpel.rt.bpel.server.engine.IAeReceiveHandlerFactory#createReceiveHandler(java.lang.String)
-    */
-   public IAeReceiveHandler createReceiveHandler(String aProtocol) throws AeBusinessProcessException
-   {
-      return mHandler;
-   }
+public class AeBPELReceiveHandlerFactory implements IAeReceiveHandlerFactory {
+    private static final IAeReceiveHandler mHandler = new AeDefaultReceiveHandler();
+
+    /**
+     * @see org.activebpel.rt.bpel.server.engine.IAeReceiveHandlerFactory#createReceiveHandler(java.lang.String)
+     */
+    public IAeReceiveHandler createReceiveHandler(String aProtocol) throws AeBusinessProcessException {
+        return mHandler;
+    }
 
 }
  

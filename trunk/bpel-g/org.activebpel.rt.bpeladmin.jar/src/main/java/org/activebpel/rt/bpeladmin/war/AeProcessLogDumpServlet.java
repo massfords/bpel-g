@@ -31,7 +31,7 @@ import org.activebpel.rt.util.AeCloser;
 public class AeProcessLogDumpServlet extends HttpServlet {
 
     /**
-     * 
+     *
      */
     private static final long serialVersionUID = 6697153830648576282L;
 
@@ -65,7 +65,7 @@ public class AeProcessLogDumpServlet extends HttpServlet {
 
     /**
      * Gets the log from the server and streams it to the response.
-     * 
+     *
      * @param aResponse
      * @param aPid
      * @throws IOException
@@ -101,7 +101,7 @@ public class AeProcessLogDumpServlet extends HttpServlet {
 
     /**
      * Consumes the inputstream, writing its contents to the outputstream.
-     * 
+     *
      * @param aReader
      * @param aWriter
      * @throws IOException
@@ -130,7 +130,7 @@ public class AeProcessLogDumpServlet extends HttpServlet {
     /**
      * Sets up the headers needed for the outputstream to do the streaming and
      * returns the outputstream.
-     * 
+     *
      * @param aPid
      * @param aResponse
      */

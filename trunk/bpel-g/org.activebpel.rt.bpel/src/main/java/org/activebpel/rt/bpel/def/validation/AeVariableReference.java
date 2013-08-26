@@ -16,74 +16,72 @@ import org.activebpel.rt.xml.def.AeBaseXmlDef;
  * Represents a reference to a BPEL variable in an extension activity, extension
  * element, or extension attribute.
  */
-public class AeVariableReference
-{
-   /** The name of the variable being referenced. */
-   private String mVariableName;
-   /** The mode of the reference:  wsio_read, wsio_write, etc */
-   private int mMode;
-   /** The def that contains the reference - used for reporting errors. */
-   private AeBaseXmlDef mDef;
-   
-   /**
-    * C'tor.
-    * 
-    * @param aVariableName
-    * @param aMode
-    * @param aDef
-    */
-   public AeVariableReference(String aVariableName, int aMode, AeBaseXmlDef aDef)
-   {
-      setVariableName(aVariableName);
-      setMode(aMode);
-      setDef(aDef);
-   }
+public class AeVariableReference {
+    /**
+     * The name of the variable being referenced.
+     */
+    private String mVariableName;
+    /**
+     * The mode of the reference:  wsio_read, wsio_write, etc
+     */
+    private int mMode;
+    /**
+     * The def that contains the reference - used for reporting errors.
+     */
+    private AeBaseXmlDef mDef;
 
-   /**
-    * @return Returns the variableName.
-    */
-   public String getVariableName()
-   {
-      return mVariableName;
-   }
+    /**
+     * C'tor.
+     *
+     * @param aVariableName
+     * @param aMode
+     * @param aDef
+     */
+    public AeVariableReference(String aVariableName, int aMode, AeBaseXmlDef aDef) {
+        setVariableName(aVariableName);
+        setMode(aMode);
+        setDef(aDef);
+    }
 
-   /**
-    * @param aVariableName the variableName to set
-    */
-   public void setVariableName(String aVariableName)
-   {
-      mVariableName = aVariableName;
-   }
+    /**
+     * @return Returns the variableName.
+     */
+    public String getVariableName() {
+        return mVariableName;
+    }
 
-   /**
-    * @return Returns the mode.
-    */
-   public int getMode()
-   {
-      return mMode;
-   }
+    /**
+     * @param aVariableName the variableName to set
+     */
+    public void setVariableName(String aVariableName) {
+        mVariableName = aVariableName;
+    }
 
-   /**
-    * @param aMode the mode to set
-    */
-   public void setMode(int aMode)
-   {
-      mMode = aMode;
-   }
+    /**
+     * @return Returns the mode.
+     */
+    public int getMode() {
+        return mMode;
+    }
 
-   /**
-    * @return Returns the def.
-    */
-   public AeBaseXmlDef getDef()
-   {
-      return mDef;
-   }
+    /**
+     * @param aMode the mode to set
+     */
+    public void setMode(int aMode) {
+        mMode = aMode;
+    }
 
-   /**
-    * @param aDef the def to set
-    */
-   public void setDef(AeBaseXmlDef aDef)
-   {
-      mDef = aDef;
-   }
+    /**
+     * @return Returns the def.
+     */
+    public AeBaseXmlDef getDef() {
+        return mDef;
+    }
+
+    /**
+     * @param aDef the def to set
+     */
+    public void setDef(AeBaseXmlDef aDef) {
+        mDef = aDef;
+    }
 }

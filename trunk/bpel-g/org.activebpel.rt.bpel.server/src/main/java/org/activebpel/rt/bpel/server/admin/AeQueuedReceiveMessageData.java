@@ -15,49 +15,50 @@ import java.util.Map;
 import javax.xml.namespace.QName;
 
 /**
- *  Wraps the message data for web ui.
+ * Wraps the message data for web ui.
  */
-public class AeQueuedReceiveMessageData
-{
+public class AeQueuedReceiveMessageData {
 
-   /** message data qname */
-   private final QName mQName;
-   /** map of message data */
-   private final Map<String, Object>  mPartData;
-   
-   /**
-    * Constructor.
-    * @param aQName
-    */
-   public AeQueuedReceiveMessageData( QName aQName )
-   {
-      mQName = aQName;
-      mPartData = new HashMap<>();
-   }
-   
-   /**
-    * Add message parts.
-    * @param aName
-    * @param aData
-    */
-   public void addPartData( String aName, Object aData )
-   {
-      getPartData().put( aName, aData );
-   }
-   
-   /**
-    * Return part data map.
-    */
-   public Map<String, Object> getPartData()
-   {
-      return mPartData;
-   }
-   
-   /**
-    * @see java.lang.Object#toString()
-    */
-   public String toString()
-   {
-      return mQName + "-" + getPartData(); //$NON-NLS-1$
-   }
+    /**
+     * message data qname
+     */
+    private final QName mQName;
+    /**
+     * map of message data
+     */
+    private final Map<String, Object> mPartData;
+
+    /**
+     * Constructor.
+     *
+     * @param aQName
+     */
+    public AeQueuedReceiveMessageData(QName aQName) {
+        mQName = aQName;
+        mPartData = new HashMap<>();
+    }
+
+    /**
+     * Add message parts.
+     *
+     * @param aName
+     * @param aData
+     */
+    public void addPartData(String aName, Object aData) {
+        getPartData().put(aName, aData);
+    }
+
+    /**
+     * Return part data map.
+     */
+    public Map<String, Object> getPartData() {
+        return mPartData;
+    }
+
+    /**
+     * @see java.lang.Object#toString()
+     */
+    public String toString() {
+        return mQName + "-" + getPartData(); //$NON-NLS-1$
+    }
 }

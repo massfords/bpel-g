@@ -17,26 +17,24 @@ import org.activebpel.rt.bpeladmin.war.graph.ui.figure.AeGraphFigure;
  * Controller which is responsible for creating implicit activity
  * containers.
  */
-public class AeBpelContainerImplicitActivityController extends AeBpelControllerBase
-{
+public class AeBpelContainerImplicitActivityController extends AeBpelControllerBase {
 
-   /**
-    * Default constructer.
-    */
-   public AeBpelContainerImplicitActivityController()
-   {
-      super();
-   }
+    /**
+     * Default constructer.
+     */
+    public AeBpelContainerImplicitActivityController() {
+        super();
+    }
 
-   /** 
-    * Overrides method to return a figure without an icon. 
-    * @see org.activebpel.rt.bpeladmin.war.graph.ui.controller.AeGraphController#createFigure()
-    */
-   protected AeGraphFigure createFigure()
-   {      
-      AeGraphFigure fig = new AeBpelFigureBase(getLabelText());
-      fig.setLayout(new AeXyLayoutManager());
-      return fig;
-   }
-         
+    /**
+     * Overrides method to return a figure without an icon.
+     *
+     * @see org.activebpel.rt.bpeladmin.war.graph.ui.controller.AeGraphController#createFigure()
+     */
+    protected AeGraphFigure createFigure() {
+        AeGraphFigure fig = new AeBpelFigureBase(getLabelText());
+        fig.setLayout(new AeXyLayoutManager());
+        return fig;
+    }
+
 }

@@ -12,20 +12,23 @@ package org.activebpel.rt.bpel.impl;
 /**
  * Defines execution queue events.
  */
-public interface IAeExecutionQueueEvent
-{
-   /** Executing queue event id */
-   public static final int EXECUTING = 1;
-   /** Quiescent queue event id */
-   public static final int QUIESCENT = 2;
-   
-   /**
-    * Returns the event id for the execution queue event.
-    */
-   public int getEventID();
-   
-   /**
-    * Returns the execution queue firing the event.
-    */
-   public AeExecutionQueue getExecutionQueue();
+public interface IAeExecutionQueueEvent {
+    /**
+     * Executing queue event id
+     */
+    public static final int EXECUTING = 1;
+    /**
+     * Quiescent queue event id
+     */
+    public static final int QUIESCENT = 2;
+
+    /**
+     * Returns the event id for the execution queue event.
+     */
+    public int getEventID();
+
+    /**
+     * Returns the execution queue firing the event.
+     */
+    public AeExecutionQueue getExecutionQueue();
 }

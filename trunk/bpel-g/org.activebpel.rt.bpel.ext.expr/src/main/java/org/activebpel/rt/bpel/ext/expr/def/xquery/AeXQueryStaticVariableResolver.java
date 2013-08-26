@@ -16,50 +16,45 @@ import net.sf.saxon.value.SequenceType;
 import net.sf.saxon.variables.VariableResolver;
 
 /**
- * An implementation of an XQuery variable resolver.  This implementation resolves all variables to 
+ * An implementation of an XQuery variable resolver.  This implementation resolves all variables to
  * simple 'no-op' variables that are used only for analysis (not execution).
  */
-public class AeXQueryStaticVariableResolver implements VariableResolver
-{
-   /**
-    * Default c'tor.
-    */
-   public AeXQueryStaticVariableResolver()
-   {
-   }
+public class AeXQueryStaticVariableResolver implements VariableResolver {
+    /**
+     * Default c'tor.
+     */
+    public AeXQueryStaticVariableResolver() {
+    }
 
-   /**
-    * @see net.sf.saxon.variables.VariableResolver#hasVariable(int, java.lang.String, java.lang.String)
-    */
-   public boolean hasVariable(int aNameCode, String aUri, String aLocal)
-   {
-      return true;
-   }
+    /**
+     * @see net.sf.saxon.variables.VariableResolver#hasVariable(int, java.lang.String, java.lang.String)
+     */
+    public boolean hasVariable(int aNameCode, String aUri, String aLocal) {
+        return true;
+    }
 
-   /**
-    * @see net.sf.saxon.variables.VariableResolver#resolve(int, java.lang.String, java.lang.String)
-    */
-   public VariableDeclaration resolve(int aNameCode, String aUri, String aLocal)
-   {
-      return createGlobalVariableDef(aNameCode, aUri, aLocal);
-   }
+    /**
+     * @see net.sf.saxon.variables.VariableResolver#resolve(int, java.lang.String, java.lang.String)
+     */
+    public VariableDeclaration resolve(int aNameCode, String aUri, String aLocal) {
+        return createGlobalVariableDef(aNameCode, aUri, aLocal);
+    }
 
-   /**
-    * Creates a global variable definition for the given namecode + local name.
-    * 
-    * @param aNameCode
-    * @param aVariableName
-    */
-   private GlobalVariableDefinition createGlobalVariableDef(int aNameCode, String aUri, String aVariableName)
-   {
-      GlobalVariableDefinition globalVarDef = new GlobalVariableDefinition();
-      globalVarDef.setNameCode(aNameCode);
-      globalVarDef.setIsParameter(true);
-      globalVarDef.setVariableName(aVariableName);
-      globalVarDef.setRequiredType(SequenceType.SINGLE_ITEM);
+    /**
+     * Creates a global variable definition for the given namecode + local name.
+     *
+     * @param aNameCode
+     * @param aVariableName
+     */
+    private GlobalVariableDefinition createGlobalVariableDef(int aNameCode, String aUri, String aVariableName) {
+        GlobalVariableDefinition globalVarDef = new GlobalVariableDefinition();
+        globalVarDef.setNameCode(aNameCode);
+        globalVarDef.setIsParameter(true);
+        globalVarDef.setVariableName(aVariableName);
+        globalVarDef.setRequiredType(SequenceType.SINGLE_ITEM);
 
-      globalVarDef.setValueExpression(new AeNoOpVariable(aUri, aVariableName));
+        globalVarDef.setValueExpression(new AeNoOpVariable(aUri, aVariableName));
 
-      return globalVarDef;
-   }
+        return globalVarDef;
+    }
 }

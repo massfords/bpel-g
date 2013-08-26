@@ -15,46 +15,55 @@ import java.util.Map;
 /**
  * WSIO Attachment item interface
  */
-public interface IAeWebServiceAttachment 
-{
-   
-   /** key content type Mime header */
-   public static final String AE_CONTENT_TYPE_MIME = "Content-Type"; //$NON-NLS-1$
+public interface IAeWebServiceAttachment {
 
-   /** content location type Mime header */
-   public static final String AE_CONTENT_LOCATION_MIME = "Content-Location"; //$NON-NLS-1$
-   
-   /** content id Mime header */
-   public static final String AE_CONTENT_ID_MIME = "Content-Id"; //$NON-NLS-1$
+    /**
+     * key content type Mime header
+     */
+    public static final String AE_CONTENT_TYPE_MIME = "Content-Type"; //$NON-NLS-1$
 
-   /** Attachment creation timestamp constatnt header */
-   public static final String ATTACHED_AT = "Attachment-Created-At"; //$NON-NLS-1$
-   
-   /** Optional principal or username who added the attachment */
-   public static final String AE_ATTACHED_BY = "Attached-By"; //$NON-NLS-1$
-   
-   /**
-    * Returns the type of attachment this data is representing. 
-    */
-   public String getMimeType();
-   
-   /**
-    *returns the mime header that represents the content location identification
-    */
-   public String getLocation();
-   
-   /**
-    *returns the mime header that represents the content identifier
-    */
-   public String getContentId();
-   
-   /**
-    * returns all mime headers associated with attachment
-    */
-   public Map<String, String> getMimeHeaders();
-   
-   /**
-    * Get the attachment data.
-    */
-   public InputStream getContent();
+    /**
+     * content location type Mime header
+     */
+    public static final String AE_CONTENT_LOCATION_MIME = "Content-Location"; //$NON-NLS-1$
+
+    /**
+     * content id Mime header
+     */
+    public static final String AE_CONTENT_ID_MIME = "Content-Id"; //$NON-NLS-1$
+
+    /**
+     * Attachment creation timestamp constatnt header
+     */
+    public static final String ATTACHED_AT = "Attachment-Created-At"; //$NON-NLS-1$
+
+    /**
+     * Optional principal or username who added the attachment
+     */
+    public static final String AE_ATTACHED_BY = "Attached-By"; //$NON-NLS-1$
+
+    /**
+     * Returns the type of attachment this data is representing.
+     */
+    public String getMimeType();
+
+    /**
+     * returns the mime header that represents the content location identification
+     */
+    public String getLocation();
+
+    /**
+     * returns the mime header that represents the content identifier
+     */
+    public String getContentId();
+
+    /**
+     * returns all mime headers associated with attachment
+     */
+    public Map<String, String> getMimeHeaders();
+
+    /**
+     * Get the attachment data.
+     */
+    public InputStream getContent();
 }

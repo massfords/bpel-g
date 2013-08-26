@@ -7,22 +7,22 @@
 //Active Endpoints, Inc. Removal of this PROPRIETARY RIGHTS STATEMENT 
 //is strictly forbidden. Copyright (c) 2002-2007 All rights reserved. 
 /////////////////////////////////////////////////////////////////////////////
-package org.activebpel.rt.expr.validation.functions; 
+package org.activebpel.rt.expr.validation.functions;
 
 import javax.xml.namespace.QName;
 
 /**
- * This interface must be implemented by any classes desiring to be a function validator factory.  
- * An function validator factory is responsible for creating appropriate validators for the 
- * Function QName. 
+ * This interface must be implemented by any classes desiring to be a function validator factory.
+ * An function validator factory is responsible for creating appropriate validators for the
+ * Function QName.
  */
-public interface IAeFunctionValidatorFactory
-{
-   /**
-    * Getter for the validator given the bpel namespace and function def.
-    * @param aQName
-    */
-   public IAeFunctionValidator getValidator(QName aQName);
+public interface IAeFunctionValidatorFactory {
+    /**
+     * Getter for the validator given the bpel namespace and function def.
+     *
+     * @param aQName
+     */
+    public IAeFunctionValidator getValidator(QName aQName);
 
 }
  

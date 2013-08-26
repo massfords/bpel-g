@@ -17,42 +17,40 @@ import org.apache.axis.MessageContext;
 
 /**
  * This class loads the correct context classloader for the target service so we
- * can locate service resource effectivly.  Note that 
+ * can locate service resource effectivly.  Note that
  * <code>org.activebpel.rt.tomcat.AeResetClassLoader</code> will put
  * back the original context class loader.
  */
-public class AeSetClassLoaderHandler extends AeRestoreClassLoaderHandler
-{
-   /**
-     * 
+public class AeSetClassLoaderHandler extends AeRestoreClassLoaderHandler {
+    /**
+     *
      */
     private static final long serialVersionUID = -4231294964289391761L;
-/** the property to save the classloader in. */
-   public static final String SAVED_CLASSLOADER_PROPERTY = "aeOldClassLoader"; // $NON_NLS1 //$NON-NLS-1$
-   
-   /**
-    * Switches context class loaders to that saved for the target service.
-    * @see org.apache.axis.Handler#invoke(org.apache.axis.MessageContext)
-    */
-   public void invoke(MessageContext aMessageContext)
-   {
-      EngineConfiguration engineConfig = aMessageContext.getAxisEngine().getConfig();
+    /**
+     * the property to save the classloader in.
+     */
+    public static final String SAVED_CLASSLOADER_PROPERTY = "aeOldClassLoader"; // $NON_NLS1 //$NON-NLS-1$
 
-      if (engineConfig instanceof AeResourceProvider)
-      {
-         AeResourceProvider config = (AeResourceProvider) engineConfig;
-         ClassLoader newLoader =
-            config.getMyDeployment().getClassLoader(new QName(null, aMessageContext.getTargetService()));
-         if (newLoader != null)
-         {
-            ClassLoader currentLoader = Thread.currentThread().getContextClassLoader();
-            if (!newLoader.equals(currentLoader))
-            {
-               aMessageContext.setProperty(SAVED_CLASSLOADER_PROPERTY, currentLoader);
-               Thread.currentThread().setContextClassLoader(newLoader);
+    /**
+     * Switches context class loaders to that saved for the target service.
+     *
+     * @see org.apache.axis.Handler#invoke(org.apache.axis.MessageContext)
+     */
+    public void invoke(MessageContext aMessageContext) {
+        EngineConfiguration engineConfig = aMessageContext.getAxisEngine().getConfig();
+
+        if (engineConfig instanceof AeResourceProvider) {
+            AeResourceProvider config = (AeResourceProvider) engineConfig;
+            ClassLoader newLoader =
+                    config.getMyDeployment().getClassLoader(new QName(null, aMessageContext.getTargetService()));
+            if (newLoader != null) {
+                ClassLoader currentLoader = Thread.currentThread().getContextClassLoader();
+                if (!newLoader.equals(currentLoader)) {
+                    aMessageContext.setProperty(SAVED_CLASSLOADER_PROPERTY, currentLoader);
+                    Thread.currentThread().setContextClassLoader(newLoader);
+                }
             }
-         }
-      }
-   }
+        }
+    }
 
 }

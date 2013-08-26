@@ -7,58 +7,53 @@
 //Active Endpoints, Inc. Removal of this PROPRIETARY RIGHTS STATEMENT 
 //is strictly forbidden. Copyright (c) 2002-2006 All rights reserved. 
 /////////////////////////////////////////////////////////////////////////////
-package org.activebpel.rt.bpel.def.validation.activity; 
+package org.activebpel.rt.bpel.def.validation.activity;
 
 import org.activebpel.rt.bpel.def.activity.AeActivityPickDef;
 
 /**
  * model provides validation for pick model
  */
-public class AeActivityPickValidator extends AeActivityValidator
-{
-   /**
-    * ctor
-    * @param aDef
-    */
-   public AeActivityPickValidator(AeActivityPickDef aDef)
-   {
-      super(aDef);
-   }
+public class AeActivityPickValidator extends AeActivityValidator {
+    /**
+     * ctor
+     *
+     * @param aDef
+     */
+    public AeActivityPickValidator(AeActivityPickDef aDef) {
+        super(aDef);
+    }
 
-   /**
-    * Validates:
-    * 1. if create instance, then no alarm allowed
-    * 2. if create instance, record on process
-    * @see org.activebpel.rt.bpel.def.validation.activity.AeActivityValidator#validate()
-    */
-   public void validate()
-   {
-      super.validate();
-      
-      // there must be at least 1 onMessage
-      if (getChildren(AeOnMessageValidator.class).size() == 0)
-      {
-         getReporter().reportProblem( BPEL_NO_ONMESSAGE_CODE, ERROR_NO_ONMESSAGE, null, getDefinition() );
-      }
-      
-      // no onAlarm if its create instance
-      if ( getDef().isCreateInstance() && getChildren(AeOnAlarmValidator.class).size() > 0 )
-      {
-         getReporter().reportProblem( BPEL_ALARM_ON_CREATEINSTANCE_CODE, ERROR_ALARM_ON_CREATEINSTANCE, null, getDefinition() );
-      }
-      
-      if (getDef().isCreateInstance())
-      {
-         getProcessValidator().addCreateInstance(this);
-      }
-   }
-   
-   /**
-    * Getter for the pick def
-    */
-   protected AeActivityPickDef getDef()
-   {
-      return (AeActivityPickDef) getDefinition();
-   }
+    /**
+     * Validates:
+     * 1. if create instance, then no alarm allowed
+     * 2. if create instance, record on process
+     *
+     * @see org.activebpel.rt.bpel.def.validation.activity.AeActivityValidator#validate()
+     */
+    public void validate() {
+        super.validate();
+
+        // there must be at least 1 onMessage
+        if (getChildren(AeOnMessageValidator.class).size() == 0) {
+            getReporter().reportProblem(BPEL_NO_ONMESSAGE_CODE, ERROR_NO_ONMESSAGE, null, getDefinition());
+        }
+
+        // no onAlarm if its create instance
+        if (getDef().isCreateInstance() && getChildren(AeOnAlarmValidator.class).size() > 0) {
+            getReporter().reportProblem(BPEL_ALARM_ON_CREATEINSTANCE_CODE, ERROR_ALARM_ON_CREATEINSTANCE, null, getDefinition());
+        }
+
+        if (getDef().isCreateInstance()) {
+            getProcessValidator().addCreateInstance(this);
+        }
+    }
+
+    /**
+     * Getter for the pick def
+     */
+    protected AeActivityPickDef getDef() {
+        return (AeActivityPickDef) getDefinition();
+    }
 }
  

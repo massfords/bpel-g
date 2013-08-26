@@ -20,18 +20,16 @@ import org.activebpel.rt.bpel.impl.activity.assign.IAeCopyStrategy;
 /**
  * This strategy should never be executed.  If it is, then there is a problem with static analysis.
  */
-public class AeStaticAnalysisFailureStrategy implements IAeCopyStrategy
-{
-   /**
-    * Throws a bpel:staticAnalysisFailure exception.
-    * 
-    * @see org.activebpel.rt.bpel.impl.activity.assign.IAeCopyStrategy#copy(org.activebpel.rt.bpel.impl.activity.assign.IAeCopyOperation, java.lang.Object, java.lang.Object)
-    */
-   public void copy(IAeCopyOperation aCopyOperation, Object aFromData, Object aToData) throws AeBpelException
-   {
-      String msg = AeMessages.getString("AeStaticAnalysisFailureStrategy.ErrorFoundInCopyOperation"); //$NON-NLS-1$
-      IAeFault fault = AeFaultFactory.getFactory(aCopyOperation.getContext().getBPELNamespace()).getStaticAnalysisFailure(msg);
-      throw new AeBpelException(msg, fault);
-   }
+public class AeStaticAnalysisFailureStrategy implements IAeCopyStrategy {
+    /**
+     * Throws a bpel:staticAnalysisFailure exception.
+     *
+     * @see org.activebpel.rt.bpel.impl.activity.assign.IAeCopyStrategy#copy(org.activebpel.rt.bpel.impl.activity.assign.IAeCopyOperation, java.lang.Object, java.lang.Object)
+     */
+    public void copy(IAeCopyOperation aCopyOperation, Object aFromData, Object aToData) throws AeBpelException {
+        String msg = AeMessages.getString("AeStaticAnalysisFailureStrategy.ErrorFoundInCopyOperation"); //$NON-NLS-1$
+        IAeFault fault = AeFaultFactory.getFactory(aCopyOperation.getContext().getBPELNamespace()).getStaticAnalysisFailure(msg);
+        throw new AeBpelException(msg, fault);
+    }
 }
  

@@ -30,106 +30,101 @@ import java.util.Vector;
  * import one of the other schemas in the same WSDL.  This is done by using a schema
  * &lt;import&gt; element with a namespace attribute but no schemaLocation attribute.
  */
-public class AeWSDLSchemaResolver extends AeURIResolver
-{
-   /** the definition we are resolving schemas for. */
-   protected Definition mWsdlDefinition;
+public class AeWSDLSchemaResolver extends AeURIResolver {
+    /**
+     * the definition we are resolving schemas for.
+     */
+    protected Definition mWsdlDefinition;
 
-   /**
-    * Constructs a WSDL schema resolver which will use the given wsdl locator, definition, and standard resolver.
-    * 
-    * @param aLocator
-    * @param aWsdlDefinition
-    * @param aStandardResolver
-    */
-   public AeWSDLSchemaResolver(WSDLLocator aLocator, Definition aWsdlDefinition, IAeStandardSchemaResolver aStandardResolver)
-   {
-      super(aLocator, aStandardResolver);
-      setWsdlDefinition(aWsdlDefinition);
-   }
+    /**
+     * Constructs a WSDL schema resolver which will use the given wsdl locator, definition, and standard resolver.
+     *
+     * @param aLocator
+     * @param aWsdlDefinition
+     * @param aStandardResolver
+     */
+    public AeWSDLSchemaResolver(WSDLLocator aLocator, Definition aWsdlDefinition, IAeStandardSchemaResolver aStandardResolver) {
+        super(aLocator, aStandardResolver);
+        setWsdlDefinition(aWsdlDefinition);
+    }
 
-   /**
-    * @see org.exolab.castor.net.URIResolver#resolveURN(java.lang.String)
-    */
-   public URILocation resolveURN(String aURN) throws URIException
-   {
-      URILocation loc = getLocalSchemaURILocation(aURN); 
-      if (loc == null)
-         loc = super.resolveURN(aURN);
-      return loc;
-   }
+    /**
+     * @see org.exolab.castor.net.URIResolver#resolveURN(java.lang.String)
+     */
+    public URILocation resolveURN(String aURN) throws URIException {
+        URILocation loc = getLocalSchemaURILocation(aURN);
+        if (loc == null)
+            loc = super.resolveURN(aURN);
+        return loc;
+    }
 
-   /**
-    * This method will return a uri location for schema element with a target namespace that 
-    * matches the passed in href. It checks the direct schemas in the wsdl's type areas and direct 
-    * imported wsdl types areas as well.
-    * 
-    * @param aHref
-    */
-   protected URILocation getLocalSchemaURILocation(String aHref)
-   {
-      Element schemaElem = getSchemaElement(aHref, getWsdlDefinition());
-      if(schemaElem != null)
-         return new AeWSDLSchemaURILocation(schemaElem, getWsdlDefinition().getDocumentBaseURI());
-      
-      // not found as a direct schema in types area is it in a direct imported schema types area
-       for (Object impObj : getWsdlDefinition().getImports().values()) {
-           Vector vecImp = (Vector) impObj;
-           for (Enumeration en = vecImp.elements(); en.hasMoreElements(); ) {
-               Import imp = (Import) en.nextElement();
-               Definition def = imp.getDefinition();
-               if (def != null) {
-                   schemaElem = getSchemaElement(aHref, def);
-                   if (schemaElem != null)
-                       return new AeWSDLSchemaURILocation(schemaElem, def.getDocumentBaseURI());
-               }
-           }
-       }
-      return null;
-   }
+    /**
+     * This method will return a uri location for schema element with a target namespace that
+     * matches the passed in href. It checks the direct schemas in the wsdl's type areas and direct
+     * imported wsdl types areas as well.
+     *
+     * @param aHref
+     */
+    protected URILocation getLocalSchemaURILocation(String aHref) {
+        Element schemaElem = getSchemaElement(aHref, getWsdlDefinition());
+        if (schemaElem != null)
+            return new AeWSDLSchemaURILocation(schemaElem, getWsdlDefinition().getDocumentBaseURI());
 
-   /**
-    * This method will return a schema element with a target namespace that matches the passed
-    * in href.
-    * 
-    * @param aHref
-    * @return element clone if found, null if not
-    */
-   protected Element getSchemaElement(String aHref, Definition aWsdlDefinition)
-   {
-      // short return if no embedded schemas in this definition
-      if(aWsdlDefinition.getTypes() == null || aWsdlDefinition.getTypes().getExtensibilityElements() == null)
-         return null;
+        // not found as a direct schema in types area is it in a direct imported schema types area
+        for (Object impObj : getWsdlDefinition().getImports().values()) {
+            Vector vecImp = (Vector) impObj;
+            for (Enumeration en = vecImp.elements(); en.hasMoreElements(); ) {
+                Import imp = (Import) en.nextElement();
+                Definition def = imp.getDefinition();
+                if (def != null) {
+                    schemaElem = getSchemaElement(aHref, def);
+                    if (schemaElem != null)
+                        return new AeWSDLSchemaURILocation(schemaElem, def.getDocumentBaseURI());
+                }
+            }
+        }
+        return null;
+    }
 
-      // find the extension element in the defs type area and return a clone of it
-       for (Object o : aWsdlDefinition.getTypes().getExtensibilityElements()) {
-           UnknownExtensibilityElement extElement = (UnknownExtensibilityElement) o;
-           if ("schema".equals(extElement.getElement().getLocalName())) //$NON-NLS-1$
-           {
-               String ns = extElement.getElement().getAttribute("targetNamespace"); //$NON-NLS-1$
-               if (AeUtil.compareObjects(ns, aHref))
-                   return AeSchemaParserUtil.extractSchemaElement(extElement);
-           }
-       }
-      
-      // href is not a target namespace for the embedded schemas
-      return null;
-   }
+    /**
+     * This method will return a schema element with a target namespace that matches the passed
+     * in href.
+     *
+     * @param aHref
+     * @return element clone if found, null if not
+     */
+    protected Element getSchemaElement(String aHref, Definition aWsdlDefinition) {
+        // short return if no embedded schemas in this definition
+        if (aWsdlDefinition.getTypes() == null || aWsdlDefinition.getTypes().getExtensibilityElements() == null)
+            return null;
 
-   /**
-    * @return the wsdlDefinition
-    */
-   protected Definition getWsdlDefinition()
-   {
-      return mWsdlDefinition;
-   }
+        // find the extension element in the defs type area and return a clone of it
+        for (Object o : aWsdlDefinition.getTypes().getExtensibilityElements()) {
+            UnknownExtensibilityElement extElement = (UnknownExtensibilityElement) o;
+            if ("schema".equals(extElement.getElement().getLocalName())) //$NON-NLS-1$
+            {
+                String ns = extElement.getElement().getAttribute("targetNamespace"); //$NON-NLS-1$
+                if (AeUtil.compareObjects(ns, aHref))
+                    return AeSchemaParserUtil.extractSchemaElement(extElement);
+            }
+        }
 
-   /**
-    * @param aWsdlDefinition the wsdlDefinition to set
-    */
-   protected void setWsdlDefinition(Definition aWsdlDefinition)
-   {
-      mWsdlDefinition = aWsdlDefinition;
-   }
+        // href is not a target namespace for the embedded schemas
+        return null;
+    }
+
+    /**
+     * @return the wsdlDefinition
+     */
+    protected Definition getWsdlDefinition() {
+        return mWsdlDefinition;
+    }
+
+    /**
+     * @param aWsdlDefinition the wsdlDefinition to set
+     */
+    protected void setWsdlDefinition(Definition aWsdlDefinition) {
+        mWsdlDefinition = aWsdlDefinition;
+    }
 
 }
